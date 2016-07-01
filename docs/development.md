@@ -15,5 +15,5 @@ Here's a list of recommended material:
 To get started we recommend to have this repository located at
 $GOPATH/src/github.com/mustwin/terraform-Oracle-BareMetal-Provider
 
-
-
+# References
+[Oracle Bare Metal Iaas API Docs](https://docs.us-az-phoenix-1.oracleiaas.com/)
