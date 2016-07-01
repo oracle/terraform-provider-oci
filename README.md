@@ -9,7 +9,7 @@ Before using this provider, make sure you have the following details from your O
 * User OCID
 * API Key
 
-Also you will be needing Terraform 0.6.16+ 
+Also you will be needing Terraform 0.6.16+
 [Terraform Install](https://www.terraform.io/intro/getting-started/install.html)
 
 ## Installation

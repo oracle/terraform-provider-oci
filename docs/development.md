@@ -15,5 +15,10 @@ Here's a list of recommended material:
 To get started we recommend to have this repository located at
 $GOPATH/src/github.com/mustwin/terraform-Oracle-BareMetal-Provider
 
+# Vendoring
+This project uses the [Go vendor folder](https://blog.gopheracademy.com/advent-2015/vendor-folder/) for dependencies.
+If you need to add or update dependency, please use [go
+vendor](https://github.com/kardianos/govendor).
+
 # References
 [Oracle Bare Metal Iaas API Docs](https://docs.us-az-phoenix-1.oracleiaas.com/)
