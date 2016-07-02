@@ -23,3 +23,6 @@ _testmain.go
 *.test
 *.prof
 bin/*
+terraform.tfstate
+terraform.tfstate.backup
+tf.plan
