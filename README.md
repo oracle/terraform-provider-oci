@@ -1,3 +1,11 @@
+```
+__________                         _____          __         .__   
+\______   \_____ _______   ____   /     \   _____/  |______  |  |  
+ |    |  _/\__  \\_  __ \_/ __ \ /  \ /  \_/ __ \   __\__  \ |  |  
+ |    |   \ / __ \|  | \/\  ___//    Y    \  ___/|  |  / __ \|  |__
+ |______  /(____  /__|    \___  >____|__  /\___  >__| (____  /____/
+        \/      \/            \/        \/     \/          \/      
+```
 # Oracle BareMetal Terraform Provider
 
 This repository contains the Terraform provider for the Oracle Bare Metal Iaas
