@@ -1837,6 +1837,18 @@
 			"revisionTime": "2014-10-13T18:55:33Z"
 		},
 		{
+			"checksumSHA1": "aH/BUUMBzWhBOyuDTen4Mb3ELD4=",
+			"path": "github.com/mitchellh/gox",
+			"revision": "6e9ee79eab7bb1b84155379b3f94ff9a87b344e4",
+			"revisionTime": "2016-05-12T16:48:03Z"
+		},
+		{
+			"checksumSHA1": "v9y1OJ6NpBUhK4U8V4mmYUFBU4Q=",
+			"path": "github.com/mitchellh/iochan",
+			"revision": "87b45ffd0e9581375c491fef3d32130bb15c5bd7",
+			"revisionTime": "2015-05-29T22:44:32Z"
+		},
+		{
 			"checksumSHA1": "KCJhN9Dx329wAN/SeL4CxeypPyk=",
 			"path": "github.com/mitchellh/mapstructure",
 			"revision": "d2dd0262208475919e1a362f675cfc0e7c10e905",

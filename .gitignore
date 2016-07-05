@@ -26,3 +26,6 @@ bin/*
 terraform.tfstate
 terraform.tfstate.backup
 tf.plan
+
+# Don't version the default binary
+terraform-provider-baremetal

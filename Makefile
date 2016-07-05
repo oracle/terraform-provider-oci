@@ -4,6 +4,7 @@ default: build
 
 clean:
 	rm -rf terraform-provider-baremetal
+	rm -rf bin/*
 
 fmt:
 	gofmt -w $(GOFMT_FILES)
@@ -11,4 +12,7 @@ fmt:
 build:
 	go build -o terraform-provider-baremetal
 
-.PHONY: clean fmt build
+cross:
+	gox -output "./bin/{{.OS}}_{{.Arch}}/terraform-provider-baremetal"
+
+.PHONY: clean fmt build cross

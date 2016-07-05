@@ -15,6 +15,13 @@ Here's a list of recommended material:
 To get started we recommend to have this repository located at
 $GOPATH/src/github.com/mustwin/terraform-Oracle-BareMetal-Provider
 
+# Build
+* To build for local testing:
+  $ make
+
+* To build for release:
+  $ make clean cross
+
 # Vendoring
 This project uses the [Go vendor folder](https://blog.gopheracademy.com/advent-2015/vendor-folder/) for dependencies.
 If you need to add or update dependency, please use [go
