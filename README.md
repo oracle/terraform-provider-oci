@@ -1,10 +1,10 @@
 ```
-__________                         _____          __         .__   
-\______   \_____ _______   ____   /     \   _____/  |______  |  |  
- |    |  _/\__  \\_  __ \_/ __ \ /  \ /  \_/ __ \   __\__  \ |  |  
+__________                         _____          __         .__
+\______   \_____ _______   ____   /     \   _____/  |______  |  |
+ |    |  _/\__  \\_  __ \_/ __ \ /  \ /  \_/ __ \   __\__  \ |  |
  |    |   \ / __ \|  | \/\  ___//    Y    \  ___/|  |  / __ \|  |__
  |______  /(____  /__|    \___  >____|__  /\___  >__| (____  /____/
-        \/      \/            \/        \/     \/          \/      
+        \/      \/            \/        \/     \/          \/
 ```
 # Oracle BareMetal Terraform Provider
 
@@ -12,7 +12,10 @@ This repository contains the Terraform provider for the Oracle Bare Metal Iaas
 
 ## Requirements
 
-Before using this provider, make sure you have the following details from your Oracle Bare Metal installation
+* Terraform v0.6.16+
+* Oracle Bare Metal credentials (see below)
+
+Credentials required:
 * Tenancy OCID
 * User OCID
 * API Key
