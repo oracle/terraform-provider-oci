@@ -12,8 +12,13 @@ Here's a list of recommended material:
 
 
 # Setup
-To get started we recommend to have this repository located at
+We recommend by cleaning up your $GOPATH/src/ before starting.
+
+We also strongly encourage to pull this repository at:
 $GOPATH/src/github.com/mustwin/terraform-Oracle-BareMetal-Provider
+
+Once that it setup, run govendor sync to copy all the dependencies to
+your $GOPATH.
 
 # Build
 ## For local testing
@@ -22,7 +27,7 @@ Generates binary on ./terraform-Oracle-BareMetal-Provider
   $ make
 ```
 
-## For release 
+## For release
 Generates cross platform binaries on ./bin/
 ```
   $ make clean cross
