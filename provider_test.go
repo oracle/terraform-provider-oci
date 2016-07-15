@@ -13,7 +13,7 @@ func init() {
 	testAccProvider = Provider().(*schema.Provider)
 }
 
-// This test runs internal sanity checks to the Provider
+// This test runs Provider sanity checks
 func TestProvider(t *testing.T) {
 	if err := Provider().(*schema.Provider).InternalValidate(); err != nil {
 		t.Fatalf("err: %s", err)

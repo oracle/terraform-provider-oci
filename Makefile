@@ -9,10 +9,13 @@ clean:
 fmt:
 	gofmt -w $(GOFMT_FILES)
 
-build:
+test:
+	go vet; go test
+
+build: test
 	go build -o terraform-provider-baremetal
 
-cross:
+cross: test
 	gox -output "./bin/{{.OS}}_{{.Arch}}/terraform-provider-baremetal"
 
-.PHONY: clean fmt build cross
+.PHONY: clean fmt build cross test

@@ -20,8 +20,13 @@ $GOPATH/src/github.com/mustwin/terraform-Oracle-BareMetal-Provider
 Once that it setup, run govendor sync to copy all the dependencies to
 your $GOPATH.
 
+# Testing
+```
+  $ make test
+```
+
 # Build
-## For local testing
+## For local development
 Generates binary on ./terraform-Oracle-BareMetal-Provider
 ```
   $ make
