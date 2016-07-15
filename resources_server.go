@@ -4,6 +4,7 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
+// ResourceServer exposes a Server Resource
 func ResourceServer() *schema.Resource {
 	return &schema.Resource{
 		Create: resourceServerCreate,
