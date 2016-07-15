@@ -1111,10 +1111,10 @@
 			"revisionTime": "2016-06-09T00:18:40Z"
 		},
 		{
-			"checksumSHA1": "qeC6dcJT13l1LbXb8d0NsIwWkiw=",
+			"checksumSHA1": "yCtzdVkrFh6MHZFL8tiwVxiu+aM=",
 			"path": "github.com/hashicorp/terraform",
-			"revision": "6e586c89394f5474b6c5f3217a4a75ce80c3fd6c",
-			"revisionTime": "2016-05-09T20:31:07Z",
+			"revision": "fe540b408f590ee2e410537672160598e300d056",
+			"revisionTime": "2016-06-17T20:53:45Z",
 			"version": "=v0.6.16",
 			"versionExact": "v0.6.16"
 		},
