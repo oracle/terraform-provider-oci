@@ -11,6 +11,9 @@ var testAccProvider *schema.Provider
 
 func init() {
 	testAccProvider = Provider().(*schema.Provider)
+	testAccProviders = map[string]terraform.ResourceProvider{
+		"baremetal": testAccProvider,
+	}
 }
 
 // This test runs Provider sanity checks

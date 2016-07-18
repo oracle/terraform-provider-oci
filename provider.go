@@ -9,7 +9,8 @@ import (
 func Provider() terraform.ResourceProvider {
 	return &schema.Provider{
 		ResourcesMap: map[string]*schema.Resource{
-			"baremetal_server": ResourceServer(),
+			"baremetal_server":        ResourceServer(),
+			"baremetal_identity_user": ResourceIdentityUser(),
 		},
 	}
 }
