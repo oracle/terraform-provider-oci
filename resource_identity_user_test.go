@@ -15,30 +15,29 @@ func TestAccIdentityUserCreate(t *testing.T) {
 			resource.TestStep{
 				Config: testAccIdentityUser,
 				Check: resource.ComposeTestCheckFunc(
-					testAccIdentityUserCreated(
-						"test_user"),
+					testAccIdentityUserCreated("baremetal_identity_user.users"),
 				),
 			},
 		},
 	})
 }
 
-func testAccIdentityUserCreated(n string) resource.TestCheckFunc {
+func testAccIdentityUserCreated(resourceID string) resource.TestCheckFunc {
 	return func(s *terraform.State) error {
-		/*
-			_, ok := s.RootModule().Resources[n]
-				if !ok {
-					return fmt.Errorf("Not implemented %s", n)
-				}
-		*/
+		rs, ok := s.RootModule().Resources[resourceID]
+		if !ok {
+			return fmt.Errorf("Not found: %s", resourceID)
+		}
 
-		return fmt.Errorf("Not implemented.")
-
+		if rs.Primary.ID != "SOME_USER_ID" {
+			return fmt.Errorf("Unexpected user_id: %v", rs.Primary.ID)
+		}
+		return nil
 	}
 }
 
 var testAccIdentityUser = fmt.Sprintf(`
-resource "baremetal_identity_user" "test_user" {
+resource "baremetal_identity_user" "users" {
 	name = "test_user"
 	description = "A test user"
 	compartment_id = "TBD.TBD.TBD"

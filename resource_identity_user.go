@@ -36,7 +36,7 @@ func ResourceIdentityUser() *schema.Resource {
 
 func resourceIdentityUserCreate(d *schema.ResourceData, m interface{}) error {
 	name := d.Get("name")
-	if name == nil {
+	if name == "" {
 		return fmt.Errorf("Name cannot be empty")
 	}
 
@@ -44,7 +44,13 @@ func resourceIdentityUserCreate(d *schema.ResourceData, m interface{}) error {
 	if description == nil {
 		return fmt.Errorf("Description cannot be empty")
 	}
-	return nil
+
+	var bmc BareMetalClient
+	bmc = MockClient{}
+	userID, err := bmc.UserCreate(name.(string), description.(string))
+
+	d.SetId(fmt.Sprintf("%v", userID))
+	return err
 }
 
 func resourceIdentityUserRead(d *schema.ResourceData, m interface{}) error {
