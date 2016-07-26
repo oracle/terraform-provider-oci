@@ -2,13 +2,21 @@ package main
 
 import (
 	"fmt"
-	"testing"
-
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
+	"testing"
 )
 
 func TestAccIdentityUserCreate(t *testing.T) {
+	var testAccProviders map[string]terraform.ResourceProvider
+	var testAccProvider *schema.Provider
+
+	testAccProvider = Provider().(*schema.Provider)
+	testAccProviders = map[string]terraform.ResourceProvider{
+		"baremetal": testAccProvider,
+	}
+
 	resource.Test(t, resource.TestCase{
 		Providers: testAccProviders,
 		Steps: []resource.TestStep{
