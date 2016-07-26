@@ -12,10 +12,10 @@ func Provider() terraform.ResourceProvider {
 	}
 }
 
-
 func resourcesMap() map[string]*schema.Resource {
+	client := &ProductionBareMetalClient{}
 	return map[string]*schema.Resource{
 		"baremetal_server":        ResourceServer(),
-		"baremetal_identity_user": ResourceIdentityUser(),
+		"baremetal_identity_user": ResourceIdentityUser(client),
 	}
 }

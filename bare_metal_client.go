@@ -4,27 +4,19 @@ import (
 	"crypto/rsa"
 )
 
-// Client base struct for the baremetal clients
-type Client struct {
-}
-
-// BareMetalClient is an interface used to injecting a mock instance for unit tests
+// This will be replaced with the real client at some point?
 type BareMetalClient interface {
-	New(userOCID, tenancyOCID, keyFingerPrint string, privateKey *rsa.PrivateKey) (c *Client)
+	New(userOCID, tenancyOCID, keyFingerPrint string, privateKey *rsa.PrivateKey) BareMetalClient
 	UserCreate(name, description string) (id string, err error)
 }
 
-// MockClient is used to access Oracle BareMetal Services during tests
-type MockClient struct {
-}
+type ProductionBareMetalClient struct{}
 
-// New creates a new BareMetalClient instance
-func (mock MockClient) New(userOCID, tenancyOCID, keyFingerPrint string, privateKey *rsa.PrivateKey) (c *Client) {
+func (c *ProductionBareMetalClient) New(userOCID, tenancyOCID, keyFingerPrint string, privateKey *rsa.PrivateKey) BareMetalClient {
 	return nil
 }
 
-// UserCreate method to create an user
-func (mock MockClient) UserCreate(name, description string) (id string, err error) {
+func (c *ProductionBareMetalClient) UserCreate(name, description string) (id string, err error) {
 	// TODO: return a random string
 	return "SOME_USER_ID", nil
 }

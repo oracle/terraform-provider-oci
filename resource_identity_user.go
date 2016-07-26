@@ -2,13 +2,14 @@ package main
 
 import (
 	"fmt"
+
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
 // ResourceIdentityUser exposes a IdentityUser Resource
-func ResourceIdentityUser() *schema.Resource {
+func ResourceIdentityUser(client BareMetalClient) *schema.Resource {
 	return &schema.Resource{
-		Create: resourceIdentityUserCreate,
+		Create: resourceIdentityUserCreate(client),
 		Read:   resourceIdentityUserRead,
 		Update: resourceIdentityUserUpdate,
 		Delete: resourceIdentityUserDelete,
@@ -34,23 +35,23 @@ func ResourceIdentityUser() *schema.Resource {
 	}
 }
 
-func resourceIdentityUserCreate(d *schema.ResourceData, m interface{}) error {
-	name := d.Get("name")
-	if name == "" {
-		return fmt.Errorf("Name cannot be empty")
+func resourceIdentityUserCreate(client BareMetalClient) func(d *schema.ResourceData, m interface{}) error {
+	return func(d *schema.ResourceData, m interface{}) error {
+		name := d.Get("name")
+		if name == "" {
+			return fmt.Errorf("Name cannot be empty")
+		}
+
+		description := d.Get("description")
+		if description == nil {
+			return fmt.Errorf("Description cannot be empty")
+		}
+
+		userID, err := client.UserCreate(name.(string), description.(string))
+
+		d.SetId(fmt.Sprintf("%v", userID))
+		return err
 	}
-
-	description := d.Get("description")
-	if description == nil {
-		return fmt.Errorf("Description cannot be empty")
-	}
-
-	var bmc BareMetalClient
-	bmc = MockClient{}
-	userID, err := bmc.UserCreate(name.(string), description.(string))
-
-	d.SetId(fmt.Sprintf("%v", userID))
-	return err
 }
 
 func resourceIdentityUserRead(d *schema.ResourceData, m interface{}) error {
