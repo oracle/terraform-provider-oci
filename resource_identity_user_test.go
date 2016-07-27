@@ -1,7 +1,6 @@
 package main
 
 import (
-	"crypto/rsa"
 	"fmt"
 	"testing"
 
@@ -10,34 +9,10 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 )
 
-// MockClient is used to access Oracle BareMetal Services during tests
-type MockClient struct {
-}
-
-// New creates a new BareMetalClient instance
-func (mock MockClient) New(userOCID, tenancyOCID, keyFingerPrint string, privateKey *rsa.PrivateKey) BareMetalClient {
-	return nil
-}
-
-// UserCreate method to create an user
-func (mock MockClient) UserCreate(name, description string) (id string, err error) {
-	// TODO: return a random string
-	return "SOME_USER_ID", nil
-}
-
 func TestAccIdentityUserCreate(t *testing.T) {
-	var testAccProviders map[string]terraform.ResourceProvider
-	var testAccProvider *schema.Provider
-
-	client := MockClient{}
-
-	testAccProvider = &schema.Provider{
-		ResourcesMap: map[string]*schema.Resource{
-			"baremetal_identity_user": ResourceIdentityUser(client),
-		},
-	}
-
-	testAccProviders = map[string]terraform.ResourceProvider{
+	client := &MockClient{}
+	testAccProvider := Provider(client).(*schema.Provider)
+	testAccProviders := map[string]terraform.ResourceProvider{
 		"baremetal": testAccProvider,
 	}
 

@@ -7,9 +7,9 @@ import (
 )
 
 // ResourceIdentityUser exposes a IdentityUser Resource
-func ResourceIdentityUser(client BareMetalClient) *schema.Resource {
+func ResourceIdentityUser() *schema.Resource {
 	return &schema.Resource{
-		Create: resourceIdentityUserCreate(client),
+		Create: resourceIdentityUserCreate,
 		Read:   resourceIdentityUserRead,
 		Update: resourceIdentityUserUpdate,
 		Delete: resourceIdentityUserDelete,
@@ -35,23 +35,22 @@ func ResourceIdentityUser(client BareMetalClient) *schema.Resource {
 	}
 }
 
-func resourceIdentityUserCreate(client BareMetalClient) func(d *schema.ResourceData, m interface{}) error {
-	return func(d *schema.ResourceData, m interface{}) error {
-		name := d.Get("name")
-		if name == "" {
-			return fmt.Errorf("Name cannot be empty")
-		}
-
-		description := d.Get("description")
-		if description == nil {
-			return fmt.Errorf("Description cannot be empty")
-		}
-
-		userID, err := client.UserCreate(name.(string), description.(string))
-
-		d.SetId(fmt.Sprintf("%v", userID))
-		return err
+func resourceIdentityUserCreate(d *schema.ResourceData, m interface{}) error {
+	name := d.Get("name")
+	if name == "" {
+		return fmt.Errorf("Name cannot be empty")
 	}
+
+	description := d.Get("description")
+	if description == nil {
+		return fmt.Errorf("Description cannot be empty")
+	}
+
+	client := m.(BareMetalClient)
+	userID, err := client.UserCreate(name.(string), description.(string))
+
+	d.SetId(fmt.Sprintf("%v", userID))
+	return err
 }
 
 func resourceIdentityUserRead(d *schema.ResourceData, m interface{}) error {

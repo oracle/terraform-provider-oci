@@ -6,9 +6,10 @@ import (
 )
 
 func main() {
+	client := &Client{}
 	plugin.Serve(&plugin.ServeOpts{
 		ProviderFunc: func() terraform.ResourceProvider {
-			return Provider()
+			return Provider(client)
 		},
 	})
 }
