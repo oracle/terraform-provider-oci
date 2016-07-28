@@ -47,7 +47,7 @@ func resourceIdentityUserCreate(d *schema.ResourceData, m interface{}) error {
 	}
 
 	client := m.(BareMetalClient)
-	userID, err := client.UserCreate(name.(string), description.(string))
+	userID, err := client.CreateUser(name.(string), description.(string))
 
 	d.SetId(fmt.Sprintf("%v", userID))
 	return err

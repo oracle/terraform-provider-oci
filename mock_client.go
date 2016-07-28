@@ -1,18 +1,12 @@
 package main
 
-// MockClient is used to access Oracle BareMetal Services during tests
-import "crypto/rsa"
+import "github.com/stretchr/testify/mock"
 
 type MockClient struct {
+	mock.Mock
 }
 
-// New creates a new BareMetalClient instance
-func (mock MockClient) New(userOCID, tenancyOCID, keyFingerPrint string, privateKey *rsa.PrivateKey) BareMetalClient {
-	return nil
-}
-
-// UserCreate method to create an user
-func (mock MockClient) UserCreate(name, description string) (id string, err error) {
-	// TODO: return a random string
-	return "SOME_USER_ID", nil
+func (m *MockClient) CreateUser(name, description string) (id string, e error) {
+	args := m.Called(name, description)
+	return args.String(0), args.Error(1)
 }

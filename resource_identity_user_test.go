@@ -5,48 +5,66 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
-	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
+
+	"github.com/stretchr/testify/suite"
 )
 
-func TestAccIdentityUserCreate(t *testing.T) {
-	client := &MockClient{}
-	testAccProvider := Provider(client).(*schema.Provider)
-	testAccProviders := map[string]terraform.ResourceProvider{
-		"baremetal": testAccProvider,
-	}
+type ResourceIdentityUserTestSuite struct {
+	suite.Suite
+	Client    *MockClient
+	Provider  terraform.ResourceProvider
+	Providers map[string]terraform.ResourceProvider
+}
 
-	resource.Test(t, resource.TestCase{
-		Providers: testAccProviders,
+func (s *ResourceIdentityUserTestSuite) SetupTest() {
+	s.Client = &MockClient{}
+	s.Provider = Provider(s.Client)
+	s.Providers = map[string]terraform.ResourceProvider{
+		"baremetal": s.Provider,
+	}
+}
+
+func (s *ResourceIdentityUserTestSuite) TestCreateResourceIdentityUser() {
+	config := `
+		resource "baremetal_identity_user" "test" {
+			name = "name!"
+			description = "desc!"
+			compartment_id = "compartment_id!"
+		}
+	`
+	s.Client.On("CreateUser", "name!", "desc!").Return("id!", nil)
+
+	resource.UnitTest(s.T(), resource.TestCase{
+		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			resource.TestStep{
-				Config: testAccIdentityUser,
+				Config: config,
 				Check: resource.ComposeTestCheckFunc(
-					testAccIdentityUserCreated("baremetal_identity_user.users"),
+					s.testPresentInStateAfterCreate,
+					s.testIdSetAfterCreate,
 				),
 			},
 		},
 	})
 }
 
-func testAccIdentityUserCreated(resourceID string) resource.TestCheckFunc {
-	return func(s *terraform.State) error {
-		rs, ok := s.RootModule().Resources[resourceID]
-		if !ok {
-			return fmt.Errorf("Not found: %s", resourceID)
-		}
-
-		if rs.Primary.ID != "SOME_USER_ID" {
-			return fmt.Errorf("Unexpected user_id: %v", rs.Primary.ID)
-		}
-		return nil
+func (s *ResourceIdentityUserTestSuite) testPresentInStateAfterCreate(state *terraform.State) error {
+	_, ok := state.RootModule().Resources["baremetal_identity_user.test"]
+	if !ok {
+		return fmt.Errorf("Resource not found.")
 	}
+
+	return nil
 }
 
-var testAccIdentityUser = fmt.Sprintf(`
-resource "baremetal_identity_user" "users" {
-	name = "test_user"
-	description = "A test user"
-	compartment_id = "TBD.TBD.TBD"
+func (s *ResourceIdentityUserTestSuite) testIdSetAfterCreate(state *terraform.State) error {
+	rs, _ := state.RootModule().Resources["baremetal_identity_user.test"]
+	s.Equal("id!", rs.Primary.ID)
+
+	return nil
 }
-`)
+
+func TestResourceIdentityUserTestSuite(t *testing.T) {
+	suite.Run(t, new(ResourceIdentityUserTestSuite))
+}
