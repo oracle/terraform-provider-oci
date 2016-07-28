@@ -1,8 +1,8 @@
 package main
 
 import (
-	"fmt"
 	"testing"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
@@ -27,42 +27,40 @@ func (s *ResourceIdentityUserTestSuite) SetupTest() {
 
 func (s *ResourceIdentityUserTestSuite) TestCreateResourceIdentityUser() {
 	config := `
-		resource "baremetal_identity_user" "test" {
+		resource "baremetal_identity_user" "t" {
 			name = "name!"
 			description = "desc!"
-			compartment_id = "compartment_id!"
 		}
 	`
-	s.Client.On("CreateUser", "name!", "desc!").Return("id!", nil)
+	t, _ := time.Parse("2006-Jan-02", "2006-Jan-02")
+	user := &BareMetalIdentity{
+		ID:            "id!",
+		Name:          "name!",
+		Description:   "desc!",
+		CompartmentID: "cid!",
+		State:         "state!",
+		TimeModified:  t,
+		TimeCreated:   t,
+	}
+	s.Client.On("CreateUser", "name!", "desc!").Return(user, nil)
 
+	rname := "baremetal_identity_user.t"
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			resource.TestStep{
 				Config: config,
 				Check: resource.ComposeTestCheckFunc(
-					s.testPresentInStateAfterCreate,
-					s.testIdSetAfterCreate,
+					resource.TestCheckResourceAttr(rname, "name", "name!"),
+					resource.TestCheckResourceAttr(rname, "description", "desc!"),
+					resource.TestCheckResourceAttr(rname, "compartment_id", "cid!"),
+					resource.TestCheckResourceAttr(rname, "state", "state!"),
+					resource.TestCheckResourceAttr(rname, "time_modified", t.String()),
+					resource.TestCheckResourceAttr(rname, "time_created", t.String()),
 				),
 			},
 		},
 	})
-}
-
-func (s *ResourceIdentityUserTestSuite) testPresentInStateAfterCreate(state *terraform.State) error {
-	_, ok := state.RootModule().Resources["baremetal_identity_user.test"]
-	if !ok {
-		return fmt.Errorf("Resource not found.")
-	}
-
-	return nil
-}
-
-func (s *ResourceIdentityUserTestSuite) testIdSetAfterCreate(state *terraform.State) error {
-	rs, _ := state.RootModule().Resources["baremetal_identity_user.test"]
-	s.Equal("id!", rs.Primary.ID)
-
-	return nil
 }
 
 func TestResourceIdentityUserTestSuite(t *testing.T) {
