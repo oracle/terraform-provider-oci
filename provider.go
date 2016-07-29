@@ -5,6 +5,7 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 )
 
+// Provider is the adapter for terraform, that gives access to all the resources
 func Provider(client BareMetalClient) terraform.ResourceProvider {
 	return &schema.Provider{
 		ResourcesMap:  resourcesMap(),
@@ -14,7 +15,6 @@ func Provider(client BareMetalClient) terraform.ResourceProvider {
 
 func resourcesMap() map[string]*schema.Resource {
 	return map[string]*schema.Resource{
-		"baremetal_server":        ResourceServer(),
 		"baremetal_identity_user": ResourceIdentityUser(),
 	}
 }
