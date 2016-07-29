@@ -5,8 +5,10 @@ import (
 	"crypto/rsa"
 	"crypto/tls"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"net/http/httptest"
+	"net/url"
 	"os"
 	"path"
 	"testing"
@@ -58,6 +60,59 @@ func (s *RequestTestSuite) SetupTest() {
 
 func TestRunRequestTests(t *testing.T) {
 	suite.Run(t, new(RequestTestSuite))
+}
+
+func (s *RequestTestSuite) TestDeleteRequest() {
+	ts := httptest.NewTLSServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+
+		w.Write([]byte("Deleted group 1"))
+		return
+
+	}))
+
+	s.client.identityAPI = newAPIRequestor(s.client.authInfo, s.transport)
+
+	url, _ := url.Parse(fmt.Sprintf("%s/%s/%s", ts.URL, resourceGroups, "123"))
+
+	e := s.client.identityAPI.deleteRequest(url.String(), nil)
+	s.Nil(e)
+
+}
+
+func (s *RequestTestSuite) TestUnsuccessfulDeleteRequest() {
+	ts := httptest.NewTLSServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+
+		w.Header().Set("Content-Type", "application/json")
+		w.Header().Set("opc-request-id", "1234567890")
+
+		w.WriteHeader(http.StatusNonAuthoritativeInfo)
+
+		error := Error{
+			Code:    "42",
+			Message: "ultimate answer",
+		}
+
+		var buffer bytes.Buffer
+		encoder := json.NewEncoder(&buffer)
+		encoder.Encode(error)
+
+		w.Write(buffer.Bytes())
+
+		return
+
+	}))
+
+	s.client.identityAPI = newAPIRequestor(s.client.authInfo, s.transport)
+
+	url, _ := url.Parse(fmt.Sprintf("%s/%s/%s", ts.URL, resourceGroups, "123"))
+
+	e := s.client.identityAPI.deleteRequest(url.String(), nil)
+	s.NotNil(e)
+	s.Equal(e.Error(), "Code: 42; OPC Request ID: 1234567890; Message: ultimate answer")
+
 }
 
 func (s *RequestTestSuite) TestGetRequest() {

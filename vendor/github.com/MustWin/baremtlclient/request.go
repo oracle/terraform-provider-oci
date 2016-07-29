@@ -35,6 +35,7 @@ type getResponse struct {
 type requestor interface {
 	request(method, url string, body interface{}, headers http.Header) (respBody []byte, e error)
 	getRequest(urlStr string, headers http.Header) (resp *getResponse, e error)
+	deleteRequest(urlStr string, headers http.Header) (e error)
 }
 
 type apiRequestor struct {
@@ -50,6 +51,40 @@ func newAPIRequestor(authInfo *authenticationInfo, tr *http.Transport) (r *apiRe
 		},
 		authInfo: authInfo,
 	}
+}
+
+func (api *apiRequestor) deleteRequest(urlStr string, headers http.Header) (e error) {
+	var req *http.Request
+	if req, e = http.NewRequest(http.MethodDelete, urlStr, nil); e != nil {
+		return
+	}
+
+	if headers != nil {
+		req.Header = headers
+	}
+
+	if e = createAuthorizationHeader(req, api.authInfo, []byte{}); e != nil {
+		return
+	}
+
+	var resp *http.Response
+	if resp, e = api.httpClient.Do(req); e != nil {
+		return
+	}
+
+	if resp.StatusCode != http.StatusOK {
+		decoder := json.NewDecoder(resp.Body)
+		var err Error
+
+		if e = decoder.Decode(&err); e != nil {
+			return e
+		}
+
+		err.OPCRequestID = resp.Header.Get("opc-request-id")
+		return &err
+	}
+
+	return
 }
 
 func (api *apiRequestor) getRequest(urlStr string, headers http.Header) (getResp *getResponse, e error) {
@@ -73,7 +108,9 @@ func (api *apiRequestor) getRequest(urlStr string, headers http.Header) (getResp
 	}
 
 	var reader bytes.Buffer
-	if _, e = reader.ReadFrom(resp.Body); e != nil {
+	_, e = reader.ReadFrom(resp.Body)
+	resp.Body.Close()
+	if e != nil {
 		return
 	}
 

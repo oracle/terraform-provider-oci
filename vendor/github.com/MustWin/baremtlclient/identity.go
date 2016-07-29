@@ -11,12 +11,18 @@ import (
 	"time"
 )
 
-// CreateResourceRequest contains information to create a new user.
+// CreateResourceRequest contains information to create a new resource .
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/identity.html#CreateUserRequest
 type CreateResourceRequest struct {
 	CompartmentID string `json:"compartmentId"`
 	Name          string `json:"name"`
 	Description   string `json:"description"`
+}
+
+type Options struct {
+	// OPCIdempotencyToken (Optional) - A token you supply to uniquely identify the request and provide idempotency
+	//if the request is retried. Idempotency tokens expire after 30 minutes.
+	OPCIdempotencyToken string
 }
 
 // AvailablityDomain contains name and then tenancy ID that an
@@ -149,9 +155,26 @@ func (c *Client) createResource(resourceType resourceName, request CreateResourc
 
 }
 
-// CreateUser is used to create a user.
+// CreateUser is used to create a user. userName MUST be unique. description
+// contains a comment about the user. The caller can supply 0 or 1 options. Options
+// MAY contain an idempotency token.
+// The caller specifies this token so that subsequent calls to create user will
+// be idempotent. The token expires after 30 minutes.
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/identity.html#createUser
-func (c *Client) CreateUser(createRequest CreateResourceRequest, headers http.Header) (user *Resource, e error) {
+func (c *Client) CreateUser(userName, userDescription string, options ...Options) (user *Resource, e error) {
+	createRequest := CreateResourceRequest{
+		CompartmentID: c.authInfo.tenancyOCID,
+		Name:          userName,
+		Description:   userDescription,
+	}
+	var headers http.Header
+	if len(options) > 0 {
+		if options[0].OPCIdempotencyToken != "" {
+			headers = http.Header{
+				"opc-idempotency-token": []string{options[0].OPCIdempotencyToken},
+			}
+		}
+	}
 	return c.createResource(resourceUsers, createRequest, headers)
 }
 
@@ -294,6 +317,8 @@ func (c *Client) ListUsers(request *ListResourceRequest) (response *ListResource
 	return c.listItems(resourceUsers, request)
 }
 
+// UpdateCompartment - updates the description of a compartment
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/identity.html#updateCompartment
 func (c *Client) UpdateCompartment(compartmentID string, request UpdateResourceRequest, headers http.Header) (compartment *Resource, e error) {
 	var resp []byte
 	if resp, e = c.updateResource(resourceCompartments, compartmentID, request, headers); e != nil {
@@ -304,6 +329,19 @@ func (c *Client) UpdateCompartment(compartmentID string, request UpdateResourceR
 	e = json.Unmarshal(resp, compartment)
 	return
 
+}
+
+// UpdateGroup - updates the description of a group
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/identity.html#updateGroup
+func (c *Client) UpdateGroup(groupID string, request UpdateResourceRequest, headers http.Header) (group *Resource, e error) {
+	var resp []byte
+	if resp, e = c.updateResource(resourceGroups, groupID, request, headers); e != nil {
+		return
+	}
+
+	group = &Resource{}
+	e = json.Unmarshal(resp, group)
+	return
 }
 
 func (c *Client) updateResource(resource resourceName, resourceID string, request interface{}, headers http.Header) (resp []byte, e error) {

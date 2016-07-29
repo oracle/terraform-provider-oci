@@ -27,6 +27,11 @@ func (mr *mockRequestor) getRequest(urlStr string, headers http.Header) (resp *g
 
 }
 
+func (mr *mockRequestor) deleteRequest(urlStr string, headers http.Header) (e error) {
+	args := mr.Called(urlStr, headers)
+	return args.Error(0)
+}
+
 func newMockForTest() (m *mockRequestor) {
 	m = new(mockRequestor)
 	c := createClientForTest()
@@ -312,7 +317,35 @@ func (s *IdentityTestSuite) GetCreateGroup() {
 }
 
 func (s *IdentityTestSuite) TestCreateUser() {
-	s.testCreateResource(resourceUsers, createReq, resrc, s.requestor.CreateUser)
+	//	s.testCreateResource(resourceUsers, createReq, resrc, s.requestor.CreateUser)
+	url := buildIdentityURL(resourceUsers, nil)
+	headers := http.Header{
+		"opc-idempotency-token": []string{"54321"},
+	}
+
+	s.requestor.On(
+		"request",
+		http.MethodPost,
+		url,
+		createReq,
+		headers,
+	).Return(
+		marshalObjectForTest(resrc),
+		nil,
+	)
+
+	actual, e := s.requestor.CreateUser(
+		"name",
+		"a name",
+		Options{
+			OPCIdempotencyToken: "54321",
+		},
+	)
+	s.requestor.AssertExpectations(s.T())
+	s.Nil(e)
+	s.NotNil(actual)
+	s.Equal(actual.ID, expectedID)
+
 }
 
 func (s *IdentityTestSuite) testCreateResource(resource resourceName, req CreateResourceRequest, res Resource, f func(CreateResourceRequest, http.Header) (*Resource, error)) {
