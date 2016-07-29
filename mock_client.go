@@ -1,12 +1,15 @@
 package main
 
-import "github.com/stretchr/testify/mock"
+import (
+	"github.com/MustWin/baremtlclient"
+	"github.com/stretchr/testify/mock"
+)
 
 type MockClient struct {
 	mock.Mock
 }
 
-func (m *MockClient) CreateUser(name, description string) (*BareMetalIdentity, error) {
+func (m *MockClient) CreateUser(name, description string, options ...baremtlclient.Options) (*baremtlclient.Resource, error) {
 	args := m.Called(name, description)
-	return args.Get(0).(*BareMetalIdentity), args.Error(1)
+	return args.Get(0).(*baremtlclient.Resource), args.Error(1)
 }

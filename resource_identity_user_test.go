@@ -4,6 +4,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/MustWin/baremtlclient"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
 
@@ -33,7 +34,7 @@ func (s *ResourceIdentityUserTestSuite) TestCreateResourceIdentityUser() {
 		}
 	`
 	t, _ := time.Parse("2006-Jan-02", "2006-Jan-02")
-	user := &BareMetalIdentity{
+	user := &baremtlclient.Resource{
 		ID:            "id!",
 		Name:          "name!",
 		Description:   "desc!",
