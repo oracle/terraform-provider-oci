@@ -1,24 +1,16 @@
 package main
 
 import (
-	"github.com/hashicorp/terraform/helper/schema"
-	"github.com/hashicorp/terraform/terraform"
 	"testing"
+
+	"github.com/hashicorp/terraform/helper/schema"
 )
 
-var testAccProviders map[string]terraform.ResourceProvider
-var testAccProvider *schema.Provider
-
-func init() {
-	testAccProvider = Provider().(*schema.Provider)
-	testAccProviders = map[string]terraform.ResourceProvider{
-		"baremetal": testAccProvider,
-	}
-}
-
-// This test runs Provider sanity checks
+// This test runs Provider sanity checks.
 func TestProvider(t *testing.T) {
-	if err := Provider().(*schema.Provider).InternalValidate(); err != nil {
+	// Real client for the sanity check. Makes this more of an acceptance test.
+	client := &Client{}
+	if err := Provider(client).(*schema.Provider).InternalValidate(); err != nil {
 		t.Fatalf("err: %s", err)
 	}
 }

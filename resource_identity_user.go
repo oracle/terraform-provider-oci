@@ -1,9 +1,6 @@
 package main
 
-import (
-	"fmt"
-	"github.com/hashicorp/terraform/helper/schema"
-)
+import "github.com/hashicorp/terraform/helper/schema"
 
 // ResourceIdentityUser exposes a IdentityUser Resource
 func ResourceIdentityUser() *schema.Resource {
@@ -14,61 +11,57 @@ func ResourceIdentityUser() *schema.Resource {
 		Delete: resourceIdentityUserDelete,
 
 		Schema: map[string]*schema.Schema{
-			"compartment_id": &schema.Schema{
+			"name": &schema.Schema{
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"user_id": &schema.Schema{
-				Type:     schema.TypeString,
-				Optional: true,
-			},
-			"name": &schema.Schema{
-				Type:     schema.TypeString,
-				Optional: true,
-			},
 			"description": &schema.Schema{
 				Type:     schema.TypeString,
-				Optional: true,
+				Required: true,
+			},
+			"compartment_id": &schema.Schema{
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"state": &schema.Schema{
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_modified": &schema.Schema{
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_created": &schema.Schema{
+				Type:     schema.TypeString,
+				Computed: true,
 			},
 		},
 	}
 }
 
 func resourceIdentityUserCreate(d *schema.ResourceData, m interface{}) error {
-	name := d.Get("name")
-	if name == "" {
-		return fmt.Errorf("Name cannot be empty")
-	}
+	name := d.Get("name").(string)
+	description := d.Get("description").(string)
 
-	description := d.Get("description")
-	if description == nil {
-		return fmt.Errorf("Description cannot be empty")
-	}
+	client := m.(BareMetalClient)
+	user, err := client.CreateUser(name, description)
 
-	var bmc BareMetalClient
-	bmc = MockClient{}
-	userID, err := bmc.UserCreate(name.(string), description.(string))
+	d.SetId(user.ID)
+	d.Set("name", user.Name)
+	d.Set("description", user.Description)
+	d.Set("compartment_id", user.CompartmentID)
+	d.Set("state", user.State)
+	d.Set("time_modified", user.TimeModified.String())
+	d.Set("time_created", user.TimeCreated.String())
 
-	d.SetId(fmt.Sprintf("%v", userID))
 	return err
 }
 
 func resourceIdentityUserRead(d *schema.ResourceData, m interface{}) error {
-	userID := d.Get("user_id")
-	if userID == nil {
-		return fmt.Errorf("user_id cannot be empty")
-	}
 	return nil
 }
 
 func resourceIdentityUserUpdate(d *schema.ResourceData, m interface{}) error {
-	userID := d.Get("user_id")
-	if userID == nil {
-		return fmt.Errorf("user_id cannot be empty")
-	}
-	_ = d.Get("name")
-	_ = d.Get("description")
-
 	return nil
 }
 
