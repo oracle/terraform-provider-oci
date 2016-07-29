@@ -247,6 +247,13 @@
 			"revisionTime": "2016-06-13T20:05:45Z"
 		},
 		{
+			"checksumSHA1": "Ru/se4wnwsddxgr4BQ0lJM5kZbs=",
+			"origin": "github.com/MustWin/terraform-Oracle-BareMetal-Provider/vendor/github.com/MustWin/baremtlclient",
+			"path": "github.com/MustWin/baremtlclient",
+			"revision": "4e77febc4830c74ce9bf781de3f257f3dd50433b",
+			"revisionTime": "2016-07-29T18:52:38Z"
+		},
+		{
 			"checksumSHA1": "htjvdG/znrHmFYRQBqA2vHrJsF4=",
 			"path": "github.com/Sirupsen/logrus",
 			"revision": "f3cfb454f4c209e6668c95216c4744b8fddb2356",
@@ -2779,5 +2786,5 @@
 			"revisionTime": "2016-03-01T20:40:22Z"
 		}
 	],
-	"rootPath": "github.com/mustwin/terraform-Oracle-BareMetal-Provider"
+	"rootPath": "github.com/MustWin/terraform-Oracle-BareMetal-Provider"
 }
