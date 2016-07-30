@@ -40,28 +40,39 @@ func ResourceIdentityUser() *schema.Resource {
 }
 
 func resourceIdentityUserCreate(d *schema.ResourceData, m interface{}) error {
+	client := m.(BareMetalClient)
+
 	name := d.Get("name").(string)
 	description := d.Get("description").(string)
 
-	client := m.(BareMetalClient)
 	user, err := client.CreateUser(name, description)
 
 	d.SetId(user.ID)
-	d.Set("name", user.Name)
-	d.Set("description", user.Description)
-	d.Set("compartment_id", user.CompartmentID)
-	d.Set("state", user.State)
-	d.Set("time_modified", user.TimeModified.String())
-	d.Set("time_created", user.TimeCreated.String())
+
+	resourceIdentityUserRead(d, m)
 
 	return err
 }
 
 func resourceIdentityUserRead(d *schema.ResourceData, m interface{}) error {
+	client := m.(BareMetalClient)
+
+	user, _ := client.GetUser(d.Id())
+
+	d.Set("name", user.Name)
+	d.Set("compartment_id", user.CompartmentID)
+	d.Set("state", user.State)
+	d.Set("time_modified", user.TimeModified.String())
+	d.Set("time_created", user.TimeCreated.String())
+
 	return nil
 }
 
 func resourceIdentityUserUpdate(d *schema.ResourceData, m interface{}) error {
+	client := m.(BareMetalClient)
+
+	client.UpdateUser(d.Get("description").(string))
+
 	return nil
 }
 
