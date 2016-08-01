@@ -3,6 +3,7 @@ package main
 import (
 	"time"
 
+	"github.com/MustWin/baremtlclient"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 )
@@ -63,8 +64,8 @@ func resourceIdentityUserCreate(d *schema.ResourceData, m interface{}) error {
 	d.SetId(user.ID)
 
 	stateConf := &resource.StateChangeConf{
-		Pending: []string{"CREATING"},
-		Target:  []string{"CREATED"},
+		Pending: []string{baremtlsdk.ResourceCreating},
+		Target:  []string{baremtlsdk.ResourceCreated},
 		Refresh: userStateRefreshFunc(client, user.ID),
 		Timeout: 5 * time.Minute,
 	}

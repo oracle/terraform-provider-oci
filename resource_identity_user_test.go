@@ -41,7 +41,7 @@ func (s *ResourceIdentityUserTestSuite) SetupTest() {
 		Name:          "name!",
 		Description:   "desc!",
 		CompartmentID: "cid!",
-		State:         "CREATED",
+		State:         baremtlsdk.ResourceCreated,
 		TimeCreated:   s.TimeCreated,
 		TimeModified:  s.TimeCreated,
 	}
@@ -71,12 +71,12 @@ func (s *ResourceIdentityUserTestSuite) TestCreateResourceIdentityUser() {
 }
 
 func (s *ResourceIdentityUserTestSuite) TestCreateResourceIdentityUserPolling() {
-	s.User.State = "CREATING"
+	s.User.State = baremtlsdk.ResourceCreating
 	s.Client.On("CreateUser", "name!", "desc!").Return(s.User, nil)
 	s.Client.On("GetUser", "id!").Return(s.User, nil).Once()
 
 	u := *s.User
-	u.State = "CREATED"
+	u.State = baremtlsdk.ResourceCreated
 	s.Client.On("GetUser", "id!").Return(&u, nil)
 
 	s.Client.On("DeleteUser", "id!").Return(nil)
@@ -87,7 +87,7 @@ func (s *ResourceIdentityUserTestSuite) TestCreateResourceIdentityUserPolling() 
 			resource.TestStep{
 				Config: s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "state", "CREATED"),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", baremtlsdk.ResourceCreated),
 				),
 			},
 		},
