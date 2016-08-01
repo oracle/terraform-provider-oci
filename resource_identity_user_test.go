@@ -41,7 +41,7 @@ func (s *ResourceIdentityUserTestSuite) SetupTest() {
 		Name:          "name!",
 		Description:   "desc!",
 		CompartmentID: "cid!",
-		State:         "state!",
+		State:         "CREATED",
 		TimeCreated:   s.TimeCreated,
 		TimeModified:  s.TimeCreated,
 	}
@@ -69,11 +69,11 @@ func (s *ResourceIdentityUserTestSuite) TestCreateResourceIdentityUser() {
 	})
 }
 
-func (s *ResourceIdentityUserTestSuite) TestUpdateResourceIdentityUser() {
+func (s *ResourceIdentityUserTestSuite) TestUpdateResourceIdentityUserDescription() {
 	s.Client.On("CreateUser", "name!", "desc!").Return(s.User, nil)
 	s.Client.On("GetUser", "id!").Return(s.User, nil)
 
-	updatedesc := `
+	c := `
 		resource "baremetal_identity_user" "t" {
 			name = "name!"
 			description = "newdesc!"
@@ -88,9 +88,47 @@ func (s *ResourceIdentityUserTestSuite) TestUpdateResourceIdentityUser() {
 				Config: s.Config,
 			},
 			resource.TestStep{
-				Config: updatedesc,
+				Config: c,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "description", "newdesc!"),
+				),
+			},
+		},
+	})
+}
+
+func (s *ResourceIdentityUserTestSuite) TestUpdateResourceIdentityUserNameShouldCreateNew() {
+	s.Client.On("CreateUser", "name!", "desc!").Return(s.User, nil)
+	s.Client.On("GetUser", "id!").Return(s.User, nil)
+
+	c := `
+		resource "baremetal_identity_user" "t" {
+			name = "newname!"
+			description = "desc!"
+		}
+	`
+	u := &baremtlclient.Resource{
+		ID:            "newid!",
+		Name:          "newname!",
+		Description:   "desc!",
+		CompartmentID: "cid!",
+		State:         "CREATED",
+		TimeCreated:   s.TimeCreated,
+		TimeModified:  s.TimeCreated,
+	}
+	s.Client.On("CreateUser", "newname!", "desc!").Return(u, nil)
+	s.Client.On("GetUser", "newid!").Return(u, nil)
+
+	resource.UnitTest(s.T(), resource.TestCase{
+		Providers: s.Providers,
+		Steps: []resource.TestStep{
+			resource.TestStep{
+				Config: s.Config,
+			},
+			resource.TestStep{
+				Config: c,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttr(s.ResourceName, "name", "newname!"),
 				),
 			},
 		},

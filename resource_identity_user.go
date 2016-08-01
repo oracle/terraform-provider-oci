@@ -14,6 +14,7 @@ func ResourceIdentityUser() *schema.Resource {
 			"name": &schema.Schema{
 				Type:     schema.TypeString,
 				Required: true,
+				ForceNew: true,
 			},
 			"description": &schema.Schema{
 				Type:     schema.TypeString,
@@ -27,11 +28,11 @@ func ResourceIdentityUser() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"time_modified": &schema.Schema{
+			"time_created": &schema.Schema{
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"time_created": &schema.Schema{
+			"time_modified": &schema.Schema{
 				Type:     schema.TypeString,
 				Computed: true,
 			},
