@@ -19,7 +19,7 @@ type ResourceIdentityUserTestSuite struct {
 	TimeCreated  time.Time
 	Config       string
 	ResourceName string
-	User         *baremtlclient.Resource
+	User         *baremtlsdk.Resource
 }
 
 func (s *ResourceIdentityUserTestSuite) SetupTest() {
@@ -36,7 +36,7 @@ func (s *ResourceIdentityUserTestSuite) SetupTest() {
 		}
 	`
 	s.ResourceName = "baremetal_identity_user.t"
-	s.User = &baremtlclient.Resource{
+	s.User = &baremtlsdk.Resource{
 		ID:            "id!",
 		Name:          "name!",
 		Description:   "desc!",
@@ -79,7 +79,17 @@ func (s *ResourceIdentityUserTestSuite) TestUpdateResourceIdentityUserDescriptio
 			description = "newdesc!"
 		}
 	`
-	s.Client.On("UpdateUser", "newdesc!")
+	t := s.TimeCreated.Add(5 * time.Minute)
+	u := &baremtlsdk.Resource{
+		ID:            "d!",
+		Name:          "name!",
+		Description:   "newdesc!",
+		CompartmentID: "cid!",
+		State:         "CREATED",
+		TimeCreated:   s.TimeCreated,
+		TimeModified:  t,
+	}
+	s.Client.On("UpdateUser", "id!", "newdesc!").Return(u, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -91,6 +101,7 @@ func (s *ResourceIdentityUserTestSuite) TestUpdateResourceIdentityUserDescriptio
 				Config: c,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "description", "newdesc!"),
+					resource.TestCheckResourceAttr(s.ResourceName, "time_modified", t.String()),
 				),
 			},
 		},
@@ -107,7 +118,7 @@ func (s *ResourceIdentityUserTestSuite) TestUpdateResourceIdentityUserNameShould
 			description = "desc!"
 		}
 	`
-	u := &baremtlclient.Resource{
+	u := &baremtlsdk.Resource{
 		ID:            "newid!",
 		Name:          "newname!",
 		Description:   "desc!",

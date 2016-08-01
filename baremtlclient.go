@@ -3,21 +3,7 @@ package main
 import "github.com/MustWin/baremtlclient"
 
 type BareMetalClient interface {
-	CreateUser(name, description string, options ...baremtlclient.Options) (*baremtlclient.Resource, error)
-	GetUser(userID string) (*baremtlclient.Resource, error)
-	UpdateUser(userID string)
-}
-
-type Client struct{}
-
-func (c *Client) CreateUser(name, description string, options ...baremtlclient.Options) (*baremtlclient.Resource, error) {
-	panic("")
-}
-
-func (c *Client) GetUser(userID string) (*baremtlclient.Resource, error) {
-	panic("")
-}
-
-func (c *Client) UpdateUser(userID string) {
-	panic("")
+	CreateUser(name, description string, options ...baremtlsdk.Options) (*baremtlsdk.Resource, error)
+	GetUser(userID string) (*baremtlsdk.Resource, error)
+	UpdateUser(userID, userDescription string, opts ...baremtlsdk.Options) (*baremtlsdk.Resource, error)
 }
