@@ -1,4 +1,4 @@
-package baremtlclient
+package baremtlsdk
 
 import (
 	"crypto/rsa"

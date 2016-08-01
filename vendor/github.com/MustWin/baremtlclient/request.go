@@ -1,4 +1,4 @@
-package baremtlclient
+package baremtlsdk
 
 import (
 	"bytes"
@@ -28,13 +28,13 @@ type authenticateRequest struct {
 	*http.Request
 }
 
-type getResponse struct {
+type requestResponse struct {
 	header http.Header
 	body   []byte
 }
 type requestor interface {
-	request(method, url string, body interface{}, headers http.Header) (respBody []byte, e error)
-	getRequest(urlStr string, headers http.Header) (resp *getResponse, e error)
+	request(method, url string, body interface{}, headers http.Header) (r *requestResponse, e error)
+	getRequest(urlStr string, headers http.Header) (resp *requestResponse, e error)
 	deleteRequest(urlStr string, headers http.Header) (e error)
 }
 
@@ -80,14 +80,14 @@ func (api *apiRequestor) deleteRequest(urlStr string, headers http.Header) (e er
 			return e
 		}
 
-		err.OPCRequestID = resp.Header.Get("opc-request-id")
+		err.OPCRequestID = resp.Header.Get(headerOPCRequestID)
 		return &err
 	}
 
 	return
 }
 
-func (api *apiRequestor) getRequest(urlStr string, headers http.Header) (getResp *getResponse, e error) {
+func (api *apiRequestor) getRequest(urlStr string, headers http.Header) (getResp *requestResponse, e error) {
 
 	var req *http.Request
 	if req, e = http.NewRequest(http.MethodGet, urlStr, nil); e != nil {
@@ -119,7 +119,7 @@ func (api *apiRequestor) getRequest(urlStr string, headers http.Header) (getResp
 		return
 	}
 
-	getResp = &getResponse{
+	getResp = &requestResponse{
 		header: resp.Header,
 		body:   reader.Bytes(),
 	}
@@ -127,7 +127,7 @@ func (api *apiRequestor) getRequest(urlStr string, headers http.Header) (getResp
 	return
 }
 
-func (api *apiRequestor) request(method, urlStr string, body interface{}, headers http.Header) (respBody []byte, e error) {
+func (api *apiRequestor) request(method, urlStr string, body interface{}, headers http.Header) (r *requestResponse, e error) {
 	var jsonBuffer []byte
 	if jsonBuffer, e = json.Marshal(body); e != nil {
 		return
@@ -169,7 +169,12 @@ func (api *apiRequestor) request(method, urlStr string, body interface{}, header
 		return
 	}
 
-	return reader.Bytes(), nil
+	r = &requestResponse{
+		header: resp.Header,
+		body:   reader.Bytes(),
+	}
+
+	return
 }
 
 func getErrorFromResponse(body io.Reader, resp *http.Response) (e error) {
@@ -179,7 +184,7 @@ func getErrorFromResponse(body io.Reader, resp *http.Response) (e error) {
 		return
 	}
 
-	if opcRequestID := resp.Header.Get("opc-request-id"); opcRequestID != "" {
+	if opcRequestID := resp.Header.Get(headerOPCRequestID); opcRequestID != "" {
 		apiError.OPCRequestID = opcRequestID
 	}
 

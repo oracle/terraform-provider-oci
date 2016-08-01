@@ -4,6 +4,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/MustWin/baremtlclient"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
 
@@ -12,9 +13,13 @@ import (
 
 type ResourceIdentityUserTestSuite struct {
 	suite.Suite
-	Client    *MockClient
-	Provider  terraform.ResourceProvider
-	Providers map[string]terraform.ResourceProvider
+	Client       *MockClient
+	Provider     terraform.ResourceProvider
+	Providers    map[string]terraform.ResourceProvider
+	TimeCreated  time.Time
+	Config       string
+	ResourceName string
+	User         *baremtlsdk.Resource
 }
 
 func (s *ResourceIdentityUserTestSuite) SetupTest() {
@@ -23,40 +28,108 @@ func (s *ResourceIdentityUserTestSuite) SetupTest() {
 	s.Providers = map[string]terraform.ResourceProvider{
 		"baremetal": s.Provider,
 	}
-}
-
-func (s *ResourceIdentityUserTestSuite) TestCreateResourceIdentityUser() {
-	config := `
+	s.TimeCreated, _ = time.Parse("2006-Jan-02", "2006-Jan-02")
+	s.Config = `
 		resource "baremetal_identity_user" "t" {
 			name = "name!"
 			description = "desc!"
 		}
 	`
-	t, _ := time.Parse("2006-Jan-02", "2006-Jan-02")
-	user := &BareMetalIdentity{
+	s.ResourceName = "baremetal_identity_user.t"
+	s.User = &baremtlsdk.Resource{
 		ID:            "id!",
 		Name:          "name!",
 		Description:   "desc!",
 		CompartmentID: "cid!",
-		State:         "state!",
-		TimeModified:  t,
-		TimeCreated:   t,
+		State:         "CREATED",
+		TimeCreated:   s.TimeCreated,
+		TimeModified:  s.TimeCreated,
 	}
-	s.Client.On("CreateUser", "name!", "desc!").Return(user, nil)
+}
 
-	rname := "baremetal_identity_user.t"
+func (s *ResourceIdentityUserTestSuite) TestCreateResourceIdentityUser() {
+	s.Client.On("CreateUser", "name!", "desc!").Return(s.User, nil)
+	s.Client.On("GetUser", "id!").Return(s.User, nil)
+
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			resource.TestStep{
-				Config: config,
+				Config: s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(rname, "name", "name!"),
-					resource.TestCheckResourceAttr(rname, "description", "desc!"),
-					resource.TestCheckResourceAttr(rname, "compartment_id", "cid!"),
-					resource.TestCheckResourceAttr(rname, "state", "state!"),
-					resource.TestCheckResourceAttr(rname, "time_modified", t.String()),
-					resource.TestCheckResourceAttr(rname, "time_created", t.String()),
+					resource.TestCheckResourceAttr(s.ResourceName, "name", s.User.Name),
+					resource.TestCheckResourceAttr(s.ResourceName, "description", s.User.Description),
+					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", s.User.CompartmentID),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", s.User.State),
+					resource.TestCheckResourceAttr(s.ResourceName, "time_created", s.User.TimeCreated.String()),
+					resource.TestCheckResourceAttr(s.ResourceName, "time_modified", s.User.TimeModified.String()),
+				),
+			},
+		},
+	})
+}
+
+func (s *ResourceIdentityUserTestSuite) TestUpdateResourceIdentityUserDescription() {
+	s.Client.On("CreateUser", "name!", "desc!").Return(s.User, nil)
+	s.Client.On("GetUser", "id!").Return(s.User, nil)
+
+	c := `
+		resource "baremetal_identity_user" "t" {
+			name = "name!"
+			description = "newdesc!"
+		}
+	`
+	t := s.TimeCreated.Add(5 * time.Minute)
+	u := &baremtlsdk.Resource{
+		Description:  "newdesc!",
+		TimeModified: t,
+	}
+	s.Client.On("UpdateUser", "id!", "newdesc!").Return(u, nil)
+
+	resource.UnitTest(s.T(), resource.TestCase{
+		Providers: s.Providers,
+		Steps: []resource.TestStep{
+			resource.TestStep{
+				Config: s.Config,
+			},
+			resource.TestStep{
+				Config: c,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttr(s.ResourceName, "description", "newdesc!"),
+					resource.TestCheckResourceAttr(s.ResourceName, "time_modified", t.String()),
+				),
+			},
+		},
+	})
+}
+
+func (s *ResourceIdentityUserTestSuite) TestUpdateResourceIdentityUserNameShouldCreateNew() {
+	s.Client.On("CreateUser", "name!", "desc!").Return(s.User, nil)
+	s.Client.On("GetUser", "id!").Return(s.User, nil)
+
+	c := `
+		resource "baremetal_identity_user" "t" {
+			name = "newname!"
+			description = "desc!"
+		}
+	`
+	u := &baremtlsdk.Resource{
+		ID:   "newid!",
+		Name: "newname!",
+	}
+	s.Client.On("CreateUser", "newname!", "desc!").Return(u, nil)
+	s.Client.On("GetUser", "newid!").Return(u, nil)
+
+	resource.UnitTest(s.T(), resource.TestCase{
+		Providers: s.Providers,
+		Steps: []resource.TestStep{
+			resource.TestStep{
+				Config: s.Config,
+			},
+			resource.TestStep{
+				Config: c,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttr(s.ResourceName, "name", "newname!"),
 				),
 			},
 		},
