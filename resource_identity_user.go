@@ -80,5 +80,9 @@ func resourceIdentityUserRead(d *schema.ResourceData, m interface{}) error {
 }
 
 func resourceIdentityUserDelete(d *schema.ResourceData, m interface{}) error {
+	client := m.(BareMetalClient)
+
+	client.DeleteUser(d.Id())
+
 	return nil
 }

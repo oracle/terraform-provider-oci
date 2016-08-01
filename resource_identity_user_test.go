@@ -50,6 +50,7 @@ func (s *ResourceIdentityUserTestSuite) SetupTest() {
 func (s *ResourceIdentityUserTestSuite) TestCreateResourceIdentityUser() {
 	s.Client.On("CreateUser", "name!", "desc!").Return(s.User, nil)
 	s.Client.On("GetUser", "id!").Return(s.User, nil)
+	s.Client.On("DeleteUser", "id!").Return(nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -72,6 +73,7 @@ func (s *ResourceIdentityUserTestSuite) TestCreateResourceIdentityUser() {
 func (s *ResourceIdentityUserTestSuite) TestUpdateResourceIdentityUserDescription() {
 	s.Client.On("CreateUser", "name!", "desc!").Return(s.User, nil)
 	s.Client.On("GetUser", "id!").Return(s.User, nil)
+	s.Client.On("DeleteUser", "id!").Return(nil)
 
 	c := `
 		resource "baremetal_identity_user" "t" {
@@ -106,6 +108,7 @@ func (s *ResourceIdentityUserTestSuite) TestUpdateResourceIdentityUserDescriptio
 func (s *ResourceIdentityUserTestSuite) TestUpdateResourceIdentityUserNameShouldCreateNew() {
 	s.Client.On("CreateUser", "name!", "desc!").Return(s.User, nil)
 	s.Client.On("GetUser", "id!").Return(s.User, nil)
+	s.Client.On("DeleteUser", "id!").Return(nil)
 
 	c := `
 		resource "baremetal_identity_user" "t" {
@@ -119,6 +122,7 @@ func (s *ResourceIdentityUserTestSuite) TestUpdateResourceIdentityUserNameShould
 	}
 	s.Client.On("CreateUser", "newname!", "desc!").Return(u, nil)
 	s.Client.On("GetUser", "newid!").Return(u, nil)
+	s.Client.On("DeleteUser", "newid!").Return(nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -134,6 +138,26 @@ func (s *ResourceIdentityUserTestSuite) TestUpdateResourceIdentityUserNameShould
 			},
 		},
 	})
+}
+
+func (s *ResourceIdentityUserTestSuite) TestDeleteResourceIdentityUser() {
+	s.Client.On("CreateUser", "name!", "desc!").Return(s.User, nil)
+	s.Client.On("GetUser", "id!").Return(s.User, nil)
+	s.Client.On("DeleteUser", "id!").Return(nil)
+
+	resource.UnitTest(s.T(), resource.TestCase{
+		Providers: s.Providers,
+		Steps: []resource.TestStep{
+			resource.TestStep{
+				Config: s.Config,
+			},
+			resource.TestStep{
+				Config: "",
+			},
+		},
+	})
+
+	s.Client.AssertCalled(s.T(), "DeleteUser", "id!")
 }
 
 func TestResourceIdentityUserTestSuite(t *testing.T) {
