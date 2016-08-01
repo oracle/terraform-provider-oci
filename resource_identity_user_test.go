@@ -81,13 +81,8 @@ func (s *ResourceIdentityUserTestSuite) TestUpdateResourceIdentityUserDescriptio
 	`
 	t := s.TimeCreated.Add(5 * time.Minute)
 	u := &baremtlsdk.Resource{
-		ID:            "d!",
-		Name:          "name!",
-		Description:   "newdesc!",
-		CompartmentID: "cid!",
-		State:         "CREATED",
-		TimeCreated:   s.TimeCreated,
-		TimeModified:  t,
+		Description:  "newdesc!",
+		TimeModified: t,
 	}
 	s.Client.On("UpdateUser", "id!", "newdesc!").Return(u, nil)
 
@@ -119,13 +114,8 @@ func (s *ResourceIdentityUserTestSuite) TestUpdateResourceIdentityUserNameShould
 		}
 	`
 	u := &baremtlsdk.Resource{
-		ID:            "newid!",
-		Name:          "newname!",
-		Description:   "desc!",
-		CompartmentID: "cid!",
-		State:         "CREATED",
-		TimeCreated:   s.TimeCreated,
-		TimeModified:  s.TimeCreated,
+		ID:   "newid!",
+		Name: "newname!",
 	}
 	s.Client.On("CreateUser", "newname!", "desc!").Return(u, nil)
 	s.Client.On("GetUser", "newid!").Return(u, nil)
