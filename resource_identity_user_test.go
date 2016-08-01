@@ -13,9 +13,13 @@ import (
 
 type ResourceIdentityUserTestSuite struct {
 	suite.Suite
-	Client    *MockClient
-	Provider  terraform.ResourceProvider
-	Providers map[string]terraform.ResourceProvider
+	Client       *MockClient
+	Provider     terraform.ResourceProvider
+	Providers    map[string]terraform.ResourceProvider
+	TimeCreated  time.Time
+	Config       string
+	ResourceName string
+	User         *baremtlclient.Resource
 }
 
 func (s *ResourceIdentityUserTestSuite) SetupTest() {
@@ -24,41 +28,41 @@ func (s *ResourceIdentityUserTestSuite) SetupTest() {
 	s.Providers = map[string]terraform.ResourceProvider{
 		"baremetal": s.Provider,
 	}
-}
-
-func (s *ResourceIdentityUserTestSuite) TestCreateResourceIdentityUser() {
-	config := `
+	s.TimeCreated, _ = time.Parse("2006-Jan-02", "2006-Jan-02")
+	s.Config = `
 		resource "baremetal_identity_user" "t" {
 			name = "name!"
 			description = "desc!"
 		}
 	`
-	t, _ := time.Parse("2006-Jan-02", "2006-Jan-02")
-	u := &baremtlclient.Resource{
+	s.ResourceName = "baremetal_identity_user.t"
+	s.User = &baremtlclient.Resource{
 		ID:            "id!",
 		Name:          "name!",
 		Description:   "desc!",
 		CompartmentID: "cid!",
 		State:         "state!",
-		TimeModified:  t,
-		TimeCreated:   t,
+		TimeCreated:   s.TimeCreated,
+		TimeModified:  s.TimeCreated,
 	}
-	s.Client.On("CreateUser", "name!", "desc!").Return(u, nil)
-	s.Client.On("GetUser", "id!").Return(u, nil)
+}
 
-	rname := "baremetal_identity_user.t"
+func (s *ResourceIdentityUserTestSuite) TestCreateResourceIdentityUser() {
+	s.Client.On("CreateUser", "name!", "desc!").Return(s.User, nil)
+	s.Client.On("GetUser", "id!").Return(s.User, nil)
+
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			resource.TestStep{
-				Config: config,
+				Config: s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(rname, "name", u.Name),
-					resource.TestCheckResourceAttr(rname, "description", u.Description),
-					resource.TestCheckResourceAttr(rname, "compartment_id", u.CompartmentID),
-					resource.TestCheckResourceAttr(rname, "state", u.State),
-					resource.TestCheckResourceAttr(rname, "time_modified", u.TimeModified.String()),
-					resource.TestCheckResourceAttr(rname, "time_created", u.TimeCreated.String()),
+					resource.TestCheckResourceAttr(s.ResourceName, "name", s.User.Name),
+					resource.TestCheckResourceAttr(s.ResourceName, "description", s.User.Description),
+					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", s.User.CompartmentID),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", s.User.State),
+					resource.TestCheckResourceAttr(s.ResourceName, "time_created", s.User.TimeCreated.String()),
+					resource.TestCheckResourceAttr(s.ResourceName, "time_modified", s.User.TimeModified.String()),
 				),
 			},
 		},
@@ -66,26 +70,10 @@ func (s *ResourceIdentityUserTestSuite) TestCreateResourceIdentityUser() {
 }
 
 func (s *ResourceIdentityUserTestSuite) TestUpdateResourceIdentityUser() {
-	t, _ := time.Parse("2006-Jan-02", "2006-Jan-02")
-	c1 := `
-		resource "baremetal_identity_user" "t" {
-			name = "name!"
-			description = "desc!"
-		}
-	`
-	u1 := &baremtlclient.Resource{
-		ID:            "id!",
-		Name:          "name!",
-		Description:   "desc!",
-		CompartmentID: "cid!",
-		State:         "state!",
-		TimeModified:  t,
-		TimeCreated:   t,
-	}
-	s.Client.On("CreateUser", "name!", "desc!").Return(u1, nil)
-	s.Client.On("GetUser", "id!").Return(u1, nil)
+	s.Client.On("CreateUser", "name!", "desc!").Return(s.User, nil)
+	s.Client.On("GetUser", "id!").Return(s.User, nil)
 
-	c2 := `
+	updatedesc := `
 		resource "baremetal_identity_user" "t" {
 			name = "name!"
 			description = "newdesc!"
@@ -93,17 +81,16 @@ func (s *ResourceIdentityUserTestSuite) TestUpdateResourceIdentityUser() {
 	`
 	s.Client.On("UpdateUser", "newdesc!")
 
-	rname := "baremetal_identity_user.t"
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			resource.TestStep{
-				Config: c1,
+				Config: s.Config,
 			},
 			resource.TestStep{
-				Config: c2,
+				Config: updatedesc,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(rname, "description", "newdesc!"),
+					resource.TestCheckResourceAttr(s.ResourceName, "description", "newdesc!"),
 				),
 			},
 		},
