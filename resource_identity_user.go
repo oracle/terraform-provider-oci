@@ -1,6 +1,11 @@
 package main
 
-import "github.com/hashicorp/terraform/helper/schema"
+import (
+	"time"
+
+	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
+)
 
 // ResourceIdentityUser exposes a IdentityUser Resource
 func ResourceIdentityUser() *schema.Resource {
@@ -40,6 +45,13 @@ func ResourceIdentityUser() *schema.Resource {
 	}
 }
 
+func userStateRefreshFunc(client BareMetalClient, id string) resource.StateRefreshFunc {
+	return func() (interface{}, string, error) {
+		user, _ := client.GetUser(id)
+		return user, user.State, nil
+	}
+}
+
 func resourceIdentityUserCreate(d *schema.ResourceData, m interface{}) error {
 	client := m.(BareMetalClient)
 
@@ -49,6 +61,15 @@ func resourceIdentityUserCreate(d *schema.ResourceData, m interface{}) error {
 	user, err := client.CreateUser(name, description)
 
 	d.SetId(user.ID)
+
+	stateConf := &resource.StateChangeConf{
+		Pending: []string{"CREATING"},
+		Target:  []string{"CREATED"},
+		Refresh: userStateRefreshFunc(client, user.ID),
+		Timeout: 5 * time.Minute,
+	}
+
+	stateConf.WaitForState()
 
 	resourceIdentityUserRead(d, m)
 

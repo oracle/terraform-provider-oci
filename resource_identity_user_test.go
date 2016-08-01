@@ -70,6 +70,30 @@ func (s *ResourceIdentityUserTestSuite) TestCreateResourceIdentityUser() {
 	})
 }
 
+func (s *ResourceIdentityUserTestSuite) TestCreateResourceIdentityUserPolling() {
+	s.User.State = "CREATING"
+	s.Client.On("CreateUser", "name!", "desc!").Return(s.User, nil)
+	s.Client.On("GetUser", "id!").Return(s.User, nil).Once()
+
+	u := *s.User
+	u.State = "CREATED"
+	s.Client.On("GetUser", "id!").Return(&u, nil)
+
+	s.Client.On("DeleteUser", "id!").Return(nil)
+
+	resource.UnitTest(s.T(), resource.TestCase{
+		Providers: s.Providers,
+		Steps: []resource.TestStep{
+			resource.TestStep{
+				Config: s.Config,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttr(s.ResourceName, "state", "CREATED"),
+				),
+			},
+		},
+	})
+}
+
 func (s *ResourceIdentityUserTestSuite) TestUpdateResourceIdentityUserDescription() {
 	s.Client.On("CreateUser", "name!", "desc!").Return(s.User, nil)
 	s.Client.On("GetUser", "id!").Return(s.User, nil)
