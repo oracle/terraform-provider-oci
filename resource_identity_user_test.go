@@ -96,7 +96,7 @@ func (s *ResourceIdentityUserTestSuite) TestCreateResourceIdentityUserPolling() 
 
 func (s *ResourceIdentityUserTestSuite) TestUpdateResourceIdentityUserDescription() {
 	s.Client.On("CreateUser", "name!", "desc!").Return(s.User, nil)
-	s.Client.On("GetUser", "id!").Return(s.User, nil)
+	s.Client.On("GetUser", "id!").Return(s.User, nil).Twice()
 	s.Client.On("DeleteUser", "id!").Return(nil)
 
 	c := `
@@ -106,11 +106,11 @@ func (s *ResourceIdentityUserTestSuite) TestUpdateResourceIdentityUserDescriptio
 		}
 	`
 	t := s.TimeCreated.Add(5 * time.Minute)
-	u := &baremtlsdk.Resource{
-		Description:  "newdesc!",
-		TimeModified: t,
-	}
-	s.Client.On("UpdateUser", "id!", "newdesc!").Return(u, nil)
+	u := *s.User
+	u.Description = "newdesc!"
+	u.TimeModified = t
+	s.Client.On("UpdateUser", "id!", "newdesc!").Return(&u, nil)
+	s.Client.On("GetUser", "id!").Return(&u, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -140,12 +140,11 @@ func (s *ResourceIdentityUserTestSuite) TestUpdateResourceIdentityUserNameShould
 			description = "desc!"
 		}
 	`
-	u := &baremtlsdk.Resource{
-		ID:   "newid!",
-		Name: "newname!",
-	}
-	s.Client.On("CreateUser", "newname!", "desc!").Return(u, nil)
-	s.Client.On("GetUser", "newid!").Return(u, nil)
+	u := *s.User
+	u.ID = "newid!"
+	u.Name = "newname!"
+	s.Client.On("CreateUser", "newname!", "desc!").Return(&u, nil)
+	s.Client.On("GetUser", "newid!").Return(&u, nil)
 	s.Client.On("DeleteUser", "newid!").Return(nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
