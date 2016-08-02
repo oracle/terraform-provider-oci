@@ -10,6 +10,10 @@ machine:
     GOPATH: "/home/ubuntu/.go_project"
     PROJECT_OWNER: "MustWin"
 
+dependencies:
+  override:
+    - go build -v github.com/${PROJECT_OWNER}/terraform-Oracle-BareMetal-Provider
+    
 test:
   override:
     - go test -v github.com/${PROJECT_OWNER}/terraform-Oracle-BareMetal-Provider
