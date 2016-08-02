@@ -25,3 +25,8 @@ func (m *MockClient) UpdateUser(userID, userDescription string, opts ...baremtls
 	u, _ := args.Get(0).(*baremtlsdk.Resource)
 	return u, args.Error(1)
 }
+
+func (m *MockClient) DeleteUser(userID string, opts ...baremtlsdk.Options) error {
+	args := m.Called(userID)
+	return args.Error(0)
+}
