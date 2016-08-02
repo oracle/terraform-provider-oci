@@ -6,7 +6,7 @@ __________                         _____          __         .__
  |______  /(____  /__|    \___  >____|__  /\___  >__| (____  /____/
         \/      \/            \/        \/     \/          \/
 ```
-# Oracle BareMetal Terraform Provider
+# Oracle BareMetal Terraform Provider ![](https://circleci.com/gh/MustWin/terraform-Oracle-BareMetal-Provider.svg?style=shield&circle-token=fa06ce2af6b594812e3a756f5451a9e101d7b9f5)
 
 This repository contains the Terraform provider for the Oracle Bare Metal Iaas
 
