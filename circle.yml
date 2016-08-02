@@ -12,8 +12,11 @@ machine:
 
 dependencies:
   override:
+    - mkdir -p /home/ubuntu/.go_project/bin
+    - mkdir -p /home/ubuntu/.go_project/src/github.com/${PROJECT_OWNER}
+    - ln -s /home/ubuntu/terraform-Oracle-BareMetal-Provider /home/ubuntu/.go_project/src/github.com/${PROJECT_OWNER}/.
     - go build -v github.com/${PROJECT_OWNER}/terraform-Oracle-BareMetal-Provider
-    
+
 test:
   override:
     - go test -v github.com/${PROJECT_OWNER}/terraform-Oracle-BareMetal-Provider
