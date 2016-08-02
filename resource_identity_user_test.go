@@ -175,7 +175,8 @@ func (s *ResourceIdentityUserTestSuite) TestDeleteResourceIdentityUser() {
 				Config: s.Config,
 			},
 			resource.TestStep{
-				Config: "",
+				Config:  s.Config,
+				Destroy: true,
 			},
 		},
 	})
