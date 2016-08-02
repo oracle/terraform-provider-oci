@@ -26,6 +26,15 @@ var DefaultDNSServers = []string{
 	"8.8.4.4",
 }
 
+var DiskControllerTypes = []string{
+	"scsi",
+	"scsi-lsi-parallel",
+	"scsi-buslogic",
+	"scsi-paravirtual",
+	"scsi-lsi-sas",
+	"ide",
+}
+
 type networkInterface struct {
 	deviceName       string
 	label            string
@@ -421,9 +430,15 @@ func resourceVSphereVirtualMachine() *schema.Resource {
 							Default:  "scsi",
 							ValidateFunc: func(v interface{}, k string) (ws []string, errors []error) {
 								value := v.(string)
-								if value != "scsi" && value != "ide" {
+								found := false
+								for _, t := range DiskControllerTypes {
+									if t == value {
+										found = true
+									}
+								}
+								if !found {
 									errors = append(errors, fmt.Errorf(
-										"only 'scsi' and 'ide' are supported values for 'controller_type'"))
+										"Supported values for 'controller_type' are %v", strings.Join(DiskControllerTypes, ", ")))
 								}
 								return
 							},
@@ -509,8 +524,8 @@ func resourceVSphereVirtualMachineUpdate(d *schema.ResourceData, meta interface{
 				virtualDisk := devices.FindByKey(int32(disk["key"].(int)))
 
 				keep := false
-				if v, ok := d.GetOk("keep_on_remove"); ok {
-					keep = v.(bool)
+				if v, ok := disk["keep_on_remove"].(bool); ok {
+					keep = v
 				}
 
 				err = vm.RemoveDevice(context.TODO(), keep, virtualDisk)
@@ -622,12 +637,6 @@ func resourceVSphereVirtualMachineUpdate(d *schema.ResourceData, meta interface{
 			log.Printf("[ERROR] %s", err)
 		}
 	}
-
-	ip, err := vm.WaitForIP(context.TODO())
-	if err != nil {
-		return err
-	}
-	log.Printf("[DEBUG] ip address: %v", ip)
 
 	return resourceVSphereVirtualMachineRead(d, meta)
 }
@@ -780,7 +789,6 @@ func resourceVSphereVirtualMachineCreate(d *schema.ResourceData, meta interface{
 		if diskSet, ok := vL.(*schema.Set); ok {
 
 			disks := []hardDisk{}
-			hasBootableDisk := false
 			for _, value := range diskSet.List() {
 				disk := value.(map[string]interface{})
 				newDisk := hardDisk{}
@@ -790,10 +798,10 @@ func resourceVSphereVirtualMachineCreate(d *schema.ResourceData, meta interface{
 						return fmt.Errorf("Cannot specify name of a template")
 					}
 					vm.template = v
-					if hasBootableDisk {
+					if vm.hasBootableVmdk {
 						return fmt.Errorf("[ERROR] Only one bootable disk or template may be given")
 					}
-					hasBootableDisk = true
+					vm.hasBootableVmdk = true
 				}
 
 				if v, ok := disk["type"].(string); ok && v != "" {
@@ -837,9 +845,11 @@ func resourceVSphereVirtualMachineCreate(d *schema.ResourceData, meta interface{
 						return fmt.Errorf("Cannot specify name of a vmdk")
 					}
 					if vBootable, ok := disk["bootable"].(bool); ok {
-						hasBootableDisk = true
+						if vBootable && vm.hasBootableVmdk {
+							return fmt.Errorf("[ERROR] Only one bootable disk or template may be given")
+						}
 						newDisk.bootable = vBootable
-						vm.hasBootableVmdk = vBootable
+						vm.hasBootableVmdk = vm.hasBootableVmdk || vBootable
 					}
 					newDisk.vmdkPath = vVmdk
 				}
@@ -901,14 +911,20 @@ func resourceVSphereVirtualMachineRead(d *schema.ResourceData, meta interface{})
 		return nil
 	}
 
-	var mvm mo.VirtualMachine
-
-	// wait for interfaces to appear
-	_, err = vm.WaitForNetIP(context.TODO(), true)
+	state, err := vm.PowerState(context.TODO())
 	if err != nil {
 		return err
 	}
 
+	if state == types.VirtualMachinePowerStatePoweredOn {
+		// wait for interfaces to appear
+		_, err = vm.WaitForNetIP(context.TODO(), true)
+		if err != nil {
+			return err
+		}
+	}
+
+	var mvm mo.VirtualMachine
 	collector := property.DefaultCollector(client.Client)
 	if err := collector.RetrieveOne(context.TODO(), vm.Reference(), []string{"guest", "summary", "datastore", "config"}, &mvm); err != nil {
 		return err
@@ -1044,11 +1060,15 @@ func resourceVSphereVirtualMachineRead(d *schema.ResourceData, meta interface{})
 		return fmt.Errorf("Invalid network interfaces to set: %#v", networkInterfaces)
 	}
 
-	log.Printf("[DEBUG] ip address: %v", networkInterfaces[0]["ipv4_address"].(string))
-	d.SetConnInfo(map[string]string{
-		"type": "ssh",
-		"host": networkInterfaces[0]["ipv4_address"].(string),
-	})
+	if len(networkInterfaces) > 0 {
+		if _, ok := networkInterfaces[0]["ipv4_address"]; ok {
+			log.Printf("[DEBUG] ip address: %v", networkInterfaces[0]["ipv4_address"].(string))
+			d.SetConnInfo(map[string]string{
+				"type": "ssh",
+				"host": networkInterfaces[0]["ipv4_address"].(string),
+			})
+		}
+	}
 
 	var rootDatastore string
 	for _, v := range mvm.Datastore {
@@ -1093,6 +1113,11 @@ func resourceVSphereVirtualMachineDelete(d *schema.ResourceData, meta interface{
 	if err != nil {
 		return err
 	}
+	devices, err := vm.Device(context.TODO())
+	if err != nil {
+		log.Printf("[DEBUG] resourceVSphereVirtualMachineDelete - Failed to get device list: %v", err)
+		return err
+	}
 
 	log.Printf("[INFO] Deleting virtual machine: %s", d.Id())
 	state, err := vm.PowerState(context.TODO())
@@ -1109,6 +1134,26 @@ func resourceVSphereVirtualMachineDelete(d *schema.ResourceData, meta interface{
 		err = task.Wait(context.TODO())
 		if err != nil {
 			return err
+		}
+	}
+
+	// Safely eject any disks the user marked as keep_on_remove
+	if vL, ok := d.GetOk("disk"); ok {
+		if diskSet, ok := vL.(*schema.Set); ok {
+
+			for _, value := range diskSet.List() {
+				disk := value.(map[string]interface{})
+
+				if v, ok := disk["keep_on_remove"].(bool); ok && v == true {
+					log.Printf("[DEBUG] not destroying %v", disk["name"])
+					virtualDisk := devices.FindByKey(int32(disk["key"].(int)))
+					err = vm.RemoveDevice(context.TODO(), true, virtualDisk)
+					if err != nil {
+						log.Printf("[ERROR] Update Remove Disk - Error removing disk: %v", err)
+						return err
+					}
+				}
+			}
 		}
 	}
 
@@ -1135,8 +1180,24 @@ func addHardDisk(vm *object.VirtualMachine, size, iops int64, diskType string, d
 	log.Printf("[DEBUG] vm devices: %#v\n", devices)
 
 	var controller types.BaseVirtualController
-	controller, err = devices.FindDiskController(controller_type)
-	if err != nil {
+	switch controller_type {
+	case "scsi":
+		controller, err = devices.FindDiskController(controller_type)
+	case "scsi-lsi-parallel":
+		controller = devices.PickController(&types.VirtualLsiLogicController{})
+	case "scsi-buslogic":
+		controller = devices.PickController(&types.VirtualBusLogicController{})
+	case "scsi-paravirtual":
+		controller = devices.PickController(&types.ParaVirtualSCSIController{})
+	case "scsi-lsi-sas":
+		controller = devices.PickController(&types.VirtualLsiLogicSASController{})
+	case "ide":
+		controller, err = devices.FindDiskController(controller_type)
+	default:
+		return fmt.Errorf("[ERROR] Unsupported disk controller provided: %v", controller_type)
+	}
+
+	if err != nil || controller == nil {
 		log.Printf("[DEBUG] Couldn't find a %v controller.  Creating one..", controller_type)
 
 		var c types.BaseVirtualDevice
@@ -1144,6 +1205,30 @@ func addHardDisk(vm *object.VirtualMachine, size, iops int64, diskType string, d
 		case "scsi":
 			// Create scsi controller
 			c, err = devices.CreateSCSIController("scsi")
+			if err != nil {
+				return fmt.Errorf("[ERROR] Failed creating SCSI controller: %v", err)
+			}
+		case "scsi-lsi-parallel":
+			// Create scsi controller
+			c, err = devices.CreateSCSIController("lsilogic")
+			if err != nil {
+				return fmt.Errorf("[ERROR] Failed creating SCSI controller: %v", err)
+			}
+		case "scsi-buslogic":
+			// Create scsi controller
+			c, err = devices.CreateSCSIController("buslogic")
+			if err != nil {
+				return fmt.Errorf("[ERROR] Failed creating SCSI controller: %v", err)
+			}
+		case "scsi-paravirtual":
+			// Create scsi controller
+			c, err = devices.CreateSCSIController("pvscsi")
+			if err != nil {
+				return fmt.Errorf("[ERROR] Failed creating SCSI controller: %v", err)
+			}
+		case "scsi-lsi-sas":
+			// Create scsi controller
+			c, err = devices.CreateSCSIController("lsilogic-sas")
 			if err != nil {
 				return fmt.Errorf("[ERROR] Failed creating SCSI controller: %v", err)
 			}
@@ -1163,10 +1248,10 @@ func addHardDisk(vm *object.VirtualMachine, size, iops int64, diskType string, d
 		if err != nil {
 			return err
 		}
-		controller, err = devices.FindDiskController(controller_type)
-		if err != nil {
-			log.Printf("[ERROR] Could not find the new %v controller: %v", controller_type, err)
-			return err
+		controller = devices.PickController(c.(types.BaseVirtualController))
+		if controller == nil {
+			log.Printf("[ERROR] Could not find the new %v controller", controller_type)
+			return fmt.Errorf("Could not find the new %v controller", controller_type)
 		}
 	}
 
@@ -1909,6 +1994,10 @@ func (vm *virtualMachine) setupVirtualMachine(c *govmomi.Client) error {
 
 	if vm.hasBootableVmdk || vm.template != "" {
 		newVM.PowerOn(context.TODO())
+		err = newVM.WaitForPowerState(context.TODO(), types.VirtualMachinePowerStatePoweredOn)
+		if err != nil {
+			return err
+		}
 	}
 	return nil
 }

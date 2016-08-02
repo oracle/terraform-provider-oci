@@ -22,6 +22,9 @@ func resourceLBPoolV1() *schema.Resource {
 		Read:   resourceLBPoolV1Read,
 		Update: resourceLBPoolV1Update,
 		Delete: resourceLBPoolV1Delete,
+		Importer: &schema.ResourceImporter{
+			State: schema.ImportStatePassthrough,
+		},
 
 		Schema: map[string]*schema.Schema{
 			"region": &schema.Schema{
@@ -64,8 +67,9 @@ func resourceLBPoolV1() *schema.Resource {
 				Computed: true,
 			},
 			"member": &schema.Schema{
-				Type:     schema.TypeSet,
-				Optional: true,
+				Type:       schema.TypeSet,
+				Deprecated: "Use openstack_lb_member_v1 instead. This attribute will be removed in a future version.",
+				Optional:   true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"region": &schema.Schema{
