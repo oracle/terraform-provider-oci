@@ -13,7 +13,7 @@ import (
 	"github.com/stretchr/testify/suite"
 )
 
-type ResourceIdentityUserTestSuite struct {
+type ResourceIdentityGroupTestSuite struct {
 	suite.Suite
 	Client       *MockClient
 	Provider     terraform.ResourceProvider
@@ -24,7 +24,7 @@ type ResourceIdentityUserTestSuite struct {
 	Res          *baremtlsdk.Resource
 }
 
-func (s *ResourceIdentityUserTestSuite) SetupTest() {
+func (s *ResourceIdentityGroupTestSuite) SetupTest() {
 	s.Client = &MockClient{}
 	s.Provider = Provider(s.Client)
 	s.Providers = map[string]terraform.ResourceProvider{
@@ -32,12 +32,12 @@ func (s *ResourceIdentityUserTestSuite) SetupTest() {
 	}
 	s.TimeCreated, _ = time.Parse("2006-Jan-02", "2006-Jan-02")
 	s.Config = `
-		resource "baremetal_identity_user" "t" {
+		resource "baremetal_identity_group" "t" {
 			name = "name!"
 			description = "desc!"
 		}
 	`
-	s.ResourceName = "baremetal_identity_user.t"
+	s.ResourceName = "baremetal_identity_group.t"
 	s.Res = &baremtlsdk.Resource{
 		ID:            "id!",
 		Name:          "name!",
@@ -47,12 +47,12 @@ func (s *ResourceIdentityUserTestSuite) SetupTest() {
 		TimeCreated:   s.TimeCreated,
 		TimeModified:  s.TimeCreated,
 	}
-	s.Client.On("CreateUser", "name!", "desc!").Return(s.Res, nil)
-	s.Client.On("DeleteUser", "id!").Return(nil)
+	s.Client.On("CreateGroup", "name!", "desc!").Return(s.Res, nil)
+	s.Client.On("DeleteGroup", "id!").Return(nil)
 }
 
-func (s *ResourceIdentityUserTestSuite) TestCreateResourceIdentityUser() {
-	s.Client.On("GetUser", "id!").Return(s.Res, nil)
+func (s *ResourceIdentityGroupTestSuite) TestCreateResourceIdentityGroup() {
+	s.Client.On("GetGroup", "id!").Return(s.Res, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -72,32 +72,30 @@ func (s *ResourceIdentityUserTestSuite) TestCreateResourceIdentityUser() {
 	})
 }
 
-func (s *ResourceIdentityUserTestSuite) TestCreateResourceIdentityUserPolling() {
+func (s *ResourceIdentityGroupTestSuite) TestCreateResourceIdentityGroupPolling() {
 	s.Res.State = baremtlsdk.ResourceCreating
-	s.Client.On("GetUser", "id!").Return(s.Res, nil).Once()
+	s.Client.On("GetGroup", "id!").Return(s.Res, nil).Once()
 
 	u := *s.Res
 	u.State = baremtlsdk.ResourceCreated
-	s.Client.On("GetUser", "id!").Return(&u, nil)
+	s.Client.On("GetGroup", "id!").Return(&u, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			resource.TestStep{
 				Config: s.Config,
-				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "state", baremtlsdk.ResourceCreated),
-				),
+				Check:  resource.TestCheckResourceAttr(s.ResourceName, "state", baremtlsdk.ResourceCreated),
 			},
 		},
 	})
 }
 
-func (s *ResourceIdentityUserTestSuite) TestUpdateResourceIdentityUserDescription() {
-	s.Client.On("GetUser", "id!").Return(s.Res, nil).Twice()
+func (s *ResourceIdentityGroupTestSuite) TestUpdateResourceIdentityGroupDescription() {
+	s.Client.On("GetGroup", "id!").Return(s.Res, nil).Twice()
 
 	c := `
-		resource "baremetal_identity_user" "t" {
+		resource "baremetal_identity_group" "t" {
 			name = "name!"
 			description = "newdesc!"
 		}
@@ -106,8 +104,8 @@ func (s *ResourceIdentityUserTestSuite) TestUpdateResourceIdentityUserDescriptio
 	u := *s.Res
 	u.Description = "newdesc!"
 	u.TimeModified = t
-	s.Client.On("UpdateUser", "id!", "newdesc!").Return(&u, nil)
-	s.Client.On("GetUser", "id!").Return(&u, nil)
+	s.Client.On("UpdateGroup", "id!", "newdesc!").Return(&u, nil)
+	s.Client.On("GetGroup", "id!").Return(&u, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -126,23 +124,23 @@ func (s *ResourceIdentityUserTestSuite) TestUpdateResourceIdentityUserDescriptio
 	})
 }
 
-func (s *ResourceIdentityUserTestSuite) TestFailedUpdateResourceIdentityUserDescription() {
-	s.Client.On("GetUser", "id!").Return(s.Res, nil).Times(3)
+func (s *ResourceIdentityGroupTestSuite) TestFailedUpdateResourceIdentityGroupDescription() {
+	s.Client.On("GetGroup", "id!").Return(s.Res, nil).Times(3)
 
 	c := `
-		resource "baremetal_identity_user" "t" {
+		resource "baremetal_identity_group" "t" {
 			name = "name!"
 			description = "newdesc!"
 		}
 	`
-	s.Client.On("UpdateUser", "id!", "newdesc!").Return(nil, errors.New("FAILED!")).Once()
+	s.Client.On("UpdateGroup", "id!", "newdesc!").Return(nil, errors.New("FAILED!")).Once()
 
 	t := s.TimeCreated.Add(5 * time.Minute)
 	u := *s.Res
 	u.Description = "newdesc!"
 	u.TimeModified = t
-	s.Client.On("UpdateUser", "id!", "newdesc!").Return(&u, nil)
-	s.Client.On("GetUser", "id!").Return(&u, nil)
+	s.Client.On("UpdateGroup", "id!", "newdesc!").Return(&u, nil)
+	s.Client.On("GetGroup", "id!").Return(&u, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -153,25 +151,21 @@ func (s *ResourceIdentityUserTestSuite) TestFailedUpdateResourceIdentityUserDesc
 			resource.TestStep{
 				Config:      c,
 				ExpectError: regexp.MustCompile(`FAILED`),
-				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "description", "desc!"),
-				),
+				Check:       resource.TestCheckResourceAttr(s.ResourceName, "description", "desc!"),
 			},
 			resource.TestStep{
 				Config: c,
-				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "description", "newdesc!"),
-				),
+				Check:  resource.TestCheckResourceAttr(s.ResourceName, "description", "newdesc!"),
 			},
 		},
 	})
 }
 
-func (s *ResourceIdentityUserTestSuite) TestUpdateResourceIdentityUserNameShouldCreateNew() {
-	s.Client.On("GetUser", "id!").Return(s.Res, nil)
+func (s *ResourceIdentityGroupTestSuite) TestUpdateResourceIdentityGroupNameShouldCreateNew() {
+	s.Client.On("GetGroup", "id!").Return(s.Res, nil)
 
 	c := `
-		resource "baremetal_identity_user" "t" {
+		resource "baremetal_identity_group" "t" {
 			name = "newname!"
 			description = "desc!"
 		}
@@ -179,9 +173,9 @@ func (s *ResourceIdentityUserTestSuite) TestUpdateResourceIdentityUserNameShould
 	u := *s.Res
 	u.ID = "newid!"
 	u.Name = "newname!"
-	s.Client.On("CreateUser", "newname!", "desc!").Return(&u, nil)
-	s.Client.On("GetUser", "newid!").Return(&u, nil)
-	s.Client.On("DeleteUser", "newid!").Return(nil)
+	s.Client.On("CreateGroup", "newname!", "desc!").Return(&u, nil)
+	s.Client.On("GetGroup", "newid!").Return(&u, nil)
+	s.Client.On("DeleteGroup", "newid!").Return(nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -191,16 +185,14 @@ func (s *ResourceIdentityUserTestSuite) TestUpdateResourceIdentityUserNameShould
 			},
 			resource.TestStep{
 				Config: c,
-				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "name", "newname!"),
-				),
+				Check:  resource.TestCheckResourceAttr(s.ResourceName, "name", "newname!"),
 			},
 		},
 	})
 }
 
-func (s *ResourceIdentityUserTestSuite) TestDeleteResourceIdentityUser() {
-	s.Client.On("GetUser", "id!").Return(s.Res, nil)
+func (s *ResourceIdentityGroupTestSuite) TestDeleteResourceIdentityGroup() {
+	s.Client.On("GetGroup", "id!").Return(s.Res, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -215,9 +207,9 @@ func (s *ResourceIdentityUserTestSuite) TestDeleteResourceIdentityUser() {
 		},
 	})
 
-	s.Client.AssertCalled(s.T(), "DeleteUser", "id!")
+	s.Client.AssertCalled(s.T(), "DeleteGroup", "id!")
 }
 
-func TestResourceIdentityUserTestSuite(t *testing.T) {
-	suite.Run(t, new(ResourceIdentityUserTestSuite))
+func TestResourceIdentityGroupTestSuite(t *testing.T) {
+	suite.Run(t, new(ResourceIdentityGroupTestSuite))
 }

@@ -5,13 +5,13 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
-// ResourceIdentityUser exposes a IdentityUser Resource
-func ResourceIdentityUser() *schema.Resource {
+// ResourceIdentityGroup exposes an IdentityGroup Resource
+func ResourceIdentityGroup() *schema.Resource {
 	return &schema.Resource{
-		Create: createUser,
-		Read:   readUser,
-		Update: updateUser,
-		Delete: destroyUser,
+		Create: createGroup,
+		Read:   readGroup,
+		Update: updateGroup,
+		Delete: destroyGroup,
 
 		Schema: map[string]*schema.Schema{
 			"name": &schema.Schema{
@@ -43,14 +43,14 @@ func ResourceIdentityUser() *schema.Resource {
 	}
 }
 
-func createUser(d *schema.ResourceData, m interface{}) (e error) {
+func createGroup(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(BareMetalClient)
 
 	name := d.Get("name").(string)
 	description := d.Get("description").(string)
 
 	var res *baremtlsdk.Resource
-	if res, e = client.CreateUser(name, description); e != nil {
+	if res, e = client.CreateGroup(name, description); e != nil {
 		return
 	}
 
@@ -59,17 +59,17 @@ func createUser(d *schema.ResourceData, m interface{}) (e error) {
 	setResourceData(d, res)
 
 	if res.State != baremtlsdk.ResourceCreated {
-		res, e = waitForStateRefresh(d, client, client.GetUser)
+		res, e = waitForStateRefresh(d, client, client.GetGroup)
 	}
 
 	return
 }
 
-func readUser(d *schema.ResourceData, m interface{}) (e error) {
+func readGroup(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(BareMetalClient)
 
 	var res *baremtlsdk.Resource
-	if res, e = client.GetUser(d.Id()); e != nil {
+	if res, e = client.GetGroup(d.Id()); e != nil {
 		return
 	}
 
@@ -78,14 +78,14 @@ func readUser(d *schema.ResourceData, m interface{}) (e error) {
 	return
 }
 
-func updateUser(d *schema.ResourceData, m interface{}) (e error) {
+func updateGroup(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(BareMetalClient)
 
 	desc := d.Get("description").(string)
 
 	d.Partial(true)
 	var res *baremtlsdk.Resource
-	if res, e = client.UpdateUser(d.Id(), desc); e != nil {
+	if res, e = client.UpdateGroup(d.Id(), desc); e != nil {
 		return
 	}
 	d.Partial(false)
@@ -95,10 +95,10 @@ func updateUser(d *schema.ResourceData, m interface{}) (e error) {
 	return
 }
 
-func destroyUser(d *schema.ResourceData, m interface{}) (e error) {
+func destroyGroup(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(BareMetalClient)
 
-	if e = client.DeleteUser(d.Id()); e != nil {
+	if e = client.DeleteGroup(d.Id()); e != nil {
 		return
 	}
 

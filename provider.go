@@ -15,7 +15,8 @@ func Provider(client BareMetalClient) terraform.ResourceProvider {
 
 func resourcesMap() map[string]*schema.Resource {
 	return map[string]*schema.Resource{
-		"baremetal_identity_user": ResourceIdentityUser(),
+		"baremetal_identity_user":  ResourceIdentityUser(),
+		"baremetal_identity_group": ResourceIdentityGroup(),
 	}
 }
 
