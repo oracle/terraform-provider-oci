@@ -12,34 +12,7 @@ func ResourceIdentityGroup() *schema.Resource {
 		Read:   readGroup,
 		Update: updateGroup,
 		Delete: destroyGroup,
-
-		Schema: map[string]*schema.Schema{
-			"name": &schema.Schema{
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
-			},
-			"description": &schema.Schema{
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			"compartment_id": &schema.Schema{
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"state": &schema.Schema{
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_created": &schema.Schema{
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_modified": &schema.Schema{
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-		},
+		Schema: resourceSchema,
 	}
 }
 

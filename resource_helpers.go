@@ -8,6 +8,34 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
+var resourceSchema = map[string]*schema.Schema{
+	"name": &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
+		ForceNew: true,
+	},
+	"description": &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
+	},
+	"compartment_id": &schema.Schema{
+		Type:     schema.TypeString,
+		Computed: true,
+	},
+	"state": &schema.Schema{
+		Type:     schema.TypeString,
+		Computed: true,
+	},
+	"time_created": &schema.Schema{
+		Type:     schema.TypeString,
+		Computed: true,
+	},
+	"time_modified": &schema.Schema{
+		Type:     schema.TypeString,
+		Computed: true,
+	},
+}
+
 func stateRefreshFunc(client BareMetalClient, d *schema.ResourceData, get GetResourceFn) resource.StateRefreshFunc {
 	return func() (res interface{}, s string, e error) {
 		if res, e = get(d.Id()); e != nil {
