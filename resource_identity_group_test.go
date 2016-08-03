@@ -85,9 +85,7 @@ func (s *ResourceIdentityGroupTestSuite) TestCreateResourceIdentityGroupPolling(
 		Steps: []resource.TestStep{
 			resource.TestStep{
 				Config: s.Config,
-				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "state", baremtlsdk.ResourceCreated),
-				),
+				Check:  resource.TestCheckResourceAttr(s.ResourceName, "state", baremtlsdk.ResourceCreated),
 			},
 		},
 	})
@@ -153,15 +151,11 @@ func (s *ResourceIdentityGroupTestSuite) TestFailedUpdateResourceIdentityGroupDe
 			resource.TestStep{
 				Config:      c,
 				ExpectError: regexp.MustCompile(`FAILED`),
-				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "description", "desc!"),
-				),
+				Check:       resource.TestCheckResourceAttr(s.ResourceName, "description", "desc!"),
 			},
 			resource.TestStep{
 				Config: c,
-				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "description", "newdesc!"),
-				),
+				Check:  resource.TestCheckResourceAttr(s.ResourceName, "description", "newdesc!"),
 			},
 		},
 	})
@@ -191,9 +185,7 @@ func (s *ResourceIdentityGroupTestSuite) TestUpdateResourceIdentityGroupNameShou
 			},
 			resource.TestStep{
 				Config: c,
-				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "name", "newname!"),
-				),
+				Check:  resource.TestCheckResourceAttr(s.ResourceName, "name", "newname!"),
 			},
 		},
 	})
