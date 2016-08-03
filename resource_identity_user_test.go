@@ -26,6 +26,7 @@ type ResourceIdentityUserTestSuite struct {
 
 func (s *ResourceIdentityUserTestSuite) SetupTest() {
 	s.Client = &MockClient{}
+	s.Client.On("DeleteUser", "id!").Return(nil)
 	s.Provider = Provider(s.Client)
 	s.Providers = map[string]terraform.ResourceProvider{
 		"baremetal": s.Provider,
@@ -52,7 +53,6 @@ func (s *ResourceIdentityUserTestSuite) SetupTest() {
 func (s *ResourceIdentityUserTestSuite) TestCreateResourceIdentityUser() {
 	s.Client.On("CreateUser", "name!", "desc!").Return(s.User, nil)
 	s.Client.On("GetUser", "id!").Return(s.User, nil)
-	s.Client.On("DeleteUser", "id!").Return(nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -81,8 +81,6 @@ func (s *ResourceIdentityUserTestSuite) TestCreateResourceIdentityUserPolling() 
 	u.State = baremtlsdk.ResourceCreated
 	s.Client.On("GetUser", "id!").Return(&u, nil)
 
-	s.Client.On("DeleteUser", "id!").Return(nil)
-
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
@@ -99,7 +97,6 @@ func (s *ResourceIdentityUserTestSuite) TestCreateResourceIdentityUserPolling() 
 func (s *ResourceIdentityUserTestSuite) TestUpdateResourceIdentityUserDescription() {
 	s.Client.On("CreateUser", "name!", "desc!").Return(s.User, nil)
 	s.Client.On("GetUser", "id!").Return(s.User, nil).Twice()
-	s.Client.On("DeleteUser", "id!").Return(nil)
 
 	c := `
 		resource "baremetal_identity_user" "t" {
@@ -132,8 +129,6 @@ func (s *ResourceIdentityUserTestSuite) TestUpdateResourceIdentityUserDescriptio
 }
 
 func (s *ResourceIdentityUserTestSuite) TestFailedUpdateResourceIdentityUserDescription() {
-	s.Client.On("DeleteUser", "id!").Return(nil)
-
 	s.Client.On("CreateUser", "name!", "desc!").Return(s.User, nil)
 	s.Client.On("GetUser", "id!").Return(s.User, nil).Times(3)
 
@@ -178,7 +173,6 @@ func (s *ResourceIdentityUserTestSuite) TestFailedUpdateResourceIdentityUserDesc
 func (s *ResourceIdentityUserTestSuite) TestUpdateResourceIdentityUserNameShouldCreateNew() {
 	s.Client.On("CreateUser", "name!", "desc!").Return(s.User, nil)
 	s.Client.On("GetUser", "id!").Return(s.User, nil)
-	s.Client.On("DeleteUser", "id!").Return(nil)
 
 	c := `
 		resource "baremetal_identity_user" "t" {
@@ -212,7 +206,6 @@ func (s *ResourceIdentityUserTestSuite) TestUpdateResourceIdentityUserNameShould
 func (s *ResourceIdentityUserTestSuite) TestDeleteResourceIdentityUser() {
 	s.Client.On("CreateUser", "name!", "desc!").Return(s.User, nil)
 	s.Client.On("GetUser", "id!").Return(s.User, nil)
-	s.Client.On("DeleteUser", "id!").Return(nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
