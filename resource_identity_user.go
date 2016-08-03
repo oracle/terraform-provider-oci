@@ -61,21 +61,9 @@ func resourceIdentityUserCreate(d *schema.ResourceData, m interface{}) (e error)
 	d.SetId(user.ID)
 	setResourceData(d, user)
 
-	stateConf := &resource.StateChangeConf{
-		Pending: []string{baremtlsdk.ResourceCreating},
-		Target:  []string{baremtlsdk.ResourceCreated},
-		Refresh: userStateRefreshFunc(client, user.ID),
-		Timeout: 5 * time.Minute,
+	if user.State != baremtlsdk.ResourceCreated {
+		user, e = waitForUserStateRefresh(d, client)
 	}
-
-	u, err := stateConf.WaitForState()
-	user = u.(*baremtlsdk.Resource)
-	if e = err; e != nil {
-		return
-	}
-
-	// Fields may have changed during polling, set them again.
-	setResourceData(d, user)
 
 	return
 }
@@ -98,15 +86,10 @@ func resourceIdentityUserUpdate(d *schema.ResourceData, m interface{}) (e error)
 
 	desc := d.Get("description").(string)
 
-	d.Partial(true)
-
 	var user *baremtlsdk.Resource
 	if user, e = client.UpdateUser(d.Id(), desc); e != nil {
 		return
 	}
-
-	d.SetPartial("description")
-	d.Partial(false)
 
 	// Capture any upstream changes, like time_modified.
 	setResourceData(d, user)
@@ -124,6 +107,16 @@ func resourceIdentityUserDelete(d *schema.ResourceData, m interface{}) (e error)
 	return
 }
 
+func userStateRefreshFunc(client BareMetalClient, d *schema.ResourceData) resource.StateRefreshFunc {
+	return func() (user interface{}, s string, e error) {
+		if user, e = client.GetUser(d.Id()); e != nil {
+			return nil, "", e
+		}
+		s = user.(*baremtlsdk.Resource).State
+		return
+	}
+}
+
 func setResourceData(d *schema.ResourceData, user *baremtlsdk.Resource) {
 	d.Set("name", user.Name)
 	d.Set("description", user.Description)
@@ -133,12 +126,22 @@ func setResourceData(d *schema.ResourceData, user *baremtlsdk.Resource) {
 	d.Set("time_created", user.TimeCreated.String())
 }
 
-func userStateRefreshFunc(client BareMetalClient, id string) resource.StateRefreshFunc {
-	return func() (user interface{}, s string, e error) {
-		if user, e = client.GetUser(id); e != nil {
-			return nil, "", e
-		}
-		state := user.(*baremtlsdk.Resource).State
-		return user, state, e
+func waitForUserStateRefresh(d *schema.ResourceData, c BareMetalClient) (user *baremtlsdk.Resource, e error) {
+	stateConf := &resource.StateChangeConf{
+		Pending: []string{baremtlsdk.ResourceCreating},
+		Target:  []string{baremtlsdk.ResourceCreated},
+		Refresh: userStateRefreshFunc(c, d),
+		Timeout: 5 * time.Minute,
 	}
+
+	rawu, err := stateConf.WaitForState()
+	user = rawu.(*baremtlsdk.Resource)
+	if e = err; e != nil {
+		return
+	}
+
+	// Fields may have changed during polling, set them again.
+	setResourceData(d, user)
+
+	return
 }

@@ -1,6 +1,8 @@
 package main
 
 import (
+	"errors"
+	"regexp"
 	"testing"
 	"time"
 
@@ -123,6 +125,50 @@ func (s *ResourceIdentityUserTestSuite) TestUpdateResourceIdentityUserDescriptio
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "description", "newdesc!"),
 					resource.TestCheckResourceAttr(s.ResourceName, "time_modified", t.String()),
+				),
+			},
+		},
+	})
+}
+
+func (s *ResourceIdentityUserTestSuite) TestFailedUpdateResourceIdentityUserDescription() {
+	s.Client.On("DeleteUser", "id!").Return(nil)
+
+	s.Client.On("CreateUser", "name!", "desc!").Return(s.User, nil)
+	s.Client.On("GetUser", "id!").Return(s.User, nil).Times(3)
+
+	c := `
+		resource "baremetal_identity_user" "t" {
+			name = "name!"
+			description = "newdesc!"
+		}
+	`
+	s.Client.On("UpdateUser", "id!", "newdesc!").Return(nil, errors.New("FAILED!")).Once()
+
+	t := s.TimeCreated.Add(5 * time.Minute)
+	u := *s.User
+	u.Description = "newdesc!"
+	u.TimeModified = t
+	s.Client.On("UpdateUser", "id!", "newdesc!").Return(&u, nil)
+	s.Client.On("GetUser", "id!").Return(&u, nil)
+
+	resource.UnitTest(s.T(), resource.TestCase{
+		Providers: s.Providers,
+		Steps: []resource.TestStep{
+			resource.TestStep{
+				Config: s.Config,
+			},
+			resource.TestStep{
+				Config:      c,
+				ExpectError: regexp.MustCompile(`FAILED`),
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttr(s.ResourceName, "description", "desc!"),
+				),
+			},
+			resource.TestStep{
+				Config: c,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttr(s.ResourceName, "description", "newdesc!"),
 				),
 			},
 		},
