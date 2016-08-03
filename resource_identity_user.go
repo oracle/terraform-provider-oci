@@ -86,10 +86,12 @@ func resourceIdentityUserUpdate(d *schema.ResourceData, m interface{}) (e error)
 
 	desc := d.Get("description").(string)
 
+	d.Partial(true)
 	var user *baremtlsdk.Resource
 	if user, e = client.UpdateUser(d.Id(), desc); e != nil {
 		return
 	}
+	d.Partial(false)
 
 	// Capture any upstream changes, like time_modified.
 	setResourceData(d, user)
