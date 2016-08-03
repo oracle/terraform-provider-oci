@@ -11,10 +11,10 @@ import (
 // ResourceIdentityUser exposes a IdentityUser Resource
 func ResourceIdentityUser() *schema.Resource {
 	return &schema.Resource{
-		Create: resourceIdentityUserCreate,
-		Read:   resourceIdentityUserRead,
-		Update: resourceIdentityUserUpdate,
-		Delete: resourceIdentityUserDelete,
+		Create: create,
+		Read:   read,
+		Update: update,
+		Delete: destroy,
 
 		Schema: map[string]*schema.Schema{
 			"name": &schema.Schema{
@@ -46,60 +46,59 @@ func ResourceIdentityUser() *schema.Resource {
 	}
 }
 
-func resourceIdentityUserCreate(d *schema.ResourceData, m interface{}) (e error) {
+func create(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(BareMetalClient)
 
 	name := d.Get("name").(string)
 	description := d.Get("description").(string)
 
-	var user *baremtlsdk.Resource
-	if user, e = client.CreateUser(name, description); e != nil {
+	var res *baremtlsdk.Resource
+	if res, e = client.CreateUser(name, description); e != nil {
 		return
 	}
 
 	// Set the id and set any fields that were returned by the API.
-	d.SetId(user.ID)
-	setResourceData(d, user)
+	d.SetId(res.ID)
+	setResourceData(d, res)
 
-	if user.State != baremtlsdk.ResourceCreated {
-		user, e = waitForUserStateRefresh(d, client)
+	if res.State != baremtlsdk.ResourceCreated {
+		res, e = waitForStateRefresh(d, client)
 	}
 
 	return
 }
 
-func resourceIdentityUserRead(d *schema.ResourceData, m interface{}) (e error) {
+func read(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(BareMetalClient)
 
-	var user *baremtlsdk.Resource
-	if user, e = client.GetUser(d.Id()); e != nil {
+	var res *baremtlsdk.Resource
+	if res, e = client.GetUser(d.Id()); e != nil {
 		return
 	}
 
-	setResourceData(d, user)
+	setResourceData(d, res)
 
 	return
 }
 
-func resourceIdentityUserUpdate(d *schema.ResourceData, m interface{}) (e error) {
+func update(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(BareMetalClient)
 
 	desc := d.Get("description").(string)
 
 	d.Partial(true)
-	var user *baremtlsdk.Resource
-	if user, e = client.UpdateUser(d.Id(), desc); e != nil {
+	var res *baremtlsdk.Resource
+	if res, e = client.UpdateUser(d.Id(), desc); e != nil {
 		return
 	}
 	d.Partial(false)
 
-	// Capture any upstream changes, like time_modified.
-	setResourceData(d, user)
+	setResourceData(d, res)
 
 	return
 }
 
-func resourceIdentityUserDelete(d *schema.ResourceData, m interface{}) (e error) {
+func destroy(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(BareMetalClient)
 
 	if e = client.DeleteUser(d.Id()); e != nil {
@@ -109,41 +108,41 @@ func resourceIdentityUserDelete(d *schema.ResourceData, m interface{}) (e error)
 	return
 }
 
-func userStateRefreshFunc(client BareMetalClient, d *schema.ResourceData) resource.StateRefreshFunc {
-	return func() (user interface{}, s string, e error) {
-		if user, e = client.GetUser(d.Id()); e != nil {
+func stateRefreshFunc(client BareMetalClient, d *schema.ResourceData) resource.StateRefreshFunc {
+	return func() (res interface{}, s string, e error) {
+		if res, e = client.GetUser(d.Id()); e != nil {
 			return nil, "", e
 		}
-		s = user.(*baremtlsdk.Resource).State
+		s = res.(*baremtlsdk.Resource).State
 		return
 	}
 }
 
-func setResourceData(d *schema.ResourceData, user *baremtlsdk.Resource) {
-	d.Set("name", user.Name)
-	d.Set("description", user.Description)
-	d.Set("compartment_id", user.CompartmentID)
-	d.Set("state", user.State)
-	d.Set("time_modified", user.TimeModified.String())
-	d.Set("time_created", user.TimeCreated.String())
+func setResourceData(d *schema.ResourceData, res *baremtlsdk.Resource) {
+	d.Set("name", res.Name)
+	d.Set("description", res.Description)
+	d.Set("compartment_id", res.CompartmentID)
+	d.Set("state", res.State)
+	d.Set("time_modified", res.TimeModified.String())
+	d.Set("time_created", res.TimeCreated.String())
 }
 
-func waitForUserStateRefresh(d *schema.ResourceData, c BareMetalClient) (user *baremtlsdk.Resource, e error) {
+func waitForStateRefresh(d *schema.ResourceData, c BareMetalClient) (res *baremtlsdk.Resource, e error) {
 	stateConf := &resource.StateChangeConf{
 		Pending: []string{baremtlsdk.ResourceCreating},
 		Target:  []string{baremtlsdk.ResourceCreated},
-		Refresh: userStateRefreshFunc(c, d),
+		Refresh: stateRefreshFunc(c, d),
 		Timeout: 5 * time.Minute,
 	}
 
-	rawu, err := stateConf.WaitForState()
-	user = rawu.(*baremtlsdk.Resource)
+	raw, err := stateConf.WaitForState()
+	res = raw.(*baremtlsdk.Resource)
 	if e = err; e != nil {
 		return
 	}
 
 	// Fields may have changed during polling, set them again.
-	setResourceData(d, user)
+	setResourceData(d, res)
 
 	return
 }

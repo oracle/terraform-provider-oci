@@ -21,7 +21,7 @@ type ResourceIdentityUserTestSuite struct {
 	TimeCreated  time.Time
 	Config       string
 	ResourceName string
-	User         *baremtlsdk.Resource
+	Res          *baremtlsdk.Resource
 }
 
 func (s *ResourceIdentityUserTestSuite) SetupTest() {
@@ -38,7 +38,7 @@ func (s *ResourceIdentityUserTestSuite) SetupTest() {
 		}
 	`
 	s.ResourceName = "baremetal_identity_user.t"
-	s.User = &baremtlsdk.Resource{
+	s.Res = &baremtlsdk.Resource{
 		ID:            "id!",
 		Name:          "name!",
 		Description:   "desc!",
@@ -47,12 +47,12 @@ func (s *ResourceIdentityUserTestSuite) SetupTest() {
 		TimeCreated:   s.TimeCreated,
 		TimeModified:  s.TimeCreated,
 	}
-	s.Client.On("CreateUser", "name!", "desc!").Return(s.User, nil)
+	s.Client.On("CreateUser", "name!", "desc!").Return(s.Res, nil)
 	s.Client.On("DeleteUser", "id!").Return(nil)
 }
 
 func (s *ResourceIdentityUserTestSuite) TestCreateResourceIdentityUser() {
-	s.Client.On("GetUser", "id!").Return(s.User, nil)
+	s.Client.On("GetUser", "id!").Return(s.Res, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -60,12 +60,12 @@ func (s *ResourceIdentityUserTestSuite) TestCreateResourceIdentityUser() {
 			resource.TestStep{
 				Config: s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "name", s.User.Name),
-					resource.TestCheckResourceAttr(s.ResourceName, "description", s.User.Description),
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", s.User.CompartmentID),
-					resource.TestCheckResourceAttr(s.ResourceName, "state", s.User.State),
-					resource.TestCheckResourceAttr(s.ResourceName, "time_created", s.User.TimeCreated.String()),
-					resource.TestCheckResourceAttr(s.ResourceName, "time_modified", s.User.TimeModified.String()),
+					resource.TestCheckResourceAttr(s.ResourceName, "name", s.Res.Name),
+					resource.TestCheckResourceAttr(s.ResourceName, "description", s.Res.Description),
+					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", s.Res.CompartmentID),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", s.Res.State),
+					resource.TestCheckResourceAttr(s.ResourceName, "time_created", s.Res.TimeCreated.String()),
+					resource.TestCheckResourceAttr(s.ResourceName, "time_modified", s.Res.TimeModified.String()),
 				),
 			},
 		},
@@ -73,10 +73,10 @@ func (s *ResourceIdentityUserTestSuite) TestCreateResourceIdentityUser() {
 }
 
 func (s *ResourceIdentityUserTestSuite) TestCreateResourceIdentityUserPolling() {
-	s.User.State = baremtlsdk.ResourceCreating
-	s.Client.On("GetUser", "id!").Return(s.User, nil).Once()
+	s.Res.State = baremtlsdk.ResourceCreating
+	s.Client.On("GetUser", "id!").Return(s.Res, nil).Once()
 
-	u := *s.User
+	u := *s.Res
 	u.State = baremtlsdk.ResourceCreated
 	s.Client.On("GetUser", "id!").Return(&u, nil)
 
@@ -94,7 +94,7 @@ func (s *ResourceIdentityUserTestSuite) TestCreateResourceIdentityUserPolling() 
 }
 
 func (s *ResourceIdentityUserTestSuite) TestUpdateResourceIdentityUserDescription() {
-	s.Client.On("GetUser", "id!").Return(s.User, nil).Twice()
+	s.Client.On("GetUser", "id!").Return(s.Res, nil).Twice()
 
 	c := `
 		resource "baremetal_identity_user" "t" {
@@ -103,7 +103,7 @@ func (s *ResourceIdentityUserTestSuite) TestUpdateResourceIdentityUserDescriptio
 		}
 	`
 	t := s.TimeCreated.Add(5 * time.Minute)
-	u := *s.User
+	u := *s.Res
 	u.Description = "newdesc!"
 	u.TimeModified = t
 	s.Client.On("UpdateUser", "id!", "newdesc!").Return(&u, nil)
@@ -127,7 +127,7 @@ func (s *ResourceIdentityUserTestSuite) TestUpdateResourceIdentityUserDescriptio
 }
 
 func (s *ResourceIdentityUserTestSuite) TestFailedUpdateResourceIdentityUserDescription() {
-	s.Client.On("GetUser", "id!").Return(s.User, nil).Times(3)
+	s.Client.On("GetUser", "id!").Return(s.Res, nil).Times(3)
 
 	c := `
 		resource "baremetal_identity_user" "t" {
@@ -138,7 +138,7 @@ func (s *ResourceIdentityUserTestSuite) TestFailedUpdateResourceIdentityUserDesc
 	s.Client.On("UpdateUser", "id!", "newdesc!").Return(nil, errors.New("FAILED!")).Once()
 
 	t := s.TimeCreated.Add(5 * time.Minute)
-	u := *s.User
+	u := *s.Res
 	u.Description = "newdesc!"
 	u.TimeModified = t
 	s.Client.On("UpdateUser", "id!", "newdesc!").Return(&u, nil)
@@ -168,7 +168,7 @@ func (s *ResourceIdentityUserTestSuite) TestFailedUpdateResourceIdentityUserDesc
 }
 
 func (s *ResourceIdentityUserTestSuite) TestUpdateResourceIdentityUserNameShouldCreateNew() {
-	s.Client.On("GetUser", "id!").Return(s.User, nil)
+	s.Client.On("GetUser", "id!").Return(s.Res, nil)
 
 	c := `
 		resource "baremetal_identity_user" "t" {
@@ -176,7 +176,7 @@ func (s *ResourceIdentityUserTestSuite) TestUpdateResourceIdentityUserNameShould
 			description = "desc!"
 		}
 	`
-	u := *s.User
+	u := *s.Res
 	u.ID = "newid!"
 	u.Name = "newname!"
 	s.Client.On("CreateUser", "newname!", "desc!").Return(&u, nil)
@@ -200,7 +200,7 @@ func (s *ResourceIdentityUserTestSuite) TestUpdateResourceIdentityUserNameShould
 }
 
 func (s *ResourceIdentityUserTestSuite) TestDeleteResourceIdentityUser() {
-	s.Client.On("GetUser", "id!").Return(s.User, nil)
+	s.Client.On("GetUser", "id!").Return(s.Res, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
