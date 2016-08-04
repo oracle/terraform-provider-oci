@@ -23,7 +23,9 @@ provider "baremetal" {
 func TestProvider(t *testing.T) {
 	// Real client for the sanity check. Makes this more of an acceptance test.
 	client := &baremtlsdk.Client{}
-	if err := Provider(client).(*schema.Provider).InternalValidate(); err != nil {
+	if err := Provider(func(d *schema.ResourceData) (BareMetalClient, error) {
+		return client, nil
+	}).(*schema.Provider).InternalValidate(); err != nil {
 		t.Fatalf("err: %s", err)
 	}
 }

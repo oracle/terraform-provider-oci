@@ -21,11 +21,11 @@ func init() {
 }
 
 // Provider is the adapter for terraform, that gives access to all the resources
-func Provider(client BareMetalClient) terraform.ResourceProvider {
+func Provider(creator clientCreatorFunc) terraform.ResourceProvider {
 	return &schema.Provider{
 		Schema:        schemaMap(),
 		ResourcesMap:  resourcesMap(),
-		ConfigureFunc: providerConfigure(client),
+		ConfigureFunc: providerConfigure(creator),
 	}
 }
 
@@ -74,7 +74,7 @@ func resourcesMap() map[string]*schema.Resource {
 	}
 }
 
-func providerConfigure(client BareMetalClient) schema.ConfigureFunc {
+func providerConfigure(creator clientCreatorFunc) schema.ConfigureFunc {
 	return func(d *schema.ResourceData) (interface{}, error) {
 		// tenancyOCID := d.Get("tenancy_ocid").(string)
 		// userOCID := d.Get("user_ocid").(string)
@@ -100,6 +100,6 @@ func providerConfigure(client BareMetalClient) schema.ConfigureFunc {
 		//
 		// client = baremetal.New(userOCID, tenancyOCID, fingerprint, privateKey)
 
-		return client, nil
+		return creator(d)
 	}
 }

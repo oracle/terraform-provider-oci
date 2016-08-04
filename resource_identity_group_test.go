@@ -8,6 +8,7 @@ import (
 
 	"github.com/MustWin/baremtlclient"
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
 	"github.com/stretchr/testify/suite"
@@ -26,7 +27,12 @@ type ResourceIdentityGroupTestSuite struct {
 
 func (s *ResourceIdentityGroupTestSuite) SetupTest() {
 	s.Client = &MockClient{}
-	s.Provider = Provider(s.Client)
+
+	creator := func(d *schema.ResourceData) (BareMetalClient, error) {
+		return s.Client, nil
+	}
+
+	s.Provider = Provider(creator)
 	s.Providers = map[string]terraform.ResourceProvider{
 		"baremetal": s.Provider,
 	}
