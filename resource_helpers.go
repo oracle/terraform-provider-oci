@@ -8,6 +8,25 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
+func createResource(d *schema.ResourceData, client BareMetalClient, create CreateResourceFn, get GetResourceFn) (e error) {
+	name := d.Get("name").(string)
+	description := d.Get("description").(string)
+
+	var res *baremtlsdk.Resource
+	if res, e = create(name, description); e != nil {
+		return
+	}
+
+	d.SetId(res.ID)
+	setResourceData(d, res)
+
+	if res.State != baremtlsdk.ResourceCreated {
+		res, e = waitForStateRefresh(d, client, get)
+	}
+
+	return
+}
+
 var resourceSchema = map[string]*schema.Schema{
 	"name": &schema.Schema{
 		Type:     schema.TypeString,

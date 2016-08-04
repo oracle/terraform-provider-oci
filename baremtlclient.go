@@ -2,7 +2,10 @@ package main
 
 import "github.com/MustWin/baremtlclient"
 
+type CreateResourceFn func(string, string, ...baremtlsdk.Options) (*baremtlsdk.Resource, error)
 type GetResourceFn func(string) (*baremtlsdk.Resource, error)
+type UpdateResourceFn func(string, string, ...baremtlsdk.Options) (*baremtlsdk.Resource, error)
+type DeleteResourceFn func(string) (*baremtlsdk.Resource, error)
 
 type BareMetalClient interface {
 	CreateUser(name, description string, options ...baremtlsdk.Options) (*baremtlsdk.Resource, error)

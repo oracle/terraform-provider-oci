@@ -27,7 +27,6 @@ func createUser(d *schema.ResourceData, m interface{}) (e error) {
 		return
 	}
 
-	// Set the id and set any fields that were returned by the API.
 	d.SetId(res.ID)
 	setResourceData(d, res)
 

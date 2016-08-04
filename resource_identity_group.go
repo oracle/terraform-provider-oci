@@ -18,24 +18,7 @@ func ResourceIdentityGroup() *schema.Resource {
 
 func createGroup(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(BareMetalClient)
-
-	name := d.Get("name").(string)
-	description := d.Get("description").(string)
-
-	var res *baremtlsdk.Resource
-	if res, e = client.CreateGroup(name, description); e != nil {
-		return
-	}
-
-	// Set the id and set any fields that were returned by the API.
-	d.SetId(res.ID)
-	setResourceData(d, res)
-
-	if res.State != baremtlsdk.ResourceCreated {
-		res, e = waitForStateRefresh(d, client, client.GetGroup)
-	}
-
-	return
+	return createResource(d, client, client.CreateGroup, client.GetGroup)
 }
 
 func readGroup(d *schema.ResourceData, m interface{}) (e error) {
