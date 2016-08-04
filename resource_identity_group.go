@@ -18,7 +18,7 @@ func ResourceIdentityGroup() *schema.Resource {
 
 func createGroup(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(BareMetalClient)
-	return createResource(d, client, client.CreateGroup, client.GetGroup)
+	return createResource(d, client.CreateGroup, client.GetGroup)
 }
 
 func readGroup(d *schema.ResourceData, m interface{}) (e error) {

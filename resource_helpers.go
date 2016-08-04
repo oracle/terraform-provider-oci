@@ -8,7 +8,7 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
-func createResource(d *schema.ResourceData, client BareMetalClient, create CreateResourceFn, get GetResourceFn) (e error) {
+func createResource(d *schema.ResourceData, create CreateResourceFn, get GetResourceFn) (e error) {
 	name := d.Get("name").(string)
 	description := d.Get("description").(string)
 
@@ -21,7 +21,7 @@ func createResource(d *schema.ResourceData, client BareMetalClient, create Creat
 	setResourceData(d, res)
 
 	if res.State != baremtlsdk.ResourceCreated {
-		res, e = waitForStateRefresh(d, client, get)
+		res, e = waitForStateRefresh(d, get)
 	}
 
 	return
@@ -55,16 +55,6 @@ var resourceSchema = map[string]*schema.Schema{
 	},
 }
 
-func stateRefreshFunc(client BareMetalClient, d *schema.ResourceData, get GetResourceFn) resource.StateRefreshFunc {
-	return func() (res interface{}, s string, e error) {
-		if res, e = get(d.Id()); e != nil {
-			return nil, "", e
-		}
-		s = res.(*baremtlsdk.Resource).State
-		return
-	}
-}
-
 func setResourceData(d *schema.ResourceData, res *baremtlsdk.Resource) {
 	d.Set("name", res.Name)
 	d.Set("description", res.Description)
@@ -74,11 +64,21 @@ func setResourceData(d *schema.ResourceData, res *baremtlsdk.Resource) {
 	d.Set("time_created", res.TimeCreated.String())
 }
 
-func waitForStateRefresh(d *schema.ResourceData, c BareMetalClient, get GetResourceFn) (res *baremtlsdk.Resource, e error) {
+func stateRefreshFunc(d *schema.ResourceData, get GetResourceFn) resource.StateRefreshFunc {
+	return func() (res interface{}, s string, e error) {
+		if res, e = get(d.Id()); e != nil {
+			return nil, "", e
+		}
+		s = res.(*baremtlsdk.Resource).State
+		return
+	}
+}
+
+func waitForStateRefresh(d *schema.ResourceData, get GetResourceFn) (res *baremtlsdk.Resource, e error) {
 	stateConf := &resource.StateChangeConf{
 		Pending: []string{baremtlsdk.ResourceCreating},
 		Target:  []string{baremtlsdk.ResourceCreated},
-		Refresh: stateRefreshFunc(c, d, get),
+		Refresh: stateRefreshFunc(d, get),
 		Timeout: 5 * time.Minute,
 	}
 

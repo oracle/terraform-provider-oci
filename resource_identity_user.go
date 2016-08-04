@@ -31,7 +31,7 @@ func createUser(d *schema.ResourceData, m interface{}) (e error) {
 	setResourceData(d, res)
 
 	if res.State != baremtlsdk.ResourceCreated {
-		res, e = waitForStateRefresh(d, client, client.GetUser)
+		res, e = waitForStateRefresh(d, client.GetUser)
 	}
 
 	return
