@@ -3,6 +3,7 @@ package main
 import (
 	"crypto/rsa"
 
+	"github.com/MustWin/baremtlclient"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 )
@@ -76,7 +77,7 @@ func resourcesMap() map[string]*schema.Resource {
 	}
 }
 
-func providerConfig(d *schema.ResourceData) (interface{}, error) {
+func providerConfig(d *schema.ResourceData) (client interface{}, err error) {
 	tenancyOCID := d.Get("tenancy_ocid").(string)
 	userOCID := d.Get("user_ocid").(string)
 	fingerprint := d.Get("fingerprint").(string)
@@ -85,19 +86,19 @@ func providerConfig(d *schema.ResourceData) (interface{}, error) {
 	privateKeyPassword := d.Get("private_key_password").(string)
 
 	var privateKey *rsa.PrivateKey
-	var err error
 
 	if privateKeyBuffer != "" {
-		if privateKey, err = baremetal.PrivateKeyFromBytes([]byte(privateKeyBuffer), privateKeyPassword); err != nil {
+		if privateKey, err = baremtlsdk.PrivateKeyFromBytes([]byte(privateKeyBuffer), privateKeyPassword); err != nil {
 			return nil, err
 		}
 	}
 
 	if privateKeyPath != "" {
-		if privateKey, err = baremetal.PrivateKeyFromFile(privateKeyPath, privateKeyPassword); err != nil {
+		if privateKey, err = baremtlsdk.PrivateKeyFromFile(privateKeyPath, privateKeyPassword); err != nil {
 			return nil, err
 		}
 	}
 
-	client = baremetal.New(userOCID, tenancyOCID, fingerprint, privateKey)
+	client = baremtlsdk.New(userOCID, tenancyOCID, fingerprint, privateKey)
+	return
 }

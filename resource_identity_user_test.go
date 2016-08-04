@@ -29,7 +29,7 @@ func (s *ResourceIdentityUserTestSuite) SetupTest() {
 	s.Client = &MockClient{}
 
 	s.Provider = Provider(
-		func(d *schema.ResourceData) (BareMetalClient, error) {
+		func(d *schema.ResourceData) (interface{}, error) {
 			return s.Client, nil
 		},
 	)
