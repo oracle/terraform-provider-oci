@@ -37,6 +37,9 @@ func (s *ResourceIdentityGroupTestSuite) SetupTest() {
 			description = "desc!"
 		}
 	`
+
+	s.Config += testProviderConfig
+
 	s.ResourceName = "baremetal_identity_group.t"
 	s.Res = &baremtlsdk.Resource{
 		ID:            "id!",
@@ -102,6 +105,9 @@ func (s *ResourceIdentityGroupTestSuite) TestUpdateResourceIdentityGroupDescript
 			description = "newdesc!"
 		}
 	`
+
+	c += testProviderConfig
+
 	t := s.TimeCreated.Add(5 * time.Minute)
 	u := *s.Res
 	u.Description = "newdesc!"
@@ -135,6 +141,8 @@ func (s *ResourceIdentityGroupTestSuite) TestFailedUpdateResourceIdentityGroupDe
 			description = "newdesc!"
 		}
 	`
+	c += testProviderConfig
+
 	s.Client.On("UpdateGroup", "id!", "newdesc!").Return(nil, errors.New("FAILED!")).Once()
 
 	t := s.TimeCreated.Add(5 * time.Minute)
@@ -176,6 +184,9 @@ func (s *ResourceIdentityGroupTestSuite) TestUpdateResourceIdentityGroupNameShou
 			description = "desc!"
 		}
 	`
+
+	c += testProviderConfig
+
 	u := *s.Res
 	u.ID = "newid!"
 	u.Name = "newname!"
