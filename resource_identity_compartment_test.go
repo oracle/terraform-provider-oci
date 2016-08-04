@@ -27,7 +27,12 @@ type ResourceIdentityCompartmentTestSuite struct {
 
 func (s *ResourceIdentityCompartmentTestSuite) SetupTest() {
 	s.Client = &MockClient{}
-	s.Provider = Provider(s.Client)
+
+	configfn := func(d *schema.ResourceData) (interface{}, error) {
+		return s.Client, nil
+	}
+
+	s.Provider = Provider(configfn)
 	p := s.Provider.(*schema.Provider)
 	res := p.ResourcesMap["baremetal_identity_compartment"]
 	res.Delete = func(d *schema.ResourceData, m interface{}) (e error) {
@@ -43,6 +48,7 @@ func (s *ResourceIdentityCompartmentTestSuite) SetupTest() {
 			description = "desc!"
 		}
 	`
+	s.Config += testProviderConfig
 	s.ResourceName = "baremetal_identity_compartment.t"
 	s.Res = &baremtlsdk.Resource{
 		ID:            "id!",
@@ -105,6 +111,7 @@ func (s *ResourceIdentityCompartmentTestSuite) TestUpdateResourceIdentityCompart
 			description = "newdesc!"
 		}
 	`
+	c += testProviderConfig
 	t := s.TimeCreated.Add(5 * time.Minute)
 	u := *s.Res
 	u.Description = "newdesc!"
@@ -138,6 +145,7 @@ func (s *ResourceIdentityCompartmentTestSuite) TestFailedUpdateResourceIdentityC
 			description = "newdesc!"
 		}
 	`
+	c += testProviderConfig
 	s.Client.On("UpdateCompartment", "id!", "newdesc!").Return(nil, errors.New("FAILED!")).Once()
 
 	t := s.TimeCreated.Add(5 * time.Minute)
