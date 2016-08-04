@@ -27,6 +27,40 @@ func createResource(d *schema.ResourceData, create CreateResourceFn, get GetReso
 	return
 }
 
+func readResource(d *schema.ResourceData, get GetResourceFn) (e error) {
+	var res *baremtlsdk.Resource
+	if res, e = get(d.Id()); e != nil {
+		return
+	}
+
+	setResourceData(d, res)
+
+	return
+}
+
+func updateResource(d *schema.ResourceData, update UpdateResourceFn) (e error) {
+	desc := d.Get("description").(string)
+
+	d.Partial(true)
+	var res *baremtlsdk.Resource
+	if res, e = update(d.Id(), desc); e != nil {
+		return
+	}
+	d.Partial(false)
+
+	setResourceData(d, res)
+
+	return
+}
+
+func destroyResource(d *schema.ResourceData, del DeleteResourceFn) (e error) {
+	if e = del(d.Id()); e != nil {
+		return
+	}
+
+	return
+}
+
 var resourceSchema = map[string]*schema.Schema{
 	"name": &schema.Schema{
 		Type:     schema.TypeString,
@@ -88,7 +122,6 @@ func waitForStateRefresh(d *schema.ResourceData, get GetResourceFn) (res *baremt
 		return
 	}
 
-	// Fields may have changed during polling, set them again.
 	setResourceData(d, res)
 
 	return
