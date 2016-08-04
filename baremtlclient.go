@@ -17,4 +17,9 @@ type BareMetalClient interface {
 	GetGroup(userID string) (*baremtlsdk.Resource, error)
 	UpdateGroup(userID, userDescription string, opts ...baremtlsdk.Options) (*baremtlsdk.Resource, error)
 	DeleteGroup(userID string, opts ...baremtlsdk.Options) error
+
+	CreatePolicy(name, description string, statements []string, opts ...baremtlsdk.Options) (*baremtlsdk.Policy, error)
+	GetPolicy(id string) (*baremtlsdk.Policy, error)
+	UpdatePolicy(id, description string, statements []string, opts ...baremtlsdk.Options) (*baremtlsdk.Policy, error)
+	DeletePolicy(id string, opts ...baremtlsdk.Options) error
 }
