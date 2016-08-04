@@ -28,11 +28,11 @@ type ResourceIdentityGroupTestSuite struct {
 func (s *ResourceIdentityGroupTestSuite) SetupTest() {
 	s.Client = &MockClient{}
 
-	creator := func(d *schema.ResourceData) (BareMetalClient, error) {
+	configfn := func(d *schema.ResourceData) (interface{}, error) {
 		return s.Client, nil
 	}
 
-	s.Provider = Provider(creator)
+	s.Provider = Provider(configfn)
 	s.Providers = map[string]terraform.ResourceProvider{
 		"baremetal": s.Provider,
 	}

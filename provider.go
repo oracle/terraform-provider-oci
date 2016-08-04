@@ -1,6 +1,8 @@
 package main
 
 import (
+	"crypto/rsa"
+
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 )
@@ -21,11 +23,11 @@ func init() {
 }
 
 // Provider is the adapter for terraform, that gives access to all the resources
-func Provider(creator clientCreatorFunc) terraform.ResourceProvider {
+func Provider(configfn schema.ConfigureFunc) terraform.ResourceProvider {
 	return &schema.Provider{
 		Schema:        schemaMap(),
 		ResourcesMap:  resourcesMap(),
-		ConfigureFunc: providerConfigure(creator),
+		ConfigureFunc: configfn,
 	}
 }
 
@@ -74,32 +76,28 @@ func resourcesMap() map[string]*schema.Resource {
 	}
 }
 
-func providerConfigure(creator clientCreatorFunc) schema.ConfigureFunc {
-	return func(d *schema.ResourceData) (interface{}, error) {
-		// tenancyOCID := d.Get("tenancy_ocid").(string)
-		// userOCID := d.Get("user_ocid").(string)
-		// fingerprint := d.Get("fingerprint").(string)
-		// privateKeyBuffer := d.Get("private_key").(string)
-		// privateKeyPath := d.Get("private_key_path").(string)
-		// privateKeyPassword := d.Get("private_key_password").(string)
-		//
-		// var privateKey *rsa.PrivateKey
-		// var err error
-		//
-		// if privateKeyBuffer != "" {
-		// 	if privateKey, err = baremetal.PrivateKeyFromBytes([]byte(privateKeyBuffer), privateKeyPassword); err != nil {
-		// 		return nil, err
-		// 	}
-		// }
-		//
-		// if privateKeyPath != "" {
-		// 	if privateKey, err = baremetal.PrivateKeyFromFile(privateKeyPath, privateKeyPassword); err != nil {
-		// 		return nil, err
-		// 	}
-		// }
-		//
-		// client = baremetal.New(userOCID, tenancyOCID, fingerprint, privateKey)
+func providerConfig(d *schema.ResourceData) (interface{}, error) {
+	tenancyOCID := d.Get("tenancy_ocid").(string)
+	userOCID := d.Get("user_ocid").(string)
+	fingerprint := d.Get("fingerprint").(string)
+	privateKeyBuffer := d.Get("private_key").(string)
+	privateKeyPath := d.Get("private_key_path").(string)
+	privateKeyPassword := d.Get("private_key_password").(string)
 
-		return creator(d)
+	var privateKey *rsa.PrivateKey
+	var err error
+
+	if privateKeyBuffer != "" {
+		if privateKey, err = baremetal.PrivateKeyFromBytes([]byte(privateKeyBuffer), privateKeyPassword); err != nil {
+			return nil, err
+		}
 	}
+
+	if privateKeyPath != "" {
+		if privateKey, err = baremetal.PrivateKeyFromFile(privateKeyPath, privateKeyPassword); err != nil {
+			return nil, err
+		}
+	}
+
+	client = baremetal.New(userOCID, tenancyOCID, fingerprint, privateKey)
 }
