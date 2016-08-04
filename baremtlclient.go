@@ -17,4 +17,8 @@ type BareMetalClient interface {
 	GetGroup(userID string) (*baremtlsdk.Resource, error)
 	UpdateGroup(userID, userDescription string, opts ...baremtlsdk.Options) (*baremtlsdk.Resource, error)
 	DeleteGroup(userID string, opts ...baremtlsdk.Options) error
+
+	CreateCompartment(name, description string, options ...baremtlsdk.Options) (*baremtlsdk.Resource, error)
+	GetCompartment(userID string) (*baremtlsdk.Resource, error)
+	UpdateCompartment(userID, userDescription string, opts ...baremtlsdk.Options) (*baremtlsdk.Resource, error)
 }
