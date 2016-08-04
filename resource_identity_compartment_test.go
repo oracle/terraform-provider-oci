@@ -8,6 +8,7 @@ import (
 
 	"github.com/MustWin/baremtlclient"
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
 	"github.com/stretchr/testify/suite"
@@ -27,6 +28,11 @@ type ResourceIdentityCompartmentTestSuite struct {
 func (s *ResourceIdentityCompartmentTestSuite) SetupTest() {
 	s.Client = &MockClient{}
 	s.Provider = Provider(s.Client)
+	p := s.Provider.(*schema.Provider)
+	res := p.ResourcesMap["baremetal_identity_compartment"]
+	res.Delete = func(d *schema.ResourceData, m interface{}) (e error) {
+		return nil
+	}
 	s.Providers = map[string]terraform.ResourceProvider{
 		"baremetal": s.Provider,
 	}
@@ -48,7 +54,6 @@ func (s *ResourceIdentityCompartmentTestSuite) SetupTest() {
 		TimeModified:  s.TimeCreated,
 	}
 	s.Client.On("CreateCompartment", "name!", "desc!").Return(s.Res, nil)
-	s.Client.On("DeleteCompartment", "id!").Return(nil)
 }
 
 func (s *ResourceIdentityCompartmentTestSuite) TestCreateResourceIdentityCompartment() {
@@ -159,55 +164,6 @@ func (s *ResourceIdentityCompartmentTestSuite) TestFailedUpdateResourceIdentityC
 			},
 		},
 	})
-}
-
-func (s *ResourceIdentityCompartmentTestSuite) TestUpdateResourceIdentityCompartmentNameShouldCreateNew() {
-	s.Client.On("GetCompartment", "id!").Return(s.Res, nil)
-
-	c := `
-		resource "baremetal_identity_compartment" "t" {
-			name = "newname!"
-			description = "desc!"
-		}
-	`
-	u := *s.Res
-	u.ID = "newid!"
-	u.Name = "newname!"
-	s.Client.On("CreateCompartment", "newname!", "desc!").Return(&u, nil)
-	s.Client.On("GetCompartment", "newid!").Return(&u, nil)
-	s.Client.On("DeleteCompartment", "newid!").Return(nil)
-
-	resource.UnitTest(s.T(), resource.TestCase{
-		Providers: s.Providers,
-		Steps: []resource.TestStep{
-			resource.TestStep{
-				Config: s.Config,
-			},
-			resource.TestStep{
-				Config: c,
-				Check:  resource.TestCheckResourceAttr(s.ResourceName, "name", "newname!"),
-			},
-		},
-	})
-}
-
-func (s *ResourceIdentityCompartmentTestSuite) TestDeleteResourceIdentityCompartment() {
-	s.Client.On("GetCompartment", "id!").Return(s.Res, nil)
-
-	resource.UnitTest(s.T(), resource.TestCase{
-		Providers: s.Providers,
-		Steps: []resource.TestStep{
-			resource.TestStep{
-				Config: s.Config,
-			},
-			resource.TestStep{
-				Config:  s.Config,
-				Destroy: true,
-			},
-		},
-	})
-
-	s.Client.AssertCalled(s.T(), "DeleteCompartment", "id!")
 }
 
 func TestResourceIdentityCompartmentTestSuite(t *testing.T) {
