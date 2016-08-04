@@ -8,6 +8,7 @@ import (
 
 	"github.com/MustWin/baremtlclient"
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
 	"github.com/stretchr/testify/suite"
@@ -26,17 +27,27 @@ type ResourceIdentityUserTestSuite struct {
 
 func (s *ResourceIdentityUserTestSuite) SetupTest() {
 	s.Client = &MockClient{}
-	s.Provider = Provider(s.Client)
+
+	s.Provider = Provider(
+		func(d *schema.ResourceData) (interface{}, error) {
+			return s.Client, nil
+		},
+	)
+
 	s.Providers = map[string]terraform.ResourceProvider{
 		"baremetal": s.Provider,
 	}
 	s.TimeCreated, _ = time.Parse("2006-Jan-02", "2006-Jan-02")
 	s.Config = `
+
 		resource "baremetal_identity_user" "t" {
 			name = "name!"
 			description = "desc!"
 		}
 	`
+
+	s.Config += testProviderConfig
+
 	s.ResourceName = "baremetal_identity_user.t"
 	s.Res = &baremtlsdk.Resource{
 		ID:            "id!",
@@ -97,11 +108,14 @@ func (s *ResourceIdentityUserTestSuite) TestUpdateResourceIdentityUserDescriptio
 	s.Client.On("GetUser", "id!").Return(s.Res, nil).Twice()
 
 	c := `
+
 		resource "baremetal_identity_user" "t" {
 			name = "name!"
 			description = "newdesc!"
 		}
 	`
+	c += testProviderConfig
+
 	t := s.TimeCreated.Add(5 * time.Minute)
 	u := *s.Res
 	u.Description = "newdesc!"
@@ -130,11 +144,16 @@ func (s *ResourceIdentityUserTestSuite) TestFailedUpdateResourceIdentityUserDesc
 	s.Client.On("GetUser", "id!").Return(s.Res, nil).Times(3)
 
 	c := `
+
 		resource "baremetal_identity_user" "t" {
 			name = "name!"
 			description = "newdesc!"
 		}
+
 	`
+
+	c += testProviderConfig
+
 	s.Client.On("UpdateUser", "id!", "newdesc!").Return(nil, errors.New("FAILED!")).Once()
 
 	t := s.TimeCreated.Add(5 * time.Minute)
@@ -176,6 +195,9 @@ func (s *ResourceIdentityUserTestSuite) TestUpdateResourceIdentityUserNameShould
 			description = "desc!"
 		}
 	`
+
+	c += testProviderConfig
+
 	u := *s.Res
 	u.ID = "newid!"
 	u.Name = "newname!"
