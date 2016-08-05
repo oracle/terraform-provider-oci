@@ -304,6 +304,13 @@ func (s *ResourceIdentityPolicyTestSuite) TestDeleteFailureResourceIdentityPolic
 		"123",
 	).Return(
 		errors.New("XXX"),
+	).Once()
+
+	s.Client.On(
+		"DeletePolicy",
+		"123",
+	).Return(
+		nil,
 	)
 
 	resource.UnitTest(s.T(), resource.TestCase{
@@ -316,6 +323,10 @@ func (s *ResourceIdentityPolicyTestSuite) TestDeleteFailureResourceIdentityPolic
 				Config:      s.Config,
 				ExpectError: regexp.MustCompile(`XXX`),
 				Destroy:     true,
+			},
+			resource.TestStep{
+				Config:  s.Config,
+				Destroy: true,
 			},
 		},
 	})

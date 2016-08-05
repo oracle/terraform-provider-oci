@@ -143,6 +143,5 @@ func updatePolicy(d *schema.ResourceData, m interface{}) (e error) {
 
 func deletePolicy(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(BareMetalClient)
-	destroyResource(d, client.DeletePolicy)
-	return
+	return destroyResource(d, client.DeletePolicy)
 }
