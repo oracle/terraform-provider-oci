@@ -72,12 +72,7 @@ func (s *ResourceIdentityPolicyTestSuite) SetupTest() {
 		s.Policy,
 		nil,
 	)
-	s.Client.On(
-		"DeletePolicy",
-		"123",
-	).Return(
-		nil,
-	)
+
 }
 
 func (s *ResourceIdentityPolicyTestSuite) TestCreateResourceIdentityPolicy() {
@@ -86,6 +81,13 @@ func (s *ResourceIdentityPolicyTestSuite) TestCreateResourceIdentityPolicy() {
 		s.Policy.ID,
 	).Return(
 		s.Policy,
+		nil,
+	)
+
+	s.Client.On(
+		"DeletePolicy",
+		"123",
+	).Return(
 		nil,
 	)
 
@@ -111,6 +113,13 @@ func (s *ResourceIdentityPolicyTestSuite) TestCreateResourceIdentityPolicy() {
 
 func (s *ResourceIdentityPolicyTestSuite) TestUpdateResourceIdentityPolicy() {
 	s.Client.On("GetPolicy", s.Policy.ID).Return(s.Policy, nil).Twice()
+
+	s.Client.On(
+		"DeletePolicy",
+		"123",
+	).Return(
+		nil,
+	)
 
 	config := fmt.Sprintf(testProviderConfig+testPolicyConfig,
 		"pol",
@@ -161,6 +170,13 @@ func (s *ResourceIdentityPolicyTestSuite) TestUpdateResourceIdentityPolicy() {
 
 func (s *ResourceIdentityPolicyTestSuite) TestFailedUpdateResourceIdentityPolicy() {
 	s.Client.On("GetPolicy", s.Policy.ID).Return(s.Policy, nil).Times(3)
+
+	s.Client.On(
+		"DeletePolicy",
+		"123",
+	).Return(
+		nil,
+	)
 
 	config := fmt.Sprintf(testProviderConfig+testPolicyConfig,
 		"pol",
@@ -213,6 +229,13 @@ func (s *ResourceIdentityPolicyTestSuite) TestFailedUpdateResourceIdentityPolicy
 func (s *ResourceIdentityPolicyTestSuite) TestUpdateResourceIdentityPolicyNameShouldCreateNew() {
 	s.Client.On("GetPolicy", s.Policy.ID).Return(s.Policy, nil)
 
+	s.Client.On(
+		"DeletePolicy",
+		"123",
+	).Return(
+		nil,
+	)
+
 	config := fmt.Sprintf(testProviderConfig+testPolicyConfig,
 		"newname",
 		"desc",
@@ -250,6 +273,13 @@ func (s *ResourceIdentityPolicyTestSuite) TestUpdateResourceIdentityPolicyNameSh
 func (s *ResourceIdentityPolicyTestSuite) TestDeleteResourceIdentityPolicy() {
 	s.Client.On("GetPolicy", "123").Return(s.Policy, nil)
 
+	s.Client.On(
+		"DeletePolicy",
+		"123",
+	).Return(
+		nil,
+	)
+
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
@@ -264,6 +294,34 @@ func (s *ResourceIdentityPolicyTestSuite) TestDeleteResourceIdentityPolicy() {
 	})
 
 	s.Client.AssertCalled(s.T(), "DeletePolicy", "123")
+}
+
+func (s *ResourceIdentityPolicyTestSuite) TestDeleteFailureResourceIdentityPolicy() {
+	s.Client.On("GetPolicy", "123").Return(s.Policy, nil)
+
+	s.Client.On(
+		"DeletePolicy",
+		"123",
+	).Return(
+		errors.New("XXX"),
+	)
+
+	resource.UnitTest(s.T(), resource.TestCase{
+		Providers: s.Providers,
+		Steps: []resource.TestStep{
+			resource.TestStep{
+				Config: s.Config,
+			},
+			resource.TestStep{
+				Config:      s.Config,
+				ExpectError: regexp.MustCompile(`XXX`),
+				Destroy:     true,
+			},
+		},
+	})
+
+	s.Client.AssertCalled(s.T(), "DeletePolicy", "123")
+
 }
 
 func TestResourceIdentityPolicyTestSuite(t *testing.T) {
