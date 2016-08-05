@@ -53,11 +53,20 @@ func ResourceIdentityPolicy() *schema.Resource {
 	}
 }
 
+func toStringArray(vals interface{}) []string {
+	arr := vals.([]interface{})
+	result := []string{}
+	for _, val := range arr {
+		result = append(result, val.(string))
+	}
+	return result
+}
+
 func createPolicy(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(BareMetalClient)
 	name := d.Get("name").(string)
 	description := d.Get("description").(string)
-	statements := d.Get("statements").([]string)
+	statements := toStringArray(d.Get("statements"))
 
 	var policy *baremtlsdk.Policy
 	if policy, e = client.CreatePolicy(name, description, statements); e != nil {
@@ -119,7 +128,7 @@ func readPolicy(d *schema.ResourceData, m interface{}) (e error) {
 func updatePolicy(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(BareMetalClient)
 	description := d.Get("description").(string)
-	statements := d.Get("statements").([]string)
+	statements := toStringArray(d.Get("statements"))
 	d.Partial(true)
 
 	var policy *baremtlsdk.Policy
