@@ -22,4 +22,8 @@ type BareMetalClient interface {
 	GetPolicy(id string) (*baremtlsdk.Policy, error)
 	UpdatePolicy(id, description string, statements []string, opts ...baremtlsdk.Options) (*baremtlsdk.Policy, error)
 	DeletePolicy(id string, opts ...baremtlsdk.Options) error
+
+	CreateCompartment(name, description string, options ...baremtlsdk.Options) (*baremtlsdk.Resource, error)
+	GetCompartment(userID string) (*baremtlsdk.Resource, error)
+	UpdateCompartment(userID, userDescription string, opts ...baremtlsdk.Options) (*baremtlsdk.Resource, error)
 }
