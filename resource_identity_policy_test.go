@@ -317,6 +317,9 @@ func (s *ResourceIdentityPolicyTestSuite) TestDeleteFailureResourceIdentityPolic
 				ExpectError: regexp.MustCompile(`XXX`),
 				Destroy:     true,
 			},
+			resource.TestStep{
+				Config: s.Config,
+			},
 		},
 	})
 
