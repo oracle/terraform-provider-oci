@@ -19,28 +19,36 @@ func (s *PolicySync) toStringArray(vals interface{}) []string {
 	return result
 }
 
-func (s *PolicySync) Create() (res *baremtlsdk.Resource, e error) {
+func (s *PolicySync) Create() (res BareMetalResource, e error) {
 	name := s.d.Get("name").(string)
 	description := s.d.Get("description").(string)
 	statements := s.toStringArray(s.d.Get("statements"))
-	res, e = s.client.CreatePolicy(name, description, statements)
+
+	var raw *baremtlsdk.Policy
+	raw, e = s.client.CreatePolicy(name, description, statements)
+	res = &BareMetalPolicyAdapter{raw}
 	return
 }
 
-func (s *PolicySync) Get() (res *baremtlsdk.Resource, e error) {
-	res, e = s.client.GetPolicy(s.d.Id())
+func (s *PolicySync) Get() (res BareMetalResource, e error) {
+	var raw *baremtlsdk.Policy
+	raw, e = s.client.GetPolicy(s.d.Id())
+	res = &BareMetalPolicyAdapter{raw}
 	return
 }
 
-func (s *PolicySync) Update() {
-	description := d.Get("description").(string)
+func (s *PolicySync) Update() (res BareMetalResource, e error) {
+	description := s.d.Get("description").(string)
 	statements := s.toStringArray(s.d.Get("statements"))
-	res, e = s.client.UpdatePolicy(s.d.Id(), description, statements)
+	var raw *baremtlsdk.Policy
+	raw, e = s.client.UpdatePolicy(s.d.Id(), description, statements)
+	res = &BareMetalPolicyAdapter{raw}
 	return
 }
 
-func (s *PolicySync) SetData(res *baremtlsdk.Resource) {
-	s.d.Set("statements", res.Statements)
+func (s *PolicySync) SetData(res BareMetalResource) {
+	adapter := res.(*BareMetalPolicyAdapter)
+	s.d.Set("statements", adapter.Statements())
 	setResourceData(s.d, res)
 }
 

@@ -9,14 +9,14 @@ import (
 )
 
 func createResource(d *schema.ResourceData, sync ResourceSync) (e error) {
-	var res *baremtlsdk.Resource
+	var res BareMetalResource
 	if res, e = sync.Create(); e != nil {
 		return
 	}
-	d.SetId(res.ID)
+	d.SetId(res.Id())
 	sync.SetData(res)
 
-	if res.State != baremtlsdk.ResourceCreated {
+	if res.State() != baremtlsdk.ResourceCreated {
 		res, e = waitForStateRefresh(sync)
 	}
 
@@ -24,6 +24,7 @@ func createResource(d *schema.ResourceData, sync ResourceSync) (e error) {
 }
 
 func readResource(sync ResourceSync) (e error) {
+	var res BareMetalResource
 	if res, e = sync.Get(); e != nil {
 		return
 	}
@@ -32,9 +33,9 @@ func readResource(sync ResourceSync) (e error) {
 	return
 }
 
-func updateResource() (e error) {
-	client := m.(BareMetalClient)
+func updateResource(d *schema.ResourceData, sync ResourceSync) (e error) {
 	d.Partial(true)
+	var res BareMetalResource
 	if res, e = sync.Update(); e != nil {
 		return
 	}
@@ -72,13 +73,13 @@ var resourceSchema = map[string]*schema.Schema{
 	},
 }
 
-func setResourceData(d *schema.ResourceData, res *baremtlsdk.Resource) {
-	d.Set("name", res.Name)
-	d.Set("description", res.Description)
-	d.Set("compartment_id", res.CompartmentID)
-	d.Set("state", res.State)
-	d.Set("time_modified", res.TimeModified.String())
-	d.Set("time_created", res.TimeCreated.String())
+func setResourceData(d *schema.ResourceData, res BareMetalResource) {
+	d.Set("name", res.Name())
+	d.Set("description", res.Description())
+	d.Set("compartment_id", res.CompartmentId())
+	d.Set("state", res.State())
+	d.Set("time_modified", res.TimeModified())
+	d.Set("time_created", res.TimeCreated())
 }
 
 func stateRefreshFunc(sync ResourceSync) resource.StateRefreshFunc {
@@ -86,12 +87,12 @@ func stateRefreshFunc(sync ResourceSync) resource.StateRefreshFunc {
 		if res, e = sync.Get(); e != nil {
 			return nil, "", e
 		}
-		s = res.(*baremtlsdk.Resource).State
+		s = res.(BareMetalResource).State()
 		return
 	}
 }
 
-func waitForStateRefresh(sync ResourceSync) (res *baremtlsdk.Resource, e error) {
+func waitForStateRefresh(sync ResourceSync) (res BareMetalResource, e error) {
 	stateConf := &resource.StateChangeConf{
 		Pending: []string{baremtlsdk.ResourceCreating},
 		Target:  []string{baremtlsdk.ResourceCreated},
@@ -100,7 +101,7 @@ func waitForStateRefresh(sync ResourceSync) (res *baremtlsdk.Resource, e error) 
 	}
 
 	raw, err := stateConf.WaitForState()
-	res = raw.(*baremtlsdk.Resource)
+	res = raw.(BareMetalResource)
 	if e = err; e != nil {
 		return
 	}
