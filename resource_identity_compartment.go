@@ -19,19 +19,22 @@ func ResourceIdentityCompartment() *schema.Resource {
 
 func createCompartment(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(BareMetalClient)
-	return createResource(d, client.CreateCompartment, client.GetCompartment)
+	sync := &CompartmentSync{D: d, Client: client}
+	return createResource(d, sync)
 }
 
 func readCompartment(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(BareMetalClient)
-	return readResource(d, client.GetCompartment)
+	sync := &CompartmentSync{D: d, Client: client}
+	return readResource(sync)
 }
 
 func updateCompartment(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(BareMetalClient)
-	return updateResource(d, client.UpdateCompartment)
+	sync := &CompartmentSync{D: d, Client: client}
+	return updateResource(d, sync)
 }
 
 func deleteCompartment(d *schema.ResourceData, m interface{}) (e error) {
-	return fmt.Errorf("delete compartment %v: compartments cannot be deleted", d.Id())
+	return fmt.Errorf("compartment resource: compartment %v cannot be deleted", d.Id())
 }

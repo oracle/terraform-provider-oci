@@ -8,58 +8,7 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
-func createResource(d *schema.ResourceData, create CreateResourceFn, get GetResourceFn) (e error) {
-	name := d.Get("name").(string)
-	description := d.Get("description").(string)
-
-	var res *baremtlsdk.Resource
-	if res, e = create(name, description); e != nil {
-		return
-	}
-
-	d.SetId(res.ID)
-	setResourceData(d, res)
-
-	if res.State != baremtlsdk.ResourceCreated {
-		res, e = waitForStateRefresh(d, get)
-	}
-
-	return
-}
-
-func readResource(d *schema.ResourceData, get GetResourceFn) (e error) {
-	var res *baremtlsdk.Resource
-	if res, e = get(d.Id()); e != nil {
-		return
-	}
-
-	setResourceData(d, res)
-
-	return
-}
-
-func updateResource(d *schema.ResourceData, update UpdateResourceFn) (e error) {
-	desc := d.Get("description").(string)
-
-	d.Partial(true)
-	var res *baremtlsdk.Resource
-	if res, e = update(d.Id(), desc); e != nil {
-		return
-	}
-	d.Partial(false)
-
-	setResourceData(d, res)
-
-	return
-}
-
-func destroyResource(d *schema.ResourceData, del DeleteResourceFn) (e error) {
-	if e = del(d.Id()); e != nil {
-		return
-	}
-
-	return
-}
+const fiveMinutes time.Duration = 5 * time.Minute
 
 var resourceSchema = map[string]*schema.Schema{
 	"name": &schema.Schema{
@@ -89,40 +38,62 @@ var resourceSchema = map[string]*schema.Schema{
 	},
 }
 
-func setResourceData(d *schema.ResourceData, res *baremtlsdk.Resource) {
-	d.Set("name", res.Name)
-	d.Set("description", res.Description)
-	d.Set("compartment_id", res.CompartmentID)
-	d.Set("state", res.State)
-	d.Set("time_modified", res.TimeModified.String())
-	d.Set("time_created", res.TimeCreated.String())
+func createResource(d *schema.ResourceData, sync ResourceSync) (e error) {
+	if e = sync.Create(); e != nil {
+		return
+	}
+	d.SetId(sync.Id())
+	sync.SetData()
+
+	if sync.State() != baremtlsdk.ResourceCreated {
+		e = waitForStateRefresh(sync)
+	}
+
+	return
 }
 
-func stateRefreshFunc(d *schema.ResourceData, get GetResourceFn) resource.StateRefreshFunc {
+func readResource(sync ResourceSync) (e error) {
+	if e = sync.Get(); e != nil {
+		return
+	}
+	sync.SetData()
+
+	return
+}
+
+func updateResource(d *schema.ResourceData, sync ResourceSync) (e error) {
+	d.Partial(true)
+	if e = sync.Update(); e != nil {
+		return
+	}
+	d.Partial(false)
+	sync.SetData()
+
+	return
+}
+
+func stateRefreshFunc(sync ResourceSync) resource.StateRefreshFunc {
 	return func() (res interface{}, s string, e error) {
-		if res, e = get(d.Id()); e != nil {
+		if e = sync.Get(); e != nil {
 			return nil, "", e
 		}
-		s = res.(*baremtlsdk.Resource).State
-		return
+		return sync, sync.State(), e
 	}
 }
 
-func waitForStateRefresh(d *schema.ResourceData, get GetResourceFn) (res *baremtlsdk.Resource, e error) {
+func waitForStateRefresh(sync ResourceSync) (e error) {
 	stateConf := &resource.StateChangeConf{
 		Pending: []string{baremtlsdk.ResourceCreating},
 		Target:  []string{baremtlsdk.ResourceCreated},
-		Refresh: stateRefreshFunc(d, get),
-		Timeout: 5 * time.Minute,
+		Refresh: stateRefreshFunc(sync),
+		Timeout: fiveMinutes,
 	}
 
-	raw, err := stateConf.WaitForState()
-	res = raw.(*baremtlsdk.Resource)
-	if e = err; e != nil {
+	if _, e = stateConf.WaitForState(); e != nil {
 		return
 	}
 
-	setResourceData(d, res)
+	sync.SetData()
 
 	return
 }

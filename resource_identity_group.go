@@ -15,20 +15,24 @@ func ResourceIdentityGroup() *schema.Resource {
 
 func createGroup(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(BareMetalClient)
-	return createResource(d, client.CreateGroup, client.GetGroup)
+	sync := &GroupSync{D: d, Client: client}
+	return createResource(d, sync)
 }
 
 func readGroup(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(BareMetalClient)
-	return readResource(d, client.GetGroup)
+	sync := &GroupSync{D: d, Client: client}
+	return readResource(sync)
 }
 
 func updateGroup(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(BareMetalClient)
-	return updateResource(d, client.UpdateGroup)
+	sync := &GroupSync{D: d, Client: client}
+	return updateResource(d, sync)
 }
 
 func deleteGroup(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(BareMetalClient)
-	return destroyResource(d, client.DeleteGroup)
+	sync := &GroupSync{D: d, Client: client}
+	return sync.Delete()
 }
