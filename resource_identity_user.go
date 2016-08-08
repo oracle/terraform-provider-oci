@@ -15,20 +15,24 @@ func ResourceIdentityUser() *schema.Resource {
 
 func createUser(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(BareMetalClient)
-	return createResource(d, client.CreateUser, client.GetUser)
+	sync := &UserSync{D: d, Client: client}
+	return createResource(d, sync)
 }
 
 func readUser(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(BareMetalClient)
-	return readResource(d, client.GetUser)
+	sync := &UserSync{D: d, Client: client}
+	return readResource(sync)
 }
 
 func updateUser(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(BareMetalClient)
-	return updateResource(d, client.UpdateUser)
+	sync := &UserSync{D: d, Client: client}
+	return updateResource(d, sync)
 }
 
 func deleteUser(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(BareMetalClient)
-	return destroyResource(d, client.DeleteUser)
+	sync := &UserSync{D: d, Client: client}
+	return sync.Delete()
 }

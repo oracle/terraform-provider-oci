@@ -18,7 +18,7 @@ func ResourceIdentityPolicy() *schema.Resource {
 	return &schema.Resource{
 		Create: createPolicy,
 		Read:   readPolicy,
-		Update: updateResource,
+		Update: updatePolicy,
 		Delete: deletePolicy,
 		Schema: policySchema,
 	}

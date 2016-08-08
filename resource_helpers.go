@@ -8,6 +8,8 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
+const fiveMinutes time.Duration = 5 * time.Minute
+
 var resourceSchema = map[string]*schema.Schema{
 	"name": &schema.Schema{
 		Type:     schema.TypeString,
@@ -75,8 +77,7 @@ func stateRefreshFunc(sync ResourceSync) resource.StateRefreshFunc {
 		if e = sync.Get(); e != nil {
 			return nil, "", e
 		}
-		s = sync.State()
-		return
+		return sync, sync.State(), e
 	}
 }
 
@@ -85,7 +86,7 @@ func waitForStateRefresh(sync ResourceSync) (e error) {
 		Pending: []string{baremtlsdk.ResourceCreating},
 		Target:  []string{baremtlsdk.ResourceCreated},
 		Refresh: stateRefreshFunc(sync),
-		Timeout: 5 * time.Minute,
+		Timeout: fiveMinutes,
 	}
 
 	if _, e = stateConf.WaitForState(); e != nil {
