@@ -26,24 +26,24 @@ func ResourceIdentityPolicy() *schema.Resource {
 
 func createPolicy(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(BareMetalClient)
-	sync := &PolicySync{d, client}
+	sync := &PolicySync{D: d, Client: client}
 	return createResource(d, sync)
 }
 
 func readPolicy(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(BareMetalClient)
-	sync := &PolicySync{d, client}
+	sync := &PolicySync{D: d, Client: client}
 	return readResource(sync)
 }
 
 func updatePolicy(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(BareMetalClient)
-	sync := &PolicySync{d, client}
+	sync := &PolicySync{D: d, Client: client}
 	return updateResource(d, sync)
 }
 
 func deletePolicy(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(BareMetalClient)
-	sync := &PolicySync{d, client}
+	sync := &PolicySync{D: d, Client: client}
 	return sync.Delete()
 }

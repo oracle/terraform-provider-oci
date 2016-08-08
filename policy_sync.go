@@ -6,8 +6,17 @@ import (
 )
 
 type PolicySync struct {
-	d      *schema.ResourceData
-	client BareMetalClient
+	D      *schema.ResourceData
+	Client BareMetalClient
+	Res    *baremtlsdk.Policy
+}
+
+func (s *PolicySync) Id() string {
+	return s.Res.ID
+}
+
+func (s *PolicySync) State() string {
+	return s.Res.State
 }
 
 func (s *PolicySync) toStringArray(vals interface{}) []string {
@@ -19,44 +28,37 @@ func (s *PolicySync) toStringArray(vals interface{}) []string {
 	return result
 }
 
-func (s *PolicySync) Create() (res BareMetalResource, e error) {
-	name := s.d.Get("name").(string)
-	description := s.d.Get("description").(string)
-	statements := s.toStringArray(s.d.Get("statements"))
+func (s *PolicySync) Create() (e error) {
+	name := s.D.Get("name").(string)
+	description := s.D.Get("description").(string)
+	statements := s.toStringArray(s.D.Get("statements"))
 
-	var raw *baremtlsdk.Policy
-	raw, e = s.client.CreatePolicy(name, description, statements)
-	res = &BareMetalPolicyAdapter{raw}
+	s.Res, e = s.Client.CreatePolicy(name, description, statements)
 	return
 }
 
-func (s *PolicySync) Get() (res BareMetalResource, e error) {
-	var raw *baremtlsdk.Policy
-	raw, e = s.client.GetPolicy(s.d.Id())
-	res = &BareMetalPolicyAdapter{raw}
+func (s *PolicySync) Get() (e error) {
+	s.Res, e = s.Client.GetPolicy(s.D.Id())
 	return
 }
 
-func (s *PolicySync) Update() (res BareMetalResource, e error) {
-	description := s.d.Get("description").(string)
-	statements := s.toStringArray(s.d.Get("statements"))
-	var raw *baremtlsdk.Policy
-	raw, e = s.client.UpdatePolicy(s.d.Id(), description, statements)
-	res = &BareMetalPolicyAdapter{raw}
+func (s *PolicySync) Update() (e error) {
+	description := s.D.Get("description").(string)
+	statements := s.toStringArray(s.D.Get("statements"))
+	s.Res, e = s.Client.UpdatePolicy(s.D.Id(), description, statements)
 	return
 }
 
-func (s *PolicySync) SetData(res BareMetalResource) {
-	a := res.(*BareMetalPolicyAdapter)
-	s.d.Set("statements", a.Statements)
-	s.d.Set("name", a.Name)
-	s.d.Set("description", a.Description)
-	s.d.Set("compartment_id", a.CompartmentID)
-	s.d.Set("state", a.State)
-	s.d.Set("time_modified", a.TimeModified.String())
-	s.d.Set("time_created", a.TimeCreated.String())
+func (s *PolicySync) SetData() {
+	s.D.Set("statements", s.Res.Statements)
+	s.D.Set("name", s.Res.Name)
+	s.D.Set("description", s.Res.Description)
+	s.D.Set("compartment_id", s.Res.CompartmentID)
+	s.D.Set("state", s.Res.State)
+	s.D.Set("time_modified", s.Res.TimeModified.String())
+	s.D.Set("time_created", s.Res.TimeCreated.String())
 }
 
 func (s *PolicySync) Delete() (e error) {
-	return s.client.DeletePolicy(s.d.Id())
+	return s.Client.DeletePolicy(s.D.Id())
 }

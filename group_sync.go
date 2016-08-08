@@ -6,44 +6,46 @@ import (
 )
 
 type GroupSync struct {
-	d      *schema.ResourceData
-	client BareMetalClient
+	D      *schema.ResourceData
+	Client BareMetalClient
+	Res    *baremtlsdk.Resource
 }
 
-func (s *GroupSync) Create() (res BareMetalResource, e error) {
-	name := s.d.Get("name").(string)
-	description := s.d.Get("description").(string)
-	var raw *baremtlsdk.Resource
-	raw, e = s.client.CreateGroup(name, description)
-	res = &BareMetalResourceAdapter{raw}
+func (s *GroupSync) Id() string {
+	return s.Res.ID
+}
+
+func (s *GroupSync) State() string {
+	return s.Res.State
+}
+
+func (s *GroupSync) Create() (e error) {
+	name := s.D.Get("name").(string)
+	description := s.D.Get("description").(string)
+	s.Res, e = s.Client.CreateGroup(name, description)
 	return
 }
 
-func (s *GroupSync) Get() (res BareMetalResource, e error) {
-	var raw *baremtlsdk.Resource
-	raw, e = s.client.GetGroup(s.d.Id())
-	res = &BareMetalResourceAdapter{raw}
+func (s *GroupSync) Get() (e error) {
+	s.Res, e = s.Client.GetGroup(s.D.Id())
 	return
 }
 
-func (s *GroupSync) Update() (res BareMetalResource, e error) {
-	description := s.d.Get("description").(string)
-	var raw *baremtlsdk.Resource
-	raw, e = s.client.UpdateGroup(s.d.Id(), description)
-	res = &BareMetalResourceAdapter{raw}
+func (s *GroupSync) Update() (e error) {
+	description := s.D.Get("description").(string)
+	s.Res, e = s.Client.UpdateGroup(s.D.Id(), description)
 	return
 }
 
-func (s *GroupSync) SetData(res BareMetalResource) {
-	a := res.(*BareMetalResourceAdapter)
-	s.d.Set("name", a.Name)
-	s.d.Set("description", a.Description)
-	s.d.Set("compartment_id", a.CompartmentID)
-	s.d.Set("state", a.State)
-	s.d.Set("time_modified", a.TimeModified.String())
-	s.d.Set("time_created", a.TimeCreated.String())
+func (s *GroupSync) SetData() {
+	s.D.Set("name", s.Res.Name)
+	s.D.Set("description", s.Res.Description)
+	s.D.Set("compartment_id", s.Res.CompartmentID)
+	s.D.Set("state", s.Res.State)
+	s.D.Set("time_modified", s.Res.TimeModified.String())
+	s.D.Set("time_created", s.Res.TimeCreated.String())
 }
 
 func (s *GroupSync) Delete() (e error) {
-	return s.client.DeleteGroup(s.d.Id())
+	return s.Client.DeleteGroup(s.D.Id())
 }
