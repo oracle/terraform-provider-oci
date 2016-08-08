@@ -13,10 +13,10 @@ func createResource(d *schema.ResourceData, sync ResourceSync) (e error) {
 	if res, e = sync.Create(); e != nil {
 		return
 	}
-	d.SetId(res.Id())
+	d.SetId(res.GetId())
 	sync.SetData(res)
 
-	if res.State() != baremtlsdk.ResourceCreated {
+	if res.GetState() != baremtlsdk.ResourceCreated {
 		res, e = waitForStateRefresh(sync)
 	}
 
@@ -73,21 +73,12 @@ var resourceSchema = map[string]*schema.Schema{
 	},
 }
 
-func setResourceData(d *schema.ResourceData, res BareMetalResource) {
-	d.Set("name", res.Name())
-	d.Set("description", res.Description())
-	d.Set("compartment_id", res.CompartmentId())
-	d.Set("state", res.State())
-	d.Set("time_modified", res.TimeModified())
-	d.Set("time_created", res.TimeCreated())
-}
-
 func stateRefreshFunc(sync ResourceSync) resource.StateRefreshFunc {
 	return func() (res interface{}, s string, e error) {
 		if res, e = sync.Get(); e != nil {
 			return nil, "", e
 		}
-		s = res.(BareMetalResource).State()
+		s = res.(BareMetalResource).GetState()
 		return
 	}
 }

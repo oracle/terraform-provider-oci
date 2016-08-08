@@ -47,9 +47,14 @@ func (s *PolicySync) Update() (res BareMetalResource, e error) {
 }
 
 func (s *PolicySync) SetData(res BareMetalResource) {
-	adapter := res.(*BareMetalPolicyAdapter)
-	s.d.Set("statements", adapter.Statements())
-	setResourceData(s.d, res)
+	a := res.(*BareMetalPolicyAdapter)
+	s.d.Set("statements", a.Statements)
+	s.d.Set("name", a.Name)
+	s.d.Set("description", a.Description)
+	s.d.Set("compartment_id", a.CompartmentID)
+	s.d.Set("state", a.State)
+	s.d.Set("time_modified", a.TimeModified.String())
+	s.d.Set("time_created", a.TimeCreated.String())
 }
 
 func (s *PolicySync) Delete() (e error) {

@@ -35,7 +35,13 @@ func (s *GroupSync) Update() (res BareMetalResource, e error) {
 }
 
 func (s *GroupSync) SetData(res BareMetalResource) {
-	setResourceData(s.d, res)
+	a := res.(*BareMetalResourceAdapter)
+	s.d.Set("name", a.Name)
+	s.d.Set("description", a.Description)
+	s.d.Set("compartment_id", a.CompartmentID)
+	s.d.Set("state", a.State)
+	s.d.Set("time_modified", a.TimeModified.String())
+	s.d.Set("time_created", a.TimeCreated.String())
 }
 
 func (s *GroupSync) Delete() (e error) {
