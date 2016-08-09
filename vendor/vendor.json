@@ -253,16 +253,10 @@
 			"revisionTime": "2016-06-13T20:05:45Z"
 		},
 		{
-			"checksumSHA1": "NCKh9KHKgaDrjN1dG/uIaUDlo0A=",
+			"checksumSHA1": "wHGTzU4j9naprI4kM6Bxwu8MkJo=",
 			"path": "github.com/MustWin/baremtlclient",
-			"revision": "f44b206fde83849192b33468fbb6c10116c0c880",
-			"revisionTime": "2016-08-08T19:00:44Z"
-		},
-		{
-			"checksumSHA1": "UqZVZlD/r21rlpKjCNNgtBnWprs=",
-			"path": "github.com/MustWin/terraform-Oracle-BareMetal-Provider",
-			"revision": "eed4a6ffcacc57041fc1bdb1ba691e954a661d23",
-			"revisionTime": "2016-08-08T19:41:58Z"
+			"revision": "f889fc944633996f66b1b44776c7f89bda6134af",
+			"revisionTime": "2016-08-09T19:29:38Z"
 		},
 		{
 			"checksumSHA1": "htjvdG/znrHmFYRQBqA2vHrJsF4=",
