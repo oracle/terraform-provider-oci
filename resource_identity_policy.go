@@ -5,7 +5,7 @@ import "github.com/hashicorp/terraform/helper/schema"
 func ResourceIdentityPolicy() *schema.Resource {
 	policySchema := make(map[string]*schema.Schema)
 
-	for key, value := range resourceSchema {
+	for key, value := range identitySchema {
 		policySchema[key] = value
 	}
 

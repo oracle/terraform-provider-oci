@@ -9,7 +9,7 @@ func ResourceIdentityUser() *schema.Resource {
 		Read:   readUser,
 		Update: updateUser,
 		Delete: deleteUser,
-		Schema: resourceSchema,
+		Schema: identitySchema,
 	}
 }
 
