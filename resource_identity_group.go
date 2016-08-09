@@ -9,7 +9,7 @@ func ResourceIdentityGroup() *schema.Resource {
 		Read:   readGroup,
 		Update: updateGroup,
 		Delete: deleteGroup,
-		Schema: resourceSchema,
+		Schema: identitySchema,
 	}
 }
 
