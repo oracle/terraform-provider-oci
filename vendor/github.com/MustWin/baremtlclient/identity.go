@@ -11,6 +11,7 @@ import (
 )
 
 // APIKey is returned for operations that create or modify user API keys.
+//
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/identity.html#ApiKey
 type APIKey struct {
 	KeyID        string    `json:"keyId"`
@@ -29,6 +30,7 @@ type ListAPIKeyResponse struct {
 }
 
 // UIPassword is returned for change or create password operations.
+//
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/identity.html#UIPassword
 type UIPassword struct {
 	NewPassword  string    `json:"password"`
@@ -40,6 +42,9 @@ type UIPassword struct {
 	OPCRequestID string    `json:"opc-request-id,omitempty"`
 }
 
+// Options is used to pass optional values to to package methods. Note that zero-value
+// fields will be ignored. Typically options are passed on a variadic paramter
+// to SDK methods. Note that only the first option, if present, will be used.
 type Options struct {
 	// OPCIdempotencyToken (Optional) - A token you supply to uniquely identify the request and provide idempotency
 	//if the request is retried. Idempotency tokens expire after 30 minutes.
@@ -53,6 +58,7 @@ type Options struct {
 
 // AvailablityDomain contains name and then tenancy ID that an
 // availability domain belongs to.
+//
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/identity.html#AvailabilityDomain
 type AvailabilityDomain struct {
 	Name          string `json:"name"`
@@ -75,19 +81,23 @@ type Resource struct {
 	OPCRequestID  string    `json:"opc-request-id,omitempty"`
 }
 
-// ListOptions contains arguments to support pagination for List requests
+// ListOptions contains arguments to support pagination for List requests. ListOptions
+// is typically a variadic paramter to List SDK functions.  Only the first ListOption will
+// be used.  If multiple ListOptions are passed the subsequent values after the first
+// will be discarded.
+//
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/identity.html#listUsers
 type ListOptions struct {
-	// The value of OPCNextPage from ListUsersResponse used for
+	// Page the value of OPCNextPage from ListUsersResponse used for
 	// paging results.
 	Page string
-	// The maximum number of results that ListUsers is to return.
+	// Limit he maximum number of results that ListUsers is to return.
 	Limit   uint64
 	UserID  string
 	GroupID string
 }
 
-// ListResponse response for List commands
+// ListResponse response for List commands.
 type ListResourceResponse struct {
 	// Page can be passed in the ListUsersRequest argument of the next
 	// call to ListUsers in order to page results.
@@ -95,14 +105,16 @@ type ListResourceResponse struct {
 	Items []Resource
 }
 
-// Policy returned by GetPolicy and other policy related methods
+// Policy returned by GetPolicy and other policy related methods.
+//
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/identity.html#Policy
 type Policy struct {
 	Resource
 	Statements []string `json:"statements"`
 }
 
-// UserGroupMembership returned by GetUserGroupMembership and related methods
+// UserGroupMembership returned by GetUserGroupMembership and related methods.
+//
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/identity.html#UserGroupMembership
 type UserGroupMembership struct {
 	// Unique identifier for a particular item such as a User or a Group
@@ -132,6 +144,7 @@ type UserGroupMembershipResponse struct {
 
 // Error is returned from unsuccessful API calls. The OPCRequestID if present
 // is used to reference the failing requests for support.
+//
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/identity.html#Error
 type Error struct {
 	Code         string `json:"code"`
@@ -148,7 +161,8 @@ func (e *Error) Error() string {
 	)
 }
 
-// AddUserToGroup - adds a user to a group
+// AddUserToGroup adds a user to a group.
+//
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/identity.html#addUserToGroup
 func (c *Client) AddUserToGroup(userID, groupID string, opts ...Options) (membership *UserGroupMembership, e error) {
 	var headers http.Header
@@ -166,7 +180,7 @@ func (c *Client) AddUserToGroup(userID, groupID string, opts ...Options) (member
 
 	strURL := buildIdentityURL(resourceUserGroupMemberships, nil)
 
-	resp, e := c.identityAPI.request(http.MethodPost, strURL, request, headers)
+	resp, e := c.api.request(http.MethodPost, strURL, request, headers)
 
 	if e != nil {
 		return
@@ -178,6 +192,7 @@ func (c *Client) AddUserToGroup(userID, groupID string, opts ...Options) (member
 }
 
 // CreateCompartment create a new compartment.
+//
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/identity.html#createCompartment
 func (c *Client) CreateCompartment(compartmentName, compartmentDescription string, options ...Options) (compartment *Resource, e error) {
 	createRequest := CreateResourceRequest{
@@ -199,6 +214,7 @@ func (c *Client) CreateCompartment(compartmentName, compartmentDescription strin
 // CreateGroup create a new group. groupName MUST be supplied and MUST be
 // unique. groupDescription is optional. You MAY supply one option with an
 // idempotency token.
+//
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/identity.html#createGroup
 func (c *Client) CreateGroup(groupName, groupDescription string, options ...Options) (response *Resource, e error) {
 	createRequest := CreateResourceRequest{
@@ -218,7 +234,8 @@ func (c *Client) CreateGroup(groupName, groupDescription string, options ...Opti
 }
 
 // CreateOrResetUIPassword - creates or resets password for user identified by
-// userID. You MAY supply an idempotency token
+// userID. You MAY supply an idempotency token.
+//
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/identity.html#createOrResetUIPassword
 func (c *Client) CreateOrResetUIPassword(password, userID string, opts ...Options) (newpassword *UIPassword, e error) {
 	var headers http.Header
@@ -233,7 +250,7 @@ func (c *Client) CreateOrResetUIPassword(password, userID string, opts ...Option
 	}
 
 	var response *requestResponse
-	if response, e = c.identityAPI.request(http.MethodPost, url, request, headers); e != nil {
+	if response, e = c.api.request(http.MethodPost, url, request, headers); e != nil {
 		return
 	}
 
@@ -270,7 +287,7 @@ func (c *Client) CreatePolicy(policyName, policyDescription string, statements [
 	request.Statements = statements
 
 	var resp *requestResponse
-	if resp, e = c.identityAPI.request(http.MethodPost, urlStr, request, headers); e != nil {
+	if resp, e = c.api.request(http.MethodPost, urlStr, request, headers); e != nil {
 		return
 	}
 
@@ -285,6 +302,7 @@ func (c *Client) CreatePolicy(policyName, policyDescription string, statements [
 // MAY contain an idempotency token.
 // The caller specifies this token so that subsequent calls to create user will
 // be idempotent. The token expires after 30 minutes.
+//
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/identity.html#createUser
 func (c *Client) CreateUser(userName, userDescription string, options ...Options) (user *Resource, e error) {
 	createRequest := CreateResourceRequest{
@@ -303,6 +321,7 @@ func (c *Client) CreateUser(userName, userDescription string, options ...Options
 }
 
 // Deletes an API key belonging to a user.
+//
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/identity.html#deleteApiKey
 func (c *Client) DeleteAPIKey(userID, fingerprint string, opts ...Options) (e error) {
 	var headers http.Header
@@ -314,12 +333,13 @@ func (c *Client) DeleteAPIKey(userID, fingerprint string, opts ...Options) (e er
 	}
 
 	url := buildIdentityURL(resourceUsers, nil, userID, apiKeys, fingerprint)
-	return c.identityAPI.deleteRequest(url, headers)
+	return c.api.deleteRequest(url, headers)
 
 }
 
 // DeleteGroup removes a group identified by groupID. Optionally pass an
-// etag for optmistic concurrency control
+// etag for optmistic concurrency control.
+//
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/identity.html#deleteGroup
 func (c *Client) DeleteGroup(groupID string, opts ...Options) (e error) {
 	var headers http.Header
@@ -332,11 +352,12 @@ func (c *Client) DeleteGroup(groupID string, opts ...Options) (e error) {
 
 	url := buildIdentityURL(resourceGroups, nil, groupID)
 
-	return c.identityAPI.deleteRequest(url, headers)
+	return c.api.deleteRequest(url, headers)
 }
 
 // DeletePolicy removes a policy identified by policyID. Optionally pass an
-// etag for optmistic concurrency control
+// etag for optmistic concurrency control.
+//
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/identity.html#DeletePolicy
 func (c *Client) DeletePolicy(policyID string, opts ...Options) (e error) {
 	var headers http.Header
@@ -349,11 +370,12 @@ func (c *Client) DeletePolicy(policyID string, opts ...Options) (e error) {
 
 	url := buildIdentityURL(resourcePolicies, nil, policyID)
 
-	return c.identityAPI.deleteRequest(url, headers)
+	return c.api.deleteRequest(url, headers)
 
 }
 
 // DeleteUser deletes a user.
+//
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/identity.html#deleteUser
 func (c *Client) DeleteUser(userID string, opts ...Options) (e error) {
 	var headers http.Header
@@ -366,11 +388,12 @@ func (c *Client) DeleteUser(userID string, opts ...Options) (e error) {
 
 	url := buildIdentityURL(resourceUsers, nil, userID)
 
-	return c.identityAPI.deleteRequest(url, headers)
+	return c.api.deleteRequest(url, headers)
 
 }
 
 // DeleteUserGroupMembership removes a user from a group.
+//
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/identity.html#removeUserFromGroup
 func (c *Client) DeleteUserGroupMembership(userGroupMembershipID string, opts ...Options) (e error) {
 	var headers http.Header
@@ -383,32 +406,35 @@ func (c *Client) DeleteUserGroupMembership(userGroupMembershipID string, opts ..
 
 	url := buildIdentityURL(resourceUserGroupMemberships, nil, userGroupMembershipID)
 
-	return c.identityAPI.deleteRequest(url, headers)
+	return c.api.deleteRequest(url, headers)
 
 }
 
-// GetCompartment returns the compartment identified by compartmentID
+// GetCompartment returns the compartment identified by compartmentID.
+//
 // See https://docs.us-az-phoenix-1.oracleiaas.com/#apiref.htm
 func (c *Client) GetCompartment(compartmentID string) (compartment *Resource, e error) {
 	compartment, e = c.getIdentity(resourceCompartments, compartmentID)
 	return
 }
 
-// GetGroup returns a group identified by groupID
+// GetGroup returns a group identified by groupID.
+//
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/identity.html#getGroup
 func (c *Client) GetGroup(groupID string) (group *Resource, e error) {
 	group, e = c.getIdentity(resourceGroups, groupID)
 	return
 }
 
-// GetPolicy returns a policy identified by a policyID
+// GetPolicy returns a policy identified by a policyID.
+//
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/identity.html#getPolicy
 func (c *Client) GetPolicy(policyID string) (policy *Policy, e error) {
 
 	url := buildIdentityURL(resourcePolicies, nil, policyID)
 
 	var getResp *requestResponse
-	if getResp, e = c.identityAPI.getRequest(url, nil); e != nil {
+	if getResp, e = c.api.getRequest(url, nil); e != nil {
 		return
 	}
 
@@ -420,21 +446,23 @@ func (c *Client) GetPolicy(policyID string) (policy *Policy, e error) {
 
 }
 
-// GetUser returns a user identified by userID
+// GetUser returns a user identified by userID.
+//
 // See https://docs.us-az-phoenix-1.oracleiaas.com/#apiref.htm
 func (c *Client) GetUser(userID string) (user *Resource, e error) {
 	user, e = c.getIdentity(resourceUsers, userID)
 	return
 }
 
-// GetUserGroupMembership returns a UserGroupMembership identified by id
+// GetUserGroupMembership returns a UserGroupMembership identified by id.
+//
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/identity.html#getUserGroupMembership
 func (c *Client) GetUserGroupMembership(id string) (userGroupMembership *UserGroupMembership, e error) {
 
 	url := buildIdentityURL(resourceUserGroupMemberships, nil, id)
 
 	var getResp *requestResponse
-	if getResp, e = c.identityAPI.getRequest(url, nil); e != nil {
+	if getResp, e = c.api.getRequest(url, nil); e != nil {
 		return
 	}
 
@@ -446,12 +474,13 @@ func (c *Client) GetUserGroupMembership(id string) (userGroupMembership *UserGro
 
 }
 
-// ListAPIKeys - returns information about a user's API keys.
+// ListAPIKeys returns information about a user's API keys.
+//
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/identity.html#listApiKeys
 func (c *Client) ListAPIKeys(userID string) (response *ListAPIKeyResponse, e error) {
 	url := buildIdentityURL(resourceUsers, nil, userID, apiKeys, "/")
 	var getResp *requestResponse
-	if getResp, e = c.identityAPI.getRequest(url, nil); e != nil {
+	if getResp, e = c.api.getRequest(url, nil); e != nil {
 		return
 	}
 	reader := bytes.NewBuffer(getResp.body)
@@ -471,15 +500,16 @@ func (c *Client) ListAPIKeys(userID string) (response *ListAPIKeyResponse, e err
 
 }
 
-// ListAvailablityDomains lists availability domains in a user's root tenancy
+// ListAvailablityDomains lists availability domains in a user's root tenancy.
+//
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/identity.html#listAvailabilityDomains
 func (c *Client) ListAvailablityDomains() (ads []AvailabilityDomain, e error) {
-	url := buildIdentityURL(resourceAvailabilityDomains, &url.Values{
+	url := buildIdentityURL(resourceAvailabilityDomains, url.Values{
 		queryCompartmentID: []string{c.authInfo.tenancyOCID},
 	})
 	var getResp *requestResponse
 
-	if getResp, e = c.identityAPI.getRequest(url, nil); e != nil {
+	if getResp, e = c.api.getRequest(url, nil); e != nil {
 		return
 	}
 
@@ -489,13 +519,15 @@ func (c *Client) ListAvailablityDomains() (ads []AvailabilityDomain, e error) {
 	return
 }
 
-// ListCompartments returns a list of compartments. The request MAY contain optional paging arguments
+// ListCompartments returns a list of compartments. The request MAY contain optional paging arguments.
+//
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/identity.html#listCompartments
 func (c *Client) ListCompartments(options ...ListOptions) (response *ListResourceResponse, e error) {
 	return c.listItems(resourceCompartments, options...)
 }
 
-// ListGroups returns a list of Groups in a tenancy. The request MAY contain optional paging arguments
+// ListGroups returns a list of Groups in a tenancy. The request MAY contain optional paging arguments.
+//
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/identity.html#listGroups
 func (c *Client) ListGroups(options ...ListOptions) (response *ListResourceResponse, e error) {
 	return c.listItems(resourceGroups, options...)
@@ -503,6 +535,7 @@ func (c *Client) ListGroups(options ...ListOptions) (response *ListResourceRespo
 
 // ListUsers returns an array of users for the current tenancy.  The requestor
 // MAY supply paging options.
+//
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/identity.html#listUsers
 func (c *Client) ListUsers(options ...ListOptions) (response *ListResourceResponse, e error) {
 	return c.listItems(resourceUsers, options...)
@@ -530,10 +563,10 @@ func (c *Client) ListUserGroupMemberships(options ...ListOptions) (response *Use
 			q.Set(queryLimit, strconv.FormatUint(opt.Limit, 10))
 		}
 
-		resourceURL := buildIdentityURL(resourceUserGroupMemberships, &q)
+		resourceURL := buildIdentityURL(resourceUserGroupMemberships, q)
 
 		var getResp *requestResponse
-		if getResp, e = c.identityAPI.getRequest(resourceURL, nil); e != nil {
+		if getResp, e = c.api.getRequest(resourceURL, nil); e != nil {
 			return
 		}
 
@@ -557,7 +590,8 @@ func (c *Client) ListUserGroupMemberships(options ...ListOptions) (response *Use
 	return
 }
 
-// UpdateCompartment - updates the description of a compartment
+// UpdateCompartment updates the description of a compartment.
+//
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/identity.html#updateCompartment
 func (c *Client) UpdateCompartment(compartmentID, description string, options ...Options) (compartment *Resource, e error) {
 
@@ -578,7 +612,8 @@ func (c *Client) UpdateCompartment(compartmentID, description string, options ..
 
 }
 
-// UpdateGroup - updates the description of a group
+// UpdateGroup updates the description of a group.
+//
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/identity.html#updateGroup
 func (c *Client) UpdateGroup(groupID, description string, options ...Options) (group *Resource, e error) {
 
@@ -599,6 +634,7 @@ func (c *Client) UpdateGroup(groupID, description string, options ...Options) (g
 }
 
 // UpdatePolicy can be called to modify the description and statements of an existing policy.
+//
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/identity.html#updatePolicy
 func (c *Client) UpdatePolicy(policyID, policyDescription string, policyStatements []string, opts ...Options) (policy *Policy, e error) {
 	var headers http.Header
@@ -642,6 +678,7 @@ func (c *Client) UpdateUser(userID, userDescription string, opts ...Options) (us
 
 // UpdateUserUIPassword - Changes the password of a user identified by userID. An
 // ETAG MAY be passed as an option for optimistic concurrency control.
+//
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/identity.html#createOrResetUIPassword
 func (c *Client) UpdateUserUIPassword(newPassword, userID string, opts ...Options) (uipwd *UIPassword, e error) {
 	var headers http.Header
@@ -657,7 +694,7 @@ func (c *Client) UpdateUserUIPassword(newPassword, userID string, opts ...Option
 	url := buildIdentityURL(resourceUsers, nil, userID, uiPassword)
 
 	var response *requestResponse
-	if response, e = c.identityAPI.request(http.MethodPut, url, request, headers); e != nil {
+	if response, e = c.api.request(http.MethodPut, url, request, headers); e != nil {
 		return
 	}
 
@@ -676,6 +713,7 @@ func (c *Client) UpdateUserUIPassword(newPassword, userID string, opts ...Option
 
 // UploadAPIKey - add an API signing key for user. The key must be an RSA public
 // key in pem format.
+//
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/identity.html#uploadApiKey
 func (c *Client) UploadAPIKey(userID, key string, opts ...Options) (apiKey *APIKey, e error) {
 	url := buildIdentityURL(resourceUsers, nil, userID, apiKeys, "/")
@@ -693,7 +731,7 @@ func (c *Client) UploadAPIKey(userID, key string, opts ...Options) (apiKey *APIK
 	}
 
 	var resp *requestResponse
-	if resp, e = c.identityAPI.request(http.MethodPost, url, request, headers); e != nil {
+	if resp, e = c.api.request(http.MethodPost, url, request, headers); e != nil {
 		return
 	}
 

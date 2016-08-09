@@ -10,7 +10,7 @@ import (
 
 const fiveMinutes time.Duration = 5 * time.Minute
 
-var identitySchema = map[string]*schema.Schema{
+var resourceSchema = map[string]*schema.Schema{
 	"name": &schema.Schema{
 		Type:     schema.TypeString,
 		Required: true,
@@ -52,7 +52,7 @@ func createResource(d *schema.ResourceData, sync ResourceSync) (e error) {
 	return
 }
 
-func readResource(sync ResourceReader) (e error) {
+func readResource(sync ResourceSync) (e error) {
 	if e = sync.Get(); e != nil {
 		return
 	}

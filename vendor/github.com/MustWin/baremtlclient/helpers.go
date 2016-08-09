@@ -37,25 +37,38 @@ type UpdatePolicyRequest struct {
 	Statements []string `json:"statements"`
 }
 
-func buildIdentityURL(resource resourceName, query *url.Values, ids ...string) string {
-	urlStr := fmt.Sprintf("%s/%s/%s", identityServiceAPI, identityServiceAPIVersion, resource)
+func buildCoreURL(resource resourceName, query url.Values, ids ...interface{}) string {
+	urlStr := fmt.Sprintf("%s/%s/%s", coreServiceAPI, coreServiceAPIVersion, resource)
+	return buildURL(urlStr, query, ids...)
+}
+
+func buildURL(urlStr string, query url.Values, ids ...interface{}) string {
 	const seperator = "/"
 	for _, id := range ids {
-		if id != seperator {
+		var strVal string
+
+		switch id := id.(type) {
+		default:
+			panic("Unsupported type")
+		case bool:
+			strVal = strconv.FormatBool(id)
+		case uint64:
+			strVal = strconv.FormatUint(id, 10)
+		case string:
+			strVal = id
+		}
+
+		if strVal != seperator {
 			urlStr += seperator
 		}
 
-		urlStr += id
-	}
-
-	if len(ids) == 0 && query == nil {
-		urlStr += seperator
+		urlStr += strVal
 	}
 
 	u, _ := url.Parse(urlStr)
 	if query != nil {
 		q := u.Query()
-		for key, vals := range *query {
+		for key, vals := range query {
 			for _, val := range vals {
 				q.Add(key, val)
 			}
@@ -65,13 +78,19 @@ func buildIdentityURL(resource resourceName, query *url.Values, ids ...string) s
 	}
 
 	return u.String()
+
+}
+
+func buildIdentityURL(resource resourceName, query url.Values, ids ...interface{}) string {
+	urlStr := fmt.Sprintf("%s/%s/%s", identityServiceAPI, identityServiceAPIVersion, resource)
+	return buildURL(urlStr, query, ids...)
 }
 
 func (c *Client) createResource(resourceType resourceName, request CreateResourceRequest, headers http.Header) (resource *Resource, e error) {
 	urlStr := buildIdentityURL(resourceType, nil)
 
 	var resp *requestResponse
-	if resp, e = c.identityAPI.request(http.MethodPost, urlStr, request, headers); e != nil {
+	if resp, e = c.api.request(http.MethodPost, urlStr, request, headers); e != nil {
 		return
 	}
 
@@ -81,10 +100,10 @@ func (c *Client) createResource(resourceType resourceName, request CreateResourc
 
 }
 
-func (c *Client) getIdentity(resource resourceName, ids ...string) (item *Resource, e error) {
+func (c *Client) getIdentity(resource resourceName, ids ...interface{}) (item *Resource, e error) {
 	url := buildIdentityURL(resource, nil, ids...)
 	var getResp *requestResponse
-	if getResp, e = c.identityAPI.getRequest(url, nil); e != nil {
+	if getResp, e = c.api.getRequest(url, nil); e != nil {
 		return
 	}
 
@@ -116,10 +135,10 @@ func (c *Client) listItems(resource resourceName, options ...ListOptions) (resp 
 		q.Set(queryPage, options[0].Page)
 	}
 
-	resourceURL := buildIdentityURL(resource, &q)
+	resourceURL := buildIdentityURL(resource, q)
 
 	var getResp *requestResponse
-	if getResp, e = c.identityAPI.getRequest(resourceURL, nil); e != nil {
+	if getResp, e = c.api.getRequest(resourceURL, nil); e != nil {
 		return
 	}
 
@@ -141,7 +160,7 @@ func (c *Client) listItems(resource resourceName, options ...ListOptions) (resp 
 func (c *Client) updateResource(resource resourceName, resourceID string, request interface{}, headers http.Header) (resp []byte, e error) {
 	url := buildIdentityURL(resource, nil, resourceID)
 	var r *requestResponse
-	if r, e = c.identityAPI.request(http.MethodPut, url, request, headers); e != nil {
+	if r, e = c.api.request(http.MethodPut, url, request, headers); e != nil {
 		return
 	}
 	resp = r.body
