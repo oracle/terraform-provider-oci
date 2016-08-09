@@ -22,7 +22,7 @@ type ResourceIdentityGroupTestSuite struct {
 	TimeCreated  time.Time
 	Config       string
 	ResourceName string
-	Res          *baremtlsdk.Resource
+	Res          *baremtlsdk.IdentityResource
 }
 
 func (s *ResourceIdentityGroupTestSuite) SetupTest() {
@@ -47,7 +47,7 @@ func (s *ResourceIdentityGroupTestSuite) SetupTest() {
 	s.Config += testProviderConfig
 
 	s.ResourceName = "baremetal_identity_group.t"
-	s.Res = &baremtlsdk.Resource{
+	s.Res = &baremtlsdk.IdentityResource{
 		ID:            "id!",
 		Name:          "name!",
 		Description:   "desc!",
