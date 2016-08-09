@@ -51,7 +51,7 @@ func (s *ResourceIdentityPolicyTestSuite) SetupTest() {
 	)
 	s.PolicyName = "baremetal_identity_policy.p"
 	s.Policy = &baremtlsdk.Policy{
-		Resource: baremtlsdk.Resource{
+		IdentityResource: baremtlsdk.IdentityResource{
 			ID:            "123",
 			Name:          "pol",
 			Description:   "desc",
