@@ -1,6 +1,8 @@
 package main
 
 import (
+	"time"
+
 	"github.com/MustWin/baremtlclient"
 	"github.com/hashicorp/terraform/helper/schema"
 )
@@ -93,6 +95,9 @@ func (r *ShapeReader) Get() (e error) {
 
 func (r *ShapeReader) SetData() {
 	if r.shapeListResponse != nil {
+		// Important, if you don't have an ID, make one up for your datasource
+		// or things will end in tears
+		r.resourceData.SetId(time.Now().UTC().String())
 		r.resourceData.Set("shapes", r.shapeListResponse.Shapes)
 	}
 	return
