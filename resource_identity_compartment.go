@@ -13,7 +13,7 @@ func ResourceIdentityCompartment() *schema.Resource {
 		Read:   readCompartment,
 		Update: updateCompartment,
 		Delete: deleteCompartment,
-		Schema: resourceSchema,
+		Schema: identitySchema,
 	}
 }
 

@@ -10,7 +10,7 @@ import (
 
 const fiveMinutes time.Duration = 5 * time.Minute
 
-var resourceSchema = map[string]*schema.Schema{
+var identitySchema = map[string]*schema.Schema{
 	"name": &schema.Schema{
 		Type:     schema.TypeString,
 		Required: true,
