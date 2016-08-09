@@ -52,7 +52,7 @@ func createResource(d *schema.ResourceData, sync ResourceSync) (e error) {
 	return
 }
 
-func readResource(sync ResourceReader) (e error) {
+func readResource(sync ResourceSync) (e error) {
 	if e = sync.Get(); e != nil {
 		return
 	}

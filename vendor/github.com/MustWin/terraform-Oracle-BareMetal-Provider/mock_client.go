@@ -91,10 +91,3 @@ func (m *MockClient) UpdateCompartment(id, description string, opts ...baremtlsd
 	u, _ := args.Get(0).(*baremtlsdk.Resource)
 	return u, args.Error(1)
 }
-
-func (m *MockClient) ListShapes(compartmentID string, opt ...baremtlsdk.CoreOptions) (*baremtlsdk.ShapeList, error) {
-	args := m.Called(compartmentID, opt)
-	u, _ := args.Get(0).(*baremtlsdk.ShapeList)
-	return u, args.Error(1)
-
-}

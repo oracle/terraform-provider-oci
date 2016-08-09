@@ -1,3 +1,6 @@
+// Package baremtlsdk provides access to the Oracle Bare Metal Cloud API's
+//
+// See https://docs.us-az-phoenix-1.oracleiaas.com/#API/Concepts/usingapi.htm
 package baremtlsdk
 
 import (
@@ -12,14 +15,13 @@ import (
 // Client is used to access Oracle BareMetal Services
 type Client struct {
 	authInfo         *authenticationInfo
-	identityAPI      requestor
+	api              requestor
 	identityEndPoint string
 }
 
-// New creates a new client to access Oracle BareMetal services
-// OCID and fingerprint arguments are accessed from BareMetal identity
-// console, private key is RSA key associated with user accessing api, and must
-// be associated with user.
+// New creates a new client to access Oracle BareMetal services.
+// userOCI, tenancyOCID and fingerprint arguments are accessed from the BareMetal identity
+// console. privateKey is an RSA key associated with the user accessing the API.
 func New(userOCID, tenancyOCID, keyFingerPrint string, privateKey *rsa.PrivateKey) (c *Client) {
 	auth := &authenticationInfo{
 		privateRSAKey:  privateKey,
@@ -32,15 +34,15 @@ func New(userOCID, tenancyOCID, keyFingerPrint string, privateKey *rsa.PrivateKe
 	tr := &http.Transport{}
 
 	return &Client{
-		authInfo:    auth,
-		identityAPI: newAPIRequestor(auth, tr),
+		authInfo: auth,
+		api:      newAPIRequestor(auth, tr),
 	}
 }
 
 // NewFromKeyPath creates a client reading an RSA private key from a file. The
 // userOCID and tenancyOCID are obtained from the BareMetal console.
-// The fingerprint can be obtained from the BareMetal console or
-// openssl rsa -pubout -outform DER -in private.pem | openssl md5 -c
+// The fingerprint can be obtained from the BareMetal console or running
+//     openssl rsa -pubout -outform DER -in private.pem | openssl md5 -c
 func NewFromKeyPath(userOCID, tenancyOCID, keyFingerPrint, privateKeyPath, keyPassword string) (c *Client, e error) {
 	var key *rsa.PrivateKey
 
