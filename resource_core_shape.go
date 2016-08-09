@@ -45,13 +45,8 @@ func readShape(d *schema.ResourceData, m interface{}) (e error) {
 		client:       client,
 	}
 
-	if e = readResource(reader); e != nil {
-		return
-	}
+	return readResource(reader)
 
-	reader.SetData()
-
-	return
 }
 
 func (r *ShapeReader) getOptions() (opts []baremtlsdk.CoreOptions) {
