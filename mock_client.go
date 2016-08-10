@@ -98,3 +98,9 @@ func (m *MockClient) ListShapes(compartmentID string, opt ...baremtlsdk.CoreOpti
 	return u, args.Error(1)
 
 }
+
+func (m *MockClient) ListVnicAttachments(compartmentID string, opt ...baremtlsdk.CoreOptions) (*baremtlsdk.VnicAttachmentList, error) {
+	args := m.Called(compartmentID, opt)
+	u, _ := args.Get(0).(*baremtlsdk.VnicAttachmentList)
+	return u, args.Error(1)
+}

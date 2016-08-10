@@ -12,6 +12,10 @@ const (
 	ResourceAvailable    = "AVAILABLE"
 	ResourceTerminating  = "TERMINATING"
 	ResourceTerminated   = "TERMINATED"
+	ResourceAttaching    = "ATTACHING"
+	ResourceAttached     = "ATTACHED"
+	ResourceDetaching    = "DETACHING"
+	ResourceDetached     = "DETACHED"
 
 	identityServiceAPI        = "https://identity.us-az-phoenix-1.OracleIaaS.com"
 	identityServiceAPIVersion = "v1"
@@ -30,9 +34,11 @@ const (
 	queryCompartmentID      = "compartmentId"
 	queryGroupID            = "groupId"
 	queryImageID            = "imageId"
+	queryInstanceID         = "instanceId"
 	queryLimit              = "limit"
 	queryPage               = "page"
 	queryUserID             = "userId"
+	queryVnicID             = "vnicId"
 
 	// Identity Resources
 	resourceAvailabilityDomains  resourceName = "availabilityDomains"
@@ -45,6 +51,7 @@ const (
 	// Core Resources
 	resourceCustomerPremiseEquipment resourceName = "cpes"
 	resourceShapes                   resourceName = "shapes"
+	resourceVnicAttachments          resourceName = "vnicAttachments"
 
 	apiKeys    = "apiKeys"
 	uiPassword = "uiPassword"

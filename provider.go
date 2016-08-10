@@ -73,7 +73,8 @@ func schemaMap() map[string]*schema.Schema {
 
 func dataSourcesMap() map[string]*schema.Resource {
 	return map[string]*schema.Resource{
-		"baremetal_core_shape": ResourceCoreShape(),
+		"baremetal_core_shape":            ResourceCoreShape(),
+		"baremetal_core_vnic_attachments": ResourceCoreVnicAttachments(),
 	}
 }
 

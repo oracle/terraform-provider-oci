@@ -28,4 +28,5 @@ type BareMetalClient interface {
 	UpdateCompartment(userID, userDescription string, opts ...baremtlsdk.Options) (*baremtlsdk.IdentityResource, error)
 
 	ListShapes(compartmentID string, opt ...baremtlsdk.CoreOptions) (*baremtlsdk.ShapeList, error)
+	ListVnicAttachments(compartmentID string, opt ...baremtlsdk.CoreOptions) (*baremtlsdk.VnicAttachmentList, error)
 }
