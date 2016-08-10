@@ -11,6 +11,7 @@ import (
 func testCheckAttributeTypeList(resourceName, attributeName string, expecteds []string) resource.TestCheckFunc {
 	return func(s *terraform.State) (e error) {
 		ms := s.RootModule()
+
 		rs, ok := ms.Resources[resourceName]
 		if !ok {
 			return fmt.Errorf("Not found: %s", resourceName)

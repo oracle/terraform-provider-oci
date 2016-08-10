@@ -7,9 +7,11 @@ import (
 
 type CoreOptions struct {
 	AvailabilityDomain string
+	ImageID            string
+	InstanceID         string
 	Limit              uint64
 	Page               string
-	ImageID            string
+	VnicID             string
 }
 
 func (c *Client) setCoreOptions(query url.Values, options ...CoreOptions) {
@@ -21,11 +23,17 @@ func (c *Client) setCoreOptions(query url.Values, options ...CoreOptions) {
 		if option.ImageID != "" {
 			query.Set(queryImageID, option.ImageID)
 		}
+		if option.InstanceID != "" {
+			query.Set(queryInstanceID, option.InstanceID)
+		}
 		if option.Limit > 0 {
 			query.Set(queryLimit, strconv.FormatUint(option.Limit, 10))
 		}
 		if option.Page != "" {
 			query.Set(queryPage, option.Page)
+		}
+		if option.VnicID != "" {
+			query.Set(queryVnicID, option.VnicID)
 		}
 	}
 }

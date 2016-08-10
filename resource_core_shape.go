@@ -49,37 +49,9 @@ func readShape(d *schema.ResourceData, m interface{}) (e error) {
 
 }
 
-func (r *ShapeReader) getOptions() (opts []baremtlsdk.CoreOptions) {
-	keys := []string{
-		"availability_domain",
-		"image_id",
-	}
-
-	opts = []baremtlsdk.CoreOptions{}
-
-	for _, key := range keys {
-		if val, ok := r.resourceData.GetOk(key); ok {
-			if len(opts) == 0 {
-				opts = append(opts, baremtlsdk.CoreOptions{})
-			}
-
-			switch key {
-			case "availability_domain":
-				opts[0].AvailabilityDomain = val.(string)
-			case "image_id":
-				opts[0].ImageID = val.(string)
-
-			}
-		}
-	}
-
-	return
-
-}
-
 func (r *ShapeReader) Get() (e error) {
 	compartmentID := r.resourceData.Get("compartment_id").(string)
-	opts := r.getOptions()
+	opts := getCoreOptionsFromResourceData(r.resourceData, "availability_domain", "image_id")
 
 	if r.shapeListResponse, e = r.client.ListShapes(compartmentID, opts...); e != nil {
 		return
