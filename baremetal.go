@@ -2,11 +2,6 @@ package main
 
 import "github.com/MustWin/baremetal-sdk-go"
 
-type CreateResourceFn func(string, string, ...baremetal.Options) (*baremetal.IdentityResource, error)
-type GetResourceFn func(string) (*baremetal.IdentityResource, error)
-type UpdateResourceFn func(string, string, ...baremetal.Options) (*baremetal.IdentityResource, error)
-type DeleteResourceFn func(string, ...baremetal.Options) error
-
 type BareMetalClient interface {
 	CreateUser(name, description string, options ...baremetal.Options) (*baremetal.IdentityResource, error)
 	GetUser(userID string) (*baremetal.IdentityResource, error)
