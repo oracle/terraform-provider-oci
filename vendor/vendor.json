@@ -253,6 +253,12 @@
 			"revisionTime": "2016-06-13T20:05:45Z"
 		},
 		{
+			"checksumSHA1": "Hm3GcyTgd5R/KlIimgvJmBsPuB0=",
+			"path": "github.com/MustWin/baremetal-sdk-go",
+			"revision": "03ad4ddb1fcd1cb64fd3be59e406edeb3de0a2d2",
+			"revisionTime": "2016-08-16T15:59:13Z"
+		},
+		{
 			"checksumSHA1": "htjvdG/znrHmFYRQBqA2vHrJsF4=",
 			"path": "github.com/Sirupsen/logrus",
 			"revision": "f3cfb454f4c209e6668c95216c4744b8fddb2356",
