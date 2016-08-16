@@ -253,12 +253,6 @@
 			"revisionTime": "2016-06-13T20:05:45Z"
 		},
 		{
-			"checksumSHA1": "6iRKdCSOqhn7RfTXTTL3vWJ2ieY=",
-			"path": "github.com/MustWin/baremtlclient",
-			"revision": "d7e06c8f298e82b61d843fdb74998b09476fbbba",
-			"revisionTime": "2016-08-09T21:51:51Z"
-		},
-		{
 			"checksumSHA1": "htjvdG/znrHmFYRQBqA2vHrJsF4=",
 			"path": "github.com/Sirupsen/logrus",
 			"revision": "f3cfb454f4c209e6668c95216c4744b8fddb2356",
