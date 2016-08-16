@@ -3,21 +3,21 @@ package main
 import (
 	"fmt"
 
-	"github.com/MustWin/baremtlclient"
+	"github.com/MustWin/baremetal-sdk-go"
 )
 
 type resourceProvider interface {
 	GetOk(string) (interface{}, bool)
 }
 
-func getCoreOptionsFromResourceData(resource resourceProvider, keys ...string) (opts []baremtlsdk.CoreOptions) {
-	opts = []baremtlsdk.CoreOptions{}
+func getCoreOptionsFromResourceData(resource resourceProvider, keys ...string) (opts []baremetal.CoreOptions) {
+	opts = []baremetal.CoreOptions{}
 
 	for _, key := range keys {
 		if val, ok := resource.GetOk(key); ok {
 
 			if len(opts) == 0 {
-				opts = append(opts, baremtlsdk.CoreOptions{})
+				opts = append(opts, baremetal.CoreOptions{})
 			}
 
 			switch key {

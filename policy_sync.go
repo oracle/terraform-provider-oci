@@ -1,14 +1,14 @@
 package main
 
 import (
-	"github.com/MustWin/baremtlclient"
+	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
 type PolicySync struct {
 	D      *schema.ResourceData
 	Client BareMetalClient
-	Res    *baremtlsdk.Policy
+	Res    *baremetal.Policy
 }
 
 func (s *PolicySync) Id() string {

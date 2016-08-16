@@ -3,14 +3,14 @@ package main
 import (
 	"time"
 
-	"github.com/MustWin/baremtlclient"
+	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
 type ShapeReader struct {
 	resourceData      *schema.ResourceData
 	client            BareMetalClient
-	shapeListResponse *baremtlsdk.ShapeList
+	shapeListResponse *baremetal.ShapeList
 }
 
 func ResourceCoreShape() *schema.Resource {

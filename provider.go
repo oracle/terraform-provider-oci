@@ -3,7 +3,7 @@ package main
 import (
 	"crypto/rsa"
 
-	"github.com/MustWin/baremtlclient"
+	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 )
@@ -98,17 +98,17 @@ func providerConfig(d *schema.ResourceData) (client interface{}, err error) {
 	var privateKey *rsa.PrivateKey
 
 	if privateKeyBuffer != "" {
-		if privateKey, err = baremtlsdk.PrivateKeyFromBytes([]byte(privateKeyBuffer), privateKeyPassword); err != nil {
+		if privateKey, err = baremetal.PrivateKeyFromBytes([]byte(privateKeyBuffer), privateKeyPassword); err != nil {
 			return nil, err
 		}
 	}
 
 	if privateKeyPath != "" {
-		if privateKey, err = baremtlsdk.PrivateKeyFromFile(privateKeyPath, privateKeyPassword); err != nil {
+		if privateKey, err = baremetal.PrivateKeyFromFile(privateKeyPath, privateKeyPassword); err != nil {
 			return nil, err
 		}
 	}
 
-	client = baremtlsdk.New(userOCID, tenancyOCID, fingerprint, privateKey)
+	client = baremetal.New(userOCID, tenancyOCID, fingerprint, privateKey)
 	return
 }

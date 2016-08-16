@@ -3,14 +3,14 @@ package main
 import (
 	"time"
 
-	"github.com/MustWin/baremtlclient"
+	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
 type VnicAttachmentsReader struct {
 	resourceData *schema.ResourceData
 	client       BareMetalClient
-	response     *baremtlsdk.VnicAttachmentList
+	response     *baremetal.VnicAttachmentList
 }
 
 func resourceVnicAttachment() *schema.Resource {

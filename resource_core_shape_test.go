@@ -3,7 +3,7 @@ package main
 import (
 	"testing"
 
-	"github.com/MustWin/baremtlclient"
+	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
@@ -42,8 +42,8 @@ func (s *ResourceCoreShapeTestSuite) SetupTest() {
 }
 
 func (s *ResourceCoreShapeTestSuite) TestResourceReadCoreShape() {
-	opts := []baremtlsdk.CoreOptions{
-		baremtlsdk.CoreOptions{
+	opts := []baremetal.CoreOptions{
+		baremetal.CoreOptions{
 			AvailabilityDomain: "availabilityid",
 			ImageID:            "imageid",
 		},
@@ -54,7 +54,7 @@ func (s *ResourceCoreShapeTestSuite) TestResourceReadCoreShape() {
 		"compartmentid",
 		opts,
 	).Return(
-		&baremtlsdk.ShapeList{
+		&baremetal.ShapeList{
 			Shapes: []string{
 				"shape1",
 				"shape2",

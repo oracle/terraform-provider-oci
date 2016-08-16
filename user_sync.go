@@ -1,14 +1,14 @@
 package main
 
 import (
-	"github.com/MustWin/baremtlclient"
+	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
 type UserSync struct {
 	D      *schema.ResourceData
 	Client BareMetalClient
-	Res    *baremtlsdk.IdentityResource
+	Res    *baremetal.IdentityResource
 }
 
 func (s *UserSync) Id() string {

@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/MustWin/baremtlclient"
+	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
@@ -31,7 +31,7 @@ type ResourceIdentityPolicyTestSuite struct {
 	TimeCreated time.Time
 	Config      string
 	PolicyName  string
-	Policy      *baremtlsdk.Policy
+	Policy      *baremetal.Policy
 }
 
 func (s *ResourceIdentityPolicyTestSuite) SetupTest() {
@@ -50,13 +50,13 @@ func (s *ResourceIdentityPolicyTestSuite) SetupTest() {
 		`["statementX","statementY"]`,
 	)
 	s.PolicyName = "baremetal_identity_policy.p"
-	s.Policy = &baremtlsdk.Policy{
-		IdentityResource: baremtlsdk.IdentityResource{
+	s.Policy = &baremetal.Policy{
+		IdentityResource: baremetal.IdentityResource{
 			ID:            "123",
 			Name:          "pol",
 			Description:   "desc",
 			CompartmentID: "7",
-			State:         baremtlsdk.ResourceCreated,
+			State:         baremetal.ResourceCreated,
 			TimeCreated:   s.TimeCreated,
 			TimeModified:  s.TimeCreated,
 		},

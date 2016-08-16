@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/MustWin/baremtlclient"
+	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
@@ -22,7 +22,7 @@ type ResourceIdentityCompartmentTestSuite struct {
 	TimeCreated  time.Time
 	Config       string
 	ResourceName string
-	Res          *baremtlsdk.IdentityResource
+	Res          *baremetal.IdentityResource
 }
 
 func (s *ResourceIdentityCompartmentTestSuite) SetupTest() {
@@ -50,12 +50,12 @@ func (s *ResourceIdentityCompartmentTestSuite) SetupTest() {
 	`
 	s.Config += testProviderConfig
 	s.ResourceName = "baremetal_identity_compartment.t"
-	s.Res = &baremtlsdk.IdentityResource{
+	s.Res = &baremetal.IdentityResource{
 		ID:            "id!",
 		Name:          "name!",
 		Description:   "desc!",
 		CompartmentID: "cid!",
-		State:         baremtlsdk.ResourceCreated,
+		State:         baremetal.ResourceCreated,
 		TimeCreated:   s.TimeCreated,
 		TimeModified:  s.TimeCreated,
 	}
@@ -84,11 +84,11 @@ func (s *ResourceIdentityCompartmentTestSuite) TestCreateResourceIdentityCompart
 }
 
 func (s *ResourceIdentityCompartmentTestSuite) TestCreateResourceIdentityCompartmentPolling() {
-	s.Res.State = baremtlsdk.ResourceCreating
+	s.Res.State = baremetal.ResourceCreating
 	s.Client.On("GetCompartment", "id!").Return(s.Res, nil).Once()
 
 	u := *s.Res
-	u.State = baremtlsdk.ResourceCreated
+	u.State = baremetal.ResourceCreated
 	s.Client.On("GetCompartment", "id!").Return(&u, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
@@ -96,7 +96,7 @@ func (s *ResourceIdentityCompartmentTestSuite) TestCreateResourceIdentityCompart
 		Steps: []resource.TestStep{
 			resource.TestStep{
 				Config: s.Config,
-				Check:  resource.TestCheckResourceAttr(s.ResourceName, "state", baremtlsdk.ResourceCreated),
+				Check:  resource.TestCheckResourceAttr(s.ResourceName, "state", baremetal.ResourceCreated),
 			},
 		},
 	})
