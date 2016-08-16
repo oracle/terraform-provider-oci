@@ -8,7 +8,7 @@ import (
 type PolicySync struct {
 	D      *schema.ResourceData
 	Client BareMetalClient
-	Res    *baremtlsdk.Policy
+	Res    *baremetal.Policy
 }
 
 func (s *PolicySync) Id() string {

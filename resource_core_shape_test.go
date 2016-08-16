@@ -42,8 +42,8 @@ func (s *ResourceCoreShapeTestSuite) SetupTest() {
 }
 
 func (s *ResourceCoreShapeTestSuite) TestResourceReadCoreShape() {
-	opts := []baremtlsdk.CoreOptions{
-		baremtlsdk.CoreOptions{
+	opts := []baremetal.CoreOptions{
+		baremetal.CoreOptions{
 			AvailabilityDomain: "availabilityid",
 			ImageID:            "imageid",
 		},
@@ -54,7 +54,7 @@ func (s *ResourceCoreShapeTestSuite) TestResourceReadCoreShape() {
 		"compartmentid",
 		opts,
 	).Return(
-		&baremtlsdk.ShapeList{
+		&baremetal.ShapeList{
 			Shapes: []string{
 				"shape1",
 				"shape2",

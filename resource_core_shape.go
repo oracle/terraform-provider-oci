@@ -10,7 +10,7 @@ import (
 type ShapeReader struct {
 	resourceData      *schema.ResourceData
 	client            BareMetalClient
-	shapeListResponse *baremtlsdk.ShapeList
+	shapeListResponse *baremetal.ShapeList
 }
 
 func ResourceCoreShape() *schema.Resource {

@@ -8,7 +8,7 @@ import (
 type UserSync struct {
 	D      *schema.ResourceData
 	Client BareMetalClient
-	Res    *baremtlsdk.IdentityResource
+	Res    *baremetal.IdentityResource
 }
 
 func (s *UserSync) Id() string {

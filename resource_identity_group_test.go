@@ -22,7 +22,7 @@ type ResourceIdentityGroupTestSuite struct {
 	TimeCreated  time.Time
 	Config       string
 	ResourceName string
-	Res          *baremtlsdk.IdentityResource
+	Res          *baremetal.IdentityResource
 }
 
 func (s *ResourceIdentityGroupTestSuite) SetupTest() {
@@ -47,12 +47,12 @@ func (s *ResourceIdentityGroupTestSuite) SetupTest() {
 	s.Config += testProviderConfig
 
 	s.ResourceName = "baremetal_identity_group.t"
-	s.Res = &baremtlsdk.IdentityResource{
+	s.Res = &baremetal.IdentityResource{
 		ID:            "id!",
 		Name:          "name!",
 		Description:   "desc!",
 		CompartmentID: "cid!",
-		State:         baremtlsdk.ResourceCreated,
+		State:         baremetal.ResourceCreated,
 		TimeCreated:   s.TimeCreated,
 		TimeModified:  s.TimeCreated,
 	}
@@ -82,11 +82,11 @@ func (s *ResourceIdentityGroupTestSuite) TestCreateResourceIdentityGroup() {
 }
 
 func (s *ResourceIdentityGroupTestSuite) TestCreateResourceIdentityGroupPolling() {
-	s.Res.State = baremtlsdk.ResourceCreating
+	s.Res.State = baremetal.ResourceCreating
 	s.Client.On("GetGroup", "id!").Return(s.Res, nil).Once()
 
 	u := *s.Res
-	u.State = baremtlsdk.ResourceCreated
+	u.State = baremetal.ResourceCreated
 	s.Client.On("GetGroup", "id!").Return(&u, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
@@ -94,7 +94,7 @@ func (s *ResourceIdentityGroupTestSuite) TestCreateResourceIdentityGroupPolling(
 		Steps: []resource.TestStep{
 			resource.TestStep{
 				Config: s.Config,
-				Check:  resource.TestCheckResourceAttr(s.ResourceName, "state", baremtlsdk.ResourceCreated),
+				Check:  resource.TestCheckResourceAttr(s.ResourceName, "state", baremetal.ResourceCreated),
 			},
 		},
 	})

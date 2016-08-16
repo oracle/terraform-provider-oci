@@ -10,7 +10,7 @@ import (
 type CompartmentSync struct {
 	D      *schema.ResourceData
 	Client BareMetalClient
-	Res    *baremtlsdk.IdentityResource
+	Res    *baremetal.IdentityResource
 }
 
 func (s *CompartmentSync) Id() string {

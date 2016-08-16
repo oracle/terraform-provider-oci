@@ -22,7 +22,7 @@ type ResourceIdentityUserTestSuite struct {
 	TimeCreated  time.Time
 	Config       string
 	ResourceName string
-	Res          *baremtlsdk.IdentityResource
+	Res          *baremetal.IdentityResource
 }
 
 func (s *ResourceIdentityUserTestSuite) SetupTest() {
@@ -49,12 +49,12 @@ func (s *ResourceIdentityUserTestSuite) SetupTest() {
 	s.Config += testProviderConfig
 
 	s.ResourceName = "baremetal_identity_user.t"
-	s.Res = &baremtlsdk.IdentityResource{
+	s.Res = &baremetal.IdentityResource{
 		ID:            "id!",
 		Name:          "name!",
 		Description:   "desc!",
 		CompartmentID: "cid!",
-		State:         baremtlsdk.ResourceCreated,
+		State:         baremetal.ResourceCreated,
 		TimeCreated:   s.TimeCreated,
 		TimeModified:  s.TimeCreated,
 	}
@@ -84,11 +84,11 @@ func (s *ResourceIdentityUserTestSuite) TestCreateResourceIdentityUser() {
 }
 
 func (s *ResourceIdentityUserTestSuite) TestCreateResourceIdentityUserPolling() {
-	s.Res.State = baremtlsdk.ResourceCreating
+	s.Res.State = baremetal.ResourceCreating
 	s.Client.On("GetUser", "id!").Return(s.Res, nil).Once()
 
 	u := *s.Res
-	u.State = baremtlsdk.ResourceCreated
+	u.State = baremetal.ResourceCreated
 	s.Client.On("GetUser", "id!").Return(&u, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
@@ -97,7 +97,7 @@ func (s *ResourceIdentityUserTestSuite) TestCreateResourceIdentityUserPolling() 
 			resource.TestStep{
 				Config: s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "state", baremtlsdk.ResourceCreated),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", baremetal.ResourceCreated),
 				),
 			},
 		},

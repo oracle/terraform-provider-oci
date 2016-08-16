@@ -10,7 +10,7 @@ import (
 type VnicAttachmentsReader struct {
 	resourceData *schema.ResourceData
 	client       BareMetalClient
-	response     *baremtlsdk.VnicAttachmentList
+	response     *baremetal.VnicAttachmentList
 }
 
 func resourceVnicAttachment() *schema.Resource {

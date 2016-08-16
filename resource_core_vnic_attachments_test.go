@@ -44,8 +44,8 @@ func (s *ResourceCoreVnicAttachmentsTestSuite) SetupTest() {
 }
 
 func (s *ResourceCoreVnicAttachmentsTestSuite) TestResourceReadCoreVnicAttachments() {
-	opts := []baremtlsdk.CoreOptions{
-		baremtlsdk.CoreOptions{
+	opts := []baremetal.CoreOptions{
+		baremetal.CoreOptions{
 			AvailabilityDomain: "availabilityid",
 			VnicID:             "vnicid",
 			InstanceID:         "instanceid",
@@ -57,26 +57,26 @@ func (s *ResourceCoreVnicAttachmentsTestSuite) TestResourceReadCoreVnicAttachmen
 		"compartmentid",
 		opts,
 	).Return(
-		&baremtlsdk.VnicAttachmentList{
-			Attachments: []baremtlsdk.VnicAttachment{
-				baremtlsdk.VnicAttachment{
+		&baremetal.VnicAttachmentList{
+			Attachments: []baremetal.VnicAttachment{
+				baremetal.VnicAttachment{
 					ID:                 "id1",
 					AvailabilityDomain: "availabilityid",
 					CompartmentID:      "compartmentid",
 					DisplayName:        "att1",
 					InstanceID:         "instanceid",
-					State:              baremtlsdk.ResourceAttached,
+					State:              baremetal.ResourceAttached,
 					SubnetID:           "subnetid",
 					VnicID:             "vnicid",
 					TimeCreated:        time.Now(),
 				},
-				baremtlsdk.VnicAttachment{
+				baremetal.VnicAttachment{
 					ID:                 "id2",
 					AvailabilityDomain: "availabilityid",
 					CompartmentID:      "compartmentid",
 					DisplayName:        "att2",
 					InstanceID:         "instanceid",
-					State:              baremtlsdk.ResourceAttached,
+					State:              baremetal.ResourceAttached,
 					SubnetID:           "subnetid",
 					VnicID:             "vnicid",
 					TimeCreated:        time.Now().Add(fiveMinutes),
