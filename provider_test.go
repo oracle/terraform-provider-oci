@@ -3,7 +3,7 @@ package main
 import (
 	"testing"
 
-	"github.com/MustWin/baremtlclient"
+	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/stretchr/testify/assert"
 )

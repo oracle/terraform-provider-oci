@@ -1,6 +1,6 @@
 package main
 
-import "github.com/MustWin/baremtlclient"
+import "github.com/MustWin/baremetal-sdk-go"
 
 type CreateResourceFn func(string, string, ...baremtlsdk.Options) (*baremtlsdk.IdentityResource, error)
 type GetResourceFn func(string) (*baremtlsdk.IdentityResource, error)

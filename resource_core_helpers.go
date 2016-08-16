@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/MustWin/baremtlclient"
+	"github.com/MustWin/baremetal-sdk-go"
 )
 
 type resourceProvider interface {
