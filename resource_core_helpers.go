@@ -10,14 +10,14 @@ type resourceProvider interface {
 	GetOk(string) (interface{}, bool)
 }
 
-func getCoreOptionsFromResourceData(resource resourceProvider, keys ...string) (opts []baremetal.CoreOptions) {
-	opts = []baremetal.CoreOptions{}
+func getCoreOptionsFromResourceData(resource resourceProvider, keys ...string) (opts []baremetal.Options) {
+	opts = []baremetal.Options{}
 
 	for _, key := range keys {
 		if val, ok := resource.GetOk(key); ok {
 
 			if len(opts) == 0 {
-				opts = append(opts, baremetal.CoreOptions{})
+				opts = append(opts, baremetal.Options{})
 			}
 
 			switch key {

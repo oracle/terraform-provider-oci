@@ -92,15 +92,32 @@ func (m *MockClient) UpdateCompartment(id, description string, opts ...baremetal
 	return u, args.Error(1)
 }
 
-func (m *MockClient) ListShapes(compartmentID string, opt ...baremetal.CoreOptions) (*baremetal.ShapeList, error) {
+func (m *MockClient) ListShapes(compartmentID string, opt ...baremetal.Options) (*baremetal.ShapeList, error) {
 	args := m.Called(compartmentID, opt)
 	u, _ := args.Get(0).(*baremetal.ShapeList)
 	return u, args.Error(1)
 
 }
 
-func (m *MockClient) ListVnicAttachments(compartmentID string, opt ...baremetal.CoreOptions) (*baremetal.VnicAttachmentList, error) {
+func (m *MockClient) ListVnicAttachments(compartmentID string, opt ...baremetal.Options) (*baremetal.VnicAttachmentList, error) {
 	args := m.Called(compartmentID, opt)
 	u, _ := args.Get(0).(*baremetal.VnicAttachmentList)
 	return u, args.Error(1)
+}
+
+func (m *MockClient) CreateCpe(compartmentID, displayName, IPAddress string, opt ...baremetal.Options) (*baremetal.Cpe, error) {
+	args := m.Called(compartmentID, displayName, IPAddress, opt)
+	u, _ := args.Get(0).(*baremetal.Cpe)
+	return u, args.Error(1)
+}
+
+func (m *MockClient) GetCpe(cpeID string, opt ...baremetal.Options) (*baremetal.Cpe, error) {
+	args := m.Called(cpeID, opt)
+	u, _ := args.Get(0).(*baremetal.Cpe)
+	return u, args.Error(1)
+}
+
+func (m *MockClient) DeleteCpe(cpeID string, opt ...baremetal.Options) error {
+	args := m.Called(cpeID)
+	return args.Error(0)
 }

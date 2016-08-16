@@ -44,8 +44,8 @@ func (s *ResourceCoreVnicAttachmentsTestSuite) SetupTest() {
 }
 
 func (s *ResourceCoreVnicAttachmentsTestSuite) TestResourceReadCoreVnicAttachments() {
-	opts := []baremetal.CoreOptions{
-		baremetal.CoreOptions{
+	opts := []baremetal.Options{
+		baremetal.Options{
 			AvailabilityDomain: "availabilityid",
 			VnicID:             "vnicid",
 			InstanceID:         "instanceid",

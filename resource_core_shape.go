@@ -20,7 +20,14 @@ func ResourceCoreShape() *schema.Resource {
 			"shapes": &schema.Schema{
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     &schema.Schema{Type: schema.TypeString},
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
 			},
 			"compartment_id": &schema.Schema{
 				Type:     schema.TypeString,
@@ -65,7 +72,14 @@ func (r *ShapeReader) SetData() {
 		// Important, if you don't have an ID, make one up for your datasource
 		// or things will end in tears
 		r.resourceData.SetId(time.Now().UTC().String())
-		r.resourceData.Set("shapes", r.shapeListResponse.Shapes)
+		shapes := []map[string]string{}
+		for _, v := range r.shapeListResponse.Shapes {
+			shape := map[string]string{
+				"name": v.Name,
+			}
+			shapes = append(shapes, shape)
+		}
+		r.resourceData.Set("shapes", shapes)
 	}
 	return
 }

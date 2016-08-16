@@ -22,6 +22,10 @@ type BareMetalClient interface {
 	GetCompartment(userID string) (*baremetal.IdentityResource, error)
 	UpdateCompartment(userID, userDescription string, opts ...baremetal.Options) (*baremetal.IdentityResource, error)
 
-	ListShapes(compartmentID string, opt ...baremetal.CoreOptions) (*baremetal.ShapeList, error)
-	ListVnicAttachments(compartmentID string, opt ...baremetal.CoreOptions) (*baremetal.VnicAttachmentList, error)
+	ListShapes(compartmentID string, opt ...baremetal.Options) (*baremetal.ShapeList, error)
+	ListVnicAttachments(compartmentID string, opt ...baremetal.Options) (*baremetal.VnicAttachmentList, error)
+
+	CreateCpe(compartmentID, displayName, IPAddress string, opts ...baremetal.Options) (cpe *baremetal.Cpe, e error)
+	GetCpe(id string, opts ...baremetal.Options) (cpe *baremetal.Cpe, e error)
+	DeleteCpe(id string, opts ...baremetal.Options) (e error)
 }

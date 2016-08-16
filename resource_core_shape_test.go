@@ -42,8 +42,8 @@ func (s *ResourceCoreShapeTestSuite) SetupTest() {
 }
 
 func (s *ResourceCoreShapeTestSuite) TestResourceReadCoreShape() {
-	opts := []baremetal.CoreOptions{
-		baremetal.CoreOptions{
+	opts := []baremetal.Options{
+		baremetal.Options{
 			AvailabilityDomain: "availabilityid",
 			ImageID:            "imageid",
 		},
@@ -55,9 +55,13 @@ func (s *ResourceCoreShapeTestSuite) TestResourceReadCoreShape() {
 		opts,
 	).Return(
 		&baremetal.ShapeList{
-			Shapes: []string{
-				"shape1",
-				"shape2",
+			Shapes: []baremetal.Shape{
+				baremetal.Shape{
+					Name: "shape1",
+				},
+				baremetal.Shape{
+					Name: "shape2",
+				},
 			},
 		},
 		nil,
@@ -73,7 +77,8 @@ func (s *ResourceCoreShapeTestSuite) TestResourceReadCoreShape() {
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartmentid"),
 					resource.TestCheckResourceAttr(s.ResourceName, "availability_domain", "availabilityid"),
 					resource.TestCheckResourceAttr(s.ResourceName, "image_id", "imageid"),
-					testCheckAttributeTypeList(s.ResourceName, "shapes", []string{"shape1", "shape2"}),
+					resource.TestCheckResourceAttr(s.ResourceName, "shapes.0.name", "shape1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "shapes.1.name", "shape2"),
 				),
 			},
 		},

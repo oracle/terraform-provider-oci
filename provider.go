@@ -84,6 +84,7 @@ func resourcesMap() map[string]*schema.Resource {
 		"baremetal_identity_group":       ResourceIdentityGroup(),
 		"baremetal_identity_policy":      ResourceIdentityPolicy(),
 		"baremetal_identity_compartment": ResourceIdentityCompartment(),
+		"baremetal_core_cpe":             ResourceCoreCpe(),
 	}
 }
 
