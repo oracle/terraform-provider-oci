@@ -6,7 +6,6 @@ import (
 )
 
 type CpeSync struct {
-	*CoreSync
 	D        *schema.ResourceData
 	Client   BareMetalClient
 	Resource *baremetal.Cpe

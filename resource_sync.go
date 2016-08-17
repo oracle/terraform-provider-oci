@@ -12,20 +12,19 @@ type ResourceReader interface {
 type ResourceSync interface {
 	ResourceReader
 	Id() string
-	StatefulCreation() bool
-	CreatedPending() []string
-	CreatedTarget() []string
-	State() string
 	Create() error
 	Update() error
 	Delete() error
 }
 
-type IdentitySync struct{}
-
-func (s *IdentitySync) StatefulCreation() bool {
-	return true
+type StatefulResourceSync interface {
+	ResourceSync
+	CreatedPending() []string
+	CreatedTarget() []string
+	State() string
 }
+
+type IdentitySync struct{}
 
 func (s *IdentitySync) CreatedPending() []string {
 	return []string{baremetal.ResourceCreating}
@@ -33,22 +32,4 @@ func (s *IdentitySync) CreatedPending() []string {
 
 func (s *IdentitySync) CreatedTarget() []string {
 	return []string{baremetal.ResourceCreated}
-}
-
-type CoreSync struct{}
-
-func (s *CoreSync) State() string {
-	return ""
-}
-
-func (s *CoreSync) StatefulCreation() bool {
-	return false
-}
-
-func (s *CoreSync) CreatedPending() []string {
-	return nil
-}
-
-func (s *CoreSync) CreatedTarget() []string {
-	return nil
 }

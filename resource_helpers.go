@@ -44,8 +44,12 @@ func createResource(d *schema.ResourceData, sync ResourceSync) (e error) {
 	d.SetId(sync.Id())
 	sync.SetData()
 
-	if sync.StatefulCreation() {
-		e = waitForStateRefresh(sync, sync.CreatedPending(), sync.CreatedTarget())
+	stateful, ok := sync.(StatefulResourceSync)
+
+	if ok {
+		pending := stateful.CreatedPending()
+		target := stateful.CreatedTarget()
+		e = waitForStateRefresh(stateful, pending, target)
 	}
 
 	return
@@ -71,7 +75,7 @@ func updateResource(d *schema.ResourceData, sync ResourceSync) (e error) {
 	return
 }
 
-func stateRefreshFunc(sync ResourceSync) resource.StateRefreshFunc {
+func stateRefreshFunc(sync StatefulResourceSync) resource.StateRefreshFunc {
 	return func() (res interface{}, s string, e error) {
 		if e = sync.Get(); e != nil {
 			return nil, "", e
@@ -80,7 +84,7 @@ func stateRefreshFunc(sync ResourceSync) resource.StateRefreshFunc {
 	}
 }
 
-func waitForStateRefresh(sync ResourceSync, pending, target []string) (e error) {
+func waitForStateRefresh(sync StatefulResourceSync, pending, target []string) (e error) {
 	stateConf := &resource.StateChangeConf{
 		Pending: pending,
 		Target:  target,
