@@ -3,7 +3,6 @@ package main
 import (
 	"time"
 
-	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 )
@@ -45,8 +44,12 @@ func createResource(d *schema.ResourceData, sync ResourceSync) (e error) {
 	d.SetId(sync.Id())
 	sync.SetData()
 
-	if sync.State() != baremetal.ResourceCreated {
-		e = waitForStateRefresh(sync)
+	stateful, ok := sync.(StatefulResourceSync)
+
+	if ok {
+		pending := stateful.CreatedPending()
+		target := stateful.CreatedTarget()
+		e = waitForStateRefresh(stateful, pending, target)
 	}
 
 	return
@@ -72,7 +75,7 @@ func updateResource(d *schema.ResourceData, sync ResourceSync) (e error) {
 	return
 }
 
-func stateRefreshFunc(sync ResourceSync) resource.StateRefreshFunc {
+func stateRefreshFunc(sync StatefulResourceSync) resource.StateRefreshFunc {
 	return func() (res interface{}, s string, e error) {
 		if e = sync.Get(); e != nil {
 			return nil, "", e
@@ -81,10 +84,10 @@ func stateRefreshFunc(sync ResourceSync) resource.StateRefreshFunc {
 	}
 }
 
-func waitForStateRefresh(sync ResourceSync) (e error) {
+func waitForStateRefresh(sync StatefulResourceSync, pending, target []string) (e error) {
 	stateConf := &resource.StateChangeConf{
-		Pending: []string{baremetal.ResourceCreating},
-		Target:  []string{baremetal.ResourceCreated},
+		Pending: pending,
+		Target:  target,
 		Refresh: stateRefreshFunc(sync),
 		Timeout: fiveMinutes,
 	}

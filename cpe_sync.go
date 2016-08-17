@@ -15,10 +15,6 @@ func (s *CpeSync) Id() string {
 	return s.Resource.ID
 }
 
-func (s *CpeSync) State() string {
-	return baremetal.ResourceCreated
-}
-
 func (s *CpeSync) Create() (e error) {
 	compartmentID := s.D.Get("compartment_id").(string)
 	displayName := s.D.Get("display_name").(string)

@@ -6,6 +6,7 @@ import (
 )
 
 type PolicySync struct {
+	*IdentitySync
 	D      *schema.ResourceData
 	Client BareMetalClient
 	Res    *baremetal.Policy

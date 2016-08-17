@@ -6,6 +6,7 @@ import (
 )
 
 type GroupSync struct {
+	*IdentitySync
 	D      *schema.ResourceData
 	Client BareMetalClient
 	Res    *baremetal.IdentityResource

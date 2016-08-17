@@ -8,6 +8,7 @@ import (
 )
 
 type CompartmentSync struct {
+	*IdentitySync
 	D      *schema.ResourceData
 	Client BareMetalClient
 	Res    *baremetal.IdentityResource
