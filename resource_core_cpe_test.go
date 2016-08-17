@@ -17,7 +17,7 @@ type ResourceCoreCpeTestSuite struct {
 	Client       *MockClient
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
-	TimeCreated  time.Time
+	TimeCreated  baremetal.Time
 	Config       string
 	ResourceName string
 	Res          *baremetal.Cpe
@@ -35,7 +35,7 @@ func (s *ResourceCoreCpeTestSuite) SetupTest() {
 	s.Providers = map[string]terraform.ResourceProvider{
 		"baremetal": s.Provider,
 	}
-	s.TimeCreated, _ = time.Parse("2006-Jan-02", "2006-Jan-02")
+	s.TimeCreated = baremetal.Time{Time: time.Now()}
 	s.Config = `
 
 		resource "baremetal_core_cpe" "t" {
@@ -47,17 +47,13 @@ func (s *ResourceCoreCpeTestSuite) SetupTest() {
 
 	s.Config += testProviderConfig
 
-	createTime := baremetal.Time{
-		Time: time.Now(),
-	}
-
 	s.ResourceName = "baremetal_core_cpe.t"
 	s.Res = &baremetal.Cpe{
 		ID:            "cpeid",
 		CompartmentID: "compartmentid",
 		DisplayName:   "displayname",
 		IPAddress:     "123.123.123.123",
-		TimeCreated:   createTime,
+		TimeCreated:   s.TimeCreated,
 		ETag:          "etag",
 		OPCRequestID:  "opcrequestid",
 	}
@@ -100,16 +96,12 @@ func (s ResourceCoreCpeTestSuite) TestUpdateForcesNewCoreCpe() {
   `
 	updateForcingChangeConfig += testProviderConfig
 
-	createTime := baremetal.Time{
-		Time: time.Now(),
-	}
-
 	result := &baremetal.Cpe{
 		ID:            "cpeid2",
 		CompartmentID: "compartmentid",
 		DisplayName:   "displayname",
 		IPAddress:     "111.222.111.222",
-		TimeCreated:   createTime,
+		TimeCreated:   s.TimeCreated,
 		ETag:          "etag",
 		OPCRequestID:  "opcrequestid",
 	}

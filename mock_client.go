@@ -121,3 +121,26 @@ func (m *MockClient) DeleteCpe(cpeID string, opt ...baremetal.Options) error {
 	args := m.Called(cpeID)
 	return args.Error(0)
 }
+
+func (m *MockClient) CreateVolume(availabilityDomain, compartmentID string, opt ...baremetal.Options) (*baremetal.Volume, error) {
+	args := m.Called(availabilityDomain, compartmentID, opt)
+	u, _ := args.Get(0).(*baremetal.Volume)
+	return u, args.Error(1)
+}
+
+func (m *MockClient) GetVolume(id string, opt ...baremetal.Options) (*baremetal.Volume, error) {
+	args := m.Called(id, opt)
+	u, _ := args.Get(0).(*baremetal.Volume)
+	return u, args.Error(1)
+}
+
+func (m *MockClient) UpdateVolume(id string, opt ...baremetal.Options) (*baremetal.Volume, error) {
+	args := m.Called(id, opt)
+	u, _ := args.Get(0).(*baremetal.Volume)
+	return u, args.Error(1)
+}
+
+func (m *MockClient) DeleteVolume(id string, opt ...baremetal.Options) error {
+	args := m.Called(id)
+	return args.Error(0)
+}
