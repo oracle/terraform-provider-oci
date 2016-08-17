@@ -40,6 +40,7 @@ func (r *sdkRequestOptions) url(b urlBuilderFn) string {
 }
 
 func (r *sdkRequestOptions) getBody() interface{} {
+	r.parseOptions()
 	return r.body
 }
 

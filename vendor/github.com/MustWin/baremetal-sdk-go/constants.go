@@ -54,6 +54,7 @@ const (
 	resourceShapes                   resourceName = "shapes"
 	resourceVnicAttachments          resourceName = "vnicAttachments"
 	resourceVirtualNetworks          resourceName = "vcns"
+	resourceVolumes                  resourceName = "volumes"
 
 	apiKeys    = "apiKeys"
 	uiPassword = "uiPassword"
