@@ -28,4 +28,9 @@ type BareMetalClient interface {
 	CreateCpe(compartmentID, displayName, IPAddress string, opts ...baremetal.Options) (cpe *baremetal.Cpe, e error)
 	GetCpe(id string, opts ...baremetal.Options) (cpe *baremetal.Cpe, e error)
 	DeleteCpe(id string, opts ...baremetal.Options) (e error)
+
+	CreateVolume(availabiltyDomain, compartmentID string, opts ...baremetal.Options) (vol *baremetal.Volume, e error)
+	GetVolume(id string, opts ...baremetal.Options) (vol *baremetal.Volume, e error)
+	UpdateVolume(id string, opts ...baremetal.Options) (vol *baremetal.Volume, e error)
+	DeleteVolume(id string, opts ...baremetal.Options) (e error)
 }
