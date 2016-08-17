@@ -253,10 +253,10 @@
 			"revisionTime": "2016-06-13T20:05:45Z"
 		},
 		{
-			"checksumSHA1": "Hm3GcyTgd5R/KlIimgvJmBsPuB0=",
+			"checksumSHA1": "00a0qNAn4klEOTXVJYyZkrB3CSI=",
 			"path": "github.com/MustWin/baremetal-sdk-go",
-			"revision": "5316a29f770d0dac2afb46d2d10b7e963ba6ff74",
-			"revisionTime": "2016-08-16T16:32:48Z"
+			"revision": "5d5ec20a0598e86bf3ce2bde1507a743abb6d9fd",
+			"revisionTime": "2016-08-17T01:07:33Z"
 		},
 		{
 			"checksumSHA1": "htjvdG/znrHmFYRQBqA2vHrJsF4=",
@@ -3015,5 +3015,5 @@
 			"revisionTime": "2016-03-01T20:40:22Z"
 		}
 	],
-	"rootPath": "github.com/mustwin/terraform-Oracle-BareMetal-Provider"
+	"rootPath": "github.com/MustWin/terraform-Oracle-BareMetal-Provider"
 }
