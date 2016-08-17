@@ -6,6 +6,7 @@ import (
 )
 
 type CpeSync struct {
+	*CoreSync
 	D        *schema.ResourceData
 	Client   BareMetalClient
 	Resource *baremetal.Cpe
@@ -13,10 +14,6 @@ type CpeSync struct {
 
 func (s *CpeSync) Id() string {
 	return s.Resource.ID
-}
-
-func (s *CpeSync) State() string {
-	return baremetal.ResourceCreated
 }
 
 func (s *CpeSync) Create() (e error) {
