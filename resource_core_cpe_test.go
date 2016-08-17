@@ -96,16 +96,12 @@ func (s ResourceCoreCpeTestSuite) TestUpdateForcesNewCoreCpe() {
   `
 	updateForcingChangeConfig += testProviderConfig
 
-	createTime := baremetal.Time{
-		Time: time.Now(),
-	}
-
 	result := &baremetal.Cpe{
 		ID:            "cpeid2",
 		CompartmentID: "compartmentid",
 		DisplayName:   "displayname",
 		IPAddress:     "111.222.111.222",
-		TimeCreated:   createTime,
+		TimeCreated:   s.TimeCreated,
 		ETag:          "etag",
 		OPCRequestID:  "opcrequestid",
 	}
