@@ -1,8 +1,6 @@
 package main
 
 import (
-	"fmt"
-
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
 )
@@ -47,8 +45,4 @@ func (s *CompartmentSync) SetData() {
 	s.D.Set("state", s.Res.State)
 	s.D.Set("time_modified", s.Res.TimeModified.String())
 	s.D.Set("time_created", s.Res.TimeCreated.String())
-}
-
-func (s *CompartmentSync) Delete() (e error) {
-	return fmt.Errorf("compartment sync: compartment %v cannot be deleted", s.D.Id())
 }
