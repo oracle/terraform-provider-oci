@@ -28,7 +28,7 @@ type CpeList struct {
 
 type CreateCpeRequest struct {
 	CompartmentID string `json:"compartmentId"`
-	DisplayName   string `json:"displayName"`
+	DisplayName   string `json:"displayName,omitempty"`
 	IPAddress     string `json:"ipAddress"`
 }
 
@@ -63,11 +63,14 @@ func (c *Client) ListCpes(compartmentID string, opts ...Options) (cpes *CpeList,
 // in the Bare Metal cloud
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#createCpe
-func (c *Client) CreateCpe(compartmentID, displayName, IPAddress string, opts ...Options) (cpe *Cpe, e error) {
+func (c *Client) CreateCpe(compartmentID, IPAddress string, opts ...Options) (cpe *Cpe, e error) {
 	createRequest := CreateCpeRequest{
 		CompartmentID: compartmentID,
-		DisplayName:   displayName,
 		IPAddress:     IPAddress,
+	}
+
+	if len(opts) > 0 {
+		createRequest.DisplayName = opts[0].DisplayName
 	}
 
 	reqOpts := &sdkRequestOptions{

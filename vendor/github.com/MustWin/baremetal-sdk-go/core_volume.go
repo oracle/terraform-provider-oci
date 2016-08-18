@@ -32,16 +32,16 @@ type VolumeList struct {
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#CreateVolumeRequest
 type CreateVolumeRequest struct {
-	AvailabilityDomain string  `json:"availabilityDomain"`
-	CompartmentID      string  `json:"compartmentId"`
-	DisplayName        *string `json:"displayName"`
+	AvailabilityDomain string `json:"availabilityDomain"`
+	CompartmentID      string `json:"compartmentId"`
+	DisplayName        string `json:"displayName,omitempty"`
 }
 
 // UpdateVolumeRequest describes the body of a volume name update request
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#UpdateVolumeRequest
 type UpdateVolumeRequest struct {
-	DisplayName *string `json:"displayName"`
+	DisplayName string `json:"displayName,omitempty"`
 }
 
 // CreateVolume is used to create a cloud block storage device
@@ -54,7 +54,7 @@ func (c *Client) CreateVolume(availabilityDomain, compartmentID string, opts ...
 	}
 
 	if len(opts) > 0 {
-		createRequest.DisplayName = &opts[0].DisplayName
+		createRequest.DisplayName = opts[0].DisplayName
 	}
 
 	reqOpts := &sdkRequestOptions{
@@ -113,7 +113,7 @@ func (c *Client) UpdateVolume(id string, opts ...Options) (vol *Volume, e error)
 	body := UpdateVolumeRequest{}
 
 	if len(opts) > 0 {
-		body.DisplayName = &opts[0].DisplayName
+		body.DisplayName = opts[0].DisplayName
 	}
 
 	reqOpts := &sdkRequestOptions{
