@@ -13,15 +13,29 @@ type ResourceSync interface {
 	ResourceReader
 	Id() string
 	Create() error
-	Update() error
 	Delete() error
+}
+
+type UpdateableResourceSync interface {
+	ResourceSync
+	Update() error
 }
 
 type StatefulResourceSync interface {
 	ResourceSync
+	State() string
+}
+
+type StatefullyCreatedResourceSync interface {
+	StatefulResourceSync
 	CreatedPending() []string
 	CreatedTarget() []string
-	State() string
+}
+
+type StatefullyDeletedResourceSync interface {
+	StatefulResourceSync
+	DeletedPending() []string
+	DeletedTarget() []string
 }
 
 type IdentitySync struct{}

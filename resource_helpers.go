@@ -44,8 +44,7 @@ func createResource(d *schema.ResourceData, sync ResourceSync) (e error) {
 	d.SetId(sync.Id())
 	sync.SetData()
 
-	stateful, ok := sync.(StatefulResourceSync)
-
+	stateful, ok := sync.(StatefullyCreatedResourceSync)
 	if ok {
 		pending := stateful.CreatedPending()
 		target := stateful.CreatedTarget()
@@ -64,7 +63,7 @@ func readResource(sync ResourceReader) (e error) {
 	return
 }
 
-func updateResource(d *schema.ResourceData, sync ResourceSync) (e error) {
+func updateResource(d *schema.ResourceData, sync UpdateableResourceSync) (e error) {
 	d.Partial(true)
 	if e = sync.Update(); e != nil {
 		return

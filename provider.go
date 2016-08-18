@@ -80,12 +80,13 @@ func dataSourcesMap() map[string]*schema.Resource {
 
 func resourcesMap() map[string]*schema.Resource {
 	return map[string]*schema.Resource{
-		"baremetal_identity_user":        ResourceIdentityUser(),
-		"baremetal_identity_group":       ResourceIdentityGroup(),
-		"baremetal_identity_policy":      ResourceIdentityPolicy(),
-		"baremetal_identity_compartment": ResourceIdentityCompartment(),
-		"baremetal_core_cpe":             ResourceCoreCpe(),
-		"baremetal_core_volume":          ResourceCoreVolume(),
+		"baremetal_identity_user":          ResourceIdentityUser(),
+		"baremetal_identity_group":         ResourceIdentityGroup(),
+		"baremetal_identity_policy":        ResourceIdentityPolicy(),
+		"baremetal_identity_compartment":   ResourceIdentityCompartment(),
+		"baremetal_core_cpe":               ResourceCoreCpe(),
+		"baremetal_core_volume":            ResourceCoreVolume(),
+		"baremetal_core_volume_attachment": ResourceCoreVolumeAttachment(),
 	}
 }
 

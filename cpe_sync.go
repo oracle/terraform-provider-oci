@@ -28,11 +28,6 @@ func (s *CpeSync) Get() (e error) {
 	return
 }
 
-func (s *CpeSync) Update() (e error) {
-	// NOOP
-	return
-}
-
 func (s *CpeSync) SetData() {
 	s.D.Set("compartment_id", s.Resource.CompartmentID)
 	s.D.Set("display_name", s.Resource.DisplayName)
