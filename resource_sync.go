@@ -2,38 +2,53 @@ package main
 
 import "github.com/MustWin/baremetal-sdk-go"
 
-// Reads BareMetal entity
-type ResourceReader interface {
+// Gets the current BareMetal Resource
+type ResourceFetcher interface {
 	Get() error
+}
+
+// ResourceDataWriter populates ResourceData based on current BareMetal Resource
+type ResourceDataWriter interface {
 	SetData()
 }
 
-// ResourceSync synchronizes a ResourceData instance and a BareMetal entity.
-type ResourceSync interface {
-	ResourceReader
+// ResourceCreator creates a BareMetal resource based on ResourceData
+type ResourceCreator interface {
+	ResourceDataWriter
 	Id() string
 	Create() error
-	Delete() error
 }
 
-type UpdateableResourceSync interface {
-	ResourceSync
+// ResourceReader get BareMetal Resource and updated ResourceData
+type ResourceReader interface {
+	ResourceFetcher
+	ResourceDataWriter
+}
+
+// Updates a BareMetal entity to match ResourceData
+type ResourceUpdater interface {
+	ResourceDataWriter
 	Update() error
 }
 
-type StatefulResourceSync interface {
-	ResourceSync
+// Deletes a BareMetal entity
+type ResourceDeleter interface {
+	Delete() error
+}
+
+type StatefulResource interface {
+	ResourceReader
 	State() string
 }
 
-type StatefullyCreatedResourceSync interface {
-	StatefulResourceSync
+type StatefullyCreatedResource interface {
+	StatefulResource
 	CreatedPending() []string
 	CreatedTarget() []string
 }
 
-type StatefullyDeletedResourceSync interface {
-	StatefulResourceSync
+type StatefullyDeletedResource interface {
+	StatefulResource
 	DeletedPending() []string
 	DeletedTarget() []string
 }

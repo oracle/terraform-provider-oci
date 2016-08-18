@@ -66,5 +66,5 @@ func readVolumeAttachment(d *schema.ResourceData, m interface{}) (e error) {
 func deleteVolumeAttachment(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(BareMetalClient)
 	sync := &VolumeAttachmentSync{D: d, Client: client}
-	return sync.Delete()
+	return deleteResource(sync)
 }
