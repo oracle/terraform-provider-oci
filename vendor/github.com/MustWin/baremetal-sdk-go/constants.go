@@ -2,6 +2,9 @@ package baremetal
 
 type resourceName string
 
+type instanceActions string
+type instanceStates string
+
 const (
 	// Identity States
 	ResourceCreated  = "CREATED"
@@ -16,6 +19,10 @@ const (
 	ResourceAttached     = "ATTACHED"
 	ResourceDetaching    = "DETACHING"
 	ResourceDetached     = "DETACHED"
+	ResourceRunning      = "RUNNING"
+	ResourceStarting     = "STARTING"
+	ResourceStopping     = "STOPPING"
+	ResourceStopped      = "STOPPED"
 
 	identityServiceAPI        = "https://identity.us-az-phoenix-1.OracleIaaS.com"
 	identityServiceAPIVersion = "v1"
@@ -40,6 +47,12 @@ const (
 	queryPage               = "page"
 	queryUserID             = "userId"
 	queryVnicID             = "vnicId"
+	queryAction             = "action"
+
+	// Actions that can be applied to compute instances
+	actionStart instanceActions = "START"
+	actionStop  instanceActions = "STOP"
+	actionReset instanceActions = "RESET"
 
 	// Identity Resources
 	resourceAvailabilityDomains  resourceName = "availabilityDomains"
@@ -55,6 +68,8 @@ const (
 	resourceVnicAttachments          resourceName = "vnicAttachments"
 	resourceVirtualNetworks          resourceName = "vcns"
 	resourceVolumes                  resourceName = "volumes"
+	resourceVolumeAttachments        resourceName = "volumeAttachments"
+	resourceInstances                resourceName = "instances"
 
 	apiKeys    = "apiKeys"
 	uiPassword = "uiPassword"

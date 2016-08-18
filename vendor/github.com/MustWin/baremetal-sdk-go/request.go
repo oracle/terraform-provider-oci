@@ -50,7 +50,10 @@ func (r *sdkRequestOptions) header() http.Header {
 }
 
 func (r *sdkRequestOptions) parseOptions() {
-	r.query = url.Values{}
+	if r.query == nil {
+		r.query = url.Values{}
+	}
+
 	r.httpHeader = http.Header{}
 
 	// Parse query options.
