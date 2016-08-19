@@ -42,7 +42,6 @@ func ResourceCoreVolume() *schema.Resource {
 			},
 		},
 	}
-
 }
 
 func createVolume(d *schema.ResourceData, m interface{}) (e error) {
