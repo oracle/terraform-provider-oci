@@ -1,6 +1,7 @@
 package main
 
 import (
+	"testing"
 	"time"
 
 	"github.com/MustWin/baremetal-sdk-go"
@@ -42,7 +43,7 @@ func (s *ResourceCoreVolumeTestSuite) SetupTest() {
 		resource "baremetal_core_volume" "t" {
 			availability_domain = "availability_domain"
 			compartment_id = "compartment_id"
-			display_name = "didsplay_name"
+			display_name = "display_name"
 		}
 	`
 
@@ -55,7 +56,7 @@ func (s *ResourceCoreVolumeTestSuite) SetupTest() {
 		DisplayName:        "display_name",
 		ID:                 "id",
 		SizeInMBs:          "size_in_mbs",
-		State:              "state",
+		State:              baremetal.ResourceAvailable,
 		TimeCreated:        s.TimeCreated,
 		ETag:               "etag",
 		OPCRequestID:       "opc_request_id",
@@ -68,6 +69,7 @@ func (s *ResourceCoreVolumeTestSuite) SetupTest() {
 		"availability_domain",
 		"compartment_id",
 		s.Opts).Return(s.Res, nil)
+	s.Client.On("DeleteVolume", "id").Return(nil)
 }
 
 func (s *ResourceCoreVolumeTestSuite) TestCreateResourceCoreVolume() {
@@ -123,7 +125,7 @@ func (s *ResourceCoreVolumeTestSuite) TestCreateResourceCoreVolumeWithoutDisplay
 }
 
 func (s ResourceCoreVolumeTestSuite) TestUpdateVolumeDisplayName() {
-	s.Client.On("GetVolume", "id", []baremetal.Options(nil)).Return(s.Res, nil)
+	s.Client.On("GetVolume", "id", []baremetal.Options(nil)).Return(s.Res, nil).Times(3)
 
 	config := `
 		resource "baremetal_core_volume" "t" {
@@ -140,15 +142,14 @@ func (s ResourceCoreVolumeTestSuite) TestUpdateVolumeDisplayName() {
 		DisplayName:        "new_display_name",
 		ID:                 "id",
 		SizeInMBs:          "size_in_mbs",
-		State:              "state",
+		State:              baremetal.ResourceAvailable,
 		TimeCreated:        s.TimeCreated,
 		ETag:               "etag",
 		OPCRequestID:       "opc_request_id",
 	}
 
 	opts := baremetal.Options{DisplayName: "new_display_name"}
-	s.Client.On("UpdateCpe", opts).Return(res, nil)
-
+	s.Client.On("UpdateVolume", "id", []baremetal.Options{opts}).Return(res, nil)
 	s.Client.On("GetVolume", "id", []baremetal.Options(nil)).Return(res, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
@@ -184,7 +185,7 @@ func (s ResourceCoreVolumeTestSuite) TestUpdateAvailabilityDomainForcesNewVolume
 		DisplayName:        "display_name",
 		ID:                 "new_id",
 		SizeInMBs:          "size_in_mbs",
-		State:              "state",
+		State:              baremetal.ResourceAvailable,
 		TimeCreated:        s.TimeCreated,
 		ETag:               "etag",
 		OPCRequestID:       "opc_request_id",
@@ -197,7 +198,7 @@ func (s ResourceCoreVolumeTestSuite) TestUpdateAvailabilityDomainForcesNewVolume
 		res.CompartmentID, []baremetal.Options{opts}).Return(res, nil)
 
 	s.Client.On("GetVolume", res.ID, []baremetal.Options(nil)).Return(res, nil)
-	s.Client.On("DeleteCpe", res.ID).Return(nil)
+	s.Client.On("DeleteVolume", res.ID).Return(nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -232,7 +233,7 @@ func (s ResourceCoreVolumeTestSuite) TestUpdateCompartmentIdForcesNewVolume() {
 		DisplayName:        "display_name",
 		ID:                 "new_id",
 		SizeInMBs:          "size_in_mbs",
-		State:              "state",
+		State:              baremetal.ResourceAvailable,
 		TimeCreated:        s.TimeCreated,
 		ETag:               "etag",
 		OPCRequestID:       "opc_request_id",
@@ -245,7 +246,7 @@ func (s ResourceCoreVolumeTestSuite) TestUpdateCompartmentIdForcesNewVolume() {
 		res.CompartmentID, []baremetal.Options{opts}).Return(res, nil)
 
 	s.Client.On("GetVolume", res.ID, []baremetal.Options(nil)).Return(res, nil)
-	s.Client.On("DeleteCpe", res.ID).Return(nil)
+	s.Client.On("DeleteVolume", res.ID).Return(nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -280,4 +281,8 @@ func (s *ResourceCoreVolumeTestSuite) TestDeleteVolume() {
 	})
 
 	s.Client.AssertCalled(s.T(), "DeleteVolume", "id")
+}
+
+func TestResourceCoreVolumeTestSuite(t *testing.T) {
+	suite.Run(t, new(ResourceCoreVolumeTestSuite))
 }

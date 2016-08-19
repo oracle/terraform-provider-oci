@@ -21,6 +21,7 @@ func ResourceCoreVolume() *schema.Resource {
 			},
 			"display_name": &schema.Schema{
 				Type:     schema.TypeString,
+				Computed: true,
 				Optional: true,
 			},
 			"id": &schema.Schema{
@@ -59,7 +60,7 @@ func readVolume(d *schema.ResourceData, m interface{}) (e error) {
 func updateVolume(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(BareMetalClient)
 	sync := &VolumeSync{D: d, Client: client}
-	return readResource(sync)
+	return updateResource(d, sync)
 }
 
 func deleteVolume(d *schema.ResourceData, m interface{}) (e error) {
