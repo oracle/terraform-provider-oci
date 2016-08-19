@@ -27,12 +27,14 @@ func getCoreOptionsFromResourceData(resource resourceProvider, keys ...string) (
 				opts[0].ImageID = val.(string)
 			case "instance_id":
 				opts[0].InstanceID = val.(string)
-			case "vnic_id":
-				opts[0].VnicID = val.(string)
-			case "page":
-				opts[0].Page = val.(string)
 			case "limit":
 				opts[0].Limit = uint64(val.(int))
+			case "page":
+				opts[0].Page = val.(string)
+			case "vnic_id":
+				opts[0].VnicID = val.(string)
+			case "volume_id":
+				opts[0].VolumeID = val.(string)
 			default:
 				panic(fmt.Sprintf("Unknown key '%s' supplied for CoreOptions", key))
 			}

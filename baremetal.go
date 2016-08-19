@@ -43,4 +43,5 @@ type BareMetalClient interface {
 	AttachVolume(compartmentID, instanceID, attachmentType, volumeID string, opts ...baremetal.Options) (vol *baremetal.VolumeAttachment, e error)
 	GetVolumeAttachment(id string, opts ...baremetal.Options) (vol *baremetal.VolumeAttachment, e error)
 	DetachVolume(id string, opts ...baremetal.Options) (e error)
+	ListVolumeAttachments(compartmentID string, opts ...baremetal.Options) (res *baremetal.VolumeAttachmentList, e error)
 }

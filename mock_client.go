@@ -168,6 +168,12 @@ func (m *MockClient) DetachVolume(id string, opt ...baremetal.Options) error {
 	return args.Error(0)
 }
 
+func (m *MockClient) ListVolumeAttachments(compartmentID string, opt ...baremetal.Options) (*baremetal.VolumeAttachmentList, error) {
+	args := m.Called(compartmentID, opt)
+	u, _ := args.Get(0).(*baremetal.VolumeAttachmentList)
+	return u, args.Error(1)
+}
+
 func (m *MockClient) LaunchInstance(availabilityDomain, compartmentID, image,
 	shape, subnetID string, metadata map[string]string, opts ...baremetal.Options) (inst *baremetal.Instance, e error) {
 	args := m.Called(availabilityDomain, compartmentID, image, shape, subnetID, metadata, opts)
