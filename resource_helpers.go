@@ -37,15 +37,14 @@ var identitySchema = map[string]*schema.Schema{
 	},
 }
 
-func createResource(d *schema.ResourceData, sync ResourceSync) (e error) {
+func createResource(d *schema.ResourceData, sync ResourceCreator) (e error) {
 	if e = sync.Create(); e != nil {
 		return
 	}
 	d.SetId(sync.Id())
 	sync.SetData()
 
-	stateful, ok := sync.(StatefulResourceSync)
-
+	stateful, ok := sync.(StatefullyCreatedResource)
 	if ok {
 		pending := stateful.CreatedPending()
 		target := stateful.CreatedTarget()
@@ -64,7 +63,7 @@ func readResource(sync ResourceReader) (e error) {
 	return
 }
 
-func updateResource(d *schema.ResourceData, sync ResourceSync) (e error) {
+func updateResource(d *schema.ResourceData, sync ResourceUpdater) (e error) {
 	d.Partial(true)
 	if e = sync.Update(); e != nil {
 		return
@@ -75,7 +74,22 @@ func updateResource(d *schema.ResourceData, sync ResourceSync) (e error) {
 	return
 }
 
-func stateRefreshFunc(sync StatefulResourceSync) resource.StateRefreshFunc {
+func deleteResource(sync ResourceDeleter) (e error) {
+	if e = sync.Delete(); e != nil {
+		return
+	}
+
+	stateful, ok := sync.(StatefullyDeletedResource)
+	if ok {
+		pending := stateful.DeletedPending()
+		target := stateful.DeletedTarget()
+		e = waitForStateRefresh(stateful, pending, target)
+	}
+
+	return
+}
+
+func stateRefreshFunc(sync StatefulResource) resource.StateRefreshFunc {
 	return func() (res interface{}, s string, e error) {
 		if e = sync.Get(); e != nil {
 			return nil, "", e
@@ -84,7 +98,7 @@ func stateRefreshFunc(sync StatefulResourceSync) resource.StateRefreshFunc {
 	}
 }
 
-func waitForStateRefresh(sync StatefulResourceSync, pending, target []string) (e error) {
+func waitForStateRefresh(sync StatefulResource, pending, target []string) (e error) {
 	stateConf := &resource.StateChangeConf{
 		Pending: pending,
 		Target:  target,

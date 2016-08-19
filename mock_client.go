@@ -144,3 +144,20 @@ func (m *MockClient) DeleteVolume(id string, opt ...baremetal.Options) error {
 	args := m.Called(id)
 	return args.Error(0)
 }
+
+func (m *MockClient) AttachVolume(compartmentID, instanceID, attachmentType, volumeID string, opt ...baremetal.Options) (*baremetal.VolumeAttachment, error) {
+	args := m.Called(compartmentID, instanceID, attachmentType, volumeID, opt)
+	u, _ := args.Get(0).(*baremetal.VolumeAttachment)
+	return u, args.Error(1)
+}
+
+func (m *MockClient) GetVolumeAttachment(id string, opt ...baremetal.Options) (*baremetal.VolumeAttachment, error) {
+	args := m.Called(id, opt)
+	u, _ := args.Get(0).(*baremetal.VolumeAttachment)
+	return u, args.Error(1)
+}
+
+func (m *MockClient) DetachVolume(id string, opt ...baremetal.Options) error {
+	args := m.Called(id)
+	return args.Error(0)
+}
