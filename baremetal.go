@@ -34,6 +34,11 @@ type BareMetalClient interface {
 	UpdateVolume(id string, opts ...baremetal.Options) (vol *baremetal.Volume, e error)
 	DeleteVolume(id string, opts ...baremetal.Options) (e error)
 
+	LaunchInstance(availabilityDomain, compartmentID, image, shape, subnetID string, metadata map[string]string, opts ...baremetal.Options) (inst *baremetal.Instance, e error)
+	GetInstance(instanceID string) (inst *baremetal.Instance, e error)
+	UpdateInstance(instanceID string, opts ...baremetal.Options) (inst *baremetal.Instance, e error)
+	TerminateInstance(instanceID string, opts ...baremetal.Options) (e error)
+
 	AttachVolume(compartmentID, instanceID, attachmentType, volumeID string, opts ...baremetal.Options) (vol *baremetal.VolumeAttachment, e error)
 	GetVolumeAttachment(id string, opts ...baremetal.Options) (vol *baremetal.VolumeAttachment, e error)
 	DetachVolume(id string, opts ...baremetal.Options) (e error)

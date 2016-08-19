@@ -19,8 +19,9 @@ func ResourceCoreCpe() *schema.Resource {
 			},
 			"display_name": &schema.Schema{
 				Type:     schema.TypeString,
-				Required: true,
+				Optional: true,
 				ForceNew: true,
+				Computed: true,
 			},
 			"ip_address": &schema.Schema{
 				Type:     schema.TypeString,

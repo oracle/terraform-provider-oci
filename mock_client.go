@@ -161,3 +161,27 @@ func (m *MockClient) DetachVolume(id string, opt ...baremetal.Options) error {
 	args := m.Called(id)
 	return args.Error(0)
 }
+
+func (m *MockClient) LaunchInstance(availabilityDomain, compartmentID, image,
+	shape, subnetID string, metadata map[string]string, opts ...baremetal.Options) (inst *baremetal.Instance, e error) {
+	args := m.Called(availabilityDomain, compartmentID, image, shape, subnetID, metadata, opts)
+	u, _ := args.Get(0).(*baremetal.Instance)
+	return u, args.Error(1)
+}
+
+func (m *MockClient) GetInstance(instanceID string) (inst *baremetal.Instance, e error) {
+	args := m.Called(instanceID)
+	u, _ := args.Get(0).(*baremetal.Instance)
+	return u, args.Error(1)
+}
+
+func (m *MockClient) UpdateInstance(instanceID string, opts ...baremetal.Options) (inst *baremetal.Instance, e error) {
+	args := m.Called(instanceID, opts)
+	u, _ := args.Get(0).(*baremetal.Instance)
+	return u, args.Error(1)
+}
+
+func (m *MockClient) TerminateInstance(instanceID string, opts ...baremetal.Options) (e error) {
+	args := m.Called(instanceID, opts)
+	return args.Error(0)
+}
