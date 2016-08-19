@@ -21,6 +21,7 @@ type ResourceCoreInstanceTestSuite struct {
 	Config       string
 	ResourceName string
 	Res          *baremetal.Instance
+	DeletedRes   *baremetal.Instance
 	Opts         []baremetal.Options
 }
 
@@ -72,6 +73,9 @@ func (s *ResourceCoreInstanceTestSuite) SetupTest() {
 		ETag:         "etag",
 		OPCRequestID: "opc_request_id",
 	}
+
+	s.DeletedRes = s.Res
+	s.DeletedRes.State = baremetal.ResourceTerminated
 
 	opts := baremetal.Options{DisplayName: "display_name"}
 	s.Opts = []baremetal.Options{opts}
@@ -272,7 +276,8 @@ func (s ResourceCoreInstanceTestSuite) TestUpdateAvailabilityDomainForcesNewInst
 }
 
 func (s *ResourceCoreInstanceTestSuite) TestTerminateInstance() {
-	s.Client.On("GetInstance", "id").Return(s.Res, nil)
+	s.Client.On("GetInstance", "id").Return(s.Res, nil).Times(2)
+	s.Client.On("GetInstance", "id").Return(s.DeletedRes, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,

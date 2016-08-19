@@ -26,6 +26,14 @@ func (s *InstanceSync) CreatedTarget() []string {
 	return []string{baremetal.ResourceRunning}
 }
 
+func (s *InstanceSync) DeletedPending() []string {
+	return []string{baremetal.ResourceTerminating}
+}
+
+func (s *InstanceSync) DeletedTarget() []string {
+	return []string{baremetal.ResourceTerminated}
+}
+
 func resourceMapToMetadata(rm map[string]interface{}) map[string]string {
 	result := map[string]string{}
 	for k, v := range rm {
