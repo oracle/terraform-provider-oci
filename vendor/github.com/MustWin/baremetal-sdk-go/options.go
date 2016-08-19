@@ -8,6 +8,7 @@ type Options struct {
 	DisplayName        string
 	ImageID            string
 	InstanceID         string
+	VolumeID           string
 	VnicID             string
 	// IfMatch (Optional) is for optimistic concurrency control. In the PUT or DELETE call for
 	// a resource, set the if-match parameter to the value of the etag from a previous GET or POST response
