@@ -33,7 +33,7 @@ func (s *ResourceCoreHelperTestSuite) SetupTest() {
 	s.resource.Set("image_id", "imageid")
 	s.resource.Set("instance_id", "instanceid")
 	s.resource.Set("vnic_id", "vnicid")
-	s.resource.Set("limit", uint64(100))
+	s.resource.Set("limit", 100)
 }
 
 func (s *ResourceCoreHelperTestSuite) TestGetCoreOptionsFromResourceData() {

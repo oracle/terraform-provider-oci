@@ -32,7 +32,7 @@ func getCoreOptionsFromResourceData(resource resourceProvider, keys ...string) (
 			case "page":
 				opts[0].Page = val.(string)
 			case "limit":
-				opts[0].Limit = val.(uint64)
+				opts[0].Limit = uint64(val.(int))
 			default:
 				panic(fmt.Sprintf("Unknown key '%s' supplied for CoreOptions", key))
 			}

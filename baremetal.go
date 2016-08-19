@@ -33,6 +33,7 @@ type BareMetalClient interface {
 	GetVolume(id string, opts ...baremetal.Options) (vol *baremetal.Volume, e error)
 	UpdateVolume(id string, opts ...baremetal.Options) (vol *baremetal.Volume, e error)
 	DeleteVolume(id string, opts ...baremetal.Options) (e error)
+	ListVolumes(compartmentID string, opts ...baremetal.Options) (vols *baremetal.VolumeList, e error)
 
 	AttachVolume(compartmentID, instanceID, attachmentType, volumeID string, opts ...baremetal.Options) (vol *baremetal.VolumeAttachment, e error)
 	GetVolumeAttachment(id string, opts ...baremetal.Options) (vol *baremetal.VolumeAttachment, e error)
