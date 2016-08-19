@@ -36,10 +36,10 @@ func (s *VolumeAttachmentSync) State() string {
 }
 
 func (s *VolumeAttachmentSync) Create() (e error) {
+	attachmentType := s.D.Get("attachment_type").(string)
 	compartmentID := s.D.Get("compartment_id").(string)
-	instanceID := s.D.Get("instanceID").(string)
-	attachmentType := s.D.Get("attachmentType").(string)
-	volumeID := s.D.Get("volumeID").(string)
+	instanceID := s.D.Get("instance_id").(string)
+	volumeID := s.D.Get("volume_id").(string)
 
 	s.Res, e = s.Client.AttachVolume(compartmentID, instanceID, attachmentType, volumeID)
 

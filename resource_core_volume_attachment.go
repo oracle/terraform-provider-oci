@@ -15,8 +15,7 @@ func ResourceCoreVolumeAttachment() *schema.Resource {
 			},
 			"availability_domain": &schema.Schema{
 				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
+				Computed: true,
 			},
 			"compartment_id": &schema.Schema{
 				Type:     schema.TypeString,
@@ -33,7 +32,8 @@ func ResourceCoreVolumeAttachment() *schema.Resource {
 			},
 			"instance_id": &schema.Schema{
 				Type:     schema.TypeString,
-				Computed: true,
+				Required: true,
+				ForceNew: true,
 			},
 			"state": &schema.Schema{
 				Type:     schema.TypeString,
@@ -45,7 +45,8 @@ func ResourceCoreVolumeAttachment() *schema.Resource {
 			},
 			"volume_id": &schema.Schema{
 				Type:     schema.TypeString,
-				Computed: true,
+				Required: true,
+				ForceNew: true,
 			},
 		},
 	}
