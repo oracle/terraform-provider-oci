@@ -23,6 +23,14 @@ func (s *VolumeSync) CreatedTarget() []string {
 	return []string{baremetal.ResourceAvailable}
 }
 
+func (s *VolumeSync) DeletedPending() []string {
+	return []string{baremetal.ResourceTerminating}
+}
+
+func (s *VolumeSync) DeletedTarget() []string {
+	return []string{baremetal.ResourceTerminated}
+}
+
 func (s *VolumeSync) State() string {
 	return s.Res.State
 }
