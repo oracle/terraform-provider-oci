@@ -4,6 +4,8 @@ import (
 	"crypto/rsa"
 
 	"github.com/MustWin/baremetal-sdk-go"
+	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/core"
+	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/identity"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 )
@@ -73,24 +75,24 @@ func schemaMap() map[string]*schema.Schema {
 
 func dataSourcesMap() map[string]*schema.Resource {
 	return map[string]*schema.Resource{
-		"baremetal_core_shape":              ResourceCoreShape(),
-		"baremetal_core_vnic_attachments":   ResourceCoreVnicAttachments(),
-		"baremetal_core_volumes":            ResourceCoreVolumes(),
-		"baremetal_core_volume_attachments": ResourceCoreVolumeAttachments(),
-		"baremetal_core_instances":          ResourceCoreInstances(),
+		"baremetal_core_shape":              core.ResourceCoreShape(),
+		"baremetal_core_vnic_attachments":   core.ResourceCoreVnicAttachments(),
+		"baremetal_core_volumes":            core.ResourceCoreVolumes(),
+		"baremetal_core_volume_attachments": core.ResourceCoreVolumeAttachments(),
+		"baremetal_core_instances":          core.ResourceCoreInstances(),
 	}
 }
 
 func resourcesMap() map[string]*schema.Resource {
 	return map[string]*schema.Resource{
-		"baremetal_identity_user":          ResourceIdentityUser(),
-		"baremetal_identity_group":         ResourceIdentityGroup(),
-		"baremetal_identity_policy":        ResourceIdentityPolicy(),
-		"baremetal_identity_compartment":   ResourceIdentityCompartment(),
-		"baremetal_core_cpe":               ResourceCoreCpe(),
-		"baremetal_core_volume":            ResourceCoreVolume(),
-		"baremetal_core_instance":          ResourceCoreInstance(),
-		"baremetal_core_volume_attachment": ResourceCoreVolumeAttachment(),
+		"baremetal_identity_user":          identity.ResourceIdentityUser(),
+		"baremetal_identity_group":         identity.ResourceIdentityGroup(),
+		"baremetal_identity_policy":        identity.ResourceIdentityPolicy(),
+		"baremetal_identity_compartment":   identity.ResourceIdentityCompartment(),
+		"baremetal_core_cpe":               core.ResourceCoreCpe(),
+		"baremetal_core_volume":            core.ResourceCoreVolume(),
+		"baremetal_core_instance":          core.ResourceCoreInstance(),
+		"baremetal_core_volume_attachment": core.ResourceCoreVolumeAttachment(),
 	}
 }
 
