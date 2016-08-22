@@ -197,3 +197,9 @@ func (m *MockClient) TerminateInstance(instanceID string, opts ...baremetal.Opti
 	args := m.Called(instanceID, opts)
 	return args.Error(0)
 }
+
+func (m *MockClient) ListInstances(compartmentID string, opts ...baremetal.Options) (list *baremetal.InstanceList, e error) {
+	args := m.Called(compartmentID, opts)
+	u, _ := args.Get(0).(*baremetal.InstanceList)
+	return u, args.Error(1)
+}

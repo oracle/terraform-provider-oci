@@ -39,6 +39,7 @@ type BareMetalClient interface {
 	GetInstance(instanceID string) (inst *baremetal.Instance, e error)
 	UpdateInstance(instanceID string, opts ...baremetal.Options) (inst *baremetal.Instance, e error)
 	TerminateInstance(instanceID string, opts ...baremetal.Options) (e error)
+	ListInstances(compartmentID string, opts ...baremetal.Options) (list *baremetal.InstanceList, e error)
 
 	AttachVolume(compartmentID, instanceID, attachmentType, volumeID string, opts ...baremetal.Options) (vol *baremetal.VolumeAttachment, e error)
 	GetVolumeAttachment(id string, opts ...baremetal.Options) (vol *baremetal.VolumeAttachment, e error)

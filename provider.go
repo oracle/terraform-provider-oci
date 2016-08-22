@@ -77,6 +77,7 @@ func dataSourcesMap() map[string]*schema.Resource {
 		"baremetal_core_vnic_attachments":   ResourceCoreVnicAttachments(),
 		"baremetal_core_volumes":            ResourceCoreVolumes(),
 		"baremetal_core_volume_attachments": ResourceCoreVolumeAttachments(),
+		"baremetal_core_instances":          ResourceCoreInstances(),
 	}
 }
 
