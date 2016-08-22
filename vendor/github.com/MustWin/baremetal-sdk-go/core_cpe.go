@@ -1,29 +1,28 @@
 package baremetal
 
-import (
-	"encoding/json"
-	"net/http"
-)
+import "net/http"
 
 // Cpe describes customer premise equipment
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#Cpe
 type Cpe struct {
+	ETaggedResource
 	ID            string `json:"id"`
 	CompartmentID string `json:"compartmentId"`
 	DisplayName   string `json:"displayName"`
 	IPAddress     string `json:"ipAddress"`
 	TimeCreated   Time   `json:"timeCreated"`
-	ETag          string `json:"etag,omitempty"`
-	OPCRequestID  string `json:"opc-request-id,omitempty"`
 }
 
 // CpeList contains a list of customer premise equipment
 //
 type CpeList struct {
-	OPCNextPage  string
-	OPCRequestID string
-	Cpes         []Cpe
+	ResourceContainer
+	Cpes []Cpe
+}
+
+func (l *CpeList) GetList() interface{} {
+	return &l.Cpes
 }
 
 type CreateCpeRequest struct {
@@ -48,15 +47,8 @@ func (c *Client) ListCpes(compartmentID string, opts ...Options) (cpes *CpeList,
 	}
 
 	cpes = &CpeList{}
-	if e = json.Unmarshal(resp.body, &cpes.Cpes); e != nil {
-		return
-	}
-
-	cpes.OPCNextPage = resp.header.Get(headerOPCNextPage)
-	cpes.OPCRequestID = resp.header.Get(headerOPCRequestID)
-
+	e = resp.unmarshal(cpes)
 	return
-
 }
 
 // CreateCpe is used to define customer premise equipment such as routers
@@ -79,20 +71,13 @@ func (c *Client) CreateCpe(compartmentID, IPAddress string, opts ...Options) (cp
 		options: opts,
 	}
 
-	var response *requestResponse
-	if response, e = c.coreApi.request(http.MethodPost, reqOpts); e != nil {
+	var resp *requestResponse
+	if resp, e = c.coreApi.request(http.MethodPost, reqOpts); e != nil {
 		return
 	}
 
 	cpe = &Cpe{}
-
-	if e = json.Unmarshal(response.body, cpe); e != nil {
-		return
-	}
-
-	cpe.ETag = response.header.Get(headerETag)
-	cpe.OPCRequestID = response.header.Get(headerOPCRequestID)
-
+	e = resp.unmarshal(cpe)
 	return
 }
 
@@ -111,16 +96,8 @@ func (c *Client) GetCpe(id string, opts ...Options) (cpe *Cpe, e error) {
 	}
 
 	cpe = &Cpe{}
-
-	if e = json.Unmarshal(resp.body, cpe); e != nil {
-		return
-	}
-
-	cpe.ETag = resp.header.Get(headerETag)
-	cpe.OPCRequestID = resp.header.Get(headerOPCRequestID)
-
+	e = resp.unmarshal(cpe)
 	return
-
 }
 
 // DeleteCpe removes customer premise equipment resource

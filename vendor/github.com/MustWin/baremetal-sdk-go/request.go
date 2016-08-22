@@ -110,6 +110,29 @@ type requestResponse struct {
 	body   []byte
 }
 
+func (r *requestResponse) unmarshal(resource interface{}) (e error) {
+	var val interface{}
+	if c, ok := resource.(Container); ok {
+		val = c.GetList()
+		c.SetNextPage(r.header.Get(headerOPCNextPage))
+	} else {
+		val = resource
+	}
+
+	if e = json.Unmarshal(r.body, val); e != nil {
+		return
+	}
+
+	if rr, ok := resource.(Requestable); ok {
+		rr.SetRequestID(r.header.Get(headerOPCRequestID))
+	}
+	if et, ok := resource.(ETagged); ok {
+		et.SetETag(r.header.Get(headerETag))
+	}
+
+	return
+}
+
 func getErrorFromResponse(body io.Reader, resp *http.Response) (e error) {
 	var apiError Error
 	decoder := json.NewDecoder(body)

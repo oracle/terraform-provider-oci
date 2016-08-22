@@ -62,9 +62,9 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) SetupTest() {
 		State:              baremetal.ResourceAttached,
 		TimeCreated:        s.TimeCreated,
 		VolumeID:           "volume_id",
-		ETag:               "etag",
-		OPCRequestID:       "opc_request_id",
 	}
+	s.Res.ETag = "etag"
+	s.Res.RequestID = "opcrequestid"
 
 	s.DetachedRes = &baremetal.VolumeAttachment{
 		AttachmentType:     "attachment_type",
@@ -76,9 +76,9 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) SetupTest() {
 		State:              baremetal.ResourceDetached,
 		TimeCreated:        s.TimeCreated,
 		VolumeID:           "volume_id",
-		ETag:               "etag",
-		OPCRequestID:       "opc_request_id",
 	}
+	s.DetachedRes.ETag = "etag"
+	s.DetachedRes.RequestID = "opcrequestid"
 
 	// opts := baremetal.Options{}
 	s.Opts = []baremetal.Options(nil)

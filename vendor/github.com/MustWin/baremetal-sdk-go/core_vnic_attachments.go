@@ -1,9 +1,6 @@
 package baremetal
 
-import (
-	"encoding/json"
-	"time"
-)
+import "time"
 
 // VnicAttachment Vnic information for a particular instance
 //
@@ -25,9 +22,12 @@ type VnicAttachment struct {
 // In conjunction with Limit is used in paginating results.
 // OPCRequestID is used to identify the request for support issues.
 type VnicAttachmentList struct {
-	OPCNextPage  string
-	OPCRequestID string
-	Attachments  []VnicAttachment
+	ResourceContainer
+	Attachments []VnicAttachment
+}
+
+func (l *VnicAttachmentList) GetList() interface{} {
+	return &l.Attachments
 }
 
 // ListVnicAttachments returns a list of VnicAttachments with matching compartmentID
@@ -48,14 +48,7 @@ func (c *Client) ListVnicAttachments(compartmentID string, opts ...Options) (res
 		return
 	}
 
-	res = &VnicAttachmentList{
-		OPCNextPage:  resp.header.Get(headerOPCNextPage),
-		OPCRequestID: resp.header.Get(headerOPCRequestID),
-	}
-
-	if e = json.Unmarshal(resp.body, &res.Attachments); e != nil {
-		return
-	}
-
+	res = &VnicAttachmentList{}
+	e = resp.unmarshal(res)
 	return
 }

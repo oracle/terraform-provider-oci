@@ -67,13 +67,13 @@ func (s *ResourceCoreInstanceTestSuite) SetupTest() {
 		Metadata: map[string]string{
 			"ssh_authorized_keys": "mypublickey",
 		},
-		Region:       "region",
-		Shape:        "shapeid",
-		State:        baremetal.ResourceRunning,
-		TimeCreated:  s.TimeCreated,
-		ETag:         "etag",
-		OPCRequestID: "opc_request_id",
+		Region:      "region",
+		Shape:       "shapeid",
+		State:       baremetal.ResourceRunning,
+		TimeCreated: s.TimeCreated,
 	}
+	s.Res.ETag = "etag"
+	s.Res.RequestID = "opcrequestid"
 
 	s.DeletedRes = s.Res
 	s.DeletedRes.State = baremetal.ResourceTerminated
@@ -183,13 +183,13 @@ func (s ResourceCoreInstanceTestSuite) TestUpdateInstanceDisplayName() {
 		Metadata: map[string]string{
 			"ssh_authorized_keys": "mypublickey",
 		},
-		Region:       "region",
-		Shape:        "shapeid",
-		State:        baremetal.ResourceRunning,
-		TimeCreated:  s.TimeCreated,
-		ETag:         "etag",
-		OPCRequestID: "opc_request_id",
+		Region:      "region",
+		Shape:       "shapeid",
+		State:       baremetal.ResourceRunning,
+		TimeCreated: s.TimeCreated,
 	}
+	res.ETag = "etag"
+	res.RequestID = "opcrequestid"
 
 	opts := baremetal.Options{DisplayName: "new_display_name"}
 	s.Client.On("UpdateInstance", "id", []baremetal.Options{opts}).Return(res, nil)
@@ -239,13 +239,13 @@ func (s ResourceCoreInstanceTestSuite) TestUpdateAvailabilityDomainForcesNewInst
 		Metadata: map[string]string{
 			"ssh_authorized_keys": "mypublickey",
 		},
-		Region:       "region",
-		Shape:        "shapeid",
-		State:        baremetal.ResourceRunning,
-		TimeCreated:  s.TimeCreated,
-		ETag:         "etag",
-		OPCRequestID: "opc_request_id",
+		Region:      "region",
+		Shape:       "shapeid",
+		State:       baremetal.ResourceRunning,
+		TimeCreated: s.TimeCreated,
 	}
+	res.ETag = "etag"
+	res.RequestID = "opcrequestid"
 
 	s.Client.On(
 		"LaunchInstance",
