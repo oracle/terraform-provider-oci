@@ -85,6 +85,6 @@ func updateInstance(d *schema.ResourceData, m interface{}) (e error) {
 }
 
 func deleteInstance(d *schema.ResourceData, m interface{}) (e error) {
-	sync := InstanceSync{D: d, Client: m.(client.BareMetalClient)}
-	return sync.Delete()
+	sync := &InstanceSync{D: d, Client: m.(client.BareMetalClient)}
+	return crud.DeleteResource(sync)
 }

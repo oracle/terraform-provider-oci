@@ -203,3 +203,26 @@ func (m *MockClient) ListInstances(compartmentID string, opts ...baremetal.Optio
 	u, _ := args.Get(0).(*baremetal.InstanceList)
 	return u, args.Error(1)
 }
+
+func (m *MockClient) CreateSubnet(availabilityDomain, cidrBlock, compartmentID, routeTableID, vcnID string, securityListIDs []string, opts ...baremetal.Options) (sn *baremetal.Subnet, e error) {
+	args := m.Called(availabilityDomain, cidrBlock, compartmentID, routeTableID, vcnID, securityListIDs, opts)
+	u, _ := args.Get(0).(*baremetal.Subnet)
+	return u, args.Error(1)
+}
+
+func (m *MockClient) GetSubnet(subnetID string) (subnet *baremetal.Subnet, e error) {
+	args := m.Called(subnetID)
+	u, _ := args.Get(0).(*baremetal.Subnet)
+	return u, args.Error(1)
+}
+
+func (m *MockClient) ListSubnets(compartmentID, vcnID string, opts ...baremetal.Options) (*baremetal.SubnetList, error) {
+	args := m.Called(compartmentID, vcnID, opts)
+	u, _ := args.Get(0).(*baremetal.SubnetList)
+	return u, args.Error(1)
+}
+
+func (m *MockClient) DeleteSubnet(subnetID string, opts ...baremetal.Options) (e error) {
+	args := m.Called(subnetID, opts)
+	return args.Error(0)
+}

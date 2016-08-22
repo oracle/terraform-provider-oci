@@ -93,6 +93,7 @@ func resourcesMap() map[string]*schema.Resource {
 		"baremetal_core_volume":            core.ResourceCoreVolume(),
 		"baremetal_core_instance":          core.ResourceCoreInstance(),
 		"baremetal_core_volume_attachment": core.ResourceCoreVolumeAttachment(),
+		"baremetal_core_subnet":            core.ResourceCoreSubnet(),
 	}
 }
 

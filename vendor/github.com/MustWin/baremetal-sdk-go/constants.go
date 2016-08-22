@@ -48,6 +48,7 @@ const (
 	queryUserID             = "userId"
 	queryVnicID             = "vnicId"
 	queryAction             = "action"
+	queryVcnID              = "vcn"
 
 	// Actions that can be applied to compute instances
 	actionStart instanceActions = "START"
@@ -70,6 +71,7 @@ const (
 	resourceVolumes                  resourceName = "volumes"
 	resourceVolumeAttachments        resourceName = "volumeAttachments"
 	resourceInstances                resourceName = "instances"
+	resourceSubnets                  resourceName = "subnets"
 
 	apiKeys    = "apiKeys"
 	uiPassword = "uiPassword"
