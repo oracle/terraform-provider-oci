@@ -1,11 +1,7 @@
 package baremetal
 
 // CreatePolicy creates a new policy.
-import (
-	"bytes"
-	"encoding/json"
-	"net/http"
-)
+import "net/http"
 
 type CreatePolicyRequest struct {
 	CreateIdentityResourceRequest
@@ -45,12 +41,7 @@ func (c *Client) CreatePolicy(policyName, policyDescription string, statements [
 	}
 
 	resource = &Policy{}
-	e = json.Unmarshal(response.body, resource)
-
-	if respHeader := response.header; respHeader != nil {
-		resource.ETag = respHeader.Get(headerETag)
-	}
-
+	e = response.unmarshal(resource)
 	return
 }
 
@@ -81,15 +72,8 @@ func (c *Client) GetPolicy(policyID string) (resource *Policy, e error) {
 		return
 	}
 
-	reader := bytes.NewBuffer(response.body)
-	decoder := json.NewDecoder(reader)
 	resource = &Policy{}
-	e = decoder.Decode(resource)
-
-	if respHeader := response.header; respHeader != nil {
-		resource.ETag = respHeader.Get(headerETag)
-	}
-
+	e = response.unmarshal(resource)
 	return
 }
 
@@ -114,11 +98,6 @@ func (c *Client) UpdatePolicy(policyID, policyDescription string, policyStatemen
 	}
 
 	resource = &Policy{}
-	e = json.Unmarshal(response.body, resource)
-
-	if respHeader := response.header; respHeader != nil {
-		resource.ETag = respHeader.Get(headerETag)
-	}
-
+	e = response.unmarshal(resource)
 	return
 }

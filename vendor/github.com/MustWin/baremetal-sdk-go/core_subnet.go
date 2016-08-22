@@ -1,7 +1,6 @@
 package baremetal
 
 import (
-	"encoding/json"
 	"net/http"
 	"net/url"
 )
@@ -10,6 +9,7 @@ import (
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#Subnet
 type Subnet struct {
+	ETaggedResource
 	AvailabilityDomain string   `json:"availabilityDomain"`
 	CIDRBlock          string   `json:"cidrBlock"`
 	CompartmentID      string   `json:"compartmentId"`
@@ -22,14 +22,15 @@ type Subnet struct {
 	VcnID              string   `json:"vcnId"`
 	VirtualRouterID    string   `json:"virtualRouterId"`
 	VirtualRouterMac   string   `json:"virtualRouterMac"`
-	ETag               string   `json:"etag,omitempty"`
-	OPCRequestID       string   `json:"opc-request-id,omitempty"`
 }
 
 type SubnetList struct {
-	NextPage  string
-	RequestID string
-	Subnets   []Subnet
+	ResourceContainer
+	Subnets []Subnet
+}
+
+func (l *SubnetList) GetList() interface{} {
+	return &l.Subnets
 }
 
 // CreateSubnet will create a new subnet.
@@ -80,14 +81,7 @@ func (c *Client) CreateSubnet(
 	}
 
 	sn = &Subnet{}
-
-	if e = json.Unmarshal(response.body, sn); e != nil {
-		return
-	}
-
-	sn.OPCRequestID = response.header.Get(headerOPCRequestID)
-	sn.ETag = response.header.Get(headerETag)
-
+	e = response.unmarshal(sn)
 	return
 }
 
@@ -114,14 +108,7 @@ func (c *Client) ListSubnets(compartmentID, vcnID string, opts ...Options) (subn
 	}
 
 	subnets = &SubnetList{}
-
-	if e = json.Unmarshal(response.body, &subnets.Subnets); e != nil {
-		return
-	}
-
-	subnets.NextPage = response.header.Get(headerOPCNextPage)
-	subnets.RequestID = response.header.Get(headerOPCRequestID)
-
+	e = response.unmarshal(subnets)
 	return
 }
 
@@ -140,10 +127,7 @@ func (c *Client) GetSubnet(subnetID string) (subnet *Subnet, e error) {
 	}
 
 	subnet = &Subnet{}
-	if e = json.Unmarshal(response.body, subnet); e != nil {
-		return
-	}
-
+	e = response.unmarshal(subnet)
 	return
 }
 

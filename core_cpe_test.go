@@ -55,9 +55,9 @@ func (s *ResourceCoreCpeTestSuite) SetupTest() {
 		DisplayName:   "displayname",
 		IPAddress:     "123.123.123.123",
 		TimeCreated:   s.TimeCreated,
-		ETag:          "etag",
-		OPCRequestID:  "opcrequestid",
 	}
+	s.Res.ETag = "etag"
+	s.Res.RequestID = "opcrequestid"
 
 	s.Client.On("CreateCpe", "compartmentid", "displayname", "123.123.123.123", []baremetal.Options(nil)).Return(s.Res, nil)
 	s.Client.On("DeleteCpe", "cpeid").Return(nil)
@@ -103,9 +103,9 @@ func (s ResourceCoreCpeTestSuite) TestUpdateForcesNewCoreCpe() {
 		DisplayName:   "displayname",
 		IPAddress:     "111.222.111.222",
 		TimeCreated:   s.TimeCreated,
-		ETag:          "etag",
-		OPCRequestID:  "opcrequestid",
 	}
+	result.ETag = "etag"
+	result.RequestID = "opcrequestid"
 
 	s.Client.On("CreateCpe", "compartmentid", "displayname", "111.222.111.222", []baremetal.Options(nil)).Return(result, nil)
 

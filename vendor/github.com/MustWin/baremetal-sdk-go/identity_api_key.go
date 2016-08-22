@@ -2,8 +2,6 @@ package baremetal
 
 // APIKey is returned for operations that create or modify user API keys.
 import (
-	"bytes"
-	"encoding/json"
 	"net/http"
 	"time"
 )
@@ -26,8 +24,12 @@ type APIKey struct {
 
 // ListAPIKeyResponse contains a list of API keys
 type ListAPIKeyResponse struct {
-	OPCRequestID string
-	Keys         []APIKey
+	ResourceContainer
+	Keys []APIKey
+}
+
+func (l *ListAPIKeyResponse) GetList() interface{} {
+	return &l.Keys
 }
 
 // Deletes an API key belonging to a user.
@@ -55,19 +57,9 @@ func (c *Client) ListAPIKeys(userID string) (response *ListAPIKeyResponse, e err
 	if getResp, e = c.identityApi.getRequest(reqOpts); e != nil {
 		return
 	}
-	reader := bytes.NewBuffer(getResp.body)
-	decoder := json.NewDecoder(reader)
-	var keys []APIKey
 
-	if e = decoder.Decode(&keys); e != nil {
-		return
-	}
-
-	response = &ListAPIKeyResponse{
-		Keys:         keys,
-		OPCRequestID: getResp.header.Get(headerOPCRequestID),
-	}
-
+	response = &ListAPIKeyResponse{}
+	e = getResp.unmarshal(response)
 	return
 }
 
@@ -93,6 +85,6 @@ func (c *Client) UploadAPIKey(userID, key string, opts ...Options) (apiKey *APIK
 	}
 
 	apiKey = &APIKey{}
-	e = json.Unmarshal(resp.body, apiKey)
+	e = resp.unmarshal(apiKey)
 	return
 }

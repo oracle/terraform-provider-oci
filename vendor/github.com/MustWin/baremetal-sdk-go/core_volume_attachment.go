@@ -1,14 +1,12 @@
 package baremetal
 
-import (
-	"encoding/json"
-	"net/http"
-)
+import "net/http"
 
 // VolumeAttachment describes a cloud block storage attachment
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#VolumeAttachment
 type VolumeAttachment struct {
+	ETaggedResource
 	AttachmentType     string `json:"attachmentType"`
 	AvailabilityDomain string `json:"availabilityDomain"`
 	CompartmentID      string `json:"compartmentId"`
@@ -18,16 +16,17 @@ type VolumeAttachment struct {
 	State              string `json:"state"`
 	TimeCreated        Time   `json:"timeCreated"`
 	VolumeID           string `json:"volumeId"`
-	ETag               string `json:"etag,omitempty"`
-	OPCRequestID       string `json:"opc-request-id,omitempty"`
 }
 
 // VolumeAttachmentList contains a list of volume attachments
 //
 type VolumeAttachmentList struct {
-	OPCNextPage       string
-	OPCRequestID      string
+	ResourceContainer
 	VolumeAttachments []VolumeAttachment
+}
+
+func (l *VolumeAttachmentList) GetList() interface{} {
+	return &l.VolumeAttachments
 }
 
 // AttachVolumeRequest describes the body of a volume attachment creation request
@@ -63,14 +62,7 @@ func (c *Client) AttachVolume(compartmentID, instanceID, attachmentType, volumeI
 	}
 
 	res = &VolumeAttachment{}
-
-	if e = json.Unmarshal(response.body, res); e != nil {
-		return
-	}
-
-	res.ETag = response.header.Get(headerETag)
-	res.OPCRequestID = response.header.Get(headerOPCRequestID)
-
+	e = response.unmarshal(res)
 	return
 }
 
@@ -89,14 +81,7 @@ func (c *Client) GetVolumeAttachment(id string, opts ...Options) (res *VolumeAtt
 	}
 
 	res = &VolumeAttachment{}
-
-	if e = json.Unmarshal(resp.body, res); e != nil {
-		return
-	}
-
-	res.ETag = resp.header.Get(headerETag)
-	res.OPCRequestID = resp.header.Get(headerOPCRequestID)
-
+	e = resp.unmarshal(res)
 	return
 }
 
@@ -129,12 +114,6 @@ func (c *Client) ListVolumeAttachments(compartmentID string, opts ...Options) (r
 	}
 
 	res = &VolumeAttachmentList{}
-	if e = json.Unmarshal(resp.body, &res.VolumeAttachments); e != nil {
-		return
-	}
-
-	res.OPCNextPage = resp.header.Get(headerOPCNextPage)
-	res.OPCRequestID = resp.header.Get(headerOPCRequestID)
-
+	e = resp.unmarshal(res)
 	return
 }

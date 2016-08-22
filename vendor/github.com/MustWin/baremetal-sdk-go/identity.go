@@ -1,8 +1,6 @@
 package baremetal
 
 import (
-	"bytes"
-	"encoding/json"
 	"fmt"
 	"net/http"
 	"time"
@@ -11,6 +9,7 @@ import (
 // Resource contains information representing Users, Groups,
 // Policies and other elements
 type IdentityResource struct {
+	ETaggedResource
 	// Unique identifier for a particular item such as a User or a Group
 	ID string `json:"id"`
 	// CompartmentID is the ID of the tenancy containing the compartment
@@ -20,16 +19,16 @@ type IdentityResource struct {
 	TimeCreated   time.Time `json:"timeCreated"`
 	TimeModified  time.Time `json:"timeModified"`
 	State         string    `json:"state"`
-	ETag          string    `json:"etag,omitempty"`
-	OPCRequestID  string    `json:"opc-request-id,omitempty"`
 }
 
 // ListResponse response for List commands.
 type ListResourceResponse struct {
-	// Page can be passed in the ListUsersRequest argument of the next
-	// call to ListUsers in order to page results.
-	Page  string
+	ResourceContainer
 	Items []IdentityResource
+}
+
+func (l *ListResourceResponse) GetList() interface{} {
+	return &l.Items
 }
 
 // Error is returned from unsuccessful API calls. The OPCRequestID if present
@@ -74,12 +73,7 @@ func (c *Client) createIdentityResource(name resourceName, body CreateIdentityRe
 	}
 
 	resource = &IdentityResource{}
-	e = json.Unmarshal(response.body, resource)
-
-	if respHeader := response.header; respHeader != nil {
-		resource.ETag = respHeader.Get(headerETag)
-	}
-
+	e = response.unmarshal(resource)
 	return
 }
 
@@ -94,15 +88,8 @@ func (c *Client) getIdentityResource(name resourceName, ids ...interface{}) (res
 		return
 	}
 
-	reader := bytes.NewBuffer(response.body)
-	decoder := json.NewDecoder(reader)
 	resource = &IdentityResource{}
-	e = decoder.Decode(resource)
-
-	if respHeader := response.header; respHeader != nil {
-		resource.ETag = respHeader.Get(headerETag)
-	}
-
+	e = response.unmarshal(resource)
 	return
 }
 
@@ -118,18 +105,8 @@ func (c *Client) listIdentityResources(name resourceName, options ...Options) (r
 		return
 	}
 
-	reader := bytes.NewBuffer(getResp.body)
-	decoder := json.NewDecoder(reader)
-	var items []IdentityResource
-	if e = decoder.Decode(&items); e != nil {
-		return
-	}
-
-	resp = &ListResourceResponse{
-		Page:  getResp.header.Get(headerOPCNextPage),
-		Items: items,
-	}
-
+	resp = &ListResourceResponse{}
+	e = getResp.unmarshal(resp)
 	return
 }
 
@@ -147,11 +124,6 @@ func (c *Client) updateIdentityResource(name resourceName, resourceID string, bo
 	}
 
 	resource = &IdentityResource{}
-	e = json.Unmarshal(response.body, resource)
-
-	if respHeader := response.header; respHeader != nil {
-		resource.ETag = respHeader.Get(headerETag)
-	}
-
+	e = response.unmarshal(resource)
 	return
 }

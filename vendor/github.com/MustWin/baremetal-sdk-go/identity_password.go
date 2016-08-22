@@ -2,7 +2,6 @@ package baremetal
 
 // UIPassword is returned for change or create password operations.
 import (
-	"encoding/json"
 	"net/http"
 	"time"
 )
@@ -14,13 +13,12 @@ type UpdateUIPasswordRequest struct {
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/identity.html#UIPassword
 type UIPassword struct {
+	ETaggedResource
 	NewPassword  string    `json:"password"`
 	UserID       string    `json:"userId"`
 	TimeCreated  time.Time `json:"timeCreated"`
 	TimeModified time.Time `json:"timeModified"`
 	State        string    `json:"state"`
-	ETag         string    `json:"etag,omitempty"`
-	OPCRequestID string    `json:"opc-request-id,omitempty"`
 }
 
 // CreateOrResetUIPassword - creates or resets password for user identified by
@@ -45,15 +43,7 @@ func (c *Client) CreateOrResetUIPassword(password, userID string, opts ...Option
 	}
 
 	resource = &UIPassword{}
-	if e = json.Unmarshal(response.body, resource); e != nil {
-		return
-	}
-
-	if respHeader := response.header; respHeader != nil {
-		resource.ETag = respHeader.Get(headerETag)
-		resource.OPCRequestID = respHeader.Get(headerOPCRequestID)
-	}
-
+	e = response.unmarshal(resource)
 	return
 }
 
@@ -79,14 +69,6 @@ func (c *Client) UpdateUserUIPassword(newPassword, userID string, opts ...Option
 	}
 
 	resource = &UIPassword{}
-	if e = json.Unmarshal(response.body, resource); e != nil {
-		return
-	}
-
-	if respHeader := response.header; respHeader != nil {
-		resource.ETag = respHeader.Get(headerETag)
-		resource.OPCRequestID = respHeader.Get(headerOPCRequestID)
-	}
-
+	e = response.unmarshal(resource)
 	return
 }

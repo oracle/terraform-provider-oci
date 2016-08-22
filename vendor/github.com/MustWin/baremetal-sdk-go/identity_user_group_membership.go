@@ -2,8 +2,6 @@ package baremetal
 
 // UserGroupMembership returned by GetUserGroupMembership and related methods.
 import (
-	"bytes"
-	"encoding/json"
 	"net/http"
 	"time"
 )
@@ -11,6 +9,7 @@ import (
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/identity.html#UserGroupMembership
 type UserGroupMembership struct {
+	ETaggedResource
 	// Unique identifier for a particular item such as a User or a Group
 	ID            string    `json:"id"`
 	CompartmentID string    `json:"compartmentId"`
@@ -19,8 +18,6 @@ type UserGroupMembership struct {
 	TimeCreated   time.Time `json:"timeCreated"`
 	TimeModified  time.Time `json:"timeModified"`
 	State         string    `json:"state"`
-	ETag          string    `json:"etag,omitempty"`
-	OPCRequestID  string    `json:"opc-request-id,omitempty"`
 }
 
 type AddUserToGroupRequest struct {
@@ -32,8 +29,12 @@ type AddUserToGroupRequest struct {
 // Page field that can be used in subsequent List requests in conjunction with
 // the Limit field to support pagination of results.
 type UserGroupMembershipResponse struct {
-	Page        string
+	ResourceContainer
 	Memberships []UserGroupMembership
+}
+
+func (l *UserGroupMembershipResponse) GetList() interface{} {
+	return &l.Memberships
 }
 
 // AddUserToGroup adds a user to a group.
@@ -57,12 +58,7 @@ func (c *Client) AddUserToGroup(userID, groupID string, opts ...Options) (resour
 	}
 
 	resource = &UserGroupMembership{}
-	e = json.Unmarshal(response.body, resource)
-
-	if respHeader := response.header; respHeader != nil {
-		resource.ETag = respHeader.Get(headerETag)
-	}
-
+	e = response.unmarshal(resource)
 	return
 }
 
@@ -92,15 +88,8 @@ func (c *Client) GetUserGroupMembership(id string) (resource *UserGroupMembershi
 		return
 	}
 
-	reader := bytes.NewBuffer(response.body)
-	decoder := json.NewDecoder(reader)
 	resource = &UserGroupMembership{}
-	e = decoder.Decode(resource)
-
-	if respHeader := response.header; respHeader != nil {
-		resource.ETag = respHeader.Get(headerETag)
-	}
-
+	e = response.unmarshal(resource)
 	return
 }
 
@@ -116,18 +105,7 @@ func (c *Client) ListUserGroupMemberships(options ...Options) (response *UserGro
 		return
 	}
 
-	reader := bytes.NewBuffer(getResp.body)
-	decoder := json.NewDecoder(reader)
-	var items []UserGroupMembership
-
-	if e = decoder.Decode(&items); e != nil {
-		return
-	}
-
-	response = &UserGroupMembershipResponse{
-		Page:        getResp.header.Get(headerOPCNextPage),
-		Memberships: items,
-	}
-
+	response = &UserGroupMembershipResponse{}
+	e = getResp.unmarshal(response)
 	return
 }

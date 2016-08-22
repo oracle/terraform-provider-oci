@@ -1,7 +1,6 @@
 package baremetal
 
 import (
-	"encoding/json"
 	"net/http"
 	"net/url"
 )
@@ -10,6 +9,8 @@ import (
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#Instance
 type Instance struct {
+	RequestableResource
+	ETaggedResource
 	AvailabilityDomain string            `json:"availabilityDomain"`
 	CompartmentID      string            `json:"compartmentId"`
 	DisplayName        string            `json:"displayName"`
@@ -20,19 +21,16 @@ type Instance struct {
 	Shape              string            `json:"shape"`
 	State              string            `json:"state"`
 	TimeCreated        Time              `json:"timeCreated"`
-	ETag               string            `json:"etag,omitempty"`
-	OPCRequestID       string            `json:"opc-request-id,omitempty"`
 }
 
 // InstanceList contains a list of instances.
 type InstanceList struct {
-	// NextPage if present there are more instances available to be requested.
-	// Assign the NextPage value to Options.Page in a subsequent ListInstances
-	// request.
-	NextPage string
-	// RequestID Oracle assigned identifier for the request
-	RequestID string
+	ResourceContainer
 	Instances []Instance
+}
+
+func (l *InstanceList) GetList() interface{} {
+	return &l.Instances
 }
 
 type LaunchInstanceRequest struct {
@@ -85,14 +83,7 @@ func (c *Client) LaunchInstance(
 	}
 
 	inst = &Instance{}
-
-	if e = json.Unmarshal(response.body, inst); e != nil {
-		return
-	}
-
-	inst.ETag = response.header.Get(headerETag)
-	inst.OPCRequestID = response.header.Get(headerOPCRequestID)
-
+	e = response.unmarshal(inst)
 	return
 }
 
@@ -109,16 +100,8 @@ func (c *Client) GetInstance(instanceID string) (inst *Instance, e error) {
 	}
 
 	inst = &Instance{}
-
-	if e = json.Unmarshal(response.body, inst); e != nil {
-		return
-	}
-
-	inst.OPCRequestID = response.header.Get(headerOPCRequestID)
-	inst.ETag = response.header.Get(headerETag)
-
+	e = response.unmarshal(inst)
 	return
-
 }
 
 // UpdateInstance can be used to change the display name of a compute instance
@@ -149,14 +132,7 @@ func (c *Client) UpdateInstance(instanceID string, opts ...Options) (inst *Insta
 	}
 
 	inst = &Instance{}
-
-	if e = json.Unmarshal(response.body, inst); e != nil {
-		return
-	}
-
-	inst.OPCRequestID = response.header.Get(headerOPCRequestID)
-	inst.ETag = response.header.Get(headerETag)
-
+	e = response.unmarshal(inst)
 	return
 }
 
@@ -188,17 +164,9 @@ func (c *Client) ListInstances(compartmentID string, opts ...Options) (insts *In
 		return
 	}
 
-	insts = &InstanceList{
-		NextPage:  resp.header.Get(headerOPCNextPage),
-		RequestID: resp.header.Get(headerOPCRequestID),
-	}
-
-	if e = json.Unmarshal(resp.body, &insts.Instances); e != nil {
-		return
-	}
-
+	insts = &InstanceList{}
+	e = resp.unmarshal(insts)
 	return
-
 }
 
 // InstanceAction starts, stops, or resets a compute instance identified by
@@ -222,14 +190,6 @@ func (c *Client) InstanceAction(instanceID string, action instanceActions, opts 
 	}
 
 	inst = &Instance{}
-
-	if e = json.Unmarshal(response.body, inst); e != nil {
-		return
-	}
-
-	inst.OPCRequestID = response.header.Get(headerOPCRequestID)
-	inst.ETag = response.header.Get(headerETag)
-
+	e = response.unmarshal(inst)
 	return
-
 }

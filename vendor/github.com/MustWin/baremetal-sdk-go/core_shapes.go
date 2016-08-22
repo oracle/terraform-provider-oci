@@ -1,7 +1,5 @@
 package baremetal
 
-import "encoding/json"
-
 type Shape struct {
 	Name string `json:"shape"`
 }
@@ -11,9 +9,12 @@ type Shape struct {
 // In conjunction with Limit is used in paginating result.
 // OPCRequestID is used to identify the request for support issues.
 type ShapeList struct {
-	OPCNextPage  string
-	OPCRequestID string
-	Shapes       []Shape
+	ResourceContainer
+	Shapes []Shape
+}
+
+func (l *ShapeList) GetList() interface{} {
+	return &l.Shapes
 }
 
 // ListShapes retrieves a list of shapes. compartmentID is a required parameter.
@@ -34,14 +35,7 @@ func (c *Client) ListShapes(compartmentID string, options ...Options) (shapes *S
 		return
 	}
 
-	shapes = &ShapeList{
-		OPCNextPage:  resp.header.Get(headerOPCNextPage),
-		OPCRequestID: resp.header.Get(headerOPCRequestID),
-	}
-
-	if e = json.Unmarshal(resp.body, &shapes.Shapes); e != nil {
-		return
-	}
-
+	shapes = &ShapeList{}
+	e = resp.unmarshal(shapes)
 	return
 }

@@ -1,14 +1,12 @@
 package baremetal
 
-import (
-	"encoding/json"
-	"net/http"
-)
+import "net/http"
 
 // Volume describes cloud block storage
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#Volume
 type Volume struct {
+	ETaggedResource
 	AvailabilityDomain string `json:"availabilityDomain"`
 	CompartmentID      string `json:"compartmentId"`
 	DisplayName        string `json:"displayName"`
@@ -16,16 +14,17 @@ type Volume struct {
 	SizeInMBs          string `json:"sizeInMBs"`
 	State              string `json:"state"`
 	TimeCreated        Time   `json:"timeCreated"`
-	ETag               string `json:"etag,omitempty"`
-	OPCRequestID       string `json:"opc-request-id,omitempty"`
 }
 
 // VolumeList contains a list of block volumes
 //
 type VolumeList struct {
-	OPCNextPage  string
-	OPCRequestID string
-	Volumes      []Volume
+	ResourceContainer
+	Volumes []Volume
+}
+
+func (l *VolumeList) GetList() interface{} {
+	return &l.Volumes
 }
 
 // CreateVolumeRequest describes the body of a volume creation request
@@ -69,14 +68,7 @@ func (c *Client) CreateVolume(availabilityDomain, compartmentID string, opts ...
 	}
 
 	vol = &Volume{}
-
-	if e = json.Unmarshal(response.body, vol); e != nil {
-		return
-	}
-
-	vol.ETag = response.header.Get(headerETag)
-	vol.OPCRequestID = response.header.Get(headerOPCRequestID)
-
+	e = response.unmarshal(vol)
 	return
 }
 
@@ -95,14 +87,7 @@ func (c *Client) GetVolume(id string, opts ...Options) (vol *Volume, e error) {
 	}
 
 	vol = &Volume{}
-
-	if e = json.Unmarshal(resp.body, vol); e != nil {
-		return
-	}
-
-	vol.ETag = resp.header.Get(headerETag)
-	vol.OPCRequestID = resp.header.Get(headerOPCRequestID)
-
+	e = resp.unmarshal(vol)
 	return
 }
 
@@ -129,12 +114,7 @@ func (c *Client) UpdateVolume(id string, opts ...Options) (vol *Volume, e error)
 	}
 
 	vol = &Volume{}
-	e = json.Unmarshal(response.body, vol)
-
-	if respHeader := response.header; respHeader != nil {
-		vol.ETag = respHeader.Get(headerETag)
-	}
-
+	e = response.unmarshal(vol)
 	return
 }
 
@@ -166,12 +146,6 @@ func (c *Client) ListVolumes(compartmentID string, opts ...Options) (vols *Volum
 	}
 
 	vols = &VolumeList{}
-	if e = json.Unmarshal(resp.body, &vols.Volumes); e != nil {
-		return
-	}
-
-	vols.OPCNextPage = resp.header.Get(headerOPCNextPage)
-	vols.OPCRequestID = resp.header.Get(headerOPCRequestID)
-
+	e = resp.unmarshal(vols)
 	return
 }

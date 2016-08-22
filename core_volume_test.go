@@ -60,9 +60,9 @@ func (s *ResourceCoreVolumeTestSuite) SetupTest() {
 		SizeInMBs:          "size_in_mbs",
 		State:              baremetal.ResourceAvailable,
 		TimeCreated:        s.TimeCreated,
-		ETag:               "etag",
-		OPCRequestID:       "opc_request_id",
 	}
+	s.Res.ETag = "etag"
+	s.Res.RequestID = "opcrequestid"
 
 	s.DeletedRes = &baremetal.Volume{
 		AvailabilityDomain: "availability_domain",
@@ -72,9 +72,9 @@ func (s *ResourceCoreVolumeTestSuite) SetupTest() {
 		SizeInMBs:          "size_in_mbs",
 		State:              baremetal.ResourceTerminated,
 		TimeCreated:        s.TimeCreated,
-		ETag:               "etag",
-		OPCRequestID:       "opc_request_id",
 	}
+	s.DeletedRes.ETag = "etag"
+	s.DeletedRes.RequestID = "opcrequestid"
 
 	opts := baremetal.Options{DisplayName: "display_name"}
 	s.Opts = []baremetal.Options{opts}
@@ -159,9 +159,9 @@ func (s ResourceCoreVolumeTestSuite) TestUpdateVolumeDisplayName() {
 		SizeInMBs:          "size_in_mbs",
 		State:              baremetal.ResourceAvailable,
 		TimeCreated:        s.TimeCreated,
-		ETag:               "etag",
-		OPCRequestID:       "opc_request_id",
 	}
+	res.ETag = "etag"
+	res.RequestID = "opcrequestid"
 
 	opts := baremetal.Options{DisplayName: "new_display_name"}
 	s.Client.On("UpdateVolume", "id", []baremetal.Options{opts}).Return(res, nil)
@@ -202,9 +202,9 @@ func (s ResourceCoreVolumeTestSuite) TestUpdateAvailabilityDomainForcesNewVolume
 		SizeInMBs:          "size_in_mbs",
 		State:              baremetal.ResourceAvailable,
 		TimeCreated:        s.TimeCreated,
-		ETag:               "etag",
-		OPCRequestID:       "opc_request_id",
 	}
+	res.ETag = "etag"
+	res.RequestID = "opcrequestid"
 
 	opts := baremetal.Options{}
 	s.Client.On(
@@ -250,9 +250,9 @@ func (s ResourceCoreVolumeTestSuite) TestUpdateCompartmentIdForcesNewVolume() {
 		SizeInMBs:          "size_in_mbs",
 		State:              baremetal.ResourceAvailable,
 		TimeCreated:        s.TimeCreated,
-		ETag:               "etag",
-		OPCRequestID:       "opc_request_id",
 	}
+	res.ETag = "etag"
+	res.RequestID = "opcrequestid"
 
 	opts := baremetal.Options{}
 	s.Client.On(
