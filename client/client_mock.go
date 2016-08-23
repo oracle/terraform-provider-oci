@@ -233,8 +233,8 @@ func (m *MockClient) CreateVirtualNetwork(cidrBlock, compartmentID string, opts 
 	return u, args.Error(1)
 }
 
-func (m *MockClient) GetVirtualNetwork(id string) (vcn *baremetal.VirtualNetwork, e error) {
-	args := m.Called(id)
+func (m *MockClient) GetVirtualNetwork(id string, opts ...baremetal.Options) (vcn *baremetal.VirtualNetwork, e error) {
+	args := m.Called(id, opts)
 	u, _ := args.Get(0).(*baremetal.VirtualNetwork)
 	return u, args.Error(1)
 }
@@ -248,4 +248,21 @@ func (m *MockClient) ListVirtualNetworks(compartmentID string, opts ...baremetal
 	args := m.Called(compartmentID, opts)
 	u, _ := args.Get(0).(*baremetal.VirtualNetworkList)
 	return u, args.Error(1)
+}
+
+func (m *MockClient) CreateDrg(compartmentID string, opts ...baremetal.Options) (drg *baremetal.Drg, e error) {
+	args := m.Called(compartmentID, opts)
+	u, _ := args.Get(0).(*baremetal.Drg)
+	return u, args.Error(1)
+}
+
+func (m *MockClient) GetDrg(id string, opts ...baremetal.Options) (drg *baremetal.Drg, e error) {
+	args := m.Called(id, opts)
+	u, _ := args.Get(0).(*baremetal.Drg)
+	return u, args.Error(1)
+}
+
+func (m *MockClient) DeleteDrg(id string, opts ...baremetal.Options) (e error) {
+	args := m.Called(id, opts)
+	return args.Error(0)
 }

@@ -53,27 +53,27 @@ func (s *ResourceCoreVirtualNetworkTestSuite) SetupTest() {
 
 	s.ResourceName = "baremetal_core_virtual_network.t"
 	s.Res = &baremetal.VirtualNetwork{
-		CidrBlock: "cidr_block",
-		CompartmentID:      "compartment_id",
-		DefaultRoutingTableID:      "default_routing_table_id",
-		DefaultSecurityListID:      "default_security_list_id",
-		DisplayName:        "display_name",
-		ID:                 "id",
-		State:              baremetal.ResourceAvailable,
-		TimeCreated:        s.TimeCreated,
+		CidrBlock:             "cidr_block",
+		CompartmentID:         "compartment_id",
+		DefaultRoutingTableID: "default_routing_table_id",
+		DefaultSecurityListID: "default_security_list_id",
+		DisplayName:           "display_name",
+		ID:                    "id",
+		State:                 baremetal.ResourceAvailable,
+		TimeCreated:           s.TimeCreated,
 	}
 	s.Res.ETag = "etag"
 	s.Res.RequestID = "opcrequestid"
 
 	s.DeletedRes = &baremetal.VirtualNetwork{
-		CidrBlock: "cidr_block",
-		CompartmentID:      "compartment_id",
-		DefaultRoutingTableID:      "default_routing_table_id",
-		DefaultSecurityListID:      "default_security_list_id",
-		DisplayName:        "display_name",
-		ID:                 "id",
-		State:              baremetal.ResourceTerminated,
-		TimeCreated:        s.TimeCreated,
+		CidrBlock:             "cidr_block",
+		CompartmentID:         "compartment_id",
+		DefaultRoutingTableID: "default_routing_table_id",
+		DefaultSecurityListID: "default_security_list_id",
+		DisplayName:           "display_name",
+		ID:                    "id",
+		State:                 baremetal.ResourceTerminated,
+		TimeCreated:           s.TimeCreated,
 	}
 	s.DeletedRes.ETag = "etag"
 	s.DeletedRes.RequestID = "opcrequestid"
@@ -85,7 +85,7 @@ func (s *ResourceCoreVirtualNetworkTestSuite) SetupTest() {
 		"cidr_block",
 		"compartment_id",
 		s.Opts).Return(s.Res, nil)
-	s.Client.On("DeleteVirtualNetwork", "id").Return(nil)
+	s.Client.On("DeleteVirtualNetwork", "id", []baremetal.Options(nil)).Return(nil)
 }
 
 func (s *ResourceCoreVirtualNetworkTestSuite) TestCreateResourceCoreVirtualNetwork() {
@@ -113,7 +113,8 @@ func (s *ResourceCoreVirtualNetworkTestSuite) TestCreateResourceCoreVirtualNetwo
 }
 
 func (s *ResourceCoreVirtualNetworkTestSuite) TestCreateResourceCoreVirtualNetworkWithoutDisplayName() {
-	s.Client.On("GetVirtualNetwork", "id", []baremetal.Options(nil)).Return(s.Res, nil)
+	s.Client.On("GetVirtualNetwork", "id", []baremetal.Options(nil)).Return(s.Res, nil).Times(2)
+	s.Client.On("GetVirtualNetwork", "id", []baremetal.Options(nil)).Return(s.DeletedRes, nil)
 
 	s.Config = `
 		resource "baremetal_core_virtual_network" "t" {
@@ -143,7 +144,10 @@ func (s *ResourceCoreVirtualNetworkTestSuite) TestCreateResourceCoreVirtualNetwo
 }
 
 func (s ResourceCoreVirtualNetworkTestSuite) TestUpdateCidrBlockForcesNewVirtualNetwork() {
-	s.Client.On("GetVirtualNetwork", "id", []baremetal.Options(nil)).Return(s.Res, nil)
+	// Step 1 uses the mocking in Setup plus the following two Get mocks to create
+	// and then destroy the original resource.
+	s.Client.On("GetVirtualNetwork", "id", []baremetal.Options(nil)).Return(s.Res, nil).Times(2)
+	s.Client.On("GetVirtualNetwork", "id", []baremetal.Options(nil)).Return(s.DeletedRes, nil)
 
 	config := `
 		resource "baremetal_core_virtual_network" "t" {
@@ -154,26 +158,34 @@ func (s ResourceCoreVirtualNetworkTestSuite) TestUpdateCidrBlockForcesNewVirtual
 	config += testProviderConfig
 
 	res := &baremetal.VirtualNetwork{
-		CidrBlock: "new_cidr_block",
-		CompartmentID:      "compartment_id",
-		DefaultRoutingTableID:      "default_routing_table_id",
-		DefaultSecurityListID:      "default_security_list_id",
-		DisplayName:        "display_name",
-		ID:                 "new_id",
-		State:              baremetal.ResourceAvailable,
-		TimeCreated:        s.TimeCreated,
+		CidrBlock:             "new_cidr_block",
+		CompartmentID:         "compartment_id",
+		DefaultRoutingTableID: "default_routing_table_id",
+		DefaultSecurityListID: "default_security_list_id",
+		DisplayName:           "display_name",
+		ID:                    "new_id",
+		State:                 baremetal.ResourceAvailable,
+		TimeCreated:           s.TimeCreated,
 	}
 	res.ETag = "etag"
 	res.RequestID = "opcrequestid"
 
+	// Step 2 creates a new resource and then uses the same Get pattern from
+	// above in order to delete, this time with the newly created resource.
 	opts := baremetal.Options{}
 	s.Client.On(
 		"CreateVirtualNetwork",
 		res.CidrBlock,
 		res.CompartmentID, []baremetal.Options{opts}).Return(res, nil)
 
-	s.Client.On("GetVirtualNetwork", res.ID, []baremetal.Options(nil)).Return(res, nil)
-	s.Client.On("DeleteVirtualNetwork", res.ID).Return(nil)
+	s.Client.On("DeleteVirtualNetwork", res.ID, []baremetal.Options(nil)).Return(nil)
+	deletedRes := &baremetal.VirtualNetwork{
+		ID:    res.ID,
+		State: baremetal.ResourceTerminated,
+	}
+
+	s.Client.On("GetVirtualNetwork", res.ID, []baremetal.Options(nil)).Return(res, nil).Times(2)
+	s.Client.On("GetVirtualNetwork", res.ID, []baremetal.Options(nil)).Return(deletedRes, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -208,7 +220,7 @@ func (s *ResourceCoreVirtualNetworkTestSuite) TestDeleteVirtualNetwork() {
 		},
 	})
 
-	s.Client.AssertCalled(s.T(), "DeleteVirtualNetwork", "id")
+	s.Client.AssertCalled(s.T(), "DeleteVirtualNetwork", "id", []baremetal.Options(nil))
 }
 
 func TestResourceCoreVirtualNetworkTestSuite(t *testing.T) {
