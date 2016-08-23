@@ -30,4 +30,8 @@ type Options struct {
 	Page string
 	// Limit he maximum number of results that ListUsers is to return.
 	Limit uint64
+	// DrgID (Optional) the ID of the VPN headend
+	DrgID string
+	// CpeID (Optional) the ID of the customer premise equipment
+	CpeID string
 }
