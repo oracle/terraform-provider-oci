@@ -226,3 +226,26 @@ func (m *MockClient) DeleteSubnet(subnetID string, opts ...baremetal.Options) (e
 	args := m.Called(subnetID, opts)
 	return args.Error(0)
 }
+
+func (m *MockClient) CreateVirtualNetwork(cidrBlock, compartmentID string, opts ...baremetal.Options) (vcn *baremetal.VirtualNetwork, e error) {
+	args := m.Called(cidrBlock, compartmentID, opts)
+	u, _ := args.Get(0).(*baremetal.VirtualNetwork)
+	return u, args.Error(1)
+}
+
+func (m *MockClient) GetVirtualNetwork(id string) (vcn *baremetal.VirtualNetwork, e error) {
+	args := m.Called(id)
+	u, _ := args.Get(0).(*baremetal.VirtualNetwork)
+	return u, args.Error(1)
+}
+
+func (m *MockClient) DeleteVirtualNetwork(id string, opts ...baremetal.Options) (e error) {
+	args := m.Called(id, opts)
+	return args.Error(0)
+}
+
+func (m *MockClient) ListVirtualNetworks(compartmentID string, opts ...baremetal.Options) (*baremetal.VirtualNetworkList, error) {
+	args := m.Called(compartmentID, opts)
+	u, _ := args.Get(0).(*baremetal.VirtualNetworkList)
+	return u, args.Error(1)
+}

@@ -38,14 +38,14 @@ func (s *VolumeSync) State() string {
 
 func (s *VolumeSync) Create() (e error) {
 	opts := baremetal.Options{}
-	availabilityDosync := s.D.Get("availability_domain").(string)
+	availabilityDomain := s.D.Get("availability_domain").(string)
 	compartmentID := s.D.Get("compartment_id").(string)
 	displayName, ok := s.D.GetOk("display_name")
 	if ok {
 		opts.DisplayName = displayName.(string)
 	}
 
-	s.Res, e = s.Client.CreateVolume(availabilityDosync, compartmentID, opts)
+	s.Res, e = s.Client.CreateVolume(availabilityDomain, compartmentID, opts)
 
 	return
 }

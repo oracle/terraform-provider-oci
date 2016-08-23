@@ -45,7 +45,7 @@ func resourceMapToMetadata(rm map[string]interface{}) map[string]string {
 
 func (s *InstanceSync) Create() (e error) {
 	opts := baremetal.Options{}
-	availabilityDosync := s.D.Get("availability_domain").(string)
+	availabilityDomain := s.D.Get("availability_domain").(string)
 	compartmentID := s.D.Get("compartment_id").(string)
 	image := s.D.Get("image").(string)
 	shape := s.D.Get("shape").(string)
@@ -57,7 +57,7 @@ func (s *InstanceSync) Create() (e error) {
 	}
 
 	s.Resource, e = s.Client.LaunchInstance(
-		availabilityDosync,
+		availabilityDomain,
 		compartmentID,
 		image,
 		shape,

@@ -50,4 +50,9 @@ type BareMetalClient interface {
 	GetSubnet(subnetID string) (sn *baremetal.Subnet, e error)
 	ListSubnets(compartmentID, vcnID string, opts ...baremetal.Options) (*baremetal.SubnetList, error)
 	DeleteSubnet(subnetID string, opts ...baremetal.Options) error
+
+	CreateVirtualNetwork(cidrBlock, compartmentID string, opts ...baremetal.Options) (*baremetal.VirtualNetwork, error)
+	GetVirtualNetwork(id string) (vcn *baremetal.VirtualNetwork, e error)
+	DeleteVirtualNetwork(id string, opts ...baremetal.Options) error
+	ListVirtualNetworks(compartmentID string, opts ...baremetal.Options) (*baremetal.VirtualNetworkList, error)
 }
