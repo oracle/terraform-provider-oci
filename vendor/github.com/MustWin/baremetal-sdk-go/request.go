@@ -90,6 +90,12 @@ func (r *sdkRequestOptions) parseOptions() {
 		if option.VnicID != "" {
 			r.query.Set(queryVnicID, option.VnicID)
 		}
+		if option.CpeID != "" {
+			r.query.Set(queryCpeID, option.CpeID)
+		}
+		if option.DrgID != "" {
+			r.query.Set(queryDrgID, option.DrgID)
+		}
 	}
 }
 
