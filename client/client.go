@@ -52,7 +52,11 @@ type BareMetalClient interface {
 	DeleteSubnet(subnetID string, opts ...baremetal.Options) error
 
 	CreateVirtualNetwork(cidrBlock, compartmentID string, opts ...baremetal.Options) (*baremetal.VirtualNetwork, error)
-	GetVirtualNetwork(id string) (vcn *baremetal.VirtualNetwork, e error)
+	GetVirtualNetwork(id string, opts ...baremetal.Options) (vcn *baremetal.VirtualNetwork, e error)
 	DeleteVirtualNetwork(id string, opts ...baremetal.Options) error
 	ListVirtualNetworks(compartmentID string, opts ...baremetal.Options) (*baremetal.VirtualNetworkList, error)
+
+	CreateDrg(compartmentID string, opts ...baremetal.Options) (*baremetal.Drg, error)
+	GetDrg(id string, opts ...baremetal.Options) (*baremetal.Drg, error)
+	DeleteDrg(id string, opts ...baremetal.Options) error
 }
