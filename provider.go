@@ -82,6 +82,7 @@ func dataSourcesMap() map[string]*schema.Resource {
 		"baremetal_core_instances":          core.ResourceCoreInstances(),
 		"baremetal_core_subnets":            core.ResourceCoreSubnets(),
 		"baremetal_core_drgs":               core.ResourceCoreDrgs(),
+		"baremetal_core_virtual_networks":   core.ResourceCoreVirtualNetworks(),
 	}
 }
 
