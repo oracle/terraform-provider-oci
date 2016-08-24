@@ -12,7 +12,7 @@ type VolumeAttachmentSync struct {
 	Res    *baremetal.VolumeAttachment
 }
 
-func (s *VolumeAttachmentSync) Id() string {
+func (s *VolumeAttachmentSync) ID() string {
 	return s.Res.ID
 }
 

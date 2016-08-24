@@ -14,7 +14,7 @@ type CompartmentSync struct {
 	Res    *baremetal.IdentityResource
 }
 
-func (s *CompartmentSync) Id() string {
+func (s *CompartmentSync) ID() string {
 	return s.Res.ID
 }
 

@@ -6,7 +6,7 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
-func ResourceCoreVolumes() *schema.Resource {
+func DatasourceCoreVolumes() *schema.Resource {
 	return &schema.Resource{
 		Read: readVolumes,
 		Schema: map[string]*schema.Schema{

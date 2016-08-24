@@ -14,7 +14,7 @@ type UserSync struct {
 	Res    *baremetal.IdentityResource
 }
 
-func (s *UserSync) Id() string {
+func (s *UserSync) ID() string {
 	return s.Res.ID
 }
 

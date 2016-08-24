@@ -12,7 +12,7 @@ type SubnetSync struct {
 	Resource *baremetal.Subnet
 }
 
-func (s *SubnetSync) Id() string {
+func (s *SubnetSync) ID() string {
 	return s.Resource.ID
 }
 

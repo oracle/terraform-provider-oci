@@ -6,17 +6,21 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
-func ResourceCoreSubnets() *schema.Resource {
+func DatasourceCoreIPSecConnections() *schema.Resource {
 	return &schema.Resource{
-		Read: readSubnets,
+		Read: readIPSecConnections,
 		Schema: map[string]*schema.Schema{
 			"compartment_id": &schema.Schema{
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"vcn_id": &schema.Schema{
+			"drg_id": &schema.Schema{
 				Type:     schema.TypeString,
-				Required: true,
+				Optional: true,
+			},
+			"cpe_id": &schema.Schema{
+				Type:     schema.TypeString,
+				Optional: true,
 			},
 			"page": &schema.Schema{
 				Type:     schema.TypeString,
@@ -26,44 +30,29 @@ func ResourceCoreSubnets() *schema.Resource {
 				Type:     schema.TypeInt,
 				Optional: true,
 			},
-			"subnets": &schema.Schema{
+			"connections": &schema.Schema{
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     resourceCoreSubnets(),
+				Elem:     datasourceIPSecConnections(),
 			},
 		},
 	}
 }
 
-func resourceCoreSubnets() *schema.Resource {
+func datasourceIPSecConnections() *schema.Resource {
 	return &schema.Resource{
 		Schema: map[string]*schema.Schema{
-			"availability_domain": &schema.Schema{
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"cidr_block": &schema.Schema{
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"compartment_id": &schema.Schema{
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"route_table_id": &schema.Schema{
+			"drg_id": &schema.Schema{
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"vcn_id": &schema.Schema{
+			"cpe_id": &schema.Schema{
 				Type:     schema.TypeString,
 				Computed: true,
-			},
-			"security_list_ids": &schema.Schema{
-				Type:     schema.TypeList,
-				Computed: true,
-				Elem: &schema.Schema{
-					Type: schema.TypeString,
-				},
 			},
 			"display_name": &schema.Schema{
 				Type:     schema.TypeString,
@@ -77,15 +66,14 @@ func resourceCoreSubnets() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"static_routes": &schema.Schema{
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"time_created": &schema.Schema{
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"virtual_router_id": &schema.Schema{
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"virtual_router_mac": &schema.Schema{
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -93,9 +81,9 @@ func resourceCoreSubnets() *schema.Resource {
 	}
 }
 
-func readSubnets(d *schema.ResourceData, m interface{}) (e error) {
+func readIPSecConnections(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	reader := &SubnetsSync{
+	reader := &IPSecDatasourceCrud{
 		D:      d,
 		Client: client,
 	}

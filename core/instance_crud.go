@@ -12,7 +12,7 @@ type InstanceSync struct {
 	Resource *baremetal.Instance
 }
 
-func (s *InstanceSync) Id() string {
+func (s *InstanceSync) ID() string {
 	return s.Resource.ID
 }
 

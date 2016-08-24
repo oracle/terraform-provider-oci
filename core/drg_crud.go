@@ -12,7 +12,7 @@ type DrgSync struct {
 	Res    *baremetal.Drg
 }
 
-func (s *DrgSync) Id() string {
+func (s *DrgSync) ID() string {
 	return s.Res.ID
 }
 

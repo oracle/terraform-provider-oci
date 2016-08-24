@@ -14,7 +14,7 @@ type PolicySync struct {
 	Res    *baremetal.Policy
 }
 
-func (s *PolicySync) Id() string {
+func (s *PolicySync) ID() string {
 	return s.Res.ID
 }
 

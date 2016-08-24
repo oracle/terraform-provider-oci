@@ -12,7 +12,7 @@ type IPSecSync struct {
 	Resource *baremetal.IPSecConnection
 }
 
-func (s *IPSecSync) Id() string {
+func (s *IPSecSync) ID() string {
 	return s.Resource.ID
 }
 

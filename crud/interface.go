@@ -15,7 +15,7 @@ type ResourceDataWriter interface {
 // ResourceCreator creates a BareMetal resource based on ResourceData
 type ResourceCreator interface {
 	ResourceDataWriter
-	Id() string
+	ID() string
 	Create() error
 }
 

@@ -12,7 +12,7 @@ type VolumeSync struct {
 	Res    *baremetal.Volume
 }
 
-func (s *VolumeSync) Id() string {
+func (s *VolumeSync) ID() string {
 	return s.Res.ID
 }
 

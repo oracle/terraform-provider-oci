@@ -12,7 +12,7 @@ type VirtualNetworkSync struct {
 	Res    *baremetal.VirtualNetwork
 }
 
-func (s *VirtualNetworkSync) Id() string {
+func (s *VirtualNetworkSync) ID() string {
 	return s.Res.ID
 }
 

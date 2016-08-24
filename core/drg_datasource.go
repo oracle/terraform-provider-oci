@@ -6,7 +6,7 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
-func ResourceCoreDrgs() *schema.Resource {
+func DatasourceCoreDrgs() *schema.Resource {
 	return &schema.Resource{
 		Read: readDrgs,
 		Schema: map[string]*schema.Schema{

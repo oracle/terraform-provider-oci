@@ -75,14 +75,15 @@ func schemaMap() map[string]*schema.Schema {
 
 func dataSourcesMap() map[string]*schema.Resource {
 	return map[string]*schema.Resource{
-		"baremetal_core_shape":              core.ResourceCoreShape(),
-		"baremetal_core_vnic_attachments":   core.ResourceCoreVnicAttachments(),
-		"baremetal_core_volumes":            core.ResourceCoreVolumes(),
-		"baremetal_core_volume_attachments": core.ResourceCoreVolumeAttachments(),
-		"baremetal_core_instances":          core.ResourceCoreInstances(),
-		"baremetal_core_subnets":            core.ResourceCoreSubnets(),
-		"baremetal_core_drgs":               core.ResourceCoreDrgs(),
-		"baremetal_core_virtual_networks":   core.ResourceCoreVirtualNetworks(),
+		"baremetal_core_shape":              core.DatasourceCoreShape(),
+		"baremetal_core_vnic_attachments":   core.DatasourceCoreVnicAttachments(),
+		"baremetal_core_volumes":            core.DatasourceCoreVolumes(),
+		"baremetal_core_volume_attachments": core.DatasourceCoreVolumeAttachments(),
+		"baremetal_core_instances":          core.DatasourceCoreInstances(),
+		"baremetal_core_subnets":            core.DatasourceCoreSubnets(),
+		"baremetal_core_drgs":               core.DatasourceCoreDrgs(),
+		"baremetal_core_virtual_networks":   core.DatasourceCoreVirtualNetworks(),
+		"baremetal_core_ipsec_connections":  core.DatasourceCoreIPSecConnections(),
 	}
 }
 

@@ -14,7 +14,7 @@ type GroupSync struct {
 	Res    *baremetal.IdentityResource
 }
 
-func (s *GroupSync) Id() string {
+func (s *GroupSync) ID() string {
 	return s.Res.ID
 }
 

@@ -15,7 +15,7 @@ type ShapeReader struct {
 	shapeListResponse *baremetal.ShapeList
 }
 
-func ResourceCoreShape() *schema.Resource {
+func DatasourceCoreShape() *schema.Resource {
 	return &schema.Resource{
 		Read: readShape,
 		Schema: map[string]*schema.Schema{

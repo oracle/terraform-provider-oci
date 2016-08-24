@@ -12,7 +12,7 @@ type CpeSync struct {
 	Resource *baremetal.Cpe
 }
 
-func (s *CpeSync) Id() string {
+func (s *CpeSync) ID() string {
 	return s.Resource.ID
 }
 

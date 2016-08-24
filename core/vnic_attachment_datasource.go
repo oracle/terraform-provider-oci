@@ -58,7 +58,7 @@ func resourceVnicAttachment() *schema.Resource {
 	}
 }
 
-func ResourceCoreVnicAttachments() *schema.Resource {
+func DatasourceCoreVnicAttachments() *schema.Resource {
 	return &schema.Resource{
 		Read: readVnicAttachments,
 		Schema: map[string]*schema.Schema{

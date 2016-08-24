@@ -13,7 +13,7 @@ func CreateResource(d *schema.ResourceData, sync ResourceCreator) (e error) {
 	if e = sync.Create(); e != nil {
 		return
 	}
-	d.SetId(sync.Id())
+	d.SetId(sync.ID())
 	sync.SetData()
 
 	stateful, ok := sync.(StatefullyCreatedResource)

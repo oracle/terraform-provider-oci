@@ -6,7 +6,7 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
-func ResourceCoreInstances() *schema.Resource {
+func DatasourceCoreInstances() *schema.Resource {
 	return &schema.Resource{
 		Read: readInstances,
 		Schema: map[string]*schema.Schema{

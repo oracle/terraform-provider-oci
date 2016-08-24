@@ -6,14 +6,10 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
-func ResourceCoreVolumeAttachments() *schema.Resource {
+func DatasourceCoreVirtualNetworks() *schema.Resource {
 	return &schema.Resource{
-		Read: readVolumeAttachments,
+		Read: readVirtualNetworks,
 		Schema: map[string]*schema.Schema{
-			"availability_domain": &schema.Schema{
-				Type:     schema.TypeString,
-				Optional: true,
-			},
 			"compartment_id": &schema.Schema{
 				Type:     schema.TypeString,
 				Required: true,
@@ -26,25 +22,17 @@ func ResourceCoreVolumeAttachments() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"instance_id": &schema.Schema{
-				Type:     schema.TypeString,
-				Optional: true,
-			},
-			"volume_id": &schema.Schema{
-				Type:     schema.TypeString,
-				Optional: true,
-			},
-			"volume_attachments": &schema.Schema{
+			"virtual_networks": &schema.Schema{
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     ResourceCoreVolumeAttachment(),
+				Elem:     ResourceCoreVirtualNetwork(),
 			},
 		},
 	}
 }
 
-func readVolumeAttachments(d *schema.ResourceData, m interface{}) (e error) {
+func readVirtualNetworks(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &VolumeAttachmentsSync{D: d, Client: client}
+	sync := &VirtualNetworksSync{D: d, Client: client}
 	return crud.ReadResource(sync)
 }
