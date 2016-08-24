@@ -250,6 +250,29 @@ func (m *MockClient) ListVirtualNetworks(compartmentID string, opts ...baremetal
 	return u, args.Error(1)
 }
 
+func (m *MockClient) CreateIPSecConnection(compartmentID, cpeID, drgID string, staticRoutes []string, opts ...baremetal.Options) (conn *baremetal.IPSecConnection, e error) {
+	args := m.Called(compartmentID, cpeID, drgID, staticRoutes, opts)
+	u, _ := args.Get(0).(*baremetal.IPSecConnection)
+	return u, args.Error(1)
+}
+
+func (m *MockClient) ListIPSecConnections(compartmentID string, opts ...baremetal.Options) (conns *baremetal.ListIPSecConnections, e error) {
+	args := m.Called(compartmentID, opts)
+	u, _ := args.Get(0).(*baremetal.ListIPSecConnections)
+	return u, args.Error(1)
+}
+
+func (m *MockClient) GetIPSecConnection(id string) (conn *baremetal.IPSecConnection, e error) {
+	args := m.Called(id)
+	u, _ := args.Get(0).(*baremetal.IPSecConnection)
+	return u, args.Error(1)
+}
+
+func (m *MockClient) DeleteIPSecConnection(id string, opts ...baremetal.Options) (e error) {
+	args := m.Called(id, opts)
+	return args.Error(0)
+}
+
 func (m *MockClient) CreateDrg(compartmentID string, opts ...baremetal.Options) (drg *baremetal.Drg, e error) {
 	args := m.Called(compartmentID, opts)
 	u, _ := args.Get(0).(*baremetal.Drg)

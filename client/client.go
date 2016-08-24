@@ -56,6 +56,11 @@ type BareMetalClient interface {
 	DeleteVirtualNetwork(id string, opts ...baremetal.Options) error
 	ListVirtualNetworks(compartmentID string, opts ...baremetal.Options) (*baremetal.VirtualNetworkList, error)
 
+	CreateIPSecConnection(compartmentID, cpeID, drgID string, staticRoutes []string, opts ...baremetal.Options) (conn *baremetal.IPSecConnection, e error)
+	ListIPSecConnections(compartmentID string, opts ...baremetal.Options) (conns *baremetal.ListIPSecConnections, e error)
+	GetIPSecConnection(id string) (conn *baremetal.IPSecConnection, e error)
+	DeleteIPSecConnection(id string, opts ...baremetal.Options) (e error)
+
 	CreateDrg(compartmentID string, opts ...baremetal.Options) (*baremetal.Drg, error)
 	GetDrg(id string, opts ...baremetal.Options) (*baremetal.Drg, error)
 	DeleteDrg(id string, opts ...baremetal.Options) error
