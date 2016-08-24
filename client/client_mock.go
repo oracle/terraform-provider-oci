@@ -266,3 +266,9 @@ func (m *MockClient) DeleteDrg(id string, opts ...baremetal.Options) (e error) {
 	args := m.Called(id, opts)
 	return args.Error(0)
 }
+
+func (m *MockClient) ListDrgs(compartmentID string, opts ...baremetal.Options) (*baremetal.DrgList, error) {
+	args := m.Called(compartmentID, opts)
+	u, _ := args.Get(0).(*baremetal.DrgList)
+	return u, args.Error(1)
+}

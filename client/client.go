@@ -59,4 +59,5 @@ type BareMetalClient interface {
 	CreateDrg(compartmentID string, opts ...baremetal.Options) (*baremetal.Drg, error)
 	GetDrg(id string, opts ...baremetal.Options) (*baremetal.Drg, error)
 	DeleteDrg(id string, opts ...baremetal.Options) error
+	ListDrgs(compartmentID string, opts ...baremetal.Options) (*baremetal.DrgList, error)
 }
