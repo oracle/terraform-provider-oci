@@ -103,6 +103,7 @@ func resourcesMap() map[string]*schema.Resource {
 		"baremetal_core_ipsec":             core.ResourceCoreIPSec(),
 		"baremetal_core_drg":               core.ResourceCoreDrg(),
 		"baremetal_core_virtual_network":   core.ResourceCoreVirtualNetwork(),
+		"baremetal_core_drg_attachment":    core.ResourceCoreDrgAttachment(),
 	}
 }
 

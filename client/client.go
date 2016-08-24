@@ -67,4 +67,9 @@ type BareMetalClient interface {
 	GetDrg(id string, opts ...baremetal.Options) (*baremetal.Drg, error)
 	DeleteDrg(id string, opts ...baremetal.Options) error
 	ListDrgs(compartmentID string, opts ...baremetal.Options) (*baremetal.DrgList, error)
+
+	CreateDrgAttachment(compartmentID, drgID, vcnID string, opts ...baremetal.Options) (vol *baremetal.DrgAttachment, e error)
+	GetDrgAttachment(id string, opts ...baremetal.Options) (vol *baremetal.DrgAttachment, e error)
+	DeleteDrgAttachment(id string, opts ...baremetal.Options) (e error)
+	ListDrgAttachments(compartmentID string, opts ...baremetal.Options) (res *baremetal.DrgAttachmentList, e error)
 }

@@ -307,3 +307,26 @@ func (m *MockClient) ListDrgs(compartmentID string, opts ...baremetal.Options) (
 	u, _ := args.Get(0).(*baremetal.DrgList)
 	return u, args.Error(1)
 }
+
+func (m *MockClient) CreateDrgAttachment(compartmentID, drgID, vcnID string, opt ...baremetal.Options) (*baremetal.DrgAttachment, error) {
+	args := m.Called(compartmentID, drgID, vcnID, opt)
+	u, _ := args.Get(0).(*baremetal.DrgAttachment)
+	return u, args.Error(1)
+}
+
+func (m *MockClient) GetDrgAttachment(id string, opt ...baremetal.Options) (*baremetal.DrgAttachment, error) {
+	args := m.Called(id, opt)
+	u, _ := args.Get(0).(*baremetal.DrgAttachment)
+	return u, args.Error(1)
+}
+
+func (m *MockClient) DeleteDrgAttachment(id string, opt ...baremetal.Options) error {
+	args := m.Called(id)
+	return args.Error(0)
+}
+
+func (m *MockClient) ListDrgAttachments(compartmentID string, opt ...baremetal.Options) (*baremetal.DrgAttachmentList, error) {
+	args := m.Called(compartmentID, opt)
+	u, _ := args.Get(0).(*baremetal.DrgAttachmentList)
+	return u, args.Error(1)
+}
