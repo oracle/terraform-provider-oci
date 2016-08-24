@@ -6,15 +6,6 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
-// ETaggedResource
-// CompartmentID string `json:"compartmentId"`
-// DisplayName   string `json:"displayName"`
-// DrgID         string `json:"drgId"`
-// ID            string `json:"id"`
-// State         string `json:"state"`
-// TimeCreated   Time   `json:"timeCreated"`
-// VcnID         string `json:"vcnId"`
-// }
 func ResourceCoreDrgAttachment() *schema.Resource {
 	return &schema.Resource{
 		Create: createDrgAttachment,
