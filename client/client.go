@@ -60,6 +60,8 @@ type BareMetalClient interface {
 	ListIPSecConnections(compartmentID string, opts ...baremetal.Options) (conns *baremetal.ListIPSecConnections, e error)
 	GetIPSecConnection(id string) (conn *baremetal.IPSecConnection, e error)
 	DeleteIPSecConnection(id string, opts ...baremetal.Options) (e error)
+	GetIPSecConnectionDeviceStatus(id string) (status *baremetal.IPSecConnectionDeviceStatus, e error)
+	GetIPSecConnectionDeviceConfig(id string) (status *baremetal.IPSecConnectionDeviceConfig, e error)
 
 	CreateDrg(compartmentID string, opts ...baremetal.Options) (*baremetal.Drg, error)
 	GetDrg(id string, opts ...baremetal.Options) (*baremetal.Drg, error)

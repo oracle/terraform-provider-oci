@@ -273,6 +273,18 @@ func (m *MockClient) DeleteIPSecConnection(id string, opts ...baremetal.Options)
 	return args.Error(0)
 }
 
+func (m *MockClient) GetIPSecConnectionDeviceStatus(id string) (status *baremetal.IPSecConnectionDeviceStatus, e error) {
+	args := m.Called(id)
+	u, _ := args.Get(0).(*baremetal.IPSecConnectionDeviceStatus)
+	return u, args.Error(1)
+}
+
+func (m *MockClient) GetIPSecConnectionDeviceConfig(id string) (status *baremetal.IPSecConnectionDeviceConfig, e error) {
+	args := m.Called(id)
+	u, _ := args.Get(0).(*baremetal.IPSecConnectionDeviceConfig)
+	return u, args.Error(1)
+}
+
 func (m *MockClient) CreateDrg(compartmentID string, opts ...baremetal.Options) (drg *baremetal.Drg, e error) {
 	args := m.Called(compartmentID, opts)
 	u, _ := args.Get(0).(*baremetal.Drg)
