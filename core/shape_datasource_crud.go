@@ -16,7 +16,7 @@ type ShapeDatasourceCrud struct {
 
 func (r *ShapeDatasourceCrud) Get() (e error) {
 	compartmentID := r.D.Get("compartment_id").(string)
-	opts := getCoreOptionsFromResourceData(r.D, "availability_doresource", "image_id")
+	opts := getCoreOptionsFromResourceData(r.D, "availability_domain", "image_id")
 
 	if r.Res, e = r.Client.ListShapes(compartmentID, opts...); e != nil {
 		return
