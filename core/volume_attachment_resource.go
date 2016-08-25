@@ -6,7 +6,7 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
-func ResourceCoreVolumeAttachment() *schema.Resource {
+func VolumeAttachmentResource() *schema.Resource {
 	return &schema.Resource{
 		Create: createVolumeAttachment,
 		Read:   readVolumeAttachment,
@@ -58,18 +58,18 @@ func ResourceCoreVolumeAttachment() *schema.Resource {
 
 func createVolumeAttachment(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &VolumeAttachmentSync{D: d, Client: client}
+	sync := &VolumeAttachmentResourceCrud{D: d, Client: client}
 	return crud.CreateResource(d, sync)
 }
 
 func readVolumeAttachment(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &VolumeAttachmentSync{D: d, Client: client}
+	sync := &VolumeAttachmentResourceCrud{D: d, Client: client}
 	return crud.ReadResource(sync)
 }
 
 func deleteVolumeAttachment(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &VolumeAttachmentSync{D: d, Client: client}
+	sync := &VolumeAttachmentResourceCrud{D: d, Client: client}
 	return crud.DeleteResource(sync)
 }

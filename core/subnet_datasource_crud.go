@@ -8,13 +8,13 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
-type SubnetsSync struct {
+type SubnetDatasourceCrud struct {
 	D      *schema.ResourceData
 	Client client.BareMetalClient
 	Res    *baremetal.SubnetList
 }
 
-func (s *SubnetsSync) Get() (e error) {
+func (s *SubnetDatasourceCrud) Get() (e error) {
 	compartmentID := s.D.Get("compartment_id").(string)
 	vcnID := s.D.Get("vcn_id").(string)
 
@@ -29,7 +29,7 @@ func (s *SubnetsSync) Get() (e error) {
 
 }
 
-func (s *SubnetsSync) SetData() {
+func (s *SubnetDatasourceCrud) SetData() {
 	if s.Res != nil {
 
 		s.D.SetId(time.Now().UTC().String())

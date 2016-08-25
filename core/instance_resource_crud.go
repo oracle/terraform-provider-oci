@@ -6,32 +6,32 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
-type InstanceSync struct {
+type InstanceResourceCrud struct {
 	D        *schema.ResourceData
 	Client   client.BareMetalClient
 	Resource *baremetal.Instance
 }
 
-func (s *InstanceSync) ID() string {
+func (s *InstanceResourceCrud) ID() string {
 	return s.Resource.ID
 }
 
-func (s *InstanceSync) CreatedPending() []string {
+func (s *InstanceResourceCrud) CreatedPending() []string {
 	return []string{
 		baremetal.ResourceProvisioning,
 		baremetal.ResourceStarting,
 	}
 }
 
-func (s *InstanceSync) CreatedTarget() []string {
+func (s *InstanceResourceCrud) CreatedTarget() []string {
 	return []string{baremetal.ResourceRunning}
 }
 
-func (s *InstanceSync) DeletedPending() []string {
+func (s *InstanceResourceCrud) DeletedPending() []string {
 	return []string{baremetal.ResourceTerminating}
 }
 
-func (s *InstanceSync) DeletedTarget() []string {
+func (s *InstanceResourceCrud) DeletedTarget() []string {
 	return []string{baremetal.ResourceTerminated}
 }
 
@@ -43,7 +43,7 @@ func resourceMapToMetadata(rm map[string]interface{}) map[string]string {
 	return result
 }
 
-func (s *InstanceSync) Create() (e error) {
+func (s *InstanceResourceCrud) Create() (e error) {
 	opts := baremetal.Options{}
 	availabilityDomain := s.D.Get("availability_domain").(string)
 	compartmentID := s.D.Get("compartment_id").(string)
@@ -67,12 +67,12 @@ func (s *InstanceSync) Create() (e error) {
 	return
 }
 
-func (s *InstanceSync) Get() (e error) {
+func (s *InstanceResourceCrud) Get() (e error) {
 	s.Resource, e = s.Client.GetInstance(s.D.Id())
 	return
 }
 
-func (s *InstanceSync) Update() (e error) {
+func (s *InstanceResourceCrud) Update() (e error) {
 	opts := baremetal.Options{}
 	if displayName, ok := s.D.GetOk("display_name"); ok {
 		opts.DisplayName = displayName.(string)
@@ -83,7 +83,7 @@ func (s *InstanceSync) Update() (e error) {
 
 }
 
-func (s *InstanceSync) SetData() {
+func (s *InstanceResourceCrud) SetData() {
 	s.D.Set("availability_domain", s.Resource.AvailabilityDomain)
 	s.D.Set("compartment_id", s.Resource.CompartmentID)
 	s.D.Set("display_name", s.Resource.DisplayName)
@@ -95,6 +95,6 @@ func (s *InstanceSync) SetData() {
 	s.D.Set("time_created", s.Resource.TimeCreated.String())
 }
 
-func (s *InstanceSync) Delete() (e error) {
+func (s *InstanceResourceCrud) Delete() (e error) {
 	return s.Client.TerminateInstance(s.D.Id())
 }

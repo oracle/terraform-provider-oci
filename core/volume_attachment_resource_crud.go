@@ -6,37 +6,37 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
-type VolumeAttachmentSync struct {
+type VolumeAttachmentResourceCrud struct {
 	D      *schema.ResourceData
 	Client client.BareMetalClient
 	Res    *baremetal.VolumeAttachment
 }
 
-func (s *VolumeAttachmentSync) ID() string {
+func (s *VolumeAttachmentResourceCrud) ID() string {
 	return s.Res.ID
 }
 
-func (s *VolumeAttachmentSync) CreatedPending() []string {
+func (s *VolumeAttachmentResourceCrud) CreatedPending() []string {
 	return []string{baremetal.ResourceAttaching}
 }
 
-func (s *VolumeAttachmentSync) CreatedTarget() []string {
+func (s *VolumeAttachmentResourceCrud) CreatedTarget() []string {
 	return []string{baremetal.ResourceAttached}
 }
 
-func (s *VolumeAttachmentSync) DeletedPending() []string {
+func (s *VolumeAttachmentResourceCrud) DeletedPending() []string {
 	return []string{baremetal.ResourceDetaching}
 }
 
-func (s *VolumeAttachmentSync) DeletedTarget() []string {
+func (s *VolumeAttachmentResourceCrud) DeletedTarget() []string {
 	return []string{baremetal.ResourceDetached}
 }
 
-func (s *VolumeAttachmentSync) State() string {
+func (s *VolumeAttachmentResourceCrud) State() string {
 	return s.Res.State
 }
 
-func (s *VolumeAttachmentSync) Create() (e error) {
+func (s *VolumeAttachmentResourceCrud) Create() (e error) {
 	attachmentType := s.D.Get("attachment_type").(string)
 	compartmentID := s.D.Get("compartment_id").(string)
 	instanceID := s.D.Get("instance_id").(string)
@@ -47,12 +47,12 @@ func (s *VolumeAttachmentSync) Create() (e error) {
 	return
 }
 
-func (s *VolumeAttachmentSync) Get() (e error) {
+func (s *VolumeAttachmentResourceCrud) Get() (e error) {
 	s.Res, e = s.Client.GetVolumeAttachment(s.D.Id())
 	return
 }
 
-func (s *VolumeAttachmentSync) SetData() {
+func (s *VolumeAttachmentResourceCrud) SetData() {
 	s.D.Set("attachment_type", s.Res.AttachmentType)
 	s.D.Set("availability_domain", s.Res.AvailabilityDomain)
 	s.D.Set("compartment_id", s.Res.CompartmentID)
@@ -63,6 +63,6 @@ func (s *VolumeAttachmentSync) SetData() {
 	s.D.Set("volume_id", s.Res.VolumeID)
 }
 
-func (s *VolumeAttachmentSync) Delete() (e error) {
+func (s *VolumeAttachmentResourceCrud) Delete() (e error) {
 	return s.Client.DetachVolume(s.D.Id())
 }

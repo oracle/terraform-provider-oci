@@ -6,13 +6,13 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
-type IPSecSync struct {
+type IPSecResourceCrud struct {
 	D        *schema.ResourceData
 	Client   client.BareMetalClient
 	Resource *baremetal.IPSecConnection
 }
 
-func (s *IPSecSync) ID() string {
+func (s *IPSecResourceCrud) ID() string {
 	return s.Resource.ID
 }
 
@@ -28,7 +28,7 @@ func (s *IPSecSync) ID() string {
 // 	return []string{baremetal.ResourceDown}
 // }
 
-func (s *IPSecSync) Create() (e error) {
+func (s *IPSecResourceCrud) Create() (e error) {
 	opts := baremetal.Options{}
 	compartmentID := s.D.Get("compartment_id").(string)
 	cpeID := s.D.Get("cpe_id").(string)
@@ -54,12 +54,12 @@ func (s *IPSecSync) Create() (e error) {
 	return
 }
 
-func (s *IPSecSync) Get() (e error) {
+func (s *IPSecResourceCrud) Get() (e error) {
 	s.Resource, e = s.Client.GetIPSecConnection(s.D.Id())
 	return
 }
 
-func (s *IPSecSync) SetData() {
+func (s *IPSecResourceCrud) SetData() {
 	s.D.Set("compartment_id", s.Resource.CompartmentID)
 	s.D.Set("cpe_id", s.Resource.CpeID)
 	s.D.Set("drg_id", s.Resource.DrgID)
@@ -70,6 +70,6 @@ func (s *IPSecSync) SetData() {
 
 }
 
-func (s *IPSecSync) Delete() (e error) {
+func (s *IPSecResourceCrud) Delete() (e error) {
 	return s.Client.DeleteIPSecConnection(s.D.Id())
 }

@@ -8,13 +8,13 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
-type DrgsSync struct {
+type DrgDatasourceCrud struct {
 	D      *schema.ResourceData
 	Client client.BareMetalClient
 	Res    *baremetal.DrgList
 }
 
-func (s *DrgsSync) Get() (e error) {
+func (s *DrgDatasourceCrud) Get() (e error) {
 	compartmentID := s.D.Get("compartment_id").(string)
 	opts := getCoreOptionsFromResourceData(
 		s.D,
@@ -29,7 +29,7 @@ func (s *DrgsSync) Get() (e error) {
 	return
 }
 
-func (s *DrgsSync) SetData() {
+func (s *DrgDatasourceCrud) SetData() {
 	if s.Res != nil {
 		s.D.SetId(time.Now().UTC().String())
 		resources := []map[string]string{}

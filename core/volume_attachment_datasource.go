@@ -6,7 +6,7 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
-func DatasourceCoreVolumeAttachments() *schema.Resource {
+func VolumeAttachmentDatasource() *schema.Resource {
 	return &schema.Resource{
 		Read: readVolumeAttachments,
 		Schema: map[string]*schema.Schema{
@@ -37,7 +37,7 @@ func DatasourceCoreVolumeAttachments() *schema.Resource {
 			"volume_attachments": &schema.Schema{
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     ResourceCoreVolumeAttachment(),
+				Elem:     VolumeAttachmentResource(),
 			},
 		},
 	}
@@ -45,6 +45,6 @@ func DatasourceCoreVolumeAttachments() *schema.Resource {
 
 func readVolumeAttachments(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &VolumeAttachmentsSync{D: d, Client: client}
+	sync := &VolumeAttachmentDatasourceCrud{D: d, Client: client}
 	return crud.ReadResource(sync)
 }

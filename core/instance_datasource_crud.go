@@ -8,13 +8,13 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
-type InstancesSync struct {
+type InstanceDatasourceCrud struct {
 	D      *schema.ResourceData
 	Client client.BareMetalClient
 	Res    *baremetal.InstanceList
 }
 
-func (s *InstancesSync) Get() (e error) {
+func (s *InstanceDatasourceCrud) Get() (e error) {
 	compartmentID := s.D.Get("compartment_id").(string)
 	opts := getCoreOptionsFromResourceData(
 		s.D,
@@ -28,7 +28,7 @@ func (s *InstancesSync) Get() (e error) {
 
 }
 
-func (s *InstancesSync) SetData() {
+func (s *InstanceDatasourceCrud) SetData() {
 	if s.Res != nil {
 		// Important, if you don't have an ID, make one up for your datasource
 		// or things will end in tears

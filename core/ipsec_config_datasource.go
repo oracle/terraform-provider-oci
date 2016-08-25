@@ -6,7 +6,7 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
-func DatasourceCoreIPSecConfig() *schema.Resource {
+func IPSecConfigDatasource() *schema.Resource {
 	return &schema.Resource{
 		Read: readIPSecDeviceConfig,
 		Schema: map[string]*schema.Schema{
@@ -52,7 +52,7 @@ func DatasourceCoreIPSecConfig() *schema.Resource {
 
 func readIPSecDeviceConfig(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	reader := &IPSecDatasourceConfigCrud{
+	reader := &IPSecConfigDatasourceCrud{
 		D:      d,
 		Client: client,
 	}

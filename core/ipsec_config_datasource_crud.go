@@ -6,19 +6,19 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
-type IPSecDatasourceConfigCrud struct {
+type IPSecConfigDatasourceCrud struct {
 	D        *schema.ResourceData
 	Client   client.BareMetalClient
 	Resource *baremetal.IPSecConnectionDeviceConfig
 }
 
-func (s *IPSecDatasourceConfigCrud) Get() (e error) {
+func (s *IPSecConfigDatasourceCrud) Get() (e error) {
 	ipsecID := s.D.Get("ipsec_id").(string)
 	s.Resource, e = s.Client.GetIPSecConnectionDeviceConfig(ipsecID)
 	return
 }
 
-func (s *IPSecDatasourceConfigCrud) SetData() {
+func (s *IPSecConfigDatasourceCrud) SetData() {
 	if s.Resource != nil {
 		s.D.SetId(s.Resource.ID)
 		s.D.Set("compartment_id", s.Resource.CompartmentID)

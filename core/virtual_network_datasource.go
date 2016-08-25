@@ -6,7 +6,7 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
-func DatasourceCoreVirtualNetworks() *schema.Resource {
+func VirtualNetworkDatasource() *schema.Resource {
 	return &schema.Resource{
 		Read: readVirtualNetworks,
 		Schema: map[string]*schema.Schema{
@@ -25,7 +25,7 @@ func DatasourceCoreVirtualNetworks() *schema.Resource {
 			"virtual_networks": &schema.Schema{
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     ResourceCoreVirtualNetwork(),
+				Elem:     VirtualNetworkResource(),
 			},
 		},
 	}
@@ -33,6 +33,6 @@ func DatasourceCoreVirtualNetworks() *schema.Resource {
 
 func readVirtualNetworks(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &VirtualNetworksSync{D: d, Client: client}
+	sync := &VirtualNetworkDatasourceCrud{D: d, Client: client}
 	return crud.ReadResource(sync)
 }

@@ -6,37 +6,37 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
-type DrgSync struct {
+type DrgResourceCrud struct {
 	D      *schema.ResourceData
 	Client client.BareMetalClient
 	Res    *baremetal.Drg
 }
 
-func (s *DrgSync) ID() string {
+func (s *DrgResourceCrud) ID() string {
 	return s.Res.ID
 }
 
-func (s *DrgSync) CreatedPending() []string {
+func (s *DrgResourceCrud) CreatedPending() []string {
 	return []string{baremetal.ResourceProvisioning}
 }
 
-func (s *DrgSync) CreatedTarget() []string {
+func (s *DrgResourceCrud) CreatedTarget() []string {
 	return []string{baremetal.ResourceAvailable}
 }
 
-func (s *DrgSync) DeletedPending() []string {
+func (s *DrgResourceCrud) DeletedPending() []string {
 	return []string{baremetal.ResourceTerminating}
 }
 
-func (s *DrgSync) DeletedTarget() []string {
+func (s *DrgResourceCrud) DeletedTarget() []string {
 	return []string{baremetal.ResourceTerminated}
 }
 
-func (s *DrgSync) State() string {
+func (s *DrgResourceCrud) State() string {
 	return s.Res.State
 }
 
-func (s *DrgSync) Create() (e error) {
+func (s *DrgResourceCrud) Create() (e error) {
 	opts := baremetal.Options{}
 	compartmentID := s.D.Get("compartment_id").(string)
 	displayName, ok := s.D.GetOk("display_name")
@@ -49,18 +49,18 @@ func (s *DrgSync) Create() (e error) {
 	return
 }
 
-func (s *DrgSync) Get() (e error) {
+func (s *DrgResourceCrud) Get() (e error) {
 	s.Res, e = s.Client.GetDrg(s.D.Id())
 	return
 }
 
-func (s *DrgSync) SetData() {
+func (s *DrgResourceCrud) SetData() {
 	s.D.Set("compartment_id", s.Res.CompartmentID)
 	s.D.Set("display_name", s.Res.DisplayName)
 	s.D.Set("state", s.Res.State)
 	s.D.Set("time_created", s.Res.TimeCreated.String())
 }
 
-func (s *DrgSync) Delete() (e error) {
+func (s *DrgResourceCrud) Delete() (e error) {
 	return s.Client.DeleteDrg(s.D.Id())
 }

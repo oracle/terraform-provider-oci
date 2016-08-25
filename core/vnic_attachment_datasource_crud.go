@@ -8,13 +8,13 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
-type VnicAttachmentsSync struct {
+type VnicAttachmentDatasourceCrud struct {
 	D      *schema.ResourceData
 	Client client.BareMetalClient
 	Res    *baremetal.VnicAttachmentList
 }
 
-func (r *VnicAttachmentsSync) Get() (e error) {
+func (r *VnicAttachmentDatasourceCrud) Get() (e error) {
 	compartmentID := r.D.Get("compartment_id").(string)
 	opts := getCoreOptionsFromResourceData(
 		r.D,
@@ -27,7 +27,7 @@ func (r *VnicAttachmentsSync) Get() (e error) {
 	return
 }
 
-func (r *VnicAttachmentsSync) SetData() {
+func (r *VnicAttachmentDatasourceCrud) SetData() {
 
 	if r.Res != nil {
 		r.D.SetId(time.Now().UTC().String())

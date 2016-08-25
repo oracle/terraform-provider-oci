@@ -6,37 +6,37 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
-type VirtualNetworkSync struct {
+type VirtualNetworkResourceCrud struct {
 	D      *schema.ResourceData
 	Client client.BareMetalClient
 	Res    *baremetal.VirtualNetwork
 }
 
-func (s *VirtualNetworkSync) ID() string {
+func (s *VirtualNetworkResourceCrud) ID() string {
 	return s.Res.ID
 }
 
-func (s *VirtualNetworkSync) CreatedPending() []string {
+func (s *VirtualNetworkResourceCrud) CreatedPending() []string {
 	return []string{baremetal.ResourceProvisioning}
 }
 
-func (s *VirtualNetworkSync) CreatedTarget() []string {
+func (s *VirtualNetworkResourceCrud) CreatedTarget() []string {
 	return []string{baremetal.ResourceAvailable}
 }
 
-func (s *VirtualNetworkSync) DeletedPending() []string {
+func (s *VirtualNetworkResourceCrud) DeletedPending() []string {
 	return []string{baremetal.ResourceTerminating}
 }
 
-func (s *VirtualNetworkSync) DeletedTarget() []string {
+func (s *VirtualNetworkResourceCrud) DeletedTarget() []string {
 	return []string{baremetal.ResourceTerminated}
 }
 
-func (s *VirtualNetworkSync) State() string {
+func (s *VirtualNetworkResourceCrud) State() string {
 	return s.Res.State
 }
 
-func (s *VirtualNetworkSync) Create() (e error) {
+func (s *VirtualNetworkResourceCrud) Create() (e error) {
 	opts := baremetal.Options{}
 	cidrBlock := s.D.Get("cidr_block").(string)
 	compartmentID := s.D.Get("compartment_id").(string)
@@ -50,12 +50,12 @@ func (s *VirtualNetworkSync) Create() (e error) {
 	return
 }
 
-func (s *VirtualNetworkSync) Get() (e error) {
+func (s *VirtualNetworkResourceCrud) Get() (e error) {
 	s.Res, e = s.Client.GetVirtualNetwork(s.D.Id())
 	return
 }
 
-func (s *VirtualNetworkSync) SetData() {
+func (s *VirtualNetworkResourceCrud) SetData() {
 	s.D.Set("cidr_block", s.Res.CidrBlock)
 	s.D.Set("compartment_id", s.Res.CompartmentID)
 	s.D.Set("default_routing_table_id", s.Res.DefaultRoutingTableID)
@@ -65,6 +65,6 @@ func (s *VirtualNetworkSync) SetData() {
 	s.D.Set("time_created", s.Res.TimeCreated.String())
 }
 
-func (s *VirtualNetworkSync) Delete() (e error) {
+func (s *VirtualNetworkResourceCrud) Delete() (e error) {
 	return s.Client.DeleteVirtualNetwork(s.D.Id())
 }

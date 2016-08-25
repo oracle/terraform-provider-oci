@@ -33,7 +33,7 @@ func (s *ResourceCoreShapeTestSuite) SetupTest() {
 	s.Config = `
     data "baremetal_core_shape" "s" {
       compartment_id = "compartmentid"
-      availability_domain = "availabilityid"
+      availability_domain = "availability_domain"
       image_id = "imageid"
     }
   `
@@ -45,7 +45,7 @@ func (s *ResourceCoreShapeTestSuite) SetupTest() {
 func (s *ResourceCoreShapeTestSuite) TestResourceReadCoreShape() {
 	opts := []baremetal.Options{
 		baremetal.Options{
-			AvailabilityDomain: "availabilityid",
+			AvailabilityDomain: "availability_domain",
 			ImageID:            "imageid",
 		},
 	}
@@ -76,7 +76,7 @@ func (s *ResourceCoreShapeTestSuite) TestResourceReadCoreShape() {
 				Config: s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartmentid"),
-					resource.TestCheckResourceAttr(s.ResourceName, "availability_domain", "availabilityid"),
+					resource.TestCheckResourceAttr(s.ResourceName, "availability_domain", "availability_domain"),
 					resource.TestCheckResourceAttr(s.ResourceName, "image_id", "imageid"),
 					resource.TestCheckResourceAttr(s.ResourceName, "shapes.0.name", "shape1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "shapes.1.name", "shape2"),

@@ -6,7 +6,7 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
-func ResourceCoreIPSec() *schema.Resource {
+func IPSecResource() *schema.Resource {
 	return &schema.Resource{
 		Create: createIPSec,
 		Read:   readIPSec,
@@ -53,16 +53,16 @@ func ResourceCoreIPSec() *schema.Resource {
 }
 
 func createIPSec(d *schema.ResourceData, m interface{}) (e error) {
-	sync := &IPSecSync{D: d, Client: m.(client.BareMetalClient)}
+	sync := &IPSecResourceCrud{D: d, Client: m.(client.BareMetalClient)}
 	return crud.CreateResource(d, sync)
 }
 
 func readIPSec(d *schema.ResourceData, m interface{}) (e error) {
-	sync := &IPSecSync{D: d, Client: m.(client.BareMetalClient)}
+	sync := &IPSecResourceCrud{D: d, Client: m.(client.BareMetalClient)}
 	return crud.ReadResource(sync)
 }
 
 func deleteIPSec(d *schema.ResourceData, m interface{}) (e error) {
-	sync := &IPSecSync{D: d, Client: m.(client.BareMetalClient)}
+	sync := &IPSecResourceCrud{D: d, Client: m.(client.BareMetalClient)}
 	return crud.DeleteResource(sync)
 }

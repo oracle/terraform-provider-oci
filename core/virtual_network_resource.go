@@ -6,7 +6,7 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
-func ResourceCoreVirtualNetwork() *schema.Resource {
+func VirtualNetworkResource() *schema.Resource {
 	return &schema.Resource{
 		Create: createVirtualNetwork,
 		Read:   readVirtualNetwork,
@@ -53,18 +53,18 @@ func ResourceCoreVirtualNetwork() *schema.Resource {
 
 func createVirtualNetwork(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &VirtualNetworkSync{D: d, Client: client}
+	sync := &VirtualNetworkResourceCrud{D: d, Client: client}
 	return crud.CreateResource(d, sync)
 }
 
 func readVirtualNetwork(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &VirtualNetworkSync{D: d, Client: client}
+	sync := &VirtualNetworkResourceCrud{D: d, Client: client}
 	return crud.ReadResource(sync)
 }
 
 func deleteVirtualNetwork(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &VirtualNetworkSync{D: d, Client: client}
+	sync := &VirtualNetworkResourceCrud{D: d, Client: client}
 	return crud.DeleteResource(sync)
 }

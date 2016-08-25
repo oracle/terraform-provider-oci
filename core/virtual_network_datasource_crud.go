@@ -8,13 +8,13 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
-type VirtualNetworksSync struct {
+type VirtualNetworkDatasourceCrud struct {
 	D      *schema.ResourceData
 	Client client.BareMetalClient
 	Res    *baremetal.VirtualNetworkList
 }
 
-func (s *VirtualNetworksSync) Get() (e error) {
+func (s *VirtualNetworkDatasourceCrud) Get() (e error) {
 	compartmentID := s.D.Get("compartment_id").(string)
 	opts := getCoreOptionsFromResourceData(s.D, "limit", "page")
 
@@ -25,7 +25,7 @@ func (s *VirtualNetworksSync) Get() (e error) {
 	return
 }
 
-func (s *VirtualNetworksSync) SetData() {
+func (s *VirtualNetworkDatasourceCrud) SetData() {
 	if s.Res != nil {
 		// Important, if you don't have an ID, make one up for your datasource
 		// or things will end in tears

@@ -7,7 +7,7 @@ import (
 )
 
 // ResourceIdentityUser exposes a IdentityUser Resource
-func ResourceIdentityUser() *schema.Resource {
+func UserResource() *schema.Resource {
 	return &schema.Resource{
 		Create: createUser,
 		Read:   readUser,
@@ -19,24 +19,24 @@ func ResourceIdentityUser() *schema.Resource {
 
 func createUser(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &UserSync{D: d, Client: client}
+	sync := &UserResourceCrud{D: d, Client: client}
 	return crud.CreateResource(d, sync)
 }
 
 func readUser(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &UserSync{D: d, Client: client}
+	sync := &UserResourceCrud{D: d, Client: client}
 	return crud.ReadResource(sync)
 }
 
 func updateUser(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &UserSync{D: d, Client: client}
+	sync := &UserResourceCrud{D: d, Client: client}
 	return crud.UpdateResource(d, sync)
 }
 
 func deleteUser(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &UserSync{D: d, Client: client}
+	sync := &UserResourceCrud{D: d, Client: client}
 	return sync.Delete()
 }
