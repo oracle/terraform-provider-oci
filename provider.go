@@ -86,6 +86,7 @@ func dataSourcesMap() map[string]*schema.Resource {
 		"baremetal_core_ipsec_connections":  core.IPSecConnectionsDatasource(),
 		"baremetal_core_ipsec_status":       core.IPSecStatusDatasource(),
 		"baremetal_core_ipsec_config":       core.IPSecConfigDatasource(),
+		"baremetal_core_drg_attachments":    core.DrgAttachmentDatasource(),
 	}
 }
 
