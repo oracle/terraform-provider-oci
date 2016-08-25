@@ -6,7 +6,7 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
-func DatasourceCoreSubnets() *schema.Resource {
+func SubnetDatasource() *schema.Resource {
 	return &schema.Resource{
 		Read: readSubnets,
 		Schema: map[string]*schema.Schema{
@@ -95,7 +95,7 @@ func resourceCoreSubnets() *schema.Resource {
 
 func readSubnets(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	reader := &SubnetsSync{
+	reader := &SubnetDatasourceCrud{
 		D:      d,
 		Client: client,
 	}

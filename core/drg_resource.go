@@ -6,7 +6,7 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
-func ResourceCoreDrg() *schema.Resource {
+func DrgResource() *schema.Resource {
 	return &schema.Resource{
 		Create: createDrg,
 		Read:   readDrg,
@@ -40,18 +40,18 @@ func ResourceCoreDrg() *schema.Resource {
 
 func createDrg(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &DrgSync{D: d, Client: client}
+	sync := &DrgResourceCrud{D: d, Client: client}
 	return crud.CreateResource(d, sync)
 }
 
 func readDrg(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &DrgSync{D: d, Client: client}
+	sync := &DrgResourceCrud{D: d, Client: client}
 	return crud.ReadResource(sync)
 }
 
 func deleteDrg(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &DrgSync{D: d, Client: client}
+	sync := &DrgResourceCrud{D: d, Client: client}
 	return crud.DeleteResource(sync)
 }

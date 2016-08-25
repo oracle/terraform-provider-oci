@@ -8,13 +8,13 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
-type ShapesSync struct {
+type ShapeDatasourceCrud struct {
 	D      *schema.ResourceData
 	Client client.BareMetalClient
 	Res    *baremetal.ShapeList
 }
 
-func (r *ShapesSync) Get() (e error) {
+func (r *ShapeDatasourceCrud) Get() (e error) {
 	compartmentID := r.D.Get("compartment_id").(string)
 	opts := getCoreOptionsFromResourceData(r.D, "availability_doresource", "image_id")
 
@@ -25,7 +25,7 @@ func (r *ShapesSync) Get() (e error) {
 	return
 }
 
-func (r *ShapesSync) SetData() {
+func (r *ShapeDatasourceCrud) SetData() {
 	if r.Res != nil {
 		// Important, if you don't have an ID, make one up for your datasource
 		// or things will end in tears

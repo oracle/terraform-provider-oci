@@ -7,40 +7,40 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
-type UserSync struct {
+type UserResourceCrud struct {
 	*crud.IdentitySync
 	D      *schema.ResourceData
 	Client client.BareMetalClient
 	Res    *baremetal.IdentityResource
 }
 
-func (s *UserSync) ID() string {
+func (s *UserResourceCrud) ID() string {
 	return s.Res.ID
 }
 
-func (s *UserSync) State() string {
+func (s *UserResourceCrud) State() string {
 	return s.Res.State
 }
 
-func (s *UserSync) Create() (e error) {
+func (s *UserResourceCrud) Create() (e error) {
 	name := s.D.Get("name").(string)
 	description := s.D.Get("description").(string)
 	s.Res, e = s.Client.CreateUser(name, description)
 	return
 }
 
-func (s *UserSync) Get() (e error) {
+func (s *UserResourceCrud) Get() (e error) {
 	s.Res, e = s.Client.GetUser(s.D.Id())
 	return
 }
 
-func (s *UserSync) Update() (e error) {
+func (s *UserResourceCrud) Update() (e error) {
 	description := s.D.Get("description").(string)
 	s.Res, e = s.Client.UpdateUser(s.D.Id(), description)
 	return
 }
 
-func (s *UserSync) SetData() {
+func (s *UserResourceCrud) SetData() {
 	s.D.Set("name", s.Res.Name)
 	s.D.Set("description", s.Res.Description)
 	s.D.Set("compartment_id", s.Res.CompartmentID)
@@ -49,6 +49,6 @@ func (s *UserSync) SetData() {
 	s.D.Set("time_created", s.Res.TimeCreated.String())
 }
 
-func (s *UserSync) Delete() (e error) {
+func (s *UserResourceCrud) Delete() (e error) {
 	return s.Client.DeleteUser(s.D.Id())
 }

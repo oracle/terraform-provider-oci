@@ -6,7 +6,7 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
-func ResourceCoreDrgAttachment() *schema.Resource {
+func DrgAttachmentResource() *schema.Resource {
 	return &schema.Resource{
 		Create: createDrgAttachment,
 		Read:   readDrgAttachment,
@@ -50,18 +50,18 @@ func ResourceCoreDrgAttachment() *schema.Resource {
 
 func createDrgAttachment(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &DrgAttachmentSync{D: d, Client: client}
+	sync := &DrgAttachmentResourceCrud{D: d, Client: client}
 	return crud.CreateResource(d, sync)
 }
 
 func readDrgAttachment(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &DrgAttachmentSync{D: d, Client: client}
+	sync := &DrgAttachmentResourceCrud{D: d, Client: client}
 	return crud.ReadResource(sync)
 }
 
 func deleteDrgAttachment(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &DrgAttachmentSync{D: d, Client: client}
+	sync := &DrgAttachmentResourceCrud{D: d, Client: client}
 	return crud.DeleteResource(sync)
 }

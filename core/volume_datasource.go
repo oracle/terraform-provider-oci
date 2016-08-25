@@ -6,7 +6,7 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
-func DatasourceCoreVolumes() *schema.Resource {
+func VolumeDatasource() *schema.Resource {
 	return &schema.Resource{
 		Read: readVolumes,
 		Schema: map[string]*schema.Schema{
@@ -29,7 +29,7 @@ func DatasourceCoreVolumes() *schema.Resource {
 			"volumes": &schema.Schema{
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     ResourceCoreVolume(),
+				Elem:     VolumeResource(),
 			},
 		},
 	}
@@ -37,6 +37,6 @@ func DatasourceCoreVolumes() *schema.Resource {
 
 func readVolumes(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &VolumesSync{D: d, Client: client}
+	sync := &VolumeDatasourceCrud{D: d, Client: client}
 	return crud.ReadResource(sync)
 }

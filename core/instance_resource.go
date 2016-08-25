@@ -6,7 +6,7 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
-func ResourceCoreInstance() *schema.Resource {
+func InstanceResource() *schema.Resource {
 	return &schema.Resource{
 		Create: createInstance,
 		Read:   readInstance,
@@ -70,21 +70,21 @@ func ResourceCoreInstance() *schema.Resource {
 }
 
 func createInstance(d *schema.ResourceData, m interface{}) (e error) {
-	sync := &InstanceSync{D: d, Client: m.(client.BareMetalClient)}
+	sync := &InstanceResourceCrud{D: d, Client: m.(client.BareMetalClient)}
 	return crud.CreateResource(d, sync)
 }
 
 func readInstance(d *schema.ResourceData, m interface{}) (e error) {
-	sync := &InstanceSync{D: d, Client: m.(client.BareMetalClient)}
+	sync := &InstanceResourceCrud{D: d, Client: m.(client.BareMetalClient)}
 	return crud.ReadResource(sync)
 }
 
 func updateInstance(d *schema.ResourceData, m interface{}) (e error) {
-	sync := &InstanceSync{D: d, Client: m.(client.BareMetalClient)}
+	sync := &InstanceResourceCrud{D: d, Client: m.(client.BareMetalClient)}
 	return crud.UpdateResource(d, sync)
 }
 
 func deleteInstance(d *schema.ResourceData, m interface{}) (e error) {
-	sync := &InstanceSync{D: d, Client: m.(client.BareMetalClient)}
+	sync := &InstanceResourceCrud{D: d, Client: m.(client.BareMetalClient)}
 	return crud.DeleteResource(sync)
 }

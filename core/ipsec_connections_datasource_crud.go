@@ -8,13 +8,13 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
-type IPSecDatasourceCrud struct {
+type IPSecConnectionsDatasourceCrud struct {
 	D        *schema.ResourceData
 	Client   client.BareMetalClient
 	Resource *baremetal.ListIPSecConnections
 }
 
-func (s *IPSecDatasourceCrud) Get() (e error) {
+func (s *IPSecConnectionsDatasourceCrud) Get() (e error) {
 	compartmentID := s.D.Get("compartment_id").(string)
 	opts := getCoreOptionsFromResourceData(s.D, "drg_id", "cpe_id")
 
@@ -23,7 +23,7 @@ func (s *IPSecDatasourceCrud) Get() (e error) {
 
 }
 
-func (s IPSecDatasourceCrud) SetData() {
+func (s IPSecConnectionsDatasourceCrud) SetData() {
 	if s.Resource != nil {
 		s.D.SetId(time.Now().UTC().String())
 		resources := []map[string]interface{}{}

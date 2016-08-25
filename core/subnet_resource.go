@@ -6,7 +6,7 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
-func ResourceCoreSubnet() *schema.Resource {
+func SubnetResource() *schema.Resource {
 	return &schema.Resource{
 		Create: createSubnet,
 		Read:   readSubnet,
@@ -75,16 +75,16 @@ func ResourceCoreSubnet() *schema.Resource {
 }
 
 func createSubnet(d *schema.ResourceData, m interface{}) (e error) {
-	sync := &SubnetSync{D: d, Client: m.(client.BareMetalClient)}
+	sync := &SubnetResourceCrud{D: d, Client: m.(client.BareMetalClient)}
 	return crud.CreateResource(d, sync)
 }
 
 func readSubnet(d *schema.ResourceData, m interface{}) (e error) {
-	sync := &SubnetSync{D: d, Client: m.(client.BareMetalClient)}
+	sync := &SubnetResourceCrud{D: d, Client: m.(client.BareMetalClient)}
 	return crud.ReadResource(sync)
 }
 
 func deleteSubnet(d *schema.ResourceData, m interface{}) (e error) {
-	sync := &SubnetSync{D: d, Client: m.(client.BareMetalClient)}
+	sync := &SubnetResourceCrud{D: d, Client: m.(client.BareMetalClient)}
 	return crud.DeleteResource(sync)
 }

@@ -6,7 +6,7 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
-func ResourceCoreCpe() *schema.Resource {
+func CpeResource() *schema.Resource {
 	return &schema.Resource{
 		Create: createCpe,
 		Read:   readCpe,
@@ -43,18 +43,18 @@ func ResourceCoreCpe() *schema.Resource {
 
 func createCpe(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &CpeSync{D: d, Client: client}
+	sync := &CpeResourceCrud{D: d, Client: client}
 	return crud.CreateResource(d, sync)
 }
 
 func readCpe(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &CpeSync{D: d, Client: client}
+	sync := &CpeResourceCrud{D: d, Client: client}
 	return crud.ReadResource(sync)
 }
 
 func deleteCpe(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &CpeSync{D: d, Client: client}
+	sync := &CpeResourceCrud{D: d, Client: client}
 	return sync.Delete()
 }

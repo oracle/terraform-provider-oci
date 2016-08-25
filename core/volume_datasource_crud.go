@@ -8,13 +8,13 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
-type VolumesSync struct {
+type VolumeDatasourceCrud struct {
 	D      *schema.ResourceData
 	Client client.BareMetalClient
 	Res    *baremetal.VolumeList
 }
 
-func (s *VolumesSync) Get() (e error) {
+func (s *VolumeDatasourceCrud) Get() (e error) {
 	compartmentID := s.D.Get("compartment_id").(string)
 	opts := getCoreOptionsFromResourceData(s.D, "availability_domain", "limit", "page")
 
@@ -25,7 +25,7 @@ func (s *VolumesSync) Get() (e error) {
 	return
 }
 
-func (s *VolumesSync) SetData() {
+func (s *VolumeDatasourceCrud) SetData() {
 	if s.Res != nil {
 		// Important, if you don't have an ID, make one up for your datasource
 		// or things will end in tears

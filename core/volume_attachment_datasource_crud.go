@@ -8,13 +8,13 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
-type VolumeAttachmentsSync struct {
+type VolumeAttachmentDatasourceCrud struct {
 	D      *schema.ResourceData
 	Client client.BareMetalClient
 	Res    *baremetal.VolumeAttachmentList
 }
 
-func (s *VolumeAttachmentsSync) Get() (e error) {
+func (s *VolumeAttachmentDatasourceCrud) Get() (e error) {
 	compartmentID := s.D.Get("compartment_id").(string)
 	opts := getCoreOptionsFromResourceData(
 		s.D,
@@ -32,7 +32,7 @@ func (s *VolumeAttachmentsSync) Get() (e error) {
 	return
 }
 
-func (s *VolumeAttachmentsSync) SetData() {
+func (s *VolumeAttachmentDatasourceCrud) SetData() {
 	if s.Res != nil {
 		// Important, if you don't have an ID, make one up for your datasource
 		// or things will end in tears

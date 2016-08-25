@@ -6,37 +6,37 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
-type VolumeSync struct {
+type VolumeResourceCrud struct {
 	D      *schema.ResourceData
 	Client client.BareMetalClient
 	Res    *baremetal.Volume
 }
 
-func (s *VolumeSync) ID() string {
+func (s *VolumeResourceCrud) ID() string {
 	return s.Res.ID
 }
 
-func (s *VolumeSync) CreatedPending() []string {
+func (s *VolumeResourceCrud) CreatedPending() []string {
 	return []string{baremetal.ResourceProvisioning}
 }
 
-func (s *VolumeSync) CreatedTarget() []string {
+func (s *VolumeResourceCrud) CreatedTarget() []string {
 	return []string{baremetal.ResourceAvailable}
 }
 
-func (s *VolumeSync) DeletedPending() []string {
+func (s *VolumeResourceCrud) DeletedPending() []string {
 	return []string{baremetal.ResourceTerminating}
 }
 
-func (s *VolumeSync) DeletedTarget() []string {
+func (s *VolumeResourceCrud) DeletedTarget() []string {
 	return []string{baremetal.ResourceTerminated}
 }
 
-func (s *VolumeSync) State() string {
+func (s *VolumeResourceCrud) State() string {
 	return s.Res.State
 }
 
-func (s *VolumeSync) Create() (e error) {
+func (s *VolumeResourceCrud) Create() (e error) {
 	opts := baremetal.Options{}
 	availabilityDomain := s.D.Get("availability_domain").(string)
 	compartmentID := s.D.Get("compartment_id").(string)
@@ -50,12 +50,12 @@ func (s *VolumeSync) Create() (e error) {
 	return
 }
 
-func (s *VolumeSync) Get() (e error) {
+func (s *VolumeResourceCrud) Get() (e error) {
 	s.Res, e = s.Client.GetVolume(s.D.Id())
 	return
 }
 
-func (s *VolumeSync) Update() (e error) {
+func (s *VolumeResourceCrud) Update() (e error) {
 	opts := baremetal.Options{}
 	displayName, ok := s.D.GetOk("display_name")
 	if ok {
@@ -67,7 +67,7 @@ func (s *VolumeSync) Update() (e error) {
 	return
 }
 
-func (s *VolumeSync) SetData() {
+func (s *VolumeResourceCrud) SetData() {
 	s.D.Set("availability_domain", s.Res.AvailabilityDomain)
 	s.D.Set("compartment_id", s.Res.CompartmentID)
 	s.D.Set("display_name", s.Res.DisplayName)
@@ -76,6 +76,6 @@ func (s *VolumeSync) SetData() {
 	s.D.Set("time_created", s.Res.TimeCreated.String())
 }
 
-func (s *VolumeSync) Delete() (e error) {
+func (s *VolumeResourceCrud) Delete() (e error) {
 	return s.Client.DeleteVolume(s.D.Id())
 }

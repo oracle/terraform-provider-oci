@@ -6,7 +6,7 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
-func ResourceIdentityPolicy() *schema.Resource {
+func PolicyResource() *schema.Resource {
 	policySchema := make(map[string]*schema.Schema)
 
 	for key, value := range identitySchema {
@@ -30,24 +30,24 @@ func ResourceIdentityPolicy() *schema.Resource {
 
 func createPolicy(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &PolicySync{D: d, Client: client}
+	sync := &PolicyResourceCrud{D: d, Client: client}
 	return crud.CreateResource(d, sync)
 }
 
 func readPolicy(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &PolicySync{D: d, Client: client}
+	sync := &PolicyResourceCrud{D: d, Client: client}
 	return crud.ReadResource(sync)
 }
 
 func updatePolicy(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &PolicySync{D: d, Client: client}
+	sync := &PolicyResourceCrud{D: d, Client: client}
 	return crud.UpdateResource(d, sync)
 }
 
 func deletePolicy(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &PolicySync{D: d, Client: client}
+	sync := &PolicyResourceCrud{D: d, Client: client}
 	return sync.Delete()
 }

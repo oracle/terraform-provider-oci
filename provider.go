@@ -75,35 +75,35 @@ func schemaMap() map[string]*schema.Schema {
 
 func dataSourcesMap() map[string]*schema.Resource {
 	return map[string]*schema.Resource{
-		"baremetal_core_shape":              core.DatasourceCoreShape(),
+		"baremetal_core_shape":              core.ShapeDatasource(),
 		"baremetal_core_vnic_attachments":   core.DatasourceCoreVnicAttachments(),
-		"baremetal_core_volumes":            core.DatasourceCoreVolumes(),
-		"baremetal_core_volume_attachments": core.DatasourceCoreVolumeAttachments(),
-		"baremetal_core_instances":          core.DatasourceCoreInstances(),
-		"baremetal_core_subnets":            core.DatasourceCoreSubnets(),
-		"baremetal_core_drgs":               core.DatasourceCoreDrgs(),
-		"baremetal_core_virtual_networks":   core.DatasourceCoreVirtualNetworks(),
-		"baremetal_core_ipsec_connections":  core.DatasourceCoreIPSecConnections(),
-		"baremetal_core_ipsec_status":       core.DatasourceCoreIPSecStatus(),
-		"baremetal_core_ipsec_config":       core.DatasourceCoreIPSecConfig(),
+		"baremetal_core_volumes":            core.VolumeDatasource(),
+		"baremetal_core_volume_attachments": core.VolumeAttachmentDatasource(),
+		"baremetal_core_instances":          core.InstanceDatasource(),
+		"baremetal_core_subnets":            core.SubnetDatasource(),
+		"baremetal_core_drgs":               core.DrgDatasource(),
+		"baremetal_core_virtual_networks":   core.VirtualNetworkDatasource(),
+		"baremetal_core_ipsec_connections":  core.IPSecConnectionsDatasource(),
+		"baremetal_core_ipsec_status":       core.IPSecStatusDatasource(),
+		"baremetal_core_ipsec_config":       core.IPSecConfigDatasource(),
 	}
 }
 
 func resourcesMap() map[string]*schema.Resource {
 	return map[string]*schema.Resource{
-		"baremetal_identity_user":          identity.ResourceIdentityUser(),
-		"baremetal_identity_group":         identity.ResourceIdentityGroup(),
-		"baremetal_identity_policy":        identity.ResourceIdentityPolicy(),
-		"baremetal_identity_compartment":   identity.ResourceIdentityCompartment(),
-		"baremetal_core_cpe":               core.ResourceCoreCpe(),
-		"baremetal_core_volume":            core.ResourceCoreVolume(),
-		"baremetal_core_instance":          core.ResourceCoreInstance(),
-		"baremetal_core_volume_attachment": core.ResourceCoreVolumeAttachment(),
-		"baremetal_core_subnet":            core.ResourceCoreSubnet(),
-		"baremetal_core_ipsec":             core.ResourceCoreIPSec(),
-		"baremetal_core_drg":               core.ResourceCoreDrg(),
-		"baremetal_core_virtual_network":   core.ResourceCoreVirtualNetwork(),
-		"baremetal_core_drg_attachment":    core.ResourceCoreDrgAttachment(),
+		"baremetal_identity_user":          identity.UserResource(),
+		"baremetal_identity_group":         identity.GroupResource(),
+		"baremetal_identity_policy":        identity.PolicyResource(),
+		"baremetal_identity_compartment":   identity.CompartmentResource(),
+		"baremetal_core_cpe":               core.CpeResource(),
+		"baremetal_core_volume":            core.VolumeResource(),
+		"baremetal_core_instance":          core.InstanceResource(),
+		"baremetal_core_volume_attachment": core.VolumeAttachmentResource(),
+		"baremetal_core_subnet":            core.SubnetResource(),
+		"baremetal_core_ipsec":             core.IPSecResource(),
+		"baremetal_core_drg":               core.DrgResource(),
+		"baremetal_core_virtual_network":   core.VirtualNetworkResource(),
+		"baremetal_core_drg_attachment":    core.DrgAttachmentResource(),
 	}
 }
 

@@ -6,7 +6,7 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
-func DatasourceCoreDrgs() *schema.Resource {
+func DrgDatasource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDrgs,
 		Schema: map[string]*schema.Schema{
@@ -25,7 +25,7 @@ func DatasourceCoreDrgs() *schema.Resource {
 			"drgs": &schema.Schema{
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     ResourceCoreDrg(),
+				Elem:     DrgResource(),
 			},
 		},
 	}
@@ -33,6 +33,6 @@ func DatasourceCoreDrgs() *schema.Resource {
 
 func readDrgs(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &DrgsSync{D: d, Client: client}
+	sync := &DrgDatasourceCrud{D: d, Client: client}
 	return crud.ReadResource(sync)
 }

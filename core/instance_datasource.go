@@ -6,7 +6,7 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
-func DatasourceCoreInstances() *schema.Resource {
+func InstanceDatasource() *schema.Resource {
 	return &schema.Resource{
 		Read: readInstances,
 		Schema: map[string]*schema.Schema{
@@ -85,7 +85,7 @@ func resourceCoreInstance() *schema.Resource {
 
 func readInstances(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	reader := &InstancesSync{
+	reader := &InstanceDatasourceCrud{
 		D:      d,
 		Client: client,
 	}

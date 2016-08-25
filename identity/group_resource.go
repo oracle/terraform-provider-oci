@@ -7,7 +7,7 @@ import (
 )
 
 // ResourceIdentityGroup exposes an IdentityGroup Resource
-func ResourceIdentityGroup() *schema.Resource {
+func GroupResource() *schema.Resource {
 	return &schema.Resource{
 		Create: createGroup,
 		Read:   readGroup,

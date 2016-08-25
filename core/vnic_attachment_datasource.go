@@ -9,7 +9,7 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
-type VnicAttachmentsReader struct {
+type VnicAttachmentDatasource struct {
 	resourceData *schema.ResourceData
 	client       client.BareMetalClient
 	response     *baremetal.VnicAttachmentList
@@ -89,7 +89,7 @@ func DatasourceCoreVnicAttachments() *schema.Resource {
 
 func readVnicAttachments(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	reader := &VnicAttachmentsReader{
+	reader := &VnicAttachmentDatasource{
 		resourceData: d,
 		client:       client,
 	}
@@ -97,7 +97,7 @@ func readVnicAttachments(d *schema.ResourceData, m interface{}) (e error) {
 	return crud.ReadResource(reader)
 }
 
-func (r *VnicAttachmentsReader) Get() (e error) {
+func (r *VnicAttachmentDatasource) Get() (e error) {
 	compartmentID := r.resourceData.Get("compartment_id").(string)
 	opts := getCoreOptionsFromResourceData(
 		r.resourceData,
@@ -110,7 +110,7 @@ func (r *VnicAttachmentsReader) Get() (e error) {
 	return
 }
 
-func (r *VnicAttachmentsReader) SetData() {
+func (r *VnicAttachmentDatasource) SetData() {
 
 	if r.response != nil {
 		r.resourceData.SetId(time.Now().UTC().String())

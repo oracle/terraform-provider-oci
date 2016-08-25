@@ -9,7 +9,7 @@ import (
 )
 
 // ResourceIdentityCompartment exposes an IdentityCompartment Resource
-func ResourceIdentityCompartment() *schema.Resource {
+func CompartmentResource() *schema.Resource {
 	return &schema.Resource{
 		Create: createCompartment,
 		Read:   readCompartment,
@@ -21,19 +21,19 @@ func ResourceIdentityCompartment() *schema.Resource {
 
 func createCompartment(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &CompartmentSync{D: d, Client: client}
+	sync := &CompartmentResourceCrud{D: d, Client: client}
 	return crud.CreateResource(d, sync)
 }
 
 func readCompartment(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &CompartmentSync{D: d, Client: client}
+	sync := &CompartmentResourceCrud{D: d, Client: client}
 	return crud.ReadResource(sync)
 }
 
 func updateCompartment(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &CompartmentSync{D: d, Client: client}
+	sync := &CompartmentResourceCrud{D: d, Client: client}
 	return crud.UpdateResource(d, sync)
 }
 

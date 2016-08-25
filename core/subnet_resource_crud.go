@@ -6,33 +6,33 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
-type SubnetSync struct {
+type SubnetResourceCrud struct {
 	D        *schema.ResourceData
 	Client   client.BareMetalClient
 	Resource *baremetal.Subnet
 }
 
-func (s *SubnetSync) ID() string {
+func (s *SubnetResourceCrud) ID() string {
 	return s.Resource.ID
 }
 
-func (s *SubnetSync) CreatedPending() []string {
+func (s *SubnetResourceCrud) CreatedPending() []string {
 	return []string{baremetal.ResourceProvisioning}
 }
 
-func (s *SubnetSync) CreatedTarget() []string {
+func (s *SubnetResourceCrud) CreatedTarget() []string {
 	return []string{baremetal.ResourceAvailable}
 }
 
-func (s *SubnetSync) DeletedPending() []string {
+func (s *SubnetResourceCrud) DeletedPending() []string {
 	return []string{baremetal.ResourceTerminating}
 }
 
-func (s *SubnetSync) DeletedTarget() []string {
+func (s *SubnetResourceCrud) DeletedTarget() []string {
 	return []string{baremetal.ResourceTerminated}
 }
 
-func (s *SubnetSync) Create() (e error) {
+func (s *SubnetResourceCrud) Create() (e error) {
 	opts := baremetal.Options{}
 	availabilityDomain := s.D.Get("availability_domain").(string)
 	cidrBlock := s.D.Get("cidr_block").(string)
@@ -62,12 +62,12 @@ func (s *SubnetSync) Create() (e error) {
 	return
 }
 
-func (s *SubnetSync) Get() (e error) {
+func (s *SubnetResourceCrud) Get() (e error) {
 	s.Resource, e = s.Client.GetSubnet(s.D.Id())
 	return
 }
 
-func (s *SubnetSync) SetData() {
+func (s *SubnetResourceCrud) SetData() {
 	s.D.Set("availability_domain", s.Resource.AvailabilityDomain)
 	s.D.Set("compartment_id", s.Resource.CompartmentID)
 	s.D.Set("display_name", s.Resource.DisplayName)
@@ -81,6 +81,6 @@ func (s *SubnetSync) SetData() {
 	s.D.Set("virtual_router_mac", s.Resource.VirtualRouterMac)
 }
 
-func (s *SubnetSync) Delete() (e error) {
+func (s *SubnetResourceCrud) Delete() (e error) {
 	return s.Client.DeleteSubnet(s.D.Id())
 }

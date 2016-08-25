@@ -6,37 +6,37 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
-type DrgAttachmentSync struct {
+type DrgAttachmentResourceCrud struct {
 	D      *schema.ResourceData
 	Client client.BareMetalClient
 	Res    *baremetal.DrgAttachment
 }
 
-func (s *DrgAttachmentSync) ID() string {
+func (s *DrgAttachmentResourceCrud) ID() string {
 	return s.Res.ID
 }
 
-func (s *DrgAttachmentSync) CreatedPending() []string {
+func (s *DrgAttachmentResourceCrud) CreatedPending() []string {
 	return []string{baremetal.ResourceAttaching}
 }
 
-func (s *DrgAttachmentSync) CreatedTarget() []string {
+func (s *DrgAttachmentResourceCrud) CreatedTarget() []string {
 	return []string{baremetal.ResourceAttached}
 }
 
-func (s *DrgAttachmentSync) DeletedPending() []string {
+func (s *DrgAttachmentResourceCrud) DeletedPending() []string {
 	return []string{baremetal.ResourceDetaching}
 }
 
-func (s *DrgAttachmentSync) DeletedTarget() []string {
+func (s *DrgAttachmentResourceCrud) DeletedTarget() []string {
 	return []string{baremetal.ResourceDetached}
 }
 
-func (s *DrgAttachmentSync) State() string {
+func (s *DrgAttachmentResourceCrud) State() string {
 	return s.Res.State
 }
 
-func (s *DrgAttachmentSync) Create() (e error) {
+func (s *DrgAttachmentResourceCrud) Create() (e error) {
 	opts := baremetal.Options{}
 	compartmentID := s.D.Get("compartment_id").(string)
 	displayName, ok := s.D.GetOk("display_name")
@@ -51,12 +51,12 @@ func (s *DrgAttachmentSync) Create() (e error) {
 	return
 }
 
-func (s *DrgAttachmentSync) Get() (e error) {
+func (s *DrgAttachmentResourceCrud) Get() (e error) {
 	s.Res, e = s.Client.GetDrgAttachment(s.D.Id())
 	return
 }
 
-func (s *DrgAttachmentSync) SetData() {
+func (s *DrgAttachmentResourceCrud) SetData() {
 	s.D.Set("compartment_id", s.Res.CompartmentID)
 	s.D.Set("display_name", s.Res.DisplayName)
 	s.D.Set("drg_id", s.Res.DrgID)
@@ -65,6 +65,6 @@ func (s *DrgAttachmentSync) SetData() {
 	s.D.Set("vcn_id", s.Res.VcnID)
 }
 
-func (s *DrgAttachmentSync) Delete() (e error) {
+func (s *DrgAttachmentResourceCrud) Delete() (e error) {
 	return s.Client.DeleteDrgAttachment(s.D.Id())
 }
