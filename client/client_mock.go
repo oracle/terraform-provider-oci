@@ -122,6 +122,12 @@ func (m *MockClient) DeleteCpe(cpeID string, opt ...baremetal.Options) error {
 	return args.Error(0)
 }
 
+func (m *MockClient) ListCpes(compartmentID string, opts ...baremetal.Options) (cpes *baremetal.CpeList, e error) {
+	args := m.Called(compartmentID, opts)
+	u, _ := args.Get(0).(*baremetal.CpeList)
+	return u, args.Error(1)
+}
+
 func (m *MockClient) CreateVolume(availabilityDomain, compartmentID string, opt ...baremetal.Options) (*baremetal.Volume, error) {
 	args := m.Called(availabilityDomain, compartmentID, opt)
 	u, _ := args.Get(0).(*baremetal.Volume)
