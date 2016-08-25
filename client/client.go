@@ -22,25 +22,25 @@ type BareMetalClient interface {
 	GetCompartment(userID string) (*baremetal.IdentityResource, error)
 	UpdateCompartment(userID, userDescription string, opts ...baremetal.Options) (*baremetal.IdentityResource, error)
 
-	ListShapes(compartmentID string, opt ...baremetal.Options) (*baremetal.ShapeList, error)
-	ListVnicAttachments(compartmentID string, opt ...baremetal.Options) (*baremetal.VnicAttachmentList, error)
+	ListShapes(compartmentID string, opt ...baremetal.Options) (*baremetal.ListShapes, error)
+	ListVnicAttachments(compartmentID string, opt ...baremetal.Options) (*baremetal.ListVnicAttachments, error)
 
 	CreateCpe(compartmentID, displayName, IPAddress string, opts ...baremetal.Options) (cpe *baremetal.Cpe, e error)
 	GetCpe(id string, opts ...baremetal.Options) (cpe *baremetal.Cpe, e error)
 	DeleteCpe(id string, opts ...baremetal.Options) (e error)
-	ListCpes(compartmentID string, opts ...baremetal.Options) (cpes *baremetal.CpeList, e error)
+	ListCpes(compartmentID string, opts ...baremetal.Options) (cpes *baremetal.ListCpes, e error)
 
 	CreateVolume(availabiltyDomain, compartmentID string, opts ...baremetal.Options) (vol *baremetal.Volume, e error)
 	GetVolume(id string, opts ...baremetal.Options) (vol *baremetal.Volume, e error)
 	UpdateVolume(id string, opts ...baremetal.Options) (vol *baremetal.Volume, e error)
 	DeleteVolume(id string, opts ...baremetal.Options) (e error)
-	ListVolumes(compartmentID string, opts ...baremetal.Options) (vols *baremetal.VolumeList, e error)
+	ListVolumes(compartmentID string, opts ...baremetal.Options) (vols *baremetal.ListVolumes, e error)
 
 	LaunchInstance(availabilityDomain, compartmentID, image, shape, subnetID string, metadata map[string]string, opts ...baremetal.Options) (inst *baremetal.Instance, e error)
 	GetInstance(instanceID string) (inst *baremetal.Instance, e error)
 	UpdateInstance(instanceID string, opts ...baremetal.Options) (inst *baremetal.Instance, e error)
 	TerminateInstance(instanceID string, opts ...baremetal.Options) (e error)
-	ListInstances(compartmentID string, opts ...baremetal.Options) (list *baremetal.InstanceList, e error)
+	ListInstances(compartmentID string, opts ...baremetal.Options) (list *baremetal.ListInstances, e error)
 
 	AttachVolume(compartmentID, instanceID, attachmentType, volumeID string, opts ...baremetal.Options) (vol *baremetal.VolumeAttachment, e error)
 	GetVolumeAttachment(id string, opts ...baremetal.Options) (vol *baremetal.VolumeAttachment, e error)
@@ -49,13 +49,13 @@ type BareMetalClient interface {
 
 	CreateSubnet(availabilityDomain, cidrBlock, compartmentID, routeTableID, vcnID string, securityListIDs []string, opts ...baremetal.Options) (*baremetal.Subnet, error)
 	GetSubnet(subnetID string) (sn *baremetal.Subnet, e error)
-	ListSubnets(compartmentID, vcnID string, opts ...baremetal.Options) (*baremetal.SubnetList, error)
+	ListSubnets(compartmentID, vcnID string, opts ...baremetal.Options) (*baremetal.ListSubnets, error)
 	DeleteSubnet(subnetID string, opts ...baremetal.Options) error
 
 	CreateVirtualNetwork(cidrBlock, compartmentID string, opts ...baremetal.Options) (*baremetal.VirtualNetwork, error)
 	GetVirtualNetwork(id string, opts ...baremetal.Options) (vcn *baremetal.VirtualNetwork, e error)
 	DeleteVirtualNetwork(id string, opts ...baremetal.Options) error
-	ListVirtualNetworks(compartmentID string, opts ...baremetal.Options) (*baremetal.VirtualNetworkList, error)
+	ListVirtualNetworks(compartmentID string, opts ...baremetal.Options) (*baremetal.ListVirtualNetworks, error)
 
 	CreateIPSecConnection(compartmentID, cpeID, drgID string, staticRoutes []string, opts ...baremetal.Options) (conn *baremetal.IPSecConnection, e error)
 	ListIPSecConnections(compartmentID string, opts ...baremetal.Options) (conns *baremetal.ListIPSecConnections, e error)
@@ -67,10 +67,10 @@ type BareMetalClient interface {
 	CreateDrg(compartmentID string, opts ...baremetal.Options) (*baremetal.Drg, error)
 	GetDrg(id string, opts ...baremetal.Options) (*baremetal.Drg, error)
 	DeleteDrg(id string, opts ...baremetal.Options) error
-	ListDrgs(compartmentID string, opts ...baremetal.Options) (*baremetal.DrgList, error)
+	ListDrgs(compartmentID string, opts ...baremetal.Options) (*baremetal.ListDrgs, error)
 
 	CreateDrgAttachment(compartmentID, drgID, vcnID string, opts ...baremetal.Options) (vol *baremetal.DrgAttachment, e error)
 	GetDrgAttachment(id string, opts ...baremetal.Options) (vol *baremetal.DrgAttachment, e error)
 	DeleteDrgAttachment(id string, opts ...baremetal.Options) (e error)
-	ListDrgAttachments(compartmentID string, opts ...baremetal.Options) (res *baremetal.DrgAttachmentList, e error)
+	ListDrgAttachments(compartmentID string, opts ...baremetal.Options) (res *baremetal.ListDrgAttachments, e error)
 }

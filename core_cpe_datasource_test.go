@@ -48,7 +48,7 @@ func (s *DatasourceCoreCpeTestSuite) TestCpeList() {
 		"compartmentid",
 		[]baremetal.Options{},
 	).Return(
-		&baremetal.CpeList{
+		&baremetal.ListCpes{
 
 			Cpes: []baremetal.Cpe{
 				baremetal.Cpe{

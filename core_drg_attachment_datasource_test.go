@@ -59,7 +59,7 @@ func (s *CoreDrgAttachmentDatasourceTestSuite) TestReadDrgAttachments() {
 		"compartment_id",
 		opts,
 	).Return(
-		&baremetal.DrgAttachmentList{
+		&baremetal.ListDrgAttachments{
 			DrgAttachments: []baremetal.DrgAttachment{
 				baremetal.DrgAttachment{
 					CompartmentID: "compartment_id",

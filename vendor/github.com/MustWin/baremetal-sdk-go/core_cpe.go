@@ -16,12 +16,12 @@ type Cpe struct {
 
 // CpeList contains a list of customer premise equipment
 //
-type CpeList struct {
+type ListCpes struct {
 	ResourceContainer
 	Cpes []Cpe
 }
 
-func (l *CpeList) GetList() interface{} {
+func (l *ListCpes) GetList() interface{} {
 	return &l.Cpes
 }
 
@@ -34,7 +34,7 @@ type CreateCpeRequest struct {
 // ListCpes returns a list of customer premise equipment for a particular compartment
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#listCpes
-func (c *Client) ListCpes(compartmentID string, opts ...Options) (cpes *CpeList, e error) {
+func (c *Client) ListCpes(compartmentID string, opts ...Options) (cpes *ListCpes, e error) {
 	reqOpts := &sdkRequestOptions{
 		name:    resourceCustomerPremiseEquipment,
 		ocid:    compartmentID,
@@ -46,7 +46,7 @@ func (c *Client) ListCpes(compartmentID string, opts ...Options) (cpes *CpeList,
 		return
 	}
 
-	cpes = &CpeList{}
+	cpes = &ListCpes{}
 	e = resp.unmarshal(cpes)
 	return
 }

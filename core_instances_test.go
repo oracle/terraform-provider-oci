@@ -59,7 +59,7 @@ func (s *ResourceCoreInstancesTestSuite) TestResourceListInstances() {
 		"compartmentid",
 		opts,
 	).Return(
-		&baremetal.InstanceList{
+		&baremetal.ListInstances{
 			Instances: []baremetal.Instance{
 				baremetal.Instance{
 					ID:                 "id1",

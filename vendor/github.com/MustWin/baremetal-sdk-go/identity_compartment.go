@@ -25,7 +25,7 @@ func (c *Client) GetCompartment(compartmentID string) (compartment *IdentityReso
 // ListCompartments returns a list of compartments. The request MAY contain optional paging arguments.
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/identity.html#listCompartments
-func (c *Client) ListCompartments(options ...Options) (response *ListResourceResponse, e error) {
+func (c *Client) ListCompartments(options ...Options) (response *ListResourceResponses, e error) {
 	return c.listIdentityResources(resourceCompartments, options...)
 }
 

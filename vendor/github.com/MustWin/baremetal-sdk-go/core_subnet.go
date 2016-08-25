@@ -24,12 +24,12 @@ type Subnet struct {
 	VirtualRouterMac   string   `json:"virtualRouterMac"`
 }
 
-type SubnetList struct {
+type ListSubnets struct {
 	ResourceContainer
 	Subnets []Subnet
 }
 
-func (l *SubnetList) GetList() interface{} {
+func (l *ListSubnets) GetList() interface{} {
 	return &l.Subnets
 }
 
@@ -91,7 +91,7 @@ func (c *Client) CreateSubnet(
 // response to the Page member of Options.
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#listSubnets
-func (c *Client) ListSubnets(compartmentID, vcnID string, opts ...Options) (subnets *SubnetList, e error) {
+func (c *Client) ListSubnets(compartmentID, vcnID string, opts ...Options) (subnets *ListSubnets, e error) {
 	query := url.Values{}
 	query.Set(queryVcnID, vcnID)
 
@@ -107,7 +107,7 @@ func (c *Client) ListSubnets(compartmentID, vcnID string, opts ...Options) (subn
 		return
 	}
 
-	subnets = &SubnetList{}
+	subnets = &ListSubnets{}
 	e = response.unmarshal(subnets)
 	return
 }

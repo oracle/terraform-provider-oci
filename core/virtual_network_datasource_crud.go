@@ -11,7 +11,7 @@ import (
 type VirtualNetworkDatasourceCrud struct {
 	D      *schema.ResourceData
 	Client client.BareMetalClient
-	Res    *baremetal.VirtualNetworkList
+	Res    *baremetal.ListVirtualNetworks
 }
 
 func (s *VirtualNetworkDatasourceCrud) Get() (e error) {

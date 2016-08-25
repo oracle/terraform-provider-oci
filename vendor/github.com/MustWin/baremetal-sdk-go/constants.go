@@ -85,6 +85,7 @@ const (
 	resourceIPSecConnections         resourceName = "ipsecConnections"
 	resourceDrgs                     resourceName = "drgs"
 	resourceDrgAttachments           resourceName = "drgAttachments"
+	resourceInternetGateways         resourceName = "internetGateways"
 
 	apiKeys      = "apiKeys"
 	uiPassword   = "uiPassword"

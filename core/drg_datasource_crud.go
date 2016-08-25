@@ -11,7 +11,7 @@ import (
 type DrgDatasourceCrud struct {
 	D      *schema.ResourceData
 	Client client.BareMetalClient
-	Res    *baremetal.DrgList
+	Res    *baremetal.ListDrgs
 }
 
 func (s *DrgDatasourceCrud) Get() (e error) {

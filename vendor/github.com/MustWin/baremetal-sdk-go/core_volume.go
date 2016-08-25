@@ -18,12 +18,12 @@ type Volume struct {
 
 // VolumeList contains a list of block volumes
 //
-type VolumeList struct {
+type ListVolumes struct {
 	ResourceContainer
 	Volumes []Volume
 }
 
-func (l *VolumeList) GetList() interface{} {
+func (l *ListVolumes) GetList() interface{} {
 	return &l.Volumes
 }
 
@@ -133,7 +133,7 @@ func (c *Client) DeleteVolume(id string, opts ...Options) (e error) {
 // ListVolumes returns a list of volumes for a particular compartment
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#listVolumes
-func (c *Client) ListVolumes(compartmentID string, opts ...Options) (vols *VolumeList, e error) {
+func (c *Client) ListVolumes(compartmentID string, opts ...Options) (vols *ListVolumes, e error) {
 	reqOpts := &sdkRequestOptions{
 		name:    resourceVolumes,
 		ocid:    compartmentID,
@@ -145,7 +145,7 @@ func (c *Client) ListVolumes(compartmentID string, opts ...Options) (vols *Volum
 		return
 	}
 
-	vols = &VolumeList{}
+	vols = &ListVolumes{}
 	e = resp.unmarshal(vols)
 	return
 }

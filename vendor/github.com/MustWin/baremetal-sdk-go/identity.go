@@ -22,12 +22,12 @@ type IdentityResource struct {
 }
 
 // ListResponse response for List commands.
-type ListResourceResponse struct {
+type ListResourceResponses struct {
 	ResourceContainer
 	Items []IdentityResource
 }
 
-func (l *ListResourceResponse) GetList() interface{} {
+func (l *ListResourceResponses) GetList() interface{} {
 	return &l.Items
 }
 
@@ -93,7 +93,7 @@ func (c *Client) getIdentityResource(name resourceName, ids ...interface{}) (res
 	return
 }
 
-func (c *Client) listIdentityResources(name resourceName, options ...Options) (resp *ListResourceResponse, e error) {
+func (c *Client) listIdentityResources(name resourceName, options ...Options) (resp *ListResourceResponses, e error) {
 	conf := &sdkRequestOptions{
 		name:    name,
 		ocid:    c.authInfo.tenancyOCID,
@@ -105,7 +105,7 @@ func (c *Client) listIdentityResources(name resourceName, options ...Options) (r
 		return
 	}
 
-	resp = &ListResourceResponse{}
+	resp = &ListResourceResponses{}
 	e = getResp.unmarshal(resp)
 	return
 }

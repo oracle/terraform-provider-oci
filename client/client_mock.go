@@ -92,16 +92,16 @@ func (m *MockClient) UpdateCompartment(id, description string, opts ...baremetal
 	return u, args.Error(1)
 }
 
-func (m *MockClient) ListShapes(compartmentID string, opt ...baremetal.Options) (*baremetal.ShapeList, error) {
+func (m *MockClient) ListShapes(compartmentID string, opt ...baremetal.Options) (*baremetal.ListShapes, error) {
 	args := m.Called(compartmentID, opt)
-	u, _ := args.Get(0).(*baremetal.ShapeList)
+	u, _ := args.Get(0).(*baremetal.ListShapes)
 	return u, args.Error(1)
 
 }
 
-func (m *MockClient) ListVnicAttachments(compartmentID string, opt ...baremetal.Options) (*baremetal.VnicAttachmentList, error) {
+func (m *MockClient) ListVnicAttachments(compartmentID string, opt ...baremetal.Options) (*baremetal.ListVnicAttachments, error) {
 	args := m.Called(compartmentID, opt)
-	u, _ := args.Get(0).(*baremetal.VnicAttachmentList)
+	u, _ := args.Get(0).(*baremetal.ListVnicAttachments)
 	return u, args.Error(1)
 }
 
@@ -122,9 +122,9 @@ func (m *MockClient) DeleteCpe(cpeID string, opt ...baremetal.Options) error {
 	return args.Error(0)
 }
 
-func (m *MockClient) ListCpes(compartmentID string, opts ...baremetal.Options) (cpes *baremetal.CpeList, e error) {
+func (m *MockClient) ListCpes(compartmentID string, opts ...baremetal.Options) (cpes *baremetal.ListCpes, e error) {
 	args := m.Called(compartmentID, opts)
-	u, _ := args.Get(0).(*baremetal.CpeList)
+	u, _ := args.Get(0).(*baremetal.ListCpes)
 	return u, args.Error(1)
 }
 
@@ -151,9 +151,9 @@ func (m *MockClient) DeleteVolume(id string, opt ...baremetal.Options) error {
 	return args.Error(0)
 }
 
-func (m *MockClient) ListVolumes(compartmentID string, opt ...baremetal.Options) (*baremetal.VolumeList, error) {
+func (m *MockClient) ListVolumes(compartmentID string, opt ...baremetal.Options) (*baremetal.ListVolumes, error) {
 	args := m.Called(compartmentID, opt)
-	u, _ := args.Get(0).(*baremetal.VolumeList)
+	u, _ := args.Get(0).(*baremetal.ListVolumes)
 	return u, args.Error(1)
 }
 
@@ -204,9 +204,9 @@ func (m *MockClient) TerminateInstance(instanceID string, opts ...baremetal.Opti
 	return args.Error(0)
 }
 
-func (m *MockClient) ListInstances(compartmentID string, opts ...baremetal.Options) (list *baremetal.InstanceList, e error) {
+func (m *MockClient) ListInstances(compartmentID string, opts ...baremetal.Options) (list *baremetal.ListInstances, e error) {
 	args := m.Called(compartmentID, opts)
-	u, _ := args.Get(0).(*baremetal.InstanceList)
+	u, _ := args.Get(0).(*baremetal.ListInstances)
 	return u, args.Error(1)
 }
 
@@ -222,9 +222,9 @@ func (m *MockClient) GetSubnet(subnetID string) (subnet *baremetal.Subnet, e err
 	return u, args.Error(1)
 }
 
-func (m *MockClient) ListSubnets(compartmentID, vcnID string, opts ...baremetal.Options) (*baremetal.SubnetList, error) {
+func (m *MockClient) ListSubnets(compartmentID, vcnID string, opts ...baremetal.Options) (*baremetal.ListSubnets, error) {
 	args := m.Called(compartmentID, vcnID, opts)
-	u, _ := args.Get(0).(*baremetal.SubnetList)
+	u, _ := args.Get(0).(*baremetal.ListSubnets)
 	return u, args.Error(1)
 }
 
@@ -250,9 +250,9 @@ func (m *MockClient) DeleteVirtualNetwork(id string, opts ...baremetal.Options) 
 	return args.Error(0)
 }
 
-func (m *MockClient) ListVirtualNetworks(compartmentID string, opts ...baremetal.Options) (*baremetal.VirtualNetworkList, error) {
+func (m *MockClient) ListVirtualNetworks(compartmentID string, opts ...baremetal.Options) (*baremetal.ListVirtualNetworks, error) {
 	args := m.Called(compartmentID, opts)
-	u, _ := args.Get(0).(*baremetal.VirtualNetworkList)
+	u, _ := args.Get(0).(*baremetal.ListVirtualNetworks)
 	return u, args.Error(1)
 }
 
@@ -308,9 +308,9 @@ func (m *MockClient) DeleteDrg(id string, opts ...baremetal.Options) (e error) {
 	return args.Error(0)
 }
 
-func (m *MockClient) ListDrgs(compartmentID string, opts ...baremetal.Options) (*baremetal.DrgList, error) {
+func (m *MockClient) ListDrgs(compartmentID string, opts ...baremetal.Options) (*baremetal.ListDrgs, error) {
 	args := m.Called(compartmentID, opts)
-	u, _ := args.Get(0).(*baremetal.DrgList)
+	u, _ := args.Get(0).(*baremetal.ListDrgs)
 	return u, args.Error(1)
 }
 
@@ -331,8 +331,8 @@ func (m *MockClient) DeleteDrgAttachment(id string, opt ...baremetal.Options) er
 	return args.Error(0)
 }
 
-func (m *MockClient) ListDrgAttachments(compartmentID string, opt ...baremetal.Options) (*baremetal.DrgAttachmentList, error) {
+func (m *MockClient) ListDrgAttachments(compartmentID string, opt ...baremetal.Options) (*baremetal.ListDrgAttachments, error) {
 	args := m.Called(compartmentID, opt)
-	u, _ := args.Get(0).(*baremetal.DrgAttachmentList)
+	u, _ := args.Get(0).(*baremetal.ListDrgAttachments)
 	return u, args.Error(1)
 }

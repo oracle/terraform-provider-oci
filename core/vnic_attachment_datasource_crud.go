@@ -11,7 +11,7 @@ import (
 type VnicAttachmentDatasourceCrud struct {
 	D      *schema.ResourceData
 	Client client.BareMetalClient
-	Res    *baremetal.VnicAttachmentList
+	Res    *baremetal.ListVnicAttachments
 }
 
 func (r *VnicAttachmentDatasourceCrud) Get() (e error) {

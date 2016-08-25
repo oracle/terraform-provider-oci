@@ -11,7 +11,7 @@ import (
 type InstanceDatasourceCrud struct {
 	D      *schema.ResourceData
 	Client client.BareMetalClient
-	Res    *baremetal.InstanceList
+	Res    *baremetal.ListInstances
 }
 
 func (s *InstanceDatasourceCrud) Get() (e error) {

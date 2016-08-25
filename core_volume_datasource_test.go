@@ -57,7 +57,7 @@ func (s *ResourceCoreVolumesTestSuite) TestReadVolumes() {
 		"compartment_id",
 		opts,
 	).Return(
-		&baremetal.VolumeList{
+		&baremetal.ListVolumes{
 			Volumes: []baremetal.Volume{
 				baremetal.Volume{
 					AvailabilityDomain: "availability_domain",

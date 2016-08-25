@@ -12,7 +12,7 @@ import (
 type VnicAttachmentDatasource struct {
 	resourceData *schema.ResourceData
 	client       client.BareMetalClient
-	response     *baremetal.VnicAttachmentList
+	response     *baremetal.ListVnicAttachments
 }
 
 func resourceVnicAttachment() *schema.Resource {

@@ -55,7 +55,7 @@ func (s *ResourceCoreVirtualNetworksTestSuite) TestReadVirtualNetworks() {
 		"compartment_id",
 		opts,
 	).Return(
-		&baremetal.VirtualNetworkList{
+		&baremetal.ListVirtualNetworks{
 			VirtualNetworks: []baremetal.VirtualNetwork{
 				baremetal.VirtualNetwork{
 					CidrBlock:             "cidr_block",

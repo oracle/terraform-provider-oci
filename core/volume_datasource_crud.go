@@ -11,7 +11,7 @@ import (
 type VolumeDatasourceCrud struct {
 	D      *schema.ResourceData
 	Client client.BareMetalClient
-	Res    *baremetal.VolumeList
+	Res    *baremetal.ListVolumes
 }
 
 func (s *VolumeDatasourceCrud) Get() (e error) {

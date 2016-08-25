@@ -19,12 +19,12 @@ type VirtualNetwork struct {
 
 // VirtualNetworkList contains a list of virtual networks
 //
-type VirtualNetworkList struct {
+type ListVirtualNetworks struct {
 	ResourceContainer
 	VirtualNetworks []VirtualNetwork
 }
 
-func (l *VirtualNetworkList) GetList() interface{} {
+func (l *ListVirtualNetworks) GetList() interface{} {
 	return &l.VirtualNetworks
 }
 
@@ -102,7 +102,7 @@ func (c *Client) DeleteVirtualNetwork(id string, opts ...Options) (e error) {
 // compartment
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#listVcns
-func (c *Client) ListVirtualNetworks(compartmentID string, opts ...Options) (vcns *VirtualNetworkList, e error) {
+func (c *Client) ListVirtualNetworks(compartmentID string, opts ...Options) (vcns *ListVirtualNetworks, e error) {
 	reqOpts := &sdkRequestOptions{
 		name:    resourceVirtualNetworks,
 		ocid:    compartmentID,
@@ -114,7 +114,7 @@ func (c *Client) ListVirtualNetworks(compartmentID string, opts ...Options) (vcn
 		return
 	}
 
-	vcns = &VirtualNetworkList{}
+	vcns = &ListVirtualNetworks{}
 	e = resp.unmarshal(vcns)
 	return
 }

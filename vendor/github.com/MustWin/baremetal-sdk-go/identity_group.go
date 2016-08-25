@@ -39,7 +39,7 @@ func (c *Client) GetGroup(groupID string) (group *IdentityResource, e error) {
 // ListGroups returns a list of Groups in a tenancy. The request MAY contain optional paging arguments.
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/identity.html#listGroups
-func (c *Client) ListGroups(options ...Options) (response *ListResourceResponse, e error) {
+func (c *Client) ListGroups(options ...Options) (response *ListResourceResponses, e error) {
 	return c.listIdentityResources(resourceGroups, options...)
 }
 

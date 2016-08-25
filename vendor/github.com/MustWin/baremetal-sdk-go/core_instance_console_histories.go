@@ -20,19 +20,19 @@ type ConsoleHistoryMetadata struct {
 }
 
 // InstanceConsoleHistoriesMetadataList contains a list of Console History Metadata
-type InstanceConsoleHistoriesMetadataList struct {
+type ListInstanceConsoleHistoriesMetadatas struct {
 	ResourceContainer
 	InstanceConsoleHistoriesMetadatas []ConsoleHistoryMetadata
 }
 
-func (l *InstanceConsoleHistoriesMetadataList) GetList() interface{} {
+func (l *ListInstanceConsoleHistoriesMetadatas) GetList() interface{} {
 	return &l.InstanceConsoleHistoriesMetadatas
 }
 
 // ListConsoleHistories shows the metadata for the specified compartment or instance
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#listConsoleHistories
-func (c *Client) ListConsoleHistories(compartmentID string, opts ...Options) (icHistories *InstanceConsoleHistoriesMetadataList, e error) {
+func (c *Client) ListConsoleHistories(compartmentID string, opts ...Options) (icHistories *ListInstanceConsoleHistoriesMetadatas, e error) {
 	reqOpts := &sdkRequestOptions{
 		name:    resourceInstanceConsoleHistories,
 		ocid:    compartmentID,
@@ -44,7 +44,7 @@ func (c *Client) ListConsoleHistories(compartmentID string, opts ...Options) (ic
 		return
 	}
 
-	icHistories = &InstanceConsoleHistoriesMetadataList{}
+	icHistories = &ListInstanceConsoleHistoriesMetadatas{}
 	e = resp.unmarshal(icHistories)
 	return
 }

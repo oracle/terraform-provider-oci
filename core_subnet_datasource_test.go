@@ -51,7 +51,7 @@ func (s *ResourceCoreSubnetsTestSuite) TestResourceListSubnets() {
 		"vcnid",
 		opts,
 	).Return(
-		&baremetal.SubnetList{
+		&baremetal.ListSubnets{
 			Subnets: []baremetal.Subnet{
 				baremetal.Subnet{
 					AvailabilityDomain: "availabilitydomainid",

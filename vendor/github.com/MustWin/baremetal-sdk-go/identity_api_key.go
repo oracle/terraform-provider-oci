@@ -23,12 +23,12 @@ type APIKey struct {
 }
 
 // ListAPIKeyResponse contains a list of API keys
-type ListAPIKeyResponse struct {
+type ListAPIKeyResponses struct {
 	ResourceContainer
 	Keys []APIKey
 }
 
-func (l *ListAPIKeyResponse) GetList() interface{} {
+func (l *ListAPIKeyResponses) GetList() interface{} {
 	return &l.Keys
 }
 
@@ -47,7 +47,7 @@ func (c *Client) DeleteAPIKey(userID, fingerprint string, opts ...Options) (e er
 // ListAPIKeys returns information about a user's API keys.
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/identity.html#listApiKeys
-func (c *Client) ListAPIKeys(userID string) (response *ListAPIKeyResponse, e error) {
+func (c *Client) ListAPIKeys(userID string) (response *ListAPIKeyResponses, e error) {
 	reqOpts := &sdkRequestOptions{
 		name: resourceUsers,
 		ids:  urlParts{userID, apiKeys, "/"},
@@ -58,7 +58,7 @@ func (c *Client) ListAPIKeys(userID string) (response *ListAPIKeyResponse, e err
 		return
 	}
 
-	response = &ListAPIKeyResponse{}
+	response = &ListAPIKeyResponses{}
 	e = getResp.unmarshal(response)
 	return
 }

@@ -18,12 +18,12 @@ type DrgAttachment struct {
 
 // DrgAttachmentList contains a list of volume attachments
 //
-type DrgAttachmentList struct {
+type ListDrgAttachments struct {
 	ResourceContainer
 	DrgAttachments []DrgAttachment
 }
 
-func (l *DrgAttachmentList) GetList() interface{} {
+func (l *ListDrgAttachments) GetList() interface{} {
 	return &l.DrgAttachments
 }
 
@@ -94,7 +94,7 @@ func (c *Client) DeleteDrgAttachment(id string, opts ...Options) (e error) {
 // ListDrgAttachments gets a list of the drgs in the specified compartment
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#listDrgAttachments
-func (c *Client) ListDrgAttachments(compartmentID string, opts ...Options) (res *DrgAttachmentList, e error) {
+func (c *Client) ListDrgAttachments(compartmentID string, opts ...Options) (res *ListDrgAttachments, e error) {
 	reqOpts := &sdkRequestOptions{
 		name:    resourceDrgAttachments,
 		ocid:    compartmentID,
@@ -106,7 +106,7 @@ func (c *Client) ListDrgAttachments(compartmentID string, opts ...Options) (res 
 		return
 	}
 
-	res = &DrgAttachmentList{}
+	res = &ListDrgAttachments{}
 	e = resp.unmarshal(res)
 	return
 }

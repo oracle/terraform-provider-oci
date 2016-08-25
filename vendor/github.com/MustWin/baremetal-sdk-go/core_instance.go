@@ -24,12 +24,12 @@ type Instance struct {
 }
 
 // InstanceList contains a list of instances.
-type InstanceList struct {
+type ListInstances struct {
 	ResourceContainer
 	Instances []Instance
 }
 
-func (l *InstanceList) GetList() interface{} {
+func (l *ListInstances) GetList() interface{} {
 	return &l.Instances
 }
 
@@ -152,7 +152,7 @@ func (c *Client) TerminateInstance(instanceID string, opts ...Options) (e error)
 
 // ListInstances returns a list of compute instances hosted in a compartment. AvailabilityDomain
 // may be included in Options to further refine results.
-func (c *Client) ListInstances(compartmentID string, opts ...Options) (insts *InstanceList, e error) {
+func (c *Client) ListInstances(compartmentID string, opts ...Options) (insts *ListInstances, e error) {
 	reqOpts := &sdkRequestOptions{
 		name:    resourceInstances,
 		ocid:    compartmentID,
@@ -164,7 +164,7 @@ func (c *Client) ListInstances(compartmentID string, opts ...Options) (insts *In
 		return
 	}
 
-	insts = &InstanceList{}
+	insts = &ListInstances{}
 	e = resp.unmarshal(insts)
 	return
 }

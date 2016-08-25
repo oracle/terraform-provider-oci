@@ -42,7 +42,7 @@ func (c *Client) GetUser(userID string) (user *IdentityResource, e error) {
 // MAY supply paging options.
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/identity.html#listUsers
-func (c *Client) ListUsers(options ...Options) (response *ListResourceResponse, e error) {
+func (c *Client) ListUsers(options ...Options) (response *ListResourceResponses, e error) {
 	return c.listIdentityResources(resourceUsers, options...)
 }
 

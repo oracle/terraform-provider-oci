@@ -10,19 +10,19 @@ type AvailabilityDomain struct {
 	CompartmentID string `json:"compartmentId"`
 }
 
-type AvailabilityDomainList struct {
+type ListAvailabilityDomains struct {
 	ResourceContainer
 	AvailabilityDomains []AvailabilityDomain
 }
 
-func (l *AvailabilityDomainList) GetList() interface{} {
+func (l *ListAvailabilityDomains) GetList() interface{} {
 	return &l.AvailabilityDomains
 }
 
 // ListAvailablityDomains lists availability domains in a user's root tenancy.
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/identity.html#listAvailabilityDomains
-func (c *Client) ListAvailablityDomains(compartmentID string) (ads *AvailabilityDomainList, e error) {
+func (c *Client) ListAvailablityDomains(compartmentID string) (ads *ListAvailabilityDomains, e error) {
 	reqOpts := &sdkRequestOptions{
 		name: resourceAvailabilityDomains,
 		ocid: compartmentID,
@@ -33,7 +33,7 @@ func (c *Client) ListAvailablityDomains(compartmentID string) (ads *Availability
 		return
 	}
 
-	ads = &AvailabilityDomainList{}
+	ads = &ListAvailabilityDomains{}
 	e = getResp.unmarshal(ads)
 	return
 }

@@ -8,12 +8,12 @@ type Shape struct {
 // can be used to pass as the Page field of CoreOptions in subsequent List calls.
 // In conjunction with Limit is used in paginating result.
 // OPCRequestID is used to identify the request for support issues.
-type ShapeList struct {
+type ListShapes struct {
 	ResourceContainer
 	Shapes []Shape
 }
 
-func (l *ShapeList) GetList() interface{} {
+func (l *ListShapes) GetList() interface{} {
 	return &l.Shapes
 }
 
@@ -23,7 +23,7 @@ func (l *ShapeList) GetList() interface{} {
 // an ImageID.
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#listShapes
-func (c *Client) ListShapes(compartmentID string, options ...Options) (shapes *ShapeList, e error) {
+func (c *Client) ListShapes(compartmentID string, options ...Options) (shapes *ListShapes, e error) {
 	reqOpts := &sdkRequestOptions{
 		name:    resourceShapes,
 		ocid:    compartmentID,
@@ -35,7 +35,7 @@ func (c *Client) ListShapes(compartmentID string, options ...Options) (shapes *S
 		return
 	}
 
-	shapes = &ShapeList{}
+	shapes = &ListShapes{}
 	e = resp.unmarshal(shapes)
 	return
 }

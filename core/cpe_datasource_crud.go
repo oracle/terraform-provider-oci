@@ -11,7 +11,7 @@ import (
 type CPEDatasourceCrud struct {
 	D        *schema.ResourceData
 	Client   client.BareMetalClient
-	Resource *baremetal.CpeList
+	Resource *baremetal.ListCpes
 }
 
 func (s *CPEDatasourceCrud) Get() (e error) {

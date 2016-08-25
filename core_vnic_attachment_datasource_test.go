@@ -59,7 +59,7 @@ func (s *ResourceCoreVnicAttachmentsTestSuite) TestResourceReadCoreVnicAttachmen
 		"compartmentid",
 		opts,
 	).Return(
-		&baremetal.VnicAttachmentList{
+		&baremetal.ListVnicAttachments{
 			Attachments: []baremetal.VnicAttachment{
 				baremetal.VnicAttachment{
 					ID:                 "id1",

@@ -16,12 +16,12 @@ type Drg struct {
 
 // DrgList contains a list of gateways
 //
-type DrgList struct {
+type ListDrgs struct {
 	ResourceContainer
 	Drgs []Drg
 }
 
-func (l *DrgList) GetList() interface{} {
+func (l *ListDrgs) GetList() interface{} {
 	return &l.Drgs
 }
 
@@ -90,7 +90,7 @@ func (c *Client) DeleteDrg(id string, opts ...Options) (e error) {
 // ListDrgs returns a list of gateways for a compartment
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#listDrgs
-func (c *Client) ListDrgs(compartmentID string, opts ...Options) (res *DrgList, e error) {
+func (c *Client) ListDrgs(compartmentID string, opts ...Options) (res *ListDrgs, e error) {
 	reqOpts := &sdkRequestOptions{
 		name:    resourceDrgs,
 		ocid:    compartmentID,
@@ -102,7 +102,7 @@ func (c *Client) ListDrgs(compartmentID string, opts ...Options) (res *DrgList, 
 		return
 	}
 
-	res = &DrgList{}
+	res = &ListDrgs{}
 	e = resp.unmarshal(res)
 	return
 }

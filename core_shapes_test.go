@@ -55,7 +55,7 @@ func (s *ResourceCoreShapeTestSuite) TestResourceReadCoreShape() {
 		"compartmentid",
 		opts,
 	).Return(
-		&baremetal.ShapeList{
+		&baremetal.ListShapes{
 			Shapes: []baremetal.Shape{
 				baremetal.Shape{
 					Name: "shape1",

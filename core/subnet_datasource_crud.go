@@ -11,7 +11,7 @@ import (
 type SubnetDatasourceCrud struct {
 	D      *schema.ResourceData
 	Client client.BareMetalClient
-	Res    *baremetal.SubnetList
+	Res    *baremetal.ListSubnets
 }
 
 func (s *SubnetDatasourceCrud) Get() (e error) {

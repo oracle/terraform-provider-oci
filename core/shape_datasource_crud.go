@@ -11,7 +11,7 @@ import (
 type ShapeDatasourceCrud struct {
 	D      *schema.ResourceData
 	Client client.BareMetalClient
-	Res    *baremetal.ShapeList
+	Res    *baremetal.ListShapes
 }
 
 func (r *ShapeDatasourceCrud) Get() (e error) {

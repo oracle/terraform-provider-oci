@@ -55,7 +55,7 @@ func (s *ResourceCoreDrgsTestSuite) TestReadDrgs() {
 		"compartment_id",
 		opts,
 	).Return(
-		&baremetal.DrgList{
+		&baremetal.ListDrgs{
 			Drgs: []baremetal.Drg{
 				baremetal.Drg{
 					CompartmentID: "compartment_id",

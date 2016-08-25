@@ -21,12 +21,12 @@ type VnicAttachment struct {
 // can be used to pass as the Page field of CoreOptions in subsequent List calls.
 // In conjunction with Limit is used in paginating results.
 // OPCRequestID is used to identify the request for support issues.
-type VnicAttachmentList struct {
+type ListVnicAttachments struct {
 	ResourceContainer
 	Attachments []VnicAttachment
 }
 
-func (l *VnicAttachmentList) GetList() interface{} {
+func (l *ListVnicAttachments) GetList() interface{} {
 	return &l.Attachments
 }
 
@@ -36,7 +36,7 @@ func (l *VnicAttachmentList) GetList() interface{} {
 // be supplied to support pagination.
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#listVnicAttachments
-func (c *Client) ListVnicAttachments(compartmentID string, opts ...Options) (res *VnicAttachmentList, e error) {
+func (c *Client) ListVnicAttachments(compartmentID string, opts ...Options) (res *ListVnicAttachments, e error) {
 	reqOpts := &sdkRequestOptions{
 		name:    resourceVnicAttachments,
 		ocid:    compartmentID,
@@ -48,7 +48,7 @@ func (c *Client) ListVnicAttachments(compartmentID string, opts ...Options) (res
 		return
 	}
 
-	res = &VnicAttachmentList{}
+	res = &ListVnicAttachments{}
 	e = resp.unmarshal(res)
 	return
 }
