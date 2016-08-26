@@ -89,6 +89,7 @@ func dataSourcesMap() map[string]*schema.Resource {
 		"baremetal_core_cpes":               core.CpeDatasource(),
 		"baremetal_core_drg_attachments":    core.DrgAttachmentDatasource(),
 		"baremetal_core_internet_gateways":  core.InternetGatewayDatasource(),
+		"baremetal_core_route_tables":       core.RouteTableDatasource(),
 	}
 }
 
