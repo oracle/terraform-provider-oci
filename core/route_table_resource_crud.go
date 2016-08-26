@@ -43,19 +43,7 @@ func (s *RouteTableResourceCrud) Create() (e error) {
 		DisplayName: s.D.Get("display_name").(string),
 	}
 
-	routeRules := []baremetal.RouteRule{}
-	for _, val := range s.D.Get("route_rules").([]interface{}) {
-		data := val.(map[string]interface{})
-		routeRule := baremetal.RouteRule{
-			CidrBlock:         data["cidr_block"].(string),
-			DisplayName:       data["display_name"].(string),
-			NetworkEntityID:   data["network_entity_id"].(string),
-			NetworkEntityType: baremetal.NetworkEntityType(data["network_entity_type"].(string)),
-		}
-		routeRules = append(routeRules, routeRule)
-	}
-
-	s.Res, e = s.Client.CreateRouteTable(compartmentID, vcnID, routeRules, opts)
+	s.Res, e = s.Client.CreateRouteTable(compartmentID, vcnID, s.buildRouteRules(), opts)
 
 	return
 }
@@ -66,20 +54,7 @@ func (s *RouteTableResourceCrud) Get() (e error) {
 }
 
 func (s *RouteTableResourceCrud) Update() (e error) {
-	routeRules := []baremetal.RouteRule{}
-	for _, val := range s.D.Get("route_rules").([]interface{}) {
-		data := val.(map[string]interface{})
-		routeRule := baremetal.RouteRule{
-			CidrBlock:         data["cidr_block"].(string),
-			DisplayName:       data["display_name"].(string),
-			NetworkEntityID:   data["network_entity_id"].(string),
-			NetworkEntityType: baremetal.NetworkEntityType(data["network_entity_type"].(string)),
-		}
-		routeRules = append(routeRules, routeRule)
-	}
-
-	s.Res, e = s.Client.UpdateRouteTable(s.D.Id(), routeRules)
-
+	s.Res, e = s.Client.UpdateRouteTable(s.D.Id(), s.buildRouteRules())
 	return
 }
 
@@ -107,4 +82,19 @@ func (s *RouteTableResourceCrud) SetData() {
 
 func (s *RouteTableResourceCrud) Delete() (e error) {
 	return s.Client.DeleteRouteTable(s.D.Id())
+}
+
+func (s *RouteTableResourceCrud) buildRouteRules() (routeRules []baremetal.RouteRule) {
+	routeRules = []baremetal.RouteRule{}
+	for _, val := range s.D.Get("route_rules").([]interface{}) {
+		data := val.(map[string]interface{})
+		routeRule := baremetal.RouteRule{
+			CidrBlock:         data["cidr_block"].(string),
+			DisplayName:       data["display_name"].(string),
+			NetworkEntityID:   data["network_entity_id"].(string),
+			NetworkEntityType: baremetal.NetworkEntityType(data["network_entity_type"].(string)),
+		}
+		routeRules = append(routeRules, routeRule)
+	}
+	return
 }
