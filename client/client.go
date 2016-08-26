@@ -79,4 +79,10 @@ type BareMetalClient interface {
 	UpdateInternetGateway(id string, isEnabled bool, opts ...baremetal.Options) (gw *baremetal.InternetGateway, e error)
 	DeleteInternetGateway(id string, opts ...baremetal.Options) (e error)
 	ListInternetGateways(compartmentID, vcnID string, opts ...baremetal.Options) (l *baremetal.ListInternetGateways, e error)
+
+	CreateRouteTable(compartmentID, vcnID string, routeRules []baremetal.RouteRule, opts ...baremetal.Options) (res *baremetal.RouteTable, e error)
+	GetRouteTable(id string, opts ...baremetal.Options) (vol *baremetal.RouteTable, e error)
+	UpdateRouteTable(id string, routeRules []baremetal.RouteRule, opts ...baremetal.Options) (res *baremetal.RouteTable, e error)
+	DeleteRouteTable(id string, opts ...baremetal.Options) (e error)
+	ListRouteTables(compartmentID string, opts ...baremetal.Options) (vols *baremetal.ListRouteTables, e error)
 }

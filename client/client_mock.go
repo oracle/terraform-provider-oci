@@ -365,3 +365,32 @@ func (m *MockClient) ListInternetGateways(compartmentID, vcnID string, opts ...b
 	u, _ := args.Get(0).(*baremetal.ListInternetGateways)
 	return u, args.Error(1)
 }
+
+func (m *MockClient) CreateRouteTable(compartmentID, vcnID string, routeRules []baremetal.RouteRule, opt ...baremetal.Options) (*baremetal.RouteTable, error) {
+	args := m.Called(compartmentID, vcnID, routeRules, opt)
+	u, _ := args.Get(0).(*baremetal.RouteTable)
+	return u, args.Error(1)
+}
+
+func (m *MockClient) GetRouteTable(id string, opt ...baremetal.Options) (*baremetal.RouteTable, error) {
+	args := m.Called(id, opt)
+	u, _ := args.Get(0).(*baremetal.RouteTable)
+	return u, args.Error(1)
+}
+
+func (m *MockClient) UpdateRouteTable(id string, routeRules []baremetal.RouteRule, opt ...baremetal.Options) (*baremetal.RouteTable, error) {
+	args := m.Called(id, routeRules, opt)
+	u, _ := args.Get(0).(*baremetal.RouteTable)
+	return u, args.Error(1)
+}
+
+func (m *MockClient) DeleteRouteTable(id string, opt ...baremetal.Options) error {
+	args := m.Called(id)
+	return args.Error(0)
+}
+
+func (m *MockClient) ListRouteTables(compartmentID string, opt ...baremetal.Options) (*baremetal.ListRouteTables, error) {
+	args := m.Called(compartmentID, opt)
+	u, _ := args.Get(0).(*baremetal.ListRouteTables)
+	return u, args.Error(1)
+}
