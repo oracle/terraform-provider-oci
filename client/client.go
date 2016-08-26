@@ -73,4 +73,10 @@ type BareMetalClient interface {
 	GetDrgAttachment(id string, opts ...baremetal.Options) (vol *baremetal.DrgAttachment, e error)
 	DeleteDrgAttachment(id string, opts ...baremetal.Options) (e error)
 	ListDrgAttachments(compartmentID string, opts ...baremetal.Options) (res *baremetal.ListDrgAttachments, e error)
+
+	CreateInternetGateway(compartmentID, vcnID string, isEnabled bool, opts ...baremetal.Options) (gw *baremetal.InternetGateway, e error)
+	GetInternetGateway(id string) (gw *baremetal.InternetGateway, e error)
+	UpdateInternetGateway(id string, isEnabled bool, opts ...baremetal.Options) (gw *baremetal.InternetGateway, e error)
+	DeleteInternetGateway(id string, opts ...baremetal.Options) (e error)
+	ListInternetGateways(compartmentID, vcnID string, opts ...baremetal.Options) (l *baremetal.ListInternetGateways, e error)
 }

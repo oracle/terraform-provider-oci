@@ -336,3 +336,32 @@ func (m *MockClient) ListDrgAttachments(compartmentID string, opt ...baremetal.O
 	u, _ := args.Get(0).(*baremetal.ListDrgAttachments)
 	return u, args.Error(1)
 }
+
+func (m *MockClient) CreateInternetGateway(compartmentID, vcnID string, isEnabled bool, opts ...baremetal.Options) (gw *baremetal.InternetGateway, e error) {
+	args := m.Called(compartmentID, vcnID, isEnabled, opts)
+	u, _ := args.Get(0).(*baremetal.InternetGateway)
+	return u, args.Error(1)
+}
+
+func (m *MockClient) GetInternetGateway(id string) (gw *baremetal.InternetGateway, e error) {
+	args := m.Called(id)
+	u, _ := args.Get(0).(*baremetal.InternetGateway)
+	return u, args.Error(1)
+}
+
+func (m *MockClient) UpdateInternetGateway(id string, isEnabled bool, opts ...baremetal.Options) (gw *baremetal.InternetGateway, e error) {
+	args := m.Called(id, isEnabled, opts)
+	u, _ := args.Get(0).(*baremetal.InternetGateway)
+	return u, args.Error(1)
+}
+
+func (m *MockClient) DeleteInternetGateway(id string, opts ...baremetal.Options) (e error) {
+	args := m.Called(id, opts)
+	return args.Error(0)
+}
+
+func (m *MockClient) ListInternetGateways(compartmentID, vcnID string, opts ...baremetal.Options) (l *baremetal.ListInternetGateways, e error) {
+	args := m.Called(compartmentID, vcnID, opts)
+	u, _ := args.Get(0).(*baremetal.ListInternetGateways)
+	return u, args.Error(1)
+}
