@@ -10,6 +10,7 @@ type AvailabilityDomain struct {
 	CompartmentID string `json:"compartmentId"`
 }
 
+// ListAvailabilityDomains contains a list AvailabilityDomain
 type ListAvailabilityDomains struct {
 	ResourceContainer
 	AvailabilityDomains []AvailabilityDomain

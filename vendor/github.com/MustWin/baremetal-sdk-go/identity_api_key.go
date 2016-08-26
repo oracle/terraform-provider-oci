@@ -22,7 +22,7 @@ type APIKey struct {
 	State        string    `json:"state"`
 }
 
-// ListAPIKeyResponse contains a list of API keys
+// ListAPIKeyResponses contains a list of API keys
 type ListAPIKeyResponses struct {
 	ResourceContainer
 	Keys []APIKey

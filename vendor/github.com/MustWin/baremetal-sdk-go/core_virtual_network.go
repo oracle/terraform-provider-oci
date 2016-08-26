@@ -17,7 +17,7 @@ type VirtualNetwork struct {
 	TimeCreated           Time   `json:"timeCreated"`
 }
 
-// VirtualNetworkList contains a list of virtual networks
+// ListVirtualNetworks contains a list of virtual networks
 //
 type ListVirtualNetworks struct {
 	ResourceContainer

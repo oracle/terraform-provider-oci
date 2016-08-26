@@ -16,7 +16,7 @@ type Volume struct {
 	TimeCreated        Time   `json:"timeCreated"`
 }
 
-// VolumeList contains a list of block volumes
+// ListVolumes contains a list of block volumes
 //
 type ListVolumes struct {
 	ResourceContainer

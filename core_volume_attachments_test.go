@@ -61,7 +61,7 @@ func (s *ResourceCoreVolumeAttachmentsTestSuite) TestReadVolumeAttachments() {
 		"compartment_id",
 		opts,
 	).Return(
-		&baremetal.VolumeAttachmentList{
+		&baremetal.ListVolumeAttachments{
 			VolumeAttachments: []baremetal.VolumeAttachment{
 				baremetal.VolumeAttachment{
 					AttachmentType:     "attachment_type",

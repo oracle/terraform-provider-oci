@@ -21,7 +21,7 @@ type IdentityResource struct {
 	State         string    `json:"state"`
 }
 
-// ListResponse response for List commands.
+// ListResourceResponses response for List commands.
 type ListResourceResponses struct {
 	ResourceContainer
 	Items []IdentityResource

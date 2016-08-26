@@ -45,7 +45,7 @@ type BareMetalClient interface {
 	AttachVolume(compartmentID, instanceID, attachmentType, volumeID string, opts ...baremetal.Options) (vol *baremetal.VolumeAttachment, e error)
 	GetVolumeAttachment(id string, opts ...baremetal.Options) (vol *baremetal.VolumeAttachment, e error)
 	DetachVolume(id string, opts ...baremetal.Options) (e error)
-	ListVolumeAttachments(compartmentID string, opts ...baremetal.Options) (res *baremetal.VolumeAttachmentList, e error)
+	ListVolumeAttachments(compartmentID string, opts ...baremetal.Options) (res *baremetal.ListVolumeAttachments, e error)
 
 	CreateSubnet(availabilityDomain, cidrBlock, compartmentID, routeTableID, vcnID string, securityListIDs []string, opts ...baremetal.Options) (*baremetal.Subnet, error)
 	GetSubnet(subnetID string) (sn *baremetal.Subnet, e error)

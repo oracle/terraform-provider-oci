@@ -18,14 +18,14 @@ type VolumeAttachment struct {
 	VolumeID           string `json:"volumeId"`
 }
 
-// VolumeAttachmentList contains a list of volume attachments
+// ListVolumeAttachments contains a list of volume attachments
 //
-type VolumeAttachmentList struct {
+type ListVolumeAttachments struct {
 	ResourceContainer
 	VolumeAttachments []VolumeAttachment
 }
 
-func (l *VolumeAttachmentList) GetList() interface{} {
+func (l *ListVolumeAttachments) GetList() interface{} {
 	return &l.VolumeAttachments
 }
 
@@ -101,7 +101,7 @@ func (c *Client) DetachVolume(id string, opts ...Options) (e error) {
 // compartment
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#listVolumeAttachments
-func (c *Client) ListVolumeAttachments(compartmentID string, opts ...Options) (res *VolumeAttachmentList, e error) {
+func (c *Client) ListVolumeAttachments(compartmentID string, opts ...Options) (res *ListVolumeAttachments, e error) {
 	reqOpts := &sdkRequestOptions{
 		name:    resourceVolumeAttachments,
 		ocid:    compartmentID,
@@ -113,7 +113,7 @@ func (c *Client) ListVolumeAttachments(compartmentID string, opts ...Options) (r
 		return
 	}
 
-	res = &VolumeAttachmentList{}
+	res = &ListVolumeAttachments{}
 	e = resp.unmarshal(res)
 	return
 }

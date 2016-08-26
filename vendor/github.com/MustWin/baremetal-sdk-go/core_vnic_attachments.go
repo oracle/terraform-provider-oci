@@ -17,7 +17,7 @@ type VnicAttachment struct {
 	VnicID             string    `json:"vnicId"`
 }
 
-// VnicAttachmentList list of VnicAttachments as well as optional OPCNextPage which
+// ListVnicAttachments list of VnicAttachments as well as optional OPCNextPage which
 // can be used to pass as the Page field of CoreOptions in subsequent List calls.
 // In conjunction with Limit is used in paginating results.
 // OPCRequestID is used to identify the request for support issues.

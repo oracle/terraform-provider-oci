@@ -4,6 +4,7 @@ type resourceName string
 
 type instanceActions string
 type instanceStates string
+type networkEntityType string
 
 const (
 	// Identity States
@@ -64,6 +65,11 @@ const (
 	actionStop  instanceActions = "STOP"
 	actionReset instanceActions = "RESET"
 
+	// Network entity types for routing rules
+	networkEntityVnic                      networkEntityType = "VNIC"
+	networkEntityInternetGateway           networkEntityType = "INTERNET_GATEWAY"
+	networkEntityDynamicallyRoutingGateway networkEntityType = "DYNAMICALLY_ROUTING_GATEWAY"
+
 	// Identity Resources
 	resourceAvailabilityDomains  resourceName = "availabilityDomains"
 	resourceCompartments         resourceName = "compartments"
@@ -86,6 +92,7 @@ const (
 	resourceDrgs                     resourceName = "drgs"
 	resourceDrgAttachments           resourceName = "drgAttachments"
 	resourceInternetGateways         resourceName = "internetGateways"
+	resourceRouteTables              resourceName = "routeTables"
 
 	apiKeys      = "apiKeys"
 	uiPassword   = "uiPassword"

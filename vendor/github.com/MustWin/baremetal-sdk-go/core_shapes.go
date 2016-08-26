@@ -4,7 +4,7 @@ type Shape struct {
 	Name string `json:"shape"`
 }
 
-// ShapeList contains a list of shapes as well as optional OPCNextPage which
+// ListShapes contains a list of shapes as well as optional OPCNextPage which
 // can be used to pass as the Page field of CoreOptions in subsequent List calls.
 // In conjunction with Limit is used in paginating result.
 // OPCRequestID is used to identify the request for support issues.

@@ -24,6 +24,7 @@ type Subnet struct {
 	VirtualRouterMac   string   `json:"virtualRouterMac"`
 }
 
+// ListSubnets contains a list of Subnet
 type ListSubnets struct {
 	ResourceContainer
 	Subnets []Subnet

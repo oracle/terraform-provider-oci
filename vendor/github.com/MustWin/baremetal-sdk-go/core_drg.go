@@ -14,7 +14,7 @@ type Drg struct {
 	TimeCreated   Time   `json:"timeCreated"`
 }
 
-// DrgList contains a list of gateways
+// ListDrgs contains a list of gateways
 //
 type ListDrgs struct {
 	ResourceContainer

@@ -16,7 +16,7 @@ type DrgAttachment struct {
 	VcnID         string `json:"vcnId"`
 }
 
-// DrgAttachmentList contains a list of volume attachments
+// ListDrgAttachments contains a list of volume attachments
 //
 type ListDrgAttachments struct {
 	ResourceContainer

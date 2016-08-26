@@ -23,7 +23,7 @@ type Instance struct {
 	TimeCreated        Time              `json:"timeCreated"`
 }
 
-// InstanceList contains a list of instances.
+// ListInstances contains a list of instances.
 type ListInstances struct {
 	ResourceContainer
 	Instances []Instance
