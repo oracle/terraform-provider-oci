@@ -29,7 +29,7 @@ func RouteTableResource() *schema.Resource {
 			},
 			"route_rules": &schema.Schema{
 				Type:     schema.TypeList,
-				Computed: true,
+				Required: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"cidr_block": &schema.Schema{

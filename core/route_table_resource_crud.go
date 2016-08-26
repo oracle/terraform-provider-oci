@@ -50,7 +50,7 @@ func (s *RouteTableResourceCrud) Create() (e error) {
 			CidrBlock:         data["cidr_block"].(string),
 			DisplayName:       data["display_name"].(string),
 			NetworkEntityID:   data["network_entity_id"].(string),
-			NetworkEntityType: data["network_entity_type"].(baremetal.NetworkEntityType),
+			NetworkEntityType: baremetal.NetworkEntityType(data["network_entity_type"].(string)),
 		}
 		routeRules = append(routeRules, routeRule)
 	}
