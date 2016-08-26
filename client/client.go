@@ -84,5 +84,5 @@ type BareMetalClient interface {
 	GetRouteTable(id string, opts ...baremetal.Options) (vol *baremetal.RouteTable, e error)
 	UpdateRouteTable(id string, routeRules []baremetal.RouteRule, opts ...baremetal.Options) (res *baremetal.RouteTable, e error)
 	DeleteRouteTable(id string, opts ...baremetal.Options) (e error)
-	ListRouteTables(compartmentID string, opts ...baremetal.Options) (vols *baremetal.ListRouteTables, e error)
+	ListRouteTables(compartmentID, vcnID string, opts ...baremetal.Options) (vols *baremetal.ListRouteTables, e error)
 }

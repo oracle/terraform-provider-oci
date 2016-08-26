@@ -389,8 +389,8 @@ func (m *MockClient) DeleteRouteTable(id string, opt ...baremetal.Options) error
 	return args.Error(0)
 }
 
-func (m *MockClient) ListRouteTables(compartmentID string, opt ...baremetal.Options) (*baremetal.ListRouteTables, error) {
-	args := m.Called(compartmentID, opt)
+func (m *MockClient) ListRouteTables(compartmentID, vcnID string, opt ...baremetal.Options) (*baremetal.ListRouteTables, error) {
+	args := m.Called(compartmentID, vcnID, opt)
 	u, _ := args.Get(0).(*baremetal.ListRouteTables)
 	return u, args.Error(1)
 }
