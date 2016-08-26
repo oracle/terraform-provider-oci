@@ -108,6 +108,7 @@ func resourcesMap() map[string]*schema.Resource {
 		"baremetal_core_virtual_network":   core.VirtualNetworkResource(),
 		"baremetal_core_drg_attachment":    core.DrgAttachmentResource(),
 		"baremetal_core_internet_gateway":  core.InternetGatewayResource(),
+		"baremetal_core_route_table":       core.RouteTableResource(),
 	}
 }
 
