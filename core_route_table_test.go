@@ -167,8 +167,9 @@ func (s ResourceCoreRouteTableTestSuite) TestUpdateRouteTable() {
 	res.ETag = "etag"
 	res.RequestID = "opcrequestid"
 
-	s.Client.On("UpdateRouteTable", "id", []baremetal.Options(nil)).Return(res, nil)
-	s.Client.On("GetRouteTable", "id", []baremetal.Options(nil)).Return(res, nil)
+	s.Client.On("UpdateRouteTable", "id", routeRules, []baremetal.Options(nil)).Return(res, nil)
+	s.Client.On("GetRouteTable", "id", []baremetal.Options(nil)).Return(res, nil).Times(2)
+	s.Client.On("GetRouteTable", "id", []baremetal.Options(nil)).Return(s.DeletedRes, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -178,7 +179,7 @@ func (s ResourceCoreRouteTableTestSuite) TestUpdateRouteTable() {
 			},
 			resource.TestStep{
 				Config: config,
-				Check:  resource.TestCheckResourceAttr(s.ResourceName, "route_rules.0.new_cidr_block", "cidr_block"),
+				Check:  resource.TestCheckResourceAttr(s.ResourceName, "route_rules.0.cidr_block", "new_cidr_block"),
 			},
 		},
 	})
