@@ -7,10 +7,10 @@ import (
 
 type RouteRule struct {
 	CidrBlock         string            `json:"cidrBlock"`
-	DisplayName       string            `json:"displayName"`
+	DisplayName       string            `json:"displayName,omitempty"`
 	NetworkEntityID   string            `json:"networkEntityId"`
 	NetworkEntityType networkEntityType `json:"networkEntityType"`
-	TimeCreated       Time              `json:"timeCreated"`
+	TimeCreated       Time              `json:"timeCreated,omitempty"`
 }
 
 // RouteTable describes a route table
@@ -48,7 +48,7 @@ func (c *Client) CreateRouteTable(compartmentID, vcnID string, routeRules []Rout
 
 	body := struct {
 		CompartmentID string      `json:"compartmentId"`
-		DisplayName   string      `json:"displayName"`
+		DisplayName   string      `json:"displayName,omitempty"`
 		RouteRules    []RouteRule `json:"routeRules"`
 		VcnID         string      `json:"vcnId"`
 	}{
