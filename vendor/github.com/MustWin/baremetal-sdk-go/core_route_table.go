@@ -9,7 +9,7 @@ type RouteRule struct {
 	CidrBlock         string            `json:"cidrBlock"`
 	DisplayName       string            `json:"displayName,omitempty"`
 	NetworkEntityID   string            `json:"networkEntityId"`
-	NetworkEntityType networkEntityType `json:"networkEntityType"`
+	NetworkEntityType NetworkEntityType `json:"networkEntityType"`
 	TimeCreated       Time              `json:"timeCreated,omitempty"`
 }
 
