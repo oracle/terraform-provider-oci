@@ -178,9 +178,7 @@ func (s ResourceCoreRouteTableTestSuite) TestUpdateRouteTable() {
 			},
 			resource.TestStep{
 				Config: config,
-				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "route_rules.0.new_cidr_block", "cidr_block"),
-				),
+				Check:  resource.TestCheckResourceAttr(s.ResourceName, "route_rules.0.new_cidr_block", "cidr_block"),
 			},
 		},
 	})
