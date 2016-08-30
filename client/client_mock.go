@@ -366,6 +366,12 @@ func (m *MockClient) ListInternetGateways(compartmentID, vcnID string, opts ...b
 	return u, args.Error(1)
 }
 
+func (m *MockClient) CaptureConsoleHistory(instanceID string, opts ...baremetal.Options) (cch *baremetal.ConsoleHistoryMetadata, e error) {
+	args := m.Called(instanceID)
+	u, _ := args.Get(0).(*baremetal.ConsoleHistoryMetadata)
+	return u, args.Error(1)
+}
+
 func (m *MockClient) CreateRouteTable(compartmentID, vcnID string, routeRules []baremetal.RouteRule, opt ...baremetal.Options) (*baremetal.RouteTable, error) {
 	args := m.Called(compartmentID, vcnID, routeRules, opt)
 	u, _ := args.Get(0).(*baremetal.RouteTable)
@@ -393,4 +399,15 @@ func (m *MockClient) ListRouteTables(compartmentID, vcnID string, opt ...baremet
 	args := m.Called(compartmentID, vcnID, opt)
 	u, _ := args.Get(0).(*baremetal.ListRouteTables)
 	return u, args.Error(1)
+}
+
+func (m *MockClient) GetConsoleHistory(id string, opts ...baremetal.Options) (ch *baremetal.ConsoleHistoryMetadata, e error) {
+	args := m.Called(id, opts)
+	u, _ := args.Get(0).(*baremetal.ConsoleHistoryMetadata)
+	return u, args.Error(1)
+}
+
+func (m *MockClient) DeleteConsoleHistory(id string) (e error) {
+	args := m.Called(id)
+	return args.Error(0)
 }

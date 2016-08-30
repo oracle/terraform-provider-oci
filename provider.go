@@ -95,21 +95,22 @@ func dataSourcesMap() map[string]*schema.Resource {
 
 func resourcesMap() map[string]*schema.Resource {
 	return map[string]*schema.Resource{
-		"baremetal_identity_user":          identity.UserResource(),
-		"baremetal_identity_group":         identity.GroupResource(),
-		"baremetal_identity_policy":        identity.PolicyResource(),
-		"baremetal_identity_compartment":   identity.CompartmentResource(),
-		"baremetal_core_cpe":               core.CpeResource(),
-		"baremetal_core_volume":            core.VolumeResource(),
-		"baremetal_core_instance":          core.InstanceResource(),
-		"baremetal_core_volume_attachment": core.VolumeAttachmentResource(),
-		"baremetal_core_subnet":            core.SubnetResource(),
-		"baremetal_core_ipsec":             core.IPSecResource(),
-		"baremetal_core_drg":               core.DrgResource(),
-		"baremetal_core_virtual_network":   core.VirtualNetworkResource(),
-		"baremetal_core_drg_attachment":    core.DrgAttachmentResource(),
+		"baremetal_identity_user":                   identity.UserResource(),
+		"baremetal_identity_group":                  identity.GroupResource(),
+		"baremetal_identity_policy":                 identity.PolicyResource(),
+		"baremetal_identity_compartment":            identity.CompartmentResource(),
+		"baremetal_core_cpe":                        core.CpeResource(),
+		"baremetal_core_volume":                     core.VolumeResource(),
+		"baremetal_core_instance":                   core.InstanceResource(),
+		"baremetal_core_volume_attachment":          core.VolumeAttachmentResource(),
+		"baremetal_core_subnet":                     core.SubnetResource(),
+		"baremetal_core_ipsec":                      core.IPSecResource(),
+		"baremetal_core_drg":                        core.DrgResource(),
+		"baremetal_core_virtual_network":            core.VirtualNetworkResource(),
+		"baremetal_core_drg_attachment":             core.DrgAttachmentResource(),
 		"baremetal_core_internet_gateway":  core.InternetGatewayResource(),
 		"baremetal_core_route_table":       core.RouteTableResource(),
+		"baremetal_core_instance_console_histories": core.InstanceConsoleHistoriesResource(),
 	}
 }
 
