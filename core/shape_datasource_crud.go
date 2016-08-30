@@ -16,10 +16,24 @@ type ShapeDatasourceCrud struct {
 
 func (r *ShapeDatasourceCrud) Get() (e error) {
 	compartmentID := r.D.Get("compartment_id").(string)
-	opts := getCoreOptionsFromResourceData(r.D, "availability_domain", "image_id")
+	opts := getCoreOptionsFromResourceData(r.D, "availability_domain", "image_id", "page", "limit")
 
-	if r.Res, e = r.Client.ListShapes(compartmentID, opts...); e != nil {
-		return
+	r.Res = &baremetal.ListShapes{
+		Shapes: []baremetal.Shape{},
+	}
+
+	for {
+		var list *baremetal.ListShapes
+		if list, e = r.Client.ListShapes(compartmentID, opts...); e != nil {
+			break
+		}
+
+		r.Res.Shapes = append(r.Res.Shapes, list.Shapes...)
+
+		var hasNextPage bool
+		if opts, hasNextPage = getOptionsWithNextPageID(list.NextPage, opts); !hasNextPage {
+			break
+		}
 	}
 
 	return

@@ -18,8 +18,22 @@ func (s *DrgAttachmentDatasourceCrud) Get() (e error) {
 	compartmentID := s.D.Get("compartment_id").(string)
 	opts := getCoreOptionsFromResourceData(s.D, "limit", "page", "drg_id", "vcn_id")
 
-	if s.Res, e = s.Client.ListDrgAttachments(compartmentID, opts...); e != nil {
-		return
+	s.Res = &baremetal.ListDrgAttachments{
+		DrgAttachments: []baremetal.DrgAttachment{},
+	}
+
+	for {
+		var list *baremetal.ListDrgAttachments
+		if list, e = s.Client.ListDrgAttachments(compartmentID, opts...); e != nil {
+			break
+		}
+
+		s.Res.DrgAttachments = append(s.Res.DrgAttachments, list.DrgAttachments...)
+
+		var hasNextPage bool
+		if opts, hasNextPage = getOptionsWithNextPageID(list.NextPage, opts); !hasNextPage {
+			break
+		}
 	}
 
 	return

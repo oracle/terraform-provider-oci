@@ -106,6 +106,7 @@ func (s *DatasourceCoreIPSecTestSuite) TestResourceListIPConnections() {
 					resource.TestCheckResourceAttr(s.ResourceName, "connections.0.compartment_id", "compartmentid"),
 					resource.TestCheckResourceAttr(s.ResourceName, "connections.0.id", "id1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "connections.1.id", "id2"),
+					resource.TestCheckResourceAttr(s.ResourceName, "connections.#", "2"),
 				),
 			},
 		},
@@ -113,6 +114,133 @@ func (s *DatasourceCoreIPSecTestSuite) TestResourceListIPConnections() {
 	)
 
 	s.Client.AssertCalled(s.T(), "ListIPSecConnections", "compartmentid", opts)
+
+}
+
+func (s *DatasourceCoreIPSecTestSuite) TestResourceListPagedIPConnections() {
+	opts := []baremetal.Options{
+		baremetal.Options{
+			DrgID: "drgid",
+			CpeID: "cpeid",
+		},
+	}
+
+	s.Client.On(
+		"ListIPSecConnections",
+		"compartmentid",
+		opts,
+	).Return(
+		&baremetal.ListIPSecConnections{
+			ResourceContainer: baremetal.ResourceContainer{
+				NextPage: "nextpage",
+			},
+			Connections: []baremetal.IPSecConnection{
+				baremetal.IPSecConnection{
+					CompartmentID: "compartmentid",
+					CpeID:         "cpeid",
+					DisplayName:   "display_name",
+					DrgID:         "drgid",
+					ID:            "id1",
+					State:         baremetal.ResourceUp,
+					StaticRoutes: []string{
+						"route1",
+						"route2",
+					},
+					TimeCreated: baremetal.Time{
+						Time: time.Now(),
+					},
+				},
+				baremetal.IPSecConnection{
+					CompartmentID: "compartmentid",
+					CpeID:         "cpeid",
+					DisplayName:   "display_name",
+					DrgID:         "drgid",
+					ID:            "id2",
+					State:         baremetal.ResourceUp,
+					StaticRoutes: []string{
+						"route1",
+						"route2",
+					},
+					TimeCreated: baremetal.Time{
+						Time: time.Now(),
+					},
+				},
+			},
+		},
+		nil,
+	)
+
+	opts2 := []baremetal.Options{
+		baremetal.Options{
+			DrgID: "drgid",
+			CpeID: "cpeid",
+			Page:  "nextpage",
+		},
+	}
+
+	s.Client.On(
+		"ListIPSecConnections",
+		"compartmentid",
+		opts2,
+	).Return(
+		&baremetal.ListIPSecConnections{
+			Connections: []baremetal.IPSecConnection{
+				baremetal.IPSecConnection{
+					CompartmentID: "compartmentid",
+					CpeID:         "cpeid",
+					DisplayName:   "display_name",
+					DrgID:         "drgid",
+					ID:            "id3",
+					State:         baremetal.ResourceUp,
+					StaticRoutes: []string{
+						"route1",
+						"route2",
+					},
+					TimeCreated: baremetal.Time{
+						Time: time.Now(),
+					},
+				},
+				baremetal.IPSecConnection{
+					CompartmentID: "compartmentid",
+					CpeID:         "cpeid",
+					DisplayName:   "display_name",
+					DrgID:         "drgid",
+					ID:            "id4",
+					State:         baremetal.ResourceUp,
+					StaticRoutes: []string{
+						"route1",
+						"route2",
+					},
+					TimeCreated: baremetal.Time{
+						Time: time.Now(),
+					},
+				},
+			},
+		},
+		nil,
+	)
+
+	resource.UnitTest(s.T(), resource.TestCase{
+		PreventPostDestroyRefresh: true,
+		Providers:                 s.Providers,
+		Steps: []resource.TestStep{
+			resource.TestStep{
+				Config: s.Config,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartmentid"),
+					resource.TestCheckResourceAttr(s.ResourceName, "drg_id", "drgid"),
+					resource.TestCheckResourceAttr(s.ResourceName, "cpe_id", "cpeid"),
+					resource.TestCheckResourceAttr(s.ResourceName, "connections.0.compartment_id", "compartmentid"),
+					resource.TestCheckResourceAttr(s.ResourceName, "connections.0.id", "id1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "connections.3.id", "id4"),
+					resource.TestCheckResourceAttr(s.ResourceName, "connections.#", "4"),
+				),
+			},
+		},
+	},
+	)
+
+	s.Client.AssertCalled(s.T(), "ListIPSecConnections", "compartmentid", opts2)
 
 }
 

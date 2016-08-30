@@ -10,6 +10,26 @@ type resourceProvider interface {
 	GetOk(string) (interface{}, bool)
 }
 
+func getOptionsWithNextPageID(nextPage string, opts []baremetal.Options) (optsWithNextPage []baremetal.Options, hasNextPage bool) {
+	optsWithNextPage = opts
+
+	if nextPage == "" {
+		hasNextPage = false
+	} else {
+		hasNextPage = true
+
+		if len(optsWithNextPage) == 0 {
+			optsWithNextPage = append(optsWithNextPage, baremetal.Options{
+				Page: nextPage,
+			})
+		} else {
+			optsWithNextPage[0].Page = nextPage
+		}
+	}
+
+	return optsWithNextPage, hasNextPage
+}
+
 func getCoreOptionsFromResourceData(resource resourceProvider, keys ...string) (opts []baremetal.Options) {
 	opts = []baremetal.Options{}
 

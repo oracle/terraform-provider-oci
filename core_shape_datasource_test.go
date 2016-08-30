@@ -80,6 +80,7 @@ func (s *ResourceCoreShapeTestSuite) TestResourceReadCoreShape() {
 					resource.TestCheckResourceAttr(s.ResourceName, "image_id", "imageid"),
 					resource.TestCheckResourceAttr(s.ResourceName, "shapes.0.name", "shape1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "shapes.1.name", "shape2"),
+					resource.TestCheckResourceAttr(s.ResourceName, "shapes.#", "2"),
 				),
 			},
 		},
@@ -87,6 +88,84 @@ func (s *ResourceCoreShapeTestSuite) TestResourceReadCoreShape() {
 	)
 
 	s.Client.AssertCalled(s.T(), "ListShapes", "compartmentid", opts)
+
+}
+
+func (s *ResourceCoreShapeTestSuite) TestResourceReadCoreShapeWithPagination() {
+	opts := []baremetal.Options{
+		baremetal.Options{
+			AvailabilityDomain: "availability_domain",
+			ImageID:            "imageid",
+		},
+	}
+
+	s.Client.On(
+		"ListShapes",
+		"compartmentid",
+		opts,
+	).Return(
+		&baremetal.ListShapes{
+			ResourceContainer: baremetal.ResourceContainer{
+				NextPage: "nextpage",
+			},
+			Shapes: []baremetal.Shape{
+				baremetal.Shape{
+					Name: "shape1",
+				},
+				baremetal.Shape{
+					Name: "shape2",
+				},
+			},
+		},
+		nil,
+	)
+
+	opts2 := []baremetal.Options{
+		baremetal.Options{
+			AvailabilityDomain: "availability_domain",
+			ImageID:            "imageid",
+			Page:               "nextpage",
+		},
+	}
+
+	s.Client.On(
+		"ListShapes",
+		"compartmentid",
+		opts2,
+	).Return(
+		&baremetal.ListShapes{
+			Shapes: []baremetal.Shape{
+				baremetal.Shape{
+					Name: "shape3",
+				},
+				baremetal.Shape{
+					Name: "shape4",
+				},
+			},
+		},
+		nil,
+	)
+
+	resource.UnitTest(s.T(), resource.TestCase{
+		PreventPostDestroyRefresh: true,
+		Providers:                 s.Providers,
+		Steps: []resource.TestStep{
+			resource.TestStep{
+				Config: s.Config,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartmentid"),
+					resource.TestCheckResourceAttr(s.ResourceName, "availability_domain", "availability_domain"),
+					resource.TestCheckResourceAttr(s.ResourceName, "image_id", "imageid"),
+					resource.TestCheckResourceAttr(s.ResourceName, "shapes.0.name", "shape1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "shapes.3.name", "shape4"),
+					resource.TestCheckResourceAttr(s.ResourceName, "shapes.#", "4"),
+				),
+			},
+		},
+	},
+	)
+
+	s.Client.AssertCalled(s.T(), "ListShapes", "compartmentid", opts2)
 
 }
 

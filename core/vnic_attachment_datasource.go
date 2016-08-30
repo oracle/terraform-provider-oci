@@ -1,19 +1,10 @@
 package core
 
 import (
-	"time"
-
-	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/client"
 	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/crud"
 	"github.com/hashicorp/terraform/helper/schema"
 )
-
-type VnicAttachmentDatasource struct {
-	resourceData *schema.ResourceData
-	client       client.BareMetalClient
-	response     *baremetal.ListVnicAttachments
-}
 
 func resourceVnicAttachment() *schema.Resource {
 	return &schema.Resource{
@@ -78,6 +69,14 @@ func DatasourceCoreVnicAttachments() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"page": &schema.Schema{
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"limit": &schema.Schema{
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
 			"vnic_attachments": &schema.Schema{
 				Type:     schema.TypeList,
 				Computed: true,
@@ -89,49 +88,10 @@ func DatasourceCoreVnicAttachments() *schema.Resource {
 
 func readVnicAttachments(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	reader := &VnicAttachmentDatasource{
-		resourceData: d,
-		client:       client,
+	reader := &VnicAttachmentDatasourceCrud{
+		D:      d,
+		Client: client,
 	}
 
 	return crud.ReadResource(reader)
-}
-
-func (r *VnicAttachmentDatasource) Get() (e error) {
-	compartmentID := r.resourceData.Get("compartment_id").(string)
-	opts := getCoreOptionsFromResourceData(
-		r.resourceData,
-		"availability_domain",
-		"instance_id",
-		"vnic_id",
-	)
-
-	r.response, e = r.client.ListVnicAttachments(compartmentID, opts...)
-	return
-}
-
-func (r *VnicAttachmentDatasource) SetData() {
-
-	if r.response != nil {
-		r.resourceData.SetId(time.Now().UTC().String())
-		attachments := []map[string]string{}
-
-		for _, att := range r.response.Attachments {
-			attachment := map[string]string{}
-			attachment["id"] = att.ID
-			attachment["display_name"] = att.DisplayName
-			attachment["availability_domain"] = att.AvailabilityDomain
-			attachment["compartment_id"] = att.CompartmentID
-			attachment["instance_id"] = att.InstanceID
-			attachment["state"] = att.State
-			attachment["subnet_id"] = att.SubnetID
-			attachment["time_created"] = att.TimeCreated.Format(time.RFC1123)
-			attachment["vnic_id"] = att.VnicID
-			attachments = append(attachments, attachment)
-		}
-
-		r.resourceData.Set("vnic_attachments", attachments)
-
-	}
-
 }

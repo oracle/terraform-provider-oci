@@ -22,8 +22,22 @@ func (s *DrgDatasourceCrud) Get() (e error) {
 		"page",
 	)
 
-	if s.Res, e = s.Client.ListDrgs(compartmentID, opts...); e != nil {
-		return
+	s.Res = &baremetal.ListDrgs{
+		Drgs: []baremetal.Drg{},
+	}
+
+	for {
+		var list *baremetal.ListDrgs
+		if list, e = s.Client.ListDrgs(compartmentID, opts...); e != nil {
+			break
+		}
+
+		s.Res.Drgs = append(s.Res.Drgs, list.Drgs...)
+
+		var hasNextPage bool
+		if opts, hasNextPage = getOptionsWithNextPageID(list.NextPage, opts); !hasNextPage {
+			break
+		}
 	}
 
 	return

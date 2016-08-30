@@ -25,8 +25,22 @@ func (s *VolumeAttachmentDatasourceCrud) Get() (e error) {
 		"volume_id",
 	)
 
-	if s.Res, e = s.Client.ListVolumeAttachments(compartmentID, opts...); e != nil {
-		return
+	s.Res = &baremetal.ListVolumeAttachments{
+		VolumeAttachments: []baremetal.VolumeAttachment{},
+	}
+
+	for {
+		var list *baremetal.ListVolumeAttachments
+		if list, e = s.Client.ListVolumeAttachments(compartmentID, opts...); e != nil {
+			break
+		}
+
+		s.Res.VolumeAttachments = append(s.Res.VolumeAttachments, list.VolumeAttachments...)
+
+		var hasNextPage bool
+		if opts, hasNextPage = getOptionsWithNextPageID(list.NextPage, opts); !hasNextPage {
+			break
+		}
 	}
 
 	return

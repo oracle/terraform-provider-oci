@@ -13,7 +13,7 @@ import (
 	"github.com/stretchr/testify/suite"
 )
 
-type ResourceCoreVolumesTestSuite struct {
+type ResourceCoreVolumeAttachmentsTestSuite struct {
 	suite.Suite
 	Client       *client.MockClient
 	Config       string
@@ -22,7 +22,7 @@ type ResourceCoreVolumesTestSuite struct {
 	ResourceName string
 }
 
-func (s *ResourceCoreVolumesTestSuite) SetupTest() {
+func (s *ResourceCoreVolumeAttachmentsTestSuite) SetupTest() {
 	s.Client = &client.MockClient{}
 	s.Provider = Provider(func(d *schema.ResourceData) (interface{}, error) {
 		return s.Client, nil
@@ -32,50 +32,58 @@ func (s *ResourceCoreVolumesTestSuite) SetupTest() {
 		"baremetal": s.Provider,
 	}
 	s.Config = `
-    data "baremetal_core_volumes" "t" {
+    data "baremetal_core_volume_attachments" "t" {
       availability_domain = "availability_domain"
       compartment_id = "compartment_id"
       limit = 1
       page = "page"
+      instance_id = "instance_id"
+      volume_id = "volume_id"
     }
   `
 	s.Config += testProviderConfig
-	s.ResourceName = "data.baremetal_core_volumes.t"
+	s.ResourceName = "data.baremetal_core_volume_attachments.t"
 }
 
-func (s *ResourceCoreVolumesTestSuite) TestReadVolumes() {
+func (s *ResourceCoreVolumeAttachmentsTestSuite) TestReadVolumeAttachments() {
 	opts := []baremetal.Options{
 		baremetal.Options{
 			AvailabilityDomain: "availability_domain",
 			Limit:              1,
 			Page:               "page",
+			InstanceID:         "instance_id",
+			VolumeID:           "volume_id",
 		},
 	}
 
 	s.Client.On(
-		"ListVolumes",
+		"ListVolumeAttachments",
 		"compartment_id",
 		opts,
 	).Return(
-		&baremetal.ListVolumes{
-			Volumes: []baremetal.Volume{
-				baremetal.Volume{
+		&baremetal.ListVolumeAttachments{
+			VolumeAttachments: []baremetal.VolumeAttachment{
+				baremetal.VolumeAttachment{
+					AttachmentType:     "attachment_type",
 					AvailabilityDomain: "availability_domain",
 					CompartmentID:      "compartment_id",
 					DisplayName:        "display_name",
 					ID:                 "id1",
-					SizeInMBs:          "size_in_mbs",
-					State:              baremetal.ResourceAvailable,
+					InstanceID:         "instance_id",
+					State:              baremetal.ResourceAttached,
 					TimeCreated:        baremetal.Time{Time: time.Now()},
+					VolumeID:           "volume_id",
 				},
-				baremetal.Volume{
+				baremetal.VolumeAttachment{
+					AttachmentType:     "attachment_type",
 					AvailabilityDomain: "availability_domain",
 					CompartmentID:      "compartment_id",
 					DisplayName:        "display_name",
 					ID:                 "id2",
-					SizeInMBs:          "size_in_mbs",
-					State:              baremetal.ResourceAvailable,
+					InstanceID:         "instance_id",
+					State:              baremetal.ResourceAttached,
 					TimeCreated:        baremetal.Time{Time: time.Now()},
+					VolumeID:           "volume_id",
 				},
 			},
 		},
@@ -93,55 +101,60 @@ func (s *ResourceCoreVolumesTestSuite) TestReadVolumes() {
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartment_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "limit", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "page", "page"),
-					resource.TestCheckResourceAttr(s.ResourceName, "volumes.0.availability_domain", "availability_domain"),
-					resource.TestCheckResourceAttr(s.ResourceName, "volumes.0.id", "id1"),
-					resource.TestCheckResourceAttr(s.ResourceName, "volumes.1.id", "id2"),
-					resource.TestCheckResourceAttr(s.ResourceName, "volumes.#", "2"),
+					resource.TestCheckResourceAttr(s.ResourceName, "volume_attachments.0.availability_domain", "availability_domain"),
+					resource.TestCheckResourceAttr(s.ResourceName, "volume_attachments.0.id", "id1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "volume_attachments.1.id", "id2"),
+					resource.TestCheckResourceAttr(s.ResourceName, "volume_attachments.#", "2"),
 				),
 			},
 		},
 	},
 	)
-
-	s.Client.AssertCalled(s.T(), "ListVolumes", "compartment_id", opts)
+	s.Client.AssertCalled(s.T(), "ListVolumeAttachments", "compartment_id", opts)
 }
 
-func (s *ResourceCoreVolumesTestSuite) TestReadVolumesWithPagination() {
+func (s *ResourceCoreVolumeAttachmentsTestSuite) TestReadVolumeAttachmentsWithPaging() {
 	opts := []baremetal.Options{
 		baremetal.Options{
 			AvailabilityDomain: "availability_domain",
 			Limit:              1,
 			Page:               "page",
+			InstanceID:         "instance_id",
+			VolumeID:           "volume_id",
 		},
 	}
 
 	s.Client.On(
-		"ListVolumes",
+		"ListVolumeAttachments",
 		"compartment_id",
 		opts,
 	).Return(
-		&baremetal.ListVolumes{
+		&baremetal.ListVolumeAttachments{
 			ResourceContainer: baremetal.ResourceContainer{
 				NextPage: "nextpage",
 			},
-			Volumes: []baremetal.Volume{
-				baremetal.Volume{
+			VolumeAttachments: []baremetal.VolumeAttachment{
+				baremetal.VolumeAttachment{
+					AttachmentType:     "attachment_type",
 					AvailabilityDomain: "availability_domain",
 					CompartmentID:      "compartment_id",
 					DisplayName:        "display_name",
 					ID:                 "id1",
-					SizeInMBs:          "size_in_mbs",
-					State:              baremetal.ResourceAvailable,
+					InstanceID:         "instance_id",
+					State:              baremetal.ResourceAttached,
 					TimeCreated:        baremetal.Time{Time: time.Now()},
+					VolumeID:           "volume_id",
 				},
-				baremetal.Volume{
+				baremetal.VolumeAttachment{
+					AttachmentType:     "attachment_type",
 					AvailabilityDomain: "availability_domain",
 					CompartmentID:      "compartment_id",
 					DisplayName:        "display_name",
 					ID:                 "id2",
-					SizeInMBs:          "size_in_mbs",
-					State:              baremetal.ResourceAvailable,
+					InstanceID:         "instance_id",
+					State:              baremetal.ResourceAttached,
 					TimeCreated:        baremetal.Time{Time: time.Now()},
+					VolumeID:           "volume_id",
 				},
 			},
 		},
@@ -153,33 +166,39 @@ func (s *ResourceCoreVolumesTestSuite) TestReadVolumesWithPagination() {
 			AvailabilityDomain: "availability_domain",
 			Limit:              1,
 			Page:               "nextpage",
+			InstanceID:         "instance_id",
+			VolumeID:           "volume_id",
 		},
 	}
 
 	s.Client.On(
-		"ListVolumes",
+		"ListVolumeAttachments",
 		"compartment_id",
 		opts2,
 	).Return(
-		&baremetal.ListVolumes{
-			Volumes: []baremetal.Volume{
-				baremetal.Volume{
+		&baremetal.ListVolumeAttachments{
+			VolumeAttachments: []baremetal.VolumeAttachment{
+				baremetal.VolumeAttachment{
+					AttachmentType:     "attachment_type",
 					AvailabilityDomain: "availability_domain",
 					CompartmentID:      "compartment_id",
 					DisplayName:        "display_name",
 					ID:                 "id3",
-					SizeInMBs:          "size_in_mbs",
-					State:              baremetal.ResourceAvailable,
+					InstanceID:         "instance_id",
+					State:              baremetal.ResourceAttached,
 					TimeCreated:        baremetal.Time{Time: time.Now()},
+					VolumeID:           "volume_id",
 				},
-				baremetal.Volume{
+				baremetal.VolumeAttachment{
+					AttachmentType:     "attachment_type",
 					AvailabilityDomain: "availability_domain",
 					CompartmentID:      "compartment_id",
 					DisplayName:        "display_name",
 					ID:                 "id4",
-					SizeInMBs:          "size_in_mbs",
-					State:              baremetal.ResourceAvailable,
+					InstanceID:         "instance_id",
+					State:              baremetal.ResourceAttached,
 					TimeCreated:        baremetal.Time{Time: time.Now()},
+					VolumeID:           "volume_id",
 				},
 			},
 		},
@@ -195,21 +214,19 @@ func (s *ResourceCoreVolumesTestSuite) TestReadVolumesWithPagination() {
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "availability_domain", "availability_domain"),
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartment_id"),
-					resource.TestCheckResourceAttr(s.ResourceName, "limit", "1"),
-					resource.TestCheckResourceAttr(s.ResourceName, "page", "page"),
-					resource.TestCheckResourceAttr(s.ResourceName, "volumes.0.availability_domain", "availability_domain"),
-					resource.TestCheckResourceAttr(s.ResourceName, "volumes.0.id", "id1"),
-					resource.TestCheckResourceAttr(s.ResourceName, "volumes.3.id", "id4"),
-					resource.TestCheckResourceAttr(s.ResourceName, "volumes.#", "4"),
+					resource.TestCheckResourceAttr(s.ResourceName, "volume_attachments.0.availability_domain", "availability_domain"),
+					resource.TestCheckResourceAttr(s.ResourceName, "volume_attachments.0.id", "id1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "volume_attachments.3.id", "id4"),
+					resource.TestCheckResourceAttr(s.ResourceName, "volume_attachments.#", "4"),
 				),
 			},
 		},
 	},
 	)
 
-	s.Client.AssertCalled(s.T(), "ListVolumes", "compartment_id", opts2)
+	s.Client.AssertCalled(s.T(), "ListVolumeAttachments", "compartment_id", opts2)
 }
 
-func TestResourceCoreVolumesTestSuite(t *testing.T) {
-	suite.Run(t, new(ResourceCoreVolumesTestSuite))
+func TestResourceCoreVolumeAttachmentsTestSuite(t *testing.T) {
+	suite.Run(t, new(ResourceCoreVolumeAttachmentsTestSuite))
 }

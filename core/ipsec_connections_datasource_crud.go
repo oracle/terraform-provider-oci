@@ -16,9 +16,26 @@ type IPSecConnectionsDatasourceCrud struct {
 
 func (s *IPSecConnectionsDatasourceCrud) Get() (e error) {
 	compartmentID := s.D.Get("compartment_id").(string)
-	opts := getCoreOptionsFromResourceData(s.D, "drg_id", "cpe_id")
+	opts := getCoreOptionsFromResourceData(s.D, "drg_id", "cpe_id", "page", "limit")
 
-	s.Resource, e = s.Client.ListIPSecConnections(compartmentID, opts...)
+	s.Resource = &baremetal.ListIPSecConnections{
+		Connections: []baremetal.IPSecConnection{},
+	}
+
+	for {
+		var list *baremetal.ListIPSecConnections
+		if list, e = s.Client.ListIPSecConnections(compartmentID, opts...); e != nil {
+			break
+		}
+
+		s.Resource.Connections = append(s.Resource.Connections, list.Connections...)
+
+		var hasNextPage bool
+		if opts, hasNextPage = getOptionsWithNextPageID(list.NextPage, opts); !hasNextPage {
+			break
+		}
+	}
+
 	return
 
 }

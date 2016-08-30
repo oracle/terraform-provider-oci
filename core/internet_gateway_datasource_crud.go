@@ -19,7 +19,25 @@ func (s *InternetGatewayDatasourceCrud) Get() (e error) {
 	vcnID := s.D.Get("vcn_id").(string)
 	opts := getCoreOptionsFromResourceData(s.D, "page", "limit")
 
-	s.Resource, e = s.Client.ListInternetGateways(compartmentID, vcnID, opts...)
+	s.Resource = &baremetal.ListInternetGateways{
+		Gateways: []baremetal.InternetGateway{},
+	}
+
+	for {
+		var list *baremetal.ListInternetGateways
+		if list, e = s.Client.ListInternetGateways(compartmentID, vcnID, opts...); e != nil {
+			break
+		}
+
+		s.Resource.Gateways = append(s.Resource.Gateways, list.Gateways...)
+
+		var hasNextPage bool
+		if opts, hasNextPage = getOptionsWithNextPageID(list.NextPage, opts); !hasNextPage {
+			break
+		}
+
+	}
+
 	return
 
 }

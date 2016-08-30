@@ -23,7 +23,24 @@ func (s *InstanceDatasourceCrud) Get() (e error) {
 		"limit",
 	)
 
-	s.Res, e = s.Client.ListInstances(compartmentID, opts...)
+	s.Res = &baremetal.ListInstances{
+		Instances: []baremetal.Instance{},
+	}
+
+	for {
+		var list *baremetal.ListInstances
+		if list, e = s.Client.ListInstances(compartmentID, opts...); e != nil {
+			break
+		}
+
+		s.Res.Instances = append(s.Res.Instances, list.Instances...)
+
+		var hasNextPage bool
+		if opts, hasNextPage = getOptionsWithNextPageID(list.NextPage, opts); !hasNextPage {
+			break
+		}
+	}
+
 	return
 
 }

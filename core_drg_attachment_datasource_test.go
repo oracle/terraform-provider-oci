@@ -97,13 +97,117 @@ func (s *CoreDrgAttachmentDatasourceTestSuite) TestReadDrgAttachments() {
 					resource.TestCheckResourceAttr(s.ResourceName, "drg_attachments.0.compartment_id", "compartment_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "drg_attachments.0.id", "id1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "drg_attachments.1.id", "id2"),
+					resource.TestCheckResourceAttr(s.ResourceName, "drg_attachments.#", "2"),
+				),
+			},
+		},
+	},
+	)
+}
+
+func (s *CoreDrgAttachmentDatasourceTestSuite) TestReadPagedDrgAttachments() {
+	opts := []baremetal.Options{
+		baremetal.Options{
+			DrgID: "drg_id",
+			Limit: 1,
+			Page:  "page",
+			VcnID: "vcn_id",
+		},
+	}
+
+	s.Client.On(
+		"ListDrgAttachments",
+		"compartment_id",
+		opts,
+	).Return(
+		&baremetal.ListDrgAttachments{
+			ResourceContainer: baremetal.ResourceContainer{
+				NextPage: "nextpage",
+			},
+			DrgAttachments: []baremetal.DrgAttachment{
+				baremetal.DrgAttachment{
+					CompartmentID: "compartment_id",
+					DrgID:         "drg_id",
+					DisplayName:   "display_name",
+					ID:            "id1",
+					State:         baremetal.ResourceAttached,
+					TimeCreated:   baremetal.Time{Time: time.Now()},
+					VcnID:         "vcn_id",
+				},
+				baremetal.DrgAttachment{
+					CompartmentID: "compartment_id",
+					DrgID:         "drg_id",
+					DisplayName:   "display_name",
+					ID:            "id2",
+					State:         baremetal.ResourceAttached,
+					TimeCreated:   baremetal.Time{Time: time.Now()},
+					VcnID:         "vcn_id",
+				},
+			},
+		},
+		nil,
+	)
+
+	opts2 := []baremetal.Options{
+		baremetal.Options{
+			DrgID: "drg_id",
+			Limit: 1,
+			Page:  "nextpage",
+			VcnID: "vcn_id",
+		},
+	}
+
+	s.Client.On(
+		"ListDrgAttachments",
+		"compartment_id",
+		opts2,
+	).Return(
+		&baremetal.ListDrgAttachments{
+			DrgAttachments: []baremetal.DrgAttachment{
+				baremetal.DrgAttachment{
+					CompartmentID: "compartment_id",
+					DrgID:         "drg_id",
+					DisplayName:   "display_name",
+					ID:            "id3",
+					State:         baremetal.ResourceAttached,
+					TimeCreated:   baremetal.Time{Time: time.Now()},
+					VcnID:         "vcn_id",
+				},
+				baremetal.DrgAttachment{
+					CompartmentID: "compartment_id",
+					DrgID:         "drg_id",
+					DisplayName:   "display_name",
+					ID:            "id4",
+					State:         baremetal.ResourceAttached,
+					TimeCreated:   baremetal.Time{Time: time.Now()},
+					VcnID:         "vcn_id",
+				},
+			},
+		},
+		nil,
+	)
+
+	resource.UnitTest(s.T(), resource.TestCase{
+		PreventPostDestroyRefresh: true,
+		Providers:                 s.Providers,
+		Steps: []resource.TestStep{
+			resource.TestStep{
+				Config: s.Config,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartment_id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "limit", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "page", "page"),
+					resource.TestCheckResourceAttr(s.ResourceName, "drg_attachments.0.compartment_id", "compartment_id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "drg_attachments.0.id", "id1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "drg_attachments.1.id", "id2"),
+					resource.TestCheckResourceAttr(s.ResourceName, "drg_attachments.#", "4"),
 				),
 			},
 		},
 	},
 	)
 
-	s.Client.AssertCalled(s.T(), "ListDrgAttachments", "compartment_id", opts)
+	s.Client.AssertCalled(s.T(), "ListDrgAttachments", "compartment_id", opts2)
 }
 
 func TestCoreDrgAttachmentDatasourceTestSuite(t *testing.T) {

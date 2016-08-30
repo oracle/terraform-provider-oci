@@ -42,7 +42,7 @@ func (s *CoreInternetGatewayDatasourceTestSuite) SetupTest() {
 
 }
 
-func (s *CoreInternetGatewayDatasourceTestSuite) TestResourceListIPConnections() {
+func (s *CoreInternetGatewayDatasourceTestSuite) TestResourceListInternetGateways() {
 
 	s.Client.On(
 		"ListInternetGateways",
@@ -93,6 +93,7 @@ func (s *CoreInternetGatewayDatasourceTestSuite) TestResourceListIPConnections()
 					resource.TestCheckResourceAttr(s.ResourceName, "gateways.0.compartment_id", "compartmentid"),
 					resource.TestCheckResourceAttr(s.ResourceName, "gateways.0.id", "id1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "gateways.1.id", "id2"),
+					resource.TestCheckResourceAttr(s.ResourceName, "gateways.#", "2"),
 				),
 			},
 		},
@@ -100,6 +101,109 @@ func (s *CoreInternetGatewayDatasourceTestSuite) TestResourceListIPConnections()
 	)
 
 	s.Client.AssertCalled(s.T(), "ListInternetGateways", "compartmentid", "vcnid", []baremetal.Options{})
+
+}
+
+func (s *CoreInternetGatewayDatasourceTestSuite) TestResourceListInternetGatewaysPaged() {
+
+	s.Client.On(
+		"ListInternetGateways",
+		"compartmentid",
+		"vcnid",
+		[]baremetal.Options{},
+	).Return(
+		&baremetal.ListInternetGateways{
+			ResourceContainer: baremetal.ResourceContainer{
+				NextPage: "nextpage",
+			},
+			Gateways: []baremetal.InternetGateway{
+				baremetal.InternetGateway{
+					CompartmentID: "compartmentid",
+					DisplayName:   "display_name",
+					ID:            "id1",
+					State:         baremetal.ResourceAvailable,
+					TimeCreated: baremetal.Time{
+						Time: time.Now(),
+					},
+					ModifiedTime: baremetal.Time{
+						Time: time.Now(),
+					},
+				},
+				baremetal.InternetGateway{
+					CompartmentID: "compartmentid",
+					DisplayName:   "display_name",
+					ID:            "id2",
+					State:         baremetal.ResourceAvailable,
+					TimeCreated: baremetal.Time{
+						Time: time.Now(),
+					},
+					ModifiedTime: baremetal.Time{
+						Time: time.Now(),
+					},
+				},
+			},
+		},
+		nil,
+	)
+
+	s.Client.On(
+		"ListInternetGateways",
+		"compartmentid",
+		"vcnid",
+		[]baremetal.Options{baremetal.Options{Page: "nextpage"}},
+	).Return(
+		&baremetal.ListInternetGateways{
+			Gateways: []baremetal.InternetGateway{
+				baremetal.InternetGateway{
+					CompartmentID: "compartmentid",
+					DisplayName:   "display_name",
+					ID:            "id3",
+					State:         baremetal.ResourceAvailable,
+					TimeCreated: baremetal.Time{
+						Time: time.Now(),
+					},
+					ModifiedTime: baremetal.Time{
+						Time: time.Now(),
+					},
+				},
+				baremetal.InternetGateway{
+					CompartmentID: "compartmentid",
+					DisplayName:   "display_name",
+					ID:            "id4",
+					State:         baremetal.ResourceAvailable,
+					TimeCreated: baremetal.Time{
+						Time: time.Now(),
+					},
+					ModifiedTime: baremetal.Time{
+						Time: time.Now(),
+					},
+				},
+			},
+		},
+		nil,
+	)
+
+	resource.UnitTest(s.T(), resource.TestCase{
+		PreventPostDestroyRefresh: true,
+		Providers:                 s.Providers,
+		Steps: []resource.TestStep{
+			resource.TestStep{
+				Config: s.Config,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartmentid"),
+					resource.TestCheckResourceAttr(s.ResourceName, "vcn_id", "vcnid"),
+					resource.TestCheckResourceAttr(s.ResourceName, "gateways.0.compartment_id", "compartmentid"),
+					resource.TestCheckResourceAttr(s.ResourceName, "gateways.0.id", "id1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "gateways.3.id", "id4"),
+					resource.TestCheckResourceAttr(s.ResourceName, "gateways.#", "4"),
+				),
+			},
+		},
+	},
+	)
+
+	s.Client.AssertCalled(s.T(), "ListInternetGateways", "compartmentid", "vcnid",
+		[]baremetal.Options{baremetal.Options{Page: "nextpage"}})
 
 }
 

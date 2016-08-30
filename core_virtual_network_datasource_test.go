@@ -95,6 +95,7 @@ func (s *ResourceCoreVirtualNetworksTestSuite) TestReadVirtualNetworks() {
 					resource.TestCheckResourceAttr(s.ResourceName, "virtual_networks.0.cidr_block", "cidr_block"),
 					resource.TestCheckResourceAttr(s.ResourceName, "virtual_networks.0.id", "id1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "virtual_networks.1.id", "id2"),
+					resource.TestCheckResourceAttr(s.ResourceName, "virtual_networks.#", "2"),
 				),
 			},
 		},
@@ -102,6 +103,111 @@ func (s *ResourceCoreVirtualNetworksTestSuite) TestReadVirtualNetworks() {
 	)
 
 	s.Client.AssertCalled(s.T(), "ListVirtualNetworks", "compartment_id", opts)
+}
+
+func (s *ResourceCoreVirtualNetworksTestSuite) TestReadVirtualNetworksWithPaging() {
+	opts := []baremetal.Options{
+		baremetal.Options{
+			Limit: 1,
+			Page:  "page",
+		},
+	}
+
+	s.Client.On(
+		"ListVirtualNetworks",
+		"compartment_id",
+		opts,
+	).Return(
+		&baremetal.ListVirtualNetworks{
+			ResourceContainer: baremetal.ResourceContainer{
+				NextPage: "nextpage",
+			},
+			VirtualNetworks: []baremetal.VirtualNetwork{
+				baremetal.VirtualNetwork{
+					CidrBlock:             "cidr_block",
+					CompartmentID:         "compartment_id",
+					DefaultRoutingTableID: "default_routing_table_id",
+					DefaultSecurityListID: "default_security_list_id",
+					DisplayName:           "display_name",
+					ID:                    "id1",
+					State:                 baremetal.ResourceAttached,
+					TimeCreated:           baremetal.Time{Time: time.Now()},
+				},
+				baremetal.VirtualNetwork{
+					CidrBlock:             "cidr_block",
+					CompartmentID:         "compartment_id",
+					DefaultRoutingTableID: "default_routing_table_id",
+					DefaultSecurityListID: "default_security_list_id",
+					DisplayName:           "display_name",
+					ID:                    "id2",
+					State:                 baremetal.ResourceAttached,
+					TimeCreated:           baremetal.Time{Time: time.Now()},
+				},
+			},
+		},
+		nil,
+	)
+
+	opts2 := []baremetal.Options{
+		baremetal.Options{
+			Limit: 1,
+			Page:  "nextpage",
+		},
+	}
+
+	s.Client.On(
+		"ListVirtualNetworks",
+		"compartment_id",
+		opts2,
+	).Return(
+		&baremetal.ListVirtualNetworks{
+			VirtualNetworks: []baremetal.VirtualNetwork{
+				baremetal.VirtualNetwork{
+					CidrBlock:             "cidr_block",
+					CompartmentID:         "compartment_id",
+					DefaultRoutingTableID: "default_routing_table_id",
+					DefaultSecurityListID: "default_security_list_id",
+					DisplayName:           "display_name",
+					ID:                    "id3",
+					State:                 baremetal.ResourceAttached,
+					TimeCreated:           baremetal.Time{Time: time.Now()},
+				},
+				baremetal.VirtualNetwork{
+					CidrBlock:             "cidr_block",
+					CompartmentID:         "compartment_id",
+					DefaultRoutingTableID: "default_routing_table_id",
+					DefaultSecurityListID: "default_security_list_id",
+					DisplayName:           "display_name",
+					ID:                    "id4",
+					State:                 baremetal.ResourceAttached,
+					TimeCreated:           baremetal.Time{Time: time.Now()},
+				},
+			},
+		},
+		nil,
+	)
+
+	resource.UnitTest(s.T(), resource.TestCase{
+		PreventPostDestroyRefresh: true,
+		Providers:                 s.Providers,
+		Steps: []resource.TestStep{
+			resource.TestStep{
+				Config: s.Config,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartment_id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "limit", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "page", "page"),
+					resource.TestCheckResourceAttr(s.ResourceName, "virtual_networks.0.cidr_block", "cidr_block"),
+					resource.TestCheckResourceAttr(s.ResourceName, "virtual_networks.0.id", "id1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "virtual_networks.3.id", "id4"),
+					resource.TestCheckResourceAttr(s.ResourceName, "virtual_networks.#", "4"),
+				),
+			},
+		},
+	},
+	)
+
+	s.Client.AssertCalled(s.T(), "ListVirtualNetworks", "compartment_id", opts2)
 }
 
 func TestResourceCoreVirtualNetworksTestSuite(t *testing.T) {

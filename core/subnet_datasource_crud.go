@@ -24,7 +24,24 @@ func (s *SubnetDatasourceCrud) Get() (e error) {
 		"limit",
 	)
 
-	s.Res, e = s.Client.ListSubnets(compartmentID, vcnID, opts...)
+	s.Res = &baremetal.ListSubnets{
+		Subnets: []baremetal.Subnet{},
+	}
+
+	for {
+		var list *baremetal.ListSubnets
+		if list, e = s.Client.ListSubnets(compartmentID, vcnID, opts...); e != nil {
+			break
+		}
+
+		s.Res.Subnets = append(s.Res.Subnets, list.Subnets...)
+
+		var hasNexPage bool
+		if opts, hasNexPage = getOptionsWithNextPageID(list.NextPage, opts); !hasNexPage {
+			break
+		}
+	}
+
 	return
 
 }

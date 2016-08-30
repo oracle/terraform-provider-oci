@@ -89,6 +89,7 @@ func (s *ResourceCoreDrgsTestSuite) TestReadDrgs() {
 					resource.TestCheckResourceAttr(s.ResourceName, "drgs.0.compartment_id", "compartment_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "drgs.0.id", "id1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "drgs.1.id", "id2"),
+					resource.TestCheckResourceAttr(s.ResourceName, "drgs.#", "2"),
 				),
 			},
 		},
@@ -96,6 +97,97 @@ func (s *ResourceCoreDrgsTestSuite) TestReadDrgs() {
 	)
 
 	s.Client.AssertCalled(s.T(), "ListDrgs", "compartment_id", opts)
+}
+
+func (s *ResourceCoreDrgsTestSuite) TestReadDrgsPaged() {
+	opts := []baremetal.Options{
+		baremetal.Options{
+			Limit: 1,
+			Page:  "page",
+		},
+	}
+
+	s.Client.On(
+		"ListDrgs",
+		"compartment_id",
+		opts,
+	).Return(
+		&baremetal.ListDrgs{
+			ResourceContainer: baremetal.ResourceContainer{
+				NextPage: "nextpage",
+			},
+			Drgs: []baremetal.Drg{
+				baremetal.Drg{
+					CompartmentID: "compartment_id",
+					DisplayName:   "display_name",
+					ID:            "id1",
+					State:         baremetal.ResourceAttached,
+					TimeCreated:   baremetal.Time{Time: time.Now()},
+				},
+				baremetal.Drg{
+					CompartmentID: "compartment_id",
+					DisplayName:   "display_name",
+					ID:            "id2",
+					State:         baremetal.ResourceAttached,
+					TimeCreated:   baremetal.Time{Time: time.Now()},
+				},
+			},
+		},
+		nil,
+	)
+
+	opts2 := []baremetal.Options{baremetal.Options{Page: "nextpage", Limit: 1}}
+
+	s.Client.On(
+		"ListDrgs",
+		"compartment_id",
+		opts2,
+	).Return(
+		&baremetal.ListDrgs{
+			Drgs: []baremetal.Drg{
+				baremetal.Drg{
+					CompartmentID: "compartment_id",
+					DisplayName:   "display_name",
+					ID:            "id3",
+					State:         baremetal.ResourceAttached,
+					TimeCreated:   baremetal.Time{Time: time.Now()},
+				},
+				baremetal.Drg{
+					CompartmentID: "compartment_id",
+					DisplayName:   "display_name",
+					ID:            "id4",
+					State:         baremetal.ResourceAttached,
+					TimeCreated:   baremetal.Time{Time: time.Now()},
+				},
+			},
+		},
+		nil,
+	)
+
+	resource.UnitTest(s.T(), resource.TestCase{
+		PreventPostDestroyRefresh: true,
+		Providers:                 s.Providers,
+		Steps: []resource.TestStep{
+			resource.TestStep{
+				Config: s.Config,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartment_id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "limit", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "page", "page"),
+					resource.TestCheckResourceAttr(s.ResourceName, "drgs.0.compartment_id", "compartment_id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "drgs.0.id", "id1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "drgs.1.id", "id2"),
+					resource.TestCheckResourceAttr(s.ResourceName, "drgs.#", "4"),
+					resource.TestCheckResourceAttr(s.ResourceName, "drgs.2.id", "id3"),
+					resource.TestCheckResourceAttr(s.ResourceName, "drgs.3.id", "id4"),
+				),
+			},
+		},
+	},
+	)
+
+	s.Client.AssertCalled(s.T(), "ListDrgs", "compartment_id", opts2)
+
 }
 
 func TestResourceCoreDrgsTestSuite(t *testing.T) {

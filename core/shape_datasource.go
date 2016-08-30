@@ -34,6 +34,14 @@ func ShapeDatasource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"page": &schema.Schema{
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"limit": &schema.Schema{
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
 		},
 	}
 }

@@ -19,7 +19,24 @@ func (s *RouteTableDatasourceCrud) Get() (e error) {
 	vcnID := s.D.Get("vcn_id").(string)
 	opts := getCoreOptionsFromResourceData(s.D, "page", "limit")
 
-	s.Res, e = s.Client.ListRouteTables(compartmentID, vcnID, opts...)
+	s.Res = &baremetal.ListRouteTables{
+		RouteTables: []baremetal.RouteTable{},
+	}
+
+	for {
+		var list *baremetal.ListRouteTables
+		if list, e = s.Client.ListRouteTables(compartmentID, vcnID, opts...); e != nil {
+			break
+		}
+
+		s.Res.RouteTables = append(s.Res.RouteTables, list.RouteTables...)
+
+		var hasNextPage bool
+		if opts, hasNextPage = getOptionsWithNextPageID(list.NextPage, opts); !hasNextPage {
+			break
+		}
+	}
+
 	return
 }
 

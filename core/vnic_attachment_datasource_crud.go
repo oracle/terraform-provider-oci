@@ -18,12 +18,32 @@ func (r *VnicAttachmentDatasourceCrud) Get() (e error) {
 	compartmentID := r.D.Get("compartment_id").(string)
 	opts := getCoreOptionsFromResourceData(
 		r.D,
-		"availability_doresource",
+		"availability_domain",
 		"instance_id",
 		"vnic_id",
+		"page",
+		"limit",
 	)
 
-	r.Res, e = r.Client.ListVnicAttachments(compartmentID, opts...)
+	r.Res = &baremetal.ListVnicAttachments{
+		Attachments: []baremetal.VnicAttachment{},
+	}
+
+	for {
+		var list *baremetal.ListVnicAttachments
+		if list, e = r.Client.ListVnicAttachments(compartmentID, opts...); e != nil {
+			break
+		}
+
+		r.Res.Attachments = append(r.Res.Attachments, list.Attachments...)
+
+		var hasNextPage bool
+		if opts, hasNextPage = getOptionsWithNextPageID(list.NextPage, opts); !hasNextPage {
+			break
+		}
+
+	}
+
 	return
 }
 
@@ -37,7 +57,7 @@ func (r *VnicAttachmentDatasourceCrud) SetData() {
 			attachment := map[string]string{}
 			attachment["id"] = att.ID
 			attachment["display_name"] = att.DisplayName
-			attachment["availability_doresource"] = att.AvailabilityDomain
+			attachment["availability_domain"] = att.AvailabilityDomain
 			attachment["compartment_id"] = att.CompartmentID
 			attachment["instance_id"] = att.InstanceID
 			attachment["state"] = att.State
