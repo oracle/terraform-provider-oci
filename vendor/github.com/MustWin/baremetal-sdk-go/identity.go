@@ -18,7 +18,7 @@ type IdentityResource struct {
 	Description   string    `json:"description"`
 	TimeCreated   time.Time `json:"timeCreated"`
 	TimeModified  time.Time `json:"timeModified"`
-	State         string    `json:"state"`
+	State         string    `json:"lifecycleState"`
 }
 
 // ListResourceResponses response for List commands.
@@ -34,7 +34,7 @@ func (l *ListResourceResponses) GetList() interface{} {
 // Error is returned from unsuccessful API calls. The OPCRequestID if present
 // is used to reference the failing requests for support.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/identity.html#Error
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/identity/20160918/ErrorSchema/
 type Error struct {
 	Code         string `json:"code"`
 	Message      string `json:"message"`

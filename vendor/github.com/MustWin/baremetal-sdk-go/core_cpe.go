@@ -4,7 +4,7 @@ import "net/http"
 
 // Cpe describes customer premise equipment
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#Cpe
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Cpe/
 type Cpe struct {
 	ETaggedResource
 	ID            string `json:"id"`
@@ -33,7 +33,7 @@ type CreateCpeRequest struct {
 
 // ListCpes returns a list of customer premise equipment for a particular compartment
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#listCpes
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Cpe/ListCpes
 func (c *Client) ListCpes(compartmentID string, opts ...Options) (cpes *ListCpes, e error) {
 	reqOpts := &sdkRequestOptions{
 		name:    resourceCustomerPremiseEquipment,
@@ -54,7 +54,7 @@ func (c *Client) ListCpes(compartmentID string, opts ...Options) (cpes *ListCpes
 // CreateCpe is used to define customer premise equipment such as routers
 // in the Bare Metal cloud
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#createCpe
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Cpe/CreateCpe
 func (c *Client) CreateCpe(compartmentID, IPAddress string, opts ...Options) (cpe *Cpe, e error) {
 	createRequest := CreateCpeRequest{
 		CompartmentID: compartmentID,
@@ -83,7 +83,7 @@ func (c *Client) CreateCpe(compartmentID, IPAddress string, opts ...Options) (cp
 
 // GetCpe retrieves information on a customer premise equipment resource.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#getCpe
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Cpe/GetCpe
 func (c *Client) GetCpe(id string, opts ...Options) (cpe *Cpe, e error) {
 	reqOpts := &sdkRequestOptions{
 		name:    resourceCustomerPremiseEquipment,
@@ -102,7 +102,7 @@ func (c *Client) GetCpe(id string, opts ...Options) (cpe *Cpe, e error) {
 
 // DeleteCpe removes customer premise equipment resource
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#deleteCpe
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Cpe/DeleteCpe
 func (c *Client) DeleteCpe(id string, opts ...Options) (e error) {
 	reqOpts := &sdkRequestOptions{
 		name:    resourceCustomerPremiseEquipment,

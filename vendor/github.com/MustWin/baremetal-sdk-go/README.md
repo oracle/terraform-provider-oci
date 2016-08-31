@@ -14,7 +14,7 @@ handling has been omitted to add clarity. See [API Docs](https://docs.us-az-phoe
 import (
   "fmt"  
   "crypto/rsa"
-  "github.com/mustwin/baremetal-sdk-go"
+  "github.com/MustWin/baremetal-sdk-go"
 )
 
 func main() {

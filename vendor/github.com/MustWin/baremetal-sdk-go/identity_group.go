@@ -4,7 +4,7 @@ package baremetal
 // unique. groupDescription is optional. You MAY supply one option with an
 // idempotency token.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/identity.html#createGroup
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/identity/20160918/Group/CreateGroup
 func (c *Client) CreateGroup(groupName, groupDescription string, options ...Options) (response *IdentityResource, e error) {
 	body := CreateIdentityResourceRequest{
 		CompartmentID: c.authInfo.tenancyOCID,
@@ -18,7 +18,7 @@ func (c *Client) CreateGroup(groupName, groupDescription string, options ...Opti
 // DeleteGroup removes a group identified by groupID. Optionally pass an
 // etag for optmistic concurrency control.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/identity.html#deleteGroup
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/identity/20160918/Group/DeleteGroup
 func (c *Client) DeleteGroup(groupID string, opts ...Options) (e error) {
 	reqOpts := &sdkRequestOptions{
 		name:    resourceGroups,
@@ -30,7 +30,7 @@ func (c *Client) DeleteGroup(groupID string, opts ...Options) (e error) {
 
 // GetGroup returns a group identified by groupID.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/identity.html#getGroup
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/identity/20160918/Group/GetGroup
 func (c *Client) GetGroup(groupID string) (group *IdentityResource, e error) {
 	group, e = c.getIdentityResource(resourceGroups, groupID)
 	return
@@ -38,14 +38,14 @@ func (c *Client) GetGroup(groupID string) (group *IdentityResource, e error) {
 
 // ListGroups returns a list of Groups in a tenancy. The request MAY contain optional paging arguments.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/identity.html#listGroups
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/identity/20160918/Group/ListGroups
 func (c *Client) ListGroups(options ...Options) (response *ListResourceResponses, e error) {
 	return c.listIdentityResources(resourceGroups, options...)
 }
 
 // UpdateGroup updates the description of a group.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/identity.html#updateGroup
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/identity/20160918/Group/UpdateGroup
 func (c *Client) UpdateGroup(groupID, description string, options ...Options) (group *IdentityResource, e error) {
 	body := UpdateIdentityResourceRequest{
 		Description: description,

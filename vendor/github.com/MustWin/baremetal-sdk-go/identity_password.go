@@ -11,20 +11,20 @@ type UpdateUIPasswordRequest struct {
 }
 
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/identity.html#UIPassword
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/identity/20160918/UIPassword/
 type UIPassword struct {
 	ETaggedResource
 	NewPassword  string    `json:"password"`
 	UserID       string    `json:"userId"`
 	TimeCreated  time.Time `json:"timeCreated"`
 	TimeModified time.Time `json:"timeModified"`
-	State        string    `json:"state"`
+	State        string    `json:"lifecycleState"`
 }
 
 // CreateOrResetUIPassword - creates or resets password for user identified by
 // userID. You MAY supply an idempotency token.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/identity.html#createOrResetUIPassword
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/identity/20160918/UIPassword/CreateOrResetUIPassword
 func (c *Client) CreateOrResetUIPassword(password, userID string, opts ...Options) (resource *UIPassword, e error) {
 	body := UpdateUIPasswordRequest{
 		Password: password,
@@ -51,6 +51,7 @@ func (c *Client) CreateOrResetUIPassword(password, userID string, opts ...Option
 // ETAG MAY be passed as an option for optimistic concurrency control.
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/identity.html#createOrResetUIPassword
+// TODO: Is this deprecated?
 func (c *Client) UpdateUserUIPassword(newPassword, userID string, opts ...Options) (resource *UIPassword, e error) {
 	body := UpdateUIPasswordRequest{
 		Password: newPassword,

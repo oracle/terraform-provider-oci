@@ -4,7 +4,7 @@ import "net/http"
 
 // Volume describes cloud block storage
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#Volume
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Volume/
 type Volume struct {
 	ETaggedResource
 	AvailabilityDomain string `json:"availabilityDomain"`
@@ -12,7 +12,7 @@ type Volume struct {
 	DisplayName        string `json:"displayName"`
 	ID                 string `json:"id"`
 	SizeInMBs          string `json:"sizeInMBs"`
-	State              string `json:"state"`
+	State              string `json:"lifecycleState"`
 	TimeCreated        Time   `json:"timeCreated"`
 }
 
@@ -29,7 +29,7 @@ func (l *ListVolumes) GetList() interface{} {
 
 // CreateVolumeRequest describes the body of a volume creation request
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#CreateVolumeRequest
+// TODO: changed to CreateVolumeDetails
 type CreateVolumeRequest struct {
 	AvailabilityDomain string `json:"availabilityDomain"`
 	CompartmentID      string `json:"compartmentId"`
@@ -45,7 +45,7 @@ type UpdateVolumeRequest struct {
 
 // CreateVolume is used to create a cloud block storage device
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#createVolume
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Volume/CreateVolume
 func (c *Client) CreateVolume(availabilityDomain, compartmentID string, opts ...Options) (vol *Volume, e error) {
 	createRequest := CreateVolumeRequest{
 		AvailabilityDomain: availabilityDomain,
@@ -74,7 +74,7 @@ func (c *Client) CreateVolume(availabilityDomain, compartmentID string, opts ...
 
 // GetVolume retrieves information about a block volume
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#getVolume
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Volume/GetVolume
 func (c *Client) GetVolume(id string, opts ...Options) (vol *Volume, e error) {
 	reqOpts := &sdkRequestOptions{
 		name:    resourceVolumes,
@@ -93,7 +93,7 @@ func (c *Client) GetVolume(id string, opts ...Options) (vol *Volume, e error) {
 
 // UpdateVolume updates a volume's display name
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#updateVolume
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Volume/UpdateVolume
 func (c *Client) UpdateVolume(id string, opts ...Options) (vol *Volume, e error) {
 	body := UpdateVolumeRequest{}
 
@@ -120,7 +120,7 @@ func (c *Client) UpdateVolume(id string, opts ...Options) (vol *Volume, e error)
 
 // DeleteVolume removes a cloud block storage volume
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#deleteVolume
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Volume/DeleteVolume
 func (c *Client) DeleteVolume(id string, opts ...Options) (e error) {
 	reqOpts := &sdkRequestOptions{
 		name:    resourceVolumes,
@@ -132,7 +132,7 @@ func (c *Client) DeleteVolume(id string, opts ...Options) (e error) {
 
 // ListVolumes returns a list of volumes for a particular compartment
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#listVolumes
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Volume/ListVolumes
 func (c *Client) ListVolumes(compartmentID string, opts ...Options) (vols *ListVolumes, e error) {
 	reqOpts := &sdkRequestOptions{
 		name:    resourceVolumes,

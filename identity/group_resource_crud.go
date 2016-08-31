@@ -22,6 +22,22 @@ func (s *GroupSync) State() string {
 	return s.Res.State
 }
 
+func (s *GroupSync) CreatedPending() []string {
+	return []string{baremetal.ResourceCreating}
+}
+
+func (s *GroupSync) CreatedTarget() []string {
+	return []string{baremetal.ResourceActive}
+}
+
+func (s *GroupSync) DeletedPending() []string {
+	return []string{baremetal.ResourceDeleting}
+}
+
+func (s *GroupSync) DeletedTarget() []string {
+	return []string{baremetal.ResourceDeleted}
+}
+
 func (s *GroupSync) Create() (e error) {
 	name := s.D.Get("name").(string)
 	description := s.D.Get("description").(string)

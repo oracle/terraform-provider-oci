@@ -12,7 +12,7 @@ type TunnelConfig struct {
 // TunnelStatus represents the status of one end of an IPSec tunnel.
 type TunnelStatus struct {
 	IPAddress         string `json:"ipAddress"`
-	State             string `json:"state"`
+	State             string `json:"lifecycleState"`
 	TimeCreated       Time   `json:"timeCreated"`
 	TimeStateModified Time   `json:"timeStateModified"`
 }
@@ -51,7 +51,7 @@ func (l *IPSecConnectionDeviceStatus) GetList() interface{} {
 
 // IPSecConnection information about an IPSec connection
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#IPSecConnection
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/IPSecConnection/
 type IPSecConnection struct {
 	ETaggedResource
 	CompartmentID string   `json:"compartmentId"`
@@ -59,7 +59,7 @@ type IPSecConnection struct {
 	DisplayName   string   `json:"displayName"`
 	DrgID         string   `json:"drgId"`
 	ID            string   `json:"id"`
-	State         string   `json:"state"`
+	State         string   `json:"lifecycleState"`
 	StaticRoutes  []string `json:"staticRoutes"`
 	TimeCreated   Time     `json:"timeCreated"`
 }
@@ -172,7 +172,7 @@ func (c *Client) DeleteIPSecConnection(id string, opts ...Options) (e error) {
 // GetIPSecConnectionDeviceConfig retrieves router configuration to set up
 // IPSec tunnel on customer premise device.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#getIPSecConnectionDeviceConfig
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/IPSecConnectionDeviceConfig/GetIPSecConnectionDeviceConfig
 func (c *Client) GetIPSecConnectionDeviceConfig(ipsecID string) (config *IPSecConnectionDeviceConfig, e error) {
 	req := &sdkRequestOptions{
 		name: resourceIPSecConnections,

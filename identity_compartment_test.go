@@ -56,7 +56,7 @@ func (s *ResourceIdentityCompartmentTestSuite) SetupTest() {
 		Name:          "name!",
 		Description:   "desc!",
 		CompartmentID: "cid!",
-		State:         baremetal.ResourceCreated,
+		State:         baremetal.ResourceActive,
 		TimeCreated:   s.TimeCreated,
 		TimeModified:  s.TimeCreated,
 	}
@@ -89,7 +89,7 @@ func (s *ResourceIdentityCompartmentTestSuite) TestCreateResourceIdentityCompart
 	s.Client.On("GetCompartment", "id!").Return(s.Res, nil).Once()
 
 	u := *s.Res
-	u.State = baremetal.ResourceCreated
+	u.State = baremetal.ResourceActive
 	s.Client.On("GetCompartment", "id!").Return(&u, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
@@ -97,7 +97,7 @@ func (s *ResourceIdentityCompartmentTestSuite) TestCreateResourceIdentityCompart
 		Steps: []resource.TestStep{
 			resource.TestStep{
 				Config: s.Config,
-				Check:  resource.TestCheckResourceAttr(s.ResourceName, "state", baremetal.ResourceCreated),
+				Check:  resource.TestCheckResourceAttr(s.ResourceName, "state", baremetal.ResourceActive),
 			},
 		},
 	})

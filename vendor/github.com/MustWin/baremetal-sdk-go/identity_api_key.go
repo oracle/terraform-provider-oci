@@ -6,12 +6,13 @@ import (
 	"time"
 )
 
+// TODO: this should be anonymous changed to CreateAPIKeyDetails
 type CreateAPIKeyRequest struct {
 	Key string `json:"key"`
 }
 
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/identity.html#ApiKey
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/identity/20160918/ApiKey/
 type APIKey struct {
 	KeyID        string    `json:"keyId"`
 	KeyValue     string    `json:"keyValue"`
@@ -19,7 +20,7 @@ type APIKey struct {
 	UserID       string    `json:"userId"`
 	TimeCreated  time.Time `json:"timeCreated"`
 	TimeModified time.Time `json:"timeModified"`
-	State        string    `json:"state"`
+	State        string    `json:"lifecycleState"`
 }
 
 // ListAPIKeyResponses contains a list of API keys
@@ -34,7 +35,7 @@ func (l *ListAPIKeyResponses) GetList() interface{} {
 
 // Deletes an API key belonging to a user.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/identity.html#deleteApiKey
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/identity/20160918/ApiKey/DeleteApiKey
 func (c *Client) DeleteAPIKey(userID, fingerprint string, opts ...Options) (e error) {
 	reqOpts := &sdkRequestOptions{
 		name:    resourceUsers,
@@ -46,7 +47,7 @@ func (c *Client) DeleteAPIKey(userID, fingerprint string, opts ...Options) (e er
 
 // ListAPIKeys returns information about a user's API keys.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/identity.html#listApiKeys
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/identity/20160918/ApiKey/ListApiKeys
 func (c *Client) ListAPIKeys(userID string) (response *ListAPIKeyResponses, e error) {
 	reqOpts := &sdkRequestOptions{
 		name: resourceUsers,
@@ -66,7 +67,7 @@ func (c *Client) ListAPIKeys(userID string) (response *ListAPIKeyResponses, e er
 // UploadAPIKey - add an API signing key for user. The key must be an RSA public
 // key in pem format.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/identity.html#uploadApiKey
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/identity/20160918/ApiKey/UploadApiKey
 func (c *Client) UploadAPIKey(userID, key string, opts ...Options) (apiKey *APIKey, e error) {
 	body := CreateAPIKeyRequest{
 		Key: key,

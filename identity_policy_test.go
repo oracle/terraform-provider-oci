@@ -87,7 +87,7 @@ func (s *ResourceIdentityPolicyTestSuite) SetupTest() {
 			Name:          "pol",
 			Description:   "desc",
 			CompartmentID: "7",
-			State:         baremetal.ResourceCreated,
+			State:         baremetal.ResourceActive,
 			TimeCreated:   s.TimeCreated,
 			TimeModified:  s.TimeCreated,
 		},

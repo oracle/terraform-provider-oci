@@ -8,7 +8,7 @@ import (
 // InternetGateway information on an internet gateway hosted in a
 // virtual cloud network
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#InternetGateway
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/InternetGateway/
 type InternetGateway struct {
 	ETaggedResource
 	CompartmentID string `json:"compartmentId"`
@@ -16,7 +16,7 @@ type InternetGateway struct {
 	ID            string `json:"id"`
 	IsEnabled     bool   `json:"isEnabled"`
 	ModifiedTime  Time   `json:"modifiedTime"`
-	State         string `json:"state"`
+	State         string `json:"lifecycleState"`
 	TimeCreated   Time   `json:"timeCreated"`
 }
 
@@ -134,7 +134,7 @@ func (c *Client) DeleteInternetGateway(id string, opts ...Options) (e error) {
 
 // ListInternetGateways is used to fetch a list of internet gateways.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#listInternetGateways
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/InternetGateway/ListInternetGateways
 func (c *Client) ListInternetGateways(compartmentID, vcnID string, opts ...Options) (list *ListInternetGateways, e error) {
 	query := url.Values{}
 	query.Set(queryVcnID, vcnID)

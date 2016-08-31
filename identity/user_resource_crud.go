@@ -29,6 +29,22 @@ func (s *UserResourceCrud) Create() (e error) {
 	return
 }
 
+func (s *UserResourceCrud) CreatedPending() []string {
+	return []string{baremetal.ResourceCreating}
+}
+
+func (s *UserResourceCrud) CreatedTarget() []string {
+	return []string{baremetal.ResourceActive}
+}
+
+func (s *UserResourceCrud) DeletedPending() []string {
+	return []string{baremetal.ResourceDeleting}
+}
+
+func (s *UserResourceCrud) DeletedTarget() []string {
+	return []string{baremetal.ResourceDeleted}
+}
+
 func (s *UserResourceCrud) Get() (e error) {
 	s.Res, e = s.Client.GetUser(s.D.Id())
 	return

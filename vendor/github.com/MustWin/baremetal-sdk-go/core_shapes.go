@@ -22,7 +22,7 @@ func (l *ListShapes) GetList() interface{} {
 // These include AvailabilityDomain, Limit and Page for pagination support, and
 // an ImageID.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#listShapes
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Shape/ListShapes
 func (c *Client) ListShapes(compartmentID string, options ...Options) (shapes *ListShapes, e error) {
 	reqOpts := &sdkRequestOptions{
 		name:    resourceShapes,

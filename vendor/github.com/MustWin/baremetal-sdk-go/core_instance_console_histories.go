@@ -15,7 +15,7 @@ type ConsoleHistoryMetadata struct {
 	DisplayName        string    `json:"displayName"`
 	ID                 string    `json:"id"`
 	InstanceID         string    `json:"instanceId"`
-	State              string    `json:"state"`
+	State              string    `json:"lifecycleState"`
 	TimeCreated        time.Time `json:"TimeCreated"`
 }
 

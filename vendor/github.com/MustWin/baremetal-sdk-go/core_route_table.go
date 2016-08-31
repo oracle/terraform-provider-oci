@@ -15,7 +15,7 @@ type RouteRule struct {
 
 // RouteTable describes a route table
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#RouteTable
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/RouteTable/
 type RouteTable struct {
 	ETaggedResource
 	CompartmentID string      `json:"compartmentId"`
@@ -23,7 +23,7 @@ type RouteTable struct {
 	ID            string      `json:"id"`
 	TimeModified  Time        `json:"timeModified"`
 	RouteRules    []RouteRule `json:"routeRules"`
-	State         string      `json:"state"`
+	State         string      `json:"lifecycleState"`
 	TimeCreated   Time        `json:"timeCreated"`
 }
 
@@ -39,7 +39,7 @@ func (l *ListRouteTables) GetList() interface{} {
 
 // CreateRouteTable is used to create a route table
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#createRouteTable
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/RouteTable/CreateRouteTable
 func (c *Client) CreateRouteTable(compartmentID, vcnID string, routeRules []RouteRule, opts ...Options) (res *RouteTable, e error) {
 	var displayName string
 	if len(opts) > 0 {
@@ -77,7 +77,7 @@ func (c *Client) CreateRouteTable(compartmentID, vcnID string, routeRules []Rout
 
 // GetRouteTable is used to get information about a route table
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#getRouteTable
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/RouteTable/GetRouteTable
 func (c *Client) GetRouteTable(id string) (res *RouteTable, e error) {
 	req := &sdkRequestOptions{
 		name: resourceRouteTables,
@@ -96,7 +96,7 @@ func (c *Client) GetRouteTable(id string) (res *RouteTable, e error) {
 
 // UpdateRouteTable is used to update a route table
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#updateRouteTable
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/RouteTable/UpdateRouteTable
 func (c *Client) UpdateRouteTable(id string, routeRules []RouteRule, opts ...Options) (res *RouteTable, e error) {
 	body := struct {
 		RouteRules []RouteRule `json:"routeRules"`
@@ -123,7 +123,7 @@ func (c *Client) UpdateRouteTable(id string, routeRules []RouteRule, opts ...Opt
 
 // DeleteRouteTable is used to delete a route table
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#deleteRouteTable
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/RouteTable/DeleteRouteTable
 func (c *Client) DeleteRouteTable(id string, opts ...Options) (e error) {
 	req := &sdkRequestOptions{
 		name:    resourceRouteTables,
@@ -136,7 +136,7 @@ func (c *Client) DeleteRouteTable(id string, opts ...Options) (e error) {
 
 // ListRouteTables is used to list route tables in a given compartment and vcn
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#listRouteTables
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/RouteTable/ListRouteTables
 func (c *Client) ListRouteTables(compartmentID, vcnID string, opts ...Options) (res *ListRouteTables, e error) {
 	query := url.Values{}
 	query.Set(queryVcnID, vcnID)

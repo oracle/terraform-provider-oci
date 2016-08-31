@@ -17,7 +17,7 @@ type UserGroupMembership struct {
 	UserID        string    `json:"userId"`
 	TimeCreated   time.Time `json:"timeCreated"`
 	TimeModified  time.Time `json:"timeModified"`
-	State         string    `json:"state"`
+	State         string    `json:"lifecycleState"`
 }
 
 type AddUserToGroupRequest struct {

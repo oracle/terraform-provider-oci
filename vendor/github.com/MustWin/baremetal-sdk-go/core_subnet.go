@@ -7,7 +7,7 @@ import (
 
 // Subnet represents a network subnet
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#Subnet
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Subnet/
 type Subnet struct {
 	ETaggedResource
 	AvailabilityDomain string   `json:"availabilityDomain"`
@@ -17,7 +17,7 @@ type Subnet struct {
 	ID                 string   `json:"id"`
 	RouteTableID       string   `json:"routeTableId"`
 	SecurityListIDs    []string `json:"securityListIds"`
-	State              string   `json:"state"`
+	State              string   `json:"lifecycleState"`
 	TimeCreated        Time     `json:"timeCreated"`
 	VcnID              string   `json:"vcnId"`
 	VirtualRouterID    string   `json:"virtualRouterId"`
@@ -36,7 +36,7 @@ func (l *ListSubnets) GetList() interface{} {
 
 // CreateSubnet will create a new subnet.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#createSubnet
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Subnet/CreateSubnet
 func (c *Client) CreateSubnet(
 	availabilityDomain,
 	cidrBlock,
@@ -91,7 +91,7 @@ func (c *Client) CreateSubnet(
 // Options.  Results may be paged by assigning the NewPage from the last
 // response to the Page member of Options.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#listSubnets
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Subnet/ListSubnets
 func (c *Client) ListSubnets(compartmentID, vcnID string, opts ...Options) (subnets *ListSubnets, e error) {
 	query := url.Values{}
 	query.Set(queryVcnID, vcnID)
@@ -115,7 +115,7 @@ func (c *Client) ListSubnets(compartmentID, vcnID string, opts ...Options) (subn
 
 // GetSubnet will retrieve Subnet for subnetID.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#getSubnet
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Subnet/GetSubnet
 func (c *Client) GetSubnet(subnetID string) (subnet *Subnet, e error) {
 	req := &sdkRequestOptions{
 		name: resourceSubnets,
@@ -134,7 +134,7 @@ func (c *Client) GetSubnet(subnetID string) (subnet *Subnet, e error) {
 
 // DeleteSubnet will delete a subnet with subnetID.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#deleteSubnet
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Subnet/DeleteSubnet
 func (c *Client) DeleteSubnet(subnetID string, opts ...Options) error {
 	req := &sdkRequestOptions{
 		name:    resourceSubnets,

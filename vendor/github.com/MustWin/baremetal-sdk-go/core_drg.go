@@ -4,13 +4,13 @@ import "net/http"
 
 // Drg describes a dynamic routing gateway
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#Drg
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Drg/
 type Drg struct {
 	ETaggedResource
 	CompartmentID string `json:"compartmentId"`
 	DisplayName   string `json:"displayName"`
 	ID            string `json:"id"`
-	State         string `json:"state"`
+	State         string `json:"lifecycleState"`
 	TimeCreated   Time   `json:"timeCreated"`
 }
 
@@ -27,7 +27,7 @@ func (l *ListDrgs) GetList() interface{} {
 
 // CreateDrg is used to create a gateway
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#createDrg
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Drg/CreateDrg
 func (c *Client) CreateDrg(compartmentID string, opts ...Options) (res *Drg, e error) {
 	body := struct {
 		CompartmentID string `json:"compartmentId"`
@@ -58,7 +58,7 @@ func (c *Client) CreateDrg(compartmentID string, opts ...Options) (res *Drg, e e
 
 // GetDrg retrieves information about a gateway
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#getDrg
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Drg/GetDrg
 func (c *Client) GetDrg(id string, opts ...Options) (res *Drg, e error) {
 	reqOpts := &sdkRequestOptions{
 		name:    resourceDrgs,
@@ -77,7 +77,7 @@ func (c *Client) GetDrg(id string, opts ...Options) (res *Drg, e error) {
 
 // DeleteDrg removes a gateway
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#deleteDrg
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Drg/DeleteDrg
 func (c *Client) DeleteDrg(id string, opts ...Options) (e error) {
 	reqOpts := &sdkRequestOptions{
 		name:    resourceDrgs,
@@ -89,7 +89,7 @@ func (c *Client) DeleteDrg(id string, opts ...Options) (e error) {
 
 // ListDrgs returns a list of gateways for a compartment
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#listDrgs
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Drg/ListDrgs
 func (c *Client) ListDrgs(compartmentID string, opts ...Options) (res *ListDrgs, e error) {
 	reqOpts := &sdkRequestOptions{
 		name:    resourceDrgs,

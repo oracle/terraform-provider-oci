@@ -4,7 +4,7 @@ import "net/http"
 
 // VirtualNetwork describes virtual cloud network
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#Vcn
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Vcn/
 type VirtualNetwork struct {
 	ETaggedResource
 	CidrBlock             string `json:"cidrBlock"`
@@ -13,7 +13,7 @@ type VirtualNetwork struct {
 	DefaultSecurityListID string `json:"defaultSecurityListId"`
 	DisplayName           string `json:"displayName"`
 	ID                    string `json:"id"`
-	State                 string `json:"state"`
+	State                 string `json:"lifecycleState"`
 	TimeCreated           Time   `json:"timeCreated"`
 }
 
@@ -31,7 +31,8 @@ func (l *ListVirtualNetworks) GetList() interface{} {
 // CreateVirtualNeworkRequest describes the body of a virtual network create
 // request
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#CreateVcnRequest
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Vcn/CreateVcn
+// TODO: This has been changed to CreateVirtualNetworkDetails
 type CreateVirtualNetworkRequest struct {
 	CidrBlock     string `json:"cidrBlock"`
 	CompartmentID string `json:"compartmentId"`
@@ -40,7 +41,7 @@ type CreateVirtualNetworkRequest struct {
 
 // CreateVirtualNetwork is used to create a virtual network
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#createVcn
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Vcn/CreateVcn
 func (c *Client) CreateVirtualNetwork(cidrBlock, compartmentID string, opts ...Options) (vcn *VirtualNetwork, e error) {
 	createRequest := CreateVirtualNetworkRequest{
 		CidrBlock:     cidrBlock,
@@ -69,7 +70,7 @@ func (c *Client) CreateVirtualNetwork(cidrBlock, compartmentID string, opts ...O
 
 // GetVirtualNetwork retrieves information about a virtual network
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#getVcn
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Vcn/GetVcn
 func (c *Client) GetVirtualNetwork(id string, opts ...Options) (vcn *VirtualNetwork, e error) {
 	reqOpts := &sdkRequestOptions{
 		name:    resourceVirtualNetworks,
@@ -88,7 +89,7 @@ func (c *Client) GetVirtualNetwork(id string, opts ...Options) (vcn *VirtualNetw
 
 // DeleteVirtualNetwork removes a virtual network
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#deleteVcn
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Vcn/DeleteVcn
 func (c *Client) DeleteVirtualNetwork(id string, opts ...Options) (e error) {
 	reqOpts := &sdkRequestOptions{
 		name:    resourceVirtualNetworks,
@@ -101,7 +102,7 @@ func (c *Client) DeleteVirtualNetwork(id string, opts ...Options) (e error) {
 // ListVirtualNetworks returns a list of virtual networks for a particular
 // compartment
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#listVcns
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Vcn/ListVcns
 func (c *Client) ListVirtualNetworks(compartmentID string, opts ...Options) (vcns *ListVirtualNetworks, e error) {
 	reqOpts := &sdkRequestOptions{
 		name:    resourceVirtualNetworks,

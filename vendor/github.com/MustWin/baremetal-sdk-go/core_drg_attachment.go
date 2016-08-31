@@ -4,14 +4,14 @@ import "net/http"
 
 // DrgAttachment describes a Drg attachment to a Vcn
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#DrgAttachment
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/DrgAttachment/
 type DrgAttachment struct {
 	ETaggedResource
 	CompartmentID string `json:"compartmentId"`
 	DisplayName   string `json:"displayName"`
 	DrgID         string `json:"drgId"`
 	ID            string `json:"id"`
-	State         string `json:"state"`
+	State         string `json:"lifecycleState"`
 	TimeCreated   Time   `json:"timeCreated"`
 	VcnID         string `json:"vcnId"`
 }
@@ -29,7 +29,7 @@ func (l *ListDrgAttachments) GetList() interface{} {
 
 // CreateDrgAttachment attaches a drg to a vcn.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#createDrgAttachment
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/DrgAttachment/CreateDrgAttachment
 func (c *Client) CreateDrgAttachment(drgID, vcnID string, opts ...Options) (res *DrgAttachment, e error) {
 	body := struct {
 		DisplayName string `json:"displayName,omitempty"`
@@ -62,7 +62,7 @@ func (c *Client) CreateDrgAttachment(drgID, vcnID string, opts ...Options) (res 
 
 // GetDrgAttachment gets information about the specified drg attachment
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#getDrgAttachment
+// Seehttps://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/DrgAttachment/GetDrgAttachment
 func (c *Client) GetDrgAttachment(id string, opts ...Options) (res *DrgAttachment, e error) {
 	reqOpts := &sdkRequestOptions{
 		name:    resourceDrgAttachments,
@@ -81,7 +81,7 @@ func (c *Client) GetDrgAttachment(id string, opts ...Options) (res *DrgAttachmen
 
 // DeleteDrgAttachment detaches a drg from its vcn
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#deleteDrgAttachment
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/DrgAttachment/DeleteDrgAttachment
 func (c *Client) DeleteDrgAttachment(id string, opts ...Options) (e error) {
 	reqOpts := &sdkRequestOptions{
 		name:    resourceDrgAttachments,
@@ -93,7 +93,7 @@ func (c *Client) DeleteDrgAttachment(id string, opts ...Options) (e error) {
 
 // ListDrgAttachments gets a list of the drgs in the specified compartment
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#listDrgAttachments
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/DrgAttachment/ListDrgAttachments
 func (c *Client) ListDrgAttachments(compartmentID string, opts ...Options) (res *ListDrgAttachments, e error) {
 	reqOpts := &sdkRequestOptions{
 		name:    resourceDrgAttachments,

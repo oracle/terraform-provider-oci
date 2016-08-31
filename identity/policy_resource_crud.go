@@ -22,6 +22,22 @@ func (s *PolicyResourceCrud) State() string {
 	return s.Res.State
 }
 
+func (s *PolicyResourceCrud) CreatedPending() []string {
+	return []string{baremetal.ResourceCreating}
+}
+
+func (s *PolicyResourceCrud) CreatedTarget() []string {
+	return []string{baremetal.ResourceActive}
+}
+
+func (s *PolicyResourceCrud) DeletedPending() []string {
+	return []string{baremetal.ResourceDeleting}
+}
+
+func (s *PolicyResourceCrud) DeletedTarget() []string {
+	return []string{baremetal.ResourceDeleted}
+}
+
 func (s *PolicyResourceCrud) toStringArray(vals interface{}) []string {
 	arr := vals.([]interface{})
 	result := []string{}

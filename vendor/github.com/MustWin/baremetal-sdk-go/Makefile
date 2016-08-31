@@ -1,15 +1,15 @@
 build: test
-	@go build github.com/mustwin/baremetal-sdk-go
+	@go build github.com/MustWin/baremetal-sdk-go
 
 test:
-	@go test -v github.com/mustwin/baremetal-sdk-go
+	@go test -v github.com/MustWin/baremetal-sdk-go
 
 identity_test:
-	@go install github.com/mustwin/baremetal-sdk-go/test/identity
+	@go install github.com/MustWin/baremetal-sdk-go/test/identity
 	@identity
 
 core_test:
-	@go install github.com/mustwin/baremetal-sdk-go/test/core
+	@go install github.com/MustWin/baremetal-sdk-go/test/core
 	@core
 
 regression_test: test identity_test core_test

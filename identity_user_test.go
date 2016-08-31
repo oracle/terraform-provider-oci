@@ -55,7 +55,7 @@ func (s *ResourceIdentityUserTestSuite) SetupTest() {
 		Name:          "name!",
 		Description:   "desc!",
 		CompartmentID: "cid!",
-		State:         baremetal.ResourceCreated,
+		State:         baremetal.ResourceActive,
 		TimeCreated:   s.TimeCreated,
 		TimeModified:  s.TimeCreated,
 	}
@@ -89,7 +89,7 @@ func (s *ResourceIdentityUserTestSuite) TestCreateResourceIdentityUserPolling() 
 	s.Client.On("GetUser", "id!").Return(s.Res, nil).Once()
 
 	u := *s.Res
-	u.State = baremetal.ResourceCreated
+	u.State = baremetal.ResourceActive
 	s.Client.On("GetUser", "id!").Return(&u, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
@@ -98,7 +98,7 @@ func (s *ResourceIdentityUserTestSuite) TestCreateResourceIdentityUserPolling() 
 			resource.TestStep{
 				Config: s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "state", baremetal.ResourceCreated),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", baremetal.ResourceActive),
 				),
 			},
 		},

@@ -22,6 +22,22 @@ func (s *CompartmentResourceCrud) State() string {
 	return s.Res.State
 }
 
+func (s *CompartmentResourceCrud) CreatedPending() []string {
+	return []string{baremetal.ResourceCreating}
+}
+
+func (s *CompartmentResourceCrud) CreatedTarget() []string {
+	return []string{baremetal.ResourceActive}
+}
+
+func (s *CompartmentResourceCrud) DeletedPending() []string {
+	return []string{baremetal.ResourceDeleting}
+}
+
+func (s *CompartmentResourceCrud) DeletedTarget() []string {
+	return []string{baremetal.ResourceDeleted}
+}
+
 func (s *CompartmentResourceCrud) Create() (e error) {
 	name := s.D.Get("name").(string)
 	description := s.D.Get("description").(string)

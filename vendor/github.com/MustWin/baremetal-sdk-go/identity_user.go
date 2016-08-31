@@ -7,7 +7,7 @@ package baremetal
 // The caller specifies this token so that subsequent calls to create user will
 // be idempotent. The token expires after 30 minutes.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/identity.html#createUser
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/identity/20160918/User/CreateUser
 func (c *Client) CreateUser(userName, userDescription string, options ...Options) (user *IdentityResource, e error) {
 	body := CreateIdentityResourceRequest{
 		CompartmentID: c.authInfo.tenancyOCID,
@@ -20,7 +20,7 @@ func (c *Client) CreateUser(userName, userDescription string, options ...Options
 
 // DeleteUser deletes a user.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/identity.html#deleteUser
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/identity/20160918/User/DeleteUser
 func (c *Client) DeleteUser(userID string, opts ...Options) (e error) {
 	reqOpts := &sdkRequestOptions{
 		name:    resourceUsers,
@@ -32,7 +32,7 @@ func (c *Client) DeleteUser(userID string, opts ...Options) (e error) {
 
 // GetUser returns a user identified by userID.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/#apiref.htm
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/identity/20160918/User/GetUser
 func (c *Client) GetUser(userID string) (user *IdentityResource, e error) {
 	user, e = c.getIdentityResource(resourceUsers, userID)
 	return
@@ -41,11 +41,12 @@ func (c *Client) GetUser(userID string) (user *IdentityResource, e error) {
 // ListUsers returns an array of users for the current tenancy.  The requestor
 // MAY supply paging options.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/identity.html#listUsers
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/identity/20160918/User/ListUsers
 func (c *Client) ListUsers(options ...Options) (response *ListResourceResponses, e error) {
 	return c.listIdentityResources(resourceUsers, options...)
 }
 
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/identity/20160918/User/UpdateUser
 func (c *Client) UpdateUser(userID, userDescription string, options ...Options) (user *IdentityResource, e error) {
 	body := UpdateIdentityResourceRequest{
 		Description: userDescription,
@@ -53,3 +54,6 @@ func (c *Client) UpdateUser(userID, userDescription string, options ...Options) 
 
 	return c.updateIdentityResource(resourceUsers, userID, body, options)
 }
+
+// TODO: UpdateUserState
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/identity/20160918/User/UpdateUserState
