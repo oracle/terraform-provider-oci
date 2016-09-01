@@ -46,11 +46,11 @@ const (
 	coreServiceAPIVersion = "v1"
 
 	// Header Keys
-	headerOPCIdempotencyToken = "opc-idempotency-token"
-	headerOPCNextPage         = "opc-next-page"
-	headerIfMatch             = "If-Match"
-	headerETag                = "ETag"
-	headerOPCRequestID        = "opc-request-id"
+	headerRetryToken   = "opc-retry-token"
+	headerOPCNextPage  = "opc-next-page"
+	headerIfMatch      = "If-Match"
+	headerETag         = "ETag"
+	headerOPCRequestID = "opc-request-id"
 
 	// URL Query Keys
 	queryAvailabilityDomain = "availabilityDomain"
@@ -88,6 +88,7 @@ const (
 	// Core Resources
 	resourceCustomerPremiseEquipment resourceName = "cpes"
 	resourceShapes                   resourceName = "shapes"
+	resourceVnics                    resourceName = "vnics"
 	resourceVnicAttachments          resourceName = "vnicAttachments"
 	resourceVirtualNetworks          resourceName = "vcns"
 	resourceInstanceConsoleHistories resourceName = "instanceConsoleHistories"

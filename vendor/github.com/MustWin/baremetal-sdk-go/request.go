@@ -66,7 +66,7 @@ func (r *sdkRequestOptions) parseOptions() {
 
 		// Parse header options.
 		if option.OPCIdempotencyToken != "" {
-			r.httpHeader.Set(headerOPCIdempotencyToken, option.OPCIdempotencyToken)
+			r.httpHeader.Set(headerRetryToken, option.OPCIdempotencyToken)
 		}
 		if option.IfMatch != "" {
 			r.httpHeader.Set(headerIfMatch, option.IfMatch)

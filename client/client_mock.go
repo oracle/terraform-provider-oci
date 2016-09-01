@@ -411,3 +411,9 @@ func (m *MockClient) DeleteConsoleHistory(id string) (e error) {
 	args := m.Called(id)
 	return args.Error(0)
 }
+
+func (m *MockClient) GetVnic(vncID string) (vnic *baremetal.Vnic, e error) {
+	args := m.Called(vncID)
+	u, _ := args.Get(0).(*baremetal.Vnic)
+	return u, args.Error(1)
+}

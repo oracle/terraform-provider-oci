@@ -88,4 +88,6 @@ type BareMetalClient interface {
 	DeleteConsoleHistory(id string) (e error)
 	DeleteRouteTable(id string, opts ...baremetal.Options) (e error)
 	ListRouteTables(compartmentID, vcnID string, opts ...baremetal.Options) (vols *baremetal.ListRouteTables, e error)
+
+	GetVnic(vnicID string) (vnic *baremetal.Vnic, e error)
 }
