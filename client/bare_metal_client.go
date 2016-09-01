@@ -90,12 +90,12 @@ type BareMetalClient interface {
 	GetConsoleHistory(id string, opts ...baremetal.Options) (icHistory *baremetal.ConsoleHistoryMetadata, e error)
 	DeleteConsoleHistory(id string) (e error)
 
-	GetVnic(vnicID string) (vnic *baremetal.Vnic, e error)
-
 	CreateOrResetUIPassword(userID string, opts ...baremetal.Options) (resource *baremetal.UIPassword, e error)
 
 	CreateVolumeBackup(volumeID string, opts ...baremetal.Options) (vol *baremetal.VolumeBackup, e error)
 	GetVolumeBackup(id string, opts ...baremetal.Options) (vol *baremetal.VolumeBackup, e error)
 	UpdateVolumeBackup(id string, opts ...baremetal.Options) (vol *baremetal.VolumeBackup, e error)
 	DeleteVolumeBackup(id string, opts ...baremetal.Options) (e error)
+
+	GetVnic(vnicID string) (vnic *baremetal.Vnic, e error)
 }
