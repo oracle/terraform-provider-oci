@@ -96,6 +96,12 @@ func (r *sdkRequestOptions) parseOptions() {
 		if option.DrgID != "" {
 			r.query.Set(queryDrgID, option.DrgID)
 		}
+		if option.Length > 0 {
+			r.query.Set(queryLength, strconv.Itoa(option.Length))
+		}
+		if option.Offset > 0 {
+			r.query.Set(queryOffset, strconv.Itoa(option.Offset))
+		}
 	}
 }
 

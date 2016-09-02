@@ -46,11 +46,12 @@ const (
 	coreServiceAPIVersion = "v1"
 
 	// Header Keys
-	headerRetryToken   = "opc-retry-token"
-	headerOPCNextPage  = "opc-next-page"
-	headerIfMatch      = "If-Match"
-	headerETag         = "ETag"
-	headerOPCRequestID = "opc-request-id"
+	headerRetryToken     = "opc-retry-token"
+	headerOPCNextPage    = "opc-next-page"
+	headerIfMatch        = "If-Match"
+	headerETag           = "ETag"
+	headerOPCRequestID   = "opc-request-id"
+	headerBytesRemaining = "opc-bytes-remaining"
 
 	// URL Query Keys
 	queryAvailabilityDomain = "availabilityDomain"
@@ -58,7 +59,9 @@ const (
 	queryGroupID            = "groupId"
 	queryImageID            = "imageId"
 	queryInstanceID         = "instanceId"
+	queryLength             = "length "
 	queryLimit              = "limit"
+	queryOffset             = "offset"
 	queryPage               = "page"
 	queryUserID             = "userId"
 	queryVnicID             = "vnicId"

@@ -35,4 +35,8 @@ type Options struct {
 	DrgID string
 	// CpeID (Optional) the ID of the customer premise equipment
 	CpeID string
+	// Length (Optional) max number of bytes to return in console history
+	Length int
+	// Offset (Optional) offset of console history to return.
+	Offset int
 }
