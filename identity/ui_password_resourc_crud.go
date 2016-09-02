@@ -13,19 +13,7 @@ type UIPasswordResourceCrud struct {
 }
 
 func (s *UIPasswordResourceCrud) ID() string {
-	return s.D.Id()
-}
-
-func (s *UIPasswordResourceCrud) State() string {
-	return s.Res.State
-}
-
-func (s *UIPasswordResourceCrud) CreatedPending() []string {
-	return []string{baremetal.ResourceCreating}
-}
-
-func (s *UIPasswordResourceCrud) CreatedTarget() []string {
-	return []string{baremetal.ResourceActive}
+	return s.D.Get("version").(string)
 }
 
 func (s *UIPasswordResourceCrud) Create() (e error) {

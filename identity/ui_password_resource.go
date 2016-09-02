@@ -10,21 +10,22 @@ import (
 func UIPasswordResource() *schema.Resource {
 	return &schema.Resource{
 		Create: createUIPassword,
+		Read:   readUIPassword,
+		Delete: deleteUIPassword,
 		Schema: map[string]*schema.Schema{
 			"id": &schema.Schema{
 				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
+				Computed: true,
 			},
 			"inactive_status": &schema.Schema{
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"state": &schema.Schema{
+			"password": &schema.Schema{
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"password": &schema.Schema{
+			"state": &schema.Schema{
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -37,6 +38,11 @@ func UIPasswordResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
+			"version": &schema.Schema{
+				Type:     schema.TypeString,
+				Required: true,
+				ForceNew: true,
+			},
 		},
 	}
 }
@@ -45,4 +51,12 @@ func createUIPassword(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
 	sync := &UIPasswordResourceCrud{D: d, Client: client}
 	return crud.CreateResource(d, sync)
+}
+
+func readUIPassword(d *schema.ResourceData, m interface{}) (e error) {
+	return nil
+}
+
+func deleteUIPassword(d *schema.ResourceData, m interface{}) (e error) {
+	return nil
 }
