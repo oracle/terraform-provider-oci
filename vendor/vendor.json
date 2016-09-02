@@ -253,28 +253,25 @@
 			"revisionTime": "2016-06-13T20:05:45Z"
 		},
 		{
-			"checksumSHA1": "zr21UgYRZKnbzSZzzw4NhQnFVVk=",
+			"checksumSHA1": "BJYvAZpZclyR8SEuaFDvi5d3RCw=",
 			"path": "github.com/MustWin/baremetal-sdk-go",
-			"revision": "226cacf9d90ea8ea6206456f8c8455a27f852266",
-			"revisionTime": "2016-09-01T00:15:11Z"
+			"revision": "19244dd0736e3c56beb32968461e70bebe4e02f0",
+			"revisionTime": "2016-09-01T23:46:48Z"
 		},
 		{
 			"checksumSHA1": "p/wqTTt2dWHknWiFxygpsD1cwtw=",
-			"origin": "github.com/MustWin/terraform-Oracle-BareMetal-Provider/vendor/github.com/MustWin/baremetal-sdk-go/test/core",
 			"path": "github.com/MustWin/baremetal-sdk-go/test/core",
 			"revision": "0d5f3eb553bbe721e98b84d1d95b906f2448f7fc",
 			"revisionTime": "2016-08-24T22:28:48Z"
 		},
 		{
 			"checksumSHA1": "OuYaRq7fvWVAgr99xJ6ldGZVHXA=",
-			"origin": "github.com/MustWin/terraform-Oracle-BareMetal-Provider/vendor/github.com/MustWin/baremetal-sdk-go/test/identity",
 			"path": "github.com/MustWin/baremetal-sdk-go/test/identity",
 			"revision": "0d5f3eb553bbe721e98b84d1d95b906f2448f7fc",
 			"revisionTime": "2016-08-24T22:28:48Z"
 		},
 		{
 			"checksumSHA1": "V94OFqseZLAgTviLxKcRgZjT7Sg=",
-			"origin": "github.com/MustWin/terraform-Oracle-BareMetal-Provider/vendor/github.com/MustWin/baremetal-sdk-go/test/shared",
 			"path": "github.com/MustWin/baremetal-sdk-go/test/shared",
 			"revision": "0d5f3eb553bbe721e98b84d1d95b906f2448f7fc",
 			"revisionTime": "2016-08-24T22:28:48Z"

@@ -2,6 +2,7 @@ package baremetal
 
 import (
 	"net/http"
+	"strconv"
 	"time"
 )
 
@@ -17,6 +18,15 @@ type ConsoleHistoryMetadata struct {
 	InstanceID         string    `json:"instanceId"`
 	State              string    `json:"lifecycleState"`
 	TimeCreated        time.Time `json:"TimeCreated"`
+}
+
+// ShowConsoleHistoryDataResponse contains all or part of an instance console history
+// snapshot.  If BytesRemaining is greater than zero, ConsoleHistoryData is
+// only part of the total history.  The remainder may be fetched on subsequent
+// calls to ShowConsoleHistoryData, populating Offset and Limit options.
+type ShowConsoleHistoryMetadataResponse struct {
+	BytesRemaining     int
+	ConsoleHistoryData string
 }
 
 // InstanceConsoleHistoriesMetadataList contains a list of Console History Metadata
@@ -109,7 +119,7 @@ func (c *Client) DeleteConsoleHistory(id string, opts ...Options) (e error) {
 // ShowConsoleHistoryData gets the actual console history data (not the metadata).
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#showConsoleHistoryData
-func (c *Client) ShowConsoleHistoryData(instanceConsoleHistoryID string, opts ...Options) (consoleHistoryData string, e error) {
+func (c *Client) ShowConsoleHistoryData(instanceConsoleHistoryID string, opts ...Options) (response *ShowConsoleHistoryMetadataResponse, e error) {
 	reqOpts := &sdkRequestOptions{
 		name:    resourceInstanceConsoleHistories,
 		options: opts,
@@ -120,7 +130,17 @@ func (c *Client) ShowConsoleHistoryData(instanceConsoleHistoryID string, opts ..
 		return
 	}
 
-	consoleHistoryData = string(resp.body[:])
+	response = &ShowConsoleHistoryMetadataResponse{
+		ConsoleHistoryData: string(resp.body[:]),
+	}
+
+	s := resp.header.Get(headerBytesRemaining)
+
+	if s != "" {
+		if response.BytesRemaining, e = strconv.Atoi(s); e != nil {
+			return
+		}
+	}
 
 	return
 }
