@@ -6,7 +6,8 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
-// Id is exposed to allow resetting an existing user's password.
+// Version is exposed to allow resetting an existing user's password.
+// Incrementing the value of version will cause a new UIPassword to be created.
 func UIPasswordResource() *schema.Resource {
 	return &schema.Resource{
 		Create: createUIPassword,
