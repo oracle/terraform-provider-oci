@@ -377,6 +377,29 @@ func (_m *BareMetalClient) CreateVolume(availabiltyDomain string, compartmentID 
 	return r0, r1
 }
 
+// CreateVolumeBackup provides a mock function with given fields: volumeID, opts
+func (_m *BareMetalClient) CreateVolumeBackup(volumeID string, opts ...baremetal.Options) (*baremetal.VolumeBackup, error) {
+	ret := _m.Called(volumeID, opts)
+
+	var r0 *baremetal.VolumeBackup
+	if rf, ok := ret.Get(0).(func(string, ...baremetal.Options) *baremetal.VolumeBackup); ok {
+		r0 = rf(volumeID, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*baremetal.VolumeBackup)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(string, ...baremetal.Options) error); ok {
+		r1 = rf(volumeID, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // DeleteConsoleHistory provides a mock function with given fields: id
 func (_m *BareMetalClient) DeleteConsoleHistory(id string) error {
 	ret := _m.Called(id)
@@ -547,6 +570,20 @@ func (_m *BareMetalClient) DeleteVirtualNetwork(id string, opts ...baremetal.Opt
 
 // DeleteVolume provides a mock function with given fields: id, opts
 func (_m *BareMetalClient) DeleteVolume(id string, opts ...baremetal.Options) error {
+	ret := _m.Called(id, opts)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(string, ...baremetal.Options) error); ok {
+		r0 = rf(id, opts...)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
+// DeleteVolumeBackup provides a mock function with given fields: id, opts
+func (_m *BareMetalClient) DeleteVolumeBackup(id string, opts ...baremetal.Options) error {
 	ret := _m.Called(id, opts)
 
 	var r0 error
@@ -997,6 +1034,29 @@ func (_m *BareMetalClient) GetVolumeAttachment(id string, opts ...baremetal.Opti
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*baremetal.VolumeAttachment)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(string, ...baremetal.Options) error); ok {
+		r1 = rf(id, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// GetVolumeBackup provides a mock function with given fields: id, opts
+func (_m *BareMetalClient) GetVolumeBackup(id string, opts ...baremetal.Options) (*baremetal.VolumeBackup, error) {
+	ret := _m.Called(id, opts)
+
+	var r0 *baremetal.VolumeBackup
+	if rf, ok := ret.Get(0).(func(string, ...baremetal.Options) *baremetal.VolumeBackup); ok {
+		r0 = rf(id, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*baremetal.VolumeBackup)
 		}
 	}
 
@@ -1517,6 +1577,29 @@ func (_m *BareMetalClient) UpdateVolume(id string, opts ...baremetal.Options) (*
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*baremetal.Volume)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(string, ...baremetal.Options) error); ok {
+		r1 = rf(id, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// UpdateVolumeBackup provides a mock function with given fields: id, opts
+func (_m *BareMetalClient) UpdateVolumeBackup(id string, opts ...baremetal.Options) (*baremetal.VolumeBackup, error) {
+	ret := _m.Called(id, opts)
+
+	var r0 *baremetal.VolumeBackup
+	if rf, ok := ret.Get(0).(func(string, ...baremetal.Options) *baremetal.VolumeBackup); ok {
+		r0 = rf(id, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*baremetal.VolumeBackup)
 		}
 	}
 
