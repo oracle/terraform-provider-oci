@@ -1,19 +1,20 @@
 package main
 
 import (
+	"testing"
+
 	"github.com/MustWin/baremetal-sdk-go"
-	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/client"
+	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/client/mocks"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
-	"testing"
 
 	"github.com/stretchr/testify/suite"
 )
 
 type ResourceCoreInstanceConsoleHistoriesTestSuite struct {
 	suite.Suite
-	Client       *client.MockClient
+	Client       *mocks.BareMetalClient
 	Config       string
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
@@ -24,7 +25,7 @@ type ResourceCoreInstanceConsoleHistoriesTestSuite struct {
 }
 
 func (s *ResourceCoreInstanceConsoleHistoriesTestSuite) SetupTest() {
-	s.Client = &client.MockClient{}
+	s.Client = &mocks.BareMetalClient{}
 	s.Provider = Provider(func(d *schema.ResourceData) (interface{}, error) {
 		return s.Client, nil
 	})
@@ -53,10 +54,7 @@ func (s *ResourceCoreInstanceConsoleHistoriesTestSuite) SetupTest() {
 
 	opts := baremetal.Options{}
 	s.Opts = []baremetal.Options{opts}
-	s.Client.On(
-		"CaptureConsoleHistory",
-		s.Res.InstanceID,
-	).Return(s.Res, nil)
+	s.Client.On("CaptureConsoleHistory", s.Res.InstanceID, s.Opts).Return(s.Res, nil)
 	s.Client.On("DeleteConsoleHistory", s.Res.ID).Return(nil)
 	resCopy := *s.Res
 	s.DeletedRes = &resCopy

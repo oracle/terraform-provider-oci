@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/MustWin/baremetal-sdk-go"
-	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/client"
+	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/client/mocks"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
@@ -17,7 +17,7 @@ import (
 
 type ResourceIdentityCompartmentTestSuite struct {
 	suite.Suite
-	Client       *client.MockClient
+	Client       *mocks.BareMetalClient
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	TimeCreated  time.Time
@@ -27,7 +27,7 @@ type ResourceIdentityCompartmentTestSuite struct {
 }
 
 func (s *ResourceIdentityCompartmentTestSuite) SetupTest() {
-	s.Client = &client.MockClient{}
+	s.Client = &mocks.BareMetalClient{}
 
 	configfn := func(d *schema.ResourceData) (interface{}, error) {
 		return s.Client, nil
@@ -60,7 +60,7 @@ func (s *ResourceIdentityCompartmentTestSuite) SetupTest() {
 		TimeCreated:   s.TimeCreated,
 		TimeModified:  s.TimeCreated,
 	}
-	s.Client.On("CreateCompartment", "name!", "desc!").Return(s.Res, nil)
+	s.Client.On("CreateCompartment", "name!", "desc!", []baremetal.Options(nil)).Return(s.Res, nil)
 }
 
 func (s *ResourceIdentityCompartmentTestSuite) TestCreateResourceIdentityCompartment() {
@@ -117,7 +117,7 @@ func (s *ResourceIdentityCompartmentTestSuite) TestUpdateResourceIdentityCompart
 	u := *s.Res
 	u.Description = "newdesc!"
 	u.TimeModified = t
-	s.Client.On("UpdateCompartment", "id!", "newdesc!").Return(&u, nil)
+	s.Client.On("UpdateCompartment", "id!", "newdesc!", []baremetal.Options(nil)).Return(&u, nil)
 	s.Client.On("GetCompartment", "id!").Return(&u, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
@@ -147,13 +147,13 @@ func (s *ResourceIdentityCompartmentTestSuite) TestFailedUpdateResourceIdentityC
 		}
 	`
 	c += testProviderConfig
-	s.Client.On("UpdateCompartment", "id!", "newdesc!").Return(nil, errors.New("FAILED!")).Once()
+	s.Client.On("UpdateCompartment", "id!", "newdesc!", []baremetal.Options(nil)).Return(nil, errors.New("FAILED!")).Once()
 
 	t := s.TimeCreated.Add(5 * time.Minute)
 	u := *s.Res
 	u.Description = "newdesc!"
 	u.TimeModified = t
-	s.Client.On("UpdateCompartment", "id!", "newdesc!").Return(&u, nil)
+	s.Client.On("UpdateCompartment", "id!", "newdesc!", []baremetal.Options(nil)).Return(&u, nil)
 	s.Client.On("GetCompartment", "id!").Return(&u, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{

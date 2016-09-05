@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/MustWin/baremetal-sdk-go"
-	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/client"
+	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/client/mocks"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
@@ -15,7 +15,7 @@ import (
 
 type ResourceIdentityUIPasswordTestSuite struct {
 	suite.Suite
-	Client       *client.MockClient
+	Client       *mocks.BareMetalClient
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	TimeCreated  baremetal.Time
@@ -26,7 +26,7 @@ type ResourceIdentityUIPasswordTestSuite struct {
 }
 
 func (s *ResourceIdentityUIPasswordTestSuite) SetupTest() {
-	s.Client = &client.MockClient{}
+	s.Client = &mocks.BareMetalClient{}
 
 	s.Provider = Provider(
 		func(d *schema.ResourceData) (interface{}, error) {
@@ -57,7 +57,8 @@ func (s *ResourceIdentityUIPasswordTestSuite) SetupTest() {
 	s.Res.ETag = "etag"
 	s.Res.RequestID = "opcrequestid"
 
-	s.Client.On("CreateOrResetUIPassword", "user_id").Return(s.Res, nil).Once()
+	s.Client.On("CreateOrResetUIPassword", "user_id", []baremetal.Options(nil)).
+		Return(s.Res, nil).Once()
 }
 
 func (s *ResourceIdentityUIPasswordTestSuite) TestCreateUIPassword() {
@@ -90,7 +91,8 @@ func (s ResourceIdentityUIPasswordTestSuite) TestUpdateVersionForcesNewUIPasswor
 		UserID:      "user_id",
 	}
 
-	s.Client.On("CreateOrResetUIPassword", "user_id").Return(res, nil)
+	s.Client.On("CreateOrResetUIPassword", "user_id", []baremetal.Options(nil)).
+		Return(res, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,

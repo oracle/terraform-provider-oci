@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/MustWin/baremetal-sdk-go"
-	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/client"
+	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/client/mocks"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
@@ -15,7 +15,7 @@ import (
 
 type ResourceCoreVolumeAttachmentTestSuite struct {
 	suite.Suite
-	Client       *client.MockClient
+	Client       *mocks.BareMetalClient
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	TimeCreated  baremetal.Time
@@ -27,7 +27,7 @@ type ResourceCoreVolumeAttachmentTestSuite struct {
 }
 
 func (s *ResourceCoreVolumeAttachmentTestSuite) SetupTest() {
-	s.Client = &client.MockClient{}
+	s.Client = &mocks.BareMetalClient{}
 
 	s.Provider = Provider(
 		func(d *schema.ResourceData) (interface{}, error) {
@@ -89,7 +89,7 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) SetupTest() {
 		"attachment_type",
 		"volume_id",
 		s.Opts).Return(s.Res, nil)
-	s.Client.On("DetachVolume", "id").Return(nil)
+	s.Client.On("DetachVolume", "id", []baremetal.Options(nil)).Return(nil)
 }
 
 func (s *ResourceCoreVolumeAttachmentTestSuite) TestCreateResourceCoreVolumeAttachment() {
@@ -134,7 +134,7 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) TestDetachVolume() {
 		},
 	})
 
-	s.Client.AssertCalled(s.T(), "DetachVolume", "id")
+	s.Client.AssertCalled(s.T(), "DetachVolume", "id", []baremetal.Options(nil))
 }
 
 func TestResourceCoreVolumeAttachmentTestSuite(t *testing.T) {

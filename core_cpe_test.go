@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/MustWin/baremetal-sdk-go"
-	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/client"
+	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/client/mocks"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
@@ -15,7 +15,7 @@ import (
 
 type ResourceCoreCpeTestSuite struct {
 	suite.Suite
-	Client       *client.MockClient
+	Client       *mocks.BareMetalClient
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	TimeCreated  baremetal.Time
@@ -25,7 +25,7 @@ type ResourceCoreCpeTestSuite struct {
 }
 
 func (s *ResourceCoreCpeTestSuite) SetupTest() {
-	s.Client = &client.MockClient{}
+	s.Client = &mocks.BareMetalClient{}
 
 	s.Provider = Provider(
 		func(d *schema.ResourceData) (interface{}, error) {
@@ -60,7 +60,7 @@ func (s *ResourceCoreCpeTestSuite) SetupTest() {
 	s.Res.RequestID = "opcrequestid"
 
 	s.Client.On("CreateCpe", "compartmentid", "displayname", "123.123.123.123", []baremetal.Options(nil)).Return(s.Res, nil)
-	s.Client.On("DeleteCpe", "cpeid").Return(nil)
+	s.Client.On("DeleteCpe", "cpeid", []baremetal.Options(nil)).Return(nil)
 }
 
 func (s *ResourceCoreCpeTestSuite) TestCreateResourceCoreCpe() {
@@ -110,7 +110,7 @@ func (s ResourceCoreCpeTestSuite) TestUpdateForcesNewCoreCpe() {
 	s.Client.On("CreateCpe", "compartmentid", "displayname", "111.222.111.222", []baremetal.Options(nil)).Return(result, nil)
 
 	s.Client.On("GetCpe", "cpeid2", []baremetal.Options(nil)).Return(result, nil)
-	s.Client.On("DeleteCpe", "cpeid2").Return(nil)
+	s.Client.On("DeleteCpe", "cpeid2", []baremetal.Options(nil)).Return(nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -145,7 +145,7 @@ func (s *ResourceCoreCpeTestSuite) TestDeleteResourceCoreCpe() {
 		},
 	})
 
-	s.Client.AssertCalled(s.T(), "DeleteCpe", "cpeid")
+	s.Client.AssertCalled(s.T(), "DeleteCpe", "cpeid", []baremetal.Options(nil))
 }
 
 func TestResourceCoreCpeTestSuite(t *testing.T) {
