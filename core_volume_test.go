@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/MustWin/baremetal-sdk-go"
-	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/client"
+	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/client/mocks"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
@@ -15,7 +15,7 @@ import (
 
 type ResourceCoreVolumeTestSuite struct {
 	suite.Suite
-	Client       *client.MockClient
+	Client       *mocks.BareMetalClient
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	TimeCreated  baremetal.Time
@@ -27,7 +27,7 @@ type ResourceCoreVolumeTestSuite struct {
 }
 
 func (s *ResourceCoreVolumeTestSuite) SetupTest() {
-	s.Client = &client.MockClient{}
+	s.Client = &mocks.BareMetalClient{}
 
 	s.Provider = Provider(
 		func(d *schema.ResourceData) (interface{}, error) {
@@ -83,7 +83,7 @@ func (s *ResourceCoreVolumeTestSuite) SetupTest() {
 		"availability_domain",
 		"compartment_id",
 		s.Opts).Return(s.Res, nil)
-	s.Client.On("DeleteVolume", "id").Return(nil)
+	s.Client.On("DeleteVolume", "id", []baremetal.Options(nil)).Return(nil)
 }
 
 func (s *ResourceCoreVolumeTestSuite) TestCreateResourceCoreVolume() {
@@ -213,7 +213,7 @@ func (s ResourceCoreVolumeTestSuite) TestUpdateAvailabilityDomainForcesNewVolume
 		res.CompartmentID, []baremetal.Options{opts}).Return(res, nil)
 
 	s.Client.On("GetVolume", res.ID, []baremetal.Options(nil)).Return(res, nil)
-	s.Client.On("DeleteVolume", res.ID).Return(nil)
+	s.Client.On("DeleteVolume", res.ID, []baremetal.Options(nil)).Return(nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -261,7 +261,7 @@ func (s ResourceCoreVolumeTestSuite) TestUpdateCompartmentIdForcesNewVolume() {
 		res.CompartmentID, []baremetal.Options{opts}).Return(res, nil)
 
 	s.Client.On("GetVolume", res.ID, []baremetal.Options(nil)).Return(res, nil)
-	s.Client.On("DeleteVolume", res.ID).Return(nil)
+	s.Client.On("DeleteVolume", res.ID, []baremetal.Options(nil)).Return(nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -296,7 +296,7 @@ func (s *ResourceCoreVolumeTestSuite) TestDeleteVolume() {
 		},
 	})
 
-	s.Client.AssertCalled(s.T(), "DeleteVolume", "id")
+	s.Client.AssertCalled(s.T(), "DeleteVolume", "id", []baremetal.Options(nil))
 }
 
 func TestResourceCoreVolumeTestSuite(t *testing.T) {

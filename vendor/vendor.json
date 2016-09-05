@@ -2667,6 +2667,12 @@
 			"revisionTime": "2016-05-31T12:29:44Z"
 		},
 		{
+			"checksumSHA1": "E1AX8pyp128e/HNIZNvMIL8wuR0=",
+			"path": "github.com/vektra/mockery",
+			"revision": "50e94ccca3830b02af862920ec59f3dab0794901",
+			"revisionTime": "2016-08-03T21:43:52Z"
+		},
+		{
 			"checksumSHA1": "o08i3OGHpTh/z/G8taakDtXx4Cc=",
 			"path": "github.com/vmware/govmomi",
 			"revision": "c0c7ce63df7edd78e713257b924c89d9a2dac119",

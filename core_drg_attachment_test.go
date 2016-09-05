@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/MustWin/baremetal-sdk-go"
-	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/client"
+	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/client/mocks"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
@@ -15,7 +15,7 @@ import (
 
 type ResourceCoreDrgAttachmentTestSuite struct {
 	suite.Suite
-	Client       *client.MockClient
+	Client       *mocks.BareMetalClient
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	TimeCreated  baremetal.Time
@@ -27,7 +27,7 @@ type ResourceCoreDrgAttachmentTestSuite struct {
 }
 
 func (s *ResourceCoreDrgAttachmentTestSuite) SetupTest() {
-	s.Client = &client.MockClient{}
+	s.Client = &mocks.BareMetalClient{}
 
 	s.Provider = Provider(
 		func(d *schema.ResourceData) (interface{}, error) {
@@ -84,7 +84,7 @@ func (s *ResourceCoreDrgAttachmentTestSuite) SetupTest() {
 		"drg_id",
 		"vcn_id",
 		s.Opts).Return(s.Res, nil)
-	s.Client.On("DeleteDrgAttachment", "id").Return(nil)
+	s.Client.On("DeleteDrgAttachment", "id", []baremetal.Options(nil)).Return(nil)
 }
 
 func (s *ResourceCoreDrgAttachmentTestSuite) TestCreateResourceCoreDrgAttachment() {
@@ -127,7 +127,7 @@ func (s *ResourceCoreDrgAttachmentTestSuite) TestDetachVolume() {
 		},
 	})
 
-	s.Client.AssertCalled(s.T(), "DeleteDrgAttachment", "id")
+	s.Client.AssertCalled(s.T(), "DeleteDrgAttachment", "id", []baremetal.Options(nil))
 }
 
 func TestResourceCoreDrgAttachmentTestSuite(t *testing.T) {

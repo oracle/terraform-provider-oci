@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/MustWin/baremetal-sdk-go"
-	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/client"
+	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/client/mocks"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
@@ -15,7 +15,7 @@ import (
 
 type ResourceCoreRouteTableTestSuite struct {
 	suite.Suite
-	Client       *client.MockClient
+	Client       *mocks.BareMetalClient
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	TimeCreated  baremetal.Time
@@ -27,7 +27,7 @@ type ResourceCoreRouteTableTestSuite struct {
 }
 
 func (s *ResourceCoreRouteTableTestSuite) SetupTest() {
-	s.Client = &client.MockClient{}
+	s.Client = &mocks.BareMetalClient{}
 
 	s.Provider = Provider(
 		func(d *schema.ResourceData) (interface{}, error) {
@@ -107,7 +107,7 @@ func (s *ResourceCoreRouteTableTestSuite) SetupTest() {
 		"vcn_id",
 		routeRules,
 		s.Opts).Return(s.Res, nil)
-	s.Client.On("DeleteRouteTable", "id").Return(nil)
+	s.Client.On("DeleteRouteTable", "id", []baremetal.Options(nil)).Return(nil)
 }
 
 func (s *ResourceCoreRouteTableTestSuite) TestCreateResourceCoreRouteTable() {
@@ -202,7 +202,7 @@ func (s *ResourceCoreRouteTableTestSuite) TestDeleteRouteTable() {
 		},
 	})
 
-	s.Client.AssertCalled(s.T(), "DeleteRouteTable", "id")
+	s.Client.AssertCalled(s.T(), "DeleteRouteTable", "id", []baremetal.Options(nil))
 }
 
 func TestResourceCoreRouteTableTestSuite(t *testing.T) {
