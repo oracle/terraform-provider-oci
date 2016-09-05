@@ -366,12 +366,6 @@ func (m *MockClient) ListInternetGateways(compartmentID, vcnID string, opts ...b
 	return u, args.Error(1)
 }
 
-func (m *MockClient) CaptureConsoleHistory(instanceID string, opts ...baremetal.Options) (cch *baremetal.ConsoleHistoryMetadata, e error) {
-	args := m.Called(instanceID)
-	u, _ := args.Get(0).(*baremetal.ConsoleHistoryMetadata)
-	return u, args.Error(1)
-}
-
 func (m *MockClient) CreateRouteTable(compartmentID, vcnID string, routeRules []baremetal.RouteRule, opt ...baremetal.Options) (*baremetal.RouteTable, error) {
 	args := m.Called(compartmentID, vcnID, routeRules, opt)
 	u, _ := args.Get(0).(*baremetal.RouteTable)
@@ -401,6 +395,12 @@ func (m *MockClient) ListRouteTables(compartmentID, vcnID string, opt ...baremet
 	return u, args.Error(1)
 }
 
+func (m *MockClient) CaptureConsoleHistory(instanceID string, opts ...baremetal.Options) (cch *baremetal.ConsoleHistoryMetadata, e error) {
+	args := m.Called(instanceID)
+	u, _ := args.Get(0).(*baremetal.ConsoleHistoryMetadata)
+	return u, args.Error(1)
+}
+
 func (m *MockClient) GetConsoleHistory(id string, opts ...baremetal.Options) (ch *baremetal.ConsoleHistoryMetadata, e error) {
 	args := m.Called(id, opts)
 	u, _ := args.Get(0).(*baremetal.ConsoleHistoryMetadata)
@@ -415,5 +415,11 @@ func (m *MockClient) DeleteConsoleHistory(id string) (e error) {
 func (m *MockClient) GetVnic(vncID string) (vnic *baremetal.Vnic, e error) {
 	args := m.Called(vncID)
 	u, _ := args.Get(0).(*baremetal.Vnic)
+	return u, args.Error(1)
+}
+
+func (m *MockClient) CreateOrResetUIPassword(userID string, opts ...baremetal.Options) (resource *baremetal.UIPassword, e error) {
+	args := m.Called(userID)
+	u, _ := args.Get(0).(*baremetal.UIPassword)
 	return u, args.Error(1)
 }
