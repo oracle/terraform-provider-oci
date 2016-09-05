@@ -104,6 +104,7 @@ const (
 	resourceDrgAttachments           resourceName = "drgAttachments"
 	resourceInternetGateways         resourceName = "internetGateways"
 	resourceRouteTables              resourceName = "routeTables"
+	resourceVolumeBackups            resourceName = "volumeBackups"
 
 	apiKeys      = "apiKeys"
 	uiPassword   = "uiPassword"

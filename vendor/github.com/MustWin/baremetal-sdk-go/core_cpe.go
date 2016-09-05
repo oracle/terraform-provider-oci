@@ -25,12 +25,6 @@ func (l *ListCpes) GetList() interface{} {
 	return &l.Cpes
 }
 
-type CreateCpeRequest struct {
-	CompartmentID string `json:"compartmentId"`
-	DisplayName   string `json:"displayName,omitempty"`
-	IPAddress     string `json:"ipAddress"`
-}
-
 // ListCpes returns a list of customer premise equipment for a particular compartment
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Cpe/ListCpes
@@ -56,7 +50,11 @@ func (c *Client) ListCpes(compartmentID string, opts ...Options) (cpes *ListCpes
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Cpe/CreateCpe
 func (c *Client) CreateCpe(compartmentID, IPAddress string, opts ...Options) (cpe *Cpe, e error) {
-	createRequest := CreateCpeRequest{
+	createRequest := struct {
+		CompartmentID string `json:"compartmentId"`
+		DisplayName   string `json:"displayName,omitempty"`
+		IPAddress     string `json:"ipAddress"`
+	}{
 		CompartmentID: compartmentID,
 		IPAddress:     IPAddress,
 	}
