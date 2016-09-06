@@ -92,6 +92,7 @@ func dataSourcesMap() map[string]*schema.Resource {
 		"baremetal_core_route_tables":         core.RouteTableDatasource(),
 		"baremetal_core_vnic":                 core.VnicDatasource(),
 		"baremetal_core_console_history_data": core.ConsoleHistoryDataDatasource(),
+		"baremetal_core_volume_backups":       core.VolumeBackupDatasource(),
 	}
 }
 
