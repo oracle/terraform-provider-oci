@@ -89,8 +89,7 @@ type BareMetalClient interface {
 	CaptureConsoleHistory(instanceID string, opts ...baremetal.Options) (icHistory *baremetal.ConsoleHistoryMetadata, e error)
 	GetConsoleHistory(id string, opts ...baremetal.Options) (icHistory *baremetal.ConsoleHistoryMetadata, e error)
 	DeleteConsoleHistory(id string) (e error)
-
-	GetVnic(vnicID string) (vnic *baremetal.Vnic, e error)
+	ShowConsoleHistoryData(instanceConsoleHistoryID string, opts ...baremetal.Options) (r *baremetal.ConsoleHistoryData, e error)
 
 	CreateOrResetUIPassword(userID string, opts ...baremetal.Options) (resource *baremetal.UIPassword, e error)
 
@@ -98,4 +97,6 @@ type BareMetalClient interface {
 	GetVolumeBackup(id string, opts ...baremetal.Options) (vol *baremetal.VolumeBackup, e error)
 	UpdateVolumeBackup(id string, opts ...baremetal.Options) (vol *baremetal.VolumeBackup, e error)
 	DeleteVolumeBackup(id string, opts ...baremetal.Options) (e error)
+
+	GetVnic(vnicID string) (vnic *baremetal.Vnic, e error)
 }
