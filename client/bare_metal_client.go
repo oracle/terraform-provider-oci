@@ -97,6 +97,7 @@ type BareMetalClient interface {
 	GetVolumeBackup(id string, opts ...baremetal.Options) (vol *baremetal.VolumeBackup, e error)
 	UpdateVolumeBackup(id string, opts ...baremetal.Options) (vol *baremetal.VolumeBackup, e error)
 	DeleteVolumeBackup(id string, opts ...baremetal.Options) (e error)
+	ListVolumeBackups(compartmentID string, opts ...baremetal.Options) (vols *baremetal.ListVolumeBackups, e error)
 
 	GetVnic(vnicID string) (vnic *baremetal.Vnic, e error)
 }

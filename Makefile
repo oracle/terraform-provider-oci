@@ -2,6 +2,9 @@ GOFMT_FILES?=$$(find . -name '*.go' | grep -v vendor)
 
 default: build
 
+build_mocks:
+	cd client && mockery -case underscore -name BareMetalClient
+
 clean:
 	rm -rf terraform-provider-baremetal
 	rm -rf bin/*

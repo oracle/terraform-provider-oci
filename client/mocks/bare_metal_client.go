@@ -1369,6 +1369,29 @@ func (_m *BareMetalClient) ListVolumeAttachments(compartmentID string, opts ...b
 	return r0, r1
 }
 
+// ListVolumeBackups provides a mock function with given fields: compartmentID, opts
+func (_m *BareMetalClient) ListVolumeBackups(compartmentID string, opts ...baremetal.Options) (*baremetal.ListVolumeBackups, error) {
+	ret := _m.Called(compartmentID, opts)
+
+	var r0 *baremetal.ListVolumeBackups
+	if rf, ok := ret.Get(0).(func(string, ...baremetal.Options) *baremetal.ListVolumeBackups); ok {
+		r0 = rf(compartmentID, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*baremetal.ListVolumeBackups)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(string, ...baremetal.Options) error); ok {
+		r1 = rf(compartmentID, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // ListVolumes provides a mock function with given fields: compartmentID, opts
 func (_m *BareMetalClient) ListVolumes(compartmentID string, opts ...baremetal.Options) (*baremetal.ListVolumes, error) {
 	ret := _m.Called(compartmentID, opts)
