@@ -20,29 +20,29 @@ type ConsoleHistoryMetadata struct {
 	TimeCreated        time.Time `json:"TimeCreated"`
 }
 
-// ShowConsoleHistoryDataResponse contains all or part of an instance console history
-// snapshot.  If BytesRemaining is greater than zero, ConsoleHistoryData is
-// only part of the total history.  The remainder may be fetched on subsequent
-// calls to ShowConsoleHistoryData, populating Offset and Limit options.
-type ShowConsoleHistoryMetadataResponse struct {
-	BytesRemaining     int
-	ConsoleHistoryData string
+// ConsoleHistoryData contains all or part of an instance console history
+// snapshot.  If BytesRemaining is greater than zero, Data is only part of the
+// total history.  The remainder may be fetched on subsequent calls to
+// ShowConsoleHistoryData, populating Offset and Limit options.
+type ConsoleHistoryData struct {
+	BytesRemaining int
+	Data           string
 }
 
-// InstanceConsoleHistoriesMetadataList contains a list of Console History Metadata
-type ListInstanceConsoleHistoriesMetadatas struct {
+// ListConsoleHistories contains a list of Console History Metadata
+type ListConsoleHistories struct {
 	ResourceContainer
-	InstanceConsoleHistoriesMetadatas []ConsoleHistoryMetadata
+	ConsoleHistories []ConsoleHistoryMetadata
 }
 
-func (l *ListInstanceConsoleHistoriesMetadatas) GetList() interface{} {
-	return &l.InstanceConsoleHistoriesMetadatas
+func (l *ListConsoleHistories) GetList() interface{} {
+	return &l.ConsoleHistories
 }
 
 // ListConsoleHistories shows the metadata for the specified compartment or instance
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#listConsoleHistories
-func (c *Client) ListConsoleHistories(compartmentID string, opts ...Options) (icHistories *ListInstanceConsoleHistoriesMetadatas, e error) {
+func (c *Client) ListConsoleHistories(compartmentID string, opts ...Options) (icHistories *ListConsoleHistories, e error) {
 	reqOpts := &sdkRequestOptions{
 		name:    resourceInstanceConsoleHistories,
 		ocid:    compartmentID,
@@ -54,7 +54,7 @@ func (c *Client) ListConsoleHistories(compartmentID string, opts ...Options) (ic
 		return
 	}
 
-	icHistories = &ListInstanceConsoleHistoriesMetadatas{}
+	icHistories = &ListConsoleHistories{}
 	e = resp.unmarshal(icHistories)
 	return
 }
@@ -104,22 +104,10 @@ func (c *Client) GetConsoleHistory(instanceID string, opts ...Options) (consoleH
 	return
 }
 
-// DeleteConsoleHistory deletes the specified console history metadata and the console history data
-//
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#deleteConsoleHistory
-func (c *Client) DeleteConsoleHistory(id string, opts ...Options) (e error) {
-	reqOpts := &sdkRequestOptions{
-		name:    resourceInstanceConsoleHistories,
-		options: opts,
-		ids:     urlParts{id},
-	}
-	return c.coreApi.deleteRequest(reqOpts)
-}
-
 // ShowConsoleHistoryData gets the actual console history data (not the metadata).
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#showConsoleHistoryData
-func (c *Client) ShowConsoleHistoryData(instanceConsoleHistoryID string, opts ...Options) (response *ShowConsoleHistoryMetadataResponse, e error) {
+func (c *Client) ShowConsoleHistoryData(instanceConsoleHistoryID string, opts ...Options) (response *ConsoleHistoryData, e error) {
 	reqOpts := &sdkRequestOptions{
 		name:    resourceInstanceConsoleHistories,
 		options: opts,
@@ -130,8 +118,8 @@ func (c *Client) ShowConsoleHistoryData(instanceConsoleHistoryID string, opts ..
 		return
 	}
 
-	response = &ShowConsoleHistoryMetadataResponse{
-		ConsoleHistoryData: string(resp.body[:]),
+	response = &ConsoleHistoryData{
+		Data: string(resp.body[:]),
 	}
 
 	s := resp.header.Get(headerBytesRemaining)
