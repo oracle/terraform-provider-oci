@@ -12,7 +12,7 @@ import (
 	"github.com/stretchr/testify/suite"
 )
 
-type ResourceCoreInstanceConsoleHistoriesTestSuite struct {
+type ResourceCoreConsoleHistoryTestSuite struct {
 	suite.Suite
 	Client       *mocks.BareMetalClient
 	Config       string
@@ -24,7 +24,7 @@ type ResourceCoreInstanceConsoleHistoriesTestSuite struct {
 	Opts         []baremetal.Options
 }
 
-func (s *ResourceCoreInstanceConsoleHistoriesTestSuite) SetupTest() {
+func (s *ResourceCoreConsoleHistoryTestSuite) SetupTest() {
 	s.Client = &mocks.BareMetalClient{}
 	s.Provider = Provider(func(d *schema.ResourceData) (interface{}, error) {
 		return s.Client, nil
@@ -34,13 +34,12 @@ func (s *ResourceCoreInstanceConsoleHistoriesTestSuite) SetupTest() {
 		"baremetal": s.Provider,
 	}
 	s.Config = `
-    resource "baremetal_core_instance_console_histories" "t" {
-      compartment_id = "compartmentid"
+    resource "baremetal_core_console_history" "t" {
 			instance_id = "instance_id"
     }
   `
 	s.Config += testProviderConfig
-	s.ResourceName = "baremetal_core_instance_console_histories.t"
+	s.ResourceName = "baremetal_core_console_history.t"
 	s.Res = &baremetal.ConsoleHistoryMetadata{
 		AvailabilityDomain: "availability_domain",
 		CompartmentID:      "compartmentid",
@@ -61,7 +60,7 @@ func (s *ResourceCoreInstanceConsoleHistoriesTestSuite) SetupTest() {
 	s.DeletedRes.State = baremetal.ResourceTerminated
 }
 
-func (s *ResourceCoreInstanceConsoleHistoriesTestSuite) TestCreateResourceCoreInstanceConsoleHistory() {
+func (s *ResourceCoreConsoleHistoryTestSuite) TestCreateResourceCoreInstanceConsoleHistory() {
 	s.Client.On("GetConsoleHistory", "id", s.Opts).Return(s.Res, nil).Times(2)
 	s.Client.On("GetConsoleHistory", "id", s.Opts).Return(s.DeletedRes, nil)
 
@@ -79,26 +78,6 @@ func (s *ResourceCoreInstanceConsoleHistoriesTestSuite) TestCreateResourceCoreIn
 	})
 }
 
-func (s *ResourceCoreInstanceConsoleHistoriesTestSuite) TestTerminateInstanceConsoleHistories() {
-	s.Client.On("GetConsoleHistory", "id", s.Opts).Return(s.Res, nil).Times(2)
-	s.Client.On("GetConsoleHistory", "id", s.Opts).Return(s.DeletedRes, nil)
-
-	resource.UnitTest(s.T(), resource.TestCase{
-		Providers: s.Providers,
-		Steps: []resource.TestStep{
-			resource.TestStep{
-				Config: s.Config,
-			},
-			resource.TestStep{
-				Config:  s.Config,
-				Destroy: true,
-			},
-		},
-	})
-
-	s.Client.AssertCalled(s.T(), "DeleteConsoleHistory", "id")
-}
-
-func TestResourceCoreInstanceConsoleHistoriesTestSuite(t *testing.T) {
-	suite.Run(t, new(ResourceCoreInstanceConsoleHistoriesTestSuite))
+func TestResourceCoreConsoleHistoryTestSuite(t *testing.T) {
+	suite.Run(t, new(ResourceCoreConsoleHistoryTestSuite))
 }

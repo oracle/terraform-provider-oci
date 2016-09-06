@@ -6,29 +6,29 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
-type InstanceConsoleHistoriesResourceCrud struct {
+type ConsoleHistoryResourceCrud struct {
 	D      *schema.ResourceData
 	Client client.BareMetalClient
 	Res    *baremetal.ConsoleHistoryMetadata
 }
 
-func (s *InstanceConsoleHistoriesResourceCrud) ID() string {
+func (s *ConsoleHistoryResourceCrud) ID() string {
 	return s.Res.ID
 }
 
-func (s *InstanceConsoleHistoriesResourceCrud) CreatedPending() []string {
+func (s *ConsoleHistoryResourceCrud) CreatedPending() []string {
 	return []string{baremetal.ResourceRequested}
 }
 
-func (s *InstanceConsoleHistoriesResourceCrud) CreatedTarget() []string {
+func (s *ConsoleHistoryResourceCrud) CreatedTarget() []string {
 	return []string{baremetal.ResourceSucceeded}
 }
 
-func (s *InstanceConsoleHistoriesResourceCrud) State() string {
+func (s *ConsoleHistoryResourceCrud) State() string {
 	return s.Res.State
 }
 
-func (s *InstanceConsoleHistoriesResourceCrud) Create() (e error) {
+func (s *ConsoleHistoryResourceCrud) Create() (e error) {
 	opts := baremetal.Options{}
 	instanceID := s.D.Get("instance_id").(string)
 
@@ -37,20 +37,21 @@ func (s *InstanceConsoleHistoriesResourceCrud) Create() (e error) {
 	return
 }
 
-func (s *InstanceConsoleHistoriesResourceCrud) Get() (e error) {
+func (s *ConsoleHistoryResourceCrud) Get() (e error) {
 	opts := baremetal.Options{}
 	s.Res, e = s.Client.GetConsoleHistory(s.D.Id(), opts)
 	return
 }
 
-func (s *InstanceConsoleHistoriesResourceCrud) Delete() (e error) {
-	return s.Client.DeleteConsoleHistory(s.D.Id())
-}
-
-func (s *InstanceConsoleHistoriesResourceCrud) SetData() {
+func (s *ConsoleHistoryResourceCrud) SetData() {
 	s.D.Set("availability_domain", s.Res.AvailabilityDomain)
 	s.D.Set("compartment_id", s.Res.CompartmentID)
 	s.D.Set("display_name", s.Res.DisplayName)
+	s.D.Set("instance_id", s.Res.InstanceID)
 	s.D.Set("state", s.Res.State)
 	s.D.Set("time_created", s.Res.TimeCreated.String())
+}
+
+func (s *ConsoleHistoryResourceCrud) Delete() (e error) {
+	return s.Client.DeleteConsoleHistory(s.D.Id())
 }

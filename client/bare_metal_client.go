@@ -89,7 +89,7 @@ type BareMetalClient interface {
 	CaptureConsoleHistory(instanceID string, opts ...baremetal.Options) (icHistory *baremetal.ConsoleHistoryMetadata, e error)
 	GetConsoleHistory(id string, opts ...baremetal.Options) (icHistory *baremetal.ConsoleHistoryMetadata, e error)
 	DeleteConsoleHistory(id string) (e error)
-	ShowConsoleHistoryData(instanceConsoleHistoryID string, opts ...baremetal.Options) (r *baremetal.ShowConsoleHistoryMetadataResponse, e error)
+	ShowConsoleHistoryData(instanceConsoleHistoryID string, opts ...baremetal.Options) (r *baremetal.ConsoleHistoryData, e error)
 
 	CreateOrResetUIPassword(userID string, opts ...baremetal.Options) (resource *baremetal.UIPassword, e error)
 

@@ -1392,6 +1392,29 @@ func (_m *BareMetalClient) ListVolumes(compartmentID string, opts ...baremetal.O
 	return r0, r1
 }
 
+// ShowConsoleHistoryData provides a mock function with given fields: instanceConsoleHistoryID, opts
+func (_m *BareMetalClient) ShowConsoleHistoryData(instanceConsoleHistoryID string, opts ...baremetal.Options) (*baremetal.ConsoleHistoryData, error) {
+	ret := _m.Called(instanceConsoleHistoryID, opts)
+
+	var r0 *baremetal.ConsoleHistoryData
+	if rf, ok := ret.Get(0).(func(string, ...baremetal.Options) *baremetal.ConsoleHistoryData); ok {
+		r0 = rf(instanceConsoleHistoryID, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*baremetal.ConsoleHistoryData)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(string, ...baremetal.Options) error); ok {
+		r1 = rf(instanceConsoleHistoryID, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // TerminateInstance provides a mock function with given fields: instanceID, opts
 func (_m *BareMetalClient) TerminateInstance(instanceID string, opts ...baremetal.Options) error {
 	ret := _m.Called(instanceID, opts)

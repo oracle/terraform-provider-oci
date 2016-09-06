@@ -6,33 +6,33 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
-func InstanceConsoleHistoriesDatasource() *schema.Resource {
+func ConsoleHistoryDataDatasource() *schema.Resource {
 	return &schema.Resource{
-		Read: readInstanceConsoleHistoriesDatasource,
+		Read: readConsoleHistoryData,
 		Schema: map[string]*schema.Schema{
-			"instance_console_history_id": &schema.Schema{
+			"console_history_id": &schema.Schema{
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"console_history": &schema.Schema{
+			"data": &schema.Schema{
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"limit": &schema.Schema{
+			"length": &schema.Schema{
 				Type:     schema.TypeInt,
 				Optional: true,
-				Default:  1000000, // 1 MB
+			},
+			"offset": &schema.Schema{
+				Type:     schema.TypeInt,
+				Optional: true,
 			},
 		},
 	}
 }
 
-func readInstanceConsoleHistoriesDatasource(d *schema.ResourceData, m interface{}) (e error) {
+func readConsoleHistoryData(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	reader := &InstanceConsoleHistoriesDatasourceCrud{
-		D:      d,
-		Client: client,
-	}
+	reader := &ConsoleHistoryDataDatasourceCrud{D: d, Client: client}
 
 	return crud.ReadResource(reader)
 }
