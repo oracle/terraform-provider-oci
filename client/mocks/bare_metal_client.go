@@ -193,6 +193,29 @@ func (_m *BareMetalClient) CreateIPSecConnection(compartmentID string, cpeID str
 	return r0, r1
 }
 
+// CreateImage provides a mock function with given fields: compartmentID, instanceID, opts
+func (_m *BareMetalClient) CreateImage(compartmentID string, instanceID string, opts ...baremetal.Options) (*baremetal.Image, error) {
+	ret := _m.Called(compartmentID, instanceID, opts)
+
+	var r0 *baremetal.Image
+	if rf, ok := ret.Get(0).(func(string, string, ...baremetal.Options) *baremetal.Image); ok {
+		r0 = rf(compartmentID, instanceID, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*baremetal.Image)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(string, string, ...baremetal.Options) error); ok {
+		r1 = rf(compartmentID, instanceID, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // CreateInternetGateway provides a mock function with given fields: compartmentID, vcnID, isEnabled, opts
 func (_m *BareMetalClient) CreateInternetGateway(compartmentID string, vcnID string, isEnabled bool, opts ...baremetal.Options) (*baremetal.InternetGateway, error) {
 	ret := _m.Called(compartmentID, vcnID, isEnabled, opts)
@@ -472,6 +495,20 @@ func (_m *BareMetalClient) DeleteGroup(userID string, opts ...baremetal.Options)
 
 // DeleteIPSecConnection provides a mock function with given fields: id, opts
 func (_m *BareMetalClient) DeleteIPSecConnection(id string, opts ...baremetal.Options) error {
+	ret := _m.Called(id, opts)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(string, ...baremetal.Options) error); ok {
+		r0 = rf(id, opts...)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
+// DeleteImage provides a mock function with given fields: id, opts
+func (_m *BareMetalClient) DeleteImage(id string, opts ...baremetal.Options) error {
 	ret := _m.Called(id, opts)
 
 	var r0 error
@@ -810,6 +847,29 @@ func (_m *BareMetalClient) GetIPSecConnectionDeviceStatus(id string) (*baremetal
 	var r1 error
 	if rf, ok := ret.Get(1).(func(string) error); ok {
 		r1 = rf(id)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// GetImage provides a mock function with given fields: id, opts
+func (_m *BareMetalClient) GetImage(id string, opts ...baremetal.Options) (*baremetal.Image, error) {
+	ret := _m.Called(id, opts)
+
+	var r0 *baremetal.Image
+	if rf, ok := ret.Get(0).(func(string, ...baremetal.Options) *baremetal.Image); ok {
+		r0 = rf(id, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*baremetal.Image)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(string, ...baremetal.Options) error); ok {
+		r1 = rf(id, opts...)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -1185,6 +1245,29 @@ func (_m *BareMetalClient) ListIPSecConnections(compartmentID string, opts ...ba
 	return r0, r1
 }
 
+// ListImages provides a mock function with given fields: compartmentID, opts
+func (_m *BareMetalClient) ListImages(compartmentID string, opts ...baremetal.Options) (*baremetal.ListImages, error) {
+	ret := _m.Called(compartmentID, opts)
+
+	var r0 *baremetal.ListImages
+	if rf, ok := ret.Get(0).(func(string, ...baremetal.Options) *baremetal.ListImages); ok {
+		r0 = rf(compartmentID, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*baremetal.ListImages)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(string, ...baremetal.Options) error); ok {
+		r1 = rf(compartmentID, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // ListInstances provides a mock function with given fields: compartmentID, opts
 func (_m *BareMetalClient) ListInstances(compartmentID string, opts ...baremetal.Options) (*baremetal.ListInstances, error) {
 	ret := _m.Called(compartmentID, opts)
@@ -1491,6 +1574,29 @@ func (_m *BareMetalClient) UpdateGroup(userID string, userDescription string, op
 	var r1 error
 	if rf, ok := ret.Get(1).(func(string, string, ...baremetal.Options) error); ok {
 		r1 = rf(userID, userDescription, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// UpdateImage provides a mock function with given fields: id, opts
+func (_m *BareMetalClient) UpdateImage(id string, opts ...baremetal.Options) (*baremetal.Image, error) {
+	ret := _m.Called(id, opts)
+
+	var r0 *baremetal.Image
+	if rf, ok := ret.Get(0).(func(string, ...baremetal.Options) *baremetal.Image); ok {
+		r0 = rf(id, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*baremetal.Image)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(string, ...baremetal.Options) error); ok {
+		r1 = rf(id, opts...)
 	} else {
 		r1 = ret.Error(1)
 	}
