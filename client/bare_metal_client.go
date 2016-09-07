@@ -100,4 +100,10 @@ type BareMetalClient interface {
 	ListVolumeBackups(compartmentID string, opts ...baremetal.Options) (vols *baremetal.ListVolumeBackups, e error)
 
 	GetVnic(vnicID string) (vnic *baremetal.Vnic, e error)
+
+	CreateImage(compartmentID, instanceID string, opts ...baremetal.Options) (res *baremetal.Image, e error)
+	GetImage(id string, opts ...baremetal.Options) (res *baremetal.Image, e error)
+	UpdateImage(id string, opts ...baremetal.Options) (res *baremetal.Image, e error)
+	DeleteImage(id string, opts ...baremetal.Options) (e error)
+	ListImages(compartmentID string, opts ...baremetal.Options) (res *baremetal.ListImages, e error)
 }

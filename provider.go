@@ -116,6 +116,7 @@ func resourcesMap() map[string]*schema.Resource {
 		"baremetal_core_route_table":       core.RouteTableResource(),
 		"baremetal_core_console_history":   core.ConsoleHistoryResource(),
 		"baremetal_core_volume_backup":     core.VolumeBackupResource(),
+		"baremetal_core_image":             core.ImageResource(),
 	}
 }
 
