@@ -4,13 +4,15 @@ package baremetal
 // fields will be ignored. Typically options are passed on a variadic paramter
 // to SDK methods. Note that only the first option, if present, will be used.
 type Options struct {
-	AvailabilityDomain string
-	DisplayName        string
-	ImageID            string
-	InstanceID         string
-	VolumeID           string
-	VnicID             string
-	VcnID              string
+	AvailabilityDomain     string
+	DisplayName            string
+	ImageID                string
+	InstanceID             string
+	VolumeID               string
+	VnicID                 string
+	VcnID                  string
+	OperatingSystem        string
+	OperatingSystemVersion string
 	// IfMatch (Optional) is for optimistic concurrency control. In the PUT or DELETE call for
 	// a resource, set the if-match parameter to the value of the etag from a previous GET or POST response
 	// for that resource. The resource will be updated or deleted only if the etag you
