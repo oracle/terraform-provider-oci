@@ -61,6 +61,10 @@ func getCoreOptionsFromResourceData(resource resourceProvider, keys ...string) (
 				opts[0].CpeID = val.(string)
 			case "vcn_id":
 				opts[0].VcnID = val.(string)
+			case "operating_system":
+				opts[0].OperatingSystem = val.(string)
+			case "operating_system_version":
+				opts[0].OperatingSystemVersion = val.(string)
 			default:
 				panic(fmt.Sprintf("Unknown key '%s' supplied for Options", key))
 			}
