@@ -9,25 +9,25 @@ import (
 func APIKeyResource() *schema.Resource {
 	return &schema.Resource{
 		Create: createAPIKey,
+		Read:   readAPIKey,
 		Delete: deleteAPIKey,
 		Schema: map[string]*schema.Schema{
-			"key_value": &schema.Schema{
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
-			},
 			"fingerprint": &schema.Schema{
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"user_id": &schema.Schema{
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
-			},
 			"id": &schema.Schema{
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"inactive_status": &schema.Schema{
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"key_value": &schema.Schema{
+				Type:     schema.TypeString,
+				Required: true,
+				ForceNew: true,
 			},
 			"state": &schema.Schema{
 				Type:     schema.TypeString,
@@ -37,9 +37,10 @@ func APIKeyResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"inactive_status": &schema.Schema{
+			"user_id": &schema.Schema{
 				Type:     schema.TypeString,
-				Computed: true,
+				Required: true,
+				ForceNew: true,
 			},
 		},
 	}
@@ -49,6 +50,10 @@ func createAPIKey(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
 	sync := &APIKeyResourceCrud{D: d, Client: client}
 	return crud.CreateResource(d, sync)
+}
+
+func readAPIKey(d *schema.ResourceData, m interface{}) (e error) {
+	return nil
 }
 
 func deleteAPIKey(d *schema.ResourceData, m interface{}) (e error) {
