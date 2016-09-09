@@ -106,4 +106,8 @@ type BareMetalClient interface {
 	UpdateImage(id string, opts ...baremetal.Options) (res *baremetal.Image, e error)
 	DeleteImage(id string, opts ...baremetal.Options) (e error)
 	ListImages(compartmentID string, opts ...baremetal.Options) (res *baremetal.ListImages, e error)
+
+	UploadAPIKey(userID, key string, opts ...baremetal.Options) (apiKey *baremetal.APIKey, e error)
+	DeleteAPIKey(userID, fingerprint string, opts ...baremetal.Options) (e error)
+	ListAPIKeys(userID string) (response *baremetal.ListAPIKeyResponses, e error)
 }
