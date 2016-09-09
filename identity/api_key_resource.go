@@ -53,7 +53,9 @@ func createAPIKey(d *schema.ResourceData, m interface{}) (e error) {
 }
 
 func readAPIKey(d *schema.ResourceData, m interface{}) (e error) {
-	return nil
+	client := m.(client.BareMetalClient)
+	sync := &APIKeyResourceCrud{D: d, Client: client}
+	return crud.ReadResource(sync)
 }
 
 func deleteAPIKey(d *schema.ResourceData, m interface{}) (e error) {

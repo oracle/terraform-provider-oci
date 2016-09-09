@@ -45,6 +45,27 @@ func (s *APIKeyResourceCrud) Create() (e error) {
 	return
 }
 
+func (s *APIKeyResourceCrud) Get() (e error) {
+	userID := s.D.Get("user_id").(string)
+	fingerprint := s.D.Get("fingerprint").(string)
+
+	var res *baremetal.ListAPIKeyResponses
+	if res, e = s.Client.ListAPIKeys(userID); e != nil {
+		return
+	}
+
+	// The API does not provide a Get(user_id, fingerprint) method.
+	// Loop through the list of keys and try to find by fingerprint.
+	for _, val := range res.Keys {
+		if val.Fingerprint == fingerprint {
+			s.Res = &val
+			break
+		}
+	}
+
+	return
+}
+
 func (s *APIKeyResourceCrud) SetData() {
 	s.D.Set("key_value", s.Res.KeyValue)
 	s.D.Set("fingerprint", s.Res.Fingerprint)
