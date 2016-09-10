@@ -67,11 +67,11 @@ func (s *APIKeyResourceCrud) Get() (e error) {
 }
 
 func (s *APIKeyResourceCrud) SetData() {
-	s.D.Set("key_value", s.Res.KeyValue)
 	s.D.Set("fingerprint", s.Res.Fingerprint)
-	s.D.Set("user_id", s.Res.UserID)
+	s.D.Set("key_value", s.Res.KeyValue)
 	s.D.Set("state", s.Res.State)
 	s.D.Set("time_created", s.Res.TimeCreated.String())
+	s.D.Set("user_id", s.Res.UserID)
 }
 
 func (s *APIKeyResourceCrud) Delete() (e error) {
