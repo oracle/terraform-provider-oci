@@ -423,6 +423,20 @@ func (_m *BareMetalClient) CreateVolumeBackup(volumeID string, opts ...baremetal
 	return r0, r1
 }
 
+// DeleteAPIKey provides a mock function with given fields: userID, fingerprint, opts
+func (_m *BareMetalClient) DeleteAPIKey(userID string, fingerprint string, opts ...baremetal.Options) error {
+	ret := _m.Called(userID, fingerprint, opts)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(string, string, ...baremetal.Options) error); ok {
+		r0 = rf(userID, fingerprint, opts...)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
 // DeleteConsoleHistory provides a mock function with given fields: id
 func (_m *BareMetalClient) DeleteConsoleHistory(id string) error {
 	ret := _m.Called(id)
@@ -1153,6 +1167,29 @@ func (_m *BareMetalClient) LaunchInstance(availabilityDomain string, compartment
 	return r0, r1
 }
 
+// ListAPIKeys provides a mock function with given fields: userID
+func (_m *BareMetalClient) ListAPIKeys(userID string) (*baremetal.ListAPIKeyResponses, error) {
+	ret := _m.Called(userID)
+
+	var r0 *baremetal.ListAPIKeyResponses
+	if rf, ok := ret.Get(0).(func(string) *baremetal.ListAPIKeyResponses); ok {
+		r0 = rf(userID)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*baremetal.ListAPIKeyResponses)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(string) error); ok {
+		r1 = rf(userID)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // ListCpes provides a mock function with given fields: compartmentID, opts
 func (_m *BareMetalClient) ListCpes(compartmentID string, opts ...baremetal.Options) (*baremetal.ListCpes, error) {
 	ret := _m.Called(compartmentID, opts)
@@ -1758,6 +1795,29 @@ func (_m *BareMetalClient) UpdateVolumeBackup(id string, opts ...baremetal.Optio
 	var r1 error
 	if rf, ok := ret.Get(1).(func(string, ...baremetal.Options) error); ok {
 		r1 = rf(id, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// UploadAPIKey provides a mock function with given fields: userID, key, opts
+func (_m *BareMetalClient) UploadAPIKey(userID string, key string, opts ...baremetal.Options) (*baremetal.APIKey, error) {
+	ret := _m.Called(userID, key, opts)
+
+	var r0 *baremetal.APIKey
+	if rf, ok := ret.Get(0).(func(string, string, ...baremetal.Options) *baremetal.APIKey); ok {
+		r0 = rf(userID, key, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*baremetal.APIKey)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(string, string, ...baremetal.Options) error); ok {
+		r1 = rf(userID, key, opts...)
 	} else {
 		r1 = ret.Error(1)
 	}
