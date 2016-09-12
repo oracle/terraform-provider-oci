@@ -10,100 +10,10 @@ import (
 	"fmt"
 	"io"
 	"net/http"
-	"net/url"
 	"strconv"
 	"strings"
 	"time"
 )
-
-type urlParts []interface{}
-
-type requestOptions interface {
-	header() http.Header
-	getBody() interface{}
-	url(urlBuilderFn) string
-}
-
-type sdkRequestOptions struct {
-	body       interface{}
-	name       resourceName
-	options    []Options
-	ocid       string
-	ids        urlParts
-	query      url.Values
-	httpHeader http.Header
-}
-
-func (r *sdkRequestOptions) url(b urlBuilderFn) string {
-	r.parseOptions()
-	return b(r.name, r.query, r.ids...)
-}
-
-func (r *sdkRequestOptions) getBody() interface{} {
-	r.parseOptions()
-	return r.body
-}
-
-func (r *sdkRequestOptions) header() http.Header {
-	r.parseOptions()
-	return r.httpHeader
-}
-
-func (r *sdkRequestOptions) parseOptions() {
-	if r.query == nil {
-		r.query = url.Values{}
-	}
-
-	r.httpHeader = http.Header{}
-
-	// Parse query options.
-	if r.ocid != "" {
-		r.query.Set(queryCompartmentID, r.ocid)
-	}
-
-	if len(r.options) > 0 {
-		option := r.options[0]
-
-		// Parse header options.
-		if option.OPCIdempotencyToken != "" {
-			r.httpHeader.Set(headerRetryToken, option.OPCIdempotencyToken)
-		}
-		if option.IfMatch != "" {
-			r.httpHeader.Set(headerIfMatch, option.IfMatch)
-		}
-
-		if option.AvailabilityDomain != "" {
-			r.query.Set(queryAvailabilityDomain, option.AvailabilityDomain)
-		}
-		if option.ImageID != "" {
-			r.query.Set(queryImageID, option.ImageID)
-		}
-		if option.InstanceID != "" {
-			r.query.Set(queryInstanceID, option.InstanceID)
-		}
-		if option.Limit > 0 {
-			r.query.Set(queryLimit, strconv.FormatUint(option.Limit, 10))
-		}
-		if option.Page != "" {
-			r.query.Set(queryPage, option.Page)
-		}
-		if option.VnicID != "" {
-			r.query.Set(queryVnicID, option.VnicID)
-		}
-		if option.CpeID != "" {
-			r.query.Set(queryCpeID, option.CpeID)
-		}
-		if option.DrgID != "" {
-			r.query.Set(queryDrgID, option.DrgID)
-		}
-		if option.Length > 0 {
-			r.query.Set(queryLength, strconv.Itoa(option.Length))
-		}
-		if option.Offset > 0 {
-			r.query.Set(queryOffset, strconv.Itoa(option.Offset))
-		}
-	}
-}
 
 type authenticationInfo struct {
 	privateRSAKey  *rsa.PrivateKey
