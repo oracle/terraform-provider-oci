@@ -77,6 +77,7 @@ func dataSourcesMap() map[string]*schema.Resource {
 	return map[string]*schema.Resource{
 		"baremetal_core_console_history_data": core.ConsoleHistoryDataDatasource(),
 		"baremetal_core_cpes":                 core.CpeDatasource(),
+		"baremetal_core_dhcp_options":         core.DHCPOptionsDatasource(),
 		"baremetal_core_drg_attachments":      core.DrgAttachmentDatasource(),
 		"baremetal_core_drgs":                 core.DrgDatasource(),
 		"baremetal_core_images":               core.ImageDatasource(),
