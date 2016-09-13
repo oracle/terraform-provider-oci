@@ -110,4 +110,10 @@ type BareMetalClient interface {
 	UploadAPIKey(userID, key string, opts ...baremetal.Options) (apiKey *baremetal.APIKey, e error)
 	DeleteAPIKey(userID, fingerprint string, opts ...baremetal.Options) (e error)
 	ListAPIKeys(userID string) (response *baremetal.ListAPIKeyResponses, e error)
+
+	CreateDHCPOptions(compartmentID, vcnID string, dhcpOptions []baremetal.DHCPDNSOption, opts ...baremetal.Options) (res *baremetal.DHCPOptions, e error)
+	GetDHCPOptions(id string, opts ...baremetal.Options) (res *baremetal.DHCPOptions, e error)
+	UpdateDHCPOptions(id string, opts ...baremetal.Options) (res *baremetal.DHCPOptions, e error)
+	DeleteDHCPOptions(id string, opts ...baremetal.Options) (e error)
+	ListDHCPOptions(compartmentID, vcnID string, opts ...baremetal.Options) (res *baremetal.ListDHCPOptions, e error)
 }
