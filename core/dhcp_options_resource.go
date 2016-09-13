@@ -6,27 +6,6 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
-// // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/DHCPDNSOption/
-// type DHCPDNSOption struct {
-// 	Type             string   `json:"type"`
-// 	CustomDNSServers []string `json:"customDnsServers"`
-// 	ServerType       string   `json:"serverType"`
-// }
-
-// // DHCPOptions contains a set of dhcp options
-// //
-// // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/DHCPOptions/
-// type DHCPOptions struct {
-// 	RequestableResource
-// 	ETaggedResource
-// 	CompartmentID string          `json:"compartmentId"`
-// 	DisplayName   string          `json:"displayName"`
-// 	ID            string          `json:"id"`
-// 	Options       []DHCPDNSOption `json:"options"`
-// 	State         string          `json:"lifecycleState"`
-// 	TimeCreated   Time            `json:"timeCreated"`
-// }
-
 func DHCPOptionsResource() *schema.Resource {
 	return &schema.Resource{
 		Create: createDHCPOptions,
@@ -60,7 +39,6 @@ func DHCPOptionsResource() *schema.Resource {
 						"custom_dns_servers": &schema.Schema{
 							Type:     schema.TypeList,
 							Optional: true,
-							ForceNew: true,
 							Elem:     &schema.Schema{Type: schema.TypeString},
 						},
 						"server_type": &schema.Schema{

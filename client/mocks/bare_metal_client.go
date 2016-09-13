@@ -767,13 +767,13 @@ func (_m *BareMetalClient) GetCpe(id string, opts ...baremetal.Options) (*bareme
 	return r0, r1
 }
 
-// GetDHCPOptions provides a mock function with given fields: id, opts
-func (_m *BareMetalClient) GetDHCPOptions(id string, opts ...baremetal.Options) (*baremetal.DHCPOptions, error) {
-	ret := _m.Called(id, opts)
+// GetDHCPOptions provides a mock function with given fields: id
+func (_m *BareMetalClient) GetDHCPOptions(id string) (*baremetal.DHCPOptions, error) {
+	ret := _m.Called(id)
 
 	var r0 *baremetal.DHCPOptions
-	if rf, ok := ret.Get(0).(func(string, ...baremetal.Options) *baremetal.DHCPOptions); ok {
-		r0 = rf(id, opts...)
+	if rf, ok := ret.Get(0).(func(string) *baremetal.DHCPOptions); ok {
+		r0 = rf(id)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*baremetal.DHCPOptions)
@@ -781,8 +781,8 @@ func (_m *BareMetalClient) GetDHCPOptions(id string, opts ...baremetal.Options) 
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string, ...baremetal.Options) error); ok {
-		r1 = rf(id, opts...)
+	if rf, ok := ret.Get(1).(func(string) error); ok {
+		r1 = rf(id)
 	} else {
 		r1 = ret.Error(1)
 	}
