@@ -101,6 +101,29 @@ func (_m *BareMetalClient) CreateCpe(compartmentID string, displayName string, I
 	return r0, r1
 }
 
+// CreateDHCPOptions provides a mock function with given fields: compartmentID, vcnID, dhcpOptions, opts
+func (_m *BareMetalClient) CreateDHCPOptions(compartmentID string, vcnID string, dhcpOptions []baremetal.DHCPDNSOption, opts ...baremetal.Options) (*baremetal.DHCPOptions, error) {
+	ret := _m.Called(compartmentID, vcnID, dhcpOptions, opts)
+
+	var r0 *baremetal.DHCPOptions
+	if rf, ok := ret.Get(0).(func(string, string, []baremetal.DHCPDNSOption, ...baremetal.Options) *baremetal.DHCPOptions); ok {
+		r0 = rf(compartmentID, vcnID, dhcpOptions, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*baremetal.DHCPOptions)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(string, string, []baremetal.DHCPDNSOption, ...baremetal.Options) error); ok {
+		r1 = rf(compartmentID, vcnID, dhcpOptions, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // CreateDrg provides a mock function with given fields: compartmentID, opts
 func (_m *BareMetalClient) CreateDrg(compartmentID string, opts ...baremetal.Options) (*baremetal.Drg, error) {
 	ret := _m.Called(compartmentID, opts)
@@ -465,6 +488,20 @@ func (_m *BareMetalClient) DeleteCpe(id string, opts ...baremetal.Options) error
 	return r0
 }
 
+// DeleteDHCPOptions provides a mock function with given fields: id, opts
+func (_m *BareMetalClient) DeleteDHCPOptions(id string, opts ...baremetal.Options) error {
+	ret := _m.Called(id, opts)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(string, ...baremetal.Options) error); ok {
+		r0 = rf(id, opts...)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
 // DeleteDrg provides a mock function with given fields: id, opts
 func (_m *BareMetalClient) DeleteDrg(id string, opts ...baremetal.Options) error {
 	ret := _m.Called(id, opts)
@@ -723,6 +760,29 @@ func (_m *BareMetalClient) GetCpe(id string, opts ...baremetal.Options) (*bareme
 	var r1 error
 	if rf, ok := ret.Get(1).(func(string, ...baremetal.Options) error); ok {
 		r1 = rf(id, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// GetDHCPOptions provides a mock function with given fields: id
+func (_m *BareMetalClient) GetDHCPOptions(id string) (*baremetal.DHCPOptions, error) {
+	ret := _m.Called(id)
+
+	var r0 *baremetal.DHCPOptions
+	if rf, ok := ret.Get(0).(func(string) *baremetal.DHCPOptions); ok {
+		r0 = rf(id)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*baremetal.DHCPOptions)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(string) error); ok {
+		r1 = rf(id)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -1213,6 +1273,29 @@ func (_m *BareMetalClient) ListCpes(compartmentID string, opts ...baremetal.Opti
 	return r0, r1
 }
 
+// ListDHCPOptions provides a mock function with given fields: compartmentID, vcnID, opts
+func (_m *BareMetalClient) ListDHCPOptions(compartmentID string, vcnID string, opts ...baremetal.Options) (*baremetal.ListDHCPOptions, error) {
+	ret := _m.Called(compartmentID, vcnID, opts)
+
+	var r0 *baremetal.ListDHCPOptions
+	if rf, ok := ret.Get(0).(func(string, string, ...baremetal.Options) *baremetal.ListDHCPOptions); ok {
+		r0 = rf(compartmentID, vcnID, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*baremetal.ListDHCPOptions)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(string, string, ...baremetal.Options) error); ok {
+		r1 = rf(compartmentID, vcnID, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // ListDrgAttachments provides a mock function with given fields: compartmentID, opts
 func (_m *BareMetalClient) ListDrgAttachments(compartmentID string, opts ...baremetal.Options) (*baremetal.ListDrgAttachments, error) {
 	ret := _m.Called(compartmentID, opts)
@@ -1588,6 +1671,29 @@ func (_m *BareMetalClient) UpdateCompartment(userID string, userDescription stri
 	var r1 error
 	if rf, ok := ret.Get(1).(func(string, string, ...baremetal.Options) error); ok {
 		r1 = rf(userID, userDescription, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// UpdateDHCPOptions provides a mock function with given fields: id, opts
+func (_m *BareMetalClient) UpdateDHCPOptions(id string, opts ...baremetal.Options) (*baremetal.DHCPOptions, error) {
+	ret := _m.Called(id, opts)
+
+	var r0 *baremetal.DHCPOptions
+	if rf, ok := ret.Get(0).(func(string, ...baremetal.Options) *baremetal.DHCPOptions); ok {
+		r0 = rf(id, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*baremetal.DHCPOptions)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(string, ...baremetal.Options) error); ok {
+		r1 = rf(id, opts...)
 	} else {
 		r1 = ret.Error(1)
 	}
