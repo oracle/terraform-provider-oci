@@ -102,6 +102,7 @@ const (
 	resourceInternetGateways         resourceName = "internetGateways"
 	resourceIPSecConnections         resourceName = "ipsecConnections"
 	resourceRouteTables              resourceName = "routeTables"
+	resourceSecurityLists            resourceName = "securityLists"
 	resourceShapes                   resourceName = "shapes"
 	resourceSubnets                  resourceName = "subnets"
 	resourceVirtualNetworks          resourceName = "vcns"
