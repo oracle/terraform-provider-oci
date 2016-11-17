@@ -30,27 +30,23 @@ func (l *ListVolumes) GetList() interface{} {
 // CreateVolume is used to create a cloud block storage device
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Volume/CreateVolume
-func (c *Client) CreateVolume(availabilityDomain, compartmentID string, opts ...Options) (res *Volume, e error) {
-	body := struct {
-		AvailabilityDomain string `json:"availabilityDomain"`
-		CompartmentID      string `json:"compartmentId"`
-		DisplayName        string `json:"displayName,omitempty"`
+func (c *Client) CreateVolume(availabilityDomain, compartmentID string, opts *CreateVolumeOptions) (res *Volume, e error) {
+	required := struct {
+		ocidRequirement
+		AvailabilityDomain string `json:"availabilityDomain" url:"-"`
 	}{
 		AvailabilityDomain: availabilityDomain,
-		CompartmentID:      compartmentID,
 	}
-	if len(opts) > 0 {
-		body.DisplayName = opts[0].DisplayName
-	}
+	required.CompartmentID = compartmentID
 
-	reqOpts := &sdkRequestOptions{
-		body:    body,
-		name:    resourceVolumes,
-		options: opts,
+	details := &requestDetails{
+		name:     resourceVolumes,
+		optional: opts,
+		required: required,
 	}
 
 	var response *requestResponse
-	if response, e = c.coreApi.request(http.MethodPost, reqOpts); e != nil {
+	if response, e = c.coreApi.request(http.MethodPost, details); e != nil {
 		return
 	}
 
@@ -62,14 +58,14 @@ func (c *Client) CreateVolume(availabilityDomain, compartmentID string, opts ...
 // GetVolume retrieves information about a block volume
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Volume/GetVolume
-func (c *Client) GetVolume(id string, opts ...Options) (res *Volume, e error) {
-	reqOpts := &sdkRequestOptions{
-		name:    resourceVolumes,
-		options: opts,
-		ids:     urlParts{id},
+func (c *Client) GetVolume(id string) (res *Volume, e error) {
+	details := &requestDetails{
+		name: resourceVolumes,
+		ids:  urlParts{id},
 	}
+
 	var resp *requestResponse
-	if resp, e = c.coreApi.getRequest(reqOpts); e != nil {
+	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}
 
@@ -81,23 +77,15 @@ func (c *Client) GetVolume(id string, opts ...Options) (res *Volume, e error) {
 // UpdateVolume updates a volume's display name
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Volume/UpdateVolume
-func (c *Client) UpdateVolume(id string, opts ...Options) (res *Volume, e error) {
-	body := struct {
-		DisplayName string `json:"displayName,omitempty"`
-	}{}
-	if len(opts) > 0 {
-		body.DisplayName = opts[0].DisplayName
-	}
-
-	reqOpts := &sdkRequestOptions{
-		body:    body,
-		name:    resourceVolumes,
-		options: opts,
-		ids:     urlParts{id},
+func (c *Client) UpdateVolume(id string, opts *UpdateOptions) (res *Volume, e error) {
+	details := &requestDetails{
+		ids:      urlParts{id},
+		name:     resourceVolumes,
+		optional: opts,
 	}
 
 	var response *requestResponse
-	if response, e = c.coreApi.request(http.MethodPut, reqOpts); e != nil {
+	if response, e = c.coreApi.request(http.MethodPut, details); e != nil {
 		return
 	}
 
@@ -109,27 +97,28 @@ func (c *Client) UpdateVolume(id string, opts ...Options) (res *Volume, e error)
 // DeleteVolume removes a cloud block storage volume
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Volume/DeleteVolume
-func (c *Client) DeleteVolume(id string, opts ...Options) (e error) {
-	reqOpts := &sdkRequestOptions{
-		name:    resourceVolumes,
-		options: opts,
-		ids:     urlParts{id},
+func (c *Client) DeleteVolume(id string, opts *IfMatchOptions) (e error) {
+	details := &requestDetails{
+		ids:      urlParts{id},
+		name:     resourceVolumes,
+		optional: opts,
 	}
-	return c.coreApi.deleteRequest(reqOpts)
+
+	return c.coreApi.deleteRequest(details)
 }
 
 // ListVolumes returns a list of volumes for a particular compartment
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Volume/ListVolumes
-func (c *Client) ListVolumes(compartmentID string, opts ...Options) (res *ListVolumes, e error) {
-	reqOpts := &sdkRequestOptions{
-		name:    resourceVolumes,
-		ocid:    compartmentID,
-		options: opts,
+func (c *Client) ListVolumes(compartmentID string, opts *ListVolumesOptions) (res *ListVolumes, e error) {
+	details := &requestDetails{
+		name:     resourceVolumes,
+		optional: opts,
+		required: ocidRequirement{compartmentID},
 	}
 
 	var resp *requestResponse
-	if resp, e = c.coreApi.getRequest(reqOpts); e != nil {
+	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}
 

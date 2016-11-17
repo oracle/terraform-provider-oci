@@ -22,11 +22,6 @@ type authenticationInfo struct {
 	keyFingerPrint string
 }
 
-type authenticateRequest struct {
-	*authenticationInfo
-	*http.Request
-}
-
 type requestResponse struct {
 	header http.Header
 	body   []byte

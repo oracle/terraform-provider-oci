@@ -42,15 +42,17 @@ func (l *ListConsoleHistories) GetList() interface{} {
 // ListConsoleHistories shows the metadata for the specified compartment or instance
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#listConsoleHistories
-func (c *Client) ListConsoleHistories(compartmentID string, opts ...Options) (icHistories *ListConsoleHistories, e error) {
-	reqOpts := &sdkRequestOptions{
-		name:    resourceInstanceConsoleHistories,
-		ocid:    compartmentID,
-		options: opts,
+func (c *Client) ListConsoleHistories(compartmentID string, opts *ListConsoleHistoriesOptions) (icHistories *ListConsoleHistories, e error) {
+	required := listOCIDRequirement{CompartmentID: compartmentID}
+
+	details := &requestDetails{
+		name:     resourceInstanceConsoleHistories,
+		optional: opts,
+		required: required,
 	}
 
 	var resp *requestResponse
-	if resp, e = c.coreApi.getRequest(reqOpts); e != nil {
+	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}
 
@@ -62,21 +64,21 @@ func (c *Client) ListConsoleHistories(compartmentID string, opts ...Options) (ic
 // CaptureConsoleHistory captures the most recent serial console data (up to a megabyte) for the specified instance.
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#captureConsoleHistory
-func (c *Client) CaptureConsoleHistory(instanceID string, opts ...Options) (icHistory *ConsoleHistoryMetadata, e error) {
-	createRequest := struct {
-		InstanceID string `json:"instanceId"`
+func (c *Client) CaptureConsoleHistory(instanceID string, opts *RetryTokenOptions) (icHistory *ConsoleHistoryMetadata, e error) {
+	required := struct {
+		InstanceID string `json:"instanceId" url:"-"`
 	}{
 		InstanceID: instanceID,
 	}
 
-	reqOpts := &sdkRequestOptions{
-		body:    createRequest,
-		name:    resourceInstanceConsoleHistories,
-		options: opts,
+	details := &requestDetails{
+		name:     resourceInstanceConsoleHistories,
+		optional: opts,
+		required: required,
 	}
 
 	var resp *requestResponse
-	if resp, e = c.coreApi.request(http.MethodPost, reqOpts); e != nil {
+	if resp, e = c.coreApi.request(http.MethodPost, details); e != nil {
 		return
 	}
 
@@ -88,14 +90,13 @@ func (c *Client) CaptureConsoleHistory(instanceID string, opts ...Options) (icHi
 // GetConsoleHistory shows the metadata for the specified console history
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#getConsoleHistory
-func (c *Client) GetConsoleHistory(instanceID string, opts ...Options) (consoleHistoryMetadata *ConsoleHistoryMetadata, e error) {
-	reqOpts := &sdkRequestOptions{
-		name:    resourceInstanceConsoleHistories,
-		options: opts,
-		ids:     urlParts{instanceID},
+func (c *Client) GetConsoleHistory(instanceID string) (consoleHistoryMetadata *ConsoleHistoryMetadata, e error) {
+	details := &requestDetails{
+		name: resourceInstanceConsoleHistories,
+		ids:  urlParts{instanceID},
 	}
 	var resp *requestResponse
-	if resp, e = c.coreApi.getRequest(reqOpts); e != nil {
+	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}
 
@@ -107,21 +108,18 @@ func (c *Client) GetConsoleHistory(instanceID string, opts ...Options) (consoleH
 // ShowConsoleHistoryData gets the actual console history data (not the metadata).
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#showConsoleHistoryData
-func (c *Client) ShowConsoleHistoryData(instanceConsoleHistoryID string, opts ...Options) (response *ConsoleHistoryData, e error) {
-	reqOpts := &sdkRequestOptions{
-		name:    resourceInstanceConsoleHistories,
-		options: opts,
-		ids:     urlParts{instanceConsoleHistoryID, dataURLPart},
+func (c *Client) ShowConsoleHistoryData(instanceConsoleHistoryID string, opts *ConsoleHistoryDataOptions) (response *ConsoleHistoryData, e error) {
+	details := &requestDetails{
+		name:     resourceInstanceConsoleHistories,
+		ids:      urlParts{instanceConsoleHistoryID, dataURLPart},
+		optional: opts,
 	}
 	var resp *requestResponse
-	if resp, e = c.coreApi.getRequest(reqOpts); e != nil {
+	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}
 
-	response = &ConsoleHistoryData{
-		Data: string(resp.body[:]),
-	}
-
+	response = &ConsoleHistoryData{Data: string(resp.body[:])}
 	s := resp.header.Get(headerBytesRemaining)
 
 	if s != "" {

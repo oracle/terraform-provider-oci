@@ -6,12 +6,6 @@ import (
 	"time"
 )
 
-// TODO: this should be anonymous changed to CreateAPIKeyDetails
-type CreateAPIKeyRequest struct {
-	Key string `json:"key"`
-}
-
-//
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/identity/20160918/ApiKey/
 type APIKey struct {
 	KeyID        string    `json:"keyId"`
@@ -36,26 +30,27 @@ func (l *ListAPIKeyResponses) GetList() interface{} {
 // Deletes an API key belonging to a user.
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/identity/20160918/ApiKey/DeleteApiKey
-func (c *Client) DeleteAPIKey(userID, fingerprint string, opts ...Options) (e error) {
-	reqOpts := &sdkRequestOptions{
-		name:    resourceUsers,
-		options: opts,
-		ids:     urlParts{userID, apiKeys, fingerprint},
+func (c *Client) DeleteAPIKey(userID, fingerprint string, opts *IfMatchOptions) (e error) {
+	details := &requestDetails{
+		ids:      urlParts{userID, apiKeys, fingerprint},
+		name:     resourceUsers,
+		optional: opts,
 	}
-	return c.identityApi.deleteRequest(reqOpts)
+
+	return c.identityApi.deleteRequest(details)
 }
 
 // ListAPIKeys returns information about a user's API keys.
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/identity/20160918/ApiKey/ListApiKeys
 func (c *Client) ListAPIKeys(userID string) (response *ListAPIKeyResponses, e error) {
-	reqOpts := &sdkRequestOptions{
-		name: resourceUsers,
+	details := &requestDetails{
 		ids:  urlParts{userID, apiKeys, "/"},
+		name: resourceUsers,
 	}
 
 	var getResp *requestResponse
-	if getResp, e = c.identityApi.getRequest(reqOpts); e != nil {
+	if getResp, e = c.identityApi.getRequest(details); e != nil {
 		return
 	}
 
@@ -68,20 +63,22 @@ func (c *Client) ListAPIKeys(userID string) (response *ListAPIKeyResponses, e er
 // key in pem format.
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/identity/20160918/ApiKey/UploadApiKey
-func (c *Client) UploadAPIKey(userID, key string, opts ...Options) (apiKey *APIKey, e error) {
-	body := CreateAPIKeyRequest{
+func (c *Client) UploadAPIKey(userID, key string, opts *RetryTokenOptions) (apiKey *APIKey, e error) {
+	required := struct {
+		Key string `json:"key" url:"-"`
+	}{
 		Key: key,
 	}
 
-	reqOpts := &sdkRequestOptions{
-		body:    body,
-		name:    resourceUsers,
-		options: opts,
-		ids:     urlParts{userID, apiKeys, "/"},
+	details := &requestDetails{
+		ids:      urlParts{userID, apiKeys, "/"},
+		name:     resourceUsers,
+		optional: opts,
+		required: required,
 	}
 
 	var resp *requestResponse
-	if resp, e = c.identityApi.request(http.MethodPost, reqOpts); e != nil {
+	if resp, e = c.identityApi.request(http.MethodPost, details); e != nil {
 		return
 	}
 

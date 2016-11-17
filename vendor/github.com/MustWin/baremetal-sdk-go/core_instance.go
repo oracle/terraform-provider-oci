@@ -1,9 +1,6 @@
 package baremetal
 
-import (
-	"net/http"
-	"net/url"
-)
+import "net/http"
 
 // Instance contains information about a compute host.
 //
@@ -33,16 +30,6 @@ func (l *ListInstances) GetList() interface{} {
 	return &l.Instances
 }
 
-type LaunchInstanceRequest struct {
-	AvailabilityDomain string            `json:"availabilityDomain"`
-	CompartmentID      string            `json:"compartmentId"`
-	DisplayName        string            `json:"displayName,omitempty"`
-	Image              string            `json:"image"`
-	Metadata           map[string]string `json:"metadata"`
-	Shape              string            `json:"shape"`
-	SubnetID           string            `json:"subnetId"`
-}
-
 // LaunchInstance initializes and starts a compute instance. Display name is
 // set in the opts parameter.  See Oracle documentation for more information
 // on other arguments.
@@ -54,27 +41,26 @@ func (c *Client) LaunchInstance(
 	image,
 	shape,
 	subnetID string,
-	metadata map[string]string, opts ...Options) (inst *Instance, e error) {
+	opts *LaunchInstanceOptions) (inst *Instance, e error) {
 
-	var displayName string
-	if len(opts) > 0 {
-		displayName = opts[0].DisplayName
-	}
-
-	requestBody := LaunchInstanceRequest{
+	required := struct {
+		ocidRequirement
+		AvailabilityDomain string `json:"availabilityDomain" url:"-"`
+		Image              string `json:"image" url:"-"`
+		Shape              string `json:"shape" url:"-"`
+		SubnetID           string `json:"subnetId" url:"-"`
+	}{
 		AvailabilityDomain: availabilityDomain,
-		CompartmentID:      compartmentID,
-		DisplayName:        displayName,
 		Image:              image,
-		Metadata:           metadata,
 		Shape:              shape,
 		SubnetID:           subnetID,
 	}
+	required.CompartmentID = compartmentID
 
-	req := &sdkRequestOptions{
-		body:    requestBody,
-		name:    resourceInstances,
-		options: opts,
+	req := &requestDetails{
+		name:     resourceInstances,
+		optional: opts,
+		required: required,
 	}
 
 	var response *requestResponse
@@ -90,14 +76,14 @@ func (c *Client) LaunchInstance(
 // GetInstance retrieves a compute instance with instanceID
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Instance/GetInstance
-func (c *Client) GetInstance(instanceID string) (inst *Instance, e error) {
-	req := &sdkRequestOptions{
+func (c *Client) GetInstance(id string) (inst *Instance, e error) {
+	details := &requestDetails{
 		name: resourceInstances,
-		ids:  urlParts{instanceID},
+		ids:  urlParts{id},
 	}
 
 	var response *requestResponse
-	if response, e = c.coreApi.getRequest(req); e != nil {
+	if response, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}
 
@@ -110,28 +96,15 @@ func (c *Client) GetInstance(instanceID string) (inst *Instance, e error) {
 // by assigning the new name to Options.DisplayName
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Instance/UpdateInstance
-func (c *Client) UpdateInstance(instanceID string, opts ...Options) (inst *Instance, e error) {
-	var displayName string
-
-	if len(opts) > 0 {
-		displayName = opts[0].DisplayName
-	}
-
-	requestBody := struct {
-		DisplayName string `json:"displayName,omitempty"`
-	}{
-		DisplayName: displayName,
-	}
-
-	req := &sdkRequestOptions{
-		name:    resourceInstances,
-		body:    requestBody,
-		ids:     urlParts{instanceID},
-		options: opts,
+func (c *Client) UpdateInstance(id string, opts *UpdateOptions) (inst *Instance, e error) {
+	details := &requestDetails{
+		name:     resourceInstances,
+		ids:      urlParts{id},
+		optional: opts,
 	}
 
 	var response *requestResponse
-	if response, e = c.coreApi.request(http.MethodPut, req); e != nil {
+	if response, e = c.coreApi.request(http.MethodPut, details); e != nil {
 		return
 	}
 
@@ -144,29 +117,29 @@ func (c *Client) UpdateInstance(instanceID string, opts ...Options) (inst *Insta
 // instanceID.
 //
 // See Khttps://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#terminateInstance
-func (c *Client) TerminateInstance(instanceID string, opts ...Options) (e error) {
-	req := &sdkRequestOptions{
-		name:    resourceInstances,
-		ids:     urlParts{instanceID},
-		options: opts,
+func (c *Client) TerminateInstance(id string, opts *IfMatchOptions) (e error) {
+	details := &requestDetails{
+		ids:      urlParts{id},
+		name:     resourceInstances,
+		optional: opts,
 	}
 
-	return c.coreApi.deleteRequest(req)
+	return c.coreApi.deleteRequest(details)
 }
 
 // ListInstances returns a list of compute instances hosted in a compartment. AvailabilityDomain
 // may be included in Options to further refine results.
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Instance/LaunchInstance
-func (c *Client) ListInstances(compartmentID string, opts ...Options) (insts *ListInstances, e error) {
-	reqOpts := &sdkRequestOptions{
-		name:    resourceInstances,
-		ocid:    compartmentID,
-		options: opts,
+func (c *Client) ListInstances(compartmentID string, opts *ListInstancesOptions) (insts *ListInstances, e error) {
+	details := &requestDetails{
+		name:     resourceInstances,
+		required: listOCIDRequirement{CompartmentID: compartmentID},
+		optional: opts,
 	}
 
 	var resp *requestResponse
-	if resp, e = c.coreApi.getRequest(reqOpts); e != nil {
+	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}
 
@@ -179,19 +152,22 @@ func (c *Client) ListInstances(compartmentID string, opts ...Options) (insts *Li
 // instanceID.
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Instance/InstanceAction
-func (c *Client) InstanceAction(instanceID string, action instanceActions, opts ...Options) (inst *Instance, e error) {
-
-	reqOpts := &sdkRequestOptions{
-		name:    resourceInstances,
-		options: opts,
-		ids:     urlParts{instanceID},
-		query:   url.Values{},
+func (c *Client) InstanceAction(id string, action instanceActions, opts *HeaderOptions) (inst *Instance, e error) {
+	required := struct {
+		Action string `json:"-" url:"action"`
+	}{
+		Action: string(action),
 	}
 
-	reqOpts.query.Set(queryAction, string(action))
+	details := &requestDetails{
+		name:     resourceInstances,
+		ids:      urlParts{id},
+		optional: opts,
+		required: required,
+	}
 
 	var response *requestResponse
-	if response, e = c.coreApi.request(http.MethodPost, reqOpts); e != nil {
+	if response, e = c.coreApi.request(http.MethodPost, details); e != nil {
 		return
 	}
 

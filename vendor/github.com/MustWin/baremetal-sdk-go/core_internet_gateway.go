@@ -1,9 +1,6 @@
 package baremetal
 
-import (
-	"net/http"
-	"net/url"
-)
+import "net/http"
 
 // InternetGateway information on an internet gateway hosted in a
 // virtual cloud network
@@ -36,32 +33,25 @@ func (ig *ListInternetGateways) GetList() interface{} {
 // be provided in opts.
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#createInternetGateway
-func (c *Client) CreateInternetGateway(compartmentID, vcnID string, isEnabled bool, opts ...Options) (gw *InternetGateway, e error) {
-	var displayName string
-	if len(opts) > 0 {
-		displayName = opts[0].DisplayName
-	}
-
-	createRequest := struct {
-		CompartmentID string `json:"compartmentId"`
-		DisplayName   string `json:"displayName,omitempty"`
-		IsEnabled     bool   `json:"isEnabled"`
-		VcnID         string `json:"vcnId"`
+func (c *Client) CreateInternetGateway(compartmentID, vcnID string, isEnabled bool, opts *CreateOptions) (gw *InternetGateway, e error) {
+	required := struct {
+		ocidRequirement
+		IsEnabled bool   `json:"isEnabled" url:"-"`
+		VcnID     string `json:"vcnId" url:"-"`
 	}{
-		CompartmentID: compartmentID,
-		DisplayName:   displayName,
-		IsEnabled:     isEnabled,
-		VcnID:         vcnID,
+		IsEnabled: isEnabled,
+		VcnID:     vcnID,
 	}
+	required.CompartmentID = compartmentID
 
-	requestOptions := &sdkRequestOptions{
-		body:    createRequest,
-		name:    resourceInternetGateways,
-		options: opts,
+	details := &requestDetails{
+		name:     resourceInternetGateways,
+		optional: opts,
+		required: required,
 	}
 
 	var response *requestResponse
-	if response, e = c.coreApi.request(http.MethodPost, requestOptions); e != nil {
+	if response, e = c.coreApi.request(http.MethodPost, details); e != nil {
 		return
 	}
 
@@ -75,13 +65,13 @@ func (c *Client) CreateInternetGateway(compartmentID, vcnID string, isEnabled bo
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#getInternetGateway
 func (c *Client) GetInternetGateway(id string) (gw *InternetGateway, e error) {
-	reqOpts := &sdkRequestOptions{
+	details := &requestDetails{
 		name: resourceInternetGateways,
 		ids:  urlParts{id},
 	}
 
 	var response *requestResponse
-	if response, e = c.coreApi.getRequest(reqOpts); e != nil {
+	if response, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}
 
@@ -94,60 +84,55 @@ func (c *Client) GetInternetGateway(id string) (gw *InternetGateway, e error) {
 // UpdateInternetGateway enables or disables internet gateway
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#UpdateInternetGatewayRequest
-func (c *Client) UpdateInternetGateway(id string, isEnabled bool, opts ...Options) (gw *InternetGateway, e error) {
-
-	body := struct {
-		IsEnabled bool `json:"isEnabled"`
-	}{
-		IsEnabled: isEnabled,
-	}
-
-	reqOpts := &sdkRequestOptions{
-		name:    resourceInternetGateways,
-		ids:     urlParts{id},
-		body:    body,
-		options: opts,
+func (c *Client) UpdateInternetGateway(id string, opts *UpdateGatewayOptions) (gw *InternetGateway, e error) {
+	details := &requestDetails{
+		ids:      urlParts{id},
+		name:     resourceInternetGateways,
+		optional: opts,
 	}
 
 	var response *requestResponse
-	if response, e = c.coreApi.request(http.MethodPut, reqOpts); e != nil {
+	if response, e = c.coreApi.request(http.MethodPut, details); e != nil {
 		return
 	}
 
 	gw = &InternetGateway{}
 	e = response.unmarshal(gw)
 	return
-
 }
 
 // DeleteInternetGateway removes internet gateway
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#deleteInternetGateway
-func (c *Client) DeleteInternetGateway(id string, opts ...Options) (e error) {
-	request := &sdkRequestOptions{
-		name:    resourceInternetGateways,
-		ids:     urlParts{id},
-		options: opts,
+func (c *Client) DeleteInternetGateway(id string, opts *IfMatchOptions) (e error) {
+	details := &requestDetails{
+		name:     resourceInternetGateways,
+		ids:      urlParts{id},
+		optional: opts,
 	}
-	return c.coreApi.deleteRequest(request)
+	return c.coreApi.deleteRequest(details)
 }
 
 // ListInternetGateways is used to fetch a list of internet gateways.
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/InternetGateway/ListInternetGateways
-func (c *Client) ListInternetGateways(compartmentID, vcnID string, opts ...Options) (list *ListInternetGateways, e error) {
-	query := url.Values{}
-	query.Set(queryVcnID, vcnID)
+func (c *Client) ListInternetGateways(compartmentID, vcnID string, opts *ListOptions) (list *ListInternetGateways, e error) {
+	required := struct {
+		listOCIDRequirement
+		VcnID string `json:"-" url:"vcnId"`
+	}{
+		VcnID: vcnID,
+	}
+	required.CompartmentID = compartmentID
 
-	request := &sdkRequestOptions{
-		ocid:    compartmentID,
-		options: opts,
-		query:   query,
-		name:    resourceInternetGateways,
+	details := &requestDetails{
+		name:     resourceInternetGateways,
+		optional: opts,
+		required: required,
 	}
 
 	var response *requestResponse
-	if response, e = c.coreApi.getRequest(request); e != nil {
+	if response, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}
 

@@ -78,40 +78,32 @@ func (l *ListIPSecConnections) GetList() interface{} {
 // CreateIPSecConnection create an IPSec connection.
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#createIPSecConnection
-func (c *Client) CreateIPSecConnection(compartmentID, cpeID, drgID string, staticRoutes []string, opts ...Options) (conn *IPSecConnection, e error) {
-	var displayName string
-	if len(opts) > 0 {
-		displayName = opts[0].DisplayName
-	}
-
-	body := struct {
-		CompartmentID string   `json:"compartmentId"`
-		CpeID         string   `json:"cpeId"`
-		DisplayName   string   `json:"displayName"`
-		DrgID         string   `json:"drgId"`
-		StaticRoutes  []string `json:"staticRoutes"`
+func (c *Client) CreateIPSecConnection(compartmentID, cpeID, drgID string, staticRoutes []string, opts *CreateOptions) (conn *IPSecConnection, e error) {
+	required := struct {
+		ocidRequirement
+		CpeID        string   `json:"cpeId" url:"-"`
+		DrgID        string   `json:"drgId" url:"-"`
+		StaticRoutes []string `json:"staticRoutes" url:"-"`
 	}{
-		CompartmentID: compartmentID,
-		CpeID:         cpeID,
-		DisplayName:   displayName,
-		DrgID:         drgID,
-		StaticRoutes:  staticRoutes,
+		CpeID:        cpeID,
+		DrgID:        drgID,
+		StaticRoutes: staticRoutes,
 	}
+	required.CompartmentID = compartmentID
 
-	req := &sdkRequestOptions{
-		name:    resourceIPSecConnections,
-		body:    body,
-		options: opts,
+	details := &requestDetails{
+		name:     resourceIPSecConnections,
+		optional: opts,
+		required: required,
 	}
 
 	var response *requestResponse
-	if response, e = c.coreApi.request(http.MethodPost, req); e != nil {
+	if response, e = c.coreApi.request(http.MethodPost, details); e != nil {
 		return
 	}
 
 	conn = &IPSecConnection{}
 	e = response.unmarshal(conn)
-
 	return
 }
 
@@ -120,15 +112,15 @@ func (c *Client) CreateIPSecConnection(compartmentID, cpeID, drgID string, stati
 // is supported by providing optional Page and Limit parameters.
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#listIPSecConnections
-func (c *Client) ListIPSecConnections(compartmentID string, opts ...Options) (conns *ListIPSecConnections, e error) {
-	req := &sdkRequestOptions{
-		name:    resourceIPSecConnections,
-		ocid:    compartmentID,
-		options: opts,
+func (c *Client) ListIPSecConnections(compartmentID string, opts *ListIPSecConnsOptions) (conns *ListIPSecConnections, e error) {
+	details := &requestDetails{
+		name:     resourceIPSecConnections,
+		optional: opts,
+		required: listOCIDRequirement{CompartmentID: compartmentID},
 	}
 
 	var response *requestResponse
-	if response, e = c.coreApi.getRequest(req); e != nil {
+	if response, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}
 
@@ -141,13 +133,13 @@ func (c *Client) ListIPSecConnections(compartmentID string, opts ...Options) (co
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#getIPSecConnection
 func (c *Client) GetIPSecConnection(id string) (conn *IPSecConnection, e error) {
-	req := &sdkRequestOptions{
+	details := &requestDetails{
 		name: resourceIPSecConnections,
 		ids:  urlParts{id},
 	}
 
 	var response *requestResponse
-	if response, e = c.coreApi.getRequest(req); e != nil {
+	if response, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}
 
@@ -159,48 +151,47 @@ func (c *Client) GetIPSecConnection(id string) (conn *IPSecConnection, e error) 
 // DeleteIPSecConnection deletes an IPSec connection.
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#deleteIPSecConnection
-func (c *Client) DeleteIPSecConnection(id string, opts ...Options) (e error) {
-	req := &sdkRequestOptions{
-		name:    resourceIPSecConnections,
-		ids:     urlParts{id},
-		options: opts,
+func (c *Client) DeleteIPSecConnection(id string, opts *IfMatchOptions) (e error) {
+	details := &requestDetails{
+		ids:      urlParts{id},
+		name:     resourceIPSecConnections,
+		optional: opts,
 	}
 
-	return c.coreApi.deleteRequest(req)
+	return c.coreApi.deleteRequest(details)
 }
 
 // GetIPSecConnectionDeviceConfig retrieves router configuration to set up
 // IPSec tunnel on customer premise device.
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/IPSecConnectionDeviceConfig/GetIPSecConnectionDeviceConfig
-func (c *Client) GetIPSecConnectionDeviceConfig(ipsecID string) (config *IPSecConnectionDeviceConfig, e error) {
-	req := &sdkRequestOptions{
+func (c *Client) GetIPSecConnectionDeviceConfig(id string) (config *IPSecConnectionDeviceConfig, e error) {
+	details := &requestDetails{
 		name: resourceIPSecConnections,
-		ids:  urlParts{ipsecID, deviceConfig},
+		ids:  urlParts{id, deviceConfig},
 	}
 
 	var response *requestResponse
-	if response, e = c.coreApi.getRequest(req); e != nil {
+	if response, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}
 
 	config = &IPSecConnectionDeviceConfig{}
 	e = response.unmarshal(config)
 	return
-
 }
 
 // GetIPSecConnectionDeviceStatus get status on an IPSec tunnel.
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#getIPSecConnectionDeviceStatus
-func (c *Client) GetIPSecConnectionDeviceStatus(ipsecID string) (status *IPSecConnectionDeviceStatus, e error) {
-	req := &sdkRequestOptions{
+func (c *Client) GetIPSecConnectionDeviceStatus(id string) (status *IPSecConnectionDeviceStatus, e error) {
+	details := &requestDetails{
 		name: resourceIPSecConnections,
-		ids:  urlParts{ipsecID, deviceStatus},
+		ids:  urlParts{id, deviceStatus},
 	}
 
 	var response *requestResponse
-	if response, e = c.coreApi.getRequest(req); e != nil {
+	if response, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}
 

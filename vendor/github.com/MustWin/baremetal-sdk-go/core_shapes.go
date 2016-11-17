@@ -23,15 +23,15 @@ func (l *ListShapes) GetList() interface{} {
 // an ImageID.
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Shape/ListShapes
-func (c *Client) ListShapes(compartmentID string, options ...Options) (shapes *ListShapes, e error) {
-	reqOpts := &sdkRequestOptions{
-		name:    resourceShapes,
-		ocid:    compartmentID,
-		options: options,
+func (c *Client) ListShapes(compartmentID string, opts *ListShapesOptions) (shapes *ListShapes, e error) {
+	details := &requestDetails{
+		name:     resourceShapes,
+		optional: opts,
+		required: listOCIDRequirement{CompartmentID: compartmentID},
 	}
 
 	var resp *requestResponse
-	if resp, e = c.coreApi.getRequest(reqOpts); e != nil {
+	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}
 

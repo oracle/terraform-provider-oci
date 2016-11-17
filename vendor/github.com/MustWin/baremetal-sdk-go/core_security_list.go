@@ -1,9 +1,6 @@
 package baremetal
 
-import (
-	"net/http"
-	"net/url"
-)
+import "net/http"
 
 // https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/PortRange/
 type PortRange struct {
@@ -78,32 +75,28 @@ func (c *Client) CreateSecurityList(
 	compartmentID, vcnID string,
 	egressRules []EgressSecurityRule,
 	ingressRules []IngressSecurityRule,
-	opts ...Options,
+	opts *CreateOptions,
 ) (res *SecurityList, e error) {
-	body := struct {
-		CompartmentID string                `json:"compartmentId"`
-		DisplayName   string                `json:"displayName,omitempty"`
-		EgressRules   []EgressSecurityRule  `json:"egressSecurityRules"`
-		IngressRules  []IngressSecurityRule `json:"ingressSecurityRules"`
-		VcnID         string                `json:"vcnId"`
+	required := struct {
+		ocidRequirement
+		EgressRules  []EgressSecurityRule  `json:"egressSecurityRules" url:"-"`
+		IngressRules []IngressSecurityRule `json:"ingressSecurityRules" url:"-"`
+		VcnID        string                `json:"vcnId" url:"-"`
 	}{
-		CompartmentID: compartmentID,
-		EgressRules:   egressRules,
-		IngressRules:  ingressRules,
-		VcnID:         vcnID,
+		EgressRules:  egressRules,
+		IngressRules: ingressRules,
+		VcnID:        vcnID,
 	}
-	if len(opts) > 0 {
-		body.DisplayName = opts[0].DisplayName
-	}
+	required.CompartmentID = compartmentID
 
-	reqOpts := &sdkRequestOptions{
-		body:    body,
-		name:    resourceSecurityLists,
-		options: opts,
+	details := &requestDetails{
+		name:     resourceSecurityLists,
+		optional: opts,
+		required: required,
 	}
 
 	var response *requestResponse
-	if response, e = c.coreApi.request(http.MethodPost, reqOpts); e != nil {
+	if response, e = c.coreApi.request(http.MethodPost, details); e != nil {
 		return
 	}
 
@@ -115,14 +108,14 @@ func (c *Client) CreateSecurityList(
 // GetSecurityList gets the specified security list's information
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/SecurityList/GetSecurityList
-func (c *Client) GetSecurityList(id string, opts ...Options) (res *SecurityList, e error) {
-	reqOpts := &sdkRequestOptions{
-		name:    resourceSecurityLists,
-		options: opts,
-		ids:     urlParts{id},
+func (c *Client) GetSecurityList(id string) (res *SecurityList, e error) {
+	details := &requestDetails{
+		name: resourceSecurityLists,
+		ids:  urlParts{id},
 	}
+
 	var resp *requestResponse
-	if resp, e = c.coreApi.getRequest(reqOpts); e != nil {
+	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}
 
@@ -134,33 +127,15 @@ func (c *Client) GetSecurityList(id string, opts ...Options) (res *SecurityList,
 // UpdateSecurityList updates the specified security list's rules
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/SecurityList/UpdateSecurityList
-func (c *Client) UpdateSecurityList(
-	id string,
-	egressRules []EgressSecurityRule,
-	ingressRules []IngressSecurityRule,
-	opts ...Options,
-) (res *SecurityList, e error) {
-	body := struct {
-		DisplayName  string                `json:"displayName,omitempty"`
-		EgressRules  []EgressSecurityRule  `json:"egressSecurityRules"`
-		IngressRules []IngressSecurityRule `json:"ingressSecurityRules"`
-	}{
-		EgressRules:  egressRules,
-		IngressRules: ingressRules,
-	}
-	if len(opts) > 0 {
-		body.DisplayName = opts[0].DisplayName
-	}
-
-	reqOpts := &sdkRequestOptions{
-		body:    body,
-		name:    resourceSecurityLists,
-		options: opts,
-		ids:     urlParts{id},
+func (c *Client) UpdateSecurityList(id string, opts *UpdateSecurityListOptions) (res *SecurityList, e error) {
+	details := &requestDetails{
+		ids:      urlParts{id},
+		name:     resourceSecurityLists,
+		optional: opts,
 	}
 
 	var response *requestResponse
-	if response, e = c.coreApi.request(http.MethodPut, reqOpts); e != nil {
+	if response, e = c.coreApi.request(http.MethodPut, details); e != nil {
 		return
 	}
 
@@ -173,32 +148,36 @@ func (c *Client) UpdateSecurityList(
 // in use
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/SecurityList/DeleteSecurityList
-func (c *Client) DeleteSecurityList(id string, opts ...Options) (e error) {
-	reqOpts := &sdkRequestOptions{
-		name:    resourceSecurityLists,
-		options: opts,
-		ids:     urlParts{id},
+func (c *Client) DeleteSecurityList(id string, opts *IfMatchOptions) (e error) {
+	details := &requestDetails{
+		ids:      urlParts{id},
+		name:     resourceSecurityLists,
+		optional: opts,
 	}
-	return c.coreApi.deleteRequest(reqOpts)
+	return c.coreApi.deleteRequest(details)
 }
 
 // ListSecurityLists gets a list of the security lists in the specified VCN and
 // compartment
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/SecurityList/ListSecurityLists
-func (c *Client) ListSecurityLists(compartmentID, vcnID string, opts ...Options) (res *ListSecurityLists, e error) {
-	query := url.Values{}
-	query.Set(queryVcnID, vcnID)
+func (c *Client) ListSecurityLists(compartmentID, vcnID string, opts *ListOptions) (res *ListSecurityLists, e error) {
+	required := struct {
+		listOCIDRequirement
+		VcnID string `json:"-" url:"vcnId"`
+	}{
+		VcnID: vcnID,
+	}
+	required.CompartmentID = compartmentID
 
-	reqOpts := &sdkRequestOptions{
-		name:    resourceSecurityLists,
-		ocid:    compartmentID,
-		options: opts,
-		query:   query,
+	details := &requestDetails{
+		name:     resourceSecurityLists,
+		optional: opts,
+		required: required,
 	}
 
 	var resp *requestResponse
-	if resp, e = c.coreApi.getRequest(reqOpts); e != nil {
+	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}
 

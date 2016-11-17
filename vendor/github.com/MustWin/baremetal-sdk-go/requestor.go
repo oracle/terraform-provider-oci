@@ -39,8 +39,13 @@ func newIdentityAPIRequestor(authInfo *authenticationInfo, tr *http.Transport) (
 }
 
 func (api *apiRequestor) deleteRequest(reqOpts requestOptions) (e error) {
+	var url string
+	if url, e = reqOpts.url(api.urlBuilder); e != nil {
+		return
+	}
+
 	var req *http.Request
-	if req, e = http.NewRequest(http.MethodDelete, reqOpts.url(api.urlBuilder), nil); e != nil {
+	if req, e = http.NewRequest(http.MethodDelete, url, nil); e != nil {
 		return
 	}
 
@@ -71,8 +76,13 @@ func (api *apiRequestor) deleteRequest(reqOpts requestOptions) (e error) {
 }
 
 func (api *apiRequestor) getRequest(reqOpts requestOptions) (getResp *requestResponse, e error) {
+	var url string
+	if url, e = reqOpts.url(api.urlBuilder); e != nil {
+		return
+	}
+
 	var req *http.Request
-	if req, e = http.NewRequest(http.MethodGet, reqOpts.url(api.urlBuilder), nil); e != nil {
+	if req, e = http.NewRequest(http.MethodGet, url, nil); e != nil {
 		return
 	}
 
@@ -109,14 +119,19 @@ func (api *apiRequestor) getRequest(reqOpts requestOptions) (getResp *requestRes
 
 func (api *apiRequestor) request(method string, reqOpts requestOptions) (r *requestResponse, e error) {
 	var jsonBuffer []byte
-	if jsonBuffer, e = json.Marshal(reqOpts.getBody()); e != nil {
+	if jsonBuffer, e = reqOpts.getBody(); e != nil {
 		return
 	}
 
 	buffer := bytes.NewBuffer(jsonBuffer)
 
+	var url string
+	if url, e = reqOpts.url(api.urlBuilder); e != nil {
+		return
+	}
+
 	var req *http.Request
-	if req, e = http.NewRequest(method, reqOpts.url(api.urlBuilder), buffer); e != nil {
+	if req, e = http.NewRequest(method, url, buffer); e != nil {
 		return
 	}
 	req.Header = reqOpts.header()
