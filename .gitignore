@@ -31,3 +31,5 @@ tf.plan
 terraform-provider-baremetal
 *.orig
 .idea
+.env
+
