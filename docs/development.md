@@ -4,7 +4,7 @@
 Before starting development it's important to get familiarized with
 Terraform and how it's providers work.
 
-Here's a list of recommended material:
+Here's a list of recommended materials:
 * https://www.hashicorp.com/blog/terraform-custom-providers.html (Error
   Handling and partial state are very important concepts)
 * https://www.terraform.io/docs/plugins/basics.html
@@ -12,12 +12,15 @@ Here's a list of recommended material:
 
 
 # Setup
-We recommend by cleaning up your $GOPATH/src/ before starting.
+We recommend cleaning up your $GOPATH/src/ before starting.
 
 We also strongly encourage to pull this repository at:
 $GOPATH/src/github.com/mustwin/terraform-Oracle-BareMetal-Provider
 
-Once that it setup, run govendor sync to copy all the dependencies to
+And the Baremetal GO SDK at:
+$GOPATH/src/github.com/MustWin/baremetal-sdk-go
+
+Once that is setup, run govendor sync to copy all the dependencies into
 your $GOPATH.
 
 # Testing
@@ -45,3 +48,4 @@ vendor docs](https://github.com/kardianos/govendor).
 
 # References
 [Oracle Bare Metal Iaas API Docs](https://docs.us-az-phoenix-1.oracleiaas.com/)
+[Baremetal Go SDK](https://github.com/MustWin/baremetal-sdk-go)
