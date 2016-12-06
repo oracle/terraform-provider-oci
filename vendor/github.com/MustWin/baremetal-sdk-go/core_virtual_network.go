@@ -28,38 +28,26 @@ func (l *ListVirtualNetworks) GetList() interface{} {
 	return &l.VirtualNetworks
 }
 
-// CreateVirtualNeworkRequest describes the body of a virtual network create
-// request
-//
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Vcn/CreateVcn
-// TODO: This has been changed to CreateVirtualNetworkDetails
-type CreateVirtualNetworkRequest struct {
-	CidrBlock     string `json:"cidrBlock"`
-	CompartmentID string `json:"compartmentId"`
-	DisplayName   string `json:"displayName,omitempty"`
-}
-
 // CreateVirtualNetwork is used to create a virtual network
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Vcn/CreateVcn
-func (c *Client) CreateVirtualNetwork(cidrBlock, compartmentID string, opts ...Options) (vcn *VirtualNetwork, e error) {
-	createRequest := CreateVirtualNetworkRequest{
-		CidrBlock:     cidrBlock,
-		CompartmentID: compartmentID,
+func (c *Client) CreateVirtualNetwork(cidrBlock, compartmentID string, opts *CreateOptions) (vcn *VirtualNetwork, e error) {
+	required := struct {
+		ocidRequirement
+		CidrBlock string
+	}{
+		CidrBlock: cidrBlock,
 	}
+	required.CompartmentID = compartmentID
 
-	if len(opts) > 0 {
-		createRequest.DisplayName = opts[0].DisplayName
-	}
-
-	reqOpts := &sdkRequestOptions{
-		body:    createRequest,
-		name:    resourceVirtualNetworks,
-		options: opts,
+	details := &requestDetails{
+		name:     resourceVirtualNetworks,
+		optional: opts,
+		required: required,
 	}
 
 	var response *requestResponse
-	if response, e = c.coreApi.request(http.MethodPost, reqOpts); e != nil {
+	if response, e = c.coreApi.request(http.MethodPost, details); e != nil {
 		return
 	}
 
@@ -71,14 +59,14 @@ func (c *Client) CreateVirtualNetwork(cidrBlock, compartmentID string, opts ...O
 // GetVirtualNetwork retrieves information about a virtual network
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Vcn/GetVcn
-func (c *Client) GetVirtualNetwork(id string, opts ...Options) (vcn *VirtualNetwork, e error) {
-	reqOpts := &sdkRequestOptions{
-		name:    resourceVirtualNetworks,
-		options: opts,
-		ids:     urlParts{id},
+func (c *Client) GetVirtualNetwork(id string) (vcn *VirtualNetwork, e error) {
+	details := &requestDetails{
+		ids:  urlParts{id},
+		name: resourceVirtualNetworks,
 	}
+
 	var resp *requestResponse
-	if resp, e = c.coreApi.getRequest(reqOpts); e != nil {
+	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}
 
@@ -90,28 +78,28 @@ func (c *Client) GetVirtualNetwork(id string, opts ...Options) (vcn *VirtualNetw
 // DeleteVirtualNetwork removes a virtual network
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Vcn/DeleteVcn
-func (c *Client) DeleteVirtualNetwork(id string, opts ...Options) (e error) {
-	reqOpts := &sdkRequestOptions{
-		name:    resourceVirtualNetworks,
-		options: opts,
-		ids:     urlParts{id},
+func (c *Client) DeleteVirtualNetwork(id string, opts *IfMatchOptions) (e error) {
+	details := &requestDetails{
+		ids:      urlParts{id},
+		name:     resourceVirtualNetworks,
+		optional: opts,
 	}
-	return c.coreApi.deleteRequest(reqOpts)
+	return c.coreApi.deleteRequest(details)
 }
 
 // ListVirtualNetworks returns a list of virtual networks for a particular
 // compartment
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Vcn/ListVcns
-func (c *Client) ListVirtualNetworks(compartmentID string, opts ...Options) (vcns *ListVirtualNetworks, e error) {
-	reqOpts := &sdkRequestOptions{
-		name:    resourceVirtualNetworks,
-		ocid:    compartmentID,
-		options: opts,
+func (c *Client) ListVirtualNetworks(compartmentID string, opts *ListOptions) (vcns *ListVirtualNetworks, e error) {
+	details := &requestDetails{
+		name:     resourceVirtualNetworks,
+		optional: opts,
+		required: listOCIDRequirement{CompartmentID: compartmentID},
 	}
 
 	var resp *requestResponse
-	if resp, e = c.coreApi.getRequest(reqOpts); e != nil {
+	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}
 

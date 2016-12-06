@@ -28,15 +28,15 @@ func (l *ListCpes) GetList() interface{} {
 // ListCpes returns a list of customer premise equipment for a particular compartment
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Cpe/ListCpes
-func (c *Client) ListCpes(compartmentID string, opts ...Options) (cpes *ListCpes, e error) {
-	reqOpts := &sdkRequestOptions{
-		name:    resourceCustomerPremiseEquipment,
-		ocid:    compartmentID,
-		options: opts,
+func (c *Client) ListCpes(compartmentID string, opts *ListOptions) (cpes *ListCpes, e error) {
+	details := &requestDetails{
+		name:     resourceCustomerPremiseEquipment,
+		required: listOCIDRequirement{CompartmentID: compartmentID},
+		optional: opts,
 	}
 
 	var resp *requestResponse
-	if resp, e = c.coreApi.getRequest(reqOpts); e != nil {
+	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}
 
@@ -49,28 +49,23 @@ func (c *Client) ListCpes(compartmentID string, opts ...Options) (cpes *ListCpes
 // in the Bare Metal cloud
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Cpe/CreateCpe
-func (c *Client) CreateCpe(compartmentID, IPAddress string, opts ...Options) (cpe *Cpe, e error) {
-	createRequest := struct {
-		CompartmentID string `json:"compartmentId"`
-		DisplayName   string `json:"displayName,omitempty"`
-		IPAddress     string `json:"ipAddress"`
+func (c *Client) CreateCpe(compartmentID, ipAddress string, opts *CreateOptions) (cpe *Cpe, e error) {
+	required := struct {
+		ocidRequirement
+		IPAddress string `json:"ipAddress" url:"-"`
 	}{
-		CompartmentID: compartmentID,
-		IPAddress:     IPAddress,
+		IPAddress: ipAddress,
 	}
+	required.CompartmentID = compartmentID
 
-	if len(opts) > 0 {
-		createRequest.DisplayName = opts[0].DisplayName
-	}
-
-	reqOpts := &sdkRequestOptions{
-		body:    createRequest,
-		name:    resourceCustomerPremiseEquipment,
-		options: opts,
+	details := &requestDetails{
+		name:     resourceCustomerPremiseEquipment,
+		optional: opts,
+		required: required,
 	}
 
 	var resp *requestResponse
-	if resp, e = c.coreApi.request(http.MethodPost, reqOpts); e != nil {
+	if resp, e = c.coreApi.request(http.MethodPost, details); e != nil {
 		return
 	}
 
@@ -82,14 +77,13 @@ func (c *Client) CreateCpe(compartmentID, IPAddress string, opts ...Options) (cp
 // GetCpe retrieves information on a customer premise equipment resource.
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Cpe/GetCpe
-func (c *Client) GetCpe(id string, opts ...Options) (cpe *Cpe, e error) {
-	reqOpts := &sdkRequestOptions{
-		name:    resourceCustomerPremiseEquipment,
-		options: opts,
-		ids:     urlParts{id},
+func (c *Client) GetCpe(id string) (cpe *Cpe, e error) {
+	details := &requestDetails{
+		name: resourceCustomerPremiseEquipment,
+		ids:  urlParts{id},
 	}
 	var resp *requestResponse
-	if resp, e = c.coreApi.getRequest(reqOpts); e != nil {
+	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}
 
@@ -101,11 +95,11 @@ func (c *Client) GetCpe(id string, opts ...Options) (cpe *Cpe, e error) {
 // DeleteCpe removes customer premise equipment resource
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Cpe/DeleteCpe
-func (c *Client) DeleteCpe(id string, opts ...Options) (e error) {
-	reqOpts := &sdkRequestOptions{
-		name:    resourceCustomerPremiseEquipment,
-		options: opts,
-		ids:     urlParts{id},
+func (c *Client) DeleteCpe(id string, opts *IfMatchOptions) (e error) {
+	details := &requestDetails{
+		name:     resourceCustomerPremiseEquipment,
+		ids:      urlParts{id},
+		optional: opts,
 	}
-	return c.coreApi.deleteRequest(reqOpts)
+	return c.coreApi.deleteRequest(details)
 }

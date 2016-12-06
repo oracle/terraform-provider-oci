@@ -45,14 +45,11 @@ func (s *CoreDrgAttachmentDatasourceTestSuite) SetupTest() {
 }
 
 func (s *CoreDrgAttachmentDatasourceTestSuite) TestReadDrgAttachments() {
-	opts := []baremetal.Options{
-		baremetal.Options{
-			DrgID: "drg_id",
-			Limit: 1,
-			Page:  "page",
-			VcnID: "vcn_id",
-		},
-	}
+	opts := &baremetal.ListDrgAttachmentsOptions{}
+	opts.DrgID = "drg_id"
+	opts.Limit = 1
+	opts.Page = "page"
+	opts.VcnID = "vcn_id"
 
 	s.Client.On(
 		"ListDrgAttachments",
@@ -106,14 +103,11 @@ func (s *CoreDrgAttachmentDatasourceTestSuite) TestReadDrgAttachments() {
 }
 
 func (s *CoreDrgAttachmentDatasourceTestSuite) TestReadPagedDrgAttachments() {
-	opts := []baremetal.Options{
-		baremetal.Options{
-			DrgID: "drg_id",
-			Limit: 1,
-			Page:  "page",
-			VcnID: "vcn_id",
-		},
-	}
+	opts := &baremetal.ListDrgAttachmentsOptions{}
+	opts.DrgID = "drg_id"
+	opts.Limit = 1
+	opts.Page = "page"
+	opts.VcnID = "vcn_id"
 
 	s.Client.On(
 		"ListDrgAttachments",
@@ -148,14 +142,11 @@ func (s *CoreDrgAttachmentDatasourceTestSuite) TestReadPagedDrgAttachments() {
 		nil,
 	)
 
-	opts2 := []baremetal.Options{
-		baremetal.Options{
-			DrgID: "drg_id",
-			Limit: 1,
-			Page:  "nextpage",
-			VcnID: "vcn_id",
-		},
-	}
+	opts2 := &baremetal.ListDrgAttachmentsOptions{}
+	opts2.DrgID = "drg_id"
+	opts2.Limit = 1
+	opts2.Page = "nextpage"
+	opts2.VcnID = "vcn_id"
 
 	s.Client.On(
 		"ListDrgAttachments",

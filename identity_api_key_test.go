@@ -23,7 +23,6 @@ type ResourceIdentityAPIKeyTestSuite struct {
 	ResourceName string
 	Res          *baremetal.APIKey
 	DeletedRes   *baremetal.APIKey
-	Opts         []baremetal.Options
 }
 
 func (s *ResourceIdentityAPIKeyTestSuite) SetupTest() {
@@ -58,11 +57,11 @@ func (s *ResourceIdentityAPIKeyTestSuite) SetupTest() {
 	s.DeletedRes.State = baremetal.ResourceDeleted
 
 	s.Client.On(
-		"UploadAPIKey", "user_id", "1", []baremetal.Options(nil),
+		"UploadAPIKey", "user_id", "1", (*baremetal.RetryTokenOptions)(nil),
 	).Return(s.Res, nil).Once()
 
 	s.Client.On(
-		"DeleteAPIKey", s.Res.UserID, s.Res.Fingerprint, []baremetal.Options(nil),
+		"DeleteAPIKey", s.Res.UserID, s.Res.Fingerprint, (*baremetal.IfMatchOptions)(nil),
 	).Return(nil)
 }
 
@@ -111,7 +110,7 @@ func (s *ResourceIdentityAPIKeyTestSuite) TestDeleteAPIKey() {
 		},
 	})
 
-	s.Client.AssertCalled(s.T(), "DeleteAPIKey", s.Res.UserID, s.Res.Fingerprint, []baremetal.Options(nil))
+	s.Client.AssertCalled(s.T(), "DeleteAPIKey", s.Res.UserID, s.Res.Fingerprint, (*baremetal.IfMatchOptions)(nil))
 }
 
 func TestResourceIdentityAPIKeyTestSuite(t *testing.T) {

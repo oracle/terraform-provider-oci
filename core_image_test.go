@@ -23,7 +23,6 @@ type ResourceCoreImageTestSuite struct {
 	ResourceName string
 	Res          *baremetal.Image
 	DeletedRes   *baremetal.Image
-	Opts         []baremetal.Options
 }
 
 func (s *ResourceCoreImageTestSuite) SetupTest() {
@@ -65,15 +64,15 @@ func (s *ResourceCoreImageTestSuite) SetupTest() {
 	s.DeletedRes = &deletedRes
 	s.DeletedRes.State = baremetal.ResourceDeleted
 
-	opts := baremetal.Options{DisplayName: "display_name"}
-	s.Opts = []baremetal.Options{opts}
-	s.Client.On("CreateImage", "compartment_id", "instance_id", s.Opts).Return(s.Res, nil)
-	s.Client.On("DeleteImage", "id", []baremetal.Options(nil)).Return(nil)
+	opts := &baremetal.CreateOptions{}
+	opts.DisplayName = "display_name"
+	s.Client.On("CreateImage", "compartment_id", "instance_id", opts).Return(s.Res, nil)
+	s.Client.On("DeleteImage", "id", (*baremetal.IfMatchOptions)(nil)).Return(nil)
 }
 
 func (s *ResourceCoreImageTestSuite) TestCreateImage() {
-	s.Client.On("GetImage", "id", []baremetal.Options(nil)).Return(s.Res, nil).Times(2)
-	s.Client.On("GetImage", "id", []baremetal.Options(nil)).Return(s.DeletedRes, nil)
+	s.Client.On("GetImage", "id").Return(s.Res, nil).Times(2)
+	s.Client.On("GetImage", "id").Return(s.DeletedRes, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -94,8 +93,8 @@ func (s *ResourceCoreImageTestSuite) TestCreateImage() {
 }
 
 func (s *ResourceCoreImageTestSuite) TestCreateImageWithoutDisplayName() {
-	s.Client.On("GetImage", "id", []baremetal.Options(nil)).Return(s.Res, nil).Times(2)
-	s.Client.On("GetImage", "id", []baremetal.Options(nil)).Return(s.DeletedRes, nil)
+	s.Client.On("GetImage", "id").Return(s.Res, nil).Times(2)
+	s.Client.On("GetImage", "id").Return(s.DeletedRes, nil)
 
 	s.Config = `
 		resource "baremetal_core_image" "t" {
@@ -105,8 +104,8 @@ func (s *ResourceCoreImageTestSuite) TestCreateImageWithoutDisplayName() {
 	`
 	s.Config += testProviderConfig
 
-	opts := baremetal.Options{}
-	s.Client.On("CreateImage", "compartment_id", "instance_id", []baremetal.Options{opts}).
+	opts := &baremetal.CreateOptions{}
+	s.Client.On("CreateImage", "compartment_id", "instance_id", opts).
 		Return(s.Res, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
@@ -123,7 +122,7 @@ func (s *ResourceCoreImageTestSuite) TestCreateImageWithoutDisplayName() {
 }
 
 func (s ResourceCoreImageTestSuite) TestUpdateImageDisplayName() {
-	s.Client.On("GetImage", "id", []baremetal.Options(nil)).Return(s.Res, nil).Times(3)
+	s.Client.On("GetImage", "id").Return(s.Res, nil).Times(3)
 
 	config := `
 		resource "baremetal_core_image" "t" {
@@ -142,10 +141,11 @@ func (s ResourceCoreImageTestSuite) TestUpdateImageDisplayName() {
 	deletedRes := &deletedResVal
 	deletedRes.State = baremetal.ResourceDeleted
 
-	opts := baremetal.Options{DisplayName: "new_display_name"}
-	s.Client.On("UpdateImage", "id", []baremetal.Options{opts}).Return(res, nil)
-	s.Client.On("GetImage", "id", []baremetal.Options(nil)).Return(res, nil).Times(2)
-	s.Client.On("GetImage", "id", []baremetal.Options(nil)).Return(deletedRes, nil)
+	opts := &baremetal.UpdateOptions{}
+	opts.DisplayName = "new_display_name"
+	s.Client.On("UpdateImage", "id", opts).Return(res, nil)
+	s.Client.On("GetImage", "id").Return(res, nil).Times(2)
+	s.Client.On("GetImage", "id").Return(deletedRes, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -164,8 +164,8 @@ func (s ResourceCoreImageTestSuite) TestUpdateImageDisplayName() {
 }
 
 func (s *ResourceCoreImageTestSuite) TestDeleteImage() {
-	s.Client.On("GetImage", "id", []baremetal.Options(nil)).Return(s.Res, nil).Times(2)
-	s.Client.On("GetImage", "id", []baremetal.Options(nil)).Return(s.DeletedRes, nil)
+	s.Client.On("GetImage", "id").Return(s.Res, nil).Times(2)
+	s.Client.On("GetImage", "id").Return(s.DeletedRes, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -180,7 +180,7 @@ func (s *ResourceCoreImageTestSuite) TestDeleteImage() {
 		},
 	})
 
-	s.Client.AssertCalled(s.T(), "DeleteImage", "id", []baremetal.Options(nil))
+	s.Client.AssertCalled(s.T(), "DeleteImage", "id", (*baremetal.IfMatchOptions)(nil))
 }
 
 func TestResourceCoreImageTestSuite(t *testing.T) {

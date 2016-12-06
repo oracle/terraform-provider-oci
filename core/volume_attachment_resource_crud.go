@@ -38,11 +38,10 @@ func (s *VolumeAttachmentResourceCrud) State() string {
 
 func (s *VolumeAttachmentResourceCrud) Create() (e error) {
 	attachmentType := s.D.Get("attachment_type").(string)
-	compartmentID := s.D.Get("compartment_id").(string)
 	instanceID := s.D.Get("instance_id").(string)
 	volumeID := s.D.Get("volume_id").(string)
 
-	s.Res, e = s.Client.AttachVolume(compartmentID, instanceID, attachmentType, volumeID)
+	s.Res, e = s.Client.AttachVolume(attachmentType, instanceID, volumeID, nil)
 
 	return
 }
@@ -64,5 +63,5 @@ func (s *VolumeAttachmentResourceCrud) SetData() {
 }
 
 func (s *VolumeAttachmentResourceCrud) Delete() (e error) {
-	return s.Client.DetachVolume(s.D.Id())
+	return s.Client.DetachVolume(s.D.Id(), nil)
 }

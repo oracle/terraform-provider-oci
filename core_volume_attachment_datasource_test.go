@@ -46,15 +46,12 @@ func (s *ResourceCoreVolumeAttachmentsTestSuite) SetupTest() {
 }
 
 func (s *ResourceCoreVolumeAttachmentsTestSuite) TestReadVolumeAttachments() {
-	opts := []baremetal.Options{
-		baremetal.Options{
-			AvailabilityDomain: "availability_domain",
-			Limit:              1,
-			Page:               "page",
-			InstanceID:         "instance_id",
-			VolumeID:           "volume_id",
-		},
-	}
+	opts := &baremetal.ListVolumeAttachmentsOptions{}
+	opts.AvailabilityDomain = "availability_domain"
+	opts.Limit = 1
+	opts.Page = "page"
+	opts.InstanceID = "instance_id"
+	opts.VolumeID = "volume_id"
 
 	s.Client.On(
 		"ListVolumeAttachments",
@@ -114,15 +111,12 @@ func (s *ResourceCoreVolumeAttachmentsTestSuite) TestReadVolumeAttachments() {
 }
 
 func (s *ResourceCoreVolumeAttachmentsTestSuite) TestReadVolumeAttachmentsWithPaging() {
-	opts := []baremetal.Options{
-		baremetal.Options{
-			AvailabilityDomain: "availability_domain",
-			Limit:              1,
-			Page:               "page",
-			InstanceID:         "instance_id",
-			VolumeID:           "volume_id",
-		},
-	}
+	opts := &baremetal.ListVolumeAttachmentsOptions{}
+	opts.AvailabilityDomain = "availability_domain"
+	opts.Limit = 1
+	opts.Page = "page"
+	opts.InstanceID = "instance_id"
+	opts.VolumeID = "volume_id"
 
 	s.Client.On(
 		"ListVolumeAttachments",
@@ -161,15 +155,12 @@ func (s *ResourceCoreVolumeAttachmentsTestSuite) TestReadVolumeAttachmentsWithPa
 		nil,
 	)
 
-	opts2 := []baremetal.Options{
-		baremetal.Options{
-			AvailabilityDomain: "availability_domain",
-			Limit:              1,
-			Page:               "nextpage",
-			InstanceID:         "instance_id",
-			VolumeID:           "volume_id",
-		},
-	}
+	opts2 := &baremetal.ListVolumeAttachmentsOptions{}
+	opts2.AvailabilityDomain = "availability_domain"
+	opts2.Limit = 1
+	opts2.Page = "nextpage"
+	opts2.InstanceID = "instance_id"
+	opts2.VolumeID = "volume_id"
 
 	s.Client.On(
 		"ListVolumeAttachments",

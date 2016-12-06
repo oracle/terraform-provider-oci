@@ -23,7 +23,6 @@ type ResourceCoreInternetGatewayTestSuite struct {
 	ResourceName string
 	Res          *baremetal.InternetGateway
 	DeletedRes   *baremetal.InternetGateway
-	Opts         []baremetal.Options
 }
 
 func (s *ResourceCoreInternetGatewayTestSuite) SetupTest() {
@@ -71,15 +70,15 @@ func (s *ResourceCoreInternetGatewayTestSuite) SetupTest() {
 	s.DeletedRes = s.Res
 	s.DeletedRes.State = baremetal.ResourceTerminated
 
-	opts := baremetal.Options{DisplayName: "display_name"}
-	s.Opts = []baremetal.Options{opts}
+	opts := &baremetal.CreateOptions{}
+	opts.DisplayName = "display_name"
 	s.Client.On(
 		"CreateInternetGateway",
 		s.Res.CompartmentID,
 		"vcnid",
 		s.Res.IsEnabled,
-		s.Opts).Return(s.Res, nil)
-	s.Client.On("DeleteInternetGateway", s.Res.ID, []baremetal.Options(nil)).Return(nil)
+		opts).Return(s.Res, nil)
+	s.Client.On("DeleteInternetGateway", s.Res.ID, (*baremetal.IfMatchOptions)(nil)).Return(nil)
 }
 
 func (s *ResourceCoreInternetGatewayTestSuite) TestCreateResourceCoreInternetGateway() {
@@ -131,15 +130,17 @@ func (s ResourceCoreInternetGatewayTestSuite) TestUpdateCompartmentIDForcesNewIn
 		TimeCreated:   s.TimeCreated,
 	}
 
+	opts := &baremetal.CreateOptions{}
+	opts.DisplayName = "display_name"
 	s.Client.On(
 		"CreateInternetGateway",
 		res.CompartmentID,
 		"vcnid",
 		res.IsEnabled,
-		s.Opts).Return(res, nil)
+		opts).Return(res, nil)
 
 	s.Client.On("GetInternetGateway", res.ID).Return(res, nil)
-	s.Client.On("DeleteInternetGateway", res.ID, []baremetal.Options(nil)).Return(nil)
+	s.Client.On("DeleteInternetGateway", res.ID, (*baremetal.IfMatchOptions)(nil)).Return(nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -175,7 +176,7 @@ func (s *ResourceCoreInternetGatewayTestSuite) TestDeleteInternetGateway() {
 		},
 	})
 
-	s.Client.AssertCalled(s.T(), "DeleteInternetGateway", "id", []baremetal.Options(nil))
+	s.Client.AssertCalled(s.T(), "DeleteInternetGateway", "id", (*baremetal.IfMatchOptions)(nil))
 }
 
 func TestResourceCoreInternetGatewayTestSuite(t *testing.T) {

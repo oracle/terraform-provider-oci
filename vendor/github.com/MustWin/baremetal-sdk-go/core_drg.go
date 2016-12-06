@@ -28,26 +28,15 @@ func (l *ListDrgs) GetList() interface{} {
 // CreateDrg is used to create a gateway
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Drg/CreateDrg
-func (c *Client) CreateDrg(compartmentID string, opts ...Options) (res *Drg, e error) {
-	body := struct {
-		CompartmentID string `json:"compartmentId"`
-		DisplayName   string `json:"displayName,omitempty"`
-	}{
-		CompartmentID: compartmentID,
-	}
-
-	if len(opts) > 0 {
-		body.DisplayName = opts[0].DisplayName
-	}
-
-	reqOpts := &sdkRequestOptions{
-		body:    body,
-		name:    resourceDrgs,
-		options: opts,
+func (c *Client) CreateDrg(compartmentID string, opts *CreateOptions) (res *Drg, e error) {
+	details := &requestDetails{
+		name:     resourceDrgs,
+		optional: opts,
+		required: ocidRequirement{compartmentID},
 	}
 
 	var response *requestResponse
-	if response, e = c.coreApi.request(http.MethodPost, reqOpts); e != nil {
+	if response, e = c.coreApi.request(http.MethodPost, details); e != nil {
 		return
 	}
 
@@ -59,14 +48,14 @@ func (c *Client) CreateDrg(compartmentID string, opts ...Options) (res *Drg, e e
 // GetDrg retrieves information about a gateway
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Drg/GetDrg
-func (c *Client) GetDrg(id string, opts ...Options) (res *Drg, e error) {
-	reqOpts := &sdkRequestOptions{
-		name:    resourceDrgs,
-		options: opts,
-		ids:     urlParts{id},
+func (c *Client) GetDrg(id string) (res *Drg, e error) {
+	details := &requestDetails{
+		name: resourceDrgs,
+		ids:  urlParts{id},
 	}
+
 	var resp *requestResponse
-	if resp, e = c.coreApi.getRequest(reqOpts); e != nil {
+	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}
 
@@ -78,27 +67,27 @@ func (c *Client) GetDrg(id string, opts ...Options) (res *Drg, e error) {
 // DeleteDrg removes a gateway
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Drg/DeleteDrg
-func (c *Client) DeleteDrg(id string, opts ...Options) (e error) {
-	reqOpts := &sdkRequestOptions{
-		name:    resourceDrgs,
-		options: opts,
-		ids:     urlParts{id},
+func (c *Client) DeleteDrg(id string, opts *IfMatchOptions) (e error) {
+	details := &requestDetails{
+		name:     resourceDrgs,
+		ids:      urlParts{id},
+		optional: opts,
 	}
-	return c.coreApi.deleteRequest(reqOpts)
+	return c.coreApi.deleteRequest(details)
 }
 
 // ListDrgs returns a list of gateways for a compartment
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Drg/ListDrgs
-func (c *Client) ListDrgs(compartmentID string, opts ...Options) (res *ListDrgs, e error) {
-	reqOpts := &sdkRequestOptions{
-		name:    resourceDrgs,
-		ocid:    compartmentID,
-		options: opts,
+func (c *Client) ListDrgs(compartmentID string, opts *ListOptions) (res *ListDrgs, e error) {
+	details := &requestDetails{
+		name:     resourceDHCPOptions,
+		required: listOCIDRequirement{compartmentID},
+		optional: opts,
 	}
 
 	var resp *requestResponse
-	if resp, e = c.coreApi.getRequest(reqOpts); e != nil {
+	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}
 

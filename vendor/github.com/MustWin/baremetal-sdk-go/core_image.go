@@ -32,27 +32,23 @@ func (l *ListImages) GetList() interface{} {
 // CreateImage is used to create an image
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Image/CreateImage
-func (c *Client) CreateImage(compartmentID, instanceID string, opts ...Options) (res *Image, e error) {
-	body := struct {
-		CompartmentID string `json:"compartmentId"`
-		DisplayName   string `json:"displayName,omitempty"`
-		InstanceID    string `json:"instanceId"`
+func (c *Client) CreateImage(compartmentID, instanceID string, opts *CreateOptions) (res *Image, e error) {
+	required := struct {
+		ocidRequirement
+		InstanceID string `json:"instanceId" url:"-"`
 	}{
-		CompartmentID: compartmentID,
-		InstanceID:    instanceID,
+		InstanceID: instanceID,
 	}
-	if len(opts) > 0 {
-		body.DisplayName = opts[0].DisplayName
-	}
+	required.CompartmentID = compartmentID
 
-	reqOpts := &sdkRequestOptions{
-		body:    body,
-		name:    resourceImages,
-		options: opts,
+	details := &requestDetails{
+		name:     resourceImages,
+		optional: opts,
+		required: required,
 	}
 
 	var response *requestResponse
-	if response, e = c.coreApi.request(http.MethodPost, reqOpts); e != nil {
+	if response, e = c.coreApi.request(http.MethodPost, details); e != nil {
 		return
 	}
 
@@ -64,14 +60,14 @@ func (c *Client) CreateImage(compartmentID, instanceID string, opts ...Options) 
 // GetImage retrieves information about an image
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Image/GetImage
-func (c *Client) GetImage(id string, opts ...Options) (res *Image, e error) {
-	reqOpts := &sdkRequestOptions{
-		name:    resourceImages,
-		options: opts,
-		ids:     urlParts{id},
+func (c *Client) GetImage(id string) (res *Image, e error) {
+	details := &requestDetails{
+		name: resourceImages,
+		ids:  urlParts{id},
 	}
+
 	var resp *requestResponse
-	if resp, e = c.coreApi.getRequest(reqOpts); e != nil {
+	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}
 
@@ -83,23 +79,15 @@ func (c *Client) GetImage(id string, opts ...Options) (res *Image, e error) {
 // UpdateImage updates an images display name
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Image/UpdateImage
-func (c *Client) UpdateImage(id string, opts ...Options) (res *Image, e error) {
-	body := struct {
-		DisplayName string `json:"displayName,omitempty"`
-	}{}
-	if len(opts) > 0 {
-		body.DisplayName = opts[0].DisplayName
-	}
-
-	reqOpts := &sdkRequestOptions{
-		body:    body,
-		name:    resourceImages,
-		options: opts,
-		ids:     urlParts{id},
+func (c *Client) UpdateImage(id string, opts *UpdateOptions) (res *Image, e error) {
+	details := &requestDetails{
+		name:     resourceImages,
+		ids:      urlParts{id},
+		optional: opts,
 	}
 
 	var response *requestResponse
-	if response, e = c.coreApi.request(http.MethodPut, reqOpts); e != nil {
+	if response, e = c.coreApi.request(http.MethodPut, details); e != nil {
 		return
 	}
 
@@ -111,27 +99,27 @@ func (c *Client) UpdateImage(id string, opts ...Options) (res *Image, e error) {
 // DeleteImage removes an image
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Image/DeleteImage
-func (c *Client) DeleteImage(id string, opts ...Options) (e error) {
-	reqOpts := &sdkRequestOptions{
-		name:    resourceImages,
-		options: opts,
-		ids:     urlParts{id},
+func (c *Client) DeleteImage(id string, opts *IfMatchOptions) (e error) {
+	details := &requestDetails{
+		name:     resourceImages,
+		ids:      urlParts{id},
+		optional: opts,
 	}
-	return c.coreApi.deleteRequest(reqOpts)
+	return c.coreApi.deleteRequest(details)
 }
 
 // ListImages returns a list of images
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Image/ListImages
-func (c *Client) ListImages(compartmentID string, opts ...Options) (res *ListImages, e error) {
-	reqOpts := &sdkRequestOptions{
-		name:    resourceImages,
-		ocid:    compartmentID,
-		options: opts,
+func (c *Client) ListImages(compartmentID string, opts *ListImagesOptions) (res *ListImages, e error) {
+	details := &requestDetails{
+		name:     resourceImages,
+		required: listOCIDRequirement{compartmentID},
+		optional: opts,
 	}
 
 	var resp *requestResponse
-	if resp, e = c.coreApi.getRequest(reqOpts); e != nil {
+	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}
 

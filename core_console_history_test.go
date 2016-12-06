@@ -20,8 +20,6 @@ type ResourceCoreConsoleHistoryTestSuite struct {
 	Providers    map[string]terraform.ResourceProvider
 	Res          *baremetal.ConsoleHistoryMetadata
 	ResourceName string
-	DeletedRes   *baremetal.ConsoleHistoryMetadata
-	Opts         []baremetal.Options
 }
 
 func (s *ResourceCoreConsoleHistoryTestSuite) SetupTest() {
@@ -29,6 +27,12 @@ func (s *ResourceCoreConsoleHistoryTestSuite) SetupTest() {
 	s.Provider = Provider(func(d *schema.ResourceData) (interface{}, error) {
 		return s.Client, nil
 	})
+
+	p := s.Provider.(*schema.Provider)
+	res := p.ResourcesMap["baremetal_core_console_history"]
+	res.Delete = func(d *schema.ResourceData, m interface{}) (e error) {
+		return nil
+	}
 
 	s.Providers = map[string]terraform.ResourceProvider{
 		"baremetal": s.Provider,
@@ -51,18 +55,11 @@ func (s *ResourceCoreConsoleHistoryTestSuite) SetupTest() {
 	s.Res.ETag = "etag"
 	s.Res.RequestID = "opcrequestid"
 
-	opts := baremetal.Options{}
-	s.Opts = []baremetal.Options{opts}
-	s.Client.On("CaptureConsoleHistory", s.Res.InstanceID, s.Opts).Return(s.Res, nil)
-	s.Client.On("DeleteConsoleHistory", s.Res.ID).Return(nil)
-	resCopy := *s.Res
-	s.DeletedRes = &resCopy
-	s.DeletedRes.State = baremetal.ResourceTerminated
+	s.Client.On("CaptureConsoleHistory", s.Res.InstanceID, (*baremetal.RetryTokenOptions)(nil)).Return(s.Res, nil)
 }
 
 func (s *ResourceCoreConsoleHistoryTestSuite) TestCreateResourceCoreInstanceConsoleHistory() {
-	s.Client.On("GetConsoleHistory", "id", s.Opts).Return(s.Res, nil).Times(2)
-	s.Client.On("GetConsoleHistory", "id", s.Opts).Return(s.DeletedRes, nil)
+	s.Client.On("GetConsoleHistory", "id").Return(s.Res, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,

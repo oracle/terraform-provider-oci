@@ -43,12 +43,9 @@ func (s *ResourceCoreDrgsTestSuite) SetupTest() {
 }
 
 func (s *ResourceCoreDrgsTestSuite) TestReadDrgs() {
-	opts := []baremetal.Options{
-		baremetal.Options{
-			Limit: 1,
-			Page:  "page",
-		},
-	}
+	opts := &baremetal.ListOptions{}
+	opts.Limit = 1
+	opts.Page = "page"
 
 	s.Client.On(
 		"ListDrgs",
@@ -100,12 +97,9 @@ func (s *ResourceCoreDrgsTestSuite) TestReadDrgs() {
 }
 
 func (s *ResourceCoreDrgsTestSuite) TestReadDrgsPaged() {
-	opts := []baremetal.Options{
-		baremetal.Options{
-			Limit: 1,
-			Page:  "page",
-		},
-	}
+	opts := &baremetal.ListOptions{}
+	opts.Limit = 1
+	opts.Page = "page"
 
 	s.Client.On(
 		"ListDrgs",
@@ -136,7 +130,9 @@ func (s *ResourceCoreDrgsTestSuite) TestReadDrgsPaged() {
 		nil,
 	)
 
-	opts2 := []baremetal.Options{baremetal.Options{Page: "nextpage", Limit: 1}}
+	opts2 := &baremetal.ListOptions{}
+	opts2.Page = "nextpage"
+	opts2.Limit = 1
 
 	s.Client.On(
 		"ListDrgs",

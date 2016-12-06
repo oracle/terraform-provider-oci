@@ -18,9 +18,15 @@ func (s *CpeResourceCrud) ID() string {
 
 func (s *CpeResourceCrud) Create() (e error) {
 	compartmentID := s.D.Get("compartment_id").(string)
-	displayName := s.D.Get("display_name").(string)
 	ipAddress := s.D.Get("ip_address").(string)
-	s.Resource, e = s.Client.CreateCpe(compartmentID, displayName, ipAddress)
+
+	opts := &baremetal.CreateOptions{}
+	displayName, ok := s.D.GetOk("display_name")
+	if ok {
+		opts.DisplayName = displayName.(string)
+	}
+
+	s.Resource, e = s.Client.CreateCpe(compartmentID, ipAddress, opts)
 	return
 }
 
@@ -37,5 +43,5 @@ func (s *CpeResourceCrud) SetData() {
 }
 
 func (s *CpeResourceCrud) Delete() (e error) {
-	return s.Client.DeleteCpe(s.D.Id())
+	return s.Client.DeleteCpe(s.D.Id(), nil)
 }

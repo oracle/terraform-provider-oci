@@ -59,12 +59,14 @@ func (s *ResourceCoreCpeTestSuite) SetupTest() {
 	s.Res.ETag = "etag"
 	s.Res.RequestID = "opcrequestid"
 
-	s.Client.On("CreateCpe", "compartmentid", "displayname", "123.123.123.123", []baremetal.Options(nil)).Return(s.Res, nil)
-	s.Client.On("DeleteCpe", "cpeid", []baremetal.Options(nil)).Return(nil)
+	opts := &baremetal.CreateOptions{}
+	opts.DisplayName = "displayname"
+	s.Client.On("CreateCpe", "compartmentid", "123.123.123.123", opts).Return(s.Res, nil)
+	s.Client.On("DeleteCpe", "cpeid", (*baremetal.IfMatchOptions)(nil)).Return(nil)
 }
 
 func (s *ResourceCoreCpeTestSuite) TestCreateResourceCoreCpe() {
-	s.Client.On("GetCpe", "cpeid", []baremetal.Options(nil)).Return(s.Res, nil)
+	s.Client.On("GetCpe", "cpeid").Return(s.Res, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -84,7 +86,7 @@ func (s *ResourceCoreCpeTestSuite) TestCreateResourceCoreCpe() {
 }
 
 func (s ResourceCoreCpeTestSuite) TestUpdateForcesNewCoreCpe() {
-	s.Client.On("GetCpe", "cpeid", []baremetal.Options(nil)).Return(s.Res, nil)
+	s.Client.On("GetCpe", "cpeid").Return(s.Res, nil)
 
 	updateForcingChangeConfig := `
 
@@ -107,10 +109,12 @@ func (s ResourceCoreCpeTestSuite) TestUpdateForcesNewCoreCpe() {
 	result.ETag = "etag"
 	result.RequestID = "opcrequestid"
 
-	s.Client.On("CreateCpe", "compartmentid", "displayname", "111.222.111.222", []baremetal.Options(nil)).Return(result, nil)
+	opts := &baremetal.CreateOptions{}
+	opts.DisplayName = "displayname"
+	s.Client.On("CreateCpe", "compartmentid", "111.222.111.222", opts).Return(result, nil)
 
-	s.Client.On("GetCpe", "cpeid2", []baremetal.Options(nil)).Return(result, nil)
-	s.Client.On("DeleteCpe", "cpeid2", []baremetal.Options(nil)).Return(nil)
+	s.Client.On("GetCpe", "cpeid2").Return(result, nil)
+	s.Client.On("DeleteCpe", "cpeid2", (*baremetal.IfMatchOptions)(nil)).Return(nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -130,7 +134,7 @@ func (s ResourceCoreCpeTestSuite) TestUpdateForcesNewCoreCpe() {
 }
 
 func (s *ResourceCoreCpeTestSuite) TestDeleteResourceCoreCpe() {
-	s.Client.On("GetCpe", "cpeid", []baremetal.Options(nil)).Return(s.Res, nil)
+	s.Client.On("GetCpe", "cpeid").Return(s.Res, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -145,7 +149,7 @@ func (s *ResourceCoreCpeTestSuite) TestDeleteResourceCoreCpe() {
 		},
 	})
 
-	s.Client.AssertCalled(s.T(), "DeleteCpe", "cpeid", []baremetal.Options(nil))
+	s.Client.AssertCalled(s.T(), "DeleteCpe", "cpeid", (*baremetal.IfMatchOptions)(nil))
 }
 
 func TestResourceCoreCpeTestSuite(t *testing.T) {

@@ -39,9 +39,9 @@ func (s *RouteTableResourceCrud) State() string {
 func (s *RouteTableResourceCrud) Create() (e error) {
 	compartmentID := s.D.Get("compartment_id").(string)
 	vcnID := s.D.Get("vcn_id").(string)
-	opts := baremetal.Options{
-		DisplayName: s.D.Get("display_name").(string),
-	}
+
+	opts := &baremetal.CreateOptions{}
+	opts.DisplayName = s.D.Get("display_name").(string)
 
 	s.Res, e = s.Client.CreateRouteTable(compartmentID, vcnID, s.buildRouteRules(), opts)
 
@@ -54,7 +54,10 @@ func (s *RouteTableResourceCrud) Get() (e error) {
 }
 
 func (s *RouteTableResourceCrud) Update() (e error) {
-	s.Res, e = s.Client.UpdateRouteTable(s.D.Id(), s.buildRouteRules())
+	opts := &baremetal.UpdateRouteTableOptions{}
+	opts.RouteRules = s.buildRouteRules()
+
+	s.Res, e = s.Client.UpdateRouteTable(s.D.Id(), opts)
 	return
 }
 
@@ -81,7 +84,7 @@ func (s *RouteTableResourceCrud) SetData() {
 }
 
 func (s *RouteTableResourceCrud) Delete() (e error) {
-	return s.Client.DeleteRouteTable(s.D.Id())
+	return s.Client.DeleteRouteTable(s.D.Id(), nil)
 }
 
 func (s *RouteTableResourceCrud) buildRouteRules() (routeRules []baremetal.RouteRule) {

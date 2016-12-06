@@ -23,7 +23,6 @@ type ResourceCoreInstanceTestSuite struct {
 	ResourceName string
 	Res          *baremetal.Instance
 	DeletedRes   *baremetal.Instance
-	Opts         []baremetal.Options
 }
 
 func (s *ResourceCoreInstanceTestSuite) SetupTest() {
@@ -78,8 +77,9 @@ func (s *ResourceCoreInstanceTestSuite) SetupTest() {
 	s.DeletedRes = s.Res
 	s.DeletedRes.State = baremetal.ResourceTerminated
 
-	opts := baremetal.Options{DisplayName: "display_name"}
-	s.Opts = []baremetal.Options{opts}
+	opts := &baremetal.LaunchInstanceOptions{}
+	opts.DisplayName = "display_name"
+	opts.Metadata = s.Res.Metadata
 	s.Client.On(
 		"LaunchInstance",
 		s.Res.AvailabilityDomain,
@@ -87,9 +87,8 @@ func (s *ResourceCoreInstanceTestSuite) SetupTest() {
 		s.Res.Image,
 		s.Res.Shape,
 		"subnetid",
-		s.Res.Metadata,
-		s.Opts).Return(s.Res, nil)
-	s.Client.On("TerminateInstance", s.Res.ID, []baremetal.Options(nil)).Return(nil)
+		opts).Return(s.Res, nil)
+	s.Client.On("TerminateInstance", s.Res.ID, (*baremetal.IfMatchOptions)(nil)).Return(nil)
 }
 
 func (s *ResourceCoreInstanceTestSuite) TestCreateResourceCoreInstance() {
@@ -131,7 +130,8 @@ func (s *ResourceCoreInstanceTestSuite) TestCreateResourceCoreInstanceWithoutDis
 	`
 	s.Config += testProviderConfig
 
-	opts := baremetal.Options{}
+	opts := &baremetal.LaunchInstanceOptions{}
+	opts.Metadata = s.Res.Metadata
 
 	s.Client.On(
 		"LaunchInstance",
@@ -140,8 +140,7 @@ func (s *ResourceCoreInstanceTestSuite) TestCreateResourceCoreInstanceWithoutDis
 		s.Res.Image,
 		s.Res.Shape,
 		"subnetid",
-		s.Res.Metadata,
-		[]baremetal.Options{opts}).Return(s.Res, nil)
+		opts).Return(s.Res, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -191,8 +190,9 @@ func (s ResourceCoreInstanceTestSuite) TestUpdateInstanceDisplayName() {
 	res.ETag = "etag"
 	res.RequestID = "opcrequestid"
 
-	opts := baremetal.Options{DisplayName: "new_display_name"}
-	s.Client.On("UpdateInstance", "id", []baremetal.Options{opts}).Return(res, nil)
+	opts := &baremetal.UpdateOptions{}
+	opts.DisplayName = "new_display_name"
+	s.Client.On("UpdateInstance", "id", opts).Return(res, nil)
 	s.Client.On("GetInstance", "id").Return(res, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
@@ -247,6 +247,9 @@ func (s ResourceCoreInstanceTestSuite) TestUpdateAvailabilityDomainForcesNewInst
 	res.ETag = "etag"
 	res.RequestID = "opcrequestid"
 
+	opts := &baremetal.LaunchInstanceOptions{}
+	opts.DisplayName = "display_name"
+	opts.Metadata = s.Res.Metadata
 	s.Client.On(
 		"LaunchInstance",
 		res.AvailabilityDomain,
@@ -254,11 +257,10 @@ func (s ResourceCoreInstanceTestSuite) TestUpdateAvailabilityDomainForcesNewInst
 		res.Image,
 		res.Shape,
 		"subnetid",
-		res.Metadata,
-		s.Opts).Return(res, nil)
+		opts).Return(res, nil)
 
 	s.Client.On("GetInstance", res.ID).Return(res, nil)
-	s.Client.On("TerminateInstance", res.ID, []baremetal.Options(nil)).Return(nil)
+	s.Client.On("TerminateInstance", res.ID, (*baremetal.IfMatchOptions)(nil)).Return(nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -293,7 +295,7 @@ func (s *ResourceCoreInstanceTestSuite) TestTerminateInstance() {
 		},
 	})
 
-	s.Client.AssertCalled(s.T(), "TerminateInstance", "id", []baremetal.Options(nil))
+	s.Client.AssertCalled(s.T(), "TerminateInstance", "id", (*baremetal.IfMatchOptions)(nil))
 }
 
 func TestResourceCoreInstanceTestSuite(t *testing.T) {

@@ -9,7 +9,6 @@ import (
 
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/client/mocks"
-	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/crud"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
@@ -82,16 +81,13 @@ func (s *ResourceIdentityPolicyTestSuite) SetupTest() {
 	)
 	s.PolicyName = "baremetal_identity_policy.p"
 	s.Policy = &baremetal.Policy{
-		IdentityResource: baremetal.IdentityResource{
-			ID:            "123",
-			Name:          "pol",
-			Description:   "desc",
-			CompartmentID: "7",
-			State:         baremetal.ResourceActive,
-			TimeCreated:   s.TimeCreated,
-			TimeModified:  s.TimeCreated,
-		},
-		Statements: []string{"statementX", "statementY"},
+		ID:            "123",
+		Name:          "pol",
+		Description:   "desc",
+		CompartmentID: "7",
+		State:         baremetal.ResourceActive,
+		TimeCreated:   s.TimeCreated,
+		Statements:    []string{"statementX", "statementY"},
 	}
 
 	s.Client.On(
@@ -99,14 +95,14 @@ func (s *ResourceIdentityPolicyTestSuite) SetupTest() {
 		"pol",
 		"desc",
 		[]string{"statementX", "statementY"},
-		[]baremetal.Options(nil),
+		(*baremetal.CreatePolicyOptions)(nil),
 	).Return(s.Policy, nil)
 
 }
 
 func (s *ResourceIdentityPolicyTestSuite) TestCreateResourceIdentityPolicy() {
 	s.Client.On("GetPolicy", s.Policy.ID).Return(s.Policy, nil)
-	s.Client.On("DeletePolicy", "123", []baremetal.Options(nil)).Return(nil)
+	s.Client.On("DeletePolicy", "123", (*baremetal.IfMatchOptions)(nil)).Return(nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -119,7 +115,6 @@ func (s *ResourceIdentityPolicyTestSuite) TestCreateResourceIdentityPolicy() {
 					resource.TestCheckResourceAttr(s.PolicyName, "compartment_id", s.Policy.CompartmentID),
 					resource.TestCheckResourceAttr(s.PolicyName, "state", s.Policy.State),
 					resource.TestCheckResourceAttr(s.PolicyName, "time_created", s.Policy.TimeCreated.String()),
-					resource.TestCheckResourceAttr(s.PolicyName, "time_modified", s.Policy.TimeModified.String()),
 					testCheckAttributeTypeList(s.PolicyName, "statements", s.Policy.Statements),
 				),
 			},
@@ -131,7 +126,7 @@ func (s *ResourceIdentityPolicyTestSuite) TestCreateResourceIdentityPolicy() {
 func (s *ResourceIdentityPolicyTestSuite) TestUpdateResourceIdentityPolicy() {
 	s.Client.On("GetPolicy", s.Policy.ID).Return(s.Policy, nil).Twice()
 
-	s.Client.On("DeletePolicy", "123", []baremetal.Options(nil)).Return(nil)
+	s.Client.On("DeletePolicy", "123", (*baremetal.IfMatchOptions)(nil)).Return(nil)
 
 	config := fmt.Sprintf(testProviderConfig+testPolicyConfig,
 		"pol",
@@ -142,13 +137,13 @@ func (s *ResourceIdentityPolicyTestSuite) TestUpdateResourceIdentityPolicy() {
 	updated := *s.Policy
 	updated.Description = "newdesc"
 	updated.Statements = []string{"statementA", "statementY", "statementZ"}
-	updated.TimeModified = s.TimeCreated.Add(crud.FiveMinutes)
+	opts := &baremetal.UpdatePolicyOptions{}
+	opts.Description = updated.Description
+	opts.Statements = updated.Statements
 	s.Client.On(
 		"UpdatePolicy",
 		updated.ID,
-		updated.Description,
-		updated.Statements,
-		[]baremetal.Options(nil),
+		opts,
 	).Return(&updated, nil)
 
 	s.Client.On("GetPolicy", updated.ID).Return(&updated, nil)
@@ -164,7 +159,6 @@ func (s *ResourceIdentityPolicyTestSuite) TestUpdateResourceIdentityPolicy() {
 					Config: config,
 					Check: resource.ComposeTestCheckFunc(
 						resource.TestCheckResourceAttr(s.PolicyName, "description", updated.Description),
-						resource.TestCheckResourceAttr(s.PolicyName, "time_modified", updated.TimeModified.String()),
 						testCheckAttributeTypeList(s.PolicyName, "statements", updated.Statements),
 					),
 				},
@@ -176,7 +170,7 @@ func (s *ResourceIdentityPolicyTestSuite) TestUpdateResourceIdentityPolicy() {
 
 func (s *ResourceIdentityPolicyTestSuite) TestFailedUpdateResourceIdentityPolicy() {
 	s.Client.On("GetPolicy", s.Policy.ID).Return(s.Policy, nil).Times(3)
-	s.Client.On("DeletePolicy", "123", []baremetal.Options(nil)).Return(nil)
+	s.Client.On("DeletePolicy", "123", (*baremetal.IfMatchOptions)(nil)).Return(nil)
 
 	config := fmt.Sprintf(testProviderConfig+testPolicyConfig,
 		"pol",
@@ -185,23 +179,20 @@ func (s *ResourceIdentityPolicyTestSuite) TestFailedUpdateResourceIdentityPolicy
 	)
 
 	newStatements := []string{"statementA", "statementB"}
-
+	opts := &baremetal.UpdatePolicyOptions{}
+	opts.Description = "newdesc"
+	opts.Statements = newStatements
 	s.Client.On("UpdatePolicy",
 		s.Policy.ID,
-		"newdesc",
-		newStatements,
-		[]baremetal.Options(nil),
+		opts,
 	).Return(nil, errors.New("FAILED")).Once()
 
 	u := *s.Policy
 	u.Description = "newdesc"
-	u.TimeModified = s.Policy.TimeModified.Add(crud.FiveMinutes)
 	u.Statements = newStatements
 	s.Client.On("UpdatePolicy",
 		s.Policy.ID,
-		"newdesc",
-		newStatements,
-		[]baremetal.Options(nil),
+		opts,
 	).Return(&u, nil)
 	s.Client.On("GetPolicy", s.Policy.ID).Return(&u, nil)
 
@@ -232,7 +223,7 @@ func (s *ResourceIdentityPolicyTestSuite) TestFailedUpdateResourceIdentityPolicy
 
 func (s *ResourceIdentityPolicyTestSuite) TestUpdateResourceIdentityPolicyNameShouldCreateNew() {
 	s.Client.On("GetPolicy", s.Policy.ID).Return(s.Policy, nil)
-	s.Client.On("DeletePolicy", "123", []baremetal.Options(nil)).Return(nil)
+	s.Client.On("DeletePolicy", "123", (*baremetal.IfMatchOptions)(nil)).Return(nil)
 
 	config := fmt.Sprintf(testProviderConfig+testPolicyConfig,
 		"newname",
@@ -250,10 +241,10 @@ func (s *ResourceIdentityPolicyTestSuite) TestUpdateResourceIdentityPolicyNameSh
 		"newname",
 		"desc",
 		statements,
-		[]baremetal.Options(nil),
+		(*baremetal.CreatePolicyOptions)(nil),
 	).Return(&u, nil)
 	s.Client.On("GetPolicy", "999").Return(&u, nil)
-	s.Client.On("DeletePolicy", "999", []baremetal.Options(nil)).Return(nil)
+	s.Client.On("DeletePolicy", "999", (*baremetal.IfMatchOptions)(nil)).Return(nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -271,7 +262,7 @@ func (s *ResourceIdentityPolicyTestSuite) TestUpdateResourceIdentityPolicyNameSh
 
 func (s *ResourceIdentityPolicyTestSuite) TestDeleteResourceIdentityPolicy() {
 	s.Client.On("GetPolicy", "123").Return(s.Policy, nil)
-	s.Client.On("DeletePolicy", "123", []baremetal.Options(nil)).Return(nil)
+	s.Client.On("DeletePolicy", "123", (*baremetal.IfMatchOptions)(nil)).Return(nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -286,14 +277,14 @@ func (s *ResourceIdentityPolicyTestSuite) TestDeleteResourceIdentityPolicy() {
 		},
 	})
 
-	s.Client.AssertCalled(s.T(), "DeletePolicy", "123", []baremetal.Options(nil))
+	s.Client.AssertCalled(s.T(), "DeletePolicy", "123", (*baremetal.IfMatchOptions)(nil))
 }
 
 func (s *ResourceIdentityPolicyTestSuite) TestDeleteFailureResourceIdentityPolicy() {
 	s.Client.On("GetPolicy", "123").Return(s.Policy, nil)
-	s.Client.On("DeletePolicy", "123", []baremetal.Options(nil)).
+	s.Client.On("DeletePolicy", "123", (*baremetal.IfMatchOptions)(nil)).
 		Return(errors.New("XXX")).Once()
-	s.Client.On("DeletePolicy", "123", []baremetal.Options(nil)).Return(nil)
+	s.Client.On("DeletePolicy", "123", (*baremetal.IfMatchOptions)(nil)).Return(nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -313,7 +304,7 @@ func (s *ResourceIdentityPolicyTestSuite) TestDeleteFailureResourceIdentityPolic
 		},
 	})
 
-	s.Client.AssertCalled(s.T(), "DeletePolicy", "123", []baremetal.Options(nil))
+	s.Client.AssertCalled(s.T(), "DeletePolicy", "123", (*baremetal.IfMatchOptions)(nil))
 }
 
 func TestResourceIdentityPolicyTestSuite(t *testing.T) {

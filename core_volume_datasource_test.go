@@ -44,13 +44,10 @@ func (s *ResourceCoreVolumesTestSuite) SetupTest() {
 }
 
 func (s *ResourceCoreVolumesTestSuite) TestReadVolumes() {
-	opts := []baremetal.Options{
-		baremetal.Options{
-			AvailabilityDomain: "availability_domain",
-			Limit:              1,
-			Page:               "page",
-		},
-	}
+	opts := &baremetal.ListVolumesOptions{}
+	opts.AvailabilityDomain = "availability_domain"
+	opts.Limit = 1
+	opts.Page = "page"
 
 	s.Client.On(
 		"ListVolumes",
@@ -107,13 +104,10 @@ func (s *ResourceCoreVolumesTestSuite) TestReadVolumes() {
 }
 
 func (s *ResourceCoreVolumesTestSuite) TestReadVolumesWithPagination() {
-	opts := []baremetal.Options{
-		baremetal.Options{
-			AvailabilityDomain: "availability_domain",
-			Limit:              1,
-			Page:               "page",
-		},
-	}
+	opts := &baremetal.ListVolumesOptions{}
+	opts.AvailabilityDomain = "availability_domain"
+	opts.Limit = 1
+	opts.Page = "page"
 
 	s.Client.On(
 		"ListVolumes",
@@ -148,13 +142,10 @@ func (s *ResourceCoreVolumesTestSuite) TestReadVolumesWithPagination() {
 		nil,
 	)
 
-	opts2 := []baremetal.Options{
-		baremetal.Options{
-			AvailabilityDomain: "availability_domain",
-			Limit:              1,
-			Page:               "nextpage",
-		},
-	}
+	opts2 := &baremetal.ListVolumesOptions{}
+	opts2.AvailabilityDomain = "availability_domain"
+	opts2.Limit = 1
+	opts2.Page = "nextpage"
 
 	s.Client.On(
 		"ListVolumes",

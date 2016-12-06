@@ -32,23 +32,21 @@ func (l *ListVolumeBackups) GetList() interface{} {
 // CreateVolumeBackup Creates a new backup of the specified volume
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/VolumeBackup/CreateVolumeBackup
-func (c *Client) CreateVolumeBackup(volumeID string, opts ...Options) (vol *VolumeBackup, e error) {
-	body := struct {
-		DisplayName string `json:"displayName,omitempty"`
-		VolumeID    string `json:"volumeId"`
-	}{VolumeID: volumeID}
-	if len(opts) > 0 {
-		body.DisplayName = opts[0].DisplayName
+func (c *Client) CreateVolumeBackup(volumeID string, opts *CreateOptions) (vol *VolumeBackup, e error) {
+	required := struct {
+		VolumeID string `json:"volumeId" url:"-"`
+	}{
+		VolumeID: volumeID,
 	}
 
-	reqOpts := &sdkRequestOptions{
-		body:    body,
-		name:    resourceVolumeBackups,
-		options: opts,
+	details := &requestDetails{
+		name:     resourceVolumeBackups,
+		optional: opts,
+		required: required,
 	}
 
 	var response *requestResponse
-	if response, e = c.coreApi.request(http.MethodPost, reqOpts); e != nil {
+	if response, e = c.coreApi.request(http.MethodPost, details); e != nil {
 		return
 	}
 
@@ -60,14 +58,14 @@ func (c *Client) CreateVolumeBackup(volumeID string, opts ...Options) (vol *Volu
 // GetVolumeBackup gets information for the specified volumeBackup
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/VolumeBackup/GetVolumeBackup
-func (c *Client) GetVolumeBackup(id string, opts ...Options) (vol *VolumeBackup, e error) {
-	reqOpts := &sdkRequestOptions{
-		name:    resourceVolumeBackups,
-		options: opts,
-		ids:     urlParts{id},
+func (c *Client) GetVolumeBackup(id string) (vol *VolumeBackup, e error) {
+	details := &requestDetails{
+		ids:  urlParts{id},
+		name: resourceVolumeBackups,
 	}
+
 	var resp *requestResponse
-	if resp, e = c.coreApi.getRequest(reqOpts); e != nil {
+	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}
 
@@ -79,23 +77,15 @@ func (c *Client) GetVolumeBackup(id string, opts ...Options) (vol *VolumeBackup,
 // UpdateVolumeBackup updates a volume's display name
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/VolumeBackup/UpdateVolumeBackup
-func (c *Client) UpdateVolumeBackup(id string, opts ...Options) (vol *VolumeBackup, e error) {
-	body := struct {
-		DisplayName string `json:"displayName,omitempty"`
-	}{}
-	if len(opts) > 0 {
-		body.DisplayName = opts[0].DisplayName
-	}
-
-	reqOpts := &sdkRequestOptions{
-		body:    body,
-		name:    resourceVolumeBackups,
-		options: opts,
-		ids:     urlParts{id},
+func (c *Client) UpdateVolumeBackup(id string, opts *UpdateBackupOptions) (vol *VolumeBackup, e error) {
+	details := &requestDetails{
+		ids:      urlParts{id},
+		name:     resourceVolumeBackups,
+		optional: opts,
 	}
 
 	var response *requestResponse
-	if response, e = c.coreApi.request(http.MethodPut, reqOpts); e != nil {
+	if response, e = c.coreApi.request(http.MethodPut, details); e != nil {
 		return
 	}
 
@@ -107,27 +97,28 @@ func (c *Client) UpdateVolumeBackup(id string, opts ...Options) (vol *VolumeBack
 // DeleteVolumeBackup deletes a volumeBackup
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/VolumeBackup/DeleteVolumeBackup
-func (c *Client) DeleteVolumeBackup(id string, opts ...Options) (e error) {
-	reqOpts := &sdkRequestOptions{
-		name:    resourceVolumeBackups,
-		options: opts,
-		ids:     urlParts{id},
+func (c *Client) DeleteVolumeBackup(id string, opts *IfMatchOptions) (e error) {
+	details := &requestDetails{
+		ids:      urlParts{id},
+		name:     resourceVolumeBackups,
+		optional: opts,
 	}
-	return c.coreApi.deleteRequest(reqOpts)
+
+	return c.coreApi.deleteRequest(details)
 }
 
 // ListVolumeBackups returns a list of volumes for a particular compartment
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/VolumeBackup/ListVolumeBackups
-func (c *Client) ListVolumeBackups(compartmentID string, opts ...Options) (vols *ListVolumeBackups, e error) {
-	reqOpts := &sdkRequestOptions{
-		name:    resourceVolumeBackups,
-		ocid:    compartmentID,
-		options: opts,
+func (c *Client) ListVolumeBackups(compartmentID string, opts *ListBackupsOptions) (vols *ListVolumeBackups, e error) {
+	details := &requestDetails{
+		name:     resourceVolumeBackups,
+		optional: opts,
+		required: ocidRequirement{compartmentID},
 	}
 
 	var resp *requestResponse
-	if resp, e = c.coreApi.getRequest(reqOpts); e != nil {
+	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}
 

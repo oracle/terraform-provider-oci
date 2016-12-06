@@ -16,22 +16,24 @@ type VolumeDatasourceCrud struct {
 
 func (s *VolumeDatasourceCrud) Get() (e error) {
 	compartmentID := s.D.Get("compartment_id").(string)
-	opts := getCoreOptionsFromResourceData(s.D, "availability_domain", "limit", "page")
 
-	s.Res = &baremetal.ListVolumes{
-		Volumes: []baremetal.Volume{},
+	opts := &baremetal.ListVolumesOptions{}
+	setListOptions(s.D, &opts.ListOptions)
+	if val, ok := s.D.GetOk("availability_domain"); ok {
+		opts.AvailabilityDomain = val.(string)
 	}
+
+	s.Res = &baremetal.ListVolumes{Volumes: []baremetal.Volume{}}
 
 	for {
 		var list *baremetal.ListVolumes
-		if list, e = s.Client.ListVolumes(compartmentID, opts...); e != nil {
+		if list, e = s.Client.ListVolumes(compartmentID, opts); e != nil {
 			break
 		}
 
 		s.Res.Volumes = append(s.Res.Volumes, list.Volumes...)
 
-		var hasNextPage bool
-		if opts, hasNextPage = getOptionsWithNextPageID(list.NextPage, opts); !hasNextPage {
+		if hasNextPage := setNextPageOption(list.NextPage, &opts.ListOptions); !hasNextPage {
 			break
 		}
 	}

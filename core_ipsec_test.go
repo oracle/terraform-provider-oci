@@ -23,7 +23,6 @@ type ResourceCoreIPSecTestSuite struct {
 	ResourceName string
 	Res          *baremetal.IPSecConnection
 	DeletedRes   *baremetal.IPSecConnection
-	Opts         []baremetal.Options
 }
 
 func (s *ResourceCoreIPSecTestSuite) SetupTest() {
@@ -68,16 +67,16 @@ func (s *ResourceCoreIPSecTestSuite) SetupTest() {
 	s.DeletedRes = s.Res
 	s.DeletedRes.State = baremetal.ResourceDown
 
-	opts := baremetal.Options{DisplayName: "display_name"}
-	s.Opts = []baremetal.Options{opts}
+	opts := &baremetal.CreateOptions{}
+	opts.DisplayName = "display_name"
 	s.Client.On(
 		"CreateIPSecConnection",
 		s.Res.CompartmentID,
 		s.Res.CpeID,
 		s.Res.DrgID,
 		s.Res.StaticRoutes,
-		s.Opts).Return(s.Res, nil)
-	s.Client.On("DeleteIPSecConnection", s.Res.ID, []baremetal.Options(nil)).Return(nil)
+		opts).Return(s.Res, nil)
+	s.Client.On("DeleteIPSecConnection", s.Res.ID, (*baremetal.IfMatchOptions)(nil)).Return(nil)
 }
 
 func (s *ResourceCoreIPSecTestSuite) TestCreateResourceCoreSubnet() {
@@ -115,7 +114,7 @@ func (s *ResourceCoreIPSecTestSuite) TestCreateResourceCoreSubnetWithoutDisplayN
 
 	s.Config += testProviderConfig
 
-	opts := baremetal.Options{}
+	opts := &baremetal.CreateOptions{}
 	s.Res.DisplayName = ""
 
 	s.Client.On(
@@ -124,7 +123,7 @@ func (s *ResourceCoreIPSecTestSuite) TestCreateResourceCoreSubnetWithoutDisplayN
 		s.Res.CpeID,
 		s.Res.DrgID,
 		s.Res.StaticRoutes,
-		[]baremetal.Options{opts}).Return(s.Res, nil)
+		opts).Return(s.Res, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -165,16 +164,18 @@ func (s ResourceCoreIPSecTestSuite) TestUpdateCompartmentIDForcesNewIPSec() {
 		State:         baremetal.ResourceUp,
 	}
 
+	opts := &baremetal.CreateOptions{}
+	opts.DisplayName = "display_name"
 	s.Client.On(
 		"CreateIPSecConnection",
 		res.CompartmentID,
 		res.CpeID,
 		res.DrgID,
 		res.StaticRoutes,
-		s.Opts).Return(res, nil).Once()
+		opts).Return(res, nil).Once()
 
 	s.Client.On("GetIPSecConnection", res.ID).Return(res, nil)
-	s.Client.On("DeleteIPSecConnection", res.ID, []baremetal.Options(nil)).Return(nil)
+	s.Client.On("DeleteIPSecConnection", res.ID, (*baremetal.IfMatchOptions)(nil)).Return(nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -209,7 +210,7 @@ func (s *ResourceCoreIPSecTestSuite) TestTerminateIPSec() {
 		},
 	})
 
-	s.Client.On("DeleteIPSecConnection", s.Res.ID, []baremetal.Options(nil)).Return(nil)
+	s.Client.On("DeleteIPSecConnection", s.Res.ID, (*baremetal.IfMatchOptions)(nil)).Return(nil)
 
 }
 

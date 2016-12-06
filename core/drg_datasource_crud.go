@@ -16,26 +16,21 @@ type DrgDatasourceCrud struct {
 
 func (s *DrgDatasourceCrud) Get() (e error) {
 	compartmentID := s.D.Get("compartment_id").(string)
-	opts := getCoreOptionsFromResourceData(
-		s.D,
-		"limit",
-		"page",
-	)
 
-	s.Res = &baremetal.ListDrgs{
-		Drgs: []baremetal.Drg{},
-	}
+	opts := &baremetal.ListOptions{}
+	setListOptions(s.D, opts)
+
+	s.Res = &baremetal.ListDrgs{Drgs: []baremetal.Drg{}}
 
 	for {
 		var list *baremetal.ListDrgs
-		if list, e = s.Client.ListDrgs(compartmentID, opts...); e != nil {
+		if list, e = s.Client.ListDrgs(compartmentID, opts); e != nil {
 			break
 		}
 
 		s.Res.Drgs = append(s.Res.Drgs, list.Drgs...)
 
-		var hasNextPage bool
-		if opts, hasNextPage = getOptionsWithNextPageID(list.NextPage, opts); !hasNextPage {
+		if hasNextPage := setNextPageOption(list.NextPage, opts); !hasNextPage {
 			break
 		}
 	}

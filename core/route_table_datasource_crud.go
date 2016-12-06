@@ -17,22 +17,20 @@ type RouteTableDatasourceCrud struct {
 func (s *RouteTableDatasourceCrud) Get() (e error) {
 	compartmentID := s.D.Get("compartment_id").(string)
 	vcnID := s.D.Get("vcn_id").(string)
-	opts := getCoreOptionsFromResourceData(s.D, "page", "limit")
+	opts := &baremetal.ListOptions{}
+	setListOptions(s.D, opts)
 
-	s.Res = &baremetal.ListRouteTables{
-		RouteTables: []baremetal.RouteTable{},
-	}
+	s.Res = &baremetal.ListRouteTables{RouteTables: []baremetal.RouteTable{}}
 
 	for {
 		var list *baremetal.ListRouteTables
-		if list, e = s.Client.ListRouteTables(compartmentID, vcnID, opts...); e != nil {
+		if list, e = s.Client.ListRouteTables(compartmentID, vcnID, opts); e != nil {
 			break
 		}
 
 		s.Res.RouteTables = append(s.Res.RouteTables, list.RouteTables...)
 
-		var hasNextPage bool
-		if opts, hasNextPage = getOptionsWithNextPageID(list.NextPage, opts); !hasNextPage {
+		if hasNextPage := setNextPageOption(list.NextPage, opts); !hasNextPage {
 			break
 		}
 	}

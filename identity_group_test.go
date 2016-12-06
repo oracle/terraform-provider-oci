@@ -23,7 +23,7 @@ type ResourceIdentityGroupTestSuite struct {
 	TimeCreated  time.Time
 	Config       string
 	ResourceName string
-	Res          *baremetal.IdentityResource
+	Res          *baremetal.Group
 }
 
 func (s *ResourceIdentityGroupTestSuite) SetupTest() {
@@ -48,17 +48,16 @@ func (s *ResourceIdentityGroupTestSuite) SetupTest() {
 	s.Config += testProviderConfig
 
 	s.ResourceName = "baremetal_identity_group.t"
-	s.Res = &baremetal.IdentityResource{
+	s.Res = &baremetal.Group{
 		ID:            "id!",
 		Name:          "name!",
 		Description:   "desc!",
 		CompartmentID: "cid!",
 		State:         baremetal.ResourceActive,
 		TimeCreated:   s.TimeCreated,
-		TimeModified:  s.TimeCreated,
 	}
-	s.Client.On("CreateGroup", "name!", "desc!", []baremetal.Options(nil)).Return(s.Res, nil)
-	s.Client.On("DeleteGroup", "id!", []baremetal.Options(nil)).Return(nil)
+	s.Client.On("CreateGroup", "name!", "desc!", (*baremetal.RetryTokenOptions)(nil)).Return(s.Res, nil)
+	s.Client.On("DeleteGroup", "id!", (*baremetal.IfMatchOptions)(nil)).Return(nil)
 }
 
 func (s *ResourceIdentityGroupTestSuite) TestCreateResourceIdentityGroup() {
@@ -75,7 +74,6 @@ func (s *ResourceIdentityGroupTestSuite) TestCreateResourceIdentityGroup() {
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", s.Res.CompartmentID),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", s.Res.State),
 					resource.TestCheckResourceAttr(s.ResourceName, "time_created", s.Res.TimeCreated.String()),
-					resource.TestCheckResourceAttr(s.ResourceName, "time_modified", s.Res.TimeModified.String()),
 				),
 			},
 		},
@@ -113,11 +111,11 @@ func (s *ResourceIdentityGroupTestSuite) TestUpdateResourceIdentityGroupDescript
 
 	c += testProviderConfig
 
-	t := s.TimeCreated.Add(5 * time.Minute)
 	u := *s.Res
 	u.Description = "newdesc!"
-	u.TimeModified = t
-	s.Client.On("UpdateGroup", "id!", "newdesc!", []baremetal.Options(nil)).
+	opts := &baremetal.UpdateIdentityOptions{}
+	opts.Description = "newdesc!"
+	s.Client.On("UpdateGroup", "id!", "newdesc!", opts).
 		Return(&u, nil)
 	s.Client.On("GetGroup", "id!").Return(&u, nil)
 
@@ -131,7 +129,6 @@ func (s *ResourceIdentityGroupTestSuite) TestUpdateResourceIdentityGroupDescript
 				Config: c,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "description", "newdesc!"),
-					resource.TestCheckResourceAttr(s.ResourceName, "time_modified", t.String()),
 				),
 			},
 		},
@@ -149,14 +146,14 @@ func (s *ResourceIdentityGroupTestSuite) TestFailedUpdateResourceIdentityGroupDe
 	`
 	c += testProviderConfig
 
-	s.Client.On("UpdateGroup", "id!", "newdesc!", []baremetal.Options(nil)).
+	opts := &baremetal.UpdateIdentityOptions{}
+	opts.Description = "newdesc!"
+	s.Client.On("UpdateGroup", "id!", opts).
 		Return(nil, errors.New("FAILED!")).Once()
 
-	t := s.TimeCreated.Add(5 * time.Minute)
 	u := *s.Res
 	u.Description = "newdesc!"
-	u.TimeModified = t
-	s.Client.On("UpdateGroup", "id!", "newdesc!", []baremetal.Options(nil)).
+	s.Client.On("UpdateGroup", "id!", opts).
 		Return(&u, nil)
 	s.Client.On("GetGroup", "id!").Return(&u, nil)
 
@@ -194,9 +191,9 @@ func (s *ResourceIdentityGroupTestSuite) TestUpdateResourceIdentityGroupNameShou
 	u := *s.Res
 	u.ID = "newid!"
 	u.Name = "newname!"
-	s.Client.On("CreateGroup", "newname!", "desc!", []baremetal.Options(nil)).Return(&u, nil)
+	s.Client.On("CreateGroup", "newname!", "desc!", (*baremetal.RetryTokenOptions)(nil)).Return(&u, nil)
 	s.Client.On("GetGroup", "newid!").Return(&u, nil)
-	s.Client.On("DeleteGroup", "newid!", []baremetal.Options(nil)).Return(nil)
+	s.Client.On("DeleteGroup", "newid!", (*baremetal.IfMatchOptions)(nil)).Return(nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -228,7 +225,7 @@ func (s *ResourceIdentityGroupTestSuite) TestDeleteResourceIdentityGroup() {
 		},
 	})
 
-	s.Client.AssertCalled(s.T(), "DeleteGroup", "id!", []baremetal.Options(nil))
+	s.Client.AssertCalled(s.T(), "DeleteGroup", "id!", (*baremetal.IfMatchOptions)(nil))
 }
 
 func TestResourceIdentityGroupTestSuite(t *testing.T) {

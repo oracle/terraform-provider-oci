@@ -23,7 +23,6 @@ type ResourceCoreVolumeTestSuite struct {
 	ResourceName string
 	Res          *baremetal.Volume
 	DeletedRes   *baremetal.Volume
-	Opts         []baremetal.Options
 }
 
 func (s *ResourceCoreVolumeTestSuite) SetupTest() {
@@ -76,19 +75,19 @@ func (s *ResourceCoreVolumeTestSuite) SetupTest() {
 	s.DeletedRes.ETag = "etag"
 	s.DeletedRes.RequestID = "opcrequestid"
 
-	opts := baremetal.Options{DisplayName: "display_name"}
-	s.Opts = []baremetal.Options{opts}
+	opts := &baremetal.CreateVolumeOptions{}
+	opts.DisplayName = "display_name"
 	s.Client.On(
 		"CreateVolume",
 		"availability_domain",
 		"compartment_id",
-		s.Opts).Return(s.Res, nil)
-	s.Client.On("DeleteVolume", "id", []baremetal.Options(nil)).Return(nil)
+		opts).Return(s.Res, nil)
+	s.Client.On("DeleteVolume", "id", (*baremetal.IfMatchOptions)(nil)).Return(nil)
 }
 
 func (s *ResourceCoreVolumeTestSuite) TestCreateResourceCoreVolume() {
-	s.Client.On("GetVolume", "id", []baremetal.Options(nil)).Return(s.Res, nil).Times(2)
-	s.Client.On("GetVolume", "id", []baremetal.Options(nil)).Return(s.DeletedRes, nil)
+	s.Client.On("GetVolume", "id").Return(s.Res, nil).Times(2)
+	s.Client.On("GetVolume", "id").Return(s.DeletedRes, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -110,7 +109,7 @@ func (s *ResourceCoreVolumeTestSuite) TestCreateResourceCoreVolume() {
 }
 
 func (s *ResourceCoreVolumeTestSuite) TestCreateResourceCoreVolumeWithoutDisplayName() {
-	s.Client.On("GetVolume", "id", []baremetal.Options(nil)).Return(s.Res, nil)
+	s.Client.On("GetVolume", "id").Return(s.Res, nil)
 
 	s.Config = `
 		resource "baremetal_core_volume" "t" {
@@ -120,11 +119,11 @@ func (s *ResourceCoreVolumeTestSuite) TestCreateResourceCoreVolumeWithoutDisplay
 	`
 	s.Config += testProviderConfig
 
-	opts := baremetal.Options{}
+	opts := &baremetal.CreateVolumeOptions{}
 	s.Client.On(
 		"CreateVolume",
 		"availability_domain",
-		"compartment_id", []baremetal.Options{opts}).Return(s.Res, nil)
+		"compartment_id", opts).Return(s.Res, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -140,7 +139,7 @@ func (s *ResourceCoreVolumeTestSuite) TestCreateResourceCoreVolumeWithoutDisplay
 }
 
 func (s ResourceCoreVolumeTestSuite) TestUpdateVolumeDisplayName() {
-	s.Client.On("GetVolume", "id", []baremetal.Options(nil)).Return(s.Res, nil).Times(3)
+	s.Client.On("GetVolume", "id").Return(s.Res, nil).Times(3)
 
 	config := `
 		resource "baremetal_core_volume" "t" {
@@ -163,9 +162,10 @@ func (s ResourceCoreVolumeTestSuite) TestUpdateVolumeDisplayName() {
 	res.ETag = "etag"
 	res.RequestID = "opcrequestid"
 
-	opts := baremetal.Options{DisplayName: "new_display_name"}
-	s.Client.On("UpdateVolume", "id", []baremetal.Options{opts}).Return(res, nil)
-	s.Client.On("GetVolume", "id", []baremetal.Options(nil)).Return(res, nil)
+	opts := &baremetal.UpdateOptions{}
+	opts.DisplayName = "new_display_name"
+	s.Client.On("UpdateVolume", "id", opts).Return(res, nil)
+	s.Client.On("GetVolume", "id").Return(res, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -184,7 +184,7 @@ func (s ResourceCoreVolumeTestSuite) TestUpdateVolumeDisplayName() {
 }
 
 func (s ResourceCoreVolumeTestSuite) TestUpdateAvailabilityDomainForcesNewVolume() {
-	s.Client.On("GetVolume", "id", []baremetal.Options(nil)).Return(s.Res, nil)
+	s.Client.On("GetVolume", "id").Return(s.Res, nil)
 
 	config := `
 		resource "baremetal_core_volume" "t" {
@@ -206,14 +206,14 @@ func (s ResourceCoreVolumeTestSuite) TestUpdateAvailabilityDomainForcesNewVolume
 	res.ETag = "etag"
 	res.RequestID = "opcrequestid"
 
-	opts := baremetal.Options{}
+	opts := &baremetal.CreateVolumeOptions{}
 	s.Client.On(
 		"CreateVolume",
 		res.AvailabilityDomain,
-		res.CompartmentID, []baremetal.Options{opts}).Return(res, nil)
+		res.CompartmentID, opts).Return(res, nil)
 
-	s.Client.On("GetVolume", res.ID, []baremetal.Options(nil)).Return(res, nil)
-	s.Client.On("DeleteVolume", res.ID, []baremetal.Options(nil)).Return(nil)
+	s.Client.On("GetVolume", res.ID).Return(res, nil)
+	s.Client.On("DeleteVolume", res.ID, (*baremetal.IfMatchOptions)(nil)).Return(nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -232,7 +232,7 @@ func (s ResourceCoreVolumeTestSuite) TestUpdateAvailabilityDomainForcesNewVolume
 }
 
 func (s ResourceCoreVolumeTestSuite) TestUpdateCompartmentIdForcesNewVolume() {
-	s.Client.On("GetVolume", "id", []baremetal.Options(nil)).Return(s.Res, nil)
+	s.Client.On("GetVolume", "id").Return(s.Res, nil)
 
 	config := `
 		resource "baremetal_core_volume" "t" {
@@ -254,14 +254,14 @@ func (s ResourceCoreVolumeTestSuite) TestUpdateCompartmentIdForcesNewVolume() {
 	res.ETag = "etag"
 	res.RequestID = "opcrequestid"
 
-	opts := baremetal.Options{}
+	opts := &baremetal.CreateVolumeOptions{}
 	s.Client.On(
 		"CreateVolume",
 		res.AvailabilityDomain,
-		res.CompartmentID, []baremetal.Options{opts}).Return(res, nil)
+		res.CompartmentID, opts).Return(res, nil)
 
-	s.Client.On("GetVolume", res.ID, []baremetal.Options(nil)).Return(res, nil)
-	s.Client.On("DeleteVolume", res.ID, []baremetal.Options(nil)).Return(nil)
+	s.Client.On("GetVolume", res.ID).Return(res, nil)
+	s.Client.On("DeleteVolume", res.ID, (*baremetal.IfMatchOptions)(nil)).Return(nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -280,8 +280,8 @@ func (s ResourceCoreVolumeTestSuite) TestUpdateCompartmentIdForcesNewVolume() {
 }
 
 func (s *ResourceCoreVolumeTestSuite) TestDeleteVolume() {
-	s.Client.On("GetVolume", "id", []baremetal.Options(nil)).Return(s.Res, nil).Times(2)
-	s.Client.On("GetVolume", "id", []baremetal.Options(nil)).Return(s.DeletedRes, nil)
+	s.Client.On("GetVolume", "id").Return(s.Res, nil).Times(2)
+	s.Client.On("GetVolume", "id").Return(s.DeletedRes, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -296,7 +296,7 @@ func (s *ResourceCoreVolumeTestSuite) TestDeleteVolume() {
 		},
 	})
 
-	s.Client.AssertCalled(s.T(), "DeleteVolume", "id", []baremetal.Options(nil))
+	s.Client.AssertCalled(s.T(), "DeleteVolume", "id", (*baremetal.IfMatchOptions)(nil))
 }
 
 func TestResourceCoreVolumeTestSuite(t *testing.T) {

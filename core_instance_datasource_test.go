@@ -43,11 +43,8 @@ func (s *ResourceCoreInstancesTestSuite) SetupTest() {
 }
 
 func (s *ResourceCoreInstancesTestSuite) TestResourceListInstances() {
-	opts := []baremetal.Options{
-		baremetal.Options{
-			AvailabilityDomain: "availabilityid",
-		},
-	}
+	opts := &baremetal.ListInstancesOptions{}
+	opts.AvailabilityDomain = "availabilityid"
 
 	metadata := map[string]string{
 		"foo": "bar",
@@ -116,11 +113,8 @@ func (s *ResourceCoreInstancesTestSuite) TestResourceListInstances() {
 }
 
 func (s *ResourceCoreInstancesTestSuite) TestResourceListInstancesPaged() {
-	opts := []baremetal.Options{
-		baremetal.Options{
-			AvailabilityDomain: "availabilityid",
-		},
-	}
+	opts := &baremetal.ListInstancesOptions{}
+	opts.AvailabilityDomain = "availabilityid"
 
 	metadata := map[string]string{
 		"foo": "bar",
@@ -168,12 +162,9 @@ func (s *ResourceCoreInstancesTestSuite) TestResourceListInstancesPaged() {
 		nil,
 	)
 
-	opts2 := []baremetal.Options{
-		baremetal.Options{
-			AvailabilityDomain: "availabilityid",
-			Page:               "nextpage",
-		},
-	}
+	opts2 := &baremetal.ListInstancesOptions{}
+	opts2.AvailabilityDomain = "availabilityid"
+	opts2.Page = "nextpage"
 
 	s.Client.On(
 		"ListInstances",

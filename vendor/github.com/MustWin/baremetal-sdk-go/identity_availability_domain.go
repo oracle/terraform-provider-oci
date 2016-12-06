@@ -23,14 +23,14 @@ func (l *ListAvailabilityDomains) GetList() interface{} {
 // ListAvailablityDomains lists availability domains in a user's root tenancy.
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/identity/20160918/AvailabilityDomain/ListAvailabilityDomains
-func (c *Client) ListAvailablityDomains(compartmentID string) (ads *ListAvailabilityDomains, e error) {
-	reqOpts := &sdkRequestOptions{
-		name: resourceAvailabilityDomains,
-		ocid: compartmentID,
+func (c *Client) ListAvailabilityDomains(compartmentID string) (ads *ListAvailabilityDomains, e error) {
+	details := &requestDetails{
+		name:     resourceAvailabilityDomains,
+		required: ocidRequirement{compartmentID},
 	}
 
 	var getResp *requestResponse
-	if getResp, e = c.identityApi.getRequest(reqOpts); e != nil {
+	if getResp, e = c.identityApi.getRequest(details); e != nil {
 		return
 	}
 

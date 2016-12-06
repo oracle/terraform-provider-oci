@@ -44,16 +44,20 @@ func resourceMapToMetadata(rm map[string]interface{}) map[string]string {
 }
 
 func (s *InstanceResourceCrud) Create() (e error) {
-	opts := baremetal.Options{}
 	availabilityDomain := s.D.Get("availability_domain").(string)
 	compartmentID := s.D.Get("compartment_id").(string)
 	image := s.D.Get("image").(string)
 	shape := s.D.Get("shape").(string)
 	subnet := s.D.Get("subnet_id").(string)
-	metadata := resourceMapToMetadata(s.D.Get("metadata").(map[string]interface{}))
 
+	opts := &baremetal.LaunchInstanceOptions{}
 	if displayName, ok := s.D.GetOk("display_name"); ok {
 		opts.DisplayName = displayName.(string)
+	}
+
+	if rawMetadata, ok := s.D.GetOk("metadata"); ok {
+		metadata := resourceMapToMetadata(rawMetadata.(map[string]interface{}))
+		opts.Metadata = metadata
 	}
 
 	s.Resource, e = s.Client.LaunchInstance(
@@ -62,7 +66,6 @@ func (s *InstanceResourceCrud) Create() (e error) {
 		image,
 		shape,
 		subnet,
-		metadata,
 		opts)
 	return
 }
@@ -73,14 +76,13 @@ func (s *InstanceResourceCrud) Get() (e error) {
 }
 
 func (s *InstanceResourceCrud) Update() (e error) {
-	opts := baremetal.Options{}
+	opts := &baremetal.UpdateOptions{}
 	if displayName, ok := s.D.GetOk("display_name"); ok {
 		opts.DisplayName = displayName.(string)
 	}
 
 	s.Resource, e = s.Client.UpdateInstance(s.D.Id(), opts)
 	return
-
 }
 
 func (s *InstanceResourceCrud) SetData() {
@@ -96,5 +98,5 @@ func (s *InstanceResourceCrud) SetData() {
 }
 
 func (s *InstanceResourceCrud) Delete() (e error) {
-	return s.Client.TerminateInstance(s.D.Id())
+	return s.Client.TerminateInstance(s.D.Id(), nil)
 }

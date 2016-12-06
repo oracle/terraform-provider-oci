@@ -11,7 +11,7 @@ type GroupSync struct {
 	*crud.IdentitySync
 	D      *schema.ResourceData
 	Client client.BareMetalClient
-	Res    *baremetal.IdentityResource
+	Res    *baremetal.Group
 }
 
 func (s *GroupSync) ID() string {
@@ -41,7 +41,7 @@ func (s *GroupSync) DeletedTarget() []string {
 func (s *GroupSync) Create() (e error) {
 	name := s.D.Get("name").(string)
 	description := s.D.Get("description").(string)
-	s.Res, e = s.Client.CreateGroup(name, description)
+	s.Res, e = s.Client.CreateGroup(name, description, nil)
 	return
 }
 
@@ -51,8 +51,12 @@ func (s *GroupSync) Get() (e error) {
 }
 
 func (s *GroupSync) Update() (e error) {
-	description := s.D.Get("description").(string)
-	s.Res, e = s.Client.UpdateGroup(s.D.Id(), description)
+	opts := &baremetal.UpdateIdentityOptions{}
+	if description, ok := s.D.GetOk("description"); ok {
+		opts.Description = description.(string)
+	}
+
+	s.Res, e = s.Client.UpdateGroup(s.D.Id(), opts)
 	return
 }
 
@@ -61,10 +65,9 @@ func (s *GroupSync) SetData() {
 	s.D.Set("description", s.Res.Description)
 	s.D.Set("compartment_id", s.Res.CompartmentID)
 	s.D.Set("state", s.Res.State)
-	s.D.Set("time_modified", s.Res.TimeModified.String())
 	s.D.Set("time_created", s.Res.TimeCreated.String())
 }
 
 func (s *GroupSync) Delete() (e error) {
-	return s.Client.DeleteGroup(s.D.Id())
+	return s.Client.DeleteGroup(s.D.Id(), nil)
 }

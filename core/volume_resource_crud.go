@@ -37,9 +37,10 @@ func (s *VolumeResourceCrud) State() string {
 }
 
 func (s *VolumeResourceCrud) Create() (e error) {
-	opts := baremetal.Options{}
 	availabilityDomain := s.D.Get("availability_domain").(string)
 	compartmentID := s.D.Get("compartment_id").(string)
+
+	opts := &baremetal.CreateVolumeOptions{}
 	displayName, ok := s.D.GetOk("display_name")
 	if ok {
 		opts.DisplayName = displayName.(string)
@@ -56,7 +57,7 @@ func (s *VolumeResourceCrud) Get() (e error) {
 }
 
 func (s *VolumeResourceCrud) Update() (e error) {
-	opts := baremetal.Options{}
+	opts := &baremetal.UpdateOptions{}
 	displayName, ok := s.D.GetOk("display_name")
 	if ok {
 		opts.DisplayName = displayName.(string)
@@ -77,5 +78,5 @@ func (s *VolumeResourceCrud) SetData() {
 }
 
 func (s *VolumeResourceCrud) Delete() (e error) {
-	return s.Client.DeleteVolume(s.D.Id())
+	return s.Client.DeleteVolume(s.D.Id(), nil)
 }

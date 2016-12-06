@@ -23,7 +23,6 @@ type ResourceCoreDHCPOptionsTestSuite struct {
 	ResourceName string
 	Res          *baremetal.DHCPOptions
 	DeletedRes   *baremetal.DHCPOptions
-	Opts         []baremetal.Options
 }
 
 func (s *ResourceCoreDHCPOptionsTestSuite) SetupTest() {
@@ -90,10 +89,10 @@ func (s *ResourceCoreDHCPOptionsTestSuite) SetupTest() {
 	s.DeletedRes = &deletedRes
 	s.DeletedRes.State = baremetal.ResourceTerminated
 
-	opts := baremetal.Options{DisplayName: "display_name"}
-	s.Opts = []baremetal.Options{opts}
-	s.Client.On("CreateDHCPOptions", "compartment_id", "vcn_id", entities, s.Opts).Return(s.Res, nil)
-	s.Client.On("DeleteDHCPOptions", "id", []baremetal.Options(nil)).Return(nil)
+	opts := &baremetal.CreateOptions{}
+	opts.DisplayName = "display_name"
+	s.Client.On("CreateDHCPOptions", "compartment_id", "vcn_id", entities, opts).Return(s.Res, nil)
+	s.Client.On("DeleteDHCPOptions", "id", (*baremetal.IfMatchOptions)(nil)).Return(nil)
 }
 
 func (s *ResourceCoreDHCPOptionsTestSuite) TestCreateResourceCoreDHCPOptions() {
@@ -152,17 +151,16 @@ func (s ResourceCoreDHCPOptionsTestSuite) TestUpdateDHCPOptions() {
 	res.ETag = "etag"
 	res.RequestID = "opcrequestid"
 
-	opts := baremetal.Options{
-		DHCPOptions: []baremetal.DHCPDNSOption{
-			baremetal.DHCPDNSOption{
-				Type:             "new_type",
-				CustomDNSServers: []string{"new_custom_dns_servers"},
-				ServerType:       "new_server_type",
-			},
+	opts := &baremetal.UpdateDHCPDNSOptions{}
+	opts.Options = []baremetal.DHCPDNSOption{
+		baremetal.DHCPDNSOption{
+			Type:             "new_type",
+			CustomDNSServers: []string{"new_custom_dns_servers"},
+			ServerType:       "new_server_type",
 		},
 	}
 
-	s.Client.On("UpdateDHCPOptions", "id", []baremetal.Options{opts}).Return(res, nil)
+	s.Client.On("UpdateDHCPOptions", "id", opts).Return(res, nil)
 	s.Client.On("GetDHCPOptions", "id").Return(res, nil).Times(2)
 	s.Client.On("GetDHCPOptions", "id").Return(s.DeletedRes, nil)
 
@@ -197,7 +195,7 @@ func (s *ResourceCoreDHCPOptionsTestSuite) TestDeleteDHCPOptions() {
 		},
 	})
 
-	s.Client.AssertCalled(s.T(), "DeleteDHCPOptions", "id", []baremetal.Options(nil))
+	s.Client.AssertCalled(s.T(), "DeleteDHCPOptions", "id", (*baremetal.IfMatchOptions)(nil))
 }
 
 func TestResourceCoreDHCPOptionsTestSuite(t *testing.T) {

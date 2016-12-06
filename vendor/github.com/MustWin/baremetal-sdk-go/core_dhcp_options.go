@@ -1,9 +1,6 @@
 package baremetal
 
-import (
-	"net/http"
-	"net/url"
-)
+import "net/http"
 
 // DHCPDNSOption specifies how DNS (host name resolution) is handled in the VCN
 //
@@ -42,29 +39,25 @@ func (l *ListDHCPOptions) GetList() interface{} {
 // CreateDHCPOptions creates a new set of DHCP options for the specified VCN
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/DHCPOptions/CreateDHCPOptions
-func (c *Client) CreateDHCPOptions(compartmentID, vcnID string, dhcpOptions []DHCPDNSOption, opts ...Options) (res *DHCPOptions, e error) {
-	body := struct {
-		CompartmentID string          `json:"compartmentId"`
-		DisplayName   string          `json:"displayName,omitempty"`
-		Options       []DHCPDNSOption `json:"options"`
-		VcnID         string          `json:"vcnId"`
+func (c *Client) CreateDHCPOptions(compartmentID, vcnID string, dhcpOptions []DHCPDNSOption, opts *CreateOptions) (res *DHCPOptions, e error) {
+	required := struct {
+		ocidRequirement
+		Options []DHCPDNSOption `json:"options" url:"-"`
+		VcnID   string          `json:"vcnId" url:"-"`
 	}{
-		CompartmentID: compartmentID,
-		Options:       dhcpOptions,
-		VcnID:         vcnID,
+		Options: dhcpOptions,
+		VcnID:   vcnID,
 	}
-	if len(opts) > 0 {
-		body.DisplayName = opts[0].DisplayName
-	}
+	required.CompartmentID = compartmentID
 
-	reqOpts := &sdkRequestOptions{
-		body:    body,
-		name:    resourceDHCPOptions,
-		options: opts,
+	details := &requestDetails{
+		name:     resourceDHCPOptions,
+		optional: opts,
+		required: required,
 	}
 
 	var response *requestResponse
-	if response, e = c.coreApi.request(http.MethodPost, reqOpts); e != nil {
+	if response, e = c.coreApi.request(http.MethodPost, details); e != nil {
 		return
 	}
 
@@ -77,13 +70,13 @@ func (c *Client) CreateDHCPOptions(compartmentID, vcnID string, dhcpOptions []DH
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/DHCPOptions/GetDHCPOptions
 func (c *Client) GetDHCPOptions(id string) (res *DHCPOptions, e error) {
-	reqOpts := &sdkRequestOptions{
+	details := &requestDetails{
 		name: resourceDHCPOptions,
 		ids:  urlParts{id},
 	}
 
 	var resp *requestResponse
-	if resp, e = c.coreApi.getRequest(reqOpts); e != nil {
+	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}
 
@@ -95,23 +88,15 @@ func (c *Client) GetDHCPOptions(id string) (res *DHCPOptions, e error) {
 // UpdateDHCPOptions updates the specified set of DHCP options
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/DHCPOptions/UpdateDHCPOptions
-func (c *Client) UpdateDHCPOptions(id string, opts ...Options) (res *DHCPOptions, e error) {
-	body := struct {
-		Options []DHCPDNSOption `json:"options,omitempty"`
-	}{}
-	if len(opts) > 0 {
-		body.Options = opts[0].DHCPOptions
-	}
-
-	reqOpts := &sdkRequestOptions{
-		body:    body,
-		name:    resourceDHCPOptions,
-		options: opts,
-		ids:     urlParts{id},
+func (c *Client) UpdateDHCPOptions(id string, opts *UpdateDHCPDNSOptions) (res *DHCPOptions, e error) {
+	details := &requestDetails{
+		name:     resourceDHCPOptions,
+		ids:      urlParts{id},
+		optional: opts,
 	}
 
 	var response *requestResponse
-	if response, e = c.coreApi.request(http.MethodPut, reqOpts); e != nil {
+	if response, e = c.coreApi.request(http.MethodPut, details); e != nil {
 		return
 	}
 
@@ -124,32 +109,36 @@ func (c *Client) UpdateDHCPOptions(id string, opts ...Options) (res *DHCPOptions
 // not in use by a subnet
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/DHCPOptions/DeleteDHCPOptions
-func (c *Client) DeleteDHCPOptions(id string, opts ...Options) (e error) {
-	reqOpts := &sdkRequestOptions{
-		ids:     urlParts{id},
-		name:    resourceDHCPOptions,
-		options: opts,
+func (c *Client) DeleteDHCPOptions(id string, opts *IfMatchOptions) (e error) {
+	details := &requestDetails{
+		name:     resourceDHCPOptions,
+		ids:      urlParts{id},
+		optional: opts,
 	}
-	return c.coreApi.deleteRequest(reqOpts)
+	return c.coreApi.deleteRequest(details)
 }
 
 // ListDHCPOptions gets a list of the sets of DHCP options in the specified VCN
 // and specified compartment
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/DHCPOptions/ListDHCPOptions
-func (c *Client) ListDHCPOptions(compartmentID, vcnID string, opts ...Options) (res *ListDHCPOptions, e error) {
-	query := url.Values{}
-	query.Set(queryVcnID, vcnID)
+func (c *Client) ListDHCPOptions(compartmentID, vcnID string, opts *ListOptions) (res *ListDHCPOptions, e error) {
+	required := struct {
+		listOCIDRequirement
+		VcnID string `json:"-" url:"vcnId"`
+	}{
+		VcnID: vcnID,
+	}
+	required.CompartmentID = compartmentID
 
-	reqOpts := &sdkRequestOptions{
-		name:    resourceDHCPOptions,
-		ocid:    compartmentID,
-		options: opts,
-		query:   query,
+	details := &requestDetails{
+		name:     resourceDHCPOptions,
+		required: required,
+		optional: opts,
 	}
 
 	var resp *requestResponse
-	if resp, e = c.coreApi.getRequest(reqOpts); e != nil {
+	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}
 

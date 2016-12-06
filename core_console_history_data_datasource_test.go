@@ -47,9 +47,9 @@ func (s *CoreConsoleHistoryDataDatasourceTestSuite) TestResourceShowConsoleHisto
 	data := make([]byte, 100)
 	rand.Read(data)
 
-	opts := []baremetal.Options{
-		baremetal.Options{Length: 1, Offset: 1},
-	}
+	opts := &baremetal.ConsoleHistoryDataOptions{}
+	opts.Length = 1
+	opts.Offset = 1
 
 	s.Client.On("ShowConsoleHistoryData", "ichid", opts).
 		Return(

@@ -23,7 +23,6 @@ type ResourceCoreSubnetTestSuite struct {
 	ResourceName string
 	Res          *baremetal.Subnet
 	DeletedRes   *baremetal.Subnet
-	Opts         []baremetal.Options
 }
 
 func (s *ResourceCoreSubnetTestSuite) SetupTest() {
@@ -79,18 +78,18 @@ func (s *ResourceCoreSubnetTestSuite) SetupTest() {
 	s.DeletedRes = s.Res
 	s.DeletedRes.State = baremetal.ResourceTerminated
 
-	opts := baremetal.Options{DisplayName: "display_name"}
-	s.Opts = []baremetal.Options{opts}
+	opts := &baremetal.CreateSubnetOptions{}
+	opts.DisplayName = "display_name"
+	opts.RouteTableID = s.Res.RouteTableID
+	opts.SecurityListIDs = s.Res.SecurityListIDs
 	s.Client.On(
 		"CreateSubnet",
 		s.Res.AvailabilityDomain,
 		s.Res.CIDRBlock,
 		s.Res.CompartmentID,
-		s.Res.RouteTableID,
 		s.Res.VcnID,
-		s.Res.SecurityListIDs,
-		s.Opts).Return(s.Res, nil)
-	s.Client.On("DeleteSubnet", s.Res.ID, []baremetal.Options(nil)).Return(nil)
+		opts).Return(s.Res, nil)
+	s.Client.On("DeleteSubnet", s.Res.ID, (*baremetal.IfMatchOptions)(nil)).Return(nil)
 }
 
 func (s *ResourceCoreSubnetTestSuite) TestCreateResourceCoreSubnet() {
@@ -130,18 +129,18 @@ func (s *ResourceCoreSubnetTestSuite) TestCreateResourceCoreSubnetWithoutDisplay
 
 	s.Config += testProviderConfig
 
-	opts := baremetal.Options{}
 	s.Res.DisplayName = ""
 
+	opts := &baremetal.CreateSubnetOptions{}
+	opts.RouteTableID = s.Res.RouteTableID
+	opts.SecurityListIDs = s.Res.SecurityListIDs
 	s.Client.On(
 		"CreateSubnet",
 		s.Res.AvailabilityDomain,
 		s.Res.CIDRBlock,
 		s.Res.CompartmentID,
-		s.Res.RouteTableID,
 		s.Res.VcnID,
-		s.Res.SecurityListIDs,
-		[]baremetal.Options{opts}).Return(s.Res, nil)
+		opts).Return(s.Res, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -193,18 +192,21 @@ func (s ResourceCoreSubnetTestSuite) TestUpdateCompartmentIDForcesNewSubnet() {
 		VirtualRouterMac: "virtualroutermac",
 	}
 
+	opts := &baremetal.CreateSubnetOptions{}
+	opts.DisplayName = "display_name"
+	opts.RouteTableID = res.RouteTableID
+	opts.SecurityListIDs = res.SecurityListIDs
+
 	s.Client.On(
 		"CreateSubnet",
 		res.AvailabilityDomain,
 		res.CIDRBlock,
 		res.CompartmentID,
-		res.RouteTableID,
 		res.VcnID,
-		res.SecurityListIDs,
-		s.Opts).Return(res, nil).Once()
+		opts).Return(res, nil).Once()
 
 	s.Client.On("GetSubnet", res.ID).Return(res, nil)
-	s.Client.On("DeleteSubnet", res.ID, []baremetal.Options(nil)).Return(nil)
+	s.Client.On("DeleteSubnet", res.ID, (*baremetal.IfMatchOptions)(nil)).Return(nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -239,7 +241,7 @@ func (s *ResourceCoreSubnetTestSuite) TestTerminateSubnet() {
 		},
 	})
 
-	s.Client.On("DeleteSubnet", s.Res.ID, []baremetal.Options(nil)).Return(nil)
+	s.Client.On("DeleteSubnet", s.Res.ID, (*baremetal.IfMatchOptions)(nil)).Return(nil)
 
 }
 

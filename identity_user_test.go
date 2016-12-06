@@ -23,7 +23,7 @@ type ResourceIdentityUserTestSuite struct {
 	TimeCreated  time.Time
 	Config       string
 	ResourceName string
-	Res          *baremetal.IdentityResource
+	Res          *baremetal.User
 }
 
 func (s *ResourceIdentityUserTestSuite) SetupTest() {
@@ -48,18 +48,17 @@ func (s *ResourceIdentityUserTestSuite) SetupTest() {
 	s.Config += testProviderConfig
 
 	s.ResourceName = "baremetal_identity_user.t"
-	s.Res = &baremetal.IdentityResource{
+	s.Res = &baremetal.User{
 		ID:            "id!",
 		Name:          "name!",
 		Description:   "desc!",
 		CompartmentID: "cid!",
 		State:         baremetal.ResourceActive,
 		TimeCreated:   s.TimeCreated,
-		TimeModified:  s.TimeCreated,
 	}
-	s.Client.On("CreateUser", "name!", "desc!", []baremetal.Options(nil)).
+	s.Client.On("CreateUser", "name!", "desc!", (*baremetal.RetryTokenOptions)(nil)).
 		Return(s.Res, nil)
-	s.Client.On("DeleteUser", "id!", []baremetal.Options(nil)).Return(nil)
+	s.Client.On("DeleteUser", "id!", (*baremetal.IfMatchOptions)(nil)).Return(nil)
 }
 
 func (s *ResourceIdentityUserTestSuite) TestCreateResourceIdentityUser() {
@@ -76,7 +75,6 @@ func (s *ResourceIdentityUserTestSuite) TestCreateResourceIdentityUser() {
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", s.Res.CompartmentID),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", s.Res.State),
 					resource.TestCheckResourceAttr(s.ResourceName, "time_created", s.Res.TimeCreated.String()),
-					resource.TestCheckResourceAttr(s.ResourceName, "time_modified", s.Res.TimeModified.String()),
 				),
 			},
 		},
@@ -116,11 +114,11 @@ func (s *ResourceIdentityUserTestSuite) TestUpdateResourceIdentityUserDescriptio
 	`
 	c += testProviderConfig
 
-	t := s.TimeCreated.Add(5 * time.Minute)
 	u := *s.Res
 	u.Description = "newdesc!"
-	u.TimeModified = t
-	s.Client.On("UpdateUser", "id!", "newdesc!", []baremetal.Options(nil)).Return(&u, nil)
+	opts := &baremetal.UpdateIdentityOptions{}
+	opts.Description = "newdesc!"
+	s.Client.On("UpdateUser", "id!", opts).Return(&u, nil)
 	s.Client.On("GetUser", "id!").Return(&u, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
@@ -133,7 +131,6 @@ func (s *ResourceIdentityUserTestSuite) TestUpdateResourceIdentityUserDescriptio
 				Config: c,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "description", "newdesc!"),
-					resource.TestCheckResourceAttr(s.ResourceName, "time_modified", t.String()),
 				),
 			},
 		},
@@ -154,14 +151,14 @@ func (s *ResourceIdentityUserTestSuite) TestFailedUpdateResourceIdentityUserDesc
 
 	c += testProviderConfig
 
-	s.Client.On("UpdateUser", "id!", "newdesc!", []baremetal.Options(nil)).
+	opts := &baremetal.UpdateIdentityOptions{}
+	opts.Description = "newdesc!"
+	s.Client.On("UpdateUser", "id!", opts).
 		Return(nil, errors.New("FAILED!")).Once()
 
-	t := s.TimeCreated.Add(5 * time.Minute)
 	u := *s.Res
 	u.Description = "newdesc!"
-	u.TimeModified = t
-	s.Client.On("UpdateUser", "id!", "newdesc!", []baremetal.Options(nil)).Return(&u, nil)
+	s.Client.On("UpdateUser", "id!", opts).Return(&u, nil)
 	s.Client.On("GetUser", "id!").Return(&u, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
@@ -202,10 +199,10 @@ func (s *ResourceIdentityUserTestSuite) TestUpdateResourceIdentityUserNameShould
 	u := *s.Res
 	u.ID = "newid!"
 	u.Name = "newname!"
-	s.Client.On("CreateUser", "newname!", "desc!", []baremetal.Options(nil)).
+	s.Client.On("CreateUser", "newname!", "desc!", (*baremetal.RetryTokenOptions)(nil)).
 		Return(&u, nil)
 	s.Client.On("GetUser", "newid!").Return(&u, nil)
-	s.Client.On("DeleteUser", "newid!", []baremetal.Options(nil)).Return(nil)
+	s.Client.On("DeleteUser", "newid!", (*baremetal.IfMatchOptions)(nil)).Return(nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -239,7 +236,7 @@ func (s *ResourceIdentityUserTestSuite) TestDeleteResourceIdentityUser() {
 		},
 	})
 
-	s.Client.AssertCalled(s.T(), "DeleteUser", "id!", []baremetal.Options(nil))
+	s.Client.AssertCalled(s.T(), "DeleteUser", "id!", (*baremetal.IfMatchOptions)(nil))
 }
 
 func TestResourceIdentityUserTestSuite(t *testing.T) {

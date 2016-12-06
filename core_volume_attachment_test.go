@@ -23,7 +23,6 @@ type ResourceCoreVolumeAttachmentTestSuite struct {
 	ResourceName string
 	Res          *baremetal.VolumeAttachment
 	DetachedRes  *baremetal.VolumeAttachment
-	Opts         []baremetal.Options
 }
 
 func (s *ResourceCoreVolumeAttachmentTestSuite) SetupTest() {
@@ -80,21 +79,18 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) SetupTest() {
 	s.DetachedRes.ETag = "etag"
 	s.DetachedRes.RequestID = "opcrequestid"
 
-	// opts := baremetal.Options{}
-	s.Opts = []baremetal.Options(nil)
 	s.Client.On(
 		"AttachVolume",
-		"compartment_id",
-		"instance_id",
 		"attachment_type",
+		"instance_id",
 		"volume_id",
-		s.Opts).Return(s.Res, nil)
-	s.Client.On("DetachVolume", "id", []baremetal.Options(nil)).Return(nil)
+		(*baremetal.CreateOptions)(nil)).Return(s.Res, nil)
+	s.Client.On("DetachVolume", "id", (*baremetal.IfMatchOptions)(nil)).Return(nil)
 }
 
 func (s *ResourceCoreVolumeAttachmentTestSuite) TestCreateResourceCoreVolumeAttachment() {
-	s.Client.On("GetVolumeAttachment", "id", []baremetal.Options(nil)).Return(s.Res, nil).Times(2)
-	s.Client.On("GetVolumeAttachment", "id", []baremetal.Options(nil)).Return(s.DetachedRes, nil)
+	s.Client.On("GetVolumeAttachment", "id").Return(s.Res, nil).Times(2)
+	s.Client.On("GetVolumeAttachment", "id").Return(s.DetachedRes, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -118,8 +114,8 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) TestCreateResourceCoreVolumeAtta
 }
 
 func (s *ResourceCoreVolumeAttachmentTestSuite) TestDetachVolume() {
-	s.Client.On("GetVolumeAttachment", "id", []baremetal.Options(nil)).Return(s.Res, nil).Times(2)
-	s.Client.On("GetVolumeAttachment", "id", []baremetal.Options(nil)).Return(s.DetachedRes, nil)
+	s.Client.On("GetVolumeAttachment", "id").Return(s.Res, nil).Times(2)
+	s.Client.On("GetVolumeAttachment", "id").Return(s.DetachedRes, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -134,7 +130,7 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) TestDetachVolume() {
 		},
 	})
 
-	s.Client.AssertCalled(s.T(), "DetachVolume", "id", []baremetal.Options(nil))
+	s.Client.AssertCalled(s.T(), "DetachVolume", "id", (*baremetal.IfMatchOptions)(nil))
 }
 
 func TestResourceCoreVolumeAttachmentTestSuite(t *testing.T) {

@@ -30,28 +30,23 @@ func (l *ListDrgAttachments) GetList() interface{} {
 // CreateDrgAttachment attaches a drg to a vcn.
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/DrgAttachment/CreateDrgAttachment
-func (c *Client) CreateDrgAttachment(drgID, vcnID string, opts ...Options) (res *DrgAttachment, e error) {
-	body := struct {
-		DisplayName string `json:"displayName,omitempty"`
-		DrgID       string `json:"drgId"`
-		VcnID       string `json:"vcnId"`
+func (c *Client) CreateDrgAttachment(drgID, vcnID string, opts *CreateOptions) (res *DrgAttachment, e error) {
+	required := struct {
+		DrgID string `json:"drgId" url:"-"`
+		VcnID string `json:"vcnId" url:"-"`
 	}{
 		DrgID: drgID,
 		VcnID: vcnID,
 	}
 
-	if len(opts) > 0 {
-		body.DisplayName = opts[0].DisplayName
-	}
-
-	reqOpts := &sdkRequestOptions{
-		body:    body,
-		name:    resourceDrgAttachments,
-		options: opts,
+	details := &requestDetails{
+		name:     resourceDrgAttachments,
+		optional: opts,
+		required: required,
 	}
 
 	var response *requestResponse
-	if response, e = c.coreApi.request(http.MethodPost, reqOpts); e != nil {
+	if response, e = c.coreApi.request(http.MethodPost, details); e != nil {
 		return
 	}
 
@@ -63,14 +58,14 @@ func (c *Client) CreateDrgAttachment(drgID, vcnID string, opts ...Options) (res 
 // GetDrgAttachment gets information about the specified drg attachment
 //
 // Seehttps://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/DrgAttachment/GetDrgAttachment
-func (c *Client) GetDrgAttachment(id string, opts ...Options) (res *DrgAttachment, e error) {
-	reqOpts := &sdkRequestOptions{
-		name:    resourceDrgAttachments,
-		options: opts,
-		ids:     urlParts{id},
+func (c *Client) GetDrgAttachment(id string) (res *DrgAttachment, e error) {
+	details := &requestDetails{
+		name: resourceDrgAttachments,
+		ids:  urlParts{id},
 	}
+
 	var resp *requestResponse
-	if resp, e = c.coreApi.getRequest(reqOpts); e != nil {
+	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}
 
@@ -82,27 +77,27 @@ func (c *Client) GetDrgAttachment(id string, opts ...Options) (res *DrgAttachmen
 // DeleteDrgAttachment detaches a drg from its vcn
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/DrgAttachment/DeleteDrgAttachment
-func (c *Client) DeleteDrgAttachment(id string, opts ...Options) (e error) {
-	reqOpts := &sdkRequestOptions{
-		name:    resourceDrgAttachments,
-		options: opts,
-		ids:     urlParts{id},
+func (c *Client) DeleteDrgAttachment(id string, opts *IfMatchOptions) (e error) {
+	details := &requestDetails{
+		name:     resourceDrgAttachments,
+		ids:      urlParts{id},
+		optional: opts,
 	}
-	return c.coreApi.deleteRequest(reqOpts)
+	return c.coreApi.deleteRequest(details)
 }
 
 // ListDrgAttachments gets a list of the drgs in the specified compartment
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/DrgAttachment/ListDrgAttachments
-func (c *Client) ListDrgAttachments(compartmentID string, opts ...Options) (res *ListDrgAttachments, e error) {
-	reqOpts := &sdkRequestOptions{
-		name:    resourceDrgAttachments,
-		ocid:    compartmentID,
-		options: opts,
+func (c *Client) ListDrgAttachments(compartmentID string, opts *ListDrgAttachmentsOptions) (res *ListDrgAttachments, e error) {
+	details := &requestDetails{
+		name:     resourceDrgAttachments,
+		required: listOCIDRequirement{compartmentID},
+		optional: opts,
 	}
 
 	var resp *requestResponse
-	if resp, e = c.coreApi.getRequest(reqOpts); e != nil {
+	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}
 

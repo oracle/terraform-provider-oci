@@ -23,7 +23,6 @@ type ResourceCoreDrgAttachmentTestSuite struct {
 	ResourceName string
 	Res          *baremetal.DrgAttachment
 	DetachedRes  *baremetal.DrgAttachment
-	Opts         []baremetal.Options
 }
 
 func (s *ResourceCoreDrgAttachmentTestSuite) SetupTest() {
@@ -76,20 +75,19 @@ func (s *ResourceCoreDrgAttachmentTestSuite) SetupTest() {
 	s.DetachedRes.ETag = "etag"
 	s.DetachedRes.RequestID = "opcrequestid"
 
-	opts := baremetal.Options{DisplayName: "display_name"}
-	s.Opts = []baremetal.Options{opts}
+	opts := &baremetal.CreateOptions{}
+	opts.DisplayName = "display_name"
 	s.Client.On(
 		"CreateDrgAttachment",
-		"compartment_id",
 		"drg_id",
 		"vcn_id",
-		s.Opts).Return(s.Res, nil)
-	s.Client.On("DeleteDrgAttachment", "id", []baremetal.Options(nil)).Return(nil)
+		opts).Return(s.Res, nil)
+	s.Client.On("DeleteDrgAttachment", "id", (*baremetal.IfMatchOptions)(nil)).Return(nil)
 }
 
 func (s *ResourceCoreDrgAttachmentTestSuite) TestCreateResourceCoreDrgAttachment() {
-	s.Client.On("GetDrgAttachment", "id", []baremetal.Options(nil)).Return(s.Res, nil).Times(2)
-	s.Client.On("GetDrgAttachment", "id", []baremetal.Options(nil)).Return(s.DetachedRes, nil)
+	s.Client.On("GetDrgAttachment", "id").Return(s.Res, nil).Times(2)
+	s.Client.On("GetDrgAttachment", "id").Return(s.DetachedRes, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -111,8 +109,8 @@ func (s *ResourceCoreDrgAttachmentTestSuite) TestCreateResourceCoreDrgAttachment
 }
 
 func (s *ResourceCoreDrgAttachmentTestSuite) TestDetachVolume() {
-	s.Client.On("GetDrgAttachment", "id", []baremetal.Options(nil)).Return(s.Res, nil).Times(2)
-	s.Client.On("GetDrgAttachment", "id", []baremetal.Options(nil)).Return(s.DetachedRes, nil)
+	s.Client.On("GetDrgAttachment", "id").Return(s.Res, nil).Times(2)
+	s.Client.On("GetDrgAttachment", "id").Return(s.DetachedRes, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -127,7 +125,7 @@ func (s *ResourceCoreDrgAttachmentTestSuite) TestDetachVolume() {
 		},
 	})
 
-	s.Client.AssertCalled(s.T(), "DeleteDrgAttachment", "id", []baremetal.Options(nil))
+	s.Client.AssertCalled(s.T(), "DeleteDrgAttachment", "id", (*baremetal.IfMatchOptions)(nil))
 }
 
 func TestResourceCoreDrgAttachmentTestSuite(t *testing.T) {

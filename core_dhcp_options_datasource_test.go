@@ -67,9 +67,9 @@ func (s *ResourceCoreDHCPOptionsDatasourceTestSuite) SetupTest() {
 }
 
 func (s *ResourceCoreDHCPOptionsDatasourceTestSuite) TestReadDHCPOptions() {
-	opts := []baremetal.Options{
-		baremetal.Options{Limit: 1, Page: "page"},
-	}
+	opts := &baremetal.ListOptions{}
+	opts.Limit = 1
+	opts.Page = "page"
 
 	s.Client.On("ListDHCPOptions", "compartment_id", "vcn_id", opts).Return(s.List, nil)
 
@@ -97,17 +97,19 @@ func (s *ResourceCoreDHCPOptionsDatasourceTestSuite) TestReadDHCPOptions() {
 }
 
 func (s *ResourceCoreDHCPOptionsDatasourceTestSuite) TestReadDHCPOptionsWithPagination() {
-	opts := []baremetal.Options{
-		baremetal.Options{Limit: 1, Page: "page"},
-	}
+	opts := &baremetal.ListOptions{}
+	opts.Limit = 1
+	opts.Page = "page"
+
 	listVal := *s.List
 	list := &listVal
 	list.NextPage = "nextpage"
 	s.Client.On("ListDHCPOptions", "compartment_id", "vcn_id", opts).Return(list, nil)
 
-	opts2 := []baremetal.Options{
-		baremetal.Options{Limit: 1, Page: "nextpage"},
-	}
+	opts2 := &baremetal.ListOptions{}
+	opts2.Limit = 1
+	opts2.Page = "nextpage"
+
 	list2Val := *s.List
 	list2 := &list2Val
 	b3 := s.List.DHCPOptions[0]

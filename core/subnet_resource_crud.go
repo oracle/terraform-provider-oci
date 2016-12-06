@@ -33,29 +33,34 @@ func (s *SubnetResourceCrud) DeletedTarget() []string {
 }
 
 func (s *SubnetResourceCrud) Create() (e error) {
-	opts := baremetal.Options{}
 	availabilityDomain := s.D.Get("availability_domain").(string)
 	cidrBlock := s.D.Get("cidr_block").(string)
 	compartmentID := s.D.Get("compartment_id").(string)
-	routeTableID := s.D.Get("route_table_id").(string)
 	vcnID := s.D.Get("vcn_id").(string)
 
-	securityListIDs := []string{}
-	for _, val := range s.D.Get("security_list_ids").([]interface{}) {
-		securityListIDs = append(securityListIDs, val.(string))
-	}
+	opts := &baremetal.CreateSubnetOptions{}
 
 	if displayName, ok := s.D.GetOk("display_name"); ok {
 		opts.DisplayName = displayName.(string)
+	}
+
+	if rawSecurityListIDs, ok := s.D.GetOk("security_list_ids"); ok {
+		securityListIDs := []string{}
+		for _, val := range rawSecurityListIDs.([]interface{}) {
+			securityListIDs = append(securityListIDs, val.(string))
+		}
+		opts.SecurityListIDs = securityListIDs
+	}
+
+	if routeTableID, ok := s.D.GetOk("route_table_id"); ok {
+		opts.RouteTableID = routeTableID.(string)
 	}
 
 	s.Resource, e = s.Client.CreateSubnet(
 		availabilityDomain,
 		cidrBlock,
 		compartmentID,
-		routeTableID,
 		vcnID,
-		securityListIDs,
 		opts,
 	)
 
@@ -82,5 +87,5 @@ func (s *SubnetResourceCrud) SetData() {
 }
 
 func (s *SubnetResourceCrud) Delete() (e error) {
-	return s.Client.DeleteSubnet(s.D.Id())
+	return s.Client.DeleteSubnet(s.D.Id(), nil)
 }

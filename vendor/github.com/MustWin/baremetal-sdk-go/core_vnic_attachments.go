@@ -36,15 +36,15 @@ func (l *ListVnicAttachments) GetList() interface{} {
 // be supplied to support pagination.
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/VnicAttachment/ListVnicAttachments
-func (c *Client) ListVnicAttachments(compartmentID string, opts ...Options) (res *ListVnicAttachments, e error) {
-	reqOpts := &sdkRequestOptions{
-		name:    resourceVnicAttachments,
-		ocid:    compartmentID,
-		options: opts,
+func (c *Client) ListVnicAttachments(compartmentID string, opts *ListVnicAttachmentsOptions) (res *ListVnicAttachments, e error) {
+	details := &requestDetails{
+		name:     resourceVnicAttachments,
+		optional: opts,
+		required: ocidRequirement{compartmentID},
 	}
 
 	var resp *requestResponse
-	if resp, e = c.coreApi.getRequest(reqOpts); e != nil {
+	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}
 

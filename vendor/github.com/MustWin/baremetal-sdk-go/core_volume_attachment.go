@@ -29,36 +29,28 @@ func (l *ListVolumeAttachments) GetList() interface{} {
 	return &l.VolumeAttachments
 }
 
-// AttachVolumeRequest describes the body of a volume attachment creation request
-//
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#AttachVolumeRequest
-// TODO: This has been changed to AttachVolumeDetails
-type AttachVolumeRequest struct {
-	CompartmentID  string `json:"compartmentId"`
-	InstanceID     string `json:"instanceId"`
-	AttachmentType string `json:"type"`
-	VolumeID       string `json:"volumeId"`
-}
-
 //AttachVolume attaches a storage volume to the specified instance
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/VolumeAttachment/AttachVolume
-func (c *Client) AttachVolume(compartmentID, instanceID, attachmentType, volumeID string, opts ...Options) (res *VolumeAttachment, e error) {
-	createRequest := AttachVolumeRequest{
-		CompartmentID:  compartmentID,
-		InstanceID:     instanceID,
+func (c *Client) AttachVolume(attachmentType, instanceID, volumeID string, opts *CreateOptions) (res *VolumeAttachment, e error) {
+	required := struct {
+		AttachmentType string `json:"attachmentType" url:"-"`
+		InstanceID     string `json:"instanceId" url:"-"`
+		VolumeID       string `json:"volumeId" url:"-"`
+	}{
 		AttachmentType: attachmentType,
+		InstanceID:     instanceID,
 		VolumeID:       volumeID,
 	}
 
-	reqOpts := &sdkRequestOptions{
-		body:    createRequest,
-		name:    resourceVolumeAttachments,
-		options: opts,
+	details := &requestDetails{
+		name:     resourceVolumeAttachments,
+		optional: opts,
+		required: required,
 	}
 
 	var response *requestResponse
-	if response, e = c.coreApi.request(http.MethodPost, reqOpts); e != nil {
+	if response, e = c.coreApi.request(http.MethodPost, details); e != nil {
 		return
 	}
 
@@ -70,14 +62,14 @@ func (c *Client) AttachVolume(compartmentID, instanceID, attachmentType, volumeI
 // GetVolumeAttachment gets information about the specified volume attachment
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/VolumeAttachment/GetVolumeAttachment
-func (c *Client) GetVolumeAttachment(id string, opts ...Options) (res *VolumeAttachment, e error) {
-	reqOpts := &sdkRequestOptions{
-		name:    resourceVolumeAttachments,
-		options: opts,
-		ids:     urlParts{id},
+func (c *Client) GetVolumeAttachment(id string) (res *VolumeAttachment, e error) {
+	details := &requestDetails{
+		ids:  urlParts{id},
+		name: resourceVolumeAttachments,
 	}
+
 	var resp *requestResponse
-	if resp, e = c.coreApi.getRequest(reqOpts); e != nil {
+	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}
 
@@ -89,28 +81,29 @@ func (c *Client) GetVolumeAttachment(id string, opts ...Options) (res *VolumeAtt
 // DetachVolume detaches a storage volume from the specified instance
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Volume/DetachVolume
-func (c *Client) DetachVolume(id string, opts ...Options) (e error) {
-	reqOpts := &sdkRequestOptions{
-		name:    resourceVolumeAttachments,
-		options: opts,
-		ids:     urlParts{id},
+func (c *Client) DetachVolume(id string, opts *IfMatchOptions) (e error) {
+	details := &requestDetails{
+		ids:      urlParts{id},
+		name:     resourceVolumeAttachments,
+		optional: opts,
 	}
-	return c.coreApi.deleteRequest(reqOpts)
+
+	return c.coreApi.deleteRequest(details)
 }
 
 // ListVolumeAttachments gets a list of the volume attachments in the specified
 // compartment
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/VolumeAttachment/ListVolumeAttachments
-func (c *Client) ListVolumeAttachments(compartmentID string, opts ...Options) (res *ListVolumeAttachments, e error) {
-	reqOpts := &sdkRequestOptions{
-		name:    resourceVolumeAttachments,
-		ocid:    compartmentID,
-		options: opts,
+func (c *Client) ListVolumeAttachments(compartmentID string, opts *ListVolumeAttachmentsOptions) (res *ListVolumeAttachments, e error) {
+	details := &requestDetails{
+		name:     resourceVolumeAttachments,
+		optional: opts,
+		required: ocidRequirement{compartmentID},
 	}
 
 	var resp *requestResponse
-	if resp, e = c.coreApi.getRequest(reqOpts); e != nil {
+	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}
 

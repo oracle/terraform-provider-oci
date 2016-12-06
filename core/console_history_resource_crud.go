@@ -29,17 +29,15 @@ func (s *ConsoleHistoryResourceCrud) State() string {
 }
 
 func (s *ConsoleHistoryResourceCrud) Create() (e error) {
-	opts := baremetal.Options{}
 	instanceID := s.D.Get("instance_id").(string)
 
-	s.Res, e = s.Client.CaptureConsoleHistory(instanceID, opts)
+	s.Res, e = s.Client.CaptureConsoleHistory(instanceID, nil)
 
 	return
 }
 
 func (s *ConsoleHistoryResourceCrud) Get() (e error) {
-	opts := baremetal.Options{}
-	s.Res, e = s.Client.GetConsoleHistory(s.D.Id(), opts)
+	s.Res, e = s.Client.GetConsoleHistory(s.D.Id())
 	return
 }
 
@@ -50,8 +48,4 @@ func (s *ConsoleHistoryResourceCrud) SetData() {
 	s.D.Set("instance_id", s.Res.InstanceID)
 	s.D.Set("state", s.Res.State)
 	s.D.Set("time_created", s.Res.TimeCreated.String())
-}
-
-func (s *ConsoleHistoryResourceCrud) Delete() (e error) {
-	return s.Client.DeleteConsoleHistory(s.D.Id())
 }

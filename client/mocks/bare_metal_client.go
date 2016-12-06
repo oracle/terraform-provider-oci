@@ -9,13 +9,36 @@ type BareMetalClient struct {
 	mock.Mock
 }
 
-// AttachVolume provides a mock function with given fields: compartmentID, instanceID, attachmentType, volumeID, opts
-func (_m *BareMetalClient) AttachVolume(compartmentID string, instanceID string, attachmentType string, volumeID string, opts ...baremetal.Options) (*baremetal.VolumeAttachment, error) {
-	ret := _m.Called(compartmentID, instanceID, attachmentType, volumeID, opts)
+// AddUserToGroup provides a mock function with given fields: userID, groupID, opts
+func (_m *BareMetalClient) AddUserToGroup(userID string, groupID string, opts *baremetal.RetryTokenOptions) (*baremetal.UserGroupMembership, error) {
+	ret := _m.Called(userID, groupID, opts)
+
+	var r0 *baremetal.UserGroupMembership
+	if rf, ok := ret.Get(0).(func(string, string, *baremetal.RetryTokenOptions) *baremetal.UserGroupMembership); ok {
+		r0 = rf(userID, groupID, opts)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*baremetal.UserGroupMembership)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(string, string, *baremetal.RetryTokenOptions) error); ok {
+		r1 = rf(userID, groupID, opts)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// AttachVolume provides a mock function with given fields: attachmentType, instanceID, volumeID, opts
+func (_m *BareMetalClient) AttachVolume(attachmentType string, instanceID string, volumeID string, opts *baremetal.CreateOptions) (*baremetal.VolumeAttachment, error) {
+	ret := _m.Called(attachmentType, instanceID, volumeID, opts)
 
 	var r0 *baremetal.VolumeAttachment
-	if rf, ok := ret.Get(0).(func(string, string, string, string, ...baremetal.Options) *baremetal.VolumeAttachment); ok {
-		r0 = rf(compartmentID, instanceID, attachmentType, volumeID, opts...)
+	if rf, ok := ret.Get(0).(func(string, string, string, *baremetal.CreateOptions) *baremetal.VolumeAttachment); ok {
+		r0 = rf(attachmentType, instanceID, volumeID, opts)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*baremetal.VolumeAttachment)
@@ -23,8 +46,8 @@ func (_m *BareMetalClient) AttachVolume(compartmentID string, instanceID string,
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string, string, string, string, ...baremetal.Options) error); ok {
-		r1 = rf(compartmentID, instanceID, attachmentType, volumeID, opts...)
+	if rf, ok := ret.Get(1).(func(string, string, string, *baremetal.CreateOptions) error); ok {
+		r1 = rf(attachmentType, instanceID, volumeID, opts)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -33,12 +56,12 @@ func (_m *BareMetalClient) AttachVolume(compartmentID string, instanceID string,
 }
 
 // CaptureConsoleHistory provides a mock function with given fields: instanceID, opts
-func (_m *BareMetalClient) CaptureConsoleHistory(instanceID string, opts ...baremetal.Options) (*baremetal.ConsoleHistoryMetadata, error) {
+func (_m *BareMetalClient) CaptureConsoleHistory(instanceID string, opts *baremetal.RetryTokenOptions) (*baremetal.ConsoleHistoryMetadata, error) {
 	ret := _m.Called(instanceID, opts)
 
 	var r0 *baremetal.ConsoleHistoryMetadata
-	if rf, ok := ret.Get(0).(func(string, ...baremetal.Options) *baremetal.ConsoleHistoryMetadata); ok {
-		r0 = rf(instanceID, opts...)
+	if rf, ok := ret.Get(0).(func(string, *baremetal.RetryTokenOptions) *baremetal.ConsoleHistoryMetadata); ok {
+		r0 = rf(instanceID, opts)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*baremetal.ConsoleHistoryMetadata)
@@ -46,8 +69,8 @@ func (_m *BareMetalClient) CaptureConsoleHistory(instanceID string, opts ...bare
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string, ...baremetal.Options) error); ok {
-		r1 = rf(instanceID, opts...)
+	if rf, ok := ret.Get(1).(func(string, *baremetal.RetryTokenOptions) error); ok {
+		r1 = rf(instanceID, opts)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -55,22 +78,22 @@ func (_m *BareMetalClient) CaptureConsoleHistory(instanceID string, opts ...bare
 	return r0, r1
 }
 
-// CreateCompartment provides a mock function with given fields: name, description, options
-func (_m *BareMetalClient) CreateCompartment(name string, description string, options ...baremetal.Options) (*baremetal.IdentityResource, error) {
-	ret := _m.Called(name, description, options)
+// CreateCompartment provides a mock function with given fields: name, desc, opts
+func (_m *BareMetalClient) CreateCompartment(name string, desc string, opts *baremetal.RetryTokenOptions) (*baremetal.Compartment, error) {
+	ret := _m.Called(name, desc, opts)
 
-	var r0 *baremetal.IdentityResource
-	if rf, ok := ret.Get(0).(func(string, string, ...baremetal.Options) *baremetal.IdentityResource); ok {
-		r0 = rf(name, description, options...)
+	var r0 *baremetal.Compartment
+	if rf, ok := ret.Get(0).(func(string, string, *baremetal.RetryTokenOptions) *baremetal.Compartment); ok {
+		r0 = rf(name, desc, opts)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*baremetal.IdentityResource)
+			r0 = ret.Get(0).(*baremetal.Compartment)
 		}
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string, string, ...baremetal.Options) error); ok {
-		r1 = rf(name, description, options...)
+	if rf, ok := ret.Get(1).(func(string, string, *baremetal.RetryTokenOptions) error); ok {
+		r1 = rf(name, desc, opts)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -78,13 +101,13 @@ func (_m *BareMetalClient) CreateCompartment(name string, description string, op
 	return r0, r1
 }
 
-// CreateCpe provides a mock function with given fields: compartmentID, displayName, IPAddress, opts
-func (_m *BareMetalClient) CreateCpe(compartmentID string, displayName string, IPAddress string, opts ...baremetal.Options) (*baremetal.Cpe, error) {
-	ret := _m.Called(compartmentID, displayName, IPAddress, opts)
+// CreateCpe provides a mock function with given fields: compartmentID, ipAddress, opts
+func (_m *BareMetalClient) CreateCpe(compartmentID string, ipAddress string, opts *baremetal.CreateOptions) (*baremetal.Cpe, error) {
+	ret := _m.Called(compartmentID, ipAddress, opts)
 
 	var r0 *baremetal.Cpe
-	if rf, ok := ret.Get(0).(func(string, string, string, ...baremetal.Options) *baremetal.Cpe); ok {
-		r0 = rf(compartmentID, displayName, IPAddress, opts...)
+	if rf, ok := ret.Get(0).(func(string, string, *baremetal.CreateOptions) *baremetal.Cpe); ok {
+		r0 = rf(compartmentID, ipAddress, opts)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*baremetal.Cpe)
@@ -92,8 +115,8 @@ func (_m *BareMetalClient) CreateCpe(compartmentID string, displayName string, I
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string, string, string, ...baremetal.Options) error); ok {
-		r1 = rf(compartmentID, displayName, IPAddress, opts...)
+	if rf, ok := ret.Get(1).(func(string, string, *baremetal.CreateOptions) error); ok {
+		r1 = rf(compartmentID, ipAddress, opts)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -102,12 +125,12 @@ func (_m *BareMetalClient) CreateCpe(compartmentID string, displayName string, I
 }
 
 // CreateDHCPOptions provides a mock function with given fields: compartmentID, vcnID, dhcpOptions, opts
-func (_m *BareMetalClient) CreateDHCPOptions(compartmentID string, vcnID string, dhcpOptions []baremetal.DHCPDNSOption, opts ...baremetal.Options) (*baremetal.DHCPOptions, error) {
+func (_m *BareMetalClient) CreateDHCPOptions(compartmentID string, vcnID string, dhcpOptions []baremetal.DHCPDNSOption, opts *baremetal.CreateOptions) (*baremetal.DHCPOptions, error) {
 	ret := _m.Called(compartmentID, vcnID, dhcpOptions, opts)
 
 	var r0 *baremetal.DHCPOptions
-	if rf, ok := ret.Get(0).(func(string, string, []baremetal.DHCPDNSOption, ...baremetal.Options) *baremetal.DHCPOptions); ok {
-		r0 = rf(compartmentID, vcnID, dhcpOptions, opts...)
+	if rf, ok := ret.Get(0).(func(string, string, []baremetal.DHCPDNSOption, *baremetal.CreateOptions) *baremetal.DHCPOptions); ok {
+		r0 = rf(compartmentID, vcnID, dhcpOptions, opts)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*baremetal.DHCPOptions)
@@ -115,8 +138,8 @@ func (_m *BareMetalClient) CreateDHCPOptions(compartmentID string, vcnID string,
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string, string, []baremetal.DHCPDNSOption, ...baremetal.Options) error); ok {
-		r1 = rf(compartmentID, vcnID, dhcpOptions, opts...)
+	if rf, ok := ret.Get(1).(func(string, string, []baremetal.DHCPDNSOption, *baremetal.CreateOptions) error); ok {
+		r1 = rf(compartmentID, vcnID, dhcpOptions, opts)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -125,12 +148,12 @@ func (_m *BareMetalClient) CreateDHCPOptions(compartmentID string, vcnID string,
 }
 
 // CreateDrg provides a mock function with given fields: compartmentID, opts
-func (_m *BareMetalClient) CreateDrg(compartmentID string, opts ...baremetal.Options) (*baremetal.Drg, error) {
+func (_m *BareMetalClient) CreateDrg(compartmentID string, opts *baremetal.CreateOptions) (*baremetal.Drg, error) {
 	ret := _m.Called(compartmentID, opts)
 
 	var r0 *baremetal.Drg
-	if rf, ok := ret.Get(0).(func(string, ...baremetal.Options) *baremetal.Drg); ok {
-		r0 = rf(compartmentID, opts...)
+	if rf, ok := ret.Get(0).(func(string, *baremetal.CreateOptions) *baremetal.Drg); ok {
+		r0 = rf(compartmentID, opts)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*baremetal.Drg)
@@ -138,8 +161,8 @@ func (_m *BareMetalClient) CreateDrg(compartmentID string, opts ...baremetal.Opt
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string, ...baremetal.Options) error); ok {
-		r1 = rf(compartmentID, opts...)
+	if rf, ok := ret.Get(1).(func(string, *baremetal.CreateOptions) error); ok {
+		r1 = rf(compartmentID, opts)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -147,13 +170,13 @@ func (_m *BareMetalClient) CreateDrg(compartmentID string, opts ...baremetal.Opt
 	return r0, r1
 }
 
-// CreateDrgAttachment provides a mock function with given fields: compartmentID, drgID, vcnID, opts
-func (_m *BareMetalClient) CreateDrgAttachment(compartmentID string, drgID string, vcnID string, opts ...baremetal.Options) (*baremetal.DrgAttachment, error) {
-	ret := _m.Called(compartmentID, drgID, vcnID, opts)
+// CreateDrgAttachment provides a mock function with given fields: drgID, vcnID, opts
+func (_m *BareMetalClient) CreateDrgAttachment(drgID string, vcnID string, opts *baremetal.CreateOptions) (*baremetal.DrgAttachment, error) {
+	ret := _m.Called(drgID, vcnID, opts)
 
 	var r0 *baremetal.DrgAttachment
-	if rf, ok := ret.Get(0).(func(string, string, string, ...baremetal.Options) *baremetal.DrgAttachment); ok {
-		r0 = rf(compartmentID, drgID, vcnID, opts...)
+	if rf, ok := ret.Get(0).(func(string, string, *baremetal.CreateOptions) *baremetal.DrgAttachment); ok {
+		r0 = rf(drgID, vcnID, opts)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*baremetal.DrgAttachment)
@@ -161,8 +184,8 @@ func (_m *BareMetalClient) CreateDrgAttachment(compartmentID string, drgID strin
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string, string, string, ...baremetal.Options) error); ok {
-		r1 = rf(compartmentID, drgID, vcnID, opts...)
+	if rf, ok := ret.Get(1).(func(string, string, *baremetal.CreateOptions) error); ok {
+		r1 = rf(drgID, vcnID, opts)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -170,22 +193,22 @@ func (_m *BareMetalClient) CreateDrgAttachment(compartmentID string, drgID strin
 	return r0, r1
 }
 
-// CreateGroup provides a mock function with given fields: name, description, options
-func (_m *BareMetalClient) CreateGroup(name string, description string, options ...baremetal.Options) (*baremetal.IdentityResource, error) {
-	ret := _m.Called(name, description, options)
+// CreateGroup provides a mock function with given fields: name, desc, opts
+func (_m *BareMetalClient) CreateGroup(name string, desc string, opts *baremetal.RetryTokenOptions) (*baremetal.Group, error) {
+	ret := _m.Called(name, desc, opts)
 
-	var r0 *baremetal.IdentityResource
-	if rf, ok := ret.Get(0).(func(string, string, ...baremetal.Options) *baremetal.IdentityResource); ok {
-		r0 = rf(name, description, options...)
+	var r0 *baremetal.Group
+	if rf, ok := ret.Get(0).(func(string, string, *baremetal.RetryTokenOptions) *baremetal.Group); ok {
+		r0 = rf(name, desc, opts)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*baremetal.IdentityResource)
+			r0 = ret.Get(0).(*baremetal.Group)
 		}
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string, string, ...baremetal.Options) error); ok {
-		r1 = rf(name, description, options...)
+	if rf, ok := ret.Get(1).(func(string, string, *baremetal.RetryTokenOptions) error); ok {
+		r1 = rf(name, desc, opts)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -194,12 +217,12 @@ func (_m *BareMetalClient) CreateGroup(name string, description string, options 
 }
 
 // CreateIPSecConnection provides a mock function with given fields: compartmentID, cpeID, drgID, staticRoutes, opts
-func (_m *BareMetalClient) CreateIPSecConnection(compartmentID string, cpeID string, drgID string, staticRoutes []string, opts ...baremetal.Options) (*baremetal.IPSecConnection, error) {
+func (_m *BareMetalClient) CreateIPSecConnection(compartmentID string, cpeID string, drgID string, staticRoutes []string, opts *baremetal.CreateOptions) (*baremetal.IPSecConnection, error) {
 	ret := _m.Called(compartmentID, cpeID, drgID, staticRoutes, opts)
 
 	var r0 *baremetal.IPSecConnection
-	if rf, ok := ret.Get(0).(func(string, string, string, []string, ...baremetal.Options) *baremetal.IPSecConnection); ok {
-		r0 = rf(compartmentID, cpeID, drgID, staticRoutes, opts...)
+	if rf, ok := ret.Get(0).(func(string, string, string, []string, *baremetal.CreateOptions) *baremetal.IPSecConnection); ok {
+		r0 = rf(compartmentID, cpeID, drgID, staticRoutes, opts)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*baremetal.IPSecConnection)
@@ -207,8 +230,8 @@ func (_m *BareMetalClient) CreateIPSecConnection(compartmentID string, cpeID str
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string, string, string, []string, ...baremetal.Options) error); ok {
-		r1 = rf(compartmentID, cpeID, drgID, staticRoutes, opts...)
+	if rf, ok := ret.Get(1).(func(string, string, string, []string, *baremetal.CreateOptions) error); ok {
+		r1 = rf(compartmentID, cpeID, drgID, staticRoutes, opts)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -217,12 +240,12 @@ func (_m *BareMetalClient) CreateIPSecConnection(compartmentID string, cpeID str
 }
 
 // CreateImage provides a mock function with given fields: compartmentID, instanceID, opts
-func (_m *BareMetalClient) CreateImage(compartmentID string, instanceID string, opts ...baremetal.Options) (*baremetal.Image, error) {
+func (_m *BareMetalClient) CreateImage(compartmentID string, instanceID string, opts *baremetal.CreateOptions) (*baremetal.Image, error) {
 	ret := _m.Called(compartmentID, instanceID, opts)
 
 	var r0 *baremetal.Image
-	if rf, ok := ret.Get(0).(func(string, string, ...baremetal.Options) *baremetal.Image); ok {
-		r0 = rf(compartmentID, instanceID, opts...)
+	if rf, ok := ret.Get(0).(func(string, string, *baremetal.CreateOptions) *baremetal.Image); ok {
+		r0 = rf(compartmentID, instanceID, opts)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*baremetal.Image)
@@ -230,8 +253,8 @@ func (_m *BareMetalClient) CreateImage(compartmentID string, instanceID string, 
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string, string, ...baremetal.Options) error); ok {
-		r1 = rf(compartmentID, instanceID, opts...)
+	if rf, ok := ret.Get(1).(func(string, string, *baremetal.CreateOptions) error); ok {
+		r1 = rf(compartmentID, instanceID, opts)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -240,12 +263,12 @@ func (_m *BareMetalClient) CreateImage(compartmentID string, instanceID string, 
 }
 
 // CreateInternetGateway provides a mock function with given fields: compartmentID, vcnID, isEnabled, opts
-func (_m *BareMetalClient) CreateInternetGateway(compartmentID string, vcnID string, isEnabled bool, opts ...baremetal.Options) (*baremetal.InternetGateway, error) {
+func (_m *BareMetalClient) CreateInternetGateway(compartmentID string, vcnID string, isEnabled bool, opts *baremetal.CreateOptions) (*baremetal.InternetGateway, error) {
 	ret := _m.Called(compartmentID, vcnID, isEnabled, opts)
 
 	var r0 *baremetal.InternetGateway
-	if rf, ok := ret.Get(0).(func(string, string, bool, ...baremetal.Options) *baremetal.InternetGateway); ok {
-		r0 = rf(compartmentID, vcnID, isEnabled, opts...)
+	if rf, ok := ret.Get(0).(func(string, string, bool, *baremetal.CreateOptions) *baremetal.InternetGateway); ok {
+		r0 = rf(compartmentID, vcnID, isEnabled, opts)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*baremetal.InternetGateway)
@@ -253,8 +276,8 @@ func (_m *BareMetalClient) CreateInternetGateway(compartmentID string, vcnID str
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string, string, bool, ...baremetal.Options) error); ok {
-		r1 = rf(compartmentID, vcnID, isEnabled, opts...)
+	if rf, ok := ret.Get(1).(func(string, string, bool, *baremetal.CreateOptions) error); ok {
+		r1 = rf(compartmentID, vcnID, isEnabled, opts)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -263,12 +286,12 @@ func (_m *BareMetalClient) CreateInternetGateway(compartmentID string, vcnID str
 }
 
 // CreateOrResetUIPassword provides a mock function with given fields: userID, opts
-func (_m *BareMetalClient) CreateOrResetUIPassword(userID string, opts ...baremetal.Options) (*baremetal.UIPassword, error) {
+func (_m *BareMetalClient) CreateOrResetUIPassword(userID string, opts *baremetal.RetryTokenOptions) (*baremetal.UIPassword, error) {
 	ret := _m.Called(userID, opts)
 
 	var r0 *baremetal.UIPassword
-	if rf, ok := ret.Get(0).(func(string, ...baremetal.Options) *baremetal.UIPassword); ok {
-		r0 = rf(userID, opts...)
+	if rf, ok := ret.Get(0).(func(string, *baremetal.RetryTokenOptions) *baremetal.UIPassword); ok {
+		r0 = rf(userID, opts)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*baremetal.UIPassword)
@@ -276,8 +299,8 @@ func (_m *BareMetalClient) CreateOrResetUIPassword(userID string, opts ...bareme
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string, ...baremetal.Options) error); ok {
-		r1 = rf(userID, opts...)
+	if rf, ok := ret.Get(1).(func(string, *baremetal.RetryTokenOptions) error); ok {
+		r1 = rf(userID, opts)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -285,13 +308,13 @@ func (_m *BareMetalClient) CreateOrResetUIPassword(userID string, opts ...bareme
 	return r0, r1
 }
 
-// CreatePolicy provides a mock function with given fields: name, description, statements, opts
-func (_m *BareMetalClient) CreatePolicy(name string, description string, statements []string, opts ...baremetal.Options) (*baremetal.Policy, error) {
-	ret := _m.Called(name, description, statements, opts)
+// CreatePolicy provides a mock function with given fields: name, desc, statements, opts
+func (_m *BareMetalClient) CreatePolicy(name string, desc string, statements []string, opts *baremetal.CreatePolicyOptions) (*baremetal.Policy, error) {
+	ret := _m.Called(name, desc, statements, opts)
 
 	var r0 *baremetal.Policy
-	if rf, ok := ret.Get(0).(func(string, string, []string, ...baremetal.Options) *baremetal.Policy); ok {
-		r0 = rf(name, description, statements, opts...)
+	if rf, ok := ret.Get(0).(func(string, string, []string, *baremetal.CreatePolicyOptions) *baremetal.Policy); ok {
+		r0 = rf(name, desc, statements, opts)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*baremetal.Policy)
@@ -299,8 +322,8 @@ func (_m *BareMetalClient) CreatePolicy(name string, description string, stateme
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string, string, []string, ...baremetal.Options) error); ok {
-		r1 = rf(name, description, statements, opts...)
+	if rf, ok := ret.Get(1).(func(string, string, []string, *baremetal.CreatePolicyOptions) error); ok {
+		r1 = rf(name, desc, statements, opts)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -309,12 +332,12 @@ func (_m *BareMetalClient) CreatePolicy(name string, description string, stateme
 }
 
 // CreateRouteTable provides a mock function with given fields: compartmentID, vcnID, routeRules, opts
-func (_m *BareMetalClient) CreateRouteTable(compartmentID string, vcnID string, routeRules []baremetal.RouteRule, opts ...baremetal.Options) (*baremetal.RouteTable, error) {
+func (_m *BareMetalClient) CreateRouteTable(compartmentID string, vcnID string, routeRules []baremetal.RouteRule, opts *baremetal.CreateOptions) (*baremetal.RouteTable, error) {
 	ret := _m.Called(compartmentID, vcnID, routeRules, opts)
 
 	var r0 *baremetal.RouteTable
-	if rf, ok := ret.Get(0).(func(string, string, []baremetal.RouteRule, ...baremetal.Options) *baremetal.RouteTable); ok {
-		r0 = rf(compartmentID, vcnID, routeRules, opts...)
+	if rf, ok := ret.Get(0).(func(string, string, []baremetal.RouteRule, *baremetal.CreateOptions) *baremetal.RouteTable); ok {
+		r0 = rf(compartmentID, vcnID, routeRules, opts)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*baremetal.RouteTable)
@@ -322,8 +345,8 @@ func (_m *BareMetalClient) CreateRouteTable(compartmentID string, vcnID string, 
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string, string, []baremetal.RouteRule, ...baremetal.Options) error); ok {
-		r1 = rf(compartmentID, vcnID, routeRules, opts...)
+	if rf, ok := ret.Get(1).(func(string, string, []baremetal.RouteRule, *baremetal.CreateOptions) error); ok {
+		r1 = rf(compartmentID, vcnID, routeRules, opts)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -331,13 +354,13 @@ func (_m *BareMetalClient) CreateRouteTable(compartmentID string, vcnID string, 
 	return r0, r1
 }
 
-// CreateSubnet provides a mock function with given fields: availabilityDomain, cidrBlock, compartmentID, routeTableID, vcnID, securityListIDs, opts
-func (_m *BareMetalClient) CreateSubnet(availabilityDomain string, cidrBlock string, compartmentID string, routeTableID string, vcnID string, securityListIDs []string, opts ...baremetal.Options) (*baremetal.Subnet, error) {
-	ret := _m.Called(availabilityDomain, cidrBlock, compartmentID, routeTableID, vcnID, securityListIDs, opts)
+// CreateSubnet provides a mock function with given fields: availabilityDomain, cidrBlock, compartmentID, vcnID, opts
+func (_m *BareMetalClient) CreateSubnet(availabilityDomain string, cidrBlock string, compartmentID string, vcnID string, opts *baremetal.CreateSubnetOptions) (*baremetal.Subnet, error) {
+	ret := _m.Called(availabilityDomain, cidrBlock, compartmentID, vcnID, opts)
 
 	var r0 *baremetal.Subnet
-	if rf, ok := ret.Get(0).(func(string, string, string, string, string, []string, ...baremetal.Options) *baremetal.Subnet); ok {
-		r0 = rf(availabilityDomain, cidrBlock, compartmentID, routeTableID, vcnID, securityListIDs, opts...)
+	if rf, ok := ret.Get(0).(func(string, string, string, string, *baremetal.CreateSubnetOptions) *baremetal.Subnet); ok {
+		r0 = rf(availabilityDomain, cidrBlock, compartmentID, vcnID, opts)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*baremetal.Subnet)
@@ -345,8 +368,8 @@ func (_m *BareMetalClient) CreateSubnet(availabilityDomain string, cidrBlock str
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string, string, string, string, string, []string, ...baremetal.Options) error); ok {
-		r1 = rf(availabilityDomain, cidrBlock, compartmentID, routeTableID, vcnID, securityListIDs, opts...)
+	if rf, ok := ret.Get(1).(func(string, string, string, string, *baremetal.CreateSubnetOptions) error); ok {
+		r1 = rf(availabilityDomain, cidrBlock, compartmentID, vcnID, opts)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -354,22 +377,22 @@ func (_m *BareMetalClient) CreateSubnet(availabilityDomain string, cidrBlock str
 	return r0, r1
 }
 
-// CreateUser provides a mock function with given fields: name, description, options
-func (_m *BareMetalClient) CreateUser(name string, description string, options ...baremetal.Options) (*baremetal.IdentityResource, error) {
-	ret := _m.Called(name, description, options)
+// CreateUser provides a mock function with given fields: name, desc, opts
+func (_m *BareMetalClient) CreateUser(name string, desc string, opts *baremetal.RetryTokenOptions) (*baremetal.User, error) {
+	ret := _m.Called(name, desc, opts)
 
-	var r0 *baremetal.IdentityResource
-	if rf, ok := ret.Get(0).(func(string, string, ...baremetal.Options) *baremetal.IdentityResource); ok {
-		r0 = rf(name, description, options...)
+	var r0 *baremetal.User
+	if rf, ok := ret.Get(0).(func(string, string, *baremetal.RetryTokenOptions) *baremetal.User); ok {
+		r0 = rf(name, desc, opts)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*baremetal.IdentityResource)
+			r0 = ret.Get(0).(*baremetal.User)
 		}
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string, string, ...baremetal.Options) error); ok {
-		r1 = rf(name, description, options...)
+	if rf, ok := ret.Get(1).(func(string, string, *baremetal.RetryTokenOptions) error); ok {
+		r1 = rf(name, desc, opts)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -378,12 +401,12 @@ func (_m *BareMetalClient) CreateUser(name string, description string, options .
 }
 
 // CreateVirtualNetwork provides a mock function with given fields: cidrBlock, compartmentID, opts
-func (_m *BareMetalClient) CreateVirtualNetwork(cidrBlock string, compartmentID string, opts ...baremetal.Options) (*baremetal.VirtualNetwork, error) {
+func (_m *BareMetalClient) CreateVirtualNetwork(cidrBlock string, compartmentID string, opts *baremetal.CreateOptions) (*baremetal.VirtualNetwork, error) {
 	ret := _m.Called(cidrBlock, compartmentID, opts)
 
 	var r0 *baremetal.VirtualNetwork
-	if rf, ok := ret.Get(0).(func(string, string, ...baremetal.Options) *baremetal.VirtualNetwork); ok {
-		r0 = rf(cidrBlock, compartmentID, opts...)
+	if rf, ok := ret.Get(0).(func(string, string, *baremetal.CreateOptions) *baremetal.VirtualNetwork); ok {
+		r0 = rf(cidrBlock, compartmentID, opts)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*baremetal.VirtualNetwork)
@@ -391,8 +414,8 @@ func (_m *BareMetalClient) CreateVirtualNetwork(cidrBlock string, compartmentID 
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string, string, ...baremetal.Options) error); ok {
-		r1 = rf(cidrBlock, compartmentID, opts...)
+	if rf, ok := ret.Get(1).(func(string, string, *baremetal.CreateOptions) error); ok {
+		r1 = rf(cidrBlock, compartmentID, opts)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -400,13 +423,13 @@ func (_m *BareMetalClient) CreateVirtualNetwork(cidrBlock string, compartmentID 
 	return r0, r1
 }
 
-// CreateVolume provides a mock function with given fields: availabiltyDomain, compartmentID, opts
-func (_m *BareMetalClient) CreateVolume(availabiltyDomain string, compartmentID string, opts ...baremetal.Options) (*baremetal.Volume, error) {
-	ret := _m.Called(availabiltyDomain, compartmentID, opts)
+// CreateVolume provides a mock function with given fields: availabilityDomain, compartmentID, opts
+func (_m *BareMetalClient) CreateVolume(availabilityDomain string, compartmentID string, opts *baremetal.CreateVolumeOptions) (*baremetal.Volume, error) {
+	ret := _m.Called(availabilityDomain, compartmentID, opts)
 
 	var r0 *baremetal.Volume
-	if rf, ok := ret.Get(0).(func(string, string, ...baremetal.Options) *baremetal.Volume); ok {
-		r0 = rf(availabiltyDomain, compartmentID, opts...)
+	if rf, ok := ret.Get(0).(func(string, string, *baremetal.CreateVolumeOptions) *baremetal.Volume); ok {
+		r0 = rf(availabilityDomain, compartmentID, opts)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*baremetal.Volume)
@@ -414,8 +437,8 @@ func (_m *BareMetalClient) CreateVolume(availabiltyDomain string, compartmentID 
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string, string, ...baremetal.Options) error); ok {
-		r1 = rf(availabiltyDomain, compartmentID, opts...)
+	if rf, ok := ret.Get(1).(func(string, string, *baremetal.CreateVolumeOptions) error); ok {
+		r1 = rf(availabilityDomain, compartmentID, opts)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -424,12 +447,12 @@ func (_m *BareMetalClient) CreateVolume(availabiltyDomain string, compartmentID 
 }
 
 // CreateVolumeBackup provides a mock function with given fields: volumeID, opts
-func (_m *BareMetalClient) CreateVolumeBackup(volumeID string, opts ...baremetal.Options) (*baremetal.VolumeBackup, error) {
+func (_m *BareMetalClient) CreateVolumeBackup(volumeID string, opts *baremetal.CreateOptions) (*baremetal.VolumeBackup, error) {
 	ret := _m.Called(volumeID, opts)
 
 	var r0 *baremetal.VolumeBackup
-	if rf, ok := ret.Get(0).(func(string, ...baremetal.Options) *baremetal.VolumeBackup); ok {
-		r0 = rf(volumeID, opts...)
+	if rf, ok := ret.Get(0).(func(string, *baremetal.CreateOptions) *baremetal.VolumeBackup); ok {
+		r0 = rf(volumeID, opts)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*baremetal.VolumeBackup)
@@ -437,8 +460,8 @@ func (_m *BareMetalClient) CreateVolumeBackup(volumeID string, opts ...baremetal
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string, ...baremetal.Options) error); ok {
-		r1 = rf(volumeID, opts...)
+	if rf, ok := ret.Get(1).(func(string, *baremetal.CreateOptions) error); ok {
+		r1 = rf(volumeID, opts)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -447,26 +470,12 @@ func (_m *BareMetalClient) CreateVolumeBackup(volumeID string, opts ...baremetal
 }
 
 // DeleteAPIKey provides a mock function with given fields: userID, fingerprint, opts
-func (_m *BareMetalClient) DeleteAPIKey(userID string, fingerprint string, opts ...baremetal.Options) error {
+func (_m *BareMetalClient) DeleteAPIKey(userID string, fingerprint string, opts *baremetal.IfMatchOptions) error {
 	ret := _m.Called(userID, fingerprint, opts)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(string, string, ...baremetal.Options) error); ok {
-		r0 = rf(userID, fingerprint, opts...)
-	} else {
-		r0 = ret.Error(0)
-	}
-
-	return r0
-}
-
-// DeleteConsoleHistory provides a mock function with given fields: id
-func (_m *BareMetalClient) DeleteConsoleHistory(id string) error {
-	ret := _m.Called(id)
-
-	var r0 error
-	if rf, ok := ret.Get(0).(func(string) error); ok {
-		r0 = rf(id)
+	if rf, ok := ret.Get(0).(func(string, string, *baremetal.IfMatchOptions) error); ok {
+		r0 = rf(userID, fingerprint, opts)
 	} else {
 		r0 = ret.Error(0)
 	}
@@ -475,12 +484,12 @@ func (_m *BareMetalClient) DeleteConsoleHistory(id string) error {
 }
 
 // DeleteCpe provides a mock function with given fields: id, opts
-func (_m *BareMetalClient) DeleteCpe(id string, opts ...baremetal.Options) error {
+func (_m *BareMetalClient) DeleteCpe(id string, opts *baremetal.IfMatchOptions) error {
 	ret := _m.Called(id, opts)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(string, ...baremetal.Options) error); ok {
-		r0 = rf(id, opts...)
+	if rf, ok := ret.Get(0).(func(string, *baremetal.IfMatchOptions) error); ok {
+		r0 = rf(id, opts)
 	} else {
 		r0 = ret.Error(0)
 	}
@@ -489,12 +498,12 @@ func (_m *BareMetalClient) DeleteCpe(id string, opts ...baremetal.Options) error
 }
 
 // DeleteDHCPOptions provides a mock function with given fields: id, opts
-func (_m *BareMetalClient) DeleteDHCPOptions(id string, opts ...baremetal.Options) error {
+func (_m *BareMetalClient) DeleteDHCPOptions(id string, opts *baremetal.IfMatchOptions) error {
 	ret := _m.Called(id, opts)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(string, ...baremetal.Options) error); ok {
-		r0 = rf(id, opts...)
+	if rf, ok := ret.Get(0).(func(string, *baremetal.IfMatchOptions) error); ok {
+		r0 = rf(id, opts)
 	} else {
 		r0 = ret.Error(0)
 	}
@@ -503,12 +512,12 @@ func (_m *BareMetalClient) DeleteDHCPOptions(id string, opts ...baremetal.Option
 }
 
 // DeleteDrg provides a mock function with given fields: id, opts
-func (_m *BareMetalClient) DeleteDrg(id string, opts ...baremetal.Options) error {
+func (_m *BareMetalClient) DeleteDrg(id string, opts *baremetal.IfMatchOptions) error {
 	ret := _m.Called(id, opts)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(string, ...baremetal.Options) error); ok {
-		r0 = rf(id, opts...)
+	if rf, ok := ret.Get(0).(func(string, *baremetal.IfMatchOptions) error); ok {
+		r0 = rf(id, opts)
 	} else {
 		r0 = ret.Error(0)
 	}
@@ -517,12 +526,12 @@ func (_m *BareMetalClient) DeleteDrg(id string, opts ...baremetal.Options) error
 }
 
 // DeleteDrgAttachment provides a mock function with given fields: id, opts
-func (_m *BareMetalClient) DeleteDrgAttachment(id string, opts ...baremetal.Options) error {
+func (_m *BareMetalClient) DeleteDrgAttachment(id string, opts *baremetal.IfMatchOptions) error {
 	ret := _m.Called(id, opts)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(string, ...baremetal.Options) error); ok {
-		r0 = rf(id, opts...)
+	if rf, ok := ret.Get(0).(func(string, *baremetal.IfMatchOptions) error); ok {
+		r0 = rf(id, opts)
 	} else {
 		r0 = ret.Error(0)
 	}
@@ -530,13 +539,13 @@ func (_m *BareMetalClient) DeleteDrgAttachment(id string, opts ...baremetal.Opti
 	return r0
 }
 
-// DeleteGroup provides a mock function with given fields: userID, opts
-func (_m *BareMetalClient) DeleteGroup(userID string, opts ...baremetal.Options) error {
-	ret := _m.Called(userID, opts)
+// DeleteGroup provides a mock function with given fields: id, opts
+func (_m *BareMetalClient) DeleteGroup(id string, opts *baremetal.IfMatchOptions) error {
+	ret := _m.Called(id, opts)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(string, ...baremetal.Options) error); ok {
-		r0 = rf(userID, opts...)
+	if rf, ok := ret.Get(0).(func(string, *baremetal.IfMatchOptions) error); ok {
+		r0 = rf(id, opts)
 	} else {
 		r0 = ret.Error(0)
 	}
@@ -545,12 +554,12 @@ func (_m *BareMetalClient) DeleteGroup(userID string, opts ...baremetal.Options)
 }
 
 // DeleteIPSecConnection provides a mock function with given fields: id, opts
-func (_m *BareMetalClient) DeleteIPSecConnection(id string, opts ...baremetal.Options) error {
+func (_m *BareMetalClient) DeleteIPSecConnection(id string, opts *baremetal.IfMatchOptions) error {
 	ret := _m.Called(id, opts)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(string, ...baremetal.Options) error); ok {
-		r0 = rf(id, opts...)
+	if rf, ok := ret.Get(0).(func(string, *baremetal.IfMatchOptions) error); ok {
+		r0 = rf(id, opts)
 	} else {
 		r0 = ret.Error(0)
 	}
@@ -559,12 +568,12 @@ func (_m *BareMetalClient) DeleteIPSecConnection(id string, opts ...baremetal.Op
 }
 
 // DeleteImage provides a mock function with given fields: id, opts
-func (_m *BareMetalClient) DeleteImage(id string, opts ...baremetal.Options) error {
+func (_m *BareMetalClient) DeleteImage(id string, opts *baremetal.IfMatchOptions) error {
 	ret := _m.Called(id, opts)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(string, ...baremetal.Options) error); ok {
-		r0 = rf(id, opts...)
+	if rf, ok := ret.Get(0).(func(string, *baremetal.IfMatchOptions) error); ok {
+		r0 = rf(id, opts)
 	} else {
 		r0 = ret.Error(0)
 	}
@@ -573,12 +582,12 @@ func (_m *BareMetalClient) DeleteImage(id string, opts ...baremetal.Options) err
 }
 
 // DeleteInternetGateway provides a mock function with given fields: id, opts
-func (_m *BareMetalClient) DeleteInternetGateway(id string, opts ...baremetal.Options) error {
+func (_m *BareMetalClient) DeleteInternetGateway(id string, opts *baremetal.IfMatchOptions) error {
 	ret := _m.Called(id, opts)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(string, ...baremetal.Options) error); ok {
-		r0 = rf(id, opts...)
+	if rf, ok := ret.Get(0).(func(string, *baremetal.IfMatchOptions) error); ok {
+		r0 = rf(id, opts)
 	} else {
 		r0 = ret.Error(0)
 	}
@@ -587,12 +596,12 @@ func (_m *BareMetalClient) DeleteInternetGateway(id string, opts ...baremetal.Op
 }
 
 // DeletePolicy provides a mock function with given fields: id, opts
-func (_m *BareMetalClient) DeletePolicy(id string, opts ...baremetal.Options) error {
+func (_m *BareMetalClient) DeletePolicy(id string, opts *baremetal.IfMatchOptions) error {
 	ret := _m.Called(id, opts)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(string, ...baremetal.Options) error); ok {
-		r0 = rf(id, opts...)
+	if rf, ok := ret.Get(0).(func(string, *baremetal.IfMatchOptions) error); ok {
+		r0 = rf(id, opts)
 	} else {
 		r0 = ret.Error(0)
 	}
@@ -601,12 +610,12 @@ func (_m *BareMetalClient) DeletePolicy(id string, opts ...baremetal.Options) er
 }
 
 // DeleteRouteTable provides a mock function with given fields: id, opts
-func (_m *BareMetalClient) DeleteRouteTable(id string, opts ...baremetal.Options) error {
+func (_m *BareMetalClient) DeleteRouteTable(id string, opts *baremetal.IfMatchOptions) error {
 	ret := _m.Called(id, opts)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(string, ...baremetal.Options) error); ok {
-		r0 = rf(id, opts...)
+	if rf, ok := ret.Get(0).(func(string, *baremetal.IfMatchOptions) error); ok {
+		r0 = rf(id, opts)
 	} else {
 		r0 = ret.Error(0)
 	}
@@ -614,13 +623,13 @@ func (_m *BareMetalClient) DeleteRouteTable(id string, opts ...baremetal.Options
 	return r0
 }
 
-// DeleteSubnet provides a mock function with given fields: subnetID, opts
-func (_m *BareMetalClient) DeleteSubnet(subnetID string, opts ...baremetal.Options) error {
-	ret := _m.Called(subnetID, opts)
+// DeleteSecurityList provides a mock function with given fields: id, opts
+func (_m *BareMetalClient) DeleteSecurityList(id string, opts *baremetal.IfMatchOptions) error {
+	ret := _m.Called(id, opts)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(string, ...baremetal.Options) error); ok {
-		r0 = rf(subnetID, opts...)
+	if rf, ok := ret.Get(0).(func(string, *baremetal.IfMatchOptions) error); ok {
+		r0 = rf(id, opts)
 	} else {
 		r0 = ret.Error(0)
 	}
@@ -628,13 +637,41 @@ func (_m *BareMetalClient) DeleteSubnet(subnetID string, opts ...baremetal.Optio
 	return r0
 }
 
-// DeleteUser provides a mock function with given fields: userID, opts
-func (_m *BareMetalClient) DeleteUser(userID string, opts ...baremetal.Options) error {
-	ret := _m.Called(userID, opts)
+// DeleteSubnet provides a mock function with given fields: id, opts
+func (_m *BareMetalClient) DeleteSubnet(id string, opts *baremetal.IfMatchOptions) error {
+	ret := _m.Called(id, opts)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(string, ...baremetal.Options) error); ok {
-		r0 = rf(userID, opts...)
+	if rf, ok := ret.Get(0).(func(string, *baremetal.IfMatchOptions) error); ok {
+		r0 = rf(id, opts)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
+// DeleteUser provides a mock function with given fields: id, opts
+func (_m *BareMetalClient) DeleteUser(id string, opts *baremetal.IfMatchOptions) error {
+	ret := _m.Called(id, opts)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(string, *baremetal.IfMatchOptions) error); ok {
+		r0 = rf(id, opts)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
+// DeleteUserGroupMembership provides a mock function with given fields: id, opts
+func (_m *BareMetalClient) DeleteUserGroupMembership(id string, opts *baremetal.IfMatchOptions) error {
+	ret := _m.Called(id, opts)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(string, *baremetal.IfMatchOptions) error); ok {
+		r0 = rf(id, opts)
 	} else {
 		r0 = ret.Error(0)
 	}
@@ -643,12 +680,12 @@ func (_m *BareMetalClient) DeleteUser(userID string, opts ...baremetal.Options) 
 }
 
 // DeleteVirtualNetwork provides a mock function with given fields: id, opts
-func (_m *BareMetalClient) DeleteVirtualNetwork(id string, opts ...baremetal.Options) error {
+func (_m *BareMetalClient) DeleteVirtualNetwork(id string, opts *baremetal.IfMatchOptions) error {
 	ret := _m.Called(id, opts)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(string, ...baremetal.Options) error); ok {
-		r0 = rf(id, opts...)
+	if rf, ok := ret.Get(0).(func(string, *baremetal.IfMatchOptions) error); ok {
+		r0 = rf(id, opts)
 	} else {
 		r0 = ret.Error(0)
 	}
@@ -657,12 +694,12 @@ func (_m *BareMetalClient) DeleteVirtualNetwork(id string, opts ...baremetal.Opt
 }
 
 // DeleteVolume provides a mock function with given fields: id, opts
-func (_m *BareMetalClient) DeleteVolume(id string, opts ...baremetal.Options) error {
+func (_m *BareMetalClient) DeleteVolume(id string, opts *baremetal.IfMatchOptions) error {
 	ret := _m.Called(id, opts)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(string, ...baremetal.Options) error); ok {
-		r0 = rf(id, opts...)
+	if rf, ok := ret.Get(0).(func(string, *baremetal.IfMatchOptions) error); ok {
+		r0 = rf(id, opts)
 	} else {
 		r0 = ret.Error(0)
 	}
@@ -671,12 +708,12 @@ func (_m *BareMetalClient) DeleteVolume(id string, opts ...baremetal.Options) er
 }
 
 // DeleteVolumeBackup provides a mock function with given fields: id, opts
-func (_m *BareMetalClient) DeleteVolumeBackup(id string, opts ...baremetal.Options) error {
+func (_m *BareMetalClient) DeleteVolumeBackup(id string, opts *baremetal.IfMatchOptions) error {
 	ret := _m.Called(id, opts)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(string, ...baremetal.Options) error); ok {
-		r0 = rf(id, opts...)
+	if rf, ok := ret.Get(0).(func(string, *baremetal.IfMatchOptions) error); ok {
+		r0 = rf(id, opts)
 	} else {
 		r0 = ret.Error(0)
 	}
@@ -685,12 +722,12 @@ func (_m *BareMetalClient) DeleteVolumeBackup(id string, opts ...baremetal.Optio
 }
 
 // DetachVolume provides a mock function with given fields: id, opts
-func (_m *BareMetalClient) DetachVolume(id string, opts ...baremetal.Options) error {
+func (_m *BareMetalClient) DetachVolume(id string, opts *baremetal.IfMatchOptions) error {
 	ret := _m.Called(id, opts)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(string, ...baremetal.Options) error); ok {
-		r0 = rf(id, opts...)
+	if rf, ok := ret.Get(0).(func(string, *baremetal.IfMatchOptions) error); ok {
+		r0 = rf(id, opts)
 	} else {
 		r0 = ret.Error(0)
 	}
@@ -698,22 +735,22 @@ func (_m *BareMetalClient) DetachVolume(id string, opts ...baremetal.Options) er
 	return r0
 }
 
-// GetCompartment provides a mock function with given fields: userID
-func (_m *BareMetalClient) GetCompartment(userID string) (*baremetal.IdentityResource, error) {
-	ret := _m.Called(userID)
+// GetCompartment provides a mock function with given fields: id
+func (_m *BareMetalClient) GetCompartment(id string) (*baremetal.Compartment, error) {
+	ret := _m.Called(id)
 
-	var r0 *baremetal.IdentityResource
-	if rf, ok := ret.Get(0).(func(string) *baremetal.IdentityResource); ok {
-		r0 = rf(userID)
+	var r0 *baremetal.Compartment
+	if rf, ok := ret.Get(0).(func(string) *baremetal.Compartment); ok {
+		r0 = rf(id)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*baremetal.IdentityResource)
+			r0 = ret.Get(0).(*baremetal.Compartment)
 		}
 	}
 
 	var r1 error
 	if rf, ok := ret.Get(1).(func(string) error); ok {
-		r1 = rf(userID)
+		r1 = rf(id)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -721,13 +758,13 @@ func (_m *BareMetalClient) GetCompartment(userID string) (*baremetal.IdentityRes
 	return r0, r1
 }
 
-// GetConsoleHistory provides a mock function with given fields: id, opts
-func (_m *BareMetalClient) GetConsoleHistory(id string, opts ...baremetal.Options) (*baremetal.ConsoleHistoryMetadata, error) {
-	ret := _m.Called(id, opts)
+// GetConsoleHistory provides a mock function with given fields: instanceID
+func (_m *BareMetalClient) GetConsoleHistory(instanceID string) (*baremetal.ConsoleHistoryMetadata, error) {
+	ret := _m.Called(instanceID)
 
 	var r0 *baremetal.ConsoleHistoryMetadata
-	if rf, ok := ret.Get(0).(func(string, ...baremetal.Options) *baremetal.ConsoleHistoryMetadata); ok {
-		r0 = rf(id, opts...)
+	if rf, ok := ret.Get(0).(func(string) *baremetal.ConsoleHistoryMetadata); ok {
+		r0 = rf(instanceID)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*baremetal.ConsoleHistoryMetadata)
@@ -735,8 +772,8 @@ func (_m *BareMetalClient) GetConsoleHistory(id string, opts ...baremetal.Option
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string, ...baremetal.Options) error); ok {
-		r1 = rf(id, opts...)
+	if rf, ok := ret.Get(1).(func(string) error); ok {
+		r1 = rf(instanceID)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -744,13 +781,13 @@ func (_m *BareMetalClient) GetConsoleHistory(id string, opts ...baremetal.Option
 	return r0, r1
 }
 
-// GetCpe provides a mock function with given fields: id, opts
-func (_m *BareMetalClient) GetCpe(id string, opts ...baremetal.Options) (*baremetal.Cpe, error) {
-	ret := _m.Called(id, opts)
+// GetCpe provides a mock function with given fields: id
+func (_m *BareMetalClient) GetCpe(id string) (*baremetal.Cpe, error) {
+	ret := _m.Called(id)
 
 	var r0 *baremetal.Cpe
-	if rf, ok := ret.Get(0).(func(string, ...baremetal.Options) *baremetal.Cpe); ok {
-		r0 = rf(id, opts...)
+	if rf, ok := ret.Get(0).(func(string) *baremetal.Cpe); ok {
+		r0 = rf(id)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*baremetal.Cpe)
@@ -758,8 +795,8 @@ func (_m *BareMetalClient) GetCpe(id string, opts ...baremetal.Options) (*bareme
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string, ...baremetal.Options) error); ok {
-		r1 = rf(id, opts...)
+	if rf, ok := ret.Get(1).(func(string) error); ok {
+		r1 = rf(id)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -790,13 +827,13 @@ func (_m *BareMetalClient) GetDHCPOptions(id string) (*baremetal.DHCPOptions, er
 	return r0, r1
 }
 
-// GetDrg provides a mock function with given fields: id, opts
-func (_m *BareMetalClient) GetDrg(id string, opts ...baremetal.Options) (*baremetal.Drg, error) {
-	ret := _m.Called(id, opts)
+// GetDrg provides a mock function with given fields: id
+func (_m *BareMetalClient) GetDrg(id string) (*baremetal.Drg, error) {
+	ret := _m.Called(id)
 
 	var r0 *baremetal.Drg
-	if rf, ok := ret.Get(0).(func(string, ...baremetal.Options) *baremetal.Drg); ok {
-		r0 = rf(id, opts...)
+	if rf, ok := ret.Get(0).(func(string) *baremetal.Drg); ok {
+		r0 = rf(id)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*baremetal.Drg)
@@ -804,8 +841,8 @@ func (_m *BareMetalClient) GetDrg(id string, opts ...baremetal.Options) (*bareme
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string, ...baremetal.Options) error); ok {
-		r1 = rf(id, opts...)
+	if rf, ok := ret.Get(1).(func(string) error); ok {
+		r1 = rf(id)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -813,13 +850,13 @@ func (_m *BareMetalClient) GetDrg(id string, opts ...baremetal.Options) (*bareme
 	return r0, r1
 }
 
-// GetDrgAttachment provides a mock function with given fields: id, opts
-func (_m *BareMetalClient) GetDrgAttachment(id string, opts ...baremetal.Options) (*baremetal.DrgAttachment, error) {
-	ret := _m.Called(id, opts)
+// GetDrgAttachment provides a mock function with given fields: id
+func (_m *BareMetalClient) GetDrgAttachment(id string) (*baremetal.DrgAttachment, error) {
+	ret := _m.Called(id)
 
 	var r0 *baremetal.DrgAttachment
-	if rf, ok := ret.Get(0).(func(string, ...baremetal.Options) *baremetal.DrgAttachment); ok {
-		r0 = rf(id, opts...)
+	if rf, ok := ret.Get(0).(func(string) *baremetal.DrgAttachment); ok {
+		r0 = rf(id)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*baremetal.DrgAttachment)
@@ -827,8 +864,8 @@ func (_m *BareMetalClient) GetDrgAttachment(id string, opts ...baremetal.Options
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string, ...baremetal.Options) error); ok {
-		r1 = rf(id, opts...)
+	if rf, ok := ret.Get(1).(func(string) error); ok {
+		r1 = rf(id)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -836,22 +873,22 @@ func (_m *BareMetalClient) GetDrgAttachment(id string, opts ...baremetal.Options
 	return r0, r1
 }
 
-// GetGroup provides a mock function with given fields: userID
-func (_m *BareMetalClient) GetGroup(userID string) (*baremetal.IdentityResource, error) {
-	ret := _m.Called(userID)
+// GetGroup provides a mock function with given fields: id
+func (_m *BareMetalClient) GetGroup(id string) (*baremetal.Group, error) {
+	ret := _m.Called(id)
 
-	var r0 *baremetal.IdentityResource
-	if rf, ok := ret.Get(0).(func(string) *baremetal.IdentityResource); ok {
-		r0 = rf(userID)
+	var r0 *baremetal.Group
+	if rf, ok := ret.Get(0).(func(string) *baremetal.Group); ok {
+		r0 = rf(id)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*baremetal.IdentityResource)
+			r0 = ret.Get(0).(*baremetal.Group)
 		}
 	}
 
 	var r1 error
 	if rf, ok := ret.Get(1).(func(string) error); ok {
-		r1 = rf(userID)
+		r1 = rf(id)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -928,13 +965,13 @@ func (_m *BareMetalClient) GetIPSecConnectionDeviceStatus(id string) (*baremetal
 	return r0, r1
 }
 
-// GetImage provides a mock function with given fields: id, opts
-func (_m *BareMetalClient) GetImage(id string, opts ...baremetal.Options) (*baremetal.Image, error) {
-	ret := _m.Called(id, opts)
+// GetImage provides a mock function with given fields: id
+func (_m *BareMetalClient) GetImage(id string) (*baremetal.Image, error) {
+	ret := _m.Called(id)
 
 	var r0 *baremetal.Image
-	if rf, ok := ret.Get(0).(func(string, ...baremetal.Options) *baremetal.Image); ok {
-		r0 = rf(id, opts...)
+	if rf, ok := ret.Get(0).(func(string) *baremetal.Image); ok {
+		r0 = rf(id)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*baremetal.Image)
@@ -942,8 +979,8 @@ func (_m *BareMetalClient) GetImage(id string, opts ...baremetal.Options) (*bare
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string, ...baremetal.Options) error); ok {
-		r1 = rf(id, opts...)
+	if rf, ok := ret.Get(1).(func(string) error); ok {
+		r1 = rf(id)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -951,13 +988,13 @@ func (_m *BareMetalClient) GetImage(id string, opts ...baremetal.Options) (*bare
 	return r0, r1
 }
 
-// GetInstance provides a mock function with given fields: instanceID
-func (_m *BareMetalClient) GetInstance(instanceID string) (*baremetal.Instance, error) {
-	ret := _m.Called(instanceID)
+// GetInstance provides a mock function with given fields: id
+func (_m *BareMetalClient) GetInstance(id string) (*baremetal.Instance, error) {
+	ret := _m.Called(id)
 
 	var r0 *baremetal.Instance
 	if rf, ok := ret.Get(0).(func(string) *baremetal.Instance); ok {
-		r0 = rf(instanceID)
+		r0 = rf(id)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*baremetal.Instance)
@@ -966,7 +1003,7 @@ func (_m *BareMetalClient) GetInstance(instanceID string) (*baremetal.Instance, 
 
 	var r1 error
 	if rf, ok := ret.Get(1).(func(string) error); ok {
-		r1 = rf(instanceID)
+		r1 = rf(id)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -1020,13 +1057,13 @@ func (_m *BareMetalClient) GetPolicy(id string) (*baremetal.Policy, error) {
 	return r0, r1
 }
 
-// GetRouteTable provides a mock function with given fields: id, opts
-func (_m *BareMetalClient) GetRouteTable(id string, opts ...baremetal.Options) (*baremetal.RouteTable, error) {
-	ret := _m.Called(id, opts)
+// GetRouteTable provides a mock function with given fields: id
+func (_m *BareMetalClient) GetRouteTable(id string) (*baremetal.RouteTable, error) {
+	ret := _m.Called(id)
 
 	var r0 *baremetal.RouteTable
-	if rf, ok := ret.Get(0).(func(string, ...baremetal.Options) *baremetal.RouteTable); ok {
-		r0 = rf(id, opts...)
+	if rf, ok := ret.Get(0).(func(string) *baremetal.RouteTable); ok {
+		r0 = rf(id)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*baremetal.RouteTable)
@@ -1034,8 +1071,8 @@ func (_m *BareMetalClient) GetRouteTable(id string, opts ...baremetal.Options) (
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string, ...baremetal.Options) error); ok {
-		r1 = rf(id, opts...)
+	if rf, ok := ret.Get(1).(func(string) error); ok {
+		r1 = rf(id)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -1043,13 +1080,36 @@ func (_m *BareMetalClient) GetRouteTable(id string, opts ...baremetal.Options) (
 	return r0, r1
 }
 
-// GetSubnet provides a mock function with given fields: subnetID
-func (_m *BareMetalClient) GetSubnet(subnetID string) (*baremetal.Subnet, error) {
-	ret := _m.Called(subnetID)
+// GetSecurityList provides a mock function with given fields: id
+func (_m *BareMetalClient) GetSecurityList(id string) (*baremetal.SecurityList, error) {
+	ret := _m.Called(id)
+
+	var r0 *baremetal.SecurityList
+	if rf, ok := ret.Get(0).(func(string) *baremetal.SecurityList); ok {
+		r0 = rf(id)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*baremetal.SecurityList)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(string) error); ok {
+		r1 = rf(id)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// GetSubnet provides a mock function with given fields: id
+func (_m *BareMetalClient) GetSubnet(id string) (*baremetal.Subnet, error) {
+	ret := _m.Called(id)
 
 	var r0 *baremetal.Subnet
 	if rf, ok := ret.Get(0).(func(string) *baremetal.Subnet); ok {
-		r0 = rf(subnetID)
+		r0 = rf(id)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*baremetal.Subnet)
@@ -1058,7 +1118,7 @@ func (_m *BareMetalClient) GetSubnet(subnetID string) (*baremetal.Subnet, error)
 
 	var r1 error
 	if rf, ok := ret.Get(1).(func(string) error); ok {
-		r1 = rf(subnetID)
+		r1 = rf(id)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -1066,22 +1126,22 @@ func (_m *BareMetalClient) GetSubnet(subnetID string) (*baremetal.Subnet, error)
 	return r0, r1
 }
 
-// GetUser provides a mock function with given fields: userID
-func (_m *BareMetalClient) GetUser(userID string) (*baremetal.IdentityResource, error) {
-	ret := _m.Called(userID)
+// GetUser provides a mock function with given fields: id
+func (_m *BareMetalClient) GetUser(id string) (*baremetal.User, error) {
+	ret := _m.Called(id)
 
-	var r0 *baremetal.IdentityResource
-	if rf, ok := ret.Get(0).(func(string) *baremetal.IdentityResource); ok {
-		r0 = rf(userID)
+	var r0 *baremetal.User
+	if rf, ok := ret.Get(0).(func(string) *baremetal.User); ok {
+		r0 = rf(id)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*baremetal.IdentityResource)
+			r0 = ret.Get(0).(*baremetal.User)
 		}
 	}
 
 	var r1 error
 	if rf, ok := ret.Get(1).(func(string) error); ok {
-		r1 = rf(userID)
+		r1 = rf(id)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -1089,13 +1149,36 @@ func (_m *BareMetalClient) GetUser(userID string) (*baremetal.IdentityResource, 
 	return r0, r1
 }
 
-// GetVirtualNetwork provides a mock function with given fields: id, opts
-func (_m *BareMetalClient) GetVirtualNetwork(id string, opts ...baremetal.Options) (*baremetal.VirtualNetwork, error) {
-	ret := _m.Called(id, opts)
+// GetUserGroupMembership provides a mock function with given fields: id
+func (_m *BareMetalClient) GetUserGroupMembership(id string) (*baremetal.UserGroupMembership, error) {
+	ret := _m.Called(id)
+
+	var r0 *baremetal.UserGroupMembership
+	if rf, ok := ret.Get(0).(func(string) *baremetal.UserGroupMembership); ok {
+		r0 = rf(id)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*baremetal.UserGroupMembership)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(string) error); ok {
+		r1 = rf(id)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// GetVirtualNetwork provides a mock function with given fields: id
+func (_m *BareMetalClient) GetVirtualNetwork(id string) (*baremetal.VirtualNetwork, error) {
+	ret := _m.Called(id)
 
 	var r0 *baremetal.VirtualNetwork
-	if rf, ok := ret.Get(0).(func(string, ...baremetal.Options) *baremetal.VirtualNetwork); ok {
-		r0 = rf(id, opts...)
+	if rf, ok := ret.Get(0).(func(string) *baremetal.VirtualNetwork); ok {
+		r0 = rf(id)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*baremetal.VirtualNetwork)
@@ -1103,8 +1186,8 @@ func (_m *BareMetalClient) GetVirtualNetwork(id string, opts ...baremetal.Option
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string, ...baremetal.Options) error); ok {
-		r1 = rf(id, opts...)
+	if rf, ok := ret.Get(1).(func(string) error); ok {
+		r1 = rf(id)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -1112,13 +1195,13 @@ func (_m *BareMetalClient) GetVirtualNetwork(id string, opts ...baremetal.Option
 	return r0, r1
 }
 
-// GetVnic provides a mock function with given fields: vnicID
-func (_m *BareMetalClient) GetVnic(vnicID string) (*baremetal.Vnic, error) {
-	ret := _m.Called(vnicID)
+// GetVnic provides a mock function with given fields: id
+func (_m *BareMetalClient) GetVnic(id string) (*baremetal.Vnic, error) {
+	ret := _m.Called(id)
 
 	var r0 *baremetal.Vnic
 	if rf, ok := ret.Get(0).(func(string) *baremetal.Vnic); ok {
-		r0 = rf(vnicID)
+		r0 = rf(id)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*baremetal.Vnic)
@@ -1127,7 +1210,7 @@ func (_m *BareMetalClient) GetVnic(vnicID string) (*baremetal.Vnic, error) {
 
 	var r1 error
 	if rf, ok := ret.Get(1).(func(string) error); ok {
-		r1 = rf(vnicID)
+		r1 = rf(id)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -1135,13 +1218,13 @@ func (_m *BareMetalClient) GetVnic(vnicID string) (*baremetal.Vnic, error) {
 	return r0, r1
 }
 
-// GetVolume provides a mock function with given fields: id, opts
-func (_m *BareMetalClient) GetVolume(id string, opts ...baremetal.Options) (*baremetal.Volume, error) {
-	ret := _m.Called(id, opts)
+// GetVolume provides a mock function with given fields: id
+func (_m *BareMetalClient) GetVolume(id string) (*baremetal.Volume, error) {
+	ret := _m.Called(id)
 
 	var r0 *baremetal.Volume
-	if rf, ok := ret.Get(0).(func(string, ...baremetal.Options) *baremetal.Volume); ok {
-		r0 = rf(id, opts...)
+	if rf, ok := ret.Get(0).(func(string) *baremetal.Volume); ok {
+		r0 = rf(id)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*baremetal.Volume)
@@ -1149,8 +1232,8 @@ func (_m *BareMetalClient) GetVolume(id string, opts ...baremetal.Options) (*bar
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string, ...baremetal.Options) error); ok {
-		r1 = rf(id, opts...)
+	if rf, ok := ret.Get(1).(func(string) error); ok {
+		r1 = rf(id)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -1158,13 +1241,13 @@ func (_m *BareMetalClient) GetVolume(id string, opts ...baremetal.Options) (*bar
 	return r0, r1
 }
 
-// GetVolumeAttachment provides a mock function with given fields: id, opts
-func (_m *BareMetalClient) GetVolumeAttachment(id string, opts ...baremetal.Options) (*baremetal.VolumeAttachment, error) {
-	ret := _m.Called(id, opts)
+// GetVolumeAttachment provides a mock function with given fields: id
+func (_m *BareMetalClient) GetVolumeAttachment(id string) (*baremetal.VolumeAttachment, error) {
+	ret := _m.Called(id)
 
 	var r0 *baremetal.VolumeAttachment
-	if rf, ok := ret.Get(0).(func(string, ...baremetal.Options) *baremetal.VolumeAttachment); ok {
-		r0 = rf(id, opts...)
+	if rf, ok := ret.Get(0).(func(string) *baremetal.VolumeAttachment); ok {
+		r0 = rf(id)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*baremetal.VolumeAttachment)
@@ -1172,8 +1255,8 @@ func (_m *BareMetalClient) GetVolumeAttachment(id string, opts ...baremetal.Opti
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string, ...baremetal.Options) error); ok {
-		r1 = rf(id, opts...)
+	if rf, ok := ret.Get(1).(func(string) error); ok {
+		r1 = rf(id)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -1181,13 +1264,13 @@ func (_m *BareMetalClient) GetVolumeAttachment(id string, opts ...baremetal.Opti
 	return r0, r1
 }
 
-// GetVolumeBackup provides a mock function with given fields: id, opts
-func (_m *BareMetalClient) GetVolumeBackup(id string, opts ...baremetal.Options) (*baremetal.VolumeBackup, error) {
-	ret := _m.Called(id, opts)
+// GetVolumeBackup provides a mock function with given fields: id
+func (_m *BareMetalClient) GetVolumeBackup(id string) (*baremetal.VolumeBackup, error) {
+	ret := _m.Called(id)
 
 	var r0 *baremetal.VolumeBackup
-	if rf, ok := ret.Get(0).(func(string, ...baremetal.Options) *baremetal.VolumeBackup); ok {
-		r0 = rf(id, opts...)
+	if rf, ok := ret.Get(0).(func(string) *baremetal.VolumeBackup); ok {
+		r0 = rf(id)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*baremetal.VolumeBackup)
@@ -1195,8 +1278,8 @@ func (_m *BareMetalClient) GetVolumeBackup(id string, opts ...baremetal.Options)
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string, ...baremetal.Options) error); ok {
-		r1 = rf(id, opts...)
+	if rf, ok := ret.Get(1).(func(string) error); ok {
+		r1 = rf(id)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -1204,13 +1287,13 @@ func (_m *BareMetalClient) GetVolumeBackup(id string, opts ...baremetal.Options)
 	return r0, r1
 }
 
-// LaunchInstance provides a mock function with given fields: availabilityDomain, compartmentID, image, shape, subnetID, metadata, opts
-func (_m *BareMetalClient) LaunchInstance(availabilityDomain string, compartmentID string, image string, shape string, subnetID string, metadata map[string]string, opts ...baremetal.Options) (*baremetal.Instance, error) {
-	ret := _m.Called(availabilityDomain, compartmentID, image, shape, subnetID, metadata, opts)
+// InstanceAction provides a mock function with given fields: id, action, opts
+func (_m *BareMetalClient) InstanceAction(id string, action baremetal.InstanceActions, opts *baremetal.HeaderOptions) (*baremetal.Instance, error) {
+	ret := _m.Called(id, action, opts)
 
 	var r0 *baremetal.Instance
-	if rf, ok := ret.Get(0).(func(string, string, string, string, string, map[string]string, ...baremetal.Options) *baremetal.Instance); ok {
-		r0 = rf(availabilityDomain, compartmentID, image, shape, subnetID, metadata, opts...)
+	if rf, ok := ret.Get(0).(func(string, baremetal.InstanceActions, *baremetal.HeaderOptions) *baremetal.Instance); ok {
+		r0 = rf(id, action, opts)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*baremetal.Instance)
@@ -1218,8 +1301,31 @@ func (_m *BareMetalClient) LaunchInstance(availabilityDomain string, compartment
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string, string, string, string, string, map[string]string, ...baremetal.Options) error); ok {
-		r1 = rf(availabilityDomain, compartmentID, image, shape, subnetID, metadata, opts...)
+	if rf, ok := ret.Get(1).(func(string, baremetal.InstanceActions, *baremetal.HeaderOptions) error); ok {
+		r1 = rf(id, action, opts)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// LaunchInstance provides a mock function with given fields: availabilityDomain, compartmentID, image, shape, subnetID, opts
+func (_m *BareMetalClient) LaunchInstance(availabilityDomain string, compartmentID string, image string, shape string, subnetID string, opts *baremetal.LaunchInstanceOptions) (*baremetal.Instance, error) {
+	ret := _m.Called(availabilityDomain, compartmentID, image, shape, subnetID, opts)
+
+	var r0 *baremetal.Instance
+	if rf, ok := ret.Get(0).(func(string, string, string, string, string, *baremetal.LaunchInstanceOptions) *baremetal.Instance); ok {
+		r0 = rf(availabilityDomain, compartmentID, image, shape, subnetID, opts)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*baremetal.Instance)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(string, string, string, string, string, *baremetal.LaunchInstanceOptions) error); ok {
+		r1 = rf(availabilityDomain, compartmentID, image, shape, subnetID, opts)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -1250,13 +1356,82 @@ func (_m *BareMetalClient) ListAPIKeys(userID string) (*baremetal.ListAPIKeyResp
 	return r0, r1
 }
 
+// ListAvailabilityDomains provides a mock function with given fields: compartmentID
+func (_m *BareMetalClient) ListAvailabilityDomains(compartmentID string) (*baremetal.ListAvailabilityDomains, error) {
+	ret := _m.Called(compartmentID)
+
+	var r0 *baremetal.ListAvailabilityDomains
+	if rf, ok := ret.Get(0).(func(string) *baremetal.ListAvailabilityDomains); ok {
+		r0 = rf(compartmentID)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*baremetal.ListAvailabilityDomains)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(string) error); ok {
+		r1 = rf(compartmentID)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// ListCompartments provides a mock function with given fields: opts
+func (_m *BareMetalClient) ListCompartments(opts *baremetal.ListOptions) (*baremetal.ListCompartments, error) {
+	ret := _m.Called(opts)
+
+	var r0 *baremetal.ListCompartments
+	if rf, ok := ret.Get(0).(func(*baremetal.ListOptions) *baremetal.ListCompartments); ok {
+		r0 = rf(opts)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*baremetal.ListCompartments)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(*baremetal.ListOptions) error); ok {
+		r1 = rf(opts)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// ListConsoleHistories provides a mock function with given fields: compartmentID, opts
+func (_m *BareMetalClient) ListConsoleHistories(compartmentID string, opts *baremetal.ListConsoleHistoriesOptions) (*baremetal.ListConsoleHistories, error) {
+	ret := _m.Called(compartmentID, opts)
+
+	var r0 *baremetal.ListConsoleHistories
+	if rf, ok := ret.Get(0).(func(string, *baremetal.ListConsoleHistoriesOptions) *baremetal.ListConsoleHistories); ok {
+		r0 = rf(compartmentID, opts)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*baremetal.ListConsoleHistories)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(string, *baremetal.ListConsoleHistoriesOptions) error); ok {
+		r1 = rf(compartmentID, opts)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // ListCpes provides a mock function with given fields: compartmentID, opts
-func (_m *BareMetalClient) ListCpes(compartmentID string, opts ...baremetal.Options) (*baremetal.ListCpes, error) {
+func (_m *BareMetalClient) ListCpes(compartmentID string, opts *baremetal.ListOptions) (*baremetal.ListCpes, error) {
 	ret := _m.Called(compartmentID, opts)
 
 	var r0 *baremetal.ListCpes
-	if rf, ok := ret.Get(0).(func(string, ...baremetal.Options) *baremetal.ListCpes); ok {
-		r0 = rf(compartmentID, opts...)
+	if rf, ok := ret.Get(0).(func(string, *baremetal.ListOptions) *baremetal.ListCpes); ok {
+		r0 = rf(compartmentID, opts)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*baremetal.ListCpes)
@@ -1264,8 +1439,8 @@ func (_m *BareMetalClient) ListCpes(compartmentID string, opts ...baremetal.Opti
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string, ...baremetal.Options) error); ok {
-		r1 = rf(compartmentID, opts...)
+	if rf, ok := ret.Get(1).(func(string, *baremetal.ListOptions) error); ok {
+		r1 = rf(compartmentID, opts)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -1274,12 +1449,12 @@ func (_m *BareMetalClient) ListCpes(compartmentID string, opts ...baremetal.Opti
 }
 
 // ListDHCPOptions provides a mock function with given fields: compartmentID, vcnID, opts
-func (_m *BareMetalClient) ListDHCPOptions(compartmentID string, vcnID string, opts ...baremetal.Options) (*baremetal.ListDHCPOptions, error) {
+func (_m *BareMetalClient) ListDHCPOptions(compartmentID string, vcnID string, opts *baremetal.ListOptions) (*baremetal.ListDHCPOptions, error) {
 	ret := _m.Called(compartmentID, vcnID, opts)
 
 	var r0 *baremetal.ListDHCPOptions
-	if rf, ok := ret.Get(0).(func(string, string, ...baremetal.Options) *baremetal.ListDHCPOptions); ok {
-		r0 = rf(compartmentID, vcnID, opts...)
+	if rf, ok := ret.Get(0).(func(string, string, *baremetal.ListOptions) *baremetal.ListDHCPOptions); ok {
+		r0 = rf(compartmentID, vcnID, opts)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*baremetal.ListDHCPOptions)
@@ -1287,8 +1462,8 @@ func (_m *BareMetalClient) ListDHCPOptions(compartmentID string, vcnID string, o
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string, string, ...baremetal.Options) error); ok {
-		r1 = rf(compartmentID, vcnID, opts...)
+	if rf, ok := ret.Get(1).(func(string, string, *baremetal.ListOptions) error); ok {
+		r1 = rf(compartmentID, vcnID, opts)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -1297,12 +1472,12 @@ func (_m *BareMetalClient) ListDHCPOptions(compartmentID string, vcnID string, o
 }
 
 // ListDrgAttachments provides a mock function with given fields: compartmentID, opts
-func (_m *BareMetalClient) ListDrgAttachments(compartmentID string, opts ...baremetal.Options) (*baremetal.ListDrgAttachments, error) {
+func (_m *BareMetalClient) ListDrgAttachments(compartmentID string, opts *baremetal.ListDrgAttachmentsOptions) (*baremetal.ListDrgAttachments, error) {
 	ret := _m.Called(compartmentID, opts)
 
 	var r0 *baremetal.ListDrgAttachments
-	if rf, ok := ret.Get(0).(func(string, ...baremetal.Options) *baremetal.ListDrgAttachments); ok {
-		r0 = rf(compartmentID, opts...)
+	if rf, ok := ret.Get(0).(func(string, *baremetal.ListDrgAttachmentsOptions) *baremetal.ListDrgAttachments); ok {
+		r0 = rf(compartmentID, opts)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*baremetal.ListDrgAttachments)
@@ -1310,8 +1485,8 @@ func (_m *BareMetalClient) ListDrgAttachments(compartmentID string, opts ...bare
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string, ...baremetal.Options) error); ok {
-		r1 = rf(compartmentID, opts...)
+	if rf, ok := ret.Get(1).(func(string, *baremetal.ListDrgAttachmentsOptions) error); ok {
+		r1 = rf(compartmentID, opts)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -1320,12 +1495,12 @@ func (_m *BareMetalClient) ListDrgAttachments(compartmentID string, opts ...bare
 }
 
 // ListDrgs provides a mock function with given fields: compartmentID, opts
-func (_m *BareMetalClient) ListDrgs(compartmentID string, opts ...baremetal.Options) (*baremetal.ListDrgs, error) {
+func (_m *BareMetalClient) ListDrgs(compartmentID string, opts *baremetal.ListOptions) (*baremetal.ListDrgs, error) {
 	ret := _m.Called(compartmentID, opts)
 
 	var r0 *baremetal.ListDrgs
-	if rf, ok := ret.Get(0).(func(string, ...baremetal.Options) *baremetal.ListDrgs); ok {
-		r0 = rf(compartmentID, opts...)
+	if rf, ok := ret.Get(0).(func(string, *baremetal.ListOptions) *baremetal.ListDrgs); ok {
+		r0 = rf(compartmentID, opts)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*baremetal.ListDrgs)
@@ -1333,8 +1508,31 @@ func (_m *BareMetalClient) ListDrgs(compartmentID string, opts ...baremetal.Opti
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string, ...baremetal.Options) error); ok {
-		r1 = rf(compartmentID, opts...)
+	if rf, ok := ret.Get(1).(func(string, *baremetal.ListOptions) error); ok {
+		r1 = rf(compartmentID, opts)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// ListGroups provides a mock function with given fields: opts
+func (_m *BareMetalClient) ListGroups(opts *baremetal.ListOptions) (*baremetal.ListGroups, error) {
+	ret := _m.Called(opts)
+
+	var r0 *baremetal.ListGroups
+	if rf, ok := ret.Get(0).(func(*baremetal.ListOptions) *baremetal.ListGroups); ok {
+		r0 = rf(opts)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*baremetal.ListGroups)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(*baremetal.ListOptions) error); ok {
+		r1 = rf(opts)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -1343,12 +1541,12 @@ func (_m *BareMetalClient) ListDrgs(compartmentID string, opts ...baremetal.Opti
 }
 
 // ListIPSecConnections provides a mock function with given fields: compartmentID, opts
-func (_m *BareMetalClient) ListIPSecConnections(compartmentID string, opts ...baremetal.Options) (*baremetal.ListIPSecConnections, error) {
+func (_m *BareMetalClient) ListIPSecConnections(compartmentID string, opts *baremetal.ListIPSecConnsOptions) (*baremetal.ListIPSecConnections, error) {
 	ret := _m.Called(compartmentID, opts)
 
 	var r0 *baremetal.ListIPSecConnections
-	if rf, ok := ret.Get(0).(func(string, ...baremetal.Options) *baremetal.ListIPSecConnections); ok {
-		r0 = rf(compartmentID, opts...)
+	if rf, ok := ret.Get(0).(func(string, *baremetal.ListIPSecConnsOptions) *baremetal.ListIPSecConnections); ok {
+		r0 = rf(compartmentID, opts)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*baremetal.ListIPSecConnections)
@@ -1356,8 +1554,8 @@ func (_m *BareMetalClient) ListIPSecConnections(compartmentID string, opts ...ba
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string, ...baremetal.Options) error); ok {
-		r1 = rf(compartmentID, opts...)
+	if rf, ok := ret.Get(1).(func(string, *baremetal.ListIPSecConnsOptions) error); ok {
+		r1 = rf(compartmentID, opts)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -1366,12 +1564,12 @@ func (_m *BareMetalClient) ListIPSecConnections(compartmentID string, opts ...ba
 }
 
 // ListImages provides a mock function with given fields: compartmentID, opts
-func (_m *BareMetalClient) ListImages(compartmentID string, opts ...baremetal.Options) (*baremetal.ListImages, error) {
+func (_m *BareMetalClient) ListImages(compartmentID string, opts *baremetal.ListImagesOptions) (*baremetal.ListImages, error) {
 	ret := _m.Called(compartmentID, opts)
 
 	var r0 *baremetal.ListImages
-	if rf, ok := ret.Get(0).(func(string, ...baremetal.Options) *baremetal.ListImages); ok {
-		r0 = rf(compartmentID, opts...)
+	if rf, ok := ret.Get(0).(func(string, *baremetal.ListImagesOptions) *baremetal.ListImages); ok {
+		r0 = rf(compartmentID, opts)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*baremetal.ListImages)
@@ -1379,8 +1577,8 @@ func (_m *BareMetalClient) ListImages(compartmentID string, opts ...baremetal.Op
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string, ...baremetal.Options) error); ok {
-		r1 = rf(compartmentID, opts...)
+	if rf, ok := ret.Get(1).(func(string, *baremetal.ListImagesOptions) error); ok {
+		r1 = rf(compartmentID, opts)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -1389,12 +1587,12 @@ func (_m *BareMetalClient) ListImages(compartmentID string, opts ...baremetal.Op
 }
 
 // ListInstances provides a mock function with given fields: compartmentID, opts
-func (_m *BareMetalClient) ListInstances(compartmentID string, opts ...baremetal.Options) (*baremetal.ListInstances, error) {
+func (_m *BareMetalClient) ListInstances(compartmentID string, opts *baremetal.ListInstancesOptions) (*baremetal.ListInstances, error) {
 	ret := _m.Called(compartmentID, opts)
 
 	var r0 *baremetal.ListInstances
-	if rf, ok := ret.Get(0).(func(string, ...baremetal.Options) *baremetal.ListInstances); ok {
-		r0 = rf(compartmentID, opts...)
+	if rf, ok := ret.Get(0).(func(string, *baremetal.ListInstancesOptions) *baremetal.ListInstances); ok {
+		r0 = rf(compartmentID, opts)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*baremetal.ListInstances)
@@ -1402,8 +1600,8 @@ func (_m *BareMetalClient) ListInstances(compartmentID string, opts ...baremetal
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string, ...baremetal.Options) error); ok {
-		r1 = rf(compartmentID, opts...)
+	if rf, ok := ret.Get(1).(func(string, *baremetal.ListInstancesOptions) error); ok {
+		r1 = rf(compartmentID, opts)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -1412,12 +1610,12 @@ func (_m *BareMetalClient) ListInstances(compartmentID string, opts ...baremetal
 }
 
 // ListInternetGateways provides a mock function with given fields: compartmentID, vcnID, opts
-func (_m *BareMetalClient) ListInternetGateways(compartmentID string, vcnID string, opts ...baremetal.Options) (*baremetal.ListInternetGateways, error) {
+func (_m *BareMetalClient) ListInternetGateways(compartmentID string, vcnID string, opts *baremetal.ListOptions) (*baremetal.ListInternetGateways, error) {
 	ret := _m.Called(compartmentID, vcnID, opts)
 
 	var r0 *baremetal.ListInternetGateways
-	if rf, ok := ret.Get(0).(func(string, string, ...baremetal.Options) *baremetal.ListInternetGateways); ok {
-		r0 = rf(compartmentID, vcnID, opts...)
+	if rf, ok := ret.Get(0).(func(string, string, *baremetal.ListOptions) *baremetal.ListInternetGateways); ok {
+		r0 = rf(compartmentID, vcnID, opts)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*baremetal.ListInternetGateways)
@@ -1425,8 +1623,8 @@ func (_m *BareMetalClient) ListInternetGateways(compartmentID string, vcnID stri
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string, string, ...baremetal.Options) error); ok {
-		r1 = rf(compartmentID, vcnID, opts...)
+	if rf, ok := ret.Get(1).(func(string, string, *baremetal.ListOptions) error); ok {
+		r1 = rf(compartmentID, vcnID, opts)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -1435,12 +1633,12 @@ func (_m *BareMetalClient) ListInternetGateways(compartmentID string, vcnID stri
 }
 
 // ListRouteTables provides a mock function with given fields: compartmentID, vcnID, opts
-func (_m *BareMetalClient) ListRouteTables(compartmentID string, vcnID string, opts ...baremetal.Options) (*baremetal.ListRouteTables, error) {
+func (_m *BareMetalClient) ListRouteTables(compartmentID string, vcnID string, opts *baremetal.ListOptions) (*baremetal.ListRouteTables, error) {
 	ret := _m.Called(compartmentID, vcnID, opts)
 
 	var r0 *baremetal.ListRouteTables
-	if rf, ok := ret.Get(0).(func(string, string, ...baremetal.Options) *baremetal.ListRouteTables); ok {
-		r0 = rf(compartmentID, vcnID, opts...)
+	if rf, ok := ret.Get(0).(func(string, string, *baremetal.ListOptions) *baremetal.ListRouteTables); ok {
+		r0 = rf(compartmentID, vcnID, opts)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*baremetal.ListRouteTables)
@@ -1448,8 +1646,8 @@ func (_m *BareMetalClient) ListRouteTables(compartmentID string, vcnID string, o
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string, string, ...baremetal.Options) error); ok {
-		r1 = rf(compartmentID, vcnID, opts...)
+	if rf, ok := ret.Get(1).(func(string, string, *baremetal.ListOptions) error); ok {
+		r1 = rf(compartmentID, vcnID, opts)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -1457,13 +1655,36 @@ func (_m *BareMetalClient) ListRouteTables(compartmentID string, vcnID string, o
 	return r0, r1
 }
 
-// ListShapes provides a mock function with given fields: compartmentID, opt
-func (_m *BareMetalClient) ListShapes(compartmentID string, opt ...baremetal.Options) (*baremetal.ListShapes, error) {
-	ret := _m.Called(compartmentID, opt)
+// ListSecurityLists provides a mock function with given fields: compartmentID, vcnID, opts
+func (_m *BareMetalClient) ListSecurityLists(compartmentID string, vcnID string, opts *baremetal.ListOptions) (*baremetal.ListSecurityLists, error) {
+	ret := _m.Called(compartmentID, vcnID, opts)
+
+	var r0 *baremetal.ListSecurityLists
+	if rf, ok := ret.Get(0).(func(string, string, *baremetal.ListOptions) *baremetal.ListSecurityLists); ok {
+		r0 = rf(compartmentID, vcnID, opts)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*baremetal.ListSecurityLists)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(string, string, *baremetal.ListOptions) error); ok {
+		r1 = rf(compartmentID, vcnID, opts)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// ListShapes provides a mock function with given fields: compartmentID, opts
+func (_m *BareMetalClient) ListShapes(compartmentID string, opts *baremetal.ListShapesOptions) (*baremetal.ListShapes, error) {
+	ret := _m.Called(compartmentID, opts)
 
 	var r0 *baremetal.ListShapes
-	if rf, ok := ret.Get(0).(func(string, ...baremetal.Options) *baremetal.ListShapes); ok {
-		r0 = rf(compartmentID, opt...)
+	if rf, ok := ret.Get(0).(func(string, *baremetal.ListShapesOptions) *baremetal.ListShapes); ok {
+		r0 = rf(compartmentID, opts)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*baremetal.ListShapes)
@@ -1471,8 +1692,8 @@ func (_m *BareMetalClient) ListShapes(compartmentID string, opt ...baremetal.Opt
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string, ...baremetal.Options) error); ok {
-		r1 = rf(compartmentID, opt...)
+	if rf, ok := ret.Get(1).(func(string, *baremetal.ListShapesOptions) error); ok {
+		r1 = rf(compartmentID, opts)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -1481,12 +1702,12 @@ func (_m *BareMetalClient) ListShapes(compartmentID string, opt ...baremetal.Opt
 }
 
 // ListSubnets provides a mock function with given fields: compartmentID, vcnID, opts
-func (_m *BareMetalClient) ListSubnets(compartmentID string, vcnID string, opts ...baremetal.Options) (*baremetal.ListSubnets, error) {
+func (_m *BareMetalClient) ListSubnets(compartmentID string, vcnID string, opts *baremetal.ListOptions) (*baremetal.ListSubnets, error) {
 	ret := _m.Called(compartmentID, vcnID, opts)
 
 	var r0 *baremetal.ListSubnets
-	if rf, ok := ret.Get(0).(func(string, string, ...baremetal.Options) *baremetal.ListSubnets); ok {
-		r0 = rf(compartmentID, vcnID, opts...)
+	if rf, ok := ret.Get(0).(func(string, string, *baremetal.ListOptions) *baremetal.ListSubnets); ok {
+		r0 = rf(compartmentID, vcnID, opts)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*baremetal.ListSubnets)
@@ -1494,8 +1715,54 @@ func (_m *BareMetalClient) ListSubnets(compartmentID string, vcnID string, opts 
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string, string, ...baremetal.Options) error); ok {
-		r1 = rf(compartmentID, vcnID, opts...)
+	if rf, ok := ret.Get(1).(func(string, string, *baremetal.ListOptions) error); ok {
+		r1 = rf(compartmentID, vcnID, opts)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// ListUserGroupMemberships provides a mock function with given fields: opts
+func (_m *BareMetalClient) ListUserGroupMemberships(opts *baremetal.ListMembershipsOptions) (*baremetal.ListUserGroupMemberships, error) {
+	ret := _m.Called(opts)
+
+	var r0 *baremetal.ListUserGroupMemberships
+	if rf, ok := ret.Get(0).(func(*baremetal.ListMembershipsOptions) *baremetal.ListUserGroupMemberships); ok {
+		r0 = rf(opts)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*baremetal.ListUserGroupMemberships)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(*baremetal.ListMembershipsOptions) error); ok {
+		r1 = rf(opts)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// ListUsers provides a mock function with given fields: opts
+func (_m *BareMetalClient) ListUsers(opts *baremetal.ListOptions) (*baremetal.ListUsers, error) {
+	ret := _m.Called(opts)
+
+	var r0 *baremetal.ListUsers
+	if rf, ok := ret.Get(0).(func(*baremetal.ListOptions) *baremetal.ListUsers); ok {
+		r0 = rf(opts)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*baremetal.ListUsers)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(*baremetal.ListOptions) error); ok {
+		r1 = rf(opts)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -1504,12 +1771,12 @@ func (_m *BareMetalClient) ListSubnets(compartmentID string, vcnID string, opts 
 }
 
 // ListVirtualNetworks provides a mock function with given fields: compartmentID, opts
-func (_m *BareMetalClient) ListVirtualNetworks(compartmentID string, opts ...baremetal.Options) (*baremetal.ListVirtualNetworks, error) {
+func (_m *BareMetalClient) ListVirtualNetworks(compartmentID string, opts *baremetal.ListOptions) (*baremetal.ListVirtualNetworks, error) {
 	ret := _m.Called(compartmentID, opts)
 
 	var r0 *baremetal.ListVirtualNetworks
-	if rf, ok := ret.Get(0).(func(string, ...baremetal.Options) *baremetal.ListVirtualNetworks); ok {
-		r0 = rf(compartmentID, opts...)
+	if rf, ok := ret.Get(0).(func(string, *baremetal.ListOptions) *baremetal.ListVirtualNetworks); ok {
+		r0 = rf(compartmentID, opts)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*baremetal.ListVirtualNetworks)
@@ -1517,8 +1784,8 @@ func (_m *BareMetalClient) ListVirtualNetworks(compartmentID string, opts ...bar
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string, ...baremetal.Options) error); ok {
-		r1 = rf(compartmentID, opts...)
+	if rf, ok := ret.Get(1).(func(string, *baremetal.ListOptions) error); ok {
+		r1 = rf(compartmentID, opts)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -1526,13 +1793,13 @@ func (_m *BareMetalClient) ListVirtualNetworks(compartmentID string, opts ...bar
 	return r0, r1
 }
 
-// ListVnicAttachments provides a mock function with given fields: compartmentID, opt
-func (_m *BareMetalClient) ListVnicAttachments(compartmentID string, opt ...baremetal.Options) (*baremetal.ListVnicAttachments, error) {
-	ret := _m.Called(compartmentID, opt)
+// ListVnicAttachments provides a mock function with given fields: compartmentID, opts
+func (_m *BareMetalClient) ListVnicAttachments(compartmentID string, opts *baremetal.ListVnicAttachmentsOptions) (*baremetal.ListVnicAttachments, error) {
+	ret := _m.Called(compartmentID, opts)
 
 	var r0 *baremetal.ListVnicAttachments
-	if rf, ok := ret.Get(0).(func(string, ...baremetal.Options) *baremetal.ListVnicAttachments); ok {
-		r0 = rf(compartmentID, opt...)
+	if rf, ok := ret.Get(0).(func(string, *baremetal.ListVnicAttachmentsOptions) *baremetal.ListVnicAttachments); ok {
+		r0 = rf(compartmentID, opts)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*baremetal.ListVnicAttachments)
@@ -1540,8 +1807,8 @@ func (_m *BareMetalClient) ListVnicAttachments(compartmentID string, opt ...bare
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string, ...baremetal.Options) error); ok {
-		r1 = rf(compartmentID, opt...)
+	if rf, ok := ret.Get(1).(func(string, *baremetal.ListVnicAttachmentsOptions) error); ok {
+		r1 = rf(compartmentID, opts)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -1550,12 +1817,12 @@ func (_m *BareMetalClient) ListVnicAttachments(compartmentID string, opt ...bare
 }
 
 // ListVolumeAttachments provides a mock function with given fields: compartmentID, opts
-func (_m *BareMetalClient) ListVolumeAttachments(compartmentID string, opts ...baremetal.Options) (*baremetal.ListVolumeAttachments, error) {
+func (_m *BareMetalClient) ListVolumeAttachments(compartmentID string, opts *baremetal.ListVolumeAttachmentsOptions) (*baremetal.ListVolumeAttachments, error) {
 	ret := _m.Called(compartmentID, opts)
 
 	var r0 *baremetal.ListVolumeAttachments
-	if rf, ok := ret.Get(0).(func(string, ...baremetal.Options) *baremetal.ListVolumeAttachments); ok {
-		r0 = rf(compartmentID, opts...)
+	if rf, ok := ret.Get(0).(func(string, *baremetal.ListVolumeAttachmentsOptions) *baremetal.ListVolumeAttachments); ok {
+		r0 = rf(compartmentID, opts)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*baremetal.ListVolumeAttachments)
@@ -1563,8 +1830,8 @@ func (_m *BareMetalClient) ListVolumeAttachments(compartmentID string, opts ...b
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string, ...baremetal.Options) error); ok {
-		r1 = rf(compartmentID, opts...)
+	if rf, ok := ret.Get(1).(func(string, *baremetal.ListVolumeAttachmentsOptions) error); ok {
+		r1 = rf(compartmentID, opts)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -1573,12 +1840,12 @@ func (_m *BareMetalClient) ListVolumeAttachments(compartmentID string, opts ...b
 }
 
 // ListVolumeBackups provides a mock function with given fields: compartmentID, opts
-func (_m *BareMetalClient) ListVolumeBackups(compartmentID string, opts ...baremetal.Options) (*baremetal.ListVolumeBackups, error) {
+func (_m *BareMetalClient) ListVolumeBackups(compartmentID string, opts *baremetal.ListBackupsOptions) (*baremetal.ListVolumeBackups, error) {
 	ret := _m.Called(compartmentID, opts)
 
 	var r0 *baremetal.ListVolumeBackups
-	if rf, ok := ret.Get(0).(func(string, ...baremetal.Options) *baremetal.ListVolumeBackups); ok {
-		r0 = rf(compartmentID, opts...)
+	if rf, ok := ret.Get(0).(func(string, *baremetal.ListBackupsOptions) *baremetal.ListVolumeBackups); ok {
+		r0 = rf(compartmentID, opts)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*baremetal.ListVolumeBackups)
@@ -1586,8 +1853,8 @@ func (_m *BareMetalClient) ListVolumeBackups(compartmentID string, opts ...barem
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string, ...baremetal.Options) error); ok {
-		r1 = rf(compartmentID, opts...)
+	if rf, ok := ret.Get(1).(func(string, *baremetal.ListBackupsOptions) error); ok {
+		r1 = rf(compartmentID, opts)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -1596,12 +1863,12 @@ func (_m *BareMetalClient) ListVolumeBackups(compartmentID string, opts ...barem
 }
 
 // ListVolumes provides a mock function with given fields: compartmentID, opts
-func (_m *BareMetalClient) ListVolumes(compartmentID string, opts ...baremetal.Options) (*baremetal.ListVolumes, error) {
+func (_m *BareMetalClient) ListVolumes(compartmentID string, opts *baremetal.ListVolumesOptions) (*baremetal.ListVolumes, error) {
 	ret := _m.Called(compartmentID, opts)
 
 	var r0 *baremetal.ListVolumes
-	if rf, ok := ret.Get(0).(func(string, ...baremetal.Options) *baremetal.ListVolumes); ok {
-		r0 = rf(compartmentID, opts...)
+	if rf, ok := ret.Get(0).(func(string, *baremetal.ListVolumesOptions) *baremetal.ListVolumes); ok {
+		r0 = rf(compartmentID, opts)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*baremetal.ListVolumes)
@@ -1609,8 +1876,8 @@ func (_m *BareMetalClient) ListVolumes(compartmentID string, opts ...baremetal.O
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string, ...baremetal.Options) error); ok {
-		r1 = rf(compartmentID, opts...)
+	if rf, ok := ret.Get(1).(func(string, *baremetal.ListVolumesOptions) error); ok {
+		r1 = rf(compartmentID, opts)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -1619,12 +1886,12 @@ func (_m *BareMetalClient) ListVolumes(compartmentID string, opts ...baremetal.O
 }
 
 // ShowConsoleHistoryData provides a mock function with given fields: instanceConsoleHistoryID, opts
-func (_m *BareMetalClient) ShowConsoleHistoryData(instanceConsoleHistoryID string, opts ...baremetal.Options) (*baremetal.ConsoleHistoryData, error) {
+func (_m *BareMetalClient) ShowConsoleHistoryData(instanceConsoleHistoryID string, opts *baremetal.ConsoleHistoryDataOptions) (*baremetal.ConsoleHistoryData, error) {
 	ret := _m.Called(instanceConsoleHistoryID, opts)
 
 	var r0 *baremetal.ConsoleHistoryData
-	if rf, ok := ret.Get(0).(func(string, ...baremetal.Options) *baremetal.ConsoleHistoryData); ok {
-		r0 = rf(instanceConsoleHistoryID, opts...)
+	if rf, ok := ret.Get(0).(func(string, *baremetal.ConsoleHistoryDataOptions) *baremetal.ConsoleHistoryData); ok {
+		r0 = rf(instanceConsoleHistoryID, opts)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*baremetal.ConsoleHistoryData)
@@ -1632,8 +1899,8 @@ func (_m *BareMetalClient) ShowConsoleHistoryData(instanceConsoleHistoryID strin
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string, ...baremetal.Options) error); ok {
-		r1 = rf(instanceConsoleHistoryID, opts...)
+	if rf, ok := ret.Get(1).(func(string, *baremetal.ConsoleHistoryDataOptions) error); ok {
+		r1 = rf(instanceConsoleHistoryID, opts)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -1641,13 +1908,13 @@ func (_m *BareMetalClient) ShowConsoleHistoryData(instanceConsoleHistoryID strin
 	return r0, r1
 }
 
-// TerminateInstance provides a mock function with given fields: instanceID, opts
-func (_m *BareMetalClient) TerminateInstance(instanceID string, opts ...baremetal.Options) error {
-	ret := _m.Called(instanceID, opts)
+// TerminateInstance provides a mock function with given fields: id, opts
+func (_m *BareMetalClient) TerminateInstance(id string, opts *baremetal.IfMatchOptions) error {
+	ret := _m.Called(id, opts)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(string, ...baremetal.Options) error); ok {
-		r0 = rf(instanceID, opts...)
+	if rf, ok := ret.Get(0).(func(string, *baremetal.IfMatchOptions) error); ok {
+		r0 = rf(id, opts)
 	} else {
 		r0 = ret.Error(0)
 	}
@@ -1655,22 +1922,22 @@ func (_m *BareMetalClient) TerminateInstance(instanceID string, opts ...baremeta
 	return r0
 }
 
-// UpdateCompartment provides a mock function with given fields: userID, userDescription, opts
-func (_m *BareMetalClient) UpdateCompartment(userID string, userDescription string, opts ...baremetal.Options) (*baremetal.IdentityResource, error) {
-	ret := _m.Called(userID, userDescription, opts)
+// UpdateCompartment provides a mock function with given fields: id, opts
+func (_m *BareMetalClient) UpdateCompartment(id string, opts *baremetal.UpdateIdentityOptions) (*baremetal.Compartment, error) {
+	ret := _m.Called(id, opts)
 
-	var r0 *baremetal.IdentityResource
-	if rf, ok := ret.Get(0).(func(string, string, ...baremetal.Options) *baremetal.IdentityResource); ok {
-		r0 = rf(userID, userDescription, opts...)
+	var r0 *baremetal.Compartment
+	if rf, ok := ret.Get(0).(func(string, *baremetal.UpdateIdentityOptions) *baremetal.Compartment); ok {
+		r0 = rf(id, opts)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*baremetal.IdentityResource)
+			r0 = ret.Get(0).(*baremetal.Compartment)
 		}
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string, string, ...baremetal.Options) error); ok {
-		r1 = rf(userID, userDescription, opts...)
+	if rf, ok := ret.Get(1).(func(string, *baremetal.UpdateIdentityOptions) error); ok {
+		r1 = rf(id, opts)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -1679,12 +1946,12 @@ func (_m *BareMetalClient) UpdateCompartment(userID string, userDescription stri
 }
 
 // UpdateDHCPOptions provides a mock function with given fields: id, opts
-func (_m *BareMetalClient) UpdateDHCPOptions(id string, opts ...baremetal.Options) (*baremetal.DHCPOptions, error) {
+func (_m *BareMetalClient) UpdateDHCPOptions(id string, opts *baremetal.UpdateDHCPDNSOptions) (*baremetal.DHCPOptions, error) {
 	ret := _m.Called(id, opts)
 
 	var r0 *baremetal.DHCPOptions
-	if rf, ok := ret.Get(0).(func(string, ...baremetal.Options) *baremetal.DHCPOptions); ok {
-		r0 = rf(id, opts...)
+	if rf, ok := ret.Get(0).(func(string, *baremetal.UpdateDHCPDNSOptions) *baremetal.DHCPOptions); ok {
+		r0 = rf(id, opts)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*baremetal.DHCPOptions)
@@ -1692,8 +1959,8 @@ func (_m *BareMetalClient) UpdateDHCPOptions(id string, opts ...baremetal.Option
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string, ...baremetal.Options) error); ok {
-		r1 = rf(id, opts...)
+	if rf, ok := ret.Get(1).(func(string, *baremetal.UpdateDHCPDNSOptions) error); ok {
+		r1 = rf(id, opts)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -1701,22 +1968,22 @@ func (_m *BareMetalClient) UpdateDHCPOptions(id string, opts ...baremetal.Option
 	return r0, r1
 }
 
-// UpdateGroup provides a mock function with given fields: userID, userDescription, opts
-func (_m *BareMetalClient) UpdateGroup(userID string, userDescription string, opts ...baremetal.Options) (*baremetal.IdentityResource, error) {
-	ret := _m.Called(userID, userDescription, opts)
+// UpdateGroup provides a mock function with given fields: id, opts
+func (_m *BareMetalClient) UpdateGroup(id string, opts *baremetal.UpdateIdentityOptions) (*baremetal.Group, error) {
+	ret := _m.Called(id, opts)
 
-	var r0 *baremetal.IdentityResource
-	if rf, ok := ret.Get(0).(func(string, string, ...baremetal.Options) *baremetal.IdentityResource); ok {
-		r0 = rf(userID, userDescription, opts...)
+	var r0 *baremetal.Group
+	if rf, ok := ret.Get(0).(func(string, *baremetal.UpdateIdentityOptions) *baremetal.Group); ok {
+		r0 = rf(id, opts)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*baremetal.IdentityResource)
+			r0 = ret.Get(0).(*baremetal.Group)
 		}
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string, string, ...baremetal.Options) error); ok {
-		r1 = rf(userID, userDescription, opts...)
+	if rf, ok := ret.Get(1).(func(string, *baremetal.UpdateIdentityOptions) error); ok {
+		r1 = rf(id, opts)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -1725,12 +1992,12 @@ func (_m *BareMetalClient) UpdateGroup(userID string, userDescription string, op
 }
 
 // UpdateImage provides a mock function with given fields: id, opts
-func (_m *BareMetalClient) UpdateImage(id string, opts ...baremetal.Options) (*baremetal.Image, error) {
+func (_m *BareMetalClient) UpdateImage(id string, opts *baremetal.UpdateOptions) (*baremetal.Image, error) {
 	ret := _m.Called(id, opts)
 
 	var r0 *baremetal.Image
-	if rf, ok := ret.Get(0).(func(string, ...baremetal.Options) *baremetal.Image); ok {
-		r0 = rf(id, opts...)
+	if rf, ok := ret.Get(0).(func(string, *baremetal.UpdateOptions) *baremetal.Image); ok {
+		r0 = rf(id, opts)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*baremetal.Image)
@@ -1738,8 +2005,8 @@ func (_m *BareMetalClient) UpdateImage(id string, opts ...baremetal.Options) (*b
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string, ...baremetal.Options) error); ok {
-		r1 = rf(id, opts...)
+	if rf, ok := ret.Get(1).(func(string, *baremetal.UpdateOptions) error); ok {
+		r1 = rf(id, opts)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -1747,13 +2014,13 @@ func (_m *BareMetalClient) UpdateImage(id string, opts ...baremetal.Options) (*b
 	return r0, r1
 }
 
-// UpdateInstance provides a mock function with given fields: instanceID, opts
-func (_m *BareMetalClient) UpdateInstance(instanceID string, opts ...baremetal.Options) (*baremetal.Instance, error) {
-	ret := _m.Called(instanceID, opts)
+// UpdateInstance provides a mock function with given fields: id, opts
+func (_m *BareMetalClient) UpdateInstance(id string, opts *baremetal.UpdateOptions) (*baremetal.Instance, error) {
+	ret := _m.Called(id, opts)
 
 	var r0 *baremetal.Instance
-	if rf, ok := ret.Get(0).(func(string, ...baremetal.Options) *baremetal.Instance); ok {
-		r0 = rf(instanceID, opts...)
+	if rf, ok := ret.Get(0).(func(string, *baremetal.UpdateOptions) *baremetal.Instance); ok {
+		r0 = rf(id, opts)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*baremetal.Instance)
@@ -1761,8 +2028,8 @@ func (_m *BareMetalClient) UpdateInstance(instanceID string, opts ...baremetal.O
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string, ...baremetal.Options) error); ok {
-		r1 = rf(instanceID, opts...)
+	if rf, ok := ret.Get(1).(func(string, *baremetal.UpdateOptions) error); ok {
+		r1 = rf(id, opts)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -1770,13 +2037,13 @@ func (_m *BareMetalClient) UpdateInstance(instanceID string, opts ...baremetal.O
 	return r0, r1
 }
 
-// UpdateInternetGateway provides a mock function with given fields: id, isEnabled, opts
-func (_m *BareMetalClient) UpdateInternetGateway(id string, isEnabled bool, opts ...baremetal.Options) (*baremetal.InternetGateway, error) {
-	ret := _m.Called(id, isEnabled, opts)
+// UpdateInternetGateway provides a mock function with given fields: id, opts
+func (_m *BareMetalClient) UpdateInternetGateway(id string, opts *baremetal.UpdateGatewayOptions) (*baremetal.InternetGateway, error) {
+	ret := _m.Called(id, opts)
 
 	var r0 *baremetal.InternetGateway
-	if rf, ok := ret.Get(0).(func(string, bool, ...baremetal.Options) *baremetal.InternetGateway); ok {
-		r0 = rf(id, isEnabled, opts...)
+	if rf, ok := ret.Get(0).(func(string, *baremetal.UpdateGatewayOptions) *baremetal.InternetGateway); ok {
+		r0 = rf(id, opts)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*baremetal.InternetGateway)
@@ -1784,8 +2051,8 @@ func (_m *BareMetalClient) UpdateInternetGateway(id string, isEnabled bool, opts
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string, bool, ...baremetal.Options) error); ok {
-		r1 = rf(id, isEnabled, opts...)
+	if rf, ok := ret.Get(1).(func(string, *baremetal.UpdateGatewayOptions) error); ok {
+		r1 = rf(id, opts)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -1793,13 +2060,13 @@ func (_m *BareMetalClient) UpdateInternetGateway(id string, isEnabled bool, opts
 	return r0, r1
 }
 
-// UpdatePolicy provides a mock function with given fields: id, description, statements, opts
-func (_m *BareMetalClient) UpdatePolicy(id string, description string, statements []string, opts ...baremetal.Options) (*baremetal.Policy, error) {
-	ret := _m.Called(id, description, statements, opts)
+// UpdatePolicy provides a mock function with given fields: id, opts
+func (_m *BareMetalClient) UpdatePolicy(id string, opts *baremetal.UpdatePolicyOptions) (*baremetal.Policy, error) {
+	ret := _m.Called(id, opts)
 
 	var r0 *baremetal.Policy
-	if rf, ok := ret.Get(0).(func(string, string, []string, ...baremetal.Options) *baremetal.Policy); ok {
-		r0 = rf(id, description, statements, opts...)
+	if rf, ok := ret.Get(0).(func(string, *baremetal.UpdatePolicyOptions) *baremetal.Policy); ok {
+		r0 = rf(id, opts)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*baremetal.Policy)
@@ -1807,8 +2074,8 @@ func (_m *BareMetalClient) UpdatePolicy(id string, description string, statement
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string, string, []string, ...baremetal.Options) error); ok {
-		r1 = rf(id, description, statements, opts...)
+	if rf, ok := ret.Get(1).(func(string, *baremetal.UpdatePolicyOptions) error); ok {
+		r1 = rf(id, opts)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -1816,13 +2083,13 @@ func (_m *BareMetalClient) UpdatePolicy(id string, description string, statement
 	return r0, r1
 }
 
-// UpdateRouteTable provides a mock function with given fields: id, routeRules, opts
-func (_m *BareMetalClient) UpdateRouteTable(id string, routeRules []baremetal.RouteRule, opts ...baremetal.Options) (*baremetal.RouteTable, error) {
-	ret := _m.Called(id, routeRules, opts)
+// UpdateRouteTable provides a mock function with given fields: id, opts
+func (_m *BareMetalClient) UpdateRouteTable(id string, opts *baremetal.UpdateRouteTableOptions) (*baremetal.RouteTable, error) {
+	ret := _m.Called(id, opts)
 
 	var r0 *baremetal.RouteTable
-	if rf, ok := ret.Get(0).(func(string, []baremetal.RouteRule, ...baremetal.Options) *baremetal.RouteTable); ok {
-		r0 = rf(id, routeRules, opts...)
+	if rf, ok := ret.Get(0).(func(string, *baremetal.UpdateRouteTableOptions) *baremetal.RouteTable); ok {
+		r0 = rf(id, opts)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*baremetal.RouteTable)
@@ -1830,8 +2097,8 @@ func (_m *BareMetalClient) UpdateRouteTable(id string, routeRules []baremetal.Ro
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string, []baremetal.RouteRule, ...baremetal.Options) error); ok {
-		r1 = rf(id, routeRules, opts...)
+	if rf, ok := ret.Get(1).(func(string, *baremetal.UpdateRouteTableOptions) error); ok {
+		r1 = rf(id, opts)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -1839,22 +2106,45 @@ func (_m *BareMetalClient) UpdateRouteTable(id string, routeRules []baremetal.Ro
 	return r0, r1
 }
 
-// UpdateUser provides a mock function with given fields: userID, userDescription, opts
-func (_m *BareMetalClient) UpdateUser(userID string, userDescription string, opts ...baremetal.Options) (*baremetal.IdentityResource, error) {
-	ret := _m.Called(userID, userDescription, opts)
+// UpdateSecurityList provides a mock function with given fields: id, opts
+func (_m *BareMetalClient) UpdateSecurityList(id string, opts *baremetal.UpdateSecurityListOptions) (*baremetal.SecurityList, error) {
+	ret := _m.Called(id, opts)
 
-	var r0 *baremetal.IdentityResource
-	if rf, ok := ret.Get(0).(func(string, string, ...baremetal.Options) *baremetal.IdentityResource); ok {
-		r0 = rf(userID, userDescription, opts...)
+	var r0 *baremetal.SecurityList
+	if rf, ok := ret.Get(0).(func(string, *baremetal.UpdateSecurityListOptions) *baremetal.SecurityList); ok {
+		r0 = rf(id, opts)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*baremetal.IdentityResource)
+			r0 = ret.Get(0).(*baremetal.SecurityList)
 		}
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string, string, ...baremetal.Options) error); ok {
-		r1 = rf(userID, userDescription, opts...)
+	if rf, ok := ret.Get(1).(func(string, *baremetal.UpdateSecurityListOptions) error); ok {
+		r1 = rf(id, opts)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// UpdateUser provides a mock function with given fields: id, opts
+func (_m *BareMetalClient) UpdateUser(id string, opts *baremetal.UpdateIdentityOptions) (*baremetal.User, error) {
+	ret := _m.Called(id, opts)
+
+	var r0 *baremetal.User
+	if rf, ok := ret.Get(0).(func(string, *baremetal.UpdateIdentityOptions) *baremetal.User); ok {
+		r0 = rf(id, opts)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*baremetal.User)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(string, *baremetal.UpdateIdentityOptions) error); ok {
+		r1 = rf(id, opts)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -1863,12 +2153,12 @@ func (_m *BareMetalClient) UpdateUser(userID string, userDescription string, opt
 }
 
 // UpdateVolume provides a mock function with given fields: id, opts
-func (_m *BareMetalClient) UpdateVolume(id string, opts ...baremetal.Options) (*baremetal.Volume, error) {
+func (_m *BareMetalClient) UpdateVolume(id string, opts *baremetal.UpdateOptions) (*baremetal.Volume, error) {
 	ret := _m.Called(id, opts)
 
 	var r0 *baremetal.Volume
-	if rf, ok := ret.Get(0).(func(string, ...baremetal.Options) *baremetal.Volume); ok {
-		r0 = rf(id, opts...)
+	if rf, ok := ret.Get(0).(func(string, *baremetal.UpdateOptions) *baremetal.Volume); ok {
+		r0 = rf(id, opts)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*baremetal.Volume)
@@ -1876,8 +2166,8 @@ func (_m *BareMetalClient) UpdateVolume(id string, opts ...baremetal.Options) (*
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string, ...baremetal.Options) error); ok {
-		r1 = rf(id, opts...)
+	if rf, ok := ret.Get(1).(func(string, *baremetal.UpdateOptions) error); ok {
+		r1 = rf(id, opts)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -1886,12 +2176,12 @@ func (_m *BareMetalClient) UpdateVolume(id string, opts ...baremetal.Options) (*
 }
 
 // UpdateVolumeBackup provides a mock function with given fields: id, opts
-func (_m *BareMetalClient) UpdateVolumeBackup(id string, opts ...baremetal.Options) (*baremetal.VolumeBackup, error) {
+func (_m *BareMetalClient) UpdateVolumeBackup(id string, opts *baremetal.UpdateBackupOptions) (*baremetal.VolumeBackup, error) {
 	ret := _m.Called(id, opts)
 
 	var r0 *baremetal.VolumeBackup
-	if rf, ok := ret.Get(0).(func(string, ...baremetal.Options) *baremetal.VolumeBackup); ok {
-		r0 = rf(id, opts...)
+	if rf, ok := ret.Get(0).(func(string, *baremetal.UpdateBackupOptions) *baremetal.VolumeBackup); ok {
+		r0 = rf(id, opts)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*baremetal.VolumeBackup)
@@ -1899,8 +2189,8 @@ func (_m *BareMetalClient) UpdateVolumeBackup(id string, opts ...baremetal.Optio
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string, ...baremetal.Options) error); ok {
-		r1 = rf(id, opts...)
+	if rf, ok := ret.Get(1).(func(string, *baremetal.UpdateBackupOptions) error); ok {
+		r1 = rf(id, opts)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -1909,12 +2199,12 @@ func (_m *BareMetalClient) UpdateVolumeBackup(id string, opts ...baremetal.Optio
 }
 
 // UploadAPIKey provides a mock function with given fields: userID, key, opts
-func (_m *BareMetalClient) UploadAPIKey(userID string, key string, opts ...baremetal.Options) (*baremetal.APIKey, error) {
+func (_m *BareMetalClient) UploadAPIKey(userID string, key string, opts *baremetal.RetryTokenOptions) (*baremetal.APIKey, error) {
 	ret := _m.Called(userID, key, opts)
 
 	var r0 *baremetal.APIKey
-	if rf, ok := ret.Get(0).(func(string, string, ...baremetal.Options) *baremetal.APIKey); ok {
-		r0 = rf(userID, key, opts...)
+	if rf, ok := ret.Get(0).(func(string, string, *baremetal.RetryTokenOptions) *baremetal.APIKey); ok {
+		r0 = rf(userID, key, opts)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*baremetal.APIKey)
@@ -1922,8 +2212,8 @@ func (_m *BareMetalClient) UploadAPIKey(userID string, key string, opts ...barem
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string, string, ...baremetal.Options) error); ok {
-		r1 = rf(userID, key, opts...)
+	if rf, ok := ret.Get(1).(func(string, string, *baremetal.RetryTokenOptions) error); ok {
+		r1 = rf(userID, key, opts)
 	} else {
 		r1 = ret.Error(1)
 	}

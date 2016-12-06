@@ -39,7 +39,7 @@ func (s *VolumeBackupResourceCrud) State() string {
 }
 
 func (s *VolumeBackupResourceCrud) Create() (e error) {
-	opts := baremetal.Options{}
+	opts := &baremetal.CreateOptions{}
 	volumeID := s.D.Get("volume_id").(string)
 	displayName, ok := s.D.GetOk("display_name")
 	if ok {
@@ -57,7 +57,7 @@ func (s *VolumeBackupResourceCrud) Get() (e error) {
 }
 
 func (s *VolumeBackupResourceCrud) Update() (e error) {
-	opts := baremetal.Options{}
+	opts := &baremetal.UpdateBackupOptions{}
 	displayName, ok := s.D.GetOk("display_name")
 	if ok {
 		opts.DisplayName = displayName.(string)
@@ -80,5 +80,5 @@ func (s *VolumeBackupResourceCrud) SetData() {
 }
 
 func (s *VolumeBackupResourceCrud) Delete() (e error) {
-	return s.Client.DeleteVolumeBackup(s.D.Id())
+	return s.Client.DeleteVolumeBackup(s.D.Id(), nil)
 }

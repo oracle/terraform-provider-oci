@@ -1,9 +1,6 @@
 package baremetal
 
-import (
-	"net/http"
-	"net/url"
-)
+import "net/http"
 
 type RouteRule struct {
 	CidrBlock         string            `json:"cidrBlock"`
@@ -40,38 +37,30 @@ func (l *ListRouteTables) GetList() interface{} {
 // CreateRouteTable is used to create a route table
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/RouteTable/CreateRouteTable
-func (c *Client) CreateRouteTable(compartmentID, vcnID string, routeRules []RouteRule, opts ...Options) (res *RouteTable, e error) {
-	var displayName string
-	if len(opts) > 0 {
-		displayName = opts[0].DisplayName
-	}
-
-	body := struct {
-		CompartmentID string      `json:"compartmentId"`
-		DisplayName   string      `json:"displayName,omitempty"`
-		RouteRules    []RouteRule `json:"routeRules"`
-		VcnID         string      `json:"vcnId"`
+func (c *Client) CreateRouteTable(compartmentID, vcnID string, routeRules []RouteRule, opts *CreateOptions) (res *RouteTable, e error) {
+	required := struct {
+		ocidRequirement
+		RouteRules []RouteRule `json:"routeRules" url:"-"`
+		VcnID      string      `json:"vcnId" url:"-"`
 	}{
-		CompartmentID: compartmentID,
-		DisplayName:   displayName,
-		RouteRules:    routeRules,
-		VcnID:         vcnID,
+		RouteRules: routeRules,
+		VcnID:      vcnID,
 	}
+	required.CompartmentID = compartmentID
 
-	req := &sdkRequestOptions{
-		name:    resourceRouteTables,
-		body:    body,
-		options: opts,
+	details := &requestDetails{
+		name:     resourceRouteTables,
+		optional: opts,
+		required: required,
 	}
 
 	var response *requestResponse
-	if response, e = c.coreApi.request(http.MethodPost, req); e != nil {
+	if response, e = c.coreApi.request(http.MethodPost, details); e != nil {
 		return
 	}
 
 	res = &RouteTable{}
 	e = response.unmarshal(res)
-
 	return
 }
 
@@ -79,13 +68,13 @@ func (c *Client) CreateRouteTable(compartmentID, vcnID string, routeRules []Rout
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/RouteTable/GetRouteTable
 func (c *Client) GetRouteTable(id string) (res *RouteTable, e error) {
-	req := &sdkRequestOptions{
+	details := &requestDetails{
 		name: resourceRouteTables,
 		ids:  urlParts{id},
 	}
 
 	var response *requestResponse
-	if response, e = c.coreApi.getRequest(req); e != nil {
+	if response, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}
 
@@ -97,22 +86,15 @@ func (c *Client) GetRouteTable(id string) (res *RouteTable, e error) {
 // UpdateRouteTable is used to update a route table
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/RouteTable/UpdateRouteTable
-func (c *Client) UpdateRouteTable(id string, routeRules []RouteRule, opts ...Options) (res *RouteTable, e error) {
-	body := struct {
-		RouteRules []RouteRule `json:"routeRules"`
-	}{
-		RouteRules: routeRules,
-	}
-
-	reqOpts := &sdkRequestOptions{
-		body:    body,
-		name:    resourceRouteTables,
-		options: opts,
-		ids:     urlParts{id},
+func (c *Client) UpdateRouteTable(id string, opts *UpdateRouteTableOptions) (res *RouteTable, e error) {
+	details := &requestDetails{
+		ids:      urlParts{id},
+		name:     resourceRouteTables,
+		optional: opts,
 	}
 
 	var response *requestResponse
-	if response, e = c.coreApi.request(http.MethodPut, reqOpts); e != nil {
+	if response, e = c.coreApi.request(http.MethodPut, details); e != nil {
 		return
 	}
 
@@ -124,32 +106,36 @@ func (c *Client) UpdateRouteTable(id string, routeRules []RouteRule, opts ...Opt
 // DeleteRouteTable is used to delete a route table
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/RouteTable/DeleteRouteTable
-func (c *Client) DeleteRouteTable(id string, opts ...Options) (e error) {
-	req := &sdkRequestOptions{
-		name:    resourceRouteTables,
-		ids:     urlParts{id},
-		options: opts,
+func (c *Client) DeleteRouteTable(id string, opts *IfMatchOptions) (e error) {
+	details := &requestDetails{
+		ids:      urlParts{id},
+		name:     resourceRouteTables,
+		optional: opts,
 	}
 
-	return c.coreApi.deleteRequest(req)
+	return c.coreApi.deleteRequest(details)
 }
 
 // ListRouteTables is used to list route tables in a given compartment and vcn
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/RouteTable/ListRouteTables
-func (c *Client) ListRouteTables(compartmentID, vcnID string, opts ...Options) (res *ListRouteTables, e error) {
-	query := url.Values{}
-	query.Set(queryVcnID, vcnID)
+func (c *Client) ListRouteTables(compartmentID, vcnID string, opts *ListOptions) (res *ListRouteTables, e error) {
+	required := struct {
+		listOCIDRequirement
+		VcnID string `json:"-" url:"vcnId"`
+	}{
+		VcnID: vcnID,
+	}
+	required.CompartmentID = compartmentID
 
-	req := &sdkRequestOptions{
-		name:    resourceRouteTables,
-		ocid:    compartmentID,
-		options: opts,
-		query:   query,
+	details := &requestDetails{
+		name:     resourceRouteTables,
+		optional: opts,
+		required: required,
 	}
 
 	var response *requestResponse
-	if response, e = c.coreApi.getRequest(req); e != nil {
+	if response, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}
 

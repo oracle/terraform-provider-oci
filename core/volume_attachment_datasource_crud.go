@@ -16,14 +16,18 @@ type VolumeAttachmentDatasourceCrud struct {
 
 func (s *VolumeAttachmentDatasourceCrud) Get() (e error) {
 	compartmentID := s.D.Get("compartment_id").(string)
-	opts := getCoreOptionsFromResourceData(
-		s.D,
-		"availability_domain",
-		"limit",
-		"page",
-		"instance_id",
-		"volume_id",
-	)
+
+	opts := &baremetal.ListVolumeAttachmentsOptions{}
+	setListOptions(s.D, &opts.ListOptions)
+	if val, ok := s.D.GetOk("availability_domain"); ok {
+		opts.AvailabilityDomain = val.(string)
+	}
+	if val, ok := s.D.GetOk("instance_id"); ok {
+		opts.InstanceID = val.(string)
+	}
+	if val, ok := s.D.GetOk("volume_id"); ok {
+		opts.VolumeID = val.(string)
+	}
 
 	s.Res = &baremetal.ListVolumeAttachments{
 		VolumeAttachments: []baremetal.VolumeAttachment{},
@@ -31,14 +35,13 @@ func (s *VolumeAttachmentDatasourceCrud) Get() (e error) {
 
 	for {
 		var list *baremetal.ListVolumeAttachments
-		if list, e = s.Client.ListVolumeAttachments(compartmentID, opts...); e != nil {
+		if list, e = s.Client.ListVolumeAttachments(compartmentID, opts); e != nil {
 			break
 		}
 
 		s.Res.VolumeAttachments = append(s.Res.VolumeAttachments, list.VolumeAttachments...)
 
-		var hasNextPage bool
-		if opts, hasNextPage = getOptionsWithNextPageID(list.NextPage, opts); !hasNextPage {
+		if hasNextPage := setNextPageOption(list.NextPage, &opts.ListOptions); !hasNextPage {
 			break
 		}
 	}

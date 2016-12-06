@@ -20,14 +20,14 @@ type Vnic struct {
 // by vnicID. ListVnicAttachments can be used to retrieve Vnic IDs.
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Vnic/GetVnic
-func (c *Client) GetVnic(vnicID string) (vnic *Vnic, e error) {
-	reqOpts := &sdkRequestOptions{
+func (c *Client) GetVnic(id string) (vnic *Vnic, e error) {
+	details := &requestDetails{
 		name: resourceVnics,
-		ids:  urlParts{vnicID},
+		ids:  urlParts{id},
 	}
 
 	var resp *requestResponse
-	if resp, e = c.coreApi.getRequest(reqOpts); e != nil {
+	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}
 

@@ -16,20 +16,27 @@ type ImageDatasourceCrud struct {
 
 func (s *ImageDatasourceCrud) Get() (e error) {
 	compartmentID := s.D.Get("compartment_id").(string)
-	opts := getCoreOptionsFromResourceData(s.D, "limit", "page", "operating_system", "operating_system_version")
+
+	opts := &baremetal.ListImagesOptions{}
+	setListOptions(s.D, &opts.ListOptions)
+	if val, ok := s.D.GetOk("operating_system"); ok {
+		opts.OperatingSystem = val.(string)
+	}
+	if val, ok := s.D.GetOk("operating_system_version"); ok {
+		opts.OperatingSystemVersion = val.(string)
+	}
 
 	s.Res = &baremetal.ListImages{Images: []baremetal.Image{}}
 
 	for {
 		var list *baremetal.ListImages
-		if list, e = s.Client.ListImages(compartmentID, opts...); e != nil {
+		if list, e = s.Client.ListImages(compartmentID, opts); e != nil {
 			break
 		}
 
 		s.Res.Images = append(s.Res.Images, list.Images...)
 
-		var hasNextPage bool
-		if opts, hasNextPage = getOptionsWithNextPageID(list.NextPage, opts); !hasNextPage {
+		if hasNextPage := setNextPageOption(list.NextPage, &opts.ListOptions); !hasNextPage {
 			break
 		}
 	}

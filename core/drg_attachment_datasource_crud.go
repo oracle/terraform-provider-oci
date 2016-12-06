@@ -16,7 +16,15 @@ type DrgAttachmentDatasourceCrud struct {
 
 func (s *DrgAttachmentDatasourceCrud) Get() (e error) {
 	compartmentID := s.D.Get("compartment_id").(string)
-	opts := getCoreOptionsFromResourceData(s.D, "limit", "page", "drg_id", "vcn_id")
+
+	opts := &baremetal.ListDrgAttachmentsOptions{}
+	setListOptions(s.D, &opts.ListOptions)
+	if val, ok := s.D.GetOk("drg_id"); ok {
+		opts.DrgID = val.(string)
+	}
+	if val, ok := s.D.GetOk("vcn_id"); ok {
+		opts.VcnID = val.(string)
+	}
 
 	s.Res = &baremetal.ListDrgAttachments{
 		DrgAttachments: []baremetal.DrgAttachment{},
@@ -24,14 +32,13 @@ func (s *DrgAttachmentDatasourceCrud) Get() (e error) {
 
 	for {
 		var list *baremetal.ListDrgAttachments
-		if list, e = s.Client.ListDrgAttachments(compartmentID, opts...); e != nil {
+		if list, e = s.Client.ListDrgAttachments(compartmentID, opts); e != nil {
 			break
 		}
 
 		s.Res.DrgAttachments = append(s.Res.DrgAttachments, list.DrgAttachments...)
 
-		var hasNextPage bool
-		if opts, hasNextPage = getOptionsWithNextPageID(list.NextPage, opts); !hasNextPage {
+		if hasNextPage := setNextPageOption(list.NextPage, &opts.ListOptions); !hasNextPage {
 			break
 		}
 	}
