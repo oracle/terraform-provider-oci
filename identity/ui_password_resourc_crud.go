@@ -18,7 +18,7 @@ func (s *UIPasswordResourceCrud) ID() string {
 
 func (s *UIPasswordResourceCrud) Create() (e error) {
 	userID := s.D.Get("user_id").(string)
-	s.Res, e = s.Client.CreateOrResetUIPassword(userID)
+	s.Res, e = s.Client.CreateOrResetUIPassword(userID, nil)
 	return
 }
 

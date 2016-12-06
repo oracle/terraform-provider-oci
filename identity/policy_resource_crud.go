@@ -52,7 +52,7 @@ func (s *PolicyResourceCrud) Create() (e error) {
 	description := s.D.Get("description").(string)
 	statements := s.toStringArray(s.D.Get("statements"))
 
-	s.Res, e = s.Client.CreatePolicy(name, description, statements)
+	s.Res, e = s.Client.CreatePolicy(name, description, statements, nil)
 	return
 }
 
@@ -62,9 +62,17 @@ func (s *PolicyResourceCrud) Get() (e error) {
 }
 
 func (s *PolicyResourceCrud) Update() (e error) {
-	description := s.D.Get("description").(string)
-	statements := s.toStringArray(s.D.Get("statements"))
-	s.Res, e = s.Client.UpdatePolicy(s.D.Id(), description, statements)
+	opts := &baremetal.UpdatePolicyOptions{}
+	if description, ok := s.D.GetOk("description"); ok {
+		opts.Description = description.(string)
+	}
+
+	if rawStatements, ok := s.D.GetOk("statements"); ok {
+		statements := s.toStringArray(rawStatements)
+		opts.Statements = statements
+	}
+
+	s.Res, e = s.Client.UpdatePolicy(s.D.Id(), opts)
 	return
 }
 
@@ -74,10 +82,9 @@ func (s *PolicyResourceCrud) SetData() {
 	s.D.Set("description", s.Res.Description)
 	s.D.Set("compartment_id", s.Res.CompartmentID)
 	s.D.Set("state", s.Res.State)
-	s.D.Set("time_modified", s.Res.TimeModified.String())
 	s.D.Set("time_created", s.Res.TimeCreated.String())
 }
 
 func (s *PolicyResourceCrud) Delete() (e error) {
-	return s.Client.DeletePolicy(s.D.Id())
+	return s.Client.DeletePolicy(s.D.Id(), nil)
 }

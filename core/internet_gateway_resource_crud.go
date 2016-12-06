@@ -44,9 +44,10 @@ func (s *InternetGatewayResourceCrud) Create() (e error) {
 	compartmentID := s.D.Get("compartment_id").(string)
 	vcnID := s.D.Get("vcn_id").(string)
 	isEnabled := s.D.Get("enabled").(bool)
-	opts := baremetal.Options{
-		DisplayName: s.D.Get("display_name").(string),
-	}
+
+	opts := &baremetal.CreateOptions{}
+	opts.DisplayName = s.D.Get("display_name").(string)
+
 	s.Resource, e = s.Client.CreateInternetGateway(compartmentID, vcnID, isEnabled, opts)
 	return
 }

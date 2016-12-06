@@ -1,6 +1,8 @@
 package core
 
 import (
+	"fmt"
+
 	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/client"
 	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/crud"
 	"github.com/hashicorp/terraform/helper/schema"
@@ -59,7 +61,5 @@ func readConsoleHistory(d *schema.ResourceData, m interface{}) (e error) {
 }
 
 func deleteConsoleHistory(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(client.BareMetalClient)
-	ichCrud := &ConsoleHistoryResourceCrud{D: d, Client: client}
-	return crud.DeleteResource(ichCrud)
+	return fmt.Errorf("console history resource: console history %v cannot be deleted", d.Id())
 }

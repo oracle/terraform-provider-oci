@@ -23,7 +23,7 @@ type ResourceIdentityCompartmentTestSuite struct {
 	TimeCreated  time.Time
 	Config       string
 	ResourceName string
-	Res          *baremetal.IdentityResource
+	Res          *baremetal.Compartment
 }
 
 func (s *ResourceIdentityCompartmentTestSuite) SetupTest() {
@@ -51,7 +51,7 @@ func (s *ResourceIdentityCompartmentTestSuite) SetupTest() {
 	`
 	s.Config += testProviderConfig
 	s.ResourceName = "baremetal_identity_compartment.t"
-	s.Res = &baremetal.IdentityResource{
+	s.Res = &baremetal.Compartment{
 		ID:            "id!",
 		Name:          "name!",
 		Description:   "desc!",
@@ -60,7 +60,7 @@ func (s *ResourceIdentityCompartmentTestSuite) SetupTest() {
 		TimeCreated:   s.TimeCreated,
 		TimeModified:  s.TimeCreated,
 	}
-	s.Client.On("CreateCompartment", "name!", "desc!", []baremetal.Options(nil)).Return(s.Res, nil)
+	s.Client.On("CreateCompartment", "name!", "desc!", nil).Return(s.Res, nil)
 }
 
 func (s *ResourceIdentityCompartmentTestSuite) TestCreateResourceIdentityCompartment() {
@@ -117,7 +117,7 @@ func (s *ResourceIdentityCompartmentTestSuite) TestUpdateResourceIdentityCompart
 	u := *s.Res
 	u.Description = "newdesc!"
 	u.TimeModified = t
-	s.Client.On("UpdateCompartment", "id!", "newdesc!", []baremetal.Options(nil)).Return(&u, nil)
+	s.Client.On("UpdateCompartment", "id!", "newdesc!", nil).Return(&u, nil)
 	s.Client.On("GetCompartment", "id!").Return(&u, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
@@ -147,13 +147,13 @@ func (s *ResourceIdentityCompartmentTestSuite) TestFailedUpdateResourceIdentityC
 		}
 	`
 	c += testProviderConfig
-	s.Client.On("UpdateCompartment", "id!", "newdesc!", []baremetal.Options(nil)).Return(nil, errors.New("FAILED!")).Once()
+	s.Client.On("UpdateCompartment", "id!", "newdesc!", nil).Return(nil, errors.New("FAILED!")).Once()
 
 	t := s.TimeCreated.Add(5 * time.Minute)
 	u := *s.Res
 	u.Description = "newdesc!"
 	u.TimeModified = t
-	s.Client.On("UpdateCompartment", "id!", "newdesc!", []baremetal.Options(nil)).Return(&u, nil)
+	s.Client.On("UpdateCompartment", "id!", "newdesc!", nil).Return(&u, nil)
 	s.Client.On("GetCompartment", "id!").Return(&u, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{

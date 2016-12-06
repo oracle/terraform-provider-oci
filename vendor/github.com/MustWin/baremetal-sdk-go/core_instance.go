@@ -152,7 +152,7 @@ func (c *Client) ListInstances(compartmentID string, opts *ListInstancesOptions)
 // instanceID.
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Instance/InstanceAction
-func (c *Client) InstanceAction(id string, action instanceActions, opts *HeaderOptions) (inst *Instance, e error) {
+func (c *Client) InstanceAction(id string, action InstanceActions, opts *HeaderOptions) (inst *Instance, e error) {
 	required := struct {
 		Action string `json:"-" url:"action"`
 	}{

@@ -21,7 +21,6 @@ type ResourceCoreConsoleHistoryTestSuite struct {
 	Res          *baremetal.ConsoleHistoryMetadata
 	ResourceName string
 	DeletedRes   *baremetal.ConsoleHistoryMetadata
-	Opts         []baremetal.Options
 }
 
 func (s *ResourceCoreConsoleHistoryTestSuite) SetupTest() {
@@ -51,9 +50,8 @@ func (s *ResourceCoreConsoleHistoryTestSuite) SetupTest() {
 	s.Res.ETag = "etag"
 	s.Res.RequestID = "opcrequestid"
 
-	opts := baremetal.Options{}
-	s.Opts = []baremetal.Options{opts}
-	s.Client.On("CaptureConsoleHistory", s.Res.InstanceID, s.Opts).Return(s.Res, nil)
+	opts := &baremetal.RetryTokenOptions{}
+	s.Client.On("CaptureConsoleHistory", s.Res.InstanceID, opts).Return(s.Res, nil)
 	s.Client.On("DeleteConsoleHistory", s.Res.ID).Return(nil)
 	resCopy := *s.Res
 	s.DeletedRes = &resCopy
@@ -61,8 +59,8 @@ func (s *ResourceCoreConsoleHistoryTestSuite) SetupTest() {
 }
 
 func (s *ResourceCoreConsoleHistoryTestSuite) TestCreateResourceCoreInstanceConsoleHistory() {
-	s.Client.On("GetConsoleHistory", "id", s.Opts).Return(s.Res, nil).Times(2)
-	s.Client.On("GetConsoleHistory", "id", s.Opts).Return(s.DeletedRes, nil)
+	s.Client.On("GetConsoleHistory", "id").Return(s.Res, nil).Times(2)
+	s.Client.On("GetConsoleHistory", "id").Return(s.DeletedRes, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,

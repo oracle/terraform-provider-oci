@@ -40,7 +40,7 @@ func (s *APIKeyResourceCrud) Create() (e error) {
 	userID := s.D.Get("user_id").(string)
 	key := s.D.Get("key_value").(string)
 
-	s.Res, e = s.Client.UploadAPIKey(userID, key)
+	s.Res, e = s.Client.UploadAPIKey(userID, key, nil)
 
 	return
 }
@@ -77,5 +77,5 @@ func (s *APIKeyResourceCrud) SetData() {
 func (s *APIKeyResourceCrud) Delete() (e error) {
 	userID := s.D.Get("user_id").(string)
 	fingerprint := s.D.Get("fingerprint").(string)
-	return s.Client.DeleteAPIKey(userID, fingerprint)
+	return s.Client.DeleteAPIKey(userID, fingerprint, nil)
 }

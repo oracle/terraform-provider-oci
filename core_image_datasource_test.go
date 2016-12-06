@@ -63,12 +63,9 @@ func (s *ResourceCoreImagesTestSuite) SetupTest() {
 }
 
 func (s *ResourceCoreImagesTestSuite) TestReadImages() {
-	opts := []baremetal.Options{
-		baremetal.Options{
-			Limit: 1,
-			Page:  "page",
-		},
-	}
+	opts := &baremetal.ListImagesOptions{}
+	opts.Limit = 1
+	opts.Page = "page"
 
 	s.Client.On("ListImages", "compartment_id", opts).Return(s.List, nil)
 
@@ -95,13 +92,19 @@ func (s *ResourceCoreImagesTestSuite) TestReadImages() {
 }
 
 func (s *ResourceCoreImagesTestSuite) TestReadImagesWithPagination() {
-	opts := []baremetal.Options{baremetal.Options{Limit: 1, Page: "page"}}
+	opts := &baremetal.ListImagesOptions{}
+	opts.Limit = 1
+	opts.Page = "page"
+
 	listVal := *s.List
 	list := &listVal
 	list.NextPage = "nextpage"
 	s.Client.On("ListImages", "compartment_id", opts).Return(list, nil)
 
-	opts2 := []baremetal.Options{baremetal.Options{Limit: 1, Page: "nextpage"}}
+	opts2 := &baremetal.ListImagesOptions{}
+	opts2.Limit = 1
+	opts2.Page = "nextpage"
+
 	list2Val := *s.List
 	list2 := &list2Val
 	b3 := s.List.Images[0]

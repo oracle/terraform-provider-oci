@@ -37,9 +37,10 @@ func (s *ImageResourceCrud) State() string {
 }
 
 func (s *ImageResourceCrud) Create() (e error) {
-	opts := baremetal.Options{}
 	compartmentID := s.D.Get("compartment_id").(string)
 	instanceID := s.D.Get("instance_id").(string)
+
+	opts := &baremetal.CreateOptions{}
 	displayName, ok := s.D.GetOk("display_name")
 	if ok {
 		opts.DisplayName = displayName.(string)
@@ -56,7 +57,7 @@ func (s *ImageResourceCrud) Get() (e error) {
 }
 
 func (s *ImageResourceCrud) Update() (e error) {
-	opts := baremetal.Options{}
+	opts := &baremetal.UpdateOptions{}
 	displayName, ok := s.D.GetOk("display_name")
 	if ok {
 		opts.DisplayName = displayName.(string)

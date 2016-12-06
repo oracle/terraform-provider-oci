@@ -43,7 +43,7 @@ func (s *ResourceCoreSubnetsTestSuite) SetupTest() {
 }
 
 func (s *ResourceCoreSubnetsTestSuite) TestResourceListSubnets() {
-	opts := []baremetal.Options{}
+	opts := nil
 
 	s.Client.On(
 		"ListSubnets",
@@ -120,7 +120,7 @@ func (s *ResourceCoreSubnetsTestSuite) TestResourceListSubnets() {
 }
 
 func (s *ResourceCoreSubnetsTestSuite) TestResourceListSubnetsWithPagination() {
-	opts := []baremetal.Options{}
+	opts := nil
 
 	s.Client.On(
 		"ListSubnets",
@@ -176,7 +176,7 @@ func (s *ResourceCoreSubnetsTestSuite) TestResourceListSubnetsWithPagination() {
 		nil,
 	)
 
-	opts2 := []baremetal.Options{baremetal.Options{Page: "nextpage"}}
+	opts2 := &baremetal.ListOptions{Page: "nextpage"}
 
 	s.Client.On(
 		"ListSubnets",

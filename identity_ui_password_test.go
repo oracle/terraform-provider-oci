@@ -22,7 +22,6 @@ type ResourceIdentityUIPasswordTestSuite struct {
 	Config       string
 	ResourceName string
 	Res          *baremetal.UIPassword
-	Opts         []baremetal.Options
 }
 
 func (s *ResourceIdentityUIPasswordTestSuite) SetupTest() {
@@ -57,7 +56,7 @@ func (s *ResourceIdentityUIPasswordTestSuite) SetupTest() {
 	s.Res.ETag = "etag"
 	s.Res.RequestID = "opcrequestid"
 
-	s.Client.On("CreateOrResetUIPassword", "user_id", []baremetal.Options(nil)).
+	s.Client.On("CreateOrResetUIPassword", "user_id", nil).
 		Return(s.Res, nil).Once()
 }
 
@@ -91,7 +90,7 @@ func (s ResourceIdentityUIPasswordTestSuite) TestUpdateVersionForcesNewUIPasswor
 		UserID:      "user_id",
 	}
 
-	s.Client.On("CreateOrResetUIPassword", "user_id", []baremetal.Options(nil)).
+	s.Client.On("CreateOrResetUIPassword", "user_id", nil).
 		Return(res, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{

@@ -43,12 +43,9 @@ func (s *ResourceCoreVirtualNetworksTestSuite) SetupTest() {
 }
 
 func (s *ResourceCoreVirtualNetworksTestSuite) TestReadVirtualNetworks() {
-	opts := []baremetal.Options{
-		baremetal.Options{
-			Limit: 1,
-			Page:  "page",
-		},
-	}
+	opts := &baremetal.ListOptions{}
+	opts.Limit = 1
+	opts.Page = "page"
 
 	s.Client.On(
 		"ListVirtualNetworks",
@@ -106,12 +103,9 @@ func (s *ResourceCoreVirtualNetworksTestSuite) TestReadVirtualNetworks() {
 }
 
 func (s *ResourceCoreVirtualNetworksTestSuite) TestReadVirtualNetworksWithPaging() {
-	opts := []baremetal.Options{
-		baremetal.Options{
-			Limit: 1,
-			Page:  "page",
-		},
-	}
+	opts := &baremetal.ListOptions{}
+	opts.Limit = 1
+	opts.Page = "page"
 
 	s.Client.On(
 		"ListVirtualNetworks",
@@ -148,12 +142,9 @@ func (s *ResourceCoreVirtualNetworksTestSuite) TestReadVirtualNetworksWithPaging
 		nil,
 	)
 
-	opts2 := []baremetal.Options{
-		baremetal.Options{
-			Limit: 1,
-			Page:  "nextpage",
-		},
-	}
+	opts2 := &baremetal.ListOptions{}
+	opts2.Limit = 1
+	opts2.Page = "nextpage"
 
 	s.Client.On(
 		"ListVirtualNetworks",

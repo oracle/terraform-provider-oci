@@ -37,16 +37,15 @@ func (s *DrgAttachmentResourceCrud) State() string {
 }
 
 func (s *DrgAttachmentResourceCrud) Create() (e error) {
-	opts := baremetal.Options{}
-	compartmentID := s.D.Get("compartment_id").(string)
-	displayName, ok := s.D.GetOk("display_name")
-	if ok {
-		opts.DisplayName = displayName.(string)
-	}
 	drgID := s.D.Get("drg_id").(string)
 	vcnID := s.D.Get("vcn_id").(string)
 
-	s.Res, e = s.Client.CreateDrgAttachment(compartmentID, drgID, vcnID, opts)
+	opts := &baremetal.CreateOptions{}
+	if displayName, ok := s.D.GetOk("display_name"); ok {
+		opts.DisplayName = displayName.(string)
+	}
+
+	s.Res, e = s.Client.CreateDrgAttachment(drgID, vcnID, opts)
 
 	return
 }
@@ -66,5 +65,5 @@ func (s *DrgAttachmentResourceCrud) SetData() {
 }
 
 func (s *DrgAttachmentResourceCrud) Delete() (e error) {
-	return s.Client.DeleteDrgAttachment(s.D.Id())
+	return s.Client.DeleteDrgAttachment(s.D.Id(), nil)
 }

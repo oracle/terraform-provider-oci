@@ -43,12 +43,9 @@ func (s *ResourceCoreShapeTestSuite) SetupTest() {
 }
 
 func (s *ResourceCoreShapeTestSuite) TestResourceReadCoreShape() {
-	opts := []baremetal.Options{
-		baremetal.Options{
-			AvailabilityDomain: "availability_domain",
-			ImageID:            "imageid",
-		},
-	}
+	opts := baremetal.ListShapesOptions{}
+	opts.AvailabilityDomain = "availability_domain"
+	opts.ImageID = "imageid"
 
 	s.Client.On(
 		"ListShapes",
@@ -92,12 +89,9 @@ func (s *ResourceCoreShapeTestSuite) TestResourceReadCoreShape() {
 }
 
 func (s *ResourceCoreShapeTestSuite) TestResourceReadCoreShapeWithPagination() {
-	opts := []baremetal.Options{
-		baremetal.Options{
-			AvailabilityDomain: "availability_domain",
-			ImageID:            "imageid",
-		},
-	}
+	opts := baremetal.ListShapesOptions{}
+	opts.AvailabilityDomain = "availability_domain"
+	opts.ImageID = "imageid"
 
 	s.Client.On(
 		"ListShapes",
@@ -120,13 +114,10 @@ func (s *ResourceCoreShapeTestSuite) TestResourceReadCoreShapeWithPagination() {
 		nil,
 	)
 
-	opts2 := []baremetal.Options{
-		baremetal.Options{
-			AvailabilityDomain: "availability_domain",
-			ImageID:            "imageid",
-			Page:               "nextpage",
-		},
-	}
+	opts2 := &baremetal.ListShapesOptions{}
+	opts2.AvailabilityDomain = "availability_domain"
+	opts2.ImageID = "imageid"
+	opts2.Page = "nextpage"
 
 	s.Client.On(
 		"ListShapes",

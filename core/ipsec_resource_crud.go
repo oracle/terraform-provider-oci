@@ -29,7 +29,6 @@ func (s *IPSecResourceCrud) ID() string {
 // }
 
 func (s *IPSecResourceCrud) Create() (e error) {
-	opts := baremetal.Options{}
 	compartmentID := s.D.Get("compartment_id").(string)
 	cpeID := s.D.Get("cpe_id").(string)
 	drgID := s.D.Get("drg_id").(string)
@@ -39,6 +38,7 @@ func (s *IPSecResourceCrud) Create() (e error) {
 		staticRoutes = append(staticRoutes, route.(string))
 	}
 
+	opts := &baremetal.CreateOptions{}
 	if displayName, ok := s.D.GetOk("display_name"); ok {
 		opts.DisplayName = displayName.(string)
 	}

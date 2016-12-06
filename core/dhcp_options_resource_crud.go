@@ -39,9 +39,9 @@ func (s *DHCPOptionsResourceCrud) State() string {
 func (s *DHCPOptionsResourceCrud) Create() (e error) {
 	compartmentID := s.D.Get("compartment_id").(string)
 	vcnID := s.D.Get("vcn_id").(string)
-	opts := baremetal.Options{
-		DisplayName: s.D.Get("display_name").(string),
-	}
+
+	opts := &baremetal.CreateOptions{}
+	opts.DisplayName = s.D.Get("display_name").(string)
 
 	s.Res, e = s.Client.CreateDHCPOptions(compartmentID, vcnID, s.buildEntities(), opts)
 
@@ -54,7 +54,9 @@ func (s *DHCPOptionsResourceCrud) Get() (e error) {
 }
 
 func (s *DHCPOptionsResourceCrud) Update() (e error) {
-	opts := baremetal.Options{DHCPOptions: s.buildEntities()}
+	opts := &baremetal.UpdateDHCPDNSOptions{}
+	opts.Options = s.buildEntities()
+
 	s.Res, e = s.Client.UpdateDHCPOptions(s.D.Id(), opts)
 	return
 }
@@ -79,7 +81,7 @@ func (s *DHCPOptionsResourceCrud) SetData() {
 }
 
 func (s *DHCPOptionsResourceCrud) Delete() (e error) {
-	return s.Client.DeleteDHCPOptions(s.D.Id())
+	return s.Client.DeleteDHCPOptions(s.D.Id(), nil)
 }
 
 func (s *DHCPOptionsResourceCrud) buildEntities() (entities []baremetal.DHCPDNSOption) {

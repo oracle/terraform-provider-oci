@@ -48,7 +48,7 @@ func (s *CoreInternetGatewayDatasourceTestSuite) TestResourceListInternetGateway
 		"ListInternetGateways",
 		"compartmentid",
 		"vcnid",
-		[]baremetal.Options{},
+		&baremetal.ListOptions{},
 	).Return(
 		&baremetal.ListInternetGateways{
 			Gateways: []baremetal.InternetGateway{
@@ -100,7 +100,7 @@ func (s *CoreInternetGatewayDatasourceTestSuite) TestResourceListInternetGateway
 	},
 	)
 
-	s.Client.AssertCalled(s.T(), "ListInternetGateways", "compartmentid", "vcnid", []baremetal.Options{})
+	s.Client.AssertCalled(s.T(), "ListInternetGateways", "compartmentid", "vcnid", &baremetal.ListOptions{})
 
 }
 
@@ -110,7 +110,7 @@ func (s *CoreInternetGatewayDatasourceTestSuite) TestResourceListInternetGateway
 		"ListInternetGateways",
 		"compartmentid",
 		"vcnid",
-		[]baremetal.Options{},
+		&baremetal.ListOptions{},
 	).Return(
 		&baremetal.ListInternetGateways{
 			ResourceContainer: baremetal.ResourceContainer{
@@ -146,11 +146,13 @@ func (s *CoreInternetGatewayDatasourceTestSuite) TestResourceListInternetGateway
 		nil,
 	)
 
+	opts := &baremetal.ListOptions{}
+	opts.Page = "nextpage"
 	s.Client.On(
 		"ListInternetGateways",
 		"compartmentid",
 		"vcnid",
-		[]baremetal.Options{baremetal.Options{Page: "nextpage"}},
+		opts,
 	).Return(
 		&baremetal.ListInternetGateways{
 			Gateways: []baremetal.InternetGateway{
@@ -202,9 +204,7 @@ func (s *CoreInternetGatewayDatasourceTestSuite) TestResourceListInternetGateway
 	},
 	)
 
-	s.Client.AssertCalled(s.T(), "ListInternetGateways", "compartmentid", "vcnid",
-		[]baremetal.Options{baremetal.Options{Page: "nextpage"}})
-
+	s.Client.AssertCalled(s.T(), "ListInternetGateways", "compartmentid", "vcnid", opts)
 }
 
 func TestCoreInternetGatewayDatasource(t *testing.T) {

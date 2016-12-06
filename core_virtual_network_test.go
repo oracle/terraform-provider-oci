@@ -23,7 +23,6 @@ type ResourceCoreVirtualNetworkTestSuite struct {
 	ResourceName string
 	Res          *baremetal.VirtualNetwork
 	DeletedRes   *baremetal.VirtualNetwork
-	Opts         []baremetal.Options
 }
 
 func (s *ResourceCoreVirtualNetworkTestSuite) SetupTest() {
@@ -78,19 +77,19 @@ func (s *ResourceCoreVirtualNetworkTestSuite) SetupTest() {
 	s.DeletedRes.ETag = "etag"
 	s.DeletedRes.RequestID = "opcrequestid"
 
-	opts := baremetal.Options{DisplayName: "display_name"}
-	s.Opts = []baremetal.Options{opts}
+	opts := &baremetal.CreateOptions{}
+	opts.DisplayName = "display_name"
 	s.Client.On(
 		"CreateVirtualNetwork",
 		"cidr_block",
 		"compartment_id",
-		s.Opts).Return(s.Res, nil)
-	s.Client.On("DeleteVirtualNetwork", "id", []baremetal.Options(nil)).Return(nil)
+		opts).Return(s.Res, nil)
+	s.Client.On("DeleteVirtualNetwork", "id", nil).Return(nil)
 }
 
 func (s *ResourceCoreVirtualNetworkTestSuite) TestCreateResourceCoreVirtualNetwork() {
-	s.Client.On("GetVirtualNetwork", "id", []baremetal.Options(nil)).Return(s.Res, nil).Times(2)
-	s.Client.On("GetVirtualNetwork", "id", []baremetal.Options(nil)).Return(s.DeletedRes, nil)
+	s.Client.On("GetVirtualNetwork", "id").Return(s.Res, nil).Times(2)
+	s.Client.On("GetVirtualNetwork", "id").Return(s.DeletedRes, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -113,8 +112,8 @@ func (s *ResourceCoreVirtualNetworkTestSuite) TestCreateResourceCoreVirtualNetwo
 }
 
 func (s *ResourceCoreVirtualNetworkTestSuite) TestCreateResourceCoreVirtualNetworkWithoutDisplayName() {
-	s.Client.On("GetVirtualNetwork", "id", []baremetal.Options(nil)).Return(s.Res, nil).Times(2)
-	s.Client.On("GetVirtualNetwork", "id", []baremetal.Options(nil)).Return(s.DeletedRes, nil)
+	s.Client.On("GetVirtualNetwork", "id").Return(s.Res, nil).Times(2)
+	s.Client.On("GetVirtualNetwork", "id").Return(s.DeletedRes, nil)
 
 	s.Config = `
 		resource "baremetal_core_virtual_network" "t" {
@@ -124,11 +123,11 @@ func (s *ResourceCoreVirtualNetworkTestSuite) TestCreateResourceCoreVirtualNetwo
 	`
 	s.Config += testProviderConfig
 
-	opts := baremetal.Options{}
+	opts := &baremetal.CreateOptions{}
 	s.Client.On(
 		"CreateVirtualNetwork",
 		"cidr_block",
-		"compartment_id", []baremetal.Options{opts}).Return(s.Res, nil)
+		"compartment_id", opts).Return(s.Res, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -146,8 +145,8 @@ func (s *ResourceCoreVirtualNetworkTestSuite) TestCreateResourceCoreVirtualNetwo
 func (s ResourceCoreVirtualNetworkTestSuite) TestUpdateCidrBlockForcesNewVirtualNetwork() {
 	// Step 1 uses the mocking in Setup plus the following two Get mocks to create
 	// and then destroy the original resource.
-	s.Client.On("GetVirtualNetwork", "id", []baremetal.Options(nil)).Return(s.Res, nil).Times(2)
-	s.Client.On("GetVirtualNetwork", "id", []baremetal.Options(nil)).Return(s.DeletedRes, nil)
+	s.Client.On("GetVirtualNetwork", "id").Return(s.Res, nil).Times(2)
+	s.Client.On("GetVirtualNetwork", "id").Return(s.DeletedRes, nil)
 
 	config := `
 		resource "baremetal_core_virtual_network" "t" {
@@ -172,20 +171,20 @@ func (s ResourceCoreVirtualNetworkTestSuite) TestUpdateCidrBlockForcesNewVirtual
 
 	// Step 2 creates a new resource and then uses the same Get pattern from
 	// above in order to delete, this time with the newly created resource.
-	opts := baremetal.Options{}
+	opts := &baremetal.CreateOptions{}
 	s.Client.On(
 		"CreateVirtualNetwork",
 		res.CidrBlock,
-		res.CompartmentID, []baremetal.Options{opts}).Return(res, nil)
+		res.CompartmentID, opts).Return(res, nil)
 
-	s.Client.On("DeleteVirtualNetwork", res.ID, []baremetal.Options(nil)).Return(nil)
+	s.Client.On("DeleteVirtualNetwork", res.ID, nil).Return(nil)
 	deletedRes := &baremetal.VirtualNetwork{
 		ID:    res.ID,
 		State: baremetal.ResourceTerminated,
 	}
 
-	s.Client.On("GetVirtualNetwork", res.ID, []baremetal.Options(nil)).Return(res, nil).Times(2)
-	s.Client.On("GetVirtualNetwork", res.ID, []baremetal.Options(nil)).Return(deletedRes, nil)
+	s.Client.On("GetVirtualNetwork", res.ID).Return(res, nil).Times(2)
+	s.Client.On("GetVirtualNetwork", res.ID).Return(deletedRes, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -204,8 +203,8 @@ func (s ResourceCoreVirtualNetworkTestSuite) TestUpdateCidrBlockForcesNewVirtual
 }
 
 func (s *ResourceCoreVirtualNetworkTestSuite) TestDeleteVirtualNetwork() {
-	s.Client.On("GetVirtualNetwork", "id", []baremetal.Options(nil)).Return(s.Res, nil).Times(2)
-	s.Client.On("GetVirtualNetwork", "id", []baremetal.Options(nil)).Return(s.DeletedRes, nil)
+	s.Client.On("GetVirtualNetwork", "id").Return(s.Res, nil).Times(2)
+	s.Client.On("GetVirtualNetwork", "id").Return(s.DeletedRes, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -220,7 +219,7 @@ func (s *ResourceCoreVirtualNetworkTestSuite) TestDeleteVirtualNetwork() {
 		},
 	})
 
-	s.Client.AssertCalled(s.T(), "DeleteVirtualNetwork", "id", []baremetal.Options(nil))
+	s.Client.AssertCalled(s.T(), "DeleteVirtualNetwork", "id", nil)
 }
 
 func TestResourceCoreVirtualNetworkTestSuite(t *testing.T) {

@@ -24,7 +24,6 @@ type ResourceCoreVolumeBackupTestSuite struct {
 	ResourceName string
 	Res          *baremetal.VolumeBackup
 	DeletedRes   *baremetal.VolumeBackup
-	Opts         []baremetal.Options
 }
 
 func (s *ResourceCoreVolumeBackupTestSuite) SetupTest() {
@@ -65,15 +64,14 @@ func (s *ResourceCoreVolumeBackupTestSuite) SetupTest() {
 	s.DeletedRes = &deletedRes
 	s.DeletedRes.State = baremetal.ResourceTerminated
 
-	opts := baremetal.Options{DisplayName: "display_name"}
-	s.Opts = []baremetal.Options{opts}
-	s.Client.On("CreateVolumeBackup", "volume_id", s.Opts).Return(s.Res, nil)
-	s.Client.On("DeleteVolumeBackup", "id", []baremetal.Options(nil)).Return(nil)
+	opts := &baremetal.CreateOptions{DisplayName: "display_name"}
+	s.Client.On("CreateVolumeBackup", "volume_id", opts).Return(s.Res, nil)
+	s.Client.On("DeleteVolumeBackup", "id", nil).Return(nil)
 }
 
 func (s *ResourceCoreVolumeBackupTestSuite) TestCreateVolumeBackup() {
-	s.Client.On("GetVolumeBackup", "id", []baremetal.Options(nil)).Return(s.Res, nil).Times(2)
-	s.Client.On("GetVolumeBackup", "id", []baremetal.Options(nil)).Return(s.DeletedRes, nil)
+	s.Client.On("GetVolumeBackup", "id").Return(s.Res, nil).Times(2)
+	s.Client.On("GetVolumeBackup", "id").Return(s.DeletedRes, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -97,8 +95,8 @@ func (s *ResourceCoreVolumeBackupTestSuite) TestCreateVolumeBackup() {
 }
 
 func (s *ResourceCoreVolumeBackupTestSuite) TestCreateVolumeBackupWithoutDisplayName() {
-	s.Client.On("GetVolumeBackup", "id", []baremetal.Options(nil)).Return(s.Res, nil).Times(2)
-	s.Client.On("GetVolumeBackup", "id", []baremetal.Options(nil)).Return(s.DeletedRes, nil)
+	s.Client.On("GetVolumeBackup", "id").Return(s.Res, nil).Times(2)
+	s.Client.On("GetVolumeBackup", "id").Return(s.DeletedRes, nil)
 
 	s.Config = `
 		resource "baremetal_core_volume_backup" "t" {
@@ -107,8 +105,8 @@ func (s *ResourceCoreVolumeBackupTestSuite) TestCreateVolumeBackupWithoutDisplay
 	`
 	s.Config += testProviderConfig
 
-	opts := baremetal.Options{}
-	s.Client.On("CreateVolumeBackup", "volume_id", []baremetal.Options{opts}).
+	opts := &baremetal.CreateOptions{}
+	s.Client.On("CreateVolumeBackup", "volume_id", opts).
 		Return(s.Res, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
@@ -125,7 +123,7 @@ func (s *ResourceCoreVolumeBackupTestSuite) TestCreateVolumeBackupWithoutDisplay
 }
 
 func (s ResourceCoreVolumeBackupTestSuite) TestUpdateVolumeBackupDisplayName() {
-	s.Client.On("GetVolumeBackup", "id", []baremetal.Options(nil)).Return(s.Res, nil).Times(3)
+	s.Client.On("GetVolumeBackup", "id").Return(s.Res, nil).Times(3)
 
 	config := `
 		resource "baremetal_core_volume_backup" "t" {
@@ -143,10 +141,11 @@ func (s ResourceCoreVolumeBackupTestSuite) TestUpdateVolumeBackupDisplayName() {
 	deletedRes := &deletedResVal
 	deletedRes.State = baremetal.ResourceTerminated
 
-	opts := baremetal.Options{DisplayName: "new_display_name"}
-	s.Client.On("UpdateVolumeBackup", "id", []baremetal.Options{opts}).Return(res, nil)
-	s.Client.On("GetVolumeBackup", "id", []baremetal.Options(nil)).Return(res, nil).Times(2)
-	s.Client.On("GetVolumeBackup", "id", []baremetal.Options(nil)).Return(deletedRes, nil)
+	opts := baremetal.UpdateBackupOptions{}
+	opts.DisplayName = "new_display_name"
+	s.Client.On("UpdateVolumeBackup", "id", opts).Return(res, nil)
+	s.Client.On("GetVolumeBackup", "id").Return(res, nil).Times(2)
+	s.Client.On("GetVolumeBackup", "id").Return(deletedRes, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -165,8 +164,8 @@ func (s ResourceCoreVolumeBackupTestSuite) TestUpdateVolumeBackupDisplayName() {
 }
 
 func (s ResourceCoreVolumeBackupTestSuite) TestUpdateVolumeIDForcesNewVolumeBackup() {
-	s.Client.On("GetVolumeBackup", "id", []baremetal.Options(nil)).Return(s.Res, nil).Times(3)
-	s.Client.On("GetVolumeBackup", "id", []baremetal.Options(nil)).Return(s.DeletedRes, nil).Once()
+	s.Client.On("GetVolumeBackup", "id").Return(s.Res, nil).Times(3)
+	s.Client.On("GetVolumeBackup", "id").Return(s.DeletedRes, nil).Once()
 
 	config := `
 		resource "baremetal_core_volume_backup" "t" {
@@ -183,10 +182,10 @@ func (s ResourceCoreVolumeBackupTestSuite) TestUpdateVolumeIDForcesNewVolumeBack
 	deletedRes := &deletedResVal
 	deletedRes.State = baremetal.ResourceTerminated
 
-	opts := baremetal.Options{}
-	s.Client.On("CreateVolumeBackup", res.VolumeID, []baremetal.Options{opts}).Return(res, nil)
-	s.Client.On("GetVolumeBackup", "id", []baremetal.Options(nil)).Return(res, nil).Times(2)
-	s.Client.On("GetVolumeBackup", "id", []baremetal.Options(nil)).Return(deletedRes, nil)
+	opts := &baremetal.CreateOptions{}
+	s.Client.On("CreateVolumeBackup", res.VolumeID, opts).Return(res, nil)
+	s.Client.On("GetVolumeBackup", "id").Return(res, nil).Times(2)
+	s.Client.On("GetVolumeBackup", "id").Return(deletedRes, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -205,8 +204,8 @@ func (s ResourceCoreVolumeBackupTestSuite) TestUpdateVolumeIDForcesNewVolumeBack
 }
 
 func (s *ResourceCoreVolumeBackupTestSuite) TestDeleteVolumeBackup() {
-	s.Client.On("GetVolumeBackup", "id", []baremetal.Options(nil)).Return(s.Res, nil).Times(2)
-	s.Client.On("GetVolumeBackup", "id", []baremetal.Options(nil)).Return(s.DeletedRes, nil)
+	s.Client.On("GetVolumeBackup", "id").Return(s.Res, nil).Times(2)
+	s.Client.On("GetVolumeBackup", "id").Return(s.DeletedRes, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -221,7 +220,7 @@ func (s *ResourceCoreVolumeBackupTestSuite) TestDeleteVolumeBackup() {
 		},
 	})
 
-	s.Client.AssertCalled(s.T(), "DeleteVolumeBackup", "id", []baremetal.Options(nil))
+	s.Client.AssertCalled(s.T(), "DeleteVolumeBackup", "id", nil)
 }
 
 func TestResourceCoreVolumeBackupTestSuite(t *testing.T) {

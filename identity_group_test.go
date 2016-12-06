@@ -23,7 +23,7 @@ type ResourceIdentityGroupTestSuite struct {
 	TimeCreated  time.Time
 	Config       string
 	ResourceName string
-	Res          *baremetal.IdentityResource
+	Res          *baremetal.Group
 }
 
 func (s *ResourceIdentityGroupTestSuite) SetupTest() {
@@ -48,7 +48,7 @@ func (s *ResourceIdentityGroupTestSuite) SetupTest() {
 	s.Config += testProviderConfig
 
 	s.ResourceName = "baremetal_identity_group.t"
-	s.Res = &baremetal.IdentityResource{
+	s.Res = &baremetal.Group{
 		ID:            "id!",
 		Name:          "name!",
 		Description:   "desc!",
@@ -57,8 +57,8 @@ func (s *ResourceIdentityGroupTestSuite) SetupTest() {
 		TimeCreated:   s.TimeCreated,
 		TimeModified:  s.TimeCreated,
 	}
-	s.Client.On("CreateGroup", "name!", "desc!", []baremetal.Options(nil)).Return(s.Res, nil)
-	s.Client.On("DeleteGroup", "id!", []baremetal.Options(nil)).Return(nil)
+	s.Client.On("CreateGroup", "name!", "desc!", nil).Return(s.Res, nil)
+	s.Client.On("DeleteGroup", "id!", nil).Return(nil)
 }
 
 func (s *ResourceIdentityGroupTestSuite) TestCreateResourceIdentityGroup() {
@@ -117,7 +117,7 @@ func (s *ResourceIdentityGroupTestSuite) TestUpdateResourceIdentityGroupDescript
 	u := *s.Res
 	u.Description = "newdesc!"
 	u.TimeModified = t
-	s.Client.On("UpdateGroup", "id!", "newdesc!", []baremetal.Options(nil)).
+	s.Client.On("UpdateGroup", "id!", "newdesc!", nil).
 		Return(&u, nil)
 	s.Client.On("GetGroup", "id!").Return(&u, nil)
 
@@ -149,14 +149,14 @@ func (s *ResourceIdentityGroupTestSuite) TestFailedUpdateResourceIdentityGroupDe
 	`
 	c += testProviderConfig
 
-	s.Client.On("UpdateGroup", "id!", "newdesc!", []baremetal.Options(nil)).
+	s.Client.On("UpdateGroup", "id!", "newdesc!", nil).
 		Return(nil, errors.New("FAILED!")).Once()
 
 	t := s.TimeCreated.Add(5 * time.Minute)
 	u := *s.Res
 	u.Description = "newdesc!"
 	u.TimeModified = t
-	s.Client.On("UpdateGroup", "id!", "newdesc!", []baremetal.Options(nil)).
+	s.Client.On("UpdateGroup", "id!", "newdesc!", nil).
 		Return(&u, nil)
 	s.Client.On("GetGroup", "id!").Return(&u, nil)
 
@@ -194,9 +194,9 @@ func (s *ResourceIdentityGroupTestSuite) TestUpdateResourceIdentityGroupNameShou
 	u := *s.Res
 	u.ID = "newid!"
 	u.Name = "newname!"
-	s.Client.On("CreateGroup", "newname!", "desc!", []baremetal.Options(nil)).Return(&u, nil)
+	s.Client.On("CreateGroup", "newname!", "desc!", nil).Return(&u, nil)
 	s.Client.On("GetGroup", "newid!").Return(&u, nil)
-	s.Client.On("DeleteGroup", "newid!", []baremetal.Options(nil)).Return(nil)
+	s.Client.On("DeleteGroup", "newid!", nil).Return(nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -228,7 +228,7 @@ func (s *ResourceIdentityGroupTestSuite) TestDeleteResourceIdentityGroup() {
 		},
 	})
 
-	s.Client.AssertCalled(s.T(), "DeleteGroup", "id!", []baremetal.Options(nil))
+	s.Client.AssertCalled(s.T(), "DeleteGroup", "id!", nil)
 }
 
 func TestResourceIdentityGroupTestSuite(t *testing.T) {

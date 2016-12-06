@@ -37,9 +37,10 @@ func (s *VirtualNetworkResourceCrud) State() string {
 }
 
 func (s *VirtualNetworkResourceCrud) Create() (e error) {
-	opts := baremetal.Options{}
 	cidrBlock := s.D.Get("cidr_block").(string)
 	compartmentID := s.D.Get("compartment_id").(string)
+
+	opts := &baremetal.CreateOptions{}
 	displayName, ok := s.D.GetOk("display_name")
 	if ok {
 		opts.DisplayName = displayName.(string)

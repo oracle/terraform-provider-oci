@@ -46,13 +46,10 @@ func (s *ResourceCoreVnicAttachmentsTestSuite) SetupTest() {
 }
 
 func (s *ResourceCoreVnicAttachmentsTestSuite) TestResourceReadCoreVnicAttachments() {
-	opts := []baremetal.Options{
-		baremetal.Options{
-			AvailabilityDomain: "availabilityid",
-			VnicID:             "vnicid",
-			InstanceID:         "instanceid",
-		},
-	}
+	opts := &baremetal.ListVnicAttachmentsOptions{}
+	opts.AvailabilityDomain = "availabilityid"
+	opts.VnicID = "vnicid"
+	opts.InstanceID = "instanceid"
 
 	s.Client.On(
 		"ListVnicAttachments",
@@ -114,13 +111,10 @@ func (s *ResourceCoreVnicAttachmentsTestSuite) TestResourceReadCoreVnicAttachmen
 }
 
 func (s *ResourceCoreVnicAttachmentsTestSuite) TestResourceReadCoreVnicAttachmentsWithPaging() {
-	opts := []baremetal.Options{
-		baremetal.Options{
-			AvailabilityDomain: "availabilityid",
-			VnicID:             "vnicid",
-			InstanceID:         "instanceid",
-		},
-	}
+	opts := &baremetal.ListVnicAttachmentsOptions{}
+	opts.AvailabilityDomain = "availabilityid"
+	opts.VnicID = "vnicid"
+	opts.InstanceID = "instanceid"
 
 	s.Client.On(
 		"ListVnicAttachments",
@@ -159,14 +153,11 @@ func (s *ResourceCoreVnicAttachmentsTestSuite) TestResourceReadCoreVnicAttachmen
 		nil,
 	)
 
-	opts2 := []baremetal.Options{
-		baremetal.Options{
-			AvailabilityDomain: "availabilityid",
-			VnicID:             "vnicid",
-			InstanceID:         "instanceid",
-			Page:               "nextpage",
-		},
-	}
+	opts2 := &baremetal.ListVnicAttachmentsOptions{}
+	opts2.AvailabilityDomain = "availabilityid"
+	opts2.VnicID = "vnicid"
+	opts2.InstanceID = "instanceid"
+	opts2.Page = "nextpage"
 
 	s.Client.On(
 		"ListVnicAttachments",

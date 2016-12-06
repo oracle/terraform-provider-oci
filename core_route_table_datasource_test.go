@@ -43,7 +43,7 @@ func (s *ResourceCoreRouteTablesTestSuite) SetupTest() {
 }
 
 func (s *ResourceCoreRouteTablesTestSuite) TestResourceListRouteTables() {
-	opts := []baremetal.Options{}
+	opts := &baremetal.ListOptions{}
 
 	s.Client.On(
 		"ListRouteTables",
@@ -115,7 +115,7 @@ func (s *ResourceCoreRouteTablesTestSuite) TestResourceListRouteTables() {
 }
 
 func (s *ResourceCoreRouteTablesTestSuite) TestResourceListRouteTablesPaged() {
-	opts := []baremetal.Options{}
+	opts := &baremetal.ListOptions{}
 
 	s.Client.On(
 		"ListRouteTables",
@@ -167,7 +167,8 @@ func (s *ResourceCoreRouteTablesTestSuite) TestResourceListRouteTablesPaged() {
 		nil,
 	)
 
-	opts2 := []baremetal.Options{baremetal.Options{Page: "nextpage"}}
+	opts2 := &baremetal.ListOptions{}
+	opts2.Page = "nextpage"
 
 	s.Client.On(
 		"ListRouteTables",

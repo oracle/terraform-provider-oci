@@ -39,9 +39,9 @@ func (s *RouteTableResourceCrud) State() string {
 func (s *RouteTableResourceCrud) Create() (e error) {
 	compartmentID := s.D.Get("compartment_id").(string)
 	vcnID := s.D.Get("vcn_id").(string)
-	opts := baremetal.Options{
-		DisplayName: s.D.Get("display_name").(string),
-	}
+
+	opts := &baremetal.CreateOptions{}
+	opts.DisplayName = s.D.Get("display_name").(string)
 
 	s.Res, e = s.Client.CreateRouteTable(compartmentID, vcnID, s.buildRouteRules(), opts)
 

@@ -37,7 +37,7 @@ func (s *DrgResourceCrud) State() string {
 }
 
 func (s *DrgResourceCrud) Create() (e error) {
-	opts := baremetal.Options{}
+	opts := &baremetal.CreateOptions{}
 	compartmentID := s.D.Get("compartment_id").(string)
 	displayName, ok := s.D.GetOk("display_name")
 	if ok {
@@ -62,5 +62,5 @@ func (s *DrgResourceCrud) SetData() {
 }
 
 func (s *DrgResourceCrud) Delete() (e error) {
-	return s.Client.DeleteDrg(s.D.Id())
+	return s.Client.DeleteDrg(s.D.Id(), nil)
 }

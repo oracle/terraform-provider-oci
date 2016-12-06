@@ -46,7 +46,7 @@ func (s *DatasourceCoreCpeTestSuite) TestCpeList() {
 	s.Client.On(
 		"ListCpes",
 		"compartmentid",
-		[]baremetal.Options{},
+		&baremetal.ListOptions{},
 	).Return(
 		&baremetal.ListCpes{
 
@@ -90,7 +90,7 @@ func (s *DatasourceCoreCpeTestSuite) TestCpeList() {
 	},
 	)
 
-	s.Client.AssertCalled(s.T(), "ListCpes", "compartmentid", []baremetal.Options{})
+	s.Client.AssertCalled(s.T(), "ListCpes", "compartmentid", &baremetal.ListOptions{})
 
 }
 
@@ -99,7 +99,7 @@ func (s *DatasourceCoreCpeTestSuite) TestCpePagedList() {
 	s.Client.On(
 		"ListCpes",
 		"compartmentid",
-		[]baremetal.Options{},
+		&baremetal.ListOptions{},
 	).Return(
 		&baremetal.ListCpes{
 			ResourceContainer: baremetal.ResourceContainer{
@@ -126,10 +126,12 @@ func (s *DatasourceCoreCpeTestSuite) TestCpePagedList() {
 		nil,
 	)
 
+	opts := &baremetal.ListOptions{}
+	opts.Page = "nextpage"
 	s.Client.On(
 		"ListCpes",
 		"compartmentid",
-		[]baremetal.Options{baremetal.Options{Page: "nextpage"}},
+		opts,
 	).Return(
 		&baremetal.ListCpes{
 			Cpes: []baremetal.Cpe{
@@ -174,7 +176,7 @@ func (s *DatasourceCoreCpeTestSuite) TestCpePagedList() {
 	},
 	)
 
-	s.Client.AssertCalled(s.T(), "ListCpes", "compartmentid", []baremetal.Options{})
+	s.Client.AssertCalled(s.T(), "ListCpes", "compartmentid", &baremetal.ListOptions{})
 
 }
 

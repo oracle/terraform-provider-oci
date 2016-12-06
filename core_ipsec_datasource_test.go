@@ -44,12 +44,9 @@ func (s *DatasourceCoreIPSecTestSuite) SetupTest() {
 }
 
 func (s *DatasourceCoreIPSecTestSuite) TestResourceListIPConnections() {
-	opts := []baremetal.Options{
-		baremetal.Options{
-			DrgID: "drgid",
-			CpeID: "cpeid",
-		},
-	}
+	opts := &baremetal.ListIPSecConnsOptions{}
+	opts.DrgID = "drgid"
+	opts.CpeID = "cpeid"
 
 	s.Client.On(
 		"ListIPSecConnections",
@@ -118,12 +115,9 @@ func (s *DatasourceCoreIPSecTestSuite) TestResourceListIPConnections() {
 }
 
 func (s *DatasourceCoreIPSecTestSuite) TestResourceListPagedIPConnections() {
-	opts := []baremetal.Options{
-		baremetal.Options{
-			DrgID: "drgid",
-			CpeID: "cpeid",
-		},
-	}
+	opts := baremetal.ListIPSecConnsOptions{}
+	opts.DrgID = "drgid"
+	opts.CpeID = "cpeid"
 
 	s.Client.On(
 		"ListIPSecConnections",
@@ -170,13 +164,10 @@ func (s *DatasourceCoreIPSecTestSuite) TestResourceListPagedIPConnections() {
 		nil,
 	)
 
-	opts2 := []baremetal.Options{
-		baremetal.Options{
-			DrgID: "drgid",
-			CpeID: "cpeid",
-			Page:  "nextpage",
-		},
-	}
+	opts2 := baremetal.ListIPSecConnsOptions{}
+	opts2.DrgID = "drgid"
+	opts2.CpeID = "cpeid"
+	opts2.Page = "nextpage"
 
 	s.Client.On(
 		"ListIPSecConnections",

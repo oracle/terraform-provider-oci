@@ -2,7 +2,7 @@ package baremetal
 
 type resourceName string
 
-type instanceActions string
+type InstanceActions string
 type instanceStates string
 type NetworkEntityType string
 
@@ -54,9 +54,9 @@ const (
 	headerBytesRemaining = "opc-bytes-remaining"
 
 	// Actions that can be applied to compute instances
-	actionStart instanceActions = "START"
-	actionStop  instanceActions = "STOP"
-	actionReset instanceActions = "RESET"
+	actionStart InstanceActions = "START"
+	actionStop  InstanceActions = "STOP"
+	actionReset InstanceActions = "RESET"
 
 	// Network entity types for routing rules
 	networkEntityVnic                      NetworkEntityType = "VNIC"

@@ -23,7 +23,6 @@ type ResourceCoreRouteTableTestSuite struct {
 	ResourceName string
 	Res          *baremetal.RouteTable
 	DeletedRes   *baremetal.RouteTable
-	Opts         []baremetal.Options
 }
 
 func (s *ResourceCoreRouteTableTestSuite) SetupTest() {
@@ -99,20 +98,20 @@ func (s *ResourceCoreRouteTableTestSuite) SetupTest() {
 	s.DeletedRes.ETag = "etag"
 	s.DeletedRes.RequestID = "opcrequestid"
 
-	opts := baremetal.Options{DisplayName: "display_name"}
-	s.Opts = []baremetal.Options{opts}
+	opts := &baremetal.CreateOptions{}
+	opts.DisplayName = "display_name"
 	s.Client.On(
 		"CreateRouteTable",
 		"compartment_id",
 		"vcn_id",
 		routeRules,
-		s.Opts).Return(s.Res, nil)
-	s.Client.On("DeleteRouteTable", "id", []baremetal.Options(nil)).Return(nil)
+		opts).Return(s.Res, nil)
+	s.Client.On("DeleteRouteTable", "id", nil).Return(nil)
 }
 
 func (s *ResourceCoreRouteTableTestSuite) TestCreateResourceCoreRouteTable() {
-	s.Client.On("GetRouteTable", "id", []baremetal.Options(nil)).Return(s.Res, nil).Times(2)
-	s.Client.On("GetRouteTable", "id", []baremetal.Options(nil)).Return(s.DeletedRes, nil)
+	s.Client.On("GetRouteTable", "id").Return(s.Res, nil).Times(2)
+	s.Client.On("GetRouteTable", "id").Return(s.DeletedRes, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -131,7 +130,7 @@ func (s *ResourceCoreRouteTableTestSuite) TestCreateResourceCoreRouteTable() {
 }
 
 func (s ResourceCoreRouteTableTestSuite) TestUpdateRouteTable() {
-	s.Client.On("GetRouteTable", "id", []baremetal.Options(nil)).Return(s.Res, nil).Times(3)
+	s.Client.On("GetRouteTable", "id").Return(s.Res, nil).Times(3)
 
 	config := `
 		resource "baremetal_core_route_table" "t" {
@@ -167,9 +166,9 @@ func (s ResourceCoreRouteTableTestSuite) TestUpdateRouteTable() {
 	res.ETag = "etag"
 	res.RequestID = "opcrequestid"
 
-	s.Client.On("UpdateRouteTable", "id", routeRules, []baremetal.Options(nil)).Return(res, nil)
-	s.Client.On("GetRouteTable", "id", []baremetal.Options(nil)).Return(res, nil).Times(2)
-	s.Client.On("GetRouteTable", "id", []baremetal.Options(nil)).Return(s.DeletedRes, nil)
+	s.Client.On("UpdateRouteTable", "id", routeRules, nil).Return(res, nil)
+	s.Client.On("GetRouteTable", "id").Return(res, nil).Times(2)
+	s.Client.On("GetRouteTable", "id").Return(s.DeletedRes, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -186,8 +185,8 @@ func (s ResourceCoreRouteTableTestSuite) TestUpdateRouteTable() {
 }
 
 func (s *ResourceCoreRouteTableTestSuite) TestDeleteRouteTable() {
-	s.Client.On("GetRouteTable", "id", []baremetal.Options(nil)).Return(s.Res, nil).Times(2)
-	s.Client.On("GetRouteTable", "id", []baremetal.Options(nil)).Return(s.DeletedRes, nil)
+	s.Client.On("GetRouteTable", "id").Return(s.Res, nil).Times(2)
+	s.Client.On("GetRouteTable", "id").Return(s.DeletedRes, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -202,7 +201,7 @@ func (s *ResourceCoreRouteTableTestSuite) TestDeleteRouteTable() {
 		},
 	})
 
-	s.Client.AssertCalled(s.T(), "DeleteRouteTable", "id", []baremetal.Options(nil))
+	s.Client.AssertCalled(s.T(), "DeleteRouteTable", "id", nil)
 }
 
 func TestResourceCoreRouteTableTestSuite(t *testing.T) {

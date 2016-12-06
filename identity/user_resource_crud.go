@@ -11,7 +11,7 @@ type UserResourceCrud struct {
 	*crud.IdentitySync
 	D      *schema.ResourceData
 	Client client.BareMetalClient
-	Res    *baremetal.IdentityResource
+	Res    *baremetal.User
 }
 
 func (s *UserResourceCrud) ID() string {
@@ -25,7 +25,7 @@ func (s *UserResourceCrud) State() string {
 func (s *UserResourceCrud) Create() (e error) {
 	name := s.D.Get("name").(string)
 	description := s.D.Get("description").(string)
-	s.Res, e = s.Client.CreateUser(name, description)
+	s.Res, e = s.Client.CreateUser(name, description, nil)
 	return
 }
 
@@ -51,8 +51,12 @@ func (s *UserResourceCrud) Get() (e error) {
 }
 
 func (s *UserResourceCrud) Update() (e error) {
-	description := s.D.Get("description").(string)
-	s.Res, e = s.Client.UpdateUser(s.D.Id(), description)
+	opts := &baremetal.UpdateIdentityOptions{}
+	if description, ok := s.D.GetOk("description"); ok {
+		opts.Description = description.(string)
+	}
+
+	s.Res, e = s.Client.UpdateUser(s.D.Id(), opts)
 	return
 }
 
@@ -61,10 +65,9 @@ func (s *UserResourceCrud) SetData() {
 	s.D.Set("description", s.Res.Description)
 	s.D.Set("compartment_id", s.Res.CompartmentID)
 	s.D.Set("state", s.Res.State)
-	s.D.Set("time_modified", s.Res.TimeModified.String())
 	s.D.Set("time_created", s.Res.TimeCreated.String())
 }
 
 func (s *UserResourceCrud) Delete() (e error) {
-	return s.Client.DeleteUser(s.D.Id())
+	return s.Client.DeleteUser(s.D.Id(), nil)
 }
