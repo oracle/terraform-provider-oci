@@ -24,6 +24,7 @@ _testmain.go
 *.prof
 bin/*
 terraform.tfstate
+*.tfvars
 terraform.tfstate.backup
 tf.plan
 
