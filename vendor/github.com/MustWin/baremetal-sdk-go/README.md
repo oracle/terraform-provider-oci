@@ -53,4 +53,5 @@ If you need to add or update dependency, please review the [go
 vendor docs](https://github.com/kardianos/govendor).
 
 # References
-[Oracle Bare Metal Iaas API Docs](https://docs.us-az-phoenix-1.oracleiaas.com/)
+[Oracle Bare Metal Iaas API Docs](https://docs.us-az-phoenix-1.oracleiaas.com/Content/API/Concepts/apiref.htm)
+[Oracle Bare Metal Iaas Docs](https://docs.us-az-phoenix-1.oracleiaas.com/)
