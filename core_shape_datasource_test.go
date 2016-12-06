@@ -43,7 +43,7 @@ func (s *ResourceCoreShapeTestSuite) SetupTest() {
 }
 
 func (s *ResourceCoreShapeTestSuite) TestResourceReadCoreShape() {
-	opts := baremetal.ListShapesOptions{}
+	opts := &baremetal.ListShapesOptions{}
 	opts.AvailabilityDomain = "availability_domain"
 	opts.ImageID = "imageid"
 
@@ -89,7 +89,7 @@ func (s *ResourceCoreShapeTestSuite) TestResourceReadCoreShape() {
 }
 
 func (s *ResourceCoreShapeTestSuite) TestResourceReadCoreShapeWithPagination() {
-	opts := baremetal.ListShapesOptions{}
+	opts := &baremetal.ListShapesOptions{}
 	opts.AvailabilityDomain = "availability_domain"
 	opts.ImageID = "imageid"
 

@@ -113,7 +113,7 @@ func (s *ResourceCoreInstancesTestSuite) TestResourceListInstances() {
 }
 
 func (s *ResourceCoreInstancesTestSuite) TestResourceListInstancesPaged() {
-	opts := &baremetal.ListInstanceOptions{}
+	opts := &baremetal.ListInstancesOptions{}
 	opts.AvailabilityDomain = "availabilityid"
 
 	metadata := map[string]string{

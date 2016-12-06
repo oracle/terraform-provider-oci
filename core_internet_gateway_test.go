@@ -78,7 +78,7 @@ func (s *ResourceCoreInternetGatewayTestSuite) SetupTest() {
 		"vcnid",
 		s.Res.IsEnabled,
 		opts).Return(s.Res, nil)
-	s.Client.On("DeleteInternetGateway", s.Res.ID, nil).Return(nil)
+	s.Client.On("DeleteInternetGateway", s.Res.ID, (*baremetal.IfMatchOptions)(nil)).Return(nil)
 }
 
 func (s *ResourceCoreInternetGatewayTestSuite) TestCreateResourceCoreInternetGateway() {
@@ -140,7 +140,7 @@ func (s ResourceCoreInternetGatewayTestSuite) TestUpdateCompartmentIDForcesNewIn
 		opts).Return(res, nil)
 
 	s.Client.On("GetInternetGateway", res.ID).Return(res, nil)
-	s.Client.On("DeleteInternetGateway", res.ID, nil).Return(nil)
+	s.Client.On("DeleteInternetGateway", res.ID, (*baremetal.IfMatchOptions)(nil)).Return(nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -176,7 +176,7 @@ func (s *ResourceCoreInternetGatewayTestSuite) TestDeleteInternetGateway() {
 		},
 	})
 
-	s.Client.AssertCalled(s.T(), "DeleteInternetGateway", "id", nil)
+	s.Client.AssertCalled(s.T(), "DeleteInternetGateway", "id", (*baremetal.IfMatchOptions)(nil))
 }
 
 func TestResourceCoreInternetGatewayTestSuite(t *testing.T) {

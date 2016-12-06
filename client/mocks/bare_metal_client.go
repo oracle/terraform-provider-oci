@@ -1425,6 +1425,29 @@ func (_m *BareMetalClient) ListConsoleHistories(compartmentID string, opts *bare
 	return r0, r1
 }
 
+// ListCpes provides a mock function with given fields: compartmentID, opts
+func (_m *BareMetalClient) ListCpes(compartmentID string, opts *baremetal.ListOptions) (*baremetal.ListCpes, error) {
+	ret := _m.Called(compartmentID, opts)
+
+	var r0 *baremetal.ListCpes
+	if rf, ok := ret.Get(0).(func(string, *baremetal.ListOptions) *baremetal.ListCpes); ok {
+		r0 = rf(compartmentID, opts)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*baremetal.ListCpes)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(string, *baremetal.ListOptions) error); ok {
+		r1 = rf(compartmentID, opts)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // ListDHCPOptions provides a mock function with given fields: compartmentID, vcnID, opts
 func (_m *BareMetalClient) ListDHCPOptions(compartmentID string, vcnID string, opts *baremetal.ListOptions) (*baremetal.ListDHCPOptions, error) {
 	ret := _m.Called(compartmentID, vcnID, opts)
@@ -1602,29 +1625,6 @@ func (_m *BareMetalClient) ListInternetGateways(compartmentID string, vcnID stri
 	var r1 error
 	if rf, ok := ret.Get(1).(func(string, string, *baremetal.ListOptions) error); ok {
 		r1 = rf(compartmentID, vcnID, opts)
-	} else {
-		r1 = ret.Error(1)
-	}
-
-	return r0, r1
-}
-
-// ListListCpes provides a mock function with given fields: compartmentID, opts
-func (_m *BareMetalClient) ListListCpes(compartmentID string, opts *baremetal.ListOptions) (*baremetal.ListCpes, error) {
-	ret := _m.Called(compartmentID, opts)
-
-	var r0 *baremetal.ListCpes
-	if rf, ok := ret.Get(0).(func(string, *baremetal.ListOptions) *baremetal.ListCpes); ok {
-		r0 = rf(compartmentID, opts)
-	} else {
-		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*baremetal.ListCpes)
-		}
-	}
-
-	var r1 error
-	if rf, ok := ret.Get(1).(func(string, *baremetal.ListOptions) error); ok {
-		r1 = rf(compartmentID, opts)
 	} else {
 		r1 = ret.Error(1)
 	}

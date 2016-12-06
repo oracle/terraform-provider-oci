@@ -16,7 +16,12 @@ type VolumeBackupDatasourceCrud struct {
 
 func (s *VolumeBackupDatasourceCrud) Get() (e error) {
 	compartmentID := s.D.Get("compartment_id").(string)
-	opts := getCoreOptionsFromResourceData(s.D, "volume_id", "limit", "page")
+
+	opts := &baremetal.ListBackupsOptions{}
+	setListOptions(s.D, &opts.ListOptions)
+	if val, ok := s.D.GetOk("volume_id"); ok {
+		opts.VolumeID = val.(string)
+	}
 
 	s.Res = &baremetal.ListVolumeBackups{
 		VolumeBackups: []baremetal.VolumeBackup{},
@@ -24,14 +29,13 @@ func (s *VolumeBackupDatasourceCrud) Get() (e error) {
 
 	for {
 		var list *baremetal.ListVolumeBackups
-		if list, e = s.Client.ListVolumeBackups(compartmentID, opts...); e != nil {
+		if list, e = s.Client.ListVolumeBackups(compartmentID, opts); e != nil {
 			break
 		}
 
 		s.Res.VolumeBackups = append(s.Res.VolumeBackups, list.VolumeBackups...)
 
-		var hasNextPage bool
-		if opts, hasNextPage = getOptionsWithNextPageID(list.NextPage, opts); !hasNextPage {
+		if hasNextPage := setNextPageOption(list.NextPage, &opts.ListOptions); !hasNextPage {
 			break
 		}
 	}

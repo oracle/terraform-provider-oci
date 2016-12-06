@@ -43,8 +43,7 @@ func (s *ResourceCoreSubnetsTestSuite) SetupTest() {
 }
 
 func (s *ResourceCoreSubnetsTestSuite) TestResourceListSubnets() {
-	opts := nil
-
+	opts := &baremetal.ListOptions{}
 	s.Client.On(
 		"ListSubnets",
 		"compartmentid",
@@ -120,8 +119,7 @@ func (s *ResourceCoreSubnetsTestSuite) TestResourceListSubnets() {
 }
 
 func (s *ResourceCoreSubnetsTestSuite) TestResourceListSubnetsWithPagination() {
-	opts := nil
-
+	opts := &baremetal.ListOptions{}
 	s.Client.On(
 		"ListSubnets",
 		"compartmentid",

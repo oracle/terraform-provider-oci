@@ -17,7 +17,9 @@ type InternetGatewayDatasourceCrud struct {
 func (s *InternetGatewayDatasourceCrud) Get() (e error) {
 	compartmentID := s.D.Get("compartment_id").(string)
 	vcnID := s.D.Get("vcn_id").(string)
-	opts := getCoreOptionsFromResourceData(s.D, "page", "limit")
+
+	opts := &baremetal.ListOptions{}
+	setListOptions(s.D, opts)
 
 	s.Resource = &baremetal.ListInternetGateways{
 		Gateways: []baremetal.InternetGateway{},
@@ -25,21 +27,18 @@ func (s *InternetGatewayDatasourceCrud) Get() (e error) {
 
 	for {
 		var list *baremetal.ListInternetGateways
-		if list, e = s.Client.ListInternetGateways(compartmentID, vcnID, opts...); e != nil {
+		if list, e = s.Client.ListInternetGateways(compartmentID, vcnID, opts); e != nil {
 			break
 		}
 
 		s.Resource.Gateways = append(s.Resource.Gateways, list.Gateways...)
 
-		var hasNextPage bool
-		if opts, hasNextPage = getOptionsWithNextPageID(list.NextPage, opts); !hasNextPage {
+		if hasNextPage := setNextPageOption(list.NextPage, opts); !hasNextPage {
 			break
 		}
-
 	}
 
 	return
-
 }
 
 func (s InternetGatewayDatasourceCrud) SetData() {

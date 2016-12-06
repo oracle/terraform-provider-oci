@@ -84,7 +84,7 @@ func (s *ResourceCoreVirtualNetworkTestSuite) SetupTest() {
 		"cidr_block",
 		"compartment_id",
 		opts).Return(s.Res, nil)
-	s.Client.On("DeleteVirtualNetwork", "id", nil).Return(nil)
+	s.Client.On("DeleteVirtualNetwork", "id", (*baremetal.IfMatchOptions)(nil)).Return(nil)
 }
 
 func (s *ResourceCoreVirtualNetworkTestSuite) TestCreateResourceCoreVirtualNetwork() {
@@ -177,7 +177,7 @@ func (s ResourceCoreVirtualNetworkTestSuite) TestUpdateCidrBlockForcesNewVirtual
 		res.CidrBlock,
 		res.CompartmentID, opts).Return(res, nil)
 
-	s.Client.On("DeleteVirtualNetwork", res.ID, nil).Return(nil)
+	s.Client.On("DeleteVirtualNetwork", res.ID, (*baremetal.IfMatchOptions)(nil)).Return(nil)
 	deletedRes := &baremetal.VirtualNetwork{
 		ID:    res.ID,
 		State: baremetal.ResourceTerminated,
@@ -219,7 +219,7 @@ func (s *ResourceCoreVirtualNetworkTestSuite) TestDeleteVirtualNetwork() {
 		},
 	})
 
-	s.Client.AssertCalled(s.T(), "DeleteVirtualNetwork", "id", nil)
+	s.Client.AssertCalled(s.T(), "DeleteVirtualNetwork", "id", (*baremetal.IfMatchOptions)(nil))
 }
 
 func TestResourceCoreVirtualNetworkTestSuite(t *testing.T) {

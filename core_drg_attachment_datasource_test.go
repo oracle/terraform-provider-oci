@@ -142,7 +142,7 @@ func (s *CoreDrgAttachmentDatasourceTestSuite) TestReadPagedDrgAttachments() {
 		nil,
 	)
 
-	opts2 := &baremetal.DrgAttachmentsOptions{}
+	opts2 := &baremetal.ListDrgAttachmentsOptions{}
 	opts2.DrgID = "drg_id"
 	opts2.Limit = 1
 	opts2.Page = "nextpage"

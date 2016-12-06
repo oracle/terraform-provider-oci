@@ -81,12 +81,11 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) SetupTest() {
 
 	s.Client.On(
 		"AttachVolume",
-		"compartment_id",
-		"instance_id",
 		"attachment_type",
+		"instance_id",
 		"volume_id",
-		nil).Return(s.Res, nil)
-	s.Client.On("DetachVolume", "id", nil).Return(nil)
+		(*baremetal.CreateOptions)(nil)).Return(s.Res, nil)
+	s.Client.On("DetachVolume", "id", (*baremetal.IfMatchOptions)(nil)).Return(nil)
 }
 
 func (s *ResourceCoreVolumeAttachmentTestSuite) TestCreateResourceCoreVolumeAttachment() {
@@ -131,7 +130,7 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) TestDetachVolume() {
 		},
 	})
 
-	s.Client.AssertCalled(s.T(), "DetachVolume", "id", nil)
+	s.Client.AssertCalled(s.T(), "DetachVolume", "id", (*baremetal.IfMatchOptions)(nil))
 }
 
 func TestResourceCoreVolumeAttachmentTestSuite(t *testing.T) {

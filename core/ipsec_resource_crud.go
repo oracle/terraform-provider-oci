@@ -71,5 +71,5 @@ func (s *IPSecResourceCrud) SetData() {
 }
 
 func (s *IPSecResourceCrud) Delete() (e error) {
-	return s.Client.DeleteIPSecConnection(s.D.Id())
+	return s.Client.DeleteIPSecConnection(s.D.Id(), nil)
 }

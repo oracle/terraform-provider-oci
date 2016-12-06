@@ -76,7 +76,7 @@ func (s *ResourceCoreIPSecTestSuite) SetupTest() {
 		s.Res.DrgID,
 		s.Res.StaticRoutes,
 		opts).Return(s.Res, nil)
-	s.Client.On("DeleteIPSecConnection", s.Res.ID, nil).Return(nil)
+	s.Client.On("DeleteIPSecConnection", s.Res.ID, (*baremetal.IfMatchOptions)(nil)).Return(nil)
 }
 
 func (s *ResourceCoreIPSecTestSuite) TestCreateResourceCoreSubnet() {
@@ -175,7 +175,7 @@ func (s ResourceCoreIPSecTestSuite) TestUpdateCompartmentIDForcesNewIPSec() {
 		opts).Return(res, nil).Once()
 
 	s.Client.On("GetIPSecConnection", res.ID).Return(res, nil)
-	s.Client.On("DeleteIPSecConnection", res.ID, nil).Return(nil)
+	s.Client.On("DeleteIPSecConnection", res.ID, (*baremetal.IfMatchOptions)(nil)).Return(nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -210,7 +210,7 @@ func (s *ResourceCoreIPSecTestSuite) TestTerminateIPSec() {
 		},
 	})
 
-	s.Client.On("DeleteIPSecConnection", s.Res.ID, nil).Return(nil)
+	s.Client.On("DeleteIPSecConnection", s.Res.ID, (*baremetal.IfMatchOptions)(nil)).Return(nil)
 
 }
 

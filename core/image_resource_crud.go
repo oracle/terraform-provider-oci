@@ -80,5 +80,5 @@ func (s *ImageResourceCrud) SetData() {
 }
 
 func (s *ImageResourceCrud) Delete() (e error) {
-	return s.Client.DeleteImage(s.D.Id())
+	return s.Client.DeleteImage(s.D.Id(), nil)
 }

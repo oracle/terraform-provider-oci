@@ -18,32 +18,25 @@ func (s *SubnetDatasourceCrud) Get() (e error) {
 	compartmentID := s.D.Get("compartment_id").(string)
 	vcnID := s.D.Get("vcn_id").(string)
 
-	opts := getCoreOptionsFromResourceData(
-		s.D,
-		"page",
-		"limit",
-	)
+	opts := &baremetal.ListOptions{}
+	setListOptions(s.D, opts)
 
-	s.Res = &baremetal.ListSubnets{
-		Subnets: []baremetal.Subnet{},
-	}
+	s.Res = &baremetal.ListSubnets{Subnets: []baremetal.Subnet{}}
 
 	for {
 		var list *baremetal.ListSubnets
-		if list, e = s.Client.ListSubnets(compartmentID, vcnID, opts...); e != nil {
+		if list, e = s.Client.ListSubnets(compartmentID, vcnID, opts); e != nil {
 			break
 		}
 
 		s.Res.Subnets = append(s.Res.Subnets, list.Subnets...)
 
-		var hasNexPage bool
-		if opts, hasNexPage = getOptionsWithNextPageID(list.NextPage, opts); !hasNexPage {
+		if hasNexPage := setNextPageOption(list.NextPage, opts); !hasNexPage {
 			break
 		}
 	}
 
 	return
-
 }
 
 func (s *SubnetDatasourceCrud) SetData() {

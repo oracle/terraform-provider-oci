@@ -80,16 +80,16 @@ func (s *ResourceCoreSubnetTestSuite) SetupTest() {
 
 	opts := &baremetal.CreateSubnetOptions{}
 	opts.DisplayName = "display_name"
+	opts.RouteTableID = s.Res.RouteTableID
+	opts.SecurityListIDs = s.Res.SecurityListIDs
 	s.Client.On(
 		"CreateSubnet",
 		s.Res.AvailabilityDomain,
 		s.Res.CIDRBlock,
 		s.Res.CompartmentID,
-		s.Res.RouteTableID,
 		s.Res.VcnID,
-		s.Res.SecurityListIDs,
 		opts).Return(s.Res, nil)
-	s.Client.On("DeleteSubnet", s.Res.ID, nil).Return(nil)
+	s.Client.On("DeleteSubnet", s.Res.ID, (*baremetal.IfMatchOptions)(nil)).Return(nil)
 }
 
 func (s *ResourceCoreSubnetTestSuite) TestCreateResourceCoreSubnet() {
@@ -129,17 +129,17 @@ func (s *ResourceCoreSubnetTestSuite) TestCreateResourceCoreSubnetWithoutDisplay
 
 	s.Config += testProviderConfig
 
-	opts := &baremetal.CreateSubnetOptions{}
 	s.Res.DisplayName = ""
 
+	opts := &baremetal.CreateSubnetOptions{}
+	opts.RouteTableID = s.Res.RouteTableID
+	opts.SecurityListIDs = s.Res.SecurityListIDs
 	s.Client.On(
 		"CreateSubnet",
 		s.Res.AvailabilityDomain,
 		s.Res.CIDRBlock,
 		s.Res.CompartmentID,
-		s.Res.RouteTableID,
 		s.Res.VcnID,
-		s.Res.SecurityListIDs,
 		opts).Return(s.Res, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
@@ -194,18 +194,19 @@ func (s ResourceCoreSubnetTestSuite) TestUpdateCompartmentIDForcesNewSubnet() {
 
 	opts := &baremetal.CreateSubnetOptions{}
 	opts.DisplayName = "display_name"
+	opts.RouteTableID = res.RouteTableID
+	opts.SecurityListIDs = res.SecurityListIDs
+
 	s.Client.On(
 		"CreateSubnet",
 		res.AvailabilityDomain,
 		res.CIDRBlock,
 		res.CompartmentID,
-		res.RouteTableID,
 		res.VcnID,
-		res.SecurityListIDs,
 		opts).Return(res, nil).Once()
 
 	s.Client.On("GetSubnet", res.ID).Return(res, nil)
-	s.Client.On("DeleteSubnet", res.ID, nil).Return(nil)
+	s.Client.On("DeleteSubnet", res.ID, (*baremetal.IfMatchOptions)(nil)).Return(nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -240,7 +241,7 @@ func (s *ResourceCoreSubnetTestSuite) TestTerminateSubnet() {
 		},
 	})
 
-	s.Client.On("DeleteSubnet", s.Res.ID, nil).Return(nil)
+	s.Client.On("DeleteSubnet", s.Res.ID, (*baremetal.IfMatchOptions)(nil)).Return(nil)
 
 }
 

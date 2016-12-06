@@ -64,11 +64,10 @@ func (s *ResourceCoreVolumeBackupsTestSuite) SetupTest() {
 }
 
 func (s *ResourceCoreVolumeBackupsTestSuite) TestReadVolumeBackups() {
-	opts := &baremetal.ListBackupOptions{
-		VolumeID: "volume_id",
-		Limit:    1,
-		Page:     "page",
-	}
+	opts := &baremetal.ListBackupsOptions{}
+	opts.VolumeID = "volume_id"
+	opts.Limit = 1
+	opts.Page = "page"
 
 	s.Client.On("ListVolumeBackups", "compartment_id", opts).Return(s.List, nil)
 
@@ -96,22 +95,21 @@ func (s *ResourceCoreVolumeBackupsTestSuite) TestReadVolumeBackups() {
 }
 
 func (s *ResourceCoreVolumeBackupsTestSuite) TestReadVolumeBackupsWithPagination() {
-	opts := &baremetal.ListBackupOptions{
-		Limit:    1,
-		Page:     "page",
-		VolumeID: "volume_id",
-	}
+	opts := &baremetal.ListBackupsOptions{}
+	opts.Limit = 1
+	opts.Page = "page"
+	opts.VolumeID = "volume_id"
 
 	listVal := *s.List
 	list := &listVal
 	list.NextPage = "nextpage"
 	s.Client.On("ListVolumeBackups", "compartment_id", opts).Return(list, nil)
 
-	opts2 := &baremetal.ListBackupOptions{
-		VolumeID: "volume_id",
-		Limit:    1,
-		Page:     "nextpage",
-	}
+	opts2 := &baremetal.ListBackupsOptions{}
+	opts2.VolumeID = "volume_id"
+	opts2.Limit = 1
+	opts2.Page = "nextpage"
+
 	list2Val := *s.List
 	list2 := &list2Val
 	b3 := s.List.VolumeBackups[0]

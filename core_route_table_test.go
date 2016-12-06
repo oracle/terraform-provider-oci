@@ -106,7 +106,7 @@ func (s *ResourceCoreRouteTableTestSuite) SetupTest() {
 		"vcn_id",
 		routeRules,
 		opts).Return(s.Res, nil)
-	s.Client.On("DeleteRouteTable", "id", nil).Return(nil)
+	s.Client.On("DeleteRouteTable", "id", (*baremetal.IfMatchOptions)(nil)).Return(nil)
 }
 
 func (s *ResourceCoreRouteTableTestSuite) TestCreateResourceCoreRouteTable() {
@@ -166,7 +166,9 @@ func (s ResourceCoreRouteTableTestSuite) TestUpdateRouteTable() {
 	res.ETag = "etag"
 	res.RequestID = "opcrequestid"
 
-	s.Client.On("UpdateRouteTable", "id", routeRules, nil).Return(res, nil)
+	opts := &baremetal.UpdateRouteTableOptions{}
+	opts.RouteRules = routeRules
+	s.Client.On("UpdateRouteTable", "id", opts).Return(res, nil)
 	s.Client.On("GetRouteTable", "id").Return(res, nil).Times(2)
 	s.Client.On("GetRouteTable", "id").Return(s.DeletedRes, nil)
 
@@ -201,7 +203,7 @@ func (s *ResourceCoreRouteTableTestSuite) TestDeleteRouteTable() {
 		},
 	})
 
-	s.Client.AssertCalled(s.T(), "DeleteRouteTable", "id", nil)
+	s.Client.AssertCalled(s.T(), "DeleteRouteTable", "id", (*baremetal.IfMatchOptions)(nil))
 }
 
 func TestResourceCoreRouteTableTestSuite(t *testing.T) {

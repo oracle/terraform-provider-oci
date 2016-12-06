@@ -16,33 +16,29 @@ type InstanceDatasourceCrud struct {
 
 func (s *InstanceDatasourceCrud) Get() (e error) {
 	compartmentID := s.D.Get("compartment_id").(string)
-	opts := getCoreOptionsFromResourceData(
-		s.D,
-		"availability_domain",
-		"page",
-		"limit",
-	)
 
-	s.Res = &baremetal.ListInstances{
-		Instances: []baremetal.Instance{},
+	opts := &baremetal.ListInstancesOptions{}
+	setListOptions(s.D, &opts.ListOptions)
+	if val, ok := s.D.GetOk("availability_domain"); ok {
+		opts.AvailabilityDomain = val.(string)
 	}
+
+	s.Res = &baremetal.ListInstances{Instances: []baremetal.Instance{}}
 
 	for {
 		var list *baremetal.ListInstances
-		if list, e = s.Client.ListInstances(compartmentID, opts...); e != nil {
+		if list, e = s.Client.ListInstances(compartmentID, opts); e != nil {
 			break
 		}
 
 		s.Res.Instances = append(s.Res.Instances, list.Instances...)
 
-		var hasNextPage bool
-		if opts, hasNextPage = getOptionsWithNextPageID(list.NextPage, opts); !hasNextPage {
+		if hasNextPage := setNextPageOption(list.NextPage, &opts.ListOptions); !hasNextPage {
 			break
 		}
 	}
 
 	return
-
 }
 
 func (s *InstanceDatasourceCrud) SetData() {

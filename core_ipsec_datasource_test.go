@@ -115,7 +115,7 @@ func (s *DatasourceCoreIPSecTestSuite) TestResourceListIPConnections() {
 }
 
 func (s *DatasourceCoreIPSecTestSuite) TestResourceListPagedIPConnections() {
-	opts := baremetal.ListIPSecConnsOptions{}
+	opts := &baremetal.ListIPSecConnsOptions{}
 	opts.DrgID = "drgid"
 	opts.CpeID = "cpeid"
 
@@ -164,7 +164,7 @@ func (s *DatasourceCoreIPSecTestSuite) TestResourceListPagedIPConnections() {
 		nil,
 	)
 
-	opts2 := baremetal.ListIPSecConnsOptions{}
+	opts2 := &baremetal.ListIPSecConnsOptions{}
 	opts2.DrgID = "drgid"
 	opts2.CpeID = "cpeid"
 	opts2.Page = "nextpage"

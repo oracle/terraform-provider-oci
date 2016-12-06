@@ -17,22 +17,21 @@ type DHCPOptionsDatasourceCrud struct {
 func (s *DHCPOptionsDatasourceCrud) Get() (e error) {
 	compartmentID := s.D.Get("compartment_id").(string)
 	vcnID := s.D.Get("vcn_id").(string)
-	opts := getCoreOptionsFromResourceData(s.D, "page", "limit")
 
-	s.Res = &baremetal.ListDHCPOptions{
-		DHCPOptions: []baremetal.DHCPOptions{},
-	}
+	opts := &baremetal.ListOptions{}
+	setListOptions(s.D, opts)
+
+	s.Res = &baremetal.ListDHCPOptions{DHCPOptions: []baremetal.DHCPOptions{}}
 
 	for {
 		var list *baremetal.ListDHCPOptions
-		if list, e = s.Client.ListDHCPOptions(compartmentID, vcnID, opts...); e != nil {
+		if list, e = s.Client.ListDHCPOptions(compartmentID, vcnID, opts); e != nil {
 			break
 		}
 
 		s.Res.DHCPOptions = append(s.Res.DHCPOptions, list.DHCPOptions...)
 
-		var hasNextPage bool
-		if opts, hasNextPage = getOptionsWithNextPageID(list.NextPage, opts); !hasNextPage {
+		if hasNextPage := setNextPageOption(list.NextPage, opts); !hasNextPage {
 			break
 		}
 	}

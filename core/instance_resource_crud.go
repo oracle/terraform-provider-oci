@@ -98,5 +98,5 @@ func (s *InstanceResourceCrud) SetData() {
 }
 
 func (s *InstanceResourceCrud) Delete() (e error) {
-	return s.Client.TerminateInstance(s.D.Id())
+	return s.Client.TerminateInstance(s.D.Id(), nil)
 }

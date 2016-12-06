@@ -78,5 +78,5 @@ func (s *VolumeResourceCrud) SetData() {
 }
 
 func (s *VolumeResourceCrud) Delete() (e error) {
-	return s.Client.DeleteVolume(s.D.Id())
+	return s.Client.DeleteVolume(s.D.Id(), nil)
 }

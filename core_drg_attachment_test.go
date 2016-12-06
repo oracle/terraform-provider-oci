@@ -79,11 +79,10 @@ func (s *ResourceCoreDrgAttachmentTestSuite) SetupTest() {
 	opts.DisplayName = "display_name"
 	s.Client.On(
 		"CreateDrgAttachment",
-		"compartment_id",
 		"drg_id",
 		"vcn_id",
 		opts).Return(s.Res, nil)
-	s.Client.On("DeleteDrgAttachment", "id", nil).Return(nil)
+	s.Client.On("DeleteDrgAttachment", "id", (*baremetal.IfMatchOptions)(nil)).Return(nil)
 }
 
 func (s *ResourceCoreDrgAttachmentTestSuite) TestCreateResourceCoreDrgAttachment() {
@@ -126,7 +125,7 @@ func (s *ResourceCoreDrgAttachmentTestSuite) TestDetachVolume() {
 		},
 	})
 
-	s.Client.AssertCalled(s.T(), "DeleteDrgAttachment", "id", nil)
+	s.Client.AssertCalled(s.T(), "DeleteDrgAttachment", "id", (*baremetal.IfMatchOptions)(nil))
 }
 
 func TestResourceCoreDrgAttachmentTestSuite(t *testing.T) {

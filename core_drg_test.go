@@ -75,7 +75,7 @@ func (s *ResourceCoreDrgTestSuite) SetupTest() {
 		"CreateDrg",
 		"compartment_id",
 		opts).Return(s.Res, nil)
-	s.Client.On("DeleteDrg", "id", nil).Return(nil)
+	s.Client.On("DeleteDrg", "id", (*baremetal.IfMatchOptions)(nil)).Return(nil)
 }
 
 func (s *ResourceCoreDrgTestSuite) TestCreateResourceCoreDrg() {
@@ -145,7 +145,7 @@ func (s *ResourceCoreDrgTestSuite) TestDeleteDrg() {
 		},
 	})
 
-	s.Client.AssertCalled(s.T(), "DeleteDrg", "id", nil)
+	s.Client.AssertCalled(s.T(), "DeleteDrg", "id", (*baremetal.IfMatchOptions)(nil))
 }
 
 func TestResourceCoreDrgTestSuite(t *testing.T) {

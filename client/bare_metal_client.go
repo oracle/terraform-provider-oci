@@ -21,9 +21,6 @@ type BareMetalClient interface {
 	CreateOrResetUIPassword(userID string, opts *baremetal.RetryTokenOptions) (resource *baremetal.UIPassword, e error)
 	CreatePolicy(name, desc string, statements []string, opts *baremetal.CreatePolicyOptions) (res *baremetal.Policy, e error)
 	CreateRouteTable(compartmentID, vcnID string, routeRules []baremetal.RouteRule, opts *baremetal.CreateOptions) (res *baremetal.RouteTable, e error)
-
-	// CreateSecurityList(
-
 	CreateSubnet(availabilityDomain, cidrBlock, compartmentID, vcnID string, opts *baremetal.CreateSubnetOptions) (sn *baremetal.Subnet, e error)
 	CreateUser(name, desc string, opts *baremetal.RetryTokenOptions) (res *baremetal.User, e error)
 	CreateVirtualNetwork(cidrBlock, compartmentID string, opts *baremetal.CreateOptions) (vcn *baremetal.VirtualNetwork, e error)

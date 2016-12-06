@@ -67,7 +67,7 @@ func (s *ResourceCoreImageTestSuite) SetupTest() {
 	opts := &baremetal.CreateOptions{}
 	opts.DisplayName = "display_name"
 	s.Client.On("CreateImage", "compartment_id", "instance_id", opts).Return(s.Res, nil)
-	s.Client.On("DeleteImage", "id", nil).Return(nil)
+	s.Client.On("DeleteImage", "id", (*baremetal.IfMatchOptions)(nil)).Return(nil)
 }
 
 func (s *ResourceCoreImageTestSuite) TestCreateImage() {
@@ -180,7 +180,7 @@ func (s *ResourceCoreImageTestSuite) TestDeleteImage() {
 		},
 	})
 
-	s.Client.AssertCalled(s.T(), "DeleteImage", "id", nil)
+	s.Client.AssertCalled(s.T(), "DeleteImage", "id", (*baremetal.IfMatchOptions)(nil))
 }
 
 func TestResourceCoreImageTestSuite(t *testing.T) {

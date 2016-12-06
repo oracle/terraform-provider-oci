@@ -87,8 +87,8 @@ func (s *ResourceCoreInstanceTestSuite) SetupTest() {
 		s.Res.Image,
 		s.Res.Shape,
 		"subnetid",
-		s.Opts).Return(s.Res, nil)
-	s.Client.On("TerminateInstance", s.Res.ID, nil).Return(nil)
+		opts).Return(s.Res, nil)
+	s.Client.On("TerminateInstance", s.Res.ID, (*baremetal.IfMatchOptions)(nil)).Return(nil)
 }
 
 func (s *ResourceCoreInstanceTestSuite) TestCreateResourceCoreInstance() {
@@ -247,6 +247,9 @@ func (s ResourceCoreInstanceTestSuite) TestUpdateAvailabilityDomainForcesNewInst
 	res.ETag = "etag"
 	res.RequestID = "opcrequestid"
 
+	opts := &baremetal.LaunchInstanceOptions{}
+	opts.DisplayName = "display_name"
+	opts.Metadata = s.Res.Metadata
 	s.Client.On(
 		"LaunchInstance",
 		res.AvailabilityDomain,
@@ -254,11 +257,10 @@ func (s ResourceCoreInstanceTestSuite) TestUpdateAvailabilityDomainForcesNewInst
 		res.Image,
 		res.Shape,
 		"subnetid",
-		res.Metadata,
-		s.Opts).Return(res, nil)
+		opts).Return(res, nil)
 
 	s.Client.On("GetInstance", res.ID).Return(res, nil)
-	s.Client.On("TerminateInstance", res.ID, nil).Return(nil)
+	s.Client.On("TerminateInstance", res.ID, (*baremetal.IfMatchOptions)(nil)).Return(nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -293,7 +295,7 @@ func (s *ResourceCoreInstanceTestSuite) TestTerminateInstance() {
 		},
 	})
 
-	s.Client.AssertCalled(s.T(), "TerminateInstance", "id", nil)
+	s.Client.AssertCalled(s.T(), "TerminateInstance", "id", (*baremetal.IfMatchOptions)(nil))
 }
 
 func TestResourceCoreInstanceTestSuite(t *testing.T) {

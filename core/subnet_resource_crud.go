@@ -52,8 +52,8 @@ func (s *SubnetResourceCrud) Create() (e error) {
 		opts.SecurityListIDs = securityListIDs
 	}
 
-	if routeTableID, ok := s.D.GetOk("route_table_id").(string); ok {
-		opts.RouteTableID = routeTableID
+	if routeTableID, ok := s.D.GetOk("route_table_id"); ok {
+		opts.RouteTableID = routeTableID.(string)
 	}
 
 	s.Resource, e = s.Client.CreateSubnet(
@@ -87,5 +87,5 @@ func (s *SubnetResourceCrud) SetData() {
 }
 
 func (s *SubnetResourceCrud) Delete() (e error) {
-	return s.Client.DeleteSubnet(s.D.Id())
+	return s.Client.DeleteSubnet(s.D.Id(), nil)
 }

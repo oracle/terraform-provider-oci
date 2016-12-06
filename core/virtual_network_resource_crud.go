@@ -67,5 +67,5 @@ func (s *VirtualNetworkResourceCrud) SetData() {
 }
 
 func (s *VirtualNetworkResourceCrud) Delete() (e error) {
-	return s.Client.DeleteVirtualNetwork(s.D.Id())
+	return s.Client.DeleteVirtualNetwork(s.D.Id(), nil)
 }

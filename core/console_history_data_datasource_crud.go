@@ -18,8 +18,8 @@ func (res *ConsoleHistoryDataDatasourceCrud) Get() (e error) {
 	id := res.D.Get("console_history_id").(string)
 
 	opts := &baremetal.ConsoleHistoryDataOptions{}
-	opts.Length = res.D.Get("length").(uint64)
-	opts.Offset = res.D.Get("offset").(uint64)
+	opts.Length = uint64(res.D.Get("length").(int))
+	opts.Offset = uint64(res.D.Get("offset").(int))
 
 	res.ConsoleHistoryData, e = res.Client.ShowConsoleHistoryData(id, opts)
 

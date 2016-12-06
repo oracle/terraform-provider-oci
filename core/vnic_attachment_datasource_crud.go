@@ -16,14 +16,18 @@ type VnicAttachmentDatasourceCrud struct {
 
 func (r *VnicAttachmentDatasourceCrud) Get() (e error) {
 	compartmentID := r.D.Get("compartment_id").(string)
-	opts := getCoreOptionsFromResourceData(
-		r.D,
-		"availability_domain",
-		"instance_id",
-		"vnic_id",
-		"page",
-		"limit",
-	)
+
+	opts := &baremetal.ListVnicAttachmentsOptions{}
+	setListOptions(r.D, &opts.ListOptions)
+	if val, ok := r.D.GetOk("availability_domain"); ok {
+		opts.AvailabilityDomain = val.(string)
+	}
+	if val, ok := r.D.GetOk("instance_id"); ok {
+		opts.InstanceID = val.(string)
+	}
+	if val, ok := r.D.GetOk("vnic_id"); ok {
+		opts.VnicID = val.(string)
+	}
 
 	r.Res = &baremetal.ListVnicAttachments{
 		Attachments: []baremetal.VnicAttachment{},
@@ -31,17 +35,15 @@ func (r *VnicAttachmentDatasourceCrud) Get() (e error) {
 
 	for {
 		var list *baremetal.ListVnicAttachments
-		if list, e = r.Client.ListVnicAttachments(compartmentID, opts...); e != nil {
+		if list, e = r.Client.ListVnicAttachments(compartmentID, opts); e != nil {
 			break
 		}
 
 		r.Res.Attachments = append(r.Res.Attachments, list.Attachments...)
 
-		var hasNextPage bool
-		if opts, hasNextPage = getOptionsWithNextPageID(list.NextPage, opts); !hasNextPage {
+		if hasNextPage := setNextPageOption(list.NextPage, &opts.ListOptions); !hasNextPage {
 			break
 		}
-
 	}
 
 	return

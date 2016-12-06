@@ -58,8 +58,12 @@ func (s *InternetGatewayResourceCrud) Get() (e error) {
 }
 
 func (s *InternetGatewayResourceCrud) Update() (e error) {
-	isEnabled := s.D.Get("enabled").(bool)
-	s.Resource, e = s.Client.UpdateInternetGateway(s.D.Id(), isEnabled)
+	opts := &baremetal.UpdateGatewayOptions{}
+	if isEnabled, ok := s.D.GetOk("enabled"); ok {
+		opts.IsEnabled = isEnabled.(bool)
+	}
+
+	s.Resource, e = s.Client.UpdateInternetGateway(s.D.Id(), opts)
 	return
 }
 
@@ -73,5 +77,5 @@ func (s *InternetGatewayResourceCrud) SetData() {
 }
 
 func (s *InternetGatewayResourceCrud) Delete() (e error) {
-	return s.Client.DeleteInternetGateway(s.D.Id())
+	return s.Client.DeleteInternetGateway(s.D.Id(), nil)
 }

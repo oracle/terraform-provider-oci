@@ -16,7 +16,9 @@ type VirtualNetworkDatasourceCrud struct {
 
 func (s *VirtualNetworkDatasourceCrud) Get() (e error) {
 	compartmentID := s.D.Get("compartment_id").(string)
-	opts := getCoreOptionsFromResourceData(s.D, "limit", "page")
+
+	opts := &baremetal.ListOptions{}
+	setListOptions(s.D, opts)
 
 	s.Res = &baremetal.ListVirtualNetworks{
 		VirtualNetworks: []baremetal.VirtualNetwork{},
@@ -24,14 +26,13 @@ func (s *VirtualNetworkDatasourceCrud) Get() (e error) {
 
 	for {
 		var list *baremetal.ListVirtualNetworks
-		if list, e = s.Client.ListVirtualNetworks(compartmentID, opts...); e != nil {
+		if list, e = s.Client.ListVirtualNetworks(compartmentID, opts); e != nil {
 			break
 		}
 
 		s.Res.VirtualNetworks = append(s.Res.VirtualNetworks, list.VirtualNetworks...)
 
-		var hasNextPage bool
-		if opts, hasNextPage = getOptionsWithNextPageID(list.NextPage, opts); !hasNextPage {
+		if hasNextPage := setNextPageOption(list.NextPage, opts); !hasNextPage {
 			break
 		}
 	}

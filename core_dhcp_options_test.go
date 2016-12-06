@@ -92,7 +92,7 @@ func (s *ResourceCoreDHCPOptionsTestSuite) SetupTest() {
 	opts := &baremetal.CreateOptions{}
 	opts.DisplayName = "display_name"
 	s.Client.On("CreateDHCPOptions", "compartment_id", "vcn_id", entities, opts).Return(s.Res, nil)
-	s.Client.On("DeleteDHCPOptions", "id", nil).Return(nil)
+	s.Client.On("DeleteDHCPOptions", "id", (*baremetal.IfMatchOptions)(nil)).Return(nil)
 }
 
 func (s *ResourceCoreDHCPOptionsTestSuite) TestCreateResourceCoreDHCPOptions() {
@@ -152,7 +152,7 @@ func (s ResourceCoreDHCPOptionsTestSuite) TestUpdateDHCPOptions() {
 	res.RequestID = "opcrequestid"
 
 	opts := &baremetal.UpdateDHCPDNSOptions{}
-	opts.DHCPOptions = []baremetal.DHCPDNSOption{
+	opts.Options = []baremetal.DHCPDNSOption{
 		baremetal.DHCPDNSOption{
 			Type:             "new_type",
 			CustomDNSServers: []string{"new_custom_dns_servers"},
@@ -195,7 +195,7 @@ func (s *ResourceCoreDHCPOptionsTestSuite) TestDeleteDHCPOptions() {
 		},
 	})
 
-	s.Client.AssertCalled(s.T(), "DeleteDHCPOptions", "id", nil)
+	s.Client.AssertCalled(s.T(), "DeleteDHCPOptions", "id", (*baremetal.IfMatchOptions)(nil))
 }
 
 func TestResourceCoreDHCPOptionsTestSuite(t *testing.T) {

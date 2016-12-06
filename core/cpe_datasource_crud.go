@@ -16,25 +16,23 @@ type CPEDatasourceCrud struct {
 
 func (s *CPEDatasourceCrud) Get() (e error) {
 	compartmentID := s.D.Get("compartment_id").(string)
-	opts := getCoreOptionsFromResourceData(s.D, "page", "limit")
 
-	s.Resource = &baremetal.ListCpes{
-		Cpes: []baremetal.Cpe{},
-	}
+	opts := &baremetal.ListOptions{}
+	setListOptions(s.D, opts)
+
+	s.Resource = &baremetal.ListCpes{Cpes: []baremetal.Cpe{}}
 
 	for {
 		var list *baremetal.ListCpes
-		if list, e = s.Client.ListCpes(compartmentID, opts...); e != nil {
+		if list, e = s.Client.ListCpes(compartmentID, opts); e != nil {
 			break
 		}
 
 		s.Resource.Cpes = append(s.Resource.Cpes, list.Cpes...)
 
-		var hasNextPage bool
-		if opts, hasNextPage = getOptionsWithNextPageID(list.NextPage, opts); !hasNextPage {
+		if hasNextPage := setNextPageOption(list.NextPage, opts); !hasNextPage {
 			break
 		}
-
 	}
 
 	return

@@ -64,9 +64,10 @@ func (s *ResourceCoreVolumeBackupTestSuite) SetupTest() {
 	s.DeletedRes = &deletedRes
 	s.DeletedRes.State = baremetal.ResourceTerminated
 
-	opts := &baremetal.CreateOptions{DisplayName: "display_name"}
+	opts := &baremetal.CreateOptions{}
+	opts.DisplayName = "display_name"
 	s.Client.On("CreateVolumeBackup", "volume_id", opts).Return(s.Res, nil)
-	s.Client.On("DeleteVolumeBackup", "id", nil).Return(nil)
+	s.Client.On("DeleteVolumeBackup", "id", (*baremetal.IfMatchOptions)(nil)).Return(nil)
 }
 
 func (s *ResourceCoreVolumeBackupTestSuite) TestCreateVolumeBackup() {
@@ -141,7 +142,7 @@ func (s ResourceCoreVolumeBackupTestSuite) TestUpdateVolumeBackupDisplayName() {
 	deletedRes := &deletedResVal
 	deletedRes.State = baremetal.ResourceTerminated
 
-	opts := baremetal.UpdateBackupOptions{}
+	opts := &baremetal.UpdateBackupOptions{}
 	opts.DisplayName = "new_display_name"
 	s.Client.On("UpdateVolumeBackup", "id", opts).Return(res, nil)
 	s.Client.On("GetVolumeBackup", "id").Return(res, nil).Times(2)
@@ -220,7 +221,7 @@ func (s *ResourceCoreVolumeBackupTestSuite) TestDeleteVolumeBackup() {
 		},
 	})
 
-	s.Client.AssertCalled(s.T(), "DeleteVolumeBackup", "id", nil)
+	s.Client.AssertCalled(s.T(), "DeleteVolumeBackup", "id", (*baremetal.IfMatchOptions)(nil))
 }
 
 func TestResourceCoreVolumeBackupTestSuite(t *testing.T) {

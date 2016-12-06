@@ -58,9 +58,8 @@ func (s *ResourceIdentityCompartmentTestSuite) SetupTest() {
 		CompartmentID: "cid!",
 		State:         baremetal.ResourceActive,
 		TimeCreated:   s.TimeCreated,
-		TimeModified:  s.TimeCreated,
 	}
-	s.Client.On("CreateCompartment", "name!", "desc!", nil).Return(s.Res, nil)
+	s.Client.On("CreateCompartment", "name!", "desc!", (*baremetal.RetryTokenOptions)(nil)).Return(s.Res, nil)
 }
 
 func (s *ResourceIdentityCompartmentTestSuite) TestCreateResourceIdentityCompartment() {
@@ -77,7 +76,6 @@ func (s *ResourceIdentityCompartmentTestSuite) TestCreateResourceIdentityCompart
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", s.Res.CompartmentID),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", s.Res.State),
 					resource.TestCheckResourceAttr(s.ResourceName, "time_created", s.Res.TimeCreated.String()),
-					resource.TestCheckResourceAttr(s.ResourceName, "time_modified", s.Res.TimeModified.String()),
 				),
 			},
 		},
@@ -113,11 +111,12 @@ func (s *ResourceIdentityCompartmentTestSuite) TestUpdateResourceIdentityCompart
 		}
 	`
 	c += testProviderConfig
-	t := s.TimeCreated.Add(5 * time.Minute)
 	u := *s.Res
 	u.Description = "newdesc!"
-	u.TimeModified = t
-	s.Client.On("UpdateCompartment", "id!", "newdesc!", nil).Return(&u, nil)
+
+	opts := &baremetal.UpdateIdentityOptions{}
+	opts.Description = "newdesc!"
+	s.Client.On("UpdateCompartment", "id!", opts).Return(&u, nil)
 	s.Client.On("GetCompartment", "id!").Return(&u, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
@@ -130,7 +129,6 @@ func (s *ResourceIdentityCompartmentTestSuite) TestUpdateResourceIdentityCompart
 				Config: c,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "description", "newdesc!"),
-					resource.TestCheckResourceAttr(s.ResourceName, "time_modified", t.String()),
 				),
 			},
 		},
@@ -147,13 +145,13 @@ func (s *ResourceIdentityCompartmentTestSuite) TestFailedUpdateResourceIdentityC
 		}
 	`
 	c += testProviderConfig
-	s.Client.On("UpdateCompartment", "id!", "newdesc!", nil).Return(nil, errors.New("FAILED!")).Once()
+	opts := &baremetal.UpdateIdentityOptions{}
+	opts.Description = "newdesc!"
+	s.Client.On("UpdateCompartment", "id!", opts).Return(nil, errors.New("FAILED!")).Once()
 
-	t := s.TimeCreated.Add(5 * time.Minute)
 	u := *s.Res
 	u.Description = "newdesc!"
-	u.TimeModified = t
-	s.Client.On("UpdateCompartment", "id!", "newdesc!", nil).Return(&u, nil)
+	s.Client.On("UpdateCompartment", "id!", opts).Return(&u, nil)
 	s.Client.On("GetCompartment", "id!").Return(&u, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{

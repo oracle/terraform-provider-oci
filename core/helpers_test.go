@@ -36,26 +36,26 @@ func (s *ResourceCoreHelperTestSuite) SetupTest() {
 	s.resource.Set("limit", 100)
 }
 
-func (s *ResourceCoreHelperTestSuite) TestGetCoreOptionsFromResourceData() {
+// func (s *ResourceCoreHelperTestSuite) TestGetCoreOptionsFromResourceData() {
 
-	opts := getCoreOptionsFromResourceData(s.resource, "availability_domain", "vnic_id", "limit")
-	s.NotNil(opts)
-	s.Equal(len(opts), 1)
-	s.Equal("availabilityid", opts[0].AvailabilityDomain)
-	s.Equal("vnicid", opts[0].VnicID)
-	s.Equal(uint64(100), opts[0].Limit)
-	s.NotEqual("instanceid", opts[0].InstanceID)
-}
+// 	opts := getCoreOptionsFromResourceData(s.resource, "availability_domain", "vnic_id", "limit")
+// 	s.NotNil(opts)
+// 	s.Equal(len(opts), 1)
+// 	s.Equal("availabilityid", opts[0].AvailabilityDomain)
+// 	s.Equal("vnicid", opts[0].VnicID)
+// 	s.Equal(uint64(100), opts[0].Limit)
+// 	s.NotEqual("instanceid", opts[0].InstanceID)
+// }
 
-func (s *ResourceCoreHelperTestSuite) TestGetCoreOptionsFromResourceDataMissingKey() {
-	s.resource.Set("whacky", "foo")
-	s.Panics(func() {
-		getCoreOptionsFromResourceData(s.resource, "availability_domain", "whacky")
-	},
-		"Unknown key 'whacky' supplied for CoreOptions",
-	)
+// func (s *ResourceCoreHelperTestSuite) TestGetCoreOptionsFromResourceDataMissingKey() {
+// 	s.resource.Set("whacky", "foo")
+// 	s.Panics(func() {
+// 		getCoreOptionsFromResourceData(s.resource, "availability_domain", "whacky")
+// 	},
+// 		"Unknown key 'whacky' supplied for CoreOptions",
+// 	)
 
-}
+// }
 
 func TestResourceCoreHelpers(t *testing.T) {
 	suite.Run(t, new(ResourceCoreHelperTestSuite))

@@ -82,7 +82,7 @@ func (s *ResourceCoreVolumeTestSuite) SetupTest() {
 		"availability_domain",
 		"compartment_id",
 		opts).Return(s.Res, nil)
-	s.Client.On("DeleteVolume", "id", nil).Return(nil)
+	s.Client.On("DeleteVolume", "id", (*baremetal.IfMatchOptions)(nil)).Return(nil)
 }
 
 func (s *ResourceCoreVolumeTestSuite) TestCreateResourceCoreVolume() {
@@ -213,7 +213,7 @@ func (s ResourceCoreVolumeTestSuite) TestUpdateAvailabilityDomainForcesNewVolume
 		res.CompartmentID, opts).Return(res, nil)
 
 	s.Client.On("GetVolume", res.ID).Return(res, nil)
-	s.Client.On("DeleteVolume", res.ID, nil).Return(nil)
+	s.Client.On("DeleteVolume", res.ID, (*baremetal.IfMatchOptions)(nil)).Return(nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -261,7 +261,7 @@ func (s ResourceCoreVolumeTestSuite) TestUpdateCompartmentIdForcesNewVolume() {
 		res.CompartmentID, opts).Return(res, nil)
 
 	s.Client.On("GetVolume", res.ID).Return(res, nil)
-	s.Client.On("DeleteVolume", res.ID, nil).Return(nil)
+	s.Client.On("DeleteVolume", res.ID, (*baremetal.IfMatchOptions)(nil)).Return(nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -296,7 +296,7 @@ func (s *ResourceCoreVolumeTestSuite) TestDeleteVolume() {
 		},
 	})
 
-	s.Client.AssertCalled(s.T(), "DeleteVolume", "id", nil)
+	s.Client.AssertCalled(s.T(), "DeleteVolume", "id", (*baremetal.IfMatchOptions)(nil))
 }
 
 func TestResourceCoreVolumeTestSuite(t *testing.T) {
