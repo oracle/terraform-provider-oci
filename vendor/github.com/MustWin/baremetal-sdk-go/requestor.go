@@ -28,6 +28,16 @@ func newCoreAPIRequestor(authInfo *authenticationInfo, tr *http.Transport) (r *a
 	}
 }
 
+func newDatabaseAPIRequestor(authInfo *authenticationInfo, tr *http.Transport) (r *apiRequestor) {
+	return &apiRequestor{
+		httpClient: &http.Client{
+			Transport: tr,
+		},
+		authInfo:   authInfo,
+		urlBuilder: buildDatabaseURL,
+	}
+}
+
 func newIdentityAPIRequestor(authInfo *authenticationInfo, tr *http.Transport) (r *apiRequestor) {
 	return &apiRequestor{
 		httpClient: &http.Client{

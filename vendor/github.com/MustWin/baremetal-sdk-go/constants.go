@@ -47,6 +47,9 @@ const (
 	coreServiceAPI        = "https://core.us-az-phoenix-1.OracleIaaS.com"
 	coreServiceAPIVersion = SDKVersion
 
+	databaseServiceAPI        = "https://database.us-phoenix-1.oraclecloud.com"
+	databaseServiceAPIVersion = "v1"
+
 	// Header Keys
 	headerRetryToken     = "opc-retry-token"
 	headerOPCNextPage    = "opc-next-page"
@@ -96,6 +99,9 @@ const (
 	resourceVolumes                  resourceName = "volumes"
 	resourceVolumeAttachments        resourceName = "volumeAttachments"
 	resourceVolumeBackups            resourceName = "volumeBackups"
+
+	// Database Resources
+	resourceDBVersions resourceName = "dbVersions"
 
 	apiKeys      = "apiKeys"
 	uiPassword   = "uiPassword"
