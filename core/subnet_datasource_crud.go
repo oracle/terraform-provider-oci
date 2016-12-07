@@ -5,6 +5,7 @@ import (
 
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/client"
+	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/options"
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
@@ -19,7 +20,7 @@ func (s *SubnetDatasourceCrud) Get() (e error) {
 	vcnID := s.D.Get("vcn_id").(string)
 
 	opts := &baremetal.ListOptions{}
-	setListOptions(s.D, opts)
+	options.SetListOptions(s.D, opts)
 
 	s.Res = &baremetal.ListSubnets{Subnets: []baremetal.Subnet{}}
 
@@ -31,7 +32,7 @@ func (s *SubnetDatasourceCrud) Get() (e error) {
 
 		s.Res.Subnets = append(s.Res.Subnets, list.Subnets...)
 
-		if hasNexPage := setNextPageOption(list.NextPage, &opts.PageListOptions); !hasNexPage {
+		if hasNexPage := options.SetNextPageOption(list.NextPage, &opts.PageListOptions); !hasNexPage {
 			break
 		}
 	}

@@ -5,6 +5,7 @@ import (
 
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/client"
+	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/options"
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
@@ -19,7 +20,7 @@ func (s *InternetGatewayDatasourceCrud) Get() (e error) {
 	vcnID := s.D.Get("vcn_id").(string)
 
 	opts := &baremetal.ListOptions{}
-	setListOptions(s.D, opts)
+	options.SetListOptions(s.D, opts)
 
 	s.Resource = &baremetal.ListInternetGateways{
 		Gateways: []baremetal.InternetGateway{},
@@ -33,7 +34,7 @@ func (s *InternetGatewayDatasourceCrud) Get() (e error) {
 
 		s.Resource.Gateways = append(s.Resource.Gateways, list.Gateways...)
 
-		if hasNextPage := setNextPageOption(list.NextPage, &opts.PageListOptions); !hasNextPage {
+		if hasNextPage := options.SetNextPageOption(list.NextPage, &opts.PageListOptions); !hasNextPage {
 			break
 		}
 	}

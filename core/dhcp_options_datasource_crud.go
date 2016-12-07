@@ -5,6 +5,7 @@ import (
 
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/client"
+	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/options"
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
@@ -19,7 +20,7 @@ func (s *DHCPOptionsDatasourceCrud) Get() (e error) {
 	vcnID := s.D.Get("vcn_id").(string)
 
 	opts := &baremetal.ListOptions{}
-	setListOptions(s.D, opts)
+	options.SetListOptions(s.D, opts)
 
 	s.Res = &baremetal.ListDHCPOptions{DHCPOptions: []baremetal.DHCPOptions{}}
 
@@ -31,7 +32,7 @@ func (s *DHCPOptionsDatasourceCrud) Get() (e error) {
 
 		s.Res.DHCPOptions = append(s.Res.DHCPOptions, list.DHCPOptions...)
 
-		if hasNextPage := setNextPageOption(list.NextPage, &opts.PageListOptions); !hasNextPage {
+		if hasNextPage := options.SetNextPageOption(list.NextPage, &opts.PageListOptions); !hasNextPage {
 			break
 		}
 	}

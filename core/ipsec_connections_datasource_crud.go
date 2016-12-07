@@ -5,6 +5,7 @@ import (
 
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/client"
+	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/options"
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
@@ -18,7 +19,7 @@ func (s *IPSecConnectionsDatasourceCrud) Get() (e error) {
 	compartmentID := s.D.Get("compartment_id").(string)
 
 	opts := &baremetal.ListIPSecConnsOptions{}
-	setListOptions(s.D, &opts.ListOptions)
+	options.SetListOptions(s.D, &opts.ListOptions)
 	if val, ok := s.D.GetOk("cpe_id"); ok {
 		opts.CpeID = val.(string)
 	}
@@ -38,7 +39,7 @@ func (s *IPSecConnectionsDatasourceCrud) Get() (e error) {
 
 		s.Resource.Connections = append(s.Resource.Connections, list.Connections...)
 
-		if hasNextPage := setNextPageOption(list.NextPage, &opts.ListOptions.PageListOptions); !hasNextPage {
+		if hasNextPage := options.SetNextPageOption(list.NextPage, &opts.ListOptions.PageListOptions); !hasNextPage {
 			break
 		}
 	}

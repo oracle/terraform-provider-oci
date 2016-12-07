@@ -5,6 +5,7 @@ import (
 
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/client"
+	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/options"
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
@@ -18,7 +19,7 @@ func (s *DrgAttachmentDatasourceCrud) Get() (e error) {
 	compartmentID := s.D.Get("compartment_id").(string)
 
 	opts := &baremetal.ListDrgAttachmentsOptions{}
-	setListOptions(s.D, &opts.ListOptions)
+	options.SetListOptions(s.D, &opts.ListOptions)
 	if val, ok := s.D.GetOk("drg_id"); ok {
 		opts.DrgID = val.(string)
 	}
@@ -38,7 +39,7 @@ func (s *DrgAttachmentDatasourceCrud) Get() (e error) {
 
 		s.Res.DrgAttachments = append(s.Res.DrgAttachments, list.DrgAttachments...)
 
-		if hasNextPage := setNextPageOption(list.NextPage, &opts.ListOptions.PageListOptions); !hasNextPage {
+		if hasNextPage := options.SetNextPageOption(list.NextPage, &opts.ListOptions.PageListOptions); !hasNextPage {
 			break
 		}
 	}
