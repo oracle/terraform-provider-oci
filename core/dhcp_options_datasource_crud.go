@@ -31,7 +31,7 @@ func (s *DHCPOptionsDatasourceCrud) Get() (e error) {
 
 		s.Res.DHCPOptions = append(s.Res.DHCPOptions, list.DHCPOptions...)
 
-		if hasNextPage := setNextPageOption(list.NextPage, opts); !hasNextPage {
+		if hasNextPage := setNextPageOption(list.NextPage, &opts.PageListOptions); !hasNextPage {
 			break
 		}
 	}

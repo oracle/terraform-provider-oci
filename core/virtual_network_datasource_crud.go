@@ -32,7 +32,7 @@ func (s *VirtualNetworkDatasourceCrud) Get() (e error) {
 
 		s.Res.VirtualNetworks = append(s.Res.VirtualNetworks, list.VirtualNetworks...)
 
-		if hasNextPage := setNextPageOption(list.NextPage, opts); !hasNextPage {
+		if hasNextPage := setNextPageOption(list.NextPage, &opts.PageListOptions); !hasNextPage {
 			break
 		}
 	}

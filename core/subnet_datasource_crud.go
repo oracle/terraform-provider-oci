@@ -31,7 +31,7 @@ func (s *SubnetDatasourceCrud) Get() (e error) {
 
 		s.Res.Subnets = append(s.Res.Subnets, list.Subnets...)
 
-		if hasNexPage := setNextPageOption(list.NextPage, opts); !hasNexPage {
+		if hasNexPage := setNextPageOption(list.NextPage, &opts.PageListOptions); !hasNexPage {
 			break
 		}
 	}
