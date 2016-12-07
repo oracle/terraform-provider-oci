@@ -174,7 +174,8 @@ func (s *ResourceCoreSubnetsTestSuite) TestResourceListSubnetsWithPagination() {
 		nil,
 	)
 
-	opts2 := &baremetal.ListOptions{Page: "nextpage"}
+	opts2 := &baremetal.ListOptions{}
+	opts2.Page = "nextpage"
 
 	s.Client.On(
 		"ListSubnets",
