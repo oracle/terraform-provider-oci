@@ -31,106 +31,59 @@ func (s *DatabaseDBSystemShapeTestSuite) SetupTest() {
 		"baremetal": s.Provider,
 	}
 	s.Config = `
-    data "baremetal_database_" "s" {
+    data "baremetal_database_db_system_shapes" "t" {
+      availability_domain = "availability"
       compartment_id = "compartmentid"
-      availability_domain = "availability_domain"
-      image_id = "imageid"
+      limit = 1
+      page = "page"
     }
   `
 	s.Config += testProviderConfig
-	s.ResourceName = "data.baremetal_core_shape.s"
-
+	s.ResourceName = "data.baremetal_database_db_system_shapes.t"
 }
 
-func (s *DatabaseDBSystemShapeTestSuite) TestResourceReadCoreShape() {
-	opts := &baremetal.ListShapesOptions{}
-	opts.AvailabilityDomain = "availability_domain"
-	opts.ImageID = "imageid"
-
+func (s *DatabaseDBSystemShapeTestSuite) TestReadDBSystemShapes() {
+	opts := &baremetal.PageListOptions{}
+	opts.Page = "page"
 	s.Client.On(
-		"ListShapes",
-		"compartmentid",
-		opts,
+		"ListDBSystemShapes", "availability", "compartmentid", uint64(1), opts,
 	).Return(
-		&baremetal.ListShapes{
-			Shapes: []baremetal.Shape{
-				baremetal.Shape{
-					Name: "shape1",
-				},
-				baremetal.Shape{
-					Name: "shape2",
-				},
-			},
-		},
-		nil,
-	)
-
-	resource.UnitTest(s.T(), resource.TestCase{
-		PreventPostDestroyRefresh: true,
-		Providers:                 s.Providers,
-		Steps: []resource.TestStep{
-			resource.TestStep{
-				Config: s.Config,
-				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartmentid"),
-					resource.TestCheckResourceAttr(s.ResourceName, "availability_domain", "availability_domain"),
-					resource.TestCheckResourceAttr(s.ResourceName, "image_id", "imageid"),
-					resource.TestCheckResourceAttr(s.ResourceName, "shapes.0.name", "shape1"),
-					resource.TestCheckResourceAttr(s.ResourceName, "shapes.1.name", "shape2"),
-					resource.TestCheckResourceAttr(s.ResourceName, "shapes.#", "2"),
-				),
-			},
-		},
-	},
-	)
-
-	s.Client.AssertCalled(s.T(), "ListShapes", "compartmentid", opts)
-
-}
-
-func (s *DatabaseDBSystemShapeTestSuite) TestResourceReadCoreShapeWithPagination() {
-	opts := &baremetal.ListShapesOptions{}
-	opts.AvailabilityDomain = "availability_domain"
-	opts.ImageID = "imageid"
-
-	s.Client.On(
-		"ListShapes",
-		"compartmentid",
-		opts,
-	).Return(
-		&baremetal.ListShapes{
+		&baremetal.ListDBSystemShapes{
 			ResourceContainer: baremetal.ResourceContainer{
 				NextPage: "nextpage",
 			},
-			Shapes: []baremetal.Shape{
-				baremetal.Shape{
-					Name: "shape1",
+			DBSystemShapes: []baremetal.DBSystemShape{
+				{
+					AvailableCoreCount: 1,
+					Name:               "name1",
+					Shape:              "shape1",
 				},
-				baremetal.Shape{
-					Name: "shape2",
+				{
+					AvailableCoreCount: 2,
+					Name:               "name2",
+					Shape:              "shape2",
 				},
 			},
 		},
 		nil,
 	)
 
-	opts2 := &baremetal.ListShapesOptions{}
-	opts2.AvailabilityDomain = "availability_domain"
-	opts2.ImageID = "imageid"
+	opts2 := &baremetal.PageListOptions{}
 	opts2.Page = "nextpage"
-
 	s.Client.On(
-		"ListShapes",
-		"compartmentid",
-		opts2,
+		"ListDBSystemShapes", "availability", "compartmentid", uint64(1), opts2,
 	).Return(
-		&baremetal.ListShapes{
-			Shapes: []baremetal.Shape{
-				baremetal.Shape{
-					Name: "shape3",
+		&baremetal.ListDBSystemShapes{
+			DBSystemShapes: []baremetal.DBSystemShape{
+				{
+					AvailableCoreCount: 1,
+					Name:               "name3",
+					Shape:              "shape3",
 				},
-				baremetal.Shape{
-					Name: "shape4",
+				{
+					AvailableCoreCount: 2,
+					Name:               "name4",
+					Shape:              "shape4",
 				},
 			},
 		},
@@ -144,20 +97,21 @@ func (s *DatabaseDBSystemShapeTestSuite) TestResourceReadCoreShapeWithPagination
 			resource.TestStep{
 				Config: s.Config,
 				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttr(s.ResourceName, "availability_domain", "availability"),
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartmentid"),
-					resource.TestCheckResourceAttr(s.ResourceName, "availability_domain", "availability_domain"),
-					resource.TestCheckResourceAttr(s.ResourceName, "image_id", "imageid"),
-					resource.TestCheckResourceAttr(s.ResourceName, "shapes.0.name", "shape1"),
-					resource.TestCheckResourceAttr(s.ResourceName, "shapes.3.name", "shape4"),
-					resource.TestCheckResourceAttr(s.ResourceName, "shapes.#", "4"),
+					resource.TestCheckResourceAttr(s.ResourceName, "limit", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "db_system_shapes.0.name", "name1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "db_system_shapes.3.name", "name4"),
+					resource.TestCheckResourceAttr(s.ResourceName, "db_system_shapes.#", "4"),
 				),
 			},
 		},
 	},
 	)
 
-	s.Client.AssertCalled(s.T(), "ListShapes", "compartmentid", opts2)
-
+	s.Client.AssertCalled(
+		s.T(), "ListDBSystemShapes", "availability", "compartmentid", uint64(1), opts2,
+	)
 }
 
 func TestDatabaseDBSystemShapeTestSuite(t *testing.T) {
