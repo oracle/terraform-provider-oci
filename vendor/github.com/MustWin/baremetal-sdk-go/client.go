@@ -14,16 +14,18 @@ import (
 
 // Client is used to access Oracle BareMetal Services
 type Client struct {
+	userAgent        string
 	authInfo         *authenticationInfo
 	identityApi      requestor
 	coreApi          requestor
+	databaseApi      requestor
 	identityEndPoint string
 }
 
 // New creates a new client to access Oracle BareMetal services.
 // userOCI, tenancyOCID and fingerprint arguments are accessed from the BareMetal identity
 // console. privateKey is an RSA key associated with the user accessing the API.
-func New(userOCID, tenancyOCID, keyFingerPrint string, privateKey *rsa.PrivateKey) (c *Client) {
+func New(userOCID, tenancyOCID, keyFingerPrint string, privateKey *rsa.PrivateKey, userAgent string) (c *Client) {
 	auth := &authenticationInfo{
 		privateRSAKey:  privateKey,
 		tenancyOCID:    tenancyOCID,
@@ -35,9 +37,11 @@ func New(userOCID, tenancyOCID, keyFingerPrint string, privateKey *rsa.PrivateKe
 	tr := &http.Transport{}
 
 	return &Client{
+		userAgent:   userAgent,
 		authInfo:    auth,
 		identityApi: newIdentityAPIRequestor(auth, tr),
 		coreApi:     newCoreAPIRequestor(auth, tr),
+		databaseApi: newDatabaseAPIRequestor(auth, tr),
 	}
 }
 
@@ -52,7 +56,7 @@ func NewFromKeyPath(userOCID, tenancyOCID, keyFingerPrint, privateKeyPath, keyPa
 		return
 	}
 
-	c = New(userOCID, tenancyOCID, keyFingerPrint, key)
+	c = New(userOCID, tenancyOCID, keyFingerPrint, key, "")
 
 	return
 }

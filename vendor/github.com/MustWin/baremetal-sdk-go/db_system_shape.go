@@ -27,7 +27,7 @@ func (c *Client) ListDBSystemShapes(
 	availabilityDomain, compartmentID string,
 	limit uint64,
 	opts *ListDBSystemShapesOptions,
-) (shapes *ListDBSystemShapes, e error) {
+) (resources *ListDBSystemShapes, e error) {
 
 	required := struct {
 		listOCIDRequirement
@@ -46,11 +46,11 @@ func (c *Client) ListDBSystemShapes(
 	}
 
 	var resp *requestResponse
-	if resp, e = c.coreApi.getRequest(details); e != nil {
+	if resp, e = c.databaseApi.getRequest(details); e != nil {
 		return
 	}
 
-	shapes = &ListDBSystemShapes{}
-	e = resp.unmarshal(shapes)
+	resources = &ListDBSystemShapes{}
+	e = resp.unmarshal(resources)
 	return
 }

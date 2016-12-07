@@ -18,6 +18,11 @@ func buildIdentityURL(resource resourceName, query url.Values, ids ...interface{
 	return buildURL(urlStr, query, ids...)
 }
 
+func buildDatabaseURL(resource resourceName, query url.Values, ids ...interface{}) string {
+	urlStr := fmt.Sprintf("%s/%s/%s", databaseServiceAPI, databaseServiceAPIVersion, resource)
+	return buildURL(urlStr, query, ids...)
+}
+
 func buildURL(urlStr string, query url.Values, ids ...interface{}) string {
 	const seperator = "/"
 	for _, id := range ids {

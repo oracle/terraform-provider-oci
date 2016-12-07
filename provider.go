@@ -147,6 +147,6 @@ func providerConfig(d *schema.ResourceData) (client interface{}, err error) {
 		}
 	}
 
-	client = baremetal.New(userOCID, tenancyOCID, fingerprint, privateKey)
+	client = baremetal.New(userOCID, tenancyOCID, fingerprint, privateKey, "")
 	return
 }
