@@ -95,6 +95,7 @@ func dataSourcesMap() map[string]*schema.Resource {
 		"baremetal_core_volume_attachments":   core.VolumeAttachmentDatasource(),
 		"baremetal_core_volume_backups":       core.VolumeBackupDatasource(),
 		"baremetal_core_volumes":              core.VolumeDatasource(),
+		"baremetal_database_db_system_shape":  database.DBSystemShapeDatasource(),
 		"baremetal_identity_api_keys":         identity.APIKeyDatasource(),
 	}
 }
