@@ -161,9 +161,17 @@ type listOCIDRequirement struct {
 	CompartmentID string `json:"-" url:"compartmentId"`
 }
 
-type ListOptions struct {
+type PageListOptions struct {
+	Page string `json:"-" url:"page,omitempty"`
+}
+
+type LimitListOptions struct {
 	Limit uint64 `json:"-" url:"limit,omitempty"`
-	Page  string `json:"-" url:"page,omitempty"`
+}
+
+type ListOptions struct {
+	LimitListOptions
+	PageListOptions
 }
 
 type DisplayNameListOptions struct {
@@ -247,10 +255,6 @@ type ListMembershipsOptions struct {
 	ListOptions
 	GroupID string `json:"-" url:"groupId,omitempty"`
 	UserID  string `json:"-" url:"userId,omitempty"`
-}
-
-type ListDBSystemShapesOptions struct {
-	Page string `json:"-" url:"page,omitempty"`
 }
 
 // -------- Misc options -----

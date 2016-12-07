@@ -26,7 +26,7 @@ func (l *ListDBSystemShapes) GetList() interface{} {
 func (c *Client) ListDBSystemShapes(
 	availabilityDomain, compartmentID string,
 	limit uint64,
-	opts *ListDBSystemShapesOptions,
+	opts *PageListOptions,
 ) (resources *ListDBSystemShapes, e error) {
 
 	required := struct {
