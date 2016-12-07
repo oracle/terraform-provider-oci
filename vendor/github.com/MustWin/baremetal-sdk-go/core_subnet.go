@@ -111,7 +111,7 @@ func (c *Client) DeleteSubnet(id string, opts *IfMatchOptions) error {
 func (c *Client) ListSubnets(compartmentID, vcnID string, opts *ListOptions) (subnets *ListSubnets, e error) {
 	required := struct {
 		listOCIDRequirement
-		VcnID string `json:"-" url:"vncId"`
+		VcnID string `json:"-" url:"vcn"`
 	}{
 		VcnID: vcnID,
 	}

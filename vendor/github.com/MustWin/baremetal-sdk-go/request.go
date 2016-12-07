@@ -77,7 +77,7 @@ func createAuthorizationHeader(request *http.Request, auth *authenticationInfo, 
 	}
 
 	signedHeaders := getSigningHeaders(request.Method)
-	headers := concantenateHeaders(signedHeaders)
+	headers := concatenateHeaders(signedHeaders)
 
 	authValue := fmt.Sprintf("Signature headers=\"%s\",keyId=\"%s\",algorithm=\"rsa-sha256\",signature=\"%s\"", headers, auth.getKeyID(), sig)
 
@@ -86,7 +86,7 @@ func createAuthorizationHeader(request *http.Request, auth *authenticationInfo, 
 	return
 }
 
-func concantenateHeaders(headers []string) (concatenated string) {
+func concatenateHeaders(headers []string) (concatenated string) {
 
 	for _, header := range headers {
 		if len(concatenated) > 0 {
@@ -166,6 +166,7 @@ func getBodyHash(body []byte) string {
 func addRequiredRequestHeaders(request *http.Request, body []byte) {
 	addIfNotPresent(&request.Header, "content-type", "application/json")
 	addIfNotPresent(&request.Header, "date", time.Now().UTC().Format(http.TimeFormat))
+	addIfNotPresent(&request.Header, "User-Agent", fmt.Sprintf("baremetal-sdk-go-v%d", SDKVersion))
 	addIfNotPresent(&request.Header, "accept", "*/*")
 
 	if request.Method == http.MethodPost || request.Method == http.MethodPut {

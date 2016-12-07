@@ -26,9 +26,9 @@ type IfMatchOptions struct {
 	IfMatch string `json:"-" url:"-"`
 }
 
-func (opt IfMatchOptions) Header() http.Header {
+func (opt *IfMatchOptions) Header() http.Header {
 	header := http.Header{}
-	if opt.IfMatch != "" {
+	if opt != nil && opt.IfMatch != "" {
 		header.Set(headerIfMatch, opt.IfMatch)
 	}
 	return header
@@ -38,9 +38,9 @@ type RetryTokenOptions struct {
 	RetryToken string `json:"-" url:"-"`
 }
 
-func (opt RetryTokenOptions) Header() http.Header {
+func (opt *RetryTokenOptions) Header() http.Header {
 	header := http.Header{}
-	if opt.RetryToken != "" {
+	if opt != nil && opt.RetryToken != "" {
 		header.Set(headerRetryToken, opt.RetryToken)
 	}
 	return header
@@ -54,13 +54,15 @@ type HeaderOptions struct {
 	RetryToken string `json:"-" url:"-"`
 }
 
-func (opt HeaderOptions) Header() http.Header {
+func (opt *HeaderOptions) Header() http.Header {
 	header := http.Header{}
-	if opt.IfMatch != "" {
-		header.Set(headerIfMatch, opt.IfMatch)
-	}
-	if opt.RetryToken != "" {
-		header.Set(headerRetryToken, opt.RetryToken)
+	if opt != nil {
+		if opt.IfMatch != "" {
+			header.Set(headerIfMatch, opt.IfMatch)
+		}
+		if opt.RetryToken != "" {
+			header.Set(headerRetryToken, opt.RetryToken)
+		}
 	}
 	return header
 }
@@ -247,6 +249,10 @@ type ListMembershipsOptions struct {
 	UserID  string `json:"-" url:"userId,omitempty"`
 }
 
+type ListDBSystemShapesOptions struct {
+	Page string `json:"-" url:"page,omitempty"`
+}
+
 // -------- Misc options -----
 
 type ConsoleHistoryDataOptions struct {
@@ -301,6 +307,7 @@ func (r *requestDetails) header() http.Header {
 	} else {
 		rHeader = http.Header{}
 	}
+
 	if ohd, ok := r.optional.(HeaderGenerator); ok == true {
 		oHeader = ohd.Header()
 	} else {

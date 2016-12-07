@@ -26,7 +26,7 @@ func (l *ListAvailabilityDomains) GetList() interface{} {
 func (c *Client) ListAvailabilityDomains(compartmentID string) (ads *ListAvailabilityDomains, e error) {
 	details := &requestDetails{
 		name:     resourceAvailabilityDomains,
-		required: ocidRequirement{compartmentID},
+		required: listOCIDRequirement{CompartmentID: compartmentID},
 	}
 
 	var getResp *requestResponse

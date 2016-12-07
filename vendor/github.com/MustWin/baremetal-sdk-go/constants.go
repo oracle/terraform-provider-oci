@@ -39,11 +39,13 @@ const (
 	ResourceTerminating        = "TERMINATING"
 	ResourceUp                 = "UP"
 
+	SDKVersion = "20160918"
+
 	identityServiceAPI        = "https://identity.us-az-phoenix-1.OracleIaaS.com"
-	identityServiceAPIVersion = "v1"
+	identityServiceAPIVersion = SDKVersion
 
 	coreServiceAPI        = "https://core.us-az-phoenix-1.OracleIaaS.com"
-	coreServiceAPIVersion = "v1"
+	coreServiceAPIVersion = SDKVersion
 
 	// Header Keys
 	headerRetryToken     = "opc-retry-token"
@@ -62,6 +64,9 @@ const (
 	networkEntityVnic                      NetworkEntityType = "VNIC"
 	networkEntityInternetGateway           NetworkEntityType = "INTERNET_GATEWAY"
 	networkEntityDynamicallyRoutingGateway NetworkEntityType = "DYNAMICALLY_ROUTING_GATEWAY"
+
+	// DB Resources
+	resourceDBSystemShapes resourceName = "dbSystemShapes"
 
 	// Identity Resources
 	resourceAvailabilityDomains  resourceName = "availabilityDomains"
