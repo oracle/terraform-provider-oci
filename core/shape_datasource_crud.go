@@ -36,7 +36,7 @@ func (r *ShapeDatasourceCrud) Get() (e error) {
 
 		r.Res.Shapes = append(r.Res.Shapes, list.Shapes...)
 
-		if hasNextPage := setNextPageOption(list.NextPage, &opts.ListOptions); !hasNextPage {
+		if hasNextPage := setNextPageOption(list.NextPage, &opts.ListOptions.PageListOptions); !hasNextPage {
 			break
 		}
 	}

@@ -30,7 +30,7 @@ func (s *CPEDatasourceCrud) Get() (e error) {
 
 		s.Resource.Cpes = append(s.Resource.Cpes, list.Cpes...)
 
-		if hasNextPage := setNextPageOption(list.NextPage, opts); !hasNextPage {
+		if hasNextPage := setNextPageOption(list.NextPage, &opts.PageListOptions); !hasNextPage {
 			break
 		}
 	}

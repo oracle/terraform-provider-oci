@@ -33,7 +33,7 @@ func (s *InternetGatewayDatasourceCrud) Get() (e error) {
 
 		s.Resource.Gateways = append(s.Resource.Gateways, list.Gateways...)
 
-		if hasNextPage := setNextPageOption(list.NextPage, opts); !hasNextPage {
+		if hasNextPage := setNextPageOption(list.NextPage, &opts.PageListOptions); !hasNextPage {
 			break
 		}
 	}

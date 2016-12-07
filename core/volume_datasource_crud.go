@@ -33,7 +33,7 @@ func (s *VolumeDatasourceCrud) Get() (e error) {
 
 		s.Res.Volumes = append(s.Res.Volumes, list.Volumes...)
 
-		if hasNextPage := setNextPageOption(list.NextPage, &opts.ListOptions); !hasNextPage {
+		if hasNextPage := setNextPageOption(list.NextPage, &opts.ListOptions.PageListOptions); !hasNextPage {
 			break
 		}
 	}

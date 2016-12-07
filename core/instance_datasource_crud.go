@@ -33,7 +33,7 @@ func (s *InstanceDatasourceCrud) Get() (e error) {
 
 		s.Res.Instances = append(s.Res.Instances, list.Instances...)
 
-		if hasNextPage := setNextPageOption(list.NextPage, &opts.ListOptions); !hasNextPage {
+		if hasNextPage := setNextPageOption(list.NextPage, &opts.ListOptions.PageListOptions); !hasNextPage {
 			break
 		}
 	}

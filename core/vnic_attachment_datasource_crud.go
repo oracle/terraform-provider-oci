@@ -41,7 +41,7 @@ func (r *VnicAttachmentDatasourceCrud) Get() (e error) {
 
 		r.Res.Attachments = append(r.Res.Attachments, list.Attachments...)
 
-		if hasNextPage := setNextPageOption(list.NextPage, &opts.ListOptions); !hasNextPage {
+		if hasNextPage := setNextPageOption(list.NextPage, &opts.ListOptions.PageListOptions); !hasNextPage {
 			break
 		}
 	}

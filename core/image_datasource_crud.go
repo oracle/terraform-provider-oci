@@ -36,7 +36,7 @@ func (s *ImageDatasourceCrud) Get() (e error) {
 
 		s.Res.Images = append(s.Res.Images, list.Images...)
 
-		if hasNextPage := setNextPageOption(list.NextPage, &opts.ListOptions); !hasNextPage {
+		if hasNextPage := setNextPageOption(list.NextPage, &opts.ListOptions.PageListOptions); !hasNextPage {
 			break
 		}
 	}

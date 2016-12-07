@@ -41,7 +41,7 @@ func (s *VolumeAttachmentDatasourceCrud) Get() (e error) {
 
 		s.Res.VolumeAttachments = append(s.Res.VolumeAttachments, list.VolumeAttachments...)
 
-		if hasNextPage := setNextPageOption(list.NextPage, &opts.ListOptions); !hasNextPage {
+		if hasNextPage := setNextPageOption(list.NextPage, &opts.ListOptions.PageListOptions); !hasNextPage {
 			break
 		}
 	}

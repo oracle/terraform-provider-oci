@@ -38,7 +38,7 @@ func (s *IPSecConnectionsDatasourceCrud) Get() (e error) {
 
 		s.Resource.Connections = append(s.Resource.Connections, list.Connections...)
 
-		if hasNextPage := setNextPageOption(list.NextPage, &opts.ListOptions); !hasNextPage {
+		if hasNextPage := setNextPageOption(list.NextPage, &opts.ListOptions.PageListOptions); !hasNextPage {
 			break
 		}
 	}

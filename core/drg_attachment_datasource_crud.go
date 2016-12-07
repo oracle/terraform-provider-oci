@@ -38,7 +38,7 @@ func (s *DrgAttachmentDatasourceCrud) Get() (e error) {
 
 		s.Res.DrgAttachments = append(s.Res.DrgAttachments, list.DrgAttachments...)
 
-		if hasNextPage := setNextPageOption(list.NextPage, &opts.ListOptions); !hasNextPage {
+		if hasNextPage := setNextPageOption(list.NextPage, &opts.ListOptions.PageListOptions); !hasNextPage {
 			break
 		}
 	}

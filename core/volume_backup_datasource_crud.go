@@ -35,7 +35,7 @@ func (s *VolumeBackupDatasourceCrud) Get() (e error) {
 
 		s.Res.VolumeBackups = append(s.Res.VolumeBackups, list.VolumeBackups...)
 
-		if hasNextPage := setNextPageOption(list.NextPage, &opts.ListOptions); !hasNextPage {
+		if hasNextPage := setNextPageOption(list.NextPage, &opts.ListOptions.PageListOptions); !hasNextPage {
 			break
 		}
 	}

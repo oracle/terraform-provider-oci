@@ -30,7 +30,7 @@ func (s *DrgDatasourceCrud) Get() (e error) {
 
 		s.Res.Drgs = append(s.Res.Drgs, list.Drgs...)
 
-		if hasNextPage := setNextPageOption(list.NextPage, opts); !hasNextPage {
+		if hasNextPage := setNextPageOption(list.NextPage, &opts.PageListOptions); !hasNextPage {
 			break
 		}
 	}

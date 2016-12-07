@@ -30,7 +30,7 @@ func (s *RouteTableDatasourceCrud) Get() (e error) {
 
 		s.Res.RouteTables = append(s.Res.RouteTables, list.RouteTables...)
 
-		if hasNextPage := setNextPageOption(list.NextPage, opts); !hasNextPage {
+		if hasNextPage := setNextPageOption(list.NextPage, &opts.PageListOptions); !hasNextPage {
 			break
 		}
 	}
