@@ -5,6 +5,7 @@ import (
 
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/client"
+	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/options"
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
@@ -18,7 +19,7 @@ func (s *VolumeDatasourceCrud) Get() (e error) {
 	compartmentID := s.D.Get("compartment_id").(string)
 
 	opts := &baremetal.ListVolumesOptions{}
-	setListOptions(s.D, &opts.ListOptions)
+	options.SetListOptions(s.D, &opts.ListOptions)
 	if val, ok := s.D.GetOk("availability_domain"); ok {
 		opts.AvailabilityDomain = val.(string)
 	}
@@ -33,7 +34,7 @@ func (s *VolumeDatasourceCrud) Get() (e error) {
 
 		s.Res.Volumes = append(s.Res.Volumes, list.Volumes...)
 
-		if hasNextPage := setNextPageOption(list.NextPage, &opts.ListOptions.PageListOptions); !hasNextPage {
+		if hasNextPage := options.SetNextPageOption(list.NextPage, &opts.ListOptions.PageListOptions); !hasNextPage {
 			break
 		}
 	}

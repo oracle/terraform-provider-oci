@@ -5,6 +5,7 @@ import (
 
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/client"
+	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/options"
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
@@ -18,7 +19,7 @@ func (r *ShapeDatasourceCrud) Get() (e error) {
 	compartmentID := r.D.Get("compartment_id").(string)
 
 	opts := &baremetal.ListShapesOptions{}
-	setListOptions(r.D, &opts.ListOptions)
+	options.SetListOptions(r.D, &opts.ListOptions)
 	if val, ok := r.D.GetOk("availability_domain"); ok {
 		opts.AvailabilityDomain = val.(string)
 	}
@@ -36,7 +37,7 @@ func (r *ShapeDatasourceCrud) Get() (e error) {
 
 		r.Res.Shapes = append(r.Res.Shapes, list.Shapes...)
 
-		if hasNextPage := setNextPageOption(list.NextPage, &opts.ListOptions.PageListOptions); !hasNextPage {
+		if hasNextPage := options.SetNextPageOption(list.NextPage, &opts.ListOptions.PageListOptions); !hasNextPage {
 			break
 		}
 	}

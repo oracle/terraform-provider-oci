@@ -5,6 +5,7 @@ import (
 
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/client"
+	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/options"
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
@@ -18,7 +19,7 @@ func (s *ImageDatasourceCrud) Get() (e error) {
 	compartmentID := s.D.Get("compartment_id").(string)
 
 	opts := &baremetal.ListImagesOptions{}
-	setListOptions(s.D, &opts.ListOptions)
+	options.SetListOptions(s.D, &opts.ListOptions)
 	if val, ok := s.D.GetOk("operating_system"); ok {
 		opts.OperatingSystem = val.(string)
 	}
@@ -36,7 +37,7 @@ func (s *ImageDatasourceCrud) Get() (e error) {
 
 		s.Res.Images = append(s.Res.Images, list.Images...)
 
-		if hasNextPage := setNextPageOption(list.NextPage, &opts.ListOptions.PageListOptions); !hasNextPage {
+		if hasNextPage := options.SetNextPageOption(list.NextPage, &opts.ListOptions.PageListOptions); !hasNextPage {
 			break
 		}
 	}
