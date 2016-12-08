@@ -1448,6 +1448,29 @@ func (_m *BareMetalClient) ListCpes(compartmentID string, opts *baremetal.ListOp
 	return r0, r1
 }
 
+// ListDBSystemShapes provides a mock function with given fields: availabilityDomain, compartmentID, limit, opts
+func (_m *BareMetalClient) ListDBSystemShapes(availabilityDomain string, compartmentID string, limit uint64, opts *baremetal.PageListOptions) (*baremetal.ListDBSystemShapes, error) {
+	ret := _m.Called(availabilityDomain, compartmentID, limit, opts)
+
+	var r0 *baremetal.ListDBSystemShapes
+	if rf, ok := ret.Get(0).(func(string, string, uint64, *baremetal.PageListOptions) *baremetal.ListDBSystemShapes); ok {
+		r0 = rf(availabilityDomain, compartmentID, limit, opts)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*baremetal.ListDBSystemShapes)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(string, string, uint64, *baremetal.PageListOptions) error); ok {
+		r1 = rf(availabilityDomain, compartmentID, limit, opts)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // ListDHCPOptions provides a mock function with given fields: compartmentID, vcnID, opts
 func (_m *BareMetalClient) ListDHCPOptions(compartmentID string, vcnID string, opts *baremetal.ListOptions) (*baremetal.ListDHCPOptions, error) {
 	ret := _m.Called(compartmentID, vcnID, opts)
