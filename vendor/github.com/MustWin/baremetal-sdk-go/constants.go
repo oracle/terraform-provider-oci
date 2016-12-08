@@ -5,6 +5,7 @@ type resourceName string
 type InstanceActions string
 type instanceStates string
 type NetworkEntityType string
+type DBNodeAction string
 
 const (
 	// Resource States
@@ -48,7 +49,10 @@ const (
 	coreServiceAPIVersion = SDKVersion
 
 	databaseServiceAPI        = "https://database.us-phoenix-1.oraclecloud.com"
-	databaseServiceAPIVersion = "v1"
+	databaseServiceAPIVersion = SDKVersion
+
+	objectStorageServiceAPI        = "https://objectstorage.us-phoenix-1.oraclecloud.com"
+	objectStorageServiceAPIVersion = SDKVersion
 
 	// Header Keys
 	headerRetryToken     = "opc-retry-token"
@@ -68,8 +72,17 @@ const (
 	networkEntityInternetGateway           NetworkEntityType = "INTERNET_GATEWAY"
 	networkEntityDynamicallyRoutingGateway NetworkEntityType = "DYNAMICALLY_ROUTING_GATEWAY"
 
+	// Database related constants
+	DBNodeActionStart     DBNodeAction = "START"
+	DBNodeActionStop      DBNodeAction = "STOP"
+	DBNodeActionReset     DBNodeAction = "RESET"
+	DBNodeActionSoftReset DBNodeAction = "SOFTRESET"
+
 	// DB Resources
 	resourceDBSystemShapes resourceName = "dbSystemShapes"
+	resourceDBHomes        resourceName = "dbHomes"
+	resourceDBVersions     resourceName = "dbVersions"
+	resourceDBNodes        resourceName = "dbNodes"
 
 	// Identity Resources
 	resourceAvailabilityDomains  resourceName = "availabilityDomains"
@@ -100,12 +113,14 @@ const (
 	resourceVolumeAttachments        resourceName = "volumeAttachments"
 	resourceVolumeBackups            resourceName = "volumeBackups"
 
-	// Database Resources
-	resourceDBVersions resourceName = "dbVersions"
-
 	apiKeys      = "apiKeys"
 	uiPassword   = "uiPassword"
 	deviceConfig = "deviceConfig"
 	deviceStatus = "deviceStatus"
 	dataURLPart  = "data"
+
+	// Object Storage Resources
+	resourceNamespaces = "n"
+	resourceBuckets    = "b"
+	resourceObjects    = "o"
 )

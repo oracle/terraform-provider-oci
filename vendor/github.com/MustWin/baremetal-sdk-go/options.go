@@ -90,6 +90,16 @@ type CreateOptions struct {
 	DisplayNameOptions
 }
 
+type CreateBucketOptions struct {
+	Metadata map[string]string `json:"metadata,omitempty" url:"-"`
+}
+
+type UpdateBucketOptions struct {
+	Name      string            `json:"name,omitempty" url:"-"`
+	Namespace string            `json:"namespace,omitempty" url:"-"`
+	Metadata  map[string]string `json:"metadata,omitempty" url:"-"`
+}
+
 type UpdateOptions struct {
 	HeaderOptions
 	DisplayNameOptions

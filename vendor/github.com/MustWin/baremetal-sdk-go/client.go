@@ -1,6 +1,40 @@
-// Package baremetal provides access to the Oracle Bare Metal Cloud API's
-//
-// See https://docs.us-az-phoenix-1.oracleiaas.com/#API/Concepts/usingapi.htm
+/*
+	Package baremetal provides access to the Oracle Bare Metal Cloud API's
+
+	Usage:
+
+	To use the Go BareMetal SDK instantiate a baremetal.Client, supplying
+	your tenancy OCID, user OCID, RSA public key fingerprint, and RSA private key.
+	Then call functions as the example below illustrates.  Note that error
+	handling has been omitted to add clarity.
+
+		import (
+		  "fmt"
+		  "crypto/rsa"
+		  "github.com/MustWin/baremetal-sdk-go"
+		)
+
+		func main() {
+		  privateKey, _ := baremetal.PrivateKeyFromFile("/path/to/key.pem", "keyPassword")
+
+		  client := baremetal.New(
+		    "ocid1.tenancy.oc1..aaaaaaaaq3hulfjvrouw3e6qx2ncxtp256aq7etiabqqtzunnhxjslzkfyxq",
+		    "ocid1.user.oc1..aaaaaaaaflxvsdpjs5ztahmsf7vjxy5kdqnuzyqpvwnncbkfhavexwd4w5ra",
+		    "b4:8a:7d:54:e6:81:04:b2:99:8e:b3:ed:10:e2:12:2b",
+		    privateKey,
+		  )
+
+		  availabilityDomains, _ := client.ListAvailablityDomains()
+
+		  for _, ad := range availabilityDomains {
+		    fmt.Println(ad.Name)
+		  }
+
+		}
+
+	For more details, see the API docs located here:
+	https://docs.us-az-phoenix-1.oracleiaas.com/#API/Concepts/usingapi.htm
+*/
 package baremetal
 
 import (
@@ -19,6 +53,7 @@ type Client struct {
 	identityApi      requestor
 	coreApi          requestor
 	databaseApi      requestor
+	objectStorageApi requestor
 	identityEndPoint string
 }
 
@@ -37,11 +72,12 @@ func New(userOCID, tenancyOCID, keyFingerPrint string, privateKey *rsa.PrivateKe
 	tr := &http.Transport{}
 
 	return &Client{
-		userAgent:   userAgent,
-		authInfo:    auth,
-		identityApi: newIdentityAPIRequestor(auth, tr),
-		coreApi:     newCoreAPIRequestor(auth, tr),
-		databaseApi: newDatabaseAPIRequestor(auth, tr),
+		userAgent:        userAgent,
+		authInfo:         auth,
+		identityApi:      newIdentityAPIRequestor(auth, tr),
+		coreApi:          newCoreAPIRequestor(auth, tr),
+		objectStorageApi: newObjectStorageAPIRequestor(auth, tr),
+		databaseApi:      newDatabaseAPIRequestor(auth, tr),
 	}
 }
 

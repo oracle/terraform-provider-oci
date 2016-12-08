@@ -28,6 +28,16 @@ func newCoreAPIRequestor(authInfo *authenticationInfo, tr *http.Transport) (r *a
 	}
 }
 
+func newObjectStorageAPIRequestor(authInfo *authenticationInfo, tr *http.Transport) (r *apiRequestor) {
+	return &apiRequestor{
+		httpClient: &http.Client{
+			Transport: tr,
+		},
+		authInfo:   authInfo,
+		urlBuilder: buildObjectStorageURL,
+	}
+}
+
 func newDatabaseAPIRequestor(authInfo *authenticationInfo, tr *http.Transport) (r *apiRequestor) {
 	return &apiRequestor{
 		httpClient: &http.Client{

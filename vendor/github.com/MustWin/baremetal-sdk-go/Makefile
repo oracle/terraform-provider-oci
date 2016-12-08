@@ -12,7 +12,11 @@ core_test:
 	@go install github.com/MustWin/baremetal-sdk-go/test/core
 	@core
 
-regression_test: test identity_test core_test
+database_test:
+	@go install github.com/MustWin/baremetal-sdk-go/test/database
+	@database
+
+regression_test: test identity_test database_test core_test
 
 
-.PHONY: build test regression_test identity_test core_test
+.PHONY: build test regression_test identity_test core_test database_test
