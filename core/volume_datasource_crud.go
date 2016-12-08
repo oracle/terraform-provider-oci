@@ -47,9 +47,9 @@ func (s *VolumeDatasourceCrud) SetData() {
 		// Important, if you don't have an ID, make one up for your datasource
 		// or things will end in tears
 		s.D.SetId(time.Now().UTC().String())
-		volumes := []map[string]string{}
+		volumes := []map[string]interface{}{}
 		for _, v := range s.Res.Volumes {
-			vol := map[string]string{
+			vol := map[string]interface{}{
 				"availability_domain": v.AvailabilityDomain,
 				"compartment_id":      v.CompartmentID,
 				"display_name":        v.DisplayName,
