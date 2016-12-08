@@ -4,7 +4,7 @@ package baremetal
 //
 // See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/database/20160918/DbSystemShape/
 type DBSystemShape struct {
-	AvailableCoreCount string `json:"availableCoreCount"`
+	AvailableCoreCount uint64 `json:"availableCoreCount"`
 	Name               string `json:"name"`
 	Shape              string `json:"shape"`
 }
