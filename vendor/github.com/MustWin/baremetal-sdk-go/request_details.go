@@ -63,10 +63,17 @@ func (r *requestDetails) getBody() (marshaled []byte, e error) {
 	if marshaled, e = json.Marshal(r.required); e != nil {
 		return
 	}
-	var oBody []byte
-	if oBody, e = json.Marshal(r.optional); e != nil {
-		return
+
+	if r.optional != nil {
+		var oBody []byte
+		if oBody, e = json.Marshal(r.optional); e != nil {
+			return
+		}
+		marshaled = marshaled[:len(marshaled)-1]
+		marshaled = append(marshaled, []byte(",")...)
+		oBody = oBody[1:]
+		marshaled = append(marshaled, oBody...)
 	}
-	marshaled = append(marshaled, oBody...)
+
 	return
 }

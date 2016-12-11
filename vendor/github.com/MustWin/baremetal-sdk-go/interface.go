@@ -1,8 +1,11 @@
 package baremetal
 
 type Container interface {
-	SetNextPage(np string)
 	GetList() interface{}
+}
+
+type Pageable interface {
+	SetNextPage(np string)
 }
 
 type Requestable interface {

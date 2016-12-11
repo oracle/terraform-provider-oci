@@ -6,6 +6,8 @@ type InstanceActions string
 type instanceStates string
 type NetworkEntityType string
 type DBNodeAction string
+type DatabaseEdition string
+type DiskRedundancy string
 
 const (
 	// Resource States
@@ -72,17 +74,28 @@ const (
 	networkEntityInternetGateway           NetworkEntityType = "INTERNET_GATEWAY"
 	networkEntityDynamicallyRoutingGateway NetworkEntityType = "DYNAMICALLY_ROUTING_GATEWAY"
 
-	// Database related constants
+	// Database Node actions
 	DBNodeActionStart     DBNodeAction = "START"
 	DBNodeActionStop      DBNodeAction = "STOP"
 	DBNodeActionReset     DBNodeAction = "RESET"
 	DBNodeActionSoftReset DBNodeAction = "SOFTRESET"
 
+	// Database editions
+	DatabaseEditionEnterprise DatabaseEdition = "ENTERPRISE_EDITION"
+	DatabaseEditionExtreme    DatabaseEdition = "ENTERPRISE_EDITION_EXTREME_PERFORMANCE"
+	DatabaseEditionHigh       DatabaseEdition = "ENTERPRISE_EDITION_HIGH_PERFORMANCE"
+	DatabaseEditionStandard   DatabaseEdition = "STANDARD_EDITION"
+
+	// Database disk redundancy levels
+	DiskRedundancyHigh   DiskRedundancy = "HIGH"
+	DiskRedundancyNormal DiskRedundancy = "NORMAL"
+
 	// DB Resources
-	resourceDBSystemShapes resourceName = "dbSystemShapes"
 	resourceDBHomes        resourceName = "dbHomes"
-	resourceDBVersions     resourceName = "dbVersions"
 	resourceDBNodes        resourceName = "dbNodes"
+	resourceDBSystems      resourceName = "dbSystems"
+	resourceDBSystemShapes resourceName = "dbSystemShapes"
+	resourceDBVersions     resourceName = "dbVersions"
 
 	// Identity Resources
 	resourceAvailabilityDomains  resourceName = "availabilityDomains"
