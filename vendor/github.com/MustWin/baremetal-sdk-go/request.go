@@ -29,11 +29,15 @@ type requestResponse struct {
 
 func (r *requestResponse) unmarshal(resource interface{}) (e error) {
 	var val interface{}
+
 	if c, ok := resource.(Container); ok {
 		val = c.GetList()
-		c.SetNextPage(r.header.Get(headerOPCNextPage))
 	} else {
 		val = resource
+	}
+
+	if pc, ok := resource.(Pageable); ok {
+		pc.SetNextPage(r.header.Get(headerOPCNextPage))
 	}
 
 	if e = json.Unmarshal(r.body, val); e != nil {

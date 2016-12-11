@@ -32,10 +32,6 @@ type IPSecConnectionDeviceConfig struct {
 	Tunnels []TunnelConfig `json:"tunnels"`
 }
 
-func (l *IPSecConnectionDeviceConfig) GetList() interface{} {
-	return &l.Tunnels
-}
-
 // IPSecConnectionDeviceConfig information on a IPSec tunnel status
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#IPSecConnectionDeviceStatus
@@ -43,10 +39,6 @@ type IPSecConnectionDeviceStatus struct {
 	RequestableResource
 	IPSecConnectionDevice
 	Tunnels []TunnelStatus `json:"tunnels"`
-}
-
-func (l *IPSecConnectionDeviceStatus) GetList() interface{} {
-	return &l.Tunnels
 }
 
 // IPSecConnection information about an IPSec connection

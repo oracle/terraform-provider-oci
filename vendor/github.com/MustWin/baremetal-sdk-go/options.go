@@ -2,6 +2,24 @@ package baremetal
 
 import "net/http"
 
+// Requirements
+
+type identityCreationRequirement struct {
+	CompartmentID string `json:"compartmentId" url:"-"`
+	Description   string `json:"description" url:"-"`
+	Name          string `json:"name" url:"-"`
+}
+
+type ocidRequirement struct {
+	CompartmentID string `json:"compartmentId" url:"-"`
+}
+
+type listOCIDRequirement struct {
+	CompartmentID string `json:"-" url:"compartmentId"`
+}
+
+// Options
+
 // To get the body, optional and required are marshalled and merged.
 // To get the query string, optional and required are merged.
 // To get the header,
@@ -67,16 +85,6 @@ func (opt *HeaderOptions) Header() http.Header {
 	return header
 }
 
-type ocidRequirement struct {
-	CompartmentID string `json:"compartmentId" url:"-"`
-}
-
-type identityCreationRequirement struct {
-	CompartmentID string `json:"compartmentId" url:"-"`
-	Description   string `json:"description" url:"-"`
-	Name          string `json:"name" url:"-"`
-}
-
 type DisplayNameOptions struct {
 	DisplayName string `json:"displayName,omitempty" url:"-"`
 }
@@ -85,6 +93,8 @@ type VersionDateOptions struct {
 	VersionDate string `json:"versionDate,omitempty" url:"-"`
 }
 
+// Creation Options
+
 type CreateOptions struct {
 	RetryTokenOptions
 	DisplayNameOptions
@@ -92,60 +102,6 @@ type CreateOptions struct {
 
 type CreateBucketOptions struct {
 	Metadata map[string]string `json:"metadata,omitempty" url:"-"`
-}
-
-type UpdateBucketOptions struct {
-	Name      string            `json:"name,omitempty" url:"-"`
-	Namespace string            `json:"namespace,omitempty" url:"-"`
-	Metadata  map[string]string `json:"metadata,omitempty" url:"-"`
-}
-
-type UpdateOptions struct {
-	HeaderOptions
-	DisplayNameOptions
-}
-
-type UpdateBackupOptions struct {
-	IfMatchOptions
-	DisplayNameOptions
-}
-
-type UpdateIdentityOptions struct {
-	IfMatchOptions
-	Description string `json:"description,omitempty" url:"-"`
-}
-
-type UpdatePolicyOptions struct {
-	UpdateIdentityOptions
-	VersionDateOptions
-	Statements []string `json:"statements,omitempty" url:"-"`
-}
-
-type UpdateDHCPDNSOptions struct {
-	CreateOptions
-	Options []DHCPDNSOption `json:"options,omitempty" url:"-"`
-}
-
-type LaunchInstanceOptions struct {
-	CreateOptions
-	Metadata map[string]string `json:"metadata,omitempty" url:"-"`
-}
-
-type UpdateGatewayOptions struct {
-	IfMatchOptions
-	DisplayNameOptions
-	IsEnabled bool `json:"isEnabled,omitempty" url:"-"`
-}
-
-type UpdateRouteTableOptions struct {
-	CreateOptions
-	RouteRules []RouteRule `json:"routeRules,omitempty" url:"-"`
-}
-
-type UpdateSecurityListOptions struct {
-	CreateOptions
-	EgressRules  []EgressSecurityRule  `json:"egressSecurityRules,omitempty" url:"-"`
-	IngressRules []IngressSecurityRule `json:"ingressSecurityRules,omitempty" url:"-"`
 }
 
 type CreateSubnetOptions struct {
@@ -165,11 +121,72 @@ type CreatePolicyOptions struct {
 	VersionDateOptions
 }
 
-// ----- Options for listing resources ---
-
-type listOCIDRequirement struct {
-	CompartmentID string `json:"-" url:"compartmentId"`
+type LaunchInstanceOptions struct {
+	CreateOptions
+	Metadata map[string]string `json:"metadata,omitempty" url:"-"`
 }
+
+type LaunchDBSystemOptions struct {
+	CreateOptions
+	DatabaseEdition DatabaseEdition     `json:"databaseEdition,omitempty" url:"-"`
+	DBHome          createDBHomeDetails `json:"dbHome,omitempty" url:"-"`
+	DiskRedundancy  DiskRedundancy      `json:"diskRedundancy,omitempty" url:"-"`
+	Domain          string              `json:"domain,omitempty" url:"-"`
+	Hostname        string              `json:"hostname,omitempty" url:"-"`
+}
+
+// Update Options
+
+type UpdateOptions struct {
+	HeaderOptions
+	DisplayNameOptions
+}
+
+type UpdateBackupOptions struct {
+	IfMatchOptions
+	DisplayNameOptions
+}
+
+type UpdateBucketOptions struct {
+	Name      string            `json:"name,omitempty" url:"-"`
+	Namespace string            `json:"namespace,omitempty" url:"-"`
+	Metadata  map[string]string `json:"metadata,omitempty" url:"-"`
+}
+
+type UpdateIdentityOptions struct {
+	IfMatchOptions
+	Description string `json:"description,omitempty" url:"-"`
+}
+
+type UpdatePolicyOptions struct {
+	UpdateIdentityOptions
+	VersionDateOptions
+	Statements []string `json:"statements,omitempty" url:"-"`
+}
+
+type UpdateDHCPDNSOptions struct {
+	CreateOptions
+	Options []DHCPDNSOption `json:"options,omitempty" url:"-"`
+}
+
+type UpdateGatewayOptions struct {
+	IfMatchOptions
+	DisplayNameOptions
+	IsEnabled bool `json:"isEnabled,omitempty" url:"-"`
+}
+
+type UpdateRouteTableOptions struct {
+	CreateOptions
+	RouteRules []RouteRule `json:"routeRules,omitempty" url:"-"`
+}
+
+type UpdateSecurityListOptions struct {
+	CreateOptions
+	EgressRules  []EgressSecurityRule  `json:"egressSecurityRules,omitempty" url:"-"`
+	IngressRules []IngressSecurityRule `json:"ingressSecurityRules,omitempty" url:"-"`
+}
+
+// List Options
 
 type PageListOptions struct {
 	Page string `json:"-" url:"page,omitempty"`
@@ -267,7 +284,7 @@ type ListMembershipsOptions struct {
 	UserID  string `json:"-" url:"userId,omitempty"`
 }
 
-// -------- Misc options -----
+// Misc Options
 
 type ConsoleHistoryDataOptions struct {
 	Length uint64 `json:"-" url:"length,omitempty"`
