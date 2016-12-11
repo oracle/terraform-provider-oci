@@ -51,6 +51,7 @@ type BareMetalClient interface {
 	GetCompartment(id string) (res *baremetal.Compartment, e error)
 	GetConsoleHistory(instanceID string) (consoleHistoryMetadata *baremetal.ConsoleHistoryMetadata, e error)
 	GetCpe(id string) (cpe *baremetal.Cpe, e error)
+	GetDBSystem(id string) (res *baremetal.DBSystem, e error)
 	GetDHCPOptions(id string) (res *baremetal.DHCPOptions, e error)
 	GetDrg(id string) (res *baremetal.Drg, e error)
 	GetDrgAttachment(id string) (res *baremetal.DrgAttachment, e error)
@@ -75,6 +76,7 @@ type BareMetalClient interface {
 
 	InstanceAction(id string, action baremetal.InstanceActions, opts *baremetal.HeaderOptions) (inst *baremetal.Instance, e error)
 
+	LaunchDBSystem(availabilityDomain, compartmentID, shape, subnetID string, sshPublicKeys []string, cpuCoreCount uint64, opts *baremetal.LaunchDBSystemOptions) (res *baremetal.DBSystem, e error)
 	LaunchInstance(availabilityDomain, compartmentID, image, shape, subnetID string, opts *baremetal.LaunchInstanceOptions) (inst *baremetal.Instance, e error)
 
 	ListAPIKeys(userID string) (response *baremetal.ListAPIKeyResponses, e error)
@@ -82,6 +84,7 @@ type BareMetalClient interface {
 	ListCompartments(opts *baremetal.ListOptions) (resources *baremetal.ListCompartments, e error)
 	ListConsoleHistories(compartmentID string, opts *baremetal.ListConsoleHistoriesOptions) (icHistories *baremetal.ListConsoleHistories, e error)
 	ListCpes(compartmentID string, opts *baremetal.ListOptions) (cpes *baremetal.ListCpes, e error)
+	ListDBSystems(compartmentID string, limit uint64, opts *baremetal.PageListOptions) (res *baremetal.ListDBSystems, e error)
 	ListDBSystemShapes(availabilityDomain, compartmentID string, limit uint64, opts *baremetal.PageListOptions) (resources *baremetal.ListDBSystemShapes, e error)
 	ListDHCPOptions(compartmentID, vcnID string, opts *baremetal.ListOptions) (res *baremetal.ListDHCPOptions, e error)
 	ListDrgAttachments(compartmentID string, opts *baremetal.ListDrgAttachmentsOptions) (res *baremetal.ListDrgAttachments, e error)
@@ -105,6 +108,7 @@ type BareMetalClient interface {
 
 	ShowConsoleHistoryData(instanceConsoleHistoryID string, opts *baremetal.ConsoleHistoryDataOptions) (response *baremetal.ConsoleHistoryData, e error)
 
+	TerminateDBSystem(id string, opts *baremetal.IfMatchOptions) (e error)
 	TerminateInstance(id string, opts *baremetal.IfMatchOptions) (e error)
 
 	UpdateCompartment(id string, opts *baremetal.UpdateIdentityOptions) (res *baremetal.Compartment, e error)
