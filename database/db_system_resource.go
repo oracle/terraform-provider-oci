@@ -10,7 +10,6 @@ func DBSystemResource() *schema.Resource {
 	return &schema.Resource{
 		Create: createDBSystem,
 		Read:   readDBSystem,
-		Update: updateDBSystem,
 		Delete: deleteDBSystem,
 		Schema: map[string]*schema.Schema{
 			"availability_domain": &schema.Schema{
@@ -100,12 +99,6 @@ func readDBSystem(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
 	sync := &DBSystemResourceCrud{D: d, Client: client}
 	return crud.ReadResource(sync)
-}
-
-func updateDBSystem(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(client.BareMetalClient)
-	sync := &DBSystemResourceCrud{D: d, Client: client}
-	return crud.UpdateResource(d, sync)
 }
 
 func deleteDBSystem(d *schema.ResourceData, m interface{}) (e error) {
