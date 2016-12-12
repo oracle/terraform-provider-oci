@@ -22,29 +22,58 @@ func DBSystemResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
+			"shape": &schema.Schema{
+				Type:     schema.TypeString,
+				Required: true,
+				ForceNew: true,
+			},
+			"subnet_id": &schema.Schema{
+				Type:     schema.TypeString,
+				Required: true,
+				ForceNew: true,
+			},
+			"ssh_public_keys": &schema.Schema{
+				Type:     schema.TypeList,
+				Required: true,
+				ForceNew: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"cpu_core_count": &schema.Schema{
 				Type:     schema.TypeInt,
 				Required: true,
 				ForceNew: true,
 			},
-			"database_edition": &schema.Schema{
-				Type:     schema.TypeString,
-				Computed: true,
-				Optional: true,
-			},
-			"disk_redundancy": &schema.Schema{
-				Type:     schema.TypeString,
-				Computed: true,
-				Optional: true,
-			},
 			"display_name": &schema.Schema{
 				Type:     schema.TypeString,
 				Computed: true,
+				ForceNew: true,
+				Optional: true,
+			},
+			"database_edition": &schema.Schema{
+				Type:     schema.TypeString,
+				Computed: true,
+				ForceNew: true,
+				Optional: true,
+			},
+			// DB HOME!?
+			"disk_redundancy": &schema.Schema{
+				Type:     schema.TypeString,
+				Computed: true,
+				ForceNew: true,
+				Optional: true,
+			},
+			"domain": &schema.Schema{
+				Type:     schema.TypeString,
+				Computed: true,
+				ForceNew: true,
 				Optional: true,
 			},
 			"hostname": &schema.Schema{
 				Type:     schema.TypeString,
 				Computed: true,
+				ForceNew: true,
 				Optional: true,
 			},
 			"id": &schema.Schema{
@@ -59,27 +88,9 @@ func DBSystemResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"shape": &schema.Schema{
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
-			},
-			"ssh_public_keys": &schema.Schema{
-				Type:     schema.TypeList,
-				Required: true,
-				ForceNew: true,
-				Elem: &schema.Schema{
-					Type: schema.TypeString,
-				},
-			},
 			"state": &schema.Schema{
 				Type:     schema.TypeString,
 				Computed: true,
-			},
-			"subnet_id": &schema.Schema{
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
 			},
 			"time_created": &schema.Schema{
 				Type:     schema.TypeString,
