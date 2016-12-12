@@ -57,7 +57,43 @@ func DBSystemResource() *schema.Resource {
 				ForceNew: true,
 				Optional: true,
 			},
-			// DB HOME!?
+
+			"db_home": &schema.Schema{
+				Type:     schema.TypeSet,
+				Optional: true,
+				ForceNew: true,
+				MaxItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"database": &schema.Schema{
+							Type:     schema.TypeSet,
+							Required: true,
+							MaxItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"admin_password": &schema.Schema{
+										Type:     schema.TypeString,
+										Required: true,
+									},
+									"db_name": &schema.Schema{
+										Type:     schema.TypeString,
+										Required: true,
+									},
+								},
+							},
+						},
+						"db_version": &schema.Schema{
+							Type:     schema.TypeString,
+							Required: true,
+						},
+						"display_name": &schema.Schema{
+							Type:     schema.TypeString,
+							Optional: true,
+						},
+					},
+				},
+			},
+
 			"disk_redundancy": &schema.Schema{
 				Type:     schema.TypeString,
 				Computed: true,
