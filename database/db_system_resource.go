@@ -45,6 +45,7 @@ func DBSystemResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
+
 			"display_name": &schema.Schema{
 				Type:     schema.TypeString,
 				Computed: true,
@@ -112,6 +113,7 @@ func DBSystemResource() *schema.Resource {
 				ForceNew: true,
 				Optional: true,
 			},
+
 			"id": &schema.Schema{
 				Type:     schema.TypeString,
 				Computed: true,

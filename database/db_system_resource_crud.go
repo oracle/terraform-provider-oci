@@ -1,6 +1,9 @@
 package database
 
 import (
+	"fmt"
+	"reflect"
+
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/client"
 	"github.com/hashicorp/terraform/helper/schema"
@@ -32,10 +35,17 @@ func (s *DBSystemResourceCrud) Create() (e error) {
 		opts.DisplayName = displayName.(string)
 	}
 	if databaseEdition, ok := s.D.GetOk("database_edition"); ok {
-		opts.DatabaseEdition = databaseEdition.(string)
+		opts.DatabaseEdition = baremetal.DatabaseEdition(databaseEdition.(string))
 	}
+
+	if dbHome, ok := s.D.GetOk("db_home"); ok {
+		fmt.Println(dbHome)
+		fmt.Println(reflect.TypeOf(dbHome))
+		// opts.DisplayName = dbHome.()
+	}
+
 	if diskRedundancy, ok := s.D.GetOk("disk_redundancy"); ok {
-		opts.DiskRedundancy = diskRedundancy.(string)
+		opts.DiskRedundancy = baremetal.DiskRedundancy(diskRedundancy.(string))
 	}
 	if domain, ok := s.D.GetOk("domain"); ok {
 		opts.Domain = domain.(string)
