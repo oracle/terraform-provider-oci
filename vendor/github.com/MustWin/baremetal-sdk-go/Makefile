@@ -16,7 +16,11 @@ database_test:
 	@go install github.com/MustWin/baremetal-sdk-go/test/database
 	@database
 
-regression_test: test identity_test database_test core_test
+object_test:
+	@go install github.com/MustWin/baremetal-sdk-go/test/object
+	@object
+
+regression_test: test identity_test database_test core_test object_test
 
 
-.PHONY: build test regression_test identity_test core_test database_test
+.PHONY: build test regression_test identity_test core_test database_test object_test

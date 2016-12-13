@@ -1,6 +1,8 @@
 package baremetal
 
-import "net/http"
+import (
+	"net/http"
+)
 
 // Requirements
 
@@ -48,6 +50,18 @@ func (opt *IfMatchOptions) Header() http.Header {
 	header := http.Header{}
 	if opt != nil && opt.IfMatch != "" {
 		header.Set(headerIfMatch, opt.IfMatch)
+	}
+	return header
+}
+
+type IfNoneMatchOptions struct {
+	IfNoneMatch string `json:"-" url:"-"`
+}
+
+func (opt *IfNoneMatchOptions) Header() http.Header {
+	header := http.Header{}
+	if opt != nil && opt.IfNoneMatch != "" {
+		header.Set(headerIfNoneMatch, opt.IfNoneMatch)
 	}
 	return header
 }
@@ -149,7 +163,7 @@ type UpdateBackupOptions struct {
 
 type UpdateBucketOptions struct {
 	Name      string            `json:"name,omitempty" url:"-"`
-	Namespace string            `json:"namespace,omitempty" url:"-"`
+	Namespace Namespace         `json:"namespace,omitempty" url:"-"`
 	Metadata  map[string]string `json:"metadata,omitempty" url:"-"`
 }
 
@@ -289,4 +303,25 @@ type ListMembershipsOptions struct {
 type ConsoleHistoryDataOptions struct {
 	Length uint64 `json:"-" url:"length,omitempty"`
 	Offset uint64 `json:"-" url:"offset,omitempty"`
+}
+
+// -------- Objects API ------
+type ListBucketsOptions struct {
+	ListOptions
+	ClientRequestOptions
+}
+
+type ListObjectsOptions struct {
+	ClientRequestOptions
+	Prefix    string `json:"-" url:"prefix"`
+	Start     string `json:"-" url:"start"`
+	End       string `json:"-" url:"end"`
+	Limit     string `json:"-" url:"limit"`
+	Delimiter string `json:"-" url:"delimiter"`
+	Fields    string `json:"-" url:"fields"`
+}
+
+type DeleteObjectOptions struct {
+	IfMatchOptions
+	ClientRequestableResource
 }

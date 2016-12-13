@@ -27,7 +27,7 @@ func (c *Client) ListDBVersions(compartmentID string, limit uint64, opts *PageLi
 
 	details := &requestDetails{
 		name:     resourceDBVersions,
-		optional: opts, // Page is optional, limit is required and covered by the next line as well
+		optional: opts,
 		required: required,
 	}
 

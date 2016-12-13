@@ -51,7 +51,7 @@ type createDBHomeDetails struct {
 // LaunchDBSystem.
 //
 // See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/database/20160918/requests/CreateDbHomeDetails
-func (c *Client) NewCreateDBHomeDetails(adminPassword, dbName, dbVersion string, opts *DisplayNameOptions) (dbHome createDBHomeDetails) {
+func NewCreateDBHomeDetails(adminPassword, dbName, dbVersion string, opts *DisplayNameOptions) (dbHome createDBHomeDetails) {
 	dbHome = createDBHomeDetails{
 		Database: createDatabaseDetails{
 			AdminPassword: adminPassword,
