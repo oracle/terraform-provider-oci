@@ -60,14 +60,14 @@ func DBSystemResource() *schema.Resource {
 			},
 
 			"db_home": &schema.Schema{
-				Type:     schema.TypeSet,
+				Type:     schema.TypeList,
 				Optional: true,
 				ForceNew: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"database": &schema.Schema{
-							Type:     schema.TypeSet,
+							Type:     schema.TypeList,
 							Required: true,
 							MaxItems: 1,
 							Elem: &schema.Resource{

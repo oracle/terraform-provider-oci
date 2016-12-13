@@ -118,6 +118,7 @@ func resourcesMap() map[string]*schema.Resource {
 		"baremetal_core_volume_attachment": core.VolumeAttachmentResource(),
 		"baremetal_core_volume_backup":     core.VolumeBackupResource(),
 		"baremetal_core_volume":            core.VolumeResource(),
+		"baremetal_database_db_system":     database.DBSystemResource(),
 		"baremetal_identity_api_key":       identity.APIKeyResource(),
 		"baremetal_identity_compartment":   identity.CompartmentResource(),
 		"baremetal_identity_group":         identity.GroupResource(),

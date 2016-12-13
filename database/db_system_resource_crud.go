@@ -1,22 +1,39 @@
 package database
 
 import (
-	"fmt"
-	"reflect"
-
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/client"
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
 type DBSystemResourceCrud struct {
-	D        *schema.ResourceData
-	Client   client.BareMetalClient
-	Resource *baremetal.DBSystem
+	D      *schema.ResourceData
+	Client client.BareMetalClient
+	Res    *baremetal.DBSystem
 }
 
 func (s *DBSystemResourceCrud) ID() string {
-	return s.Resource.ID
+	return s.Res.ID
+}
+
+func (s *DBSystemResourceCrud) CreatedPending() []string {
+	return []string{baremetal.ResourceProvisioning}
+}
+
+func (s *DBSystemResourceCrud) CreatedTarget() []string {
+	return []string{baremetal.ResourceAvailable}
+}
+
+func (s *DBSystemResourceCrud) DeletedPending() []string {
+	return []string{baremetal.ResourceTerminating}
+}
+
+func (s *DBSystemResourceCrud) DeletedTarget() []string {
+	return []string{baremetal.ResourceTerminated}
+}
+
+func (s *DBSystemResourceCrud) State() string {
+	return s.Res.State
 }
 
 func (s *DBSystemResourceCrud) Create() (e error) {
@@ -38,10 +55,26 @@ func (s *DBSystemResourceCrud) Create() (e error) {
 		opts.DatabaseEdition = baremetal.DatabaseEdition(databaseEdition.(string))
 	}
 
-	if dbHome, ok := s.D.GetOk("db_home"); ok {
-		fmt.Println(dbHome)
-		fmt.Println(reflect.TypeOf(dbHome))
-		// opts.DisplayName = dbHome.()
+	if rawDBHome, ok := s.D.GetOk("db_home"); ok {
+		l := rawDBHome.([]interface{})
+		if len(l) > 0 {
+			dbHome := l[0].(map[string]interface{})
+			db := dbHome["database"].([]interface{})[0].(map[string]interface{})
+			displayName := dbHome["display_name"]
+			adminPassword := db["admin_password"].(string)
+			dbName := db["db_name"].(string)
+			dbVersion := dbHome["db_version"].(string)
+
+			dbHomeOpts := &baremetal.DisplayNameOptions{}
+			if displayName != nil {
+				dbHomeOpts.DisplayName = displayName.(string)
+			}
+
+			dbHomeDetails := baremetal.NewCreateDBHomeDetails(
+				adminPassword, dbName, dbVersion, dbHomeOpts,
+			)
+			opts.DBHome = dbHomeDetails
+		}
 	}
 
 	if diskRedundancy, ok := s.D.GetOk("disk_redundancy"); ok {
@@ -54,7 +87,7 @@ func (s *DBSystemResourceCrud) Create() (e error) {
 		opts.Hostname = hostname.(string)
 	}
 
-	s.Resource, e = s.Client.LaunchDBSystem(
+	s.Res, e = s.Client.LaunchDBSystem(
 		availabilityDomain, compartmentID, shape, subnetID,
 		sshPublicKeys, cpuCoreCount, opts,
 	)
@@ -63,12 +96,41 @@ func (s *DBSystemResourceCrud) Create() (e error) {
 }
 
 func (s *DBSystemResourceCrud) Get() (e error) {
+	s.Res, e = s.Client.GetDBSystem(s.D.Id())
 	return
 }
 
 func (s *DBSystemResourceCrud) SetData() {
+	s.D.Set("availability_domain", s.Res.AvailabilityDomain)
+	s.D.Set("compartment_id", s.Res.CompartmentID)
+	s.D.Set("shape", s.Res.Shape)
+	s.D.Set("subnet_id", s.Res.SubnetID)
+	s.D.Set("ssh_public_keys", s.Res.SSHPublicKeys)
+	s.D.Set("cpu_core_count", s.Res.CPUCoreCount)
+	s.D.Set("display_name", s.Res.DisplayName)
+	s.D.Set("database_edition", s.Res.DatabaseEdition)
+
+	db := map[string]interface{}{
+		"admin_password": s.Res.DBHome.Database.AdminPassword,
+		"db_name":        s.Res.DBHome.Database.DBName,
+	}
+	dbHome := map[string]interface{}{
+		"database":     []interface{}{db},
+		"db_version":   s.Res.DBHome.DBVersion,
+		"display_name": s.Res.DBHome.DisplayName,
+	}
+	s.D.Set("db_home", []interface{}{dbHome})
+
+	s.D.Set("disk_redundancy", s.Res.DiskRedundancy)
+	s.D.Set("domain", s.Res.Domain)
+	s.D.Set("hostname", s.Res.Hostname)
+	s.D.Set("id", s.Res.ID)
+	s.D.Set("lifecycle_details", s.Res.LifecycleDetails)
+	s.D.Set("listener_port", s.Res.ListenerPort)
+	s.D.Set("state", s.Res.State)
+	s.D.Set("time_created", s.Res.TimeCreated.String())
 }
 
 func (s *DBSystemResourceCrud) Delete() (e error) {
-	return
+	return s.Client.TerminateDBSystem(s.D.Id(), nil)
 }
