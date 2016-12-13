@@ -8,6 +8,7 @@ type NetworkEntityType string
 type DBNodeAction string
 type DatabaseEdition string
 type DiskRedundancy string
+type ListObjectOptionField string
 
 const (
 	// Resource States
@@ -57,12 +58,21 @@ const (
 	objectStorageServiceAPIVersion = SDKVersion
 
 	// Header Keys
-	headerRetryToken     = "opc-retry-token"
-	headerOPCNextPage    = "opc-next-page"
-	headerIfMatch        = "If-Match"
-	headerETag           = "ETag"
-	headerOPCRequestID   = "opc-request-id"
-	headerBytesRemaining = "opc-bytes-remaining"
+	headerRetryToken         = "opc-retry-token"
+	headerOPCNextPage        = "opc-next-page"
+	headerIfMatch            = "If-Match"
+	headerIfNoneMatch        = "If-None-Match"
+	headerRange              = "Range"
+	headerETag               = "ETag"
+	headerExpect             = "Expect"
+	headerContentLength      = "Content-Length"
+	headerContentMD5         = "Content-MD5"
+	headerContentType        = "Content-Type"
+	headerContentLanguage    = "Content-Language"
+	headerContentEncoding    = "Content-Encoding"
+	headerOPCRequestID       = "opc-request-id"
+	headerOPCClientRequestID = "opc-client-request-id"
+	headerBytesRemaining     = "opc-bytes-remaining"
 
 	// Actions that can be applied to compute instances
 	actionStart InstanceActions = "START"
@@ -96,6 +106,7 @@ const (
 	resourceDBSystems      resourceName = "dbSystems"
 	resourceDBSystemShapes resourceName = "dbSystemShapes"
 	resourceDBVersions     resourceName = "dbVersions"
+	resourceDatabases      resourceName = "databases"
 
 	// Identity Resources
 	resourceAvailabilityDomains  resourceName = "availabilityDomains"

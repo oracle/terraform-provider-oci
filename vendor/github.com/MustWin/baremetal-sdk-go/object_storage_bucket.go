@@ -10,7 +10,7 @@ import (
 
 type Bucket struct {
 	ETaggedResource
-	Namespace     string            `json:"namespace"`
+	Namespace     Namespace         `json:"namespace"`
 	Name          string            `json:"name"`
 	CompartmentID string            `json:"compartmentId"`
 	Metadata      map[string]string `json:"metadata"`
@@ -26,7 +26,7 @@ type Bucket struct {
 func (c *Client) CreateBucket(
 	compartmentID string,
 	name string,
-	namespaceName string,
+	namespaceName Namespace,
 	opts *CreateBucketOptions,
 ) (bckt *Bucket, e error) {
 
@@ -59,7 +59,7 @@ func (c *Client) CreateBucket(
 // See: https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/objectstorage/20160918/Bucket/GetBucket
 func (c *Client) GetBucket(
 	bucketName string,
-	namespaceName string,
+	namespaceName Namespace,
 ) (bckt *Bucket, e error) {
 	details := &requestDetails{
 		ids: urlParts{namespaceName, resourceBuckets, bucketName},
@@ -81,7 +81,7 @@ func (c *Client) GetBucket(
 func (c *Client) UpdateBucket(
 	compartmentID string,
 	name string,
-	namespaceName string,
+	namespaceName Namespace,
 	opts *UpdateBucketOptions,
 ) (bckt *Bucket, e error) {
 
@@ -114,7 +114,7 @@ func (c *Client) UpdateBucket(
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/objectstorage/20160918/Bucket/DeleteBucket
 func (c *Client) DeleteBucket(
 	name string,
-	namespaceName string,
+	namespaceName Namespace,
 	opts *IfMatchOptions,
 ) (e error) {
 	required := struct {
@@ -131,4 +131,46 @@ func (c *Client) DeleteBucket(
 	}
 
 	return c.objectStorageApi.deleteRequest(details)
+}
+
+type HeadBucket struct {
+	ETaggedResource
+	ClientRequestableResource
+}
+
+type HeadBucketOptions struct {
+	IfMatchOptions
+	IfNoneMatchOptions
+	ClientRequestableResource
+}
+
+// HeadBucket checks that a bucket exists and returns the ETag
+//
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/objectstorage/20160918/methods/HeadBucket
+func (c *Client) HeadBucket(
+	namespace Namespace,
+	bucketName string,
+	opts *HeadBucketOptions,
+) (headBucket *HeadBucket, e error) {
+
+	var required interface{}
+	details := &requestDetails{
+		ids: urlParts{
+			resourceNamespaces,
+			namespace,
+			resourceBuckets,
+			bucketName,
+		},
+		optional: opts,
+		required: required,
+	}
+
+	var response *requestResponse
+	if response, e = c.objectStorageApi.getRequest(details); e != nil {
+		return
+	}
+
+	headBucket = &HeadBucket{}
+	e = response.unmarshal(headBucket)
+	return
 }

@@ -42,6 +42,8 @@ func buildURL(urlStr string, query url.Values, ids ...interface{}) string {
 			strVal = strconv.FormatUint(id, 10)
 		case string:
 			strVal = id
+		case Namespace:
+			strVal = string(id)
 		}
 
 		if strVal != seperator {

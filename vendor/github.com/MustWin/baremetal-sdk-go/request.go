@@ -40,15 +40,49 @@ func (r *requestResponse) unmarshal(resource interface{}) (e error) {
 		pc.SetNextPage(r.header.Get(headerOPCNextPage))
 	}
 
-	if e = json.Unmarshal(r.body, val); e != nil {
+	if cs, ok := resource.(CustomUnmarshaler); ok {
+		if e = cs.Unmarshal(r.body, val); e != nil {
+			return
+		}
+
+	} else if e = json.Unmarshal(r.body, val); e != nil {
 		return
 	}
 
 	if rr, ok := resource.(Requestable); ok {
 		rr.SetRequestID(r.header.Get(headerOPCRequestID))
 	}
+	if crr, ok := resource.(ClientRequestable); ok {
+		crr.SetClientRequestID(r.header.Get(headerOPCClientRequestID))
+	}
 	if et, ok := resource.(ETagged); ok {
 		et.SetETag(r.header.Get(headerETag))
+	}
+
+	if cr, ok := resource.(ContentRequestable); ok {
+		cr.SetContentEncoding(r.header.Get(headerETag))
+		cr.SetContentLanguage(r.header.Get(headerETag))
+		if length, err := strconv.Atoi(r.header.Get(headerETag)); err != nil {
+			e = err
+			return
+		} else {
+			cr.SetContentLength(uint64(length))
+		}
+		cr.SetContentMD5(r.header.Get(headerETag))
+		cr.SetContentType(r.header.Get(headerETag))
+	}
+
+	if md, ok := resource.(MetaDataRequestable); ok {
+		prefix := "opc-meta-"
+		meta := make(map[string]string)
+		for name, headers := range r.header {
+			if strings.HasPrefix(name, prefix) {
+				for _, h := range headers {
+					meta[strings.Replace(name, prefix, "", 1)] = h
+				}
+			}
+		}
+		md.SetMetadata(meta)
 	}
 
 	return
