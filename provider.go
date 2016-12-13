@@ -7,7 +7,7 @@ import (
 	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/core"
 	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/database"
 	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/identity"
-	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/objectStorage"
+	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/objectstorage"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 )
@@ -125,7 +125,7 @@ func resourcesMap() map[string]*schema.Resource {
 		"baremetal_identity_policy":        identity.PolicyResource(),
 		"baremetal_identity_ui_password":   identity.UIPasswordResource(),
 		"baremetal_identity_user":          identity.UserResource(),
-		"baremetal_object_storage_bucket":  objectStorage.BucketResource(),
+		"baremetal_object_storage_bucket":  objectstorage.BucketResource(),
 	}
 }
 

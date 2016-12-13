@@ -13,7 +13,7 @@ import (
 	"github.com/stretchr/testify/suite"
 )
 
-type ResourceObjectStorageBucketTestSuite struct {
+type ResourceObjectstorageBucketTestSuite struct {
 	suite.Suite
 	Client       *mocks.BareMetalClient
 	Provider     terraform.ResourceProvider
@@ -24,7 +24,7 @@ type ResourceObjectStorageBucketTestSuite struct {
 	Res          *baremetal.Bucket
 }
 
-func (s *ResourceObjectStorageBucketTestSuite) SetupTest() {
+func (s *ResourceObjectstorageBucketTestSuite) SetupTest() {
 	s.Client = &mocks.BareMetalClient{}
 
 	s.Provider = Provider(
@@ -79,7 +79,7 @@ func (s *ResourceObjectStorageBucketTestSuite) SetupTest() {
 	s.Client.On("DeleteBucket", "name", "namespace", (*baremetal.IfMatchOptions)(nil)).Return(nil)
 }
 
-func (s *ResourceObjectStorageBucketTestSuite) TestCreateResourceCoreBucket() {
+func (s *ResourceObjectstorageBucketTestSuite) TestCreateResourceCoreBucket() {
 	s.Client.On("GetBucket", "name", "namespace").Return(s.Res, nil).Times(2)
 	s.Client.On("GetBucket", "name", "namespace").Return(nil, nil)
 
@@ -100,6 +100,6 @@ func (s *ResourceObjectStorageBucketTestSuite) TestCreateResourceCoreBucket() {
 	})
 }
 
-func TestResourceObjectStorageBucketTestSuite(t *testing.T) {
-	suite.Run(t, new(ResourceObjectStorageBucketTestSuite))
+func TestResourceobjectstorageBucketTestSuite(t *testing.T) {
+	suite.Run(t, new(ResourceObjectstorageBucketTestSuite))
 }

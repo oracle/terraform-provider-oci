@@ -1,4 +1,4 @@
-package objectStorage
+package objectstorage
 
 import (
 	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/client"
