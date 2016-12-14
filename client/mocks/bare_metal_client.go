@@ -1646,6 +1646,29 @@ func (_m *BareMetalClient) ListDBSystems(compartmentID string, limit uint64, opt
 	return r0, r1
 }
 
+// ListDBVersions provides a mock function with given fields: compartmentID, limit, opts
+func (_m *BareMetalClient) ListDBVersions(compartmentID string, limit uint64, opts *baremetal.PageListOptions) (*baremetal.ListDBVersions, error) {
+	ret := _m.Called(compartmentID, limit, opts)
+
+	var r0 *baremetal.ListDBVersions
+	if rf, ok := ret.Get(0).(func(string, uint64, *baremetal.PageListOptions) *baremetal.ListDBVersions); ok {
+		r0 = rf(compartmentID, limit, opts)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*baremetal.ListDBVersions)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(string, uint64, *baremetal.PageListOptions) error); ok {
+		r1 = rf(compartmentID, limit, opts)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // ListDHCPOptions provides a mock function with given fields: compartmentID, vcnID, opts
 func (_m *BareMetalClient) ListDHCPOptions(compartmentID string, vcnID string, opts *baremetal.ListOptions) (*baremetal.ListDHCPOptions, error) {
 	ret := _m.Called(compartmentID, vcnID, opts)

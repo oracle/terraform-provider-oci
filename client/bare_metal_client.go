@@ -91,6 +91,7 @@ type BareMetalClient interface {
 	ListDBHomes(compartmentID, dbSystemID string, limit uint64, opts *baremetal.PageListOptions) (res *baremetal.ListDBHomes, e error)
 	ListDBSystems(compartmentID string, limit uint64, opts *baremetal.PageListOptions) (res *baremetal.ListDBSystems, e error)
 	ListDBSystemShapes(availabilityDomain, compartmentID string, limit uint64, opts *baremetal.PageListOptions) (resources *baremetal.ListDBSystemShapes, e error)
+	ListDBVersions(compartmentID string, limit uint64, opts *baremetal.PageListOptions) (resources *baremetal.ListDBVersions, e error)
 	ListDHCPOptions(compartmentID, vcnID string, opts *baremetal.ListOptions) (res *baremetal.ListDHCPOptions, e error)
 	ListDrgAttachments(compartmentID string, opts *baremetal.ListDrgAttachmentsOptions) (res *baremetal.ListDrgAttachments, e error)
 	ListDrgs(compartmentID string, opts *baremetal.ListOptions) (res *baremetal.ListDrgs, e error)
