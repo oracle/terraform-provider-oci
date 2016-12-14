@@ -5,9 +5,10 @@ import (
 	"testing"
 	"time"
 
+	"text/template"
+
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/client/mocks"
-	"github.com/alecthomas/template"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
