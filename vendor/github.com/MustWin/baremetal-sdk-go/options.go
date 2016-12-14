@@ -325,3 +325,46 @@ type DeleteObjectOptions struct {
 	IfMatchOptions
 	ClientRequestableResource
 }
+
+type PutObjectOptions struct {
+	IfMatchOptions
+	IfNoneMatchOptions
+	ClientRequestableResource
+	ContentResource
+	Expect string
+	MetadataResource
+}
+
+func (opt *PutObjectOptions) Header() http.Header {
+	header := http.Header{}
+	if opt != nil {
+		if opt.IfMatch != "" {
+			header.Set(headerIfMatch, opt.IfMatch)
+		}
+		if opt.IfNoneMatch != "" {
+			header.Set(headerIfNoneMatch, opt.IfMatch)
+		}
+		if opt.ClientRequestID != "" {
+			header.Set(headerOPCClientRequestID, opt.ClientRequestID)
+		}
+		if opt.Expect != "" {
+			header.Set(headerExpect, opt.Expect)
+		}
+		if opt.ContentLength != 0 {
+			header.Set(headerContentLength, string(opt.ContentLength))
+		}
+		if opt.MD5 != "" {
+			header.Set(headerContentMD5, opt.MD5)
+		}
+		if opt.ContentType != "" {
+			header.Set(headerContentType, opt.ContentType)
+		}
+		if opt.ContentLanguage != "" {
+			header.Set(headerContentLanguage, opt.ContentLanguage)
+		}
+		if opt.ContentEncoding != "" {
+			header.Set(headerContentEncoding, opt.ContentEncoding)
+		}
+	}
+	return header
+}

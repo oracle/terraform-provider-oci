@@ -156,7 +156,6 @@ func (c *Client) HeadBucket(
 	var required interface{}
 	details := &requestDetails{
 		ids: urlParts{
-			resourceNamespaces,
 			namespace,
 			resourceBuckets,
 			bucketName,
