@@ -36,7 +36,7 @@ The following arguments are supported:
 * `compartment_id` - (Required) The OCID of the compartment.
 * `cpu_core_count` - (Required) The number of CPU cores enabled on the DB System.
 * `database_edition` - (Optional) The Oracle Database Edition that applies to all the databases on the DB System.
-* `db_home` - (Optional) 
+* `db_home` - (Optional) Create DBHome details. See [Create DBHome Details](#create-dbhome-details) below for detials.
 * `disk_redundancy` - (Optional) The type of redundancy configured for the DB System.
 * `display_name` - (Optional) The user-friendly name for the DB System. It does not have to be unique.
 * `domain` - (Optional) A domain name to assign to the DB System.
@@ -44,6 +44,21 @@ The following arguments are supported:
 * `shape` - (Required) The shape of the DB System.
 * `ssh_public_keys` - (Required) The public key portion of the key pair to use for SSH access to the DB System.
 * `subnet_id` - (Required) The OCID of the subnet the DB System is associated with.
+
+## Create DBHome Details
+
+The following arguments are supported:
+
+* `database` - (Required) Create Database details. See [Create Database Details](#create-database-details) below for details.
+* `db_version` - (Required) A valid Oracle database version.
+* `display_name` - (Optional) The user-provided name of the database home.
+
+## Create Database Details
+
+The following arguments are supported:
+
+* `admin_password` - (Required) A strong password for SYS, SYSTEM, and PDB Admin.
+* `db_name` - (Required) The database name.
 
 ## Attributes Reference
 
