@@ -28,6 +28,10 @@ func DBHomeDatasource() *schema.Resource {
 			},
 			"id": &schema.Schema{
 				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"db_home_id": &schema.Schema{
+				Type:     schema.TypeString,
 				Required: true,
 			},
 			"state": &schema.Schema{
