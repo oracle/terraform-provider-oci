@@ -9,7 +9,7 @@ type BareMetalClient interface {
 
 	CaptureConsoleHistory(instanceID string, opts *baremetal.RetryTokenOptions) (icHistory *baremetal.ConsoleHistoryMetadata, e error)
 
-	CreateBucket(compartmentID string, name string, namespaceName baremetal.Namespace, opts *baremetal.CreateBucketOptions, ) (bckt *baremetal.Bucket, e error)
+	CreateBucket(compartmentID string, name string, namespaceName baremetal.Namespace, opts *baremetal.CreateBucketOptions) (bckt *baremetal.Bucket, e error)
 	CreateCompartment(name, desc string, opts *baremetal.RetryTokenOptions) (res *baremetal.Compartment, e error)
 	CreateCpe(compartmentID, ipAddress string, opts *baremetal.CreateOptions) (cpe *baremetal.Cpe, e error)
 	CreateDHCPOptions(compartmentID, vcnID string, dhcpOptions []baremetal.DHCPDNSOption, opts *baremetal.CreateOptions) (res *baremetal.DHCPOptions, e error)
@@ -29,7 +29,7 @@ type BareMetalClient interface {
 	CreateVolumeBackup(volumeID string, opts *baremetal.CreateOptions) (vol *baremetal.VolumeBackup, e error)
 
 	DeleteAPIKey(userID, fingerprint string, opts *baremetal.IfMatchOptions) (e error)
-	DeleteBucket( name string, namespaceName baremetal.Namespace, opts *baremetal.IfMatchOptions) (e error)
+	DeleteBucket(name string, namespaceName baremetal.Namespace, opts *baremetal.IfMatchOptions) (e error)
 	DeleteCpe(id string, opts *baremetal.IfMatchOptions) (e error)
 	DeleteDHCPOptions(id string, opts *baremetal.IfMatchOptions) (e error)
 	DeleteDrg(id string, opts *baremetal.IfMatchOptions) (e error)
@@ -54,6 +54,7 @@ type BareMetalClient interface {
 	GetCompartment(id string) (res *baremetal.Compartment, e error)
 	GetConsoleHistory(instanceID string) (consoleHistoryMetadata *baremetal.ConsoleHistoryMetadata, e error)
 	GetCpe(id string) (cpe *baremetal.Cpe, e error)
+	GetDBHome(id string) (res *baremetal.DBHome, e error)
 	GetDBSystem(id string) (res *baremetal.DBSystem, e error)
 	GetDHCPOptions(id string) (res *baremetal.DHCPOptions, e error)
 	GetDrg(id string) (res *baremetal.Drg, e error)
@@ -87,6 +88,7 @@ type BareMetalClient interface {
 	ListCompartments(opts *baremetal.ListOptions) (resources *baremetal.ListCompartments, e error)
 	ListConsoleHistories(compartmentID string, opts *baremetal.ListConsoleHistoriesOptions) (icHistories *baremetal.ListConsoleHistories, e error)
 	ListCpes(compartmentID string, opts *baremetal.ListOptions) (cpes *baremetal.ListCpes, e error)
+	ListDBHomes(compartmentID, dbSystemID string, limit uint64, opts *baremetal.PageListOptions) (res *baremetal.ListDBHomes, e error)
 	ListDBSystems(compartmentID string, limit uint64, opts *baremetal.PageListOptions) (res *baremetal.ListDBSystems, e error)
 	ListDBSystemShapes(availabilityDomain, compartmentID string, limit uint64, opts *baremetal.PageListOptions) (resources *baremetal.ListDBSystemShapes, e error)
 	ListDHCPOptions(compartmentID, vcnID string, opts *baremetal.ListOptions) (res *baremetal.ListDHCPOptions, e error)
