@@ -43,7 +43,7 @@ providers {
 **Provider Datasources Documentation**
 
 **Provider Resources Documentation**
-* [Object Storage: Bucket](terraform-Oracle-BareMetal-Provider/docs/resources/object_storage_bucket.md)
+* [Object Storage: Bucket](./docs/resources/object_storage_bucket.md)
 
 ## Development
 [**Developer Guide**](docs/development.md)
