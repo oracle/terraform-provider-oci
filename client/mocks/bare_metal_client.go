@@ -1140,6 +1140,29 @@ func (_m *BareMetalClient) GetInternetGateway(id string) (*baremetal.InternetGat
 	return r0, r1
 }
 
+// GetNamespace provides a mock function with given fields:
+func (_m *BareMetalClient) GetNamespace() (*baremetal.Namespace, error) {
+	ret := _m.Called()
+
+	var r0 *baremetal.Namespace
+	if rf, ok := ret.Get(0).(func() *baremetal.Namespace); ok {
+		r0 = rf()
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*baremetal.Namespace)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func() error); ok {
+		r1 = rf()
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // GetObject provides a mock function with given fields: namespace, bucketName, objectName, opts
 func (_m *BareMetalClient) GetObject(namespace baremetal.Namespace, bucketName string, objectName string, opts *baremetal.GetObjectOptions) (*baremetal.Object, error) {
 	ret := _m.Called(namespace, bucketName, objectName, opts)

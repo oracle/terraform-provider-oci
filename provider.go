@@ -131,6 +131,7 @@ func resourcesMap() map[string]*schema.Resource {
 		"baremetal_objectstorage_object":      objectstorage.ObjectResource(),
 		"baremetal_objectstorage_objectlist":  objectstorage.ObjectDatasource(),
 		"baremetal_objectstorage_object_data": objectstorage.ObjectDatasource(),
+		"baremetal_objectstorage_namespace":  objectstorage.NamespaceDatasource(),
 	}
 }
 
