@@ -12,32 +12,32 @@ func SubnetResource() *schema.Resource {
 		Read:   readSubnet,
 		Delete: deleteSubnet,
 		Schema: map[string]*schema.Schema{
-			"availability_domain": &schema.Schema{
+			"availability_domain": {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
 			},
-			"cidr_block": &schema.Schema{
+			"cidr_block": {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
 			},
-			"compartment_id": &schema.Schema{
+			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
 			},
-			"route_table_id": &schema.Schema{
+			"route_table_id": {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
 			},
-			"vcn_id": &schema.Schema{
+			"vcn_id": {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
 			},
-			"security_list_ids": &schema.Schema{
+			"security_list_ids": {
 				Type:     schema.TypeList,
 				Required: true,
 				ForceNew: true,
@@ -45,28 +45,28 @@ func SubnetResource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
-			"display_name": &schema.Schema{
+			"display_name": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"id": &schema.Schema{
+			"id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"state": &schema.Schema{
+			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"time_created": &schema.Schema{
+			"time_created": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"virtual_router_id": &schema.Schema{
+			"virtual_router_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"virtual_router_mac": &schema.Schema{
+			"virtual_router_mac": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},

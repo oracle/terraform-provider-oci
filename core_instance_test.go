@@ -97,7 +97,7 @@ func (s *ResourceCoreInstanceTestSuite) TestCreateResourceCoreInstance() {
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "availability_domain", s.Res.AvailabilityDomain),
@@ -145,7 +145,7 @@ func (s *ResourceCoreInstanceTestSuite) TestCreateResourceCoreInstanceWithoutDis
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", s.Res.DisplayName),
@@ -198,10 +198,10 @@ func (s ResourceCoreInstanceTestSuite) TestUpdateInstanceDisplayName() {
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 			},
-			resource.TestStep{
+			{
 				Config: config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", res.DisplayName),
@@ -265,10 +265,10 @@ func (s ResourceCoreInstanceTestSuite) TestUpdateAvailabilityDomainForcesNewInst
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 			},
-			resource.TestStep{
+			{
 				Config: config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "availability_domain", res.AvailabilityDomain),
@@ -285,10 +285,10 @@ func (s *ResourceCoreInstanceTestSuite) TestTerminateInstance() {
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 			},
-			resource.TestStep{
+			{
 				Config:  s.Config,
 				Destroy: true,
 			},

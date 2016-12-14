@@ -67,7 +67,7 @@ func (s *ResourceIdentityUserTestSuite) TestCreateResourceIdentityUser() {
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "name", s.Res.Name),
@@ -92,7 +92,7 @@ func (s *ResourceIdentityUserTestSuite) TestCreateResourceIdentityUserPolling() 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "state", baremetal.ResourceActive),
@@ -124,10 +124,10 @@ func (s *ResourceIdentityUserTestSuite) TestUpdateResourceIdentityUserDescriptio
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 			},
-			resource.TestStep{
+			{
 				Config: c,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "description", "newdesc!"),
@@ -164,17 +164,17 @@ func (s *ResourceIdentityUserTestSuite) TestFailedUpdateResourceIdentityUserDesc
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 			},
-			resource.TestStep{
+			{
 				Config:      c,
 				ExpectError: regexp.MustCompile(`FAILED`),
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "description", "desc!"),
 				),
 			},
-			resource.TestStep{
+			{
 				Config: c,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "description", "newdesc!"),
@@ -207,10 +207,10 @@ func (s *ResourceIdentityUserTestSuite) TestUpdateResourceIdentityUserNameShould
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 			},
-			resource.TestStep{
+			{
 				Config: c,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "name", "newname!"),
@@ -226,10 +226,10 @@ func (s *ResourceIdentityUserTestSuite) TestDeleteResourceIdentityUser() {
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 			},
-			resource.TestStep{
+			{
 				Config:  s.Config,
 				Destroy: true,
 			},

@@ -58,7 +58,7 @@ func (s *ResourceCoreVnicAttachmentsTestSuite) TestResourceReadCoreVnicAttachmen
 	).Return(
 		&baremetal.ListVnicAttachments{
 			Attachments: []baremetal.VnicAttachment{
-				baremetal.VnicAttachment{
+				{
 					ID:                 "id1",
 					AvailabilityDomain: "availabilityid",
 					CompartmentID:      "compartmentid",
@@ -69,7 +69,7 @@ func (s *ResourceCoreVnicAttachmentsTestSuite) TestResourceReadCoreVnicAttachmen
 					VnicID:             "vnicid",
 					TimeCreated:        time.Now(),
 				},
-				baremetal.VnicAttachment{
+				{
 					ID:                 "id2",
 					AvailabilityDomain: "availabilityid",
 					CompartmentID:      "compartmentid",
@@ -89,7 +89,7 @@ func (s *ResourceCoreVnicAttachmentsTestSuite) TestResourceReadCoreVnicAttachmen
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartmentid"),
@@ -126,7 +126,7 @@ func (s *ResourceCoreVnicAttachmentsTestSuite) TestResourceReadCoreVnicAttachmen
 				NextPage: "nextpage",
 			},
 			Attachments: []baremetal.VnicAttachment{
-				baremetal.VnicAttachment{
+				{
 					ID:                 "id1",
 					AvailabilityDomain: "availabilityid",
 					CompartmentID:      "compartmentid",
@@ -137,7 +137,7 @@ func (s *ResourceCoreVnicAttachmentsTestSuite) TestResourceReadCoreVnicAttachmen
 					VnicID:             "vnicid",
 					TimeCreated:        time.Now(),
 				},
-				baremetal.VnicAttachment{
+				{
 					ID:                 "id2",
 					AvailabilityDomain: "availabilityid",
 					CompartmentID:      "compartmentid",
@@ -166,7 +166,7 @@ func (s *ResourceCoreVnicAttachmentsTestSuite) TestResourceReadCoreVnicAttachmen
 	).Return(
 		&baremetal.ListVnicAttachments{
 			Attachments: []baremetal.VnicAttachment{
-				baremetal.VnicAttachment{
+				{
 					ID:                 "id3",
 					AvailabilityDomain: "availabilityid",
 					CompartmentID:      "compartmentid",
@@ -177,7 +177,7 @@ func (s *ResourceCoreVnicAttachmentsTestSuite) TestResourceReadCoreVnicAttachmen
 					VnicID:             "vnicid",
 					TimeCreated:        time.Now(),
 				},
-				baremetal.VnicAttachment{
+				{
 					ID:                 "id4",
 					AvailabilityDomain: "availabilityid",
 					CompartmentID:      "compartmentid",
@@ -197,7 +197,7 @@ func (s *ResourceCoreVnicAttachmentsTestSuite) TestResourceReadCoreVnicAttachmen
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartmentid"),

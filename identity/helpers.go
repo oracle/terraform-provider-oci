@@ -3,28 +3,28 @@ package identity
 import "github.com/hashicorp/terraform/helper/schema"
 
 var identitySchema = map[string]*schema.Schema{
-	"name": &schema.Schema{
+	"name": {
 		Type:     schema.TypeString,
 		Required: true,
 		ForceNew: true,
 	},
-	"description": &schema.Schema{
+	"description": {
 		Type:     schema.TypeString,
 		Required: true,
 	},
-	"compartment_id": &schema.Schema{
+	"compartment_id": {
 		Type:     schema.TypeString,
 		Computed: true,
 	},
-	"state": &schema.Schema{
+	"state": {
 		Type:     schema.TypeString,
 		Computed: true,
 	},
-	"time_created": &schema.Schema{
+	"time_created": {
 		Type:     schema.TypeString,
 		Computed: true,
 	},
-	"time_modified": &schema.Schema{
+	"time_modified": {
 		Type:     schema.TypeString,
 		Computed: true,
 	},

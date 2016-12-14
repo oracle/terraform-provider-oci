@@ -10,19 +10,19 @@ func ConsoleHistoryDataDatasource() *schema.Resource {
 	return &schema.Resource{
 		Read: readConsoleHistoryData,
 		Schema: map[string]*schema.Schema{
-			"console_history_id": &schema.Schema{
+			"console_history_id": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"data": &schema.Schema{
+			"data": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"length": &schema.Schema{
+			"length": {
 				Type:     schema.TypeInt,
 				Optional: true,
 			},
-			"offset": &schema.Schema{
+			"offset": {
 				Type:     schema.TypeInt,
 				Optional: true,
 			},

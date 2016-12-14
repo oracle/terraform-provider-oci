@@ -10,23 +10,23 @@ func InstanceDatasource() *schema.Resource {
 	return &schema.Resource{
 		Read: readInstances,
 		Schema: map[string]*schema.Schema{
-			"compartment_id": &schema.Schema{
+			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"availability_domain": &schema.Schema{
+			"availability_domain": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"page": &schema.Schema{
+			"page": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"limit": &schema.Schema{
+			"limit": {
 				Type:     schema.TypeInt,
 				Optional: true,
 			},
-			"instances": &schema.Schema{
+			"instances": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem:     resourceCoreInstance(),
@@ -38,44 +38,44 @@ func InstanceDatasource() *schema.Resource {
 func resourceCoreInstance() *schema.Resource {
 	return &schema.Resource{
 		Schema: map[string]*schema.Schema{
-			"availability_domain": &schema.Schema{
+			"availability_domain": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"compartment_id": &schema.Schema{
+			"compartment_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"display_name": &schema.Schema{
+			"display_name": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"id": &schema.Schema{
+			"id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"image": &schema.Schema{
+			"image": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"metadata": &schema.Schema{
+			"metadata": {
 				Type:     schema.TypeMap,
 				Computed: true,
 				Elem:     schema.TypeMap,
 			},
-			"region": &schema.Schema{
+			"region": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"shape": &schema.Schema{
+			"shape": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"state": &schema.Schema{
+			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"time_created": &schema.Schema{
+			"time_created": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},

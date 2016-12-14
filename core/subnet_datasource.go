@@ -10,23 +10,23 @@ func SubnetDatasource() *schema.Resource {
 	return &schema.Resource{
 		Read: readSubnets,
 		Schema: map[string]*schema.Schema{
-			"compartment_id": &schema.Schema{
+			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"vcn_id": &schema.Schema{
+			"vcn_id": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"page": &schema.Schema{
+			"page": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"limit": &schema.Schema{
+			"limit": {
 				Type:     schema.TypeInt,
 				Optional: true,
 			},
-			"subnets": &schema.Schema{
+			"subnets": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem:     resourceCoreSubnets(),
@@ -38,54 +38,54 @@ func SubnetDatasource() *schema.Resource {
 func resourceCoreSubnets() *schema.Resource {
 	return &schema.Resource{
 		Schema: map[string]*schema.Schema{
-			"availability_domain": &schema.Schema{
+			"availability_domain": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"cidr_block": &schema.Schema{
+			"cidr_block": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"compartment_id": &schema.Schema{
+			"compartment_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"route_table_id": &schema.Schema{
+			"route_table_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"vcn_id": &schema.Schema{
+			"vcn_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"security_list_ids": &schema.Schema{
+			"security_list_ids": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
 			},
-			"display_name": &schema.Schema{
+			"display_name": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"id": &schema.Schema{
+			"id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"state": &schema.Schema{
+			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"time_created": &schema.Schema{
+			"time_created": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"virtual_router_id": &schema.Schema{
+			"virtual_router_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"virtual_router_mac": &schema.Schema{
+			"virtual_router_mac": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},

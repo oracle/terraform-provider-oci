@@ -48,7 +48,7 @@ func (s *ResourceCoreDHCPOptionsDatasourceTestSuite) SetupTest() {
 		DisplayName:   "display_name",
 		ID:            "id1",
 		Options: []baremetal.DHCPDNSOption{
-			baremetal.DHCPDNSOption{
+			{
 				Type:             "type",
 				CustomDNSServers: []string{"server_type"},
 				ServerType:       "server_type",
@@ -77,7 +77,7 @@ func (s *ResourceCoreDHCPOptionsDatasourceTestSuite) TestReadDHCPOptions() {
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartment_id"),
@@ -123,7 +123,7 @@ func (s *ResourceCoreDHCPOptionsDatasourceTestSuite) TestReadDHCPOptionsWithPagi
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "options.0.id", "id1"),

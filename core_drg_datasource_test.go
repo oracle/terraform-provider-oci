@@ -54,14 +54,14 @@ func (s *ResourceCoreDrgsTestSuite) TestReadDrgs() {
 	).Return(
 		&baremetal.ListDrgs{
 			Drgs: []baremetal.Drg{
-				baremetal.Drg{
+				{
 					CompartmentID: "compartment_id",
 					DisplayName:   "display_name",
 					ID:            "id1",
 					State:         baremetal.ResourceAttached,
 					TimeCreated:   baremetal.Time{Time: time.Now()},
 				},
-				baremetal.Drg{
+				{
 					CompartmentID: "compartment_id",
 					DisplayName:   "display_name",
 					ID:            "id2",
@@ -77,7 +77,7 @@ func (s *ResourceCoreDrgsTestSuite) TestReadDrgs() {
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartment_id"),
@@ -111,14 +111,14 @@ func (s *ResourceCoreDrgsTestSuite) TestReadDrgsPaged() {
 				NextPage: "nextpage",
 			},
 			Drgs: []baremetal.Drg{
-				baremetal.Drg{
+				{
 					CompartmentID: "compartment_id",
 					DisplayName:   "display_name",
 					ID:            "id1",
 					State:         baremetal.ResourceAttached,
 					TimeCreated:   baremetal.Time{Time: time.Now()},
 				},
-				baremetal.Drg{
+				{
 					CompartmentID: "compartment_id",
 					DisplayName:   "display_name",
 					ID:            "id2",
@@ -141,14 +141,14 @@ func (s *ResourceCoreDrgsTestSuite) TestReadDrgsPaged() {
 	).Return(
 		&baremetal.ListDrgs{
 			Drgs: []baremetal.Drg{
-				baremetal.Drg{
+				{
 					CompartmentID: "compartment_id",
 					DisplayName:   "display_name",
 					ID:            "id3",
 					State:         baremetal.ResourceAttached,
 					TimeCreated:   baremetal.Time{Time: time.Now()},
 				},
-				baremetal.Drg{
+				{
 					CompartmentID: "compartment_id",
 					DisplayName:   "display_name",
 					ID:            "id4",
@@ -164,7 +164,7 @@ func (s *ResourceCoreDrgsTestSuite) TestReadDrgsPaged() {
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartment_id"),

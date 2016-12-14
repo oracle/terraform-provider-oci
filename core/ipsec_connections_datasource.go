@@ -10,27 +10,27 @@ func IPSecConnectionsDatasource() *schema.Resource {
 	return &schema.Resource{
 		Read: readIPSecConnections,
 		Schema: map[string]*schema.Schema{
-			"compartment_id": &schema.Schema{
+			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"drg_id": &schema.Schema{
+			"drg_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"cpe_id": &schema.Schema{
+			"cpe_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"page": &schema.Schema{
+			"page": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"limit": &schema.Schema{
+			"limit": {
 				Type:     schema.TypeInt,
 				Optional: true,
 			},
-			"connections": &schema.Schema{
+			"connections": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem:     datasourceIPSecConnections(),
@@ -42,38 +42,38 @@ func IPSecConnectionsDatasource() *schema.Resource {
 func datasourceIPSecConnections() *schema.Resource {
 	return &schema.Resource{
 		Schema: map[string]*schema.Schema{
-			"compartment_id": &schema.Schema{
+			"compartment_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"drg_id": &schema.Schema{
+			"drg_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"cpe_id": &schema.Schema{
+			"cpe_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"display_name": &schema.Schema{
+			"display_name": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"id": &schema.Schema{
+			"id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"state": &schema.Schema{
+			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"static_routes": &schema.Schema{
+			"static_routes": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
 			},
-			"time_created": &schema.Schema{
+			"time_created": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},

@@ -62,12 +62,12 @@ func (s *ResourceCoreDHCPOptionsTestSuite) SetupTest() {
 	s.ResourceName = "baremetal_core_dhcp_options.t"
 
 	entities := []baremetal.DHCPDNSOption{
-		baremetal.DHCPDNSOption{
+		{
 			Type:             "type",
 			CustomDNSServers: []string{"custom_dns_servers"},
 			ServerType:       "server_type",
 		},
-		baremetal.DHCPDNSOption{
+		{
 			Type:             "type",
 			CustomDNSServers: []string{"custom_dns_servers"},
 			ServerType:       "server_type",
@@ -102,7 +102,7 @@ func (s *ResourceCoreDHCPOptionsTestSuite) TestCreateResourceCoreDHCPOptions() {
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", s.Res.CompartmentID),
@@ -133,7 +133,7 @@ func (s ResourceCoreDHCPOptionsTestSuite) TestUpdateDHCPOptions() {
 	config += testProviderConfig
 
 	entities := []baremetal.DHCPDNSOption{
-		baremetal.DHCPDNSOption{
+		{
 			Type:             "new_type",
 			CustomDNSServers: []string{"new_custom_dns_servers"},
 			ServerType:       "new_server_type",
@@ -153,7 +153,7 @@ func (s ResourceCoreDHCPOptionsTestSuite) TestUpdateDHCPOptions() {
 
 	opts := &baremetal.UpdateDHCPDNSOptions{}
 	opts.Options = []baremetal.DHCPDNSOption{
-		baremetal.DHCPDNSOption{
+		{
 			Type:             "new_type",
 			CustomDNSServers: []string{"new_custom_dns_servers"},
 			ServerType:       "new_server_type",
@@ -167,10 +167,10 @@ func (s ResourceCoreDHCPOptionsTestSuite) TestUpdateDHCPOptions() {
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 			},
-			resource.TestStep{
+			{
 				Config: config,
 				Check:  resource.TestCheckResourceAttr(s.ResourceName, "options.0.type", "new_type"),
 			},
@@ -185,10 +185,10 @@ func (s *ResourceCoreDHCPOptionsTestSuite) TestDeleteDHCPOptions() {
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 			},
-			resource.TestStep{
+			{
 				Config:  s.Config,
 				Destroy: true,
 			},

@@ -60,7 +60,7 @@ func (s *ResourceCoreVolumeAttachmentsTestSuite) TestReadVolumeAttachments() {
 	).Return(
 		&baremetal.ListVolumeAttachments{
 			VolumeAttachments: []baremetal.VolumeAttachment{
-				baremetal.VolumeAttachment{
+				{
 					AttachmentType:     "attachment_type",
 					AvailabilityDomain: "availability_domain",
 					CompartmentID:      "compartment_id",
@@ -71,7 +71,7 @@ func (s *ResourceCoreVolumeAttachmentsTestSuite) TestReadVolumeAttachments() {
 					TimeCreated:        baremetal.Time{Time: time.Now()},
 					VolumeID:           "volume_id",
 				},
-				baremetal.VolumeAttachment{
+				{
 					AttachmentType:     "attachment_type",
 					AvailabilityDomain: "availability_domain",
 					CompartmentID:      "compartment_id",
@@ -91,7 +91,7 @@ func (s *ResourceCoreVolumeAttachmentsTestSuite) TestReadVolumeAttachments() {
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "availability_domain", "availability_domain"),
@@ -128,7 +128,7 @@ func (s *ResourceCoreVolumeAttachmentsTestSuite) TestReadVolumeAttachmentsWithPa
 				NextPage: "nextpage",
 			},
 			VolumeAttachments: []baremetal.VolumeAttachment{
-				baremetal.VolumeAttachment{
+				{
 					AttachmentType:     "attachment_type",
 					AvailabilityDomain: "availability_domain",
 					CompartmentID:      "compartment_id",
@@ -139,7 +139,7 @@ func (s *ResourceCoreVolumeAttachmentsTestSuite) TestReadVolumeAttachmentsWithPa
 					TimeCreated:        baremetal.Time{Time: time.Now()},
 					VolumeID:           "volume_id",
 				},
-				baremetal.VolumeAttachment{
+				{
 					AttachmentType:     "attachment_type",
 					AvailabilityDomain: "availability_domain",
 					CompartmentID:      "compartment_id",
@@ -169,7 +169,7 @@ func (s *ResourceCoreVolumeAttachmentsTestSuite) TestReadVolumeAttachmentsWithPa
 	).Return(
 		&baremetal.ListVolumeAttachments{
 			VolumeAttachments: []baremetal.VolumeAttachment{
-				baremetal.VolumeAttachment{
+				{
 					AttachmentType:     "attachment_type",
 					AvailabilityDomain: "availability_domain",
 					CompartmentID:      "compartment_id",
@@ -180,7 +180,7 @@ func (s *ResourceCoreVolumeAttachmentsTestSuite) TestReadVolumeAttachmentsWithPa
 					TimeCreated:        baremetal.Time{Time: time.Now()},
 					VolumeID:           "volume_id",
 				},
-				baremetal.VolumeAttachment{
+				{
 					AttachmentType:     "attachment_type",
 					AvailabilityDomain: "availability_domain",
 					CompartmentID:      "compartment_id",
@@ -200,7 +200,7 @@ func (s *ResourceCoreVolumeAttachmentsTestSuite) TestReadVolumeAttachmentsWithPa
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "availability_domain", "availability_domain"),

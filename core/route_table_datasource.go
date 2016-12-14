@@ -10,24 +10,24 @@ func RouteTableDatasource() *schema.Resource {
 	return &schema.Resource{
 		Read: readRouteTables,
 		Schema: map[string]*schema.Schema{
-			"compartment_id": &schema.Schema{
+			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"limit": &schema.Schema{
+			"limit": {
 				Type:     schema.TypeInt,
 				Optional: true,
 			},
-			"page": &schema.Schema{
+			"page": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"route_tables": &schema.Schema{
+			"route_tables": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem:     RouteTableResource(),
 			},
-			"vcn_id": &schema.Schema{
+			"vcn_id": {
 				Type:     schema.TypeString,
 				Required: true,
 			},

@@ -92,7 +92,7 @@ func (s *ResourceCoreDrgAttachmentTestSuite) TestCreateResourceCoreDrgAttachment
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", s.Res.CompartmentID),
@@ -115,10 +115,10 @@ func (s *ResourceCoreDrgAttachmentTestSuite) TestDetachVolume() {
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 			},
-			resource.TestStep{
+			{
 				Config:  s.Config,
 				Destroy: true,
 			},

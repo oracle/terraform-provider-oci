@@ -10,19 +10,19 @@ func DrgDatasource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDrgs,
 		Schema: map[string]*schema.Schema{
-			"compartment_id": &schema.Schema{
+			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"limit": &schema.Schema{
+			"limit": {
 				Type:     schema.TypeInt,
 				Optional: true,
 			},
-			"page": &schema.Schema{
+			"page": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"drgs": &schema.Schema{
+			"drgs": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem:     DrgResource(),

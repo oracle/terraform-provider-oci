@@ -13,46 +13,46 @@ func ImageResource() *schema.Resource {
 		Update: updateImage,
 		Delete: deleteImage,
 		Schema: map[string]*schema.Schema{
-			"base_image_id": &schema.Schema{
+			"base_image_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"compartment_id": &schema.Schema{
+			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
 			},
-			"create_image_allowed": &schema.Schema{
+			"create_image_allowed": {
 				Type:     schema.TypeBool,
 				Computed: true,
 			},
-			"display_name": &schema.Schema{
+			"display_name": {
 				Type:     schema.TypeString,
 				Computed: true,
 				Optional: true,
 			},
-			"id": &schema.Schema{
+			"id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"instance_id": &schema.Schema{
+			"instance_id": {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
 			},
-			"state": &schema.Schema{
+			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"operating_system": &schema.Schema{
+			"operating_system": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"operating_system_version": &schema.Schema{
+			"operating_system_version": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"time_created": &schema.Schema{
+			"time_created": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},

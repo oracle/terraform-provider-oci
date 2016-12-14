@@ -68,7 +68,7 @@ func (s *ResourceIdentityCompartmentTestSuite) TestCreateResourceIdentityCompart
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "name", s.Res.Name),
@@ -93,7 +93,7 @@ func (s *ResourceIdentityCompartmentTestSuite) TestCreateResourceIdentityCompart
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 				Check:  resource.TestCheckResourceAttr(s.ResourceName, "state", baremetal.ResourceActive),
 			},
@@ -122,10 +122,10 @@ func (s *ResourceIdentityCompartmentTestSuite) TestUpdateResourceIdentityCompart
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 			},
-			resource.TestStep{
+			{
 				Config: c,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "description", "newdesc!"),
@@ -157,15 +157,15 @@ func (s *ResourceIdentityCompartmentTestSuite) TestFailedUpdateResourceIdentityC
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 			},
-			resource.TestStep{
+			{
 				Config:      c,
 				ExpectError: regexp.MustCompile(`FAILED`),
 				Check:       resource.TestCheckResourceAttr(s.ResourceName, "description", "desc!"),
 			},
-			resource.TestStep{
+			{
 				Config: c,
 				Check:  resource.TestCheckResourceAttr(s.ResourceName, "description", "newdesc!"),
 			},

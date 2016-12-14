@@ -12,34 +12,34 @@ func DrgAttachmentResource() *schema.Resource {
 		Read:   readDrgAttachment,
 		Delete: deleteDrgAttachment,
 		Schema: map[string]*schema.Schema{
-			"compartment_id": &schema.Schema{
+			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
 			},
-			"display_name": &schema.Schema{
+			"display_name": {
 				Type:     schema.TypeString,
 				Computed: true,
 				Optional: true,
 			},
-			"drg_id": &schema.Schema{
+			"drg_id": {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
 			},
-			"id": &schema.Schema{
+			"id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"state": &schema.Schema{
+			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"time_created": &schema.Schema{
+			"time_created": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"vcn_id": &schema.Schema{
+			"vcn_id": {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,

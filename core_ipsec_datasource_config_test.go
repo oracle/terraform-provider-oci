@@ -55,12 +55,12 @@ func (s *DatasourceCoreIPSecConfigTestSuite) TestIPSecConfig() {
 			},
 
 			Tunnels: []baremetal.TunnelConfig{
-				baremetal.TunnelConfig{
+				{
 					IPAddress:    "10.10.10.2",
 					SharedSecret: "secret1",
 					TimeCreated:  baremetal.Time{Time: time.Now()},
 				},
-				baremetal.TunnelConfig{
+				{
 					IPAddress:    "10.10.10.3",
 					SharedSecret: "secret2",
 					TimeCreated:  baremetal.Time{Time: time.Now()},
@@ -74,7 +74,7 @@ func (s *DatasourceCoreIPSecConfigTestSuite) TestIPSecConfig() {
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartmentid"),

@@ -77,7 +77,7 @@ func (s *ResourceIdentityAPIKeyTestSuite) TestCreateAPIKey() {
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "user_id", "user_id"),
@@ -100,10 +100,10 @@ func (s *ResourceIdentityAPIKeyTestSuite) TestDeleteAPIKey() {
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 			},
-			resource.TestStep{
+			{
 				Config:  s.Config,
 				Destroy: true,
 			},

@@ -12,32 +12,32 @@ func APIKeyResource() *schema.Resource {
 		Read:   readAPIKey,
 		Delete: deleteAPIKey,
 		Schema: map[string]*schema.Schema{
-			"fingerprint": &schema.Schema{
+			"fingerprint": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"id": &schema.Schema{
+			"id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"inactive_status": &schema.Schema{
+			"inactive_status": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"key_value": &schema.Schema{
+			"key_value": {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
 			},
-			"state": &schema.Schema{
+			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"time_created": &schema.Schema{
+			"time_created": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"user_id": &schema.Schema{
+			"user_id": {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,

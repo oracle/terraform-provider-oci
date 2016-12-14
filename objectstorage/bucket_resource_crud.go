@@ -42,14 +42,14 @@ func (s *BucketResourceCrud) Create() (e error) {
 		metadata := resourceMapToMetadata(rawMetadata.(map[string]interface{}))
 		opts.Metadata = metadata
 	}
-	s.Res, e = s.Client.CreateBucket(compartmentID, name, namespace, opts)
+	s.Res, e = s.Client.CreateBucket(compartmentID, name, baremetal.Namespace(namespace), opts)
 	return
 }
 
 func (s *BucketResourceCrud) Get() (e error) {
 	name := s.D.Get("name").(string)
 	namespace := s.D.Get("namespace").(string)
-	s.Res, e = s.Client.GetBucket(name, namespace)
+	s.Res, e = s.Client.GetBucket(name, baremetal.Namespace(namespace))
 	return
 }
 
@@ -63,12 +63,12 @@ func (s *BucketResourceCrud) Update() (e error) {
 		opts.Metadata = metadata
 	}
 
-	s.Res, e = s.Client.UpdateBucket(compartmentID, name, namespace, opts)
+	s.Res, e = s.Client.UpdateBucket(compartmentID, name, baremetal.Namespace(namespace), opts)
 	return
 }
 
 func (s *BucketResourceCrud) Delete() (e error) {
 	name := s.D.Get("name").(string)
 	namespace := s.D.Get("namespace").(string)
-	return s.Client.DeleteBucket(name, namespace, nil)
+	return s.Client.DeleteBucket(name, baremetal.Namespace(namespace), nil)
 }

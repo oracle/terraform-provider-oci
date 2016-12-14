@@ -9,7 +9,7 @@ type BareMetalClient interface {
 
 	CaptureConsoleHistory(instanceID string, opts *baremetal.RetryTokenOptions) (icHistory *baremetal.ConsoleHistoryMetadata, e error)
 
-	CreateBucket(compartmentID string, name string, namespaceName string, opts *baremetal.CreateBucketOptions, ) (bckt *baremetal.Bucket, e error)
+	CreateBucket(compartmentID string, name string, namespaceName baremetal.Namespace, opts *baremetal.CreateBucketOptions, ) (bckt *baremetal.Bucket, e error)
 	CreateCompartment(name, desc string, opts *baremetal.RetryTokenOptions) (res *baremetal.Compartment, e error)
 	CreateCpe(compartmentID, ipAddress string, opts *baremetal.CreateOptions) (cpe *baremetal.Cpe, e error)
 	CreateDHCPOptions(compartmentID, vcnID string, dhcpOptions []baremetal.DHCPDNSOption, opts *baremetal.CreateOptions) (res *baremetal.DHCPOptions, e error)
@@ -29,7 +29,7 @@ type BareMetalClient interface {
 	CreateVolumeBackup(volumeID string, opts *baremetal.CreateOptions) (vol *baremetal.VolumeBackup, e error)
 
 	DeleteAPIKey(userID, fingerprint string, opts *baremetal.IfMatchOptions) (e error)
-	DeleteBucket( name string, namespaceName string, opts *baremetal.IfMatchOptions) (e error)
+	DeleteBucket( name string, namespaceName baremetal.Namespace, opts *baremetal.IfMatchOptions) (e error)
 	DeleteCpe(id string, opts *baremetal.IfMatchOptions) (e error)
 	DeleteDHCPOptions(id string, opts *baremetal.IfMatchOptions) (e error)
 	DeleteDrg(id string, opts *baremetal.IfMatchOptions) (e error)
@@ -50,7 +50,7 @@ type BareMetalClient interface {
 
 	DetachVolume(id string, opts *baremetal.IfMatchOptions) (e error)
 
-	GetBucket(bucketName string, namespaceName string) (bckt *baremetal.Bucket, e error)
+	GetBucket(bucketName string, namespaceName baremetal.Namespace) (bckt *baremetal.Bucket, e error)
 	GetCompartment(id string) (res *baremetal.Compartment, e error)
 	GetConsoleHistory(instanceID string) (consoleHistoryMetadata *baremetal.ConsoleHistoryMetadata, e error)
 	GetCpe(id string) (cpe *baremetal.Cpe, e error)
@@ -114,7 +114,7 @@ type BareMetalClient interface {
 	TerminateDBSystem(id string, opts *baremetal.IfMatchOptions) (e error)
 	TerminateInstance(id string, opts *baremetal.IfMatchOptions) (e error)
 
-	UpdateBucket(compartmentID string, name string, namespaceName string, opts *baremetal.UpdateBucketOptions) (bckt *baremetal.Bucket, e error)
+	UpdateBucket(compartmentID string, name string, namespaceName baremetal.Namespace, opts *baremetal.UpdateBucketOptions) (bckt *baremetal.Bucket, e error)
 	UpdateCompartment(id string, opts *baremetal.UpdateIdentityOptions) (res *baremetal.Compartment, e error)
 	UpdateDHCPOptions(id string, opts *baremetal.UpdateDHCPDNSOptions) (res *baremetal.DHCPOptions, e error)
 	UpdateGroup(id string, opts *baremetal.UpdateIdentityOptions) (res *baremetal.Group, e error)

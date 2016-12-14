@@ -58,7 +58,7 @@ func (s *ResourceCoreInstancesTestSuite) TestResourceListInstances() {
 	).Return(
 		&baremetal.ListInstances{
 			Instances: []baremetal.Instance{
-				baremetal.Instance{
+				{
 					ID:                 "id1",
 					AvailabilityDomain: "availabilityid",
 					CompartmentID:      "compartmentid",
@@ -71,7 +71,7 @@ func (s *ResourceCoreInstancesTestSuite) TestResourceListInstances() {
 						Time: time.Now(),
 					},
 				},
-				baremetal.Instance{
+				{
 					ID:                 "id2",
 					AvailabilityDomain: "availabilityid",
 					CompartmentID:      "compartmentid",
@@ -93,7 +93,7 @@ func (s *ResourceCoreInstancesTestSuite) TestResourceListInstances() {
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartmentid"),
@@ -131,7 +131,7 @@ func (s *ResourceCoreInstancesTestSuite) TestResourceListInstancesPaged() {
 				NextPage: "nextpage",
 			},
 			Instances: []baremetal.Instance{
-				baremetal.Instance{
+				{
 					ID:                 "id1",
 					AvailabilityDomain: "availabilityid",
 					CompartmentID:      "compartmentid",
@@ -144,7 +144,7 @@ func (s *ResourceCoreInstancesTestSuite) TestResourceListInstancesPaged() {
 						Time: time.Now(),
 					},
 				},
-				baremetal.Instance{
+				{
 					ID:                 "id2",
 					AvailabilityDomain: "availabilityid",
 					CompartmentID:      "compartmentid",
@@ -173,7 +173,7 @@ func (s *ResourceCoreInstancesTestSuite) TestResourceListInstancesPaged() {
 	).Return(
 		&baremetal.ListInstances{
 			Instances: []baremetal.Instance{
-				baremetal.Instance{
+				{
 					ID:                 "id3",
 					AvailabilityDomain: "availabilityid",
 					CompartmentID:      "compartmentid",
@@ -186,7 +186,7 @@ func (s *ResourceCoreInstancesTestSuite) TestResourceListInstancesPaged() {
 						Time: time.Now(),
 					},
 				},
-				baremetal.Instance{
+				{
 					ID:                 "id4",
 					AvailabilityDomain: "availabilityid",
 					CompartmentID:      "compartmentid",
@@ -208,7 +208,7 @@ func (s *ResourceCoreInstancesTestSuite) TestResourceListInstancesPaged() {
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartmentid"),

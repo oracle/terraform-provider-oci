@@ -12,27 +12,27 @@ func DBSystemResource() *schema.Resource {
 		Read:   readDBSystem,
 		Delete: deleteDBSystem,
 		Schema: map[string]*schema.Schema{
-			"availability_domain": &schema.Schema{
+			"availability_domain": {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
 			},
-			"compartment_id": &schema.Schema{
+			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
 			},
-			"shape": &schema.Schema{
+			"shape": {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
 			},
-			"subnet_id": &schema.Schema{
+			"subnet_id": {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
 			},
-			"ssh_public_keys": &schema.Schema{
+			"ssh_public_keys": {
 				Type:     schema.TypeList,
 				Required: true,
 				ForceNew: true,
@@ -40,54 +40,54 @@ func DBSystemResource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
-			"cpu_core_count": &schema.Schema{
+			"cpu_core_count": {
 				Type:     schema.TypeInt,
 				Required: true,
 				ForceNew: true,
 			},
 
-			"display_name": &schema.Schema{
+			"display_name": {
 				Type:     schema.TypeString,
 				Computed: true,
 				ForceNew: true,
 				Optional: true,
 			},
-			"database_edition": &schema.Schema{
+			"database_edition": {
 				Type:     schema.TypeString,
 				Computed: true,
 				ForceNew: true,
 				Optional: true,
 			},
 
-			"db_home": &schema.Schema{
+			"db_home": {
 				Type:     schema.TypeList,
 				Optional: true,
 				ForceNew: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"database": &schema.Schema{
+						"database": {
 							Type:     schema.TypeList,
 							Required: true,
 							MaxItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"admin_password": &schema.Schema{
+									"admin_password": {
 										Type:     schema.TypeString,
 										Required: true,
 									},
-									"db_name": &schema.Schema{
+									"db_name": {
 										Type:     schema.TypeString,
 										Required: true,
 									},
 								},
 							},
 						},
-						"db_version": &schema.Schema{
+						"db_version": {
 							Type:     schema.TypeString,
 							Required: true,
 						},
-						"display_name": &schema.Schema{
+						"display_name": {
 							Type:     schema.TypeString,
 							Optional: true,
 						},
@@ -95,42 +95,42 @@ func DBSystemResource() *schema.Resource {
 				},
 			},
 
-			"disk_redundancy": &schema.Schema{
+			"disk_redundancy": {
 				Type:     schema.TypeString,
 				Computed: true,
 				ForceNew: true,
 				Optional: true,
 			},
-			"domain": &schema.Schema{
+			"domain": {
 				Type:     schema.TypeString,
 				Computed: true,
 				ForceNew: true,
 				Optional: true,
 			},
-			"hostname": &schema.Schema{
+			"hostname": {
 				Type:     schema.TypeString,
 				Computed: true,
 				ForceNew: true,
 				Optional: true,
 			},
 
-			"id": &schema.Schema{
+			"id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"lifecycle_details": &schema.Schema{
+			"lifecycle_details": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"listener_port": &schema.Schema{
+			"listener_port": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"state": &schema.Schema{
+			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"time_created": &schema.Schema{
+			"time_created": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},

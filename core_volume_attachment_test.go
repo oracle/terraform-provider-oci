@@ -95,7 +95,7 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) TestCreateResourceCoreVolumeAtta
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "attachment_type", s.Res.AttachmentType),
@@ -120,10 +120,10 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) TestDetachVolume() {
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 			},
-			resource.TestStep{
+			{
 				Config:  s.Config,
 				Destroy: true,
 			},

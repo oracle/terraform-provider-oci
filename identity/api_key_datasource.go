@@ -10,11 +10,11 @@ func APIKeyDatasource() *schema.Resource {
 	return &schema.Resource{
 		Read: readAPIKeys,
 		Schema: map[string]*schema.Schema{
-			"user_id": &schema.Schema{
+			"user_id": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"api_keys": &schema.Schema{
+			"api_keys": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem:     APIKeyResource(),

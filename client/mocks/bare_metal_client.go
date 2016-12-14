@@ -79,11 +79,11 @@ func (_m *BareMetalClient) CaptureConsoleHistory(instanceID string, opts *bareme
 }
 
 // CreateBucket provides a mock function with given fields: compartmentID, name, namespaceName, opts
-func (_m *BareMetalClient) CreateBucket(compartmentID string, name string, namespaceName string, opts *baremetal.CreateBucketOptions) (*baremetal.Bucket, error) {
+func (_m *BareMetalClient) CreateBucket(compartmentID string, name string, namespaceName baremetal.Namespace, opts *baremetal.CreateBucketOptions) (*baremetal.Bucket, error) {
 	ret := _m.Called(compartmentID, name, namespaceName, opts)
 
 	var r0 *baremetal.Bucket
-	if rf, ok := ret.Get(0).(func(string, string, string, *baremetal.CreateBucketOptions) *baremetal.Bucket); ok {
+	if rf, ok := ret.Get(0).(func(string, string, baremetal.Namespace, *baremetal.CreateBucketOptions) *baremetal.Bucket); ok {
 		r0 = rf(compartmentID, name, namespaceName, opts)
 	} else {
 		if ret.Get(0) != nil {
@@ -92,7 +92,7 @@ func (_m *BareMetalClient) CreateBucket(compartmentID string, name string, names
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string, string, string, *baremetal.CreateBucketOptions) error); ok {
+	if rf, ok := ret.Get(1).(func(string, string, baremetal.Namespace, *baremetal.CreateBucketOptions) error); ok {
 		r1 = rf(compartmentID, name, namespaceName, opts)
 	} else {
 		r1 = ret.Error(1)
@@ -507,11 +507,11 @@ func (_m *BareMetalClient) DeleteAPIKey(userID string, fingerprint string, opts 
 }
 
 // DeleteBucket provides a mock function with given fields: name, namespaceName, opts
-func (_m *BareMetalClient) DeleteBucket(name string, namespaceName string, opts *baremetal.IfMatchOptions) error {
+func (_m *BareMetalClient) DeleteBucket(name string, namespaceName baremetal.Namespace, opts *baremetal.IfMatchOptions) error {
 	ret := _m.Called(name, namespaceName, opts)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(string, string, *baremetal.IfMatchOptions) error); ok {
+	if rf, ok := ret.Get(0).(func(string, baremetal.Namespace, *baremetal.IfMatchOptions) error); ok {
 		r0 = rf(name, namespaceName, opts)
 	} else {
 		r0 = ret.Error(0)
@@ -773,11 +773,11 @@ func (_m *BareMetalClient) DetachVolume(id string, opts *baremetal.IfMatchOption
 }
 
 // GetBucket provides a mock function with given fields: bucketName, namespaceName
-func (_m *BareMetalClient) GetBucket(bucketName string, namespaceName string) (*baremetal.Bucket, error) {
+func (_m *BareMetalClient) GetBucket(bucketName string, namespaceName baremetal.Namespace) (*baremetal.Bucket, error) {
 	ret := _m.Called(bucketName, namespaceName)
 
 	var r0 *baremetal.Bucket
-	if rf, ok := ret.Get(0).(func(string, string) *baremetal.Bucket); ok {
+	if rf, ok := ret.Get(0).(func(string, baremetal.Namespace) *baremetal.Bucket); ok {
 		r0 = rf(bucketName, namespaceName)
 	} else {
 		if ret.Get(0) != nil {
@@ -786,7 +786,7 @@ func (_m *BareMetalClient) GetBucket(bucketName string, namespaceName string) (*
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string, string) error); ok {
+	if rf, ok := ret.Get(1).(func(string, baremetal.Namespace) error); ok {
 		r1 = rf(bucketName, namespaceName)
 	} else {
 		r1 = ret.Error(1)
@@ -2089,11 +2089,11 @@ func (_m *BareMetalClient) TerminateInstance(id string, opts *baremetal.IfMatchO
 }
 
 // UpdateBucket provides a mock function with given fields: compartmentID, name, namespaceName, opts
-func (_m *BareMetalClient) UpdateBucket(compartmentID string, name string, namespaceName string, opts *baremetal.UpdateBucketOptions) (*baremetal.Bucket, error) {
+func (_m *BareMetalClient) UpdateBucket(compartmentID string, name string, namespaceName baremetal.Namespace, opts *baremetal.UpdateBucketOptions) (*baremetal.Bucket, error) {
 	ret := _m.Called(compartmentID, name, namespaceName, opts)
 
 	var r0 *baremetal.Bucket
-	if rf, ok := ret.Get(0).(func(string, string, string, *baremetal.UpdateBucketOptions) *baremetal.Bucket); ok {
+	if rf, ok := ret.Get(0).(func(string, string, baremetal.Namespace, *baremetal.UpdateBucketOptions) *baremetal.Bucket); ok {
 		r0 = rf(compartmentID, name, namespaceName, opts)
 	} else {
 		if ret.Get(0) != nil {
@@ -2102,7 +2102,7 @@ func (_m *BareMetalClient) UpdateBucket(compartmentID string, name string, names
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string, string, string, *baremetal.UpdateBucketOptions) error); ok {
+	if rf, ok := ret.Get(1).(func(string, string, baremetal.Namespace, *baremetal.UpdateBucketOptions) error); ok {
 		r1 = rf(compartmentID, name, namespaceName, opts)
 	} else {
 		r1 = ret.Error(1)

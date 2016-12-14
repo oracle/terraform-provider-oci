@@ -58,7 +58,7 @@ func (s *CoreDrgAttachmentDatasourceTestSuite) TestReadDrgAttachments() {
 	).Return(
 		&baremetal.ListDrgAttachments{
 			DrgAttachments: []baremetal.DrgAttachment{
-				baremetal.DrgAttachment{
+				{
 					CompartmentID: "compartment_id",
 					DrgID:         "drg_id",
 					DisplayName:   "display_name",
@@ -67,7 +67,7 @@ func (s *CoreDrgAttachmentDatasourceTestSuite) TestReadDrgAttachments() {
 					TimeCreated:   baremetal.Time{Time: time.Now()},
 					VcnID:         "vcn_id",
 				},
-				baremetal.DrgAttachment{
+				{
 					CompartmentID: "compartment_id",
 					DrgID:         "drg_id",
 					DisplayName:   "display_name",
@@ -85,7 +85,7 @@ func (s *CoreDrgAttachmentDatasourceTestSuite) TestReadDrgAttachments() {
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartment_id"),
@@ -119,7 +119,7 @@ func (s *CoreDrgAttachmentDatasourceTestSuite) TestReadPagedDrgAttachments() {
 				NextPage: "nextpage",
 			},
 			DrgAttachments: []baremetal.DrgAttachment{
-				baremetal.DrgAttachment{
+				{
 					CompartmentID: "compartment_id",
 					DrgID:         "drg_id",
 					DisplayName:   "display_name",
@@ -128,7 +128,7 @@ func (s *CoreDrgAttachmentDatasourceTestSuite) TestReadPagedDrgAttachments() {
 					TimeCreated:   baremetal.Time{Time: time.Now()},
 					VcnID:         "vcn_id",
 				},
-				baremetal.DrgAttachment{
+				{
 					CompartmentID: "compartment_id",
 					DrgID:         "drg_id",
 					DisplayName:   "display_name",
@@ -155,7 +155,7 @@ func (s *CoreDrgAttachmentDatasourceTestSuite) TestReadPagedDrgAttachments() {
 	).Return(
 		&baremetal.ListDrgAttachments{
 			DrgAttachments: []baremetal.DrgAttachment{
-				baremetal.DrgAttachment{
+				{
 					CompartmentID: "compartment_id",
 					DrgID:         "drg_id",
 					DisplayName:   "display_name",
@@ -164,7 +164,7 @@ func (s *CoreDrgAttachmentDatasourceTestSuite) TestReadPagedDrgAttachments() {
 					TimeCreated:   baremetal.Time{Time: time.Now()},
 					VcnID:         "vcn_id",
 				},
-				baremetal.DrgAttachment{
+				{
 					CompartmentID: "compartment_id",
 					DrgID:         "drg_id",
 					DisplayName:   "display_name",
@@ -182,7 +182,7 @@ func (s *CoreDrgAttachmentDatasourceTestSuite) TestReadPagedDrgAttachments() {
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartment_id"),

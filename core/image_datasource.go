@@ -10,27 +10,27 @@ func ImageDatasource() *schema.Resource {
 	return &schema.Resource{
 		Read: readImages,
 		Schema: map[string]*schema.Schema{
-			"compartment_id": &schema.Schema{
+			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"limit": &schema.Schema{
+			"limit": {
 				Type:     schema.TypeInt,
 				Optional: true,
 			},
-			"page": &schema.Schema{
+			"page": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"operating_system": &schema.Schema{
+			"operating_system": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"operating_system_version": &schema.Schema{
+			"operating_system_version": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"images": &schema.Schema{
+			"images": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem:     ImageResource(),

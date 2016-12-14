@@ -76,19 +76,19 @@ func (s *ResourceObjectstorageBucketTestSuite) SetupTest() {
 		"CreateBucket",
 		"compartment_id",
 		"name",
-		string(s.Namespace),
+		s.Namespace,
 		opts).Return(s.Res, nil)
-	s.Client.On("DeleteBucket", "name", string(s.Namespace), (*baremetal.IfMatchOptions)(nil)).Return(nil)
+	s.Client.On("DeleteBucket", "name", s.Namespace, (*baremetal.IfMatchOptions)(nil)).Return(nil)
 }
 
 func (s *ResourceObjectstorageBucketTestSuite) TestCreateResourceObjectstorageBucket() {
-	s.Client.On("GetBucket", "name", string(s.Namespace)).Return(s.Res, nil).Times(2)
-	s.Client.On("GetBucket", "name", string(s.Namespace)).Return(nil, nil)
+	s.Client.On("GetBucket", "name", s.Namespace).Return(s.Res, nil).Times(2)
+	s.Client.On("GetBucket", "name", s.Namespace).Return(nil, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", s.Res.CompartmentID),
@@ -101,7 +101,7 @@ func (s *ResourceObjectstorageBucketTestSuite) TestCreateResourceObjectstorageBu
 }
 
 func (s *ResourceObjectstorageBucketTestSuite) TestUpdateResourceObjectstorageBucket() {
-	s.Client.On("GetBucket", "name", string(s.Namespace)).Return(s.Res, nil).Times(2)
+	s.Client.On("GetBucket", "name", baremetal.Namespace("namespace")).Return(s.Res, nil).Times(2)
 
 	config := `
 		resource "baremetal_objectstorage_bucket" "t" {
@@ -121,7 +121,7 @@ func (s *ResourceObjectstorageBucketTestSuite) TestUpdateResourceObjectstorageBu
 	res := &baremetal.Bucket{
 		CompartmentID: "compartment_id",
 		Name:          "new_name",
-		Namespace:     "namespace",
+		Namespace:     baremetal.Namespace("namespace"),
 		Metadata:      metadata,
 		CreatedBy:     "created_by",
 		TimeCreated:   s.TimeCreated,
@@ -133,17 +133,17 @@ func (s *ResourceObjectstorageBucketTestSuite) TestUpdateResourceObjectstorageBu
 		Metadata: metadata,
 	}
 	s.Client.On("UpdateBucket",
-		res.CompartmentID, "new_name", string(res.Namespace), opts).Return(res, nil)
-	s.Client.On("GetBucket", "new_name", string(s.Namespace)).Return(res, nil)
-	s.Client.On("DeleteBucket", "new_name", string(s.Namespace), (*baremetal.IfMatchOptions)(nil)).Return(nil)
+		res.CompartmentID, res.Name, res.Namespace, opts).Return(res, nil)
+	s.Client.On("GetBucket", res.Name, res.Namespace).Return(res, nil)
+	s.Client.On("DeleteBucket", res.Name, res.Namespace, (*baremetal.IfMatchOptions)(nil)).Return(nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 			},
-			resource.TestStep{
+			{
 				Config: config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "name", res.Name),
@@ -154,21 +154,21 @@ func (s *ResourceObjectstorageBucketTestSuite) TestUpdateResourceObjectstorageBu
 }
 
 func (s *ResourceObjectstorageBucketTestSuite) TestDeleteResourceObjectstorageBucket() {
-	s.Client.On("GetBucket", "name", string(s.Namespace)).Return(s.Res, nil).Times(2)
-	s.Client.On("GetBucket", "name", string(s.Namespace)).Return(nil, nil)
+	s.Client.On("GetBucket", "name", s.Namespace).Return(s.Res, nil).Times(2)
+	s.Client.On("GetBucket", "name", s.Namespace).Return(nil, nil)
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 			},
-			resource.TestStep{
+			{
 				Config:  s.Config,
 				Destroy: true,
 			},
 		},
 	})
-	s.Client.AssertCalled(s.T(), "DeleteBucket", "name", string(s.Namespace), (*baremetal.IfMatchOptions)(nil))
+	s.Client.AssertCalled(s.T(), "DeleteBucket", "name", s.Namespace, (*baremetal.IfMatchOptions)(nil))
 }
 
 func TestResourceobjectstorageBucketTestSuite(t *testing.T) {

@@ -107,7 +107,7 @@ func (s *ResourceIdentityPolicyTestSuite) TestCreateResourceIdentityPolicy() {
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.PolicyName, "name", s.Policy.Name),
@@ -152,10 +152,10 @@ func (s *ResourceIdentityPolicyTestSuite) TestUpdateResourceIdentityPolicy() {
 		resource.TestCase{
 			Providers: s.Providers,
 			Steps: []resource.TestStep{
-				resource.TestStep{
+				{
 					Config: s.Config,
 				},
-				resource.TestStep{
+				{
 					Config: config,
 					Check: resource.ComposeTestCheckFunc(
 						resource.TestCheckResourceAttr(s.PolicyName, "description", updated.Description),
@@ -199,10 +199,10 @@ func (s *ResourceIdentityPolicyTestSuite) TestFailedUpdateResourceIdentityPolicy
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 			},
-			resource.TestStep{
+			{
 				Config:      config,
 				ExpectError: regexp.MustCompile(`FAILED`),
 				Check: resource.ComposeTestCheckFunc(
@@ -210,7 +210,7 @@ func (s *ResourceIdentityPolicyTestSuite) TestFailedUpdateResourceIdentityPolicy
 					testCheckAttributeTypeList(s.PolicyName, "statements", s.Policy.Statements),
 				),
 			},
-			resource.TestStep{
+			{
 				Config: config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.PolicyName, "description", "newdesc"),
@@ -249,10 +249,10 @@ func (s *ResourceIdentityPolicyTestSuite) TestUpdateResourceIdentityPolicyNameSh
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 			},
-			resource.TestStep{
+			{
 				Config: config,
 				Check:  resource.TestCheckResourceAttr(s.PolicyName, "name", "newname"),
 			},
@@ -267,10 +267,10 @@ func (s *ResourceIdentityPolicyTestSuite) TestDeleteResourceIdentityPolicy() {
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 			},
-			resource.TestStep{
+			{
 				Config:  s.Config,
 				Destroy: true,
 			},
@@ -289,15 +289,15 @@ func (s *ResourceIdentityPolicyTestSuite) TestDeleteFailureResourceIdentityPolic
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 			},
-			resource.TestStep{
+			{
 				Config:      s.Config,
 				ExpectError: regexp.MustCompile(`XXX`),
 				Destroy:     true,
 			},
-			resource.TestStep{
+			{
 				Config:  s.Config,
 				Destroy: true,
 			},

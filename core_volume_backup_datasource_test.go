@@ -75,7 +75,7 @@ func (s *ResourceCoreVolumeBackupsTestSuite) TestReadVolumeBackups() {
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "volume_id", "volume_id"),
@@ -123,7 +123,7 @@ func (s *ResourceCoreVolumeBackupsTestSuite) TestReadVolumeBackupsWithPagination
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "volume_backups.0.id", "id1"),
