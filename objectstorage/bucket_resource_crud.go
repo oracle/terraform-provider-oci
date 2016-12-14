@@ -12,7 +12,7 @@ type BucketResourceCrud struct {
 }
 
 func (s *BucketResourceCrud) ID()  string {
-	return s.Res.Namespace + "/" + s.Res.Name
+	return string(s.Res.Namespace) + "/" + s.Res.Name
 }
 
 func resourceMapToMetadata(rm map[string]interface{}) map[string]string {
