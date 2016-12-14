@@ -1,6 +1,6 @@
 # baremetal\_database\_db\_system\_shapes
 
-Gets a list of the DB Systems in the specified compartment.
+Gets a list of the shapes that can be used to launch a new DB System.
 
 ## Example Usage
 
