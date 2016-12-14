@@ -69,10 +69,12 @@ func (r *requestDetails) getBody() (marshaled []byte, e error) {
 		if oBody, e = json.Marshal(r.optional); e != nil {
 			return
 		}
-		marshaled = marshaled[:len(marshaled)-1]
-		marshaled = append(marshaled, []byte(",")...)
-		oBody = oBody[1:]
-		marshaled = append(marshaled, oBody...)
+		if len(oBody) > 2 {
+			marshaled = marshaled[:len(marshaled)-1]
+			marshaled = append(marshaled, []byte(",")...)
+			oBody = oBody[1:]
+			marshaled = append(marshaled, oBody...)
+		}
 	}
 
 	return

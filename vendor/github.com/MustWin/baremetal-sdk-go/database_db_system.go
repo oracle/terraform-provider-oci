@@ -7,23 +7,22 @@ import "net/http"
 // See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/database/20160918/DbSystem/
 type DBSystem struct {
 	ETaggedResource
-	AvailabilityDomain string              `json:"availabilityDomain"`
-	CompartmentID      string              `json:"compartmentId"`
-	CPUCoreCount       uint64              `json:"cpuCoreCount"`
-	DatabaseEdition    DatabaseEdition     `json:"databaseEdition"`
-	DBHome             createDBHomeDetails `json:"dbHome"`
-	DiskRedundancy     DiskRedundancy      `json:"diskRedundancy"`
-	DisplayName        string              `json:"displayName"`
-	Domain             string              `json:"domain"`
-	Hostname           string              `json:"hostname"`
-	ID                 string              `json:"id"`
-	LifecycleDetails   string              `json:"lifecycleDetails"`
-	State              string              `json:"lifecycleState"`
-	ListenerPort       uint64              `json:"listenerPort"`
-	Shape              string              `json:"shape"`
-	SSHPublicKeys      []string            `json:"sshPublicKeys"`
-	SubnetID           string              `json:"subnetId"`
-	TimeCreated        Time                `json:"timeCreated"`
+	AvailabilityDomain string          `json:"availabilityDomain"`
+	CompartmentID      string          `json:"compartmentId"`
+	CPUCoreCount       uint64          `json:"cpuCoreCount"`
+	DatabaseEdition    DatabaseEdition `json:"databaseEdition"`
+	DiskRedundancy     DiskRedundancy  `json:"diskRedundancy"`
+	DisplayName        string          `json:"displayName"`
+	Domain             string          `json:"domain"`
+	Hostname           string          `json:"hostname"`
+	ID                 string          `json:"id"`
+	LifecycleDetails   string          `json:"lifecycleDetails"`
+	State              string          `json:"lifecycleState"`
+	ListenerPort       uint64          `json:"listenerPort"`
+	Shape              string          `json:"shape"`
+	SSHPublicKeys      []string        `json:"sshPublicKeys"`
+	SubnetID           string          `json:"subnetId"`
+	TimeCreated        Time            `json:"timeCreated"`
 }
 
 // ListDBSystems contains a list of DBSystems.
@@ -52,7 +51,7 @@ type createDBHomeDetails struct {
 // LaunchDBSystem.
 //
 // See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/database/20160918/requests/CreateDbHomeDetails
-func NewCreateDBHomeDetails(adminPassword, dbName, dbVersion string, opts *DisplayNameOptions) (dbHome createDBHomeDetails) {
+func (c *Client) NewCreateDBHomeDetails(adminPassword, dbName, dbVersion string, opts *DisplayNameOptions) (dbHome createDBHomeDetails) {
 	dbHome = createDBHomeDetails{
 		Database: createDatabaseDetails{
 			AdminPassword: adminPassword,

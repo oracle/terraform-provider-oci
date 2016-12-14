@@ -4,6 +4,8 @@ import (
 	"bytes"
 	"encoding/json"
 	"net/http"
+	"fmt"
+	"net/http/httputil"
 )
 
 type requestor interface {
@@ -160,6 +162,9 @@ func (api *apiRequestor) request(method string, reqOpts requestOptions) (r *requ
 		return
 	}
 
+	reqOutput, _ := httputil.DumpRequest(req, true)
+	fmt.Println("=================================")
+	fmt.Println(string(reqOutput))
 	var resp *http.Response
 	if resp, e = api.httpClient.Do(req); e != nil {
 		return

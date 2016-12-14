@@ -1,4 +1,5 @@
 package objectstorage
+
 import (
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/client"
@@ -11,16 +12,8 @@ type BucketResourceCrud struct {
 	Res    *baremetal.Bucket
 }
 
-func (s *BucketResourceCrud) ID()  string {
+func (s *BucketResourceCrud) ID() string {
 	return s.Res.Namespace + "/" + s.Res.Name
-}
-
-func resourceMapToMetadata(rm map[string]interface{}) map[string]string {
-	result := map[string]string{}
-	for k, v := range rm {
-		result[k] = v.(string)
-	}
-	return result
 }
 
 func (s *BucketResourceCrud) SetData() {

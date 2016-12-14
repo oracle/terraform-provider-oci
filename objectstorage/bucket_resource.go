@@ -2,8 +2,8 @@ package objectstorage
 
 import (
 	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/client"
-	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/crud"
+	"github.com/hashicorp/terraform/helper/schema"
 )
 
 func BucketResource() *schema.Resource {
@@ -15,7 +15,6 @@ func BucketResource() *schema.Resource {
 		Schema: bucketSchema,
 	}
 }
-
 
 func createBucket(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &BucketResourceCrud{D: d, Client: m.(client.BareMetalClient)}
