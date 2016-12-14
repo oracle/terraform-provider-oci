@@ -79,7 +79,7 @@ func (s *ResourceObjectstorageBucketTestSuite) SetupTest() {
 	s.Client.On("DeleteBucket", "name", "namespace", (*baremetal.IfMatchOptions)(nil)).Return(nil)
 }
 
-func (s *ResourceObjectstorageBucketTestSuite) TestCreateResourceCoreBucket() {
+func (s *ResourceObjectstorageBucketTestSuite) TestCreateResourceObjectstorageBucket() {
 	s.Client.On("GetBucket", "name", "namespace").Return(s.Res, nil).Times(2)
 	s.Client.On("GetBucket", "name", "namespace").Return(nil, nil)
 
@@ -98,7 +98,7 @@ func (s *ResourceObjectstorageBucketTestSuite) TestCreateResourceCoreBucket() {
 	})
 }
 
-func (s *ResourceObjectstorageBucketTestSuite) TestUpdateResourceCoreBucket() {
+func (s *ResourceObjectstorageBucketTestSuite) TestUpdateResourceObjectstorageBucket() {
 	s.Client.On("GetBucket", "name", "namespace").Return(s.Res, nil).Times(2)
 
 	config := `
@@ -151,7 +151,7 @@ func (s *ResourceObjectstorageBucketTestSuite) TestUpdateResourceCoreBucket() {
 	})
 }
 
-func (s *ResourceObjectstorageBucketTestSuite) TestDeleteResourceCoreBucket() {
+func (s *ResourceObjectstorageBucketTestSuite) TestDeleteResourceObjectstorageBucket() {
 	s.Client.On("GetBucket", "name", "namespace").Return(s.Res, nil).Times(2)
 	s.Client.On("GetBucket", "name", "namespace").Return(nil, nil)
 	resource.UnitTest(s.T(), resource.TestCase{
