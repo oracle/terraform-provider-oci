@@ -23,19 +23,19 @@ func (s *ObjectDatasourceCrud) Get() (e error) {
 	}
 
 	if prefix, ok := s.D.GetOk("prefix"); ok {
-		opts.Prefix = prefix
+		opts.Prefix = prefix.(string)
 	}
 	if start, ok := s.D.GetOk("start"); ok {
-		opts.Prefix = start
+		opts.Prefix = start.(string)
 	}
 	if end, ok := s.D.GetOk("end"); ok {
-		opts.Prefix = end
+		opts.Prefix = end.(string)
 	}
 	if limit, ok := s.D.GetOk("limit"); ok {
-		opts.Prefix = limit
+		opts.Prefix = limit.(string)
 	}
 
-	s.Res, e = s.Client.ListObjects(namespace, bucket, opts)
+	s.Res, e = s.Client.ListObjects(baremetal.Namespace(namespace), bucket, opts)
 	return
 }
 

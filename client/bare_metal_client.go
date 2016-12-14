@@ -9,11 +9,7 @@ type BareMetalClient interface {
 
 	CaptureConsoleHistory(instanceID string, opts *baremetal.RetryTokenOptions) (icHistory *baremetal.ConsoleHistoryMetadata, e error)
 
-<<<<<<< fd10a937ae62d5a278807facbd4c64b49e9f6f73
-	CreateBucket(compartmentID string, name string, namespaceName baremetal.Namespace, opts *baremetal.CreateBucketOptions, ) (bckt *baremetal.Bucket, e error)
-=======
-	CreateBucket(compartmentID string, name string, namespaceName string, opts *baremetal.CreateBucketOptions) (bckt *baremetal.Bucket, e error)
->>>>>>> Add initial implementation for object resource CRUD and object datasource Get
+	CreateBucket(compartmentID string, name string, namespaceName baremetal.Namespace, opts *baremetal.CreateBucketOptions) (bckt *baremetal.Bucket, e error)
 	CreateCompartment(name, desc string, opts *baremetal.RetryTokenOptions) (res *baremetal.Compartment, e error)
 	CreateCpe(compartmentID, ipAddress string, opts *baremetal.CreateOptions) (cpe *baremetal.Cpe, e error)
 	CreateDHCPOptions(compartmentID, vcnID string, dhcpOptions []baremetal.DHCPDNSOption, opts *baremetal.CreateOptions) (res *baremetal.DHCPOptions, e error)
@@ -33,7 +29,7 @@ type BareMetalClient interface {
 	CreateVolumeBackup(volumeID string, opts *baremetal.CreateOptions) (vol *baremetal.VolumeBackup, e error)
 
 	DeleteAPIKey(userID, fingerprint string, opts *baremetal.IfMatchOptions) (e error)
-	DeleteBucket( name string, namespaceName baremetal.Namespace, opts *baremetal.IfMatchOptions) (e error)
+	DeleteBucket(name string, namespaceName baremetal.Namespace, opts *baremetal.IfMatchOptions) (e error)
 	DeleteCpe(id string, opts *baremetal.IfMatchOptions) (e error)
 	DeleteDHCPOptions(id string, opts *baremetal.IfMatchOptions) (e error)
 	DeleteDrg(id string, opts *baremetal.IfMatchOptions) (e error)

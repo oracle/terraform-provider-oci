@@ -632,6 +632,29 @@ func (_m *BareMetalClient) DeleteInternetGateway(id string, opts *baremetal.IfMa
 	return r0
 }
 
+// DeleteObject provides a mock function with given fields: namespace, bucketName, objectName, opts
+func (_m *BareMetalClient) DeleteObject(namespace baremetal.Namespace, bucketName string, objectName string, opts *baremetal.DeleteObjectOptions) (*baremetal.DeleteObject, error) {
+	ret := _m.Called(namespace, bucketName, objectName, opts)
+
+	var r0 *baremetal.DeleteObject
+	if rf, ok := ret.Get(0).(func(baremetal.Namespace, string, string, *baremetal.DeleteObjectOptions) *baremetal.DeleteObject); ok {
+		r0 = rf(namespace, bucketName, objectName, opts)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*baremetal.DeleteObject)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(baremetal.Namespace, string, string, *baremetal.DeleteObjectOptions) error); ok {
+		r1 = rf(namespace, bucketName, objectName, opts)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // DeletePolicy provides a mock function with given fields: id, opts
 func (_m *BareMetalClient) DeletePolicy(id string, opts *baremetal.IfMatchOptions) error {
 	ret := _m.Called(id, opts)
@@ -1117,6 +1140,29 @@ func (_m *BareMetalClient) GetInternetGateway(id string) (*baremetal.InternetGat
 	return r0, r1
 }
 
+// GetObject provides a mock function with given fields: namespace, bucketName, objectName, opts
+func (_m *BareMetalClient) GetObject(namespace baremetal.Namespace, bucketName string, objectName string, opts *baremetal.GetObjectOptions) (*baremetal.Object, error) {
+	ret := _m.Called(namespace, bucketName, objectName, opts)
+
+	var r0 *baremetal.Object
+	if rf, ok := ret.Get(0).(func(baremetal.Namespace, string, string, *baremetal.GetObjectOptions) *baremetal.Object); ok {
+		r0 = rf(namespace, bucketName, objectName, opts)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*baremetal.Object)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(baremetal.Namespace, string, string, *baremetal.GetObjectOptions) error); ok {
+		r1 = rf(namespace, bucketName, objectName, opts)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // GetPolicy provides a mock function with given fields: id
 func (_m *BareMetalClient) GetPolicy(id string) (*baremetal.Policy, error) {
 	ret := _m.Called(id)
@@ -1363,6 +1409,29 @@ func (_m *BareMetalClient) GetVolumeBackup(id string) (*baremetal.VolumeBackup, 
 	var r1 error
 	if rf, ok := ret.Get(1).(func(string) error); ok {
 		r1 = rf(id)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// HeadObject provides a mock function with given fields: namespace, bucketName, objectName, opts
+func (_m *BareMetalClient) HeadObject(namespace baremetal.Namespace, bucketName string, objectName string, opts *baremetal.HeadObjectOptions) (*baremetal.HeadObject, error) {
+	ret := _m.Called(namespace, bucketName, objectName, opts)
+
+	var r0 *baremetal.HeadObject
+	if rf, ok := ret.Get(0).(func(baremetal.Namespace, string, string, *baremetal.HeadObjectOptions) *baremetal.HeadObject); ok {
+		r0 = rf(namespace, bucketName, objectName, opts)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*baremetal.HeadObject)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(baremetal.Namespace, string, string, *baremetal.HeadObjectOptions) error); ok {
+		r1 = rf(namespace, bucketName, objectName, opts)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -1784,6 +1853,29 @@ func (_m *BareMetalClient) ListInternetGateways(compartmentID string, vcnID stri
 	return r0, r1
 }
 
+// ListObjects provides a mock function with given fields: namespace, bucket, opts
+func (_m *BareMetalClient) ListObjects(namespace baremetal.Namespace, bucket string, opts *baremetal.ListObjectsOptions) (*baremetal.ListObjects, error) {
+	ret := _m.Called(namespace, bucket, opts)
+
+	var r0 *baremetal.ListObjects
+	if rf, ok := ret.Get(0).(func(baremetal.Namespace, string, *baremetal.ListObjectsOptions) *baremetal.ListObjects); ok {
+		r0 = rf(namespace, bucket, opts)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*baremetal.ListObjects)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(baremetal.Namespace, string, *baremetal.ListObjectsOptions) error); ok {
+		r1 = rf(namespace, bucket, opts)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // ListRouteTables provides a mock function with given fields: compartmentID, vcnID, opts
 func (_m *BareMetalClient) ListRouteTables(compartmentID string, vcnID string, opts *baremetal.ListOptions) (*baremetal.ListRouteTables, error) {
 	ret := _m.Called(compartmentID, vcnID, opts)
@@ -2030,6 +2122,29 @@ func (_m *BareMetalClient) ListVolumes(compartmentID string, opts *baremetal.Lis
 	var r1 error
 	if rf, ok := ret.Get(1).(func(string, *baremetal.ListVolumesOptions) error); ok {
 		r1 = rf(compartmentID, opts)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// PutObject provides a mock function with given fields: namespace, bucketName, objectName, content, opts
+func (_m *BareMetalClient) PutObject(namespace baremetal.Namespace, bucketName string, objectName string, content []byte, opts *baremetal.PutObjectOptions) (*baremetal.Object, error) {
+	ret := _m.Called(namespace, bucketName, objectName, content, opts)
+
+	var r0 *baremetal.Object
+	if rf, ok := ret.Get(0).(func(baremetal.Namespace, string, string, []byte, *baremetal.PutObjectOptions) *baremetal.Object); ok {
+		r0 = rf(namespace, bucketName, objectName, content, opts)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*baremetal.Object)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(baremetal.Namespace, string, string, []byte, *baremetal.PutObjectOptions) error); ok {
+		r1 = rf(namespace, bucketName, objectName, content, opts)
 	} else {
 		r1 = ret.Error(1)
 	}
