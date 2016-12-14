@@ -12,6 +12,7 @@ type BucketResourceCrud struct {
 	Res    *baremetal.Bucket
 }
 
+
 func (s *BucketResourceCrud) ID()  string {
 	return string(s.Res.Namespace) + "/" + s.Res.Name
 }
