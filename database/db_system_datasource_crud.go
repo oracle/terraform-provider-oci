@@ -45,24 +45,33 @@ func (s *DBSystemDatasourceCrud) SetData() {
 		s.D.SetId(time.Now().UTC().String())
 		resources := []map[string]interface{}{}
 		for _, r := range s.Res.DBSystems {
+			db := map[string]interface{}{
+				"admin_password": r.DBHome.Database.AdminPassword,
+				"db_name":        r.DBHome.Database.DBName,
+			}
+			dbHome := map[string]interface{}{
+				"database":     []interface{}{db},
+				"db_version":   r.DBHome.DBVersion,
+				"display_name": r.DBHome.DisplayName,
+			}
 			res := map[string]interface{}{
 				"availability_domain": r.AvailabilityDomain,
 				"compartment_id":      r.CompartmentID,
 				"shape":               r.Shape,
 				"subnet_id":           r.SubnetID,
 				"ssh_public_keys":     r.SSHPublicKeys,
-				"cpu_core_count":      r.CPUCoreCount,
+				"cpu_core_count":      int(r.CPUCoreCount),
+				"db_home":             []interface{}{dbHome},
 				"display_name":        r.DisplayName,
 				"database_edition":    r.DatabaseEdition,
-				// "db_home":             "???",
-				"disk_redundancy":   r.DiskRedundancy,
-				"domain":            r.Domain,
-				"hostname":          r.Hostname,
-				"id":                r.ID,
-				"lifecycle_details": r.LifecycleDetails,
-				"listener_port":     r.ListenerPort,
-				"state":             r.State,
-				"time_created":      r.TimeCreated,
+				"disk_redundancy":     r.DiskRedundancy,
+				"domain":              r.Domain,
+				"hostname":            r.Hostname,
+				"id":                  r.ID,
+				"lifecycle_details":   r.LifecycleDetails,
+				"listener_port":       int(r.ListenerPort),
+				"state":               r.State,
+				"time_created":        r.TimeCreated.String(),
 			}
 			resources = append(resources, res)
 		}

@@ -65,7 +65,12 @@ func (s *DBSystemDatasourceTestSuite) TestReadDBSystems() {
 		&baremetal.ListDBSystems{
 			DBSystems: []baremetal.DBSystem{
 				{Shape: "shape3"},
-				{Shape: "shape4"},
+				{
+					Shape: "shape4",
+					DBHome: baremetal.NewCreateDBHomeDetails(
+						"pword", "dbname", "vers", nil,
+					),
+				},
 			},
 		},
 		nil,
@@ -82,6 +87,7 @@ func (s *DBSystemDatasourceTestSuite) TestReadDBSystems() {
 					resource.TestCheckResourceAttr(s.ResourceName, "limit", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "db_systems.0.shape", "shape1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "db_systems.3.shape", "shape4"),
+					resource.TestCheckResourceAttr(s.ResourceName, "db_systems.3.db_home.0.database.0.db_name", "dbname"),
 					resource.TestCheckResourceAttr(s.ResourceName, "db_systems.#", "4"),
 				),
 			},
