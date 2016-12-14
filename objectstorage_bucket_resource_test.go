@@ -40,7 +40,7 @@ func (s *ResourceObjectstorageBucketTestSuite) SetupTest() {
 	s.TimeCreated = baremetal.Time{Time: time.Now()}
 
 	s.Config = `
-		resource "baremetal_object_storage_bucket" "t" {
+		resource "baremetal_objectstorage_bucket" "t" {
 			compartment_id = "compartment_id"
 			name = "name"
 			namespace = "namespace"
@@ -52,7 +52,7 @@ func (s *ResourceObjectstorageBucketTestSuite) SetupTest() {
 
 	s.Config += testProviderConfig
 
-	s.ResourceName = "baremetal_object_storage_bucket.t"
+	s.ResourceName = "baremetal_objectstorage_bucket.t"
 	metadata := map[string]string{
 		"foo": "bar",
 	}
@@ -102,7 +102,7 @@ func (s *ResourceObjectstorageBucketTestSuite) TestUpdateResourceObjectstorageBu
 	s.Client.On("GetBucket", "name", "namespace").Return(s.Res, nil).Times(2)
 
 	config := `
-		resource "baremetal_object_storage_bucket" "t" {
+		resource "baremetal_objectstorage_bucket" "t" {
 			compartment_id = "compartment_id"
 			name = "new_name"
 			namespace = "namespace"

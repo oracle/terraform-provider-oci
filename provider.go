@@ -125,7 +125,7 @@ func resourcesMap() map[string]*schema.Resource {
 		"baremetal_identity_policy":        identity.PolicyResource(),
 		"baremetal_identity_ui_password":   identity.UIPasswordResource(),
 		"baremetal_identity_user":          identity.UserResource(),
-		"baremetal_object_storage_bucket":  objectstorage.BucketResource(),
+		"baremetal_objectstorage_bucket":  objectstorage.BucketResource(),
 	}
 }
 
