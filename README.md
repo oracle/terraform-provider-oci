@@ -23,8 +23,15 @@ Credentials required:
 Also you will be needing Terraform 0.6.16+
 [Terraform Install](https://www.terraform.io/intro/getting-started/install.html)
 
-## Installation
-To install the plugin, put the binary somewhere on your filesystem then configure Terraform to be able to find it.
+## Usage
+
+**Terraform basics**
+
+* [Getting Started](https://www.terraform.io/intro/getting-started/install.html)
+
+**Provider Installation**
+
+To install the provider, put the binary somewhere on your filesystem then configure Terraform to be able to find it.
 The configuration where plugins are defined is ~/.terraformrc for Unix-like systems and %APPDATA%/terraform.rc for Windows.
 
 ```json
@@ -32,6 +39,11 @@ providers {
     oraclebaremetal = "/path/to/plugin"
 }
 ```
+
+**Provider Datasources Documentation**
+
+**Provider Resources Documentation**
+* [Object Storage: Bucket](terraform-Oracle-BareMetal-Provider/docs/resources/object_storage_bucket.md)
 
 ## Development
 [**Developer Guide**](docs/development.md)
