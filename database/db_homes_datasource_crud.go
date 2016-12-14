@@ -54,7 +54,7 @@ func (s *DBHomesDatasourceCrud) SetData() {
 				"display_name":   v.DisplayName,
 				"id":             v.ID,
 				"state":          v.State,
-				"time_created":   v.TimeCreated,
+				"time_created":   v.TimeCreated.String(),
 			}
 			resources = append(resources, res)
 		}
