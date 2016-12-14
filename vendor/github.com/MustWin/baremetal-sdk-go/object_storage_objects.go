@@ -170,8 +170,8 @@ type HeadObject struct {
 	LastModifiedResourceContainer
 	ContentResource
 	MetadataResource
-	ID string
-	Bucket string
+	ID        string
+	Bucket    string
 	Namespace Namespace
 }
 
@@ -214,7 +214,6 @@ func (c *Client) HeadObject(
 	e = response.unmarshal(headObject)
 	return
 }
-
 
 // PutObject updates an object in object storage
 //

@@ -122,8 +122,8 @@ func DBSystemResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"listener_port": {
-				Type:     schema.TypeString,
+			"listener_port": &schema.Schema{
+				Type:     schema.TypeInt,
 				Computed: true,
 			},
 			"state": {
