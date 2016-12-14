@@ -804,6 +804,29 @@ func (_m *BareMetalClient) GetCpe(id string) (*baremetal.Cpe, error) {
 	return r0, r1
 }
 
+// GetDBSystem provides a mock function with given fields: id
+func (_m *BareMetalClient) GetDBSystem(id string) (*baremetal.DBSystem, error) {
+	ret := _m.Called(id)
+
+	var r0 *baremetal.DBSystem
+	if rf, ok := ret.Get(0).(func(string) *baremetal.DBSystem); ok {
+		r0 = rf(id)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*baremetal.DBSystem)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(string) error); ok {
+		r1 = rf(id)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // GetDHCPOptions provides a mock function with given fields: id
 func (_m *BareMetalClient) GetDHCPOptions(id string) (*baremetal.DHCPOptions, error) {
 	ret := _m.Called(id)
@@ -1310,6 +1333,29 @@ func (_m *BareMetalClient) InstanceAction(id string, action baremetal.InstanceAc
 	return r0, r1
 }
 
+// LaunchDBSystem provides a mock function with given fields: availabilityDomain, compartmentID, shape, subnetID, sshPublicKeys, cpuCoreCount, opts
+func (_m *BareMetalClient) LaunchDBSystem(availabilityDomain string, compartmentID string, shape string, subnetID string, sshPublicKeys []string, cpuCoreCount uint64, opts *baremetal.LaunchDBSystemOptions) (*baremetal.DBSystem, error) {
+	ret := _m.Called(availabilityDomain, compartmentID, shape, subnetID, sshPublicKeys, cpuCoreCount, opts)
+
+	var r0 *baremetal.DBSystem
+	if rf, ok := ret.Get(0).(func(string, string, string, string, []string, uint64, *baremetal.LaunchDBSystemOptions) *baremetal.DBSystem); ok {
+		r0 = rf(availabilityDomain, compartmentID, shape, subnetID, sshPublicKeys, cpuCoreCount, opts)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*baremetal.DBSystem)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(string, string, string, string, []string, uint64, *baremetal.LaunchDBSystemOptions) error); ok {
+		r1 = rf(availabilityDomain, compartmentID, shape, subnetID, sshPublicKeys, cpuCoreCount, opts)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // LaunchInstance provides a mock function with given fields: availabilityDomain, compartmentID, image, shape, subnetID, opts
 func (_m *BareMetalClient) LaunchInstance(availabilityDomain string, compartmentID string, image string, shape string, subnetID string, opts *baremetal.LaunchInstanceOptions) (*baremetal.Instance, error) {
 	ret := _m.Called(availabilityDomain, compartmentID, image, shape, subnetID, opts)
@@ -1464,6 +1510,29 @@ func (_m *BareMetalClient) ListDBSystemShapes(availabilityDomain string, compart
 	var r1 error
 	if rf, ok := ret.Get(1).(func(string, string, uint64, *baremetal.PageListOptions) error); ok {
 		r1 = rf(availabilityDomain, compartmentID, limit, opts)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// ListDBSystems provides a mock function with given fields: compartmentID, limit, opts
+func (_m *BareMetalClient) ListDBSystems(compartmentID string, limit uint64, opts *baremetal.PageListOptions) (*baremetal.ListDBSystems, error) {
+	ret := _m.Called(compartmentID, limit, opts)
+
+	var r0 *baremetal.ListDBSystems
+	if rf, ok := ret.Get(0).(func(string, uint64, *baremetal.PageListOptions) *baremetal.ListDBSystems); ok {
+		r0 = rf(compartmentID, limit, opts)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*baremetal.ListDBSystems)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(string, uint64, *baremetal.PageListOptions) error); ok {
+		r1 = rf(compartmentID, limit, opts)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -1929,6 +1998,20 @@ func (_m *BareMetalClient) ShowConsoleHistoryData(instanceConsoleHistoryID strin
 	}
 
 	return r0, r1
+}
+
+// TerminateDBSystem provides a mock function with given fields: id, opts
+func (_m *BareMetalClient) TerminateDBSystem(id string, opts *baremetal.IfMatchOptions) error {
+	ret := _m.Called(id, opts)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(string, *baremetal.IfMatchOptions) error); ok {
+		r0 = rf(id, opts)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
 }
 
 // TerminateInstance provides a mock function with given fields: id, opts
