@@ -124,6 +124,7 @@ func (s *ResourceObjectstorageObjectTestSuite) TestUpdateResourceObjectstorageOb
 	res.RequestID = "opcrequestid2"
 
 	opts := &baremetal.PutObjectOptions{}
+	opts.Metadata = metadata
 
 	s.Client.On("PutObject", res.Namespace, res.Bucket,
 		res.ID, res.Body, opts).Return(res, nil).Once()
