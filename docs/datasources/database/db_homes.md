@@ -1,13 +1,13 @@
-# baremetal\_database\_db\_system\_shapes
+# baremetal\_database\_db\_homes
 
-Gets a list of the shapes that can be used to launch a new DB System.
+Gets a list of database homes in the specified DB System and compartment.
 
 ## Example Usage
 
 ```
-data "baremetal_database_db_system_shapes" "t" {
-  availability_domain = "availability_domain"
+data "baremetal_database_db_homes" "t" {
   compartment_id = "compartment_id"
+  db_system_id = "db_system_id"
   limit = 1
   page = "page"
 }
@@ -17,8 +17,8 @@ data "baremetal_database_db_system_shapes" "t" {
 
 The following arguments are supported:
 
-* `availability_domain` - (Required) The name of the Availability Domain.
 * `compartment_id` - (Required) The compartment OCID.
+* `db_system_id` - (Required) The OCID of the DB System.
 * `limit` - (Required) The maximum number of items to return.
 * `page` - (Optional) The pagination token to continue listing from.
 
@@ -26,4 +26,4 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `db_system_shapes` - A list of the shapes that can be used to launch a new DB System.
+* `db_homes` - A list of database homes in the specified DB System and compartment.
