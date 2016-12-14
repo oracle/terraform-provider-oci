@@ -10,36 +10,36 @@ func IPSecConfigDatasource() *schema.Resource {
 	return &schema.Resource{
 		Read: readIPSecDeviceConfig,
 		Schema: map[string]*schema.Schema{
-			"ipsec_id": &schema.Schema{
+			"ipsec_id": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"compartment_id": &schema.Schema{
+			"compartment_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"id": &schema.Schema{
+			"id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"time_created": &schema.Schema{
+			"time_created": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"tunnels": &schema.Schema{
+			"tunnels": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"ip_address": &schema.Schema{
+						"ip_address": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"shared_secret": &schema.Schema{
+						"shared_secret": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"time_created": &schema.Schema{
+						"time_created": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},

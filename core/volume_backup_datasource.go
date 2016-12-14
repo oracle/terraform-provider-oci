@@ -10,23 +10,23 @@ func VolumeBackupDatasource() *schema.Resource {
 	return &schema.Resource{
 		Read: readVolumeBackups,
 		Schema: map[string]*schema.Schema{
-			"compartment_id": &schema.Schema{
+			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"volume_id": &schema.Schema{
+			"volume_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"limit": &schema.Schema{
+			"limit": {
 				Type:     schema.TypeInt,
 				Optional: true,
 			},
-			"page": &schema.Schema{
+			"page": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"volume_backups": &schema.Schema{
+			"volume_backups": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem:     VolumeBackupResource(),

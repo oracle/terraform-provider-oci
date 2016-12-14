@@ -10,19 +10,19 @@ func CpeDatasource() *schema.Resource {
 	return &schema.Resource{
 		Read: readCpeList,
 		Schema: map[string]*schema.Schema{
-			"compartment_id": &schema.Schema{
+			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"page": &schema.Schema{
+			"page": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"limit": &schema.Schema{
+			"limit": {
 				Type:     schema.TypeInt,
 				Optional: true,
 			},
-			"cpes": &schema.Schema{
+			"cpes": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem:     CpeResource(),

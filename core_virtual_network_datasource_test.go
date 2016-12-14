@@ -54,7 +54,7 @@ func (s *ResourceCoreVirtualNetworksTestSuite) TestReadVirtualNetworks() {
 	).Return(
 		&baremetal.ListVirtualNetworks{
 			VirtualNetworks: []baremetal.VirtualNetwork{
-				baremetal.VirtualNetwork{
+				{
 					CidrBlock:             "cidr_block",
 					CompartmentID:         "compartment_id",
 					DefaultRoutingTableID: "default_routing_table_id",
@@ -64,7 +64,7 @@ func (s *ResourceCoreVirtualNetworksTestSuite) TestReadVirtualNetworks() {
 					State:                 baremetal.ResourceAttached,
 					TimeCreated:           baremetal.Time{Time: time.Now()},
 				},
-				baremetal.VirtualNetwork{
+				{
 					CidrBlock:             "cidr_block",
 					CompartmentID:         "compartment_id",
 					DefaultRoutingTableID: "default_routing_table_id",
@@ -83,7 +83,7 @@ func (s *ResourceCoreVirtualNetworksTestSuite) TestReadVirtualNetworks() {
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartment_id"),
@@ -117,7 +117,7 @@ func (s *ResourceCoreVirtualNetworksTestSuite) TestReadVirtualNetworksWithPaging
 				NextPage: "nextpage",
 			},
 			VirtualNetworks: []baremetal.VirtualNetwork{
-				baremetal.VirtualNetwork{
+				{
 					CidrBlock:             "cidr_block",
 					CompartmentID:         "compartment_id",
 					DefaultRoutingTableID: "default_routing_table_id",
@@ -127,7 +127,7 @@ func (s *ResourceCoreVirtualNetworksTestSuite) TestReadVirtualNetworksWithPaging
 					State:                 baremetal.ResourceAttached,
 					TimeCreated:           baremetal.Time{Time: time.Now()},
 				},
-				baremetal.VirtualNetwork{
+				{
 					CidrBlock:             "cidr_block",
 					CompartmentID:         "compartment_id",
 					DefaultRoutingTableID: "default_routing_table_id",
@@ -153,7 +153,7 @@ func (s *ResourceCoreVirtualNetworksTestSuite) TestReadVirtualNetworksWithPaging
 	).Return(
 		&baremetal.ListVirtualNetworks{
 			VirtualNetworks: []baremetal.VirtualNetwork{
-				baremetal.VirtualNetwork{
+				{
 					CidrBlock:             "cidr_block",
 					CompartmentID:         "compartment_id",
 					DefaultRoutingTableID: "default_routing_table_id",
@@ -163,7 +163,7 @@ func (s *ResourceCoreVirtualNetworksTestSuite) TestReadVirtualNetworksWithPaging
 					State:                 baremetal.ResourceAttached,
 					TimeCreated:           baremetal.Time{Time: time.Now()},
 				},
-				baremetal.VirtualNetwork{
+				{
 					CidrBlock:             "cidr_block",
 					CompartmentID:         "compartment_id",
 					DefaultRoutingTableID: "default_routing_table_id",
@@ -182,7 +182,7 @@ func (s *ResourceCoreVirtualNetworksTestSuite) TestReadVirtualNetworksWithPaging
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartment_id"),

@@ -55,7 +55,7 @@ func (s *DatasourceCoreIPSecTestSuite) TestResourceListIPConnections() {
 	).Return(
 		&baremetal.ListIPSecConnections{
 			Connections: []baremetal.IPSecConnection{
-				baremetal.IPSecConnection{
+				{
 					CompartmentID: "compartmentid",
 					CpeID:         "cpeid",
 					DisplayName:   "display_name",
@@ -70,7 +70,7 @@ func (s *DatasourceCoreIPSecTestSuite) TestResourceListIPConnections() {
 						Time: time.Now(),
 					},
 				},
-				baremetal.IPSecConnection{
+				{
 					CompartmentID: "compartmentid",
 					CpeID:         "cpeid",
 					DisplayName:   "display_name",
@@ -94,7 +94,7 @@ func (s *DatasourceCoreIPSecTestSuite) TestResourceListIPConnections() {
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartmentid"),
@@ -129,7 +129,7 @@ func (s *DatasourceCoreIPSecTestSuite) TestResourceListPagedIPConnections() {
 				NextPage: "nextpage",
 			},
 			Connections: []baremetal.IPSecConnection{
-				baremetal.IPSecConnection{
+				{
 					CompartmentID: "compartmentid",
 					CpeID:         "cpeid",
 					DisplayName:   "display_name",
@@ -144,7 +144,7 @@ func (s *DatasourceCoreIPSecTestSuite) TestResourceListPagedIPConnections() {
 						Time: time.Now(),
 					},
 				},
-				baremetal.IPSecConnection{
+				{
 					CompartmentID: "compartmentid",
 					CpeID:         "cpeid",
 					DisplayName:   "display_name",
@@ -176,7 +176,7 @@ func (s *DatasourceCoreIPSecTestSuite) TestResourceListPagedIPConnections() {
 	).Return(
 		&baremetal.ListIPSecConnections{
 			Connections: []baremetal.IPSecConnection{
-				baremetal.IPSecConnection{
+				{
 					CompartmentID: "compartmentid",
 					CpeID:         "cpeid",
 					DisplayName:   "display_name",
@@ -191,7 +191,7 @@ func (s *DatasourceCoreIPSecTestSuite) TestResourceListPagedIPConnections() {
 						Time: time.Now(),
 					},
 				},
-				baremetal.IPSecConnection{
+				{
 					CompartmentID: "compartmentid",
 					CpeID:         "cpeid",
 					DisplayName:   "display_name",
@@ -215,7 +215,7 @@ func (s *DatasourceCoreIPSecTestSuite) TestResourceListPagedIPConnections() {
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartmentid"),

@@ -12,22 +12,22 @@ func IPSecResource() *schema.Resource {
 		Read:   readIPSec,
 		Delete: deleteIPSec,
 		Schema: map[string]*schema.Schema{
-			"compartment_id": &schema.Schema{
+			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
 			},
-			"cpe_id": &schema.Schema{
+			"cpe_id": {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
 			},
-			"drg_id": &schema.Schema{
+			"drg_id": {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
 			},
-			"static_routes": &schema.Schema{
+			"static_routes": {
 				Type:     schema.TypeList,
 				Optional: true,
 				ForceNew: true,
@@ -35,16 +35,16 @@ func IPSecResource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
-			"display_name": &schema.Schema{
+			"display_name": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"state": &schema.Schema{
+			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"time_created": &schema.Schema{
+			"time_created": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},

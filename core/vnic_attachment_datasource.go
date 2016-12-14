@@ -53,31 +53,31 @@ func DatasourceCoreVnicAttachments() *schema.Resource {
 	return &schema.Resource{
 		Read: readVnicAttachments,
 		Schema: map[string]*schema.Schema{
-			"compartment_id": &schema.Schema{
+			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"availability_domain": &schema.Schema{
+			"availability_domain": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"instance_id": &schema.Schema{
+			"instance_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"vnic_id": &schema.Schema{
+			"vnic_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"page": &schema.Schema{
+			"page": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"limit": &schema.Schema{
+			"limit": {
 				Type:     schema.TypeInt,
 				Optional: true,
 			},
-			"vnic_attachments": &schema.Schema{
+			"vnic_attachments": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem:     resourceVnicAttachment(),

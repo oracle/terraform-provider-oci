@@ -54,10 +54,10 @@ func (s *ResourceCoreShapeTestSuite) TestResourceReadCoreShape() {
 	).Return(
 		&baremetal.ListShapes{
 			Shapes: []baremetal.Shape{
-				baremetal.Shape{
+				{
 					Name: "shape1",
 				},
-				baremetal.Shape{
+				{
 					Name: "shape2",
 				},
 			},
@@ -69,7 +69,7 @@ func (s *ResourceCoreShapeTestSuite) TestResourceReadCoreShape() {
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartmentid"),
@@ -103,10 +103,10 @@ func (s *ResourceCoreShapeTestSuite) TestResourceReadCoreShapeWithPagination() {
 				NextPage: "nextpage",
 			},
 			Shapes: []baremetal.Shape{
-				baremetal.Shape{
+				{
 					Name: "shape1",
 				},
-				baremetal.Shape{
+				{
 					Name: "shape2",
 				},
 			},
@@ -126,10 +126,10 @@ func (s *ResourceCoreShapeTestSuite) TestResourceReadCoreShapeWithPagination() {
 	).Return(
 		&baremetal.ListShapes{
 			Shapes: []baremetal.Shape{
-				baremetal.Shape{
+				{
 					Name: "shape3",
 				},
-				baremetal.Shape{
+				{
 					Name: "shape4",
 				},
 			},
@@ -141,7 +141,7 @@ func (s *ResourceCoreShapeTestSuite) TestResourceReadCoreShapeWithPagination() {
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartmentid"),

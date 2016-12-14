@@ -10,19 +10,19 @@ func VirtualNetworkDatasource() *schema.Resource {
 	return &schema.Resource{
 		Read: readVirtualNetworks,
 		Schema: map[string]*schema.Schema{
-			"compartment_id": &schema.Schema{
+			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"limit": &schema.Schema{
+			"limit": {
 				Type:     schema.TypeInt,
 				Optional: true,
 			},
-			"page": &schema.Schema{
+			"page": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"virtual_networks": &schema.Schema{
+			"virtual_networks": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem:     VirtualNetworkResource(),

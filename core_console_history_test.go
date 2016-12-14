@@ -64,7 +64,7 @@ func (s *ResourceCoreConsoleHistoryTestSuite) TestCreateResourceCoreInstanceCons
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "id", s.Res.ID),

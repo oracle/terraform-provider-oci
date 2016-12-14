@@ -10,27 +10,27 @@ func DrgAttachmentDatasource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDrgAttachments,
 		Schema: map[string]*schema.Schema{
-			"compartment_id": &schema.Schema{
+			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"drg_id": &schema.Schema{
+			"drg_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"limit": &schema.Schema{
+			"limit": {
 				Type:     schema.TypeInt,
 				Optional: true,
 			},
-			"page": &schema.Schema{
+			"page": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"vcn_id": &schema.Schema{
+			"vcn_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"drg_attachments": &schema.Schema{
+			"drg_attachments": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem:     DrgAttachmentResource(),

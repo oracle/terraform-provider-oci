@@ -49,14 +49,14 @@ func (s *DatasourceCoreCpeTestSuite) TestCpeList() {
 	).Return(
 		&baremetal.ListCpes{
 			Cpes: []baremetal.Cpe{
-				baremetal.Cpe{
+				{
 					ID:            "id1",
 					CompartmentID: "compartmentid",
 					DisplayName:   "name",
 					IPAddress:     "10.10.10.2",
 					TimeCreated:   baremetal.Time{Time: time.Now()},
 				},
-				baremetal.Cpe{
+				{
 					ID:            "id2",
 					CompartmentID: "compartmentid",
 					DisplayName:   "name",
@@ -72,7 +72,7 @@ func (s *DatasourceCoreCpeTestSuite) TestCpeList() {
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartmentid"),
@@ -101,14 +101,14 @@ func (s *DatasourceCoreCpeTestSuite) TestCpePagedList() {
 				NextPage: "nextpage",
 			},
 			Cpes: []baremetal.Cpe{
-				baremetal.Cpe{
+				{
 					ID:            "id1",
 					CompartmentID: "compartmentid",
 					DisplayName:   "name",
 					IPAddress:     "10.10.10.2",
 					TimeCreated:   baremetal.Time{Time: time.Now()},
 				},
-				baremetal.Cpe{
+				{
 					ID:            "id2",
 					CompartmentID: "compartmentid",
 					DisplayName:   "name",
@@ -129,14 +129,14 @@ func (s *DatasourceCoreCpeTestSuite) TestCpePagedList() {
 	).Return(
 		&baremetal.ListCpes{
 			Cpes: []baremetal.Cpe{
-				baremetal.Cpe{
+				{
 					ID:            "id3",
 					CompartmentID: "compartmentid",
 					DisplayName:   "name",
 					IPAddress:     "10.10.10.4",
 					TimeCreated:   baremetal.Time{Time: time.Now()},
 				},
-				baremetal.Cpe{
+				{
 					ID:            "id4",
 					CompartmentID: "compartmentid",
 					DisplayName:   "name",
@@ -152,7 +152,7 @@ func (s *DatasourceCoreCpeTestSuite) TestCpePagedList() {
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartmentid"),

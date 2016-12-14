@@ -13,40 +13,40 @@ func VolumeBackupResource() *schema.Resource {
 		Update: updateVolumeBackup,
 		Delete: deleteVolumeBackup,
 		Schema: map[string]*schema.Schema{
-			"compartment_id": &schema.Schema{
+			"compartment_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"display_name": &schema.Schema{
+			"display_name": {
 				Type:     schema.TypeString,
 				Computed: true,
 				Optional: true,
 			},
-			"id": &schema.Schema{
+			"id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"state": &schema.Schema{
+			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"size_in_mbs": &schema.Schema{
+			"size_in_mbs": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"time_created": &schema.Schema{
+			"time_created": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"time_request_received": &schema.Schema{
+			"time_request_received": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"unique_size_in_mbs": &schema.Schema{
+			"unique_size_in_mbs": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"volume_id": &schema.Schema{
+			"volume_id": {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,

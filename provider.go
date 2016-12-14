@@ -39,34 +39,34 @@ func Provider(configfn schema.ConfigureFunc) terraform.ResourceProvider {
 
 func schemaMap() map[string]*schema.Schema {
 	return map[string]*schema.Schema{
-		"tenancy_ocid": &schema.Schema{
+		"tenancy_ocid": {
 			Type:        schema.TypeString,
 			Required:    true,
 			Description: descriptions["tenancy_ocid"],
 		},
-		"user_ocid": &schema.Schema{
+		"user_ocid": {
 			Type:        schema.TypeString,
 			Required:    true,
 			Description: descriptions["user_ocid"],
 		},
-		"fingerprint": &schema.Schema{
+		"fingerprint": {
 			Type:        schema.TypeString,
 			Required:    true,
 			Description: descriptions["fingerprint"],
 		},
-		"private_key": &schema.Schema{
+		"private_key": {
 			Type:        schema.TypeString,
 			Optional:    true,
 			Sensitive:   true,
 			Description: descriptions["private_key"],
 		},
-		"private_key_path": &schema.Schema{
+		"private_key_path": {
 			Type:        schema.TypeString,
 			Optional:    true,
 			Default:     "",
 			Description: descriptions["private_key_path"],
 		},
-		"private_key_password": &schema.Schema{
+		"private_key_password": {
 			Type:        schema.TypeString,
 			Required:    true,
 			Sensitive:   true,
@@ -126,7 +126,7 @@ func resourcesMap() map[string]*schema.Resource {
 		"baremetal_identity_policy":        identity.PolicyResource(),
 		"baremetal_identity_ui_password":   identity.UIPasswordResource(),
 		"baremetal_identity_user":          identity.UserResource(),
-		"baremetal_objectstorage_bucket":  objectstorage.BucketResource(),
+		"baremetal_objectstorage_bucket":   objectstorage.BucketResource(),
 	}
 }
 

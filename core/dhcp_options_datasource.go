@@ -10,24 +10,24 @@ func DHCPOptionsDatasource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDHCPOptionsList,
 		Schema: map[string]*schema.Schema{
-			"compartment_id": &schema.Schema{
+			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"limit": &schema.Schema{
+			"limit": {
 				Type:     schema.TypeInt,
 				Optional: true,
 			},
-			"page": &schema.Schema{
+			"page": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"options": &schema.Schema{
+			"options": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem:     DHCPOptionsResource(),
 			},
-			"vcn_id": &schema.Schema{
+			"vcn_id": {
 				Type:     schema.TypeString,
 				Required: true,
 			},

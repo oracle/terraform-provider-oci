@@ -62,12 +62,12 @@ func (s *ResourceCoreRouteTableTestSuite) SetupTest() {
 	s.ResourceName = "baremetal_core_route_table.t"
 
 	routeRules := []baremetal.RouteRule{
-		baremetal.RouteRule{
+		{
 			CidrBlock:         "cidr_block",
 			NetworkEntityID:   "network_entity_id",
 			NetworkEntityType: "network_entity_type",
 		},
-		baremetal.RouteRule{
+		{
 			CidrBlock:         "cidr_block",
 			NetworkEntityID:   "network_entity_id",
 			NetworkEntityType: "network_entity_type",
@@ -116,7 +116,7 @@ func (s *ResourceCoreRouteTableTestSuite) TestCreateResourceCoreRouteTable() {
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", s.Res.CompartmentID),
@@ -147,7 +147,7 @@ func (s ResourceCoreRouteTableTestSuite) TestUpdateRouteTable() {
 	config += testProviderConfig
 
 	routeRules := []baremetal.RouteRule{
-		baremetal.RouteRule{
+		{
 			CidrBlock:         "new_cidr_block",
 			NetworkEntityID:   "network_entity_id",
 			NetworkEntityType: "network_entity_type",
@@ -175,10 +175,10 @@ func (s ResourceCoreRouteTableTestSuite) TestUpdateRouteTable() {
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 			},
-			resource.TestStep{
+			{
 				Config: config,
 				Check:  resource.TestCheckResourceAttr(s.ResourceName, "route_rules.0.cidr_block", "new_cidr_block"),
 			},
@@ -193,10 +193,10 @@ func (s *ResourceCoreRouteTableTestSuite) TestDeleteRouteTable() {
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 			},
-			resource.TestStep{
+			{
 				Config:  s.Config,
 				Destroy: true,
 			},

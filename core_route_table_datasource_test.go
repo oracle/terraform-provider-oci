@@ -53,12 +53,12 @@ func (s *ResourceCoreRouteTablesTestSuite) TestResourceListRouteTables() {
 	).Return(
 		&baremetal.ListRouteTables{
 			RouteTables: []baremetal.RouteTable{
-				baremetal.RouteTable{
+				{
 					CompartmentID: "compartment_id",
 					DisplayName:   "display_name",
 					ID:            "id1",
 					RouteRules: []baremetal.RouteRule{
-						baremetal.RouteRule{
+						{
 							CidrBlock:         "cidr_block",
 							DisplayName:       "display_name",
 							NetworkEntityID:   "network_entity_id",
@@ -70,12 +70,12 @@ func (s *ResourceCoreRouteTablesTestSuite) TestResourceListRouteTables() {
 					State:        baremetal.ResourceAvailable,
 					TimeCreated:  baremetal.Time{Time: time.Now()},
 				},
-				baremetal.RouteTable{
+				{
 					CompartmentID: "compartment_id",
 					DisplayName:   "display_name",
 					ID:            "id2",
 					RouteRules: []baremetal.RouteRule{
-						baremetal.RouteRule{
+						{
 							CidrBlock:         "cidr_block",
 							DisplayName:       "display_name",
 							NetworkEntityID:   "network_entity_id",
@@ -96,7 +96,7 @@ func (s *ResourceCoreRouteTablesTestSuite) TestResourceListRouteTables() {
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartment_id"),
@@ -128,12 +128,12 @@ func (s *ResourceCoreRouteTablesTestSuite) TestResourceListRouteTablesPaged() {
 				NextPage: "nextpage",
 			},
 			RouteTables: []baremetal.RouteTable{
-				baremetal.RouteTable{
+				{
 					CompartmentID: "compartment_id",
 					DisplayName:   "display_name",
 					ID:            "id1",
 					RouteRules: []baremetal.RouteRule{
-						baremetal.RouteRule{
+						{
 							CidrBlock:         "cidr_block",
 							DisplayName:       "display_name",
 							NetworkEntityID:   "network_entity_id",
@@ -145,12 +145,12 @@ func (s *ResourceCoreRouteTablesTestSuite) TestResourceListRouteTablesPaged() {
 					State:        baremetal.ResourceAvailable,
 					TimeCreated:  baremetal.Time{Time: time.Now()},
 				},
-				baremetal.RouteTable{
+				{
 					CompartmentID: "compartment_id",
 					DisplayName:   "display_name",
 					ID:            "id2",
 					RouteRules: []baremetal.RouteRule{
-						baremetal.RouteRule{
+						{
 							CidrBlock:         "cidr_block",
 							DisplayName:       "display_name",
 							NetworkEntityID:   "network_entity_id",
@@ -178,12 +178,12 @@ func (s *ResourceCoreRouteTablesTestSuite) TestResourceListRouteTablesPaged() {
 	).Return(
 		&baremetal.ListRouteTables{
 			RouteTables: []baremetal.RouteTable{
-				baremetal.RouteTable{
+				{
 					CompartmentID: "compartment_id",
 					DisplayName:   "display_name",
 					ID:            "id3",
 					RouteRules: []baremetal.RouteRule{
-						baremetal.RouteRule{
+						{
 							CidrBlock:         "cidr_block",
 							DisplayName:       "display_name",
 							NetworkEntityID:   "network_entity_id",
@@ -195,12 +195,12 @@ func (s *ResourceCoreRouteTablesTestSuite) TestResourceListRouteTablesPaged() {
 					State:        baremetal.ResourceAvailable,
 					TimeCreated:  baremetal.Time{Time: time.Now()},
 				},
-				baremetal.RouteTable{
+				{
 					CompartmentID: "compartment_id",
 					DisplayName:   "display_name",
 					ID:            "id4",
 					RouteRules: []baremetal.RouteRule{
-						baremetal.RouteRule{
+						{
 							CidrBlock:         "cidr_block",
 							DisplayName:       "display_name",
 							NetworkEntityID:   "network_entity_id",
@@ -221,7 +221,7 @@ func (s *ResourceCoreRouteTablesTestSuite) TestResourceListRouteTablesPaged() {
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartment_id"),

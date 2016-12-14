@@ -10,23 +10,23 @@ func VolumeDatasource() *schema.Resource {
 	return &schema.Resource{
 		Read: readVolumes,
 		Schema: map[string]*schema.Schema{
-			"availability_domain": &schema.Schema{
+			"availability_domain": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"compartment_id": &schema.Schema{
+			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"limit": &schema.Schema{
+			"limit": {
 				Type:     schema.TypeInt,
 				Optional: true,
 			},
-			"page": &schema.Schema{
+			"page": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"volumes": &schema.Schema{
+			"volumes": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem:     VolumeResource(),

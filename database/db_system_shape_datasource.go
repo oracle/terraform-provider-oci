@@ -10,7 +10,7 @@ func DBSystemShapeDatasource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDBSystemShapes,
 		Schema: map[string]*schema.Schema{
-			"db_system_shapes": &schema.Schema{
+			"db_system_shapes": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
@@ -30,19 +30,19 @@ func DBSystemShapeDatasource() *schema.Resource {
 					},
 				},
 			},
-			"availability_domain": &schema.Schema{
+			"availability_domain": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"compartment_id": &schema.Schema{
+			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"limit": &schema.Schema{
+			"limit": {
 				Type:     schema.TypeInt,
 				Required: true,
 			},
-			"page": &schema.Schema{
+			"page": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},

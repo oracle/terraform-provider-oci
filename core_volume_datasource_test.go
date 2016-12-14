@@ -56,7 +56,7 @@ func (s *ResourceCoreVolumesTestSuite) TestReadVolumes() {
 	).Return(
 		&baremetal.ListVolumes{
 			Volumes: []baremetal.Volume{
-				baremetal.Volume{
+				{
 					AvailabilityDomain: "availability_domain",
 					CompartmentID:      "compartment_id",
 					DisplayName:        "display_name",
@@ -65,7 +65,7 @@ func (s *ResourceCoreVolumesTestSuite) TestReadVolumes() {
 					State:              baremetal.ResourceAvailable,
 					TimeCreated:        baremetal.Time{Time: time.Now()},
 				},
-				baremetal.Volume{
+				{
 					AvailabilityDomain: "availability_domain",
 					CompartmentID:      "compartment_id",
 					DisplayName:        "display_name",
@@ -83,7 +83,7 @@ func (s *ResourceCoreVolumesTestSuite) TestReadVolumes() {
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "availability_domain", "availability_domain"),
@@ -119,7 +119,7 @@ func (s *ResourceCoreVolumesTestSuite) TestReadVolumesWithPagination() {
 				NextPage: "nextpage",
 			},
 			Volumes: []baremetal.Volume{
-				baremetal.Volume{
+				{
 					AvailabilityDomain: "availability_domain",
 					CompartmentID:      "compartment_id",
 					DisplayName:        "display_name",
@@ -128,7 +128,7 @@ func (s *ResourceCoreVolumesTestSuite) TestReadVolumesWithPagination() {
 					State:              baremetal.ResourceAvailable,
 					TimeCreated:        baremetal.Time{Time: time.Now()},
 				},
-				baremetal.Volume{
+				{
 					AvailabilityDomain: "availability_domain",
 					CompartmentID:      "compartment_id",
 					DisplayName:        "display_name",
@@ -154,7 +154,7 @@ func (s *ResourceCoreVolumesTestSuite) TestReadVolumesWithPagination() {
 	).Return(
 		&baremetal.ListVolumes{
 			Volumes: []baremetal.Volume{
-				baremetal.Volume{
+				{
 					AvailabilityDomain: "availability_domain",
 					CompartmentID:      "compartment_id",
 					DisplayName:        "display_name",
@@ -163,7 +163,7 @@ func (s *ResourceCoreVolumesTestSuite) TestReadVolumesWithPagination() {
 					State:              baremetal.ResourceAvailable,
 					TimeCreated:        baremetal.Time{Time: time.Now()},
 				},
-				baremetal.Volume{
+				{
 					AvailabilityDomain: "availability_domain",
 					CompartmentID:      "compartment_id",
 					DisplayName:        "display_name",
@@ -181,7 +181,7 @@ func (s *ResourceCoreVolumesTestSuite) TestReadVolumesWithPagination() {
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "availability_domain", "availability_domain"),

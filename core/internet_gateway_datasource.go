@@ -10,23 +10,23 @@ func InternetGatewayDatasource() *schema.Resource {
 	return &schema.Resource{
 		Read: readInternetGateways,
 		Schema: map[string]*schema.Schema{
-			"compartment_id": &schema.Schema{
+			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"vcn_id": &schema.Schema{
+			"vcn_id": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"page": &schema.Schema{
+			"page": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"limit": &schema.Schema{
+			"limit": {
 				Type:     schema.TypeInt,
 				Optional: true,
 			},
-			"gateways": &schema.Schema{
+			"gateways": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem:     InternetGatewayResource(),

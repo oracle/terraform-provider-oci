@@ -10,7 +10,7 @@ func ShapeDatasource() *schema.Resource {
 	return &schema.Resource{
 		Read: readShape,
 		Schema: map[string]*schema.Schema{
-			"shapes": &schema.Schema{
+			"shapes": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
@@ -22,23 +22,23 @@ func ShapeDatasource() *schema.Resource {
 					},
 				},
 			},
-			"compartment_id": &schema.Schema{
+			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"availability_domain": &schema.Schema{
+			"availability_domain": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"image_id": &schema.Schema{
+			"image_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"page": &schema.Schema{
+			"page": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"limit": &schema.Schema{
+			"limit": {
 				Type:     schema.TypeInt,
 				Optional: true,
 			},

@@ -55,13 +55,13 @@ func (s *DatasourceCoreIPSecStatusTestSuite) TestIPSecStatus() {
 			},
 
 			Tunnels: []baremetal.TunnelStatus{
-				baremetal.TunnelStatus{
+				{
 					IPAddress:         "10.10.10.2",
 					State:             baremetal.ResourceUp,
 					TimeCreated:       baremetal.Time{Time: time.Now()},
 					TimeStateModified: baremetal.Time{Time: time.Now()},
 				},
-				baremetal.TunnelStatus{
+				{
 					IPAddress:         "10.10.10.3",
 					State:             baremetal.ResourceUp,
 					TimeCreated:       baremetal.Time{Time: time.Now()},
@@ -76,7 +76,7 @@ func (s *DatasourceCoreIPSecStatusTestSuite) TestIPSecStatus() {
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartmentid"),

@@ -64,7 +64,7 @@ func (s *CoreConsoleHistoryDataDatasourceTestSuite) TestResourceShowConsoleHisto
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "data", string(data)),

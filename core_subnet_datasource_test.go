@@ -52,7 +52,7 @@ func (s *ResourceCoreSubnetsTestSuite) TestResourceListSubnets() {
 	).Return(
 		&baremetal.ListSubnets{
 			Subnets: []baremetal.Subnet{
-				baremetal.Subnet{
+				{
 					AvailabilityDomain: "availabilitydomainid",
 					CIDRBlock:          "10.10.10.0/24",
 					CompartmentID:      "compartmentid",
@@ -71,7 +71,7 @@ func (s *ResourceCoreSubnetsTestSuite) TestResourceListSubnets() {
 					VirtualRouterID:  "virtualrouterid",
 					VirtualRouterMac: "virtualroutermac",
 				},
-				baremetal.Subnet{
+				{
 					AvailabilityDomain: "availabilitydomainid",
 					CIDRBlock:          "10.10.11.0/24",
 					CompartmentID:      "compartmentid",
@@ -99,7 +99,7 @@ func (s *ResourceCoreSubnetsTestSuite) TestResourceListSubnets() {
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartmentid"),
@@ -131,7 +131,7 @@ func (s *ResourceCoreSubnetsTestSuite) TestResourceListSubnetsWithPagination() {
 				NextPage: "nextpage",
 			},
 			Subnets: []baremetal.Subnet{
-				baremetal.Subnet{
+				{
 					AvailabilityDomain: "availabilitydomainid",
 					CIDRBlock:          "10.10.10.0/24",
 					CompartmentID:      "compartmentid",
@@ -150,7 +150,7 @@ func (s *ResourceCoreSubnetsTestSuite) TestResourceListSubnetsWithPagination() {
 					VirtualRouterID:  "virtualrouterid",
 					VirtualRouterMac: "virtualroutermac",
 				},
-				baremetal.Subnet{
+				{
 					AvailabilityDomain: "availabilitydomainid",
 					CIDRBlock:          "10.10.11.0/24",
 					CompartmentID:      "compartmentid",
@@ -185,7 +185,7 @@ func (s *ResourceCoreSubnetsTestSuite) TestResourceListSubnetsWithPagination() {
 	).Return(
 		&baremetal.ListSubnets{
 			Subnets: []baremetal.Subnet{
-				baremetal.Subnet{
+				{
 					AvailabilityDomain: "availabilitydomainid",
 					CIDRBlock:          "10.10.10.0/24",
 					CompartmentID:      "compartmentid",
@@ -204,7 +204,7 @@ func (s *ResourceCoreSubnetsTestSuite) TestResourceListSubnetsWithPagination() {
 					VirtualRouterID:  "virtualrouterid",
 					VirtualRouterMac: "virtualroutermac",
 				},
-				baremetal.Subnet{
+				{
 					AvailabilityDomain: "availabilitydomainid",
 					CIDRBlock:          "10.10.11.0/24",
 					CompartmentID:      "compartmentid",
@@ -232,7 +232,7 @@ func (s *ResourceCoreSubnetsTestSuite) TestResourceListSubnetsWithPagination() {
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartmentid"),

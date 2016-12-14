@@ -52,7 +52,7 @@ func (s *CoreInternetGatewayDatasourceTestSuite) TestResourceListInternetGateway
 	).Return(
 		&baremetal.ListInternetGateways{
 			Gateways: []baremetal.InternetGateway{
-				baremetal.InternetGateway{
+				{
 					CompartmentID: "compartmentid",
 					DisplayName:   "display_name",
 					ID:            "id1",
@@ -64,7 +64,7 @@ func (s *CoreInternetGatewayDatasourceTestSuite) TestResourceListInternetGateway
 						Time: time.Now(),
 					},
 				},
-				baremetal.InternetGateway{
+				{
 					CompartmentID: "compartmentid",
 					DisplayName:   "display_name",
 					ID:            "id2",
@@ -85,7 +85,7 @@ func (s *CoreInternetGatewayDatasourceTestSuite) TestResourceListInternetGateway
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartmentid"),
@@ -117,7 +117,7 @@ func (s *CoreInternetGatewayDatasourceTestSuite) TestResourceListInternetGateway
 				NextPage: "nextpage",
 			},
 			Gateways: []baremetal.InternetGateway{
-				baremetal.InternetGateway{
+				{
 					CompartmentID: "compartmentid",
 					DisplayName:   "display_name",
 					ID:            "id1",
@@ -129,7 +129,7 @@ func (s *CoreInternetGatewayDatasourceTestSuite) TestResourceListInternetGateway
 						Time: time.Now(),
 					},
 				},
-				baremetal.InternetGateway{
+				{
 					CompartmentID: "compartmentid",
 					DisplayName:   "display_name",
 					ID:            "id2",
@@ -156,7 +156,7 @@ func (s *CoreInternetGatewayDatasourceTestSuite) TestResourceListInternetGateway
 	).Return(
 		&baremetal.ListInternetGateways{
 			Gateways: []baremetal.InternetGateway{
-				baremetal.InternetGateway{
+				{
 					CompartmentID: "compartmentid",
 					DisplayName:   "display_name",
 					ID:            "id3",
@@ -168,7 +168,7 @@ func (s *CoreInternetGatewayDatasourceTestSuite) TestResourceListInternetGateway
 						Time: time.Now(),
 					},
 				},
-				baremetal.InternetGateway{
+				{
 					CompartmentID: "compartmentid",
 					DisplayName:   "display_name",
 					ID:            "id4",
@@ -189,7 +189,7 @@ func (s *CoreInternetGatewayDatasourceTestSuite) TestResourceListInternetGateway
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartmentid"),

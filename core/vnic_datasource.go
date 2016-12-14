@@ -10,39 +10,39 @@ func VnicDatasource() *schema.Resource {
 	return &schema.Resource{
 		Read: readVnic,
 		Schema: map[string]*schema.Schema{
-			"vnic_id": &schema.Schema{
+			"vnic_id": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"availability_domain": &schema.Schema{
+			"availability_domain": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"compartment_id": &schema.Schema{
+			"compartment_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"id": &schema.Schema{
+			"id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"display_name": &schema.Schema{
+			"display_name": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"state": &schema.Schema{
+			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"private_ip_address": &schema.Schema{
+			"private_ip_address": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"public_ip_address": &schema.Schema{
+			"public_ip_address": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"subnet_id": &schema.Schema{
+			"subnet_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
