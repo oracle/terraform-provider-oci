@@ -31,7 +31,7 @@ func (s *ObjectstorageBucketSummaryTestSuite) SetupTest() {
 		"baremetal": s.Provider,
 	}
 	s.Config = `
-    data "baremetal_objectstorage_bucketsummary" "t" {
+    data "baremetal_objectstorage_bucket_summary" "t" {
       compartment_id = "compartmentid"
       namespace = "namespace"
       limit = 1
@@ -39,7 +39,7 @@ func (s *ObjectstorageBucketSummaryTestSuite) SetupTest() {
     }
   `
 	s.Config += testProviderConfig
-	s.ResourceName = "data.baremetal_objectstorage_bucketsummary.t"
+	s.ResourceName = "data.baremetal_objectstorage_bucket_summary.t"
 	s.TimeCreated = time.Now()
 }
 
@@ -105,9 +105,9 @@ func (s *ObjectstorageBucketSummaryTestSuite) TestReadBucketSummaries() {
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartmentid"),
 					resource.TestCheckResourceAttr(s.ResourceName, "namespace", "namespace"),
 					resource.TestCheckResourceAttr(s.ResourceName, "limit", "1"),
-					resource.TestCheckResourceAttr(s.ResourceName, "bucketsummary.0.name", "name0"),
-					resource.TestCheckResourceAttr(s.ResourceName, "bucketsummary.2.name", "name2"),
-					resource.TestCheckResourceAttr(s.ResourceName, "bucketsummary.#", "3"),
+					resource.TestCheckResourceAttr(s.ResourceName, "bucket_summaries.0.name", "name0"),
+					resource.TestCheckResourceAttr(s.ResourceName, "bucket_summaries.2.name", "name2"),
+					resource.TestCheckResourceAttr(s.ResourceName, "bucket_summaries.#", "3"),
 
 				),
 			},

@@ -8,14 +8,14 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
-type BucketsummaryDatasourceCrud struct {
+type BucketSummaryDatasourceCrud struct {
 	D      *schema.ResourceData
 	Client client.BareMetalClient
 	Res    *baremetal.ListBuckets
 }
 
 
-func (s *BucketsummaryDatasourceCrud) Get() (e error) {
+func (s *BucketSummaryDatasourceCrud) Get() (e error) {
 	compartmentID := s.D.Get("compartment_id").(string)
 	namespace := s.D.Get("namespace").(string)
 	page := s.D.Get("page").(string)
@@ -38,7 +38,7 @@ func (s *BucketsummaryDatasourceCrud) Get() (e error) {
 	return
 }
 
-func (s * BucketsummaryDatasourceCrud) SetData() {
+func (s *BucketSummaryDatasourceCrud) SetData() {
 	if s.Res != nil {
 		s.D.SetId(time.Now().UTC().String())
 		resources := []map[string]interface{}{}
@@ -53,7 +53,7 @@ func (s * BucketsummaryDatasourceCrud) SetData() {
 			}
 			resources = append(resources, res)
 		}
-		s.D.Set("bucketsummary", resources)
+		s.D.Set("bucket_summaries", resources)
 	}
 	return
 }
