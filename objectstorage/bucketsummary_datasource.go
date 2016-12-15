@@ -8,7 +8,7 @@ import (
 
 func BucketsummaryDatasource() *schema.Resource {
 	return &schema.Resource{
-		Read: readBucketsummaries(),
+		Read: readBucketsummaries,
 		Schema: map[string]*schema.Schema{
 			"compartment_id": {
 				Type:     schema.TypeString,
@@ -18,7 +18,7 @@ func BucketsummaryDatasource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"bucketsummaries": {
+			"bucketsummary": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
@@ -42,7 +42,7 @@ func BucketsummaryDatasource() *schema.Resource {
 	}
 }
 
-func readBucketsummaries(d *schema.ResourceData, m interface{}) (e error) {
+func readBucketsummaries(d *schema.ResourceData, m interface{}) (e error){
 	client := m.(client.BareMetalClient)
 	reader := &BucketsummaryDatasourceCrud{D: d, Client: client}
 	return crud.ReadResource(reader)

@@ -18,29 +18,35 @@ type BucketsummaryDatasourceCrud struct {
 func (s *BucketsummaryDatasourceCrud) Get() (e error) {
 	compartmentID := s.D.Get("compartment_id").(string)
 	namespace := s.D.Get("namespace").(string)
+	page := s.D.Get("page").(string)
 
 	opts := &baremetal.ListBucketsOptions{}
-	options.SetListOptions(s.D, opts)
+	opts.Page = page
+	pageListOption := &baremetal.PageListOptions{}
+	pageListOption.Page = page
 
 	s.Res = &baremetal.ListBuckets{BucketSummaries: []baremetal.BucketSummary{}}
 
 	for {
 		var list *baremetal.ListBuckets
-
 		if list, e = s.Client.ListBuckets(compartmentID, baremetal.Namespace(namespace), opts); e != nil {
 			break
 		}
 
 		s.Res.BucketSummaries = append(s.Res.BucketSummaries, list.BucketSummaries...)
 
-		if hasNextPage := options.SetNextPageOption(list.NextPage, opts); !hasNextPage {
+		// TODO: Add optionsSetNextListBucketPageOptions
+		break
+		pageListOption.Page = list.NextPage
+
+		if hasNextPage := options.SetNextPageOption(list.NextPage, pageListOption); !hasNextPage {
 			break
 		}
 	}
 	return
 }
 
-func (s * BucketsummaryDatasourceCrud) SetData() (e error) {
+func (s * BucketsummaryDatasourceCrud) SetData() {
 	if s.Res != nil {
 		s.D.SetId(time.Now().UTC().String())
 		resources := []map[string]interface{}{}
@@ -55,8 +61,7 @@ func (s * BucketsummaryDatasourceCrud) SetData() (e error) {
 			}
 			resources = append(resources, res)
 		}
-		s.D.Set("bucketsummaries", resources)
-
+		s.D.Set("bucketsummary", resources)
 	}
 	return
 }

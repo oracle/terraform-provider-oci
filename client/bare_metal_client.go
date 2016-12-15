@@ -90,7 +90,7 @@ type BareMetalClient interface {
 
 	ListAPIKeys(userID string) (response *baremetal.ListAPIKeyResponses, e error)
 	ListAvailabilityDomains(compartmentID string) (ads *baremetal.ListAvailabilityDomains, e error)
-	ListBuckets(compartmentID string, namespaceName *baremetal.Namespace, opts *baremetal.ListBucketsOptions) (buckets *baremetal.ListBuckets, e error)
+	ListBuckets(compartmentID string, namespaceName baremetal.Namespace, opts *baremetal.ListBucketsOptions) (buckets *baremetal.ListBuckets, e error)
 	ListCompartments(opts *baremetal.ListOptions) (resources *baremetal.ListCompartments, e error)
 	ListConsoleHistories(compartmentID string, opts *baremetal.ListConsoleHistoriesOptions) (icHistories *baremetal.ListConsoleHistories, e error)
 	ListCpes(compartmentID string, opts *baremetal.ListOptions) (cpes *baremetal.ListCpes, e error)
