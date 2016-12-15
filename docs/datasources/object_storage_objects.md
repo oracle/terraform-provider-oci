@@ -7,7 +7,7 @@ Provides an Objectstorage datasource for listing objects.
 ### Object w/ Metadata
 
 ```
-data "baremetal_objectstorage_objectlist" "t" {
+data "baremetal_objectstorage_objects" "t" {
     namespace = "namespaceID"
     bucket = "bucketID"
     prefix = "startswith-"

@@ -101,12 +101,13 @@ const (
 	DiskRedundancyNormal DiskRedundancy = "NORMAL"
 
 	// DB Resources
-	resourceDBHomes        resourceName = "dbHomes"
-	resourceDBNodes        resourceName = "dbNodes"
-	resourceDBSystems      resourceName = "dbSystems"
-	resourceDBSystemShapes resourceName = "dbSystemShapes"
-	resourceDBVersions     resourceName = "dbVersions"
-	resourceDatabases      resourceName = "databases"
+	resourceDBHomes               resourceName = "dbHomes"
+	resourceDBNodes               resourceName = "dbNodes"
+	resourceDBSystems             resourceName = "dbSystems"
+	resourceDBSystemShapes        resourceName = "dbSystemShapes"
+	resourceDBVersions            resourceName = "dbVersions"
+	resourceDatabases             resourceName = "databases"
+	resourceDBSupportedOperations resourceName = "supportedOperations"
 
 	// Identity Resources
 	resourceAvailabilityDomains  resourceName = "availabilityDomains"

@@ -100,6 +100,7 @@ func dataSourcesMap() map[string]*schema.Resource {
 		"baremetal_database_db_systems":       database.DBSystemDatasource(),
 		"baremetal_database_db_system_shapes": database.DBSystemShapeDatasource(),
 		"baremetal_identity_api_keys":         identity.APIKeyDatasource(),
+		"baremetal_objectstorage_objects":  objectstorage.ObjectDatasource(),
 	}
 }
 
@@ -129,8 +130,6 @@ func resourcesMap() map[string]*schema.Resource {
 		"baremetal_identity_user":             identity.UserResource(),
 		"baremetal_objectstorage_bucket":      objectstorage.BucketResource(),
 		"baremetal_objectstorage_object":      objectstorage.ObjectResource(),
-		"baremetal_objectstorage_objectlist":  objectstorage.ObjectDatasource(),
-		"baremetal_objectstorage_object_data": objectstorage.ObjectDatasource(),
 	}
 }
 

@@ -40,7 +40,7 @@ func (s *DatasourceObjectstorageObjectTestSuite) SetupTest() {
 	s.TimeCreated = baremetal.Time{Time: time.Now()}
 
 	s.Config = `
-		data "baremetal_objectstorage_objectlist" "t" {
+		data "baremetal_objectstorage_objects" "t" {
 			namespace = "namespaceID"
 			bucket = "bucketID"
 			prefix = "testprefix"
@@ -49,7 +49,7 @@ func (s *DatasourceObjectstorageObjectTestSuite) SetupTest() {
 
 	s.Config += testProviderConfig
 
-	s.ResourceName = "baremetal_objectstorage_objectlist.t"
+	s.ResourceName = "baremetal_objectstorage_objects.t"
 	s.Res = &baremetal.ListObjects{
 
 		Objects: []baremetal.ObjectSummary{

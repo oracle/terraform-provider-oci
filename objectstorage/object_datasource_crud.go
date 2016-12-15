@@ -26,16 +26,32 @@ func (s *ObjectDatasourceCrud) Get() (e error) {
 		opts.Prefix = prefix.(string)
 	}
 	if start, ok := s.D.GetOk("start"); ok {
-		opts.Prefix = start.(string)
+		opts.Start = start.(string)
 	}
 	if end, ok := s.D.GetOk("end"); ok {
-		opts.Prefix = end.(string)
+		opts.End = end.(string)
 	}
 	if limit, ok := s.D.GetOk("limit"); ok {
-		opts.Prefix = limit.(string)
+		opts.Limit = limit.(string)
 	}
 
-	s.Res, e = s.Client.ListObjects(baremetal.Namespace(namespace), bucket, opts)
+	s.Res = &baremetal.ListObjects{Objects: []baremetal.ObjectSummary{}}
+
+	for {
+		var list *baremetal.ListObjects
+		if list, e = s.Client.ListObjects(baremetal.Namespace(namespace), bucket, opts); e != nil {
+			break
+		}
+
+		s.Res.Objects = append(s.Res.Objects, list.Objects...)
+
+		if list.NextStartWith == "" {
+			break
+		}
+
+		opts.Start = list.NextStartWith
+	}
+
 	return
 }
 

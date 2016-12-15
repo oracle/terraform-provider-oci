@@ -1,9 +1,6 @@
 package baremetal
 
-import (
-	"net/http"
-	"time"
-)
+import "time"
 
 type CustomUnmarshaler interface {
 	Unmarshal([]byte, interface{}) error
@@ -23,18 +20,6 @@ type Requestable interface {
 
 type ClientRequestable interface {
 	SetClientRequestID(id string)
-}
-
-type ClientRequestOptions struct {
-	OPCClientRequestID string
-}
-
-func (ref *ClientRequestOptions) Header() http.Header {
-	h := http.Header{}
-	if ref.OPCClientRequestID != "" {
-		h.Add(headerOPCClientRequestID, ref.OPCClientRequestID)
-	}
-	return h
 }
 
 type ETagged interface {
