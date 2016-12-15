@@ -38,6 +38,7 @@ type BareMetalClient interface {
 	DeleteIPSecConnection(id string, opts *baremetal.IfMatchOptions) (e error)
 	DeleteImage(id string, opts *baremetal.IfMatchOptions) (e error)
 	DeleteInternetGateway(id string, opts *baremetal.IfMatchOptions) (e error)
+	DeleteObject(namespace baremetal.Namespace, bucketName string, objectName string, opts *baremetal.DeleteObjectOptions) (object *baremetal.DeleteObject, e error)
 	DeletePolicy(id string, opts *baremetal.IfMatchOptions) (e error)
 	DeleteRouteTable(id string, opts *baremetal.IfMatchOptions) (e error)
 	DeleteSecurityList(id string, opts *baremetal.IfMatchOptions) (e error)
@@ -67,6 +68,7 @@ type BareMetalClient interface {
 	GetImage(id string) (res *baremetal.Image, e error)
 	GetInstance(id string) (inst *baremetal.Instance, e error)
 	GetInternetGateway(id string) (gw *baremetal.InternetGateway, e error)
+	GetObject(namespace baremetal.Namespace, bucketName string, objectName string, opts *baremetal.GetObjectOptions) (object *baremetal.Object, e error)
 	GetPolicy(id string) (res *baremetal.Policy, e error)
 	GetRouteTable(id string) (res *baremetal.RouteTable, e error)
 	GetSecurityList(id string) (res *baremetal.SecurityList, e error)
@@ -78,6 +80,8 @@ type BareMetalClient interface {
 	GetVolume(id string) (res *baremetal.Volume, e error)
 	GetVolumeAttachment(id string) (res *baremetal.VolumeAttachment, e error)
 	GetVolumeBackup(id string) (vol *baremetal.VolumeBackup, e error)
+
+	HeadObject(namespace baremetal.Namespace, bucketName string, objectName string, opts *baremetal.HeadObjectOptions) (headObject *baremetal.HeadObject, e error)
 
 	InstanceAction(id string, action baremetal.InstanceActions, opts *baremetal.HeaderOptions) (inst *baremetal.Instance, e error)
 
@@ -102,6 +106,7 @@ type BareMetalClient interface {
 	ListImages(compartmentID string, opts *baremetal.ListImagesOptions) (res *baremetal.ListImages, e error)
 	ListInstances(compartmentID string, opts *baremetal.ListInstancesOptions) (insts *baremetal.ListInstances, e error)
 	ListInternetGateways(compartmentID, vcnID string, opts *baremetal.ListOptions) (list *baremetal.ListInternetGateways, e error)
+	ListObjects(namespace baremetal.Namespace, bucket string, opts *baremetal.ListObjectsOptions) (objects *baremetal.ListObjects, e error)
 	ListRouteTables(compartmentID, vcnID string, opts *baremetal.ListOptions) (res *baremetal.ListRouteTables, e error)
 	ListSecurityLists(compartmentID, vcnID string, opts *baremetal.ListOptions) (res *baremetal.ListSecurityLists, e error)
 	ListShapes(compartmentID string, opts *baremetal.ListShapesOptions) (shapes *baremetal.ListShapes, e error)
@@ -113,6 +118,8 @@ type BareMetalClient interface {
 	ListVolumeAttachments(compartmentID string, opts *baremetal.ListVolumeAttachmentsOptions) (res *baremetal.ListVolumeAttachments, e error)
 	ListVolumeBackups(compartmentID string, opts *baremetal.ListBackupsOptions) (vols *baremetal.ListVolumeBackups, e error)
 	ListVolumes(compartmentID string, opts *baremetal.ListVolumesOptions) (res *baremetal.ListVolumes, e error)
+
+	PutObject(namespace baremetal.Namespace, bucketName string, objectName string, content []byte, opts *baremetal.PutObjectOptions) (object *baremetal.Object, e error)
 
 	ShowConsoleHistoryData(instanceConsoleHistoryID string, opts *baremetal.ConsoleHistoryDataOptions) (response *baremetal.ConsoleHistoryData, e error)
 
