@@ -99,6 +99,18 @@ func (opt *HeaderOptions) Header() http.Header {
 	return header
 }
 
+type ClientRequestOptions struct {
+	OPCClientRequestID string
+}
+
+func (ref *ClientRequestOptions) Header() http.Header {
+	h := http.Header{}
+	if ref.OPCClientRequestID != "" {
+		h.Add(headerOPCClientRequestID, ref.OPCClientRequestID)
+	}
+	return h
+}
+
 type DisplayNameOptions struct {
 	DisplayName string `json:"displayName,omitempty" url:"-"`
 }

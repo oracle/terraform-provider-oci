@@ -12,7 +12,7 @@ type DBNode struct {
 	ID          string    `json:"id"`
 	State       string    `json:"lifecycleState"`
 	TimeCreated time.Time `json:"timeCreated"`
-	VnicID      string    `json:"nvicId"`
+	VnicID      string    `json:"vnicId"`
 }
 
 type ListDBNodes struct {

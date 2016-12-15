@@ -97,13 +97,17 @@ func dataSourcesMap() map[string]*schema.Resource {
 		"baremetal_core_volume_attachments":   core.VolumeAttachmentDatasource(),
 		"baremetal_core_volume_backups":       core.VolumeBackupDatasource(),
 		"baremetal_core_volumes":              core.VolumeDatasource(),
+		"baremetal_database_db_home":          database.DBHomeDatasource(),
+		"baremetal_database_db_homes":         database.DBHomesDatasource(),
+		"baremetal_database_db_node":          database.DBNodeDatasource(),
+		"baremetal_database_db_nodes":         database.DBNodesDatasource(),
 		"baremetal_database_db_systems":       database.DBSystemDatasource(),
 		"baremetal_database_db_system_shapes": database.DBSystemShapeDatasource(),
+		"baremetal_database_db_versions":      database.DBVersionDatasource(),
 		"baremetal_identity_api_keys":         identity.APIKeyDatasource(),
 		"baremetal_objectstorage_objecthead": objectstorage.ObjectHeadDatasource(),
-		"baremetal_objectstorage_objectlist":  objectstorage.ObjectDatasource(),
-		"baremetal_objectstorage_object_data": objectstorage.ObjectDatasource(),
-
+		"baremetal_objectstorage_objects":  objectstorage.ObjectDatasource(),
+		"baremetal_objectstorage_namespace":  objectstorage.NamespaceDatasource(),
 	}
 }
 
@@ -133,8 +137,6 @@ func resourcesMap() map[string]*schema.Resource {
 		"baremetal_identity_user":             identity.UserResource(),
 		"baremetal_objectstorage_bucket":      objectstorage.BucketResource(),
 		"baremetal_objectstorage_object":      objectstorage.ObjectResource(),
-		"baremetal_objectstorage_namespace":  objectstorage.NamespaceDatasource(),
-
 	}
 }
 
