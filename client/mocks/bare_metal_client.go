@@ -887,6 +887,29 @@ func (_m *BareMetalClient) GetDBHome(id string) (*baremetal.DBHome, error) {
 	return r0, r1
 }
 
+// GetDBNode provides a mock function with given fields: id
+func (_m *BareMetalClient) GetDBNode(id string) (*baremetal.DBNode, error) {
+	ret := _m.Called(id)
+
+	var r0 *baremetal.DBNode
+	if rf, ok := ret.Get(0).(func(string) *baremetal.DBNode); ok {
+		r0 = rf(id)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*baremetal.DBNode)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(string) error); ok {
+		r1 = rf(id)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // GetDBSystem provides a mock function with given fields: id
 func (_m *BareMetalClient) GetDBSystem(id string) (*baremetal.DBSystem, error) {
 	ret := _m.Called(id)
@@ -1587,6 +1610,29 @@ func (_m *BareMetalClient) ListDBHomes(compartmentID string, dbSystemID string, 
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*baremetal.ListDBHomes)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(string, string, uint64, *baremetal.PageListOptions) error); ok {
+		r1 = rf(compartmentID, dbSystemID, limit, opts)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// ListDBNodes provides a mock function with given fields: compartmentID, dbSystemID, limit, opts
+func (_m *BareMetalClient) ListDBNodes(compartmentID string, dbSystemID string, limit uint64, opts *baremetal.PageListOptions) (*baremetal.ListDBNodes, error) {
+	ret := _m.Called(compartmentID, dbSystemID, limit, opts)
+
+	var r0 *baremetal.ListDBNodes
+	if rf, ok := ret.Get(0).(func(string, string, uint64, *baremetal.PageListOptions) *baremetal.ListDBNodes); ok {
+		r0 = rf(compartmentID, dbSystemID, limit, opts)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*baremetal.ListDBNodes)
 		}
 	}
 

@@ -6,28 +6,27 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
-type DBHomeDatasourceCrud struct {
+type DBNodeDatasourceCrud struct {
 	D      *schema.ResourceData
 	Client client.BareMetalClient
-	Res    *baremetal.DBHome
+	Res    *baremetal.DBNode
 }
 
-func (s *DBHomeDatasourceCrud) Get() (e error) {
-	id := s.D.Get("db_home_id").(string)
-	s.Res, e = s.Client.GetDBHome(id)
+func (s *DBNodeDatasourceCrud) Get() (e error) {
+	id := s.D.Get("db_node_id").(string)
+	s.Res, e = s.Client.GetDBNode(id)
 	return
 }
 
-func (s *DBHomeDatasourceCrud) SetData() {
+func (s *DBNodeDatasourceCrud) SetData() {
 	if s.Res != nil {
 		s.D.SetId(s.Res.ID)
-		s.D.Set("compartment_id", s.Res.CompartmentID)
 		s.D.Set("db_system_id", s.Res.DBSystemID)
-		s.D.Set("db_version", s.Res.DBVersion)
-		s.D.Set("display_name", s.Res.DisplayName)
+		s.D.Set("hostname", s.Res.Hostname)
 		s.D.Set("id", s.Res.ID)
 		s.D.Set("state", s.Res.State)
 		s.D.Set("time_created", s.Res.TimeCreated.String())
+		s.D.Set("vnic_id", s.Res.VnicID)
 	}
 	return
 }

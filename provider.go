@@ -99,6 +99,8 @@ func dataSourcesMap() map[string]*schema.Resource {
 		"baremetal_core_volumes":              core.VolumeDatasource(),
 		"baremetal_database_db_home":          database.DBHomeDatasource(),
 		"baremetal_database_db_homes":         database.DBHomesDatasource(),
+		"baremetal_database_db_node":          database.DBNodeDatasource(),
+		"baremetal_database_db_nodes":         database.DBNodesDatasource(),
 		"baremetal_database_db_systems":       database.DBSystemDatasource(),
 		"baremetal_database_db_system_shapes": database.DBSystemShapeDatasource(),
 		"baremetal_database_db_versions":      database.DBVersionDatasource(),
