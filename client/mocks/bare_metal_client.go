@@ -979,6 +979,29 @@ func (_m *BareMetalClient) GetDHCPOptions(id string) (*baremetal.DHCPOptions, er
 	return r0, r1
 }
 
+// GetDatabase provides a mock function with given fields: id
+func (_m *BareMetalClient) GetDatabase(id string) (*baremetal.Database, error) {
+	ret := _m.Called(id)
+
+	var r0 *baremetal.Database
+	if rf, ok := ret.Get(0).(func(string) *baremetal.Database); ok {
+		r0 = rf(id)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*baremetal.Database)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(string) error); ok {
+		r1 = rf(id)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // GetDrg provides a mock function with given fields: id
 func (_m *BareMetalClient) GetDrg(id string) (*baremetal.Drg, error) {
 	ret := _m.Called(id)
@@ -1846,6 +1869,29 @@ func (_m *BareMetalClient) ListDHCPOptions(compartmentID string, vcnID string, o
 	var r1 error
 	if rf, ok := ret.Get(1).(func(string, string, *baremetal.ListOptions) error); ok {
 		r1 = rf(compartmentID, vcnID, opts)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// ListDatabases provides a mock function with given fields: compartmentID, dbHomeID, limit, opts
+func (_m *BareMetalClient) ListDatabases(compartmentID string, dbHomeID string, limit uint64, opts *baremetal.PageListOptions) (*baremetal.ListDatabases, error) {
+	ret := _m.Called(compartmentID, dbHomeID, limit, opts)
+
+	var r0 *baremetal.ListDatabases
+	if rf, ok := ret.Get(0).(func(string, string, uint64, *baremetal.PageListOptions) *baremetal.ListDatabases); ok {
+		r0 = rf(compartmentID, dbHomeID, limit, opts)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*baremetal.ListDatabases)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(string, string, uint64, *baremetal.PageListOptions) error); ok {
+		r1 = rf(compartmentID, dbHomeID, limit, opts)
 	} else {
 		r1 = ret.Error(1)
 	}
