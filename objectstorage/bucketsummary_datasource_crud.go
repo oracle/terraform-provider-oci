@@ -18,10 +18,16 @@ type BucketSummaryDatasourceCrud struct {
 func (s *BucketSummaryDatasourceCrud) Get() (e error) {
 	compartmentID := s.D.Get("compartment_id").(string)
 	namespace := s.D.Get("namespace").(string)
-	page := s.D.Get("page").(string)
 
 	opts := &baremetal.ListBucketsOptions{}
-	opts.Page = page
+	if page, ok := s.D.GetOk("page"); ok {
+		opts.Page = page
+	}
+
+	if limit, ok := s.D.GetOk("limit"); ok {
+		opts.Limit = limit
+	}
+
 	s.Res = &baremetal.ListBuckets{BucketSummaries: []baremetal.BucketSummary{}}
 
 	for {
