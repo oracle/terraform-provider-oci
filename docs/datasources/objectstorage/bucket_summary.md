@@ -1,6 +1,6 @@
 # baremetal\_objectstorage\_bucket\_summary
 
-Get a list of all BucketSummarys in a namespace. A BucketSummary contains only summary fields for the bucket and does not contain fields like the user-defined metadata.
+Get a list of all Bucket summaries in a namespace. A BucketSummary contains only summary fields for the bucket and does not contain fields like the user-defined metadata.
 
 To use this and other API operations, you must be authorized in an IAM policy.
 See [List Buckets API Docs](https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/objectstorage/20160918/BucketSummary/ListBuckets) for details.
@@ -9,7 +9,7 @@ See [List Buckets API Docs](https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en
 ## Example Usage
 
 ```
-    data "baremetal_objectstorage_bucket_summary" "t" {
+    data "baremetal_objectstorage_bucket_summaries" "t" {
       compartment_id = "compartmentid"
       namespace = "namespace"
       limit = 1
