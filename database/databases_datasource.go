@@ -14,7 +14,7 @@ func DatabasesDatasource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"db_system_id": &schema.Schema{
+			"db_home_id": &schema.Schema{
 				Type:     schema.TypeString,
 				Required: true,
 			},
@@ -26,7 +26,7 @@ func DatabasesDatasource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"db_nodes": &schema.Schema{
+			"databases": &schema.Schema{
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem:     DatabaseDatasource(),
