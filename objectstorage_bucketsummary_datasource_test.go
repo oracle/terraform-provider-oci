@@ -34,7 +34,7 @@ func (s *ObjectstorageBucketSummaryTestSuite) SetupTest() {
     data "baremetal_objectstorage_bucket_summaries" "t" {
       compartment_id = "compartmentid"
       namespace = "namespace"
-      limit = 1
+      limit = 2
       page = "page"
     }
   `
@@ -46,6 +46,7 @@ func (s *ObjectstorageBucketSummaryTestSuite) SetupTest() {
 func (s *ObjectstorageBucketSummaryTestSuite) TestReadBucketSummaries() {
 	opts := &baremetal.ListBucketsOptions{}
 	opts.Page = "page"
+	opts.Limit = 2
 	namespace := baremetal.Namespace("namespace")
 	s.Client.On(
 		"ListBuckets", "compartmentid", namespace, opts,
@@ -77,6 +78,7 @@ func (s *ObjectstorageBucketSummaryTestSuite) TestReadBucketSummaries() {
 	)
 	opts2 := &baremetal.ListBucketsOptions{}
 	opts2.Page = "nextpage"
+	opts2.Limit = 2
 	s.Client.On(
 		"ListBuckets", "compartmentid", namespace, opts2,
 	).Return(
@@ -104,7 +106,7 @@ func (s *ObjectstorageBucketSummaryTestSuite) TestReadBucketSummaries() {
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartmentid"),
 					resource.TestCheckResourceAttr(s.ResourceName, "namespace", "namespace"),
-					resource.TestCheckResourceAttr(s.ResourceName, "limit", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "limit", "2"),
 					resource.TestCheckResourceAttr(s.ResourceName, "bucket_summaries.0.name", "name0"),
 					resource.TestCheckResourceAttr(s.ResourceName, "bucket_summaries.2.name", "name2"),
 					resource.TestCheckResourceAttr(s.ResourceName, "bucket_summaries.#", "3"),

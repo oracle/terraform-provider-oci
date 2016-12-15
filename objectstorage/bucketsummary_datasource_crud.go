@@ -21,11 +21,11 @@ func (s *BucketSummaryDatasourceCrud) Get() (e error) {
 
 	opts := &baremetal.ListBucketsOptions{}
 	if page, ok := s.D.GetOk("page"); ok {
-		opts.Page = page
+		opts.Page = page.(string)
 	}
 
 	if limit, ok := s.D.GetOk("limit"); ok {
-		opts.Limit = limit
+		opts.ListOptions.Limit = uint64(limit.(int))
 	}
 
 	s.Res = &baremetal.ListBuckets{BucketSummaries: []baremetal.BucketSummary{}}

@@ -23,7 +23,27 @@ func BucketSummaryDatasource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"version": {
+						"namespace": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"compartment_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"created_by": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_created": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"etag": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
