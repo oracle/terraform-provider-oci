@@ -22,7 +22,7 @@ type DatasourceObjectstorageObjectTestSuite struct {
 	Config       string
 	ResourceName string
 	Res          *baremetal.ListObjects
-	Res2          *baremetal.ListObjects
+	Res2         *baremetal.ListObjects
 }
 
 func (s *DatasourceObjectstorageObjectTestSuite) SetupTest() {
@@ -99,7 +99,6 @@ func (s *DatasourceObjectstorageObjectTestSuite) TestObjectstorageListObjects() 
 	s.Client.AssertCalled(s.T(), "ListObjects", baremetal.Namespace("namespaceID"), "bucketID", opts)
 	s.Client.AssertCalled(s.T(), "ListObjects", baremetal.Namespace("namespaceID"), "bucketID", opts2)
 }
-
 
 func TestDatasourceobjectstorageObjectTestSuite(t *testing.T) {
 	suite.Run(t, new(ResourceObjectstorageObjectTestSuite))

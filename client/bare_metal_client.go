@@ -68,6 +68,7 @@ type BareMetalClient interface {
 	GetImage(id string) (res *baremetal.Image, e error)
 	GetInstance(id string) (inst *baremetal.Instance, e error)
 	GetInternetGateway(id string) (gw *baremetal.InternetGateway, e error)
+	GetNamespace() (*baremetal.Namespace, error)
 	GetObject(namespace baremetal.Namespace, bucketName string, objectName string, opts *baremetal.GetObjectOptions) (object *baremetal.Object, e error)
 	GetPolicy(id string) (res *baremetal.Policy, e error)
 	GetRouteTable(id string) (res *baremetal.RouteTable, e error)
