@@ -52,8 +52,8 @@ func (s *DatasourceObjectstorageObjectHeadTestSuite) SetupTest() {
 	s.ResourceName = "data.baremetal_objectstorage_objecthead.t"
 	s.Res = &baremetal.HeadObject{
 		Namespace: baremetal.Namespace("namespaceID"),
-		Bucket: "bucketID",
-		ID: "object",
+		Bucket:    "bucketID",
+		ID:        "object",
 	}
 	metadata := map[string]string{"foo": "bar"}
 	s.Res.Metadata = metadata

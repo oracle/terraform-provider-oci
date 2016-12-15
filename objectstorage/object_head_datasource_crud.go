@@ -2,7 +2,6 @@ package objectstorage
 
 import (
 	"time"
-	"fmt"
 
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/client"
@@ -27,7 +26,6 @@ func (s *ObjectHeadDatasourceCrud) Get() (e error) {
 func (s *ObjectHeadDatasourceCrud) SetData() {
 	// Important, if you don't have an ID, make one up for your datasource
 	// or things will end in tears
-	fmt.Println("=============== HEREHERE ===========")
 	s.D.SetId(time.Now().UTC().String())
 	s.D.Set("metadata", s.Res.Metadata)
 	s.D.Set("content-length", string(s.Res.ContentLength))

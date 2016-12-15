@@ -58,7 +58,6 @@ func (s *ObjectResourceCrud) Delete() (e error) {
 	object := s.D.Get("object").(string)
 	opts := &baremetal.DeleteObjectOptions{}
 
-
 	_, e = s.Client.DeleteObject(baremetal.Namespace(namespace), bucket, object, opts)
 	return
 }

@@ -67,7 +67,6 @@ func (s *DatasourceObjectstorageNamespaceTestSuite) TestObjectstorageNamespace()
 	s.Client.AssertCalled(s.T(), "GetNamespace")
 }
 
-
 func TestDatasourceobjectstorageNamespaceTestSuite(t *testing.T) {
 	suite.Run(t, new(ResourceObjectstorageObjectTestSuite))
 }
