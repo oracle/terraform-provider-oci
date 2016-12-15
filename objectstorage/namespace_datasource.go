@@ -18,29 +18,6 @@ func NamespaceDatasource() *schema.Resource {
 	}
 }
 
-func resourceNamespaceSummary() *schema.Resource {
-	return &schema.Resource{
-		Schema: map[string]*schema.Schema{
-			"name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"size": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"md5": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_created": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-		},
-	}
-}
-
 func readNamespace(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
 	reader := &NamespaceDatasourceCrud{

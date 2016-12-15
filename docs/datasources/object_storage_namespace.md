@@ -14,3 +14,4 @@ data "baremetal_objectstorage_namespace" "t" {}
 
 This datasource takes no arguments
 
+* `namespace` - (Computed) The namespace of the object storage that the object is in.
