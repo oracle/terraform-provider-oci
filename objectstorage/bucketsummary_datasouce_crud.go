@@ -22,9 +22,6 @@ func (s *BucketsummaryDatasourceCrud) Get() (e error) {
 
 	opts := &baremetal.ListBucketsOptions{}
 	opts.Page = page
-	pageListOption := &baremetal.PageListOptions{}
-	pageListOption.Page = page
-
 	s.Res = &baremetal.ListBuckets{BucketSummaries: []baremetal.BucketSummary{}}
 
 	for {
@@ -34,12 +31,7 @@ func (s *BucketsummaryDatasourceCrud) Get() (e error) {
 		}
 
 		s.Res.BucketSummaries = append(s.Res.BucketSummaries, list.BucketSummaries...)
-
-		// TODO: Add optionsSetNextListBucketPageOptions
-		break
-		pageListOption.Page = list.NextPage
-
-		if hasNextPage := options.SetNextPageOption(list.NextPage, pageListOption); !hasNextPage {
+		if hasNextPage := options.SetNextPageOption(list.NextPage, &opts.ListOptions.PageListOptions); !hasNextPage {
 			break
 		}
 	}

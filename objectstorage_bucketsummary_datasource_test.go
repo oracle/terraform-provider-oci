@@ -1,7 +1,7 @@
 package main
 import (
 	"testing"
-
+	"time"
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/client/mocks"
 	"github.com/hashicorp/terraform/helper/resource"
@@ -18,6 +18,7 @@ type ObjectstorageBucketSummaryTestSuite struct {
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	ResourceName string
+	TimeCreated  time.Time
 }
 
 func (s *ObjectstorageBucketSummaryTestSuite) SetupTest() {
@@ -39,6 +40,7 @@ func (s *ObjectstorageBucketSummaryTestSuite) SetupTest() {
   `
 	s.Config += testProviderConfig
 	s.ResourceName = "data.baremetal_objectstorage_bucketsummary.t"
+	s.TimeCreated = time.Now()
 }
 
 func (s *ObjectstorageBucketSummaryTestSuite) TestReadBucketSummaries() {
@@ -57,11 +59,17 @@ func (s *ObjectstorageBucketSummaryTestSuite) TestReadBucketSummaries() {
 					Namespace: "namespace",
 					Name: "name0",
 					CompartmentID: "compartmentID",
+					CreatedBy: "created_by",
+					TimeCreated: s.TimeCreated,
+					ETag: "etag",
 				},
 				{
 					Namespace: "namespace",
 					Name: "name1",
 					CompartmentID: "compartmentID",
+					CreatedBy: "created_by",
+					TimeCreated: s.TimeCreated,
+					ETag: "etag",
 				},
 			},
 		},
@@ -78,6 +86,9 @@ func (s *ObjectstorageBucketSummaryTestSuite) TestReadBucketSummaries() {
 					Namespace: "namespace",
 					Name: "name2",
 					CompartmentID: "compartmentID",
+					CreatedBy: "created_by",
+					TimeCreated: s.TimeCreated,
+					ETag: "etag",
 				},
 			},
 		},
@@ -97,6 +108,7 @@ func (s *ObjectstorageBucketSummaryTestSuite) TestReadBucketSummaries() {
 					resource.TestCheckResourceAttr(s.ResourceName, "bucketsummary.0.name", "name0"),
 					resource.TestCheckResourceAttr(s.ResourceName, "bucketsummary.2.name", "name2"),
 					resource.TestCheckResourceAttr(s.ResourceName, "bucketsummary.#", "3"),
+
 				),
 			},
 		},
