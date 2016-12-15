@@ -101,7 +101,7 @@ type BareMetalClient interface {
 	ListSecurityLists(compartmentID, vcnID string, opts *baremetal.ListOptions) (res *baremetal.ListSecurityLists, e error)
 	ListShapes(compartmentID string, opts *baremetal.ListShapesOptions) (shapes *baremetal.ListShapes, e error)
 	ListSubnets(compartmentID, vcnID string, opts *baremetal.ListOptions) (subnets *baremetal.ListSubnets, e error)
-	ListSupportedOperations() (*baremetal.SupportedOperation, error)
+	ListSupportedOperations() (*baremetal.ListSupportedOperations, error)
 	ListUserGroupMemberships(opts *baremetal.ListMembershipsOptions) (resources *baremetal.ListUserGroupMemberships, e error)
 	ListUsers(opts *baremetal.ListOptions) (resources *baremetal.ListUsers, e error)
 	ListVirtualNetworks(compartmentID string, opts *baremetal.ListOptions) (vcns *baremetal.ListVirtualNetworks, e error)

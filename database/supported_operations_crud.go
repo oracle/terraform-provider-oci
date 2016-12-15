@@ -5,7 +5,6 @@ import (
 
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/client"
-	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/options"
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
@@ -27,8 +26,15 @@ func (s *SupportedOperationDatasourceCrud) Get() (e error) {
 
 func (s *SupportedOperationDatasourceCrud) SetData() {
 	if s.Res != nil {
+		resources := []map[string]interface{}{}
 		s.D.SetId(time.Now().UTC().String())
-		s.D.Set("supported_operations", s.Res.SupportedOperations)
+		for _, v := range s.Res.SupportedOperations {
+			res := map[string]interface{}{
+				"id": v.ID,
+			}
+			resources = append(resources, res)
+		}
+		s.D.Set("supported_operations", resources)
 	}
 	return
 }

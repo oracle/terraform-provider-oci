@@ -60,7 +60,7 @@ func (s *DatasourceDatabaseSupportedOperationTestSuite) SetupTest() {
 }
 
 func (s *DatasourceDatabaseSupportedOperationTestSuite) TestDatabaseListSupportedOperations() {
-	s.Client.On("ListSupportedOperations").Return(s.Res, nil).Once()
+	s.Client.On("ListSupportedOperations").Return(s.Res, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -68,7 +68,7 @@ func (s *DatasourceDatabaseSupportedOperationTestSuite) TestDatabaseListSupporte
 			{
 				Config: s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "supported_operations.0", "test-1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "supported_operations.0.id", "test-1"),
 				),
 			},
 		},
