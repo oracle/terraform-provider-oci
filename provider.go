@@ -105,7 +105,7 @@ func dataSourcesMap() map[string]*schema.Resource {
 		"baremetal_database_db_system_shapes": database.DBSystemShapeDatasource(),
 		"baremetal_database_db_versions":      database.DBVersionDatasource(),
 		"baremetal_identity_api_keys":         identity.APIKeyDatasource(),
-		"baremetal_objectstorage_objecthead": objectstorage.ObjectHeadDatasource(),
+		"baremetal_objectstorage_object_head": objectstorage.ObjectHeadDatasource(),
 		"baremetal_objectstorage_objects":  objectstorage.ObjectDatasource(),
 		"baremetal_objectstorage_namespace":  objectstorage.NamespaceDatasource(),
 	}

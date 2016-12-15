@@ -1,13 +1,13 @@
-# baremetal\_objectstorage\_bucket
+# baremetal\_objectstorage\_object_head
 
-Provides an Objectstorage datasource for fetching an objects metadata
+Provides an Objectstorage datasource for fetching an objects metadata.
 
 ## Example Usage
 
-### Object w/ Metadata
+### Object Metadata
 
 ```
-data "baremetal_objectstorage_objecthead" "t" {
+data "baremetal_objectstorage_object_head" "t" {
      namespace = "namespaceID"
      bucket = "bucketID"
      object = "objectID"
