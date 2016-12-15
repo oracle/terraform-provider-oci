@@ -12,7 +12,7 @@ import (
 	"github.com/stretchr/testify/suite"
 )
 
-type DatabaseDBHomeTestSuite struct {
+type DatabaseDBNodeTestSuite struct {
 	suite.Suite
 	Client       *mocks.BareMetalClient
 	Config       string
@@ -21,7 +21,7 @@ type DatabaseDBHomeTestSuite struct {
 	ResourceName string
 }
 
-func (s *DatabaseDBHomeTestSuite) SetupTest() {
+func (s *DatabaseDBNodeTestSuite) SetupTest() {
 	s.Client = &mocks.BareMetalClient{}
 	s.Provider = Provider(func(d *schema.ResourceData) (interface{}, error) {
 		return s.Client, nil
@@ -31,21 +31,20 @@ func (s *DatabaseDBHomeTestSuite) SetupTest() {
 		"baremetal": s.Provider,
 	}
 	s.Config = `
-    data "baremetal_database_db_home" "t" {
-      db_home_id = "id"
+    data "baremetal_database_db_node" "t" {
+      db_node_id = "id"
     }
   `
 	s.Config += testProviderConfig
-	s.ResourceName = "data.baremetal_database_db_home.t"
+	s.ResourceName = "data.baremetal_database_db_node.t"
 }
 
-func (s *DatabaseDBHomeTestSuite) TestReadDBHome() {
-	dbHome := &baremetal.DBHome{}
-	dbHome.CompartmentID = "compartment_id"
-	dbHome.DBSystemID = "db_system_id"
-	dbHome.ID = "id"
+func (s *DatabaseDBNodeTestSuite) TestReadDBNode() {
+	dbNode := &baremetal.DBNode{}
+	dbNode.DBSystemID = "db_system_id"
+	dbNode.ID = "id"
 
-	s.Client.On("GetDBHome", "id").Return(dbHome, nil)
+	s.Client.On("GetDBNode", "id").Return(dbNode, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,
@@ -54,7 +53,6 @@ func (s *DatabaseDBHomeTestSuite) TestReadDBHome() {
 			{
 				Config: s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartment_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "db_system_id", "db_system_id"),
 				),
 			},
@@ -63,6 +61,6 @@ func (s *DatabaseDBHomeTestSuite) TestReadDBHome() {
 	)
 }
 
-func TestDatabaseDBHomeTestSuite(t *testing.T) {
-	suite.Run(t, new(DatabaseDBHomeTestSuite))
+func TestDatabaseDBNodeTestSuite(t *testing.T) {
+	suite.Run(t, new(DatabaseDBNodeTestSuite))
 }

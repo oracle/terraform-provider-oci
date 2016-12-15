@@ -12,7 +12,7 @@ import (
 	"github.com/stretchr/testify/suite"
 )
 
-type DatabaseDBHomesTestSuite struct {
+type DatabaseDBNodesTestSuite struct {
 	suite.Suite
 	Client       *mocks.BareMetalClient
 	Config       string
@@ -21,7 +21,7 @@ type DatabaseDBHomesTestSuite struct {
 	ResourceName string
 }
 
-func (s *DatabaseDBHomesTestSuite) SetupTest() {
+func (s *DatabaseDBNodesTestSuite) SetupTest() {
 	s.Client = &mocks.BareMetalClient{}
 	s.Provider = Provider(func(d *schema.ResourceData) (interface{}, error) {
 		return s.Client, nil
@@ -31,7 +31,7 @@ func (s *DatabaseDBHomesTestSuite) SetupTest() {
 		"baremetal": s.Provider,
 	}
 	s.Config = `
-    data "baremetal_database_db_homes" "t" {
+    data "baremetal_database_db_nodes" "t" {
       compartment_id = "compartment_id"
       db_system_id = "db_system_id"
       limit = 1
@@ -39,20 +39,20 @@ func (s *DatabaseDBHomesTestSuite) SetupTest() {
     }
   `
 	s.Config += testProviderConfig
-	s.ResourceName = "data.baremetal_database_db_homes.t"
+	s.ResourceName = "data.baremetal_database_db_nodes.t"
 }
 
-func (s *DatabaseDBHomesTestSuite) TestReadDBHomes() {
+func (s *DatabaseDBNodesTestSuite) TestReadDBNodes() {
 	opts := &baremetal.PageListOptions{}
 	opts.Page = "page"
 	s.Client.On(
-		"ListDBHomes", "compartment_id", "db_system_id", uint64(1), opts,
+		"ListDBNodes", "compartment_id", "db_system_id", uint64(1), opts,
 	).Return(
-		&baremetal.ListDBHomes{
+		&baremetal.ListDBNodes{
 			ResourceContainer: baremetal.ResourceContainer{
 				NextPage: "nextpage",
 			},
-			DBHomes: []baremetal.DBHome{{ID: "1"}, {ID: "2"}},
+			DBNodes: []baremetal.DBNode{{ID: "1"}, {ID: "2"}},
 		},
 		nil,
 	)
@@ -60,10 +60,10 @@ func (s *DatabaseDBHomesTestSuite) TestReadDBHomes() {
 	opts2 := &baremetal.PageListOptions{}
 	opts2.Page = "nextpage"
 	s.Client.On(
-		"ListDBHomes", "compartment_id", "db_system_id", uint64(1), opts2,
+		"ListDBNodes", "compartment_id", "db_system_id", uint64(1), opts2,
 	).Return(
-		&baremetal.ListDBHomes{
-			DBHomes: []baremetal.DBHome{{ID: "3"}, {ID: "4"}},
+		&baremetal.ListDBNodes{
+			DBNodes: []baremetal.DBNode{{ID: "3"}, {ID: "4"}},
 		},
 		nil,
 	)
@@ -78,9 +78,9 @@ func (s *DatabaseDBHomesTestSuite) TestReadDBHomes() {
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartment_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "db_system_id", "db_system_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "limit", "1"),
-					resource.TestCheckResourceAttr(s.ResourceName, "db_homes.0.id", "1"),
-					resource.TestCheckResourceAttr(s.ResourceName, "db_homes.3.id", "4"),
-					resource.TestCheckResourceAttr(s.ResourceName, "db_homes.#", "4"),
+					resource.TestCheckResourceAttr(s.ResourceName, "db_nodes.0.id", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "db_nodes.3.id", "4"),
+					resource.TestCheckResourceAttr(s.ResourceName, "db_nodes.#", "4"),
 				),
 			},
 		},
@@ -88,10 +88,10 @@ func (s *DatabaseDBHomesTestSuite) TestReadDBHomes() {
 	)
 
 	s.Client.AssertCalled(
-		s.T(), "ListDBHomes", "compartment_id", "db_system_id", uint64(1), opts2,
+		s.T(), "ListDBNodes", "compartment_id", "db_system_id", uint64(1), opts2,
 	)
 }
 
-func TestDatabaseDBHomesTestSuite(t *testing.T) {
-	suite.Run(t, new(DatabaseDBHomesTestSuite))
+func TestDatabaseDBNodesTestSuite(t *testing.T) {
+	suite.Run(t, new(DatabaseDBNodesTestSuite))
 }
