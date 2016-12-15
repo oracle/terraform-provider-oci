@@ -70,7 +70,7 @@ func (s *ObjectDatasourceCrud) SetData() {
 			}
 			resources = append(resources, res)
 		}
-		s.D.Set("instances", resources)
+		s.D.Set("objects", resources)
 	}
 	return
 }

@@ -22,6 +22,7 @@ type DatasourceObjectstorageObjectTestSuite struct {
 	Config       string
 	ResourceName string
 	Res          *baremetal.ListObjects
+	Res2          *baremetal.ListObjects
 }
 
 func (s *DatasourceObjectstorageObjectTestSuite) SetupTest() {
@@ -51,7 +52,7 @@ func (s *DatasourceObjectstorageObjectTestSuite) SetupTest() {
 
 	s.ResourceName = "baremetal_objectstorage_objects.t"
 	s.Res = &baremetal.ListObjects{
-
+		NextStartWith: "testprefix-2",
 		Objects: []baremetal.ObjectSummary{
 			{
 				Name: "testprefix-1",
@@ -61,11 +62,24 @@ func (s *DatasourceObjectstorageObjectTestSuite) SetupTest() {
 			},
 		},
 	}
+	s.Res2 = &baremetal.ListObjects{
+
+		Objects: []baremetal.ObjectSummary{
+			{
+				Name: "testprefix-3",
+			},
+			{
+				Name: "testprefix-4",
+			},
+		},
+	}
 }
 
 func (s *DatasourceObjectstorageObjectTestSuite) TestObjectstorageListObjects() {
 	opts := &baremetal.ListObjectsOptions{Prefix: "testprefix"}
+	opts2 := &baremetal.ListObjectsOptions{Prefix: "testprefix", Start: "testprefix-2"}
 	s.Client.On("ListObjects", baremetal.Namespace("namespaceID"), "bucketID", opts).Return(s.Res, nil).Once()
+	s.Client.On("ListObjects", baremetal.Namespace("namespaceID"), "bucketID", opts2).Return(s.Res2, nil).Once()
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -76,11 +90,14 @@ func (s *DatasourceObjectstorageObjectTestSuite) TestObjectstorageListObjects() 
 					resource.TestCheckResourceAttr(s.ResourceName, "prefix", "testprefix"),
 					resource.TestCheckResourceAttr(s.ResourceName, "bucket", "bucketID"),
 					resource.TestCheckResourceAttr(s.ResourceName, "namespace", "namespaceID"),
+					resource.TestCheckResourceAttr(s.ResourceName, "namespace", "namespaceID"),
+					resource.TestCheckResourceAttr(s.ResourceName, "objects.2.name", "testprefix-3"),
 				),
 			},
 		},
 	})
 	s.Client.AssertCalled(s.T(), "ListObjects", baremetal.Namespace("namespaceID"), "bucketID", opts)
+	s.Client.AssertCalled(s.T(), "ListObjects", baremetal.Namespace("namespaceID"), "bucketID", opts2)
 }
 
 
