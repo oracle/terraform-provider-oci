@@ -42,20 +42,16 @@ func (s *DBSystemDatasourceTestSuite) SetupTest() {
 func (s *DBSystemDatasourceTestSuite) TestReadDBSystems() {
 	opts := &baremetal.PageListOptions{}
 	opts.Page = "page"
+	res := &baremetal.ListDBSystems{}
+	res.NextPage = "nextpage"
+	res.DBSystems = []baremetal.DBSystem{
+		{Shape: "shape1"},
+		{Shape: "shape2"},
+	}
+
 	s.Client.On(
 		"ListDBSystems", "compartmentid", uint64(1), opts,
-	).Return(
-		&baremetal.ListDBSystems{
-			ResourceContainer: baremetal.ResourceContainer{
-				NextPage: "nextpage",
-			},
-			DBSystems: []baremetal.DBSystem{
-				{Shape: "shape1"},
-				{Shape: "shape2"},
-			},
-		},
-		nil,
-	)
+	).Return(res, nil)
 
 	opts2 := &baremetal.PageListOptions{}
 	opts2.Page = "nextpage"

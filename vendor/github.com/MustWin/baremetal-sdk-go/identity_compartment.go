@@ -6,7 +6,8 @@ import (
 )
 
 type Compartment struct {
-	ETaggedResource
+	OPCRequestIDUnmarshaller
+	ETagUnmarshaller
 	CompartmentID  string    `json:"compartmentId"`
 	Description    string    `json:"description"`
 	ID             string    `json:"id"`
@@ -17,7 +18,8 @@ type Compartment struct {
 }
 
 type ListCompartments struct {
-	ResourceContainer
+	OPCRequestIDUnmarshaller
+	NextPageUnmarshaller
 	Compartments []Compartment
 }
 
@@ -41,13 +43,13 @@ func (c *Client) CreateCompartment(name, desc string, opts *RetryTokenOptions) (
 		required: required,
 	}
 
-	var response *requestResponse
-	if response, e = c.identityApi.request(http.MethodPost, details); e != nil {
+	var resp *response
+	if resp, e = c.identityApi.request(http.MethodPost, details); e != nil {
 		return
 	}
 
 	res = &Compartment{}
-	e = response.unmarshal(res)
+	e = resp.unmarshal(res)
 	return
 }
 
@@ -60,13 +62,13 @@ func (c *Client) GetCompartment(id string) (res *Compartment, e error) {
 		name: resourceCompartments,
 	}
 
-	var response *requestResponse
-	if response, e = c.identityApi.getRequest(details); e != nil {
+	var resp *response
+	if resp, e = c.identityApi.getRequest(details); e != nil {
 		return
 	}
 
 	res = &Compartment{}
-	e = response.unmarshal(res)
+	e = resp.unmarshal(res)
 	return
 }
 
@@ -80,13 +82,13 @@ func (c *Client) UpdateCompartment(id string, opts *UpdateIdentityOptions) (res 
 		optional: opts,
 	}
 
-	var response *requestResponse
-	if response, e = c.identityApi.request(http.MethodPut, details); e != nil {
+	var resp *response
+	if resp, e = c.identityApi.request(http.MethodPut, details); e != nil {
 		return
 	}
 
 	res = &Compartment{}
-	e = response.unmarshal(res)
+	e = resp.unmarshal(res)
 	return
 }
 
@@ -100,7 +102,7 @@ func (c *Client) ListCompartments(opts *ListOptions) (resources *ListCompartment
 		required: ocidRequirement{c.authInfo.tenancyOCID},
 	}
 
-	var getResp *requestResponse
+	var getResp *response
 	if getResp, e = c.identityApi.getRequest(details); e != nil {
 		return
 	}

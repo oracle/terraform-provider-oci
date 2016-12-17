@@ -27,7 +27,7 @@ type IPSecConnectionDevice struct {
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#IPSecConnectionDeviceConfig
 type IPSecConnectionDeviceConfig struct {
-	RequestableResource
+	OPCRequestIDUnmarshaller
 	IPSecConnectionDevice
 	Tunnels []TunnelConfig `json:"tunnels"`
 }
@@ -36,7 +36,7 @@ type IPSecConnectionDeviceConfig struct {
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#IPSecConnectionDeviceStatus
 type IPSecConnectionDeviceStatus struct {
-	RequestableResource
+	OPCRequestIDUnmarshaller
 	IPSecConnectionDevice
 	Tunnels []TunnelStatus `json:"tunnels"`
 }
@@ -45,7 +45,8 @@ type IPSecConnectionDeviceStatus struct {
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/IPSecConnection/
 type IPSecConnection struct {
-	ETaggedResource
+	OPCRequestIDUnmarshaller
+	ETagUnmarshaller
 	CompartmentID string   `json:"compartmentId"`
 	CpeID         string   `json:"cpeId"`
 	DisplayName   string   `json:"displayName"`
@@ -59,7 +60,8 @@ type IPSecConnection struct {
 // ListIPSecConnections contains a list of IPSec connections as well as
 // a NextPage tag that can be passed to a subsequent request for paging.
 type ListIPSecConnections struct {
-	ResourceContainer
+	OPCRequestIDUnmarshaller
+	NextPageUnmarshaller
 	Connections []IPSecConnection
 }
 
@@ -73,9 +75,9 @@ func (l *ListIPSecConnections) GetList() interface{} {
 func (c *Client) CreateIPSecConnection(compartmentID, cpeID, drgID string, staticRoutes []string, opts *CreateOptions) (conn *IPSecConnection, e error) {
 	required := struct {
 		ocidRequirement
-		CpeID        string   `json:"cpeId" url:"-"`
-		DrgID        string   `json:"drgId" url:"-"`
-		StaticRoutes []string `json:"staticRoutes" url:"-"`
+		CpeID        string   `header:"-" json:"cpeId" url:"-"`
+		DrgID        string   `header:"-" json:"drgId" url:"-"`
+		StaticRoutes []string `header:"-" json:"staticRoutes" url:"-"`
 	}{
 		CpeID:        cpeID,
 		DrgID:        drgID,
@@ -89,13 +91,13 @@ func (c *Client) CreateIPSecConnection(compartmentID, cpeID, drgID string, stati
 		required: required,
 	}
 
-	var response *requestResponse
-	if response, e = c.coreApi.request(http.MethodPost, details); e != nil {
+	var resp *response
+	if resp, e = c.coreApi.request(http.MethodPost, details); e != nil {
 		return
 	}
 
 	conn = &IPSecConnection{}
-	e = response.unmarshal(conn)
+	e = resp.unmarshal(conn)
 	return
 }
 
@@ -111,13 +113,13 @@ func (c *Client) ListIPSecConnections(compartmentID string, opts *ListIPSecConns
 		required: listOCIDRequirement{CompartmentID: compartmentID},
 	}
 
-	var response *requestResponse
-	if response, e = c.coreApi.getRequest(details); e != nil {
+	var resp *response
+	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}
 
 	conns = &ListIPSecConnections{}
-	e = response.unmarshal(conns)
+	e = resp.unmarshal(conns)
 	return
 }
 
@@ -130,13 +132,13 @@ func (c *Client) GetIPSecConnection(id string) (conn *IPSecConnection, e error) 
 		ids:  urlParts{id},
 	}
 
-	var response *requestResponse
-	if response, e = c.coreApi.getRequest(details); e != nil {
+	var resp *response
+	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}
 
 	conn = &IPSecConnection{}
-	e = response.unmarshal(conn)
+	e = resp.unmarshal(conn)
 	return
 }
 
@@ -163,13 +165,13 @@ func (c *Client) GetIPSecConnectionDeviceConfig(id string) (config *IPSecConnect
 		ids:  urlParts{id, deviceConfig},
 	}
 
-	var response *requestResponse
-	if response, e = c.coreApi.getRequest(details); e != nil {
+	var resp *response
+	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}
 
 	config = &IPSecConnectionDeviceConfig{}
-	e = response.unmarshal(config)
+	e = resp.unmarshal(config)
 	return
 }
 
@@ -182,12 +184,12 @@ func (c *Client) GetIPSecConnectionDeviceStatus(id string) (status *IPSecConnect
 		ids:  urlParts{id, deviceStatus},
 	}
 
-	var response *requestResponse
-	if response, e = c.coreApi.getRequest(details); e != nil {
+	var resp *response
+	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}
 
 	status = &IPSecConnectionDeviceStatus{}
-	e = response.unmarshal(status)
+	e = resp.unmarshal(status)
 	return
 }

@@ -11,7 +11,8 @@ type DBSystemShape struct {
 
 // ListDBSystemShapes contains a list of DBSystemShapes.
 type ListDBSystemShapes struct {
-	ResourceContainer
+	OPCRequestIDUnmarshaller
+	NextPageUnmarshaller
 	DBSystemShapes []DBSystemShape
 }
 
@@ -31,8 +32,8 @@ func (c *Client) ListDBSystemShapes(
 
 	required := struct {
 		listOCIDRequirement
-		AvailabilityDomain string `json:"-" url:"availabilityDomain"`
-		Limit              uint64 `json:"-" url:"limit"`
+		AvailabilityDomain string `header:"-" json:"-" url:"availabilityDomain"`
+		Limit              uint64 `header:"-" json:"-" url:"limit"`
 	}{
 		AvailabilityDomain: availabilityDomain,
 		Limit:              limit,
@@ -45,7 +46,7 @@ func (c *Client) ListDBSystemShapes(
 		required: required,
 	}
 
-	var resp *requestResponse
+	var resp *response
 	if resp, e = c.databaseApi.getRequest(details); e != nil {
 		return
 	}

@@ -12,7 +12,8 @@ type AvailabilityDomain struct {
 
 // ListAvailabilityDomains contains a list AvailabilityDomain
 type ListAvailabilityDomains struct {
-	ResourceContainer
+	OPCRequestIDUnmarshaller
+	NextPageUnmarshaller
 	AvailabilityDomains []AvailabilityDomain
 }
 
@@ -29,7 +30,7 @@ func (c *Client) ListAvailabilityDomains(compartmentID string) (ads *ListAvailab
 		required: listOCIDRequirement{CompartmentID: compartmentID},
 	}
 
-	var getResp *requestResponse
+	var getResp *response
 	if getResp, e = c.identityApi.getRequest(details); e != nil {
 		return
 	}

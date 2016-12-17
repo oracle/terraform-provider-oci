@@ -1,218 +1,97 @@
 package baremetal
 
 import (
-	"crypto"
-	"crypto/rand"
-	"crypto/rsa"
-	"crypto/sha256"
-	"encoding/base64"
 	"encoding/json"
-	"fmt"
-	"io"
 	"net/http"
-	"strconv"
-	"strings"
-	"time"
+	"net/url"
+
+	"github.com/google/go-querystring/query"
+	"github.com/gotascii/go-http-header/header"
 )
 
-type authenticationInfo struct {
-	privateRSAKey  *rsa.PrivateKey
-	tenancyOCID    string
-	userOCID       string
-	keyFingerPrint string
+type urlParts []interface{}
+
+// request exists to support mocking.
+// TODO: These marshal fns should be behind one single marshal
+// func that takes a urlBuilder and an http.Method constant and
+// returns a new http.Request via http.NewRequest to the requestor
+// for further auth processing.
+type request interface {
+	marshalBody() ([]byte, error)
+	marshalHeader() http.Header
+	marshalURL(urlBuilderFn) (val string, e error)
 }
 
-type requestResponse struct {
-	header http.Header
-	body   []byte
+// requestDetails is the concrete implementation of request.
+// optional should always be a struct from request_options.go
+// required should always be an anonymous struct that can,
+// optionally, have one of the unexported structs from
+// request_requirements.go embedded.
+type requestDetails struct {
+	ids      urlParts
+	name     resourceName
+	optional interface{}
+	required interface{}
 }
 
-func (r *requestResponse) unmarshal(resource interface{}) (e error) {
-	var val interface{}
-
-	if c, ok := resource.(Container); ok {
-		val = c.GetList()
-	} else {
-		val = resource
+func (r *requestDetails) marshalBody() (marshaled []byte, e error) {
+	if bm, ok := r.required.(bodyMarshaller); ok {
+		return bm.body(), nil
 	}
 
-	if pc, ok := resource.(Pageable); ok {
-		pc.SetNextPage(r.header.Get(headerOPCNextPage))
+	if marshaled, e = json.Marshal(r.required); e != nil {
+		return
 	}
 
-	if cs, ok := resource.(CustomUnmarshaler); ok {
-		if e = cs.Unmarshal(r.body, val); e != nil {
+	if r.optional != nil {
+		var oBody []byte
+		if oBody, e = json.Marshal(r.optional); e != nil {
 			return
 		}
-
-	} else if e = json.Unmarshal(r.body, val); e != nil {
-		return
-	}
-
-	if rr, ok := resource.(Requestable); ok {
-		rr.SetRequestID(r.header.Get(headerOPCRequestID))
-	}
-	if crr, ok := resource.(ClientRequestable); ok {
-		crr.SetClientRequestID(r.header.Get(headerOPCClientRequestID))
-	}
-	if et, ok := resource.(ETagged); ok {
-		et.SetETag(r.header.Get(headerETag))
-	}
-
-	if cr, ok := resource.(ContentRequestable); ok {
-		cr.SetContentEncoding(r.header.Get(headerETag))
-		cr.SetContentLanguage(r.header.Get(headerETag))
-		if length, err := strconv.Atoi(r.header.Get(headerETag)); err != nil {
-			e = err
-			return
-		} else {
-			cr.SetContentLength(uint64(length))
+		if len(oBody) > 2 {
+			marshaled = marshaled[:len(marshaled)-1]
+			marshaled = append(marshaled, []byte(",")...)
+			oBody = oBody[1:]
+			marshaled = append(marshaled, oBody...)
 		}
-		cr.SetContentMD5(r.header.Get(headerETag))
-		cr.SetContentType(r.header.Get(headerETag))
-	}
-
-	if md, ok := resource.(MetaDataRequestable); ok {
-		prefix := "opc-meta-"
-		meta := make(map[string]string)
-		for name, headers := range r.header {
-			if strings.HasPrefix(name, prefix) {
-				for _, h := range headers {
-					meta[strings.Replace(name, prefix, "", 1)] = h
-				}
-			}
-		}
-		md.SetMetadata(meta)
 	}
 
 	return
 }
 
-func getErrorFromResponse(body io.Reader, resp *http.Response) (e error) {
-	var apiError Error
-	decoder := json.NewDecoder(body)
-	if e = decoder.Decode(&apiError); e != nil {
-		return
+func (r *requestDetails) marshalHeader() http.Header {
+
+	// TODO: Error handling here.
+	var rHeader, oHeader http.Header
+	rHeader, _ = header.NewFromStruct(r.required)
+	oHeader, _ = header.NewFromStruct(r.optional)
+
+	for k, v := range rHeader {
+		oHeader[k] = v
 	}
 
-	if opcRequestID := resp.Header.Get(headerOPCRequestID); opcRequestID != "" {
-		apiError.OPCRequestID = opcRequestID
-	}
-
-	return &apiError
+	return oHeader
 }
 
-func (a *authenticationInfo) getKeyID() string {
-	return fmt.Sprintf("%s/%s/%s", a.tenancyOCID, a.userOCID, a.keyFingerPrint)
-}
-
-func createAuthorizationHeader(request *http.Request, auth *authenticationInfo, body []byte) (e error) {
-	addRequiredRequestHeaders(request, body)
-	var sig string
-
-	if sig, e = computeSignature(request, auth.privateRSAKey); e != nil {
+func (r *requestDetails) marshalQueryString() (vals url.Values, e error) {
+	var rVals url.Values
+	if rVals, e = query.Values(r.required); e != nil {
 		return
 	}
-
-	signedHeaders := getSigningHeaders(request.Method)
-	headers := concatenateHeaders(signedHeaders)
-
-	authValue := fmt.Sprintf("Signature headers=\"%s\",keyId=\"%s\",algorithm=\"rsa-sha256\",signature=\"%s\"", headers, auth.getKeyID(), sig)
-
-	request.Header.Add("authorization", authValue)
-
+	if vals, e = query.Values(r.optional); e != nil {
+		return
+	}
+	for k, v := range rVals {
+		vals[k] = v
+	}
 	return
 }
 
-func concatenateHeaders(headers []string) (concatenated string) {
-
-	for _, header := range headers {
-		if len(concatenated) > 0 {
-			concatenated += " "
-		}
-		concatenated += header
-	}
-
-	return
-}
-
-func getSigningHeaders(method string) []string {
-	result := []string{
-		"date",
-		"(request-target)",
-	}
-
-	if method == http.MethodPost || method == http.MethodPut {
-		result = append(result, "content-length", "content-type", "x-content-sha256")
-	}
-
-	return result
-}
-
-func computeSignature(request *http.Request, privateKey *rsa.PrivateKey) (sig string, e error) {
-	signingString := getSigningString(request)
-	hasher := sha256.New()
-	hasher.Write([]byte(signingString))
-	hashed := hasher.Sum(nil)
-	var unencodedSig []byte
-	unencodedSig, e = rsa.SignPKCS1v15(rand.Reader, privateKey, crypto.SHA256, hashed)
-	if e != nil {
+func (r *requestDetails) marshalURL(urlFn urlBuilderFn) (val string, e error) {
+	var q url.Values
+	if q, e = r.marshalQueryString(); e != nil {
 		return
 	}
-
-	sig = base64.StdEncoding.EncodeToString(unencodedSig)
-
+	val = urlFn(r.name, q, r.ids...)
 	return
-
-}
-
-func getSigningString(request *http.Request) string {
-	signingHeaders := getSigningHeaders(request.Method)
-	signingString := ""
-	for _, header := range signingHeaders {
-		if signingString != "" {
-			signingString += "\n"
-		}
-
-		if header == "(request-target)" {
-			signingString += fmt.Sprintf("%s: %s", header, getRequestTarget(request))
-		} else {
-			signingString += fmt.Sprintf("%s: %s", header, request.Header.Get(header))
-		}
-	}
-
-	return signingString
-
-}
-
-func getRequestTarget(request *http.Request) string {
-	lowercaseMethod := strings.ToLower(request.Method)
-	return fmt.Sprintf("%s %s", lowercaseMethod, request.URL.RequestURI())
-}
-
-func addIfNotPresent(dest *http.Header, key, value string) {
-	if dest.Get(key) == "" {
-		dest.Set(key, value)
-	}
-}
-
-func getBodyHash(body []byte) string {
-	hash := sha256.Sum256(body)
-	return base64.StdEncoding.EncodeToString(hash[:])
-}
-
-func addRequiredRequestHeaders(request *http.Request, body []byte) {
-	addIfNotPresent(&request.Header, "content-type", "application/json")
-	addIfNotPresent(&request.Header, "date", time.Now().UTC().Format(http.TimeFormat))
-	addIfNotPresent(&request.Header, "User-Agent", fmt.Sprintf("baremetal-sdk-go-v%d", SDKVersion))
-	addIfNotPresent(&request.Header, "accept", "*/*")
-
-	if request.Method == http.MethodPost || request.Method == http.MethodPut {
-		addIfNotPresent(&request.Header, "content-length", strconv.FormatInt(request.ContentLength, 10))
-
-		if request.ContentLength > 0 {
-			addIfNotPresent(&request.Header, "x-content-sha256", getBodyHash(body))
-		}
-
-	}
 }

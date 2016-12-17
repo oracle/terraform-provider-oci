@@ -6,7 +6,8 @@ import (
 )
 
 type Group struct {
-	ETaggedResource
+	OPCRequestIDUnmarshaller
+	ETagUnmarshaller
 	CompartmentID  string    `json:"compartmentId"`
 	Description    string    `json:"description"`
 	ID             string    `json:"id"`
@@ -17,7 +18,8 @@ type Group struct {
 }
 
 type ListGroups struct {
-	ResourceContainer
+	OPCRequestIDUnmarshaller
+	NextPageUnmarshaller
 	Groups []Group
 }
 
@@ -43,13 +45,13 @@ func (c *Client) CreateGroup(name, desc string, opts *RetryTokenOptions) (res *G
 		required: required,
 	}
 
-	var response *requestResponse
-	if response, e = c.identityApi.request(http.MethodPost, details); e != nil {
+	var resp *response
+	if resp, e = c.identityApi.request(http.MethodPost, details); e != nil {
 		return
 	}
 
 	res = &Group{}
-	e = response.unmarshal(res)
+	e = resp.unmarshal(res)
 	return
 }
 
@@ -62,13 +64,13 @@ func (c *Client) GetGroup(id string) (res *Group, e error) {
 		name: resourceGroups,
 	}
 
-	var response *requestResponse
-	if response, e = c.identityApi.getRequest(details); e != nil {
+	var resp *response
+	if resp, e = c.identityApi.getRequest(details); e != nil {
 		return
 	}
 
 	res = &Group{}
-	e = response.unmarshal(res)
+	e = resp.unmarshal(res)
 	return
 }
 
@@ -82,13 +84,13 @@ func (c *Client) UpdateGroup(id string, opts *UpdateIdentityOptions) (res *Group
 		optional: opts,
 	}
 
-	var response *requestResponse
-	if response, e = c.identityApi.request(http.MethodPut, details); e != nil {
+	var resp *response
+	if resp, e = c.identityApi.request(http.MethodPut, details); e != nil {
 		return
 	}
 
 	res = &Group{}
-	e = response.unmarshal(res)
+	e = resp.unmarshal(res)
 	return
 }
 
@@ -116,12 +118,12 @@ func (c *Client) ListGroups(opts *ListOptions) (resources *ListGroups, e error) 
 		required: ocidRequirement{c.authInfo.tenancyOCID},
 	}
 
-	var response *requestResponse
-	if response, e = c.identityApi.getRequest(details); e != nil {
+	var resp *response
+	if resp, e = c.identityApi.getRequest(details); e != nil {
 		return
 	}
 
 	resources = &ListGroups{}
-	e = response.unmarshal(resources)
+	e = resp.unmarshal(resources)
 	return
 }

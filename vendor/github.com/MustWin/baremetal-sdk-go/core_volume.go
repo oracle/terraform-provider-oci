@@ -6,7 +6,8 @@ import "net/http"
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Volume/
 type Volume struct {
-	ETaggedResource
+	OPCRequestIDUnmarshaller
+	ETagUnmarshaller
 	AvailabilityDomain string `json:"availabilityDomain"`
 	CompartmentID      string `json:"compartmentId"`
 	DisplayName        string `json:"displayName"`
@@ -19,7 +20,8 @@ type Volume struct {
 // ListVolumes contains a list of block volumes
 //
 type ListVolumes struct {
-	ResourceContainer
+	OPCRequestIDUnmarshaller
+	NextPageUnmarshaller
 	Volumes []Volume
 }
 
@@ -33,7 +35,7 @@ func (l *ListVolumes) GetList() interface{} {
 func (c *Client) CreateVolume(availabilityDomain, compartmentID string, opts *CreateVolumeOptions) (res *Volume, e error) {
 	required := struct {
 		ocidRequirement
-		AvailabilityDomain string `json:"availabilityDomain" url:"-"`
+		AvailabilityDomain string `header:"-" json:"availabilityDomain" url:"-"`
 	}{
 		AvailabilityDomain: availabilityDomain,
 	}
@@ -45,13 +47,13 @@ func (c *Client) CreateVolume(availabilityDomain, compartmentID string, opts *Cr
 		required: required,
 	}
 
-	var response *requestResponse
-	if response, e = c.coreApi.request(http.MethodPost, details); e != nil {
+	var resp *response
+	if resp, e = c.coreApi.request(http.MethodPost, details); e != nil {
 		return
 	}
 
 	res = &Volume{}
-	e = response.unmarshal(res)
+	e = resp.unmarshal(res)
 	return
 }
 
@@ -64,7 +66,7 @@ func (c *Client) GetVolume(id string) (res *Volume, e error) {
 		ids:  urlParts{id},
 	}
 
-	var resp *requestResponse
+	var resp *response
 	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}
@@ -84,13 +86,13 @@ func (c *Client) UpdateVolume(id string, opts *UpdateOptions) (res *Volume, e er
 		optional: opts,
 	}
 
-	var response *requestResponse
-	if response, e = c.coreApi.request(http.MethodPut, details); e != nil {
+	var resp *response
+	if resp, e = c.coreApi.request(http.MethodPut, details); e != nil {
 		return
 	}
 
 	res = &Volume{}
-	e = response.unmarshal(res)
+	e = resp.unmarshal(res)
 	return
 }
 
@@ -117,7 +119,7 @@ func (c *Client) ListVolumes(compartmentID string, opts *ListVolumesOptions) (re
 		required: ocidRequirement{compartmentID},
 	}
 
-	var resp *requestResponse
+	var resp *response
 	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}

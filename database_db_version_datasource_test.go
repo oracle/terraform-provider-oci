@@ -44,19 +44,16 @@ func (s *DatabaseDBVersionTestSuite) SetupTest() {
 func (s *DatabaseDBVersionTestSuite) TestReadDBVersions() {
 	opts := &baremetal.PageListOptions{}
 	opts.Page = "page"
+
+	res := &baremetal.ListDBVersions{}
+	res.NextPage = "nextpage"
+	res.DBVersions = []baremetal.DBVersion{
+		{Version: "version1"}, {Version: "version2"},
+	}
+
 	s.Client.On(
 		"ListDBVersions", "compartmentid", uint64(1), opts,
-	).Return(
-		&baremetal.ListDBVersions{
-			ResourceContainer: baremetal.ResourceContainer{
-				NextPage: "nextpage",
-			},
-			DBVersions: []baremetal.DBVersion{
-				{Version: "version1"}, {Version: "version2"},
-			},
-		},
-		nil,
-	)
+	).Return(res, nil)
 
 	opts2 := &baremetal.PageListOptions{}
 	opts2.Page = "nextpage"

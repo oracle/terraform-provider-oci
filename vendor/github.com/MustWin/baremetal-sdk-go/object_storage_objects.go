@@ -15,11 +15,50 @@ type ObjectSummary struct {
 }
 
 type ListObjects struct {
-	RequestableResource
-	ClientRequestableResource
+	OPCClientRequestIDUnmarshaller
+	OPCRequestIDUnmarshaller
 	Objects       []ObjectSummary `json:"objects"`
 	Prefixes      []string        `json:"prefixes"`
 	NextStartWith string          `json:"nextStartWith"`
+}
+
+type HeadObject struct {
+	ContentUnmarshaller
+	ETagUnmarshaller
+	LastModifiedUnmarshaller
+	MetadataUnmarshaller
+	OPCClientRequestIDUnmarshaller
+	OPCRequestIDUnmarshaller
+	ID        string
+	Bucket    string
+	Namespace Namespace
+}
+
+// Objects are the items stored in ObjectStorage
+type Object struct {
+	HeadObject
+	Size    uint64
+	TraceID string
+	Body    []byte
+}
+
+func (g *Object) SetBody(b []byte, toBeFilled interface{}) error {
+	rv := reflect.ValueOf(toBeFilled)
+	if rv.Kind() != reflect.Ptr || rv.IsNil() {
+		return errors.New("Value passed to unmarshal is not a pointer")
+	}
+	if po, ok := toBeFilled.(*Object); ok {
+		po.Body = b
+	} else {
+		return errors.New("Value passed in was not an Object")
+	}
+	return nil
+}
+
+type DeleteObject struct {
+	OPCRequestIDUnmarshaller
+	OPCClientRequestIDUnmarshaller
+	LastModifiedUnmarshaller
 }
 
 // ListObjects lists objects
@@ -37,57 +76,14 @@ func (c *Client) ListObjects(namespace Namespace, bucket string, opts *ListObjec
 		optional: opts,
 	}
 
-	var response *requestResponse
-	if response, e = c.objectStorageApi.getRequest(details); e != nil {
+	var resp *response
+	if resp, e = c.objectStorageApi.getRequest(details); e != nil {
 		return
 	}
 
 	objects = &ListObjects{}
-	e = response.unmarshal(objects)
+	e = resp.unmarshal(objects)
 	return
-}
-
-// Objects are the items stored in ObjectStorage
-
-type Object struct {
-	HeadObject
-	Size    uint64
-	TraceID string
-	Body    []byte
-}
-
-func (g *Object) Unmarshal(b []byte, toBeFilled interface{}) error {
-	rv := reflect.ValueOf(toBeFilled)
-	if rv.Kind() != reflect.Ptr || rv.IsNil() {
-		return errors.New("Value passed to unmarshal is not a pointer")
-	}
-	if po, ok := toBeFilled.(*Object); ok {
-		po.Body = b
-	} else {
-		return errors.New("Value passed in was not an Object")
-	}
-	return nil
-}
-
-type GetObjectOptions struct {
-	IfMatchOptions
-	IfNoneMatchOptions
-	ClientRequestableResource
-	Range string
-}
-
-func (opt *GetObjectOptions) Header() http.Header {
-	header := http.Header{}
-	if opt != nil && opt.IfMatch != "" {
-		header.Set(headerIfMatch, opt.IfMatch)
-	}
-	if opt != nil && opt.IfNoneMatch != "" {
-		header.Set(headerIfNoneMatch, opt.IfMatch)
-	}
-	if opt != nil && opt.Range != "" {
-		header.Set(headerRange, opt.Range)
-	}
-	return header
 }
 
 // GetObject fetches an object from object storage
@@ -111,23 +107,17 @@ func (c *Client) GetObject(
 		optional: opts,
 	}
 
-	var response *requestResponse
-	if response, e = c.objectStorageApi.getRequest(details); e != nil {
+	var resp *response
+	if resp, e = c.objectStorageApi.getRequest(details); e != nil {
 		return
 	}
 
 	object = &Object{}
-	e = response.unmarshal(object)
+	e = resp.unmarshal(object)
 	object.Namespace = namespace
 	object.Bucket = bucketName
 	object.ID = objectName
 	return
-}
-
-type DeleteObject struct {
-	RequestableResource
-	ClientRequestableResource
-	LastModifiedResourceContainer
 }
 
 // DeleteObject deletes an object from object storage
@@ -140,7 +130,6 @@ func (c *Client) DeleteObject(
 	opts *DeleteObjectOptions,
 ) (object *DeleteObject, e error) {
 
-	var required interface{}
 	details := &requestDetails{
 		ids: urlParts{
 			resourceNamespaces,
@@ -151,34 +140,16 @@ func (c *Client) DeleteObject(
 			objectName,
 		},
 		optional: opts,
-		required: required,
 	}
 
-	var response *requestResponse
-	if response, e = c.objectStorageApi.request(http.MethodDelete, details); e != nil {
+	var resp *response
+	if resp, e = c.objectStorageApi.request(http.MethodDelete, details); e != nil {
 		return
 	}
 
 	object = &DeleteObject{}
-	e = response.unmarshal(object)
+	e = resp.unmarshal(object)
 	return
-}
-
-type HeadObject struct {
-	ETaggedResource
-	ClientRequestableResource
-	LastModifiedResourceContainer
-	ContentResource
-	MetadataResource
-	ID        string
-	Bucket    string
-	Namespace Namespace
-}
-
-type HeadObjectOptions struct {
-	IfMatchOptions
-	IfNoneMatchOptions
-	ClientRequestableResource
 }
 
 // HeadObject fetches the user defined metadata for an object
@@ -191,7 +162,6 @@ func (c *Client) HeadObject(
 	opts *HeadObjectOptions,
 ) (headObject *HeadObject, e error) {
 
-	var required interface{}
 	details := &requestDetails{
 		ids: urlParts{
 			resourceNamespaces,
@@ -202,16 +172,15 @@ func (c *Client) HeadObject(
 			objectName,
 		},
 		optional: opts,
-		required: required,
 	}
 
-	var response *requestResponse
-	if response, e = c.objectStorageApi.request(http.MethodHead, details); e != nil {
+	var resp *response
+	if resp, e = c.objectStorageApi.request(http.MethodHead, details); e != nil {
 		return
 	}
 
 	headObject = &HeadObject{}
-	e = response.unmarshal(headObject)
+	e = resp.unmarshal(headObject)
 	return
 }
 
@@ -226,6 +195,14 @@ func (c *Client) PutObject(
 	opts *PutObjectOptions,
 ) (object *Object, e error) {
 
+	required := struct {
+		bodyRequirement
+		ContentLength uint64 `header:"Content-Length" json:"-" url:"-"`
+	}{
+		ContentLength: uint64(len(content)),
+	}
+	required.Body = content
+
 	details := &requestDetails{
 		ids: urlParts{
 			resourceNamespaces,
@@ -236,17 +213,15 @@ func (c *Client) PutObject(
 			objectName,
 		},
 		optional: opts,
-		required: &Object{
-			Body: content,
-		},
+		required: required,
 	}
 
-	var response *requestResponse
-	if response, e = c.objectStorageApi.request(http.MethodPut, details); e != nil {
+	var resp *response
+	if resp, e = c.objectStorageApi.request(http.MethodPut, details); e != nil {
 		return
 	}
 
 	object = &Object{}
-	e = response.unmarshal(object)
+	e = resp.unmarshal(object)
 	return
 }

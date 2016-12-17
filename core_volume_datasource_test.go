@@ -109,38 +109,34 @@ func (s *ResourceCoreVolumesTestSuite) TestReadVolumesWithPagination() {
 	opts.Limit = 1
 	opts.Page = "page"
 
+	res := &baremetal.ListVolumes{}
+	res.NextPage = "nextpage"
+	res.Volumes = []baremetal.Volume{
+		{
+			AvailabilityDomain: "availability_domain",
+			CompartmentID:      "compartment_id",
+			DisplayName:        "display_name",
+			ID:                 "id1",
+			SizeInMBs:          "size_in_mbs",
+			State:              baremetal.ResourceAvailable,
+			TimeCreated:        baremetal.Time{Time: time.Now()},
+		},
+		{
+			AvailabilityDomain: "availability_domain",
+			CompartmentID:      "compartment_id",
+			DisplayName:        "display_name",
+			ID:                 "id2",
+			SizeInMBs:          "size_in_mbs",
+			State:              baremetal.ResourceAvailable,
+			TimeCreated:        baremetal.Time{Time: time.Now()},
+		},
+	}
+
 	s.Client.On(
 		"ListVolumes",
 		"compartment_id",
 		opts,
-	).Return(
-		&baremetal.ListVolumes{
-			ResourceContainer: baremetal.ResourceContainer{
-				NextPage: "nextpage",
-			},
-			Volumes: []baremetal.Volume{
-				{
-					AvailabilityDomain: "availability_domain",
-					CompartmentID:      "compartment_id",
-					DisplayName:        "display_name",
-					ID:                 "id1",
-					SizeInMBs:          "size_in_mbs",
-					State:              baremetal.ResourceAvailable,
-					TimeCreated:        baremetal.Time{Time: time.Now()},
-				},
-				{
-					AvailabilityDomain: "availability_domain",
-					CompartmentID:      "compartment_id",
-					DisplayName:        "display_name",
-					ID:                 "id2",
-					SizeInMBs:          "size_in_mbs",
-					State:              baremetal.ResourceAvailable,
-					TimeCreated:        baremetal.Time{Time: time.Now()},
-				},
-			},
-		},
-		nil,
-	)
+	).Return(res, nil)
 
 	opts2 := &baremetal.ListVolumesOptions{}
 	opts2.AvailabilityDomain = "availability_domain"

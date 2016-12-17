@@ -9,7 +9,8 @@ import (
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/objectstorage/20160918/Bucket/
 
 type Bucket struct {
-	ETaggedResource
+	OPCRequestIDUnmarshaller
+	ETagUnmarshaller
 	Namespace     Namespace         `json:"namespace"`
 	Name          string            `json:"name"`
 	CompartmentID string            `json:"compartmentId"`
@@ -32,7 +33,7 @@ func (c *Client) CreateBucket(
 
 	required := struct {
 		ocidRequirement
-		Name string `json:"name" url:"-"`
+		Name string `header:"-" json:"name" url:"-"`
 	}{
 		Name: name,
 	}
@@ -44,13 +45,13 @@ func (c *Client) CreateBucket(
 		required: required,
 	}
 
-	var response *requestResponse
-	if response, e = c.objectStorageApi.request(http.MethodPost, details); e != nil {
+	var resp *response
+	if resp, e = c.objectStorageApi.request(http.MethodPost, details); e != nil {
 		return
 	}
 
 	bckt = &Bucket{}
-	e = response.unmarshal(bckt)
+	e = resp.unmarshal(bckt)
 	return
 }
 
@@ -65,13 +66,13 @@ func (c *Client) GetBucket(
 		ids: urlParts{namespaceName, resourceBuckets, bucketName},
 	}
 
-	var response *requestResponse
-	if response, e = c.objectStorageApi.getRequest(details); e != nil {
+	var resp *response
+	if resp, e = c.objectStorageApi.getRequest(details); e != nil {
 		return
 	}
 
 	bckt = &Bucket{}
-	e = response.unmarshal(bckt)
+	e = resp.unmarshal(bckt)
 	return
 }
 
@@ -87,7 +88,7 @@ func (c *Client) UpdateBucket(
 
 	required := struct {
 		ocidRequirement
-		Name string `json:"name" url:"-"`
+		Name string `header:"-" json:"name" url:"-"`
 	}{
 		Name: name,
 	}
@@ -99,13 +100,13 @@ func (c *Client) UpdateBucket(
 		required: required,
 	}
 
-	var response *requestResponse
-	if response, e = c.objectStorageApi.request(http.MethodPut, details); e != nil {
+	var resp *response
+	if resp, e = c.objectStorageApi.request(http.MethodPut, details); e != nil {
 		return
 	}
 
 	bckt = &Bucket{}
-	e = response.unmarshal(bckt)
+	e = resp.unmarshal(bckt)
 	return
 }
 
@@ -119,7 +120,7 @@ func (c *Client) DeleteBucket(
 ) (e error) {
 	required := struct {
 		ocidRequirement
-		Name string `json:"name" url:"-"`
+		Name string `header:"-" json:"name" url:"-"`
 	}{
 		Name: name,
 	}
@@ -134,14 +135,15 @@ func (c *Client) DeleteBucket(
 }
 
 type HeadBucket struct {
-	ETaggedResource
-	ClientRequestableResource
+	OPCRequestIDUnmarshaller
+	ETagUnmarshaller
+	OPCClientRequestIDUnmarshaller
 }
 
 type HeadBucketOptions struct {
 	IfMatchOptions
 	IfNoneMatchOptions
-	ClientRequestableResource
+	OPCClientRequestIDUnmarshaller
 }
 
 // HeadBucket checks that a bucket exists and returns the ETag
@@ -164,12 +166,12 @@ func (c *Client) HeadBucket(
 		required: required,
 	}
 
-	var response *requestResponse
-	if response, e = c.objectStorageApi.getRequest(details); e != nil {
+	var resp *response
+	if resp, e = c.objectStorageApi.getRequest(details); e != nil {
 		return
 	}
 
 	headBucket = &HeadBucket{}
-	e = response.unmarshal(headBucket)
+	e = resp.unmarshal(headBucket)
 	return
 }

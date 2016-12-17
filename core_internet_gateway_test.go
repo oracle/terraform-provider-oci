@@ -52,12 +52,6 @@ func (s *ResourceCoreInternetGatewayTestSuite) SetupTest() {
 
 	s.ResourceName = "baremetal_core_internet_gateway.t"
 	s.Res = &baremetal.InternetGateway{
-		ETaggedResource: baremetal.ETaggedResource{
-			RequestableResource: baremetal.RequestableResource{
-				RequestID: "requestid",
-			},
-			ETag: "etag",
-		},
 		CompartmentID: "compartment_id",
 		DisplayName:   "display_name",
 		ID:            "id",
@@ -66,6 +60,8 @@ func (s *ResourceCoreInternetGatewayTestSuite) SetupTest() {
 		ModifiedTime:  s.TimeCreated,
 		TimeCreated:   s.TimeCreated,
 	}
+	s.Res.ETag = "etag"
+	s.Res.RequestID = "requestid"
 
 	s.DeletedRes = s.Res
 	s.DeletedRes.State = baremetal.ResourceTerminated
@@ -115,12 +111,6 @@ func (s ResourceCoreInternetGatewayTestSuite) TestUpdateCompartmentIDForcesNewIn
 	config += testProviderConfig
 
 	res := &baremetal.InternetGateway{
-		ETaggedResource: baremetal.ETaggedResource{
-			RequestableResource: baremetal.RequestableResource{
-				RequestID: "requestid",
-			},
-			ETag: "etag",
-		},
 		CompartmentID: "new_compartment_id",
 		DisplayName:   "display_name",
 		ID:            "id2",
@@ -129,6 +119,8 @@ func (s ResourceCoreInternetGatewayTestSuite) TestUpdateCompartmentIDForcesNewIn
 		ModifiedTime:  s.TimeCreated,
 		TimeCreated:   s.TimeCreated,
 	}
+	s.Res.ETag = "etag"
+	s.Res.RequestID = "requestid"
 
 	opts := &baremetal.CreateOptions{}
 	opts.DisplayName = "display_name"

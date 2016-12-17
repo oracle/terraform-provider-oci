@@ -22,7 +22,8 @@ type VnicAttachment struct {
 // In conjunction with Limit is used in paginating results.
 // OPCRequestID is used to identify the request for support issues.
 type ListVnicAttachments struct {
-	ResourceContainer
+	OPCRequestIDUnmarshaller
+	NextPageUnmarshaller
 	Attachments []VnicAttachment
 }
 
@@ -43,7 +44,7 @@ func (c *Client) ListVnicAttachments(compartmentID string, opts *ListVnicAttachm
 		required: ocidRequirement{compartmentID},
 	}
 
-	var resp *requestResponse
+	var resp *response
 	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}

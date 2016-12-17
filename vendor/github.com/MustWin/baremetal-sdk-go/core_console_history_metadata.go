@@ -10,7 +10,8 @@ import (
 //
 // See: https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#ConsoleHistoryMetadata
 type ConsoleHistoryMetadata struct {
-	ETaggedResource
+	OPCRequestIDUnmarshaller
+	ETagUnmarshaller
 	AvailabilityDomain string    `json:"availabilityDomain"`
 	CompartmentID      string    `json:"compartmentId"`
 	DisplayName        string    `json:"displayName"`
@@ -31,7 +32,8 @@ type ConsoleHistoryData struct {
 
 // ListConsoleHistories contains a list of Console History Metadata
 type ListConsoleHistories struct {
-	ResourceContainer
+	OPCRequestIDUnmarshaller
+	NextPageUnmarshaller
 	ConsoleHistories []ConsoleHistoryMetadata
 }
 
@@ -51,7 +53,7 @@ func (c *Client) ListConsoleHistories(compartmentID string, opts *ListConsoleHis
 		required: required,
 	}
 
-	var resp *requestResponse
+	var resp *response
 	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}
@@ -66,7 +68,7 @@ func (c *Client) ListConsoleHistories(compartmentID string, opts *ListConsoleHis
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#captureConsoleHistory
 func (c *Client) CaptureConsoleHistory(instanceID string, opts *RetryTokenOptions) (icHistory *ConsoleHistoryMetadata, e error) {
 	required := struct {
-		InstanceID string `json:"instanceId" url:"-"`
+		InstanceID string `header:"-" json:"instanceId" url:"-"`
 	}{
 		InstanceID: instanceID,
 	}
@@ -77,7 +79,7 @@ func (c *Client) CaptureConsoleHistory(instanceID string, opts *RetryTokenOption
 		required: required,
 	}
 
-	var resp *requestResponse
+	var resp *response
 	if resp, e = c.coreApi.request(http.MethodPost, details); e != nil {
 		return
 	}
@@ -95,7 +97,7 @@ func (c *Client) GetConsoleHistory(instanceID string) (consoleHistoryMetadata *C
 		name: resourceInstanceConsoleHistories,
 		ids:  urlParts{instanceID},
 	}
-	var resp *requestResponse
+	var resp *response
 	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}
@@ -108,22 +110,22 @@ func (c *Client) GetConsoleHistory(instanceID string) (consoleHistoryMetadata *C
 // ShowConsoleHistoryData gets the actual console history data (not the metadata).
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#showConsoleHistoryData
-func (c *Client) ShowConsoleHistoryData(instanceConsoleHistoryID string, opts *ConsoleHistoryDataOptions) (response *ConsoleHistoryData, e error) {
+func (c *Client) ShowConsoleHistoryData(instanceConsoleHistoryID string, opts *ConsoleHistoryDataOptions) (hist *ConsoleHistoryData, e error) {
 	details := &requestDetails{
 		name:     resourceInstanceConsoleHistories,
 		ids:      urlParts{instanceConsoleHistoryID, dataURLPart},
 		optional: opts,
 	}
-	var resp *requestResponse
+	var resp *response
 	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}
 
-	response = &ConsoleHistoryData{Data: string(resp.body[:])}
+	hist = &ConsoleHistoryData{Data: string(resp.body[:])}
 	s := resp.header.Get(headerBytesRemaining)
 
 	if s != "" {
-		if response.BytesRemaining, e = strconv.Atoi(s); e != nil {
+		if hist.BytesRemaining, e = strconv.Atoi(s); e != nil {
 			return
 		}
 	}

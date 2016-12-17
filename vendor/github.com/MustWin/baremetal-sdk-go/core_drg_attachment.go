@@ -6,7 +6,8 @@ import "net/http"
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/DrgAttachment/
 type DrgAttachment struct {
-	ETaggedResource
+	OPCRequestIDUnmarshaller
+	ETagUnmarshaller
 	CompartmentID string `json:"compartmentId"`
 	DisplayName   string `json:"displayName"`
 	DrgID         string `json:"drgId"`
@@ -19,7 +20,8 @@ type DrgAttachment struct {
 // ListDrgAttachments contains a list of volume attachments
 //
 type ListDrgAttachments struct {
-	ResourceContainer
+	OPCRequestIDUnmarshaller
+	NextPageUnmarshaller
 	DrgAttachments []DrgAttachment
 }
 
@@ -32,8 +34,8 @@ func (l *ListDrgAttachments) GetList() interface{} {
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/DrgAttachment/CreateDrgAttachment
 func (c *Client) CreateDrgAttachment(drgID, vcnID string, opts *CreateOptions) (res *DrgAttachment, e error) {
 	required := struct {
-		DrgID string `json:"drgId" url:"-"`
-		VcnID string `json:"vcnId" url:"-"`
+		DrgID string `header:"-" json:"drgId" url:"-"`
+		VcnID string `header:"-" json:"vcnId" url:"-"`
 	}{
 		DrgID: drgID,
 		VcnID: vcnID,
@@ -45,13 +47,13 @@ func (c *Client) CreateDrgAttachment(drgID, vcnID string, opts *CreateOptions) (
 		required: required,
 	}
 
-	var response *requestResponse
-	if response, e = c.coreApi.request(http.MethodPost, details); e != nil {
+	var resp *response
+	if resp, e = c.coreApi.request(http.MethodPost, details); e != nil {
 		return
 	}
 
 	res = &DrgAttachment{}
-	e = response.unmarshal(res)
+	e = resp.unmarshal(res)
 	return
 }
 
@@ -64,7 +66,7 @@ func (c *Client) GetDrgAttachment(id string) (res *DrgAttachment, e error) {
 		ids:  urlParts{id},
 	}
 
-	var resp *requestResponse
+	var resp *response
 	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}
@@ -96,7 +98,7 @@ func (c *Client) ListDrgAttachments(compartmentID string, opts *ListDrgAttachmen
 		optional: opts,
 	}
 
-	var resp *requestResponse
+	var resp *response
 	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}

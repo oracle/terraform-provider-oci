@@ -6,7 +6,8 @@ import "net/http"
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Cpe/
 type Cpe struct {
-	ETaggedResource
+	OPCRequestIDUnmarshaller
+	ETagUnmarshaller
 	ID            string `json:"id"`
 	CompartmentID string `json:"compartmentId"`
 	DisplayName   string `json:"displayName"`
@@ -17,7 +18,8 @@ type Cpe struct {
 // CpeList contains a list of customer premise equipment
 //
 type ListCpes struct {
-	ResourceContainer
+	OPCRequestIDUnmarshaller
+	NextPageUnmarshaller
 	Cpes []Cpe
 }
 
@@ -35,7 +37,7 @@ func (c *Client) ListCpes(compartmentID string, opts *ListOptions) (cpes *ListCp
 		optional: opts,
 	}
 
-	var resp *requestResponse
+	var resp *response
 	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}
@@ -52,7 +54,7 @@ func (c *Client) ListCpes(compartmentID string, opts *ListOptions) (cpes *ListCp
 func (c *Client) CreateCpe(compartmentID, ipAddress string, opts *CreateOptions) (cpe *Cpe, e error) {
 	required := struct {
 		ocidRequirement
-		IPAddress string `json:"ipAddress" url:"-"`
+		IPAddress string `header:"-" json:"ipAddress" url:"-"`
 	}{
 		IPAddress: ipAddress,
 	}
@@ -64,7 +66,7 @@ func (c *Client) CreateCpe(compartmentID, ipAddress string, opts *CreateOptions)
 		required: required,
 	}
 
-	var resp *requestResponse
+	var resp *response
 	if resp, e = c.coreApi.request(http.MethodPost, details); e != nil {
 		return
 	}
@@ -82,7 +84,7 @@ func (c *Client) GetCpe(id string) (cpe *Cpe, e error) {
 		name: resourceCustomerPremiseEquipment,
 		ids:  urlParts{id},
 	}
-	var resp *requestResponse
+	var resp *response
 	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}

@@ -46,7 +46,8 @@ type EgressSecurityRule struct {
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/SecurityList/
 type SecurityList struct {
-	ETaggedResource
+	OPCRequestIDUnmarshaller
+	ETagUnmarshaller
 	CompartmentID        string                `json:"compartmentId"`
 	DisplayName          string                `json:"displayName"`
 	EgressSecurityRules  []EgressSecurityRule  `json:"egressSecurityRules"`
@@ -60,7 +61,8 @@ type SecurityList struct {
 // ListSecurityLists contains a list of images
 //
 type ListSecurityLists struct {
-	ResourceContainer
+	OPCRequestIDUnmarshaller
+	NextPageUnmarshaller
 	SecurityLists []SecurityList
 }
 
@@ -79,9 +81,9 @@ func (c *Client) CreateSecurityList(
 ) (res *SecurityList, e error) {
 	required := struct {
 		ocidRequirement
-		EgressRules  []EgressSecurityRule  `json:"egressSecurityRules" url:"-"`
-		IngressRules []IngressSecurityRule `json:"ingressSecurityRules" url:"-"`
-		VcnID        string                `json:"vcnId" url:"-"`
+		EgressRules  []EgressSecurityRule  `header:"-" json:"egressSecurityRules" url:"-"`
+		IngressRules []IngressSecurityRule `header:"-" json:"ingressSecurityRules" url:"-"`
+		VcnID        string                `header:"-" json:"vcnId" url:"-"`
 	}{
 		EgressRules:  egressRules,
 		IngressRules: ingressRules,
@@ -95,13 +97,13 @@ func (c *Client) CreateSecurityList(
 		required: required,
 	}
 
-	var response *requestResponse
-	if response, e = c.coreApi.request(http.MethodPost, details); e != nil {
+	var resp *response
+	if resp, e = c.coreApi.request(http.MethodPost, details); e != nil {
 		return
 	}
 
 	res = &SecurityList{}
-	e = response.unmarshal(res)
+	e = resp.unmarshal(res)
 	return
 }
 
@@ -114,7 +116,7 @@ func (c *Client) GetSecurityList(id string) (res *SecurityList, e error) {
 		ids:  urlParts{id},
 	}
 
-	var resp *requestResponse
+	var resp *response
 	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}
@@ -134,13 +136,13 @@ func (c *Client) UpdateSecurityList(id string, opts *UpdateSecurityListOptions) 
 		optional: opts,
 	}
 
-	var response *requestResponse
-	if response, e = c.coreApi.request(http.MethodPut, details); e != nil {
+	var resp *response
+	if resp, e = c.coreApi.request(http.MethodPut, details); e != nil {
 		return
 	}
 
 	res = &SecurityList{}
-	e = response.unmarshal(res)
+	e = resp.unmarshal(res)
 	return
 }
 
@@ -164,7 +166,7 @@ func (c *Client) DeleteSecurityList(id string, opts *IfMatchOptions) (e error) {
 func (c *Client) ListSecurityLists(compartmentID, vcnID string, opts *ListOptions) (res *ListSecurityLists, e error) {
 	required := struct {
 		listOCIDRequirement
-		VcnID string `json:"-" url:"vcnId"`
+		VcnID string `header:"-" json:"-" url:"vcnId"`
 	}{
 		VcnID: vcnID,
 	}
@@ -176,7 +178,7 @@ func (c *Client) ListSecurityLists(compartmentID, vcnID string, opts *ListOption
 		required: required,
 	}
 
-	var resp *requestResponse
+	var resp *response
 	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}

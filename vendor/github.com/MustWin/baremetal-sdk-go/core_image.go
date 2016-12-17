@@ -6,7 +6,8 @@ import "net/http"
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Image/
 type Image struct {
-	ETaggedResource
+	OPCRequestIDUnmarshaller
+	ETagUnmarshaller
 	BaseImageID            string `json:"baseImageId"`
 	CompartmentID          string `json:"compartmentId"`
 	CreateImageAllowed     bool   `json:"createImageAllowed"`
@@ -21,7 +22,8 @@ type Image struct {
 // ListImages contains a list of images
 //
 type ListImages struct {
-	ResourceContainer
+	OPCRequestIDUnmarshaller
+	NextPageUnmarshaller
 	Images []Image
 }
 
@@ -35,7 +37,7 @@ func (l *ListImages) GetList() interface{} {
 func (c *Client) CreateImage(compartmentID, instanceID string, opts *CreateOptions) (res *Image, e error) {
 	required := struct {
 		ocidRequirement
-		InstanceID string `json:"instanceId" url:"-"`
+		InstanceID string `header:"-" json:"instanceId" url:"-"`
 	}{
 		InstanceID: instanceID,
 	}
@@ -47,13 +49,13 @@ func (c *Client) CreateImage(compartmentID, instanceID string, opts *CreateOptio
 		required: required,
 	}
 
-	var response *requestResponse
-	if response, e = c.coreApi.request(http.MethodPost, details); e != nil {
+	var resp *response
+	if resp, e = c.coreApi.request(http.MethodPost, details); e != nil {
 		return
 	}
 
 	res = &Image{}
-	e = response.unmarshal(res)
+	e = resp.unmarshal(res)
 	return
 }
 
@@ -66,7 +68,7 @@ func (c *Client) GetImage(id string) (res *Image, e error) {
 		ids:  urlParts{id},
 	}
 
-	var resp *requestResponse
+	var resp *response
 	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}
@@ -86,13 +88,13 @@ func (c *Client) UpdateImage(id string, opts *UpdateOptions) (res *Image, e erro
 		optional: opts,
 	}
 
-	var response *requestResponse
-	if response, e = c.coreApi.request(http.MethodPut, details); e != nil {
+	var resp *response
+	if resp, e = c.coreApi.request(http.MethodPut, details); e != nil {
 		return
 	}
 
 	res = &Image{}
-	e = response.unmarshal(res)
+	e = resp.unmarshal(res)
 	return
 }
 
@@ -118,7 +120,7 @@ func (c *Client) ListImages(compartmentID string, opts *ListImagesOptions) (res 
 		optional: opts,
 	}
 
-	var resp *requestResponse
+	var resp *response
 	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}

@@ -10,7 +10,8 @@ import (
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/identity.html#Policy
 type Policy struct {
-	ETaggedResource
+	OPCRequestIDUnmarshaller
+	ETagUnmarshaller
 	CompartmentID  string    `json:"compartmentId"`
 	Description    string    `json:"description"`
 	ID             string    `json:"id"`
@@ -26,7 +27,7 @@ type Policy struct {
 func (c *Client) CreatePolicy(name, desc string, statements []string, opts *CreatePolicyOptions) (res *Policy, e error) {
 	required := struct {
 		identityCreationRequirement
-		Statements []string `json:"statements" url:"-"`
+		Statements []string `header:"-" json:"statements" url:"-"`
 	}{
 		Statements: statements,
 	}
@@ -40,13 +41,13 @@ func (c *Client) CreatePolicy(name, desc string, statements []string, opts *Crea
 		required: required,
 	}
 
-	var response *requestResponse
-	if response, e = c.identityApi.request(http.MethodPost, details); e != nil {
+	var resp *response
+	if resp, e = c.identityApi.request(http.MethodPost, details); e != nil {
 		return
 	}
 
 	res = &Policy{}
-	e = response.unmarshal(res)
+	e = resp.unmarshal(res)
 	return
 }
 
@@ -59,13 +60,13 @@ func (c *Client) GetPolicy(id string) (res *Policy, e error) {
 		name: resourcePolicies,
 	}
 
-	var response *requestResponse
-	if response, e = c.identityApi.getRequest(details); e != nil {
+	var resp *response
+	if resp, e = c.identityApi.getRequest(details); e != nil {
 		return
 	}
 
 	res = &Policy{}
-	e = response.unmarshal(res)
+	e = resp.unmarshal(res)
 	return
 }
 
@@ -79,13 +80,13 @@ func (c *Client) UpdatePolicy(id string, opts *UpdatePolicyOptions) (res *Policy
 		optional: opts,
 	}
 
-	var response *requestResponse
-	if response, e = c.identityApi.request(http.MethodPut, details); e != nil {
+	var resp *response
+	if resp, e = c.identityApi.request(http.MethodPut, details); e != nil {
 		return
 	}
 
 	res = &Policy{}
-	e = response.unmarshal(res)
+	e = resp.unmarshal(res)
 	return
 }
 

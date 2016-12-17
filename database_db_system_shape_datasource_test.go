@@ -45,28 +45,25 @@ func (s *DatabaseDBSystemShapeTestSuite) SetupTest() {
 func (s *DatabaseDBSystemShapeTestSuite) TestReadDBSystemShapes() {
 	opts := &baremetal.PageListOptions{}
 	opts.Page = "page"
+
+	res := &baremetal.ListDBSystemShapes{}
+	res.NextPage = "nextpage"
+	res.DBSystemShapes = []baremetal.DBSystemShape{
+		{
+			AvailableCoreCount: 1,
+			Name:               "name1",
+			Shape:              "shape1",
+		},
+		{
+			AvailableCoreCount: 2,
+			Name:               "name2",
+			Shape:              "shape2",
+		},
+	}
+
 	s.Client.On(
 		"ListDBSystemShapes", "availability", "compartmentid", uint64(1), opts,
-	).Return(
-		&baremetal.ListDBSystemShapes{
-			ResourceContainer: baremetal.ResourceContainer{
-				NextPage: "nextpage",
-			},
-			DBSystemShapes: []baremetal.DBSystemShape{
-				{
-					AvailableCoreCount: 1,
-					Name:               "name1",
-					Shape:              "shape1",
-				},
-				{
-					AvailableCoreCount: 2,
-					Name:               "name2",
-					Shape:              "shape2",
-				},
-			},
-		},
-		nil,
-	)
+	).Return(res, nil)
 
 	opts2 := &baremetal.PageListOptions{}
 	opts2.Page = "nextpage"

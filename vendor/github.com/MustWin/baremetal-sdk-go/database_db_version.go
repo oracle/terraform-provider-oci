@@ -5,7 +5,8 @@ type DBVersion struct {
 }
 
 type ListDBVersions struct {
-	ResourceContainer
+	OPCRequestIDUnmarshaller
+	NextPageUnmarshaller
 	DBVersions []DBVersion
 }
 
@@ -19,7 +20,7 @@ func (l *ListDBVersions) GetList() interface{} {
 func (c *Client) ListDBVersions(compartmentID string, limit uint64, opts *PageListOptions) (resources *ListDBVersions, e error) {
 	required := struct {
 		listOCIDRequirement
-		Limit uint64 `json:"-" url:"limit"`
+		Limit uint64 `header:"-" json:"-" url:"limit"`
 	}{
 		Limit: limit,
 	}
@@ -31,12 +32,12 @@ func (c *Client) ListDBVersions(compartmentID string, limit uint64, opts *PageLi
 		required: required,
 	}
 
-	var response *requestResponse
-	if response, e = c.databaseApi.getRequest(details); e != nil {
+	var resp *response
+	if resp, e = c.databaseApi.getRequest(details); e != nil {
 		return
 	}
 
 	resources = &ListDBVersions{}
-	e = response.unmarshal(resources)
+	e = resp.unmarshal(resources)
 	return
 }

@@ -45,17 +45,14 @@ func (s *DatabaseDatabasesTestSuite) SetupTest() {
 func (s *DatabaseDatabasesTestSuite) TestReadDatabases() {
 	opts := &baremetal.PageListOptions{}
 	opts.Page = "page"
+
+	res := &baremetal.ListDatabases{}
+	res.NextPage = "nextpage"
+	res.Databases = []baremetal.Database{{ID: "1"}, {ID: "2"}}
+
 	s.Client.On(
 		"ListDatabases", "compartment_id", "db_home_id", uint64(1), opts,
-	).Return(
-		&baremetal.ListDatabases{
-			ResourceContainer: baremetal.ResourceContainer{
-				NextPage: "nextpage",
-			},
-			Databases: []baremetal.Database{{ID: "1"}, {ID: "2"}},
-		},
-		nil,
-	)
+	).Return(res, nil)
 
 	opts2 := &baremetal.PageListOptions{}
 	opts2.Page = "nextpage"

@@ -121,46 +121,42 @@ func (s *ResourceCoreInstancesTestSuite) TestResourceListInstancesPaged() {
 		"baz": "buz",
 	}
 
+	res := &baremetal.ListInstances{}
+	res.NextPage = "nextpage"
+	res.Instances = []baremetal.Instance{
+		{
+			ID:                 "id1",
+			AvailabilityDomain: "availabilityid",
+			CompartmentID:      "compartmentid",
+			DisplayName:        "inst1",
+			State:              baremetal.ResourceRunning,
+			Metadata:           metadata,
+			Region:             "here",
+			Shape:              "round",
+			TimeCreated: baremetal.Time{
+				Time: time.Now(),
+			},
+		},
+		{
+			ID:                 "id2",
+			AvailabilityDomain: "availabilityid",
+			CompartmentID:      "compartmentid",
+			DisplayName:        "inst2",
+			State:              baremetal.ResourceRunning,
+			Metadata:           metadata,
+			Region:             "here",
+			Shape:              "round",
+			TimeCreated: baremetal.Time{
+				Time: time.Now(),
+			},
+		},
+	}
+
 	s.Client.On(
 		"ListInstances",
 		"compartmentid",
 		opts,
-	).Return(
-		&baremetal.ListInstances{
-			ResourceContainer: baremetal.ResourceContainer{
-				NextPage: "nextpage",
-			},
-			Instances: []baremetal.Instance{
-				{
-					ID:                 "id1",
-					AvailabilityDomain: "availabilityid",
-					CompartmentID:      "compartmentid",
-					DisplayName:        "inst1",
-					State:              baremetal.ResourceRunning,
-					Metadata:           metadata,
-					Region:             "here",
-					Shape:              "round",
-					TimeCreated: baremetal.Time{
-						Time: time.Now(),
-					},
-				},
-				{
-					ID:                 "id2",
-					AvailabilityDomain: "availabilityid",
-					CompartmentID:      "compartmentid",
-					DisplayName:        "inst2",
-					State:              baremetal.ResourceRunning,
-					Metadata:           metadata,
-					Region:             "here",
-					Shape:              "round",
-					TimeCreated: baremetal.Time{
-						Time: time.Now(),
-					},
-				},
-			},
-		},
-		nil,
-	)
+	).Return(res, nil)
 
 	opts2 := &baremetal.ListInstancesOptions{}
 	opts2.AvailabilityDomain = "availabilityid"
