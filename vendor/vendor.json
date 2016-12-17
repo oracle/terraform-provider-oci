@@ -967,6 +967,12 @@
 			"revisionTime": "2015-09-21T19:52:01Z"
 		},
 		{
+			"checksumSHA1": "feWRO67/Rq9zMkIlQIbUhgnOg7w=",
+			"path": "github.com/gotascii/go-http-header/header",
+			"revision": "2946fb04c49fedaf775dd5ee4c63a8eb68c4dc40",
+			"revisionTime": "2016-12-16T01:18:56Z"
+		},
+		{
 			"checksumSHA1": "6HWALRWlOT8M/BxOnEUziCnh214=",
 			"path": "github.com/grafana/grafana/pkg/api/dtos",
 			"revision": "c047dacf188868cfb9cf4aae6c8b86cee209c365",
