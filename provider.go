@@ -126,6 +126,7 @@ func resourcesMap() map[string]*schema.Resource {
 		"baremetal_core_internet_gateway":  core.InternetGatewayResource(),
 		"baremetal_core_ipsec":             core.IPSecResource(),
 		"baremetal_core_route_table":       core.RouteTableResource(),
+		"baremetal_core_security_list":     core.SecurityListResource(),
 		"baremetal_core_subnet":            core.SubnetResource(),
 		"baremetal_core_virtual_network":   core.VirtualNetworkResource(),
 		"baremetal_core_volume_attachment": core.VolumeAttachmentResource(),

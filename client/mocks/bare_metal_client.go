@@ -377,6 +377,29 @@ func (_m *BareMetalClient) CreateRouteTable(compartmentID string, vcnID string, 
 	return r0, r1
 }
 
+// CreateSecurityList provides a mock function with given fields: compartmentID, vcnID, egressRules, ingressRules, opts
+func (_m *BareMetalClient) CreateSecurityList(compartmentID string, vcnID string, egressRules []baremetal.EgressSecurityRule, ingressRules []baremetal.IngressSecurityRule, opts *baremetal.CreateOptions) (*baremetal.SecurityList, error) {
+	ret := _m.Called(compartmentID, vcnID, egressRules, ingressRules, opts)
+
+	var r0 *baremetal.SecurityList
+	if rf, ok := ret.Get(0).(func(string, string, []baremetal.EgressSecurityRule, []baremetal.IngressSecurityRule, *baremetal.CreateOptions) *baremetal.SecurityList); ok {
+		r0 = rf(compartmentID, vcnID, egressRules, ingressRules, opts)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*baremetal.SecurityList)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(string, string, []baremetal.EgressSecurityRule, []baremetal.IngressSecurityRule, *baremetal.CreateOptions) error); ok {
+		r1 = rf(compartmentID, vcnID, egressRules, ingressRules, opts)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // CreateSubnet provides a mock function with given fields: availabilityDomain, cidrBlock, compartmentID, vcnID, opts
 func (_m *BareMetalClient) CreateSubnet(availabilityDomain string, cidrBlock string, compartmentID string, vcnID string, opts *baremetal.CreateSubnetOptions) (*baremetal.Subnet, error) {
 	ret := _m.Called(availabilityDomain, cidrBlock, compartmentID, vcnID, opts)
