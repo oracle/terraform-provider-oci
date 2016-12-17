@@ -6,7 +6,8 @@ import "net/http"
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Subnet/
 type Subnet struct {
-	ETaggedResource
+	OPCRequestIDUnmarshaller
+	ETagUnmarshaller
 	AvailabilityDomain string   `json:"availabilityDomain"`
 	CIDRBlock          string   `json:"cidrBlock"`
 	CompartmentID      string   `json:"compartmentId"`
@@ -23,7 +24,8 @@ type Subnet struct {
 
 // ListSubnets contains a list of Subnet
 type ListSubnets struct {
-	ResourceContainer
+	OPCRequestIDUnmarshaller
+	NextPageUnmarshaller
 	Subnets []Subnet
 }
 
@@ -44,9 +46,9 @@ func (c *Client) CreateSubnet(
 
 	required := struct {
 		ocidRequirement
-		AvailabilityDomain string `json:"availabilityDomain" url:"-"`
-		CIDRBlock          string `json:"cidrBlock" url:"-"`
-		VcnID              string `json:"vcnId" url:"-"`
+		AvailabilityDomain string `header:"-" json:"availabilityDomain" url:"-"`
+		CIDRBlock          string `header:"-" json:"cidrBlock" url:"-"`
+		VcnID              string `header:"-" json:"vcnId" url:"-"`
 	}{
 		AvailabilityDomain: availabilityDomain,
 		CIDRBlock:          cidrBlock,
@@ -60,13 +62,13 @@ func (c *Client) CreateSubnet(
 		required: required,
 	}
 
-	var response *requestResponse
-	if response, e = c.coreApi.request(http.MethodPost, details); e != nil {
+	var resp *response
+	if resp, e = c.coreApi.request(http.MethodPost, details); e != nil {
 		return
 	}
 
 	sn = &Subnet{}
-	e = response.unmarshal(sn)
+	e = resp.unmarshal(sn)
 	return
 }
 
@@ -79,13 +81,13 @@ func (c *Client) GetSubnet(id string) (subnet *Subnet, e error) {
 		name: resourceSubnets,
 	}
 
-	var response *requestResponse
-	if response, e = c.coreApi.getRequest(details); e != nil {
+	var resp *response
+	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}
 
 	subnet = &Subnet{}
-	e = response.unmarshal(subnet)
+	e = resp.unmarshal(subnet)
 	return
 }
 
@@ -111,7 +113,7 @@ func (c *Client) DeleteSubnet(id string, opts *IfMatchOptions) error {
 func (c *Client) ListSubnets(compartmentID, vcnID string, opts *ListOptions) (subnets *ListSubnets, e error) {
 	required := struct {
 		listOCIDRequirement
-		VcnID string `json:"-" url:"vcn"`
+		VcnID string `header:"-" json:"-" url:"vcn"`
 	}{
 		VcnID: vcnID,
 	}
@@ -123,12 +125,12 @@ func (c *Client) ListSubnets(compartmentID, vcnID string, opts *ListOptions) (su
 		required: required,
 	}
 
-	var response *requestResponse
-	if response, e = c.coreApi.getRequest(details); e != nil {
+	var resp *response
+	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}
 
 	subnets = &ListSubnets{}
-	e = response.unmarshal(subnets)
+	e = resp.unmarshal(subnets)
 	return
 }

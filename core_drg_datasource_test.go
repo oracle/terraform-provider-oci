@@ -101,34 +101,30 @@ func (s *ResourceCoreDrgsTestSuite) TestReadDrgsPaged() {
 	opts.Limit = 1
 	opts.Page = "page"
 
+	res := &baremetal.ListDrgs{}
+	res.NextPage = "nextpage"
+	res.Drgs = []baremetal.Drg{
+		{
+			CompartmentID: "compartment_id",
+			DisplayName:   "display_name",
+			ID:            "id1",
+			State:         baremetal.ResourceAttached,
+			TimeCreated:   baremetal.Time{Time: time.Now()},
+		},
+		{
+			CompartmentID: "compartment_id",
+			DisplayName:   "display_name",
+			ID:            "id2",
+			State:         baremetal.ResourceAttached,
+			TimeCreated:   baremetal.Time{Time: time.Now()},
+		},
+	}
+
 	s.Client.On(
 		"ListDrgs",
 		"compartment_id",
 		opts,
-	).Return(
-		&baremetal.ListDrgs{
-			ResourceContainer: baremetal.ResourceContainer{
-				NextPage: "nextpage",
-			},
-			Drgs: []baremetal.Drg{
-				{
-					CompartmentID: "compartment_id",
-					DisplayName:   "display_name",
-					ID:            "id1",
-					State:         baremetal.ResourceAttached,
-					TimeCreated:   baremetal.Time{Time: time.Now()},
-				},
-				{
-					CompartmentID: "compartment_id",
-					DisplayName:   "display_name",
-					ID:            "id2",
-					State:         baremetal.ResourceAttached,
-					TimeCreated:   baremetal.Time{Time: time.Now()},
-				},
-			},
-		},
-		nil,
-	)
+	).Return(res, nil)
 
 	opts2 := &baremetal.ListOptions{}
 	opts2.Page = "nextpage"

@@ -9,7 +9,8 @@ type Shape struct {
 // In conjunction with Limit is used in paginating result.
 // OPCRequestID is used to identify the request for support issues.
 type ListShapes struct {
-	ResourceContainer
+	OPCRequestIDUnmarshaller
+	NextPageUnmarshaller
 	Shapes []Shape
 }
 
@@ -30,7 +31,7 @@ func (c *Client) ListShapes(compartmentID string, opts *ListShapesOptions) (shap
 		required: listOCIDRequirement{CompartmentID: compartmentID},
 	}
 
-	var resp *requestResponse
+	var resp *response
 	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}

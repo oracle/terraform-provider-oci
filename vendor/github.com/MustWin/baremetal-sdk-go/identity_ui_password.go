@@ -6,7 +6,8 @@ import "net/http"
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/identity/20160918/UIPassword/
 type UIPassword struct {
-	ETaggedResource
+	OPCRequestIDUnmarshaller
+	ETagUnmarshaller
 	InactiveStatus uint16 `json:"inactiveStatus"`
 	Password       string `json:"password"`
 	State          string `json:"lifecycleState"`
@@ -24,12 +25,12 @@ func (c *Client) CreateOrResetUIPassword(userID string, opts *RetryTokenOptions)
 		optional: opts,
 	}
 
-	var response *requestResponse
-	if response, e = c.identityApi.request(http.MethodPost, details); e != nil {
+	var resp *response
+	if resp, e = c.identityApi.request(http.MethodPost, details); e != nil {
 		return
 	}
 
 	resource = &UIPassword{}
-	e = response.unmarshal(resource)
+	e = resp.unmarshal(resource)
 	return
 }

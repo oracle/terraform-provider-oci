@@ -1,7 +1,9 @@
 package main
+
 import (
 	"testing"
 	"time"
+
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/client/mocks"
 	"github.com/hashicorp/terraform/helper/resource"
@@ -44,38 +46,37 @@ func (s *ObjectstorageBucketSummaryTestSuite) SetupTest() {
 }
 
 func (s *ObjectstorageBucketSummaryTestSuite) TestReadBucketSummaries() {
+	namespace := baremetal.Namespace("namespace")
+
 	opts := &baremetal.ListBucketsOptions{}
 	opts.Page = "page"
 	opts.Limit = 2
-	namespace := baremetal.Namespace("namespace")
+
+	res := &baremetal.ListBuckets{}
+	res.NextPage = "nextpage"
+	res.BucketSummaries = []baremetal.BucketSummary{
+		{
+			Namespace:     "namespace",
+			Name:          "name0",
+			CompartmentID: "compartmentID",
+			CreatedBy:     "created_by",
+			TimeCreated:   s.TimeCreated,
+			ETag:          "etag",
+		},
+		{
+			Namespace:     "namespace",
+			Name:          "name1",
+			CompartmentID: "compartmentID",
+			CreatedBy:     "created_by",
+			TimeCreated:   s.TimeCreated,
+			ETag:          "etag",
+		},
+	}
+
 	s.Client.On(
 		"ListBuckets", "compartmentid", namespace, opts,
-	).Return(
-		&baremetal.ListBuckets{
-			ResourceContainer: baremetal.ResourceContainer{
-				NextPage: "nextpage",
-			},
-			BucketSummaries: []baremetal.BucketSummary{
-				{
-					Namespace: "namespace",
-					Name: "name0",
-					CompartmentID: "compartmentID",
-					CreatedBy: "created_by",
-					TimeCreated: s.TimeCreated,
-					ETag: "etag",
-				},
-				{
-					Namespace: "namespace",
-					Name: "name1",
-					CompartmentID: "compartmentID",
-					CreatedBy: "created_by",
-					TimeCreated: s.TimeCreated,
-					ETag: "etag",
-				},
-			},
-		},
-		nil,
-	)
+	).Return(res, nil)
+
 	opts2 := &baremetal.ListBucketsOptions{}
 	opts2.Page = "nextpage"
 	opts2.Limit = 2
@@ -85,12 +86,12 @@ func (s *ObjectstorageBucketSummaryTestSuite) TestReadBucketSummaries() {
 		&baremetal.ListBuckets{
 			BucketSummaries: []baremetal.BucketSummary{
 				{
-					Namespace: "namespace",
-					Name: "name2",
+					Namespace:     "namespace",
+					Name:          "name2",
 					CompartmentID: "compartmentID",
-					CreatedBy: "created_by",
-					TimeCreated: s.TimeCreated,
-					ETag: "etag",
+					CreatedBy:     "created_by",
+					TimeCreated:   s.TimeCreated,
+					ETag:          "etag",
 				},
 			},
 		},
@@ -110,7 +111,6 @@ func (s *ObjectstorageBucketSummaryTestSuite) TestReadBucketSummaries() {
 					resource.TestCheckResourceAttr(s.ResourceName, "bucket_summaries.0.name", "name0"),
 					resource.TestCheckResourceAttr(s.ResourceName, "bucket_summaries.2.name", "name2"),
 					resource.TestCheckResourceAttr(s.ResourceName, "bucket_summaries.#", "3"),
-
 				),
 			},
 		},

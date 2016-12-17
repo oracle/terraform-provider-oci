@@ -45,17 +45,14 @@ func (s *DatabaseDBNodesTestSuite) SetupTest() {
 func (s *DatabaseDBNodesTestSuite) TestReadDBNodes() {
 	opts := &baremetal.PageListOptions{}
 	opts.Page = "page"
+
+	res := &baremetal.ListDBNodes{}
+	res.NextPage = "nextpage"
+	res.DBNodes = []baremetal.DBNode{{ID: "1"}, {ID: "2"}}
+
 	s.Client.On(
 		"ListDBNodes", "compartment_id", "db_system_id", uint64(1), opts,
-	).Return(
-		&baremetal.ListDBNodes{
-			ResourceContainer: baremetal.ResourceContainer{
-				NextPage: "nextpage",
-			},
-			DBNodes: []baremetal.DBNode{{ID: "1"}, {ID: "2"}},
-		},
-		nil,
-	)
+	).Return(res, nil)
 
 	opts2 := &baremetal.PageListOptions{}
 	opts2.Page = "nextpage"

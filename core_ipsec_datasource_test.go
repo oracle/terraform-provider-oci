@@ -119,50 +119,46 @@ func (s *DatasourceCoreIPSecTestSuite) TestResourceListPagedIPConnections() {
 	opts.DrgID = "drgid"
 	opts.CpeID = "cpeid"
 
+	res := &baremetal.ListIPSecConnections{}
+	res.NextPage = "nextpage"
+	res.Connections = []baremetal.IPSecConnection{
+		{
+			CompartmentID: "compartmentid",
+			CpeID:         "cpeid",
+			DisplayName:   "display_name",
+			DrgID:         "drgid",
+			ID:            "id1",
+			State:         baremetal.ResourceUp,
+			StaticRoutes: []string{
+				"route1",
+				"route2",
+			},
+			TimeCreated: baremetal.Time{
+				Time: time.Now(),
+			},
+		},
+		{
+			CompartmentID: "compartmentid",
+			CpeID:         "cpeid",
+			DisplayName:   "display_name",
+			DrgID:         "drgid",
+			ID:            "id2",
+			State:         baremetal.ResourceUp,
+			StaticRoutes: []string{
+				"route1",
+				"route2",
+			},
+			TimeCreated: baremetal.Time{
+				Time: time.Now(),
+			},
+		},
+	}
+
 	s.Client.On(
 		"ListIPSecConnections",
 		"compartmentid",
 		opts,
-	).Return(
-		&baremetal.ListIPSecConnections{
-			ResourceContainer: baremetal.ResourceContainer{
-				NextPage: "nextpage",
-			},
-			Connections: []baremetal.IPSecConnection{
-				{
-					CompartmentID: "compartmentid",
-					CpeID:         "cpeid",
-					DisplayName:   "display_name",
-					DrgID:         "drgid",
-					ID:            "id1",
-					State:         baremetal.ResourceUp,
-					StaticRoutes: []string{
-						"route1",
-						"route2",
-					},
-					TimeCreated: baremetal.Time{
-						Time: time.Now(),
-					},
-				},
-				{
-					CompartmentID: "compartmentid",
-					CpeID:         "cpeid",
-					DisplayName:   "display_name",
-					DrgID:         "drgid",
-					ID:            "id2",
-					State:         baremetal.ResourceUp,
-					StaticRoutes: []string{
-						"route1",
-						"route2",
-					},
-					TimeCreated: baremetal.Time{
-						Time: time.Now(),
-					},
-				},
-			},
-		},
-		nil,
-	)
+	).Return(res, nil)
 
 	opts2 := &baremetal.ListIPSecConnsOptions{}
 	opts2.DrgID = "drgid"

@@ -93,26 +93,11 @@ func (s *ResourceCoreShapeTestSuite) TestResourceReadCoreShapeWithPagination() {
 	opts.AvailabilityDomain = "availability_domain"
 	opts.ImageID = "imageid"
 
-	s.Client.On(
-		"ListShapes",
-		"compartmentid",
-		opts,
-	).Return(
-		&baremetal.ListShapes{
-			ResourceContainer: baremetal.ResourceContainer{
-				NextPage: "nextpage",
-			},
-			Shapes: []baremetal.Shape{
-				{
-					Name: "shape1",
-				},
-				{
-					Name: "shape2",
-				},
-			},
-		},
-		nil,
-	)
+	res := &baremetal.ListShapes{}
+	res.NextPage = "nextpage"
+	res.Shapes = []baremetal.Shape{{Name: "shape1"}, {Name: "shape2"}}
+
+	s.Client.On("ListShapes", "compartmentid", opts).Return(res, nil)
 
 	opts2 := &baremetal.ListShapesOptions{}
 	opts2.AvailabilityDomain = "availability_domain"
@@ -125,14 +110,7 @@ func (s *ResourceCoreShapeTestSuite) TestResourceReadCoreShapeWithPagination() {
 		opts2,
 	).Return(
 		&baremetal.ListShapes{
-			Shapes: []baremetal.Shape{
-				{
-					Name: "shape3",
-				},
-				{
-					Name: "shape4",
-				},
-			},
+			Shapes: []baremetal.Shape{{Name: "shape3"}, {Name: "shape4"}},
 		},
 		nil,
 	)

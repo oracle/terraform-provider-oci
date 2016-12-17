@@ -6,7 +6,8 @@ import "net/http"
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/VolumeAttachment/
 type VolumeAttachment struct {
-	ETaggedResource
+	OPCRequestIDUnmarshaller
+	ETagUnmarshaller
 	AttachmentType     string `json:"attachmentType"`
 	AvailabilityDomain string `json:"availabilityDomain"`
 	CompartmentID      string `json:"compartmentId"`
@@ -21,7 +22,8 @@ type VolumeAttachment struct {
 // ListVolumeAttachments contains a list of volume attachments
 //
 type ListVolumeAttachments struct {
-	ResourceContainer
+	OPCRequestIDUnmarshaller
+	NextPageUnmarshaller
 	VolumeAttachments []VolumeAttachment
 }
 
@@ -34,9 +36,9 @@ func (l *ListVolumeAttachments) GetList() interface{} {
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/VolumeAttachment/AttachVolume
 func (c *Client) AttachVolume(attachmentType, instanceID, volumeID string, opts *CreateOptions) (res *VolumeAttachment, e error) {
 	required := struct {
-		AttachmentType string `json:"attachmentType" url:"-"`
-		InstanceID     string `json:"instanceId" url:"-"`
-		VolumeID       string `json:"volumeId" url:"-"`
+		AttachmentType string `header:"-" json:"attachmentType" url:"-"`
+		InstanceID     string `header:"-" json:"instanceId" url:"-"`
+		VolumeID       string `header:"-" json:"volumeId" url:"-"`
 	}{
 		AttachmentType: attachmentType,
 		InstanceID:     instanceID,
@@ -49,13 +51,13 @@ func (c *Client) AttachVolume(attachmentType, instanceID, volumeID string, opts 
 		required: required,
 	}
 
-	var response *requestResponse
-	if response, e = c.coreApi.request(http.MethodPost, details); e != nil {
+	var resp *response
+	if resp, e = c.coreApi.request(http.MethodPost, details); e != nil {
 		return
 	}
 
 	res = &VolumeAttachment{}
-	e = response.unmarshal(res)
+	e = resp.unmarshal(res)
 	return
 }
 
@@ -68,7 +70,7 @@ func (c *Client) GetVolumeAttachment(id string) (res *VolumeAttachment, e error)
 		name: resourceVolumeAttachments,
 	}
 
-	var resp *requestResponse
+	var resp *response
 	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}
@@ -102,7 +104,7 @@ func (c *Client) ListVolumeAttachments(compartmentID string, opts *ListVolumeAtt
 		required: ocidRequirement{compartmentID},
 	}
 
-	var resp *requestResponse
+	var resp *response
 	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}

@@ -6,7 +6,8 @@ import (
 
 type DBHome struct {
 	ocidRequirement
-	ETaggedResource
+	OPCRequestIDUnmarshaller
+	ETagUnmarshaller
 	DBSystemID  string    `json:"dbSystemId"`
 	DBVersion   string    `json:"dbVersion"`
 	DisplayName string    `json:"displayName"`
@@ -16,7 +17,8 @@ type DBHome struct {
 }
 
 type ListDBHomes struct {
-	ResourceContainer
+	OPCRequestIDUnmarshaller
+	NextPageUnmarshaller
 	DBHomes []DBHome
 }
 
@@ -33,7 +35,7 @@ func (c *Client) GetDBHome(id string) (res *DBHome, e error) {
 		ids:  urlParts{id},
 	}
 
-	var resp *requestResponse
+	var resp *response
 	if resp, e = c.databaseApi.getRequest(details); e != nil {
 		return
 	}
@@ -49,8 +51,8 @@ func (c *Client) GetDBHome(id string) (res *DBHome, e error) {
 func (c *Client) ListDBHomes(compartmentID, dbSystemID string, limit uint64, opts *PageListOptions) (resources *ListDBHomes, e error) {
 	required := struct {
 		listOCIDRequirement
-		DBSystemID string `json:"-" url:"dbSystemId"`
-		Limit      uint64 `json:"-" url:"limit"`
+		DBSystemID string `header:"-" json:"-" url:"dbSystemId"`
+		Limit      uint64 `header:"-" json:"-" url:"limit"`
 	}{
 		DBSystemID: dbSystemID,
 		Limit:      limit,
@@ -63,12 +65,12 @@ func (c *Client) ListDBHomes(compartmentID, dbSystemID string, limit uint64, opt
 		required: required,
 	}
 
-	var response *requestResponse
-	if response, e = c.databaseApi.getRequest(details); e != nil {
+	var resp *response
+	if resp, e = c.databaseApi.getRequest(details); e != nil {
 		return
 	}
 
 	resources = &ListDBHomes{}
-	e = response.unmarshal(resources)
+	e = resp.unmarshal(resources)
 	return
 }

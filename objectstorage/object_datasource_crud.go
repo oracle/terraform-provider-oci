@@ -32,7 +32,7 @@ func (s *ObjectDatasourceCrud) Get() (e error) {
 		opts.End = end.(string)
 	}
 	if limit, ok := s.D.GetOk("limit"); ok {
-		opts.Limit = limit.(string)
+		opts.Limit = uint64(limit.(int))
 	}
 
 	s.Res = &baremetal.ListObjects{Objects: []baremetal.ObjectSummary{}}

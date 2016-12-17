@@ -6,7 +6,8 @@ import "net/http"
 //
 // See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/database/20160918/DbSystem/
 type DBSystem struct {
-	ETaggedResource
+	OPCRequestIDUnmarshaller
+	ETagUnmarshaller
 	AvailabilityDomain string              `json:"availabilityDomain"`
 	CompartmentID      string              `json:"compartmentId"`
 	CPUCoreCount       uint64              `json:"cpuCoreCount"`
@@ -29,7 +30,8 @@ type DBSystem struct {
 // ListDBSystems contains a list of DBSystems.
 //
 type ListDBSystems struct {
-	ResourceContainer
+	OPCRequestIDUnmarshaller
+	NextPageUnmarshaller
 	DBSystems []DBSystem
 }
 
@@ -38,14 +40,14 @@ func (l *ListDBSystems) GetList() interface{} {
 }
 
 type createDatabaseDetails struct {
-	AdminPassword string `json:"adminPassword" url:"-"`
-	DBName        string `json:"dbName" url:"-"`
+	AdminPassword string `header:"-" json:"adminPassword" url:"-"`
+	DBName        string `header:"-" json:"dbName" url:"-"`
 }
 
 type createDBHomeDetails struct {
-	Database    createDatabaseDetails `json:"database" url:"-"`
-	DBVersion   string                `json:"dbVersion" url:"-"`
-	DisplayName string                `json:"displayName,omitempty" url:"-"`
+	Database    createDatabaseDetails `header:"-" json:"database" url:"-"`
+	DBVersion   string                `header:"-" json:"dbVersion" url:"-"`
+	DisplayName string                `header:"-" json:"displayName,omitempty" url:"-"`
 }
 
 // NewCreateDBHomeDetails is used to create the optional DBHome argument to
@@ -79,11 +81,11 @@ func (c *Client) LaunchDBSystem(
 ) (res *DBSystem, e error) {
 	required := struct {
 		ocidRequirement
-		AvailabilityDomain string   `json:"availabilityDomain" url:"-"`
-		CPUCoreCount       uint64   `json:"cpuCoreCount" url:"-"`
-		Shape              string   `json:"shape" url:"-"`
-		SSHPublicKeys      []string `json:"sshPublicKeys" url:"-"`
-		SubnetID           string   `json:"subnetId" url:"-"`
+		AvailabilityDomain string   `header:"-" json:"availabilityDomain" url:"-"`
+		CPUCoreCount       uint64   `header:"-" json:"cpuCoreCount" url:"-"`
+		Shape              string   `header:"-" json:"shape" url:"-"`
+		SSHPublicKeys      []string `header:"-" json:"sshPublicKeys" url:"-"`
+		SubnetID           string   `header:"-" json:"subnetId" url:"-"`
 	}{
 		AvailabilityDomain: availabilityDomain,
 		CPUCoreCount:       cpuCoreCount,
@@ -99,13 +101,13 @@ func (c *Client) LaunchDBSystem(
 		required: required,
 	}
 
-	var response *requestResponse
-	if response, e = c.databaseApi.request(http.MethodPost, details); e != nil {
+	var resp *response
+	if resp, e = c.databaseApi.request(http.MethodPost, details); e != nil {
 		return
 	}
 
 	res = &DBSystem{}
-	e = response.unmarshal(res)
+	e = resp.unmarshal(res)
 	return
 }
 
@@ -118,7 +120,7 @@ func (c *Client) GetDBSystem(id string) (res *DBSystem, e error) {
 		ids:  urlParts{id},
 	}
 
-	var resp *requestResponse
+	var resp *response
 	if resp, e = c.databaseApi.getRequest(details); e != nil {
 		return
 	}
@@ -147,7 +149,7 @@ func (c *Client) TerminateDBSystem(id string, opts *IfMatchOptions) (e error) {
 func (c *Client) ListDBSystems(compartmentID string, limit uint64, opts *PageListOptions) (res *ListDBSystems, e error) {
 	required := struct {
 		listOCIDRequirement
-		Limit uint64 `json:"-" url:"limit"`
+		Limit uint64 `header:"-" json:"-" url:"limit"`
 	}{
 		Limit: limit,
 	}
@@ -159,7 +161,7 @@ func (c *Client) ListDBSystems(compartmentID string, limit uint64, opts *PageLis
 		required: required,
 	}
 
-	var resp *requestResponse
+	var resp *response
 	if resp, e = c.databaseApi.getRequest(details); e != nil {
 		return
 	}

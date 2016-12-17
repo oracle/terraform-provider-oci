@@ -6,7 +6,8 @@ import "net/http"
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Drg/
 type Drg struct {
-	ETaggedResource
+	OPCRequestIDUnmarshaller
+	ETagUnmarshaller
 	CompartmentID string `json:"compartmentId"`
 	DisplayName   string `json:"displayName"`
 	ID            string `json:"id"`
@@ -17,7 +18,8 @@ type Drg struct {
 // ListDrgs contains a list of gateways
 //
 type ListDrgs struct {
-	ResourceContainer
+	OPCRequestIDUnmarshaller
+	NextPageUnmarshaller
 	Drgs []Drg
 }
 
@@ -35,13 +37,13 @@ func (c *Client) CreateDrg(compartmentID string, opts *CreateOptions) (res *Drg,
 		required: ocidRequirement{compartmentID},
 	}
 
-	var response *requestResponse
-	if response, e = c.coreApi.request(http.MethodPost, details); e != nil {
+	var resp *response
+	if resp, e = c.coreApi.request(http.MethodPost, details); e != nil {
 		return
 	}
 
 	res = &Drg{}
-	e = response.unmarshal(res)
+	e = resp.unmarshal(res)
 	return
 }
 
@@ -54,7 +56,7 @@ func (c *Client) GetDrg(id string) (res *Drg, e error) {
 		ids:  urlParts{id},
 	}
 
-	var resp *requestResponse
+	var resp *response
 	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}
@@ -86,7 +88,7 @@ func (c *Client) ListDrgs(compartmentID string, opts *ListOptions) (res *ListDrg
 		optional: opts,
 	}
 
-	var resp *requestResponse
+	var resp *response
 	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}

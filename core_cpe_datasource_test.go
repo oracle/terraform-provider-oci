@@ -91,34 +91,30 @@ func (s *DatasourceCoreCpeTestSuite) TestCpeList() {
 }
 
 func (s *DatasourceCoreCpeTestSuite) TestCpePagedList() {
+	res := &baremetal.ListCpes{}
+	res.NextPage = "nextpage"
+	res.Cpes = []baremetal.Cpe{
+		{
+			ID:            "id1",
+			CompartmentID: "compartmentid",
+			DisplayName:   "name",
+			IPAddress:     "10.10.10.2",
+			TimeCreated:   baremetal.Time{Time: time.Now()},
+		},
+		{
+			ID:            "id2",
+			CompartmentID: "compartmentid",
+			DisplayName:   "name",
+			IPAddress:     "10.10.10.3",
+			TimeCreated:   baremetal.Time{Time: time.Now()},
+		},
+	}
+
 	s.Client.On(
 		"ListCpes",
 		"compartmentid",
 		&baremetal.ListOptions{},
-	).Return(
-		&baremetal.ListCpes{
-			ResourceContainer: baremetal.ResourceContainer{
-				NextPage: "nextpage",
-			},
-			Cpes: []baremetal.Cpe{
-				{
-					ID:            "id1",
-					CompartmentID: "compartmentid",
-					DisplayName:   "name",
-					IPAddress:     "10.10.10.2",
-					TimeCreated:   baremetal.Time{Time: time.Now()},
-				},
-				{
-					ID:            "id2",
-					CompartmentID: "compartmentid",
-					DisplayName:   "name",
-					IPAddress:     "10.10.10.3",
-					TimeCreated:   baremetal.Time{Time: time.Now()},
-				},
-			},
-		},
-		nil,
-	)
+	).Return(res, nil)
 
 	opts := &baremetal.ListOptions{}
 	opts.Page = "nextpage"

@@ -3,6 +3,7 @@ package baremetal
 import (
 	"errors"
 	"reflect"
+	"strings"
 )
 
 // Namespace is the top level organizational level of the object store
@@ -12,12 +13,13 @@ import (
 type Namespace string
 
 // toBeFilled must be a slice of bytes
-func (g *Namespace) Unmarshal(b []byte, toBeFilled interface{}) error {
+func (g *Namespace) SetBody(b []byte, toBeFilled interface{}) error {
 	rv := reflect.ValueOf(toBeFilled)
 	if rv.Kind() != reflect.Ptr || rv.IsNil() {
 		return errors.New("Value passed to unmarshal is not a pointer")
 	}
-	rv.Elem().SetString(string(b))
+	s := strings.Trim(string(b), "\"")
+	rv.Elem().SetString(s)
 	return nil
 }
 
@@ -28,17 +30,17 @@ func (c *Client) GetNamespace() (name *Namespace, e error) {
 	var opts interface{}
 	var required interface{}
 	details := &requestDetails{
-		ids:      urlParts{resourceNamespaces},
+		ids:      urlParts{},
 		optional: opts,
 		required: required,
 	}
 
-	var response *requestResponse
-	if response, e = c.objectStorageApi.getRequest(details); e != nil {
+	var resp *response
+	if resp, e = c.objectStorageApi.getRequest(details); e != nil {
 		return
 	}
 
 	name = new(Namespace)
-	e = response.unmarshal(name)
+	e = resp.unmarshal(name)
 	return
 }

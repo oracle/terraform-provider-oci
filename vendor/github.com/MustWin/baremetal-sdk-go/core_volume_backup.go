@@ -6,7 +6,8 @@ import "net/http"
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/VolumeBackup/
 type VolumeBackup struct {
-	ETaggedResource
+	OPCRequestIDUnmarshaller
+	ETagUnmarshaller
 	CompartmentID       string `json:"compartmentId"`
 	DisplayName         string `json:"displayName"`
 	ID                  string `json:"id"`
@@ -21,7 +22,8 @@ type VolumeBackup struct {
 // ListVolumeBackups contains a list of volume backups
 //
 type ListVolumeBackups struct {
-	ResourceContainer
+	OPCRequestIDUnmarshaller
+	NextPageUnmarshaller
 	VolumeBackups []VolumeBackup
 }
 
@@ -34,7 +36,7 @@ func (l *ListVolumeBackups) GetList() interface{} {
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/VolumeBackup/CreateVolumeBackup
 func (c *Client) CreateVolumeBackup(volumeID string, opts *CreateOptions) (vol *VolumeBackup, e error) {
 	required := struct {
-		VolumeID string `json:"volumeId" url:"-"`
+		VolumeID string `header:"-" json:"volumeId" url:"-"`
 	}{
 		VolumeID: volumeID,
 	}
@@ -45,13 +47,13 @@ func (c *Client) CreateVolumeBackup(volumeID string, opts *CreateOptions) (vol *
 		required: required,
 	}
 
-	var response *requestResponse
-	if response, e = c.coreApi.request(http.MethodPost, details); e != nil {
+	var resp *response
+	if resp, e = c.coreApi.request(http.MethodPost, details); e != nil {
 		return
 	}
 
 	vol = &VolumeBackup{}
-	e = response.unmarshal(vol)
+	e = resp.unmarshal(vol)
 	return
 }
 
@@ -64,7 +66,7 @@ func (c *Client) GetVolumeBackup(id string) (vol *VolumeBackup, e error) {
 		name: resourceVolumeBackups,
 	}
 
-	var resp *requestResponse
+	var resp *response
 	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}
@@ -84,13 +86,13 @@ func (c *Client) UpdateVolumeBackup(id string, opts *UpdateBackupOptions) (vol *
 		optional: opts,
 	}
 
-	var response *requestResponse
-	if response, e = c.coreApi.request(http.MethodPut, details); e != nil {
+	var resp *response
+	if resp, e = c.coreApi.request(http.MethodPut, details); e != nil {
 		return
 	}
 
 	vol = &VolumeBackup{}
-	e = response.unmarshal(vol)
+	e = resp.unmarshal(vol)
 	return
 }
 
@@ -117,7 +119,7 @@ func (c *Client) ListVolumeBackups(compartmentID string, opts *ListBackupsOption
 		required: ocidRequirement{compartmentID},
 	}
 
-	var resp *requestResponse
+	var resp *response
 	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}
