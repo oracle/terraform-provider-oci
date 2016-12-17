@@ -2,10 +2,10 @@ package baremetal
 
 import "time"
 
-// Unmashalling JSON is handled via the json package. These unmarshallers are
-// primarily responsible for unmarshalling data returned via a response header.
-// Any response data that cannot be unmarshalled via json should be configured
-// here.
+// JSON bodies are unmarshalled by the json package. The unmarshallers in this
+// file are primarily responsible for unmarshalling data returned via the
+// response header.  That said, any response data that cannot be unmarshalled
+// using json should be configured here.
 
 type OPCRequestIDUnmarshallable interface {
 	SetRequestID(id string)
