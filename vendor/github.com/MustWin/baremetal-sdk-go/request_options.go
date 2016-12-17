@@ -137,7 +137,7 @@ type UpdateRouteTableOptions struct {
 }
 
 type UpdateSecurityListOptions struct {
-	CreateOptions
+	UpdateBackupOptions
 	EgressRules  []EgressSecurityRule  `header:"-" json:"egressSecurityRules,omitempty" url:"-"`
 	IngressRules []IngressSecurityRule `header:"-" json:"ingressSecurityRules,omitempty" url:"-"`
 }
