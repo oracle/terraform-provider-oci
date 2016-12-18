@@ -75,38 +75,30 @@ func (s *SecurityListResourceCrud) SetData() {
 
 	confEgressRules := []map[string]interface{}{}
 	for _, egressRule := range s.Res.EgressSecurityRules {
-		confEgressRule := map[string]interface{}{
-			"destination": egressRule.Destination,
-			"protocol":    egressRule.Protocol,
-		}
-		if icmpOpts := egressRule.ICMPOptions; icmpOpts != nil {
-			confEgressRule["icmp_options"] = s.buildConfICMPOptions(icmpOpts)
-		}
-		if tcpOpts := egressRule.TCPOptions; tcpOpts != nil {
-			confEgressRule["tcp_options"] = s.buildConfTCPOptions(tcpOpts)
-		}
-		if udpOpts := egressRule.UDPOptions; udpOpts != nil {
-			confEgressRule["udp_options"] = s.buildConfUDPOptions(udpOpts)
-		}
+		confEgressRule := map[string]interface{}{}
+		confEgressRule["destination"] = egressRule.Destination
+		confEgressRule = buildConfRule(
+			confEgressRule,
+			egressRule.Protocol,
+			egressRule.ICMPOptions,
+			egressRule.TCPOptions,
+			egressRule.UDPOptions,
+		)
 		confEgressRules = append(confEgressRules, confEgressRule)
 	}
 	s.D.Set("egress_security_rules", confEgressRules)
 
 	confIngressRules := []map[string]interface{}{}
 	for _, ingressRule := range s.Res.IngressSecurityRules {
-		confIngressRule := map[string]interface{}{
-			"protocol": ingressRule.Protocol,
-			"source":   ingressRule.Source,
-		}
-		if icmpOpts := ingressRule.ICMPOptions; icmpOpts != nil {
-			confIngressRule["icmp_options"] = s.buildConfICMPOptions(icmpOpts)
-		}
-		if tcpOpts := ingressRule.TCPOptions; tcpOpts != nil {
-			confIngressRule["tcp_options"] = s.buildConfTCPOptions(tcpOpts)
-		}
-		if udpOpts := ingressRule.UDPOptions; udpOpts != nil {
-			confIngressRule["udp_options"] = s.buildConfUDPOptions(udpOpts)
-		}
+		confIngressRule := map[string]interface{}{}
+		confIngressRule["source"] = ingressRule.Source
+		confIngressRule = buildConfRule(
+			confIngressRule,
+			ingressRule.Protocol,
+			ingressRule.ICMPOptions,
+			ingressRule.TCPOptions,
+			ingressRule.UDPOptions,
+		)
 		confIngressRules = append(confIngressRules, confIngressRule)
 	}
 	s.D.Set("ingress_security_rules", confIngressRules)
@@ -118,32 +110,6 @@ func (s *SecurityListResourceCrud) SetData() {
 
 func (s *SecurityListResourceCrud) Delete() (e error) {
 	return s.Client.DeleteSecurityList(s.D.Id(), nil)
-}
-
-func (s *SecurityListResourceCrud) buildConfICMPOptions(opts *baremetal.ICMPOptions) (list []interface{}) {
-	confOpts := map[string]interface{}{
-		"code": int(opts.Code),
-		"type": int(opts.Type),
-	}
-	return []interface{}{confOpts}
-}
-
-func (s *SecurityListResourceCrud) buildConfTCPOptions(opts *baremetal.TCPOptions) (list []interface{}) {
-	portRange := opts.DestinationPortRange
-	confOpts := map[string]interface{}{
-		"max": int(portRange.Max),
-		"min": int(portRange.Min),
-	}
-	return []interface{}{confOpts}
-}
-
-func (s *SecurityListResourceCrud) buildConfUDPOptions(opts *baremetal.UDPOptions) (list []interface{}) {
-	portRange := opts.DestinationPortRange
-	confOpts := map[string]interface{}{
-		"max": int(portRange.Max),
-		"min": int(portRange.Min),
-	}
-	return []interface{}{confOpts}
 }
 
 func (s *SecurityListResourceCrud) buildEgressRules() (sdkRules []baremetal.EgressSecurityRule) {
@@ -220,4 +186,40 @@ func (s *SecurityListResourceCrud) buildUDPOptions(conf map[string]interface{}) 
 		}
 	}
 	return
+}
+
+func buildConfICMPOptions(opts *baremetal.ICMPOptions) (list []interface{}) {
+	confOpts := map[string]interface{}{
+		"code": int(opts.Code),
+		"type": int(opts.Type),
+	}
+	return []interface{}{confOpts}
+}
+
+func buildConfTransportOptions(portRange baremetal.PortRange) (list []interface{}) {
+	confOpts := map[string]interface{}{
+		"max": int(portRange.Max),
+		"min": int(portRange.Min),
+	}
+	return []interface{}{confOpts}
+}
+
+func buildConfRule(
+	confRule map[string]interface{},
+	protocol string,
+	icmpOpts *baremetal.ICMPOptions,
+	tcpOpts *baremetal.TCPOptions,
+	udpOpts *baremetal.UDPOptions,
+) map[string]interface{} {
+	confRule["protocol"] = protocol
+	if icmpOpts != nil {
+		confRule["icmp_options"] = buildConfICMPOptions(icmpOpts)
+	}
+	if tcpOpts != nil {
+		confRule["tcp_options"] = buildConfTransportOptions(tcpOpts.DestinationPortRange)
+	}
+	if udpOpts != nil {
+		confRule["udp_options"] = buildConfTransportOptions(udpOpts.DestinationPortRange)
+	}
+	return confRule
 }
