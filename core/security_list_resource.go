@@ -6,6 +6,42 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
+var transportSchema = &schema.Schema{
+	Type:     schema.TypeList,
+	Optional: true,
+	MaxItems: 1,
+	Elem: &schema.Resource{
+		Schema: map[string]*schema.Schema{
+			"max": &schema.Schema{
+				Type:     schema.TypeInt,
+				Required: true,
+			},
+			"min": &schema.Schema{
+				Type:     schema.TypeInt,
+				Required: true,
+			},
+		},
+	},
+}
+
+var icmpSchema = &schema.Schema{
+	Type:     schema.TypeList,
+	Optional: true,
+	MaxItems: 1,
+	Elem: &schema.Resource{
+		Schema: map[string]*schema.Schema{
+			"code": &schema.Schema{
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
+			"type": &schema.Schema{
+				Type:     schema.TypeInt,
+				Required: true,
+			},
+		},
+	},
+}
+
 func SecurityListResource() *schema.Resource {
 	return &schema.Resource{
 		Create: createSecurityList,
@@ -32,61 +68,13 @@ func SecurityListResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Required: true,
 						},
-						"icmp_options": &schema.Schema{
-							Type:     schema.TypeList,
-							Optional: true,
-							MaxItems: 1,
-							Elem: &schema.Resource{
-								Schema: map[string]*schema.Schema{
-									"code": &schema.Schema{
-										Type:     schema.TypeInt,
-										Optional: true,
-									},
-									"type": &schema.Schema{
-										Type:     schema.TypeInt,
-										Required: true,
-									},
-								},
-							},
-						},
+						"icmp_options": icmpSchema,
 						"protocol": &schema.Schema{
 							Type:     schema.TypeString,
 							Required: true,
 						},
-						"tcp_options": &schema.Schema{
-							Type:     schema.TypeList,
-							Optional: true,
-							MaxItems: 1,
-							Elem: &schema.Resource{
-								Schema: map[string]*schema.Schema{
-									"max": &schema.Schema{
-										Type:     schema.TypeInt,
-										Required: true,
-									},
-									"min": &schema.Schema{
-										Type:     schema.TypeInt,
-										Required: true,
-									},
-								},
-							},
-						},
-						"udp_options": &schema.Schema{
-							Type:     schema.TypeList,
-							Optional: true,
-							MaxItems: 1,
-							Elem: &schema.Resource{
-								Schema: map[string]*schema.Schema{
-									"max": &schema.Schema{
-										Type:     schema.TypeInt,
-										Required: true,
-									},
-									"min": &schema.Schema{
-										Type:     schema.TypeInt,
-										Required: true,
-									},
-								},
-							},
-						},
+						"tcp_options": transportSchema,
+						"udp_options": transportSchema,
 					},
 				},
 			},
@@ -99,23 +87,7 @@ func SecurityListResource() *schema.Resource {
 				Required: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"icmp_options": &schema.Schema{
-							Type:     schema.TypeList,
-							Optional: true,
-							MaxItems: 1,
-							Elem: &schema.Resource{
-								Schema: map[string]*schema.Schema{
-									"code": &schema.Schema{
-										Type:     schema.TypeInt,
-										Optional: true,
-									},
-									"type": &schema.Schema{
-										Type:     schema.TypeInt,
-										Required: true,
-									},
-								},
-							},
-						},
+						"icmp_options": icmpSchema,
 						"protocol": &schema.Schema{
 							Type:     schema.TypeString,
 							Required: true,
@@ -124,40 +96,8 @@ func SecurityListResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Required: true,
 						},
-						"tcp_options": &schema.Schema{
-							Type:     schema.TypeList,
-							Optional: true,
-							MaxItems: 1,
-							Elem: &schema.Resource{
-								Schema: map[string]*schema.Schema{
-									"max": &schema.Schema{
-										Type:     schema.TypeInt,
-										Required: true,
-									},
-									"min": &schema.Schema{
-										Type:     schema.TypeInt,
-										Required: true,
-									},
-								},
-							},
-						},
-						"udp_options": &schema.Schema{
-							Type:     schema.TypeList,
-							Optional: true,
-							MaxItems: 1,
-							Elem: &schema.Resource{
-								Schema: map[string]*schema.Schema{
-									"max": &schema.Schema{
-										Type:     schema.TypeInt,
-										Required: true,
-									},
-									"min": &schema.Schema{
-										Type:     schema.TypeInt,
-										Required: true,
-									},
-								},
-							},
-						},
+						"tcp_options": transportSchema,
+						"udp_options": transportSchema,
 					},
 				},
 			},
