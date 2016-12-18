@@ -26,20 +26,20 @@ type ICMPOptions struct {
 
 // https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/IngressSecurityRule/
 type IngressSecurityRule struct {
-	ICMPOptions ICMPOptions `header:"-" json:"icmpOptions,omitempty" url:"-"`
-	Protocol    string      `header:"-" json:"protocol" url:"-"`
-	Source      string      `header:"-" json:"source" url:"-"`
-	TCPOptions  TCPOptions  `header:"-" json:"tcpOptions,omitempty" url:"-"`
-	UDPOptions  UDPOptions  `header:"-" json:"udpOptions,omitempty" url:"-"`
+	ICMPOptions *ICMPOptions `header:"-" json:"icmpOptions,omitempty" url:"-"`
+	Protocol    string       `header:"-" json:"protocol" url:"-"`
+	Source      string       `header:"-" json:"source" url:"-"`
+	TCPOptions  *TCPOptions  `header:"-" json:"tcpOptions,omitempty" url:"-"`
+	UDPOptions  *UDPOptions  `header:"-" json:"udpOptions,omitempty" url:"-"`
 }
 
 // https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/EgressSecurityRule/
 type EgressSecurityRule struct {
-	Destination string      `header:"-" json:"destination" url:"-"`
-	ICMPOptions ICMPOptions `header:"-" json:"icmpOptions,omitempty" url:"-"`
-	Protocol    string      `header:"-" json:"protocol" url:"-"`
-	TCPOptions  TCPOptions  `header:"-" json:"tcpOptions,omitempty" url:"-"`
-	UDPOptions  UDPOptions  `header:"-" json:"udpOptions,omitempty" url:"-"`
+	Destination string       `header:"-" json:"destination" url:"-"`
+	ICMPOptions *ICMPOptions `header:"-" json:"icmpOptions,omitempty" url:"-"`
+	Protocol    string       `header:"-" json:"protocol" url:"-"`
+	TCPOptions  *TCPOptions  `header:"-" json:"tcpOptions,omitempty" url:"-"`
+	UDPOptions  *UDPOptions  `header:"-" json:"udpOptions,omitempty" url:"-"`
 }
 
 // SecurityList describes a set of virtual, stateful firewall rules for your VCN
