@@ -89,6 +89,7 @@ func dataSourcesMap() map[string]*schema.Resource {
 		"baremetal_core_ipsec_connections":         core.IPSecConnectionsDatasource(),
 		"baremetal_core_ipsec_status":              core.IPSecStatusDatasource(),
 		"baremetal_core_route_tables":              core.RouteTableDatasource(),
+		"baremetal_core_security_lists":            core.SecurityListDatasource(),
 		"baremetal_core_shape":                     core.ShapeDatasource(),
 		"baremetal_core_subnets":                   core.SubnetDatasource(),
 		"baremetal_core_virtual_networks":          core.VirtualNetworkDatasource(),
