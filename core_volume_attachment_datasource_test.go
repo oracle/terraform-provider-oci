@@ -118,42 +118,38 @@ func (s *ResourceCoreVolumeAttachmentsTestSuite) TestReadVolumeAttachmentsWithPa
 	opts.InstanceID = "instance_id"
 	opts.VolumeID = "volume_id"
 
+	res := &baremetal.ListVolumeAttachments{}
+	res.NextPage = "nextpage"
+	res.VolumeAttachments = []baremetal.VolumeAttachment{
+		{
+			AttachmentType:     "attachment_type",
+			AvailabilityDomain: "availability_domain",
+			CompartmentID:      "compartment_id",
+			DisplayName:        "display_name",
+			ID:                 "id1",
+			InstanceID:         "instance_id",
+			State:              baremetal.ResourceAttached,
+			TimeCreated:        baremetal.Time{Time: time.Now()},
+			VolumeID:           "volume_id",
+		},
+		{
+			AttachmentType:     "attachment_type",
+			AvailabilityDomain: "availability_domain",
+			CompartmentID:      "compartment_id",
+			DisplayName:        "display_name",
+			ID:                 "id2",
+			InstanceID:         "instance_id",
+			State:              baremetal.ResourceAttached,
+			TimeCreated:        baremetal.Time{Time: time.Now()},
+			VolumeID:           "volume_id",
+		},
+	}
+
 	s.Client.On(
 		"ListVolumeAttachments",
 		"compartment_id",
 		opts,
-	).Return(
-		&baremetal.ListVolumeAttachments{
-			ResourceContainer: baremetal.ResourceContainer{
-				NextPage: "nextpage",
-			},
-			VolumeAttachments: []baremetal.VolumeAttachment{
-				{
-					AttachmentType:     "attachment_type",
-					AvailabilityDomain: "availability_domain",
-					CompartmentID:      "compartment_id",
-					DisplayName:        "display_name",
-					ID:                 "id1",
-					InstanceID:         "instance_id",
-					State:              baremetal.ResourceAttached,
-					TimeCreated:        baremetal.Time{Time: time.Now()},
-					VolumeID:           "volume_id",
-				},
-				{
-					AttachmentType:     "attachment_type",
-					AvailabilityDomain: "availability_domain",
-					CompartmentID:      "compartment_id",
-					DisplayName:        "display_name",
-					ID:                 "id2",
-					InstanceID:         "instance_id",
-					State:              baremetal.ResourceAttached,
-					TimeCreated:        baremetal.Time{Time: time.Now()},
-					VolumeID:           "volume_id",
-				},
-			},
-		},
-		nil,
-	)
+	).Return(res, nil)
 
 	opts2 := &baremetal.ListVolumeAttachmentsOptions{}
 	opts2.AvailabilityDomain = "availability_domain"

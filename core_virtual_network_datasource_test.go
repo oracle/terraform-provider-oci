@@ -107,40 +107,36 @@ func (s *ResourceCoreVirtualNetworksTestSuite) TestReadVirtualNetworksWithPaging
 	opts.Limit = 1
 	opts.Page = "page"
 
+	res := &baremetal.ListVirtualNetworks{}
+	res.NextPage = "nextpage"
+	res.VirtualNetworks = []baremetal.VirtualNetwork{
+		{
+			CidrBlock:             "cidr_block",
+			CompartmentID:         "compartment_id",
+			DefaultRoutingTableID: "default_routing_table_id",
+			DefaultSecurityListID: "default_security_list_id",
+			DisplayName:           "display_name",
+			ID:                    "id1",
+			State:                 baremetal.ResourceAttached,
+			TimeCreated:           baremetal.Time{Time: time.Now()},
+		},
+		{
+			CidrBlock:             "cidr_block",
+			CompartmentID:         "compartment_id",
+			DefaultRoutingTableID: "default_routing_table_id",
+			DefaultSecurityListID: "default_security_list_id",
+			DisplayName:           "display_name",
+			ID:                    "id2",
+			State:                 baremetal.ResourceAttached,
+			TimeCreated:           baremetal.Time{Time: time.Now()},
+		},
+	}
+
 	s.Client.On(
 		"ListVirtualNetworks",
 		"compartment_id",
 		opts,
-	).Return(
-		&baremetal.ListVirtualNetworks{
-			ResourceContainer: baremetal.ResourceContainer{
-				NextPage: "nextpage",
-			},
-			VirtualNetworks: []baremetal.VirtualNetwork{
-				{
-					CidrBlock:             "cidr_block",
-					CompartmentID:         "compartment_id",
-					DefaultRoutingTableID: "default_routing_table_id",
-					DefaultSecurityListID: "default_security_list_id",
-					DisplayName:           "display_name",
-					ID:                    "id1",
-					State:                 baremetal.ResourceAttached,
-					TimeCreated:           baremetal.Time{Time: time.Now()},
-				},
-				{
-					CidrBlock:             "cidr_block",
-					CompartmentID:         "compartment_id",
-					DefaultRoutingTableID: "default_routing_table_id",
-					DefaultSecurityListID: "default_security_list_id",
-					DisplayName:           "display_name",
-					ID:                    "id2",
-					State:                 baremetal.ResourceAttached,
-					TimeCreated:           baremetal.Time{Time: time.Now()},
-				},
-			},
-		},
-		nil,
-	)
+	).Return(res, nil)
 
 	opts2 := &baremetal.ListOptions{}
 	opts2.Limit = 1

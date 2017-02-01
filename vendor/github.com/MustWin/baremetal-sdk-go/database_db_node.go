@@ -6,7 +6,8 @@ import (
 )
 
 type DBNode struct {
-	ETaggedResource
+	OPCRequestIDUnmarshaller
+	ETagUnmarshaller
 	DBSystemID  string    `json:"dbSystemId"`
 	Hostname    string    `json:"hostname"`
 	ID          string    `json:"id"`
@@ -16,7 +17,8 @@ type DBNode struct {
 }
 
 type ListDBNodes struct {
-	ResourceContainer
+	OPCRequestIDUnmarshaller
+	NextPageUnmarshaller
 	DBNodes []DBNode
 }
 
@@ -33,7 +35,7 @@ func (c *Client) GetDBNode(id string) (res *DBNode, e error) {
 		ids:  urlParts{id},
 	}
 
-	var resp *requestResponse
+	var resp *response
 	if resp, e = c.databaseApi.getRequest(details); e != nil {
 		return
 	}
@@ -49,7 +51,7 @@ func (c *Client) GetDBNode(id string) (res *DBNode, e error) {
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/database/20160918/DbNode/DbNodeAction
 func (c *Client) DBNodeAction(id string, action DBNodeAction, opts *HeaderOptions) (inst *DBNode, e error) {
 	required := struct {
-		Action string `json:"-" url:"action"`
+		Action string `header:"-" json:"-" url:"action"`
 	}{
 		Action: string(action),
 	}
@@ -61,13 +63,13 @@ func (c *Client) DBNodeAction(id string, action DBNodeAction, opts *HeaderOption
 		required: required,
 	}
 
-	var response *requestResponse
-	if response, e = c.databaseApi.request(http.MethodPost, details); e != nil {
+	var resp *response
+	if resp, e = c.databaseApi.request(http.MethodPost, details); e != nil {
 		return
 	}
 
 	inst = &DBNode{}
-	e = response.unmarshal(inst)
+	e = resp.unmarshal(inst)
 	return
 }
 
@@ -77,8 +79,8 @@ func (c *Client) DBNodeAction(id string, action DBNodeAction, opts *HeaderOption
 func (c *Client) ListDBNodes(compartmentID, dbSystemID string, limit uint64, opts *PageListOptions) (resources *ListDBNodes, e error) {
 	required := struct {
 		listOCIDRequirement
-		DBSystemID string `json:"-" url:"dbSystemId"`
-		Limit      uint64 `json:"-" url:"limit"`
+		DBSystemID string `header:"-" json:"-" url:"dbSystemId"`
+		Limit      uint64 `header:"-" json:"-" url:"limit"`
 	}{
 		DBSystemID: dbSystemID,
 		Limit:      limit,
@@ -91,12 +93,12 @@ func (c *Client) ListDBNodes(compartmentID, dbSystemID string, limit uint64, opt
 		required: required,
 	}
 
-	var response *requestResponse
-	if response, e = c.databaseApi.getRequest(details); e != nil {
+	var resp *response
+	if resp, e = c.databaseApi.getRequest(details); e != nil {
 		return
 	}
 
 	resources = &ListDBNodes{}
-	e = response.unmarshal(resources)
+	e = resp.unmarshal(resources)
 	return
 }

@@ -5,7 +5,7 @@ type SupportedOperation struct {
 }
 
 type ListSupportedOperations struct {
-	RequestableResource
+	OPCRequestIDUnmarshaller
 	SupportedOperations []SupportedOperation
 }
 
@@ -22,12 +22,12 @@ func (c *Client) ListSupportedOperations() (resources *ListSupportedOperations, 
 		name: resourceDBSupportedOperations,
 	}
 
-	var response *requestResponse
-	if response, e = c.databaseApi.getRequest(details); e != nil {
+	var resp *response
+	if resp, e = c.databaseApi.getRequest(details); e != nil {
 		return
 	}
 
 	resources = &ListSupportedOperations{}
-	e = response.unmarshal(resources)
+	e = resp.unmarshal(resources)
 	return
 }

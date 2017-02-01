@@ -6,7 +6,8 @@ import (
 )
 
 type User struct {
-	ETaggedResource
+	ETagUnmarshaller
+	OPCRequestIDUnmarshaller
 	CompartmentID  string    `json:"compartmentId"`
 	Description    string    `json:"description"`
 	ID             string    `json:"id"`
@@ -17,7 +18,8 @@ type User struct {
 }
 
 type ListUsers struct {
-	ResourceContainer
+	OPCRequestIDUnmarshaller
+	NextPageUnmarshaller
 	Users []User
 }
 
@@ -45,13 +47,13 @@ func (c *Client) CreateUser(name, desc string, opts *RetryTokenOptions) (res *Us
 		required: required,
 	}
 
-	var response *requestResponse
-	if response, e = c.identityApi.request(http.MethodPost, details); e != nil {
+	var resp *response
+	if resp, e = c.identityApi.request(http.MethodPost, details); e != nil {
 		return
 	}
 
 	res = &User{}
-	e = response.unmarshal(res)
+	e = resp.unmarshal(res)
 	return
 }
 
@@ -64,13 +66,13 @@ func (c *Client) GetUser(id string) (res *User, e error) {
 		name: resourceUsers,
 	}
 
-	var response *requestResponse
-	if response, e = c.identityApi.getRequest(details); e != nil {
+	var resp *response
+	if resp, e = c.identityApi.getRequest(details); e != nil {
 		return
 	}
 
 	res = &User{}
-	e = response.unmarshal(res)
+	e = resp.unmarshal(res)
 	return
 }
 
@@ -82,13 +84,13 @@ func (c *Client) UpdateUser(id string, opts *UpdateIdentityOptions) (res *User, 
 		optional: opts,
 	}
 
-	var response *requestResponse
-	if response, e = c.identityApi.request(http.MethodPut, details); e != nil {
+	var resp *response
+	if resp, e = c.identityApi.request(http.MethodPut, details); e != nil {
 		return
 	}
 
 	res = &User{}
-	e = response.unmarshal(res)
+	e = resp.unmarshal(res)
 	return
 }
 
@@ -119,12 +121,12 @@ func (c *Client) ListUsers(opts *ListOptions) (resources *ListUsers, e error) {
 		required: ocidRequirement{c.authInfo.tenancyOCID},
 	}
 
-	var response *requestResponse
-	if response, e = c.identityApi.getRequest(details); e != nil {
+	var resp *response
+	if resp, e = c.identityApi.getRequest(details); e != nil {
 		return
 	}
 
 	resources = &ListUsers{}
-	e = response.unmarshal(resources)
+	e = resp.unmarshal(resources)
 	return
 }

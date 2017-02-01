@@ -18,8 +18,9 @@ type BucketSummary struct {
 }
 
 type ListBuckets struct {
-	ResourceContainer
-	ClientRequestableResource
+	OPCRequestIDUnmarshaller
+	NextPageUnmarshaller
+	OPCClientRequestIDUnmarshaller
 	BucketSummaries []BucketSummary
 }
 
@@ -40,17 +41,17 @@ func (c *Client) ListBuckets(
 	required.CompartmentID = compartmentID
 
 	details := &requestDetails{
-		ids:      urlParts{resourceNamespaces, namespaceName, resourceBuckets},
+		ids:      urlParts{namespaceName, resourceBuckets},
 		optional: opts,
 		required: required,
 	}
 
-	var response *requestResponse
-	if response, e = c.objectStorageApi.getRequest(details); e != nil {
+	var resp *response
+	if resp, e = c.objectStorageApi.getRequest(details); e != nil {
 		return
 	}
 
 	buckets = &ListBuckets{}
-	e = response.unmarshal(buckets)
+	e = resp.unmarshal(buckets)
 	return
 }

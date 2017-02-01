@@ -19,7 +19,8 @@ type APIKey struct {
 
 // ListAPIKeyResponses contains a list of API keys
 type ListAPIKeyResponses struct {
-	ResourceContainer
+	OPCRequestIDUnmarshaller
+	NextPageUnmarshaller
 	Keys []APIKey
 }
 
@@ -43,19 +44,19 @@ func (c *Client) DeleteAPIKey(userID, fingerprint string, opts *IfMatchOptions) 
 // ListAPIKeys returns information about a user's API keys.
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/identity/20160918/ApiKey/ListApiKeys
-func (c *Client) ListAPIKeys(userID string) (response *ListAPIKeyResponses, e error) {
+func (c *Client) ListAPIKeys(userID string) (resp *ListAPIKeyResponses, e error) {
 	details := &requestDetails{
 		ids:  urlParts{userID, apiKeys, "/"},
 		name: resourceUsers,
 	}
 
-	var getResp *requestResponse
+	var getResp *response
 	if getResp, e = c.identityApi.getRequest(details); e != nil {
 		return
 	}
 
-	response = &ListAPIKeyResponses{}
-	e = getResp.unmarshal(response)
+	resp = &ListAPIKeyResponses{}
+	e = getResp.unmarshal(resp)
 	return
 }
 
@@ -65,7 +66,7 @@ func (c *Client) ListAPIKeys(userID string) (response *ListAPIKeyResponses, e er
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/identity/20160918/ApiKey/UploadApiKey
 func (c *Client) UploadAPIKey(userID, key string, opts *RetryTokenOptions) (apiKey *APIKey, e error) {
 	required := struct {
-		Key string `json:"key" url:"-"`
+		Key string `header:"-" json:"key" url:"-"`
 	}{
 		Key: key,
 	}
@@ -77,7 +78,7 @@ func (c *Client) UploadAPIKey(userID, key string, opts *RetryTokenOptions) (apiK
 		required: required,
 	}
 
-	var resp *requestResponse
+	var resp *response
 	if resp, e = c.identityApi.request(http.MethodPost, details); e != nil {
 		return
 	}

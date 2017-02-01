@@ -253,10 +253,10 @@
 			"revisionTime": "2016-06-13T20:05:45Z"
 		},
 		{
-			"checksumSHA1": "ISscmZBZz43+hZUjotwyRswjPZA=",
+			"checksumSHA1": "O6K35kngCjAXrvrK0jY6TQSnuD4=",
 			"path": "github.com/MustWin/baremetal-sdk-go",
-			"revision": "2fbed514deebd1417656cb6d85dd152c8cba2a6c",
-			"revisionTime": "2016-12-15T02:03:05Z"
+			"revision": "a9294b5424b5c9542902d556a11c4e0c44b1921b",
+			"revisionTime": "2016-12-17T22:01:31Z"
 		},
 		{
 			"checksumSHA1": "p/wqTTt2dWHknWiFxygpsD1cwtw=",
@@ -965,6 +965,12 @@
 			"path": "github.com/gosimple/slug",
 			"revision": "ea39c588e0a5b1064e0f98d7307e6c2f286f32e8",
 			"revisionTime": "2015-09-21T19:52:01Z"
+		},
+		{
+			"checksumSHA1": "feWRO67/Rq9zMkIlQIbUhgnOg7w=",
+			"path": "github.com/gotascii/go-http-header/header",
+			"revision": "2946fb04c49fedaf775dd5ee4c63a8eb68c4dc40",
+			"revisionTime": "2016-12-16T01:18:56Z"
 		},
 		{
 			"checksumSHA1": "6HWALRWlOT8M/BxOnEUziCnh214=",

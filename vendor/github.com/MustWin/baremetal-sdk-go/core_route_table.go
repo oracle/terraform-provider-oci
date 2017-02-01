@@ -14,7 +14,8 @@ type RouteRule struct {
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/RouteTable/
 type RouteTable struct {
-	ETaggedResource
+	OPCRequestIDUnmarshaller
+	ETagUnmarshaller
 	CompartmentID string      `json:"compartmentId"`
 	DisplayName   string      `json:"displayName"`
 	ID            string      `json:"id"`
@@ -26,7 +27,8 @@ type RouteTable struct {
 
 // ListRouteTables contains a list of route tables
 type ListRouteTables struct {
-	ResourceContainer
+	OPCRequestIDUnmarshaller
+	NextPageUnmarshaller
 	RouteTables []RouteTable
 }
 
@@ -40,8 +42,8 @@ func (l *ListRouteTables) GetList() interface{} {
 func (c *Client) CreateRouteTable(compartmentID, vcnID string, routeRules []RouteRule, opts *CreateOptions) (res *RouteTable, e error) {
 	required := struct {
 		ocidRequirement
-		RouteRules []RouteRule `json:"routeRules" url:"-"`
-		VcnID      string      `json:"vcnId" url:"-"`
+		RouteRules []RouteRule `header:"-" json:"routeRules" url:"-"`
+		VcnID      string      `header:"-" json:"vcnId" url:"-"`
 	}{
 		RouteRules: routeRules,
 		VcnID:      vcnID,
@@ -54,13 +56,13 @@ func (c *Client) CreateRouteTable(compartmentID, vcnID string, routeRules []Rout
 		required: required,
 	}
 
-	var response *requestResponse
-	if response, e = c.coreApi.request(http.MethodPost, details); e != nil {
+	var resp *response
+	if resp, e = c.coreApi.request(http.MethodPost, details); e != nil {
 		return
 	}
 
 	res = &RouteTable{}
-	e = response.unmarshal(res)
+	e = resp.unmarshal(res)
 	return
 }
 
@@ -73,13 +75,13 @@ func (c *Client) GetRouteTable(id string) (res *RouteTable, e error) {
 		ids:  urlParts{id},
 	}
 
-	var response *requestResponse
-	if response, e = c.coreApi.getRequest(details); e != nil {
+	var resp *response
+	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}
 
 	res = &RouteTable{}
-	e = response.unmarshal(res)
+	e = resp.unmarshal(res)
 	return
 }
 
@@ -93,13 +95,13 @@ func (c *Client) UpdateRouteTable(id string, opts *UpdateRouteTableOptions) (res
 		optional: opts,
 	}
 
-	var response *requestResponse
-	if response, e = c.coreApi.request(http.MethodPut, details); e != nil {
+	var resp *response
+	if resp, e = c.coreApi.request(http.MethodPut, details); e != nil {
 		return
 	}
 
 	res = &RouteTable{}
-	e = response.unmarshal(res)
+	e = resp.unmarshal(res)
 	return
 }
 
@@ -122,7 +124,7 @@ func (c *Client) DeleteRouteTable(id string, opts *IfMatchOptions) (e error) {
 func (c *Client) ListRouteTables(compartmentID, vcnID string, opts *ListOptions) (res *ListRouteTables, e error) {
 	required := struct {
 		listOCIDRequirement
-		VcnID string `json:"-" url:"vcnId"`
+		VcnID string `header:"-" json:"-" url:"vcnId"`
 	}{
 		VcnID: vcnID,
 	}
@@ -134,12 +136,12 @@ func (c *Client) ListRouteTables(compartmentID, vcnID string, opts *ListOptions)
 		required: required,
 	}
 
-	var response *requestResponse
-	if response, e = c.coreApi.getRequest(details); e != nil {
+	var resp *response
+	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}
 
 	res = &ListRouteTables{}
-	e = response.unmarshal(res)
+	e = resp.unmarshal(res)
 	return
 }

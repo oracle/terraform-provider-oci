@@ -15,8 +15,8 @@ type DHCPDNSOption struct {
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/DHCPOptions/
 type DHCPOptions struct {
-	RequestableResource
-	ETaggedResource
+	OPCRequestIDUnmarshaller
+	ETagUnmarshaller
 	CompartmentID string          `json:"compartmentId"`
 	DisplayName   string          `json:"displayName"`
 	ID            string          `json:"id"`
@@ -28,7 +28,8 @@ type DHCPOptions struct {
 // ListDHCPOptions contains a list of dhcp options
 //
 type ListDHCPOptions struct {
-	ResourceContainer
+	OPCRequestIDUnmarshaller
+	NextPageUnmarshaller
 	DHCPOptions []DHCPOptions
 }
 
@@ -42,8 +43,8 @@ func (l *ListDHCPOptions) GetList() interface{} {
 func (c *Client) CreateDHCPOptions(compartmentID, vcnID string, dhcpOptions []DHCPDNSOption, opts *CreateOptions) (res *DHCPOptions, e error) {
 	required := struct {
 		ocidRequirement
-		Options []DHCPDNSOption `json:"options" url:"-"`
-		VcnID   string          `json:"vcnId" url:"-"`
+		Options []DHCPDNSOption `header:"-" json:"options" url:"-"`
+		VcnID   string          `header:"-" json:"vcnId" url:"-"`
 	}{
 		Options: dhcpOptions,
 		VcnID:   vcnID,
@@ -56,13 +57,13 @@ func (c *Client) CreateDHCPOptions(compartmentID, vcnID string, dhcpOptions []DH
 		required: required,
 	}
 
-	var response *requestResponse
-	if response, e = c.coreApi.request(http.MethodPost, details); e != nil {
+	var resp *response
+	if resp, e = c.coreApi.request(http.MethodPost, details); e != nil {
 		return
 	}
 
 	res = &DHCPOptions{}
-	e = response.unmarshal(res)
+	e = resp.unmarshal(res)
 	return
 }
 
@@ -75,7 +76,7 @@ func (c *Client) GetDHCPOptions(id string) (res *DHCPOptions, e error) {
 		ids:  urlParts{id},
 	}
 
-	var resp *requestResponse
+	var resp *response
 	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}
@@ -95,13 +96,13 @@ func (c *Client) UpdateDHCPOptions(id string, opts *UpdateDHCPDNSOptions) (res *
 		optional: opts,
 	}
 
-	var response *requestResponse
-	if response, e = c.coreApi.request(http.MethodPut, details); e != nil {
+	var resp *response
+	if resp, e = c.coreApi.request(http.MethodPut, details); e != nil {
 		return
 	}
 
 	res = &DHCPOptions{}
-	e = response.unmarshal(res)
+	e = resp.unmarshal(res)
 	return
 }
 
@@ -125,7 +126,7 @@ func (c *Client) DeleteDHCPOptions(id string, opts *IfMatchOptions) (e error) {
 func (c *Client) ListDHCPOptions(compartmentID, vcnID string, opts *ListOptions) (res *ListDHCPOptions, e error) {
 	required := struct {
 		listOCIDRequirement
-		VcnID string `json:"-" url:"vcnId"`
+		VcnID string `header:"-" json:"-" url:"vcnId"`
 	}{
 		VcnID: vcnID,
 	}
@@ -137,7 +138,7 @@ func (c *Client) ListDHCPOptions(compartmentID, vcnID string, opts *ListOptions)
 		optional: opts,
 	}
 
-	var resp *requestResponse
+	var resp *response
 	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}

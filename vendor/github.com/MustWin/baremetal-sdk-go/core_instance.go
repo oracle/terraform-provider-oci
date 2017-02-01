@@ -6,8 +6,8 @@ import "net/http"
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Instance/
 type Instance struct {
-	RequestableResource
-	ETaggedResource
+	OPCRequestIDUnmarshaller
+	ETagUnmarshaller
 	AvailabilityDomain string            `json:"availabilityDomain"`
 	CompartmentID      string            `json:"compartmentId"`
 	DisplayName        string            `json:"displayName"`
@@ -22,7 +22,8 @@ type Instance struct {
 
 // ListInstances contains a list of instances.
 type ListInstances struct {
-	ResourceContainer
+	OPCRequestIDUnmarshaller
+	NextPageUnmarshaller
 	Instances []Instance
 }
 
@@ -45,13 +46,13 @@ func (c *Client) LaunchInstance(
 
 	required := struct {
 		ocidRequirement
-		AvailabilityDomain string `json:"availabilityDomain" url:"-"`
-		Image              string `json:"image" url:"-"`
-		Shape              string `json:"shape" url:"-"`
-		SubnetID           string `json:"subnetId" url:"-"`
+		AvailabilityDomain string `header:"-" json:"availabilityDomain" url:"-"`
+		ImageID            string `header:"-" json:"imageId" url:"-"`
+		Shape              string `header:"-" json:"shape" url:"-"`
+		SubnetID           string `header:"-" json:"subnetId" url:"-"`
 	}{
 		AvailabilityDomain: availabilityDomain,
-		Image:              image,
+		ImageID:            image,
 		Shape:              shape,
 		SubnetID:           subnetID,
 	}
@@ -63,13 +64,13 @@ func (c *Client) LaunchInstance(
 		required: required,
 	}
 
-	var response *requestResponse
-	if response, e = c.coreApi.request(http.MethodPost, req); e != nil {
+	var resp *response
+	if resp, e = c.coreApi.request(http.MethodPost, req); e != nil {
 		return
 	}
 
 	inst = &Instance{}
-	e = response.unmarshal(inst)
+	e = resp.unmarshal(inst)
 	return
 }
 
@@ -82,13 +83,13 @@ func (c *Client) GetInstance(id string) (inst *Instance, e error) {
 		ids:  urlParts{id},
 	}
 
-	var response *requestResponse
-	if response, e = c.coreApi.getRequest(details); e != nil {
+	var resp *response
+	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}
 
 	inst = &Instance{}
-	e = response.unmarshal(inst)
+	e = resp.unmarshal(inst)
 	return
 }
 
@@ -103,13 +104,13 @@ func (c *Client) UpdateInstance(id string, opts *UpdateOptions) (inst *Instance,
 		optional: opts,
 	}
 
-	var response *requestResponse
-	if response, e = c.coreApi.request(http.MethodPut, details); e != nil {
+	var resp *response
+	if resp, e = c.coreApi.request(http.MethodPut, details); e != nil {
 		return
 	}
 
 	inst = &Instance{}
-	e = response.unmarshal(inst)
+	e = resp.unmarshal(inst)
 	return
 }
 
@@ -138,7 +139,7 @@ func (c *Client) ListInstances(compartmentID string, opts *ListInstancesOptions)
 		optional: opts,
 	}
 
-	var resp *requestResponse
+	var resp *response
 	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}
@@ -154,7 +155,7 @@ func (c *Client) ListInstances(compartmentID string, opts *ListInstancesOptions)
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Instance/InstanceAction
 func (c *Client) InstanceAction(id string, action InstanceActions, opts *HeaderOptions) (inst *Instance, e error) {
 	required := struct {
-		Action string `json:"-" url:"action"`
+		Action string `header:"-" json:"-" url:"action"`
 	}{
 		Action: string(action),
 	}
@@ -166,12 +167,12 @@ func (c *Client) InstanceAction(id string, action InstanceActions, opts *HeaderO
 		required: required,
 	}
 
-	var response *requestResponse
-	if response, e = c.coreApi.request(http.MethodPost, details); e != nil {
+	var resp *response
+	if resp, e = c.coreApi.request(http.MethodPost, details); e != nil {
 		return
 	}
 
 	inst = &Instance{}
-	e = response.unmarshal(inst)
+	e = resp.unmarshal(inst)
 	return
 }

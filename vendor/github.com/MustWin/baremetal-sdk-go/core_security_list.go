@@ -4,49 +4,50 @@ import "net/http"
 
 // https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/PortRange/
 type PortRange struct {
-	Max uint64 `json:"max"`
-	Min uint64 `json:"min"`
+	Max uint64 `header:"-" json:"max" url:"-"`
+	Min uint64 `header:"-" json:"min" url:"-"`
 }
 
 // https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/UdpOptions/
 type UDPOptions struct {
-	DestinationPortRange PortRange `json:"destinationPortRange"`
+	DestinationPortRange PortRange `header:"-" json:"destinationPortRange" url:"-"`
 }
 
 // https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/TcpOptions/
 type TCPOptions struct {
-	DestinationPortRange PortRange `json:"destinationPortRange"`
+	DestinationPortRange PortRange `header:"-" json:"destinationPortRange" url:"-"`
 }
 
 // https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/IcmpOptions/
 type ICMPOptions struct {
-	Code uint64 `json:"code,omitempty"`
-	Type uint64 `json:"type"`
+	Code uint64 `header:"-" json:"code,omitempty" url:"-"`
+	Type uint64 `header:"-" json:"type" url:"-"`
 }
 
 // https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/IngressSecurityRule/
 type IngressSecurityRule struct {
-	ICMPOptions *ICMPOptions `json:"icmpOptions,omitempty"`
-	Protocol    string       `json:"protocol"`
-	Source      string       `json:"source"`
-	TCPOptions  *TCPOptions  `json:"tcpOptions,omitempty"`
-	UDPOptions  *UDPOptions  `json:"udpOptions,omitempty"`
+	ICMPOptions *ICMPOptions `header:"-" json:"icmpOptions,omitempty" url:"-"`
+	Protocol    string       `header:"-" json:"protocol" url:"-"`
+	Source      string       `header:"-" json:"source" url:"-"`
+	TCPOptions  *TCPOptions  `header:"-" json:"tcpOptions,omitempty" url:"-"`
+	UDPOptions  *UDPOptions  `header:"-" json:"udpOptions,omitempty" url:"-"`
 }
 
 // https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/EgressSecurityRule/
 type EgressSecurityRule struct {
-	Destination string       `json:"destination"`
-	ICMPOptions *ICMPOptions `json:"icmpOptions,omitempty"`
-	Protocol    string       `json:"protocol"`
-	TCPOptions  *TCPOptions  `json:"tcpOptions,omitempty"`
-	UDPOptions  *UDPOptions  `json:"udpOptions,omitempty"`
+	Destination string       `header:"-" json:"destination" url:"-"`
+	ICMPOptions *ICMPOptions `header:"-" json:"icmpOptions,omitempty" url:"-"`
+	Protocol    string       `header:"-" json:"protocol" url:"-"`
+	TCPOptions  *TCPOptions  `header:"-" json:"tcpOptions,omitempty" url:"-"`
+	UDPOptions  *UDPOptions  `header:"-" json:"udpOptions,omitempty" url:"-"`
 }
 
 // SecurityList describes a set of virtual, stateful firewall rules for your VCN
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/SecurityList/
 type SecurityList struct {
-	ETaggedResource
+	ETagUnmarshaller
+	OPCRequestIDUnmarshaller
 	CompartmentID        string                `json:"compartmentId"`
 	DisplayName          string                `json:"displayName"`
 	EgressSecurityRules  []EgressSecurityRule  `json:"egressSecurityRules"`
@@ -60,7 +61,8 @@ type SecurityList struct {
 // ListSecurityLists contains a list of images
 //
 type ListSecurityLists struct {
-	ResourceContainer
+	NextPageUnmarshaller
+	OPCRequestIDUnmarshaller
 	SecurityLists []SecurityList
 }
 
@@ -79,9 +81,9 @@ func (c *Client) CreateSecurityList(
 ) (res *SecurityList, e error) {
 	required := struct {
 		ocidRequirement
-		EgressRules  []EgressSecurityRule  `json:"egressSecurityRules" url:"-"`
-		IngressRules []IngressSecurityRule `json:"ingressSecurityRules" url:"-"`
-		VcnID        string                `json:"vcnId" url:"-"`
+		EgressRules  []EgressSecurityRule  `header:"-" json:"egressSecurityRules" url:"-"`
+		IngressRules []IngressSecurityRule `header:"-" json:"ingressSecurityRules" url:"-"`
+		VcnID        string                `header:"-" json:"vcnId" url:"-"`
 	}{
 		EgressRules:  egressRules,
 		IngressRules: ingressRules,
@@ -95,13 +97,13 @@ func (c *Client) CreateSecurityList(
 		required: required,
 	}
 
-	var response *requestResponse
-	if response, e = c.coreApi.request(http.MethodPost, details); e != nil {
+	var resp *response
+	if resp, e = c.coreApi.request(http.MethodPost, details); e != nil {
 		return
 	}
 
 	res = &SecurityList{}
-	e = response.unmarshal(res)
+	e = resp.unmarshal(res)
 	return
 }
 
@@ -114,7 +116,7 @@ func (c *Client) GetSecurityList(id string) (res *SecurityList, e error) {
 		ids:  urlParts{id},
 	}
 
-	var resp *requestResponse
+	var resp *response
 	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}
@@ -127,20 +129,23 @@ func (c *Client) GetSecurityList(id string) (res *SecurityList, e error) {
 // UpdateSecurityList updates the specified security list's rules
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/SecurityList/UpdateSecurityList
-func (c *Client) UpdateSecurityList(id string, opts *UpdateSecurityListOptions) (res *SecurityList, e error) {
+func (c *Client) UpdateSecurityList(
+	id string,
+	opts *UpdateSecurityListOptions,
+) (res *SecurityList, e error) {
 	details := &requestDetails{
 		ids:      urlParts{id},
 		name:     resourceSecurityLists,
 		optional: opts,
 	}
 
-	var response *requestResponse
-	if response, e = c.coreApi.request(http.MethodPut, details); e != nil {
+	var resp *response
+	if resp, e = c.coreApi.request(http.MethodPut, details); e != nil {
 		return
 	}
 
 	res = &SecurityList{}
-	e = response.unmarshal(res)
+	e = resp.unmarshal(res)
 	return
 }
 
@@ -164,7 +169,7 @@ func (c *Client) DeleteSecurityList(id string, opts *IfMatchOptions) (e error) {
 func (c *Client) ListSecurityLists(compartmentID, vcnID string, opts *ListOptions) (res *ListSecurityLists, e error) {
 	required := struct {
 		listOCIDRequirement
-		VcnID string `json:"-" url:"vcnId"`
+		VcnID string `header:"-" json:"-" url:"vcnId"`
 	}{
 		VcnID: vcnID,
 	}
@@ -176,7 +181,7 @@ func (c *Client) ListSecurityLists(compartmentID, vcnID string, opts *ListOption
 		required: required,
 	}
 
-	var resp *requestResponse
+	var resp *response
 	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}

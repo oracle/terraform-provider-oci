@@ -9,7 +9,7 @@ type BareMetalClient interface {
 
 	CaptureConsoleHistory(instanceID string, opts *baremetal.RetryTokenOptions) (icHistory *baremetal.ConsoleHistoryMetadata, e error)
 
-	CreateBucket(compartmentID string, name string, namespaceName baremetal.Namespace, opts *baremetal.CreateBucketOptions, ) (bckt *baremetal.Bucket, e error)
+	CreateBucket(compartmentID string, name string, namespaceName baremetal.Namespace, opts *baremetal.CreateBucketOptions) (bckt *baremetal.Bucket, e error)
 	CreateCompartment(name, desc string, opts *baremetal.RetryTokenOptions) (res *baremetal.Compartment, e error)
 	CreateCpe(compartmentID, ipAddress string, opts *baremetal.CreateOptions) (cpe *baremetal.Cpe, e error)
 	CreateDHCPOptions(compartmentID, vcnID string, dhcpOptions []baremetal.DHCPDNSOption, opts *baremetal.CreateOptions) (res *baremetal.DHCPOptions, e error)
@@ -22,6 +22,7 @@ type BareMetalClient interface {
 	CreateOrResetUIPassword(userID string, opts *baremetal.RetryTokenOptions) (resource *baremetal.UIPassword, e error)
 	CreatePolicy(name, desc string, statements []string, opts *baremetal.CreatePolicyOptions) (res *baremetal.Policy, e error)
 	CreateRouteTable(compartmentID, vcnID string, routeRules []baremetal.RouteRule, opts *baremetal.CreateOptions) (res *baremetal.RouteTable, e error)
+	CreateSecurityList(compartmentID, vcnID string, egressRules []baremetal.EgressSecurityRule, ingressRules []baremetal.IngressSecurityRule, opts *baremetal.CreateOptions) (res *baremetal.SecurityList, e error)
 	CreateSubnet(availabilityDomain, cidrBlock, compartmentID, vcnID string, opts *baremetal.CreateSubnetOptions) (sn *baremetal.Subnet, e error)
 	CreateUser(name, desc string, opts *baremetal.RetryTokenOptions) (res *baremetal.User, e error)
 	CreateVirtualNetwork(cidrBlock, compartmentID string, opts *baremetal.CreateOptions) (vcn *baremetal.VirtualNetwork, e error)
@@ -29,7 +30,7 @@ type BareMetalClient interface {
 	CreateVolumeBackup(volumeID string, opts *baremetal.CreateOptions) (vol *baremetal.VolumeBackup, e error)
 
 	DeleteAPIKey(userID, fingerprint string, opts *baremetal.IfMatchOptions) (e error)
-	DeleteBucket( name string, namespaceName baremetal.Namespace, opts *baremetal.IfMatchOptions) (e error)
+	DeleteBucket(name string, namespaceName baremetal.Namespace, opts *baremetal.IfMatchOptions) (e error)
 	DeleteCpe(id string, opts *baremetal.IfMatchOptions) (e error)
 	DeleteDHCPOptions(id string, opts *baremetal.IfMatchOptions) (e error)
 	DeleteDrg(id string, opts *baremetal.IfMatchOptions) (e error)
@@ -38,6 +39,7 @@ type BareMetalClient interface {
 	DeleteIPSecConnection(id string, opts *baremetal.IfMatchOptions) (e error)
 	DeleteImage(id string, opts *baremetal.IfMatchOptions) (e error)
 	DeleteInternetGateway(id string, opts *baremetal.IfMatchOptions) (e error)
+	DeleteObject(namespace baremetal.Namespace, bucketName string, objectName string, opts *baremetal.DeleteObjectOptions) (object *baremetal.DeleteObject, e error)
 	DeletePolicy(id string, opts *baremetal.IfMatchOptions) (e error)
 	DeleteRouteTable(id string, opts *baremetal.IfMatchOptions) (e error)
 	DeleteSecurityList(id string, opts *baremetal.IfMatchOptions) (e error)
@@ -54,6 +56,9 @@ type BareMetalClient interface {
 	GetCompartment(id string) (res *baremetal.Compartment, e error)
 	GetConsoleHistory(instanceID string) (consoleHistoryMetadata *baremetal.ConsoleHistoryMetadata, e error)
 	GetCpe(id string) (cpe *baremetal.Cpe, e error)
+	GetDatabase(id string) (res *baremetal.Database, e error)
+	GetDBHome(id string) (res *baremetal.DBHome, e error)
+	GetDBNode(id string) (res *baremetal.DBNode, e error)
 	GetDBSystem(id string) (res *baremetal.DBSystem, e error)
 	GetDHCPOptions(id string) (res *baremetal.DHCPOptions, e error)
 	GetDrg(id string) (res *baremetal.Drg, e error)
@@ -65,6 +70,8 @@ type BareMetalClient interface {
 	GetImage(id string) (res *baremetal.Image, e error)
 	GetInstance(id string) (inst *baremetal.Instance, e error)
 	GetInternetGateway(id string) (gw *baremetal.InternetGateway, e error)
+	GetNamespace() (*baremetal.Namespace, error)
+	GetObject(namespace baremetal.Namespace, bucketName string, objectName string, opts *baremetal.GetObjectOptions) (object *baremetal.Object, e error)
 	GetPolicy(id string) (res *baremetal.Policy, e error)
 	GetRouteTable(id string) (res *baremetal.RouteTable, e error)
 	GetSecurityList(id string) (res *baremetal.SecurityList, e error)
@@ -77,6 +84,8 @@ type BareMetalClient interface {
 	GetVolumeAttachment(id string) (res *baremetal.VolumeAttachment, e error)
 	GetVolumeBackup(id string) (vol *baremetal.VolumeBackup, e error)
 
+	HeadObject(namespace baremetal.Namespace, bucketName string, objectName string, opts *baremetal.HeadObjectOptions) (headObject *baremetal.HeadObject, e error)
+
 	InstanceAction(id string, action baremetal.InstanceActions, opts *baremetal.HeaderOptions) (inst *baremetal.Instance, e error)
 
 	LaunchDBSystem(availabilityDomain, compartmentID, shape, subnetID string, sshPublicKeys []string, cpuCoreCount uint64, opts *baremetal.LaunchDBSystemOptions) (res *baremetal.DBSystem, e error)
@@ -84,11 +93,16 @@ type BareMetalClient interface {
 
 	ListAPIKeys(userID string) (response *baremetal.ListAPIKeyResponses, e error)
 	ListAvailabilityDomains(compartmentID string) (ads *baremetal.ListAvailabilityDomains, e error)
+	ListBuckets(compartmentID string, namespaceName baremetal.Namespace, opts *baremetal.ListBucketsOptions) (buckets *baremetal.ListBuckets, e error)
 	ListCompartments(opts *baremetal.ListOptions) (resources *baremetal.ListCompartments, e error)
 	ListConsoleHistories(compartmentID string, opts *baremetal.ListConsoleHistoriesOptions) (icHistories *baremetal.ListConsoleHistories, e error)
 	ListCpes(compartmentID string, opts *baremetal.ListOptions) (cpes *baremetal.ListCpes, e error)
+	ListDatabases(compartmentID, dbHomeID string, limit uint64, opts *baremetal.PageListOptions) (resources *baremetal.ListDatabases, e error)
+	ListDBHomes(compartmentID, dbSystemID string, limit uint64, opts *baremetal.PageListOptions) (res *baremetal.ListDBHomes, e error)
+	ListDBNodes(compartmentID, dbSystemID string, limit uint64, opts *baremetal.PageListOptions) (resources *baremetal.ListDBNodes, e error)
 	ListDBSystems(compartmentID string, limit uint64, opts *baremetal.PageListOptions) (res *baremetal.ListDBSystems, e error)
 	ListDBSystemShapes(availabilityDomain, compartmentID string, limit uint64, opts *baremetal.PageListOptions) (resources *baremetal.ListDBSystemShapes, e error)
+	ListDBVersions(compartmentID string, limit uint64, opts *baremetal.PageListOptions) (resources *baremetal.ListDBVersions, e error)
 	ListDHCPOptions(compartmentID, vcnID string, opts *baremetal.ListOptions) (res *baremetal.ListDHCPOptions, e error)
 	ListDrgAttachments(compartmentID string, opts *baremetal.ListDrgAttachmentsOptions) (res *baremetal.ListDrgAttachments, e error)
 	ListDrgs(compartmentID string, opts *baremetal.ListOptions) (res *baremetal.ListDrgs, e error)
@@ -97,6 +111,7 @@ type BareMetalClient interface {
 	ListImages(compartmentID string, opts *baremetal.ListImagesOptions) (res *baremetal.ListImages, e error)
 	ListInstances(compartmentID string, opts *baremetal.ListInstancesOptions) (insts *baremetal.ListInstances, e error)
 	ListInternetGateways(compartmentID, vcnID string, opts *baremetal.ListOptions) (list *baremetal.ListInternetGateways, e error)
+	ListObjects(namespace baremetal.Namespace, bucket string, opts *baremetal.ListObjectsOptions) (objects *baremetal.ListObjects, e error)
 	ListRouteTables(compartmentID, vcnID string, opts *baremetal.ListOptions) (res *baremetal.ListRouteTables, e error)
 	ListSecurityLists(compartmentID, vcnID string, opts *baremetal.ListOptions) (res *baremetal.ListSecurityLists, e error)
 	ListShapes(compartmentID string, opts *baremetal.ListShapesOptions) (shapes *baremetal.ListShapes, e error)
@@ -109,6 +124,8 @@ type BareMetalClient interface {
 	ListVolumeAttachments(compartmentID string, opts *baremetal.ListVolumeAttachmentsOptions) (res *baremetal.ListVolumeAttachments, e error)
 	ListVolumeBackups(compartmentID string, opts *baremetal.ListBackupsOptions) (vols *baremetal.ListVolumeBackups, e error)
 	ListVolumes(compartmentID string, opts *baremetal.ListVolumesOptions) (res *baremetal.ListVolumes, e error)
+
+	PutObject(namespace baremetal.Namespace, bucketName string, objectName string, content []byte, opts *baremetal.PutObjectOptions) (object *baremetal.Object, e error)
 
 	ShowConsoleHistoryData(instanceConsoleHistoryID string, opts *baremetal.ConsoleHistoryDataOptions) (response *baremetal.ConsoleHistoryData, e error)
 

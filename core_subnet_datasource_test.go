@@ -120,59 +120,54 @@ func (s *ResourceCoreSubnetsTestSuite) TestResourceListSubnets() {
 
 func (s *ResourceCoreSubnetsTestSuite) TestResourceListSubnetsWithPagination() {
 	opts := &baremetal.ListOptions{}
+	res := &baremetal.ListSubnets{}
+	res.NextPage = "nextpage"
+	res.Subnets = []baremetal.Subnet{
+		{
+			AvailabilityDomain: "availabilitydomainid",
+			CIDRBlock:          "10.10.10.0/24",
+			CompartmentID:      "compartmentid",
+			DisplayName:        "display_name",
+			ID:                 "id1",
+			RouteTableID:       "routetableid",
+			SecurityListIDs: []string{
+				"slid1",
+				"slid2",
+			},
+			State: baremetal.ResourceAvailable,
+			TimeCreated: baremetal.Time{
+				Time: time.Now(),
+			},
+			VcnID:            "vcnid",
+			VirtualRouterID:  "virtualrouterid",
+			VirtualRouterMac: "virtualroutermac",
+		},
+		{
+			AvailabilityDomain: "availabilitydomainid",
+			CIDRBlock:          "10.10.11.0/24",
+			CompartmentID:      "compartmentid",
+			DisplayName:        "display_name",
+			ID:                 "id2",
+			RouteTableID:       "routetableid",
+			SecurityListIDs: []string{
+				"slid1",
+				"slid2",
+			},
+			State: baremetal.ResourceAvailable,
+			TimeCreated: baremetal.Time{
+				Time: time.Now(),
+			},
+			VcnID:            "vcnid",
+			VirtualRouterID:  "virtualrouterid",
+			VirtualRouterMac: "virtualroutermac",
+		},
+	}
 	s.Client.On(
 		"ListSubnets",
 		"compartmentid",
 		"vcnid",
 		opts,
-	).Return(
-		&baremetal.ListSubnets{
-			ResourceContainer: baremetal.ResourceContainer{
-				NextPage: "nextpage",
-			},
-			Subnets: []baremetal.Subnet{
-				{
-					AvailabilityDomain: "availabilitydomainid",
-					CIDRBlock:          "10.10.10.0/24",
-					CompartmentID:      "compartmentid",
-					DisplayName:        "display_name",
-					ID:                 "id1",
-					RouteTableID:       "routetableid",
-					SecurityListIDs: []string{
-						"slid1",
-						"slid2",
-					},
-					State: baremetal.ResourceAvailable,
-					TimeCreated: baremetal.Time{
-						Time: time.Now(),
-					},
-					VcnID:            "vcnid",
-					VirtualRouterID:  "virtualrouterid",
-					VirtualRouterMac: "virtualroutermac",
-				},
-				{
-					AvailabilityDomain: "availabilitydomainid",
-					CIDRBlock:          "10.10.11.0/24",
-					CompartmentID:      "compartmentid",
-					DisplayName:        "display_name",
-					ID:                 "id2",
-					RouteTableID:       "routetableid",
-					SecurityListIDs: []string{
-						"slid1",
-						"slid2",
-					},
-					State: baremetal.ResourceAvailable,
-					TimeCreated: baremetal.Time{
-						Time: time.Now(),
-					},
-					VcnID:            "vcnid",
-					VirtualRouterID:  "virtualrouterid",
-					VirtualRouterMac: "virtualroutermac",
-				},
-			},
-		},
-		nil,
-	)
+	).Return(res, nil)
 
 	opts2 := &baremetal.ListOptions{}
 	opts2.Page = "nextpage"

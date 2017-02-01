@@ -109,38 +109,30 @@ func (s *CoreDrgAttachmentDatasourceTestSuite) TestReadPagedDrgAttachments() {
 	opts.Page = "page"
 	opts.VcnID = "vcn_id"
 
-	s.Client.On(
-		"ListDrgAttachments",
-		"compartment_id",
-		opts,
-	).Return(
-		&baremetal.ListDrgAttachments{
-			ResourceContainer: baremetal.ResourceContainer{
-				NextPage: "nextpage",
-			},
-			DrgAttachments: []baremetal.DrgAttachment{
-				{
-					CompartmentID: "compartment_id",
-					DrgID:         "drg_id",
-					DisplayName:   "display_name",
-					ID:            "id1",
-					State:         baremetal.ResourceAttached,
-					TimeCreated:   baremetal.Time{Time: time.Now()},
-					VcnID:         "vcn_id",
-				},
-				{
-					CompartmentID: "compartment_id",
-					DrgID:         "drg_id",
-					DisplayName:   "display_name",
-					ID:            "id2",
-					State:         baremetal.ResourceAttached,
-					TimeCreated:   baremetal.Time{Time: time.Now()},
-					VcnID:         "vcn_id",
-				},
-			},
+	res := &baremetal.ListDrgAttachments{}
+	res.NextPage = "nextpage"
+	res.DrgAttachments = []baremetal.DrgAttachment{
+		{
+			CompartmentID: "compartment_id",
+			DrgID:         "drg_id",
+			DisplayName:   "display_name",
+			ID:            "id1",
+			State:         baremetal.ResourceAttached,
+			TimeCreated:   baremetal.Time{Time: time.Now()},
+			VcnID:         "vcn_id",
 		},
-		nil,
-	)
+		{
+			CompartmentID: "compartment_id",
+			DrgID:         "drg_id",
+			DisplayName:   "display_name",
+			ID:            "id2",
+			State:         baremetal.ResourceAttached,
+			TimeCreated:   baremetal.Time{Time: time.Now()},
+			VcnID:         "vcn_id",
+		},
+	}
+
+	s.Client.On("ListDrgAttachments", "compartment_id", opts).Return(res, nil)
 
 	opts2 := &baremetal.ListDrgAttachmentsOptions{}
 	opts2.DrgID = "drg_id"

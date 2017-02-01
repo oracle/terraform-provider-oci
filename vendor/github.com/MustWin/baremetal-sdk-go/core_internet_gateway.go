@@ -7,7 +7,8 @@ import "net/http"
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/InternetGateway/
 type InternetGateway struct {
-	ETaggedResource
+	OPCRequestIDUnmarshaller
+	ETagUnmarshaller
 	CompartmentID string `json:"compartmentId"`
 	DisplayName   string `json:"displayName,omitempty"`
 	ID            string `json:"id"`
@@ -19,7 +20,8 @@ type InternetGateway struct {
 
 // ListInternetGateways contains a set of internet gateways
 type ListInternetGateways struct {
-	ResourceContainer
+	OPCRequestIDUnmarshaller
+	NextPageUnmarshaller
 	Gateways []InternetGateway
 }
 
@@ -36,8 +38,8 @@ func (ig *ListInternetGateways) GetList() interface{} {
 func (c *Client) CreateInternetGateway(compartmentID, vcnID string, isEnabled bool, opts *CreateOptions) (gw *InternetGateway, e error) {
 	required := struct {
 		ocidRequirement
-		IsEnabled bool   `json:"isEnabled" url:"-"`
-		VcnID     string `json:"vcnId" url:"-"`
+		IsEnabled bool   `header:"-" json:"isEnabled" url:"-"`
+		VcnID     string `header:"-" json:"vcnId" url:"-"`
 	}{
 		IsEnabled: isEnabled,
 		VcnID:     vcnID,
@@ -50,13 +52,13 @@ func (c *Client) CreateInternetGateway(compartmentID, vcnID string, isEnabled bo
 		required: required,
 	}
 
-	var response *requestResponse
-	if response, e = c.coreApi.request(http.MethodPost, details); e != nil {
+	var resp *response
+	if resp, e = c.coreApi.request(http.MethodPost, details); e != nil {
 		return
 	}
 
 	gw = &InternetGateway{}
-	e = response.unmarshal(gw)
+	e = resp.unmarshal(gw)
 	return
 }
 
@@ -70,13 +72,13 @@ func (c *Client) GetInternetGateway(id string) (gw *InternetGateway, e error) {
 		ids:  urlParts{id},
 	}
 
-	var response *requestResponse
-	if response, e = c.coreApi.getRequest(details); e != nil {
+	var resp *response
+	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}
 
 	gw = &InternetGateway{}
-	e = response.unmarshal(gw)
+	e = resp.unmarshal(gw)
 	return
 
 }
@@ -91,13 +93,13 @@ func (c *Client) UpdateInternetGateway(id string, opts *UpdateGatewayOptions) (g
 		optional: opts,
 	}
 
-	var response *requestResponse
-	if response, e = c.coreApi.request(http.MethodPut, details); e != nil {
+	var resp *response
+	if resp, e = c.coreApi.request(http.MethodPut, details); e != nil {
 		return
 	}
 
 	gw = &InternetGateway{}
-	e = response.unmarshal(gw)
+	e = resp.unmarshal(gw)
 	return
 }
 
@@ -119,7 +121,7 @@ func (c *Client) DeleteInternetGateway(id string, opts *IfMatchOptions) (e error
 func (c *Client) ListInternetGateways(compartmentID, vcnID string, opts *ListOptions) (list *ListInternetGateways, e error) {
 	required := struct {
 		listOCIDRequirement
-		VcnID string `json:"-" url:"vcnId"`
+		VcnID string `header:"-" json:"-" url:"vcnId"`
 	}{
 		VcnID: vcnID,
 	}
@@ -131,12 +133,12 @@ func (c *Client) ListInternetGateways(compartmentID, vcnID string, opts *ListOpt
 		required: required,
 	}
 
-	var response *requestResponse
-	if response, e = c.coreApi.getRequest(details); e != nil {
+	var resp *response
+	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}
 
 	list = &ListInternetGateways{}
-	e = response.unmarshal(list)
+	e = resp.unmarshal(list)
 	return
 }

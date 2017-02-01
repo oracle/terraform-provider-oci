@@ -9,7 +9,8 @@ import (
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/identity.html#UserGroupMembership
 type UserGroupMembership struct {
-	ETaggedResource
+	OPCRequestIDUnmarshaller
+	ETagUnmarshaller
 	CompartmentID  string    `json:"compartmentId"`
 	GroupID        string    `json:"groupId"`
 	ID             string    `json:"id"`
@@ -20,7 +21,8 @@ type UserGroupMembership struct {
 }
 
 type ListUserGroupMemberships struct {
-	ResourceContainer
+	OPCRequestIDUnmarshaller
+	NextPageUnmarshaller
 	Memberships []UserGroupMembership
 }
 
@@ -33,8 +35,8 @@ func (l *ListUserGroupMemberships) GetList() interface{} {
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/identity.html#addUserToGroup
 func (c *Client) AddUserToGroup(userID, groupID string, opts *RetryTokenOptions) (res *UserGroupMembership, e error) {
 	required := struct {
-		GroupID string `json:"groupId" url:"-"`
-		UserID  string `json:"userId" url:"-"`
+		GroupID string `header:"-" json:"groupId" url:"-"`
+		UserID  string `header:"-" json:"userId" url:"-"`
 	}{
 		GroupID: groupID,
 		UserID:  userID,
@@ -46,13 +48,13 @@ func (c *Client) AddUserToGroup(userID, groupID string, opts *RetryTokenOptions)
 		required: required,
 	}
 
-	var response *requestResponse
-	if response, e = c.identityApi.request(http.MethodPost, details); e != nil {
+	var resp *response
+	if resp, e = c.identityApi.request(http.MethodPost, details); e != nil {
 		return
 	}
 
 	res = &UserGroupMembership{}
-	e = response.unmarshal(res)
+	e = resp.unmarshal(res)
 	return
 }
 
@@ -65,13 +67,13 @@ func (c *Client) GetUserGroupMembership(id string) (res *UserGroupMembership, e 
 		name: resourceUserGroupMemberships,
 	}
 
-	var response *requestResponse
-	if response, e = c.identityApi.getRequest(details); e != nil {
+	var resp *response
+	if resp, e = c.identityApi.getRequest(details); e != nil {
 		return
 	}
 
 	res = &UserGroupMembership{}
-	e = response.unmarshal(res)
+	e = resp.unmarshal(res)
 	return
 }
 
@@ -95,12 +97,12 @@ func (c *Client) ListUserGroupMemberships(opts *ListMembershipsOptions) (resourc
 		required: ocidRequirement{c.authInfo.tenancyOCID},
 	}
 
-	var response *requestResponse
-	if response, e = c.identityApi.getRequest(details); e != nil {
+	var resp *response
+	if resp, e = c.identityApi.getRequest(details); e != nil {
 		return
 	}
 
 	resources = &ListUserGroupMemberships{}
-	e = response.unmarshal(resources)
+	e = resp.unmarshal(resources)
 	return
 }

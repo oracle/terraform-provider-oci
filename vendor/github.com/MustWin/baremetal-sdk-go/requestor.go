@@ -7,9 +7,9 @@ import (
 )
 
 type requestor interface {
-	request(method string, reqOpts requestOptions) (r *requestResponse, e error)
-	getRequest(reqOpts requestOptions) (resp *requestResponse, e error)
-	deleteRequest(reqOpts requestOptions) (e error)
+	request(method string, reqOpts request) (r *response, e error)
+	getRequest(reqOpts request) (resp *response, e error)
+	deleteRequest(reqOpts request) (e error)
 }
 
 type apiRequestor struct {
@@ -58,9 +58,9 @@ func newIdentityAPIRequestor(authInfo *authenticationInfo, tr *http.Transport) (
 	}
 }
 
-func (api *apiRequestor) deleteRequest(reqOpts requestOptions) (e error) {
+func (api *apiRequestor) deleteRequest(reqOpts request) (e error) {
 	var url string
-	if url, e = reqOpts.url(api.urlBuilder); e != nil {
+	if url, e = reqOpts.marshalURL(api.urlBuilder); e != nil {
 		return
 	}
 
@@ -69,7 +69,7 @@ func (api *apiRequestor) deleteRequest(reqOpts requestOptions) (e error) {
 		return
 	}
 
-	req.Header = reqOpts.header()
+	req.Header = reqOpts.marshalHeader()
 
 	if e = createAuthorizationHeader(req, api.authInfo, []byte{}); e != nil {
 		return
@@ -80,7 +80,7 @@ func (api *apiRequestor) deleteRequest(reqOpts requestOptions) (e error) {
 		return
 	}
 
-	if resp.StatusCode != http.StatusOK {
+	if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusNoContent {
 		decoder := json.NewDecoder(resp.Body)
 		var err Error
 
@@ -95,9 +95,9 @@ func (api *apiRequestor) deleteRequest(reqOpts requestOptions) (e error) {
 	return
 }
 
-func (api *apiRequestor) getRequest(reqOpts requestOptions) (getResp *requestResponse, e error) {
+func (api *apiRequestor) getRequest(reqOpts request) (getResp *response, e error) {
 	var url string
-	if url, e = reqOpts.url(api.urlBuilder); e != nil {
+	if url, e = reqOpts.marshalURL(api.urlBuilder); e != nil {
 		return
 	}
 
@@ -106,12 +106,14 @@ func (api *apiRequestor) getRequest(reqOpts requestOptions) (getResp *requestRes
 		return
 	}
 
-	req.Header = reqOpts.header()
+	req.Header = reqOpts.marshalHeader()
 
 	if e = createAuthorizationHeader(req, api.authInfo, []byte{}); e != nil {
 		return
 	}
 
+	// fmt.Println("url")
+	// fmt.Println(req.URL.String())
 	var resp *http.Response
 	if resp, e = api.httpClient.Do(req); e != nil {
 		return
@@ -129,7 +131,7 @@ func (api *apiRequestor) getRequest(reqOpts requestOptions) (getResp *requestRes
 		return
 	}
 
-	getResp = &requestResponse{
+	getResp = &response{
 		header: resp.Header,
 		body:   reader.Bytes(),
 	}
@@ -137,16 +139,16 @@ func (api *apiRequestor) getRequest(reqOpts requestOptions) (getResp *requestRes
 	return
 }
 
-func (api *apiRequestor) request(method string, reqOpts requestOptions) (r *requestResponse, e error) {
+func (api *apiRequestor) request(method string, reqOpts request) (r *response, e error) {
 	var jsonBuffer []byte
-	if jsonBuffer, e = reqOpts.getBody(); e != nil {
+	if jsonBuffer, e = reqOpts.marshalBody(); e != nil {
 		return
 	}
 
 	buffer := bytes.NewBuffer(jsonBuffer)
 
 	var url string
-	if url, e = reqOpts.url(api.urlBuilder); e != nil {
+	if url, e = reqOpts.marshalURL(api.urlBuilder); e != nil {
 		return
 	}
 
@@ -154,12 +156,14 @@ func (api *apiRequestor) request(method string, reqOpts requestOptions) (r *requ
 	if req, e = http.NewRequest(method, url, buffer); e != nil {
 		return
 	}
-	req.Header = reqOpts.header()
+	req.Header = reqOpts.marshalHeader()
 
 	if e = createAuthorizationHeader(req, api.authInfo, jsonBuffer); e != nil {
 		return
 	}
 
+	// fmt.Println("url")
+	// fmt.Println(req.URL.String())
 	var resp *http.Response
 	if resp, e = api.httpClient.Do(req); e != nil {
 		return
@@ -181,7 +185,7 @@ func (api *apiRequestor) request(method string, reqOpts requestOptions) (r *requ
 		return
 	}
 
-	r = &requestResponse{
+	r = &response{
 		header: resp.Header,
 		body:   reader.Bytes(),
 	}

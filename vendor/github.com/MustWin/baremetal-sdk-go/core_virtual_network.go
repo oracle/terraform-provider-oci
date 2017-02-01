@@ -6,7 +6,8 @@ import "net/http"
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Vcn/
 type VirtualNetwork struct {
-	ETaggedResource
+	OPCRequestIDUnmarshaller
+	ETagUnmarshaller
 	CidrBlock             string `json:"cidrBlock"`
 	CompartmentID         string `json:"compartmentId"`
 	DefaultRoutingTableID string `json:"defaultRouteTableId"`
@@ -20,7 +21,8 @@ type VirtualNetwork struct {
 // ListVirtualNetworks contains a list of virtual networks
 //
 type ListVirtualNetworks struct {
-	ResourceContainer
+	OPCRequestIDUnmarshaller
+	NextPageUnmarshaller
 	VirtualNetworks []VirtualNetwork
 }
 
@@ -46,13 +48,13 @@ func (c *Client) CreateVirtualNetwork(cidrBlock, compartmentID string, opts *Cre
 		required: required,
 	}
 
-	var response *requestResponse
-	if response, e = c.coreApi.request(http.MethodPost, details); e != nil {
+	var resp *response
+	if resp, e = c.coreApi.request(http.MethodPost, details); e != nil {
 		return
 	}
 
 	vcn = &VirtualNetwork{}
-	e = response.unmarshal(vcn)
+	e = resp.unmarshal(vcn)
 	return
 }
 
@@ -65,7 +67,7 @@ func (c *Client) GetVirtualNetwork(id string) (vcn *VirtualNetwork, e error) {
 		name: resourceVirtualNetworks,
 	}
 
-	var resp *requestResponse
+	var resp *response
 	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}
@@ -98,7 +100,7 @@ func (c *Client) ListVirtualNetworks(compartmentID string, opts *ListOptions) (v
 		required: listOCIDRequirement{CompartmentID: compartmentID},
 	}
 
-	var resp *requestResponse
+	var resp *response
 	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}

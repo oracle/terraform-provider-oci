@@ -58,21 +58,17 @@ const (
 	objectStorageServiceAPIVersion = SDKVersion
 
 	// Header Keys
-	headerRetryToken         = "opc-retry-token"
-	headerOPCNextPage        = "opc-next-page"
-	headerIfMatch            = "If-Match"
-	headerIfNoneMatch        = "If-None-Match"
-	headerRange              = "Range"
-	headerETag               = "ETag"
-	headerExpect             = "Expect"
+	headerBytesRemaining     = "opc-bytes-remaining"
+	headerContentEncoding    = "Content-Encoding"
+	headerContentLanguage    = "Content-Language"
 	headerContentLength      = "Content-Length"
 	headerContentMD5         = "Content-MD5"
 	headerContentType        = "Content-Type"
-	headerContentLanguage    = "Content-Language"
-	headerContentEncoding    = "Content-Encoding"
-	headerOPCRequestID       = "opc-request-id"
+	headerETag               = "ETag"
+	headerLastModified       = "last-modified"
 	headerOPCClientRequestID = "opc-client-request-id"
-	headerBytesRemaining     = "opc-bytes-remaining"
+	headerOPCNextPage        = "opc-next-page"
+	headerOPCRequestID       = "opc-request-id"
 
 	// Actions that can be applied to compute instances
 	actionStart InstanceActions = "START"

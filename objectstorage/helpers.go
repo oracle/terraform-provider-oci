@@ -2,23 +2,57 @@ package objectstorage
 
 import "github.com/hashicorp/terraform/helper/schema"
 
+func resourceMapToMetadata(rm map[string]interface{}) map[string]string {
+	result := map[string]string{}
+	for k, v := range rm {
+		result[k] = v.(string)
+	}
+	return result
+}
+
 var bucketSchema = map[string]*schema.Schema{
-	"compartment_id": &schema.Schema{
+	"compartment_id": {
 		Type:     schema.TypeString,
 		Required: true,
 		Computed: false,
 	},
-	"name": &schema.Schema{
+	"name": {
 		Type:     schema.TypeString,
 		Required: true,
 		Computed: false,
 	},
-	"namespace": &schema.Schema{
+	"namespace": {
 		Type:     schema.TypeString,
 		Required: true,
 		Computed: false,
 	},
-	"metadata": &schema.Schema{
+	"metadata": {
+		Type:     schema.TypeMap,
+		Optional: true,
+	},
+}
+
+var objectSchema = map[string]*schema.Schema{
+	"namespace": {
+		Type:     schema.TypeString,
+		Required: true,
+		Computed: false,
+	},
+	"bucket": {
+		Type:     schema.TypeString,
+		Required: true,
+		Computed: false,
+	},
+	"object": {
+		Type:     schema.TypeString,
+		Required: true,
+		Computed: false,
+	},
+	"content": {
+		Type:     schema.TypeString,
+		Optional: true,
+	},
+	"metadata": {
 		Type:     schema.TypeMap,
 		Optional: true,
 	},

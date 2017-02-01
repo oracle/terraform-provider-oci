@@ -3,10 +3,11 @@ package baremetal
 import "time"
 
 type Database struct {
-	ETaggedResource
+	ETagUnmarshaller
+	OPCRequestIDUnmarshaller
 	ocidRequirement
 	DBHomeID     string    `json:"dbHomeId"`
-	DBName       string    `json:"dbHomeId"`
+	DBName       string    `json:"dbName"`
 	DBUniqueName string    `json:"dbUniqueName"`
 	ID           string    `json:"id"`
 	State        string    `json:"lifecycleState"`
@@ -14,7 +15,8 @@ type Database struct {
 }
 
 type ListDatabases struct {
-	ResourceContainer
+	OPCRequestIDUnmarshaller
+	NextPageUnmarshaller
 	Databases []Database
 }
 
@@ -31,7 +33,7 @@ func (c *Client) GetDatabase(id string) (res *Database, e error) {
 		ids:  urlParts{id},
 	}
 
-	var resp *requestResponse
+	var resp *response
 	if resp, e = c.databaseApi.getRequest(details); e != nil {
 		return
 	}
@@ -47,8 +49,8 @@ func (c *Client) GetDatabase(id string) (res *Database, e error) {
 func (c *Client) ListDatabases(compartmentID, dbHomeID string, limit uint64, opts *PageListOptions) (resources *ListDatabases, e error) {
 	required := struct {
 		listOCIDRequirement
-		DBHomeID string `json:"-" url:"dbHomeId"`
-		Limit    uint64 `json:"-" url:"limit"`
+		DBHomeID string `header:"-" json:"-" url:"dbHomeId"`
+		Limit    uint64 `header:"-" json:"-" url:"limit"`
 	}{
 		DBHomeID: dbHomeID,
 		Limit:    limit,
@@ -61,12 +63,12 @@ func (c *Client) ListDatabases(compartmentID, dbHomeID string, limit uint64, opt
 		required: required,
 	}
 
-	var response *requestResponse
-	if response, e = c.databaseApi.getRequest(details); e != nil {
+	var resp *response
+	if resp, e = c.databaseApi.getRequest(details); e != nil {
 		return
 	}
 
 	resources = &ListDatabases{}
-	e = response.unmarshal(resources)
+	e = resp.unmarshal(resources)
 	return
 }

@@ -116,42 +116,38 @@ func (s *ResourceCoreVnicAttachmentsTestSuite) TestResourceReadCoreVnicAttachmen
 	opts.VnicID = "vnicid"
 	opts.InstanceID = "instanceid"
 
+	res := &baremetal.ListVnicAttachments{}
+	res.NextPage = "nextpage"
+	res.Attachments = []baremetal.VnicAttachment{
+		{
+			ID:                 "id1",
+			AvailabilityDomain: "availabilityid",
+			CompartmentID:      "compartmentid",
+			DisplayName:        "att1",
+			InstanceID:         "instanceid",
+			State:              baremetal.ResourceAttached,
+			SubnetID:           "subnetid",
+			VnicID:             "vnicid",
+			TimeCreated:        time.Now(),
+		},
+		{
+			ID:                 "id2",
+			AvailabilityDomain: "availabilityid",
+			CompartmentID:      "compartmentid",
+			DisplayName:        "att2",
+			InstanceID:         "instanceid",
+			State:              baremetal.ResourceAttached,
+			SubnetID:           "subnetid",
+			VnicID:             "vnicid",
+			TimeCreated:        time.Now().Add(crud.FiveMinutes),
+		},
+	}
+
 	s.Client.On(
 		"ListVnicAttachments",
 		"compartmentid",
 		opts,
-	).Return(
-		&baremetal.ListVnicAttachments{
-			ResourceContainer: baremetal.ResourceContainer{
-				NextPage: "nextpage",
-			},
-			Attachments: []baremetal.VnicAttachment{
-				{
-					ID:                 "id1",
-					AvailabilityDomain: "availabilityid",
-					CompartmentID:      "compartmentid",
-					DisplayName:        "att1",
-					InstanceID:         "instanceid",
-					State:              baremetal.ResourceAttached,
-					SubnetID:           "subnetid",
-					VnicID:             "vnicid",
-					TimeCreated:        time.Now(),
-				},
-				{
-					ID:                 "id2",
-					AvailabilityDomain: "availabilityid",
-					CompartmentID:      "compartmentid",
-					DisplayName:        "att2",
-					InstanceID:         "instanceid",
-					State:              baremetal.ResourceAttached,
-					SubnetID:           "subnetid",
-					VnicID:             "vnicid",
-					TimeCreated:        time.Now().Add(crud.FiveMinutes),
-				},
-			},
-		},
-		nil,
-	)
+	).Return(res, nil)
 
 	opts2 := &baremetal.ListVnicAttachmentsOptions{}
 	opts2.AvailabilityDomain = "availabilityid"
