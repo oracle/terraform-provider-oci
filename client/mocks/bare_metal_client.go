@@ -2198,6 +2198,29 @@ func (_m *BareMetalClient) ListSubnets(compartmentID string, vcnID string, opts 
 	return r0, r1
 }
 
+// ListSupportedOperations provides a mock function with given fields:
+func (_m *BareMetalClient) ListSupportedOperations() (*baremetal.ListSupportedOperations, error) {
+	ret := _m.Called()
+
+	var r0 *baremetal.ListSupportedOperations
+	if rf, ok := ret.Get(0).(func() *baremetal.ListSupportedOperations); ok {
+		r0 = rf()
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*baremetal.ListSupportedOperations)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func() error); ok {
+		r1 = rf()
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // ListUserGroupMemberships provides a mock function with given fields: opts
 func (_m *BareMetalClient) ListUserGroupMemberships(opts *baremetal.ListMembershipsOptions) (*baremetal.ListUserGroupMemberships, error) {
 	ret := _m.Called(opts)
