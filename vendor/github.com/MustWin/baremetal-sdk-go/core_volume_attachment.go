@@ -5,6 +5,8 @@ import "net/http"
 // VolumeAttachment describes a cloud block storage attachment
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/VolumeAttachment/
+// This overlaps completely with https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/iaas/20160918/IScsiVolumeAttachment/
+// So we merge them into this model here.
 type VolumeAttachment struct {
 	OPCRequestIDUnmarshaller
 	ETagUnmarshaller
@@ -17,6 +19,9 @@ type VolumeAttachment struct {
 	State              string `json:"lifecycleState"`
 	TimeCreated        Time   `json:"timeCreated"`
 	VolumeID           string `json:"volumeId"`
+	IPv4		   string `json:"ipv4"`
+	IQN		   string `json:"iqn"`
+	Port		   int    `json:"port"`
 }
 
 // ListVolumeAttachments contains a list of volume attachments
