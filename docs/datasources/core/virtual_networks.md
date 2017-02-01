@@ -1,4 +1,3 @@
-
 # baremetal\_core\_virtual\_networks
 
 Gets a list of virtual networks.
@@ -21,6 +20,7 @@ The following arguments are supported:
 * `limit` - (Optional) The maximum number of items to return in a paginated "List" call.
 * `page` - (Optional) The pagination token to continue listing from.
 
+
 ## Attributes Reference
 
 The following attributes are exported:
@@ -37,3 +37,4 @@ The following attributes are exported:
 * `id` - The OCID of the VNIC.
 * `state` - The current state of the VNIC. [PROVISIONING, AVAILABLE, TERMINATING, TERMINATED]
 * `time_created` - The date and time the VNIC was created.
+

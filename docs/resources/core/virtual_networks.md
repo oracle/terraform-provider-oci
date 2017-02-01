@@ -1,6 +1,7 @@
-# baremetal\_core\_virtual\_networks
+# baremetal\_core\_virtual_networks
 
-Gets a list of virtual networks.
+Provides a virtual network resource.
+
 
 ## Example Usage
 
