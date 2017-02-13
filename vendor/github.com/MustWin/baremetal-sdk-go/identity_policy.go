@@ -1,3 +1,5 @@
+// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+
 package baremetal
 
 // CreatePolicy creates a new policy.
@@ -23,15 +25,31 @@ type Policy struct {
 	VersionDate    time.Time `json:"versionDate"`
 }
 
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/identity/20160918/Policy/CreatePolicy
-func (c *Client) CreatePolicy(name, desc string, statements []string, opts *CreatePolicyOptions) (res *Policy, e error) {
+type ListPolicies struct {
+	OPCRequestIDUnmarshaller
+	NextPageUnmarshaller
+	Policies []Policy
+}
+
+func (l *ListPolicies) GetList() interface{} {
+	return &l.Policies
+}
+
+// CreatePolicy create a policy in a compartment.
+//
+// For information on defining policies and statements.
+// See https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/overview.htm#Example
+//
+// For information on the CreatePolicy API,
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/identity/20160918/Policy/CreatePolicy
+func (c *Client) CreatePolicy(name, desc, compartmentID string, statements []string, opts *CreatePolicyOptions) (res *Policy, e error) {
 	required := struct {
 		identityCreationRequirement
 		Statements []string `header:"-" json:"statements" url:"-"`
 	}{
 		Statements: statements,
 	}
-	required.CompartmentID = c.authInfo.tenancyOCID
+	required.CompartmentID = compartmentID
 	required.Description = desc
 	required.Name = name
 
@@ -102,4 +120,24 @@ func (c *Client) DeletePolicy(id string, opts *IfMatchOptions) (e error) {
 	}
 
 	return c.identityApi.deleteRequest(details)
+}
+
+// ListPolicies lists policies by compartmentId
+//
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/identity/20160918/Policy/ListPolicies
+func (c *Client) ListPolicies(compartmentID string, opts *ListOptions) (resources *ListPolicies, e error) {
+	details := &requestDetails{
+		name:     resourcePolicies,
+		optional: opts,
+		required: listOCIDRequirement{CompartmentID: compartmentID},
+	}
+
+	var resp *response
+	if resp, e = c.identityApi.getRequest(details); e != nil {
+		return
+	}
+
+	resources = &ListPolicies{}
+	e = resp.unmarshal(resources)
+	return
 }

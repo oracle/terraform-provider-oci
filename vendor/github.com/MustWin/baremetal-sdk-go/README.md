@@ -44,8 +44,24 @@ explicit path to the test private key.
 export BAREMETAL_SDK_PEM_DATA_PATH="/home/foo/go-projects/src/github.com/../test/data/private.pem"
 ```
 
-[Regression Tests](test/README.md)
+## Acceptance Tests
 
+Use make to run acceptance tests
+```
+make acceptance_test
+```
+In this mode acceptance tests run using fixtures contained in the acceptance-test/fixtures
+directory as opposed to calling out to the Oracle Bare Metal API and as such
+will not require any special authorization information. Running the tests in recording
+mode will make live API calls and record new results in the fixtures directory. This
+is done by defining an environment variable ```RECORDING``` as follows.
+```
+RECORDING=1 make acceptance_test
+```
+You will need to provide credentials to access the Bare Metal API in an .env file
+in the acceptance-test directory.  A sample .env file can be found at acceptance-test/sample.env.
+Simply copy the sample.env to .env and supply your own credentials. Note that if you
+create new tests you'll have to run them in recording mode before they will pass. 
 
 # Vendoring
 This project uses the [Go vendor folder](https://blog.gopheracademy.com/advent-2015/vendor-folder/) for dependencies.

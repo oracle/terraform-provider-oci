@@ -50,10 +50,7 @@ func (s *RouteTableDatasourceCrud) SetData() {
 			for _, val := range v.RouteRules {
 				rule := map[string]interface{}{
 					"cidr_block":          val.CidrBlock,
-					"display_name":        val.DisplayName,
 					"network_entity_id":   val.NetworkEntityID,
-					"network_entity_type": val.NetworkEntityType,
-					"time_created":        val.TimeCreated.String(),
 				}
 				rules = append(rules, rule)
 			}

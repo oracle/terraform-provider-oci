@@ -1,3 +1,5 @@
+// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+
 package baremetal
 
 import (
@@ -88,10 +90,7 @@ func (c *Client) UpdateBucket(
 
 	required := struct {
 		ocidRequirement
-		Name string `header:"-" json:"name" url:"-"`
-	}{
-		Name: name,
-	}
+	}{}
 	required.CompartmentID = compartmentID
 
 	details := &requestDetails{
@@ -101,7 +100,7 @@ func (c *Client) UpdateBucket(
 	}
 
 	var resp *response
-	if resp, e = c.objectStorageApi.request(http.MethodPut, details); e != nil {
+	if resp, e = c.objectStorageApi.request(http.MethodPost, details); e != nil {
 		return
 	}
 

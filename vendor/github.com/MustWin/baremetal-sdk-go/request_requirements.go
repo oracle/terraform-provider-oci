@@ -1,3 +1,5 @@
+// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+
 package baremetal
 
 type identityCreationRequirement struct {
@@ -7,7 +9,7 @@ type identityCreationRequirement struct {
 }
 
 type ocidRequirement struct {
-	CompartmentID string `header:"-" json:"compartmentId" url:"-"`
+	CompartmentID string `header:"-" json:"compartmentId" url:"compartmentId"`
 }
 
 type listOCIDRequirement struct {

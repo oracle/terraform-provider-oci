@@ -1,3 +1,5 @@
+// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+
 package baremetal
 
 // AvailablityDomain contains name and then tenancy ID that an

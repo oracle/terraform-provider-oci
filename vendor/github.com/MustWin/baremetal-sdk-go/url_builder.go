@@ -1,3 +1,5 @@
+// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+
 package baremetal
 
 import (
@@ -42,6 +44,8 @@ func buildURL(urlStr string, query url.Values, ids ...interface{}) string {
 			strVal = strconv.FormatUint(id, 10)
 		case string:
 			strVal = id
+		case resourceName:
+			strVal = string(id)
 		case Namespace:
 			strVal = string(id)
 		}

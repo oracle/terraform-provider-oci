@@ -1,3 +1,5 @@
+// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+
 /*
 	Package baremetal provides access to the Oracle Bare Metal Cloud API's
 
@@ -57,10 +59,27 @@ type Client struct {
 	identityEndPoint string
 }
 
+type NewClientOptions struct {
+	Transport http.RoundTripper
+	UserAgent string
+}
+
+func CustomTransport(tr http.RoundTripper) func(o *NewClientOptions) {
+	return func(o *NewClientOptions) {
+		o.Transport = tr
+	}
+}
+
+func UserAgent(userAgent string) func(o *NewClientOptions) {
+	return func(o *NewClientOptions) {
+		o.UserAgent = userAgent
+	}
+}
+
 // New creates a new client to access Oracle BareMetal services.
 // userOCI, tenancyOCID and fingerprint arguments are accessed from the BareMetal identity
 // console. privateKey is an RSA key associated with the user accessing the API.
-func New(userOCID, tenancyOCID, keyFingerPrint string, privateKey *rsa.PrivateKey, userAgent string) (c *Client) {
+func New(userOCID, tenancyOCID, keyFingerPrint string, privateKey *rsa.PrivateKey, opts ...func(o *NewClientOptions)) (c *Client) {
 	auth := &authenticationInfo{
 		privateRSAKey:  privateKey,
 		tenancyOCID:    tenancyOCID,
@@ -68,16 +87,21 @@ func New(userOCID, tenancyOCID, keyFingerPrint string, privateKey *rsa.PrivateKe
 		keyFingerPrint: keyFingerPrint,
 	}
 
-	// TODO: set configuration for real https client
-	tr := &http.Transport{}
+	nco := &NewClientOptions{
+		Transport: &http.Transport{},
+	}
+
+	for _, opt := range opts {
+		opt(nco)
+	}
 
 	return &Client{
-		userAgent:        userAgent,
+		userAgent:        nco.UserAgent,
 		authInfo:         auth,
-		identityApi:      newIdentityAPIRequestor(auth, tr),
-		coreApi:          newCoreAPIRequestor(auth, tr),
-		objectStorageApi: newObjectStorageAPIRequestor(auth, tr),
-		databaseApi:      newDatabaseAPIRequestor(auth, tr),
+		identityApi:      newIdentityAPIRequestor(auth, nco),
+		coreApi:          newCoreAPIRequestor(auth, nco),
+		objectStorageApi: newObjectStorageAPIRequestor(auth, nco),
+		databaseApi:      newDatabaseAPIRequestor(auth, nco),
 	}
 }
 
@@ -92,7 +116,7 @@ func NewFromKeyPath(userOCID, tenancyOCID, keyFingerPrint, privateKeyPath, keyPa
 		return
 	}
 
-	c = New(userOCID, tenancyOCID, keyFingerPrint, key, "")
+	c = New(userOCID, tenancyOCID, keyFingerPrint, key)
 
 	return
 }

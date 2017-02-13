@@ -1,3 +1,5 @@
+// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+
 package baremetal
 
 // Options
@@ -104,6 +106,7 @@ type UpdateBackupOptions struct {
 }
 
 type UpdateBucketOptions struct {
+	IfMatchOptions
 	Name      string            `header:"-" json:"name,omitempty" url:"-"`
 	Namespace Namespace         `header:"-" json:"namespace,omitempty" url:"-"`
 	Metadata  map[string]string `header:"-" json:"metadata,omitempty" url:"-"`
@@ -112,6 +115,11 @@ type UpdateBucketOptions struct {
 type UpdateIdentityOptions struct {
 	IfMatchOptions
 	Description string `header:"-" json:"description,omitempty" url:"-"`
+}
+
+type UpdateUserStateOptions struct {
+	IfMatchOptions
+	Blocked *bool `header:"-" json:"blocked,omitempty" url:"-"`
 }
 
 type UpdatePolicyOptions struct {

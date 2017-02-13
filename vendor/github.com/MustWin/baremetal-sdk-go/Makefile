@@ -20,7 +20,27 @@ object_test:
 	@go install github.com/MustWin/baremetal-sdk-go/test/object
 	@object
 
-regression_test: test identity_test database_test core_test object_test
+acceptance_test:
+	@go test -v github.com/MustWin/baremetal-sdk-go/acceptance-test
 
+record_identity_user_test:
+	@go test -v -tags "recording identity_user" github.com/MustWin/baremetal-sdk-go/acceptance-test
 
-.PHONY: build test regression_test identity_test core_test database_test object_test
+record_identity_group_test:
+	@go test -v -tags "recording identity_group" github.com/MustWin/baremetal-sdk-go/acceptance-test
+
+record_identity_user_group_membership_test:
+	@go test -v -tags "recording identity_user_group_membership" github.com/MustWin/baremetal-sdk-go/acceptance-test
+
+record_identity_compartment_test:
+	@go test -v -tags "recording identity_compartment" github.com/MustWin/baremetal-sdk-go/acceptance-test
+
+record_identity_policy_test:
+	@go test -v -tags "recording identity_policy" github.com/MustWin/baremetal-sdk-go/acceptance-test
+
+record_core_test:
+		@go test -v -tags "recording core" github.com/MustWin/baremetal-sdk-go/acceptance-test
+
+.PHONY: build test regression_test identity_test core_test database_test object_test acceptance_test \
+	record_identity_user_test record_identity_group_test record_identity_user_group_membership_test \
+	record_core_test record_identity_policy_test

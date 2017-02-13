@@ -1,3 +1,5 @@
+// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+
 package baremetal
 
 import (
@@ -94,8 +96,24 @@ func (c *Client) UpdateUser(id string, opts *UpdateIdentityOptions) (res *User, 
 	return
 }
 
-// TODO: UpdateUserState
+// Update User State
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/identity/20160918/User/UpdateUserState
+func (c *Client) UpdateUserState(id string, opts *UpdateUserStateOptions) (res *User, e error) {
+	details := &requestDetails{
+		ids:      urlParts{id, "state"},
+		name:     resourceUsers,
+		optional: opts,
+	}
+
+	var resp *response
+	if resp, e = c.identityApi.request(http.MethodPut, details); e != nil {
+		return
+	}
+
+	res = &User{}
+	e = resp.unmarshal(res)
+	return
+}
 
 // DeleteUser deletes a user.
 //
@@ -118,9 +136,8 @@ func (c *Client) ListUsers(opts *ListOptions) (resources *ListUsers, e error) {
 	details := &requestDetails{
 		name:     resourceUsers,
 		optional: opts,
-		required: ocidRequirement{c.authInfo.tenancyOCID},
+		required: listOCIDRequirement{c.authInfo.tenancyOCID},
 	}
-
 	var resp *response
 	if resp, e = c.identityApi.getRequest(details); e != nil {
 		return

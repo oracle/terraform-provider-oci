@@ -1,3 +1,5 @@
+// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+
 package baremetal
 
 import (
@@ -99,7 +101,7 @@ func (c *Client) ListCompartments(opts *ListOptions) (resources *ListCompartment
 	details := &requestDetails{
 		name:     resourceCompartments,
 		optional: opts,
-		required: ocidRequirement{c.authInfo.tenancyOCID},
+		required: listOCIDRequirement{c.authInfo.tenancyOCID},
 	}
 
 	var getResp *response

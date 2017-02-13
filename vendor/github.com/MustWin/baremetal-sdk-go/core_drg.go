@@ -1,3 +1,5 @@
+// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+
 package baremetal
 
 import "net/http"
@@ -83,7 +85,7 @@ func (c *Client) DeleteDrg(id string, opts *IfMatchOptions) (e error) {
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Drg/ListDrgs
 func (c *Client) ListDrgs(compartmentID string, opts *ListOptions) (res *ListDrgs, e error) {
 	details := &requestDetails{
-		name:     resourceDHCPOptions,
+		name:     resourceDrgs,
 		required: listOCIDRequirement{compartmentID},
 		optional: opts,
 	}

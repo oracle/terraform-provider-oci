@@ -69,10 +69,7 @@ func (s *RouteTableResourceCrud) SetData() {
 	for _, val := range s.Res.RouteRules {
 		rule := map[string]interface{}{
 			"cidr_block":          val.CidrBlock,
-			"display_name":        val.DisplayName,
 			"network_entity_id":   val.NetworkEntityID,
-			"network_entity_type": val.NetworkEntityType,
-			"time_created":        val.TimeCreated.String(),
 		}
 		rules = append(rules, rule)
 	}
@@ -93,9 +90,7 @@ func (s *RouteTableResourceCrud) buildRouteRules() (routeRules []baremetal.Route
 		data := val.(map[string]interface{})
 		routeRule := baremetal.RouteRule{
 			CidrBlock:         data["cidr_block"].(string),
-			DisplayName:       data["display_name"].(string),
 			NetworkEntityID:   data["network_entity_id"].(string),
-			NetworkEntityType: baremetal.NetworkEntityType(data["network_entity_type"].(string)),
 		}
 		routeRules = append(routeRules, routeRule)
 	}

@@ -11,12 +11,10 @@ resource "baremetal_core_route_table" "t" {
     route_rules {
         cidr_block = "cidr_block"
         network_entity_id = "network_entity_id"
-        network_entity_type = "network_entity_type"
     }
     route_rules {
         cidr_block = "cidr_block"
         network_entity_id = "network_entity_id"
-        network_entity_type = "network_entity_type"
     }
     vcn_id = "vcn_id"
 }

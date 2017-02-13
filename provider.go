@@ -10,6 +10,7 @@ import (
 	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/objectstorage"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
+	"fmt"
 )
 
 var descriptions map[string]string
@@ -168,6 +169,8 @@ func providerConfig(d *schema.ResourceData) (client interface{}, err error) {
 		}
 	}
 
-	client = baremetal.New(userOCID, tenancyOCID, fingerprint, privateKey, "")
+	client = baremetal.New(userOCID, tenancyOCID, fingerprint, privateKey, func(o *baremetal.NewClientOptions) {
+		o.UserAgent = fmt.Sprintf("baremetal-terraform-v%s", baremetal.SDKVersion)
+	})
 	return
 }
