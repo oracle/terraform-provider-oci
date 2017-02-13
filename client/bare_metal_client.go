@@ -1,3 +1,5 @@
+// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+
 package client
 
 import "github.com/MustWin/baremetal-sdk-go"

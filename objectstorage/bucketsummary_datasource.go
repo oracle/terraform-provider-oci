@@ -1,3 +1,5 @@
+// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+
 package objectstorage
 import (
 	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/client"

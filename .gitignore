@@ -30,6 +30,7 @@ tf.plan
 
 # Don't version the default binary
 terraform-provider-baremetal
+terraform-Oracle-BareMetal-Provider
 *.orig
 .idea
 .env

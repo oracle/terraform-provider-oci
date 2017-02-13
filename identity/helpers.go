@@ -1,3 +1,5 @@
+// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+
 package identity
 
 import "github.com/hashicorp/terraform/helper/schema"
