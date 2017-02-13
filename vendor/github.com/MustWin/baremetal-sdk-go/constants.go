@@ -1,3 +1,5 @@
+// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+
 package baremetal
 
 type resourceName string
@@ -43,12 +45,17 @@ const (
 	ResourceTerminating        = "TERMINATING"
 	ResourceUp                 = "UP"
 
+	// Error codes
+	UserAlreadyExists       = "UserAlreadyExists"
+	InvalidParameter        = "InvalidParameter"
+	NotAuthorizedOrNotFound = "NotAuthorizedOrNotFound"
+
 	SDKVersion = "20160918"
 
-	identityServiceAPI        = "https://identity.us-az-phoenix-1.OracleIaaS.com"
+	identityServiceAPI        = "https://identity.us-phoenix-1.oraclecloud.com"
 	identityServiceAPIVersion = SDKVersion
 
-	coreServiceAPI        = "https://core.us-az-phoenix-1.OracleIaaS.com"
+	coreServiceAPI        = "https://iaas.us-phoenix-1.oraclecloud.com"
 	coreServiceAPIVersion = SDKVersion
 
 	databaseServiceAPI        = "https://database.us-phoenix-1.oraclecloud.com"
@@ -110,8 +117,10 @@ const (
 	resourceCompartments         resourceName = "compartments"
 	resourceGroups               resourceName = "groups"
 	resourcePolicies             resourceName = "policies"
+	resourceUiPassword           resourceName = "uiPassword"
 	resourceUsers                resourceName = "users"
 	resourceUserGroupMemberships resourceName = "userGroupMemberships"
+	resourceSwiftPasswords       resourceName = "swiftPasswords"
 
 	// Core Resources
 	resourceCustomerPremiseEquipment resourceName = "cpes"

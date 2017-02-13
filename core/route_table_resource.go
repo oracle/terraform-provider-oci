@@ -36,22 +36,9 @@ func RouteTableResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Required: true,
 						},
-						"display_name": {
-							Type:     schema.TypeString,
-							Computed: true,
-							Optional: true,
-						},
 						"network_entity_id": {
 							Type:     schema.TypeString,
 							Required: true,
-						},
-						"network_entity_type": {
-							Type:     schema.TypeString,
-							Required: true,
-						},
-						"time_created": {
-							Type:     schema.TypeString,
-							Computed: true,
 						},
 					},
 				},

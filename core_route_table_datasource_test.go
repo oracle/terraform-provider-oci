@@ -60,10 +60,7 @@ func (s *ResourceCoreRouteTablesTestSuite) TestResourceListRouteTables() {
 					RouteRules: []baremetal.RouteRule{
 						{
 							CidrBlock:         "cidr_block",
-							DisplayName:       "display_name",
 							NetworkEntityID:   "network_entity_id",
-							NetworkEntityType: "network_entity_type",
-							TimeCreated:       baremetal.Time{Time: time.Now()},
 						},
 					},
 					TimeModified: baremetal.Time{Time: time.Now()},
@@ -77,10 +74,7 @@ func (s *ResourceCoreRouteTablesTestSuite) TestResourceListRouteTables() {
 					RouteRules: []baremetal.RouteRule{
 						{
 							CidrBlock:         "cidr_block",
-							DisplayName:       "display_name",
 							NetworkEntityID:   "network_entity_id",
-							NetworkEntityType: "network_entity_type",
-							TimeCreated:       baremetal.Time{Time: time.Now()},
 						},
 					},
 					TimeModified: baremetal.Time{Time: time.Now()},
@@ -127,10 +121,7 @@ func (s *ResourceCoreRouteTablesTestSuite) TestResourceListRouteTablesPaged() {
 			RouteRules: []baremetal.RouteRule{
 				{
 					CidrBlock:         "cidr_block",
-					DisplayName:       "display_name",
 					NetworkEntityID:   "network_entity_id",
-					NetworkEntityType: "network_entity_type",
-					TimeCreated:       baremetal.Time{Time: time.Now()},
 				},
 			},
 			TimeModified: baremetal.Time{Time: time.Now()},
@@ -144,10 +135,7 @@ func (s *ResourceCoreRouteTablesTestSuite) TestResourceListRouteTablesPaged() {
 			RouteRules: []baremetal.RouteRule{
 				{
 					CidrBlock:         "cidr_block",
-					DisplayName:       "display_name",
 					NetworkEntityID:   "network_entity_id",
-					NetworkEntityType: "network_entity_type",
-					TimeCreated:       baremetal.Time{Time: time.Now()},
 				},
 			},
 			TimeModified: baremetal.Time{Time: time.Now()},
@@ -181,10 +169,7 @@ func (s *ResourceCoreRouteTablesTestSuite) TestResourceListRouteTablesPaged() {
 					RouteRules: []baremetal.RouteRule{
 						{
 							CidrBlock:         "cidr_block",
-							DisplayName:       "display_name",
 							NetworkEntityID:   "network_entity_id",
-							NetworkEntityType: "network_entity_type",
-							TimeCreated:       baremetal.Time{Time: time.Now()},
 						},
 					},
 					TimeModified: baremetal.Time{Time: time.Now()},
@@ -198,10 +183,7 @@ func (s *ResourceCoreRouteTablesTestSuite) TestResourceListRouteTablesPaged() {
 					RouteRules: []baremetal.RouteRule{
 						{
 							CidrBlock:         "cidr_block",
-							DisplayName:       "display_name",
 							NetworkEntityID:   "network_entity_id",
-							NetworkEntityType: "network_entity_type",
-							TimeCreated:       baremetal.Time{Time: time.Now()},
 						},
 					},
 					TimeModified: baremetal.Time{Time: time.Now()},

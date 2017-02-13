@@ -1,10 +1,14 @@
+// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+
 package baremetal
 
-import "net/http"
+import (
+	"net/http"
+)
 
 // VirtualNetwork describes virtual cloud network
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Vcn/
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/iaas/20160918/Vcn/
 type VirtualNetwork struct {
 	OPCRequestIDUnmarshaller
 	ETagUnmarshaller
@@ -12,6 +16,7 @@ type VirtualNetwork struct {
 	CompartmentID         string `json:"compartmentId"`
 	DefaultRoutingTableID string `json:"defaultRouteTableId"`
 	DefaultSecurityListID string `json:"defaultSecurityListId"`
+	DefaultDHCPOptionsID  string `json:"defaultDhcpOptionsId"`
 	DisplayName           string `json:"displayName"`
 	ID                    string `json:"id"`
 	State                 string `json:"lifecycleState"`
@@ -32,11 +37,11 @@ func (l *ListVirtualNetworks) GetList() interface{} {
 
 // CreateVirtualNetwork is used to create a virtual network
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Vcn/CreateVcn
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/iaas/20160918/Vcn/CreateVcn
 func (c *Client) CreateVirtualNetwork(cidrBlock, compartmentID string, opts *CreateOptions) (vcn *VirtualNetwork, e error) {
 	required := struct {
 		ocidRequirement
-		CidrBlock string
+		CidrBlock string `header:"-" json:"cidrBlock,omitempty" url:"-"`
 	}{
 		CidrBlock: cidrBlock,
 	}
@@ -60,7 +65,7 @@ func (c *Client) CreateVirtualNetwork(cidrBlock, compartmentID string, opts *Cre
 
 // GetVirtualNetwork retrieves information about a virtual network
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Vcn/GetVcn
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/iaas/20160918/Vcn/GetVcn
 func (c *Client) GetVirtualNetwork(id string) (vcn *VirtualNetwork, e error) {
 	details := &requestDetails{
 		ids:  urlParts{id},
@@ -77,9 +82,29 @@ func (c *Client) GetVirtualNetwork(id string) (vcn *VirtualNetwork, e error) {
 	return
 }
 
+// UpdateVirtualNetwork updates information about a virtual network
+//
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/iaas/20160918/Vcn/UpdateVcn
+func (c *Client) UpdateVirtualNetwork(id string, opts *UpdateBackupOptions) (vcn *VirtualNetwork, e error) {
+	details := &requestDetails{
+		ids:      urlParts{id},
+		name:     resourceVirtualNetworks,
+		optional: opts,
+	}
+
+	var resp *response
+	if resp, e = c.coreApi.request(http.MethodPut, details); e != nil {
+		return
+	}
+
+	vcn = &VirtualNetwork{}
+	e = resp.unmarshal(vcn)
+	return
+}
+
 // DeleteVirtualNetwork removes a virtual network
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Vcn/DeleteVcn
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/iaas/20160918/Vcn/DeleteVcn
 func (c *Client) DeleteVirtualNetwork(id string, opts *IfMatchOptions) (e error) {
 	details := &requestDetails{
 		ids:      urlParts{id},
@@ -92,7 +117,7 @@ func (c *Client) DeleteVirtualNetwork(id string, opts *IfMatchOptions) (e error)
 // ListVirtualNetworks returns a list of virtual networks for a particular
 // compartment
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Vcn/ListVcns
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/iaas/20160918/Vcn/ListVcns
 func (c *Client) ListVirtualNetworks(compartmentID string, opts *ListOptions) (vcns *ListVirtualNetworks, e error) {
 	details := &requestDetails{
 		name:     resourceVirtualNetworks,

@@ -1,9 +1,13 @@
+// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+
 package baremetal
 
 import (
 	"bytes"
 	"encoding/json"
 	"net/http"
+	//"fmt"
+	//"net/http/httputil"
 )
 
 type requestor interface {
@@ -16,45 +20,50 @@ type apiRequestor struct {
 	httpClient *http.Client
 	authInfo   *authenticationInfo
 	urlBuilder urlBuilderFn
+	userAgent  string
 }
 
-func newCoreAPIRequestor(authInfo *authenticationInfo, tr *http.Transport) (r *apiRequestor) {
+func newCoreAPIRequestor(authInfo *authenticationInfo, nco *NewClientOptions) (r *apiRequestor) {
 	return &apiRequestor{
 		httpClient: &http.Client{
-			Transport: tr,
+			Transport: nco.Transport,
 		},
 		authInfo:   authInfo,
 		urlBuilder: buildCoreURL,
+		userAgent:  nco.UserAgent,
 	}
 }
 
-func newObjectStorageAPIRequestor(authInfo *authenticationInfo, tr *http.Transport) (r *apiRequestor) {
+func newObjectStorageAPIRequestor(authInfo *authenticationInfo, nco *NewClientOptions) (r *apiRequestor) {
 	return &apiRequestor{
 		httpClient: &http.Client{
-			Transport: tr,
+			Transport: nco.Transport,
 		},
 		authInfo:   authInfo,
 		urlBuilder: buildObjectStorageURL,
+		userAgent:  nco.UserAgent,
 	}
 }
 
-func newDatabaseAPIRequestor(authInfo *authenticationInfo, tr *http.Transport) (r *apiRequestor) {
+func newDatabaseAPIRequestor(authInfo *authenticationInfo, nco *NewClientOptions) (r *apiRequestor) {
 	return &apiRequestor{
 		httpClient: &http.Client{
-			Transport: tr,
+			Transport: nco.Transport,
 		},
 		authInfo:   authInfo,
 		urlBuilder: buildDatabaseURL,
+		userAgent:  nco.UserAgent,
 	}
 }
 
-func newIdentityAPIRequestor(authInfo *authenticationInfo, tr *http.Transport) (r *apiRequestor) {
+func newIdentityAPIRequestor(authInfo *authenticationInfo, nco *NewClientOptions) (r *apiRequestor) {
 	return &apiRequestor{
 		httpClient: &http.Client{
-			Transport: tr,
+			Transport: nco.Transport,
 		},
 		authInfo:   authInfo,
 		urlBuilder: buildIdentityURL,
+		userAgent:  nco.UserAgent,
 	}
 }
 
@@ -71,7 +80,7 @@ func (api *apiRequestor) deleteRequest(reqOpts request) (e error) {
 
 	req.Header = reqOpts.marshalHeader()
 
-	if e = createAuthorizationHeader(req, api.authInfo, []byte{}); e != nil {
+	if e = createAuthorizationHeader(req, api.authInfo, api.userAgent, []byte{}); e != nil {
 		return
 	}
 
@@ -108,12 +117,10 @@ func (api *apiRequestor) getRequest(reqOpts request) (getResp *response, e error
 
 	req.Header = reqOpts.marshalHeader()
 
-	if e = createAuthorizationHeader(req, api.authInfo, []byte{}); e != nil {
+	if e = createAuthorizationHeader(req, api.authInfo, api.userAgent, []byte{}); e != nil {
 		return
 	}
 
-	// fmt.Println("url")
-	// fmt.Println(req.URL.String())
 	var resp *http.Response
 	if resp, e = api.httpClient.Do(req); e != nil {
 		return
@@ -158,16 +165,19 @@ func (api *apiRequestor) request(method string, reqOpts request) (r *response, e
 	}
 	req.Header = reqOpts.marshalHeader()
 
-	if e = createAuthorizationHeader(req, api.authInfo, jsonBuffer); e != nil {
+	if e = createAuthorizationHeader(req, api.authInfo, api.userAgent, jsonBuffer); e != nil {
 		return
 	}
 
 	// fmt.Println("url")
-	// fmt.Println(req.URL.String())
+	//rbody, _ := httputil.DumpRequest(req, true)
+	//fmt.Println(string(rbody))
 	var resp *http.Response
 	if resp, e = api.httpClient.Do(req); e != nil {
 		return
 	}
+	//rbody, _ = httputil.DumpResponse(resp, true)
+	//fmt.Println(string(rbody))
 
 	var reader bytes.Buffer
 	_, e = reader.ReadFrom(resp.Body)

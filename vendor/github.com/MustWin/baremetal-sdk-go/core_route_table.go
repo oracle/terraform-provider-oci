@@ -1,13 +1,12 @@
+// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+
 package baremetal
 
 import "net/http"
 
 type RouteRule struct {
-	CidrBlock         string            `json:"cidrBlock"`
-	DisplayName       string            `json:"displayName,omitempty"`
-	NetworkEntityID   string            `json:"networkEntityId"`
-	NetworkEntityType NetworkEntityType `json:"networkEntityType"`
-	TimeCreated       Time              `json:"timeCreated,omitempty"`
+	CidrBlock       string `json:"cidrBlock"`
+	NetworkEntityID string `json:"networkEntityId"`
 }
 
 // RouteTable describes a route table

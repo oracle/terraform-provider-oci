@@ -47,12 +47,10 @@ func (s *ResourceCoreRouteTableTestSuite) SetupTest() {
       route_rules {
 				cidr_block = "cidr_block"
 				network_entity_id = "network_entity_id"
-				network_entity_type = "network_entity_type"
 			}
       route_rules {
 				cidr_block = "cidr_block"
 				network_entity_id = "network_entity_id"
-				network_entity_type = "network_entity_type"
 			}
 			vcn_id = "vcn_id"
 		}
@@ -65,12 +63,10 @@ func (s *ResourceCoreRouteTableTestSuite) SetupTest() {
 		{
 			CidrBlock:         "cidr_block",
 			NetworkEntityID:   "network_entity_id",
-			NetworkEntityType: "network_entity_type",
 		},
 		{
 			CidrBlock:         "cidr_block",
 			NetworkEntityID:   "network_entity_id",
-			NetworkEntityType: "network_entity_type",
 		},
 	}
 
@@ -122,7 +118,7 @@ func (s *ResourceCoreRouteTableTestSuite) TestCreateResourceCoreRouteTable() {
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", s.Res.CompartmentID),
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", s.Res.DisplayName),
 					resource.TestCheckResourceAttr(s.ResourceName, "route_rules.0.cidr_block", "cidr_block"),
-					resource.TestCheckResourceAttr(s.ResourceName, "route_rules.1.network_entity_type", "network_entity_type"),
+					resource.TestCheckResourceAttr(s.ResourceName, "route_rules.1.network_entity_id", "network_entity_id"),
 				),
 			},
 		},
@@ -139,7 +135,6 @@ func (s ResourceCoreRouteTableTestSuite) TestUpdateRouteTable() {
       route_rules {
 				cidr_block = "new_cidr_block"
 				network_entity_id = "network_entity_id"
-				network_entity_type = "network_entity_type"
 			}
 			vcn_id = "vcn_id"
 		}
@@ -150,7 +145,6 @@ func (s ResourceCoreRouteTableTestSuite) TestUpdateRouteTable() {
 		{
 			CidrBlock:         "new_cidr_block",
 			NetworkEntityID:   "network_entity_id",
-			NetworkEntityType: "network_entity_type",
 		},
 	}
 

@@ -1,3 +1,5 @@
+// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+
 package baremetal
 
 import (
@@ -34,28 +36,49 @@ type requestDetails struct {
 	required interface{}
 }
 
+func objToJSONMap(val interface{}) (map[string]interface{}, error) {
+	marshaled, err := json.Marshal(val)
+	if err != nil {
+		return nil, err
+	}
+	jsonMap := make(map[string]interface{})
+	if string(marshaled) == "null" {
+		return jsonMap, nil
+	}
+	err = json.Unmarshal(marshaled, &jsonMap)
+	return jsonMap, err
+}
+
 func (r *requestDetails) marshalBody() (marshaled []byte, e error) {
 	if bm, ok := r.required.(bodyMarshaller); ok {
 		return bm.body(), nil
 	}
 
-	if marshaled, e = json.Marshal(r.required); e != nil {
-		return
+	required := r.required
+	if required == nil {
+		required = struct{}{}
+	}
+	requiredMap, err := objToJSONMap(required)
+	if err != nil {
+		return nil, err
 	}
 
-	if r.optional != nil {
-		var oBody []byte
-		if oBody, e = json.Marshal(r.optional); e != nil {
-			return
-		}
-		if len(oBody) > 2 {
-			marshaled = marshaled[:len(marshaled)-1]
-			marshaled = append(marshaled, []byte(",")...)
-			oBody = oBody[1:]
-			marshaled = append(marshaled, oBody...)
-		}
+	opts := r.optional
+	if opts == nil {
+		opts = struct{}{}
 	}
 
+	optMap, err := objToJSONMap(opts)
+	if err != nil {
+		return nil, err
+	}
+
+	// Override options with required in case of overlap
+	for k, v := range requiredMap {
+		optMap[k] = v
+	}
+
+	marshaled, e = json.Marshal(optMap)
 	return
 }
 

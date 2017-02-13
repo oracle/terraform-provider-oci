@@ -1,3 +1,5 @@
+// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+
 package baremetal
 
 import "net/http"
@@ -7,7 +9,7 @@ import "net/http"
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/DHCPDNSOption/
 type DHCPDNSOption struct {
 	Type             string   `json:"type"`
-	CustomDNSServers []string `json:"customDnsServers"`
+	CustomDNSServers []string `json:"customDnsServers,omitempty"`
 	ServerType       string   `json:"serverType"`
 }
 

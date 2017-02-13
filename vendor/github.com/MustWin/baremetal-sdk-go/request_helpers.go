@@ -1,3 +1,5 @@
+// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+
 package baremetal
 
 import (
@@ -40,8 +42,8 @@ func getErrorFromResponse(body io.Reader, resp *http.Response) (e error) {
 	return &apiError
 }
 
-func createAuthorizationHeader(request *http.Request, auth *authenticationInfo, body []byte) (e error) {
-	addRequiredRequestHeaders(request, body)
+func createAuthorizationHeader(request *http.Request, auth *authenticationInfo, userAgent string, body []byte) (e error) {
+	addRequiredRequestHeaders(request, userAgent, body)
 	var sig string
 
 	if sig, e = computeSignature(request, auth.privateRSAKey); e != nil {
@@ -135,10 +137,14 @@ func getBodyHash(body []byte) string {
 	return base64.StdEncoding.EncodeToString(hash[:])
 }
 
-func addRequiredRequestHeaders(request *http.Request, body []byte) {
+func addRequiredRequestHeaders(request *http.Request, userAgent string, body []byte) {
 	addIfNotPresent(&request.Header, "content-type", "application/json")
 	addIfNotPresent(&request.Header, "date", time.Now().UTC().Format(http.TimeFormat))
-	addIfNotPresent(&request.Header, "User-Agent", fmt.Sprintf("baremetal-sdk-go-v%d", SDKVersion))
+	if userAgent == "" {
+		addIfNotPresent(&request.Header, "User-Agent", fmt.Sprintf("baremetal-sdk-go-v%s", SDKVersion))
+	} else {
+		addIfNotPresent(&request.Header, "User-Agent", userAgent)
+	}
 	addIfNotPresent(&request.Header, "accept", "*/*")
 
 	if request.Method == http.MethodPost || request.Method == http.MethodPut {

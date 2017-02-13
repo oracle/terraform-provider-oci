@@ -1,3 +1,5 @@
+// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+
 package baremetal
 
 import (
@@ -115,7 +117,7 @@ func (c *Client) ListGroups(opts *ListOptions) (resources *ListGroups, e error) 
 	details := &requestDetails{
 		name:     resourceGroups,
 		optional: opts,
-		required: ocidRequirement{c.authInfo.tenancyOCID},
+		required: listOCIDRequirement{c.authInfo.tenancyOCID},
 	}
 
 	var resp *response
