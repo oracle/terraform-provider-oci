@@ -44,6 +44,7 @@ type Conn interface {
 	NarrowTypeSet(narrow bool)
 	FullFieldInfo(full bool)
 	Status() ConnStatus
+	Credentials() (user, passwd string)
 
 	Begin() (Transaction, error)
 }

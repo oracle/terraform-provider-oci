@@ -19,6 +19,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"reflect"
 	"runtime"
 	"time"
 )
@@ -30,6 +31,14 @@ var (
 
 func init() {
 	ColorLog = runtime.GOOS != "windows"
+}
+
+// LoggerInvoker is an inject.FastInvoker wrapper of func(ctx *Context, log *log.Logger).
+type LoggerInvoker func(ctx *Context, log *log.Logger)
+
+func (invoke LoggerInvoker) Invoke(params []interface{}) ([]reflect.Value, error) {
+	invoke(params[0].(*Context), params[1].(*log.Logger))
+	return nil, nil
 }
 
 // Logger returns a middleware handler that logs the request as it goes in and the response as it goes out.

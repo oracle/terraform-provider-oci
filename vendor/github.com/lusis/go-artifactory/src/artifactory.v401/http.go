@@ -42,11 +42,13 @@ func (c *ArtifactoryClient) makeRequest(method string, path string, options map[
 		qs.Add(q, p)
 	}
 	var base_req_path string
-	if c.Config.BaseURL[:len(c.Config.BaseURL)-1] == "/" {
-		base_req_path = c.Config.BaseURL + path
-	} else {
-		base_req_path = c.Config.BaseURL + "/" + path
-	}
+	// swapped out legacy code below for simply trimming the trailing slash
+	//if c.Config.BaseURL[:len(c.Config.BaseURL)-1] == "/" {
+	//	base_req_path = c.Config.BaseURL + path
+	//} else {
+	//	base_req_path = c.Config.BaseURL + "/" + path
+	//}
+	base_req_path = strings.TrimSuffix(c.Config.BaseURL, "/") + path
 	u, err := url.Parse(base_req_path)
 	if err != nil {
 		var data bytes.Buffer
@@ -68,7 +70,12 @@ func (c *ArtifactoryClient) makeRequest(method string, path string, options map[
 	}
 	req.Header.Add("user-agent", "artifactory-go."+VERSION)
 	req.Header.Add("X-Result-Detail", "info, properties")
-	req.SetBasicAuth(c.Config.Username, c.Config.Password)
+	req.Header.Add("Accept", "application/json")
+	if c.Config.AuthMethod == "basic" {
+		req.SetBasicAuth(c.Config.Username, c.Config.Password)
+	} else {
+		req.Header.Add("X-JFrog-Art-Api", c.Config.Token)
+	}
 	r, err := c.Client.Do(req)
 	if err != nil {
 		var data bytes.Buffer

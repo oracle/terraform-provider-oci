@@ -61,7 +61,7 @@ func resourceCoreInstance() *schema.Resource {
 			"metadata": {
 				Type:     schema.TypeMap,
 				Computed: true,
-				Elem:     schema.TypeMap,
+				Elem:     schema.TypeString,
 			},
 			"region": {
 				Type:     schema.TypeString,

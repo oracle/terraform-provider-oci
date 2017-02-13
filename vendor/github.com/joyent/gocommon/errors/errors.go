@@ -29,7 +29,7 @@ const (
 	RequestTooLargeError    = Code("RequestTooLarge")
 	RequestMovedError       = Code("RequestMoved")
 	ResourceNotFoundError   = Code("ResourceNotFound")
-	UnknownErrorError       = Code("UnkownError")
+	UnknownErrorError       = Code("UnknownError")
 )
 
 // Error instances store an optional error cause.

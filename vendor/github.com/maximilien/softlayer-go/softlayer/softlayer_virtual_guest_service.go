@@ -36,6 +36,8 @@ type SoftLayer_Virtual_Guest_Service interface {
 	GetLastTransaction(instanceId int) (datatypes.SoftLayer_Provisioning_Version1_Transaction, error)
 	GetActiveTransactions(instanceId int) ([]datatypes.SoftLayer_Provisioning_Version1_Transaction, error)
 	GetAllowedHost(instanceId int) (datatypes.SoftLayer_Network_Storage_Allowed_Host, error)
+	GetLocalDiskFlag(instanceId int) (bool, error)
+	GetBlockDevices(instanceId int) ([]datatypes.SoftLayer_Virtual_Guest_Block_Device, error)
 	GetNetworkComponents(instanceId int) ([]datatypes.SoftLayer_Virtual_Guest_Network_Component, error)
 	GetNetworkVlans(instanceId int) ([]datatypes.SoftLayer_Network_Vlan, error)
 	GetObject(instanceId int) (datatypes.SoftLayer_Virtual_Guest, error)

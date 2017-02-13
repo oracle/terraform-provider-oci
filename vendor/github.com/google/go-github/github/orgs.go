@@ -27,6 +27,7 @@ type Organization struct {
 	Blog              *string    `json:"blog,omitempty"`
 	Location          *string    `json:"location,omitempty"`
 	Email             *string    `json:"email,omitempty"`
+	Description       *string    `json:"description,omitempty"`
 	PublicRepos       *int       `json:"public_repos,omitempty"`
 	PublicGists       *int       `json:"public_gists,omitempty"`
 	Followers         *int       `json:"followers,omitempty"`
@@ -45,6 +46,8 @@ type Organization struct {
 	// API URLs
 	URL              *string `json:"url,omitempty"`
 	EventsURL        *string `json:"events_url,omitempty"`
+	HooksURL         *string `json:"hooks_url,omitempty"`
+	IssuesURL        *string `json:"issues_url,omitempty"`
 	MembersURL       *string `json:"members_url,omitempty"`
 	PublicMembersURL *string `json:"public_members_url,omitempty"`
 	ReposURL         *string `json:"repos_url,omitempty"`
@@ -122,13 +125,13 @@ func (s *OrganizationsService) List(user string, opt *ListOptions) ([]*Organizat
 		return nil, nil, err
 	}
 
-	orgs := new([]*Organization)
-	resp, err := s.client.Do(req, orgs)
+	var orgs []*Organization
+	resp, err := s.client.Do(req, &orgs)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return *orgs, resp, err
+	return orgs, resp, nil
 }
 
 // Get fetches an organization by name.

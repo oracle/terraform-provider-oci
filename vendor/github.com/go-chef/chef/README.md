@@ -21,47 +21,47 @@ This is a Library that you can use to write tools to interact with the chef serv
 ## Usage
 This example is setting up a basic client that you can use to interact with all the service endpoints (clients, nodes, cookbooks, etc.)
 More usage examples can be found in the [examples](examples) directory.
- 
-     package main
-     
-     import (
-     	"encoding/json"
-     	"fmt"
-     	"io/ioutil"
-     	"log"
-     	"os"
-     
-     	"github.com/go-chef/chef"
-     )
-     
-     func main() {
-     	// read a client key
-     	key, err := ioutil.ReadFile("key.pem")
-     	if err != nil {
-     		fmt.Println("Couldn't read key.pem:", err)
-         os.Exit(1)
-       }
-     
-     	// build a client
-     	client, err := chef.NewClient(&chef.Config{
-     		Name: "foo",
-     		Key:  string(key),
-     		// goiardi is on port 4545 by default. chef-zero is 8889
-     		BaseURL: "http://localhost:4545",
-     	})
-     	if err != nil {
-     		fmt.Println("Issue setting up client:", err)
-       }
-     
-       // List Cookbooks
-       cookList, err := client.Cookbooks.List()
-       if err != nil {
-         fmt.Println("Issue listing cookbooks:", err)
-       }
-     
-       // Print out the list
-       fmt.Println(cookList)
-     }
+
+```go
+package main
+
+import (
+	"fmt"
+	"io/ioutil"
+	"os"
+
+	"github.com/go-chef/chef"
+)
+
+func main() {
+	// read a client key
+	key, err := ioutil.ReadFile("key.pem")
+	if err != nil {
+		fmt.Println("Couldn't read key.pem:", err)
+		os.Exit(1)
+	}
+
+	// build a client
+	client, err := chef.NewClient(&chef.Config{
+		Name: "foo",
+		Key:  string(key),
+		// goiardi is on port 4545 by default. chef-zero is 8889
+		BaseURL: "http://localhost:4545",
+	})
+	if err != nil {
+		fmt.Println("Issue setting up client:", err)
+	}
+
+	// List Cookbooks
+	cookList, err := client.Cookbooks.List()
+	if err != nil {
+		fmt.Println("Issue listing cookbooks:", err)
+	}
+
+	// Print out the list
+	fmt.Println(cookList)
+}
+```
 
 ## CONTRIBUTING
 

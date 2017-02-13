@@ -3,15 +3,12 @@ package pq
 import (
 	"bufio"
 	"crypto/md5"
-	"crypto/tls"
-	"crypto/x509"
 	"database/sql"
 	"database/sql/driver"
 	"encoding/binary"
 	"errors"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"net"
 	"os"
 	"os/user"
@@ -32,6 +29,10 @@ var (
 	ErrSSLNotSupported           = errors.New("pq: SSL is not enabled on the server")
 	ErrSSLKeyHasWorldPermissions = errors.New("pq: Private key file has group or world access. Permissions should be u=rw (0600) or less.")
 	ErrCouldNotDetectUsername    = errors.New("pq: Could not detect default username. Please provide one explicitly.")
+
+	errUnexpectedReady = errors.New("unexpected ReadyForQuery")
+	errNoRowsAffected  = errors.New("no RowsAffected available after the empty statement")
+	errNoLastInsertId  = errors.New("no LastInsertId available after the empty statement")
 )
 
 type drv struct{}
@@ -97,6 +98,15 @@ type conn struct {
 	namei     int
 	scratch   [512]byte
 	txnStatus transactionStatus
+	txnClosed chan<- struct{}
+
+	// Save connection arguments to use during CancelRequest.
+	dialer Dialer
+	opts   values
+
+	// Cancellation key data for use with CancelRequest messages.
+	processID int
+	secretKey int
 
 	parameterStatus parameterStatus
 
@@ -115,6 +125,9 @@ type conn struct {
 	// Whether to always send []byte parameters over as binary.  Enables single
 	// round-trip mode for non-prepared Query calls.
 	binaryParameters bool
+
+	// If true this connection is in the middle of a COPY
+	inCopy bool
 }
 
 // Handle driver-side settings in parsed connection string.
@@ -303,7 +316,10 @@ func DialOpen(d Dialer, name string) (_ driver.Conn, err error) {
 		}
 	}
 
-	cn := &conn{}
+	cn := &conn{
+		opts:   o,
+		dialer: d,
+	}
 	err = cn.handleDriverSettings(o)
 	if err != nil {
 		return nil, err
@@ -525,7 +541,15 @@ func (cn *conn) Begin() (_ driver.Tx, err error) {
 	return cn, nil
 }
 
+func (cn *conn) closeTxn() {
+	if cn.txnClosed != nil {
+		close(cn.txnClosed)
+		cn.txnClosed = nil
+	}
+}
+
 func (cn *conn) Commit() (err error) {
+	defer cn.closeTxn()
 	if cn.bad {
 		return driver.ErrBadConn
 	}
@@ -561,6 +585,7 @@ func (cn *conn) Commit() (err error) {
 }
 
 func (cn *conn) Rollback() (err error) {
+	defer cn.closeTxn()
 	if cn.bad {
 		return driver.ErrBadConn
 	}
@@ -598,11 +623,16 @@ func (cn *conn) simpleExec(q string) (res driver.Result, commandTag string, err 
 			res, commandTag = cn.parseComplete(r.string())
 		case 'Z':
 			cn.processReadyForQuery(r)
+			if res == nil && err == nil {
+				err = errUnexpectedReady
+			}
 			// done
 			return
 		case 'E':
 			err = parseError(r)
-		case 'T', 'D', 'I':
+		case 'I':
+			res = emptyRows
+		case 'T', 'D':
 			// ignore any results
 		default:
 			cn.bad = true
@@ -633,6 +663,9 @@ func (cn *conn) simpleQuery(q string) (res *rows, err error) {
 			if res == nil {
 				res = &rows{
 					cn: cn,
+				}
+				if t == 'C' {
+					res.result, res.tag = cn.parseComplete(r.string())
 				}
 			}
 			res.done = true
@@ -666,6 +699,20 @@ func (cn *conn) simpleQuery(q string) (res *rows, err error) {
 	}
 }
 
+type noRows struct{}
+
+var emptyRows noRows
+
+var _ driver.Result = noRows{}
+
+func (noRows) LastInsertId() (int64, error) {
+	return 0, errNoLastInsertId
+}
+
+func (noRows) RowsAffected() (int64, error) {
+	return 0, errNoRowsAffected
+}
+
 // Decides which column formats to use for a prepared statement.  The input is
 // an array of type oids, one element per result column.
 func decideColumnFormats(colTyps []oid.Oid, forceText bool) (colFmts []format, colFmtData []byte) {
@@ -692,6 +739,8 @@ func decideColumnFormats(colTyps []oid.Oid, forceText bool) (colFmts []format, c
 		case oid.T_int4:
 			fallthrough
 		case oid.T_int2:
+			fallthrough
+		case oid.T_uuid:
 			colFmts[i] = formatBinary
 			allText = false
 
@@ -743,31 +792,44 @@ func (cn *conn) Prepare(q string) (_ driver.Stmt, err error) {
 	defer cn.errRecover(&err)
 
 	if len(q) >= 4 && strings.EqualFold(q[:4], "COPY") {
-		return cn.prepareCopyIn(q)
+		s, err := cn.prepareCopyIn(q)
+		if err == nil {
+			cn.inCopy = true
+		}
+		return s, err
 	}
 	return cn.prepareTo(q, cn.gname()), nil
 }
 
 func (cn *conn) Close() (err error) {
-	if cn.bad {
-		return driver.ErrBadConn
-	}
+	// Skip cn.bad return here because we always want to close a connection.
 	defer cn.errRecover(&err)
+
+	// Ensure that cn.c.Close is always run. Since error handling is done with
+	// panics and cn.errRecover, the Close must be in a defer.
+	defer func() {
+		cerr := cn.c.Close()
+		if err == nil {
+			err = cerr
+		}
+	}()
 
 	// Don't go through send(); ListenerConn relies on us not scribbling on the
 	// scratch buffer of this connection.
-	err = cn.sendSimpleMessage('X')
-	if err != nil {
-		return err
-	}
-
-	return cn.c.Close()
+	return cn.sendSimpleMessage('X')
 }
 
 // Implement the "Queryer" interface
-func (cn *conn) Query(query string, args []driver.Value) (_ driver.Rows, err error) {
+func (cn *conn) Query(query string, args []driver.Value) (driver.Rows, error) {
+	return cn.query(query, args)
+}
+
+func (cn *conn) query(query string, args []driver.Value) (_ *rows, err error) {
 	if cn.bad {
 		return nil, driver.ErrBadConn
+	}
+	if cn.inCopy {
+		return nil, errCopyInProgress
 	}
 	defer cn.errRecover(&err)
 
@@ -965,41 +1027,11 @@ func (cn *conn) recv1() (t byte, r *readBuf) {
 }
 
 func (cn *conn) ssl(o values) {
-	verifyCaOnly := false
-	tlsConf := tls.Config{}
-	switch mode := o.Get("sslmode"); mode {
-	// "require" is the default.
-	case "", "require":
-		// We must skip TLS's own verification since it requires full
-		// verification since Go 1.3.
-		tlsConf.InsecureSkipVerify = true
-
-		// From http://www.postgresql.org/docs/current/static/libpq-ssl.html:
-		// Note: For backwards compatibility with earlier versions of PostgreSQL, if a
-		// root CA file exists, the behavior of sslmode=require will be the same as
-		// that of verify-ca, meaning the server certificate is validated against the
-		// CA. Relying on this behavior is discouraged, and applications that need
-		// certificate validation should always use verify-ca or verify-full.
-		if _, err := os.Stat(o.Get("sslrootcert")); err == nil {
-			verifyCaOnly = true
-		} else {
-			o.Set("sslrootcert", "")
-		}
-	case "verify-ca":
-		// We must skip TLS's own verification since it requires full
-		// verification since Go 1.3.
-		tlsConf.InsecureSkipVerify = true
-		verifyCaOnly = true
-	case "verify-full":
-		tlsConf.ServerName = o.Get("host")
-	case "disable":
+	upgrade := ssl(o)
+	if upgrade == nil {
+		// Nothing to do
 		return
-	default:
-		errorf(`unsupported sslmode %q; only "require" (default), "verify-full", "verify-ca", and "disable" supported`, mode)
 	}
-
-	cn.setupSSLClientCertificates(&tlsConf, o)
-	cn.setupSSLCA(&tlsConf, o)
 
 	w := cn.writeBuf(0)
 	w.int32(80877103)
@@ -1015,114 +1047,7 @@ func (cn *conn) ssl(o values) {
 		panic(ErrSSLNotSupported)
 	}
 
-	client := tls.Client(cn.c, &tlsConf)
-	if verifyCaOnly {
-		cn.verifyCA(client, &tlsConf)
-	}
-	cn.c = client
-}
-
-// verifyCA carries out a TLS handshake to the server and verifies the
-// presented certificate against the effective CA, i.e. the one specified in
-// sslrootcert or the system CA if sslrootcert was not specified.
-func (cn *conn) verifyCA(client *tls.Conn, tlsConf *tls.Config) {
-	err := client.Handshake()
-	if err != nil {
-		panic(err)
-	}
-	certs := client.ConnectionState().PeerCertificates
-	opts := x509.VerifyOptions{
-		DNSName:       client.ConnectionState().ServerName,
-		Intermediates: x509.NewCertPool(),
-		Roots:         tlsConf.RootCAs,
-	}
-	for i, cert := range certs {
-		if i == 0 {
-			continue
-		}
-		opts.Intermediates.AddCert(cert)
-	}
-	_, err = certs[0].Verify(opts)
-	if err != nil {
-		panic(err)
-	}
-}
-
-// This function sets up SSL client certificates based on either the "sslkey"
-// and "sslcert" settings (possibly set via the environment variables PGSSLKEY
-// and PGSSLCERT, respectively), or if they aren't set, from the .postgresql
-// directory in the user's home directory.  If the file paths are set
-// explicitly, the files must exist.  The key file must also not be
-// world-readable, or this function will panic with
-// ErrSSLKeyHasWorldPermissions.
-func (cn *conn) setupSSLClientCertificates(tlsConf *tls.Config, o values) {
-	var missingOk bool
-
-	sslkey := o.Get("sslkey")
-	sslcert := o.Get("sslcert")
-	if sslkey != "" && sslcert != "" {
-		// If the user has set an sslkey and sslcert, they *must* exist.
-		missingOk = false
-	} else {
-		// Automatically load certificates from ~/.postgresql.
-		user, err := user.Current()
-		if err != nil {
-			// user.Current() might fail when cross-compiling.  We have to
-			// ignore the error and continue without client certificates, since
-			// we wouldn't know where to load them from.
-			return
-		}
-
-		sslkey = filepath.Join(user.HomeDir, ".postgresql", "postgresql.key")
-		sslcert = filepath.Join(user.HomeDir, ".postgresql", "postgresql.crt")
-		missingOk = true
-	}
-
-	// Check that both files exist, and report the error or stop, depending on
-	// which behaviour we want.  Note that we don't do any more extensive
-	// checks than this (such as checking that the paths aren't directories);
-	// LoadX509KeyPair() will take care of the rest.
-	keyfinfo, err := os.Stat(sslkey)
-	if err != nil && missingOk {
-		return
-	} else if err != nil {
-		panic(err)
-	}
-	_, err = os.Stat(sslcert)
-	if err != nil && missingOk {
-		return
-	} else if err != nil {
-		panic(err)
-	}
-
-	// If we got this far, the key file must also have the correct permissions
-	kmode := keyfinfo.Mode()
-	if kmode != kmode&0600 {
-		panic(ErrSSLKeyHasWorldPermissions)
-	}
-
-	cert, err := tls.LoadX509KeyPair(sslcert, sslkey)
-	if err != nil {
-		panic(err)
-	}
-	tlsConf.Certificates = []tls.Certificate{cert}
-}
-
-// Sets up RootCAs in the TLS configuration if sslrootcert is set.
-func (cn *conn) setupSSLCA(tlsConf *tls.Config, o values) {
-	if sslrootcert := o.Get("sslrootcert"); sslrootcert != "" {
-		tlsConf.RootCAs = x509.NewCertPool()
-
-		cert, err := ioutil.ReadFile(sslrootcert)
-		if err != nil {
-			panic(err)
-		}
-
-		ok := tlsConf.RootCAs.AppendCertsFromPEM(cert)
-		if !ok {
-			errorf("couldn't parse pem in sslrootcert")
-		}
-	}
+	cn.c = upgrade(cn.c)
 }
 
 // isDriverSetting returns true iff a setting is purely for configuring the
@@ -1177,6 +1102,7 @@ func (cn *conn) startup(o values) {
 		t, r := cn.recv()
 		switch t {
 		case 'K':
+			cn.processBackendKeyData(r)
 		case 'S':
 			cn.processParameterStatus(r)
 		case 'R':
@@ -1404,14 +1330,20 @@ func (cn *conn) parseComplete(commandTag string) (driver.Result, string) {
 
 type rows struct {
 	cn       *conn
+	closed   chan<- struct{}
 	colNames []string
 	colTyps  []oid.Oid
 	colFmts  []format
 	done     bool
 	rb       readBuf
+	result   driver.Result
+	tag      string
 }
 
 func (rs *rows) Close() error {
+	if rs.closed != nil {
+		defer close(rs.closed)
+	}
 	// no need to look at cn.bad as Next() will
 	for {
 		err := rs.Next(nil)
@@ -1427,6 +1359,17 @@ func (rs *rows) Close() error {
 
 func (rs *rows) Columns() []string {
 	return rs.colNames
+}
+
+func (rs *rows) Result() driver.Result {
+	if rs.result == nil {
+		return emptyRows
+	}
+	return rs.result
+}
+
+func (rs *rows) Tag() string {
+	return rs.tag
 }
 
 func (rs *rows) Next(dest []driver.Value) (err error) {
@@ -1446,6 +1389,9 @@ func (rs *rows) Next(dest []driver.Value) (err error) {
 		case 'E':
 			err = parseError(&rs.rb)
 		case 'C', 'I':
+			if t == 'C' {
+				rs.result, rs.tag = conn.parseComplete(rs.rb.string())
+			}
 			continue
 		case 'Z':
 			conn.processReadyForQuery(&rs.rb)
@@ -1472,10 +1418,21 @@ func (rs *rows) Next(dest []driver.Value) (err error) {
 				dest[i] = decode(&conn.parameterStatus, rs.rb.next(l), rs.colTyps[i], rs.colFmts[i])
 			}
 			return
+		case 'T':
+			rs.colNames, rs.colFmts, rs.colTyps = parsePortalRowDescribe(&rs.rb)
+			return io.EOF
 		default:
 			errorf("unexpected message after execute: %q", t)
 		}
 	}
+}
+
+func (rs *rows) HasNextResultSet() bool {
+	return !rs.done
+}
+
+func (rs *rows) NextResultSet() error {
+	return nil
 }
 
 // QuoteIdentifier quotes an "identifier" (e.g. a table or a column name) to be
@@ -1605,6 +1562,11 @@ func (cn *conn) readReadyForQuery() {
 	}
 }
 
+func (c *conn) processBackendKeyData(r *readBuf) {
+	c.processID = r.int32()
+	c.secretKey = r.int32()
+}
+
 func (cn *conn) readParseResponse() {
 	t, r := cn.recv1()
 	switch t {
@@ -1720,6 +1682,9 @@ func (cn *conn) readExecuteResponse(protocolState string) (res driver.Result, co
 			res, commandTag = cn.parseComplete(r.string())
 		case 'Z':
 			cn.processReadyForQuery(r)
+			if res == nil && err == nil {
+				err = errUnexpectedReady
+			}
 			return res, commandTag, err
 		case 'E':
 			err = parseError(r)
@@ -1727,6 +1692,9 @@ func (cn *conn) readExecuteResponse(protocolState string) (res driver.Result, co
 			if err != nil {
 				cn.bad = true
 				errorf("unexpected %q after error %s", t, err)
+			}
+			if t == 'I' {
+				res = emptyRows
 			}
 			// ignore any results
 		default:

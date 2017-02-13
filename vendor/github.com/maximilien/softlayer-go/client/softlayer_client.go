@@ -3,15 +3,17 @@ package client
 import (
 	"errors"
 	"fmt"
+	"os"
 
-	services "github.com/maximilien/softlayer-go/services"
-	softlayer "github.com/maximilien/softlayer-go/softlayer"
+	"github.com/maximilien/softlayer-go/services"
+	"github.com/maximilien/softlayer-go/softlayer"
 )
 
 const (
-	SOFTLAYER_API_URL  = "api.softlayer.com/rest/v3"
 	TEMPLATE_ROOT_PATH = "templates"
 )
+
+var sl_endpoint_servers = [4]string{"api.softlayer.com", "api.service.softlayer.com", "66.228.119.120", "10.0.80.88"}
 
 type SoftLayerClient struct {
 	HttpClient softlayer.HttpClient
@@ -21,7 +23,7 @@ type SoftLayerClient struct {
 
 func NewSoftLayerClient(username, apiKey string) *SoftLayerClient {
 	slc := &SoftLayerClient{
-		HttpClient: NewHttpsClient(username, apiKey, SOFTLAYER_API_URL, TEMPLATE_ROOT_PATH),
+		HttpClient: NewHttpsClient(username, apiKey, GetSLApiEndpoint(), TEMPLATE_ROOT_PATH),
 
 		softLayerServices: map[string]softlayer.Service{},
 	}
@@ -109,6 +111,15 @@ func (slc *SoftLayerClient) GetSoftLayer_Virtual_Guest_Block_Device_Template_Gro
 	return slService.(softlayer.SoftLayer_Virtual_Guest_Block_Device_Template_Group_Service), nil
 }
 
+func (slc *SoftLayerClient) GetSoftLayer_Network_Vlan_Service() (softlayer.SoftLayer_Network_Vlan_Service, error) {
+	slService, err := slc.GetService("SoftLayer_Network_Vlan")
+	if err != nil {
+		return nil, err
+	}
+
+	return slService.(softlayer.SoftLayer_Network_Vlan_Service), nil
+}
+
 func (slc *SoftLayerClient) GetSoftLayer_Network_Storage_Service() (softlayer.SoftLayer_Network_Storage_Service, error) {
 	slService, err := slc.GetService("SoftLayer_Network_Storage")
 	if err != nil {
@@ -172,6 +183,24 @@ func (slc *SoftLayerClient) GetSoftLayer_Dns_Domain_ResourceRecord_Service() (so
 	return slService.(softlayer.SoftLayer_Dns_Domain_ResourceRecord_Service), nil
 }
 
+func GetSLApiEndpoint() string {
+	sl_api_endpoint := os.Getenv("SL_API_ENDPOINT")
+	var included bool = false
+
+	for _, server := range sl_endpoint_servers {
+		if server == sl_api_endpoint {
+			included = true
+			break
+		}
+	}
+	if !included {
+		sl_api_endpoint = "api.softlayer.com"
+	}
+	softlayer_api_url := fmt.Sprintf("%s/rest/v3", sl_api_endpoint)
+
+	return softlayer_api_url
+}
+
 //Private methods
 
 func (slc *SoftLayerClient) initSoftLayerServices() {
@@ -181,6 +210,7 @@ func (slc *SoftLayerClient) initSoftLayerServices() {
 	slc.softLayerServices["SoftLayer_Security_Ssh_Key"] = services.NewSoftLayer_Security_Ssh_Key_Service(slc)
 	slc.softLayerServices["SoftLayer_Product_Package"] = services.NewSoftLayer_Product_Package_Service(slc)
 	slc.softLayerServices["SoftLayer_Network_Storage"] = services.NewSoftLayer_Network_Storage_Service(slc)
+	slc.softLayerServices["SoftLayer_Network_Vlan"] = services.NewSoftLayer_Network_Vlan_Service(slc)
 	slc.softLayerServices["SoftLayer_Network_Storage_Allowed_Host"] = services.NewSoftLayer_Network_Storage_Allowed_Host_Service(slc)
 	slc.softLayerServices["SoftLayer_Product_Order"] = services.NewSoftLayer_Product_Order_Service(slc)
 	slc.softLayerServices["SoftLayer_Billing_Item_Cancellation_Request"] = services.NewSoftLayer_Billing_Item_Cancellation_Request_Service(slc)

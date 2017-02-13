@@ -87,6 +87,10 @@ func New(proto, laddr, raddr, user, passwd string, db ...string) mysql.Conn {
 	return &my
 }
 
+func (my *Conn) Credentials() (user, passwd string) {
+	return my.user, my.passwd
+}
+
 func (my *Conn) NarrowTypeSet(narrow bool) {
 	my.narrowTypeSet = narrow
 }

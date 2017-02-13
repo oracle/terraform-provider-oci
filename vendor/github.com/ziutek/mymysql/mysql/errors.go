@@ -514,7 +514,7 @@ var (
 	ErrUnexpNullTime  = ClientError("unexpected NULL TIME")
 	ErrUnkResultPkt   = ClientError("unexpected or unknown result packet")
 	ErrNotConn        = ClientError("not connected")
-	ErrAlredyConn     = ClientError("not connected")
+	ErrAlredyConn     = ClientError("already connected")
 	ErrBadResult      = ClientError("unexpected result")
 	ErrUnreadedReply  = ClientError("reply is not completely read")
 	ErrBindCount      = ClientError("wrong number of values for bind")

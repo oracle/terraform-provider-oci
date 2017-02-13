@@ -61,16 +61,16 @@ const (
 	password = "bumblebeetuna"
 )
 
+
 func main() {
-	// Make client
+	// Create a new HTTPClient
 	c, err := client.NewHTTPClient(client.HTTPConfig{
-		Addr: "http://localhost:8086",
+		Addr:     "http://localhost:8086",
 		Username: username,
 		Password: password,
 	})
-
 	if err != nil {
-	    log.Fatalln("Error: ", err)
+		log.Fatal(err)
 	}
 
 	// Create a new point batch
@@ -78,9 +78,8 @@ func main() {
 		Database:  MyDB,
 		Precision: "s",
 	})
-
 	if err != nil {
-	    log.Fatalln("Error: ", err)
+		log.Fatal(err)
 	}
 
 	// Create a point and add to batch
@@ -90,16 +89,17 @@ func main() {
 		"system": 53.3,
 		"user":   46.6,
 	}
+
 	pt, err := client.NewPoint("cpu_usage", tags, fields, time.Now())
-
 	if err != nil {
-	    log.Fatalln("Error: ", err)
+		log.Fatal(err)
 	}
-
 	bp.AddPoint(pt)
 
 	// Write the batch
-	c.Write(bp)
+	if err := c.Write(bp); err != nil {
+		log.Fatal(err)
+	}
 }
 
 ```
@@ -119,15 +119,19 @@ NOTE: You can specify a RetentionPolicy as part of the batch points. If not
 provided InfluxDB will use the database _default_ retention policy.
 
 ```go
+
 func writePoints(clnt client.Client) {
 	sampleSize := 1000
-	rand.Seed(42)
 
-	bp, _ := client.NewBatchPoints(client.BatchPointsConfig{
+	bp, err := client.NewBatchPoints(client.BatchPointsConfig{
 		Database:  "systemstats",
 		Precision: "us",
 	})
+	if err != nil {
+		log.Fatal(err)
+	}
 
+    rand.Seed(time.Now().UnixNano())
 	for i := 0; i < sampleSize; i++ {
 		regions := []string{"us-west1", "us-west2", "us-west3", "us-east1"}
 		tags := map[string]string{
@@ -142,21 +146,23 @@ func writePoints(clnt client.Client) {
 			"busy": 100.0 - idle,
 		}
 
-		bp.AddPoint(client.NewPoint(
+		pt, err := client.NewPoint(
 			"cpu_usage",
 			tags,
 			fields,
 			time.Now(),
-		))
+		)
+		if err != nil {
+			log.Fatal(err)
+		}
+		bp.AddPoint(pt)
 	}
 
-	err := clnt.Write(bp)
-	if err != nil {
+	if err := clnt.Write(bp); err != nil {
 		log.Fatal(err)
 	}
 }
 ```
-
 
 ### Querying Data
 
@@ -230,8 +236,11 @@ The **InfluxDB** client also supports writing over UDP.
 ```go
 func WriteUDP() {
 	// Make client
-	c := client.NewUDPClient("localhost:8089")
-
+	c, err := client.NewUDPClient("localhost:8089")
+	if err != nil {
+		panic(err.Error())
+	}
+	
 	// Create a new point batch
 	bp, _ := client.NewBatchPoints(client.BatchPointsConfig{
 		Precision: "s",
@@ -254,6 +263,28 @@ func WriteUDP() {
 	c.Write(bp)
 }
 ```
+
+### Point Splitting
+
+The UDP client now supports splitting single points that exceed the configured
+payload size. The logic for processing each point is listed here, starting with
+an empty payload.
+
+1. If adding the point to the current (non-empty) payload would exceed the
+   configured size, send the current payload. Otherwise, add it to the current
+   payload.
+1. If the point is smaller than the configured size, add it to the payload.
+1. If the point has no timestamp, just try to send the entire point as a single
+   UDP payload, and process the next point.
+1. Since the point has a timestamp, re-use the existing measurement name,
+   tagset, and timestamp and create multiple new points by splitting up the
+   fields. The per-point length will be kept close to the configured size,
+   staying under it if possible. This does mean that one large field, maybe a
+   long string, could be sent as a larger-than-configured payload.
+
+The above logic attempts to respect configured payload sizes, but not sacrifice
+any data integrity. Points without a timestamp can't be split, as that may
+cause fields to have differing timestamps when processed by the server.
 
 ## Go Docs
 

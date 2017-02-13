@@ -26,12 +26,15 @@ import (
 
 const (
 	// Environment variables
-	SdcAccount = "SDC_ACCOUNT"
-	SdcKeyId   = "SDC_KEY_ID"
-	SdcUrl     = "SDC_URL"
-	MantaUser  = "MANTA_USER"
-	MantaKeyId = "MANTA_KEY_ID"
-	MantaUrl   = "MANTA_URL"
+	TritonAccount	= "TRITON_ACCOUNT"
+	TritonKeyId	= "TRITON_KEY_ID"
+	TritonUrl	= "TRITON_URL"
+	SdcAccount	= "SDC_ACCOUNT"
+	SdcKeyId	= "SDC_KEY_ID"
+	SdcUrl		= "SDC_URL"
+	MantaUser	= "MANTA_USER"
+	MantaKeyId	= "MANTA_KEY_ID"
+	MantaUrl	= "MANTA_URL"
 )
 
 var Locations = map[string]string{
@@ -77,15 +80,15 @@ func credentialsFromEnv(key string) (*auth.Credentials, error) {
 	if err != nil {
 		return nil, err
 	}
-	authentication, err := auth.NewAuth(getConfig(SdcAccount, MantaUser), string(privateKey), "rsa-sha256")
+	authentication, err := auth.NewAuth(getConfig(TritonAccount, SdcAccount, MantaUser), string(privateKey), "rsa-sha256")
 	if err != nil {
 		return nil, err
 	}
 
 	return &auth.Credentials{
 		UserAuthentication: authentication,
-		SdcKeyId:           getConfig(SdcKeyId),
-		SdcEndpoint:        auth.Endpoint{URL: getConfig(SdcUrl)},
+		SdcKeyId:           getConfig(TritonKeyId, SdcKeyId),
+		SdcEndpoint:        auth.Endpoint{URL: getConfig(TritonUrl, SdcUrl)},
 		MantaKeyId:         getConfig(MantaKeyId),
 		MantaEndpoint:      auth.Endpoint{URL: getConfig(MantaUrl)},
 	}, nil

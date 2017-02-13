@@ -14,6 +14,7 @@ import (
 
 	"github.com/davecgh/go-spew/spew"
 	"github.com/hashicorp/go-getter"
+	"github.com/hashicorp/go-multierror"
 	"github.com/hashicorp/terraform/config/module"
 	"github.com/hashicorp/terraform/helper/logging"
 	"github.com/hashicorp/terraform/terraform"
@@ -520,43 +521,96 @@ func ComposeTestCheckFunc(fs ...TestCheckFunc) TestCheckFunc {
 	}
 }
 
+// ComposeAggregateTestCheckFunc lets you compose multiple TestCheckFuncs into
+// a single TestCheckFunc.
+//
+// As a user testing their provider, this lets you decompose your checks
+// into smaller pieces more easily.
+//
+// Unlike ComposeTestCheckFunc, ComposeAggergateTestCheckFunc runs _all_ of the
+// TestCheckFuncs and aggregates failures.
+func ComposeAggregateTestCheckFunc(fs ...TestCheckFunc) TestCheckFunc {
+	return func(s *terraform.State) error {
+		var result *multierror.Error
+
+		for i, f := range fs {
+			if err := f(s); err != nil {
+				result = multierror.Append(result, fmt.Errorf("Check %d/%d error: %s", i+1, len(fs), err))
+			}
+		}
+
+		return result.ErrorOrNil()
+	}
+}
+
+// TestCheckResourceAttrSet is a TestCheckFunc which ensures a value
+// exists in state for the given name/key combination. It is useful when
+// testing that computed values were set, when it is not possible to
+// know ahead of time what the values will be.
+func TestCheckResourceAttrSet(name, key string) TestCheckFunc {
+	return func(s *terraform.State) error {
+		is, err := primaryInstanceState(s, name)
+		if err != nil {
+			return err
+		}
+
+		if val, ok := is.Attributes[key]; ok && val != "" {
+			return nil
+		}
+
+		return fmt.Errorf("%s: Attribute '%s' expected to be set", name, key)
+	}
+}
+
+// TestCheckResourceAttr is a TestCheckFunc which validates
+// the value in state for the given name/key combination.
 func TestCheckResourceAttr(name, key, value string) TestCheckFunc {
 	return func(s *terraform.State) error {
-		ms := s.RootModule()
-		rs, ok := ms.Resources[name]
-		if !ok {
-			return fmt.Errorf("Not found: %s", name)
+		is, err := primaryInstanceState(s, name)
+		if err != nil {
+			return err
 		}
+		if v, ok := is.Attributes[key]; !ok || v != value {
+			if !ok {
+				return fmt.Errorf("%s: Attribute '%s' not found", name, key)
+			}
 
-		is := rs.Primary
-		if is == nil {
-			return fmt.Errorf("No primary instance: %s", name)
-		}
-
-		if is.Attributes[key] != value {
 			return fmt.Errorf(
 				"%s: Attribute '%s' expected %#v, got %#v",
 				name,
 				key,
 				value,
-				is.Attributes[key])
+				v)
 		}
 
 		return nil
 	}
 }
 
-func TestMatchResourceAttr(name, key string, r *regexp.Regexp) TestCheckFunc {
+// TestCheckNoResourceAttr is a TestCheckFunc which ensures that
+// NO value exists in state for the given name/key combination.
+func TestCheckNoResourceAttr(name, key string) TestCheckFunc {
 	return func(s *terraform.State) error {
-		ms := s.RootModule()
-		rs, ok := ms.Resources[name]
-		if !ok {
-			return fmt.Errorf("Not found: %s", name)
+		is, err := primaryInstanceState(s, name)
+		if err != nil {
+			return err
 		}
 
-		is := rs.Primary
-		if is == nil {
-			return fmt.Errorf("No primary instance: %s", name)
+		if _, ok := is.Attributes[key]; ok {
+			return fmt.Errorf("%s: Attribute '%s' found when not expected", name, key)
+		}
+
+		return nil
+	}
+}
+
+// TestMatchResourceAttr is a TestCheckFunc which checks that the value
+// in state for the given name/key combination matches the given regex.
+func TestMatchResourceAttr(name, key string, r *regexp.Regexp) TestCheckFunc {
+	return func(s *terraform.State) error {
+		is, err := primaryInstanceState(s, name)
+		if err != nil {
+			return err
 		}
 
 		if !r.MatchString(is.Attributes[key]) {
@@ -578,6 +632,41 @@ func TestMatchResourceAttr(name, key string, r *regexp.Regexp) TestCheckFunc {
 func TestCheckResourceAttrPtr(name string, key string, value *string) TestCheckFunc {
 	return func(s *terraform.State) error {
 		return TestCheckResourceAttr(name, key, *value)(s)
+	}
+}
+
+// TestCheckResourceAttrPair is a TestCheckFunc which validates that the values
+// in state for a pair of name/key combinations are equal.
+func TestCheckResourceAttrPair(nameFirst, keyFirst, nameSecond, keySecond string) TestCheckFunc {
+	return func(s *terraform.State) error {
+		isFirst, err := primaryInstanceState(s, nameFirst)
+		if err != nil {
+			return err
+		}
+		vFirst, ok := isFirst.Attributes[keyFirst]
+		if !ok {
+			return fmt.Errorf("%s: Attribute '%s' not found", nameFirst, keyFirst)
+		}
+
+		isSecond, err := primaryInstanceState(s, nameSecond)
+		if err != nil {
+			return err
+		}
+		vSecond, ok := isSecond.Attributes[keySecond]
+		if !ok {
+			return fmt.Errorf("%s: Attribute '%s' not found", nameSecond, keySecond)
+		}
+
+		if vFirst != vSecond {
+			return fmt.Errorf(
+				"%s: Attribute '%s' expected %#v, got %#v",
+				nameFirst,
+				keyFirst,
+				vSecond,
+				vFirst)
+		}
+
+		return nil
 	}
 }
 
@@ -633,3 +722,19 @@ type TestT interface {
 
 // This is set to true by unit tests to alter some behavior
 var testTesting = false
+
+// primaryInstanceState returns the primary instance state for the given resource name.
+func primaryInstanceState(s *terraform.State, name string) (*terraform.InstanceState, error) {
+	ms := s.RootModule()
+	rs, ok := ms.Resources[name]
+	if !ok {
+		return nil, fmt.Errorf("Not found: %s", name)
+	}
+
+	is := rs.Primary
+	if is == nil {
+		return nil, fmt.Errorf("No primary instance: %s", name)
+	}
+
+	return is, nil
+}
