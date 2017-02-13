@@ -23,6 +23,11 @@ all:	build
 build:	$(BINARIES)
 
 
+.PHONY: install
+install:
+	$(GO) install ./cmd/gotty-client
+
+
 $(BINARIES):	$(SOURCES)
 	$(GO) build -o $@ ./cmd/$@
 

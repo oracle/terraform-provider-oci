@@ -165,7 +165,6 @@ func (d *ResourceData) Set(key string, value interface{}) error {
 			}
 		}
 	}
-
 	return d.setWriter.WriteField(strings.Split(key, "."), value)
 }
 

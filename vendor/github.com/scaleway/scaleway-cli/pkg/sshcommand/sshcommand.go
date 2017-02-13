@@ -8,17 +8,18 @@ import (
 
 // Command contains settings to build a ssh command
 type Command struct {
-	Host                string
-	User                string
-	Port                int
-	SSHOptions          []string
-	Gateway             *Command
-	Command             []string
-	Debug               bool
-	NoEscapeCommand     bool
-	SkipHostKeyChecking bool
-	Quiet               bool
-	AllocateTTY         bool
+	Host                   string
+	User                   string
+	Port                   int
+	SSHOptions             []string
+	Gateway                *Command
+	Command                []string
+	Debug                  bool
+	NoEscapeCommand        bool
+	SkipHostKeyChecking    bool
+	Quiet                  bool
+	AllocateTTY            bool
+	EnableSSHKeyForwarding bool
 
 	isGateway bool
 }
@@ -54,6 +55,10 @@ func (c *Command) Slice() []string {
 
 	slice = append(slice, "ssh")
 
+	if c.EnableSSHKeyForwarding {
+		slice = append(slice, "-A")
+	}
+
 	if c.Quiet {
 		slice = append(slice, "-q")
 	}
@@ -81,6 +86,7 @@ func (c *Command) Slice() []string {
 		slice = append(slice, "-t", "-t")
 	}
 
+	slice = append(slice, "-p", fmt.Sprintf("%d", c.Port))
 	if len(c.Command) > 0 {
 		slice = append(slice, "--", "/bin/sh", "-e")
 		if c.Debug {

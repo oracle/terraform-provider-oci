@@ -1,20 +1,8 @@
-box: wercker/golang
+---
+box: golang
 
 build:
   steps:
-    - script:
-        name: Populate cache
-        code: |
-          if test -d "$WERCKER_CACHE_DIR/go-pkg-cache"; then rsync -avzv --exclude "$WERCKER_SOURCE_DIR" "$WERCKER_CACHE_DIR/go-pkg-cache/" "$GOPATH/" ; fi
-
-    # this forces the GOPATH to include the checked out source instead of some random workdir
-    - script:
-        name: FixDirs
-        code: |
-          if [ ! -d $GOPATH/src/github.com/go-chef ]; then mkdir -p $GOPATH/src/github.com/go-chef ; fi
-          ln -sf  $WERCKER_SOURCE_DIR $GOPATH/src/github.com/go-chef/chef
-          ls -l $GOPATH/src/github.com/go-chef
-
     - script:
         name: Get dependencies
         code: |
@@ -23,6 +11,13 @@ build:
           go get -u github.com/davecgh/go-spew/spew
           go get -u github.com/smartystreets/goconvey/convey
           go get -u github.com/mattn/goveralls
+
+    - script:
+        name: static
+        code: |
+          go fmt
+          test -z "$(git status --porcelain)"
+          # TODO: add metalinter
 
     # Using the gocov tool to test the exact package we want to test from GOPATH
     - script:
@@ -34,11 +29,6 @@ build:
   #      name: Coveralls.io
   #      code: |
   #        goveralls -service='wercker.com' -repotoken=$COVERALLS_TOKEN -coverprofile=profile.cov
-
-    - script:
-        name: Store cache
-        code: |
-          rsync -avzv --exclude "$WERCKER_SOURCE_DIR" "$GOPATH/" "$WERCKER_CACHE_DIR/go-pkg-cache/"
 
   after-steps:
     - wouter/irc-notify:

@@ -39,7 +39,6 @@ func (s *ResourceCoreInstancesTestSuite) SetupTest() {
   `
 	s.Config += testProviderConfig
 	s.ResourceName = "data.baremetal_core_instances.s"
-
 }
 
 func (s *ResourceCoreInstancesTestSuite) TestResourceListInstances() {

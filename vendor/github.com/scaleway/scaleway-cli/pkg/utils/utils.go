@@ -39,11 +39,14 @@ type SpawnRedirection struct {
 }
 
 // SSHExec executes a command over SSH and redirects file-descriptors
-func SSHExec(publicIPAddress string, privateIPAddress string, command []string, checkConnection bool, gateway string) error {
+func SSHExec(publicIPAddress, privateIPAddress, user string, port int, command []string, checkConnection bool, gateway string, enableSSHKeyForwarding bool) error {
 	gatewayUser := "root"
 	gatewayIPAddress := gateway
 	if strings.Contains(gateway, "@") {
 		parts := strings.Split(gatewayIPAddress, "@")
+		if len(parts) != 2 {
+			return fmt.Errorf("gateway: must be like root@IP")
+		}
 		gatewayUser = parts[0]
 		gatewayIPAddress = parts[1]
 		gateway = gatewayUser + "@" + gatewayIPAddress
@@ -61,12 +64,12 @@ func SSHExec(publicIPAddress string, privateIPAddress string, command []string, 
 		if useGateway && !IsTCPPortOpen(fmt.Sprintf("%s:22", gatewayIPAddress)) {
 			return errors.New("gateway is not available, try again later")
 		}
-		if !useGateway && !IsTCPPortOpen(fmt.Sprintf("%s:22", publicIPAddress)) {
+		if !useGateway && !IsTCPPortOpen(fmt.Sprintf("%s:%d", publicIPAddress, port)) {
 			return errors.New("server is not ready, try again later")
 		}
 	}
 
-	sshCommand := NewSSHExecCmd(publicIPAddress, privateIPAddress, isatty.IsTerminal(os.Stdin.Fd()), command, gateway)
+	sshCommand := NewSSHExecCmd(publicIPAddress, privateIPAddress, user, port, isatty.IsTerminal(os.Stdin.Fd()), command, gateway, enableSSHKeyForwarding)
 
 	log.Debugf("Executing: %s", sshCommand)
 
@@ -78,7 +81,7 @@ func SSHExec(publicIPAddress string, privateIPAddress string, command []string, 
 }
 
 // NewSSHExecCmd computes execve compatible arguments to run a command via ssh
-func NewSSHExecCmd(publicIPAddress string, privateIPAddress string, allocateTTY bool, command []string, gatewayIPAddress string) *sshcommand.Command {
+func NewSSHExecCmd(publicIPAddress, privateIPAddress, user string, port int, allocateTTY bool, command []string, gatewayIPAddress string, enableSSHKeyForwarding bool) *sshcommand.Command {
 	quiet := os.Getenv("DEBUG") != "1"
 	secureExec := os.Getenv("SCW_SECURE_EXEC") == "1"
 	sshCommand := &sshcommand.Command{
@@ -87,8 +90,10 @@ func NewSSHExecCmd(publicIPAddress string, privateIPAddress string, allocateTTY 
 		Host:                publicIPAddress,
 		Quiet:               quiet,
 		SkipHostKeyChecking: !secureExec,
-		User:                "root",
+		User:                user,
 		NoEscapeCommand:     true,
+		Port:                port,
+		EnableSSHKeyForwarding: enableSSHKeyForwarding,
 	}
 	if gatewayIPAddress != "" {
 		sshCommand.Host = privateIPAddress
@@ -97,7 +102,8 @@ func NewSSHExecCmd(publicIPAddress string, privateIPAddress string, allocateTTY 
 			SkipHostKeyChecking: !secureExec,
 			AllocateTTY:         allocateTTY,
 			Quiet:               quiet,
-			User:                "root",
+			User:                user,
+			Port:                port,
 		}
 	}
 
@@ -186,10 +192,10 @@ func RemoveDuplicates(elements []string) []string {
 }
 
 // AttachToSerial tries to connect to server serial using 'gotty-client' and fallback with a help message
-func AttachToSerial(serverID string, apiToken string) (*gottyclient.Client, chan bool, error) {
+func AttachToSerial(serverID, apiToken, url string) (*gottyclient.Client, chan bool, error) {
 	gottyURL := os.Getenv("SCW_GOTTY_URL")
 	if gottyURL == "" {
-		gottyURL = "https://tty.scaleway.com/v2/"
+		gottyURL = url
 	}
 	URL := fmt.Sprintf("%s?arg=%s&arg=%s", gottyURL, apiToken, serverID)
 

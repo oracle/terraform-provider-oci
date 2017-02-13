@@ -15,7 +15,7 @@ type LoginBlock struct {
 //
 // All response-type structs should include this as an anonymous/embedded field.
 type ResponseBlock struct {
-	Status   string         `json:"string"`
+	Status   string         `json:"status"`
 	JobId    int            `json:"job_id,omitempty"`
 	Messages []MessageBlock `json:"msgs,omitempty"`
 }

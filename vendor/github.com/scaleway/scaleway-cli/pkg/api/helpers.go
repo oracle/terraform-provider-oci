@@ -36,12 +36,12 @@ type ScalewayImageInterface struct {
 	Identifier   string
 	Name         string
 	Tag          string
-	VirtualSize  float64
+	VirtualSize  uint64
 	Public       bool
 	Type         string
 	Organization string
 	Archs        []string
-	Region       string
+	Region       []string
 }
 
 // ResolveGateway tries to resolve a server public ip address, else returns the input string, i.e. IPv4, hostname
@@ -237,6 +237,7 @@ func InspectIdentifiers(api *ScalewayAPI, ci chan ScalewayResolvedIdentifier, cj
 			break
 		}
 		idents.Identifiers = FilterImagesByArch(idents.Identifiers, arch)
+		idents.Identifiers = FilterImagesByRegion(idents.Identifiers, api.Region)
 		if len(idents.Identifiers) != 1 {
 			if len(idents.Identifiers) == 0 {
 				log.Errorf("Unable to resolve identifier %s", idents.Needle)
@@ -283,9 +284,9 @@ type ConfigCreateServer struct {
 	Bootscript        string
 	Env               string
 	AdditionalVolumes string
-	DynamicIPRequired bool
 	IP                string
 	CommercialType    string
+	DynamicIPRequired bool
 	EnableIPV6        bool
 }
 
@@ -335,6 +336,28 @@ func CreateServer(api *ScalewayAPI, c *ConfigCreateServer) (string, error) {
 	if c.Env != "" {
 		server.Tags = strings.Split(c.Env, " ")
 	}
+	switch c.CommercialType {
+	case "VC1M", "X64-4GB":
+		if c.AdditionalVolumes == "" {
+			c.AdditionalVolumes = "50G"
+			log.Debugf("This server needs a least 50G")
+		}
+	case "VC1L", "X64-8GB":
+		if c.AdditionalVolumes == "" {
+			c.AdditionalVolumes = "150G"
+			log.Debugf("This server needs a least 150G")
+		}
+	case "X64-60GB":
+		if c.AdditionalVolumes == "" {
+			c.AdditionalVolumes = "50G 150G 150G"
+			log.Debugf("This server needs a least 400G")
+		}
+	case "X64-120GB":
+		if c.AdditionalVolumes == "" {
+			c.AdditionalVolumes = "150G 150G 150G"
+			log.Debugf("This server needs a least 500G")
+		}
+	}
 	if c.AdditionalVolumes != "" {
 		volumes := strings.Split(c.AdditionalVolumes, " ")
 		for i := range volumes {
@@ -353,19 +376,14 @@ func CreateServer(api *ScalewayAPI, c *ConfigCreateServer) (string, error) {
 		switch server.CommercialType[:2] {
 		case "C1":
 			arch = "arm"
-		case "C2", "VC":
+		case "C2", "VC", "X6":
 			arch = "x86_64"
 		default:
 			return "", fmt.Errorf("%s wrong commercial type", server.CommercialType)
 		}
 	}
-	region := os.Getenv("SCW_TARGET_REGION")
-	if region == "" {
-		region = "fr-1"
-	}
 	imageIdentifier := &ScalewayImageIdentifier{
-		Arch:   arch,
-		Region: region,
+		Arch: arch,
 	}
 	server.Name = c.Name
 	inheritingVolume := false
@@ -482,7 +500,7 @@ func WaitForServerState(api *ScalewayAPI, serverID string, targetState string) (
 }
 
 // WaitForServerReady wait for a server state to be running, then wait for the SSH port to be available
-func WaitForServerReady(api *ScalewayAPI, serverID string, gateway string) (*ScalewayServer, error) {
+func WaitForServerReady(api *ScalewayAPI, serverID, gateway string) (*ScalewayServer, error) {
 	promise := make(chan bool)
 	var server *ScalewayServer
 	var err error
@@ -513,25 +531,47 @@ func WaitForServerReady(api *ScalewayAPI, serverID string, gateway string) (*Sca
 		}
 
 		if gateway == "" {
-			log.Debugf("Waiting for server SSH port")
 			dest := fmt.Sprintf("%s:22", server.PublicAddress.IP)
+			log.Debugf("Waiting for server SSH port %s", dest)
 			err = utils.WaitForTCPPortOpen(dest)
 			if err != nil {
 				promise <- false
 				return
 			}
 		} else {
-			log.Debugf("Waiting for gateway SSH port")
 			dest := fmt.Sprintf("%s:22", gateway)
+			log.Debugf("Waiting for server SSH port %s", dest)
 			err = utils.WaitForTCPPortOpen(dest)
 			if err != nil {
 				promise <- false
 				return
 			}
-
-			log.Debugf("Waiting 30 more seconds, for SSH to be ready")
-			time.Sleep(30 * time.Second)
-			// FIXME: check for SSH port through the gateway
+			log.Debugf("Check for SSH port through the gateway: %s", server.PrivateIP)
+			timeout := time.Tick(120 * time.Second)
+			for {
+				select {
+				case <-timeout:
+					err = fmt.Errorf("Timeout: unable to ping %s", server.PrivateIP)
+					goto OUT
+				default:
+					if utils.SSHExec("", server.PrivateIP, "root", 22, []string{
+						"nc",
+						"-z",
+						"-w",
+						"1",
+						server.PrivateIP,
+						"22",
+					}, false, gateway, false) == nil {
+						goto OUT
+					}
+					time.Sleep(2 * time.Second)
+				}
+			}
+		OUT:
+			if err != nil {
+				logrus.Info(err)
+				err = nil
+			}
 		}
 		promise <- true
 	}()
@@ -579,9 +619,7 @@ func StartServer(api *ScalewayAPI, needle string, wait bool) error {
 	}
 
 	if err = api.PostServerAction(server, "poweron"); err != nil {
-		if err.Error() == "server should be stopped" {
-			return fmt.Errorf("server %s is already started: %v", server, err)
-		}
+		return err
 	}
 
 	if wait {
@@ -594,20 +632,18 @@ func StartServer(api *ScalewayAPI, needle string, wait bool) error {
 }
 
 // StartServerOnce wraps StartServer for golang channel
-func StartServerOnce(api *ScalewayAPI, needle string, wait bool, successChan chan bool, errChan chan error) {
+func StartServerOnce(api *ScalewayAPI, needle string, wait bool, successChan chan string, errChan chan error) {
 	err := StartServer(api, needle, wait)
 
 	if err != nil {
 		errChan <- err
 		return
 	}
-
-	fmt.Println(needle)
-	successChan <- true
+	successChan <- needle
 }
 
-// DeleteServerSafe tries to delete a server using multiple ways
-func (a *ScalewayAPI) DeleteServerSafe(serverID string) error {
+// DeleteServerForce tries to delete a server using multiple ways
+func (a *ScalewayAPI) DeleteServerForce(serverID string) error {
 	// FIXME: also delete attached volumes and ip address
 	// FIXME: call delete and stop -t in parallel to speed up process
 	err := a.DeleteServer(serverID)
