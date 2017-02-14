@@ -3573,6 +3573,12 @@
 			"revisionTime": "2017-01-30T11:31:45Z"
 		},
 		{
+			"checksumSHA1": "2PpOCNkWnshDrXeCVH2kp3VHhIM=",
+			"path": "github.com/stretchr/testify/require",
+			"revision": "4d4bfba8f1d1027c4fdbe371823030df51419987",
+			"revisionTime": "2017-01-30T11:31:45Z"
+		},
+		{
 			"checksumSHA1": "Dp8TnT65nINpRF/PrxrgmnYLsyA=",
 			"path": "github.com/stretchr/testify/suite",
 			"revision": "4d4bfba8f1d1027c4fdbe371823030df51419987",
