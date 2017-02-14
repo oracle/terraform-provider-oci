@@ -1,0 +1,16 @@
+machine:
+  pre:
+    - sudo curl -O https://storage.googleapis.com/golang/go1.6.3.linux-amd64.tar.gz
+    - sudo tar -xvf go1.6.3.linux-amd64.tar.gz
+    - sudo rm -fr /usr/local/go
+    - sudo mv go /usr/local/go
+  environment:
+    GOROOT: "/usr/local/go"
+    PATH: "/home/ubuntu/.go_project/bin:/usr/local/go/bin:/usr/local/go_workspace/bin:/home/ubuntu/.go_workspace/bin:${PATH}"
+    GOPATH: "/home/ubuntu/.go_project"
+    BAREMETAL_SDK_PEM_DATA_PATH: "/home/ubuntu/.go_project/src/github.com/MustWin/baremetal-sdk-go/test/data/private.pem"
+    PROJECT_OWNER: "MustWin"
+
+test:
+  override:
+    - go test -v github.com/${PROJECT_OWNER}/baremetal-sdk-go

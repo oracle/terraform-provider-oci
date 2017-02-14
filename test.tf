@@ -8,7 +8,6 @@ provider "baremetal" {
 }
 
 resource "baremetal_identity_compartment" "test-dec5" {
-  compartment_id = "${var.tenancy_ocid}-dec5"
   name = "test_compartment_dec5"
   description = "A special test compartment."
 }

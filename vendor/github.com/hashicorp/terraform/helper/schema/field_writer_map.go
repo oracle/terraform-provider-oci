@@ -82,7 +82,6 @@ func (w *MapFieldWriter) set(addr []string, value interface{}) error {
 		return fmt.Errorf("Invalid address to set: %#v", addr)
 	}
 
-
 	schema := schemaList[len(schemaList)-1]
 	switch schema.Type {
 	case TypeBool, TypeInt, TypeFloat, TypeString:
@@ -151,6 +150,7 @@ func (w *MapFieldWriter) setMap(
 		w.result[k] = ""
 		return nil
 	}
+
 	if v.Kind() != reflect.Map {
 		return fmt.Errorf("%s: must be a map", k)
 	}

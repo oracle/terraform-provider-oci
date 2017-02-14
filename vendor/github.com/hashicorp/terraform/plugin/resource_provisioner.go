@@ -77,19 +77,6 @@ func (p *ResourceProvisioner) Apply(
 	return err
 }
 
-func (p *ResourceProvisioner) Stop() error {
-	var resp ResourceProvisionerStopResponse
-	err := p.Client.Call("Plugin.Stop", new(interface{}), &resp)
-	if err != nil {
-		return err
-	}
-	if resp.Error != nil {
-		err = resp.Error
-	}
-
-	return err
-}
-
 func (p *ResourceProvisioner) Close() error {
 	return p.Client.Close()
 }
@@ -110,10 +97,6 @@ type ResourceProvisionerApplyArgs struct {
 }
 
 type ResourceProvisionerApplyResponse struct {
-	Error *plugin.BasicError
-}
-
-type ResourceProvisionerStopResponse struct {
 	Error *plugin.BasicError
 }
 
@@ -158,16 +141,5 @@ func (s *ResourceProvisionerServer) Validate(
 		Warnings: warns,
 		Errors:   berrs,
 	}
-	return nil
-}
-
-func (s *ResourceProvisionerServer) Stop(
-	_ interface{},
-	reply *ResourceProvisionerStopResponse) error {
-	err := s.Provisioner.Stop()
-	*reply = ResourceProvisionerStopResponse{
-		Error: plugin.NewBasicError(err),
-	}
-
 	return nil
 }

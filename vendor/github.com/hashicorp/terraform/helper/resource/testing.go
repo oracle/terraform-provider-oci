@@ -570,6 +570,7 @@ func TestCheckResourceAttr(name, key, value string) TestCheckFunc {
 		if err != nil {
 			return err
 		}
+
 		if v, ok := is.Attributes[key]; !ok || v != value {
 			if !ok {
 				return fmt.Errorf("%s: Attribute '%s' not found", name, key)

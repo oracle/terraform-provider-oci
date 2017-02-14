@@ -315,6 +315,12 @@
 			"revisionTime": "2017-02-01T00:43:30Z"
 		},
 		{
+			"checksumSHA1": "JVYlNABd/+8jHz2ZSpGchgaqKWI=",
+			"path": "github.com/MustWin/baremetal-sdk-go",
+			"revision": "ac399c960f4e8c42f129d333f4d0deaac55a1043",
+			"revisionTime": "2017-02-13T19:30:24Z"
+		},
+		{
 			"checksumSHA1": "Aqy8/FoAIidY/DeQ5oTYSZ4YFVc=",
 			"path": "github.com/Nvveen/Gotty",
 			"revision": "cd527374f1e5bff4938207604a14f2e38a9cf512",
@@ -1743,6 +1749,12 @@
 			"revisionTime": "2016-11-16T05:51:26Z"
 		},
 		{
+			"checksumSHA1": "feWRO67/Rq9zMkIlQIbUhgnOg7w=",
+			"path": "github.com/gotascii/go-http-header/header",
+			"revision": "2946fb04c49fedaf775dd5ee4c63a8eb68c4dc40",
+			"revisionTime": "2016-12-16T01:18:56Z"
+		},
+		{
 			"checksumSHA1": "hQtHHr+BpkNqWKVh2/CT4w+9Zak=",
 			"path": "github.com/grafana/grafana/pkg/api/dtos",
 			"revision": "2ad2b96133283e35158edc993db8806e69bb28ef",
@@ -2681,14 +2693,14 @@
 		{
 			"checksumSHA1": "Nb3GUzvifZ0t8dzn7gsYPaAzk/o=",
 			"path": "github.com/hashicorp/terraform/helper/resource",
-			"revision": "6254374827b004b75c1e706e725b61bf4676e2cb",
-			"revisionTime": "2017-02-13T19:52:57Z"
+			"revision": "3e2f324b2099827c4712ed55c69e089837840d0e",
+			"revisionTime": "2017-02-14T01:26:56Z"
 		},
 		{
 			"checksumSHA1": "JgHl5BQzrZ3aLx+UtapsXyijd4I=",
 			"path": "github.com/hashicorp/terraform/helper/schema",
-			"revision": "6254374827b004b75c1e706e725b61bf4676e2cb",
-			"revisionTime": "2017-02-13T19:52:57Z"
+			"revision": "3e2f324b2099827c4712ed55c69e089837840d0e",
+			"revisionTime": "2017-02-14T01:26:56Z"
 		},
 		{
 			"checksumSHA1": "oLui7dYxhzfAczwwdNZDm4tzHtk=",
@@ -2721,10 +2733,12 @@
 			"revisionTime": "2017-02-13T19:52:57Z"
 		},
 		{
-			"checksumSHA1": "Um9XC4rlIcFFvROlojYWjb8T11k=",
+			"checksumSHA1": "z59GrKQVRxwgvc1sQA6Yh2F/q18=",
 			"path": "github.com/hashicorp/terraform/plugin",
-			"revision": "6254374827b004b75c1e706e725b61bf4676e2cb",
-			"revisionTime": "2017-02-13T19:52:57Z"
+			"revision": "df4bcf64828598a25bd41f00470b2ab3a66f3169",
+			"revisionTime": "2017-02-07T17:23:53Z",
+			"version": "v0.8.6",
+			"versionExact": "v0.8.6"
 		},
 		{
 			"checksumSHA1": "vW75JRFcEDJNxNCB2mrlFeYOyX4=",
@@ -3385,6 +3399,12 @@
 			"revisionTime": "2016-10-29T09:36:37Z"
 		},
 		{
+			"checksumSHA1": "LuFv4/jlrmFNnDb/5SCSEPAM9vU=",
+			"path": "github.com/pmezard/go-difflib/difflib",
+			"revision": "792786c7400a136282c1664665ae0a8db921c6c2",
+			"revisionTime": "2016-01-10T10:55:54Z"
+		},
+		{
 			"checksumSHA1": "WPDz/Ed0OwaP7F/HvzZQ8OwT3fM=",
 			"path": "github.com/profitbricks/profitbricks-sdk-go",
 			"revision": "b279e1adcaf1c9cae4d6520c1bdbbf4674e7806e",
@@ -3533,6 +3553,30 @@
 			"path": "github.com/spf13/pflag",
 			"revision": "9ff6c6923cfffbcd502984b8e0c80539a94968b7",
 			"revisionTime": "2017-01-30T21:42:45Z"
+		},
+		{
+			"checksumSHA1": "K0crHygPTP42i1nLKWphSlvOQJw=",
+			"path": "github.com/stretchr/objx",
+			"revision": "1a9d0bb9f541897e62256577b352fdbc1fb4fd94",
+			"revisionTime": "2015-09-28T12:21:52Z"
+		},
+		{
+			"checksumSHA1": "JXUVA1jky8ZX8w09p2t5KLs97Nc=",
+			"path": "github.com/stretchr/testify/assert",
+			"revision": "4d4bfba8f1d1027c4fdbe371823030df51419987",
+			"revisionTime": "2017-01-30T11:31:45Z"
+		},
+		{
+			"checksumSHA1": "WGwMB6WljaeGKzuNCX5M4E8LADE=",
+			"path": "github.com/stretchr/testify/mock",
+			"revision": "4d4bfba8f1d1027c4fdbe371823030df51419987",
+			"revisionTime": "2017-01-30T11:31:45Z"
+		},
+		{
+			"checksumSHA1": "Dp8TnT65nINpRF/PrxrgmnYLsyA=",
+			"path": "github.com/stretchr/testify/suite",
+			"revision": "4d4bfba8f1d1027c4fdbe371823030df51419987",
+			"revisionTime": "2017-01-30T11:31:45Z"
 		},
 		{
 			"checksumSHA1": "GQ9bu6PuydK3Yor1JgtVKUfEJm8=",
