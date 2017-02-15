@@ -61,8 +61,8 @@ func (s *ResourceCoreRouteTablesTestSuite) TestResourceListRouteTables() {
 					ID:            "id1",
 					RouteRules: []baremetal.RouteRule{
 						{
-							CidrBlock:         "cidr_block",
-							NetworkEntityID:   "network_entity_id",
+							CidrBlock:       "cidr_block",
+							NetworkEntityID: "network_entity_id",
 						},
 					},
 					TimeModified: baremetal.Time{Time: time.Now()},
@@ -75,8 +75,8 @@ func (s *ResourceCoreRouteTablesTestSuite) TestResourceListRouteTables() {
 					ID:            "id2",
 					RouteRules: []baremetal.RouteRule{
 						{
-							CidrBlock:         "cidr_block",
-							NetworkEntityID:   "network_entity_id",
+							CidrBlock:       "cidr_block",
+							NetworkEntityID: "network_entity_id",
 						},
 					},
 					TimeModified: baremetal.Time{Time: time.Now()},
@@ -122,8 +122,8 @@ func (s *ResourceCoreRouteTablesTestSuite) TestResourceListRouteTablesPaged() {
 			ID:            "id1",
 			RouteRules: []baremetal.RouteRule{
 				{
-					CidrBlock:         "cidr_block",
-					NetworkEntityID:   "network_entity_id",
+					CidrBlock:       "cidr_block",
+					NetworkEntityID: "network_entity_id",
 				},
 			},
 			TimeModified: baremetal.Time{Time: time.Now()},
@@ -136,8 +136,8 @@ func (s *ResourceCoreRouteTablesTestSuite) TestResourceListRouteTablesPaged() {
 			ID:            "id2",
 			RouteRules: []baremetal.RouteRule{
 				{
-					CidrBlock:         "cidr_block",
-					NetworkEntityID:   "network_entity_id",
+					CidrBlock:       "cidr_block",
+					NetworkEntityID: "network_entity_id",
 				},
 			},
 			TimeModified: baremetal.Time{Time: time.Now()},
@@ -170,8 +170,8 @@ func (s *ResourceCoreRouteTablesTestSuite) TestResourceListRouteTablesPaged() {
 					ID:            "id3",
 					RouteRules: []baremetal.RouteRule{
 						{
-							CidrBlock:         "cidr_block",
-							NetworkEntityID:   "network_entity_id",
+							CidrBlock:       "cidr_block",
+							NetworkEntityID: "network_entity_id",
 						},
 					},
 					TimeModified: baremetal.Time{Time: time.Now()},
@@ -184,8 +184,8 @@ func (s *ResourceCoreRouteTablesTestSuite) TestResourceListRouteTablesPaged() {
 					ID:            "id4",
 					RouteRules: []baremetal.RouteRule{
 						{
-							CidrBlock:         "cidr_block",
-							NetworkEntityID:   "network_entity_id",
+							CidrBlock:       "cidr_block",
+							NetworkEntityID: "network_entity_id",
 						},
 					},
 					TimeModified: baremetal.Time{Time: time.Now()},

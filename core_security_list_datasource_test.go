@@ -56,14 +56,14 @@ func (s *CoreSecurityListDatasourceTestSuite) TestReadSecurityLists() {
 			CompartmentID: "compartment_id",
 			ID:            "id1",
 			EgressSecurityRules: []baremetal.EgressSecurityRule{
-				baremetal.EgressSecurityRule{
+				{
 					Destination: "destination",
 					ICMPOptions: &baremetal.ICMPOptions{Code: 1, Type: 2},
 					Protocol:    "protocol",
 				},
 			},
 			IngressSecurityRules: []baremetal.IngressSecurityRule{
-				baremetal.IngressSecurityRule{
+				{
 					TCPOptions: &baremetal.TCPOptions{
 						baremetal.PortRange{Max: 2, Min: 1},
 					},

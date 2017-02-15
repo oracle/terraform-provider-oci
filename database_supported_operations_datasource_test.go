@@ -78,7 +78,6 @@ func (s *DatasourceDatabaseSupportedOperationTestSuite) TestDatabaseListSupporte
 	s.Client.AssertCalled(s.T(), "ListSupportedOperations")
 }
 
-
 func TestDatasourceDatabaseSupportedOperationTestSuite(t *testing.T) {
 	suite.Run(t, new(DatasourceDatabaseSupportedOperationTestSuite))
 }

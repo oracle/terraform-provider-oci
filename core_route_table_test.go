@@ -63,12 +63,12 @@ func (s *ResourceCoreRouteTableTestSuite) SetupTest() {
 
 	routeRules := []baremetal.RouteRule{
 		{
-			CidrBlock:         "cidr_block",
-			NetworkEntityID:   "network_entity_id",
+			CidrBlock:       "cidr_block",
+			NetworkEntityID: "network_entity_id",
 		},
 		{
-			CidrBlock:         "cidr_block",
-			NetworkEntityID:   "network_entity_id",
+			CidrBlock:       "cidr_block",
+			NetworkEntityID: "network_entity_id",
 		},
 	}
 
@@ -145,8 +145,8 @@ func (s ResourceCoreRouteTableTestSuite) TestUpdateRouteTable() {
 
 	routeRules := []baremetal.RouteRule{
 		{
-			CidrBlock:         "new_cidr_block",
-			NetworkEntityID:   "network_entity_id",
+			CidrBlock:       "new_cidr_block",
+			NetworkEntityID: "network_entity_id",
 		},
 	}
 

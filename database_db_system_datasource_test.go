@@ -78,7 +78,7 @@ func (s *DBSystemDatasourceTestSuite) TestReadDBSystems() {
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartmentid"),

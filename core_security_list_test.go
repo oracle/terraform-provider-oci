@@ -69,14 +69,14 @@ func (s *ResourceCoreSecurityListTestSuite) SetupTest() {
 	s.ResourceName = "baremetal_core_security_list.t"
 
 	egressRules := []baremetal.EgressSecurityRule{
-		baremetal.EgressSecurityRule{
+		{
 			Destination: "destination",
 			ICMPOptions: &baremetal.ICMPOptions{Code: 1, Type: 2},
 			Protocol:    "protocol",
 		},
 	}
 	ingressRules := []baremetal.IngressSecurityRule{
-		baremetal.IngressSecurityRule{
+		{
 			TCPOptions: &baremetal.TCPOptions{
 				baremetal.PortRange{Max: 2, Min: 1},
 			},
@@ -123,7 +123,7 @@ func (s *ResourceCoreSecurityListTestSuite) TestCreateResourceCoreSecurityList()
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", s.Res.CompartmentID),
@@ -165,7 +165,7 @@ func (s ResourceCoreSecurityListTestSuite) TestUpdateSecurityList() {
 	config += testProviderConfig
 
 	ingressRules := []baremetal.IngressSecurityRule{
-		baremetal.IngressSecurityRule{
+		{
 			TCPOptions: &baremetal.TCPOptions{
 				baremetal.PortRange{Max: 3, Min: 1},
 			},
@@ -200,10 +200,10 @@ func (s ResourceCoreSecurityListTestSuite) TestUpdateSecurityList() {
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 			},
-			resource.TestStep{
+			{
 				Config: config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "egress_security_rules.0.icmp_options.0.code", "1"),
@@ -221,10 +221,10 @@ func (s *ResourceCoreSecurityListTestSuite) TestDeleteSecurityList() {
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			resource.TestStep{
+			{
 				Config: s.Config,
 			},
-			resource.TestStep{
+			{
 				Config:  s.Config,
 				Destroy: true,
 			},
