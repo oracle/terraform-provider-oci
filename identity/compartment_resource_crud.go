@@ -5,6 +5,7 @@ package identity
 import (
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/crud"
+	"strings"
 )
 
 type CompartmentResourceCrud struct {
@@ -33,6 +34,21 @@ func (s *CompartmentResourceCrud) Create() (e error) {
 	name := s.D.Get("name").(string)
 	description := s.D.Get("description").(string)
 	s.Res, e = s.Client.CreateCompartment(name, description, nil)
+	// Compartments can't be destroyed, so we shouldn't complain about them being created.
+	if e != nil && strings.Contains(e.Error(), "already exists") {
+		e = nil
+		list, err := s.Client.ListCompartments(nil) // TODO: This won't paginate...
+		if err != nil {
+			e = err
+			return
+		}
+		for _, compartment := range list.Compartments {
+			if compartment.Name == name {
+				s.Res = &compartment
+				break
+			}
+		}
+	}
 	return
 }
 
@@ -47,6 +63,12 @@ func (s *CompartmentResourceCrud) Update() (e error) {
 		opts.Description = description.(string)
 	}
 	s.Res, e = s.Client.UpdateCompartment(s.D.Id(), opts)
+	return
+}
+
+func (s *CompartmentResourceCrud) Delete() (e error) {
+	// Compartments cannot be deleted. Just pretend it worked.
+	e = nil
 	return
 }
 

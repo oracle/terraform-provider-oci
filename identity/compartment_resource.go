@@ -46,5 +46,8 @@ func updateCompartment(d *schema.ResourceData, m interface{}) (e error) {
 }
 
 func deleteCompartment(d *schema.ResourceData, m interface{}) (e error) {
+	sync := &CompartmentResourceCrud{}
+	sync.D = d
+	return crud.DeleteResource(sync)
 	return fmt.Errorf("compartment resource: compartment %v cannot be deleted", d.Id())
 }
