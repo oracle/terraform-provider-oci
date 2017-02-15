@@ -22,7 +22,7 @@ type BareMetalClient interface {
 	CreateImage(compartmentID, instanceID string, opts *baremetal.CreateOptions) (res *baremetal.Image, e error)
 	CreateInternetGateway(compartmentID, vcnID string, isEnabled bool, opts *baremetal.CreateOptions) (gw *baremetal.InternetGateway, e error)
 	CreateOrResetUIPassword(userID string, opts *baremetal.RetryTokenOptions) (resource *baremetal.UIPassword, e error)
-	CreatePolicy(name, desc string, statements []string, opts *baremetal.CreatePolicyOptions) (res *baremetal.Policy, e error)
+	CreatePolicy(name, desc, compartmentID string, statements []string, opts *baremetal.CreatePolicyOptions) (res *baremetal.Policy, e error)
 	CreateRouteTable(compartmentID, vcnID string, routeRules []baremetal.RouteRule, opts *baremetal.CreateOptions) (res *baremetal.RouteTable, e error)
 	CreateSecurityList(compartmentID, vcnID string, egressRules []baremetal.EgressSecurityRule, ingressRules []baremetal.IngressSecurityRule, opts *baremetal.CreateOptions) (res *baremetal.SecurityList, e error)
 	CreateSubnet(availabilityDomain, cidrBlock, compartmentID, vcnID string, opts *baremetal.CreateSubnetOptions) (sn *baremetal.Subnet, e error)
