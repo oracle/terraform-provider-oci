@@ -49,10 +49,10 @@ The OBMCS API uses CamelCase in multiple places. Terraform doesn't support Camel
 	OBMCS native API			Terraform configuration
 	----------------			-----------------------
 	availabilityDomain			availability_domain
-	cidrBlock					 cidr_block
+	cidrBlock				cidr_block
 	compartmentId			 	compartment_id
 	routeTableId			  	route_table_id
-	securityListIds		   	security_list_ids
+	securityListIds		   	    security_list_ids
 	vcnId						 vcn_id
 
 ## Mutable resources -

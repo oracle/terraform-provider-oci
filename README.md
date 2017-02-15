@@ -13,7 +13,7 @@ This Terraform provider is OSS, available to all OBMCS customers at no charge.
 The Terraform provider provides coverage for the entire BMC API excluding the Load Balancer Service, expected March 1 2017.  
 
 ## Getting started
-Be sure to read the FAQ and Writing Terraform configurations for OBMCS in [/docs](https://github.com/oracle/terraform-provider-baremetal/docs).
+Be sure to read the FAQ and Writing Terraform configurations for OBMCS in [/docs](https://github.com/oracle/terraform-provider-baremetal/tree/master/docs).
 
 ### Install Terraform
 https://www.terraform.io/downloads.html
@@ -61,7 +61,7 @@ Don't forget to `source ~/.bash_profile` once you've set these.
 The variables won't be set for the current session, exit the terminal and reopen.
 
 ## Deploy an example configuration
-Download the [VCN example configuration.](https://github.com/oracle/terraform-provider-baremetal/docs/examples/simple_vcn)  
+Download the [VCN example configuration.](https://github.com/oracle/terraform-provider-baremetal/tree/master/docs/examples/simple_vcn)  
 
 Edit it to include the OCID of the compartment you want to create the VCN. Remember that the tenancy OCID is the compartment OCID of your root compartment.
 

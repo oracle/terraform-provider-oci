@@ -32,4 +32,5 @@ The change you made outside of Terraform will be overwritten the next time you a
 You can file an issue against the project  
 https://github.com/oracle/terraform-provider-baremetal/issues
 
-or meet us in the OBMCS forums    https://community.oracle.com/community/cloud_computing/bare-metal
+or meet us in the OBMCS forums  
+https://community.oracle.com/community/cloud_computing/bare-metal
