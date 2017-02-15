@@ -17,11 +17,11 @@ variable "VPC-CIDR" {
 }
 
 variable "ADs" {
-  default = ["Ucom:PHX-AD-1", "Ucom:PHX-AD-2", "Ucom:PHX-AD-3"]
+  default = ["Uocm:PHX-AD-1", "Uocm:PHX-AD-2", "Uocm:PHX-AD-3"]
 }
 
 resource "baremetal_core_virtual_network" "CompleteVCN" {
-  cidr_block = "${var.VCP-CIDR}"
+  cidr_block = "${var.VPC-CIDR}"
   compartment_id = "${var.compartment_ocid}"
   display_name = "CompleteVCN"
 }
@@ -40,6 +40,7 @@ resource "baremetal_core_route_table" "RouteForComplete" {
         cidr_block = "0.0.0.0/0"
         network_entity_id = "${baremetal_core_internet_gateway.CompleteIG.id}"
     }
+}
 
 resource "baremetal_core_security_list" "WebSubnet" {
     compartment_id = "${var.compartment_ocid}"
@@ -64,12 +65,20 @@ resource "baremetal_core_security_list" "PrivateSubnet" {
     display_name = "Private"
     vcn_id = "${baremetal_core_virtual_network.CompleteVCN.id}"
     egress_security_rules {
+	tcp_options {
+	    "max" = 0
+            "min" = 0
+	}
+	protocol = "6"
+	destination = "${var.VPC-CIDR}"
     }
     ingress_security_rules {
         tcp_options {
+            "max" = 0
+	    "min" = 0
         }
         protocol = "6"
-        source = "${var.VCP-CIDR}"
+        source = "${var.VPC-CIDR}"
     }
 }
 
@@ -98,7 +107,7 @@ resource "baremetal_core_subnet" "WebSubnetAD1" {
   compartment_id = "${var.compartment_ocid}"
   vcn_id = "${baremetal_core_virtual_network.CompleteVCN.id}"
   route_table_id = "${baremetal_core_route_table.RouteForComplete.id}"
-  security_list_ids = "${baremetal_core_security_list.WebSubnet.id}"
+  security_list_ids = ["${baremetal_core_security_list.WebSubnet.id}"]
 }
 
 resource "baremetal_core_subnet" "WebSubnetAD2" {
@@ -108,7 +117,7 @@ resource "baremetal_core_subnet" "WebSubnetAD2" {
   compartment_id = "${var.compartment_ocid}"
   vcn_id = "${baremetal_core_virtual_network.CompleteVCN.id}"
   route_table_id = "${baremetal_core_route_table.RouteForComplete.id}"
-  security_list_ids = "${baremetal_core_security_list.WebSubnet.id}"
+  security_list_ids = ["${baremetal_core_security_list.WebSubnet.id}"]
 }
 
 resource "baremetal_core_subnet" "WebSubnetAD3" {
@@ -118,7 +127,7 @@ resource "baremetal_core_subnet" "WebSubnetAD3" {
   compartment_id = "${var.compartment_ocid}"
   vcn_id = "${baremetal_core_virtual_network.CompleteVCN.id}"
   route_table_id = "${baremetal_core_route_table.RouteForComplete.id}"
-  security_list_ids = "${baremetal_core_security_list.WebSubnet.id}"
+  security_list_ids = ["${baremetal_core_security_list.WebSubnet.id}"]
 }
 
 resource "baremetal_core_subnet" "PrivateSubnetAD1" {
@@ -128,7 +137,7 @@ resource "baremetal_core_subnet" "PrivateSubnetAD1" {
   compartment_id = "${var.compartment_ocid}"
   vcn_id = "${baremetal_core_virtual_network.CompleteVCN.id}"
   route_table_id = "${baremetal_core_route_table.RouteForComplete.id}"
-  security_list_ids = "${baremetal_core_security_list.PrivateSubnet.id}"
+  security_list_ids = ["${baremetal_core_security_list.PrivateSubnet.id}"]
 }
 
 resource "baremetal_core_subnet" "PrivateSubnetAD2" {
@@ -138,7 +147,7 @@ resource "baremetal_core_subnet" "PrivateSubnetAD2" {
   compartment_id = "${var.compartment_ocid}"
   vcn_id = "${baremetal_core_virtual_network.CompleteVCN.id}"
   route_table_id = "${baremetal_core_route_table.RouteForComplete.id}"
-  security_list_ids = "${baremetal_core_security_list.PrivateSubnet.id}"
+  security_list_ids = ["${baremetal_core_security_list.PrivateSubnet.id}"]
 }
 
 resource "baremetal_core_subnet" "PrivateSubnetAD3" {
@@ -148,7 +157,7 @@ resource "baremetal_core_subnet" "PrivateSubnetAD3" {
   compartment_id = "${var.compartment_ocid}"
   vcn_id = "${baremetal_core_virtual_network.CompleteVCN.id}"
   route_table_id = "${baremetal_core_route_table.RouteForComplete.id}"
-  security_list_ids = "${baremetal_core_security_list.PrivateSubnet.id}"
+  security_list_ids = ["${baremetal_core_security_list.PrivateSubnet.id}"]
 }
 
 resource "baremetal_core_subnet" "BastionSubnetAD1" {
@@ -158,7 +167,7 @@ resource "baremetal_core_subnet" "BastionSubnetAD1" {
   compartment_id = "${var.compartment_ocid}"
   vcn_id = "${baremetal_core_virtual_network.CompleteVCN.id}"
   route_table_id = "${baremetal_core_route_table.RouteForComplete.id}"
-  security_list_ids = "${baremetal_core_security_list.BastionSubnet.id}"
+  security_list_ids = ["${baremetal_core_security_list.BastionSubnet.id}"]
 }
 
 resource "baremetal_core_subnet" "BastionSubnetAD2" {
@@ -168,7 +177,7 @@ resource "baremetal_core_subnet" "BastionSubnetAD2" {
   compartment_id = "${var.compartment_ocid}"
   vcn_id = "${baremetal_core_virtual_network.CompleteVCN.id}"
   route_table_id = "${baremetal_core_route_table.RouteForComplete.id}"
-  security_list_ids = "${baremetal_core_security_list.BastionSubnet.id}"
+  security_list_ids = ["${baremetal_core_security_list.BastionSubnet.id}"]
 }
 
 resource "baremetal_core_subnet" "BastionSubnetAD3" {
@@ -178,5 +187,5 @@ resource "baremetal_core_subnet" "BastionSubnetAD3" {
   compartment_id = "${var.compartment_ocid}"
   vcn_id = "${baremetal_core_virtual_network.CompleteVCN.id}"
   route_table_id = "${baremetal_core_route_table.RouteForComplete.id}"
-  security_list_ids = "${baremetal_core_security_list.BastionSubnet.id}"
+  security_list_ids = ["${baremetal_core_security_list.BastionSubnet.id}"]
 }
