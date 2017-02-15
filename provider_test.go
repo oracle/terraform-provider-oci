@@ -5,8 +5,12 @@ package main
 import (
 	"testing"
 
+	"errors"
+
 	"github.com/MustWin/baremetal-sdk-go"
+	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform/terraform"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -86,4 +90,22 @@ func TestProviderConfig(t *testing.T) {
 	assert.NotNil(t, client)
 	_, ok := client.(*baremetal.Client)
 	assert.True(t, ok)
+}
+
+// TestNoInstanceState determines if there is any state for a given name.
+func testNoInstanceState(name string) resource.TestCheckFunc {
+	return func(s *terraform.State) error {
+		ms := s.RootModule()
+		rs, ok := ms.Resources[name]
+		if !ok {
+			return nil
+		}
+
+		is := rs.Primary
+		if is == nil {
+			return nil
+		}
+
+		return errors.New("State exists for primary resource " + name)
+	}
 }

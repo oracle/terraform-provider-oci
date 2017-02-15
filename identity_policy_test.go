@@ -22,6 +22,7 @@ var testPolicyConfig = `
   resource "baremetal_identity_policy" "p" {
     name = "%s"
     description = "%s"
+    compartment_id = "%s"
     statements = %s
   }
 `
@@ -79,6 +80,7 @@ func (s *ResourceIdentityPolicyTestSuite) SetupTest() {
 	s.Config = fmt.Sprintf(testProviderConfig+testPolicyConfig,
 		"pol",
 		"desc",
+		"7",
 		`["statementX","statementY"]`,
 	)
 	s.PolicyName = "baremetal_identity_policy.p"
@@ -96,6 +98,7 @@ func (s *ResourceIdentityPolicyTestSuite) SetupTest() {
 		"CreatePolicy",
 		"pol",
 		"desc",
+		"7",
 		[]string{"statementX", "statementY"},
 		(*baremetal.CreatePolicyOptions)(nil),
 	).Return(s.Policy, nil)
@@ -133,6 +136,7 @@ func (s *ResourceIdentityPolicyTestSuite) TestUpdateResourceIdentityPolicy() {
 	config := fmt.Sprintf(testProviderConfig+testPolicyConfig,
 		"pol",
 		"newdesc",
+		"7",
 		`["statementA","statementY", "statementZ"]`,
 	)
 
@@ -177,6 +181,7 @@ func (s *ResourceIdentityPolicyTestSuite) TestFailedUpdateResourceIdentityPolicy
 	config := fmt.Sprintf(testProviderConfig+testPolicyConfig,
 		"pol",
 		"newdesc",
+		"7",
 		`["statementA", "statementB"]`,
 	)
 
@@ -230,6 +235,7 @@ func (s *ResourceIdentityPolicyTestSuite) TestUpdateResourceIdentityPolicyNameSh
 	config := fmt.Sprintf(testProviderConfig+testPolicyConfig,
 		"newname",
 		"desc",
+		"7",
 		`["statementX", "statementY"]`,
 	)
 
@@ -242,6 +248,7 @@ func (s *ResourceIdentityPolicyTestSuite) TestUpdateResourceIdentityPolicyNameSh
 		"CreatePolicy",
 		"newname",
 		"desc",
+		"7",
 		statements,
 		(*baremetal.CreatePolicyOptions)(nil),
 	).Return(&u, nil)

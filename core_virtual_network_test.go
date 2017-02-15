@@ -12,6 +12,8 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
+	"errors"
+
 	"github.com/stretchr/testify/suite"
 )
 
@@ -25,6 +27,7 @@ type ResourceCoreVirtualNetworkTestSuite struct {
 	ResourceName string
 	Res          *baremetal.VirtualNetwork
 	DeletedRes   *baremetal.VirtualNetwork
+	DeletingRes  *baremetal.VirtualNetwork
 }
 
 func (s *ResourceCoreVirtualNetworkTestSuite) SetupTest() {
@@ -65,6 +68,17 @@ func (s *ResourceCoreVirtualNetworkTestSuite) SetupTest() {
 	}
 	s.Res.ETag = "etag"
 	s.Res.RequestID = "opcrequestid"
+
+	s.DeletingRes = &baremetal.VirtualNetwork{
+		CidrBlock:             "cidr_block",
+		CompartmentID:         "compartment_id",
+		DefaultRoutingTableID: "default_routing_table_id",
+		DefaultSecurityListID: "default_security_list_id",
+		DisplayName:           "display_name",
+		ID:                    "id",
+		State:                 baremetal.ResourceTerminating,
+		TimeCreated:           s.TimeCreated,
+	}
 
 	s.DeletedRes = &baremetal.VirtualNetwork{
 		CidrBlock:             "cidr_block",
@@ -107,6 +121,30 @@ func (s *ResourceCoreVirtualNetworkTestSuite) TestCreateResourceCoreVirtualNetwo
 					resource.TestCheckResourceAttr(s.ResourceName, "id", s.Res.ID),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", s.Res.State),
 					resource.TestCheckResourceAttr(s.ResourceName, "time_created", s.Res.TimeCreated.String()),
+				),
+			},
+		},
+	})
+}
+
+func (s *ResourceCoreVirtualNetworkTestSuite) TestDeleteResourceCoreVirtualNetwork() {
+	s.Client.On("GetVirtualNetwork", "id").Return(s.Res, nil).Times(2)
+	s.Client.On("GetVirtualNetwork", "id").Return(s.DeletingRes, nil).Times(2)
+	s.Client.On("GetVirtualNetwork", "id").Return(nil, errors.New("blah blah does not exist"))
+
+	resource.UnitTest(s.T(), resource.TestCase{
+		Providers: s.Providers,
+		Steps: []resource.TestStep{
+			{
+				Config: s.Config,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttr(s.ResourceName, "id", s.Res.ID),
+				),
+			},
+			{
+				Config: testProviderConfig,
+				Check: resource.ComposeTestCheckFunc(
+					testNoInstanceState("baremetal_core_virtual_network"),
 				),
 			},
 		},

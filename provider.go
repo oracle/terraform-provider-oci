@@ -5,6 +5,8 @@ package main
 import (
 	"crypto/rsa"
 
+	"fmt"
+
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/core"
 	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/database"
@@ -12,7 +14,6 @@ import (
 	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/objectstorage"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
-	"fmt"
 )
 
 var descriptions map[string]string
@@ -110,7 +111,7 @@ func dataSourcesMap() map[string]*schema.Resource {
 		"baremetal_database_db_systems":            database.DBSystemDatasource(),
 		"baremetal_database_db_system_shapes":      database.DBSystemShapeDatasource(),
 		"baremetal_database_db_versions":           database.DBVersionDatasource(),
-		"baremetal_database_supported_operations": database.SupportedOperationDatasource(),
+		"baremetal_database_supported_operations":  database.SupportedOperationDatasource(),
 		"baremetal_identity_api_keys":              identity.APIKeyDatasource(),
 		"baremetal_objectstorage_bucket_summaries": objectstorage.BucketSummaryDatasource(),
 		"baremetal_objectstorage_object_head":      objectstorage.ObjectHeadDatasource(),
