@@ -13,8 +13,7 @@ provider "baremetal" {
   private_key = "${var.private_key}"
 }
 
-resource "baremetal_identity_compartment" "a_TF_managed_compartment" {
-  compartment_id = "${var.tenancy_ocid}"
-  name = "a_TF_managed_compartment"
-  description = "My first Terraform Compartment"
+resource "baremetal_identity_group" "my_first_TF_group" {
+    name = "a_TF_managed_group"
+    description = "A group I'm managing with TF!"
 }
