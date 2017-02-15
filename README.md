@@ -67,9 +67,9 @@ Edit it to include the OCID of the compartment you want to create the VCN. Remem
 
 You should always plan, then apply a configuration -  
 ```
-$ terraform plan VCN.tf
+$ terraform plan ./simple_vcn
 # Make sure the plan looks right.
-$ terraform apply VCN.tf
+$ terraform apply ./simple_vcn
 ```
 ## OBMC resource and datasource details
 https://github.com/oracle/terraform-provider-baremetal/tree/master/docs
