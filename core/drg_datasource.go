@@ -35,6 +35,8 @@ func DrgDatasource() *schema.Resource {
 
 func readDrgs(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &DrgDatasourceCrud{D: d, Client: client}
+	sync := &DrgDatasourceCrud{}
+	sync.D = d
+	sync.Client = client
 	return crud.ReadResource(sync)
 }

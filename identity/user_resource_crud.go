@@ -4,16 +4,13 @@ package identity
 
 import (
 	"github.com/MustWin/baremetal-sdk-go"
-	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/client"
 	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/crud"
-	"github.com/hashicorp/terraform/helper/schema"
 )
 
 type UserResourceCrud struct {
 	*crud.IdentitySync
-	D      *schema.ResourceData
-	Client client.BareMetalClient
-	Res    *baremetal.User
+	crud.BaseCrud
+	Res *baremetal.User
 }
 
 func (s *UserResourceCrud) ID() string {

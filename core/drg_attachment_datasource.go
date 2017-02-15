@@ -43,6 +43,8 @@ func DrgAttachmentDatasource() *schema.Resource {
 
 func readDrgAttachments(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &DrgAttachmentDatasourceCrud{D: d, Client: client}
+	sync := &DrgAttachmentDatasourceCrud{}
+	sync.D = d
+	sync.Client = client
 	return crud.ReadResource(sync)
 }

@@ -17,25 +17,31 @@ func CompartmentResource() *schema.Resource {
 		Read:   readCompartment,
 		Update: updateCompartment,
 		Delete: deleteCompartment,
-		Schema: identitySchema,
+		Schema: baseIdentitySchema,
 	}
 }
 
 func createCompartment(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &CompartmentResourceCrud{D: d, Client: client}
+	sync := &CompartmentResourceCrud{}
+	sync.D = d
+	sync.Client = client
 	return crud.CreateResource(d, sync)
 }
 
 func readCompartment(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &CompartmentResourceCrud{D: d, Client: client}
+	sync := &CompartmentResourceCrud{}
+	sync.D = d
+	sync.Client = client
 	return crud.ReadResource(sync)
 }
 
 func updateCompartment(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &CompartmentResourceCrud{D: d, Client: client}
+	sync := &CompartmentResourceCrud{}
+	sync.D = d
+	sync.Client = client
 	return crud.UpdateResource(d, sync)
 }
 

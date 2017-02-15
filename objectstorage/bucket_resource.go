@@ -19,21 +19,29 @@ func BucketResource() *schema.Resource {
 }
 
 func createBucket(d *schema.ResourceData, m interface{}) (e error) {
-	sync := &BucketResourceCrud{D: d, Client: m.(client.BareMetalClient)}
+	sync := &BucketResourceCrud{}
+	sync.D = d
+	sync.Client = m.(client.BareMetalClient)
 	return crud.CreateResource(d, sync)
 }
 
 func readBucket(d *schema.ResourceData, m interface{}) (e error) {
-	sync := &BucketResourceCrud{D: d, Client: m.(client.BareMetalClient)}
+	sync := &BucketResourceCrud{}
+	sync.D = d
+	sync.Client = m.(client.BareMetalClient)
 	return crud.ReadResource(sync)
 }
 
 func updateBucket(d *schema.ResourceData, m interface{}) (e error) {
-	sync := &BucketResourceCrud{D: d, Client: m.(client.BareMetalClient)}
+	sync := &BucketResourceCrud{}
+	sync.D = d
+	sync.Client = m.(client.BareMetalClient)
 	return crud.UpdateResource(d, sync)
 }
 
 func deleteBucket(d *schema.ResourceData, m interface{}) (e error) {
-	sync := &BucketResourceCrud{D: d, Client: m.(client.BareMetalClient)}
+	sync := &BucketResourceCrud{}
+	sync.D = d
+	sync.Client = m.(client.BareMetalClient)
 	return crud.DeleteResource(sync)
 }

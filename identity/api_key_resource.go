@@ -50,18 +50,24 @@ func APIKeyResource() *schema.Resource {
 
 func createAPIKey(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &APIKeyResourceCrud{D: d, Client: client}
+	sync := &APIKeyResourceCrud{}
+	sync.D = d
+	sync.Client = client
 	return crud.CreateResource(d, sync)
 }
 
 func readAPIKey(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &APIKeyResourceCrud{D: d, Client: client}
+	sync := &APIKeyResourceCrud{}
+	sync.D = d
+	sync.Client = client
 	return crud.ReadResource(sync)
 }
 
 func deleteAPIKey(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &APIKeyResourceCrud{D: d, Client: client}
+	sync := &APIKeyResourceCrud{}
+	sync.D = d
+	sync.Client = client
 	return crud.DeleteResource(sync)
 }

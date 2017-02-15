@@ -56,31 +56,33 @@ func InternetGatewayResource() *schema.Resource {
 }
 
 func createInternetGateway(d *schema.ResourceData, m interface{}) (e error) {
-	sync := &InternetGatewayResourceCrud{
-		D:      d,
-		Client: m.(client.BareMetalClient)}
+	sync := &InternetGatewayResourceCrud{}
+	sync.D = d
+	sync.Client = m.(client.BareMetalClient)
 
 	return crud.CreateResource(d, sync)
 }
 
 func readInternetGateway(d *schema.ResourceData, m interface{}) (e error) {
-	sync := &InternetGatewayResourceCrud{
-		D:      d,
-		Client: m.(client.BareMetalClient)}
+	sync := &InternetGatewayResourceCrud{}
+	sync.D = d
+	sync.Client = m.(client.BareMetalClient)
 
 	return crud.ReadResource(sync)
 }
 
 func updateInternetGateway(d *schema.ResourceData, m interface{}) (e error) {
-	sync := &InternetGatewayResourceCrud{
-		D:      d,
-		Client: m.(client.BareMetalClient)}
+	sync := &InternetGatewayResourceCrud{}
+	sync.D = d
+	sync.Client = m.(client.BareMetalClient)
 
 	return crud.UpdateResource(d, sync)
 
 }
 
 func deleteInternetGateway(d *schema.ResourceData, m interface{}) (e error) {
-	sync := &InternetGatewayResourceCrud{D: d, Client: m.(client.BareMetalClient)}
+	sync := &InternetGatewayResourceCrud{}
+	sync.D = d
+	sync.Client = m.(client.BareMetalClient)
 	return crud.DeleteResource(sync)
 }

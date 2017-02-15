@@ -47,6 +47,8 @@ func VolumeAttachmentDatasource() *schema.Resource {
 
 func readVolumeAttachments(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &VolumeAttachmentDatasourceCrud{D: d, Client: client}
+	sync := &VolumeAttachmentDatasourceCrud{}
+	sync.D = d
+	sync.Client = client
 	return crud.ReadResource(sync)
 }

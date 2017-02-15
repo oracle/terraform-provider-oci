@@ -52,24 +52,32 @@ func VolumeResource() *schema.Resource {
 
 func createVolume(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &VolumeResourceCrud{D: d, Client: client}
+	sync := &VolumeResourceCrud{}
+	sync.D = d
+	sync.Client = client
 	return crud.CreateResource(d, sync)
 }
 
 func readVolume(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &VolumeResourceCrud{D: d, Client: client}
+	sync := &VolumeResourceCrud{}
+	sync.D = d
+	sync.Client = client
 	return crud.ReadResource(sync)
 }
 
 func updateVolume(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &VolumeResourceCrud{D: d, Client: client}
+	sync := &VolumeResourceCrud{}
+	sync.D = d
+	sync.Client = client
 	return crud.UpdateResource(d, sync)
 }
 
 func deleteVolume(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &VolumeResourceCrud{D: d, Client: client}
+	sync := &VolumeResourceCrud{}
+	sync.D = d
+	sync.Client = client
 	return sync.Delete()
 }

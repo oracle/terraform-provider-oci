@@ -59,24 +59,32 @@ func VolumeBackupResource() *schema.Resource {
 
 func createVolumeBackup(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &VolumeBackupResourceCrud{D: d, Client: client}
+	sync := &VolumeBackupResourceCrud{}
+	sync.D = d
+	sync.Client = client
 	return crud.CreateResource(d, sync)
 }
 
 func readVolumeBackup(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &VolumeBackupResourceCrud{D: d, Client: client}
+	sync := &VolumeBackupResourceCrud{}
+	sync.D = d
+	sync.Client = client
 	return crud.ReadResource(sync)
 }
 
 func updateVolumeBackup(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &VolumeBackupResourceCrud{D: d, Client: client}
+	sync := &VolumeBackupResourceCrud{}
+	sync.D = d
+	sync.Client = client
 	return crud.UpdateResource(d, sync)
 }
 
 func deleteVolumeBackup(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &VolumeBackupResourceCrud{D: d, Client: client}
+	sync := &VolumeBackupResourceCrud{}
+	sync.D = d
+	sync.Client = client
 	return crud.DeleteResource(sync)
 }

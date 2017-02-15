@@ -39,7 +39,9 @@ func RouteTableDatasource() *schema.Resource {
 
 func readRouteTables(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	reader := &RouteTableDatasourceCrud{D: d, Client: client}
+	reader := &RouteTableDatasourceCrud{}
+	reader.D = d
+	reader.Client = client
 
 	return crud.ReadResource(reader)
 }

@@ -6,14 +6,13 @@ import (
 	"time"
 
 	"github.com/MustWin/baremetal-sdk-go"
-	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/client"
-	"github.com/hashicorp/terraform/helper/schema"
+
+	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/crud"
 )
 
 type APIKeyDatasourceCrud struct {
-	D      *schema.ResourceData
-	Client client.BareMetalClient
-	Res    *baremetal.ListAPIKeyResponses
+	crud.BaseCrud
+	Res *baremetal.ListAPIKeyResponses
 }
 
 func (s *APIKeyDatasourceCrud) Get() (e error) {

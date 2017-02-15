@@ -4,14 +4,12 @@ package core
 
 import (
 	"github.com/MustWin/baremetal-sdk-go"
-	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/client"
-	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/crud"
 )
 
 type DrgResourceCrud struct {
-	D      *schema.ResourceData
-	Client client.BareMetalClient
-	Res    *baremetal.Drg
+	crud.BaseCrud
+	Res *baremetal.Drg
 }
 
 func (s *DrgResourceCrud) ID() string {

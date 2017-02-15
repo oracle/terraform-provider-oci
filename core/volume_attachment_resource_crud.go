@@ -4,14 +4,13 @@ package core
 
 import (
 	"github.com/MustWin/baremetal-sdk-go"
-	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/client"
-	"github.com/hashicorp/terraform/helper/schema"
+
+	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/crud"
 )
 
 type VolumeAttachmentResourceCrud struct {
-	D      *schema.ResourceData
-	Client client.BareMetalClient
-	Res    *baremetal.VolumeAttachment
+	crud.BaseCrud
+	Res *baremetal.VolumeAttachment
 }
 
 func (s *VolumeAttachmentResourceCrud) ID() string {

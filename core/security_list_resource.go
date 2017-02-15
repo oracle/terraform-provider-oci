@@ -14,11 +14,11 @@ var transportSchema = &schema.Schema{
 	MaxItems: 1,
 	Elem: &schema.Resource{
 		Schema: map[string]*schema.Schema{
-			"max": &schema.Schema{
+			"max": {
 				Type:     schema.TypeInt,
 				Required: true,
 			},
-			"min": &schema.Schema{
+			"min": {
 				Type:     schema.TypeInt,
 				Required: true,
 			},
@@ -32,11 +32,11 @@ var icmpSchema = &schema.Schema{
 	MaxItems: 1,
 	Elem: &schema.Resource{
 		Schema: map[string]*schema.Schema{
-			"code": &schema.Schema{
+			"code": {
 				Type:     schema.TypeInt,
 				Optional: true,
 			},
-			"type": &schema.Schema{
+			"type": {
 				Type:     schema.TypeInt,
 				Required: true,
 			},
@@ -51,27 +51,27 @@ func SecurityListResource() *schema.Resource {
 		Update: updateSecurityList,
 		Delete: deleteSecurityList,
 		Schema: map[string]*schema.Schema{
-			"compartment_id": &schema.Schema{
+			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
 			},
-			"display_name": &schema.Schema{
+			"display_name": {
 				Type:     schema.TypeString,
 				Computed: true,
 				Optional: true,
 			},
-			"egress_security_rules": &schema.Schema{
+			"egress_security_rules": {
 				Type:     schema.TypeList,
 				Required: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"destination": &schema.Schema{
+						"destination": {
 							Type:     schema.TypeString,
 							Required: true,
 						},
 						"icmp_options": icmpSchema,
-						"protocol": &schema.Schema{
+						"protocol": {
 							Type:     schema.TypeString,
 							Required: true,
 						},
@@ -80,21 +80,21 @@ func SecurityListResource() *schema.Resource {
 					},
 				},
 			},
-			"id": &schema.Schema{
+			"id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"ingress_security_rules": &schema.Schema{
+			"ingress_security_rules": {
 				Type:     schema.TypeList,
 				Required: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"icmp_options": icmpSchema,
-						"protocol": &schema.Schema{
+						"protocol": {
 							Type:     schema.TypeString,
 							Required: true,
 						},
-						"source": &schema.Schema{
+						"source": {
 							Type:     schema.TypeString,
 							Required: true,
 						},
@@ -103,15 +103,15 @@ func SecurityListResource() *schema.Resource {
 					},
 				},
 			},
-			"state": &schema.Schema{
+			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"time_created": &schema.Schema{
+			"time_created": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"vcn_id": &schema.Schema{
+			"vcn_id": {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
@@ -122,24 +122,32 @@ func SecurityListResource() *schema.Resource {
 
 func createSecurityList(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	crd := &SecurityListResourceCrud{D: d, Client: client}
+	crd := &SecurityListResourceCrud{}
+	crd.D = d
+	crd.Client = client
 	return crud.CreateResource(d, crd)
 }
 
 func readSecurityList(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	crd := &SecurityListResourceCrud{D: d, Client: client}
+	crd := &SecurityListResourceCrud{}
+	crd.D = d
+	crd.Client = client
 	return crud.ReadResource(crd)
 }
 
 func updateSecurityList(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	crd := &SecurityListResourceCrud{D: d, Client: client}
+	crd := &SecurityListResourceCrud{}
+	crd.D = d
+	crd.Client = client
 	return crud.UpdateResource(d, crd)
 }
 
 func deleteSecurityList(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	crd := &SecurityListResourceCrud{D: d, Client: client}
+	crd := &SecurityListResourceCrud{}
+	crd.D = d
+	crd.Client = client
 	return crud.DeleteResource(crd)
 }

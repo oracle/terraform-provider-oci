@@ -6,15 +6,15 @@ import (
 	"time"
 
 	"github.com/MustWin/baremetal-sdk-go"
-	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/client"
+
 	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/options"
-	"github.com/hashicorp/terraform/helper/schema"
+
+	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/crud"
 )
 
 type VirtualNetworkDatasourceCrud struct {
-	D      *schema.ResourceData
-	Client client.BareMetalClient
-	Res    *baremetal.ListVirtualNetworks
+	crud.BaseCrud
+	Res *baremetal.ListVirtualNetworks
 }
 
 func (s *VirtualNetworkDatasourceCrud) Get() (e error) {

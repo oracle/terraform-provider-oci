@@ -4,13 +4,12 @@ package core
 
 import (
 	"github.com/MustWin/baremetal-sdk-go"
-	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/client"
-	"github.com/hashicorp/terraform/helper/schema"
+
+	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/crud"
 )
 
 type SubnetResourceCrud struct {
-	D        *schema.ResourceData
-	Client   client.BareMetalClient
+	crud.BaseCrud
 	Resource *baremetal.Subnet
 }
 

@@ -34,10 +34,9 @@ func CpeDatasource() *schema.Resource {
 }
 
 func readCpeList(d *schema.ResourceData, m interface{}) (e error) {
-	reader := &CPEDatasourceCrud{
-		D:      d,
-		Client: m.(client.BareMetalClient),
-	}
+	reader := &CPEDatasourceCrud{}
+	reader.D = d
+	reader.Client = m.(client.BareMetalClient)
 	return crud.ReadResource(reader)
 
 }

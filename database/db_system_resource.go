@@ -124,7 +124,7 @@ func DBSystemResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"listener_port": &schema.Schema{
+			"listener_port": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
@@ -142,18 +142,24 @@ func DBSystemResource() *schema.Resource {
 
 func createDBSystem(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &DBSystemResourceCrud{D: d, Client: client}
+	sync := &DBSystemResourceCrud{}
+	sync.D = d
+	sync.Client = client
 	return crud.CreateResource(d, sync)
 }
 
 func readDBSystem(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &DBSystemResourceCrud{D: d, Client: client}
+	sync := &DBSystemResourceCrud{}
+	sync.D = d
+	sync.Client = client
 	return crud.ReadResource(sync)
 }
 
 func deleteDBSystem(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &DBSystemResourceCrud{D: d, Client: client}
+	sync := &DBSystemResourceCrud{}
+	sync.D = d
+	sync.Client = client
 	return sync.Delete()
 }

@@ -4,16 +4,13 @@ package identity
 
 import (
 	"github.com/MustWin/baremetal-sdk-go"
-	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/client"
 	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/crud"
-	"github.com/hashicorp/terraform/helper/schema"
 )
 
 type CompartmentResourceCrud struct {
 	*crud.IdentitySync
-	D      *schema.ResourceData
-	Client client.BareMetalClient
-	Res    *baremetal.Compartment
+	crud.BaseCrud
+	Res *baremetal.Compartment
 }
 
 func (s *CompartmentResourceCrud) ID() string {
@@ -30,14 +27,6 @@ func (s *CompartmentResourceCrud) CreatedPending() []string {
 
 func (s *CompartmentResourceCrud) CreatedTarget() []string {
 	return []string{baremetal.ResourceActive}
-}
-
-func (s *CompartmentResourceCrud) DeletedPending() []string {
-	return []string{baremetal.ResourceDeleting}
-}
-
-func (s *CompartmentResourceCrud) DeletedTarget() []string {
-	return []string{baremetal.ResourceDeleted}
 }
 
 func (s *CompartmentResourceCrud) Create() (e error) {

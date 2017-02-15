@@ -39,6 +39,8 @@ func VolumeDatasource() *schema.Resource {
 
 func readVolumes(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &VolumeDatasourceCrud{D: d, Client: client}
+	sync := &VolumeDatasourceCrud{}
+	sync.D = d
+	sync.Client = client
 	return crud.ReadResource(sync)
 }

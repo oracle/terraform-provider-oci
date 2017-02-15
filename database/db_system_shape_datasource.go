@@ -54,6 +54,8 @@ func DBSystemShapeDatasource() *schema.Resource {
 
 func readDBSystemShapes(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	reader := &DBSystemShapeDatasourceCrud{D: d, Client: client}
+	reader := &DBSystemShapeDatasourceCrud{}
+	reader.D = d
+	reader.Client = client
 	return crud.ReadResource(reader)
 }

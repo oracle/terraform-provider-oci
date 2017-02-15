@@ -39,10 +39,9 @@ func InternetGatewayDatasource() *schema.Resource {
 
 func readInternetGateways(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	reader := &InternetGatewayDatasourceCrud{
-		D:      d,
-		Client: client,
-	}
+	reader := &InternetGatewayDatasourceCrud{}
+	reader.D = d
+	reader.Client = client
 
 	return crud.ReadResource(reader)
 }

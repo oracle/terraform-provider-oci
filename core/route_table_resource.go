@@ -68,24 +68,32 @@ func RouteTableResource() *schema.Resource {
 
 func createRouteTable(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	crd := &RouteTableResourceCrud{D: d, Client: client}
+	crd := &RouteTableResourceCrud{}
+	crd.D = d
+	crd.Client = client
 	return crud.CreateResource(d, crd)
 }
 
 func readRouteTable(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	crd := &RouteTableResourceCrud{D: d, Client: client}
+	crd := &RouteTableResourceCrud{}
+	crd.D = d
+	crd.Client = client
 	return crud.ReadResource(crd)
 }
 
 func updateRouteTable(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	crd := &RouteTableResourceCrud{D: d, Client: client}
+	crd := &RouteTableResourceCrud{}
+	crd.D = d
+	crd.Client = client
 	return crud.UpdateResource(d, crd)
 }
 
 func deleteRouteTable(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	crd := &RouteTableResourceCrud{D: d, Client: client}
+	crd := &RouteTableResourceCrud{}
+	crd.D = d
+	crd.Client = client
 	return crud.DeleteResource(crd)
 }

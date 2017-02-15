@@ -6,15 +6,15 @@ import (
 	"time"
 
 	"github.com/MustWin/baremetal-sdk-go"
-	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/client"
+
 	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/options"
-	"github.com/hashicorp/terraform/helper/schema"
+
+	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/crud"
 )
 
 type VolumeDatasourceCrud struct {
-	D      *schema.ResourceData
-	Client client.BareMetalClient
-	Res    *baremetal.ListVolumes
+	crud.BaseCrud
+	Res *baremetal.ListVolumes
 }
 
 func (s *VolumeDatasourceCrud) Get() (e error) {

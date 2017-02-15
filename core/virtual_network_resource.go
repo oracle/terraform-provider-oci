@@ -55,18 +55,24 @@ func VirtualNetworkResource() *schema.Resource {
 
 func createVirtualNetwork(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &VirtualNetworkResourceCrud{D: d, Client: client}
+	sync := &VirtualNetworkResourceCrud{}
+	sync.D = d
+	sync.Client = client
 	return crud.CreateResource(d, sync)
 }
 
 func readVirtualNetwork(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &VirtualNetworkResourceCrud{D: d, Client: client}
+	sync := &VirtualNetworkResourceCrud{}
+	sync.D = d
+	sync.Client = client
 	return crud.ReadResource(sync)
 }
 
 func deleteVirtualNetwork(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &VirtualNetworkResourceCrud{D: d, Client: client}
+	sync := &VirtualNetworkResourceCrud{}
+	sync.D = d
+	sync.Client = client
 	return crud.DeleteResource(sync)
 }

@@ -6,15 +6,13 @@ import (
 	"time"
 
 	"github.com/MustWin/baremetal-sdk-go"
-	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/client"
+	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/crud"
 	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/options"
-	"github.com/hashicorp/terraform/helper/schema"
 )
 
 type ImageDatasourceCrud struct {
-	D      *schema.ResourceData
-	Client client.BareMetalClient
-	Res    *baremetal.ListImages
+	crud.BaseCrud
+	Res *baremetal.ListImages
 }
 
 func (s *ImageDatasourceCrud) Get() (e error) {

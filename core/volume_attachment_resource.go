@@ -60,18 +60,24 @@ func VolumeAttachmentResource() *schema.Resource {
 
 func createVolumeAttachment(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &VolumeAttachmentResourceCrud{D: d, Client: client}
+	sync := &VolumeAttachmentResourceCrud{}
+	sync.D = d
+	sync.Client = client
 	return crud.CreateResource(d, sync)
 }
 
 func readVolumeAttachment(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &VolumeAttachmentResourceCrud{D: d, Client: client}
+	sync := &VolumeAttachmentResourceCrud{}
+	sync.D = d
+	sync.Client = client
 	return crud.ReadResource(sync)
 }
 
 func deleteVolumeAttachment(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &VolumeAttachmentResourceCrud{D: d, Client: client}
+	sync := &VolumeAttachmentResourceCrud{}
+	sync.D = d
+	sync.Client = client
 	return crud.DeleteResource(sync)
 }

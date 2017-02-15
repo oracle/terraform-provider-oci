@@ -45,18 +45,24 @@ func CpeResource() *schema.Resource {
 
 func createCpe(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &CpeResourceCrud{D: d, Client: client}
+	sync := &CpeResourceCrud{}
+	sync.D = d
+	sync.Client = client
 	return crud.CreateResource(d, sync)
 }
 
 func readCpe(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &CpeResourceCrud{D: d, Client: client}
+	sync := &CpeResourceCrud{}
+	sync.D = d
+	sync.Client = client
 	return crud.ReadResource(sync)
 }
 
 func deleteCpe(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &CpeResourceCrud{D: d, Client: client}
+	sync := &CpeResourceCrud{}
+	sync.D = d
+	sync.Client = client
 	return sync.Delete()
 }

@@ -50,10 +50,9 @@ func ShapeDatasource() *schema.Resource {
 
 func readShape(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	reader := &ShapeDatasourceCrud{
-		D:      d,
-		Client: client,
-	}
+	reader := &ShapeDatasourceCrud{}
+	reader.D = d
+	reader.Client = client
 
 	return crud.ReadResource(reader)
 

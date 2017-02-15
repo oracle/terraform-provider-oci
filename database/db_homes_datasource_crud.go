@@ -6,15 +6,13 @@ import (
 	"time"
 
 	"github.com/MustWin/baremetal-sdk-go"
-	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/client"
+	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/crud"
 	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/options"
-	"github.com/hashicorp/terraform/helper/schema"
 )
 
 type DBHomesDatasourceCrud struct {
-	D      *schema.ResourceData
-	Client client.BareMetalClient
-	Res    *baremetal.ListDBHomes
+	crud.BaseCrud
+	Res *baremetal.ListDBHomes
 }
 
 func (s *DBHomesDatasourceCrud) Get() (e error) {

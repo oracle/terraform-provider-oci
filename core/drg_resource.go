@@ -42,18 +42,24 @@ func DrgResource() *schema.Resource {
 
 func createDrg(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &DrgResourceCrud{D: d, Client: client}
+	sync := &DrgResourceCrud{}
+	sync.D = d
+	sync.Client = client
 	return crud.CreateResource(d, sync)
 }
 
 func readDrg(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &DrgResourceCrud{D: d, Client: client}
+	sync := &DrgResourceCrud{}
+	sync.D = d
+	sync.Client = client
 	return crud.ReadResource(sync)
 }
 
 func deleteDrg(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &DrgResourceCrud{D: d, Client: client}
+	sync := &DrgResourceCrud{}
+	sync.D = d
+	sync.Client = client
 	return crud.DeleteResource(sync)
 }

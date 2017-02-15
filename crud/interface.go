@@ -11,6 +11,7 @@ type ResourceFetcher interface {
 
 // ResourceDataWriter populates ResourceData based on current BareMetal Resource
 type ResourceDataWriter interface {
+	ResourceVoider
 	SetData()
 }
 
@@ -19,6 +20,10 @@ type ResourceCreator interface {
 	ResourceDataWriter
 	ID() string
 	Create() error
+}
+
+type ResourceVoider interface {
+	VoidState() // Call this when the resource is gone
 }
 
 // ResourceReader get BareMetal Resource and updated ResourceData
@@ -35,6 +40,7 @@ type ResourceUpdater interface {
 
 // Deletes a BareMetal entity
 type ResourceDeleter interface {
+	ResourceVoider
 	Delete() error
 }
 

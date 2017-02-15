@@ -1,12 +1,12 @@
 // Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
 
 package objectstorage
+
 import (
 	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/client"
 	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/crud"
 	"github.com/hashicorp/terraform/helper/schema"
 )
-
 
 func BucketSummaryDatasource() *schema.Resource {
 	return &schema.Resource{
@@ -64,8 +64,10 @@ func BucketSummaryDatasource() *schema.Resource {
 	}
 }
 
-func readBucketSummaries(d *schema.ResourceData, m interface{}) (e error){
+func readBucketSummaries(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	reader := &BucketSummaryDatasourceCrud{D: d, Client: client}
+	reader := &BucketSummaryDatasourceCrud{}
+	reader.D = d
+	reader.Client = client
 	return crud.ReadResource(reader)
 }

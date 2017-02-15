@@ -22,10 +22,9 @@ func NamespaceDatasource() *schema.Resource {
 
 func readNamespace(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	reader := &NamespaceDatasourceCrud{
-		D:      d,
-		Client: client,
-	}
+	reader := &NamespaceDatasourceCrud{}
+	reader.D = d
+	reader.Client = client
 
 	return crud.ReadResource(reader)
 }

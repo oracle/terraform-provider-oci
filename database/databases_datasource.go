@@ -12,23 +12,23 @@ func DatabasesDatasource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDatabases,
 		Schema: map[string]*schema.Schema{
-			"compartment_id": &schema.Schema{
+			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"db_home_id": &schema.Schema{
+			"db_home_id": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"limit": &schema.Schema{
+			"limit": {
 				Type:     schema.TypeInt,
 				Required: true,
 			},
-			"page": &schema.Schema{
+			"page": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"databases": &schema.Schema{
+			"databases": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem:     DatabaseDatasource(),
@@ -39,6 +39,8 @@ func DatabasesDatasource() *schema.Resource {
 
 func readDatabases(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &DatabasesDatasourceCrud{D: d, Client: client}
+	sync := &DatabasesDatasourceCrud{}
+	sync.D = d
+	sync.Client = client
 	return crud.ReadResource(sync)
 }

@@ -52,13 +52,17 @@ func ConsoleHistoryResource() *schema.Resource {
 
 func createConsoleHistory(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	ichCrud := &ConsoleHistoryResourceCrud{D: d, Client: client}
+	ichCrud := &ConsoleHistoryResourceCrud{}
+	ichCrud.D = d
+	ichCrud.Client = client
 	return crud.CreateResource(d, ichCrud)
 }
 
 func readConsoleHistory(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	ichCrud := &ConsoleHistoryResourceCrud{D: d, Client: client}
+	ichCrud := &ConsoleHistoryResourceCrud{}
+	ichCrud.D = d
+	ichCrud.Client = client
 	return crud.ReadResource(ichCrud)
 }
 

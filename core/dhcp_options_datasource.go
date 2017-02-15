@@ -39,7 +39,9 @@ func DHCPOptionsDatasource() *schema.Resource {
 
 func readDHCPOptionsList(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	reader := &DHCPOptionsDatasourceCrud{D: d, Client: client}
+	reader := &DHCPOptionsDatasourceCrud{}
+	reader.D = d
+	reader.Client = client
 
 	return crud.ReadResource(reader)
 }

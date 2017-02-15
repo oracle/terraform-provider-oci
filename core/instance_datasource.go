@@ -87,10 +87,9 @@ func resourceCoreInstance() *schema.Resource {
 
 func readInstances(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	reader := &InstanceDatasourceCrud{
-		D:      d,
-		Client: client,
-	}
+	reader := &InstanceDatasourceCrud{}
+	reader.D = d
+	reader.Client = client
 
 	return crud.ReadResource(reader)
 }

@@ -4,18 +4,16 @@ package objectstorage
 
 import (
 	"time"
+
 	"github.com/MustWin/baremetal-sdk-go"
-	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/client"
+	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/crud"
 	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/options"
-	"github.com/hashicorp/terraform/helper/schema"
 )
 
 type BucketSummaryDatasourceCrud struct {
-	D      *schema.ResourceData
-	Client client.BareMetalClient
-	Res    *baremetal.ListBuckets
+	crud.BaseCrud
+	Res *baremetal.ListBuckets
 }
-
 
 func (s *BucketSummaryDatasourceCrud) Get() (e error) {
 	compartmentID := s.D.Get("compartment_id").(string)
@@ -52,12 +50,12 @@ func (s *BucketSummaryDatasourceCrud) SetData() {
 		resources := []map[string]interface{}{}
 		for _, r := range s.Res.BucketSummaries {
 			res := map[string]interface{}{
-				"namespace":       r.Namespace,
-				"name":            r.Name,
-				"compartment_id":  r.CompartmentID,
-				"created_by":      r.CreatedBy,
-				"time_created":    r.TimeCreated.String(),
-				"etag":            r.ETag,
+				"namespace":      r.Namespace,
+				"name":           r.Name,
+				"compartment_id": r.CompartmentID,
+				"created_by":     r.CreatedBy,
+				"time_created":   r.TimeCreated.String(),
+				"etag":           r.ETag,
 			}
 			resources = append(resources, res)
 		}

@@ -6,13 +6,12 @@ import (
 	"time"
 
 	"github.com/MustWin/baremetal-sdk-go"
-	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/client"
-	"github.com/hashicorp/terraform/helper/schema"
+
+	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/crud"
 )
 
 type ConsoleHistoryDataDatasourceCrud struct {
-	D                  *schema.ResourceData
-	Client             client.BareMetalClient
+	crud.BaseCrud
 	ConsoleHistoryData *baremetal.ConsoleHistoryData
 }
 

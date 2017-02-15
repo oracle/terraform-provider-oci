@@ -4,14 +4,13 @@ package core
 
 import (
 	"github.com/MustWin/baremetal-sdk-go"
-	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/client"
-	"github.com/hashicorp/terraform/helper/schema"
+
+	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/crud"
 )
 
 type RouteTableResourceCrud struct {
-	D      *schema.ResourceData
-	Client client.BareMetalClient
-	Res    *baremetal.RouteTable
+	crud.BaseCrud
+	Res *baremetal.RouteTable
 }
 
 func (s *RouteTableResourceCrud) ID() string {
@@ -70,8 +69,8 @@ func (s *RouteTableResourceCrud) SetData() {
 	rules := []map[string]interface{}{}
 	for _, val := range s.Res.RouteRules {
 		rule := map[string]interface{}{
-			"cidr_block":          val.CidrBlock,
-			"network_entity_id":   val.NetworkEntityID,
+			"cidr_block":        val.CidrBlock,
+			"network_entity_id": val.NetworkEntityID,
 		}
 		rules = append(rules, rule)
 	}
@@ -91,8 +90,8 @@ func (s *RouteTableResourceCrud) buildRouteRules() (routeRules []baremetal.Route
 	for _, val := range s.D.Get("route_rules").([]interface{}) {
 		data := val.(map[string]interface{})
 		routeRule := baremetal.RouteRule{
-			CidrBlock:         data["cidr_block"].(string),
-			NetworkEntityID:   data["network_entity_id"].(string),
+			CidrBlock:       data["cidr_block"].(string),
+			NetworkEntityID: data["network_entity_id"].(string),
 		}
 		routeRules = append(routeRules, routeRule)
 	}

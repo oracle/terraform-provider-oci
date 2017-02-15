@@ -12,19 +12,19 @@ func DBSystemDatasource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDBSystems,
 		Schema: map[string]*schema.Schema{
-			"compartment_id": &schema.Schema{
+			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"limit": &schema.Schema{
+			"limit": {
 				Type:     schema.TypeInt,
 				Required: true,
 			},
-			"page": &schema.Schema{
+			"page": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"db_systems": &schema.Schema{
+			"db_systems": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem:     DBSystemResource(),
@@ -35,6 +35,8 @@ func DBSystemDatasource() *schema.Resource {
 
 func readDBSystems(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &DBSystemDatasourceCrud{D: d, Client: client}
+	sync := &DBSystemDatasourceCrud{}
+	sync.D = d
+	sync.Client = client
 	return crud.ReadResource(sync)
 }

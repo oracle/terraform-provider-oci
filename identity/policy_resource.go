@@ -32,24 +32,32 @@ func PolicyResource() *schema.Resource {
 
 func createPolicy(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &PolicyResourceCrud{D: d, Client: client}
+	sync := &PolicyResourceCrud{}
+	sync.D = d
+	sync.Client = client
 	return crud.CreateResource(d, sync)
 }
 
 func readPolicy(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &PolicyResourceCrud{D: d, Client: client}
+	sync := &PolicyResourceCrud{}
+	sync.D = d
+	sync.Client = client
 	return crud.ReadResource(sync)
 }
 
 func updatePolicy(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &PolicyResourceCrud{D: d, Client: client}
+	sync := &PolicyResourceCrud{}
+	sync.D = d
+	sync.Client = client
 	return crud.UpdateResource(d, sync)
 }
 
 func deletePolicy(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &PolicyResourceCrud{D: d, Client: client}
+	sync := &PolicyResourceCrud{}
+	sync.D = d
+	sync.Client = client
 	return sync.Delete()
 }

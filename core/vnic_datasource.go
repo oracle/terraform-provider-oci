@@ -54,9 +54,8 @@ func VnicDatasource() *schema.Resource {
 
 func readVnic(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &VnicDatasourceCrud{
-		D:      d,
-		Client: client,
-	}
+	sync := &VnicDatasourceCrud{}
+	sync.D = d
+	sync.Client = client
 	return crud.ReadResource(sync)
 }

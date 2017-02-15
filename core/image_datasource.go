@@ -43,6 +43,8 @@ func ImageDatasource() *schema.Resource {
 
 func readImages(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &ImageDatasourceCrud{D: d, Client: client}
+	sync := &ImageDatasourceCrud{}
+	sync.D = d
+	sync.Client = client
 	return crud.ReadResource(sync)
 }

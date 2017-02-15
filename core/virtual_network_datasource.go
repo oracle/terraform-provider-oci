@@ -35,6 +35,8 @@ func VirtualNetworkDatasource() *schema.Resource {
 
 func readVirtualNetworks(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &VirtualNetworkDatasourceCrud{D: d, Client: client}
+	sync := &VirtualNetworkDatasourceCrud{}
+	sync.D = d
+	sync.Client = client
 	return crud.ReadResource(sync)
 }

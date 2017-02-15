@@ -15,30 +15,38 @@ func UserResource() *schema.Resource {
 		Read:   readUser,
 		Update: updateUser,
 		Delete: deleteUser,
-		Schema: identitySchema,
+		Schema: baseIdentitySchema,
 	}
 }
 
 func createUser(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &UserResourceCrud{D: d, Client: client}
+	sync := &UserResourceCrud{}
+	sync.D = d
+	sync.Client = client
 	return crud.CreateResource(d, sync)
 }
 
 func readUser(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &UserResourceCrud{D: d, Client: client}
+	sync := &UserResourceCrud{}
+	sync.D = d
+	sync.Client = client
 	return crud.ReadResource(sync)
 }
 
 func updateUser(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &UserResourceCrud{D: d, Client: client}
+	sync := &UserResourceCrud{}
+	sync.D = d
+	sync.Client = client
 	return crud.UpdateResource(d, sync)
 }
 
 func deleteUser(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &UserResourceCrud{D: d, Client: client}
+	sync := &UserResourceCrud{}
+	sync.D = d
+	sync.Client = client
 	return sync.Delete()
 }

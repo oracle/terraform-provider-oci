@@ -4,14 +4,13 @@ package objectstorage
 
 import (
 	"github.com/MustWin/baremetal-sdk-go"
-	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/client"
-	"github.com/hashicorp/terraform/helper/schema"
+
+	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/crud"
 )
 
 type ObjectResourceCrud struct {
-	D      *schema.ResourceData
-	Client client.BareMetalClient
-	Res    *baremetal.Object
+	crud.BaseCrud
+	Res *baremetal.Object
 }
 
 func (s *ObjectResourceCrud) ID() string {

@@ -19,21 +19,29 @@ func ObjectResource() *schema.Resource {
 }
 
 func createObject(d *schema.ResourceData, m interface{}) (e error) {
-	sync := &ObjectResourceCrud{D: d, Client: m.(client.BareMetalClient)}
+	sync := &ObjectResourceCrud{}
+	sync.D = d
+	sync.Client = m.(client.BareMetalClient)
 	return crud.CreateResource(d, sync)
 }
 
 func readObject(d *schema.ResourceData, m interface{}) (e error) {
-	sync := &ObjectResourceCrud{D: d, Client: m.(client.BareMetalClient)}
+	sync := &ObjectResourceCrud{}
+	sync.D = d
+	sync.Client = m.(client.BareMetalClient)
 	return crud.ReadResource(sync)
 }
 
 func updateObject(d *schema.ResourceData, m interface{}) (e error) {
-	sync := &ObjectResourceCrud{D: d, Client: m.(client.BareMetalClient)}
+	sync := &ObjectResourceCrud{}
+	sync.D = d
+	sync.Client = m.(client.BareMetalClient)
 	return crud.UpdateResource(d, sync)
 }
 
 func deleteObject(d *schema.ResourceData, m interface{}) (e error) {
-	sync := &ObjectResourceCrud{D: d, Client: m.(client.BareMetalClient)}
+	sync := &ObjectResourceCrud{}
+	sync.D = d
+	sync.Client = m.(client.BareMetalClient)
 	return crud.DeleteResource(sync)
 }

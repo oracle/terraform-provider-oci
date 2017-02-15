@@ -4,14 +4,13 @@ package database
 
 import (
 	"github.com/MustWin/baremetal-sdk-go"
-	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/client"
-	"github.com/hashicorp/terraform/helper/schema"
+
+	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/crud"
 )
 
 type DBHomeDatasourceCrud struct {
-	D      *schema.ResourceData
-	Client client.BareMetalClient
-	Res    *baremetal.DBHome
+	crud.BaseCrud
+	Res *baremetal.DBHome
 }
 
 func (s *DBHomeDatasourceCrud) Get() (e error) {

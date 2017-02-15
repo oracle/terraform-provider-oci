@@ -90,10 +90,9 @@ func DatasourceCoreVnicAttachments() *schema.Resource {
 
 func readVnicAttachments(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	reader := &VnicAttachmentDatasourceCrud{
-		D:      d,
-		Client: client,
-	}
+	reader := &VnicAttachmentDatasourceCrud{}
+	reader.D = d
+	reader.Client = client
 
 	return crud.ReadResource(reader)
 }

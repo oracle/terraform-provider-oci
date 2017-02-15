@@ -6,15 +6,13 @@ import (
 	"time"
 
 	"github.com/MustWin/baremetal-sdk-go"
-	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/client"
+	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/crud"
 	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/options"
-	"github.com/hashicorp/terraform/helper/schema"
 )
 
 type DHCPOptionsDatasourceCrud struct {
-	D      *schema.ResourceData
-	Client client.BareMetalClient
-	Res    *baremetal.ListDHCPOptions
+	crud.BaseCrud
+	Res *baremetal.ListDHCPOptions
 }
 
 func (s *DHCPOptionsDatasourceCrud) Get() (e error) {

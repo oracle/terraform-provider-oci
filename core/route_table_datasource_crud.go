@@ -6,15 +6,15 @@ import (
 	"time"
 
 	"github.com/MustWin/baremetal-sdk-go"
-	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/client"
+
 	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/options"
-	"github.com/hashicorp/terraform/helper/schema"
+
+	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/crud"
 )
 
 type RouteTableDatasourceCrud struct {
-	D      *schema.ResourceData
-	Client client.BareMetalClient
-	Res    *baremetal.ListRouteTables
+	crud.BaseCrud
+	Res *baremetal.ListRouteTables
 }
 
 func (s *RouteTableDatasourceCrud) Get() (e error) {
@@ -51,8 +51,8 @@ func (s *RouteTableDatasourceCrud) SetData() {
 			rules := []map[string]interface{}{}
 			for _, val := range v.RouteRules {
 				rule := map[string]interface{}{
-					"cidr_block":          val.CidrBlock,
-					"network_entity_id":   val.NetworkEntityID,
+					"cidr_block":        val.CidrBlock,
+					"network_entity_id": val.NetworkEntityID,
 				}
 				rules = append(rules, rule)
 			}

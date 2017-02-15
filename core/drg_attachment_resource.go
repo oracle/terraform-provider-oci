@@ -52,18 +52,24 @@ func DrgAttachmentResource() *schema.Resource {
 
 func createDrgAttachment(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &DrgAttachmentResourceCrud{D: d, Client: client}
+	sync := &DrgAttachmentResourceCrud{}
+	sync.D = d
+	sync.Client = client
 	return crud.CreateResource(d, sync)
 }
 
 func readDrgAttachment(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &DrgAttachmentResourceCrud{D: d, Client: client}
+	sync := &DrgAttachmentResourceCrud{}
+	sync.D = d
+	sync.Client = client
 	return crud.ReadResource(sync)
 }
 
 func deleteDrgAttachment(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &DrgAttachmentResourceCrud{D: d, Client: client}
+	sync := &DrgAttachmentResourceCrud{}
+	sync.D = d
+	sync.Client = client
 	return crud.DeleteResource(sync)
 }

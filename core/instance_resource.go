@@ -72,21 +72,29 @@ func InstanceResource() *schema.Resource {
 }
 
 func createInstance(d *schema.ResourceData, m interface{}) (e error) {
-	sync := &InstanceResourceCrud{D: d, Client: m.(client.BareMetalClient)}
+	sync := &InstanceResourceCrud{}
+	sync.D = d
+	sync.Client = m.(client.BareMetalClient)
 	return crud.CreateResource(d, sync)
 }
 
 func readInstance(d *schema.ResourceData, m interface{}) (e error) {
-	sync := &InstanceResourceCrud{D: d, Client: m.(client.BareMetalClient)}
+	sync := &InstanceResourceCrud{}
+	sync.D = d
+	sync.Client = m.(client.BareMetalClient)
 	return crud.ReadResource(sync)
 }
 
 func updateInstance(d *schema.ResourceData, m interface{}) (e error) {
-	sync := &InstanceResourceCrud{D: d, Client: m.(client.BareMetalClient)}
+	sync := &InstanceResourceCrud{}
+	sync.D = d
+	sync.Client = m.(client.BareMetalClient)
 	return crud.UpdateResource(d, sync)
 }
 
 func deleteInstance(d *schema.ResourceData, m interface{}) (e error) {
-	sync := &InstanceResourceCrud{D: d, Client: m.(client.BareMetalClient)}
+	sync := &InstanceResourceCrud{}
+	sync.D = d
+	sync.Client = m.(client.BareMetalClient)
 	return crud.DeleteResource(sync)
 }

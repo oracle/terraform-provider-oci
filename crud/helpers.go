@@ -5,11 +5,34 @@ package crud
 import (
 	"time"
 
+	"strings"
+
+	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/client"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
+
+	//	"fmt"
+	"fmt"
 )
 
 const FiveMinutes time.Duration = 5 * time.Minute
+
+type BaseCrud struct {
+	D      *schema.ResourceData
+	Client client.BareMetalClient
+}
+
+func (s *BaseCrud) VoidState() {
+	s.D.SetId("")
+}
+
+func handleMissingResourceError(sync ResourceVoider, err *error) {
+	if err != nil && strings.Contains((*err).Error(), "does not exist") {
+		fmt.Println("Object does not exist, voiding and nullifying error")
+		sync.VoidState()
+		*err = nil
+	}
+}
 
 func CreateResource(d *schema.ResourceData, sync ResourceCreator) (e error) {
 	if e = sync.Create(); e != nil {
@@ -30,6 +53,7 @@ func CreateResource(d *schema.ResourceData, sync ResourceCreator) (e error) {
 
 func ReadResource(sync ResourceReader) (e error) {
 	if e = sync.Get(); e != nil {
+		handleMissingResourceError(sync, &e)
 		return
 	}
 	sync.SetData()
@@ -60,6 +84,12 @@ func DeleteResource(sync ResourceDeleter) (e error) {
 		e = waitForStateRefresh(stateful, pending, target)
 	}
 
+	if e == nil {
+		sync.VoidState()
+	} else {
+		handleMissingResourceError(sync, &e)
+	}
+
 	return
 }
 
@@ -81,9 +111,9 @@ func waitForStateRefresh(sync StatefulResource, pending, target []string) (e err
 	}
 
 	if _, e = stateConf.WaitForState(); e != nil {
+		handleMissingResourceError(sync, &e)
 		return
 	}
-
 	sync.SetData()
 
 	return

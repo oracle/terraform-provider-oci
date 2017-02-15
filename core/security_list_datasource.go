@@ -39,6 +39,8 @@ func SecurityListDatasource() *schema.Resource {
 
 func readSecurityLists(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &SecurityListDatasourceCrud{D: d, Client: client}
+	sync := &SecurityListDatasourceCrud{}
+	sync.D = d
+	sync.Client = client
 	return crud.ReadResource(sync)
 }

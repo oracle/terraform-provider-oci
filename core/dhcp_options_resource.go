@@ -69,24 +69,32 @@ func DHCPOptionsResource() *schema.Resource {
 
 func createDHCPOptions(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	crd := &DHCPOptionsResourceCrud{D: d, Client: client}
+	crd := &DHCPOptionsResourceCrud{}
+	crd.D = d
+	crd.Client = client
 	return crud.CreateResource(d, crd)
 }
 
 func readDHCPOptions(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	crd := &DHCPOptionsResourceCrud{D: d, Client: client}
+	crd := &DHCPOptionsResourceCrud{}
+	crd.D = d
+	crd.Client = client
 	return crud.ReadResource(crd)
 }
 
 func updateDHCPOptions(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	crd := &DHCPOptionsResourceCrud{D: d, Client: client}
+	crd := &DHCPOptionsResourceCrud{}
+	crd.D = d
+	crd.Client = client
 	return crud.UpdateResource(d, crd)
 }
 
 func deleteDHCPOptions(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	crd := &DHCPOptionsResourceCrud{D: d, Client: client}
+	crd := &DHCPOptionsResourceCrud{}
+	crd.D = d
+	crd.Client = client
 	return crud.DeleteResource(crd)
 }

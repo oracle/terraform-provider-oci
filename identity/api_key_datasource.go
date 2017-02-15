@@ -27,6 +27,8 @@ func APIKeyDatasource() *schema.Resource {
 
 func readAPIKeys(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &APIKeyDatasourceCrud{D: d, Client: client}
+	sync := &APIKeyDatasourceCrud{}
+	sync.D = d
+	sync.Client = client
 	return crud.ReadResource(sync)
 }

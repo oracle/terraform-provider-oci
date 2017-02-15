@@ -4,14 +4,12 @@ package identity
 
 import (
 	"github.com/MustWin/baremetal-sdk-go"
-	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/client"
-	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/crud"
 )
 
 type UIPasswordResourceCrud struct {
-	D      *schema.ResourceData
-	Client client.BareMetalClient
-	Res    *baremetal.UIPassword
+	crud.BaseCrud
+	Res *baremetal.UIPassword
 }
 
 func (s *UIPasswordResourceCrud) ID() string {

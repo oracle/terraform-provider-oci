@@ -4,16 +4,13 @@ package identity
 
 import (
 	"github.com/MustWin/baremetal-sdk-go"
-	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/client"
 	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/crud"
-	"github.com/hashicorp/terraform/helper/schema"
 )
 
 type PolicyResourceCrud struct {
 	*crud.IdentitySync
-	D      *schema.ResourceData
-	Client client.BareMetalClient
-	Res    *baremetal.Policy
+	crud.BaseCrud
+	Res *baremetal.Policy
 }
 
 func (s *PolicyResourceCrud) ID() string {
@@ -52,9 +49,10 @@ func (s *PolicyResourceCrud) toStringArray(vals interface{}) []string {
 func (s *PolicyResourceCrud) Create() (e error) {
 	name := s.D.Get("name").(string)
 	description := s.D.Get("description").(string)
+	compartmentID := s.D.Get("compartment_id").(string)
 	statements := s.toStringArray(s.D.Get("statements"))
 
-	s.Res, e = s.Client.CreatePolicy(name, description, statements, nil)
+	s.Res, e = s.Client.CreatePolicy(name, description, compartmentID, statements, nil)
 	return
 }
 

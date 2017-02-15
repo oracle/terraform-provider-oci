@@ -58,10 +58,9 @@ func IPSecStatusDatasource() *schema.Resource {
 
 func readIPSecDeviceStatus(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	reader := &IPSecStatusDatasourceCrud{
-		D:      d,
-		Client: client,
-	}
+	reader := &IPSecStatusDatasourceCrud{}
+	reader.D = d
+	reader.Client = client
 
 	return crud.ReadResource(reader)
 }

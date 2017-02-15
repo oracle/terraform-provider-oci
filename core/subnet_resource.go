@@ -77,16 +77,22 @@ func SubnetResource() *schema.Resource {
 }
 
 func createSubnet(d *schema.ResourceData, m interface{}) (e error) {
-	sync := &SubnetResourceCrud{D: d, Client: m.(client.BareMetalClient)}
+	sync := &SubnetResourceCrud{}
+	sync.D = d
+	sync.Client = m.(client.BareMetalClient)
 	return crud.CreateResource(d, sync)
 }
 
 func readSubnet(d *schema.ResourceData, m interface{}) (e error) {
-	sync := &SubnetResourceCrud{D: d, Client: m.(client.BareMetalClient)}
+	sync := &SubnetResourceCrud{}
+	sync.D = d
+	sync.Client = m.(client.BareMetalClient)
 	return crud.ReadResource(sync)
 }
 
 func deleteSubnet(d *schema.ResourceData, m interface{}) (e error) {
-	sync := &SubnetResourceCrud{D: d, Client: m.(client.BareMetalClient)}
+	sync := &SubnetResourceCrud{}
+	sync.D = d
+	sync.Client = m.(client.BareMetalClient)
 	return crud.DeleteResource(sync)
 }
