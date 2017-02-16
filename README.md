@@ -9,6 +9,8 @@ Oracle customers now have access to an enterprise class, developer friendly orch
 
 This Terraform provider is OSS, available to all OBMCS customers at no charge.
 
+### **Ready to go right now? [Get into the details right here.](https://github.com/oracle/terraform-provider-baremetal/blob/master/docs/Writing%20Terraform%20configurations%20for%20OBMCS.md)**
+
 ### Coverage
 The Terraform provider provides coverage for the entire BMC API excluding the Load Balancer Service, expected March 1 2017.  
 
