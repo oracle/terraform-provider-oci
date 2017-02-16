@@ -61,7 +61,7 @@ Don't forget to `source ~/.bash_profile` once you've set these.
 The variables won't be set for the current session, exit the terminal and reopen.
 
 ## Deploy an example configuration
-Download the [VCN example configuration.](https://github.com/oracle/terraform-provider-baremetal/tree/master/docs/examples/network/simple_vcn)  
+Download the [VCN example configuration.](https://github.com/oracle/terraform-provider-baremetal/tree/master/docs/examples/simple_vcn)  
 
 Edit it to include the OCID of the compartment you want to create the VCN. Remember that the tenancy OCID is the compartment OCID of your root compartment.
 
@@ -82,9 +82,19 @@ or meet us in the OBMCS forums
 https://community.oracle.com/community/cloud_computing/bare-metal
 
 ## Known bugs
-1. The private key you use for API access must have a passphrase to work with Terraform. You can add a passphrase to your existing key - `ssh-keygen -p -f <private key>`
+### Key passphrase
+The private key you use for API access must have a passphrase to work with Terraform. You can add a passphrase to your existing key with `ssh-keygen -p -f <private key>`.  
 
-2. The provider doesn't always wait for resources to transition to 'AVAILABLE' before exiting and will throw an error if any resource isn't 'AVAILABLE' when the configuration has finished being applied. You can safely ignore these errors.
+If you don't want to apply a passphrase to the version of the key you don't use with Terraform you can copy the key first -
+```
+cp <private key> <private key>.pass    
+ssh-keygen -p -f <private key>.pass
+```
+### DB Systems timeout
+DB Systems can take up to an hour to provision. Terraform times out after 5 minutes. Ensure the DB System is the last resource you provision in a configuration.
+
+### Block volumes
+The size of a block volume cannot be specified, volumes created by Terraform are 256GB.
 
 #### About the provider
 This provider was written on behalf of Oracle by [MustWin.](http://mustwin.com/)
