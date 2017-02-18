@@ -14,7 +14,7 @@ type Volume struct {
 	CompartmentID      string `json:"compartmentId"`
 	DisplayName        string `json:"displayName"`
 	ID                 string `json:"id"`
-	SizeInMBs          string `json:"sizeInMBs"`
+	SizeInMBs          int    `json:"sizeInMBs"`
 	State              string `json:"lifecycleState"`
 	TimeCreated        Time   `json:"timeCreated"`
 }

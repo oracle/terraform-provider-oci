@@ -25,16 +25,17 @@ func VolumeResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
+			"size_in_mbs": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				ForceNew: true,
+			},
 			"display_name": {
 				Type:     schema.TypeString,
 				Computed: true,
 				Optional: true,
 			},
 			"id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"size_in_mbs": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
