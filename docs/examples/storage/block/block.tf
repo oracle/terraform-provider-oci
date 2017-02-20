@@ -25,7 +25,7 @@ resource "baremetal_core_volume" "block-1" {
   availability_domain = "Uocm:PHX-AD-1"
   compartment_id = "${var.compartment_ocid}"
   display_name = "block-1"
-# size_in_mbs = "2097152"
+  size_in_mbs = "2097152"
 }
 
 /*resource "baremetal_core_volume_attachment" "block-1-attach" {
