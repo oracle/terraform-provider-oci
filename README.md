@@ -9,11 +9,6 @@ Oracle customers now have access to an enterprise class, developer friendly orch
 
 This Terraform provider is OSS, available to all OBMCS customers at no charge.
 
-<<<<<<< HEAD
-=======
-### **Ready to go right now? [Get into the details right here.](https://github.com/oracle/terraform-provider-baremetal/blob/master/docs/Writing%20Terraform%20configurations%20for%20OBMCS.md)**
-
->>>>>>> b138c42f8af0008f6e01c2a7333a372a4ade6853
 ### Coverage
 The Terraform provider provides coverage for the entire BMC API excluding the Load Balancer Service, expected March 1 2017.  
 
@@ -66,11 +61,7 @@ Don't forget to `source ~/.bash_profile` once you've set these.
 The variables won't be set for the current session, exit the terminal and reopen.
 
 ## Deploy an example configuration
-<<<<<<< HEAD
 Download the [VCN example configuration.](https://github.com/oracle/terraform-provider-baremetal/tree/master/docs/examples/simple_vcn)  
-=======
-Download the [complete VCN example configuration.](https://github.com/oracle/terraform-provider-baremetal/tree/master/docs/examples/network/complete_vcn)  
->>>>>>> b138c42f8af0008f6e01c2a7333a372a4ade6853
 
 Edit it to include the OCID of the compartment you want to create the VCN. Remember that the tenancy OCID is the compartment OCID of your root compartment.
 
@@ -102,11 +93,5 @@ ssh-keygen -p -f <private key>.pass
 ### DB Systems timeout
 DB Systems can take up to an hour to provision. Terraform times out after 5 minutes. Ensure the DB System is the last resource you provision in a configuration.
 
-<<<<<<< HEAD
-=======
-### Block volumes
-The size of a block volume cannot be specified, volumes created by Terraform are 256GB.
-
->>>>>>> b138c42f8af0008f6e01c2a7333a372a4ade6853
 #### About the provider
 This provider was written on behalf of Oracle by [MustWin.](http://mustwin.com/)
