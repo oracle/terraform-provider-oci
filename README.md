@@ -93,8 +93,5 @@ ssh-keygen -p -f <private key>.pass
 ### DB Systems timeout
 DB Systems can take up to an hour to provision. Terraform times out after 5 minutes. Ensure the DB System is the last resource you provision in a configuration.
 
-### Block volumes
-The size of a block volume cannot be specified, volumes created by Terraform are 256GB.
-
 #### About the provider
 This provider was written on behalf of Oracle by [MustWin.](http://mustwin.com/)
