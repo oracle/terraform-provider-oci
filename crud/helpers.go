@@ -4,15 +4,14 @@ package crud
 
 import (
 	"time"
-
+	"log"
 	"strings"
 
 	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/client"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 
-	//	"fmt"
-	"fmt"
+	"os"
 )
 
 const FiveMinutes time.Duration = 5 * time.Minute
@@ -28,7 +27,7 @@ func (s *BaseCrud) VoidState() {
 
 func handleMissingResourceError(sync ResourceVoider, err *error) {
 	if err != nil && strings.Contains((*err).Error(), "does not exist") {
-		fmt.Println("Object does not exist, voiding and nullifying error")
+		log.Println("Object does not exist, voiding and nullifying error")
 		sync.VoidState()
 		*err = nil
 	}
@@ -77,11 +76,19 @@ func DeleteResource(sync ResourceDeleter) (e error) {
 		return
 	}
 
+	ew, waitOK := sync.(ExtraWaitPostDelete)
+
 	stateful, ok := sync.(StatefullyDeletedResource)
 	if ok {
 		pending := stateful.DeletedPending()
 		target := stateful.DeletedTarget()
 		e = waitForStateRefresh(stateful, pending, target)
+	}
+
+	if waitOK {
+		if os.Getenv("TF_ORACLE_ENV") != "test" {
+			time.Sleep(ew.ExtraWaitPostDelete())
+		}
 	}
 
 	if e == nil {

@@ -13,6 +13,7 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 
 	"github.com/stretchr/testify/suite"
+	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/crud"
 )
 
 type ResourceCoreSecurityListTestSuite struct {
@@ -24,7 +25,12 @@ type ResourceCoreSecurityListTestSuite struct {
 	Config       string
 	ResourceName string
 	Res          *baremetal.SecurityList
+	DeletingRes  *baremetal.SecurityList
 	DeletedRes   *baremetal.SecurityList
+}
+
+func extraWait(ew crud.ExtraWaitPostDelete) {
+	return
 }
 
 func (s *ResourceCoreSecurityListTestSuite) SetupTest() {
@@ -97,6 +103,11 @@ func (s *ResourceCoreSecurityListTestSuite) SetupTest() {
 	}
 	s.Res.ETag = "etag"
 	s.Res.RequestID = "opcrequestid"
+
+
+	deletingRes := *s.Res
+	s.DeletingRes = &deletingRes
+	s.DeletingRes.State = baremetal.ResourceTerminating
 
 	deletedRes := *s.Res
 	s.DeletedRes = &deletedRes
@@ -216,6 +227,7 @@ func (s ResourceCoreSecurityListTestSuite) TestUpdateSecurityList() {
 
 func (s *ResourceCoreSecurityListTestSuite) TestDeleteSecurityList() {
 	s.Client.On("GetSecurityList", "id").Return(s.Res, nil).Times(2)
+	s.Client.On("GetSecurityList", "id").Return(s.DeletingRes, nil).Times(2)
 	s.Client.On("GetSecurityList", "id").Return(s.DeletedRes, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{

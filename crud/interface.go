@@ -2,7 +2,10 @@
 
 package crud
 
-import "github.com/MustWin/baremetal-sdk-go"
+import (
+	"github.com/MustWin/baremetal-sdk-go"
+	"time"
+)
 
 // Gets the current BareMetal Resource
 type ResourceFetcher interface {
@@ -42,6 +45,10 @@ type ResourceUpdater interface {
 type ResourceDeleter interface {
 	ResourceVoider
 	Delete() error
+}
+
+type ExtraWaitPostDelete interface {
+	ExtraWaitPostDelete() time.Duration
 }
 
 type StatefulResource interface {
