@@ -3,8 +3,6 @@
 package main
 
 import (
-	"crypto/rsa"
-
 	"fmt"
 
 	"github.com/MustWin/baremetal-sdk-go"
@@ -158,22 +156,24 @@ func providerConfig(d *schema.ResourceData) (client interface{}, err error) {
 	privateKeyPath := d.Get("private_key_path").(string)
 	privateKeyPassword := d.Get("private_key_password").(string)
 
-	var privateKey *rsa.PrivateKey
+	clientOpts := []baremetal.NewClientOptionsFunc{
+		func(o *baremetal.NewClientOptions) {
+			o.UserAgent = fmt.Sprintf("baremetal-terraform-v%s", baremetal.SDKVersion)
+		},
+	}
 
 	if privateKeyBuffer != "" {
-		if privateKey, err = baremetal.PrivateKeyFromBytes([]byte(privateKeyBuffer), privateKeyPassword); err != nil {
-			return nil, err
-		}
+		clientOpts = append(clientOpts, baremetal.PrivateKeyBytes([]byte(privateKeyBuffer)))
 	}
 
 	if privateKeyPath != "" {
-		if privateKey, err = baremetal.PrivateKeyFromFile(privateKeyPath, privateKeyPassword); err != nil {
-			return nil, err
-		}
+		clientOpts = append(clientOpts, baremetal.PrivateKeyFilePath(privateKeyPath))
 	}
 
-	client = baremetal.New(userOCID, tenancyOCID, fingerprint, privateKey, func(o *baremetal.NewClientOptions) {
-		o.UserAgent = fmt.Sprintf("baremetal-terraform-v%s", baremetal.SDKVersion)
-	})
+	if privateKeyPassword != "" {
+		clientOpts = append(clientOpts, baremetal.PrivateKeyPassword(privateKeyPassword))
+	}
+
+	client, err = baremetal.NewClient(userOCID, tenancyOCID, fingerprint, clientOpts...)
 	return
 }
