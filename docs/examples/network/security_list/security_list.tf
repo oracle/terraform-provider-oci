@@ -10,7 +10,7 @@ provider "baremetal" {
   user_ocid = "${var.user_ocid}"
   fingerprint = "${var.fingerprint}"
   private_key_path = "${var.private_key_path}"
-  private_key = "${var.private_key}"
+  private_key = "${var.private_key_path}"
 }
 
 # Protocols are specified as protocol numbers.

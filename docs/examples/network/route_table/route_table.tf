@@ -11,6 +11,7 @@ provider "baremetal" {
   fingerprint = "${var.fingerprint}"
   private_key_path = "${var.private_key_path}"
   private_key = "${var.private_key}"
+  private_key = "${var.private_key_path}"
 }
 
 resource "baremetal_core_route_table" "a_route_table" {

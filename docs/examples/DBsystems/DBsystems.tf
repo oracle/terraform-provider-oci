@@ -10,7 +10,6 @@ provider "baremetal" {
   user_ocid = "${var.user_ocid}"
   fingerprint = "${var.fingerprint}"
   private_key_path = "${var.private_key_path}"
-  private_key = "${var.private_key}"
 }
 
 resource "baremetal_database_db_system" "dev_db_1" {
