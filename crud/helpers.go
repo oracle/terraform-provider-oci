@@ -110,11 +110,15 @@ func stateRefreshFunc(sync StatefulResource) resource.StateRefreshFunc {
 }
 
 func waitForStateRefresh(sync StatefulResource, pending, target []string) (e error) {
+	timeout := FiveMinutes
+	if customTimeouter, ok := sync.(CustomTimeouter); ok {
+		timeout = customTimeouter.CustomTimeout()
+	}
 	stateConf := &resource.StateChangeConf{
 		Pending: pending,
 		Target:  target,
 		Refresh: stateRefreshFunc(sync),
-		Timeout: FiveMinutes,
+		Timeout: timeout,
 	}
 
 	if _, e = stateConf.WaitForState(); e != nil {

@@ -6,6 +6,7 @@ import (
 	"github.com/MustWin/baremetal-sdk-go"
 
 	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/crud"
+	"time"
 )
 
 type DBSystemResourceCrud struct {
@@ -31,6 +32,10 @@ func (s *DBSystemResourceCrud) DeletedPending() []string {
 
 func (s *DBSystemResourceCrud) DeletedTarget() []string {
 	return []string{baremetal.ResourceTerminated}
+}
+
+func (s *DBSystemResourceCrud) CustomTimeout() time.Duration {
+	return 120 * time.Minute
 }
 
 func (s *DBSystemResourceCrud) State() string {
