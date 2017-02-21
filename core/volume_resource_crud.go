@@ -46,13 +46,10 @@ func (s *VolumeResourceCrud) Create() (e error) {
 	if ok {
 		opts.DisplayName = displayName.(string)
 	}
-<<<<<<< HEAD
 	sizeInMBs, ok := s.D.GetOk("size_in_mbs")
 	if ok {
 		opts.SizeInMBs = sizeInMBs.(int)
 	}
-=======
->>>>>>> b138c42f8af0008f6e01c2a7333a372a4ade6853
 
 	s.Res, e = s.Client.CreateVolume(availabilityDomain, compartmentID, opts)
 

@@ -62,10 +62,7 @@ type CreateSubnetOptions struct {
 
 type CreateVolumeOptions struct {
 	CreateOptions
-<<<<<<< HEAD
 	SizeInMBs      int    `header:"-" json:"sizeInMBs,omitempty" url:"-"`
-=======
->>>>>>> b138c42f8af0008f6e01c2a7333a372a4ade6853
 	VolumeBackupID string `header:"-" json:"volumeBackupId,omitempty" url:"-"`
 }
 

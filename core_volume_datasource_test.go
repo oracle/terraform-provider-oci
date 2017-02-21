@@ -63,11 +63,7 @@ func (s *ResourceCoreVolumesTestSuite) TestReadVolumes() {
 					CompartmentID:      "compartment_id",
 					DisplayName:        "display_name",
 					ID:                 "id1",
-<<<<<<< HEAD
 					SizeInMBs:          123,
-=======
-					SizeInMBs:          "size_in_mbs",
->>>>>>> b138c42f8af0008f6e01c2a7333a372a4ade6853
 					State:              baremetal.ResourceAvailable,
 					TimeCreated:        baremetal.Time{Time: time.Now()},
 				},
@@ -76,11 +72,7 @@ func (s *ResourceCoreVolumesTestSuite) TestReadVolumes() {
 					CompartmentID:      "compartment_id",
 					DisplayName:        "display_name",
 					ID:                 "id2",
-<<<<<<< HEAD
 					SizeInMBs:          123,
-=======
-					SizeInMBs:          "size_in_mbs",
->>>>>>> b138c42f8af0008f6e01c2a7333a372a4ade6853
 					State:              baremetal.ResourceAvailable,
 					TimeCreated:        baremetal.Time{Time: time.Now()},
 				},
@@ -127,11 +119,7 @@ func (s *ResourceCoreVolumesTestSuite) TestReadVolumesWithPagination() {
 			CompartmentID:      "compartment_id",
 			DisplayName:        "display_name",
 			ID:                 "id1",
-<<<<<<< HEAD
 			SizeInMBs:          123,
-=======
-			SizeInMBs:          "size_in_mbs",
->>>>>>> b138c42f8af0008f6e01c2a7333a372a4ade6853
 			State:              baremetal.ResourceAvailable,
 			TimeCreated:        baremetal.Time{Time: time.Now()},
 		},
@@ -140,11 +128,7 @@ func (s *ResourceCoreVolumesTestSuite) TestReadVolumesWithPagination() {
 			CompartmentID:      "compartment_id",
 			DisplayName:        "display_name",
 			ID:                 "id2",
-<<<<<<< HEAD
 			SizeInMBs:          123,
-=======
-			SizeInMBs:          "size_in_mbs",
->>>>>>> b138c42f8af0008f6e01c2a7333a372a4ade6853
 			State:              baremetal.ResourceAvailable,
 			TimeCreated:        baremetal.Time{Time: time.Now()},
 		},
@@ -173,11 +157,7 @@ func (s *ResourceCoreVolumesTestSuite) TestReadVolumesWithPagination() {
 					CompartmentID:      "compartment_id",
 					DisplayName:        "display_name",
 					ID:                 "id3",
-<<<<<<< HEAD
 					SizeInMBs:          123,
-=======
-					SizeInMBs:          "size_in_mbs",
->>>>>>> b138c42f8af0008f6e01c2a7333a372a4ade6853
 					State:              baremetal.ResourceAvailable,
 					TimeCreated:        baremetal.Time{Time: time.Now()},
 				},
@@ -186,11 +166,7 @@ func (s *ResourceCoreVolumesTestSuite) TestReadVolumesWithPagination() {
 					CompartmentID:      "compartment_id",
 					DisplayName:        "display_name",
 					ID:                 "id4",
-<<<<<<< HEAD
 					SizeInMBs:          123,
-=======
-					SizeInMBs:          "size_in_mbs",
->>>>>>> b138c42f8af0008f6e01c2a7333a372a4ade6853
 					State:              baremetal.ResourceAvailable,
 					TimeCreated:        baremetal.Time{Time: time.Now()},
 				},

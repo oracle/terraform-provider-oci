@@ -13,10 +13,7 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 
 	"github.com/stretchr/testify/suite"
-<<<<<<< HEAD
 	//"strconv"
-=======
->>>>>>> b138c42f8af0008f6e01c2a7333a372a4ade6853
 )
 
 type ResourceCoreVolumeTestSuite struct {
@@ -51,10 +48,7 @@ func (s *ResourceCoreVolumeTestSuite) SetupTest() {
 			availability_domain = "availability_domain"
 			compartment_id = "compartment_id"
 			display_name = "display_name"
-<<<<<<< HEAD
 			size_in_mbs = 123
-=======
->>>>>>> b138c42f8af0008f6e01c2a7333a372a4ade6853
 		}
 	`
 
@@ -66,11 +60,7 @@ func (s *ResourceCoreVolumeTestSuite) SetupTest() {
 		CompartmentID:      "compartment_id",
 		DisplayName:        "display_name",
 		ID:                 "id",
-<<<<<<< HEAD
 		SizeInMBs:          123,
-=======
-		SizeInMBs:          "size_in_mbs",
->>>>>>> b138c42f8af0008f6e01c2a7333a372a4ade6853
 		State:              baremetal.ResourceAvailable,
 		TimeCreated:        s.TimeCreated,
 	}
@@ -82,11 +72,7 @@ func (s *ResourceCoreVolumeTestSuite) SetupTest() {
 		CompartmentID:      "compartment_id",
 		DisplayName:        "display_name",
 		ID:                 "id",
-<<<<<<< HEAD
 		SizeInMBs:          123,
-=======
-		SizeInMBs:          "size_in_mbs",
->>>>>>> b138c42f8af0008f6e01c2a7333a372a4ade6853
 		State:              baremetal.ResourceTerminated,
 		TimeCreated:        s.TimeCreated,
 	}
@@ -95,10 +81,7 @@ func (s *ResourceCoreVolumeTestSuite) SetupTest() {
 
 	opts := &baremetal.CreateVolumeOptions{}
 	opts.DisplayName = "display_name"
-<<<<<<< HEAD
 	opts.SizeInMBs = 123
-=======
->>>>>>> b138c42f8af0008f6e01c2a7333a372a4ade6853
 	s.Client.On(
 		"CreateVolume",
 		"availability_domain",
@@ -121,11 +104,7 @@ func (s *ResourceCoreVolumeTestSuite) TestCreateResourceCoreVolume() {
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", s.Res.CompartmentID),
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", s.Res.DisplayName),
 					resource.TestCheckResourceAttr(s.ResourceName, "id", s.Res.ID),
-<<<<<<< HEAD
 					//resource.TestCheckResourceAttr(s.ResourceName, "size_in_mbs", strconv.Itoa(s.Res.SizeInMBs)),
-=======
-					resource.TestCheckResourceAttr(s.ResourceName, "size_in_mbs", s.Res.SizeInMBs),
->>>>>>> b138c42f8af0008f6e01c2a7333a372a4ade6853
 					resource.TestCheckResourceAttr(s.ResourceName, "state", s.Res.State),
 					resource.TestCheckResourceAttr(s.ResourceName, "time_created", s.Res.TimeCreated.String()),
 				),
@@ -141,19 +120,12 @@ func (s *ResourceCoreVolumeTestSuite) TestCreateResourceCoreVolumeWithoutDisplay
 		resource "baremetal_core_volume" "t" {
 			availability_domain = "availability_domain"
 			compartment_id = "compartment_id"
-<<<<<<< HEAD
 			size_in_mbs = 123
-=======
->>>>>>> b138c42f8af0008f6e01c2a7333a372a4ade6853
 		}
 	`
 	s.Config += testProviderConfig
 
-<<<<<<< HEAD
 	opts := &baremetal.CreateVolumeOptions{SizeInMBs: 123}
-=======
-	opts := &baremetal.CreateVolumeOptions{}
->>>>>>> b138c42f8af0008f6e01c2a7333a372a4ade6853
 	s.Client.On(
 		"CreateVolume",
 		"availability_domain",
@@ -180,10 +152,7 @@ func (s ResourceCoreVolumeTestSuite) TestUpdateVolumeDisplayName() {
 			availability_domain = "availability_domain"
 			compartment_id = "compartment_id"
 			display_name = "new_display_name"
-<<<<<<< HEAD
 			size_in_mbs = 123
-=======
->>>>>>> b138c42f8af0008f6e01c2a7333a372a4ade6853
 		}
 	`
 	config += testProviderConfig
@@ -193,11 +162,7 @@ func (s ResourceCoreVolumeTestSuite) TestUpdateVolumeDisplayName() {
 		CompartmentID:      "compartment_id",
 		DisplayName:        "new_display_name",
 		ID:                 "id",
-<<<<<<< HEAD
 		SizeInMBs:          123,
-=======
-		SizeInMBs:          "size_in_mbs",
->>>>>>> b138c42f8af0008f6e01c2a7333a372a4ade6853
 		State:              baremetal.ResourceAvailable,
 		TimeCreated:        s.TimeCreated,
 	}
@@ -232,10 +197,7 @@ func (s ResourceCoreVolumeTestSuite) TestUpdateAvailabilityDomainForcesNewVolume
 		resource "baremetal_core_volume" "t" {
 			availability_domain = "new_availability_domain"
 			compartment_id = "compartment_id"
-<<<<<<< HEAD
 			size_in_mbs = 123
-=======
->>>>>>> b138c42f8af0008f6e01c2a7333a372a4ade6853
 		}
   `
 	config += testProviderConfig
@@ -245,22 +207,14 @@ func (s ResourceCoreVolumeTestSuite) TestUpdateAvailabilityDomainForcesNewVolume
 		CompartmentID:      "compartment_id",
 		DisplayName:        "display_name",
 		ID:                 "new_id",
-<<<<<<< HEAD
 		SizeInMBs:          123,
-=======
-		SizeInMBs:          "size_in_mbs",
->>>>>>> b138c42f8af0008f6e01c2a7333a372a4ade6853
 		State:              baremetal.ResourceAvailable,
 		TimeCreated:        s.TimeCreated,
 	}
 	res.ETag = "etag"
 	res.RequestID = "opcrequestid"
 
-<<<<<<< HEAD
 	opts := &baremetal.CreateVolumeOptions{SizeInMBs: 123}
-=======
-	opts := &baremetal.CreateVolumeOptions{}
->>>>>>> b138c42f8af0008f6e01c2a7333a372a4ade6853
 	s.Client.On(
 		"CreateVolume",
 		res.AvailabilityDomain,
@@ -292,10 +246,7 @@ func (s ResourceCoreVolumeTestSuite) TestUpdateCompartmentIdForcesNewVolume() {
 		resource "baremetal_core_volume" "t" {
 			availability_domain = "availability_domain"
 			compartment_id = "new_compartment_id"
-<<<<<<< HEAD
 			size_in_mbs = 123
-=======
->>>>>>> b138c42f8af0008f6e01c2a7333a372a4ade6853
 		}
   `
 	config += testProviderConfig
@@ -305,22 +256,14 @@ func (s ResourceCoreVolumeTestSuite) TestUpdateCompartmentIdForcesNewVolume() {
 		CompartmentID:      "new_compartment_id",
 		DisplayName:        "display_name",
 		ID:                 "new_id",
-<<<<<<< HEAD
 		SizeInMBs:          123,
-=======
-		SizeInMBs:          "size_in_mbs",
->>>>>>> b138c42f8af0008f6e01c2a7333a372a4ade6853
 		State:              baremetal.ResourceAvailable,
 		TimeCreated:        s.TimeCreated,
 	}
 	res.ETag = "etag"
 	res.RequestID = "opcrequestid"
 
-<<<<<<< HEAD
 	opts := &baremetal.CreateVolumeOptions{SizeInMBs: 123}
-=======
-	opts := &baremetal.CreateVolumeOptions{}
->>>>>>> b138c42f8af0008f6e01c2a7333a372a4ade6853
 	s.Client.On(
 		"CreateVolume",
 		res.AvailabilityDomain,
