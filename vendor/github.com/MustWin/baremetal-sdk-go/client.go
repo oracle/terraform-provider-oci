@@ -124,11 +124,6 @@ func NewClient(userOCID, tenancyOCID, keyFingerprint string, opts ...NewClientOp
 		opt(nco)
 	}
 
-	log.Println("KeyPass: %v\n", nco.keyPassword)
-	fmt.Println("KeyPass: %v\n", nco.keyPassword)
-	log.Println("KeyPath: %v\n", nco.keyPath)
-	fmt.Println("KeyPath: %v\n", nco.keyPath)
-
 	if nco.keyPassword == nil {
 		// the private key file is not encrypted
 		if nco.keyPath != nil {

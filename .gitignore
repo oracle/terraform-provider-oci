@@ -33,5 +33,6 @@ terraform-provider-baremetal
 terraform-Oracle-BareMetal-Provider
 *.orig
 .idea
+terraform-Oracle-BareMetal-Provider.iml
 .env
 
