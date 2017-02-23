@@ -46,8 +46,6 @@ import (
 	"errors"
 	"io/ioutil"
 	"net/http"
-	"fmt"
-	"log"
 )
 
 // Client is used to access Oracle BareMetal Services
@@ -123,7 +121,6 @@ func NewClient(userOCID, tenancyOCID, keyFingerprint string, opts ...NewClientOp
 	for _, opt := range opts {
 		opt(nco)
 	}
-
 	if nco.keyPassword == nil {
 		// the private key file is not encrypted
 		if nco.keyPath != nil {
@@ -238,8 +235,6 @@ func PrivateKeyFromUnencryptedBytes(pemBytes []byte) (*rsa.PrivateKey, error) {
 }
 
 func PrivateKeyFromUnencryptedFile(path string) (*rsa.PrivateKey, error) {
-	log.Println("Loading Unencrypted Key: %s", path)
-	fmt.Println("Loading Unencrypted Key: %s", path)
 	buff, err := ioutil.ReadFile(path)
 	if err != nil {
 		return nil, err

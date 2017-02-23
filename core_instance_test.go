@@ -64,7 +64,7 @@ func (s *ResourceCoreInstanceTestSuite) SetupTest() {
 		CompartmentID:      "compartment_id",
 		DisplayName:        "display_name",
 		ID:                 "id",
-		Image:              "imageid",
+		ImageID:              "imageid",
 		Metadata: map[string]string{
 			"ssh_authorized_keys": "mypublickey",
 		},
@@ -86,7 +86,7 @@ func (s *ResourceCoreInstanceTestSuite) SetupTest() {
 		"LaunchInstance",
 		s.Res.AvailabilityDomain,
 		s.Res.CompartmentID,
-		s.Res.Image,
+		s.Res.ImageID,
 		s.Res.Shape,
 		"subnetid",
 		opts).Return(s.Res, nil)
@@ -106,7 +106,7 @@ func (s *ResourceCoreInstanceTestSuite) TestCreateResourceCoreInstance() {
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", s.Res.CompartmentID),
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", s.Res.DisplayName),
 					resource.TestCheckResourceAttr(s.ResourceName, "id", s.Res.ID),
-					resource.TestCheckResourceAttr(s.ResourceName, "image", s.Res.Image),
+					resource.TestCheckResourceAttr(s.ResourceName, "image", s.Res.ImageID),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", s.Res.State),
 					resource.TestCheckResourceAttr(s.ResourceName, "time_created", s.Res.TimeCreated.String()),
 				),
@@ -139,7 +139,7 @@ func (s *ResourceCoreInstanceTestSuite) TestCreateResourceCoreInstanceWithoutDis
 		"LaunchInstance",
 		s.Res.AvailabilityDomain,
 		s.Res.CompartmentID,
-		s.Res.Image,
+		s.Res.ImageID,
 		s.Res.Shape,
 		"subnetid",
 		opts).Return(s.Res, nil)
@@ -180,7 +180,7 @@ func (s ResourceCoreInstanceTestSuite) TestUpdateInstanceDisplayName() {
 		CompartmentID:      "compartment_id",
 		DisplayName:        "new_display_name",
 		ID:                 "id",
-		Image:              "imageid",
+		ImageID:              "imageid",
 		Metadata: map[string]string{
 			"ssh_authorized_keys": "mypublickey",
 		},
@@ -237,7 +237,7 @@ func (s ResourceCoreInstanceTestSuite) TestUpdateAvailabilityDomainForcesNewInst
 		CompartmentID:      "compartment_id",
 		DisplayName:        "display_name",
 		ID:                 "new_id",
-		Image:              "imageid",
+		ImageID:              "imageid",
 		Metadata: map[string]string{
 			"ssh_authorized_keys": "mypublickey",
 		},
@@ -256,7 +256,7 @@ func (s ResourceCoreInstanceTestSuite) TestUpdateAvailabilityDomainForcesNewInst
 		"LaunchInstance",
 		res.AvailabilityDomain,
 		res.CompartmentID,
-		res.Image,
+		res.ImageID,
 		res.Shape,
 		"subnetid",
 		opts).Return(res, nil)

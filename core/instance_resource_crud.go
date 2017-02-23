@@ -90,7 +90,7 @@ func (s *InstanceResourceCrud) SetData() {
 	s.D.Set("availability_domain", s.Resource.AvailabilityDomain)
 	s.D.Set("compartment_id", s.Resource.CompartmentID)
 	s.D.Set("display_name", s.Resource.DisplayName)
-	s.D.Set("image", s.Resource.Image)
+	s.D.Set("image", s.Resource.ImageID)
 	s.D.Set("metadata", s.Resource.Metadata)
 	s.D.Set("region", s.Resource.Region)
 	s.D.Set("shape", s.Resource.Shape)
