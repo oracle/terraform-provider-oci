@@ -60,20 +60,93 @@ type Client struct {
 }
 
 type NewClientOptions struct {
-	Transport http.RoundTripper
-	UserAgent string
+	Transport   http.RoundTripper
+	UserAgent   string
+	keyPassword *string
+	keyPath     *string
+	keyBytes    []byte
 }
 
-func CustomTransport(tr http.RoundTripper) func(o *NewClientOptions) {
+type NewClientOptionsFunc func(o *NewClientOptions)
+
+// PrivateKeyPassword password to decrypt an encrypted private key
+func PrivateKeyPassword(pwd string) func(o *NewClientOptions) {
+	return func(o *NewClientOptions) {
+		o.keyPassword = &pwd
+	}
+}
+
+// PrivateKeyFilePath provide the path a file containing a private key.
+func PrivateKeyFilePath(path string) NewClientOptionsFunc {
+	return func(o *NewClientOptions) {
+		o.keyPath = &path
+	}
+}
+
+// PrivateKeyBytes supply bytes for private key
+func PrivateKeyBytes(buff []byte) NewClientOptionsFunc {
+	return func(o *NewClientOptions) {
+		o.keyBytes = buff
+	}
+}
+
+// CustomTransport can be used to assign a custom http.RoundTripper
+// to the Bare Metal API connection. For example, you could wrap the default
+// http transport in your won transport the logs interactions for diagnotic
+// purposes.
+func CustomTransport(tr http.RoundTripper) NewClientOptionsFunc {
 	return func(o *NewClientOptions) {
 		o.Transport = tr
 	}
 }
 
-func UserAgent(userAgent string) func(o *NewClientOptions) {
+// UserAgent assigns a custom user agent for API connection
+func UserAgent(userAgent string) NewClientOptionsFunc {
 	return func(o *NewClientOptions) {
 		o.UserAgent = userAgent
 	}
+}
+
+// NewClient creates and authenticates a BareMetal API client
+func NewClient(userOCID, tenancyOCID, keyFingerprint string, opts ...NewClientOptionsFunc) (*Client, error) {
+	var err error
+	auth := &authenticationInfo{
+		tenancyOCID:    tenancyOCID,
+		userOCID:       userOCID,
+		keyFingerPrint: keyFingerprint,
+	}
+	nco := &NewClientOptions{
+		Transport: &http.Transport{},
+	}
+	for _, opt := range opts {
+		opt(nco)
+	}
+	if nco.keyPassword == nil {
+		// the private key file is not encrypted
+		if nco.keyPath != nil {
+			auth.privateRSAKey, err = PrivateKeyFromUnencryptedFile(*nco.keyPath)
+		} else {
+			auth.privateRSAKey, err = PrivateKeyFromUnencryptedBytes(nco.keyBytes)
+		}
+	} else {
+		// encrypted private key
+		if nco.keyPath != nil {
+			auth.privateRSAKey, err = PrivateKeyFromFile(*nco.keyPath, *nco.keyPassword)
+		} else {
+			auth.privateRSAKey, err = PrivateKeyFromBytes(nco.keyBytes, *nco.keyPassword)
+		}
+	}
+	if err != nil {
+		return nil, err
+	}
+	return &Client{
+		userAgent:        nco.UserAgent,
+		authInfo:         auth,
+		identityApi:      newIdentityAPIRequestor(auth, nco),
+		coreApi:          newCoreAPIRequestor(auth, nco),
+		objectStorageApi: newObjectStorageAPIRequestor(auth, nco),
+		databaseApi:      newDatabaseAPIRequestor(auth, nco),
+	}, nil
 }
 
 // New creates a new client to access Oracle BareMetal services.
@@ -155,4 +228,16 @@ func PrivateKeyFromFile(pemFilePath, password string) (key *rsa.PrivateKey, e er
 
 	return
 
+}
+func PrivateKeyFromUnencryptedBytes(pemBytes []byte) (*rsa.PrivateKey, error) {
+	pemBlock, _ := pem.Decode(pemBytes)
+	return x509.ParsePKCS1PrivateKey(pemBlock.Bytes)
+}
+
+func PrivateKeyFromUnencryptedFile(path string) (*rsa.PrivateKey, error) {
+	buff, err := ioutil.ReadFile(path)
+	if err != nil {
+		return nil, err
+	}
+	return PrivateKeyFromUnencryptedBytes(buff)
 }

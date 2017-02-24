@@ -14,7 +14,7 @@ type Instance struct {
 	CompartmentID      string            `json:"compartmentId"`
 	DisplayName        string            `json:"displayName"`
 	ID                 string            `json:"id"`
-	Image              string            `json:"image"`
+	ImageID            string            `json:"imageId"`
 	Metadata           map[string]string `json:"metadata"`
 	Region             string            `json:"region"`
 	Shape              string            `json:"shape"`

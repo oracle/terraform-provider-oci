@@ -13,7 +13,7 @@ fmt:
 	gofmt -w $(GOFMT_FILES)
 
 test:
-	go test -v
+	TF_ORACLE_ENV=test go test -v
 
 test_acceptance:
 	TF_ACC=1 go test -v

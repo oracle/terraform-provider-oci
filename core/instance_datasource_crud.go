@@ -56,7 +56,7 @@ func (s *InstanceDatasourceCrud) SetData() {
 				"compartment_id":      v.CompartmentID,
 				"display_name":        v.DisplayName,
 				"id":                  v.ID,
-				"image":               v.Image,
+				"image":               v.ImageID,
 				"metadata":            v.Metadata,
 				"region":              v.Region,
 				"shape":               v.Shape,

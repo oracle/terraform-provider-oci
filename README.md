@@ -25,7 +25,7 @@ Find the appropriate binary for [your platform here](https://github.com/oracle/t
 Create `~/.terraformrc` that specifies the path to the `baremetal` provider.  
 ```
 providers {
-  baremetal = "<path_to_provider_binary>"
+  baremetal = "<path_to_provider_binary/terraform-provider-baremetal>"
   }
 ```
 
@@ -33,7 +33,7 @@ providers {
 Create `%APPDATA%/terraform.rc` that specifies the path to the `baremetal` provider.
 ```
 providers {
-  baremetal = "<path_to_provider_binary>"
+  baremetal = "<path_to_provider_binary/terraform-provider-baremetal>"
   }
 ```
 ### Export credentials
@@ -81,17 +81,8 @@ https://github.com/oracle/terraform-provider-baremetal/issues
 or meet us in the OBMCS forums  
 https://community.oracle.com/community/cloud_computing/bare-metal
 
-## Known bugs
-### Key passphrase
-The private key you use for API access must have a passphrase to work with Terraform. You can add a passphrase to your existing key with `ssh-keygen -p -f <private key>`.  
-
-If you don't want to apply a passphrase to the version of the key you don't use with Terraform you can copy the key first -
-```
-cp <private key> <private key>.pass    
-ssh-keygen -p -f <private key>.pass
-```
-### DB Systems timeout
-DB Systems can take up to an hour to provision. Terraform times out after 5 minutes. Ensure the DB System is the last resource you provision in a configuration.
+## Known serious bugs
+None
 
 #### About the provider
 This provider was written on behalf of Oracle by [MustWin.](http://mustwin.com/)

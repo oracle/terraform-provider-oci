@@ -10,7 +10,7 @@ import "net/http"
 type VolumeAttachment struct {
 	OPCRequestIDUnmarshaller
 	ETagUnmarshaller
-	AttachmentType     string `json:"attachmentType"`
+	AttachmentType     string `json:"type"`
 	AvailabilityDomain string `json:"availabilityDomain"`
 	CompartmentID      string `json:"compartmentId"`
 	DisplayName        string `json:"displayName"`
@@ -38,7 +38,7 @@ func (l *ListVolumeAttachments) GetList() interface{} {
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/VolumeAttachment/AttachVolume
 func (c *Client) AttachVolume(attachmentType, instanceID, volumeID string, opts *CreateOptions) (res *VolumeAttachment, e error) {
 	required := struct {
-		AttachmentType string `header:"-" json:"attachmentType" url:"-"`
+		AttachmentType string `header:"-" json:"type" url:"-"`
 		InstanceID     string `header:"-" json:"instanceId" url:"-"`
 		VolumeID       string `header:"-" json:"volumeId" url:"-"`
 	}{

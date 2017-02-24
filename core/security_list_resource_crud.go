@@ -3,8 +3,10 @@
 package core
 
 import (
-	"github.com/MustWin/baremetal-sdk-go"
+	"time"
+	"fmt"
 
+	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/crud"
 )
 
@@ -31,6 +33,11 @@ func (s *SecurityListResourceCrud) DeletedPending() []string {
 
 func (s *SecurityListResourceCrud) DeletedTarget() []string {
 	return []string{baremetal.ResourceTerminated}
+}
+
+func (s *SecurityListResourceCrud) ExtraWaitPostDelete() time.Duration {
+	fmt.Println("=====================================")
+	return time.Duration(0 * time.Second)
 }
 
 func (s *SecurityListResourceCrud) State() string {
