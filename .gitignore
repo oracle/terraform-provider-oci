@@ -35,4 +35,4 @@ terraform-Oracle-BareMetal-Provider
 .idea
 terraform-Oracle-BareMetal-Provider.iml
 .env
-
+crash.log

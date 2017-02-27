@@ -12,6 +12,8 @@ import (
 	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/objectstorage"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
+	"log"
+	"errors"
 )
 
 var descriptions map[string]string
@@ -23,9 +25,9 @@ func init() {
 		"fingerprint":  "(Required) The fingerprint for the user's RSA key. This can be found in user settings in the Bare Metal console.",
 		"private_key": "(Optional) A PEM formatted RSA private key for the user.\n" +
 			"A private_key or a private_key_path must be provided.",
-		"private_key_path": "(Optional) The path to the user's PEM formatted private key.\n" +
+		"private_key_path": "(Required) The path to the user's PEM formatted private key.\n" +
 			"A private_key or a private_key_path must be provided.",
-		"private_key_password": "(Required) The password used to secure the private key.",
+		"private_key_password": "(Optional) The password used to secure the private key.",
 	}
 }
 
@@ -56,22 +58,24 @@ func schemaMap() map[string]*schema.Schema {
 			Required:    true,
 			Description: descriptions["fingerprint"],
 		},
+		// Mostly used for testing. Don't put keys in your .tf files
 		"private_key": {
 			Type:        schema.TypeString,
 			Optional:    true,
+			Default:     "",
 			Sensitive:   true,
 			Description: descriptions["private_key"],
 		},
 		"private_key_path": {
 			Type:        schema.TypeString,
-			Optional:    true,
-			Default:     "",
+			Required:    true,
 			Description: descriptions["private_key_path"],
 		},
 		"private_key_password": {
 			Type:        schema.TypeString,
-			Required:    true,
+			Optional:    true,
 			Sensitive:   true,
+			Default:     "",
 			Description: descriptions["private_key_password"],
 		},
 	}
@@ -152,9 +156,9 @@ func providerConfig(d *schema.ResourceData) (client interface{}, err error) {
 	tenancyOCID := d.Get("tenancy_ocid").(string)
 	userOCID := d.Get("user_ocid").(string)
 	fingerprint := d.Get("fingerprint").(string)
-	privateKeyBuffer := d.Get("private_key").(string)
-	privateKeyPath := d.Get("private_key_path").(string)
-	privateKeyPassword := d.Get("private_key_password").(string)
+	privateKeyBuffer, hasKey := d.Get("private_key").(string)
+	privateKeyPath, hasKeyPath := d.Get("private_key_path").(string)
+	privateKeyPassword, hasKeyPass := d.Get("private_key_password").(string)
 
 	clientOpts := []baremetal.NewClientOptionsFunc{
 		func(o *baremetal.NewClientOptions) {
@@ -162,15 +166,15 @@ func providerConfig(d *schema.ResourceData) (client interface{}, err error) {
 		},
 	}
 
-	if privateKeyBuffer != "" {
+	if hasKey && privateKeyBuffer != "" {
 		clientOpts = append(clientOpts, baremetal.PrivateKeyBytes([]byte(privateKeyBuffer)))
-	}
-
-	if privateKeyPath != "" {
+	} else if hasKeyPath && privateKeyPath != "" {
 		clientOpts = append(clientOpts, baremetal.PrivateKeyFilePath(privateKeyPath))
+	} else {
+		return errors.New("private_key_path is required")
 	}
 
-	if privateKeyPassword != "" {
+	if hasKeyPass && privateKeyPassword != "" {
 		clientOpts = append(clientOpts, baremetal.PrivateKeyPassword(privateKeyPassword))
 	}
 

@@ -83,6 +83,7 @@ func TestProviderConfig(t *testing.T) {
 	d.Set("user_ocid", testUserOCID)
 	d.Set("fingerprint", testKeyFingerPrint)
 	d.Set("private_key", testPrivateKey)
+	//d.Set("private_key_path", "")
 	d.Set("private_key_password", "password")
 
 	client, err := providerConfig(d)

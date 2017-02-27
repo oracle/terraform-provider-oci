@@ -52,7 +52,11 @@ vendor docs](https://github.com/kardianos/govendor).
 
 # Authentication
 1) Generate a private key
-openssl genrsa -out ~/.ssh/bmcs_api_key.pem 2048
+
+`openssl genrsa -out ~/.ssh/bmcs_api_key.pem 2048`
+
 2) Generate a public key
-openssl rsa -pubout -in ~/.ssh/bmcs_api_key.pem -out ~/.ssh/bmcs_api_key_pub.pem
+
+`openssl rsa -pubout -in ~/.ssh/bmcs_api_key.pem -out ~/.ssh/bmcs_api_key_pub.pem`
+
 3) Upload your public key into the oracle console and get the key fingerprint, user ocid, and tenancy ocid. Put those in your variables.tf file
