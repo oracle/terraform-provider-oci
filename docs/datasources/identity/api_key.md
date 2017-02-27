@@ -1,6 +1,6 @@
 # baremetal\_identity\_api\_key
 
-Provides an api key resource.
+Lists api keys.
 
 ## Example Usage
 
