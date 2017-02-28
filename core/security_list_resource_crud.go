@@ -83,6 +83,7 @@ func (s *SecurityListResourceCrud) SetData() {
 			egressRule.ICMPOptions,
 			egressRule.TCPOptions,
 			egressRule.UDPOptions,
+			&egressRule.IsStateless,
 		)
 		confEgressRules = append(confEgressRules, confEgressRule)
 	}
@@ -98,6 +99,7 @@ func (s *SecurityListResourceCrud) SetData() {
 			ingressRule.ICMPOptions,
 			ingressRule.TCPOptions,
 			ingressRule.UDPOptions,
+			nil,
 		)
 		confIngressRules = append(confIngressRules, confIngressRule)
 	}
@@ -123,6 +125,7 @@ func (s *SecurityListResourceCrud) buildEgressRules() (sdkRules []baremetal.Egre
 			Protocol:    confRule["protocol"].(string),
 			TCPOptions:  s.buildTCPOptions(confRule),
 			UDPOptions:  s.buildUDPOptions(confRule),
+			IsStateless: confRule["stateless"].(bool),
 		}
 
 		sdkRules = append(sdkRules, sdkRule)
@@ -210,6 +213,7 @@ func buildConfRule(
 	icmpOpts *baremetal.ICMPOptions,
 	tcpOpts *baremetal.TCPOptions,
 	udpOpts *baremetal.UDPOptions,
+	stateless *bool,
 ) map[string]interface{} {
 	confRule["protocol"] = protocol
 	if icmpOpts != nil {
@@ -220,6 +224,9 @@ func buildConfRule(
 	}
 	if udpOpts != nil {
 		confRule["udp_options"] = buildConfTransportOptions(udpOpts.DestinationPortRange)
+	}
+	if stateless != nil {
+		confRule["stateless"] = *stateless
 	}
 	return confRule
 }

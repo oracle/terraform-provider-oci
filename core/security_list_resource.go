@@ -77,6 +77,11 @@ func SecurityListResource() *schema.Resource {
 						},
 						"tcp_options": transportSchema,
 						"udp_options": transportSchema,
+						"stateless": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Default: false,
+						},
 					},
 				},
 			},
