@@ -15,7 +15,7 @@ func UserResource() *schema.Resource {
 		Read:   readUser,
 		Update: updateUser,
 		Delete: deleteUser,
-		Schema: baseIdentitySchema,
+		Schema: baseIdentitySchemaWithID,
 	}
 }
 

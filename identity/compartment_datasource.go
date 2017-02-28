@@ -8,25 +8,26 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
-func AvailabilityDomainDatasource() *schema.Resource {
+func CompartmentDatasource() *schema.Resource {
 	return &schema.Resource{
-		Read: readAvailabilityDomains,
+		Read: readCompartments,
 		Schema: map[string]*schema.Schema{
-			"compartment_id": {
+			"compartment_id":{
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"name": {
-				Type:     schema.TypeString,
+			"compartments": {
+				Type:     schema.TypeList,
 				Computed: true,
+				Elem:     CompartmentResource(),
 			},
 		},
 	}
 }
 
-func readAvailabilityDomains(d *schema.ResourceData, m interface{}) (e error) {
+func readCompartments(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &AvailabilityDomainDatasourceCrud{}
+	sync := &CompartmentDatasourceCrud{}
 	sync.D = d
 	sync.Client = client
 	return crud.ReadResource(sync)

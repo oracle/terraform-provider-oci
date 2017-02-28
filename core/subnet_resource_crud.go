@@ -4,7 +4,6 @@ package core
 
 import (
 	"time"
-	"fmt"
 
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/crud"
@@ -36,8 +35,7 @@ func (s *SubnetResourceCrud) DeletedTarget() []string {
 }
 
 func (s *SubnetResourceCrud) ExtraWaitPostDelete() time.Duration {
-	fmt.Println("=====================================")
-	return time.Duration(10 * time.Second)
+	return time.Duration(15 * time.Second)
 }
 
 func (s *SubnetResourceCrud) Create() (e error) {

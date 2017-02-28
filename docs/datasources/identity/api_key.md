@@ -1,6 +1,6 @@
-# baremetal\_identity\_api\_key
+# baremetal\_identity\_api\_keys
 
-Provides an api key resource.
+Lists api keys.
 
 ## Example Usage
 
@@ -15,7 +15,9 @@ data "baremetal_identity_api_keys" "t" {
 The following arguments are supported:
 
 * `user_id` - (Required) The OCID of the user.
-* `api_keys` - (Required) A list of API keys
+
+## Attribute Reference
+* `api_keys` - A list of API keys
 
 ## ApiKey Reference
 * `key_id` - An Oracle-assigned identifier for the key, in this format: TENANCY_OCID/USER_OCID/KEY_FINGERPRINT.

@@ -12,6 +12,8 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
+	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/core"
+	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/crud"
 	"github.com/stretchr/testify/suite"
 )
 
@@ -64,7 +66,7 @@ func (s *ResourceCoreInstanceTestSuite) SetupTest() {
 		CompartmentID:      "compartment_id",
 		DisplayName:        "display_name",
 		ID:                 "id",
-		ImageID:              "imageid",
+		ImageID:            "imageid",
 		Metadata: map[string]string{
 			"ssh_authorized_keys": "mypublickey",
 		},
@@ -76,7 +78,8 @@ func (s *ResourceCoreInstanceTestSuite) SetupTest() {
 	s.Res.ETag = "etag"
 	s.Res.RequestID = "opcrequestid"
 
-	s.DeletedRes = s.Res
+	s.DeletedRes = &baremetal.Instance{}
+	*s.DeletedRes = *s.Res
 	s.DeletedRes.State = baremetal.ResourceTerminated
 
 	opts := &baremetal.LaunchInstanceOptions{}
@@ -94,7 +97,8 @@ func (s *ResourceCoreInstanceTestSuite) SetupTest() {
 }
 
 func (s *ResourceCoreInstanceTestSuite) TestCreateResourceCoreInstance() {
-	s.Client.On("GetInstance", "id").Return(s.Res, nil)
+	s.Client.On("GetInstance", "id").Return(s.Res, nil).Twice()
+	s.Client.On("GetInstance", "id").Return(s.DeletedRes, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -116,7 +120,8 @@ func (s *ResourceCoreInstanceTestSuite) TestCreateResourceCoreInstance() {
 }
 
 func (s *ResourceCoreInstanceTestSuite) TestCreateResourceCoreInstanceWithoutDisplayName() {
-	s.Client.On("GetInstance", "id").Return(s.Res, nil)
+	s.Client.On("GetInstance", "id").Return(s.Res, nil).Twice()
+	s.Client.On("GetInstance", "id").Return(s.DeletedRes, nil)
 
 	s.Config = `
 		resource "baremetal_core_instance" "t" {
@@ -180,7 +185,7 @@ func (s ResourceCoreInstanceTestSuite) TestUpdateInstanceDisplayName() {
 		CompartmentID:      "compartment_id",
 		DisplayName:        "new_display_name",
 		ID:                 "id",
-		ImageID:              "imageid",
+		ImageID:            "imageid",
 		Metadata: map[string]string{
 			"ssh_authorized_keys": "mypublickey",
 		},
@@ -195,7 +200,8 @@ func (s ResourceCoreInstanceTestSuite) TestUpdateInstanceDisplayName() {
 	opts := &baremetal.UpdateOptions{}
 	opts.DisplayName = "new_display_name"
 	s.Client.On("UpdateInstance", "id", opts).Return(res, nil)
-	s.Client.On("GetInstance", "id").Return(res, nil)
+	s.Client.On("GetInstance", "id").Return(res, nil).Times(2)
+	s.Client.On("GetInstance", "id").Return(s.DeletedRes, nil).Times(2)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -214,7 +220,7 @@ func (s ResourceCoreInstanceTestSuite) TestUpdateInstanceDisplayName() {
 }
 
 func (s ResourceCoreInstanceTestSuite) TestUpdateAvailabilityDomainForcesNewInstance() {
-	s.Client.On("GetInstance", "id").Return(s.Res, nil)
+	s.Client.On("GetInstance", "id").Return(s.Res, nil).Times(2)
 
 	config := `
 		resource "baremetal_core_instance" "t" {
@@ -237,7 +243,7 @@ func (s ResourceCoreInstanceTestSuite) TestUpdateAvailabilityDomainForcesNewInst
 		CompartmentID:      "compartment_id",
 		DisplayName:        "display_name",
 		ID:                 "new_id",
-		ImageID:              "imageid",
+		ImageID:            "imageid",
 		Metadata: map[string]string{
 			"ssh_authorized_keys": "mypublickey",
 		},
@@ -261,8 +267,10 @@ func (s ResourceCoreInstanceTestSuite) TestUpdateAvailabilityDomainForcesNewInst
 		"subnetid",
 		opts).Return(res, nil)
 
-	s.Client.On("GetInstance", res.ID).Return(res, nil)
+	s.Client.On("GetInstance", s.Res.ID).Return(s.DeletedRes, nil)
+	s.Client.On("GetInstance", res.ID).Return(res, nil).Times(2)
 	s.Client.On("TerminateInstance", res.ID, (*baremetal.IfMatchOptions)(nil)).Return(nil)
+	s.Client.On("GetInstance", "new_id").Return(s.DeletedRes, nil).Twice()
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -298,6 +306,14 @@ func (s *ResourceCoreInstanceTestSuite) TestTerminateInstance() {
 	})
 
 	s.Client.AssertCalled(s.T(), "TerminateInstance", "id", (*baremetal.IfMatchOptions)(nil))
+}
+
+func TestIsStatefulResource(t *testing.T) {
+	var sr crud.StatefulResource
+	sr = &core.InstanceResourceCrud{}
+	if sr == nil {
+		t.Fail()
+	}
 }
 
 func TestResourceCoreInstanceTestSuite(t *testing.T) {

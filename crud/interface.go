@@ -3,8 +3,9 @@
 package crud
 
 import (
-	"github.com/MustWin/baremetal-sdk-go"
 	"time"
+
+	"github.com/MustWin/baremetal-sdk-go"
 )
 
 // Gets the current BareMetal Resource
@@ -58,6 +59,7 @@ type ExtraWaitPostDelete interface {
 type StatefulResource interface {
 	ResourceReader
 	State() string
+	setState(StatefulResource) error
 }
 
 type StatefullyCreatedResource interface {

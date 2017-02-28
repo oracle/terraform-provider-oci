@@ -3,9 +3,10 @@
 package identity
 
 import (
+	"strings"
+
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/crud"
-	"strings"
 )
 
 type CompartmentResourceCrud struct {

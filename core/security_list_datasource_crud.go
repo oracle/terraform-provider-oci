@@ -67,6 +67,7 @@ func (s *SecurityListDatasourceCrud) SetData() {
 					egressRule.ICMPOptions,
 					egressRule.TCPOptions,
 					egressRule.UDPOptions,
+					&egressRule.IsStateless,
 				)
 				confEgressRules = append(confEgressRules, confEgressRule)
 			}
@@ -82,6 +83,7 @@ func (s *SecurityListDatasourceCrud) SetData() {
 					ingressRule.ICMPOptions,
 					ingressRule.TCPOptions,
 					ingressRule.UDPOptions,
+					nil,
 				)
 				confIngressRules = append(confIngressRules, confIngressRule)
 			}

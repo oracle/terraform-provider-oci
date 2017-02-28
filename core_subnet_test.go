@@ -77,7 +77,8 @@ func (s *ResourceCoreSubnetTestSuite) SetupTest() {
 		VirtualRouterMac: "virtualroutermac",
 	}
 
-	s.DeletedRes = s.Res
+	s.DeletedRes = &baremetal.Subnet{}
+	*s.DeletedRes = *s.Res
 	s.DeletedRes.State = baremetal.ResourceTerminated
 
 	opts := &baremetal.CreateSubnetOptions{}
@@ -95,7 +96,8 @@ func (s *ResourceCoreSubnetTestSuite) SetupTest() {
 }
 
 func (s *ResourceCoreSubnetTestSuite) TestCreateResourceCoreSubnet() {
-	s.Client.On("GetSubnet", "id").Return(s.Res, nil)
+	s.Client.On("GetSubnet", s.Res.ID).Return(s.Res, nil).Times(2)
+	s.Client.On("GetSubnet", s.Res.ID).Return(s.DeletedRes, nil).Times(2)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -116,7 +118,8 @@ func (s *ResourceCoreSubnetTestSuite) TestCreateResourceCoreSubnet() {
 }
 
 func (s *ResourceCoreSubnetTestSuite) TestCreateResourceCoreSubnetWithoutDisplayName() {
-	s.Client.On("GetSubnet", "id").Return(s.Res, nil)
+	s.Client.On("GetSubnet", "id").Return(s.Res, nil).Times(2)
+	s.Client.On("GetSubnet", "id").Return(s.DeletedRes, nil).Times(2)
 
 	s.Config = `
 		resource "baremetal_core_subnet" "t" {
@@ -158,8 +161,6 @@ func (s *ResourceCoreSubnetTestSuite) TestCreateResourceCoreSubnetWithoutDisplay
 }
 
 func (s ResourceCoreSubnetTestSuite) TestUpdateCompartmentIDForcesNewSubnet() {
-	s.Client.On("GetSubnet", "id").Return(s.Res, nil)
-
 	config := `
 		resource "baremetal_core_subnet" "t" {
 			availability_domain = "availabilitydomainid"
@@ -193,11 +194,17 @@ func (s ResourceCoreSubnetTestSuite) TestUpdateCompartmentIDForcesNewSubnet() {
 		VirtualRouterID:  "virtualrouterid",
 		VirtualRouterMac: "virtualroutermac",
 	}
-
+	delRes := &baremetal.Subnet{}
+	*delRes = *res
+	delRes.State = baremetal.ResourceTerminated
 	opts := &baremetal.CreateSubnetOptions{}
 	opts.DisplayName = "display_name"
 	opts.RouteTableID = res.RouteTableID
 	opts.SecurityListIDs = res.SecurityListIDs
+
+	s.Client.On("GetSubnet", s.Res.ID).Return(s.Res, nil).Times(2)
+	s.Client.On("DeleteSubnet", s.Res.ID, (*baremetal.IfMatchOptions)(nil)).Return(nil)
+	s.Client.On("GetSubnet", s.Res.ID).Return(s.DeletedRes, nil).Times(2)
 
 	s.Client.On(
 		"CreateSubnet",
@@ -207,8 +214,9 @@ func (s ResourceCoreSubnetTestSuite) TestUpdateCompartmentIDForcesNewSubnet() {
 		res.VcnID,
 		opts).Return(res, nil).Once()
 
-	s.Client.On("GetSubnet", res.ID).Return(res, nil)
+	s.Client.On("GetSubnet", res.ID).Return(res, nil).Times(2)
 	s.Client.On("DeleteSubnet", res.ID, (*baremetal.IfMatchOptions)(nil)).Return(nil)
+	s.Client.On("GetSubnet", res.ID).Return(delRes, nil).Times(2)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,

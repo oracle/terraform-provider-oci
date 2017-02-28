@@ -32,10 +32,6 @@ func (s *VirtualNetworkResourceCrud) DeletedTarget() []string {
 	return []string{baremetal.ResourceTerminated}
 }
 
-func (s *VirtualNetworkResourceCrud) State() string {
-	return s.Res.State
-}
-
 func (s *VirtualNetworkResourceCrud) Create() (e error) {
 	cidrBlock := s.D.Get("cidr_block").(string)
 	compartmentID := s.D.Get("compartment_id").(string)

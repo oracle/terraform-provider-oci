@@ -6,33 +6,38 @@ import (
 	"time"
 
 	"github.com/MustWin/baremetal-sdk-go"
-
 	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/crud"
 )
 
-type AvailabilityDomainDatasourceCrud struct {
+type UserDatasourceCrud struct {
 	crud.BaseCrud
-	Res *baremetal.ListAvailabilityDomains
+	Res *baremetal.ListUsers
 }
 
-func (s *AvailabilityDomainDatasourceCrud) Get() (e error) {
-	compartmentID := s.D.Get("compartment_id").(string)
-	s.Res, e = s.Client.ListAvailabilityDomains(compartmentID)
+func (s *UserDatasourceCrud) Get() (e error) {
+	s.Res, e = s.Client.ListUsers(nil)
 	return
 }
 
-func (s *AvailabilityDomainDatasourceCrud) SetData() {
+func (s *UserDatasourceCrud) SetData() {
 	if s.Res != nil {
 		s.D.SetId(time.Now().UTC().String())
 		resources := []map[string]interface{}{}
-		for _, v := range s.Res.AvailabilityDomains {
+		for _, v := range s.Res.Users {
 			res := map[string]interface{}{
-				"name":           v.Name,
 				"compartment_id": v.CompartmentID,
+				"description": v.Description,
+				"id": v.ID,
+				"inactive_state": v.InactiveStatus,
+				"name": v.Name,
+				"state": v.State,
+				"time_created": v.TimeCreated.String(),
 			}
 			resources = append(resources, res)
 		}
-		s.D.Set("availability_domains", resources)
+		if err := s.D.Set("users", resources); err != nil {
+			panic(err)
+		}
 	}
 	return
 }

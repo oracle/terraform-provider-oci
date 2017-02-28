@@ -17,7 +17,7 @@ func CompartmentResource() *schema.Resource {
 		Read:   readCompartment,
 		Update: updateCompartment,
 		Delete: deleteCompartment,
-		Schema: baseIdentitySchema,
+		Schema: baseIdentitySchemaWithID,
 	}
 }
 

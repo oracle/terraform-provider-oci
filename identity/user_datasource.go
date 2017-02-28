@@ -8,25 +8,26 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
-func AvailabilityDomainDatasource() *schema.Resource {
+func UserDatasource() *schema.Resource {
 	return &schema.Resource{
-		Read: readAvailabilityDomains,
+		Read: readUsers,
 		Schema: map[string]*schema.Schema{
-			"compartment_id": {
+			"compartment_id":{
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"name": {
-				Type:     schema.TypeString,
+			"users": {
+				Type:     schema.TypeList,
 				Computed: true,
+				Elem:     UserResource(),
 			},
 		},
 	}
 }
 
-func readAvailabilityDomains(d *schema.ResourceData, m interface{}) (e error) {
+func readUsers(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &AvailabilityDomainDatasourceCrud{}
+	sync := &UserDatasourceCrud{}
 	sync.D = d
 	sync.Client = client
 	return crud.ReadResource(sync)

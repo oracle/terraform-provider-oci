@@ -42,6 +42,7 @@ type EgressSecurityRule struct {
 	Protocol    string       `header:"-" json:"protocol" url:"-"`
 	TCPOptions  *TCPOptions  `header:"-" json:"tcpOptions,omitempty" url:"-"`
 	UDPOptions  *UDPOptions  `header:"-" json:"udpOptions,omitempty" url:"-"`
+	IsStateless bool         `header:"-" json:"isStateless" url:"-"`
 }
 
 // SecurityList describes a set of virtual, stateful firewall rules for your VCN

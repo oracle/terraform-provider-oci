@@ -32,10 +32,6 @@ func (s *DrgResourceCrud) DeletedTarget() []string {
 	return []string{baremetal.ResourceTerminated}
 }
 
-func (s *DrgResourceCrud) State() string {
-	return s.Res.State
-}
-
 func (s *DrgResourceCrud) Create() (e error) {
 	opts := &baremetal.CreateOptions{}
 	compartmentID := s.D.Get("compartment_id").(string)

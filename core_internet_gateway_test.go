@@ -13,6 +13,8 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 
 	"github.com/stretchr/testify/suite"
+	//	"errors"
+	"errors"
 )
 
 type ResourceCoreInternetGatewayTestSuite struct {
@@ -65,7 +67,8 @@ func (s *ResourceCoreInternetGatewayTestSuite) SetupTest() {
 	s.Res.ETag = "etag"
 	s.Res.RequestID = "requestid"
 
-	s.DeletedRes = s.Res
+	s.DeletedRes = &baremetal.InternetGateway{}
+	*s.DeletedRes = *s.Res
 	s.DeletedRes.State = baremetal.ResourceTerminated
 
 	opts := &baremetal.CreateOptions{}
@@ -80,7 +83,8 @@ func (s *ResourceCoreInternetGatewayTestSuite) SetupTest() {
 }
 
 func (s *ResourceCoreInternetGatewayTestSuite) TestCreateResourceCoreInternetGateway() {
-	s.Client.On("GetInternetGateway", "id").Return(s.Res, nil)
+	s.Client.On("GetInternetGateway", "id").Return(s.Res, nil).Times(2)
+	s.Client.On("GetInternetGateway", "id").Return(s.DeletedRes, nil).Times(2)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -100,7 +104,8 @@ func (s *ResourceCoreInternetGatewayTestSuite) TestCreateResourceCoreInternetGat
 }
 
 func (s ResourceCoreInternetGatewayTestSuite) TestUpdateCompartmentIDForcesNewInternetGateway() {
-	s.Client.On("GetInternetGateway", "id").Return(s.Res, nil)
+	s.Client.On("GetInternetGateway", s.Res.ID).Return(s.Res, nil).Times(2)
+	s.Client.On("GetInternetGateway", s.Res.ID).Return(s.DeletedRes, nil).Times(2)
 
 	config := `
   resource "baremetal_core_internet_gateway" "t" {
@@ -115,7 +120,7 @@ func (s ResourceCoreInternetGatewayTestSuite) TestUpdateCompartmentIDForcesNewIn
 	res := &baremetal.InternetGateway{
 		CompartmentID: "new_compartment_id",
 		DisplayName:   "display_name",
-		ID:            "id2",
+		ID:            "id",
 		IsEnabled:     true,
 		State:         baremetal.ResourceAvailable,
 		ModifiedTime:  s.TimeCreated,
@@ -123,6 +128,10 @@ func (s ResourceCoreInternetGatewayTestSuite) TestUpdateCompartmentIDForcesNewIn
 	}
 	s.Res.ETag = "etag"
 	s.Res.RequestID = "requestid"
+
+	delRes := &baremetal.InternetGateway{}
+	*delRes = *res
+	delRes.State = baremetal.ResourceTerminated
 
 	opts := &baremetal.CreateOptions{}
 	opts.DisplayName = "display_name"
@@ -133,8 +142,11 @@ func (s ResourceCoreInternetGatewayTestSuite) TestUpdateCompartmentIDForcesNewIn
 		res.IsEnabled,
 		opts).Return(res, nil)
 
-	s.Client.On("GetInternetGateway", res.ID).Return(res, nil)
 	s.Client.On("DeleteInternetGateway", res.ID, (*baremetal.IfMatchOptions)(nil)).Return(nil)
+
+	s.Client.On("GetInternetGateway", res.ID).Return(res, nil).Times(2)
+	s.Client.On("GetInternetGateway", res.ID).Return(delRes, nil).Once()
+	s.Client.On("GetInternetGateway", res.ID).Return(nil, errors.New("blah does not exist"))
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,

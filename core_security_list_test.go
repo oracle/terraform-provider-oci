@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
-	"github.com/stretchr/testify/suite"
 	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/crud"
+	"github.com/stretchr/testify/suite"
 )
 
 type ResourceCoreSecurityListTestSuite struct {
@@ -59,6 +59,7 @@ func (s *ResourceCoreSecurityListTestSuite) SetupTest() {
 					"type" = 2
 				}
 				protocol = "protocol"
+				stateless = true
 			}
       ingress_security_rules {
 				tcp_options {
@@ -79,6 +80,7 @@ func (s *ResourceCoreSecurityListTestSuite) SetupTest() {
 			Destination: "destination",
 			ICMPOptions: &baremetal.ICMPOptions{Code: 1, Type: 2},
 			Protocol:    "protocol",
+			IsStateless: true,
 		},
 	}
 	ingressRules := []baremetal.IngressSecurityRule{
@@ -103,7 +105,6 @@ func (s *ResourceCoreSecurityListTestSuite) SetupTest() {
 	}
 	s.Res.ETag = "etag"
 	s.Res.RequestID = "opcrequestid"
-
 
 	deletingRes := *s.Res
 	s.DeletingRes = &deletingRes
@@ -140,6 +141,7 @@ func (s *ResourceCoreSecurityListTestSuite) TestCreateResourceCoreSecurityList()
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", s.Res.CompartmentID),
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", s.Res.DisplayName),
 					resource.TestCheckResourceAttr(s.ResourceName, "egress_security_rules.0.icmp_options.0.code", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "egress_security_rules.0.stateless", "true"),
 					resource.TestCheckResourceAttr(s.ResourceName, "ingress_security_rules.0.tcp_options.0.max", "2"),
 				),
 			},
@@ -161,6 +163,7 @@ func (s ResourceCoreSecurityListTestSuite) TestUpdateSecurityList() {
 					"type" = 2
 				}
 				protocol = "protocol"
+				stateless = true
 			}
       ingress_security_rules {
 				tcp_options {

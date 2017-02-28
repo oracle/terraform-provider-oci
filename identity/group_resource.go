@@ -15,7 +15,7 @@ func GroupResource() *schema.Resource {
 		Read:   readGroup,
 		Update: updateGroup,
 		Delete: deleteGroup,
-		Schema: baseIdentitySchema,
+		Schema: baseIdentitySchemaWithID,
 	}
 }
 
