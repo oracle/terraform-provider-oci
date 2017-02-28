@@ -16,6 +16,10 @@ func AvailabilityDomainDatasource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"name": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 		},
 	}
 }
