@@ -5,8 +5,9 @@ package database
 import (
 	"github.com/MustWin/baremetal-sdk-go"
 
-	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/crud"
 	"time"
+
+	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/crud"
 )
 
 type DBSystemResourceCrud struct {

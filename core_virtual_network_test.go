@@ -128,9 +128,9 @@ func (s *ResourceCoreVirtualNetworkTestSuite) TestCreateResourceCoreVirtualNetwo
 }
 
 func (s *ResourceCoreVirtualNetworkTestSuite) TestDeleteResourceCoreVirtualNetwork() {
-	s.Client.On("GetVirtualNetwork", "id").Return(s.Res, nil).Times(2)
-	s.Client.On("GetVirtualNetwork", "id").Return(s.DeletingRes, nil).Times(2)
-	s.Client.On("GetVirtualNetwork", "id").Return(nil, errors.New("blah blah does not exist"))
+	s.Client.On("GetVirtualNetwork", s.Res.ID).Return(s.Res, nil).Times(2)
+	s.Client.On("GetVirtualNetwork", s.Res.ID).Return(s.DeletingRes, nil).Times(2)
+	s.Client.On("GetVirtualNetwork", s.Res.ID).Return(nil, errors.New("blah blah does not exist"))
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,

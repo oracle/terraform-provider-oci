@@ -3,6 +3,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 
 	"github.com/MustWin/baremetal-sdk-go"
@@ -12,8 +13,6 @@ import (
 	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/objectstorage"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
-	"log"
-	"errors"
 )
 
 var descriptions map[string]string
@@ -171,7 +170,8 @@ func providerConfig(d *schema.ResourceData) (client interface{}, err error) {
 	} else if hasKeyPath && privateKeyPath != "" {
 		clientOpts = append(clientOpts, baremetal.PrivateKeyFilePath(privateKeyPath))
 	} else {
-		return errors.New("private_key_path is required")
+		err = errors.New("private_key_path is required")
+		return
 	}
 
 	if hasKeyPass && privateKeyPassword != "" {

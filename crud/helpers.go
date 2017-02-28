@@ -3,15 +3,15 @@
 package crud
 
 import (
-	"time"
 	"log"
+	"os"
+	"reflect"
 	"strings"
+	"time"
 
 	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/client"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
-
-	"os"
 )
 
 const FiveMinutes time.Duration = 5 * time.Minute
@@ -23,6 +23,31 @@ type BaseCrud struct {
 
 func (s *BaseCrud) VoidState() {
 	s.D.SetId("")
+}
+
+// Default implementation, used in conjunction with State()
+func (s *BaseCrud) setState(sync StatefulResource) error {
+	v := reflect.ValueOf(sync).Elem()
+	for _, resVal := range []reflect.Value{v.FieldByName("Res"), v.FieldByName("Resource")} {
+		if resVal.IsValid() {
+			err := s.D.Set("state", resVal.Elem().FieldByName("State").String())
+			if err != nil {
+				return err
+			}
+			return nil
+		}
+	}
+
+	return nil
+}
+
+// Default implementation pulls state off of the schema
+func (s *BaseCrud) State() string {
+	str, ok := s.D.Get("state").(string)
+	if ok {
+		return str
+	}
+	return ""
 }
 
 func handleMissingResourceError(sync ResourceVoider, err *error) {
@@ -103,6 +128,11 @@ func DeleteResource(sync ResourceDeleter) (e error) {
 func stateRefreshFunc(sync StatefulResource) resource.StateRefreshFunc {
 	return func() (res interface{}, s string, e error) {
 		if e = sync.Get(); e != nil {
+			return nil, "", e
+		}
+		// We don't set all the state here, because not found errors are handled elsewhere.
+		// But we do need the new state for the default State() function
+		if e = sync.setState(sync); e != nil {
 			return nil, "", e
 		}
 		return sync, sync.State(), e

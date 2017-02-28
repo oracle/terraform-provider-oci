@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
-	"github.com/stretchr/testify/suite"
 	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/crud"
+	"github.com/stretchr/testify/suite"
 )
 
 type ResourceCoreSecurityListTestSuite struct {
@@ -103,7 +103,6 @@ func (s *ResourceCoreSecurityListTestSuite) SetupTest() {
 	}
 	s.Res.ETag = "etag"
 	s.Res.RequestID = "opcrequestid"
-
 
 	deletingRes := *s.Res
 	s.DeletingRes = &deletingRes

@@ -27,7 +27,7 @@ func (s *AvailabilityDomainDatasourceCrud) SetData() {
 		resources := []map[string]interface{}{}
 		for _, v := range s.Res.AvailabilityDomains {
 			res := map[string]interface{}{
-				"name":  v.Name,
+				"name":           v.Name,
 				"compartment_id": v.CompartmentID,
 			}
 			resources = append(resources, res)

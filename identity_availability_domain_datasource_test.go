@@ -42,12 +42,12 @@ func (s *ResourceIdentityAvailabilityDomainsTestSuite) SetupTest() {
 	s.ResourceName = "data.baremetal_identity_availability_domains.t"
 
 	a1 := baremetal.AvailabilityDomain{
-		Name: "AD1",
+		Name:          "AD1",
 		CompartmentID: "compartmentID",
 	}
 
 	a2 := a1
-	a2.Name= "AD2"
+	a2.Name = "AD2"
 
 	s.List = &baremetal.ListAvailabilityDomains{
 		AvailabilityDomains: []baremetal.AvailabilityDomain{a1, a2},
