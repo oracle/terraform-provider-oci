@@ -37,6 +37,7 @@ func TestProvider(t *testing.T) {
 	}
 }
 
+// Don't worry, this key is NOT a valid API key
 var testPrivateKey = `-----BEGIN RSA PRIVATE KEY-----
 Proc-Type: 4,ENCRYPTED
 DEK-Info: DES-EDE3-CBC,9F4D00DEF02B2B75
