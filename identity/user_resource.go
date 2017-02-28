@@ -10,18 +10,12 @@ import (
 
 // ResourceIdentityUser exposes a IdentityUser Resource
 func UserResource() *schema.Resource {
-	baseSchema := &map[string]*schema.Schema{}
-	*baseSchema = baseIdentitySchema
-	(*baseSchema)["id"] = &schema.Schema{
-		Type:     schema.TypeString,
-		Computed: true,
-	}
 	return &schema.Resource{
 		Create: createUser,
 		Read:   readUser,
 		Update: updateUser,
 		Delete: deleteUser,
-		Schema: *baseSchema,
+		Schema: baseIdentitySchemaWithID,
 	}
 }
 

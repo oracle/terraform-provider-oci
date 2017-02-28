@@ -10,18 +10,12 @@ import (
 
 // ResourceIdentityGroup exposes an IdentityGroup Resource
 func GroupResource() *schema.Resource {
-	baseSchema := &map[string]*schema.Schema{}
-	*baseSchema = baseIdentitySchema
-	(*baseSchema)["id"] = &schema.Schema{
-		Type:     schema.TypeString,
-		Computed: true,
-	}
 	return &schema.Resource{
 		Create: createGroup,
 		Read:   readGroup,
 		Update: updateGroup,
 		Delete: deleteGroup,
-		Schema: *baseSchema,
+		Schema: baseIdentitySchemaWithID,
 	}
 }
 

@@ -9,21 +9,21 @@ import (
 	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/crud"
 )
 
-type UserDatasourceCrud struct {
+type CompartmentDatasourceCrud struct {
 	crud.BaseCrud
-	Res *baremetal.ListUsers
+	Res *baremetal.ListCompartments
 }
 
-func (s *UserDatasourceCrud) Get() (e error) {
-	s.Res, e = s.Client.ListUsers(nil)
+func (s *CompartmentDatasourceCrud) Get() (e error) {
+	s.Res, e = s.Client.ListCompartments(nil)
 	return
 }
 
-func (s *UserDatasourceCrud) SetData() {
+func (s *CompartmentDatasourceCrud) SetData() {
 	if s.Res != nil {
 		s.D.SetId(time.Now().UTC().String())
 		resources := []map[string]interface{}{}
-		for _, v := range s.Res.Users {
+		for _, v := range s.Res.Compartments {
 			res := map[string]interface{}{
 				"compartment_id": v.CompartmentID,
 				"description": v.Description,
@@ -35,7 +35,7 @@ func (s *UserDatasourceCrud) SetData() {
 			}
 			resources = append(resources, res)
 		}
-		if err := s.D.Set("users", resources); err != nil {
+		if err := s.D.Set("compartments", resources); err != nil {
 			panic(err)
 		}
 	}

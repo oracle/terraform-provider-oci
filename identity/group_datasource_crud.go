@@ -28,7 +28,7 @@ func (s *GroupDatasourceCrud) SetData() {
 				"compartment_id": v.CompartmentID,
 				"description": v.Description,
 				"id": v.ID,
-				//"inactive_status": v.InactiveStatus, // Not on the schema
+				"inactive_state": v.InactiveStatus,
 				"name": v.Name,
 				"state": v.State,
 				"time_created": v.TimeCreated.String(),
