@@ -16,9 +16,22 @@ func AvailabilityDomainDatasource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"name": {
-				Type:     schema.TypeString,
+			"availability_domains": {
+				Type:     schema.TypeList,
 				Computed: true,
+				Elem:     &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"compartment_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+
+						"name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
 			},
 		},
 	}
