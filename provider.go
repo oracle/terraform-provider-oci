@@ -24,7 +24,7 @@ func init() {
 		"fingerprint":  "(Required) The fingerprint for the user's RSA key. This can be found in user settings in the Bare Metal console.",
 		"private_key": "(Optional) A PEM formatted RSA private key for the user.\n" +
 			"A private_key or a private_key_path must be provided.",
-		"private_key_path": "(Required) The path to the user's PEM formatted private key.\n" +
+		"private_key_path": "(Optional) The path to the user's PEM formatted private key.\n" +
 			"A private_key or a private_key_path must be provided.",
 		"private_key_password": "(Optional) The password used to secure the private key.",
 	}
@@ -67,7 +67,7 @@ func schemaMap() map[string]*schema.Schema {
 		},
 		"private_key_path": {
 			Type:        schema.TypeString,
-			Required:    true,
+			Optional:    true,
 			Description: descriptions["private_key_path"],
 		},
 		"private_key_password": {
@@ -174,7 +174,7 @@ func providerConfig(d *schema.ResourceData) (client interface{}, err error) {
 	} else if hasKeyPath && privateKeyPath != "" {
 		clientOpts = append(clientOpts, baremetal.PrivateKeyFilePath(privateKeyPath))
 	} else {
-		err = errors.New("private_key_path is required")
+		err = errors.New("One of private_key or private_key_path is required")
 		return
 	}
 
