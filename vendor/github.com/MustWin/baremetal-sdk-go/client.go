@@ -44,6 +44,7 @@ import (
 	"crypto/x509"
 	"encoding/pem"
 	"errors"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 )
@@ -121,20 +122,11 @@ func NewClient(userOCID, tenancyOCID, keyFingerprint string, opts ...NewClientOp
 	for _, opt := range opts {
 		opt(nco)
 	}
-	if nco.keyPassword == nil {
-		// the private key file is not encrypted
-		if nco.keyPath != nil {
-			auth.privateRSAKey, err = PrivateKeyFromUnencryptedFile(*nco.keyPath)
-		} else {
-			auth.privateRSAKey, err = PrivateKeyFromUnencryptedBytes(nco.keyBytes)
-		}
+
+	if nco.keyPath != nil {
+		auth.privateRSAKey, err = PrivateKeyFromFile(*nco.keyPath, nco.keyPassword)
 	} else {
-		// encrypted private key
-		if nco.keyPath != nil {
-			auth.privateRSAKey, err = PrivateKeyFromFile(*nco.keyPath, *nco.keyPassword)
-		} else {
-			auth.privateRSAKey, err = PrivateKeyFromBytes(nco.keyBytes, *nco.keyPassword)
-		}
+		auth.privateRSAKey, err = PrivateKeyFromBytes(nco.keyBytes, nco.keyPassword)
 	}
 	if err != nil {
 		return nil, err
@@ -178,31 +170,21 @@ func New(userOCID, tenancyOCID, keyFingerPrint string, privateKey *rsa.PrivateKe
 	}
 }
 
-// NewFromKeyPath creates a client reading an RSA private key from a file. The
-// userOCID and tenancyOCID are obtained from the BareMetal console.
-// The fingerprint can be obtained from the BareMetal console or running
-//     openssl rsa -pubout -outform DER -in private.pem | openssl md5 -c
-func NewFromKeyPath(userOCID, tenancyOCID, keyFingerPrint, privateKeyPath, keyPassword string) (c *Client, e error) {
-	var key *rsa.PrivateKey
-
-	if key, e = PrivateKeyFromFile(privateKeyPath, keyPassword); e != nil {
-		return
-	}
-
-	c = New(userOCID, tenancyOCID, keyFingerPrint, key)
-
-	return
-}
-
 // PrivateKeyFromBytes is a helper function that will produce a RSA private
 // key from bytes.
-func PrivateKeyFromBytes(pemData []byte, password string) (key *rsa.PrivateKey, e error) {
+func PrivateKeyFromBytes(pemData []byte, password *string) (key *rsa.PrivateKey, e error) {
 	if pemBlock, _ := pem.Decode(pemData); pemBlock != nil {
 
-		var decrypted []byte
+		decrypted := pemBlock.Bytes
 
-		if decrypted, e = x509.DecryptPEMBlock(pemBlock, []byte(password)); e != nil {
-			return
+		if x509.IsEncryptedPEMBlock(pemBlock) {
+			if password == nil {
+				e = fmt.Errorf("private_key_password is required for encrypted private keys")
+				return
+			}
+			if decrypted, e = x509.DecryptPEMBlock(pemBlock, []byte(*password)); e != nil {
+				return
+			}
 		}
 
 		key, e = x509.ParsePKCS1PrivateKey(decrypted)
@@ -215,10 +197,7 @@ func PrivateKeyFromBytes(pemData []byte, password string) (key *rsa.PrivateKey, 
 	return
 }
 
-// PrivateKeyFromFile is a helper function that will produce an RSA private
-// key from a PEM file.  The PEM file MUST be created with a password which
-// is supplied as an argument.
-func PrivateKeyFromFile(pemFilePath, password string) (key *rsa.PrivateKey, e error) {
+func PrivateKeyFromFile(pemFilePath string, password *string) (key *rsa.PrivateKey, e error) {
 	var fileData []byte
 	if fileData, e = ioutil.ReadFile(pemFilePath); e != nil {
 		return
@@ -228,16 +207,4 @@ func PrivateKeyFromFile(pemFilePath, password string) (key *rsa.PrivateKey, e er
 
 	return
 
-}
-func PrivateKeyFromUnencryptedBytes(pemBytes []byte) (*rsa.PrivateKey, error) {
-	pemBlock, _ := pem.Decode(pemBytes)
-	return x509.ParsePKCS1PrivateKey(pemBlock.Bytes)
-}
-
-func PrivateKeyFromUnencryptedFile(path string) (*rsa.PrivateKey, error) {
-	buff, err := ioutil.ReadFile(path)
-	if err != nil {
-		return nil, err
-	}
-	return PrivateKeyFromUnencryptedBytes(buff)
 }
