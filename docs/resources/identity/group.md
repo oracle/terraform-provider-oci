@@ -24,5 +24,5 @@ The following arguments are supported:
 * `name` - The name you assign to the group during creation. The name must be unique across all groups in the tenancy and cannot be changed.
 * `descriptions` - The description you assign to the group. Does not have to be unique, and it's changeable.
 * `time_created` - Date and time the group was created.
-* `state` - The policy's current state. [CREATING, ACTIVE, INACTIVE, DELETING, DELETED]
+* `state` - The group's current state. [CREATING, ACTIVE, INACTIVE, DELETING, DELETED]
 * `inactive_status` - The detailed status of INACTIVE lifecycleState.
