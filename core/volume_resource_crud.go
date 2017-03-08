@@ -50,6 +50,10 @@ func (s *VolumeResourceCrud) Create() (e error) {
 	if ok {
 		opts.SizeInMBs = sizeInMBs.(int)
 	}
+	volumeBackupID, ok := s.D.GetOk("volume_backup_id")
+	if ok {
+		opts.VolumeBackupID = volumeBackupID.(string)
+	}
 
 	s.Res, e = s.Client.CreateVolume(availabilityDomain, compartmentID, opts)
 
