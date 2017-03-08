@@ -52,6 +52,18 @@ func (s *VirtualNetworkResourceCrud) Get() (e error) {
 	return
 }
 
+func (s *VirtualNetworkResourceCrud) Update() (e error) {
+	opts := &baremetal.IfMatchDisplayNameOptions{}
+	compartmentID := s.D.Get("compartment_id").(string)
+	displayName, ok := s.D.GetOk("display_name")
+	if ok {
+		opts.DisplayName = displayName.(string)
+	}
+
+	s.Res, e = s.Client.UpdateVirtualNetwork(compartmentID, opts)
+	return
+}
+
 func (s *VirtualNetworkResourceCrud) SetData() {
 	s.D.Set("cidr_block", s.Res.CidrBlock)
 	s.D.Set("compartment_id", s.Res.CompartmentID)

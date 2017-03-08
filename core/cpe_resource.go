@@ -12,6 +12,7 @@ func CpeResource() *schema.Resource {
 	return &schema.Resource{
 		Create: createCpe,
 		Read:   readCpe,
+		Update: updateCpe,
 		Delete: deleteCpe,
 		Schema: map[string]*schema.Schema{
 			"id": {
@@ -26,7 +27,6 @@ func CpeResource() *schema.Resource {
 			"display_name": {
 				Type:     schema.TypeString,
 				Optional: true,
-				ForceNew: true,
 				Computed: true,
 			},
 			"ip_address": {
@@ -57,6 +57,14 @@ func readCpe(d *schema.ResourceData, m interface{}) (e error) {
 	sync.D = d
 	sync.Client = client
 	return crud.ReadResource(sync)
+}
+
+func updateCpe(d *schema.ResourceData, m interface{}) (e error) {
+	client := m.(client.BareMetalClient)
+	crd := &CpeResourceCrud{}
+	crd.D = d
+	crd.Client = client
+	return crud.UpdateResource(d, crd)
 }
 
 func deleteCpe(d *schema.ResourceData, m interface{}) (e error) {

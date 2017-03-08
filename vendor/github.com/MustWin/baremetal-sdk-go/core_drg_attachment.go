@@ -78,6 +78,26 @@ func (c *Client) GetDrgAttachment(id string) (res *DrgAttachment, e error) {
 	return
 }
 
+// Updates the display name for the specified DrgAttachment.
+//
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/iaas/20160918/DrgAttachment/UpdateDrgAttachment
+func (c *Client) UpdateDrgAttachment(id string, opts *IfMatchDisplayNameOptions) (drg *DrgAttachment, e error) {
+	details := &requestDetails{
+		name:     resourceDrgAttachments,
+		ids:      urlParts{id},
+		optional: opts,
+	}
+	var resp *response
+	if resp, e = c.coreApi.request(http.MethodPut, details); e != nil {
+		return
+	}
+
+	drg = &DrgAttachment{}
+	e = resp.unmarshal(drg)
+
+	return
+}
+
 // DeleteDrgAttachment detaches a drg from its vcn
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/DrgAttachment/DeleteDrgAttachment

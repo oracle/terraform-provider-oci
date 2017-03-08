@@ -60,6 +60,18 @@ func (s *IPSecConnectionResourceCrud) Get() (e error) {
 	return
 }
 
+func (s *IPSecConnectionResourceCrud) Update() (e error) {
+	opts := &baremetal.IfMatchDisplayNameOptions{}
+	compartmentID := s.D.Get("compartment_id").(string)
+	displayName, ok := s.D.GetOk("display_name")
+	if ok {
+		opts.DisplayName = displayName.(string)
+	}
+
+	s.Resource, e = s.Client.UpdateIPSecConnection(compartmentID, opts)
+	return
+}
+
 func (s *IPSecConnectionResourceCrud) SetData() {
 	s.D.Set("compartment_id", s.Resource.CompartmentID)
 	s.D.Set("cpe_id", s.Resource.CpeID)

@@ -78,9 +78,9 @@ func (c *Client) CreateCpe(compartmentID, ipAddress string, opts *CreateOptions)
 	return
 }
 
-// GetCpe retrieves information on a customer premise equipment resource.
+// UpdateCpe retrieves information on a customer premise equipment resource.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Cpe/GetCpe
+// https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/iaas/20160918/Cpe/UpdateCpe
 func (c *Client) GetCpe(id string) (cpe *Cpe, e error) {
 	details := &requestDetails{
 		name: resourceCustomerPremiseEquipment,
@@ -93,6 +93,26 @@ func (c *Client) GetCpe(id string) (cpe *Cpe, e error) {
 
 	cpe = &Cpe{}
 	e = resp.unmarshal(cpe)
+	return
+}
+
+// Updates the specified CPE's display name.
+//
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/iaas/20160918/Cpe/UpdateCpe
+func (c *Client) UpdateCpe(id string, opts *IfMatchDisplayNameOptions) (cpe *Cpe, e error) {
+	details := &requestDetails{
+		name:     resourceCustomerPremiseEquipment,
+		ids:      urlParts{id},
+		optional: opts,
+	}
+	var resp *response
+	if resp, e = c.coreApi.request(http.MethodPut, details); e != nil {
+		return
+	}
+
+	cpe = &Cpe{}
+	e = resp.unmarshal(cpe)
+
 	return
 }
 
