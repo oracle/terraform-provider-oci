@@ -9,6 +9,7 @@ resource "baremetal_core_volume" "t" {
     availability_domain = "availability_domain"
     compartment_id = "compartment_id"
     size_in_mbs = 262144
+    volume_backup_id = "volume_id"
 }
 ```
 
@@ -19,6 +20,7 @@ The following arguments are supported:
 * `compartment_id` - (Required) The OCID of the compartment.
 * `availability_domain` - (Required) The Availability Domain of the volume.
 * `display_name` - (Optional) A user-friendly name. Does not have to be unique, and it's changeable.
+* `volume_backup_id` - (Optional) The OCID of the volume backup from which the data should be restored on the newly created volume.
 
 ## Attributes Reference
 * `availability_domain` - The availability domain of the volume.

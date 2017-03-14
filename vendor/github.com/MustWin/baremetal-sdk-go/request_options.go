@@ -101,6 +101,11 @@ type UpdateOptions struct {
 	DisplayNameOptions
 }
 
+type IfMatchDisplayNameOptions struct {
+	IfMatchOptions
+	DisplayNameOptions
+}
+
 type UpdateBackupOptions struct {
 	IfMatchOptions
 	DisplayNameOptions

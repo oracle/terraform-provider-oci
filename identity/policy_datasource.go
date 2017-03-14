@@ -8,38 +8,26 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
-func AvailabilityDomainDatasource() *schema.Resource {
+func PolicyDatasource() *schema.Resource {
 	return &schema.Resource{
-		Read: readAvailabilityDomains,
+		Read: readPolicies,
 		Schema: map[string]*schema.Schema{
-			"compartment_id": {
+			"compartment_id":{
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"availability_domains": {
+			"policies": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						"compartment_id": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-
-						"name": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-					},
-				},
+				Elem:     PolicyResource(),
 			},
 		},
 	}
 }
 
-func readAvailabilityDomains(d *schema.ResourceData, m interface{}) (e error) {
+func readPolicies(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &AvailabilityDomainDatasourceCrud{}
+	sync := &PolicyDatasourceCrud{}
 	sync.D = d
 	sync.Client = client
 	return crud.ReadResource(sync)

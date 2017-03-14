@@ -85,7 +85,7 @@ func (c *Client) GetVirtualNetwork(id string) (vcn *VirtualNetwork, e error) {
 // UpdateVirtualNetwork updates information about a virtual network
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/iaas/20160918/Vcn/UpdateVcn
-func (c *Client) UpdateVirtualNetwork(id string, opts *UpdateBackupOptions) (vcn *VirtualNetwork, e error) {
+func (c *Client) UpdateVirtualNetwork(id string, opts *IfMatchDisplayNameOptions) (vcn *VirtualNetwork, e error) {
 	details := &requestDetails{
 		ids:      urlParts{id},
 		name:     resourceVirtualNetworks,

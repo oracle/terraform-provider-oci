@@ -33,5 +33,9 @@ terraform-provider-baremetal
 terraform-Oracle-BareMetal-Provider
 *.orig
 .idea
+terraform-Oracle-BareMetal-Provider.iml
 .env
-
+crash.log
+terraform-encrypted-des.sh
+terraform-encrypted.sh
+terraform-plain.sh

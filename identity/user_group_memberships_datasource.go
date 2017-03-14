@@ -8,38 +8,34 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
-func AvailabilityDomainDatasource() *schema.Resource {
+func UserGroupMembershipDatasource() *schema.Resource {
 	return &schema.Resource{
-		Read: readAvailabilityDomains,
+		Read: readUserGroupMemberships,
 		Schema: map[string]*schema.Schema{
-			"compartment_id": {
+			"compartment_id":{
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"availability_domains": {
+			"user_id":{
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"group_id":{
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"memberships": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						"compartment_id": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-
-						"name": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-					},
-				},
+				Elem:     UserGroupMembershipResource(),
 			},
 		},
 	}
 }
 
-func readAvailabilityDomains(d *schema.ResourceData, m interface{}) (e error) {
+func readUserGroupMemberships(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &AvailabilityDomainDatasourceCrud{}
+	sync := &UserGroupMembershipDatasourceCrud{}
 	sync.D = d
 	sync.Client = client
 	return crud.ReadResource(sync)

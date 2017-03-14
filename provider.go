@@ -67,7 +67,7 @@ func schemaMap() map[string]*schema.Schema {
 		},
 		"private_key_path": {
 			Type:        schema.TypeString,
-			Required:    true,
+			Optional:    true,
 			Description: descriptions["private_key_path"],
 		},
 		"private_key_password": {
@@ -90,9 +90,9 @@ func dataSourcesMap() map[string]*schema.Resource {
 		"baremetal_core_images":                    core.ImageDatasource(),
 		"baremetal_core_instances":                 core.InstanceDatasource(),
 		"baremetal_core_internet_gateways":         core.InternetGatewayDatasource(),
-		"baremetal_core_ipsec_config":              core.IPSecConfigDatasource(),
+		"baremetal_core_ipsec_config":              core.IPSecConnectionConfigDatasource(),
 		"baremetal_core_ipsec_connections":         core.IPSecConnectionsDatasource(),
-		"baremetal_core_ipsec_status":              core.IPSecStatusDatasource(),
+		"baremetal_core_ipsec_status":              core.IPSecConnectionStatusDatasource(),
 		"baremetal_core_route_tables":              core.RouteTableDatasource(),
 		"baremetal_core_security_lists":            core.SecurityListDatasource(),
 		"baremetal_core_shape":                     core.ShapeDatasource(),
@@ -117,7 +117,10 @@ func dataSourcesMap() map[string]*schema.Resource {
 		"baremetal_identity_availability_domains":  identity.AvailabilityDomainDatasource(),
 		"baremetal_identity_compartments":  	    identity.CompartmentDatasource(),
 		"baremetal_identity_groups":  		    identity.GroupDatasource(),
+		"baremetal_identity_policies":		    identity.PolicyDatasource(),
 		"baremetal_identity_users":  		    identity.UserDatasource(),
+		"baremetal_identity_user_group_memberships": identity.UserGroupMembershipDatasource(),
+		"baremetal_identity_swift_passwords":       identity.SwiftPasswordDatasource(),
 		"baremetal_objectstorage_bucket_summaries": objectstorage.BucketSummaryDatasource(),
 		"baremetal_objectstorage_object_head":      objectstorage.ObjectHeadDatasource(),
 		"baremetal_objectstorage_objects":          objectstorage.ObjectDatasource(),
@@ -135,7 +138,7 @@ func resourcesMap() map[string]*schema.Resource {
 		"baremetal_core_image":             core.ImageResource(),
 		"baremetal_core_instance":          core.InstanceResource(),
 		"baremetal_core_internet_gateway":  core.InternetGatewayResource(),
-		"baremetal_core_ipsec":             core.IPSecResource(),
+		"baremetal_core_ipsec":             core.IPSecConnectionResource(),
 		"baremetal_core_route_table":       core.RouteTableResource(),
 		"baremetal_core_security_list":     core.SecurityListResource(),
 		"baremetal_core_subnet":            core.SubnetResource(),
@@ -150,6 +153,8 @@ func resourcesMap() map[string]*schema.Resource {
 		"baremetal_identity_policy":        identity.PolicyResource(),
 		"baremetal_identity_ui_password":   identity.UIPasswordResource(),
 		"baremetal_identity_user":          identity.UserResource(),
+		"baremetal_identity_user_group_membership": identity.UserGroupMembershipResource(),
+		"baremetal_identity_swift_password": identity.SwiftPasswordResource(),
 		"baremetal_objectstorage_bucket":   objectstorage.BucketResource(),
 		"baremetal_objectstorage_object":   objectstorage.ObjectResource(),
 	}
@@ -174,7 +179,7 @@ func providerConfig(d *schema.ResourceData) (client interface{}, err error) {
 	} else if hasKeyPath && privateKeyPath != "" {
 		clientOpts = append(clientOpts, baremetal.PrivateKeyFilePath(privateKeyPath))
 	} else {
-		err = errors.New("private_key_path is required")
+		err = errors.New("One of private_key or private_key_path is required")
 		return
 	}
 

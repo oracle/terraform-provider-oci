@@ -15,8 +15,8 @@ resource "baremetal_identity_compartment" "t" {
 
 The following arguments are supported:
 
-* `name` - (Required) The name you assign to the group during creation. The name must be unique across all groups in the tenancy and cannot be changed.
-* `description` - (Required) The description you assign to the group during creation. Does not have to be unique, and it's changeable.
+* `name` - (Required) The name you assign to the compartment during creation. The name must be unique across all compartments in the tenancy and cannot be changed.
+* `description` - (Required) The description you assign to the compartment during creation. Does not have to be unique, and it's changeable.
 
 ## Attributes Reference
 * `id` - The OCID of the compartment.
