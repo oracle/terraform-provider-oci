@@ -8,9 +8,9 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
-func IPSecStatusDatasource() *schema.Resource {
+func IPSecConnectionConfigDatasource() *schema.Resource {
 	return &schema.Resource{
-		Read: readIPSecDeviceStatus,
+		Read: readIPSecDeviceConfig,
 		Schema: map[string]*schema.Schema{
 			"ipsec_id": {
 				Type:     schema.TypeString,
@@ -37,15 +37,11 @@ func IPSecStatusDatasource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"state": {
+						"shared_secret": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 						"time_created": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"time_state_modifed": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -56,9 +52,9 @@ func IPSecStatusDatasource() *schema.Resource {
 	}
 }
 
-func readIPSecDeviceStatus(d *schema.ResourceData, m interface{}) (e error) {
+func readIPSecDeviceConfig(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	reader := &IPSecStatusDatasourceCrud{}
+	reader := &IPSecConnectionConfigDatasourceCrud{}
 	reader.D = d
 	reader.Client = client
 

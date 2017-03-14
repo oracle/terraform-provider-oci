@@ -12,6 +12,7 @@ func SubnetResource() *schema.Resource {
 	return &schema.Resource{
 		Create: createSubnet,
 		Read:   readSubnet,
+		Update: updateSubnet,
 		Delete: deleteSubnet,
 		Schema: map[string]*schema.Schema{
 			"availability_domain": {
@@ -88,6 +89,14 @@ func readSubnet(d *schema.ResourceData, m interface{}) (e error) {
 	sync.D = d
 	sync.Client = m.(client.BareMetalClient)
 	return crud.ReadResource(sync)
+}
+
+func updateSubnet(d *schema.ResourceData, m interface{}) (e error) {
+	client := m.(client.BareMetalClient)
+	sync := &SubnetResourceCrud{}
+	sync.D = d
+	sync.Client = client
+	return crud.UpdateResource(sync.D, sync)
 }
 
 func deleteSubnet(d *schema.ResourceData, m interface{}) (e error) {

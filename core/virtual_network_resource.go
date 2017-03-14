@@ -12,6 +12,7 @@ func VirtualNetworkResource() *schema.Resource {
 	return &schema.Resource{
 		Create: createVirtualNetwork,
 		Read:   readVirtualNetwork,
+		Update: updateVirtualNetwork,
 		Delete: deleteVirtualNetwork,
 		Schema: map[string]*schema.Schema{
 			"cidr_block": {
@@ -67,6 +68,14 @@ func readVirtualNetwork(d *schema.ResourceData, m interface{}) (e error) {
 	sync.D = d
 	sync.Client = client
 	return crud.ReadResource(sync)
+}
+
+func updateVirtualNetwork(d *schema.ResourceData, m interface{}) (e error) {
+	client := m.(client.BareMetalClient)
+	sync := &VirtualNetworkResourceCrud{}
+	sync.D = d
+	sync.Client = client
+	return crud.UpdateResource(sync.D, sync)
 }
 
 func deleteVirtualNetwork(d *schema.ResourceData, m interface{}) (e error) {

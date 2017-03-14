@@ -50,6 +50,18 @@ func (s *DrgResourceCrud) Get() (e error) {
 	return
 }
 
+func (s *DrgResourceCrud) Update() (e error) {
+	opts := &baremetal.IfMatchDisplayNameOptions{}
+	compartmentID := s.D.Get("compartment_id").(string)
+	displayName, ok := s.D.GetOk("display_name")
+	if ok {
+		opts.DisplayName = displayName.(string)
+	}
+
+	s.Res, e = s.Client.UpdateDrg(compartmentID, opts)
+	return
+}
+
 func (s *DrgResourceCrud) SetData() {
 	s.D.Set("compartment_id", s.Res.CompartmentID)
 	s.D.Set("display_name", s.Res.DisplayName)

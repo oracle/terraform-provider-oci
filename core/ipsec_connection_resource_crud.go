@@ -8,12 +8,12 @@ import (
 	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/crud"
 )
 
-type IPSecResourceCrud struct {
+type IPSecConnectionResourceCrud struct {
 	crud.BaseCrud
 	Resource *baremetal.IPSecConnection
 }
 
-func (s *IPSecResourceCrud) ID() string {
+func (s *IPSecConnectionResourceCrud) ID() string {
 	return s.Resource.ID
 }
 
@@ -29,7 +29,7 @@ func (s *IPSecResourceCrud) ID() string {
 // 	return []string{baremetal.ResourceDown}
 // }
 
-func (s *IPSecResourceCrud) Create() (e error) {
+func (s *IPSecConnectionResourceCrud) Create() (e error) {
 	compartmentID := s.D.Get("compartment_id").(string)
 	cpeID := s.D.Get("cpe_id").(string)
 	drgID := s.D.Get("drg_id").(string)
@@ -55,12 +55,24 @@ func (s *IPSecResourceCrud) Create() (e error) {
 	return
 }
 
-func (s *IPSecResourceCrud) Get() (e error) {
+func (s *IPSecConnectionResourceCrud) Get() (e error) {
 	s.Resource, e = s.Client.GetIPSecConnection(s.D.Id())
 	return
 }
 
-func (s *IPSecResourceCrud) SetData() {
+func (s *IPSecConnectionResourceCrud) Update() (e error) {
+	opts := &baremetal.IfMatchDisplayNameOptions{}
+	compartmentID := s.D.Get("compartment_id").(string)
+	displayName, ok := s.D.GetOk("display_name")
+	if ok {
+		opts.DisplayName = displayName.(string)
+	}
+
+	s.Resource, e = s.Client.UpdateIPSecConnection(compartmentID, opts)
+	return
+}
+
+func (s *IPSecConnectionResourceCrud) SetData() {
 	s.D.Set("compartment_id", s.Resource.CompartmentID)
 	s.D.Set("cpe_id", s.Resource.CpeID)
 	s.D.Set("drg_id", s.Resource.DrgID)
@@ -71,6 +83,6 @@ func (s *IPSecResourceCrud) SetData() {
 
 }
 
-func (s *IPSecResourceCrud) Delete() (e error) {
+func (s *IPSecConnectionResourceCrud) Delete() (e error) {
 	return s.Client.DeleteIPSecConnection(s.D.Id(), nil)
 }

@@ -8,10 +8,11 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
-func IPSecResource() *schema.Resource {
+func IPSecConnectionResource() *schema.Resource {
 	return &schema.Resource{
 		Create: createIPSec,
 		Read:   readIPSec,
+		Update: updateIPSec,
 		Delete: deleteIPSec,
 		Schema: map[string]*schema.Schema{
 			"compartment_id": {
@@ -40,7 +41,6 @@ func IPSecResource() *schema.Resource {
 			"display_name": {
 				Type:     schema.TypeString,
 				Optional: true,
-				ForceNew: true,
 			},
 			"state": {
 				Type:     schema.TypeString,
@@ -55,21 +55,29 @@ func IPSecResource() *schema.Resource {
 }
 
 func createIPSec(d *schema.ResourceData, m interface{}) (e error) {
-	sync := &IPSecResourceCrud{}
+	sync := &IPSecConnectionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(client.BareMetalClient)
 	return crud.CreateResource(d, sync)
 }
 
 func readIPSec(d *schema.ResourceData, m interface{}) (e error) {
-	sync := &IPSecResourceCrud{}
+	sync := &IPSecConnectionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(client.BareMetalClient)
 	return crud.ReadResource(sync)
 }
 
+func updateIPSec(d *schema.ResourceData, m interface{}) (e error) {
+	client := m.(client.BareMetalClient)
+	sync := &IPSecConnectionResourceCrud{}
+	sync.D = d
+	sync.Client = client
+	return crud.UpdateResource(sync.D, sync)
+}
+
 func deleteIPSec(d *schema.ResourceData, m interface{}) (e error) {
-	sync := &IPSecResourceCrud{}
+	sync := &IPSecConnectionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(client.BareMetalClient)
 	return crud.DeleteResource(sync)

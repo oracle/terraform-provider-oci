@@ -43,6 +43,11 @@ func VolumeResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"volume_backup_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				ForceNew: true,
+			},
 			"time_created": {
 				Type:     schema.TypeString,
 				Computed: true,

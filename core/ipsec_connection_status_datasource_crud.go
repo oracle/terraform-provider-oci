@@ -8,18 +8,18 @@ import (
 	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/crud"
 )
 
-type IPSecConfigDatasourceCrud struct {
+type IPSecConnectionStatusDatasourceCrud struct {
 	crud.BaseCrud
-	Resource *baremetal.IPSecConnectionDeviceConfig
+	Resource *baremetal.IPSecConnectionDeviceStatus
 }
 
-func (s *IPSecConfigDatasourceCrud) Get() (e error) {
+func (s *IPSecConnectionStatusDatasourceCrud) Get() (e error) {
 	ipsecID := s.D.Get("ipsec_id").(string)
-	s.Resource, e = s.Client.GetIPSecConnectionDeviceConfig(ipsecID)
+	s.Resource, e = s.Client.GetIPSecConnectionDeviceStatus(ipsecID)
 	return
 }
 
-func (s *IPSecConfigDatasourceCrud) SetData() {
+func (s *IPSecConnectionStatusDatasourceCrud) SetData() {
 	if s.Resource != nil {
 		s.D.SetId(s.Resource.ID)
 		s.D.Set("compartment_id", s.Resource.CompartmentID)
@@ -30,9 +30,10 @@ func (s *IPSecConfigDatasourceCrud) SetData() {
 
 		for _, val := range s.Resource.Tunnels {
 			tunnel := map[string]interface{}{
-				"ip_address":    val.IPAddress,
-				"shared_secret": val.SharedSecret,
-				"time_created":  val.TimeCreated.String(),
+				"ip_address":         val.IPAddress,
+				"state":              val.State,
+				"time_created":       val.TimeCreated.String(),
+				"time_state_modifed": val.TimeStateModified.String(),
 			}
 
 			tunnels = append(tunnels, tunnel)

@@ -68,6 +68,26 @@ func (c *Client) GetDrg(id string) (res *Drg, e error) {
 	return
 }
 
+// Updates the specified DRG's display name.
+//
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/iaas/20160918/Drg/UpdateDrg
+func (c *Client) UpdateDrg(id string, opts *IfMatchDisplayNameOptions) (drg *Drg, e error) {
+	details := &requestDetails{
+		name:     resourceDrgs,
+		ids:      urlParts{id},
+		optional: opts,
+	}
+	var resp *response
+	if resp, e = c.coreApi.request(http.MethodPut, details); e != nil {
+		return
+	}
+
+	drg = &Drg{}
+	e = resp.unmarshal(drg)
+
+	return
+}
+
 // DeleteDrg removes a gateway
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Drg/DeleteDrg

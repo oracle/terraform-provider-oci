@@ -78,6 +78,18 @@ func (s *SubnetResourceCrud) Get() (e error) {
 	return
 }
 
+func (s *SubnetResourceCrud) Update() (e error) {
+	opts := &baremetal.IfMatchDisplayNameOptions{}
+	compartmentID := s.D.Get("compartment_id").(string)
+	displayName, ok := s.D.GetOk("display_name")
+	if ok {
+		opts.DisplayName = displayName.(string)
+	}
+
+	s.Resource, e = s.Client.UpdateSubnet(compartmentID, opts)
+	return
+}
+
 func (s *SubnetResourceCrud) SetData() {
 	s.D.Set("availability_domain", s.Resource.AvailabilityDomain)
 	s.D.Set("compartment_id", s.Resource.CompartmentID)

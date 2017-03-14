@@ -144,6 +144,26 @@ func (c *Client) GetIPSecConnection(id string) (conn *IPSecConnection, e error) 
 	return
 }
 
+// Updates the display name for the specified IPSec connection.
+//
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/iaas/20160918/IPSecConnection/UpdateIPSecConnection
+func (c *Client) UpdateIPSecConnection(id string, opts *IfMatchDisplayNameOptions) (conn *IPSecConnection, e error) {
+	details := &requestDetails{
+		name:     resourceIPSecConnections,
+		ids:      urlParts{id},
+		optional: opts,
+	}
+	var resp *response
+	if resp, e = c.coreApi.request(http.MethodPut, details); e != nil {
+		return
+	}
+
+	conn = &IPSecConnection{}
+	e = resp.unmarshal(conn)
+
+	return
+}
+
 // DeleteIPSecConnection deletes an IPSec connection.
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#deleteIPSecConnection

@@ -93,6 +93,26 @@ func (c *Client) GetSubnet(id string) (subnet *Subnet, e error) {
 	return
 }
 
+// Updates the display name for the specified Subnet.
+//
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/iaas/20160918/Subnet/UpdateSubnet
+func (c *Client) UpdateSubnet(id string, opts *IfMatchDisplayNameOptions) (subnet *Subnet, e error) {
+	details := &requestDetails{
+		name:     resourceSubnets,
+		ids:      urlParts{id},
+		optional: opts,
+	}
+	var resp *response
+	if resp, e = c.coreApi.request(http.MethodPut, details); e != nil {
+		return
+	}
+
+	subnet = &Subnet{}
+	e = resp.unmarshal(subnet)
+
+	return
+}
+
 // DeleteSubnet will delete a subnet with subnetID.
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Subnet/DeleteSubnet
