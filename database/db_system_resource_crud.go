@@ -7,7 +7,7 @@ import (
 
 	"time"
 
-	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/crud"
+	"github.com/oracle/terraform-provider-baremetal/crud"
 )
 
 type DBSystemResourceCrud struct {

@@ -4191,5 +4191,5 @@
 			"revisionTime": "2017-02-08T14:18:51Z"
 		}
 	],
-	"rootPath": "github.com/MustWin/terraform-Oracle-BareMetal-Provider"
+	"rootPath": "github.com/oracle/terraform-provider-baremetal"
 }

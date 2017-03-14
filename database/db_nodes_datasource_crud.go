@@ -6,8 +6,8 @@ import (
 	"time"
 
 	"github.com/MustWin/baremetal-sdk-go"
-	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/crud"
-	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/options"
+	"github.com/oracle/terraform-provider-baremetal/crud"
+	"github.com/oracle/terraform-provider-baremetal/options"
 )
 
 type DBNodesDatasourceCrud struct {

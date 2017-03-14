@@ -7,9 +7,9 @@ import (
 
 	"github.com/MustWin/baremetal-sdk-go"
 
-	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/options"
+	"github.com/oracle/terraform-provider-baremetal/options"
 
-	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/crud"
+	"github.com/oracle/terraform-provider-baremetal/crud"
 )
 
 type VnicAttachmentDatasourceCrud struct {

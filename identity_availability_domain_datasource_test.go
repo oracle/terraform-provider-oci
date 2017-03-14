@@ -11,7 +11,7 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/client/mocks"
+	"github.com/oracle/terraform-provider-baremetal/client/mocks"
 )
 
 type ResourceIdentityAvailabilityDomainsTestSuite struct {
