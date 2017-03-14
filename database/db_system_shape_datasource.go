@@ -3,8 +3,8 @@
 package database
 
 import (
-	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/client"
-	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/crud"
+	"github.com/oracle/terraform-provider-baremetal/client"
+	"github.com/oracle/terraform-provider-baremetal/crud"
 	"github.com/hashicorp/terraform/helper/schema"
 )
 

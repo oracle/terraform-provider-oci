@@ -9,7 +9,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/client"
+	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 )

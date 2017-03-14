@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/MustWin/baremetal-sdk-go"
-	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/client"
+	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/stretchr/testify/suite"
 )
 

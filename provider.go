@@ -7,10 +7,10 @@ import (
 	"fmt"
 
 	"github.com/MustWin/baremetal-sdk-go"
-	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/core"
-	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/database"
-	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/identity"
-	"github.com/MustWin/terraform-Oracle-BareMetal-Provider/objectstorage"
+	"github.com/oracle/terraform-provider-baremetal/core"
+	"github.com/oracle/terraform-provider-baremetal/database"
+	"github.com/oracle/terraform-provider-baremetal/identity"
+	"github.com/oracle/terraform-provider-baremetal/objectstorage"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 )
