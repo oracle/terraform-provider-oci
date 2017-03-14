@@ -208,15 +208,3 @@ func PrivateKeyFromFile(pemFilePath string, password *string) (key *rsa.PrivateK
 	return
 
 }
-func PrivateKeyFromUnencryptedBytes(pemBytes []byte) (*rsa.PrivateKey, error) {
-	pemBlock, _ := pem.Decode(pemBytes)
-	return x509.ParsePKCS1PrivateKey(pemBlock.Bytes)
-}
-
-func PrivateKeyFromUnencryptedFile(path string) (*rsa.PrivateKey, error) {
-	buff, err := ioutil.ReadFile(path)
-	if err != nil {
-		return nil, err
-	}
-	return PrivateKeyFromUnencryptedBytes(buff)
-}

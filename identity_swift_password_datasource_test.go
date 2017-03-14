@@ -6,15 +6,16 @@ import (
 	"fmt"
 	"testing"
 	"time"
+	"strconv"
 
-	"github.com/MustWin/baremetal-sdk-go"
-	"github.com/oracle/terraform-provider-baremetal/client/mocks"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
-
 	"github.com/stretchr/testify/suite"
-	"strconv"
+
+	"github.com/MustWin/baremetal-sdk-go"
+	"github.com/oracle/terraform-provider-baremetal/client/mocks"
+
 )
 
 var testPasswordsConfig = `

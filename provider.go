@@ -24,7 +24,7 @@ func init() {
 		"fingerprint":  "(Required) The fingerprint for the user's RSA key. This can be found in user settings in the Bare Metal console.",
 		"private_key": "(Optional) A PEM formatted RSA private key for the user.\n" +
 			"A private_key or a private_key_path must be provided.",
-		"private_key_path": "(Required) The path to the user's PEM formatted private key.\n" +
+		"private_key_path": "(Optional) The path to the user's PEM formatted private key.\n" +
 			"A private_key or a private_key_path must be provided.",
 		"private_key_password": "(Optional) The password used to secure the private key.",
 	}
