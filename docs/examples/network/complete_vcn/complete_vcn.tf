@@ -1,3 +1,33 @@
+/*
+ * Create a default Virtual Cloud Network (VCN) with CIDR 10.0.0.0/16 spanning 
+ * across 3 availability domains (PHX-AD1/AD2/AD3)
+ * 
+ * Bastion Subnet (with security list allowing SSH traffic from Internet)
+ * Create 3 subnets (one in each availability domain) to host compute instances 
+ * that have SSH access from the Internet. These compute instances provide the
+ * Bastion Host functionality.See https://en.wikipedia.org/wiki/Bastion_host
+ * These bastion hosts provide the front-end for your compute instances 
+ *
+ * Private Subnet (with security list allowing traffic only within the VCN)
+ * Create 3 subnets (one in each availability domain) to host compute instances 
+ * that has SSH access only from the Bastion Hosts. The compute instances in
+ * these subnets can host your web, application and database services.
+ *
+ * LB Subnet (with security list allowing internet traffic for Port 80)
+ * Create 2 subnets (one in each availability domain) so that you can use it to 
+ * run your load balancer and distribute internet traffic to your applications.
+ *
+ * Note: Currently, when you create a VCN, VCN creates DefaultSecurityList and 
+ * DefaultRouteTable resources. These resources are not used in this configuration.
+ *
+ * Next Steps: 
+ *   - Create Compute instances within the Bastion Subnet and harden these compute
+ *     instances
+ *   - Create Compute instances within the Private Subnet and configure your web,
+ *     application and databases
+ *   - Create Load Balancer within the LB Subnet and front-end Internet traffic
+ *   - (port 80) to your compute instances within the Private Subnet
+ */
 variable "tenancy_ocid" {}
 variable "user_ocid" {}
 variable "fingerprint" {}
@@ -41,7 +71,7 @@ resource "baremetal_core_route_table" "RouteForComplete" {
     }
 }
 
-resource "baremetal_core_security_list" "WebSubnet" {
+resource "baremetal_core_security_list" "LBSubnet" {
     compartment_id = "${var.compartment_ocid}"
     display_name = "Public"
     vcn_id = "${baremetal_core_virtual_network.CompleteVCN.id}"
@@ -99,34 +129,24 @@ resource "baremetal_core_security_list" "BastionSubnet" {
     }]	
 }
 
-resource "baremetal_core_subnet" "WebSubnetAD1" {
+resource "baremetal_core_subnet" "LBSubnetAD1" {
   availability_domain = "${var.ADs[0]}"
   cidr_block = "10.0.1.0/24"
-  display_name = "WebSubnetAD1"
+  display_name = "LBSubnetAD1"
   compartment_id = "${var.compartment_ocid}"
   vcn_id = "${baremetal_core_virtual_network.CompleteVCN.id}"
   route_table_id = "${baremetal_core_route_table.RouteForComplete.id}"
-  security_list_ids = ["${baremetal_core_security_list.WebSubnet.id}"]
+  security_list_ids = ["${baremetal_core_security_list.LBSubnet.id}"]
 }
 
-resource "baremetal_core_subnet" "WebSubnetAD2" {
+resource "baremetal_core_subnet" "LBSubnetAD2" {
   availability_domain = "${var.ADs[1]}"
   cidr_block = "10.0.2.0/24"
-  display_name = "WebSubnetAD2"
+  display_name = "LBSubnetAD2"
   compartment_id = "${var.compartment_ocid}"
   vcn_id = "${baremetal_core_virtual_network.CompleteVCN.id}"
   route_table_id = "${baremetal_core_route_table.RouteForComplete.id}"
-  security_list_ids = ["${baremetal_core_security_list.WebSubnet.id}"]
-}
-
-resource "baremetal_core_subnet" "WebSubnetAD3" {
-  availability_domain = "${var.ADs[2]}"
-  cidr_block = "10.0.3.0/24"
-  display_name = "WebSubnetAD3"
-  compartment_id = "${var.compartment_ocid}"
-  vcn_id = "${baremetal_core_virtual_network.CompleteVCN.id}"
-  route_table_id = "${baremetal_core_route_table.RouteForComplete.id}"
-  security_list_ids = ["${baremetal_core_security_list.WebSubnet.id}"]
+  security_list_ids = ["${baremetal_core_security_list.LBSubnet.id}"]
 }
 
 resource "baremetal_core_subnet" "PrivateSubnetAD1" {
