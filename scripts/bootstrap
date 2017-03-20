@@ -1,0 +1,4 @@
+#!/bin/sh
+go get -u github.com/kardianos/govendor
+go get -u github.com/vektra/mockery/...
+go get -u golang.org/x/tools/cmd/goimports
