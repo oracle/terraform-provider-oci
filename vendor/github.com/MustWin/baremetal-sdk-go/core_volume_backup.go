@@ -81,7 +81,7 @@ func (c *Client) GetVolumeBackup(id string) (vol *VolumeBackup, e error) {
 // UpdateVolumeBackup updates a volume's display name
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/VolumeBackup/UpdateVolumeBackup
-func (c *Client) UpdateVolumeBackup(id string, opts *UpdateBackupOptions) (vol *VolumeBackup, e error) {
+func (c *Client) UpdateVolumeBackup(id string, opts *IfMatchDisplayNameOptions) (vol *VolumeBackup, e error) {
 	details := &requestDetails{
 		ids:      urlParts{id},
 		name:     resourceVolumeBackups,
