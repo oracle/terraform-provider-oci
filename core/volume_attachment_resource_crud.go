@@ -61,6 +61,11 @@ func (s *VolumeAttachmentResourceCrud) SetData() {
 	s.D.Set("state", s.Res.State)
 	s.D.Set("time_created", s.Res.TimeCreated.String())
 	s.D.Set("volume_id", s.Res.VolumeID)
+	s.D.Set("chap_secret", s.Res.CHAPSecret)
+	s.D.Set("chap_username", s.Res.CHAPUsername)
+	s.D.Set("ipv4", s.Res.IPv4)
+	s.D.Set("iqn", s.Res.IQN)
+	s.D.Set("port", s.Res.Port)
 }
 
 func (s *VolumeAttachmentResourceCrud) Delete() (e error) {
