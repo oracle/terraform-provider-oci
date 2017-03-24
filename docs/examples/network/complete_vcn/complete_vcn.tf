@@ -8,16 +8,17 @@ provider "baremetal" {
   tenancy_ocid = "${var.tenancy_ocid}"
   user_ocid = "${var.user_ocid}"
   fingerprint = "${var.fingerprint}"
-  private_key = "${var.private_key_path}"
+  private_key_path = "${var.private_key_path}"
 }
 
 variable "VPC-CIDR" {
   default = "10.0.0.0/16"
 }
 
-variable "ADs" {
-  default = ["Uocm:PHX-AD-1", "Uocm:PHX-AD-2", "Uocm:PHX-AD-3"]
+data "baremetal_identity_availability_domains" "ADs" {
+  compartment_id = "${var.tenancy_ocid}"
 }
+
 
 resource "baremetal_core_virtual_network" "CompleteVCN" {
   cidr_block = "${var.VPC-CIDR}"
@@ -100,7 +101,7 @@ resource "baremetal_core_security_list" "BastionSubnet" {
 }
 
 resource "baremetal_core_subnet" "WebSubnetAD1" {
-  availability_domain = "${var.ADs[0]}"
+  availability_domain = "${lookup(data.baremetal_identity_availability_domains.ADs.availability_domains[0],"name")}"
   cidr_block = "10.0.1.0/24"
   display_name = "WebSubnetAD1"
   compartment_id = "${var.compartment_ocid}"
@@ -110,7 +111,7 @@ resource "baremetal_core_subnet" "WebSubnetAD1" {
 }
 
 resource "baremetal_core_subnet" "WebSubnetAD2" {
-  availability_domain = "${var.ADs[1]}"
+  availability_domain = "${lookup(data.baremetal_identity_availability_domains.ADs.availability_domains[1],"name")}"
   cidr_block = "10.0.2.0/24"
   display_name = "WebSubnetAD2"
   compartment_id = "${var.compartment_ocid}"
@@ -120,7 +121,7 @@ resource "baremetal_core_subnet" "WebSubnetAD2" {
 }
 
 resource "baremetal_core_subnet" "WebSubnetAD3" {
-  availability_domain = "${var.ADs[2]}"
+  availability_domain = "${lookup(data.baremetal_identity_availability_domains.ADs.availability_domains[2],"name")}"
   cidr_block = "10.0.3.0/24"
   display_name = "WebSubnetAD3"
   compartment_id = "${var.compartment_ocid}"
@@ -130,7 +131,7 @@ resource "baremetal_core_subnet" "WebSubnetAD3" {
 }
 
 resource "baremetal_core_subnet" "PrivateSubnetAD1" {
-  availability_domain = "${var.ADs[0]}"
+  availability_domain = "${lookup(data.baremetal_identity_availability_domains.ADs.availability_domains[0],"name")}"
   cidr_block = "10.0.4.0/24"
   display_name = "PrivateSubnetAD1"
   compartment_id = "${var.compartment_ocid}"
@@ -140,7 +141,7 @@ resource "baremetal_core_subnet" "PrivateSubnetAD1" {
 }
 
 resource "baremetal_core_subnet" "PrivateSubnetAD2" {
-  availability_domain = "${var.ADs[1]}"
+  availability_domain = "${lookup(data.baremetal_identity_availability_domains.ADs.availability_domains[1],"name")}"
   cidr_block = "10.0.5.0/24"
   display_name = "PrivateSubnetAD2"
   compartment_id = "${var.compartment_ocid}"
@@ -150,7 +151,7 @@ resource "baremetal_core_subnet" "PrivateSubnetAD2" {
 }
 
 resource "baremetal_core_subnet" "PrivateSubnetAD3" {
-  availability_domain = "${var.ADs[2]}"
+  availability_domain = "${lookup(data.baremetal_identity_availability_domains.ADs.availability_domains[2],"name")}"
   cidr_block = "10.0.6.0/24"
   display_name = "PrivateSubnetAD3"
   compartment_id = "${var.compartment_ocid}"
@@ -160,7 +161,7 @@ resource "baremetal_core_subnet" "PrivateSubnetAD3" {
 }
 
 resource "baremetal_core_subnet" "BastionSubnetAD1" {
-  availability_domain = "${var.ADs[0]}"
+  availability_domain = "${lookup(data.baremetal_identity_availability_domains.ADs.availability_domains[0],"name")}"
   cidr_block = "10.0.7.0/24"
   display_name = "BastionSubnetAD1"
   compartment_id = "${var.compartment_ocid}"
@@ -170,7 +171,7 @@ resource "baremetal_core_subnet" "BastionSubnetAD1" {
 }
 
 resource "baremetal_core_subnet" "BastionSubnetAD2" {
-  availability_domain = "${var.ADs[1]}"
+  availability_domain = "${lookup(data.baremetal_identity_availability_domains.ADs.availability_domains[1],"name")}"
   cidr_block = "10.0.8.0/24"
   display_name = "BastionSubnetAD2"
   compartment_id = "${var.compartment_ocid}"
@@ -180,7 +181,7 @@ resource "baremetal_core_subnet" "BastionSubnetAD2" {
 }
 
 resource "baremetal_core_subnet" "BastionSubnetAD3" {
-  availability_domain = "${var.ADs[2]}"
+  availability_domain = "${lookup(data.baremetal_identity_availability_domains.ADs.availability_domains[2],"name")}"
   cidr_block = "10.0.9.0/24"
   display_name = "BastionSubnetAD3"
   compartment_id = "${var.compartment_ocid}"
