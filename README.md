@@ -10,7 +10,7 @@ Oracle customers now have access to an enterprise class, developer friendly orch
 This Terraform provider is OSS, available to all OBMCS customers at no charge.
 
 ## Compatibility
-The provider is compatible with Terraform .8.\*, .8.8 is recommended. .9.\* compatibility is in the works.
+The provider is compatible with Terraform .8.\*, **.8.8 is recommended.** .9.\* compatibility is in the works.
 
 ### Coverage
 The Terraform provider provides coverage for the entire BMC API excluding the Load Balancer Service, expected first half of April 2017.  
