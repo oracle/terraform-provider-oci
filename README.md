@@ -9,8 +9,11 @@ Oracle customers now have access to an enterprise class, developer friendly orch
 
 This Terraform provider is OSS, available to all OBMCS customers at no charge.
 
+## Compatibility
+The provider is compatible with Terraform .8.\*, .8.8 is recommended. .9.\* compatibility is in the works.
+
 ### Coverage
-The Terraform provider provides coverage for the entire BMC API excluding the Load Balancer Service, expected March 1 2017.  
+The Terraform provider provides coverage for the entire BMC API excluding the Load Balancer Service, expected first half of April 2017.  
 
 ## Getting started
 Be sure to read the FAQ and Writing Terraform configurations for OBMCS in [/docs](https://github.com/oracle/terraform-provider-baremetal/tree/master/docs).
@@ -42,26 +45,28 @@ Required Keys and OCIDs - https://docs.us-phoenix-1.oraclecloud.com/Content/API/
 If you primarily work in a single compartment consider exporting that compartment's OCID as well. Remember that the tenancy OCID is also the OCID of the root compartment.
 
 #### \*nix
-In your ~/.bash_profile set these variables  
-`export TF_VAR_tenancy_ocid=`  
-`export TF_VAR_user_ocid=`  
-`export TF_VAR_fingerprint=`  
-`export TF_VAR_private_key_path=<fully qualified path>`  
-`export TF_VAR_private_key_password=`  
+If your TF configurations are limited to a single compartment/user then using this `bash_profile` option will work well. For more complex environments you may want to maintain multiple sets of environment variables. [See the single-compute example for an example.](https://github.com/oracle/terraform-provider-baremetal/tree/master/docs/examples/compute/single-instance)  
 
+In your ~/.bash_profile set these variables  
+```
+export TF_VAR_tenancy_ocid=  
+export TF_VAR_user_ocid=  
+export TF_VAR_fingerprint=  
+export TF_VAR_private_key_path=<fully qualified path>`
+```
 Don't forget to `source ~/.bash_profile` once you've set these.
 
 #### Windows
-`setx TF_VAR_tenancy_ocid <value>`  
-`setx TF_VAR_user_ocid <value>`  
-`setx TF_VAR_fingerprint <value>`  
-`setx TF_VAR_private_key_path <value>`  
-`setx TF_VAR_private_key_password <value>`  
-
+```
+setx TF_VAR_tenancy_ocid <value>  
+setx TF_VAR_user_ocid <value>  
+setx TF_VAR_fingerprint <value>  
+setx TF_VAR_private_key_path <value>  
+```
 The variables won't be set for the current session, exit the terminal and reopen.
 
 ## Deploy an example configuration
-Download the [VCN example configuration.](https://github.com/oracle/terraform-provider-baremetal/tree/master/docs/examples/network/simple_vcn)  
+Download the [Single instance example.](https://github.com/oracle/terraform-provider-baremetal/tree/master/docs/examples/compute/single-instance)  
 
 Edit it to include the OCID of the compartment you want to create the VCN. Remember that the tenancy OCID is the compartment OCID of your root compartment.
 
@@ -82,7 +87,7 @@ or meet us in the OBMCS forums
 https://community.oracle.com/community/cloud_computing/bare-metal
 
 ## Known serious bugs
-None
+See [Issues.](https://github.com/oracle/terraform-provider-baremetal/issues)
 
-#### About the provider
+## About the provider
 This provider was written on behalf of Oracle by [MustWin.](http://mustwin.com/)
