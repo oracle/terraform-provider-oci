@@ -106,11 +106,6 @@ type IfMatchDisplayNameOptions struct {
 	DisplayNameOptions
 }
 
-type UpdateBackupOptions struct {
-	IfMatchOptions
-	DisplayNameOptions
-}
-
 type UpdateBucketOptions struct {
 	IfMatchOptions
 	Name      string            `header:"-" json:"name,omitempty" url:"-"`
@@ -151,7 +146,7 @@ type UpdateRouteTableOptions struct {
 }
 
 type UpdateSecurityListOptions struct {
-	UpdateBackupOptions
+	IfMatchDisplayNameOptions
 	EgressRules  []EgressSecurityRule  `header:"-" json:"egressSecurityRules,omitempty" url:"-"`
 	IngressRules []IngressSecurityRule `header:"-" json:"ingressSecurityRules,omitempty" url:"-"`
 }

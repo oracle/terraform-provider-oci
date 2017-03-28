@@ -8,10 +8,10 @@ import (
 	"time"
 
 	"github.com/MustWin/baremetal-sdk-go"
-	"github.com/oracle/terraform-provider-baremetal/client/mocks"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
+	"github.com/oracle/terraform-provider-baremetal/client/mocks"
 
 	"github.com/stretchr/testify/suite"
 )
@@ -144,7 +144,7 @@ func (s ResourceCoreVolumeBackupTestSuite) TestUpdateVolumeBackupDisplayName() {
 	deletedRes := &deletedResVal
 	deletedRes.State = baremetal.ResourceTerminated
 
-	opts := &baremetal.UpdateBackupOptions{}
+	opts := &baremetal.IfMatchDisplayNameOptions{}
 	opts.DisplayName = "new_display_name"
 	s.Client.On("UpdateVolumeBackup", "id", opts).Return(res, nil)
 	s.Client.On("GetVolumeBackup", "id").Return(res, nil).Times(2)
