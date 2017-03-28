@@ -14,7 +14,7 @@ type VirtualNetwork struct {
 	ETagUnmarshaller
 	CidrBlock             string `json:"cidrBlock"`
 	CompartmentID         string `json:"compartmentId"`
-	DefaultRoutingTableID string `json:"defaultRouteTableId"`
+	DefaultRouteTableID   string `json:"defaultRouteTableId"`
 	DefaultSecurityListID string `json:"defaultSecurityListId"`
 	DefaultDHCPOptionsID  string `json:"defaultDhcpOptionsId"`
 	DisplayName           string `json:"displayName"`

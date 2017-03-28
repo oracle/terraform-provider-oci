@@ -25,7 +25,7 @@ func VirtualNetworkResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
-			"default_routing_table_id": {
+			"default_route_table_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},

@@ -57,6 +57,7 @@ type Client struct {
 	coreApi          requestor
 	databaseApi      requestor
 	objectStorageApi requestor
+	loadBalancerApi  requestor
 	identityEndPoint string
 }
 
@@ -138,36 +139,8 @@ func NewClient(userOCID, tenancyOCID, keyFingerprint string, opts ...NewClientOp
 		coreApi:          newCoreAPIRequestor(auth, nco),
 		objectStorageApi: newObjectStorageAPIRequestor(auth, nco),
 		databaseApi:      newDatabaseAPIRequestor(auth, nco),
+		loadBalancerApi:  newLoadBalancerAPIRequestor(auth, nco),
 	}, nil
-}
-
-// New creates a new client to access Oracle BareMetal services.
-// userOCI, tenancyOCID and fingerprint arguments are accessed from the BareMetal identity
-// console. privateKey is an RSA key associated with the user accessing the API.
-func New(userOCID, tenancyOCID, keyFingerPrint string, privateKey *rsa.PrivateKey, opts ...func(o *NewClientOptions)) (c *Client) {
-	auth := &authenticationInfo{
-		privateRSAKey:  privateKey,
-		tenancyOCID:    tenancyOCID,
-		userOCID:       userOCID,
-		keyFingerPrint: keyFingerPrint,
-	}
-
-	nco := &NewClientOptions{
-		Transport: &http.Transport{},
-	}
-
-	for _, opt := range opts {
-		opt(nco)
-	}
-
-	return &Client{
-		userAgent:        nco.UserAgent,
-		authInfo:         auth,
-		identityApi:      newIdentityAPIRequestor(auth, nco),
-		coreApi:          newCoreAPIRequestor(auth, nco),
-		objectStorageApi: newObjectStorageAPIRequestor(auth, nco),
-		databaseApi:      newDatabaseAPIRequestor(auth, nco),
-	}
 }
 
 // PrivateKeyFromBytes is a helper function that will produce a RSA private

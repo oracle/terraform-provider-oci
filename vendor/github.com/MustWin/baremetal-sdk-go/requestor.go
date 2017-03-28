@@ -5,9 +5,9 @@ package baremetal
 import (
 	"bytes"
 	"encoding/json"
+	"log"
 	"net/http"
-	//"fmt"
-	//"net/http/httputil"
+	"net/http/httputil"
 )
 
 type requestor interface {
@@ -63,6 +63,17 @@ func newIdentityAPIRequestor(authInfo *authenticationInfo, nco *NewClientOptions
 		},
 		authInfo:   authInfo,
 		urlBuilder: buildIdentityURL,
+		userAgent:  nco.UserAgent,
+	}
+}
+
+func newLoadBalancerAPIRequestor(authInfo *authenticationInfo, nco *NewClientOptions) (r *apiRequestor) {
+	return &apiRequestor{
+		httpClient: &http.Client{
+			Transport: nco.Transport,
+		},
+		authInfo:   authInfo,
+		urlBuilder: buildLoadBalancerURL,
 		userAgent:  nco.UserAgent,
 	}
 }
@@ -169,15 +180,15 @@ func (api *apiRequestor) request(method string, reqOpts request) (r *response, e
 		return
 	}
 
-	// fmt.Println("url")
-	//rbody, _ := httputil.DumpRequest(req, true)
-	//fmt.Println(string(rbody))
+	reqdump, _ := httputil.DumpRequestOut(req, true)
+	log.Printf("[DEBUG] HTTP Request: %v\n", string(reqdump))
 	var resp *http.Response
-	if resp, e = api.httpClient.Do(req); e != nil {
+	resp, e = api.httpClient.Do(req)
+	respdump, _ := httputil.DumpResponse(resp, true)
+	log.Printf("[DEBUG] HTTP Response: %v\n", string(respdump))
+	if e != nil {
 		return
 	}
-	//rbody, _ = httputil.DumpResponse(resp, true)
-	//fmt.Println(string(rbody))
 
 	var reader bytes.Buffer
 	_, e = reader.ReadFrom(resp.Body)

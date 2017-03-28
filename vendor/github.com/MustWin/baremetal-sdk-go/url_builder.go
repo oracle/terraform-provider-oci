@@ -30,6 +30,11 @@ func buildObjectStorageURL(resource resourceName, query url.Values, ids ...inter
 	return buildURL(urlStr, query, ids...)
 }
 
+func buildLoadBalancerURL(resource resourceName, query url.Values, ids ...interface{}) string {
+	urlStr := fmt.Sprintf("%s/%s/%s", loadBalancerServiceAPI, loadBalancerServiceAPIVersion, resource)
+	return buildURL(urlStr, query, ids...)
+}
+
 func buildURL(urlStr string, query url.Values, ids ...interface{}) string {
 	const seperator = "/"
 	for _, id := range ids {
