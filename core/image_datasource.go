@@ -24,6 +24,10 @@ func ImageDatasource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"display_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"operating_system": {
 				Type:     schema.TypeString,
 				Optional: true,

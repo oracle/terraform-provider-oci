@@ -26,6 +26,9 @@ func (s *ImageDatasourceCrud) Get() (e error) {
 	if val, ok := s.D.GetOk("operating_system_version"); ok {
 		opts.OperatingSystemVersion = val.(string)
 	}
+	if val, ok := s.D.GetOk("display_name"); ok {
+		opts.DisplayName = val.(string)
+	}
 
 	s.Res = &baremetal.ListImages{Images: []baremetal.Image{}}
 
