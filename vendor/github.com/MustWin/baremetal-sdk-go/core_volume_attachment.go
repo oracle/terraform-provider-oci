@@ -10,7 +10,7 @@ import "net/http"
 type VolumeAttachment struct {
 	OPCRequestIDUnmarshaller
 	ETagUnmarshaller
-	AttachmentType     string `json:"type"`
+	AttachmentType     string `json:"attachmentType"`
 	AvailabilityDomain string `json:"availabilityDomain"`
 	CompartmentID      string `json:"compartmentId"`
 	DisplayName        string `json:"displayName"`
@@ -19,6 +19,13 @@ type VolumeAttachment struct {
 	State              string `json:"lifecycleState"`
 	TimeCreated        Time   `json:"timeCreated"`
 	VolumeID           string `json:"volumeId"`
+	// IScsiVolumeAttachment extended attributes
+	// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/IScsiVolumeAttachment/
+	CHAPSecret   string `json:"chapSecret,omitempty"`
+	CHAPUsername string `json:"chapUsername,omitempty"`
+	IPv4         string `json:"ipv4,omitempty"`
+	IQN          string `json:"iqn,omitempty"` // iSCSI Qualified Name per RFC 3720
+	Port         int    `json:"port,omitempty"`
 }
 
 // ListVolumeAttachments contains a list of volume attachments
@@ -65,7 +72,7 @@ func (c *Client) AttachVolume(attachmentType, instanceID, volumeID string, opts 
 
 // GetVolumeAttachment gets information about the specified volume attachment
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/VolumeAttachment/GetVolumeAttachment
+// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/iaas/20160918/VolumeAttachment/GetVolumeAttachment
 func (c *Client) GetVolumeAttachment(id string) (res *VolumeAttachment, e error) {
 	details := &requestDetails{
 		ids:  urlParts{id},

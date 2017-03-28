@@ -3,9 +3,11 @@
 package core
 
 import (
+	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform/helper/validation"
+
 	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/crud"
-	"github.com/hashicorp/terraform/helper/schema"
 )
 
 func VolumeAttachmentResource() *schema.Resource {
@@ -14,33 +16,42 @@ func VolumeAttachmentResource() *schema.Resource {
 		Read:   readVolumeAttachment,
 		Delete: deleteVolumeAttachment,
 		Schema: map[string]*schema.Schema{
+			//// Required ////
 			"attachment_type": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
-			},
-			"availability_domain": {
-				Type:     schema.TypeString,
-				Computed: true,
+				Type:         schema.TypeString,
+				Required:     true,
+				ForceNew:     true,
+				ValidateFunc: validation.StringInSlice([]string{"iscsi"}, false),
 			},
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
 			},
-			"display_name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"instance_id": {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
 			},
+			"volume_id": {
+				Type:     schema.TypeString,
+				Required: true,
+				ForceNew: true,
+			},
+			//// Computed ////
+			"id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"availability_domain": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"display_name": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			// aka lifecycleState
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -49,10 +60,27 @@ func VolumeAttachmentResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"volume_id": {
+			// The following are only computed if type == "iscsi"
+			"chap_secret": {
 				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
+				Computed: true,
+			},
+			"chap_username": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"ipv4": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"iqn": {
+				// iSCSI Qualified Name per RFC 3720
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"port": {
+				Type:     schema.TypeInt,
+				Computed: true,
 			},
 		},
 	}
