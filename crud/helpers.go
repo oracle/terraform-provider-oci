@@ -12,6 +12,8 @@ import (
 	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
+	"strconv"
+	"errors"
 )
 
 const FiveMinutes time.Duration = 5 * time.Minute
@@ -140,9 +142,16 @@ func stateRefreshFunc(sync StatefulResource) resource.StateRefreshFunc {
 }
 
 func waitForStateRefresh(sync StatefulResource, pending, target []string) (e error) {
-	timeout := FiveMinutes
+	timeoutStr := os.Getenv("TF_VAR_timeout_minutes")
+	t, err := strconv.Atoi(timeoutStr)
+	if err != nil {
+		return errors.New("timeout_minutes: " + err.Error())
+	}
+	timeout := time.Duration(t) * time.Minute
 	if customTimeouter, ok := sync.(CustomTimeouter); ok {
-		timeout = customTimeouter.CustomTimeout()
+		if customTimeouter.CustomTimeout() > timeout {
+			timeout = customTimeouter.CustomTimeout()
+		}
 	}
 	stateConf := &resource.StateChangeConf{
 		Pending: pending,
