@@ -6,7 +6,7 @@ import "net/http"
 
 // Instance contains information about a compute host.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Instance/
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/Instance/
 type Instance struct {
 	OPCRequestIDUnmarshaller
 	ETagUnmarshaller
@@ -37,7 +37,7 @@ func (l *ListInstances) GetList() interface{} {
 // set in the opts parameter.  See Oracle documentation for more information
 // on other arguments.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Instance/LaunchInstance
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/Instance/LaunchInstance
 func (c *Client) LaunchInstance(
 	availabilityDomain,
 	compartmentID,
@@ -78,7 +78,7 @@ func (c *Client) LaunchInstance(
 
 // GetInstance retrieves a compute instance with instanceID
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Instance/GetInstance
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/Instance/GetInstance
 func (c *Client) GetInstance(id string) (inst *Instance, e error) {
 	details := &requestDetails{
 		name: resourceInstances,
@@ -98,7 +98,7 @@ func (c *Client) GetInstance(id string) (inst *Instance, e error) {
 // UpdateInstance can be used to change the display name of a compute instance
 // by assigning the new name to Options.DisplayName
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Instance/UpdateInstance
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/Instance/UpdateInstance
 func (c *Client) UpdateInstance(id string, opts *UpdateOptions) (inst *Instance, e error) {
 	details := &requestDetails{
 		name:     resourceInstances,
@@ -119,7 +119,7 @@ func (c *Client) UpdateInstance(id string, opts *UpdateOptions) (inst *Instance,
 // TerminateInstance terminates the compute instance with an ID matching
 // instanceID.
 //
-// See Khttps://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#terminateInstance
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/Instance/TerminateInstance
 func (c *Client) TerminateInstance(id string, opts *IfMatchOptions) (e error) {
 	details := &requestDetails{
 		ids:      urlParts{id},
@@ -133,7 +133,7 @@ func (c *Client) TerminateInstance(id string, opts *IfMatchOptions) (e error) {
 // ListInstances returns a list of compute instances hosted in a compartment. AvailabilityDomain
 // may be included in Options to further refine results.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Instance/LaunchInstance
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/Instance/ListInstances
 func (c *Client) ListInstances(compartmentID string, opts *ListInstancesOptions) (insts *ListInstances, e error) {
 	details := &requestDetails{
 		name:     resourceInstances,
@@ -154,7 +154,7 @@ func (c *Client) ListInstances(compartmentID string, opts *ListInstancesOptions)
 // InstanceAction starts, stops, or resets a compute instance identified by
 // instanceID.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Instance/InstanceAction
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/Instance/InstanceAction
 func (c *Client) InstanceAction(id string, action InstanceActions, opts *HeaderOptions) (inst *Instance, e error) {
 	required := struct {
 		Action string `header:"-" json:"-" url:"action"`

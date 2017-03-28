@@ -132,7 +132,7 @@ func (c *Client) GetDBSystem(id string) (res *DBSystem, e error) {
 	return
 }
 
-// TerminateDBSystemd terminates a DB System and permanently deletes it and any
+// TerminateDBSystem terminates a DB System and permanently deletes it and any
 // databases running on it.
 //
 // See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/database/20160918/DbSystem/TerminateDbSystem

@@ -35,7 +35,7 @@
 		}
 
 	For more details, see the API docs located here:
-	https://docs.us-az-phoenix-1.oracleiaas.com/#API/Concepts/usingapi.htm
+	https://docs.us-phoenix-1.oraclecloud.com/Content/API/Concepts/usingapi.htm
 */
 package baremetal
 

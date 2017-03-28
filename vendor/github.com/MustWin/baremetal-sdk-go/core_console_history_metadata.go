@@ -10,7 +10,7 @@ import (
 
 // ConsoleHistoryMetadata describes console history metadata
 //
-// See: https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#ConsoleHistoryMetadata
+// See: https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/ConsoleHistory/
 type ConsoleHistoryMetadata struct {
 	OPCRequestIDUnmarshaller
 	ETagUnmarshaller
@@ -45,7 +45,7 @@ func (l *ListConsoleHistories) GetList() interface{} {
 
 // ListConsoleHistories shows the metadata for the specified compartment or instance
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#listConsoleHistories
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/ConsoleHistory/ListConsoleHistories
 func (c *Client) ListConsoleHistories(compartmentID string, opts *ListConsoleHistoriesOptions) (icHistories *ListConsoleHistories, e error) {
 	required := listOCIDRequirement{CompartmentID: compartmentID}
 
@@ -67,7 +67,7 @@ func (c *Client) ListConsoleHistories(compartmentID string, opts *ListConsoleHis
 
 // CaptureConsoleHistory captures the most recent serial console data (up to a megabyte) for the specified instance.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#captureConsoleHistory
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/ConsoleHistory/CaptureConsoleHistory
 func (c *Client) CaptureConsoleHistory(instanceID string, opts *RetryTokenOptions) (icHistory *ConsoleHistoryMetadata, e error) {
 	required := struct {
 		InstanceID string `header:"-" json:"instanceId" url:"-"`
@@ -93,7 +93,7 @@ func (c *Client) CaptureConsoleHistory(instanceID string, opts *RetryTokenOption
 
 // GetConsoleHistory shows the metadata for the specified console history
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#getConsoleHistory
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/ConsoleHistory/GetConsoleHistory
 func (c *Client) GetConsoleHistory(instanceID string) (consoleHistoryMetadata *ConsoleHistoryMetadata, e error) {
 	details := &requestDetails{
 		name: resourceInstanceConsoleHistories,
@@ -111,7 +111,7 @@ func (c *Client) GetConsoleHistory(instanceID string) (consoleHistoryMetadata *C
 
 // ShowConsoleHistoryData gets the actual console history data (not the metadata).
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#showConsoleHistoryData
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/ConsoleHistory/GetConsoleHistoryContent
 func (c *Client) ShowConsoleHistoryData(instanceConsoleHistoryID string, opts *ConsoleHistoryDataOptions) (hist *ConsoleHistoryData, e error) {
 	details := &requestDetails{
 		name:     resourceInstanceConsoleHistories,

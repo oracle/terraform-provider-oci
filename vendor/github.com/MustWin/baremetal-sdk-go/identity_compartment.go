@@ -31,7 +31,7 @@ func (l *ListCompartments) GetList() interface{} {
 
 // CreateCompartment create a new compartment.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/identity/20160918/Compartment/CreateCompartment
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/identity/20160918/Compartment/CreateCompartment
 func (c *Client) CreateCompartment(name, desc string, opts *RetryTokenOptions) (res *Compartment, e error) {
 	required := identityCreationRequirement{
 		CompartmentID: c.authInfo.tenancyOCID,
@@ -57,7 +57,7 @@ func (c *Client) CreateCompartment(name, desc string, opts *RetryTokenOptions) (
 
 // GetCompartment returns the compartment identified by compartmentID.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/identity/20160918/Compartment/GetCompartment
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/identity/20160918/Compartment/GetCompartment
 func (c *Client) GetCompartment(id string) (res *Compartment, e error) {
 	details := &requestDetails{
 		ids:  urlParts{id},
@@ -76,7 +76,7 @@ func (c *Client) GetCompartment(id string) (res *Compartment, e error) {
 
 // UpdateCompartment updates the description of a compartment.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/identity/20160918/Compartment/UpdateCompartment
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/identity/20160918/Compartment/UpdateCompartment
 func (c *Client) UpdateCompartment(id string, opts *UpdateIdentityOptions) (res *Compartment, e error) {
 	details := &requestDetails{
 		ids:      urlParts{id},
@@ -96,7 +96,7 @@ func (c *Client) UpdateCompartment(id string, opts *UpdateIdentityOptions) (res 
 
 // ListCompartments returns a list of compartments. The request MAY contain optional paging arguments.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/identity/20160918/Compartment/ListCompartments
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/identity/20160918/Compartment/ListCompartments
 func (c *Client) ListCompartments(opts *ListOptions) (resources *ListCompartments, e error) {
 	details := &requestDetails{
 		name:     resourceCompartments,

@@ -6,7 +6,7 @@ import "net/http"
 
 // Cpe describes customer premise equipment
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Cpe/
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/Cpe/
 type Cpe struct {
 	OPCRequestIDUnmarshaller
 	ETagUnmarshaller
@@ -17,7 +17,7 @@ type Cpe struct {
 	TimeCreated   Time   `json:"timeCreated"`
 }
 
-// CpeList contains a list of customer premise equipment
+// ListCpes contains a list of customer premise equipment
 //
 type ListCpes struct {
 	OPCRequestIDUnmarshaller
@@ -31,7 +31,7 @@ func (l *ListCpes) GetList() interface{} {
 
 // ListCpes returns a list of customer premise equipment for a particular compartment
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Cpe/ListCpes
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/Cpe/ListCpes
 func (c *Client) ListCpes(compartmentID string, opts *ListOptions) (cpes *ListCpes, e error) {
 	details := &requestDetails{
 		name:     resourceCustomerPremiseEquipment,
@@ -52,7 +52,7 @@ func (c *Client) ListCpes(compartmentID string, opts *ListOptions) (cpes *ListCp
 // CreateCpe is used to define customer premise equipment such as routers
 // in the Bare Metal cloud
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Cpe/CreateCpe
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/Cpe/CreateCpe
 func (c *Client) CreateCpe(compartmentID, ipAddress string, opts *CreateOptions) (cpe *Cpe, e error) {
 	required := struct {
 		ocidRequirement
@@ -78,9 +78,9 @@ func (c *Client) CreateCpe(compartmentID, ipAddress string, opts *CreateOptions)
 	return
 }
 
-// UpdateCpe retrieves information on a customer premise equipment resource.
+// GetCpe retrieves information on a customer premise equipment resource.
 //
-// https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/iaas/20160918/Cpe/UpdateCpe
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/Cpe/GetCpe
 func (c *Client) GetCpe(id string) (cpe *Cpe, e error) {
 	details := &requestDetails{
 		name: resourceCustomerPremiseEquipment,
@@ -96,9 +96,9 @@ func (c *Client) GetCpe(id string) (cpe *Cpe, e error) {
 	return
 }
 
-// Updates the specified CPE's display name.
+// UpdateCpe updates the specified CPE's display name.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/iaas/20160918/Cpe/UpdateCpe
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/Cpe/UpdateCpe
 func (c *Client) UpdateCpe(id string, opts *IfMatchDisplayNameOptions) (cpe *Cpe, e error) {
 	details := &requestDetails{
 		name:     resourceCustomerPremiseEquipment,
@@ -118,7 +118,7 @@ func (c *Client) UpdateCpe(id string, opts *IfMatchDisplayNameOptions) (cpe *Cpe
 
 // DeleteCpe removes customer premise equipment resource
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Cpe/DeleteCpe
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/Cpe/DeleteCpe
 func (c *Client) DeleteCpe(id string, opts *IfMatchOptions) (e error) {
 	details := &requestDetails{
 		name:     resourceCustomerPremiseEquipment,

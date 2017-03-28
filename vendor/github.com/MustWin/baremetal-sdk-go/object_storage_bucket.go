@@ -8,7 +8,7 @@ import (
 
 // Bucket stores arbitrary objects on a given key
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/objectstorage/20160918/Bucket/
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/objectstorage/20160918/Bucket/
 
 type Bucket struct {
 	OPCRequestIDUnmarshaller
@@ -25,7 +25,7 @@ type Bucket struct {
 // set in the opts parameter. See Oracle documentation for more information
 // on other arguments.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/objectstorage/20160918/Bucket/CreateBucket
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/objectstorage/20160918/Bucket/CreateBucket
 func (c *Client) CreateBucket(
 	compartmentID string,
 	name string,
@@ -59,7 +59,7 @@ func (c *Client) CreateBucket(
 
 // GetBucket gets the current representation of the given bucket in the given namespace.
 //
-// See: https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/objectstorage/20160918/Bucket/GetBucket
+// See: https://docs.us-phoenix-1.oraclecloud.com/api/#/en/objectstorage/20160918/Bucket/GetBucket
 func (c *Client) GetBucket(
 	bucketName string,
 	namespaceName Namespace,
@@ -80,7 +80,7 @@ func (c *Client) GetBucket(
 
 // UpdateBucket performs a partial (or full) update of a bucket, currently including just the user-defined metadata
 //
-// See: https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/objectstorage/20160918/Bucket/UpdateBucket
+// See: https://docs.us-phoenix-1.oraclecloud.com/api/#/en/objectstorage/20160918/Bucket/UpdateBucket
 func (c *Client) UpdateBucket(
 	compartmentID string,
 	name string,
@@ -111,7 +111,7 @@ func (c *Client) UpdateBucket(
 
 // DeleteBucket deletes a bucket if it is already empty. If the bucket is not empty, use DeleteObject first.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/objectstorage/20160918/Bucket/DeleteBucket
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/objectstorage/20160918/Bucket/DeleteBucket
 func (c *Client) DeleteBucket(
 	name string,
 	namespaceName Namespace,
@@ -147,7 +147,7 @@ type HeadBucketOptions struct {
 
 // HeadBucket checks that a bucket exists and returns the ETag
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/objectstorage/20160918/methods/HeadBucket
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/objectstorage/20160918/methods/HeadBucket
 func (c *Client) HeadBucket(
 	namespace Namespace,
 	bucketName string,

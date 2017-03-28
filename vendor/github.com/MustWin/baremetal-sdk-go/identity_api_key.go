@@ -8,7 +8,9 @@ import (
 	"time"
 )
 
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/identity/20160918/ApiKey/
+// APIKey is a PEM-format RSA credential for securing requests to the Oracle Bare Metal Cloud Services REST API.
+//
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/identity/20160918/ApiKey/
 type APIKey struct {
 	KeyID        string    `json:"keyId"`
 	KeyValue     string    `json:"keyValue"`
@@ -30,9 +32,9 @@ func (l *ListAPIKeyResponses) GetList() interface{} {
 	return &l.Keys
 }
 
-// Deletes an API key belonging to a user.
+// DeleteAPIKey deletes an API key belonging to a user.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/identity/20160918/ApiKey/DeleteApiKey
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/identity/20160918/ApiKey/DeleteApiKey
 func (c *Client) DeleteAPIKey(userID, fingerprint string, opts *IfMatchOptions) (e error) {
 	details := &requestDetails{
 		ids:      urlParts{userID, apiKeys, fingerprint},
@@ -45,7 +47,7 @@ func (c *Client) DeleteAPIKey(userID, fingerprint string, opts *IfMatchOptions) 
 
 // ListAPIKeys returns information about a user's API keys.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/identity/20160918/ApiKey/ListApiKeys
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/identity/20160918/ApiKey/ListApiKeys
 func (c *Client) ListAPIKeys(userID string) (resp *ListAPIKeyResponses, e error) {
 	details := &requestDetails{
 		ids:  urlParts{userID, apiKeys, "/"},
@@ -65,7 +67,7 @@ func (c *Client) ListAPIKeys(userID string) (resp *ListAPIKeyResponses, e error)
 // UploadAPIKey - add an API signing key for user. The key must be an RSA public
 // key in pem format.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/identity/20160918/ApiKey/UploadApiKey
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/identity/20160918/ApiKey/UploadApiKey
 func (c *Client) UploadAPIKey(userID, key string, opts *RetryTokenOptions) (apiKey *APIKey, e error) {
 	required := struct {
 		Key string `header:"-" json:"key" url:"-"`

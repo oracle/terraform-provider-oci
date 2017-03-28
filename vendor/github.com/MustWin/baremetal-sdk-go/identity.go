@@ -7,7 +7,7 @@ import "fmt"
 // Error is returned from unsuccessful API calls. The OPCRequestID if present
 // is used to reference the failing requests for support.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/identity/20160918/ErrorSchema/
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/identity/20160918/responses/Error
 type Error struct {
 	Code         string `json:"code"`
 	Message      string `json:"message"`

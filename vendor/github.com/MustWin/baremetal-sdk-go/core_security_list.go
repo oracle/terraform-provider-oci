@@ -4,29 +4,39 @@ package baremetal
 
 import "net/http"
 
-// https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/PortRange/
+// PortRange specifies a set of ports for UDPOptions or TCPOptions
+//
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/PortRange/
 type PortRange struct {
 	Max uint64 `header:"-" json:"max" url:"-"`
 	Min uint64 `header:"-" json:"min" url:"-"`
 }
 
-// https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/UdpOptions/
+// UDPOptions specifies ports for a UDP rule
+//
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/UdpOptions/
 type UDPOptions struct {
 	DestinationPortRange PortRange `header:"-" json:"destinationPortRange" url:"-"`
 }
 
-// https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/TcpOptions/
+// TCPOptions specifies ports for a TCP rule
+//
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/TcpOptions/
 type TCPOptions struct {
 	DestinationPortRange PortRange `header:"-" json:"destinationPortRange" url:"-"`
 }
 
-// https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/IcmpOptions/
+// ICMPOptions specifies a particular ICMP type and code
+//
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/IcmpOptions/
 type ICMPOptions struct {
 	Code uint64 `header:"-" json:"code,omitempty" url:"-"`
 	Type uint64 `header:"-" json:"type" url:"-"`
 }
 
-// https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/IngressSecurityRule/
+// IngressSecurityRule is a rule for allowing inbound IP packets.
+//
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/IngressSecurityRule/
 type IngressSecurityRule struct {
 	ICMPOptions *ICMPOptions `header:"-" json:"icmpOptions,omitempty" url:"-"`
 	Protocol    string       `header:"-" json:"protocol" url:"-"`
@@ -35,7 +45,9 @@ type IngressSecurityRule struct {
 	UDPOptions  *UDPOptions  `header:"-" json:"udpOptions,omitempty" url:"-"`
 }
 
-// https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/EgressSecurityRule/
+// EgressSecurityRule is a rule for allowing outbound IP packets.
+//
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/EgressSecurityRule/
 type EgressSecurityRule struct {
 	Destination string       `header:"-" json:"destination" url:"-"`
 	ICMPOptions *ICMPOptions `header:"-" json:"icmpOptions,omitempty" url:"-"`
@@ -47,7 +59,7 @@ type EgressSecurityRule struct {
 
 // SecurityList describes a set of virtual, stateful firewall rules for your VCN
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/SecurityList/
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/SecurityList/
 type SecurityList struct {
 	ETagUnmarshaller
 	OPCRequestIDUnmarshaller
@@ -61,8 +73,9 @@ type SecurityList struct {
 	VcnID                string                `json:"vcnId"`
 }
 
-// ListSecurityLists contains a list of images
+// ListSecurityLists is the response from a ListSecurityLists() request
 //
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/SecurityList/ListSecurityLists
 type ListSecurityLists struct {
 	NextPageUnmarshaller
 	OPCRequestIDUnmarshaller
@@ -75,7 +88,7 @@ func (l *ListSecurityLists) GetList() interface{} {
 
 // CreateSecurityList creates a new security list for the specified VCN
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/SecurityList/CreateSecurityList
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/SecurityList/CreateSecurityList
 func (c *Client) CreateSecurityList(
 	compartmentID, vcnID string,
 	egressRules []EgressSecurityRule,
@@ -112,7 +125,7 @@ func (c *Client) CreateSecurityList(
 
 // GetSecurityList gets the specified security list's information
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/SecurityList/GetSecurityList
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/SecurityList/GetSecurityList
 func (c *Client) GetSecurityList(id string) (res *SecurityList, e error) {
 	details := &requestDetails{
 		name: resourceSecurityLists,
@@ -131,7 +144,7 @@ func (c *Client) GetSecurityList(id string) (res *SecurityList, e error) {
 
 // UpdateSecurityList updates the specified security list's rules
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/SecurityList/UpdateSecurityList
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/SecurityList/UpdateSecurityList
 func (c *Client) UpdateSecurityList(
 	id string,
 	opts *UpdateSecurityListOptions,
@@ -155,7 +168,7 @@ func (c *Client) UpdateSecurityList(
 // DeleteSecurityList deletes the specified security list, but only if it's not
 // in use
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/SecurityList/DeleteSecurityList
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/SecurityList/DeleteSecurityList
 func (c *Client) DeleteSecurityList(id string, opts *IfMatchOptions) (e error) {
 	details := &requestDetails{
 		ids:      urlParts{id},
@@ -168,7 +181,7 @@ func (c *Client) DeleteSecurityList(id string, opts *IfMatchOptions) (e error) {
 // ListSecurityLists gets a list of the security lists in the specified VCN and
 // compartment
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/SecurityList/ListSecurityLists
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/SecurityList/ListSecurityLists
 func (c *Client) ListSecurityLists(compartmentID, vcnID string, opts *ListOptions) (res *ListSecurityLists, e error) {
 	required := struct {
 		listOCIDRequirement

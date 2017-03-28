@@ -6,7 +6,7 @@ import "net/http"
 
 // VolumeBackup describe a point-in-time copy of a volume
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/VolumeBackup/
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/VolumeBackup/
 type VolumeBackup struct {
 	OPCRequestIDUnmarshaller
 	ETagUnmarshaller
@@ -35,7 +35,7 @@ func (l *ListVolumeBackups) GetList() interface{} {
 
 // CreateVolumeBackup Creates a new backup of the specified volume
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/VolumeBackup/CreateVolumeBackup
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/VolumeBackup/CreateVolumeBackup
 func (c *Client) CreateVolumeBackup(volumeID string, opts *CreateOptions) (vol *VolumeBackup, e error) {
 	required := struct {
 		VolumeID string `header:"-" json:"volumeId" url:"-"`
@@ -61,7 +61,7 @@ func (c *Client) CreateVolumeBackup(volumeID string, opts *CreateOptions) (vol *
 
 // GetVolumeBackup gets information for the specified volumeBackup
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/VolumeBackup/GetVolumeBackup
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/VolumeBackup/GetVolumeBackup
 func (c *Client) GetVolumeBackup(id string) (vol *VolumeBackup, e error) {
 	details := &requestDetails{
 		ids:  urlParts{id},
@@ -80,7 +80,7 @@ func (c *Client) GetVolumeBackup(id string) (vol *VolumeBackup, e error) {
 
 // UpdateVolumeBackup updates a volume's display name
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/VolumeBackup/UpdateVolumeBackup
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/VolumeBackup/UpdateVolumeBackup
 func (c *Client) UpdateVolumeBackup(id string, opts *IfMatchDisplayNameOptions) (vol *VolumeBackup, e error) {
 	details := &requestDetails{
 		ids:      urlParts{id},
@@ -100,7 +100,7 @@ func (c *Client) UpdateVolumeBackup(id string, opts *IfMatchDisplayNameOptions) 
 
 // DeleteVolumeBackup deletes a volumeBackup
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/VolumeBackup/DeleteVolumeBackup
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/VolumeBackup/DeleteVolumeBackup
 func (c *Client) DeleteVolumeBackup(id string, opts *IfMatchOptions) (e error) {
 	details := &requestDetails{
 		ids:      urlParts{id},
@@ -113,7 +113,7 @@ func (c *Client) DeleteVolumeBackup(id string, opts *IfMatchOptions) (e error) {
 
 // ListVolumeBackups returns a list of volumes for a particular compartment
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/VolumeBackup/ListVolumeBackups
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/VolumeBackup/ListVolumeBackups
 func (c *Client) ListVolumeBackups(compartmentID string, opts *ListBackupsOptions) (vols *ListVolumeBackups, e error) {
 	details := &requestDetails{
 		name:     resourceVolumeBackups,

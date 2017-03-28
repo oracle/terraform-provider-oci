@@ -15,9 +15,10 @@ func (l *ListSupportedOperations) GetList() interface{} {
 	return &l.SupportedOperations
 }
 
-// ListDBSupportedOperations returns a list of supported operations.
+// ListSupportedOperations returns a list of supported operations.
 //
 // See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/database/20160918/SupportedOperation/ListSupportedOperations
+// FIXME: this endpoint is no longer documented, is it still available? [jh]
 func (c *Client) ListSupportedOperations() (resources *ListSupportedOperations, e error) {
 
 	details := &requestDetails{

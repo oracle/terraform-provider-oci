@@ -6,7 +6,7 @@ import "net/http"
 
 // Image describes a boot disk image for launching an instance
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Image/
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/Image/
 type Image struct {
 	OPCRequestIDUnmarshaller
 	ETagUnmarshaller
@@ -35,7 +35,7 @@ func (l *ListImages) GetList() interface{} {
 
 // CreateImage is used to create an image
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Image/CreateImage
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/Image/CreateImage
 func (c *Client) CreateImage(compartmentID, instanceID string, opts *CreateOptions) (res *Image, e error) {
 	required := struct {
 		ocidRequirement
@@ -63,7 +63,7 @@ func (c *Client) CreateImage(compartmentID, instanceID string, opts *CreateOptio
 
 // GetImage retrieves information about an image
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Image/GetImage
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/Image/GetImage
 func (c *Client) GetImage(id string) (res *Image, e error) {
 	details := &requestDetails{
 		name: resourceImages,
@@ -82,7 +82,7 @@ func (c *Client) GetImage(id string) (res *Image, e error) {
 
 // UpdateImage updates an images display name
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Image/UpdateImage
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/Image/UpdateImage
 func (c *Client) UpdateImage(id string, opts *UpdateOptions) (res *Image, e error) {
 	details := &requestDetails{
 		name:     resourceImages,
@@ -102,7 +102,7 @@ func (c *Client) UpdateImage(id string, opts *UpdateOptions) (res *Image, e erro
 
 // DeleteImage removes an image
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Image/DeleteImage
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/Image/DeleteImage
 func (c *Client) DeleteImage(id string, opts *IfMatchOptions) (e error) {
 	details := &requestDetails{
 		name:     resourceImages,
@@ -114,7 +114,7 @@ func (c *Client) DeleteImage(id string, opts *IfMatchOptions) (e error) {
 
 // ListImages returns a list of images
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Image/ListImages
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/Image/ListImages
 func (c *Client) ListImages(compartmentID string, opts *ListImagesOptions) (res *ListImages, e error) {
 	details := &requestDetails{
 		name:     resourceImages,

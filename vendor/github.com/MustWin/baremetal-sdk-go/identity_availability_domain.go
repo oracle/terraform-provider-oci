@@ -3,10 +3,9 @@
 package baremetal
 
 // AvailablityDomain contains name and then tenancy ID that an
-
 // availability domain belongs to.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/identity/20160918/AvailabilityDomain/
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/identity/20160918/AvailabilityDomain/
 type AvailabilityDomain struct {
 	Name          string `json:"name"`
 	CompartmentID string `json:"compartmentId"`
@@ -23,9 +22,9 @@ func (l *ListAvailabilityDomains) GetList() interface{} {
 	return &l.AvailabilityDomains
 }
 
-// ListAvailablityDomains lists availability domains in a user's root tenancy.
+// ListAvailabilityDomains lists availability domains in a user's root tenancy.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/identity/20160918/AvailabilityDomain/ListAvailabilityDomains
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/identity/20160918/AvailabilityDomain/ListAvailabilityDomains
 func (c *Client) ListAvailabilityDomains(compartmentID string) (ads *ListAvailabilityDomains, e error) {
 	details := &requestDetails{
 		name:     resourceAvailabilityDomains,

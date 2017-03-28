@@ -10,11 +10,11 @@ import (
 
 // Namespace is the top level organizational level of the object store
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/objectstorage/20160918/methods/GetNamespace
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/objectstorage/20160918/methods/GetNamespace
 
 type Namespace string
 
-// toBeFilled must be a slice of bytes
+// SetBody takes a slice of bytes b, trims off '"' characters, and populates a slice of bytes toBeFilled
 func (g *Namespace) SetBody(b []byte, toBeFilled interface{}) error {
 	rv := reflect.ValueOf(toBeFilled)
 	if rv.Kind() != reflect.Ptr || rv.IsNil() {
@@ -27,7 +27,7 @@ func (g *Namespace) SetBody(b []byte, toBeFilled interface{}) error {
 
 // GetNamespace fetches the current user's namespace
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/objectstorage/20160918/methods/GetNamespace
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/objectstorage/20160918/methods/GetNamespace
 func (c *Client) GetNamespace() (name *Namespace, e error) {
 	var opts interface{}
 	var required interface{}

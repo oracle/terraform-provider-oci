@@ -6,7 +6,7 @@ import "net/http"
 
 // Drg describes a dynamic routing gateway
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Drg/
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/Drg/
 type Drg struct {
 	OPCRequestIDUnmarshaller
 	ETagUnmarshaller
@@ -31,7 +31,7 @@ func (l *ListDrgs) GetList() interface{} {
 
 // CreateDrg is used to create a gateway
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Drg/CreateDrg
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/Drg/CreateDrg
 func (c *Client) CreateDrg(compartmentID string, opts *CreateOptions) (res *Drg, e error) {
 	details := &requestDetails{
 		name:     resourceDrgs,
@@ -51,7 +51,7 @@ func (c *Client) CreateDrg(compartmentID string, opts *CreateOptions) (res *Drg,
 
 // GetDrg retrieves information about a gateway
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Drg/GetDrg
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/Drg/GetDrg
 func (c *Client) GetDrg(id string) (res *Drg, e error) {
 	details := &requestDetails{
 		name: resourceDrgs,
@@ -68,9 +68,9 @@ func (c *Client) GetDrg(id string) (res *Drg, e error) {
 	return
 }
 
-// Updates the specified DRG's display name.
+// UpdateDrg updates the specified DRG's display name.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/iaas/20160918/Drg/UpdateDrg
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/Drg/UpdateDrg
 func (c *Client) UpdateDrg(id string, opts *IfMatchDisplayNameOptions) (drg *Drg, e error) {
 	details := &requestDetails{
 		name:     resourceDrgs,
@@ -90,7 +90,7 @@ func (c *Client) UpdateDrg(id string, opts *IfMatchDisplayNameOptions) (drg *Drg
 
 // DeleteDrg removes a gateway
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Drg/DeleteDrg
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/Drg/DeleteDrg
 func (c *Client) DeleteDrg(id string, opts *IfMatchOptions) (e error) {
 	details := &requestDetails{
 		name:     resourceDrgs,
@@ -102,7 +102,7 @@ func (c *Client) DeleteDrg(id string, opts *IfMatchOptions) (e error) {
 
 // ListDrgs returns a list of gateways for a compartment
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Drg/ListDrgs
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/Drg/ListDrgs
 func (c *Client) ListDrgs(compartmentID string, opts *ListOptions) (res *ListDrgs, e error) {
 	details := &requestDetails{
 		name:     resourceDrgs,

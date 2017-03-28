@@ -7,7 +7,7 @@ import "net/http"
 // InternetGateway information on an internet gateway hosted in a
 // virtual cloud network
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/InternetGateway/
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/InternetGateway/
 type InternetGateway struct {
 	OPCRequestIDUnmarshaller
 	ETagUnmarshaller
@@ -36,7 +36,7 @@ func (ig *ListInternetGateways) GetList() interface{} {
 // determines if the gateway is enabled on creation. An optional display name may
 // be provided in opts.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#createInternetGateway
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/InternetGateway/CreateInternetGateway
 func (c *Client) CreateInternetGateway(compartmentID, vcnID string, isEnabled bool, opts *CreateOptions) (gw *InternetGateway, e error) {
 	required := struct {
 		ocidRequirement
@@ -67,7 +67,7 @@ func (c *Client) CreateInternetGateway(compartmentID, vcnID string, isEnabled bo
 // GetInternetGateway retrieves information for the Internet Gateway identified
 // by id.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#getInternetGateway
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/InternetGateway/GetInternetGateway
 func (c *Client) GetInternetGateway(id string) (gw *InternetGateway, e error) {
 	details := &requestDetails{
 		name: resourceInternetGateways,
@@ -87,7 +87,7 @@ func (c *Client) GetInternetGateway(id string) (gw *InternetGateway, e error) {
 
 // UpdateInternetGateway enables or disables internet gateway
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#UpdateInternetGatewayRequest
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/InternetGateway/UpdateInternetGateway
 func (c *Client) UpdateInternetGateway(id string, opts *UpdateGatewayOptions) (gw *InternetGateway, e error) {
 	details := &requestDetails{
 		ids:      urlParts{id},
@@ -107,7 +107,7 @@ func (c *Client) UpdateInternetGateway(id string, opts *UpdateGatewayOptions) (g
 
 // DeleteInternetGateway removes internet gateway
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#deleteInternetGateway
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/InternetGateway/DeleteInternetGateway
 func (c *Client) DeleteInternetGateway(id string, opts *IfMatchOptions) (e error) {
 	details := &requestDetails{
 		name:     resourceInternetGateways,
@@ -119,7 +119,7 @@ func (c *Client) DeleteInternetGateway(id string, opts *IfMatchOptions) (e error
 
 // ListInternetGateways is used to fetch a list of internet gateways.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/InternetGateway/ListInternetGateways
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/InternetGateway/ListInternetGateways
 func (c *Client) ListInternetGateways(compartmentID, vcnID string, opts *ListOptions) (list *ListInternetGateways, e error) {
 	required := struct {
 		listOCIDRequirement
