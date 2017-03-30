@@ -14,6 +14,7 @@ import (
 	"github.com/oracle/terraform-provider-baremetal/core"
 	"github.com/oracle/terraform-provider-baremetal/database"
 	"github.com/oracle/terraform-provider-baremetal/identity"
+	"github.com/oracle/terraform-provider-baremetal/lb"
 	"github.com/oracle/terraform-provider-baremetal/objectstorage"
 )
 
@@ -157,6 +158,7 @@ func resourcesMap() map[string]*schema.Resource {
 		"baremetal_identity_ui_password":           identity.UIPasswordResource(),
 		"baremetal_identity_user":                  identity.UserResource(),
 		"baremetal_identity_user_group_membership": identity.UserGroupMembershipResource(),
+		"baremetal_load_balancer":                  lb.LoadBalancerResource(),
 		"baremetal_objectstorage_bucket":           objectstorage.BucketResource(),
 		"baremetal_objectstorage_object":           objectstorage.ObjectResource(),
 	}
