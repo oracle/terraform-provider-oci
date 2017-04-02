@@ -18,13 +18,22 @@ The Terraform provider provides coverage for the entire BMC API excluding the Lo
 ## Getting started
 Be sure to read the FAQ and Writing Terraform configurations for OBMCS in [/docs](https://github.com/oracle/terraform-provider-baremetal/tree/master/docs).
 
+### Download Terraform
+Find the appropriate **.8.8 binary** for your platform, download it.
+* [OSX, macOS (x64)](https://releases.hashicorp.com/terraform/0.8.8/terraform_0.8.8_darwin_amd64.zip)
+* [Linux (x64)](https://releases.hashicorp.com/terraform/0.8.8/terraform_0.8.8_linux_amd64.zip)
+* [Windows (x64)](https://releases.hashicorp.com/terraform/0.8.8/terraform_0.8.8_windows_amd64.zip) 
+
+[Other platforms](https://releases.hashicorp.com/terraform/0.8.8/) 
+
 ### Install Terraform
-https://www.terraform.io/downloads.html
+https://www.terraform.io/intro/getting-started/install.html
 
-### Download the OBMCS Terraform provider binary
-Find the appropriate binary for [your platform here](https://github.com/oracle/terraform-provider-baremetal/releases), download it.
+### Get the Oracle Bare Metal Cloud Terraform provider
+https://github.com/oracle/terraform-provider-baremetal/releases
 
-#### \*nix
+Unpack the provider to an appropriate location then -
+#### On \*nix
 Create `~/.terraformrc` that specifies the path to the `baremetal` provider.  
 ```
 providers {
@@ -32,7 +41,7 @@ providers {
   }
 ```
 
-#### Windows
+#### On Windows
 Create `%APPDATA%/terraform.rc` that specifies the path to the `baremetal` provider.
 ```
 providers {
@@ -91,7 +100,7 @@ There are 2 issues with the potential for unexpected data loss.
 1. [Issue #44, running apply in an enviroment where a subnet has multiple attached Security Lists can cause all of the instances in the subnet to be terminated and re-created.](https://github.com/oracle/terraform-provider-baremetal/issues/44)  
 2. [Issue #45, not currently reproducible. Running apply in an enviroment with attached block volumes can cause all of the block volumes to be temporarily detatched and reattached. This leads to block volume IO interruption.](https://github.com/oracle/terraform-provider-baremetal/issues/45)  
 
-[Other issues.](https://github.com/oracle/terraform-provider-baremetal/issues)
+[Other issues](https://github.com/oracle/terraform-provider-baremetal/issues)
 
 ## About the provider
 This provider was written on behalf of Oracle by [MustWin.](http://mustwin.com/)
