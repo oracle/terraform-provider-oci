@@ -11,6 +11,7 @@ type BareMetalClient interface {
 
 	CaptureConsoleHistory(instanceID string, opts *baremetal.RetryTokenOptions) (icHistory *baremetal.ConsoleHistoryMetadata, e error)
 
+	CreateBackendSet(loadBalancerID string, name string, policy string, backends []baremetal.Backend, healthChecker *baremetal.HealthChecker, sslConfig *baremetal.SSLConfiguration, opts *baremetal.LoadBalancerOptions) (workRequestID string, e error)
 	CreateBucket(compartmentID string, name string, namespaceName baremetal.Namespace, opts *baremetal.CreateBucketOptions) (bckt *baremetal.Bucket, e error)
 	CreateCompartment(name, desc string, opts *baremetal.RetryTokenOptions) (res *baremetal.Compartment, e error)
 	CreateCpe(compartmentID, ipAddress string, opts *baremetal.CreateOptions) (cpe *baremetal.Cpe, e error)
@@ -22,6 +23,7 @@ type BareMetalClient interface {
 	CreateImage(compartmentID, instanceID string, opts *baremetal.CreateOptions) (res *baremetal.Image, e error)
 	CreateInternetGateway(compartmentID, vcnID string, isEnabled bool, opts *baremetal.CreateOptions) (gw *baremetal.InternetGateway, e error)
 	CreateListener(loadBalancerID string, name string, defaultBackendSetName string, protocol string, port int, sslConfig *baremetal.SSLConfiguration, opts *baremetal.LoadBalancerOptions) (workRequestID string, e error)
+	CreateLoadBalancer(backendSets *baremetal.BackendSet, certificates *baremetal.Certificate, compartmentID string, listeners *baremetal.Listener, shape string, subnetIDs []string, opts *baremetal.CreateOptions) (workRequestID string, e error)
 	CreateOrResetUIPassword(userID string, opts *baremetal.RetryTokenOptions) (resource *baremetal.UIPassword, e error)
 	CreatePolicy(name, desc, compartmentID string, statements []string, opts *baremetal.CreatePolicyOptions) (res *baremetal.Policy, e error)
 	CreateRouteTable(compartmentID, vcnID string, routeRules []baremetal.RouteRule, opts *baremetal.CreateOptions) (res *baremetal.RouteTable, e error)
@@ -32,9 +34,9 @@ type BareMetalClient interface {
 	CreateVirtualNetwork(cidrBlock, compartmentID string, opts *baremetal.CreateVcnOptions) (vcn *baremetal.VirtualNetwork, e error)
 	CreateVolume(availabilityDomain, compartmentID string, opts *baremetal.CreateVolumeOptions) (res *baremetal.Volume, e error)
 	CreateVolumeBackup(volumeID string, opts *baremetal.CreateOptions) (vol *baremetal.VolumeBackup, e error)
-	CreateLoadBalancer(backendSets *baremetal.BackendSet, certificates *baremetal.Certificate, compartmentID string, listeners *baremetal.Listener, shape string, subnetIDs []string, opts *baremetal.CreateOptions) (workRequestID string, e error)
 
 	DeleteAPIKey(userID, fingerprint string, opts *baremetal.IfMatchOptions) (e error)
+	DeleteBackendSet(loadBalancerID string, backendSetName string, opts *baremetal.ClientRequestOptions) (workRequestID string, e error)
 	DeleteBucket(name string, namespaceName baremetal.Namespace, opts *baremetal.IfMatchOptions) (e error)
 	DeleteCpe(id string, opts *baremetal.IfMatchOptions) (e error)
 	DeleteDHCPOptions(id string, opts *baremetal.IfMatchOptions) (e error)
@@ -60,6 +62,7 @@ type BareMetalClient interface {
 
 	DetachVolume(id string, opts *baremetal.IfMatchOptions) (e error)
 
+	GetBackendSet(loadBalancerID string, backendSetName string, opts *baremetal.ClientRequestOptions) (backendset *baremetal.BackendSet, e error)
 	GetBucket(bucketName string, namespaceName baremetal.Namespace) (bckt *baremetal.Bucket, e error)
 	GetCompartment(id string) (res *baremetal.Compartment, e error)
 	GetConsoleHistory(instanceID string) (consoleHistoryMetadata *baremetal.ConsoleHistoryMetadata, e error)
@@ -144,6 +147,7 @@ type BareMetalClient interface {
 	TerminateDBSystem(id string, opts *baremetal.IfMatchOptions) (e error)
 	TerminateInstance(id string, opts *baremetal.IfMatchOptions) (e error)
 
+	UpdateBackendSet(loadBalancerID string, backendSetName string, opts *baremetal.UpdateLoadBalancerBackendSetOptions) (workRequestID string, e error)
 	UpdateBucket(compartmentID string, name string, namespaceName baremetal.Namespace, opts *baremetal.UpdateBucketOptions) (bckt *baremetal.Bucket, e error)
 	UpdateCompartment(id string, opts *baremetal.UpdateIdentityOptions) (res *baremetal.Compartment, e error)
 	UpdateCpe(id string, opts *baremetal.IfMatchDisplayNameOptions) (cpe *baremetal.Cpe, e error)

@@ -78,6 +78,27 @@ func (_m *BareMetalClient) CaptureConsoleHistory(instanceID string, opts *bareme
 	return r0, r1
 }
 
+// CreateBackendSet provides a mock function with given fields: loadBalancerID, name, policy, backends, healthChecker, sslConfig, opts
+func (_m *BareMetalClient) CreateBackendSet(loadBalancerID string, name string, policy string, backends []baremetal.Backend, healthChecker *baremetal.HealthChecker, sslConfig *baremetal.SSLConfiguration, opts *baremetal.LoadBalancerOptions) (string, error) {
+	ret := _m.Called(loadBalancerID, name, policy, backends, healthChecker, sslConfig, opts)
+
+	var r0 string
+	if rf, ok := ret.Get(0).(func(string, string, string, []baremetal.Backend, *baremetal.HealthChecker, *baremetal.SSLConfiguration, *baremetal.LoadBalancerOptions) string); ok {
+		r0 = rf(loadBalancerID, name, policy, backends, healthChecker, sslConfig, opts)
+	} else {
+		r0 = ret.Get(0).(string)
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(string, string, string, []baremetal.Backend, *baremetal.HealthChecker, *baremetal.SSLConfiguration, *baremetal.LoadBalancerOptions) error); ok {
+		r1 = rf(loadBalancerID, name, policy, backends, healthChecker, sslConfig, opts)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // CreateBucket provides a mock function with given fields: compartmentID, name, namespaceName, opts
 func (_m *BareMetalClient) CreateBucket(compartmentID string, name string, namespaceName baremetal.Namespace, opts *baremetal.CreateBucketOptions) (*baremetal.Bucket, error) {
 	ret := _m.Called(compartmentID, name, namespaceName, opts)
@@ -594,6 +615,27 @@ func (_m *BareMetalClient) DeleteAPIKey(userID string, fingerprint string, opts 
 	return r0
 }
 
+// DeleteBackendSet provides a mock function with given fields: loadBalancerID, backendSetName, opts
+func (_m *BareMetalClient) DeleteBackendSet(loadBalancerID string, backendSetName string, opts *baremetal.ClientRequestOptions) (string, error) {
+	ret := _m.Called(loadBalancerID, backendSetName, opts)
+
+	var r0 string
+	if rf, ok := ret.Get(0).(func(string, string, *baremetal.ClientRequestOptions) string); ok {
+		r0 = rf(loadBalancerID, backendSetName, opts)
+	} else {
+		r0 = ret.Get(0).(string)
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(string, string, *baremetal.ClientRequestOptions) error); ok {
+		r1 = rf(loadBalancerID, backendSetName, opts)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // DeleteBucket provides a mock function with given fields: name, namespaceName, opts
 func (_m *BareMetalClient) DeleteBucket(name string, namespaceName baremetal.Namespace, opts *baremetal.IfMatchOptions) error {
 	ret := _m.Called(name, namespaceName, opts)
@@ -937,6 +979,29 @@ func (_m *BareMetalClient) DetachVolume(id string, opts *baremetal.IfMatchOption
 	}
 
 	return r0
+}
+
+// GetBackendSet provides a mock function with given fields: loadBalancerID, backendSetName, opts
+func (_m *BareMetalClient) GetBackendSet(loadBalancerID string, backendSetName string, opts *baremetal.ClientRequestOptions) (*baremetal.BackendSet, error) {
+	ret := _m.Called(loadBalancerID, backendSetName, opts)
+
+	var r0 *baremetal.BackendSet
+	if rf, ok := ret.Get(0).(func(string, string, *baremetal.ClientRequestOptions) *baremetal.BackendSet); ok {
+		r0 = rf(loadBalancerID, backendSetName, opts)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*baremetal.BackendSet)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(string, string, *baremetal.ClientRequestOptions) error); ok {
+		r1 = rf(loadBalancerID, backendSetName, opts)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
 }
 
 // GetBucket provides a mock function with given fields: bucketName, namespaceName
@@ -2667,6 +2732,27 @@ func (_m *BareMetalClient) TerminateInstance(id string, opts *baremetal.IfMatchO
 	}
 
 	return r0
+}
+
+// UpdateBackendSet provides a mock function with given fields: loadBalancerID, backendSetName, opts
+func (_m *BareMetalClient) UpdateBackendSet(loadBalancerID string, backendSetName string, opts *baremetal.UpdateLoadBalancerBackendSetOptions) (string, error) {
+	ret := _m.Called(loadBalancerID, backendSetName, opts)
+
+	var r0 string
+	if rf, ok := ret.Get(0).(func(string, string, *baremetal.UpdateLoadBalancerBackendSetOptions) string); ok {
+		r0 = rf(loadBalancerID, backendSetName, opts)
+	} else {
+		r0 = ret.Get(0).(string)
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(string, string, *baremetal.UpdateLoadBalancerBackendSetOptions) error); ok {
+		r1 = rf(loadBalancerID, backendSetName, opts)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
 }
 
 // UpdateBucket provides a mock function with given fields: compartmentID, name, namespaceName, opts
