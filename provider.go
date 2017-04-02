@@ -5,6 +5,7 @@ package main
 import (
 	"errors"
 	"fmt"
+	"net/http"
 
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/oracle/terraform-provider-baremetal/core"
@@ -185,6 +186,9 @@ func providerConfig(d *schema.ResourceData) (client interface{}, err error) {
 	clientOpts := []baremetal.NewClientOptionsFunc{
 		func(o *baremetal.NewClientOptions) {
 			o.UserAgent = fmt.Sprintf("baremetal-terraform-v%s", baremetal.SDKVersion)
+		},
+		func(o *baremetal.NewClientOptions) {
+			o.Transport = &http.Transport{Proxy: http.ProxyFromEnvironment}
 		},
 	}
 
