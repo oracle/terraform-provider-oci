@@ -28,7 +28,7 @@ func (l *ListDatabases) GetList() interface{} {
 
 // GetDatabase retrieves information about a Database
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/database/20160918/Database/GetDatabase
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/database/20160918/Database/GetDatabase
 func (c *Client) GetDatabase(id string) (res *Database, e error) {
 	details := &requestDetails{
 		name: resourceDatabases,
@@ -47,7 +47,7 @@ func (c *Client) GetDatabase(id string) (res *Database, e error) {
 
 // ListDatabases returns a list of supported Oracle database versions. The request MAY contain optional paging arguments.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/database/20160918/Database/ListDatabases
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/database/20160918/Database/ListDatabases
 func (c *Client) ListDatabases(compartmentID, dbHomeID string, limit uint64, opts *PageListOptions) (resources *ListDatabases, e error) {
 	required := struct {
 		listOCIDRequirement

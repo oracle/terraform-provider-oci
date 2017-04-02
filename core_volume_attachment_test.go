@@ -3,14 +3,15 @@
 package main
 
 import (
+	"strconv"
 	"testing"
 	"time"
 
 	"github.com/MustWin/baremetal-sdk-go"
-	"github.com/oracle/terraform-provider-baremetal/client/mocks"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
+	"github.com/oracle/terraform-provider-baremetal/client/mocks"
 
 	"github.com/stretchr/testify/suite"
 )
@@ -44,7 +45,7 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) SetupTest() {
 
 	s.Config = `
 		resource "baremetal_core_volume_attachment" "t" {
-			attachment_type = "attachment_type"
+			attachment_type = "iscsi"
 			compartment_id = "compartment_id"
 			instance_id = "instance_id"
 			volume_id = "volume_id"
@@ -54,7 +55,7 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) SetupTest() {
 
 	s.ResourceName = "baremetal_core_volume_attachment.t"
 	s.Res = &baremetal.VolumeAttachment{
-		AttachmentType:     "attachment_type",
+		AttachmentType:     "iscsi",
 		AvailabilityDomain: "availability_domain",
 		CompartmentID:      "compartment_id",
 		DisplayName:        "display_name",
@@ -63,12 +64,17 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) SetupTest() {
 		State:              baremetal.ResourceAttached,
 		TimeCreated:        s.TimeCreated,
 		VolumeID:           "volume_id",
+		CHAPSecret:         "chap_secret",
+		CHAPUsername:       "chap_username",
+		IPv4:               "ipv4",
+		IQN:                "iqn",
+		Port:               12345,
 	}
 	s.Res.ETag = "etag"
 	s.Res.RequestID = "opcrequestid"
 
 	s.DetachedRes = &baremetal.VolumeAttachment{
-		AttachmentType:     "attachment_type",
+		AttachmentType:     "iscsi",
 		AvailabilityDomain: "availability_domain",
 		CompartmentID:      "compartment_id",
 		DisplayName:        "display_name",
@@ -83,7 +89,7 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) SetupTest() {
 
 	s.Client.On(
 		"AttachVolume",
-		"attachment_type",
+		"iscsi",
 		"instance_id",
 		"volume_id",
 		(*baremetal.CreateOptions)(nil)).Return(s.Res, nil)
@@ -109,6 +115,11 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) TestCreateResourceCoreVolumeAtta
 					resource.TestCheckResourceAttr(s.ResourceName, "state", s.Res.State),
 					resource.TestCheckResourceAttr(s.ResourceName, "time_created", s.Res.TimeCreated.String()),
 					resource.TestCheckResourceAttr(s.ResourceName, "volume_id", s.Res.VolumeID),
+					resource.TestCheckResourceAttr(s.ResourceName, "chap_secret", s.Res.CHAPSecret),
+					resource.TestCheckResourceAttr(s.ResourceName, "chap_username", s.Res.CHAPUsername),
+					resource.TestCheckResourceAttr(s.ResourceName, "ipv4", s.Res.IPv4),
+					resource.TestCheckResourceAttr(s.ResourceName, "iqn", s.Res.IQN),
+					resource.TestCheckResourceAttr(s.ResourceName, "port", strconv.Itoa(s.Res.Port)),
 				),
 			},
 		},

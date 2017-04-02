@@ -6,7 +6,7 @@ import "net/http"
 
 // Subnet represents a network subnet
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Subnet/
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/Subnet/
 type Subnet struct {
 	OPCRequestIDUnmarshaller
 	ETagUnmarshaller
@@ -37,7 +37,7 @@ func (l *ListSubnets) GetList() interface{} {
 
 // CreateSubnet will create a new subnet.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Subnet/CreateSubnet
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/Subnet/CreateSubnet
 func (c *Client) CreateSubnet(
 	availabilityDomain,
 	cidrBlock,
@@ -74,9 +74,9 @@ func (c *Client) CreateSubnet(
 	return
 }
 
-// GetSubnet will retrieve Subnet for subnetID.
+// GetSubnet will retrieve Subnet for subnetID
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Subnet/GetSubnet
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/Subnet/GetSubnet
 func (c *Client) GetSubnet(id string) (subnet *Subnet, e error) {
 	details := &requestDetails{
 		ids:  urlParts{id},
@@ -93,9 +93,9 @@ func (c *Client) GetSubnet(id string) (subnet *Subnet, e error) {
 	return
 }
 
-// Updates the display name for the specified Subnet.
+// UpdateSubnet updates the display name for the specified Subnet
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/iaas/20160918/Subnet/UpdateSubnet
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/Subnet/UpdateSubnet
 func (c *Client) UpdateSubnet(id string, opts *IfMatchDisplayNameOptions) (subnet *Subnet, e error) {
 	details := &requestDetails{
 		name:     resourceSubnets,
@@ -113,9 +113,9 @@ func (c *Client) UpdateSubnet(id string, opts *IfMatchDisplayNameOptions) (subne
 	return
 }
 
-// DeleteSubnet will delete a subnet with subnetID.
+// DeleteSubnet will delete a subnet with subnetID
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Subnet/DeleteSubnet
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/Subnet/DeleteSubnet
 func (c *Client) DeleteSubnet(id string, opts *IfMatchOptions) error {
 	details := &requestDetails{
 		ids:      urlParts{id},
@@ -131,7 +131,7 @@ func (c *Client) DeleteSubnet(id string, opts *IfMatchOptions) error {
 // Options.  Results may be paged by assigning the NewPage from the last
 // response to the Page member of Options.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Subnet/ListSubnets
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/Subnet/ListSubnets
 func (c *Client) ListSubnets(compartmentID, vcnID string, opts *ListOptions) (subnets *ListSubnets, e error) {
 	required := struct {
 		listOCIDRequirement

@@ -30,9 +30,9 @@ func (l *ListSwiftPasswords) GetList() interface{} {
 	return &l.SwiftPasswords
 }
 
-// Create new SwiftPassword for userID.
+// CreateSwiftPassword creates a new SwiftPassword for userID.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/identity/20160918/SwiftPassword/CreateSwiftPassword
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/identity/20160918/SwiftPassword/CreateSwiftPassword
 func (c *Client) CreateSwiftPassword(userID, desc string, opts *RetryTokenOptions) (res *SwiftPassword, e error) {
 	required := struct {
 		Description string `header:"-" json:"description" url:"-"`
@@ -57,9 +57,9 @@ func (c *Client) CreateSwiftPassword(userID, desc string, opts *RetryTokenOption
 	return
 }
 
-// Update SwiftPassword.
+// UpdateSwiftPassword updates a SwiftPassword.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/identity/20160918/SwiftPassword/UpdateSwiftPassword
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/identity/20160918/SwiftPassword/UpdateSwiftPassword
 func (c *Client) UpdateSwiftPassword(id, userID string, opts *UpdateIdentityOptions) (res *SwiftPassword, e error) {
 	details := &requestDetails{
 		ids:      urlParts{userID, resourceSwiftPasswords, id},
@@ -77,9 +77,9 @@ func (c *Client) UpdateSwiftPassword(id, userID string, opts *UpdateIdentityOpti
 	return
 }
 
-// Delete SwiftPassword id for userID.
+// DeleteSwiftPassword deletes a SwiftPassword id for userID.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/identity/20160918/SwiftPassword/DeleteSwiftPassword
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/identity/20160918/SwiftPassword/DeleteSwiftPassword
 func (c *Client) DeleteSwiftPassword(id, userID string, opts *IfMatchOptions) (e error) {
 	details := &requestDetails{
 		ids:      urlParts{userID, resourceSwiftPasswords, id},
@@ -90,9 +90,9 @@ func (c *Client) DeleteSwiftPassword(id, userID string, opts *IfMatchOptions) (e
 	return c.identityApi.deleteRequest(details)
 }
 
-// Get all SwiftPasswords for userID.
+// ListSwiftPasswords gets all SwiftPasswords for userID.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/identity/20160918/SwiftPassword/ListSwiftPasswords
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/identity/20160918/SwiftPassword/ListSwiftPasswords
 func (c *Client) ListSwiftPasswords(userID string) (resources *ListSwiftPasswords, e error) {
 	details := &requestDetails{
 		ids:  urlParts{userID, resourceSwiftPasswords},

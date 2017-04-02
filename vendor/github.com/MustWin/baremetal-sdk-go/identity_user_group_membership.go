@@ -8,8 +8,9 @@ import (
 	"time"
 )
 
+// UserGroupMembership represents the membership of a user in a group
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/identity.html#UserGroupMembership
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/identity/20160918/UserGroupMembership/
 type UserGroupMembership struct {
 	OPCRequestIDUnmarshaller
 	ETagUnmarshaller
@@ -34,7 +35,7 @@ func (l *ListUserGroupMemberships) GetList() interface{} {
 
 // AddUserToGroup adds a user to a group.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/identity.html#addUserToGroup
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/identity/20160918/UserGroupMembership/AddUserToGroup
 func (c *Client) AddUserToGroup(userID, groupID string, opts *RetryTokenOptions) (res *UserGroupMembership, e error) {
 	required := struct {
 		GroupID string `header:"-" json:"groupId" url:"-"`
@@ -62,7 +63,7 @@ func (c *Client) AddUserToGroup(userID, groupID string, opts *RetryTokenOptions)
 
 // GetUserGroupMembership returns a UserGroupMembership identified by id.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/identity.html#getUserGroupMembership
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/identity/20160918/UserGroupMembership/GetUserGroupMembership
 func (c *Client) GetUserGroupMembership(id string) (res *UserGroupMembership, e error) {
 	details := &requestDetails{
 		ids:  urlParts{id},
@@ -81,7 +82,7 @@ func (c *Client) GetUserGroupMembership(id string) (res *UserGroupMembership, e 
 
 // DeleteUserGroupMembership removes a user from a group.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/identity.html#removeUserFromGroup
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/identity/20160918/UserGroupMembership/RemoveUserFromGroup
 func (c *Client) DeleteUserGroupMembership(id string, opts *IfMatchOptions) (e error) {
 	details := &requestDetails{
 		ids:      urlParts{id},
@@ -92,6 +93,9 @@ func (c *Client) DeleteUserGroupMembership(id string, opts *IfMatchOptions) (e e
 	return c.identityApi.deleteRequest(details)
 }
 
+// ListUserGroupMemberships lists the UserGroupMembership objects in a user's tenancy.
+//
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/identity/20160918/UserGroupMembership/ListUserGroupMemberships
 func (c *Client) ListUserGroupMemberships(opts *ListMembershipsOptions) (resources *ListUserGroupMemberships, e error) {
 	details := &requestDetails{
 		name:     resourceUserGroupMemberships,

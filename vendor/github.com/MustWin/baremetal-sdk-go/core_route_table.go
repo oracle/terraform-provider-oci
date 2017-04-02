@@ -11,7 +11,7 @@ type RouteRule struct {
 
 // RouteTable describes a route table
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/RouteTable/
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/RouteTable/
 type RouteTable struct {
 	OPCRequestIDUnmarshaller
 	ETagUnmarshaller
@@ -37,7 +37,7 @@ func (l *ListRouteTables) GetList() interface{} {
 
 // CreateRouteTable is used to create a route table
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/RouteTable/CreateRouteTable
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/RouteTable/CreateRouteTable
 func (c *Client) CreateRouteTable(compartmentID, vcnID string, routeRules []RouteRule, opts *CreateOptions) (res *RouteTable, e error) {
 	required := struct {
 		ocidRequirement
@@ -67,7 +67,7 @@ func (c *Client) CreateRouteTable(compartmentID, vcnID string, routeRules []Rout
 
 // GetRouteTable is used to get information about a route table
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/RouteTable/GetRouteTable
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/RouteTable/GetRouteTable
 func (c *Client) GetRouteTable(id string) (res *RouteTable, e error) {
 	details := &requestDetails{
 		name: resourceRouteTables,
@@ -86,7 +86,7 @@ func (c *Client) GetRouteTable(id string) (res *RouteTable, e error) {
 
 // UpdateRouteTable is used to update a route table
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/RouteTable/UpdateRouteTable
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/RouteTable/UpdateRouteTable
 func (c *Client) UpdateRouteTable(id string, opts *UpdateRouteTableOptions) (res *RouteTable, e error) {
 	details := &requestDetails{
 		ids:      urlParts{id},
@@ -106,7 +106,7 @@ func (c *Client) UpdateRouteTable(id string, opts *UpdateRouteTableOptions) (res
 
 // DeleteRouteTable is used to delete a route table
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/RouteTable/DeleteRouteTable
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/RouteTable/DeleteRouteTable
 func (c *Client) DeleteRouteTable(id string, opts *IfMatchOptions) (e error) {
 	details := &requestDetails{
 		ids:      urlParts{id},
@@ -119,7 +119,7 @@ func (c *Client) DeleteRouteTable(id string, opts *IfMatchOptions) (e error) {
 
 // ListRouteTables is used to list route tables in a given compartment and vcn
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/RouteTable/ListRouteTables
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/RouteTable/ListRouteTables
 func (c *Client) ListRouteTables(compartmentID, vcnID string, opts *ListOptions) (res *ListRouteTables, e error) {
 	required := struct {
 		listOCIDRequirement

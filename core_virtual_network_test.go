@@ -59,7 +59,7 @@ func (s *ResourceCoreVirtualNetworkTestSuite) SetupTest() {
 	s.Res = &baremetal.VirtualNetwork{
 		CidrBlock:             "cidr_block",
 		CompartmentID:         "compartment_id",
-		DefaultRoutingTableID: "default_routing_table_id",
+		DefaultRouteTableID: "default_route_table_id",
 		DefaultSecurityListID: "default_security_list_id",
 		DisplayName:           "display_name",
 		ID:                    "id",
@@ -72,7 +72,7 @@ func (s *ResourceCoreVirtualNetworkTestSuite) SetupTest() {
 	s.DeletingRes = &baremetal.VirtualNetwork{
 		CidrBlock:             "cidr_block",
 		CompartmentID:         "compartment_id",
-		DefaultRoutingTableID: "default_routing_table_id",
+		DefaultRouteTableID: "default_route_table_id",
 		DefaultSecurityListID: "default_security_list_id",
 		DisplayName:           "display_name",
 		ID:                    "id",
@@ -83,7 +83,7 @@ func (s *ResourceCoreVirtualNetworkTestSuite) SetupTest() {
 	s.DeletedRes = &baremetal.VirtualNetwork{
 		CidrBlock:             "cidr_block",
 		CompartmentID:         "compartment_id",
-		DefaultRoutingTableID: "default_routing_table_id",
+		DefaultRouteTableID: "default_route_table_id",
 		DefaultSecurityListID: "default_security_list_id",
 		DisplayName:           "display_name",
 		ID:                    "id",
@@ -115,7 +115,7 @@ func (s *ResourceCoreVirtualNetworkTestSuite) TestCreateResourceCoreVirtualNetwo
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "cidr_block", s.Res.CidrBlock),
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", s.Res.CompartmentID),
-					resource.TestCheckResourceAttr(s.ResourceName, "default_routing_table_id", s.Res.DefaultRoutingTableID),
+					resource.TestCheckResourceAttr(s.ResourceName, "default_route_table_id", s.Res.DefaultRouteTableID),
 					resource.TestCheckResourceAttr(s.ResourceName, "default_security_list_id", s.Res.DefaultSecurityListID),
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", s.Res.DisplayName),
 					resource.TestCheckResourceAttr(s.ResourceName, "id", s.Res.ID),
@@ -199,7 +199,7 @@ func (s ResourceCoreVirtualNetworkTestSuite) TestUpdateCidrBlockForcesNewVirtual
 	res := &baremetal.VirtualNetwork{
 		CidrBlock:             "new_cidr_block",
 		CompartmentID:         "compartment_id",
-		DefaultRoutingTableID: "default_routing_table_id",
+		DefaultRouteTableID: "default_route_table_id",
 		DefaultSecurityListID: "default_security_list_id",
 		DisplayName:           "display_name",
 		ID:                    "new_id",

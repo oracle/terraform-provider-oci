@@ -25,7 +25,7 @@ func (l *ListShapes) GetList() interface{} {
 // These include AvailabilityDomain, Limit and Page for pagination support, and
 // an ImageID.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Shape/ListShapes
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/Shape/ListShapes
 func (c *Client) ListShapes(compartmentID string, opts *ListShapesOptions) (shapes *ListShapes, e error) {
 	details := &requestDetails{
 		name:     resourceShapes,

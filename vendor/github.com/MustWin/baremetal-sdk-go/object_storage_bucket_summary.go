@@ -8,7 +8,7 @@ import (
 
 // BucketSummary is the list representation of a bucket
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/objectstorage/20160918/BucketSummary/
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/objectstorage/20160918/BucketSummary/
 
 type BucketSummary struct {
 	Namespace     Namespace `json:"namespace"`
@@ -32,7 +32,7 @@ func (ref *ListBuckets) GetList() interface{} {
 
 // ListBuckets returns BucketSummaries for all the buckets in a namespace
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/objectstorage/20160918/BucketSummary/ListBuckets
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/objectstorage/20160918/BucketSummary/ListBuckets
 func (c *Client) ListBuckets(
 	compartmentID string,
 	namespaceName Namespace,

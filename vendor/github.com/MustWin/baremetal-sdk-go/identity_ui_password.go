@@ -6,7 +6,7 @@ import "net/http"
 
 // UIPassword represents a user's temporary password.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/identity/20160918/UIPassword/
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/identity/20160918/UIPassword/
 type UIPassword struct {
 	OPCRequestIDUnmarshaller
 	ETagUnmarshaller
@@ -19,7 +19,7 @@ type UIPassword struct {
 
 // CreateOrResetUIPassword creates or resets password for the user with userID.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/identity/20160918/UIPassword/CreateOrResetUIPassword
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/identity/20160918/UIPassword/CreateOrResetUIPassword
 func (c *Client) CreateOrResetUIPassword(userID string, opts *RetryTokenOptions) (resource *UIPassword, e error) {
 	details := &requestDetails{
 		ids:      urlParts{userID, resourceUiPassword},

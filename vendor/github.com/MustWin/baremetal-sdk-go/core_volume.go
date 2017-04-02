@@ -6,7 +6,7 @@ import "net/http"
 
 // Volume describes cloud block storage
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Volume/
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/Volume/
 type Volume struct {
 	OPCRequestIDUnmarshaller
 	ETagUnmarshaller
@@ -33,7 +33,7 @@ func (l *ListVolumes) GetList() interface{} {
 
 // CreateVolume is used to create a cloud block storage device
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Volume/CreateVolume
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/Volume/CreateVolume
 func (c *Client) CreateVolume(availabilityDomain, compartmentID string, opts *CreateVolumeOptions) (res *Volume, e error) {
 	required := struct {
 		ocidRequirement
@@ -61,7 +61,7 @@ func (c *Client) CreateVolume(availabilityDomain, compartmentID string, opts *Cr
 
 // GetVolume retrieves information about a block volume
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Volume/GetVolume
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/Volume/GetVolume
 func (c *Client) GetVolume(id string) (res *Volume, e error) {
 	details := &requestDetails{
 		name: resourceVolumes,
@@ -80,7 +80,7 @@ func (c *Client) GetVolume(id string) (res *Volume, e error) {
 
 // UpdateVolume updates a volume's display name
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Volume/UpdateVolume
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/Volume/UpdateVolume
 func (c *Client) UpdateVolume(id string, opts *UpdateOptions) (res *Volume, e error) {
 	details := &requestDetails{
 		ids:      urlParts{id},
@@ -100,7 +100,7 @@ func (c *Client) UpdateVolume(id string, opts *UpdateOptions) (res *Volume, e er
 
 // DeleteVolume removes a cloud block storage volume
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Volume/DeleteVolume
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/Volume/DeleteVolume
 func (c *Client) DeleteVolume(id string, opts *IfMatchOptions) (e error) {
 	details := &requestDetails{
 		ids:      urlParts{id},
@@ -113,7 +113,7 @@ func (c *Client) DeleteVolume(id string, opts *IfMatchOptions) (e error) {
 
 // ListVolumes returns a list of volumes for a particular compartment
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Volume/ListVolumes
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/Volume/ListVolumes
 func (c *Client) ListVolumes(compartmentID string, opts *ListVolumesOptions) (res *ListVolumes, e error) {
 	details := &requestDetails{
 		name:     resourceVolumes,

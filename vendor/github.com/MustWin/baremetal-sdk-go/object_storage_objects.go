@@ -36,7 +36,7 @@ type HeadObject struct {
 	Namespace Namespace
 }
 
-// Objects are the items stored in ObjectStorage
+// Object is an item stored in ObjectStorage
 type Object struct {
 	HeadObject
 	Size    uint64
@@ -65,7 +65,7 @@ type DeleteObject struct {
 
 // ListObjects lists objects
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/objectstorage/20160918/ListObjects/ListObjects
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/objectstorage/20160918/ListObjects/ListObjects
 func (c *Client) ListObjects(namespace Namespace, bucket string, opts *ListObjectsOptions) (objects *ListObjects, e error) {
 	details := &requestDetails{
 		ids: urlParts{
@@ -90,7 +90,7 @@ func (c *Client) ListObjects(namespace Namespace, bucket string, opts *ListObjec
 
 // GetObject fetches an object from object storage
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/objectstorage/20160918/methods/GetObject
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/objectstorage/20160918/methods/GetObject
 func (c *Client) GetObject(
 	namespace Namespace,
 	bucketName string,
@@ -124,7 +124,7 @@ func (c *Client) GetObject(
 
 // DeleteObject deletes an object from object storage
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/objectstorage/20160918/methods/DeleteObject
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/objectstorage/20160918/methods/DeleteObject
 func (c *Client) DeleteObject(
 	namespace Namespace,
 	bucketName string,
@@ -156,7 +156,7 @@ func (c *Client) DeleteObject(
 
 // HeadObject fetches the user defined metadata for an object
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/objectstorage/20160918/methods/HeadObject
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/objectstorage/20160918/methods/HeadObject
 func (c *Client) HeadObject(
 	namespace Namespace,
 	bucketName string,
@@ -188,7 +188,7 @@ func (c *Client) HeadObject(
 
 // PutObject updates an object in object storage
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/objectstorage/20160918/methods/PutObject
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/objectstorage/20160918/methods/PutObject
 func (c *Client) PutObject(
 	namespace Namespace,
 	bucketName string,

@@ -96,6 +96,8 @@ or meet us in the OBMCS forums
 https://community.oracle.com/community/cloud_computing/bare-metal
 
 ## Known serious bugs
+See [Issues.](https://github.com/oracle/terraform-provider-baremetal/issues)
+
 There are 2 issues with the potential for unexpected data loss.
 1. [Issue #44, running apply in an enviroment where a subnet has multiple attached Security Lists can cause all of the instances in the subnet to be terminated and re-created.](https://github.com/oracle/terraform-provider-baremetal/issues/44)  
 2. [Issue #45, not currently reproducible. Running apply in an enviroment with attached block volumes can cause all of the block volumes to be temporarily detatched and reattached. This leads to block volume IO interruption.](https://github.com/oracle/terraform-provider-baremetal/issues/45)  

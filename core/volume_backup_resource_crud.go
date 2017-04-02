@@ -58,7 +58,7 @@ func (s *VolumeBackupResourceCrud) Get() (e error) {
 }
 
 func (s *VolumeBackupResourceCrud) Update() (e error) {
-	opts := &baremetal.UpdateBackupOptions{}
+	opts := &baremetal.IfMatchDisplayNameOptions{}
 	displayName, ok := s.D.GetOk("display_name")
 	if ok {
 		opts.DisplayName = displayName.(string)

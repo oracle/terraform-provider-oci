@@ -5,6 +5,7 @@ package main
 import (
 	"errors"
 	"fmt"
+	"net/http"
 
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/oracle/terraform-provider-baremetal/core"
@@ -13,6 +14,8 @@ import (
 	"github.com/oracle/terraform-provider-baremetal/objectstorage"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
+	"os"
+	"strconv"
 )
 
 var descriptions map[string]string
@@ -27,11 +30,15 @@ func init() {
 		"private_key_path": "(Optional) The path to the user's PEM formatted private key.\n" +
 			"A private_key or a private_key_path must be provided.",
 		"private_key_password": "(Optional) The password used to secure the private key.",
+		"timeout_minutes": "(Optional) The minimum API timeout for requests",
 	}
 }
 
 // Provider is the adapter for terraform, that gives access to all the resources
 func Provider(configfn schema.ConfigureFunc) terraform.ResourceProvider {
+	if os.Getenv("TF_ORACLE_ENV") == "test" && os.Getenv("TF_VAR_timeout_minutes") == "" {
+		os.Setenv("TF_VAR_timeout_minutes", "5") // This is for testing, it is overwritten correctly in ConfigureFunc when not in testmode
+	}
 	return &schema.Provider{
 		DataSourcesMap: dataSourcesMap(),
 		Schema:         schemaMap(),
@@ -64,6 +71,12 @@ func schemaMap() map[string]*schema.Schema {
 			Default:     "",
 			Sensitive:   true,
 			Description: descriptions["private_key"],
+		},
+		"timeout_minutes": {
+			Type:        schema.TypeInt,
+			Optional:    true,
+			Default:     5,
+			Description: descriptions["timeout_minutes"],
 		},
 		"private_key_path": {
 			Type:        schema.TypeString,
@@ -167,10 +180,15 @@ func providerConfig(d *schema.ResourceData) (client interface{}, err error) {
 	privateKeyBuffer, hasKey := d.Get("private_key").(string)
 	privateKeyPath, hasKeyPath := d.Get("private_key_path").(string)
 	privateKeyPassword, hasKeyPass := d.Get("private_key_password").(string)
+	defaultTimeout := d.Get("timeout_minutes").(int)
+	os.Setenv("TF_VAR_timeout_minutes", strconv.Itoa(defaultTimeout))
 
 	clientOpts := []baremetal.NewClientOptionsFunc{
 		func(o *baremetal.NewClientOptions) {
 			o.UserAgent = fmt.Sprintf("baremetal-terraform-v%s", baremetal.SDKVersion)
+		},
+		func(o *baremetal.NewClientOptions) {
+			o.Transport = &http.Transport{Proxy: http.ProxyFromEnvironment}
 		},
 	}
 

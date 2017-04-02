@@ -6,7 +6,7 @@ import "time"
 
 // VnicAttachment Vnic information for a particular instance
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/VnicAttachment/
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/VnicAttachment/
 type VnicAttachment struct {
 	AvailabilityDomain string    `json:"availabilityDomain"`
 	CompartmentID      string    `json:"compartmentId"`
@@ -38,7 +38,7 @@ func (l *ListVnicAttachments) GetList() interface{} {
 // are assigned to the optional CoreOptions argument.  Page and Limit can also
 // be supplied to support pagination.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/VnicAttachment/ListVnicAttachments
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/VnicAttachment/ListVnicAttachments
 func (c *Client) ListVnicAttachments(compartmentID string, opts *ListVnicAttachmentsOptions) (res *ListVnicAttachments, e error) {
 	details := &requestDetails{
 		name:     resourceVnicAttachments,

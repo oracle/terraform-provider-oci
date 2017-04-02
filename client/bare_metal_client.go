@@ -157,6 +157,6 @@ type BareMetalClient interface {
 	UpdateUser(id string, opts *baremetal.UpdateIdentityOptions) (res *baremetal.User, e error)
 	UpdateVirtualNetwork(id string, opts *baremetal.IfMatchDisplayNameOptions) (vcn *baremetal.VirtualNetwork, e error)
 	UpdateVolume(id string, opts *baremetal.UpdateOptions) (res *baremetal.Volume, e error)
-	UpdateVolumeBackup(id string, opts *baremetal.UpdateBackupOptions) (vol *baremetal.VolumeBackup, e error)
+	UpdateVolumeBackup(id string, opts *baremetal.IfMatchDisplayNameOptions) (vol *baremetal.VolumeBackup, e error)
 	UploadAPIKey(userID, key string, opts *baremetal.RetryTokenOptions) (apiKey *baremetal.APIKey, e error)
 }

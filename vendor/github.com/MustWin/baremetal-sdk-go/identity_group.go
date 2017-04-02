@@ -33,7 +33,7 @@ func (l *ListGroups) GetList() interface{} {
 // unique. groupDescription is optional. You MAY supply one option with an
 // idempotency token.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/identity/20160918/Group/CreateGroup
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/identity/20160918/Group/CreateGroup
 func (c *Client) CreateGroup(name, desc string, opts *RetryTokenOptions) (res *Group, e error) {
 	required := identityCreationRequirement{
 		CompartmentID: c.authInfo.tenancyOCID,
@@ -59,7 +59,7 @@ func (c *Client) CreateGroup(name, desc string, opts *RetryTokenOptions) (res *G
 
 // GetGroup returns a group identified by groupID.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/identity/20160918/Group/GetGroup
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/identity/20160918/Group/GetGroup
 func (c *Client) GetGroup(id string) (res *Group, e error) {
 	details := &requestDetails{
 		ids:  urlParts{id},
@@ -78,7 +78,7 @@ func (c *Client) GetGroup(id string) (res *Group, e error) {
 
 // UpdateGroup updates the description of a group.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/identity/20160918/Group/UpdateGroup
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/identity/20160918/Group/UpdateGroup
 func (c *Client) UpdateGroup(id string, opts *UpdateIdentityOptions) (res *Group, e error) {
 	details := &requestDetails{
 		ids:      urlParts{id},
@@ -99,7 +99,7 @@ func (c *Client) UpdateGroup(id string, opts *UpdateIdentityOptions) (res *Group
 // DeleteGroup removes a group identified by groupID. Optionally pass an
 // etag for optmistic concurrency control.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/identity/20160918/Group/DeleteGroup
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/identity/20160918/Group/DeleteGroup
 func (c *Client) DeleteGroup(id string, opts *IfMatchOptions) (e error) {
 	details := &requestDetails{
 		ids:      urlParts{id},
@@ -112,7 +112,7 @@ func (c *Client) DeleteGroup(id string, opts *IfMatchOptions) (e error) {
 
 // ListGroups returns a list of Groups in a tenancy. The request MAY contain optional paging arguments.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/identity/20160918/Group/ListGroups
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/identity/20160918/Group/ListGroups
 func (c *Client) ListGroups(opts *ListOptions) (resources *ListGroups, e error) {
 	details := &requestDetails{
 		name:     resourceGroups,

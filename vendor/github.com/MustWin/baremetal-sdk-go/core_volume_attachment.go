@@ -6,11 +6,11 @@ import "net/http"
 
 // VolumeAttachment describes a cloud block storage attachment
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/VolumeAttachment/
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/VolumeAttachment/
 type VolumeAttachment struct {
 	OPCRequestIDUnmarshaller
 	ETagUnmarshaller
-	AttachmentType     string `json:"type"`
+	AttachmentType     string `json:"attachmentType"`
 	AvailabilityDomain string `json:"availabilityDomain"`
 	CompartmentID      string `json:"compartmentId"`
 	DisplayName        string `json:"displayName"`
@@ -19,6 +19,13 @@ type VolumeAttachment struct {
 	State              string `json:"lifecycleState"`
 	TimeCreated        Time   `json:"timeCreated"`
 	VolumeID           string `json:"volumeId"`
+	// IScsiVolumeAttachment extended attributes
+	// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/IScsiVolumeAttachment/
+	CHAPSecret   string `json:"chapSecret,omitempty"`
+	CHAPUsername string `json:"chapUsername,omitempty"`
+	IPv4         string `json:"ipv4,omitempty"`
+	IQN          string `json:"iqn,omitempty"` // iSCSI Qualified Name per RFC 3720
+	Port         int    `json:"port,omitempty"`
 }
 
 // ListVolumeAttachments contains a list of volume attachments
@@ -35,7 +42,7 @@ func (l *ListVolumeAttachments) GetList() interface{} {
 
 //AttachVolume attaches a storage volume to the specified instance
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/VolumeAttachment/AttachVolume
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/VolumeAttachment/AttachVolume
 func (c *Client) AttachVolume(attachmentType, instanceID, volumeID string, opts *CreateOptions) (res *VolumeAttachment, e error) {
 	required := struct {
 		AttachmentType string `header:"-" json:"type" url:"-"`
@@ -65,7 +72,7 @@ func (c *Client) AttachVolume(attachmentType, instanceID, volumeID string, opts 
 
 // GetVolumeAttachment gets information about the specified volume attachment
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/VolumeAttachment/GetVolumeAttachment
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/VolumeAttachment/GetVolumeAttachment
 func (c *Client) GetVolumeAttachment(id string) (res *VolumeAttachment, e error) {
 	details := &requestDetails{
 		ids:  urlParts{id},
@@ -84,7 +91,7 @@ func (c *Client) GetVolumeAttachment(id string) (res *VolumeAttachment, e error)
 
 // DetachVolume detaches a storage volume from the specified instance
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Volume/DetachVolume
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/Volume/DetachVolume
 func (c *Client) DetachVolume(id string, opts *IfMatchOptions) (e error) {
 	details := &requestDetails{
 		ids:      urlParts{id},
@@ -98,7 +105,7 @@ func (c *Client) DetachVolume(id string, opts *IfMatchOptions) (e error) {
 // ListVolumeAttachments gets a list of the volume attachments in the specified
 // compartment
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/VolumeAttachment/ListVolumeAttachments
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/VolumeAttachment/ListVolumeAttachments
 func (c *Client) ListVolumeAttachments(compartmentID string, opts *ListVolumeAttachmentsOptions) (res *ListVolumeAttachments, e error) {
 	details := &requestDetails{
 		name:     resourceVolumeAttachments,

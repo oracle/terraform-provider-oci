@@ -27,16 +27,16 @@ type IPSecConnectionDevice struct {
 
 // IPSecConnectionDeviceConfig information to set up an IPSec tunnel.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#IPSecConnectionDeviceConfig
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/IPSecConnectionDeviceConfig/
 type IPSecConnectionDeviceConfig struct {
 	OPCRequestIDUnmarshaller
 	IPSecConnectionDevice
 	Tunnels []TunnelConfig `json:"tunnels"`
 }
 
-// IPSecConnectionDeviceConfig information on a IPSec tunnel status
+// IPSecConnectionDeviceStatus information on a IPSec tunnel status
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#IPSecConnectionDeviceStatus
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/IPSecConnectionDeviceStatus/
 type IPSecConnectionDeviceStatus struct {
 	OPCRequestIDUnmarshaller
 	IPSecConnectionDevice
@@ -45,7 +45,7 @@ type IPSecConnectionDeviceStatus struct {
 
 // IPSecConnection information about an IPSec connection
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/IPSecConnection/
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/IPSecConnection/
 type IPSecConnection struct {
 	OPCRequestIDUnmarshaller
 	ETagUnmarshaller
@@ -73,7 +73,7 @@ func (l *ListIPSecConnections) GetList() interface{} {
 
 // CreateIPSecConnection create an IPSec connection.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#createIPSecConnection
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/IPSecConnection/CreateIPSecConnection
 func (c *Client) CreateIPSecConnection(compartmentID, cpeID, drgID string, staticRoutes []string, opts *CreateOptions) (conn *IPSecConnection, e error) {
 	required := struct {
 		ocidRequirement
@@ -107,7 +107,7 @@ func (c *Client) CreateIPSecConnection(compartmentID, cpeID, drgID string, stati
 // Results can be further refined by optional parameters DrgID and/or CpeID. Paging
 // is supported by providing optional Page and Limit parameters.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#listIPSecConnections
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/IPSecConnection/ListIPSecConnections
 func (c *Client) ListIPSecConnections(compartmentID string, opts *ListIPSecConnsOptions) (conns *ListIPSecConnections, e error) {
 	details := &requestDetails{
 		name:     resourceIPSecConnections,
@@ -127,7 +127,7 @@ func (c *Client) ListIPSecConnections(compartmentID string, opts *ListIPSecConns
 
 // GetIPSecConnection retrieves the IPSec connection identified by id
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#getIPSecConnection
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/IPSecConnection/GetIPSecConnection
 func (c *Client) GetIPSecConnection(id string) (conn *IPSecConnection, e error) {
 	details := &requestDetails{
 		name: resourceIPSecConnections,
@@ -144,9 +144,9 @@ func (c *Client) GetIPSecConnection(id string) (conn *IPSecConnection, e error) 
 	return
 }
 
-// Updates the display name for the specified IPSec connection.
+// UpdateIPSecConnection updates the display name for the specified IPSec connection.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/iaas/20160918/IPSecConnection/UpdateIPSecConnection
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/IPSecConnection/UpdateIPSecConnection
 func (c *Client) UpdateIPSecConnection(id string, opts *IfMatchDisplayNameOptions) (conn *IPSecConnection, e error) {
 	details := &requestDetails{
 		name:     resourceIPSecConnections,
@@ -166,7 +166,7 @@ func (c *Client) UpdateIPSecConnection(id string, opts *IfMatchDisplayNameOption
 
 // DeleteIPSecConnection deletes an IPSec connection.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#deleteIPSecConnection
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/IPSecConnection/DeleteIPSecConnection
 func (c *Client) DeleteIPSecConnection(id string, opts *IfMatchOptions) (e error) {
 	details := &requestDetails{
 		ids:      urlParts{id},
@@ -180,7 +180,7 @@ func (c *Client) DeleteIPSecConnection(id string, opts *IfMatchOptions) (e error
 // GetIPSecConnectionDeviceConfig retrieves router configuration to set up
 // IPSec tunnel on customer premise device.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/IPSecConnectionDeviceConfig/GetIPSecConnectionDeviceConfig
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/IPSecConnectionDeviceConfig/GetIPSecConnectionDeviceConfig
 func (c *Client) GetIPSecConnectionDeviceConfig(id string) (config *IPSecConnectionDeviceConfig, e error) {
 	details := &requestDetails{
 		name: resourceIPSecConnections,
@@ -199,7 +199,7 @@ func (c *Client) GetIPSecConnectionDeviceConfig(id string) (config *IPSecConnect
 
 // GetIPSecConnectionDeviceStatus get status on an IPSec tunnel.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/core.html#getIPSecConnectionDeviceStatus
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/IPSecConnectionDeviceStatus/GetIPSecConnectionDeviceStatus
 func (c *Client) GetIPSecConnectionDeviceStatus(id string) (status *IPSecConnectionDeviceStatus, e error) {
 	details := &requestDetails{
 		name: resourceIPSecConnections,

@@ -50,7 +50,7 @@ func (c *Client) GetDBNode(id string) (res *DBNode, e error) {
 // DBNodeAction starts, stops, or resets a compute instance identified by
 // instanceID.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/database/20160918/DbNode/DbNodeAction
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/database/20160918/DbNode/DbNodeAction
 func (c *Client) DBNodeAction(id string, action DBNodeAction, opts *HeaderOptions) (inst *DBNode, e error) {
 	required := struct {
 		Action string `header:"-" json:"-" url:"action"`
@@ -77,7 +77,7 @@ func (c *Client) DBNodeAction(id string, action DBNodeAction, opts *HeaderOption
 
 // ListDBNodes returns a list of database nodes in the specified DB System. The request MAY contain optional paging arguments.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/database/20160918/DbNode/ListDbNodes
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/database/20160918/DbNode/ListDbNodes
 func (c *Client) ListDBNodes(compartmentID, dbSystemID string, limit uint64, opts *PageListOptions) (resources *ListDBNodes, e error) {
 	required := struct {
 		listOCIDRequirement

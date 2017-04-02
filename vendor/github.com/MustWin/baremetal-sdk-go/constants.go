@@ -50,7 +50,8 @@ const (
 	InvalidParameter        = "InvalidParameter"
 	NotAuthorizedOrNotFound = "NotAuthorizedOrNotFound"
 
-	SDKVersion = "20160918"
+	SDKVersion  = "20160918"
+	SDKVersion2 = "20170115"
 
 	identityServiceAPI        = "https://identity.us-phoenix-1.oraclecloud.com"
 	identityServiceAPIVersion = SDKVersion
@@ -63,6 +64,9 @@ const (
 
 	objectStorageServiceAPI        = "https://objectstorage.us-phoenix-1.oraclecloud.com"
 	objectStorageServiceAPIVersion = SDKVersion
+
+	loadBalancerServiceAPI        = "https://iaas.us-phoenix-1.oraclecloud.com"
+	loadBalancerServiceAPIVersion = SDKVersion2
 
 	// Header Keys
 	headerBytesRemaining     = "opc-bytes-remaining"

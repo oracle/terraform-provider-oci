@@ -53,7 +53,7 @@ func (s *VirtualNetworkDatasourceCrud) SetData() {
 			res := map[string]string{
 				"cidr_block":               v.CidrBlock,
 				"compartment_id":           v.CompartmentID,
-				"default_routing_table_id": v.DefaultRoutingTableID,
+				"default_route_table_id": v.DefaultRouteTableID,
 				"default_security_list_id": v.DefaultSecurityListID,
 				"display_name":             v.DisplayName,
 				"id":                       v.ID,

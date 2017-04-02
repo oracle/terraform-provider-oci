@@ -4,7 +4,7 @@ package baremetal
 
 // Vnic describes a virtual network interface.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Vnic/
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/Vnic/
 type Vnic struct {
 	OPCRequestIDUnmarshaller
 	ETagUnmarshaller
@@ -22,7 +22,7 @@ type Vnic struct {
 // GetVnic retrieves information about a virtual network interface identified
 // by vnicID. ListVnicAttachments can be used to retrieve Vnic IDs.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/Vnic/GetVnic
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/Vnic/GetVnic
 func (c *Client) GetVnic(id string) (vnic *Vnic, e error) {
 	details := &requestDetails{
 		name: resourceVnics,

@@ -6,7 +6,7 @@ import "net/http"
 
 // DrgAttachment describes a Drg attachment to a Vcn
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/DrgAttachment/
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/DrgAttachment/
 type DrgAttachment struct {
 	OPCRequestIDUnmarshaller
 	ETagUnmarshaller
@@ -33,7 +33,7 @@ func (l *ListDrgAttachments) GetList() interface{} {
 
 // CreateDrgAttachment attaches a drg to a vcn.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/DrgAttachment/CreateDrgAttachment
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/DrgAttachment/CreateDrgAttachment
 func (c *Client) CreateDrgAttachment(drgID, vcnID string, opts *CreateOptions) (res *DrgAttachment, e error) {
 	required := struct {
 		DrgID string `header:"-" json:"drgId" url:"-"`
@@ -61,7 +61,7 @@ func (c *Client) CreateDrgAttachment(drgID, vcnID string, opts *CreateOptions) (
 
 // GetDrgAttachment gets information about the specified drg attachment
 //
-// Seehttps://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/DrgAttachment/GetDrgAttachment
+// Seehttps://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/DrgAttachment/GetDrgAttachment
 func (c *Client) GetDrgAttachment(id string) (res *DrgAttachment, e error) {
 	details := &requestDetails{
 		name: resourceDrgAttachments,
@@ -78,9 +78,9 @@ func (c *Client) GetDrgAttachment(id string) (res *DrgAttachment, e error) {
 	return
 }
 
-// Updates the display name for the specified DrgAttachment.
+// UpdateDrgAttachment updates the display name for the specified DrgAttachment.
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/iaas/20160918/DrgAttachment/UpdateDrgAttachment
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/DrgAttachment/UpdateDrgAttachment
 func (c *Client) UpdateDrgAttachment(id string, opts *IfMatchDisplayNameOptions) (drg *DrgAttachment, e error) {
 	details := &requestDetails{
 		name:     resourceDrgAttachments,
@@ -100,7 +100,7 @@ func (c *Client) UpdateDrgAttachment(id string, opts *IfMatchDisplayNameOptions)
 
 // DeleteDrgAttachment detaches a drg from its vcn
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/DrgAttachment/DeleteDrgAttachment
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/DrgAttachment/DeleteDrgAttachment
 func (c *Client) DeleteDrgAttachment(id string, opts *IfMatchOptions) (e error) {
 	details := &requestDetails{
 		name:     resourceDrgAttachments,
@@ -112,7 +112,7 @@ func (c *Client) DeleteDrgAttachment(id string, opts *IfMatchOptions) (e error) 
 
 // ListDrgAttachments gets a list of the drgs in the specified compartment
 //
-// See https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/core/20160918/DrgAttachment/ListDrgAttachments
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/DrgAttachment/ListDrgAttachments
 func (c *Client) ListDrgAttachments(compartmentID string, opts *ListDrgAttachmentsOptions) (res *ListDrgAttachments, e error) {
 	details := &requestDetails{
 		name:     resourceDrgAttachments,
