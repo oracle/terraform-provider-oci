@@ -122,6 +122,27 @@ func (_m *BareMetalClient) CreateBucket(compartmentID string, name string, names
 	return r0, r1
 }
 
+// CreateCertificate provides a mock function with given fields: loadBalancerID, certificateName, caCertificate, privateKey, passphrase, publicCertificate, opts
+func (_m *BareMetalClient) CreateCertificate(loadBalancerID string, certificateName string, caCertificate string, privateKey string, passphrase string, publicCertificate string, opts *baremetal.LoadBalancerOptions) (string, error) {
+	ret := _m.Called(loadBalancerID, certificateName, caCertificate, privateKey, passphrase, publicCertificate, opts)
+
+	var r0 string
+	if rf, ok := ret.Get(0).(func(string, string, string, string, string, string, *baremetal.LoadBalancerOptions) string); ok {
+		r0 = rf(loadBalancerID, certificateName, caCertificate, privateKey, passphrase, publicCertificate, opts)
+	} else {
+		r0 = ret.Get(0).(string)
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(string, string, string, string, string, string, *baremetal.LoadBalancerOptions) error); ok {
+		r1 = rf(loadBalancerID, certificateName, caCertificate, privateKey, passphrase, publicCertificate, opts)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // CreateCompartment provides a mock function with given fields: name, desc, opts
 func (_m *BareMetalClient) CreateCompartment(name string, desc string, opts *baremetal.RetryTokenOptions) (*baremetal.Compartment, error) {
 	ret := _m.Called(name, desc, opts)
@@ -648,6 +669,27 @@ func (_m *BareMetalClient) DeleteBucket(name string, namespaceName baremetal.Nam
 	}
 
 	return r0
+}
+
+// DeleteCertificate provides a mock function with given fields: loadBalancerID, certificateName, opts
+func (_m *BareMetalClient) DeleteCertificate(loadBalancerID string, certificateName string, opts *baremetal.ClientRequestOptions) (string, error) {
+	ret := _m.Called(loadBalancerID, certificateName, opts)
+
+	var r0 string
+	if rf, ok := ret.Get(0).(func(string, string, *baremetal.ClientRequestOptions) string); ok {
+		r0 = rf(loadBalancerID, certificateName, opts)
+	} else {
+		r0 = ret.Get(0).(string)
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(string, string, *baremetal.ClientRequestOptions) error); ok {
+		r1 = rf(loadBalancerID, certificateName, opts)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
 }
 
 // DeleteCpe provides a mock function with given fields: id, opts
@@ -1740,13 +1782,13 @@ func (_m *BareMetalClient) GetVolumeBackup(id string) (*baremetal.VolumeBackup, 
 	return r0, r1
 }
 
-// GetWorkRequest provides a mock function with given fields: _a0, _a1
-func (_m *BareMetalClient) GetWorkRequest(_a0 string, _a1 *baremetal.ClientRequestOptions) (*baremetal.WorkRequest, error) {
-	ret := _m.Called(_a0, _a1)
+// GetWorkRequest provides a mock function with given fields: workRequestID, opts
+func (_m *BareMetalClient) GetWorkRequest(workRequestID string, opts *baremetal.ClientRequestOptions) (*baremetal.WorkRequest, error) {
+	ret := _m.Called(workRequestID, opts)
 
 	var r0 *baremetal.WorkRequest
 	if rf, ok := ret.Get(0).(func(string, *baremetal.ClientRequestOptions) *baremetal.WorkRequest); ok {
-		r0 = rf(_a0, _a1)
+		r0 = rf(workRequestID, opts)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*baremetal.WorkRequest)
@@ -1755,7 +1797,7 @@ func (_m *BareMetalClient) GetWorkRequest(_a0 string, _a1 *baremetal.ClientReque
 
 	var r1 error
 	if rf, ok := ret.Get(1).(func(string, *baremetal.ClientRequestOptions) error); ok {
-		r1 = rf(_a0, _a1)
+		r1 = rf(workRequestID, opts)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -1917,6 +1959,29 @@ func (_m *BareMetalClient) ListBuckets(compartmentID string, namespaceName barem
 	var r1 error
 	if rf, ok := ret.Get(1).(func(string, baremetal.Namespace, *baremetal.ListBucketsOptions) error); ok {
 		r1 = rf(compartmentID, namespaceName, opts)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// ListCertificates provides a mock function with given fields: loadBalancerID, opts
+func (_m *BareMetalClient) ListCertificates(loadBalancerID string, opts *baremetal.ClientRequestOptions) (*baremetal.ListCertificates, error) {
+	ret := _m.Called(loadBalancerID, opts)
+
+	var r0 *baremetal.ListCertificates
+	if rf, ok := ret.Get(0).(func(string, *baremetal.ClientRequestOptions) *baremetal.ListCertificates); ok {
+		r0 = rf(loadBalancerID, opts)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*baremetal.ListCertificates)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(string, *baremetal.ClientRequestOptions) error); ok {
+		r1 = rf(loadBalancerID, opts)
 	} else {
 		r1 = ret.Error(1)
 	}

@@ -13,6 +13,7 @@ type BareMetalClient interface {
 
 	CreateBackendSet(loadBalancerID string, name string, policy string, backends []baremetal.Backend, healthChecker *baremetal.HealthChecker, sslConfig *baremetal.SSLConfiguration, opts *baremetal.LoadBalancerOptions) (workRequestID string, e error)
 	CreateBucket(compartmentID string, name string, namespaceName baremetal.Namespace, opts *baremetal.CreateBucketOptions) (bckt *baremetal.Bucket, e error)
+	CreateCertificate(loadBalancerID string, certificateName string, caCertificate string, privateKey string, passphrase string, publicCertificate string, opts *baremetal.LoadBalancerOptions) (workRequestID string, e error)
 	CreateCompartment(name, desc string, opts *baremetal.RetryTokenOptions) (res *baremetal.Compartment, e error)
 	CreateCpe(compartmentID, ipAddress string, opts *baremetal.CreateOptions) (cpe *baremetal.Cpe, e error)
 	CreateDHCPOptions(compartmentID, vcnID string, dhcpOptions []baremetal.DHCPDNSOption, opts *baremetal.CreateOptions) (res *baremetal.DHCPOptions, e error)
@@ -38,6 +39,7 @@ type BareMetalClient interface {
 	DeleteAPIKey(userID, fingerprint string, opts *baremetal.IfMatchOptions) (e error)
 	DeleteBackendSet(loadBalancerID string, backendSetName string, opts *baremetal.ClientRequestOptions) (workRequestID string, e error)
 	DeleteBucket(name string, namespaceName baremetal.Namespace, opts *baremetal.IfMatchOptions) (e error)
+	DeleteCertificate(loadBalancerID string, certificateName string, opts *baremetal.ClientRequestOptions) (workRequestID string, e error)
 	DeleteCpe(id string, opts *baremetal.IfMatchOptions) (e error)
 	DeleteDHCPOptions(id string, opts *baremetal.IfMatchOptions) (e error)
 	DeleteDrg(id string, opts *baremetal.IfMatchOptions) (e error)
@@ -95,7 +97,7 @@ type BareMetalClient interface {
 	GetVolume(id string) (res *baremetal.Volume, e error)
 	GetVolumeAttachment(id string) (res *baremetal.VolumeAttachment, e error)
 	GetVolumeBackup(id string) (vol *baremetal.VolumeBackup, e error)
-	GetWorkRequest(string, *baremetal.ClientRequestOptions) (*baremetal.WorkRequest, error)
+	GetWorkRequest(workRequestID string, opts *baremetal.ClientRequestOptions) (workRequest *baremetal.WorkRequest, e error)
 
 	HeadObject(namespace baremetal.Namespace, bucketName string, objectName string, opts *baremetal.HeadObjectOptions) (headObject *baremetal.HeadObject, e error)
 
@@ -107,16 +109,17 @@ type BareMetalClient interface {
 	ListAPIKeys(userID string) (response *baremetal.ListAPIKeyResponses, e error)
 	ListAvailabilityDomains(compartmentID string) (ads *baremetal.ListAvailabilityDomains, e error)
 	ListBuckets(compartmentID string, namespaceName baremetal.Namespace, opts *baremetal.ListBucketsOptions) (buckets *baremetal.ListBuckets, e error)
+	ListCertificates(loadBalancerID string, opts *baremetal.ClientRequestOptions) (certs *baremetal.ListCertificates, e error)
 	ListCompartments(opts *baremetal.ListOptions) (resources *baremetal.ListCompartments, e error)
 	ListConsoleHistories(compartmentID string, opts *baremetal.ListConsoleHistoriesOptions) (icHistories *baremetal.ListConsoleHistories, e error)
 	ListCpes(compartmentID string, opts *baremetal.ListOptions) (cpes *baremetal.ListCpes, e error)
-	ListDatabases(compartmentID, dbHomeID string, limit uint64, opts *baremetal.PageListOptions) (resources *baremetal.ListDatabases, e error)
 	ListDBHomes(compartmentID, dbSystemID string, limit uint64, opts *baremetal.PageListOptions) (res *baremetal.ListDBHomes, e error)
 	ListDBNodes(compartmentID, dbSystemID string, limit uint64, opts *baremetal.PageListOptions) (resources *baremetal.ListDBNodes, e error)
-	ListDBSystems(compartmentID string, limit uint64, opts *baremetal.PageListOptions) (res *baremetal.ListDBSystems, e error)
 	ListDBSystemShapes(availabilityDomain, compartmentID string, limit uint64, opts *baremetal.PageListOptions) (resources *baremetal.ListDBSystemShapes, e error)
+	ListDBSystems(compartmentID string, limit uint64, opts *baremetal.PageListOptions) (res *baremetal.ListDBSystems, e error)
 	ListDBVersions(compartmentID string, limit uint64, opts *baremetal.PageListOptions) (resources *baremetal.ListDBVersions, e error)
 	ListDHCPOptions(compartmentID, vcnID string, opts *baremetal.ListOptions) (res *baremetal.ListDHCPOptions, e error)
+	ListDatabases(compartmentID, dbHomeID string, limit uint64, opts *baremetal.PageListOptions) (resources *baremetal.ListDatabases, e error)
 	ListDrgAttachments(compartmentID string, opts *baremetal.ListDrgAttachmentsOptions) (res *baremetal.ListDrgAttachments, e error)
 	ListDrgs(compartmentID string, opts *baremetal.ListOptions) (res *baremetal.ListDrgs, e error)
 	ListGroups(opts *baremetal.ListOptions) (resources *baremetal.ListGroups, e error)
@@ -170,5 +173,6 @@ type BareMetalClient interface {
 	UpdateVirtualNetwork(id string, opts *baremetal.IfMatchDisplayNameOptions) (vcn *baremetal.VirtualNetwork, e error)
 	UpdateVolume(id string, opts *baremetal.UpdateOptions) (res *baremetal.Volume, e error)
 	UpdateVolumeBackup(id string, opts *baremetal.IfMatchDisplayNameOptions) (vol *baremetal.VolumeBackup, e error)
+
 	UploadAPIKey(userID, key string, opts *baremetal.RetryTokenOptions) (apiKey *baremetal.APIKey, e error)
 }
