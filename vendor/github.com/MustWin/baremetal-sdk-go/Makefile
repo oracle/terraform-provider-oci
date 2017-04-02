@@ -2,7 +2,7 @@ build: test
 	@go build github.com/MustWin/baremetal-sdk-go
 
 test:
-	@go test -v github.com/MustWin/baremetal-sdk-go
+	@DEBUG=true go test -v github.com/MustWin/baremetal-sdk-go
 
 identity_test:
 	@go install github.com/MustWin/baremetal-sdk-go/test/identity

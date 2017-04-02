@@ -4,10 +4,10 @@ package baremetal
 
 import (
 	"bytes"
-	"encoding/json"
 	"log"
 	"net/http"
 	"net/http/httputil"
+	"os"
 )
 
 type requestor interface {
@@ -79,91 +79,28 @@ func newLoadBalancerAPIRequestor(authInfo *authenticationInfo, nco *NewClientOpt
 }
 
 func (api *apiRequestor) deleteRequest(reqOpts request) (e error) {
-	var url string
-	if url, e = reqOpts.marshalURL(api.urlBuilder); e != nil {
-		return
-	}
-
-	var req *http.Request
-	if req, e = http.NewRequest(http.MethodDelete, url, nil); e != nil {
-		return
-	}
-
-	req.Header = reqOpts.marshalHeader()
-
-	if e = createAuthorizationHeader(req, api.authInfo, api.userAgent, []byte{}); e != nil {
-		return
-	}
-
-	var resp *http.Response
-	if resp, e = api.httpClient.Do(req); e != nil {
-		return
-	}
-
-	if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusNoContent {
-		decoder := json.NewDecoder(resp.Body)
-		var err Error
-
-		if e = decoder.Decode(&err); e != nil {
-			return e
-		}
-
-		err.OPCRequestID = resp.Header.Get(headerOPCRequestID)
-		return &err
-	}
-
+	_, e = api.request(http.MethodDelete, reqOpts)
 	return
 }
 
 func (api *apiRequestor) getRequest(reqOpts request) (getResp *response, e error) {
-	var url string
-	if url, e = reqOpts.marshalURL(api.urlBuilder); e != nil {
+	if getResp, e = api.request(http.MethodGet, reqOpts); e != nil {
 		return
 	}
-
-	var req *http.Request
-	if req, e = http.NewRequest(http.MethodGet, url, nil); e != nil {
-		return
-	}
-
-	req.Header = reqOpts.marshalHeader()
-
-	if e = createAuthorizationHeader(req, api.authInfo, api.userAgent, []byte{}); e != nil {
-		return
-	}
-
-	var resp *http.Response
-	if resp, e = api.httpClient.Do(req); e != nil {
-		return
-	}
-
-	var reader bytes.Buffer
-	_, e = reader.ReadFrom(resp.Body)
-	resp.Body.Close()
-	if e != nil {
-		return
-	}
-
-	if resp.StatusCode != http.StatusOK {
-		e = getErrorFromResponse(&reader, resp)
-		return
-	}
-
-	getResp = &response{
-		header: resp.Header,
-		body:   reader.Bytes(),
-	}
-
 	return
 }
 
 func (api *apiRequestor) request(method string, reqOpts request) (r *response, e error) {
 	var jsonBuffer []byte
-	if jsonBuffer, e = reqOpts.marshalBody(); e != nil {
-		return
+	var buffer *bytes.Buffer
+	if method == http.MethodDelete || method == http.MethodGet {
+		buffer = bytes.NewBuffer([]byte{})
+	} else {
+		if jsonBuffer, e = reqOpts.marshalBody(); e != nil {
+			return
+		}
+		buffer = bytes.NewBuffer(jsonBuffer)
 	}
-
-	buffer := bytes.NewBuffer(jsonBuffer)
 
 	var url string
 	if url, e = reqOpts.marshalURL(api.urlBuilder); e != nil {
@@ -180,14 +117,29 @@ func (api *apiRequestor) request(method string, reqOpts request) (r *response, e
 		return
 	}
 
-	reqdump, _ := httputil.DumpRequestOut(req, true)
-	log.Printf("[DEBUG] HTTP Request: %v\n", string(reqdump))
+	if os.Getenv("DEBUG") != "" {
+		reqdump, err := httputil.DumpRequestOut(req, true)
+		if err == nil {
+			log.Printf("[DEBUG] HTTP Request: %v\n", string(reqdump))
+		} else {
+			log.Printf("[WARN] Could not dump HTTP Request: %#v, error: %#v\n", req, err)
+		}
+	}
+
 	var resp *http.Response
 	resp, e = api.httpClient.Do(req)
-	respdump, _ := httputil.DumpResponse(resp, true)
-	log.Printf("[DEBUG] HTTP Response: %v\n", string(respdump))
-	if e != nil {
-		return
+
+	if os.Getenv("DEBUG") != "" {
+		if e != nil {
+			log.Printf("[WARN] Could not dump HTTP Response, error: %#v\n", e)
+			return
+		}
+		respdump, err := httputil.DumpResponse(resp, true)
+		if err == nil {
+			log.Printf("[DEBUG] HTTP Response: %v\n", string(respdump))
+		} else {
+			log.Printf("[WARN] Could not dump HTTP Response: %#v, error: %#v\n", resp, err)
+		}
 	}
 
 	var reader bytes.Buffer
@@ -201,7 +153,7 @@ func (api *apiRequestor) request(method string, reqOpts request) (r *response, e
 	// we still have to check response code, if we get non 200 response
 	// body will contain an error object which we'll Unmarshal and send
 	// back as an Error
-	if resp.StatusCode != http.StatusOK {
+	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
 		e = getErrorFromResponse(&reader, resp)
 		return
 	}
