@@ -4,10 +4,16 @@ package lb
 
 import (
 	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/oracle/terraform-provider-baremetal/client"
+	"github.com/oracle/terraform-provider-baremetal/crud"
 )
 
 func LoadBalancerBackendResource() *schema.Resource {
 	return &schema.Resource{
+		Create: createLoadBalancerBackend,
+		Read:   readLoadBalancerBackend,
+		Update: updateLoadBalancerBackend,
+		Delete: deleteLoadBalancerBackend,
 		Schema: map[string]*schema.Schema{
 			"load_balancer_id": {
 				Type:     schema.TypeString,
@@ -53,4 +59,32 @@ func LoadBalancerBackendResource() *schema.Resource {
 			},
 		},
 	}
+}
+
+func createLoadBalancerBackend(d *schema.ResourceData, m interface{}) (e error) {
+	sync := &LoadBalancerBackendResourceCrud{}
+	sync.D = d
+	sync.Client = m.(client.BareMetalClient)
+	return crud.CreateResource(d, sync)
+}
+
+func readLoadBalancerBackend(d *schema.ResourceData, m interface{}) (e error) {
+	sync := &LoadBalancerBackendResourceCrud{}
+	sync.D = d
+	sync.Client = m.(client.BareMetalClient)
+	return crud.ReadResource(sync)
+}
+
+func updateLoadBalancerBackend(d *schema.ResourceData, m interface{}) (e error) {
+	sync := &LoadBalancerBackendResourceCrud{}
+	sync.D = d
+	sync.Client = m.(client.BareMetalClient)
+	return crud.UpdateResource(d, sync)
+}
+
+func deleteLoadBalancerBackend(d *schema.ResourceData, m interface{}) (e error) {
+	sync := &LoadBalancerBackendResourceCrud{}
+	sync.D = d
+	sync.Client = m.(client.BareMetalClient)
+	return crud.DeleteResource(sync)
 }
