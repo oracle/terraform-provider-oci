@@ -11,7 +11,7 @@ import (
 
 func BackendDatasource() *schema.Resource {
 	return &schema.Resource{
-		Read: readAPIKeys,
+		Read: readBackends,
 		Schema: map[string]*schema.Schema{
 			"load_balancer_id": {
 				Type:     schema.TypeString,
@@ -30,7 +30,7 @@ func BackendDatasource() *schema.Resource {
 	}
 }
 
-func readAPIKeys(d *schema.ResourceData, m interface{}) (e error) {
+func readBackends(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
 	sync := &BackendDatasourceCrud{}
 	sync.D = d

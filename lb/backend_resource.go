@@ -87,5 +87,5 @@ func deleteLoadBalancerBackend(d *schema.ResourceData, m interface{}) (e error) 
 	sync := &LoadBalancerBackendResourceCrud{}
 	sync.D = d
 	sync.Client = m.(client.BareMetalClient)
-	return crud.DeleteResource(sync)
+	return crud.DeleteResource(d, sync)
 }
