@@ -16,7 +16,7 @@ test:
 	TF_ORACLE_ENV=test go test -v
 
 test_acceptance:
-	TF_ACC=1 go test -v
+	TF_ORACLE_ENV=test TF_ACC=1 go test -v
 
 build: test
 	go build -o terraform-provider-baremetal
