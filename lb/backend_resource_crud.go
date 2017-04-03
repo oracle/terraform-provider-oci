@@ -3,138 +3,119 @@
 package lb
 
 import (
-	"time"
-
 	"github.com/MustWin/baremetal-sdk-go"
+	"github.com/hashicorp/terraform/helper/schema"
+
 	"github.com/oracle/terraform-provider-baremetal/crud"
 )
 
 type LoadBalancerBackendResourceCrud struct {
 	crud.BaseCrud
-	Resource *baremetal.BackendSet
+	WorkRequest *baremetal.WorkRequest
+	Resource    *baremetal.Backend
+}
+
+// RefreshWorkRequest returns the last updated workRequest
+func (s *LoadBalancerBackendResourceCrud) RefreshWorkRequest() (*baremetal.WorkRequest, error) {
+	if s.WorkRequest == nil {
+		return nil, nil
+	}
+	wr, err := s.Client.GetWorkRequest(s.WorkRequest.ID, nil)
+	if err != nil {
+		return nil, err
+	}
+	s.WorkRequest = wr
+	return wr, nil
 }
 
 func (s *LoadBalancerBackendResourceCrud) ID() string {
-	return s.Resource.Name
-}
-
-func (s *LoadBalancerBackendResourceCrud) CustomTimeout() time.Duration {
-	return 15 * time.Minute
+	return s.D.Get("name").(string)
 }
 
 func (s *LoadBalancerBackendResourceCrud) CreatedPending() []string {
 	return []string{
-		baremetal.ResourceProvisioning,
-		baremetal.ResourceStarting,
+		baremetal.ResourceWaitingForWorkRequest,
 	}
 }
 
 func (s *LoadBalancerBackendResourceCrud) CreatedTarget() []string {
-	return []string{baremetal.ResourceRunning}
+	return []string{baremetal.ResourceSucceededWorkRequest}
 }
 
 func (s *LoadBalancerBackendResourceCrud) DeletedPending() []string {
-	return []string{baremetal.ResourceDeleting}
+	return []string{baremetal.ResourceSucceededWorkRequest}
 }
 
 func (s *LoadBalancerBackendResourceCrud) DeletedTarget() []string {
 	return []string{baremetal.ResourceDeleted}
 }
 
-func resourceMapToMetadata(rm map[string]interface{}) map[string]string {
-	result := map[string]string{}
-	for k, v := range rm {
-		result[k] = v.(string)
+func makeBackendOptions(data *schema.ResourceData) *baremetal.CreateLoadBalancerBackendOptions {
+	opts := &baremetal.CreateLoadBalancerBackendOptions{}
+	if v, ok := data.GetOk("backup"); ok {
+		opts.Backup = v.(bool)
 	}
-	return result
+	if v, ok := data.GetOk("drain"); ok {
+		opts.Drain = v.(bool)
+	}
+	if v, ok := data.GetOk("offline"); ok {
+		opts.Offline = v.(bool)
+	}
+	if v, ok := data.GetOk("weight"); ok {
+		opts.Weight = v.(int)
+	}
+	return opts
 }
 
 func (s *LoadBalancerBackendResourceCrud) Create() (e error) {
-	// TODO: populate
-	backends := []baremetal.Backend{}
-	healthChecker := baremetal.HealthChecker{}
-	sslConfig := baremetal.SSLConfiguration{}
 
-	// TODO: should LoadBalancerOptions be CreateOptions
-	// opts := &baremetal.CreateOptions{}
-	opts := &baremetal.LoadBalancerOptions{}
-	// TODO: add LoadBalancerOptions.DisplayName
-	// opts.DisplayName = s.D.Get("display_name").(string)
+	opts := makeBackendOptions(s.D)
 
-	s.Resource, e = s.Client.CreateBackendSet(
-		s.D.Get("loadbalancer_id").(string),
-		s.D.Get("name").(string),
-		s.D.Get("policy").(string),
-		backends,
-		healthChecker,
-		sslConfig,
+	var workReqID string
+	workReqID, e = s.Client.CreateBackend(
+		s.D.Get("load_balancer_id").(string),
+		s.D.Get("backendset_name").(string),
+		s.D.Get("ip_address").(string),
+		s.D.Get("port").(int),
 		opts,
 	)
+	if e != nil {
+		return
+	}
+	s.WorkRequest, e = s.Client.GetWorkRequest(workReqID, nil)
 	return
 }
 
-func NewBackend(v map[string]interface{}) baremetal.Backend {
-	return baremetal.Backend{
-		Name:    v["name"].(string),
-		Backup:  v["backup"].(bool),
-		Drain:   v["drain"].(bool),
-		Offline: v["offline"].(bool),
-		Port:    v["port"].(int),
-		Weight:  v["weight"].(int),
-	}
-}
-
-func NewBackendSet(vs []interface{}) baremetal.BackendSet {
-	set := baremetal.BackendSet{}
-	// TODO: validation for len(vs)
-	if len(vs) == 1 {
-		singleton := vs[0].(map[string]interface{})
-		// policy {
-		set.Policy = singleton["policy"].(string)
-		// }
-
-		// backend {
-		if _backends := singleton["backend"]; _backends != nil {
-			backends := _backends.([]interface{})
-			set.Backends = make([]baremetal.Backend, len(backends))
-			for i, b := range backends {
-				set.Backends[i] = NewBackend(b.(map[string]interface{}))
-			}
-		}
-		// }
-
-		// health_checker {
-		// TODO: set.HealthChecker
-		// }
-
-		// ssl_configuration {
-		// TODO: set.SSLConfiguration
-		// }
-	}
-	return set
-}
-
 func (s *LoadBalancerBackendResourceCrud) Get() (e error) {
-	s.Resource, e = s.Client.GetBackendSet(s.D.Get("loadbalancer_id").(string), s.D.Get("backendset_name").(string), s.D.Get("name").(string), nil)
+	s.Resource, e = s.Client.GetBackend(s.D.Get("load_balancer_id").(string), s.D.Get("backendset_name").(string), s.D.Get("name").(string), nil)
 	return
 }
 
 func (s *LoadBalancerBackendResourceCrud) Update() (e error) {
-	opts := &baremetal.UpdateLoadBalancerBackendSetOptions{}
-	// TODO: add UpdateLoadBalancerBackendSetOptions.DisplayName field
-	// opts.DisplayName = s.D.Get("display_name").(string)
+	opts := makeBackendOptions(s.D)
 
-	s.Resource, e = s.Client.UpdateBackendSet(s.D.Get("loadbalancer_id").(string), s.D.Id(), opts)
-
+	var workReqID string
+	workReqID, e = s.Client.UpdateBackend(s.D.Get("load_balancer_id").(string), s.D.Get("backendset_name").(string), s.D.Id(), opts)
+	if e != nil {
+		return
+	}
+	s.WorkRequest, e = s.Client.GetWorkRequest(workReqID, nil)
 	return
 }
 
 func (s *LoadBalancerBackendResourceCrud) SetData() {
-	s.D.Set("policy", s.Resource.Policy)
-	s.D.Set("name", s.Resource.Name)
-	// TODO: remaining attrs
+	s.D.Set("backup", s.Resource.Backup)
+	s.D.Set("drain", s.Resource.Drain)
+	s.D.Set("offline", s.Resource.Offline)
+	s.D.Set("weight", s.Resource.Weight)
 }
 
 func (s *LoadBalancerBackendResourceCrud) Delete() (e error) {
-	return s.Client.DeleteBackendSet(s.D.Get("loadbalancer_id").(string), s.D.Get("name").(string), nil)
+	var workReqID string
+	workReqID, e = s.Client.DeleteBackend(s.D.Get("load_balancer_id").(string), s.D.Get("backendset_name").(string), s.D.Get("name").(string), nil)
+	if e != nil {
+		return
+	}
+	s.WorkRequest, e = s.Client.GetWorkRequest(workReqID, nil)
+	return
 }
