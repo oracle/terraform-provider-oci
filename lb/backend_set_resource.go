@@ -26,6 +26,10 @@ func LoadBalancerBackendSetResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
+			"backendset_name": {
+				Type:     schema.TypeString,
+				Required: true,
+			},
 			"policy": {
 				Type:     schema.TypeString,
 				Optional: true,

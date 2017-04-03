@@ -11,6 +11,7 @@ type BareMetalClient interface {
 
 	CaptureConsoleHistory(instanceID string, opts *baremetal.RetryTokenOptions) (icHistory *baremetal.ConsoleHistoryMetadata, e error)
 
+	CreateBackend(loadBalancerID string, backendSetName string, ipAddr string, port int, opts *baremetal.CreateLoadBalancerBackendOptions) (workRequestID string, e error)
 	CreateBackendSet(loadBalancerID string, name string, policy string, backends []baremetal.Backend, healthChecker *baremetal.HealthChecker, sslConfig *baremetal.SSLConfiguration, opts *baremetal.LoadBalancerOptions) (workRequestID string, e error)
 	CreateBucket(compartmentID string, name string, namespaceName baremetal.Namespace, opts *baremetal.CreateBucketOptions) (bckt *baremetal.Bucket, e error)
 	CreateCertificate(loadBalancerID string, certificateName string, caCertificate string, privateKey string, passphrase string, publicCertificate string, opts *baremetal.LoadBalancerOptions) (workRequestID string, e error)
@@ -37,6 +38,7 @@ type BareMetalClient interface {
 	CreateVolumeBackup(volumeID string, opts *baremetal.CreateOptions) (vol *baremetal.VolumeBackup, e error)
 
 	DeleteAPIKey(userID, fingerprint string, opts *baremetal.IfMatchOptions) (e error)
+	DeleteBackend(loadBalancerID string, backendSetName string, backendName string, opts *baremetal.ClientRequestOptions) (workRequestID string, e error)
 	DeleteBackendSet(loadBalancerID string, backendSetName string, opts *baremetal.ClientRequestOptions) (workRequestID string, e error)
 	DeleteBucket(name string, namespaceName baremetal.Namespace, opts *baremetal.IfMatchOptions) (e error)
 	DeleteCertificate(loadBalancerID string, certificateName string, opts *baremetal.ClientRequestOptions) (workRequestID string, e error)
@@ -64,6 +66,7 @@ type BareMetalClient interface {
 
 	DetachVolume(id string, opts *baremetal.IfMatchOptions) (e error)
 
+	GetBackend(loadBalancerID string, backendSetName string, backendName string, opts *baremetal.ClientRequestOptions) (backend *baremetal.Backend, e error)
 	GetBackendSet(loadBalancerID string, backendSetName string, opts *baremetal.ClientRequestOptions) (backendset *baremetal.BackendSet, e error)
 	GetBucket(bucketName string, namespaceName baremetal.Namespace) (bckt *baremetal.Bucket, e error)
 	GetCompartment(id string) (res *baremetal.Compartment, e error)
@@ -77,6 +80,7 @@ type BareMetalClient interface {
 	GetDrg(id string) (res *baremetal.Drg, e error)
 	GetDrgAttachment(id string) (res *baremetal.DrgAttachment, e error)
 	GetGroup(id string) (res *baremetal.Group, e error)
+	GetHealthChecker(loadBalancerID string, backendSetName string, opts *baremetal.ClientRequestOptions) (healthChecker *baremetal.HealthChecker, e error)
 	GetIPSecConnection(id string) (conn *baremetal.IPSecConnection, e error)
 	GetIPSecConnectionDeviceConfig(id string) (config *baremetal.IPSecConnectionDeviceConfig, e error)
 	GetIPSecConnectionDeviceStatus(id string) (status *baremetal.IPSecConnectionDeviceStatus, e error)
@@ -108,6 +112,8 @@ type BareMetalClient interface {
 
 	ListAPIKeys(userID string) (response *baremetal.ListAPIKeyResponses, e error)
 	ListAvailabilityDomains(compartmentID string) (ads *baremetal.ListAvailabilityDomains, e error)
+	ListBackends(loadBalancerID string, backendSetName string) (backends *baremetal.ListBackends, e error)
+	ListBackendSets(loadBalancerID string, opts *baremetal.ClientRequestOptions) (backends *baremetal.ListBackendSets, e error)
 	ListBuckets(compartmentID string, namespaceName baremetal.Namespace, opts *baremetal.ListBucketsOptions) (buckets *baremetal.ListBuckets, e error)
 	ListCertificates(loadBalancerID string, opts *baremetal.ClientRequestOptions) (certs *baremetal.ListCertificates, e error)
 	ListCompartments(opts *baremetal.ListOptions) (resources *baremetal.ListCompartments, e error)
@@ -127,6 +133,9 @@ type BareMetalClient interface {
 	ListImages(compartmentID string, opts *baremetal.ListImagesOptions) (res *baremetal.ListImages, e error)
 	ListInstances(compartmentID string, opts *baremetal.ListInstancesOptions) (insts *baremetal.ListInstances, e error)
 	ListInternetGateways(compartmentID, vcnID string, opts *baremetal.ListOptions) (list *baremetal.ListInternetGateways, e error)
+	ListLoadBalancers(compartmentID string, opts *baremetal.ListOptions) (loadbalancers *baremetal.ListLoadBalancers, e error)
+	ListLoadBalancerShapes(compartmentID string, opts *baremetal.ListLoadBalancerPolicyOptions) (loadbalancerShapes *baremetal.ListLoadBalancerShapes, e error)
+	ListLoadBalancerPolicies(compartmentID string, opts *baremetal.ListLoadBalancerPolicyOptions) (loadbalancerPolicies *baremetal.ListLoadBalancerPolicies, e error)
 	ListObjects(namespace baremetal.Namespace, bucket string, opts *baremetal.ListObjectsOptions) (objects *baremetal.ListObjects, e error)
 	ListPolicies(compartmentID string, opts *baremetal.ListOptions) (resources *baremetal.ListPolicies, e error)
 	ListRouteTables(compartmentID, vcnID string, opts *baremetal.ListOptions) (res *baremetal.ListRouteTables, e error)
@@ -142,6 +151,7 @@ type BareMetalClient interface {
 	ListVolumeAttachments(compartmentID string, opts *baremetal.ListVolumeAttachmentsOptions) (res *baremetal.ListVolumeAttachments, e error)
 	ListVolumeBackups(compartmentID string, opts *baremetal.ListBackupsOptions) (vols *baremetal.ListVolumeBackups, e error)
 	ListVolumes(compartmentID string, opts *baremetal.ListVolumesOptions) (res *baremetal.ListVolumes, e error)
+	ListWorkRequests(loadBalancerID string, opts *baremetal.ListLoadBalancerPolicyOptions) (workRequests *baremetal.ListWorkRequests, e error)
 
 	PutObject(namespace baremetal.Namespace, bucketName string, objectName string, content []byte, opts *baremetal.PutObjectOptions) (object *baremetal.Object, e error)
 
@@ -150,6 +160,7 @@ type BareMetalClient interface {
 	TerminateDBSystem(id string, opts *baremetal.IfMatchOptions) (e error)
 	TerminateInstance(id string, opts *baremetal.IfMatchOptions) (e error)
 
+	UpdateBackend(loadBalancerID string, backendSetName string, backendName string, opts *baremetal.CreateLoadBalancerBackendOptions) (workRequestID string, e error)
 	UpdateBackendSet(loadBalancerID string, backendSetName string, opts *baremetal.UpdateLoadBalancerBackendSetOptions) (workRequestID string, e error)
 	UpdateBucket(compartmentID string, name string, namespaceName baremetal.Namespace, opts *baremetal.UpdateBucketOptions) (bckt *baremetal.Bucket, e error)
 	UpdateCompartment(id string, opts *baremetal.UpdateIdentityOptions) (res *baremetal.Compartment, e error)
@@ -158,6 +169,7 @@ type BareMetalClient interface {
 	UpdateDrg(id string, opts *baremetal.IfMatchDisplayNameOptions) (drg *baremetal.Drg, e error)
 	UpdateDrgAttachment(id string, opts *baremetal.IfMatchDisplayNameOptions) (drg *baremetal.DrgAttachment, e error)
 	UpdateGroup(id string, opts *baremetal.UpdateIdentityOptions) (res *baremetal.Group, e error)
+	UpdateHealthChecker(loadBalancerID string, backendSetName string, healthCheckerOptions baremetal.HealthChecker, opts *baremetal.LoadBalancerOptions) (workRequestID string, e error)
 	UpdateIPSecConnection(id string, opts *baremetal.IfMatchDisplayNameOptions) (conn *baremetal.IPSecConnection, e error)
 	UpdateImage(id string, opts *baremetal.UpdateOptions) (res *baremetal.Image, e error)
 	UpdateInstance(id string, opts *baremetal.UpdateOptions) (inst *baremetal.Instance, e error)
