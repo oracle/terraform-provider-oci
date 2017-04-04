@@ -53,6 +53,14 @@ func SubnetResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"dhcp_options_id": {
+				Type: schema.TypeString,
+				Optional: true,
+			},
+			"dns_label": {
+				Type: schema.TypeString,
+				Optional: true,
+			},
 			"id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -65,7 +73,7 @@ func SubnetResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"virtual_router_id": {
+			"virtual_router_ip": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},

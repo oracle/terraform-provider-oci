@@ -55,6 +55,7 @@ type CreateBucketOptions struct {
 
 type CreateSubnetOptions struct {
 	CreateOptions
+	DNSLabel        string   `header:"-" json:"dnsLabel,omitempty" url:"-"`
 	DHCPOptionsID   string   `header:"-" json:"dhcpOptionsId,omitempty" url:"-"`
 	RouteTableID    string   `header:"-" json:"routeTableId,omitempty" url:"-"`
 	SecurityListIDs []string `header:"-" json:"securityListIds,omitempty" url:"-"`

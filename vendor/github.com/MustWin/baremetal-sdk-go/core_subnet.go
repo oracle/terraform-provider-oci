@@ -14,13 +14,15 @@ type Subnet struct {
 	CIDRBlock          string   `json:"cidrBlock"`
 	CompartmentID      string   `json:"compartmentId"`
 	DisplayName        string   `json:"displayName"`
+	DHCPOptionsID    string   `json:"dhcpOptionsId"`
+	DNSLabel         string   `json:"dnsLabel"`
 	ID                 string   `json:"id"`
 	RouteTableID       string   `json:"routeTableId"`
 	SecurityListIDs    []string `json:"securityListIds"`
 	State              string   `json:"lifecycleState"`
 	TimeCreated        Time     `json:"timeCreated"`
 	VcnID              string   `json:"vcnId"`
-	VirtualRouterID    string   `json:"virtualRouterId"`
+	VirtualRouterIP    string   `json:"virtualRouterIp"`
 	VirtualRouterMac   string   `json:"virtualRouterMac"`
 }
 
