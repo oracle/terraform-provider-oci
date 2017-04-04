@@ -73,7 +73,7 @@ func (s *ResourceCoreSubnetTestSuite) SetupTest() {
 			Time: time.Now(),
 		},
 		VcnID:            "vcnid",
-		VirtualRouterID:  "virtualrouterid",
+		VirtualRouterIP:  "virtualrouterip",
 		VirtualRouterMac: "virtualroutermac",
 	}
 
@@ -191,7 +191,7 @@ func (s ResourceCoreSubnetTestSuite) TestUpdateCompartmentIDForcesNewSubnet() {
 			Time: time.Now(),
 		},
 		VcnID:            "vcnid",
-		VirtualRouterID:  "virtualrouterid",
+		VirtualRouterIP:  "virtualrouterip",
 		VirtualRouterMac: "virtualroutermac",
 	}
 	delRes := &baremetal.Subnet{}
