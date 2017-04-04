@@ -57,6 +57,18 @@ func (r *OPCClientRequestIDUnmarshaller) SetClientRequestID(id string) {
 	r.ClientRequestID = id
 }
 
+type OPCWorkRequestIDUnmarshallable interface {
+	SetWorkRequestID(id string)
+}
+
+type OPCWorkRequestIDUnmarshaller struct {
+	WorkRequestID string
+}
+
+func (r *OPCWorkRequestIDUnmarshaller) SetWorkRequestID(id string) {
+	r.WorkRequestID = id
+}
+
 type LastModifiedUnmarshallable interface {
 	SetLastModified(time.Time)
 }

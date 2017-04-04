@@ -36,11 +36,11 @@ func RouteTableResource() *schema.Resource {
 					Schema: map[string]*schema.Schema{
 						"cidr_block": {
 							Type:     schema.TypeString,
-							Required: true,
+							Optional: true,
 						},
 						"network_entity_id": {
 							Type:     schema.TypeString,
-							Required: true,
+							Optional: true,
 						},
 					},
 				},
