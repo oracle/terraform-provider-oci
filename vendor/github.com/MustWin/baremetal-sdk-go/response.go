@@ -31,6 +31,8 @@ func (r *response) unmarshal(resource interface{}) (e error) {
 		if e = cs.SetBody(r.body, val); e != nil {
 			return
 		}
+	} else if len(r.body) == 0 {
+		// Continue without error. This is usually caused by a 204 response
 	} else if e = json.Unmarshal(r.body, val); e != nil {
 		return
 	}
@@ -41,6 +43,10 @@ func (r *response) unmarshal(resource interface{}) (e error) {
 
 	if crr, ok := resource.(OPCClientRequestIDUnmarshallable); ok {
 		crr.SetClientRequestID(r.header.Get(headerOPCClientRequestID))
+	}
+
+	if wrr, ok := resource.(OPCWorkRequestIDUnmarshallable); ok {
+		wrr.SetWorkRequestID(r.header.Get(headerOPCWorkRequestID))
 	}
 
 	if et, ok := resource.(ETagUnmarshallable); ok {

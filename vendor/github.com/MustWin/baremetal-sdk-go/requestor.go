@@ -116,6 +116,10 @@ func (api *apiRequestor) request(method string, reqOpts request) (r *response, e
 	if e = createAuthorizationHeader(req, api.authInfo, api.userAgent, jsonBuffer); e != nil {
 		return
 	}
+	if e != nil {
+		log.Printf("[WARN] Could not get HTTP authorization header, error: %#v\n", e)
+		return
+	}
 
 	if os.Getenv("DEBUG") != "" {
 		reqdump, err := httputil.DumpRequestOut(req, true)
@@ -128,12 +132,12 @@ func (api *apiRequestor) request(method string, reqOpts request) (r *response, e
 
 	var resp *http.Response
 	resp, e = api.httpClient.Do(req)
+	if e != nil {
+		log.Printf("[WARN] Could not get HTTP Response, error: %#v\n", e)
+		return
+	}
 
 	if os.Getenv("DEBUG") != "" {
-		if e != nil {
-			log.Printf("[WARN] Could not dump HTTP Response, error: %#v\n", e)
-			return
-		}
 		respdump, err := httputil.DumpResponse(resp, true)
 		if err == nil {
 			log.Printf("[DEBUG] HTTP Response: %v\n", string(respdump))

@@ -67,6 +67,53 @@ type CreateSubnetOptions struct {
 	SecurityListIDs []string `header:"-" json:"securityListIds,omitempty" url:"-"`
 }
 
+type LoadBalancerOptions struct {
+	ClientRequestOptions
+	RetryTokenOptions
+}
+
+type CreateLoadBalancerBackendOptions struct {
+	LoadBalancerOptions
+	Backup  bool `header:"-" json:"backup,omitempty", url:"-"`
+	Drain   bool `header:"-" json:"drain,omitempty", url:"-"`
+	Offline bool `header:"-" json:"offline,omitempty", url:"-"`
+	Weight  int  `header:"-" json:"weight,omitempty", url:"-"`
+}
+
+type UpdateLoadBalancerBackendSetOptions struct {
+	LoadBalancerOptions
+	RetryTokenOptions
+	Backends      []Backend        `header:"-" json:"backends,omitempty" url:"-"`
+	HealthChecker HealthChecker    `header:"-" json:"healthChecker,omitempty" url:"-"`
+	Policy        string           `header:"-" json:"policy,omitempty" url:"-"`
+	SSLConfig     SSLConfiguration `header:"-" json:"sslConfiguration,omitempty" url:"-"`
+}
+
+type UpdateLoadBalancerListenerOptions struct {
+	LoadBalancerOptions
+	DefaultBackendSetName string           `header:"-" json:"defaultBackendSetName" url:"-"`
+	Port                  int              `header:"-" json:"port" url:"-"`
+	Protocol              string           `header:"-" json:"protocol" url:"-"`
+	SSLConfig             SSLConfiguration `header:"-" json:"sslConfiguration" url:"-"`
+}
+
+type ListLoadBalancerPolicyOptions struct {
+	ClientRequestOptions
+	ListOptions
+}
+
+type ListLoadBalancerOptions struct {
+	ClientRequestOptions
+	ListOptions
+	CompartmentID string `header:"-" json:"-" url:"compartmentId,omitempty"`
+	Detail        string `header:"-" json:"-" url:"detail,omitempty"`
+}
+
+type UpdateLoadBalancerOptions struct {
+	LoadBalancerOptions
+	DisplayNameOptions
+}
+
 type CreateVolumeOptions struct {
 	CreateOptions
 	SizeInMBs      int    `header:"-" json:"sizeInMBs,omitempty" url:"-"`

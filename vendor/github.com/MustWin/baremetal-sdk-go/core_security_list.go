@@ -43,6 +43,7 @@ type IngressSecurityRule struct {
 	Source      string       `header:"-" json:"source" url:"-"`
 	TCPOptions  *TCPOptions  `header:"-" json:"tcpOptions,omitempty" url:"-"`
 	UDPOptions  *UDPOptions  `header:"-" json:"udpOptions,omitempty" url:"-"`
+	IsStateless bool         `header:"-" json:"isStateless" url:"-"`
 }
 
 // EgressSecurityRule is a rule for allowing outbound IP packets.
