@@ -45,7 +45,12 @@ func (s *SubnetResourceCrud) Create() (e error) {
 	vcnID := s.D.Get("vcn_id").(string)
 
 	opts := &baremetal.CreateSubnetOptions{}
-
+	if dhcpOptionsID, ok := s.D.GetOk("dhcp_options_id"); ok {
+		opts.DHCPOptionsID = dhcpOptionsID.(string)
+	}
+	if dnsLabel, ok := s.D.GetOk("dns_label"); ok {
+		opts.DNSLabel = dnsLabel.(string)
+	}
 	if displayName, ok := s.D.GetOk("display_name"); ok {
 		opts.DisplayName = displayName.(string)
 	}
@@ -101,6 +106,8 @@ func (s *SubnetResourceCrud) SetData() {
 	s.D.Set("display_name", s.Resource.DisplayName)
 	s.D.Set("dns_label", s.Resource.DNSLabel)
 	s.D.Set("cidr_block", s.Resource.CIDRBlock)
+	s.D.Set("dhcp_options_id", s.Resource.DHCPOptionsID)
+	s.D.Set("dns_label", s.Resource.DNSLabel)
 	s.D.Set("route_table_id", s.Resource.RouteTableID)
 	s.D.Set("vcn_id", s.Resource.VcnID)
 	s.D.Set("security_list_ids", s.Resource.SecurityListIDs)

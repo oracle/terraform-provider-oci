@@ -60,6 +60,7 @@ type CreateVcnOptions struct {
 
 type CreateSubnetOptions struct {
 	CreateOptions
+	DNSLabel        string   `header:"-" json:"dnsLabel,omitempty" url:"-"`
 	DHCPOptionsID   string   `header:"-" json:"dhcpOptionsId,omitempty" url:"-"`
 	DNSLabel        string   `header:"-" json:"dnsLabel,omitempty" url:"-"`
 	RouteTableID    string   `header:"-" json:"routeTableId,omitempty" url:"-"`

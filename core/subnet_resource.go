@@ -58,6 +58,10 @@ func SubnetResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"dhcp_options_id": {
+				Type: schema.TypeString,
+				Optional: true,
+			},
 			"id": {
 				Type:     schema.TypeString,
 				Computed: true,
