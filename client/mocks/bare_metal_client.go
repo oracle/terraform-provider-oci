@@ -2537,6 +2537,29 @@ func (_m *BareMetalClient) ListLoadBalancerPolicies(compartmentID string, opts *
 	return r0, r1
 }
 
+// ListLoadBalancerProtocols provides a mock function with given fields: compartmentID, opts
+func (_m *BareMetalClient) ListLoadBalancerProtocols(compartmentID string, opts *baremetal.ListLoadBalancerPolicyOptions) (*baremetal.ListLoadBalancerProtocols, error) {
+	ret := _m.Called(compartmentID, opts)
+
+	var r0 *baremetal.ListLoadBalancerProtocols
+	if rf, ok := ret.Get(0).(func(string, *baremetal.ListLoadBalancerPolicyOptions) *baremetal.ListLoadBalancerProtocols); ok {
+		r0 = rf(compartmentID, opts)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*baremetal.ListLoadBalancerProtocols)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(string, *baremetal.ListLoadBalancerPolicyOptions) error); ok {
+		r1 = rf(compartmentID, opts)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // ListLoadBalancerShapes provides a mock function with given fields: compartmentID, opts
 func (_m *BareMetalClient) ListLoadBalancerShapes(compartmentID string, opts *baremetal.ListLoadBalancerPolicyOptions) (*baremetal.ListLoadBalancerShapes, error) {
 	ret := _m.Called(compartmentID, opts)
