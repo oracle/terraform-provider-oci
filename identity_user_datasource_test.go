@@ -7,10 +7,10 @@ import (
 	"time"
 
 	"github.com/MustWin/baremetal-sdk-go"
-	"github.com/oracle/terraform-provider-baremetal/client/mocks"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
+	"github.com/oracle/terraform-provider-baremetal/client/mocks"
 
 	"github.com/stretchr/testify/suite"
 )
@@ -43,12 +43,12 @@ func (s *ResourceIdentityUsersTestSuite) SetupTest() {
 	s.ResourceName = "data.baremetal_identity_users.t"
 
 	b1 := baremetal.User{
-		ID: "id",
-		Name: "username",
+		ID:            "id",
+		Name:          "username",
 		CompartmentID: "compartment",
-		Description: "blah",
-		State:       baremetal.ResourceActive,
-		TimeCreated: time.Now(),
+		Description:   "blah",
+		State:         baremetal.ResourceActive,
+		TimeCreated:   time.Now(),
 	}
 
 	b2 := b1

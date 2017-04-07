@@ -3,9 +3,9 @@
 package main
 
 import (
+	"fmt"
 	"testing"
 	"time"
-	"fmt"
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
@@ -14,7 +14,6 @@ import (
 
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/oracle/terraform-provider-baremetal/client/mocks"
-
 )
 
 type ResourceIdentityUserGroupMembershipsTestSuite struct {
@@ -36,7 +35,6 @@ func (s *ResourceIdentityUserGroupMembershipsTestSuite) SetupTest() {
 	s.Providers = map[string]terraform.ResourceProvider{
 		"baremetal": s.Provider,
 	}
-
 
 	s.Config = `
     resource "baremetal_identity_user" "u" {
@@ -73,11 +71,11 @@ func (s *ResourceIdentityUserGroupMembershipsTestSuite) SetupTest() {
 	}
 	m1 := &baremetal.UserGroupMembership{
 		CompartmentID: "cid",
-		GroupID: g1.ID,
-		ID: "user_group_id",
-		State: baremetal.ResourceActive,
-		TimeCreated: time.Now(),
-		UserID: u1.ID,
+		GroupID:       g1.ID,
+		ID:            "user_group_id",
+		State:         baremetal.ResourceActive,
+		TimeCreated:   time.Now(),
+		UserID:        u1.ID,
 	}
 
 	s.List = &baremetal.ListUserGroupMemberships{

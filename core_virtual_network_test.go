@@ -7,10 +7,10 @@ import (
 	"time"
 
 	"github.com/MustWin/baremetal-sdk-go"
-	"github.com/oracle/terraform-provider-baremetal/client/mocks"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
+	"github.com/oracle/terraform-provider-baremetal/client/mocks"
 
 	"errors"
 
@@ -59,7 +59,7 @@ func (s *ResourceCoreVirtualNetworkTestSuite) SetupTest() {
 	s.Res = &baremetal.VirtualNetwork{
 		CidrBlock:             "cidr_block",
 		CompartmentID:         "compartment_id",
-		DefaultRouteTableID: "default_route_table_id",
+		DefaultRouteTableID:   "default_route_table_id",
 		DefaultSecurityListID: "default_security_list_id",
 		DisplayName:           "display_name",
 		ID:                    "id",
@@ -72,7 +72,7 @@ func (s *ResourceCoreVirtualNetworkTestSuite) SetupTest() {
 	s.DeletingRes = &baremetal.VirtualNetwork{
 		CidrBlock:             "cidr_block",
 		CompartmentID:         "compartment_id",
-		DefaultRouteTableID: "default_route_table_id",
+		DefaultRouteTableID:   "default_route_table_id",
 		DefaultSecurityListID: "default_security_list_id",
 		DisplayName:           "display_name",
 		ID:                    "id",
@@ -83,7 +83,7 @@ func (s *ResourceCoreVirtualNetworkTestSuite) SetupTest() {
 	s.DeletedRes = &baremetal.VirtualNetwork{
 		CidrBlock:             "cidr_block",
 		CompartmentID:         "compartment_id",
-		DefaultRouteTableID: "default_route_table_id",
+		DefaultRouteTableID:   "default_route_table_id",
 		DefaultSecurityListID: "default_security_list_id",
 		DisplayName:           "display_name",
 		ID:                    "id",
@@ -199,7 +199,7 @@ func (s ResourceCoreVirtualNetworkTestSuite) TestUpdateCidrBlockForcesNewVirtual
 	res := &baremetal.VirtualNetwork{
 		CidrBlock:             "new_cidr_block",
 		CompartmentID:         "compartment_id",
-		DefaultRouteTableID: "default_route_table_id",
+		DefaultRouteTableID:   "default_route_table_id",
 		DefaultSecurityListID: "default_security_list_id",
 		DisplayName:           "display_name",
 		ID:                    "new_id",

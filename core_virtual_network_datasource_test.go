@@ -7,10 +7,10 @@ import (
 	"time"
 
 	"github.com/MustWin/baremetal-sdk-go"
-	"github.com/oracle/terraform-provider-baremetal/client/mocks"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
+	"github.com/oracle/terraform-provider-baremetal/client/mocks"
 
 	"github.com/stretchr/testify/suite"
 )
@@ -59,7 +59,7 @@ func (s *ResourceCoreVirtualNetworksTestSuite) TestReadVirtualNetworks() {
 				{
 					CidrBlock:             "cidr_block",
 					CompartmentID:         "compartment_id",
-					DefaultRouteTableID: "default_route_table_id",
+					DefaultRouteTableID:   "default_route_table_id",
 					DefaultSecurityListID: "default_security_list_id",
 					DisplayName:           "display_name",
 					ID:                    "id1",
@@ -69,7 +69,7 @@ func (s *ResourceCoreVirtualNetworksTestSuite) TestReadVirtualNetworks() {
 				{
 					CidrBlock:             "cidr_block",
 					CompartmentID:         "compartment_id",
-					DefaultRouteTableID: "default_route_table_id",
+					DefaultRouteTableID:   "default_route_table_id",
 					DefaultSecurityListID: "default_security_list_id",
 					DisplayName:           "display_name",
 					ID:                    "id2",
@@ -115,7 +115,7 @@ func (s *ResourceCoreVirtualNetworksTestSuite) TestReadVirtualNetworksWithPaging
 		{
 			CidrBlock:             "cidr_block",
 			CompartmentID:         "compartment_id",
-			DefaultRouteTableID: "default_route_table_id",
+			DefaultRouteTableID:   "default_route_table_id",
 			DefaultSecurityListID: "default_security_list_id",
 			DisplayName:           "display_name",
 			ID:                    "id1",
@@ -125,7 +125,7 @@ func (s *ResourceCoreVirtualNetworksTestSuite) TestReadVirtualNetworksWithPaging
 		{
 			CidrBlock:             "cidr_block",
 			CompartmentID:         "compartment_id",
-			DefaultRouteTableID: "default_route_table_id",
+			DefaultRouteTableID:   "default_route_table_id",
 			DefaultSecurityListID: "default_security_list_id",
 			DisplayName:           "display_name",
 			ID:                    "id2",
@@ -154,7 +154,7 @@ func (s *ResourceCoreVirtualNetworksTestSuite) TestReadVirtualNetworksWithPaging
 				{
 					CidrBlock:             "cidr_block",
 					CompartmentID:         "compartment_id",
-					DefaultRouteTableID: "default_route_table_id",
+					DefaultRouteTableID:   "default_route_table_id",
 					DefaultSecurityListID: "default_security_list_id",
 					DisplayName:           "display_name",
 					ID:                    "id3",
@@ -164,7 +164,7 @@ func (s *ResourceCoreVirtualNetworksTestSuite) TestReadVirtualNetworksWithPaging
 				{
 					CidrBlock:             "cidr_block",
 					CompartmentID:         "compartment_id",
-					DefaultRouteTableID: "default_route_table_id",
+					DefaultRouteTableID:   "default_route_table_id",
 					DefaultSecurityListID: "default_security_list_id",
 					DisplayName:           "display_name",
 					ID:                    "id4",

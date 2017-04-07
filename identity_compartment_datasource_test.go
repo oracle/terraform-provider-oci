@@ -7,10 +7,10 @@ import (
 	"time"
 
 	"github.com/MustWin/baremetal-sdk-go"
-	"github.com/oracle/terraform-provider-baremetal/client/mocks"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
+	"github.com/oracle/terraform-provider-baremetal/client/mocks"
 
 	"github.com/stretchr/testify/suite"
 )
@@ -43,12 +43,12 @@ func (s *ResourceIdentityCompartmentsTestSuite) SetupTest() {
 	s.ResourceName = "data.baremetal_identity_compartments.t"
 
 	b1 := baremetal.Compartment{
-		ID: "id",
-		Name: "compartmentname",
+		ID:            "id",
+		Name:          "compartmentname",
 		CompartmentID: "compartment",
-		Description: "blah",
-		State:       baremetal.ResourceActive,
-		TimeCreated: time.Now(),
+		Description:   "blah",
+		State:         baremetal.ResourceActive,
+		TimeCreated:   time.Now(),
 	}
 
 	b2 := b1

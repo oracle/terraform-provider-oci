@@ -4,9 +4,9 @@ package main
 
 import (
 	"fmt"
+	"strconv"
 	"testing"
 	"time"
-	"strconv"
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
@@ -15,7 +15,6 @@ import (
 
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/oracle/terraform-provider-baremetal/client/mocks"
-
 )
 
 var testPasswordsConfig = `
@@ -26,13 +25,13 @@ var testPasswordsConfig = `
 
 type ResourceIdentitySwiftPasswordsTestSuite struct {
 	suite.Suite
-	Client      *mocks.BareMetalClient
-	Provider    terraform.ResourceProvider
-	Providers   map[string]terraform.ResourceProvider
-	TimeCreated time.Time
-	Config      string
+	Client        *mocks.BareMetalClient
+	Provider      terraform.ResourceProvider
+	Providers     map[string]terraform.ResourceProvider
+	TimeCreated   time.Time
+	Config        string
 	PasswordsName string
-	PasswordList baremetal.ListSwiftPasswords
+	PasswordList  baremetal.ListSwiftPasswords
 }
 
 func (s *ResourceIdentitySwiftPasswordsTestSuite) SetupTest() {
@@ -50,22 +49,22 @@ func (s *ResourceIdentitySwiftPasswordsTestSuite) SetupTest() {
 	s.PasswordList = baremetal.ListSwiftPasswords{
 		SwiftPasswords: []baremetal.SwiftPassword{
 			{
-				Password: "pass",
-				ID: "1",
-				UserID: "userid",
-				Description: "desc",
-				State: "available",
+				Password:       "pass",
+				ID:             "1",
+				UserID:         "userid",
+				Description:    "desc",
+				State:          "available",
 				InactiveStatus: 0,
-				TimeCreated: time.Now(),
+				TimeCreated:    time.Now(),
 			},
 			{
-				Password: "pass",
-				ID: "2",
-				UserID: "userid",
-				Description: "desc",
-				State: "available",
+				Password:       "pass",
+				ID:             "2",
+				UserID:         "userid",
+				Description:    "desc",
+				State:          "available",
 				InactiveStatus: 0,
-				TimeCreated: time.Now(),
+				TimeCreated:    time.Now(),
 			},
 		},
 	}
