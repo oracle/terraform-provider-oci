@@ -28,7 +28,7 @@ type BareMetalClient interface {
 	CreateSubnet(availabilityDomain, cidrBlock, compartmentID, vcnID string, opts *baremetal.CreateSubnetOptions) (sn *baremetal.Subnet, e error)
 	CreateSwiftPassword(userID, desc string, opts *baremetal.RetryTokenOptions) (res *baremetal.SwiftPassword, e error)
 	CreateUser(name, desc string, opts *baremetal.RetryTokenOptions) (res *baremetal.User, e error)
-	CreateVirtualNetwork(cidrBlock, compartmentID string, opts *baremetal.CreateOptions) (vcn *baremetal.VirtualNetwork, e error)
+	CreateVirtualNetwork(cidrBlock, compartmentID string, opts *baremetal.CreateVcnOptions) (vcn *baremetal.VirtualNetwork, e error)
 	CreateVolume(availabilityDomain, compartmentID string, opts *baremetal.CreateVolumeOptions) (res *baremetal.Volume, e error)
 	CreateVolumeBackup(volumeID string, opts *baremetal.CreateOptions) (vol *baremetal.VolumeBackup, e error)
 

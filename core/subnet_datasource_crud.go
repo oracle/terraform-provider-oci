@@ -59,7 +59,7 @@ func (s *SubnetDatasourceCrud) SetData() {
 				"id":                  v.ID,
 				"state":               v.State,
 				"time_created":        v.TimeCreated.String(),
-				"virtual_router_id":   v.VirtualRouterID,
+				"virtual_router_ip":   v.VirtualRouterIP,
 				"virtual_router_mac":  v.VirtualRouterMac,
 			}
 			resources = append(resources, res)

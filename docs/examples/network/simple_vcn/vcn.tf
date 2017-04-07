@@ -13,6 +13,7 @@ provider "baremetal" {
 
 resource "baremetal_core_virtual_network" "a_TF_managed_VCN" {
   cidr_block = "10.0.0.0/16"
+  dns_label = "vnc1"
   compartment_id = "${var.compartment_ocid}"
   display_name = "a_TF_managed_VCN"
 }

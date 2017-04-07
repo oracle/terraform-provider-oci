@@ -30,6 +30,11 @@ func InstanceResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"hostname_label": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"id": {
 				Type:     schema.TypeString,
 				Computed: true,

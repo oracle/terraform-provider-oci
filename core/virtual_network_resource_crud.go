@@ -36,10 +36,15 @@ func (s *VirtualNetworkResourceCrud) Create() (e error) {
 	cidrBlock := s.D.Get("cidr_block").(string)
 	compartmentID := s.D.Get("compartment_id").(string)
 
-	opts := &baremetal.CreateOptions{}
+	opts := &baremetal.CreateVcnOptions{}
 	displayName, ok := s.D.GetOk("display_name")
 	if ok {
 		opts.DisplayName = displayName.(string)
+	}
+
+	dnsLabel, ok := s.D.GetOk("dns_label")
+	if ok {
+		opts.DnsLabel = dnsLabel.(string)
 	}
 
 	s.Res, e = s.Client.CreateVirtualNetwork(cidrBlock, compartmentID, opts)

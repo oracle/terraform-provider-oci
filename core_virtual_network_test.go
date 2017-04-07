@@ -93,7 +93,7 @@ func (s *ResourceCoreVirtualNetworkTestSuite) SetupTest() {
 	s.DeletedRes.ETag = "etag"
 	s.DeletedRes.RequestID = "opcrequestid"
 
-	opts := &baremetal.CreateOptions{}
+	opts := &baremetal.CreateVcnOptions{}
 	opts.DisplayName = "display_name"
 	s.Client.On(
 		"CreateVirtualNetwork",
@@ -163,7 +163,7 @@ func (s *ResourceCoreVirtualNetworkTestSuite) TestCreateResourceCoreVirtualNetwo
 	`
 	s.Config += testProviderConfig
 
-	opts := &baremetal.CreateOptions{}
+	opts := &baremetal.CreateVcnOptions{}
 	s.Client.On(
 		"CreateVirtualNetwork",
 		"cidr_block",
@@ -211,7 +211,7 @@ func (s ResourceCoreVirtualNetworkTestSuite) TestUpdateCidrBlockForcesNewVirtual
 
 	// Step 2 creates a new resource and then uses the same Get pattern from
 	// above in order to delete, this time with the newly created resource.
-	opts := &baremetal.CreateOptions{}
+	opts := &baremetal.CreateVcnOptions{}
 	s.Client.On(
 		"CreateVirtualNetwork",
 		res.CidrBlock,

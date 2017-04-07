@@ -60,6 +60,9 @@ func (s *InstanceResourceCrud) Create() (e error) {
 	if displayName, ok := s.D.GetOk("display_name"); ok {
 		opts.DisplayName = displayName.(string)
 	}
+	if hostnameLabel, ok := s.D.GetOk("hostname_label"); ok {
+		opts.HostnameLabel = hostnameLabel.(string)
+	}
 
 	if rawMetadata, ok := s.D.GetOk("metadata"); ok {
 		metadata := resourceMapToMetadata(rawMetadata.(map[string]interface{}))

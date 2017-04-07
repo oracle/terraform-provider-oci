@@ -70,7 +70,7 @@ func (s *ResourceCoreSubnetsTestSuite) TestResourceListSubnets() {
 						Time: time.Now(),
 					},
 					VcnID:            "vcnid",
-					VirtualRouterID:  "virtualrouterid",
+					VirtualRouterIP:  "virtualrouterip",
 					VirtualRouterMac: "virtualroutermac",
 				},
 				{
@@ -89,7 +89,7 @@ func (s *ResourceCoreSubnetsTestSuite) TestResourceListSubnets() {
 						Time: time.Now(),
 					},
 					VcnID:            "vcnid",
-					VirtualRouterID:  "virtualrouterid",
+					VirtualRouterIP:  "virtualrouterip",
 					VirtualRouterMac: "virtualroutermac",
 				},
 			},
@@ -141,7 +141,7 @@ func (s *ResourceCoreSubnetsTestSuite) TestResourceListSubnetsWithPagination() {
 				Time: time.Now(),
 			},
 			VcnID:            "vcnid",
-			VirtualRouterID:  "virtualrouterid",
+			VirtualRouterIP:  "virtualrouterip",
 			VirtualRouterMac: "virtualroutermac",
 		},
 		{
@@ -160,7 +160,7 @@ func (s *ResourceCoreSubnetsTestSuite) TestResourceListSubnetsWithPagination() {
 				Time: time.Now(),
 			},
 			VcnID:            "vcnid",
-			VirtualRouterID:  "virtualrouterid",
+			VirtualRouterIP:  "virtualrouterip",
 			VirtualRouterMac: "virtualroutermac",
 		},
 	}
@@ -198,7 +198,7 @@ func (s *ResourceCoreSubnetsTestSuite) TestResourceListSubnetsWithPagination() {
 						Time: time.Now(),
 					},
 					VcnID:            "vcnid",
-					VirtualRouterID:  "virtualrouterid",
+					VirtualRouterIP:  "virtualrouterip",
 					VirtualRouterMac: "virtualroutermac",
 				},
 				{
@@ -217,7 +217,7 @@ func (s *ResourceCoreSubnetsTestSuite) TestResourceListSubnetsWithPagination() {
 						Time: time.Now(),
 					},
 					VcnID:            "vcnid",
-					VirtualRouterID:  "virtualrouterid",
+					VirtualRouterIP:  "virtualrouterip",
 					VirtualRouterMac: "virtualroutermac",
 				},
 			},

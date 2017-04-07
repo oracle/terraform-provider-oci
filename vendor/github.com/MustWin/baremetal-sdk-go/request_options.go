@@ -53,9 +53,15 @@ type CreateBucketOptions struct {
 	Metadata map[string]string `header:"-" json:"metadata,omitempty" url:"-"`
 }
 
+type CreateVcnOptions struct {
+	CreateOptions
+	DnsLabel string `header:"-" json:"dnsLabel,omitempty" url:"-"`
+}
+
 type CreateSubnetOptions struct {
 	CreateOptions
 	DHCPOptionsID   string   `header:"-" json:"dhcpOptionsId,omitempty" url:"-"`
+	DNSLabel        string   `header:"-" json:"dnsLabel,omitempty" url:"-"`
 	RouteTableID    string   `header:"-" json:"routeTableId,omitempty" url:"-"`
 	SecurityListIDs []string `header:"-" json:"securityListIds,omitempty" url:"-"`
 }
@@ -73,6 +79,7 @@ type CreatePolicyOptions struct {
 
 type LaunchInstanceOptions struct {
 	CreateOptions
+	HostnameLabel string       `header:"-" json:"hostnameLabel,omitempty" url:"-"`
 	Metadata map[string]string `header:"-" json:"metadata,omitempty" url:"-"`
 }
 

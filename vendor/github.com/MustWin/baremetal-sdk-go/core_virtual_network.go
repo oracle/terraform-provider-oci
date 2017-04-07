@@ -18,9 +18,11 @@ type VirtualNetwork struct {
 	DefaultSecurityListID string `json:"defaultSecurityListId"`
 	DefaultDHCPOptionsID  string `json:"defaultDhcpOptionsId"`
 	DisplayName           string `json:"displayName"`
+	DnsLabel              string `json:"dnsLabel"`
 	ID                    string `json:"id"`
 	State                 string `json:"lifecycleState"`
 	TimeCreated           Time   `json:"timeCreated"`
+	VcnDomainName         string `json:"vcnDomainName"`
 }
 
 // ListVirtualNetworks contains a list of virtual networks
@@ -38,7 +40,7 @@ func (l *ListVirtualNetworks) GetList() interface{} {
 // CreateVirtualNetwork is used to create a virtual network
 //
 // See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/Vcn/CreateVcn
-func (c *Client) CreateVirtualNetwork(cidrBlock, compartmentID string, opts *CreateOptions) (vcn *VirtualNetwork, e error) {
+func (c *Client) CreateVirtualNetwork(cidrBlock, compartmentID string, opts *CreateVcnOptions) (vcn *VirtualNetwork, e error) {
 	required := struct {
 		ocidRequirement
 		CidrBlock string `header:"-" json:"cidrBlock,omitempty" url:"-"`

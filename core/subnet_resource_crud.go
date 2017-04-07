@@ -50,6 +50,11 @@ func (s *SubnetResourceCrud) Create() (e error) {
 		opts.DisplayName = displayName.(string)
 	}
 
+	dnsLabel, ok := s.D.GetOk("dns_label")
+	if ok {
+		opts.DNSLabel = dnsLabel.(string)
+	}
+
 	if rawSecurityListIDs, ok := s.D.GetOk("security_list_ids"); ok {
 		securityListIDs := []string{}
 		for _, val := range rawSecurityListIDs.([]interface{}) {
@@ -94,13 +99,14 @@ func (s *SubnetResourceCrud) SetData() {
 	s.D.Set("availability_domain", s.Resource.AvailabilityDomain)
 	s.D.Set("compartment_id", s.Resource.CompartmentID)
 	s.D.Set("display_name", s.Resource.DisplayName)
+	s.D.Set("dns_label", s.Resource.DNSLabel)
 	s.D.Set("cidr_block", s.Resource.CIDRBlock)
 	s.D.Set("route_table_id", s.Resource.RouteTableID)
 	s.D.Set("vcn_id", s.Resource.VcnID)
 	s.D.Set("security_list_ids", s.Resource.SecurityListIDs)
 	s.D.Set("state", s.Resource.State)
 	s.D.Set("time_created", s.Resource.TimeCreated.String())
-	s.D.Set("virtual_router_id", s.Resource.VirtualRouterID)
+	s.D.Set("virtual_router_ip", s.Resource.VirtualRouterIP)
 	s.D.Set("virtual_router_mac", s.Resource.VirtualRouterMac)
 }
 

@@ -470,11 +470,11 @@ func (_m *BareMetalClient) CreateUser(name string, desc string, opts *baremetal.
 }
 
 // CreateVirtualNetwork provides a mock function with given fields: cidrBlock, compartmentID, opts
-func (_m *BareMetalClient) CreateVirtualNetwork(cidrBlock string, compartmentID string, opts *baremetal.CreateOptions) (*baremetal.VirtualNetwork, error) {
+func (_m *BareMetalClient) CreateVirtualNetwork(cidrBlock string, compartmentID string, opts *baremetal.CreateVcnOptions) (*baremetal.VirtualNetwork, error) {
 	ret := _m.Called(cidrBlock, compartmentID, opts)
 
 	var r0 *baremetal.VirtualNetwork
-	if rf, ok := ret.Get(0).(func(string, string, *baremetal.CreateOptions) *baremetal.VirtualNetwork); ok {
+	if rf, ok := ret.Get(0).(func(string, string, *baremetal.CreateVcnOptions) *baremetal.VirtualNetwork); ok {
 		r0 = rf(cidrBlock, compartmentID, opts)
 	} else {
 		if ret.Get(0) != nil {
@@ -483,7 +483,7 @@ func (_m *BareMetalClient) CreateVirtualNetwork(cidrBlock string, compartmentID 
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string, string, *baremetal.CreateOptions) error); ok {
+	if rf, ok := ret.Get(1).(func(string, string, *baremetal.CreateVcnOptions) error); ok {
 		r1 = rf(cidrBlock, compartmentID, opts)
 	} else {
 		r1 = ret.Error(1)

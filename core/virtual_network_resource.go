@@ -38,6 +38,11 @@ func VirtualNetworkResource() *schema.Resource {
 				Computed: true,
 				Optional: true,
 			},
+			"dns_label": {
+				Type:     schema.TypeString,
+				Computed: true,
+				Optional: true,
+			},
 			"id": {
 				Type:     schema.TypeString,
 				Computed: true,
