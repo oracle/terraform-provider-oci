@@ -3,9 +3,10 @@
 package core
 
 import (
+	"github.com/hashicorp/terraform/helper/schema"
+
 	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/crud"
-	"github.com/hashicorp/terraform/helper/schema"
 )
 
 var transportSchema = &schema.Schema{
@@ -80,7 +81,7 @@ func SecurityListResource() *schema.Resource {
 						"stateless": {
 							Type:     schema.TypeBool,
 							Optional: true,
-							Default: false,
+							Default:  false,
 						},
 					},
 				},
@@ -108,7 +109,7 @@ func SecurityListResource() *schema.Resource {
 						"stateless": {
 							Type:     schema.TypeBool,
 							Optional: true,
-							Default: false,
+							Default:  false,
 						},
 					},
 				},

@@ -7,15 +7,17 @@ import (
 	"fmt"
 	"net/http"
 
+	"os"
+	"strconv"
+
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
+
 	"github.com/oracle/terraform-provider-baremetal/core"
 	"github.com/oracle/terraform-provider-baremetal/database"
 	"github.com/oracle/terraform-provider-baremetal/identity"
 	"github.com/oracle/terraform-provider-baremetal/objectstorage"
-	"os"
-	"strconv"
 )
 
 var descriptions map[string]string

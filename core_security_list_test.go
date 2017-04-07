@@ -10,10 +10,12 @@ import (
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
+
 	"github.com/oracle/terraform-provider-baremetal/client/mocks"
 
-	"github.com/oracle/terraform-provider-baremetal/crud"
 	"github.com/stretchr/testify/suite"
+
+	"github.com/oracle/terraform-provider-baremetal/crud"
 )
 
 type ResourceCoreSecurityListTestSuite struct {
