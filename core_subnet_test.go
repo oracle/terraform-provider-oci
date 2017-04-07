@@ -7,10 +7,10 @@ import (
 	"time"
 
 	"github.com/MustWin/baremetal-sdk-go"
-	"github.com/oracle/terraform-provider-baremetal/client/mocks"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
+	"github.com/oracle/terraform-provider-baremetal/client/mocks"
 
 	"github.com/stretchr/testify/suite"
 )
@@ -43,15 +43,15 @@ func (s *ResourceCoreSubnetTestSuite) SetupTest() {
 	s.TimeCreated = baremetal.Time{Time: time.Now()}
 
 	s.Config = `
-		resource "baremetal_core_subnet" "t" {
-			availability_domain = "availabilitydomainid"
-			compartment_id = "compartmentid"
-			display_name = "display_name"
-      cidr_block = "10.10.10.0/24"
-      route_table_id = "routetableid"
-      vcn_id = "vcnid"
-      security_list_ids = ["slid1", "slid2"]
-		}
+resource "baremetal_core_subnet" "t" {
+  availability_domain = "availabilitydomainid"
+  compartment_id      = "compartmentid"
+  display_name        = "display_name"
+  cidr_block          = "10.10.10.0/24"
+  route_table_id      = "routetableid"
+  vcn_id              = "vcnid"
+  security_list_ids   = ["slid1", "slid2"]
+}
 	`
 
 	s.Config += testProviderConfig
@@ -65,8 +65,9 @@ func (s *ResourceCoreSubnetTestSuite) SetupTest() {
 		ID:                 "id",
 		RouteTableID:       "routetableid",
 		SecurityListIDs: []string{
-			"slid1",
+			// Note: sorted by schema.HashString
 			"slid2",
+			"slid1",
 		},
 		State: baremetal.ResourceAvailable,
 		TimeCreated: baremetal.Time{
@@ -122,14 +123,14 @@ func (s *ResourceCoreSubnetTestSuite) TestCreateResourceCoreSubnetWithoutDisplay
 	s.Client.On("GetSubnet", "id").Return(s.DeletedRes, nil).Times(2)
 
 	s.Config = `
-		resource "baremetal_core_subnet" "t" {
-			availability_domain = "availabilitydomainid"
-			compartment_id = "compartmentid"
-      cidr_block = "10.10.10.0/24"
-      route_table_id = "routetableid"
-      vcn_id = "vcnid"
-      security_list_ids = ["slid1", "slid2"]
-		}
+resource "baremetal_core_subnet" "t" {
+  availability_domain = "availabilitydomainid"
+  compartment_id      = "compartmentid"
+  cidr_block          = "10.10.10.0/24"
+  route_table_id      = "routetableid"
+  vcn_id              = "vcnid"
+  security_list_ids   = ["slid1", "slid2"]
+}
 	`
 
 	s.Config += testProviderConfig
@@ -162,15 +163,15 @@ func (s *ResourceCoreSubnetTestSuite) TestCreateResourceCoreSubnetWithoutDisplay
 
 func (s ResourceCoreSubnetTestSuite) TestUpdateCompartmentIDForcesNewSubnet() {
 	config := `
-		resource "baremetal_core_subnet" "t" {
-			availability_domain = "availabilitydomainid"
-			compartment_id = "new_compartmentid"
-			display_name = "display_name"
-	    cidr_block = "10.10.10.0/24"
-	    route_table_id = "routetableid"
-	    vcn_id = "vcnid"
-	    security_list_ids = ["slid1", "slid2"]
-		}
+resource "baremetal_core_subnet" "t" {
+  availability_domain = "availabilitydomainid"
+  compartment_id      = "new_compartmentid"
+  display_name        = "display_name"
+  cidr_block          = "10.10.10.0/24"
+  route_table_id      = "routetableid"
+  vcn_id              = "vcnid"
+  security_list_ids   = ["slid1", "slid2"]
+}
 	`
 
 	config += testProviderConfig
@@ -183,8 +184,9 @@ func (s ResourceCoreSubnetTestSuite) TestUpdateCompartmentIDForcesNewSubnet() {
 		ID:                 "new_id",
 		RouteTableID:       "routetableid",
 		SecurityListIDs: []string{
-			"slid1",
+			// Note: sorted by schema.HashString
 			"slid2",
+			"slid1",
 		},
 		State: baremetal.ResourceAvailable,
 		TimeCreated: baremetal.Time{

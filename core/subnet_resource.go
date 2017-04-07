@@ -3,9 +3,9 @@
 package core
 
 import (
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/crud"
-	"github.com/hashicorp/terraform/helper/schema"
 )
 
 func SubnetResource() *schema.Resource {
@@ -41,9 +41,10 @@ func SubnetResource() *schema.Resource {
 				ForceNew: true,
 			},
 			"security_list_ids": {
-				Type:     schema.TypeList,
+				Type:     schema.TypeSet,
 				Required: true,
 				ForceNew: true,
+				Set:      schema.HashString,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
@@ -54,11 +55,11 @@ func SubnetResource() *schema.Resource {
 				Computed: true,
 			},
 			"dhcp_options_id": {
-				Type: schema.TypeString,
+				Type:     schema.TypeString,
 				Optional: true,
 			},
 			"dns_label": {
-				Type: schema.TypeString,
+				Type:     schema.TypeString,
 				Optional: true,
 			},
 			"id": {
