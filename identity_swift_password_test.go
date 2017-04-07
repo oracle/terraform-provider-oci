@@ -12,6 +12,7 @@ import (
 	"github.com/stretchr/testify/suite"
 
 	"github.com/MustWin/baremetal-sdk-go"
+
 	"github.com/oracle/terraform-provider-baremetal/client/mocks"
 )
 
@@ -52,10 +53,10 @@ func (s *ResourceIdentitySwiftPasswordTestSuite) SetupTest() {
 	s.ResourceName = "baremetal_identity_swift_password.t"
 
 	s.Res = &baremetal.SwiftPassword{
-		ID: "id",
+		ID:          "id",
 		Password:    "password",
 		TimeCreated: s.TimeCreated,
-		State:   baremetal.ResourceActive,
+		State:       baremetal.ResourceActive,
 		UserID:      "user_id",
 		Description: description,
 	}
@@ -66,11 +67,11 @@ func (s *ResourceIdentitySwiftPasswordTestSuite) SetupTest() {
 		Return(s.Res, nil).Once()
 	s.Client.On("ListSwiftPasswords", "user_id").
 		Return(
-		&baremetal.ListSwiftPasswords{
-			SwiftPasswords: []baremetal.SwiftPassword{
-				*s.Res,
-			},
-		}, nil).Twice()
+			&baremetal.ListSwiftPasswords{
+				SwiftPasswords: []baremetal.SwiftPassword{
+					*s.Res,
+				},
+			}, nil).Twice()
 	s.Client.On("DeleteSwiftPassword", "id", "user_id", (*baremetal.IfMatchOptions)(nil)).Return(nil).Once()
 }
 
@@ -105,11 +106,11 @@ func (s ResourceIdentitySwiftPasswordTestSuite) TestUpdateDescriptionUpdatesSwif
 		Return(res, nil)
 	s.Client.On("ListSwiftPasswords", "user_id").
 		Return(
-		&baremetal.ListSwiftPasswords{
-			SwiftPasswords: []baremetal.SwiftPassword{
-				*res,
-			},
-		}, nil).Twice()
+			&baremetal.ListSwiftPasswords{
+				SwiftPasswords: []baremetal.SwiftPassword{
+					*res,
+				},
+			}, nil).Twice()
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,

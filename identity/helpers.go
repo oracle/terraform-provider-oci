@@ -6,7 +6,7 @@ import "github.com/hashicorp/terraform/helper/schema"
 
 var baseIdentitySchemaWithID = map[string]*schema.Schema{
 	"id": {
-		Type: schema.TypeString,
+		Type:     schema.TypeString,
 		Computed: true,
 		ForceNew: true,
 	},
@@ -100,7 +100,7 @@ var identitySchema = map[string]*schema.Schema{
 
 var identitySchemaWithID = map[string]*schema.Schema{
 	"id": {
-		Type: schema.TypeString,
+		Type:     schema.TypeString,
 		Computed: true,
 		ForceNew: true,
 	},
@@ -130,4 +130,3 @@ var identitySchemaWithID = map[string]*schema.Schema{
 		Computed: true,
 	},
 }
-

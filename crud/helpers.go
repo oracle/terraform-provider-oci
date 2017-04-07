@@ -9,11 +9,13 @@ import (
 	"strings"
 	"time"
 
-	"github.com/oracle/terraform-provider-baremetal/client"
+	"errors"
+	"strconv"
+
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
-	"strconv"
-	"errors"
+
+	"github.com/oracle/terraform-provider-baremetal/client"
 )
 
 const FiveMinutes time.Duration = 5 * time.Minute

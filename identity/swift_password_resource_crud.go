@@ -4,6 +4,7 @@ package identity
 
 import (
 	"github.com/MustWin/baremetal-sdk-go"
+
 	"github.com/oracle/terraform-provider-baremetal/crud"
 )
 
@@ -15,7 +16,6 @@ type SwiftPasswordResourceCrud struct {
 func (s *SwiftPasswordResourceCrud) ID() string {
 	return s.Res.ID
 }
-
 
 func (s *SwiftPasswordResourceCrud) Get() (e error) {
 	// There is no get resource for swift passwords, so we list them all and match

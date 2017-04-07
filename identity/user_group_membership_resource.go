@@ -3,9 +3,10 @@
 package identity
 
 import (
+	"github.com/hashicorp/terraform/helper/schema"
+
 	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/crud"
-	"github.com/hashicorp/terraform/helper/schema"
 )
 
 func UserGroupMembershipResource() *schema.Resource {
@@ -15,7 +16,7 @@ func UserGroupMembershipResource() *schema.Resource {
 		Delete: deleteUserGroupMembership,
 		Schema: map[string]*schema.Schema{
 			"id": {
-				Type: schema.TypeString,
+				Type:     schema.TypeString,
 				Computed: true,
 				ForceNew: true,
 			},
