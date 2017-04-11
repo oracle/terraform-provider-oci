@@ -3,16 +3,17 @@
 package identity
 
 import (
+	"github.com/hashicorp/terraform/helper/schema"
+
 	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/crud"
-	"github.com/hashicorp/terraform/helper/schema"
 )
 
 func CompartmentDatasource() *schema.Resource {
 	return &schema.Resource{
 		Read: readCompartments,
 		Schema: map[string]*schema.Schema{
-			"compartment_id":{
+			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
 			},

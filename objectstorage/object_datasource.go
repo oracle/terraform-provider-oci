@@ -3,9 +3,10 @@
 package objectstorage
 
 import (
+	"github.com/hashicorp/terraform/helper/schema"
+
 	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/crud"
-	"github.com/hashicorp/terraform/helper/schema"
 )
 
 func ObjectDatasource() *schema.Resource {

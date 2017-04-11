@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/MustWin/baremetal-sdk-go"
+
 	"github.com/oracle/terraform-provider-baremetal/crud"
 )
 
@@ -26,12 +27,12 @@ func (s *UserGroupMembershipDatasourceCrud) SetData() {
 		for _, v := range s.Res.Memberships {
 			res := map[string]interface{}{
 				"compartment_id": v.CompartmentID,
-				"id": v.ID,
-				"user_id": v.UserID,
-				"group_id": v.GroupID,
+				"id":             v.ID,
+				"user_id":        v.UserID,
+				"group_id":       v.GroupID,
 				"inactive_state": v.InactiveStatus,
-				"state": v.State,
-				"time_created": v.TimeCreated.String(),
+				"state":          v.State,
+				"time_created":   v.TimeCreated.String(),
 			}
 			resources = append(resources, res)
 		}

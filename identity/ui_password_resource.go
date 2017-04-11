@@ -3,9 +3,10 @@
 package identity
 
 import (
+	"github.com/hashicorp/terraform/helper/schema"
+
 	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/crud"
-	"github.com/hashicorp/terraform/helper/schema"
 )
 
 // Version is exposed to allow resetting an existing user's password.

@@ -3,9 +3,10 @@
 package identity
 
 import (
+	"github.com/hashicorp/terraform/helper/schema"
+
 	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/crud"
-	"github.com/hashicorp/terraform/helper/schema"
 )
 
 func AvailabilityDomainDatasource() *schema.Resource {
@@ -19,7 +20,7 @@ func AvailabilityDomainDatasource() *schema.Resource {
 			"availability_domains": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     &schema.Resource{
+				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"compartment_id": {
 							Type:     schema.TypeString,

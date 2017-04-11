@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/MustWin/baremetal-sdk-go"
+
 	"github.com/oracle/terraform-provider-baremetal/crud"
 	"github.com/oracle/terraform-provider-baremetal/options"
 )

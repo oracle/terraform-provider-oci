@@ -6,6 +6,8 @@ import (
 	"time"
 
 	"github.com/MustWin/baremetal-sdk-go"
+	"github.com/hashicorp/terraform/helper/schema"
+
 	"github.com/oracle/terraform-provider-baremetal/crud"
 )
 
@@ -62,7 +64,7 @@ func (s *SubnetResourceCrud) Create() (e error) {
 
 	if rawSecurityListIDs, ok := s.D.GetOk("security_list_ids"); ok {
 		securityListIDs := []string{}
-		for _, val := range rawSecurityListIDs.([]interface{}) {
+		for _, val := range rawSecurityListIDs.(*schema.Set).List() {
 			securityListIDs = append(securityListIDs, val.(string))
 		}
 		opts.SecurityListIDs = securityListIDs
@@ -110,7 +112,7 @@ func (s *SubnetResourceCrud) SetData() {
 	s.D.Set("dns_label", s.Resource.DNSLabel)
 	s.D.Set("route_table_id", s.Resource.RouteTableID)
 	s.D.Set("vcn_id", s.Resource.VcnID)
-	s.D.Set("security_list_ids", s.Resource.SecurityListIDs)
+	s.D.Set("security_list_ids", makeSetFromStrings(s.Resource.SecurityListIDs))
 	s.D.Set("state", s.Resource.State)
 	s.D.Set("time_created", s.Resource.TimeCreated.String())
 	s.D.Set("virtual_router_ip", s.Resource.VirtualRouterIP)
@@ -119,4 +121,14 @@ func (s *SubnetResourceCrud) SetData() {
 
 func (s *SubnetResourceCrud) Delete() (e error) {
 	return s.Client.DeleteSubnet(s.D.Id(), nil)
+}
+
+// makeSetFromStrings encodes an []string into a
+// *schema.Set in the appropriate structure for the schema
+func makeSetFromStrings(ss []string) *schema.Set {
+	st := &schema.Set{F: schema.HashString}
+	for _, s := range ss {
+		st.Add(s)
+	}
+	return st
 }
