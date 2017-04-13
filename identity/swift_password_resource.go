@@ -3,16 +3,17 @@
 package identity
 
 import (
+	"github.com/hashicorp/terraform/helper/schema"
+
 	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/crud"
-	"github.com/hashicorp/terraform/helper/schema"
 )
 
 func SwiftPasswordResource() *schema.Resource {
 	return &schema.Resource{
 		Create: createSwiftPassword,
-		Read: readSwiftPassword,
-		Update:   updateSwiftPassword,
+		Read:   readSwiftPassword,
+		Update: updateSwiftPassword,
 		Delete: deleteSwiftPassword,
 		Schema: map[string]*schema.Schema{
 			"id": {

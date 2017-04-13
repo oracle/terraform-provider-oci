@@ -33,5 +33,7 @@ The following arguments are supported:
 * `state` - The current state of the volume attachment: [ATTACHING, ATTACHED, DETACHING, DETACHED].
 * `time_created` - The date and time the volume was created
 * `volume_id` - The OCID of the volume.
-
-
+* `chap_username` - The volume's system-generated Challenge-Handshake-Authentication-Protocol (CHAP) user name.
+* `chap_secret` - The Challenge-Handshake-Authentication-Protocol (CHAP) secret valid for the associated CHAP user name. (Also called the "CHAP password".)
+* `ipv4` - The volume's iSCSI IP address.
+* `iqn` - The target volume's iSCSI Qualified Name in the format defined by RFC 3720.

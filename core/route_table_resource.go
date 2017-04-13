@@ -3,9 +3,10 @@
 package core
 
 import (
+	"github.com/hashicorp/terraform/helper/schema"
+
 	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/crud"
-	"github.com/hashicorp/terraform/helper/schema"
 )
 
 func RouteTableResource() *schema.Resource {
@@ -36,11 +37,11 @@ func RouteTableResource() *schema.Resource {
 					Schema: map[string]*schema.Schema{
 						"cidr_block": {
 							Type:     schema.TypeString,
-							Required: true,
+							Optional: true,
 						},
 						"network_entity_id": {
 							Type:     schema.TypeString,
-							Required: true,
+							Optional: true,
 						},
 					},
 				},

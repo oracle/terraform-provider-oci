@@ -2,8 +2,9 @@ package main
 
 import (
 	"github.com/MustWin/baremetal-sdk-go"
-	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/stretchr/testify/suite"
+
+	"github.com/oracle/terraform-provider-baremetal/client"
 )
 
 type ResourceClientTestSuite struct {

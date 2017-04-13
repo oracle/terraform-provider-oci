@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/MustWin/baremetal-sdk-go"
+
 	"github.com/oracle/terraform-provider-baremetal/crud"
 )
 
@@ -27,15 +28,15 @@ func (s *PolicyDatasourceCrud) SetData() {
 		resources := []map[string]interface{}{}
 		for _, v := range s.Res.Policies {
 			res := map[string]interface{}{
-				"id": v.ID,
+				"id":             v.ID,
 				"compartment_id": v.CompartmentID,
-				"name": v.Name,
-				"statements": v.Statements,
-				"description": v.Description,
-				"time_created": v.TimeCreated.String(),
-				"state": v.State,
+				"name":           v.Name,
+				"statements":     v.Statements,
+				"description":    v.Description,
+				"time_created":   v.TimeCreated.String(),
+				"state":          v.State,
 				"inactive_state": v.InactiveStatus,
-				"version_date": v.VersionDate.String(),
+				"version_date":   v.VersionDate.String(),
 			}
 			resources = append(resources, res)
 		}

@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/MustWin/baremetal-sdk-go"
+
 	"github.com/oracle/terraform-provider-baremetal/crud"
 )
 
@@ -27,13 +28,13 @@ func (s *SwiftPasswordDatasourceCrud) SetData() {
 		resources := []map[string]interface{}{}
 		for _, v := range s.Res.SwiftPasswords {
 			res := map[string]interface{}{
-				"id": v.ID,
-				"user_id": v.UserID,
-				"description": v.Description,
-				"state": v.State,
+				"id":             v.ID,
+				"user_id":        v.UserID,
+				"description":    v.Description,
+				"state":          v.State,
 				"inactive_state": v.InactiveStatus,
-				"time_created": v.TimeCreated.String(),
-				"expires_on": v.ExpiresOn.String(),
+				"time_created":   v.TimeCreated.String(),
+				"expires_on":     v.ExpiresOn.String(),
 			}
 			resources = append(resources, res)
 		}

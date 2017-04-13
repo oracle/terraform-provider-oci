@@ -7,10 +7,11 @@ import (
 	"time"
 
 	"github.com/MustWin/baremetal-sdk-go"
-	"github.com/oracle/terraform-provider-baremetal/client/mocks"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
+
+	"github.com/oracle/terraform-provider-baremetal/client/mocks"
 
 	"github.com/stretchr/testify/suite"
 )
@@ -43,12 +44,12 @@ func (s *ResourceIdentityGroupsTestSuite) SetupTest() {
 	s.ResourceName = "data.baremetal_identity_groups.t"
 
 	b1 := baremetal.Group{
-		ID: "id",
-		Name: "groupname",
+		ID:            "id",
+		Name:          "groupname",
 		CompartmentID: "compartment",
-		Description: "blah",
-		State:       baremetal.ResourceActive,
-		TimeCreated: time.Now(),
+		Description:   "blah",
+		State:         baremetal.ResourceActive,
+		TimeCreated:   time.Now(),
 	}
 
 	b2 := b1

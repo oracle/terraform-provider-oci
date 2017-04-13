@@ -47,6 +47,9 @@ record_core_test:
 record_core_instance_test:
 	@go test -v -tags "recording core_instance" github.com/MustWin/baremetal-sdk-go/acceptance-test
 
+record_load_balancer_test:
+	@go test -v -tags "recording load_balancer" github.com/MustWin/baremetal-sdk-go/acceptance-test
+
 .PHONY: build test regression_test identity_test core_test database_test object_test acceptance_test \
 	record_identity_user_test record_identity_group_test record_identity_user_group_membership_test \
 	record_core_test record_identity_policy_test

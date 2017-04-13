@@ -4,6 +4,7 @@ package core
 
 import (
 	"github.com/MustWin/baremetal-sdk-go"
+
 	"github.com/oracle/terraform-provider-baremetal/crud"
 )
 
@@ -144,6 +145,7 @@ func (s *SecurityListResourceCrud) buildIngressRules() (sdkRules []baremetal.Ing
 			Source:      confRule["source"].(string),
 			TCPOptions:  s.buildTCPOptions(confRule),
 			UDPOptions:  s.buildUDPOptions(confRule),
+			IsStateless: confRule["stateless"].(bool),
 		}
 
 		sdkRules = append(sdkRules, sdkRule)
