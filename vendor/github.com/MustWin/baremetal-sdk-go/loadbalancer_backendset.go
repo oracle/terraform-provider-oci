@@ -12,11 +12,11 @@ import (
 type BackendSet struct {
 	OPCRequestIDUnmarshaller
 	OPCWorkRequestIDUnmarshaller
-	Backends      []Backend        `json:"backends"`
-	HealthChecker HealthChecker    `json:"healthChecker"`
-	Name          string           `json:"name,omitempty"` // Only on create
-	Policy        string           `json:"policy"`
-	SSLConfig     SSLConfiguration `json:"sslConfiguration"`
+	Backends      []Backend         `json:"backends" url:"-"`
+	HealthChecker *HealthChecker    `json:"healthChecker" url:"-"`
+	Name          string            `json:"name,omitempty" url:"-"`             // Only on create
+	Policy        string            `json:"policy" url:"-"`                     // FIXME: supposedly has default: "ROUND_ROBIN" but then raises error when null. For valid values see ListPolicies()
+	SSLConfig     *SSLConfiguration `json:"sslConfiguration,omitempty" url:"-"` // TODO: acc test, waiting on CreateCertificate() tests
 }
 
 type SSLConfiguration struct {
@@ -44,11 +44,10 @@ func (c *Client) CreateBackendSet(
 	name string,
 	policy string,
 	backends []Backend,
-	healthChecker HealthChecker,
-	sslConfig SSLConfiguration,
+	healthChecker *HealthChecker,
+	sslConfig *SSLConfiguration,
 	opts *LoadBalancerOptions,
 ) (workRequestID string, e error) {
-
 	required := BackendSet{
 		Name:          name,
 		Policy:        policy,
@@ -58,7 +57,11 @@ func (c *Client) CreateBackendSet(
 	}
 
 	details := &requestDetails{
-		ids:      urlParts{resourceLoadBalancers, loadBalancerID, resourceBackendSets},
+		name: resourceLoadBalancers,
+		ids: urlParts{
+			loadBalancerID,
+			resourceBackendSets,
+		},
 		optional: opts,
 		required: required,
 	}
@@ -85,8 +88,12 @@ func (c *Client) GetBackendSet(
 	opts *ClientRequestOptions,
 ) (backendset *BackendSet, e error) {
 	details := &requestDetails{
-		ids: urlParts{resourceLoadBalancers, loadBalancerID,
-			resourceBackendSets, backendSetName},
+		name: resourceLoadBalancers,
+		ids: urlParts{
+			loadBalancerID,
+			resourceBackendSets,
+			backendSetName,
+		},
 		optional: opts,
 	}
 
@@ -108,8 +115,11 @@ func (c *Client) ListBackendSets(
 	opts *ClientRequestOptions,
 ) (backends *ListBackendSets, e error) {
 	details := &requestDetails{
-		ids: urlParts{resourceLoadBalancers, loadBalancerID,
-			resourceBackendSets},
+		name: resourceLoadBalancers,
+		ids: urlParts{
+			loadBalancerID,
+			resourceBackendSets,
+		},
 	}
 
 	var resp *response
@@ -134,8 +144,12 @@ func (c *Client) UpdateBackendSet(
 ) (workRequestID string, e error) {
 
 	details := &requestDetails{
-		ids: urlParts{resourceLoadBalancers, loadBalancerID,
-			resourceBackendSets, backendSetName},
+		name: resourceLoadBalancers,
+		ids: urlParts{
+			loadBalancerID,
+			resourceBackendSets,
+			backendSetName,
+		},
 		optional: opts,
 	}
 
@@ -162,8 +176,12 @@ func (c *Client) DeleteBackendSet(
 ) (workRequestID string, e error) {
 
 	details := &requestDetails{
-		ids: urlParts{resourceLoadBalancers, loadBalancerID,
-			resourceBackendSets, backendSetName},
+		name: resourceLoadBalancers,
+		ids: urlParts{
+			loadBalancerID,
+			resourceBackendSets,
+			backendSetName,
+		},
 		optional: opts,
 	}
 

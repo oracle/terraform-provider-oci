@@ -13,14 +13,16 @@ import (
 type HealthChecker struct {
 	OPCRequestIDUnmarshaller
 	OPCWorkRequestIDUnmarshaller
-	IntervalInMS      int    `url:"-" header:"-" json:"intervalInMillis,omitempty"`
-	Port              int    `url:"-" header:"-" json:"port,omitempty"`
-	Protocol          string `url:"-" header:"-" json:"protocol,omitempty"`
-	ResponseBodyRegex string `url:"-" header:"-" json:"responseBodyRegex,omitempty"`
-	Retries           int    `url:"-" header:"-" json:"retries,omitempty"`
-	ReturnCode        int    `url:"-" header:"-" json:"returnCode,omitempty"`
-	TimeoutInMS       int    `url:"-" header:"-" json:"timeoutInMillis,omitempty"`
-	URLPath           string `url:"-" header:"-" json:"urlPath,omitempty"`
+	Protocol string `url:"-" header:"-" json:"protocol"` // TODO: add validation in provider, must be in {"HTTP","TCP"}
+	URLPath  string `url:"-" header:"-" json:"urlPath"`
+	// Optional
+	IntervalInMS      int    `url:"-" header:"-" json:"intervalInMillis,omitempty"`  // Default: 10000
+	Port              int    `url:"-" header:"-" json:"port,omitempty"`              // Default: 0
+	ResponseBodyRegex string `url:"-" header:"-" json:"responseBodyRegex,omitempty"` // Default: ".*",
+	Retries           int    `url:"-" header:"-" json:"retries,omitempty"`           // Default: 3
+	ReturnCode        int    `url:"-" header:"-" json:"returnCode,omitempty"`        // Default: 200
+	TimeoutInMS       int    `url:"-" header:"-" json:"timeoutInMillis,omitempty"`   // Default: 3000,
+
 }
 
 // GetHealthChecker Gets the health check policy information for a given load balancer and backend set.

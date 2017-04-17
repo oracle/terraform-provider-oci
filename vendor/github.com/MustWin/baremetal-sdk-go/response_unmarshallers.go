@@ -14,7 +14,7 @@ type OPCRequestIDUnmarshallable interface {
 }
 
 type OPCRequestIDUnmarshaller struct {
-	RequestID string
+	RequestID string `json:"RequestID,omitempty" url:"-"`
 }
 
 func (r *OPCRequestIDUnmarshaller) SetRequestID(id string) {
@@ -62,7 +62,7 @@ type OPCWorkRequestIDUnmarshallable interface {
 }
 
 type OPCWorkRequestIDUnmarshaller struct {
-	WorkRequestID string
+	WorkRequestID string `json:"WorkRequestID,omitempty" url:"-"`
 }
 
 func (r *OPCWorkRequestIDUnmarshaller) SetWorkRequestID(id string) {
