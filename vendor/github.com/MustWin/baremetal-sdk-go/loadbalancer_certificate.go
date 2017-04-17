@@ -13,11 +13,12 @@ import (
 type Certificate struct {
 	OPCRequestIDUnmarshaller
 	OPCWorkRequestIDUnmarshaller
-	CACertificate     string `header:"-" url:"-" json:"caCertificate"`
 	CertificateName   string `header:"-" url:"-" json:"certificateName"`
 	PublicCertificate string `header:"-" url:"-" json:"publicCertificate"`
-	Passphrase        string `header:"-" url:"-" json:"passphrase,omitempty"` // Only for create
 	PrivateKey        string `header:"-" url:"-" json:"privateKey,omitempty"` // Only for create
+	// Optional
+	CACertificate string `header:"-" url:"-" json:"caCertificate,omitempty"`
+	Passphrase    string `header:"-" url:"-" json:"passphrase,omitempty"` // Only for create
 }
 
 // ListCertificates contains a list of certificates
@@ -45,15 +46,19 @@ func (c *Client) CreateCertificate(
 ) (workRequestID string, e error) {
 
 	required := Certificate{
-		CACertificate:     caCertificate,
 		CertificateName:   certificateName,
 		PublicCertificate: publicCertificate,
-		Passphrase:        passphrase,
 		PrivateKey:        privateKey,
+		CACertificate:     caCertificate,
+		Passphrase:        passphrase,
 	}
 
 	details := &requestDetails{
-		ids:      urlParts{resourceLoadBalancers, loadBalancerID, resourceCertificates},
+		name: resourceLoadBalancers,
+		ids: urlParts{
+			loadBalancerID,
+			resourceCertificates,
+		},
 		optional: opts,
 		required: required,
 	}
@@ -79,8 +84,11 @@ func (c *Client) ListCertificates(
 	opts *ClientRequestOptions,
 ) (certs *ListCertificates, e error) {
 	details := &requestDetails{
-		ids: urlParts{resourceLoadBalancers, loadBalancerID,
-			resourceCertificates},
+		name: resourceLoadBalancers,
+		ids: urlParts{
+			loadBalancerID,
+			resourceCertificates,
+		},
 		optional: opts,
 	}
 
@@ -104,8 +112,12 @@ func (c *Client) DeleteCertificate(
 ) (workRequestID string, e error) {
 
 	details := &requestDetails{
-		ids: urlParts{resourceLoadBalancers, loadBalancerID,
-			resourceCertificates, certificateName},
+		name: resourceLoadBalancers,
+		ids: urlParts{
+			loadBalancerID,
+			resourceCertificates,
+			certificateName,
+		},
 		optional: opts,
 	}
 

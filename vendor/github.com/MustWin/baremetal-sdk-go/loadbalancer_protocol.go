@@ -34,7 +34,7 @@ func (c *Client) ListLoadBalancerProtocols(
 		CompartmentID: compartmentID,
 	}
 	details := &requestDetails{
-		ids:      urlParts{resourceLoadBalancerProtocols},
+		name:     resourceLoadBalancerProtocols,
 		required: required,
 		optional: opts,
 	}
