@@ -12,17 +12,21 @@ import (
 type LoadBalancer struct {
 	OPCRequestIDUnmarshaller
 	OPCWorkRequestIDUnmarshaller
-	BackendSets   []BackendSet `json:"backendSets"`
-	Certificates  Certificate  `json:"certificates"` // TODO: confirm this is not an array
-	CompartmentID string       `json:"compartmentId"`
-	DisplayName   string       `json:"displayName"`
-	ID            string       `json:"id"`
-	IPAddresses   []string     `json:"ipAddresses"`
-	Listeners     Listener     `json:"listeners"` // TODO: confirm this is not an array
-	Shape         string       `json:"shapeName"`
-	State         string       `json:"lifecycleState"`
-	SubnetIDs     []string     `json:"subnetIds"`
-	TimeCreated   Time         `json:"timeCreated"`
+	CompartmentID string                 `json:"compartmentId"`
+	DisplayName   string                 `json:"displayName"`
+	ID            string                 `json:"id"`
+	IPAddresses   []IPAddress            `json:"ipAddresses"` // TODO: is there a better way?
+	Shape         string                 `json:"shapeName"`
+	State         string                 `json:"lifecycleState"`
+	SubnetIDs     []string               `json:"subnetIds"`
+	TimeCreated   Time                   `json:"timeCreated"`
+	BackendSets   map[string]BackendSet  `json:"backendSets"`
+	Certificates  map[string]Certificate `json:"certificates"`
+	Listeners     map[string]Listener    `json:"listeners"`
+}
+
+type IPAddress struct {
+	IPAddress string `json:"ipAddress"`
 }
 
 // ListLoadBalancers contains a list of load balancers.
@@ -91,7 +95,8 @@ func (c *Client) CreateLoadBalancer(
 // See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/loadbalancer/20170115/LoadBalancer/GetLoadBalancer
 func (c *Client) GetLoadBalancer(id string, opts *ClientRequestOptions) (loadbalancer *LoadBalancer, e error) {
 	details := &requestDetails{
-		ids:      urlParts{resourceLoadBalancers, id},
+		name:     resourceLoadBalancers,
+		ids:      urlParts{id},
 		optional: opts,
 	}
 
@@ -110,7 +115,7 @@ func (c *Client) GetLoadBalancer(id string, opts *ClientRequestOptions) (loadbal
 // See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/loadbalancer/20170115/LoadBalancer/ListLoadBalancers
 func (c *Client) ListLoadBalancers(compartmentID string, opts *ListOptions) (loadbalancers *ListLoadBalancers, e error) {
 	details := &requestDetails{
-		ids:      urlParts{resourceLoadBalancers},
+		name:     resourceLoadBalancers,
 		required: listOCIDRequirement{CompartmentID: compartmentID},
 		optional: opts,
 	}
@@ -131,7 +136,8 @@ func (c *Client) ListLoadBalancers(compartmentID string, opts *ListOptions) (loa
 func (c *Client) UpdateLoadBalancer(id string, opts *UpdateOptions) (workRequestID string, e error) {
 	// TODO: Determine if any parameters to the load balancer API are optional.
 	details := &requestDetails{
-		ids:      urlParts{resourceLoadBalancers, id},
+		name:     resourceLoadBalancers,
+		ids:      urlParts{id},
 		optional: opts,
 	}
 
@@ -153,7 +159,8 @@ func (c *Client) UpdateLoadBalancer(id string, opts *UpdateOptions) (workRequest
 // See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/loadbalancer/20170115/LoadBalancer/DeleteLoadBalancer
 func (c *Client) DeleteLoadBalancer(id string, opts *ClientRequestOptions) (workRequestID string, e error) {
 	details := &requestDetails{
-		ids:      urlParts{resourceLoadBalancers, id},
+		name:     resourceLoadBalancers,
+		ids:      urlParts{id},
 		optional: opts,
 	}
 

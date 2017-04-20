@@ -12,11 +12,11 @@ import (
 type Listener struct {
 	OPCRequestIDUnmarshaller
 	OPCWorkRequestIDUnmarshaller
-	DefaultBackendSetName string           `json:"defaultBackendSetName"`
-	Name                  string           `json:"name,omitempty"` // Only for create
-	Port                  int              `json:"port"`
-	Protocol              string           `json:"protocol"`
-	SSLConfig             SSLConfiguration `json:"sslConfiguration"`
+	DefaultBackendSetName string            `header:"-" url:"-" json:"defaultBackendSetName"`
+	Name                  string            `header:"-" url:"-" json:"name,omitempty"` // Only for create
+	Port                  int               `header:"-" url:"-" json:"port"`
+	Protocol              string            `header:"-" url:"-" json:"protocol"` // TODO: add validation in provider, For valid values see ListProtocols()
+	SSLConfig             *SSLConfiguration `header:"-" url:"-" json:"sslConfiguration,omitempty"`
 }
 
 // CreateListener Adds a listener to a load balancer.
@@ -28,7 +28,7 @@ func (c *Client) CreateListener(
 	defaultBackendSetName string,
 	protocol string,
 	port int,
-	sslConfig SSLConfiguration,
+	sslConfig *SSLConfiguration,
 	opts *LoadBalancerOptions,
 ) (workRequestID string, e error) {
 
@@ -41,7 +41,11 @@ func (c *Client) CreateListener(
 	}
 
 	details := &requestDetails{
-		ids:      urlParts{resourceLoadBalancers, loadBalancerID, resourceListeners},
+		name: resourceLoadBalancers,
+		ids: urlParts{
+			loadBalancerID,
+			resourceListeners,
+		},
 		optional: opts,
 		required: required,
 	}
@@ -71,8 +75,12 @@ func (c *Client) UpdateListener(
 ) (workRequestID string, e error) {
 
 	details := &requestDetails{
-		ids: urlParts{resourceLoadBalancers, loadBalancerID,
-			resourceListeners, listenerName},
+		name: resourceLoadBalancers,
+		ids: urlParts{
+			loadBalancerID,
+			resourceListeners,
+			listenerName,
+		},
 		optional: opts,
 	}
 
@@ -99,8 +107,12 @@ func (c *Client) DeleteListener(
 ) (workRequestID string, e error) {
 
 	details := &requestDetails{
-		ids: urlParts{resourceLoadBalancers, loadBalancerID,
-			resourceListeners, listenerName},
+		name: resourceLoadBalancers,
+		ids: urlParts{
+			loadBalancerID,
+			resourceListeners,
+			listenerName,
+		},
 		optional: opts,
 	}
 
