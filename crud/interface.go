@@ -48,10 +48,6 @@ type ResourceDeleter interface {
 	Delete() error
 }
 
-type CustomTimeouter interface {
-	CustomTimeout() time.Duration
-}
-
 type ExtraWaitPostDelete interface {
 	ExtraWaitPostDelete() time.Duration
 }

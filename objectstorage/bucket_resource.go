@@ -11,11 +11,12 @@ import (
 
 func BucketResource() *schema.Resource {
 	return &schema.Resource{
-		Create: createBucket,
-		Read:   readBucket,
-		Update: updateBucket,
-		Delete: deleteBucket,
-		Schema: bucketSchema,
+		Timeouts: crud.DefaultTimeout,
+		Create:   createBucket,
+		Read:     readBucket,
+		Update:   updateBucket,
+		Delete:   deleteBucket,
+		Schema:   bucketSchema,
 	}
 }
 
@@ -44,5 +45,5 @@ func deleteBucket(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &BucketResourceCrud{}
 	sync.D = d
 	sync.Client = m.(client.BareMetalClient)
-	return crud.DeleteResource(sync)
+	return crud.DeleteResource(d, sync)
 }

@@ -11,10 +11,11 @@ import (
 
 func VirtualNetworkResource() *schema.Resource {
 	return &schema.Resource{
-		Create: createVirtualNetwork,
-		Read:   readVirtualNetwork,
-		Update: updateVirtualNetwork,
-		Delete: deleteVirtualNetwork,
+		Timeouts: crud.DefaultTimeout,
+		Create:   createVirtualNetwork,
+		Read:     readVirtualNetwork,
+		Update:   updateVirtualNetwork,
+		Delete:   deleteVirtualNetwork,
 		Schema: map[string]*schema.Schema{
 			"cidr_block": {
 				Type:     schema.TypeString,
@@ -92,5 +93,5 @@ func deleteVirtualNetwork(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &VirtualNetworkResourceCrud{}
 	sync.D = d
 	sync.Client = client
-	return crud.DeleteResource(sync)
+	return crud.DeleteResource(d, sync)
 }

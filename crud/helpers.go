@@ -9,16 +9,23 @@ import (
 	"strings"
 	"time"
 
-	"errors"
-	"strconv"
-
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 
 	"github.com/oracle/terraform-provider-baremetal/client"
 )
 
-const FiveMinutes time.Duration = 5 * time.Minute
+var (
+	FiveMinutes time.Duration = 5 * time.Minute
+	TwoHours time.Duration = 120 * time.Minute
+	DefaultTimeout = &schema.ResourceTimeout{
+		Create: &FiveMinutes,
+		Update: &FiveMinutes,
+		Delete: &FiveMinutes,
+	}
+)
+
+
 
 type BaseCrud struct {
 	D      *schema.ResourceData
@@ -73,7 +80,7 @@ func CreateResource(d *schema.ResourceData, sync ResourceCreator) (e error) {
 	if ok {
 		pending := stateful.CreatedPending()
 		target := stateful.CreatedTarget()
-		e = waitForStateRefresh(stateful, pending, target)
+		e = waitForStateRefresh(stateful, d.Timeout(schema.TimeoutCreate), pending, target)
 	}
 
 	return
@@ -100,7 +107,7 @@ func UpdateResource(d *schema.ResourceData, sync ResourceUpdater) (e error) {
 	return
 }
 
-func DeleteResource(sync ResourceDeleter) (e error) {
+func DeleteResource(d *schema.ResourceData, sync ResourceDeleter) (e error) {
 	if e = sync.Delete(); e != nil {
 		return
 	}
@@ -111,7 +118,7 @@ func DeleteResource(sync ResourceDeleter) (e error) {
 	if ok {
 		pending := stateful.DeletedPending()
 		target := stateful.DeletedTarget()
-		e = waitForStateRefresh(stateful, pending, target)
+		e = waitForStateRefresh(stateful, d.Timeout(schema.TimeoutDelete), pending, target)
 	}
 
 	if waitOK {
@@ -143,18 +150,7 @@ func stateRefreshFunc(sync StatefulResource) resource.StateRefreshFunc {
 	}
 }
 
-func waitForStateRefresh(sync StatefulResource, pending, target []string) (e error) {
-	timeoutStr := os.Getenv("TF_VAR_timeout_minutes")
-	t, err := strconv.Atoi(timeoutStr)
-	if err != nil {
-		return errors.New("timeout_minutes: " + err.Error())
-	}
-	timeout := time.Duration(t) * time.Minute
-	if customTimeouter, ok := sync.(CustomTimeouter); ok {
-		if customTimeouter.CustomTimeout() > timeout {
-			timeout = customTimeouter.CustomTimeout()
-		}
-	}
+func waitForStateRefresh(sync StatefulResource, timeout time.Duration, pending, target []string) (e error) {
 	stateConf := &resource.StateChangeConf{
 		Pending: pending,
 		Target:  target,

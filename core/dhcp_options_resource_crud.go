@@ -106,9 +106,9 @@ func (s *DHCPOptionsResourceCrud) buildEntities() (entities []baremetal.DHCPDNSO
 			searchDomains = nil
 		}
 		entity := baremetal.DHCPDNSOption{
-			Type:             data["type"].(string),
-			CustomDNSServers: servers,
-			ServerType:       data["server_type"].(string),
+			Type:              data["type"].(string),
+			CustomDNSServers:  servers,
+			ServerType:        data["server_type"].(string),
 			SearchDomainNames: searchDomains,
 		}
 		entities = append(entities, entity)

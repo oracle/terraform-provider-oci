@@ -11,10 +11,11 @@ import (
 
 func VolumeBackupResource() *schema.Resource {
 	return &schema.Resource{
-		Create: createVolumeBackup,
-		Read:   readVolumeBackup,
-		Update: updateVolumeBackup,
-		Delete: deleteVolumeBackup,
+		Timeouts: crud.DefaultTimeout,
+		Create:   createVolumeBackup,
+		Read:     readVolumeBackup,
+		Update:   updateVolumeBackup,
+		Delete:   deleteVolumeBackup,
 		Schema: map[string]*schema.Schema{
 			"compartment_id": {
 				Type:     schema.TypeString,
@@ -87,5 +88,5 @@ func deleteVolumeBackup(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &VolumeBackupResourceCrud{}
 	sync.D = d
 	sync.Client = client
-	return crud.DeleteResource(sync)
+	return crud.DeleteResource(d, sync)
 }

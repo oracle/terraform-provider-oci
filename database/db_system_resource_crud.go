@@ -5,8 +5,6 @@ package database
 import (
 	"github.com/MustWin/baremetal-sdk-go"
 
-	"time"
-
 	"github.com/oracle/terraform-provider-baremetal/crud"
 )
 
@@ -33,10 +31,6 @@ func (s *DBSystemResourceCrud) DeletedPending() []string {
 
 func (s *DBSystemResourceCrud) DeletedTarget() []string {
 	return []string{baremetal.ResourceTerminated}
-}
-
-func (s *DBSystemResourceCrud) CustomTimeout() time.Duration {
-	return 120 * time.Minute
 }
 
 func (s *DBSystemResourceCrud) State() string {

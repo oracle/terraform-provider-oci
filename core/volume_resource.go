@@ -11,10 +11,11 @@ import (
 
 func VolumeResource() *schema.Resource {
 	return &schema.Resource{
-		Create: createVolume,
-		Read:   readVolume,
-		Update: updateVolume,
-		Delete: deleteVolume,
+		Timeouts: crud.DefaultTimeout,
+		Create:   createVolume,
+		Read:     readVolume,
+		Update:   updateVolume,
+		Delete:   deleteVolume,
 		Schema: map[string]*schema.Schema{
 			"availability_domain": {
 				Type:     schema.TypeString,

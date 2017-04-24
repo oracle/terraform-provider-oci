@@ -11,10 +11,11 @@ import (
 
 func SwiftPasswordResource() *schema.Resource {
 	return &schema.Resource{
-		Create: createSwiftPassword,
-		Read:   readSwiftPassword,
-		Update: updateSwiftPassword,
-		Delete: deleteSwiftPassword,
+		Timeouts: crud.DefaultTimeout,
+		Create:   createSwiftPassword,
+		Read:     readSwiftPassword,
+		Update:   updateSwiftPassword,
+		Delete:   deleteSwiftPassword,
 		Schema: map[string]*schema.Schema{
 			"id": {
 				Type:     schema.TypeString,
@@ -82,5 +83,5 @@ func deleteSwiftPassword(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &SwiftPasswordResourceCrud{}
 	sync.D = d
 	sync.Client = client
-	return crud.DeleteResource(sync)
+	return crud.DeleteResource(d, sync)
 }
