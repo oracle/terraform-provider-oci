@@ -11,11 +11,12 @@ import (
 
 func ObjectResource() *schema.Resource {
 	return &schema.Resource{
-		Create: createObject,
-		Read:   readObject,
-		Update: updateObject,
-		Delete: deleteObject,
-		Schema: objectSchema,
+		Timeouts: crud.DefaultTimeout,
+		Create:   createObject,
+		Read:     readObject,
+		Update:   updateObject,
+		Delete:   deleteObject,
+		Schema:   objectSchema,
 	}
 }
 
@@ -44,5 +45,5 @@ func deleteObject(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &ObjectResourceCrud{}
 	sync.D = d
 	sync.Client = m.(client.BareMetalClient)
-	return crud.DeleteResource(sync)
+	return crud.DeleteResource(d, sync)
 }

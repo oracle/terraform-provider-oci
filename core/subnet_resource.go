@@ -11,10 +11,11 @@ import (
 
 func SubnetResource() *schema.Resource {
 	return &schema.Resource{
-		Create: createSubnet,
-		Read:   readSubnet,
-		Update: updateSubnet,
-		Delete: deleteSubnet,
+		Timeouts: crud.DefaultTimeout,
+		Create:   createSubnet,
+		Read:     readSubnet,
+		Update:   updateSubnet,
+		Delete:   deleteSubnet,
 		Schema: map[string]*schema.Schema{
 			"availability_domain": {
 				Type:     schema.TypeString,
@@ -114,5 +115,5 @@ func deleteSubnet(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &SubnetResourceCrud{}
 	sync.D = d
 	sync.Client = m.(client.BareMetalClient)
-	return crud.DeleteResource(sync)
+	return crud.DeleteResource(d, sync)
 }

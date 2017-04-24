@@ -11,10 +11,11 @@ import (
 
 func InternetGatewayResource() *schema.Resource {
 	return &schema.Resource{
-		Create: createInternetGateway,
-		Read:   readInternetGateway,
-		Update: updateInternetGateway,
-		Delete: deleteInternetGateway,
+		Timeouts: crud.DefaultTimeout,
+		Create:   createInternetGateway,
+		Read:     readInternetGateway,
+		Update:   updateInternetGateway,
+		Delete:   deleteInternetGateway,
 		Schema: map[string]*schema.Schema{
 			"compartment_id": {
 				Type:     schema.TypeString,
@@ -85,5 +86,5 @@ func deleteInternetGateway(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &InternetGatewayResourceCrud{}
 	sync.D = d
 	sync.Client = m.(client.BareMetalClient)
-	return crud.DeleteResource(sync)
+	return crud.DeleteResource(d, sync)
 }

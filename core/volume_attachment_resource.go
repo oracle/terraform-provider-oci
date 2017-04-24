@@ -12,9 +12,10 @@ import (
 
 func VolumeAttachmentResource() *schema.Resource {
 	return &schema.Resource{
-		Create: createVolumeAttachment,
-		Read:   readVolumeAttachment,
-		Delete: deleteVolumeAttachment,
+		Timeouts: crud.DefaultTimeout,
+		Create:   createVolumeAttachment,
+		Read:     readVolumeAttachment,
+		Delete:   deleteVolumeAttachment,
 		Schema: map[string]*schema.Schema{
 			//// Required ////
 			"attachment_type": {
@@ -107,5 +108,5 @@ func deleteVolumeAttachment(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &VolumeAttachmentResourceCrud{}
 	sync.D = d
 	sync.Client = client
-	return crud.DeleteResource(sync)
+	return crud.DeleteResource(d, sync)
 }

@@ -12,11 +12,12 @@ import (
 // ResourceIdentityUser exposes a IdentityUser Resource
 func UserResource() *schema.Resource {
 	return &schema.Resource{
-		Create: createUser,
-		Read:   readUser,
-		Update: updateUser,
-		Delete: deleteUser,
-		Schema: baseIdentitySchemaWithID,
+		Timeouts: crud.DefaultTimeout,
+		Create:   createUser,
+		Read:     readUser,
+		Update:   updateUser,
+		Delete:   deleteUser,
+		Schema:   baseIdentitySchemaWithID,
 	}
 }
 

@@ -8,5 +8,10 @@ resource "baremetal_core_instance" "TFInstance" {
   subnet_id = "${var.SubnetOCID}"
   metadata {
     ssh_authorized_keys = "${var.ssh_public_key}"
-    user_data = "${base64encode(file(var.BootStrapFile))}"}
+    user_data = "${base64encode(file(var.BootStrapFile))}"
+  }
+
+  timeouts {
+    create = "60m"
+  }
 }

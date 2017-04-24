@@ -48,7 +48,7 @@ func (s *ResourceIdentityPoliciesTestSuite) SetupTest() {
 	s.PoliciesName = "data.baremetal_identity_policies.p"
 	s.Policies = baremetal.ListPolicies{
 		Policies: []baremetal.Policy{
-			baremetal.Policy{
+			{
 				ID:            "123",
 				Name:          "pol",
 				Description:   "desc",
@@ -57,7 +57,7 @@ func (s *ResourceIdentityPoliciesTestSuite) SetupTest() {
 				TimeCreated:   s.TimeCreated,
 				Statements:    []string{"statementX", "statementY"},
 			},
-			baremetal.Policy{
+			{
 				ID:            "234",
 				Name:          "pol2",
 				Description:   "desc2",

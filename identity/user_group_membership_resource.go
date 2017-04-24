@@ -11,9 +11,10 @@ import (
 
 func UserGroupMembershipResource() *schema.Resource {
 	return &schema.Resource{
-		Create: createUserGroupMembership,
-		Read:   readUserGroupMembership,
-		Delete: deleteUserGroupMembership,
+		Timeouts: crud.DefaultTimeout,
+		Create:   createUserGroupMembership,
+		Read:     readUserGroupMembership,
+		Delete:   deleteUserGroupMembership,
 		Schema: map[string]*schema.Schema{
 			"id": {
 				Type:     schema.TypeString,

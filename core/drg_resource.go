@@ -11,10 +11,11 @@ import (
 
 func DrgResource() *schema.Resource {
 	return &schema.Resource{
-		Create: createDrg,
-		Read:   readDrg,
-		Update: updateDrg,
-		Delete: deleteDrg,
+		Timeouts: crud.DefaultTimeout,
+		Create:   createDrg,
+		Read:     readDrg,
+		Update:   updateDrg,
+		Delete:   deleteDrg,
 		Schema: map[string]*schema.Schema{
 			"compartment_id": {
 				Type:     schema.TypeString,
@@ -71,5 +72,5 @@ func deleteDrg(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &DrgResourceCrud{}
 	sync.D = d
 	sync.Client = client
-	return crud.DeleteResource(sync)
+	return crud.DeleteResource(d, sync)
 }

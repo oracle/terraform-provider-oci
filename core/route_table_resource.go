@@ -11,10 +11,11 @@ import (
 
 func RouteTableResource() *schema.Resource {
 	return &schema.Resource{
-		Create: createRouteTable,
-		Read:   readRouteTable,
-		Update: updateRouteTable,
-		Delete: deleteRouteTable,
+		Timeouts: crud.DefaultTimeout,
+		Create:   createRouteTable,
+		Read:     readRouteTable,
+		Update:   updateRouteTable,
+		Delete:   deleteRouteTable,
 		Schema: map[string]*schema.Schema{
 			"compartment_id": {
 				Type:     schema.TypeString,
@@ -96,5 +97,5 @@ func deleteRouteTable(d *schema.ResourceData, m interface{}) (e error) {
 	crd := &RouteTableResourceCrud{}
 	crd.D = d
 	crd.Client = client
-	return crud.DeleteResource(crd)
+	return crud.DeleteResource(d, crd)
 }
