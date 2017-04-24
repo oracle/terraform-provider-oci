@@ -73,8 +73,10 @@ func (s *VirtualNetworkResourceCrud) Update() (e error) {
 func (s *VirtualNetworkResourceCrud) SetData() {
 	s.D.Set("cidr_block", s.Res.CidrBlock)
 	s.D.Set("compartment_id", s.Res.CompartmentID)
+	s.D.Set("dns_label", s.Res.DnsLabel)
 	s.D.Set("default_route_table_id", s.Res.DefaultRouteTableID)
 	s.D.Set("default_security_list_id", s.Res.DefaultSecurityListID)
+	s.D.Set("default_dhcp_options_id", s.Res.DefaultDHCPOptionsID)
 	s.D.Set("display_name", s.Res.DisplayName)
 	s.D.Set("state", s.Res.State)
 	s.D.Set("time_created", s.Res.TimeCreated.String())

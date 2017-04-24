@@ -34,6 +34,10 @@ func VirtualNetworkResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"default_dhcp_options_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"display_name": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -41,7 +45,6 @@ func VirtualNetworkResource() *schema.Resource {
 			},
 			"dns_label": {
 				Type:     schema.TypeString,
-				Computed: true,
 				Optional: true,
 			},
 			"id": {
