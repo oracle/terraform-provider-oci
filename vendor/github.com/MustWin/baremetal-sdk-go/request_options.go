@@ -126,8 +126,8 @@ type CreatePolicyOptions struct {
 
 type LaunchInstanceOptions struct {
 	CreateOptions
-	HostnameLabel string       `header:"-" json:"hostnameLabel,omitempty" url:"-"`
-	Metadata map[string]string `header:"-" json:"metadata,omitempty" url:"-"`
+	HostnameLabel string            `header:"-" json:"hostnameLabel,omitempty" url:"-"`
+	Metadata      map[string]string `header:"-" json:"metadata,omitempty" url:"-"`
 }
 
 type LaunchDBSystemOptions struct {
