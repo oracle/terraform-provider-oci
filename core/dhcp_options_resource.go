@@ -46,7 +46,12 @@ func DHCPOptionsResource() *schema.Resource {
 						},
 						"server_type": {
 							Type:     schema.TypeString,
-							Required: true,
+							Optional: true,
+						},
+						"search_domain_names": {
+							Type: schema.TypeList,
+							Optional: true,
+							Elem: &schema.Schema{Type: schema.TypeString},
 						},
 					},
 				},
