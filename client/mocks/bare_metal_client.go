@@ -308,6 +308,27 @@ func (_m *BareMetalClient) CreateInternetGateway(compartmentID string, vcnID str
 	return r0, r1
 }
 
+// CreateListener provides a mock function with given fields: loadBalancerID, name, defaultBackendSetName, protocol, port, sslConfig, opts
+func (_m *BareMetalClient) CreateListener(loadBalancerID string, name string, defaultBackendSetName string, protocol string, port int, sslConfig *baremetal.SSLConfiguration, opts *baremetal.LoadBalancerOptions) (string, error) {
+	ret := _m.Called(loadBalancerID, name, defaultBackendSetName, protocol, port, sslConfig, opts)
+
+	var r0 string
+	if rf, ok := ret.Get(0).(func(string, string, string, string, int, *baremetal.SSLConfiguration, *baremetal.LoadBalancerOptions) string); ok {
+		r0 = rf(loadBalancerID, name, defaultBackendSetName, protocol, port, sslConfig, opts)
+	} else {
+		r0 = ret.Get(0).(string)
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(string, string, string, string, int, *baremetal.SSLConfiguration, *baremetal.LoadBalancerOptions) error); ok {
+		r1 = rf(loadBalancerID, name, defaultBackendSetName, protocol, port, sslConfig, opts)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // CreateLoadBalancer provides a mock function with given fields: backendSets, certificates, compartmentID, listeners, shape, subnetIDs, opts
 func (_m *BareMetalClient) CreateLoadBalancer(backendSets *baremetal.BackendSet, certificates *baremetal.Certificate, compartmentID string, listeners *baremetal.Listener, shape string, subnetIDs []string, opts *baremetal.CreateOptions) (string, error) {
 	ret := _m.Called(backendSets, certificates, compartmentID, listeners, shape, subnetIDs, opts)
@@ -697,6 +718,27 @@ func (_m *BareMetalClient) DeleteInternetGateway(id string, opts *baremetal.IfMa
 	}
 
 	return r0
+}
+
+// DeleteListener provides a mock function with given fields: loadBalancerID, listenerName, opts
+func (_m *BareMetalClient) DeleteListener(loadBalancerID string, listenerName string, opts *baremetal.ClientRequestOptions) (string, error) {
+	ret := _m.Called(loadBalancerID, listenerName, opts)
+
+	var r0 string
+	if rf, ok := ret.Get(0).(func(string, string, *baremetal.ClientRequestOptions) string); ok {
+		r0 = rf(loadBalancerID, listenerName, opts)
+	} else {
+		r0 = ret.Get(0).(string)
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(string, string, *baremetal.ClientRequestOptions) error); ok {
+		r1 = rf(loadBalancerID, listenerName, opts)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
 }
 
 // DeleteLoadBalancer provides a mock function with given fields: id, opts
@@ -2873,6 +2915,27 @@ func (_m *BareMetalClient) UpdateInternetGateway(id string, opts *baremetal.Upda
 	var r1 error
 	if rf, ok := ret.Get(1).(func(string, *baremetal.UpdateGatewayOptions) error); ok {
 		r1 = rf(id, opts)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// UpdateListener provides a mock function with given fields: loadBalancerID, listenerName, opts
+func (_m *BareMetalClient) UpdateListener(loadBalancerID string, listenerName string, opts *baremetal.UpdateLoadBalancerListenerOptions) (string, error) {
+	ret := _m.Called(loadBalancerID, listenerName, opts)
+
+	var r0 string
+	if rf, ok := ret.Get(0).(func(string, string, *baremetal.UpdateLoadBalancerListenerOptions) string); ok {
+		r0 = rf(loadBalancerID, listenerName, opts)
+	} else {
+		r0 = ret.Get(0).(string)
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(string, string, *baremetal.UpdateLoadBalancerListenerOptions) error); ok {
+		r1 = rf(loadBalancerID, listenerName, opts)
 	} else {
 		r1 = ret.Error(1)
 	}

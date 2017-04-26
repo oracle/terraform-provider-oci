@@ -159,6 +159,7 @@ func resourcesMap() map[string]*schema.Resource {
 		"baremetal_identity_user":                  identity.UserResource(),
 		"baremetal_identity_user_group_membership": identity.UserGroupMembershipResource(),
 		"baremetal_load_balancer":                  lb.LoadBalancerResource(),
+		"baremetal_load_balancer_listener":         lb.LoadBalancerListenerResource(),
 		"baremetal_objectstorage_bucket":           objectstorage.BucketResource(),
 		"baremetal_objectstorage_object":           objectstorage.ObjectResource(),
 	}
