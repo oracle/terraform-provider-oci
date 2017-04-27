@@ -16,6 +16,9 @@ func VolumeResource() *schema.Resource {
 		Read:   resourceOBMCSVolumeRead,
 		Update: resourceOBMCSVolumeUpdate,
 		Delete: resourceOBMCSVolumeDelete,
+		Importer: &schema.ResourceImporter{
+			State: schema.ImportStatePassthrough,
+		},
 
 		Schema: map[string]*schema.Schema{
 			"availability_domain": {
