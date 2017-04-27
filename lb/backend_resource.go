@@ -58,6 +58,11 @@ func LoadBalancerBackendResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Optional: true,
 			},
+			// internal for work request access
+			"state": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 		},
 	}
 }

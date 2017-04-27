@@ -35,19 +35,31 @@ func (s *LoadBalancerBackendResourceCrud) ID() string {
 func (s *LoadBalancerBackendResourceCrud) CreatedPending() []string {
 	return []string{
 		baremetal.ResourceWaitingForWorkRequest,
+		baremetal.WorkRequestInProgress,
+		baremetal.WorkRequestAccepted,
 	}
 }
 
 func (s *LoadBalancerBackendResourceCrud) CreatedTarget() []string {
-	return []string{baremetal.ResourceSucceededWorkRequest}
+	return []string{
+		baremetal.ResourceSucceededWorkRequest,
+		baremetal.WorkRequestSucceeded,
+	}
 }
 
 func (s *LoadBalancerBackendResourceCrud) DeletedPending() []string {
-	return []string{baremetal.ResourceSucceededWorkRequest}
+	return []string{
+		baremetal.ResourceWaitingForWorkRequest,
+		baremetal.WorkRequestInProgress,
+		baremetal.WorkRequestAccepted,
+	}
 }
 
 func (s *LoadBalancerBackendResourceCrud) DeletedTarget() []string {
-	return []string{baremetal.ResourceDeleted}
+	return []string{
+		baremetal.ResourceSucceededWorkRequest,
+		baremetal.WorkRequestSucceeded,
+	}
 }
 
 func makeBackendOptions(data *schema.ResourceData) *baremetal.CreateLoadBalancerBackendOptions {
@@ -104,6 +116,9 @@ func (s *LoadBalancerBackendResourceCrud) Update() (e error) {
 }
 
 func (s *LoadBalancerBackendResourceCrud) SetData() {
+	if s.Resource == nil {
+		panic("BackendSet Resource is nil, cannot SetData")
+	}
 	s.D.Set("backup", s.Resource.Backup)
 	s.D.Set("drain", s.Resource.Drain)
 	s.D.Set("offline", s.Resource.Offline)
