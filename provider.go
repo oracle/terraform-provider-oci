@@ -32,6 +32,10 @@ func init() {
 	}
 }
 
+func DefaultProvider() terraform.ResourceProvider {
+	return Provider(providerConfig)
+}
+
 // Provider is the adapter for terraform, that gives access to all the resources
 func Provider(configfn schema.ConfigureFunc) terraform.ResourceProvider {
 	return &schema.Provider{
@@ -48,36 +52,48 @@ func schemaMap() map[string]*schema.Schema {
 			Type:        schema.TypeString,
 			Required:    true,
 			Description: descriptions["tenancy_ocid"],
+			DefaultFunc: schema.EnvDefaultFunc("OBMAS_TENANCY_OCID", nil),
 		},
 		"user_ocid": {
 			Type:        schema.TypeString,
 			Required:    true,
 			Description: descriptions["user_ocid"],
+			DefaultFunc: schema.EnvDefaultFunc("OBMAS_USER_OCID", nil),
 		},
 		"fingerprint": {
 			Type:        schema.TypeString,
 			Required:    true,
 			Description: descriptions["fingerprint"],
+			DefaultFunc: schema.EnvDefaultFunc("OBMAS_FINGERPRINT", nil),
 		},
 		// Mostly used for testing. Don't put keys in your .tf files
 		"private_key": {
 			Type:        schema.TypeString,
 			Optional:    true,
-			Default:     "",
 			Sensitive:   true,
 			Description: descriptions["private_key"],
+			DefaultFunc: schema.EnvDefaultFunc("OBMAS_PRIVATE_KEY", nil),
 		},
+
+		"timeout_minutes": {
+			Type:        schema.TypeInt,
+			Optional:    true,
+			Description: descriptions["timeout_minutes"],
+			DefaultFunc: schema.EnvDefaultFunc("OBMAS_TIMEOUT_MINUTES", 5),
+		},
+
 		"private_key_path": {
 			Type:        schema.TypeString,
 			Optional:    true,
 			Description: descriptions["private_key_path"],
+			DefaultFunc: schema.EnvDefaultFunc("OBMAS_PRIVATE_KEY_PATH", nil),
 		},
 		"private_key_password": {
 			Type:        schema.TypeString,
 			Optional:    true,
 			Sensitive:   true,
-			Default:     "",
 			Description: descriptions["private_key_password"],
+			DefaultFunc: schema.EnvDefaultFunc("OBMAS_PRIVATE_KEY_PASSWORD", nil),
 		},
 	}
 }
@@ -105,7 +121,7 @@ func dataSourcesMap() map[string]*schema.Resource {
 		"baremetal_core_vnic_attachments":           core.DatasourceCoreVnicAttachments(),
 		"baremetal_core_volume_attachments":         core.VolumeAttachmentDatasource(),
 		"baremetal_core_volume_backups":             core.VolumeBackupDatasource(),
-		"baremetal_core_volumes":                    core.VolumeDatasource(),
+		"baremetal_core_volumes":                    VolumeDatasource(),
 		"baremetal_database_database":               database.DatabaseDatasource(),
 		"baremetal_database_databases":              database.DatabasesDatasource(),
 		"baremetal_database_db_home":                database.DBHomeDatasource(),
@@ -146,7 +162,7 @@ func resourcesMap() map[string]*schema.Resource {
 		"baremetal_core_security_list":             core.SecurityListResource(),
 		"baremetal_core_subnet":                    core.SubnetResource(),
 		"baremetal_core_virtual_network":           core.VirtualNetworkResource(),
-		"baremetal_core_volume":                    core.VolumeResource(),
+		"baremetal_core_volume":                    VolumeResource(),
 		"baremetal_core_volume_attachment":         core.VolumeAttachmentResource(),
 		"baremetal_core_volume_backup":             core.VolumeBackupResource(),
 		"baremetal_database_db_system":             database.DBSystemResource(),

@@ -3,15 +3,13 @@
 package main
 
 import (
+	"errors"
+	"os"
 	"testing"
 
-	"errors"
-
-	"github.com/MustWin/baremetal-sdk-go"
-	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
-	"github.com/stretchr/testify/assert"
+	"github.com/hashicorp/terraform/helper/resource"
 )
 
 const testProviderConfig = `
@@ -26,6 +24,7 @@ provider "baremetal" {
 
 `
 
+/*
 // This test runs the Provider sanity checks.
 func TestProvider(t *testing.T) {
 	// Real client for the sanity check. Makes this more of an acceptance test.
@@ -94,6 +93,8 @@ func TestProviderConfig(t *testing.T) {
 	assert.True(t, ok)
 }
 
+*/
+
 // TestNoInstanceState determines if there is any state for a given name.
 func testNoInstanceState(name string) resource.TestCheckFunc {
 	return func(s *terraform.State) error {
@@ -109,5 +110,31 @@ func testNoInstanceState(name string) resource.TestCheckFunc {
 		}
 
 		return errors.New("State exists for primary resource " + name)
+	}
+}
+
+var testAccProviders map[string]terraform.ResourceProvider
+var testAccProvider *schema.Provider
+
+func init() {
+	testAccProvider = DefaultProvider().(*schema.Provider)
+	testAccProviders = map[string]terraform.ResourceProvider{
+		"baremetal": testAccProvider,
+	}
+}
+
+func testAccPreCheck(t *testing.T) {
+	required := []string{"OBMAS_TENANCY_OCID", "OBMAS_USER_OCID", "OBMAS_FINGERPRINT"}
+	for _, prop := range required {
+		if os.Getenv(prop) == "" {
+			t.Fatalf("%s must be set for acceptance test", prop)
+		}
+	}
+}
+
+
+func TestProvider(t *testing.T) {
+	if err := DefaultProvider().(*schema.Provider).InternalValidate(); err != nil {
+		t.Fatalf("err: %s", err)
 	}
 }
