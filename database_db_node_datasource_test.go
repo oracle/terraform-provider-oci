@@ -54,7 +54,9 @@ func (s *DatabaseDBNodeTestSuite) TestReadDBNode() {
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "db_system_id", "db_system_id"),
 				),

@@ -81,7 +81,9 @@ func (s *ResourceCoreVolumeBackupTestSuite) TestCreateVolumeBackup() {
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", s.Res.CompartmentID),
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", s.Res.DisplayName),
@@ -117,7 +119,9 @@ func (s *ResourceCoreVolumeBackupTestSuite) TestCreateVolumeBackupWithoutDisplay
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", s.Res.DisplayName),
 				),
@@ -155,7 +159,9 @@ func (s ResourceCoreVolumeBackupTestSuite) TestUpdateVolumeBackupDisplayName() {
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 			},
 			{
 				Config: config,
@@ -195,7 +201,9 @@ func (s ResourceCoreVolumeBackupTestSuite) TestUpdateVolumeIDForcesNewVolumeBack
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 			},
 			{
 				Config: config,
@@ -215,7 +223,9 @@ func (s *ResourceCoreVolumeBackupTestSuite) TestDeleteVolumeBackup() {
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 			},
 			{
 				Config:  s.Config,

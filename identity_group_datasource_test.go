@@ -68,7 +68,9 @@ func (s *ResourceIdentityGroupsTestSuite) TestReadGroups() {
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "groups.0.id", "id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "groups.1.id", "id2"),

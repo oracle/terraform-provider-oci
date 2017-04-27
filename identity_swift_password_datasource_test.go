@@ -82,7 +82,9 @@ func (s *ResourceIdentitySwiftPasswordsTestSuite) TestListResourceIdentitySwiftP
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.PasswordsName, "passwords.0.id", s.PasswordList.SwiftPasswords[0].ID),
 					resource.TestCheckResourceAttr(s.PasswordsName, "passwords.1.id", s.PasswordList.SwiftPasswords[1].ID),

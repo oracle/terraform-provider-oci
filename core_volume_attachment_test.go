@@ -105,7 +105,9 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) TestCreateResourceCoreVolumeAtta
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "attachment_type", s.Res.AttachmentType),
 					resource.TestCheckResourceAttr(s.ResourceName, "availability_domain", s.Res.AvailabilityDomain),
@@ -135,7 +137,9 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) TestDetachVolume() {
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 			},
 			{
 				Config:  s.Config,

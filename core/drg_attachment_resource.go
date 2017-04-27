@@ -11,6 +11,9 @@ import (
 
 func DrgAttachmentResource() *schema.Resource {
 	return &schema.Resource{
+		Importer: &schema.ResourceImporter{
+			State: schema.ImportStatePassthrough,
+		},
 		Timeouts: crud.DefaultTimeout,
 		Create:   createDrgAttachment,
 		Read:     readDrgAttachment,

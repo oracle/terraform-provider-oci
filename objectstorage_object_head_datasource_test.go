@@ -72,7 +72,9 @@ func (s *DatasourceObjectstorageObjectHeadTestSuite) TestObjectstorageHeadObject
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "object", s.Res.ID),
 					resource.TestCheckResourceAttr(s.ResourceName, "bucket", s.Res.Bucket),

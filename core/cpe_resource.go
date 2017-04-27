@@ -11,6 +11,9 @@ import (
 
 func CpeResource() *schema.Resource {
 	return &schema.Resource{
+		Importer: &schema.ResourceImporter{
+			State: schema.ImportStatePassthrough,
+		},
 		Timeouts: crud.DefaultTimeout,
 		Create:   createCpe,
 		Read:     readCpe,

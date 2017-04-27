@@ -76,7 +76,9 @@ func (s *DatasourceCoreCpeTestSuite) TestCpeList() {
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartmentid"),
 					resource.TestCheckResourceAttr(s.ResourceName, "cpes.0.ip_address", "10.10.10.2"),
@@ -152,7 +154,9 @@ func (s *DatasourceCoreCpeTestSuite) TestCpePagedList() {
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartmentid"),
 					resource.TestCheckResourceAttr(s.ResourceName, "cpes.0.ip_address", "10.10.10.2"),

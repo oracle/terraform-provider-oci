@@ -11,6 +11,9 @@ import (
 
 func VolumeResource() *schema.Resource {
 	return &schema.Resource{
+		Importer: &schema.ResourceImporter{
+			State: schema.ImportStatePassthrough,
+		},
 		Timeouts: crud.DefaultTimeout,
 		Create:   createVolume,
 		Read:     readVolume,

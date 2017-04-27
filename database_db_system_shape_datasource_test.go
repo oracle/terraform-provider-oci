@@ -95,7 +95,9 @@ func (s *DatabaseDBSystemShapeTestSuite) TestReadDBSystemShapes() {
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "availability_domain", "availability"),
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartmentid"),
