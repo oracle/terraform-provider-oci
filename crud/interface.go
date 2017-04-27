@@ -10,6 +10,8 @@ import (
 
 // Gets the current BareMetal Resource
 type ResourceFetcher interface {
+	// Get should update the s.Resource, and is used by crud.ReadResource() to populate s.D
+	// Get() may expect s.D.Id() to be set, but not s.Resource, or anything else in s.D
 	Get() error
 }
 
@@ -22,6 +24,7 @@ type ResourceDataWriter interface {
 // ResourceCreator creates a BareMetal resource based on ResourceData
 type ResourceCreator interface {
 	ResourceDataWriter
+	// ID identifies the resource, or a work request to create the resource.
 	ID() string
 	Create() error
 }
@@ -48,6 +51,11 @@ type ResourceDeleter interface {
 	Delete() error
 }
 
+// Some resources in the oracle API are removed asynchronously, so even
+// after they claim to be gone, other dependencies haven't been notified
+// of that fact. This facility allows us to add an artificial delay for
+// resources that need a little time to let the oracle API backend catch
+// up with reality.
 type ExtraWaitPostDelete interface {
 	ExtraWaitPostDelete() time.Duration
 }

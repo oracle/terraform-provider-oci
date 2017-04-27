@@ -10,10 +10,9 @@ import (
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
+	"github.com/stretchr/testify/suite"
 
 	"github.com/oracle/terraform-provider-baremetal/client/mocks"
-
-	"github.com/stretchr/testify/suite"
 )
 
 type ResourceCoreVirtualNetworksTestSuite struct {
