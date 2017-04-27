@@ -11,10 +11,11 @@ import (
 
 func ImageResource() *schema.Resource {
 	return &schema.Resource{
-		Create: createImage,
-		Read:   readImage,
-		Update: updateImage,
-		Delete: deleteImage,
+		Timeouts: crud.DefaultTimeout,
+		Create:   createImage,
+		Read:     readImage,
+		Update:   updateImage,
+		Delete:   deleteImage,
 		Schema: map[string]*schema.Schema{
 			"base_image_id": {
 				Type:     schema.TypeString,
@@ -92,5 +93,5 @@ func deleteImage(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &ImageResourceCrud{}
 	sync.D = d
 	sync.Client = client
-	return crud.DeleteResource(sync)
+	return crud.DeleteResource(d, sync)
 }

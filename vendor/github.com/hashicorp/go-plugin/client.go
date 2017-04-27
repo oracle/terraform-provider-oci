@@ -2,8 +2,11 @@ package plugin
 
 import (
 	"bufio"
+	"crypto/subtle"
+	"crypto/tls"
 	"errors"
 	"fmt"
+	"hash"
 	"io"
 	"io/ioutil"
 	"log"
@@ -28,12 +31,29 @@ var Killed uint32 = 0
 // This is a slice of the "managed" clients which are cleaned up when
 // calling Cleanup
 var managedClients = make([]*Client, 0, 5)
+var managedClientsLock sync.Mutex
 
 // Error types
 var (
 	// ErrProcessNotFound is returned when a client is instantiated to
 	// reattach to an existing process and it isn't found.
 	ErrProcessNotFound = errors.New("Reattachment process not found")
+
+	// ErrChecksumsDoNotMatch is returned when binary's checksum doesn't match
+	// the one provided in the SecureConfig.
+	ErrChecksumsDoNotMatch = errors.New("checksums did not match")
+
+	// ErrSecureNoChecksum is returned when an empty checksum is provided to the
+	// SecureConfig.
+	ErrSecureConfigNoChecksum = errors.New("no checksum provided")
+
+	// ErrSecureNoHash is returned when a nil Hash object is provided to the
+	// SecureConfig.
+	ErrSecureConfigNoHash = errors.New("no hash implementation provided")
+
+	// ErrSecureConfigAndReattach is returned when both Reattach and
+	// SecureConfig are set.
+	ErrSecureConfigAndReattach = errors.New("only one of Reattach or SecureConfig can be set")
 )
 
 // Client handles the lifecycle of a plugin application. It launches
@@ -78,6 +98,13 @@ type ClientConfig struct {
 	Cmd      *exec.Cmd
 	Reattach *ReattachConfig
 
+	// SecureConfig is configuration for verifying the integrity of the
+	// executable. It can not be used with Reattach.
+	SecureConfig *SecureConfig
+
+	// TLSConfig is used to enable TLS on the RPC client.
+	TLSConfig *tls.Config
+
 	// Managed represents if the client should be managed by the
 	// plugin package or not. If true, then by calling CleanupClients,
 	// it will automatically be cleaned up. Otherwise, the client
@@ -118,6 +145,48 @@ type ReattachConfig struct {
 	Pid  int
 }
 
+// SecureConfig is used to configure a client to verify the integrity of an
+// executable before running. It does this by verifying the checksum is
+// expected. Hash is used to specify the hashing method to use when checksumming
+// the file.  The configuration is verified by the client by calling the
+// SecureConfig.Check() function.
+//
+// The host process should ensure the checksum was provided by a trusted and
+// authoritative source. The binary should be installed in such a way that it
+// can not be modified by an unauthorized user between the time of this check
+// and the time of execution.
+type SecureConfig struct {
+	Checksum []byte
+	Hash     hash.Hash
+}
+
+// Check takes the filepath to an executable and returns true if the checksum of
+// the file matches the checksum provided in the SecureConfig.
+func (s *SecureConfig) Check(filePath string) (bool, error) {
+	if len(s.Checksum) == 0 {
+		return false, ErrSecureConfigNoChecksum
+	}
+
+	if s.Hash == nil {
+		return false, ErrSecureConfigNoHash
+	}
+
+	file, err := os.Open(filePath)
+	if err != nil {
+		return false, err
+	}
+	defer file.Close()
+
+	_, err = io.Copy(s.Hash, file)
+	if err != nil {
+		return false, err
+	}
+
+	sum := s.Hash.Sum(nil)
+
+	return subtle.ConstantTimeCompare(sum, s.Checksum) == 1, nil
+}
+
 // This makes sure all the managed subprocesses are killed and properly
 // logged. This should be called before the parent process running the
 // plugins exits.
@@ -130,6 +199,7 @@ func CleanupClients() {
 	// Kill all the managed clients in parallel and use a WaitGroup
 	// to wait for them all to finish up.
 	var wg sync.WaitGroup
+	managedClientsLock.Lock()
 	for _, client := range managedClients {
 		wg.Add(1)
 
@@ -138,6 +208,7 @@ func CleanupClients() {
 			wg.Done()
 		}(client)
 	}
+	managedClientsLock.Unlock()
 
 	log.Println("[DEBUG] plugin: waiting for all plugin processes to complete...")
 	wg.Wait()
@@ -173,7 +244,9 @@ func NewClient(config *ClientConfig) (c *Client) {
 
 	c = &Client{config: config}
 	if config.Managed {
+		managedClientsLock.Lock()
 		managedClients = append(managedClients, c)
+		managedClientsLock.Unlock()
 	}
 
 	return
@@ -203,6 +276,10 @@ func (c *Client) Client() (*RPCClient, error) {
 	if tcpConn, ok := conn.(*net.TCPConn); ok {
 		// Make sure to set keep alive so that the connection doesn't die
 		tcpConn.SetKeepAlive(true)
+	}
+
+	if c.config.TLSConfig != nil {
+		conn = tls.Client(conn, c.config.TLSConfig)
 	}
 
 	// Create the actual RPC client
@@ -239,23 +316,58 @@ func (c *Client) Exited() bool {
 //
 // This method can safely be called multiple times.
 func (c *Client) Kill() {
-	if c.process == nil {
+	// Grab a lock to read some private fields.
+	c.l.Lock()
+	process := c.process
+	addr := c.address
+	doneCh := c.doneLogging
+	c.l.Unlock()
+
+	// If there is no process, we never started anything. Nothing to kill.
+	if process == nil {
 		return
 	}
 
-	// Close the client to cleanly exit the process
-	client, err := c.Client()
-	if err == nil {
-		err = client.Close()
-	}
-	if err != nil {
-		// If something went wrong somewhere gracefully quitting the
-		// plugin, we just force kill it.
-		c.process.Kill()
+	// We need to check for address here. It is possible that the plugin
+	// started (process != nil) but has no address (addr == nil) if the
+	// plugin failed at startup. If we do have an address, we need to close
+	// the plugin net connections.
+	graceful := false
+	if addr != nil {
+		// Close the client to cleanly exit the process.
+		client, err := c.Client()
+		if err == nil {
+			err = client.Close()
+
+			// If there is no error, then we attempt to wait for a graceful
+			// exit. If there was an error, we assume that graceful cleanup
+			// won't happen and just force kill.
+			graceful = err == nil
+			if err != nil {
+				// If there was an error just log it. We're going to force
+				// kill in a moment anyways.
+				log.Printf(
+					"[WARN] plugin: error closing client during Kill: %s", err)
+			}
+		}
 	}
 
+	// If we're attempting a graceful exit, then we wait for a short period
+	// of time to allow that to happen. To wait for this we just wait on the
+	// doneCh which would be closed if the process exits.
+	if graceful {
+		select {
+		case <-doneCh:
+			return
+		case <-time.After(250 * time.Millisecond):
+		}
+	}
+
+	// If graceful exiting failed, just kill it
+	process.Kill()
+
 	// Wait for the client to finish logging so we have a complete log
-	<-c.doneLogging
+	<-doneCh
 }
 
 // Starts the underlying subprocess, communicating with it to negotiate
@@ -278,8 +390,13 @@ func (c *Client) Start() (addr net.Addr, err error) {
 	{
 		cmdSet := c.config.Cmd != nil
 		attachSet := c.config.Reattach != nil
+		secureSet := c.config.SecureConfig != nil
 		if cmdSet == attachSet {
 			return nil, fmt.Errorf("Only one of Cmd or Reattach must be set")
+		}
+
+		if secureSet && attachSet {
+			return nil, ErrSecureConfigAndReattach
 		}
 	}
 
@@ -343,6 +460,14 @@ func (c *Client) Start() (addr net.Addr, err error) {
 	cmd.Stdin = os.Stdin
 	cmd.Stderr = stderr_w
 	cmd.Stdout = stdout_w
+
+	if c.config.SecureConfig != nil {
+		if ok, err := c.config.SecureConfig.Check(cmd.Path); err != nil {
+			return nil, fmt.Errorf("error verifying checksum: %s", err)
+		} else if !ok {
+			return nil, ErrChecksumsDoNotMatch
+		}
+	}
 
 	log.Printf("[DEBUG] plugin: starting plugin: %s %#v", cmd.Path, cmd.Args)
 	err = cmd.Start()

@@ -13,9 +13,10 @@ import (
 
 func ConsoleHistoryResource() *schema.Resource {
 	return &schema.Resource{
-		Create: createConsoleHistory,
-		Read:   readConsoleHistory,
-		Delete: deleteConsoleHistory,
+		Timeouts: crud.DefaultTimeout,
+		Create:   createConsoleHistory,
+		Read:     readConsoleHistory,
+		Delete:   deleteConsoleHistory,
 		Schema: map[string]*schema.Schema{
 			"availability_domain": {
 				Type:     schema.TypeString,

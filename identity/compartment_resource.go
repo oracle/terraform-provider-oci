@@ -14,11 +14,12 @@ import (
 // ResourceIdentityCompartment exposes an IdentityCompartment Resource
 func CompartmentResource() *schema.Resource {
 	return &schema.Resource{
-		Create: createCompartment,
-		Read:   readCompartment,
-		Update: updateCompartment,
-		Delete: deleteCompartment,
-		Schema: baseIdentitySchemaWithID,
+		Timeouts: crud.DefaultTimeout,
+		Create:   createCompartment,
+		Read:     readCompartment,
+		Update:   updateCompartment,
+		Delete:   deleteCompartment,
+		Schema:   baseIdentitySchemaWithID,
 	}
 }
 
@@ -49,6 +50,6 @@ func updateCompartment(d *schema.ResourceData, m interface{}) (e error) {
 func deleteCompartment(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &CompartmentResourceCrud{}
 	sync.D = d
-	return crud.DeleteResource(sync)
+	return crud.DeleteResource(d, sync)
 	return fmt.Errorf("compartment resource: compartment %v cannot be deleted", d.Id())
 }

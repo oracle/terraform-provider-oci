@@ -45,7 +45,7 @@ const (
 	ResourceTerminating           = "TERMINATING"
 	ResourceUp                    = "UP"
 	ResourceWaitingForWorkRequest = "WAITING_FOR_WORK_REQUEST"
-	ResourceSucceededWorkRequest = "SUCCEEDED_WORK_REQUEST"
+	ResourceSucceededWorkRequest  = "SUCCEEDED_WORK_REQUEST"
 
 	WorkRequestAccepted   = "ACCEPTED"
 	WorkRequestInProgress = "IN_PROGRESS"

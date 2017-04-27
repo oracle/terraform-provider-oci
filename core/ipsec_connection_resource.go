@@ -11,10 +11,11 @@ import (
 
 func IPSecConnectionResource() *schema.Resource {
 	return &schema.Resource{
-		Create: createIPSec,
-		Read:   readIPSec,
-		Update: updateIPSec,
-		Delete: deleteIPSec,
+		Timeouts: crud.DefaultTimeout,
+		Create:   createIPSec,
+		Read:     readIPSec,
+		Update:   updateIPSec,
+		Delete:   deleteIPSec,
 		Schema: map[string]*schema.Schema{
 			"compartment_id": {
 				Type:     schema.TypeString,
@@ -81,5 +82,5 @@ func deleteIPSec(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &IPSecConnectionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(client.BareMetalClient)
-	return crud.DeleteResource(sync)
+	return crud.DeleteResource(d, sync)
 }

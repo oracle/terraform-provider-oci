@@ -55,13 +55,16 @@ type CreateBucketOptions struct {
 
 type CreateVcnOptions struct {
 	CreateOptions
-	DnsLabel string `header:"-" json:"dnsLabel,omitempty" url:"-"`
+	DnsLabel              string `header:"-" json:"dnsLabel,omitempty" url:"-"`
+	DefaultDHCPOptionsID  string `header:"-" json:"defaultDhcpOptionsId,omitempty" url:"-"`
+	DefaultRouteTableID   string `header:"-" json:"defaultRouteTableId,omitempty" url:"-"`
+	DefaultSecurityListID string `header:"-" json:"defaultSecurityListId,omitempty" url:"-"`
 }
 
 type CreateSubnetOptions struct {
 	CreateOptions
-	DNSLabel        string   `header:"-" json:"dnsLabel,omitempty" url:"-"`
 	DHCPOptionsID   string   `header:"-" json:"dhcpOptionsId,omitempty" url:"-"`
+	DNSLabel        string   `header:"-" json:"dnsLabel,omitempty" url:"-"`
 	RouteTableID    string   `header:"-" json:"routeTableId,omitempty" url:"-"`
 	SecurityListIDs []string `header:"-" json:"securityListIds,omitempty" url:"-"`
 }
@@ -126,8 +129,8 @@ type CreatePolicyOptions struct {
 
 type LaunchInstanceOptions struct {
 	CreateOptions
-	HostnameLabel string       `header:"-" json:"hostnameLabel,omitempty" url:"-"`
-	Metadata map[string]string `header:"-" json:"metadata,omitempty" url:"-"`
+	HostnameLabel string            `header:"-" json:"hostnameLabel,omitempty" url:"-"`
+	Metadata      map[string]string `header:"-" json:"metadata,omitempty" url:"-"`
 }
 
 type LaunchDBSystemOptions struct {

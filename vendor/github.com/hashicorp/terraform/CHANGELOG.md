@@ -1,8 +1,427 @@
-**TEMPORARY NOTE:** The "master" branch CHANGELOG also includes any changes
-in the branch "0-8-stable". The "master" branch is currently a development
-branch for the next major version of Terraform.
+## 0.9.3 (April 12, 2017)
 
-## 0.9.0 (unreleased)
+BACKWARDS INCOMPATIBILITIES / NOTES:
+ * provider/aws: Fix a critical bug in `aws_emr_cluster` in order to preserve the ordering 
+   of any arguments in `bootstrap_action`. Terraform will now enforce the ordering  
+   from the configuration. As a result, `aws_emr_cluster` resources may need to be
+   recreated, as there is no API to update them in-place [GH-13580]
+
+FEATURES:
+
+ * **New Resource:** `aws_api_gateway_method_settings` [GH-13542]
+ * **New Resource:** `aws_api_gateway_stage` [GH-13540]
+ * **New Resource:** `aws_iam_openid_connect_provider` [GH-13456]
+ * **New Resource:** `aws_lightsail_static_ip` [GH-13175]
+ * **New Resource:** `aws_lightsail_static_ip_attachment` [GH-13207]
+ * **New Resource:** `aws_ses_domain_identity` [GH-13098]
+ * **New Resource:** `azurerm_managed_disk` [GH-12455]
+ * **New Resource:** `kubernetes_persistent_volume` [GH-13277]
+ * **New Resource:** `kubernetes_persistent_volume_claim` [GH-13527]
+ * **New Resource:** `kubernetes_secret` [GH-12960]
+ * **New Data Source:** `aws_iam_role` [GH-13213]
+
+IMPROVEMENTS:
+ 
+ * core: add `-lock-timeout` option, which will block and retry locks for the given duration [GH-13262]
+ * core: new `chomp` interpolation function which returns the given string with any trailing newline characters removed [GH-13419]
+ * backend/remote-state: Add support for assume role extensions to s3 backend [GH-13236]
+ * backend/remote-state: Filter extra entries from s3 environment listings [GH-13596]
+ * config: New interpolation functions `basename` and `dirname`, for file path manipulation [GH-13080]
+ * helper/resource: Allow unknown "pending" states [GH-13099]
+ * command/hook_ui: Increase max length of state IDs from 20 to 80 [GH-13317]
+ * provider/aws: Add support to set iam_role_arn on cloudformation Stack [GH-12547]
+ * provider/aws: Support priority and listener_arn update of alb_listener_rule [GH-13125]
+ * provider/aws: Deprecate roles in favour of role in iam_instance_profile [GH-13130]
+ * provider/aws: Make alb_target_group_attachment port optional [GH-13139]
+ * provider/aws: `aws_api_gateway_domain_name` `certificate_private_key` field marked as sensitive [GH-13147]
+ * provider/aws: `aws_directory_service_directory` `password` field marked as sensitive [GH-13147]
+ * provider/aws: `aws_kinesis_firehose_delivery_stream` `password` field marked as sensitive [GH-13147]
+ * provider/aws: `aws_opsworks_application` `app_source.0.password` & `ssl_configuration.0.private_key` fields marked as sensitive [GH-13147]
+ * provider/aws: `aws_opsworks_stack` `custom_cookbooks_source.0.password` field marked as sensitive [GH-13147]
+ * provider/aws: Support the ability to enable / disable ipv6 support in VPC [GH-12527]
+ * provider/aws: Added API Gateway integration update [GH-13249]
+ * provider/aws: Add `identifier` | `name_prefix` to RDS resources [GH-13232]
+ * provider/aws: Validate `aws_ecs_task_definition.container_definitions` [GH-12161]
+ * provider/aws: Update caller_identity data source [GH-13092]
+ * provider/aws: `aws_subnet_ids` data source for getting a list of subnet ids matching certain criteria [GH-13188]
+ * provider/aws: Support ip_address_type for aws_alb [GH-13227]
+ * provider/aws: Migrate `aws_dms_*` resources away from AWS waiters [GH-13291]
+ * provider/aws: Add support for treat_missing_data to cloudwatch_metric_alarm [GH-13358]
+ * provider/aws: Add support for evaluate_low_sample_count_percentiles to cloudwatch_metric_alarm [GH-13371]
+ * provider/aws: Add `name_prefix` to `aws_alb_target_group` [GH-13442]
+ * provider/aws: Add support for EMR clusters to aws_appautoscaling_target [GH-13368]
+ * provider/aws: Add import capabilities to codecommit_repository [GH-13577]
+ * provider/bitbucket: Improved error handling [GH-13390]
+ * provider/cloudstack: Do not force a new resource when updating `cloudstack_loadbalancer_rule` members [GH-11786]
+ * provider/fastly: Add support for Sumologic logging [GH-12541]
+ * provider/github: Handle the case when issue labels already exist [GH-13182]
+ * provider/google: Mark `google_container_cluster`'s `client_key` & `password` inside `master_auth` as sensitive [GH-13148]
+ * provider/google: Add node_pool field in resource_container_cluster [GH-13402]
+ * provider/kubernetes: Allow defining custom config context [GH-12958]
+ * provider/openstack: Add support for 'value_specs' options to `openstack_compute_servergroup_v2` [GH-13380]
+ * provider/statuscake: Add support for StatusCake TriggerRate field [GH-13340]
+ * provider/triton: Move to joyent/triton-go [GH-13225]
+ * provisioner/chef: Make sure we add new Chef-Vault clients as clients [GH-13525]
+ 
+BUG FIXES: 
+
+ * core: Escaped interpolation-like sequences (like `$${foo}`) now permitted in variable defaults [GH-13137]
+ * core: Fix strange issues with computed values in provider configuration that were worked around with `-input=false` [GH-11264], [GH-13264]
+ * core: Fix crash when providing nested maps as variable values in a `module` block [GH-13343]
+ * core: `connection` block attributes are now subject to basic validation of attribute names during validate walk [GH-13400]
+ * provider/aws: Add Support for maintenance_window and back_window to rds_cluster_instance [GH-13134]
+ * provider/aws: Increase timeout for AMI registration [GH-13159]
+ * provider/aws: Increase timeouts for ELB [GH-13161]
+ * provider/aws: `volume_type` of `aws_elasticsearch_domain.0.ebs_options` marked as `Computed` which prevents spurious diffs [GH-13160]
+ * provider/aws: Don't set DBName on `aws_db_instance` from snapshot [GH-13140]
+ * provider/aws: Add DiffSuppression to aws_ecs_service placement_strategies [GH-13220]
+ * provider/aws: Refresh aws_alb_target_group stickiness on manual updates [GH-13199]
+ * provider/aws: Preserve default retain_on_delete in cloudfront import [GH-13209]
+ * provider/aws: Refresh aws_alb_target_group tags [GH-13200]
+ * provider/aws: Set aws_vpn_connection to recreate when in deleted state [GH-13204]
+ * provider/aws: Wait for aws_opsworks_instance to be running when it's specified [GH-13218]
+ * provider/aws: Handle `aws_lambda_function` missing s3 key error [GH-10960]
+ * provider/aws: Set stickiness to computed in alb_target_group [GH-13278]
+ * provider/aws: Increase timeout for deploying `cloudfront_distribution` from 40 to 70 mins [GH-13319]
+ * provider/aws: Increase AMI retry timeouts [GH-13324]
+ * provider/aws: Increase subnet deletion timeout [GH-13356]
+ * provider/aws: Increase launch_configuration creation timeout [GH-13357]
+ * provider/aws: Increase Beanstalk env 'ready' timeout [GH-13359]
+ * provider/aws: Raise timeout for deleting APIG REST API [GH-13414]
+ * provider/aws: Raise timeout for attaching/detaching VPN Gateway [GH-13457]
+ * provider/aws: Recreate opsworks_stack on change of service_role_arn [GH-13325]
+ * provider/aws: Fix KMS Key reading with Exists method [GH-13348]
+ * provider/aws: Fix DynamoDB issues about GSIs indexes [GH-13256]
+ * provider/aws: Fix `aws_s3_bucket` drift detection of logging options [GH-13281]
+ * provider/aws: Update ElasticTranscoderPreset to have default for MaxFrameRate [GH-13422]
+ * provider/aws: Fix aws_ami_launch_permission refresh when AMI disappears [GH-13469]
+ * provider/aws: Add support for updating SSM documents [GH-13491]
+ * provider/aws: Fix panic on nil route configs [GH-13548]
+ * provider/azurerm: Network Security Group - ignoring protocol casing at Import time [GH-13153]
+ * provider/azurerm: Fix crash when importing Local Network Gateways [GH-13261]
+ * provider/azurerm: Defaulting the value of `duplicate_detection_history_time_window` for `azurerm_servicebus_topic` [GH-13223]
+ * provider/azurerm: Event Hubs making the Location field idempotent [GH-13570]
+ * provider/bitbucket: Fixed issue where provider would fail with an "EOF" error on some operations [GH-13390]
+ * provider/dnsimple: Handle 404 on DNSimple records [GH-13131]
+ * provider/kubernetes: Use PATCH to update namespace [GH-13114]
+ * provider/ns1: No splitting answer on SPF records. [GH-13260]
+ * provider/openstack: Refresh volume_attachment from state if NotFound [GH-13342]
+ * provider/openstack: Add SOFT_DELETED to delete status [GH-13444]
+ * provider/profitbricks: Changed output type of ips variable of ip_block ProfitBricks resource [GH-13290]
+ * provider/template: Fix panic in cloudinit config [GH-13581]
+
+## 0.9.2 (March 28, 2017)
+
+BACKWARDS INCOMPATIBILITIES / NOTES:
+
+ * provider/openstack: Port Fixed IPs are able to be read again using the original numerical notation. However, Fixed IP configurations which are obtaining addresses via DHCP must now use the `all_fixed_ips` attribute to reference the returned IP address.
+ * Environment names must be safe to use as a URL path segment without escaping, and is enforced by the CLI.
+
+FEATURES:
+
+ * **New Resource:**  `alicloud_db_instance` ([#12913](https://github.com/hashicorp/terraform/issues/12913))
+ * **New Resource:**  `aws_api_gateway_usage_plan` ([#12542](https://github.com/hashicorp/terraform/issues/12542))
+ * **New Resource:**  `aws_api_gateway_usage_plan_key` ([#12851](https://github.com/hashicorp/terraform/issues/12851))
+ * **New Resource:**  `github_repository_webhook` ([#12924](https://github.com/hashicorp/terraform/issues/12924))
+ * **New Resource:**  `random_pet` ([#12903](https://github.com/hashicorp/terraform/issues/12903))
+ * **New Interpolation:** `substr` ([#12870](https://github.com/hashicorp/terraform/issues/12870))
+ * **S3 Environments:** The S3 remote state backend now supports named environments
+
+IMPROVEMENTS:
+
+ * core: fix interpolation error when referencing computed values from an `aws_instance` `cidr_block` ([#13046](https://github.com/hashicorp/terraform/issues/13046))
+ * core: fix `ignore_changes` causing fields to be removed during apply ([#12897](https://github.com/hashicorp/terraform/issues/12897))
+ * core: add `-force-copy` option to `terraform init` to supress prompts for copying state ([#12939](https://github.com/hashicorp/terraform/issues/12939))
+ * helper/acctest: Add NewSSHKeyPair function ([#12894](https://github.com/hashicorp/terraform/issues/12894))
+ * provider/alicloud: simplify validators ([#12982](https://github.com/hashicorp/terraform/issues/12982))
+ * provider/aws: Added support for EMR AutoScalingRole ([#12823](https://github.com/hashicorp/terraform/issues/12823))
+ * provider/aws: Add `name_prefix` to `aws_autoscaling_group` and `aws_elb` resources ([#12629](https://github.com/hashicorp/terraform/issues/12629))
+ * provider/aws: Updated default configuration manager version in `aws_opsworks_stack` ([#12979](https://github.com/hashicorp/terraform/issues/12979))
+ * provider/aws: Added aws_api_gateway_api_key value attribute ([#9462](https://github.com/hashicorp/terraform/issues/9462))
+ * provider/aws: Allow aws_alb subnets to change ([#12850](https://github.com/hashicorp/terraform/issues/12850))
+ * provider/aws: Support Attachment of ALB Target Groups to Autoscaling Groups ([#12855](https://github.com/hashicorp/terraform/issues/12855))
+ * provider/aws: Support Import of iam_server_certificate ([#13065](https://github.com/hashicorp/terraform/issues/13065))
+ * provider/azurerm: Add support for setting the primary network interface ([#11290](https://github.com/hashicorp/terraform/issues/11290))
+ * provider/cloudstack: Add `zone_id` to `cloudstack_ipaddress` resource ([#11306](https://github.com/hashicorp/terraform/issues/11306))
+ * provider/consul: Add support for basic auth to the provider ([#12679](https://github.com/hashicorp/terraform/issues/12679))
+ * provider/digitalocean: Support disk only resize ([#13059](https://github.com/hashicorp/terraform/issues/13059))
+ * provider/dnsimple: Allow dnsimple_record.priority attribute to be set ([#12843](https://github.com/hashicorp/terraform/issues/12843))
+ * provider/google: Add support for service_account, metadata, and image_type fields in GKE cluster config ([#12743](https://github.com/hashicorp/terraform/issues/12743))
+ * provider/google: Add local ssd count support for container clusters ([#12281](https://github.com/hashicorp/terraform/issues/12281))
+ * provider/ignition: ignition_filesystem, explicit option to create the filesystem ([#12980](https://github.com/hashicorp/terraform/issues/12980))
+ * provider/kubernetes: Internal K8S annotations are ignored in `config_map` ([#12945](https://github.com/hashicorp/terraform/issues/12945))
+ * provider/ns1: Ensure provider checks for credentials ([#12920](https://github.com/hashicorp/terraform/issues/12920))
+ * provider/openstack: Adding Timeouts to Blockstorage Resources ([#12862](https://github.com/hashicorp/terraform/issues/12862))
+ * provider/openstack: Adding Timeouts to FWaaS v1 Resources ([#12863](https://github.com/hashicorp/terraform/issues/12863))
+ * provider/openstack: Adding Timeouts to Image v2 and LBaaS v2 Resources ([#12865](https://github.com/hashicorp/terraform/issues/12865))
+ * provider/openstack: Adding Timeouts to Network Resources ([#12866](https://github.com/hashicorp/terraform/issues/12866))
+ * provider/openstack: Adding Timeouts to LBaaS v1 Resources ([#12867](https://github.com/hashicorp/terraform/issues/12867))
+ * provider/openstack: Deprecating Instance Volume attribute ([#13062](https://github.com/hashicorp/terraform/issues/13062))
+ * provider/openstack: Decprecating Instance Floating IP attribute ([#13063](https://github.com/hashicorp/terraform/issues/13063))
+ * provider/openstack: Don't log the catalog ([#13075](https://github.com/hashicorp/terraform/issues/13075))
+ * provider/openstack: Handle 409/500 Response on Pool Create ([#13074](https://github.com/hashicorp/terraform/issues/13074))
+ * provider/pagerduty: Validate credentials ([#12854](https://github.com/hashicorp/terraform/issues/12854))
+ * provider/openstack: Adding all_metadata attribute ([#13061](https://github.com/hashicorp/terraform/issues/13061))
+ * provider/profitbricks: Handling missing resources ([#13053](https://github.com/hashicorp/terraform/issues/13053))
+ 
+BUG FIXES: 
+
+ * core: Remove legacy remote state configuration on state migration. This fixes errors when saving plans. ([#12888](https://github.com/hashicorp/terraform/issues/12888))
+ * provider/arukas: Default timeout for launching container increased to 15mins (was 10mins) ([#12849](https://github.com/hashicorp/terraform/issues/12849))
+ * provider/aws: Fix flattened cloudfront lambda function associations to be a set not a slice ([#11984](https://github.com/hashicorp/terraform/issues/11984))
+ * provider/aws: Consider ACTIVE as pending state during ECS svc deletion ([#12986](https://github.com/hashicorp/terraform/issues/12986))
+ * provider/aws: Deprecate the usage of Api Gateway Key Stages in favor of Usage Plans ([#12883](https://github.com/hashicorp/terraform/issues/12883))
+ * provider/aws: prevent panic in resourceAwsSsmDocumentRead ([#12891](https://github.com/hashicorp/terraform/issues/12891))
+ * provider/aws: Prevent panic when setting AWS CodeBuild Source to state ([#12915](https://github.com/hashicorp/terraform/issues/12915))
+ * provider/aws: Only call replace Iam Instance Profile on existing machines ([#12922](https://github.com/hashicorp/terraform/issues/12922))
+ * provider/aws: Increase AWS AMI Destroy timeout ([#12943](https://github.com/hashicorp/terraform/issues/12943))
+ * provider/aws: Set aws_vpc ipv6 for associated only ([#12899](https://github.com/hashicorp/terraform/issues/12899))
+ * provider/aws: Fix AWS ECS placement strategy spread fields ([#12998](https://github.com/hashicorp/terraform/issues/12998))
+ * provider/aws: Specify that aws_network_acl_rule requires a cidr block ([#13013](https://github.com/hashicorp/terraform/issues/13013))
+ * provider/aws: aws_network_acl_rule treat all and -1 for protocol the same ([#13049](https://github.com/hashicorp/terraform/issues/13049))
+ * provider/aws: Only allow 1 value in alb_listener_rule condition ([#13051](https://github.com/hashicorp/terraform/issues/13051))
+ * provider/aws: Correct handling of network ACL default IPv6 ingress/egress rules ([#12835](https://github.com/hashicorp/terraform/issues/12835))
+ * provider/aws: aws_ses_receipt_rule: fix off-by-one errors ([#12961](https://github.com/hashicorp/terraform/issues/12961))
+ * provider/aws: Fix issue upgrading to Terraform v0.9+ with AWS OpsWorks Stacks ([#13024](https://github.com/hashicorp/terraform/issues/13024))
+ * provider/fastly: Fix issue importing Fastly Services with Backends ([#12538](https://github.com/hashicorp/terraform/issues/12538))
+ * provider/google: turn compute_instance_group.instances into a set ([#12790](https://github.com/hashicorp/terraform/issues/12790))
+ * provider/mysql: recreate user/grant if user/grant got deleted manually ([#12791](https://github.com/hashicorp/terraform/issues/12791))
+ * provider/openstack: Fix monitor_id typo in LBaaS v1 Pool ([#13069](https://github.com/hashicorp/terraform/issues/13069))
+ * provider/openstack: Resolve issues with Port Fixed IPs ([#13056](https://github.com/hashicorp/terraform/issues/13056))
+ * provider/rancher: error when no api_url is provided ([#13086](https://github.com/hashicorp/terraform/issues/13086))
+ * provider/scaleway: work around parallel request limitation ([#13045](https://github.com/hashicorp/terraform/issues/13045))
+
+## 0.9.1 (March 17, 2017)
+
+BACKWARDS INCOMPATIBILITIES / NOTES:
+
+ * provider/pagerduty: the deprecated `name_regex` field has been removed from vendor data source ([#12396](https://github.com/hashicorp/terraform/issues/12396))
+
+FEATURES:
+
+ * **New Provider:** `kubernetes` ([#12372](https://github.com/hashicorp/terraform/issues/12372))
+ * **New Resource:** `kubernetes_namespace` ([#12372](https://github.com/hashicorp/terraform/issues/12372))
+ * **New Resource:** `kubernetes_config_map` ([#12753](https://github.com/hashicorp/terraform/issues/12753))
+ * **New Data Source:** `dns_a_record_set` ([#12744](https://github.com/hashicorp/terraform/issues/12744))
+ * **New Data Source:** `dns_cname_record_set` ([#12744](https://github.com/hashicorp/terraform/issues/12744))
+ * **New Data Source:** `dns_txt_record_set` ([#12744](https://github.com/hashicorp/terraform/issues/12744))
+
+IMPROVEMENTS:
+
+ * command/init: `-backend-config` accepts `key=value` pairs
+ * provider/aws: Improved error when failing to get S3 tags ([#12759](https://github.com/hashicorp/terraform/issues/12759))
+ * provider/aws: Validate CIDR Blocks in SG and SG rule resources ([#12765](https://github.com/hashicorp/terraform/issues/12765))
+ * provider/aws: Add KMS key tag support ([#12243](https://github.com/hashicorp/terraform/issues/12243))
+ * provider/aws: Allow `name_prefix` to be used with various IAM resources ([#12658](https://github.com/hashicorp/terraform/issues/12658))
+ * provider/openstack: Add timeout support for Compute resources ([#12794](https://github.com/hashicorp/terraform/issues/12794))
+ * provider/scaleway: expose public IPv6 information on scaleway_server ([#12748](https://github.com/hashicorp/terraform/issues/12748))
+
+BUG FIXES:
+
+ * core: Fix panic when an undefined module is reference ([#12793](https://github.com/hashicorp/terraform/issues/12793))
+ * core: Fix regression from 0.8.x when using a data source in a module ([#12837](https://github.com/hashicorp/terraform/issues/12837))
+ * command/apply: Applies from plans with backends set will reuse the backend rather than local ([#12785](https://github.com/hashicorp/terraform/issues/12785))
+ * command/init: Changing only `-backend-config` detects changes and reconfigures ([#12776](https://github.com/hashicorp/terraform/issues/12776))
+ * command/init: Fix legacy backend init error that could occur when upgrading ([#12818](https://github.com/hashicorp/terraform/issues/12818))
+ * command/push: Detect local state and error properly ([#12773](https://github.com/hashicorp/terraform/issues/12773))
+ * command/refresh: Allow empty and non-existent state ([#12777](https://github.com/hashicorp/terraform/issues/12777))
+ * provider/aws: Get the aws_lambda_function attributes when there are great than 50 versions of a function ([#11745](https://github.com/hashicorp/terraform/issues/11745))
+ * provider/aws: Correctly check for nil cidr_block in aws_network_acl ([#12735](https://github.com/hashicorp/terraform/issues/12735))
+ * provider/aws: Stop setting weight property on route53_record read ([#12756](https://github.com/hashicorp/terraform/issues/12756))
+ * provider/google: Fix the Google provider asking for account_file input on every run ([#12729](https://github.com/hashicorp/terraform/issues/12729))
+ * provider/profitbricks: Prevent panic on profitbricks volume ([#12819](https://github.com/hashicorp/terraform/issues/12819))
+ 
+
+## 0.9.0 (March 15, 2017)
+
+**This is the complete 0.8.8 to 0.9 CHANGELOG. Below this section we also have a 0.9.0-beta2 to 0.9.0 final CHANGELOG.**
+
+BACKWARDS INCOMPATIBILITIES / NOTES:
+
+ * provider/aws: `aws_codebuild_project` renamed `timeout` to `build_timeout` ([#12503](https://github.com/hashicorp/terraform/issues/12503))
+ * provider/azurem: `azurerm_virtual_machine` and `azurerm_virtual_machine_scale_set` now store has of custom_data not all custom_data ([#12214](https://github.com/hashicorp/terraform/issues/12214))
+ * provider/azurerm: scale_sets `os_profile_master_password` now marked as sensitive
+ * provider/azurerm: sql_server `administrator_login_password` now marked as sensitive
+ * provider/dnsimple: Provider has been upgraded to APIv2 therefore, you will need to use the APIv2 auth token
+ * provider/google: storage buckets have been updated with the new storage classes. The old classes will continue working as before, but should be migrated as soon as possible, as there's no guarantee they'll continue working forever. ([#12044](https://github.com/hashicorp/terraform/issues/12044))
+ * provider/google: compute_instance, compute_instance_template, and compute_disk all have a subtly changed logic when specifying an image family as the image; in 0.8.x they would pin to the latest image in the family when the resource is created; in 0.9.x they pass the family to the API and use its behaviour. New input formats are also supported. ([#12223](https://github.com/hashicorp/terraform/issues/12223))
+ * provider/google: removed the unused and deprecated region field from google_compute_backend_service ([#12663](https://github.com/hashicorp/terraform/issues/12663))
+ * provider/google: removed the deprecated account_file field for the Google Cloud provider ([#12668](https://github.com/hashicorp/terraform/issues/12668))
+ * provider/google: removed the deprecated fields from google_project ([#12659](https://github.com/hashicorp/terraform/issues/12659))
+
+FEATURES:
+
+ * **Remote Backends:** This is a successor to "remote state" and includes
+   file-based configuration, an improved setup process (just run `terraform init`),
+   no more local caching of remote state, and more. ([#11286](https://github.com/hashicorp/terraform/issues/11286))
+ * **Destroy Provisioners:** Provisioners can now be configured to run
+   on resource destruction. ([#11329](https://github.com/hashicorp/terraform/issues/11329))
+ * **State Locking:** State will be automatically locked when supported by the backend.
+   Backends supporting locking in this release are Local, S3 (via DynamoDB), and Consul. ([#11187](https://github.com/hashicorp/terraform/issues/11187))
+ * **State Environments:** You can now create named "environments" for states. This allows you to manage distinct infrastructure resources from the same configuration.
+ * **New Provider:**  `Circonus` ([#12578](https://github.com/hashicorp/terraform/issues/12578))
+ * **New Data Source:**  `openstack_networking_network_v2` ([#12304](https://github.com/hashicorp/terraform/issues/12304))
+ * **New Resource:**  `aws_iam_account_alias` ([#12648](https://github.com/hashicorp/terraform/issues/12648))
+ * **New Resource:**  `datadog_downtime` ([#10994](https://github.com/hashicorp/terraform/issues/10994))
+ * **New Resource:**  `ns1_notifylist` ([#12373](https://github.com/hashicorp/terraform/issues/12373))
+ * **New Resource:**  `google_container_node_pool` ([#11802](https://github.com/hashicorp/terraform/issues/11802))
+ * **New Resource:**  `rancher_certificate` ([#12717](https://github.com/hashicorp/terraform/issues/12717))
+ * **New Resource:**  `rancher_host` ([#11545](https://github.com/hashicorp/terraform/issues/11545))
+ * helper/schema: Added Timeouts to allow Provider/Resource developers to expose configurable timeouts for actions ([#12311](https://github.com/hashicorp/terraform/issues/12311))
+
+IMPROVEMENTS:
+
+ * core: Data source values can now be used as part of a `count` calculation. ([#11482](https://github.com/hashicorp/terraform/issues/11482))
+ * core: "terraformrc" can contain env var references with $FOO ([#11929](https://github.com/hashicorp/terraform/issues/11929))
+ * core: report all errors encountered during config validation ([#12383](https://github.com/hashicorp/terraform/issues/12383))
+ * command: CLI args can be specified via env vars. Specify `TF_CLI_ARGS` or `TF_CLI_ARGS_name` (where name is the name of a command) to specify additional CLI args ([#11922](https://github.com/hashicorp/terraform/issues/11922))
+ * command/init: previous behavior is retained, but init now also configures
+   the new remote backends as well as downloads modules. It is the single
+   command to initialize a new or existing Terraform configuration.
+ * command: Display resource state ID in refresh/plan/destroy output ([#12261](https://github.com/hashicorp/terraform/issues/12261))
+ * provider/aws: AWS Lambda DeadLetterConfig support ([#12188](https://github.com/hashicorp/terraform/issues/12188))
+ * provider/aws: Return errors from Elastic Beanstalk ([#12425](https://github.com/hashicorp/terraform/issues/12425))
+ * provider/aws: Set aws_db_cluster to snapshot by default ([#11668](https://github.com/hashicorp/terraform/issues/11668))
+ * provider/aws: Enable final snapshots for aws_rds_cluster by default ([#11694](https://github.com/hashicorp/terraform/issues/11694))
+ * provider/aws: Enable snapshotting by default on aws_redshift_cluster ([#11695](https://github.com/hashicorp/terraform/issues/11695))
+ * provider/aws: Add support for ACM certificates to `api_gateway_domain_name` ([#12592](https://github.com/hashicorp/terraform/issues/12592))
+ * provider/aws: Add support for IPv6 to aws\_security\_group\_rule ([#12645](https://github.com/hashicorp/terraform/issues/12645))
+ * provider/aws: Add IPv6 Support to aws\_route\_table ([#12640](https://github.com/hashicorp/terraform/issues/12640))
+ * provider/aws: Add support for IPv6 to aws\_network\_acl\_rule ([#12644](https://github.com/hashicorp/terraform/issues/12644))
+ * provider/aws: Add support for IPv6 to aws\_default\_route\_table ([#12642](https://github.com/hashicorp/terraform/issues/12642))
+ * provider/aws: Add support for IPv6 to aws\_network\_acl ([#12641](https://github.com/hashicorp/terraform/issues/12641))
+ * provider/aws: Add support for IPv6 in aws\_route ([#12639](https://github.com/hashicorp/terraform/issues/12639))
+ * provider/aws: Add support for IPv6 to aws\_security\_group ([#12655](https://github.com/hashicorp/terraform/issues/12655))
+ * provider/aws: Add replace\_unhealthy\_instances to spot\_fleet\_request ([#12681](https://github.com/hashicorp/terraform/issues/12681))
+ * provider/aws: Remove restriction on running aws\_opsworks\_* on us-east-1 ([#12688](https://github.com/hashicorp/terraform/issues/12688))
+ * provider/aws: Improve error message on S3 Bucket Object deletion ([#12712](https://github.com/hashicorp/terraform/issues/12712))
+ * provider/aws: Add log message about if changes are being applied now or later ([#12691](https://github.com/hashicorp/terraform/issues/12691))
+ * provider/azurerm: Mark the azurerm_scale_set machine password as sensitive ([#11982](https://github.com/hashicorp/terraform/issues/11982))
+ * provider/azurerm: Mark the azurerm_sql_server admin password as sensitive ([#12004](https://github.com/hashicorp/terraform/issues/12004))
+ * provider/azurerm: Add support for managed availability sets. ([#12532](https://github.com/hashicorp/terraform/issues/12532))
+ * provider/azurerm: Add support for extensions on virtual machine scale sets ([#12124](https://github.com/hashicorp/terraform/issues/12124))
+ * provider/dnsimple: Upgrade DNSimple provider to API v2 ([#10760](https://github.com/hashicorp/terraform/issues/10760))
+ * provider/docker: added support for linux capabilities ([#12045](https://github.com/hashicorp/terraform/issues/12045))
+ * provider/fastly: Add Fastly SSL validation fields ([#12578](https://github.com/hashicorp/terraform/issues/12578))
+ * provider/ignition: Migrate all of the igition resources to data sources ([#11851](https://github.com/hashicorp/terraform/issues/11851))
+ * provider/openstack: Set Availability Zone in Instances ([#12610](https://github.com/hashicorp/terraform/issues/12610))
+ * provider/openstack: Force Deletion of Instances ([#12689](https://github.com/hashicorp/terraform/issues/12689))
+ * provider/rancher: Better comparison of compose files ([#12561](https://github.com/hashicorp/terraform/issues/12561))
+ * provider/azurerm: store only hash of `azurerm_virtual_machine` and `azurerm_virtual_machine_scale_set` custom_data - reduces size of state ([#12214](https://github.com/hashicorp/terraform/issues/12214))
+ * provider/vault: read vault token from `~/.vault-token` as a fallback for the
+   `VAULT_TOKEN` environment variable. ([#11529](https://github.com/hashicorp/terraform/issues/11529))
+ * provisioners: All provisioners now respond very quickly to interrupts for
+   fast cancellation. ([#10934](https://github.com/hashicorp/terraform/issues/10934))
+
+BUG FIXES:
+
+ * core: targeting will remove untargeted providers ([#12050](https://github.com/hashicorp/terraform/issues/12050))
+ * core: doing a map lookup in a resource config with a computed set no longer crashes ([#12210](https://github.com/hashicorp/terraform/issues/12210))
+ * provider/aws: Fixes issue for aws_lb_ssl_negotiation_policy of already deleted ELB ([#12360](https://github.com/hashicorp/terraform/issues/12360))
+ * provider/aws: Populate the iam_instance_profile uniqueId ([#12449](https://github.com/hashicorp/terraform/issues/12449))
+ * provider/aws: Only send iops when creating io1 devices ([#12392](https://github.com/hashicorp/terraform/issues/12392))
+ * provider/aws: Fix spurious aws_spot_fleet_request diffs ([#12437](https://github.com/hashicorp/terraform/issues/12437))
+ * provider/aws: Changing volumes in ECS task definition should force new revision ([#11403](https://github.com/hashicorp/terraform/issues/11403))
+ * provider/aws: Ignore whitespace in json diff for aws_dms_replication_task options ([#12380](https://github.com/hashicorp/terraform/issues/12380))
+ * provider/aws: Check spot instance is running before trying to attach volumes ([#12459](https://github.com/hashicorp/terraform/issues/12459))
+ * provider/aws: Add the IPV6 cidr block to the vpc datasource ([#12529](https://github.com/hashicorp/terraform/issues/12529))
+ * provider/aws: Error on trying to recreate an existing customer gateway ([#12501](https://github.com/hashicorp/terraform/issues/12501))
+ * provider/aws: Prevent aws_dms_replication_task panic ([#12539](https://github.com/hashicorp/terraform/issues/12539))
+ * provider/aws: output the task definition name when errors occur during refresh ([#12609](https://github.com/hashicorp/terraform/issues/12609))
+ * provider/aws: Refresh iam saml provider from state on 404 ([#12602](https://github.com/hashicorp/terraform/issues/12602))
+ * provider/aws: Add address, port, hosted_zone_id and endpoint for aws_db_instance datasource ([#12623](https://github.com/hashicorp/terraform/issues/12623))
+ * provider/aws: Allow recreation of `aws_opsworks_user_profile` when the `user_arn` is changed ([#12595](https://github.com/hashicorp/terraform/issues/12595))
+ * provider/aws: Guard clause to prevent panic on ELB connectionSettings ([#12685](https://github.com/hashicorp/terraform/issues/12685))
+ * provider/azurerm: bug fix to prevent crashes during azurerm_container_service provisioning ([#12516](https://github.com/hashicorp/terraform/issues/12516))
+ * provider/cobbler: Fix Profile Repos ([#12452](https://github.com/hashicorp/terraform/issues/12452))
+ * provider/datadog: Update to datadog_monitor to use default values ([#12497](https://github.com/hashicorp/terraform/issues/12497))
+ * provider/datadog: Default notify_no_data on datadog_monitor to false ([#11903](https://github.com/hashicorp/terraform/issues/11903))
+ * provider/google: Correct the incorrect instance group manager URL returned from GKE ([#4336](https://github.com/hashicorp/terraform/issues/4336))
+ * provider/google: Fix a plan/apply cycle in IAM policies ([#12387](https://github.com/hashicorp/terraform/issues/12387))
+ * provider/google: Fix a plan/apply cycle in forwarding rules when only a single port is specified ([#12662](https://github.com/hashicorp/terraform/issues/12662))
+ * provider/google: Minor correction : "Deleting disk" message in Delete method ([#12521](https://github.com/hashicorp/terraform/issues/12521))
+ * provider/mysql: Avoid crash on un-interpolated provider cfg ([#12391](https://github.com/hashicorp/terraform/issues/12391))
+ * provider/ns1: Fix incorrect schema (causing crash) for 'ns1_user.notify' ([#12721](https://github.com/hashicorp/terraform/issues/12721))
+ * provider/openstack: Handle cases where volumes are disabled ([#12374](https://github.com/hashicorp/terraform/issues/12374))
+ * provider/openstack: Toggle Creation of Default Security Group Rules ([#12119](https://github.com/hashicorp/terraform/issues/12119))
+ * provider/openstack: Change Port fixed_ip to a Set ([#12613](https://github.com/hashicorp/terraform/issues/12613))
+ * provider/openstack: Add network_id to Network data source ([#12615](https://github.com/hashicorp/terraform/issues/12615))
+ * provider/openstack: Check for ErrDefault500 when creating/deleting pool member ([#12664](https://github.com/hashicorp/terraform/issues/12664))
+ * provider/rancher: Apply the set value for finish_upgrade to set to prevent recurring plans ([#12545](https://github.com/hashicorp/terraform/issues/12545))
+ * provider/scaleway: work around API concurrency issue ([#12707](https://github.com/hashicorp/terraform/issues/12707))
+ * provider/statuscake: use default status code list when updating test ([#12375](https://github.com/hashicorp/terraform/issues/12375))
+
+## 0.9.0 from 0.9.0-beta2 (March 15, 2017)
+
+**This only includes changes from 0.9.0-beta2 to 0.9.0 final. The section above has the complete 0.8.x to 0.9.0 CHANGELOG.**
+
+FEATURES:
+
+ * **New Provider:**  `Circonus` ([#12578](https://github.com/hashicorp/terraform/issues/12578))
+
+BACKWARDS INCOMPATIBILITIES / NOTES:
+
+ * provider/aws: `aws_codebuild_project` renamed `timeout` to `build_timeout` ([#12503](https://github.com/hashicorp/terraform/issues/12503))
+ * provider/azurem: `azurerm_virtual_machine` and `azurerm_virtual_machine_scale_set` now store has of custom_data not all custom_data ([#12214](https://github.com/hashicorp/terraform/issues/12214))
+ * provider/google: compute_instance, compute_instance_template, and compute_disk all have a subtly changed logic when specifying an image family as the image; in 0.8.x they would pin to the latest image in the family when the resource is created; in 0.9.x they pass the family to the API and use its behaviour. New input formats are also supported. ([#12223](https://github.com/hashicorp/terraform/issues/12223))
+ * provider/google: removed the unused and deprecated region field from google_compute_backend_service ([#12663](https://github.com/hashicorp/terraform/issues/12663))
+ * provider/google: removed the deprecated account_file field for the Google Cloud provider ([#12668](https://github.com/hashicorp/terraform/issues/12668))
+ * provider/google: removed the deprecated fields from google_project ([#12659](https://github.com/hashicorp/terraform/issues/12659))
+
+IMPROVEMENTS:
+
+ * provider/azurerm: store only hash of `azurerm_virtual_machine` and `azurerm_virtual_machine_scale_set` custom_data - reduces size of state ([#12214](https://github.com/hashicorp/terraform/issues/12214))
+ * report all errors encountered during config validation ([#12383](https://github.com/hashicorp/terraform/issues/12383))
+
+BUG FIXES:
+
+ * provider/google: Correct the incorrect instance group manager URL returned from GKE ([#4336](https://github.com/hashicorp/terraform/issues/4336))
+ * provider/google: Fix a plan/apply cycle in IAM policies ([#12387](https://github.com/hashicorp/terraform/issues/12387))
+ * provider/google: Fix a plan/apply cycle in forwarding rules when only a single port is specified ([#12662](https://github.com/hashicorp/terraform/issues/12662))
+ 
+## 0.9.0-beta2 (March 2, 2017)
+
+BACKWARDS INCOMPATIBILITIES / NOTES:
+
+ * provider/azurerm: scale_sets `os_profile_master_password` now marked as sensitive
+ * provider/azurerm: sql_server `administrator_login_password` now marked as sensitive
+ * provider/google: storage buckets have been updated with the new storage classes. The old classes will continue working as before, but should be migrated as soon as possible, as there's no guarantee they'll continue working forever. ([#12044](https://github.com/hashicorp/terraform/issues/12044))
+ * provider/dnsimple: Provider has been upgraded to APIv2 therefore, you will need to use the APIv2 auth token
+
+FEATURES:
+
+ * **State Environments:** You can now create named "environments" for states. This allows you to manage distinct infrastructure resources from the same configuration.
+ * helper/schema: Added Timeouts to allow Provider/Resource developers to expose configurable timeouts for actions ([#12311](https://github.com/hashicorp/terraform/issues/12311))
+
+IMPROVEMENTS:
+
+ * core: "terraformrc" can contain env var references with $FOO ([#11929](https://github.com/hashicorp/terraform/issues/11929))
+ * command: Display resource state ID in refresh/plan/destroy output ([#12261](https://github.com/hashicorp/terraform/issues/12261))
+ * provider/aws: AWS Lambda DeadLetterConfig support ([#12188](https://github.com/hashicorp/terraform/issues/12188))
+ * provider/azurerm: Mark the azurerm_scale_set machine password as sensitive ([#11982](https://github.com/hashicorp/terraform/issues/11982))
+ * provider/azurerm: Mark the azurerm_sql_server admin password as sensitive ([#12004](https://github.com/hashicorp/terraform/issues/12004))
+ * provider/dnsimple: Upgrade DNSimple provider to API v2 ([#10760](https://github.com/hashicorp/terraform/issues/10760))
+
+BUG FIXES:
+
+ * core: targeting will remove untargeted providers ([#12050](https://github.com/hashicorp/terraform/issues/12050))
+ * core: doing a map lookup in a resource config with a computed set no longer crashes ([#12210](https://github.com/hashicorp/terraform/issues/12210))
+
+0.9.0-beta1 FIXES:
+
+ * core: backends are validated to not contain interpolations ([#12067](https://github.com/hashicorp/terraform/issues/12067))
+ * core: fix local state locking on Windows ([#12059](https://github.com/hashicorp/terraform/issues/12059))
+ * core: destroy provisioners dependent on module variables work ([#12063](https://github.com/hashicorp/terraform/issues/12063))
+ * core: resource destruction happens after dependent resources' destroy provisioners ([#12063](https://github.com/hashicorp/terraform/issues/12063))
+ * core: invalid resource attribute interpolation in a destroy provisioner errors ([#12063](https://github.com/hashicorp/terraform/issues/12063))
+ * core: legacy backend loading of Consul now works properly ([#12320](https://github.com/hashicorp/terraform/issues/12320))
+ * command/init: allow unsetting a backend properly ([#11988](https://github.com/hashicorp/terraform/issues/11988))
+ * command/apply: fix crash that could happen with an empty directory ([#11989](https://github.com/hashicorp/terraform/issues/11989))
+ * command/refresh: fix crash when no configs were in the pwd ([#12178](https://github.com/hashicorp/terraform/issues/12178))
+ * command/{state,taint}: work properly with backend state ([#12155](https://github.com/hashicorp/terraform/issues/12155))
+ * providers/terraform: remote state data source works with new backends ([#12173](https://github.com/hashicorp/terraform/issues/12173))
+
+## 0.9.0-beta1 (February 15, 2017)
 
 BACKWARDS INCOMPATIBILITIES / NOTES:
 
@@ -12,34 +431,175 @@ BACKWARDS INCOMPATIBILITIES / NOTES:
    Terraform versions.
  * provider/aws: `aws_db_instance` now defaults to making a final snapshot on delete
  * provider/aws: `aws_rds_cluster` now defaults to making a final snapshot on delete
- * provider/aws: Deprecated fields `kinesis_endpoint` & `dynamodb_endpoint` were removed. Use `kinesis` & `dynamodb` inside the `endpoints` block instead. [GH-11778]
+ * provider/aws: `aws_redshift_cluster` now defaults to making a final snapshot on delete
+ * provider/aws: Deprecated fields `kinesis_endpoint` & `dynamodb_endpoint` were removed. Use `kinesis` & `dynamodb` inside the `endpoints` block instead. ([#11778](https://github.com/hashicorp/terraform/issues/11778))
  * provider/datadog: `datadog_monitor` now defaults `notify_no_data` to `false` as per the datadog API
 
 FEATURES:
 
  * **Remote Backends:** This is a successor to "remote state" and includes
    file-based configuration, an improved setup process (just run `terraform init`),
-   no more local caching of remote state, and more. [GH-11286]
+   no more local caching of remote state, and more. ([#11286](https://github.com/hashicorp/terraform/issues/11286))
  * **Destroy Provisioners:** Provisioners can now be configured to run
-   on resource destruction. [GH-11329]
+   on resource destruction. ([#11329](https://github.com/hashicorp/terraform/issues/11329))
+ * **State Locking:** State will be automatically locked when supported by the backend.
+   Backends supporting locking in this release are Local, S3 (via DynamoDB), and Consul. ([#11187](https://github.com/hashicorp/terraform/issues/11187))
 
 IMPROVEMENTS:
 
- * core: Data source values can now be used as part of a `count` calculation. [GH-11482]
+ * core: Data source values can now be used as part of a `count` calculation. ([#11482](https://github.com/hashicorp/terraform/issues/11482))
+ * command: CLI args can be specified via env vars. Specify `TF_CLI_ARGS` or `TF_CLI_ARGS_name` (where name is the name of a command) to specify additional CLI args ([#11922](https://github.com/hashicorp/terraform/issues/11922))
  * command/init: previous behavior is retained, but init now also configures
    the new remote backends as well as downloads modules. It is the single
    command to initialize a new or existing Terraform configuration.
  * provisioners: All provisioners now respond very quickly to interrupts for
-   fast cancellation. [GH-10934]
- * provider/aws: Set aws_db_cluster to snapshot by default [GH-11668]
- * provider/aws: Enable final snapshots for aws_rds_cluster by default [GH-11694]
+   fast cancellation. ([#10934](https://github.com/hashicorp/terraform/issues/10934))
+ * provider/aws: Set aws_db_cluster to snapshot by default ([#11668](https://github.com/hashicorp/terraform/issues/11668))
+ * provider/aws: Enable final snapshots for aws_rds_cluster by default ([#11694](https://github.com/hashicorp/terraform/issues/11694))
+ * provider/aws: Enable snapshotting by default on aws_redshift_cluster ([#11695](https://github.com/hashicorp/terraform/issues/11695))
  * provider/vault: read vault token from `~/.vault-token` as a fallback for the
-   `VAULT_TOKEN` environment variable. [GH-11529]
+   `VAULT_TOKEN` environment variable. ([#11529](https://github.com/hashicorp/terraform/issues/11529))
 
 BUG FIXES:
 
- * provider/cloudstack: Ensure consistent hashes of `cloudstack_port_forward` forward items. [GH-11546]
- * provider/datadog: Default notify_no_data on datadog_monitor to false [GH-11903]
+ * provider/datadog: Default notify_no_data on datadog_monitor to false ([#11903](https://github.com/hashicorp/terraform/issues/11903))
+
+## 0.8.8 (March 2, 2017)
+
+BACKWARDS INCOMPATIBILITIES / NOTES:
+ * provider/aws: Potential breaking change for `root_block_device` ([#12379](https://github.com/hashicorp/terraform/issues/12379))
+
+FEATURES:
+
+ * **New Provider:**  `spotinst` ([#5001](https://github.com/hashicorp/terraform/issues/5001))
+ * **New Interpolation:**  `slice` ([#9729](https://github.com/hashicorp/terraform/issues/9729))
+ * **New Data Source:**  `aws_sns_topic` ([#11752](https://github.com/hashicorp/terraform/issues/11752))
+ * **New Data Source:**  `openstack_images_image_v2` ([#12097](https://github.com/hashicorp/terraform/issues/12097))
+ * **New Resource:**  `aws_elastic_beanstalk_application_version` ([#5770](https://github.com/hashicorp/terraform/issues/5770))
+ * **New Resource:**  `aws_cloudwatch_log_destination` ([#11940](https://github.com/hashicorp/terraform/issues/11940))
+ * **New Resource:**  `aws_cloudwatch_log_destination_policy` ([#11940](https://github.com/hashicorp/terraform/issues/11940))
+ * **New Resource:**  `aws_codepipeline` ([#11814](https://github.com/hashicorp/terraform/issues/11814))
+ * **New Resource:**  `aws_egress_only_internet_gateway` ([#10538](https://github.com/hashicorp/terraform/issues/10538))
+ * **New Resource:**  `datadog_user`  ([#12268](https://github.com/hashicorp/terraform/issues/12268))
+ * **New Resource:**  `digitalocean_loadbalancer` ([#12077](https://github.com/hashicorp/terraform/issues/12077))
+ * **New Resource:**  `openstack_images_image_v2` ([#11942](https://github.com/hashicorp/terraform/issues/11942))
+ * **New Resource:**  `openstack_compute_floatingip_associate_v2` ([#12190](https://github.com/hashicorp/terraform/issues/12190))
+
+IMPROVEMENTS:
+
+ * provider/aws: Add support for AWS EBS Elastic Volumes ([#11981](https://github.com/hashicorp/terraform/issues/11981))
+ * provider/aws: Allow aws_instances to be resized rather than forcing a new instance ([#11998](https://github.com/hashicorp/terraform/issues/11998))
+ * provider/aws: Report bucket name in S3 Error message ([#12122](https://github.com/hashicorp/terraform/issues/12122))
+ * provider/aws: Implement IPV6 Support for ec2 / VPC ([#10538](https://github.com/hashicorp/terraform/issues/10538))
+ * provider/aws: Add support for import of aws_elasticsearch_domain ([#12330](https://github.com/hashicorp/terraform/issues/12330))
+ * provider/aws: improve redshift cluster validation ([#12313](https://github.com/hashicorp/terraform/issues/12313))
+ * provider/aws: Support IAM role attachment and replacement for existing EC2 instance ([#11852](https://github.com/hashicorp/terraform/issues/11852))
+ * provider/azurerm: Auto base64encode virtual_machine custom data ([#12164](https://github.com/hashicorp/terraform/issues/12164))
+ * provider/datadog: add support for new host delay to the datadog_monitor resource ([#11975](https://github.com/hashicorp/terraform/issues/11975))
+ * provider/datadog: Upgrade to Datadog API v2 ([#12098](https://github.com/hashicorp/terraform/issues/12098))
+ * provider/fastly: Make Backends optional if used in VCL ([#12025](https://github.com/hashicorp/terraform/issues/12025))
+ * provider/fastly: Add support for custom `response_object` ([#12032](https://github.com/hashicorp/terraform/issues/12032))
+ * provider/google: Add support for maintenance window in `sql_database_instance` ([#12042](https://github.com/hashicorp/terraform/issues/12042))
+ * provider/google: google_project supports billing account ([#11653](https://github.com/hashicorp/terraform/issues/11653))
+ * provider/openstack: Don't allow floating IP and port ([#12099](https://github.com/hashicorp/terraform/issues/12099))
+ * provider/openstack: Enable HTTP Logging ([#12089](https://github.com/hashicorp/terraform/issues/12089))
+ * provider/openstack: Add Additional Targets for LBaaS v1 Member ([#12266](https://github.com/hashicorp/terraform/issues/12266))
+ * provider/openstack: Redesign openstack_blockstorage_volume_attach_v2 ([#12071](https://github.com/hashicorp/terraform/issues/12071))
+ * provider/pagerduty: Import support for service integrations ([#12141](https://github.com/hashicorp/terraform/issues/12141))
+ * provider/pagerduty: Updated implementation of pagerduty_vendor & pagerduty_service_integration ([#12357](https://github.com/hashicorp/terraform/issues/12357))
+ * provider/random_id: Add prefix attribute ([#12016](https://github.com/hashicorp/terraform/issues/12016))
+ * provider/statuscake: Add support for Port in statuscake_test ([#11966](https://github.com/hashicorp/terraform/issues/11966))
+
+BUG FIXES:
+
+ * core: Fix a hang that could occur at the end of a Terraform command with custom plugins used ([#12048](https://github.com/hashicorp/terraform/issues/12048))
+ * command/fmt: Fix incorrect formatting with single line object following complex object ([#12049](https://github.com/hashicorp/terraform/issues/12049))
+ * command/state: `-backup` flags work with `mv` and `rm` ([#12156](https://github.com/hashicorp/terraform/issues/12156))
+ * provider/aws: add bucket name to delete error notification ([#11952](https://github.com/hashicorp/terraform/issues/11952))
+ * provider/aws: Use proper Set for source.Auth in resource_aws_codebuild_project ([#11741](https://github.com/hashicorp/terraform/issues/11741))
+ * provider/aws: aws_ecs_service should output service name along with err ([#12072](https://github.com/hashicorp/terraform/issues/12072))
+ * provider/aws: Add VRRP to allowed protocols in network ACL rules ([#12107](https://github.com/hashicorp/terraform/issues/12107))
+ * provider/aws: Add owner_account option to aws_redshift_cluster ([#12062](https://github.com/hashicorp/terraform/issues/12062))
+ * provider/aws: Update of inspector_assessment_target should use ARN not Name ([#12115](https://github.com/hashicorp/terraform/issues/12115))
+ * provider/aws: Fix the panic in ssm_association with parameters ([#12215](https://github.com/hashicorp/terraform/issues/12215))
+ * provider/aws: Fix update of environment_variable in codebuild_project ([#12169](https://github.com/hashicorp/terraform/issues/12169))
+ * provider/aws: Refresh aws_autoscaling_schedule from state when autoscaling_group not found ([#12312](https://github.com/hashicorp/terraform/issues/12312))
+ * provider/aws: No longer ForceNew resource on lambda_function runtime update ([#12329](https://github.com/hashicorp/terraform/issues/12329))
+ * provider/aws: reading multiple pages of aws_efs_file_system tags ([#12328](https://github.com/hashicorp/terraform/issues/12328))
+ * provider/aws: Refresh cloudwatch log subscription filter on 404 ([#12333](https://github.com/hashicorp/terraform/issues/12333))
+ * provider/aws: more details on which s3 bucket had an error ([#12314](https://github.com/hashicorp/terraform/issues/12314))
+ * provider/azurerm: Ignore case on protocol and allocation types ([#12176](https://github.com/hashicorp/terraform/issues/12176))
+ * provider/cloudflare: add validation for proxied record types ([#11993](https://github.com/hashicorp/terraform/issues/11993))
+ * provider/datadog: Adding default values to datadog_monitor ([#12168](https://github.com/hashicorp/terraform/issues/12168))
+ * provider/google: make local_traffic_selector computed ([#11631](https://github.com/hashicorp/terraform/issues/11631))
+ * provider/google: Write the raw disk encryption key in the state file to avoid diffs on plan ([#12068](https://github.com/hashicorp/terraform/issues/12068))
+ * provider/google: fix url map test and update logic ([#12317](https://github.com/hashicorp/terraform/issues/12317))
+ * provider/openstack: Rename provider to loadbalancer_provider ([#12239](https://github.com/hashicorp/terraform/issues/12239))
+ * provider/pagerduty: Setting incident_urgency_rule as optional ([#12211](https://github.com/hashicorp/terraform/issues/12211))
+ * provider/profitbricks: Fixing how primary_nic is added to profitbricks server ([#12197](https://github.com/hashicorp/terraform/issues/12197))
+ * state/azure: add environment option for non-public cloud usage ([#12364](https://github.com/hashicorp/terraform/issues/12364))
+
+## 0.8.7 (February 15, 2017)
+
+BACKWARDS INCOMPATIBILITIES / NOTES:
+
+ * provider/aws: `kinesis_endpoint` & `dynamodb_endpoint` fields in the provider schema were deprecated in favour of `kinesis` & `dynamodb` inside the `endpoints` block. Deprecated fields will be removed in 0.9 ([#11768](https://github.com/hashicorp/terraform/issues/11768))
+
+FEATURES:
+
+ * **New Interpolation:**  `slice` ([#9729](https://github.com/hashicorp/terraform/issues/9729))
+ * **New Provider:**  `arukas` ([#11171](https://github.com/hashicorp/terraform/issues/11171))
+ * **New Data Source:**  `aws_db_instance` ([#11717](https://github.com/hashicorp/terraform/issues/11717))
+ * **New Data Source:**  `aws_vpn_gateway` ([#11886](https://github.com/hashicorp/terraform/issues/11886))
+ * **New Data Source:**  `consul_agent_self`, `consul_catalog_service`, `consul_catalog_services`, `consul_catalog_nodes` ([#11729](https://github.com/hashicorp/terraform/pull/11729))
+ * **New Data Source:**  `google_compute_zones` ([#11954](https://github.com/hashicorp/terraform/issues/11954))
+ * **New Resource:**  `aws_elasticsearch_domain_policy` ([#8648](https://github.com/hashicorp/terraform/issues/8648))
+ * **New Resource:**  `aws_vpc_peering_connection_accepter` ([#11505](https://github.com/hashicorp/terraform/issues/11505))
+ * **New Resource:**  `aws_config_config_rule` ([#5850](https://github.com/hashicorp/terraform/issues/5850))
+ * **New Resource:**  `aws_config_configuration_recorder` ([#5850](https://github.com/hashicorp/terraform/issues/5850))
+ * **New Resource:**  `aws_config_configuration_recorder_status` ([#5850](https://github.com/hashicorp/terraform/issues/5850))
+ * **New Resource:**  `aws_config_delivery_channel` ([#5850](https://github.com/hashicorp/terraform/issues/5850))
+ * **New Resource:**  `azurerm_container_service` ([#10820](https://github.com/hashicorp/terraform/issues/10820))
+ * **New Resource:**  `vault_policy` ([#10980](https://github.com/hashicorp/terraform/issues/10980))
+
+IMPROVEMENTS:
+
+ * provider/aws: Update aws_ssm_document to include `document_type`, `latest_version` and `default_version` ([#11671](https://github.com/hashicorp/terraform/issues/11671))
+ * provider/aws: Support import of aws_opsworks_instance ([#11783](https://github.com/hashicorp/terraform/issues/11783))
+ * provider/aws Add S3 bucket object tag support ([#11344](https://github.com/hashicorp/terraform/issues/11344))
+ * provider/aws: Add validation for aws_iam_role ([#11915](https://github.com/hashicorp/terraform/issues/11915))
+ * provider/fastly Allows for conditional settings across fastly ([#11843](https://github.com/hashicorp/terraform/issues/11843))
+ * provider/openstack: Allow OpenStack SSL certs + keys to take path or content ([#10271](https://github.com/hashicorp/terraform/issues/10271))
+ * provider/pagerduty: Add support for `incident_urgency_rule`, `support_hours` and `scheduled_actions` to `pagerduty_service` ([#11856](https://github.com/hashicorp/terraform/issues/11856))
+ * provider/rancher: parse Rancher client cli.json config file ([#11658](https://github.com/hashicorp/terraform/issues/11658))
+ * provider/vault: Use Vault api.DefaultConfig() ([#11523](https://github.com/hashicorp/terraform/issues/11523))
+
+Bug FIXES:
+
+ * core: resources that depend on create-before-destroy resources don't create cycles ([#11753](https://github.com/hashicorp/terraform/issues/11753))
+ * core: create-before-destroy resources with a count > 1 create proper edges ([#11753](https://github.com/hashicorp/terraform/issues/11753))
+ * core: fix "diffs didn't match issue" for removing or empty collections that force new ([#11732](https://github.com/hashicorp/terraform/issues/11732))
+ * core: module sources ended in archive extensions without a "." won't be treated as archives ([#11438](https://github.com/hashicorp/terraform/issues/11438))
+ * core: destroy ordering of resources within modules is correct ([#11765](https://github.com/hashicorp/terraform/issues/11765))
+ * core: Fix crash if count interpolates into a non-int ([#11864](https://github.com/hashicorp/terraform/issues/11864))
+ * core: Targeting a module will properly exclude untargeted module outputs ([#11291](https://github.com/hashicorp/terraform/issues/11291))
+ * state/remote/s3: Fix Bug with Assume Role for Federated IAM Account ([#10067](https://github.com/hashicorp/terraform/issues/10067))
+ * provider/aws: Fix security_group_rule resource timeout errors ([#11809](https://github.com/hashicorp/terraform/issues/11809))
+ * provider/aws: Fix diff suppress function for aws_db_instance ([#11909](https://github.com/hashicorp/terraform/issues/11909))
+ * provider/aws: Fix default values for AMI volume size ([#11842](https://github.com/hashicorp/terraform/issues/11842))
+ * provider/aws: Fix aws_db_event_subscription import ([#11744](https://github.com/hashicorp/terraform/issues/11744))
+ * provider/aws: Respect 400 returned from AWS API on RDS Cluster termination ([#11795](https://github.com/hashicorp/terraform/issues/11795))
+ * provider/aws: Raise the codebuild_project create timeout ([#11777](https://github.com/hashicorp/terraform/issues/11777))
+ * provider/aws: Make aws_dms_endpoint database_name optional ([#11792](https://github.com/hashicorp/terraform/issues/11792))
+ * provider/aws: Bump Create and Delete timeouts to 60 mins on directory_service ([#11793](https://github.com/hashicorp/terraform/issues/11793))
+ * provider/aws: aws_codecommit_trigger fix typo that causes serialization to fail when events is non-empty ([#11839](https://github.com/hashicorp/terraform/issues/11839))
+ * provider/aws: Fix bug to allow update of maintenance_window in elasticache_replication_group ([#11850](https://github.com/hashicorp/terraform/issues/11850))
+ * provider/azurerm: Don't push an empty set of ssh keys to virtual machine or they cannot be ammended ([#11804](https://github.com/hashicorp/terraform/issues/11804))
+ * provider/azurerm: Refresh from state when VM Extension Resource not found ([#11894](https://github.com/hashicorp/terraform/issues/11894))
+ * provider/cloudstack: Ensure consistent hashes of `cloudstack_port_forward` forward items. ([#11546](https://github.com/hashicorp/terraform/issues/11546))
+ * provider/google: set additional_zones to computed and disallow the original zone from appearing in the list ([#11650](https://github.com/hashicorp/terraform/issues/11650))
+ * provider/google: set subnetwork_project to computed ([#11646](https://github.com/hashicorp/terraform/issues/11646))
+ * provider/openstack BlockStorage v1 availability_zone Fix ([#11949](https://github.com/hashicorp/terraform/issues/11949))
 
 ## 0.8.6 (07 February 2017)
 
@@ -265,7 +825,7 @@ IMPROVEMENTS:
 
 BUG FIXES:
 
- * core: Properly expand sets as lists from a flatmap [[#11042](https://github.com/hashicorp/terraform/issues/11042)]
+ * core: Properly expand sets as lists from a flatmap ([#11042](https://github.com/hashicorp/terraform/issues/11042))
  * core: Disallow root modules named "root" as a temporary workaround ([#11099](https://github.com/hashicorp/terraform/issues/11099))
  * command/fmt: Lists of heredocs format properly ([#10947](https://github.com/hashicorp/terraform/issues/10947))
  * command/graph: Fix crash when `-type=legacy` ([#11095](https://github.com/hashicorp/terraform/issues/11095))

@@ -11,10 +11,11 @@ import (
 
 func CpeResource() *schema.Resource {
 	return &schema.Resource{
-		Create: createCpe,
-		Read:   readCpe,
-		Update: updateCpe,
-		Delete: deleteCpe,
+		Timeouts: crud.DefaultTimeout,
+		Create:   createCpe,
+		Read:     readCpe,
+		Update:   updateCpe,
+		Delete:   deleteCpe,
 		Schema: map[string]*schema.Schema{
 			"id": {
 				Type:     schema.TypeString,

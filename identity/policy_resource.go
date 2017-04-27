@@ -31,11 +31,12 @@ func PolicyResource() *schema.Resource {
 	}
 
 	return &schema.Resource{
-		Create: createPolicy,
-		Read:   readPolicy,
-		Update: updatePolicy,
-		Delete: deletePolicy,
-		Schema: policySchema,
+		Timeouts: crud.DefaultTimeout,
+		Create:   createPolicy,
+		Read:     readPolicy,
+		Update:   updatePolicy,
+		Delete:   deletePolicy,
+		Schema:   policySchema,
 	}
 }
 

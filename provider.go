@@ -7,9 +7,6 @@ import (
 	"fmt"
 	"net/http"
 
-	"os"
-	"strconv"
-
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
@@ -32,15 +29,11 @@ func init() {
 		"private_key_path": "(Optional) The path to the user's PEM formatted private key.\n" +
 			"A private_key or a private_key_path must be provided.",
 		"private_key_password": "(Optional) The password used to secure the private key.",
-		"timeout_minutes":      "(Optional) The minimum API timeout for requests",
 	}
 }
 
 // Provider is the adapter for terraform, that gives access to all the resources
 func Provider(configfn schema.ConfigureFunc) terraform.ResourceProvider {
-	if os.Getenv("TF_ORACLE_ENV") == "test" && os.Getenv("TF_VAR_timeout_minutes") == "" {
-		os.Setenv("TF_VAR_timeout_minutes", "5") // This is for testing, it is overwritten correctly in ConfigureFunc when not in testmode
-	}
 	return &schema.Provider{
 		DataSourcesMap: dataSourcesMap(),
 		Schema:         schemaMap(),
@@ -73,12 +66,6 @@ func schemaMap() map[string]*schema.Schema {
 			Default:     "",
 			Sensitive:   true,
 			Description: descriptions["private_key"],
-		},
-		"timeout_minutes": {
-			Type:        schema.TypeInt,
-			Optional:    true,
-			Default:     5,
-			Description: descriptions["timeout_minutes"],
 		},
 		"private_key_path": {
 			Type:        schema.TypeString,
@@ -113,8 +100,8 @@ func dataSourcesMap() map[string]*schema.Resource {
 		"baremetal_core_shape":                      core.ShapeDatasource(),
 		"baremetal_core_subnets":                    core.SubnetDatasource(),
 		"baremetal_core_virtual_networks":           core.VirtualNetworkDatasource(),
-		"baremetal_core_vnic_attachments":           core.DatasourceCoreVnicAttachments(),
 		"baremetal_core_vnic":                       core.VnicDatasource(),
+		"baremetal_core_vnic_attachments":           core.DatasourceCoreVnicAttachments(),
 		"baremetal_core_volume_attachments":         core.VolumeAttachmentDatasource(),
 		"baremetal_core_volume_backups":             core.VolumeBackupDatasource(),
 		"baremetal_core_volumes":                    core.VolumeDatasource(),
@@ -124,8 +111,8 @@ func dataSourcesMap() map[string]*schema.Resource {
 		"baremetal_database_db_homes":               database.DBHomesDatasource(),
 		"baremetal_database_db_node":                database.DBNodeDatasource(),
 		"baremetal_database_db_nodes":               database.DBNodesDatasource(),
-		"baremetal_database_db_systems":             database.DBSystemDatasource(),
 		"baremetal_database_db_system_shapes":       database.DBSystemShapeDatasource(),
+		"baremetal_database_db_systems":             database.DBSystemDatasource(),
 		"baremetal_database_db_versions":            database.DBVersionDatasource(),
 		"baremetal_database_supported_operations":   database.SupportedOperationDatasource(),
 		"baremetal_identity_api_keys":               identity.APIKeyDatasource(),
@@ -133,13 +120,13 @@ func dataSourcesMap() map[string]*schema.Resource {
 		"baremetal_identity_compartments":           identity.CompartmentDatasource(),
 		"baremetal_identity_groups":                 identity.GroupDatasource(),
 		"baremetal_identity_policies":               identity.PolicyDatasource(),
-		"baremetal_identity_users":                  identity.UserDatasource(),
-		"baremetal_identity_user_group_memberships": identity.UserGroupMembershipDatasource(),
 		"baremetal_identity_swift_passwords":        identity.SwiftPasswordDatasource(),
+		"baremetal_identity_user_group_memberships": identity.UserGroupMembershipDatasource(),
+		"baremetal_identity_users":                  identity.UserDatasource(),
 		"baremetal_objectstorage_bucket_summaries":  objectstorage.BucketSummaryDatasource(),
+		"baremetal_objectstorage_namespace":         objectstorage.NamespaceDatasource(),
 		"baremetal_objectstorage_object_head":       objectstorage.ObjectHeadDatasource(),
 		"baremetal_objectstorage_objects":           objectstorage.ObjectDatasource(),
-		"baremetal_objectstorage_namespace":         objectstorage.NamespaceDatasource(),
 	}
 }
 
@@ -148,8 +135,8 @@ func resourcesMap() map[string]*schema.Resource {
 		"baremetal_core_console_history":           core.ConsoleHistoryResource(),
 		"baremetal_core_cpe":                       core.CpeResource(),
 		"baremetal_core_dhcp_options":              core.DHCPOptionsResource(),
-		"baremetal_core_drg_attachment":            core.DrgAttachmentResource(),
 		"baremetal_core_drg":                       core.DrgResource(),
+		"baremetal_core_drg_attachment":            core.DrgAttachmentResource(),
 		"baremetal_core_image":                     core.ImageResource(),
 		"baremetal_core_instance":                  core.InstanceResource(),
 		"baremetal_core_internet_gateway":          core.InternetGatewayResource(),
@@ -158,18 +145,18 @@ func resourcesMap() map[string]*schema.Resource {
 		"baremetal_core_security_list":             core.SecurityListResource(),
 		"baremetal_core_subnet":                    core.SubnetResource(),
 		"baremetal_core_virtual_network":           core.VirtualNetworkResource(),
+		"baremetal_core_volume":                    core.VolumeResource(),
 		"baremetal_core_volume_attachment":         core.VolumeAttachmentResource(),
 		"baremetal_core_volume_backup":             core.VolumeBackupResource(),
-		"baremetal_core_volume":                    core.VolumeResource(),
 		"baremetal_database_db_system":             database.DBSystemResource(),
 		"baremetal_identity_api_key":               identity.APIKeyResource(),
 		"baremetal_identity_compartment":           identity.CompartmentResource(),
 		"baremetal_identity_group":                 identity.GroupResource(),
 		"baremetal_identity_policy":                identity.PolicyResource(),
+		"baremetal_identity_swift_password":        identity.SwiftPasswordResource(),
 		"baremetal_identity_ui_password":           identity.UIPasswordResource(),
 		"baremetal_identity_user":                  identity.UserResource(),
 		"baremetal_identity_user_group_membership": identity.UserGroupMembershipResource(),
-		"baremetal_identity_swift_password":        identity.SwiftPasswordResource(),
 		"baremetal_objectstorage_bucket":           objectstorage.BucketResource(),
 		"baremetal_objectstorage_object":           objectstorage.ObjectResource(),
 	}
@@ -182,8 +169,6 @@ func providerConfig(d *schema.ResourceData) (client interface{}, err error) {
 	privateKeyBuffer, hasKey := d.Get("private_key").(string)
 	privateKeyPath, hasKeyPath := d.Get("private_key_path").(string)
 	privateKeyPassword, hasKeyPass := d.Get("private_key_password").(string)
-	defaultTimeout := d.Get("timeout_minutes").(int)
-	os.Setenv("TF_VAR_timeout_minutes", strconv.Itoa(defaultTimeout))
 
 	clientOpts := []baremetal.NewClientOptionsFunc{
 		func(o *baremetal.NewClientOptions) {

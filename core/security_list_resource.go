@@ -47,10 +47,11 @@ var icmpSchema = &schema.Schema{
 
 func SecurityListResource() *schema.Resource {
 	return &schema.Resource{
-		Create: createSecurityList,
-		Read:   readSecurityList,
-		Update: updateSecurityList,
-		Delete: deleteSecurityList,
+		Timeouts: crud.DefaultTimeout,
+		Create:   createSecurityList,
+		Read:     readSecurityList,
+		Update:   updateSecurityList,
+		Delete:   deleteSecurityList,
 		Schema: map[string]*schema.Schema{
 			"compartment_id": {
 				Type:     schema.TypeString,
@@ -160,5 +161,5 @@ func deleteSecurityList(d *schema.ResourceData, m interface{}) (e error) {
 	crd := &SecurityListResourceCrud{}
 	crd.D = d
 	crd.Client = client
-	return crud.DeleteResource(crd)
+	return crud.DeleteResource(d, crd)
 }

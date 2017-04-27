@@ -11,10 +11,11 @@ import (
 
 func DHCPOptionsResource() *schema.Resource {
 	return &schema.Resource{
-		Create: createDHCPOptions,
-		Read:   readDHCPOptions,
-		Update: updateDHCPOptions,
-		Delete: deleteDHCPOptions,
+		Timeouts: crud.DefaultTimeout,
+		Create:   createDHCPOptions,
+		Read:     readDHCPOptions,
+		Update:   updateDHCPOptions,
+		Delete:   deleteDHCPOptions,
 		Schema: map[string]*schema.Schema{
 			"compartment_id": {
 				Type:     schema.TypeString,
@@ -46,7 +47,12 @@ func DHCPOptionsResource() *schema.Resource {
 						},
 						"server_type": {
 							Type:     schema.TypeString,
-							Required: true,
+							Optional: true,
+						},
+						"search_domain_names": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Elem:     &schema.Schema{Type: schema.TypeString},
 						},
 					},
 				},
@@ -97,5 +103,5 @@ func deleteDHCPOptions(d *schema.ResourceData, m interface{}) (e error) {
 	crd := &DHCPOptionsResourceCrud{}
 	crd.D = d
 	crd.Client = client
-	return crud.DeleteResource(crd)
+	return crud.DeleteResource(d, crd)
 }

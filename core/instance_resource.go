@@ -11,6 +11,11 @@ import (
 
 func InstanceResource() *schema.Resource {
 	return &schema.Resource{
+		Timeouts: &schema.ResourceTimeout{
+			Create: &crud.TwoHours,
+			Update: &crud.TwoHours,
+			Delete: &crud.TwoHours,
+		},
 		Create: createInstance,
 		Read:   readInstance,
 		Update: updateInstance,
@@ -102,5 +107,5 @@ func deleteInstance(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &InstanceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(client.BareMetalClient)
-	return crud.DeleteResource(sync)
+	return crud.DeleteResource(d, sync)
 }

@@ -11,6 +11,11 @@ import (
 
 func DBSystemResource() *schema.Resource {
 	return &schema.Resource{
+		Timeouts: &schema.ResourceTimeout{
+			Create: &crud.TwoHours,
+			Delete: &crud.TwoHours,
+			Update: &crud.TwoHours,
+		},
 		Create: createDBSystem,
 		Read:   readDBSystem,
 		Delete: deleteDBSystem,

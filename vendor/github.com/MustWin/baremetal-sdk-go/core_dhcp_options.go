@@ -8,9 +8,10 @@ import "net/http"
 //
 // See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/DhcpDnsOption/
 type DHCPDNSOption struct {
-	Type             string   `json:"type"`
-	CustomDNSServers []string `json:"customDnsServers,omitempty"`
-	ServerType       string   `json:"serverType"`
+	Type              string   `json:"type"`
+	CustomDNSServers  []string `json:"customDnsServers,omitempty"`
+	ServerType        string   `json:"serverType,omitempty"`
+	SearchDomainNames []string `json:"searchDomainNames,omitempty"`
 }
 
 // DHCPOptions contains a set of dhcp options

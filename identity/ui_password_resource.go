@@ -13,9 +13,10 @@ import (
 // Incrementing the value of version will cause a new UIPassword to be created.
 func UIPasswordResource() *schema.Resource {
 	return &schema.Resource{
-		Create: createUIPassword,
-		Read:   readUIPassword,
-		Delete: deleteUIPassword,
+		Timeouts: crud.DefaultTimeout,
+		Create:   createUIPassword,
+		Read:     readUIPassword,
+		Delete:   deleteUIPassword,
 		Schema: map[string]*schema.Schema{
 			"id": {
 				Type:     schema.TypeString,

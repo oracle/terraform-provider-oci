@@ -69,9 +69,10 @@ func (s *DHCPOptionsResourceCrud) SetData() {
 	entities := []map[string]interface{}{}
 	for _, val := range s.Res.Options {
 		entity := map[string]interface{}{
-			"type":               val.Type,
-			"custom_dns_servers": val.CustomDNSServers,
-			"server_type":        val.ServerType,
+			"type":                val.Type,
+			"custom_dns_servers":  val.CustomDNSServers,
+			"server_type":         val.ServerType,
+			"search_domain_names": val.SearchDomainNames,
 		}
 		entities = append(entities, entity)
 	}
@@ -94,11 +95,21 @@ func (s *DHCPOptionsResourceCrud) buildEntities() (entities []baremetal.DHCPDNSO
 		for _, val := range data["custom_dns_servers"].([]interface{}) {
 			servers = append(servers, val.(string))
 		}
-
+		if len(servers) == 0 {
+			servers = nil
+		}
+		searchDomains := []string{}
+		for _, val := range data["search_domain_names"].([]interface{}) {
+			searchDomains = append(searchDomains, val.(string))
+		}
+		if len(searchDomains) == 0 {
+			searchDomains = nil
+		}
 		entity := baremetal.DHCPDNSOption{
-			Type:             data["type"].(string),
-			CustomDNSServers: servers,
-			ServerType:       data["server_type"].(string),
+			Type:              data["type"].(string),
+			CustomDNSServers:  servers,
+			ServerType:        data["server_type"].(string),
+			SearchDomainNames: searchDomains,
 		}
 		entities = append(entities, entity)
 	}

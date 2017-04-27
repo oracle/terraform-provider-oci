@@ -11,9 +11,10 @@ import (
 
 func APIKeyResource() *schema.Resource {
 	return &schema.Resource{
-		Create: createAPIKey,
-		Read:   readAPIKey,
-		Delete: deleteAPIKey,
+		Timeouts: crud.DefaultTimeout,
+		Create:   createAPIKey,
+		Read:     readAPIKey,
+		Delete:   deleteAPIKey,
 		Schema: map[string]*schema.Schema{
 			"fingerprint": {
 				Type:     schema.TypeString,
@@ -70,5 +71,5 @@ func deleteAPIKey(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &APIKeyResourceCrud{}
 	sync.D = d
 	sync.Client = client
-	return crud.DeleteResource(sync)
+	return crud.DeleteResource(d, sync)
 }

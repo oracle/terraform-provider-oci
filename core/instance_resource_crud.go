@@ -3,8 +3,6 @@
 package core
 
 import (
-	"time"
-
 	"github.com/MustWin/baremetal-sdk-go"
 
 	"github.com/oracle/terraform-provider-baremetal/crud"
@@ -17,10 +15,6 @@ type InstanceResourceCrud struct {
 
 func (s *InstanceResourceCrud) ID() string {
 	return s.Resource.ID
-}
-
-func (s *InstanceResourceCrud) CustomTimeout() time.Duration {
-	return 15 * time.Minute
 }
 
 func (s *InstanceResourceCrud) CreatedPending() []string {

@@ -14,10 +14,6 @@ variable "AD" {
     default = "1"
 }
 
-variable "timeout_minutes" {
-    default = 5
-}
-
 variable "InstanceShape" {
     default = "VM.Standard1.2"
 }
