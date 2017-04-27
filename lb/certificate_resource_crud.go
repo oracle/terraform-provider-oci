@@ -34,19 +34,31 @@ func (s *LoadBalancerCertificateResourceCrud) RefreshWorkRequest() (*baremetal.W
 func (s *LoadBalancerCertificateResourceCrud) CreatedPending() []string {
 	return []string{
 		baremetal.ResourceWaitingForWorkRequest,
+		baremetal.WorkRequestInProgress,
+		baremetal.WorkRequestAccepted,
 	}
 }
 
 func (s *LoadBalancerCertificateResourceCrud) CreatedTarget() []string {
-	return []string{baremetal.ResourceSucceededWorkRequest}
+	return []string{
+		baremetal.ResourceSucceededWorkRequest,
+		baremetal.WorkRequestSucceeded,
+	}
 }
 
 func (s *LoadBalancerCertificateResourceCrud) DeletedPending() []string {
-	return []string{baremetal.ResourceWaitingForWorkRequest}
+	return []string{
+		baremetal.ResourceWaitingForWorkRequest,
+		baremetal.WorkRequestInProgress,
+		baremetal.WorkRequestAccepted,
+	}
 }
 
 func (s *LoadBalancerCertificateResourceCrud) DeletedTarget() []string {
-	return []string{baremetal.ResourceSucceededWorkRequest}
+	return []string{
+		baremetal.ResourceSucceededWorkRequest,
+		baremetal.WorkRequestSucceeded,
+	}
 }
 
 func (s *LoadBalancerCertificateResourceCrud) Create() (e error) {

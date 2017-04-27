@@ -46,6 +46,11 @@ func LoadBalancerCertificateResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
+			// internal for work request access
+			"state": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 		},
 	}
 }
