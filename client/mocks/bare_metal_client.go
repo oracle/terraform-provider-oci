@@ -1499,6 +1499,29 @@ func (_m *BareMetalClient) GetVnic(id string) (*baremetal.Vnic, error) {
 	return r0, r1
 }
 
+// GetWindowsInstanceInitialCredentials provides a mock function with given fields: id
+func (_m *BareMetalClient) GetWindowsInstanceInitialCredentials(id string) (*baremetal.InstanceCredentials, error) {
+	ret := _m.Called(id)
+
+	var r0 *baremetal.InstanceCredentials
+	if rf, ok := ret.Get(0).(func(string) *baremetal.InstanceCredentials); ok {
+		r0 = rf(id)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*baremetal.InstanceCredentials)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(string) error); ok {
+		r1 = rf(id)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // GetVolume provides a mock function with given fields: id
 func (_m *BareMetalClient) GetVolume(id string) (*baremetal.Volume, error) {
 	ret := _m.Called(id)
