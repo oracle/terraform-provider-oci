@@ -82,7 +82,9 @@ func (s *ResourceIdentityPoliciesTestSuite) TestListResourceIdentityPolicies() {
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.PoliciesName, "policies.0.id", s.Policies.Policies[0].ID),
 					resource.TestCheckResourceAttr(s.PoliciesName, "policies.0.statements.1", s.Policies.Policies[0].Statements[1]),

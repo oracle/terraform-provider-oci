@@ -68,7 +68,9 @@ func (s *ResourceIdentityUIPasswordTestSuite) TestCreateUIPassword() {
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "user_id", "user_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "password", "password"),
@@ -100,7 +102,9 @@ func (s ResourceIdentityUIPasswordTestSuite) TestUpdateVersionForcesNewUIPasswor
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 			},
 			{
 				Config: config,

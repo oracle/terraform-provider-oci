@@ -80,7 +80,9 @@ func (s *ResourceIdentitySwiftPasswordTestSuite) TestCreateSwiftPassword() {
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "user_id", "user_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "password", "password"),
@@ -116,7 +118,9 @@ func (s ResourceIdentitySwiftPasswordTestSuite) TestUpdateDescriptionUpdatesSwif
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "password", "password"),
 				),

@@ -94,7 +94,9 @@ func (s *ResourceCoreRouteTablesTestSuite) TestResourceListRouteTables() {
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartment_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "vcn_id", "vcn_id"),
@@ -203,7 +205,9 @@ func (s *ResourceCoreRouteTablesTestSuite) TestResourceListRouteTablesPaged() {
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartment_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "vcn_id", "vcn_id"),

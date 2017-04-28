@@ -80,7 +80,9 @@ func (s *DBSystemDatasourceTestSuite) TestReadDBSystems() {
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartmentid"),
 					resource.TestCheckResourceAttr(s.ResourceName, "limit", "1"),

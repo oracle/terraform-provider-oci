@@ -13,6 +13,9 @@ import (
 // Incrementing the value of version will cause a new UIPassword to be created.
 func UIPasswordResource() *schema.Resource {
 	return &schema.Resource{
+		Importer: &schema.ResourceImporter{
+			State: schema.ImportStatePassthrough,
+		},
 		Timeouts: crud.DefaultTimeout,
 		Create:   createUIPassword,
 		Read:     readUIPassword,

@@ -114,7 +114,9 @@ func (s *ResourceIdentityPolicyTestSuite) TestCreateResourceIdentityPolicy() {
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.PolicyName, "name", s.Policy.Name),
 					resource.TestCheckResourceAttr(s.PolicyName, "description", s.Policy.Description),
@@ -160,7 +162,9 @@ func (s *ResourceIdentityPolicyTestSuite) TestUpdateResourceIdentityPolicy() {
 			Providers: s.Providers,
 			Steps: []resource.TestStep{
 				{
-					Config: s.Config,
+					ImportState:       true,
+					ImportStateVerify: true,
+					Config:            s.Config,
 				},
 				{
 					Config: config,
@@ -208,7 +212,9 @@ func (s *ResourceIdentityPolicyTestSuite) TestFailedUpdateResourceIdentityPolicy
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 			},
 			{
 				Config:      config,
@@ -260,7 +266,9 @@ func (s *ResourceIdentityPolicyTestSuite) TestUpdateResourceIdentityPolicyNameSh
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 			},
 			{
 				Config: config,
@@ -278,7 +286,9 @@ func (s *ResourceIdentityPolicyTestSuite) TestDeleteResourceIdentityPolicy() {
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 			},
 			{
 				Config:  s.Config,
@@ -300,7 +310,9 @@ func (s *ResourceIdentityPolicyTestSuite) TestDeleteFailureResourceIdentityPolic
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 			},
 			{
 				Config:      s.Config,

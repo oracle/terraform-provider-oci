@@ -75,6 +75,13 @@ func handleMissingResourceError(sync ResourceVoider, err *error) {
 
 func CreateResource(d *schema.ResourceData, sync ResourceCreator) (e error) {
 	if e = sync.Create(); e != nil {
+		// Check for conflicts and retry
+		// This happens with concurrent volume attachments, etc
+		if strings.Contains(strings.ToLower(e.Error()), "try again later") {
+			log.Println("[DEBUG] Resource creation conflicts with other resources. Waiting 10 seconds and trying again...")
+			time.Sleep(10 * time.Second)
+			e = CreateResource(d, sync)
+		}
 		return e
 	}
 
@@ -159,9 +166,6 @@ func stateRefreshFunc(sync StatefulResource) resource.StateRefreshFunc {
 //
 // sync.D.Id must be set.
 // It does not set state from that refreshed state.
-// used by:
-// - CreateResource()
-// - DeleteResource()
 func waitForStateRefresh(sync StatefulResource, timeout time.Duration, pending, target []string) (e error) {
 	// TODO: try to move this onto sync
 	stateConf := &resource.StateChangeConf{
@@ -177,4 +181,12 @@ func waitForStateRefresh(sync StatefulResource, timeout time.Duration, pending, 
 	}
 
 	return
+}
+
+func FilterMissingResourceError(sync ResourceVoider, err *error) {
+	if err != nil && strings.Contains((*err).Error(), "does not exist") {
+		log.Println("[DEBUG] Object does not exist, voiding resource and nullifying error")
+		sync.VoidState()
+		*err = nil
+	}
 }

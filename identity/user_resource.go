@@ -12,6 +12,9 @@ import (
 // ResourceIdentityUser exposes a IdentityUser Resource
 func UserResource() *schema.Resource {
 	return &schema.Resource{
+		Importer: &schema.ResourceImporter{
+			State: schema.ImportStatePassthrough,
+		},
 		Timeouts: crud.DefaultTimeout,
 		Create:   createUser,
 		Read:     readUser,

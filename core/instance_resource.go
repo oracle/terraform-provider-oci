@@ -11,6 +11,9 @@ import (
 
 func InstanceResource() *schema.Resource {
 	return &schema.Resource{
+		Importer: &schema.ResourceImporter{
+			State: schema.ImportStatePassthrough,
+		},
 		Timeouts: &schema.ResourceTimeout{
 			Create: &crud.TwoHours,
 			Update: &crud.TwoHours,

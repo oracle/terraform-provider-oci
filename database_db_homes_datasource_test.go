@@ -73,7 +73,9 @@ func (s *DatabaseDBHomesTestSuite) TestReadDBHomes() {
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartment_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "db_system_id", "db_system_id"),

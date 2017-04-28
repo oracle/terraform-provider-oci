@@ -12,6 +12,9 @@ import (
 
 func VolumeAttachmentResource() *schema.Resource {
 	return &schema.Resource{
+		Importer: &schema.ResourceImporter{
+			State: schema.ImportStatePassthrough,
+		},
 		Timeouts: crud.DefaultTimeout,
 		Create:   createVolumeAttachment,
 		Read:     readVolumeAttachment,
