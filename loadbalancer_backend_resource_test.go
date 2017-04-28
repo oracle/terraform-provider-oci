@@ -87,21 +87,11 @@ resource "baremetal_load_balancer_backend" "t" {
 		opts,
 	).Return(workReqID, nil)
 
-	// workReqPending := &baremetal.WorkRequest{
-	// 	ID:             workReqID,
-	// 	LoadBalancerID: loadBalancerID,
-	// 	State:          baremetal.WorkRequestInProgress,
-	// }
 	workReqCreated := &baremetal.WorkRequest{
 		ID:             workReqID,
 		LoadBalancerID: loadBalancerID,
 		State:          baremetal.WorkRequestSucceeded,
 	}
-	// s.Client.On(
-	// 	"GetWorkRequest",
-	// 	workReqID,
-	// 	(*baremetal.ClientRequestOptions)(nil),
-	// ).Return(workReqPending, nil)
 
 	s.Client.On(
 		"GetWorkRequest",
@@ -109,11 +99,6 @@ resource "baremetal_load_balancer_backend" "t" {
 		(*baremetal.ClientRequestOptions)(nil),
 	).Return(workReqCreated, nil)
 
-	// lb := baremetal.LoadBalancer{
-	// 	Backends: map[string]baremetal.Backend{
-	// 		res.Name: *res,
-	// 	},
-	// }
 	s.Client.On(
 		"GetBackend",
 		loadBalancerID,
@@ -129,12 +114,6 @@ resource "baremetal_load_balancer_backend" "t" {
 		res.Name,
 		(*baremetal.ClientRequestOptions)(nil),
 	).Return(workReqID, nil)
-
-	// s.Client.On(
-	// 	"GetWorkRequest",
-	// 	workReqID,
-	// 	(*baremetal.ClientRequestOptions)(nil),
-	// ).Return(workReqPending, nil)
 
 	s.Client.On(
 		"GetWorkRequest",
@@ -154,9 +133,9 @@ resource "baremetal_load_balancer_backend" "t" {
 
 					resource.TestCheckResourceAttr(resourceName, "ip_address", res.IPAddress),
 
-					// resource.TestCheckResourceAttr(resourceName, "backup", strconv.FormatBool(opts.Backup)),
-					// resource.TestCheckResourceAttr(resourceName, "drain", strconv.FormatBool(opts.Drain)),
-					// resource.TestCheckResourceAttr(resourceName, "offline", strconv.FormatBool(opts.Offline)),
+					resource.TestCheckResourceAttr(resourceName, "backup", strconv.FormatBool(opts.Backup)),
+					resource.TestCheckResourceAttr(resourceName, "drain", strconv.FormatBool(opts.Drain)),
+					resource.TestCheckResourceAttr(resourceName, "offline", strconv.FormatBool(opts.Offline)),
 					resource.TestCheckResourceAttr(resourceName, "weight", strconv.Itoa(opts.Weight)),
 				),
 			},

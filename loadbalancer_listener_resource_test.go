@@ -86,21 +86,11 @@ resource "baremetal_load_balancer_listener" "t" {
 		(*baremetal.LoadBalancerOptions)(nil),
 	).Return(workReqID, nil)
 
-	// workReqPending := &baremetal.WorkRequest{
-	// 	ID:             workReqID,
-	// 	LoadBalancerID: loadBalancerID,
-	// 	State:          baremetal.WorkRequestInProgress,
-	// }
 	workReqCreated := &baremetal.WorkRequest{
 		ID:             workReqID,
 		LoadBalancerID: loadBalancerID,
 		State:          baremetal.WorkRequestSucceeded,
 	}
-	// s.Client.On(
-	// 	"GetWorkRequest",
-	// 	workReqID,
-	// 	(*baremetal.ClientRequestOptions)(nil),
-	// ).Return(workReqPending, nil)
 
 	s.Client.On(
 		"GetWorkRequest",
@@ -125,12 +115,6 @@ resource "baremetal_load_balancer_listener" "t" {
 		res.Name,
 		(*baremetal.ClientRequestOptions)(nil),
 	).Return(workReqID, nil)
-
-	// s.Client.On(
-	// 	"GetWorkRequest",
-	// 	workReqID,
-	// 	(*baremetal.ClientRequestOptions)(nil),
-	// ).Return(workReqPending, nil)
 
 	s.Client.On(
 		"GetWorkRequest",

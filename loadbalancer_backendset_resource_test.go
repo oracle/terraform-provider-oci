@@ -50,8 +50,6 @@ resource "baremetal_load_balancer_backendset" "t" {
     port                = 1234
     protocol            = "stub_protocol"
     response_body_regex = "stub_regex"
-    # retries = 3
-    # return_code = 200
   }
 
   ssl_configuration {
@@ -100,21 +98,11 @@ resource "baremetal_load_balancer_backendset" "t" {
 		(*baremetal.LoadBalancerOptions)(nil),
 	).Return(workReqID, nil)
 
-	// workReqPending := &baremetal.WorkRequest{
-	// 	ID:             workReqID,
-	// 	LoadBalancerID: loadBalancerID,
-	// 	State:          baremetal.WorkRequestInProgress,
-	// }
 	workReqCreated := &baremetal.WorkRequest{
 		ID:             workReqID,
 		LoadBalancerID: loadBalancerID,
 		State:          baremetal.WorkRequestSucceeded,
 	}
-	// s.Client.On(
-	// 	"GetWorkRequest",
-	// 	workReqID,
-	// 	(*baremetal.ClientRequestOptions)(nil),
-	// ).Return(workReqPending, nil)
 
 	s.Client.On(
 		"GetWorkRequest",
@@ -122,11 +110,6 @@ resource "baremetal_load_balancer_backendset" "t" {
 		(*baremetal.ClientRequestOptions)(nil),
 	).Return(workReqCreated, nil)
 
-	// lb := baremetal.LoadBalancer{
-	// 	BackendSets: map[string]baremetal.BackendSet{
-	// 		res.Name: *res,
-	// 	},
-	// }
 	s.Client.On(
 		"GetBackendSet",
 		loadBalancerID,
@@ -140,12 +123,6 @@ resource "baremetal_load_balancer_backendset" "t" {
 		res.Name,
 		(*baremetal.ClientRequestOptions)(nil),
 	).Return(workReqID, nil)
-
-	// s.Client.On(
-	// 	"GetWorkRequest",
-	// 	workReqID,
-	// 	(*baremetal.ClientRequestOptions)(nil),
-	// ).Return(workReqPending, nil)
 
 	s.Client.On(
 		"GetWorkRequest",

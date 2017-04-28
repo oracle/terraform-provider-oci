@@ -86,11 +86,6 @@ resource "baremetal_load_balancer" "t" {
 	opts.DisplayName = s.Res.DisplayName
 
 	workReqID := "ocid1.loadbalancerworkrequest.stub_id"
-	// wrPend := &baremetal.WorkRequest{
-	// 	ID:             workReqID,
-	// 	LoadBalancerID: loadBalancerID,
-	// 	State:          baremetal.WorkRequestInProgress,
-	// }
 	wrSucc := &baremetal.WorkRequest{
 		ID:             workReqID,
 		LoadBalancerID: loadBalancerID,
@@ -106,13 +101,8 @@ resource "baremetal_load_balancer" "t" {
 		s.Res.Shape,
 		s.Res.SubnetIDs,
 		opts).Return(workReqID, nil)
-	// TODO: get pending working
-	// s.Client.On("GetWorkRequest", workReqID, (*baremetal.ClientRequestOptions)(nil)).Return(wrPend, nil).Twice()
 	s.Client.On("GetWorkRequest", workReqID, (*baremetal.ClientRequestOptions)(nil)).Return(wrSucc, nil).Twice()
-	// s.Client.On("DeleteLoadBalancer", s.Res.ID, (*baremetal.ClientRequestOptions)(nil)).Return(nil)
 	s.Client.On("DeleteLoadBalancer", s.Res.ID, (*baremetal.ClientRequestOptions)(nil)).Return(workReqID, nil)
-	// TODO: get pending working
-	// s.Client.On("GetWorkRequest", workReqID, (*baremetal.ClientRequestOptions)(nil)).Return(wrPend, nil).Twice()
 	s.Client.On("GetWorkRequest", workReqID, (*baremetal.ClientRequestOptions)(nil)).Return(wrSucc, nil).Twice()
 	s.Client.On("GetLoadBalancer", loadBalancerID, (*baremetal.ClientRequestOptions)(nil)).Return(s.Res, nil).Twice()
 	s.Client.On("GetLoadBalancer", loadBalancerID, (*baremetal.ClientRequestOptions)(nil)).Return(s.DeletedRes, nil)
@@ -183,23 +173,14 @@ resource "baremetal_load_balancer" "t" {
 		res.SubnetIDs,
 		opts).Return(workReqID, nil)
 
-	// wrPend := &baremetal.WorkRequest{
-	// 	ID:             workReqID,
-	// 	LoadBalancerID: loadBalancerID,
-	// 	State:          baremetal.WorkRequestInProgress,
-	// }
 	wrSucc := &baremetal.WorkRequest{
 		ID:             workReqID,
 		LoadBalancerID: loadBalancerID,
 		State:          baremetal.WorkRequestSucceeded,
 	}
-	// TODO: get pending working
-	// s.Client.On("GetWorkRequest", workReqID, (*baremetal.ClientRequestOptions)(nil)).Return(wrPend, nil).Twice()
 	s.Client.On("GetWorkRequest", workReqID, (*baremetal.ClientRequestOptions)(nil)).Return(wrSucc, nil).Twice()
 
 	s.Client.On("DeleteLoadBalancer", res.ID, (*baremetal.ClientRequestOptions)(nil)).Return(workReqID, nil)
-	// TODO: get pending working
-	// s.Client.On("GetWorkRequest", workReqID, (*baremetal.ClientRequestOptions)(nil)).Return(wrPend, nil).Twice()
 	s.Client.On("GetWorkRequest", workReqID, (*baremetal.ClientRequestOptions)(nil)).Return(wrSucc, nil).Twice()
 	s.Client.On("GetLoadBalancer", loadBalancerID, (*baremetal.ClientRequestOptions)(nil)).Return(res, nil).Twice()
 	s.Client.On("GetLoadBalancer", loadBalancerID, (*baremetal.ClientRequestOptions)(nil)).Return(s.DeletedRes, nil)
@@ -223,26 +204,6 @@ resource "baremetal_load_balancer" "t" {
 		},
 	})
 }
-
-// func (s *ResourceLoadBalancerTestSuite) TestDeleteLoadBalancer() {
-// 	s.Client.On("GetLoadBalancer", "id", (*baremetal.ClientRequestOptions)(nil)).Return(s.Res, nil).Times(2)
-// 	s.Client.On("GetLoadBalancer", "id", (*baremetal.ClientRequestOptions)(nil)).Return(s.DeletedRes, nil)
-
-// 	resource.UnitTest(s.T(), resource.TestCase{
-// 		Providers: s.Providers,
-// 		Steps: []resource.TestStep{
-// 			{
-// 				Config: s.Config,
-// 			},
-// 			{
-// 				Config:  s.Config,
-// 				Destroy: true,
-// 			},
-// 		},
-// 	})
-
-// 	s.Client.AssertCalled(s.T(), "DeleteLoadBalancer", "id", (*baremetal.IfMatchOptions)(nil))
-// }
 
 func TestResourceLoadBalancerTestSuite(t *testing.T) {
 	suite.Run(t, new(ResourceLoadBalancerTestSuite))
