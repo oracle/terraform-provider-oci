@@ -166,9 +166,6 @@ func stateRefreshFunc(sync StatefulResource) resource.StateRefreshFunc {
 //
 // sync.D.Id must be set.
 // It does not set state from that refreshed state.
-// used by:
-// - CreateResource()
-// - DeleteResource()
 func waitForStateRefresh(sync StatefulResource, timeout time.Duration, pending, target []string) (e error) {
 	// TODO: try to move this onto sync
 	stateConf := &resource.StateChangeConf{
@@ -184,4 +181,12 @@ func waitForStateRefresh(sync StatefulResource, timeout time.Duration, pending, 
 	}
 
 	return
+}
+
+func FilterMissingResourceError(sync ResourceVoider, err *error) {
+	if err != nil && strings.Contains((*err).Error(), "does not exist") {
+		log.Println("[DEBUG] Object does not exist, voiding resource and nullifying error")
+		sync.VoidState()
+		*err = nil
+	}
 }

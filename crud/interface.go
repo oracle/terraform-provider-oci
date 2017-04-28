@@ -8,6 +8,8 @@ import (
 	"github.com/MustWin/baremetal-sdk-go"
 )
 
+// Common interfaces
+
 // Gets the current BareMetal Resource
 type ResourceFetcher interface {
 	// Get should update the s.Resource, and is used by crud.ReadResource() to populate s.D
@@ -15,22 +17,31 @@ type ResourceFetcher interface {
 	Get() error
 }
 
-// ResourceDataWriter populates ResourceData based on current BareMetal Resource
+// ResourceVoider may set its ResourceData state to empty.
+type ResourceVoider interface {
+	// VoidState sets ResourceData ID to "". To be called when
+	// the resource is gone.
+	VoidState()
+}
+
+// ResourceDataWriter populates ResourceData state from the current
+// BareMetal resource
 type ResourceDataWriter interface {
 	ResourceVoider
+	// SetData populates ResourceData state from current
+	// BareMetal resource
 	SetData()
 }
 
-// ResourceCreator creates a BareMetal resource based on ResourceData
+// CRUD standard interfaces
+
+// ResourceCreator may create a BareMetal resource and populate into
+// ResourceData state by using CreateResource()
 type ResourceCreator interface {
 	ResourceDataWriter
 	// ID identifies the resource, or a work request to create the resource.
 	ID() string
 	Create() error
-}
-
-type ResourceVoider interface {
-	VoidState() // Call this when the resource is gone
 }
 
 // ResourceReader get BareMetal Resource and updated ResourceData
