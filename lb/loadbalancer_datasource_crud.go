@@ -3,6 +3,7 @@
 package lb
 
 import (
+	"log"
 	"time"
 
 	"github.com/MustWin/baremetal-sdk-go"
@@ -22,25 +23,32 @@ func (s *LoadBalancerDatasourceCrud) Get() (e error) {
 }
 
 func (s *LoadBalancerDatasourceCrud) SetData() {
-	if s.Res != nil {
-		s.D.SetId(time.Now().UTC().String())
-		resources := []map[string]interface{}{}
+	if s.Res == nil {
+		panic("LoadBalancer Resource is nil, cannot SetData")
+	}
+	s.D.SetId(time.Now().UTC().String())
 
-		for _, v := range s.Res.LoadBalancers {
-			res := map[string]interface{}{
-				"id":             v.ID,
-				"compartment_id": v.CompartmentID,
-				"display_name":   v.DisplayName,
-				"ip_addresses":   v.IPAddresses,
-				"shape":          v.Shape,
-				"state":          v.State,
-				"subnet_ids":     v.SubnetIDs,
-				"time_created":   v.TimeCreated,
-			}
-			resources = append(resources, res)
-
+	resources := make([]map[string]interface{}, len(s.Res.LoadBalancers))
+	for i, v := range s.Res.LoadBalancers {
+		ip_addresses := make([]string, len(v.IPAddresses))
+		for i, ad := range v.IPAddresses {
+			ip_addresses[i] = ad.IPAddress
 		}
-		s.D.Set("load_balancers", resources)
+		resources[i] = map[string]interface{}{
+			"id":             v.ID,
+			"compartment_id": v.CompartmentID,
+			"display_name":   v.DisplayName,
+			"ip_addresses":   ip_addresses,
+			"shape":          v.Shape,
+			"state":          v.State,
+			"subnet_ids":     v.SubnetIDs,
+			"time_created":   v.TimeCreated.String(),
+		}
+
+	}
+	err := s.D.Set("load_balancers", resources)
+	if err != nil {
+		log.Printf("[ERROR] Failed to set load_balancers: %v", err)
 	}
 	return
 }
