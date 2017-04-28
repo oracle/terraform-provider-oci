@@ -75,6 +75,13 @@ func handleMissingResourceError(sync ResourceVoider, err *error) {
 
 func CreateResource(d *schema.ResourceData, sync ResourceCreator) (e error) {
 	if e = sync.Create(); e != nil {
+		// Check for conflicts and retry
+		// This happens with concurrent volume attachments, etc
+		if strings.Contains(strings.ToLower(e.Error()), "try again later") {
+			log.Println("[DEBUG] Resource creation conflicts with other resources. Waiting 10 seconds and trying again...")
+			time.Sleep(10 * time.Second)
+			e = CreateResource(d, sync)
+		}
 		return e
 	}
 
