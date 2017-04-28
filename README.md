@@ -10,21 +10,17 @@ Oracle customers now have access to an enterprise class, developer friendly orch
 This Terraform provider is OSS, available to all OBMCS customers at no charge.
 
 ## Compatibility
-The provider is compatible with Terraform .8.\*, **.8.8 is recommended.** .9.\* compatibility is in the works.
+The provider is compatible with Terraform .9.\*.
 
 ### Coverage
-The Terraform provider provides coverage for the entire BMC API excluding the Load Balancer Service, expected first half of April 2017.
+The Terraform provider provides coverage for the entire BMC API, with some minor exceptions.
 
 ## Getting started
 Be sure to read the FAQ and Writing Terraform configurations for OBMCS in [/docs](https://github.com/oracle/terraform-provider-baremetal/tree/master/docs).
 
 ### Download Terraform
-Find the appropriate **.8.8 binary** for your platform, download it.
-* [OSX, macOS (x64)](https://releases.hashicorp.com/terraform/0.8.8/terraform_0.8.8_darwin_amd64.zip)
-* [Linux (x64)](https://releases.hashicorp.com/terraform/0.8.8/terraform_0.8.8_linux_amd64.zip)
-* [Windows (x64)](https://releases.hashicorp.com/terraform/0.8.8/terraform_0.8.8_windows_amd64.zip)
-
-[Other platforms](https://releases.hashicorp.com/terraform/0.8.8/)
+Download the appropriate **.9.x binary** for your platform.  
+https://www.terraform.io/downloads.html
 
 ### Install Terraform
 https://www.terraform.io/intro/getting-started/install.html
@@ -63,7 +59,11 @@ export TF_VAR_user_ocid=
 export TF_VAR_fingerprint=
 export TF_VAR_private_key_path=<fully qualified path>`
 ```
-Don't forget to `source ~/.bash_profile` once you've set these.
+
+Once you've set these values open a new terminal or source your profile changes
+```
+$ source ~/.bash_profile
+```
 
 #### Windows
 ```
@@ -95,11 +95,9 @@ https://github.com/oracle/terraform-provider-baremetal/issues
 or meet us in the OBMCS forums
 https://community.oracle.com/community/cloud_computing/bare-metal
 
-## Known serious bugs
+## Known issues
 
-[Issue #44, potential for data loss. Running apply in an enviroment where a subnet has multiple attached Security Lists can cause all of the instances in the subnet to be terminated and re-created.](https://github.com/oracle/terraform-provider-baremetal/issues/44)
-
-[Other issues](https://github.com/oracle/terraform-provider-baremetal/issues)
+[Github issues](https://github.com/oracle/terraform-provider-baremetal/issues)
 
 ## About the provider
 This provider was written on behalf of Oracle by [MustWin.](http://mustwin.com/)
