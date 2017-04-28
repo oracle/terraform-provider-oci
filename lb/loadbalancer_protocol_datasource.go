@@ -20,10 +20,12 @@ func ProtocolDatasource() *schema.Resource {
 			"protocols": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem: map[string]*schema.Schema{
-					"name": {
-						Type:     schema.TypeString,
-						Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 					},
 				},
 			},
@@ -33,7 +35,7 @@ func ProtocolDatasource() *schema.Resource {
 
 func readProtocols(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &LoadBalancerDatasourceCrud{}
+	sync := &ProtocolDatasourceCrud{}
 	sync.D = d
 	sync.Client = client
 	return crud.ReadResource(sync)
