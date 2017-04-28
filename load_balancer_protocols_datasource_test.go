@@ -31,12 +31,8 @@ data "baremetal_load_balancer_protocols" "t" {
 	compartmentID := "ocid1.compartment.stub_id"
 	list := &baremetal.ListLoadBalancerProtocols{
 		LoadBalancerProtocols: []baremetal.LoadBalancerProtocol{
-			baremetal.LoadBalancerProtocol{
-				Name: "stub_name1",
-			},
-			baremetal.LoadBalancerProtocol{
-				Name: "stub_name2",
-			},
+			{Name: "stub_name1"},
+			{Name: "stub_name2"},
 		},
 	}
 	client.On(

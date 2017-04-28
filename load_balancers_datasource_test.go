@@ -34,7 +34,7 @@ data "baremetal_load_balancers" "t" {
 	lb1 := baremetal.LoadBalancer{
 		CompartmentID: compartmentID,
 		ID:            "ocid1.loadbalancer.stub_id1",
-		IPAddresses:   []baremetal.IPAddress{baremetal.IPAddress{IPAddress: "1.2.3.4"}},
+		IPAddresses:   []baremetal.IPAddress{{IPAddress: "1.2.3.4"}},
 		Shape:         "stub_shape",
 		State:         baremetal.ResourceActive,
 		TimeCreated:   baremetal.Time{Time: time.Now()}, // FIXME: use baremetal.Time
