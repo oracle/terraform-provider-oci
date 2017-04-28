@@ -92,7 +92,9 @@ func (s *ResourceObjectstorageBucketTestSuite) TestCreateResourceObjectstorageBu
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", s.Res.CompartmentID),
 					resource.TestCheckResourceAttr(s.ResourceName, "name", s.Res.Name),
@@ -144,7 +146,9 @@ func (s *ResourceObjectstorageBucketTestSuite) TestUpdateResourceObjectstorageBu
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 			},
 			{
 				Config: config,
@@ -163,7 +167,9 @@ func (s *ResourceObjectstorageBucketTestSuite) TestDeleteResourceObjectstorageBu
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 			},
 			{
 				Config:  s.Config,

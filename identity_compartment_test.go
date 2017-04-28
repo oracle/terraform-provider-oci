@@ -72,7 +72,9 @@ func (s *ResourceIdentityCompartmentTestSuite) TestCreateResourceIdentityCompart
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "name", s.Res.Name),
 					resource.TestCheckResourceAttr(s.ResourceName, "description", s.Res.Description),
@@ -97,8 +99,10 @@ func (s *ResourceIdentityCompartmentTestSuite) TestCreateResourceIdentityCompart
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
-				Check:  resource.TestCheckResourceAttr(s.ResourceName, "state", baremetal.ResourceActive),
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
+				Check:             resource.TestCheckResourceAttr(s.ResourceName, "state", baremetal.ResourceActive),
 			},
 		},
 	})
@@ -126,7 +130,9 @@ func (s *ResourceIdentityCompartmentTestSuite) TestUpdateResourceIdentityCompart
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 			},
 			{
 				Config: c,
@@ -161,7 +167,9 @@ func (s *ResourceIdentityCompartmentTestSuite) TestFailedUpdateResourceIdentityC
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 			},
 			{
 				Config:      c,

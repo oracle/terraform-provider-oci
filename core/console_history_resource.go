@@ -13,6 +13,9 @@ import (
 
 func ConsoleHistoryResource() *schema.Resource {
 	return &schema.Resource{
+		Importer: &schema.ResourceImporter{
+			State: schema.ImportStatePassthrough,
+		},
 		Timeouts: crud.DefaultTimeout,
 		Create:   createConsoleHistory,
 		Read:     readConsoleHistory,

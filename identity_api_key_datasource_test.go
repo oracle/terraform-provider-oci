@@ -68,7 +68,9 @@ func (s *ResourceIdentityAPIKeysTestSuite) TestReadAPIKeys() {
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "user_id", "user_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "api_keys.0.id", "id1"),

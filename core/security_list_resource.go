@@ -47,6 +47,9 @@ var icmpSchema = &schema.Schema{
 
 func SecurityListResource() *schema.Resource {
 	return &schema.Resource{
+		Importer: &schema.ResourceImporter{
+			State: schema.ImportStatePassthrough,
+		},
 		Timeouts: crud.DefaultTimeout,
 		Create:   createSecurityList,
 		Read:     readSecurityList,

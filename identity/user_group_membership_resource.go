@@ -11,6 +11,9 @@ import (
 
 func UserGroupMembershipResource() *schema.Resource {
 	return &schema.Resource{
+		Importer: &schema.ResourceImporter{
+			State: schema.ImportStatePassthrough,
+		},
 		Timeouts: crud.DefaultTimeout,
 		Create:   createUserGroupMembership,
 		Read:     readUserGroupMembership,

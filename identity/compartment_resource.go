@@ -14,6 +14,9 @@ import (
 // ResourceIdentityCompartment exposes an IdentityCompartment Resource
 func CompartmentResource() *schema.Resource {
 	return &schema.Resource{
+		Importer: &schema.ResourceImporter{
+			State: schema.ImportStatePassthrough,
+		},
 		Timeouts: crud.DefaultTimeout,
 		Create:   createCompartment,
 		Read:     readCompartment,

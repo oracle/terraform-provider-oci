@@ -103,7 +103,9 @@ func (s *ResourceCoreSubnetsTestSuite) TestResourceListSubnets() {
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartmentid"),
 					resource.TestCheckResourceAttr(s.ResourceName, "vcn_id", "vcnid"),
@@ -231,7 +233,9 @@ func (s *ResourceCoreSubnetsTestSuite) TestResourceListSubnetsWithPagination() {
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartmentid"),
 					resource.TestCheckResourceAttr(s.ResourceName, "vcn_id", "vcnid"),

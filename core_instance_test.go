@@ -106,7 +106,9 @@ func (s *ResourceCoreInstanceTestSuite) TestCreateResourceCoreInstance() {
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "availability_domain", s.Res.AvailabilityDomain),
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", s.Res.CompartmentID),
@@ -155,7 +157,9 @@ func (s *ResourceCoreInstanceTestSuite) TestCreateResourceCoreInstanceWithoutDis
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", s.Res.DisplayName),
 				),
@@ -209,7 +213,9 @@ func (s ResourceCoreInstanceTestSuite) TestUpdateInstanceDisplayName() {
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 			},
 			{
 				Config: config,
@@ -278,7 +284,9 @@ func (s ResourceCoreInstanceTestSuite) TestUpdateAvailabilityDomainForcesNewInst
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 			},
 			{
 				Config: config,
@@ -298,7 +306,9 @@ func (s *ResourceCoreInstanceTestSuite) TestTerminateInstance() {
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 			},
 			{
 				Config:  s.Config,

@@ -81,7 +81,9 @@ func (s *ResourceIdentityAPIKeyTestSuite) TestCreateAPIKey() {
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "user_id", "user_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "key_value", "1"),
@@ -104,7 +106,9 @@ func (s *ResourceIdentityAPIKeyTestSuite) TestDeleteAPIKey() {
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 			},
 			{
 				Config:  s.Config,

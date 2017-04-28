@@ -110,7 +110,9 @@ func (s *ResourceCoreVirtualNetworkTestSuite) TestCreateResourceCoreVirtualNetwo
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "cidr_block", s.Res.CidrBlock),
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", s.Res.CompartmentID),
@@ -135,7 +137,9 @@ func (s *ResourceCoreVirtualNetworkTestSuite) TestDeleteResourceCoreVirtualNetwo
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "id", s.Res.ID),
 				),
@@ -172,7 +176,9 @@ func (s *ResourceCoreVirtualNetworkTestSuite) TestCreateResourceCoreVirtualNetwo
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", s.Res.DisplayName),
 				),
@@ -229,7 +235,9 @@ func (s ResourceCoreVirtualNetworkTestSuite) TestUpdateCidrBlockForcesNewVirtual
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 			},
 			{
 				Config: config,
@@ -249,7 +257,9 @@ func (s *ResourceCoreVirtualNetworkTestSuite) TestDeleteVirtualNetwork() {
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 			},
 			{
 				Config:  s.Config,

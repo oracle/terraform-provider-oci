@@ -31,6 +31,9 @@ func PolicyResource() *schema.Resource {
 	}
 
 	return &schema.Resource{
+		Importer: &schema.ResourceImporter{
+			State: schema.ImportStatePassthrough,
+		},
 		Timeouts: crud.DefaultTimeout,
 		Create:   createPolicy,
 		Read:     readPolicy,

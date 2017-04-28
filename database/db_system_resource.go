@@ -11,6 +11,9 @@ import (
 
 func DBSystemResource() *schema.Resource {
 	return &schema.Resource{
+		Importer: &schema.ResourceImporter{
+			State: schema.ImportStatePassthrough,
+		},
 		Timeouts: &schema.ResourceTimeout{
 			Create: &crud.TwoHours,
 			Delete: &crud.TwoHours,

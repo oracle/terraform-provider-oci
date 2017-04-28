@@ -70,7 +70,9 @@ func (s *ResourceIdentityGroupTestSuite) TestCreateResourceIdentityGroup() {
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "name", s.Res.Name),
 					resource.TestCheckResourceAttr(s.ResourceName, "description", s.Res.Description),
@@ -95,8 +97,10 @@ func (s *ResourceIdentityGroupTestSuite) TestCreateResourceIdentityGroupPolling(
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
-				Check:  resource.TestCheckResourceAttr(s.ResourceName, "state", baremetal.ResourceActive),
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
+				Check:             resource.TestCheckResourceAttr(s.ResourceName, "state", baremetal.ResourceActive),
 			},
 		},
 	})
@@ -126,7 +130,9 @@ func (s *ResourceIdentityGroupTestSuite) TestUpdateResourceIdentityGroupDescript
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 			},
 			{
 				Config: c,
@@ -164,7 +170,9 @@ func (s *ResourceIdentityGroupTestSuite) TestFailedUpdateResourceIdentityGroupDe
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 			},
 			{
 				Config:      c,
@@ -202,7 +210,9 @@ func (s *ResourceIdentityGroupTestSuite) TestUpdateResourceIdentityGroupNameShou
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 			},
 			{
 				Config: c,
@@ -219,7 +229,9 @@ func (s *ResourceIdentityGroupTestSuite) TestDeleteResourceIdentityGroup() {
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 			},
 			{
 				Config:  s.Config,

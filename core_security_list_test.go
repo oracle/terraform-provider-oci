@@ -138,7 +138,9 @@ func (s *ResourceCoreSecurityListTestSuite) TestCreateResourceCoreSecurityList()
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", s.Res.CompartmentID),
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", s.Res.DisplayName),
@@ -217,7 +219,9 @@ func (s ResourceCoreSecurityListTestSuite) TestUpdateSecurityList() {
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 			},
 			{
 				Config: config,
@@ -239,7 +243,9 @@ func (s *ResourceCoreSecurityListTestSuite) TestDeleteSecurityList() {
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 			},
 			{
 				Config:  s.Config,

@@ -75,7 +75,9 @@ func (s *ResourceCoreCpeTestSuite) TestCreateResourceCoreCpe() {
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", s.Res.DisplayName),
 					resource.TestCheckResourceAttr(s.ResourceName, "id", s.Res.ID),
@@ -123,7 +125,9 @@ func (s ResourceCoreCpeTestSuite) TestUpdateForcesNewCoreCpe() {
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 			},
 			{
 				Config: updateForcingChangeConfig,
@@ -143,7 +147,9 @@ func (s *ResourceCoreCpeTestSuite) TestDeleteResourceCoreCpe() {
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 			},
 			{
 				Config:  s.Config,

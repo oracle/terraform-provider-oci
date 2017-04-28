@@ -54,7 +54,9 @@ func (s *DatabaseDatabaseTestSuite) TestReadDatabase() {
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "db_home_id", "db_home_id"),
 				),

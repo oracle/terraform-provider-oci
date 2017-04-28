@@ -89,7 +89,9 @@ func (s *ResourceCoreIPSecTestSuite) TestCreateResourceCoreSubnet() {
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "drg_id", s.Res.DrgID),
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", s.Res.CompartmentID),
@@ -132,7 +134,9 @@ func (s *ResourceCoreIPSecTestSuite) TestCreateResourceCoreSubnetWithoutDisplayN
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", s.Res.DisplayName),
 				),
@@ -184,7 +188,9 @@ func (s ResourceCoreIPSecTestSuite) TestUpdateCompartmentIDForcesNewIPSec() {
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 			},
 			{
 				Config: config,
@@ -204,7 +210,9 @@ func (s *ResourceCoreIPSecTestSuite) TestTerminateIPSec() {
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 			},
 			{
 				Config:  s.Config,

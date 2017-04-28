@@ -86,7 +86,9 @@ func (s *ResourceCoreVirtualNetworksTestSuite) TestReadVirtualNetworks() {
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartment_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "limit", "1"),
@@ -181,7 +183,9 @@ func (s *ResourceCoreVirtualNetworksTestSuite) TestReadVirtualNetworksWithPaging
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartment_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "limit", "1"),

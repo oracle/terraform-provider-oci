@@ -99,7 +99,9 @@ func (s *ResourceCoreVolumeTestSuite) TestCreateResourceCoreVolume() {
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "availability_domain", s.Res.AvailabilityDomain),
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", s.Res.CompartmentID),
@@ -136,7 +138,9 @@ func (s *ResourceCoreVolumeTestSuite) TestCreateResourceCoreVolumeWithoutDisplay
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", s.Res.DisplayName),
 				),
@@ -179,7 +183,9 @@ func (s ResourceCoreVolumeTestSuite) TestUpdateVolumeDisplayName() {
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 			},
 			{
 				Config: config,
@@ -228,7 +234,9 @@ func (s ResourceCoreVolumeTestSuite) TestUpdateAvailabilityDomainForcesNewVolume
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 			},
 			{
 				Config: config,
@@ -277,7 +285,9 @@ func (s ResourceCoreVolumeTestSuite) TestUpdateCompartmentIdForcesNewVolume() {
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 			},
 			{
 				Config: config,
@@ -297,7 +307,9 @@ func (s *ResourceCoreVolumeTestSuite) TestDeleteVolume() {
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 			},
 			{
 				Config:  s.Config,

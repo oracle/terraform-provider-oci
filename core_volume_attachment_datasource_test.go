@@ -95,7 +95,9 @@ func (s *ResourceCoreVolumeAttachmentsTestSuite) TestReadVolumeAttachments() {
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "availability_domain", "availability_domain"),
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartment_id"),
@@ -200,7 +202,9 @@ func (s *ResourceCoreVolumeAttachmentsTestSuite) TestReadVolumeAttachmentsWithPa
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "availability_domain", "availability_domain"),
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartment_id"),
