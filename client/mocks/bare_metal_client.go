@@ -1870,6 +1870,29 @@ func (_m *BareMetalClient) GetVolumeBackup(id string) (*baremetal.VolumeBackup, 
 	return r0, r1
 }
 
+// GetWindowsInstanceInitialCredentials provides a mock function with given fields: instanceId
+func (_m *BareMetalClient) GetWindowsInstanceInitialCredentials(instanceId string) (*baremetal.InstanceCredentials, error) {
+	ret := _m.Called(instanceId)
+
+	var r0 *baremetal.InstanceCredentials
+	if rf, ok := ret.Get(0).(func(string) *baremetal.InstanceCredentials); ok {
+		r0 = rf(instanceId)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*baremetal.InstanceCredentials)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(string) error); ok {
+		r1 = rf(instanceId)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // GetWorkRequest provides a mock function with given fields: workRequestID, opts
 func (_m *BareMetalClient) GetWorkRequest(workRequestID string, opts *baremetal.ClientRequestOptions) (*baremetal.WorkRequest, error) {
 	ret := _m.Called(workRequestID, opts)

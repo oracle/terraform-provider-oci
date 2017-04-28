@@ -101,6 +101,7 @@ type BareMetalClient interface {
 	GetVolume(id string) (res *baremetal.Volume, e error)
 	GetVolumeAttachment(id string) (res *baremetal.VolumeAttachment, e error)
 	GetVolumeBackup(id string) (vol *baremetal.VolumeBackup, e error)
+	GetWindowsInstanceInitialCredentials(instanceId string) (creds *baremetal.InstanceCredentials, e error)
 	GetWorkRequest(workRequestID string, opts *baremetal.ClientRequestOptions) (workRequest *baremetal.WorkRequest, e error)
 
 	HeadObject(namespace baremetal.Namespace, bucketName string, objectName string, opts *baremetal.HeadObjectOptions) (headObject *baremetal.HeadObject, e error)
