@@ -56,9 +56,6 @@ type CreateBucketOptions struct {
 type CreateVcnOptions struct {
 	CreateOptions
 	DnsLabel              string `header:"-" json:"dnsLabel,omitempty" url:"-"`
-	DefaultDHCPOptionsID  string `header:"-" json:"defaultDhcpOptionsId" url:"-"`
-	DefaultRouteTableID   string `header:"-" json:"defaultRouteTableId" url:"-"`
-	DefaultSecurityListID string `header:"-" json:"defaultSecurityListId" url:"-"`
 }
 
 type CreateSubnetOptions struct {
