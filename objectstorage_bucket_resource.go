@@ -1,6 +1,6 @@
 // Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
 
-package objectstorage
+package main
 
 import (
 	"github.com/hashicorp/terraform/helper/schema"
@@ -9,43 +9,43 @@ import (
 	"github.com/oracle/terraform-provider-baremetal/crud"
 )
 
-func ObjectResource() *schema.Resource {
+func BucketResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: crud.DefaultTimeout,
-		Create:   createObject,
-		Read:     readObject,
-		Update:   updateObject,
-		Delete:   deleteObject,
-		Schema:   objectSchema,
+		Create:   createBucket,
+		Read:     readBucket,
+		Update:   updateBucket,
+		Delete:   deleteBucket,
+		Schema:   bucketSchema,
 	}
 }
 
-func createObject(d *schema.ResourceData, m interface{}) (e error) {
-	sync := &ObjectResourceCrud{}
+func createBucket(d *schema.ResourceData, m interface{}) (e error) {
+	sync := &BucketResourceCrud{}
 	sync.D = d
 	sync.Client = m.(client.BareMetalClient)
 	return crud.CreateResource(d, sync)
 }
 
-func readObject(d *schema.ResourceData, m interface{}) (e error) {
-	sync := &ObjectResourceCrud{}
+func readBucket(d *schema.ResourceData, m interface{}) (e error) {
+	sync := &BucketResourceCrud{}
 	sync.D = d
 	sync.Client = m.(client.BareMetalClient)
 	return crud.ReadResource(sync)
 }
 
-func updateObject(d *schema.ResourceData, m interface{}) (e error) {
-	sync := &ObjectResourceCrud{}
+func updateBucket(d *schema.ResourceData, m interface{}) (e error) {
+	sync := &BucketResourceCrud{}
 	sync.D = d
 	sync.Client = m.(client.BareMetalClient)
 	return crud.UpdateResource(d, sync)
 }
 
-func deleteObject(d *schema.ResourceData, m interface{}) (e error) {
-	sync := &ObjectResourceCrud{}
+func deleteBucket(d *schema.ResourceData, m interface{}) (e error) {
+	sync := &BucketResourceCrud{}
 	sync.D = d
 	sync.Client = m.(client.BareMetalClient)
 	return crud.DeleteResource(d, sync)
