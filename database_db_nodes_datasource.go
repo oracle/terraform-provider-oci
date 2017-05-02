@@ -1,6 +1,6 @@
 // Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
 
-package database
+package main
 
 import (
 	"github.com/hashicorp/terraform/helper/schema"
@@ -9,11 +9,15 @@ import (
 	"github.com/oracle/terraform-provider-baremetal/crud"
 )
 
-func DBSystemDatasource() *schema.Resource {
+func DBNodesDatasource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDBSystems,
+		Read: readDBNodes,
 		Schema: map[string]*schema.Schema{
 			"compartment_id": {
+				Type:     schema.TypeString,
+				Required: true,
+			},
+			"db_system_id": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
@@ -25,18 +29,18 @@ func DBSystemDatasource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"db_systems": {
+			"db_nodes": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     DBSystemResource(),
+				Elem:     DBNodeDatasource(),
 			},
 		},
 	}
 }
 
-func readDBSystems(d *schema.ResourceData, m interface{}) (e error) {
+func readDBNodes(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &DBSystemDatasourceCrud{}
+	sync := &DBNodesDatasourceCrud{}
 	sync.D = d
 	sync.Client = client
 	return crud.ReadResource(sync)

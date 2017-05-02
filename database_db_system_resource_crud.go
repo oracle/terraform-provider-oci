@@ -1,6 +1,6 @@
 // Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
 
-package database
+package main
 
 import (
 	"github.com/MustWin/baremetal-sdk-go"
