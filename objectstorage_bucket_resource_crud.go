@@ -1,6 +1,6 @@
 // Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
 
-package objectstorage
+package main
 
 import (
 	"github.com/MustWin/baremetal-sdk-go"
@@ -33,7 +33,7 @@ func (s *BucketResourceCrud) Create() (e error) {
 	opts := &baremetal.CreateBucketOptions{}
 
 	if rawMetadata, ok := s.D.GetOk("metadata"); ok {
-		metadata := resourceMapToMetadata(rawMetadata.(map[string]interface{}))
+		metadata := resourceObjectStorageMapToMetadata(rawMetadata.(map[string]interface{}))
 		opts.Metadata = metadata
 	}
 	s.Res, e = s.Client.CreateBucket(compartmentID, name, baremetal.Namespace(namespace), opts)
@@ -53,7 +53,7 @@ func (s *BucketResourceCrud) Update() (e error) {
 	namespace := s.D.Get("namespace").(string)
 	opts := &baremetal.UpdateBucketOptions{}
 	if rawMetadata, ok := s.D.GetOk("metadata"); ok {
-		metadata := resourceMapToMetadata(rawMetadata.(map[string]interface{}))
+		metadata := resourceObjectStorageMapToMetadata(rawMetadata.(map[string]interface{}))
 		opts.Metadata = metadata
 	}
 

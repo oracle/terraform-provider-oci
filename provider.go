@@ -11,9 +11,7 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
-	"github.com/oracle/terraform-provider-baremetal/identity"
 	"github.com/oracle/terraform-provider-baremetal/lb"
-	"github.com/oracle/terraform-provider-baremetal/objectstorage"
 )
 
 var descriptions map[string]string
@@ -115,14 +113,14 @@ func dataSourcesMap() map[string]*schema.Resource {
 		"baremetal_database_db_systems":             DBSystemDatasource(),
 		"baremetal_database_db_versions":            DBVersionDatasource(),
 		"baremetal_database_supported_operations":   SupportedOperationDatasource(),
-		"baremetal_identity_api_keys":               identity.APIKeyDatasource(),
-		"baremetal_identity_availability_domains":   identity.AvailabilityDomainDatasource(),
-		"baremetal_identity_compartments":           identity.CompartmentDatasource(),
-		"baremetal_identity_groups":                 identity.GroupDatasource(),
-		"baremetal_identity_policies":               identity.PolicyDatasource(),
-		"baremetal_identity_swift_passwords":        identity.SwiftPasswordDatasource(),
-		"baremetal_identity_user_group_memberships": identity.UserGroupMembershipDatasource(),
-		"baremetal_identity_users":                  identity.UserDatasource(),
+		"baremetal_identity_api_keys":               APIKeyDatasource(),
+		"baremetal_identity_availability_domains":   AvailabilityDomainDatasource(),
+		"baremetal_identity_compartments":           CompartmentDatasource(),
+		"baremetal_identity_groups":                 GroupDatasource(),
+		"baremetal_identity_policies":               PolicyDatasource(),
+		"baremetal_identity_swift_passwords":        SwiftPasswordDatasource(),
+		"baremetal_identity_user_group_memberships": UserGroupMembershipDatasource(),
+		"baremetal_identity_users":                  UserDatasource(),
 		"baremetal_load_balancer_backends":          lb.BackendDatasource(),
 		"baremetal_load_balancer_backendsets":       lb.BackendSetDatasource(),
 		"baremetal_load_balancer_certificates":      lb.CertificateDatasource(),
@@ -130,10 +128,10 @@ func dataSourcesMap() map[string]*schema.Resource {
 		"baremetal_load_balancer_protocols":         lb.ProtocolDatasource(),
 		"baremetal_load_balancer_shapes":            lb.ShapeDatasource(),
 		"baremetal_load_balancers":                  lb.LoadBalancerDatasource(),
-		"baremetal_objectstorage_bucket_summaries":  objectstorage.BucketSummaryDatasource(),
-		"baremetal_objectstorage_namespace":         objectstorage.NamespaceDatasource(),
-		"baremetal_objectstorage_object_head":       objectstorage.ObjectHeadDatasource(),
-		"baremetal_objectstorage_objects":           objectstorage.ObjectDatasource(),
+		"baremetal_objectstorage_bucket_summaries":  BucketSummaryDatasource(),
+		"baremetal_objectstorage_namespace":         NamespaceDatasource(),
+		"baremetal_objectstorage_object_head":       ObjectHeadDatasource(),
+		"baremetal_objectstorage_objects":           ObjectDatasource(),
 	}
 }
 
@@ -156,21 +154,21 @@ func resourcesMap() map[string]*schema.Resource {
 		"baremetal_core_volume_attachment":         VolumeAttachmentResource(),
 		"baremetal_core_volume_backup":             VolumeBackupResource(),
 		"baremetal_database_db_system":             DBSystemResource(),
-		"baremetal_identity_api_key":               identity.APIKeyResource(),
-		"baremetal_identity_compartment":           identity.CompartmentResource(),
-		"baremetal_identity_group":                 identity.GroupResource(),
-		"baremetal_identity_policy":                identity.PolicyResource(),
-		"baremetal_identity_swift_password":        identity.SwiftPasswordResource(),
-		"baremetal_identity_ui_password":           identity.UIPasswordResource(),
-		"baremetal_identity_user":                  identity.UserResource(),
-		"baremetal_identity_user_group_membership": identity.UserGroupMembershipResource(),
+		"baremetal_identity_api_key":               APIKeyResource(),
+		"baremetal_identity_compartment":           CompartmentResource(),
+		"baremetal_identity_group":                 GroupResource(),
+		"baremetal_identity_policy":                PolicyResource(),
+		"baremetal_identity_swift_password":        SwiftPasswordResource(),
+		"baremetal_identity_ui_password":           UIPasswordResource(),
+		"baremetal_identity_user":                  UserResource(),
+		"baremetal_identity_user_group_membership": UserGroupMembershipResource(),
 		"baremetal_load_balancer":                  lb.LoadBalancerResource(),
 		"baremetal_load_balancer_backend":          lb.LoadBalancerBackendResource(),
 		"baremetal_load_balancer_backendset":       lb.LoadBalancerBackendSetResource(),
 		"baremetal_load_balancer_certificate":      lb.LoadBalancerCertificateResource(),
 		"baremetal_load_balancer_listener":         lb.LoadBalancerListenerResource(),
-		"baremetal_objectstorage_bucket":           objectstorage.BucketResource(),
-		"baremetal_objectstorage_object":           objectstorage.ObjectResource(),
+		"baremetal_objectstorage_bucket":           BucketResource(),
+		"baremetal_objectstorage_object":           ObjectResource(),
 	}
 }
 
