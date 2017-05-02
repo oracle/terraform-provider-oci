@@ -1,6 +1,6 @@
 // Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
 
-package database
+package main
 
 import (
 	"time"
@@ -11,30 +11,27 @@ import (
 	"github.com/oracle/terraform-provider-baremetal/options"
 )
 
-type DBSystemShapeDatasourceCrud struct {
+type DBVersionDatasourceCrud struct {
 	crud.BaseCrud
-	Res *baremetal.ListDBSystemShapes
+	Res *baremetal.ListDBVersions
 }
 
-func (s *DBSystemShapeDatasourceCrud) Get() (e error) {
-	availabilityDomain := s.D.Get("availability_domain").(string)
+func (s *DBVersionDatasourceCrud) Get() (e error) {
 	compartmentID := s.D.Get("compartment_id").(string)
 	limit := uint64(s.D.Get("limit").(int))
 
 	opts := &baremetal.PageListOptions{}
 	options.SetPageOptions(s.D, opts)
 
-	s.Res = &baremetal.ListDBSystemShapes{}
+	s.Res = &baremetal.ListDBVersions{}
 
 	for {
-		var list *baremetal.ListDBSystemShapes
-		if list, e = s.Client.ListDBSystemShapes(
-			availabilityDomain, compartmentID, limit, opts,
-		); e != nil {
+		var list *baremetal.ListDBVersions
+		if list, e = s.Client.ListDBVersions(compartmentID, limit, opts); e != nil {
 			break
 		}
 
-		s.Res.DBSystemShapes = append(s.Res.DBSystemShapes, list.DBSystemShapes...)
+		s.Res.DBVersions = append(s.Res.DBVersions, list.DBVersions...)
 
 		if hasNextPage := options.SetNextPageOption(list.NextPage, opts); !hasNextPage {
 			break
@@ -44,21 +41,19 @@ func (s *DBSystemShapeDatasourceCrud) Get() (e error) {
 	return
 }
 
-func (s *DBSystemShapeDatasourceCrud) SetData() {
+func (s *DBVersionDatasourceCrud) SetData() {
 	if s.Res != nil {
 		// Important, if you don't have an ID, make one up for your datasource
 		// or things will end in tears
 		s.D.SetId(time.Now().UTC().String())
 		resources := []map[string]interface{}{}
-		for _, v := range s.Res.DBSystemShapes {
+		for _, v := range s.Res.DBVersions {
 			res := map[string]interface{}{
-				"available_core_count": v.AvailableCoreCount,
-				"name":                 v.Name,
-				"shape":                v.Shape,
+				"version": v.Version,
 			}
 			resources = append(resources, res)
 		}
-		s.D.Set("db_system_shapes", resources)
+		s.D.Set("db_versions", resources)
 	}
 	return
 }

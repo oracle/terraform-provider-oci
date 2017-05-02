@@ -1,6 +1,6 @@
 // Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
 
-package database
+package main
 
 import (
 	"github.com/hashicorp/terraform/helper/schema"
@@ -9,17 +9,25 @@ import (
 	"github.com/oracle/terraform-provider-baremetal/crud"
 )
 
-func DBNodesDatasource() *schema.Resource {
+func DBVersionDatasource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDBNodes,
+		Read: readDBVersions,
 		Schema: map[string]*schema.Schema{
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"db_system_id": {
-				Type:     schema.TypeString,
-				Required: true,
+			"db_versions": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"version": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
 			},
 			"limit": {
 				Type:     schema.TypeInt,
@@ -29,19 +37,14 @@ func DBNodesDatasource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"db_nodes": {
-				Type:     schema.TypeList,
-				Computed: true,
-				Elem:     DBNodeDatasource(),
-			},
 		},
 	}
 }
 
-func readDBNodes(d *schema.ResourceData, m interface{}) (e error) {
+func readDBVersions(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &DBNodesDatasourceCrud{}
-	sync.D = d
-	sync.Client = client
-	return crud.ReadResource(sync)
+	reader := &DBVersionDatasourceCrud{}
+	reader.D = d
+	reader.Client = client
+	return crud.ReadResource(reader)
 }

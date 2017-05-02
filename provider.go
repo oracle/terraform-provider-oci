@@ -11,7 +11,6 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
-	"github.com/oracle/terraform-provider-baremetal/database"
 	"github.com/oracle/terraform-provider-baremetal/identity"
 	"github.com/oracle/terraform-provider-baremetal/lb"
 	"github.com/oracle/terraform-provider-baremetal/objectstorage"
@@ -106,16 +105,16 @@ func dataSourcesMap() map[string]*schema.Resource {
 		"baremetal_core_volume_attachments":         VolumeAttachmentDatasource(),
 		"baremetal_core_volume_backups":             VolumeBackupDatasource(),
 		"baremetal_core_volumes":                    VolumeDatasource(),
-		"baremetal_database_database":               database.DatabaseDatasource(),
-		"baremetal_database_databases":              database.DatabasesDatasource(),
-		"baremetal_database_db_home":                database.DBHomeDatasource(),
-		"baremetal_database_db_homes":               database.DBHomesDatasource(),
-		"baremetal_database_db_node":                database.DBNodeDatasource(),
-		"baremetal_database_db_nodes":               database.DBNodesDatasource(),
-		"baremetal_database_db_system_shapes":       database.DBSystemShapeDatasource(),
-		"baremetal_database_db_systems":             database.DBSystemDatasource(),
-		"baremetal_database_db_versions":            database.DBVersionDatasource(),
-		"baremetal_database_supported_operations":   database.SupportedOperationDatasource(),
+		"baremetal_database_database":               DatabaseDatasource(),
+		"baremetal_database_databases":              DatabasesDatasource(),
+		"baremetal_database_db_home":                DBHomeDatasource(),
+		"baremetal_database_db_homes":               DBHomesDatasource(),
+		"baremetal_database_db_node":                DBNodeDatasource(),
+		"baremetal_database_db_nodes":               DBNodesDatasource(),
+		"baremetal_database_db_system_shapes":       DBSystemShapeDatasource(),
+		"baremetal_database_db_systems":             DBSystemDatasource(),
+		"baremetal_database_db_versions":            DBVersionDatasource(),
+		"baremetal_database_supported_operations":   SupportedOperationDatasource(),
 		"baremetal_identity_api_keys":               identity.APIKeyDatasource(),
 		"baremetal_identity_availability_domains":   identity.AvailabilityDomainDatasource(),
 		"baremetal_identity_compartments":           identity.CompartmentDatasource(),
@@ -156,7 +155,7 @@ func resourcesMap() map[string]*schema.Resource {
 		"baremetal_core_volume":                    VolumeResource(),
 		"baremetal_core_volume_attachment":         VolumeAttachmentResource(),
 		"baremetal_core_volume_backup":             VolumeBackupResource(),
-		"baremetal_database_db_system":             database.DBSystemResource(),
+		"baremetal_database_db_system":             DBSystemResource(),
 		"baremetal_identity_api_key":               identity.APIKeyResource(),
 		"baremetal_identity_compartment":           identity.CompartmentResource(),
 		"baremetal_identity_group":                 identity.GroupResource(),
