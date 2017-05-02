@@ -1,6 +1,6 @@
 // Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
 
-package database
+package main
 
 import (
 	"github.com/hashicorp/terraform/helper/schema"
@@ -9,33 +9,25 @@ import (
 	"github.com/oracle/terraform-provider-baremetal/crud"
 )
 
-func DBHomeDatasource() *schema.Resource {
+func DBNodeDatasource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDBHome,
+		Read: readDBNode,
 		Schema: map[string]*schema.Schema{
-			"compartment_id": {
+			"db_node_id": {
 				Type:     schema.TypeString,
-				Computed: true,
+				Required: true,
 			},
 			"db_system_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"db_version": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"display_name": {
+			"hostname": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"id": {
 				Type:     schema.TypeString,
 				Computed: true,
-			},
-			"db_home_id": {
-				Type:     schema.TypeString,
-				Required: true,
 			},
 			"state": {
 				Type:     schema.TypeString,
@@ -45,13 +37,17 @@ func DBHomeDatasource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"vnic_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 		},
 	}
 }
 
-func readDBHome(d *schema.ResourceData, m interface{}) (e error) {
+func readDBNode(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &DBHomeDatasourceCrud{}
+	sync := &DBNodeDatasourceCrud{}
 	sync.D = d
 	sync.Client = client
 	return crud.ReadResource(sync)

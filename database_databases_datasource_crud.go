@@ -1,6 +1,6 @@
 // Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
 
-package database
+package main
 
 import (
 	"time"
@@ -11,30 +11,30 @@ import (
 	"github.com/oracle/terraform-provider-baremetal/options"
 )
 
-type DBNodesDatasourceCrud struct {
+type DatabasesDatasourceCrud struct {
 	crud.BaseCrud
-	Res *baremetal.ListDBNodes
+	Res *baremetal.ListDatabases
 }
 
-func (s *DBNodesDatasourceCrud) Get() (e error) {
+func (s *DatabasesDatasourceCrud) Get() (e error) {
 	compartmentID := s.D.Get("compartment_id").(string)
-	dbSystemID := s.D.Get("db_system_id").(string)
+	dbHomeID := s.D.Get("db_home_id").(string)
 	limit := uint64(s.D.Get("limit").(int))
 
 	opts := &baremetal.PageListOptions{}
 	options.SetPageOptions(s.D, opts)
 
-	s.Res = &baremetal.ListDBNodes{}
+	s.Res = &baremetal.ListDatabases{}
 
 	for {
-		var list *baremetal.ListDBNodes
-		if list, e = s.Client.ListDBNodes(
-			compartmentID, dbSystemID, limit, opts,
+		var list *baremetal.ListDatabases
+		if list, e = s.Client.ListDatabases(
+			compartmentID, dbHomeID, limit, opts,
 		); e != nil {
 			break
 		}
 
-		s.Res.DBNodes = append(s.Res.DBNodes, list.DBNodes...)
+		s.Res.Databases = append(s.Res.Databases, list.Databases...)
 
 		if hasNextPage := options.SetNextPageOption(list.NextPage, opts); !hasNextPage {
 			break
@@ -44,22 +44,23 @@ func (s *DBNodesDatasourceCrud) Get() (e error) {
 	return
 }
 
-func (s *DBNodesDatasourceCrud) SetData() {
+func (s *DatabasesDatasourceCrud) SetData() {
 	if s.Res != nil {
 		s.D.SetId(time.Now().UTC().String())
 		resources := []map[string]interface{}{}
-		for _, v := range s.Res.DBNodes {
+		for _, v := range s.Res.Databases {
 			res := map[string]interface{}{
-				"db_system_id": v.DBSystemID,
-				"hostname":     v.Hostname,
-				"id":           v.ID,
-				"state":        v.State,
-				"time_created": v.TimeCreated.String(),
-				"vnic_id":      v.VnicID,
+				"compartment_id": v.CompartmentID,
+				"db_home_id":     v.DBHomeID,
+				"db_name":        v.DBName,
+				"db_unique_name": v.DBUniqueName,
+				"id":             v.ID,
+				"state":          v.State,
+				"time_created":   v.TimeCreated.String(),
 			}
 			resources = append(resources, res)
 		}
-		s.D.Set("db_nodes", resources)
+		s.D.Set("databases", resources)
 	}
 	return
 }
