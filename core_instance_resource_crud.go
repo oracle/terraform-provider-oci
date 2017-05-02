@@ -44,7 +44,7 @@ func (s *InstanceResourceCrud) DeletedTarget() []string {
 	return []string{baremetal.ResourceTerminated}
 }
 
-func resourceMapToMetadata(rm map[string]interface{}) map[string]string {
+func resourceInstanceMapToMetadata(rm map[string]interface{}) map[string]string {
 	result := map[string]string{}
 	for k, v := range rm {
 		result[k] = v.(string)
@@ -68,7 +68,7 @@ func (s *InstanceResourceCrud) Create() (e error) {
 	}
 
 	if rawMetadata, ok := s.D.GetOk("metadata"); ok {
-		metadata := resourceMapToMetadata(rawMetadata.(map[string]interface{}))
+		metadata := resourceInstanceMapToMetadata(rawMetadata.(map[string]interface{}))
 		opts.Metadata = metadata
 	}
 
