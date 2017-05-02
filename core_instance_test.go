@@ -15,7 +15,6 @@ import (
 
 	"github.com/stretchr/testify/suite"
 
-	"github.com/oracle/terraform-provider-baremetal/core"
 	"github.com/oracle/terraform-provider-baremetal/crud"
 )
 
@@ -322,7 +321,7 @@ func (s *ResourceCoreInstanceTestSuite) TestTerminateInstance() {
 
 func TestIsStatefulResource(t *testing.T) {
 	var sr crud.StatefulResource
-	sr = &core.InstanceResourceCrud{}
+	sr = &InstanceResourceCrud{}
 	if sr == nil {
 		t.Fail()
 	}
