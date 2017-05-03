@@ -9,9 +9,9 @@ import (
 	"github.com/oracle/terraform-provider-baremetal/crud"
 )
 
-func ShapeDatasource() *schema.Resource {
+func InstanceShapeDatasource() *schema.Resource {
 	return &schema.Resource{
-		Read: readShape,
+		Read: readInstanceShape,
 		Schema: map[string]*schema.Schema{
 			"shapes": {
 				Type:     schema.TypeList,
@@ -49,9 +49,9 @@ func ShapeDatasource() *schema.Resource {
 	}
 }
 
-func readShape(d *schema.ResourceData, m interface{}) (e error) {
+func readInstanceShape(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	reader := &ShapeDatasourceCrud{}
+	reader := &InstanceShapeDatasourceCrud{}
 	reader.D = d
 	reader.Client = client
 

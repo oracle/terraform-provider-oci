@@ -1,6 +1,6 @@
 // Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
 
-package lb
+package main
 
 import (
 	"github.com/hashicorp/terraform/helper/schema"
@@ -9,36 +9,43 @@ import (
 	"github.com/oracle/terraform-provider-baremetal/crud"
 )
 
-func LoadBalancerListenerResource() *schema.Resource {
+func LoadBalancerCertificateResource() *schema.Resource {
 	return &schema.Resource{
-		Create: createLoadBalancerListener,
-		Read:   readLoadBalancerListener,
-		Update: updateLoadBalancerListener,
-		Delete: deleteLoadBalancerListener,
+		Create: createLoadBalancerCertificate,
+		Read:   readLoadBalancerCertificate,
+		Delete: deleteLoadBalancerCertificate,
 		Schema: map[string]*schema.Schema{
 			"load_balancer_id": {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
 			},
-			"name": {
+			"ca_certificate": {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
 			},
-			"default_backend_set_name": {
+			"certificate_name": {
 				Type:     schema.TypeString,
 				Required: true,
+				ForceNew: true,
 			},
-			"port": {
-				Type:     schema.TypeInt,
-				Required: true,
+			"passphrase": {
+				Type:     schema.TypeString,
+				Optional: true,
+				ForceNew: true,
+				Default:  "",
 			},
-			"protocol": {
+			"private_key": {
 				Type:     schema.TypeString,
 				Required: true,
+				ForceNew: true,
 			},
-			"ssl_configuration": SSLConfigSchema,
+			"public_certificate": {
+				Type:     schema.TypeString,
+				Required: true,
+				ForceNew: true,
+			},
 			// internal for work request access
 			"state": {
 				Type:     schema.TypeString,
@@ -48,29 +55,22 @@ func LoadBalancerListenerResource() *schema.Resource {
 	}
 }
 
-func createLoadBalancerListener(d *schema.ResourceData, m interface{}) (e error) {
-	sync := &LoadBalancerListenerResourceCrud{}
+func createLoadBalancerCertificate(d *schema.ResourceData, m interface{}) (e error) {
+	sync := &LoadBalancerCertificateResourceCrud{}
 	sync.D = d
 	sync.Client = m.(client.BareMetalClient)
 	return crud.CreateResource(d, sync)
 }
 
-func readLoadBalancerListener(d *schema.ResourceData, m interface{}) (e error) {
-	sync := &LoadBalancerListenerResourceCrud{}
+func readLoadBalancerCertificate(d *schema.ResourceData, m interface{}) (e error) {
+	sync := &LoadBalancerCertificateResourceCrud{}
 	sync.D = d
 	sync.Client = m.(client.BareMetalClient)
 	return crud.ReadResource(sync)
 }
 
-func updateLoadBalancerListener(d *schema.ResourceData, m interface{}) (e error) {
-	sync := &LoadBalancerListenerResourceCrud{}
-	sync.D = d
-	sync.Client = m.(client.BareMetalClient)
-	return crud.UpdateResource(d, sync)
-}
-
-func deleteLoadBalancerListener(d *schema.ResourceData, m interface{}) (e error) {
-	sync := &LoadBalancerListenerResourceCrud{}
+func deleteLoadBalancerCertificate(d *schema.ResourceData, m interface{}) (e error) {
+	sync := &LoadBalancerCertificateResourceCrud{}
 	sync.D = d
 	sync.Client = m.(client.BareMetalClient)
 	return crud.DeleteResource(d, sync)
