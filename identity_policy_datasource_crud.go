@@ -10,19 +10,19 @@ import (
 	"github.com/oracle/terraform-provider-baremetal/crud"
 )
 
-type PolicyDatasourceCrud struct {
+type IdentityPolicyDatasourceCrud struct {
 	crud.BaseCrud
 	Res *baremetal.ListPolicies
 }
 
-func (s *PolicyDatasourceCrud) Get() (e error) {
+func (s *IdentityPolicyDatasourceCrud) Get() (e error) {
 	compartment_id := s.D.Get("compartment_id").(string)
 
 	s.Res, e = s.Client.ListPolicies(compartment_id, nil)
 	return
 }
 
-func (s *PolicyDatasourceCrud) SetData() {
+func (s *IdentityPolicyDatasourceCrud) SetData() {
 	if s.Res != nil {
 		s.D.SetId(time.Now().UTC().String())
 		resources := []map[string]interface{}{}

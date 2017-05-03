@@ -9,9 +9,9 @@ import (
 	"github.com/oracle/terraform-provider-baremetal/crud"
 )
 
-func PolicyDatasource() *schema.Resource {
+func IdentityPolicyDatasource() *schema.Resource {
 	return &schema.Resource{
-		Read: readPolicies,
+		Read: readIdentityPolicies,
 		Schema: map[string]*schema.Schema{
 			"compartment_id": {
 				Type:     schema.TypeString,
@@ -26,9 +26,9 @@ func PolicyDatasource() *schema.Resource {
 	}
 }
 
-func readPolicies(d *schema.ResourceData, m interface{}) (e error) {
+func readIdentityPolicies(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &PolicyDatasourceCrud{}
+	sync := &IdentityPolicyDatasourceCrud{}
 	sync.D = d
 	sync.Client = client
 	return crud.ReadResource(sync)

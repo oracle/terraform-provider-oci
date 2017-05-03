@@ -1,6 +1,6 @@
 // Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
 
-package lb
+package main
 
 import (
 	"github.com/hashicorp/terraform/helper/schema"
@@ -9,7 +9,7 @@ import (
 	"github.com/oracle/terraform-provider-baremetal/crud"
 )
 
-func PolicyDatasource() *schema.Resource {
+func LoadBalancerPolicyDatasource() *schema.Resource {
 	return &schema.Resource{
 		Read: readPolicies,
 		Schema: map[string]*schema.Schema{

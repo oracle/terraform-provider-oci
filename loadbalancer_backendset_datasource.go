@@ -1,6 +1,6 @@
 // Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
 
-package lb
+package main
 
 import (
 	"github.com/hashicorp/terraform/helper/schema"
@@ -9,26 +9,26 @@ import (
 	"github.com/oracle/terraform-provider-baremetal/crud"
 )
 
-func CertificateDatasource() *schema.Resource {
+func BackendSetDatasource() *schema.Resource {
 	return &schema.Resource{
-		Read: readCertificate,
+		Read: readBackendSets,
 		Schema: map[string]*schema.Schema{
 			"load_balancer_id": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"certificates": {
+			"backendsets": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     LoadBalancerCertificateResource(),
+				Elem:     LoadBalancerBackendSetResource(),
 			},
 		},
 	}
 }
 
-func readCertificate(d *schema.ResourceData, m interface{}) (e error) {
+func readBackendSets(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(client.BareMetalClient)
-	sync := &CertificateDatasourceCrud{}
+	sync := &BackendSetDatasourceCrud{}
 	sync.D = d
 	sync.Client = client
 	return crud.ReadResource(sync)
