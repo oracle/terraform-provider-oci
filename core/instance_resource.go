@@ -81,6 +81,16 @@ func InstanceResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"public_ip": {
+				Type:     schema.TypeString,
+				Required: false,
+				Computed: true,
+			},
+			"private_ip": {
+				Type:     schema.TypeString,
+				Required: false,
+				Computed: true,
+			},
 		},
 	}
 }
