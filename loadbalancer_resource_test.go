@@ -67,7 +67,7 @@ resource "baremetal_load_balancer" "t" {
 		// Computed
 		ID: loadBalancerID,
 		IPAddresses: []baremetal.IPAddress{
-			baremetal.IPAddress{
+			{
 				"127.0.0.1",
 			},
 		},
@@ -146,7 +146,7 @@ resource "baremetal_load_balancer" "t" {
 		// Computed
 		ID: loadBalancerID,
 		IPAddresses: []baremetal.IPAddress{
-			baremetal.IPAddress{
+			{
 				"127.0.0.1",
 			},
 		},
