@@ -1,6 +1,6 @@
 // Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
 
-package lb
+package main
 
 import (
 	"time"
@@ -10,18 +10,18 @@ import (
 	"github.com/oracle/terraform-provider-baremetal/crud"
 )
 
-type ShapeDatasourceCrud struct {
+type LoadBalancerShapeDatasourceCrud struct {
 	crud.BaseCrud
 	Res *baremetal.ListLoadBalancerShapes
 }
 
-func (s *ShapeDatasourceCrud) Get() (e error) {
+func (s *LoadBalancerShapeDatasourceCrud) Get() (e error) {
 	cID := s.D.Get("compartment_id").(string)
 	s.Res, e = s.Client.ListLoadBalancerShapes(cID, nil)
 	return
 }
 
-func (s *ShapeDatasourceCrud) SetData() {
+func (s *LoadBalancerShapeDatasourceCrud) SetData() {
 	if s.Res != nil {
 		s.D.SetId(time.Now().UTC().String())
 		resources := []map[string]interface{}{}

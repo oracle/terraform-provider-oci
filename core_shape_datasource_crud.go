@@ -12,12 +12,12 @@ import (
 	"github.com/oracle/terraform-provider-baremetal/crud"
 )
 
-type ShapeDatasourceCrud struct {
+type InstanceShapeDatasourceCrud struct {
 	crud.BaseCrud
 	Res *baremetal.ListShapes
 }
 
-func (r *ShapeDatasourceCrud) Get() (e error) {
+func (r *InstanceShapeDatasourceCrud) Get() (e error) {
 	compartmentID := r.D.Get("compartment_id").(string)
 
 	opts := &baremetal.ListShapesOptions{}
@@ -47,7 +47,7 @@ func (r *ShapeDatasourceCrud) Get() (e error) {
 	return
 }
 
-func (r *ShapeDatasourceCrud) SetData() {
+func (r *InstanceShapeDatasourceCrud) SetData() {
 	if r.Res != nil {
 		// Important, if you don't have an ID, make one up for your datasource
 		// or things will end in tears
