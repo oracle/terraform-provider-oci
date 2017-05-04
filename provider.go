@@ -43,16 +43,19 @@ func schemaMap() map[string]*schema.Schema {
 			Type:        schema.TypeString,
 			Required:    true,
 			Description: descriptions["tenancy_ocid"],
+			DefaultFunc: schema.EnvDefaultFunc("OBMCS_TENANCY_OCID", nil),
 		},
 		"user_ocid": {
 			Type:        schema.TypeString,
 			Required:    true,
 			Description: descriptions["user_ocid"],
+			DefaultFunc: schema.EnvDefaultFunc("OBMCS_USER_OCID", nil),
 		},
 		"fingerprint": {
 			Type:        schema.TypeString,
 			Required:    true,
 			Description: descriptions["fingerprint"],
+			DefaultFunc: schema.EnvDefaultFunc("OBMCS_FINGERPRINT", nil),
 		},
 		// Mostly used for testing. Don't put keys in your .tf files
 		"private_key": {
@@ -61,11 +64,13 @@ func schemaMap() map[string]*schema.Schema {
 			Default:     "",
 			Sensitive:   true,
 			Description: descriptions["private_key"],
+			DefaultFunc: schema.EnvDefaultFunc("OBMCS_PRIVATE_KEY", nil),
 		},
 		"private_key_path": {
 			Type:        schema.TypeString,
 			Optional:    true,
 			Description: descriptions["private_key_path"],
+			DefaultFunc: schema.EnvDefaultFunc("OBMCS_PRIVATE_KEY_PATH", nil),
 		},
 		"private_key_password": {
 			Type:        schema.TypeString,
@@ -73,6 +78,7 @@ func schemaMap() map[string]*schema.Schema {
 			Sensitive:   true,
 			Default:     "",
 			Description: descriptions["private_key_password"],
+			DefaultFunc: schema.EnvDefaultFunc("OBMCS_PRIVATE_KEY_PASSWORD", nil),
 		},
 	}
 }
