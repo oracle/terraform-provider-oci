@@ -11,12 +11,13 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/stretchr/testify/suite"
 
+	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/client/mocks"
 )
 
 type ResourceIdentityAvailabilityDomainsTestSuite struct {
 	suite.Suite
-	Client       *mocks.BareMetalClient
+	Client       client.BareMetalClient
 	Config       string
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider

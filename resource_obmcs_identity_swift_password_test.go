@@ -13,12 +13,13 @@ import (
 
 	"github.com/MustWin/baremetal-sdk-go"
 
+	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/client/mocks"
 )
 
 type ResourceIdentitySwiftPasswordTestSuite struct {
 	suite.Suite
-	Client       *mocks.BareMetalClient
+	Client       client.BareMetalClient
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	TimeCreated  time.Time

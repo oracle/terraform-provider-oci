@@ -10,6 +10,7 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
+	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/client/mocks"
 
 	"crypto/rand"
@@ -19,7 +20,7 @@ import (
 
 type CoreConsoleHistoryDataDatasourceTestSuite struct {
 	suite.Suite
-	Client       *mocks.BareMetalClient
+	Client       client.BareMetalClient
 	Config       string
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider

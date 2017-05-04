@@ -13,12 +13,13 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/stretchr/testify/suite"
 
+	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/client/mocks"
 )
 
 type ResourceLoadBalancerBackendsetTestSuite struct {
 	suite.Suite
-	Client      *mocks.BareMetalClient
+	Client      client.BareMetalClient
 	Providers   map[string]terraform.ResourceProvider
 	TimeCreated baremetal.Time
 }
