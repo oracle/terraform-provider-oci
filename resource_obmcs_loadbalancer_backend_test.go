@@ -13,19 +13,19 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/oracle/terraform-provider-baremetal/client"
-	"github.com/oracle/terraform-provider-baremetal/client/mocks"
+
+
 )
 
 type ResourceLoadBalancerBackendTestSuite struct {
 	suite.Suite
-	Client      client.BareMetalClient
+	Client       mockableClient
 	Providers   map[string]terraform.ResourceProvider
 	TimeCreated baremetal.Time
 }
 
 func (s *ResourceLoadBalancerBackendTestSuite) SetupTest() {
-	s.Client = &mocks.BareMetalClient{}
+	s.Client = GetTestProvider()
 
 	s.Providers = map[string]terraform.ResourceProvider{
 		"baremetal": Provider(

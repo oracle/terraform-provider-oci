@@ -14,8 +14,8 @@ import (
 
 	"github.com/MustWin/baremetal-sdk-go"
 
-	"github.com/oracle/terraform-provider-baremetal/client"
-	"github.com/oracle/terraform-provider-baremetal/client/mocks"
+
+
 )
 
 var testPoliciesConfig = `
@@ -26,7 +26,7 @@ var testPoliciesConfig = `
 
 type ResourceIdentityPoliciesTestSuite struct {
 	suite.Suite
-	Client       client.BareMetalClient
+	Client       mockableClient
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	TimeCreated  time.Time
@@ -36,7 +36,7 @@ type ResourceIdentityPoliciesTestSuite struct {
 }
 
 func (s *ResourceIdentityPoliciesTestSuite) SetupTest() {
-	s.Client = &mocks.BareMetalClient{}
+	s.Client = GetTestProvider()
 	s.Provider = Provider(func(d *schema.ResourceData) (interface{}, error) {
 		return s.Client, nil
 	},

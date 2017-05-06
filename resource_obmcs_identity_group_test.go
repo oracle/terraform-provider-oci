@@ -13,15 +13,15 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
-	"github.com/oracle/terraform-provider-baremetal/client"
-	"github.com/oracle/terraform-provider-baremetal/client/mocks"
+
+
 
 	"github.com/stretchr/testify/suite"
 )
 
 type ResourceIdentityGroupTestSuite struct {
 	suite.Suite
-	Client       client.BareMetalClient
+	Client       mockableClient
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	TimeCreated  time.Time
@@ -31,7 +31,7 @@ type ResourceIdentityGroupTestSuite struct {
 }
 
 func (s *ResourceIdentityGroupTestSuite) SetupTest() {
-	s.Client = &mocks.BareMetalClient{}
+	s.Client = GetTestProvider()
 
 	configfn := func(d *schema.ResourceData) (interface{}, error) {
 		return s.Client, nil

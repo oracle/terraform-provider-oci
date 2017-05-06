@@ -14,15 +14,15 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
-	"github.com/oracle/terraform-provider-baremetal/client"
-	"github.com/oracle/terraform-provider-baremetal/client/mocks"
+
+
 
 	"github.com/stretchr/testify/suite"
 )
 
 type DatabaseDBSystemTestSuite struct {
 	suite.Suite
-	Client       client.BareMetalClient
+	Client       mockableClient
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	TimeCreated  baremetal.Time
@@ -33,7 +33,7 @@ type DatabaseDBSystemTestSuite struct {
 }
 
 func (s *DatabaseDBSystemTestSuite) SetupTest() {
-	s.Client = &mocks.BareMetalClient{}
+	s.Client = GetTestProvider()
 	s.TimeCreated = baremetal.Time{Time: time.Now()}
 
 	s.Provider = Provider(

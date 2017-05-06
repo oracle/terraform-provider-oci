@@ -4,7 +4,7 @@ package main
 
 import (
 	"testing"
-
+	"fmt"
 	"errors"
 
 	"github.com/MustWin/baremetal-sdk-go"
@@ -12,6 +12,12 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/stretchr/testify/assert"
+	"os"
+	"strconv"
+
+	"github.com/oracle/terraform-provider-baremetal/client"
+	"github.com/oracle/terraform-provider-baremetal/client/mocks"
+	"github.com/stretchr/testify/mock"
 )
 
 const testProviderConfig = `
@@ -26,8 +32,58 @@ provider "baremetal" {
 
 `
 
+// This is a dummy object allowing coexistance between mocked API calls and real API calls in acceptance tests
+// Acceptance tests will use this object that "mocks" the mocks
+type mockableClient interface {
+	client.BareMetalClient
+	On(methodName string, arguments ...interface{}) *mock.Call
+	AssertCalled(t mock.TestingT, methodName string, arguments ...interface{}) bool
+}
+
+type testClient struct {
+	client.BareMetalClient
+}
+
+func (r *testClient) On(methodName string, arguments ...interface{}) *mock.Call {
+	// Do Nothing. Return this object so mocks continue to work
+	return &mock.Call{Parent: &mock.Mock{}}
+}
+func (r *testClient) AssertCalled(t mock.TestingT, methodName string, arguments ...interface{}) bool {
+	// Do Nothing. Just return true and assume errors are caught elsewhere
+	return true
+}
+
+func GetTestProvider() mockableClient {
+	acc, err := strconv.ParseBool(os.Getenv("TF_ACC"))
+
+	if err == nil && acc {
+		r := &schema.Resource{
+			Schema: schemaMap(),
+		}
+		d := r.Data(nil)
+		d.SetId(getRequiredEnvSetting("tenancy_ocid"))
+
+		d.Set("tenancy_ocid", getRequiredEnvSetting("tenancy_ocid"))
+		d.Set("user_ocid", getRequiredEnvSetting("user_ocid"))
+		d.Set("fingerprint", getRequiredEnvSetting("fingerprint"))
+		d.Set("private_key_path", getRequiredEnvSetting("private_key_path"))
+		d.Set("private_key_password", getEnvSetting("private_key_password"))
+		d.Set("private_key", getEnvSetting("private_key"))
+
+
+		client, err := providerConfig(d)
+		if err != nil {
+			panic(err)
+		}
+		fmt.Printf("%v\n", client)
+		return &testClient{client.(*baremetal.Client)}
+	}
+	return &mocks.BareMetalClient{}
+}
+
 // This test runs the Provider sanity checks.
 func TestProvider(t *testing.T) {
+
 	// Real client for the sanity check. Makes this more of an acceptance test.
 	client := &baremetal.Client{}
 	if err := Provider(func(d *schema.ResourceData) (interface{}, error) {

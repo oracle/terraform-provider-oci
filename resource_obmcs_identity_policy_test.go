@@ -14,8 +14,8 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
-	"github.com/oracle/terraform-provider-baremetal/client"
-	"github.com/oracle/terraform-provider-baremetal/client/mocks"
+
+
 
 	"github.com/stretchr/testify/suite"
 )
@@ -60,7 +60,7 @@ func testCheckAttributeTypeList(resourceName, attributeName string, expecteds []
 
 type ResourceIdentityPolicyTestSuite struct {
 	suite.Suite
-	Client      client.BareMetalClient
+	Client       mockableClient
 	Provider    terraform.ResourceProvider
 	Providers   map[string]terraform.ResourceProvider
 	TimeCreated time.Time
@@ -70,7 +70,7 @@ type ResourceIdentityPolicyTestSuite struct {
 }
 
 func (s *ResourceIdentityPolicyTestSuite) SetupTest() {
-	s.Client = &mocks.BareMetalClient{}
+	s.Client = GetTestProvider()
 	s.Provider = Provider(func(d *schema.ResourceData) (interface{}, error) {
 		return s.Client, nil
 	},

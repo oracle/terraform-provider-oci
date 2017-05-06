@@ -10,6 +10,7 @@ import (
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
+	"os"
 )
 
 var descriptions map[string]string
@@ -174,6 +175,26 @@ func resourcesMap() map[string]*schema.Resource {
 		"baremetal_objectstorage_bucket":           BucketResource(),
 		"baremetal_objectstorage_object":           ObjectResource(),
 	}
+}
+
+func getEnvSetting(s string) string {
+	v := os.Getenv("TF_VAR_" + s)
+	if v != "" {
+		return v
+	}
+	v = os.Getenv("OBMCS_" + s)
+	if v != "" {
+		return v
+	}
+	return ""
+}
+
+func getRequiredEnvSetting(s string) string {
+	v := getEnvSetting(s)
+	if v == "" {
+		panic(fmt.Sprintf("Required env setting %s is missing", s))
+	}
+	return v
 }
 
 func providerConfig(d *schema.ResourceData) (client interface{}, err error) {

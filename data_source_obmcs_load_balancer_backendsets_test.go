@@ -10,11 +10,11 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
-	"github.com/oracle/terraform-provider-baremetal/client/mocks"
+
 )
 
 func TestLoadBalancerBackendsetsDatasource(t *testing.T) {
-	client := &mocks.BareMetalClient{}
+	client := GetTestProvider()
 	providers := map[string]terraform.ResourceProvider{
 		"baremetal": Provider(func(d *schema.ResourceData) (interface{}, error) {
 			return client, nil

@@ -11,8 +11,8 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
-	"github.com/oracle/terraform-provider-baremetal/client"
-	"github.com/oracle/terraform-provider-baremetal/client/mocks"
+
+
 
 	"github.com/stretchr/testify/suite"
 
@@ -21,7 +21,7 @@ import (
 
 type ResourceCoreSecurityListTestSuite struct {
 	suite.Suite
-	Client       client.BareMetalClient
+	Client       mockableClient
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	TimeCreated  baremetal.Time
@@ -37,7 +37,7 @@ func extraWait(ew crud.ExtraWaitPostDelete) {
 }
 
 func (s *ResourceCoreSecurityListTestSuite) SetupTest() {
-	s.Client = &mocks.BareMetalClient{}
+	s.Client = GetTestProvider()
 
 	s.Provider = Provider(
 		func(d *schema.ResourceData) (interface{}, error) {

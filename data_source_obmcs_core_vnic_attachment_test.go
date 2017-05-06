@@ -11,8 +11,8 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
-	"github.com/oracle/terraform-provider-baremetal/client"
-	"github.com/oracle/terraform-provider-baremetal/client/mocks"
+
+
 	"github.com/oracle/terraform-provider-baremetal/crud"
 
 	"github.com/stretchr/testify/suite"
@@ -20,7 +20,7 @@ import (
 
 type ResourceCoreVnicAttachmentsTestSuite struct {
 	suite.Suite
-	Client       client.BareMetalClient
+	Client       mockableClient
 	Config       string
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
@@ -28,7 +28,7 @@ type ResourceCoreVnicAttachmentsTestSuite struct {
 }
 
 func (s *ResourceCoreVnicAttachmentsTestSuite) SetupTest() {
-	s.Client = &mocks.BareMetalClient{}
+	s.Client = GetTestProvider()
 	s.Provider = Provider(func(d *schema.ResourceData) (interface{}, error) {
 		return s.Client, nil
 	})
