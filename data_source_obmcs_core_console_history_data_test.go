@@ -40,7 +40,7 @@ func (s *CoreConsoleHistoryDataDatasourceTestSuite) SetupTest() {
       offset = 1
     }
   `
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 	s.ResourceName = "data.baremetal_core_console_history_data.s"
 }
 

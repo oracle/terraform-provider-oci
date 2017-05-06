@@ -43,7 +43,7 @@ func (s *ResourceIdentitySwiftPasswordsTestSuite) SetupTest() {
 		"baremetal": s.Provider,
 	}
 	s.TimeCreated, _ = time.Parse("2006-Jan-02", "2006-Jan-02")
-	s.Config = fmt.Sprintf(testProviderConfig+testPasswordsConfig, "userid")
+	s.Config = fmt.Sprintf(testProviderConfig()+testPasswordsConfig, "userid")
 	s.PasswordsName = "data.baremetal_identity_swift_passwords.p"
 	s.PasswordList = baremetal.ListSwiftPasswords{
 		SwiftPasswords: []baremetal.SwiftPassword{

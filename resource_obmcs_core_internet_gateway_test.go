@@ -48,13 +48,13 @@ func (s *ResourceCoreInternetGatewayTestSuite) SetupTest() {
 
 	s.Config = `
 		resource "baremetal_core_internet_gateway" "t" {
-			compartment_id = "compartment_id"
+			compartment_id = "${var.compartment_id}"
 			display_name = "display_name"
       vcn_id = "vcnid"
 		}
 	`
 
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 
 	s.ResourceName = "baremetal_core_internet_gateway.t"
 	s.Res = &baremetal.InternetGateway{
@@ -119,7 +119,7 @@ func (s ResourceCoreInternetGatewayTestSuite) TestUpdateCompartmentIDForcesNewIn
   }
 	`
 
-	config += testProviderConfig
+	config += testProviderConfig()
 
 	res := &baremetal.InternetGateway{
 		CompartmentID: "new_compartment_id",

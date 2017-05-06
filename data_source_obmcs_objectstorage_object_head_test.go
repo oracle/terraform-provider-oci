@@ -51,7 +51,7 @@ func (s *DatasourceObjectstorageObjectHeadTestSuite) SetupTest() {
 		}
 	`
 
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 
 	s.ResourceName = "data.baremetal_objectstorage_object_head.t"
 	s.Res = &baremetal.HeadObject{

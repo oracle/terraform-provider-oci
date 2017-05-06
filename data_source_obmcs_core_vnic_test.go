@@ -40,7 +40,7 @@ func (s *DatasourceCoreVnicTestSuite) SetupTest() {
       vnic_id = "vnicid"
     }
   `
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 	s.ResourceName = "data.baremetal_core_vnic.t"
 }
 

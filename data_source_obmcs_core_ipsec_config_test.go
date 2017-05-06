@@ -40,7 +40,7 @@ func (s *DatasourceCoreIPSecConfigTestSuite) SetupTest() {
       ipsec_id = "ipsecid"
     }
   `
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 	s.ResourceName = "data.baremetal_core_ipsec_config.s"
 
 }

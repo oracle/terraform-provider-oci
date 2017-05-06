@@ -53,7 +53,7 @@ func (s *ResourceCoreSecurityListTestSuite) SetupTest() {
 
 	s.Config = `
 		resource "baremetal_core_security_list" "t" {
-			compartment_id = "compartment_id"
+			compartment_id = "${var.compartment_id}"
 			display_name = "display_name"
       egress_security_rules {
 				destination = "destination"
@@ -75,7 +75,7 @@ func (s *ResourceCoreSecurityListTestSuite) SetupTest() {
 			vcn_id = "vcn_id"
 		}
 	`
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 	s.ResourceName = "baremetal_core_security_list.t"
 
 	egressRules := []baremetal.EgressSecurityRule{
@@ -159,7 +159,7 @@ func (s ResourceCoreSecurityListTestSuite) TestUpdateSecurityList() {
 
 	config := `
 		resource "baremetal_core_security_list" "t" {
-			compartment_id = "compartment_id"
+			compartment_id = "${var.compartment_id}"
 			display_name = "display_name"
       egress_security_rules {
 				destination = "destination"
@@ -181,7 +181,7 @@ func (s ResourceCoreSecurityListTestSuite) TestUpdateSecurityList() {
 			vcn_id = "vcn_id"
 		}
 	`
-	config += testProviderConfig
+	config += testProviderConfig()
 
 	ingressRules := []baremetal.IngressSecurityRule{
 		{

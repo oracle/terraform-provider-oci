@@ -47,7 +47,7 @@ func (s *ResourceIdentityUIPasswordTestSuite) SetupTest() {
 			version = "1"
 		}
 	`
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 
 	s.TimeCreated = baremetal.Time{Time: time.Now()}
 	s.ResourceName = "baremetal_identity_ui_password.t"
@@ -88,7 +88,7 @@ func (s ResourceIdentityUIPasswordTestSuite) TestUpdateVersionForcesNewUIPasswor
 			version = "2"
 		}
   `
-	config += testProviderConfig
+	config += testProviderConfig()
 
 	res := &baremetal.UIPassword{
 		Password:    "new_password",

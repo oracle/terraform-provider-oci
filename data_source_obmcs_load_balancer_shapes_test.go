@@ -26,7 +26,7 @@ data "baremetal_load_balancer_shapes" "t" {
   compartment_id = "ocid1.compartment.stub_id"
 }
 `
-	config += testProviderConfig
+	config += testProviderConfig()
 
 	compartmentID := "ocid1.compartment.stub_id"
 	list := &baremetal.ListLoadBalancerShapes{

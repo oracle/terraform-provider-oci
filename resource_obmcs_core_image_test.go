@@ -42,12 +42,12 @@ func (s *ResourceCoreImageTestSuite) SetupTest() {
 	s.ResourceName = "baremetal_core_image.t"
 	s.Config = `
 		resource "baremetal_core_image" "t" {
-			compartment_id = "compartment_id"
+			compartment_id = "${var.compartment_id}"
 			display_name = "display_name"
 			instance_id = "instance_id"
 		}
 	`
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 
 	s.TimeCreated = baremetal.Time{Time: time.Now()}
 	s.Res = &baremetal.Image{
@@ -104,11 +104,11 @@ func (s *ResourceCoreImageTestSuite) TestCreateImageWithoutDisplayName() {
 
 	s.Config = `
 		resource "baremetal_core_image" "t" {
-			compartment_id = "compartment_id"
+			compartment_id = "${var.compartment_id}"
 			instance_id = "instance_id"
 		}
 	`
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 
 	opts := &baremetal.CreateOptions{}
 	s.Client.On("CreateImage", "compartment_id", "instance_id", opts).
@@ -134,12 +134,12 @@ func (s ResourceCoreImageTestSuite) TestUpdateImageDisplayName() {
 
 	config := `
 		resource "baremetal_core_image" "t" {
-			compartment_id = "compartment_id"
+			compartment_id = "${var.compartment_id}"
 			instance_id = "instance_id"
 			display_name = "new_display_name"
 		}
 	`
-	config += testProviderConfig
+	config += testProviderConfig()
 
 	resVal := *s.Res
 	res := &resVal

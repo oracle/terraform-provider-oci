@@ -48,12 +48,12 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) SetupTest() {
 	s.Config = `
 		resource "baremetal_core_volume_attachment" "t" {
 			attachment_type = "iscsi"
-			compartment_id = "compartment_id"
+			compartment_id = "${var.compartment_id}"
 			instance_id = "instance_id"
 			volume_id = "volume_id"
 		}
 	`
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 
 	s.ResourceName = "baremetal_core_volume_attachment.t"
 	s.Res = &baremetal.VolumeAttachment{

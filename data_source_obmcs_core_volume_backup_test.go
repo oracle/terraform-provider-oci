@@ -38,13 +38,13 @@ func (s *ResourceCoreVolumeBackupsTestSuite) SetupTest() {
 	}
 	s.Config = `
     data "baremetal_core_volume_backups" "t" {
-      compartment_id = "compartment_id"
+      compartment_id = "${var.compartment_id}"
       limit = 1
       page = "page"
       volume_id = "volume_id"
     }
   `
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 	s.ResourceName = "data.baremetal_core_volume_backups.t"
 
 	b1 := baremetal.VolumeBackup{

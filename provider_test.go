@@ -4,7 +4,6 @@ package main
 
 import (
 	"testing"
-	"fmt"
 	"errors"
 
 	"github.com/MustWin/baremetal-sdk-go"
@@ -20,17 +19,21 @@ import (
 	"github.com/stretchr/testify/mock"
 )
 
-const testProviderConfig = `
+func testProviderConfig() string {
+	return `
+	provider "baremetal" {
+		tenancy_ocid = "ocid.tenancy.aaaa"
+		user_ocid = "ocid.user.bbbbb"
+		fingerprint = "xxxxxxxxxx"
+		private_key_path = "/home/foo/private_key.pem"
+		private_key_password = "password"
+	}
 
-provider "baremetal" {
-	tenancy_ocid = "ocid.tenancy.aaaa"
-	user_ocid = "ocid.user.bbbbb"
-	fingerprint = "xxxxxxxxxx"
-	private_key_path = "/home/foo/private_key.pem"
-	private_key_password = "password"
+	variable "compartment_id" {
+		default = "` + getEnvSetting("compartment_id", "compartment_id") + `"
+	}
+	`
 }
-
-`
 
 // This is a dummy object allowing coexistance between mocked API calls and real API calls in acceptance tests
 // Acceptance tests will use this object that "mocks" the mocks
@@ -67,15 +70,14 @@ func GetTestProvider() mockableClient {
 		d.Set("user_ocid", getRequiredEnvSetting("user_ocid"))
 		d.Set("fingerprint", getRequiredEnvSetting("fingerprint"))
 		d.Set("private_key_path", getRequiredEnvSetting("private_key_path"))
-		d.Set("private_key_password", getEnvSetting("private_key_password"))
-		d.Set("private_key", getEnvSetting("private_key"))
+		d.Set("private_key_password", getEnvSetting("private_key_password", ""))
+		d.Set("private_key", getEnvSetting("private_key", ""))
 
 
 		client, err := providerConfig(d)
 		if err != nil {
 			panic(err)
 		}
-		fmt.Printf("%v\n", client)
 		return &testClient{client.(*baremetal.Client)}
 	}
 	return &mocks.BareMetalClient{}

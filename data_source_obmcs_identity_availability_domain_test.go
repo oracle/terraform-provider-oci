@@ -36,10 +36,10 @@ func (s *ResourceIdentityAvailabilityDomainsTestSuite) SetupTest() {
 	}
 	s.Config = `
     data "baremetal_identity_availability_domains" "t" {
-      compartment_id = "compartmentID"
+      compartment_id = "${var.compartment_id}"
     }
   `
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 	s.ResourceName = "data.baremetal_identity_availability_domains.t"
 
 	a1 := baremetal.AvailabilityDomain{

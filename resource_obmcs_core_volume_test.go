@@ -48,13 +48,13 @@ func (s *ResourceCoreVolumeTestSuite) SetupTest() {
 	s.Config = `
 		resource "baremetal_core_volume" "t" {
 			availability_domain = "availability_domain"
-			compartment_id = "compartment_id"
+			compartment_id = "${var.compartment_id}"
 			display_name = "display_name"
 			size_in_mbs = 123
 		}
 	`
 
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 
 	s.ResourceName = "baremetal_core_volume.t"
 	s.Res = &baremetal.Volume{
@@ -123,11 +123,11 @@ func (s *ResourceCoreVolumeTestSuite) TestCreateResourceCoreVolumeWithoutDisplay
 	s.Config = `
 		resource "baremetal_core_volume" "t" {
 			availability_domain = "availability_domain"
-			compartment_id = "compartment_id"
+			compartment_id = "${var.compartment_id}"
 			size_in_mbs = 123
 		}
 	`
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 
 	opts := &baremetal.CreateVolumeOptions{SizeInMBs: 123}
 	s.Client.On(
@@ -156,12 +156,12 @@ func (s ResourceCoreVolumeTestSuite) TestUpdateVolumeDisplayName() {
 	config := `
 		resource "baremetal_core_volume" "t" {
 			availability_domain = "availability_domain"
-			compartment_id = "compartment_id"
+			compartment_id = "${var.compartment_id}"
 			display_name = "new_display_name"
 			size_in_mbs = 123
 		}
 	`
-	config += testProviderConfig
+	config += testProviderConfig()
 
 	res := &baremetal.Volume{
 		AvailabilityDomain: "availability_domain",
@@ -204,11 +204,11 @@ func (s ResourceCoreVolumeTestSuite) TestUpdateAvailabilityDomainForcesNewVolume
 	config := `
 		resource "baremetal_core_volume" "t" {
 			availability_domain = "new_availability_domain"
-			compartment_id = "compartment_id"
+			compartment_id = "${var.compartment_id}"
 			size_in_mbs = 123
 		}
   `
-	config += testProviderConfig
+	config += testProviderConfig()
 
 	res := &baremetal.Volume{
 		AvailabilityDomain: "new_availability_domain",
@@ -259,7 +259,7 @@ func (s ResourceCoreVolumeTestSuite) TestUpdateCompartmentIdForcesNewVolume() {
 			size_in_mbs = 123
 		}
   `
-	config += testProviderConfig
+	config += testProviderConfig()
 
 	res := &baremetal.Volume{
 		AvailabilityDomain: "availability_domain",

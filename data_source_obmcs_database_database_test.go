@@ -39,7 +39,7 @@ func (s *DatabaseDatabaseTestSuite) SetupTest() {
       database_id = "id"
     }
   `
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 	s.ResourceName = "data.baremetal_database_database.t"
 }
 

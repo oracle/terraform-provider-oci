@@ -46,7 +46,7 @@ func (s *ResourceCoreDHCPOptionsTestSuite) SetupTest() {
 
 	s.Config = `
 		resource "baremetal_core_dhcp_options" "t" {
-			compartment_id = "compartment_id"
+			compartment_id = "${var.compartment_id}"
 			display_name = "display_name"
       options {
 				type = "type"
@@ -61,7 +61,7 @@ func (s *ResourceCoreDHCPOptionsTestSuite) SetupTest() {
 			vcn_id = "vcn_id"
 		}
 	`
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 
 	s.ResourceName = "baremetal_core_dhcp_options.t"
 
@@ -126,7 +126,7 @@ func (s ResourceCoreDHCPOptionsTestSuite) TestUpdateDHCPOptions() {
 
 	config := `
 		resource "baremetal_core_dhcp_options" "t" {
-			compartment_id = "compartment_id"
+			compartment_id = "${var.compartment_id}"
 			display_name = "display_name"
       options {
 				type = "new_type"
@@ -136,7 +136,7 @@ func (s ResourceCoreDHCPOptionsTestSuite) TestUpdateDHCPOptions() {
 			vcn_id = "vcn_id"
 		}
 	`
-	config += testProviderConfig
+	config += testProviderConfig()
 
 	entities := []baremetal.DHCPDNSOption{
 		{

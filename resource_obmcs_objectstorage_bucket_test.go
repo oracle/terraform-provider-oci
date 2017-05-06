@@ -46,7 +46,7 @@ func (s *ResourceObjectstorageBucketTestSuite) SetupTest() {
 
 	s.Config = `
 		resource "baremetal_objectstorage_bucket" "t" {
-			compartment_id = "compartment_id"
+			compartment_id = "${var.compartment_id}"
 			name = "name"
 			namespace = "namespace"
 			metadata = {
@@ -55,7 +55,7 @@ func (s *ResourceObjectstorageBucketTestSuite) SetupTest() {
 		}
 	`
 
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 
 	s.ResourceName = "baremetal_objectstorage_bucket.t"
 	metadata := map[string]string{
@@ -111,7 +111,7 @@ func (s *ResourceObjectstorageBucketTestSuite) TestUpdateResourceObjectstorageBu
 
 	config := `
 		resource "baremetal_objectstorage_bucket" "t" {
-			compartment_id = "compartment_id"
+			compartment_id = "${var.compartment_id}"
 			name = "new_name"
 			namespace = "namespace"
 			metadata = {
@@ -119,7 +119,7 @@ func (s *ResourceObjectstorageBucketTestSuite) TestUpdateResourceObjectstorageBu
 			}
 		}
 	`
-	config += testProviderConfig
+	config += testProviderConfig()
 	metadata := map[string]string{
 		"foo": "bar",
 	}

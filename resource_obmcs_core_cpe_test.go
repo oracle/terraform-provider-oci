@@ -44,13 +44,13 @@ func (s *ResourceCoreCpeTestSuite) SetupTest() {
 	s.Config = `
 
 		resource "baremetal_core_cpe" "t" {
-			compartment_id = "compartmentid"
+			compartment_id = "${var.compartment_id}"
 			display_name = "displayname"
       ip_address = "123.123.123.123"
 		}
 	`
 
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 
 	s.ResourceName = "baremetal_core_cpe.t"
 	s.Res = &baremetal.Cpe{
@@ -97,13 +97,13 @@ func (s ResourceCoreCpeTestSuite) TestUpdateForcesNewCoreCpe() {
 	updateForcingChangeConfig := `
 
   resource "baremetal_core_cpe" "t" {
-    compartment_id = "compartmentid"
+    compartment_id = "${var.compartment_id}"
     display_name = "displayname"
     ip_address = "111.222.111.222"
   }
 
   `
-	updateForcingChangeConfig += testProviderConfig
+	updateForcingChangeConfig += testProviderConfig()
 
 	result := &baremetal.Cpe{
 		ID:            "cpeid2",

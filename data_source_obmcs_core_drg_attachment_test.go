@@ -37,14 +37,14 @@ func (s *CoreDrgAttachmentDatasourceTestSuite) SetupTest() {
 	}
 	s.Config = `
     data "baremetal_core_drg_attachments" "t" {
-      compartment_id = "compartment_id"
+      compartment_id = "${var.compartment_id}"
 			drg_id = "drg_id"
       limit = 1
       page = "page"
 			vcn_id = "vcn_id"
     }
   `
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 	s.ResourceName = "data.baremetal_core_drg_attachments.t"
 }
 

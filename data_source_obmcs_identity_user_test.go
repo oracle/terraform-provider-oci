@@ -38,10 +38,10 @@ func (s *ResourceIdentityUsersTestSuite) SetupTest() {
 	}
 	s.Config = `
     data "baremetal_identity_users" "t" {
-      compartment_id = "compartment"
+      compartment_id = "${var.compartment_id}"
     }
   `
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 	s.ResourceName = "data.baremetal_identity_users.t"
 
 	b1 := baremetal.User{

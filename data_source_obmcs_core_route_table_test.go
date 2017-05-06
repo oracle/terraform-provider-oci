@@ -37,11 +37,11 @@ func (s *ResourceCoreRouteTablesTestSuite) SetupTest() {
 	}
 	s.Config = `
     data "baremetal_core_route_tables" "t" {
-      compartment_id = "compartment_id"
+      compartment_id = "${var.compartment_id}"
       vcn_id = "vcn_id"
     }
   `
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 	s.ResourceName = "data.baremetal_core_route_tables.t"
 
 }

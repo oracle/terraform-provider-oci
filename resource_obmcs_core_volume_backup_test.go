@@ -47,7 +47,7 @@ func (s *ResourceCoreVolumeBackupTestSuite) SetupTest() {
 			display_name = "display_name"
 		}
 	`
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 
 	s.TimeCreated = baremetal.Time{Time: time.Now()}
 	s.Res = &baremetal.VolumeBackup{
@@ -110,7 +110,7 @@ func (s *ResourceCoreVolumeBackupTestSuite) TestCreateVolumeBackupWithoutDisplay
 			volume_id = "volume_id"
 		}
 	`
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 
 	opts := &baremetal.CreateOptions{}
 	s.Client.On("CreateVolumeBackup", "volume_id", opts).
@@ -140,7 +140,7 @@ func (s ResourceCoreVolumeBackupTestSuite) TestUpdateVolumeBackupDisplayName() {
 			display_name = "new_display_name"
 		}
 	`
-	config += testProviderConfig
+	config += testProviderConfig()
 
 	resVal := *s.Res
 	res := &resVal
@@ -183,7 +183,7 @@ func (s ResourceCoreVolumeBackupTestSuite) TestUpdateVolumeIDForcesNewVolumeBack
 			volume_id = "new_volume_id"
 		}
   `
-	config += testProviderConfig
+	config += testProviderConfig()
 
 	resVal := *s.Res
 	res := &resVal

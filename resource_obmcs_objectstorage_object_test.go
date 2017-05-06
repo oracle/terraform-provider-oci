@@ -55,7 +55,7 @@ func (s *ResourceObjectstorageObjectTestSuite) SetupTest() {
 		}
 	`
 
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 
 	s.ResourceName = "baremetal_objectstorage_object.t"
 	metadata := map[string]string{
@@ -114,7 +114,7 @@ func (s *ResourceObjectstorageObjectTestSuite) TestUpdateResourceObjectstorageOb
 			}
 		}
 	`
-	config += testProviderConfig
+	config += testProviderConfig()
 	metadata := map[string]string{
 		"foo": "bar",
 	}

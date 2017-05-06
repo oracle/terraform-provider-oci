@@ -43,7 +43,7 @@ func (s *ResourceIdentityAPIKeyTestSuite) SetupTest() {
 			key_value = "1"
 		}
 	`
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 	s.ResourceName = "baremetal_identity_api_key.t"
 
 	s.TimeCreated = time.Now()

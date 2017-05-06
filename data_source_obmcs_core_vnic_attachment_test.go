@@ -38,13 +38,13 @@ func (s *ResourceCoreVnicAttachmentsTestSuite) SetupTest() {
 	}
 	s.Config = `
     data "baremetal_core_vnic_attachments" "s" {
-      compartment_id = "compartmentid"
+      compartment_id = "${var.compartment_id}"
       availability_domain = "availabilityid"
       vnic_id = "vnicid"
       instance_id = "instanceid"
     }
   `
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 	s.ResourceName = "data.baremetal_core_vnic_attachments.s"
 
 }

@@ -52,7 +52,7 @@ func (s *DatasourceObjectstorageObjectTestSuite) SetupTest() {
 		}
 	`
 
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 
 	s.ResourceName = "baremetal_objectstorage_objects.t"
 	s.Res = &baremetal.ListObjects{

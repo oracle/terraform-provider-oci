@@ -39,7 +39,7 @@ func (s *DatabaseDBHomeTestSuite) SetupTest() {
       db_home_id = "id"
     }
   `
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 	s.ResourceName = "data.baremetal_database_db_home.t"
 }
 

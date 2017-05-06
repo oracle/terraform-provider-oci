@@ -48,12 +48,12 @@ func (s *ResourceCoreVirtualNetworkTestSuite) SetupTest() {
 	s.Config = `
 		resource "baremetal_core_virtual_network" "t" {
 			cidr_block = "cidr_block"
-			compartment_id = "compartment_id"
+			compartment_id = "${var.compartment_id}"
 			display_name = "display_name"
 		}
 	`
 
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 
 	s.ResourceName = "baremetal_core_virtual_network.t"
 	s.Res = &baremetal.VirtualNetwork{
@@ -146,7 +146,7 @@ func (s *ResourceCoreVirtualNetworkTestSuite) TestDeleteResourceCoreVirtualNetwo
 				),
 			},
 			{
-				Config: testProviderConfig,
+				Config: testProviderConfig(),
 				Check: resource.ComposeTestCheckFunc(
 					testNoInstanceState("baremetal_core_virtual_network"),
 				),
@@ -162,10 +162,10 @@ func (s *ResourceCoreVirtualNetworkTestSuite) TestCreateResourceCoreVirtualNetwo
 	s.Config = `
 		resource "baremetal_core_virtual_network" "t" {
 			cidr_block = "cidr_block"
-			compartment_id = "compartment_id"
+			compartment_id = "${var.compartment_id}"
 		}
 	`
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 
 	opts := &baremetal.CreateVcnOptions{}
 	s.Client.On(
@@ -197,10 +197,10 @@ func (s ResourceCoreVirtualNetworkTestSuite) TestUpdateCidrBlockForcesNewVirtual
 	config := `
 		resource "baremetal_core_virtual_network" "t" {
 			cidr_block = "new_cidr_block"
-			compartment_id = "compartment_id"
+			compartment_id = "${var.compartment_id}"
 		}
   `
-	config += testProviderConfig
+	config += testProviderConfig()
 
 	res := &baremetal.VirtualNetwork{
 		CidrBlock:             "new_cidr_block",

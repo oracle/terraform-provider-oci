@@ -48,7 +48,7 @@ func (s *ResourceIdentitySwiftPasswordTestSuite) SetupTest() {
 			description = "` + description + `"
 		}
 	`
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 
 	s.TimeCreated = time.Now()
 	s.ResourceName = "baremetal_identity_swift_password.t"
@@ -100,7 +100,7 @@ func (s ResourceIdentitySwiftPasswordTestSuite) TestUpdateDescriptionUpdatesSwif
 			description = "nah nah nah"
 		}
   `
-	config += testProviderConfig
+	config += testProviderConfig()
 
 	res := &baremetal.SwiftPassword{}
 	*res = *s.Res

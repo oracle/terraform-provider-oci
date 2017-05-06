@@ -37,11 +37,11 @@ func (s *ResourceCoreSubnetsTestSuite) SetupTest() {
 	}
 	s.Config = `
     data "baremetal_core_subnets" "s" {
-      compartment_id = "compartmentid"
+      compartment_id = "${var.compartment_id}"
       vcn_id = "vcnid"
     }
   `
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 	s.ResourceName = "data.baremetal_core_subnets.s"
 
 }

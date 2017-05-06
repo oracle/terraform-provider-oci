@@ -38,13 +38,13 @@ func (s *ObjectstorageBucketSummaryTestSuite) SetupTest() {
 	}
 	s.Config = `
     data "baremetal_objectstorage_bucket_summaries" "t" {
-      compartment_id = "compartmentid"
+      compartment_id = "${var.compartment_id}"
       namespace = "namespace"
       limit = 2
       page = "page"
     }
   `
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 	s.ResourceName = "data.baremetal_objectstorage_bucket_summaries.t"
 	s.TimeCreated = time.Now()
 }

@@ -36,13 +36,13 @@ func (s *DatabaseDatabasesTestSuite) SetupTest() {
 	}
 	s.Config = `
     data "baremetal_database_databases" "t" {
-      compartment_id = "compartment_id"
+      compartment_id = "${var.compartment_id}"
       db_home_id = "db_home_id"
       limit = 1
       page = "page"
     }
   `
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 	s.ResourceName = "data.baremetal_database_databases.t"
 }
 

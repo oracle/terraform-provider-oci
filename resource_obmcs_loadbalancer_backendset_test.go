@@ -60,7 +60,7 @@ resource "baremetal_load_balancer_backendset" "t" {
   }
 }
 `
-	config += testProviderConfig
+	config += testProviderConfig()
 
 	loadBalancerID := "ocid1.loadbalancer.stub_id"
 	res := &baremetal.BackendSet{

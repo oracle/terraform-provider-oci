@@ -37,11 +37,11 @@ func (s *ResourceCoreInstancesTestSuite) SetupTest() {
 	}
 	s.Config = `
     data "baremetal_core_instances" "s" {
-      compartment_id = "compartmentid"
+      compartment_id = "${var.compartment_id}"
       availability_domain = "availabilityid"
     }
   `
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 	s.ResourceName = "data.baremetal_core_instances.s"
 }
 

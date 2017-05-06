@@ -37,11 +37,11 @@ func (s *CoreInternetGatewayDatasourceTestSuite) SetupTest() {
 	}
 	s.Config = `
     data "baremetal_core_internet_gateways" "s" {
-      compartment_id = "compartmentid"
+      compartment_id = "${var.compartment_id}"
       vcn_id = "vcnid"
     }
   `
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 	s.ResourceName = "data.baremetal_core_internet_gateways.s"
 
 }

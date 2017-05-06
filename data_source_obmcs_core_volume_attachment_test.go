@@ -38,14 +38,14 @@ func (s *ResourceCoreVolumeAttachmentsTestSuite) SetupTest() {
 	s.Config = `
     data "baremetal_core_volume_attachments" "t" {
       availability_domain = "availability_domain"
-      compartment_id = "compartment_id"
+      compartment_id = "${var.compartment_id}"
       limit = 1
       page = "page"
       instance_id = "instance_id"
       volume_id = "volume_id"
     }
   `
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 	s.ResourceName = "data.baremetal_core_volume_attachments.t"
 }
 

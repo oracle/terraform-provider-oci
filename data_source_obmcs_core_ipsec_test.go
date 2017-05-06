@@ -37,12 +37,12 @@ func (s *DatasourceCoreIPSecTestSuite) SetupTest() {
 	}
 	s.Config = `
     data "baremetal_core_ipsec_connections" "s" {
-      compartment_id = "compartmentid"
+      compartment_id = "${var.compartment_id}"
       cpe_id = "cpeid"
       drg_id = "drgid"
     }
   `
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 	s.ResourceName = "data.baremetal_core_ipsec_connections.s"
 
 }

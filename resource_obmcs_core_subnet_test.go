@@ -47,7 +47,7 @@ func (s *ResourceCoreSubnetTestSuite) SetupTest() {
 	s.Config = `
 resource "baremetal_core_subnet" "t" {
   availability_domain = "availabilitydomainid"
-  compartment_id      = "compartmentid"
+  compartment_id = "${var.compartment_id}"
   display_name        = "display_name"
   cidr_block          = "10.10.10.0/24"
   route_table_id      = "routetableid"
@@ -56,7 +56,7 @@ resource "baremetal_core_subnet" "t" {
 }
 	`
 
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 
 	s.ResourceName = "baremetal_core_subnet.t"
 	s.Res = &baremetal.Subnet{
@@ -129,7 +129,7 @@ func (s *ResourceCoreSubnetTestSuite) TestCreateResourceCoreSubnetWithoutDisplay
 	s.Config = `
 resource "baremetal_core_subnet" "t" {
   availability_domain = "availabilitydomainid"
-  compartment_id      = "compartmentid"
+  compartment_id = "${var.compartment_id}"
   cidr_block          = "10.10.10.0/24"
   route_table_id      = "routetableid"
   vcn_id              = "vcnid"
@@ -137,7 +137,7 @@ resource "baremetal_core_subnet" "t" {
 }
 	`
 
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 
 	s.Res.DisplayName = ""
 
@@ -171,7 +171,7 @@ func (s ResourceCoreSubnetTestSuite) TestUpdateCompartmentIDForcesNewSubnet() {
 	config := `
 resource "baremetal_core_subnet" "t" {
   availability_domain = "availabilitydomainid"
-  compartment_id      = "new_compartmentid"
+  compartment_id      = "new_compartment_id"
   display_name        = "display_name"
   cidr_block          = "10.10.10.0/24"
   route_table_id      = "routetableid"
@@ -180,12 +180,12 @@ resource "baremetal_core_subnet" "t" {
 }
 	`
 
-	config += testProviderConfig
+	config += testProviderConfig()
 
 	res := &baremetal.Subnet{
 		AvailabilityDomain: "availabilitydomainid",
 		CIDRBlock:          "10.10.10.0/24",
-		CompartmentID:      "new_compartmentid",
+		CompartmentID:      "new_compartment_id",
 		DisplayName:        "display_name",
 		ID:                 "new_id",
 		RouteTableID:       "routetableid",

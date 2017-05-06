@@ -53,7 +53,7 @@ resource "baremetal_load_balancer_backend" "t" {
   weight           = 1
 }
 `
-	config += testProviderConfig
+	config += testProviderConfig()
 
 	loadBalancerID := "ocid1.loadbalancer.stub_id"
 	backendsetName := "stub_backendset_name"

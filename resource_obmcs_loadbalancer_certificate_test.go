@@ -49,7 +49,7 @@ resource "baremetal_load_balancer_certificate" "t" {
   public_certificate = "stub_public_certificate"
 }
 `
-	config += testProviderConfig
+	config += testProviderConfig()
 
 	loadBalancerID := "ocid1.loadbalancer.stub_id"
 	res := &baremetal.Certificate{

@@ -53,7 +53,7 @@ func (s *ResourceIdentityCompartmentTestSuite) SetupTest() {
 			description = "desc!"
 		}
 	`
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 	s.ResourceName = "baremetal_identity_compartment.t"
 	s.Res = &baremetal.Compartment{
 		ID:            "id!",
@@ -118,7 +118,7 @@ func (s *ResourceIdentityCompartmentTestSuite) TestUpdateResourceIdentityCompart
 			description = "newdesc!"
 		}
 	`
-	c += testProviderConfig
+	c += testProviderConfig()
 	u := *s.Res
 	u.Description = "newdesc!"
 
@@ -154,7 +154,7 @@ func (s *ResourceIdentityCompartmentTestSuite) TestFailedUpdateResourceIdentityC
 			description = "newdesc!"
 		}
 	`
-	c += testProviderConfig
+	c += testProviderConfig()
 	opts := &baremetal.UpdateIdentityOptions{}
 	opts.Description = "newdesc!"
 	s.Client.On("UpdateCompartment", "id!", opts).Return(nil, errors.New("FAILED!")).Once()

@@ -46,7 +46,7 @@ func (s *ResourceCoreIPSecTestSuite) SetupTest() {
 
 	s.Config = `
 		resource "baremetal_core_ipsec" "t" {
-			compartment_id = "compartmentid"
+			compartment_id = "${var.compartment_id}"
       cpe_id = "cpeid"
       drg_id = "drgid"
 			display_name = "display_name"
@@ -54,7 +54,7 @@ func (s *ResourceCoreIPSecTestSuite) SetupTest() {
 		}
 	`
 
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 
 	s.ResourceName = "baremetal_core_ipsec.t"
 	s.Res = &baremetal.IPSecConnection{
@@ -111,14 +111,14 @@ func (s *ResourceCoreIPSecTestSuite) TestCreateResourceCoreSubnetWithoutDisplayN
 
 	s.Config = `
   resource "baremetal_core_ipsec" "t" {
-    compartment_id = "compartmentid"
+    compartment_id = "${var.compartment_id}"
     cpe_id = "cpeid"
     drg_id = "drgid"
     static_routes = ["route1","route2"]
   }
 	`
 
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 
 	opts := &baremetal.CreateOptions{}
 	s.Res.DisplayName = ""
@@ -151,7 +151,7 @@ func (s ResourceCoreIPSecTestSuite) TestUpdateCompartmentIDForcesNewIPSec() {
 
 	config := `
 		resource "baremetal_core_ipsec" "t" {
-    compartment_id = "new_compartmentid"
+    compartment_id = "new_compartment_id"
     cpe_id = "cpeid"
     drg_id = "drgid"
     display_name = "display_name"
@@ -159,10 +159,10 @@ func (s ResourceCoreIPSecTestSuite) TestUpdateCompartmentIDForcesNewIPSec() {
 		}
 	`
 
-	config += testProviderConfig
+	config += testProviderConfig()
 
 	res := &baremetal.IPSecConnection{
-		CompartmentID: "new_compartmentid",
+		CompartmentID: "new_compartment_id",
 		DisplayName:   "display_name",
 		ID:            "new_id",
 		DrgID:         "drgid",

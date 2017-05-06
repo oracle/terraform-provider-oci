@@ -47,7 +47,7 @@ func (s *DatasourceDatabaseSupportedOperationTestSuite) SetupTest() {
 		data "baremetal_database_supported_operations" "t" {}
 	`
 
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 
 	s.ResourceName = "data.baremetal_database_supported_operations.t"
 	s.Res = &baremetal.ListSupportedOperations{

@@ -46,7 +46,7 @@ func (s *ResourceCoreConsoleHistoryTestSuite) SetupTest() {
 			instance_id = "instance_id"
     }
   `
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 	s.ResourceName = "baremetal_core_console_history.t"
 	s.Res = &baremetal.ConsoleHistoryMetadata{
 		AvailabilityDomain: "availability_domain",

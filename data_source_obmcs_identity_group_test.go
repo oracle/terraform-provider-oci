@@ -38,10 +38,10 @@ func (s *ResourceIdentityGroupsTestSuite) SetupTest() {
 	}
 	s.Config = `
     data "baremetal_identity_groups" "t" {
-      compartment_id = "compartment"
+      compartment_id = "${var.compartment_id}"
     }
   `
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 	s.ResourceName = "data.baremetal_identity_groups.t"
 
 	b1 := baremetal.Group{

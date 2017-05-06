@@ -26,7 +26,7 @@ data "baremetal_load_balancer_backendsets" "t" {
   load_balancer_id = "ocid1.loadbalancer.stub_id"
 }
 `
-	config += testProviderConfig
+	config += testProviderConfig()
 
 	loadbalancerID := "ocid1.loadbalancer.stub_id"
 	list := &baremetal.ListBackendSets{

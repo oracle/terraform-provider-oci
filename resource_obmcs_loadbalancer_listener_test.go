@@ -55,7 +55,7 @@ resource "baremetal_load_balancer_listener" "t" {
   }
 }
 `
-	config += testProviderConfig
+	config += testProviderConfig()
 
 	loadBalancerID := "stub_load_balancer_id"
 	res := &baremetal.Listener{

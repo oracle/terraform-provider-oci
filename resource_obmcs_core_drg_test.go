@@ -46,11 +46,11 @@ func (s *ResourceCoreDrgTestSuite) SetupTest() {
 
 	s.Config = `
 		resource "baremetal_core_drg" "t" {
-			compartment_id = "compartment_id"
+			compartment_id = "${var.compartment_id}"
 			display_name = "display_name"
 		}
 	`
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 
 	s.ResourceName = "baremetal_core_drg.t"
 	s.Res = &baremetal.Drg{
@@ -111,10 +111,10 @@ func (s *ResourceCoreDrgTestSuite) TestCreateResourceCoreDrgWithoutDisplayName()
 
 	s.Config = `
 		resource "baremetal_core_drg" "t" {
-			compartment_id = "compartment_id"
+			compartment_id = "${var.compartment_id}"
 		}
 	`
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 
 	opts := &baremetal.CreateOptions{}
 	s.Client.On(

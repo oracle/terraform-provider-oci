@@ -45,7 +45,7 @@ func (s *ResourceIdentityPoliciesTestSuite) SetupTest() {
 		"baremetal": s.Provider,
 	}
 	s.TimeCreated, _ = time.Parse("2006-Jan-02", "2006-Jan-02")
-	s.Config = fmt.Sprintf(testProviderConfig+testPoliciesConfig, "7")
+	s.Config = fmt.Sprintf(testProviderConfig()+testPoliciesConfig, "7")
 	s.PoliciesName = "data.baremetal_identity_policies.p"
 	s.Policies = baremetal.ListPolicies{
 		Policies: []baremetal.Policy{

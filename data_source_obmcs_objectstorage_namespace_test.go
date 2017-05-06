@@ -47,7 +47,7 @@ func (s *DatasourceObjectstorageNamespaceTestSuite) SetupTest() {
 		data "baremetal_objectstorage_namespace" "t" {}
 	`
 
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 
 	s.ResourceName = "baremetal_objectstorage_namespace.t"
 	namespace := baremetal.Namespace("namespaceID")

@@ -79,7 +79,7 @@ func (s *ResourceIdentityPolicyTestSuite) SetupTest() {
 		"baremetal": s.Provider,
 	}
 	s.TimeCreated, _ = time.Parse("2006-Jan-02", "2006-Jan-02")
-	s.Config = fmt.Sprintf(testProviderConfig+testPolicyConfig,
+	s.Config = fmt.Sprintf(testProviderConfig()+testPolicyConfig,
 		"pol",
 		"desc",
 		"7",
@@ -137,7 +137,7 @@ func (s *ResourceIdentityPolicyTestSuite) TestUpdateResourceIdentityPolicy() {
 
 	s.Client.On("DeletePolicy", "123", (*baremetal.IfMatchOptions)(nil)).Return(nil)
 
-	config := fmt.Sprintf(testProviderConfig+testPolicyConfig,
+	config := fmt.Sprintf(testProviderConfig()+testPolicyConfig,
 		"pol",
 		"newdesc",
 		"7",
@@ -184,7 +184,7 @@ func (s *ResourceIdentityPolicyTestSuite) TestFailedUpdateResourceIdentityPolicy
 	s.Client.On("GetPolicy", s.Policy.ID).Return(s.Policy, nil).Times(3)
 	s.Client.On("DeletePolicy", "123", (*baremetal.IfMatchOptions)(nil)).Return(nil)
 
-	config := fmt.Sprintf(testProviderConfig+testPolicyConfig,
+	config := fmt.Sprintf(testProviderConfig()+testPolicyConfig,
 		"pol",
 		"newdesc",
 		"7",
@@ -240,7 +240,7 @@ func (s *ResourceIdentityPolicyTestSuite) TestUpdateResourceIdentityPolicyNameSh
 	s.Client.On("GetPolicy", s.Policy.ID).Return(s.Policy, nil)
 	s.Client.On("DeletePolicy", "123", (*baremetal.IfMatchOptions)(nil)).Return(nil)
 
-	config := fmt.Sprintf(testProviderConfig+testPolicyConfig,
+	config := fmt.Sprintf(testProviderConfig()+testPolicyConfig,
 		"newname",
 		"desc",
 		"7",

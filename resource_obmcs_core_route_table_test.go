@@ -46,7 +46,7 @@ func (s *ResourceCoreRouteTableTestSuite) SetupTest() {
 
 	s.Config = `
 		resource "baremetal_core_route_table" "t" {
-			compartment_id = "compartment_id"
+			compartment_id = "${var.compartment_id}"
 			display_name = "display_name"
       route_rules {
 				cidr_block = "cidr_block"
@@ -59,7 +59,7 @@ func (s *ResourceCoreRouteTableTestSuite) SetupTest() {
 			vcn_id = "vcn_id"
 		}
 	`
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 
 	s.ResourceName = "baremetal_core_route_table.t"
 
@@ -136,7 +136,7 @@ func (s ResourceCoreRouteTableTestSuite) TestUpdateRouteTable() {
 
 	config := `
 		resource "baremetal_core_route_table" "t" {
-			compartment_id = "compartment_id"
+			compartment_id = "${var.compartment_id}"
 			display_name = "display_name"
       route_rules {
 				cidr_block = "new_cidr_block"
@@ -145,7 +145,7 @@ func (s ResourceCoreRouteTableTestSuite) TestUpdateRouteTable() {
 			vcn_id = "vcn_id"
 		}
 	`
-	config += testProviderConfig
+	config += testProviderConfig()
 
 	routeRules := []baremetal.RouteRule{
 		{

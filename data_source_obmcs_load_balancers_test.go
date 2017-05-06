@@ -28,7 +28,7 @@ data "baremetal_load_balancers" "t" {
   compartment_id = "ocid1.compartment.stub_id"
 }
 `
-	config += testProviderConfig
+	config += testProviderConfig()
 
 	compartmentID := "ocid1.compartment.stub_id"
 	lb1 := baremetal.LoadBalancer{

@@ -49,7 +49,7 @@ func (s *ResourceIdentityGroupTestSuite) SetupTest() {
 		}
 	`
 
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 
 	s.ResourceName = "baremetal_identity_group.t"
 	s.Res = &baremetal.Group{
@@ -117,7 +117,7 @@ func (s *ResourceIdentityGroupTestSuite) TestUpdateResourceIdentityGroupDescript
 		}
 	`
 
-	c += testProviderConfig
+	c += testProviderConfig()
 
 	u := *s.Res
 	u.Description = "newdesc!"
@@ -154,7 +154,7 @@ func (s *ResourceIdentityGroupTestSuite) TestFailedUpdateResourceIdentityGroupDe
 			description = "newdesc!"
 		}
 	`
-	c += testProviderConfig
+	c += testProviderConfig()
 
 	opts := &baremetal.UpdateIdentityOptions{}
 	opts.Description = "newdesc!"
@@ -198,7 +198,7 @@ func (s *ResourceIdentityGroupTestSuite) TestUpdateResourceIdentityGroupNameShou
 		}
 	`
 
-	c += testProviderConfig
+	c += testProviderConfig()
 
 	u := *s.Res
 	u.ID = "newid!"

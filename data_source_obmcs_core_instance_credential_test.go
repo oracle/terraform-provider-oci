@@ -39,7 +39,7 @@ func (s *ResourceCoreInstanceCredentialTestSuite) SetupTest() {
       instance_id = "instanceid"
     }
   `
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 	s.ResourceName = "data.baremetal_core_instance_credentials.s"
 
 }

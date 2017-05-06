@@ -49,7 +49,7 @@ func (s *ResourceIdentityUserTestSuite) SetupTest() {
 			description = "desc!"
 		}
 	`
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 
 	s.ResourceName = "baremetal_identity_user.t"
 	s.Res = &baremetal.User{
@@ -120,7 +120,7 @@ func (s *ResourceIdentityUserTestSuite) TestUpdateResourceIdentityUserDescriptio
 			description = "newdesc!"
 		}
 	`
-	c += testProviderConfig
+	c += testProviderConfig()
 
 	u := *s.Res
 	u.Description = "newdesc!"
@@ -159,7 +159,7 @@ func (s *ResourceIdentityUserTestSuite) TestFailedUpdateResourceIdentityUserDesc
 
 	`
 
-	c += testProviderConfig
+	c += testProviderConfig()
 
 	opts := &baremetal.UpdateIdentityOptions{}
 	opts.Description = "newdesc!"
@@ -206,7 +206,7 @@ func (s *ResourceIdentityUserTestSuite) TestUpdateResourceIdentityUserNameShould
 		}
 	`
 
-	c += testProviderConfig
+	c += testProviderConfig()
 
 	u := *s.Res
 	u.ID = "newid!"

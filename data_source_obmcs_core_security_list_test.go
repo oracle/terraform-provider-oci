@@ -36,13 +36,13 @@ func (s *CoreSecurityListDatasourceTestSuite) SetupTest() {
 	}
 	s.Config = `
     data "baremetal_core_security_lists" "t" {
-      compartment_id = "compartment_id"
+      compartment_id = "${var.compartment_id}"
       limit = 1
       page = "page"
       vcn_id = "vcn_id"
     }
   `
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 	s.ResourceName = "data.baremetal_core_security_lists.t"
 }
 

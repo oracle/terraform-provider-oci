@@ -49,7 +49,7 @@ func (s *ResourceCoreInstanceTestSuite) SetupTest() {
 	s.Config = `
 		resource "baremetal_core_instance" "t" {
 			availability_domain = "availability_domain"
-			compartment_id = "compartment_id"
+			compartment_id = "${var.compartment_id}"
 			display_name = "display_name"
       image = "imageid"
       shape = "shapeid"
@@ -60,7 +60,7 @@ func (s *ResourceCoreInstanceTestSuite) SetupTest() {
 		}
 	`
 
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 
 	s.ResourceName = "baremetal_core_instance.t"
 	s.Res = &baremetal.Instance{
@@ -130,7 +130,7 @@ func (s *ResourceCoreInstanceTestSuite) TestCreateResourceCoreInstanceWithoutDis
 	s.Config = `
 		resource "baremetal_core_instance" "t" {
 			availability_domain = "availability_domain"
-			compartment_id = "compartment_id"
+			compartment_id = "${var.compartment_id}"
       image = "imageid"
       shape = "shapeid"
       subnet_id = "subnetid"
@@ -139,7 +139,7 @@ func (s *ResourceCoreInstanceTestSuite) TestCreateResourceCoreInstanceWithoutDis
       }
 		}
 	`
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 
 	opts := &baremetal.LaunchInstanceOptions{}
 	opts.Metadata = s.Res.Metadata
@@ -174,7 +174,7 @@ func (s ResourceCoreInstanceTestSuite) TestUpdateInstanceDisplayName() {
 	config := `
 		resource "baremetal_core_instance" "t" {
 			availability_domain = "availability_domain"
-			compartment_id = "compartment_id"
+			compartment_id = "${var.compartment_id}"
       image = "imageid"
       shape = "shapeid"
       subnet_id = "subnetid"
@@ -184,7 +184,7 @@ func (s ResourceCoreInstanceTestSuite) TestUpdateInstanceDisplayName() {
       }
 		}
 	`
-	config += testProviderConfig
+	config += testProviderConfig()
 
 	res := &baremetal.Instance{
 		AvailabilityDomain: "availability_domain",
@@ -233,7 +233,7 @@ func (s ResourceCoreInstanceTestSuite) TestUpdateAvailabilityDomainForcesNewInst
 	config := `
 		resource "baremetal_core_instance" "t" {
 			availability_domain = "new_availability_domain"
-			compartment_id = "compartment_id"
+			compartment_id = "${var.compartment_id}"
 			display_name = "display_name"
       image = "imageid"
       shape = "shapeid"
@@ -244,7 +244,7 @@ func (s ResourceCoreInstanceTestSuite) TestUpdateAvailabilityDomainForcesNewInst
 		}
 	`
 
-	config += testProviderConfig
+	config += testProviderConfig()
 
 	res := &baremetal.Instance{
 		AvailabilityDomain: "new_availability_domain",

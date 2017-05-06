@@ -41,7 +41,7 @@ func (s *ResourceIdentityAPIKeysTestSuite) SetupTest() {
       user_id = "user_id"
     }
   `
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 	s.ResourceName = "data.baremetal_identity_api_keys.t"
 
 	b1 := baremetal.APIKey{

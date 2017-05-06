@@ -114,7 +114,7 @@ func (s *DatabaseDBSystemTestSuite) SetupTest() {
 	parsed := template.Must(template.New("config").Parse(tmpl))
 	parsed.Execute(&buf, s.Res)
 	s.Config = buf.String()
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 
 	s.ResourceName = "baremetal_database_db_system.t"
 }

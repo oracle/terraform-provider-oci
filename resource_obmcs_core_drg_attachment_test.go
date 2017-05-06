@@ -46,13 +46,13 @@ func (s *ResourceCoreDrgAttachmentTestSuite) SetupTest() {
 
 	s.Config = `
 		resource "baremetal_core_drg_attachment" "t" {
-			compartment_id = "compartment_id"
+			compartment_id = "${var.compartment_id}"
 			display_name = "display_name"
 			drg_id = "drg_id"
 			vcn_id = "vcn_id"
 		}
 	`
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 
 	s.ResourceName = "baremetal_core_drg_attachment.t"
 	s.Res = &baremetal.DrgAttachment{

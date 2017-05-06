@@ -177,7 +177,7 @@ func resourcesMap() map[string]*schema.Resource {
 	}
 }
 
-func getEnvSetting(s string) string {
+func getEnvSetting(s string, dv string) string {
 	v := os.Getenv("TF_VAR_" + s)
 	if v != "" {
 		return v
@@ -186,11 +186,11 @@ func getEnvSetting(s string) string {
 	if v != "" {
 		return v
 	}
-	return ""
+	return dv
 }
 
 func getRequiredEnvSetting(s string) string {
-	v := getEnvSetting(s)
+	v := getEnvSetting(s, "")
 	if v == "" {
 		panic(fmt.Sprintf("Required env setting %s is missing", s))
 	}

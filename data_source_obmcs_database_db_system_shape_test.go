@@ -37,12 +37,12 @@ func (s *DatabaseDBSystemShapeTestSuite) SetupTest() {
 	s.Config = `
     data "baremetal_database_db_system_shapes" "t" {
       availability_domain = "availability"
-      compartment_id = "compartmentid"
+      compartment_id = "${var.compartment_id}"
       limit = 1
       page = "page"
     }
   `
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 	s.ResourceName = "data.baremetal_database_db_system_shapes.t"
 }
 
