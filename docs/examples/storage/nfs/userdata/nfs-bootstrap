@@ -2,7 +2,6 @@
 set -e
 
 ## Install and configure a NFS server to export a 2TB remote attached LUN.
-yum update -y
 
 ### Storage setup
 wget -O /usr/local/bin/iscsiattach.sh https://raw.githubusercontent.com/oracle/terraform-provider-baremetal/master/docs/examples/storage/nfs/userdata/iscsiattach.sh 
@@ -22,3 +21,6 @@ chmod 755 /mnt/2tb-nfs/
 cidr=`ip addr show dev ens3 | grep "inet " | awk -F' ' '{print $2}'`
 echo "/mnt/2tb-nfs $cidr(rw,sync,no_subtree_check)" > /etc/exports
 exportfs -a
+
+### YUM update
+yum update -y
