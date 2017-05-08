@@ -5,7 +5,7 @@ set -e
 yum update -y
 
 ### Storage setup
-wget -O /usr/local/bin/iscsiattach.sh https://raw.githubusercontent.com/oracle/terraform-provider-baremetal/master/docs/examples/storage/nfs/userdata/nfs-bootstrap
+wget -O /usr/local/bin/iscsiattach.sh https://raw.githubusercontent.com/oracle/terraform-provider-baremetal/master/docs/examples/storage/nfs/userdata/iscsiattach.sh 
 chmod +x /usr/local/bin/iscsiattach.sh
 /usr/local/bin/iscsiattach.sh
 mkfs.xfs /dev/sdb
