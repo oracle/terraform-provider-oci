@@ -13,17 +13,23 @@ chmod +x /usr/local/bin/iscsiattach.sh
 mkfs.xfs /dev/sdb
 mkdir /mnt/2tb-nfs
 mount -t xfs /dev/sdb /mnt/2tb-nfs/
+sdb_uuid=`blkid /dev/sdb -s UUID -o value`
+echo "UUID=$sdb_uuid    /mnt/2tb-nfs    xfs    defaults,noatime,_netdev,nofail" >> /etc/fstab
+
 
 ### NFS setup
-firewall-cmd --permanent --zone=public --add-service=nfs
+firewall-offline-cmd --zone=public --add-service=nfs
 yum -y install nfs-utils
 systemctl enable nfs-server.service
 systemctl start nfs-server.service
 chown nfsnobody:nfsnobody /mnt/2tb-nfs/
-chmod 755 /mnt/2tb-nfs/
+chmod 777 /mnt/2tb-nfs/
 cidr=`ip addr show dev ens3 | grep "inet " | awk -F' ' '{print $2}'`
 echo "/mnt/2tb-nfs $cidr(rw,sync,no_subtree_check)" > /etc/exports
 exportfs -a
 
 ### YUM update
 yum update -y
+
+### Firewall
+systemctl restart firewalld.service
