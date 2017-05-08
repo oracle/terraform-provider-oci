@@ -4,7 +4,7 @@
     #   | |_| |  _ < / ___ | |___| |___| |___
     #    \___/|_| \_/_/   \_\____|_____|_____|
 ***
-## Manage an instance
+## Start a NFS server
 This example launches an instance into an existing subnet, creates and attaches a 2TB LUN, installs and starts a NFS server, and outputs the public and private IP address of the instance.
 
 ### Using this example
