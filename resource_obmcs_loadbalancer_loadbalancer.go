@@ -141,6 +141,8 @@ func (s *LoadBalancerResourceCrud) CreatedPending() []string {
 	return []string{
 		baremetal.ResourceWaitingForWorkRequest,
 		baremetal.ResourceCreating,
+		baremetal.WorkRequestAccepted,
+		baremetal.WorkRequestInProgress,
 	}
 }
 
@@ -156,6 +158,8 @@ func (s *LoadBalancerResourceCrud) DeletedPending() []string {
 	return []string{
 		baremetal.ResourceWaitingForWorkRequest,
 		baremetal.ResourceDeleting,
+		baremetal.WorkRequestAccepted,
+		baremetal.WorkRequestInProgress,
 	}
 }
 
