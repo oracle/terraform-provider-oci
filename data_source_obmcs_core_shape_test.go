@@ -35,10 +35,12 @@ func (s *ResourceCoreShapeTestSuite) SetupTest() {
 		"baremetal": s.Provider,
 	}
 	s.Config = `
+    data "baremetal_identity_availability_domains" "t" {
+      compartment_id = "${var.compartment_id}"
+    }
     data "baremetal_core_shape" "s" {
       compartment_id = "${var.compartment_id}"
-      availability_domain = "availability_domain"
-      image_id = "imageid"
+      availability_domain = "${data.baremetal_identity_availability_domains.t.availability_domains.0.name}"
     }
   `
 	s.Config += testProviderConfig()
@@ -78,12 +80,11 @@ func (s *ResourceCoreShapeTestSuite) TestResourceReadCoreShape() {
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartmentid"),
-					resource.TestCheckResourceAttr(s.ResourceName, "availability_domain", "availability_domain"),
-					resource.TestCheckResourceAttr(s.ResourceName, "image_id", "imageid"),
-					resource.TestCheckResourceAttr(s.ResourceName, "shapes.0.name", "shape1"),
-					resource.TestCheckResourceAttr(s.ResourceName, "shapes.1.name", "shape2"),
-					resource.TestCheckResourceAttr(s.ResourceName, "shapes.#", "2"),
+
+					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "shapes.0.name"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "shapes.1.name"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "shapes.#"),
 				),
 			},
 		},
@@ -95,6 +96,9 @@ func (s *ResourceCoreShapeTestSuite) TestResourceReadCoreShape() {
 }
 
 func (s *ResourceCoreShapeTestSuite) TestResourceReadCoreShapeWithPagination() {
+	if IsAccTest() {
+		s.T().Skip()
+	}
 	opts := &baremetal.ListShapesOptions{}
 	opts.AvailabilityDomain = "availability_domain"
 	opts.ImageID = "imageid"
@@ -130,7 +134,7 @@ func (s *ResourceCoreShapeTestSuite) TestResourceReadCoreShapeWithPagination() {
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartmentid"),
+
 					resource.TestCheckResourceAttr(s.ResourceName, "availability_domain", "availability_domain"),
 					resource.TestCheckResourceAttr(s.ResourceName, "image_id", "imageid"),
 					resource.TestCheckResourceAttr(s.ResourceName, "shapes.0.name", "shape1"),

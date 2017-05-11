@@ -55,7 +55,7 @@ func (s *ResourceIdentityAvailabilityDomainsTestSuite) SetupTest() {
 	}
 }
 
-func (s *ResourceIdentityAvailabilityDomainsTestSuite) TestReadAPIKeys() {
+func (s *ResourceIdentityAvailabilityDomainsTestSuite) TestReadAvailabilityDomains() {
 	s.Client.On("ListAvailabilityDomains", "compartmentID").Return(s.List, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
@@ -67,18 +67,17 @@ func (s *ResourceIdentityAvailabilityDomainsTestSuite) TestReadAPIKeys() {
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "CompartmentID"),
-					resource.TestCheckResourceAttr(s.ResourceName, "availability_domains.0.name", "AD1"),
-					resource.TestCheckResourceAttr(s.ResourceName, "availability_domains.1.name", "AD2"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domains.0.name"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domains.1.name"),
 				),
 			},
 		},
 	},
 	)
 
-	s.Client.AssertCalled(s.T(), "ListAPIKeys", "user_id")
+	s.Client.AssertCalled(s.T(), "ListAvailabilityDomains", "user_id")
 }
 
 func TestResourceIdentityAvailabilityDomainsTestSuite(t *testing.T) {
-	suite.Run(t, new(ResourceIdentityAPIKeysTestSuite))
+	suite.Run(t, new(ResourceIdentityAvailabilityDomainsTestSuite))
 }

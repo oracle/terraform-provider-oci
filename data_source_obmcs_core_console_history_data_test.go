@@ -25,9 +25,6 @@ type CoreConsoleHistoryDataDatasourceTestSuite struct {
 }
 
 func (s *CoreConsoleHistoryDataDatasourceTestSuite) SetupTest() {
-	if IsAccTest() {
-		s.T().Skip()
-	}
 	s.Client = GetTestProvider()
 	s.Provider = Provider(func(d *schema.ResourceData) (interface{}, error) {
 		return s.Client, nil
@@ -37,8 +34,12 @@ func (s *CoreConsoleHistoryDataDatasourceTestSuite) SetupTest() {
 		"baremetal": s.Provider,
 	}
 	s.Config = `
+
+    resource "baremetal_core_console_history" "t" {
+			instance_id = "instance_id"
+    }
     data "baremetal_core_console_history_data" "s" {
-      console_history_id = "ichid"
+      console_history_id = "${baremetal_core_console_history.t.id}"
       length = 1
       offset = 1
     }

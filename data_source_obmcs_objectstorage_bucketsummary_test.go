@@ -111,7 +111,7 @@ func (s *ObjectstorageBucketSummaryTestSuite) TestReadBucketSummaries() {
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartmentid"),
+
 					resource.TestCheckResourceAttr(s.ResourceName, "namespace", "namespace"),
 					resource.TestCheckResourceAttr(s.ResourceName, "limit", "2"),
 					resource.TestCheckResourceAttr(s.ResourceName, "bucket_summaries.0.name", "name0"),
