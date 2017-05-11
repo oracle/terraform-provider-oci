@@ -47,7 +47,7 @@ func (s *ResourceCoreVirtualNetworkTestSuite) SetupTest() {
 
 	s.Config = `
 		resource "baremetal_core_virtual_network" "t" {
-			cidr_block = "cidr_block"
+			cidr_block = "10.0.0.0/16"
 			compartment_id = "${var.compartment_id}"
 			display_name = "display_name"
 		}
@@ -57,7 +57,7 @@ func (s *ResourceCoreVirtualNetworkTestSuite) SetupTest() {
 
 	s.ResourceName = "baremetal_core_virtual_network.t"
 	s.Res = &baremetal.VirtualNetwork{
-		CidrBlock:             "cidr_block",
+		CidrBlock:             "10.0.0.0/16",
 		CompartmentID:         "compartment_id",
 		DefaultRouteTableID:   "default_route_table_id",
 		DefaultSecurityListID: "default_security_list_id",
@@ -70,7 +70,7 @@ func (s *ResourceCoreVirtualNetworkTestSuite) SetupTest() {
 	s.Res.RequestID = "opcrequestid"
 
 	s.DeletingRes = &baremetal.VirtualNetwork{
-		CidrBlock:             "cidr_block",
+		CidrBlock:             "10.0.0.0/16",
 		CompartmentID:         "compartment_id",
 		DefaultRouteTableID:   "default_route_table_id",
 		DefaultSecurityListID: "default_security_list_id",
@@ -81,7 +81,7 @@ func (s *ResourceCoreVirtualNetworkTestSuite) SetupTest() {
 	}
 
 	s.DeletedRes = &baremetal.VirtualNetwork{
-		CidrBlock:             "cidr_block",
+		CidrBlock:             "10.0.0.0/16",
 		CompartmentID:         "compartment_id",
 		DefaultRouteTableID:   "default_route_table_id",
 		DefaultSecurityListID: "default_security_list_id",
@@ -97,7 +97,7 @@ func (s *ResourceCoreVirtualNetworkTestSuite) SetupTest() {
 	opts.DisplayName = "display_name"
 	s.Client.On(
 		"CreateVirtualNetwork",
-		"cidr_block",
+		"10.0.0.0/16",
 		"compartment_id",
 		opts).Return(s.Res, nil)
 	s.Client.On("DeleteVirtualNetwork", "id", (*baremetal.IfMatchOptions)(nil)).Return(nil)
@@ -117,12 +117,11 @@ func (s *ResourceCoreVirtualNetworkTestSuite) TestCreateResourceCoreVirtualNetwo
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "cidr_block", s.Res.CidrBlock),
 
-					resource.TestCheckResourceAttr(s.ResourceName, "default_route_table_id", s.Res.DefaultRouteTableID),
-					resource.TestCheckResourceAttr(s.ResourceName, "default_security_list_id", s.Res.DefaultSecurityListID),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "default_route_table_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "default_security_list_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", s.Res.DisplayName),
-					resource.TestCheckResourceAttr(s.ResourceName, "id", s.Res.ID),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", s.Res.State),
-					resource.TestCheckResourceAttr(s.ResourceName, "time_created", s.Res.TimeCreated.String()),
 				),
 			},
 		},
@@ -142,7 +141,7 @@ func (s *ResourceCoreVirtualNetworkTestSuite) TestDeleteResourceCoreVirtualNetwo
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "id", s.Res.ID),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 				),
 			},
 			{
@@ -156,12 +155,15 @@ func (s *ResourceCoreVirtualNetworkTestSuite) TestDeleteResourceCoreVirtualNetwo
 }
 
 func (s *ResourceCoreVirtualNetworkTestSuite) TestCreateResourceCoreVirtualNetworkWithoutDisplayName() {
+	if IsAccTest() {
+		s.T().Skip()
+	}
 	s.Client.On("GetVirtualNetwork", "id").Return(s.Res, nil).Times(2)
 	s.Client.On("GetVirtualNetwork", "id").Return(s.DeletedRes, nil)
 
 	s.Config = `
 		resource "baremetal_core_virtual_network" "t" {
-			cidr_block = "cidr_block"
+			cidr_block = "10.0.0.0/16"
 			compartment_id = "${var.compartment_id}"
 		}
 	`
@@ -196,14 +198,14 @@ func (s ResourceCoreVirtualNetworkTestSuite) TestUpdateCidrBlockForcesNewVirtual
 
 	config := `
 		resource "baremetal_core_virtual_network" "t" {
-			cidr_block = "new_cidr_block"
+			cidr_block = "10.0.0.0/24"
 			compartment_id = "${var.compartment_id}"
 		}
   `
 	config += testProviderConfig()
 
 	res := &baremetal.VirtualNetwork{
-		CidrBlock:             "new_cidr_block",
+		CidrBlock:             "10.0.0.0/24",
 		CompartmentID:         "compartment_id",
 		DefaultRouteTableID:   "default_route_table_id",
 		DefaultSecurityListID: "default_security_list_id",

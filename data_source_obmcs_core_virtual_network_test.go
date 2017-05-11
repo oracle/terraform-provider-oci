@@ -35,10 +35,14 @@ func (s *ResourceCoreVirtualNetworksTestSuite) SetupTest() {
 		"baremetal": s.Provider,
 	}
 	s.Config = `
+	resource "baremetal_core_virtual_network" "t" {
+			cidr_block = "10.0.0.0/16"
+			compartment_id = "${var.compartment_id}"
+			display_name = "display_name"
+		}
     data "baremetal_core_virtual_networks" "t" {
-      compartment_id = "${var.compartment_id}"
+      compartment_id = "${baremetal_core_virtual_network.t.compartment_id}"
       limit = 1
-      page = "page"
     }
   `
 	s.Config += testProviderConfig()
@@ -58,22 +62,12 @@ func (s *ResourceCoreVirtualNetworksTestSuite) TestReadVirtualNetworks() {
 		&baremetal.ListVirtualNetworks{
 			VirtualNetworks: []baremetal.VirtualNetwork{
 				{
-					CidrBlock:             "cidr_block",
+					CidrBlock:             "10.0.0.0/16",
 					CompartmentID:         "compartment_id",
 					DefaultRouteTableID:   "default_route_table_id",
 					DefaultSecurityListID: "default_security_list_id",
 					DisplayName:           "display_name",
 					ID:                    "id1",
-					State:                 baremetal.ResourceAttached,
-					TimeCreated:           baremetal.Time{Time: time.Now()},
-				},
-				{
-					CidrBlock:             "cidr_block",
-					CompartmentID:         "compartment_id",
-					DefaultRouteTableID:   "default_route_table_id",
-					DefaultSecurityListID: "default_security_list_id",
-					DisplayName:           "display_name",
-					ID:                    "id2",
 					State:                 baremetal.ResourceAttached,
 					TimeCreated:           baremetal.Time{Time: time.Now()},
 				},
@@ -91,13 +85,9 @@ func (s *ResourceCoreVirtualNetworksTestSuite) TestReadVirtualNetworks() {
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-
-					resource.TestCheckResourceAttr(s.ResourceName, "limit", "1"),
-					resource.TestCheckResourceAttr(s.ResourceName, "page", "page"),
-					resource.TestCheckResourceAttr(s.ResourceName, "virtual_networks.0.cidr_block", "cidr_block"),
-					resource.TestCheckResourceAttr(s.ResourceName, "virtual_networks.0.id", "id1"),
-					resource.TestCheckResourceAttr(s.ResourceName, "virtual_networks.1.id", "id2"),
-					resource.TestCheckResourceAttr(s.ResourceName, "virtual_networks.#", "2"),
+					resource.TestCheckResourceAttr(s.ResourceName, "virtual_networks.0.cidr_block", "10.0.0.0/16"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "virtual_networks.0.id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "virtual_networks.#"),
 				),
 			},
 		},
@@ -108,6 +98,9 @@ func (s *ResourceCoreVirtualNetworksTestSuite) TestReadVirtualNetworks() {
 }
 
 func (s *ResourceCoreVirtualNetworksTestSuite) TestReadVirtualNetworksWithPaging() {
+	if IsAccTest() {
+		s.T().Skip()
+	}
 	opts := &baremetal.ListOptions{}
 	opts.Limit = 1
 	opts.Page = "page"
