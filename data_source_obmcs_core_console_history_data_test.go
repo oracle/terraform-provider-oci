@@ -25,6 +25,9 @@ type CoreConsoleHistoryDataDatasourceTestSuite struct {
 }
 
 func (s *CoreConsoleHistoryDataDatasourceTestSuite) SetupTest() {
+	if IsAccTest() {
+		s.T().Skip()
+	}
 	s.Client = GetTestProvider()
 	s.Provider = Provider(func(d *schema.ResourceData) (interface{}, error) {
 		return s.Client, nil

@@ -56,10 +56,16 @@ func (r *testClient) AssertCalled(t mock.TestingT, methodName string, arguments 
 	return true
 }
 
-func GetTestProvider() mockableClient {
-	acc, err := strconv.ParseBool(os.Getenv("TF_ACC"))
+func IsAccTest() bool {
+	acc, err := strconv.ParseBool(os.Getenv(resource.TestEnvVar))
+	if err != nil {
+		panic("Err testing TF_ACC env var. It should be blank or a boolean value.")
+	}
+	return acc
+}
 
-	if err == nil && acc {
+func GetTestProvider() mockableClient {
+	if IsAccTest() {
 		r := &schema.Resource{
 			Schema: schemaMap(),
 		}
