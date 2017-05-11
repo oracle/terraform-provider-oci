@@ -98,7 +98,7 @@ func (s *ResourceCoreVnicAttachmentsTestSuite) TestResourceReadCoreVnicAttachmen
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartmentid"),
+
 					resource.TestCheckResourceAttr(s.ResourceName, "availability_domain", "availabilityid"),
 					resource.TestCheckResourceAttr(s.ResourceName, "vnic_id", "vnicid"),
 					resource.TestCheckResourceAttr(s.ResourceName, "instance_id", "instanceid"),
@@ -204,7 +204,7 @@ func (s *ResourceCoreVnicAttachmentsTestSuite) TestResourceReadCoreVnicAttachmen
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartmentid"),
+
 					resource.TestCheckResourceAttr(s.ResourceName, "availability_domain", "availabilityid"),
 					resource.TestCheckResourceAttr(s.ResourceName, "vnic_id", "vnicid"),
 					resource.TestCheckResourceAttr(s.ResourceName, "instance_id", "instanceid"),

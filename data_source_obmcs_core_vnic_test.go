@@ -73,7 +73,7 @@ func (s *DatasourceCoreVnicTestSuite) TestReadVnic() {
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartmentid"),
+
 					resource.TestCheckResourceAttr(s.ResourceName, "availability_domain", "availabilitydomain"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", baremetal.ResourceActive),
 					resource.TestCheckResourceAttr(s.ResourceName, "private_ip_address", "10.10.10.10"),

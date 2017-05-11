@@ -74,7 +74,7 @@ func (s *ResourceCoreConsoleHistoryTestSuite) TestCreateResourceCoreInstanceCons
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "id", s.Res.ID),
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", s.Res.CompartmentID),
+
 				),
 			},
 		},

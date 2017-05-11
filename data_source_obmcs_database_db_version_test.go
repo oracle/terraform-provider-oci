@@ -81,7 +81,7 @@ func (s *DatabaseDBVersionTestSuite) TestReadDBVersions() {
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartmentid"),
+
 					resource.TestCheckResourceAttr(s.ResourceName, "limit", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "db_versions.0.version", "version1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "db_versions.3.version", "version4"),

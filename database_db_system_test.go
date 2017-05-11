@@ -131,7 +131,7 @@ func (s *DatabaseDBSystemTestSuite) TestCreateDBSystem() {
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", s.Res.CompartmentID),
+
 					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.db_version", s.Res.DBHome.DBVersion),
 					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.database.0.db_name", s.Res.DBHome.Database.DBName),
 				),

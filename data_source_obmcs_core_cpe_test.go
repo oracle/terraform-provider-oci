@@ -155,7 +155,7 @@ func (s *DatasourceCoreCpeTestSuite) TestCpePagedList() {
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartmentid"),
+
 					resource.TestCheckResourceAttr(s.ResourceName, "cpes.0.ip_address", "10.10.10.2"),
 					resource.TestCheckResourceAttr(s.ResourceName, "cpes.0.id", "id1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "cpes.1.ip_address", "10.10.10.3"),

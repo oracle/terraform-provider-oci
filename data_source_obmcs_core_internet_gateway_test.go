@@ -94,7 +94,7 @@ func (s *CoreInternetGatewayDatasourceTestSuite) TestResourceListInternetGateway
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartmentid"),
+
 					resource.TestCheckResourceAttr(s.ResourceName, "vcn_id", "vcnid"),
 					resource.TestCheckResourceAttr(s.ResourceName, "gateways.0.compartment_id", "compartmentid"),
 					resource.TestCheckResourceAttr(s.ResourceName, "gateways.0.id", "id1"),
@@ -196,7 +196,7 @@ func (s *CoreInternetGatewayDatasourceTestSuite) TestResourceListInternetGateway
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartmentid"),
+
 					resource.TestCheckResourceAttr(s.ResourceName, "vcn_id", "vcnid"),
 					resource.TestCheckResourceAttr(s.ResourceName, "gateways.0.compartment_id", "compartmentid"),
 					resource.TestCheckResourceAttr(s.ResourceName, "gateways.0.id", "id1"),

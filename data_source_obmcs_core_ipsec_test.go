@@ -103,7 +103,7 @@ func (s *DatasourceCoreIPSecTestSuite) TestResourceListIPConnections() {
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartmentid"),
+
 					resource.TestCheckResourceAttr(s.ResourceName, "drg_id", "drgid"),
 					resource.TestCheckResourceAttr(s.ResourceName, "cpe_id", "cpeid"),
 					resource.TestCheckResourceAttr(s.ResourceName, "connections.0.compartment_id", "compartmentid"),
@@ -222,7 +222,7 @@ func (s *DatasourceCoreIPSecTestSuite) TestResourceListPagedIPConnections() {
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartmentid"),
+
 					resource.TestCheckResourceAttr(s.ResourceName, "drg_id", "drgid"),
 					resource.TestCheckResourceAttr(s.ResourceName, "cpe_id", "cpeid"),
 					resource.TestCheckResourceAttr(s.ResourceName, "connections.0.compartment_id", "compartmentid"),

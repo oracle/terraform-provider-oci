@@ -101,7 +101,7 @@ func (s *DatabaseDBSystemShapeTestSuite) TestReadDBSystemShapes() {
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "availability_domain", "availability"),
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartmentid"),
+
 					resource.TestCheckResourceAttr(s.ResourceName, "limit", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "db_system_shapes.0.name", "name1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "db_system_shapes.3.name", "name4"),

@@ -82,7 +82,7 @@ func (s *ResourceCoreCpeTestSuite) TestCreateResourceCoreCpe() {
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", s.Res.DisplayName),
 					resource.TestCheckResourceAttr(s.ResourceName, "id", s.Res.ID),
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", s.Res.CompartmentID),
+
 					resource.TestCheckResourceAttr(s.ResourceName, "time_created", s.Res.TimeCreated.String()),
 					resource.TestCheckResourceAttr(s.ResourceName, "ip_address", s.Res.IPAddress),
 				),

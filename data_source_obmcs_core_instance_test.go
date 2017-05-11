@@ -101,7 +101,7 @@ func (s *ResourceCoreInstancesTestSuite) TestResourceListInstances() {
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartmentid"),
+
 					resource.TestCheckResourceAttr(s.ResourceName, "availability_domain", "availabilityid"),
 					resource.TestCheckResourceAttr(s.ResourceName, "instances.0.availability_domain", "availabilityid"),
 					resource.TestCheckResourceAttr(s.ResourceName, "instances.0.id", "id1"),
@@ -214,7 +214,7 @@ func (s *ResourceCoreInstancesTestSuite) TestResourceListInstancesPaged() {
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartmentid"),
+
 					resource.TestCheckResourceAttr(s.ResourceName, "availability_domain", "availabilityid"),
 					resource.TestCheckResourceAttr(s.ResourceName, "instances.0.availability_domain", "availabilityid"),
 					resource.TestCheckResourceAttr(s.ResourceName, "instances.0.id", "id1"),

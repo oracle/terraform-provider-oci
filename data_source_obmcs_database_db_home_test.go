@@ -60,7 +60,7 @@ func (s *DatabaseDBHomeTestSuite) TestReadDBHome() {
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartment_id"),
+
 					resource.TestCheckResourceAttr(s.ResourceName, "db_system_id", "db_system_id"),
 				),
 			},

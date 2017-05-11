@@ -85,7 +85,7 @@ func (s *DBSystemDatasourceTestSuite) TestReadDBSystems() {
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartmentid"),
+
 					resource.TestCheckResourceAttr(s.ResourceName, "limit", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "db_systems.0.shape", "shape1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "db_systems.3.shape", "shape4"),
