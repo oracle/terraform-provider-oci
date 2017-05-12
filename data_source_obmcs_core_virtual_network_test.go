@@ -35,15 +35,15 @@ func (s *ResourceCoreVirtualNetworksTestSuite) SetupTest() {
 		"baremetal": s.Provider,
 	}
 	s.Config = `
-	resource "baremetal_core_virtual_network" "t" {
-			cidr_block = "10.0.0.0/16"
-			compartment_id = "${var.compartment_id}"
-			display_name = "display_name"
-		}
-    data "baremetal_core_virtual_networks" "t" {
-      compartment_id = "${baremetal_core_virtual_network.t.compartment_id}"
-      limit = 1
-    }
+resource "baremetal_core_virtual_network" "t" {
+	cidr_block = "10.0.0.0/16"
+	compartment_id = "${var.compartment_id}"
+	display_name = "display_name"
+}
+data "baremetal_core_virtual_networks" "t" {
+	compartment_id = "${baremetal_core_virtual_network.t.compartment_id}"
+	limit = 1
+}
   `
 	s.Config += testProviderConfig()
 	s.ResourceName = "data.baremetal_core_virtual_networks.t"

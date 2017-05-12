@@ -46,11 +46,14 @@ func (s *ResourceCoreVolumeTestSuite) SetupTest() {
 	s.TimeCreated = baremetal.Time{Time: time.Now()}
 
 	s.Config = `
+		data "baremetal_identity_availability_domains" "ADs" {
+  			compartment_id = "${var.compartment_id}"
+		}
 		resource "baremetal_core_volume" "t" {
-			availability_domain = "availability_domain"
+			availability_domain = "${data.baremetal_identity_availability_domains.ADs.availability_domains.0.name}"
 			compartment_id = "${var.compartment_id}"
 			display_name = "display_name"
-			size_in_mbs = 123
+			size_in_mbs = 262144
 		}
 	`
 

@@ -45,11 +45,20 @@ func (s *ResourceCoreDrgAttachmentTestSuite) SetupTest() {
 	s.TimeCreated = baremetal.Time{Time: time.Now()}
 
 	s.Config = `
+		resource "baremetal_core_virtual_network" "t" {
+			cidr_block = "10.0.0.0/16"
+			compartment_id = "${var.compartment_id}"
+			display_name = "network_name"
+		}
+		resource "baremetal_core_drg" "t" {
+			compartment_id = "${var.compartment_id}"
+			display_name = "display_name"
+		}
 		resource "baremetal_core_drg_attachment" "t" {
 			compartment_id = "${var.compartment_id}"
 			display_name = "display_name"
-			drg_id = "drg_id"
-			vcn_id = "vcn_id"
+			drg_id = "${baremetal_core_drg.t.id}"
+			vcn_id = "${baremetal_core_virtual_network.t.id}"
 		}
 	`
 	s.Config += testProviderConfig()

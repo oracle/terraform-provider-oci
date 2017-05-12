@@ -45,21 +45,21 @@ func (s *ResourceCoreDHCPOptionsTestSuite) SetupTest() {
 	s.TimeCreated = baremetal.Time{Time: time.Now()}
 
 	s.Config = `
-		resource "baremetal_core_dhcp_options" "t" {
-			compartment_id = "${var.compartment_id}"
-			display_name = "display_name"
-      options {
-				type = "type"
-				custom_dns_servers = [ "custom_dns_servers" ]
-				server_type = "server_type"
-			}
-      options {
-				type = "type"
-				custom_dns_servers = [ "custom_dns_servers" ]
-				server_type = "server_type"
-			}
-			vcn_id = "vcn_id"
+	resource "baremetal_core_virtual_network" "t" {
+		cidr_block = "10.0.0.0/16"
+		compartment_id = "${var.compartment_id}"
+		display_name = "network_name"
+	}
+	resource "baremetal_core_dhcp_options" "t" {
+		compartment_id = "${var.compartment_id}"
+		display_name = "display_name"
+     		options {
+			type = "DomainNameServer"
+			custom_dns_servers = [ "8.8.8.8" ]
+			server_type = "CustomDnsServer"
 		}
+     		vcn_id = "${baremetal_core_virtual_network.t.id}"
+	}
 	`
 	s.Config += testProviderConfig()
 
@@ -113,8 +113,8 @@ func (s *ResourceCoreDHCPOptionsTestSuite) TestCreateResourceCoreDHCPOptions() {
 				Check: resource.ComposeTestCheckFunc(
 
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", s.Res.DisplayName),
-					resource.TestCheckResourceAttr(s.ResourceName, "options.0.type", "type"),
-					resource.TestCheckResourceAttr(s.ResourceName, "options.1.server_type", "server_type"),
+					resource.TestCheckResourceAttr(s.ResourceName, "options.0.type", "DomainNameServer"),
+					resource.TestCheckResourceAttr(s.ResourceName, "options.0.server_type", "CustomDnsServer"),
 				),
 			},
 		},
@@ -122,6 +122,9 @@ func (s *ResourceCoreDHCPOptionsTestSuite) TestCreateResourceCoreDHCPOptions() {
 }
 
 func (s ResourceCoreDHCPOptionsTestSuite) TestUpdateDHCPOptions() {
+	if IsAccTest() {
+		s.T().Skip()
+	}
 	s.Client.On("GetDHCPOptions", "id").Return(s.Res, nil).Times(3)
 
 	config := `

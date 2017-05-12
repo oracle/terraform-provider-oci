@@ -45,15 +45,61 @@ func (s *ResourceCoreSubnetTestSuite) SetupTest() {
 	s.TimeCreated = baremetal.Time{Time: time.Now()}
 
 	s.Config = `
-resource "baremetal_core_subnet" "t" {
-  availability_domain = "availabilitydomainid"
-  compartment_id = "${var.compartment_id}"
-  display_name        = "display_name"
-  cidr_block          = "10.10.10.0/24"
-  route_table_id      = "routetableid"
-  vcn_id              = "vcnid"
-  security_list_ids   = ["slid1", "slid2"]
+resource "baremetal_core_virtual_network" "t" {
+	cidr_block = "10.0.0.0/16"
+	compartment_id = "${var.compartment_id}"
+	display_name = "display_name"
 }
+
+resource "baremetal_core_internet_gateway" "CompleteIG" {
+    compartment_id = "${var.compartment_id}"
+    display_name = "CompleteIG"
+    vcn_id = "${baremetal_core_virtual_network.t.id}"
+}
+
+resource "baremetal_core_route_table" "RouteForComplete" {
+    compartment_id = "${var.compartment_id}"
+    vcn_id = "${baremetal_core_virtual_network.t.id}"
+    display_name = "RouteTableForComplete"
+    route_rules {
+        cidr_block = "0.0.0.0/0"
+        network_entity_id = "${baremetal_core_internet_gateway.CompleteIG.id}"
+    }
+}
+
+resource "baremetal_core_security_list" "WebSubnet" {
+    compartment_id = "${var.compartment_id}"
+    display_name = "Public"
+    vcn_id = "${baremetal_core_virtual_network.t.id}"
+    egress_security_rules = [{
+        destination = "0.0.0.0/0"
+        protocol = "6"
+    }]
+    ingress_security_rules = [{
+        tcp_options {
+            "max" = 80
+            "min" = 80
+        }
+        protocol = "6"
+        source = "0.0.0.0/0"
+    },
+	{
+	protocol = "6"
+	source = "10.0.0.0/16"
+    }]
+}
+
+
+resource "baremetal_core_subnet" "WebSubnetAD1" {
+  availability_domain = "${lookup(data.baremetal_identity_availability_domains.ADs.availability_domains[0],"name")}"
+  cidr_block = "10.0.0.0/16"
+  display_name = "WebSubnetAD1"
+  compartment_id = "${var.compartment_id}"
+  vcn_id = "${baremetal_core_virtual_network.t.id}"
+  route_table_id = "${baremetal_core_route_table.RouteForComplete.id}"
+  security_list_ids = ["${baremetal_core_security_list.WebSubnet.id}"]
+}
+
 	`
 
 	s.Config += testProviderConfig()
@@ -123,6 +169,9 @@ func (s *ResourceCoreSubnetTestSuite) TestCreateResourceCoreSubnet() {
 }
 
 func (s *ResourceCoreSubnetTestSuite) TestCreateResourceCoreSubnetWithoutDisplayName() {
+	if IsAccTest() {
+		s.T().Skip()
+	}
 	s.Client.On("GetSubnet", "id").Return(s.Res, nil).Times(2)
 	s.Client.On("GetSubnet", "id").Return(s.DeletedRes, nil).Times(2)
 
@@ -168,6 +217,9 @@ resource "baremetal_core_subnet" "t" {
 }
 
 func (s ResourceCoreSubnetTestSuite) TestUpdateCompartmentIDForcesNewSubnet() {
+	if IsAccTest() {
+		s.T().Skip()
+	}
 	config := `
 resource "baremetal_core_subnet" "t" {
   availability_domain = "availabilitydomainid"
@@ -245,6 +297,9 @@ resource "baremetal_core_subnet" "t" {
 }
 
 func (s *ResourceCoreSubnetTestSuite) TestTerminateSubnet() {
+	if IsAccTest() {
+		s.T().Skip()
+	}
 	s.Client.On("GetSubnet", "id").Return(s.Res, nil).Times(2)
 	s.Client.On("GetSubnet", "id").Return(s.DeletedRes, nil)
 

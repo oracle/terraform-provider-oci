@@ -52,28 +52,50 @@ func (s *ResourceCoreSecurityListTestSuite) SetupTest() {
 	s.TimeCreated = baremetal.Time{Time: time.Now()}
 
 	s.Config = `
-		resource "baremetal_core_security_list" "t" {
-			compartment_id = "${var.compartment_id}"
-			display_name = "display_name"
-      egress_security_rules {
-				destination = "destination"
-				icmp_options {
-					"code" = 1
-					"type" = 2
-				}
-				protocol = "protocol"
-				stateless = true
-			}
-      ingress_security_rules {
-				tcp_options {
-					"max" = 2
-					"min" = 1
-				}
-				protocol = "protocol"
-				source = "source"
-			}
-			vcn_id = "vcn_id"
-		}
+resource "baremetal_core_virtual_network" "t" {
+	cidr_block = "10.0.0.0/16"
+	compartment_id = "${var.compartment_id}"
+	display_name = "display_name"
+}
+
+
+resource "baremetal_core_internet_gateway" "CompleteIG" {
+    compartment_id = "${var.compartment_id}"
+    display_name = "CompleteIG"
+    vcn_id = "${baremetal_core_virtual_network.t.id}"
+}
+
+resource "baremetal_core_route_table" "RouteForComplete" {
+    compartment_id = "${var.compartment_id}"
+    vcn_id = "${baremetal_core_virtual_network.t.id}"
+    display_name = "RouteTableForComplete"
+    route_rules {
+        cidr_block = "0.0.0.0/0"
+        network_entity_id = "${baremetal_core_internet_gateway.CompleteIG.id}"
+    }
+}
+
+resource "baremetal_core_security_list" "t" {
+    compartment_id = "${var.compartment_id}"
+    display_name = "Public"
+    vcn_id = "${baremetal_core_virtual_network.t.id}"
+    egress_security_rules = [{
+        destination = "0.0.0.0/0"
+        protocol = "6"
+    }]
+    ingress_security_rules = [{
+        tcp_options {
+            "max" = 80
+            "min" = 80
+        }
+        protocol = "6"
+        source = "0.0.0.0/0"
+    },
+	{
+	protocol = "6"
+	source = "10.0.0.0/16"
+    }]
+}
 	`
 	s.Config += testProviderConfig()
 	s.ResourceName = "baremetal_core_security_list.t"

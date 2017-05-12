@@ -47,11 +47,17 @@ func (s *ResourceCoreInternetGatewayTestSuite) SetupTest() {
 	s.TimeCreated = baremetal.Time{Time: time.Now()}
 
 	s.Config = `
-		resource "baremetal_core_internet_gateway" "t" {
-			compartment_id = "${var.compartment_id}"
-			display_name = "display_name"
-      vcn_id = "vcnid"
-		}
+resource "baremetal_core_virtual_network" "t" {
+	cidr_block = "10.0.0.0/16"
+	compartment_id = "${var.compartment_id}"
+	display_name = "display_name"
+}
+
+resource "baremetal_core_internet_gateway" "t" {
+    compartment_id = "${var.compartment_id}"
+    display_name = "display_name"
+    vcn_id = "${baremetal_core_virtual_network.t.id}"
+}
 	`
 
 	s.Config += testProviderConfig()
@@ -98,9 +104,9 @@ func (s *ResourceCoreInternetGatewayTestSuite) TestCreateResourceCoreInternetGat
 				Check: resource.ComposeTestCheckFunc(
 
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", s.Res.DisplayName),
-					resource.TestCheckResourceAttr(s.ResourceName, "id", s.Res.ID),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", s.Res.State),
-					resource.TestCheckResourceAttr(s.ResourceName, "time_created", s.Res.TimeCreated.String()),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
 				),
 			},
 		},
@@ -112,11 +118,17 @@ func (s ResourceCoreInternetGatewayTestSuite) TestUpdateCompartmentIDForcesNewIn
 	s.Client.On("GetInternetGateway", s.Res.ID).Return(s.DeletedRes, nil).Times(2)
 
 	config := `
-  resource "baremetal_core_internet_gateway" "t" {
-    compartment_id = "new_compartment_id"
-    display_name = "display_name"
-    vcn_id = "vcnid"
-  }
+resource "baremetal_core_virtual_network" "t" {
+	cidr_block = "10.0.0.0/16"
+	compartment_id = "${var.compartment_id}"
+	display_name = "display_name"
+}
+
+resource "baremetal_core_internet_gateway" "t" {
+    compartment_id = "${var.compartment_id}"
+    display_name = "CompleteIG2"
+    vcn_id = "${baremetal_core_virtual_network.t.id}"
+}
 	`
 
 	config += testProviderConfig()
@@ -164,7 +176,8 @@ func (s ResourceCoreInternetGatewayTestSuite) TestUpdateCompartmentIDForcesNewIn
 				Config: config,
 				Check: resource.ComposeTestCheckFunc(
 
-					resource.TestCheckResourceAttr(s.ResourceName, "id", res.ID),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "CompleteIG2"),
 				),
 			},
 		},

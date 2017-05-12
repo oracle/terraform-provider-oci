@@ -45,12 +45,21 @@ func (s *ResourceCoreIPSecTestSuite) SetupTest() {
 	s.TimeCreated = baremetal.Time{Time: time.Now()}
 
 	s.Config = `
+		resource "baremetal_core_drg" "t" {
+			compartment_id = "${var.compartment_id}"
+			display_name = "display_name"
+		}
+		resource "baremetal_core_cpe" "t" {
+			compartment_id = "${var.compartment_id}"
+			display_name = "displayname"
+      			ip_address = "123.123.123.123"
+		}
 		resource "baremetal_core_ipsec" "t" {
 			compartment_id = "${var.compartment_id}"
-      cpe_id = "cpeid"
-      drg_id = "drgid"
+      			cpe_id = "${baremetal_core_cpe.t.id}"
+      			drg_id = "${baremetal_core_drg.t.id}"
 			display_name = "display_name"
-      static_routes = ["route1","route2"]
+      			static_routes = ["route1","route2"]
 		}
 	`
 
@@ -110,10 +119,20 @@ func (s *ResourceCoreIPSecTestSuite) TestCreateResourceCoreSubnetWithoutDisplayN
 	s.Client.On("GetIPSecConnection", "id").Return(s.Res, nil)
 
 	s.Config = `
+
+resource "baremetal_core_drg" "t" {
+	compartment_id = "${var.compartment_id}"
+	display_name = "display_name"
+}
+resource "baremetal_core_cpe" "t" {
+	compartment_id = "${var.compartment_id}"
+	display_name = "displayname"
+      ip_address = "123.123.123.123"
+}
   resource "baremetal_core_ipsec" "t" {
     compartment_id = "${var.compartment_id}"
-    cpe_id = "cpeid"
-    drg_id = "drgid"
+    cpe_id = "${baremetal_core_cpe.t.id}"
+    drg_id = "${baremetal_core_drg.t.id}"
     static_routes = ["route1","route2"]
   }
 	`

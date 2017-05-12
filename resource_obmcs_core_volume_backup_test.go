@@ -3,7 +3,6 @@
 package main
 
 import (
-	"fmt"
 	"testing"
 	"time"
 
@@ -42,8 +41,17 @@ func (s *ResourceCoreVolumeBackupTestSuite) SetupTest() {
 
 	s.ResourceName = "baremetal_core_volume_backup.t"
 	s.Config = `
+		data "baremetal_identity_availability_domains" "ADs" {
+  			compartment_id = "${var.compartment_id}"
+		}
+		resource "baremetal_core_volume" "t" {
+			availability_domain = "${data.baremetal_identity_availability_domains.ADs.availability_domains.0.name}"
+			compartment_id = "${var.compartment_id}"
+			display_name = "display_name"
+			size_in_mbs = 262144
+		}
 		resource "baremetal_core_volume_backup" "t" {
-			volume_id = "volume_id"
+			volume_id = "${baremetal_core_volume.t.id}"
 			display_name = "display_name"
 		}
 	`
@@ -88,13 +96,10 @@ func (s *ResourceCoreVolumeBackupTestSuite) TestCreateVolumeBackup() {
 				Check: resource.ComposeTestCheckFunc(
 
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", s.Res.DisplayName),
-					resource.TestCheckResourceAttr(s.ResourceName, "id", s.Res.ID),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", s.Res.State),
-					resource.TestCheckResourceAttr(s.ResourceName, "size_in_mbs", fmt.Sprintf("%v", s.Res.SizeInMBs)),
 					resource.TestCheckResourceAttr(s.ResourceName, "time_created", s.Res.TimeCreated.String()),
-					resource.TestCheckResourceAttr(s.ResourceName, "time_request_received", s.Res.TimeCreated.String()),
-					resource.TestCheckResourceAttr(s.ResourceName, "unique_size_in_mbs", fmt.Sprintf("%v", s.Res.UniqueSizeInMBs)),
-					resource.TestCheckResourceAttr(s.ResourceName, "volume_id", s.Res.VolumeID),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_id"),
 				),
 			},
 		},
@@ -102,6 +107,9 @@ func (s *ResourceCoreVolumeBackupTestSuite) TestCreateVolumeBackup() {
 }
 
 func (s *ResourceCoreVolumeBackupTestSuite) TestCreateVolumeBackupWithoutDisplayName() {
+	if IsAccTest() {
+		s.T().Skip()
+	}
 	s.Client.On("GetVolumeBackup", "id").Return(s.Res, nil).Times(2)
 	s.Client.On("GetVolumeBackup", "id").Return(s.DeletedRes, nil)
 
@@ -132,6 +140,9 @@ func (s *ResourceCoreVolumeBackupTestSuite) TestCreateVolumeBackupWithoutDisplay
 }
 
 func (s ResourceCoreVolumeBackupTestSuite) TestUpdateVolumeBackupDisplayName() {
+	if IsAccTest() {
+		s.T().Skip()
+	}
 	s.Client.On("GetVolumeBackup", "id").Return(s.Res, nil).Times(3)
 
 	config := `
@@ -175,6 +186,9 @@ func (s ResourceCoreVolumeBackupTestSuite) TestUpdateVolumeBackupDisplayName() {
 }
 
 func (s ResourceCoreVolumeBackupTestSuite) TestUpdateVolumeIDForcesNewVolumeBackup() {
+	if IsAccTest() {
+		s.T().Skip()
+	}
 	s.Client.On("GetVolumeBackup", "id").Return(s.Res, nil).Times(3)
 	s.Client.On("GetVolumeBackup", "id").Return(s.DeletedRes, nil).Once()
 

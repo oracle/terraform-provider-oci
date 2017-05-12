@@ -34,9 +34,9 @@ func (s *ResourceCoreInstanceCredentialTestSuite) SetupTest() {
 	s.Providers = map[string]terraform.ResourceProvider{
 		"baremetal": s.Provider,
 	}
-	s.Config = `
+	s.Config = instanceConfig + `
     data "baremetal_core_instance_credentials" "s" {
-      instance_id = "instanceid"
+      instance_id = "${baremetal_core_instance.t.id}"
     }
   `
 	s.Config += testProviderConfig()

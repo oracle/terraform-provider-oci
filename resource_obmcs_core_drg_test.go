@@ -106,6 +106,9 @@ func (s *ResourceCoreDrgTestSuite) TestCreateResourceCoreDrg() {
 }
 
 func (s *ResourceCoreDrgTestSuite) TestCreateResourceCoreDrgWithoutDisplayName() {
+	if IsAccTest() {
+		s.T().Skip()
+	}
 	s.Client.On("GetDrg", "id").Return(s.Res, nil).Times(2)
 	s.Client.On("GetDrg", "id").Return(s.DeletedRes, nil)
 

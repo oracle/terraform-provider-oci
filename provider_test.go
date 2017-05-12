@@ -35,6 +35,94 @@ func testProviderConfig() string {
 	`
 }
 
+var instanceConfig = `
+data "baremetal_identity_availability_domains" "ADs" {
+  compartment_id = "${var.compartment_id}"
+}
+
+data "baremetal_core_images" "images" {
+    compartment_id = "${var.compartment_id}"
+}
+
+resource "baremetal_core_virtual_network" "t" {
+	cidr_block = "10.0.0.0/16"
+	compartment_id = "${var.compartment_id}"
+	display_name = "network_name"
+}
+
+resource "baremetal_core_internet_gateway" "CompleteIG" {
+    compartment_id = "${var.compartment_id}"
+    display_name = "CompleteIG"
+    vcn_id = "${baremetal_core_virtual_network.t.id}"
+}
+
+resource "baremetal_core_route_table" "RouteForComplete" {
+    compartment_id = "${var.compartment_id}"
+    vcn_id = "${baremetal_core_virtual_network.t.id}"
+    display_name = "RouteTableForComplete"
+    route_rules {
+        cidr_block = "0.0.0.0/0"
+        network_entity_id = "${baremetal_core_internet_gateway.CompleteIG.id}"
+    }
+}
+
+resource "baremetal_core_security_list" "WebSubnet" {
+    compartment_id = "${var.compartment_id}"
+    display_name = "Public"
+    vcn_id = "${baremetal_core_virtual_network.t.id}"
+    egress_security_rules = [{
+        destination = "0.0.0.0/0"
+        protocol = "6"
+    }]
+    ingress_security_rules = [{
+        tcp_options {
+            "max" = 80
+            "min" = 80
+        }
+        protocol = "6"
+        source = "0.0.0.0/0"
+    },
+	{
+	protocol = "6"
+	source = "10.0.0.0/16"
+    }]
+}
+
+
+resource "baremetal_core_subnet" "WebSubnetAD1" {
+  availability_domain = "${lookup(data.baremetal_identity_availability_domains.ADs.availability_domains[0],"name")}"
+  cidr_block = "10.0.0.0/16"
+  display_name = "WebSubnetAD1"
+  compartment_id = "${var.compartment_id}"
+  vcn_id = "${baremetal_core_virtual_network.t.id}"
+  route_table_id = "${baremetal_core_route_table.RouteForComplete.id}"
+  security_list_ids = ["${baremetal_core_security_list.WebSubnet.id}"]
+}
+
+data "baremetal_core_images" "t" {
+	compartment_id = "${var.compartment_id}"
+	limit = 1
+}
+
+data "baremetal_core_shape" "shapes" {
+	compartment_id = "${var.compartment_id}"
+	availability_domain = "${data.baremetal_identity_availability_domains.ADs.availability_domains.0.name}"
+	image_id = "${data.baremetal_core_images.t.images.0.id}"
+}
+
+resource "baremetal_core_instance" "t" {
+	availability_domain = "${data.baremetal_identity_availability_domains.ADs.availability_domains.0.name}"
+	compartment_id = "${var.compartment_id}"
+	display_name = "instance_name"
+      image = "${data.baremetal_core_images.t.images.0.id}"
+      shape = "${data.baremetal_core_shape.shapes.shapes.0.name}"
+      subnet_id = "${baremetal_core_subnet.WebSubnetAD1.id}"
+      metadata {
+        ssh_authorized_keys = "ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"
+      }
+}
+`
+
 // This is a dummy object allowing coexistance between mocked API calls and real API calls in acceptance tests
 // Acceptance tests will use this object that "mocks" the mocks
 type mockableClient interface {
@@ -57,7 +145,11 @@ func (r *testClient) AssertCalled(t mock.TestingT, methodName string, arguments 
 }
 
 func IsAccTest() bool {
-	acc, err := strconv.ParseBool(os.Getenv(resource.TestEnvVar))
+	val := os.Getenv(resource.TestEnvVar)
+	if val == "" {
+		return false
+	}
+	acc, err := strconv.ParseBool(val)
 	if err != nil {
 		panic("Err testing TF_ACC env var. It should be blank or a boolean value.")
 	}
@@ -132,6 +224,16 @@ xTHuOMkklNO7SiTluAUBvXrjxfGqe/gwJOHxXQGHC8W6vyhR2BdVx9PKFVebWjlr
 gzRMpGgWnjsaz0ldu3uO7ozRxZg8FgdToIzAIaTytpHKI8HvONvPJlYywOMC1gRi
 KwX6p26xaVtCV8PbDpF3RHuEJV1NU6PDIhaIHhdL374BiX/KmcJ6yv7tbkczpK+V
 -----END RSA PRIVATE KEY-----`
+var testPublicKey = `
+-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtBLQAGmKJ7tpfzYJyqLG
+ZDwHL51+d6T8Z00BnP9CFfzxZZZ48PcYSUHuTyCM8mR5JqYLyH6C8tZ/DKqwxUnc
+ONgBytG3MM42bgxfHIhsZRj5rCz1oqWlSLuXvgww1kuqWnt6r+NtnXog439YsGTH
+RotrTLTdEgOxH0EFP5uHUc9w/Uix7rWU7GB2ra060oeTB/hKpts5U70eI2EI6ec9
+1sJdUIj7xNfBJeQQrz4CFUrkyzL06211CFvhmxH2hA9gBKOqC3rGL8XraHZBhGWn
+mXlrQB7nNKsJrrv5fHwaPDrAY4iNP2W0q3LRpyNigJ6cgRuGJhHa82iHPmxgIx8m
+fwIDAQAB
+-----END PUBLIC KEY-----`
 
 var testKeyFingerPrint = "b4:8a:7d:54:e6:81:04:b2:fa:ce:ba:55:34:dd:00:00"
 var testTenancyOCID = "ocid1.tenancy.oc1..faketenancy"
