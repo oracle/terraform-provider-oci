@@ -24,6 +24,7 @@ The following attributes are exported:
 * `availability_domain` - The VNIC's Availability Domain.
 * `display_name` - A user-friendly name. Does not have to be unique.
 * `id` - The OCID of the VNIC.
+* `hostname_label` - The hostname for the VNIC that is created during instance launch. Used for DNS. .
 * `state` - The current state of the VNIC. [PROVISIONING, AVAILABLE, TERMINATING, TERMINATED]
 * `private_ip_address` - The private IP addresses of the VNIC, which is within the VNIC subnet and is accessible within the VCN.
 * `public_ip_address` - The public IP address of the VNIC, which Oracle performs NAT for at the gateway.
