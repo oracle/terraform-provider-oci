@@ -82,13 +82,17 @@ func (r *LastModifiedUnmarshaller) SetLastModified(time time.Time) {
 }
 
 type MetadataUnmarshallable interface {
+	GetMetadata() map[string]string
 	SetMetadata(map[string]string)
 }
 
 type MetadataUnmarshaller struct {
-	Metadata map[string]string
+	Metadata map[string]string `json:"-" url:"-" header:"-"` // Handled separately
 }
 
+func (mr *MetadataUnmarshaller) GetMetadata() map[string]string {
+	return mr.Metadata
+}
 func (mr *MetadataUnmarshaller) SetMetadata(md map[string]string) {
 	mr.Metadata = md
 }

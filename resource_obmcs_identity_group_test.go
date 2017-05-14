@@ -44,8 +44,8 @@ func (s *ResourceIdentityGroupTestSuite) SetupTest() {
 	s.TimeCreated, _ = time.Parse("2006-Jan-02", "2006-Jan-02")
 	s.Config = `
 		resource "baremetal_identity_group" "t" {
-			name = "name!"
-			description = "desc!"
+			name = "groupname"
+			description = "group desc!"
 		}
 	`
 
@@ -54,8 +54,8 @@ func (s *ResourceIdentityGroupTestSuite) SetupTest() {
 	s.ResourceName = "baremetal_identity_group.t"
 	s.Res = &baremetal.Group{
 		ID:            "id!",
-		Name:          "name!",
-		Description:   "desc!",
+		Name:          "groupname",
+		Description:   "group desc!",
 		CompartmentID: "cid!",
 		State:         baremetal.ResourceActive,
 		TimeCreated:   s.TimeCreated,
@@ -79,7 +79,7 @@ func (s *ResourceIdentityGroupTestSuite) TestCreateResourceIdentityGroup() {
 					resource.TestCheckResourceAttr(s.ResourceName, "description", s.Res.Description),
 
 					resource.TestCheckResourceAttr(s.ResourceName, "state", s.Res.State),
-					resource.TestCheckResourceAttr(s.ResourceName, "time_created", s.Res.TimeCreated.String()),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
 				),
 			},
 		},
@@ -112,7 +112,7 @@ func (s *ResourceIdentityGroupTestSuite) TestUpdateResourceIdentityGroupDescript
 
 	c := `
 		resource "baremetal_identity_group" "t" {
-			name = "name!"
+			name = "groupname"
 			description = "newdesc!"
 		}
 	`
@@ -150,7 +150,7 @@ func (s *ResourceIdentityGroupTestSuite) TestFailedUpdateResourceIdentityGroupDe
 
 	c := `
 		resource "baremetal_identity_group" "t" {
-			name = "name!"
+			name = "groupname"
 			description = "newdesc!"
 		}
 	`
@@ -178,7 +178,7 @@ func (s *ResourceIdentityGroupTestSuite) TestFailedUpdateResourceIdentityGroupDe
 			{
 				Config:      c,
 				ExpectError: regexp.MustCompile(`FAILED`),
-				Check:       resource.TestCheckResourceAttr(s.ResourceName, "description", "desc!"),
+				Check:       resource.TestCheckResourceAttr(s.ResourceName, "description", "newdesc!"),
 			},
 			{
 				Config: c,
@@ -193,7 +193,7 @@ func (s *ResourceIdentityGroupTestSuite) TestUpdateResourceIdentityGroupNameShou
 
 	c := `
 		resource "baremetal_identity_group" "t" {
-			name = "newname!"
+			name = "groupname2"
 			description = "desc!"
 		}
 	`
@@ -217,7 +217,7 @@ func (s *ResourceIdentityGroupTestSuite) TestUpdateResourceIdentityGroupNameShou
 			},
 			{
 				Config: c,
-				Check:  resource.TestCheckResourceAttr(s.ResourceName, "name", "newname!"),
+				Check:  resource.TestCheckResourceAttr(s.ResourceName, "name", "groupname2"),
 			},
 		},
 	})

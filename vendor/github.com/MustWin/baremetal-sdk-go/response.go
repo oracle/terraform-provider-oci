@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
+	"log"
 )
 
 type response struct {
@@ -72,9 +73,12 @@ func (r *response) unmarshal(resource interface{}) (e error) {
 	}
 
 	if md, ok := resource.(MetadataUnmarshallable); ok {
+		log.Printf("-------------------- Adding Metadata Headers ----------------------")
+
 		prefix := "opc-meta-"
 		meta := make(map[string]string)
 		for name, headers := range r.header {
+			name = strings.ToLower(name)
 			if strings.HasPrefix(name, prefix) {
 				for _, h := range headers {
 					meta[strings.Replace(name, prefix, "", 1)] = h
@@ -82,6 +86,8 @@ func (r *response) unmarshal(resource interface{}) (e error) {
 			}
 		}
 		md.SetMetadata(meta)
+	} else {
+		log.Printf("-------------------- Options are not metadataUnmarshallable ----------------------")
 	}
 
 	return

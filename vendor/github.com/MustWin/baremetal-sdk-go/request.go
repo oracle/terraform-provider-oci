@@ -93,6 +93,13 @@ func (r *requestDetails) marshalHeader() http.Header {
 		oHeader[k] = v
 	}
 
+	if md, ok := r.optional.(MetadataUnmarshallable); ok {
+		prefix := "opc-meta-"
+		for name, val := range md.GetMetadata() {
+			oHeader[prefix + name] = []string{val}
+		}
+	}
+
 	return oHeader
 }
 

@@ -105,13 +105,13 @@ func (s *VolumeBackupResourceCrud) ID() string {
 }
 
 func (s *VolumeBackupResourceCrud) CreatedPending() []string {
-	return []string{baremetal.ResourceRequestReceived}
+	return []string{baremetal.ResourceRequestReceived, baremetal.ResourceCreating, }
 }
 
 // Creating is considered "Created" because it can take some time to finish
 // actually creating and uploading the backup.
 func (s *VolumeBackupResourceCrud) CreatedTarget() []string {
-	return []string{baremetal.ResourceCreating, baremetal.ResourceAvailable}
+	return []string{baremetal.ResourceAvailable}
 }
 
 func (s *VolumeBackupResourceCrud) DeletedPending() []string {
@@ -161,7 +161,9 @@ func (s *VolumeBackupResourceCrud) SetData() {
 	s.D.Set("display_name", s.Res.DisplayName)
 	s.D.Set("state", s.Res.State)
 	s.D.Set("size_in_mbs", s.Res.SizeInMBs)
-	s.D.Set("time_created", s.Res.TimeCreated.String())
+	if !s.Res.TimeCreated.IsZero() {
+		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
 	s.D.Set("time_request_received", s.Res.TimeCreated.String())
 	s.D.Set("unique_size_in_mbs", s.Res.SizeInMBs)
 	s.D.Set("volume_id", s.Res.VolumeID)

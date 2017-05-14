@@ -32,6 +32,10 @@ func testProviderConfig() string {
 	variable "compartment_id" {
 		default = "` + getEnvSetting("compartment_id", "compartment_id") + `"
 	}
+
+	variable "namespace" {
+		default = "` + getEnvSetting("namespace", "mustwin") + `"
+	}
 	`
 }
 

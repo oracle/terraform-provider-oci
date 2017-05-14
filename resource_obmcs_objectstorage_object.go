@@ -8,6 +8,7 @@ import (
 
 	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/crud"
+	"log"
 )
 
 func ObjectResource() *schema.Resource {
@@ -62,6 +63,7 @@ func (s *ObjectResourceCrud) ID() string {
 }
 
 func (s *ObjectResourceCrud) SetData() {
+	log.Printf("=======================\n%v\n===================", s.Res)
 	s.D.Set("namespace", s.Res.Namespace)
 	s.D.Set("bucket", s.Res.Bucket)
 	s.D.Set("object", s.Res.ID)
@@ -93,7 +95,10 @@ func (s *ObjectResourceCrud) Update() (e error) {
 		metadata := resourceObjectStorageMapToMetadata(rawMetadata.(map[string]interface{}))
 		opts.Metadata = metadata
 	}
-	s.Res, e = s.Client.PutObject(baremetal.Namespace(namespace), bucket, object, []byte(content), opts)
+	_, e = s.Client.PutObject(baremetal.Namespace(namespace), bucket, object, []byte(content), opts)
+	if e == nil {
+		s.Res, e = s.Client.GetObject(baremetal.Namespace(namespace), bucket, object, &baremetal.GetObjectOptions{})
+	}
 	return
 }
 

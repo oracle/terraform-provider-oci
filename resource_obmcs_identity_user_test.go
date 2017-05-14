@@ -45,7 +45,7 @@ func (s *ResourceIdentityUserTestSuite) SetupTest() {
 	s.TimeCreated, _ = time.Parse("2006-Jan-02", "2006-Jan-02")
 	s.Config = `
 		resource "baremetal_identity_user" "t" {
-			name = "name!"
+			name = "name1"
 			description = "desc!"
 		}
 	`
@@ -54,13 +54,13 @@ func (s *ResourceIdentityUserTestSuite) SetupTest() {
 	s.ResourceName = "baremetal_identity_user.t"
 	s.Res = &baremetal.User{
 		ID:            "id!",
-		Name:          "name!",
+		Name:          "name1",
 		Description:   "desc!",
 		CompartmentID: "cid!",
 		State:         baremetal.ResourceActive,
 		TimeCreated:   s.TimeCreated,
 	}
-	s.Client.On("CreateUser", "name!", "desc!", (*baremetal.RetryTokenOptions)(nil)).
+	s.Client.On("CreateUser", "name1", "desc!", (*baremetal.RetryTokenOptions)(nil)).
 		Return(s.Res, nil)
 	s.Client.On("DeleteUser", "id!", (*baremetal.IfMatchOptions)(nil)).Return(nil)
 }
@@ -80,7 +80,7 @@ func (s *ResourceIdentityUserTestSuite) TestCreateResourceIdentityUser() {
 					resource.TestCheckResourceAttr(s.ResourceName, "description", s.Res.Description),
 
 					resource.TestCheckResourceAttr(s.ResourceName, "state", s.Res.State),
-					resource.TestCheckResourceAttr(s.ResourceName, "time_created", s.Res.TimeCreated.String()),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
 				),
 			},
 		},
@@ -88,6 +88,9 @@ func (s *ResourceIdentityUserTestSuite) TestCreateResourceIdentityUser() {
 }
 
 func (s *ResourceIdentityUserTestSuite) TestCreateResourceIdentityUserPolling() {
+	if IsAccTest() {
+		s.T().Skip()
+	}
 	s.Res.State = baremetal.ResourceCreating
 	s.Client.On("GetUser", "id!").Return(s.Res, nil).Once()
 
@@ -116,7 +119,7 @@ func (s *ResourceIdentityUserTestSuite) TestUpdateResourceIdentityUserDescriptio
 	c := `
 
 		resource "baremetal_identity_user" "t" {
-			name = "name!"
+			name = "name1"
 			description = "newdesc!"
 		}
 	`
@@ -148,12 +151,15 @@ func (s *ResourceIdentityUserTestSuite) TestUpdateResourceIdentityUserDescriptio
 }
 
 func (s *ResourceIdentityUserTestSuite) TestFailedUpdateResourceIdentityUserDescription() {
+	if IsAccTest() {
+		s.T().Skip()
+	}
 	s.Client.On("GetUser", "id!").Return(s.Res, nil).Times(3)
 
 	c := `
 
 		resource "baremetal_identity_user" "t" {
-			name = "name!"
+			name = "name1"
 			description = "newdesc!"
 		}
 
@@ -197,11 +203,12 @@ func (s *ResourceIdentityUserTestSuite) TestFailedUpdateResourceIdentityUserDesc
 }
 
 func (s *ResourceIdentityUserTestSuite) TestUpdateResourceIdentityUserNameShouldCreateNew() {
+
 	s.Client.On("GetUser", "id!").Return(s.Res, nil)
 
 	c := `
 		resource "baremetal_identity_user" "t" {
-			name = "newname!"
+			name = "newname1"
 			description = "desc!"
 		}
 	`
@@ -210,8 +217,8 @@ func (s *ResourceIdentityUserTestSuite) TestUpdateResourceIdentityUserNameShould
 
 	u := *s.Res
 	u.ID = "newid!"
-	u.Name = "newname!"
-	s.Client.On("CreateUser", "newname!", "desc!", (*baremetal.RetryTokenOptions)(nil)).
+	u.Name = "newname1"
+	s.Client.On("CreateUser", "newnam1!", "desc!", (*baremetal.RetryTokenOptions)(nil)).
 		Return(&u, nil)
 	s.Client.On("GetUser", "newid!").Return(&u, nil)
 	s.Client.On("DeleteUser", "newid!", (*baremetal.IfMatchOptions)(nil)).Return(nil)
@@ -227,7 +234,7 @@ func (s *ResourceIdentityUserTestSuite) TestUpdateResourceIdentityUserNameShould
 			{
 				Config: c,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "name", "newname!"),
+					resource.TestCheckResourceAttr(s.ResourceName, "name", "newname1"),
 				),
 			},
 		},

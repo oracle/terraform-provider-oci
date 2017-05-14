@@ -8,6 +8,8 @@ import (
 
 	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/crud"
+	"errors"
+	"regexp"
 )
 
 func APIKeyResource() *schema.Resource {
@@ -36,6 +38,15 @@ func APIKeyResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
+				DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool {
+					r := regexp.MustCompile("\\s")
+					strippedOld := r.ReplaceAllString(old, "")
+					strippedNew := r.ReplaceAllString(new, "")
+					if strippedOld == strippedNew {
+						return true
+					}
+					return false
+				},
 			},
 			"state": {
 				Type:     schema.TypeString,
@@ -130,11 +141,11 @@ func (s *APIKeyResourceCrud) Get() (e error) {
 	for _, val := range res.Keys {
 		if val.Fingerprint == fingerprint {
 			s.Res = &val
-			break
+			return nil
 		}
 	}
 
-	return
+	return errors.New("Specified APIKEY does not exist")
 }
 
 func (s *APIKeyResourceCrud) SetData() {

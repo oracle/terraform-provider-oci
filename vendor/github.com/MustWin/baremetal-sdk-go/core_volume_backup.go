@@ -2,7 +2,9 @@
 
 package baremetal
 
-import "net/http"
+import (
+	"net/http"
+)
 
 // VolumeBackup describe a point-in-time copy of a volume
 //

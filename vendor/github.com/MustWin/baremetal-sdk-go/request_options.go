@@ -209,14 +209,12 @@ type PutObjectOptions struct {
 	IfMatchOptions
 	IfNoneMatchOptions
 	ClientRequestOptions
+	MetadataUnmarshaller
 	Expect          string `header:"Expect,omitempty" json:"-" url:"-"`
 	ContentMD5      string `header:"Content-MD5,omitempty" json:"-" url:"-"`
 	ContentType     string `header:"Content-Type,omitempty" json:"-" url:"-"`
 	ContentLanguage string `header:"Content-Language,omitempty" json:"-" url:"-"`
 	ContentEncoding string `header:"Content-Encoding,omitempty" json:"-" url:"-"`
-
-	// TODO: Metadata is handled explicitly during marshal.
-	Metadata map[string]string `header:"-" json:"-" url:"-"`
 }
 
 // Delete Options

@@ -43,8 +43,12 @@ func (s *ResourceIdentitySwiftPasswordTestSuite) SetupTest() {
 
 	description := "blah blah blah"
 	s.Config = `
+		resource "baremetal_identity_user" "t" {
+			name = "name1"
+			description = "desc!"
+		}
 		resource "baremetal_identity_swift_password" "t" {
-			user_id = "user_id"
+			user_id = "${baremetal_identity_user.t.id}"
 			description = "` + description + `"
 		}
 	`

@@ -48,7 +48,7 @@ func (s *ResourceObjectstorageBucketTestSuite) SetupTest() {
 		resource "baremetal_objectstorage_bucket" "t" {
 			compartment_id = "${var.compartment_id}"
 			name = "name"
-			namespace = "namespace"
+			namespace = "${var.namespace}"
 			metadata = {
 				"foo" = "bar"
 			}
@@ -99,62 +99,7 @@ func (s *ResourceObjectstorageBucketTestSuite) TestCreateResourceObjectstorageBu
 				Check: resource.ComposeTestCheckFunc(
 
 					resource.TestCheckResourceAttr(s.ResourceName, "name", s.Res.Name),
-					resource.TestCheckResourceAttr(s.ResourceName, "namespace", string(s.Res.Namespace)),
-				),
-			},
-		},
-	})
-}
-
-func (s *ResourceObjectstorageBucketTestSuite) TestUpdateResourceObjectstorageBucket() {
-	s.Client.On("GetBucket", "name", baremetal.Namespace("namespace")).Return(s.Res, nil).Times(2)
-
-	config := `
-		resource "baremetal_objectstorage_bucket" "t" {
-			compartment_id = "${var.compartment_id}"
-			name = "new_name"
-			namespace = "namespace"
-			metadata = {
-				"foo" = "bar"
-			}
-		}
-	`
-	config += testProviderConfig()
-	metadata := map[string]string{
-		"foo": "bar",
-	}
-
-	res := &baremetal.Bucket{
-		CompartmentID: "compartment_id",
-		Name:          "new_name",
-		Namespace:     baremetal.Namespace("namespace"),
-		Metadata:      metadata,
-		CreatedBy:     "created_by",
-		TimeCreated:   s.TimeCreated,
-	}
-	res.ETag = "etag"
-	res.RequestID = "opcrequestid"
-
-	opts := &baremetal.UpdateBucketOptions{
-		Metadata: metadata,
-	}
-	s.Client.On("UpdateBucket",
-		res.CompartmentID, res.Name, res.Namespace, opts).Return(res, nil)
-	s.Client.On("GetBucket", res.Name, res.Namespace).Return(res, nil)
-	s.Client.On("DeleteBucket", res.Name, res.Namespace, (*baremetal.IfMatchOptions)(nil)).Return(nil)
-
-	resource.UnitTest(s.T(), resource.TestCase{
-		Providers: s.Providers,
-		Steps: []resource.TestStep{
-			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config:            s.Config,
-			},
-			{
-				Config: config,
-				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "name", res.Name),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "namespace"),
 				),
 			},
 		},
@@ -181,6 +126,6 @@ func (s *ResourceObjectstorageBucketTestSuite) TestDeleteResourceObjectstorageBu
 	s.Client.AssertCalled(s.T(), "DeleteBucket", "name", s.Namespace, (*baremetal.IfMatchOptions)(nil))
 }
 
-func TestResourceobjectstorageBucketTestSuite(t *testing.T) {
+func TestResourceObjectstorageBucketTestSuite(t *testing.T) {
 	suite.Run(t, new(ResourceObjectstorageBucketTestSuite))
 }

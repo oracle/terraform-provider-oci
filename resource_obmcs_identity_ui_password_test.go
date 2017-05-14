@@ -42,8 +42,12 @@ func (s *ResourceIdentityUIPasswordTestSuite) SetupTest() {
 	}
 
 	s.Config = `
+		resource "baremetal_identity_user" "t" {
+			name = "name1"
+			description = "desc!"
+		}
 		resource "baremetal_identity_ui_password" "t" {
-			user_id = "user_id"
+			user_id = "${baremetal_identity_user.t.id}"
 			version = "1"
 		}
 	`
@@ -73,8 +77,8 @@ func (s *ResourceIdentityUIPasswordTestSuite) TestCreateUIPassword() {
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "user_id", "user_id"),
-					resource.TestCheckResourceAttr(s.ResourceName, "password", "password"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "user_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "password"),
 				),
 			},
 		},
@@ -83,8 +87,12 @@ func (s *ResourceIdentityUIPasswordTestSuite) TestCreateUIPassword() {
 
 func (s ResourceIdentityUIPasswordTestSuite) TestUpdateVersionForcesNewUIPassword() {
 	config := `
+		resource "baremetal_identity_user" "t" {
+			name = "name1"
+			description = "desc!"
+		}
 		resource "baremetal_identity_ui_password" "t" {
-			user_id = "user_id"
+			user_id = "${baremetal_identity_user.t.id}"
 			version = "2"
 		}
   `
@@ -110,7 +118,7 @@ func (s ResourceIdentityUIPasswordTestSuite) TestUpdateVersionForcesNewUIPasswor
 			{
 				Config: config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "password", "new_password"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "password"),
 				),
 			},
 		},

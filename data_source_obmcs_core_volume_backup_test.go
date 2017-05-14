@@ -37,12 +37,21 @@ func (s *ResourceCoreVolumeBackupsTestSuite) SetupTest() {
 		"baremetal": s.Provider,
 	}
 	s.Config = `
-    data "baremetal_core_volume_backups" "t" {
-      compartment_id = "${var.compartment_id}"
-      limit = 1
-      page = "page"
-      volume_id = "volume_id"
-    }
+data "baremetal_identity_availability_domains" "ADs" {
+	compartment_id = "${var.compartment_id}"
+}
+resource "baremetal_core_volume" "t" {
+	availability_domain = "${data.baremetal_identity_availability_domains.ADs.availability_domains.0.name}"
+	compartment_id = "${var.compartment_id}"
+	display_name = "display_name"
+	size_in_mbs = 262144
+}
+data "baremetal_core_volume_backups" "t" {
+	compartment_id = "${var.compartment_id}"
+	limit = 1
+	page = "page"
+	volume_id = "${baremetal_core_volume.t.id}"
+}
   `
 	s.Config += testProviderConfig()
 	s.ResourceName = "data.baremetal_core_volume_backups.t"
