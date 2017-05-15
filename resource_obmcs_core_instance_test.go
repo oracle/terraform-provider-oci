@@ -65,6 +65,8 @@ func (s *ResourceCoreInstanceTestSuite) TestCreateResourceCoreInstance() {
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", baremetal.ResourceRunning),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
+					resource.TestCheckResourceAttr(s.ResourceName, "public_ip", "0.0.0.0"),
+					resource.TestCheckResourceAttr(s.ResourceName, "private_ip", "0.0.0.0"),
 				),
 			},
 		},
