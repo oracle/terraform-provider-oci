@@ -95,6 +95,37 @@ func (s *ResourceCoreInstanceTestSuite) SetupTest() {
 		"subnetid",
 		opts).Return(s.Res, nil)
 	s.Client.On("TerminateInstance", s.Res.ID, (*baremetal.IfMatchOptions)(nil)).Return(nil)
+
+	listVnicOpts := &baremetal.ListVnicAttachmentsOptions{}
+	listVnicOpts.AvailabilityDomain = s.Res.AvailabilityDomain
+	listVnicOpts.InstanceID = s.Res.ID
+
+	listVnicOpts2 := &baremetal.ListVnicAttachmentsOptions{}
+	listVnicOpts2.AvailabilityDomain = "new_availability_domain"
+	listVnicOpts2.InstanceID = "new_id"
+
+	vnic := &baremetal.Vnic{}
+	vnic.PublicIPAddress = "0.0.0.0"
+	vnic.PrivateIPAddress = "0.0.0.0"
+	vnicAttachment := &baremetal.VnicAttachment{
+		ID:                 "id1",
+		AvailabilityDomain: "availabilityid",
+		CompartmentID:      "compartmentid",
+		DisplayName:        "att1",
+		InstanceID:         "instanceid",
+		State:              baremetal.ResourceAttached,
+		SubnetID:           "subnetid",
+		VnicID:             "vnicid",
+		TimeCreated:        time.Now(),
+	}
+	vnicList := &baremetal.ListVnicAttachments{
+		Attachments: []baremetal.VnicAttachment{
+			*vnicAttachment,
+		},
+	}
+	s.Client.On("ListVnicAttachments", s.Res.CompartmentID, listVnicOpts).Return(vnicList, nil)
+	s.Client.On("ListVnicAttachments", s.Res.CompartmentID, listVnicOpts2).Return(vnicList, nil)
+	s.Client.On("GetVnic", "vnicid").Return(vnic, nil)
 }
 
 func (s *ResourceCoreInstanceTestSuite) TestCreateResourceCoreInstance() {
@@ -116,6 +147,8 @@ func (s *ResourceCoreInstanceTestSuite) TestCreateResourceCoreInstance() {
 					resource.TestCheckResourceAttr(s.ResourceName, "image", s.Res.ImageID),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", s.Res.State),
 					resource.TestCheckResourceAttr(s.ResourceName, "time_created", s.Res.TimeCreated.String()),
+					resource.TestCheckResourceAttr(s.ResourceName, "public_ip", "0.0.0.0"),
+					resource.TestCheckResourceAttr(s.ResourceName, "private_ip", "0.0.0.0"),
 				),
 			},
 		},

@@ -47,7 +47,7 @@ func (s *ResourceIdentityUserGroupMembershipsTestSuite) SetupTest() {
 	description = "group desc"
     }
     resource "baremetal_identity_user_group_membership" "ug_membership" {
-    	compartment_id = "cid"
+	compartment_id = "cid"
 	user_id = "${baremetal_identity_user.u.id}"
 	group_id = "${baremetal_identity_group.g.id}"
     }
