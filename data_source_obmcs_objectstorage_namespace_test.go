@@ -11,9 +11,6 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
-
-
-
 	"github.com/stretchr/testify/suite"
 )
 
@@ -55,7 +52,6 @@ func (s *DatasourceObjectstorageNamespaceTestSuite) SetupTest() {
 }
 
 func (s *DatasourceObjectstorageNamespaceTestSuite) TestObjectstorageNamespace() {
-	s.Client.On("GetNamespace").Return(s.Res, nil).Once()
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -70,7 +66,7 @@ func (s *DatasourceObjectstorageNamespaceTestSuite) TestObjectstorageNamespace()
 			},
 		},
 	})
-	s.Client.AssertCalled(s.T(), "GetNamespace")
+
 }
 
 func TestDatasourceobjectstorageNamespaceTestSuite(t *testing.T) {

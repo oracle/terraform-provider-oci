@@ -3,7 +3,6 @@
 package main
 
 import (
-	"strconv"
 	"testing"
 	"time"
 
@@ -12,14 +11,11 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/stretchr/testify/suite"
-
-
-
 )
 
 type ResourceLoadBalancerBackendsetTestSuite struct {
 	suite.Suite
-	Client       mockableClient
+	Client      mockableClient
 	Providers   map[string]terraform.ResourceProvider
 	TimeCreated baremetal.Time
 }
@@ -62,88 +58,18 @@ resource "baremetal_load_balancer_backendset" "t" {
 `
 	config += testProviderConfig()
 
-	loadBalancerID := "ocid1.loadbalancer.stub_id"
-	res := &baremetal.BackendSet{
-		Name:   "stub_backendset_name",
-		Policy: "stub_policy",
-		HealthChecker: &baremetal.HealthChecker{
-			IntervalInMS:      30001,
-			Port:              1234,
-			Protocol:          "stub_protocol",
-			ResponseBodyRegex: "stub_regex",
-		},
-		SSLConfig: &baremetal.SSLConfiguration{
-			CertificateName:       "stub_certificate_name",
-			VerifyDepth:           6,
-			VerifyPeerCertificate: false,
-		},
-		// empty?
-		Backends: []baremetal.Backend{},
-	}
-	res.RequestID = "stub_opc_request_id"
-	// opts := baremetal.LoadBalancerOptions{}
-
-	deletedRes := &baremetal.BackendSet{}
-	*deletedRes = *res
-
-	workReqID := "stub_work_req_id"
-	s.Client.On(
-		"CreateBackendSet",
-		loadBalancerID,
-		res.Name,
-		res.Policy,
-		res.Backends,
-		res.HealthChecker,
-		res.SSLConfig,
-		// &opts,
-		(*baremetal.LoadBalancerOptions)(nil),
-	).Return(workReqID, nil)
-
-	workReqCreated := &baremetal.WorkRequest{
-		ID:             workReqID,
-		LoadBalancerID: loadBalancerID,
-		State:          baremetal.WorkRequestSucceeded,
-	}
-
-	s.Client.On(
-		"GetWorkRequest",
-		workReqID,
-		(*baremetal.ClientRequestOptions)(nil),
-	).Return(workReqCreated, nil)
-
-	s.Client.On(
-		"GetBackendSet",
-		loadBalancerID,
-		res.Name,
-		(*baremetal.ClientRequestOptions)(nil),
-	).Return(res, nil)
-
-	s.Client.On(
-		"DeleteBackendSet",
-		loadBalancerID,
-		res.Name,
-		(*baremetal.ClientRequestOptions)(nil),
-	).Return(workReqID, nil)
-
-	s.Client.On(
-		"GetWorkRequest",
-		workReqID,
-		(*baremetal.ClientRequestOptions)(nil),
-	).Return(workReqCreated, nil)
-
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
 				Config: config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "load_balancer_id", loadBalancerID),
-					resource.TestCheckResourceAttr(resourceName, "name", res.Name),
-
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "health_checker.port", "1234"),
 					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.certificate_name", res.SSLConfig.CertificateName),
-					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_depth", strconv.Itoa(res.SSLConfig.VerifyDepth)),
-					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_peer_certificate", strconv.FormatBool(res.SSLConfig.VerifyPeerCertificate)),
+					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.certificate_name", "stub_certificate_name"),
+					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_depth", "6"),
+					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_peer_certificate", "false"),
 				),
 			},
 		},

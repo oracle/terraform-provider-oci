@@ -11,9 +11,6 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
-
-
-
 	"github.com/stretchr/testify/suite"
 
 	"github.com/oracle/terraform-provider-baremetal/crud"
@@ -97,65 +94,9 @@ resource "baremetal_core_security_list" "t" {
     }]
 }
 	`
-	s.Config += testProviderConfig()
-	s.ResourceName = "baremetal_core_security_list.t"
-
-	egressRules := []baremetal.EgressSecurityRule{
-		{
-			Destination: "destination",
-			ICMPOptions: &baremetal.ICMPOptions{Code: 1, Type: 2},
-			Protocol:    "protocol",
-			IsStateless: true,
-		},
-	}
-	ingressRules := []baremetal.IngressSecurityRule{
-		{
-			TCPOptions: &baremetal.TCPOptions{
-				baremetal.PortRange{Max: 2, Min: 1},
-			},
-			Protocol: "protocol",
-			Source:   "source",
-		},
-	}
-
-	s.Res = &baremetal.SecurityList{
-		CompartmentID:        "compartment_id",
-		DisplayName:          "display_name",
-		EgressSecurityRules:  egressRules,
-		ID:                   "id",
-		IngressSecurityRules: ingressRules,
-		State:                baremetal.ResourceAvailable,
-		TimeCreated:          s.TimeCreated,
-		VcnID:                "vcn_id",
-	}
-	s.Res.ETag = "etag"
-	s.Res.RequestID = "opcrequestid"
-
-	deletingRes := *s.Res
-	s.DeletingRes = &deletingRes
-	s.DeletingRes.State = baremetal.ResourceTerminating
-
-	deletedRes := *s.Res
-	s.DeletedRes = &deletedRes
-	s.DeletedRes.State = baremetal.ResourceTerminated
-
-	opts := &baremetal.CreateOptions{}
-	opts.DisplayName = "display_name"
-
-	s.Client.On("CreateSecurityList",
-		"compartment_id",
-		"vcn_id",
-		egressRules,
-		ingressRules,
-		opts,
-	).Return(s.Res, nil)
-
-	s.Client.On("DeleteSecurityList", "id", (*baremetal.IfMatchOptions)(nil)).Return(nil)
 }
 
 func (s *ResourceCoreSecurityListTestSuite) TestCreateResourceCoreSecurityList() {
-	s.Client.On("GetSecurityList", "id").Return(s.Res, nil).Times(2)
-	s.Client.On("GetSecurityList", "id").Return(s.DeletedRes, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -166,7 +107,7 @@ func (s *ResourceCoreSecurityListTestSuite) TestCreateResourceCoreSecurityList()
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
 
-					resource.TestCheckResourceAttr(s.ResourceName, "display_name", s.Res.DisplayName),
+					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "Public"),
 					resource.TestCheckResourceAttr(s.ResourceName, "egress_security_rules.0.icmp_options.0.code", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "egress_security_rules.0.stateless", "true"),
 					resource.TestCheckResourceAttr(s.ResourceName, "ingress_security_rules.0.tcp_options.0.max", "2"),
@@ -177,7 +118,6 @@ func (s *ResourceCoreSecurityListTestSuite) TestCreateResourceCoreSecurityList()
 }
 
 func (s ResourceCoreSecurityListTestSuite) TestUpdateSecurityList() {
-	s.Client.On("GetSecurityList", "id").Return(s.Res, nil).Times(3)
 
 	config := `
 		resource "baremetal_core_security_list" "t" {
@@ -205,39 +145,6 @@ func (s ResourceCoreSecurityListTestSuite) TestUpdateSecurityList() {
 	`
 	config += testProviderConfig()
 
-	ingressRules := []baremetal.IngressSecurityRule{
-		{
-			TCPOptions: &baremetal.TCPOptions{
-				baremetal.PortRange{Max: 3, Min: 1},
-			},
-			Protocol: "protocol",
-			Source:   "source",
-		},
-	}
-
-	res := &baremetal.SecurityList{
-		CompartmentID:        "compartment_id",
-		DisplayName:          "display_name",
-		EgressSecurityRules:  s.Res.EgressSecurityRules,
-		ID:                   "id",
-		IngressSecurityRules: ingressRules,
-		State:                baremetal.ResourceAvailable,
-		TimeCreated:          s.TimeCreated,
-		VcnID:                "vcn_id",
-	}
-	s.Res.ETag = "etag"
-	s.Res.RequestID = "opcrequestid"
-
-	opts := &baremetal.UpdateSecurityListOptions{
-		EgressRules:  s.Res.EgressSecurityRules,
-		IngressRules: ingressRules,
-	}
-
-	s.Client.On("UpdateSecurityList", "id", opts).Return(res, nil)
-
-	s.Client.On("GetSecurityList", "id").Return(res, nil).Times(1)
-	s.Client.On("GetSecurityList", "id").Return(s.DeletedRes, nil)
-
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
@@ -258,9 +165,6 @@ func (s ResourceCoreSecurityListTestSuite) TestUpdateSecurityList() {
 }
 
 func (s *ResourceCoreSecurityListTestSuite) TestDeleteSecurityList() {
-	s.Client.On("GetSecurityList", "id").Return(s.Res, nil).Times(2)
-	s.Client.On("GetSecurityList", "id").Return(s.DeletingRes, nil).Times(2)
-	s.Client.On("GetSecurityList", "id").Return(s.DeletedRes, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -277,7 +181,6 @@ func (s *ResourceCoreSecurityListTestSuite) TestDeleteSecurityList() {
 		},
 	})
 
-	s.Client.AssertCalled(s.T(), "DeleteSecurityList", "id", (*baremetal.IfMatchOptions)(nil))
 }
 
 func TestResourceCoreSecurityListTestSuite(t *testing.T) {

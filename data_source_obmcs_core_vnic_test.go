@@ -4,15 +4,11 @@ package main
 
 import (
 	"testing"
-	"time"
 
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
-
-
-
 
 	"github.com/stretchr/testify/suite"
 )
@@ -45,25 +41,6 @@ func (s *DatasourceCoreVnicTestSuite) SetupTest() {
 }
 
 func (s *DatasourceCoreVnicTestSuite) TestReadVnic() {
-
-	s.Client.On(
-		"GetVnic",
-		"vnicid",
-	).Return(
-		&baremetal.Vnic{
-			AvailabilityDomain: "availabilitydomain",
-			CompartmentID:      "compartmentid",
-			DisplayName:        "displayname",
-			ID:                 "vncid",
-			State:              baremetal.ResourceActive,
-			PrivateIPAddress:   "10.10.10.10",
-			PublicIPAddress:    "52.53.54.55",
-			SubnetID:           "subnetid",
-			TimeCreated:        baremetal.Time{Time: time.Now()},
-		},
-		nil,
-	)
-
 	resource.UnitTest(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
@@ -84,7 +61,6 @@ func (s *DatasourceCoreVnicTestSuite) TestReadVnic() {
 	},
 	)
 
-	s.Client.AssertCalled(s.T(), "GetVnic", "vnicid")
 }
 
 func TestDatasourceCoreVnicTestSuite(t *testing.T) {

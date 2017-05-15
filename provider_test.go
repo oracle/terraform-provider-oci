@@ -3,16 +3,17 @@
 package main
 
 import (
-	"testing"
 	"errors"
+	"testing"
+
+	"os"
+	"strconv"
 
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/stretchr/testify/assert"
-	"os"
-	"strconv"
 
 	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/client/mocks"
@@ -31,6 +32,10 @@ func testProviderConfig() string {
 
 	variable "compartment_id" {
 		default = "` + getEnvSetting("compartment_id", "compartment_id") + `"
+	}
+
+	variable "tenancy_ocid" {
+		default = "` + getRequiredEnvSetting("tenancy_ocid") + `"
 	}
 
 	variable "namespace" {
@@ -126,6 +131,29 @@ resource "baremetal_core_instance" "t" {
       metadata {
         ssh_authorized_keys = "${var.ssh_public_key}"
       }
+}
+`
+
+var loadbalancerConfig = subnetConfig + `
+
+resource "baremetal_core_subnet" "WebSubnetAD2" {
+  availability_domain = "${data.baremetal_identity_availability_domains.ADs.availability_domains.1.name}"
+  cidr_block = "10.0.1.0/16"
+  display_name = "WebSubnetAD2"
+  compartment_id = "${var.compartment_id}"
+  vcn_id = "${baremetal_core_virtual_network.t.id}"
+  route_table_id = "${baremetal_core_route_table.RouteForComplete.id}"
+  security_list_ids = ["${baremetal_core_security_list.WebSubnet.id}"]
+}
+
+data "baremetal_load_balancer_shapes" "t" {
+  compartment_id = "${var.compartment_id}"
+}
+resource "baremetal_load_balancer" "t" {
+  shape          = "${data.baremetal_load_balancer_shapes.t.shapes.0.name}"
+  compartment_id = "${var.compartment_id}"
+  display_name   = "lb_display_name"
+  subnet_ids     = ["${baremetal_core_subnet.WebSubnetAD1.id}", "${baremetal_core_subnet.WebSubnetAD2.id}"]
 }
 `
 

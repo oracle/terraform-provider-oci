@@ -14,9 +14,6 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
-
-
-
 	"github.com/stretchr/testify/suite"
 )
 
@@ -77,15 +74,10 @@ func (s *DatabaseDBSystemTestSuite) SetupTest() {
 	}
 	s.Res.ETag = "etag"
 	s.Res.RequestID = "opcrequestid"
-	s.Client.On("LaunchDBSystem",
-		s.Res.AvailabilityDomain, s.Res.CompartmentID, s.Res.Shape, s.Res.SubnetID,
-		s.Res.SSHPublicKeys, s.Res.CPUCoreCount, opts,
-	).Return(s.Res, nil)
 
 	deletedRes := *s.Res
 	s.DeletedRes = &deletedRes
 	s.DeletedRes.State = baremetal.ResourceTerminated
-	s.Client.On("TerminateDBSystem", "id", (*baremetal.IfMatchOptions)(nil)).Return(nil)
 
 	tmpl := `
 		resource "baremetal_database_db_system" "t" {
@@ -120,8 +112,6 @@ func (s *DatabaseDBSystemTestSuite) SetupTest() {
 }
 
 func (s *DatabaseDBSystemTestSuite) TestCreateDBSystem() {
-	s.Client.On("GetDBSystem", "id").Return(s.Res, nil).Times(2)
-	s.Client.On("GetDBSystem", "id").Return(s.DeletedRes, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -141,8 +131,6 @@ func (s *DatabaseDBSystemTestSuite) TestCreateDBSystem() {
 }
 
 func (s *DatabaseDBSystemTestSuite) TestTerminateDBSystem() {
-	s.Client.On("GetDBSystem", "id").Return(s.Res, nil).Times(2)
-	s.Client.On("GetDBSystem", "id").Return(s.DeletedRes, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -159,7 +147,6 @@ func (s *DatabaseDBSystemTestSuite) TestTerminateDBSystem() {
 		},
 	})
 
-	s.Client.AssertCalled(s.T(), "TerminateDBSystem", "id", (*baremetal.IfMatchOptions)(nil))
 }
 
 func TestDatabaseDBSystemTestSuite(t *testing.T) {

@@ -11,9 +11,6 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
-
-
-
 	"github.com/stretchr/testify/suite"
 )
 
@@ -55,17 +52,6 @@ func (s *ResourceIdentityUIPasswordTestSuite) SetupTest() {
 
 	s.TimeCreated = baremetal.Time{Time: time.Now()}
 	s.ResourceName = "baremetal_identity_ui_password.t"
-
-	s.Res = &baremetal.UIPassword{
-		Password:    "password",
-		TimeCreated: s.TimeCreated,
-		UserID:      "user_id",
-	}
-	s.Res.ETag = "etag"
-	s.Res.RequestID = "opcrequestid"
-
-	s.Client.On("CreateOrResetUIPassword", "user_id", (*baremetal.RetryTokenOptions)(nil)).
-		Return(s.Res, nil).Once()
 }
 
 func (s *ResourceIdentityUIPasswordTestSuite) TestCreateUIPassword() {
@@ -97,15 +83,6 @@ func (s ResourceIdentityUIPasswordTestSuite) TestUpdateVersionForcesNewUIPasswor
 		}
   `
 	config += testProviderConfig()
-
-	res := &baremetal.UIPassword{
-		Password:    "new_password",
-		TimeCreated: s.TimeCreated,
-		UserID:      "user_id",
-	}
-
-	s.Client.On("CreateOrResetUIPassword", "user_id", (*baremetal.RetryTokenOptions)(nil)).
-		Return(res, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,

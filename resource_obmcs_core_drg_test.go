@@ -11,9 +11,6 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
-
-
-
 	"github.com/stretchr/testify/suite"
 )
 
@@ -53,38 +50,10 @@ func (s *ResourceCoreDrgTestSuite) SetupTest() {
 	s.Config += testProviderConfig()
 
 	s.ResourceName = "baremetal_core_drg.t"
-	s.Res = &baremetal.Drg{
-		CompartmentID: "compartment_id",
-		DisplayName:   "display_name",
-		ID:            "id",
-		State:         baremetal.ResourceAvailable,
-		TimeCreated:   s.TimeCreated,
-	}
-	s.Res.ETag = "etag"
-	s.Res.RequestID = "opcrequestid"
 
-	s.DeletedRes = &baremetal.Drg{
-		CompartmentID: "compartment_id",
-		DisplayName:   "display_name",
-		ID:            "id",
-		State:         baremetal.ResourceTerminated,
-		TimeCreated:   s.TimeCreated,
-	}
-	s.DeletedRes.ETag = "etag"
-	s.DeletedRes.RequestID = "opcrequestid"
-
-	opts := &baremetal.CreateOptions{}
-	opts.DisplayName = "display_name"
-	s.Client.On(
-		"CreateDrg",
-		"compartment_id",
-		opts).Return(s.Res, nil)
-	s.Client.On("DeleteDrg", "id", (*baremetal.IfMatchOptions)(nil)).Return(nil)
 }
 
 func (s *ResourceCoreDrgTestSuite) TestCreateResourceCoreDrg() {
-	s.Client.On("GetDrg", "id").Return(s.Res, nil).Times(2)
-	s.Client.On("GetDrg", "id").Return(s.DeletedRes, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -95,10 +64,10 @@ func (s *ResourceCoreDrgTestSuite) TestCreateResourceCoreDrg() {
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
 
-					resource.TestCheckResourceAttr(s.ResourceName, "display_name", s.Res.DisplayName),
-					resource.TestCheckResourceAttr(s.ResourceName, "id", s.Res.ID),
-					resource.TestCheckResourceAttr(s.ResourceName, "state", s.Res.State),
-					resource.TestCheckResourceAttr(s.ResourceName, "time_created", s.Res.TimeCreated.String()),
+					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "display_name"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", baremetal.ResourceAvailable),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
 				),
 			},
 		},
@@ -109,8 +78,6 @@ func (s *ResourceCoreDrgTestSuite) TestCreateResourceCoreDrgWithoutDisplayName()
 	if IsAccTest() {
 		s.T().Skip()
 	}
-	s.Client.On("GetDrg", "id").Return(s.Res, nil).Times(2)
-	s.Client.On("GetDrg", "id").Return(s.DeletedRes, nil)
 
 	s.Config = `
 		resource "baremetal_core_drg" "t" {
@@ -118,11 +85,6 @@ func (s *ResourceCoreDrgTestSuite) TestCreateResourceCoreDrgWithoutDisplayName()
 		}
 	`
 	s.Config += testProviderConfig()
-
-	opts := &baremetal.CreateOptions{}
-	s.Client.On(
-		"CreateDrg",
-		"compartment_id", opts).Return(s.Res, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -140,8 +102,6 @@ func (s *ResourceCoreDrgTestSuite) TestCreateResourceCoreDrgWithoutDisplayName()
 }
 
 func (s *ResourceCoreDrgTestSuite) TestDeleteDrg() {
-	s.Client.On("GetDrg", "id").Return(s.Res, nil).Times(2)
-	s.Client.On("GetDrg", "id").Return(s.DeletedRes, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -158,7 +118,6 @@ func (s *ResourceCoreDrgTestSuite) TestDeleteDrg() {
 		},
 	})
 
-	s.Client.AssertCalled(s.T(), "DeleteDrg", "id", (*baremetal.IfMatchOptions)(nil))
 }
 
 func TestResourceCoreDrgTestSuite(t *testing.T) {

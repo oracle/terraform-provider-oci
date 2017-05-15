@@ -11,9 +11,6 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
-
-
-
 	"github.com/stretchr/testify/suite"
 )
 
@@ -64,43 +61,10 @@ func (s *ResourceCoreDrgAttachmentTestSuite) SetupTest() {
 	s.Config += testProviderConfig()
 
 	s.ResourceName = "baremetal_core_drg_attachment.t"
-	s.Res = &baremetal.DrgAttachment{
-		CompartmentID: "compartment_id",
-		DisplayName:   "display_name",
-		DrgID:         "drg_id",
-		ID:            "id",
-		State:         baremetal.ResourceAttached,
-		TimeCreated:   s.TimeCreated,
-		VcnID:         "vcn_id",
-	}
-	s.Res.ETag = "etag"
-	s.Res.RequestID = "opcrequestid"
 
-	s.DetachedRes = &baremetal.DrgAttachment{
-		CompartmentID: "compartment_id",
-		DisplayName:   "display_name",
-		DrgID:         "drg_id",
-		ID:            "id",
-		State:         baremetal.ResourceDetached,
-		TimeCreated:   s.TimeCreated,
-		VcnID:         "vcn_id",
-	}
-	s.DetachedRes.ETag = "etag"
-	s.DetachedRes.RequestID = "opcrequestid"
-
-	opts := &baremetal.CreateOptions{}
-	opts.DisplayName = "display_name"
-	s.Client.On(
-		"CreateDrgAttachment",
-		"drg_id",
-		"vcn_id",
-		opts).Return(s.Res, nil)
-	s.Client.On("DeleteDrgAttachment", "id", (*baremetal.IfMatchOptions)(nil)).Return(nil)
 }
 
 func (s *ResourceCoreDrgAttachmentTestSuite) TestCreateResourceCoreDrgAttachment() {
-	s.Client.On("GetDrgAttachment", "id").Return(s.Res, nil).Times(2)
-	s.Client.On("GetDrgAttachment", "id").Return(s.DetachedRes, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -111,12 +75,12 @@ func (s *ResourceCoreDrgAttachmentTestSuite) TestCreateResourceCoreDrgAttachment
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
 
-					resource.TestCheckResourceAttr(s.ResourceName, "display_name", s.Res.DisplayName),
-					resource.TestCheckResourceAttr(s.ResourceName, "drg_id", s.Res.DrgID),
-					resource.TestCheckResourceAttr(s.ResourceName, "id", s.Res.ID),
-					resource.TestCheckResourceAttr(s.ResourceName, "state", s.Res.State),
-					resource.TestCheckResourceAttr(s.ResourceName, "time_created", s.Res.TimeCreated.String()),
-					resource.TestCheckResourceAttr(s.ResourceName, "vcn_id", s.Res.VcnID),
+					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "display_name"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "drg_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", baremetal.ResourceAttached),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "vcn_id"),
 				),
 			},
 		},
@@ -124,8 +88,6 @@ func (s *ResourceCoreDrgAttachmentTestSuite) TestCreateResourceCoreDrgAttachment
 }
 
 func (s *ResourceCoreDrgAttachmentTestSuite) TestDetachVolume() {
-	s.Client.On("GetDrgAttachment", "id").Return(s.Res, nil).Times(2)
-	s.Client.On("GetDrgAttachment", "id").Return(s.DetachedRes, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -142,7 +104,6 @@ func (s *ResourceCoreDrgAttachmentTestSuite) TestDetachVolume() {
 		},
 	})
 
-	s.Client.AssertCalled(s.T(), "DeleteDrgAttachment", "id", (*baremetal.IfMatchOptions)(nil))
 }
 
 func TestResourceCoreDrgAttachmentTestSuite(t *testing.T) {

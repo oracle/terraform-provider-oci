@@ -13,10 +13,10 @@ import (
 
 type DatabaseDatabasesTestSuite struct {
 	suite.Suite
-	Client       mockableClient
-	Config       string
-	Provider     terraform.ResourceProvider
-	Providers    map[string]terraform.ResourceProvider
+	Client    mockableClient
+	Config    string
+	Provider  terraform.ResourceProvider
+	Providers map[string]terraform.ResourceProvider
 }
 
 func (s *DatabaseDatabasesTestSuite) SetupTest() {

@@ -11,9 +11,6 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
-
-
-
 	"github.com/stretchr/testify/suite"
 )
 
@@ -61,11 +58,10 @@ func (s *ResourceIdentityCompartmentTestSuite) SetupTest() {
 		State:         baremetal.ResourceActive,
 		TimeCreated:   s.TimeCreated,
 	}
-	s.Client.On("CreateCompartment", "test-compartment", "desc!", (*baremetal.RetryTokenOptions)(nil)).Return(s.Res, nil)
+
 }
 
 func (s *ResourceIdentityCompartmentTestSuite) TestCreateResourceIdentityCompartment() {
-	s.Client.On("GetCompartment", "id!").Return(s.Res, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,

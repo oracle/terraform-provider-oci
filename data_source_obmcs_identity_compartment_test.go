@@ -11,9 +11,6 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
-
-
-
 	"github.com/stretchr/testify/suite"
 )
 
@@ -62,7 +59,6 @@ func (s *ResourceIdentityCompartmentsTestSuite) SetupTest() {
 }
 
 func (s *ResourceIdentityCompartmentsTestSuite) TestReadCompartments() {
-	s.Client.On("ListCompartments", (*baremetal.ListOptions)(nil)).Return(s.List, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,

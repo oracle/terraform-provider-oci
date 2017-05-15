@@ -4,12 +4,10 @@ package main
 
 import (
 	"testing"
+
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
-
-
-
 
 	"github.com/stretchr/testify/suite"
 )
@@ -78,7 +76,6 @@ func (s *CoreInternetGatewayDatasourceTestSuite) TestResourceListInternetGateway
 	},
 	)
 }
-
 
 func TestCoreInternetGatewayDatasource(t *testing.T) {
 	suite.Run(t, new(CoreInternetGatewayDatasourceTestSuite))

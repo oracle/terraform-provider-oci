@@ -12,9 +12,6 @@ import (
 	"github.com/stretchr/testify/suite"
 
 	"github.com/MustWin/baremetal-sdk-go"
-
-
-
 )
 
 type ResourceIdentitySwiftPasswordTestSuite struct {
@@ -57,27 +54,6 @@ func (s *ResourceIdentitySwiftPasswordTestSuite) SetupTest() {
 	s.TimeCreated = time.Now()
 	s.ResourceName = "baremetal_identity_swift_password.t"
 
-	s.Res = &baremetal.SwiftPassword{
-		ID:          "id",
-		Password:    "password",
-		TimeCreated: s.TimeCreated,
-		State:       baremetal.ResourceActive,
-		UserID:      "user_id",
-		Description: description,
-	}
-	s.Res.ETag = "etag"
-	s.Res.RequestID = "opcrequestid"
-
-	s.Client.On("CreateSwiftPassword", "user_id", description, (*baremetal.RetryTokenOptions)(nil)).
-		Return(s.Res, nil).Once()
-	s.Client.On("ListSwiftPasswords", "user_id").
-		Return(
-			&baremetal.ListSwiftPasswords{
-				SwiftPasswords: []baremetal.SwiftPassword{
-					*s.Res,
-				},
-			}, nil).Twice()
-	s.Client.On("DeleteSwiftPassword", "id", "user_id", (*baremetal.IfMatchOptions)(nil)).Return(nil).Once()
 }
 
 func (s *ResourceIdentitySwiftPasswordTestSuite) TestCreateSwiftPassword() {
@@ -106,19 +82,6 @@ func (s ResourceIdentitySwiftPasswordTestSuite) TestUpdateDescriptionUpdatesSwif
   `
 	config += testProviderConfig()
 
-	res := &baremetal.SwiftPassword{}
-	*res = *s.Res
-	res.Description = "nah nah nah"
-	s.Client.On("UpdateSwiftPassword", "id", "user_id", &baremetal.UpdateIdentityOptions{Description: res.Description}).
-		Return(res, nil)
-	s.Client.On("ListSwiftPasswords", "user_id").
-		Return(
-			&baremetal.ListSwiftPasswords{
-				SwiftPasswords: []baremetal.SwiftPassword{
-					*res,
-				},
-			}, nil).Twice()
-
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
@@ -133,7 +96,7 @@ func (s ResourceIdentitySwiftPasswordTestSuite) TestUpdateDescriptionUpdatesSwif
 			{
 				Config: config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "description", res.Description),
+					resource.TestCheckResourceAttr(s.ResourceName, "description", "nah nah nah"),
 				),
 			},
 		},

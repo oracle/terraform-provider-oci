@@ -4,15 +4,10 @@ package main
 
 import (
 	"testing"
-	"time"
 
-	baremetal "github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
-
-
-
 
 	"github.com/stretchr/testify/suite"
 )
@@ -46,36 +41,6 @@ func (s *DatasourceCoreIPSecStatusTestSuite) SetupTest() {
 }
 
 func (s *DatasourceCoreIPSecStatusTestSuite) TestIPSecStatus() {
-
-	s.Client.On(
-		"GetIPSecConnectionDeviceStatus",
-		"ipsecid",
-	).Return(
-		&baremetal.IPSecConnectionDeviceStatus{
-			IPSecConnectionDevice: baremetal.IPSecConnectionDevice{
-				CompartmentID: "compartmentid",
-				ID:            "id",
-				TimeCreated:   baremetal.Time{Time: time.Now()},
-			},
-
-			Tunnels: []baremetal.TunnelStatus{
-				{
-					IPAddress:         "10.10.10.2",
-					State:             baremetal.ResourceUp,
-					TimeCreated:       baremetal.Time{Time: time.Now()},
-					TimeStateModified: baremetal.Time{Time: time.Now()},
-				},
-				{
-					IPAddress:         "10.10.10.3",
-					State:             baremetal.ResourceUp,
-					TimeCreated:       baremetal.Time{Time: time.Now()},
-					TimeStateModified: baremetal.Time{Time: time.Now()},
-				},
-			},
-		},
-		nil,
-	)
-
 	resource.UnitTest(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
@@ -94,8 +59,6 @@ func (s *DatasourceCoreIPSecStatusTestSuite) TestIPSecStatus() {
 		},
 	},
 	)
-
-	s.Client.AssertCalled(s.T(), "GetIPSecConnectionDeviceStatus", "ipsecid")
 
 }
 

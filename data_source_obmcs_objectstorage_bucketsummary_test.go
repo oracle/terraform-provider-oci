@@ -6,13 +6,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
-
-
-
 
 	"github.com/stretchr/testify/suite"
 )
@@ -41,7 +37,6 @@ func (s *ObjectstorageBucketSummaryTestSuite) SetupTest() {
       compartment_id = "${var.compartment_id}"
       namespace = "namespace"
       limit = 2
-      page = "page"
     }
   `
 	s.Config += testProviderConfig()
@@ -50,58 +45,6 @@ func (s *ObjectstorageBucketSummaryTestSuite) SetupTest() {
 }
 
 func (s *ObjectstorageBucketSummaryTestSuite) TestReadBucketSummaries() {
-	namespace := baremetal.Namespace("namespace")
-
-	opts := &baremetal.ListBucketsOptions{}
-	opts.Page = "page"
-	opts.Limit = 2
-
-	res := &baremetal.ListBuckets{}
-	res.NextPage = "nextpage"
-	res.BucketSummaries = []baremetal.BucketSummary{
-		{
-			Namespace:     "namespace",
-			Name:          "name0",
-			CompartmentID: "compartmentID",
-			CreatedBy:     "created_by",
-			TimeCreated:   s.TimeCreated,
-			ETag:          "etag",
-		},
-		{
-			Namespace:     "namespace",
-			Name:          "name1",
-			CompartmentID: "compartmentID",
-			CreatedBy:     "created_by",
-			TimeCreated:   s.TimeCreated,
-			ETag:          "etag",
-		},
-	}
-
-	s.Client.On(
-		"ListBuckets", "compartmentid", namespace, opts,
-	).Return(res, nil)
-
-	opts2 := &baremetal.ListBucketsOptions{}
-	opts2.Page = "nextpage"
-	opts2.Limit = 2
-	s.Client.On(
-		"ListBuckets", "compartmentid", namespace, opts2,
-	).Return(
-		&baremetal.ListBuckets{
-			BucketSummaries: []baremetal.BucketSummary{
-				{
-					Namespace:     "namespace",
-					Name:          "name2",
-					CompartmentID: "compartmentID",
-					CreatedBy:     "created_by",
-					TimeCreated:   s.TimeCreated,
-					ETag:          "etag",
-				},
-			},
-		},
-		nil,
-	)
-
 	resource.UnitTest(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
@@ -113,20 +56,14 @@ func (s *ObjectstorageBucketSummaryTestSuite) TestReadBucketSummaries() {
 				Check: resource.ComposeTestCheckFunc(
 
 					resource.TestCheckResourceAttr(s.ResourceName, "namespace", "namespace"),
-					resource.TestCheckResourceAttr(s.ResourceName, "limit", "2"),
 					resource.TestCheckResourceAttr(s.ResourceName, "bucket_summaries.0.name", "name0"),
-					resource.TestCheckResourceAttr(s.ResourceName, "bucket_summaries.2.name", "name2"),
+					resource.TestCheckResourceAttr(s.ResourceName, "bucket_summaries.1.name", "name2"),
 					resource.TestCheckResourceAttr(s.ResourceName, "bucket_summaries.#", "3"),
 				),
 			},
 		},
 	},
 	)
-
-	s.Client.AssertCalled(
-		s.T(), "ListBuckets", "compartmentid", namespace, opts2,
-	)
-
 }
 
 func TestObjectstorageBucketSummaryTestSuite(t *testing.T) {

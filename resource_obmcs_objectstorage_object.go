@@ -6,9 +6,10 @@ import (
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
 
+	"log"
+
 	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/crud"
-	"log"
 )
 
 func ObjectResource() *schema.Resource {

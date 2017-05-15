@@ -3,7 +3,6 @@
 package main
 
 import (
-	"strconv"
 	"testing"
 	"time"
 
@@ -12,14 +11,11 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/stretchr/testify/suite"
-
-
-
 )
 
 type ResourceLoadBalancerListenerTestSuite struct {
 	suite.Suite
-	Client       mockableClient
+	Client      mockableClient
 	Providers   map[string]terraform.ResourceProvider
 	TimeCreated baremetal.Time
 }
@@ -57,88 +53,20 @@ resource "baremetal_load_balancer_listener" "t" {
 `
 	config += testProviderConfig()
 
-	loadBalancerID := "stub_load_balancer_id"
-	res := &baremetal.Listener{
-		Name: "stub_name",
-		DefaultBackendSetName: "stub_backend_set_name",
-		Port:     1234,
-		Protocol: "stub_protocol",
-		SSLConfig: &baremetal.SSLConfiguration{
-			CertificateName:       "stub_certificate_name",
-			VerifyDepth:           6,
-			VerifyPeerCertificate: false,
-		},
-	}
-	res.RequestID = "stub_opc_request_id"
-
-	deletedRes := &baremetal.Listener{}
-	*deletedRes = *res
-
-	workReqID := "stub_work_req_id"
-
-	s.Client.On(
-		"CreateListener",
-		loadBalancerID,
-		res.Name,
-		res.DefaultBackendSetName,
-		res.Protocol,
-		res.Port,
-		res.SSLConfig,
-		(*baremetal.LoadBalancerOptions)(nil),
-	).Return(workReqID, nil)
-
-	workReqCreated := &baremetal.WorkRequest{
-		ID:             workReqID,
-		LoadBalancerID: loadBalancerID,
-		State:          baremetal.WorkRequestSucceeded,
-	}
-
-	s.Client.On(
-		"GetWorkRequest",
-		workReqID,
-		(*baremetal.ClientRequestOptions)(nil),
-	).Return(workReqCreated, nil)
-
-	lb := baremetal.LoadBalancer{
-		Listeners: map[string]baremetal.Listener{
-			res.Name: *res,
-		},
-	}
-	s.Client.On(
-		"GetLoadBalancer",
-		loadBalancerID,
-		(*baremetal.ClientRequestOptions)(nil),
-	).Return(&lb, nil)
-
-	s.Client.On(
-		"DeleteListener",
-		loadBalancerID,
-		res.Name,
-		(*baremetal.ClientRequestOptions)(nil),
-	).Return(workReqID, nil)
-
-	s.Client.On(
-		"GetWorkRequest",
-		workReqID,
-		(*baremetal.ClientRequestOptions)(nil),
-	).Return(workReqCreated, nil)
-
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
 				Config: config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "load_balancer_id", loadBalancerID),
-					resource.TestCheckResourceAttr(resourceName, "name", res.Name),
-					resource.TestCheckResourceAttr(resourceName, "default_backend_set_name", res.DefaultBackendSetName),
-					resource.TestCheckResourceAttr(resourceName, "port", strconv.Itoa(res.Port)),
-					resource.TestCheckResourceAttr(resourceName, "protocol", res.Protocol),
+					resource.TestCheckResourceAttr(resourceName, "name", "stub_name"),
+					resource.TestCheckResourceAttr(resourceName, "default_backend_set_name", "stub_backend_set_name"),
+					resource.TestCheckResourceAttr(resourceName, "port", "1234"),
 
 					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.certificate_name", res.SSLConfig.CertificateName),
-					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_depth", strconv.Itoa(res.SSLConfig.VerifyDepth)),
-					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_peer_certificate", strconv.FormatBool(res.SSLConfig.VerifyPeerCertificate)),
+					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.certificate_name", "stub_certificate_name"),
+					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_depth", "6"),
+					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_peer_certificate", "false"),
 				),
 			},
 		},

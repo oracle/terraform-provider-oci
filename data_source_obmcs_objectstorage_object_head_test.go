@@ -11,9 +11,6 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
-
-
-
 	"github.com/stretchr/testify/suite"
 )
 
@@ -66,9 +63,6 @@ func (s *DatasourceObjectstorageObjectHeadTestSuite) SetupTest() {
 }
 
 func (s *DatasourceObjectstorageObjectHeadTestSuite) TestObjectstorageHeadObject() {
-	opts := &baremetal.HeadObjectOptions{}
-	s.Client.On("HeadObject", s.Res.Namespace, s.Res.Bucket, s.Res.ID, opts).Return(s.Res, nil)
-
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
@@ -87,7 +81,7 @@ func (s *DatasourceObjectstorageObjectHeadTestSuite) TestObjectstorageHeadObject
 			},
 		},
 	})
-	s.Client.AssertCalled(s.T(), "HeadObject", s.Res.Namespace, s.Res.Bucket, s.Res.ID, opts)
+
 }
 
 func TestDatasourceobjectstorageObjectHeadTestSuite(t *testing.T) {

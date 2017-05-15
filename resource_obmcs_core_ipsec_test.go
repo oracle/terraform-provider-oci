@@ -11,9 +11,6 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
-
-
-
 	"github.com/stretchr/testify/suite"
 )
 
@@ -66,34 +63,10 @@ func (s *ResourceCoreIPSecTestSuite) SetupTest() {
 	s.Config += testProviderConfig()
 
 	s.ResourceName = "baremetal_core_ipsec.t"
-	s.Res = &baremetal.IPSecConnection{
-		CompartmentID: "compartmentid",
-		DisplayName:   "display_name",
-		ID:            "id",
-		DrgID:         "drgid",
-		CpeID:         "cpeid",
-		StaticRoutes:  []string{"route1", "route2"},
-		TimeCreated:   s.TimeCreated,
-		State:         baremetal.ResourceUp,
-	}
 
-	s.DeletedRes = s.Res
-	s.DeletedRes.State = baremetal.ResourceDown
-
-	opts := &baremetal.CreateOptions{}
-	opts.DisplayName = "display_name"
-	s.Client.On(
-		"CreateIPSecConnection",
-		s.Res.CompartmentID,
-		s.Res.CpeID,
-		s.Res.DrgID,
-		s.Res.StaticRoutes,
-		opts).Return(s.Res, nil)
-	s.Client.On("DeleteIPSecConnection", s.Res.ID, (*baremetal.IfMatchOptions)(nil)).Return(nil)
 }
 
 func (s *ResourceCoreIPSecTestSuite) TestCreateResourceCoreIpsec() {
-	s.Client.On("GetIPSecConnection", "id").Return(s.Res, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -103,12 +76,12 @@ func (s *ResourceCoreIPSecTestSuite) TestCreateResourceCoreIpsec() {
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "drg_id", s.Res.DrgID),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "drg_id"),
 
-					resource.TestCheckResourceAttr(s.ResourceName, "display_name", s.Res.DisplayName),
-					resource.TestCheckResourceAttr(s.ResourceName, "id", s.Res.ID),
-					resource.TestCheckResourceAttr(s.ResourceName, "state", s.Res.State),
-					resource.TestCheckResourceAttr(s.ResourceName, "time_created", s.Res.TimeCreated.String()),
+					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "display_name"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", baremetal.ResourceAvailable),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
 				),
 			},
 		},
@@ -116,8 +89,6 @@ func (s *ResourceCoreIPSecTestSuite) TestCreateResourceCoreIpsec() {
 }
 
 func (s *ResourceCoreIPSecTestSuite) TestTerminateIPSec() {
-	s.Client.On("GetIPSecConnection", "id").Return(s.Res, nil).Times(2)
-	s.Client.On("GetIPSecConnection", "id").Return(s.DeletedRes, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -133,8 +104,6 @@ func (s *ResourceCoreIPSecTestSuite) TestTerminateIPSec() {
 			},
 		},
 	})
-
-	s.Client.On("DeleteIPSecConnection", s.Res.ID, (*baremetal.IfMatchOptions)(nil)).Return(nil)
 
 }
 

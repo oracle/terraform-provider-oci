@@ -7,10 +7,11 @@ import (
 	"fmt"
 	"net/http"
 
+	"os"
+
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
-	"os"
 )
 
 var descriptions map[string]string

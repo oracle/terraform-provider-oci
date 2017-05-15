@@ -10,9 +10,6 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
-
-
-
 	"github.com/stretchr/testify/suite"
 )
 
@@ -47,8 +44,6 @@ func (s *DatabaseDatabaseTestSuite) TestReadDatabase() {
 	database := &baremetal.Database{}
 	database.DBHomeID = "db_home_id"
 	database.ID = "id"
-
-	s.Client.On("GetDatabase", "id").Return(database, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,

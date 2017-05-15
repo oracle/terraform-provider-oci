@@ -11,9 +11,6 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
-
-
-
 	"github.com/stretchr/testify/suite"
 )
 
@@ -66,11 +63,6 @@ func (s *ResourceCoreImagesTestSuite) SetupTest() {
 }
 
 func (s *ResourceCoreImagesTestSuite) TestReadImages() {
-	opts := &baremetal.ListImagesOptions{}
-	opts.Limit = 1
-
-	s.Client.On("ListImages", "compartment_id", opts).Return(s.List, nil)
-
 	resource.UnitTest(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
@@ -89,54 +81,6 @@ func (s *ResourceCoreImagesTestSuite) TestReadImages() {
 	},
 	)
 
-	s.Client.AssertCalled(s.T(), "ListImages", "compartment_id", opts)
-}
-
-func (s *ResourceCoreImagesTestSuite) TestReadImagesWithPagination() {
-	if IsAccTest() {
-		s.T().Skip()
-	}
-	opts := &baremetal.ListImagesOptions{}
-	opts.Limit = 1
-	opts.Page = "page"
-
-	listVal := *s.List
-	list := &listVal
-	list.NextPage = "nextpage"
-	s.Client.On("ListImages", "compartment_id", opts).Return(list, nil)
-
-	opts2 := &baremetal.ListImagesOptions{}
-	opts2.Limit = 1
-	opts2.Page = "nextpage"
-
-	list2Val := *s.List
-	list2 := &list2Val
-	b3 := s.List.Images[0]
-	b3.ID = "id3"
-	b4 := s.List.Images[1]
-	b4.ID = "id4"
-	list2.Images = []baremetal.Image{b3, b4}
-	s.Client.On("ListImages", "compartment_id", opts2).Return(list2, nil)
-
-	resource.UnitTest(s.T(), resource.TestCase{
-		PreventPostDestroyRefresh: true,
-		Providers:                 s.Providers,
-		Steps: []resource.TestStep{
-			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config:            s.Config,
-				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "images.0.id", "id1"),
-					resource.TestCheckResourceAttr(s.ResourceName, "images.3.id", "id4"),
-					resource.TestCheckResourceAttr(s.ResourceName, "images.#", "4"),
-				),
-			},
-		},
-	},
-	)
-
-	s.Client.AssertCalled(s.T(), "ListImages", "compartment_id", opts2)
 }
 
 func TestResourceCoreImagesTestSuite(t *testing.T) {

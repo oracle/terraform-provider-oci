@@ -49,24 +49,6 @@ data "baremetal_core_cpes" "s" {
 }
 
 func (s *DatasourceCoreCpeTestSuite) TestCpeList() {
-	s.Client.On(
-		"ListCpes",
-		"compartmentid",
-		&baremetal.ListOptions{},
-	).Return(
-		&baremetal.ListCpes{
-			Cpes: []baremetal.Cpe{
-				{
-					ID:            "id1",
-					CompartmentID: "compartmentid",
-					DisplayName:   "name1",
-					IPAddress:     "142.10.10.2",
-					TimeCreated:   baremetal.Time{Time: time.Now()},
-				},
-			},
-		},
-		nil,
-	)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,
@@ -86,7 +68,6 @@ func (s *DatasourceCoreCpeTestSuite) TestCpeList() {
 	},
 	)
 
-	s.Client.AssertCalled(s.T(), "ListCpes", "compartmentid", &baremetal.ListOptions{})
 }
 
 func (s *DatasourceCoreCpeTestSuite) TestCpePagedList() {
@@ -112,40 +93,6 @@ func (s *DatasourceCoreCpeTestSuite) TestCpePagedList() {
 		},
 	}
 
-	s.Client.On(
-		"ListCpes",
-		"compartmentid",
-		&baremetal.ListOptions{},
-	).Return(res, nil)
-
-	opts := &baremetal.ListOptions{}
-	opts.Page = "nextpage"
-	s.Client.On(
-		"ListCpes",
-		"compartmentid",
-		opts,
-	).Return(
-		&baremetal.ListCpes{
-			Cpes: []baremetal.Cpe{
-				{
-					ID:            "id3",
-					CompartmentID: "compartmentid",
-					DisplayName:   "name",
-					IPAddress:     "10.10.10.4",
-					TimeCreated:   baremetal.Time{Time: time.Now()},
-				},
-				{
-					ID:            "id4",
-					CompartmentID: "compartmentid",
-					DisplayName:   "name",
-					IPAddress:     "10.10.10.5",
-					TimeCreated:   baremetal.Time{Time: time.Now()},
-				},
-			},
-		},
-		nil,
-	)
-
 	resource.UnitTest(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
@@ -169,7 +116,7 @@ func (s *DatasourceCoreCpeTestSuite) TestCpePagedList() {
 	},
 	)
 
-	// s.Client.AssertCalled(s.T(), "ListCpes", "compartmentid", &baremetal.ListOptions{})
+	//
 }
 
 func TestDatasourceCoreCpeTestSuite(t *testing.T) {

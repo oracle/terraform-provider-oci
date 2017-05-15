@@ -11,9 +11,6 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
-
-
-
 	"github.com/stretchr/testify/suite"
 )
 
@@ -73,21 +70,9 @@ func (s *ResourceObjectstorageBucketTestSuite) SetupTest() {
 	s.Res.ETag = "etag"
 	s.Res.RequestID = "opcrequestid"
 
-	opts := &baremetal.CreateBucketOptions{
-		Metadata: metadata,
-	}
-	s.Client.On(
-		"CreateBucket",
-		"compartment_id",
-		"name",
-		s.Namespace,
-		opts).Return(s.Res, nil)
-	s.Client.On("DeleteBucket", "name", s.Namespace, (*baremetal.IfMatchOptions)(nil)).Return(nil)
 }
 
 func (s *ResourceObjectstorageBucketTestSuite) TestCreateResourceObjectstorageBucket() {
-	s.Client.On("GetBucket", "name", s.Namespace).Return(s.Res, nil).Times(2)
-	s.Client.On("GetBucket", "name", s.Namespace).Return(nil, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -107,8 +92,7 @@ func (s *ResourceObjectstorageBucketTestSuite) TestCreateResourceObjectstorageBu
 }
 
 func (s *ResourceObjectstorageBucketTestSuite) TestDeleteResourceObjectstorageBucket() {
-	s.Client.On("GetBucket", "name", s.Namespace).Return(s.Res, nil).Times(2)
-	s.Client.On("GetBucket", "name", s.Namespace).Return(nil, nil)
+
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
@@ -123,7 +107,7 @@ func (s *ResourceObjectstorageBucketTestSuite) TestDeleteResourceObjectstorageBu
 			},
 		},
 	})
-	s.Client.AssertCalled(s.T(), "DeleteBucket", "name", s.Namespace, (*baremetal.IfMatchOptions)(nil))
+
 }
 
 func TestResourceObjectstorageBucketTestSuite(t *testing.T) {

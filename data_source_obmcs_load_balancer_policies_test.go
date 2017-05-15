@@ -9,8 +9,6 @@ import (
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
-
-
 )
 
 func TestLoadBalancerPoliciesDatasource(t *testing.T) {

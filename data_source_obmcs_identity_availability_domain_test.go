@@ -10,9 +10,6 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/stretchr/testify/suite"
-
-
-
 )
 
 type ResourceIdentityAvailabilityDomainsTestSuite struct {
@@ -56,7 +53,6 @@ func (s *ResourceIdentityAvailabilityDomainsTestSuite) SetupTest() {
 }
 
 func (s *ResourceIdentityAvailabilityDomainsTestSuite) TestReadAvailabilityDomains() {
-	s.Client.On("ListAvailabilityDomains", "compartmentID").Return(s.List, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,
@@ -75,7 +71,6 @@ func (s *ResourceIdentityAvailabilityDomainsTestSuite) TestReadAvailabilityDomai
 	},
 	)
 
-	s.Client.AssertCalled(s.T(), "ListAvailabilityDomains", "user_id")
 }
 
 func TestResourceIdentityAvailabilityDomainsTestSuite(t *testing.T) {

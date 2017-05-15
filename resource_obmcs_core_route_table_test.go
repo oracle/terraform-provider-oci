@@ -11,9 +11,6 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
-
-
-
 	"github.com/stretchr/testify/suite"
 )
 
@@ -69,55 +66,9 @@ resource "baremetal_core_route_table" "t" {
 
 	s.ResourceName = "baremetal_core_route_table.t"
 
-	routeRules := []baremetal.RouteRule{
-		{
-			CidrBlock:       "cidr_block",
-			NetworkEntityID: "network_entity_id",
-		},
-		{
-			CidrBlock:       "cidr_block",
-			NetworkEntityID: "network_entity_id",
-		},
-	}
-
-	s.Res = &baremetal.RouteTable{
-		CompartmentID: "compartment_id",
-		DisplayName:   "display_name",
-		ID:            "id",
-		RouteRules:    routeRules,
-		TimeModified:  s.TimeCreated,
-		State:         baremetal.ResourceAvailable,
-		TimeCreated:   s.TimeCreated,
-	}
-	s.Res.ETag = "etag"
-	s.Res.RequestID = "opcrequestid"
-
-	s.DeletedRes = &baremetal.RouteTable{
-		CompartmentID: "compartment_id",
-		DisplayName:   "display_name",
-		ID:            "id",
-		RouteRules:    routeRules,
-		TimeModified:  s.TimeCreated,
-		State:         baremetal.ResourceTerminated,
-		TimeCreated:   s.TimeCreated,
-	}
-	s.DeletedRes.ETag = "etag"
-	s.DeletedRes.RequestID = "opcrequestid"
-
-	opts := &baremetal.CreateOptions{}
-	opts.DisplayName = "display_name"
-	s.Client.On(
-		"CreateRouteTable",
-		"compartment_id",
-		"vcn_id",
-		routeRules,
-		opts).Return(s.Res, nil)
-	s.Client.On("DeleteRouteTable", "id", (*baremetal.IfMatchOptions)(nil)).Return(nil)
 }
 
 func (s *ResourceCoreRouteTableTestSuite) TestCreateResourceCoreRouteTable() {
-	s.Client.On("GetRouteTable", "id").Return(s.Res, nil).Times(2)
-	s.Client.On("GetRouteTable", "id").Return(s.DeletedRes, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -128,7 +79,7 @@ func (s *ResourceCoreRouteTableTestSuite) TestCreateResourceCoreRouteTable() {
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
 
-					resource.TestCheckResourceAttr(s.ResourceName, "display_name", s.Res.DisplayName),
+					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "display_name"),
 					resource.TestCheckResourceAttr(s.ResourceName, "route_rules.0.cidr_block", "0.0.0.0/0"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "route_rules.0.network_entity_id"),
 				),
@@ -141,7 +92,6 @@ func (s ResourceCoreRouteTableTestSuite) TestUpdateRouteTable() {
 	if IsAccTest() {
 		s.T().Skip()
 	}
-	s.Client.On("GetRouteTable", "id").Return(s.Res, nil).Times(3)
 
 	config := `
 		resource "baremetal_core_route_table" "t" {
@@ -155,31 +105,6 @@ func (s ResourceCoreRouteTableTestSuite) TestUpdateRouteTable() {
 		}
 	`
 	config += testProviderConfig()
-
-	routeRules := []baremetal.RouteRule{
-		{
-			CidrBlock:       "new_cidr_block",
-			NetworkEntityID: "network_entity_id",
-		},
-	}
-
-	res := &baremetal.RouteTable{
-		CompartmentID: "compartment_id",
-		DisplayName:   "display_name",
-		ID:            "id",
-		RouteRules:    routeRules,
-		TimeModified:  s.TimeCreated,
-		State:         baremetal.ResourceAvailable,
-		TimeCreated:   s.TimeCreated,
-	}
-	res.ETag = "etag"
-	res.RequestID = "opcrequestid"
-
-	opts := &baremetal.UpdateRouteTableOptions{}
-	opts.RouteRules = routeRules
-	s.Client.On("UpdateRouteTable", "id", opts).Return(res, nil)
-	s.Client.On("GetRouteTable", "id").Return(res, nil).Times(2)
-	s.Client.On("GetRouteTable", "id").Return(s.DeletedRes, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -198,8 +123,6 @@ func (s ResourceCoreRouteTableTestSuite) TestUpdateRouteTable() {
 }
 
 func (s *ResourceCoreRouteTableTestSuite) TestDeleteRouteTable() {
-	s.Client.On("GetRouteTable", "id").Return(s.Res, nil).Times(2)
-	s.Client.On("GetRouteTable", "id").Return(s.DeletedRes, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -216,7 +139,6 @@ func (s *ResourceCoreRouteTableTestSuite) TestDeleteRouteTable() {
 		},
 	})
 
-	s.Client.AssertCalled(s.T(), "DeleteRouteTable", "id", (*baremetal.IfMatchOptions)(nil))
 }
 
 func TestResourceCoreRouteTableTestSuite(t *testing.T) {

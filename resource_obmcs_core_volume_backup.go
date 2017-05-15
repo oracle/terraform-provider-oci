@@ -105,7 +105,7 @@ func (s *VolumeBackupResourceCrud) ID() string {
 }
 
 func (s *VolumeBackupResourceCrud) CreatedPending() []string {
-	return []string{baremetal.ResourceRequestReceived, baremetal.ResourceCreating, }
+	return []string{baremetal.ResourceRequestReceived, baremetal.ResourceCreating}
 }
 
 // Creating is considered "Created" because it can take some time to finish

@@ -11,9 +11,6 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
-
-
-
 	"github.com/stretchr/testify/suite"
 )
 
@@ -63,7 +60,6 @@ func (s *ResourceIdentityGroupsTestSuite) SetupTest() {
 }
 
 func (s *ResourceIdentityGroupsTestSuite) TestReadGroups() {
-	s.Client.On("ListGroups", (*baremetal.ListOptions)(nil)).Return(s.List, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,

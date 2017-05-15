@@ -11,15 +11,12 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
-
-
-
 	"github.com/stretchr/testify/suite"
 )
 
 type ResourceIdentityPolicyTestSuite struct {
 	suite.Suite
-	Client       mockableClient
+	Client      mockableClient
 	Provider    terraform.ResourceProvider
 	Providers   map[string]terraform.ResourceProvider
 	TimeCreated time.Time

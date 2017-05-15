@@ -5,7 +5,6 @@ package main
 import (
 	"testing"
 
-	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
@@ -51,19 +50,6 @@ func (s *CoreConsoleHistoryDataDatasourceTestSuite) SetupTest() {
 func (s *CoreConsoleHistoryDataDatasourceTestSuite) TestResourceShowConsoleHistory() {
 	data := make([]byte, 100)
 	rand.Read(data)
-
-	opts := &baremetal.ConsoleHistoryDataOptions{}
-	opts.Length = 1
-	opts.Offset = 1
-
-	s.Client.On("ShowConsoleHistoryData", "ichid", opts).
-		Return(
-			&baremetal.ConsoleHistoryData{
-				BytesRemaining: 50,
-				Data:           string(data),
-			},
-			nil,
-		)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,

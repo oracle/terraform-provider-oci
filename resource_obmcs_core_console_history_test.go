@@ -10,9 +10,6 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
-
-
-
 	"github.com/stretchr/testify/suite"
 )
 
@@ -59,11 +56,9 @@ func (s *ResourceCoreConsoleHistoryTestSuite) SetupTest() {
 	s.Res.ETag = "etag"
 	s.Res.RequestID = "opcrequestid"
 
-	s.Client.On("CaptureConsoleHistory", s.Res.InstanceID, (*baremetal.RetryTokenOptions)(nil)).Return(s.Res, nil)
 }
 
 func (s *ResourceCoreConsoleHistoryTestSuite) TestCreateResourceCoreInstanceConsoleHistory() {
-	s.Client.On("GetConsoleHistory", "id").Return(s.Res, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -73,8 +68,7 @@ func (s *ResourceCoreConsoleHistoryTestSuite) TestCreateResourceCoreInstanceCons
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "id", s.Res.ID),
-
+					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 				),
 			},
 		},

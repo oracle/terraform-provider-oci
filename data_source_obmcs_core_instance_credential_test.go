@@ -5,13 +5,9 @@ package main
 import (
 	"testing"
 
-	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
-
-
-
 
 	"github.com/stretchr/testify/suite"
 )
@@ -45,13 +41,6 @@ func (s *ResourceCoreInstanceCredentialTestSuite) SetupTest() {
 }
 
 func (s *ResourceCoreInstanceCredentialTestSuite) TestResourceReadCoreInstanceCredential() {
-	s.Client.On(
-		"GetWindowsInstanceInitialCredentials",
-		"instanceid",
-	).Return(
-		&baremetal.InstanceCredentials{"username", "password"},
-		nil,
-	)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,
@@ -69,7 +58,6 @@ func (s *ResourceCoreInstanceCredentialTestSuite) TestResourceReadCoreInstanceCr
 	},
 	)
 
-	s.Client.AssertCalled(s.T(), "GetWindowsInstanceInitialCredentials", "instanceid")
 }
 
 func TestResourceCoreInstanceCredentialTestSuite(t *testing.T) {

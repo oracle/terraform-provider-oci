@@ -14,10 +14,9 @@ import (
 	"github.com/MustWin/baremetal-sdk-go"
 )
 
-
 type ResourceIdentitySwiftPasswordsTestSuite struct {
 	suite.Suite
-	Client       mockableClient
+	Client        mockableClient
 	Provider      terraform.ResourceProvider
 	Providers     map[string]terraform.ResourceProvider
 	TimeCreated   time.Time

@@ -11,9 +11,6 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
-
-
-
 	"github.com/stretchr/testify/suite"
 )
 
@@ -80,11 +77,6 @@ func (s *DatasourceObjectstorageObjectTestSuite) SetupTest() {
 }
 
 func (s *DatasourceObjectstorageObjectTestSuite) TestObjectstorageListObjects() {
-	opts := &baremetal.ListObjectsOptions{Prefix: "testprefix"}
-	opts2 := &baremetal.ListObjectsOptions{Prefix: "testprefix", Start: "testprefix-2"}
-	s.Client.On("ListObjects", baremetal.Namespace("namespaceID"), "bucketID", opts).Return(s.Res, nil).Once()
-	s.Client.On("ListObjects", baremetal.Namespace("namespaceID"), "bucketID", opts2).Return(s.Res2, nil).Once()
-
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
@@ -102,8 +94,7 @@ func (s *DatasourceObjectstorageObjectTestSuite) TestObjectstorageListObjects() 
 			},
 		},
 	})
-	s.Client.AssertCalled(s.T(), "ListObjects", baremetal.Namespace("namespaceID"), "bucketID", opts)
-	s.Client.AssertCalled(s.T(), "ListObjects", baremetal.Namespace("namespaceID"), "bucketID", opts2)
+
 }
 
 func TestDatasourceobjectstorageObjectTestSuite(t *testing.T) {

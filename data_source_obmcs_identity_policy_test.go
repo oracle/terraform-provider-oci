@@ -12,9 +12,6 @@ import (
 	"github.com/stretchr/testify/suite"
 
 	"github.com/MustWin/baremetal-sdk-go"
-
-
-
 )
 
 var testPoliciesConfig = `

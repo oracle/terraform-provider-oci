@@ -11,8 +11,6 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/stretchr/testify/suite"
-	//	"errors"
-	"errors"
 )
 
 type ResourceCoreInternetGatewayTestSuite struct {
@@ -59,36 +57,9 @@ resource "baremetal_core_internet_gateway" "t" {
 	s.Config += testProviderConfig()
 
 	s.ResourceName = "baremetal_core_internet_gateway.t"
-	s.Res = &baremetal.InternetGateway{
-		CompartmentID: "compartment_id",
-		DisplayName:   "display_name",
-		ID:            "id",
-		IsEnabled:     true,
-		State:         baremetal.ResourceAvailable,
-		ModifiedTime:  s.TimeCreated,
-		TimeCreated:   s.TimeCreated,
-	}
-	s.Res.ETag = "etag"
-	s.Res.RequestID = "requestid"
-
-	s.DeletedRes = &baremetal.InternetGateway{}
-	*s.DeletedRes = *s.Res
-	s.DeletedRes.State = baremetal.ResourceTerminated
-
-	opts := &baremetal.CreateOptions{}
-	opts.DisplayName = "display_name"
-	s.Client.On(
-		"CreateInternetGateway",
-		s.Res.CompartmentID,
-		"vcnid",
-		s.Res.IsEnabled,
-		opts).Return(s.Res, nil)
-	s.Client.On("DeleteInternetGateway", s.Res.ID, (*baremetal.IfMatchOptions)(nil)).Return(nil)
 }
 
 func (s *ResourceCoreInternetGatewayTestSuite) TestCreateResourceCoreInternetGateway() {
-	s.Client.On("GetInternetGateway", "id").Return(s.Res, nil).Times(2)
-	s.Client.On("GetInternetGateway", "id").Return(s.DeletedRes, nil).Times(2)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -99,9 +70,9 @@ func (s *ResourceCoreInternetGatewayTestSuite) TestCreateResourceCoreInternetGat
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
 
-					resource.TestCheckResourceAttr(s.ResourceName, "display_name", s.Res.DisplayName),
+					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "display_name"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
-					resource.TestCheckResourceAttr(s.ResourceName, "state", s.Res.State),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", baremetal.ResourceAvailable),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
 				),
 			},
@@ -110,8 +81,6 @@ func (s *ResourceCoreInternetGatewayTestSuite) TestCreateResourceCoreInternetGat
 }
 
 func (s ResourceCoreInternetGatewayTestSuite) TestUpdateCompartmentIDForcesNewInternetGateway() {
-	s.Client.On("GetInternetGateway", s.Res.ID).Return(s.Res, nil).Times(2)
-	s.Client.On("GetInternetGateway", s.Res.ID).Return(s.DeletedRes, nil).Times(2)
 
 	config := `
 resource "baremetal_core_virtual_network" "t" {
@@ -128,37 +97,6 @@ resource "baremetal_core_internet_gateway" "t" {
 	`
 
 	config += testProviderConfig()
-
-	res := &baremetal.InternetGateway{
-		CompartmentID: "new_compartment_id",
-		DisplayName:   "display_name",
-		ID:            "id",
-		IsEnabled:     true,
-		State:         baremetal.ResourceAvailable,
-		ModifiedTime:  s.TimeCreated,
-		TimeCreated:   s.TimeCreated,
-	}
-	s.Res.ETag = "etag"
-	s.Res.RequestID = "requestid"
-
-	delRes := &baremetal.InternetGateway{}
-	*delRes = *res
-	delRes.State = baremetal.ResourceTerminated
-
-	opts := &baremetal.CreateOptions{}
-	opts.DisplayName = "display_name"
-	s.Client.On(
-		"CreateInternetGateway",
-		res.CompartmentID,
-		"vcnid",
-		res.IsEnabled,
-		opts).Return(res, nil)
-
-	s.Client.On("DeleteInternetGateway", res.ID, (*baremetal.IfMatchOptions)(nil)).Return(nil)
-
-	s.Client.On("GetInternetGateway", res.ID).Return(res, nil).Times(2)
-	s.Client.On("GetInternetGateway", res.ID).Return(delRes, nil).Once()
-	s.Client.On("GetInternetGateway", res.ID).Return(nil, errors.New("blah does not exist"))
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -181,8 +119,6 @@ resource "baremetal_core_internet_gateway" "t" {
 }
 
 func (s *ResourceCoreInternetGatewayTestSuite) TestDeleteInternetGateway() {
-	s.Client.On("GetInternetGateway", "id").Return(s.Res, nil).Times(2)
-	s.Client.On("GetInternetGateway", "id").Return(s.DeletedRes, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -199,7 +135,6 @@ func (s *ResourceCoreInternetGatewayTestSuite) TestDeleteInternetGateway() {
 		},
 	})
 
-	s.Client.AssertCalled(s.T(), "DeleteInternetGateway", "id", (*baremetal.IfMatchOptions)(nil))
 }
 
 func TestResourceCoreInternetGatewayTestSuite(t *testing.T) {

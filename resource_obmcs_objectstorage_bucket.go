@@ -6,9 +6,10 @@ import (
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
 
+	"time"
+
 	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/crud"
-	"time"
 )
 
 func BucketResource() *schema.Resource {
@@ -61,7 +62,6 @@ type BucketResourceCrud struct {
 func (s *BucketResourceCrud) ID() string {
 	return string(s.Res.Namespace) + "/" + s.Res.Name
 }
-
 
 func (s *BucketResourceCrud) ExtraWaitPostCreateDelete() time.Duration {
 	return time.Duration(10 * time.Second)
