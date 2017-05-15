@@ -51,7 +51,15 @@ type UserGroupMembershipDatasourceCrud struct {
 }
 
 func (s *UserGroupMembershipDatasourceCrud) Get() (e error) {
-	s.Res, e = s.Client.ListUserGroupMemberships(nil)
+	opts := &baremetal.ListMembershipsOptions{}
+	if id, ok := s.D.GetOk("group_id"); ok {
+		opts.GroupID = id.(string)
+	}
+	if id, ok := s.D.GetOk("user_id"); ok {
+		opts.UserID = id.(string)
+	}
+
+	s.Res, e = s.Client.ListUserGroupMemberships(opts)
 	return
 }
 

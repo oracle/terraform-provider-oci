@@ -43,7 +43,7 @@ func (s *ResourceIdentityUserGroupMembershipsTestSuite) SetupTest() {
 	description = "group desc"
     }
     resource "baremetal_identity_user_group_membership" "ug_membership" {
-    	compartment_id = "${var.compartment_id}"
+    	compartment_id = "${var.tenancy_ocid}"
 	user_id = "${baremetal_identity_user.u.id}"
 	group_id = "${baremetal_identity_group.g.id}"
     }
@@ -53,12 +53,21 @@ func (s *ResourceIdentityUserGroupMembershipsTestSuite) SetupTest() {
 }
 
 func (s *ResourceIdentityUserGroupMembershipsTestSuite) TestGetUserGroupMembershipsByGroup() {
-	config := s.Config
-	config += `
+	config := `
 	data "baremetal_identity_user_group_memberships" "g_memberships" {
-	    compartment_id = "${var.compartment_id}"
+	    compartment_id = "${var.tenancy_ocid}"
 	    group_id = "${baremetal_identity_group.g.id}"
-        }`
+        }
+        data "baremetal_identity_user_group_memberships" "u_memberships" {
+		compartment_id = "${var.tenancy_ocid}"
+		user_id = "${baremetal_identity_user.u.id}"
+	}
+	data "baremetal_identity_user_group_memberships" "ug_memberships" {
+	    compartment_id = "${var.tenancy_ocid}"
+	    user_id = "${baremetal_identity_user.u.id}"
+	    group_id = "${baremetal_identity_group.g.id}"
+        }
+	`
 	resource.UnitTest(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
@@ -75,66 +84,7 @@ func (s *ResourceIdentityUserGroupMembershipsTestSuite) TestGetUserGroupMembersh
 				Config: s.Config + config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("data.baremetal_identity_user_group_memberships.g_memberships", "memberships.0.id"),
-				),
-			},
-		},
-	},
-	)
-}
-
-func (s *ResourceIdentityUserGroupMembershipsTestSuite) TestGetUserGroupMembershipsByUser() {
-	config := s.Config
-	config += `
-	data "baremetal_identity_user_group_memberships" "u_memberships" {
-		compartment_id = "${var.compartment_id}"
-		user_id = "${baremetal_identity_user.u.id}"
-	   }`
-	resource.UnitTest(s.T(), resource.TestCase{
-		PreventPostDestroyRefresh: true,
-		Providers:                 s.Providers,
-		Steps: []resource.TestStep{
-			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config:            s.Config,
-				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
-				),
-			},
-			{
-				Config: s.Config + config,
-				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("data.baremetal_identity_user_group_memberships.u_memberships", "memberships.0.id"),
-				),
-			},
-		},
-	},
-	)
-}
-
-func (s *ResourceIdentityUserGroupMembershipsTestSuite) TestGetUserGroupMembershipsByUserAndGroup() {
-	config := s.Config
-	config += `
-	data "baremetal_identity_user_group_memberships" "ug_memberships" {
-	    compartment_id = "${var.compartment_id}"
-	    user_id = "${baremetal_identity_user.u.id}"
-	    group_id = "${baremetal_identity_group.g.id}"
-        }`
-	resource.UnitTest(s.T(), resource.TestCase{
-		PreventPostDestroyRefresh: true,
-		Providers:                 s.Providers,
-		Steps: []resource.TestStep{
-			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config:            s.Config,
-				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
-				),
-			},
-			{
-				Config: s.Config + config,
-				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("data.baremetal_identity_user_group_memberships.ug_memberships", "memberships.0.id"),
 				),
 			},

@@ -25,12 +25,12 @@ func TestLoadBalancersDatasource(t *testing.T) {
 	resourceName := "data.baremetal_load_balancers.t"
 	config := `
 data "baremetal_load_balancers" "t" {
-  compartment_id = "ocid1.compartment.stub_id"
+  compartment_id = "${var.compartment_id}"
 }
 `
 	config += testProviderConfig()
 
-	compartmentID := "ocid1.compartment.stub_id"
+	compartmentID := "${var.compartment_id}"
 	lb1 := baremetal.LoadBalancer{
 		CompartmentID: compartmentID,
 		ID:            "ocid1.loadbalancer.stub_id1",
