@@ -182,7 +182,7 @@ func (s *RouteTableResourceCrud) Delete() (e error) {
 	return s.Client.DeleteRouteTable(s.D.Id(), nil)
 }
 
-func (s *RouteTableResourceCrud) ExtraWaitPostDelete() time.Duration {
+func (s *RouteTableResourceCrud) ExtraWaitPostCreateDelete() time.Duration {
 	return time.Duration(15 * time.Second)
 }
 

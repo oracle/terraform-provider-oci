@@ -63,7 +63,7 @@ func (s *BucketResourceCrud) ID() string {
 }
 
 
-func (s *BucketResourceCrud) ExtraWaitPostDelete() time.Duration {
+func (s *BucketResourceCrud) ExtraWaitPostCreateDelete() time.Duration {
 	return time.Duration(10 * time.Second)
 }
 

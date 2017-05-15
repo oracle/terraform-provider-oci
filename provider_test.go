@@ -36,16 +36,16 @@ func testProviderConfig() string {
 	variable "namespace" {
 		default = "` + getEnvSetting("namespace", "mustwin") + `"
 	}
+
+	variable "ssh_public_key" {
+		default = "ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"
+	}
 	`
 }
 
-var instanceConfig = `
+var subnetConfig = `
 data "baremetal_identity_availability_domains" "ADs" {
   compartment_id = "${var.compartment_id}"
-}
-
-data "baremetal_core_images" "images" {
-    compartment_id = "${var.compartment_id}"
 }
 
 resource "baremetal_core_virtual_network" "t" {
@@ -94,7 +94,7 @@ resource "baremetal_core_security_list" "WebSubnet" {
 
 
 resource "baremetal_core_subnet" "WebSubnetAD1" {
-  availability_domain = "${lookup(data.baremetal_identity_availability_domains.ADs.availability_domains[0],"name")}"
+  availability_domain = "${data.baremetal_identity_availability_domains.ADs.availability_domains.0.name}"
   cidr_block = "10.0.0.0/16"
   display_name = "WebSubnetAD1"
   compartment_id = "${var.compartment_id}"
@@ -102,7 +102,9 @@ resource "baremetal_core_subnet" "WebSubnetAD1" {
   route_table_id = "${baremetal_core_route_table.RouteForComplete.id}"
   security_list_ids = ["${baremetal_core_security_list.WebSubnet.id}"]
 }
+`
 
+var instanceConfig = subnetConfig + `
 data "baremetal_core_images" "t" {
 	compartment_id = "${var.compartment_id}"
 	limit = 1
@@ -122,10 +124,75 @@ resource "baremetal_core_instance" "t" {
       shape = "${data.baremetal_core_shape.shapes.shapes.0.name}"
       subnet_id = "${baremetal_core_subnet.WebSubnetAD1.id}"
       metadata {
-        ssh_authorized_keys = "ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"
+        ssh_authorized_keys = "${var.ssh_public_key}"
       }
 }
 `
+
+var databaseConfig = subnetConfig + `
+variable "DBNodeShape" {
+    default = "BM.DenseIO1.36"
+}
+
+variable "CPUCoreCount" {
+    default = "2"
+}
+
+variable "DBEdition" {
+    default = "ENTERPRISE_EDITION"
+}
+
+variable "DBAdminPassword" {
+    default = "BEstrO0ng_#11"
+}
+
+variable "DBName" {
+    default = "aTFdb"
+}
+
+variable "DBVersion" {
+    default = "12.1.0.2"
+}
+
+
+variable "DBDiskRedundancy" {
+    default = "HIGH"
+}
+
+variable "DBNodeDisplayName" {
+    default = "MyTFDatabaseNode0"
+}
+
+variable "DBNodeDomainName" {
+    default = "mycompany.com"
+}
+
+variable "DBNodeHostName" {
+    default = "myOracleDB"
+}
+
+	resource "baremetal_database_db_system" "t" {
+	  availability_domain = "${data.baremetal_identity_availability_domains.ADs.availability_domains.0.name}"
+	  compartment_id = "${var.compartment_id}"
+	  cpu_core_count = "${var.CPUCoreCount}"
+	  database_edition = "${var.DBEdition}"
+	  db_home {
+	    database {
+	      "admin_password" = "${var.DBAdminPassword}"
+	      "db_name" = "${var.DBName}"
+	    }
+	    db_version = "${var.DBVersion}"
+	    display_name = "MyTFDB"
+	  }
+	  disk_redundancy = "NORMAL"
+	  shape = "${var.DBNodeShape}"
+	  subnet_id = "${baremetal_core_subnet.WebSubnetAD1.id}"
+	  ssh_public_keys = ["${var.ssh_public_key}"]
+	  display_name = "MyTFDatabaseNode0"
+	  domain = "${var.DBNodeDomainName}"
+	  hostname = "${var.DBNodeHostName}"
+	}
+	`
 
 // This is a dummy object allowing coexistance between mocked API calls and real API calls in acceptance tests
 // Acceptance tests will use this object that "mocks" the mocks
@@ -174,7 +241,6 @@ func GetTestProvider() mockableClient {
 		d.Set("private_key_path", getRequiredEnvSetting("private_key_path"))
 		d.Set("private_key_password", getEnvSetting("private_key_password", ""))
 		d.Set("private_key", getEnvSetting("private_key", ""))
-
 
 		client, err := providerConfig(d)
 		if err != nil {

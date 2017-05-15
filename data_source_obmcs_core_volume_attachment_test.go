@@ -4,9 +4,6 @@ package main
 
 import (
 	"testing"
-	"time"
-
-	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
@@ -35,62 +32,25 @@ func (s *ResourceCoreVolumeAttachmentsTestSuite) SetupTest() {
 	s.Providers = map[string]terraform.ResourceProvider{
 		"baremetal": s.Provider,
 	}
-	s.Config = `
-    data "baremetal_core_volume_attachments" "t" {
-      availability_domain = "availability_domain"
-      compartment_id = "${var.compartment_id}"
-      limit = 1
-      page = "page"
-      instance_id = "instance_id"
-      volume_id = "volume_id"
-    }
+	s.Config = instanceConfig + `
+		resource "baremetal_core_volume" "t" {
+			availability_domain = "${data.baremetal_identity_availability_domains.ADs.availability_domains.0.name}"
+			compartment_id = "${var.compartment_id}"
+			display_name = "display_name"
+			size_in_mbs = 262144
+		}
+		resource "baremetal_core_volume_attachment" "t" {
+			attachment_type = "iscsi"
+			compartment_id = "${var.compartment_id}"
+			instance_id = "${baremetal_core_instance.t.id}"
+			volume_id = "${baremetal_core_volume.t.id}"
+		}
   `
 	s.Config += testProviderConfig()
 	s.ResourceName = "data.baremetal_core_volume_attachments.t"
 }
 
 func (s *ResourceCoreVolumeAttachmentsTestSuite) TestReadVolumeAttachments() {
-	opts := &baremetal.ListVolumeAttachmentsOptions{}
-	opts.AvailabilityDomain = "availability_domain"
-	opts.Limit = 1
-	opts.Page = "page"
-	opts.InstanceID = "instance_id"
-	opts.VolumeID = "volume_id"
-
-	s.Client.On(
-		"ListVolumeAttachments",
-		"compartment_id",
-		opts,
-	).Return(
-		&baremetal.ListVolumeAttachments{
-			VolumeAttachments: []baremetal.VolumeAttachment{
-				{
-					AttachmentType:     "attachment_type",
-					AvailabilityDomain: "availability_domain",
-					CompartmentID:      "compartment_id",
-					DisplayName:        "display_name",
-					ID:                 "id1",
-					InstanceID:         "instance_id",
-					State:              baremetal.ResourceAttached,
-					TimeCreated:        baremetal.Time{Time: time.Now()},
-					VolumeID:           "volume_id",
-				},
-				{
-					AttachmentType:     "attachment_type",
-					AvailabilityDomain: "availability_domain",
-					CompartmentID:      "compartment_id",
-					DisplayName:        "display_name",
-					ID:                 "id2",
-					InstanceID:         "instance_id",
-					State:              baremetal.ResourceAttached,
-					TimeCreated:        baremetal.Time{Time: time.Now()},
-					VolumeID:           "volume_id",
-				},
-			},
-		},
-		nil,
-	)
-
 	resource.UnitTest(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
@@ -99,127 +59,25 @@ func (s *ResourceCoreVolumeAttachmentsTestSuite) TestReadVolumeAttachments() {
 				ImportState:       true,
 				ImportStateVerify: true,
 				Config:            s.Config,
-				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "availability_domain", "availability_domain"),
-
-					resource.TestCheckResourceAttr(s.ResourceName, "limit", "1"),
-					resource.TestCheckResourceAttr(s.ResourceName, "page", "page"),
-					resource.TestCheckResourceAttr(s.ResourceName, "volume_attachments.0.availability_domain", "availability_domain"),
-					resource.TestCheckResourceAttr(s.ResourceName, "volume_attachments.0.id", "id1"),
-					resource.TestCheckResourceAttr(s.ResourceName, "volume_attachments.1.id", "id2"),
-					resource.TestCheckResourceAttr(s.ResourceName, "volume_attachments.#", "2"),
-				),
 			},
-		},
-	},
-	)
-	s.Client.AssertCalled(s.T(), "ListVolumeAttachments", "compartment_id", opts)
-}
-
-func (s *ResourceCoreVolumeAttachmentsTestSuite) TestReadVolumeAttachmentsWithPaging() {
-	opts := &baremetal.ListVolumeAttachmentsOptions{}
-	opts.AvailabilityDomain = "availability_domain"
-	opts.Limit = 1
-	opts.Page = "page"
-	opts.InstanceID = "instance_id"
-	opts.VolumeID = "volume_id"
-
-	res := &baremetal.ListVolumeAttachments{}
-	res.NextPage = "nextpage"
-	res.VolumeAttachments = []baremetal.VolumeAttachment{
-		{
-			AttachmentType:     "attachment_type",
-			AvailabilityDomain: "availability_domain",
-			CompartmentID:      "compartment_id",
-			DisplayName:        "display_name",
-			ID:                 "id1",
-			InstanceID:         "instance_id",
-			State:              baremetal.ResourceAttached,
-			TimeCreated:        baremetal.Time{Time: time.Now()},
-			VolumeID:           "volume_id",
-		},
-		{
-			AttachmentType:     "attachment_type",
-			AvailabilityDomain: "availability_domain",
-			CompartmentID:      "compartment_id",
-			DisplayName:        "display_name",
-			ID:                 "id2",
-			InstanceID:         "instance_id",
-			State:              baremetal.ResourceAttached,
-			TimeCreated:        baremetal.Time{Time: time.Now()},
-			VolumeID:           "volume_id",
-		},
-	}
-
-	s.Client.On(
-		"ListVolumeAttachments",
-		"compartment_id",
-		opts,
-	).Return(res, nil)
-
-	opts2 := &baremetal.ListVolumeAttachmentsOptions{}
-	opts2.AvailabilityDomain = "availability_domain"
-	opts2.Limit = 1
-	opts2.Page = "nextpage"
-	opts2.InstanceID = "instance_id"
-	opts2.VolumeID = "volume_id"
-
-	s.Client.On(
-		"ListVolumeAttachments",
-		"compartment_id",
-		opts2,
-	).Return(
-		&baremetal.ListVolumeAttachments{
-			VolumeAttachments: []baremetal.VolumeAttachment{
-				{
-					AttachmentType:     "attachment_type",
-					AvailabilityDomain: "availability_domain",
-					CompartmentID:      "compartment_id",
-					DisplayName:        "display_name",
-					ID:                 "id3",
-					InstanceID:         "instance_id",
-					State:              baremetal.ResourceAttached,
-					TimeCreated:        baremetal.Time{Time: time.Now()},
-					VolumeID:           "volume_id",
-				},
-				{
-					AttachmentType:     "attachment_type",
-					AvailabilityDomain: "availability_domain",
-					CompartmentID:      "compartment_id",
-					DisplayName:        "display_name",
-					ID:                 "id4",
-					InstanceID:         "instance_id",
-					State:              baremetal.ResourceAttached,
-					TimeCreated:        baremetal.Time{Time: time.Now()},
-					VolumeID:           "volume_id",
-				},
-			},
-		},
-		nil,
-	)
-
-	resource.UnitTest(s.T(), resource.TestCase{
-		PreventPostDestroyRefresh: true,
-		Providers:                 s.Providers,
-		Steps: []resource.TestStep{
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config:            s.Config,
+				Config: s.Config + `
+				    data "baremetal_core_volume_attachments" "t" {
+				      availability_domain = "${data.baremetal_identity_availability_domains.ADs.availability_domains.0.name}"
+				      compartment_id = "${var.compartment_id}"
+				      limit = 1
+				      instance_id = "${baremetal_core_instance.t.id}"
+				      volume_id = "${baremetal_core_volume.t.id}"
+				    }`,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "availability_domain", "availability_domain"),
-
-					resource.TestCheckResourceAttr(s.ResourceName, "volume_attachments.0.availability_domain", "availability_domain"),
-					resource.TestCheckResourceAttr(s.ResourceName, "volume_attachments.0.id", "id1"),
-					resource.TestCheckResourceAttr(s.ResourceName, "volume_attachments.3.id", "id4"),
-					resource.TestCheckResourceAttr(s.ResourceName, "volume_attachments.#", "4"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_attachments.0.id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "volume_attachments.#", "1"),
 				),
 			},
 		},
 	},
 	)
-
-	s.Client.AssertCalled(s.T(), "ListVolumeAttachments", "compartment_id", opts2)
 }
 
 func TestResourceCoreVolumeAttachmentsTestSuite(t *testing.T) {

@@ -4,15 +4,11 @@ package main
 
 import (
 	"testing"
-	"time"
 
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
-
-
-
 
 	"github.com/stretchr/testify/suite"
 )
@@ -37,32 +33,16 @@ func (s *ResourceIdentityUsersTestSuite) SetupTest() {
 		"baremetal": s.Provider,
 	}
 	s.Config = `
-    data "baremetal_identity_users" "t" {
-      compartment_id = "${var.compartment_id}"
-    }
-  `
+		resource "baremetal_identity_user" "t" {
+			name = "name1"
+			description = "desc!"
+		}
+	`
 	s.Config += testProviderConfig()
 	s.ResourceName = "data.baremetal_identity_users.t"
-
-	b1 := baremetal.User{
-		ID:            "id",
-		Name:          "username",
-		CompartmentID: "compartment",
-		Description:   "blah",
-		State:         baremetal.ResourceActive,
-		TimeCreated:   time.Now(),
-	}
-
-	b2 := b1
-	b2.ID = "id2"
-
-	s.List = &baremetal.ListUsers{
-		Users: []baremetal.User{b1, b2},
-	}
 }
 
 func (s *ResourceIdentityUsersTestSuite) TestReadUsers() {
-	s.Client.On("ListUsers", (*baremetal.ListOptions)(nil)).Return(s.List, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,
@@ -72,10 +52,15 @@ func (s *ResourceIdentityUsersTestSuite) TestReadUsers() {
 				ImportState:       true,
 				ImportStateVerify: true,
 				Config:            s.Config,
+			},
+			{
+				Config: s.Config + `
+				data "baremetal_identity_users" "t" {
+					compartment_id = "${var.compartment_id}"
+				}`,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "users.0.id", "id"),
-					resource.TestCheckResourceAttr(s.ResourceName, "users.1.id", "id2"),
-					resource.TestCheckResourceAttr(s.ResourceName, "users.#", "2"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "users.0.id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "users.#"),
 				),
 			},
 		},

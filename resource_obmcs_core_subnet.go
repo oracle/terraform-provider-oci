@@ -150,8 +150,8 @@ func (s *SubnetResourceCrud) DeletedTarget() []string {
 	return []string{baremetal.ResourceTerminated}
 }
 
-func (s *SubnetResourceCrud) ExtraWaitPostDelete() time.Duration {
-	return time.Duration(15 * time.Second)
+func (s *SubnetResourceCrud) ExtraWaitPostCreateDelete() time.Duration {
+	return time.Duration(25 * time.Second)
 }
 
 func (s *SubnetResourceCrud) Create() (e error) {

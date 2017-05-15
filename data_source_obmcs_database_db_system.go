@@ -53,22 +53,22 @@ type DBSystemDatasourceCrud struct {
 
 func (s *DBSystemDatasourceCrud) Get() (e error) {
 	compartmentID := s.D.Get("compartment_id").(string)
-	limit := uint64(s.D.Get("limit").(int))
 
-	opts := &baremetal.PageListOptions{}
-	options.SetPageOptions(s.D, opts)
+	opts := &baremetal.ListOptions{}
+	options.SetPageOptions(s.D, &opts.PageListOptions)
+	options.SetLimitOptions(s.D, &opts.LimitListOptions)
 
 	s.Res = &baremetal.ListDBSystems{DBSystems: []baremetal.DBSystem{}}
 
 	for {
 		var list *baremetal.ListDBSystems
-		if list, e = s.Client.ListDBSystems(compartmentID, limit, opts); e != nil {
+		if list, e = s.Client.ListDBSystems(compartmentID, opts); e != nil {
 			break
 		}
 
 		s.Res.DBSystems = append(s.Res.DBSystems, list.DBSystems...)
 
-		if hasNextPage := options.SetNextPageOption(list.NextPage, opts); !hasNextPage {
+		if hasNextPage := options.SetNextPageOption(list.NextPage, &opts.PageListOptions); !hasNextPage {
 			break
 		}
 	}

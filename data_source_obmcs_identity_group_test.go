@@ -37,9 +37,10 @@ func (s *ResourceIdentityGroupsTestSuite) SetupTest() {
 		"baremetal": s.Provider,
 	}
 	s.Config = `
-    data "baremetal_identity_groups" "t" {
-      compartment_id = "${var.compartment_id}"
-    }
+	resource "baremetal_identity_group" "t" {
+		name = "groupname"
+		description = "group desc!"
+	}
   `
 	s.Config += testProviderConfig()
 	s.ResourceName = "data.baremetal_identity_groups.t"
@@ -72,10 +73,15 @@ func (s *ResourceIdentityGroupsTestSuite) TestReadGroups() {
 				ImportState:       true,
 				ImportStateVerify: true,
 				Config:            s.Config,
+			},
+			{
+				Config: s.Config + `
+				    data "baremetal_identity_groups" "t" {
+				      compartment_id = "${var.compartment_id}"
+				    }`,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "groups.0.id", "id"),
-					resource.TestCheckResourceAttr(s.ResourceName, "groups.1.id", "id2"),
-					resource.TestCheckResourceAttr(s.ResourceName, "groups.#", "2"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "groups.0.id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "groups.#"),
 				),
 			},
 		},

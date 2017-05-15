@@ -4,7 +4,6 @@ package main
 
 import (
 	"testing"
-	"time"
 
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/resource"
@@ -15,20 +14,20 @@ import (
 
 
 	"github.com/stretchr/testify/suite"
+	//"strconv"
 )
 
-type DatasourceDatabaseSupportedOperationTestSuite struct {
+type ResourceDatabaseDBSystemTestSuite struct {
 	suite.Suite
 	Client       mockableClient
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
-	TimeCreated  baremetal.Time
 	Config       string
 	ResourceName string
-	Res          *baremetal.ListSupportedOperations
+	Res          *baremetal.DBSystem
 }
 
-func (s *DatasourceDatabaseSupportedOperationTestSuite) SetupTest() {
+func (s *ResourceDatabaseDBSystemTestSuite) SetupTest() {
 	s.Client = GetTestProvider()
 
 	s.Provider = Provider(
@@ -41,31 +40,14 @@ func (s *DatasourceDatabaseSupportedOperationTestSuite) SetupTest() {
 		"baremetal": s.Provider,
 	}
 
-	s.TimeCreated = baremetal.Time{Time: time.Now()}
-
-	s.Config = `
-		data "baremetal_database_supported_operations" "t" {}
-	`
+	s.Config = databaseConfig
 
 	s.Config += testProviderConfig()
 
-	s.ResourceName = "data.baremetal_database_supported_operations.t"
-	s.Res = &baremetal.ListSupportedOperations{
-
-		SupportedOperations: []baremetal.SupportedOperation{
-			{
-				ID: "test-1",
-			},
-			{
-				ID: "test-2",
-			},
-		},
-	}
+	s.ResourceName = "baremetal_database_db_system.t"
 }
 
-func (s *DatasourceDatabaseSupportedOperationTestSuite) TestDatabaseListSupportedOperations() {
-	s.Client.On("ListSupportedOperations").Return(s.Res, nil)
-
+func (s *ResourceDatabaseDBSystemTestSuite) TestCreateResourceDatabaseDBSystem() {
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
@@ -74,14 +56,17 @@ func (s *DatasourceDatabaseSupportedOperationTestSuite) TestDatabaseListSupporte
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "supported_operations.0.id", "test-1"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
+
+					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "MyTFDatabaseNode0"),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", baremetal.ResourceAvailable),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
 				),
 			},
 		},
 	})
-	s.Client.AssertCalled(s.T(), "ListSupportedOperations")
 }
 
-func TestDatasourceDatabaseSupportedOperationTestSuite(t *testing.T) {
-	suite.Run(t, new(DatasourceDatabaseSupportedOperationTestSuite))
+func TestResourceDatabaseDBSystemTestSuite(t *testing.T) {
+	suite.Run(t, new(ResourceDatabaseDBSystemTestSuite))
 }

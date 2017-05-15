@@ -58,24 +58,24 @@ type DBHomesDatasourceCrud struct {
 func (s *DBHomesDatasourceCrud) Get() (e error) {
 	compartmentID := s.D.Get("compartment_id").(string)
 	dbSystemID := s.D.Get("db_system_id").(string)
-	limit := uint64(s.D.Get("limit").(int))
 
-	opts := &baremetal.PageListOptions{}
-	options.SetPageOptions(s.D, opts)
+	opts := &baremetal.ListOptions{}
+	options.SetPageOptions(s.D, &opts.PageListOptions)
+	options.SetLimitOptions(s.D, &opts.LimitListOptions)
 
 	s.Res = &baremetal.ListDBHomes{}
 
 	for {
 		var list *baremetal.ListDBHomes
 		if list, e = s.Client.ListDBHomes(
-			compartmentID, dbSystemID, limit, opts,
+			compartmentID, dbSystemID, opts,
 		); e != nil {
 			break
 		}
 
 		s.Res.DBHomes = append(s.Res.DBHomes, list.DBHomes...)
 
-		if hasNextPage := options.SetNextPageOption(list.NextPage, opts); !hasNextPage {
+		if hasNextPage := options.SetNextPageOption(list.NextPage, &opts.PageListOptions); !hasNextPage {
 			break
 		}
 	}

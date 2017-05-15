@@ -8,6 +8,7 @@ import (
 
 	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/crud"
+	"time"
 )
 
 // ResourceIdentityGroup exposes an IdentityGroup Resource
@@ -85,6 +86,10 @@ func (s *GroupSync) DeletedPending() []string {
 
 func (s *GroupSync) DeletedTarget() []string {
 	return []string{baremetal.ResourceDeleted}
+}
+
+func (s *GroupSync) ExtraWaitPostCreateDelete() time.Duration {
+	return time.Duration(20 * time.Second)
 }
 
 func (s *GroupSync) Create() (e error) {

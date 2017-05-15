@@ -5,13 +5,9 @@ package main
 import (
 	"testing"
 
-	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
-
-
-
 
 	"github.com/stretchr/testify/suite"
 )
@@ -35,72 +31,40 @@ func (s *CoreSecurityListDatasourceTestSuite) SetupTest() {
 		"baremetal": s.Provider,
 	}
 	s.Config = `
-    data "baremetal_core_security_lists" "t" {
-      compartment_id = "${var.compartment_id}"
-      limit = 1
-      page = "page"
-      vcn_id = "vcn_id"
-    }
+
+resource "baremetal_core_virtual_network" "t" {
+	cidr_block = "10.0.0.0/16"
+	compartment_id = "${var.compartment_id}"
+	display_name = "network_name"
+}
+
+resource "baremetal_core_security_list" "WebSubnet" {
+    compartment_id = "${var.compartment_id}"
+    display_name = "Public"
+    vcn_id = "${baremetal_core_virtual_network.t.id}"
+    egress_security_rules = [{
+        destination = "0.0.0.0/0"
+        protocol = "6"
+    }]
+    ingress_security_rules = [{
+        tcp_options {
+            "max" = 80
+            "min" = 80
+        }
+        protocol = "6"
+        source = "0.0.0.0/0"
+    },
+	{
+	protocol = "6"
+	source = "10.0.0.0/16"
+    }]
+}
   `
 	s.Config += testProviderConfig()
 	s.ResourceName = "data.baremetal_core_security_lists.t"
 }
 
 func (s *CoreSecurityListDatasourceTestSuite) TestReadSecurityLists() {
-	opts := &baremetal.ListOptions{}
-	opts.Limit = 1
-	opts.Page = "page"
-
-	res := &baremetal.ListSecurityLists{}
-	res.NextPage = "nextpage"
-	res.SecurityLists = []baremetal.SecurityList{
-		{
-			CompartmentID: "compartment_id",
-			ID:            "id1",
-			EgressSecurityRules: []baremetal.EgressSecurityRule{
-				{
-					Destination: "destination",
-					ICMPOptions: &baremetal.ICMPOptions{Code: 1, Type: 2},
-					Protocol:    "protocol",
-				},
-			},
-			IngressSecurityRules: []baremetal.IngressSecurityRule{
-				{
-					TCPOptions: &baremetal.TCPOptions{
-						baremetal.PortRange{Max: 2, Min: 1},
-					},
-					Protocol: "protocol",
-					Source:   "source",
-				},
-			},
-		},
-		{
-			CompartmentID: "compartment_id",
-			ID:            "id2",
-		},
-	}
-
-	s.Client.On(
-		"ListSecurityLists",
-		"compartment_id", "vcn_id",
-		opts,
-	).Return(res, nil)
-
-	opts2 := &baremetal.ListOptions{}
-	opts2.Limit = 1
-	opts2.Page = "nextpage"
-
-	s.Client.On(
-		"ListSecurityLists",
-		"compartment_id", "vcn_id",
-		opts2,
-	).Return(
-		&baremetal.ListSecurityLists{
-			SecurityLists: []baremetal.SecurityList{{ID: "id3"}, {ID: "id4"}},
-		},
-		nil,
-	)
-
 	resource.UnitTest(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
@@ -109,16 +73,19 @@ func (s *CoreSecurityListDatasourceTestSuite) TestReadSecurityLists() {
 				ImportState:       true,
 				ImportStateVerify: true,
 				Config:            s.Config,
+			},
+			{
+				Config: s.Config + `
+				    data "baremetal_core_security_lists" "t" {
+				      compartment_id = "${var.compartment_id}"
+				      limit = 1
+				      vcn_id = "${baremetal_core_virtual_network.t.id}"
+				    }`,
 				Check: resource.ComposeTestCheckFunc(
-
-					resource.TestCheckResourceAttr(s.ResourceName, "limit", "1"),
-					resource.TestCheckResourceAttr(s.ResourceName, "page", "page"),
-					resource.TestCheckResourceAttr(s.ResourceName, "vcn_id", "vcn_id"),
-					resource.TestCheckResourceAttr(s.ResourceName, "security_lists.0.egress_security_rules.0.icmp_options.0.code", "1"),
-					resource.TestCheckResourceAttr(s.ResourceName, "security_lists.0.ingress_security_rules.0.tcp_options.0.max", "2"),
-					resource.TestCheckResourceAttr(s.ResourceName, "security_lists.0.id", "id1"),
-					resource.TestCheckResourceAttr(s.ResourceName, "security_lists.3.id", "id4"),
-					resource.TestCheckResourceAttr(s.ResourceName, "security_lists.#", "4"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "vcn_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "security_lists.0.ingress_security_rules.0.tcp_options.0.max"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "security_lists.0.id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "security_lists.#", "2"),
 				),
 			},
 		},

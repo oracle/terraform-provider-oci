@@ -46,11 +46,9 @@ resource "baremetal_core_volume" "t" {
 	display_name = "display_name"
 	size_in_mbs = 262144
 }
-data "baremetal_core_volume_backups" "t" {
-	compartment_id = "${var.compartment_id}"
-	limit = 1
-	page = "page"
+resource "baremetal_core_volume_backup" "t" {
 	volume_id = "${baremetal_core_volume.t.id}"
+	display_name = "display_name"
 }
   `
 	s.Config += testProviderConfig()
@@ -77,13 +75,6 @@ data "baremetal_core_volume_backups" "t" {
 }
 
 func (s *ResourceCoreVolumeBackupsTestSuite) TestReadVolumeBackups() {
-	opts := &baremetal.ListBackupsOptions{}
-	opts.VolumeID = "volume_id"
-	opts.Limit = 1
-	opts.Page = "page"
-
-	s.Client.On("ListVolumeBackups", "compartment_id", opts).Return(s.List, nil)
-
 	resource.UnitTest(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
@@ -92,67 +83,23 @@ func (s *ResourceCoreVolumeBackupsTestSuite) TestReadVolumeBackups() {
 				ImportState:       true,
 				ImportStateVerify: true,
 				Config:            s.Config,
-				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "volume_id", "volume_id"),
-
-					resource.TestCheckResourceAttr(s.ResourceName, "limit", "1"),
-					resource.TestCheckResourceAttr(s.ResourceName, "page", "page"),
-					resource.TestCheckResourceAttr(s.ResourceName, "volume_backups.0.id", "id1"),
-					resource.TestCheckResourceAttr(s.ResourceName, "volume_backups.1.id", "id2"),
-					resource.TestCheckResourceAttr(s.ResourceName, "volume_backups.#", "2"),
-				),
 			},
-		},
-	},
-	)
-
-	s.Client.AssertCalled(s.T(), "ListVolumeBackups", "compartment_id", opts)
-}
-
-func (s *ResourceCoreVolumeBackupsTestSuite) TestReadVolumeBackupsWithPagination() {
-	opts := &baremetal.ListBackupsOptions{}
-	opts.Limit = 1
-	opts.Page = "page"
-	opts.VolumeID = "volume_id"
-
-	listVal := *s.List
-	list := &listVal
-	list.NextPage = "nextpage"
-	s.Client.On("ListVolumeBackups", "compartment_id", opts).Return(list, nil)
-
-	opts2 := &baremetal.ListBackupsOptions{}
-	opts2.VolumeID = "volume_id"
-	opts2.Limit = 1
-	opts2.Page = "nextpage"
-
-	list2Val := *s.List
-	list2 := &list2Val
-	b3 := s.List.VolumeBackups[0]
-	b3.ID = "id3"
-	b4 := s.List.VolumeBackups[1]
-	b4.ID = "id4"
-	list2.VolumeBackups = []baremetal.VolumeBackup{b3, b4}
-	s.Client.On("ListVolumeBackups", "compartment_id", opts2).Return(list2, nil)
-
-	resource.UnitTest(s.T(), resource.TestCase{
-		PreventPostDestroyRefresh: true,
-		Providers:                 s.Providers,
-		Steps: []resource.TestStep{
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config:            s.Config,
+				Config: s.Config + `
+				data "baremetal_core_volume_backups" "t" {
+					compartment_id = "${var.compartment_id}"
+					limit = 1
+					volume_id = "${baremetal_core_volume.t.id}"
+				}`,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "volume_backups.0.id", "id1"),
-					resource.TestCheckResourceAttr(s.ResourceName, "volume_backups.3.id", "id4"),
-					resource.TestCheckResourceAttr(s.ResourceName, "volume_backups.#", "4"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_backups.0.id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "volume_backups.#", "1"),
 				),
 			},
 		},
 	},
 	)
-
-	s.Client.AssertCalled(s.T(), "ListVolumeBackups", "compartment_id", opts2)
 }
 
 func TestResourceCoreVolumeBackupsTestSuite(t *testing.T) {

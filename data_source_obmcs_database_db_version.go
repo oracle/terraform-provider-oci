@@ -35,7 +35,7 @@ func DBVersionDatasource() *schema.Resource {
 			},
 			"limit": {
 				Type:     schema.TypeInt,
-				Required: true,
+				Optional: true,
 			},
 			"page": {
 				Type:     schema.TypeString,
@@ -60,22 +60,22 @@ type DBVersionDatasourceCrud struct {
 
 func (s *DBVersionDatasourceCrud) Get() (e error) {
 	compartmentID := s.D.Get("compartment_id").(string)
-	limit := uint64(s.D.Get("limit").(int))
 
-	opts := &baremetal.PageListOptions{}
-	options.SetPageOptions(s.D, opts)
+	opts := &baremetal.ListOptions{}
+	options.SetPageOptions(s.D, &opts.PageListOptions)
+	options.SetLimitOptions(s.D, &opts.LimitListOptions)
 
 	s.Res = &baremetal.ListDBVersions{}
 
 	for {
 		var list *baremetal.ListDBVersions
-		if list, e = s.Client.ListDBVersions(compartmentID, limit, opts); e != nil {
+		if list, e = s.Client.ListDBVersions(compartmentID, opts); e != nil {
 			break
 		}
 
 		s.Res.DBVersions = append(s.Res.DBVersions, list.DBVersions...)
 
-		if hasNextPage := options.SetNextPageOption(list.NextPage, opts); !hasNextPage {
+		if hasNextPage := options.SetNextPageOption(list.NextPage, &opts.PageListOptions); !hasNextPage {
 			break
 		}
 	}

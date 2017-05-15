@@ -4,7 +4,6 @@ package crud
 
 import (
 	"log"
-	"os"
 	"reflect"
 	"strings"
 	"time"
@@ -95,6 +94,10 @@ func CreateResource(d *schema.ResourceData, sync ResourceCreator) (e error) {
 	d.SetId(sync.ID())
 	sync.SetData()
 
+	if ew, waitOK := sync.(ExtraWaitPostCreateDelete); waitOK {
+		time.Sleep(ew.ExtraWaitPostCreateDelete())
+	}
+
 	return
 }
 
@@ -133,10 +136,8 @@ func DeleteResource(d *schema.ResourceData, sync ResourceDeleter) (e error) {
 
 	}
 
-	if ew, waitOK := sync.(ExtraWaitPostDelete); waitOK {
-		if os.Getenv("TF_ORACLE_ENV") != "test" {
-			time.Sleep(ew.ExtraWaitPostDelete())
-		}
+	if ew, waitOK := sync.(ExtraWaitPostCreateDelete); waitOK {
+		time.Sleep(ew.ExtraWaitPostCreateDelete())
 	}
 
 	if e == nil {

@@ -67,8 +67,8 @@ type ResourceDeleter interface {
 // of that fact. This facility allows us to add an artificial delay for
 // resources that need a little time to let the oracle API backend catch
 // up with reality.
-type ExtraWaitPostDelete interface {
-	ExtraWaitPostDelete() time.Duration
+type ExtraWaitPostCreateDelete interface {
+	ExtraWaitPostCreateDelete() time.Duration
 }
 
 type StatefulResource interface {

@@ -32,7 +32,7 @@ type ResourceCoreSecurityListTestSuite struct {
 	DeletedRes   *baremetal.SecurityList
 }
 
-func extraWait(ew crud.ExtraWaitPostDelete) {
+func extraWait(ew crud.ExtraWaitPostCreateDelete) {
 	return
 }
 

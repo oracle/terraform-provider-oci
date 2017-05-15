@@ -78,14 +78,12 @@ func (c *Client) DBNodeAction(id string, action DBNodeAction, opts *HeaderOption
 // ListDBNodes returns a list of database nodes in the specified DB System. The request MAY contain optional paging arguments.
 //
 // See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/database/20160918/DbNode/ListDbNodes
-func (c *Client) ListDBNodes(compartmentID, dbSystemID string, limit uint64, opts *PageListOptions) (resources *ListDBNodes, e error) {
+func (c *Client) ListDBNodes(compartmentID, dbSystemID string, opts *ListOptions) (resources *ListDBNodes, e error) {
 	required := struct {
 		listOCIDRequirement
 		DBSystemID string `header:"-" json:"-" url:"dbSystemId"`
-		Limit      uint64 `header:"-" json:"-" url:"limit"`
 	}{
 		DBSystemID: dbSystemID,
-		Limit:      limit,
 	}
 	required.CompartmentID = compartmentID
 

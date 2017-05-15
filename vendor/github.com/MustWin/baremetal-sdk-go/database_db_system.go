@@ -148,13 +148,10 @@ func (c *Client) TerminateDBSystem(id string, opts *IfMatchOptions) (e error) {
 // ListDBSystems gets a list of the DB Systems in the specified compartment.
 //
 // See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/database/20160918/DbSystem/ListDbSystems
-func (c *Client) ListDBSystems(compartmentID string, limit uint64, opts *PageListOptions) (res *ListDBSystems, e error) {
+func (c *Client) ListDBSystems(compartmentID string, opts *ListOptions) (res *ListDBSystems, e error) {
 	required := struct {
 		listOCIDRequirement
-		Limit uint64 `header:"-" json:"-" url:"limit"`
-	}{
-		Limit: limit,
-	}
+	}{}
 	required.CompartmentID = compartmentID
 
 	details := &requestDetails{

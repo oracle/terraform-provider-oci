@@ -28,17 +28,14 @@ func (l *ListDBSystemShapes) GetList() interface{} {
 // See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/database/20160918/DbSystemShape/ListDbSystemShapes
 func (c *Client) ListDBSystemShapes(
 	availabilityDomain, compartmentID string,
-	limit uint64,
-	opts *PageListOptions,
+	opts *ListOptions,
 ) (resources *ListDBSystemShapes, e error) {
 
 	required := struct {
 		listOCIDRequirement
 		AvailabilityDomain string `header:"-" json:"-" url:"availabilityDomain"`
-		Limit              uint64 `header:"-" json:"-" url:"limit"`
 	}{
 		AvailabilityDomain: availabilityDomain,
-		Limit:              limit,
 	}
 	required.CompartmentID = compartmentID
 
