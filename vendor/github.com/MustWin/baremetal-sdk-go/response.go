@@ -75,6 +75,7 @@ func (r *response) unmarshal(resource interface{}) (e error) {
 		prefix := "opc-meta-"
 		meta := make(map[string]string)
 		for name, headers := range r.header {
+			name = strings.ToLower(name)
 			if strings.HasPrefix(name, prefix) {
 				for _, h := range headers {
 					meta[strings.Replace(name, prefix, "", 1)] = h

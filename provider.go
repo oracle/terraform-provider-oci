@@ -24,6 +24,7 @@ func init() {
 		"private_key_path": "(Optional) The path to the user's PEM formatted private key.\n" +
 			"A private_key or a private_key_path must be provided.",
 		"private_key_password": "(Optional) The password used to secure the private key.",
+		"region":               "(Optional) The region for API connections.",
 	}
 }
 
@@ -79,6 +80,13 @@ func schemaMap() map[string]*schema.Schema {
 			Default:     "",
 			Description: descriptions["private_key_password"],
 			DefaultFunc: schema.EnvDefaultFunc("OBMCS_PRIVATE_KEY_PASSWORD", nil),
+		},
+		"region": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Default:     "us-phoenix-1",
+			Description: descriptions["region"],
+			DefaultFunc: schema.EnvDefaultFunc("OBMCS_REGION", nil),
 		},
 	}
 }
@@ -183,6 +191,7 @@ func providerConfig(d *schema.ResourceData) (client interface{}, err error) {
 	privateKeyBuffer, hasKey := d.Get("private_key").(string)
 	privateKeyPath, hasKeyPath := d.Get("private_key_path").(string)
 	privateKeyPassword, hasKeyPass := d.Get("private_key_password").(string)
+	region, hasRegion := d.Get("region").(string)
 
 	clientOpts := []baremetal.NewClientOptionsFunc{
 		func(o *baremetal.NewClientOptions) {
@@ -204,6 +213,10 @@ func providerConfig(d *schema.ResourceData) (client interface{}, err error) {
 
 	if hasKeyPass && privateKeyPassword != "" {
 		clientOpts = append(clientOpts, baremetal.PrivateKeyPassword(privateKeyPassword))
+	}
+
+	if hasRegion && region != "" {
+		clientOpts = append(clientOpts, baremetal.Region(region))
 	}
 
 	client, err = baremetal.NewClient(userOCID, tenancyOCID, fingerprint, clientOpts...)

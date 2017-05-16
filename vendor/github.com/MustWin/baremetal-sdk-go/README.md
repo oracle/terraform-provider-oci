@@ -4,36 +4,42 @@ Package baremetal provides access to the Oracle BareMetal Cloud APIs.
 
 ## Usage
 
-To use the Go BareMetal SDK instantiate a baremetal.Client, supplying  
+To use the Go BareMetal SDK instantiate a baremetal.Client, supplying
 your tenancy OCID, user OCID, RSA public key fingerprint, and RSA private key.
-Then call functions as the example below illustrates.  Note that error
-handling has been omitted to add clarity. See [API Docs](https://docs.us-phoenix-1.oraclecloud.com/) for more information.
-
+Then call functions as the example below illustrates.
 
 ```
 import (
-  "fmt"  
-  "crypto/rsa"
+  "fmt"
   "github.com/MustWin/baremetal-sdk-go"
 )
 
 func main() {
-  privateKey, _ := baremetal.PrivateKeyFromFile("/path/to/key.pem", "keyPassword")
-
-  client := baremetal.New(
-    "ocid1.tenancy.oc1..aaaaaaaaq3hulfjvrouw3e6qx2ncxtp256aq7etiabqqtzunnhxjslzkfyxq",
-    "ocid1.user.oc1..aaaaaaaaflxvsdpjs5ztahmsf7vjxy5kdqnuzyqpvwnncbkfhavexwd4w5ra",
-    "b4:8a:7d:54:e6:81:04:b2:99:8e:b3:ed:10:e2:12:2b",
-    privateKey,
+  client, err := baremetal.NewClient(
+    <user ocid>,
+    <tenancy ocid>,
+    <public key fingerprint>,
+    baremetal.PrivateKeyFilePath(<path to private key>),
   )
 
-  availabilityDomains, _ := client.ListAvailablityDomains()
+  if err != nil {
+    fmt.Println("Error setting up bmc client\n", err)
+  }
 
-  for _, ad := range availabilityDomains {
-    fmt.Println(ad.Name)
+  compartmentList, err := Client.ListCompartments(nil)
+
+  if err != nil {
+    fmt.Println("Error listing Compartments\n", err)
+  }
+
+  for _, c := range compartments.Compartments {
+  	fmt.Println(c.Name)
   }
 }
 ```
+
+For more details, see the [API Docs](https://docs.us-phoenix-1.oraclecloud.com/)
+
 ## Unit Testing
 Some of the tests rely on GOPATH to build a path where a test private key is located. If
 for some reason you have a composite GOPATH i.e /home/foo/go-projects:/usr/stuff

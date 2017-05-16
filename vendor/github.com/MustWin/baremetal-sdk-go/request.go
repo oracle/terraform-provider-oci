@@ -21,7 +21,7 @@ type urlParts []interface{}
 type request interface {
 	marshalBody() ([]byte, error)
 	marshalHeader() http.Header
-	marshalURL(urlBuilderFn) (val string, e error)
+	marshalURL(string, urlBuilderFn) (val string, e error)
 }
 
 // requestDetails is the concrete implementation of request.
@@ -30,6 +30,7 @@ type request interface {
 // optionally, have one of the unexported structs from
 // request_requirements.go embedded.
 type requestDetails struct {
+	region   string
 	ids      urlParts
 	name     resourceName
 	optional interface{}
@@ -93,6 +94,13 @@ func (r *requestDetails) marshalHeader() http.Header {
 		oHeader[k] = v
 	}
 
+	if md, ok := r.optional.(MetadataUnmarshallable); ok {
+		prefix := "opc-meta-"
+		for name, val := range md.GetMetadata() {
+			oHeader[prefix+name] = []string{val}
+		}
+	}
+
 	return oHeader
 }
 
@@ -110,11 +118,11 @@ func (r *requestDetails) marshalQueryString() (vals url.Values, e error) {
 	return
 }
 
-func (r *requestDetails) marshalURL(urlFn urlBuilderFn) (val string, e error) {
+func (r *requestDetails) marshalURL(region string, urlFn urlBuilderFn) (val string, e error) {
 	var q url.Values
 	if q, e = r.marshalQueryString(); e != nil {
 		return
 	}
-	val = urlFn(r.name, q, r.ids...)
+	val = urlFn(region, r.name, q, r.ids...)
 	return
 }
