@@ -7,7 +7,6 @@ import (
 
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
-
 	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/crud"
 	"github.com/oracle/terraform-provider-baremetal/options"
@@ -263,6 +262,7 @@ func (s *InstanceResourceCrud) Create() (e error) {
 	return
 }
 
+
 /*
  * Return the id of the first VNIC attached to this Instance.
  *
@@ -331,7 +331,6 @@ func (s *InstanceResourceCrud) Get() (e error) {
 	if private_ip != "" {
 		s.private_ip = private_ip
 	}
-
 	return
 }
 
@@ -356,7 +355,6 @@ func (s *InstanceResourceCrud) SetData() {
 	s.D.Set("shape", s.Resource.Shape)
 	s.D.Set("state", s.Resource.State)
 	s.D.Set("time_created", s.Resource.TimeCreated.String())
-
 	s.D.Set("public_ip", s.public_ip)
 	s.D.Set("private_ip", s.private_ip)
 }
