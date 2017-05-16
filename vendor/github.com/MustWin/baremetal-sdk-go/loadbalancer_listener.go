@@ -85,7 +85,7 @@ func (c *Client) UpdateListener(
 	}
 
 	var resp *response
-	if resp, e = c.objectStorageApi.request(http.MethodPut, details); e != nil {
+	if resp, e = c.loadBalancerApi.request(http.MethodPut, details); e != nil {
 		return
 	}
 
@@ -117,7 +117,7 @@ func (c *Client) DeleteListener(
 	}
 
 	var resp *response
-	if resp, e = c.objectStorageApi.request(http.MethodDelete, details); e != nil {
+	if resp, e = c.loadBalancerApi.request(http.MethodDelete, details); e != nil {
 		return
 	}
 

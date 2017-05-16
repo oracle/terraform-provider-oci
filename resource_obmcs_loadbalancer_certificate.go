@@ -8,6 +8,7 @@ import (
 
 	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/crud"
+	"errors"
 )
 
 func LoadBalancerCertificateResource() *schema.Resource {
@@ -23,7 +24,7 @@ func LoadBalancerCertificateResource() *schema.Resource {
 			},
 			"ca_certificate": {
 				Type:     schema.TypeString,
-				Required: true,
+				Optional: true,
 				ForceNew: true,
 			},
 			"certificate_name": {
@@ -84,7 +85,14 @@ type LoadBalancerCertificateResourceCrud struct {
 }
 
 func (s *LoadBalancerCertificateResourceCrud) ID() string {
-	return s.D.Get("certificate_name").(string)
+	id, workSuccess := crud.LoadBalancerResourceID(s.Resource, s.WorkRequest)
+	if id != nil {
+		return *id
+	}
+	if workSuccess {
+		return s.D.Get("certificate_name").(string)
+	}
+	return ""
 }
 
 // RefreshWorkRequest returns the last updated workRequest
@@ -112,6 +120,7 @@ func (s *LoadBalancerCertificateResourceCrud) CreatedTarget() []string {
 	return []string{
 		baremetal.ResourceSucceededWorkRequest,
 		baremetal.WorkRequestSucceeded,
+		baremetal.ResourceFailed,
 	}
 }
 
@@ -151,6 +160,14 @@ func (s *LoadBalancerCertificateResourceCrud) Create() (e error) {
 }
 
 func (s *LoadBalancerCertificateResourceCrud) Get() (e error) {
+	_, stillWorking, err := crud.LoadBalancerResourceGet(s.BaseCrud, s.WorkRequest)
+	if err != nil {
+		return err
+	}
+	if stillWorking {
+		return nil
+	}
+
 	var list *baremetal.ListCertificates
 	list, e = s.Client.ListCertificates(s.D.Get("load_balancer_id").(string), nil)
 	if e != nil {
@@ -162,6 +179,7 @@ func (s *LoadBalancerCertificateResourceCrud) Get() (e error) {
 			return
 		}
 	}
+	e = errors.New("Certificate does not exist")
 	return
 }
 

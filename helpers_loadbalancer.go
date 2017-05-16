@@ -27,6 +27,10 @@ var HealthCheckerSchema = &schema.Schema{
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"url_path": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 		},
 	},
 }

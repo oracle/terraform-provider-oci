@@ -73,10 +73,10 @@ type LoadBalancerOptions struct {
 
 type CreateLoadBalancerBackendOptions struct {
 	LoadBalancerOptions
-	Backup  bool `header:"-" json:"backup,omitempty", url:"-"`
-	Drain   bool `header:"-" json:"drain,omitempty", url:"-"`
-	Offline bool `header:"-" json:"offline,omitempty", url:"-"`
-	Weight  int  `header:"-" json:"weight,omitempty", url:"-"`
+	Backup  bool `header:"-" json:"backup,omitempty" url:"-"`
+	Drain   bool `header:"-" json:"drain,omitempty" url:"-"`
+	Offline bool `header:"-" json:"offline,omitempty" url:"-"`
+	Weight  int  `header:"-" json:"weight,omitempty" url:"-"`
 }
 
 type UpdateLoadBalancerBackendSetOptions struct {

@@ -29,8 +29,7 @@ func LoadBalancerBackendResource() *schema.Resource {
 			},
 			"name": {
 				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
+				Computed: true,
 			},
 			"ip_address": {
 				Type:     schema.TypeString,
@@ -116,7 +115,11 @@ func (s *LoadBalancerBackendResourceCrud) RefreshWorkRequest() (*baremetal.WorkR
 }
 
 func (s *LoadBalancerBackendResourceCrud) ID() string {
-	return s.D.Get("name").(string)
+	id, _ := crud.LoadBalancerResourceID(s.Resource, s.WorkRequest)
+	if id != nil {
+		return *id
+	}
+	return ""
 }
 
 func (s *LoadBalancerBackendResourceCrud) CreatedPending() []string {
@@ -131,6 +134,7 @@ func (s *LoadBalancerBackendResourceCrud) CreatedTarget() []string {
 	return []string{
 		baremetal.ResourceSucceededWorkRequest,
 		baremetal.WorkRequestSucceeded,
+		baremetal.ResourceFailed,
 	}
 }
 
@@ -204,7 +208,7 @@ func (s *LoadBalancerBackendResourceCrud) Update() (e error) {
 
 func (s *LoadBalancerBackendResourceCrud) SetData() {
 	if s.Resource == nil {
-		panic("BackendSet Resource is nil, cannot SetData")
+		return
 	}
 	s.D.Set("backup", s.Resource.Backup)
 	s.D.Set("drain", s.Resource.Drain)

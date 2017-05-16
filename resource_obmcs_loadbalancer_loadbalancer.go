@@ -3,15 +3,12 @@
 package main
 
 import (
-	"fmt"
-	"log"
-	"strings"
-
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
 
 	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/crud"
+	"log"
 )
 
 func LoadBalancerResource() *schema.Resource {
@@ -102,7 +99,16 @@ type LoadBalancerResourceCrud struct {
 
 // ID delegates to the load balancer ID, falling back to the work request ID
 func (s *LoadBalancerResourceCrud) ID() string {
-	log.Printf("[DEBUG] lb.LoadBalancerResourceCrud.ID()")
+	id, workSuccess := crud.LoadBalancerResourceID(s.Resource, s.WorkRequest)
+	log.Printf("==================\n%s,%v\n", *id, workSuccess)
+	if id != nil {
+		return *id
+	}
+	if workSuccess {
+		return s.WorkRequest.LoadBalancerID
+	}
+	return ""
+	/*log.Printf("[DEBUG] lb.LoadBalancerResourceCrud.ID()")
 	log.Printf("[DEBUG] lb.LoadBalancerResourceCrud.ID: Resource: %#v", s.Resource)
 	if s.Resource != nil && s.Resource.ID != "" {
 		log.Printf("[DEBUG] lb.LoadBalancerResourceCrud.ID: Resource.ID: %#v", s.Resource.ID)
@@ -120,7 +126,7 @@ func (s *LoadBalancerResourceCrud) ID() string {
 		}
 	}
 	log.Printf("[DEBUG] lb.LoadBalancerResourceCrud.ID: Resource & WorkRequest are nil, returning \"\"")
-	return ""
+	return ""*/
 }
 
 // RefreshWorkRequest returns the last updated workRequest
@@ -150,6 +156,7 @@ func (s *LoadBalancerResourceCrud) CreatedPending() []string {
 func (s *LoadBalancerResourceCrud) CreatedTarget() []string {
 	return []string{
 		baremetal.ResourceActive,
+		baremetal.ResourceFailed,
 	}
 }
 
@@ -199,6 +206,22 @@ func (s *LoadBalancerResourceCrud) Create() (e error) {
 // Get makes a request to get the load balancer, populating s.Resource.
 func (s *LoadBalancerResourceCrud) Get() (e error) {
 	// key: {workRequestID} || {loadBalancerID}
+	id, stillWorking, err := crud.LoadBalancerResourceGet(s.BaseCrud, s.WorkRequest)
+	log.Printf("==================\n%s,%v,%v,%v\n", id, stillWorking, err, s.WorkRequest)
+	if err != nil {
+		return err
+	}
+	if stillWorking {
+		return nil
+	}
+	if s.WorkRequest != nil {
+		id = s.WorkRequest.LoadBalancerID
+		s.D.SetId(id)
+	}
+
+	s.Resource, e = s.Client.GetLoadBalancer(id, nil)
+
+/*
 	id := s.D.Id()
 	log.Printf("[DEBUG] lb.LoadBalancerBackendResource.Get: ID: %#v", id)
 	if id == "" {
@@ -238,7 +261,7 @@ func (s *LoadBalancerResourceCrud) Get() (e error) {
 		panic(fmt.Sprintf("LoadBalancer had empty ID: %#v Resource: %#V", s, s.Resource))
 	}
 	s.Resource, e = s.Client.GetLoadBalancer(id, nil)
-
+*/
 	return
 }
 

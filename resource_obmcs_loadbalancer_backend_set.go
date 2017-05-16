@@ -83,13 +83,14 @@ type LoadBalancerBackendSetResourceCrud struct {
 }
 
 func (s *LoadBalancerBackendSetResourceCrud) ID() string {
-	if s.Resource != nil && s.Resource.Name != "" {
-		return s.Resource.Name
+	id, workSuccess := crud.LoadBalancerResourceID(s.Resource, s.WorkRequest)
+	if id != nil {
+		return *id
 	}
-	if s.WorkRequest != nil && s.WorkRequest.State == baremetal.WorkRequestSucceeded {
-		return s.ResourceName
+	if workSuccess {
+		return s.D.Get("name").(string)
 	}
-	return s.D.Get("name").(string)
+	return ""
 }
 
 // RefreshWorkRequest returns the last updated workRequest
@@ -117,6 +118,7 @@ func (s *LoadBalancerBackendSetResourceCrud) CreatedTarget() []string {
 	return []string{
 		baremetal.ResourceSucceededWorkRequest,
 		baremetal.WorkRequestSucceeded,
+		baremetal.ResourceFailed,
 	}
 }
 
@@ -153,6 +155,13 @@ func (s *LoadBalancerBackendSetResourceCrud) Create() (e error) {
 }
 
 func (s *LoadBalancerBackendSetResourceCrud) Get() (e error) {
+	_, stillWorking, err := crud.LoadBalancerResourceGet(s.BaseCrud, s.WorkRequest)
+	if err != nil {
+		return err
+	}
+	if stillWorking {
+		return nil
+	}
 	s.Resource, e = s.Client.GetBackendSet(
 		s.D.Get("load_balancer_id").(string),
 		s.D.Get("name").(string),
@@ -167,6 +176,7 @@ func (s *LoadBalancerBackendSetResourceCrud) Update() (e error) {
 		Port:              s.D.Get("health_checker.port").(int),
 		Protocol:          s.D.Get("health_checker.protocol").(string),
 		ResponseBodyRegex: s.D.Get("health_checker.response_body_regex").(string),
+		URLPath: 	   s.D.Get("health_checker.url_path").(string),
 	}
 	sslConfig := baremetal.SSLConfiguration{
 		CertificateName:       s.D.Get("ssl_configuration.certificate_name").(string),
@@ -190,7 +200,7 @@ func (s *LoadBalancerBackendSetResourceCrud) Update() (e error) {
 
 func (s *LoadBalancerBackendSetResourceCrud) SetData() {
 	if s.Resource == nil {
-		panic("BackendSet Resource is nil, cannot SetData")
+		return
 	}
 	s.D.Set("policy", s.Resource.Policy)
 	s.D.Set("name", s.Resource.Name)
@@ -199,6 +209,7 @@ func (s *LoadBalancerBackendSetResourceCrud) SetData() {
 		"port":                s.Resource.HealthChecker.Port,
 		"protocol":            s.Resource.HealthChecker.Protocol,
 		"response_body_regex": s.Resource.HealthChecker.ResponseBodyRegex,
+		"url_path": 	       s.Resource.HealthChecker.URLPath,
 	})
 	s.D.Set("ssl_configuration", map[string]interface{}{
 		"certificate_name":        s.Resource.SSLConfig.CertificateName,
@@ -252,6 +263,7 @@ func (s *LoadBalancerBackendSetResourceCrud) healthChecker() *baremetal.HealthCh
 		healthChecker.Port = v["port"].(int)
 		healthChecker.Protocol = v["protocol"].(string)
 		healthChecker.ResponseBodyRegex = v["response_body_regex"].(string)
+		healthChecker.URLPath = v["url_path"].(string)
 	}
 	return healthChecker
 }
