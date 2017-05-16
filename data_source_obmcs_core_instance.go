@@ -65,6 +65,10 @@ func resourceCoreInstance() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"ipxe_script": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"metadata": {
 				Type:     schema.TypeMap,
 				Computed: true,
@@ -144,6 +148,7 @@ func (s *InstanceDatasourceCrud) SetData() {
 				"display_name":        v.DisplayName,
 				"id":                  v.ID,
 				"image":               v.ImageID,
+				"ipxe_script":         v.IpxeScript,
 				"metadata":            v.Metadata,
 				"region":              v.Region,
 				"shape":               v.Shape,

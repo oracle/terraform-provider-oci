@@ -35,6 +35,7 @@ The following attributes are exported:
 * `security_list_ids` - OCIDs for the security lists to use for VNICs in this subnet.
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable.
 * `id` - The subnet's Oracle ID (OCID).
+* `prohibit_public_ip_on_vnic` - Whether VNICs within this subnet can have public IP addresses.
 * `vcn_id` - The OCID of the VCN the subnet is in.
 * `state` - The VCN's current state. [PROVISIONING, AVAILABLE, TERMINATING, TERMINATED]
 * `time_created` - The date and time the VCN was created.
