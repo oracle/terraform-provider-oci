@@ -179,6 +179,9 @@ func (c *Client) HeadObject(
 
 	headObject = &HeadObject{}
 	e = resp.unmarshal(headObject)
+	headObject.Namespace = namespace
+	headObject.Bucket = bucketName
+	headObject.ID = objectName
 	return
 }
 
@@ -220,5 +223,9 @@ func (c *Client) PutObject(
 
 	object = &Object{}
 	e = resp.unmarshal(object)
+	object.Namespace = namespace
+	object.Bucket = bucketName
+	object.ID = objectName
+	object.Body = content
 	return
 }

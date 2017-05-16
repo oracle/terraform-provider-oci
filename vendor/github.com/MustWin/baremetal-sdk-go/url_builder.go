@@ -8,30 +8,35 @@ import (
 	"strconv"
 )
 
-type urlBuilderFn func(resourceName, url.Values, ...interface{}) string
+type urlBuilderFn func(string, resourceName, url.Values, ...interface{}) string
 
-func buildCoreURL(resource resourceName, query url.Values, ids ...interface{}) string {
-	urlStr := fmt.Sprintf("%s/%s/%s", coreServiceAPI, coreServiceAPIVersion, resource)
+func buildCoreURL(region string, resource resourceName, query url.Values, ids ...interface{}) string {
+	baseUrl := fmt.Sprintf(coreServiceAPI, region)
+	urlStr := fmt.Sprintf("%s/%s/%s", baseUrl, coreServiceAPIVersion, resource)
 	return buildURL(urlStr, query, ids...)
 }
 
-func buildIdentityURL(resource resourceName, query url.Values, ids ...interface{}) string {
-	urlStr := fmt.Sprintf("%s/%s/%s", identityServiceAPI, identityServiceAPIVersion, resource)
+func buildIdentityURL(region string, resource resourceName, query url.Values, ids ...interface{}) string {
+	baseUrl := fmt.Sprintf(identityServiceAPI, region)
+	urlStr := fmt.Sprintf("%s/%s/%s", baseUrl, identityServiceAPIVersion, resource)
 	return buildURL(urlStr, query, ids...)
 }
 
-func buildDatabaseURL(resource resourceName, query url.Values, ids ...interface{}) string {
-	urlStr := fmt.Sprintf("%s/%s/%s", databaseServiceAPI, databaseServiceAPIVersion, resource)
+func buildDatabaseURL(region string, resource resourceName, query url.Values, ids ...interface{}) string {
+	baseUrl := fmt.Sprintf(databaseServiceAPI, region)
+	urlStr := fmt.Sprintf("%s/%s/%s", baseUrl, databaseServiceAPIVersion, resource)
 	return buildURL(urlStr, query, ids...)
 }
 
-func buildObjectStorageURL(resource resourceName, query url.Values, ids ...interface{}) string {
-	urlStr := fmt.Sprintf("%s/%s", objectStorageServiceAPI, resourceNamespaces)
+func buildObjectStorageURL(region string, resource resourceName, query url.Values, ids ...interface{}) string {
+	baseUrl := fmt.Sprintf(objectStorageServiceAPI, region)
+	urlStr := fmt.Sprintf("%s/%s", baseUrl, resourceNamespaces)
 	return buildURL(urlStr, query, ids...)
 }
 
-func buildLoadBalancerURL(resource resourceName, query url.Values, ids ...interface{}) string {
-	urlStr := fmt.Sprintf("%s/%s/%s", loadBalancerServiceAPI, loadBalancerServiceAPIVersion, resource)
+func buildLoadBalancerURL(region string, resource resourceName, query url.Values, ids ...interface{}) string {
+	baseUrl := fmt.Sprintf(loadBalancerServiceAPI, region)
+	urlStr := fmt.Sprintf("%s/%s/%s", baseUrl, loadBalancerServiceAPIVersion, resource)
 	return buildURL(urlStr, query, ids...)
 }
 
