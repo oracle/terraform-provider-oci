@@ -118,7 +118,6 @@ func dataSourcesMap() map[string]*schema.Resource {
 		"baremetal_database_db_system_shapes":       DBSystemShapeDatasource(),
 		"baremetal_database_db_systems":             DBSystemDatasource(),
 		"baremetal_database_db_versions":            DBVersionDatasource(),
-		"baremetal_database_supported_operations":   SupportedOperationDatasource(),
 		"baremetal_identity_api_keys":               APIKeyDatasource(),
 		"baremetal_identity_availability_domains":   AvailabilityDomainDatasource(),
 		"baremetal_identity_compartments":           CompartmentDatasource(),

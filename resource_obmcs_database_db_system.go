@@ -87,6 +87,7 @@ func DBSystemResource() *schema.Resource {
 									"admin_password": {
 										Type:     schema.TypeString,
 										Required: true,
+										Sensitive: true,
 									},
 									"db_name": {
 										Type:     schema.TypeString,

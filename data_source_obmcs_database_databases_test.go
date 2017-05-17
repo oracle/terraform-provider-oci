@@ -56,6 +56,9 @@ func (s *DatabaseDatabasesTestSuite) TestReadDatabases() {
 				      compartment_id = "${var.compartment_id}"
 				      db_home_id = "${data.baremetal_database_db_homes.t.id}"
 				}
+				data "baremetal_database_database" "t" {
+				      database_id = "${data.baremetal_database_databases.databases.0.id}"
+				}
 			        data "baremetal_database_db_nodes" "t" {
 				      compartment_id = "${var.compartment_id}"
 				      db_system_id = "${baremetal_database_db_system.t.id}"
@@ -65,8 +68,9 @@ func (s *DatabaseDatabasesTestSuite) TestReadDatabases() {
 
 					resource.TestCheckResourceAttrSet("data.baremetal_database_db_systems.t", "db_systems.#"),
 					resource.TestCheckResourceAttrSet("data.baremetal_database_db_homes.t", "db_homes.#"),
-					resource.TestCheckResourceAttrSet("data.baremetal_database_databases", "databases.#"),
-					resource.TestCheckResourceAttrSet("data.baremetal_database_db_nodes", "db_nodes.#"),
+					resource.TestCheckResourceAttrSet("data.baremetal_database_databases.t", "databases.#"),
+					resource.TestCheckResourceAttrSet("data.baremetal_database_db_nodes.t", "db_nodes.#"),
+					resource.TestCheckResourceAttrSet("data.baremetal_database_database.t", "id"),
 				),
 			},
 		},

@@ -49,9 +49,9 @@ func (s *ResourceCoreInstanceCredentialTestSuite) TestResourceReadCoreInstanceCr
 			{
 				Config: s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "instance_id", "instanceid"),
-					resource.TestCheckResourceAttr(s.ResourceName, "username", "username"),
-					resource.TestCheckResourceAttr(s.ResourceName, "password", "password"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "instance_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "username"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "password"),
 				),
 			},
 		},

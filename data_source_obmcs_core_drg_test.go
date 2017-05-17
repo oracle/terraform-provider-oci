@@ -34,7 +34,6 @@ func (s *ResourceCoreDrgsTestSuite) SetupTest() {
     data "baremetal_core_drgs" "t" {
       compartment_id = "${var.compartment_id}"
       limit = 1
-      page = "page"
     }
   `
 	s.Config += testProviderConfig()

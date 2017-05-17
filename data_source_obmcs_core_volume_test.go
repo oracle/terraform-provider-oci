@@ -31,8 +31,17 @@ func (s *ResourceCoreVolumesTestSuite) SetupTest() {
 		"baremetal": s.Provider,
 	}
 	s.Config = `
+	data "baremetal_identity_availability_domains" "ADs" {
+		compartment_id = "${var.compartment_id}"
+	}
+	resource "baremetal_core_volume" "t" {
+		availability_domain = "${data.baremetal_identity_availability_domains.ADs.availability_domains.0.name}"
+		compartment_id = "${var.compartment_id}"
+		display_name = "display_name"
+		size_in_mbs = 262144
+	}
     data "baremetal_core_volumes" "t" {
-      availability_domain = "availability_domain"
+      availability_domain = "${data.baremetal_identity_availability_domains.ADs.availability_domains.0.name}"
       compartment_id = "${var.compartment_id}"
       limit = 1
     }
@@ -53,13 +62,9 @@ func (s *ResourceCoreVolumesTestSuite) TestReadVolumes() {
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "availability_domain", "availability_domain"),
-
-					resource.TestCheckResourceAttr(s.ResourceName, "limit", "1"),
-					resource.TestCheckResourceAttr(s.ResourceName, "page", "page"),
-					resource.TestCheckResourceAttr(s.ResourceName, "volumes.0.availability_domain", "availability_domain"),
-					resource.TestCheckResourceAttr(s.ResourceName, "volumes.0.id", "id1"),
-					resource.TestCheckResourceAttr(s.ResourceName, "volumes.1.id", "id2"),
-					resource.TestCheckResourceAttr(s.ResourceName, "volumes.#", "2"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "volumes.0.availability_domain"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "volumes.0.id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "volumes.#"),
 				),
 			},
 		},

@@ -38,9 +38,9 @@ func (s *ResourceCoreConsoleHistoryTestSuite) SetupTest() {
 	s.Providers = map[string]terraform.ResourceProvider{
 		"baremetal": s.Provider,
 	}
-	s.Config = `
+	s.Config = instanceConfig + `
     resource "baremetal_core_console_history" "t" {
-			instance_id = "instance_id"
+	instance_id = "${baremetal_core_instance.t.id}"
     }
   `
 	s.Config += testProviderConfig()

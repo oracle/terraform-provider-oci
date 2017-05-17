@@ -31,11 +31,26 @@ func (s *DatasourceCoreIPSecTestSuite) SetupTest() {
 		"baremetal": s.Provider,
 	}
 	s.Config = `
-    data "baremetal_core_ipsec_connections" "s" {
-      compartment_id = "${var.compartment_id}"
-      cpe_id = "cpeid"
-      drg_id = "drgid"
-    }
+	resource "baremetal_core_drg" "t" {
+		compartment_id = "${var.compartment_id}"
+		display_name = "display_name"
+	}
+	resource "baremetal_core_cpe" "t" {
+		compartment_id = "${var.compartment_id}"
+		display_name = "displayname"
+		ip_address = "123.123.123.123"
+	}
+	resource "baremetal_core_ipsec" "t" {
+		compartment_id = "${var.compartment_id}"
+		cpe_id = "${baremetal_core_cpe.t.id}"
+		drg_id = "${baremetal_core_drg.t.id}"
+		display_name = "display_name"
+		static_routes = ["10.0.0.0/16"]
+	}
+	data "baremetal_core_ipsec_connections" "s" {
+	      compartment_id = "${var.compartment_id}"
+	      cpe_id = "${baremetal_core_cpe.t.id}"
+	}
   `
 	s.Config += testProviderConfig()
 	s.ResourceName = "data.baremetal_core_ipsec_connections.s"
@@ -52,13 +67,10 @@ func (s *DatasourceCoreIPSecTestSuite) TestResourceListIPConnections() {
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-
-					resource.TestCheckResourceAttr(s.ResourceName, "drg_id", "drgid"),
-					resource.TestCheckResourceAttr(s.ResourceName, "cpe_id", "cpeid"),
-					resource.TestCheckResourceAttr(s.ResourceName, "connections.0.compartment_id", "compartmentid"),
-					resource.TestCheckResourceAttr(s.ResourceName, "connections.0.id", "id1"),
-					resource.TestCheckResourceAttr(s.ResourceName, "connections.1.id", "id2"),
-					resource.TestCheckResourceAttr(s.ResourceName, "connections.#", "2"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "drg_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "connections.0.compartment_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "connections.0.id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "connections.#"),
 				),
 			},
 		},

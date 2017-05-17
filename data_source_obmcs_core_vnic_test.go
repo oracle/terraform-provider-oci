@@ -32,9 +32,14 @@ func (s *DatasourceCoreVnicTestSuite) SetupTest() {
 		"baremetal": s.Provider,
 	}
 	s.Config = `
-    data "baremetal_core_vnic" "t" {
-      vnic_id = "vnicid"
-    }
+	resource "baremetal_core_virtual_network" "t" {
+		cidr_block = "10.0.0.0/16"
+		compartment_id = "${var.compartment_id}"
+		display_name = "display_name"
+	}
+    	data "baremetal_core_vnic" "t" {
+      		vnic_id = "${baremetal_core_virtual_network.t.id}"
+    	}
   `
 	s.Config += testProviderConfig()
 	s.ResourceName = "data.baremetal_core_vnic.t"
@@ -50,11 +55,9 @@ func (s *DatasourceCoreVnicTestSuite) TestReadVnic() {
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-
-					resource.TestCheckResourceAttr(s.ResourceName, "availability_domain", "availabilitydomain"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", baremetal.ResourceActive),
-					resource.TestCheckResourceAttr(s.ResourceName, "private_ip_address", "10.10.10.10"),
-					resource.TestCheckResourceAttr(s.ResourceName, "public_ip_address", "52.53.54.55"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "private_ip_address"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "public_ip_address"),
 				),
 			},
 		},

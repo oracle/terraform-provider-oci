@@ -33,11 +33,25 @@ func (s *ResourceCoreDHCPOptionsDatasourceTestSuite) SetupTest() {
 		"baremetal": s.Provider,
 	}
 	s.Config = `
+	resource "baremetal_core_virtual_network" "t" {
+		cidr_block = "10.0.0.0/16"
+		compartment_id = "${var.compartment_id}"
+		display_name = "network_name"
+	}
+	resource "baremetal_core_dhcp_options" "t" {
+		compartment_id = "${var.compartment_id}"
+		display_name = "display_name"
+     		options {
+			type = "DomainNameServer"
+			custom_dns_servers = [ "8.8.8.8" ]
+			server_type = "CustomDnsServer"
+		}
+     		vcn_id = "${baremetal_core_virtual_network.t.id}"
+	}
     data "baremetal_core_dhcp_options" "t" {
       compartment_id = "${var.compartment_id}"
       limit = 1
-      page = "page"
-      vcn_id = "vcn_id"
+      vcn_id = "${baremetal_core_virtual_network.t.id}"
     }
   `
 	s.Config += testProviderConfig()

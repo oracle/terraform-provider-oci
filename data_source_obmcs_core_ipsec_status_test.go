@@ -31,9 +31,25 @@ func (s *DatasourceCoreIPSecStatusTestSuite) SetupTest() {
 		"baremetal": s.Provider,
 	}
 	s.Config = `
-    data "baremetal_core_ipsec_status" "s" {
-      ipsec_id = "ipsecid"
-    }
+	resource "baremetal_core_drg" "t" {
+		compartment_id = "${var.compartment_id}"
+		display_name = "display_name"
+	}
+	resource "baremetal_core_cpe" "t" {
+		compartment_id = "${var.compartment_id}"
+		display_name = "displayname"
+		ip_address = "123.123.123.123"
+	}
+	resource "baremetal_core_ipsec" "t" {
+		compartment_id = "${var.compartment_id}"
+		cpe_id = "${baremetal_core_cpe.t.id}"
+		drg_id = "${baremetal_core_drg.t.id}"
+		display_name = "display_name"
+		static_routes = ["10.0.0.0/16"]
+	}
+    	data "baremetal_core_ipsec_status" "s" {
+      		ipsec_id = "${baremetal_core_ipsec.t.id}"
+    	}
   `
 	s.Config += testProviderConfig()
 	s.ResourceName = "data.baremetal_core_ipsec_status.s"
@@ -52,8 +68,7 @@ func (s *DatasourceCoreIPSecStatusTestSuite) TestIPSecStatus() {
 				Check: resource.ComposeTestCheckFunc(
 
 					resource.TestCheckResourceAttr(s.ResourceName, "id", "id"),
-					resource.TestCheckResourceAttr(s.ResourceName, "tunnels.0.ip_address", "10.10.10.2"),
-					resource.TestCheckResourceAttr(s.ResourceName, "tunnels.1.ip_address", "10.10.10.3"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "tunnels.#"),
 				),
 			},
 		},

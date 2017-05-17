@@ -61,7 +61,7 @@ func (s *DatasourceCoreCpeTestSuite) TestCpeList() {
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "cpes.0.ip_address", "142.10.10.2"),
 					resource.TestCheckResourceAttr(s.ResourceName, "cpes.0.display_name", "name1"),
-					resource.TestCheckResourceAttr(s.ResourceName, "cpes.#", "1"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "cpes.#"),
 				),
 			},
 		},
