@@ -14,6 +14,7 @@ import (
 	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/MustWin/baremetal-sdk-go"
 	"errors"
+	"strconv"
 )
 
 var (
@@ -81,14 +82,26 @@ func handleMissingResourceError(sync ResourceVoider, err *error) {
 func LoadBalancerResourceID(res interface{}, workReq *baremetal.WorkRequest) (id *string, workReqSucceeded bool) {
 	v := reflect.ValueOf(res).Elem()
 	if v.IsValid() {
+		log.Printf("=========== Resource IS VALID")
+		// This is super fugly. It's this way because this API has no convention for ID formats.
+
+		// Load balancer
 		id := v.FieldByName("ID")
 		if id.IsValid() {
 			s := id.String()
 			return &s, false
 		}
+		// backendset, certificate, listener
 		name := v.FieldByName("Name")
 		if name.IsValid() {
 			s := name.String()
+			return &s, false
+		}
+		// backend
+		ip := v.FieldByName("ip_address")
+		port := v.FieldByName("port")
+		if ip.IsValid() && port.IsValid() {
+			s := ip.String() + ":" + strconv.Itoa(int(port.Int()))
 			return &s, false
 		}
 	}

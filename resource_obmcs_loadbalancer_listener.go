@@ -95,29 +95,6 @@ func (s *LoadBalancerListenerResourceCrud) ID() string {
 		return s.D.Get("name").(string)
 	}
 	return ""
-	/*log.Printf("[DEBUG] lb.LoadBalancerListenerResourceCrud.ID: WorkRequest: %#v", s.WorkRequest)
-	if s.WorkRequest != nil && s.WorkRequest.State != baremetal.WorkRequestSucceeded {
-		log.Printf("[DEBUG] lb.LoadBalancerListenerResourceCrud.ID: WorkRequest.ID: %s", s.WorkRequest.ID)
-		return s.WorkRequest.ID
-	}
-
-	id := fmt.Sprintf("%s/listener/%s", s.D.Get("load_balancer_id").(string), s.D.Get("name").(string))
-	log.Printf("[DEBUG] lb.LoadBalancerListenerResourceCrud.ID: %#v", id)
-	return id
-	*/
-}
-
-// RefreshWorkRequest returns the last updated workRequest
-func (s *LoadBalancerListenerResourceCrud) RefreshWorkRequest() (*baremetal.WorkRequest, error) {
-	if s.WorkRequest == nil {
-		return nil, nil
-	}
-	wr, err := s.Client.GetWorkRequest(s.WorkRequest.ID, nil)
-	if err != nil {
-		return nil, err
-	}
-	s.WorkRequest = wr
-	return wr, nil
 }
 
 func (s *LoadBalancerListenerResourceCrud) CreatedPending() []string {
@@ -227,9 +204,6 @@ func (s *LoadBalancerListenerResourceCrud) Update() (e error) {
 }
 
 func (s *LoadBalancerListenerResourceCrud) SetData() {
-	// load_balancer_id is not returned, but we should be able to trust it
-	// s.D.Set("load_balancer_id", s.Resource.LoadBalancerID)
-
 	if s.Resource == nil {
 		return
 	}

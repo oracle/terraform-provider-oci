@@ -8,6 +8,8 @@ import (
 
 	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/crud"
+	"strconv"
+	"log"
 )
 
 func LoadBalancerBackendResource() *schema.Resource {
@@ -101,23 +103,19 @@ type LoadBalancerBackendResourceCrud struct {
 	Resource    *baremetal.Backend
 }
 
-// RefreshWorkRequest returns the last updated workRequest
-func (s *LoadBalancerBackendResourceCrud) RefreshWorkRequest() (*baremetal.WorkRequest, error) {
-	if s.WorkRequest == nil {
-		return nil, nil
-	}
-	wr, err := s.Client.GetWorkRequest(s.WorkRequest.ID, nil)
-	if err != nil {
-		return nil, err
-	}
-	s.WorkRequest = wr
-	return wr, nil
+func (s *LoadBalancerBackendResourceCrud) buildID() string {
+	return s.D.Get("ip_address").(string) + ":" + strconv.Itoa(s.D.Get("port").(int))
 }
 
 func (s *LoadBalancerBackendResourceCrud) ID() string {
-	id, _ := crud.LoadBalancerResourceID(s.Resource, s.WorkRequest)
+	id, workSuccess := crud.LoadBalancerResourceID(s.Resource, s.WorkRequest)
+	log.Printf("ID in load balancer backend ID(): %v", id)
 	if id != nil {
 		return *id
+	}
+	if workSuccess {
+		// Always inferred this way
+		return s.buildID()
 	}
 	return ""
 }
@@ -190,7 +188,14 @@ func (s *LoadBalancerBackendResourceCrud) Create() (e error) {
 }
 
 func (s *LoadBalancerBackendResourceCrud) Get() (e error) {
-	s.Resource, e = s.Client.GetBackend(s.D.Get("load_balancer_id").(string), s.D.Get("backendset_name").(string), s.D.Get("name").(string), nil)
+	_, stillWorking, err := crud.LoadBalancerResourceGet(s.BaseCrud, s.WorkRequest)
+	if err != nil {
+		return err
+	}
+	if stillWorking {
+		return nil
+	}
+	s.Resource, e = s.Client.GetBackend(s.D.Get("load_balancer_id").(string), s.D.Get("backendset_name").(string), s.buildID(), nil)
 	return
 }
 
@@ -218,7 +223,7 @@ func (s *LoadBalancerBackendResourceCrud) SetData() {
 
 func (s *LoadBalancerBackendResourceCrud) Delete() (e error) {
 	var workReqID string
-	workReqID, e = s.Client.DeleteBackend(s.D.Get("load_balancer_id").(string), s.D.Get("backendset_name").(string), s.D.Get("name").(string), nil)
+	workReqID, e = s.Client.DeleteBackend(s.D.Get("load_balancer_id").(string), s.D.Get("backendset_name").(string), s.D.Id(), nil)
 	if e != nil {
 		return
 	}

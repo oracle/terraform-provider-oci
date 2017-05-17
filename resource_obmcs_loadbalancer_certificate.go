@@ -95,19 +95,6 @@ func (s *LoadBalancerCertificateResourceCrud) ID() string {
 	return ""
 }
 
-// RefreshWorkRequest returns the last updated workRequest
-func (s *LoadBalancerCertificateResourceCrud) RefreshWorkRequest() (*baremetal.WorkRequest, error) {
-	if s.WorkRequest == nil {
-		return nil, nil
-	}
-	wr, err := s.Client.GetWorkRequest(s.WorkRequest.ID, nil)
-	if err != nil {
-		return nil, err
-	}
-	s.WorkRequest = wr
-	return wr, nil
-}
-
 func (s *LoadBalancerCertificateResourceCrud) CreatedPending() []string {
 	return []string{
 		baremetal.ResourceWaitingForWorkRequest,

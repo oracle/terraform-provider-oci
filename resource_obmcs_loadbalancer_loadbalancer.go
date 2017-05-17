@@ -108,38 +108,6 @@ func (s *LoadBalancerResourceCrud) ID() string {
 		return s.WorkRequest.LoadBalancerID
 	}
 	return ""
-	/*log.Printf("[DEBUG] lb.LoadBalancerResourceCrud.ID()")
-	log.Printf("[DEBUG] lb.LoadBalancerResourceCrud.ID: Resource: %#v", s.Resource)
-	if s.Resource != nil && s.Resource.ID != "" {
-		log.Printf("[DEBUG] lb.LoadBalancerResourceCrud.ID: Resource.ID: %#v", s.Resource.ID)
-		return s.Resource.ID
-	}
-	log.Printf("[DEBUG] lb.LoadBalancerResourceCrud.ID: WorkRequest: %#v", s.WorkRequest)
-	if s.WorkRequest != nil {
-		log.Printf("[DEBUG] lb.LoadBalancerResourceCrud.ID: WorkRequest.State: %s", s.WorkRequest.State)
-		if s.WorkRequest.State == baremetal.WorkRequestSucceeded {
-			log.Printf("[DEBUG] lb.LoadBalancerResourceCrud.ID: WorkRequest.LoadBalancerID: %#v", s.WorkRequest.LoadBalancerID)
-			return s.WorkRequest.LoadBalancerID
-		} else {
-			log.Printf("[DEBUG] lb.LoadBalancerResourceCrud.ID: WorkRequest.ID: %s", s.WorkRequest.ID)
-			return s.WorkRequest.ID
-		}
-	}
-	log.Printf("[DEBUG] lb.LoadBalancerResourceCrud.ID: Resource & WorkRequest are nil, returning \"\"")
-	return ""*/
-}
-
-// RefreshWorkRequest returns the last updated workRequest
-func (s *LoadBalancerResourceCrud) RefreshWorkRequest() (*baremetal.WorkRequest, error) {
-	if s.WorkRequest == nil {
-		return nil, nil
-	}
-	wr, err := s.Client.GetWorkRequest(s.WorkRequest.ID, nil)
-	if err != nil {
-		return nil, err
-	}
-	s.WorkRequest = wr
-	return wr, nil
 }
 
 // CreatedPending returns the resource states which qualify as "creating"
@@ -214,54 +182,13 @@ func (s *LoadBalancerResourceCrud) Get() (e error) {
 	if stillWorking {
 		return nil
 	}
-	if s.WorkRequest != nil {
+	if id == "" && s.WorkRequest != nil {
 		id = s.WorkRequest.LoadBalancerID
 		s.D.SetId(id)
 	}
 
 	s.Resource, e = s.Client.GetLoadBalancer(id, nil)
 
-/*
-	id := s.D.Id()
-	log.Printf("[DEBUG] lb.LoadBalancerBackendResource.Get: ID: %#v", id)
-	if id == "" {
-		panic(fmt.Sprintf("LoadBalancer had empty ID: %#v Resource: %#V", s, s.Resource))
-	}
-	wr := s.WorkRequest
-	log.Printf("[DEBUG] lb.LoadBalancerBackendResource.Get: WorkRequest: %#v", wr)
-	state := s.D.Get("state").(string)
-	log.Printf("[DEBUG] lb.LoadBalancerBackendResource.Get: State: %#v", state)
-
-	// NOTE: if the id is for a work request, refresh its state and loadBalancerID. then refresh the load balancer
-	if strings.HasPrefix(id, "ocid1.loadbalancerworkrequest.") {
-		log.Printf("[DEBUG] lb.LoadBalancerBackendResource.Get: ID is for WorkRequest, refreshing")
-		s.WorkRequest, e = s.Client.GetWorkRequest(id, nil)
-		log.Printf("[DEBUG] lb.LoadBalancerBackendResource.Get: WorkRequest: %#v", s.WorkRequest)
-		s.D.Set("state", s.WorkRequest.State)
-		if s.WorkRequest.State == baremetal.WorkRequestSucceeded {
-			id = s.WorkRequest.LoadBalancerID
-			if id == "" {
-				panic(fmt.Sprintf("WorkRequest had empty LoadBalancerID: %#v", s.WorkRequest))
-			}
-			s.D.SetId(id)
-			// unset work request on success
-			s.WorkRequest = nil
-		} else {
-			// We do not have a LoadBalancerID, so we short-circuit out
-			return
-
-		}
-	}
-
-	if !strings.HasPrefix(id, "ocid1.loadbalancer.") {
-		panic(fmt.Sprintf("Cannot request loadbalancer with this ID, expected it to begin with \"ocid1.loadbalancer.\", but was: %#v", id))
-	}
-	log.Printf("[DEBUG] lb.LoadBalancerBackendResource.Get: ID: %#v", id)
-	if id == "" {
-		panic(fmt.Sprintf("LoadBalancer had empty ID: %#v Resource: %#V", s, s.Resource))
-	}
-	s.Resource, e = s.Client.GetLoadBalancer(id, nil)
-*/
 	return
 }
 
