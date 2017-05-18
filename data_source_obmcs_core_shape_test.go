@@ -10,14 +10,15 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
-	"github.com/oracle/terraform-provider-baremetal/client/mocks"
+
+
 
 	"github.com/stretchr/testify/suite"
 )
 
 type ResourceCoreShapeTestSuite struct {
 	suite.Suite
-	Client       *mocks.BareMetalClient
+	Client       mockableClient
 	Config       string
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
@@ -25,7 +26,7 @@ type ResourceCoreShapeTestSuite struct {
 }
 
 func (s *ResourceCoreShapeTestSuite) SetupTest() {
-	s.Client = &mocks.BareMetalClient{}
+	s.Client = GetTestProvider()
 	s.Provider = Provider(func(d *schema.ResourceData) (interface{}, error) {
 		return s.Client, nil
 	})
@@ -34,13 +35,15 @@ func (s *ResourceCoreShapeTestSuite) SetupTest() {
 		"baremetal": s.Provider,
 	}
 	s.Config = `
+    data "baremetal_identity_availability_domains" "t" {
+      compartment_id = "${var.compartment_id}"
+    }
     data "baremetal_core_shape" "s" {
-      compartment_id = "compartmentid"
-      availability_domain = "availability_domain"
-      image_id = "imageid"
+      compartment_id = "${var.compartment_id}"
+      availability_domain = "${data.baremetal_identity_availability_domains.t.availability_domains.0.name}"
     }
   `
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 	s.ResourceName = "data.baremetal_core_shape.s"
 
 }
@@ -77,12 +80,11 @@ func (s *ResourceCoreShapeTestSuite) TestResourceReadCoreShape() {
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartmentid"),
-					resource.TestCheckResourceAttr(s.ResourceName, "availability_domain", "availability_domain"),
-					resource.TestCheckResourceAttr(s.ResourceName, "image_id", "imageid"),
-					resource.TestCheckResourceAttr(s.ResourceName, "shapes.0.name", "shape1"),
-					resource.TestCheckResourceAttr(s.ResourceName, "shapes.1.name", "shape2"),
-					resource.TestCheckResourceAttr(s.ResourceName, "shapes.#", "2"),
+
+					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "shapes.0.name"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "shapes.1.name"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "shapes.#"),
 				),
 			},
 		},
@@ -94,6 +96,9 @@ func (s *ResourceCoreShapeTestSuite) TestResourceReadCoreShape() {
 }
 
 func (s *ResourceCoreShapeTestSuite) TestResourceReadCoreShapeWithPagination() {
+	if IsAccTest() {
+		s.T().Skip()
+	}
 	opts := &baremetal.ListShapesOptions{}
 	opts.AvailabilityDomain = "availability_domain"
 	opts.ImageID = "imageid"
@@ -129,7 +134,7 @@ func (s *ResourceCoreShapeTestSuite) TestResourceReadCoreShapeWithPagination() {
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartmentid"),
+
 					resource.TestCheckResourceAttr(s.ResourceName, "availability_domain", "availability_domain"),
 					resource.TestCheckResourceAttr(s.ResourceName, "image_id", "imageid"),
 					resource.TestCheckResourceAttr(s.ResourceName, "shapes.0.name", "shape1"),

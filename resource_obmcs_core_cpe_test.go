@@ -11,14 +11,15 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
-	"github.com/oracle/terraform-provider-baremetal/client/mocks"
+
+
 
 	"github.com/stretchr/testify/suite"
 )
 
 type ResourceCoreCpeTestSuite struct {
 	suite.Suite
-	Client       *mocks.BareMetalClient
+	Client       mockableClient
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	TimeCreated  baremetal.Time
@@ -28,7 +29,7 @@ type ResourceCoreCpeTestSuite struct {
 }
 
 func (s *ResourceCoreCpeTestSuite) SetupTest() {
-	s.Client = &mocks.BareMetalClient{}
+	s.Client = GetTestProvider()
 
 	s.Provider = Provider(
 		func(d *schema.ResourceData) (interface{}, error) {
@@ -43,13 +44,13 @@ func (s *ResourceCoreCpeTestSuite) SetupTest() {
 	s.Config = `
 
 		resource "baremetal_core_cpe" "t" {
-			compartment_id = "compartmentid"
+			compartment_id = "${var.compartment_id}"
 			display_name = "displayname"
-      ip_address = "123.123.123.123"
+      			ip_address = "123.123.123.123"
 		}
 	`
 
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 
 	s.ResourceName = "baremetal_core_cpe.t"
 	s.Res = &baremetal.Cpe{
@@ -81,7 +82,7 @@ func (s *ResourceCoreCpeTestSuite) TestCreateResourceCoreCpe() {
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", s.Res.DisplayName),
 					resource.TestCheckResourceAttr(s.ResourceName, "id", s.Res.ID),
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", s.Res.CompartmentID),
+
 					resource.TestCheckResourceAttr(s.ResourceName, "time_created", s.Res.TimeCreated.String()),
 					resource.TestCheckResourceAttr(s.ResourceName, "ip_address", s.Res.IPAddress),
 				),
@@ -96,13 +97,13 @@ func (s ResourceCoreCpeTestSuite) TestUpdateForcesNewCoreCpe() {
 	updateForcingChangeConfig := `
 
   resource "baremetal_core_cpe" "t" {
-    compartment_id = "compartmentid"
+    compartment_id = "${var.compartment_id}"
     display_name = "displayname"
     ip_address = "111.222.111.222"
   }
 
   `
-	updateForcingChangeConfig += testProviderConfig
+	updateForcingChangeConfig += testProviderConfig()
 
 	result := &baremetal.Cpe{
 		ID:            "cpeid2",

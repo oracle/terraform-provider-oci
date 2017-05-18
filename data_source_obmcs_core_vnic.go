@@ -86,9 +86,9 @@ func (v *VnicDatasourceCrud) SetData() {
 		v.D.Set("compartment_id", v.Resource.CompartmentID)
 		v.D.Set("display_name", v.Resource.DisplayName)
 		v.D.Set("hostname_label", v.Resource.HostnameLabel)
-		v.D.Set("state", v.Resource.State)
 		v.D.Set("private_ip_address", v.Resource.PrivateIPAddress)
 		v.D.Set("public_ip_address", v.Resource.PublicIPAddress)
+		v.D.Set("state", v.Resource.State)
 		v.D.Set("subnet_id", v.Resource.SubnetID)
 	}
 	return

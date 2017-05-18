@@ -8,6 +8,7 @@ import (
 
 	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/crud"
+	"time"
 )
 
 func RouteTableResource() *schema.Resource {
@@ -179,6 +180,10 @@ func (s *RouteTableResourceCrud) SetData() {
 
 func (s *RouteTableResourceCrud) Delete() (e error) {
 	return s.Client.DeleteRouteTable(s.D.Id(), nil)
+}
+
+func (s *RouteTableResourceCrud) ExtraWaitPostDelete() time.Duration {
+	return time.Duration(15 * time.Second)
 }
 
 func (s *RouteTableResourceCrud) buildRouteRules() (routeRules []baremetal.RouteRule) {

@@ -11,14 +11,15 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
-	"github.com/oracle/terraform-provider-baremetal/client/mocks"
+
+
 
 	"github.com/stretchr/testify/suite"
 )
 
 type ResourceIdentityUsersTestSuite struct {
 	suite.Suite
-	Client       *mocks.BareMetalClient
+	Client       mockableClient
 	Config       string
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
@@ -27,7 +28,7 @@ type ResourceIdentityUsersTestSuite struct {
 }
 
 func (s *ResourceIdentityUsersTestSuite) SetupTest() {
-	s.Client = &mocks.BareMetalClient{}
+	s.Client = GetTestProvider()
 	s.Provider = Provider(func(d *schema.ResourceData) (interface{}, error) {
 		return s.Client, nil
 	})
@@ -37,10 +38,10 @@ func (s *ResourceIdentityUsersTestSuite) SetupTest() {
 	}
 	s.Config = `
     data "baremetal_identity_users" "t" {
-      compartment_id = "compartment"
+      compartment_id = "${var.compartment_id}"
     }
   `
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 	s.ResourceName = "data.baremetal_identity_users.t"
 
 	b1 := baremetal.User{

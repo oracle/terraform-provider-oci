@@ -13,14 +13,15 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
-	"github.com/oracle/terraform-provider-baremetal/client/mocks"
+
+
 
 	"github.com/stretchr/testify/suite"
 )
 
 type ResourceIdentityUserTestSuite struct {
 	suite.Suite
-	Client       *mocks.BareMetalClient
+	Client       mockableClient
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	TimeCreated  time.Time
@@ -30,7 +31,7 @@ type ResourceIdentityUserTestSuite struct {
 }
 
 func (s *ResourceIdentityUserTestSuite) SetupTest() {
-	s.Client = &mocks.BareMetalClient{}
+	s.Client = GetTestProvider()
 
 	s.Provider = Provider(
 		func(d *schema.ResourceData) (interface{}, error) {
@@ -48,7 +49,7 @@ func (s *ResourceIdentityUserTestSuite) SetupTest() {
 			description = "desc!"
 		}
 	`
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 
 	s.ResourceName = "baremetal_identity_user.t"
 	s.Res = &baremetal.User{
@@ -77,7 +78,7 @@ func (s *ResourceIdentityUserTestSuite) TestCreateResourceIdentityUser() {
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "name", s.Res.Name),
 					resource.TestCheckResourceAttr(s.ResourceName, "description", s.Res.Description),
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", s.Res.CompartmentID),
+
 					resource.TestCheckResourceAttr(s.ResourceName, "state", s.Res.State),
 					resource.TestCheckResourceAttr(s.ResourceName, "time_created", s.Res.TimeCreated.String()),
 				),
@@ -119,7 +120,7 @@ func (s *ResourceIdentityUserTestSuite) TestUpdateResourceIdentityUserDescriptio
 			description = "newdesc!"
 		}
 	`
-	c += testProviderConfig
+	c += testProviderConfig()
 
 	u := *s.Res
 	u.Description = "newdesc!"
@@ -158,7 +159,7 @@ func (s *ResourceIdentityUserTestSuite) TestFailedUpdateResourceIdentityUserDesc
 
 	`
 
-	c += testProviderConfig
+	c += testProviderConfig()
 
 	opts := &baremetal.UpdateIdentityOptions{}
 	opts.Description = "newdesc!"
@@ -205,7 +206,7 @@ func (s *ResourceIdentityUserTestSuite) TestUpdateResourceIdentityUserNameShould
 		}
 	`
 
-	c += testProviderConfig
+	c += testProviderConfig()
 
 	u := *s.Res
 	u.ID = "newid!"

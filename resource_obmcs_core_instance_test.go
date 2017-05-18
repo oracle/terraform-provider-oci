@@ -3,6 +3,7 @@
 package main
 
 import (
+	"strings"
 	"testing"
 	"time"
 
@@ -10,9 +11,6 @@ import (
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
-
-	"github.com/oracle/terraform-provider-baremetal/client/mocks"
-
 	"github.com/stretchr/testify/suite"
 
 	"github.com/oracle/terraform-provider-baremetal/crud"
@@ -20,7 +18,7 @@ import (
 
 type ResourceCoreInstanceTestSuite struct {
 	suite.Suite
-	Client       *mocks.BareMetalClient
+	Client       mockableClient
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	TimeCreated  baremetal.Time
@@ -31,7 +29,7 @@ type ResourceCoreInstanceTestSuite struct {
 }
 
 func (s *ResourceCoreInstanceTestSuite) SetupTest() {
-	s.Client = &mocks.BareMetalClient{}
+	s.Client = GetTestProvider()
 
 	s.Provider = Provider(
 		func(d *schema.ResourceData) (interface{}, error) {
@@ -45,27 +43,15 @@ func (s *ResourceCoreInstanceTestSuite) SetupTest() {
 
 	s.TimeCreated = baremetal.Time{Time: time.Now()}
 
-	s.Config = `
-		resource "baremetal_core_instance" "t" {
-			availability_domain = "availability_domain"
-			compartment_id = "compartment_id"
-			display_name = "display_name"
-      image = "imageid"
-      shape = "shapeid"
-      subnet_id = "subnetid"
-      metadata {
-        ssh_authorized_keys = "mypublickey"
-      }
-		}
-	`
+	s.Config = instanceConfig
 
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 
 	s.ResourceName = "baremetal_core_instance.t"
 	s.Res = &baremetal.Instance{
 		AvailabilityDomain: "availability_domain",
 		CompartmentID:      "compartment_id",
-		DisplayName:        "display_name",
+		DisplayName:        "instance_name",
 		ID:                 "id",
 		ImageID:            "imageid",
 		Metadata: map[string]string{
@@ -140,12 +126,11 @@ func (s *ResourceCoreInstanceTestSuite) TestCreateResourceCoreInstance() {
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "availability_domain", s.Res.AvailabilityDomain),
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", s.Res.CompartmentID),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", s.Res.DisplayName),
-					resource.TestCheckResourceAttr(s.ResourceName, "id", s.Res.ID),
-					resource.TestCheckResourceAttr(s.ResourceName, "image", s.Res.ImageID),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", s.Res.State),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
 					resource.TestCheckResourceAttr(s.ResourceName, "time_created", s.Res.TimeCreated.String()),
 					resource.TestCheckResourceAttr(s.ResourceName, "public_ip", "0.0.0.0"),
 					resource.TestCheckResourceAttr(s.ResourceName, "private_ip", "0.0.0.0"),
@@ -171,7 +156,7 @@ func (s *ResourceCoreInstanceTestSuite) TestCreateResourceCoreInstanceWithoutDis
       }
 		}
 	`
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 
 	opts := &baremetal.LaunchInstanceOptions{}
 	opts.Metadata = s.Res.Metadata
@@ -201,27 +186,18 @@ func (s *ResourceCoreInstanceTestSuite) TestCreateResourceCoreInstanceWithoutDis
 }
 
 func (s ResourceCoreInstanceTestSuite) TestUpdateInstanceDisplayName() {
+	if IsAccTest() {
+		s.T().Skip()
+	}
 	s.Client.On("GetInstance", "id").Return(s.Res, nil).Times(2)
 
-	config := `
-		resource "baremetal_core_instance" "t" {
-			availability_domain = "availability_domain"
-			compartment_id = "compartment_id"
-      image = "imageid"
-      shape = "shapeid"
-      subnet_id = "subnetid"
-      display_name = "new_display_name"
-      metadata {
-        ssh_authorized_keys = "mypublickey"
-      }
-		}
-	`
-	config += testProviderConfig
+	config := strings.Replace(instanceConfig, "instance_name", "instance_name2", 1)
+	config += testProviderConfig()
 
 	res := &baremetal.Instance{
 		AvailabilityDomain: "availability_domain",
 		CompartmentID:      "compartment_id",
-		DisplayName:        "new_display_name",
+		DisplayName:        "instance_name2",
 		ID:                 "id",
 		ImageID:            "imageid",
 		Metadata: map[string]string{
@@ -260,12 +236,15 @@ func (s ResourceCoreInstanceTestSuite) TestUpdateInstanceDisplayName() {
 }
 
 func (s ResourceCoreInstanceTestSuite) TestUpdateAvailabilityDomainForcesNewInstance() {
+	if IsAccTest() {
+		s.T().Skip()
+	}
 	s.Client.On("GetInstance", "id").Return(s.Res, nil).Times(2)
 
 	config := `
 		resource "baremetal_core_instance" "t" {
 			availability_domain = "new_availability_domain"
-			compartment_id = "compartment_id"
+			compartment_id = "${var.compartment_id}"
 			display_name = "display_name"
       image = "imageid"
       shape = "shapeid"
@@ -276,7 +255,7 @@ func (s ResourceCoreInstanceTestSuite) TestUpdateAvailabilityDomainForcesNewInst
 		}
 	`
 
-	config += testProviderConfig
+	config += testProviderConfig()
 
 	res := &baremetal.Instance{
 		AvailabilityDomain: "new_availability_domain",
@@ -331,6 +310,9 @@ func (s ResourceCoreInstanceTestSuite) TestUpdateAvailabilityDomainForcesNewInst
 }
 
 func (s *ResourceCoreInstanceTestSuite) TestTerminateInstance() {
+	if IsAccTest() {
+		s.T().Skip()
+	}
 	s.Client.On("GetInstance", "id").Return(s.Res, nil).Times(2)
 	s.Client.On("GetInstance", "id").Return(s.DeletedRes, nil)
 

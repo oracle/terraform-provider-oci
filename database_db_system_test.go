@@ -14,14 +14,15 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
-	"github.com/oracle/terraform-provider-baremetal/client/mocks"
+
+
 
 	"github.com/stretchr/testify/suite"
 )
 
 type DatabaseDBSystemTestSuite struct {
 	suite.Suite
-	Client       *mocks.BareMetalClient
+	Client       mockableClient
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	TimeCreated  baremetal.Time
@@ -32,7 +33,7 @@ type DatabaseDBSystemTestSuite struct {
 }
 
 func (s *DatabaseDBSystemTestSuite) SetupTest() {
-	s.Client = &mocks.BareMetalClient{}
+	s.Client = GetTestProvider()
 	s.TimeCreated = baremetal.Time{Time: time.Now()}
 
 	s.Provider = Provider(
@@ -113,7 +114,7 @@ func (s *DatabaseDBSystemTestSuite) SetupTest() {
 	parsed := template.Must(template.New("config").Parse(tmpl))
 	parsed.Execute(&buf, s.Res)
 	s.Config = buf.String()
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 
 	s.ResourceName = "baremetal_database_db_system.t"
 }
@@ -130,7 +131,7 @@ func (s *DatabaseDBSystemTestSuite) TestCreateDBSystem() {
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", s.Res.CompartmentID),
+
 					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.db_version", s.Res.DBHome.DBVersion),
 					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.database.0.db_name", s.Res.DBHome.Database.DBName),
 				),

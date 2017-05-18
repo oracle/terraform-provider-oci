@@ -12,18 +12,19 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/oracle/terraform-provider-baremetal/client/mocks"
+
+
 )
 
 type ResourceLoadBalancerCertificateTestSuite struct {
 	suite.Suite
-	Client      *mocks.BareMetalClient
+	Client       mockableClient
 	Providers   map[string]terraform.ResourceProvider
 	TimeCreated baremetal.Time
 }
 
 func (s *ResourceLoadBalancerCertificateTestSuite) SetupTest() {
-	s.Client = &mocks.BareMetalClient{}
+	s.Client = GetTestProvider()
 
 	s.Providers = map[string]terraform.ResourceProvider{
 		"baremetal": Provider(
@@ -48,7 +49,7 @@ resource "baremetal_load_balancer_certificate" "t" {
   public_certificate = "stub_public_certificate"
 }
 `
-	config += testProviderConfig
+	config += testProviderConfig()
 
 	loadBalancerID := "ocid1.loadbalancer.stub_id"
 	res := &baremetal.Certificate{

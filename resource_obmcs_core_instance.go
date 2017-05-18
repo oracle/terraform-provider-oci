@@ -352,13 +352,12 @@ func (s *InstanceResourceCrud) SetData() {
 	s.D.Set("image", s.Resource.ImageID)
 	s.D.Set("ipxe_script", s.Resource.IpxeScript)
 	s.D.Set("metadata", s.Resource.Metadata)
+	s.D.Set("private_ip", s.private_ip)
+	s.D.Set("public_ip", s.public_ip)
 	s.D.Set("region", s.Resource.Region)
 	s.D.Set("shape", s.Resource.Shape)
 	s.D.Set("state", s.Resource.State)
 	s.D.Set("time_created", s.Resource.TimeCreated.String())
-
-	s.D.Set("public_ip", s.public_ip)
-	s.D.Set("private_ip", s.private_ip)
 }
 
 func (s *InstanceResourceCrud) Delete() (e error) {

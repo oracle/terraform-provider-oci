@@ -10,14 +10,15 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
-	"github.com/oracle/terraform-provider-baremetal/client/mocks"
+
+
 
 	"github.com/stretchr/testify/suite"
 )
 
 type ResourceCoreInstanceCredentialTestSuite struct {
 	suite.Suite
-	Client       *mocks.BareMetalClient
+	Client       mockableClient
 	Config       string
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
@@ -25,7 +26,7 @@ type ResourceCoreInstanceCredentialTestSuite struct {
 }
 
 func (s *ResourceCoreInstanceCredentialTestSuite) SetupTest() {
-	s.Client = &mocks.BareMetalClient{}
+	s.Client = GetTestProvider()
 	s.Provider = Provider(func(d *schema.ResourceData) (interface{}, error) {
 		return s.Client, nil
 	})
@@ -33,12 +34,12 @@ func (s *ResourceCoreInstanceCredentialTestSuite) SetupTest() {
 	s.Providers = map[string]terraform.ResourceProvider{
 		"baremetal": s.Provider,
 	}
-	s.Config = `
+	s.Config = instanceConfig + `
     data "baremetal_core_instance_credentials" "s" {
-      instance_id = "instanceid"
+      instance_id = "${baremetal_core_instance.t.id}"
     }
   `
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 	s.ResourceName = "data.baremetal_core_instance_credentials.s"
 
 }

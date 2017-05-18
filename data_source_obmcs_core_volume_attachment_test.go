@@ -11,14 +11,15 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
-	"github.com/oracle/terraform-provider-baremetal/client/mocks"
+
+
 
 	"github.com/stretchr/testify/suite"
 )
 
 type ResourceCoreVolumeAttachmentsTestSuite struct {
 	suite.Suite
-	Client       *mocks.BareMetalClient
+	Client       mockableClient
 	Config       string
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
@@ -26,7 +27,7 @@ type ResourceCoreVolumeAttachmentsTestSuite struct {
 }
 
 func (s *ResourceCoreVolumeAttachmentsTestSuite) SetupTest() {
-	s.Client = &mocks.BareMetalClient{}
+	s.Client = GetTestProvider()
 	s.Provider = Provider(func(d *schema.ResourceData) (interface{}, error) {
 		return s.Client, nil
 	})
@@ -37,14 +38,14 @@ func (s *ResourceCoreVolumeAttachmentsTestSuite) SetupTest() {
 	s.Config = `
     data "baremetal_core_volume_attachments" "t" {
       availability_domain = "availability_domain"
-      compartment_id = "compartment_id"
+      compartment_id = "${var.compartment_id}"
       limit = 1
       page = "page"
       instance_id = "instance_id"
       volume_id = "volume_id"
     }
   `
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 	s.ResourceName = "data.baremetal_core_volume_attachments.t"
 }
 
@@ -100,7 +101,7 @@ func (s *ResourceCoreVolumeAttachmentsTestSuite) TestReadVolumeAttachments() {
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "availability_domain", "availability_domain"),
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartment_id"),
+
 					resource.TestCheckResourceAttr(s.ResourceName, "limit", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "page", "page"),
 					resource.TestCheckResourceAttr(s.ResourceName, "volume_attachments.0.availability_domain", "availability_domain"),
@@ -207,7 +208,7 @@ func (s *ResourceCoreVolumeAttachmentsTestSuite) TestReadVolumeAttachmentsWithPa
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "availability_domain", "availability_domain"),
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartment_id"),
+
 					resource.TestCheckResourceAttr(s.ResourceName, "volume_attachments.0.availability_domain", "availability_domain"),
 					resource.TestCheckResourceAttr(s.ResourceName, "volume_attachments.0.id", "id1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "volume_attachments.3.id", "id4"),

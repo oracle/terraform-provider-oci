@@ -11,14 +11,15 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
-	"github.com/oracle/terraform-provider-baremetal/client/mocks"
+
+
 
 	"github.com/stretchr/testify/suite"
 )
 
 type ResourceCoreDHCPOptionsTestSuite struct {
 	suite.Suite
-	Client       *mocks.BareMetalClient
+	Client       mockableClient
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	TimeCreated  baremetal.Time
@@ -29,7 +30,7 @@ type ResourceCoreDHCPOptionsTestSuite struct {
 }
 
 func (s *ResourceCoreDHCPOptionsTestSuite) SetupTest() {
-	s.Client = &mocks.BareMetalClient{}
+	s.Client = GetTestProvider()
 
 	s.Provider = Provider(
 		func(d *schema.ResourceData) (interface{}, error) {
@@ -44,23 +45,23 @@ func (s *ResourceCoreDHCPOptionsTestSuite) SetupTest() {
 	s.TimeCreated = baremetal.Time{Time: time.Now()}
 
 	s.Config = `
-		resource "baremetal_core_dhcp_options" "t" {
-			compartment_id = "compartment_id"
-			display_name = "display_name"
-      options {
-				type = "type"
-				custom_dns_servers = [ "custom_dns_servers" ]
-				server_type = "server_type"
-			}
-      options {
-				type = "type"
-				custom_dns_servers = [ "custom_dns_servers" ]
-				server_type = "server_type"
-			}
-			vcn_id = "vcn_id"
+	resource "baremetal_core_virtual_network" "t" {
+		cidr_block = "10.0.0.0/16"
+		compartment_id = "${var.compartment_id}"
+		display_name = "network_name"
+	}
+	resource "baremetal_core_dhcp_options" "t" {
+		compartment_id = "${var.compartment_id}"
+		display_name = "display_name"
+     		options {
+			type = "DomainNameServer"
+			custom_dns_servers = [ "8.8.8.8" ]
+			server_type = "CustomDnsServer"
 		}
+     		vcn_id = "${baremetal_core_virtual_network.t.id}"
+	}
 	`
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 
 	s.ResourceName = "baremetal_core_dhcp_options.t"
 
@@ -110,10 +111,10 @@ func (s *ResourceCoreDHCPOptionsTestSuite) TestCreateResourceCoreDHCPOptions() {
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", s.Res.CompartmentID),
+
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", s.Res.DisplayName),
-					resource.TestCheckResourceAttr(s.ResourceName, "options.0.type", "type"),
-					resource.TestCheckResourceAttr(s.ResourceName, "options.1.server_type", "server_type"),
+					resource.TestCheckResourceAttr(s.ResourceName, "options.0.type", "DomainNameServer"),
+					resource.TestCheckResourceAttr(s.ResourceName, "options.0.server_type", "CustomDnsServer"),
 				),
 			},
 		},
@@ -121,11 +122,14 @@ func (s *ResourceCoreDHCPOptionsTestSuite) TestCreateResourceCoreDHCPOptions() {
 }
 
 func (s ResourceCoreDHCPOptionsTestSuite) TestUpdateDHCPOptions() {
+	if IsAccTest() {
+		s.T().Skip()
+	}
 	s.Client.On("GetDHCPOptions", "id").Return(s.Res, nil).Times(3)
 
 	config := `
 		resource "baremetal_core_dhcp_options" "t" {
-			compartment_id = "compartment_id"
+			compartment_id = "${var.compartment_id}"
 			display_name = "display_name"
       options {
 				type = "new_type"
@@ -135,7 +139,7 @@ func (s ResourceCoreDHCPOptionsTestSuite) TestUpdateDHCPOptions() {
 			vcn_id = "vcn_id"
 		}
 	`
-	config += testProviderConfig
+	config += testProviderConfig()
 
 	entities := []baremetal.DHCPDNSOption{
 		{

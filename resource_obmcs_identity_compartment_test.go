@@ -13,14 +13,15 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
-	"github.com/oracle/terraform-provider-baremetal/client/mocks"
+
+
 
 	"github.com/stretchr/testify/suite"
 )
 
 type ResourceIdentityCompartmentTestSuite struct {
 	suite.Suite
-	Client       *mocks.BareMetalClient
+	Client       mockableClient
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	TimeCreated  time.Time
@@ -30,7 +31,7 @@ type ResourceIdentityCompartmentTestSuite struct {
 }
 
 func (s *ResourceIdentityCompartmentTestSuite) SetupTest() {
-	s.Client = &mocks.BareMetalClient{}
+	s.Client = GetTestProvider()
 
 	configfn := func(d *schema.ResourceData) (interface{}, error) {
 		return s.Client, nil
@@ -52,7 +53,7 @@ func (s *ResourceIdentityCompartmentTestSuite) SetupTest() {
 			description = "desc!"
 		}
 	`
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 	s.ResourceName = "baremetal_identity_compartment.t"
 	s.Res = &baremetal.Compartment{
 		ID:            "id!",
@@ -78,7 +79,7 @@ func (s *ResourceIdentityCompartmentTestSuite) TestCreateResourceIdentityCompart
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "name", s.Res.Name),
 					resource.TestCheckResourceAttr(s.ResourceName, "description", s.Res.Description),
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", s.Res.CompartmentID),
+
 					resource.TestCheckResourceAttr(s.ResourceName, "state", s.Res.State),
 					resource.TestCheckResourceAttr(s.ResourceName, "time_created", s.Res.TimeCreated.String()),
 				),
@@ -117,7 +118,7 @@ func (s *ResourceIdentityCompartmentTestSuite) TestUpdateResourceIdentityCompart
 			description = "newdesc!"
 		}
 	`
-	c += testProviderConfig
+	c += testProviderConfig()
 	u := *s.Res
 	u.Description = "newdesc!"
 
@@ -153,7 +154,7 @@ func (s *ResourceIdentityCompartmentTestSuite) TestFailedUpdateResourceIdentityC
 			description = "newdesc!"
 		}
 	`
-	c += testProviderConfig
+	c += testProviderConfig()
 	opts := &baremetal.UpdateIdentityOptions{}
 	opts.Description = "newdesc!"
 	s.Client.On("UpdateCompartment", "id!", opts).Return(nil, errors.New("FAILED!")).Once()

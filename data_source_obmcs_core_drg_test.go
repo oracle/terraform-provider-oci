@@ -11,14 +11,15 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
-	"github.com/oracle/terraform-provider-baremetal/client/mocks"
+
+
 
 	"github.com/stretchr/testify/suite"
 )
 
 type ResourceCoreDrgsTestSuite struct {
 	suite.Suite
-	Client       *mocks.BareMetalClient
+	Client       mockableClient
 	Config       string
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
@@ -26,7 +27,7 @@ type ResourceCoreDrgsTestSuite struct {
 }
 
 func (s *ResourceCoreDrgsTestSuite) SetupTest() {
-	s.Client = &mocks.BareMetalClient{}
+	s.Client = GetTestProvider()
 	s.Provider = Provider(func(d *schema.ResourceData) (interface{}, error) {
 		return s.Client, nil
 	})
@@ -36,12 +37,12 @@ func (s *ResourceCoreDrgsTestSuite) SetupTest() {
 	}
 	s.Config = `
     data "baremetal_core_drgs" "t" {
-      compartment_id = "compartment_id"
+      compartment_id = "${var.compartment_id}"
       limit = 1
       page = "page"
     }
   `
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 	s.ResourceName = "data.baremetal_core_drgs.t"
 }
 
@@ -85,7 +86,7 @@ func (s *ResourceCoreDrgsTestSuite) TestReadDrgs() {
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartment_id"),
+
 					resource.TestCheckResourceAttr(s.ResourceName, "limit", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "page", "page"),
 					resource.TestCheckResourceAttr(s.ResourceName, "drgs.0.compartment_id", "compartment_id"),
@@ -170,7 +171,7 @@ func (s *ResourceCoreDrgsTestSuite) TestReadDrgsPaged() {
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartment_id"),
+
 					resource.TestCheckResourceAttr(s.ResourceName, "limit", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "page", "page"),
 					resource.TestCheckResourceAttr(s.ResourceName, "drgs.0.compartment_id", "compartment_id"),

@@ -11,14 +11,15 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
-	"github.com/oracle/terraform-provider-baremetal/client/mocks"
+
+
 
 	"github.com/stretchr/testify/suite"
 )
 
 type ResourceCoreVolumesTestSuite struct {
 	suite.Suite
-	Client       *mocks.BareMetalClient
+	Client       mockableClient
 	Config       string
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
@@ -26,7 +27,7 @@ type ResourceCoreVolumesTestSuite struct {
 }
 
 func (s *ResourceCoreVolumesTestSuite) SetupTest() {
-	s.Client = &mocks.BareMetalClient{}
+	s.Client = GetTestProvider()
 	s.Provider = Provider(func(d *schema.ResourceData) (interface{}, error) {
 		return s.Client, nil
 	})
@@ -37,12 +38,12 @@ func (s *ResourceCoreVolumesTestSuite) SetupTest() {
 	s.Config = `
     data "baremetal_core_volumes" "t" {
       availability_domain = "availability_domain"
-      compartment_id = "compartment_id"
+      compartment_id = "${var.compartment_id}"
       limit = 1
       page = "page"
     }
   `
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 	s.ResourceName = "data.baremetal_core_volumes.t"
 }
 
@@ -92,7 +93,7 @@ func (s *ResourceCoreVolumesTestSuite) TestReadVolumes() {
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "availability_domain", "availability_domain"),
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartment_id"),
+
 					resource.TestCheckResourceAttr(s.ResourceName, "limit", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "page", "page"),
 					resource.TestCheckResourceAttr(s.ResourceName, "volumes.0.availability_domain", "availability_domain"),
@@ -188,7 +189,7 @@ func (s *ResourceCoreVolumesTestSuite) TestReadVolumesWithPagination() {
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "availability_domain", "availability_domain"),
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartment_id"),
+
 					resource.TestCheckResourceAttr(s.ResourceName, "limit", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "page", "page"),
 					resource.TestCheckResourceAttr(s.ResourceName, "volumes.0.availability_domain", "availability_domain"),

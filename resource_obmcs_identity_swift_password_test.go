@@ -13,12 +13,13 @@ import (
 
 	"github.com/MustWin/baremetal-sdk-go"
 
-	"github.com/oracle/terraform-provider-baremetal/client/mocks"
+
+
 )
 
 type ResourceIdentitySwiftPasswordTestSuite struct {
 	suite.Suite
-	Client       *mocks.BareMetalClient
+	Client       mockableClient
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	TimeCreated  time.Time
@@ -28,7 +29,7 @@ type ResourceIdentitySwiftPasswordTestSuite struct {
 }
 
 func (s *ResourceIdentitySwiftPasswordTestSuite) SetupTest() {
-	s.Client = &mocks.BareMetalClient{}
+	s.Client = GetTestProvider()
 
 	s.Provider = Provider(
 		func(d *schema.ResourceData) (interface{}, error) {
@@ -47,7 +48,7 @@ func (s *ResourceIdentitySwiftPasswordTestSuite) SetupTest() {
 			description = "` + description + `"
 		}
 	`
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 
 	s.TimeCreated = time.Now()
 	s.ResourceName = "baremetal_identity_swift_password.t"
@@ -99,7 +100,7 @@ func (s ResourceIdentitySwiftPasswordTestSuite) TestUpdateDescriptionUpdatesSwif
 			description = "nah nah nah"
 		}
   `
-	config += testProviderConfig
+	config += testProviderConfig()
 
 	res := &baremetal.SwiftPassword{}
 	*res = *s.Res

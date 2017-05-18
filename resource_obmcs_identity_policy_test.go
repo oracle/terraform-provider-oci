@@ -14,7 +14,8 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
-	"github.com/oracle/terraform-provider-baremetal/client/mocks"
+
+
 
 	"github.com/stretchr/testify/suite"
 )
@@ -59,7 +60,7 @@ func testCheckAttributeTypeList(resourceName, attributeName string, expecteds []
 
 type ResourceIdentityPolicyTestSuite struct {
 	suite.Suite
-	Client      *mocks.BareMetalClient
+	Client       mockableClient
 	Provider    terraform.ResourceProvider
 	Providers   map[string]terraform.ResourceProvider
 	TimeCreated time.Time
@@ -69,7 +70,7 @@ type ResourceIdentityPolicyTestSuite struct {
 }
 
 func (s *ResourceIdentityPolicyTestSuite) SetupTest() {
-	s.Client = &mocks.BareMetalClient{}
+	s.Client = GetTestProvider()
 	s.Provider = Provider(func(d *schema.ResourceData) (interface{}, error) {
 		return s.Client, nil
 	},
@@ -78,7 +79,7 @@ func (s *ResourceIdentityPolicyTestSuite) SetupTest() {
 		"baremetal": s.Provider,
 	}
 	s.TimeCreated, _ = time.Parse("2006-Jan-02", "2006-Jan-02")
-	s.Config = fmt.Sprintf(testProviderConfig+testPolicyConfig,
+	s.Config = fmt.Sprintf(testProviderConfig()+testPolicyConfig,
 		"pol",
 		"desc",
 		"7",
@@ -136,7 +137,7 @@ func (s *ResourceIdentityPolicyTestSuite) TestUpdateResourceIdentityPolicy() {
 
 	s.Client.On("DeletePolicy", "123", (*baremetal.IfMatchOptions)(nil)).Return(nil)
 
-	config := fmt.Sprintf(testProviderConfig+testPolicyConfig,
+	config := fmt.Sprintf(testProviderConfig()+testPolicyConfig,
 		"pol",
 		"newdesc",
 		"7",
@@ -183,7 +184,7 @@ func (s *ResourceIdentityPolicyTestSuite) TestFailedUpdateResourceIdentityPolicy
 	s.Client.On("GetPolicy", s.Policy.ID).Return(s.Policy, nil).Times(3)
 	s.Client.On("DeletePolicy", "123", (*baremetal.IfMatchOptions)(nil)).Return(nil)
 
-	config := fmt.Sprintf(testProviderConfig+testPolicyConfig,
+	config := fmt.Sprintf(testProviderConfig()+testPolicyConfig,
 		"pol",
 		"newdesc",
 		"7",
@@ -239,7 +240,7 @@ func (s *ResourceIdentityPolicyTestSuite) TestUpdateResourceIdentityPolicyNameSh
 	s.Client.On("GetPolicy", s.Policy.ID).Return(s.Policy, nil)
 	s.Client.On("DeletePolicy", "123", (*baremetal.IfMatchOptions)(nil)).Return(nil)
 
-	config := fmt.Sprintf(testProviderConfig+testPolicyConfig,
+	config := fmt.Sprintf(testProviderConfig()+testPolicyConfig,
 		"newname",
 		"desc",
 		"7",

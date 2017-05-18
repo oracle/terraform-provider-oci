@@ -14,7 +14,8 @@ import (
 
 	"github.com/MustWin/baremetal-sdk-go"
 
-	"github.com/oracle/terraform-provider-baremetal/client/mocks"
+
+
 )
 
 var testPoliciesConfig = `
@@ -25,7 +26,7 @@ var testPoliciesConfig = `
 
 type ResourceIdentityPoliciesTestSuite struct {
 	suite.Suite
-	Client       *mocks.BareMetalClient
+	Client       mockableClient
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	TimeCreated  time.Time
@@ -35,7 +36,7 @@ type ResourceIdentityPoliciesTestSuite struct {
 }
 
 func (s *ResourceIdentityPoliciesTestSuite) SetupTest() {
-	s.Client = &mocks.BareMetalClient{}
+	s.Client = GetTestProvider()
 	s.Provider = Provider(func(d *schema.ResourceData) (interface{}, error) {
 		return s.Client, nil
 	},
@@ -44,7 +45,7 @@ func (s *ResourceIdentityPoliciesTestSuite) SetupTest() {
 		"baremetal": s.Provider,
 	}
 	s.TimeCreated, _ = time.Parse("2006-Jan-02", "2006-Jan-02")
-	s.Config = fmt.Sprintf(testProviderConfig+testPoliciesConfig, "7")
+	s.Config = fmt.Sprintf(testProviderConfig()+testPoliciesConfig, "7")
 	s.PoliciesName = "data.baremetal_identity_policies.p"
 	s.Policies = baremetal.ListPolicies{
 		Policies: []baremetal.Policy{

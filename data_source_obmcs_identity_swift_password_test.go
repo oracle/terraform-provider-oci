@@ -14,8 +14,6 @@ import (
 	"github.com/stretchr/testify/suite"
 
 	"github.com/MustWin/baremetal-sdk-go"
-
-	"github.com/oracle/terraform-provider-baremetal/client/mocks"
 )
 
 var testPasswordsConfig = `
@@ -26,7 +24,7 @@ var testPasswordsConfig = `
 
 type ResourceIdentitySwiftPasswordsTestSuite struct {
 	suite.Suite
-	Client        *mocks.BareMetalClient
+	Client       mockableClient
 	Provider      terraform.ResourceProvider
 	Providers     map[string]terraform.ResourceProvider
 	TimeCreated   time.Time
@@ -36,7 +34,7 @@ type ResourceIdentitySwiftPasswordsTestSuite struct {
 }
 
 func (s *ResourceIdentitySwiftPasswordsTestSuite) SetupTest() {
-	s.Client = &mocks.BareMetalClient{}
+	s.Client = GetTestProvider()
 	s.Provider = Provider(func(d *schema.ResourceData) (interface{}, error) {
 		return s.Client, nil
 	},
@@ -45,7 +43,7 @@ func (s *ResourceIdentitySwiftPasswordsTestSuite) SetupTest() {
 		"baremetal": s.Provider,
 	}
 	s.TimeCreated, _ = time.Parse("2006-Jan-02", "2006-Jan-02")
-	s.Config = fmt.Sprintf(testProviderConfig+testPasswordsConfig, "userid")
+	s.Config = fmt.Sprintf(testProviderConfig()+testPasswordsConfig, "userid")
 	s.PasswordsName = "data.baremetal_identity_swift_passwords.p"
 	s.PasswordList = baremetal.ListSwiftPasswords{
 		SwiftPasswords: []baremetal.SwiftPassword{

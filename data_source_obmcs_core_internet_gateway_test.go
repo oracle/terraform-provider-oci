@@ -11,14 +11,15 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
-	"github.com/oracle/terraform-provider-baremetal/client/mocks"
+
+
 
 	"github.com/stretchr/testify/suite"
 )
 
 type CoreInternetGatewayDatasourceTestSuite struct {
 	suite.Suite
-	Client       *mocks.BareMetalClient
+	Client       mockableClient
 	Config       string
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
@@ -26,7 +27,7 @@ type CoreInternetGatewayDatasourceTestSuite struct {
 }
 
 func (s *CoreInternetGatewayDatasourceTestSuite) SetupTest() {
-	s.Client = &mocks.BareMetalClient{}
+	s.Client = GetTestProvider()
 	s.Provider = Provider(func(d *schema.ResourceData) (interface{}, error) {
 		return s.Client, nil
 	})
@@ -36,11 +37,11 @@ func (s *CoreInternetGatewayDatasourceTestSuite) SetupTest() {
 	}
 	s.Config = `
     data "baremetal_core_internet_gateways" "s" {
-      compartment_id = "compartmentid"
+      compartment_id = "${var.compartment_id}"
       vcn_id = "vcnid"
     }
   `
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 	s.ResourceName = "data.baremetal_core_internet_gateways.s"
 
 }
@@ -93,7 +94,7 @@ func (s *CoreInternetGatewayDatasourceTestSuite) TestResourceListInternetGateway
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartmentid"),
+
 					resource.TestCheckResourceAttr(s.ResourceName, "vcn_id", "vcnid"),
 					resource.TestCheckResourceAttr(s.ResourceName, "gateways.0.compartment_id", "compartmentid"),
 					resource.TestCheckResourceAttr(s.ResourceName, "gateways.0.id", "id1"),
@@ -195,7 +196,7 @@ func (s *CoreInternetGatewayDatasourceTestSuite) TestResourceListInternetGateway
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartmentid"),
+
 					resource.TestCheckResourceAttr(s.ResourceName, "vcn_id", "vcnid"),
 					resource.TestCheckResourceAttr(s.ResourceName, "gateways.0.compartment_id", "compartmentid"),
 					resource.TestCheckResourceAttr(s.ResourceName, "gateways.0.id", "id1"),

@@ -11,14 +11,15 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
-	"github.com/oracle/terraform-provider-baremetal/client/mocks"
+
+
 
 	"github.com/stretchr/testify/suite"
 )
 
 type ResourceIdentityAPIKeyTestSuite struct {
 	suite.Suite
-	Client       *mocks.BareMetalClient
+	Client       mockableClient
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	TimeCreated  time.Time
@@ -29,7 +30,7 @@ type ResourceIdentityAPIKeyTestSuite struct {
 }
 
 func (s *ResourceIdentityAPIKeyTestSuite) SetupTest() {
-	s.Client = &mocks.BareMetalClient{}
+	s.Client = GetTestProvider()
 
 	s.Provider = Provider(
 		func(d *schema.ResourceData) (interface{}, error) { return s.Client, nil },
@@ -42,7 +43,7 @@ func (s *ResourceIdentityAPIKeyTestSuite) SetupTest() {
 			key_value = "1"
 		}
 	`
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 	s.ResourceName = "baremetal_identity_api_key.t"
 
 	s.TimeCreated = time.Now()

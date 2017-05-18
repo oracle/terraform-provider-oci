@@ -11,14 +11,15 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
-	"github.com/oracle/terraform-provider-baremetal/client/mocks"
+
+
 
 	"github.com/stretchr/testify/suite"
 )
 
 type DatasourceCoreVnicTestSuite struct {
 	suite.Suite
-	Client       *mocks.BareMetalClient
+	Client       mockableClient
 	Config       string
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
@@ -26,7 +27,7 @@ type DatasourceCoreVnicTestSuite struct {
 }
 
 func (s *DatasourceCoreVnicTestSuite) SetupTest() {
-	s.Client = &mocks.BareMetalClient{}
+	s.Client = GetTestProvider()
 	s.Provider = Provider(func(d *schema.ResourceData) (interface{}, error) {
 		return s.Client, nil
 	})
@@ -39,7 +40,7 @@ func (s *DatasourceCoreVnicTestSuite) SetupTest() {
       vnic_id = "vnicid"
     }
   `
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 	s.ResourceName = "data.baremetal_core_vnic.t"
 }
 
@@ -72,7 +73,7 @@ func (s *DatasourceCoreVnicTestSuite) TestReadVnic() {
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartmentid"),
+
 					resource.TestCheckResourceAttr(s.ResourceName, "availability_domain", "availabilitydomain"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", baremetal.ResourceActive),
 					resource.TestCheckResourceAttr(s.ResourceName, "private_ip_address", "10.10.10.10"),

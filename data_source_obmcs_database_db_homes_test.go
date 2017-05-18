@@ -10,14 +10,15 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
-	"github.com/oracle/terraform-provider-baremetal/client/mocks"
+
+
 
 	"github.com/stretchr/testify/suite"
 )
 
 type DatabaseDBHomesTestSuite struct {
 	suite.Suite
-	Client       *mocks.BareMetalClient
+	Client       mockableClient
 	Config       string
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
@@ -25,7 +26,7 @@ type DatabaseDBHomesTestSuite struct {
 }
 
 func (s *DatabaseDBHomesTestSuite) SetupTest() {
-	s.Client = &mocks.BareMetalClient{}
+	s.Client = GetTestProvider()
 	s.Provider = Provider(func(d *schema.ResourceData) (interface{}, error) {
 		return s.Client, nil
 	})
@@ -35,13 +36,13 @@ func (s *DatabaseDBHomesTestSuite) SetupTest() {
 	}
 	s.Config = `
     data "baremetal_database_db_homes" "t" {
-      compartment_id = "compartment_id"
+      compartment_id = "${var.compartment_id}"
       db_system_id = "db_system_id"
       limit = 1
       page = "page"
     }
   `
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 	s.ResourceName = "data.baremetal_database_db_homes.t"
 }
 
@@ -77,7 +78,7 @@ func (s *DatabaseDBHomesTestSuite) TestReadDBHomes() {
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartment_id"),
+
 					resource.TestCheckResourceAttr(s.ResourceName, "db_system_id", "db_system_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "limit", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "db_homes.0.id", "1"),

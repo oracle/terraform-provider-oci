@@ -11,14 +11,15 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
-	"github.com/oracle/terraform-provider-baremetal/client/mocks"
+
+
 
 	"github.com/stretchr/testify/suite"
 )
 
 type ResourceCoreInstancesTestSuite struct {
 	suite.Suite
-	Client       *mocks.BareMetalClient
+	Client       mockableClient
 	Config       string
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
@@ -26,7 +27,7 @@ type ResourceCoreInstancesTestSuite struct {
 }
 
 func (s *ResourceCoreInstancesTestSuite) SetupTest() {
-	s.Client = &mocks.BareMetalClient{}
+	s.Client = GetTestProvider()
 	s.Provider = Provider(func(d *schema.ResourceData) (interface{}, error) {
 		return s.Client, nil
 	})
@@ -36,11 +37,11 @@ func (s *ResourceCoreInstancesTestSuite) SetupTest() {
 	}
 	s.Config = `
     data "baremetal_core_instances" "s" {
-      compartment_id = "compartmentid"
+      compartment_id = "${var.compartment_id}"
       availability_domain = "availabilityid"
     }
   `
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 	s.ResourceName = "data.baremetal_core_instances.s"
 }
 
@@ -100,7 +101,7 @@ func (s *ResourceCoreInstancesTestSuite) TestResourceListInstances() {
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartmentid"),
+
 					resource.TestCheckResourceAttr(s.ResourceName, "availability_domain", "availabilityid"),
 					resource.TestCheckResourceAttr(s.ResourceName, "instances.0.availability_domain", "availabilityid"),
 					resource.TestCheckResourceAttr(s.ResourceName, "instances.0.id", "id1"),
@@ -213,7 +214,7 @@ func (s *ResourceCoreInstancesTestSuite) TestResourceListInstancesPaged() {
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartmentid"),
+
 					resource.TestCheckResourceAttr(s.ResourceName, "availability_domain", "availabilityid"),
 					resource.TestCheckResourceAttr(s.ResourceName, "instances.0.availability_domain", "availabilityid"),
 					resource.TestCheckResourceAttr(s.ResourceName, "instances.0.id", "id1"),

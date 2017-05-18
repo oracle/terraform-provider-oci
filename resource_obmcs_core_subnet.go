@@ -40,7 +40,7 @@ func SubnetResource() *schema.Resource {
 			},
 			"route_table_id": {
 				Type:     schema.TypeString,
-				Optional: true,
+				Required: true,
 				ForceNew: true,
 			},
 			"vcn_id": {
@@ -50,7 +50,7 @@ func SubnetResource() *schema.Resource {
 			},
 			"security_list_ids": {
 				Type:     schema.TypeSet,
-				Optional: true,
+				Required: true,
 				ForceNew: true,
 				Set:      schema.HashString,
 				Elem: &schema.Schema{

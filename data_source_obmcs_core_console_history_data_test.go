@@ -10,8 +10,6 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
-	"github.com/oracle/terraform-provider-baremetal/client/mocks"
-
 	"crypto/rand"
 
 	"github.com/stretchr/testify/suite"
@@ -19,7 +17,7 @@ import (
 
 type CoreConsoleHistoryDataDatasourceTestSuite struct {
 	suite.Suite
-	Client       *mocks.BareMetalClient
+	Client       mockableClient
 	Config       string
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
@@ -27,7 +25,7 @@ type CoreConsoleHistoryDataDatasourceTestSuite struct {
 }
 
 func (s *CoreConsoleHistoryDataDatasourceTestSuite) SetupTest() {
-	s.Client = &mocks.BareMetalClient{}
+	s.Client = GetTestProvider()
 	s.Provider = Provider(func(d *schema.ResourceData) (interface{}, error) {
 		return s.Client, nil
 	})
@@ -36,13 +34,17 @@ func (s *CoreConsoleHistoryDataDatasourceTestSuite) SetupTest() {
 		"baremetal": s.Provider,
 	}
 	s.Config = `
+
+    resource "baremetal_core_console_history" "t" {
+			instance_id = "instance_id"
+    }
     data "baremetal_core_console_history_data" "s" {
-      console_history_id = "ichid"
+      console_history_id = "${baremetal_core_console_history.t.id}"
       length = 1
       offset = 1
     }
   `
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 	s.ResourceName = "data.baremetal_core_console_history_data.s"
 }
 

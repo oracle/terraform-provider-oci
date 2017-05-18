@@ -11,14 +11,15 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
-	"github.com/oracle/terraform-provider-baremetal/client/mocks"
+
+
 
 	"github.com/stretchr/testify/suite"
 )
 
 type ResourceCoreImageTestSuite struct {
 	suite.Suite
-	Client       *mocks.BareMetalClient
+	Client       mockableClient
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	TimeCreated  baremetal.Time
@@ -29,7 +30,7 @@ type ResourceCoreImageTestSuite struct {
 }
 
 func (s *ResourceCoreImageTestSuite) SetupTest() {
-	s.Client = &mocks.BareMetalClient{}
+	s.Client = GetTestProvider()
 
 	s.Provider = Provider(
 		func(d *schema.ResourceData) (interface{}, error) {
@@ -41,12 +42,12 @@ func (s *ResourceCoreImageTestSuite) SetupTest() {
 	s.ResourceName = "baremetal_core_image.t"
 	s.Config = `
 		resource "baremetal_core_image" "t" {
-			compartment_id = "compartment_id"
+			compartment_id = "${var.compartment_id}"
 			display_name = "display_name"
 			instance_id = "instance_id"
 		}
 	`
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 
 	s.TimeCreated = baremetal.Time{Time: time.Now()}
 	s.Res = &baremetal.Image{
@@ -86,7 +87,7 @@ func (s *ResourceCoreImageTestSuite) TestCreateImage() {
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "base_image_id", s.Res.BaseImageID),
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", s.Res.CompartmentID),
+
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", s.Res.DisplayName),
 					resource.TestCheckResourceAttr(s.ResourceName, "id", s.Res.ID),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", s.Res.State),
@@ -103,11 +104,11 @@ func (s *ResourceCoreImageTestSuite) TestCreateImageWithoutDisplayName() {
 
 	s.Config = `
 		resource "baremetal_core_image" "t" {
-			compartment_id = "compartment_id"
+			compartment_id = "${var.compartment_id}"
 			instance_id = "instance_id"
 		}
 	`
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 
 	opts := &baremetal.CreateOptions{}
 	s.Client.On("CreateImage", "compartment_id", "instance_id", opts).
@@ -133,12 +134,12 @@ func (s ResourceCoreImageTestSuite) TestUpdateImageDisplayName() {
 
 	config := `
 		resource "baremetal_core_image" "t" {
-			compartment_id = "compartment_id"
+			compartment_id = "${var.compartment_id}"
 			instance_id = "instance_id"
 			display_name = "new_display_name"
 		}
 	`
-	config += testProviderConfig
+	config += testProviderConfig()
 
 	resVal := *s.Res
 	res := &resVal

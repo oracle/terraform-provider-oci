@@ -11,14 +11,15 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
-	"github.com/oracle/terraform-provider-baremetal/client/mocks"
+
+
 
 	"github.com/stretchr/testify/suite"
 )
 
 type ResourceObjectstorageObjectTestSuite struct {
 	suite.Suite
-	Client       *mocks.BareMetalClient
+	Client       mockableClient
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	TimeCreated  baremetal.Time
@@ -28,7 +29,7 @@ type ResourceObjectstorageObjectTestSuite struct {
 }
 
 func (s *ResourceObjectstorageObjectTestSuite) SetupTest() {
-	s.Client = &mocks.BareMetalClient{}
+	s.Client = GetTestProvider()
 
 	s.Provider = Provider(
 		func(d *schema.ResourceData) (interface{}, error) {
@@ -54,7 +55,7 @@ func (s *ResourceObjectstorageObjectTestSuite) SetupTest() {
 		}
 	`
 
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 
 	s.ResourceName = "baremetal_objectstorage_object.t"
 	metadata := map[string]string{
@@ -113,7 +114,7 @@ func (s *ResourceObjectstorageObjectTestSuite) TestUpdateResourceObjectstorageOb
 			}
 		}
 	`
-	config += testProviderConfig
+	config += testProviderConfig()
 	metadata := map[string]string{
 		"foo": "bar",
 	}

@@ -7,19 +7,16 @@ import (
 	"testing"
 	"time"
 
+	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/stretchr/testify/suite"
-
-	"github.com/MustWin/baremetal-sdk-go"
-
-	"github.com/oracle/terraform-provider-baremetal/client/mocks"
 )
 
 type ResourceIdentityUserGroupMembershipsTestSuite struct {
 	suite.Suite
-	Client       *mocks.BareMetalClient
+	Client       mockableClient
 	Config       string
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
@@ -28,7 +25,7 @@ type ResourceIdentityUserGroupMembershipsTestSuite struct {
 }
 
 func (s *ResourceIdentityUserGroupMembershipsTestSuite) SetupTest() {
-	s.Client = &mocks.BareMetalClient{}
+	s.Client = GetTestProvider()
 	s.Provider = Provider(func(d *schema.ResourceData) (interface{}, error) {
 		return s.Client, nil
 	})
@@ -47,12 +44,12 @@ func (s *ResourceIdentityUserGroupMembershipsTestSuite) SetupTest() {
 	description = "group desc"
     }
     resource "baremetal_identity_user_group_membership" "ug_membership" {
-	compartment_id = "cid"
+    	compartment_id = "${var.compartment_id}"
 	user_id = "${baremetal_identity_user.u.id}"
 	group_id = "${baremetal_identity_group.g.id}"
     }
   `
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 	s.ResourceName = "baremetal_identity_user_group_membership.ug_membership"
 	u1 := &baremetal.User{
 		ID:            "user_id",
@@ -118,7 +115,7 @@ func (s *ResourceIdentityUserGroupMembershipsTestSuite) TestGetUserGroupMembersh
 	config := s.Config
 	config += `
 	data "baremetal_identity_user_group_memberships" "g_memberships" {
-	    compartment_id = "cid"
+	    compartment_id = "${var.compartment_id}"
 	    group_id = "${baremetal_identity_group.g.id}"
         }`
 	resource.UnitTest(s.T(), resource.TestCase{
@@ -148,7 +145,7 @@ func (s *ResourceIdentityUserGroupMembershipsTestSuite) TestGetUserGroupMembersh
 	config := s.Config
 	config += `
 	data "baremetal_identity_user_group_memberships" "u_memberships" {
-		compartment_id = "cid"
+		compartment_id = "${var.compartment_id}"
 		user_id = "${baremetal_identity_user.u.id}"
 	   }`
 	resource.UnitTest(s.T(), resource.TestCase{
@@ -178,7 +175,7 @@ func (s *ResourceIdentityUserGroupMembershipsTestSuite) TestGetUserGroupMembersh
 	config := s.Config
 	config += `
 	data "baremetal_identity_user_group_memberships" "ug_memberships" {
-	    compartment_id = "cid"
+	    compartment_id = "${var.compartment_id}"
 	    user_id = "${baremetal_identity_user.u.id}"
 	    group_id = "${baremetal_identity_group.g.id}"
         }`

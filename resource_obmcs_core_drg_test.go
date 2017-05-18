@@ -11,14 +11,15 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
-	"github.com/oracle/terraform-provider-baremetal/client/mocks"
+
+
 
 	"github.com/stretchr/testify/suite"
 )
 
 type ResourceCoreDrgTestSuite struct {
 	suite.Suite
-	Client       *mocks.BareMetalClient
+	Client       mockableClient
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	TimeCreated  baremetal.Time
@@ -29,7 +30,7 @@ type ResourceCoreDrgTestSuite struct {
 }
 
 func (s *ResourceCoreDrgTestSuite) SetupTest() {
-	s.Client = &mocks.BareMetalClient{}
+	s.Client = GetTestProvider()
 
 	s.Provider = Provider(
 		func(d *schema.ResourceData) (interface{}, error) {
@@ -45,11 +46,11 @@ func (s *ResourceCoreDrgTestSuite) SetupTest() {
 
 	s.Config = `
 		resource "baremetal_core_drg" "t" {
-			compartment_id = "compartment_id"
+			compartment_id = "${var.compartment_id}"
 			display_name = "display_name"
 		}
 	`
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 
 	s.ResourceName = "baremetal_core_drg.t"
 	s.Res = &baremetal.Drg{
@@ -93,7 +94,7 @@ func (s *ResourceCoreDrgTestSuite) TestCreateResourceCoreDrg() {
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", s.Res.CompartmentID),
+
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", s.Res.DisplayName),
 					resource.TestCheckResourceAttr(s.ResourceName, "id", s.Res.ID),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", s.Res.State),
@@ -105,15 +106,18 @@ func (s *ResourceCoreDrgTestSuite) TestCreateResourceCoreDrg() {
 }
 
 func (s *ResourceCoreDrgTestSuite) TestCreateResourceCoreDrgWithoutDisplayName() {
+	if IsAccTest() {
+		s.T().Skip()
+	}
 	s.Client.On("GetDrg", "id").Return(s.Res, nil).Times(2)
 	s.Client.On("GetDrg", "id").Return(s.DeletedRes, nil)
 
 	s.Config = `
 		resource "baremetal_core_drg" "t" {
-			compartment_id = "compartment_id"
+			compartment_id = "${var.compartment_id}"
 		}
 	`
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 
 	opts := &baremetal.CreateOptions{}
 	s.Client.On(

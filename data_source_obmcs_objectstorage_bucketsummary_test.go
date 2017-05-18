@@ -11,14 +11,15 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
-	"github.com/oracle/terraform-provider-baremetal/client/mocks"
+
+
 
 	"github.com/stretchr/testify/suite"
 )
 
 type ObjectstorageBucketSummaryTestSuite struct {
 	suite.Suite
-	Client       *mocks.BareMetalClient
+	Client       mockableClient
 	Config       string
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
@@ -27,7 +28,7 @@ type ObjectstorageBucketSummaryTestSuite struct {
 }
 
 func (s *ObjectstorageBucketSummaryTestSuite) SetupTest() {
-	s.Client = &mocks.BareMetalClient{}
+	s.Client = GetTestProvider()
 	s.Provider = Provider(func(d *schema.ResourceData) (interface{}, error) {
 		return s.Client, nil
 	})
@@ -37,13 +38,13 @@ func (s *ObjectstorageBucketSummaryTestSuite) SetupTest() {
 	}
 	s.Config = `
     data "baremetal_objectstorage_bucket_summaries" "t" {
-      compartment_id = "compartmentid"
+      compartment_id = "${var.compartment_id}"
       namespace = "namespace"
       limit = 2
       page = "page"
     }
   `
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 	s.ResourceName = "data.baremetal_objectstorage_bucket_summaries.t"
 	s.TimeCreated = time.Now()
 }
@@ -110,7 +111,7 @@ func (s *ObjectstorageBucketSummaryTestSuite) TestReadBucketSummaries() {
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartmentid"),
+
 					resource.TestCheckResourceAttr(s.ResourceName, "namespace", "namespace"),
 					resource.TestCheckResourceAttr(s.ResourceName, "limit", "2"),
 					resource.TestCheckResourceAttr(s.ResourceName, "bucket_summaries.0.name", "name0"),

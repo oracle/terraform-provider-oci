@@ -11,14 +11,15 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
-	"github.com/oracle/terraform-provider-baremetal/client/mocks"
+
+
 
 	"github.com/stretchr/testify/suite"
 )
 
 type ResourceCoreDHCPOptionsDatasourceTestSuite struct {
 	suite.Suite
-	Client       *mocks.BareMetalClient
+	Client       mockableClient
 	Config       string
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
@@ -27,7 +28,7 @@ type ResourceCoreDHCPOptionsDatasourceTestSuite struct {
 }
 
 func (s *ResourceCoreDHCPOptionsDatasourceTestSuite) SetupTest() {
-	s.Client = &mocks.BareMetalClient{}
+	s.Client = GetTestProvider()
 	s.Provider = Provider(func(d *schema.ResourceData) (interface{}, error) {
 		return s.Client, nil
 	})
@@ -37,13 +38,13 @@ func (s *ResourceCoreDHCPOptionsDatasourceTestSuite) SetupTest() {
 	}
 	s.Config = `
     data "baremetal_core_dhcp_options" "t" {
-      compartment_id = "compartment_id"
+      compartment_id = "${var.compartment_id}"
       limit = 1
       page = "page"
       vcn_id = "vcn_id"
     }
   `
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 	s.ResourceName = "data.baremetal_core_dhcp_options.t"
 
 	b1 := baremetal.DHCPOptions{
@@ -85,7 +86,7 @@ func (s *ResourceCoreDHCPOptionsDatasourceTestSuite) TestReadDHCPOptions() {
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartment_id"),
+
 					resource.TestCheckResourceAttr(s.ResourceName, "limit", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "page", "page"),
 					resource.TestCheckResourceAttr(s.ResourceName, "options.0.id", "id1"),

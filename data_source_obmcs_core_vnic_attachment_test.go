@@ -11,7 +11,8 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
-	"github.com/oracle/terraform-provider-baremetal/client/mocks"
+
+
 	"github.com/oracle/terraform-provider-baremetal/crud"
 
 	"github.com/stretchr/testify/suite"
@@ -19,7 +20,7 @@ import (
 
 type ResourceCoreVnicAttachmentsTestSuite struct {
 	suite.Suite
-	Client       *mocks.BareMetalClient
+	Client       mockableClient
 	Config       string
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
@@ -27,7 +28,7 @@ type ResourceCoreVnicAttachmentsTestSuite struct {
 }
 
 func (s *ResourceCoreVnicAttachmentsTestSuite) SetupTest() {
-	s.Client = &mocks.BareMetalClient{}
+	s.Client = GetTestProvider()
 	s.Provider = Provider(func(d *schema.ResourceData) (interface{}, error) {
 		return s.Client, nil
 	})
@@ -37,13 +38,13 @@ func (s *ResourceCoreVnicAttachmentsTestSuite) SetupTest() {
 	}
 	s.Config = `
     data "baremetal_core_vnic_attachments" "s" {
-      compartment_id = "compartmentid"
+      compartment_id = "${var.compartment_id}"
       availability_domain = "availabilityid"
       vnic_id = "vnicid"
       instance_id = "instanceid"
     }
   `
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 	s.ResourceName = "data.baremetal_core_vnic_attachments.s"
 
 }
@@ -97,7 +98,7 @@ func (s *ResourceCoreVnicAttachmentsTestSuite) TestResourceReadCoreVnicAttachmen
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartmentid"),
+
 					resource.TestCheckResourceAttr(s.ResourceName, "availability_domain", "availabilityid"),
 					resource.TestCheckResourceAttr(s.ResourceName, "vnic_id", "vnicid"),
 					resource.TestCheckResourceAttr(s.ResourceName, "instance_id", "instanceid"),
@@ -203,7 +204,7 @@ func (s *ResourceCoreVnicAttachmentsTestSuite) TestResourceReadCoreVnicAttachmen
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartmentid"),
+
 					resource.TestCheckResourceAttr(s.ResourceName, "availability_domain", "availabilityid"),
 					resource.TestCheckResourceAttr(s.ResourceName, "vnic_id", "vnicid"),
 					resource.TestCheckResourceAttr(s.ResourceName, "instance_id", "instanceid"),

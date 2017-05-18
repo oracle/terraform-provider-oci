@@ -12,12 +12,13 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/oracle/terraform-provider-baremetal/client/mocks"
+
+
 )
 
 type ResourceLoadBalancerTestSuite struct {
 	suite.Suite
-	Client       *mocks.BareMetalClient
+	Client       mockableClient
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	TimeCreated  baremetal.Time
@@ -28,7 +29,7 @@ type ResourceLoadBalancerTestSuite struct {
 }
 
 func (s *ResourceLoadBalancerTestSuite) SetupTest() {
-	s.Client = &mocks.BareMetalClient{}
+	s.Client = GetTestProvider()
 
 	s.Provider = Provider(
 		func(d *schema.ResourceData) (interface{}, error) {
@@ -53,7 +54,7 @@ resource "baremetal_load_balancer" "t" {
   display_name   = "stub_display_name"
 }
 `
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 
 	loadBalancerID := "ocid1.loadbalancer.stub_id"
 	s.Res = &baremetal.LoadBalancer{
@@ -133,7 +134,7 @@ resource "baremetal_load_balancer" "t" {
   subnet_ids     = ["ocid1.subnet.stub_id"]
 }
 `
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 
 	loadBalancerID := "ocid1.loadbalancer.stub_id"
 	res := &baremetal.LoadBalancer{

@@ -11,12 +11,13 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/oracle/terraform-provider-baremetal/client/mocks"
+
+
 )
 
 type ResourceIdentityAvailabilityDomainsTestSuite struct {
 	suite.Suite
-	Client       *mocks.BareMetalClient
+	Client       mockableClient
 	Config       string
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
@@ -25,7 +26,7 @@ type ResourceIdentityAvailabilityDomainsTestSuite struct {
 }
 
 func (s *ResourceIdentityAvailabilityDomainsTestSuite) SetupTest() {
-	s.Client = &mocks.BareMetalClient{}
+	s.Client = GetTestProvider()
 	s.Provider = Provider(func(d *schema.ResourceData) (interface{}, error) {
 		return s.Client, nil
 	})
@@ -35,10 +36,10 @@ func (s *ResourceIdentityAvailabilityDomainsTestSuite) SetupTest() {
 	}
 	s.Config = `
     data "baremetal_identity_availability_domains" "t" {
-      compartment_id = "compartmentID"
+      compartment_id = "${var.compartment_id}"
     }
   `
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 	s.ResourceName = "data.baremetal_identity_availability_domains.t"
 
 	a1 := baremetal.AvailabilityDomain{
@@ -54,7 +55,7 @@ func (s *ResourceIdentityAvailabilityDomainsTestSuite) SetupTest() {
 	}
 }
 
-func (s *ResourceIdentityAvailabilityDomainsTestSuite) TestReadAPIKeys() {
+func (s *ResourceIdentityAvailabilityDomainsTestSuite) TestReadAvailabilityDomains() {
 	s.Client.On("ListAvailabilityDomains", "compartmentID").Return(s.List, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
@@ -66,18 +67,17 @@ func (s *ResourceIdentityAvailabilityDomainsTestSuite) TestReadAPIKeys() {
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "CompartmentID"),
-					resource.TestCheckResourceAttr(s.ResourceName, "availability_domains.0.name", "AD1"),
-					resource.TestCheckResourceAttr(s.ResourceName, "availability_domains.1.name", "AD2"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domains.0.name"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domains.1.name"),
 				),
 			},
 		},
 	},
 	)
 
-	s.Client.AssertCalled(s.T(), "ListAPIKeys", "user_id")
+	s.Client.AssertCalled(s.T(), "ListAvailabilityDomains", "user_id")
 }
 
 func TestResourceIdentityAvailabilityDomainsTestSuite(t *testing.T) {
-	suite.Run(t, new(ResourceIdentityAPIKeysTestSuite))
+	suite.Run(t, new(ResourceIdentityAvailabilityDomainsTestSuite))
 }

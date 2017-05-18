@@ -11,14 +11,15 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
-	"github.com/oracle/terraform-provider-baremetal/client/mocks"
+
+
 
 	"github.com/stretchr/testify/suite"
 )
 
 type DatasourceCoreIPSecTestSuite struct {
 	suite.Suite
-	Client       *mocks.BareMetalClient
+	Client       mockableClient
 	Config       string
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
@@ -26,7 +27,7 @@ type DatasourceCoreIPSecTestSuite struct {
 }
 
 func (s *DatasourceCoreIPSecTestSuite) SetupTest() {
-	s.Client = &mocks.BareMetalClient{}
+	s.Client = GetTestProvider()
 	s.Provider = Provider(func(d *schema.ResourceData) (interface{}, error) {
 		return s.Client, nil
 	})
@@ -36,12 +37,12 @@ func (s *DatasourceCoreIPSecTestSuite) SetupTest() {
 	}
 	s.Config = `
     data "baremetal_core_ipsec_connections" "s" {
-      compartment_id = "compartmentid"
+      compartment_id = "${var.compartment_id}"
       cpe_id = "cpeid"
       drg_id = "drgid"
     }
   `
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 	s.ResourceName = "data.baremetal_core_ipsec_connections.s"
 
 }
@@ -102,7 +103,7 @@ func (s *DatasourceCoreIPSecTestSuite) TestResourceListIPConnections() {
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartmentid"),
+
 					resource.TestCheckResourceAttr(s.ResourceName, "drg_id", "drgid"),
 					resource.TestCheckResourceAttr(s.ResourceName, "cpe_id", "cpeid"),
 					resource.TestCheckResourceAttr(s.ResourceName, "connections.0.compartment_id", "compartmentid"),
@@ -221,7 +222,7 @@ func (s *DatasourceCoreIPSecTestSuite) TestResourceListPagedIPConnections() {
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartmentid"),
+
 					resource.TestCheckResourceAttr(s.ResourceName, "drg_id", "drgid"),
 					resource.TestCheckResourceAttr(s.ResourceName, "cpe_id", "cpeid"),
 					resource.TestCheckResourceAttr(s.ResourceName, "connections.0.compartment_id", "compartmentid"),

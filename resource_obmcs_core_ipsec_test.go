@@ -11,14 +11,15 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
-	"github.com/oracle/terraform-provider-baremetal/client/mocks"
+
+
 
 	"github.com/stretchr/testify/suite"
 )
 
 type ResourceCoreIPSecTestSuite struct {
 	suite.Suite
-	Client       *mocks.BareMetalClient
+	Client       mockableClient
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	TimeCreated  baremetal.Time
@@ -29,7 +30,7 @@ type ResourceCoreIPSecTestSuite struct {
 }
 
 func (s *ResourceCoreIPSecTestSuite) SetupTest() {
-	s.Client = &mocks.BareMetalClient{}
+	s.Client = GetTestProvider()
 
 	s.Provider = Provider(
 		func(d *schema.ResourceData) (interface{}, error) {
@@ -44,16 +45,25 @@ func (s *ResourceCoreIPSecTestSuite) SetupTest() {
 	s.TimeCreated = baremetal.Time{Time: time.Now()}
 
 	s.Config = `
-		resource "baremetal_core_ipsec" "t" {
-			compartment_id = "compartmentid"
-      cpe_id = "cpeid"
-      drg_id = "drgid"
+		resource "baremetal_core_drg" "t" {
+			compartment_id = "${var.compartment_id}"
 			display_name = "display_name"
-      static_routes = ["route1","route2"]
+		}
+		resource "baremetal_core_cpe" "t" {
+			compartment_id = "${var.compartment_id}"
+			display_name = "displayname"
+      			ip_address = "123.123.123.123"
+		}
+		resource "baremetal_core_ipsec" "t" {
+			compartment_id = "${var.compartment_id}"
+      			cpe_id = "${baremetal_core_cpe.t.id}"
+      			drg_id = "${baremetal_core_drg.t.id}"
+			display_name = "display_name"
+      			static_routes = ["route1","route2"]
 		}
 	`
 
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 
 	s.ResourceName = "baremetal_core_ipsec.t"
 	s.Res = &baremetal.IPSecConnection{
@@ -94,7 +104,7 @@ func (s *ResourceCoreIPSecTestSuite) TestCreateResourceCoreSubnet() {
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "drg_id", s.Res.DrgID),
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", s.Res.CompartmentID),
+
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", s.Res.DisplayName),
 					resource.TestCheckResourceAttr(s.ResourceName, "id", s.Res.ID),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", s.Res.State),
@@ -109,15 +119,25 @@ func (s *ResourceCoreIPSecTestSuite) TestCreateResourceCoreSubnetWithoutDisplayN
 	s.Client.On("GetIPSecConnection", "id").Return(s.Res, nil)
 
 	s.Config = `
+
+resource "baremetal_core_drg" "t" {
+	compartment_id = "${var.compartment_id}"
+	display_name = "display_name"
+}
+resource "baremetal_core_cpe" "t" {
+	compartment_id = "${var.compartment_id}"
+	display_name = "displayname"
+      ip_address = "123.123.123.123"
+}
   resource "baremetal_core_ipsec" "t" {
-    compartment_id = "compartmentid"
-    cpe_id = "cpeid"
-    drg_id = "drgid"
+    compartment_id = "${var.compartment_id}"
+    cpe_id = "${baremetal_core_cpe.t.id}"
+    drg_id = "${baremetal_core_drg.t.id}"
     static_routes = ["route1","route2"]
   }
 	`
 
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 
 	opts := &baremetal.CreateOptions{}
 	s.Res.DisplayName = ""
@@ -150,7 +170,7 @@ func (s ResourceCoreIPSecTestSuite) TestUpdateCompartmentIDForcesNewIPSec() {
 
 	config := `
 		resource "baremetal_core_ipsec" "t" {
-    compartment_id = "new_compartmentid"
+    compartment_id = "new_compartment_id"
     cpe_id = "cpeid"
     drg_id = "drgid"
     display_name = "display_name"
@@ -158,10 +178,10 @@ func (s ResourceCoreIPSecTestSuite) TestUpdateCompartmentIDForcesNewIPSec() {
 		}
 	`
 
-	config += testProviderConfig
+	config += testProviderConfig()
 
 	res := &baremetal.IPSecConnection{
-		CompartmentID: "new_compartmentid",
+		CompartmentID: "new_compartment_id",
 		DisplayName:   "display_name",
 		ID:            "new_id",
 		DrgID:         "drgid",
@@ -195,7 +215,7 @@ func (s ResourceCoreIPSecTestSuite) TestUpdateCompartmentIDForcesNewIPSec() {
 			{
 				Config: config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", res.CompartmentID),
+
 				),
 			},
 		},

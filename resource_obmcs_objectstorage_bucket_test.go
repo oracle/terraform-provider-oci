@@ -11,14 +11,15 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
-	"github.com/oracle/terraform-provider-baremetal/client/mocks"
+
+
 
 	"github.com/stretchr/testify/suite"
 )
 
 type ResourceObjectstorageBucketTestSuite struct {
 	suite.Suite
-	Client       *mocks.BareMetalClient
+	Client       mockableClient
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	TimeCreated  baremetal.Time
@@ -29,7 +30,7 @@ type ResourceObjectstorageBucketTestSuite struct {
 }
 
 func (s *ResourceObjectstorageBucketTestSuite) SetupTest() {
-	s.Client = &mocks.BareMetalClient{}
+	s.Client = GetTestProvider()
 
 	s.Provider = Provider(
 		func(d *schema.ResourceData) (interface{}, error) {
@@ -45,7 +46,7 @@ func (s *ResourceObjectstorageBucketTestSuite) SetupTest() {
 
 	s.Config = `
 		resource "baremetal_objectstorage_bucket" "t" {
-			compartment_id = "compartment_id"
+			compartment_id = "${var.compartment_id}"
 			name = "name"
 			namespace = "namespace"
 			metadata = {
@@ -54,7 +55,7 @@ func (s *ResourceObjectstorageBucketTestSuite) SetupTest() {
 		}
 	`
 
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 
 	s.ResourceName = "baremetal_objectstorage_bucket.t"
 	metadata := map[string]string{
@@ -96,7 +97,7 @@ func (s *ResourceObjectstorageBucketTestSuite) TestCreateResourceObjectstorageBu
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", s.Res.CompartmentID),
+
 					resource.TestCheckResourceAttr(s.ResourceName, "name", s.Res.Name),
 					resource.TestCheckResourceAttr(s.ResourceName, "namespace", string(s.Res.Namespace)),
 				),
@@ -110,7 +111,7 @@ func (s *ResourceObjectstorageBucketTestSuite) TestUpdateResourceObjectstorageBu
 
 	config := `
 		resource "baremetal_objectstorage_bucket" "t" {
-			compartment_id = "compartment_id"
+			compartment_id = "${var.compartment_id}"
 			name = "new_name"
 			namespace = "namespace"
 			metadata = {
@@ -118,7 +119,7 @@ func (s *ResourceObjectstorageBucketTestSuite) TestUpdateResourceObjectstorageBu
 			}
 		}
 	`
-	config += testProviderConfig
+	config += testProviderConfig()
 	metadata := map[string]string{
 		"foo": "bar",
 	}

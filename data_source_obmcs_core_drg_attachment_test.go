@@ -11,14 +11,15 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
-	"github.com/oracle/terraform-provider-baremetal/client/mocks"
+
+
 
 	"github.com/stretchr/testify/suite"
 )
 
 type CoreDrgAttachmentDatasourceTestSuite struct {
 	suite.Suite
-	Client       *mocks.BareMetalClient
+	Client       mockableClient
 	Config       string
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
@@ -26,7 +27,7 @@ type CoreDrgAttachmentDatasourceTestSuite struct {
 }
 
 func (s *CoreDrgAttachmentDatasourceTestSuite) SetupTest() {
-	s.Client = &mocks.BareMetalClient{}
+	s.Client = GetTestProvider()
 	s.Provider = Provider(func(d *schema.ResourceData) (interface{}, error) {
 		return s.Client, nil
 	})
@@ -36,14 +37,14 @@ func (s *CoreDrgAttachmentDatasourceTestSuite) SetupTest() {
 	}
 	s.Config = `
     data "baremetal_core_drg_attachments" "t" {
-      compartment_id = "compartment_id"
+      compartment_id = "${var.compartment_id}"
 			drg_id = "drg_id"
       limit = 1
       page = "page"
 			vcn_id = "vcn_id"
     }
   `
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 	s.ResourceName = "data.baremetal_core_drg_attachments.t"
 }
 
@@ -93,7 +94,7 @@ func (s *CoreDrgAttachmentDatasourceTestSuite) TestReadDrgAttachments() {
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartment_id"),
+
 					resource.TestCheckResourceAttr(s.ResourceName, "limit", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "page", "page"),
 					resource.TestCheckResourceAttr(s.ResourceName, "drg_attachments.0.compartment_id", "compartment_id"),
@@ -184,7 +185,7 @@ func (s *CoreDrgAttachmentDatasourceTestSuite) TestReadPagedDrgAttachments() {
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartment_id"),
+
 					resource.TestCheckResourceAttr(s.ResourceName, "limit", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "page", "page"),
 					resource.TestCheckResourceAttr(s.ResourceName, "drg_attachments.0.compartment_id", "compartment_id"),

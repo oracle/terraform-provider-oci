@@ -11,14 +11,15 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
-	"github.com/oracle/terraform-provider-baremetal/client/mocks"
+
+
 
 	"github.com/stretchr/testify/suite"
 )
 
 type ResourceCoreDrgAttachmentTestSuite struct {
 	suite.Suite
-	Client       *mocks.BareMetalClient
+	Client       mockableClient
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	TimeCreated  baremetal.Time
@@ -29,7 +30,7 @@ type ResourceCoreDrgAttachmentTestSuite struct {
 }
 
 func (s *ResourceCoreDrgAttachmentTestSuite) SetupTest() {
-	s.Client = &mocks.BareMetalClient{}
+	s.Client = GetTestProvider()
 
 	s.Provider = Provider(
 		func(d *schema.ResourceData) (interface{}, error) {
@@ -44,14 +45,23 @@ func (s *ResourceCoreDrgAttachmentTestSuite) SetupTest() {
 	s.TimeCreated = baremetal.Time{Time: time.Now()}
 
 	s.Config = `
-		resource "baremetal_core_drg_attachment" "t" {
-			compartment_id = "compartment_id"
+		resource "baremetal_core_virtual_network" "t" {
+			cidr_block = "10.0.0.0/16"
+			compartment_id = "${var.compartment_id}"
+			display_name = "network_name"
+		}
+		resource "baremetal_core_drg" "t" {
+			compartment_id = "${var.compartment_id}"
 			display_name = "display_name"
-			drg_id = "drg_id"
-			vcn_id = "vcn_id"
+		}
+		resource "baremetal_core_drg_attachment" "t" {
+			compartment_id = "${var.compartment_id}"
+			display_name = "display_name"
+			drg_id = "${baremetal_core_drg.t.id}"
+			vcn_id = "${baremetal_core_virtual_network.t.id}"
 		}
 	`
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 
 	s.ResourceName = "baremetal_core_drg_attachment.t"
 	s.Res = &baremetal.DrgAttachment{
@@ -100,7 +110,7 @@ func (s *ResourceCoreDrgAttachmentTestSuite) TestCreateResourceCoreDrgAttachment
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", s.Res.CompartmentID),
+
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", s.Res.DisplayName),
 					resource.TestCheckResourceAttr(s.ResourceName, "drg_id", s.Res.DrgID),
 					resource.TestCheckResourceAttr(s.ResourceName, "id", s.Res.ID),
