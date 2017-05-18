@@ -12,13 +12,13 @@ clean:
 fmt:
 	gofmt -w $(GOFMT_FILES)
 
-test:
-	TF_ORACLE_ENV=test go test -v
+test_acceptance_debug:
+	TF_LOG=DEBUG DEBUG=true TF_ORACLE_ENV=test TF_ACC=1 go test -v
 
 test_acceptance:
 	TF_ORACLE_ENV=test TF_ACC=1 go test -v
 
-build: test
+build:
 	go build -o terraform-provider-baremetal
 
 cross: test_acceptance

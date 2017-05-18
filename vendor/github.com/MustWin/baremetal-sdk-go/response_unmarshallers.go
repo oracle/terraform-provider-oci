@@ -93,10 +93,6 @@ type MetadataUnmarshaller struct {
 func (mr *MetadataUnmarshaller) GetMetadata() map[string]string {
 	return mr.Metadata
 }
-
-func (mr *MetadataUnmarshaller) GetMetadata() map[string]string {
-	return mr.Metadata
-}
 func (mr *MetadataUnmarshaller) SetMetadata(md map[string]string) {
 	mr.Metadata = md
 }
