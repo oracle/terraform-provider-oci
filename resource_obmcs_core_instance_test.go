@@ -46,7 +46,7 @@ func (s *ResourceCoreInstanceTestSuite) SetupTest() {
 	s.Config = instanceConfig + `
 	data "baremetal_core_instances" "s" {
       		compartment_id = "${var.compartment_id}"
-      		availability_domain = availability_domain = "${data.baremetal_identity_availability_domains.ADs.availability_domains.0.name}"
+      		availability_domain = "${data.baremetal_identity_availability_domains.ADs.availability_domains.0.name}"
     	}`
 
 	s.Config += testProviderConfig()
@@ -69,8 +69,8 @@ func (s *ResourceCoreInstanceTestSuite) TestCreateResourceCoreInstance() {
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", baremetal.ResourceRunning),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
-					resource.TestCheckResourceAttr(s.ResourceName, "public_ip", "0.0.0.0"),
-					resource.TestCheckResourceAttr(s.ResourceName, "private_ip", "0.0.0.0"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "public_ip"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "private_ip"),
 					resource.TestCheckResourceAttrSet("data.baremetal_core_instances.s", "instances.#"),
 				),
 			},

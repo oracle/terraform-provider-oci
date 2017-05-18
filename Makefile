@@ -13,10 +13,10 @@ fmt:
 	gofmt -w $(GOFMT_FILES)
 
 test_acceptance_debug:
-	TF_LOG=DEBUG DEBUG=true TF_ORACLE_ENV=test TF_ACC=1 go test -v
+	TF_LOG=DEBUG DEBUG=true TF_ORACLE_ENV=test TF_ACC=1 go test -v -timeout 120m
 
 test_acceptance:
-	TF_ORACLE_ENV=test TF_ACC=1 go test -v
+	TF_ORACLE_ENV=test TF_ACC=1 go test -v -timeout 120m
 
 build:
 	go build -o terraform-provider-baremetal
