@@ -68,13 +68,9 @@ func (s *ResourceCoreDHCPOptionsDatasourceTestSuite) TestReadDHCPOptions() {
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-
-					resource.TestCheckResourceAttr(s.ResourceName, "limit", "1"),
-					resource.TestCheckResourceAttr(s.ResourceName, "page", "page"),
-					resource.TestCheckResourceAttr(s.ResourceName, "options.0.id", "id1"),
-					resource.TestCheckResourceAttr(s.ResourceName, "options.1.id", "id2"),
-					resource.TestCheckResourceAttr(s.ResourceName, "options.#", "2"),
-					resource.TestCheckResourceAttr(s.ResourceName, "vcn_id", "vcn_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "options.0.id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "options.#"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "vcn_id"),
 				),
 			},
 		},

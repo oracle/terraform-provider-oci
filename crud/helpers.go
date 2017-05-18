@@ -82,7 +82,6 @@ func handleMissingResourceError(sync ResourceVoider, err *error) {
 func LoadBalancerResourceID(res interface{}, workReq *baremetal.WorkRequest) (id *string, workReqSucceeded bool) {
 	v := reflect.ValueOf(res).Elem()
 	if v.IsValid() {
-		log.Printf("=========== Resource IS VALID")
 		// This is super fugly. It's this way because this API has no convention for ID formats.
 
 		// Load balancer
@@ -101,7 +100,7 @@ func LoadBalancerResourceID(res interface{}, workReq *baremetal.WorkRequest) (id
 		ip := v.FieldByName("ip_address")
 		port := v.FieldByName("port")
 		if ip.IsValid() && port.IsValid() {
-			s := ip.String() + ":" + strconv.Itoa(int(port.Int()))
+			s := ip.String() + ":" + strconv.Itoa(int(int(port.Int())))
 			return &s, false
 		}
 	}

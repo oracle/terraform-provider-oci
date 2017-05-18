@@ -27,7 +27,7 @@ func DBNodesDatasource() *schema.Resource {
 			},
 			"limit": {
 				Type:     schema.TypeInt,
-				Required: true,
+				Optional: true,
 			},
 			"page": {
 				Type:     schema.TypeString,

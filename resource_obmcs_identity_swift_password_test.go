@@ -65,8 +65,8 @@ func (s *ResourceIdentitySwiftPasswordTestSuite) TestCreateSwiftPassword() {
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "user_id", "user_id"),
-					resource.TestCheckResourceAttr(s.ResourceName, "password", "password"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "user_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "password"),
 				),
 			},
 		},
@@ -75,8 +75,12 @@ func (s *ResourceIdentitySwiftPasswordTestSuite) TestCreateSwiftPassword() {
 
 func (s ResourceIdentitySwiftPasswordTestSuite) TestUpdateDescriptionUpdatesSwiftPassword() {
 	config := `
+		resource "baremetal_identity_user" "t" {
+			name = "name1"
+			description = "desc!"
+		}
 		resource "baremetal_identity_swift_password" "t" {
-			user_id = "user_id"
+			user_id = "${baremetal_identity_user.t.id}"
 			description = "nah nah nah"
 		}
   `
@@ -90,7 +94,7 @@ func (s ResourceIdentitySwiftPasswordTestSuite) TestUpdateDescriptionUpdatesSwif
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "password", "password"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "password"),
 				),
 			},
 			{

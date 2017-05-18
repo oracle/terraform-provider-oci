@@ -35,16 +35,16 @@ func (s *ResourceCoreImageTestSuite) SetupTest() {
 	)
 	s.Providers = map[string]terraform.ResourceProvider{"baremetal": s.Provider}
 
-	s.ResourceName = "baremetal_core_image.t"
-	s.Config = `
+	s.Config = instanceConfig + `
 		resource "baremetal_core_image" "t" {
 			compartment_id = "${var.compartment_id}"
 			display_name = "display_name"
-			instance_id = "instance_id"
+			instance_id = "${baremetal_core_instance.t.id}"
 		}
 	`
 	s.Config += testProviderConfig()
 
+	s.ResourceName = "baremetal_core_image.t"
 }
 
 func (s *ResourceCoreImageTestSuite) TestCreateImage() {
@@ -63,31 +63,6 @@ func (s *ResourceCoreImageTestSuite) TestCreateImage() {
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", baremetal.ResourceAvailable),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
-				),
-			},
-		},
-	})
-}
-
-func (s *ResourceCoreImageTestSuite) TestCreateImageWithoutDisplayName() {
-
-	s.Config = `
-		resource "baremetal_core_image" "t" {
-			compartment_id = "${var.compartment_id}"
-			instance_id = "instance_id"
-		}
-	`
-	s.Config += testProviderConfig()
-
-	resource.UnitTest(s.T(), resource.TestCase{
-		Providers: s.Providers,
-		Steps: []resource.TestStep{
-			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config:            s.Config,
-				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "display_name", s.Res.DisplayName),
 				),
 			},
 		},

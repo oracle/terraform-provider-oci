@@ -63,7 +63,7 @@ func (s *ResourceCoreCpeTestSuite) TestCreateResourceCoreCpe() {
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "display_name"),
+					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "displayname"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
 					resource.TestCheckResourceAttr(s.ResourceName, "ip_address", "123.123.123.123"),

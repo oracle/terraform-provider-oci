@@ -85,11 +85,14 @@ func (s *ResourceCoreVolumeTestSuite) TestCreateResourceCoreVolume() {
 func (s ResourceCoreVolumeTestSuite) TestUpdateVolumeDisplayName() {
 
 	config := `
+		data "baremetal_identity_availability_domains" "ADs" {
+  			compartment_id = "${var.compartment_id}"
+		}
 		resource "baremetal_core_volume" "t" {
-			availability_domain = "availability_domain"
+			availability_domain = "${data.baremetal_identity_availability_domains.ADs.availability_domains.0.name}"
 			compartment_id = "${var.compartment_id}"
 			display_name = "new_display_name"
-			size_in_mbs = 123
+			size_in_mbs = 262144
 		}
 	`
 	config += testProviderConfig()
@@ -115,10 +118,13 @@ func (s ResourceCoreVolumeTestSuite) TestUpdateVolumeDisplayName() {
 func (s ResourceCoreVolumeTestSuite) TestUpdateAvailabilityDomainForcesNewVolume() {
 
 	config := `
+		data "baremetal_identity_availability_domains" "ADs" {
+  			compartment_id = "${var.compartment_id}"
+		}
 		resource "baremetal_core_volume" "t" {
-			availability_domain = "new_availability_domain"
+			availability_domain = "${data.baremetal_identity_availability_domains.ADs.availability_domains.1.name}"
 			compartment_id = "${var.compartment_id}"
-			size_in_mbs = 123
+			size_in_mbs = 262144
 		}
   `
 	config += testProviderConfig()
@@ -136,33 +142,6 @@ func (s ResourceCoreVolumeTestSuite) TestUpdateAvailabilityDomainForcesNewVolume
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),
 				),
-			},
-		},
-	})
-}
-
-func (s ResourceCoreVolumeTestSuite) TestUpdateCompartmentIdForcesNewVolume() {
-
-	config := `
-		resource "baremetal_core_volume" "t" {
-			availability_domain = "availability_domain"
-			compartment_id = "new_compartment_id"
-			size_in_mbs = 123
-		}
-  `
-	config += testProviderConfig()
-
-	resource.UnitTest(s.T(), resource.TestCase{
-		Providers: s.Providers,
-		Steps: []resource.TestStep{
-			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config:            s.Config,
-			},
-			{
-				Config: config,
-				Check:  resource.ComposeTestCheckFunc(),
 			},
 		},
 	})

@@ -31,10 +31,10 @@ func (s *ResourceCoreDrgsTestSuite) SetupTest() {
 		"baremetal": s.Provider,
 	}
 	s.Config = `
-    data "baremetal_core_drgs" "t" {
-      compartment_id = "${var.compartment_id}"
-      limit = 1
-    }
+	resource "baremetal_core_drg" "t" {
+		compartment_id = "${var.compartment_id}"
+		display_name = "display_name"
+	}
   `
 	s.Config += testProviderConfig()
 	s.ResourceName = "data.baremetal_core_drgs.t"
@@ -50,6 +50,13 @@ func (s *ResourceCoreDrgsTestSuite) TestReadDrgs() {
 				ImportState:       true,
 				ImportStateVerify: true,
 				Config:            s.Config,
+			},
+			{
+				Config: s.Config + `
+				data "baremetal_core_drgs" "t" {
+					compartment_id = "${var.compartment_id}"
+					limit = 1
+				}`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "drgs.0.id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "drgs.#"),

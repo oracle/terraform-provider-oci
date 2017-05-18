@@ -69,9 +69,8 @@ func (s *ResourceIdentityCompartmentsTestSuite) TestReadCompartments() {
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "compartments.0.id", "id"),
-					resource.TestCheckResourceAttr(s.ResourceName, "compartments.1.id", "id2"),
-					resource.TestCheckResourceAttr(s.ResourceName, "compartments.#", "2"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "compartments.0.id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "compartments.#"),
 				),
 			},
 		},

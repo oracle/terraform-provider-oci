@@ -57,7 +57,7 @@ func (s *DatabaseDatabasesTestSuite) TestReadDatabases() {
 				      db_home_id = "${data.baremetal_database_db_homes.t.id}"
 				}
 				data "baremetal_database_database" "t" {
-				      database_id = "${data.baremetal_database_databases.databases.0.id}"
+				      database_id = "${data.baremetal_database_databases.t.databases.0.id}"
 				}
 			        data "baremetal_database_db_nodes" "t" {
 				      compartment_id = "${var.compartment_id}"

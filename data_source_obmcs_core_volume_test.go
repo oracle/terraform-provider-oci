@@ -61,7 +61,7 @@ func (s *ResourceCoreVolumesTestSuite) TestReadVolumes() {
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "availability_domain", "availability_domain"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "volumes.0.availability_domain"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "volumes.0.id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "volumes.#"),
@@ -84,14 +84,9 @@ func (s *ResourceCoreVolumesTestSuite) TestReadVolumesWithPagination() {
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "availability_domain", "availability_domain"),
-
-					resource.TestCheckResourceAttr(s.ResourceName, "limit", "1"),
-					resource.TestCheckResourceAttr(s.ResourceName, "page", "page"),
-					resource.TestCheckResourceAttr(s.ResourceName, "volumes.0.availability_domain", "availability_domain"),
-					resource.TestCheckResourceAttr(s.ResourceName, "volumes.0.id", "id1"),
-					resource.TestCheckResourceAttr(s.ResourceName, "volumes.3.id", "id4"),
-					resource.TestCheckResourceAttr(s.ResourceName, "volumes.#", "4"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "volumes.0.availability_domain"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "volumes.0.id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "volumes.#"),
 				),
 			},
 		},

@@ -33,11 +33,14 @@ func (s *ObjectstorageBucketSummaryTestSuite) SetupTest() {
 		"baremetal": s.Provider,
 	}
 	s.Config = `
-    data "baremetal_objectstorage_bucket_summaries" "t" {
-      compartment_id = "${var.compartment_id}"
-      namespace = "namespace"
-      limit = 2
-    }
+	resource "baremetal_objectstorage_bucket" "t" {
+		compartment_id = "${var.compartment_id}"
+		name = "bucketID"
+		namespace = "${var.namespace}"
+		metadata = {
+			"foo" = "bar"
+		}
+	}
   `
 	s.Config += testProviderConfig()
 	s.ResourceName = "data.baremetal_objectstorage_bucket_summaries.t"
@@ -53,12 +56,17 @@ func (s *ObjectstorageBucketSummaryTestSuite) TestReadBucketSummaries() {
 				ImportState:       true,
 				ImportStateVerify: true,
 				Config:            s.Config,
+			},
+			{
+				Config: s.Config + `
+					data "baremetal_objectstorage_bucket_summaries" "t" {
+						compartment_id = "${var.compartment_id}"
+						namespace = "${var.namespace}"
+					}
+				`,
 				Check: resource.ComposeTestCheckFunc(
-
-					resource.TestCheckResourceAttr(s.ResourceName, "namespace", "namespace"),
-					resource.TestCheckResourceAttr(s.ResourceName, "bucket_summaries.0.name", "name0"),
-					resource.TestCheckResourceAttr(s.ResourceName, "bucket_summaries.1.name", "name2"),
-					resource.TestCheckResourceAttr(s.ResourceName, "bucket_summaries.#", "3"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "bucket_summaries.0.name"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "bucket_summaries.#"),
 				),
 			},
 		},

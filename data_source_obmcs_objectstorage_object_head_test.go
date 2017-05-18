@@ -41,25 +41,34 @@ func (s *DatasourceObjectstorageObjectHeadTestSuite) SetupTest() {
 	s.TimeCreated = baremetal.Time{Time: time.Now()}
 
 	s.Config = `
+		resource "baremetal_objectstorage_bucket" "t" {
+			compartment_id = "${var.compartment_id}"
+			name = "bucketID"
+			namespace = "${var.namespace}"
+			metadata = {
+				"foo" = "bar"
+			}
+		}
+
+		resource "baremetal_objectstorage_object" "t" {
+			namespace = "${var.namespace}"
+			bucket = "${baremetal_objectstorage_bucket.t.name}"
+			object = "objectID"
+			content = "bodyContent"
+			metadata = {
+				"foo" = "bar"
+			}
+		}
 		data "baremetal_objectstorage_object_head" "t" {
-			namespace = "namespaceID"
-			bucket = "bucketID"
-			object = "object"
+			namespace = "${var.namespace}"
+			bucket = "${baremetal_objectstorage_bucket.t.name}"
+			object = "${baremetal_objectstorage_object.t.object}"
 		}
 	`
 
 	s.Config += testProviderConfig()
 
 	s.ResourceName = "data.baremetal_objectstorage_object_head.t"
-	s.Res = &baremetal.HeadObject{
-		Namespace: baremetal.Namespace("namespaceID"),
-		Bucket:    "bucketID",
-		ID:        "object",
-	}
-	metadata := map[string]string{"foo": "bar"}
-	s.Res.Metadata = metadata
-	s.Res.ContentLength = 123
-	s.Res.ContentType = "type"
 }
 
 func (s *DatasourceObjectstorageObjectHeadTestSuite) TestObjectstorageHeadObject() {
@@ -71,12 +80,9 @@ func (s *DatasourceObjectstorageObjectHeadTestSuite) TestObjectstorageHeadObject
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "object", s.Res.ID),
-					resource.TestCheckResourceAttr(s.ResourceName, "bucket", s.Res.Bucket),
-					resource.TestCheckResourceAttr(s.ResourceName, "namespace", string(s.Res.Namespace)),
+					resource.TestCheckResourceAttr(s.ResourceName, "bucket", "bucketID"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "namespace"),
 					resource.TestCheckResourceAttr(s.ResourceName, "metadata.foo", "bar"),
-					//resource.TestCheckResourceAttr(s.ResourceName, "content-length", s.Res.ContentLength),
-					resource.TestCheckResourceAttr(s.ResourceName, "content-type", s.Res.ContentType),
 				),
 			},
 		},

@@ -65,13 +65,12 @@ func (s *ResourceCoreVirtualNetworkTestSuite) TestCreateResourceCoreVirtualNetwo
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "cidr_block", s.Res.CidrBlock),
-
+					resource.TestCheckResourceAttr(s.ResourceName, "cidr_block", "10.0.0.0/16"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "default_route_table_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "default_security_list_id"),
-					resource.TestCheckResourceAttr(s.ResourceName, "display_name", s.Res.DisplayName),
+					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "display_name"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
-					resource.TestCheckResourceAttr(s.ResourceName, "state", s.Res.State),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", baremetal.ResourceAvailable),
 				),
 			},
 		},
@@ -95,34 +94,6 @@ func (s *ResourceCoreVirtualNetworkTestSuite) TestDeleteResourceCoreVirtualNetwo
 				Config: testProviderConfig(),
 				Check: resource.ComposeTestCheckFunc(
 					testNoInstanceState("baremetal_core_virtual_network"),
-				),
-			},
-		},
-	})
-}
-
-func (s *ResourceCoreVirtualNetworkTestSuite) TestCreateResourceCoreVirtualNetworkWithoutDisplayName() {
-	if IsAccTest() {
-		s.T().Skip()
-	}
-
-	s.Config = `
-		resource "baremetal_core_virtual_network" "t" {
-			cidr_block = "10.0.0.0/16"
-			compartment_id = "${var.compartment_id}"
-		}
-	`
-	s.Config += testProviderConfig()
-
-	resource.UnitTest(s.T(), resource.TestCase{
-		Providers: s.Providers,
-		Steps: []resource.TestStep{
-			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config:            s.Config,
-				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "display_name"),
 				),
 			},
 		},

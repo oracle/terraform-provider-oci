@@ -54,7 +54,6 @@ func (c *Client) ListDBHomes(compartmentID, dbSystemID string,opts *ListOptions)
 	required := struct {
 		listOCIDRequirement
 		DBSystemID string `header:"-" json:"-" url:"dbSystemId"`
-		Limit      uint64 `header:"-" json:"-" url:"limit"`
 	}{
 		DBSystemID: dbSystemID,
 	}

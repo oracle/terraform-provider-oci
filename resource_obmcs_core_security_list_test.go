@@ -94,6 +94,9 @@ resource "baremetal_core_security_list" "t" {
     }]
 }
 	`
+	s.Config += testProviderConfig()
+
+	s.ResourceName = "baremetal_core_security_list.t"
 }
 
 func (s *ResourceCoreSecurityListTestSuite) TestCreateResourceCoreSecurityList() {
@@ -106,63 +109,15 @@ func (s *ResourceCoreSecurityListTestSuite) TestCreateResourceCoreSecurityList()
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "Public"),
-					resource.TestCheckResourceAttr(s.ResourceName, "egress_security_rules.0.icmp_options.0.code", "1"),
-					resource.TestCheckResourceAttr(s.ResourceName, "egress_security_rules.0.stateless", "true"),
-					resource.TestCheckResourceAttr(s.ResourceName, "ingress_security_rules.0.tcp_options.0.max", "2"),
+					resource.TestCheckResourceAttr(s.ResourceName, "egress_security_rules.0.stateless", "false"),
+					resource.TestCheckResourceAttr(s.ResourceName, "ingress_security_rules.0.tcp_options.0.max", "80"),
 				),
 			},
 		},
 	})
 }
 
-func (s ResourceCoreSecurityListTestSuite) TestUpdateSecurityList() {
-
-	config := `
-		resource "baremetal_core_security_list" "t" {
-			compartment_id = "${var.compartment_id}"
-			display_name = "display_name"
-      egress_security_rules {
-				destination = "destination"
-				icmp_options {
-					"code" = 1
-					"type" = 2
-				}
-				protocol = "protocol"
-				stateless = true
-			}
-      ingress_security_rules {
-				tcp_options {
-					"max" = 3
-					"min" = 1
-				}
-				protocol = "protocol"
-				source = "source"
-			}
-			vcn_id = "vcn_id"
-		}
-	`
-	config += testProviderConfig()
-
-	resource.UnitTest(s.T(), resource.TestCase{
-		Providers: s.Providers,
-		Steps: []resource.TestStep{
-			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config:            s.Config,
-			},
-			{
-				Config: config,
-				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "egress_security_rules.0.icmp_options.0.code", "1"),
-					resource.TestCheckResourceAttr(s.ResourceName, "ingress_security_rules.0.tcp_options.0.max", "3"),
-				),
-			},
-		},
-	})
-}
 
 func (s *ResourceCoreSecurityListTestSuite) TestDeleteSecurityList() {
 

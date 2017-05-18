@@ -35,7 +35,6 @@ func (s *ResourceCoreVnicAttachmentsTestSuite) SetupTest() {
     data "baremetal_core_vnic_attachments" "s" {
       compartment_id = "${var.compartment_id}"
       availability_domain = "${data.baremetal_identity_availability_domains.ADs.availability_domains.0.name}"
-      vnic_id = "${baremetal_core_virtual_network.t.id}"
       instance_id = "${baremetal_core_instance.t.id}"
     }
   `
@@ -54,10 +53,7 @@ func (s *ResourceCoreVnicAttachmentsTestSuite) TestResourceReadCoreVnicAttachmen
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-
-					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "vnic_id"),
-					resource.TestCheckResourceAttr(s.ResourceName, "vnic_attachments.#", "0"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "vnic_attachments.#"),
 				),
 			},
 		},
