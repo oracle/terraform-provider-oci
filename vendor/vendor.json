@@ -327,10 +327,10 @@
 			"revisionTime": "2017-02-01T00:43:30Z"
 		},
 		{
-			"checksumSHA1": "CTd6B1wW8O9VmOitzoUAzn6GT2U=",
+			"checksumSHA1": "63iOaHAGKAR1w1u0XW+QjJ48NIw=",
 			"path": "github.com/MustWin/baremetal-sdk-go",
-			"revision": "7497c560fc36dd413d599078d5412f21a7ca16c8",
-			"revisionTime": "2017-04-28T02:51:29Z"
+			"revision": "2429be22703b6f6b994ee9eaa2ef5ca27f1eaa32",
+			"revisionTime": "2017-05-16T00:52:04Z"
 		},
 		{
 			"checksumSHA1": "Aqy8/FoAIidY/DeQ5oTYSZ4YFVc=",
@@ -1459,6 +1459,7 @@
 			"revisionTime": "2017-04-10T11:07:28Z"
 		},
 		{
+			"checksumSHA1": "rmsBHtFpV3osid71XnTZBo/b3bU=",
 			"path": "github.com/emicklei/go-restful/log",
 			"revision": "ff4f55a206334ef123e4f79bbf348980da81ca46"
 		},

@@ -10,21 +10,22 @@ import "net/http"
 type Subnet struct {
 	OPCRequestIDUnmarshaller
 	ETagUnmarshaller
-	AvailabilityDomain string   `json:"availabilityDomain"`
-	CIDRBlock          string   `json:"cidrBlock"`
-	CompartmentID      string   `json:"compartmentId"`
-	DisplayName        string   `json:"displayName"`
-	DHCPOptionsID      string   `json:"dhcpOptionsId"`
-	DNSLabel           string   `json:"dnsLabel"`
-	ID                 string   `json:"id"`
-	RouteTableID       string   `json:"routeTableId"`
-	SecurityListIDs    []string `json:"securityListIds"`
-	State              string   `json:"lifecycleState"`
-	SubnetDomainName   string   `json:"subnetDomainName"`
-	TimeCreated        Time     `json:"timeCreated"`
-	VcnID              string   `json:"vcnId"`
-	VirtualRouterIP    string   `json:"virtualRouterIp"`
-	VirtualRouterMac   string   `json:"virtualRouterMac"`
+	AvailabilityDomain     string   `json:"availabilityDomain"`
+	CIDRBlock              string   `json:"cidrBlock"`
+	CompartmentID          string   `json:"compartmentId"`
+	DisplayName            string   `json:"displayName"`
+	DHCPOptionsID          string   `json:"dhcpOptionsId"`
+	DNSLabel               string   `json:"dnsLabel"`
+	ID                     string   `json:"id"`
+	RouteTableID           string   `json:"routeTableId"`
+	SecurityListIDs        []string `json:"securityListIds"`
+	State                  string   `json:"lifecycleState"`
+	SubnetDomainName       string   `json:"subnetDomainName"`
+	TimeCreated            Time     `json:"timeCreated"`
+	VcnID                  string   `json:"vcnId"`
+	ProhibitPublicIpOnVnic bool     `json:"prohibitPublicIpOnVnic"`
+	VirtualRouterIP        string   `json:"virtualRouterIp"`
+	VirtualRouterMac       string   `json:"virtualRouterMac"`
 }
 
 // ListSubnets contains a list of Subnet

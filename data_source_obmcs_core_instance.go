@@ -7,10 +7,10 @@ import (
 
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
-	"github.com/oracle/terraform-provider-baremetal/options"
 
 	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/crud"
+	"github.com/oracle/terraform-provider-baremetal/options"
 )
 
 func InstanceDatasource() *schema.Resource {
@@ -62,6 +62,10 @@ func resourceCoreInstance() *schema.Resource {
 				Computed: true,
 			},
 			"image": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"ipxe_script": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -144,6 +148,7 @@ func (s *InstanceDatasourceCrud) SetData() {
 				"display_name":        v.DisplayName,
 				"id":                  v.ID,
 				"image":               v.ImageID,
+				"ipxe_script":         v.IpxeScript,
 				"metadata":            v.Metadata,
 				"region":              v.Region,
 				"shape":               v.Shape,

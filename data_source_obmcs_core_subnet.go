@@ -7,10 +7,10 @@ import (
 
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
-	"github.com/oracle/terraform-provider-baremetal/options"
 
 	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/crud"
+	"github.com/oracle/terraform-provider-baremetal/options"
 )
 
 func SubnetDatasource() *schema.Resource {
@@ -78,6 +78,10 @@ func resourceCoreSubnets() *schema.Resource {
 			},
 			"id": {
 				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"prohibit_public_ip_on_vnic": {
+				Type:     schema.TypeBool,
 				Computed: true,
 			},
 			"state": {
@@ -149,15 +153,16 @@ func (s *SubnetDatasourceCrud) SetData() {
 				"availability_domain": v.AvailabilityDomain,
 				"cidr_block":          v.CIDRBlock,
 				"compartment_id":      v.CompartmentID,
-				"route_table_id":      v.RouteTableID,
-				"vcn_id":              v.VcnID,
-				"security_list_ids":   v.SecurityListIDs,
 				"display_name":        v.DisplayName,
 				"id":                  v.ID,
-				"state":               v.State,
-				"time_created":        v.TimeCreated.String(),
-				"virtual_router_ip":   v.VirtualRouterIP,
-				"virtual_router_mac":  v.VirtualRouterMac,
+				"prohibit_public_ip_on_vnic": v.ProhibitPublicIpOnVnic,
+				"route_table_id":             v.RouteTableID,
+				"security_list_ids":          v.SecurityListIDs,
+				"state":                      v.State,
+				"time_created":               v.TimeCreated.String(),
+				"vcn_id":                     v.VcnID,
+				"virtual_router_ip":          v.VirtualRouterIP,
+				"virtual_router_mac":         v.VirtualRouterMac,
 			}
 			resources = append(resources, res)
 		}

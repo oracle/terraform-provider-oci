@@ -60,19 +60,22 @@ const (
 	SDKVersion  = "20160918"
 	SDKVersion2 = "20170115"
 
-	identityServiceAPI        = "https://identity.us-phoenix-1.oraclecloud.com"
+	us_ashburn_1 string = "us-ashburn-1"
+	us_phoenix_1 string = "us-phoenix-1"
+
+	identityServiceAPI        = "https://identity.%s.oraclecloud.com"
 	identityServiceAPIVersion = SDKVersion
 
-	coreServiceAPI        = "https://iaas.us-phoenix-1.oraclecloud.com"
+	coreServiceAPI        = "https://iaas.%s.oraclecloud.com"
 	coreServiceAPIVersion = SDKVersion
 
-	databaseServiceAPI        = "https://database.us-phoenix-1.oraclecloud.com"
+	databaseServiceAPI        = "https://database.%s.oraclecloud.com"
 	databaseServiceAPIVersion = SDKVersion
 
-	objectStorageServiceAPI        = "https://objectstorage.us-phoenix-1.oraclecloud.com"
+	objectStorageServiceAPI        = "https://objectstorage.%s.oraclecloud.com"
 	objectStorageServiceAPIVersion = SDKVersion
 
-	loadBalancerServiceAPI        = "https://iaas.us-phoenix-1.oraclecloud.com"
+	loadBalancerServiceAPI        = "https://iaas.%s.oraclecloud.com"
 	loadBalancerServiceAPIVersion = SDKVersion2
 
 	// Header Keys

@@ -20,6 +20,7 @@ type Instance struct {
 	Shape              string            `json:"shape"`
 	State              string            `json:"lifecycleState"`
 	TimeCreated        Time              `json:"timeCreated"`
+	IpxeScript         string            `json:"ipxeScript"`
 }
 
 // InstanceCredentials contains first run windows instance credentials
@@ -190,7 +191,7 @@ func (c *Client) InstanceAction(id string, action InstanceActions, opts *HeaderO
 // Returns the initial credentials for a Windows instance.
 //
 // See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/InstanceCredentials/
-func (c *Client) GetWindowsInstanceInitialCredentials (instanceId string) (creds *InstanceCredentials, e error) {
+func (c *Client) GetWindowsInstanceInitialCredentials(instanceId string) (creds *InstanceCredentials, e error) {
 	details := &requestDetails{
 		name: resourceInstances,
 		ids:  urlParts{instanceId, "initialCredentials"},

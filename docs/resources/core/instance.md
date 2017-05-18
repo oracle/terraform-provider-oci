@@ -48,3 +48,6 @@ The following attributes are exported:
 * `region` - The region that contains the Availability Domain the instance is running in.
 * `shape` - The shape of the instance. The shape determines the number of CPUs and the amount of memory allocated to the instance.
 * `time_created` - The date and time the instance was created.
+
+* `public_ip` - The public ip of instance vnic (if enabled).
+* `private_ip` - The private ip of instance vnic (if enabled).

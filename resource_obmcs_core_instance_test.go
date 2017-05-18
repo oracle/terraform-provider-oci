@@ -3,6 +3,7 @@
 package main
 
 import (
+	"strings"
 	"testing"
 	"time"
 
@@ -10,14 +11,9 @@ import (
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
-
-
-
-
 	"github.com/stretchr/testify/suite"
 
 	"github.com/oracle/terraform-provider-baremetal/crud"
-	"strings"
 )
 
 type ResourceCoreInstanceTestSuite struct {
@@ -85,6 +81,37 @@ func (s *ResourceCoreInstanceTestSuite) SetupTest() {
 		"subnetid",
 		opts).Return(s.Res, nil)
 	s.Client.On("TerminateInstance", s.Res.ID, (*baremetal.IfMatchOptions)(nil)).Return(nil)
+
+	listVnicOpts := &baremetal.ListVnicAttachmentsOptions{}
+	listVnicOpts.AvailabilityDomain = s.Res.AvailabilityDomain
+	listVnicOpts.InstanceID = s.Res.ID
+
+	listVnicOpts2 := &baremetal.ListVnicAttachmentsOptions{}
+	listVnicOpts2.AvailabilityDomain = "new_availability_domain"
+	listVnicOpts2.InstanceID = "new_id"
+
+	vnic := &baremetal.Vnic{}
+	vnic.PublicIPAddress = "0.0.0.0"
+	vnic.PrivateIPAddress = "0.0.0.0"
+	vnicAttachment := &baremetal.VnicAttachment{
+		ID:                 "id1",
+		AvailabilityDomain: "availabilityid",
+		CompartmentID:      "compartmentid",
+		DisplayName:        "att1",
+		InstanceID:         "instanceid",
+		State:              baremetal.ResourceAttached,
+		SubnetID:           "subnetid",
+		VnicID:             "vnicid",
+		TimeCreated:        time.Now(),
+	}
+	vnicList := &baremetal.ListVnicAttachments{
+		Attachments: []baremetal.VnicAttachment{
+			*vnicAttachment,
+		},
+	}
+	s.Client.On("ListVnicAttachments", s.Res.CompartmentID, listVnicOpts).Return(vnicList, nil)
+	s.Client.On("ListVnicAttachments", s.Res.CompartmentID, listVnicOpts2).Return(vnicList, nil)
+	s.Client.On("GetVnic", "vnicid").Return(vnic, nil)
 }
 
 func (s *ResourceCoreInstanceTestSuite) TestCreateResourceCoreInstance() {
@@ -104,6 +131,54 @@ func (s *ResourceCoreInstanceTestSuite) TestCreateResourceCoreInstance() {
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", s.Res.State),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
+					resource.TestCheckResourceAttr(s.ResourceName, "time_created", s.Res.TimeCreated.String()),
+					resource.TestCheckResourceAttr(s.ResourceName, "public_ip", "0.0.0.0"),
+					resource.TestCheckResourceAttr(s.ResourceName, "private_ip", "0.0.0.0"),
+				),
+			},
+		},
+	})
+}
+
+func (s *ResourceCoreInstanceTestSuite) TestCreateResourceCoreInstanceWithoutDisplayName() {
+	s.Client.On("GetInstance", "id").Return(s.Res, nil).Twice()
+	s.Client.On("GetInstance", "id").Return(s.DeletedRes, nil)
+
+	s.Config = `
+		resource "baremetal_core_instance" "t" {
+			availability_domain = "availability_domain"
+			compartment_id = "compartment_id"
+      image = "imageid"
+      shape = "shapeid"
+      subnet_id = "subnetid"
+      metadata {
+        ssh_authorized_keys = "mypublickey"
+      }
+		}
+	`
+	s.Config += testProviderConfig()
+
+	opts := &baremetal.LaunchInstanceOptions{}
+	opts.Metadata = s.Res.Metadata
+
+	s.Client.On(
+		"LaunchInstance",
+		s.Res.AvailabilityDomain,
+		s.Res.CompartmentID,
+		s.Res.ImageID,
+		s.Res.Shape,
+		"subnetid",
+		opts).Return(s.Res, nil)
+
+	resource.UnitTest(s.T(), resource.TestCase{
+		Providers: s.Providers,
+		Steps: []resource.TestStep{
+			{
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttr(s.ResourceName, "display_name", s.Res.DisplayName),
 				),
 			},
 		},

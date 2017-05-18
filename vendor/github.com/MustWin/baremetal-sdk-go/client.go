@@ -1,42 +1,9 @@
 // Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
 
 /*
-	Package baremetal provides access to the Oracle Bare Metal Cloud API's
-
-	Usage:
-
-	To use the Go BareMetal SDK instantiate a baremetal.Client, supplying
-	your tenancy OCID, user OCID, RSA public key fingerprint, and RSA private key.
-	Then call functions as the example below illustrates.  Note that error
-	handling has been omitted to add clarity.
-
-		import (
-		  "fmt"
-		  "crypto/rsa"
-		  "github.com/MustWin/baremetal-sdk-go"
-		)
-
-		func main() {
-		  privateKey, _ := baremetal.PrivateKeyFromFile("/path/to/key.pem", "keyPassword")
-
-		  client := baremetal.New(
-		    "ocid1.tenancy.oc1..aaaaaaaaq3hulfjvrouw3e6qx2ncxtp256aq7etiabqqtzunnhxjslzkfyxq",
-		    "ocid1.user.oc1..aaaaaaaaflxvsdpjs5ztahmsf7vjxy5kdqnuzyqpvwnncbkfhavexwd4w5ra",
-		    "b4:8a:7d:54:e6:81:04:b2:99:8e:b3:ed:10:e2:12:2b",
-		    privateKey,
-		  )
-
-		  availabilityDomains, _ := client.ListAvailablityDomains()
-
-		  for _, ad := range availabilityDomains {
-		    fmt.Println(ad.Name)
-		  }
-
-		}
-
-	For more details, see the API docs located here:
-	https://docs.us-phoenix-1.oraclecloud.com/Content/API/Concepts/usingapi.htm
+  Package baremetal provides access to the Oracle Bare Metal Cloud API's. See Readme for usage example.
 */
+
 package baremetal
 
 import (
@@ -64,6 +31,7 @@ type Client struct {
 type NewClientOptions struct {
 	Transport   http.RoundTripper
 	UserAgent   string
+	Region      string
 	keyPassword *string
 	keyPath     *string
 	keyBytes    []byte
@@ -109,6 +77,13 @@ func UserAgent(userAgent string) NewClientOptionsFunc {
 	}
 }
 
+// Region assigns a region override for API connections
+func Region(region string) NewClientOptionsFunc {
+	return func(o *NewClientOptions) {
+		o.Region = region
+	}
+}
+
 // NewClient creates and authenticates a BareMetal API client
 func NewClient(userOCID, tenancyOCID, keyFingerprint string, opts ...NewClientOptionsFunc) (*Client, error) {
 	var err error
@@ -119,6 +94,7 @@ func NewClient(userOCID, tenancyOCID, keyFingerprint string, opts ...NewClientOp
 	}
 	nco := &NewClientOptions{
 		Transport: &http.Transport{},
+		Region: us_phoenix_1,
 	}
 	for _, opt := range opts {
 		opt(nco)

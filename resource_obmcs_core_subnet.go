@@ -76,6 +76,10 @@ func SubnetResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"prohibit_public_ip_on_vnic": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -174,6 +178,11 @@ func (s *SubnetResourceCrud) Create() (e error) {
 	dnsLabel, ok := s.D.GetOk("dns_label")
 	if ok {
 		opts.DNSLabel = dnsLabel.(string)
+	}
+
+	prohibitPublicIpOnVnic, ok := s.D.GetOk("prohibit_public_ip_on_vnic")
+	if ok {
+		opts.ProhibitPublicIpOnVnic = prohibitPublicIpOnVnic.(bool)
 	}
 
 	if rawSecurityListIDs, ok := s.D.GetOk("security_list_ids"); ok {

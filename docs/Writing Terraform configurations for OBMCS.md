@@ -41,6 +41,15 @@ provider "baremetal" {
   private_key_path = "${var.private_key_path}"
 }
 ```
+
+To specify a different region, include the region parameter in your provider definition. Not specifying a value will use the default `us-phoenix-1` region. 
+```
+provider "baremetal" {
+  ...
+  region = "us-ashburn-1"
+}
+```
+
 ## CamelCase
 The OBMCS API uses CamelCase in multiple places. Terraform doesn't support CamelCase in configuration files so we've replaced it with underscores. For example -
 
