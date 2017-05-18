@@ -27,6 +27,34 @@ func InstanceResource() *schema.Resource {
 		Update: updateInstance,
 		Delete: deleteInstance,
 		Schema: map[string]*schema.Schema{
+			"create_vnic_details": &schema.Schema{
+				Type:     schema.TypeMap,
+				Optional: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"assign_public_ip": {
+							Type:     schema.TypeBool,
+							Optional: true,
+						},
+						"display_name": {
+							Type:     schema.TypeString,
+							Optional: true,
+						},
+						"hostname_label": {
+							Type:     schema.TypeString,
+							Optional: true,
+						},
+						"private_ip": {
+							Type:     schema.TypeString,
+							Optional: true,
+						},
+						"subnet_id": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+					},
+				},
+			},
 			"availability_domain": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -55,6 +83,10 @@ func InstanceResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
+			},
+			"ipxe_script": {
+				Type:     schema.TypeString,
+				Optional: true,
 			},
 			"metadata": {
 				Type:     schema.TypeMap,
@@ -180,10 +212,44 @@ func (s *InstanceResourceCrud) Create() (e error) {
 	if hostnameLabel, ok := s.D.GetOk("hostname_label"); ok {
 		opts.HostnameLabel = hostnameLabel.(string)
 	}
+	if ipxeScript, ok := s.D.GetOk("ipxe_script"); ok {
+		opts.IpxeScript = ipxeScript.(string)
+	}
 
 	if rawMetadata, ok := s.D.GetOk("metadata"); ok {
 		metadata := resourceInstanceMapToMetadata(rawMetadata.(map[string]interface{}))
 		opts.Metadata = metadata
+	}
+
+	if rawVnic, ok := s.D.GetOk("create_vnic_details"); ok {
+		vnic := rawVnic.(map[string]interface{})
+
+		vnicOpts := &baremetal.CreateVnicOptions{}
+		vnicOpts.SubnetID = vnic["subnet_id"].(string)
+
+		displayName := vnic["display_name"]
+		if displayName != nil {
+			vnicOpts.DisplayName = displayName.(string)
+		}
+
+		hostnameLabel := vnic["hostname_label"]
+		if hostnameLabel != nil {
+			vnicOpts.HostnameLabel = hostnameLabel.(string)
+		}
+
+		privateIp := vnic["private_ip"]
+		if privateIp != nil {
+			vnicOpts.PrivateIp = privateIp.(string)
+		}
+
+		//todo: work around for tf bug https://github.com/hashicorp/terraform/issues/13512
+		assignPublicIp := vnic["assign_public_ip"]
+		if assignPublicIp != nil {
+			vnicOpts.AssignPublicIp = new(bool)
+			*vnicOpts.AssignPublicIp = assignPublicIp.(string) == "1"
+		}
+
+		opts.CreateVnicOptions = vnicOpts
 	}
 
 	s.Resource, e = s.Client.LaunchInstance(
@@ -283,6 +349,7 @@ func (s *InstanceResourceCrud) SetData() {
 	s.D.Set("compartment_id", s.Resource.CompartmentID)
 	s.D.Set("display_name", s.Resource.DisplayName)
 	s.D.Set("image", s.Resource.ImageID)
+	s.D.Set("ipxe_script", s.Resource.IpxeScript)
 	s.D.Set("metadata", s.Resource.Metadata)
 	s.D.Set("region", s.Resource.Region)
 	s.D.Set("shape", s.Resource.Shape)

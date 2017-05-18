@@ -80,6 +80,10 @@ func resourceCoreSubnets() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"prohibit_public_ip_on_vnic": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -154,10 +158,11 @@ func (s *SubnetDatasourceCrud) SetData() {
 				"security_list_ids":   v.SecurityListIDs,
 				"display_name":        v.DisplayName,
 				"id":                  v.ID,
-				"state":               v.State,
-				"time_created":        v.TimeCreated.String(),
-				"virtual_router_ip":   v.VirtualRouterIP,
-				"virtual_router_mac":  v.VirtualRouterMac,
+				"prohibit_public_ip_on_vnic": v.ProhibitPublicIpOnVnic,
+				"state":              v.State,
+				"time_created":       v.TimeCreated.String(),
+				"virtual_router_ip":  v.VirtualRouterIP,
+				"virtual_router_mac": v.VirtualRouterMac,
 			}
 			resources = append(resources, res)
 		}

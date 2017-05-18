@@ -69,7 +69,6 @@ type DeleteObject struct {
 func (c *Client) ListObjects(namespace Namespace, bucket string, opts *ListObjectsOptions) (objects *ListObjects, e error) {
 	details := &requestDetails{
 		ids: urlParts{
-			resourceNamespaces,
 			namespace,
 			resourceBuckets,
 			bucket,
@@ -99,7 +98,6 @@ func (c *Client) GetObject(
 ) (object *Object, e error) {
 	details := &requestDetails{
 		ids: urlParts{
-			resourceNamespaces,
 			namespace,
 			resourceBuckets,
 			bucketName,
@@ -134,7 +132,6 @@ func (c *Client) DeleteObject(
 
 	details := &requestDetails{
 		ids: urlParts{
-			resourceNamespaces,
 			namespace,
 			resourceBuckets,
 			bucketName,
@@ -166,7 +163,6 @@ func (c *Client) HeadObject(
 
 	details := &requestDetails{
 		ids: urlParts{
-			resourceNamespaces,
 			namespace,
 			resourceBuckets,
 			bucketName,
@@ -183,6 +179,9 @@ func (c *Client) HeadObject(
 
 	headObject = &HeadObject{}
 	e = resp.unmarshal(headObject)
+	headObject.Namespace = namespace
+	headObject.Bucket = bucketName
+	headObject.ID = objectName
 	return
 }
 
@@ -207,7 +206,6 @@ func (c *Client) PutObject(
 
 	details := &requestDetails{
 		ids: urlParts{
-			resourceNamespaces,
 			namespace,
 			resourceBuckets,
 			bucketName,
@@ -225,5 +223,9 @@ func (c *Client) PutObject(
 
 	object = &Object{}
 	e = resp.unmarshal(object)
+	object.Namespace = namespace
+	object.Bucket = bucketName
+	object.ID = objectName
+	object.Body = content
 	return
 }

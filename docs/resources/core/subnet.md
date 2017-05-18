@@ -13,6 +13,7 @@ resource "baremetal_core_subnet" "t" {
     route_table_id = "routetableid"
     vcn_id = "vcnid"
     security_list_ids = ["slid1", "slid2"]
+    prohibit_public_ip_on_vnic = true
 }
 ```
 
@@ -26,6 +27,7 @@ The following arguments are supported:
 * `vcn_id` - (Required) The OCID of the VCN to contain the subnet.
 * `dhcp_options_id` - (Optional) The OCID of the set of DHCP options the subnet will use. If you don't provide a value, the subnet will use the VCN's default set of DHCP options.
 * `display_name` - (Optional) The maximum number of items to return in a paginated "List" call.
+* `prohibit_public_ip_on_vnic` - (Optional) Whether VNICs within this subnet can have public IP. If it is allowed, VNICs created in the subnet will automatically be assigned public IP unless otherwise specified in the VNIC. If it is prohibited, VNICs in the subnet cannot have public IP address assigned. The default value is false if unspecified.
 * `route_table_id` - (Optional) The OCID of the route table the subnet will use. If you don't provide a value, the subnet will use the VCN's default route table.
 * `security_list_ids` - (Optional) OCIDs for the security lists to associate with the subnet. If you don't provide a value, the VCN's default security list will be associated with the subnet. Remember that security lists are associated at the subnet level, but the rules are applied to the individual VNICs in the subnet.
 
@@ -41,6 +43,7 @@ The following arguments are supported:
 * `security_list_ids` - OCIDs for the security lists to use for VNICs in this subnet.
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable.
 * `id` - The subnet's Oracle ID (OCID).
+* `prohibit_public_ip_on_vnic` - Whether VNICs within this subnet can have public IPs. If it is allowed, VNICs created in the subnet will automatically be assigned public IP unless otherwise specified in the VNIC. If it is prohibited, VNICs in the subnet cannot have public IP address assigned. The default value is false if unspecified.
 * `vcn_id` - The OCID of the VCN the subnet is in.
 * `state` - The VCN's current state. [PROVISIONING, AVAILABLE, TERMINATING, TERMINATED]
 * `time_created` - The date and time the VCN was created.

@@ -12,7 +12,12 @@ type Time struct {
 const baremetalTimeFormat = time.RFC3339
 
 func (t *Time) UnmarshalJSON(data []byte) (e error) {
-	t.Time, e = time.Parse(`"`+baremetalTimeFormat+`"`, string(data))
+	s := string(data)
+	if s == "null" {
+		t.Time = time.Time{}
+	} else {
+		t.Time, e = time.Parse(`"`+baremetalTimeFormat+`"`, string(data))
+	}
 	return
 }
 
