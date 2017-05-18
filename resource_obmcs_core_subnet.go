@@ -40,7 +40,7 @@ func SubnetResource() *schema.Resource {
 			},
 			"route_table_id": {
 				Type:     schema.TypeString,
-				Required: true,
+				Optional: true,
 				ForceNew: true,
 			},
 			"vcn_id": {
@@ -50,7 +50,7 @@ func SubnetResource() *schema.Resource {
 			},
 			"security_list_ids": {
 				Type:     schema.TypeSet,
-				Required: true,
+				Optional: true,
 				ForceNew: true,
 				Set:      schema.HashString,
 				Elem: &schema.Schema{
@@ -75,6 +75,10 @@ func SubnetResource() *schema.Resource {
 			"id": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"prohibit_public_ip_on_vnic": {
+				Type:     schema.TypeBool,
+				Optional: true,
 			},
 			"state": {
 				Type:     schema.TypeString,
@@ -174,6 +178,11 @@ func (s *SubnetResourceCrud) Create() (e error) {
 	dnsLabel, ok := s.D.GetOk("dns_label")
 	if ok {
 		opts.DNSLabel = dnsLabel.(string)
+	}
+
+	prohibitPublicIpOnVnic, ok := s.D.GetOk("prohibit_public_ip_on_vnic")
+	if ok {
+		opts.ProhibitPublicIpOnVnic = prohibitPublicIpOnVnic.(bool)
 	}
 
 	if rawSecurityListIDs, ok := s.D.GetOk("security_list_ids"); ok {

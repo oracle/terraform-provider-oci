@@ -21,6 +21,7 @@ type apiRequestor struct {
 	authInfo   *authenticationInfo
 	urlBuilder urlBuilderFn
 	userAgent  string
+	region     string
 }
 
 func newCoreAPIRequestor(authInfo *authenticationInfo, nco *NewClientOptions) (r *apiRequestor) {
@@ -31,6 +32,7 @@ func newCoreAPIRequestor(authInfo *authenticationInfo, nco *NewClientOptions) (r
 		authInfo:   authInfo,
 		urlBuilder: buildCoreURL,
 		userAgent:  nco.UserAgent,
+		region:     nco.Region,
 	}
 }
 
@@ -42,6 +44,7 @@ func newObjectStorageAPIRequestor(authInfo *authenticationInfo, nco *NewClientOp
 		authInfo:   authInfo,
 		urlBuilder: buildObjectStorageURL,
 		userAgent:  nco.UserAgent,
+		region:     nco.Region,
 	}
 }
 
@@ -53,6 +56,7 @@ func newDatabaseAPIRequestor(authInfo *authenticationInfo, nco *NewClientOptions
 		authInfo:   authInfo,
 		urlBuilder: buildDatabaseURL,
 		userAgent:  nco.UserAgent,
+		region:     nco.Region,
 	}
 }
 
@@ -64,6 +68,7 @@ func newIdentityAPIRequestor(authInfo *authenticationInfo, nco *NewClientOptions
 		authInfo:   authInfo,
 		urlBuilder: buildIdentityURL,
 		userAgent:  nco.UserAgent,
+		region:     nco.Region,
 	}
 }
 
@@ -75,6 +80,7 @@ func newLoadBalancerAPIRequestor(authInfo *authenticationInfo, nco *NewClientOpt
 		authInfo:   authInfo,
 		urlBuilder: buildLoadBalancerURL,
 		userAgent:  nco.UserAgent,
+		region:     nco.Region,
 	}
 }
 
@@ -103,7 +109,7 @@ func (api *apiRequestor) request(method string, reqOpts request) (r *response, e
 	}
 
 	var url string
-	if url, e = reqOpts.marshalURL(api.urlBuilder); e != nil {
+	if url, e = reqOpts.marshalURL(api.region, api.urlBuilder); e != nil {
 		return
 	}
 

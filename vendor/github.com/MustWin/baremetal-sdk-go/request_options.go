@@ -55,15 +55,16 @@ type CreateBucketOptions struct {
 
 type CreateVcnOptions struct {
 	CreateOptions
-	DnsLabel              string `header:"-" json:"dnsLabel,omitempty" url:"-"`
+	DnsLabel string `header:"-" json:"dnsLabel,omitempty" url:"-"`
 }
 
 type CreateSubnetOptions struct {
 	CreateOptions
-	DHCPOptionsID   string   `header:"-" json:"dhcpOptionsId,omitempty" url:"-"`
-	DNSLabel        string   `header:"-" json:"dnsLabel,omitempty" url:"-"`
-	RouteTableID    string   `header:"-" json:"routeTableId,omitempty" url:"-"`
-	SecurityListIDs []string `header:"-" json:"securityListIds,omitempty" url:"-"`
+	DHCPOptionsID          string   `header:"-" json:"dhcpOptionsId,omitempty" url:"-"`
+	DNSLabel               string   `header:"-" json:"dnsLabel,omitempty" url:"-"`
+	ProhibitPublicIpOnVnic bool     `header:"-" json:"prohibitPublicIpOnVnic,omitempty" url:"-"`
+	RouteTableID           string   `header:"-" json:"routeTableId,omitempty" url:"-"`
+	SecurityListIDs        []string `header:"-" json:"securityListIds,omitempty" url:"-"`
 }
 
 type LoadBalancerOptions struct {
@@ -124,10 +125,20 @@ type CreatePolicyOptions struct {
 	VersionDateOptions
 }
 
+type CreateVnicOptions struct {
+	AssignPublicIp *bool  `header:"-" json:"assignPublicIp,omitempty" url:"-"`
+	DisplayName    string `header:"-" json:"displayName,omitempty" url:"-"`
+	HostnameLabel  string `header:"-" json:"hostnameLabel,omitempty" url:"-"`
+	PrivateIp      string `header:"-" json:"privateIp,omitempty" url:"-"`
+	SubnetID       string `header:"-" json:"subnetId,omitempty" url:"-"`
+}
+
 type LaunchInstanceOptions struct {
 	CreateOptions
-	HostnameLabel string            `header:"-" json:"hostnameLabel,omitempty" url:"-"`
-	Metadata      map[string]string `header:"-" json:"metadata,omitempty" url:"-"`
+	CreateVnicOptions *CreateVnicOptions `header:"-" json:"createVnicDetails,omitempty" url:"-"`
+	HostnameLabel     string             `header:"-" json:"hostnameLabel,omitempty" url:"-"`
+	IpxeScript        string             `header:"-" json:"ipxeScript,omitempty" url:"-"`
+	Metadata          map[string]string  `header:"-" json:"metadata,omitempty" url:"-"`
 }
 
 type LaunchDBSystemOptions struct {

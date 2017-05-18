@@ -11,6 +11,7 @@ type Vnic struct {
 	AvailabilityDomain string `json:"availabilityDomain"`
 	CompartmentID      string `json:"compartmentId"`
 	DisplayName        string `json:"displayName"`
+	HostnameLabel      string `json:"hostnameLabel"`
 	ID                 string `json:"id"`
 	State              string `json:"lifecycleState"`
 	PrivateIPAddress   string `json:"privateIp"`
