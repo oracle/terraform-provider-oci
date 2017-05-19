@@ -21,7 +21,13 @@ test_acceptance:
 build: test
 	go build -o terraform-provider-baremetal
 
-cross: test_acceptance
+version:
+	sed -i '' -e 's/version = ".*"/version = "\
+	$(shell curl -s https://api.github.com/repos/oracle/terraform-provider-baremetal/releases/latest | \
+	jq -r '.tag_name')\
+	"/g' version.go
+
+release: version test_acceptance
 	gox -output "./bin/{{.OS}}_{{.Arch}}/terraform-provider-baremetal"
 
 zip:
@@ -32,4 +38,4 @@ zip:
 	&& tar -czvf linux.tar.gz linux_386 linux_amd64 linux_arm \
 	&& tar -czvf openbsd.tar.gz openbsd_386 openbsd_amd64
 
-.PHONY: clean fmt build cross test test_unit zip
+.PHONY: clean fmt build release test test_unit zip version
