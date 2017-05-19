@@ -8,6 +8,8 @@ import (
 )
 
 func main() {
+	printVersion()
+
 	plugin.Serve(&plugin.ServeOpts{
 		ProviderFunc: func() terraform.ResourceProvider {
 			return Provider(providerConfig)
