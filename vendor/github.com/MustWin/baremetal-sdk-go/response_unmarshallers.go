@@ -87,13 +87,12 @@ type MetadataUnmarshallable interface {
 }
 
 type MetadataUnmarshaller struct {
-	Metadata map[string]string `json:"-" url:"-" header:"-"`
+	Metadata map[string]string `json:"-" url:"-" header:"-"` // Handled separately
 }
 
 func (mr *MetadataUnmarshaller) GetMetadata() map[string]string {
 	return mr.Metadata
 }
-
 func (mr *MetadataUnmarshaller) SetMetadata(md map[string]string) {
 	mr.Metadata = md
 }

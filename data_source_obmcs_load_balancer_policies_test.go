@@ -9,12 +9,10 @@ import (
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
-
-	"github.com/oracle/terraform-provider-baremetal/client/mocks"
 )
 
 func TestLoadBalancerPoliciesDatasource(t *testing.T) {
-	client := &mocks.BareMetalClient{}
+	client := GetTestProvider()
 	providers := map[string]terraform.ResourceProvider{
 		"baremetal": Provider(func(d *schema.ResourceData) (interface{}, error) {
 			return client, nil
@@ -23,12 +21,12 @@ func TestLoadBalancerPoliciesDatasource(t *testing.T) {
 	resourceName := "data.baremetal_load_balancer_policies.t"
 	config := `
 data "baremetal_load_balancer_policies" "t" {
-  compartment_id = "ocid1.compartment.stub_id"
+  compartment_id = "${var.compartment_id}"
 }
 `
-	config += testProviderConfig
+	config += testProviderConfig()
 
-	compartmentID := "ocid1.compartment.stub_id"
+	compartmentID := "${var.compartment_id}"
 	list := &baremetal.ListLoadBalancerPolicies{
 		LoadBalancerPolicies: []baremetal.LoadBalancerPolicy{
 			{Name: "stub_name1"},

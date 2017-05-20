@@ -3,7 +3,6 @@
 package main
 
 import (
-	"fmt"
 	"testing"
 	"time"
 
@@ -13,8 +12,6 @@ import (
 	"github.com/stretchr/testify/suite"
 
 	"github.com/MustWin/baremetal-sdk-go"
-
-	"github.com/oracle/terraform-provider-baremetal/client/mocks"
 )
 
 var testPoliciesConfig = `
@@ -25,7 +22,7 @@ var testPoliciesConfig = `
 
 type ResourceIdentityPoliciesTestSuite struct {
 	suite.Suite
-	Client       *mocks.BareMetalClient
+	Client       mockableClient
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	TimeCreated  time.Time
@@ -35,7 +32,7 @@ type ResourceIdentityPoliciesTestSuite struct {
 }
 
 func (s *ResourceIdentityPoliciesTestSuite) SetupTest() {
-	s.Client = &mocks.BareMetalClient{}
+	s.Client = GetTestProvider()
 	s.Provider = Provider(func(d *schema.ResourceData) (interface{}, error) {
 		return s.Client, nil
 	},
@@ -44,37 +41,28 @@ func (s *ResourceIdentityPoliciesTestSuite) SetupTest() {
 		"baremetal": s.Provider,
 	}
 	s.TimeCreated, _ = time.Parse("2006-Jan-02", "2006-Jan-02")
-	s.Config = fmt.Sprintf(testProviderConfig+testPoliciesConfig, "7")
-	s.PoliciesName = "data.baremetal_identity_policies.p"
-	s.Policies = baremetal.ListPolicies{
-		Policies: []baremetal.Policy{
-			{
-				ID:            "123",
-				Name:          "pol",
-				Description:   "desc",
-				CompartmentID: "7",
-				State:         baremetal.ResourceActive,
-				TimeCreated:   s.TimeCreated,
-				Statements:    []string{"statementX", "statementY"},
-			},
-			{
-				ID:            "234",
-				Name:          "pol2",
-				Description:   "desc2",
-				CompartmentID: "7",
-				State:         baremetal.ResourceActive,
-				TimeCreated:   s.TimeCreated,
-				Statements:    []string{"statementY", "statementZ"},
-			},
-		},
+	s.Config = `
+	resource "baremetal_identity_group" "t" {
+		name = "HelpDesk"
+		description = "group desc!"
 	}
+	data "baremetal_identity_compartments" "t" {
+     		compartment_id = "${var.compartment_id}"
+        }
+	  resource "baremetal_identity_policy" "p" {
+	    name = "HelpdeskUsers"
+	    description = "description"
+	    compartment_id = "${data.baremetal_identity_compartments.t.compartments.0.id}"
+	    statements = ["Allow group HelpDesk to read instances in compartment ${data.baremetal_identity_compartments.t.compartments.0.name}"]
 
-	s.Client.On(
-		"ListPolicies",
-		"7",
-		(*baremetal.ListOptions)(nil),
-	).Return(&s.Policies, nil)
-
+	    depends_on = ["baremetal_identity_group.t"]
+	  }
+	data "baremetal_identity_policies" "p" {
+		compartment_id = "${data.baremetal_identity_compartments.t.compartments.0.id}"
+	}
+	  `
+	s.Config += testProviderConfig()
+	s.PoliciesName = "data.baremetal_identity_policies.p"
 }
 
 func (s *ResourceIdentityPoliciesTestSuite) TestListResourceIdentityPolicies() {
@@ -86,8 +74,7 @@ func (s *ResourceIdentityPoliciesTestSuite) TestListResourceIdentityPolicies() {
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.PoliciesName, "policies.0.id", s.Policies.Policies[0].ID),
-					resource.TestCheckResourceAttr(s.PoliciesName, "policies.0.statements.1", s.Policies.Policies[0].Statements[1]),
+					resource.TestCheckResourceAttrSet(s.PoliciesName, "policies.0.id"),
 				),
 			},
 		},

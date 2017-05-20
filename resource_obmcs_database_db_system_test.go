@@ -4,7 +4,6 @@ package main
 
 import (
 	"testing"
-	"time"
 
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/resource"
@@ -12,20 +11,20 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 
 	"github.com/stretchr/testify/suite"
+	//"strconv"
 )
 
-type DatasourceObjectstorageNamespaceTestSuite struct {
+type ResourceDatabaseDBSystemTestSuite struct {
 	suite.Suite
 	Client       mockableClient
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
-	TimeCreated  baremetal.Time
 	Config       string
 	ResourceName string
-	Res          *baremetal.Namespace
+	Res          *baremetal.DBSystem
 }
 
-func (s *DatasourceObjectstorageNamespaceTestSuite) SetupTest() {
+func (s *ResourceDatabaseDBSystemTestSuite) SetupTest() {
 	s.Client = GetTestProvider()
 
 	s.Provider = Provider(
@@ -38,21 +37,14 @@ func (s *DatasourceObjectstorageNamespaceTestSuite) SetupTest() {
 		"baremetal": s.Provider,
 	}
 
-	s.TimeCreated = baremetal.Time{Time: time.Now()}
-
-	s.Config = `
-		data "baremetal_objectstorage_namespace" "t" {}
-	`
+	s.Config = databaseConfig
 
 	s.Config += testProviderConfig()
 
-	s.ResourceName = "baremetal_objectstorage_namespace.t"
-	namespace := baremetal.Namespace("namespaceID")
-	s.Res = &namespace
+	s.ResourceName = "baremetal_database_db_system.t"
 }
 
-func (s *DatasourceObjectstorageNamespaceTestSuite) TestObjectstorageNamespace() {
-
+func (s *ResourceDatabaseDBSystemTestSuite) TestCreateResourceDatabaseDBSystem() {
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
@@ -61,14 +53,17 @@ func (s *DatasourceObjectstorageNamespaceTestSuite) TestObjectstorageNamespace()
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "namespace", "namespaceID"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
+
+					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "MyTFDatabaseNode0"),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", baremetal.ResourceAvailable),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
 				),
 			},
 		},
 	})
-
 }
 
-func TestDatasourceobjectstorageNamespaceTestSuite(t *testing.T) {
-	suite.Run(t, new(ResourceObjectstorageObjectTestSuite))
+func TestResourceDatabaseDBSystemTestSuite(t *testing.T) {
+	suite.Run(t, new(ResourceDatabaseDBSystemTestSuite))
 }

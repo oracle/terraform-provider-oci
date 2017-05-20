@@ -11,14 +11,12 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
-	"github.com/oracle/terraform-provider-baremetal/client/mocks"
-
 	"github.com/stretchr/testify/suite"
 )
 
 type ResourceCoreCpeTestSuite struct {
 	suite.Suite
-	Client       *mocks.BareMetalClient
+	Client       mockableClient
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	TimeCreated  baremetal.Time
@@ -28,7 +26,7 @@ type ResourceCoreCpeTestSuite struct {
 }
 
 func (s *ResourceCoreCpeTestSuite) SetupTest() {
-	s.Client = &mocks.BareMetalClient{}
+	s.Client = GetTestProvider()
 
 	s.Provider = Provider(
 		func(d *schema.ResourceData) (interface{}, error) {
@@ -43,33 +41,19 @@ func (s *ResourceCoreCpeTestSuite) SetupTest() {
 	s.Config = `
 
 		resource "baremetal_core_cpe" "t" {
-			compartment_id = "compartmentid"
+			compartment_id = "${var.compartment_id}"
 			display_name = "displayname"
-      ip_address = "123.123.123.123"
+      			ip_address = "123.123.123.123"
 		}
 	`
 
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 
 	s.ResourceName = "baremetal_core_cpe.t"
-	s.Res = &baremetal.Cpe{
-		ID:            "cpeid",
-		CompartmentID: "compartmentid",
-		DisplayName:   "displayname",
-		IPAddress:     "123.123.123.123",
-		TimeCreated:   s.TimeCreated,
-	}
-	s.Res.ETag = "etag"
-	s.Res.RequestID = "opcrequestid"
 
-	opts := &baremetal.CreateOptions{}
-	opts.DisplayName = "displayname"
-	s.Client.On("CreateCpe", "compartmentid", "123.123.123.123", opts).Return(s.Res, nil)
-	s.Client.On("DeleteCpe", "cpeid", (*baremetal.IfMatchOptions)(nil)).Return(nil)
 }
 
 func (s *ResourceCoreCpeTestSuite) TestCreateResourceCoreCpe() {
-	s.Client.On("GetCpe", "cpeid").Return(s.Res, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -79,11 +63,10 @@ func (s *ResourceCoreCpeTestSuite) TestCreateResourceCoreCpe() {
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "display_name", s.Res.DisplayName),
-					resource.TestCheckResourceAttr(s.ResourceName, "id", s.Res.ID),
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", s.Res.CompartmentID),
-					resource.TestCheckResourceAttr(s.ResourceName, "time_created", s.Res.TimeCreated.String()),
-					resource.TestCheckResourceAttr(s.ResourceName, "ip_address", s.Res.IPAddress),
+					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "displayname"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
+					resource.TestCheckResourceAttr(s.ResourceName, "ip_address", "123.123.123.123"),
 				),
 			},
 		},
@@ -91,35 +74,17 @@ func (s *ResourceCoreCpeTestSuite) TestCreateResourceCoreCpe() {
 }
 
 func (s ResourceCoreCpeTestSuite) TestUpdateForcesNewCoreCpe() {
-	s.Client.On("GetCpe", "cpeid").Return(s.Res, nil)
 
 	updateForcingChangeConfig := `
 
   resource "baremetal_core_cpe" "t" {
-    compartment_id = "compartmentid"
+    compartment_id = "${var.compartment_id}"
     display_name = "displayname"
     ip_address = "111.222.111.222"
   }
 
   `
-	updateForcingChangeConfig += testProviderConfig
-
-	result := &baremetal.Cpe{
-		ID:            "cpeid2",
-		CompartmentID: "compartmentid",
-		DisplayName:   "displayname",
-		IPAddress:     "111.222.111.222",
-		TimeCreated:   s.TimeCreated,
-	}
-	result.ETag = "etag"
-	result.RequestID = "opcrequestid"
-
-	opts := &baremetal.CreateOptions{}
-	opts.DisplayName = "displayname"
-	s.Client.On("CreateCpe", "compartmentid", "111.222.111.222", opts).Return(result, nil)
-
-	s.Client.On("GetCpe", "cpeid2").Return(result, nil)
-	s.Client.On("DeleteCpe", "cpeid2", (*baremetal.IfMatchOptions)(nil)).Return(nil)
+	updateForcingChangeConfig += testProviderConfig()
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -132,7 +97,7 @@ func (s ResourceCoreCpeTestSuite) TestUpdateForcesNewCoreCpe() {
 			{
 				Config: updateForcingChangeConfig,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "ip_address", result.IPAddress),
+					resource.TestCheckResourceAttr(s.ResourceName, "ip_address", "111.222.111.222"),
 				),
 			},
 		},
@@ -141,7 +106,6 @@ func (s ResourceCoreCpeTestSuite) TestUpdateForcesNewCoreCpe() {
 }
 
 func (s *ResourceCoreCpeTestSuite) TestDeleteResourceCoreCpe() {
-	s.Client.On("GetCpe", "cpeid").Return(s.Res, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -158,7 +122,6 @@ func (s *ResourceCoreCpeTestSuite) TestDeleteResourceCoreCpe() {
 		},
 	})
 
-	s.Client.AssertCalled(s.T(), "DeleteCpe", "cpeid", (*baremetal.IfMatchOptions)(nil))
 }
 
 func TestResourceCoreCpeTestSuite(t *testing.T) {

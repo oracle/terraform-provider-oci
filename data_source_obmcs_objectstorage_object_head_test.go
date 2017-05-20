@@ -11,14 +11,12 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
-	"github.com/oracle/terraform-provider-baremetal/client/mocks"
-
 	"github.com/stretchr/testify/suite"
 )
 
 type DatasourceObjectstorageObjectHeadTestSuite struct {
 	suite.Suite
-	Client       *mocks.BareMetalClient
+	Client       mockableClient
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	TimeCreated  baremetal.Time
@@ -28,7 +26,7 @@ type DatasourceObjectstorageObjectHeadTestSuite struct {
 }
 
 func (s *DatasourceObjectstorageObjectHeadTestSuite) SetupTest() {
-	s.Client = &mocks.BareMetalClient{}
+	s.Client = GetTestProvider()
 
 	s.Provider = Provider(
 		func(d *schema.ResourceData) (interface{}, error) {
@@ -43,31 +41,37 @@ func (s *DatasourceObjectstorageObjectHeadTestSuite) SetupTest() {
 	s.TimeCreated = baremetal.Time{Time: time.Now()}
 
 	s.Config = `
+		resource "baremetal_objectstorage_bucket" "t" {
+			compartment_id = "${var.compartment_id}"
+			name = "bucketID"
+			namespace = "${var.namespace}"
+			metadata = {
+				"foo" = "bar"
+			}
+		}
+
+		resource "baremetal_objectstorage_object" "t" {
+			namespace = "${var.namespace}"
+			bucket = "${baremetal_objectstorage_bucket.t.name}"
+			object = "objectID"
+			content = "bodyContent"
+			metadata = {
+				"foo" = "bar"
+			}
+		}
 		data "baremetal_objectstorage_object_head" "t" {
-			namespace = "namespaceID"
-			bucket = "bucketID"
-			object = "object"
+			namespace = "${var.namespace}"
+			bucket = "${baremetal_objectstorage_bucket.t.name}"
+			object = "${baremetal_objectstorage_object.t.object}"
 		}
 	`
 
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 
 	s.ResourceName = "data.baremetal_objectstorage_object_head.t"
-	s.Res = &baremetal.HeadObject{
-		Namespace: baremetal.Namespace("namespaceID"),
-		Bucket:    "bucketID",
-		ID:        "object",
-	}
-	metadata := map[string]string{"foo": "bar"}
-	s.Res.Metadata = metadata
-	s.Res.ContentLength = 123
-	s.Res.ContentType = "type"
 }
 
 func (s *DatasourceObjectstorageObjectHeadTestSuite) TestObjectstorageHeadObject() {
-	opts := &baremetal.HeadObjectOptions{}
-	s.Client.On("HeadObject", s.Res.Namespace, s.Res.Bucket, s.Res.ID, opts).Return(s.Res, nil)
-
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
@@ -76,17 +80,14 @@ func (s *DatasourceObjectstorageObjectHeadTestSuite) TestObjectstorageHeadObject
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "object", s.Res.ID),
-					resource.TestCheckResourceAttr(s.ResourceName, "bucket", s.Res.Bucket),
-					resource.TestCheckResourceAttr(s.ResourceName, "namespace", string(s.Res.Namespace)),
+					resource.TestCheckResourceAttr(s.ResourceName, "bucket", "bucketID"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "namespace"),
 					resource.TestCheckResourceAttr(s.ResourceName, "metadata.foo", "bar"),
-					//resource.TestCheckResourceAttr(s.ResourceName, "content-length", s.Res.ContentLength),
-					resource.TestCheckResourceAttr(s.ResourceName, "content-type", s.Res.ContentType),
 				),
 			},
 		},
 	})
-	s.Client.AssertCalled(s.T(), "HeadObject", s.Res.Namespace, s.Res.Bucket, s.Res.ID, opts)
+
 }
 
 func TestDatasourceobjectstorageObjectHeadTestSuite(t *testing.T) {

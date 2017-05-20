@@ -4,7 +4,6 @@ package crud
 
 import (
 	"log"
-	"os"
 	"reflect"
 	"strings"
 	"time"
@@ -13,6 +12,9 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 
 	"github.com/oracle/terraform-provider-baremetal/client"
+	"github.com/MustWin/baremetal-sdk-go"
+	"errors"
+	"strconv"
 )
 
 var (
@@ -66,11 +68,71 @@ func (s *BaseCrud) State() string {
 }
 
 func handleMissingResourceError(sync ResourceVoider, err *error) {
-	if err != nil && strings.Contains((*err).Error(), "does not exist") {
+	if err != nil && (
+		strings.Contains((*err).Error(), "does not exist") ||
+		strings.Contains((*err).Error(), " not present in ") ||
+		strings.Contains((*err).Error(), "resource not found") ||
+			(strings.Contains((*err).Error(), "Load balancer") && strings.Contains((*err).Error(), " has no "))) {
 		log.Println("[DEBUG] Object does not exist, voiding resource and nullifying error")
 		sync.VoidState()
 		*err = nil
 	}
+}
+
+func LoadBalancerResourceID(res interface{}, workReq *baremetal.WorkRequest) (id *string, workReqSucceeded bool) {
+	v := reflect.ValueOf(res).Elem()
+	if v.IsValid() {
+		// This is super fugly. It's this way because this API has no convention for ID formats.
+
+		// Load balancer
+		id := v.FieldByName("ID")
+		if id.IsValid() {
+			s := id.String()
+			return &s, false
+		}
+		// backendset, certificate, listener
+		name := v.FieldByName("Name")
+		if name.IsValid() {
+			s := name.String()
+			return &s, false
+		}
+		// backend
+		ip := v.FieldByName("ip_address")
+		port := v.FieldByName("port")
+		if ip.IsValid() && port.IsValid() {
+			s := ip.String() + ":" + strconv.Itoa(int(int(port.Int())))
+			return &s, false
+		}
+	}
+	if workReq != nil {
+		if workReq.State == baremetal.WorkRequestSucceeded {
+			return nil, true
+		} else {
+			return &workReq.ID, false
+		}
+	}
+	return nil, false
+}
+
+func LoadBalancerResourceGet(s BaseCrud, workReq *baremetal.WorkRequest) (id string, stillWorking bool, err error) {
+	id = s.D.Id()
+	log.Printf("================== ID in LoadbalancerResourceGet: %s\n", id)
+	// NOTE: if the id is for a work request, refresh its state and loadBalancerID.
+	if strings.HasPrefix(id, "ocid1.loadbalancerworkrequest.") {
+		updatedWorkReq, err := s.Client.GetWorkRequest(id, nil)
+		if err != nil {
+			return "", false, err
+		}
+		if workReq != nil {
+			*workReq = *updatedWorkReq
+			s.D.Set("state", workReq.State)
+			if workReq.State == baremetal.WorkRequestSucceeded {
+				return "", false, nil
+			}
+		}
+		return "", true, nil
+	}
+	return id, false, nil
 }
 
 func CreateResource(d *schema.ResourceData, sync ResourceCreator) (e error) {
@@ -94,6 +156,10 @@ func CreateResource(d *schema.ResourceData, sync ResourceCreator) (e error) {
 
 	d.SetId(sync.ID())
 	sync.SetData()
+
+	if ew, waitOK := sync.(ExtraWaitPostCreateDelete); waitOK {
+		time.Sleep(ew.ExtraWaitPostCreateDelete())
+	}
 
 	return
 }
@@ -133,10 +199,8 @@ func DeleteResource(d *schema.ResourceData, sync ResourceDeleter) (e error) {
 
 	}
 
-	if ew, waitOK := sync.(ExtraWaitPostDelete); waitOK {
-		if os.Getenv("TF_ORACLE_ENV") != "test" {
-			time.Sleep(ew.ExtraWaitPostDelete())
-		}
+	if ew, waitOK := sync.(ExtraWaitPostCreateDelete); waitOK {
+		time.Sleep(ew.ExtraWaitPostCreateDelete())
 	}
 
 	if e == nil {
@@ -178,6 +242,9 @@ func waitForStateRefresh(sync StatefulResource, timeout time.Duration, pending, 
 	if _, e = stateConf.WaitForState(); e != nil {
 		handleMissingResourceError(sync, &e)
 		return
+	}
+	if sync.State() == baremetal.ResourceFailed {
+		return errors.New("Resource creation failed, state FAILED")
 	}
 
 	return

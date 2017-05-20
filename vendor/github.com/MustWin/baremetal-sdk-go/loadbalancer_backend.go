@@ -53,7 +53,8 @@ func (c *Client) CreateBackend(
 	}
 
 	details := &requestDetails{
-		ids:      urlParts{resourceLoadBalancers, loadBalancerID, resourceBackendSets, backendSetName},
+		name: resourceLoadBalancers,
+		ids:      urlParts{loadBalancerID, resourceBackendSets, backendSetName, resourceBackends},
 		optional: opts,
 		required: required,
 	}
@@ -81,7 +82,8 @@ func (c *Client) GetBackend(
 	opts *ClientRequestOptions,
 ) (backend *Backend, e error) {
 	details := &requestDetails{
-		ids: urlParts{resourceLoadBalancers, loadBalancerID,
+		name: resourceLoadBalancers,
+		ids: urlParts{loadBalancerID,
 			resourceBackendSets, backendSetName,
 			resourceBackends, backendName},
 		optional: opts,
@@ -105,7 +107,8 @@ func (c *Client) ListBackends(
 	backendSetName string,
 ) (backends *ListBackends, e error) {
 	details := &requestDetails{
-		ids: urlParts{resourceLoadBalancers, loadBalancerID,
+		name: resourceLoadBalancers,
+		ids: urlParts{loadBalancerID,
 			resourceBackendSets, backendSetName, resourceBackends},
 	}
 
@@ -130,14 +133,15 @@ func (c *Client) UpdateBackend(
 ) (workRequestID string, e error) {
 
 	details := &requestDetails{
-		ids: urlParts{resourceLoadBalancers, loadBalancerID,
+		name: resourceLoadBalancers,
+		ids: urlParts{loadBalancerID,
 			resourceBackendSets, backendSetName,
 			resourceBackends, backendName},
 		optional: opts,
 	}
 
 	var resp *response
-	if resp, e = c.objectStorageApi.request(http.MethodPut, details); e != nil {
+	if resp, e = c.loadBalancerApi.request(http.MethodPut, details); e != nil {
 		return
 	}
 
@@ -160,7 +164,8 @@ func (c *Client) DeleteBackend(
 ) (workRequestID string, e error) {
 
 	details := &requestDetails{
-		ids: urlParts{resourceLoadBalancers, loadBalancerID,
+		name: resourceLoadBalancers,
+		ids: urlParts{loadBalancerID,
 			resourceBackendSets, backendSetName,
 			resourceBackends, backendName},
 		optional: opts,

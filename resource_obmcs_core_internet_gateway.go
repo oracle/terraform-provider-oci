@@ -148,6 +148,9 @@ func (s *InternetGatewayResourceCrud) Update() (e error) {
 	if isEnabled, ok := s.D.GetOk("enabled"); ok {
 		opts.IsEnabled = isEnabled.(bool)
 	}
+	if name, ok := s.D.GetOk("display_name"); ok {
+		opts.DisplayName = name.(string)
+	}
 
 	s.Resource, e = s.Client.UpdateInternetGateway(s.D.Id(), opts)
 	return

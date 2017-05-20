@@ -3,7 +3,6 @@
 package main
 
 import (
-	"strconv"
 	"testing"
 	"time"
 
@@ -11,15 +10,12 @@ import (
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
-
-	"github.com/oracle/terraform-provider-baremetal/client/mocks"
-
 	"github.com/stretchr/testify/suite"
 )
 
 type ResourceCoreVolumeAttachmentTestSuite struct {
 	suite.Suite
-	Client       *mocks.BareMetalClient
+	Client       mockableClient
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	TimeCreated  baremetal.Time
@@ -30,7 +26,7 @@ type ResourceCoreVolumeAttachmentTestSuite struct {
 }
 
 func (s *ResourceCoreVolumeAttachmentTestSuite) SetupTest() {
-	s.Client = &mocks.BareMetalClient{}
+	s.Client = GetTestProvider()
 
 	s.Provider = Provider(
 		func(d *schema.ResourceData) (interface{}, error) {
@@ -44,62 +40,27 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) SetupTest() {
 
 	s.TimeCreated = baremetal.Time{Time: time.Now()}
 
-	s.Config = `
+	s.Config = instanceConfig + `
+		resource "baremetal_core_volume" "t" {
+			availability_domain = "${data.baremetal_identity_availability_domains.ADs.availability_domains.0.name}"
+			compartment_id = "${var.compartment_id}"
+			display_name = "display_name"
+			size_in_mbs = 262144
+		}
 		resource "baremetal_core_volume_attachment" "t" {
 			attachment_type = "iscsi"
-			compartment_id = "compartment_id"
-			instance_id = "instance_id"
-			volume_id = "volume_id"
+			compartment_id = "${var.compartment_id}"
+			instance_id = "${baremetal_core_instance.t.id}"
+			volume_id = "${baremetal_core_volume.t.id}"
 		}
 	`
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 
 	s.ResourceName = "baremetal_core_volume_attachment.t"
-	s.Res = &baremetal.VolumeAttachment{
-		AttachmentType:     "iscsi",
-		AvailabilityDomain: "availability_domain",
-		CompartmentID:      "compartment_id",
-		DisplayName:        "display_name",
-		ID:                 "id",
-		InstanceID:         "instance_id",
-		State:              baremetal.ResourceAttached,
-		TimeCreated:        s.TimeCreated,
-		VolumeID:           "volume_id",
-		CHAPSecret:         "chap_secret",
-		CHAPUsername:       "chap_username",
-		IPv4:               "ipv4",
-		IQN:                "iqn",
-		Port:               12345,
-	}
-	s.Res.ETag = "etag"
-	s.Res.RequestID = "opcrequestid"
 
-	s.DetachedRes = &baremetal.VolumeAttachment{
-		AttachmentType:     "iscsi",
-		AvailabilityDomain: "availability_domain",
-		CompartmentID:      "compartment_id",
-		DisplayName:        "display_name",
-		ID:                 "id",
-		InstanceID:         "instance_id",
-		State:              baremetal.ResourceDetached,
-		TimeCreated:        s.TimeCreated,
-		VolumeID:           "volume_id",
-	}
-	s.DetachedRes.ETag = "etag"
-	s.DetachedRes.RequestID = "opcrequestid"
-
-	s.Client.On(
-		"AttachVolume",
-		"iscsi",
-		"instance_id",
-		"volume_id",
-		(*baremetal.CreateOptions)(nil)).Return(s.Res, nil)
-	s.Client.On("DetachVolume", "id", (*baremetal.IfMatchOptions)(nil)).Return(nil)
 }
 
 func (s *ResourceCoreVolumeAttachmentTestSuite) TestCreateResourceCoreVolumeAttachment() {
-	s.Client.On("GetVolumeAttachment", "id").Return(s.Res, nil).Times(2)
-	s.Client.On("GetVolumeAttachment", "id").Return(s.DetachedRes, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -109,20 +70,17 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) TestCreateResourceCoreVolumeAtta
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "attachment_type", s.Res.AttachmentType),
-					resource.TestCheckResourceAttr(s.ResourceName, "availability_domain", s.Res.AvailabilityDomain),
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", s.Res.CompartmentID),
-					resource.TestCheckResourceAttr(s.ResourceName, "display_name", s.Res.DisplayName),
-					resource.TestCheckResourceAttr(s.ResourceName, "id", s.Res.ID),
-					resource.TestCheckResourceAttr(s.ResourceName, "instance_id", s.Res.InstanceID),
-					resource.TestCheckResourceAttr(s.ResourceName, "state", s.Res.State),
-					resource.TestCheckResourceAttr(s.ResourceName, "time_created", s.Res.TimeCreated.String()),
-					resource.TestCheckResourceAttr(s.ResourceName, "volume_id", s.Res.VolumeID),
-					resource.TestCheckResourceAttr(s.ResourceName, "chap_secret", s.Res.CHAPSecret),
-					resource.TestCheckResourceAttr(s.ResourceName, "chap_username", s.Res.CHAPUsername),
-					resource.TestCheckResourceAttr(s.ResourceName, "ipv4", s.Res.IPv4),
-					resource.TestCheckResourceAttr(s.ResourceName, "iqn", s.Res.IQN),
-					resource.TestCheckResourceAttr(s.ResourceName, "port", strconv.Itoa(s.Res.Port)),
+					resource.TestCheckResourceAttr(s.ResourceName, "attachment_type", "iscsi"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "instance_id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", baremetal.ResourceAttached),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "chap_secret"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "chap_username"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "ipv4"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "iqn"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "port"),
 				),
 			},
 		},
@@ -130,8 +88,6 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) TestCreateResourceCoreVolumeAtta
 }
 
 func (s *ResourceCoreVolumeAttachmentTestSuite) TestDetachVolume() {
-	s.Client.On("GetVolumeAttachment", "id").Return(s.Res, nil).Times(2)
-	s.Client.On("GetVolumeAttachment", "id").Return(s.DetachedRes, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -148,7 +104,6 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) TestDetachVolume() {
 		},
 	})
 
-	s.Client.AssertCalled(s.T(), "DetachVolume", "id", (*baremetal.IfMatchOptions)(nil))
 }
 
 func TestResourceCoreVolumeAttachmentTestSuite(t *testing.T) {

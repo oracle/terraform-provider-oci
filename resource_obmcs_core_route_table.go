@@ -6,6 +6,8 @@ import (
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
 
+	"time"
+
 	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/crud"
 )
@@ -179,6 +181,10 @@ func (s *RouteTableResourceCrud) SetData() {
 
 func (s *RouteTableResourceCrud) Delete() (e error) {
 	return s.Client.DeleteRouteTable(s.D.Id(), nil)
+}
+
+func (s *RouteTableResourceCrud) ExtraWaitPostCreateDelete() time.Duration {
+	return time.Duration(15 * time.Second)
 }
 
 func (s *RouteTableResourceCrud) buildRouteRules() (routeRules []baremetal.RouteRule) {

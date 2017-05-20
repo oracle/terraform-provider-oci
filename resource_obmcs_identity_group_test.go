@@ -3,7 +3,6 @@
 package main
 
 import (
-	"errors"
 	"regexp"
 	"testing"
 	"time"
@@ -13,14 +12,12 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
-	"github.com/oracle/terraform-provider-baremetal/client/mocks"
-
 	"github.com/stretchr/testify/suite"
 )
 
 type ResourceIdentityGroupTestSuite struct {
 	suite.Suite
-	Client       *mocks.BareMetalClient
+	Client       mockableClient
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	TimeCreated  time.Time
@@ -30,7 +27,7 @@ type ResourceIdentityGroupTestSuite struct {
 }
 
 func (s *ResourceIdentityGroupTestSuite) SetupTest() {
-	s.Client = &mocks.BareMetalClient{}
+	s.Client = GetTestProvider()
 
 	configfn := func(d *schema.ResourceData) (interface{}, error) {
 		return s.Client, nil
@@ -43,28 +40,26 @@ func (s *ResourceIdentityGroupTestSuite) SetupTest() {
 	s.TimeCreated, _ = time.Parse("2006-Jan-02", "2006-Jan-02")
 	s.Config = `
 		resource "baremetal_identity_group" "t" {
-			name = "name!"
-			description = "desc!"
+			name = "groupname"
+			description = "group desc!"
 		}
 	`
 
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 
 	s.ResourceName = "baremetal_identity_group.t"
 	s.Res = &baremetal.Group{
 		ID:            "id!",
-		Name:          "name!",
-		Description:   "desc!",
+		Name:          "groupname",
+		Description:   "group desc!",
 		CompartmentID: "cid!",
 		State:         baremetal.ResourceActive,
 		TimeCreated:   s.TimeCreated,
 	}
-	s.Client.On("CreateGroup", "name!", "desc!", (*baremetal.RetryTokenOptions)(nil)).Return(s.Res, nil)
-	s.Client.On("DeleteGroup", "id!", (*baremetal.IfMatchOptions)(nil)).Return(nil)
+
 }
 
 func (s *ResourceIdentityGroupTestSuite) TestCreateResourceIdentityGroup() {
-	s.Client.On("GetGroup", "id!").Return(s.Res, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -76,9 +71,9 @@ func (s *ResourceIdentityGroupTestSuite) TestCreateResourceIdentityGroup() {
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "name", s.Res.Name),
 					resource.TestCheckResourceAttr(s.ResourceName, "description", s.Res.Description),
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", s.Res.CompartmentID),
+
 					resource.TestCheckResourceAttr(s.ResourceName, "state", s.Res.State),
-					resource.TestCheckResourceAttr(s.ResourceName, "time_created", s.Res.TimeCreated.String()),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
 				),
 			},
 		},
@@ -87,11 +82,9 @@ func (s *ResourceIdentityGroupTestSuite) TestCreateResourceIdentityGroup() {
 
 func (s *ResourceIdentityGroupTestSuite) TestCreateResourceIdentityGroupPolling() {
 	s.Res.State = baremetal.ResourceCreating
-	s.Client.On("GetGroup", "id!").Return(s.Res, nil).Once()
 
 	u := *s.Res
 	u.State = baremetal.ResourceActive
-	s.Client.On("GetGroup", "id!").Return(&u, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -107,24 +100,15 @@ func (s *ResourceIdentityGroupTestSuite) TestCreateResourceIdentityGroupPolling(
 }
 
 func (s *ResourceIdentityGroupTestSuite) TestUpdateResourceIdentityGroupDescription() {
-	s.Client.On("GetGroup", "id!").Return(s.Res, nil).Twice()
 
 	c := `
 		resource "baremetal_identity_group" "t" {
-			name = "name!"
+			name = "groupname"
 			description = "newdesc!"
 		}
 	`
 
-	c += testProviderConfig
-
-	u := *s.Res
-	u.Description = "newdesc!"
-	opts := &baremetal.UpdateIdentityOptions{}
-	opts.Description = "newdesc!"
-	s.Client.On("UpdateGroup", "id!", "newdesc!", opts).
-		Return(&u, nil)
-	s.Client.On("GetGroup", "id!").Return(&u, nil)
+	c += testProviderConfig()
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -145,26 +129,14 @@ func (s *ResourceIdentityGroupTestSuite) TestUpdateResourceIdentityGroupDescript
 }
 
 func (s *ResourceIdentityGroupTestSuite) TestFailedUpdateResourceIdentityGroupDescription() {
-	s.Client.On("GetGroup", "id!").Return(s.Res, nil).Times(3)
 
 	c := `
 		resource "baremetal_identity_group" "t" {
-			name = "name!"
+			name = "groupname"
 			description = "newdesc!"
 		}
 	`
-	c += testProviderConfig
-
-	opts := &baremetal.UpdateIdentityOptions{}
-	opts.Description = "newdesc!"
-	s.Client.On("UpdateGroup", "id!", opts).
-		Return(nil, errors.New("FAILED!")).Once()
-
-	u := *s.Res
-	u.Description = "newdesc!"
-	s.Client.On("UpdateGroup", "id!", opts).
-		Return(&u, nil)
-	s.Client.On("GetGroup", "id!").Return(&u, nil)
+	c += testProviderConfig()
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -177,7 +149,7 @@ func (s *ResourceIdentityGroupTestSuite) TestFailedUpdateResourceIdentityGroupDe
 			{
 				Config:      c,
 				ExpectError: regexp.MustCompile(`FAILED`),
-				Check:       resource.TestCheckResourceAttr(s.ResourceName, "description", "desc!"),
+				Check:       resource.TestCheckResourceAttr(s.ResourceName, "description", "newdesc!"),
 			},
 			{
 				Config: c,
@@ -188,23 +160,15 @@ func (s *ResourceIdentityGroupTestSuite) TestFailedUpdateResourceIdentityGroupDe
 }
 
 func (s *ResourceIdentityGroupTestSuite) TestUpdateResourceIdentityGroupNameShouldCreateNew() {
-	s.Client.On("GetGroup", "id!").Return(s.Res, nil)
 
 	c := `
 		resource "baremetal_identity_group" "t" {
-			name = "newname!"
+			name = "groupname2"
 			description = "desc!"
 		}
 	`
 
-	c += testProviderConfig
-
-	u := *s.Res
-	u.ID = "newid!"
-	u.Name = "newname!"
-	s.Client.On("CreateGroup", "newname!", "desc!", (*baremetal.RetryTokenOptions)(nil)).Return(&u, nil)
-	s.Client.On("GetGroup", "newid!").Return(&u, nil)
-	s.Client.On("DeleteGroup", "newid!", (*baremetal.IfMatchOptions)(nil)).Return(nil)
+	c += testProviderConfig()
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -216,14 +180,13 @@ func (s *ResourceIdentityGroupTestSuite) TestUpdateResourceIdentityGroupNameShou
 			},
 			{
 				Config: c,
-				Check:  resource.TestCheckResourceAttr(s.ResourceName, "name", "newname!"),
+				Check:  resource.TestCheckResourceAttr(s.ResourceName, "name", "groupname2"),
 			},
 		},
 	})
 }
 
 func (s *ResourceIdentityGroupTestSuite) TestDeleteResourceIdentityGroup() {
-	s.Client.On("GetGroup", "id!").Return(s.Res, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -240,7 +203,6 @@ func (s *ResourceIdentityGroupTestSuite) TestDeleteResourceIdentityGroup() {
 		},
 	})
 
-	s.Client.AssertCalled(s.T(), "DeleteGroup", "id!", (*baremetal.IfMatchOptions)(nil))
 }
 
 func TestResourceIdentityGroupTestSuite(t *testing.T) {

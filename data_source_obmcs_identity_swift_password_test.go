@@ -3,8 +3,6 @@
 package main
 
 import (
-	"fmt"
-	"strconv"
 	"testing"
 	"time"
 
@@ -14,19 +12,11 @@ import (
 	"github.com/stretchr/testify/suite"
 
 	"github.com/MustWin/baremetal-sdk-go"
-
-	"github.com/oracle/terraform-provider-baremetal/client/mocks"
 )
-
-var testPasswordsConfig = `
-  data "baremetal_identity_swift_passwords" "p" {
-    user_id = "%s"
-  }
-`
 
 type ResourceIdentitySwiftPasswordsTestSuite struct {
 	suite.Suite
-	Client        *mocks.BareMetalClient
+	Client        mockableClient
 	Provider      terraform.ResourceProvider
 	Providers     map[string]terraform.ResourceProvider
 	TimeCreated   time.Time
@@ -36,7 +26,7 @@ type ResourceIdentitySwiftPasswordsTestSuite struct {
 }
 
 func (s *ResourceIdentitySwiftPasswordsTestSuite) SetupTest() {
-	s.Client = &mocks.BareMetalClient{}
+	s.Client = GetTestProvider()
 	s.Provider = Provider(func(d *schema.ResourceData) (interface{}, error) {
 		return s.Client, nil
 	},
@@ -45,35 +35,18 @@ func (s *ResourceIdentitySwiftPasswordsTestSuite) SetupTest() {
 		"baremetal": s.Provider,
 	}
 	s.TimeCreated, _ = time.Parse("2006-Jan-02", "2006-Jan-02")
-	s.Config = fmt.Sprintf(testProviderConfig+testPasswordsConfig, "userid")
+	s.Config = `
+		resource "baremetal_identity_user" "t" {
+			name = "name1"
+			description = "desc!"
+		}
+		resource "baremetal_identity_swift_password" "t" {
+			user_id = "${baremetal_identity_user.t.id}"
+			description = "desc"
+		}
+	`
+	s.Config += testProviderConfig()
 	s.PasswordsName = "data.baremetal_identity_swift_passwords.p"
-	s.PasswordList = baremetal.ListSwiftPasswords{
-		SwiftPasswords: []baremetal.SwiftPassword{
-			{
-				Password:       "pass",
-				ID:             "1",
-				UserID:         "userid",
-				Description:    "desc",
-				State:          "available",
-				InactiveStatus: 0,
-				TimeCreated:    time.Now(),
-			},
-			{
-				Password:       "pass",
-				ID:             "2",
-				UserID:         "userid",
-				Description:    "desc",
-				State:          "available",
-				InactiveStatus: 0,
-				TimeCreated:    time.Now(),
-			},
-		},
-	}
-
-	s.Client.On(
-		"ListSwiftPasswords",
-		"userid",
-	).Return(&s.PasswordList, nil)
 
 }
 
@@ -85,10 +58,15 @@ func (s *ResourceIdentitySwiftPasswordsTestSuite) TestListResourceIdentitySwiftP
 				ImportState:       true,
 				ImportStateVerify: true,
 				Config:            s.Config,
+			},
+			{
+				Config: s.Config + `
+				 data "baremetal_identity_swift_passwords" "p" {
+				    user_id = "${baremetal_identity_user.t.id}"
+				  }`,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.PasswordsName, "passwords.0.id", s.PasswordList.SwiftPasswords[0].ID),
-					resource.TestCheckResourceAttr(s.PasswordsName, "passwords.1.id", s.PasswordList.SwiftPasswords[1].ID),
-					resource.TestCheckResourceAttr(s.PasswordsName, "passwords.#", strconv.Itoa(len(s.PasswordList.SwiftPasswords))),
+					resource.TestCheckResourceAttrSet(s.PasswordsName, "passwords.0.id"),
+					resource.TestCheckResourceAttr(s.PasswordsName, "passwords.#", "1"),
 				),
 			},
 		},

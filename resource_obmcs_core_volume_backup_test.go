@@ -3,23 +3,19 @@
 package main
 
 import (
-	"fmt"
 	"testing"
-	"time"
 
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
-	"github.com/oracle/terraform-provider-baremetal/client/mocks"
-
 	"github.com/stretchr/testify/suite"
 )
 
 type ResourceCoreVolumeBackupTestSuite struct {
 	suite.Suite
-	Client       *mocks.BareMetalClient
+	Client       mockableClient
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	TimeCreated  baremetal.Time
@@ -30,7 +26,7 @@ type ResourceCoreVolumeBackupTestSuite struct {
 }
 
 func (s *ResourceCoreVolumeBackupTestSuite) SetupTest() {
-	s.Client = &mocks.BareMetalClient{}
+	s.Client = GetTestProvider()
 
 	s.Provider = Provider(
 		func(d *schema.ResourceData) (interface{}, error) {
@@ -41,41 +37,25 @@ func (s *ResourceCoreVolumeBackupTestSuite) SetupTest() {
 
 	s.ResourceName = "baremetal_core_volume_backup.t"
 	s.Config = `
+		data "baremetal_identity_availability_domains" "ADs" {
+  			compartment_id = "${var.compartment_id}"
+		}
+		resource "baremetal_core_volume" "t" {
+			availability_domain = "${data.baremetal_identity_availability_domains.ADs.availability_domains.0.name}"
+			compartment_id = "${var.compartment_id}"
+			display_name = "display_name"
+			size_in_mbs = 262144
+		}
 		resource "baremetal_core_volume_backup" "t" {
-			volume_id = "volume_id"
+			volume_id = "${baremetal_core_volume.t.id}"
 			display_name = "display_name"
 		}
 	`
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 
-	s.TimeCreated = baremetal.Time{Time: time.Now()}
-	s.Res = &baremetal.VolumeBackup{
-		CompartmentID:       "compartment_id",
-		DisplayName:         "display_name",
-		ID:                  "id",
-		State:               baremetal.ResourceAvailable,
-		SizeInMBs:           1,
-		TimeCreated:         s.TimeCreated,
-		TimeRequestReceived: s.TimeCreated,
-		UniqueSizeInMBs:     1,
-		VolumeID:            "volume_id",
-	}
-	s.Res.ETag = "etag"
-	s.Res.RequestID = "opcrequestid"
-
-	deletedRes := *s.Res
-	s.DeletedRes = &deletedRes
-	s.DeletedRes.State = baremetal.ResourceTerminated
-
-	opts := &baremetal.CreateOptions{}
-	opts.DisplayName = "display_name"
-	s.Client.On("CreateVolumeBackup", "volume_id", opts).Return(s.Res, nil)
-	s.Client.On("DeleteVolumeBackup", "id", (*baremetal.IfMatchOptions)(nil)).Return(nil)
 }
 
 func (s *ResourceCoreVolumeBackupTestSuite) TestCreateVolumeBackup() {
-	s.Client.On("GetVolumeBackup", "id").Return(s.Res, nil).Times(2)
-	s.Client.On("GetVolumeBackup", "id").Return(s.DeletedRes, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -85,15 +65,12 @@ func (s *ResourceCoreVolumeBackupTestSuite) TestCreateVolumeBackup() {
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", s.Res.CompartmentID),
-					resource.TestCheckResourceAttr(s.ResourceName, "display_name", s.Res.DisplayName),
-					resource.TestCheckResourceAttr(s.ResourceName, "id", s.Res.ID),
-					resource.TestCheckResourceAttr(s.ResourceName, "state", s.Res.State),
-					resource.TestCheckResourceAttr(s.ResourceName, "size_in_mbs", fmt.Sprintf("%v", s.Res.SizeInMBs)),
-					resource.TestCheckResourceAttr(s.ResourceName, "time_created", s.Res.TimeCreated.String()),
-					resource.TestCheckResourceAttr(s.ResourceName, "time_request_received", s.Res.TimeCreated.String()),
-					resource.TestCheckResourceAttr(s.ResourceName, "unique_size_in_mbs", fmt.Sprintf("%v", s.Res.UniqueSizeInMBs)),
-					resource.TestCheckResourceAttr(s.ResourceName, "volume_id", s.Res.VolumeID),
+
+					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "display_name"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", baremetal.ResourceAvailable),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_id"),
 				),
 			},
 		},
@@ -101,19 +78,16 @@ func (s *ResourceCoreVolumeBackupTestSuite) TestCreateVolumeBackup() {
 }
 
 func (s *ResourceCoreVolumeBackupTestSuite) TestCreateVolumeBackupWithoutDisplayName() {
-	s.Client.On("GetVolumeBackup", "id").Return(s.Res, nil).Times(2)
-	s.Client.On("GetVolumeBackup", "id").Return(s.DeletedRes, nil)
+	if IsAccTest() {
+		s.T().Skip()
+	}
 
 	s.Config = `
 		resource "baremetal_core_volume_backup" "t" {
 			volume_id = "volume_id"
 		}
 	`
-	s.Config += testProviderConfig
-
-	opts := &baremetal.CreateOptions{}
-	s.Client.On("CreateVolumeBackup", "volume_id", opts).
-		Return(s.Res, nil)
+	s.Config += testProviderConfig()
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -131,7 +105,9 @@ func (s *ResourceCoreVolumeBackupTestSuite) TestCreateVolumeBackupWithoutDisplay
 }
 
 func (s ResourceCoreVolumeBackupTestSuite) TestUpdateVolumeBackupDisplayName() {
-	s.Client.On("GetVolumeBackup", "id").Return(s.Res, nil).Times(3)
+	if IsAccTest() {
+		s.T().Skip()
+	}
 
 	config := `
 		resource "baremetal_core_volume_backup" "t" {
@@ -139,21 +115,7 @@ func (s ResourceCoreVolumeBackupTestSuite) TestUpdateVolumeBackupDisplayName() {
 			display_name = "new_display_name"
 		}
 	`
-	config += testProviderConfig
-
-	resVal := *s.Res
-	res := &resVal
-	res.DisplayName = "new_display_name"
-
-	deletedResVal := *res
-	deletedRes := &deletedResVal
-	deletedRes.State = baremetal.ResourceTerminated
-
-	opts := &baremetal.IfMatchDisplayNameOptions{}
-	opts.DisplayName = "new_display_name"
-	s.Client.On("UpdateVolumeBackup", "id", opts).Return(res, nil)
-	s.Client.On("GetVolumeBackup", "id").Return(res, nil).Times(2)
-	s.Client.On("GetVolumeBackup", "id").Return(deletedRes, nil)
+	config += testProviderConfig()
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -166,49 +128,7 @@ func (s ResourceCoreVolumeBackupTestSuite) TestUpdateVolumeBackupDisplayName() {
 			{
 				Config: config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "display_name", res.DisplayName),
-				),
-			},
-		},
-	})
-}
-
-func (s ResourceCoreVolumeBackupTestSuite) TestUpdateVolumeIDForcesNewVolumeBackup() {
-	s.Client.On("GetVolumeBackup", "id").Return(s.Res, nil).Times(3)
-	s.Client.On("GetVolumeBackup", "id").Return(s.DeletedRes, nil).Once()
-
-	config := `
-		resource "baremetal_core_volume_backup" "t" {
-			volume_id = "new_volume_id"
-		}
-  `
-	config += testProviderConfig
-
-	resVal := *s.Res
-	res := &resVal
-	res.VolumeID = "new_volume_id"
-
-	deletedResVal := *res
-	deletedRes := &deletedResVal
-	deletedRes.State = baremetal.ResourceTerminated
-
-	opts := &baremetal.CreateOptions{}
-	s.Client.On("CreateVolumeBackup", res.VolumeID, opts).Return(res, nil)
-	s.Client.On("GetVolumeBackup", "id").Return(res, nil).Times(2)
-	s.Client.On("GetVolumeBackup", "id").Return(deletedRes, nil)
-
-	resource.UnitTest(s.T(), resource.TestCase{
-		Providers: s.Providers,
-		Steps: []resource.TestStep{
-			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config:            s.Config,
-			},
-			{
-				Config: config,
-				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "volume_id", res.VolumeID),
+					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "new_display_name"),
 				),
 			},
 		},
@@ -216,8 +136,6 @@ func (s ResourceCoreVolumeBackupTestSuite) TestUpdateVolumeIDForcesNewVolumeBack
 }
 
 func (s *ResourceCoreVolumeBackupTestSuite) TestDeleteVolumeBackup() {
-	s.Client.On("GetVolumeBackup", "id").Return(s.Res, nil).Times(2)
-	s.Client.On("GetVolumeBackup", "id").Return(s.DeletedRes, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -234,7 +152,6 @@ func (s *ResourceCoreVolumeBackupTestSuite) TestDeleteVolumeBackup() {
 		},
 	})
 
-	s.Client.AssertCalled(s.T(), "DeleteVolumeBackup", "id", (*baremetal.IfMatchOptions)(nil))
 }
 
 func TestResourceCoreVolumeBackupTestSuite(t *testing.T) {

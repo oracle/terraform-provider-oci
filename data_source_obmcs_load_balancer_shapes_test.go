@@ -5,16 +5,13 @@ package main
 import (
 	"testing"
 
-	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
-
-	"github.com/oracle/terraform-provider-baremetal/client/mocks"
 )
 
 func TestLoadBalancerShapesDatasource(t *testing.T) {
-	client := &mocks.BareMetalClient{}
+	client := GetTestProvider()
 	providers := map[string]terraform.ResourceProvider{
 		"baremetal": Provider(func(d *schema.ResourceData) (interface{}, error) {
 			return client, nil
@@ -23,23 +20,10 @@ func TestLoadBalancerShapesDatasource(t *testing.T) {
 	resourceName := "data.baremetal_load_balancer_shapes.t"
 	config := `
 data "baremetal_load_balancer_shapes" "t" {
-  compartment_id = "ocid1.compartment.stub_id"
+  compartment_id = "${var.compartment_id}"
 }
 `
-	config += testProviderConfig
-
-	compartmentID := "ocid1.compartment.stub_id"
-	list := &baremetal.ListLoadBalancerShapes{
-		LoadBalancerShapes: []baremetal.LoadBalancerShape{
-			{Name: "stub_name1"},
-			{Name: "stub_name2"},
-		},
-	}
-	client.On(
-		"ListLoadBalancerShapes",
-		compartmentID,
-		(*baremetal.ListLoadBalancerPolicyOptions)(nil),
-	).Return(list, nil)
+	config += testProviderConfig()
 
 	resource.UnitTest(t, resource.TestCase{
 		PreventPostDestroyRefresh: true,
@@ -48,10 +32,9 @@ data "baremetal_load_balancer_shapes" "t" {
 			{
 				Config: config,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentID),
-					resource.TestCheckResourceAttr(resourceName, "shapes.#", "2"),
-					resource.TestCheckResourceAttr(resourceName, "shapes.0.name", "stub_name1"),
-					resource.TestCheckResourceAttr(resourceName, "shapes.1.name", "stub_name2"),
+					resource.TestCheckResourceAttrSet(resourceName, "shapes.#"),
+					resource.TestCheckResourceAttrSet(resourceName, "shapes.0.name"),
+					resource.TestCheckResourceAttrSet(resourceName, "shapes.1.name"),
 				),
 			},
 		},

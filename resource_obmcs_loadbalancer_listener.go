@@ -4,8 +4,6 @@ package main
 
 import (
 	"fmt"
-	"log"
-	"strings"
 
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
@@ -89,28 +87,14 @@ type LoadBalancerListenerResourceCrud struct {
 
 // ID uniquely identifies the listener and its parent load balancer
 func (s *LoadBalancerListenerResourceCrud) ID() string {
-	log.Printf("[DEBUG] lb.LoadBalancerListenerResourceCrud.ID: WorkRequest: %#v", s.WorkRequest)
-	if s.WorkRequest != nil && s.WorkRequest.State != baremetal.WorkRequestSucceeded {
-		log.Printf("[DEBUG] lb.LoadBalancerListenerResourceCrud.ID: WorkRequest.ID: %s", s.WorkRequest.ID)
-		return s.WorkRequest.ID
+	id, workSuccess := crud.LoadBalancerResourceID(s.Resource, s.WorkRequest)
+	if id != nil {
+		return *id
 	}
-
-	id := fmt.Sprintf("%s/listener/%s", s.D.Get("load_balancer_id").(string), s.D.Get("name").(string))
-	log.Printf("[DEBUG] lb.LoadBalancerListenerResourceCrud.ID: %#v", id)
-	return id
-}
-
-// RefreshWorkRequest returns the last updated workRequest
-func (s *LoadBalancerListenerResourceCrud) RefreshWorkRequest() (*baremetal.WorkRequest, error) {
-	if s.WorkRequest == nil {
-		return nil, nil
+	if workSuccess {
+		return s.D.Get("name").(string)
 	}
-	wr, err := s.Client.GetWorkRequest(s.WorkRequest.ID, nil)
-	if err != nil {
-		return nil, err
-	}
-	s.WorkRequest = wr
-	return wr, nil
+	return ""
 }
 
 func (s *LoadBalancerListenerResourceCrud) CreatedPending() []string {
@@ -125,6 +109,7 @@ func (s *LoadBalancerListenerResourceCrud) CreatedTarget() []string {
 	return []string{
 		baremetal.ResourceSucceededWorkRequest,
 		baremetal.WorkRequestSucceeded,
+		baremetal.ResourceFailed,
 	}
 }
 
@@ -176,50 +161,29 @@ func (s *LoadBalancerListenerResourceCrud) Create() (e error) {
 
 func (s *LoadBalancerListenerResourceCrud) Get() (e error) {
 	// key: {workRequestID} || {loadBalancerID,name}
-	id := s.D.Id()
-	log.Printf("[DEBUG] lb.LoadBalancerListenerResourceCrud.Get: ID: %#v", id)
-
-	// NOTE: if the id is for a work request, refresh its state. then refresh the listener.
-	if strings.HasPrefix(id, "ocid1.loadbalancerworkrequest.") {
-		log.Printf("[DEBUG] lb.LoadBalancerListenerResourceCrud.Get: ID is for WorkRequest, refreshing")
-		s.WorkRequest, e = s.Client.GetWorkRequest(id, nil)
-		log.Printf("[DEBUG] lb.LoadBalancerListenerResourceCrud.Get: WorkRequest: %#v", s.WorkRequest)
-		e = s.D.Set("state", s.WorkRequest.State)
-		if s.WorkRequest.State == baremetal.WorkRequestSucceeded {
-			// set state for the next phase
-			// unset work request on success
-			s.WorkRequest = nil
-		} else {
-			log.Printf("[DEBUG] lb.LoadBalancerListenerResourceCrud.Get: Work Request.State: %#v != Succeeded", s.WorkRequest.State)
-			s.D.Set("state", s.WorkRequest.State)
-			// We do not have a completed work request, so we short-circuit out
-			return
-		}
+	_, stillWorking, err := crud.LoadBalancerResourceGet(s.BaseCrud, s.WorkRequest)
+	if err != nil {
+		return err
+	}
+	if stillWorking {
+		return nil
 	}
 
-	l, e := s.GetListener(s.D.Get("load_balancer_id").(string), s.D.Get("name").(string))
-	if e != nil {
-		return e
-	}
-	s.Resource = l
-	return nil
+	s.Resource, e = s.GetListener(s.D.Get("load_balancer_id").(string), s.D.Get("name").(string))
+	return
 }
 
 // TODO: move this into the SDK, onto the client
 func (s *LoadBalancerListenerResourceCrud) GetListener(loadBalancerID, name string) (*baremetal.Listener, error) {
-	log.Printf("[DEBUG] lb.GetListener: loadBalancerID: %#v, name: %#v", loadBalancerID, name)
-
-	// API does not have GetListener(loadBalancerID, name), query all and filter
 	lb, err := s.Client.GetLoadBalancer(loadBalancerID, nil)
 	if err != nil {
 		return nil, err
 	}
 	l := lb.Listeners[name]
-	log.Printf("[DEBUG] lb.GetListener: LoadBalancer: %#v", lb)
 	if l.Name == name {
 		return &l, nil
 	}
-	return nil, fmt.Errorf("No listener found with load_balancer: %v, name: %v; got %#v", loadBalancerID, name, l)
+	return nil, fmt.Errorf("Listener %s on load balancer %s does not exist", name, loadBalancerID)
 }
 
 func (s *LoadBalancerListenerResourceCrud) Update() (e error) {
@@ -240,11 +204,8 @@ func (s *LoadBalancerListenerResourceCrud) Update() (e error) {
 }
 
 func (s *LoadBalancerListenerResourceCrud) SetData() {
-	// load_balancer_id is not returned, but we should be able to trust it
-	// s.D.Set("load_balancer_id", s.Resource.LoadBalancerID)
-
 	if s.Resource == nil {
-		panic("Listener Resource is nil, cannot SetData")
+		return
 	}
 	s.D.Set("name", s.Resource.Name)
 	s.D.Set("default_backend_set_name", s.Resource.DefaultBackendSetName)

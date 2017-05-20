@@ -11,14 +11,12 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
-	"github.com/oracle/terraform-provider-baremetal/client/mocks"
-
 	"github.com/stretchr/testify/suite"
 )
 
 type ResourceIdentityAPIKeysTestSuite struct {
 	suite.Suite
-	Client       *mocks.BareMetalClient
+	Client       mockableClient
 	Config       string
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
@@ -27,7 +25,7 @@ type ResourceIdentityAPIKeysTestSuite struct {
 }
 
 func (s *ResourceIdentityAPIKeysTestSuite) SetupTest() {
-	s.Client = &mocks.BareMetalClient{}
+	s.Client = GetTestProvider()
 	s.Provider = Provider(func(d *schema.ResourceData) (interface{}, error) {
 		return s.Client, nil
 	})
@@ -36,11 +34,27 @@ func (s *ResourceIdentityAPIKeysTestSuite) SetupTest() {
 		"baremetal": s.Provider,
 	}
 	s.Config = `
-    data "baremetal_identity_api_keys" "t" {
-      user_id = "user_id"
-    }
+	resource "baremetal_identity_user" "t" {
+			name = "name1"
+			description = "desc!"
+		}
+		resource "baremetal_identity_api_key" "t" {
+			user_id = "${baremetal_identity_user.t.id}"
+			key_value = <<EOF
+-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtBLQAGmKJ7tpfzYJyqLG
+ZDwHL51+d6T8Z00BnP9CFfzxZZZ48PcYSUHuTyCM8mR5JqYLyH6C8tZ/DKqwxUnc
+ONgBytG3MM42bgxfHIhsZRj5rCz1oqWlSLuXvgww1kuqWnt6r+NtnXog439YsGTH
+RotrTLTdEgOxH0EFP5uHUc9w/Uix7rWU7GB2ra060oeTB/hKpts5U70eI2EI6ec9
+1sJdUIj7xNfBJeQQrz4CFUrkyzL06211CFvhmxH2hA9gBKOqC3rGL8XraHZBhGWn
+mXlrQB7nNKsJrrv5fHwaPDrAY4iNP2W0q3LRpyNigJ6cgRuGJhHa82iHPmxgIx8m
+fwIDAQAB
+-----END PUBLIC KEY-----
+EOF
+		}
+
   `
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 	s.ResourceName = "data.baremetal_identity_api_keys.t"
 
 	b1 := baremetal.APIKey{
@@ -61,7 +75,6 @@ func (s *ResourceIdentityAPIKeysTestSuite) SetupTest() {
 }
 
 func (s *ResourceIdentityAPIKeysTestSuite) TestReadAPIKeys() {
-	s.Client.On("ListAPIKeys", "user_id").Return(s.List, nil)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,
@@ -71,18 +84,21 @@ func (s *ResourceIdentityAPIKeysTestSuite) TestReadAPIKeys() {
 				ImportState:       true,
 				ImportStateVerify: true,
 				Config:            s.Config,
+			},
+			{
+				Config: s.Config + `
+				    data "baremetal_identity_api_keys" "t" {
+				      user_id = "${baremetal_identity_user.t.id}"
+				    }`,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "user_id", "user_id"),
-					resource.TestCheckResourceAttr(s.ResourceName, "api_keys.0.id", "id1"),
-					resource.TestCheckResourceAttr(s.ResourceName, "api_keys.1.id", "id2"),
-					resource.TestCheckResourceAttr(s.ResourceName, "api_keys.#", "2"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "api_keys.0.id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "api_keys.#", "1"),
 				),
 			},
 		},
 	},
 	)
 
-	s.Client.AssertCalled(s.T(), "ListAPIKeys", "user_id")
 }
 
 func TestResourceIdentityAPIKeysTestSuite(t *testing.T) {

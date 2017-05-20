@@ -5,12 +5,9 @@ package main
 import (
 	"testing"
 
-	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
-
-	"github.com/oracle/terraform-provider-baremetal/client/mocks"
 
 	"crypto/rand"
 
@@ -19,7 +16,7 @@ import (
 
 type CoreConsoleHistoryDataDatasourceTestSuite struct {
 	suite.Suite
-	Client       *mocks.BareMetalClient
+	Client       mockableClient
 	Config       string
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
@@ -27,7 +24,7 @@ type CoreConsoleHistoryDataDatasourceTestSuite struct {
 }
 
 func (s *CoreConsoleHistoryDataDatasourceTestSuite) SetupTest() {
-	s.Client = &mocks.BareMetalClient{}
+	s.Client = GetTestProvider()
 	s.Provider = Provider(func(d *schema.ResourceData) (interface{}, error) {
 		return s.Client, nil
 	})
@@ -35,33 +32,22 @@ func (s *CoreConsoleHistoryDataDatasourceTestSuite) SetupTest() {
 	s.Providers = map[string]terraform.ResourceProvider{
 		"baremetal": s.Provider,
 	}
-	s.Config = `
+	s.Config = instanceConfig + `
+    resource "baremetal_core_console_history" "t" {
+	instance_id = "${baremetal_core_instance.t.id}"
+    }
     data "baremetal_core_console_history_data" "s" {
-      console_history_id = "ichid"
+      console_history_id = "${baremetal_core_console_history.t.id}"
       length = 1
-      offset = 1
     }
   `
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 	s.ResourceName = "data.baremetal_core_console_history_data.s"
 }
 
 func (s *CoreConsoleHistoryDataDatasourceTestSuite) TestResourceShowConsoleHistory() {
 	data := make([]byte, 100)
 	rand.Read(data)
-
-	opts := &baremetal.ConsoleHistoryDataOptions{}
-	opts.Length = 1
-	opts.Offset = 1
-
-	s.Client.On("ShowConsoleHistoryData", "ichid", opts).
-		Return(
-			&baremetal.ConsoleHistoryData{
-				BytesRemaining: 50,
-				Data:           string(data),
-			},
-			nil,
-		)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,

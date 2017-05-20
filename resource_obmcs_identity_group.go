@@ -6,6 +6,8 @@ import (
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
 
+	"time"
+
 	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/crud"
 )
@@ -85,6 +87,10 @@ func (s *GroupSync) DeletedPending() []string {
 
 func (s *GroupSync) DeletedTarget() []string {
 	return []string{baremetal.ResourceDeleted}
+}
+
+func (s *GroupSync) ExtraWaitPostCreateDelete() time.Duration {
+	return time.Duration(20 * time.Second)
 }
 
 func (s *GroupSync) Create() (e error) {

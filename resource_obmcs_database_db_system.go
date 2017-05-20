@@ -87,6 +87,7 @@ func DBSystemResource() *schema.Resource {
 									"admin_password": {
 										Type:     schema.TypeString,
 										Required: true,
+										Sensitive: true,
 									},
 									"db_name": {
 										Type:     schema.TypeString,
@@ -276,17 +277,6 @@ func (s *DBSystemResourceCrud) SetData() {
 	s.D.Set("cpu_core_count", s.Res.CPUCoreCount)
 	s.D.Set("display_name", s.Res.DisplayName)
 	s.D.Set("database_edition", s.Res.DatabaseEdition)
-
-	db := map[string]interface{}{
-		"admin_password": s.Res.DBHome.Database.AdminPassword,
-		"db_name":        s.Res.DBHome.Database.DBName,
-	}
-	dbHome := map[string]interface{}{
-		"database":     []interface{}{db},
-		"db_version":   s.Res.DBHome.DBVersion,
-		"display_name": s.Res.DBHome.DisplayName,
-	}
-	s.D.Set("db_home", []interface{}{dbHome})
 
 	s.D.Set("disk_redundancy", s.Res.DiskRedundancy)
 	s.D.Set("domain", s.Res.Domain)

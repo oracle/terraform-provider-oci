@@ -4,21 +4,17 @@ package main
 
 import (
 	"testing"
-	"time"
 
-	baremetal "github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
-
-	"github.com/oracle/terraform-provider-baremetal/client/mocks"
 
 	"github.com/stretchr/testify/suite"
 )
 
 type DatasourceCoreIPSecConfigTestSuite struct {
 	suite.Suite
-	Client       *mocks.BareMetalClient
+	Client       mockableClient
 	Config       string
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
@@ -26,7 +22,7 @@ type DatasourceCoreIPSecConfigTestSuite struct {
 }
 
 func (s *DatasourceCoreIPSecConfigTestSuite) SetupTest() {
-	s.Client = &mocks.BareMetalClient{}
+	s.Client = GetTestProvider()
 	s.Provider = Provider(func(d *schema.ResourceData) (interface{}, error) {
 		return s.Client, nil
 	})
@@ -35,44 +31,34 @@ func (s *DatasourceCoreIPSecConfigTestSuite) SetupTest() {
 		"baremetal": s.Provider,
 	}
 	s.Config = `
+		resource "baremetal_core_drg" "t" {
+			compartment_id = "${var.compartment_id}"
+			display_name = "display_name"
+		}
+		resource "baremetal_core_cpe" "t" {
+			compartment_id = "${var.compartment_id}"
+			display_name = "displayname"
+      			ip_address = "123.123.123.123"
+		}
+		resource "baremetal_core_ipsec" "t" {
+			compartment_id = "${var.compartment_id}"
+      			cpe_id = "${baremetal_core_cpe.t.id}"
+      			drg_id = "${baremetal_core_drg.t.id}"
+			display_name = "display_name"
+      			static_routes = ["10.0.0.0/16"]
+		}
+
+
     data "baremetal_core_ipsec_config" "s" {
-      ipsec_id = "ipsecid"
+      ipsec_id = "${baremetal_core_ipsec.t.id}"
     }
   `
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 	s.ResourceName = "data.baremetal_core_ipsec_config.s"
 
 }
 
 func (s *DatasourceCoreIPSecConfigTestSuite) TestIPSecConfig() {
-
-	s.Client.On(
-		"GetIPSecConnectionDeviceConfig",
-		"ipsecid",
-	).Return(
-		&baremetal.IPSecConnectionDeviceConfig{
-			IPSecConnectionDevice: baremetal.IPSecConnectionDevice{
-				CompartmentID: "compartmentid",
-				ID:            "id",
-				TimeCreated:   baremetal.Time{Time: time.Now()},
-			},
-
-			Tunnels: []baremetal.TunnelConfig{
-				{
-					IPAddress:    "10.10.10.2",
-					SharedSecret: "secret1",
-					TimeCreated:  baremetal.Time{Time: time.Now()},
-				},
-				{
-					IPAddress:    "10.10.10.3",
-					SharedSecret: "secret2",
-					TimeCreated:  baremetal.Time{Time: time.Now()},
-				},
-			},
-		},
-		nil,
-	)
-
 	resource.UnitTest(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
@@ -82,19 +68,14 @@ func (s *DatasourceCoreIPSecConfigTestSuite) TestIPSecConfig() {
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartmentid"),
-					resource.TestCheckResourceAttr(s.ResourceName, "id", "id"),
-					resource.TestCheckResourceAttr(s.ResourceName, "tunnels.0.ip_address", "10.10.10.2"),
-					resource.TestCheckResourceAttr(s.ResourceName, "tunnels.0.shared_secret", "secret1"),
-					resource.TestCheckResourceAttr(s.ResourceName, "tunnels.1.ip_address", "10.10.10.3"),
-					resource.TestCheckResourceAttr(s.ResourceName, "tunnels.1.shared_secret", "secret2"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "tunnels.0.ip_address"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "tunnels.0.shared_secret"),
 				),
 			},
 		},
 	},
 	)
-
-	s.Client.AssertCalled(s.T(), "GetIPSecConnectionDeviceConfig", "ipsecid")
 
 }
 

@@ -19,13 +19,10 @@ func (l *ListDBVersions) GetList() interface{} {
 // ListDBVersions returns a list of supported Oracle database versions. The request MAY contain optional paging arguments.
 //
 // See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/database/20160918/DbVersion/ListDbVersions
-func (c *Client) ListDBVersions(compartmentID string, limit uint64, opts *PageListOptions) (resources *ListDBVersions, e error) {
+func (c *Client) ListDBVersions(compartmentID string, opts *ListOptions) (resources *ListDBVersions, e error) {
 	required := struct {
 		listOCIDRequirement
-		Limit uint64 `header:"-" json:"-" url:"limit"`
-	}{
-		Limit: limit,
-	}
+	}{}
 	required.CompartmentID = compartmentID
 
 	details := &requestDetails{

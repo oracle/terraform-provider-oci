@@ -50,14 +50,12 @@ func (c *Client) GetDBHome(id string) (res *DBHome, e error) {
 // ListDBHomes returns a list of database homes in the specified DB System. The request MAY contain optional paging arguments.
 //
 // See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/database/20160918/DbHome/ListDbHomes
-func (c *Client) ListDBHomes(compartmentID, dbSystemID string, limit uint64, opts *PageListOptions) (resources *ListDBHomes, e error) {
+func (c *Client) ListDBHomes(compartmentID, dbSystemID string,opts *ListOptions) (resources *ListDBHomes, e error) {
 	required := struct {
 		listOCIDRequirement
 		DBSystemID string `header:"-" json:"-" url:"dbSystemId"`
-		Limit      uint64 `header:"-" json:"-" url:"limit"`
 	}{
 		DBSystemID: dbSystemID,
-		Limit:      limit,
 	}
 	required.CompartmentID = compartmentID
 

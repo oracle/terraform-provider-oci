@@ -4,21 +4,16 @@ package main
 
 import (
 	"testing"
-	"time"
 
-	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
-
-	"github.com/oracle/terraform-provider-baremetal/client/mocks"
-
 	"github.com/stretchr/testify/suite"
 )
 
 type ResourceCoreSubnetsTestSuite struct {
 	suite.Suite
-	Client       *mocks.BareMetalClient
+	Client       mockableClient
 	Config       string
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
@@ -26,7 +21,7 @@ type ResourceCoreSubnetsTestSuite struct {
 }
 
 func (s *ResourceCoreSubnetsTestSuite) SetupTest() {
-	s.Client = &mocks.BareMetalClient{}
+	s.Client = GetTestProvider()
 	s.Provider = Provider(func(d *schema.ResourceData) (interface{}, error) {
 		return s.Client, nil
 	})
@@ -35,68 +30,71 @@ func (s *ResourceCoreSubnetsTestSuite) SetupTest() {
 		"baremetal": s.Provider,
 	}
 	s.Config = `
-    data "baremetal_core_subnets" "s" {
-      compartment_id = "compartmentid"
-      vcn_id = "vcnid"
+data "baremetal_identity_availability_domains" "ADs" {
+  compartment_id = "${var.compartment_id}"
+}
+
+resource "baremetal_core_virtual_network" "t" {
+	cidr_block = "10.0.0.0/16"
+	compartment_id = "${var.compartment_id}"
+	display_name = "network_name"
+}
+
+resource "baremetal_core_internet_gateway" "CompleteIG" {
+    compartment_id = "${var.compartment_id}"
+    display_name = "CompleteIG"
+    vcn_id = "${baremetal_core_virtual_network.t.id}"
+}
+
+resource "baremetal_core_route_table" "RouteForComplete" {
+    compartment_id = "${var.compartment_id}"
+    vcn_id = "${baremetal_core_virtual_network.t.id}"
+    display_name = "RouteTableForComplete"
+    route_rules {
+        cidr_block = "0.0.0.0/0"
+        network_entity_id = "${baremetal_core_internet_gateway.CompleteIG.id}"
     }
+}
+
+resource "baremetal_core_security_list" "WebSubnet" {
+    compartment_id = "${var.compartment_id}"
+    display_name = "Public"
+    vcn_id = "${baremetal_core_virtual_network.t.id}"
+    egress_security_rules = [{
+        destination = "0.0.0.0/0"
+        protocol = "6"
+    }]
+    ingress_security_rules = [{
+        tcp_options {
+            "max" = 80
+            "min" = 80
+        }
+        protocol = "6"
+        source = "0.0.0.0/0"
+    },
+	{
+	protocol = "6"
+	source = "10.0.0.0/16"
+    }]
+}
+
+
+resource "baremetal_core_subnet" "WebSubnetAD1" {
+  availability_domain = "${data.baremetal_identity_availability_domains.ADs.availability_domains.0.name}"
+  cidr_block = "10.0.0.0/16"
+  display_name = "WebSubnetAD1"
+  compartment_id = "${var.compartment_id}"
+  vcn_id = "${baremetal_core_virtual_network.t.id}"
+  route_table_id = "${baremetal_core_route_table.RouteForComplete.id}"
+  security_list_ids = ["${baremetal_core_security_list.WebSubnet.id}"]
+}
   `
-	s.Config += testProviderConfig
+	s.Config += testProviderConfig()
 	s.ResourceName = "data.baremetal_core_subnets.s"
 
 }
 
 func (s *ResourceCoreSubnetsTestSuite) TestResourceListSubnets() {
-	opts := &baremetal.ListOptions{}
-	s.Client.On(
-		"ListSubnets",
-		"compartmentid",
-		"vcnid",
-		opts,
-	).Return(
-		&baremetal.ListSubnets{
-			Subnets: []baremetal.Subnet{
-				{
-					AvailabilityDomain: "availabilitydomainid",
-					CIDRBlock:          "10.10.10.0/24",
-					CompartmentID:      "compartmentid",
-					DisplayName:        "display_name",
-					ID:                 "id1",
-					RouteTableID:       "routetableid",
-					SecurityListIDs: []string{
-						"slid1",
-						"slid2",
-					},
-					State: baremetal.ResourceAvailable,
-					TimeCreated: baremetal.Time{
-						Time: time.Now(),
-					},
-					VcnID:            "vcnid",
-					VirtualRouterIP:  "virtualrouterip",
-					VirtualRouterMac: "virtualroutermac",
-				},
-				{
-					AvailabilityDomain: "availabilitydomainid",
-					CIDRBlock:          "10.10.11.0/24",
-					CompartmentID:      "compartmentid",
-					DisplayName:        "display_name",
-					ID:                 "id2",
-					RouteTableID:       "routetableid",
-					SecurityListIDs: []string{
-						"slid1",
-						"slid2",
-					},
-					State: baremetal.ResourceAvailable,
-					TimeCreated: baremetal.Time{
-						Time: time.Now(),
-					},
-					VcnID:            "vcnid",
-					VirtualRouterIP:  "virtualrouterip",
-					VirtualRouterMac: "virtualroutermac",
-				},
-			},
-		},
-		nil,
-	)
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,
@@ -106,151 +104,24 @@ func (s *ResourceCoreSubnetsTestSuite) TestResourceListSubnets() {
 				ImportState:       true,
 				ImportStateVerify: true,
 				Config:            s.Config,
-				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartmentid"),
-					resource.TestCheckResourceAttr(s.ResourceName, "vcn_id", "vcnid"),
-					resource.TestCheckResourceAttr(s.ResourceName, "subnets.0.availability_domain", "availabilitydomainid"),
-					resource.TestCheckResourceAttr(s.ResourceName, "subnets.0.id", "id1"),
-					resource.TestCheckResourceAttr(s.ResourceName, "subnets.1.id", "id2"),
-					resource.TestCheckResourceAttr(s.ResourceName, "subnets.#", "2"),
-				),
 			},
-		},
-	},
-	)
-
-	s.Client.AssertCalled(s.T(), "ListSubnets", "compartmentid", "vcnid", opts)
-
-}
-
-func (s *ResourceCoreSubnetsTestSuite) TestResourceListSubnetsWithPagination() {
-	opts := &baremetal.ListOptions{}
-	res := &baremetal.ListSubnets{}
-	res.NextPage = "nextpage"
-	res.Subnets = []baremetal.Subnet{
-		{
-			AvailabilityDomain: "availabilitydomainid",
-			CIDRBlock:          "10.10.10.0/24",
-			CompartmentID:      "compartmentid",
-			DisplayName:        "display_name",
-			ID:                 "id1",
-			RouteTableID:       "routetableid",
-			SecurityListIDs: []string{
-				"slid1",
-				"slid2",
-			},
-			State: baremetal.ResourceAvailable,
-			TimeCreated: baremetal.Time{
-				Time: time.Now(),
-			},
-			VcnID:            "vcnid",
-			VirtualRouterIP:  "virtualrouterip",
-			VirtualRouterMac: "virtualroutermac",
-		},
-		{
-			AvailabilityDomain: "availabilitydomainid",
-			CIDRBlock:          "10.10.11.0/24",
-			CompartmentID:      "compartmentid",
-			DisplayName:        "display_name",
-			ID:                 "id2",
-			RouteTableID:       "routetableid",
-			SecurityListIDs: []string{
-				"slid1",
-				"slid2",
-			},
-			State: baremetal.ResourceAvailable,
-			TimeCreated: baremetal.Time{
-				Time: time.Now(),
-			},
-			VcnID:            "vcnid",
-			VirtualRouterIP:  "virtualrouterip",
-			VirtualRouterMac: "virtualroutermac",
-		},
-	}
-	s.Client.On(
-		"ListSubnets",
-		"compartmentid",
-		"vcnid",
-		opts,
-	).Return(res, nil)
-
-	opts2 := &baremetal.ListOptions{}
-	opts2.Page = "nextpage"
-
-	s.Client.On(
-		"ListSubnets",
-		"compartmentid",
-		"vcnid",
-		opts2,
-	).Return(
-		&baremetal.ListSubnets{
-			Subnets: []baremetal.Subnet{
-				{
-					AvailabilityDomain: "availabilitydomainid",
-					CIDRBlock:          "10.10.10.0/24",
-					CompartmentID:      "compartmentid",
-					DisplayName:        "display_name",
-					ID:                 "id3",
-					RouteTableID:       "routetableid",
-					SecurityListIDs: []string{
-						"slid1",
-						"slid2",
-					},
-					State: baremetal.ResourceAvailable,
-					TimeCreated: baremetal.Time{
-						Time: time.Now(),
-					},
-					VcnID:            "vcnid",
-					VirtualRouterIP:  "virtualrouterip",
-					VirtualRouterMac: "virtualroutermac",
-				},
-				{
-					AvailabilityDomain: "availabilitydomainid",
-					CIDRBlock:          "10.10.11.0/24",
-					CompartmentID:      "compartmentid",
-					DisplayName:        "display_name",
-					ID:                 "id4",
-					RouteTableID:       "routetableid",
-					SecurityListIDs: []string{
-						"slid1",
-						"slid2",
-					},
-					State: baremetal.ResourceAvailable,
-					TimeCreated: baremetal.Time{
-						Time: time.Now(),
-					},
-					VcnID:            "vcnid",
-					VirtualRouterIP:  "virtualrouterip",
-					VirtualRouterMac: "virtualroutermac",
-				},
-			},
-		},
-		nil,
-	)
-
-	resource.UnitTest(s.T(), resource.TestCase{
-		PreventPostDestroyRefresh: true,
-		Providers:                 s.Providers,
-		Steps: []resource.TestStep{
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config:            s.Config,
+				Config: s.Config + `
+				    data "baremetal_core_subnets" "s" {
+				      compartment_id = "${var.compartment_id}"
+				      vcn_id = "${baremetal_core_virtual_network.t.id}"
+				    }`,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", "compartmentid"),
-					resource.TestCheckResourceAttr(s.ResourceName, "vcn_id", "vcnid"),
-					resource.TestCheckResourceAttr(s.ResourceName, "subnets.0.availability_domain", "availabilitydomainid"),
-					resource.TestCheckResourceAttr(s.ResourceName, "subnets.0.id", "id1"),
-					resource.TestCheckResourceAttr(s.ResourceName, "subnets.3.id", "id4"),
-					resource.TestCheckResourceAttr(s.ResourceName, "subnets.#", "4"),
+
+					resource.TestCheckResourceAttrSet(s.ResourceName, "vcn_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "subnets.0.availability_domain"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "subnets.0.id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "subnets.#", "1"),
 				),
 			},
 		},
 	},
 	)
-
-	s.Client.AssertCalled(s.T(), "ListSubnets", "compartmentid", "vcnid", opts2)
-
 }
 
 func TestResourceCoreSubnetsTestSuite(t *testing.T) {

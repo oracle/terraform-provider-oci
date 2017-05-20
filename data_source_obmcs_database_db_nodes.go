@@ -27,7 +27,7 @@ func DBNodesDatasource() *schema.Resource {
 			},
 			"limit": {
 				Type:     schema.TypeInt,
-				Required: true,
+				Optional: true,
 			},
 			"page": {
 				Type:     schema.TypeString,
@@ -58,24 +58,24 @@ type DBNodesDatasourceCrud struct {
 func (s *DBNodesDatasourceCrud) Get() (e error) {
 	compartmentID := s.D.Get("compartment_id").(string)
 	dbSystemID := s.D.Get("db_system_id").(string)
-	limit := uint64(s.D.Get("limit").(int))
 
-	opts := &baremetal.PageListOptions{}
-	options.SetPageOptions(s.D, opts)
+	opts := &baremetal.ListOptions{}
+	options.SetPageOptions(s.D, &opts.PageListOptions)
+	options.SetLimitOptions(s.D, &opts.LimitListOptions)
 
 	s.Res = &baremetal.ListDBNodes{}
 
 	for {
 		var list *baremetal.ListDBNodes
 		if list, e = s.Client.ListDBNodes(
-			compartmentID, dbSystemID, limit, opts,
+			compartmentID, dbSystemID, opts,
 		); e != nil {
 			break
 		}
 
 		s.Res.DBNodes = append(s.Res.DBNodes, list.DBNodes...)
 
-		if hasNextPage := options.SetNextPageOption(list.NextPage, opts); !hasNextPage {
+		if hasNextPage := options.SetNextPageOption(list.NextPage, &opts.PageListOptions); !hasNextPage {
 			break
 		}
 	}

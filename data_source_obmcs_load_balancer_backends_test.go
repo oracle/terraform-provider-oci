@@ -9,12 +9,10 @@ import (
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
-
-	"github.com/oracle/terraform-provider-baremetal/client/mocks"
 )
 
 func TestLoadBalancerBackendsDatasource(t *testing.T) {
-	client := &mocks.BareMetalClient{}
+	client := GetTestProvider()
 	providers := map[string]terraform.ResourceProvider{
 		"baremetal": Provider(func(d *schema.ResourceData) (interface{}, error) {
 			return client, nil
@@ -27,7 +25,7 @@ data "baremetal_load_balancer_backends" "t" {
   backendset_name  = "stub_backendset_name"
 }
 `
-	config += testProviderConfig
+	config += testProviderConfig()
 
 	loadbalancerID := "ocid1.loadbalancer.stub_id"
 	backendsetName := "stub_backendset_name"

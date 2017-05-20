@@ -47,7 +47,7 @@ func DBSystemShapeDatasource() *schema.Resource {
 			},
 			"limit": {
 				Type:     schema.TypeInt,
-				Required: true,
+				Optional: true,
 			},
 			"page": {
 				Type:     schema.TypeString,
@@ -73,24 +73,24 @@ type DBSystemShapeDatasourceCrud struct {
 func (s *DBSystemShapeDatasourceCrud) Get() (e error) {
 	availabilityDomain := s.D.Get("availability_domain").(string)
 	compartmentID := s.D.Get("compartment_id").(string)
-	limit := uint64(s.D.Get("limit").(int))
 
-	opts := &baremetal.PageListOptions{}
-	options.SetPageOptions(s.D, opts)
+	opts := &baremetal.ListOptions{}
+	options.SetPageOptions(s.D, &opts.PageListOptions)
+	options.SetLimitOptions(s.D, &opts.LimitListOptions)
 
 	s.Res = &baremetal.ListDBSystemShapes{}
 
 	for {
 		var list *baremetal.ListDBSystemShapes
 		if list, e = s.Client.ListDBSystemShapes(
-			availabilityDomain, compartmentID, limit, opts,
+			availabilityDomain, compartmentID, opts,
 		); e != nil {
 			break
 		}
 
 		s.Res.DBSystemShapes = append(s.Res.DBSystemShapes, list.DBSystemShapes...)
 
-		if hasNextPage := options.SetNextPageOption(list.NextPage, opts); !hasNextPage {
+		if hasNextPage := options.SetNextPageOption(list.NextPage, &opts.PageListOptions); !hasNextPage {
 			break
 		}
 	}

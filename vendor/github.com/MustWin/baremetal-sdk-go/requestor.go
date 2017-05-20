@@ -148,7 +148,7 @@ func (api *apiRequestor) request(method string, reqOpts request) (r *response, e
 		if err == nil {
 			log.Printf("[DEBUG] HTTP Response: %v\n", string(respdump))
 		} else {
-			log.Printf("[WARN] Could not dump HTTP Response: %#v, error: %#v\n", resp, err)
+			log.Printf("[WARN] Could not dump HTTP Response: %v\n %v, error: %v\n", respdump, resp, err)
 		}
 	}
 
