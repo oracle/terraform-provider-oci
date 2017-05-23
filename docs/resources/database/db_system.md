@@ -35,12 +35,12 @@ The following arguments are supported:
 * `availability_domain` - (Required) The name of the Availability Domain that the DB System is located in.
 * `compartment_id` - (Required) The OCID of the compartment.
 * `cpu_core_count` - (Required) The number of CPU cores enabled on the DB System.
-* `database_edition` - (Optional) The Oracle Database Edition that applies to all the databases on the DB System.
-* `db_home` - (Optional) Create DBHome details. See [Create DBHome Details](#create-dbhome-details) below for detials.
+* `database_edition` - (Required) The Oracle Database Edition that applies to all the databases on the DB System.
+* `db_home` - (Required) Create DBHome details. See [Create DBHome Details](#create-dbhome-details) below for detials.
 * `disk_redundancy` - (Optional) The type of redundancy configured for the DB System.
 * `display_name` - (Optional) The user-friendly name for the DB System. It does not have to be unique.
 * `domain` - (Optional) A domain name to assign to the DB System.
-* `hostname` - (Optional) The host name to assign to the DB Node.
+* `hostname` - (Required) The host name to assign to the DB Node.
 * `shape` - (Required) The shape of the DB System.
 * `ssh_public_keys` - (Required) The public key portion of the key pair to use for SSH access to the DB System.
 * `subnet_id` - (Required) The OCID of the subnet the DB System is associated with.
