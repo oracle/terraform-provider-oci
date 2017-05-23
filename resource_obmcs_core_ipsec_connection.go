@@ -98,17 +98,21 @@ func (s *IPSecConnectionResourceCrud) ID() string {
 	return s.Resource.ID
 }
 
-// TODO: I'm not sure whether we need to
-//       manage delete states for IPSec tunnels.
-//       We'll need to determine this in testing.
-// func (s *IPSecSync) CreatedTarget() []string {
-// 	return []string{baremetal.ResourceUp,
-//   baremetal.ResourceDownForMaintenance}
-// }
-//
-// func (s *IPSecSync) DeletedTarget() []string {
-// 	return []string{baremetal.ResourceDown}
-// }
+func (s *IPSecConnectionResourceCrud) CreatedPending() []string {
+	return []string{baremetal.ResourceProvisioning}
+}
+
+func (s *IPSecConnectionResourceCrud) CreatedTarget() []string {
+	return []string{baremetal.ResourceAvailable}
+}
+
+func (s *IPSecConnectionResourceCrud) DeletedPending() []string {
+	return []string{baremetal.ResourceTerminating}
+}
+
+func (s *IPSecConnectionResourceCrud) DeletedTarget() []string {
+	return []string{baremetal.ResourceTerminated}
+}
 
 func (s *IPSecConnectionResourceCrud) Create() (e error) {
 	compartmentID := s.D.Get("compartment_id").(string)
