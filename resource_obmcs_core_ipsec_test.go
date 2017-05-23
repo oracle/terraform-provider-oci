@@ -50,6 +50,7 @@ func (s *ResourceCoreIPSecTestSuite) SetupTest() {
 			compartment_id = "${var.compartment_id}"
 			display_name = "displayname"
       			ip_address = "123.123.123.123"
+      			depends_on = ["baremetal_core_drg.t"}
 		}
 		resource "baremetal_core_ipsec" "t" {
 			compartment_id = "${var.compartment_id}"

@@ -20,10 +20,8 @@ type ResourceCoreSecurityListTestSuite struct {
 	Providers    map[string]terraform.ResourceProvider
 	TimeCreated  baremetal.Time
 	Config       string
+	SLConfig     string
 	ResourceName string
-	Res          *baremetal.SecurityList
-	DeletingRes  *baremetal.SecurityList
-	DeletedRes   *baremetal.SecurityList
 }
 
 func extraWait(ew crud.ExtraWaitPostCreateDelete) {
@@ -68,7 +66,8 @@ resource "baremetal_core_route_table" "RouteForComplete" {
         network_entity_id = "${baremetal_core_internet_gateway.CompleteIG.id}"
     }
 }
-
+`
+	s.SLConfig = `
 resource "baremetal_core_security_list" "t" {
     compartment_id = "${var.compartment_id}"
     display_name = "Public"
@@ -104,9 +103,11 @@ func (s *ResourceCoreSecurityListTestSuite) TestCreateResourceCoreSecurityList()
 			{
 				ImportState:       true,
 				ImportStateVerify: true,
-				Config:            s.Config,
+				Config:            s.Config + s.SLConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "Public"),
+					resource.TestCheckResourceAttr(s.ResourceName, "egress_security_rules.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "ingress_security_rules.#", "2"),
 					resource.TestCheckResourceAttr(s.ResourceName, "egress_security_rules.0.stateless", "false"),
 					resource.TestCheckResourceAttr(s.ResourceName, "ingress_security_rules.0.tcp_options.0.max", "80"),
 				),
@@ -114,6 +115,37 @@ func (s *ResourceCoreSecurityListTestSuite) TestCreateResourceCoreSecurityList()
 		},
 	})
 }
+
+func (s *ResourceCoreSecurityListTestSuite) TestCreateResourceCoreSecurityListRemoveRules() {
+
+	resource.UnitTest(s.T(), resource.TestCase{
+		Providers: s.Providers,
+		Steps: []resource.TestStep{
+			{
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config + s.SLConfig,
+			},
+			{
+				Config: s.Config + `
+					resource "baremetal_core_security_list" "t" {
+					    compartment_id = "${var.compartment_id}"
+					    display_name = "Public"
+					    vcn_id = "${baremetal_core_virtual_network.t.id}"
+					    egress_security_rules = []
+					    ingress_security_rules = []
+					}
+				`,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "Public"),
+					resource.TestCheckResourceAttr(s.ResourceName, "egress_security_rules.#", "0"),
+					resource.TestCheckResourceAttr(s.ResourceName, "ingress_security_rules.#", "0"),
+				),
+			},
+		},
+	})
+}
+
 
 func (s *ResourceCoreSecurityListTestSuite) TestDeleteSecurityList() {
 
