@@ -27,6 +27,11 @@ var (
 	}
 )
 
+const (
+	DelayDefault = 0 * time.Second
+	DelayCreate  = 15 * time.Second
+)
+
 type BaseCrud struct {
 	D      *schema.ResourceData
 	Client client.BareMetalClient
@@ -151,7 +156,7 @@ func CreateResource(d *schema.ResourceData, sync ResourceCreator) (e error) {
 	d.SetId(sync.ID())
 
 	if stateful, ok := sync.(StatefullyCreatedResource); ok {
-		e = waitForStateRefresh(stateful, d.Timeout(schema.TimeoutCreate), stateful.CreatedPending(), stateful.CreatedTarget())
+		e = waitForStateRefresh(stateful, d.Timeout(schema.TimeoutCreate), stateful.CreatedPending(), stateful.CreatedTarget(), DelayCreate)
 	}
 
 	d.SetId(sync.ID())
@@ -195,7 +200,7 @@ func DeleteResource(d *schema.ResourceData, sync ResourceDeleter) (e error) {
 	}
 
 	if stateful, ok := sync.(StatefullyDeletedResource); ok {
-		e = waitForStateRefresh(stateful, d.Timeout(schema.TimeoutDelete), stateful.DeletedPending(), stateful.DeletedTarget())
+		e = waitForStateRefresh(stateful, d.Timeout(schema.TimeoutDelete), stateful.DeletedPending(), stateful.DeletedTarget(), DelayDefault)
 
 	}
 
@@ -230,13 +235,14 @@ func stateRefreshFunc(sync StatefulResource) resource.StateRefreshFunc {
 //
 // sync.D.Id must be set.
 // It does not set state from that refreshed state.
-func waitForStateRefresh(sync StatefulResource, timeout time.Duration, pending, target []string) (e error) {
+func waitForStateRefresh(sync StatefulResource, timeout time.Duration, pending, target []string, delay time.Duration) (e error) {
 	// TODO: try to move this onto sync
 	stateConf := &resource.StateChangeConf{
 		Pending: pending,
 		Target:  target,
 		Refresh: stateRefreshFunc(sync),
 		Timeout: timeout,
+		Delay:   delay,
 	}
 
 	if _, e = stateConf.WaitForState(); e != nil {
