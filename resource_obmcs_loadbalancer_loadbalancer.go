@@ -8,7 +8,6 @@ import (
 
 	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/crud"
-	"log"
 )
 
 func LoadBalancerResource() *schema.Resource {
