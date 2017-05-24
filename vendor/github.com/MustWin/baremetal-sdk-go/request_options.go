@@ -84,9 +84,9 @@ type UpdateLoadBalancerBackendSetOptions struct {
 	LoadBalancerOptions
 	RetryTokenOptions
 	Backends      []Backend        `header:"-" json:"backends,omitempty" url:"-"`
-	HealthChecker HealthChecker    `header:"-" json:"healthChecker,omitempty" url:"-"`
+	HealthChecker *HealthChecker    `header:"-" json:"healthChecker,omitempty" url:"-"`
 	Policy        string           `header:"-" json:"policy,omitempty" url:"-"`
-	SSLConfig     SSLConfiguration `header:"-" json:"sslConfiguration,omitempty" url:"-"`
+	SSLConfig     *SSLConfiguration `header:"-" json:"sslConfiguration,omitempty" url:"-"`
 }
 
 type UpdateLoadBalancerListenerOptions struct {

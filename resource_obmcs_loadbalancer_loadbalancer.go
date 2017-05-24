@@ -100,7 +100,6 @@ type LoadBalancerResourceCrud struct {
 // ID delegates to the load balancer ID, falling back to the work request ID
 func (s *LoadBalancerResourceCrud) ID() string {
 	id, workSuccess := crud.LoadBalancerResourceID(s.Resource, s.WorkRequest)
-	log.Printf("==================\n%s,%v\n", *id, workSuccess)
 	if id != nil {
 		return *id
 	}
@@ -175,7 +174,6 @@ func (s *LoadBalancerResourceCrud) Create() (e error) {
 func (s *LoadBalancerResourceCrud) Get() (e error) {
 	// key: {workRequestID} || {loadBalancerID}
 	id, stillWorking, err := crud.LoadBalancerResourceGet(s.BaseCrud, s.WorkRequest)
-	log.Printf("==================\n%s,%v,%v,%v\n", id, stillWorking, err, s.WorkRequest)
 	if err != nil {
 		return err
 	}
@@ -212,7 +210,7 @@ func (s *LoadBalancerResourceCrud) Update() (e error) {
 func (s *LoadBalancerResourceCrud) SetData() {
 	// The first time this is called, we haven't actually fetched the resource yet, we just got a work request
 	if s.Resource != nil && s.Resource.ID != "" {
-		s.D.SetId(s.Resource.ID)
+		//s.D.SetId(s.Resource.ID)
 		s.D.Set("compartment_id", s.Resource.CompartmentID)
 		s.D.Set("display_name", s.Resource.DisplayName)
 		s.D.Set("shape", s.Resource.Shape)
