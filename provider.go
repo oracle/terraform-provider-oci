@@ -3,6 +3,7 @@
 package main
 
 import (
+	"os"
 	"errors"
 	"fmt"
 	"net/http"
@@ -12,6 +13,7 @@ import (
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
+	"github.com/go-ini/ini"
 )
 
 var descriptions map[string]string
@@ -40,25 +42,88 @@ func Provider(configfn schema.ConfigureFunc) terraform.ResourceProvider {
 	}
 }
 
+// Get the default value from the first function that returns one without an error
+func firstOf(key string, dvs ...schema.SchemaDefaultFunc) schema.SchemaDefaultFunc {
+	return func() (interface{}, error) {
+		for _, dv := range dvs {
+			if cfg, err := dv(); cfg != nil && err == nil {
+				return cfg, nil
+			}
+		}
+
+		return nil, fmt.Errorf("Unable to retrieve default for '%s' from anywhere", key)
+	}
+}
+
+// Look for default values in the BMC configuration file
+func fileBasedConfig(file string, key string) schema.SchemaDefaultFunc {
+	return func() (interface{}, error) {
+		cfg, err := ini.InsensitiveLoad(file)
+		if cfg != nil && err == nil {
+			sec, err := cfg.GetSection("")
+			if sec != nil && err == nil {
+				if sec.HasKey(key) {
+					v, err := sec.GetKey(key)
+					if v != nil && err == nil {
+						return v.String(), nil
+					}
+					return nil, fmt.Errorf("Key (%s) has no value in %s", key, file)
+				}
+				return nil, fmt.Errorf("Key (%s) not found in %s", key, file)
+			}
+			return nil, fmt.Errorf("No default section available in %s", file)
+		}
+		return nil, fmt.Errorf("Unable to load INI file (%s)", file)
+	}
+}
+
 func schemaMap() map[string]*schema.Schema {
 	return map[string]*schema.Schema{
 		"tenancy_ocid": {
 			Type:        schema.TypeString,
 			Required:    true,
 			Description: descriptions["tenancy_ocid"],
-			DefaultFunc: schema.EnvDefaultFunc("OBMCS_TENANCY_OCID", nil),
+			DefaultFunc: firstOf(
+				"tenancy_ocid",
+				schema.EnvDefaultFunc("OBMCS_TENANCY_OCID", nil),
+				fileBasedConfig(os.Getenv("HOME") + "/.oraclebmc/config", "tenancy")),
 		},
 		"user_ocid": {
 			Type:        schema.TypeString,
 			Required:    true,
 			Description: descriptions["user_ocid"],
-			DefaultFunc: schema.EnvDefaultFunc("OBMCS_USER_OCID", nil),
+			DefaultFunc: firstOf(
+				"user_ocid",
+				schema.EnvDefaultFunc("OBMCS_USER_OCID", nil),
+				fileBasedConfig(os.Getenv("HOME") + "/.oraclebmc/config", "user")),
 		},
 		"fingerprint": {
 			Type:        schema.TypeString,
 			Required:    true,
 			Description: descriptions["fingerprint"],
-			DefaultFunc: schema.EnvDefaultFunc("OBMCS_FINGERPRINT", nil),
+			DefaultFunc: firstOf(
+				"fingerprint",
+				schema.EnvDefaultFunc("OBMCS_FINGERPRINT", nil),
+				fileBasedConfig(os.Getenv("HOME") + "/.oraclebmc/config", "fingerprint")),
+		},
+		"region": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Default:     "us-phoenix-1",
+			Description: descriptions["region"],
+			DefaultFunc: firstOf(
+				"region",
+				schema.EnvDefaultFunc("OBMCS_REGION", nil),
+				fileBasedConfig(os.Getenv("HOME") + "/.oraclebmc/config", "region")),
+		},
+		"private_key_path": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: descriptions["private_key_path"],
+			DefaultFunc: firstOf(
+				"private_key_path",
+				schema.EnvDefaultFunc("OBMCS_PRIVATE_KEY_PATH", nil),
+				fileBasedConfig(os.Getenv("HOME") + "/.oraclebmc/config", "key_file")),
 		},
 		// Mostly used for testing. Don't put keys in your .tf files
 		"private_key": {
@@ -69,12 +134,6 @@ func schemaMap() map[string]*schema.Schema {
 			Description: descriptions["private_key"],
 			DefaultFunc: schema.EnvDefaultFunc("OBMCS_PRIVATE_KEY", nil),
 		},
-		"private_key_path": {
-			Type:        schema.TypeString,
-			Optional:    true,
-			Description: descriptions["private_key_path"],
-			DefaultFunc: schema.EnvDefaultFunc("OBMCS_PRIVATE_KEY_PATH", nil),
-		},
 		"private_key_password": {
 			Type:        schema.TypeString,
 			Optional:    true,
@@ -82,13 +141,6 @@ func schemaMap() map[string]*schema.Schema {
 			Default:     "",
 			Description: descriptions["private_key_password"],
 			DefaultFunc: schema.EnvDefaultFunc("OBMCS_PRIVATE_KEY_PASSWORD", nil),
-		},
-		"region": {
-			Type:        schema.TypeString,
-			Optional:    true,
-			Default:     "us-phoenix-1",
-			Description: descriptions["region"],
-			DefaultFunc: schema.EnvDefaultFunc("OBMCS_REGION", nil),
 		},
 	}
 }
