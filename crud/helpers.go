@@ -68,14 +68,16 @@ func (s *BaseCrud) State() string {
 }
 
 func handleMissingResourceError(sync ResourceVoider, err *error) {
-	if err != nil && (
-		strings.Contains((*err).Error(), "does not exist") ||
+
+	if err != nil {
+		if strings.Contains((*err).Error(), "does not exist") ||
 		strings.Contains((*err).Error(), " not present in ") ||
 		strings.Contains((*err).Error(), "resource not found") ||
-			(strings.Contains((*err).Error(), "Load balancer") && strings.Contains((*err).Error(), " has no "))) {
-		log.Println("[DEBUG] Object does not exist, voiding resource and nullifying error")
-		sync.VoidState()
-		*err = nil
+		(strings.Contains((*err).Error(), "Load balancer") && strings.Contains((*err).Error(), " has no ")) {
+			log.Println("[DEBUG] Object does not exist, voiding resource and nullifying error")
+			sync.VoidState()
+			*err = nil
+		}
 	}
 }
 
@@ -116,7 +118,6 @@ func LoadBalancerResourceID(res interface{}, workReq *baremetal.WorkRequest) (id
 
 func LoadBalancerResourceGet(s BaseCrud, workReq *baremetal.WorkRequest) (id string, stillWorking bool, err error) {
 	id = s.D.Id()
-	log.Printf("================== ID in LoadbalancerResourceGet: %s\n", id)
 	// NOTE: if the id is for a work request, refresh its state and loadBalancerID.
 	if strings.HasPrefix(id, "ocid1.loadbalancerworkrequest.") {
 		updatedWorkReq, err := s.Client.GetWorkRequest(id, nil)
@@ -169,7 +170,19 @@ func ReadResource(sync ResourceReader) (e error) {
 		handleMissingResourceError(sync, &e)
 		return
 	}
+
 	sync.SetData()
+
+	/* Attempt at #113, but this breaks everything. Probably because this is used internally by other state checking mechanisms.
+
+	if dr, ok := sync.(StatefullyDeletedResource); ok {
+		for _, target := range dr.DeletedTarget() {
+			if dr.State() == target {
+				dr.VoidState()
+				return
+			}
+		}
+	}*/
 
 	return
 }
@@ -191,12 +204,14 @@ func UpdateResource(d *schema.ResourceData, sync ResourceUpdater) (e error) {
 // Finally, sets the ResourceData state to empty.
 func DeleteResource(d *schema.ResourceData, sync ResourceDeleter) (e error) {
 	if e = sync.Delete(); e != nil {
-		return
+		handleMissingResourceError(sync, &e)
+		if e != nil {
+			return
+		}
 	}
 
 	if stateful, ok := sync.(StatefullyDeletedResource); ok {
 		e = waitForStateRefresh(stateful, d.Timeout(schema.TimeoutDelete), stateful.DeletedPending(), stateful.DeletedTarget())
-
 	}
 
 	if ew, waitOK := sync.(ExtraWaitPostCreateDelete); waitOK {

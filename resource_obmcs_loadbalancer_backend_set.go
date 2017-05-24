@@ -158,23 +158,11 @@ func (s *LoadBalancerBackendSetResourceCrud) Get() (e error) {
 }
 
 func (s *LoadBalancerBackendSetResourceCrud) Update() (e error) {
-	healthChecker := baremetal.HealthChecker{
-		IntervalInMS:      s.D.Get("health_checker.interval_ms").(int),
-		Port:              s.D.Get("health_checker.port").(int),
-		Protocol:          s.D.Get("health_checker.protocol").(string),
-		ResponseBodyRegex: s.D.Get("health_checker.response_body_regex").(string),
-		URLPath: 	   s.D.Get("health_checker.url_path").(string),
-	}
-	sslConfig := baremetal.SSLConfiguration{
-		CertificateName:       s.D.Get("ssl_configuration.certificate_name").(string),
-		VerifyDepth:           s.D.Get("ssl_configuration.verify_depth").(int),
-		VerifyPeerCertificate: s.D.Get("ssl_configuration.verify_peer_certificate").(bool),
-	}
-	opts := &baremetal.UpdateLoadBalancerBackendSetOptions{
-		Policy:        s.D.Get("policy").(string),
-		SSLConfig:     sslConfig,
-		HealthChecker: healthChecker,
-	}
+	opts := &baremetal.UpdateLoadBalancerBackendSetOptions{}
+
+	opts.HealthChecker = s.healthChecker()
+	opts.SSLConfig = s.sslConfig()
+	opts.Policy = s.D.Get("policy").(string)
 
 	var workReqID string
 	workReqID, e = s.Client.UpdateBackendSet(s.D.Get("load_balancer_id").(string), s.D.Id(), opts)
@@ -191,18 +179,24 @@ func (s *LoadBalancerBackendSetResourceCrud) SetData() {
 	}
 	s.D.Set("policy", s.Resource.Policy)
 	s.D.Set("name", s.Resource.Name)
-	s.D.Set("health_checker", map[string]interface{}{
-		"interval_ms":         s.Resource.HealthChecker.IntervalInMS,
-		"port":                s.Resource.HealthChecker.Port,
-		"protocol":            s.Resource.HealthChecker.Protocol,
-		"response_body_regex": s.Resource.HealthChecker.ResponseBodyRegex,
-		"url_path": 	       s.Resource.HealthChecker.URLPath,
-	})
-	s.D.Set("ssl_configuration", map[string]interface{}{
-		"certificate_name":        s.Resource.SSLConfig.CertificateName,
-		"verify_depth":            s.Resource.SSLConfig.VerifyDepth,
-		"verify_peer_certificate": s.Resource.SSLConfig.VerifyPeerCertificate,
-	})
+	if s.Resource.HealthChecker != nil {
+		s.D.Set("health_checker", map[string]interface{}{
+			"interval_ms":         s.Resource.HealthChecker.IntervalInMS,
+			"port":                s.Resource.HealthChecker.Port,
+			"protocol":            s.Resource.HealthChecker.Protocol,
+			"response_body_regex": s.Resource.HealthChecker.ResponseBodyRegex,
+			"url_path":               s.Resource.HealthChecker.URLPath,
+		})
+	}
+
+	if s.Resource.SSLConfig != nil {
+		s.D.Set("ssl_configuration", map[string]interface{}{
+			"certificate_name":        s.Resource.SSLConfig.CertificateName,
+			"verify_depth":            s.Resource.SSLConfig.VerifyDepth,
+			"verify_peer_certificate": s.Resource.SSLConfig.VerifyPeerCertificate,
+		})
+	}
+
 	backends := make([]map[string]interface{}, len(s.Resource.Backends))
 	for i, v := range s.Resource.Backends {
 		backends[i] = map[string]interface{}{
@@ -229,30 +223,33 @@ func (s *LoadBalancerBackendSetResourceCrud) Delete() (e error) {
 }
 
 func (s *LoadBalancerBackendSetResourceCrud) sslConfig() (sslConfig *baremetal.SSLConfiguration) {
-	sslConfig = new(baremetal.SSLConfiguration)
 	vs := s.D.Get("ssl_configuration").([]interface{})
 	if len(vs) == 1 {
+		sslConfig = new(baremetal.SSLConfiguration)
 		v := vs[0].(map[string]interface{})
 		sslConfig.CertificateName = v["certificate_name"].(string)
 		sslConfig.VerifyDepth = v["verify_depth"].(int)
 		sslConfig.VerifyPeerCertificate = v["verify_peer_certificate"].(bool)
+		return sslConfig
 	}
 
-	return
+	return nil
 }
 
 func (s *LoadBalancerBackendSetResourceCrud) healthChecker() *baremetal.HealthChecker {
-	healthChecker := new(baremetal.HealthChecker)
+
 	vs := s.D.Get("health_checker").([]interface{})
 	if len(vs) == 1 {
+		healthChecker := new(baremetal.HealthChecker)
 		v := vs[0].(map[string]interface{})
 		healthChecker.IntervalInMS = v["interval_ms"].(int)
 		healthChecker.Port = v["port"].(int)
 		healthChecker.Protocol = v["protocol"].(string)
 		healthChecker.ResponseBodyRegex = v["response_body_regex"].(string)
 		healthChecker.URLPath = v["url_path"].(string)
+		return healthChecker
 	}
-	return healthChecker
+	return nil
 }
 func (s *LoadBalancerBackendSetResourceCrud) backends() []baremetal.Backend {
 	vs := s.D.Get("backend").([]interface{})

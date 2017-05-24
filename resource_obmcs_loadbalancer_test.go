@@ -36,6 +36,20 @@ func (s *ResourceLoadBalancerTestSuite) SetupTest() {
 	s.ResourceName = "baremetal_load_balancer.t"
 	s.Config = loadbalancerConfig + certificateConfig + `
 
+resource "baremetal_load_balancer_backendset" "no_cert" {
+  load_balancer_id = "${baremetal_load_balancer.t.id}"
+  name             = "stub_backendset_name_no_cert"
+  policy           = "ROUND_ROBIN"
+
+  health_checker {
+    interval_ms         = 30000
+    port                = 1234
+    protocol            = "HTTP"
+    response_body_regex = ".*"
+    url_path = "/"
+  }
+}
+
 resource "baremetal_load_balancer_backendset" "t" {
   load_balancer_id = "${baremetal_load_balancer.t.id}"
   name             = "stub_backendset_name"
@@ -80,7 +94,7 @@ resource "baremetal_load_balancer_backend" "t" {
   offline          = true
   weight           = 1
 }
-	`
+`
 	s.Config += testProviderConfig()
 }
 
@@ -99,17 +113,21 @@ func (s *ResourceLoadBalancerTestSuite) TestCreateResourceLoadBalancerMaximal() 
 					resource.TestCheckResourceAttrSet("baremetal_load_balancer.t", "ip_addresses.#"),
 
 					resource.TestCheckResourceAttr("baremetal_load_balancer_listener.t", "ssl_configuration.#", "1"),
-					/*
+
 					// Certificate
-					resource.TestCheckResourceAttrSet("baremetal_load_balancer_certificate.t.certificate_name", "stub_certificate_name"),
+					resource.TestCheckResourceAttr("baremetal_load_balancer_certificate.t", "certificate_name", "stub_certificate_name"),
 
 					// BackendSet
 					resource.TestCheckResourceAttr("baremetal_load_balancer_backendset.t", "name", "stub_backendset_name"),
-					resource.TestCheckResourceAttr("baremetal_load_balancer_backendset.t", "health_checker.port", "1234"),
+					resource.TestCheckResourceAttr("baremetal_load_balancer_backendset.t", "health_checker.0.port", "1234"),
 					resource.TestCheckResourceAttr("baremetal_load_balancer_backendset.t", "ssl_configuration.#", "1"),
 					resource.TestCheckResourceAttr("baremetal_load_balancer_backendset.t", "ssl_configuration.0.certificate_name", "stub_certificate_name"),
 					resource.TestCheckResourceAttr("baremetal_load_balancer_backendset.t", "ssl_configuration.0.verify_depth", "6"),
 					resource.TestCheckResourceAttr("baremetal_load_balancer_backendset.t", "ssl_configuration.0.verify_peer_certificate", "false"),
+
+					resource.TestCheckResourceAttr("baremetal_load_balancer_backendset.no_cert", "name", "stub_backendset_name_no_cert"),
+					resource.TestCheckResourceAttr("baremetal_load_balancer_backendset.no_cert", "health_checker.0.port", "1234"),
+
 
 					// Listener
 					resource.TestCheckResourceAttr("baremetal_load_balancer_listener.t", "name", "stub_listener_name"),
@@ -124,7 +142,6 @@ func (s *ResourceLoadBalancerTestSuite) TestCreateResourceLoadBalancerMaximal() 
 					resource.TestCheckResourceAttr("baremetal_load_balancer_backend.t", "drain", "true"),
 					resource.TestCheckResourceAttr("baremetal_load_balancer_backend.t", "offline", "true"),
 					resource.TestCheckResourceAttr("baremetal_load_balancer_backend.t", "weight", "1"),
-					*/
 				),
 			},
 		},
