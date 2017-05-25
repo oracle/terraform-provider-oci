@@ -69,9 +69,9 @@ func handleMissingResourceError(sync ResourceVoider, err *error) {
 
 	if err != nil {
 		if strings.Contains((*err).Error(), "does not exist") ||
-		strings.Contains((*err).Error(), " not present in ") ||
-		strings.Contains((*err).Error(), "resource not found") ||
-		(strings.Contains((*err).Error(), "Load balancer") && strings.Contains((*err).Error(), " has no ")) {
+			strings.Contains((*err).Error(), " not present in ") ||
+			strings.Contains((*err).Error(), "resource not found") ||
+			(strings.Contains((*err).Error(), "Load balancer") && strings.Contains((*err).Error(), " has no ")) {
 			log.Println("[DEBUG] Object does not exist, voiding resource and nullifying error")
 			sync.VoidState()
 			*err = nil
