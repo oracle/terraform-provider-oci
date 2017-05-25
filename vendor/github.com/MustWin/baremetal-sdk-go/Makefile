@@ -1,3 +1,8 @@
+GOFMT_FILES?=$$(find . -name '*.go' | grep -v vendor)
+
+fmt:
+	gofmt -w $(GOFMT_FILES)
+
 build: test
 	@go build github.com/MustWin/baremetal-sdk-go
 

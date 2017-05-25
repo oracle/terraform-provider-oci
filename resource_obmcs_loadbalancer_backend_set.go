@@ -5,7 +5,6 @@ package main
 import (
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
-
 	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/crud"
 )
@@ -163,7 +162,7 @@ func (s *LoadBalancerBackendSetResourceCrud) Update() (e error) {
 		Port:              s.D.Get("health_checker.port").(int),
 		Protocol:          s.D.Get("health_checker.protocol").(string),
 		ResponseBodyRegex: s.D.Get("health_checker.response_body_regex").(string),
-		URLPath: 	   s.D.Get("health_checker.url_path").(string),
+		URLPath:           s.D.Get("health_checker.url_path").(string),
 	}
 	sslConfig := baremetal.SSLConfiguration{
 		CertificateName:       s.D.Get("ssl_configuration.certificate_name").(string),
@@ -196,7 +195,7 @@ func (s *LoadBalancerBackendSetResourceCrud) SetData() {
 		"port":                s.Resource.HealthChecker.Port,
 		"protocol":            s.Resource.HealthChecker.Protocol,
 		"response_body_regex": s.Resource.HealthChecker.ResponseBodyRegex,
-		"url_path": 	       s.Resource.HealthChecker.URLPath,
+		"url_path":            s.Resource.HealthChecker.URLPath,
 	})
 	s.D.Set("ssl_configuration", map[string]interface{}{
 		"certificate_name":        s.Resource.SSLConfig.CertificateName,

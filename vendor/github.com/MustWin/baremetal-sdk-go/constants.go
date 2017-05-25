@@ -63,19 +63,22 @@ const (
 	us_ashburn_1 string = "us-ashburn-1"
 	us_phoenix_1 string = "us-phoenix-1"
 
-	identityServiceAPI        = "https://identity.%s.oraclecloud.com"
+	// <protocol><service><region><cloud-domain>
+	baseUrlTemplate = "https://%s.%s.oraclecloud.com"
+
+	identityServiceAPI        = "identity"
 	identityServiceAPIVersion = SDKVersion
 
-	coreServiceAPI        = "https://iaas.%s.oraclecloud.com"
+	coreServiceAPI        = "iaas"
 	coreServiceAPIVersion = SDKVersion
 
-	databaseServiceAPI        = "https://database.%s.oraclecloud.com"
+	databaseServiceAPI        = "database"
 	databaseServiceAPIVersion = SDKVersion
 
-	objectStorageServiceAPI        = "https://objectstorage.%s.oraclecloud.com"
+	objectStorageServiceAPI        = "objectstorage"
 	objectStorageServiceAPIVersion = SDKVersion
 
-	loadBalancerServiceAPI        = "https://iaas.%s.oraclecloud.com"
+	loadBalancerServiceAPI        = "iaas"
 	loadBalancerServiceAPIVersion = SDKVersion2
 
 	// Header Keys

@@ -53,8 +53,8 @@ func (c *Client) CreateBackend(
 	}
 
 	details := &requestDetails{
-		name: resourceLoadBalancers,
-		ids:      urlParts{loadBalancerID, resourceBackendSets, backendSetName, resourceBackends},
+		name:     resourceLoadBalancers,
+		ids:      urlParts{loadBalancerID, resourceBackendSets, backendSetName},
 		optional: opts,
 		required: required,
 	}

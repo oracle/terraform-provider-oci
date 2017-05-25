@@ -3,12 +3,11 @@
 package main
 
 import (
+	"errors"
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
-
 	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/crud"
-	"errors"
 )
 
 func LoadBalancerCertificateResource() *schema.Resource {

@@ -3,13 +3,12 @@
 package main
 
 import (
-	"log"
-
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/crud"
 	"github.com/oracle/terraform-provider-baremetal/options"
+	"log"
 )
 
 func InstanceResource() *schema.Resource {
@@ -261,7 +260,6 @@ func (s *InstanceResourceCrud) Create() (e error) {
 		opts)
 	return
 }
-
 
 /*
  * Return the id of the first VNIC attached to this Instance.

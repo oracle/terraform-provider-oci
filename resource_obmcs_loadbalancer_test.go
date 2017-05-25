@@ -3,12 +3,11 @@
 package main
 
 import (
-	"testing"
-
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/stretchr/testify/suite"
+	"testing"
 )
 
 type ResourceLoadBalancerTestSuite struct {
@@ -100,30 +99,30 @@ func (s *ResourceLoadBalancerTestSuite) TestCreateResourceLoadBalancerMaximal() 
 
 					resource.TestCheckResourceAttr("baremetal_load_balancer_listener.t", "ssl_configuration.#", "1"),
 					/*
-					// Certificate
-					resource.TestCheckResourceAttrSet("baremetal_load_balancer_certificate.t.certificate_name", "stub_certificate_name"),
+						// Certificate
+						resource.TestCheckResourceAttrSet("baremetal_load_balancer_certificate.t.certificate_name", "stub_certificate_name"),
 
-					// BackendSet
-					resource.TestCheckResourceAttr("baremetal_load_balancer_backendset.t", "name", "stub_backendset_name"),
-					resource.TestCheckResourceAttr("baremetal_load_balancer_backendset.t", "health_checker.port", "1234"),
-					resource.TestCheckResourceAttr("baremetal_load_balancer_backendset.t", "ssl_configuration.#", "1"),
-					resource.TestCheckResourceAttr("baremetal_load_balancer_backendset.t", "ssl_configuration.0.certificate_name", "stub_certificate_name"),
-					resource.TestCheckResourceAttr("baremetal_load_balancer_backendset.t", "ssl_configuration.0.verify_depth", "6"),
-					resource.TestCheckResourceAttr("baremetal_load_balancer_backendset.t", "ssl_configuration.0.verify_peer_certificate", "false"),
+						// BackendSet
+						resource.TestCheckResourceAttr("baremetal_load_balancer_backendset.t", "name", "stub_backendset_name"),
+						resource.TestCheckResourceAttr("baremetal_load_balancer_backendset.t", "health_checker.port", "1234"),
+						resource.TestCheckResourceAttr("baremetal_load_balancer_backendset.t", "ssl_configuration.#", "1"),
+						resource.TestCheckResourceAttr("baremetal_load_balancer_backendset.t", "ssl_configuration.0.certificate_name", "stub_certificate_name"),
+						resource.TestCheckResourceAttr("baremetal_load_balancer_backendset.t", "ssl_configuration.0.verify_depth", "6"),
+						resource.TestCheckResourceAttr("baremetal_load_balancer_backendset.t", "ssl_configuration.0.verify_peer_certificate", "false"),
 
-					// Listener
-					resource.TestCheckResourceAttr("baremetal_load_balancer_listener.t", "name", "stub_listener_name"),
+						// Listener
+						resource.TestCheckResourceAttr("baremetal_load_balancer_listener.t", "name", "stub_listener_name"),
 
-					resource.TestCheckResourceAttr("baremetal_load_balancer_listener.t", "ssl_configuration.0.certificate_name", "stub_certificate_name"),
-					resource.TestCheckResourceAttr("baremetal_load_balancer_listener.t", "ssl_configuration.0.verify_depth", "6"),
-					resource.TestCheckResourceAttr("baremetal_load_balancer_listener.t", "ssl_configuration.0.verify_peer_certificate", "false"),
+						resource.TestCheckResourceAttr("baremetal_load_balancer_listener.t", "ssl_configuration.0.certificate_name", "stub_certificate_name"),
+						resource.TestCheckResourceAttr("baremetal_load_balancer_listener.t", "ssl_configuration.0.verify_depth", "6"),
+						resource.TestCheckResourceAttr("baremetal_load_balancer_listener.t", "ssl_configuration.0.verify_peer_certificate", "false"),
 
-					// Backend
-					resource.TestCheckResourceAttr("baremetal_load_balancer_backend.t", "ip_address", "1.2.3.4"),
-					resource.TestCheckResourceAttr("baremetal_load_balancer_backend.t", "backup", "true"),
-					resource.TestCheckResourceAttr("baremetal_load_balancer_backend.t", "drain", "true"),
-					resource.TestCheckResourceAttr("baremetal_load_balancer_backend.t", "offline", "true"),
-					resource.TestCheckResourceAttr("baremetal_load_balancer_backend.t", "weight", "1"),
+						// Backend
+						resource.TestCheckResourceAttr("baremetal_load_balancer_backend.t", "ip_address", "1.2.3.4"),
+						resource.TestCheckResourceAttr("baremetal_load_balancer_backend.t", "backup", "true"),
+						resource.TestCheckResourceAttr("baremetal_load_balancer_backend.t", "drain", "true"),
+						resource.TestCheckResourceAttr("baremetal_load_balancer_backend.t", "offline", "true"),
+						resource.TestCheckResourceAttr("baremetal_load_balancer_backend.t", "weight", "1"),
 					*/
 				),
 			},

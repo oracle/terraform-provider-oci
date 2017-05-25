@@ -3,18 +3,16 @@
 package crud
 
 import (
-	"log"
-	"reflect"
-	"strings"
-	"time"
-
+	"errors"
+	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
-
 	"github.com/oracle/terraform-provider-baremetal/client"
-	"github.com/MustWin/baremetal-sdk-go"
-	"errors"
+	"log"
+	"reflect"
 	"strconv"
+	"strings"
+	"time"
 )
 
 var (
@@ -68,11 +66,10 @@ func (s *BaseCrud) State() string {
 }
 
 func handleMissingResourceError(sync ResourceVoider, err *error) {
-	if err != nil && (
-		strings.Contains((*err).Error(), "does not exist") ||
+	if err != nil && (strings.Contains((*err).Error(), "does not exist") ||
 		strings.Contains((*err).Error(), " not present in ") ||
 		strings.Contains((*err).Error(), "resource not found") ||
-			(strings.Contains((*err).Error(), "Load balancer") && strings.Contains((*err).Error(), " has no "))) {
+		(strings.Contains((*err).Error(), "Load balancer") && strings.Contains((*err).Error(), " has no "))) {
 		log.Println("[DEBUG] Object does not exist, voiding resource and nullifying error")
 		sync.VoidState()
 		*err = nil

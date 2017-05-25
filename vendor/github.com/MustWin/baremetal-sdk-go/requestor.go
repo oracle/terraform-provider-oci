@@ -17,11 +17,12 @@ type requestor interface {
 }
 
 type apiRequestor struct {
-	httpClient *http.Client
-	authInfo   *authenticationInfo
-	urlBuilder urlBuilderFn
-	userAgent  string
-	region     string
+	httpClient  *http.Client
+	authInfo    *authenticationInfo
+	urlBuilder  urlBuilderFn
+	urlTemplate string
+	userAgent   string
+	region      string
 }
 
 func newCoreAPIRequestor(authInfo *authenticationInfo, nco *NewClientOptions) (r *apiRequestor) {
@@ -29,10 +30,11 @@ func newCoreAPIRequestor(authInfo *authenticationInfo, nco *NewClientOptions) (r
 		httpClient: &http.Client{
 			Transport: nco.Transport,
 		},
-		authInfo:   authInfo,
-		urlBuilder: buildCoreURL,
-		userAgent:  nco.UserAgent,
-		region:     nco.Region,
+		authInfo:    authInfo,
+		urlBuilder:  buildCoreURL,
+		urlTemplate: nco.UrlTemplate,
+		userAgent:   nco.UserAgent,
+		region:      nco.Region,
 	}
 }
 
@@ -41,10 +43,11 @@ func newObjectStorageAPIRequestor(authInfo *authenticationInfo, nco *NewClientOp
 		httpClient: &http.Client{
 			Transport: nco.Transport,
 		},
-		authInfo:   authInfo,
-		urlBuilder: buildObjectStorageURL,
-		userAgent:  nco.UserAgent,
-		region:     nco.Region,
+		authInfo:    authInfo,
+		urlBuilder:  buildObjectStorageURL,
+		urlTemplate: nco.UrlTemplate,
+		userAgent:   nco.UserAgent,
+		region:      nco.Region,
 	}
 }
 
@@ -53,10 +56,11 @@ func newDatabaseAPIRequestor(authInfo *authenticationInfo, nco *NewClientOptions
 		httpClient: &http.Client{
 			Transport: nco.Transport,
 		},
-		authInfo:   authInfo,
-		urlBuilder: buildDatabaseURL,
-		userAgent:  nco.UserAgent,
-		region:     nco.Region,
+		authInfo:    authInfo,
+		urlBuilder:  buildDatabaseURL,
+		urlTemplate: nco.UrlTemplate,
+		userAgent:   nco.UserAgent,
+		region:      nco.Region,
 	}
 }
 
@@ -65,10 +69,11 @@ func newIdentityAPIRequestor(authInfo *authenticationInfo, nco *NewClientOptions
 		httpClient: &http.Client{
 			Transport: nco.Transport,
 		},
-		authInfo:   authInfo,
-		urlBuilder: buildIdentityURL,
-		userAgent:  nco.UserAgent,
-		region:     nco.Region,
+		authInfo:    authInfo,
+		urlBuilder:  buildIdentityURL,
+		urlTemplate: nco.UrlTemplate,
+		userAgent:   nco.UserAgent,
+		region:      nco.Region,
 	}
 }
 
@@ -77,10 +82,11 @@ func newLoadBalancerAPIRequestor(authInfo *authenticationInfo, nco *NewClientOpt
 		httpClient: &http.Client{
 			Transport: nco.Transport,
 		},
-		authInfo:   authInfo,
-		urlBuilder: buildLoadBalancerURL,
-		userAgent:  nco.UserAgent,
-		region:     nco.Region,
+		authInfo:    authInfo,
+		urlBuilder:  buildLoadBalancerURL,
+		urlTemplate: nco.UrlTemplate,
+		userAgent:   nco.UserAgent,
+		region:      nco.Region,
 	}
 }
 
@@ -109,7 +115,7 @@ func (api *apiRequestor) request(method string, reqOpts request) (r *response, e
 	}
 
 	var url string
-	if url, e = reqOpts.marshalURL(api.region, api.urlBuilder); e != nil {
+	if url, e = reqOpts.marshalURL(api.urlTemplate, api.region, api.urlBuilder); e != nil {
 		return
 	}
 
@@ -148,7 +154,7 @@ func (api *apiRequestor) request(method string, reqOpts request) (r *response, e
 		if err == nil {
 			log.Printf("[DEBUG] HTTP Response: %v\n", string(respdump))
 		} else {
-			log.Printf("[WARN] Could not dump HTTP Response: %v\n %v, error: %v\n", respdump, resp, err)
+			log.Printf("[WARN] Could not dump HTTP Response: %#v, error: %#v\n", resp, err)
 		}
 	}
 

@@ -212,8 +212,8 @@ type UpdateRouteTableOptions struct {
 
 type UpdateSecurityListOptions struct {
 	IfMatchDisplayNameOptions
-	EgressRules  []EgressSecurityRule  `header:"-" json:"egressSecurityRules,omitempty" url:"-"`
-	IngressRules []IngressSecurityRule `header:"-" json:"ingressSecurityRules,omitempty" url:"-"`
+	EgressRules  []EgressSecurityRule  `header:"-" json:"egressSecurityRules" url:"-"`
+	IngressRules []IngressSecurityRule `header:"-" json:"ingressSecurityRules" url:"-"`
 }
 
 type PutObjectOptions struct {
