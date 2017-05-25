@@ -333,10 +333,10 @@
 			"revisionTime": "2017-02-01T00:43:30Z"
 		},
 		{
-			"checksumSHA1": "63iOaHAGKAR1w1u0XW+QjJ48NIw=",
+			"checksumSHA1": "bB51snf1Tvq8psZNvYNK7Z6HoCc=",
 			"path": "github.com/MustWin/baremetal-sdk-go",
-			"revision": "2429be22703b6f6b994ee9eaa2ef5ca27f1eaa32",
-			"revisionTime": "2017-05-16T00:52:04Z"
+			"revision": "fe052b16535d90c5b9f0ae44bba23279adf8428f",
+			"revisionTime": "2017-05-25T01:23:55Z"
 		},
 		{
 			"checksumSHA1": "Aqy8/FoAIidY/DeQ5oTYSZ4YFVc=",
