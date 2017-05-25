@@ -146,7 +146,6 @@ func (s *ResourceCoreSecurityListTestSuite) TestCreateResourceCoreSecurityListRe
 	})
 }
 
-
 func (s *ResourceCoreSecurityListTestSuite) TestDeleteSecurityList() {
 
 	resource.UnitTest(s.T(), resource.TestCase{

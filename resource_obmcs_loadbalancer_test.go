@@ -127,7 +127,6 @@ func (s *ResourceLoadBalancerTestSuite) TestCreateResourceLoadBalancerMaximal() 
 					resource.TestCheckResourceAttr("baremetal_load_balancer_backendset.no_cert", "name", "stub_backendset_name_no_cert"),
 					resource.TestCheckResourceAttr("baremetal_load_balancer_backendset.no_cert", "health_checker.0.port", "1234"),
 
-
 					// Listener
 					resource.TestCheckResourceAttr("baremetal_load_balancer_listener.t", "name", "stub_listener_name"),
 
