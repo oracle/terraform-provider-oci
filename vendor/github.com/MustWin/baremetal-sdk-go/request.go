@@ -8,7 +8,6 @@ import (
 	"net/url"
 
 	"github.com/google/go-querystring/query"
-	"github.com/gotascii/go-http-header/header"
 )
 
 type urlParts []interface{}
@@ -88,17 +87,20 @@ func (r *requestDetails) marshalHeader() http.Header {
 
 	// TODO: Error handling here.
 	var rHeader, oHeader http.Header
-	rHeader, _ = header.NewFromStruct(r.required)
-	oHeader, _ = header.NewFromStruct(r.optional)
+	rHeader, _ = NewHeaderFromStruct(r.required)
+	oHeader, _ = NewHeaderFromStruct(r.optional)
 
 	for k, v := range rHeader {
 		oHeader[k] = v
 	}
 
 	if md, ok := r.optional.(MetadataUnmarshallable); ok {
-		prefix := "opc-meta-"
-		for name, val := range md.GetMetadata() {
-			oHeader[prefix+name] = []string{val}
+		// md may be nil and still be "ok"
+		if md != (*PutObjectOptions)(nil) {
+			prefix := "opc-meta-"
+			for name, val := range md.GetMetadata() {
+				oHeader[prefix+name] = []string{val}
+			}
 		}
 	}
 

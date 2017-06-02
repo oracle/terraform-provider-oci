@@ -5,6 +5,7 @@ fmt:
 
 build: test
 	@go build github.com/MustWin/baremetal-sdk-go
+	@go build github.com/MustWin/baremetal-sdk-go/acceptance-test/cleanup
 
 test:
 	@DEBUG=true go test -v github.com/MustWin/baremetal-sdk-go
