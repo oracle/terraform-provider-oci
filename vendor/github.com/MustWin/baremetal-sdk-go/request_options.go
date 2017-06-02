@@ -341,11 +341,11 @@ type ListBucketsOptions struct {
 type ListObjectsOptions struct {
 	ClientRequestOptions
 	LimitListOptions
-	Prefix    string `header:"-" json:"-" url:"prefix"`
-	Start     string `header:"-" json:"-" url:"start"`
-	End       string `header:"-" json:"-" url:"end"`
-	Delimiter string `header:"-" json:"-" url:"delimiter"`
-	Fields    string `header:"-" json:"-" url:"fields"`
+	Prefix    string `header:"-" json:"-" url:"prefix,omitempty"`
+	Start     string `header:"-" json:"-" url:"start,omitempty"`
+	End       string `header:"-" json:"-" url:"end,omitempty"`
+	Delimiter string `header:"-" json:"-" url:"delimiter,omitempty"`
+	Fields    string `header:"-" json:"-" url:"fields,omitempty"`
 }
 
 // Misc Options

@@ -92,6 +92,14 @@ func DBSystemResource() *schema.Resource {
 										Type:     schema.TypeString,
 										Required: true,
 									},
+									"character_set": {
+										Type:     schema.TypeString,
+										Optional: true,
+									},
+									"ncharacter_set": {
+										Type:     schema.TypeString,
+										Optional: true,
+									},
 								},
 							},
 						},
@@ -230,6 +238,8 @@ func (s *DBSystemResourceCrud) Create() (e error) {
 			displayName := dbHome["display_name"]
 			adminPassword := db["admin_password"].(string)
 			dbName := db["db_name"].(string)
+			characterSet := db["character_set"].(string)
+			ncharacterSet := db["ncharacter_set"].(string)
 			dbVersion := dbHome["db_version"].(string)
 
 			dbHomeOpts := &baremetal.DisplayNameOptions{}
@@ -238,7 +248,7 @@ func (s *DBSystemResourceCrud) Create() (e error) {
 			}
 
 			dbHomeDetails := baremetal.NewCreateDBHomeDetails(
-				adminPassword, dbName, dbVersion, dbHomeOpts,
+				adminPassword, dbName, dbVersion, characterSet, ncharacterSet, dbHomeOpts,
 			)
 			opts.DBHome = dbHomeDetails
 		}

@@ -44,6 +44,8 @@ func (l *ListDBSystems) GetList() interface{} {
 type createDatabaseDetails struct {
 	AdminPassword string `header:"-" json:"adminPassword" url:"-"`
 	DBName        string `header:"-" json:"dbName" url:"-"`
+	CharacterSet  string `header:"-" json:"characterSet,omitempty" url:"-"`
+	NCharacterSet  string `header:"-" json:"ncharacterSet,omitempty" url:"-"`
 }
 
 type createDBHomeDetails struct {
@@ -56,11 +58,13 @@ type createDBHomeDetails struct {
 // LaunchDBSystem.
 //
 // See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/database/20160918/requests/CreateDbHomeDetails
-func NewCreateDBHomeDetails(adminPassword, dbName, dbVersion string, opts *DisplayNameOptions) (dbHome createDBHomeDetails) {
+func NewCreateDBHomeDetails(adminPassword, dbName, dbVersion, characterSet, nCharacterSet string, opts *DisplayNameOptions) (dbHome createDBHomeDetails) {
 	dbHome = createDBHomeDetails{
 		Database: createDatabaseDetails{
 			AdminPassword: adminPassword,
 			DBName:        dbName,
+			CharacterSet: characterSet,
+			NCharacterSet: nCharacterSet,
 		},
 		DBVersion: dbVersion,
 	}

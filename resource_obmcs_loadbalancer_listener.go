@@ -129,16 +129,17 @@ func (s *LoadBalancerListenerResourceCrud) DeletedTarget() []string {
 }
 
 func (s *LoadBalancerListenerResourceCrud) sslConfig() (sslConfig *baremetal.SSLConfiguration) {
-	sslConfig = &baremetal.SSLConfiguration{}
 	vs := s.D.Get("ssl_configuration").([]interface{})
 	if len(vs) == 1 {
+		sslConfig = new(baremetal.SSLConfiguration)
 		v := vs[0].(map[string]interface{})
 		sslConfig.CertificateName = v["certificate_name"].(string)
 		sslConfig.VerifyDepth = v["verify_depth"].(int)
 		sslConfig.VerifyPeerCertificate = v["verify_peer_certificate"].(bool)
+		return sslConfig
 	}
 
-	return
+	return nil
 }
 
 func (s *LoadBalancerListenerResourceCrud) Create() (e error) {

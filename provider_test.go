@@ -222,6 +222,8 @@ variable "DBNodeHostName" {
 	    database {
 	      "admin_password" = "${var.DBAdminPassword}"
 	      "db_name" = "${var.DBName}"
+	      character_set = "AL32UTF8"
+	      ncharacter_set = "AL16UTF16"
 	    }
 	    db_version = "${var.DBVersion}"
 	    display_name = "MyTFDB"

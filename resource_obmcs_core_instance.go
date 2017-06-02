@@ -3,12 +3,13 @@
 package main
 
 import (
+	"log"
+
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/crud"
 	"github.com/oracle/terraform-provider-baremetal/options"
-	"log"
 )
 
 func InstanceResource() *schema.Resource {
@@ -26,7 +27,7 @@ func InstanceResource() *schema.Resource {
 		Update: updateInstance,
 		Delete: deleteInstance,
 		Schema: map[string]*schema.Schema{
-			"create_vnic_details": &schema.Schema{
+			"create_vnic_details": {
 				Type:     schema.TypeMap,
 				Optional: true,
 				Elem: &schema.Resource{
