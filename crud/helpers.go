@@ -13,9 +13,11 @@ import (
 	"strconv"
 	"strings"
 	"time"
+	"regexp"
 )
 
 var (
+	MaxRetries     uint          = 6
 	FiveMinutes    time.Duration = 5 * time.Minute
 	TwoHours       time.Duration = 120 * time.Minute
 	DefaultTimeout               = &schema.ResourceTimeout{
@@ -134,14 +136,26 @@ func LoadBalancerResourceGet(s BaseCrud, workReq *baremetal.WorkRequest) (id str
 	return id, false, nil
 }
 
+func sleepHelper(retryNum uint){
+	secondsToSleep := 1 << retryNum
+	log.Printf("[DEBUG] Got a retriable error. Waiting %d seconds and trying again...", secondsToSleep)
+	time.Sleep(time.Duration(secondsToSleep) * time.Second)
+}
+
+func isRetriableError(error string) (bool){
+	match, _ := regexp.MatchString("status\\s*:\\s*40[134]", strings.ToLower(error))
+	return !match
+}
+
 func CreateResource(d *schema.ResourceData, sync ResourceCreator) (e error) {
+	return retriableCreateResource(d, sync, 1)
+}
+
+func retriableCreateResource(d *schema.ResourceData, sync ResourceCreator, retryNum uint) (e error) {
 	if e = sync.Create(); e != nil {
-		// Check for conflicts and retry
-		// This happens with concurrent volume attachments, etc
-		if strings.Contains(strings.ToLower(e.Error()), "try again later") {
-			log.Println("[DEBUG] Resource creation conflicts with other resources. Waiting 10 seconds and trying again...")
-			time.Sleep(10 * time.Second)
-			e = CreateResource(d, sync)
+		if isRetriableError(e.Error()) && retryNum <= MaxRetries {
+			sleepHelper(retryNum)
+			e = retriableCreateResource(d, sync, retryNum + 1)
 		}
 		return e
 	}
@@ -164,8 +178,18 @@ func CreateResource(d *schema.ResourceData, sync ResourceCreator) (e error) {
 }
 
 func ReadResource(sync ResourceReader) (e error) {
+	return retriableReadResource(sync, 1)
+}
+
+func retriableReadResource(sync ResourceReader, retryNum uint) (e error){
 	if e = sync.Get(); e != nil {
 		handleMissingResourceError(sync, &e)
+		if e != nil {
+			if isRetriableError(e.Error()) && retryNum <= MaxRetries {
+				sleepHelper(retryNum)
+				e = retriableReadResource(sync, retryNum+1)
+			}
+		}
 		return
 	}
 
@@ -186,8 +210,16 @@ func ReadResource(sync ResourceReader) (e error) {
 }
 
 func UpdateResource(d *schema.ResourceData, sync ResourceUpdater) (e error) {
+	return retriableUpdateResource(d, sync, 1)
+}
+
+func retriableUpdateResource(d *schema.ResourceData, sync ResourceUpdater, retryNum uint) (e error) {
 	d.Partial(true)
 	if e = sync.Update(); e != nil {
+		if isRetriableError(e.Error()) && retryNum <= MaxRetries {
+			sleepHelper(retryNum)
+			e = retriableUpdateResource(d, sync, retryNum+1)
+		}
 		return
 	}
 	d.Partial(false)
@@ -201,9 +233,17 @@ func UpdateResource(d *schema.ResourceData, sync ResourceUpdater) (e error) {
 // () -> Pending -> Deleted.
 // Finally, sets the ResourceData state to empty.
 func DeleteResource(d *schema.ResourceData, sync ResourceDeleter) (e error) {
+	return retriableDeleteResource(d, sync, 1)
+}
+
+func retriableDeleteResource(d *schema.ResourceData, sync ResourceDeleter, retryNum uint) (e error){
 	if e = sync.Delete(); e != nil {
 		handleMissingResourceError(sync, &e)
 		if e != nil {
+			if isRetriableError(e.Error()) && retryNum <= MaxRetries {
+				sleepHelper(retryNum)
+				e = retriableDeleteResource(d, sync, retryNum+1)
+			}
 			return
 		}
 	}

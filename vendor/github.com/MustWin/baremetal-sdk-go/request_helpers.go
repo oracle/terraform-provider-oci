@@ -39,6 +39,8 @@ func getErrorFromResponse(body io.Reader, resp *http.Response) (e error) {
 		apiError.OPCRequestID = opcRequestID
 	}
 
+	apiError.Status = strconv.Itoa(resp.StatusCode)
+
 	return &apiError
 }
 
