@@ -3,6 +3,7 @@
 package baremetal
 
 import (
+	"bytes"
 	"crypto"
 	"crypto/rand"
 	"crypto/rsa"
@@ -29,15 +30,25 @@ func (a *authenticationInfo) getKeyID() string {
 }
 
 func getErrorFromResponse(body io.Reader, resp *http.Response) (e error) {
-	var apiError Error
-	decoder := json.NewDecoder(body)
-	if e = decoder.Decode(&apiError); e != nil {
-		return
-	}
+	apiError := Error{}
 
 	if opcRequestID := resp.Header.Get(headerOPCRequestID); opcRequestID != "" {
 		apiError.OPCRequestID = opcRequestID
 	}
+
+	if resp.Header.Get("content-type") != "application/json" {
+		buf := new(bytes.Buffer)
+		buf.ReadFrom(body)
+		apiError.Message = buf.String()
+	} else {
+		decoder := json.NewDecoder(body)
+		if e = decoder.Decode(&apiError); e != nil {
+			buf := new(bytes.Buffer)
+			buf.ReadFrom(decoder.Buffered())
+			apiError.Message = buf.String()
+		}
+	}
+	apiError.Status = strconv.Itoa(resp.StatusCode)
 
 	return &apiError
 }

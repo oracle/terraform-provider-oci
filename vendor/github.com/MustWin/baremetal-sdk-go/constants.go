@@ -11,6 +11,7 @@ type DBNodeAction string
 type DatabaseEdition string
 type DiskRedundancy string
 type ListObjectOptionField string
+type BucketAccessType string
 
 const (
 	// Resource States
@@ -184,4 +185,8 @@ const (
 	resourceNamespaces = "n"
 	resourceBuckets    = "b"
 	resourceObjects    = "o"
+
+	//Object Storage Access Type
+	NoPublicAccess BucketAccessType = "NoPublicAccess"
+	ObjectRead     BucketAccessType = "ObjectRead"
 )

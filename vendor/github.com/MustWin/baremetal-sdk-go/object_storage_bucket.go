@@ -19,6 +19,7 @@ type Bucket struct {
 	Metadata      map[string]string `json:"metadata"`
 	CreatedBy     string            `json:"createdBy"`
 	TimeCreated   Time              `json:"timeCreated"`
+	AccessType    BucketAccessType  `json:"publicAccessType"`
 }
 
 // CreateBucket initializes and creates a storage bucket. Namespace is

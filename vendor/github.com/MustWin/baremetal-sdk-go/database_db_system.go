@@ -45,7 +45,7 @@ type createDatabaseDetails struct {
 	AdminPassword string `header:"-" json:"adminPassword" url:"-"`
 	DBName        string `header:"-" json:"dbName" url:"-"`
 	CharacterSet  string `header:"-" json:"characterSet,omitempty" url:"-"`
-	NCharacterSet  string `header:"-" json:"ncharacterSet,omitempty" url:"-"`
+	NCharacterSet string `header:"-" json:"ncharacterSet,omitempty" url:"-"`
 }
 
 type createDBHomeDetails struct {
@@ -63,7 +63,7 @@ func NewCreateDBHomeDetails(adminPassword, dbName, dbVersion, characterSet, nCha
 		Database: createDatabaseDetails{
 			AdminPassword: adminPassword,
 			DBName:        dbName,
-			CharacterSet: characterSet,
+			CharacterSet:  characterSet,
 			NCharacterSet: nCharacterSet,
 		},
 		DBVersion: dbVersion,

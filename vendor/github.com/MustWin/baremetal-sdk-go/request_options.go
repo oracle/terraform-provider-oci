@@ -50,7 +50,8 @@ type CreateOptions struct {
 }
 
 type CreateBucketOptions struct {
-	Metadata map[string]string `header:"-" json:"metadata,omitempty" url:"-"`
+	Metadata   map[string]string `header:"-" json:"metadata,omitempty" url:"-"`
+	AccessType BucketAccessType  `header:"-" json:"publicAccessType,omitempty" url:"-"`
 }
 
 type CreateVcnOptions struct {
@@ -83,9 +84,9 @@ type CreateLoadBalancerBackendOptions struct {
 type UpdateLoadBalancerBackendSetOptions struct {
 	LoadBalancerOptions
 	RetryTokenOptions
-	Backends      []Backend        `header:"-" json:"backends,omitempty" url:"-"`
+	Backends      []Backend         `header:"-" json:"backends,omitempty" url:"-"`
 	HealthChecker *HealthChecker    `header:"-" json:"healthChecker,omitempty" url:"-"`
-	Policy        string           `header:"-" json:"policy,omitempty" url:"-"`
+	Policy        string            `header:"-" json:"policy,omitempty" url:"-"`
 	SSLConfig     *SSLConfiguration `header:"-" json:"sslConfiguration,omitempty" url:"-"`
 }
 
@@ -173,9 +174,10 @@ type IfMatchDisplayNameOptions struct {
 
 type UpdateBucketOptions struct {
 	IfMatchOptions
-	Name      string            `header:"-" json:"name,omitempty" url:"-"`
-	Namespace Namespace         `header:"-" json:"namespace,omitempty" url:"-"`
-	Metadata  map[string]string `header:"-" json:"metadata,omitempty" url:"-"`
+	Name       string            `header:"-" json:"name,omitempty" url:"-"`
+	Namespace  Namespace         `header:"-" json:"namespace,omitempty" url:"-"`
+	AccessType BucketAccessType  `header:"-" json:"publicAccessType,omitempty" url:"-"`
+	Metadata   map[string]string `header:"-" json:"metadata,omitempty" url:"-"`
 }
 
 type UpdateIdentityOptions struct {
