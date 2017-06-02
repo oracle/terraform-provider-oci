@@ -2,7 +2,9 @@
 
 package main
 
-import "github.com/hashicorp/terraform/helper/schema"
+import (
+	"github.com/hashicorp/terraform/helper/schema"
+)
 
 func resourceObjectStorageMapToMetadata(rm map[string]interface{}) map[string]string {
 	result := map[string]string{}
@@ -27,6 +29,11 @@ var bucketSchema = map[string]*schema.Schema{
 		Type:     schema.TypeString,
 		Required: true,
 		Computed: false,
+	},
+	"access_type": {
+		Type:     schema.TypeString,
+		Computed: false,
+		Optional: true,
 	},
 	"metadata": {
 		Type:     schema.TypeMap,

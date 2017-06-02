@@ -24,6 +24,7 @@ type ResourceObjectstorageBucketTestSuite struct {
 	ResourceName string
 	Res          *baremetal.Bucket
 	Namespace    baremetal.Namespace
+	AccessType   baremetal.BucketAccessType
 }
 
 func (s *ResourceObjectstorageBucketTestSuite) SetupTest() {

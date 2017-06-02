@@ -74,6 +74,7 @@ func (s *BucketResourceCrud) SetData() {
 	s.D.Set("metadata", s.Res.Metadata)
 	s.D.Set("created_by", s.Res.CreatedBy)
 	s.D.Set("time_created", s.Res.TimeCreated.String())
+	s.D.Set("accessType", s.Res.AccessType)
 }
 
 func (s *BucketResourceCrud) Create() (e error) {
@@ -86,6 +87,12 @@ func (s *BucketResourceCrud) Create() (e error) {
 		metadata := resourceObjectStorageMapToMetadata(rawMetadata.(map[string]interface{}))
 		opts.Metadata = metadata
 	}
+	if accessType, ok := s.D.GetOk("accessType"); ok {
+		opts.AccessType = baremetal.BucketAccessType(accessType.(string))
+	} else {
+		opts.AccessType = baremetal.NoPublicAccess
+	}
+
 	s.Res, e = s.Client.CreateBucket(compartmentID, name, baremetal.Namespace(namespace), opts)
 	return
 }
@@ -105,6 +112,12 @@ func (s *BucketResourceCrud) Update() (e error) {
 	if rawMetadata, ok := s.D.GetOk("metadata"); ok {
 		metadata := resourceObjectStorageMapToMetadata(rawMetadata.(map[string]interface{}))
 		opts.Metadata = metadata
+	}
+
+	if accessType, ok := s.D.GetOk("accessType"); ok {
+		opts.AccessType = baremetal.BucketAccessType(accessType.(string))
+	} else {
+		opts.AccessType = baremetal.NoPublicAccess
 	}
 
 	s.Res, e = s.Client.UpdateBucket(compartmentID, name, baremetal.Namespace(namespace), opts)
