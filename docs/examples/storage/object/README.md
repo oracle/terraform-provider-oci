@@ -27,8 +27,5 @@ Defines the variables used in the configuration
 #### `object.tf`
 Defines the buckets we are going to create
 
-#### `outputs.tf`
-Defines the outputs of the configuration
-
 #### `provider.tf`
 Specifies and passes authentication details to the OBMCS TF provider
