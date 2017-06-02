@@ -29,9 +29,10 @@ type Client struct {
 }
 
 type NewClientOptions struct {
-	Transport   http.RoundTripper
-	UserAgent   string
 	Region      string
+	Transport   http.RoundTripper
+	UrlTemplate string
+	UserAgent   string
 	keyPassword *string
 	keyPath     *string
 	keyBytes    []byte
@@ -62,7 +63,7 @@ func PrivateKeyBytes(buff []byte) NewClientOptionsFunc {
 
 // CustomTransport can be used to assign a custom http.RoundTripper
 // to the Bare Metal API connection. For example, you could wrap the default
-// http transport in your won transport the logs interactions for diagnotic
+// http transport in your own transport and log interactions for diagnostic
 // purposes.
 func CustomTransport(tr http.RoundTripper) NewClientOptionsFunc {
 	return func(o *NewClientOptions) {
@@ -84,6 +85,13 @@ func Region(region string) NewClientOptionsFunc {
 	}
 }
 
+// UrlTemplate lets you override the production url scheme of https://%s.%s.oraclecloud.com
+func UrlTemplate(urlTemplate string) NewClientOptionsFunc {
+	return func(o *NewClientOptions) {
+		o.UrlTemplate = urlTemplate
+	}
+}
+
 // NewClient creates and authenticates a BareMetal API client
 func NewClient(userOCID, tenancyOCID, keyFingerprint string, opts ...NewClientOptionsFunc) (*Client, error) {
 	var err error
@@ -93,8 +101,9 @@ func NewClient(userOCID, tenancyOCID, keyFingerprint string, opts ...NewClientOp
 		keyFingerPrint: keyFingerprint,
 	}
 	nco := &NewClientOptions{
-		Transport: &http.Transport{},
-		Region: us_phoenix_1,
+		Transport:   &http.Transport{},
+		Region:      us_phoenix_1,
+		UrlTemplate: baseUrlTemplate,
 	}
 	for _, opt := range opts {
 		opt(nco)

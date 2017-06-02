@@ -3,15 +3,15 @@
 package main
 
 import (
+	"crypto/tls"
 	"errors"
 	"fmt"
-	"net/http"
-
-	"os"
-
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
+	"log"
+	"net/http"
+	"os"
 )
 
 var descriptions map[string]string
@@ -194,6 +194,10 @@ func getEnvSetting(s string, dv string) string {
 	if v != "" {
 		return v
 	}
+	v = os.Getenv(s)
+	if v != "" {
+		return v
+	}
 	return dv
 }
 
@@ -214,13 +218,25 @@ func providerConfig(d *schema.ResourceData) (client interface{}, err error) {
 	privateKeyPassword, hasKeyPass := d.Get("private_key_password").(string)
 	region, hasRegion := d.Get("region").(string)
 
+	// for internal use
+	urlTemplate := getEnvSetting("url_template", "")
+	allowInsecureTls := getEnvSetting("allow_insecure_tls", "")
+
 	clientOpts := []baremetal.NewClientOptionsFunc{
 		func(o *baremetal.NewClientOptions) {
 			o.UserAgent = fmt.Sprintf("baremetal-terraform-v%s", baremetal.SDKVersion)
 		},
-		func(o *baremetal.NewClientOptions) {
-			o.Transport = &http.Transport{Proxy: http.ProxyFromEnvironment}
-		},
+	}
+
+	if allowInsecureTls == "true" {
+		log.Println("[WARN] USING INSECURE TLS")
+		clientOpts = append(clientOpts, baremetal.CustomTransport(
+			&http.Transport{TLSClientConfig: &tls.Config{InsecureSkipVerify: true}},
+		))
+	} else {
+		clientOpts = append(clientOpts, baremetal.CustomTransport(
+			&http.Transport{Proxy: http.ProxyFromEnvironment}),
+		)
 	}
 
 	if hasKey && privateKeyBuffer != "" {
@@ -238,6 +254,10 @@ func providerConfig(d *schema.ResourceData) (client interface{}, err error) {
 
 	if hasRegion && region != "" {
 		clientOpts = append(clientOpts, baremetal.Region(region))
+	}
+
+	if urlTemplate != "" {
+		clientOpts = append(clientOpts, baremetal.UrlTemplate(urlTemplate))
 	}
 
 	client, err = baremetal.NewClient(userOCID, tenancyOCID, fingerprint, clientOpts...)

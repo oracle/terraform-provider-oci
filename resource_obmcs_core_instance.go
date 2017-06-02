@@ -27,7 +27,7 @@ func InstanceResource() *schema.Resource {
 		Update: updateInstance,
 		Delete: deleteInstance,
 		Schema: map[string]*schema.Schema{
-			"create_vnic_details": &schema.Schema{
+			"create_vnic_details": {
 				Type:     schema.TypeMap,
 				Optional: true,
 				Elem: &schema.Resource{
@@ -261,7 +261,6 @@ func (s *InstanceResourceCrud) Create() (e error) {
 		opts)
 	return
 }
-
 
 /*
  * Return the id of the first VNIC attached to this Instance.

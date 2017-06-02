@@ -8,9 +8,9 @@
 This example launches a Database System into an existing subnet and because it's an anti-pattern to launch an DBSystem in a subnet with Internet access, behind an existing bastion host. Database Systems don't support user-data scripts but there are still use cases where you might want to execute a script once the DBNode starts so we use the `file` and `remote-exec` provisoners to get through the bastion host and onto the instance. The configuration outputs the private IP address of the instance.
 
 ### Using this example
-* Update env-var with the required information. Most examples use the same set of environment variables so you only need to do this once.
-* Source env-var -
-  * `$ . env-var`
+* Update env-vars with the required information. Most examples use the same set of environment variables so you only need to do this once.
+* Source env-vars -
+  * `$ . env-vars`
 * Update `variables.tf` with your launch options and bastion host IP.  
 
 ### Files in the configuration

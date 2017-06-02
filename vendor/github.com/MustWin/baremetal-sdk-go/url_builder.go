@@ -5,43 +5,54 @@ package baremetal
 import (
 	"fmt"
 	"net/url"
+	"regexp"
 	"strconv"
 )
 
-type urlBuilderFn func(string, resourceName, url.Values, ...interface{}) string
+type urlBuilderFn func(string, string, resourceName, url.Values, ...interface{}) string
 
-func buildCoreURL(region string, resource resourceName, query url.Values, ids ...interface{}) string {
-	baseUrl := fmt.Sprintf(coreServiceAPI, region)
+var urlTemplateReg = regexp.MustCompile(`^.*%s+.*%s+.*$`)
+
+func baseUrlHelper(urlTemplate string, service string, region string) string {
+	if !urlTemplateReg.MatchString(urlTemplate) {
+		panic("Invalid urlTemplate:" + urlTemplate)
+	}
+
+	return fmt.Sprintf(urlTemplate, service, region)
+}
+
+func buildCoreURL(urlTemplate string, region string, resource resourceName, query url.Values, ids ...interface{}) string {
+	baseUrl := baseUrlHelper(urlTemplate, coreServiceAPI, region)
 	urlStr := fmt.Sprintf("%s/%s/%s", baseUrl, coreServiceAPIVersion, resource)
 	return buildURL(urlStr, query, ids...)
 }
 
-func buildIdentityURL(region string, resource resourceName, query url.Values, ids ...interface{}) string {
-	baseUrl := fmt.Sprintf(identityServiceAPI, region)
+func buildIdentityURL(urlTemplate string, region string, resource resourceName, query url.Values, ids ...interface{}) string {
+	baseUrl := baseUrlHelper(urlTemplate, identityServiceAPI, region)
 	urlStr := fmt.Sprintf("%s/%s/%s", baseUrl, identityServiceAPIVersion, resource)
 	return buildURL(urlStr, query, ids...)
 }
 
-func buildDatabaseURL(region string, resource resourceName, query url.Values, ids ...interface{}) string {
-	baseUrl := fmt.Sprintf(databaseServiceAPI, region)
+func buildDatabaseURL(urlTemplate string, region string, resource resourceName, query url.Values, ids ...interface{}) string {
+	baseUrl := baseUrlHelper(urlTemplate, databaseServiceAPI, region)
 	urlStr := fmt.Sprintf("%s/%s/%s", baseUrl, databaseServiceAPIVersion, resource)
 	return buildURL(urlStr, query, ids...)
 }
 
-func buildObjectStorageURL(region string, resource resourceName, query url.Values, ids ...interface{}) string {
-	baseUrl := fmt.Sprintf(objectStorageServiceAPI, region)
+func buildObjectStorageURL(urlTemplate string, region string, resource resourceName, query url.Values, ids ...interface{}) string {
+	baseUrl := baseUrlHelper(urlTemplate, objectStorageServiceAPI, region)
 	urlStr := fmt.Sprintf("%s/%s", baseUrl, resourceNamespaces)
 	return buildURL(urlStr, query, ids...)
 }
 
-func buildLoadBalancerURL(region string, resource resourceName, query url.Values, ids ...interface{}) string {
-	baseUrl := fmt.Sprintf(loadBalancerServiceAPI, region)
+func buildLoadBalancerURL(urlTemplate string, region string, resource resourceName, query url.Values, ids ...interface{}) string {
+	baseUrl := baseUrlHelper(urlTemplate, loadBalancerServiceAPI, region)
 	urlStr := fmt.Sprintf("%s/%s/%s", baseUrl, loadBalancerServiceAPIVersion, resource)
 	return buildURL(urlStr, query, ids...)
 }
 
 func buildURL(urlStr string, query url.Values, ids ...interface{}) string {
-	const seperator = "/"
+	const separator = "/"
 	for _, id := range ids {
 		var strVal string
 
@@ -60,8 +71,8 @@ func buildURL(urlStr string, query url.Values, ids ...interface{}) string {
 			strVal = string(id)
 		}
 
-		if strVal != seperator {
-			urlStr += seperator
+		if strVal != separator {
+			urlStr += separator
 		}
 
 		urlStr += strVal

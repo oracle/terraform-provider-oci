@@ -3,13 +3,13 @@
 package main
 
 import (
+	"log"
+	"strconv"
+
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
-
 	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/crud"
-	"strconv"
-	"log"
 )
 
 func LoadBalancerBackendResource() *schema.Resource {

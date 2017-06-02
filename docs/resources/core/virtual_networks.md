@@ -20,6 +20,7 @@ The following arguments are supported:
 * `cidr_block` - (Required) The CIDR IP address block of the VCN.
 * `compartment_id` - (Required) The OCID of the compartment to contain the VCN.
 * `display_name` - (Optional) A user-friendly name. Does not have to be unique, and it's changeable.
+* `dns_label` - (Optional) A DNS label for the VCN.
 
 ## Attributes Reference
 * `compartment_id` - The OCID of the compartment.

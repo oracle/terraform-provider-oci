@@ -10,9 +10,9 @@ This configuration generally implements this - [https://community.oracle.com/com
 It creates a VNC with a route table, Internet Gateway, Security Lists, a bastion subnet and 2 private subnets for the MongoDB instances. 
 
 ### Using this example
-* Update env-var with the required information. Most examples use the same set of environment variables so you only need to do this once.
-* Source env-var
-  * `$ . env-var`
+* Update env-vars with the required information. Most examples use the same set of environment variables so you only need to do this once.
+* Source env-vars
+  * `$ . env-vars`
 * Update `variables.tf` with your instance options.
 
 ### Files in the configuration

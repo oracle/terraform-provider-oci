@@ -21,7 +21,7 @@ type urlParts []interface{}
 type request interface {
 	marshalBody() ([]byte, error)
 	marshalHeader() http.Header
-	marshalURL(string, urlBuilderFn) (val string, e error)
+	marshalURL(string, string, urlBuilderFn) (val string, e error)
 }
 
 // requestDetails is the concrete implementation of request.
@@ -30,11 +30,12 @@ type request interface {
 // optionally, have one of the unexported structs from
 // request_requirements.go embedded.
 type requestDetails struct {
-	region   string
-	ids      urlParts
-	name     resourceName
-	optional interface{}
-	required interface{}
+	region      string
+	urlTemplate string
+	ids         urlParts
+	name        resourceName
+	optional    interface{}
+	required    interface{}
 }
 
 func objToJSONMap(val interface{}) (map[string]interface{}, error) {
@@ -118,11 +119,11 @@ func (r *requestDetails) marshalQueryString() (vals url.Values, e error) {
 	return
 }
 
-func (r *requestDetails) marshalURL(region string, urlFn urlBuilderFn) (val string, e error) {
+func (r *requestDetails) marshalURL(urlTemplate string, region string, urlFn urlBuilderFn) (val string, e error) {
 	var q url.Values
 	if q, e = r.marshalQueryString(); e != nil {
 		return
 	}
-	val = urlFn(region, r.name, q, r.ids...)
+	val = urlFn(urlTemplate, region, r.name, q, r.ids...)
 	return
 }

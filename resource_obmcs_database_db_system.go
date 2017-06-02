@@ -5,7 +5,6 @@ package main
 import (
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
-
 	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/crud"
 )
@@ -85,8 +84,8 @@ func DBSystemResource() *schema.Resource {
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									"admin_password": {
-										Type:     schema.TypeString,
-										Required: true,
+										Type:      schema.TypeString,
+										Required:  true,
 										Sensitive: true,
 									},
 									"db_name": {
@@ -94,11 +93,11 @@ func DBSystemResource() *schema.Resource {
 										Required: true,
 									},
 									"character_set": {
-										Type: schema.TypeString,
+										Type:     schema.TypeString,
 										Optional: true,
 									},
 									"ncharacter_set": {
-										Type: schema.TypeString,
+										Type:     schema.TypeString,
 										Optional: true,
 									},
 								},
@@ -242,7 +241,6 @@ func (s *DBSystemResourceCrud) Create() (e error) {
 			characterSet := db["character_set"].(string)
 			ncharacterSet := db["ncharacter_set"].(string)
 			dbVersion := dbHome["db_version"].(string)
-
 
 			dbHomeOpts := &baremetal.DisplayNameOptions{}
 			if displayName != nil {

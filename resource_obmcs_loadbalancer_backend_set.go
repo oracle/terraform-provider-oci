@@ -5,7 +5,6 @@ package main
 import (
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
-
 	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/crud"
 )
@@ -185,7 +184,7 @@ func (s *LoadBalancerBackendSetResourceCrud) SetData() {
 			"port":                s.Resource.HealthChecker.Port,
 			"protocol":            s.Resource.HealthChecker.Protocol,
 			"response_body_regex": s.Resource.HealthChecker.ResponseBodyRegex,
-			"url_path":               s.Resource.HealthChecker.URLPath,
+			"url_path":            s.Resource.HealthChecker.URLPath,
 		})
 	}
 
