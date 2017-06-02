@@ -16,6 +16,10 @@ resource "baremetal_core_instance" "t" {
     metadata {
         ssh_authorized_keys = "mypublickey"
     }
+    extended_metadata {
+        some_string = "stringA"
+        nested_object = "{\"some_string\": \"stringB\", \"object\": {\"some_string\": \"stringC\"}}"
+    }
 }
 ```
 
@@ -30,6 +34,7 @@ The following arguments are supported:
 * `display_name` - (Optional) A user-friendly name. Does not have to be unique, and it's changeable.
 * `image_id` - (Required) The OCID of the image used to boot the instance.
 * `metadata` - (Optional) Custom metadata key/value pairs that you provide, such as the SSH public key required to connect to the instance.
+* `extended_metadata` - (Optional) Like metadata but allows nested metadata if you pass a valid JSON string as a value
 
 ## Attributes Reference
 
@@ -45,6 +50,7 @@ The following attributes are exported:
 * `image_id` - The image used to boot the instance. You can enumerate all available images by calling ListImages.
 * `state` - The current state of the instance: [PROVISIONING, RUNNING, STARTING, STOPPING, STOPPED, CREATING_IMAGE, TERMINATING, TERMINATED]
 * `metadata` - Custom metadata that you provide.
+* `extended_metadata` - Custom nested metadata that you provide. If you pass in a valid JSON string as a value then it will be converted to a JSON object; otherwise we will take the string value.
 * `region` - The region that contains the Availability Domain the instance is running in.
 * `shape` - The shape of the instance. The shape determines the number of CPUs and the amount of memory allocated to the instance.
 * `time_created` - The date and time the instance was created.

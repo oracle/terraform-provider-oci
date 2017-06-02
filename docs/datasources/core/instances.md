@@ -36,6 +36,7 @@ The following attributes are exported:
 * `image_id` - The image used to boot the instance. You can enumerate all available images by calling ListImages.
 * `state` - The current state of the instance: [PROVISIONING, RUNNING, STARTING, STOPPING, STOPPED, CREATING_IMAGE, TERMINATING, TERMINATED]
 * `metadata` - Custom metadata that you provide.
+* `extended_metadata` - Custom nested metadata that you provide.
 * `region` - The region that contains the Availability Domain the instance is running in.
 * `shape` - The shape of the instance. The shape determines the number of CPUs and the amount of memory allocated to the instance.
 * `time_created` - The date and time the instance was created.
