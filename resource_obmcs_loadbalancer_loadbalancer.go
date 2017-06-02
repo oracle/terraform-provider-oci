@@ -8,6 +8,7 @@ import (
 
 	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/crud"
+	"strings"
 )
 
 func LoadBalancerResource() *schema.Resource {
@@ -228,6 +229,10 @@ func (s *LoadBalancerResourceCrud) SetData() {
 
 // Delete makes a request to delete the load balancer
 func (s *LoadBalancerResourceCrud) Delete() (e error) {
+	// TODO: make sure this actually works
+	if strings.Contains(s.D.Id(), "ocid1.loadbalancerworkrequest") {
+		return
+	}
 	var workReqID string
 	workReqID, e = s.Client.DeleteLoadBalancer(s.D.Id(), nil)
 	if e != nil {

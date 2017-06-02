@@ -59,6 +59,7 @@ func LoadBalancerBackendResource() *schema.Resource {
 			"weight": {
 				Type:     schema.TypeInt,
 				Optional: true,
+				Computed: true,
 			},
 			// internal for work request access
 			"state": {
