@@ -7,3 +7,13 @@ resource "baremetal_objectstorage_bucket" "t" {
     "foo" = "bar"
   }
 }
+
+resource "baremetal_objectstorage_bucket" "t_private" {
+  compartment_id = "${var.compartment_ocid}"
+  name = "PrivateBucket"
+  //defaults to NoPublicAccess
+  namespace = "${var.namespace_name}"
+  metadata = {
+    "foo" = "bar"
+  }
+}

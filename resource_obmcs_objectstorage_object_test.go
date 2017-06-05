@@ -41,13 +41,10 @@ func (s *ResourceObjectstorageObjectTestSuite) SetupTest() {
 	s.TimeCreated = baremetal.Time{Time: time.Now()}
 
 	s.Config = `
-		variable "accesstype" {
-			default = "ObjectRead"
-		}
 		resource "baremetal_objectstorage_bucket" "t" {
 			compartment_id = "${var.compartment_id}"
 			name = "bucketID"
-			access_type="${var.accesstype}"
+			access_type="ObjectRead"
 			namespace = "${var.namespace}"
 			metadata = {
 				"foo" = "bar"
