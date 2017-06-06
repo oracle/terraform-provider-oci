@@ -10,6 +10,7 @@ Provides an Objectstorage resource.
 resource "baremetal_objectstorage_bucket" "t" {
   compartment_id = "compartment_id"
   name = "name"
+  access_type = "ObjectRead"
   namespace = "namespace"
   metadata = {
     "foo" = "bar"
@@ -25,6 +26,7 @@ The following arguments are supported:
 * `name` - (Required) The name of the bucket.
 * `namespace` - (Required) The namespace in which the bucket lives.
 * `metadata` - (Optional) Arbitrary string keys and values for user-defined metadata.
+* `access_type` - (Optional) Either "ObjectRead" or "NoPublicAccess". If not specified it defaults to "NoPublicAccess"
 
 ## Attributes Reference
 

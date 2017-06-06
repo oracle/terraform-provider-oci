@@ -5,7 +5,7 @@
     #    \___/|_| \_/_/   \_\____|_____|_____|
 ***
 ## Creating buckets
-This example creates a single bucket inside a comparment
+This example creates a single bucket inside a compartment
 
 ### Using this example
 * Update env-vars with the required information. Most examples use the same set of environment variables so you only need to do this once.
