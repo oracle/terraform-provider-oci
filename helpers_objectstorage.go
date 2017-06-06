@@ -2,7 +2,11 @@
 
 package main
 
-import "github.com/hashicorp/terraform/helper/schema"
+import (
+	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/MustWin/baremetal-sdk-go"
+	"github.com/hashicorp/terraform/helper/validation"
+)
 
 func resourceObjectStorageMapToMetadata(rm map[string]interface{}) map[string]string {
 	result := map[string]string{}
@@ -27,6 +31,15 @@ var bucketSchema = map[string]*schema.Schema{
 		Type:     schema.TypeString,
 		Required: true,
 		Computed: false,
+	},
+	"access_type": {
+		Type:     schema.TypeString,
+		Computed: false,
+		Default: baremetal.NoPublicAccess,
+		Optional: true,
+		ValidateFunc: validation.StringInSlice([]string{
+			string(baremetal.NoPublicAccess),
+			string(baremetal.ObjectRead)}, true),
 	},
 	"metadata": {
 		Type:     schema.TypeMap,
