@@ -188,11 +188,15 @@ func (s *LoadBalancerListenerResourceCrud) GetListener(loadBalancerID, name stri
 }
 
 func (s *LoadBalancerListenerResourceCrud) Update() (e error) {
+
 	opts := &baremetal.UpdateLoadBalancerListenerOptions{
 		DefaultBackendSetName: s.D.Get("default_backend_set_name").(string),
 		Port:      s.D.Get("port").(int),
 		Protocol:  s.D.Get("protocol").(string),
-		SSLConfig: *s.sslConfig(),
+	}
+	ssl := s.sslConfig()
+	if ssl != nil && ssl.CertificateName != "" {
+		opts.SSLConfig = *ssl
 	}
 
 	var workReqID string
@@ -201,7 +205,14 @@ func (s *LoadBalancerListenerResourceCrud) Update() (e error) {
 		return
 	}
 	s.WorkRequest, e = s.Client.GetWorkRequest(workReqID, nil)
-	return
+	if e != nil {
+		return
+	}
+	e = crud.LoadBalancerWaitForWorkRequest(s.Client, s.D, s.WorkRequest)
+	if e != nil {
+		return
+	}
+	return s.Get()
 }
 
 func (s *LoadBalancerListenerResourceCrud) SetData() {

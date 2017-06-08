@@ -129,7 +129,7 @@ func (c *Client) UpdateBackend(
 	loadBalancerID string,
 	backendSetName string,
 	backendName string,
-	opts *CreateLoadBalancerBackendOptions,
+	opts *UpdateLoadBalancerBackendOptions,
 ) (workRequestID string, e error) {
 
 	details := &requestDetails{
