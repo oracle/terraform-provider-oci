@@ -83,6 +83,12 @@ type StatefullyCreatedResource interface {
 	CreatedTarget() []string
 }
 
+type StatefullyUpdatedResource interface {
+	StatefulResource
+	UpdatedPending() []string
+	UpdatedTarget() []string
+}
+
 type StatefullyDeletedResource interface {
 	StatefulResource
 	DeletedPending() []string

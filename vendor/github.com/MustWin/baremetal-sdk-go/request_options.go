@@ -81,6 +81,14 @@ type CreateLoadBalancerBackendOptions struct {
 	Weight  int  `header:"-" json:"weight,omitempty" url:"-"`
 }
 
+type UpdateLoadBalancerBackendOptions struct {
+	LoadBalancerOptions
+	Backup  bool `header:"-" json:"backup" url:"-"`
+	Drain   bool `header:"-" json:"drain" url:"-"`
+	Offline bool `header:"-" json:"offline" url:"-"`
+	Weight  int  `header:"-" json:"weight" url:"-"`
+}
+
 type UpdateLoadBalancerBackendSetOptions struct {
 	LoadBalancerOptions
 	RetryTokenOptions

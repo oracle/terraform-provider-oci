@@ -4,6 +4,7 @@ package main
 
 import (
 	"testing"
+	//"regexp"
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
@@ -18,6 +19,11 @@ type ResourceLoadBalancerTestSuite struct {
 	Providers    map[string]terraform.ResourceProvider
 	Config       string
 	ResourceName string
+
+	listenerT string
+	backendT string
+	backendF string
+	backendSetT string
 }
 
 func (s *ResourceLoadBalancerTestSuite) SetupTest() {
@@ -34,22 +40,47 @@ func (s *ResourceLoadBalancerTestSuite) SetupTest() {
 	}
 
 	s.ResourceName = "baremetal_load_balancer.t"
-	s.Config = loadbalancerConfig + certificateConfig + `
 
-resource "baremetal_load_balancer_backendset" "no_cert" {
-  load_balancer_id = "${baremetal_load_balancer.t.id}"
-  name             = "stub_backendset_name_no_cert"
-  policy           = "ROUND_ROBIN"
 
-  health_checker {
-    interval_ms         = 30000
-    port                = 1234
-    protocol            = "HTTP"
-    response_body_regex = ".*"
-    url_path = "/"
+	s.listenerT = `
+resource "baremetal_load_balancer_listener" "t" {
+  load_balancer_id         = "${baremetal_load_balancer.t.id}"
+  name                     = "stub_listener_name"
+  default_backend_set_name = "${baremetal_load_balancer_backendset.t.name}"
+  port                     = 443
+  protocol                 = "HTTP"
+
+  ssl_configuration {
+      certificate_name        = "${baremetal_load_balancer_certificate.t.certificate_name}"
+      verify_depth            = 6
+      verify_peer_certificate = false
   }
 }
+`
+	s.backendT = `
+resource "baremetal_load_balancer_backend" "t" {
+  load_balancer_id = "${baremetal_load_balancer.t.id}"
+  backendset_name  = "${baremetal_load_balancer_backendset.t.name}"
+  ip_address       = "1.2.3.4"
+  port             = 1234
+  backup           = true
+  drain            = true
+  offline          = true
+  weight           = 1
+}`
+	s.backendF = `
+resource "baremetal_load_balancer_backend" "f" {
+  load_balancer_id = "${baremetal_load_balancer.t.id}"
+  backendset_name  = "${baremetal_load_balancer_backendset.t.name}"
+  ip_address       = "1.2.3.5"
+  port             = 1234
+  backup           = false
+  drain            = false
+  offline          = false
+  weight           = 1
+}`
 
+	s.backendSetT = `
 resource "baremetal_load_balancer_backendset" "t" {
   load_balancer_id = "${baremetal_load_balancer.t.id}"
   name             = "stub_backendset_name"
@@ -68,6 +99,24 @@ resource "baremetal_load_balancer_backendset" "t" {
     verify_depth            = 6
     verify_peer_certificate = false
   }
+}`
+
+
+
+	s.Config = loadbalancerConfig + certificateConfig + `
+
+resource "baremetal_load_balancer_backendset" "no_cert" {
+  load_balancer_id = "${baremetal_load_balancer.t.id}"
+  name             = "stub_backendset_name_no_cert"
+  policy           = "ROUND_ROBIN"
+
+  health_checker {
+    interval_ms         = 30000
+    port                = 1234
+    protocol            = "HTTP"
+    response_body_regex = ".*"
+    url_path = "/"
+  }
 }
 
 
@@ -82,20 +131,6 @@ resource "baremetal_load_balancer_backendset" "tcp" {
     protocol            = "TCP"
     response_body_regex = ".*"
     url_path = "/"
-  }
-}
-
-resource "baremetal_load_balancer_listener" "t" {
-  load_balancer_id         = "${baremetal_load_balancer.t.id}"
-  name                     = "stub_listener_name"
-  default_backend_set_name = "${baremetal_load_balancer_backendset.t.name}"
-  port                     = 443
-  protocol                 = "HTTP"
-
-  ssl_configuration {
-      certificate_name        = "${baremetal_load_balancer_certificate.t.certificate_name}"
-      verify_depth            = 6
-      verify_peer_certificate = false
   }
 }
 
@@ -115,28 +150,6 @@ resource "baremetal_load_balancer_listener" "no_cert" {
   protocol                 = "HTTP"
 }
 
-resource "baremetal_load_balancer_backend" "t" {
-  load_balancer_id = "${baremetal_load_balancer.t.id}"
-  backendset_name  = "${baremetal_load_balancer_backendset.t.name}"
-  ip_address       = "1.2.3.4"
-  port             = 1234
-  backup           = true
-  drain            = true
-  offline          = true
-  weight           = 1
-}
-
-resource "baremetal_load_balancer_backend" "f" {
-  load_balancer_id = "${baremetal_load_balancer.t.id}"
-  backendset_name  = "${baremetal_load_balancer_backendset.t.name}"
-  ip_address       = "1.2.3.5"
-  port             = 1234
-  backup           = false
-  drain            = false
-  offline          = false
-  weight           = 1
-}
-
 resource "baremetal_load_balancer_backend" "minimal" {
   load_balancer_id = "${baremetal_load_balancer.t.id}"
   backendset_name  = "${baremetal_load_balancer_backendset.t.name}"
@@ -153,7 +166,7 @@ func (s *ResourceLoadBalancerTestSuite) TestCreateResourceLoadBalancerMaximal() 
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
+				Config: s.Config + s.backendSetT + s.listenerT + s.backendT + s.backendF,
 				Check: resource.ComposeTestCheckFunc(
 					// Assigned
 					resource.TestCheckResourceAttr("baremetal_load_balancer.t", "display_name", "lb_display_name"),
@@ -208,6 +221,108 @@ func (s *ResourceLoadBalancerTestSuite) TestCreateResourceLoadBalancerMaximal() 
 					resource.TestCheckResourceAttr("baremetal_load_balancer_backend.minimal", "offline", "false"),
 					resource.TestCheckResourceAttrSet("baremetal_load_balancer_backend.minimal", "weight"),
 				),
+			},
+			{
+				// Update listener & backendset to have no cert
+				// and backend with some things swapped true/false
+
+				Config: s.Config + `
+resource "baremetal_load_balancer_backendset" "t" {
+  load_balancer_id = "${baremetal_load_balancer.t.id}"
+  name             = "stub_backendset_name"
+  policy           = "ROUND_ROBIN"
+
+  health_checker {
+    interval_ms         = 30000
+    port                = 1234
+    protocol            = "HTTP"
+    response_body_regex = ".*"
+    url_path = "/"
+  }
+}
+
+resource "baremetal_load_balancer_listener" "t" {
+  load_balancer_id         = "${baremetal_load_balancer.t.id}"
+  name                     = "stub_listener_name"
+  default_backend_set_name = "${baremetal_load_balancer_backendset.t.name}"
+  port                     = 443
+  protocol                 = "HTTP"
+}
+resource "baremetal_load_balancer_backend" "t" {
+	load_balancer_id = "${baremetal_load_balancer.t.id}"
+	backendset_name  = "${baremetal_load_balancer_backendset.t.name}"
+	ip_address       = "1.2.3.4"
+	port             = 1234
+	backup           = true
+	drain            = false
+	offline          = true
+	weight           = 1
+}
+resource "baremetal_load_balancer_backend" "f" {
+  load_balancer_id = "${baremetal_load_balancer.t.id}"
+  backendset_name  = "${baremetal_load_balancer_backendset.t.name}"
+  ip_address       = "1.2.3.5"
+  port             = 1234
+  backup           = false
+  drain            = true
+  offline          = true
+  weight           = 1
+}
+`,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttr("baremetal_load_balancer_backend.t", "drain", "false"),
+					resource.TestCheckResourceAttr("baremetal_load_balancer_backend.f", "drain", "true"),
+					resource.TestCheckResourceAttr("baremetal_load_balancer_backend.f", "offline", "true"),
+					resource.TestCheckNoResourceAttr("baremetal_load_balancer_listener.t", "ssl_configuration"),
+					resource.TestCheckNoResourceAttr("baremetal_load_balancer_backendset.t", "ssl_configuration"),
+				),
+			},
+			{
+				// Add back the backendset cert, add an invalid certificate for the listener
+				Config: s.Config + s.backendSetT + `
+resource "baremetal_load_balancer_listener" "t" {
+  load_balancer_id         = "${baremetal_load_balancer.t.id}"
+  name                     = "stub_listener_name"
+  default_backend_set_name = "${baremetal_load_balancer_backendset.t.name}"
+  port                     = 443
+  protocol                 = "HTTP"
+  ssl_configuration {
+    certificate_name        = "NonexistantCertName"
+    verify_depth            = 6
+    verify_peer_certificate = false
+  }
+}
+resource "baremetal_load_balancer_backend" "t" {
+	load_balancer_id = "${baremetal_load_balancer.t.id}"
+	backendset_name  = "${baremetal_load_balancer_backendset.t.name}"
+	ip_address       = "1.2.3.4"
+	port             = 1234
+	backup           = false
+	drain            = true
+	offline          = false
+	weight           = 1
+}
+resource "baremetal_load_balancer_backend" "f" {
+  load_balancer_id = "${baremetal_load_balancer.t.id}"
+  backendset_name  = "${baremetal_load_balancer_backendset.t.name}"
+  ip_address       = "1.2.3.5"
+  port             = 1234
+  backup           = true
+  drain            = false
+  offline          = false
+  weight           = 1
+}
+`,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttr("baremetal_load_balancer_backend.t", "drain", "true"),
+					resource.TestCheckResourceAttr("baremetal_load_balancer_backend.t", "backup", "false"),
+					resource.TestCheckResourceAttr("baremetal_load_balancer_backend.t", "offline", "false"),
+					resource.TestCheckResourceAttr("baremetal_load_balancer_backend.f", "drain", "false"),
+					resource.TestCheckResourceAttr("baremetal_load_balancer_backend.f", "offline", "false"),
+					resource.TestCheckResourceAttr("baremetal_load_balancer_backend.f", "backup", "true"),
+					resource.TestCheckResourceAttr("baremetal_load_balancer_backendset.t", "ssl_configuration.0.certificate_name", "stub_certificate_name"),
+				),
+				//ExpectError: regexp.
 			},
 		},
 	})
