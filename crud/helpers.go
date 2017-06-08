@@ -71,7 +71,7 @@ func handleMissingResourceError(sync ResourceVoider, err *error) {
 	if err != nil {
 		if strings.Contains((*err).Error(), "does not exist") ||
 			strings.Contains((*err).Error(), " not present in ") ||
-			strings.Contains((*err).Error(), "resource not found") ||
+			strings.Contains((*err).Error(), "not found") ||
 			(strings.Contains((*err).Error(), "Load balancer") && strings.Contains((*err).Error(), " has no ")) {
 
 			log.Println("[DEBUG] Object does not exist, voiding resource and nullifying error")
@@ -136,6 +136,36 @@ func LoadBalancerResourceGet(s BaseCrud, workReq *baremetal.WorkRequest) (id str
 	return id, false, nil
 }
 
+func LoadBalancerWaitForWorkRequest(client client.BareMetalClient, d *schema.ResourceData, wr *baremetal.WorkRequest) error {
+	var e error
+	stateConf := &resource.StateChangeConf{
+		Pending: []string{
+			baremetal.ResourceWaitingForWorkRequest,
+			baremetal.WorkRequestInProgress,
+			baremetal.WorkRequestAccepted,
+		},
+		Target:  []string{
+			baremetal.ResourceSucceededWorkRequest,
+			baremetal.WorkRequestSucceeded,
+			baremetal.ResourceFailed,
+		},
+		Refresh: func() (interface{}, string, error) {
+			wr, e = client.GetWorkRequest(wr.ID, nil)
+			return wr, wr.State, e
+		},
+		Timeout: d.Timeout(schema.TimeoutCreate),
+	}
+
+	if _, e = stateConf.WaitForState(); e != nil {
+		return e
+	}
+	if wr.State == baremetal.ResourceFailed {
+		return errors.New("Resource creation failed, state FAILED")
+	}
+	return nil
+}
+
+
 func CreateResource(d *schema.ResourceData, sync ResourceCreator) (e error) {
 	if e = sync.Create(); e != nil {
 		// Check for conflicts and retry
@@ -167,6 +197,7 @@ func CreateResource(d *schema.ResourceData, sync ResourceCreator) (e error) {
 
 func ReadResource(sync ResourceReader) (e error) {
 	if e = sync.Get(); e != nil {
+		log.Printf("ERROR IN GET: %v\n", e.Error())
 		handleMissingResourceError(sync, &e)
 		return
 	}

@@ -169,7 +169,14 @@ func (s *LoadBalancerBackendSetResourceCrud) Update() (e error) {
 		return
 	}
 	s.WorkRequest, e = s.Client.GetWorkRequest(workReqID, nil)
-	return
+	if e != nil {
+		return
+	}
+	e = crud.LoadBalancerWaitForWorkRequest(s.Client, s.D, s.WorkRequest)
+	if e != nil {
+		return
+	}
+	return s.Get()
 }
 
 func (s *LoadBalancerBackendSetResourceCrud) SetData() {
