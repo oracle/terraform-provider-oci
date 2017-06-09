@@ -31,8 +31,8 @@ data "baremetal_load_balancer_backends" "t" {
 	backendsetName := "stub_backendset_name"
 	list := &baremetal.ListBackends{
 		Backends: []baremetal.Backend{
-			{Name: "stub_name1"},
-			{Name: "stub_name2"},
+			{IPAddress: "123.123.123.123"},
+			{IPAddress: "122.122.122.122"},
 		},
 	}
 	client.On(
@@ -50,8 +50,8 @@ data "baremetal_load_balancer_backends" "t" {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "load_balancer_id", loadbalancerID),
 					resource.TestCheckResourceAttr(resourceName, "backends.#", "2"),
-					resource.TestCheckResourceAttr(resourceName, "backends.0.name", "stub_name1"),
-					resource.TestCheckResourceAttr(resourceName, "backends.1.name", "stub_name2"),
+					resource.TestCheckResourceAttr(resourceName, "backends.0.name", "123.123.123.123"),
+					resource.TestCheckResourceAttr(resourceName, "backends.1.name", "122.122.122.122"),
 				),
 			},
 		},
