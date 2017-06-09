@@ -223,7 +223,6 @@ func (s *LoadBalancerListenerResourceCrud) SetData() {
 	s.D.Set("default_backend_set_name", s.Resource.DefaultBackendSetName)
 	s.D.Set("port", s.Resource.Port)
 	s.D.Set("protocol", s.Resource.Protocol)
-	// TODO: verify testing
 	s.D.Set("ssl_configuration", s.Resource.SSLConfig)
 }
 

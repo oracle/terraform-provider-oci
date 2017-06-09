@@ -30,10 +30,6 @@ func LoadBalancerBackendResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
-			"name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"ip_address": {
 				Type:     schema.TypeString,
 				Required: true,
