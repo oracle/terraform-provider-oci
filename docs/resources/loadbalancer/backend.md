@@ -8,7 +8,6 @@ Provide a load balancer backend resource.
 resource "baremetal_load_balancer_backend" "t" {
   load_balancer_id = "ocid1.loadbalancer.stub_id"
   backendset_name  = "stub_backendset_name"
-  name             = "stub_backend_name"
   ip_address       = "1.2.3.4"
   port             = 1234
   backup           = true
@@ -24,7 +23,6 @@ The following arguments are supported:
 
 * `load_balancer_id` - (Required) The OCID of the load balancer.
 * `backendset_name` - (Required) The public IP address of the on-premise router.
-* `name` - (Required) A name to uniquely identify this backend server in the backend set.
 * `ip_address` - (Required) The IP address of the backend server.
 * `port` - (Required) The communication port for the backend server.
 * `backup` - (Optional) Whether the load balancer should treat this server as a backup unit.

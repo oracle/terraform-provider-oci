@@ -162,7 +162,7 @@ type BareMetalClient interface {
 	TerminateDBSystem(id string, opts *baremetal.IfMatchOptions) (e error)
 	TerminateInstance(id string, opts *baremetal.IfMatchOptions) (e error)
 
-	UpdateBackend(loadBalancerID string, backendSetName string, backendName string, opts *baremetal.CreateLoadBalancerBackendOptions) (workRequestID string, e error)
+	UpdateBackend(loadBalancerID string, backendSetName string, backendName string, opts *baremetal.UpdateLoadBalancerBackendOptions) (workRequestID string, e error)
 	UpdateBackendSet(loadBalancerID string, backendSetName string, opts *baremetal.UpdateLoadBalancerBackendSetOptions) (workRequestID string, e error)
 	UpdateBucket(compartmentID string, name string, namespaceName baremetal.Namespace, opts *baremetal.UpdateBucketOptions) (bckt *baremetal.Bucket, e error)
 	UpdateCompartment(id string, opts *baremetal.UpdateIdentityOptions) (res *baremetal.Compartment, e error)

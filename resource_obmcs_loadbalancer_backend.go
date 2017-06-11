@@ -5,6 +5,7 @@ package main
 import (
 	"log"
 	"strconv"
+	"strings"
 
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
@@ -152,26 +153,21 @@ func (s *LoadBalancerBackendResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func makeBackendOptions(data *schema.ResourceData) *baremetal.CreateLoadBalancerBackendOptions {
-	opts := &baremetal.CreateLoadBalancerBackendOptions{}
-	if v, ok := data.GetOk("backup"); ok {
-		opts.Backup = v.(bool)
-	}
-	if v, ok := data.GetOk("drain"); ok {
-		opts.Drain = v.(bool)
-	}
-	if v, ok := data.GetOk("offline"); ok {
-		opts.Offline = v.(bool)
-	}
-	if v, ok := data.GetOk("weight"); ok {
-		opts.Weight = v.(int)
-	}
-	return opts
-}
-
 func (s *LoadBalancerBackendResourceCrud) Create() (e error) {
 
-	opts := makeBackendOptions(s.D)
+	opts := &baremetal.CreateLoadBalancerBackendOptions{}
+	if v, ok := s.D.GetOk("backup"); ok {
+		opts.Backup = v.(bool)
+	}
+	if v, ok := s.D.GetOk("drain"); ok {
+		opts.Drain = v.(bool)
+	}
+	if v, ok := s.D.GetOk("offline"); ok {
+		opts.Offline = v.(bool)
+	}
+	if v, ok := s.D.GetOk("weight"); ok {
+		opts.Weight = v.(int)
+	}
 
 	var workReqID string
 	workReqID, e = s.Client.CreateBackend(
@@ -201,7 +197,19 @@ func (s *LoadBalancerBackendResourceCrud) Get() (e error) {
 }
 
 func (s *LoadBalancerBackendResourceCrud) Update() (e error) {
-	opts := makeBackendOptions(s.D)
+	opts := &baremetal.UpdateLoadBalancerBackendOptions{}
+	if v, ok := s.D.GetOk("backup"); ok {
+		opts.Backup = v.(bool)
+	}
+	if v, ok := s.D.GetOk("drain"); ok {
+		opts.Drain = v.(bool)
+	}
+	if v, ok := s.D.GetOk("offline"); ok {
+		opts.Offline = v.(bool)
+	}
+	if v, ok := s.D.GetOk("weight"); ok {
+		opts.Weight = v.(int)
+	}
 
 	var workReqID string
 	workReqID, e = s.Client.UpdateBackend(s.D.Get("load_balancer_id").(string), s.D.Get("backendset_name").(string), s.D.Id(), opts)
@@ -209,7 +217,14 @@ func (s *LoadBalancerBackendResourceCrud) Update() (e error) {
 		return
 	}
 	s.WorkRequest, e = s.Client.GetWorkRequest(workReqID, nil)
-	return
+	if e != nil {
+		return
+	}
+	e = crud.LoadBalancerWaitForWorkRequest(s.Client, s.D, s.WorkRequest)
+	if e != nil {
+		return
+	}
+	return s.Get()
 }
 
 func (s *LoadBalancerBackendResourceCrud) SetData() {
@@ -223,6 +238,10 @@ func (s *LoadBalancerBackendResourceCrud) SetData() {
 }
 
 func (s *LoadBalancerBackendResourceCrud) Delete() (e error) {
+	// TODO: make sure this actually works
+	if strings.Contains(s.D.Id(), "ocid1.loadbalancerworkrequest") {
+		return
+	}
 	var workReqID string
 	workReqID, e = s.Client.DeleteBackend(s.D.Get("load_balancer_id").(string), s.D.Get("backendset_name").(string), s.D.Id(), nil)
 	if e != nil {
