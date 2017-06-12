@@ -147,6 +147,7 @@ func (s *LoadBalancerCertificateResourceCrud) Create() (e error) {
 }
 
 func (s *LoadBalancerCertificateResourceCrud) Get() (e error) {
+
 	_, stillWorking, err := crud.LoadBalancerResourceGet(s.BaseCrud, s.WorkRequest)
 	if err != nil {
 		return err
@@ -180,6 +181,7 @@ func (s *LoadBalancerCertificateResourceCrud) Delete() (e error) {
 	if e != nil {
 		return
 	}
+	s.D.SetId(workReqID)
 	s.WorkRequest, e = s.Client.GetWorkRequest(workReqID, nil)
 	return
 }
