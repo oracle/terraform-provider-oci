@@ -73,3 +73,4 @@ resource "null_resource" "omc_instance_configure"{
     }
   }
 }
+

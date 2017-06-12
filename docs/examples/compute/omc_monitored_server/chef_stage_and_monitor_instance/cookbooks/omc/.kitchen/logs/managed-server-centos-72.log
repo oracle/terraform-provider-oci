@@ -1,0 +1,532 @@
+I, [2017-06-03T11:21:02.469313 #14246]  INFO -- managed-server-centos-72: -----> Creating <managed-server-centos-72>...
+I, [2017-06-03T11:21:04.130030 #14246]  INFO -- managed-server-centos-72: Bringing machine 'default' up with 'virtualbox' provider...
+I, [2017-06-03T11:21:04.323325 #14246]  INFO -- managed-server-centos-72: ==> default: Importing base box 'bento/centos-7.2'...
+I, [2017-06-03T11:21:10.751501 #14246]  INFO -- managed-server-centos-72: [KProgress: 20%[KProgress: 50%[KProgress: 70%[KProgress: 90%[K==> default: Matching MAC address for NAT networking...
+I, [2017-06-03T11:21:10.924093 #14246]  INFO -- managed-server-centos-72: ==> default: Checking if box 'bento/centos-7.2' is up to date...
+I, [2017-06-03T11:21:11.241485 #14246]  INFO -- managed-server-centos-72: ==> default: A newer version of the box 'bento/centos-7.2' is available! You currently
+I, [2017-06-03T11:21:11.241567 #14246]  INFO -- managed-server-centos-72: ==> default: have version '2.3.0'. The latest is version '2.3.1'. Run
+I, [2017-06-03T11:21:11.241607 #14246]  INFO -- managed-server-centos-72: ==> default: `vagrant box update` to update.
+I, [2017-06-03T11:21:11.912157 #14246]  INFO -- managed-server-centos-72: ==> default: Setting the name of the VM: kitchen-omc-managed-server-centos-72_default_1496503271857_70521
+I, [2017-06-03T11:21:12.568510 #14246]  INFO -- managed-server-centos-72: ==> default: Clearing any previously set network interfaces...
+I, [2017-06-03T11:21:12.843254 #14246]  INFO -- managed-server-centos-72: ==> default: Preparing network interfaces based on configuration...
+I, [2017-06-03T11:21:12.843717 #14246]  INFO -- managed-server-centos-72:     default: Adapter 1: nat
+I, [2017-06-03T11:21:12.844094 #14246]  INFO -- managed-server-centos-72:     default: Adapter 2: hostonly
+I, [2017-06-03T11:21:12.921564 #14246]  INFO -- managed-server-centos-72: ==> default: You are trying to forward to privileged ports (ports <= 1024). Most
+I, [2017-06-03T11:21:12.921647 #14246]  INFO -- managed-server-centos-72: ==> default: operating systems restrict this to only privileged process (typically
+I, [2017-06-03T11:21:12.921692 #14246]  INFO -- managed-server-centos-72: ==> default: processes running as an administrative user). This is a warning in case
+I, [2017-06-03T11:21:12.921728 #14246]  INFO -- managed-server-centos-72: ==> default: the port forwarding doesn't work. If any problems occur, please try a
+I, [2017-06-03T11:21:12.921757 #14246]  INFO -- managed-server-centos-72: ==> default: port higher than 1024.
+I, [2017-06-03T11:21:12.922578 #14246]  INFO -- managed-server-centos-72: ==> default: Forwarding ports...
+I, [2017-06-03T11:21:13.045288 #14246]  INFO -- managed-server-centos-72:     default: 8080 (guest) => 80 (host) (adapter 1)
+I, [2017-06-03T11:21:13.045961 #14246]  INFO -- managed-server-centos-72:     default: 22 (guest) => 2222 (host) (adapter 1)
+I, [2017-06-03T11:21:13.264873 #14246]  INFO -- managed-server-centos-72: ==> default: Booting VM...
+I, [2017-06-03T11:21:13.573679 #14246]  INFO -- managed-server-centos-72: ==> default: Waiting for machine to boot. This may take a few minutes...
+I, [2017-06-03T11:21:14.019032 #14246]  INFO -- managed-server-centos-72:     default: SSH address: 127.0.0.1:2222
+I, [2017-06-03T11:21:14.019491 #14246]  INFO -- managed-server-centos-72:     default: SSH username: vagrant
+I, [2017-06-03T11:21:14.019775 #14246]  INFO -- managed-server-centos-72:     default: SSH auth method: private key
+I, [2017-06-03T11:21:29.526527 #14246]  INFO -- managed-server-centos-72:     default: Warning: Remote connection disconnect. Retrying...
+I, [2017-06-03T11:21:35.463747 #14246]  INFO -- managed-server-centos-72:     default: 
+I, [2017-06-03T11:21:35.463834 #14246]  INFO -- managed-server-centos-72:     default: Vagrant insecure key detected. Vagrant will automatically replace
+I, [2017-06-03T11:21:35.463876 #14246]  INFO -- managed-server-centos-72:     default: this with a newly generated keypair for better security.
+I, [2017-06-03T11:21:37.421608 #14246]  INFO -- managed-server-centos-72:     default: 
+I, [2017-06-03T11:21:37.421741 #14246]  INFO -- managed-server-centos-72:     default: Inserting generated public key within guest...
+I, [2017-06-03T11:21:37.722022 #14246]  INFO -- managed-server-centos-72:     default: Removing insecure key from the guest if it's present...
+I, [2017-06-03T11:21:37.951051 #14246]  INFO -- managed-server-centos-72:     default: Key inserted! Disconnecting and reconnecting using new SSH key...
+I, [2017-06-03T11:21:38.650071 #14246]  INFO -- managed-server-centos-72: ==> default: Machine booted and ready!
+I, [2017-06-03T11:21:38.650523 #14246]  INFO -- managed-server-centos-72: ==> default: Checking for guest additions in VM...
+I, [2017-06-03T11:21:38.717274 #14246]  INFO -- managed-server-centos-72: ==> default: Setting hostname...
+I, [2017-06-03T11:21:40.788425 #14246]  INFO -- managed-server-centos-72: ==> default: Configuring and enabling network interfaces...
+I, [2017-06-03T11:21:46.453352 #14246]  INFO -- managed-server-centos-72: ==> default: Machine not provisioned because `--no-provision` is specified.
+I, [2017-06-03T11:21:50.485764 #14246]  INFO -- managed-server-centos-72: [SSH] Established
+I, [2017-06-03T11:21:50.486207 #14246]  INFO -- managed-server-centos-72: Vagrant instance <managed-server-centos-72> created.
+I, [2017-06-03T11:21:50.495139 #14246]  INFO -- managed-server-centos-72: Finished creating <managed-server-centos-72> (0m48.02s).
+I, [2017-06-03T11:21:50.499621 #14246]  INFO -- managed-server-centos-72: -----> Converging <managed-server-centos-72>...
+I, [2017-06-03T11:21:50.500959 #14246]  INFO -- managed-server-centos-72: Preparing files for transfer
+I, [2017-06-03T11:21:50.501191 #14246]  INFO -- managed-server-centos-72: Preparing dna.json
+I, [2017-06-03T11:21:50.527624 #14246]  INFO -- managed-server-centos-72: Resolving cookbook dependencies with Berkshelf 5.1.0...
+I, [2017-06-03T11:21:53.118610 #14246]  INFO -- managed-server-centos-72: Removing non-cookbook files before transfer
+I, [2017-06-03T11:21:53.138386 #14246]  INFO -- managed-server-centos-72: Preparing data_bags
+I, [2017-06-03T11:21:53.185890 #14246]  INFO -- managed-server-centos-72: Preparing solo.rb
+I, [2017-06-03T11:21:53.345738 #14246]  INFO -- managed-server-centos-72: -----> Installing Chef Omnibus (install only if missing)
+I, [2017-06-03T11:21:53.395953 #14246]  INFO -- managed-server-centos-72: Downloading https://omnitruck.chef.io/install.sh to file /tmp/install.sh
+I, [2017-06-03T11:21:53.408962 #14246]  INFO -- managed-server-centos-72: Trying wget...
+I, [2017-06-03T11:21:54.100125 #14246]  INFO -- managed-server-centos-72: Download complete.
+I, [2017-06-03T11:21:54.299481 #14246]  INFO -- managed-server-centos-72: el 7 x86_64
+I, [2017-06-03T11:21:54.299564 #14246]  INFO -- managed-server-centos-72: Getting information for chef stable  for el...
+I, [2017-06-03T11:21:54.299606 #14246]  INFO -- managed-server-centos-72: downloading https://omnitruck.chef.io/stable/chef/metadata?v=&p=el&pv=7&m=x86_64
+I, [2017-06-03T11:21:54.299636 #14246]  INFO -- managed-server-centos-72:   to file /tmp/install.sh.10598/metadata.txt
+I, [2017-06-03T11:21:54.311651 #14246]  INFO -- managed-server-centos-72: trying wget...
+I, [2017-06-03T11:21:54.834958 #14246]  INFO -- managed-server-centos-72: sha1	65c046c91a7186a28af9642e3cffcd72296cf602
+I, [2017-06-03T11:21:54.835021 #14246]  INFO -- managed-server-centos-72: sha256	b8397ea2a33a3f4c860daac1cb0714a11d8dad5287b0eb7054e8432d484f9f2c
+I, [2017-06-03T11:21:54.835047 #14246]  INFO -- managed-server-centos-72: url	https://packages.chef.io/files/stable/chef/13.1.31/el/7/chef-13.1.31-1.el7.x86_64.rpm
+I, [2017-06-03T11:21:54.835069 #14246]  INFO -- managed-server-centos-72: version	13.1.31
+I, [2017-06-03T11:21:54.854093 #14246]  INFO -- managed-server-centos-72: downloaded metadata file looks valid...
+I, [2017-06-03T11:21:54.975922 #14246]  INFO -- managed-server-centos-72: downloading https://packages.chef.io/files/stable/chef/13.1.31/el/7/chef-13.1.31-1.el7.x86_64.rpm
+I, [2017-06-03T11:21:54.976008 #14246]  INFO -- managed-server-centos-72:   to file /tmp/install.sh.10598/chef-13.1.31-1.el7.x86_64.rpm
+I, [2017-06-03T11:21:54.987148 #14246]  INFO -- managed-server-centos-72: trying wget...
+I, [2017-06-03T11:21:57.958069 #14246]  INFO -- managed-server-centos-72: Comparing checksum with sha256sum...
+I, [2017-06-03T11:21:58.305801 #14246]  INFO -- managed-server-centos-72: 
+I, [2017-06-03T11:21:58.305881 #14246]  INFO -- managed-server-centos-72: WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING
+I, [2017-06-03T11:21:58.305954 #14246]  INFO -- managed-server-centos-72: 
+I, [2017-06-03T11:21:58.305986 #14246]  INFO -- managed-server-centos-72: You are installing an omnibus package without a version pin.  If you are installing
+I, [2017-06-03T11:21:58.306015 #14246]  INFO -- managed-server-centos-72: on production servers via an automated process this is DANGEROUS and you will
+I, [2017-06-03T11:21:58.306045 #14246]  INFO -- managed-server-centos-72: be upgraded without warning on new releases, even to new major releases.
+I, [2017-06-03T11:21:58.306070 #14246]  INFO -- managed-server-centos-72: Letting the version float is only appropriate in desktop, test, development or
+I, [2017-06-03T11:21:58.306093 #14246]  INFO -- managed-server-centos-72: CI/CD environments.
+I, [2017-06-03T11:21:58.306113 #14246]  INFO -- managed-server-centos-72: 
+I, [2017-06-03T11:21:58.306136 #14246]  INFO -- managed-server-centos-72: WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING
+I, [2017-06-03T11:21:58.306158 #14246]  INFO -- managed-server-centos-72: 
+I, [2017-06-03T11:21:58.306178 #14246]  INFO -- managed-server-centos-72: Installing chef 
+I, [2017-06-03T11:21:58.306198 #14246]  INFO -- managed-server-centos-72: installing with rpm...
+I, [2017-06-03T11:21:58.615388 #14246]  INFO -- managed-server-centos-72: warning: /tmp/install.sh.10598/chef-13.1.31-1.el7.x86_64.rpm: Header V4 DSA/SHA1 Signature, key ID 83ef826a: NOKEY
+I, [2017-06-03T11:21:59.675322 #14246]  INFO -- managed-server-centos-72: Preparing...                                                            (100%)#                                 (100%)##                                (100%)###                               (100%)####                              (100%)#####                             (100%)######                            (100%)#######                           (100%)########                          (100%)#########                         (100%)##########                        (100%)###########                       (100%)############                      (100%)#############                     (100%)##############                    (100%)###############                   (100%)################                  (100%)#################                 (100%)##################                (100%)###################               (100%)####################              (100%)#####################             (100%)######################            (100%)#######################           (100%)########################          (100%)#########################         (100%)##########################        (100%)###########################       (100%)############################      (100%)#############################     (100%)##############################    (100%)###############################   (100%)################################  (100%)################################# (100%)################################# [100%]
+I, [2017-06-03T11:21:59.685443 #14246]  INFO -- managed-server-centos-72: Updating / installing...
+I, [2017-06-03T11:22:09.401035 #14246]  INFO -- managed-server-centos-72:    1:chef-13.1.31-1.el7                                                 (  2%)#                                 (  4%)##                                (  7%)###                               ( 10%)####                              ( 13%)#####                             ( 16%)######                            ( 19%)#######                           ( 22%)########                          ( 25%)#########                         ( 28%)##########                        ( 31%)###########                       ( 34%)############                      ( 37%)#############                     ( 40%)##############                    ( 43%)###############                   ( 46%)################                  ( 49%)#################                 ( 52%)##################                ( 54%)###################               ( 57%)####################              ( 60%)#####################             ( 63%)######################            ( 66%)#######################           ( 69%)########################          ( 72%)#########################         ( 75%)##########################        ( 78%)###########################       ( 81%)############################      ( 84%)#############################     ( 87%)##############################    ( 90%)###############################   ( 93%)################################  ( 96%)################################# ( 99%)################################# [100%]
+I, [2017-06-03T11:22:09.656626 #14246]  INFO -- managed-server-centos-72: Thank you for installing Chef!
+I, [2017-06-03T11:22:09.773481 #14246]  INFO -- managed-server-centos-72: Transferring files to <managed-server-centos-72>
+I, [2017-06-03T11:22:11.120583 #14246]  INFO -- managed-server-centos-72: Starting Chef Client, version 13.1.31
+I, [2017-06-03T11:22:12.731606 #14246]  INFO -- managed-server-centos-72: Creating a new client identity for managed-server-centos-72 using the validator key.
+I, [2017-06-03T11:22:12.820820 #14246]  INFO -- managed-server-centos-72: resolving cookbooks for run list: ["omc::install_omc_agent", "omc::configure_and_monitor_linux"]
+I, [2017-06-03T11:22:13.003373 #14246]  INFO -- managed-server-centos-72: Synchronizing Cookbooks:
+I, [2017-06-03T11:22:13.016048 #14246]  INFO -- managed-server-centos-72:   - omc (0.1.0)
+I, [2017-06-03T11:22:13.155438 #14246]  INFO -- managed-server-centos-72:   - selinux (1.0.4)
+I, [2017-06-03T11:22:13.182648 #14246]  INFO -- managed-server-centos-72:   - ulimit (0.4.0)
+I, [2017-06-03T11:22:13.197233 #14246]  INFO -- managed-server-centos-72:   - systemd (2.0.0)
+I, [2017-06-03T11:22:13.197313 #14246]  INFO -- managed-server-centos-72:   - users (5.1.0)
+I, [2017-06-03T11:22:13.209813 #14246]  INFO -- managed-server-centos-72:   - sudo (3.5.0)
+I, [2017-06-03T11:22:13.209882 #14246]  INFO -- managed-server-centos-72: Installing Cookbook Gems:
+I, [2017-06-03T11:22:13.244154 #14246]  INFO -- managed-server-centos-72: Compiling Cookbooks...
+I, [2017-06-03T11:22:13.515465 #14246]  INFO -- managed-server-centos-72: Converging 30 resources
+I, [2017-06-03T11:22:13.515542 #14246]  INFO -- managed-server-centos-72: Recipe: sudo::default
+I, [2017-06-03T11:22:13.539355 #14246]  INFO -- managed-server-centos-72:   * yum_package[sudo] action install (skipped due to not_if)
+I, [2017-06-03T11:22:13.539441 #14246]  INFO -- managed-server-centos-72:   * directory[/etc/sudoers.d] action create
+I, [2017-06-03T11:22:13.592715 #14246]  INFO -- managed-server-centos-72:     - change mode from '0750' to '0755'
+I, [2017-06-03T11:22:13.592800 #14246]  INFO -- managed-server-centos-72:     - restore selinux security context
+I, [2017-06-03T11:22:13.592847 #14246]  INFO -- managed-server-centos-72:   * cookbook_file[/etc/sudoers.d/README] action create
+I, [2017-06-03T11:22:13.592883 #14246]  INFO -- managed-server-centos-72:     - create new file /etc/sudoers.d/README
+I, [2017-06-03T11:22:13.592912 #14246]  INFO -- managed-server-centos-72:     - update content in file /etc/sudoers.d/README from none to 9ded17
+I, [2017-06-03T11:22:13.592942 #14246]  INFO -- managed-server-centos-72:     --- /etc/sudoers.d/README	2017-06-03 15:22:11.734803999 +0000
+I, [2017-06-03T11:22:13.592966 #14246]  INFO -- managed-server-centos-72:     +++ /etc/sudoers.d/.chef-README20170603-12063-1lyi8tf	2017-06-03 15:22:11.734803999 +0000
+I, [2017-06-03T11:22:13.592987 #14246]  INFO -- managed-server-centos-72:     @@ -1 +1,18 @@
+I, [2017-06-03T11:22:13.593007 #14246]  INFO -- managed-server-centos-72:     +#
+I, [2017-06-03T11:22:13.593029 #14246]  INFO -- managed-server-centos-72:     +# As of Debian version 1.7.2p1-1, the default /etc/sudoers file created on
+I, [2017-06-03T11:22:13.593050 #14246]  INFO -- managed-server-centos-72:     +# installation of the package now includes the directive:
+I, [2017-06-03T11:22:13.593071 #14246]  INFO -- managed-server-centos-72:     +#
+I, [2017-06-03T11:22:13.593093 #14246]  INFO -- managed-server-centos-72:     +#       #includedir /etc/sudoers.d
+I, [2017-06-03T11:22:13.593112 #14246]  INFO -- managed-server-centos-72:     +#
+I, [2017-06-03T11:22:13.593131 #14246]  INFO -- managed-server-centos-72:     +# This will cause sudo to read and parse any files in the /etc/sudoers.d
+I, [2017-06-03T11:22:13.593198 #14246]  INFO -- managed-server-centos-72:     +# directory that do not end in '~' or contain a '.' character.
+I, [2017-06-03T11:22:13.593217 #14246]  INFO -- managed-server-centos-72:     +#
+I, [2017-06-03T11:22:13.593236 #14246]  INFO -- managed-server-centos-72:     +# Note that there must be at least one file in the sudoers.d directory (this
+I, [2017-06-03T11:22:13.593255 #14246]  INFO -- managed-server-centos-72:     +# one will do), and all files in this directory should be mode 0440.
+I, [2017-06-03T11:22:13.593273 #14246]  INFO -- managed-server-centos-72:     +#
+I, [2017-06-03T11:22:13.593292 #14246]  INFO -- managed-server-centos-72:     +# Note also, that because sudoers contents can vary widely, no attempt is
+I, [2017-06-03T11:22:13.593330 #14246]  INFO -- managed-server-centos-72:     +# made to add this directive to existing sudoers files on upgrade.  Feel free
+I, [2017-06-03T11:22:13.593350 #14246]  INFO -- managed-server-centos-72:     +# to add the above directive to the end of your /etc/sudoers file to enable
+I, [2017-06-03T11:22:13.593369 #14246]  INFO -- managed-server-centos-72:     +# this functionality for existing installations if you wish!
+I, [2017-06-03T11:22:13.593388 #14246]  INFO -- managed-server-centos-72:     +#
+I, [2017-06-03T11:22:13.593406 #14246]  INFO -- managed-server-centos-72:     - change mode from '' to '0440'
+I, [2017-06-03T11:22:13.593425 #14246]  INFO -- managed-server-centos-72:     - change owner from '' to 'root'
+I, [2017-06-03T11:22:13.621345 #14246]  INFO -- managed-server-centos-72:     - change group from '' to 'root'
+I, [2017-06-03T11:22:13.621425 #14246]  INFO -- managed-server-centos-72:     - restore selinux security context
+I, [2017-06-03T11:22:13.628737 #14246]  INFO -- managed-server-centos-72:   * template[/etc/sudoers] action create
+I, [2017-06-03T11:22:13.628825 #14246]  INFO -- managed-server-centos-72:     - update content in file /etc/sudoers from 6abb01 to 0a2540
+I, [2017-06-03T11:22:13.628876 #14246]  INFO -- managed-server-centos-72:     --- /etc/sudoers	2016-10-01 19:28:39.033889857 +0000
+I, [2017-06-03T11:22:13.628915 #14246]  INFO -- managed-server-centos-72:     +++ /etc/.chef-sudoers20170603-12063-hyw7qu	2017-06-03 15:22:11.764819000 +0000
+I, [2017-06-03T11:22:13.628952 #14246]  INFO -- managed-server-centos-72:     @@ -1,119 +1,18 @@
+I, [2017-06-03T11:22:13.628984 #14246]  INFO -- managed-server-centos-72:     -## Sudoers allows particular users to run various commands as
+I, [2017-06-03T11:22:13.629014 #14246]  INFO -- managed-server-centos-72:     -## the root user, without needing the root password.
+I, [2017-06-03T11:22:13.629043 #14246]  INFO -- managed-server-centos-72:     -##
+I, [2017-06-03T11:22:13.629072 #14246]  INFO -- managed-server-centos-72:     -## Examples are provided at the bottom of the file for collections
+I, [2017-06-03T11:22:13.629099 #14246]  INFO -- managed-server-centos-72:     -## of related commands, which can then be delegated out to particular
+I, [2017-06-03T11:22:13.629126 #14246]  INFO -- managed-server-centos-72:     -## users or groups.
+I, [2017-06-03T11:22:13.629151 #14246]  INFO -- managed-server-centos-72:     -## 
+I, [2017-06-03T11:22:13.629176 #14246]  INFO -- managed-server-centos-72:     -## This file must be edited with the 'visudo' command.
+I, [2017-06-03T11:22:13.629202 #14246]  INFO -- managed-server-centos-72:     +# This file is managed by Chef.
+I, [2017-06-03T11:22:13.629272 #14246]  INFO -- managed-server-centos-72:     +# Do NOT modify this file directly.
+I, [2017-06-03T11:22:13.629298 #14246]  INFO -- managed-server-centos-72:      
+I, [2017-06-03T11:22:13.629325 #14246]  INFO -- managed-server-centos-72:     -## Host Aliases
+I, [2017-06-03T11:22:13.629347 #14246]  INFO -- managed-server-centos-72:     -## Groups of machines. You may prefer to use hostnames (perhaps using 
+I, [2017-06-03T11:22:13.629372 #14246]  INFO -- managed-server-centos-72:     -## wildcards for entire domains) or IP addresses instead.
+I, [2017-06-03T11:22:13.629397 #14246]  INFO -- managed-server-centos-72:     -# Host_Alias     FILESERVERS = fs1, fs2
+I, [2017-06-03T11:22:13.629421 #14246]  INFO -- managed-server-centos-72:     -# Host_Alias     MAILSERVERS = smtp, smtp2
+I, [2017-06-03T11:22:13.629446 #14246]  INFO -- managed-server-centos-72:     +Defaults      !lecture,tty_tickets,!fqdn
+I, [2017-06-03T11:22:13.629470 #14246]  INFO -- managed-server-centos-72:      
+I, [2017-06-03T11:22:13.629493 #14246]  INFO -- managed-server-centos-72:     -## User Aliases
+I, [2017-06-03T11:22:13.629517 #14246]  INFO -- managed-server-centos-72:     -## These aren't often necessary, as you can use regular groups
+I, [2017-06-03T11:22:13.629538 #14246]  INFO -- managed-server-centos-72:     -## (ie, from files, LDAP, NIS, etc) in this file - just use %groupname 
+I, [2017-06-03T11:22:13.629577 #14246]  INFO -- managed-server-centos-72:     -## rather than USERALIAS
+I, [2017-06-03T11:22:13.629602 #14246]  INFO -- managed-server-centos-72:     -# User_Alias ADMINS = jsmith, mikem
+I, [2017-06-03T11:22:13.629626 #14246]  INFO -- managed-server-centos-72:     +# User privilege specification
+I, [2017-06-03T11:22:13.629650 #14246]  INFO -- managed-server-centos-72:     +root          ALL=(ALL) ALL
+I, [2017-06-03T11:22:13.629669 #14246]  INFO -- managed-server-centos-72:      
+I, [2017-06-03T11:22:13.629722 #14246]  INFO -- managed-server-centos-72:      
+I, [2017-06-03T11:22:13.629746 #14246]  INFO -- managed-server-centos-72:     -## Command Aliases
+I, [2017-06-03T11:22:13.629770 #14246]  INFO -- managed-server-centos-72:     -## These are groups of related commands...
+I, [2017-06-03T11:22:13.629790 #14246]  INFO -- managed-server-centos-72:      
+I, [2017-06-03T11:22:13.629813 #14246]  INFO -- managed-server-centos-72:     -## Networking
+I, [2017-06-03T11:22:13.629836 #14246]  INFO -- managed-server-centos-72:     -# Cmnd_Alias NETWORKING = /sbin/route, /sbin/ifconfig, /bin/ping, /sbin/dhclient, /usr/bin/net, /sbin/iptables, /usr/bin/rfcomm, /usr/bin/wvdial, /sbin/iwconfig, /sbin/mii-tool
+I, [2017-06-03T11:22:13.629859 #14246]  INFO -- managed-server-centos-72:      
+I, [2017-06-03T11:22:13.629880 #14246]  INFO -- managed-server-centos-72:     -## Installation and management of software
+I, [2017-06-03T11:22:13.629903 #14246]  INFO -- managed-server-centos-72:     -# Cmnd_Alias SOFTWARE = /bin/rpm, /usr/bin/up2date, /usr/bin/yum
+I, [2017-06-03T11:22:13.629923 #14246]  INFO -- managed-server-centos-72:      
+I, [2017-06-03T11:22:13.629946 #14246]  INFO -- managed-server-centos-72:     -## Services
+I, [2017-06-03T11:22:13.629970 #14246]  INFO -- managed-server-centos-72:     -# Cmnd_Alias SERVICES = /sbin/service, /sbin/chkconfig, /usr/bin/systemctl start, /usr/bin/systemctl stop, /usr/bin/systemctl reload, /usr/bin/systemctl restart, /usr/bin/systemctl status, /usr/bin/systemctl enable, /usr/bin/systemctl disable
+I, [2017-06-03T11:22:13.629990 #14246]  INFO -- managed-server-centos-72:     +# Members of the group 'sysadmin' may gain root privileges
+I, [2017-06-03T11:22:13.630013 #14246]  INFO -- managed-server-centos-72:     +%sysadmin ALL=(ALL) ALL
+I, [2017-06-03T11:22:13.630032 #14246]  INFO -- managed-server-centos-72:      
+I, [2017-06-03T11:22:13.630093 #14246]  INFO -- managed-server-centos-72:     -## Updating the locate database
+I, [2017-06-03T11:22:13.630114 #14246]  INFO -- managed-server-centos-72:     -# Cmnd_Alias LOCATE = /usr/bin/updatedb
+I, [2017-06-03T11:22:13.630136 #14246]  INFO -- managed-server-centos-72:     -
+I, [2017-06-03T11:22:13.630155 #14246]  INFO -- managed-server-centos-72:     -## Storage
+I, [2017-06-03T11:22:13.630178 #14246]  INFO -- managed-server-centos-72:     -# Cmnd_Alias STORAGE = /sbin/fdisk, /sbin/sfdisk, /sbin/parted, /sbin/partprobe, /bin/mount, /bin/umount
+I, [2017-06-03T11:22:13.630199 #14246]  INFO -- managed-server-centos-72:     -
+I, [2017-06-03T11:22:13.630221 #14246]  INFO -- managed-server-centos-72:     -## Delegating permissions
+I, [2017-06-03T11:22:13.630241 #14246]  INFO -- managed-server-centos-72:     -# Cmnd_Alias DELEGATING = /usr/sbin/visudo, /bin/chown, /bin/chmod, /bin/chgrp 
+I, [2017-06-03T11:22:13.630264 #14246]  INFO -- managed-server-centos-72:     -
+I, [2017-06-03T11:22:13.630284 #14246]  INFO -- managed-server-centos-72:     -## Processes
+I, [2017-06-03T11:22:13.630306 #14246]  INFO -- managed-server-centos-72:     -# Cmnd_Alias PROCESSES = /bin/nice, /bin/kill, /usr/bin/kill, /usr/bin/killall
+I, [2017-06-03T11:22:13.630327 #14246]  INFO -- managed-server-centos-72:     -
+I, [2017-06-03T11:22:13.630349 #14246]  INFO -- managed-server-centos-72:     -## Drivers
+I, [2017-06-03T11:22:13.630369 #14246]  INFO -- managed-server-centos-72:     -# Cmnd_Alias DRIVERS = /sbin/modprobe
+I, [2017-06-03T11:22:13.630391 #14246]  INFO -- managed-server-centos-72:     -
+I, [2017-06-03T11:22:13.630411 #14246]  INFO -- managed-server-centos-72:     -# Defaults specification
+I, [2017-06-03T11:22:13.630463 #14246]  INFO -- managed-server-centos-72:     -
+I, [2017-06-03T11:22:13.630487 #14246]  INFO -- managed-server-centos-72:     -#
+I, [2017-06-03T11:22:13.630507 #14246]  INFO -- managed-server-centos-72:     -# Disable "ssh hostname sudo <cmd>", because it will show the password in clear. 
+I, [2017-06-03T11:22:13.630527 #14246]  INFO -- managed-server-centos-72:     -#         You have to run "ssh -t hostname sudo <cmd>".
+I, [2017-06-03T11:22:13.630549 #14246]  INFO -- managed-server-centos-72:     -#
+I, [2017-06-03T11:22:13.630569 #14246]  INFO -- managed-server-centos-72:     -#Defaults requiretty
+I, [2017-06-03T11:22:13.630590 #14246]  INFO -- managed-server-centos-72:     -
+I, [2017-06-03T11:22:13.630610 #14246]  INFO -- managed-server-centos-72:     -#
+I, [2017-06-03T11:22:13.630629 #14246]  INFO -- managed-server-centos-72:     -# Refuse to run if unable to disable echo on the tty. This setting should also be
+I, [2017-06-03T11:22:13.630652 #14246]  INFO -- managed-server-centos-72:     -# changed in order to be able to use sudo without a tty. See requiretty above.
+I, [2017-06-03T11:22:13.630672 #14246]  INFO -- managed-server-centos-72:     -#
+I, [2017-06-03T11:22:13.630692 #14246]  INFO -- managed-server-centos-72:     -Defaults   !visiblepw
+I, [2017-06-03T11:22:13.630755 #14246]  INFO -- managed-server-centos-72:     -
+I, [2017-06-03T11:22:13.630774 #14246]  INFO -- managed-server-centos-72:     -#
+I, [2017-06-03T11:22:13.630792 #14246]  INFO -- managed-server-centos-72:     -# Preserving HOME has security implications since many programs
+I, [2017-06-03T11:22:13.630812 #14246]  INFO -- managed-server-centos-72:     -# use it when searching for configuration files. Note that HOME
+I, [2017-06-03T11:22:13.630831 #14246]  INFO -- managed-server-centos-72:     -# is already set when the the env_reset option is enabled, so
+I, [2017-06-03T11:22:13.630851 #14246]  INFO -- managed-server-centos-72:     -# this option is only effective for configurations where either
+I, [2017-06-03T11:22:13.630870 #14246]  INFO -- managed-server-centos-72:     -# env_reset is disabled or HOME is present in the env_keep list.
+I, [2017-06-03T11:22:13.630889 #14246]  INFO -- managed-server-centos-72:     -#
+I, [2017-06-03T11:22:13.630909 #14246]  INFO -- managed-server-centos-72:     -Defaults    always_set_home
+I, [2017-06-03T11:22:13.630927 #14246]  INFO -- managed-server-centos-72:     -
+I, [2017-06-03T11:22:13.630946 #14246]  INFO -- managed-server-centos-72:     -Defaults    env_reset
+I, [2017-06-03T11:22:13.630966 #14246]  INFO -- managed-server-centos-72:     -Defaults    env_keep =  "COLORS DISPLAY HOSTNAME HISTSIZE INPUTRC KDEDIR LS_COLORS"
+I, [2017-06-03T11:22:13.630985 #14246]  INFO -- managed-server-centos-72:     -Defaults    env_keep += "MAIL PS1 PS2 QTDIR USERNAME LANG LC_ADDRESS LC_CTYPE"
+I, [2017-06-03T11:22:13.631004 #14246]  INFO -- managed-server-centos-72:     -Defaults    env_keep += "LC_COLLATE LC_IDENTIFICATION LC_MEASUREMENT LC_MESSAGES"
+I, [2017-06-03T11:22:13.631023 #14246]  INFO -- managed-server-centos-72:     -Defaults    env_keep += "LC_MONETARY LC_NAME LC_NUMERIC LC_PAPER LC_TELEPHONE"
+I, [2017-06-03T11:22:13.631043 #14246]  INFO -- managed-server-centos-72:     -Defaults    env_keep += "LC_TIME LC_ALL LANGUAGE LINGUAS _XKB_CHARSET XAUTHORITY"
+I, [2017-06-03T11:22:13.631062 #14246]  INFO -- managed-server-centos-72:     -
+I, [2017-06-03T11:22:13.631081 #14246]  INFO -- managed-server-centos-72:     -#
+I, [2017-06-03T11:22:13.631099 #14246]  INFO -- managed-server-centos-72:     -# Adding HOME to env_keep may enable a user to run unrestricted
+I, [2017-06-03T11:22:13.633192 #14246]  INFO -- managed-server-centos-72:     -# commands via sudo.
+I, [2017-06-03T11:22:13.633262 #14246]  INFO -- managed-server-centos-72:     -#
+I, [2017-06-03T11:22:13.633284 #14246]  INFO -- managed-server-centos-72:     -# Defaults   env_keep += "HOME"
+I, [2017-06-03T11:22:13.633303 #14246]  INFO -- managed-server-centos-72:     -
+I, [2017-06-03T11:22:13.633318 #14246]  INFO -- managed-server-centos-72:     -Defaults    secure_path = /sbin:/bin:/usr/sbin:/usr/bin
+I, [2017-06-03T11:22:13.633345 #14246]  INFO -- managed-server-centos-72:     -
+I, [2017-06-03T11:22:13.633359 #14246]  INFO -- managed-server-centos-72:     -## Next comes the main part: which users can run what software on 
+I, [2017-06-03T11:22:13.633373 #14246]  INFO -- managed-server-centos-72:     -## which machines (the sudoers file can be shared between multiple
+I, [2017-06-03T11:22:13.633389 #14246]  INFO -- managed-server-centos-72:     -## systems).
+I, [2017-06-03T11:22:13.633402 #14246]  INFO -- managed-server-centos-72:     -## Syntax:
+I, [2017-06-03T11:22:13.633418 #14246]  INFO -- managed-server-centos-72:     -##
+I, [2017-06-03T11:22:13.633431 #14246]  INFO -- managed-server-centos-72:     -## 	user	MACHINE=COMMANDS
+I, [2017-06-03T11:22:13.633443 #14246]  INFO -- managed-server-centos-72:     -##
+I, [2017-06-03T11:22:13.633458 #14246]  INFO -- managed-server-centos-72:     -## The COMMANDS section may have other options added to it.
+I, [2017-06-03T11:22:13.633470 #14246]  INFO -- managed-server-centos-72:     -##
+I, [2017-06-03T11:22:13.633483 #14246]  INFO -- managed-server-centos-72:     -## Allow root to run any commands anywhere 
+I, [2017-06-03T11:22:13.633516 #14246]  INFO -- managed-server-centos-72:     -root	ALL=(ALL) 	ALL
+I, [2017-06-03T11:22:13.633529 #14246]  INFO -- managed-server-centos-72:     -
+I, [2017-06-03T11:22:13.633541 #14246]  INFO -- managed-server-centos-72:     -## Allows members of the 'sys' group to run networking, software, 
+I, [2017-06-03T11:22:13.633553 #14246]  INFO -- managed-server-centos-72:     -## service management apps and more.
+I, [2017-06-03T11:22:13.633565 #14246]  INFO -- managed-server-centos-72:     -# %sys ALL = NETWORKING, SOFTWARE, SERVICES, STORAGE, DELEGATING, PROCESSES, LOCATE, DRIVERS
+I, [2017-06-03T11:22:13.633577 #14246]  INFO -- managed-server-centos-72:     -
+I, [2017-06-03T11:22:13.633588 #14246]  INFO -- managed-server-centos-72:     -## Allows people in group wheel to run all commands
+I, [2017-06-03T11:22:13.633601 #14246]  INFO -- managed-server-centos-72:     -%wheel	ALL=(ALL)	ALL
+I, [2017-06-03T11:22:13.633612 #14246]  INFO -- managed-server-centos-72:     -
+I, [2017-06-03T11:22:13.633625 #14246]  INFO -- managed-server-centos-72:     -## Same thing without a password
+I, [2017-06-03T11:22:13.633637 #14246]  INFO -- managed-server-centos-72:     -# %wheel	ALL=(ALL)	NOPASSWD: ALL
+I, [2017-06-03T11:22:13.633648 #14246]  INFO -- managed-server-centos-72:     -
+I, [2017-06-03T11:22:13.633659 #14246]  INFO -- managed-server-centos-72:     -## Allows members of the users group to mount and unmount the 
+I, [2017-06-03T11:22:13.633671 #14246]  INFO -- managed-server-centos-72:     -## cdrom as root
+I, [2017-06-03T11:22:13.633683 #14246]  INFO -- managed-server-centos-72:     -# %users  ALL=/sbin/mount /mnt/cdrom, /sbin/umount /mnt/cdrom
+I, [2017-06-03T11:22:13.633695 #14246]  INFO -- managed-server-centos-72:     -
+I, [2017-06-03T11:22:13.633707 #14246]  INFO -- managed-server-centos-72:     -## Allows members of the users group to shutdown this system
+I, [2017-06-03T11:22:13.633741 #14246]  INFO -- managed-server-centos-72:     -# %users  localhost=/sbin/shutdown -h now
+I, [2017-06-03T11:22:13.633753 #14246]  INFO -- managed-server-centos-72:     -
+I, [2017-06-03T11:22:13.633765 #14246]  INFO -- managed-server-centos-72:     -## Read drop-in files from /etc/sudoers.d (the # here does not mean a comment)
+I, [2017-06-03T11:22:13.633777 #14246]  INFO -- managed-server-centos-72:     +# This is not a comment; see sudoers(5) for more information on "#include" directives
+I, [2017-06-03T11:22:13.660181 #14246]  INFO -- managed-server-centos-72:      #includedir /etc/sudoers.d
+I, [2017-06-03T11:22:13.660246 #14246]  INFO -- managed-server-centos-72:     - restore selinux security context
+I, [2017-06-03T11:22:13.660274 #14246]  INFO -- managed-server-centos-72: Recipe: omc::install_omc_agent
+I, [2017-06-03T11:22:13.706764 #14246]  INFO -- managed-server-centos-72:   * group[omcinstall] action create
+I, [2017-06-03T11:22:13.706876 #14246]  INFO -- managed-server-centos-72:     - create group omcinstall
+I, [2017-06-03T11:22:13.745996 #14246]  INFO -- managed-server-centos-72:   * users_manage[omcinstall] action create
+I, [2017-06-03T11:22:13.746095 #14246]  INFO -- managed-server-centos-72:     * group[omc] action create (skipped due to only_if)
+I, [2017-06-03T11:22:13.800672 #14246]  INFO -- managed-server-centos-72:     * linux_user[omc] action create
+I, [2017-06-03T11:22:13.800758 #14246]  INFO -- managed-server-centos-72:       - create user omc
+I, [2017-06-03T11:22:13.800802 #14246]  INFO -- managed-server-centos-72:     * directory[/home/omc/.ssh] action create
+I, [2017-06-03T11:22:13.800838 #14246]  INFO -- managed-server-centos-72:       - create new directory /home/omc/.ssh
+I, [2017-06-03T11:22:13.800918 #14246]  INFO -- managed-server-centos-72:       - change mode from '' to '0700'
+I, [2017-06-03T11:22:13.826265 #14246]  INFO -- managed-server-centos-72:       - change owner from '' to 'omc'
+I, [2017-06-03T11:22:13.826356 #14246]  INFO -- managed-server-centos-72:       - restore selinux security context
+I, [2017-06-03T11:22:13.826402 #14246]  INFO -- managed-server-centos-72:     * template[/home/omc/.ssh/authorized_keys] action create
+I, [2017-06-03T11:22:13.826438 #14246]  INFO -- managed-server-centos-72:       - create new file /home/omc/.ssh/authorized_keys
+I, [2017-06-03T11:22:13.826468 #14246]  INFO -- managed-server-centos-72:       - update content in file /home/omc/.ssh/authorized_keys from none to f3b915
+I, [2017-06-03T11:22:13.826493 #14246]  INFO -- managed-server-centos-72:       - suppressed sensitive resource
+I, [2017-06-03T11:22:13.826518 #14246]  INFO -- managed-server-centos-72:       - change mode from '' to '0600'
+I, [2017-06-03T11:22:13.848265 #14246]  INFO -- managed-server-centos-72:       - change owner from '' to 'omc'
+I, [2017-06-03T11:22:13.848363 #14246]  INFO -- managed-server-centos-72:       - restore selinux security context
+I, [2017-06-03T11:22:13.912138 #14246]  INFO -- managed-server-centos-72:     * group[omcinstall] action create
+I, [2017-06-03T11:22:13.912217 #14246]  INFO -- managed-server-centos-72:       - alter group omcinstall
+I, [2017-06-03T11:22:13.912273 #14246]  INFO -- managed-server-centos-72:       - change gid 1001 to 1139
+I, [2017-06-03T11:22:13.912300 #14246]  INFO -- managed-server-centos-72:       - replace group members with new list of members
+I, [2017-06-03T11:22:13.912320 #14246]  INFO -- managed-server-centos-72:   
+I, [2017-06-03T11:22:13.937864 #14246]  INFO -- managed-server-centos-72:   * sudo[omc] action install
+I, [2017-06-03T11:22:13.937941 #14246]  INFO -- managed-server-centos-72:     * template[/etc/sudoers.d/omc] action create
+I, [2017-06-03T11:22:13.937981 #14246]  INFO -- managed-server-centos-72:       - create new file /etc/sudoers.d/omc
+I, [2017-06-03T11:22:13.938011 #14246]  INFO -- managed-server-centos-72:       - update content in file /etc/sudoers.d/omc from none to ad6323
+I, [2017-06-03T11:22:13.938036 #14246]  INFO -- managed-server-centos-72:       --- /etc/sudoers.d/omc	2017-06-03 15:22:12.082977999 +0000
+I, [2017-06-03T11:22:13.938060 #14246]  INFO -- managed-server-centos-72:       +++ /etc/sudoers.d/.chef-omc20170603-12063-xcvl1x	2017-06-03 15:22:12.082977999 +0000
+I, [2017-06-03T11:22:13.938081 #14246]  INFO -- managed-server-centos-72:       @@ -1 +1,9 @@
+I, [2017-06-03T11:22:13.938103 #14246]  INFO -- managed-server-centos-72:       +# This file is managed by Chef.
+I, [2017-06-03T11:22:13.938122 #14246]  INFO -- managed-server-centos-72:       +# Do NOT modify this file directly.
+I, [2017-06-03T11:22:13.938141 #14246]  INFO -- managed-server-centos-72:       +
+I, [2017-06-03T11:22:13.938160 #14246]  INFO -- managed-server-centos-72:       +
+I, [2017-06-03T11:22:13.938179 #14246]  INFO -- managed-server-centos-72:       +
+I, [2017-06-03T11:22:13.938197 #14246]  INFO -- managed-server-centos-72:       +
+I, [2017-06-03T11:22:13.938216 #14246]  INFO -- managed-server-centos-72:       +omc ALL=(ALL) NOPASSWD:ALL
+I, [2017-06-03T11:22:13.938251 #14246]  INFO -- managed-server-centos-72:       +
+I, [2017-06-03T11:22:13.938272 #14246]  INFO -- managed-server-centos-72:       - change mode from '' to '0440'
+I, [2017-06-03T11:22:13.938324 #14246]  INFO -- managed-server-centos-72:       - change owner from '' to 'root'
+I, [2017-06-03T11:22:13.959492 #14246]  INFO -- managed-server-centos-72:       - change group from '' to 'root'
+I, [2017-06-03T11:22:13.959589 #14246]  INFO -- managed-server-centos-72:       - restore selinux security context
+I, [2017-06-03T11:22:13.988252 #14246]  INFO -- managed-server-centos-72:     * yum_package[sudo] action install (skipped due to not_if)
+I, [2017-06-03T11:22:13.988317 #14246]  INFO -- managed-server-centos-72:     * template[/etc/sudoers.d/omc] action nothing (skipped due to action :nothing)
+I, [2017-06-03T11:22:13.988343 #14246]  INFO -- managed-server-centos-72:   
+I, [2017-06-03T11:22:13.988392 #14246]  INFO -- managed-server-centos-72:   * template[/etc/security/limits.d/omc_limits.conf] action create
+I, [2017-06-03T11:22:13.988411 #14246]  INFO -- managed-server-centos-72:     - create new file /etc/security/limits.d/omc_limits.conf
+I, [2017-06-03T11:22:13.988427 #14246]  INFO -- managed-server-centos-72:     - update content in file /etc/security/limits.d/omc_limits.conf from none to 02db38
+I, [2017-06-03T11:22:13.988442 #14246]  INFO -- managed-server-centos-72:     --- /etc/security/limits.d/omc_limits.conf	2017-06-03 15:22:12.135003999 +0000
+I, [2017-06-03T11:22:13.988455 #14246]  INFO -- managed-server-centos-72:     +++ /etc/security/limits.d/.chef-omc_limits20170603-12063-elz20n.conf	2017-06-03 15:22:12.135003999 +0000
+I, [2017-06-03T11:22:13.988469 #14246]  INFO -- managed-server-centos-72:     @@ -1 +1,13 @@
+I, [2017-06-03T11:22:13.988481 #14246]  INFO -- managed-server-centos-72:     +# Limits settings for omc
+I, [2017-06-03T11:22:13.988494 #14246]  INFO -- managed-server-centos-72:     +
+I, [2017-06-03T11:22:13.988507 #14246]  INFO -- managed-server-centos-72:     +omc - nofile 8192
+I, [2017-06-03T11:22:13.988519 #14246]  INFO -- managed-server-centos-72:     +
+I, [2017-06-03T11:22:13.988531 #14246]  INFO -- managed-server-centos-72:     +omc - nproc 61504
+I, [2017-06-03T11:22:13.988542 #14246]  INFO -- managed-server-centos-72:     +
+I, [2017-06-03T11:22:13.988554 #14246]  INFO -- managed-server-centos-72:     +omc - memlock 1024
+I, [2017-06-03T11:22:13.988566 #14246]  INFO -- managed-server-centos-72:     +
+I, [2017-06-03T11:22:13.988597 #14246]  INFO -- managed-server-centos-72:     +omc - core 2048
+I, [2017-06-03T11:22:13.988610 #14246]  INFO -- managed-server-centos-72:     +
+I, [2017-06-03T11:22:13.988622 #14246]  INFO -- managed-server-centos-72:     +omc soft stack 2048
+I, [2017-06-03T11:22:13.990490 #14246]  INFO -- managed-server-centos-72:     +omc hard stack 2048
+I, [2017-06-03T11:22:13.990557 #14246]  INFO -- managed-server-centos-72:     - change mode from '' to '0644'
+I, [2017-06-03T11:22:13.990585 #14246]  INFO -- managed-server-centos-72:     - change owner from '' to 'root'
+I, [2017-06-03T11:22:14.012322 #14246]  INFO -- managed-server-centos-72:     - change group from '' to 'root'
+I, [2017-06-03T11:22:14.012394 #14246]  INFO -- managed-server-centos-72:     - restore selinux security context
+I, [2017-06-03T11:22:14.060937 #14246]  INFO -- managed-server-centos-72:   * execute[su -l omc -c 'ulimit -a'] action run
+I, [2017-06-03T11:22:14.061028 #14246]  INFO -- managed-server-centos-72:     - execute su -l omc -c 'ulimit -a'
+I, [2017-06-03T11:22:23.803785 #14246]  INFO -- managed-server-centos-72:   * yum_package[binutils.x86_64] action install (up to date)
+I, [2017-06-03T11:22:32.193133 #14246]  INFO -- managed-server-centos-72:   * yum_package[perl.x86_64] action install
+I, [2017-06-03T11:22:32.193203 #14246]  INFO -- managed-server-centos-72:     - install version 5.16.3-291.el7 of package perl
+I, [2017-06-03T11:22:33.243433 #14246]  INFO -- managed-server-centos-72:   * yum_package[unzip.x86_64] action install
+I, [2017-06-03T11:22:33.243526 #14246]  INFO -- managed-server-centos-72:     - install version 6.0-16.el7 of package unzip
+I, [2017-06-03T11:22:35.556739 #14246]  INFO -- managed-server-centos-72:   * yum_package[bind-utils.x86_64] action install
+I, [2017-06-03T11:22:35.556825 #14246]  INFO -- managed-server-centos-72:     - install version 9.9.4-38.el7_3.3 of package bind-utils
+I, [2017-06-03T11:22:36.571414 #14246]  INFO -- managed-server-centos-72:   * yum_package[bc.x86_64] action install
+I, [2017-06-03T11:22:36.571487 #14246]  INFO -- managed-server-centos-72:     - install version 1.06.95-13.el7 of package bc
+I, [2017-06-03T11:22:37.804062 #14246]  INFO -- managed-server-centos-72:   * yum_package[rng-tools.x86_64] action install
+I, [2017-06-03T11:22:37.804130 #14246]  INFO -- managed-server-centos-72:     - install version 5-8.el7 of package rng-tools
+I, [2017-06-03T11:22:37.807434 #14246]  INFO -- managed-server-centos-72:   * directory[/omc/install] action create
+I, [2017-06-03T11:22:37.807501 #14246]  INFO -- managed-server-centos-72:     - create new directory /omc/install
+I, [2017-06-03T11:22:37.807532 #14246]  INFO -- managed-server-centos-72:     - change owner from '' to 'omc'
+I, [2017-06-03T11:22:37.833092 #14246]  INFO -- managed-server-centos-72:     - change group from '' to 'omcinstall'
+I, [2017-06-03T11:22:37.833182 #14246]  INFO -- managed-server-centos-72:     - restore selinux security context
+I, [2017-06-03T11:22:37.843078 #14246]  INFO -- managed-server-centos-72:   * cookbook_file[/omc/install/AgentInstall.zip] action create
+I, [2017-06-03T11:22:37.843151 #14246]  INFO -- managed-server-centos-72:     - create new file /omc/install/AgentInstall.zip
+I, [2017-06-03T11:22:37.843176 #14246]  INFO -- managed-server-centos-72:     - update content in file /omc/install/AgentInstall.zip from none to 396083
+I, [2017-06-03T11:22:37.843206 #14246]  INFO -- managed-server-centos-72:     (new content is binary, diff output suppressed)
+I, [2017-06-03T11:22:37.843226 #14246]  INFO -- managed-server-centos-72:     - change mode from '' to '0755'
+I, [2017-06-03T11:22:37.843246 #14246]  INFO -- managed-server-centos-72:     - change owner from '' to 'omc'
+I, [2017-06-03T11:22:37.870856 #14246]  INFO -- managed-server-centos-72:     - change group from '' to 'omcinstall'
+I, [2017-06-03T11:22:37.870938 #14246]  INFO -- managed-server-centos-72:     - restore selinux security context
+I, [2017-06-03T11:22:37.870981 #14246]  INFO -- managed-server-centos-72:   * directory[/omc/stage] action create
+I, [2017-06-03T11:22:37.871011 #14246]  INFO -- managed-server-centos-72:     - create new directory /omc/stage
+I, [2017-06-03T11:22:37.871038 #14246]  INFO -- managed-server-centos-72:     - change owner from '' to 'omc'
+I, [2017-06-03T11:22:37.898768 #14246]  INFO -- managed-server-centos-72:     - change group from '' to 'omcinstall'
+I, [2017-06-03T11:22:37.898878 #14246]  INFO -- managed-server-centos-72:     - restore selinux security context
+I, [2017-06-03T11:22:37.898932 #14246]  INFO -- managed-server-centos-72:   * directory[/omc/app] action create
+I, [2017-06-03T11:22:37.898967 #14246]  INFO -- managed-server-centos-72:     - create new directory /omc/app
+I, [2017-06-03T11:22:37.899001 #14246]  INFO -- managed-server-centos-72:     - change owner from '' to 'omc'
+I, [2017-06-03T11:22:37.922960 #14246]  INFO -- managed-server-centos-72:     - change group from '' to 'omcinstall'
+I, [2017-06-03T11:22:37.923046 #14246]  INFO -- managed-server-centos-72:     - restore selinux security context
+I, [2017-06-03T11:22:37.923071 #14246]  INFO -- managed-server-centos-72:   * directory[/omc/apm] action create
+I, [2017-06-03T11:22:37.923093 #14246]  INFO -- managed-server-centos-72:     - create new directory /omc/apm
+I, [2017-06-03T11:22:37.923117 #14246]  INFO -- managed-server-centos-72:     - change owner from '' to 'omc'
+I, [2017-06-03T11:22:37.948800 #14246]  INFO -- managed-server-centos-72:     - change group from '' to 'omcinstall'
+I, [2017-06-03T11:22:37.948859 #14246]  INFO -- managed-server-centos-72:     - restore selinux security context
+I, [2017-06-03T11:22:37.972987 #14246]  INFO -- managed-server-centos-72:   * execute[unzip AgentInstall.zip -d /omc/install] action run
+I, [2017-06-03T11:22:37.973047 #14246]  INFO -- managed-server-centos-72:     - execute unzip AgentInstall.zip -d /omc/install
+I, [2017-06-03T11:22:38.022052 #14246]  INFO -- managed-server-centos-72:   * execute[sudo chmod +x AgentInstall.sh] action run
+I, [2017-06-03T11:22:38.022138 #14246]  INFO -- managed-server-centos-72:     - execute sudo chmod +x AgentInstall.sh
+I, [2017-06-03T11:26:40.848383 #14246]  INFO -- managed-server-centos-72:   * execute[./AgentInstall.sh AGENT_TYPE=cloud_agent STAGE_LOCATION=/omc/stage -download_only AGENT_REGISTRATION_KEY=RvnWiqoF63rVq2ZW9G09Gu4W0N] action run
+I, [2017-06-03T11:26:40.848446 #14246]  INFO -- managed-server-centos-72:     - execute ./AgentInstall.sh AGENT_TYPE=cloud_agent STAGE_LOCATION=/omc/stage -download_only AGENT_REGISTRATION_KEY=RvnWiqoF63rVq2ZW9G09Gu4W0N
+I, [2017-06-03T11:26:40.848464 #14246]  INFO -- managed-server-centos-72: Recipe: omc::configure_and_monitor_linux
+I, [2017-06-03T11:26:40.855876 #14246]  INFO -- managed-server-centos-72:   * template[/omc/stage/omc_entity.json] action create
+I, [2017-06-03T11:26:40.855939 #14246]  INFO -- managed-server-centos-72:     - create new file /omc/stage/omc_entity.json
+I, [2017-06-03T11:26:40.855958 #14246]  INFO -- managed-server-centos-72:     - update content in file /omc/stage/omc_entity.json from none to bf43da
+I, [2017-06-03T11:26:40.855973 #14246]  INFO -- managed-server-centos-72:     --- /omc/stage/omc_entity.json	2017-06-03 15:26:38.744242000 +0000
+I, [2017-06-03T11:26:40.855987 #14246]  INFO -- managed-server-centos-72:     +++ /omc/stage/.chef-omc_entity20170603-12063-rtxdtj.json	2017-06-03 15:26:38.743241499 +0000
+I, [2017-06-03T11:26:40.856001 #14246]  INFO -- managed-server-centos-72:     @@ -1 +1,16 @@
+I, [2017-06-03T11:26:40.856014 #14246]  INFO -- managed-server-centos-72:     +{
+I, [2017-06-03T11:26:40.856026 #14246]  INFO -- managed-server-centos-72:     +  "entities":
+I, [2017-06-03T11:26:40.856038 #14246]  INFO -- managed-server-centos-72:     +  [
+I, [2017-06-03T11:26:40.856050 #14246]  INFO -- managed-server-centos-72:     +    {
+I, [2017-06-03T11:26:40.856063 #14246]  INFO -- managed-server-centos-72:     +      "name": "managed-server-centos-72",
+I, [2017-06-03T11:26:40.856076 #14246]  INFO -- managed-server-centos-72:     +      "type": "omc_host_linux",
+I, [2017-06-03T11:26:40.856088 #14246]  INFO -- managed-server-centos-72:     +      "properties":{
+I, [2017-06-03T11:26:40.856101 #14246]  INFO -- managed-server-centos-72:     +        "capability": {
+I, [2017-06-03T11:26:40.856113 #14246]  INFO -- managed-server-centos-72:     +          "displayName": "capability",
+I, [2017-06-03T11:26:40.856126 #14246]  INFO -- managed-server-centos-72:     +          "value": "monitoring"
+I, [2017-06-03T11:26:40.856163 #14246]  INFO -- managed-server-centos-72:     +        }
+I, [2017-06-03T11:26:40.856176 #14246]  INFO -- managed-server-centos-72:     +      }
+I, [2017-06-03T11:26:40.856187 #14246]  INFO -- managed-server-centos-72:     +    }
+I, [2017-06-03T11:26:40.856199 #14246]  INFO -- managed-server-centos-72:     +  ]
+I, [2017-06-03T11:26:40.885725 #14246]  INFO -- managed-server-centos-72:     +}
+I, [2017-06-03T11:26:40.885781 #14246]  INFO -- managed-server-centos-72:     - restore selinux security context
+I, [2017-06-03T11:26:41.419220 #14246]  INFO -- managed-server-centos-72:   * execute[./AgentInstall.sh AGENT_TYPE=cloud_agent AGENT_BASE_DIR='/omc/app/cloud_agent' -staged AGENT_PORT=1830 AGENT_PROPERTIES=$PWD/agent.properties AGENT_REGISTRATION_KEY=RvnWiqoF63rVq2ZW9G09Gu4W0N ORACLE_HOSTNAME=managed-server-centos-72] action run
+I, [2017-06-03T11:26:41.419287 #14246]  INFO -- managed-server-centos-72:     
+I, [2017-06-03T11:26:41.419322 #14246]  INFO -- managed-server-centos-72:     ================================================================================
+I, [2017-06-03T11:26:41.419352 #14246]  INFO -- managed-server-centos-72:     Error executing action `run` on resource 'execute[./AgentInstall.sh AGENT_TYPE=cloud_agent AGENT_BASE_DIR='/omc/app/cloud_agent' -staged AGENT_PORT=1830 AGENT_PROPERTIES=$PWD/agent.properties AGENT_REGISTRATION_KEY=RvnWiqoF63rVq2ZW9G09Gu4W0N ORACLE_HOSTNAME=managed-server-centos-72]'
+I, [2017-06-03T11:26:41.419396 #14246]  INFO -- managed-server-centos-72:     ================================================================================
+I, [2017-06-03T11:26:41.419423 #14246]  INFO -- managed-server-centos-72:     
+I, [2017-06-03T11:26:41.419449 #14246]  INFO -- managed-server-centos-72:     Mixlib::ShellOut::ShellCommandFailed
+I, [2017-06-03T11:26:41.419510 #14246]  INFO -- managed-server-centos-72:     ------------------------------------
+I, [2017-06-03T11:26:41.419532 #14246]  INFO -- managed-server-centos-72:     Expected process to exit with [0], but received '1'
+I, [2017-06-03T11:26:41.419554 #14246]  INFO -- managed-server-centos-72:     ---- Begin output of ./AgentInstall.sh AGENT_TYPE=cloud_agent AGENT_BASE_DIR='/omc/app/cloud_agent' -staged AGENT_PORT=1830 AGENT_PROPERTIES=$PWD/agent.properties AGENT_REGISTRATION_KEY=RvnWiqoF63rVq2ZW9G09Gu4W0N ORACLE_HOSTNAME=managed-server-centos-72 ----
+I, [2017-06-03T11:26:41.419577 #14246]  INFO -- managed-server-centos-72:     STDOUT: Error: The ORACLE_HOSTNAME:managed-server-centos-72 is not in the Fully Qualified Domain Name format
+I, [2017-06-03T11:26:41.419600 #14246]  INFO -- managed-server-centos-72:     STDERR: 
+I, [2017-06-03T11:26:41.419614 #14246]  INFO -- managed-server-centos-72:     ---- End output of ./AgentInstall.sh AGENT_TYPE=cloud_agent AGENT_BASE_DIR='/omc/app/cloud_agent' -staged AGENT_PORT=1830 AGENT_PROPERTIES=$PWD/agent.properties AGENT_REGISTRATION_KEY=RvnWiqoF63rVq2ZW9G09Gu4W0N ORACLE_HOSTNAME=managed-server-centos-72 ----
+I, [2017-06-03T11:26:41.419630 #14246]  INFO -- managed-server-centos-72:     Ran ./AgentInstall.sh AGENT_TYPE=cloud_agent AGENT_BASE_DIR='/omc/app/cloud_agent' -staged AGENT_PORT=1830 AGENT_PROPERTIES=$PWD/agent.properties AGENT_REGISTRATION_KEY=RvnWiqoF63rVq2ZW9G09Gu4W0N ORACLE_HOSTNAME=managed-server-centos-72 returned 1
+I, [2017-06-03T11:26:41.419646 #14246]  INFO -- managed-server-centos-72:     
+I, [2017-06-03T11:26:41.419661 #14246]  INFO -- managed-server-centos-72:     Resource Declaration:
+I, [2017-06-03T11:26:41.419672 #14246]  INFO -- managed-server-centos-72:     ---------------------
+I, [2017-06-03T11:26:41.419685 #14246]  INFO -- managed-server-centos-72:     # In /tmp/kitchen/cache/cookbooks/omc/recipes/configure_and_monitor_linux.rb
+I, [2017-06-03T11:26:41.419697 #14246]  INFO -- managed-server-centos-72:     
+I, [2017-06-03T11:26:41.419709 #14246]  INFO -- managed-server-centos-72:      19: execute install_agent do
+I, [2017-06-03T11:26:41.419722 #14246]  INFO -- managed-server-centos-72:      20:   action :run
+I, [2017-06-03T11:26:41.419734 #14246]  INFO -- managed-server-centos-72:      21:   cwd node['omc']['stage']
+I, [2017-06-03T11:26:41.419746 #14246]  INFO -- managed-server-centos-72:      22:   user os_user
+I, [2017-06-03T11:26:41.419758 #14246]  INFO -- managed-server-centos-72:      23:   group os_installer_group
+I, [2017-06-03T11:26:41.419800 #14246]  INFO -- managed-server-centos-72:      24:   creates omcli
+I, [2017-06-03T11:26:41.419812 #14246]  INFO -- managed-server-centos-72:      25: end
+I, [2017-06-03T11:26:41.419826 #14246]  INFO -- managed-server-centos-72:      26: 
+I, [2017-06-03T11:26:41.419837 #14246]  INFO -- managed-server-centos-72:     
+I, [2017-06-03T11:26:41.419852 #14246]  INFO -- managed-server-centos-72:     Compiled Resource:
+I, [2017-06-03T11:26:41.419870 #14246]  INFO -- managed-server-centos-72:     ------------------
+I, [2017-06-03T11:26:41.419896 #14246]  INFO -- managed-server-centos-72:     # Declared in /tmp/kitchen/cache/cookbooks/omc/recipes/configure_and_monitor_linux.rb:19:in `from_file'
+I, [2017-06-03T11:26:41.419919 #14246]  INFO -- managed-server-centos-72:     
+I, [2017-06-03T11:26:41.419940 #14246]  INFO -- managed-server-centos-72:     execute("./AgentInstall.sh AGENT_TYPE=cloud_agent AGENT_BASE_DIR='/omc/app/cloud_agent' -staged AGENT_PORT=1830 AGENT_PROPERTIES=$PWD/agent.properties AGENT_REGISTRATION_KEY=RvnWiqoF63rVq2ZW9G09Gu4W0N ORACLE_HOSTNAME=managed-server-centos-72") do
+I, [2017-06-03T11:26:41.419976 #14246]  INFO -- managed-server-centos-72:       action [:run]
+I, [2017-06-03T11:26:41.419999 #14246]  INFO -- managed-server-centos-72:       default_guard_interpreter :execute
+I, [2017-06-03T11:26:41.420019 #14246]  INFO -- managed-server-centos-72:       command "./AgentInstall.sh AGENT_TYPE=cloud_agent AGENT_BASE_DIR='/omc/app/cloud_agent' -staged AGENT_PORT=1830 AGENT_PROPERTIES=$PWD/agent.properties AGENT_REGISTRATION_KEY=RvnWiqoF63rVq2ZW9G09Gu4W0N ORACLE_HOSTNAME=managed-server-centos-72"
+I, [2017-06-03T11:26:41.420063 #14246]  INFO -- managed-server-centos-72:       backup 5
+I, [2017-06-03T11:26:41.420094 #14246]  INFO -- managed-server-centos-72:       creates "/omc/app/cloud_agent/agent_inst/bin/omcli"
+I, [2017-06-03T11:26:41.420128 #14246]  INFO -- managed-server-centos-72:       cwd "/omc/stage"
+I, [2017-06-03T11:26:41.420161 #14246]  INFO -- managed-server-centos-72:       returns 0
+I, [2017-06-03T11:26:41.420194 #14246]  INFO -- managed-server-centos-72:       user "omc"
+I, [2017-06-03T11:26:41.420222 #14246]  INFO -- managed-server-centos-72:       declared_type :execute
+I, [2017-06-03T11:26:41.420268 #14246]  INFO -- managed-server-centos-72:       cookbook_name "omc"
+I, [2017-06-03T11:26:41.420349 #14246]  INFO -- managed-server-centos-72:       recipe_name "configure_and_monitor_linux"
+I, [2017-06-03T11:26:41.420368 #14246]  INFO -- managed-server-centos-72:       domain nil
+I, [2017-06-03T11:26:41.420388 #14246]  INFO -- managed-server-centos-72:     end
+I, [2017-06-03T11:26:41.420407 #14246]  INFO -- managed-server-centos-72:     
+I, [2017-06-03T11:26:41.421731 #14246]  INFO -- managed-server-centos-72:     System Info:
+I, [2017-06-03T11:26:41.421835 #14246]  INFO -- managed-server-centos-72:     ------------
+I, [2017-06-03T11:26:41.421866 #14246]  INFO -- managed-server-centos-72:     chef_version=13.1.31
+I, [2017-06-03T11:26:41.421893 #14246]  INFO -- managed-server-centos-72:     platform=centos
+I, [2017-06-03T11:26:41.421918 #14246]  INFO -- managed-server-centos-72:     platform_version=7.2.1511
+I, [2017-06-03T11:26:41.421944 #14246]  INFO -- managed-server-centos-72:     ruby=ruby 2.4.1p111 (2017-03-22 revision 58053) [x86_64-linux]
+I, [2017-06-03T11:26:41.422055 #14246]  INFO -- managed-server-centos-72:     program_name=chef-solo worker: ppid=12058;start=15:22:09;
+I, [2017-06-03T11:26:41.422078 #14246]  INFO -- managed-server-centos-72:     executable=/opt/chef/bin/chef-solo
+I, [2017-06-03T11:26:41.422097 #14246]  INFO -- managed-server-centos-72:     
+I, [2017-06-03T11:26:41.422117 #14246]  INFO -- managed-server-centos-72: 
+I, [2017-06-03T11:26:41.422136 #14246]  INFO -- managed-server-centos-72: Running handlers:
+I, [2017-06-03T11:26:41.422155 #14246]  INFO -- managed-server-centos-72: [2017-06-03T15:26:39+00:00] ERROR: Running exception handlers
+I, [2017-06-03T11:26:41.422178 #14246]  INFO -- managed-server-centos-72: [2017-06-03T15:26:39+00:00] ERROR: Running exception handlers
+I, [2017-06-03T11:26:41.422192 #14246]  INFO -- managed-server-centos-72: Running handlers complete
+I, [2017-06-03T11:26:41.422205 #14246]  INFO -- managed-server-centos-72: [2017-06-03T15:26:39+00:00] ERROR: Exception handlers complete
+I, [2017-06-03T11:26:41.422377 #14246]  INFO -- managed-server-centos-72: [2017-06-03T15:26:39+00:00] ERROR: Exception handlers complete
+I, [2017-06-03T11:26:41.422418 #14246]  INFO -- managed-server-centos-72: Chef Client failed. 27 resources updated in 04 minutes 30 seconds
+I, [2017-06-03T11:26:41.422444 #14246]  INFO -- managed-server-centos-72: [2017-06-03T15:26:39+00:00] FATAL: Stacktrace dumped to /tmp/kitchen/cache/chef-stacktrace.out
+I, [2017-06-03T11:26:41.422468 #14246]  INFO -- managed-server-centos-72: [2017-06-03T15:26:39+00:00] FATAL: Stacktrace dumped to /tmp/kitchen/cache/chef-stacktrace.out
+I, [2017-06-03T11:26:41.422499 #14246]  INFO -- managed-server-centos-72: [2017-06-03T15:26:39+00:00] FATAL: Please provide the contents of the stacktrace.out file if you file a bug report
+I, [2017-06-03T11:26:41.422536 #14246]  INFO -- managed-server-centos-72: [2017-06-03T15:26:39+00:00] FATAL: Please provide the contents of the stacktrace.out file if you file a bug report
+I, [2017-06-03T11:26:41.422607 #14246]  INFO -- managed-server-centos-72: [2017-06-03T15:26:39+00:00] ERROR: execute[./AgentInstall.sh AGENT_TYPE=cloud_agent AGENT_BASE_DIR='/omc/app/cloud_agent' -staged AGENT_PORT=1830 AGENT_PROPERTIES=$PWD/agent.properties AGENT_REGISTRATION_KEY=RvnWiqoF63rVq2ZW9G09Gu4W0N ORACLE_HOSTNAME=managed-server-centos-72] (omc::configure_and_monitor_linux line 19) had an error: Mixlib::ShellOut::ShellCommandFailed: Expected process to exit with [0], but received '1'
+I, [2017-06-03T11:26:41.422691 #14246]  INFO -- managed-server-centos-72: ---- Begin output of ./AgentInstall.sh AGENT_TYPE=cloud_agent AGENT_BASE_DIR='/omc/app/cloud_agent' -staged AGENT_PORT=1830 AGENT_PROPERTIES=$PWD/agent.properties AGENT_REGISTRATION_KEY=RvnWiqoF63rVq2ZW9G09Gu4W0N ORACLE_HOSTNAME=managed-server-centos-72 ----
+I, [2017-06-03T11:26:41.422809 #14246]  INFO -- managed-server-centos-72: STDOUT: Error: The ORACLE_HOSTNAME:managed-server-centos-72 is not in the Fully Qualified Domain Name format
+I, [2017-06-03T11:26:41.422836 #14246]  INFO -- managed-server-centos-72: STDERR: 
+I, [2017-06-03T11:26:41.422867 #14246]  INFO -- managed-server-centos-72: ---- End output of ./AgentInstall.sh AGENT_TYPE=cloud_agent AGENT_BASE_DIR='/omc/app/cloud_agent' -staged AGENT_PORT=1830 AGENT_PROPERTIES=$PWD/agent.properties AGENT_REGISTRATION_KEY=RvnWiqoF63rVq2ZW9G09Gu4W0N ORACLE_HOSTNAME=managed-server-centos-72 ----
+I, [2017-06-03T11:26:41.422890 #14246]  INFO -- managed-server-centos-72: Ran ./AgentInstall.sh AGENT_TYPE=cloud_agent AGENT_BASE_DIR='/omc/app/cloud_agent' -staged AGENT_PORT=1830 AGENT_PROPERTIES=$PWD/agent.properties AGENT_REGISTRATION_KEY=RvnWiqoF63rVq2ZW9G09Gu4W0N ORACLE_HOSTNAME=managed-server-centos-72 returned 1
+I, [2017-06-03T11:26:41.422923 #14246]  INFO -- managed-server-centos-72: [2017-06-03T15:26:39+00:00] ERROR: execute[./AgentInstall.sh AGENT_TYPE=cloud_agent AGENT_BASE_DIR='/omc/app/cloud_agent' -staged AGENT_PORT=1830 AGENT_PROPERTIES=$PWD/agent.properties AGENT_REGISTRATION_KEY=RvnWiqoF63rVq2ZW9G09Gu4W0N ORACLE_HOSTNAME=managed-server-centos-72] (omc::configure_and_monitor_linux line 19) had an error: Mixlib::ShellOut::ShellCommandFailed: Expected process to exit with [0], but received '1'
+I, [2017-06-03T11:26:41.422959 #14246]  INFO -- managed-server-centos-72: ---- Begin output of ./AgentInstall.sh AGENT_TYPE=cloud_agent AGENT_BASE_DIR='/omc/app/cloud_agent' -staged AGENT_PORT=1830 AGENT_PROPERTIES=$PWD/agent.properties AGENT_REGISTRATION_KEY=RvnWiqoF63rVq2ZW9G09Gu4W0N ORACLE_HOSTNAME=managed-server-centos-72 ----
+I, [2017-06-03T11:26:41.422979 #14246]  INFO -- managed-server-centos-72: STDOUT: Error: The ORACLE_HOSTNAME:managed-server-centos-72 is not in the Fully Qualified Domain Name format
+I, [2017-06-03T11:26:41.423114 #14246]  INFO -- managed-server-centos-72: STDERR: 
+I, [2017-06-03T11:26:41.423154 #14246]  INFO -- managed-server-centos-72: ---- End output of ./AgentInstall.sh AGENT_TYPE=cloud_agent AGENT_BASE_DIR='/omc/app/cloud_agent' -staged AGENT_PORT=1830 AGENT_PROPERTIES=$PWD/agent.properties AGENT_REGISTRATION_KEY=RvnWiqoF63rVq2ZW9G09Gu4W0N ORACLE_HOSTNAME=managed-server-centos-72 ----
+I, [2017-06-03T11:26:41.423180 #14246]  INFO -- managed-server-centos-72: Ran ./AgentInstall.sh AGENT_TYPE=cloud_agent AGENT_BASE_DIR='/omc/app/cloud_agent' -staged AGENT_PORT=1830 AGENT_PROPERTIES=$PWD/agent.properties AGENT_REGISTRATION_KEY=RvnWiqoF63rVq2ZW9G09Gu4W0N ORACLE_HOSTNAME=managed-server-centos-72 returned 1
+I, [2017-06-03T11:26:41.478327 #14246]  INFO -- managed-server-centos-72: [2017-06-03T15:26:39+00:00] FATAL: Chef::Exceptions::ChildConvergeError: Chef run process exited unsuccessfully (exit code 1)
+I, [2017-06-03T11:26:41.478398 #14246]  INFO -- managed-server-centos-72: [2017-06-03T15:26:39+00:00] FATAL: Chef::Exceptions::ChildConvergeError: Chef run process exited unsuccessfully (exit code 1)
+E, [2017-06-03T11:26:41.532494 #14246] ERROR -- managed-server-centos-72: Converge failed on instance <managed-server-centos-72>.
+E, [2017-06-03T11:26:41.532596 #14246] ERROR -- managed-server-centos-72: ------Exception-------
+E, [2017-06-03T11:26:41.532612 #14246] ERROR -- managed-server-centos-72: Class: Kitchen::ActionFailed
+E, [2017-06-03T11:26:41.532622 #14246] ERROR -- managed-server-centos-72: Message: SSH exited (1) for command: [sh -c '
+TEST_KITCHEN="1"; export TEST_KITCHEN
+sudo -E /opt/chef/bin/chef-solo --config /tmp/kitchen/solo.rb --log_level auto --no-color --json-attributes /tmp/kitchen/dna.json  --force-formatter
+']
+E, [2017-06-03T11:26:41.532632 #14246] ERROR -- managed-server-centos-72: ----------------------
+E, [2017-06-03T11:26:41.532641 #14246] ERROR -- managed-server-centos-72: ------Backtrace-------
+E, [2017-06-03T11:26:41.532649 #14246] ERROR -- managed-server-centos-72: /opt/chefdk/embedded/lib/ruby/gems/2.3.0/gems/test-kitchen-1.13.2/lib/kitchen/provisioner/base.rb:86:in `rescue in call'
+E, [2017-06-03T11:26:41.532658 #14246] ERROR -- managed-server-centos-72: /opt/chefdk/embedded/lib/ruby/gems/2.3.0/gems/test-kitchen-1.13.2/lib/kitchen/provisioner/base.rb:89:in `call'
+E, [2017-06-03T11:26:41.532667 #14246] ERROR -- managed-server-centos-72: /opt/chefdk/embedded/lib/ruby/gems/2.3.0/gems/test-kitchen-1.13.2/lib/kitchen/instance.rb:380:in `block in converge_action'
+E, [2017-06-03T11:26:41.532677 #14246] ERROR -- managed-server-centos-72: /opt/chefdk/embedded/lib/ruby/gems/2.3.0/gems/test-kitchen-1.13.2/lib/kitchen/instance.rb:520:in `synchronize_or_call'
+E, [2017-06-03T11:26:41.532685 #14246] ERROR -- managed-server-centos-72: /opt/chefdk/embedded/lib/ruby/gems/2.3.0/gems/test-kitchen-1.13.2/lib/kitchen/instance.rb:485:in `block in action'
+E, [2017-06-03T11:26:41.532694 #14246] ERROR -- managed-server-centos-72: /opt/chefdk/embedded/lib/ruby/2.3.0/benchmark.rb:293:in `measure'
+E, [2017-06-03T11:26:41.532703 #14246] ERROR -- managed-server-centos-72: /opt/chefdk/embedded/lib/ruby/gems/2.3.0/gems/test-kitchen-1.13.2/lib/kitchen/instance.rb:484:in `action'
+E, [2017-06-03T11:26:41.532712 #14246] ERROR -- managed-server-centos-72: /opt/chefdk/embedded/lib/ruby/gems/2.3.0/gems/test-kitchen-1.13.2/lib/kitchen/instance.rb:376:in `converge_action'
+E, [2017-06-03T11:26:41.532721 #14246] ERROR -- managed-server-centos-72: /opt/chefdk/embedded/lib/ruby/gems/2.3.0/gems/test-kitchen-1.13.2/lib/kitchen/instance.rb:355:in `block in transition_to'
+E, [2017-06-03T11:26:41.532730 #14246] ERROR -- managed-server-centos-72: /opt/chefdk/embedded/lib/ruby/gems/2.3.0/gems/test-kitchen-1.13.2/lib/kitchen/instance.rb:354:in `each'
+E, [2017-06-03T11:26:41.532739 #14246] ERROR -- managed-server-centos-72: /opt/chefdk/embedded/lib/ruby/gems/2.3.0/gems/test-kitchen-1.13.2/lib/kitchen/instance.rb:354:in `transition_to'
+E, [2017-06-03T11:26:41.532774 #14246] ERROR -- managed-server-centos-72: /opt/chefdk/embedded/lib/ruby/gems/2.3.0/gems/test-kitchen-1.13.2/lib/kitchen/instance.rb:138:in `converge'
+E, [2017-06-03T11:26:41.532782 #14246] ERROR -- managed-server-centos-72: /opt/chefdk/embedded/lib/ruby/gems/2.3.0/gems/test-kitchen-1.13.2/lib/kitchen/command.rb:201:in `public_send'
+E, [2017-06-03T11:26:41.532791 #14246] ERROR -- managed-server-centos-72: /opt/chefdk/embedded/lib/ruby/gems/2.3.0/gems/test-kitchen-1.13.2/lib/kitchen/command.rb:201:in `run_action_in_thread'
+E, [2017-06-03T11:26:41.532799 #14246] ERROR -- managed-server-centos-72: /opt/chefdk/embedded/lib/ruby/gems/2.3.0/gems/test-kitchen-1.13.2/lib/kitchen/command.rb:173:in `block (2 levels) in run_action'
+E, [2017-06-03T11:26:41.532808 #14246] ERROR -- managed-server-centos-72: ----End Backtrace-----
+E, [2017-06-03T11:26:41.532816 #14246] ERROR -- managed-server-centos-72: ---Nested Exception---
+E, [2017-06-03T11:26:41.532824 #14246] ERROR -- managed-server-centos-72: Class: Kitchen::Transport::SshFailed
+E, [2017-06-03T11:26:41.532839 #14246] ERROR -- managed-server-centos-72: Message: SSH exited (1) for command: [sh -c '
+TEST_KITCHEN="1"; export TEST_KITCHEN
+sudo -E /opt/chef/bin/chef-solo --config /tmp/kitchen/solo.rb --log_level auto --no-color --json-attributes /tmp/kitchen/dna.json  --force-formatter
+']
+E, [2017-06-03T11:26:41.532849 #14246] ERROR -- managed-server-centos-72: ----------------------
+E, [2017-06-03T11:26:41.532857 #14246] ERROR -- managed-server-centos-72: ------Backtrace-------
+E, [2017-06-03T11:26:41.532866 #14246] ERROR -- managed-server-centos-72: /opt/chefdk/embedded/lib/ruby/gems/2.3.0/gems/test-kitchen-1.13.2/lib/kitchen/provisioner/base.rb:86:in `rescue in call'
+E, [2017-06-03T11:26:41.532874 #14246] ERROR -- managed-server-centos-72: /opt/chefdk/embedded/lib/ruby/gems/2.3.0/gems/test-kitchen-1.13.2/lib/kitchen/provisioner/base.rb:89:in `call'
+E, [2017-06-03T11:26:41.532883 #14246] ERROR -- managed-server-centos-72: /opt/chefdk/embedded/lib/ruby/gems/2.3.0/gems/test-kitchen-1.13.2/lib/kitchen/instance.rb:380:in `block in converge_action'
+E, [2017-06-03T11:26:41.532892 #14246] ERROR -- managed-server-centos-72: /opt/chefdk/embedded/lib/ruby/gems/2.3.0/gems/test-kitchen-1.13.2/lib/kitchen/instance.rb:520:in `synchronize_or_call'
+E, [2017-06-03T11:26:41.532900 #14246] ERROR -- managed-server-centos-72: /opt/chefdk/embedded/lib/ruby/gems/2.3.0/gems/test-kitchen-1.13.2/lib/kitchen/instance.rb:485:in `block in action'
+E, [2017-06-03T11:26:41.532909 #14246] ERROR -- managed-server-centos-72: /opt/chefdk/embedded/lib/ruby/2.3.0/benchmark.rb:293:in `measure'
+E, [2017-06-03T11:26:41.532917 #14246] ERROR -- managed-server-centos-72: /opt/chefdk/embedded/lib/ruby/gems/2.3.0/gems/test-kitchen-1.13.2/lib/kitchen/instance.rb:484:in `action'
+E, [2017-06-03T11:26:41.532926 #14246] ERROR -- managed-server-centos-72: /opt/chefdk/embedded/lib/ruby/gems/2.3.0/gems/test-kitchen-1.13.2/lib/kitchen/instance.rb:376:in `converge_action'
+E, [2017-06-03T11:26:41.532935 #14246] ERROR -- managed-server-centos-72: /opt/chefdk/embedded/lib/ruby/gems/2.3.0/gems/test-kitchen-1.13.2/lib/kitchen/instance.rb:355:in `block in transition_to'
+E, [2017-06-03T11:26:41.532943 #14246] ERROR -- managed-server-centos-72: /opt/chefdk/embedded/lib/ruby/gems/2.3.0/gems/test-kitchen-1.13.2/lib/kitchen/instance.rb:354:in `each'
+E, [2017-06-03T11:26:41.532952 #14246] ERROR -- managed-server-centos-72: /opt/chefdk/embedded/lib/ruby/gems/2.3.0/gems/test-kitchen-1.13.2/lib/kitchen/instance.rb:354:in `transition_to'
+E, [2017-06-03T11:26:41.532961 #14246] ERROR -- managed-server-centos-72: /opt/chefdk/embedded/lib/ruby/gems/2.3.0/gems/test-kitchen-1.13.2/lib/kitchen/instance.rb:138:in `converge'
+E, [2017-06-03T11:26:41.532969 #14246] ERROR -- managed-server-centos-72: /opt/chefdk/embedded/lib/ruby/gems/2.3.0/gems/test-kitchen-1.13.2/lib/kitchen/command.rb:201:in `public_send'
+E, [2017-06-03T11:26:41.532978 #14246] ERROR -- managed-server-centos-72: /opt/chefdk/embedded/lib/ruby/gems/2.3.0/gems/test-kitchen-1.13.2/lib/kitchen/command.rb:201:in `run_action_in_thread'
+E, [2017-06-03T11:26:41.532986 #14246] ERROR -- managed-server-centos-72: /opt/chefdk/embedded/lib/ruby/gems/2.3.0/gems/test-kitchen-1.13.2/lib/kitchen/command.rb:173:in `block (2 levels) in run_action'
+E, [2017-06-03T11:26:41.532995 #14246] ERROR -- managed-server-centos-72: ----End Backtrace-----
