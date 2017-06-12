@@ -243,6 +243,7 @@ func (s *LoadBalancerBackendResourceCrud) Delete() (e error) {
 	if e != nil {
 		return
 	}
+	s.D.SetId(workReqID)
 	s.WorkRequest, e = s.Client.GetWorkRequest(workReqID, nil)
 	return
 }
