@@ -84,7 +84,7 @@ func handleMissingResourceError(sync ResourceVoider, err *error) {
 func LoadBalancerResourceID(res interface{}, workReq *baremetal.WorkRequest) (id *string, workReqSucceeded bool) {
 	v := reflect.ValueOf(res).Elem()
 	if v.IsValid() {
-		// This is super fugly. It's this way because this API has no convention for ID formats.
+		// This is super fugly. It's this way because the LB API has no convention for ID formats.
 
 		// Load balancer
 		id := v.FieldByName("ID")
@@ -96,6 +96,12 @@ func LoadBalancerResourceID(res interface{}, workReq *baremetal.WorkRequest) (id
 		name := v.FieldByName("Name")
 		if name.IsValid() {
 			s := name.String()
+			return &s, false
+		}
+		// certificate
+		certName := v.FieldByName("CertificateName")
+		if certName.IsValid() {
+			s := certName.String()
 			return &s, false
 		}
 		// backend
@@ -241,6 +247,7 @@ func DeleteResource(d *schema.ResourceData, sync ResourceDeleter) (e error) {
 		}
 	}
 
+	//d.SetId(sync.ID())
 	if stateful, ok := sync.(StatefullyDeletedResource); ok {
 		e = waitForStateRefresh(stateful, d.Timeout(schema.TimeoutDelete), stateful.DeletedPending(), stateful.DeletedTarget())
 	}

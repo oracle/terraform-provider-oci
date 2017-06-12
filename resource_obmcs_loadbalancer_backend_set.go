@@ -3,6 +3,7 @@
 package main
 
 import (
+	"log"
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/oracle/terraform-provider-baremetal/client"
@@ -170,6 +171,7 @@ func (s *LoadBalancerBackendSetResourceCrud) Update() (e error) {
 	}
 	opts.Backends = bes.Backends
 
+	log.Printf("BACKENDS: %v\n", opts.Backends)
 	var workReqID string
 	workReqID, e = s.Client.UpdateBackendSet(s.D.Get("load_balancer_id").(string), s.D.Id(), opts)
 	if e != nil {
@@ -230,6 +232,7 @@ func (s *LoadBalancerBackendSetResourceCrud) Delete() (e error) {
 	if e != nil {
 		return
 	}
+	s.D.SetId(workReqID)
 	s.WorkRequest, e = s.Client.GetWorkRequest(workReqID, nil)
 	return
 }
