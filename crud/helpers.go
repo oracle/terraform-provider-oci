@@ -94,7 +94,7 @@ func LoadBalancerResourceID(res interface{}, workReq *baremetal.WorkRequest) (id
 			s := id.String()
 			return &s, false
 		}
-		// backendset, certificate, listener
+		// backendset, listener
 		name := v.FieldByName("Name")
 		if name.IsValid() {
 			s := name.String()
