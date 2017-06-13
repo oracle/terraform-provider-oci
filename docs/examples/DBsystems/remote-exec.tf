@@ -10,7 +10,7 @@ resource "null_resource" "remote-exec" {
         # Bastion details
         bastion_host = "${var.BastionHost}"
         bastion_user = "${var.HostUserName}"
-        bastion_key = "${var.ssh_private_key}"        
+        bastion_private_key = "${var.ssh_private_key}"        
     }
       source = "./scripts/bootstrap"
       destination = "~/bootstrap.sh"
@@ -27,7 +27,7 @@ resource "null_resource" "remote-exec" {
         # Bastion details
         bastion_host = "${var.BastionHost}"       
         bastion_user = "${var.HostUserName}"
-        bastion_key = "${var.ssh_private_key}"
+        bastion_private_key = "${var.ssh_private_key}"
     }
       inline = [
         "chmod +x ~/bootstrap.sh",
