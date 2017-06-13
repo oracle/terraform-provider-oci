@@ -14,7 +14,7 @@ resource "baremetal_database_db_system" "TFDBNode" {
   disk_redundancy = "${var.DBDiskRedundancy}"
   shape = "${var.DBNodeShape}"
   subnet_id = "${var.SubnetOCID}"
-  ssh_public_keys = ["${var.ssh_private_key}"]
+  ssh_public_keys = ["${var.ssh_public_key}"]
   display_name = "${var.DBNodeDisplayName}"
   domain = "${var.DBNodeDomainName}"
   hostname = "${var.DBNodeHostName}"
