@@ -3658,5 +3658,75 @@ func (_m *BareMetalClient) UploadAPIKey(userID string, key string, opts *baremet
 
 	return r0, r1
 }
+func (_m *BareMetalClient) CreatePreauthenticatedRequest(namespace baremetal.Namespace, bucketName string, parDetails *baremetal.CreatePreauthenticatedRequestDetails) (*baremetal.PreauthenticatedRequest, error){
+	ret := _m.Called(namespace, bucketName, parDetails)
+
+	var r0 *baremetal.PreauthenticatedRequest
+	if rf, ok := ret.Get(0).(func(baremetal.Namespace, string, *baremetal.CreatePreauthenticatedRequestDetails) *baremetal.PreauthenticatedRequest); ok {
+		r0 = rf(namespace, bucketName, parDetails)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*baremetal.PreauthenticatedRequest)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(0).(func(baremetal.Namespace, string, *baremetal.CreatePreauthenticatedRequestDetails) error); ok {
+		r1 = rf(namespace, bucketName, parDetails)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+
+}
+func (_m *BareMetalClient) DeletePreauthenticatedRequest(namespace baremetal.Namespace, bucketName string, parId string, options *baremetal.ClientRequestOptions)  error {
+	ret := _m.Called(namespace, bucketName, parId, options)
+	var r1 error
+	if rf, ok := ret.Get(0).(func(baremetal.Namespace, string, string, *baremetal.ClientRequestOptions) error); ok {
+		r1 = rf(namespace, bucketName, parId, options)
+	} else {
+		r1 = ret.Error(0)
+	}
+	return r1
+}
+
+func (_m *BareMetalClient) GetPreauthenticatedRequest(namespace baremetal.Namespace, bucketName string, parId string, options *baremetal.ClientRequestOptions) (*baremetal.PreauthenticatedRequestSummary, error) {
+	ret := _m.Called(namespace, bucketName, parId, options)
+
+	var r0 *baremetal.PreauthenticatedRequestSummary
+	if rf, ok := ret.Get(0).(func(baremetal.Namespace, string, string, *baremetal.ClientRequestOptions) *baremetal.PreauthenticatedRequestSummary); ok {
+		r0 = rf(namespace, bucketName, parId, options)
+	} else {
+		r0 = ret.Get(0).(*baremetal.PreauthenticatedRequestSummary)
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(baremetal.Namespace, string, string, *baremetal.ClientRequestOptions) error); ok {
+		r1 = rf(namespace, bucketName, parId, options)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+
+}
+func (_m *BareMetalClient) ListPreauthenticatedRequest(namespace baremetal.Namespace, bucketName string, options *baremetal.ListPreauthenticatedRequestOptions) (parList *baremetal.ListPreauthenticatedRequests, e error) {
+	ret := _m.Called(namespace, bucketName, options)
+
+	var r0 *baremetal.ListPreauthenticatedRequests
+	if rf, ok := ret.Get(0).(func(baremetal.Namespace, string, *baremetal.ListPreauthenticatedRequestOptions) *baremetal.ListPreauthenticatedRequests); ok {
+		r0 = rf(namespace, bucketName, options)
+	} else {
+		r0 = ret.Get(0).(*baremetal.ListPreauthenticatedRequests)
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(0).(func(baremetal.Namespace, string, *baremetal.ListPreauthenticatedRequestOptions) error); ok {
+		r1 = rf(namespace, bucketName, options)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
 
 var _ client.BareMetalClient = (*BareMetalClient)(nil)
