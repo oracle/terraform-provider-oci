@@ -183,6 +183,7 @@ func resourcesMap() map[string]*schema.Resource {
 		"baremetal_load_balancer_listener":         LoadBalancerListenerResource(),
 		"baremetal_objectstorage_bucket":           BucketResource(),
 		"baremetal_objectstorage_object":           ObjectResource(),
+		"baremetal_objectstorage_preauthrequest":   PreauthenticatedRequestResource(),
 	}
 }
 

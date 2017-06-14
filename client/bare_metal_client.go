@@ -189,4 +189,9 @@ type BareMetalClient interface {
 	UpdateVolumeBackup(id string, opts *baremetal.IfMatchDisplayNameOptions) (vol *baremetal.VolumeBackup, e error)
 
 	UploadAPIKey(userID, key string, opts *baremetal.RetryTokenOptions) (apiKey *baremetal.APIKey, e error)
+
+	CreatePreauthenticatedRequest(namespace baremetal.Namespace, bucketName string, parDetails *baremetal.CreatePreauthenticatedRequestDetails) (par *baremetal.PreauthenticatedRequest, e error)
+	DeletePreauthenticatedRequest(namespace baremetal.Namespace, bucketName string, parId string, options *baremetal.ClientRequestOptions) (e error)
+	GetPreauthenticatedRequest(namespace baremetal.Namespace, bucketName string, parId string, options *baremetal.ClientRequestOptions) (par *baremetal.PreauthenticatedRequestSummary, e error)
+	ListPreauthenticatedRequest(namespace baremetal.Namespace, bucketName string, options *baremetal.ListPreauthenticatedRequestOptions) (parList *baremetal.ListPreauthenticatedRequests, e error)
 }
