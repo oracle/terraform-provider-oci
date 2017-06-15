@@ -16,7 +16,6 @@ type Backend struct {
 	Backup    bool   `json:"backup"`
 	Drain     bool   `json:"drain"`
 	IPAddress string `json:"ipAddress"`
-	Name      string `json:"name"`
 	Offline   bool   `json:"offline"`
 	Port      int    `json:"port"`
 	Weight    int    `json:"weight"`

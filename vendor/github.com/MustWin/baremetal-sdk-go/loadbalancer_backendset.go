@@ -154,7 +154,7 @@ func (c *Client) UpdateBackendSet(
 	}
 
 	var resp *response
-	if resp, e = c.objectStorageApi.request(http.MethodPut, details); e != nil {
+	if resp, e = c.loadBalancerApi.request(http.MethodPut, details); e != nil {
 		return
 	}
 

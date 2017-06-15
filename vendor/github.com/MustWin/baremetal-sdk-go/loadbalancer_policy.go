@@ -34,7 +34,7 @@ func (c *Client) ListLoadBalancerPolicies(
 		CompartmentID: compartmentID,
 	}
 	details := &requestDetails{
-		ids:      urlParts{resourceLoadBalancerPolicies},
+		name:     resourceLoadBalancerPolicies,
 		required: required,
 		optional: opts,
 	}
