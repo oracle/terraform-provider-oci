@@ -30,10 +30,6 @@ func LoadBalancerBackendResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
-			"name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"ip_address": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -247,6 +243,7 @@ func (s *LoadBalancerBackendResourceCrud) Delete() (e error) {
 	if e != nil {
 		return
 	}
+	s.D.SetId(workReqID)
 	s.WorkRequest, e = s.Client.GetWorkRequest(workReqID, nil)
 	return
 }

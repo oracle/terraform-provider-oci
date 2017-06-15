@@ -59,7 +59,6 @@ func (s *BackendDatasourceCrud) SetData() {
 		resources := []map[string]interface{}{}
 		for _, v := range s.Res.Backends {
 			res := map[string]interface{}{
-				"name":       v.Name,
 				"ip_address": v.IPAddress,
 				"port":       v.Port,
 				"backup":     v.Backup,
