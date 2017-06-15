@@ -3710,7 +3710,7 @@ func (_m *BareMetalClient) GetPreauthenticatedRequest(namespace baremetal.Namesp
 	return r0, r1
 
 }
-func (_m *BareMetalClient) ListPreauthenticatedRequest(namespace baremetal.Namespace, bucketName string, options *baremetal.ListPreauthenticatedRequestOptions) (parList *baremetal.ListPreauthenticatedRequests, e error) {
+func (_m *BareMetalClient) ListPreauthenticatedRequests(namespace baremetal.Namespace, bucketName string, options *baremetal.ListPreauthenticatedRequestOptions) (parList *baremetal.ListPreauthenticatedRequests, e error) {
 	ret := _m.Called(namespace, bucketName, options)
 
 	var r0 *baremetal.ListPreauthenticatedRequests

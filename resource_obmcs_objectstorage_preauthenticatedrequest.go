@@ -16,10 +16,14 @@ import (
 
 type PreauthenticatedRequestResourceCrud struct {
 	crud.BaseCrud
+	Id string
 	Namespace  string
 	BucketName string
-	Res        *baremetal.PreauthenticatedRequest
-	Summary    *baremetal.PreauthenticatedRequestSummary
+	ObjectName string
+	AccessURI string
+	AccessType baremetal.PARAccessType
+	TimeExpires baremetal.Time
+	TimeCreated baremetal.Time
 }
 
 func PreauthenticatedRequestResource() *schema.Resource {
@@ -65,31 +69,51 @@ func deletePreauthenticatedRequest(d *schema.ResourceData, m interface{}) (e err
 }
 
 func (s *PreauthenticatedRequestResourceCrud) ID() string {
-	return s.Res.ID
+	return s.Id
 }
 
 func (s *PreauthenticatedRequestResourceCrud) SetData() {
-	log.Printf("=======================\n%v\n===================", s.Res)
+	log.Printf("=======================\n%v\n===================", s)
 	s.D.Set("namespace", s.Namespace)
 	s.D.Set("bucket", s.BucketName)
-	s.D.Set("object", s.Res.ObjectName)
-	s.D.Set("time_expires", s.Res.TimeExpires.Format(time.RFC3339))
-	s.D.Set("access_type", s.Res.AccessType)
+	s.D.Set("object", s.ObjectName)
+	s.D.Set("time_expires", s.TimeExpires.Format(time.RFC3339))
+	s.D.Set("access_type", s.AccessType)
+	s.D.Set("id", s.ID)
 }
 
 func (s *PreauthenticatedRequestResourceCrud) Create() (e error) {
 	namespace := s.D.Get("namespace").(string)
 	bucket := s.D.Get("bucket").(string)
+	name := s.D.Get("name").(string)
 	object := s.D.Get("object").(string)
 	accessType := s.D.Get("access_type").(string)
 	t, _ := time.Parse(time.RFC3339, s.D.Get("time_expires").(string))
 	details := &baremetal.CreatePreauthenticatedRequestDetails{
-		ObjectName:  object,
+		Name: name,
 		TimeExpires: baremetal.Time{Time: t},
 		AccessType:  baremetal.PARAccessType(accessType),
 	}
 
-	s.Res, e = s.Client.CreatePreauthenticatedRequest(baremetal.Namespace(namespace), bucket, details)
+	if object != "" {
+		details.ObjectName = object
+	}
+
+	var res *baremetal.PreauthenticatedRequest
+	res, e = s.Client.CreatePreauthenticatedRequest(baremetal.Namespace(namespace), bucket, details)
+
+	if e != nil {
+		return
+	}
+
+	s.AccessURI = res.AccessURI
+	s.Id = res.ID
+	s.TimeCreated = res.TimeCreated
+	s.TimeExpires = res.TimeExpires
+	s.AccessType = res.AccessType
+	s.Namespace = namespace
+	s.BucketName = bucket
+	s.ObjectName = object
 	return
 }
 
@@ -97,8 +121,23 @@ func (s *PreauthenticatedRequestResourceCrud) Get() (e error) {
 	namespace := s.D.Get("namespace").(string)
 	bucket := s.D.Get("bucket").(string)
 	parId := s.D.Get("id").(string)
-	s.Summary, e = s.Client.GetPreauthenticatedRequest(baremetal.Namespace(namespace), bucket, parId,
+
+	var res *baremetal.PreauthenticatedRequestSummary
+	res, e = s.Client.GetPreauthenticatedRequest(baremetal.Namespace(namespace), bucket, parId,
 		&baremetal.ClientRequestOptions{})
+
+	if e != nil {
+		return
+	}
+
+	s.Id = res.ID
+	s.AccessURI = ""
+	s.TimeCreated = res.TimeCreated
+	s.TimeExpires = res.TimeExpires
+	s.AccessType = res.AccessType
+	s.Namespace = namespace
+	s.BucketName = bucket
+	s.ObjectName = res.ObjectName
 
 	return
 }
@@ -115,6 +154,5 @@ func (s *PreauthenticatedRequestResourceCrud) Delete() (e error) {
 	parId := s.D.Get("id").(string)
 	opts := &baremetal.ClientRequestOptions{}
 
-	e = s.Client.DeletePreauthenticatedRequest(baremetal.Namespace(namespace), bucket, parId, opts)
-	return
+	return s.Client.DeletePreauthenticatedRequest(baremetal.Namespace(namespace), bucket, parId, opts)
 }

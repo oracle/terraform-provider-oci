@@ -20,6 +20,7 @@ type ResourcePARTestSuite struct {
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	TimeCreated  baremetal.Time
+	TimeExpired  baremetal.Time
 	Config       string
 	ResourceName string
 	Res          *PreauthenticatedRequestResourceCrud
@@ -39,21 +40,22 @@ func (s *ResourcePARTestSuite) SetupTest() {
 	}
 
 	s.TimeCreated = baremetal.Time{Time: time.Now()}
+	t, _ := time.Parse(time.RFC3339, "2019-11-10T23:00:00Z")
+	s.TimeExpired = baremetal.Time{Time:t}
+
 
 	s.Config = `
-		resource "baremetal_objectstorage_bucket" "t" {
-			compartment_id = "${var.compartment_id}"
-			name = "bucketID"
-			access_type="ObjectRead"
-			namespace = "${var.namespace}"
-			metadata = {
-				"foo" = "bar"
-			}
+		resource "baremetal_objectstorage_preauthrequest" "t" {
+			namespace ="internalbriangustafson"
+			bucket = "testOne"
+			name = "parOne"
+			access_type = "AnyObjectWrite"
+			time_expires = "2019-11-10T23:00:00Z"
 		}`
 
 	s.Config += testProviderConfig()
 
-	s.ResourceName = "baremetal_objectstorage_object.t"
+	s.ResourceName = "baremetal_objectstorage_preauthrequest.t"
 
 }
 
@@ -66,9 +68,29 @@ func (s *ResourcePARTestSuite) TestCreatePAR() {
 				ImportState:       true,
 				ImportStateVerify: true,
 				Config:            s.Config,
+				ExpectNonEmptyPlan: true,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "content", "bodyContent"),
+					resource.TestCheckResourceAttr(s.ResourceName, "name", "parOne"),
 				),
+			},
+		},
+	})
+}
+
+func (s *ResourcePARTestSuite) TestDeletePAR() {
+
+	resource.UnitTest(s.T(), resource.TestCase{
+		Providers: s.Providers,
+		Steps: []resource.TestStep{
+			{
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
+				ExpectNonEmptyPlan: true,
+			},
+			{
+				Config: s.Config,
+				Destroy: true,
 			},
 		},
 	})
