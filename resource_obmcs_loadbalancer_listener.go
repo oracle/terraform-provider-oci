@@ -4,6 +4,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
@@ -194,10 +195,8 @@ func (s *LoadBalancerListenerResourceCrud) Update() (e error) {
 		Port:     s.D.Get("port").(int),
 		Protocol: s.D.Get("protocol").(string),
 	}
-	ssl := s.sslConfig()
-	if ssl != nil && ssl.CertificateName != "" {
-		opts.SSLConfig = *ssl
-	}
+	opts.SSLConfig = s.sslConfig()
+	log.Printf("SSL CONFIGURATION: %v", opts.SSLConfig)
 
 	var workReqID string
 	workReqID, e = s.Client.UpdateListener(s.D.Get("load_balancer_id").(string), s.D.Get("name").(string), opts)
@@ -223,7 +222,6 @@ func (s *LoadBalancerListenerResourceCrud) SetData() {
 	s.D.Set("default_backend_set_name", s.Resource.DefaultBackendSetName)
 	s.D.Set("port", s.Resource.Port)
 	s.D.Set("protocol", s.Resource.Protocol)
-	// TODO: verify testing
 	s.D.Set("ssl_configuration", s.Resource.SSLConfig)
 }
 
@@ -233,6 +231,7 @@ func (s *LoadBalancerListenerResourceCrud) Delete() (e error) {
 	if e != nil {
 		return
 	}
+	s.D.SetId(workReqID)
 	s.WorkRequest, e = s.Client.GetWorkRequest(workReqID, nil)
 	return
 }

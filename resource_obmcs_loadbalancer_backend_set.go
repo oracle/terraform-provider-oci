@@ -3,6 +3,7 @@
 package main
 
 import (
+	"log"
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/oracle/terraform-provider-baremetal/client"
@@ -163,6 +164,14 @@ func (s *LoadBalancerBackendSetResourceCrud) Update() (e error) {
 	opts.SSLConfig = s.sslConfig()
 	opts.Policy = s.D.Get("policy").(string)
 
+	// This is hacky and a race condition, but works for now. Ideally backends are not a required parameter to a backendset update
+	bes, err := s.Client.GetBackendSet(s.D.Get("load_balancer_id").(string), s.D.Id(), nil)
+	if err != nil {
+		return err
+	}
+	opts.Backends = bes.Backends
+
+	log.Printf("BACKENDS: %v\n", opts.Backends)
 	var workReqID string
 	workReqID, e = s.Client.UpdateBackendSet(s.D.Get("load_balancer_id").(string), s.D.Id(), opts)
 	if e != nil {
@@ -209,7 +218,6 @@ func (s *LoadBalancerBackendSetResourceCrud) SetData() {
 			"backup":     v.Backup,
 			"drain":      v.Drain,
 			"ip_address": v.IPAddress,
-			"name":       v.Name,
 			"offline":    v.Offline,
 			"port":       v.Port,
 			"weight":     v.Weight,
@@ -224,6 +232,7 @@ func (s *LoadBalancerBackendSetResourceCrud) Delete() (e error) {
 	if e != nil {
 		return
 	}
+	s.D.SetId(workReqID)
 	s.WorkRequest, e = s.Client.GetWorkRequest(workReqID, nil)
 	return
 }
@@ -266,7 +275,6 @@ func (s *LoadBalancerBackendSetResourceCrud) backends() []baremetal.Backend {
 			Backup:    v["backup"].(bool),
 			Drain:     v["drain"].(bool),
 			IPAddress: v["ip_address"].(string),
-			Name:      v["name"].(string),
 			Offline:   v["offline"].(bool),
 			Port:      v["port"].(int),
 			Weight:    v["weight"].(int),

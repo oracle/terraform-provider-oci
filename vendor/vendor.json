@@ -27,12 +27,6 @@
 			"revisionTime": "2017-02-13T13:59:00Z"
 		},
 		{
-			"checksumSHA1": "CTd6B1wW8O9VmOitzoUAzn6GT2U=",
-			"path": "git@github.com/MustWin/baremetal-sdk-go",
-			"revision": "7497c560fc36dd413d599078d5412f21a7ca16c8",
-			"revisionTime": "2017-04-28T02:51:29Z"
-		},
-		{
 			"checksumSHA1": "aABATU51PlDHfGeSe5cc9udwSXg=",
 			"path": "github.com/1and1/oneandone-cloudserver-sdk-go",
 			"revision": "5678f03fc801525df794f953aa82f5ad7555a2ef",
@@ -333,10 +327,10 @@
 			"revisionTime": "2017-02-01T00:43:30Z"
 		},
 		{
-			"checksumSHA1": "TTjztxHipdXn1GffO+Rx21WIINg=",
+			"checksumSHA1": "xp3Ga5lXuojOPpVwAoMOUm3gJps=",
 			"path": "github.com/MustWin/baremetal-sdk-go",
-			"revision": "b6b00d68a510644b60170cf1f964389c1d778dfa",
-			"revisionTime": "2017-06-06T02:42:44Z"
+			"revision": "b82a2ef8cbe6f8ea4f4d4a378a55cfedc8e05bda",
+			"revisionTime": "2017-06-15T10:50:29Z"
 		},
 		{
 			"checksumSHA1": "Aqy8/FoAIidY/DeQ5oTYSZ4YFVc=",
