@@ -5,7 +5,6 @@ package main
 import (
 	"testing"
 
-	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
@@ -26,19 +25,6 @@ data "baremetal_load_balancer_policies" "t" {
 `
 	config += testProviderConfig()
 
-	compartmentID := "${var.compartment_id}"
-	list := &baremetal.ListLoadBalancerPolicies{
-		LoadBalancerPolicies: []baremetal.LoadBalancerPolicy{
-			{Name: "stub_name1"},
-			{Name: "stub_name2"},
-		},
-	}
-	client.On(
-		"ListLoadBalancerPolicies",
-		compartmentID,
-		(*baremetal.ListLoadBalancerPolicyOptions)(nil),
-	).Return(list, nil)
-
 	resource.UnitTest(t, resource.TestCase{
 		PreventPostDestroyRefresh: true,
 		Providers:                 providers,
@@ -46,10 +32,8 @@ data "baremetal_load_balancer_policies" "t" {
 			{
 				Config: config,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentID),
-					resource.TestCheckResourceAttr(resourceName, "policies.#", "2"),
-					resource.TestCheckResourceAttr(resourceName, "policies.0.name", "stub_name1"),
-					resource.TestCheckResourceAttr(resourceName, "policies.1.name", "stub_name2"),
+					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "policies.#"),
 				),
 			},
 		},
