@@ -3072,18 +3072,18 @@ func (_m *BareMetalClient) TerminateInstance(id string, opts *baremetal.IfMatchO
 }
 
 // UpdateBackend provides a mock function with given fields: loadBalancerID, backendSetName, backendName, opts
-func (_m *BareMetalClient) UpdateBackend(loadBalancerID string, backendSetName string, backendName string, opts *baremetal.CreateLoadBalancerBackendOptions) (string, error) {
+func (_m *BareMetalClient) UpdateBackend(loadBalancerID string, backendSetName string, backendName string, opts *baremetal.UpdateLoadBalancerBackendOptions) (string, error) {
 	ret := _m.Called(loadBalancerID, backendSetName, backendName, opts)
 
 	var r0 string
-	if rf, ok := ret.Get(0).(func(string, string, string, *baremetal.CreateLoadBalancerBackendOptions) string); ok {
+	if rf, ok := ret.Get(0).(func(string, string, string, *baremetal.UpdateLoadBalancerBackendOptions) string); ok {
 		r0 = rf(loadBalancerID, backendSetName, backendName, opts)
 	} else {
 		r0 = ret.Get(0).(string)
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string, string, string, *baremetal.CreateLoadBalancerBackendOptions) error); ok {
+	if rf, ok := ret.Get(1).(func(string, string, string, *baremetal.UpdateLoadBalancerBackendOptions) error); ok {
 		r1 = rf(loadBalancerID, backendSetName, backendName, opts)
 	} else {
 		r1 = ret.Error(1)

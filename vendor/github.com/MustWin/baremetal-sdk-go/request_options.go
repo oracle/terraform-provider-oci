@@ -81,10 +81,18 @@ type CreateLoadBalancerBackendOptions struct {
 	Weight  int  `header:"-" json:"weight,omitempty" url:"-"`
 }
 
+type UpdateLoadBalancerBackendOptions struct {
+	LoadBalancerOptions
+	Backup  bool `header:"-" json:"backup" url:"-"`
+	Drain   bool `header:"-" json:"drain" url:"-"`
+	Offline bool `header:"-" json:"offline" url:"-"`
+	Weight  int  `header:"-" json:"weight" url:"-"`
+}
+
 type UpdateLoadBalancerBackendSetOptions struct {
 	LoadBalancerOptions
 	RetryTokenOptions
-	Backends      []Backend         `header:"-" json:"backends,omitempty" url:"-"`
+	Backends      []Backend         `header:"-" json:"backends" url:"-"`
 	HealthChecker *HealthChecker    `header:"-" json:"healthChecker,omitempty" url:"-"`
 	Policy        string            `header:"-" json:"policy,omitempty" url:"-"`
 	SSLConfig     *SSLConfiguration `header:"-" json:"sslConfiguration,omitempty" url:"-"`
@@ -92,10 +100,10 @@ type UpdateLoadBalancerBackendSetOptions struct {
 
 type UpdateLoadBalancerListenerOptions struct {
 	LoadBalancerOptions
-	DefaultBackendSetName string           `header:"-" json:"defaultBackendSetName" url:"-"`
-	Port                  int              `header:"-" json:"port" url:"-"`
-	Protocol              string           `header:"-" json:"protocol" url:"-"`
-	SSLConfig             SSLConfiguration `header:"-" json:"sslConfiguration" url:"-"`
+	DefaultBackendSetName string            `header:"-" json:"defaultBackendSetName" url:"-"`
+	Port                  int               `header:"-" json:"port" url:"-"`
+	Protocol              string            `header:"-" json:"protocol" url:"-"`
+	SSLConfig             *SSLConfiguration `header:"-" json:"sslConfiguration,omitempty" url:"-"`
 }
 
 type ListLoadBalancerPolicyOptions struct {

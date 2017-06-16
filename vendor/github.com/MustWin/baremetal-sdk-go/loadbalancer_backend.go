@@ -16,7 +16,6 @@ type Backend struct {
 	Backup    bool   `json:"backup"`
 	Drain     bool   `json:"drain"`
 	IPAddress string `json:"ipAddress"`
-	Name      string `json:"name"`
 	Offline   bool   `json:"offline"`
 	Port      int    `json:"port"`
 	Weight    int    `json:"weight"`
@@ -129,7 +128,7 @@ func (c *Client) UpdateBackend(
 	loadBalancerID string,
 	backendSetName string,
 	backendName string,
-	opts *CreateLoadBalancerBackendOptions,
+	opts *UpdateLoadBalancerBackendOptions,
 ) (workRequestID string, e error) {
 
 	details := &requestDetails{

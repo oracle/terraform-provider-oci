@@ -115,6 +115,14 @@ data "baremetal_core_images" "t" {
 	limit = 1
 }
 
+data "baremetal_core_policies" "policies" {
+	compartment_id = "${var.compartment_id}"
+}
+
+data "baremetal_core_protocols" "protocols" {
+	compartment_id = "${var.compartment_id}"
+}
+
 data "baremetal_core_shape" "shapes" {
 	compartment_id = "${var.compartment_id}"
 	availability_domain = "${data.baremetal_identity_availability_domains.ADs.availability_domains.0.name}"

@@ -59,6 +59,8 @@ type ResourceUpdater interface {
 // Deletes a BareMetal entity
 type ResourceDeleter interface {
 	ResourceVoider
+	// ID identifies the resource, or a work request to create the resource.
+	ID() string
 	Delete() error
 }
 
@@ -81,6 +83,12 @@ type StatefullyCreatedResource interface {
 	StatefulResource
 	CreatedPending() []string
 	CreatedTarget() []string
+}
+
+type StatefullyUpdatedResource interface {
+	StatefulResource
+	UpdatedPending() []string
+	UpdatedTarget() []string
 }
 
 type StatefullyDeletedResource interface {
