@@ -87,6 +87,7 @@ resource "baremetal_core_subnet" "WebSubnetAD1" {
   vcn_id = "${baremetal_core_virtual_network.t.id}"
   route_table_id = "${baremetal_core_route_table.RouteForComplete.id}"
   security_list_ids = ["${baremetal_core_security_list.WebSubnet.id}"]
+  dhcp_options_id = ["${baremetal_core_virtual_network.t.default_dhcp_options_id}"]
 }
   `
 	s.Config += testProviderConfig()

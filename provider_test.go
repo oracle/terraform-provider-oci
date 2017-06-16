@@ -99,12 +99,13 @@ resource "baremetal_core_security_list" "WebSubnet" {
 
 resource "baremetal_core_subnet" "WebSubnetAD1" {
   availability_domain = "${lookup(data.baremetal_identity_availability_domains.ADs.availability_domains[0],"name")}"
-  cidr_block = "10.0.1.0/24"
-  display_name = "WebSubnetAD1"
-  compartment_id = "${var.compartment_id}"
-  vcn_id = "${baremetal_core_virtual_network.t.id}"
-  route_table_id = "${baremetal_core_route_table.RouteForComplete.id}"
-  security_list_ids = ["${baremetal_core_security_list.WebSubnet.id}"]
+  cidr_block          = "10.0.1.0/24"
+  display_name        = "WebSubnetAD1"
+  compartment_id      = "${var.compartment_id}"
+  vcn_id              = "${baremetal_core_virtual_network.t.id}"
+  route_table_id      = "${baremetal_core_route_table.RouteForComplete.id}"
+  security_list_ids   = ["${baremetal_core_security_list.WebSubnet.id}"]
+  dhcp_options_id     = "${baremetal_core_virtual_network.t.default_dhcp_options_id}"
 }
 
 `
