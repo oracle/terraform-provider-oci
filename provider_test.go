@@ -11,7 +11,6 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/mock"
 )
 
 func testProviderConfig() string {
@@ -125,19 +124,23 @@ data "baremetal_core_shape" "shapes" {
 }
 
 resource "baremetal_core_instance" "t" {
-	availability_domain = "${data.baremetal_identity_availability_domains.ADs.availability_domains.0.name}"
-	compartment_id = "${var.compartment_id}"
-	display_name = "instance_name"
-      	image = "${data.baremetal_core_images.t.images.0.id}"
-      	shape = "${data.baremetal_core_shape.shapes.shapes.0.name}"
-      	subnet_id = "${baremetal_core_subnet.WebSubnetAD1.id}"
-      	metadata {
-        	ssh_authorized_keys = "${var.ssh_public_key}"
-      	}
+  availability_domain = "${data.baremetal_identity_availability_domains.ADs.availability_domains.0.name}"
+  compartment_id      = "${var.compartment_id}"
+  display_name        = "instance_name"
+  image               = "${data.baremetal_core_images.t.images.0.id}"
+  shape               = "${data.baremetal_core_shape.shapes.shapes.0.name}"
 
-      	timeouts {
-      		create = "60m"
-      	}
+  metadata {
+    ssh_authorized_keys = "${var.ssh_public_key}"
+  }
+
+  create_vnic_details {
+    subnet_id = "${baremetal_core_subnet.WebSubnetAD1.id}"
+  }
+
+  timeouts {
+    create = "60m"
+  }
 }
 `
 
