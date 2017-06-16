@@ -1,6 +1,0 @@
----
-hostname: 127.0.0.1
-port: '2222'
-username: vagrant
-ssh_key: "/Users/jcalise/Projects/DevOps/chef-repo/cookbooks/omc/.kitchen/kitchen-vagrant/kitchen-omc-managed-server-centos-72/.vagrant/machines/default/virtualbox/private_key"
-last_action: create
