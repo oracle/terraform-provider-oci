@@ -152,7 +152,7 @@ func LoadBalancerWaitForWorkRequest(client client.BareMetalClient, d *schema.Res
 			baremetal.WorkRequestInProgress,
 			baremetal.WorkRequestAccepted,
 		},
-		Target:  []string{
+		Target: []string{
 			baremetal.ResourceSucceededWorkRequest,
 			baremetal.WorkRequestSucceeded,
 			baremetal.ResourceFailed,
@@ -172,7 +172,6 @@ func LoadBalancerWaitForWorkRequest(client client.BareMetalClient, d *schema.Res
 	}
 	return nil
 }
-
 
 func exponentialBackoffSleep(retryNum uint) {
 	secondsToSleep := 1 << retryNum

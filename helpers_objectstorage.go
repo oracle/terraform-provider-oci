@@ -3,8 +3,8 @@
 package main
 
 import (
-	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/MustWin/baremetal-sdk-go"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/helper/validation"
 )
 
@@ -35,7 +35,7 @@ var bucketSchema = map[string]*schema.Schema{
 	"access_type": {
 		Type:     schema.TypeString,
 		Computed: false,
-		Default: baremetal.NoPublicAccess,
+		Default:  baremetal.NoPublicAccess,
 		Optional: true,
 		ValidateFunc: validation.StringInSlice([]string{
 			string(baremetal.NoPublicAccess),
