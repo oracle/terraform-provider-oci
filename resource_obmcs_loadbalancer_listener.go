@@ -192,8 +192,8 @@ func (s *LoadBalancerListenerResourceCrud) Update() (e error) {
 
 	opts := &baremetal.UpdateLoadBalancerListenerOptions{
 		DefaultBackendSetName: s.D.Get("default_backend_set_name").(string),
-		Port:      s.D.Get("port").(int),
-		Protocol:  s.D.Get("protocol").(string),
+		Port:     s.D.Get("port").(int),
+		Protocol: s.D.Get("protocol").(string),
 	}
 	opts.SSLConfig = s.sslConfig()
 	log.Printf("SSL CONFIGURATION: %v", opts.SSLConfig)

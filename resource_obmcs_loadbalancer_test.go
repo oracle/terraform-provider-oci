@@ -3,8 +3,8 @@
 package main
 
 import (
-	"testing"
 	"regexp"
+	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
@@ -20,9 +20,9 @@ type ResourceLoadBalancerTestSuite struct {
 	Config       string
 	ResourceName string
 
-	listenerT string
-	backendT string
-	backendF string
+	listenerT   string
+	backendT    string
+	backendF    string
 	backendSetT string
 }
 
@@ -40,7 +40,6 @@ func (s *ResourceLoadBalancerTestSuite) SetupTest() {
 	}
 
 	s.ResourceName = "baremetal_load_balancer.t"
-
 
 	s.listenerT = `
 resource "baremetal_load_balancer_listener" "t" {
@@ -100,8 +99,6 @@ resource "baremetal_load_balancer_backendset" "t" {
     verify_peer_certificate = false
   }
 }`
-
-
 
 	s.Config = loadbalancerConfig + certificateConfig + `
 
