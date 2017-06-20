@@ -1,0 +1,14 @@
+{
+  "id": "omc",
+  "comment": "Oracle OMC User",
+  "home": "/home/omc",
+  "groups": [
+    "omcinstall"
+  ],
+  "ssh_keys": [
+    ""
+  ],
+  "action": [
+    "create"
+  ]
+}

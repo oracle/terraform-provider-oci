@@ -1,0 +1,1 @@
+variable "tenancy_ocid" {}
