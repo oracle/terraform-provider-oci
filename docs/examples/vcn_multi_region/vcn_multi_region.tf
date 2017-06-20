@@ -1,3 +1,8 @@
+/*
+ * This example demonstrates how to target multiple regions from one plan. It creates two vcns
+ * in different regions.
+ */
+
 variable "tenancy_ocid" {}
 variable "user_ocid" {}
 variable "fingerprint" {}
