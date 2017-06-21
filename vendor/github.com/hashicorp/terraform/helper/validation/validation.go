@@ -7,6 +7,7 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/helper/structure"
+	"time"
 )
 
 // IntBetween returns a SchemaValidateFunc which tests if the provided value
@@ -103,6 +104,20 @@ func CIDRNetwork(min, max int) schema.SchemaValidateFunc {
 func ValidateJsonString(v interface{}, k string) (ws []string, errors []error) {
 	if _, err := structure.NormalizeJsonString(v); err != nil {
 		errors = append(errors, fmt.Errorf("%q contains an invalid JSON: %s", k, err))
+	}
+	return
+}
+
+func StringIsValidRFC3339Time(i interface {}, k string) (ws []string, errors []error) {
+	v, ok := i.(string)
+	if !ok {
+		errors = append(errors, fmt.Errorf("expected type of %s to be string", k))
+		return
+	}
+
+	if _, err := time.Parse(time.RFC3339, v); err != nil {
+		errors = append(errors, fmt.Errorf("%q is not a valid RFC3339(https://tools.ietf.org/rfc/rfc3339)" +
+			" time string: %s", k, err))
 	}
 	return
 }
