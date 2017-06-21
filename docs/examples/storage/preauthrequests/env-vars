@@ -1,0 +1,15 @@
+### Authentication details
+export TF_VAR_tenancy_ocid="<tenancy OCID"
+export TF_VAR_user_ocid="<user OCID>"
+export TF_VAR_fingerprint="<PEM key fingerprint>"
+export TF_VAR_private_key_path="<path to the private key that matches the fingerprint above>"
+
+### Compartment
+export TF_VAR_compartment_ocid="<compartment OCID>"
+
+
+### Object and Bucket
+export TF_VAR_bucket_name="<bucket name here>"
+export TF_VAR_object_name="<bucket name here>"
+
+
