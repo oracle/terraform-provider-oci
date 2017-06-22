@@ -1,0 +1,7 @@
+source "https://supermarket.chef.io"
+
+metadata
+
+cookbook 'ulimit', '~> 0.4.0'
+cookbook 'sudo'
+cookbook 'users'

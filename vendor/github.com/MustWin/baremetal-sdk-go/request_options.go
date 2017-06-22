@@ -54,6 +54,14 @@ type CreateBucketOptions struct {
 	AccessType BucketAccessType  `header:"-" json:"publicAccessType,omitempty" url:"-"`
 }
 
+type CreatePreauthenticatedRequestDetails struct {
+	ClientRequestOptions
+	Name        string        `header:"-" json:"name" url:"-"`
+	ObjectName  string        `header:"-" json:"objectName,omitempty" url:"-"`
+	AccessType  PARAccessType `header:"-" json:"accessType" url:"-"`
+	TimeExpires Time          `header:"-" json:"timeExpires" url:"-"`
+}
+
 type CreateVcnOptions struct {
 	CreateOptions
 	DnsLabel string `header:"-" json:"dnsLabel,omitempty" url:"-"`
@@ -346,6 +354,12 @@ type ListMembershipsOptions struct {
 type ListBucketsOptions struct {
 	ListOptions
 	ClientRequestOptions
+}
+
+type ListPreauthenticatedRequestOptions struct {
+	ListOptions
+	ClientRequestOptions
+	ObjectNamePrefix string `header:"-" json:"-" url:"objectNamePrefix,omitempty"`
 }
 
 type ListObjectsOptions struct {

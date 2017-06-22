@@ -5,7 +5,7 @@ fmt:
 
 build: test
 	@go build github.com/MustWin/baremetal-sdk-go
-	@go build github.com/MustWin/baremetal-sdk-go/acceptance-test/cleanup
+	@go build github.com/MustWin/baremetal-sdk-go/cmd/obmc-container-clean
 
 test:
 	@DEBUG=true go test -v github.com/MustWin/baremetal-sdk-go

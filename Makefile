@@ -34,7 +34,7 @@ version:
 	jq -r '.tag_name')\
 	"/g' version.go
 
-release: clean version
+release: version test_acceptance
 	gox -output "./bin/{{.OS}}_{{.Arch}}/terraform-provider-baremetal"
 
 zip:

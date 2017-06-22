@@ -12,6 +12,7 @@ type DatabaseEdition string
 type DiskRedundancy string
 type ListObjectOptionField string
 type BucketAccessType string
+type PARAccessType string
 
 const (
 	// Resource States
@@ -185,8 +186,15 @@ const (
 	resourceNamespaces = "n"
 	resourceBuckets    = "b"
 	resourceObjects    = "o"
+	resourcePAR        = "p"
 
 	//Object Storage Access Type
 	NoPublicAccess BucketAccessType = "NoPublicAccess"
 	ObjectRead     BucketAccessType = "ObjectRead"
+
+	//PAR(pre-authenticated request) access type
+	PARObjectRead      PARAccessType = "ObjectRead"
+	PARObjectWrite     PARAccessType = "ObjectWrite"
+	PARObjectReadWrite PARAccessType = "ObjectReadWrite"
+	PARAnyObjectWrite  PARAccessType = "AnyObjectWrite"
 )

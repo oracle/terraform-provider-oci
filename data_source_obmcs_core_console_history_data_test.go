@@ -38,7 +38,7 @@ func (s *CoreConsoleHistoryDataDatasourceTestSuite) SetupTest() {
     }
     data "baremetal_core_console_history_data" "s" {
       console_history_id = "${baremetal_core_console_history.t.id}"
-      length = 1
+      length = 10240
     }
   `
 	s.Config += testProviderConfig()

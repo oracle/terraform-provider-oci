@@ -3,8 +3,8 @@
 package main
 
 import (
-	"testing"
 	"regexp"
+	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
@@ -319,7 +319,7 @@ resource "baremetal_load_balancer_backend" "f" {
 					resource.TestCheckResourceAttr("baremetal_load_balancer_backend.f", "backup", "true"),
 					resource.TestCheckResourceAttr("baremetal_load_balancer_backendset.t", "ssl_configuration.0.certificate_name", "stub_certificate_name"),
 				),
-				ExpectError: regexp.MustCompile("state FAILED"),
+				ExpectError: regexp.MustCompile("Invalid SSL configuration"),
 			},
 		},
 	})
