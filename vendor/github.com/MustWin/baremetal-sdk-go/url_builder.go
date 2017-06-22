@@ -42,6 +42,9 @@ func buildDatabaseURL(urlTemplate string, region string, resource resourceName, 
 func buildObjectStorageURL(urlTemplate string, region string, resource resourceName, query url.Values, ids ...interface{}) string {
 	baseUrl := baseUrlHelper(urlTemplate, objectStorageServiceAPI, region)
 	urlStr := fmt.Sprintf("%s/%s", baseUrl, resourceNamespaces)
+	if resource == resourcePAR {
+		return buildURL(urlStr, make(map[string][]string), ids...)
+	}
 	return buildURL(urlStr, query, ids...)
 }
 

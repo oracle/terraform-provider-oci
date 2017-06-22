@@ -72,3 +72,47 @@ var objectSchema = map[string]*schema.Schema{
 		Optional: true,
 	},
 }
+
+var preauthenticatedRequestSchema = map[string]*schema.Schema{
+	"id": {
+		Type: schema.TypeString,
+		Optional:true,
+		Computed:false,
+	},
+	"namespace": {
+		Type:     schema.TypeString,
+		Required: true,
+		Computed: false,
+	},
+	"name": {
+		Type:     schema.TypeString,
+		Required: true,
+		Computed: false,
+	},
+	"bucket": {
+		Type:     schema.TypeString,
+		Required: true,
+		Computed: false,
+	},
+	"object": {
+		Type:     schema.TypeString,
+		Optional: true,
+		Computed: false,
+	},
+	"access_type": {
+		Type:     schema.TypeString,
+		Computed: false,
+		Default:  baremetal.ObjectRead,
+		Optional: true,
+		ValidateFunc: validation.StringInSlice([]string{
+			string(baremetal.PARAnyObjectWrite),
+			string(baremetal.PARObjectRead),
+			string(baremetal.PARObjectReadWrite),
+			string(baremetal.ObjectRead)}, true),
+	},
+	"time_expires": {
+		Type:         schema.TypeString,
+		Computed:     false,
+		Required:     true,
+	},
+}
