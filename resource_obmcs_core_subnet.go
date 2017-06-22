@@ -38,47 +38,50 @@ func SubnetResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
-			"route_table_id": {
+			"dhcp_options_id": {
 				Type:     schema.TypeString,
-				Optional: true,
+				Required: true,
 				ForceNew: true,
 			},
-			"vcn_id": {
+			"route_table_id": {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
 			},
 			"security_list_ids": {
 				Type:     schema.TypeSet,
-				Optional: true,
+				Required: true,
 				ForceNew: true,
 				Set:      schema.HashString,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
 			},
+			"vcn_id": {
+				Type:     schema.TypeString,
+				Required: true,
+				ForceNew: true,
+			},
+			// Optional
+			"dns_label": {
+				Type:     schema.TypeString,
+				Optional: true,
+				ForceNew: true,
+			},
 			"display_name": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-
-			"dhcp_options_id": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"dns_label": {
-				Type:     schema.TypeString,
-				Optional: true,
-			},
-			"id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"prohibit_public_ip_on_vnic": {
 				Type:     schema.TypeBool,
 				Optional: true,
+				Default:  false,
+			},
+			// Computed
+			"id": {
+				Type:     schema.TypeString,
+				Computed: true,
 			},
 			"state": {
 				Type:     schema.TypeString,

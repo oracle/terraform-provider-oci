@@ -5,15 +5,28 @@ Gets a list of subnets.
 ## Example Usage
 
 ```
+data "baremetal_identity_availability_domains" "ADs" {
+  compartment_id = "${var.compartment_id}"
+}
+
+resource "baremetal_core_virtual_network" "t" {
+  cidr_block     = "10.0.0.0/16"
+  compartment_id = "${var.compartment_id}"
+  display_name   = "network_name"
+}
+
 resource "baremetal_core_subnet" "t" {
-    availability_domain = "availabilitydomainid"
-    compartment_id = "compartmentid"
-    display_name = "display_name"
-    cidr_block = "10.10.10.0/24"
-    route_table_id = "routetableid"
-    vcn_id = "vcnid"
-    security_list_ids = ["slid1", "slid2"]
-    prohibit_public_ip_on_vnic = true
+  compartment_id = "${var.compartment_id}"
+
+  availability_domain = "${data.baremetal_identity_availability_domains.ADs.availability_domains.0.name}"
+  route_table_id      = "${baremetal_core_virtual_network.t.default_route_table_id}"
+  vcn_id              = "${baremetal_core_virtual_network.t.id}"
+  security_list_ids   = ["${baremetal_core_virtual_network.t.default_security_list_id}"]
+  dhcp_options_id     = "${baremetal_core_virtual_network.t.default_dhcp_options_id}"
+
+  display_name               = "display_name"
+  cidr_block                 = "10.10.10.0/24"
+  prohibit_public_ip_on_vnic = true
 }
 ```
 
@@ -22,29 +35,20 @@ resource "baremetal_core_subnet" "t" {
 The following arguments are supported:
 
 * `availability_domain` - (Required) The Availability Domain to contain the subnet.
-* `compartment_id` - (Required) The OCID of the compartment to contain the subnet.
 * `cidr_block` - (Required) The CIDR IP address range of the subnet.
+* `compartment_id` - (Required) The OCID of the compartment to contain the subnet.
+* `dhcp_options_id` - (Required) The OCID of the set of DHCP options the subnet will use.
+* `route_table_id` - (Required) The OCID of the route table the subnet will use.
+* `security_list_ids` - (Required) OCIDs for the security lists to associate with the subnet. Remember that security lists are associated at the subnet level, but the rules are applied to the individual VNICs in the subnet.
 * `vcn_id` - (Required) The OCID of the VCN to contain the subnet.
-* `dhcp_options_id` - (Optional) The OCID of the set of DHCP options the subnet will use. If you don't provide a value, the subnet will use the VCN's default set of DHCP options.
-* `display_name` - (Optional) The maximum number of items to return in a paginated "List" call.
+
+* `dns_label` - (Optional) DNS label for the subnet, used in conjunction with the VNIC's hostname and VCN's DNS label to form a fully qualified domain name (FQDN) for each VNIC within this subnet (e.g., bminstance-1.subnet123.vcn1.oraclevcn.com). Must be an alphanumeric string that begins with a letter and is unique within the VCN. The value cannot be changed. The absence of this parameter means the Internet and VCN Resolver will not resolve hostnames of instances in this subnet.
+* `display_name` - (Optional) User-friendly name. Does not have to be unique, and it's changeable.
 * `prohibit_public_ip_on_vnic` - (Optional) Whether VNICs within this subnet can have public IP. If it is allowed, VNICs created in the subnet will automatically be assigned public IP unless otherwise specified in the VNIC. If it is prohibited, VNICs in the subnet cannot have public IP address assigned. The default value is false if unspecified.
-* `route_table_id` - (Optional) The OCID of the route table the subnet will use. If you don't provide a value, the subnet will use the VCN's default route table.
-* `security_list_ids` - (Optional) OCIDs for the security lists to associate with the subnet. If you don't provide a value, the VCN's default security list will be associated with the subnet. Remember that security lists are associated at the subnet level, but the rules are applied to the individual VNICs in the subnet.
-
-
 
 ## Attributes Reference
 
-* `availability_domain` - The subnet's Availability Domain.
-* `cidr_block` - The CIDR IP address block of the VCN.
-* `compartment_id` - The OCID of the compartment containing the VCN.
-* `dhcp_options_id` - The OCID for the VCN's default set of DHCP options.
-* `route_table_id` - The OCID for the VCN's default route table.
-* `security_list_ids` - OCIDs for the security lists to use for VNICs in this subnet.
-* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable.
 * `id` - The subnet's Oracle ID (OCID).
-* `prohibit_public_ip_on_vnic` - Whether VNICs within this subnet can have public IPs. If it is allowed, VNICs created in the subnet will automatically be assigned public IP unless otherwise specified in the VNIC. If it is prohibited, VNICs in the subnet cannot have public IP address assigned. The default value is false if unspecified.
-* `vcn_id` - The OCID of the VCN the subnet is in.
 * `state` - The VCN's current state. [PROVISIONING, AVAILABLE, TERMINATING, TERMINATED]
 * `time_created` - The date and time the VCN was created.
 * `virtual_router_ip` - The IP address of the virtual router.
