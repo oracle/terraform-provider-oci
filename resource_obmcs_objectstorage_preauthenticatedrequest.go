@@ -6,8 +6,6 @@ import (
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"log"
-
 	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/crud"
 	"github.com/pkg/errors"
@@ -73,7 +71,6 @@ func (s *PreauthenticatedRequestResourceCrud) ID() string {
 }
 
 func (s *PreauthenticatedRequestResourceCrud) SetData() {
-	log.Printf("=======================\n%v\n===================", s)
 	s.D.Set("namespace", s.Namespace)
 	s.D.Set("bucket", s.BucketName)
 	s.D.Set("object", s.ObjectName)
@@ -86,7 +83,6 @@ func (s *PreauthenticatedRequestResourceCrud) Create() (e error) {
 	namespace := s.D.Get("namespace").(string)
 	bucket := s.D.Get("bucket").(string)
 	name := s.D.Get("name").(string)
-	object := s.D.Get("object").(string)
 	accessType := s.D.Get("access_type").(string)
 	t, _ := time.Parse(time.RFC3339, s.D.Get("time_expires").(string))
 	details := &baremetal.CreatePreauthenticatedRequestDetails{
@@ -95,8 +91,9 @@ func (s *PreauthenticatedRequestResourceCrud) Create() (e error) {
 		AccessType:  baremetal.PARAccessType(accessType),
 	}
 
-	if object != "" {
-		details.ObjectName = object
+	object := s.D.Get("object").(string)
+	if object, ok := s.D.GetOk("object"); ok {
+		details.ObjectName = object.(string)
 	}
 
 	var res *baremetal.PreauthenticatedRequest

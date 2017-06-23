@@ -68,7 +68,6 @@ func (s *ResourcePARTestSuite) TestCreatePAR() {
 				ImportState:       true,
 				ImportStateVerify: true,
 				Config:            s.Config,
-				ExpectNonEmptyPlan: true,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "name", "parOne"),
 				),
@@ -86,7 +85,6 @@ func (s *ResourcePARTestSuite) TestDeletePAR() {
 				ImportState:       true,
 				ImportStateVerify: true,
 				Config:            s.Config,
-				ExpectNonEmptyPlan: true,
 			},
 			{
 				Config: s.Config,

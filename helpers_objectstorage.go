@@ -77,7 +77,7 @@ var preauthenticatedRequestSchema = map[string]*schema.Schema{
 	"id": {
 		Type: schema.TypeString,
 		Optional:true,
-		Computed:false,
+		Computed:true,
 	},
 	"namespace": {
 		Type:     schema.TypeString,
