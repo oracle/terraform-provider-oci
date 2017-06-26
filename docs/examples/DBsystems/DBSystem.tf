@@ -7,6 +7,10 @@ resource "baremetal_database_db_system" "TFDBNode" {
     database {
       "admin_password" = "${var.DBAdminPassword}"
       "db_name" = "${var.DBName}"
+      "character_set" = "${var.CharacterSet}"
+      "ncharacter_set" = "${var.NCharacterSet}"
+      "db_workload" = "${var.DBWorkload}"
+      "pdb_name" = "${var.PDBName}"
     }
     db_version = "${var.DBVersion}"
     display_name = "${var.DBDisplayName}"
@@ -18,4 +22,5 @@ resource "baremetal_database_db_system" "TFDBNode" {
   display_name = "${var.DBNodeDisplayName}"
   domain = "${var.DBNodeDomainName}"
   hostname = "${var.DBNodeHostName}"
+  data_storage_percentage = "40" 
 }

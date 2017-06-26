@@ -14,6 +14,10 @@ func DatabaseDatasource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDatabase,
 		Schema: map[string]*schema.Schema{
+			"character_set": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -34,7 +38,23 @@ func DatabaseDatasource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"db_workload": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"lifecycle_details": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"ncharacter_set": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"pdb_name": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -79,6 +99,11 @@ func (s *DatabaseDatasourceCrud) SetData() {
 		s.D.Set("id", s.Res.ID)
 		s.D.Set("state", s.Res.State)
 		s.D.Set("time_created", s.Res.TimeCreated.String())
+		s.D.Set("character_set", s.Res.CharacterSet)
+		s.D.Set("ncharacter_set", s.Res.NcharacterSet)
+		s.D.Set("pdb_name", s.Res.PDBName)
+		s.D.Set("db_workload", s.Res.DBWorkload)
+		s.D.Set("lifecycle_details", s.Res.LifecycleDetails)
 	}
 	return
 }

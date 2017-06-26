@@ -30,6 +30,10 @@ func DBVersionDatasource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"supports_pdb":{
+							Type: schema.TypeBool,
+							Computed: true,
+						},
 					},
 				},
 			},
@@ -92,6 +96,7 @@ func (s *DBVersionDatasourceCrud) SetData() {
 		for _, v := range s.Res.DBVersions {
 			res := map[string]interface{}{
 				"version": v.Version,
+				"supports_pdb": v.SupportsPDB,
 			}
 			resources = append(resources, res)
 		}

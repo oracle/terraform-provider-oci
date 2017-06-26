@@ -108,7 +108,7 @@ type BareMetalClient interface {
 
 	InstanceAction(id string, action baremetal.InstanceActions, opts *baremetal.HeaderOptions) (inst *baremetal.Instance, e error)
 
-	LaunchDBSystem(availabilityDomain, compartmentID, shape, subnetID string, sshPublicKeys []string, cpuCoreCount uint64, opts *baremetal.LaunchDBSystemOptions) (res *baremetal.DBSystem, e error)
+	LaunchDBSystem(availabilityDomain string, compartmentID string, cpuCoreCount uint64, databaseEdition baremetal.DatabaseEdition, dbHome baremetal.CreateDBHomeDetails, hostname string, shape string, sshPublicKeys []string, subnetID string, opts *baremetal.LaunchDBSystemOptions) (res *baremetal.DBSystem, e error)
 	LaunchInstance(availabilityDomain, compartmentID, image, shape, subnetID string, opts *baremetal.LaunchInstanceOptions) (inst *baremetal.Instance, e error)
 
 	ListAPIKeys(userID string) (response *baremetal.ListAPIKeyResponses, e error)
@@ -144,7 +144,6 @@ type BareMetalClient interface {
 	ListSecurityLists(compartmentID, vcnID string, opts *baremetal.ListOptions) (res *baremetal.ListSecurityLists, e error)
 	ListShapes(compartmentID string, opts *baremetal.ListShapesOptions) (shapes *baremetal.ListShapes, e error)
 	ListSubnets(compartmentID, vcnID string, opts *baremetal.ListOptions) (subnets *baremetal.ListSubnets, e error)
-	ListSupportedOperations() (*baremetal.ListSupportedOperations, error)
 	ListSwiftPasswords(userID string) (resources *baremetal.ListSwiftPasswords, e error)
 	ListUserGroupMemberships(opts *baremetal.ListMembershipsOptions) (resources *baremetal.ListUserGroupMemberships, e error)
 	ListUsers(opts *baremetal.ListOptions) (resources *baremetal.ListUsers, e error)

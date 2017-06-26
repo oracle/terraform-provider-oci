@@ -68,3 +68,21 @@ variable "HostUserName" {
     default = "opc"
 }
 
+variable "NCharacterSet" {
+	default = "AL16UTF16"
+}
+
+variable "CharacterSet" {
+	default = "AL32UTF8"
+}
+
+variable "DBWorkload" {
+	default = "OLTP"
+}
+
+variable "PDBName" {
+	default = "pdbName"
+}
+
+
+
