@@ -100,19 +100,19 @@ func (_m *BareMetalClient) CreateBackend(loadBalancerID string, backendSetName s
 }
 
 // CreateBackendSet provides a mock function with given fields: loadBalancerID, name, policy, backends, healthChecker, sslConfig, opts
-func (_m *BareMetalClient) CreateBackendSet(loadBalancerID string, name string, policy string, backends []baremetal.Backend, healthChecker *baremetal.HealthChecker, sslConfig *baremetal.SSLConfiguration, opts *baremetal.LoadBalancerOptions) (string, error) {
-	ret := _m.Called(loadBalancerID, name, policy, backends, healthChecker, sslConfig, opts)
+func (_m *BareMetalClient) CreateBackendSet(loadBalancerID string, name string, policy string, backends []baremetal.Backend, healthChecker *baremetal.HealthChecker, sslConfig *baremetal.SSLConfiguration, sessionPersistenceConfig *baremetal.SessionPersistenceConfiguration, opts *baremetal.LoadBalancerOptions) (string, error) {
+	ret := _m.Called(loadBalancerID, name, policy, backends, healthChecker, sslConfig, sessionPersistenceConfig, opts)
 
 	var r0 string
-	if rf, ok := ret.Get(0).(func(string, string, string, []baremetal.Backend, *baremetal.HealthChecker, *baremetal.SSLConfiguration, *baremetal.LoadBalancerOptions) string); ok {
-		r0 = rf(loadBalancerID, name, policy, backends, healthChecker, sslConfig, opts)
+	if rf, ok := ret.Get(0).(func(string, string, string, []baremetal.Backend, *baremetal.HealthChecker, *baremetal.SSLConfiguration, *baremetal.SessionPersistenceConfiguration, *baremetal.LoadBalancerOptions) string); ok {
+		r0 = rf(loadBalancerID, name, policy, backends, healthChecker, sslConfig, sessionPersistenceConfig, opts)
 	} else {
 		r0 = ret.Get(0).(string)
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string, string, string, []baremetal.Backend, *baremetal.HealthChecker, *baremetal.SSLConfiguration, *baremetal.LoadBalancerOptions) error); ok {
-		r1 = rf(loadBalancerID, name, policy, backends, healthChecker, sslConfig, opts)
+	if rf, ok := ret.Get(1).(func(string, string, string, []baremetal.Backend, *baremetal.HealthChecker, *baremetal.SSLConfiguration, *baremetal.SessionPersistenceConfiguration, *baremetal.LoadBalancerOptions) error); ok {
+		r1 = rf(loadBalancerID, name, policy, backends, healthChecker, sslConfig, sessionPersistenceConfig, opts)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -3658,7 +3658,7 @@ func (_m *BareMetalClient) UploadAPIKey(userID string, key string, opts *baremet
 
 	return r0, r1
 }
-func (_m *BareMetalClient) CreatePreauthenticatedRequest(namespace baremetal.Namespace, bucketName string, parDetails *baremetal.CreatePreauthenticatedRequestDetails) (*baremetal.PreauthenticatedRequest, error){
+func (_m *BareMetalClient) CreatePreauthenticatedRequest(namespace baremetal.Namespace, bucketName string, parDetails *baremetal.CreatePreauthenticatedRequestDetails) (*baremetal.PreauthenticatedRequest, error) {
 	ret := _m.Called(namespace, bucketName, parDetails)
 
 	var r0 *baremetal.PreauthenticatedRequest
@@ -3680,7 +3680,7 @@ func (_m *BareMetalClient) CreatePreauthenticatedRequest(namespace baremetal.Nam
 	return r0, r1
 
 }
-func (_m *BareMetalClient) DeletePreauthenticatedRequest(namespace baremetal.Namespace, bucketName string, parId string, options *baremetal.ClientRequestOptions)  error {
+func (_m *BareMetalClient) DeletePreauthenticatedRequest(namespace baremetal.Namespace, bucketName string, parId string, options *baremetal.ClientRequestOptions) error {
 	ret := _m.Called(namespace, bucketName, parId, options)
 	var r1 error
 	if rf, ok := ret.Get(0).(func(baremetal.Namespace, string, string, *baremetal.ClientRequestOptions) error); ok {

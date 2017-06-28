@@ -25,3 +25,4 @@ The following arguments are supported:
 * `policy` - The load balancer policy for the backend set. The default load balancing policy is 'ROUND_ROBIN'.
 * `health_checker` - Health Checker Settings
 * `ssl_configuration` - SSL Configuration Settings
+* `session_persistence_configuration` - (Optional) Session persistence enables the Load Balancing Service to direct any number of requests that originate from a single logical client to a single backend web server.

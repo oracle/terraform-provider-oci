@@ -58,3 +58,22 @@ var SSLConfigSchema = &schema.Schema{
 		},
 	},
 }
+
+var SessionPersistenceConfigSchema = &schema.Schema{
+	Type:     schema.TypeList,
+	Optional: true,
+	MaxItems: 1,
+	Elem: &schema.Resource{
+		Schema: map[string]*schema.Schema{
+			"cookie_name": {
+				Type:     schema.TypeString,
+				Required: true,
+			},
+			"disable_fallback": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Default:  false,
+			},
+		},
+	},
+}

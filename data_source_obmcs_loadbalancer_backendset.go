@@ -78,6 +78,17 @@ func (s *BackendSetDatasourceCrud) SetData() {
 				},
 			}
 		}
+
+		var sessionConfig []map[string]interface{}
+		if session := v.SessionPersistenceConfig; session != nil {
+			sessionConfig = []map[string]interface{}{
+				{
+					"cookie_name":      session.CookieName,
+					"disable_fallback": session.DisableFallback,
+				},
+			}
+		}
+
 		backends := []map[string]interface{}{}
 		for _, backend := range v.Backends {
 			res := map[string]interface{}{
@@ -91,11 +102,12 @@ func (s *BackendSetDatasourceCrud) SetData() {
 			backends = append(backends, res)
 		}
 		res := map[string]interface{}{
-			"name":              v.Name,
-			"policy":            v.Policy,
-			"health_checker":    healthChecker,
-			"ssl_configuration": sslConfig,
-			"backend":           backends,
+			"name":                              v.Name,
+			"policy":                            v.Policy,
+			"health_checker":                    healthChecker,
+			"ssl_configuration":                 sslConfig,
+			"session_persistence_configuration": sessionConfig,
+			"backend":                           backends,
 		}
 		resources = append(resources, res)
 	}

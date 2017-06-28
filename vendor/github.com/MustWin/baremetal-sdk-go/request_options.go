@@ -81,6 +81,12 @@ type LoadBalancerOptions struct {
 	RetryTokenOptions
 }
 
+type CreateLoadBalancerOptions struct {
+	LoadBalancerOptions
+	DisplayNameOptions
+	IsPrivate bool `header:"-" json:"isPrivate,omitempty" url:"-"`
+}
+
 type CreateLoadBalancerBackendOptions struct {
 	LoadBalancerOptions
 	Backup  bool `header:"-" json:"backup,omitempty" url:"-"`

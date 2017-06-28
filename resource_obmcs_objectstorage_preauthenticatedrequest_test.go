@@ -41,8 +41,7 @@ func (s *ResourcePARTestSuite) SetupTest() {
 
 	s.TimeCreated = baremetal.Time{Time: time.Now()}
 	t, _ := time.Parse(time.RFC3339, "2019-11-10T23:00:00Z")
-	s.TimeExpired = baremetal.Time{Time:t}
-
+	s.TimeExpired = baremetal.Time{Time: t}
 
 	s.Config = `
 		resource "baremetal_objectstorage_preauthrequest" "t" {
@@ -87,7 +86,7 @@ func (s *ResourcePARTestSuite) TestDeletePAR() {
 				Config:            s.Config,
 			},
 			{
-				Config: s.Config,
+				Config:  s.Config,
 				Destroy: true,
 			},
 		},

@@ -4,10 +4,14 @@ package baremetal
 
 import (
 	"bytes"
+	"fmt"
 	"log"
+	"math/rand"
 	"net/http"
 	"net/http/httputil"
 	"os"
+	"strings"
+	"time"
 )
 
 type requestor interface {
@@ -17,12 +21,14 @@ type requestor interface {
 }
 
 type apiRequestor struct {
-	httpClient  *http.Client
-	authInfo    *authenticationInfo
-	urlBuilder  urlBuilderFn
-	urlTemplate string
-	userAgent   string
-	region      string
+	httpClient     *http.Client
+	authInfo       *authenticationInfo
+	urlBuilder     urlBuilderFn
+	urlTemplate    string
+	userAgent      string
+	region         string
+	shortRetryTime time.Duration
+	longRetryTime  time.Duration
 }
 
 func newCoreAPIRequestor(authInfo *authenticationInfo, nco *NewClientOptions) (r *apiRequestor) {
@@ -30,11 +36,13 @@ func newCoreAPIRequestor(authInfo *authenticationInfo, nco *NewClientOptions) (r
 		httpClient: &http.Client{
 			Transport: nco.Transport,
 		},
-		authInfo:    authInfo,
-		urlBuilder:  buildCoreURL,
-		urlTemplate: nco.UrlTemplate,
-		userAgent:   nco.UserAgent,
-		region:      nco.Region,
+		authInfo:       authInfo,
+		urlBuilder:     buildCoreURL,
+		urlTemplate:    nco.UrlTemplate,
+		userAgent:      nco.UserAgent,
+		region:         nco.Region,
+		shortRetryTime: nco.ShortRetryTime,
+		longRetryTime:  nco.LongRetryTime,
 	}
 }
 
@@ -43,11 +51,13 @@ func newObjectStorageAPIRequestor(authInfo *authenticationInfo, nco *NewClientOp
 		httpClient: &http.Client{
 			Transport: nco.Transport,
 		},
-		authInfo:    authInfo,
-		urlBuilder:  buildObjectStorageURL,
-		urlTemplate: nco.UrlTemplate,
-		userAgent:   nco.UserAgent,
-		region:      nco.Region,
+		authInfo:       authInfo,
+		urlBuilder:     buildObjectStorageURL,
+		urlTemplate:    nco.UrlTemplate,
+		userAgent:      nco.UserAgent,
+		region:         nco.Region,
+		shortRetryTime: nco.ShortRetryTime,
+		longRetryTime:  nco.LongRetryTime,
 	}
 }
 
@@ -56,11 +66,13 @@ func newDatabaseAPIRequestor(authInfo *authenticationInfo, nco *NewClientOptions
 		httpClient: &http.Client{
 			Transport: nco.Transport,
 		},
-		authInfo:    authInfo,
-		urlBuilder:  buildDatabaseURL,
-		urlTemplate: nco.UrlTemplate,
-		userAgent:   nco.UserAgent,
-		region:      nco.Region,
+		authInfo:       authInfo,
+		urlBuilder:     buildDatabaseURL,
+		urlTemplate:    nco.UrlTemplate,
+		userAgent:      nco.UserAgent,
+		region:         nco.Region,
+		shortRetryTime: nco.ShortRetryTime,
+		longRetryTime:  nco.LongRetryTime,
 	}
 }
 
@@ -69,11 +81,13 @@ func newIdentityAPIRequestor(authInfo *authenticationInfo, nco *NewClientOptions
 		httpClient: &http.Client{
 			Transport: nco.Transport,
 		},
-		authInfo:    authInfo,
-		urlBuilder:  buildIdentityURL,
-		urlTemplate: nco.UrlTemplate,
-		userAgent:   nco.UserAgent,
-		region:      nco.Region,
+		authInfo:       authInfo,
+		urlBuilder:     buildIdentityURL,
+		urlTemplate:    nco.UrlTemplate,
+		userAgent:      nco.UserAgent,
+		region:         nco.Region,
+		shortRetryTime: nco.ShortRetryTime,
+		longRetryTime:  nco.LongRetryTime,
 	}
 }
 
@@ -82,11 +96,13 @@ func newLoadBalancerAPIRequestor(authInfo *authenticationInfo, nco *NewClientOpt
 		httpClient: &http.Client{
 			Transport: nco.Transport,
 		},
-		authInfo:    authInfo,
-		urlBuilder:  buildLoadBalancerURL,
-		urlTemplate: nco.UrlTemplate,
-		userAgent:   nco.UserAgent,
-		region:      nco.Region,
+		authInfo:       authInfo,
+		urlBuilder:     buildLoadBalancerURL,
+		urlTemplate:    nco.UrlTemplate,
+		userAgent:      nco.UserAgent,
+		region:         nco.Region,
+		shortRetryTime: nco.ShortRetryTime,
+		longRetryTime:  nco.LongRetryTime,
 	}
 }
 
@@ -103,6 +119,12 @@ func (api *apiRequestor) getRequest(reqOpts request) (getResp *response, e error
 }
 
 func (api *apiRequestor) request(method string, reqOpts request) (r *response, e error) {
+	return submitRequestWithRetries(api, method, reqOpts, generateRetryToken(),
+		"", -1, 0, 1)
+}
+
+func submitRequestWithRetries(api *apiRequestor, method string, reqOpts request, generatedRetryToken string,
+	currentErrorCode string, retryTimeRemaining time.Duration, timeWaited time.Duration, retryNum uint) (r *response, e error) {
 	var jsonBuffer []byte
 	var buffer *bytes.Buffer
 	if method == http.MethodDelete || method == http.MethodGet {
@@ -124,6 +146,11 @@ func (api *apiRequestor) request(method string, reqOpts request) (r *response, e
 		return
 	}
 	req.Header = reqOpts.marshalHeader()
+
+	//add random retry token if user hasn't added one so that we can safely retry requests
+	if _, present := req.Header[retryTokenKey]; !present && method != http.MethodDelete && method != http.MethodGet {
+		req.Header[retryTokenKey] = []string{generatedRetryToken}
+	}
 
 	if e = createAuthorizationHeader(req, api.authInfo, api.userAgent, jsonBuffer); e != nil {
 		return
@@ -170,8 +197,24 @@ func (api *apiRequestor) request(method string, reqOpts request) (r *response, e
 	// body will contain an error object which we'll Unmarshal and send
 	// back as an Error
 	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
-		e = getErrorFromResponse(&reader, resp)
-		return
+
+		apiError := getErrorFromResponse(&reader, resp)
+		errorCodeStr := fmt.Sprintf("%s:%s", apiError.Status, apiError.Code)
+		if retryNum == 1 {
+			retryTimeRemaining = getMaxRetryTimeInSeconds(api, apiError, req.URL.String(), method)
+			currentErrorCode = errorCodeStr
+		} else if currentErrorCode != errorCodeStr {
+			retryTimeRemaining = getMaxRetryTimeInSeconds(api, apiError, req.URL.String(), method) - timeWaited
+			currentErrorCode = errorCodeStr
+		}
+		if retryTimeRemaining > 0 {
+			timeSlept := polynomialBackoffSleep(retryNum, retryTimeRemaining)
+			return submitRequestWithRetries(api, method, reqOpts, generatedRetryToken,
+				currentErrorCode, retryTimeRemaining-timeSlept, timeWaited+timeSlept, retryNum+1)
+		} else {
+			e = &apiError
+			return
+		}
 	}
 
 	r = &response{
@@ -180,4 +223,76 @@ func (api *apiRequestor) request(method string, reqOpts request) (r *response, e
 	}
 
 	return
+}
+
+var sleep = time.Sleep
+
+func polynomialBackoffSleep(retryNum uint, retryTimeRemaining time.Duration) time.Duration {
+	secondsToSleep := time.Duration(retryNum*retryNum) * time.Second
+	if retryTimeRemaining < secondsToSleep {
+		secondsToSleep = retryTimeRemaining
+	}
+	if os.Getenv("DEBUG") != "" {
+		log.Printf("[DEBUG] Got a retriable error. Waiting %d seconds and trying again...", int(secondsToSleep.Seconds()))
+	}
+	sleep(secondsToSleep)
+	return secondsToSleep
+}
+
+func getMaxRetryTimeInSeconds(api *apiRequestor, e Error, requestURL string, method string) time.Duration {
+	switch e.Status {
+	case "400":
+		return 0
+	case "401":
+		return 0
+	case "403":
+		return 0
+	case "404":
+		if method == http.MethodDelete {
+			return 0
+		}
+		if requestServiceCheck(requestURL, identityServiceAPI) ||
+			requestServiceCheck(requestURL, objectStorageServiceAPI) {
+			return api.longRetryTime
+		}
+	case "409":
+		if e.Code == "InvalidatedRetryToken" {
+			return 0
+		} else if e.Code == "NotAuthorizedOrResourceAlreadyExists" {
+			if requestServiceCheck(requestURL, identityServiceAPI) ||
+				requestServiceCheck(requestURL, objectStorageServiceAPI) {
+				return api.longRetryTime
+			}
+		}
+	case "412":
+		return 0
+	case "429":
+		return api.longRetryTime
+	case "500":
+		if requestServiceCheck(requestURL, objectStorageServiceAPI) {
+			return api.longRetryTime
+		}
+	}
+	return api.shortRetryTime
+}
+
+func requestServiceCheck(requestURL string, service string) bool {
+	if service == "" {
+		return false
+	}
+	return strings.HasPrefix(requestURL, urlPrefix+service)
+}
+
+/* Generates a random alphanumeric string.
+ * Used for generating a retry token so that the SDK can safely retry operations.
+ */
+func generateRetryToken() string {
+	alphanumericChars := []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
+	retryToken := make([]rune, generatedRetryTokenLength)
+	source := rand.NewSource(time.Now().UnixNano())
+	randGen := rand.New(source)
+	for i := range retryToken {
+		retryToken[i] = alphanumericChars[randGen.Intn(len(alphanumericChars))]
+	}
+	return string(retryToken)
 }

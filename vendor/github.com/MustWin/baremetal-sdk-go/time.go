@@ -23,6 +23,7 @@ func (t *Time) UnmarshalJSON(data []byte) (e error) {
 
 func (t *Time) MarshalJSON() (buff []byte, e error) {
 	s := t.Format(baremetalTimeFormat)
+
 	buff = []byte(`"` + s + `"`)
 	return
 }

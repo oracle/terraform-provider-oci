@@ -14,12 +14,12 @@ import (
 
 type PreauthenticatedRequestResourceCrud struct {
 	crud.BaseCrud
-	Id string
-	Namespace  string
-	BucketName string
-	ObjectName string
-	AccessURI string
-	AccessType baremetal.PARAccessType
+	Id          string
+	Namespace   string
+	BucketName  string
+	ObjectName  string
+	AccessURI   string
+	AccessType  baremetal.PARAccessType
 	TimeExpires baremetal.Time
 	TimeCreated baremetal.Time
 }
@@ -86,7 +86,7 @@ func (s *PreauthenticatedRequestResourceCrud) Create() (e error) {
 	accessType := s.D.Get("access_type").(string)
 	t, _ := time.Parse(time.RFC3339, s.D.Get("time_expires").(string))
 	details := &baremetal.CreatePreauthenticatedRequestDetails{
-		Name: name,
+		Name:        name,
 		TimeExpires: baremetal.Time{Time: t},
 		AccessType:  baremetal.PARAccessType(accessType),
 	}

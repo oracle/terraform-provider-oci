@@ -22,6 +22,11 @@ resource "baremetal_load_balancer_backendset" "t" {
     verify_depth            = 6
     verify_peer_certificate = false
   }
+  
+  session_persistence_configuration {
+    cookie_name      = "cookiename"
+    disable_fallback = true
+  }
 }
 ```
 
@@ -34,6 +39,7 @@ The following arguments are supported:
 * `policy` - (Optional) The load balancer policy for the backend set. The default load balancing policy is 'ROUND_ROBIN'.
 * `health_checker` - (Optional) Health Checker Settings
 * `ssl_configuration` - (Optional) SSL Configuration Settings
+* `session_persistence_configuration` - (Optional) Session persistence enables the Load Balancing Service to direct any number of requests that originate from a single logical client to a single backend web server.
 
 
 ## Attributes Reference

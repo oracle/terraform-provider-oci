@@ -22,7 +22,7 @@ resource "baremetal_load_balancer_backend" "t" {
 The following arguments are supported:
 
 * `load_balancer_id` - (Required) The OCID of the load balancer.
-* `backendset_name` - (Required) The public IP address of the on-premise router.
+* `backendset_name` - (Required) The name of the backend set to add the backend server to.
 * `ip_address` - (Required) The IP address of the backend server.
 * `port` - (Required) The communication port for the backend server.
 * `backup` - (Optional) Whether the load balancer should treat this server as a backup unit.
