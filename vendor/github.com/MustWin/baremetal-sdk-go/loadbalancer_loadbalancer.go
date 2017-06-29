@@ -16,6 +16,7 @@ type LoadBalancer struct {
 	DisplayName   string                 `json:"displayName"`
 	ID            string                 `json:"id"`
 	IPAddresses   []IPAddress            `json:"ipAddresses"` // TODO: is there a better way?
+	IsPrivate     bool                   `json:"isPrivate"`
 	Shape         string                 `json:"shapeName"`
 	State         string                 `json:"lifecycleState"`
 	SubnetIDs     []string               `json:"subnetIds"`
@@ -45,6 +46,7 @@ type CreateLoadBalancerDetails struct {
 	ocidRequirement
 	BackendSets  *BackendSet  `header:"-" json:"backendSets,omitempty" url:"-"`
 	Certificates *Certificate `header:"-" json:"certificates,omitempty" url:"-"`
+	IsPrivate    bool         `header:"-" json:"isPrivate,omitempty" url:"-"`
 	Listeners    *Listener    `header:"-" json:"listeners,omitempty" url:"-"`
 	Shape        string       `header:"-" json:"shapeName,omitempty" url:"-"`
 	SubnetIDs    []string     `header:"-" json:"subnetIds,omitempty" url:"-"`
@@ -60,7 +62,7 @@ func (c *Client) CreateLoadBalancer(
 	listeners *Listener,
 	shape string,
 	subnetIDs []string,
-	opts *CreateOptions) (workRequestID string, e error) {
+	opts *CreateLoadBalancerOptions) (workRequestID string, e error) {
 
 	required := CreateLoadBalancerDetails{
 		BackendSets:  backendSets,
@@ -133,7 +135,7 @@ func (c *Client) ListLoadBalancers(compartmentID string, opts *ListOptions) (loa
 // UpdateLoadBalancer updates a load balancer's configuration.
 //
 // See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/loadbalancer/20170115/LoadBalancer/UpdateLoadBalancer
-func (c *Client) UpdateLoadBalancer(id string, opts *UpdateOptions) (workRequestID string, e error) {
+func (c *Client) UpdateLoadBalancer(id string, opts *UpdateLoadBalancerOptions) (workRequestID string, e error) {
 	// TODO: Determine if any parameters to the load balancer API are optional.
 	details := &requestDetails{
 		name:     resourceLoadBalancers,

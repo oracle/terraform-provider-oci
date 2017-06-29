@@ -16,7 +16,7 @@ data "baremetal_load_balancer_backends" "t" {
 The following arguments are supported:
 
 * `load_balancer_id` - (Required) The OCID of the load balancer.
-* `backendset_name` - (Required) The public IP address of the on-premise router.
+* `backendset_name` - (Required) The name of the backend set.
 
 ## Attributes Reference
 * `backends` - The list of backends

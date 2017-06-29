@@ -29,8 +29,8 @@ func (a *authenticationInfo) getKeyID() string {
 	return fmt.Sprintf("%s/%s/%s", a.tenancyOCID, a.userOCID, a.keyFingerPrint)
 }
 
-func getErrorFromResponse(body io.Reader, resp *http.Response) (e error) {
-	apiError := Error{}
+func getErrorFromResponse(body io.Reader, resp *http.Response) (apiError Error) {
+	apiError = Error{}
 
 	if opcRequestID := resp.Header.Get(headerOPCRequestID); opcRequestID != "" {
 		apiError.OPCRequestID = opcRequestID
@@ -42,7 +42,7 @@ func getErrorFromResponse(body io.Reader, resp *http.Response) (e error) {
 		apiError.Message = buf.String()
 	} else {
 		decoder := json.NewDecoder(body)
-		if e = decoder.Decode(&apiError); e != nil {
+		if e := decoder.Decode(&apiError); e != nil {
 			buf := new(bytes.Buffer)
 			buf.ReadFrom(decoder.Buffered())
 			apiError.Message = buf.String()
@@ -50,7 +50,7 @@ func getErrorFromResponse(body io.Reader, resp *http.Response) (e error) {
 	}
 	apiError.Status = strconv.Itoa(resp.StatusCode)
 
-	return &apiError
+	return
 }
 
 func createAuthorizationHeader(request *http.Request, auth *authenticationInfo, userAgent string, body []byte) (e error) {

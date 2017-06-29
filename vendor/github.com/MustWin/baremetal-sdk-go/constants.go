@@ -2,6 +2,8 @@
 
 package baremetal
 
+import "time"
+
 type resourceName string
 
 type InstanceActions string
@@ -67,6 +69,7 @@ const (
 
 	// <protocol><service><region><cloud-domain>
 	baseUrlTemplate = "https://%s.%s.oraclecloud.com"
+	urlPrefix       = "https://"
 
 	identityServiceAPI        = "identity"
 	identityServiceAPIVersion = SDKVersion
@@ -191,6 +194,12 @@ const (
 	//Object Storage Access Type
 	NoPublicAccess BucketAccessType = "NoPublicAccess"
 	ObjectRead     BucketAccessType = "ObjectRead"
+
+  //Retry Logic
+	retryTokenKey             = "opc-retry-token"
+	shortRetryTime            = time.Duration(2)*time.Minute
+	longRetryTime             = time.Duration(10)*time.Minute
+	generatedRetryTokenLength = 30
 
 	//PAR(pre-authenticated request) access type
 	PARObjectRead      PARAccessType = "ObjectRead"

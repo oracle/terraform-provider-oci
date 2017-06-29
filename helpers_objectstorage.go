@@ -75,9 +75,9 @@ var objectSchema = map[string]*schema.Schema{
 
 var preauthenticatedRequestSchema = map[string]*schema.Schema{
 	"id": {
-		Type: schema.TypeString,
-		Optional:true,
-		Computed:true,
+		Type:     schema.TypeString,
+		Optional: true,
+		Computed: true,
 	},
 	"namespace": {
 		Type:     schema.TypeString,
@@ -111,8 +111,8 @@ var preauthenticatedRequestSchema = map[string]*schema.Schema{
 			string(baremetal.ObjectRead)}, true),
 	},
 	"time_expires": {
-		Type:         schema.TypeString,
-		Computed:     false,
-		Required:     true,
+		Type:     schema.TypeString,
+		Computed: false,
+		Required: true,
 	},
 }

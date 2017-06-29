@@ -12,17 +12,23 @@ import (
 type BackendSet struct {
 	OPCRequestIDUnmarshaller
 	OPCWorkRequestIDUnmarshaller
-	Backends      []Backend         `json:"backends" url:"-"`
-	HealthChecker *HealthChecker    `json:"healthChecker" url:"-"`
-	Name          string            `json:"name,omitempty" url:"-"`             // Only on create
-	Policy        string            `json:"policy" url:"-"`                     // FIXME: supposedly has default: "ROUND_ROBIN" but then raises error when null. For valid values see ListPolicies()
-	SSLConfig     *SSLConfiguration `json:"sslConfiguration,omitempty" url:"-"` // TODO: acc test, waiting on CreateCertificate() tests
+	Backends                 []Backend                        `json:"backends" url:"-"`
+	HealthChecker            *HealthChecker                   `json:"healthChecker" url:"-"`
+	Name                     string                           `json:"name,omitempty" url:"-"`             // Only on create
+	Policy                   string                           `json:"policy" url:"-"`                     // FIXME: supposedly has default: "ROUND_ROBIN" but then raises error when null. For valid values see ListPolicies()
+	SSLConfig                *SSLConfiguration                `json:"sslConfiguration,omitempty" url:"-"` // TODO: acc test, waiting on CreateCertificate() tests
+	SessionPersistenceConfig *SessionPersistenceConfiguration `json:"sessionPersistenceConfiguration,omitempty" url:"-"`
 }
 
 type SSLConfiguration struct {
 	CertificateName       string `json:"certificateName"`
 	VerifyDepth           int    `json:"verifyDepth"`
 	VerifyPeerCertificate bool   `json:"verifyPeerCertificate"`
+}
+
+type SessionPersistenceConfiguration struct {
+	CookieName      string `json:"cookieName"`
+	DisableFallback bool   `json:"disableFallback"`
 }
 
 // ListBackendSets contains a list of backend Sets
@@ -46,14 +52,16 @@ func (c *Client) CreateBackendSet(
 	backends []Backend,
 	healthChecker *HealthChecker,
 	sslConfig *SSLConfiguration,
+	sessionPersistenceConfig *SessionPersistenceConfiguration,
 	opts *LoadBalancerOptions,
 ) (workRequestID string, e error) {
 	required := BackendSet{
-		Name:          name,
-		Policy:        policy,
-		SSLConfig:     sslConfig,
-		HealthChecker: healthChecker,
-		Backends:      backends,
+		Name:                     name,
+		Policy:                   policy,
+		SSLConfig:                sslConfig,
+		SessionPersistenceConfig: sessionPersistenceConfig,
+		HealthChecker:            healthChecker,
+		Backends:                 backends,
 	}
 
 	details := &requestDetails{

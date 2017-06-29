@@ -19,7 +19,6 @@ func LoadBalancerResource() *schema.Resource {
 		Update: updateLoadBalancer,
 		Delete: deleteLoadBalancer,
 		Schema: map[string]*schema.Schema{
-			// Required {
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -40,8 +39,6 @@ func LoadBalancerResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			// }
-			// Computed {
 			"id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -50,6 +47,11 @@ func LoadBalancerResource() *schema.Resource {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem:     &schema.Schema{Type: schema.TypeString},
+			},
+			"is_private": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Default:  false,
 			},
 			"state": {
 				Type:     schema.TypeString,
@@ -151,8 +153,9 @@ func (s *LoadBalancerResourceCrud) Create() (e error) {
 		sns = append(sns, v.(string))
 	}
 
-	opts := &baremetal.CreateOptions{}
+	opts := &baremetal.CreateLoadBalancerOptions{}
 	opts.DisplayName = s.D.Get("display_name").(string)
+	opts.IsPrivate = s.D.Get("is_private").(bool)
 
 	workReqID, e := s.Client.CreateLoadBalancer(
 		nil,
@@ -193,7 +196,7 @@ func (s *LoadBalancerResourceCrud) Get() (e error) {
 
 // Update makes a request to update the load balancer
 func (s *LoadBalancerResourceCrud) Update() (e error) {
-	opts := &baremetal.UpdateOptions{}
+	opts := &baremetal.UpdateLoadBalancerOptions{}
 	if displayName, ok := s.D.GetOk("display_name"); ok {
 		opts.DisplayName = displayName.(string)
 	}

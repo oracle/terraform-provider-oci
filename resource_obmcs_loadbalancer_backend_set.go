@@ -31,8 +31,9 @@ func LoadBalancerBackendSetResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"health_checker":    HealthCheckerSchema,
-			"ssl_configuration": SSLConfigSchema,
+			"health_checker":                    HealthCheckerSchema,
+			"ssl_configuration":                 SSLConfigSchema,
+			"session_persistence_configuration": SessionPersistenceConfigSchema,
 			"backend": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -132,6 +133,7 @@ func (s *LoadBalancerBackendSetResourceCrud) Create() (e error) {
 		s.backends(),
 		s.healthChecker(),
 		s.sslConfig(),
+		s.sessionPersistenceConfig(),
 		nil,
 	)
 	if e != nil {
@@ -212,6 +214,13 @@ func (s *LoadBalancerBackendSetResourceCrud) SetData() {
 		})
 	}
 
+	if s.Resource.SessionPersistenceConfig != nil {
+		s.D.Set("session_persistence_configuration", map[string]interface{}{
+			"cookie_name":      s.Resource.SessionPersistenceConfig.CookieName,
+			"disable_fallback": s.Resource.SessionPersistenceConfig.DisableFallback,
+		})
+	}
+
 	backends := make([]map[string]interface{}, len(s.Resource.Backends))
 	for i, v := range s.Resource.Backends {
 		backends[i] = map[string]interface{}{
@@ -246,6 +255,19 @@ func (s *LoadBalancerBackendSetResourceCrud) sslConfig() (sslConfig *baremetal.S
 		sslConfig.VerifyDepth = v["verify_depth"].(int)
 		sslConfig.VerifyPeerCertificate = v["verify_peer_certificate"].(bool)
 		return sslConfig
+	}
+
+	return nil
+}
+
+func (s *LoadBalancerBackendSetResourceCrud) sessionPersistenceConfig() (sessionPersistenceConfig *baremetal.SessionPersistenceConfiguration) {
+	vs := s.D.Get("session_persistence_configuration").([]interface{})
+	if len(vs) == 1 {
+		sessionPersistenceConfig = new(baremetal.SessionPersistenceConfiguration)
+		v := vs[0].(map[string]interface{})
+		sessionPersistenceConfig.CookieName = v["cookie_name"].(string)
+		sessionPersistenceConfig.DisableFallback = v["disable_fallback"].(bool)
+		return sessionPersistenceConfig
 	}
 
 	return nil

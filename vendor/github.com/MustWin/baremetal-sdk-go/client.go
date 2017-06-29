@@ -14,6 +14,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"time"
 )
 
 // Client is used to access Oracle BareMetal Services
@@ -29,13 +30,15 @@ type Client struct {
 }
 
 type NewClientOptions struct {
-	Region      string
-	Transport   http.RoundTripper
-	UrlTemplate string
-	UserAgent   string
-	keyPassword *string
-	keyPath     *string
-	keyBytes    []byte
+	Region         string
+	Transport      http.RoundTripper
+	UrlTemplate    string
+	UserAgent      string
+	keyPassword    *string
+	keyPath        *string
+	keyBytes       []byte
+	ShortRetryTime time.Duration
+	LongRetryTime  time.Duration
 }
 
 type NewClientOptionsFunc func(o *NewClientOptions)
@@ -92,6 +95,18 @@ func UrlTemplate(urlTemplate string) NewClientOptionsFunc {
 	}
 }
 
+func ShortRetryTime(retryTime time.Duration) NewClientOptionsFunc {
+	return func(o *NewClientOptions) {
+		o.ShortRetryTime = retryTime
+	}
+}
+
+func LongRetryTime(retryTime time.Duration) NewClientOptionsFunc {
+	return func(o *NewClientOptions) {
+		o.LongRetryTime = retryTime
+	}
+}
+
 // NewClient creates and authenticates a BareMetal API client
 func NewClient(userOCID, tenancyOCID, keyFingerprint string, opts ...NewClientOptionsFunc) (*Client, error) {
 	var err error
@@ -101,9 +116,11 @@ func NewClient(userOCID, tenancyOCID, keyFingerprint string, opts ...NewClientOp
 		keyFingerPrint: keyFingerprint,
 	}
 	nco := &NewClientOptions{
-		Transport:   &http.Transport{},
-		Region:      us_phoenix_1,
-		UrlTemplate: baseUrlTemplate,
+		Transport:      &http.Transport{},
+		Region:         us_phoenix_1,
+		UrlTemplate:    baseUrlTemplate,
+		ShortRetryTime: shortRetryTime,
+		LongRetryTime:  longRetryTime,
 	}
 	for _, opt := range opts {
 		opt(nco)

@@ -3,14 +3,12 @@
 package main
 
 import (
-	"log"
-	"time"
-
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
-
 	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/crud"
+	"log"
+	"time"
 )
 
 func LoadBalancerDatasource() *schema.Resource {
@@ -66,6 +64,7 @@ func (s *LoadBalancerDatasourceCrud) SetData() {
 			"compartment_id": v.CompartmentID,
 			"display_name":   v.DisplayName,
 			"ip_addresses":   ip_addresses,
+			"is_private":     v.IsPrivate,
 			"shape":          v.Shape,
 			"state":          v.State,
 			"subnet_ids":     v.SubnetIDs,

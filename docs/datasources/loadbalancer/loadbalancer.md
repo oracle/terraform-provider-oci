@@ -22,6 +22,7 @@ The following arguments are supported:
 ## Load Balancer Reference
 * `id` - The OCID of the load balancer.
 * `ip_addresses` - An array of IP Addresses
+* `is_private` - Whether the load balancer has a VCN-local (private) IP address
 * `time_created` - The date and time the image was created.
 * `shape` - A template that determines the total pre-provisioned bandwidth (ingress plus egress).
 * `subnet_ids` - An array of subnet OCIDs

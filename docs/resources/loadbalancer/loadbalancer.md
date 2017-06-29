@@ -21,6 +21,7 @@ The following arguments are supported:
 * `shape` - (Required) A template that determines the total pre-provisioned bandwidth (ingress plus egress).
 * `subnet_ids` - (Required) An array of subnet OCIDs
 * `display_name` - (optional) A user-friendly name. Does not have to be unique, and it's changeable.
+* `is_private` - (optional) Whether the load balancer has a VCN-local (private) IP address.
 
 ## Attributes Reference
 * `id` - The OCID of the load balancer.

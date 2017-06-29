@@ -3,13 +3,12 @@
 package main
 
 import (
-	"time"
-
-	"github.com/hashicorp/terraform/helper/schema"
-
+	"fmt"
 	"github.com/MustWin/baremetal-sdk-go"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/crud"
+	"time"
 )
 
 func ConsoleHistoryDataDatasource() *schema.Resource {
@@ -36,7 +35,7 @@ func ConsoleHistoryDataDatasource() *schema.Resource {
 					}
 
 					if v < 10240 {
-						es = append(es, fmt.Errorf("expected %s to be in the range (%d - %d), got %d", k, min, max, v))
+						es = append(es, fmt.Errorf("expected %s to be less than %d, got %d", k, 10240, v))
 						return
 					}
 
