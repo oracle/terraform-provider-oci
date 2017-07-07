@@ -15,7 +15,7 @@ func DBSystemResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			Create: &crud.TwoHours,
+			Create: &crud.ZeroTime,
 			Delete: &crud.TwoHours,
 			Update: &crud.TwoHours,
 		},
@@ -208,7 +208,7 @@ func createDBSystem(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &DBSystemResourceCrud{}
 	sync.D = d
 	sync.Client = client
-	return crud.CreateResource(d, sync)
+	return crud.CreateDBSystemResource(d, sync)
 }
 
 func readDBSystem(d *schema.ResourceData, m interface{}) (e error) {
