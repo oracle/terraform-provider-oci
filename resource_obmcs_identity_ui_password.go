@@ -22,10 +22,6 @@ func UIPasswordResource() *schema.Resource {
 		Read:     readUIPassword,
 		Delete:   deleteUIPassword,
 		Schema: map[string]*schema.Schema{
-			"id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"inactive_status": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -43,11 +39,6 @@ func UIPasswordResource() *schema.Resource {
 				Computed: true,
 			},
 			"user_id": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
-			},
-			"version": {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
@@ -78,7 +69,7 @@ type UIPasswordResourceCrud struct {
 }
 
 func (s *UIPasswordResourceCrud) ID() string {
-	return s.D.Get("version").(string)
+	return s.D.Get("user_id").(string)
 }
 
 func (s *UIPasswordResourceCrud) Create() (e error) {
