@@ -139,7 +139,7 @@ func DBSystemResource() *schema.Resource {
 				ForceNew: true,
 				Optional: true,
 			},
-			"backup_subnet_id": {
+			/*"backup_subnet_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
@@ -148,7 +148,7 @@ func DBSystemResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
-			},
+			},*/
 			"data_storage_percentage": {
 				Type:     schema.TypeInt,
 				Computed: true,
@@ -309,12 +309,12 @@ func (s *DBSystemResourceCrud) Create() (e error) {
 	}
 
 	opts := &baremetal.LaunchDBSystemOptions{}
-	if backupSubnetId, ok := s.D.GetOk("backup_subnet_id"); ok {
+	/*if backupSubnetId, ok := s.D.GetOk("backup_subnet_id"); ok {
 		opts.BackupSubnetId = backupSubnetId.(string)
 	}
 	if clusterName, ok := s.D.GetOk("cluster_name"); ok {
 		opts.ClusterName = clusterName.(string)
-	}
+	}*/
 	if dataStoragePercentage, ok := s.D.GetOk("data_storage_percentage"); ok {
 		opts.DataStoragePercentage = dataStoragePercentage.(int)
 	}
