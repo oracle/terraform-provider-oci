@@ -46,6 +46,8 @@ The following arguments are supported:
 * `display_name` - (Optional) User-friendly name. Does not have to be unique, and it's changeable.
 * `prohibit_public_ip_on_vnic` - (Optional) Whether VNICs within this subnet can have public IP. If it is allowed, VNICs created in the subnet will automatically be assigned public IP unless otherwise specified in the VNIC. If it is prohibited, VNICs in the subnet cannot have public IP address assigned. The default value is false if unspecified.
 
+WARNING: With some exceptions, changing these properties in a plan after the resources has been created results in destruction and recreation of the resources and all dependent resources. Display name can be changed non-destructively.  
+
 ## Attributes Reference
 
 * `id` - The subnet's Oracle ID (OCID).
