@@ -219,6 +219,10 @@ func (s *SecurityListResourceCrud) Get() (e error) {
 func (s *SecurityListResourceCrud) Update() (e error) {
 	opts := &baremetal.UpdateSecurityListOptions{}
 
+	if displayName, ok := s.D.GetOk("display_name"); ok {
+		opts.DisplayName = displayName.(string)
+	}
+
 	if egress := s.buildEgressRules(); egress != nil {
 		opts.EgressRules = egress
 	}

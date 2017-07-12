@@ -154,6 +154,11 @@ func (s *RouteTableResourceCrud) Get() (e error) {
 
 func (s *RouteTableResourceCrud) Update() (e error) {
 	opts := &baremetal.UpdateRouteTableOptions{}
+
+	if displayName, ok := s.D.GetOk("display_name"); ok {
+		opts.DisplayName = displayName.(string)
+	}
+
 	opts.RouteRules = s.buildRouteRules()
 
 	s.Res, e = s.Client.UpdateRouteTable(s.D.Id(), opts)
