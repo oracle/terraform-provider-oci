@@ -19,6 +19,8 @@ import (
 var (
 	FiveMinutes    time.Duration = 5 * time.Minute
 	TwoHours       time.Duration = 120 * time.Minute
+	ZeroTime       time.Duration = 0
+
 	DefaultTimeout               = &schema.ResourceTimeout{
 		Create: &FiveMinutes,
 		Update: &FiveMinutes,
@@ -169,6 +171,38 @@ func LoadBalancerWaitForWorkRequest(client client.BareMetalClient, d *schema.Res
 		return errors.New("Resource creation failed, state FAILED")
 	}
 	return nil
+}
+
+func CreateDBSystemResource(d *schema.ResourceData, sync ResourceCreator) (e error) {
+	if e = sync.Create(); e != nil {
+		return e
+	}
+
+	// ID is required for state refresh
+	d.SetId(sync.ID())
+
+	var timeout time.Duration
+	shape := d.Get("shape")
+	timeout = d.Timeout(schema.TimeoutCreate)
+	if timeout == 0 {
+		if strings.HasPrefix(shape.(string), "Exadata"){
+			timeout = time.Duration(12) * time.Hour
+		} else {
+			timeout = time.Duration(2) * time.Hour
+		}
+	}
+	if stateful, ok := sync.(StatefullyCreatedResource); ok {
+		e = waitForStateRefresh(stateful, timeout, stateful.CreatedPending(), stateful.CreatedTarget())
+	}
+
+	d.SetId(sync.ID())
+	sync.SetData()
+
+	if ew, waitOK := sync.(ExtraWaitPostCreateDelete); waitOK {
+		time.Sleep(ew.ExtraWaitPostCreateDelete())
+	}
+
+	return
 }
 
 func CreateResource(d *schema.ResourceData, sync ResourceCreator) (e error) {

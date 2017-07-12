@@ -1,5 +1,5 @@
 # Output the private IP of the instance
 
-output "DBNodePrivateIP" {
-value = ["${data.baremetal_core_vnic.DBNodeVnic.private_ip_address}"]
+output "DBNodePublicIP" {
+value = ["${data.baremetal_core_vnic.DBNodeVnic.public_ip_address}"]
 }

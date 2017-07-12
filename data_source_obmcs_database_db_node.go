@@ -42,6 +42,10 @@ func DBNodeDatasource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"backup_vnic_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 		},
 	}
 }
@@ -74,6 +78,7 @@ func (s *DBNodeDatasourceCrud) SetData() {
 		s.D.Set("state", s.Res.State)
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 		s.D.Set("vnic_id", s.Res.VnicID)
+		s.D.Set("backup_vnic_id", s.Res.BackupVnicID)
 	}
 	return
 }

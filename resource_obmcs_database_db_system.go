@@ -15,7 +15,7 @@ func DBSystemResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			Create: &crud.TwoHours,
+			Create: &crud.ZeroTime,
 			Delete: &crud.TwoHours,
 			Update: &crud.TwoHours,
 		},
@@ -23,6 +23,7 @@ func DBSystemResource() *schema.Resource {
 		Read:   readDBSystem,
 		Delete: deleteDBSystem,
 		Schema: map[string]*schema.Schema{
+			//Required
 			"availability_domain": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -56,23 +57,14 @@ func DBSystemResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
-
-			"display_name": {
-				Type:     schema.TypeString,
-				Computed: true,
-				ForceNew: true,
-				Optional: true,
-			},
 			"database_edition": {
 				Type:     schema.TypeString,
-				Computed: true,
 				ForceNew: true,
-				Optional: true,
+				Required: true,
 			},
-
 			"db_home": {
 				Type:     schema.TypeList,
-				Optional: true,
+				Required: true,
 				ForceNew: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
@@ -92,11 +84,19 @@ func DBSystemResource() *schema.Resource {
 										Type:     schema.TypeString,
 										Required: true,
 									},
+									"db_workload": {
+										Type:     schema.TypeString,
+										Optional: true,
+									},
 									"character_set": {
 										Type:     schema.TypeString,
 										Optional: true,
 									},
 									"ncharacter_set": {
+										Type:     schema.TypeString,
+										Optional: true,
+									},
+									"pdb_name": {
 										Type:     schema.TypeString,
 										Optional: true,
 									},
@@ -114,7 +114,19 @@ func DBSystemResource() *schema.Resource {
 					},
 				},
 			},
+			"hostname": {
+				Type:     schema.TypeString,
+				ForceNew: true,
+				Required: true,
+			},
 
+			//Optional
+			"display_name": {
+				Type:     schema.TypeString,
+				Computed: true,
+				ForceNew: true,
+				Optional: true,
+			},
 			"disk_redundancy": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -127,13 +139,24 @@ func DBSystemResource() *schema.Resource {
 				ForceNew: true,
 				Optional: true,
 			},
-			"hostname": {
+			/*"backup_subnet_id": {
 				Type:     schema.TypeString,
-				Computed: true,
-				ForceNew: true,
 				Optional: true,
+				ForceNew: true,
+			},
+			"cluster_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+				ForceNew: true,
+			},*/
+			"data_storage_percentage": {
+				Type:     schema.TypeInt,
+				Computed: true,
+				Optional: true,
+				ForceNew: true,
 			},
 
+			//Computed
 			"id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -146,12 +169,34 @@ func DBSystemResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
+			"scan_dns_record_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"scan_ip_ids": {
+				Type: schema.TypeList,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+				Computed: true,
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"time_created": {
 				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"version": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"vip_ids": {
+				Type: schema.TypeList,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
 				Computed: true,
 			},
 		},
@@ -163,7 +208,7 @@ func createDBSystem(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &DBSystemResourceCrud{}
 	sync.D = d
 	sync.Client = client
-	return crud.CreateResource(d, sync)
+	return crud.CreateDBSystemResource(d, sync)
 }
 
 func readDBSystem(d *schema.ResourceData, m interface{}) (e error) {
@@ -214,59 +259,79 @@ func (s *DBSystemResourceCrud) State() string {
 func (s *DBSystemResourceCrud) Create() (e error) {
 	availabilityDomain := s.D.Get("availability_domain").(string)
 	compartmentID := s.D.Get("compartment_id").(string)
+	cpuCoreCount := uint64(s.D.Get("cpu_core_count").(int))
+	databaseEdition := baremetal.DatabaseEdition(s.D.Get("database_edition").(string))
+	hostname := s.D.Get("hostname").(string)
 	shape := s.D.Get("shape").(string)
-	subnetID := s.D.Get("subnet_id").(string)
 	sshPublicKeys := []string{}
 	for _, key := range s.D.Get("ssh_public_keys").([]interface{}) {
 		sshPublicKeys = append(sshPublicKeys, key.(string))
 	}
-	cpuCoreCount := uint64(s.D.Get("cpu_core_count").(int))
+	subnetID := s.D.Get("subnet_id").(string)
+	rawDBHome := s.D.Get("db_home")
+	var dbHomeDetails baremetal.CreateDBHomeDetails
+	l := rawDBHome.([]interface{})
+	if len(l) > 0 {
+		dbHome := l[0].(map[string]interface{})
+		db := dbHome["database"].([]interface{})[0].(map[string]interface{})
+		dbVersion := dbHome["db_version"].(string)
+		displayName := dbHome["display_name"]
+		adminPassword := db["admin_password"].(string)
+		dbName := db["db_name"].(string)
+		dbWorkload := db["db_workload"]
+		characterSet := db["character_set"]
+		ncharacterSet := db["ncharacter_set"]
+		pdbName := db["pdb_name"]
+
+		dbHomeOpts := &baremetal.CreateDBHomeOptions{}
+		if displayName != nil {
+			dbHomeOpts.DisplayName = displayName.(string)
+		}
+		dbOpts := &baremetal.CreateDatabaseOptions{}
+		if dbWorkload != nil {
+			dbOpts.DBWorkload = dbWorkload.(string)
+		}
+		if characterSet != nil {
+			dbOpts.CharacterSet = characterSet.(string)
+		}
+		if ncharacterSet != nil {
+			dbOpts.NCharacterSet = ncharacterSet.(string)
+		}
+		if pdbName != nil {
+			dbOpts.PDBName = pdbName.(string)
+		}
+
+		dbHomeDetails = baremetal.NewCreateDBHomeDetails(
+			baremetal.NewCreateDatabaseDetails(adminPassword, dbName, dbOpts),
+			dbVersion,
+			dbHomeOpts,
+		)
+	}
 
 	opts := &baremetal.LaunchDBSystemOptions{}
-	if displayName, ok := s.D.GetOk("display_name"); ok {
-		opts.DisplayName = displayName.(string)
+	/*if backupSubnetId, ok := s.D.GetOk("backup_subnet_id"); ok {
+		opts.BackupSubnetId = backupSubnetId.(string)
 	}
-	if databaseEdition, ok := s.D.GetOk("database_edition"); ok {
-		opts.DatabaseEdition = baremetal.DatabaseEdition(databaseEdition.(string))
+	if clusterName, ok := s.D.GetOk("cluster_name"); ok {
+		opts.ClusterName = clusterName.(string)
+	}*/
+	if dataStoragePercentage, ok := s.D.GetOk("data_storage_percentage"); ok {
+		opts.DataStoragePercentage = dataStoragePercentage.(int)
 	}
-
-	if rawDBHome, ok := s.D.GetOk("db_home"); ok {
-		l := rawDBHome.([]interface{})
-		if len(l) > 0 {
-			dbHome := l[0].(map[string]interface{})
-			db := dbHome["database"].([]interface{})[0].(map[string]interface{})
-			displayName := dbHome["display_name"]
-			adminPassword := db["admin_password"].(string)
-			dbName := db["db_name"].(string)
-			characterSet := db["character_set"].(string)
-			ncharacterSet := db["ncharacter_set"].(string)
-			dbVersion := dbHome["db_version"].(string)
-
-			dbHomeOpts := &baremetal.DisplayNameOptions{}
-			if displayName != nil {
-				dbHomeOpts.DisplayName = displayName.(string)
-			}
-
-			dbHomeDetails := baremetal.NewCreateDBHomeDetails(
-				adminPassword, dbName, dbVersion, characterSet, ncharacterSet, dbHomeOpts,
-			)
-			opts.DBHome = dbHomeDetails
-		}
-	}
-
 	if diskRedundancy, ok := s.D.GetOk("disk_redundancy"); ok {
 		opts.DiskRedundancy = baremetal.DiskRedundancy(diskRedundancy.(string))
+	}
+	if displayName, ok := s.D.GetOk("display_name"); ok {
+		opts.DisplayName = displayName.(string)
 	}
 	if domain, ok := s.D.GetOk("domain"); ok {
 		opts.Domain = domain.(string)
 	}
-	if hostname, ok := s.D.GetOk("hostname"); ok {
-		opts.Hostname = hostname.(string)
-	}
 
 	s.Res, e = s.Client.LaunchDBSystem(
-		availabilityDomain, compartmentID, shape, subnetID,
-		sshPublicKeys, cpuCoreCount, opts,
+		availabilityDomain, compartmentID, cpuCoreCount, databaseEdition, dbHomeDetails,
+		hostname, shape, sshPublicKeys, subnetID,
+		opts,
 	)
 
 	return
@@ -278,23 +343,35 @@ func (s *DBSystemResourceCrud) Get() (e error) {
 }
 
 func (s *DBSystemResourceCrud) SetData() {
+	//Required
 	s.D.Set("availability_domain", s.Res.AvailabilityDomain)
 	s.D.Set("compartment_id", s.Res.CompartmentID)
-	s.D.Set("shape", s.Res.Shape)
-	s.D.Set("subnet_id", s.Res.SubnetID)
-	s.D.Set("ssh_public_keys", s.Res.SSHPublicKeys)
 	s.D.Set("cpu_core_count", s.Res.CPUCoreCount)
-	s.D.Set("display_name", s.Res.DisplayName)
 	s.D.Set("database_edition", s.Res.DatabaseEdition)
-
-	s.D.Set("disk_redundancy", s.Res.DiskRedundancy)
-	s.D.Set("domain", s.Res.Domain)
+	s.D.Set("db_home", s.Res.DBHome)
 	s.D.Set("hostname", s.Res.Hostname)
+	s.D.Set("shape", s.Res.Shape)
+	s.D.Set("ssh_public_keys", s.Res.SSHPublicKeys)
+	s.D.Set("subnet_id", s.Res.SubnetID)
+
+	//Optional
+	s.D.Set("backup_subnet_id", s.Res.BackupSubnetID)
+	s.D.Set("cluster_name", s.Res.ClusterName)
+	s.D.Set("data_storage_percentage", s.Res.DataStoragePercentage)
+	s.D.Set("disk_redundancy", s.Res.DiskRedundancy)
+	s.D.Set("display_name", s.Res.DisplayName)
+	s.D.Set("domain", s.Res.Domain)
+
+	//Computed
 	s.D.Set("id", s.Res.ID)
 	s.D.Set("lifecycle_details", s.Res.LifecycleDetails)
 	s.D.Set("listener_port", s.Res.ListenerPort)
+	s.D.Set("scan_dns_record_id", s.Res.ScanDnsRecordId)
+	s.D.Set("scan_ip_ids", s.Res.ScanIpIds)
 	s.D.Set("state", s.Res.State)
 	s.D.Set("time_created", s.Res.TimeCreated.String())
+	s.D.Set("version", s.Res.Version)
+	s.D.Set("vip_ids", s.Res.VipIds)
 }
 
 func (s *DBSystemResourceCrud) Delete() (e error) {

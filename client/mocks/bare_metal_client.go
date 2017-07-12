@@ -1963,12 +1963,12 @@ func (_m *BareMetalClient) InstanceAction(id string, action baremetal.InstanceAc
 }
 
 // LaunchDBSystem provides a mock function with given fields: availabilityDomain, compartmentID, shape, subnetID, sshPublicKeys, cpuCoreCount, opts
-func (_m *BareMetalClient) LaunchDBSystem(availabilityDomain string, compartmentID string, shape string, subnetID string, sshPublicKeys []string, cpuCoreCount uint64, opts *baremetal.LaunchDBSystemOptions) (*baremetal.DBSystem, error) {
+func (_m *BareMetalClient) LaunchDBSystem(availabilityDomain string, compartmentID string, cpuCoreCount uint64, databaseEdition baremetal.DatabaseEdition, dbHome baremetal.CreateDBHomeDetails, hostname string, shape string, sshPublicKeys []string, subnetID string, opts *baremetal.LaunchDBSystemOptions) (*baremetal.DBSystem, error) {
 	ret := _m.Called(availabilityDomain, compartmentID, shape, subnetID, sshPublicKeys, cpuCoreCount, opts)
 
 	var r0 *baremetal.DBSystem
-	if rf, ok := ret.Get(0).(func(string, string, string, string, []string, uint64, *baremetal.LaunchDBSystemOptions) *baremetal.DBSystem); ok {
-		r0 = rf(availabilityDomain, compartmentID, shape, subnetID, sshPublicKeys, cpuCoreCount, opts)
+	if rf, ok := ret.Get(0).(func(string, string, uint64, baremetal.DatabaseEdition, baremetal.CreateDBHomeDetails, string, string, []string, string, *baremetal.LaunchDBSystemOptions) *baremetal.DBSystem); ok {
+		r0 = rf(availabilityDomain, compartmentID, cpuCoreCount, databaseEdition, dbHome, hostname, shape, sshPublicKeys, subnetID, opts)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*baremetal.DBSystem)
@@ -1976,8 +1976,8 @@ func (_m *BareMetalClient) LaunchDBSystem(availabilityDomain string, compartment
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string, string, string, string, []string, uint64, *baremetal.LaunchDBSystemOptions) error); ok {
-		r1 = rf(availabilityDomain, compartmentID, shape, subnetID, sshPublicKeys, cpuCoreCount, opts)
+	if rf, ok := ret.Get(1).(func(string, string, uint64, baremetal.DatabaseEdition, baremetal.CreateDBHomeDetails, string, string, []string, string, *baremetal.LaunchDBSystemOptions) error); ok {
+		r1 = rf(availabilityDomain, compartmentID, cpuCoreCount, databaseEdition, dbHome, hostname, shape, sshPublicKeys, subnetID, opts)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -2760,29 +2760,6 @@ func (_m *BareMetalClient) ListSubnets(compartmentID string, vcnID string, opts 
 	var r1 error
 	if rf, ok := ret.Get(1).(func(string, string, *baremetal.ListOptions) error); ok {
 		r1 = rf(compartmentID, vcnID, opts)
-	} else {
-		r1 = ret.Error(1)
-	}
-
-	return r0, r1
-}
-
-// ListSupportedOperations provides a mock function with given fields:
-func (_m *BareMetalClient) ListSupportedOperations() (*baremetal.ListSupportedOperations, error) {
-	ret := _m.Called()
-
-	var r0 *baremetal.ListSupportedOperations
-	if rf, ok := ret.Get(0).(func() *baremetal.ListSupportedOperations); ok {
-		r0 = rf()
-	} else {
-		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*baremetal.ListSupportedOperations)
-		}
-	}
-
-	var r1 error
-	if rf, ok := ret.Get(1).(func() error); ok {
-		r1 = rf()
 	} else {
 		r1 = ret.Error(1)
 	}
