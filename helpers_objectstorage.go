@@ -110,6 +110,11 @@ var preauthenticatedRequestSchema = map[string]*schema.Schema{
 			string(baremetal.PARObjectReadWrite),
 			string(baremetal.ObjectRead)}, true),
 	},
+	"access_uri": {
+		Type: schema.TypeString,
+		Computed: true,
+		Optional: true,
+	},
 	"time_expires": {
 		Type:     schema.TypeString,
 		Computed: false,
