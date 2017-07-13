@@ -45,5 +45,5 @@ resource "baremetal_objectstorage_preauthrequest" "parOnObject" {
 }
 
 output "par_request_url" {
-  value = "${baremetal_objectstorage_preauthrequest.parOnObject.access_uri}" # access_uri or similar does not exist
+  value = "${baremetal_objectstorage_preauthrequest.parOnObject.access_uri}"
 }
