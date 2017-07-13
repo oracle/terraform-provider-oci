@@ -10,7 +10,6 @@ import (
 	"github.com/oracle/terraform-provider-baremetal/crud"
 	"github.com/pkg/errors"
 	"time"
-	"fmt"
 )
 
 type PreauthenticatedRequestResourceCrud struct {
