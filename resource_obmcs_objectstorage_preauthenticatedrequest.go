@@ -10,11 +10,13 @@ import (
 	"github.com/oracle/terraform-provider-baremetal/crud"
 	"github.com/pkg/errors"
 	"time"
+	"fmt"
 )
 
 type PreauthenticatedRequestResourceCrud struct {
 	crud.BaseCrud
 	Id          string
+	Name        string
 	Namespace   string
 	BucketName  string
 	ObjectName  string
@@ -76,7 +78,9 @@ func (s *PreauthenticatedRequestResourceCrud) SetData() {
 	s.D.Set("object", s.ObjectName)
 	s.D.Set("time_expires", s.TimeExpires.Format(time.RFC3339))
 	s.D.Set("access_type", s.AccessType)
+	s.D.Set("access_uri", s.AccessURI)
 	s.D.Set("id", s.ID)
+	s.D.Set("name", s.Name)
 }
 
 func (s *PreauthenticatedRequestResourceCrud) Create() (e error) {
@@ -111,6 +115,7 @@ func (s *PreauthenticatedRequestResourceCrud) Create() (e error) {
 	s.Namespace = namespace
 	s.BucketName = bucket
 	s.ObjectName = object
+	s.Name = res.Name
 	return
 }
 
@@ -128,6 +133,7 @@ func (s *PreauthenticatedRequestResourceCrud) Get() (e error) {
 	}
 
 	s.Id = res.ID
+	//Access URI is only accessible on create
 	s.AccessURI = ""
 	s.TimeCreated = res.TimeCreated
 	s.TimeExpires = res.TimeExpires
@@ -135,6 +141,7 @@ func (s *PreauthenticatedRequestResourceCrud) Get() (e error) {
 	s.Namespace = namespace
 	s.BucketName = bucket
 	s.ObjectName = res.ObjectName
+	s.Name = res.Name
 
 	return
 }
