@@ -42,7 +42,6 @@ resource "baremetal_objectstorage_preauthrequest" "parOnObject" {
   name = "parOnObject"
   access_type = "ObjectRead" //Other configurations accepted are ObjectWrite, ObjectReadWrite
   time_expires = "2019-11-10T23:00:00Z"
-  access_uri=""
 }
 
 output "par_request_url" {
