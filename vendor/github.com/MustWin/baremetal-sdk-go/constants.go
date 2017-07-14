@@ -195,10 +195,10 @@ const (
 	NoPublicAccess BucketAccessType = "NoPublicAccess"
 	ObjectRead     BucketAccessType = "ObjectRead"
 
-  //Retry Logic
+	//Retry Logic
 	retryTokenKey             = "opc-retry-token"
-	shortRetryTime            = time.Duration(2)*time.Minute
-	longRetryTime             = time.Duration(10)*time.Minute
+	shortRetryTime            = time.Duration(2) * time.Minute
+	longRetryTime             = time.Duration(10) * time.Minute
 	generatedRetryTokenLength = 30
 
 	//PAR(pre-authenticated request) access type

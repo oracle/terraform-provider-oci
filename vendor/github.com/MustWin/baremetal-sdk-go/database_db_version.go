@@ -3,7 +3,8 @@
 package baremetal
 
 type DBVersion struct {
-	Version string `json:"version"`
+	Version     string `json:"version"`
+	SupportsPDB bool   `json:"supportsPdb"`
 }
 
 type ListDBVersions struct {

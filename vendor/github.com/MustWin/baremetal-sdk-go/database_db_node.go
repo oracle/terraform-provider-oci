@@ -10,12 +10,13 @@ import (
 type DBNode struct {
 	OPCRequestIDUnmarshaller
 	ETagUnmarshaller
-	DBSystemID  string    `json:"dbSystemId"`
-	Hostname    string    `json:"hostname"`
-	ID          string    `json:"id"`
-	State       string    `json:"lifecycleState"`
-	TimeCreated time.Time `json:"timeCreated"`
-	VnicID      string    `json:"vnicId"`
+	DBSystemID   string    `json:"dbSystemId"`
+	Hostname     string    `json:"hostname"`
+	ID           string    `json:"id"`
+	State        string    `json:"lifecycleState"`
+	TimeCreated  time.Time `json:"timeCreated"`
+	VnicID       string    `json:"vnicId"`
+	BackupVnicID string    `json:"backupVnicId"`
 }
 
 type ListDBNodes struct {

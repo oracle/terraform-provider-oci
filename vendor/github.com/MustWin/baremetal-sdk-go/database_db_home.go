@@ -74,3 +74,27 @@ func (c *Client) ListDBHomes(compartmentID, dbSystemID string, opts *ListOptions
 	e = resp.unmarshal(resources)
 	return
 }
+
+type CreateDBHomeDetails struct {
+	Database    CreateDatabaseDetails `header:"-" json:"database" url:"-"`
+	DBVersion   string                `header:"-" json:"dbVersion" url:"-"`
+	DisplayName string                `header:"-" json:"displayName,omitempty" url:"-"`
+}
+
+// NewCreateDBHomeDetails is used to create the DBHome argument to
+// LaunchDBSystem.
+//
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/database/20160918/requests/CreateDbHomeDetails
+func NewCreateDBHomeDetails(createDatabaseDetails CreateDatabaseDetails, dbVersion string, opts *CreateDBHomeOptions) (dbHome CreateDBHomeDetails) {
+	dbHome = CreateDBHomeDetails{
+		Database: createDatabaseDetails,
+		DBVersion: dbVersion,
+	}
+
+	if opts != nil {
+		if opts.DisplayName != "" {
+			dbHome.DisplayName = opts.DisplayName
+		}
+	}
+	return
+}

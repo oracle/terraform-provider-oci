@@ -166,11 +166,22 @@ type LaunchInstanceOptions struct {
 
 type LaunchDBSystemOptions struct {
 	CreateOptions
-	DatabaseEdition DatabaseEdition     `header:"-" json:"databaseEdition,omitempty" url:"-"`
-	DBHome          createDBHomeDetails `header:"-" json:"dbHome,omitempty" url:"-"`
-	DiskRedundancy  DiskRedundancy      `header:"-" json:"diskRedundancy,omitempty" url:"-"`
-	Domain          string              `header:"-" json:"domain,omitempty" url:"-"`
-	Hostname        string              `header:"-" json:"hostname,omitempty" url:"-"`
+	BackupSubnetId        string         `header:"-" json:"backupSubnetId,omitempty" url:"-"`
+	ClusterName           string         `header:"-" json:"clusterName,omitempty" url:"-"`
+	DataStoragePercentage int            `header:"-" json:"dataStoragePercentage,omitempty" url:"-"`
+	DiskRedundancy        DiskRedundancy `header:"-" json:"diskRedundancy,omitempty" url:"-"`
+	Domain                string         `header:"-" json:"domain,omitempty" url:"-"`
+}
+
+type CreateDBHomeOptions struct {
+	DisplayNameOptions
+}
+
+type CreateDatabaseOptions struct {
+	CharacterSet  string
+	NCharacterSet string
+	DBWorkload    string
+	PDBName       string
 }
 
 // Read Options

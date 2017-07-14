@@ -1,5 +1,10 @@
 GOFMT_FILES?=$$(find . -name '*.go' | grep -v vendor)
 
+default: fmt build
+
+deps:
+	go get github.com/kardianos/govendor
+
 fmt:
 	gofmt -w $(GOFMT_FILES)
 

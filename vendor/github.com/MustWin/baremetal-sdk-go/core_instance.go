@@ -60,7 +60,7 @@ func (c *Client) LaunchInstance(
 		AvailabilityDomain string `header:"-" json:"availabilityDomain" url:"-"`
 		ImageID            string `header:"-" json:"imageId" url:"-"`
 		Shape              string `header:"-" json:"shape" url:"-"`
-		SubnetID           string `header:"-" json:"subnetId" url:"-"`
+		SubnetID           string `header:"-" json:"subnetId,omitempty" url:"-"`
 	}{
 		AvailabilityDomain: availabilityDomain,
 		ImageID:            image,

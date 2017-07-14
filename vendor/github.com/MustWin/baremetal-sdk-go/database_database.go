@@ -8,12 +8,17 @@ type Database struct {
 	ETagUnmarshaller
 	OPCRequestIDUnmarshaller
 	ocidRequirement
-	DBHomeID     string    `json:"dbHomeId"`
-	DBName       string    `json:"dbName"`
-	DBUniqueName string    `json:"dbUniqueName"`
-	ID           string    `json:"id"`
-	State        string    `json:"lifecycleState"`
-	TimeCreated  time.Time `json:"timeCreated"`
+	CharacterSet     string    `json:"characterSet"`
+	DBHomeID         string    `json:"dbHomeId"`
+	DBName           string    `json:"dbName"`
+	DBUniqueName     string    `json:"dbUniqueName"`
+	DBWorkload       string    `json:"dbWorkload"`
+	ID               string    `json:"id"`
+	LifecycleDetails string    `json:"lifecycleDetails"`
+	NcharacterSet    string    `json:"ncharacterSet"`
+	PDBName          string    `json:"pdbName"`
+	State            string    `json:"lifecycleState"`
+	TimeCreated      time.Time `json:"timeCreated"`
 }
 
 type ListDatabases struct {
@@ -72,5 +77,36 @@ func (c *Client) ListDatabases(compartmentID, dbHomeID string, limit uint64, opt
 
 	resources = &ListDatabases{}
 	e = resp.unmarshal(resources)
+	return
+}
+
+type CreateDatabaseDetails struct {
+	AdminPassword string `header:"-" json:"adminPassword" url:"-"`
+	DBName        string `header:"-" json:"dbName" url:"-"`
+	DBWorkload    string `header:"-" json:"dbWorkload,omitempty" url:"-"`
+	CharacterSet  string `header:"-" json:"characterSet,omitempty" url:"-"`
+	NCharacterSet string `header:"-" json:"ncharacterSet,omitempty" url:"-"`
+	PDBName       string `header:"-" json:"pdbName,omitempty" url:"-"`
+}
+
+func NewCreateDatabaseDetails(adminPassword, dbName string, opts *CreateDatabaseOptions) (db CreateDatabaseDetails) {
+	db = CreateDatabaseDetails{
+		AdminPassword: adminPassword,
+		DBName: dbName,
+	}
+	if opts != nil{
+		if opts.DBWorkload != "" {
+			db.DBWorkload = opts.DBWorkload
+		}
+		if opts.CharacterSet != "" {
+			db.CharacterSet = opts.CharacterSet
+		}
+		if opts.NCharacterSet != "" {
+			db.NCharacterSet = opts.NCharacterSet
+		}
+		if opts.PDBName != "" {
+			db.PDBName = opts.PDBName
+		}
+	}
 	return
 }
