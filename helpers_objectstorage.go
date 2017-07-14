@@ -102,8 +102,7 @@ var preauthenticatedRequestSchema = map[string]*schema.Schema{
 	"access_type": {
 		Type:     schema.TypeString,
 		Computed: false,
-		Default:  baremetal.ObjectRead,
-		Optional: true,
+		Required: true,
 		ValidateFunc: validation.StringInSlice([]string{
 			string(baremetal.PARAnyObjectWrite),
 			string(baremetal.PARObjectRead),
