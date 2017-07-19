@@ -28,6 +28,8 @@ func init() {
 			"A private_key or a private_key_path must be provided.",
 		"private_key_password": "(Optional) The password used to secure the private key.",
 		"region":               "(Optional) The region for API connections.",
+		"disable_auto_retries": "(Optional) Disable Automatic retries for retriable errors.\n" +
+			"Auto retries were introduced to solve some eventual consistency problems but it also introduced performance issues on destroy operations.",
 	}
 }
 
@@ -90,6 +92,13 @@ func schemaMap() map[string]*schema.Schema {
 			Default:     "us-phoenix-1",
 			Description: descriptions["region"],
 			DefaultFunc: schema.EnvDefaultFunc("OBMCS_REGION", nil),
+		},
+		"disable_auto_retries": {
+			Type:        schema.TypeBool,
+			Optional:    true,
+			Default:     false,
+			Description: descriptions["disable_auto_retries"],
+			DefaultFunc: schema.EnvDefaultFunc("OBMCS_DISABLE_AUTO_RETRIES", nil),
 		},
 	}
 }
@@ -219,6 +228,7 @@ func providerConfig(d *schema.ResourceData) (client interface{}, err error) {
 	privateKeyPath, hasKeyPath := d.Get("private_key_path").(string)
 	privateKeyPassword, hasKeyPass := d.Get("private_key_password").(string)
 	region, hasRegion := d.Get("region").(string)
+	disableAutoRetries, hasDisableRetries := d.Get("disable_auto_retries").(bool)
 
 	// for internal use
 	urlTemplate := getEnvSetting("url_template", "")
@@ -256,6 +266,10 @@ func providerConfig(d *schema.ResourceData) (client interface{}, err error) {
 
 	if hasRegion && region != "" {
 		clientOpts = append(clientOpts, baremetal.Region(region))
+	}
+
+	if hasDisableRetries {
+		clientOpts = append(clientOpts, baremetal.DisableAutoRetries(disableAutoRetries))
 	}
 
 	if urlTemplate != "" {
