@@ -393,18 +393,18 @@ func (_m *BareMetalClient) CreateListener(loadBalancerID string, name string, de
 }
 
 // CreateLoadBalancer provides a mock function with given fields: backendSets, certificates, compartmentID, listeners, shape, subnetIDs, opts
-func (_m *BareMetalClient) CreateLoadBalancer(backendSets *baremetal.BackendSet, certificates *baremetal.Certificate, compartmentID string, listeners *baremetal.Listener, shape string, subnetIDs []string, opts *baremetal.CreateOptions) (string, error) {
+func (_m *BareMetalClient) CreateLoadBalancer(backendSets *baremetal.BackendSet, certificates *baremetal.Certificate, compartmentID string, listeners *baremetal.Listener, shape string, subnetIDs []string, opts *baremetal.CreateLoadBalancerOptions) (string, error) {
 	ret := _m.Called(backendSets, certificates, compartmentID, listeners, shape, subnetIDs, opts)
 
 	var r0 string
-	if rf, ok := ret.Get(0).(func(*baremetal.BackendSet, *baremetal.Certificate, string, *baremetal.Listener, string, []string, *baremetal.CreateOptions) string); ok {
+	if rf, ok := ret.Get(0).(func(*baremetal.BackendSet, *baremetal.Certificate, string, *baremetal.Listener, string, []string, *baremetal.CreateLoadBalancerOptions) string); ok {
 		r0 = rf(backendSets, certificates, compartmentID, listeners, shape, subnetIDs, opts)
 	} else {
 		r0 = ret.Get(0).(string)
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(*baremetal.BackendSet, *baremetal.Certificate, string, *baremetal.Listener, string, []string, *baremetal.CreateOptions) error); ok {
+	if rf, ok := ret.Get(1).(func(*baremetal.BackendSet, *baremetal.Certificate, string, *baremetal.Listener, string, []string, *baremetal.CreateLoadBalancerOptions) error); ok {
 		r1 = rf(backendSets, certificates, compartmentID, listeners, shape, subnetIDs, opts)
 	} else {
 		r1 = ret.Error(1)
@@ -3386,18 +3386,18 @@ func (_m *BareMetalClient) UpdateListener(loadBalancerID string, listenerName st
 }
 
 // UpdateLoadBalancer provides a mock function with given fields: id, opts
-func (_m *BareMetalClient) UpdateLoadBalancer(id string, opts *baremetal.UpdateOptions) (string, error) {
+func (_m *BareMetalClient) UpdateLoadBalancer(id string, opts *baremetal.UpdateLoadBalancerOptions) (string, error) {
 	ret := _m.Called(id, opts)
 
 	var r0 string
-	if rf, ok := ret.Get(0).(func(string, *baremetal.UpdateOptions) string); ok {
+	if rf, ok := ret.Get(0).(func(string, *baremetal.UpdateLoadBalancerOptions) string); ok {
 		r0 = rf(id, opts)
 	} else {
 		r0 = ret.Get(0).(string)
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string, *baremetal.UpdateOptions) error); ok {
+	if rf, ok := ret.Get(1).(func(string, *baremetal.UpdateLoadBalancerOptions) error); ok {
 		r1 = rf(id, opts)
 	} else {
 		r1 = ret.Error(1)
