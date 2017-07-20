@@ -13,6 +13,7 @@ import (
 	"errors"
 	"fmt"
 	"io/ioutil"
+	"math/rand"
 	"net/http"
 	"time"
 )
@@ -30,15 +31,17 @@ type Client struct {
 }
 
 type NewClientOptions struct {
-	Region         string
-	Transport      http.RoundTripper
-	UrlTemplate    string
-	UserAgent      string
-	keyPassword    *string
-	keyPath        *string
-	keyBytes       []byte
-	ShortRetryTime time.Duration
-	LongRetryTime  time.Duration
+	Region             string
+	Transport          http.RoundTripper
+	UrlTemplate        string
+	UserAgent          string
+	keyPassword        *string
+	keyPath            *string
+	keyBytes           []byte
+	ShortRetryTime     time.Duration
+	LongRetryTime      time.Duration
+	RandGen            *rand.Rand
+	DisableAutoRetries bool
 }
 
 type NewClientOptionsFunc func(o *NewClientOptions)
@@ -107,6 +110,12 @@ func LongRetryTime(retryTime time.Duration) NewClientOptionsFunc {
 	}
 }
 
+func DisableAutoRetries(disableAutoRetries bool) NewClientOptionsFunc {
+	return func(o *NewClientOptions) {
+		o.DisableAutoRetries = disableAutoRetries
+	}
+}
+
 // NewClient creates and authenticates a BareMetal API client
 func NewClient(userOCID, tenancyOCID, keyFingerprint string, opts ...NewClientOptionsFunc) (*Client, error) {
 	var err error
@@ -115,12 +124,17 @@ func NewClient(userOCID, tenancyOCID, keyFingerprint string, opts ...NewClientOp
 		userOCID:       userOCID,
 		keyFingerPrint: keyFingerprint,
 	}
+
+	//create random number generator for creating Retry Tokens
+	randGen := rand.New(rand.NewSource(time.Now().UnixNano()))
+
 	nco := &NewClientOptions{
 		Transport:      &http.Transport{},
 		Region:         us_phoenix_1,
 		UrlTemplate:    baseUrlTemplate,
 		ShortRetryTime: shortRetryTime,
 		LongRetryTime:  longRetryTime,
+		RandGen:        randGen,
 	}
 	for _, opt := range opts {
 		opt(nco)

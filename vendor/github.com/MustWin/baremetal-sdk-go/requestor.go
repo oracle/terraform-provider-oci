@@ -21,14 +21,16 @@ type requestor interface {
 }
 
 type apiRequestor struct {
-	httpClient     *http.Client
-	authInfo       *authenticationInfo
-	urlBuilder     urlBuilderFn
-	urlTemplate    string
-	userAgent      string
-	region         string
-	shortRetryTime time.Duration
-	longRetryTime  time.Duration
+	httpClient         *http.Client
+	authInfo           *authenticationInfo
+	urlBuilder         urlBuilderFn
+	urlTemplate        string
+	userAgent          string
+	region             string
+	shortRetryTime     time.Duration
+	longRetryTime      time.Duration
+	randGen            *rand.Rand
+	disableAutoRetries bool
 }
 
 func newCoreAPIRequestor(authInfo *authenticationInfo, nco *NewClientOptions) (r *apiRequestor) {
@@ -36,13 +38,15 @@ func newCoreAPIRequestor(authInfo *authenticationInfo, nco *NewClientOptions) (r
 		httpClient: &http.Client{
 			Transport: nco.Transport,
 		},
-		authInfo:       authInfo,
-		urlBuilder:     buildCoreURL,
-		urlTemplate:    nco.UrlTemplate,
-		userAgent:      nco.UserAgent,
-		region:         nco.Region,
-		shortRetryTime: nco.ShortRetryTime,
-		longRetryTime:  nco.LongRetryTime,
+		authInfo:           authInfo,
+		urlBuilder:         buildCoreURL,
+		urlTemplate:        nco.UrlTemplate,
+		userAgent:          nco.UserAgent,
+		region:             nco.Region,
+		shortRetryTime:     nco.ShortRetryTime,
+		longRetryTime:      nco.LongRetryTime,
+		randGen:            nco.RandGen,
+		disableAutoRetries: nco.DisableAutoRetries,
 	}
 }
 
@@ -51,13 +55,15 @@ func newObjectStorageAPIRequestor(authInfo *authenticationInfo, nco *NewClientOp
 		httpClient: &http.Client{
 			Transport: nco.Transport,
 		},
-		authInfo:       authInfo,
-		urlBuilder:     buildObjectStorageURL,
-		urlTemplate:    nco.UrlTemplate,
-		userAgent:      nco.UserAgent,
-		region:         nco.Region,
-		shortRetryTime: nco.ShortRetryTime,
-		longRetryTime:  nco.LongRetryTime,
+		authInfo:           authInfo,
+		urlBuilder:         buildObjectStorageURL,
+		urlTemplate:        nco.UrlTemplate,
+		userAgent:          nco.UserAgent,
+		region:             nco.Region,
+		shortRetryTime:     nco.ShortRetryTime,
+		longRetryTime:      nco.LongRetryTime,
+		randGen:            nco.RandGen,
+		disableAutoRetries: nco.DisableAutoRetries,
 	}
 }
 
@@ -66,13 +72,15 @@ func newDatabaseAPIRequestor(authInfo *authenticationInfo, nco *NewClientOptions
 		httpClient: &http.Client{
 			Transport: nco.Transport,
 		},
-		authInfo:       authInfo,
-		urlBuilder:     buildDatabaseURL,
-		urlTemplate:    nco.UrlTemplate,
-		userAgent:      nco.UserAgent,
-		region:         nco.Region,
-		shortRetryTime: nco.ShortRetryTime,
-		longRetryTime:  nco.LongRetryTime,
+		authInfo:           authInfo,
+		urlBuilder:         buildDatabaseURL,
+		urlTemplate:        nco.UrlTemplate,
+		userAgent:          nco.UserAgent,
+		region:             nco.Region,
+		shortRetryTime:     nco.ShortRetryTime,
+		longRetryTime:      nco.LongRetryTime,
+		randGen:            nco.RandGen,
+		disableAutoRetries: nco.DisableAutoRetries,
 	}
 }
 
@@ -81,13 +89,15 @@ func newIdentityAPIRequestor(authInfo *authenticationInfo, nco *NewClientOptions
 		httpClient: &http.Client{
 			Transport: nco.Transport,
 		},
-		authInfo:       authInfo,
-		urlBuilder:     buildIdentityURL,
-		urlTemplate:    nco.UrlTemplate,
-		userAgent:      nco.UserAgent,
-		region:         nco.Region,
-		shortRetryTime: nco.ShortRetryTime,
-		longRetryTime:  nco.LongRetryTime,
+		authInfo:           authInfo,
+		urlBuilder:         buildIdentityURL,
+		urlTemplate:        nco.UrlTemplate,
+		userAgent:          nco.UserAgent,
+		region:             nco.Region,
+		shortRetryTime:     nco.ShortRetryTime,
+		longRetryTime:      nco.LongRetryTime,
+		randGen:            nco.RandGen,
+		disableAutoRetries: nco.DisableAutoRetries,
 	}
 }
 
@@ -96,13 +106,15 @@ func newLoadBalancerAPIRequestor(authInfo *authenticationInfo, nco *NewClientOpt
 		httpClient: &http.Client{
 			Transport: nco.Transport,
 		},
-		authInfo:       authInfo,
-		urlBuilder:     buildLoadBalancerURL,
-		urlTemplate:    nco.UrlTemplate,
-		userAgent:      nco.UserAgent,
-		region:         nco.Region,
-		shortRetryTime: nco.ShortRetryTime,
-		longRetryTime:  nco.LongRetryTime,
+		authInfo:           authInfo,
+		urlBuilder:         buildLoadBalancerURL,
+		urlTemplate:        nco.UrlTemplate,
+		userAgent:          nco.UserAgent,
+		region:             nco.Region,
+		shortRetryTime:     nco.ShortRetryTime,
+		longRetryTime:      nco.LongRetryTime,
+		randGen:            nco.RandGen,
+		disableAutoRetries: nco.DisableAutoRetries,
 	}
 }
 
@@ -119,7 +131,7 @@ func (api *apiRequestor) getRequest(reqOpts request) (getResp *response, e error
 }
 
 func (api *apiRequestor) request(method string, reqOpts request) (r *response, e error) {
-	return submitRequestWithRetries(api, method, reqOpts, generateRetryToken(),
+	return submitRequestWithRetries(api, method, reqOpts, generateRetryToken(api.randGen),
 		"", -1, 0, 1)
 }
 
@@ -148,7 +160,11 @@ func submitRequestWithRetries(api *apiRequestor, method string, reqOpts request,
 	req.Header = reqOpts.marshalHeader()
 
 	//add random retry token if user hasn't added one so that we can safely retry requests
-	if _, present := req.Header[retryTokenKey]; !present && method != http.MethodDelete && method != http.MethodGet {
+	if _, present := req.Header[retryTokenKey];
+			!api.disableAutoRetries &&
+			!present &&
+			method != http.MethodDelete &&
+			method != http.MethodGet {
 		req.Header[retryTokenKey] = []string{generatedRetryToken}
 	}
 
@@ -199,6 +215,10 @@ func submitRequestWithRetries(api *apiRequestor, method string, reqOpts request,
 	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
 
 		apiError := getErrorFromResponse(&reader, resp)
+		if api.disableAutoRetries {
+			e = &apiError
+			return
+		}
 		errorCodeStr := fmt.Sprintf("%s:%s", apiError.Status, apiError.Code)
 		if retryNum == 1 {
 			retryTimeRemaining = getMaxRetryTimeInSeconds(api, apiError, req.URL.String(), method)
@@ -286,11 +306,9 @@ func requestServiceCheck(requestURL string, service string) bool {
 /* Generates a random alphanumeric string.
  * Used for generating a retry token so that the SDK can safely retry operations.
  */
-func generateRetryToken() string {
+func generateRetryToken(randGen *rand.Rand) string {
 	alphanumericChars := []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
 	retryToken := make([]rune, generatedRetryTokenLength)
-	source := rand.NewSource(time.Now().UnixNano())
-	randGen := rand.New(source)
 	for i := range retryToken {
 		retryToken[i] = alphanumericChars[randGen.Intn(len(alphanumericChars))]
 	}
