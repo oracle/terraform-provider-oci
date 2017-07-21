@@ -78,7 +78,7 @@ setx TF_VAR_private_key_path <value>
 The variables won't be set for the current session, exit the terminal and reopen.
 
 ## Deploy an example configuration
-Download the [Single instance example.](https://github.com/oracle/terraform-provider-baremetal/tree/master/docs/examples/compute/single-instance)
+Download the [Single instance example.](https://github.com/oracle/terraform-provider-baremetal/tree/master/docs/examples/compute/single_instance)
 
 Edit it to include the OCID of the compartment you want to create the VCN. Remember that the tenancy OCID is the compartment OCID of your root compartment.
 
