@@ -6,3 +6,16 @@
 
 (If this is not provided, your ticket will be closed)
 
+#### Output of ``terraform version``
+
+<details>
+# Paste the terraform version here
+
+</details>
+
+#### Output of ``terraform-provider-baremetal``
+
+<details>
+# Paste the output here terraform-provider-baremetal here
+
+</details>
