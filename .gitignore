@@ -41,3 +41,5 @@ terraform-encrypted-des.sh
 terraform-encrypted.sh
 terraform-plain.sh
 .DS_Store
+
+.wercker
