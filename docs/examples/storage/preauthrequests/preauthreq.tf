@@ -15,6 +15,7 @@ variable "fingerprint" {}
 variable "private_key_path" {}
 variable "compartment_ocid" {}
 variable "namespace_name" {}
+variable "region" {}
 
 variable "bucket_name" {}
 variable "object_name" {}
@@ -24,6 +25,7 @@ provider "baremetal" {
   user_ocid = "${var.user_ocid}"
   fingerprint = "${var.fingerprint}"
   private_key_path = "${var.private_key_path}"
+  region = "${var.region}"
 }
 
 
