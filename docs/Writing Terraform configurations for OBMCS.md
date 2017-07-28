@@ -27,28 +27,35 @@ https://github.com/oracle/terraform-provider-baremetal/tree/master/docs
 In the simplest terms Terraform turns configurations into a set of API calls against OBMCS API endpoints. The configuration language closely follows but does not mimic the API. Once you understand how to abstract the API into the configuration language writing configuration files is easy.
 
 ## Configuration file requirements
-Every configuration file define the provider that will be used, the OBMCS provider is called 'baremetal'. You must also specify where to get the required authentication details. You should never directly specify these values in a configuration file. This syntax will source the values from environment variables as covered in the README.  
+Every configuration file defines the provider that will be used, the OBMCS 
+provider is called 'baremetal'. You must also specify where to get the 
+required authentication details. You should never directly specify these 
+values in a configuration file. This syntax will source the values from 
+environment variables as covered in the README.  
 ```
 variable "tenancy_ocid" {}
 variable "user_ocid" {}
 variable "fingerprint" {}
 variable "private_key_path" {}
+variable "region" {}
 
 provider "baremetal" {
   tenancy_ocid = "${var.tenancy_ocid}"
   user_ocid = "${var.user_ocid}"
   fingerprint = "${var.fingerprint}"
   private_key_path = "${var.private_key_path}"
+  region = "${var.region}"
 }
 ```
 
-To specify a different region, include the region parameter in your provider definition. Not specifying a value will use the default `us-phoenix-1` region. 
-```
-provider "baremetal" {
-  ...
-  region = "us-ashburn-1"
-}
-```
+Use the region parameter in your provider definition to specify which region 
+your resources will be created in. Currently, not specifying a region value 
+will result in use of the `us-phoenix-1` region, **but this is discouraged 
+as region will soon become a required parameter.**
+ 
+See the [ad_multi_region](https://github.com/oracle/terraform-provider-baremetal/tree/master/docs/examples/iam/ad_multi_region/ad_multi_region.tf)
+or [vcn_multi_region](https://github.com/oracle/terraform-provider-baremetal/tree/master/docs/examples/networking/vcn_multi_region)
+examples for details on how to target multiple regions from one plan.
 
 ## CamelCase
 The OBMCS API uses CamelCase in multiple places. Terraform doesn't support CamelCase in configuration files so we've replaced it with underscores. For example -

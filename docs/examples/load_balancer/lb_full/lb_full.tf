@@ -12,6 +12,7 @@ variable "user_ocid" {}
 variable "fingerprint" {}
 variable "private_key_path" {}
 variable "compartment_ocid" {}
+variable "region" {}
 
 
 provider "baremetal" {
@@ -19,6 +20,7 @@ provider "baremetal" {
   user_ocid = "${var.user_ocid}"
   fingerprint = "${var.fingerprint}"
   private_key_path = "${var.private_key_path}"
+  region = "${var.region}"
 }
 
 data "baremetal_identity_availability_domains" "ADs" {
@@ -44,6 +46,7 @@ resource "baremetal_core_subnet" "subnet1" {
     compartment_id = "${var.compartment_ocid}"
     vcn_id = "${baremetal_core_virtual_network.vcn1.id}"
     route_table_id = "${baremetal_core_route_table.routetable1.id}"
+    dhcp_options_id = "${baremetal_core_virtual_network.vcn1.default_dhcp_options_id}"
 
     provisioner "local-exec" {
         command = "sleep 5"
@@ -59,6 +62,7 @@ resource "baremetal_core_subnet" "subnet2" {
     compartment_id = "${var.compartment_ocid}"
     vcn_id = "${baremetal_core_virtual_network.vcn1.id}"
     route_table_id = "${baremetal_core_route_table.routetable1.id}"
+    dhcp_options_id = "${baremetal_core_virtual_network.vcn1.default_dhcp_options_id}"
 
     provisioner "local-exec" {
         command = "sleep 5"

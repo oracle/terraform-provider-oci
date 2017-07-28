@@ -3,12 +3,14 @@ variable "user_ocid" {}
 variable "fingerprint" {}
 variable "private_key_path" {}
 variable "compartment_ocid" {}
+variable "region" {}
 
 provider "baremetal" {
   tenancy_ocid = "${var.tenancy_ocid}"
   user_ocid = "${var.user_ocid}"
   fingerprint = "${var.fingerprint}"
   private_key_path = "${var.private_key_path}"
+  region = "${var.region}"
 }
 
 variable "VPC-CIDR" {
@@ -108,6 +110,7 @@ resource "baremetal_core_subnet" "WebSubnetAD1" {
   vcn_id = "${baremetal_core_virtual_network.CompleteVCN.id}"
   route_table_id = "${baremetal_core_route_table.RouteForComplete.id}"
   security_list_ids = ["${baremetal_core_security_list.WebSubnet.id}"]
+  dhcp_options_id = "${baremetal_core_virtual_network.CompleteVCN.default_dhcp_options_id}"
 }
 
 resource "baremetal_core_subnet" "WebSubnetAD2" {
@@ -118,6 +121,7 @@ resource "baremetal_core_subnet" "WebSubnetAD2" {
   vcn_id = "${baremetal_core_virtual_network.CompleteVCN.id}"
   route_table_id = "${baremetal_core_route_table.RouteForComplete.id}"
   security_list_ids = ["${baremetal_core_security_list.WebSubnet.id}"]
+  dhcp_options_id = "${baremetal_core_virtual_network.CompleteVCN.default_dhcp_options_id}"
 }
 
 resource "baremetal_core_subnet" "WebSubnetAD3" {
@@ -128,6 +132,7 @@ resource "baremetal_core_subnet" "WebSubnetAD3" {
   vcn_id = "${baremetal_core_virtual_network.CompleteVCN.id}"
   route_table_id = "${baremetal_core_route_table.RouteForComplete.id}"
   security_list_ids = ["${baremetal_core_security_list.WebSubnet.id}"]
+  dhcp_options_id = "${baremetal_core_virtual_network.CompleteVCN.default_dhcp_options_id}"
 }
 
 resource "baremetal_core_subnet" "PrivateSubnetAD1" {
@@ -138,6 +143,7 @@ resource "baremetal_core_subnet" "PrivateSubnetAD1" {
   vcn_id = "${baremetal_core_virtual_network.CompleteVCN.id}"
   route_table_id = "${baremetal_core_route_table.RouteForComplete.id}"
   security_list_ids = ["${baremetal_core_security_list.PrivateSubnet.id}"]
+  dhcp_options_id = "${baremetal_core_virtual_network.CompleteVCN.default_dhcp_options_id}"
 }
 
 resource "baremetal_core_subnet" "PrivateSubnetAD2" {
@@ -148,6 +154,7 @@ resource "baremetal_core_subnet" "PrivateSubnetAD2" {
   vcn_id = "${baremetal_core_virtual_network.CompleteVCN.id}"
   route_table_id = "${baremetal_core_route_table.RouteForComplete.id}"
   security_list_ids = ["${baremetal_core_security_list.PrivateSubnet.id}"]
+  dhcp_options_id = "${baremetal_core_virtual_network.CompleteVCN.default_dhcp_options_id}"
 }
 
 resource "baremetal_core_subnet" "PrivateSubnetAD3" {
@@ -158,6 +165,7 @@ resource "baremetal_core_subnet" "PrivateSubnetAD3" {
   vcn_id = "${baremetal_core_virtual_network.CompleteVCN.id}"
   route_table_id = "${baremetal_core_route_table.RouteForComplete.id}"
   security_list_ids = ["${baremetal_core_security_list.PrivateSubnet.id}"]
+  dhcp_options_id = "${baremetal_core_virtual_network.CompleteVCN.default_dhcp_options_id}"
 }
 
 resource "baremetal_core_subnet" "BastionSubnetAD1" {
@@ -168,6 +176,7 @@ resource "baremetal_core_subnet" "BastionSubnetAD1" {
   vcn_id = "${baremetal_core_virtual_network.CompleteVCN.id}"
   route_table_id = "${baremetal_core_route_table.RouteForComplete.id}"
   security_list_ids = ["${baremetal_core_security_list.BastionSubnet.id}"]
+  dhcp_options_id = "${baremetal_core_virtual_network.CompleteVCN.default_dhcp_options_id}"
 }
 
 resource "baremetal_core_subnet" "BastionSubnetAD2" {
@@ -178,6 +187,7 @@ resource "baremetal_core_subnet" "BastionSubnetAD2" {
   vcn_id = "${baremetal_core_virtual_network.CompleteVCN.id}"
   route_table_id = "${baremetal_core_route_table.RouteForComplete.id}"
   security_list_ids = ["${baremetal_core_security_list.BastionSubnet.id}"]
+  dhcp_options_id = "${baremetal_core_virtual_network.CompleteVCN.default_dhcp_options_id}"
 }
 
 resource "baremetal_core_subnet" "BastionSubnetAD3" {
@@ -188,4 +198,5 @@ resource "baremetal_core_subnet" "BastionSubnetAD3" {
   vcn_id = "${baremetal_core_virtual_network.CompleteVCN.id}"
   route_table_id = "${baremetal_core_route_table.RouteForComplete.id}"
   security_list_ids = ["${baremetal_core_security_list.BastionSubnet.id}"]
+  dhcp_options_id = "${baremetal_core_virtual_network.CompleteVCN.default_dhcp_options_id}"
 }
