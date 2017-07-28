@@ -139,7 +139,7 @@ func DBSystemResource() *schema.Resource {
 				ForceNew: true,
 				Optional: true,
 			},
-			/*"backup_subnet_id": {
+			"backup_subnet_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
@@ -148,7 +148,7 @@ func DBSystemResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
-			},*/
+			},
 			"data_storage_percentage": {
 				Type:     schema.TypeInt,
 				Computed: true,
@@ -309,12 +309,12 @@ func (s *DBSystemResourceCrud) Create() (e error) {
 	}
 
 	opts := &baremetal.LaunchDBSystemOptions{}
-	/*if backupSubnetId, ok := s.D.GetOk("backup_subnet_id"); ok {
+	if backupSubnetId, ok := s.D.GetOk("backup_subnet_id"); ok {
 		opts.BackupSubnetId = backupSubnetId.(string)
 	}
 	if clusterName, ok := s.D.GetOk("cluster_name"); ok {
 		opts.ClusterName = clusterName.(string)
-	}*/
+	}
 	if dataStoragePercentage, ok := s.D.GetOk("data_storage_percentage"); ok {
 		opts.DataStoragePercentage = dataStoragePercentage.(int)
 	}
@@ -349,7 +349,8 @@ func (s *DBSystemResourceCrud) SetData() {
 	s.D.Set("cpu_core_count", s.Res.CPUCoreCount)
 	s.D.Set("database_edition", s.Res.DatabaseEdition)
 	s.D.Set("db_home", s.Res.DBHome)
-	s.D.Set("hostname", s.Res.Hostname)
+	//leave hostname commented out. Refreshing hostname causes problems because API adds suffix in some cases (like Exadata).
+	//s.D.Set("hostname", s.Res.Hostname)
 	s.D.Set("shape", s.Res.Shape)
 	s.D.Set("ssh_public_keys", s.Res.SSHPublicKeys)
 	s.D.Set("subnet_id", s.Res.SubnetID)
