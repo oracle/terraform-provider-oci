@@ -102,9 +102,8 @@ resource "baremetal_core_instance" "t" {
 					resource.TestCheckResourceAttrSet(resourceName, "public_ip"),
 
 					// Deprecated
-					resource.TestMatchResourceAttr(resourceName, "subnet_id", regexp.MustCompile("ocid1\\.subnet\\.oc1\\..*")),
-					resource.TestCheckResourceAttr(resourceName, "hostname_label", ""),
-					// Deprecated
+					resource.TestCheckNoResourceAttr(resourceName, "subnet_id"),
+					resource.TestCheckNoResourceAttr(resourceName, "hostname_label"),
 					resource.TestCheckNoResourceAttr(resourceName, "create_vnic_details.subnet_id"),
 					resource.TestCheckNoResourceAttr(resourceName, "create_vnic_details.hostname_label"),
 				),
