@@ -4,20 +4,19 @@ package main
 
 import (
 	"errors"
-	"testing"
-
 	"os"
 	"strconv"
+	"testing"
 
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/mock"
 
 	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/client/mocks"
-	"github.com/stretchr/testify/mock"
 )
 
 func testProviderConfig() string {
@@ -116,11 +115,11 @@ data "baremetal_core_images" "t" {
 	limit = 1
 }
 
-data "baremetal_core_policies" "policies" {
+data "baremetal_identity_policies" "policies" {
 	compartment_id = "${var.compartment_id}"
 }
 
-data "baremetal_core_protocols" "protocols" {
+data "baremetal_load_balancer_protocols" "protocols" {
 	compartment_id = "${var.compartment_id}"
 }
 
