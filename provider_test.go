@@ -110,11 +110,11 @@ data "baremetal_core_images" "t" {
 	limit = 1
 }
 
-data "baremetal_core_policies" "policies" {
+data "baremetal_identity_policies" "policies" {
 	compartment_id = "${var.compartment_id}"
 }
 
-data "baremetal_core_protocols" "protocols" {
+data "baremetal_load_balancer_protocols" "protocols" {
 	compartment_id = "${var.compartment_id}"
 }
 
