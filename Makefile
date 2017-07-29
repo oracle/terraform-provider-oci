@@ -10,7 +10,7 @@ clean:
 	rm -rf bin/*
 
 fmt:
-	gofmt -w $(GOFMT_FILES)
+	goimports -w -local github.com/oracle/terraform-provider-baremetal $(GOFMT_FILES)
 
 test_acceptance_debug:
 	TF_LOG=DEBUG DEBUG=true TF_ORACLE_ENV=test TF_ACC=1 go test -v -timeout 120m
