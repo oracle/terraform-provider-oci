@@ -10,7 +10,7 @@ clean:
 	rm -rf bin/*
 
 fmt:
-	gofmt -w $(GOFMT_FILES)
+	goimports -w -local github.com/oracle/terraform-provider-baremetal $(GOFMT_FILES)
 
 show_tests:
 	grep -ohi "Test.*$(test).*TestSuite" *.go
