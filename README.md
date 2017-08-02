@@ -25,35 +25,58 @@ Be sure to read the FAQ and Writing Terraform configurations for OBMCS in [/docs
 Download the appropriate **.9.x binary** for your platform.  
 https://www.terraform.io/downloads.html
 
+**NOTE** Terraform v.10.x introduces a change to plugin management where 
+previous v.9.x configuration no longer applies. See note below.
+
+
 ### Install Terraform
 https://www.terraform.io/intro/getting-started/install.html
 
 ### Get the Oracle Bare Metal Cloud Terraform provider
 https://github.com/oracle/terraform-provider-baremetal/releases
 
-Unpack the provider to an appropriate location then -
+Unpack the provider. Terraform v.10.x introduces a change to plugin 
+management where v.9.x configuration no longer applies. To be compatible 
+with both terraform v.9.x and v.10.x, put the provider in the following 
+location:
+
 #### On \*nix
-Create `~/.terraformrc` that specifies the path to the `baremetal` provider.
+```
+~/.terraform.d/plugins/
+```
+
+Then create the `~/.terraformrc` file that specifies the path to the 
+`baremetal` provider **(only required for v.9.x)**.
 ```
 providers {
-  baremetal = "<path_to_provider_binary>/terraform-provider-baremetal"
-  }
+  baremetal = "~/.terraform.d/plugins/terraform-provider-baremetal"
+}
 ```
 
 #### On Windows
-Create `%APPDATA%/terraform.rc` that specifies the path to the `baremetal` provider.
+```
+%APPDATA%/terraform.d/plugins/
+```
+
+Then create `%APPDATA%/terraform.rc` that specifies the path to the 
+`baremetal` provider **(only required for v.9.x)**.
 ```
 providers {
-  baremetal = "<path_to_provider_binary>/terraform-provider-baremetal"
-  }
+  baremetal = "%appdata%/terraform.d/plugins/terraform-provider-baremetal"
+}
 ```
+
 ### Export credentials
 Required Keys and OCIDs - https://docs.us-phoenix-1.oraclecloud.com/Content/API/Concepts/apisigningkey.htm
 
 If you primarily work in a single compartment consider exporting that compartment's OCID as well. Remember that the tenancy OCID is also the OCID of the root compartment.
 
 #### \*nix
-If your TF configurations are limited to a single compartment/user then using this `bash_profile` option will work well. For more complex environments you may want to maintain multiple sets of environment variables. [See the single-compute example for an example.](https://github.com/oracle/terraform-provider-baremetal/tree/master/docs/examples/compute/single_instance)
+If your TF configurations are limited to a single compartment/user then 
+using this `bash_profile` option will work well. For more complex 
+environments you may want to maintain multiple sets of environment 
+variables. 
+See the [compute single instance example](https://github.com/oracle/terraform-provider-baremetal/tree/master/docs/examples/compute/instance) for more info.
 
 In your ~/.bash_profile set these variables
 ```
@@ -78,15 +101,17 @@ setx TF_VAR_private_key_path <value>
 The variables won't be set for the current session, exit the terminal and reopen.
 
 ## Deploy an example configuration
-Download the [Single instance example.](https://github.com/oracle/terraform-provider-baremetal/tree/master/docs/examples/compute/single_instance)
+Download the [compute single instance example](https://github.com/oracle/terraform-provider-baremetal/tree/master/docs/examples/compute/instance).
 
 Edit it to include the OCID of the compartment you want to create the VCN. Remember that the tenancy OCID is the compartment OCID of your root compartment.
 
 You should always plan, then apply a configuration -
 ```
-$ terraform plan ./single_instance
+# from the compute/instance directory
+$ terraform plan
+  
 # Make sure the plan looks right.
-$ terraform apply ./single_instance
+$ terraform apply
 ```
 ## OBMC resource and datasource details
 https://github.com/oracle/terraform-provider-baremetal/tree/master/docs

@@ -22,7 +22,10 @@ Before you plan, apply, or destroy the configuration source the file -
 `$ . env-vars`
 
 #### `compute.tf`
-Defines the compute resource
+Defines the compute resource. This demo connects to the running instance 
+so you will need to supply public/private keys to create an ssh connection. 
+**NOTE**: do not try to use your api keys, see [this doc](https://docs.us-phoenix-1.oraclecloud.com/Content/Compute/Tasks/managingkeypairs.htm)
+for more info on configuring keys.
 
 #### `remote-exec.tf`
 Uses a `null_resource`, `remote-exec` and `depends_on` to execute a command on the instance. [More information on the remote-exec provisioner.](https://www.terraform.io/docs/provisioners/remote-exec.html) 
