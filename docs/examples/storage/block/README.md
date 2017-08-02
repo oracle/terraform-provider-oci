@@ -5,4 +5,4 @@
     #    \___/|_| \_/_/   \_\____|_____|_____|
 ***
 ## Remote block volumes
-There is a block volume example included in [./docs/examples/compute/single_instance/.](https://github.com/oracle/terraform-provider-baremetal/tree/master/docs/examples/compute/single-instance)  
+There is a block volume example included in [./docs/examples/compute/instance/.](https://github.com/oracle/terraform-provider-baremetal/tree/master/docs/examples/compute/instance)  
