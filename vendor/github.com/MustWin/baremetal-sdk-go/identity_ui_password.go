@@ -2,8 +2,6 @@
 
 package baremetal
 
-import "net/http"
-
 // UIPassword represents a user's temporary password.
 //
 // See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/identity/20160918/UIPassword/
@@ -28,7 +26,7 @@ func (c *Client) CreateOrResetUIPassword(userID string, opts *RetryTokenOptions)
 	}
 
 	var resp *response
-	if resp, e = c.identityApi.request(http.MethodPost, details); e != nil {
+	if resp, e = c.identityApi.postRequest(details); e != nil {
 		return
 	}
 

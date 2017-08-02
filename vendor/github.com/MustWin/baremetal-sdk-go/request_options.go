@@ -158,10 +158,11 @@ type CreateVnicOptions struct {
 
 type LaunchInstanceOptions struct {
 	CreateOptions
-	CreateVnicOptions *CreateVnicOptions `header:"-" json:"createVnicDetails,omitempty" url:"-"`
-	HostnameLabel     string             `header:"-" json:"hostnameLabel,omitempty" url:"-"`
-	IpxeScript        string             `header:"-" json:"ipxeScript,omitempty" url:"-"`
-	Metadata          map[string]string  `header:"-" json:"metadata,omitempty" url:"-"`
+	CreateVnicOptions *CreateVnicOptions     `header:"-" json:"createVnicDetails,omitempty" url:"-"`
+	HostnameLabel     string                 `header:"-" json:"hostnameLabel,omitempty" url:"-"`
+	IpxeScript        string                 `header:"-" json:"ipxeScript,omitempty" url:"-"`
+	Metadata          map[string]string      `header:"-" json:"metadata,omitempty" url:"-"`
+	ExtendedMetadata  map[string]interface{} `header:"-" json:"extendedMetadata,omitempty" url:"-"`
 }
 
 type LaunchDBSystemOptions struct {

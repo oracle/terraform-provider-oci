@@ -50,7 +50,7 @@ func (c *Client) CreateVolume(availabilityDomain, compartmentID string, opts *Cr
 	}
 
 	var resp *response
-	if resp, e = c.coreApi.request(http.MethodPost, details); e != nil {
+	if resp, e = c.coreApi.postRequest(details); e != nil {
 		return
 	}
 

@@ -55,7 +55,7 @@ func (c *Client) CreateInternetGateway(compartmentID, vcnID string, isEnabled bo
 	}
 
 	var resp *response
-	if resp, e = c.coreApi.request(http.MethodPost, details); e != nil {
+	if resp, e = c.coreApi.postRequest(details); e != nil {
 		return
 	}
 

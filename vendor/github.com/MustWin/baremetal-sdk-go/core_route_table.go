@@ -56,7 +56,7 @@ func (c *Client) CreateRouteTable(compartmentID, vcnID string, routeRules []Rout
 	}
 
 	var resp *response
-	if resp, e = c.coreApi.request(http.MethodPost, details); e != nil {
+	if resp, e = c.coreApi.postRequest(details); e != nil {
 		return
 	}
 

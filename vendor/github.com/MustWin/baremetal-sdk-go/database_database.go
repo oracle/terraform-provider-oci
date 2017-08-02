@@ -92,9 +92,9 @@ type CreateDatabaseDetails struct {
 func NewCreateDatabaseDetails(adminPassword, dbName string, opts *CreateDatabaseOptions) (db CreateDatabaseDetails) {
 	db = CreateDatabaseDetails{
 		AdminPassword: adminPassword,
-		DBName: dbName,
+		DBName:        dbName,
 	}
-	if opts != nil{
+	if opts != nil {
 		if opts.DBWorkload != "" {
 			db.DBWorkload = opts.DBWorkload
 		}

@@ -65,7 +65,11 @@ Running the tests in recording mode will make live API calls and record new resu
 ```
 make record_acceptance_test
 ```
-There are also `make` tasks for recording individual tests, see `Makefile` for details.
+
+To record individual tests, you need to specify the `recording` tag when running your test. For example:
+```
+go test -v -timeout 120m -tags "recording all" github.com/MustWin/baremetal-sdk-go/acceptance-test -run  TestInstanceCRUD
+```
 
 You will need to provide credentials to access the Bare Metal API in an .env file
 in the acceptance-test directory.  A sample .env file can be found at acceptance-test/sample.env.

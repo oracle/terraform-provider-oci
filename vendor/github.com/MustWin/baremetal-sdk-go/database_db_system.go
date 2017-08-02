@@ -2,8 +2,6 @@
 
 package baremetal
 
-import "net/http"
-
 // DBSystem described a dedicated bare metal instance running Oracle Linux 6.8.
 //
 // See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/database/20160918/DbSystem/
@@ -93,7 +91,7 @@ func (c *Client) LaunchDBSystem(
 	}
 
 	var resp *response
-	if resp, e = c.databaseApi.request(http.MethodPost, details); e != nil {
+	if resp, e = c.databaseApi.postRequest(details); e != nil {
 		return
 	}
 
@@ -158,4 +156,3 @@ func (c *Client) ListDBSystems(compartmentID string, opts *ListOptions) (res *Li
 	e = resp.unmarshal(res)
 	return
 }
-

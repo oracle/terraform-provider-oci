@@ -4,7 +4,6 @@ package baremetal
 
 // APIKey is returned for operations that create or modify user API keys.
 import (
-	"net/http"
 	"time"
 )
 
@@ -83,7 +82,7 @@ func (c *Client) UploadAPIKey(userID, key string, opts *RetryTokenOptions) (apiK
 	}
 
 	var resp *response
-	if resp, e = c.identityApi.request(http.MethodPost, details); e != nil {
+	if resp, e = c.identityApi.postRequest(details); e != nil {
 		return
 	}
 

@@ -87,7 +87,7 @@ type CreateDBHomeDetails struct {
 // See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/database/20160918/requests/CreateDbHomeDetails
 func NewCreateDBHomeDetails(createDatabaseDetails CreateDatabaseDetails, dbVersion string, opts *CreateDBHomeOptions) (dbHome CreateDBHomeDetails) {
 	dbHome = CreateDBHomeDetails{
-		Database: createDatabaseDetails,
+		Database:  createDatabaseDetails,
 		DBVersion: dbVersion,
 	}
 

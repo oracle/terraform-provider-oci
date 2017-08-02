@@ -75,7 +75,7 @@ func (c *Client) CreateBackendSet(
 	}
 
 	var resp *response
-	if resp, e = c.loadBalancerApi.request(http.MethodPost, details); e != nil {
+	if resp, e = c.loadBalancerApi.postRequest(details); e != nil {
 		return
 	}
 
