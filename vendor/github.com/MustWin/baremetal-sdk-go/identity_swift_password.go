@@ -48,7 +48,7 @@ func (c *Client) CreateSwiftPassword(userID, desc string, opts *RetryTokenOption
 	}
 
 	var resp *response
-	if resp, e = c.identityApi.request(http.MethodPost, details); e != nil {
+	if resp, e = c.identityApi.postRequest(details); e != nil {
 		return
 	}
 

@@ -40,7 +40,7 @@ func (c *Client) CreateDrg(compartmentID string, opts *CreateOptions) (res *Drg,
 	}
 
 	var resp *response
-	if resp, e = c.coreApi.request(http.MethodPost, details); e != nil {
+	if resp, e = c.coreApi.postRequest(details); e != nil {
 		return
 	}
 

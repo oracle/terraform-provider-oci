@@ -1,9 +1,5 @@
 package baremetal
 
-import (
-	"net/http"
-)
-
 type PreauthenticatedRequest struct {
 	ID          string        `json:"id"`
 	Name        string        `json:"name"`
@@ -57,7 +53,7 @@ func (c *Client) CreatePreauthenticatedRequest(
 	}
 
 	var res *response
-	if res, e = c.objectStorageApi.request(http.MethodPost, &details); e != nil {
+	if res, e = c.objectStorageApi.postRequest(&details); e != nil {
 		return
 	}
 	par = &PreauthenticatedRequest{}

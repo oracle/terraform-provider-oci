@@ -2,10 +2,6 @@
 
 package baremetal
 
-import (
-	"net/http"
-)
-
 // Bucket stores arbitrary objects on a given key
 //
 // See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/objectstorage/20160918/Bucket/
@@ -49,7 +45,7 @@ func (c *Client) CreateBucket(
 	}
 
 	var resp *response
-	if resp, e = c.objectStorageApi.request(http.MethodPost, details); e != nil {
+	if resp, e = c.objectStorageApi.postRequest(details); e != nil {
 		return
 	}
 
@@ -101,7 +97,7 @@ func (c *Client) UpdateBucket(
 	}
 
 	var resp *response
-	if resp, e = c.objectStorageApi.request(http.MethodPost, details); e != nil {
+	if resp, e = c.objectStorageApi.postRequest(details); e != nil {
 		return
 	}
 

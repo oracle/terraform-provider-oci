@@ -50,7 +50,7 @@ func (c *Client) CreateVolumeBackup(volumeID string, opts *CreateOptions) (vol *
 	}
 
 	var resp *response
-	if resp, e = c.coreApi.request(http.MethodPost, details); e != nil {
+	if resp, e = c.coreApi.postRequest(details); e != nil {
 		return
 	}
 

@@ -48,7 +48,7 @@ func (c *Client) CreateGroup(name, desc string, opts *RetryTokenOptions) (res *G
 	}
 
 	var resp *response
-	if resp, e = c.identityApi.request(http.MethodPost, details); e != nil {
+	if resp, e = c.identityApi.postRequest(details); e != nil {
 		return
 	}
 

@@ -50,7 +50,7 @@ func (c *Client) CreateUser(name, desc string, opts *RetryTokenOptions) (res *Us
 	}
 
 	var resp *response
-	if resp, e = c.identityApi.request(http.MethodPost, details); e != nil {
+	if resp, e = c.identityApi.postRequest(details); e != nil {
 		return
 	}
 

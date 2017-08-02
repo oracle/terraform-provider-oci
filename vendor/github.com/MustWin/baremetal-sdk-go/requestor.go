@@ -17,6 +17,7 @@ import (
 type requestor interface {
 	request(method string, reqOpts request) (r *response, e error)
 	getRequest(reqOpts request) (resp *response, e error)
+	postRequest(reqOpts request) (resp *response, e error)
 	deleteRequest(reqOpts request) (e error)
 }
 
@@ -130,6 +131,13 @@ func (api *apiRequestor) getRequest(reqOpts request) (getResp *response, e error
 	return
 }
 
+func (api *apiRequestor) postRequest(reqOpts request) (postResp *response, e error) {
+	if postResp, e = api.request(http.MethodPost, reqOpts); e != nil {
+		return
+	}
+	return
+}
+
 func (api *apiRequestor) request(method string, reqOpts request) (r *response, e error) {
 	return submitRequestWithRetries(api, method, reqOpts, generateRetryToken(api.randGen),
 		"", -1, 0, 1)
@@ -160,11 +168,10 @@ func submitRequestWithRetries(api *apiRequestor, method string, reqOpts request,
 	req.Header = reqOpts.marshalHeader()
 
 	//add random retry token if user hasn't added one so that we can safely retry requests
-	if _, present := req.Header[retryTokenKey];
-			!api.disableAutoRetries &&
-			!present &&
-			method != http.MethodDelete &&
-			method != http.MethodGet {
+	if _, present := req.Header[retryTokenKey]; !api.disableAutoRetries &&
+		!present &&
+		method != http.MethodDelete &&
+		method != http.MethodGet {
 		req.Header[retryTokenKey] = []string{generatedRetryToken}
 	}
 
@@ -255,7 +262,9 @@ func polynomialBackoffSleep(retryNum uint, retryTimeRemaining time.Duration) tim
 	if os.Getenv("DEBUG") != "" {
 		log.Printf("[DEBUG] Got a retriable error. Waiting %d seconds and trying again...", int(secondsToSleep.Seconds()))
 	}
-	sleep(secondsToSleep)
+	if os.Getenv("TEST") != "true" {
+		sleep(secondsToSleep)
+	}
 	return secondsToSleep
 }
 

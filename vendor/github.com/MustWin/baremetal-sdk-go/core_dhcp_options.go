@@ -61,7 +61,7 @@ func (c *Client) CreateDHCPOptions(compartmentID, vcnID string, dhcpOptions []DH
 	}
 
 	var resp *response
-	if resp, e = c.coreApi.request(http.MethodPost, details); e != nil {
+	if resp, e = c.coreApi.postRequest(details); e != nil {
 		return
 	}
 

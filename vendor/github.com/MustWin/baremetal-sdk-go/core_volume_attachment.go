@@ -2,8 +2,6 @@
 
 package baremetal
 
-import "net/http"
-
 // VolumeAttachment describes a cloud block storage attachment
 //
 // See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/VolumeAttachment/
@@ -61,7 +59,7 @@ func (c *Client) AttachVolume(attachmentType, instanceID, volumeID string, opts 
 	}
 
 	var resp *response
-	if resp, e = c.coreApi.request(http.MethodPost, details); e != nil {
+	if resp, e = c.coreApi.postRequest(details); e != nil {
 		return
 	}
 

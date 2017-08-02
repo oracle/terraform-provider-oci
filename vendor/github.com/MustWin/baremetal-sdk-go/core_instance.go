@@ -10,17 +10,18 @@ import "net/http"
 type Instance struct {
 	OPCRequestIDUnmarshaller
 	ETagUnmarshaller
-	AvailabilityDomain string            `json:"availabilityDomain"`
-	CompartmentID      string            `json:"compartmentId"`
-	DisplayName        string            `json:"displayName"`
-	ID                 string            `json:"id"`
-	ImageID            string            `json:"imageId"`
-	Metadata           map[string]string `json:"metadata"`
-	Region             string            `json:"region"`
-	Shape              string            `json:"shape"`
-	State              string            `json:"lifecycleState"`
-	TimeCreated        Time              `json:"timeCreated"`
-	IpxeScript         string            `json:"ipxeScript"`
+	AvailabilityDomain string                 `json:"availabilityDomain"`
+	CompartmentID      string                 `json:"compartmentId"`
+	DisplayName        string                 `json:"displayName"`
+	ID                 string                 `json:"id"`
+	ImageID            string                 `json:"imageId"`
+	Metadata           map[string]string      `json:"metadata"`
+	ExtendedMetadata   map[string]interface{} `json:"extendedMetadata"`
+	Region             string                 `json:"region"`
+	Shape              string                 `json:"shape"`
+	State              string                 `json:"lifecycleState"`
+	TimeCreated        Time                   `json:"timeCreated"`
+	IpxeScript         string                 `json:"ipxeScript"`
 }
 
 // InstanceCredentials contains first run windows instance credentials
@@ -76,7 +77,7 @@ func (c *Client) LaunchInstance(
 	}
 
 	var resp *response
-	if resp, e = c.coreApi.request(http.MethodPost, req); e != nil {
+	if resp, e = c.coreApi.postRequest(req); e != nil {
 		return
 	}
 
@@ -179,7 +180,7 @@ func (c *Client) InstanceAction(id string, action InstanceActions, opts *HeaderO
 	}
 
 	var resp *response
-	if resp, e = c.coreApi.request(http.MethodPost, details); e != nil {
+	if resp, e = c.coreApi.postRequest(details); e != nil {
 		return
 	}
 

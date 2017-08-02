@@ -4,7 +4,6 @@ package baremetal
 
 // UserGroupMembership returned by GetUserGroupMembership and related methods.
 import (
-	"net/http"
 	"time"
 )
 
@@ -52,7 +51,7 @@ func (c *Client) AddUserToGroup(userID, groupID string, opts *RetryTokenOptions)
 	}
 
 	var resp *response
-	if resp, e = c.identityApi.request(http.MethodPost, details); e != nil {
+	if resp, e = c.identityApi.postRequest(details); e != nil {
 		return
 	}
 

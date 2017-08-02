@@ -3,7 +3,6 @@
 package baremetal
 
 import (
-	"net/http"
 	"time"
 )
 
@@ -67,7 +66,7 @@ func (c *Client) DBNodeAction(id string, action DBNodeAction, opts *HeaderOption
 	}
 
 	var resp *response
-	if resp, e = c.databaseApi.request(http.MethodPost, details); e != nil {
+	if resp, e = c.databaseApi.postRequest(details); e != nil {
 		return
 	}
 
