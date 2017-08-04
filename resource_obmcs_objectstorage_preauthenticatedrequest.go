@@ -3,13 +3,14 @@
 package main
 
 import (
+	"time"
+
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/pkg/errors"
 
 	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/crud"
-	"github.com/pkg/errors"
-	"time"
 )
 
 type PreauthenticatedRequestResourceCrud struct {

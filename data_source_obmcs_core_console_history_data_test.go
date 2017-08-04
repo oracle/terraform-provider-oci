@@ -3,14 +3,12 @@
 package main
 
 import (
+	"crypto/rand"
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
-
-	"crypto/rand"
-
 	"github.com/stretchr/testify/suite"
 )
 

@@ -7,11 +7,12 @@ import (
 
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
-	"github.com/oracle/terraform-provider-baremetal/options"
 
 	"encoding/json"
+
 	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/crud"
+	"github.com/oracle/terraform-provider-baremetal/options"
 )
 
 func InstanceDatasource() *schema.Resource {
