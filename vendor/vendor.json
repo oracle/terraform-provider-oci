@@ -2990,12 +2990,6 @@
 			"revisionTime": "2017-01-12T15:04:04Z"
 		},
 		{
-			"checksumSHA1": "l4Vk0AvaT/bjIzqUDn/mNlx6lmo=",
-			"path": "github.com/pearkes/dnsimple",
-			"revision": "0adf7d0dae07ba10af74af1a047c98d3d02b3382",
-			"revisionTime": "2016-10-03T16:26:59Z"
-		},
-		{
 			"checksumSHA1": "/MD+L6YZ45L3llJvG/LVUxi/BdA=",
 			"path": "github.com/pearkes/mailgun",
 			"revision": "b88605989c4141d22a6d874f78800399e5bb7ac2",
