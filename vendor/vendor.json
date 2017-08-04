@@ -3384,12 +3384,6 @@
 			"revisionTime": "2017-02-06T13:45:17Z"
 		},
 		{
-			"checksumSHA1": "uynUzdKeOsfi7flpYWFx835Nafo=",
-			"path": "github.com/zorkian/go-datadog-api",
-			"revision": "6308094e4aca46eb16a227b50be29772242bf3aa",
-			"revisionTime": "2017-02-02T00:47:50Z"
-		},
-		{
 			"checksumSHA1": "C1KKOxFoW7/W/NFNpiXK+boguNo=",
 			"path": "golang.org/x/crypto/curve25519",
 			"revision": "453249f01cfeb54c3d549ddb75ff152ca243f9d8",
