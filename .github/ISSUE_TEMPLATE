@@ -1,21 +1,27 @@
-## Description of the bug:
-
-
-
-## A self-contained terraform file that reproduces the issue:
-
-(If this is not provided, your ticket will be closed)
-
-#### Output of ``terraform version``
+### Terraform Version
 
 <details>
-# Paste the terraform version here
+# Run this command to get the terraform version:
+
+$ terraform -v
 
 </details>
 
-#### Output of ``terraform-provider-baremetal``
+### Baremetal Provider Version
 
 <details>
-# Paste the output here terraform-provider-baremetal here
+# Execute the plugin directly to get the version:
+
+$ \<path-to-plugin\>/terraform-provider-baremetal
+
+</details>
+
+### Description:
+Include a description with repro steps, expected result and actual result
+
+### Terraform Plan
+
+<details>
+A self-contained terraform file that reproduces the issue. If this is not provided, your ticket may be closed.
 
 </details>
