@@ -1,11 +1,11 @@
-# baremetal\_core\_image
+# oci\_core\_image
 
 Provide an image resource.
 
 ## Example Usage
 
 ```
-resource "baremetal_core_image" "t" {
+resource "oci_core_image" "t" {
     compartment_id = "compartment_id"
     display_name = "display_name"
     instance_id = "instance_id"

@@ -30,16 +30,16 @@ func (s *DatasourceIdentityGroupsTestSuite) SetupTest() {
 	})
 
 	s.Providers = map[string]terraform.ResourceProvider{
-		"baremetal": s.Provider,
+		"oci": s.Provider,
 	}
 	s.Config = `
-	resource "baremetal_identity_group" "t" {
+	resource "oci_identity_group" "t" {
 		name = "-tf-group"
 		description = "automated test group"
 	}
   `
 	s.Config += testProviderConfig()
-	s.ResourceName = "data.baremetal_identity_groups.t"
+	s.ResourceName = "data.oci_identity_groups.t"
 }
 
 func (s *DatasourceIdentityGroupsTestSuite) TestReadGroups() {
@@ -55,7 +55,7 @@ func (s *DatasourceIdentityGroupsTestSuite) TestReadGroups() {
 			},
 			{
 				Config: s.Config + `
-				    data "baremetal_identity_groups" "t" {
+				    data "oci_identity_groups" "t" {
 				      compartment_id = "${var.compartment_id}"
 				    }`,
 				Check: resource.ComposeTestCheckFunc(

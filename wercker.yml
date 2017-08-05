@@ -1,6 +1,6 @@
 box: golang:1.8
 build:
-  base-path: /go/src/github.com/oracle/terraform-provider-baremetal
+  base-path: /go/src/github.com/oracle/terraform-provider-oci
   steps:
     - script:
         name: install govendor

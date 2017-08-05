@@ -19,7 +19,7 @@ variable "InstanceOSVersion" {
   default = "Server 2012 R2 Standard"
 }
 
-provider "baremetal" {
+provider "oci" {
   tenancy_ocid = "${var.tenancy_ocid}"
   user_ocid = "${var.user_ocid}"
   fingerprint = "${var.fingerprint}"
@@ -27,25 +27,25 @@ provider "baremetal" {
   region = "${var.region}"
 }
 
-data "baremetal_identity_availability_domains" "ADs" {
+data "oci_identity_availability_domains" "ADs" {
   compartment_id = "${var.tenancy_ocid}"
 }
 
-data "baremetal_core_images" "ImageOCID" {
+data "oci_core_images" "ImageOCID" {
   compartment_id = "${var.compartment_ocid}"
   operating_system = "${var.InstanceOS}"
   operating_system_version = "${var.InstanceOSVersion}"
 }
 
-data "baremetal_core_instance_credentials" "InstanceCredentials" {
-  instance_id = "${baremetal_core_instance.TFInstance.id}"
+data "oci_core_instance_credentials" "InstanceCredentials" {
+  instance_id = "${oci_core_instance.TFInstance.id}"
 }
 
-resource "baremetal_core_instance" "TFInstance" {
-  availability_domain = "${lookup(data.baremetal_identity_availability_domains.ADs.availability_domains[0],"name")}"
+resource "oci_core_instance" "TFInstance" {
+  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[0],"name")}"
   compartment_id = "${var.compartment_ocid}"
   display_name = "TFWindows"
-  image = "${lookup(data.baremetal_core_images.ImageOCID.images[0], "id")}"
+  image = "${lookup(data.oci_core_images.ImageOCID.images[0], "id")}"
   shape = "${var.InstanceShape}"
   subnet_id = "${var.subnet_ocid}"
   hostname_label = "winmachine"
@@ -53,17 +53,17 @@ resource "baremetal_core_instance" "TFInstance" {
 }
 
 output "Username" {
-  value = ["${data.baremetal_core_instance_credentials.InstanceCredentials.username}"]
+  value = ["${data.oci_core_instance_credentials.InstanceCredentials.username}"]
 }
 
 output "Password" {
-  value = ["${data.baremetal_core_instance_credentials.InstanceCredentials.password}"]
+  value = ["${data.oci_core_instance_credentials.InstanceCredentials.password}"]
 }
 
 output "InstancePublicIP" {
-  value = ["${baremetal_core_instance.TFInstance.public_ip}"]
+  value = ["${oci_core_instance.TFInstance.public_ip}"]
 }
 
 output "InstancePrivateIP" {
-  value = ["${baremetal_core_instance.TFInstance.private_ip}"]
+  value = ["${oci_core_instance.TFInstance.private_ip}"]
 }

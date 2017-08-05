@@ -1,11 +1,11 @@
-# baremetal\_core\_subnets
+# oci\_core\_subnets
 
 Gets a list of subnets.
 
 ## Example Usage
 
 ```
-    data "baremetal_core_subnets" "s" {
+    data "oci_core_subnets" "s" {
       compartment_id = "compartmentid"
       vcn_id = "vcnid"
     }

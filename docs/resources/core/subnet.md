@@ -1,28 +1,28 @@
-# baremetal\_core\_subnets
+# oci\_core\_subnets
 
 Gets a list of subnets.
 
 ## Example Usage
 
 ```
-data "baremetal_identity_availability_domains" "ADs" {
+data "oci_identity_availability_domains" "ADs" {
   compartment_id = "${var.compartment_id}"
 }
 
-resource "baremetal_core_virtual_network" "t" {
+resource "oci_core_virtual_network" "t" {
   cidr_block     = "10.0.0.0/16"
   compartment_id = "${var.compartment_id}"
   display_name   = "network_name"
 }
 
-resource "baremetal_core_subnet" "t" {
+resource "oci_core_subnet" "t" {
   compartment_id = "${var.compartment_id}"
 
-  availability_domain = "${data.baremetal_identity_availability_domains.ADs.availability_domains.0.name}"
-  route_table_id      = "${baremetal_core_virtual_network.t.default_route_table_id}"
-  vcn_id              = "${baremetal_core_virtual_network.t.id}"
-  security_list_ids   = ["${baremetal_core_virtual_network.t.default_security_list_id}"]
-  dhcp_options_id     = "${baremetal_core_virtual_network.t.default_dhcp_options_id}"
+  availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+  route_table_id      = "${oci_core_virtual_network.t.default_route_table_id}"
+  vcn_id              = "${oci_core_virtual_network.t.id}"
+  security_list_ids   = ["${oci_core_virtual_network.t.default_security_list_id}"]
+  dhcp_options_id     = "${oci_core_virtual_network.t.default_dhcp_options_id}"
 
   display_name               = "display_name"
   cidr_block                 = "10.10.10.0/24"

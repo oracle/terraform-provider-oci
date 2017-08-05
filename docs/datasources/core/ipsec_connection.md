@@ -1,11 +1,11 @@
-# baremetal\_core\_ipsec\_connection
+# oci\_core\_ipsec\_connection
 
 Gets a list of ipsec connections.
 
 ## Example Usage
 
 ```
-data "baremetal_core_ipsec_connections" "s" {
+data "oci_core_ipsec_connections" "s" {
   compartment_id = "compartmentid"
   cpe_id = "cpeid"
   drg_id = "drgid"

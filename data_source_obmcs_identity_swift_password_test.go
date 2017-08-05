@@ -31,21 +31,21 @@ func (s *DatasourceIdentitySwiftPasswordsTestSuite) SetupTest() {
 	},
 	)
 	s.Providers = map[string]terraform.ResourceProvider{
-		"baremetal": s.Provider,
+		"oci": s.Provider,
 	}
 	s.TimeCreated, _ = time.Parse("2006-Jan-02", "2006-Jan-02")
 	s.Config = `
-		resource "baremetal_identity_user" "t" {
+		resource "oci_identity_user" "t" {
 			name = "name1"
 			description = "desc!"
 		}
-		resource "baremetal_identity_swift_password" "t" {
-			user_id = "${baremetal_identity_user.t.id}"
+		resource "oci_identity_swift_password" "t" {
+			user_id = "${oci_identity_user.t.id}"
 			description = "desc"
 		}
 	`
 	s.Config += testProviderConfig()
-	s.PasswordsName = "data.baremetal_identity_swift_passwords.p"
+	s.PasswordsName = "data.oci_identity_swift_passwords.p"
 
 }
 
@@ -60,8 +60,8 @@ func (s *DatasourceIdentitySwiftPasswordsTestSuite) TestListResourceIdentitySwif
 			},
 			{
 				Config: s.Config + `
-				 data "baremetal_identity_swift_passwords" "p" {
-				    user_id = "${baremetal_identity_user.t.id}"
+				 data "oci_identity_swift_passwords" "p" {
+				    user_id = "${oci_identity_user.t.id}"
 				  }`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.PasswordsName, "passwords.0.id"),

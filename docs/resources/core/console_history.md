@@ -1,11 +1,11 @@
- # baremetal\_core\_console_history
+ # oci\_core\_console_history
 
  Provides a console history resource.
 
  ## Example Usage
 
  ```
-    resource "baremetal_core_console_history" "t" {
+    resource "oci_core_console_history" "t" {
 			instance_id = "instance_id"
     }
  ```

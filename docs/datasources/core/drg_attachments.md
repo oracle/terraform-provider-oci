@@ -1,11 +1,11 @@
-# baremetal\_drg\_attachment
+# oci\_drg\_attachment
 
 Gets a list of drg attachments.
 
 ## Example Usage
 
 ```
-data "baremetal_core_drg_attachments" "t" {
+data "oci_core_drg_attachments" "t" {
     compartment_id = "compartment_id"
     drg_id = "drg_id"
     limit = 1

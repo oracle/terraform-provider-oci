@@ -35,18 +35,18 @@ func (s *ResourceIdentityUserTestSuite) SetupTest() {
 	)
 
 	s.Providers = map[string]terraform.ResourceProvider{
-		"baremetal": s.Provider,
+		"oci": s.Provider,
 	}
 	s.TimeCreated, _ = time.Parse("2006-Jan-02", "2006-Jan-02")
 	s.Config = `
-		resource "baremetal_identity_user" "t" {
+		resource "oci_identity_user" "t" {
 			name = "-tf-user"
 			description = "automated test user"
 		}
 	`
 	s.Config += testProviderConfig()
 
-	s.ResourceName = "baremetal_identity_user.t"
+	s.ResourceName = "oci_identity_user.t"
 	s.Res = &baremetal.User{
 		ID:            "id!",
 		Name:          "-tf-user",
@@ -103,7 +103,7 @@ func (s *ResourceIdentityUserTestSuite) TestCreateResourceIdentityUserPolling() 
 func (s *ResourceIdentityUserTestSuite) TestUpdateResourceIdentityUserDescription() {
 
 	c := `
-		resource "baremetal_identity_user" "t" {
+		resource "oci_identity_user" "t" {
 			name = "-tf-user"
 			description = "automated test user updated"
 		}
@@ -131,7 +131,7 @@ func (s *ResourceIdentityUserTestSuite) TestUpdateResourceIdentityUserDescriptio
 func (s *ResourceIdentityUserTestSuite) TestUpdateResourceIdentityUserNameShouldCreateNew() {
 
 	c := `
-		resource "baremetal_identity_user" "t" {
+		resource "oci_identity_user" "t" {
 			name = "-tf-user2"
 			description = "automated test user"
 		}

@@ -13,7 +13,7 @@ import (
 
 	"github.com/stretchr/testify/suite"
 
-	"github.com/oracle/terraform-provider-baremetal/crud"
+	"github.com/oracle/terraform-provider-oci/crud"
 )
 
 type ResourceCoreInstanceTestSuite struct {
@@ -38,20 +38,20 @@ func (s *ResourceCoreInstanceTestSuite) SetupTest() {
 	)
 
 	s.Providers = map[string]terraform.ResourceProvider{
-		"baremetal": s.Provider,
+		"oci": s.Provider,
 	}
 
 	s.TimeCreated = baremetal.Time{Time: time.Now()}
 
 	s.Config = instanceConfig + `
-	data "baremetal_core_instances" "s" {
+	data "oci_core_instances" "s" {
       		compartment_id = "${var.compartment_id}"
-      		availability_domain = "${data.baremetal_identity_availability_domains.ADs.availability_domains.0.name}"
+      		availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
     	}`
 
 	s.Config += testProviderConfig()
 
-	s.ResourceName = "baremetal_core_instance.t"
+	s.ResourceName = "oci_core_instance.t"
 }
 
 func (s *ResourceCoreInstanceTestSuite) TestCreateResourceCoreInstance() {
@@ -71,7 +71,7 @@ func (s *ResourceCoreInstanceTestSuite) TestCreateResourceCoreInstance() {
 					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "public_ip"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "private_ip"),
-					resource.TestCheckResourceAttrSet("data.baremetal_core_instances.s", "instances.#"),
+					resource.TestCheckResourceAttrSet("data.oci_core_instances.s", "instances.#"),
 				),
 			},
 		},

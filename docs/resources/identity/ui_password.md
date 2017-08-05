@@ -1,11 +1,11 @@
-# baremetal\_identity\_ui\_password
+# oci\_identity\_ui\_password
 
 Provides a ui password resource.
 
 ## Example Usage
 
 ```
-resource "baremetal_identity_ui_password" "t" {
+resource "oci_identity_ui_password" "t" {
     user_id = "user_id"
 }
 ```

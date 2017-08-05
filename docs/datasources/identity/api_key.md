@@ -1,11 +1,11 @@
-# baremetal\_identity\_api\_keys
+# oci\_identity\_api\_keys
 
 Lists api keys.
 
 ## Example Usage
 
 ```
-data "baremetal_identity_api_keys" "t" {
+data "oci_identity_api_keys" "t" {
   user_id = "user_id"
 }
 ```

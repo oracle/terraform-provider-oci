@@ -1,11 +1,11 @@
-# baremetal\_core\_cpe
+# oci\_core\_cpe
 
 List customer premise equipment objects (CPEs).
 
 ## Example Usage
 
 ```
-data "baremetal_core_cpes" "s" {
+data "oci_core_cpes" "s" {
   compartment_id = "compartmentid"
 }
 ```

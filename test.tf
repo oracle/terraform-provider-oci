@@ -1,4 +1,4 @@
-provider "baremetal" {
+provider "oci" {
   tenancy_ocid = "${var.tenancy_ocid}"
   user_ocid = "${var.user_ocid}"
   fingerprint = "${var.fingerprint}"
@@ -7,7 +7,7 @@ provider "baremetal" {
   private_key = ""
 }
 
-resource "baremetal_identity_compartment" "test-dec5" {
+resource "oci_identity_compartment" "test-dec5" {
   name = "test_compartment_dec5"
   description = "A special test compartment."
 }

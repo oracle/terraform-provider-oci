@@ -1,11 +1,11 @@
-# baremetal\_core\_instance_credentials
+# oci\_core\_instance_credentials
 
 Gets the initial user name and password for a Windows instance.
 
 ## Example Usage
 
 ```
-data "baremetal_core_instance_credentials" "s" {
+data "oci_core_instance_credentials" "s" {
     instance_id = "instanceId"
 }
 ```

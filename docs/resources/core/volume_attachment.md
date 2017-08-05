@@ -1,11 +1,11 @@
-# baremetal\_core\_volume\_attachment
+# oci\_core\_volume\_attachment
 
 Provides a volume attachment resource
 
 ## Example Usage
 
 ```
-resource "baremetal_core_volume_attachment" "t" {
+resource "oci_core_volume_attachment" "t" {
     attachment_type = "attachment_type"
     compartment_id = "compartment_id"
     instance_id = "instance_id"

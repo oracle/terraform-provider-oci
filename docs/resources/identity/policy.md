@@ -1,11 +1,11 @@
-# baremetal\_identity\_policy
+# oci\_identity\_policy
 
 Provides a policy resource.
 
 ## Example Usage
 
 ```
-  resource "baremetal_identity_policy" "p" {
+  resource "oci_identity_policy" "p" {
     name = "pol"
     description = "desc"
     statements = ["statementX","statementY"]

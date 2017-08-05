@@ -12,7 +12,7 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/oracle/terraform-provider-baremetal/crud"
+	"github.com/oracle/terraform-provider-oci/crud"
 )
 
 type ResourceCoreSecurityListTestSuite struct {
@@ -40,23 +40,23 @@ func (s *ResourceCoreSecurityListTestSuite) SetupTest() {
 	)
 
 	s.Providers = map[string]terraform.ResourceProvider{
-		"baremetal": s.Provider,
+		"oci": s.Provider,
 	}
 
 	s.TimeCreated = baremetal.Time{Time: time.Now()}
 
 	s.Config = `
-resource "baremetal_core_virtual_network" "t" {
+resource "oci_core_virtual_network" "t" {
 	cidr_block = "10.0.0.0/16"
 	compartment_id = "${var.compartment_id}"
 	display_name = "display_name"
 }
 `
 	s.SLConfig = `
-resource "baremetal_core_security_list" "t" {
+resource "oci_core_security_list" "t" {
 	compartment_id = "${var.compartment_id}"
 	display_name = "security_list0"
-	vcn_id = "${baremetal_core_virtual_network.t.id}"
+	vcn_id = "${oci_core_virtual_network.t.id}"
 	egress_security_rules = [{
 		destination = "0.0.0.0/0"
 		protocol = "6"
@@ -89,7 +89,7 @@ resource "baremetal_core_security_list" "t" {
 	`
 	s.Config += testProviderConfig()
 
-	s.ResourceName = "baremetal_core_security_list.t"
+	s.ResourceName = "oci_core_security_list.t"
 }
 
 func (s *ResourceCoreSecurityListTestSuite) TestCreateResourceCoreSecurityList() {
@@ -127,10 +127,10 @@ func (s *ResourceCoreSecurityListTestSuite) TestCreateResourceCoreSecurityListUp
 			},
 			{
 				Config: s.Config + `
-					resource "baremetal_core_security_list" "t" {
+					resource "oci_core_security_list" "t" {
 						compartment_id = "${var.compartment_id}"
 						display_name = "security_list1"
-						vcn_id = "${baremetal_core_virtual_network.t.id}"
+						vcn_id = "${oci_core_virtual_network.t.id}"
 						egress_security_rules = [{
 							destination = "0.0.0.0/0"
 							protocol = "17"
@@ -181,10 +181,10 @@ func (s *ResourceCoreSecurityListTestSuite) TestCreateResourceCoreSecurityListUp
 			},
 			{
 				Config: s.Config + `
-					resource "baremetal_core_security_list" "t" {
+					resource "oci_core_security_list" "t" {
 						compartment_id = "${var.compartment_id}"
 						display_name = "Public"
-						vcn_id = "${baremetal_core_virtual_network.t.id}"
+						vcn_id = "${oci_core_virtual_network.t.id}"
 						egress_security_rules = []
 						ingress_security_rules = []
 					}

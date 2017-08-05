@@ -35,28 +35,28 @@ func (s *ResourceCoreInternetGatewayTestSuite) SetupTest() {
 	)
 
 	s.Providers = map[string]terraform.ResourceProvider{
-		"baremetal": s.Provider,
+		"oci": s.Provider,
 	}
 
 	s.TimeCreated = baremetal.Time{Time: time.Now()}
 
 	s.Config = `
-resource "baremetal_core_virtual_network" "t" {
+resource "oci_core_virtual_network" "t" {
 	cidr_block = "10.0.0.0/16"
 	compartment_id = "${var.compartment_id}"
 	display_name = "display_name"
 }
 
-resource "baremetal_core_internet_gateway" "t" {
+resource "oci_core_internet_gateway" "t" {
     compartment_id = "${var.compartment_id}"
     display_name = "display_name"
-    vcn_id = "${baremetal_core_virtual_network.t.id}"
+    vcn_id = "${oci_core_virtual_network.t.id}"
 }
 	`
 
 	s.Config += testProviderConfig()
 
-	s.ResourceName = "baremetal_core_internet_gateway.t"
+	s.ResourceName = "oci_core_internet_gateway.t"
 }
 
 func (s *ResourceCoreInternetGatewayTestSuite) TestCreateResourceCoreInternetGateway() {
@@ -83,16 +83,16 @@ func (s *ResourceCoreInternetGatewayTestSuite) TestCreateResourceCoreInternetGat
 func (s ResourceCoreInternetGatewayTestSuite) TestUpdateCompartmentIDForcesNewInternetGateway() {
 
 	config := `
-resource "baremetal_core_virtual_network" "t" {
+resource "oci_core_virtual_network" "t" {
 	cidr_block = "10.0.0.0/16"
 	compartment_id = "${var.compartment_id}"
 	display_name = "display_name"
 }
 
-resource "baremetal_core_internet_gateway" "t" {
+resource "oci_core_internet_gateway" "t" {
     compartment_id = "${var.compartment_id}"
     display_name = "CompleteIG2"
-    vcn_id = "${baremetal_core_virtual_network.t.id}"
+    vcn_id = "${oci_core_virtual_network.t.id}"
 }
 	`
 

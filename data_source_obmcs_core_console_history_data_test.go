@@ -29,19 +29,19 @@ func (s *CoreConsoleHistoryDataDatasourceTestSuite) SetupTest() {
 	})
 
 	s.Providers = map[string]terraform.ResourceProvider{
-		"baremetal": s.Provider,
+		"oci": s.Provider,
 	}
 	s.Config = instanceConfig + `
-    resource "baremetal_core_console_history" "t" {
-	instance_id = "${baremetal_core_instance.t.id}"
+    resource "oci_core_console_history" "t" {
+	instance_id = "${oci_core_instance.t.id}"
     }
-    data "baremetal_core_console_history_data" "s" {
-      console_history_id = "${baremetal_core_console_history.t.id}"
+    data "oci_core_console_history_data" "s" {
+      console_history_id = "${oci_core_console_history.t.id}"
       length = 10240
     }
   `
 	s.Config += testProviderConfig()
-	s.ResourceName = "data.baremetal_core_console_history_data.s"
+	s.ResourceName = "data.oci_core_console_history_data.s"
 }
 
 func (s *CoreConsoleHistoryDataDatasourceTestSuite) TestResourceShowConsoleHistory() {

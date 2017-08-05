@@ -14,5 +14,5 @@ func printVersion() {
 	strs := strings.Split(version, ".")
 	build, _ := strconv.ParseInt(strs[2], 10, 64)
 	strs[2] = strconv.FormatInt(build+1, 10)
-	log.Printf("[INFO] terraform-provider-baremetal %s\n", strings.Join(strs, "."))
+	log.Printf("[INFO] terraform-provider-oci %s\n", strings.Join(strs, "."))
 }

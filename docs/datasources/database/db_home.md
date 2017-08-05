@@ -1,11 +1,11 @@
-# baremetal\_database\_db\_home
+# oci\_database\_db\_home
 
 Gets information about the specified database home.
 
 ## Example Usage
 
 ```
-data "baremetal_database_db_home" "t" {
+data "oci_database_db_home" "t" {
   db_home_id = "id"
 }
 ```

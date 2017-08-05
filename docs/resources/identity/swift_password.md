@@ -1,11 +1,11 @@
-# baremetal\_identity\_swift\_password
+# oci\_identity\_swift\_password
 
 Provides a swift password resource.
 
 ## Example Usage
 
 ```
-resource "baremetal_identity_swift_password" "t" {
+resource "oci_identity_swift_password" "t" {
     user_id = "user_id"
     description = "nah nah nah"
 }

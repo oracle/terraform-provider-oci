@@ -35,12 +35,12 @@ func (s *ResourceCoreCpeTestSuite) SetupTest() {
 	)
 
 	s.Providers = map[string]terraform.ResourceProvider{
-		"baremetal": s.Provider,
+		"oci": s.Provider,
 	}
 	s.TimeCreated = baremetal.Time{Time: time.Now()}
 	s.Config = `
 
-		resource "baremetal_core_cpe" "t" {
+		resource "oci_core_cpe" "t" {
 			compartment_id = "${var.compartment_id}"
 			display_name = "displayname"
       			ip_address = "123.123.123.123"
@@ -49,7 +49,7 @@ func (s *ResourceCoreCpeTestSuite) SetupTest() {
 
 	s.Config += testProviderConfig()
 
-	s.ResourceName = "baremetal_core_cpe.t"
+	s.ResourceName = "oci_core_cpe.t"
 
 }
 
@@ -77,7 +77,7 @@ func (s ResourceCoreCpeTestSuite) TestUpdateForcesNewCoreCpe() {
 
 	updateForcingChangeConfig := `
 
-  resource "baremetal_core_cpe" "t" {
+  resource "oci_core_cpe" "t" {
     compartment_id = "${var.compartment_id}"
     display_name = "displayname"
     ip_address = "111.222.111.222"

@@ -1,11 +1,11 @@
-# baremetal\_identity\_groups
+# oci\_identity\_groups
 
 Lists groups
 
 ## Example Usage
 
 ```
-data "baremetal_identity_groups" "t" {
+data "oci_identity_groups" "t" {
   compartment_id = "compartment"
 }
 ```

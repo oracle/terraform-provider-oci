@@ -1,11 +1,11 @@
-# baremetal\_core\_virtual\_networks
+# oci\_core\_virtual\_networks
 
 Gets a list of virtual networks.
 
 ## Example Usage
 
 ```
-data "baremetal_core_virtual_networks" "t" {
+data "oci_core_virtual_networks" "t" {
   compartment_id = "compartment_id"
   limit = 1
   page = "page"

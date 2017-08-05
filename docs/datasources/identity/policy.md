@@ -1,11 +1,11 @@
-# baremetal\_identity\_policies
+# oci\_identity\_policies
 
 Lists policies
 
 ## Example Usage
 
 ```
-  data "baremetal_identity_policies" "p" {
+  data "oci_identity_policies" "p" {
     compartment_id = "compartment ocid"
   }
 ```

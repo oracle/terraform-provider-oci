@@ -1,11 +1,11 @@
-# baremetal\_core\_vnic
+# oci\_core\_vnic
 
 Gets information about a specific vnic.
 
 ## Example Usage
 
 ```
-data "baremetal_core_vnic" "t" {
+data "oci_core_vnic" "t" {
   vnic_id = "vnicid"
 }
 ```

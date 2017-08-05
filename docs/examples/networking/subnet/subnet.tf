@@ -10,7 +10,7 @@ variable "dhcp_options_ocid" {}
 variable "route_table_ocid" {}
 variable "security_list_ocid" {}
 
-provider "baremetal" {
+provider "oci" {
   tenancy_ocid = "${var.tenancy_ocid}"
   user_ocid = "${var.user_ocid}"
   fingerprint = "${var.fingerprint}"
@@ -25,8 +25,8 @@ Because you can specify multiple security lists/subnet the security_list_ids val
 Generally you wouldn't specify a subnet without first specifying a VCN. Once the VCN has been created you would get the vcn_id, route_table_id, and security_list_id(s) from that resource and use Terraform attributes below to populate those values.
  See https://www.terraform.io/docs/configuration/interpolation.html*/
 
-resource "baremetal_core_subnet" "a_TF_managed_subnet" {
-  availability_domain = "${lookup(data.baremetal_identity_availability_domains.ADs.availability_domains[0],"name")}"
+resource "oci_core_subnet" "a_TF_managed_subnet" {
+  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[0],"name")}"
   cidr_block = "10.0.1.0/24"
   display_name = "subnet1"
   dns_label = "subnet1"
@@ -37,6 +37,6 @@ resource "baremetal_core_subnet" "a_TF_managed_subnet" {
   dhcp_options_id = "${var.dhcp_options_ocid}"
 }
 
-data "baremetal_identity_availability_domains" "ADs" {
+data "oci_identity_availability_domains" "ADs" {
   compartment_id = "${var.tenancy_ocid}"
 }

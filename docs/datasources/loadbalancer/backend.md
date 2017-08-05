@@ -1,11 +1,11 @@
-# baremetal\_load\_balancer\_backends
+# oci\_load\_balancer\_backends
 
 Provide a load balancer backends.
 
 ## Example Usage
 
 ```
-data "baremetal_load_balancer_backends" "t" {
+data "oci_load_balancer_backends" "t" {
   load_balancer_id = "ocid1.loadbalancer.stub_id"
   backendset_name  = "stub_backendset_name"
 }

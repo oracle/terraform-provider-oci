@@ -1,11 +1,11 @@
-# baremetal\_database\_db\_homes
+# oci\_database\_db\_homes
 
 Gets a list of database homes in the specified DB System and compartment.
 
 ## Example Usage
 
 ```
-data "baremetal_database_db_homes" "t" {
+data "oci_database_db_homes" "t" {
   compartment_id = "compartment_id"
   db_system_id = "db_system_id"
   limit = 1

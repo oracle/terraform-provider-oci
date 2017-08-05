@@ -11,7 +11,7 @@ variable "region" {}
 
 variable "group_name" {}
 
-provider "baremetal" {
+provider "oci" {
   tenancy_ocid = "${var.tenancy_ocid}"
   user_ocid = "${var.user_ocid}"
   fingerprint = "${var.fingerprint}"
@@ -19,27 +19,27 @@ provider "baremetal" {
   region = "${var.region}"
 }
 
-resource "baremetal_identity_compartment" "t" {
+resource "oci_identity_compartment" "t" {
   name = "test-compartment"
   description = "automated test compartment"
 }
 
-resource "baremetal_identity_group" "t" {
+resource "oci_identity_group" "t" {
   name = "-tf-group"
   description = "automated test group"
 }
 
-resource "baremetal_identity_policy" "p" {
+resource "oci_identity_policy" "p" {
   name = "-tf-policy"
   description = "automated test policy"
-  compartment_id = "${baremetal_identity_compartment.t.id}"
-  statements = ["Allow group ${baremetal_identity_group.t.name} to read instances in compartment ${baremetal_identity_compartment.t.name}"]
+  compartment_id = "${oci_identity_compartment.t.id}"
+  statements = ["Allow group ${"oci_identity_group.t.name} to read instances in compartment ${"oci_identity_compartment.t.name}"]
 }
 
-data "baremetal_identity_policies" "p" {
-  compartment_id = "${baremetal_identity_compartment.t.id}"
+data "oci_identity_policies" "p" {
+  compartment_id = "${oci_identity_compartment.t.id}"
 }
 
 output "policy" {
-  value = ["${data.baremetal_identity_policies.p.policies}"]
+  value = ["${data.oci_identity_policies.p.policies}"]
 }

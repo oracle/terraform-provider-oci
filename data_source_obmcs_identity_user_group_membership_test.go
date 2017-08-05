@@ -29,44 +29,44 @@ func (s *DatasourceIdentityUserGroupMembershipsTestSuite) SetupTest() {
 	})
 
 	s.Providers = map[string]terraform.ResourceProvider{
-		"baremetal": s.Provider,
+		"oci": s.Provider,
 	}
 
 	s.Config = `
-    resource "baremetal_identity_user" "u" {
+    resource "oci_identity_user" "u" {
 		name = "user_name"
 		description = "user desc"
     }
-    resource "baremetal_identity_group" "g" {
+    resource "oci_identity_group" "g" {
 		name = "group_name"
 		description = "group desc"
     }
-    resource "baremetal_identity_user_group_membership" "ug_membership" {
+    resource "oci_identity_user_group_membership" "ug_membership" {
     	compartment_id = "${var.tenancy_ocid}"
-		user_id = "${baremetal_identity_user.u.id}"
-		group_id = "${baremetal_identity_group.g.id}"
+		user_id = "${oci_identity_user.u.id}"
+		group_id = "${oci_identity_group.g.id}"
     }
   `
 	s.Config += testProviderConfig()
-	s.ResourceName = "baremetal_identity_user_group_membership.ug_membership"
+	s.ResourceName = "oci_identity_user_group_membership.ug_membership"
 }
 
 func (s *DatasourceIdentityUserGroupMembershipsTestSuite) TestGetUserGroupMembershipsByGroup() {
 	config := `
-	data "baremetal_identity_user_group_memberships" "g_memberships" {
+	data "oci_identity_user_group_memberships" "g_memberships" {
 	    compartment_id = "${var.tenancy_ocid}"
-	    group_id = "${baremetal_identity_group.g.id}"
+	    group_id = "${oci_identity_group.g.id}"
 	}
 
-	data "baremetal_identity_user_group_memberships" "u_memberships" {
+	data "oci_identity_user_group_memberships" "u_memberships" {
 		compartment_id = "${var.tenancy_ocid}"
-		user_id = "${baremetal_identity_user.u.id}"
+		user_id = "${oci_identity_user.u.id}"
 	}
 
-	data "baremetal_identity_user_group_memberships" "ug_memberships" {
+	data "oci_identity_user_group_memberships" "ug_memberships" {
 	    compartment_id = "${var.tenancy_ocid}"
-	    user_id = "${baremetal_identity_user.u.id}"
-	    group_id = "${baremetal_identity_group.g.id}"
+	    user_id = "${oci_identity_user.u.id}"
+	    group_id = "${oci_identity_group.g.id}"
 	}
 	`
 	resource.UnitTest(s.T(), resource.TestCase{
@@ -84,9 +84,9 @@ func (s *DatasourceIdentityUserGroupMembershipsTestSuite) TestGetUserGroupMember
 			{
 				Config: s.Config + config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet("data.baremetal_identity_user_group_memberships.g_memberships", "memberships.0.id"),
-					resource.TestCheckResourceAttrSet("data.baremetal_identity_user_group_memberships.u_memberships", "memberships.0.id"),
-					resource.TestCheckResourceAttrSet("data.baremetal_identity_user_group_memberships.ug_memberships", "memberships.0.id"),
+					resource.TestCheckResourceAttrSet("data.oci_identity_user_group_memberships.g_memberships", "memberships.0.id"),
+					resource.TestCheckResourceAttrSet("data.oci_identity_user_group_memberships.u_memberships", "memberships.0.id"),
+					resource.TestCheckResourceAttrSet("data.oci_identity_user_group_memberships.ug_memberships", "memberships.0.id"),
 				),
 			},
 		},

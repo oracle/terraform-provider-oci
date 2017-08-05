@@ -36,14 +36,14 @@ func (s *ResourceCoreVnicAttachmentTestSuite) SetupTest() {
 	)
 
 	s.Providers = map[string]terraform.ResourceProvider{
-		"baremetal": s.Provider,
+		"oci": s.Provider,
 	}
 
 	s.TimeCreated = baremetal.Time{Time: time.Now()}
 	s.Config = instanceDnsConfig
 	s.Config += testProviderConfig()
-	s.ResourceName = "baremetal_core_vnic_attachment.va"
-	s.VnicResourceName = "data.baremetal_core_vnic.v"
+	s.ResourceName = "oci_core_vnic_attachment.va"
+	s.VnicResourceName = "data.oci_core_vnic.v"
 }
 
 func (s *ResourceCoreVnicAttachmentTestSuite) TestAttachVnic() {
@@ -55,17 +55,17 @@ func (s *ResourceCoreVnicAttachmentTestSuite) TestAttachVnic() {
 				ImportState:       true,
 				ImportStateVerify: true,
 				Config: s.Config + `
-						resource "baremetal_core_vnic_attachment" "va" {
-							instance_id = "${baremetal_core_instance.t.id}"
+						resource "oci_core_vnic_attachment" "va" {
+							instance_id = "${oci_core_instance.t.id}"
 							display_name = "-tf-va1"
 							create_vnic_details {
-								subnet_id = "${baremetal_core_subnet.t.id}"
+								subnet_id = "${oci_core_subnet.t.id}"
 								display_name = "-tf-vnic"
 								assign_public_ip = false
 							}
 						}
-						data "baremetal_core_vnic" "v" {
-						  vnic_id = "${baremetal_core_vnic_attachment.va.vnic_id}"
+						data "oci_core_vnic" "v" {
+						  vnic_id = "${oci_core_vnic_attachment.va.vnic_id}"
 						}
 					`,
 				Check: resource.ComposeTestCheckFunc(
@@ -91,19 +91,19 @@ func (s *ResourceCoreVnicAttachmentTestSuite) TestAttachVnic() {
 				ImportState:       true,
 				ImportStateVerify: true,
 				Config: s.Config + `
-						resource "baremetal_core_vnic_attachment" "va" {
-							instance_id = "${baremetal_core_instance.t.id}"
+						resource "oci_core_vnic_attachment" "va" {
+							instance_id = "${oci_core_instance.t.id}"
 							display_name = "-tf-va1"
 							create_vnic_details {
-								subnet_id = "${baremetal_core_subnet.t.id}"
+								subnet_id = "${oci_core_subnet.t.id}"
 								display_name = "-tf-vnic"
 								assign_public_ip = true
 								private_ip = "10.0.1.20"
 								hostname_label = "myvnichostname"
 							}
 						}
-						data "baremetal_core_vnic" "v" {
-						  vnic_id = "${baremetal_core_vnic_attachment.va.vnic_id}"
+						data "oci_core_vnic" "v" {
+						  vnic_id = "${oci_core_vnic_attachment.va.vnic_id}"
 						}
 					`,
 				Check: resource.ComposeTestCheckFunc(

@@ -36,20 +36,20 @@ func (s *ResourceCoreDrgTestSuite) SetupTest() {
 	)
 
 	s.Providers = map[string]terraform.ResourceProvider{
-		"baremetal": s.Provider,
+		"oci": s.Provider,
 	}
 
 	s.TimeCreated = baremetal.Time{Time: time.Now()}
 
 	s.Config = `
-		resource "baremetal_core_drg" "t" {
+		resource "oci_core_drg" "t" {
 			compartment_id = "${var.compartment_id}"
 			display_name = "display_name"
 		}
 	`
 	s.Config += testProviderConfig()
 
-	s.ResourceName = "baremetal_core_drg.t"
+	s.ResourceName = "oci_core_drg.t"
 
 }
 
@@ -76,7 +76,7 @@ func (s *ResourceCoreDrgTestSuite) TestCreateResourceCoreDrg() {
 
 func (s *ResourceCoreDrgTestSuite) TestCreateResourceCoreDrgWithoutDisplayName() {
 	s.Config = `
-		resource "baremetal_core_drg" "t" {
+		resource "oci_core_drg" "t" {
 			compartment_id = "${var.compartment_id}"
 		}
 	`

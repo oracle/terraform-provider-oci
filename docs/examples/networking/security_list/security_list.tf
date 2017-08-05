@@ -12,7 +12,7 @@ variable "region" {}
 variable "vcn_ocid" {}
 
 
-provider "baremetal" {
+provider "oci" {
   tenancy_ocid = "${var.tenancy_ocid}"
   user_ocid = "${var.user_ocid}"
   fingerprint = "${var.fingerprint}"
@@ -23,7 +23,7 @@ provider "baremetal" {
 # Protocols are specified as protocol numbers.
 # http://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml
 
-resource "baremetal_core_security_list" "security_list1" {
+resource "oci_core_security_list" "security_list1" {
   compartment_id = "${var.compartment_ocid}"
   vcn_id = "${var.vcn_ocid}"
   display_name = "security_list1"

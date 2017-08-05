@@ -1,11 +1,11 @@
-# baremetal\_load\_balancer\_backend
+# oci\_load\_balancer\_backend
 
 Provide a load balancer backend resource.
 
 ## Example Usage
 
 ```
-resource "baremetal_load_balancer_backend" "t" {
+resource "oci_load_balancer_backend" "t" {
   load_balancer_id = "ocid1.loadbalancer.stub_id"
   backendset_name  = "stub_backendset_name"
   ip_address       = "1.2.3.4"

@@ -1,4 +1,4 @@
-# baremetal\_objectstorage\_namespace
+# oci\_objectstorage\_namespace
 
 Provides an Objectstorage datasource for fetching the authenticated user's namespace.
 
@@ -7,7 +7,7 @@ Provides an Objectstorage datasource for fetching the authenticated user's names
 ### Object
 
 ```
-data "baremetal_objectstorage_namespace" "t" {}
+data "oci_objectstorage_namespace" "t" {}
 ```
 
 ## Argument Reference

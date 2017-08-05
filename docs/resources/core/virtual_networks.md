@@ -1,4 +1,4 @@
-# baremetal\_core\_virtual_networks
+# oci\_core\_virtual_networks
 
 Provides a virtual network resource.
 
@@ -6,7 +6,7 @@ Provides a virtual network resource.
 ## Example Usage
 
 ```
-resource "baremetal_core_virtual_network" "t" {
+resource "oci_core_virtual_network" "t" {
     cidr_block = "cidr_block"
     compartment_id = "compartment_id"
     display_name = "display_name"

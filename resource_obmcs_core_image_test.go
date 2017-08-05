@@ -33,18 +33,18 @@ func (s *ResourceCoreImageTestSuite) SetupTest() {
 			return s.Client, nil
 		},
 	)
-	s.Providers = map[string]terraform.ResourceProvider{"baremetal": s.Provider}
+	s.Providers = map[string]terraform.ResourceProvider{"oci": s.Provider}
 
 	s.Config = instanceConfig + `
-		resource "baremetal_core_image" "t" {
+		resource "oci_core_image" "t" {
 			compartment_id = "${var.compartment_id}"
 			display_name = "display_name"
-			instance_id = "${baremetal_core_instance.t.id}"
+			instance_id = "${oci_core_instance.t.id}"
 		}
 	`
 	s.Config += testProviderConfig()
 
-	s.ResourceName = "baremetal_core_image.t"
+	s.ResourceName = "oci_core_image.t"
 }
 
 func (s *ResourceCoreImageTestSuite) TestCreateImage() {
@@ -72,7 +72,7 @@ func (s *ResourceCoreImageTestSuite) TestCreateImage() {
 func (s ResourceCoreImageTestSuite) TestUpdateImageDisplayName() {
 
 	config := `
-		resource "baremetal_core_image" "t" {
+		resource "oci_core_image" "t" {
 			compartment_id = "${var.compartment_id}"
 			instance_id = "instance_id"
 			display_name = "new_display_name"

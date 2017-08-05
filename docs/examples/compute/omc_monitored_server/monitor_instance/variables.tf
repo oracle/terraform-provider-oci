@@ -1,4 +1,4 @@
-#BMC Provider Configuration
+#OCI Provider Configuration
 variable "tenancy_ocid" {}
 variable "user_ocid" {}
 variable "fingerprint" {}
@@ -24,7 +24,7 @@ variable "ad" {
 }
 
 variable "shape_name" {
-  description = "BMC server shape common name, find valid values in the BMC console drop down"
+  description = "OCI server shape common name, find valid values in the OCI console drop down"
 }
 
 variable "compartment_name" {

@@ -30,21 +30,21 @@ func (s *DatasourceCoreCpeTestSuite) SetupTest() {
 	})
 
 	s.Providers = map[string]terraform.ResourceProvider{
-		"baremetal": s.Provider,
+		"oci": s.Provider,
 	}
 	s.Config = `
-resource "baremetal_core_cpe" "t" {
+resource "oci_core_cpe" "t" {
     compartment_id = "${var.compartment_id}"
     display_name = "name1"
     ip_address = "142.10.10.2"
 }
 
-data "baremetal_core_cpes" "s" {
-    compartment_id = "${baremetal_core_cpe.t.compartment_id}"
+data "oci_core_cpes" "s" {
+    compartment_id = "${oci_core_cpe.t.compartment_id}"
 }
   `
 	s.Config += testProviderConfig()
-	s.ResourceName = "data.baremetal_core_cpes.s"
+	s.ResourceName = "data.oci_core_cpes.s"
 
 }
 

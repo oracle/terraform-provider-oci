@@ -36,7 +36,7 @@ func (s *ResourcePARTestSuite) SetupTest() {
 	)
 
 	s.Providers = map[string]terraform.ResourceProvider{
-		"baremetal": s.Provider,
+		"oci": s.Provider,
 	}
 
 	s.TimeCreated = baremetal.Time{Time: time.Now()}
@@ -44,7 +44,7 @@ func (s *ResourcePARTestSuite) SetupTest() {
 	s.TimeExpired = baremetal.Time{Time: t}
 
 	s.Config = `
-		resource "baremetal_objectstorage_preauthrequest" "t" {
+		resource "oci_objectstorage_preauthrequest" "t" {
 			namespace ="internalbriangustafson"
 			bucket = "testOne"
 			name = "parOne"
@@ -54,7 +54,7 @@ func (s *ResourcePARTestSuite) SetupTest() {
 
 	s.Config += testProviderConfig()
 
-	s.ResourceName = "baremetal_objectstorage_preauthrequest.t"
+	s.ResourceName = "oci_objectstorage_preauthrequest.t"
 
 }
 

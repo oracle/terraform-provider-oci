@@ -29,16 +29,16 @@ func (s *ResourceCoreDrgsTestSuite) SetupTest() {
 	})
 
 	s.Providers = map[string]terraform.ResourceProvider{
-		"baremetal": s.Provider,
+		"oci": s.Provider,
 	}
 	s.Config = `
-	resource "baremetal_core_drg" "t" {
+	resource "oci_core_drg" "t" {
 		compartment_id = "${var.compartment_id}"
 		display_name = "display_name"
 	}
   `
 	s.Config += testProviderConfig()
-	s.ResourceName = "data.baremetal_core_drgs.t"
+	s.ResourceName = "data.oci_core_drgs.t"
 }
 
 func (s *ResourceCoreDrgsTestSuite) TestReadDrgs() {
@@ -54,7 +54,7 @@ func (s *ResourceCoreDrgsTestSuite) TestReadDrgs() {
 			},
 			{
 				Config: s.Config + `
-				data "baremetal_core_drgs" "t" {
+				data "oci_core_drgs" "t" {
 					compartment_id = "${var.compartment_id}"
 					limit = 1
 				}`,
