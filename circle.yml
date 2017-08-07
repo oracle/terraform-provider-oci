@@ -8,7 +8,7 @@ machine:
     GOROOT: "/usr/local/go"
     PATH: "/home/ubuntu/.go_project/bin:/usr/local/go/bin:/usr/local/go_workspace/bin:/home/ubuntu/.go_workspace/bin:${PATH}"
     GOPATH: "/home/ubuntu/.go_project"
-    PROJECT_OWNER: "MustWin"
+    PROJECT_OWNER: "oracle"
 
 dependencies:
   override:
