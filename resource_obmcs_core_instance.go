@@ -10,6 +10,7 @@ import (
 	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/crud"
 	"github.com/oracle/terraform-provider-baremetal/options"
+	"encoding/json"
 )
 
 func InstanceResource() *schema.Resource {
@@ -90,9 +91,15 @@ func InstanceResource() *schema.Resource {
 			},
 			"metadata": {
 				Type:     schema.TypeMap,
-				Required: true,
+				Optional: true,
 				Elem:     schema.TypeString,
 				ForceNew: true,
+			},
+			"extended_metadata": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				ForceNew: true,
+				Elem:     schema.TypeString,
 			},
 			"region": {
 				Type:     schema.TypeString,
@@ -198,6 +205,20 @@ func resourceInstanceMapToMetadata(rm map[string]interface{}) map[string]string 
 	return result
 }
 
+func mapToExtendedMetadata(rm map[string]interface{}) map[string]interface{} {
+	result := make(map[string]interface{})
+	for k, v := range rm {
+		val := make(map[string]interface{})
+		//Use the string value that was passed if it is not a valid JSON string
+		if err := json.Unmarshal([]byte(v.(string)), &val); err == nil {
+			result[k] = val
+		} else {
+			result[k] = v.(string)
+		}
+	}
+	return result
+}
+
 func (s *InstanceResourceCrud) Create() (e error) {
 	availabilityDomain := s.D.Get("availability_domain").(string)
 	compartmentID := s.D.Get("compartment_id").(string)
@@ -219,6 +240,11 @@ func (s *InstanceResourceCrud) Create() (e error) {
 	if rawMetadata, ok := s.D.GetOk("metadata"); ok {
 		metadata := resourceInstanceMapToMetadata(rawMetadata.(map[string]interface{}))
 		opts.Metadata = metadata
+	}
+
+	if rawExtendedMetadata, ok := s.D.GetOk("extended_metadata"); ok {
+		extendedMetadata := mapToExtendedMetadata(rawExtendedMetadata.(map[string]interface{}))
+		opts.ExtendedMetadata = extendedMetadata
 	}
 
 	if rawVnic, ok := s.D.GetOk("create_vnic_details"); ok {
