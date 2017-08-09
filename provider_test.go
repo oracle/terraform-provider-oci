@@ -4,8 +4,6 @@ package main
 
 import (
 	"errors"
-	"os"
-	"strconv"
 	"testing"
 
 	"github.com/MustWin/baremetal-sdk-go"
@@ -256,18 +254,6 @@ func (r *testClient) On(methodName string, arguments ...interface{}) *mock.Call 
 func (r *testClient) AssertCalled(t mock.TestingT, methodName string, arguments ...interface{}) bool {
 	// Do Nothing. Just return true and assume errors are caught elsewhere
 	return true
-}
-
-func IsAccTest() bool {
-	val := os.Getenv(resource.TestEnvVar)
-	if val == "" {
-		return false
-	}
-	acc, err := strconv.ParseBool(val)
-	if err != nil {
-		panic("Err testing TF_ACC env var. It should be blank or a boolean value.")
-	}
-	return acc
 }
 
 func GetTestProvider() client.BareMetalClient {
