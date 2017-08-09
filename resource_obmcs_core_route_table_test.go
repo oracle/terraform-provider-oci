@@ -90,10 +90,6 @@ func (s *ResourceCoreRouteTableTestSuite) TestCreateResourceCoreRouteTable() {
 }
 
 func (s ResourceCoreRouteTableTestSuite) TestUpdateRouteTable() {
-	if IsAccTest() {
-		s.T().Skip()
-	}
-
 	config := `
 		resource "baremetal_core_route_table" "t" {
 			compartment_id = "${var.compartment_id}"
