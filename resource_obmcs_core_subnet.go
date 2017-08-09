@@ -8,7 +8,6 @@ import (
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/crud"
 )
 
@@ -106,19 +105,19 @@ func SubnetResource() *schema.Resource {
 func createSubnet(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &SubnetResourceCrud{}
 	sync.D = d
-	sync.Client = m.(client.BareMetalClient)
+	sync.Client = m.(*baremetal.Client)
 	return crud.CreateResource(d, sync)
 }
 
 func readSubnet(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &SubnetResourceCrud{}
 	sync.D = d
-	sync.Client = m.(client.BareMetalClient)
+	sync.Client = m.(*baremetal.Client)
 	return crud.ReadResource(sync)
 }
 
 func updateSubnet(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(client.BareMetalClient)
+	client := m.(*baremetal.Client)
 	sync := &SubnetResourceCrud{}
 	sync.D = d
 	sync.Client = client
@@ -128,7 +127,7 @@ func updateSubnet(d *schema.ResourceData, m interface{}) (e error) {
 func deleteSubnet(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &SubnetResourceCrud{}
 	sync.D = d
-	sync.Client = m.(client.BareMetalClient)
+	sync.Client = m.(*baremetal.Client)
 	return crud.DeleteResource(d, sync)
 }
 

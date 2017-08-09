@@ -3,12 +3,12 @@
 package main
 
 import (
+	"encoding/json"
 	"log"
 
-	"encoding/json"
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
-	"github.com/oracle/terraform-provider-baremetal/client"
+
 	"github.com/oracle/terraform-provider-baremetal/crud"
 	"github.com/oracle/terraform-provider-baremetal/options"
 )
@@ -140,28 +140,28 @@ func InstanceResource() *schema.Resource {
 func createInstance(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &InstanceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(client.BareMetalClient)
+	sync.Client = m.(*baremetal.Client)
 	return crud.CreateResource(d, sync)
 }
 
 func readInstance(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &InstanceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(client.BareMetalClient)
+	sync.Client = m.(*baremetal.Client)
 	return crud.ReadResource(sync)
 }
 
 func updateInstance(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &InstanceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(client.BareMetalClient)
+	sync.Client = m.(*baremetal.Client)
 	return crud.UpdateResource(d, sync)
 }
 
 func deleteInstance(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &InstanceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(client.BareMetalClient)
+	sync.Client = m.(*baremetal.Client)
 	return crud.DeleteResource(d, sync)
 }
 

@@ -6,7 +6,6 @@ import (
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/crud"
 )
 
@@ -64,7 +63,7 @@ func InternetGatewayResource() *schema.Resource {
 func createInternetGateway(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &InternetGatewayResourceCrud{}
 	sync.D = d
-	sync.Client = m.(client.BareMetalClient)
+	sync.Client = m.(*baremetal.Client)
 
 	return crud.CreateResource(d, sync)
 }
@@ -72,7 +71,7 @@ func createInternetGateway(d *schema.ResourceData, m interface{}) (e error) {
 func readInternetGateway(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &InternetGatewayResourceCrud{}
 	sync.D = d
-	sync.Client = m.(client.BareMetalClient)
+	sync.Client = m.(*baremetal.Client)
 
 	return crud.ReadResource(sync)
 }
@@ -80,7 +79,7 @@ func readInternetGateway(d *schema.ResourceData, m interface{}) (e error) {
 func updateInternetGateway(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &InternetGatewayResourceCrud{}
 	sync.D = d
-	sync.Client = m.(client.BareMetalClient)
+	sync.Client = m.(*baremetal.Client)
 
 	return crud.UpdateResource(d, sync)
 
@@ -89,7 +88,7 @@ func updateInternetGateway(d *schema.ResourceData, m interface{}) (e error) {
 func deleteInternetGateway(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &InternetGatewayResourceCrud{}
 	sync.D = d
-	sync.Client = m.(client.BareMetalClient)
+	sync.Client = m.(*baremetal.Client)
 	return crud.DeleteResource(d, sync)
 }
 

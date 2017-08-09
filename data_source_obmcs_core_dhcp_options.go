@@ -5,12 +5,11 @@ package main
 import (
 	"time"
 
-	"github.com/hashicorp/terraform/helper/schema"
-	"github.com/oracle/terraform-provider-baremetal/options"
-
 	"github.com/MustWin/baremetal-sdk-go"
-	"github.com/oracle/terraform-provider-baremetal/client"
+	"github.com/hashicorp/terraform/helper/schema"
+
 	"github.com/oracle/terraform-provider-baremetal/crud"
+	"github.com/oracle/terraform-provider-baremetal/options"
 )
 
 func DHCPOptionsDatasource() *schema.Resource {
@@ -43,7 +42,7 @@ func DHCPOptionsDatasource() *schema.Resource {
 }
 
 func readDHCPOptionsList(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(client.BareMetalClient)
+	client := m.(*baremetal.Client)
 	reader := &DHCPOptionsDatasourceCrud{}
 	reader.D = d
 	reader.Client = client

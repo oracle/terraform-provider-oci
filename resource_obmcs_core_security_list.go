@@ -6,7 +6,6 @@ import (
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/crud"
 )
 
@@ -137,7 +136,7 @@ func SecurityListResource() *schema.Resource {
 }
 
 func createSecurityList(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(client.BareMetalClient)
+	client := m.(*baremetal.Client)
 	crd := &SecurityListResourceCrud{}
 	crd.D = d
 	crd.Client = client
@@ -145,7 +144,7 @@ func createSecurityList(d *schema.ResourceData, m interface{}) (e error) {
 }
 
 func readSecurityList(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(client.BareMetalClient)
+	client := m.(*baremetal.Client)
 	crd := &SecurityListResourceCrud{}
 	crd.D = d
 	crd.Client = client
@@ -153,7 +152,7 @@ func readSecurityList(d *schema.ResourceData, m interface{}) (e error) {
 }
 
 func updateSecurityList(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(client.BareMetalClient)
+	client := m.(*baremetal.Client)
 	crd := &SecurityListResourceCrud{}
 	crd.D = d
 	crd.Client = client
@@ -161,7 +160,7 @@ func updateSecurityList(d *schema.ResourceData, m interface{}) (e error) {
 }
 
 func deleteSecurityList(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(client.BareMetalClient)
+	client := m.(*baremetal.Client)
 	crd := &SecurityListResourceCrud{}
 	crd.D = d
 	crd.Client = client

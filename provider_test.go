@@ -12,8 +12,6 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
-
-	"github.com/oracle/terraform-provider-baremetal/client"
 )
 
 func testProviderConfig() string {
@@ -209,7 +207,7 @@ variable "DBNodeHostName" {
 	`
 
 type testClient struct {
-	client.BareMetalClient
+	*baremetal.Client
 }
 
 func (r *testClient) On(methodName string, arguments ...interface{}) *mock.Call {
@@ -221,7 +219,7 @@ func (r *testClient) AssertCalled(t mock.TestingT, methodName string, arguments 
 	return true
 }
 
-func GetTestProvider() client.BareMetalClient {
+func GetTestProvider() *baremetal.Client {
 	r := &schema.Resource{
 		Schema: schemaMap(),
 	}
@@ -240,7 +238,7 @@ func GetTestProvider() client.BareMetalClient {
 	if err != nil {
 		panic(err)
 	}
-	return &testClient{client.(*baremetal.Client)}
+	return client.(*baremetal.Client)
 }
 
 // This test runs the Provider sanity checks.

@@ -3,12 +3,13 @@
 package main
 
 import (
-	"github.com/MustWin/baremetal-sdk-go"
-	"github.com/hashicorp/terraform/helper/schema"
-	"github.com/oracle/terraform-provider-baremetal/client"
-	"github.com/oracle/terraform-provider-baremetal/crud"
 	"log"
 	"time"
+
+	"github.com/MustWin/baremetal-sdk-go"
+	"github.com/hashicorp/terraform/helper/schema"
+
+	"github.com/oracle/terraform-provider-baremetal/crud"
 )
 
 func LoadBalancerDatasource() *schema.Resource {
@@ -29,7 +30,7 @@ func LoadBalancerDatasource() *schema.Resource {
 }
 
 func readLoadBalancers(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(client.BareMetalClient)
+	client := m.(*baremetal.Client)
 	sync := &LoadBalancerDatasourceCrud{}
 	sync.D = d
 	sync.Client = client
