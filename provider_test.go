@@ -211,14 +211,6 @@ variable "DBNodeHostName" {
 	}
 	`
 
-// This is a dummy object allowing coexistence between mocked API calls and real API calls in acceptance tests
-// Acceptance tests will use this object that "mocks" the mocks
-type mockableClient interface {
-	client.BareMetalClient
-	On(methodName string, arguments ...interface{}) *mock.Call
-	AssertCalled(t mock.TestingT, methodName string, arguments ...interface{}) bool
-}
-
 type testClient struct {
 	client.BareMetalClient
 }
