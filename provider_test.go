@@ -11,7 +11,6 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/mock"
 )
 
 func testProviderConfig() string {
@@ -205,19 +204,6 @@ variable "DBNodeHostName" {
 	  hostname = "${var.DBNodeHostName}"
 	}
 	`
-
-type testClient struct {
-	*baremetal.Client
-}
-
-func (r *testClient) On(methodName string, arguments ...interface{}) *mock.Call {
-	// Do Nothing. Return this object so mocks continue to work
-	return &mock.Call{Parent: &mock.Mock{}}
-}
-func (r *testClient) AssertCalled(t mock.TestingT, methodName string, arguments ...interface{}) bool {
-	// Do Nothing. Just return true and assume errors are caught elsewhere
-	return true
-}
 
 func GetTestProvider() *baremetal.Client {
 	r := &schema.Resource{
