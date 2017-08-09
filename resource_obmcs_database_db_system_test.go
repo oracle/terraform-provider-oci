@@ -9,14 +9,14 @@ import (
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
-
 	"github.com/stretchr/testify/suite"
-	//"strconv"
+
+	"github.com/oracle/terraform-provider-baremetal/client"
 )
 
 type ResourceDatabaseDBSystemTestSuite struct {
 	suite.Suite
-	Client       mockableClient
+	Client       client.BareMetalClient
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	Config       string

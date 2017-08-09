@@ -11,11 +11,13 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 
 	"github.com/stretchr/testify/suite"
+
+	"github.com/oracle/terraform-provider-baremetal/client"
 )
 
 type ObjectstorageBucketSummaryTestSuite struct {
 	suite.Suite
-	Client       mockableClient
+	Client       client.BareMetalClient
 	Config       string
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
