@@ -12,10 +12,10 @@ clean:
 fmt:
 	goimports -w -local github.com/oracle/terraform-provider-baremetal $(GOFMT_FILES)
 
-test_acceptance_debug:
+test_debug:
 	TF_LOG=DEBUG DEBUG=true TF_ORACLE_ENV=test TF_ACC=1 go test -v -timeout 120m
 
-test_acceptance:
+test:
 	# You MUST export these variables
 	# export TF_VAR_private_key_path=/Users/Mike/.ssh/oracle2
 	# export TF_VAR_fingerprint=46:08:e3:7b:95:0a:d6:5f:78:24:32:87:23:3f:56:31
