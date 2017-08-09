@@ -279,7 +279,7 @@ func IsAccTest() bool {
 	return acc
 }
 
-func GetTestProvider() mockableClient {
+func GetTestProvider() client.BareMetalClient {
 	if IsAccTest() {
 		r := &schema.Resource{
 			Schema: schemaMap(),
