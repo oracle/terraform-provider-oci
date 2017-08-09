@@ -82,9 +82,6 @@ func (s *ResourceIdentityUserTestSuite) TestCreateResourceIdentityUser() {
 }
 
 func (s *ResourceIdentityUserTestSuite) TestCreateResourceIdentityUserPolling() {
-	if IsAccTest() {
-		s.T().Skip()
-	}
 	s.Res.State = baremetal.ResourceCreating
 
 	u := *s.Res

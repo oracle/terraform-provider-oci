@@ -80,10 +80,6 @@ func (s *ResourceCoreVolumeBackupTestSuite) TestCreateVolumeBackup() {
 }
 
 func (s *ResourceCoreVolumeBackupTestSuite) TestCreateVolumeBackupWithoutDisplayName() {
-	if IsAccTest() {
-		s.T().Skip()
-	}
-
 	s.Config = `
 		resource "baremetal_core_volume_backup" "t" {
 			volume_id = "volume_id"
@@ -107,10 +103,6 @@ func (s *ResourceCoreVolumeBackupTestSuite) TestCreateVolumeBackupWithoutDisplay
 }
 
 func (s ResourceCoreVolumeBackupTestSuite) TestUpdateVolumeBackupDisplayName() {
-	if IsAccTest() {
-		s.T().Skip()
-	}
-
 	config := `
 		resource "baremetal_core_volume_backup" "t" {
 			volume_id = "volume_id"

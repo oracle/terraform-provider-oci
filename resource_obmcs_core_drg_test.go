@@ -77,10 +77,6 @@ func (s *ResourceCoreDrgTestSuite) TestCreateResourceCoreDrg() {
 }
 
 func (s *ResourceCoreDrgTestSuite) TestCreateResourceCoreDrgWithoutDisplayName() {
-	if IsAccTest() {
-		s.T().Skip()
-	}
-
 	s.Config = `
 		resource "baremetal_core_drg" "t" {
 			compartment_id = "${var.compartment_id}"

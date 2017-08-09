@@ -16,7 +16,6 @@ import (
 	"github.com/stretchr/testify/mock"
 
 	"github.com/oracle/terraform-provider-baremetal/client"
-	"github.com/oracle/terraform-provider-baremetal/client/mocks"
 )
 
 func testProviderConfig() string {
@@ -237,28 +236,25 @@ func IsAccTest() bool {
 }
 
 func GetTestProvider() client.BareMetalClient {
-	if IsAccTest() {
-		r := &schema.Resource{
-			Schema: schemaMap(),
-		}
-		d := r.Data(nil)
-		d.SetId(getRequiredEnvSetting("tenancy_ocid"))
-
-		d.Set("tenancy_ocid", getRequiredEnvSetting("tenancy_ocid"))
-		d.Set("user_ocid", getRequiredEnvSetting("user_ocid"))
-		d.Set("fingerprint", getRequiredEnvSetting("fingerprint"))
-		d.Set("private_key_path", getRequiredEnvSetting("private_key_path"))
-		d.Set("private_key_password", getEnvSetting("private_key_password", ""))
-		d.Set("private_key", getEnvSetting("private_key", ""))
-		d.Set("disable_auto_retries", true)
-
-		client, err := providerConfig(d)
-		if err != nil {
-			panic(err)
-		}
-		return &testClient{client.(*baremetal.Client)}
+	r := &schema.Resource{
+		Schema: schemaMap(),
 	}
-	return &mocks.BareMetalClient{}
+	d := r.Data(nil)
+	d.SetId(getRequiredEnvSetting("tenancy_ocid"))
+
+	d.Set("tenancy_ocid", getRequiredEnvSetting("tenancy_ocid"))
+	d.Set("user_ocid", getRequiredEnvSetting("user_ocid"))
+	d.Set("fingerprint", getRequiredEnvSetting("fingerprint"))
+	d.Set("private_key_path", getRequiredEnvSetting("private_key_path"))
+	d.Set("private_key_password", getEnvSetting("private_key_password", ""))
+	d.Set("private_key", getEnvSetting("private_key", ""))
+	d.Set("disable_auto_retries", true)
+
+	client, err := providerConfig(d)
+	if err != nil {
+		panic(err)
+	}
+	return &testClient{client.(*baremetal.Client)}
 }
 
 // This test runs the Provider sanity checks.
