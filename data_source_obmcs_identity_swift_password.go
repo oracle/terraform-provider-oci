@@ -8,7 +8,6 @@ import (
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/crud"
 )
 
@@ -30,7 +29,7 @@ func SwiftPasswordDatasource() *schema.Resource {
 }
 
 func readSwiftPasswords(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(client.BareMetalClient)
+	client := m.(*baremetal.Client)
 	sync := &SwiftPasswordDatasourceCrud{}
 	sync.D = d
 	sync.Client = client

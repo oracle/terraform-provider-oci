@@ -8,7 +8,6 @@ import (
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/crud"
 )
 
@@ -29,28 +28,28 @@ func ObjectResource() *schema.Resource {
 func createObject(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &ObjectResourceCrud{}
 	sync.D = d
-	sync.Client = m.(client.BareMetalClient)
+	sync.Client = m.(*baremetal.Client)
 	return crud.CreateResource(d, sync)
 }
 
 func readObject(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &ObjectResourceCrud{}
 	sync.D = d
-	sync.Client = m.(client.BareMetalClient)
+	sync.Client = m.(*baremetal.Client)
 	return crud.ReadResource(sync)
 }
 
 func updateObject(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &ObjectResourceCrud{}
 	sync.D = d
-	sync.Client = m.(client.BareMetalClient)
+	sync.Client = m.(*baremetal.Client)
 	return crud.UpdateResource(d, sync)
 }
 
 func deleteObject(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &ObjectResourceCrud{}
 	sync.D = d
-	sync.Client = m.(client.BareMetalClient)
+	sync.Client = m.(*baremetal.Client)
 	return crud.DeleteResource(d, sync)
 }
 

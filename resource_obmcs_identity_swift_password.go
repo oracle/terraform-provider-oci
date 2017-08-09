@@ -6,7 +6,6 @@ import (
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/crud"
 )
 
@@ -59,7 +58,7 @@ func SwiftPasswordResource() *schema.Resource {
 }
 
 func createSwiftPassword(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(client.BareMetalClient)
+	client := m.(*baremetal.Client)
 	sync := &SwiftPasswordResourceCrud{}
 	sync.D = d
 	sync.Client = client
@@ -67,7 +66,7 @@ func createSwiftPassword(d *schema.ResourceData, m interface{}) (e error) {
 }
 
 func readSwiftPassword(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(client.BareMetalClient)
+	client := m.(*baremetal.Client)
 	sync := &SwiftPasswordResourceCrud{}
 	sync.D = d
 	sync.Client = client
@@ -75,7 +74,7 @@ func readSwiftPassword(d *schema.ResourceData, m interface{}) (e error) {
 }
 
 func updateSwiftPassword(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(client.BareMetalClient)
+	client := m.(*baremetal.Client)
 	sync := &SwiftPasswordResourceCrud{}
 	sync.D = d
 	sync.Client = client
@@ -83,7 +82,7 @@ func updateSwiftPassword(d *schema.ResourceData, m interface{}) (e error) {
 }
 
 func deleteSwiftPassword(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(client.BareMetalClient)
+	client := m.(*baremetal.Client)
 	sync := &SwiftPasswordResourceCrud{}
 	sync.D = d
 	sync.Client = client

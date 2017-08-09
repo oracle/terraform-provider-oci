@@ -5,12 +5,11 @@ package main
 import (
 	"time"
 
+	"encoding/json"
+
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"encoding/json"
-
-	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/crud"
 	"github.com/oracle/terraform-provider-baremetal/options"
 )
@@ -102,7 +101,7 @@ func resourceCoreInstance() *schema.Resource {
 }
 
 func readInstances(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(client.BareMetalClient)
+	client := m.(*baremetal.Client)
 	reader := &InstanceDatasourceCrud{}
 	reader.D = d
 	reader.Client = client

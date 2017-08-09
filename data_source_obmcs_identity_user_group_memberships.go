@@ -8,7 +8,6 @@ import (
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/crud"
 )
 
@@ -38,7 +37,7 @@ func UserGroupMembershipDatasource() *schema.Resource {
 }
 
 func readUserGroupMemberships(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(client.BareMetalClient)
+	client := m.(*baremetal.Client)
 	sync := &UserGroupMembershipDatasourceCrud{}
 	sync.D = d
 	sync.Client = client

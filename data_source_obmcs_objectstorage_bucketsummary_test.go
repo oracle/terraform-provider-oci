@@ -6,17 +6,16 @@ import (
 	"testing"
 	"time"
 
+	baremetal "github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/stretchr/testify/suite"
-
-	"github.com/oracle/terraform-provider-baremetal/client"
 )
 
 type ObjectstorageBucketSummaryTestSuite struct {
 	suite.Suite
-	Client       client.BareMetalClient
+	Client       *baremetal.Client
 	Config       string
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider

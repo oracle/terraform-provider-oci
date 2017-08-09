@@ -9,7 +9,6 @@ import (
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/crud"
 )
 
@@ -55,28 +54,28 @@ func LoadBalancerListenerResource() *schema.Resource {
 func createLoadBalancerListener(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &LoadBalancerListenerResourceCrud{}
 	sync.D = d
-	sync.Client = m.(client.BareMetalClient)
+	sync.Client = m.(*baremetal.Client)
 	return crud.CreateResource(d, sync)
 }
 
 func readLoadBalancerListener(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &LoadBalancerListenerResourceCrud{}
 	sync.D = d
-	sync.Client = m.(client.BareMetalClient)
+	sync.Client = m.(*baremetal.Client)
 	return crud.ReadResource(sync)
 }
 
 func updateLoadBalancerListener(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &LoadBalancerListenerResourceCrud{}
 	sync.D = d
-	sync.Client = m.(client.BareMetalClient)
+	sync.Client = m.(*baremetal.Client)
 	return crud.UpdateResource(d, sync)
 }
 
 func deleteLoadBalancerListener(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &LoadBalancerListenerResourceCrud{}
 	sync.D = d
-	sync.Client = m.(client.BareMetalClient)
+	sync.Client = m.(*baremetal.Client)
 	return crud.DeleteResource(d, sync)
 }
 

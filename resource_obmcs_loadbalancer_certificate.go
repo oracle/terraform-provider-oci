@@ -8,7 +8,6 @@ import (
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/crud"
 )
 
@@ -61,21 +60,21 @@ func LoadBalancerCertificateResource() *schema.Resource {
 func createLoadBalancerCertificate(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &LoadBalancerCertificateResourceCrud{}
 	sync.D = d
-	sync.Client = m.(client.BareMetalClient)
+	sync.Client = m.(*baremetal.Client)
 	return crud.CreateResource(d, sync)
 }
 
 func readLoadBalancerCertificate(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &LoadBalancerCertificateResourceCrud{}
 	sync.D = d
-	sync.Client = m.(client.BareMetalClient)
+	sync.Client = m.(*baremetal.Client)
 	return crud.ReadResource(sync)
 }
 
 func deleteLoadBalancerCertificate(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &LoadBalancerCertificateResourceCrud{}
 	sync.D = d
-	sync.Client = m.(client.BareMetalClient)
+	sync.Client = m.(*baremetal.Client)
 	return crud.DeleteResource(d, sync)
 }
 

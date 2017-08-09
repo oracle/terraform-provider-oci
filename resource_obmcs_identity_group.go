@@ -8,7 +8,6 @@ import (
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/crud"
 )
 
@@ -28,7 +27,7 @@ func GroupResource() *schema.Resource {
 }
 
 func createGroup(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(client.BareMetalClient)
+	client := m.(*baremetal.Client)
 	sync := &GroupSync{}
 	sync.D = d
 	sync.Client = client
@@ -36,7 +35,7 @@ func createGroup(d *schema.ResourceData, m interface{}) (e error) {
 }
 
 func readGroup(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(client.BareMetalClient)
+	client := m.(*baremetal.Client)
 	sync := &GroupSync{}
 	sync.D = d
 	sync.Client = client
@@ -44,7 +43,7 @@ func readGroup(d *schema.ResourceData, m interface{}) (e error) {
 }
 
 func updateGroup(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(client.BareMetalClient)
+	client := m.(*baremetal.Client)
 	sync := &GroupSync{}
 	sync.D = d
 	sync.Client = client
@@ -52,7 +51,7 @@ func updateGroup(d *schema.ResourceData, m interface{}) (e error) {
 }
 
 func deleteGroup(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(client.BareMetalClient)
+	client := m.(*baremetal.Client)
 	sync := &GroupSync{}
 	sync.D = d
 	sync.Client = client

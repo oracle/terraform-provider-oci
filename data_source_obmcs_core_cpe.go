@@ -8,7 +8,6 @@ import (
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/crud"
 	"github.com/oracle/terraform-provider-baremetal/options"
 )
@@ -41,7 +40,7 @@ func CpeDatasource() *schema.Resource {
 func readCpeList(d *schema.ResourceData, m interface{}) (e error) {
 	reader := &CPEDatasourceCrud{}
 	reader.D = d
-	reader.Client = m.(client.BareMetalClient)
+	reader.Client = m.(*baremetal.Client)
 	return crud.ReadResource(reader)
 
 }

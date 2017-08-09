@@ -8,7 +8,6 @@ import (
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/crud"
 )
 
@@ -75,7 +74,7 @@ func RouteTableResource() *schema.Resource {
 }
 
 func createRouteTable(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(client.BareMetalClient)
+	client := m.(*baremetal.Client)
 	crd := &RouteTableResourceCrud{}
 	crd.D = d
 	crd.Client = client
@@ -83,7 +82,7 @@ func createRouteTable(d *schema.ResourceData, m interface{}) (e error) {
 }
 
 func readRouteTable(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(client.BareMetalClient)
+	client := m.(*baremetal.Client)
 	crd := &RouteTableResourceCrud{}
 	crd.D = d
 	crd.Client = client
@@ -91,7 +90,7 @@ func readRouteTable(d *schema.ResourceData, m interface{}) (e error) {
 }
 
 func updateRouteTable(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(client.BareMetalClient)
+	client := m.(*baremetal.Client)
 	crd := &RouteTableResourceCrud{}
 	crd.D = d
 	crd.Client = client
@@ -99,7 +98,7 @@ func updateRouteTable(d *schema.ResourceData, m interface{}) (e error) {
 }
 
 func deleteRouteTable(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(client.BareMetalClient)
+	client := m.(*baremetal.Client)
 	crd := &RouteTableResourceCrud{}
 	crd.D = d
 	crd.Client = client

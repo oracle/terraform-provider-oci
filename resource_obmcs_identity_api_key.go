@@ -9,7 +9,6 @@ import (
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/crud"
 )
 
@@ -67,7 +66,7 @@ func APIKeyResource() *schema.Resource {
 }
 
 func createAPIKey(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(client.BareMetalClient)
+	client := m.(*baremetal.Client)
 	sync := &APIKeyResourceCrud{}
 	sync.D = d
 	sync.Client = client
@@ -75,7 +74,7 @@ func createAPIKey(d *schema.ResourceData, m interface{}) (e error) {
 }
 
 func readAPIKey(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(client.BareMetalClient)
+	client := m.(*baremetal.Client)
 	sync := &APIKeyResourceCrud{}
 	sync.D = d
 	sync.Client = client
@@ -83,7 +82,7 @@ func readAPIKey(d *schema.ResourceData, m interface{}) (e error) {
 }
 
 func deleteAPIKey(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(client.BareMetalClient)
+	client := m.(*baremetal.Client)
 	sync := &APIKeyResourceCrud{}
 	sync.D = d
 	sync.Client = client
