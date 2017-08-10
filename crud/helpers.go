@@ -17,11 +17,11 @@ import (
 )
 
 var (
-	FiveMinutes    time.Duration = 5 * time.Minute
-	TwoHours       time.Duration = 120 * time.Minute
-	ZeroTime       time.Duration = 0
+	FiveMinutes time.Duration = 5 * time.Minute
+	TwoHours    time.Duration = 120 * time.Minute
+	ZeroTime    time.Duration = 0
 
-	DefaultTimeout               = &schema.ResourceTimeout{
+	DefaultTimeout = &schema.ResourceTimeout{
 		Create: &FiveMinutes,
 		Update: &FiveMinutes,
 		Delete: &FiveMinutes,
@@ -185,7 +185,7 @@ func CreateDBSystemResource(d *schema.ResourceData, sync ResourceCreator) (e err
 	shape := d.Get("shape")
 	timeout = d.Timeout(schema.TimeoutCreate)
 	if timeout == 0 {
-		if strings.HasPrefix(shape.(string), "Exadata"){
+		if strings.HasPrefix(shape.(string), "Exadata") {
 			timeout = time.Duration(12) * time.Hour
 		} else {
 			timeout = time.Duration(2) * time.Hour

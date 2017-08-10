@@ -110,7 +110,7 @@ var preauthenticatedRequestSchema = map[string]*schema.Schema{
 			string(baremetal.ObjectRead)}, true),
 	},
 	"access_uri": {
-		Type: schema.TypeString,
+		Type:     schema.TypeString,
 		Computed: true,
 		Optional: true,
 	},
