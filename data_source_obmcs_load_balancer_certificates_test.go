@@ -5,7 +5,6 @@ package main
 import (
 	"testing"
 
-	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
@@ -27,17 +26,6 @@ data "baremetal_load_balancer_certificates" "t" {
 	config += testProviderConfig()
 
 	loadbalancerID := "ocid1.loadbalancer.stub_id"
-	list := &baremetal.ListCertificates{
-		Certificates: []baremetal.Certificate{
-			{CertificateName: "stub_name1"},
-			{CertificateName: "stub_name2"},
-		},
-	}
-	client.On(
-		"ListCertificates",
-		loadbalancerID,
-		(*baremetal.ClientRequestOptions)(nil),
-	).Return(list, nil)
 
 	resource.UnitTest(t, resource.TestCase{
 		PreventPostDestroyRefresh: true,

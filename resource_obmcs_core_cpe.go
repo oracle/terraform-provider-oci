@@ -3,10 +3,9 @@
 package main
 
 import (
+	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/MustWin/baremetal-sdk-go"
-	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/crud"
 )
 
@@ -50,7 +49,7 @@ func CpeResource() *schema.Resource {
 }
 
 func createCpe(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(client.BareMetalClient)
+	client := m.(*baremetal.Client)
 	sync := &CpeResourceCrud{}
 	sync.D = d
 	sync.Client = client
@@ -58,7 +57,7 @@ func createCpe(d *schema.ResourceData, m interface{}) (e error) {
 }
 
 func readCpe(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(client.BareMetalClient)
+	client := m.(*baremetal.Client)
 	sync := &CpeResourceCrud{}
 	sync.D = d
 	sync.Client = client
@@ -66,7 +65,7 @@ func readCpe(d *schema.ResourceData, m interface{}) (e error) {
 }
 
 func updateCpe(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(client.BareMetalClient)
+	client := m.(*baremetal.Client)
 	crd := &CpeResourceCrud{}
 	crd.D = d
 	crd.Client = client
@@ -74,7 +73,7 @@ func updateCpe(d *schema.ResourceData, m interface{}) (e error) {
 }
 
 func deleteCpe(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(client.BareMetalClient)
+	client := m.(*baremetal.Client)
 	sync := &CpeResourceCrud{}
 	sync.D = d
 	sync.Client = client

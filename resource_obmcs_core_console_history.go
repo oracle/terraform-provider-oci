@@ -5,10 +5,9 @@ package main
 import (
 	"fmt"
 
+	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/MustWin/baremetal-sdk-go"
-	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/crud"
 )
 
@@ -57,7 +56,7 @@ func ConsoleHistoryResource() *schema.Resource {
 }
 
 func createConsoleHistory(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(client.BareMetalClient)
+	client := m.(*baremetal.Client)
 	ichCrud := &ConsoleHistoryResourceCrud{}
 	ichCrud.D = d
 	ichCrud.Client = client
@@ -65,7 +64,7 @@ func createConsoleHistory(d *schema.ResourceData, m interface{}) (e error) {
 }
 
 func readConsoleHistory(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(client.BareMetalClient)
+	client := m.(*baremetal.Client)
 	ichCrud := &ConsoleHistoryResourceCrud{}
 	ichCrud.D = d
 	ichCrud.Client = client

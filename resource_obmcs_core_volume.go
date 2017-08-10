@@ -6,7 +6,6 @@ import (
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/crud"
 )
 
@@ -63,7 +62,7 @@ func VolumeResource() *schema.Resource {
 }
 
 func createVolume(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(client.BareMetalClient)
+	client := m.(*baremetal.Client)
 	sync := &VolumeResourceCrud{}
 	sync.D = d
 	sync.Client = client
@@ -71,7 +70,7 @@ func createVolume(d *schema.ResourceData, m interface{}) (e error) {
 }
 
 func readVolume(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(client.BareMetalClient)
+	client := m.(*baremetal.Client)
 	sync := &VolumeResourceCrud{}
 	sync.D = d
 	sync.Client = client
@@ -79,7 +78,7 @@ func readVolume(d *schema.ResourceData, m interface{}) (e error) {
 }
 
 func updateVolume(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(client.BareMetalClient)
+	client := m.(*baremetal.Client)
 	sync := &VolumeResourceCrud{}
 	sync.D = d
 	sync.Client = client
@@ -87,7 +86,7 @@ func updateVolume(d *schema.ResourceData, m interface{}) (e error) {
 }
 
 func deleteVolume(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(client.BareMetalClient)
+	client := m.(*baremetal.Client)
 	sync := &VolumeResourceCrud{}
 	sync.D = d
 	sync.Client = client

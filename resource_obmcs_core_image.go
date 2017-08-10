@@ -6,7 +6,6 @@ import (
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/crud"
 )
 
@@ -69,7 +68,7 @@ func ImageResource() *schema.Resource {
 }
 
 func createImage(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(client.BareMetalClient)
+	client := m.(*baremetal.Client)
 	sync := &ImageResourceCrud{}
 	sync.D = d
 	sync.Client = client
@@ -77,7 +76,7 @@ func createImage(d *schema.ResourceData, m interface{}) (e error) {
 }
 
 func readImage(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(client.BareMetalClient)
+	client := m.(*baremetal.Client)
 	sync := &ImageResourceCrud{}
 	sync.D = d
 	sync.Client = client
@@ -85,7 +84,7 @@ func readImage(d *schema.ResourceData, m interface{}) (e error) {
 }
 
 func updateImage(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(client.BareMetalClient)
+	client := m.(*baremetal.Client)
 	sync := &ImageResourceCrud{}
 	sync.D = d
 	sync.Client = client
@@ -93,7 +92,7 @@ func updateImage(d *schema.ResourceData, m interface{}) (e error) {
 }
 
 func deleteImage(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(client.BareMetalClient)
+	client := m.(*baremetal.Client)
 	sync := &ImageResourceCrud{}
 	sync.D = d
 	sync.Client = client

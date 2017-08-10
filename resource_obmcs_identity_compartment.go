@@ -6,10 +6,8 @@ import (
 	"strings"
 
 	"github.com/MustWin/baremetal-sdk-go"
-
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/crud"
 )
 
@@ -29,7 +27,7 @@ func CompartmentResource() *schema.Resource {
 }
 
 func createCompartment(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(client.BareMetalClient)
+	client := m.(*baremetal.Client)
 	sync := &CompartmentResourceCrud{}
 	sync.D = d
 	sync.Client = client
@@ -37,7 +35,7 @@ func createCompartment(d *schema.ResourceData, m interface{}) (e error) {
 }
 
 func readCompartment(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(client.BareMetalClient)
+	client := m.(*baremetal.Client)
 	sync := &CompartmentResourceCrud{}
 	sync.D = d
 	sync.Client = client
@@ -45,7 +43,7 @@ func readCompartment(d *schema.ResourceData, m interface{}) (e error) {
 }
 
 func updateCompartment(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(client.BareMetalClient)
+	client := m.(*baremetal.Client)
 	sync := &CompartmentResourceCrud{}
 	sync.D = d
 	sync.Client = client

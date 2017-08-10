@@ -3,14 +3,14 @@
 package main
 
 import (
+	"encoding/json"
 	"log"
 
-	"encoding/json"
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
-	"github.com/oracle/terraform-provider-baremetal/client"
+	"github.com/hashicorp/terraform/helper/validation"
+
 	"github.com/oracle/terraform-provider-baremetal/crud"
-	"github.com/oracle/terraform-provider-baremetal/options"
 )
 
 func InstanceResource() *schema.Resource {
@@ -29,8 +29,10 @@ func InstanceResource() *schema.Resource {
 		Delete: deleteInstance,
 		Schema: map[string]*schema.Schema{
 			"create_vnic_details": {
-				Type:     schema.TypeMap,
+				Type:     schema.TypeList,
 				Optional: true,
+				Computed: true,
+				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"assign_public_ip": {
@@ -44,14 +46,23 @@ func InstanceResource() *schema.Resource {
 						"hostname_label": {
 							Type:     schema.TypeString,
 							Optional: true,
+							ForceNew: true,
 						},
 						"private_ip": {
 							Type:     schema.TypeString,
 							Optional: true,
+							Computed: true,
+						},
+						"public_ip": {
+							Type:     schema.TypeString,
+							Computed: true,
 						},
 						"subnet_id": {
-							Type:     schema.TypeString,
-							Required: true,
+							Type:         schema.TypeString,
+							Optional:     true,
+							ForceNew:     true,
+							ValidateFunc: validation.StringLenBetween(1, 255),
+							// Required:     true, // TODO: Require at next major release
 						},
 					},
 				},
@@ -67,11 +78,6 @@ func InstanceResource() *schema.Resource {
 				ForceNew: true,
 			},
 			"display_name": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"hostname_label": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
@@ -114,24 +120,35 @@ func InstanceResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"subnet_id": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
-			},
 			"time_created": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			// TODO: Deprecated. Remove at next major release.
 			"public_ip": {
-				Type:     schema.TypeString,
-				Required: false,
-				Computed: true,
+				Type:       schema.TypeString,
+				Required:   false,
+				Computed:   true,
+				Deprecated: "use create_vnic_details.public_ip",
 			},
 			"private_ip": {
+				Type:       schema.TypeString,
+				Required:   false,
+				Computed:   true,
+				Deprecated: "use create_vnic_details.private_ip",
+			},
+			"hostname_label": {
+				Type:       schema.TypeString,
+				Optional:   true,
+				Computed:   true,
+				Deprecated: "use create_vnic_details.hostname_label",
+			},
+			"subnet_id": {
 				Type:     schema.TypeString,
-				Required: false,
-				Computed: true,
+				Optional: true,
+				ForceNew: true,
+				// TODO: deprecate once https://github.com/MustWin/baremetal-sdk-go/pull/159 is resolved
+				// Deprecated: "use create_vnic_details.subnet_id",
 			},
 		},
 	}
@@ -140,28 +157,28 @@ func InstanceResource() *schema.Resource {
 func createInstance(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &InstanceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(client.BareMetalClient)
+	sync.Client = m.(*baremetal.Client)
 	return crud.CreateResource(d, sync)
 }
 
 func readInstance(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &InstanceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(client.BareMetalClient)
+	sync.Client = m.(*baremetal.Client)
 	return crud.ReadResource(sync)
 }
 
 func updateInstance(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &InstanceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(client.BareMetalClient)
+	sync.Client = m.(*baremetal.Client)
 	return crud.UpdateResource(d, sync)
 }
 
 func deleteInstance(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &InstanceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(client.BareMetalClient)
+	sync.Client = m.(*baremetal.Client)
 	return crud.DeleteResource(d, sync)
 }
 
@@ -172,6 +189,7 @@ type InstanceResourceCrud struct {
 	// Computed fields
 	public_ip  string
 	private_ip string
+	vnic       *baremetal.Vnic
 }
 
 func (s *InstanceResourceCrud) ID() string {
@@ -224,58 +242,40 @@ func (s *InstanceResourceCrud) Create() (e error) {
 	compartmentID := s.D.Get("compartment_id").(string)
 	image := s.D.Get("image").(string)
 	shape := s.D.Get("shape").(string)
-	subnet := s.D.Get("subnet_id").(string)
+	subnet := s.D.Get("subnet_id").(string) // TODO: Deprecated, remove at next major release
 
-	opts := &baremetal.LaunchInstanceOptions{}
-	if displayName, ok := s.D.GetOk("display_name"); ok {
-		opts.DisplayName = displayName.(string)
+	opts := &baremetal.LaunchInstanceOptions{
+		HostnameLabel: s.D.Get("hostname_label").(string), // TODO: Deprecated, remove at next major release
+		IpxeScript:    s.D.Get("ipxe_script").(string),
+		Metadata:      resourceInstanceMapToMetadata(s.D.Get("metadata").(map[string]interface{})),
 	}
-	if hostnameLabel, ok := s.D.GetOk("hostname_label"); ok {
-		opts.HostnameLabel = hostnameLabel.(string)
-	}
-	if ipxeScript, ok := s.D.GetOk("ipxe_script"); ok {
-		opts.IpxeScript = ipxeScript.(string)
-	}
-
-	if rawMetadata, ok := s.D.GetOk("metadata"); ok {
-		metadata := resourceInstanceMapToMetadata(rawMetadata.(map[string]interface{}))
-		opts.Metadata = metadata
-	}
+	opts.DisplayName = s.D.Get("display_name").(string)
 
 	if rawExtendedMetadata, ok := s.D.GetOk("extended_metadata"); ok {
 		extendedMetadata := mapToExtendedMetadata(rawExtendedMetadata.(map[string]interface{}))
 		opts.ExtendedMetadata = extendedMetadata
 	}
 
-	if rawVnic, ok := s.D.GetOk("create_vnic_details"); ok {
-		vnic := rawVnic.(map[string]interface{})
+	vs := s.D.Get("create_vnic_details").([]interface{})
+	if len(vs) > 0 && vs[0] != nil {
+		vnicOpts := baremetal.CreateVnicOptions{}
+		vnic := vs[0].(map[string]interface{})
+		log.Printf("[DEBUG] VNIC state: %#v", vnic)
 
-		vnicOpts := &baremetal.CreateVnicOptions{}
 		vnicOpts.SubnetID = vnic["subnet_id"].(string)
-
-		displayName := vnic["display_name"]
-		if displayName != nil {
-			vnicOpts.DisplayName = displayName.(string)
+		// Workaround to allow either subnet_id attribute to function.
+		// TODO: remove at next major release
+		if subnet != "" && vnicOpts.SubnetID == "" {
+			vnicOpts.SubnetID = subnet
 		}
+		vnicOpts.HostnameLabel = vnic["hostname_label"].(string)
+		vnicOpts.DisplayName = vnic["display_name"].(string)
+		vnicOpts.PrivateIp = vnic["private_ip"].(string)
 
-		hostnameLabel := vnic["hostname_label"]
-		if hostnameLabel != nil {
-			vnicOpts.HostnameLabel = hostnameLabel.(string)
-		}
+		ip := vnic["assign_public_ip"].(bool)
+		vnicOpts.AssignPublicIp = &ip
 
-		privateIp := vnic["private_ip"]
-		if privateIp != nil {
-			vnicOpts.PrivateIp = privateIp.(string)
-		}
-
-		//todo: work around for tf bug https://github.com/hashicorp/terraform/issues/13512
-		assignPublicIp := vnic["assign_public_ip"]
-		if assignPublicIp != nil {
-			vnicOpts.AssignPublicIp = new(bool)
-			*vnicOpts.AssignPublicIp = assignPublicIp.(string) == "1"
-		}
-
-		opts.CreateVnicOptions = vnicOpts
+		opts.CreateVnicOptions = &vnicOpts
 	}
 
 	s.Resource, e = s.Client.LaunchInstance(
@@ -289,73 +289,49 @@ func (s *InstanceResourceCrud) Create() (e error) {
 }
 
 /*
- * Return the id of the first VNIC attached to this Instance.
+ * Return the the instance's first Vnic.
  *
  * NOTE while the instance is still being created, calls to this function
  * can return  an error priort to the Vnic being attached.
  */
-func (s *InstanceResourceCrud) getInstanceVnicId() (vnic_id string, e error) {
-	compartmentID := s.Resource.CompartmentID
-
+func (s *InstanceResourceCrud) getVnic() (*baremetal.Vnic, error) {
 	opts := &baremetal.ListVnicAttachmentsOptions{}
-	options.SetListOptions(s.D, &opts.ListOptions)
 	opts.AvailabilityDomain = s.Resource.AvailabilityDomain
 	opts.InstanceID = s.Resource.ID
 
-	var list *baremetal.ListVnicAttachments
-	if list, e = s.Client.ListVnicAttachments(compartmentID, opts); e != nil {
-		return "", e
+	list, err := s.Client.ListVnicAttachments(s.Resource.CompartmentID, opts)
+	if err != nil {
+		return nil, err
 	}
 
 	if len(list.Attachments) < 1 {
-		log.Printf("[DEBUG] GetInstanceVnicID - InstanceID: %q, State: %q, no vnic attachments: %q", s.Resource.ID, s.Resource.State, e)
-		return "", e
+		log.Printf("[DEBUG] getVnic - InstanceID: %q, State: %q, no vnic attachments: %q", s.Resource.ID, s.Resource.State, err)
+		return nil, err
 	}
 
-	return list.Attachments[0].VnicID, nil
-}
-
-/*
- * Return the public, private IP pair associated with the instance's first Vnic.
- *
- * NOTE while the instance is still being created, calls to this function
- * can return  an error priort to the Vnic being attached.
- */
-func (s *InstanceResourceCrud) getInstanceIPs() (public_ip string, private_ip string, e error) {
-	vnicID, e := s.getInstanceVnicId()
-	if e != nil {
-		return "", "", e
+	vnic, err := s.Client.GetVnic(list.Attachments[0].VnicID)
+	if err != nil {
+		return nil, err
 	}
 
-	// Lookup Vnic by id
-	vnic, e := s.Client.GetVnic(vnicID)
-	if e != nil {
-		return "", "", e
-	}
-
-	return vnic.PublicIPAddress, vnic.PrivateIPAddress, nil
+	return vnic, nil
 }
 
 func (s *InstanceResourceCrud) Get() (e error) {
 	s.Resource, e = s.Client.GetInstance(s.D.Id())
-
 	if e != nil {
 		return e
 	}
 
 	// Compute instance IPs through attached Vnic
 	// (Not available while state==PROVISIONING)
-	public_ip, private_ip, e2 := s.getInstanceIPs()
-	if e2 != nil {
+	v, err := s.getVnic()
+	if err != nil {
 		log.Printf("[DEBUG] no vnic yet, skipping")
+	} else {
+		s.vnic = v
 	}
 
-	if public_ip != "" {
-		s.public_ip = public_ip
-	}
-	if private_ip != "" {
-		s.private_ip = private_ip
-	}
 	return
 }
 
@@ -380,8 +356,21 @@ func (s *InstanceResourceCrud) SetData() {
 	s.D.Set("shape", s.Resource.Shape)
 	s.D.Set("state", s.Resource.State)
 	s.D.Set("time_created", s.Resource.TimeCreated.String())
-	s.D.Set("public_ip", s.public_ip)
-	s.D.Set("private_ip", s.private_ip)
+
+	v := map[string]interface{}{}
+	v["assign_public_ip"] = s.vnic.PublicIPAddress != ""
+	v["display_name"] = s.vnic.DisplayName
+	v["hostname_label"] = s.vnic.HostnameLabel
+	v["private_ip"] = s.vnic.PrivateIPAddress
+	v["public_ip"] = s.vnic.PublicIPAddress
+	v["subnet_id"] = s.vnic.SubnetID
+	s.D.Set("create_vnic_details", []interface{}{v})
+
+	// TODO: Deprecated. Remove at next major release.
+	s.D.Set("public_ip", s.vnic.PublicIPAddress)
+	s.D.Set("private_ip", s.vnic.PrivateIPAddress)
+	s.D.Set("hostname_label", s.vnic.HostnameLabel)
+	s.D.Set("subnet_id", s.vnic.SubnetID)
 }
 
 func (s *InstanceResourceCrud) Delete() (e error) {

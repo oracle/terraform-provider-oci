@@ -6,7 +6,6 @@ import (
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/crud"
 )
 
@@ -63,19 +62,19 @@ func IPSecConnectionResource() *schema.Resource {
 func createIPSec(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &IPSecConnectionResourceCrud{}
 	sync.D = d
-	sync.Client = m.(client.BareMetalClient)
+	sync.Client = m.(*baremetal.Client)
 	return crud.CreateResource(d, sync)
 }
 
 func readIPSec(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &IPSecConnectionResourceCrud{}
 	sync.D = d
-	sync.Client = m.(client.BareMetalClient)
+	sync.Client = m.(*baremetal.Client)
 	return crud.ReadResource(sync)
 }
 
 func updateIPSec(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(client.BareMetalClient)
+	client := m.(*baremetal.Client)
 	sync := &IPSecConnectionResourceCrud{}
 	sync.D = d
 	sync.Client = client
@@ -85,7 +84,7 @@ func updateIPSec(d *schema.ResourceData, m interface{}) (e error) {
 func deleteIPSec(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &IPSecConnectionResourceCrud{}
 	sync.D = d
-	sync.Client = m.(client.BareMetalClient)
+	sync.Client = m.(*baremetal.Client)
 	return crud.DeleteResource(d, sync)
 }
 

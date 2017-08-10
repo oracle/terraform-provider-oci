@@ -7,7 +7,6 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/helper/validation"
 
-	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/crud"
 )
 
@@ -92,7 +91,7 @@ func VolumeAttachmentResource() *schema.Resource {
 }
 
 func createVolumeAttachment(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(client.BareMetalClient)
+	client := m.(*baremetal.Client)
 	sync := &VolumeAttachmentResourceCrud{}
 	sync.D = d
 	sync.Client = client
@@ -100,7 +99,7 @@ func createVolumeAttachment(d *schema.ResourceData, m interface{}) (e error) {
 }
 
 func readVolumeAttachment(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(client.BareMetalClient)
+	client := m.(*baremetal.Client)
 	sync := &VolumeAttachmentResourceCrud{}
 	sync.D = d
 	sync.Client = client
@@ -108,7 +107,7 @@ func readVolumeAttachment(d *schema.ResourceData, m interface{}) (e error) {
 }
 
 func deleteVolumeAttachment(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(client.BareMetalClient)
+	client := m.(*baremetal.Client)
 	sync := &VolumeAttachmentResourceCrud{}
 	sync.D = d
 	sync.Client = client

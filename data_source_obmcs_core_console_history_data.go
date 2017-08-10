@@ -4,11 +4,12 @@ package main
 
 import (
 	"fmt"
+	"time"
+
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
-	"github.com/oracle/terraform-provider-baremetal/client"
+
 	"github.com/oracle/terraform-provider-baremetal/crud"
-	"time"
 )
 
 func ConsoleHistoryDataDatasource() *schema.Resource {
@@ -51,7 +52,7 @@ func ConsoleHistoryDataDatasource() *schema.Resource {
 }
 
 func readConsoleHistoryData(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(client.BareMetalClient)
+	client := m.(*baremetal.Client)
 	reader := &ConsoleHistoryDataDatasourceCrud{}
 	reader.D = d
 	reader.Client = client

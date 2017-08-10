@@ -10,13 +10,12 @@ import (
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
-
 	"github.com/stretchr/testify/suite"
 )
 
 type ResourceCoreDrgTestSuite struct {
 	suite.Suite
-	Client       mockableClient
+	Client       *baremetal.Client
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	TimeCreated  baremetal.Time
@@ -75,10 +74,6 @@ func (s *ResourceCoreDrgTestSuite) TestCreateResourceCoreDrg() {
 }
 
 func (s *ResourceCoreDrgTestSuite) TestCreateResourceCoreDrgWithoutDisplayName() {
-	if IsAccTest() {
-		s.T().Skip()
-	}
-
 	s.Config = `
 		resource "baremetal_core_drg" "t" {
 			compartment_id = "${var.compartment_id}"

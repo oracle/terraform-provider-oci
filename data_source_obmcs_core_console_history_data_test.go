@@ -3,20 +3,19 @@
 package main
 
 import (
+	"crypto/rand"
 	"testing"
 
+	baremetal "github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
-
-	"crypto/rand"
-
 	"github.com/stretchr/testify/suite"
 )
 
 type CoreConsoleHistoryDataDatasourceTestSuite struct {
 	suite.Suite
-	Client       mockableClient
+	Client       *baremetal.Client
 	Config       string
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider

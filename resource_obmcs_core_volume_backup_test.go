@@ -9,13 +9,12 @@ import (
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
-
 	"github.com/stretchr/testify/suite"
 )
 
 type ResourceCoreVolumeBackupTestSuite struct {
 	suite.Suite
-	Client       mockableClient
+	Client       *baremetal.Client
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	TimeCreated  baremetal.Time
@@ -78,10 +77,6 @@ func (s *ResourceCoreVolumeBackupTestSuite) TestCreateVolumeBackup() {
 }
 
 func (s *ResourceCoreVolumeBackupTestSuite) TestCreateVolumeBackupWithoutDisplayName() {
-	if IsAccTest() {
-		s.T().Skip()
-	}
-
 	s.Config = `
 		resource "baremetal_core_volume_backup" "t" {
 			volume_id = "volume_id"
@@ -105,10 +100,6 @@ func (s *ResourceCoreVolumeBackupTestSuite) TestCreateVolumeBackupWithoutDisplay
 }
 
 func (s ResourceCoreVolumeBackupTestSuite) TestUpdateVolumeBackupDisplayName() {
-	if IsAccTest() {
-		s.T().Skip()
-	}
-
 	config := `
 		resource "baremetal_core_volume_backup" "t" {
 			volume_id = "volume_id"

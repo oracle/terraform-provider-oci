@@ -11,6 +11,6 @@ build:
     - script:
         name: go build
         code: govendor build +local
-    #- script:
-    #    name: go test
-    #    code: govendor test +local
+    - script:
+        name: go test
+        code: govendor test +local

@@ -7,10 +7,9 @@ import (
 
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
-	"github.com/oracle/terraform-provider-baremetal/options"
 
-	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/crud"
+	"github.com/oracle/terraform-provider-baremetal/options"
 )
 
 func resourceVnicAttachment() *schema.Resource {
@@ -94,7 +93,7 @@ func DatasourceCoreVnicAttachments() *schema.Resource {
 }
 
 func readVnicAttachments(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(client.BareMetalClient)
+	client := m.(*baremetal.Client)
 	reader := &VnicAttachmentDatasourceCrud{}
 	reader.D = d
 	reader.Client = client

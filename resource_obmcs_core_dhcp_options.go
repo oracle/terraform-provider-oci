@@ -6,7 +6,6 @@ import (
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/crud"
 )
 
@@ -79,7 +78,7 @@ func DHCPOptionsResource() *schema.Resource {
 }
 
 func createDHCPOptions(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(client.BareMetalClient)
+	client := m.(*baremetal.Client)
 	crd := &DHCPOptionsResourceCrud{}
 	crd.D = d
 	crd.Client = client
@@ -87,15 +86,15 @@ func createDHCPOptions(d *schema.ResourceData, m interface{}) (e error) {
 }
 
 func readDHCPOptions(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(client.BareMetalClient)
 	crd := &DHCPOptionsResourceCrud{}
+	client := m.(*baremetal.Client)
 	crd.D = d
 	crd.Client = client
 	return crud.ReadResource(crd)
 }
 
 func updateDHCPOptions(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(client.BareMetalClient)
+	client := m.(*baremetal.Client)
 	crd := &DHCPOptionsResourceCrud{}
 	crd.D = d
 	crd.Client = client
@@ -103,7 +102,7 @@ func updateDHCPOptions(d *schema.ResourceData, m interface{}) (e error) {
 }
 
 func deleteDHCPOptions(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(client.BareMetalClient)
+	client := m.(*baremetal.Client)
 	crd := &DHCPOptionsResourceCrud{}
 	crd.D = d
 	crd.Client = client

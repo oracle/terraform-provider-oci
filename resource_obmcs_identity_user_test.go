@@ -10,13 +10,12 @@ import (
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
-
 	"github.com/stretchr/testify/suite"
 )
 
 type ResourceIdentityUserTestSuite struct {
 	suite.Suite
-	Client       mockableClient
+	Client       *baremetal.Client
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	TimeCreated  time.Time
@@ -80,9 +79,6 @@ func (s *ResourceIdentityUserTestSuite) TestCreateResourceIdentityUser() {
 }
 
 func (s *ResourceIdentityUserTestSuite) TestCreateResourceIdentityUserPolling() {
-	if IsAccTest() {
-		s.T().Skip()
-	}
 	s.Res.State = baremetal.ResourceCreating
 
 	u := *s.Res

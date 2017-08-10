@@ -10,13 +10,12 @@ import (
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
-
 	"github.com/stretchr/testify/suite"
 )
 
 type ResourceCoreRouteTableTestSuite struct {
 	suite.Suite
-	Client       mockableClient
+	Client       *baremetal.Client
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	TimeCreated  baremetal.Time
@@ -89,10 +88,6 @@ func (s *ResourceCoreRouteTableTestSuite) TestCreateResourceCoreRouteTable() {
 }
 
 func (s ResourceCoreRouteTableTestSuite) TestUpdateRouteTable() {
-	if IsAccTest() {
-		s.T().Skip()
-	}
-
 	config := `
 		resource "baremetal_core_route_table" "t" {
 			compartment_id = "${var.compartment_id}"

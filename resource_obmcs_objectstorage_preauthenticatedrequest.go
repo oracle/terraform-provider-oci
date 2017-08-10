@@ -3,13 +3,13 @@
 package main
 
 import (
+	"time"
+
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
-
-	"github.com/oracle/terraform-provider-baremetal/client"
-	"github.com/oracle/terraform-provider-baremetal/crud"
 	"github.com/pkg/errors"
-	"time"
+
+	"github.com/oracle/terraform-provider-baremetal/crud"
 )
 
 type PreauthenticatedRequestResourceCrud struct {
@@ -42,28 +42,28 @@ func PreauthenticatedRequestResource() *schema.Resource {
 func createPreauthenticatedRequest(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &PreauthenticatedRequestResourceCrud{}
 	sync.D = d
-	sync.Client = m.(client.BareMetalClient)
+	sync.Client = m.(*baremetal.Client)
 	return crud.CreateResource(d, sync)
 }
 
 func readPreauthenticatedRequest(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &PreauthenticatedRequestResourceCrud{}
 	sync.D = d
-	sync.Client = m.(client.BareMetalClient)
+	sync.Client = m.(*baremetal.Client)
 	return crud.ReadResource(sync)
 }
 
 func updatePreauthenticatedRequest(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &PreauthenticatedRequestResourceCrud{}
 	sync.D = d
-	sync.Client = m.(client.BareMetalClient)
+	sync.Client = m.(*baremetal.Client)
 	return crud.UpdateResource(d, sync)
 }
 
 func deletePreauthenticatedRequest(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &PreauthenticatedRequestResourceCrud{}
 	sync.D = d
-	sync.Client = m.(client.BareMetalClient)
+	sync.Client = m.(*baremetal.Client)
 	return crud.DeleteResource(d, sync)
 }
 

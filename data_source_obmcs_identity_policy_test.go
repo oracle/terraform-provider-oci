@@ -6,12 +6,11 @@ import (
 	"testing"
 	"time"
 
+	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/stretchr/testify/suite"
-
-	"github.com/MustWin/baremetal-sdk-go"
 )
 
 var testPoliciesConfig = `
@@ -22,7 +21,7 @@ var testPoliciesConfig = `
 
 type ResourceIdentityPoliciesTestSuite struct {
 	suite.Suite
-	Client       mockableClient
+	Client       *baremetal.Client
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	TimeCreated  time.Time
