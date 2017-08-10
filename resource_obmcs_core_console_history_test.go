@@ -60,7 +60,7 @@ func (s *ResourceCoreConsoleHistoryTestSuite) SetupTest() {
 
 func (s *ResourceCoreConsoleHistoryTestSuite) TestCreateResourceCoreInstanceConsoleHistory() {
 
-	resource.UnitTest(s.T(), resource.TestCase{
+	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{

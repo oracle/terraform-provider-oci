@@ -159,7 +159,7 @@ resource "baremetal_load_balancer_backend" "minimal" {
 
 func (s *ResourceLoadBalancerTestSuite) TestCreateResourceLoadBalancerMaximal() {
 
-	resource.UnitTest(s.T(), resource.TestCase{
+	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{

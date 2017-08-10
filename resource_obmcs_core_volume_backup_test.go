@@ -57,7 +57,7 @@ func (s *ResourceCoreVolumeBackupTestSuite) SetupTest() {
 
 func (s *ResourceCoreVolumeBackupTestSuite) TestCreateVolumeBackup() {
 
-	resource.UnitTest(s.T(), resource.TestCase{
+	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
@@ -89,7 +89,7 @@ func (s *ResourceCoreVolumeBackupTestSuite) TestCreateVolumeBackupWithoutDisplay
 	`
 	s.Config += testProviderConfig()
 
-	resource.UnitTest(s.T(), resource.TestCase{
+	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
@@ -117,7 +117,7 @@ func (s ResourceCoreVolumeBackupTestSuite) TestUpdateVolumeBackupDisplayName() {
 	`
 	config += testProviderConfig()
 
-	resource.UnitTest(s.T(), resource.TestCase{
+	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
@@ -137,7 +137,7 @@ func (s ResourceCoreVolumeBackupTestSuite) TestUpdateVolumeBackupDisplayName() {
 
 func (s *ResourceCoreVolumeBackupTestSuite) TestDeleteVolumeBackup() {
 
-	resource.UnitTest(s.T(), resource.TestCase{
+	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{

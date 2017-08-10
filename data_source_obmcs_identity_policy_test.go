@@ -66,7 +66,7 @@ func (s *ResourceIdentityPoliciesTestSuite) SetupTest() {
 }
 
 func (s *ResourceIdentityPoliciesTestSuite) TestListResourceIdentityPolicies() {
-	resource.UnitTest(s.T(), resource.TestCase{
+	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{

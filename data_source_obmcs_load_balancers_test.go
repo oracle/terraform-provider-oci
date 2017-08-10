@@ -50,7 +50,7 @@ data "baremetal_load_balancers" "t" {
 		(*baremetal.ListOptions)(nil),
 	).Return(list, nil)
 
-	resource.UnitTest(t, resource.TestCase{
+	resource.Test(t, resource.TestCase{
 		PreventPostDestroyRefresh: true,
 		Providers:                 providers,
 		Steps: []resource.TestStep{

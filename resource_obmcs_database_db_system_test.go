@@ -45,7 +45,7 @@ func (s *ResourceDatabaseDBSystemTestSuite) SetupTest() {
 }
 
 func (s *ResourceDatabaseDBSystemTestSuite) TestCreateResourceDatabaseDBSystem() {
-	resource.UnitTest(s.T(), resource.TestCase{
+	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{

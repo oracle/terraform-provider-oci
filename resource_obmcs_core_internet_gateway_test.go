@@ -61,7 +61,7 @@ resource "baremetal_core_internet_gateway" "t" {
 
 func (s *ResourceCoreInternetGatewayTestSuite) TestCreateResourceCoreInternetGateway() {
 
-	resource.UnitTest(s.T(), resource.TestCase{
+	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
@@ -98,7 +98,7 @@ resource "baremetal_core_internet_gateway" "t" {
 
 	config += testProviderConfig()
 
-	resource.UnitTest(s.T(), resource.TestCase{
+	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
@@ -120,7 +120,7 @@ resource "baremetal_core_internet_gateway" "t" {
 
 func (s *ResourceCoreInternetGatewayTestSuite) TestDeleteInternetGateway() {
 
-	resource.UnitTest(s.T(), resource.TestCase{
+	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{

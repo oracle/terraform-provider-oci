@@ -60,7 +60,7 @@ func (s *ResourcePARTestSuite) SetupTest() {
 
 func (s *ResourcePARTestSuite) TestCreatePAR() {
 
-	resource.UnitTest(s.T(), resource.TestCase{
+	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
@@ -77,7 +77,7 @@ func (s *ResourcePARTestSuite) TestCreatePAR() {
 
 func (s *ResourcePARTestSuite) TestDeletePAR() {
 
-	resource.UnitTest(s.T(), resource.TestCase{
+	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{

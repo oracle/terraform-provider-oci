@@ -66,7 +66,7 @@ func (s *ResourceCoreDrgAttachmentTestSuite) SetupTest() {
 
 func (s *ResourceCoreDrgAttachmentTestSuite) TestCreateResourceCoreDrgAttachment() {
 
-	resource.UnitTest(s.T(), resource.TestCase{
+	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
@@ -89,7 +89,7 @@ func (s *ResourceCoreDrgAttachmentTestSuite) TestCreateResourceCoreDrgAttachment
 
 func (s *ResourceCoreDrgAttachmentTestSuite) TestDetachVolume() {
 
-	resource.UnitTest(s.T(), resource.TestCase{
+	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{

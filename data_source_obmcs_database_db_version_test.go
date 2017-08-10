@@ -41,7 +41,7 @@ func (s *DatabaseDBVersionTestSuite) SetupTest() {
 
 func (s *DatabaseDBVersionTestSuite) TestReadDBVersions() {
 
-	resource.UnitTest(s.T(), resource.TestCase{
+	resource.Test(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{

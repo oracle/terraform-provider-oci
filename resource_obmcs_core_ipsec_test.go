@@ -69,7 +69,7 @@ func (s *ResourceCoreIPSecTestSuite) SetupTest() {
 
 func (s *ResourceCoreIPSecTestSuite) TestCreateResourceCoreIpsec() {
 
-	resource.UnitTest(s.T(), resource.TestCase{
+	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
@@ -91,7 +91,7 @@ func (s *ResourceCoreIPSecTestSuite) TestCreateResourceCoreIpsec() {
 
 func (s *ResourceCoreIPSecTestSuite) TestTerminateIPSec() {
 
-	resource.UnitTest(s.T(), resource.TestCase{
+	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{

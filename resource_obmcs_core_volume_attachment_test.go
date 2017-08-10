@@ -62,7 +62,7 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) SetupTest() {
 
 func (s *ResourceCoreVolumeAttachmentTestSuite) TestCreateResourceCoreVolumeAttachment() {
 
-	resource.UnitTest(s.T(), resource.TestCase{
+	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
@@ -89,7 +89,7 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) TestCreateResourceCoreVolumeAtta
 
 func (s *ResourceCoreVolumeAttachmentTestSuite) TestDetachVolume() {
 
-	resource.UnitTest(s.T(), resource.TestCase{
+	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{

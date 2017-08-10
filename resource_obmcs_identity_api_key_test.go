@@ -60,7 +60,7 @@ EOF
 }
 
 func (s *ResourceIdentityAPIKeyTestSuite) TestCreateAPIKey() {
-	resource.UnitTest(s.T(), resource.TestCase{
+	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
@@ -78,7 +78,7 @@ func (s *ResourceIdentityAPIKeyTestSuite) TestCreateAPIKey() {
 
 func (s *ResourceIdentityAPIKeyTestSuite) TestDeleteAPIKey() {
 
-	resource.UnitTest(s.T(), resource.TestCase{
+	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{

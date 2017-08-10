@@ -49,7 +49,7 @@ func (s *ResourceCoreImageTestSuite) SetupTest() {
 
 func (s *ResourceCoreImageTestSuite) TestCreateImage() {
 
-	resource.UnitTest(s.T(), resource.TestCase{
+	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
@@ -80,7 +80,7 @@ func (s ResourceCoreImageTestSuite) TestUpdateImageDisplayName() {
 	`
 	config += testProviderConfig()
 
-	resource.UnitTest(s.T(), resource.TestCase{
+	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
@@ -100,7 +100,7 @@ func (s ResourceCoreImageTestSuite) TestUpdateImageDisplayName() {
 
 func (s *ResourceCoreImageTestSuite) TestDeleteImage() {
 
-	resource.UnitTest(s.T(), resource.TestCase{
+	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{

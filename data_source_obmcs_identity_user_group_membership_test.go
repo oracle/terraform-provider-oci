@@ -68,7 +68,7 @@ func (s *ResourceIdentityUserGroupMembershipsTestSuite) TestGetUserGroupMembersh
 	    group_id = "${baremetal_identity_group.g.id}"
         }
 	`
-	resource.UnitTest(s.T(), resource.TestCase{
+	resource.Test(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
