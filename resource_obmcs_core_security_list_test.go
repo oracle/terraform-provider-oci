@@ -50,45 +50,40 @@ resource "baremetal_core_virtual_network" "t" {
 	compartment_id = "${var.compartment_id}"
 	display_name = "display_name"
 }
-
-
-resource "baremetal_core_internet_gateway" "CompleteIG" {
-    compartment_id = "${var.compartment_id}"
-    display_name = "CompleteIG"
-    vcn_id = "${baremetal_core_virtual_network.t.id}"
-}
-
-resource "baremetal_core_route_table" "RouteForComplete" {
-    compartment_id = "${var.compartment_id}"
-    vcn_id = "${baremetal_core_virtual_network.t.id}"
-    display_name = "RouteTableForComplete"
-    route_rules {
-        cidr_block = "0.0.0.0/0"
-        network_entity_id = "${baremetal_core_internet_gateway.CompleteIG.id}"
-    }
-}
 `
 	s.SLConfig = `
 resource "baremetal_core_security_list" "t" {
-    compartment_id = "${var.compartment_id}"
-    display_name = "Public"
-    vcn_id = "${baremetal_core_virtual_network.t.id}"
-    egress_security_rules = [{
-        destination = "0.0.0.0/0"
-        protocol = "6"
-    }]
-    ingress_security_rules = [{
-        tcp_options {
-            "max" = 80
-            "min" = 80
-        }
-        protocol = "6"
-        source = "0.0.0.0/0"
-    },
+	compartment_id = "${var.compartment_id}"
+	display_name = "security_list0"
+	vcn_id = "${baremetal_core_virtual_network.t.id}"
+	egress_security_rules = [{
+		destination = "0.0.0.0/0"
+		protocol = "6"
+	}]
+	ingress_security_rules = [{
+		protocol = "1"
+		source = "0.0.0.0/0"
+		icmp_options {
+			"type" = 3
+			"code" = 4
+		}
+	},
 	{
-	protocol = "6"
-	source = "10.0.0.0/16"
-    }]
+		protocol = "6"
+		source = "0.0.0.0/0"
+		tcp_options {
+			"min" = 80
+			"max" = 80
+		}
+	},
+	{
+		protocol = "17"
+		source = "10.0.0.0/16"
+		udp_options {
+			"min" = 319
+			"max" = 320
+		}
+	}]
 }
 	`
 	s.Config += testProviderConfig()
@@ -106,18 +101,20 @@ func (s *ResourceCoreSecurityListTestSuite) TestCreateResourceCoreSecurityList()
 				ImportStateVerify: true,
 				Config:            s.Config + s.SLConfig,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "Public"),
+					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "security_list0"),
 					resource.TestCheckResourceAttr(s.ResourceName, "egress_security_rules.#", "1"),
-					resource.TestCheckResourceAttr(s.ResourceName, "ingress_security_rules.#", "2"),
 					resource.TestCheckResourceAttr(s.ResourceName, "egress_security_rules.0.stateless", "false"),
-					resource.TestCheckResourceAttr(s.ResourceName, "ingress_security_rules.0.tcp_options.0.max", "80"),
+					resource.TestCheckResourceAttr(s.ResourceName, "ingress_security_rules.#", "3"),
+					resource.TestCheckResourceAttr(s.ResourceName, "ingress_security_rules.0.icmp_options.0.type", "3"),
+					resource.TestCheckResourceAttr(s.ResourceName, "ingress_security_rules.1.tcp_options.0.max", "80"),
+					resource.TestCheckResourceAttr(s.ResourceName, "ingress_security_rules.2.udp_options.0.max", "320"),
 				),
 			},
 		},
 	})
 }
 
-func (s *ResourceCoreSecurityListTestSuite) TestCreateResourceCoreSecurityListRemoveRules() {
+func (s *ResourceCoreSecurityListTestSuite) TestCreateResourceCoreSecurityListUpdateRules() {
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -130,11 +127,65 @@ func (s *ResourceCoreSecurityListTestSuite) TestCreateResourceCoreSecurityListRe
 			{
 				Config: s.Config + `
 					resource "baremetal_core_security_list" "t" {
-					    compartment_id = "${var.compartment_id}"
-					    display_name = "Public"
-					    vcn_id = "${baremetal_core_virtual_network.t.id}"
-					    egress_security_rules = []
-					    ingress_security_rules = []
+						compartment_id = "${var.compartment_id}"
+						display_name = "security_list1"
+						vcn_id = "${baremetal_core_virtual_network.t.id}"
+						egress_security_rules = [{
+							destination = "0.0.0.0/0"
+							protocol = "17"
+							stateless = true
+						}]
+						ingress_security_rules = [{
+							protocol = "1"
+							source = "0.0.0.0/0"
+							stateless = true
+							icmp_options {
+								"type" = 5
+								"code" = 0
+							}
+						},
+						{
+							protocol = "6"
+							source = "0.0.0.0/0"
+							stateless = true
+							tcp_options {
+								"min" = 80
+								"max" = 82
+							}
+						},
+						{
+							protocol = "17"
+							source = "10.0.0.0/16"
+							stateless = true
+						}]
+					}
+				`,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "security_list1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "egress_security_rules.0.protocol", "17"),
+					resource.TestCheckResourceAttr(s.ResourceName, "egress_security_rules.0.stateless", "true"),
+					resource.TestCheckResourceAttr(s.ResourceName, "ingress_security_rules.0.stateless", "true"),
+					resource.TestCheckResourceAttr(s.ResourceName, "ingress_security_rules.0.icmp_options.0.type", "5"),
+					resource.TestCheckResourceAttr(s.ResourceName, "ingress_security_rules.1.tcp_options.0.max", "82"),
+					resource.TestCheckResourceAttr(s.ResourceName, "ingress_security_rules.1.stateless", "true"),
+					resource.TestCheckResourceAttr(s.ResourceName, "ingress_security_rules.2.stateless", "true"),
+					resource.TestCheckNoResourceAttr(s.ResourceName, "ingress_security_rules.2.udp_options"),
+				),
+			},
+			// todo: consistent 500 error from server without this step
+			{
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config:            s.Config,
+			},
+			{
+				Config: s.Config + `
+					resource "baremetal_core_security_list" "t" {
+						compartment_id = "${var.compartment_id}"
+						display_name = "Public"
+						vcn_id = "${baremetal_core_virtual_network.t.id}"
+						egress_security_rules = []
+						ingress_security_rules = []
 					}
 				`,
 				Check: resource.ComposeTestCheckFunc(

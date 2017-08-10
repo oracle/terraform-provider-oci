@@ -264,7 +264,7 @@ func (s *SecurityListResourceCrud) SetData() {
 			ingressRule.ICMPOptions,
 			ingressRule.TCPOptions,
 			ingressRule.UDPOptions,
-			nil,
+			&ingressRule.IsStateless,
 		)
 		confIngressRules = append(confIngressRules, confIngressRule)
 	}
