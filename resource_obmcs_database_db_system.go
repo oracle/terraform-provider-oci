@@ -72,6 +72,7 @@ func DBSystemResource() *schema.Resource {
 						"database": {
 							Type:     schema.TypeList,
 							Required: true,
+							ForceNew: true,
 							MaxItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
@@ -79,26 +80,36 @@ func DBSystemResource() *schema.Resource {
 										Type:      schema.TypeString,
 										Required:  true,
 										Sensitive: true,
+										ForceNew:  true,
 									},
 									"db_name": {
 										Type:     schema.TypeString,
 										Required: true,
+										ForceNew: true,
 									},
 									"db_workload": {
 										Type:     schema.TypeString,
 										Optional: true,
+										ForceNew: true,
+										Computed: true,
 									},
 									"character_set": {
 										Type:     schema.TypeString,
 										Optional: true,
+										ForceNew: true,
+										Computed: true,
 									},
 									"ncharacter_set": {
 										Type:     schema.TypeString,
 										Optional: true,
+										ForceNew: true,
+										Computed: true,
 									},
 									"pdb_name": {
 										Type:     schema.TypeString,
 										Optional: true,
+										ForceNew: true,
+										Computed: true,
 									},
 								},
 							},
@@ -106,10 +117,13 @@ func DBSystemResource() *schema.Resource {
 						"db_version": {
 							Type:     schema.TypeString,
 							Required: true,
+							ForceNew: true,
 						},
 						"display_name": {
 							Type:     schema.TypeString,
 							Optional: true,
+							Computed: true,
+							ForceNew: true,
 						},
 					},
 				},
@@ -142,10 +156,12 @@ func DBSystemResource() *schema.Resource {
 			"backup_subnet_id": {
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 				ForceNew: true,
 			},
 			"cluster_name": {
 				Type:     schema.TypeString,
+				Computed: true,
 				Optional: true,
 				ForceNew: true,
 			},
