@@ -45,7 +45,7 @@ resource "baremetal_core_subnet" "s" {
 
 	resourceName := "baremetal_core_subnet.s"
 
-	resource.UnitTest(t, resource.TestCase{
+	resource.Test(t, resource.TestCase{
 		Providers: map[string]terraform.ResourceProvider{
 			"baremetal": provider,
 		},
@@ -105,7 +105,7 @@ resource "baremetal_core_subnet" "s" {
 }
 	`
 	config += testProviderConfig()
-	resource.UnitTest(t, resource.TestCase{
+	resource.Test(t, resource.TestCase{
 		Providers: map[string]terraform.ResourceProvider{
 			"baremetal": provider,
 		},

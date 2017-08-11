@@ -55,7 +55,7 @@ func (s *ResourceIdentityUIPasswordTestSuite) SetupTest() {
 }
 
 func (s *ResourceIdentityUIPasswordTestSuite) TestCreateUIPassword() {
-	resource.UnitTest(s.T(), resource.TestCase{
+	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
@@ -84,7 +84,7 @@ func (s ResourceIdentityUIPasswordTestSuite) TestUpdateVersionForcesNewUIPasswor
   `
 	config += testProviderConfig()
 
-	resource.UnitTest(s.T(), resource.TestCase{
+	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{

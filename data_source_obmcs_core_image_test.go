@@ -63,7 +63,7 @@ func (s *ResourceCoreImagesTestSuite) SetupTest() {
 }
 
 func (s *ResourceCoreImagesTestSuite) TestReadImages() {
-	resource.UnitTest(s.T(), resource.TestCase{
+	resource.Test(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{

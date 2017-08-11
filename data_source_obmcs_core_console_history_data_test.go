@@ -49,7 +49,7 @@ func (s *CoreConsoleHistoryDataDatasourceTestSuite) TestResourceShowConsoleHisto
 	data := make([]byte, 100)
 	rand.Read(data)
 
-	resource.UnitTest(s.T(), resource.TestCase{
+	resource.Test(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{

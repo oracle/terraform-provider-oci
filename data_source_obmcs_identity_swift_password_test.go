@@ -51,7 +51,7 @@ func (s *ResourceIdentitySwiftPasswordsTestSuite) SetupTest() {
 }
 
 func (s *ResourceIdentitySwiftPasswordsTestSuite) TestListResourceIdentitySwiftPasswords() {
-	resource.UnitTest(s.T(), resource.TestCase{
+	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{

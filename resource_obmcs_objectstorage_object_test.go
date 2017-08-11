@@ -70,7 +70,7 @@ func (s *ResourceObjectstorageObjectTestSuite) SetupTest() {
 
 func (s *ResourceObjectstorageObjectTestSuite) TestCreateResourceObjectstorageObject() {
 
-	resource.UnitTest(s.T(), resource.TestCase{
+	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
@@ -109,7 +109,7 @@ func (s *ResourceObjectstorageObjectTestSuite) TestUpdateResourceObjectstorageOb
 	`
 	config += testProviderConfig()
 
-	resource.UnitTest(s.T(), resource.TestCase{
+	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
@@ -129,7 +129,7 @@ func (s *ResourceObjectstorageObjectTestSuite) TestUpdateResourceObjectstorageOb
 
 func (s *ResourceObjectstorageObjectTestSuite) TestDeleteResourceObjectstorageObject() {
 
-	resource.UnitTest(s.T(), resource.TestCase{
+	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{

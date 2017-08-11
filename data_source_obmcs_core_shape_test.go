@@ -46,7 +46,7 @@ func (s *ResourceCoreShapeTestSuite) SetupTest() {
 
 func (s *ResourceCoreShapeTestSuite) TestResourceReadCoreShape() {
 
-	resource.UnitTest(s.T(), resource.TestCase{
+	resource.Test(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{

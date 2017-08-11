@@ -60,7 +60,7 @@ resource "baremetal_core_route_table" "t" {
 }
 
 func (s *ResourceCoreRouteTablesTestSuite) TestResourceListRouteTables() {
-	resource.UnitTest(s.T(), resource.TestCase{
+	resource.Test(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{

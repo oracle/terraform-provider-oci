@@ -93,7 +93,7 @@ resource "baremetal_core_security_list" "t" {
 
 func (s *ResourceCoreSecurityListTestSuite) TestCreateResourceCoreSecurityList() {
 
-	resource.UnitTest(s.T(), resource.TestCase{
+	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
@@ -116,7 +116,7 @@ func (s *ResourceCoreSecurityListTestSuite) TestCreateResourceCoreSecurityList()
 
 func (s *ResourceCoreSecurityListTestSuite) TestCreateResourceCoreSecurityListUpdateRules() {
 
-	resource.UnitTest(s.T(), resource.TestCase{
+	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
@@ -200,7 +200,7 @@ func (s *ResourceCoreSecurityListTestSuite) TestCreateResourceCoreSecurityListUp
 
 func (s *ResourceCoreSecurityListTestSuite) TestDeleteSecurityList() {
 
-	resource.UnitTest(s.T(), resource.TestCase{
+	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{

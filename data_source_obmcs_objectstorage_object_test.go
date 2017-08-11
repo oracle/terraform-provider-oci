@@ -77,7 +77,7 @@ func (s *DatasourceObjectstorageObjectTestSuite) SetupTest() {
 }
 
 func (s *DatasourceObjectstorageObjectTestSuite) TestObjectstorageListObjects() {
-	resource.UnitTest(s.T(), resource.TestCase{
+	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{

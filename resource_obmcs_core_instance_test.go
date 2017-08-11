@@ -56,7 +56,7 @@ func (s *ResourceCoreInstanceTestSuite) SetupTest() {
 
 func (s *ResourceCoreInstanceTestSuite) TestCreateResourceCoreInstance() {
 
-	resource.UnitTest(s.T(), resource.TestCase{
+	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{

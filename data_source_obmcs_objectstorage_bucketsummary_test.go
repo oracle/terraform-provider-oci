@@ -48,7 +48,7 @@ func (s *ObjectstorageBucketSummaryTestSuite) SetupTest() {
 }
 
 func (s *ObjectstorageBucketSummaryTestSuite) TestReadBucketSummaries() {
-	resource.UnitTest(s.T(), resource.TestCase{
+	resource.Test(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{

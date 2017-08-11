@@ -50,7 +50,7 @@ resource "baremetal_core_internet_gateway" "t" {
 }
 
 func (s *CoreInternetGatewayDatasourceTestSuite) TestResourceListInternetGateways() {
-	resource.UnitTest(s.T(), resource.TestCase{
+	resource.Test(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{

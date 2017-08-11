@@ -50,7 +50,7 @@ data "baremetal_core_cpes" "s" {
 
 func (s *DatasourceCoreCpeTestSuite) TestCpeList() {
 
-	resource.UnitTest(s.T(), resource.TestCase{
+	resource.Test(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
@@ -93,7 +93,7 @@ func (s *DatasourceCoreCpeTestSuite) TestCpePagedList() {
 		},
 	}
 
-	resource.UnitTest(s.T(), resource.TestCase{
+	resource.Test(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{

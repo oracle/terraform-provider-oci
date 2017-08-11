@@ -46,7 +46,7 @@ data "baremetal_core_virtual_networks" "t" {
 
 func (s *ResourceCoreVirtualNetworksTestSuite) TestReadVirtualNetworks() {
 
-	resource.UnitTest(s.T(), resource.TestCase{
+	resource.Test(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{

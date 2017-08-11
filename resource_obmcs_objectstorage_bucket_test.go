@@ -75,7 +75,7 @@ func (s *ResourceObjectstorageBucketTestSuite) SetupTest() {
 
 func (s *ResourceObjectstorageBucketTestSuite) TestCreateResourceObjectstorageBucket() {
 
-	resource.UnitTest(s.T(), resource.TestCase{
+	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
@@ -94,7 +94,7 @@ func (s *ResourceObjectstorageBucketTestSuite) TestCreateResourceObjectstorageBu
 
 func (s *ResourceObjectstorageBucketTestSuite) TestDeleteResourceObjectstorageBucket() {
 
-	resource.UnitTest(s.T(), resource.TestCase{
+	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{

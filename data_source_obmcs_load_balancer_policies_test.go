@@ -25,7 +25,7 @@ data "baremetal_load_balancer_policies" "t" {
 `
 	config += testProviderConfig()
 
-	resource.UnitTest(t, resource.TestCase{
+	resource.Test(t, resource.TestCase{
 		PreventPostDestroyRefresh: true,
 		Providers:                 providers,
 		Steps: []resource.TestStep{

@@ -52,7 +52,7 @@ func (s *ResourceCoreVolumesTestSuite) SetupTest() {
 
 func (s *ResourceCoreVolumesTestSuite) TestReadVolumes() {
 
-	resource.UnitTest(s.T(), resource.TestCase{
+	resource.Test(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
@@ -75,7 +75,7 @@ func (s *ResourceCoreVolumesTestSuite) TestReadVolumes() {
 
 func (s *ResourceCoreVolumesTestSuite) TestReadVolumesWithPagination() {
 
-	resource.UnitTest(s.T(), resource.TestCase{
+	resource.Test(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{

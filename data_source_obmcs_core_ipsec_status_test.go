@@ -57,7 +57,7 @@ func (s *DatasourceCoreIPSecStatusTestSuite) SetupTest() {
 }
 
 func (s *DatasourceCoreIPSecStatusTestSuite) TestIPSecStatus() {
-	resource.UnitTest(s.T(), resource.TestCase{
+	resource.Test(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{

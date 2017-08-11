@@ -70,7 +70,7 @@ resource "baremetal_core_route_table" "t" {
 
 func (s *ResourceCoreRouteTableTestSuite) TestCreateResourceCoreRouteTable() {
 
-	resource.UnitTest(s.T(), resource.TestCase{
+	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
@@ -106,7 +106,7 @@ func (s ResourceCoreRouteTableTestSuite) TestUpdateRouteTable() {
 	`
 	config += testProviderConfig()
 
-	resource.UnitTest(s.T(), resource.TestCase{
+	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
@@ -124,7 +124,7 @@ func (s ResourceCoreRouteTableTestSuite) TestUpdateRouteTable() {
 
 func (s *ResourceCoreRouteTableTestSuite) TestDeleteRouteTable() {
 
-	resource.UnitTest(s.T(), resource.TestCase{
+	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{

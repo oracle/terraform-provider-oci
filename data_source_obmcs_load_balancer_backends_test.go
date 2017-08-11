@@ -41,7 +41,7 @@ data "baremetal_load_balancer_backends" "t" {
 		backendsetName,
 	).Return(list, nil)
 
-	resource.UnitTest(t, resource.TestCase{
+	resource.Test(t, resource.TestCase{
 		PreventPostDestroyRefresh: true,
 		Providers:                 providers,
 		Steps: []resource.TestStep{
