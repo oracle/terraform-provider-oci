@@ -3,8 +3,6 @@
 package main
 
 import (
-	"fmt"
-
 	"github.com/hashicorp/terraform/helper/schema"
 
 	"github.com/MustWin/baremetal-sdk-go"
@@ -73,7 +71,9 @@ func readConsoleHistory(d *schema.ResourceData, m interface{}) (e error) {
 }
 
 func deleteConsoleHistory(d *schema.ResourceData, m interface{}) (e error) {
-	return fmt.Errorf("console history resource: console history %v cannot be deleted", d.Id())
+	sync := &ConsoleHistoryResourceCrud{}
+	sync.D = d
+	return crud.DeleteResource(d, sync)
 }
 
 type ConsoleHistoryResourceCrud struct {
@@ -107,6 +107,11 @@ func (s *ConsoleHistoryResourceCrud) Create() (e error) {
 
 func (s *ConsoleHistoryResourceCrud) Get() (e error) {
 	s.Res, e = s.Client.GetConsoleHistory(s.D.Id())
+	return
+}
+
+func (s *ConsoleHistoryResourceCrud) Delete() (e error) {
+	e = nil
 	return
 }
 

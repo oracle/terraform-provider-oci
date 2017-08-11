@@ -58,52 +58,14 @@ resource "baremetal_core_virtual_network" "t" {
 	display_name = "network_name"
 }
 
-resource "baremetal_core_internet_gateway" "CompleteIG" {
-    compartment_id = "${var.compartment_id}"
-    display_name = "CompleteIG"
-    vcn_id = "${baremetal_core_virtual_network.t.id}"
-}
-
-resource "baremetal_core_route_table" "RouteForComplete" {
-    compartment_id = "${var.compartment_id}"
-    vcn_id = "${baremetal_core_virtual_network.t.id}"
-    display_name = "RouteTableForComplete"
-    route_rules {
-        cidr_block = "0.0.0.0/0"
-        network_entity_id = "${baremetal_core_internet_gateway.CompleteIG.id}"
-    }
-}
-
-resource "baremetal_core_security_list" "WebSubnet" {
-    compartment_id = "${var.compartment_id}"
-    display_name = "Public"
-    vcn_id = "${baremetal_core_virtual_network.t.id}"
-    egress_security_rules = [{
-        destination = "0.0.0.0/0"
-        protocol = "6"
-    }]
-    ingress_security_rules = [{
-        tcp_options {
-            "max" = 80
-            "min" = 80
-        }
-        protocol = "6"
-        source = "0.0.0.0/0"
-    },
-	{
-	protocol = "6"
-	source = "10.0.0.0/16"
-    }]
-}
-
 resource "baremetal_core_subnet" "WebSubnetAD1" {
   availability_domain = "${lookup(data.baremetal_identity_availability_domains.ADs.availability_domains[0],"name")}"
   cidr_block          = "10.0.1.0/24"
   display_name        = "WebSubnetAD1"
   compartment_id      = "${var.compartment_id}"
   vcn_id              = "${baremetal_core_virtual_network.t.id}"
-  route_table_id      = "${baremetal_core_route_table.RouteForComplete.id}"
-  security_list_ids   = ["${baremetal_core_security_list.WebSubnet.id}"]
+  route_table_id      = "${baremetal_core_virtual_network.t.default_route_table_id}"
+  security_list_ids = ["${baremetal_core_virtual_network.t.default_security_list_id}"]
   dhcp_options_id     = "${baremetal_core_virtual_network.t.default_dhcp_options_id}"
 }
 
@@ -112,7 +74,9 @@ resource "baremetal_core_subnet" "WebSubnetAD1" {
 var instanceConfig = subnetConfig + `
 data "baremetal_core_images" "t" {
 	compartment_id = "${var.compartment_id}"
-	limit = 1
+  	operating_system = "Oracle Linux"
+  	operating_system_version = "7.3"
+  	limit = 1
 }
 
 data "baremetal_identity_policies" "policies" {
@@ -132,16 +96,16 @@ data "baremetal_core_shape" "shapes" {
 resource "baremetal_core_instance" "t" {
 	availability_domain = "${data.baremetal_identity_availability_domains.ADs.availability_domains.0.name}"
 	compartment_id = "${var.compartment_id}"
-	display_name = "instance_name"
+	display_name = "TFAcceptanceTest"
       	image = "${data.baremetal_core_images.t.images.0.id}"
-      	shape = "${data.baremetal_core_shape.shapes.shapes.0.name}"
+      	shape = "VM.Standard1.1"
       	subnet_id = "${baremetal_core_subnet.WebSubnetAD1.id}"
       	metadata {
         	ssh_authorized_keys = "${var.ssh_public_key}"
       	}
 
       	timeouts {
-      		create = "60m"
+      		create = "15m"
       	}
 }
 `
@@ -164,8 +128,9 @@ resource "baremetal_core_subnet" "WebSubnetAD2" {
   display_name = "WebSubnetAD2"
   compartment_id = "${var.compartment_id}"
   vcn_id = "${baremetal_core_virtual_network.t.id}"
-  route_table_id = "${baremetal_core_route_table.RouteForComplete.id}"
-  security_list_ids = ["${baremetal_core_security_list.WebSubnet.id}"]
+  route_table_id      = "${baremetal_core_virtual_network.t.default_route_table_id}"
+  security_list_ids = ["${baremetal_core_virtual_network.t.default_security_list_id}"]
+  dhcp_options_id     = "${baremetal_core_virtual_network.t.default_dhcp_options_id}"
 }
 
 data "baremetal_load_balancer_shapes" "t" {
@@ -246,7 +211,7 @@ variable "DBNodeHostName" {
 	}
 	`
 
-// This is a dummy object allowing coexistance between mocked API calls and real API calls in acceptance tests
+// This is a dummy object allowing coexistence between mocked API calls and real API calls in acceptance tests
 // Acceptance tests will use this object that "mocks" the mocks
 type mockableClient interface {
 	client.BareMetalClient

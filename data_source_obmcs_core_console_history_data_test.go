@@ -9,8 +9,6 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
-	"crypto/rand"
-
 	"github.com/stretchr/testify/suite"
 )
 
@@ -46,9 +44,6 @@ func (s *CoreConsoleHistoryDataDatasourceTestSuite) SetupTest() {
 }
 
 func (s *CoreConsoleHistoryDataDatasourceTestSuite) TestResourceShowConsoleHistory() {
-	data := make([]byte, 100)
-	rand.Read(data)
-
 	resource.UnitTest(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
@@ -58,7 +53,7 @@ func (s *CoreConsoleHistoryDataDatasourceTestSuite) TestResourceShowConsoleHisto
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "data", string(data)),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 				),
 			},
 		},
@@ -66,6 +61,6 @@ func (s *CoreConsoleHistoryDataDatasourceTestSuite) TestResourceShowConsoleHisto
 	)
 }
 
-func TestCoreInstanceConsoleHistoriesDatasource(t *testing.T) {
+func TestDatasourceCoreConsoleHistoryTestSuite(t *testing.T) {
 	suite.Run(t, new(CoreConsoleHistoryDataDatasourceTestSuite))
 }
