@@ -96,7 +96,7 @@ func (s *ResourceCoreDrgTestSuite) TestCreateResourceCoreDrgWithoutDisplayName()
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "display_name", s.Res.DisplayName),
+					resource.TestCheckResourceAttr(s.ResourceName, "display_name", ""),
 				),
 			},
 		},
