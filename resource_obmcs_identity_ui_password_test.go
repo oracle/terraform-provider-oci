@@ -40,12 +40,11 @@ func (s *ResourceIdentityUIPasswordTestSuite) SetupTest() {
 
 	s.Config = `
 		resource "baremetal_identity_user" "t" {
-			name = "name1"
-			description = "desc!"
+			name = "-tf-user"
+			description = "automated test user"
 		}
 		resource "baremetal_identity_ui_password" "t" {
 			user_id = "${baremetal_identity_user.t.id}"
-			version = "1"
 		}
 	`
 	s.Config += testProviderConfig()
@@ -74,12 +73,11 @@ func (s *ResourceIdentityUIPasswordTestSuite) TestCreateUIPassword() {
 func (s ResourceIdentityUIPasswordTestSuite) TestUpdateVersionForcesNewUIPassword() {
 	config := `
 		resource "baremetal_identity_user" "t" {
-			name = "name1"
-			description = "desc!"
+			name = "-tf-user"
+			description = "automated test user"
 		}
 		resource "baremetal_identity_ui_password" "t" {
 			user_id = "${baremetal_identity_user.t.id}"
-			version = "2"
 		}
   `
 	config += testProviderConfig()

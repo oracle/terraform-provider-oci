@@ -14,7 +14,7 @@ import (
 	"github.com/stretchr/testify/suite"
 )
 
-type ResourceIdentityCompartmentsTestSuite struct {
+type DatasourceIdentityCompartmentsTestSuite struct {
 	suite.Suite
 	Client       mockableClient
 	Config       string
@@ -24,7 +24,7 @@ type ResourceIdentityCompartmentsTestSuite struct {
 	List         *baremetal.ListCompartments
 }
 
-func (s *ResourceIdentityCompartmentsTestSuite) SetupTest() {
+func (s *DatasourceIdentityCompartmentsTestSuite) SetupTest() {
 	s.Client = GetTestProvider()
 	s.Provider = Provider(func(d *schema.ResourceData) (interface{}, error) {
 		return s.Client, nil
@@ -58,7 +58,7 @@ func (s *ResourceIdentityCompartmentsTestSuite) SetupTest() {
 	}
 }
 
-func (s *ResourceIdentityCompartmentsTestSuite) TestReadCompartments() {
+func (s *DatasourceIdentityCompartmentsTestSuite) TestReadCompartments() {
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,
@@ -78,6 +78,6 @@ func (s *ResourceIdentityCompartmentsTestSuite) TestReadCompartments() {
 	)
 }
 
-func TestResourceIdentityCompartmentsTestSuite(t *testing.T) {
-	suite.Run(t, new(ResourceIdentityCompartmentsTestSuite))
+func TestDatasourceIdentityCompartmentsTestSuite(t *testing.T) {
+	suite.Run(t, new(DatasourceIdentityCompartmentsTestSuite))
 }

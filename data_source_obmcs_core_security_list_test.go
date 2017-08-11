@@ -93,6 +93,6 @@ func (s *CoreSecurityListDatasourceTestSuite) TestReadSecurityLists() {
 	)
 }
 
-func TestCoreSecurityListDatasourceTestSuite(t *testing.T) {
+func TestDatasourceCoreSecurityListTestSuite(t *testing.T) {
 	suite.Run(t, new(CoreSecurityListDatasourceTestSuite))
 }

@@ -31,19 +31,19 @@ func (s *ResourceIdentityUserGroupMembershipTestSuite) SetupTest() {
 	}
 
 	s.Config = `
-    resource "baremetal_identity_user" "u" {
-	name = "user_name"
-	description = "user desc"
-    }
-    resource "baremetal_identity_group" "g" {
-	name = "group_name"
-	description = "group desc"
-    }
-    resource "baremetal_identity_user_group_membership" "ug_membership" {
-    	compartment_id = "${var.tenancy_ocid}"
-	user_id = "${baremetal_identity_user.u.id}"
-	group_id = "${baremetal_identity_group.g.id}"
-    }
+	resource "baremetal_identity_user" "u" {
+		name = "-tf-user"
+		description = "automated test user"
+	}
+	resource "baremetal_identity_group" "g" {
+		name = "-tf-group"
+		description = "automated test group"
+	}
+	resource "baremetal_identity_user_group_membership" "ug_membership" {
+		compartment_id = "${var.tenancy_ocid}"
+		user_id = "${baremetal_identity_user.u.id}"
+		group_id = "${baremetal_identity_group.g.id}"
+	}
   `
 	s.Config += testProviderConfig()
 	s.ResourceName = "baremetal_identity_user_group_membership.ug_membership"

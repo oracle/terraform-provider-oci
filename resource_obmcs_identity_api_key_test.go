@@ -36,8 +36,8 @@ func (s *ResourceIdentityAPIKeyTestSuite) SetupTest() {
 
 	s.Config = `
 		resource "baremetal_identity_user" "t" {
-			name = "name1"
-			description = "desc!"
+			name = "-tf-user"
+			description = "automated test user"
 		}
 		resource "baremetal_identity_api_key" "t" {
 			user_id = "${baremetal_identity_user.t.id}"

@@ -12,7 +12,7 @@ import (
 	"github.com/stretchr/testify/suite"
 )
 
-type ResourceIdentityAvailabilityDomainsTestSuite struct {
+type DatasourceIdentityAvailabilityDomainsTestSuite struct {
 	suite.Suite
 	Client       mockableClient
 	Config       string
@@ -22,7 +22,7 @@ type ResourceIdentityAvailabilityDomainsTestSuite struct {
 	List         *baremetal.ListAvailabilityDomains
 }
 
-func (s *ResourceIdentityAvailabilityDomainsTestSuite) SetupTest() {
+func (s *DatasourceIdentityAvailabilityDomainsTestSuite) SetupTest() {
 	s.Client = GetTestProvider()
 	s.Provider = Provider(func(d *schema.ResourceData) (interface{}, error) {
 		return s.Client, nil
@@ -32,10 +32,10 @@ func (s *ResourceIdentityAvailabilityDomainsTestSuite) SetupTest() {
 		"baremetal": s.Provider,
 	}
 	s.Config = `
-    data "baremetal_identity_availability_domains" "t" {
-      compartment_id = "${var.compartment_id}"
-    }
-  `
+	data "baremetal_identity_availability_domains" "t" {
+	  compartment_id = "${var.compartment_id}"
+	}
+`
 	s.Config += testProviderConfig()
 	s.ResourceName = "data.baremetal_identity_availability_domains.t"
 
@@ -52,7 +52,7 @@ func (s *ResourceIdentityAvailabilityDomainsTestSuite) SetupTest() {
 	}
 }
 
-func (s *ResourceIdentityAvailabilityDomainsTestSuite) TestReadAvailabilityDomains() {
+func (s *DatasourceIdentityAvailabilityDomainsTestSuite) TestReadAvailabilityDomains() {
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,
@@ -73,6 +73,6 @@ func (s *ResourceIdentityAvailabilityDomainsTestSuite) TestReadAvailabilityDomai
 
 }
 
-func TestResourceIdentityAvailabilityDomainsTestSuite(t *testing.T) {
-	suite.Run(t, new(ResourceIdentityAvailabilityDomainsTestSuite))
+func TestDatasourceIdentityAvailabilityDomainsTestSuite(t *testing.T) {
+	suite.Run(t, new(DatasourceIdentityAvailabilityDomainsTestSuite))
 }

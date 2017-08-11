@@ -14,7 +14,7 @@ import (
 	"github.com/stretchr/testify/suite"
 )
 
-type ResourceIdentityAPIKeysTestSuite struct {
+type DatasourceIdentityAPIKeysTestSuite struct {
 	suite.Suite
 	Client       mockableClient
 	Config       string
@@ -24,7 +24,7 @@ type ResourceIdentityAPIKeysTestSuite struct {
 	List         *baremetal.ListAPIKeyResponses
 }
 
-func (s *ResourceIdentityAPIKeysTestSuite) SetupTest() {
+func (s *DatasourceIdentityAPIKeysTestSuite) SetupTest() {
 	s.Client = GetTestProvider()
 	s.Provider = Provider(func(d *schema.ResourceData) (interface{}, error) {
 		return s.Client, nil
@@ -35,8 +35,8 @@ func (s *ResourceIdentityAPIKeysTestSuite) SetupTest() {
 	}
 	s.Config = `
 	resource "baremetal_identity_user" "t" {
-			name = "name1"
-			description = "desc!"
+			name = "-tf-test"
+			description = "automated test user"
 		}
 		resource "baremetal_identity_api_key" "t" {
 			user_id = "${baremetal_identity_user.t.id}"
@@ -74,7 +74,7 @@ EOF
 	}
 }
 
-func (s *ResourceIdentityAPIKeysTestSuite) TestReadAPIKeys() {
+func (s *DatasourceIdentityAPIKeysTestSuite) TestReadAPIKeys() {
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,
@@ -98,9 +98,8 @@ func (s *ResourceIdentityAPIKeysTestSuite) TestReadAPIKeys() {
 		},
 	},
 	)
-
 }
 
-func TestResourceIdentityAPIKeysTestSuite(t *testing.T) {
-	suite.Run(t, new(ResourceIdentityAPIKeysTestSuite))
+func TestDatasourceIdentityAPIKeysTestSuite(t *testing.T) {
+	suite.Run(t, new(DatasourceIdentityAPIKeysTestSuite))
 }

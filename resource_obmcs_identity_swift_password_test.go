@@ -76,12 +76,12 @@ func (s *ResourceIdentitySwiftPasswordTestSuite) TestCreateSwiftPassword() {
 func (s ResourceIdentitySwiftPasswordTestSuite) TestUpdateDescriptionUpdatesSwiftPassword() {
 	config := `
 		resource "baremetal_identity_user" "t" {
-			name = "name1"
-			description = "desc!"
+			name = "-tf-user"
+			description = "automated test user"
 		}
 		resource "baremetal_identity_swift_password" "t" {
 			user_id = "${baremetal_identity_user.t.id}"
-			description = "nah nah nah"
+			description = "automated test swift password"
 		}
   `
 	config += testProviderConfig()
@@ -100,7 +100,7 @@ func (s ResourceIdentitySwiftPasswordTestSuite) TestUpdateDescriptionUpdatesSwif
 			{
 				Config: config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "description", "nah nah nah"),
+					resource.TestCheckResourceAttr(s.ResourceName, "description", "automated test swift password"),
 				),
 			},
 		},

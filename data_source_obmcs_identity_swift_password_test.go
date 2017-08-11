@@ -14,7 +14,7 @@ import (
 	"github.com/MustWin/baremetal-sdk-go"
 )
 
-type ResourceIdentitySwiftPasswordsTestSuite struct {
+type DatasourceIdentitySwiftPasswordsTestSuite struct {
 	suite.Suite
 	Client        mockableClient
 	Provider      terraform.ResourceProvider
@@ -25,7 +25,7 @@ type ResourceIdentitySwiftPasswordsTestSuite struct {
 	PasswordList  baremetal.ListSwiftPasswords
 }
 
-func (s *ResourceIdentitySwiftPasswordsTestSuite) SetupTest() {
+func (s *DatasourceIdentitySwiftPasswordsTestSuite) SetupTest() {
 	s.Client = GetTestProvider()
 	s.Provider = Provider(func(d *schema.ResourceData) (interface{}, error) {
 		return s.Client, nil
@@ -50,7 +50,7 @@ func (s *ResourceIdentitySwiftPasswordsTestSuite) SetupTest() {
 
 }
 
-func (s *ResourceIdentitySwiftPasswordsTestSuite) TestListResourceIdentitySwiftPasswords() {
+func (s *DatasourceIdentitySwiftPasswordsTestSuite) TestListResourceIdentitySwiftPasswords() {
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
@@ -74,6 +74,6 @@ func (s *ResourceIdentitySwiftPasswordsTestSuite) TestListResourceIdentitySwiftP
 	)
 }
 
-func TestResourceIdentitySwiftPasswordsTestSuite(t *testing.T) {
-	suite.Run(t, new(ResourceIdentitySwiftPasswordsTestSuite))
+func TestDatasourceIdentitySwiftPasswordsTestSuite(t *testing.T) {
+	suite.Run(t, new(DatasourceIdentitySwiftPasswordsTestSuite))
 }
