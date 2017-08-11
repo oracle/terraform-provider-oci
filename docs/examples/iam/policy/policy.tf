@@ -1,3 +1,7 @@
+/*
+ * This example shows how the policy resource and datasource works.
+ */
+
 variable "tenancy_ocid" {}
 variable "user_ocid" {}
 variable "fingerprint" {}
@@ -15,9 +19,27 @@ provider "baremetal" {
   region = "${var.region}"
 }
 
-resource "baremetal_identity_policy" "policy1" {
-  name = "policy1"
-  description = "A terraform managed policy"
-  compartment_id = "${var.compartment_ocid}"
-  statements = ["allow group ${var.group_name} to manage all-resources on tenancy"]
+resource "baremetal_identity_compartment" "t" {
+  name = "test-compartment"
+  description = "automated test compartment"
+}
+
+resource "baremetal_identity_group" "t" {
+  name = "-tf-group"
+  description = "automated test group"
+}
+
+resource "baremetal_identity_policy" "p" {
+  name = "-tf-policy"
+  description = "automated test policy"
+  compartment_id = "${baremetal_identity_compartment.t.id}"
+  statements = ["Allow group ${baremetal_identity_group.t.name} to read instances in compartment ${baremetal_identity_compartment.t.name}"]
+}
+
+data "baremetal_identity_policies" "p" {
+  compartment_id = "${baremetal_identity_compartment.t.id}"
+}
+
+output "policy" {
+  value = ["${data.baremetal_identity_policies.p.policies}"]
 }

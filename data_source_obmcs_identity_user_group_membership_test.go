@@ -13,7 +13,7 @@ import (
 	"github.com/MustWin/baremetal-sdk-go"
 )
 
-type ResourceIdentityUserGroupMembershipsTestSuite struct {
+type DatasourceIdentityUserGroupMembershipsTestSuite struct {
 	suite.Suite
 	Client       mockableClient
 	Config       string
@@ -23,7 +23,7 @@ type ResourceIdentityUserGroupMembershipsTestSuite struct {
 	List         *baremetal.ListUserGroupMemberships
 }
 
-func (s *ResourceIdentityUserGroupMembershipsTestSuite) SetupTest() {
+func (s *DatasourceIdentityUserGroupMembershipsTestSuite) SetupTest() {
 	s.Client = GetTestProvider()
 	s.Provider = Provider(func(d *schema.ResourceData) (interface{}, error) {
 		return s.Client, nil
@@ -35,38 +35,40 @@ func (s *ResourceIdentityUserGroupMembershipsTestSuite) SetupTest() {
 
 	s.Config = `
     resource "baremetal_identity_user" "u" {
-	name = "user_name"
-	description = "user desc"
+		name = "user_name"
+		description = "user desc"
     }
     resource "baremetal_identity_group" "g" {
-	name = "group_name"
-	description = "group desc"
+		name = "group_name"
+		description = "group desc"
     }
     resource "baremetal_identity_user_group_membership" "ug_membership" {
     	compartment_id = "${var.tenancy_ocid}"
-	user_id = "${baremetal_identity_user.u.id}"
-	group_id = "${baremetal_identity_group.g.id}"
+		user_id = "${baremetal_identity_user.u.id}"
+		group_id = "${baremetal_identity_group.g.id}"
     }
   `
 	s.Config += testProviderConfig()
 	s.ResourceName = "baremetal_identity_user_group_membership.ug_membership"
 }
 
-func (s *ResourceIdentityUserGroupMembershipsTestSuite) TestGetUserGroupMembershipsByGroup() {
+func (s *DatasourceIdentityUserGroupMembershipsTestSuite) TestGetUserGroupMembershipsByGroup() {
 	config := `
 	data "baremetal_identity_user_group_memberships" "g_memberships" {
 	    compartment_id = "${var.tenancy_ocid}"
 	    group_id = "${baremetal_identity_group.g.id}"
-        }
-        data "baremetal_identity_user_group_memberships" "u_memberships" {
+	}
+
+	data "baremetal_identity_user_group_memberships" "u_memberships" {
 		compartment_id = "${var.tenancy_ocid}"
 		user_id = "${baremetal_identity_user.u.id}"
 	}
+
 	data "baremetal_identity_user_group_memberships" "ug_memberships" {
 	    compartment_id = "${var.tenancy_ocid}"
 	    user_id = "${baremetal_identity_user.u.id}"
 	    group_id = "${baremetal_identity_group.g.id}"
-        }
+	}
 	`
 	resource.UnitTest(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,
@@ -93,6 +95,6 @@ func (s *ResourceIdentityUserGroupMembershipsTestSuite) TestGetUserGroupMembersh
 	)
 }
 
-func TestResourceIdentityUserGroupMembershipsTestSuite(t *testing.T) {
-	suite.Run(t, new(ResourceIdentityUserGroupMembershipsTestSuite))
+func TestDatasourceIdentityUserGroupMembershipsTestSuite(t *testing.T) {
+	suite.Run(t, new(DatasourceIdentityUserGroupMembershipsTestSuite))
 }

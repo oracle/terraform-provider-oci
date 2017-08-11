@@ -4,7 +4,6 @@ package main
 
 import (
 	"testing"
-	"time"
 
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/resource"
@@ -14,7 +13,7 @@ import (
 	"github.com/stretchr/testify/suite"
 )
 
-type ResourceIdentityGroupsTestSuite struct {
+type DatasourceIdentityGroupsTestSuite struct {
 	suite.Suite
 	Client       mockableClient
 	Config       string
@@ -24,7 +23,7 @@ type ResourceIdentityGroupsTestSuite struct {
 	List         *baremetal.ListGroups
 }
 
-func (s *ResourceIdentityGroupsTestSuite) SetupTest() {
+func (s *DatasourceIdentityGroupsTestSuite) SetupTest() {
 	s.Client = GetTestProvider()
 	s.Provider = Provider(func(d *schema.ResourceData) (interface{}, error) {
 		return s.Client, nil
@@ -35,31 +34,15 @@ func (s *ResourceIdentityGroupsTestSuite) SetupTest() {
 	}
 	s.Config = `
 	resource "baremetal_identity_group" "t" {
-		name = "groupname"
-		description = "group desc!"
+		name = "-tf-group"
+		description = "automated test group"
 	}
   `
 	s.Config += testProviderConfig()
 	s.ResourceName = "data.baremetal_identity_groups.t"
-
-	b1 := baremetal.Group{
-		ID:            "id",
-		Name:          "groupname",
-		CompartmentID: "compartment",
-		Description:   "blah",
-		State:         baremetal.ResourceActive,
-		TimeCreated:   time.Now(),
-	}
-
-	b2 := b1
-	b2.ID = "id2"
-
-	s.List = &baremetal.ListGroups{
-		Groups: []baremetal.Group{b1, b2},
-	}
 }
 
-func (s *ResourceIdentityGroupsTestSuite) TestReadGroups() {
+func (s *DatasourceIdentityGroupsTestSuite) TestReadGroups() {
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,
@@ -85,6 +68,6 @@ func (s *ResourceIdentityGroupsTestSuite) TestReadGroups() {
 	)
 }
 
-func TestResourceIdentityGroupsTestSuite(t *testing.T) {
-	suite.Run(t, new(ResourceIdentityGroupsTestSuite))
+func TestDatasourceIdentityGroupsTestSuite(t *testing.T) {
+	suite.Run(t, new(DatasourceIdentityGroupsTestSuite))
 }

@@ -13,7 +13,7 @@ import (
 	"github.com/stretchr/testify/suite"
 )
 
-type ResourceIdentityUsersTestSuite struct {
+type DatasourceIdentityUsersTestSuite struct {
 	suite.Suite
 	Client       mockableClient
 	Config       string
@@ -23,7 +23,7 @@ type ResourceIdentityUsersTestSuite struct {
 	List         *baremetal.ListUsers
 }
 
-func (s *ResourceIdentityUsersTestSuite) SetupTest() {
+func (s *DatasourceIdentityUsersTestSuite) SetupTest() {
 	s.Client = GetTestProvider()
 	s.Provider = Provider(func(d *schema.ResourceData) (interface{}, error) {
 		return s.Client, nil
@@ -34,15 +34,15 @@ func (s *ResourceIdentityUsersTestSuite) SetupTest() {
 	}
 	s.Config = `
 		resource "baremetal_identity_user" "t" {
-			name = "name1"
-			description = "desc!"
+			name = "-tf-user"
+			description = "automated test user"
 		}
 	`
 	s.Config += testProviderConfig()
 	s.ResourceName = "data.baremetal_identity_users.t"
 }
 
-func (s *ResourceIdentityUsersTestSuite) TestReadUsers() {
+func (s *DatasourceIdentityUsersTestSuite) TestReadUsers() {
 
 	resource.UnitTest(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,
@@ -68,6 +68,6 @@ func (s *ResourceIdentityUsersTestSuite) TestReadUsers() {
 	)
 }
 
-func TestResourceIdentityUsersTestSuite(t *testing.T) {
-	suite.Run(t, new(ResourceIdentityUsersTestSuite))
+func TestDatasourceIdentityUsersTestSuite(t *testing.T) {
+	suite.Run(t, new(DatasourceIdentityUsersTestSuite))
 }

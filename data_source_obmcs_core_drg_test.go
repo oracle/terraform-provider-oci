@@ -68,6 +68,6 @@ func (s *ResourceCoreDrgsTestSuite) TestReadDrgs() {
 
 }
 
-func TestResourceCoreDrgsTestSuite(t *testing.T) {
+func TestDatasourceCoreDrgsTestSuite(t *testing.T) {
 	suite.Run(t, new(ResourceCoreDrgsTestSuite))
 }

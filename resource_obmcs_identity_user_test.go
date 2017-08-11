@@ -40,8 +40,8 @@ func (s *ResourceIdentityUserTestSuite) SetupTest() {
 	s.TimeCreated, _ = time.Parse("2006-Jan-02", "2006-Jan-02")
 	s.Config = `
 		resource "baremetal_identity_user" "t" {
-			name = "name1"
-			description = "desc!"
+			name = "-tf-user"
+			description = "automated test user"
 		}
 	`
 	s.Config += testProviderConfig()
@@ -49,8 +49,8 @@ func (s *ResourceIdentityUserTestSuite) SetupTest() {
 	s.ResourceName = "baremetal_identity_user.t"
 	s.Res = &baremetal.User{
 		ID:            "id!",
-		Name:          "name1",
-		Description:   "desc!",
+		Name:          "-tf-user",
+		Description:   "automated test user",
 		CompartmentID: "cid!",
 		State:         baremetal.ResourceActive,
 		TimeCreated:   s.TimeCreated,
@@ -106,10 +106,9 @@ func (s *ResourceIdentityUserTestSuite) TestCreateResourceIdentityUserPolling() 
 func (s *ResourceIdentityUserTestSuite) TestUpdateResourceIdentityUserDescription() {
 
 	c := `
-
 		resource "baremetal_identity_user" "t" {
-			name = "name1"
-			description = "newdesc!"
+			name = "-tf-user"
+			description = "automated test user updated"
 		}
 	`
 	c += testProviderConfig()
@@ -125,7 +124,7 @@ func (s *ResourceIdentityUserTestSuite) TestUpdateResourceIdentityUserDescriptio
 			{
 				Config: c,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "description", "newdesc!"),
+					resource.TestCheckResourceAttr(s.ResourceName, "description", "automated test user updated"),
 				),
 			},
 		},
@@ -136,8 +135,8 @@ func (s *ResourceIdentityUserTestSuite) TestUpdateResourceIdentityUserNameShould
 
 	c := `
 		resource "baremetal_identity_user" "t" {
-			name = "newname1"
-			description = "desc!"
+			name = "-tf-user2"
+			description = "automated test user"
 		}
 	`
 
@@ -154,7 +153,7 @@ func (s *ResourceIdentityUserTestSuite) TestUpdateResourceIdentityUserNameShould
 			{
 				Config: c,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "name", "newname1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "name", "-tf-user2"),
 				),
 			},
 		},

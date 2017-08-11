@@ -45,7 +45,7 @@ func (s *ResourceIdentityCompartmentTestSuite) SetupTest() {
 	s.Config = `
 		resource "baremetal_identity_compartment" "t" {
 			name = "test-compartment"
-			description = "newdesc!"
+			description = "automated test compartment"
 		}
 	`
 	s.Config += testProviderConfig()
@@ -53,7 +53,7 @@ func (s *ResourceIdentityCompartmentTestSuite) SetupTest() {
 	s.Res = &baremetal.Compartment{
 		ID:            "id!",
 		Name:          "test-compartment",
-		Description:   "newdesc!",
+		Description:   "automated test compartment",
 		CompartmentID: "cid!",
 		State:         baremetal.ResourceActive,
 		TimeCreated:   s.TimeCreated,

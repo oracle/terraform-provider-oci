@@ -90,7 +90,7 @@ func (s *GroupSync) DeletedTarget() []string {
 }
 
 func (s *GroupSync) ExtraWaitPostCreateDelete() time.Duration {
-	return time.Duration(20 * time.Second)
+	return time.Duration(2 * time.Second)
 }
 
 func (s *GroupSync) Create() (e error) {

@@ -12,6 +12,15 @@ clean:
 fmt:
 	gofmt -w $(GOFMT_FILES)
 
+show_tests:
+	grep -ohi "Test.*$(test).*TestSuite" *.go
+
+run_one:
+	TF_ORACLE_ENV=test TF_ACC=1 go test -v -run $(test)
+
+run_one_debug:
+	TF_LOG=DEBUG DEBUG=true TF_ORACLE_ENV=test TF_ACC=1 go test -v -run $(test)
+
 test_acceptance_debug:
 	TF_LOG=DEBUG DEBUG=true TF_ORACLE_ENV=test TF_ACC=1 go test -v -timeout 120m
 
