@@ -174,6 +174,9 @@ type InstanceResourceCrud struct {
 	private_ip string
 }
 
+// Ensure InstanceResourceCrud implements crud.StatefulResource
+var _ crud.StatefulResource = (*InstanceResourceCrud)(nil)
+
 func (s *InstanceResourceCrud) ID() string {
 	return s.Resource.ID
 }

@@ -19,6 +19,24 @@ import (
 	"github.com/oracle/terraform-provider-baremetal/client/mocks"
 )
 
+var testAccClient mockableClient
+var testAccProviders map[string]terraform.ResourceProvider
+var testAccProvider *schema.Provider
+
+func init() {
+	testAccClient = GetTestProvider()
+	testAccProvider = testProvider().(*schema.Provider)
+	testAccProviders = map[string]terraform.ResourceProvider{
+		"baremetal": testAccProvider,
+	}
+}
+
+func testProvider() terraform.ResourceProvider {
+	return Provider(func(d *schema.ResourceData) (interface{}, error) {
+		return testAccClient, nil
+	})
+}
+
 func testProviderConfig() string {
 	return `
 	provider "baremetal" {
