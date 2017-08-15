@@ -15,7 +15,7 @@ import (
 
 type ResourceCoreVolumeBackupTestSuite struct {
 	suite.Suite
-	Client       mockableClient
+	Client       *baremetal.Client
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	TimeCreated  baremetal.Time
@@ -78,10 +78,6 @@ func (s *ResourceCoreVolumeBackupTestSuite) TestCreateVolumeBackup() {
 }
 
 func (s *ResourceCoreVolumeBackupTestSuite) TestCreateVolumeBackupWithoutDisplayName() {
-	if IsAccTest() {
-		s.T().Skip()
-	}
-
 	s.Config = `
 		resource "baremetal_core_volume_backup" "t" {
 			volume_id = "volume_id"
@@ -97,7 +93,7 @@ func (s *ResourceCoreVolumeBackupTestSuite) TestCreateVolumeBackupWithoutDisplay
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "display_name", s.Res.DisplayName),
+					resource.TestCheckResourceAttr(s.ResourceName, "display_name", ""),
 				),
 			},
 		},
@@ -105,10 +101,6 @@ func (s *ResourceCoreVolumeBackupTestSuite) TestCreateVolumeBackupWithoutDisplay
 }
 
 func (s ResourceCoreVolumeBackupTestSuite) TestUpdateVolumeBackupDisplayName() {
-	if IsAccTest() {
-		s.T().Skip()
-	}
-
 	config := `
 		resource "baremetal_core_volume_backup" "t" {
 			volume_id = "volume_id"

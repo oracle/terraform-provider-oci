@@ -8,7 +8,6 @@ import (
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/crud"
 )
 
@@ -73,7 +72,7 @@ func resourceObjectSummary() *schema.Resource {
 }
 
 func readObjects(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(client.BareMetalClient)
+	client := m.(*baremetal.Client)
 	reader := &ObjectDatasourceCrud{}
 	reader.D = d
 	reader.Client = client

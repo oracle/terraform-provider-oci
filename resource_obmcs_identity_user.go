@@ -6,7 +6,6 @@ import (
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/crud"
 )
 
@@ -26,7 +25,7 @@ func UserResource() *schema.Resource {
 }
 
 func createUser(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(client.BareMetalClient)
+	client := m.(*baremetal.Client)
 	sync := &UserResourceCrud{}
 	sync.D = d
 	sync.Client = client
@@ -34,7 +33,7 @@ func createUser(d *schema.ResourceData, m interface{}) (e error) {
 }
 
 func readUser(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(client.BareMetalClient)
+	client := m.(*baremetal.Client)
 	sync := &UserResourceCrud{}
 	sync.D = d
 	sync.Client = client
@@ -42,7 +41,7 @@ func readUser(d *schema.ResourceData, m interface{}) (e error) {
 }
 
 func updateUser(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(client.BareMetalClient)
+	client := m.(*baremetal.Client)
 	sync := &UserResourceCrud{}
 	sync.D = d
 	sync.Client = client
@@ -50,7 +49,7 @@ func updateUser(d *schema.ResourceData, m interface{}) (e error) {
 }
 
 func deleteUser(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(client.BareMetalClient)
+	client := m.(*baremetal.Client)
 	sync := &UserResourceCrud{}
 	sync.D = d
 	sync.Client = client

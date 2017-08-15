@@ -9,7 +9,6 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/oracle/terraform-provider-baremetal/options"
 
-	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/crud"
 )
 
@@ -89,7 +88,7 @@ func datasourceIPSecConnections() *schema.Resource {
 }
 
 func readIPSecConnections(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(client.BareMetalClient)
+	client := m.(*baremetal.Client)
 	reader := &IPSecConnectionsDatasourceCrud{}
 	reader.D = d
 	reader.Client = client

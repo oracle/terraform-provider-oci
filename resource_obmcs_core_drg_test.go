@@ -16,7 +16,7 @@ import (
 
 type ResourceCoreDrgTestSuite struct {
 	suite.Suite
-	Client       mockableClient
+	Client       *baremetal.Client
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	TimeCreated  baremetal.Time
@@ -75,10 +75,6 @@ func (s *ResourceCoreDrgTestSuite) TestCreateResourceCoreDrg() {
 }
 
 func (s *ResourceCoreDrgTestSuite) TestCreateResourceCoreDrgWithoutDisplayName() {
-	if IsAccTest() {
-		s.T().Skip()
-	}
-
 	s.Config = `
 		resource "baremetal_core_drg" "t" {
 			compartment_id = "${var.compartment_id}"
@@ -94,7 +90,7 @@ func (s *ResourceCoreDrgTestSuite) TestCreateResourceCoreDrgWithoutDisplayName()
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "display_name", s.Res.DisplayName),
+					resource.TestCheckResourceAttr(s.ResourceName, "display_name", ""),
 				),
 			},
 		},

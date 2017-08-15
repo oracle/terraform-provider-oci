@@ -9,7 +9,6 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/oracle/terraform-provider-baremetal/options"
 
-	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/crud"
 )
 
@@ -105,7 +104,7 @@ func resourceCoreSubnets() *schema.Resource {
 }
 
 func readSubnets(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(client.BareMetalClient)
+	client := m.(*baremetal.Client)
 	reader := &SubnetDatasourceCrud{}
 	reader.D = d
 	reader.Client = client

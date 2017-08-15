@@ -9,7 +9,6 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/oracle/terraform-provider-baremetal/options"
 
-	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/crud"
 )
 
@@ -43,7 +42,7 @@ func DBHomesDatasource() *schema.Resource {
 }
 
 func readDBHomes(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(client.BareMetalClient)
+	client := m.(*baremetal.Client)
 	sync := &DBHomesDatasourceCrud{}
 	sync.D = d
 	sync.Client = client

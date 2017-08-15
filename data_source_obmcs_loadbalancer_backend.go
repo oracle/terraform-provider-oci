@@ -8,7 +8,6 @@ import (
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/crud"
 )
 
@@ -34,7 +33,7 @@ func BackendDatasource() *schema.Resource {
 }
 
 func readBackends(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(client.BareMetalClient)
+	client := m.(*baremetal.Client)
 	sync := &BackendDatasourceCrud{}
 	sync.D = d
 	sync.Client = client

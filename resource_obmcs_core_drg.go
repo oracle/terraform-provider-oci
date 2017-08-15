@@ -6,7 +6,6 @@ import (
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/oracle/terraform-provider-baremetal/client"
 	"github.com/oracle/terraform-provider-baremetal/crud"
 )
 
@@ -48,7 +47,7 @@ func DrgResource() *schema.Resource {
 }
 
 func createDrg(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(client.BareMetalClient)
+	client := m.(*baremetal.Client)
 	sync := &DrgResourceCrud{}
 	sync.D = d
 	sync.Client = client
@@ -56,7 +55,7 @@ func createDrg(d *schema.ResourceData, m interface{}) (e error) {
 }
 
 func readDrg(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(client.BareMetalClient)
+	client := m.(*baremetal.Client)
 	sync := &DrgResourceCrud{}
 	sync.D = d
 	sync.Client = client
@@ -64,7 +63,7 @@ func readDrg(d *schema.ResourceData, m interface{}) (e error) {
 }
 
 func updateDrg(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(client.BareMetalClient)
+	client := m.(*baremetal.Client)
 	sync := &DrgResourceCrud{}
 	sync.D = d
 	sync.Client = client
@@ -72,7 +71,7 @@ func updateDrg(d *schema.ResourceData, m interface{}) (e error) {
 }
 
 func deleteDrg(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(client.BareMetalClient)
+	client := m.(*baremetal.Client)
 	sync := &DrgResourceCrud{}
 	sync.D = d
 	sync.Client = client

@@ -16,7 +16,7 @@ import (
 
 type DatasourceCoreCpeTestSuite struct {
 	suite.Suite
-	Client       mockableClient
+	Client       *baremetal.Client
 	Config       string
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
@@ -71,9 +71,6 @@ func (s *DatasourceCoreCpeTestSuite) TestCpeList() {
 }
 
 func (s *DatasourceCoreCpeTestSuite) TestCpePagedList() {
-	if IsAccTest() {
-		s.T().Skip()
-	}
 	res := &baremetal.ListCpes{}
 	res.NextPage = "nextpage"
 	res.Cpes = []baremetal.Cpe{

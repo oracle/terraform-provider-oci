@@ -16,7 +16,7 @@ import (
 
 type DatasourceIdentityCompartmentsTestSuite struct {
 	suite.Suite
-	Client       mockableClient
+	Client       *baremetal.Client
 	Config       string
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider

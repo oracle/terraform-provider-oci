@@ -16,7 +16,7 @@ import (
 
 type ResourceIdentityGroupTestSuite struct {
 	suite.Suite
-	Client       mockableClient
+	Client       *baremetal.Client
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	TimeCreated  time.Time
