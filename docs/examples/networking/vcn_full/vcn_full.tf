@@ -144,6 +144,7 @@ resource "baremetal_core_subnet" "PrivateSubnetAD1" {
   route_table_id = "${baremetal_core_route_table.RouteForComplete.id}"
   security_list_ids = ["${baremetal_core_security_list.PrivateSubnet.id}"]
   dhcp_options_id = "${baremetal_core_virtual_network.CompleteVCN.default_dhcp_options_id}"
+  prohibit_public_ip_on_vnic = "true"	
 }
 
 resource "baremetal_core_subnet" "PrivateSubnetAD2" {
@@ -155,6 +156,7 @@ resource "baremetal_core_subnet" "PrivateSubnetAD2" {
   route_table_id = "${baremetal_core_route_table.RouteForComplete.id}"
   security_list_ids = ["${baremetal_core_security_list.PrivateSubnet.id}"]
   dhcp_options_id = "${baremetal_core_virtual_network.CompleteVCN.default_dhcp_options_id}"
+  prohibit_public_ip_on_vnic = "true"	
 }
 
 resource "baremetal_core_subnet" "PrivateSubnetAD3" {
@@ -166,6 +168,7 @@ resource "baremetal_core_subnet" "PrivateSubnetAD3" {
   route_table_id = "${baremetal_core_route_table.RouteForComplete.id}"
   security_list_ids = ["${baremetal_core_security_list.PrivateSubnet.id}"]
   dhcp_options_id = "${baremetal_core_virtual_network.CompleteVCN.default_dhcp_options_id}"
+  prohibit_public_ip_on_vnic = "true"
 }
 
 resource "baremetal_core_subnet" "BastionSubnetAD1" {
