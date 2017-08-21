@@ -4,6 +4,7 @@ package main
 
 import (
 	"encoding/json"
+	"errors"
 	"log"
 
 	"github.com/MustWin/baremetal-sdk-go"
@@ -116,7 +117,7 @@ func InstanceResource() *schema.Resource {
 			},
 			"subnet_id": {
 				Type:     schema.TypeString,
-				Required: true,
+				Optional: true,
 				ForceNew: true,
 			},
 			"time_created": {
@@ -248,34 +249,7 @@ func (s *InstanceResourceCrud) Create() (e error) {
 	}
 
 	if rawVnic, ok := s.D.GetOk("create_vnic_details"); ok {
-		vnic := rawVnic.(map[string]interface{})
-
-		vnicOpts := &baremetal.CreateVnicOptions{}
-		vnicOpts.SubnetID = vnic["subnet_id"].(string)
-
-		displayName := vnic["display_name"]
-		if displayName != nil {
-			vnicOpts.DisplayName = displayName.(string)
-		}
-
-		hostnameLabel := vnic["hostname_label"]
-		if hostnameLabel != nil {
-			vnicOpts.HostnameLabel = hostnameLabel.(string)
-		}
-
-		privateIp := vnic["private_ip"]
-		if privateIp != nil {
-			vnicOpts.PrivateIp = privateIp.(string)
-		}
-
-		//todo: work around for tf bug https://github.com/hashicorp/terraform/issues/13512
-		assignPublicIp := vnic["assign_public_ip"]
-		if assignPublicIp != nil {
-			vnicOpts.AssignPublicIp = new(bool)
-			*vnicOpts.AssignPublicIp = assignPublicIp.(string) == "1"
-		}
-
-		opts.CreateVnicOptions = vnicOpts
+		opts.CreateVnicOptions = SetCreateVnicOptions(rawVnic)
 	}
 
 	s.Resource, e = s.Client.LaunchInstance(
@@ -289,51 +263,47 @@ func (s *InstanceResourceCrud) Create() (e error) {
 }
 
 /*
- * Return the id of the first VNIC attached to this Instance.
- *
- * NOTE while the instance is still being created, calls to this function
- * can return  an error priort to the Vnic being attached.
- */
-func (s *InstanceResourceCrud) getInstanceVnicId() (vnic_id string, e error) {
-	compartmentID := s.Resource.CompartmentID
-
-	opts := &baremetal.ListVnicAttachmentsOptions{}
-	options.SetListOptions(s.D, &opts.ListOptions)
-	opts.AvailabilityDomain = s.Resource.AvailabilityDomain
-	opts.InstanceID = s.Resource.ID
-
-	var list *baremetal.ListVnicAttachments
-	if list, e = s.Client.ListVnicAttachments(compartmentID, opts); e != nil {
-		return "", e
-	}
-
-	if len(list.Attachments) < 1 {
-		log.Printf("[DEBUG] GetInstanceVnicID - InstanceID: %q, State: %q, no vnic attachments: %q", s.Resource.ID, s.Resource.State, e)
-		return "", e
-	}
-
-	return list.Attachments[0].VnicID, nil
-}
-
-/*
- * Return the public, private IP pair associated with the instance's first Vnic.
+ * Return the public, private IP pair associated with the instance's primary Vnic.
  *
  * NOTE while the instance is still being created, calls to this function
  * can return  an error priort to the Vnic being attached.
  */
 func (s *InstanceResourceCrud) getInstanceIPs() (public_ip string, private_ip string, e error) {
-	vnicID, e := s.getInstanceVnicId()
-	if e != nil {
-		return "", "", e
+	compartmentID := s.Resource.CompartmentID
+
+	opts := &baremetal.ListVnicAttachmentsOptions{}
+	opts.InstanceID = s.Resource.ID
+
+	// Page through all VNIC attachments for the instance.
+	var attachments []baremetal.VnicAttachment
+	for {
+		var result *baremetal.ListVnicAttachments
+		if result, e = s.Client.ListVnicAttachments(compartmentID, opts); e != nil {
+			break
+		}
+
+		attachments = append(attachments, result.Attachments...)
+		if hasNextPage := options.SetNextPageOption(result.NextPage, &opts.ListOptions.PageListOptions); !hasNextPage {
+			break
+		}
 	}
 
-	// Lookup Vnic by id
-	vnic, e := s.Client.GetVnic(vnicID)
-	if e != nil {
-		return "", "", e
+	if len(attachments) < 1 {
+		return "", "", errors.New("No VNIC attachments found.")
 	}
 
-	return vnic.PublicIPAddress, vnic.PrivateIPAddress, nil
+	for _, attachment := range attachments {
+		if attachment.State == baremetal.ResourceAttached {
+			vnic, _ := s.Client.GetVnic(attachment.VnicID)
+
+			// Ignore errors on GetVnic, since we might not have permissions to view some secondary VNICs.
+			if vnic != nil && vnic.IsPrimary {
+				return vnic.PublicIPAddress, vnic.PrivateIPAddress, nil
+			}
+		}
+	}
+
+	return "", "", errors.New("Primary VNIC not found.")
 }
 
 func (s *InstanceResourceCrud) Get() (e error) {
@@ -347,7 +317,7 @@ func (s *InstanceResourceCrud) Get() (e error) {
 	// (Not available while state==PROVISIONING)
 	public_ip, private_ip, e2 := s.getInstanceIPs()
 	if e2 != nil {
-		log.Printf("[DEBUG] no vnic yet, skipping")
+		log.Printf("[DEBUG] Primary VNIC could not be found: %q (InstanceID: %q, State: %q)", e2, s.Resource.ID, s.Resource.State)
 	}
 
 	if public_ip != "" {

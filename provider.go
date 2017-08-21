@@ -173,6 +173,7 @@ func resourcesMap() map[string]*schema.Resource {
 		"baremetal_core_security_list":             SecurityListResource(),
 		"baremetal_core_subnet":                    SubnetResource(),
 		"baremetal_core_virtual_network":           VirtualNetworkResource(),
+		"baremetal_core_vnic_attachment":           VnicAttachmentResource(),
 		"baremetal_core_volume":                    VolumeResource(),
 		"baremetal_core_volume_attachment":         VolumeAttachmentResource(),
 		"baremetal_core_volume_backup":             VolumeBackupResource(),
