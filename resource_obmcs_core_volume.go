@@ -34,6 +34,7 @@ func VolumeResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Optional: true,
 				ForceNew: true,
+				Computed: true,
 			},
 			"display_name": {
 				Type:     schema.TypeString,
