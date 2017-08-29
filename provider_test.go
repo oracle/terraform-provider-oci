@@ -104,6 +104,13 @@ resource "oci_core_instance" "t" {
       	}
 }
 `
+var vnicConfig = instanceConfig + `
+data "oci_core_vnic_attachments" "vnics" {
+    compartment_id = "${var.compartment_id}"
+	availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+    instance_id = "${oci_core_instance.t.id}"
+}
+`
 
 var instanceDnsConfig = `
 data "oci_identity_availability_domains" "ADs" {
