@@ -104,7 +104,7 @@ func (s *VolumeResourceCrud) ID() string {
 }
 
 func (s *VolumeResourceCrud) CreatedPending() []string {
-	return []string{baremetal.ResourceProvisioning}
+	return []string{baremetal.ResourceProvisioning, baremetal.ResourceRestoring}
 }
 
 func (s *VolumeResourceCrud) CreatedTarget() []string {

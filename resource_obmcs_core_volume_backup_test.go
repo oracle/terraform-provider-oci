@@ -18,7 +18,6 @@ type ResourceCoreVolumeBackupTestSuite struct {
 	Client       *baremetal.Client
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
-	TimeCreated  baremetal.Time
 	Config       string
 	ResourceName string
 	Res          *baremetal.VolumeBackup
@@ -36,23 +35,16 @@ func (s *ResourceCoreVolumeBackupTestSuite) SetupTest() {
 	s.Providers = map[string]terraform.ResourceProvider{"baremetal": s.Provider}
 
 	s.ResourceName = "baremetal_core_volume_backup.t"
-	s.Config = `
+	s.Config = testProviderConfig() + `
 		data "baremetal_identity_availability_domains" "ADs" {
-  			compartment_id = "${var.compartment_id}"
+			compartment_id = "${var.compartment_id}"
 		}
 		resource "baremetal_core_volume" "t" {
 			availability_domain = "${data.baremetal_identity_availability_domains.ADs.availability_domains.0.name}"
 			compartment_id = "${var.compartment_id}"
-			display_name = "display_name"
-			size_in_mbs = 262144
-		}
-		resource "baremetal_core_volume_backup" "t" {
-			volume_id = "${baremetal_core_volume.t.id}"
-			display_name = "display_name"
-		}
-	`
-	s.Config += testProviderConfig()
-
+			display_name = "-tf-volume"
+			size_in_mbs = 51200
+		}`
 }
 
 func (s *ResourceCoreVolumeBackupTestSuite) TestCreateVolumeBackup() {
@@ -60,67 +52,50 @@ func (s *ResourceCoreVolumeBackupTestSuite) TestCreateVolumeBackup() {
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
+			// verify volume backup was created
 			{
 				ImportState:       true,
 				ImportStateVerify: true,
-				Config:            s.Config,
+				Config: s.Config + `
+					resource "baremetal_core_volume_backup" "t" {
+						volume_id = "${baremetal_core_volume.t.id}"
+					}`,
 				Check: resource.ComposeTestCheckFunc(
 
-					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "display_name"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "display_name"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", baremetal.ResourceAvailable),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_id"),
 				),
 			},
-		},
-	})
-}
-
-func (s *ResourceCoreVolumeBackupTestSuite) TestCreateVolumeBackupWithoutDisplayName() {
-	s.Config = `
-		resource "baremetal_core_volume_backup" "t" {
-			volume_id = "volume_id"
-		}
-	`
-	s.Config += testProviderConfig()
-
-	resource.UnitTest(s.T(), resource.TestCase{
-		Providers: s.Providers,
-		Steps: []resource.TestStep{
+			// update volume backup
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config:            s.Config,
+				Config: s.Config + `
+					resource "baremetal_core_volume_backup" "t" {
+						volume_id = "${baremetal_core_volume.t.id}"
+						display_name = "-tf-volume-backup"
+					}`,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "display_name", ""),
+					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-volume-backup"),
 				),
 			},
-		},
-	})
-}
-
-func (s ResourceCoreVolumeBackupTestSuite) TestUpdateVolumeBackupDisplayName() {
-	config := `
-		resource "baremetal_core_volume_backup" "t" {
-			volume_id = "volume_id"
-			display_name = "new_display_name"
-		}
-	`
-	config += testProviderConfig()
-
-	resource.UnitTest(s.T(), resource.TestCase{
-		Providers: s.Providers,
-		Steps: []resource.TestStep{
+			// restore to a new volume from the backup
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config:            s.Config,
-			},
-			{
-				Config: config,
+				Config: s.Config + `
+					resource "baremetal_core_volume_backup" "t" {
+						volume_id = "${baremetal_core_volume.t.id}"
+						display_name = "-tf-volume-backup"
+					}
+					resource "baremetal_core_volume" "t2" {
+						availability_domain = "${data.baremetal_identity_availability_domains.ADs.availability_domains.0.name}"
+						compartment_id = "${var.compartment_id}"
+						display_name = "-tf-volume-restored"
+						size_in_mbs = 51200
+						volume_backup_id = "${baremetal_core_volume_backup.t.id}"
+					}`,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "new_display_name"),
+					resource.TestCheckResourceAttr("baremetal_core_volume.t2", "display_name", "-tf-volume-restored"),
 				),
 			},
 		},
@@ -143,7 +118,6 @@ func (s *ResourceCoreVolumeBackupTestSuite) TestDeleteVolumeBackup() {
 			},
 		},
 	})
-
 }
 
 func TestResourceCoreVolumeBackupTestSuite(t *testing.T) {
