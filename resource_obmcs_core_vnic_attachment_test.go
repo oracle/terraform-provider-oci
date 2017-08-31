@@ -16,14 +16,14 @@ import (
 
 type ResourceCoreVnicAttachmentTestSuite struct {
 	suite.Suite
-	Client       *baremetal.Client
-	Provider     terraform.ResourceProvider
-	Providers    map[string]terraform.ResourceProvider
-	TimeCreated  baremetal.Time
-	Config       string
-	ResourceName string
+	Client           *baremetal.Client
+	Provider         terraform.ResourceProvider
+	Providers        map[string]terraform.ResourceProvider
+	TimeCreated      baremetal.Time
+	Config           string
+	ResourceName     string
 	VnicResourceName string
-	Res          *baremetal.VnicAttachment
+	Res              *baremetal.VnicAttachment
 }
 
 func (s *ResourceCoreVnicAttachmentTestSuite) SetupTest() {

@@ -85,15 +85,6 @@ resource "baremetal_core_instance" "ExampleInstance" {
   }
 }
 
-resource "baremetal_core_vnic_attachment" "PrivateVnicAttachment" {
-  instance_id = "${baremetal_core_instance.ExampleInstance.id}"
-  create_vnic_details {
-    subnet_id = "${baremetal_core_subnet.ExampleSubnet.id}"
-    display_name = "PrivateVnic"
-    assign_public_ip = false
-  }
-}
-
 resource "baremetal_core_vnic_attachment" "SecondaryVnicAttachment" {
   instance_id = "${baremetal_core_instance.ExampleInstance.id}"
   display_name = "SecondaryVnicAttachment_${count.index}"
@@ -121,12 +112,4 @@ output "SecondaryPublicIPAddresses" {
 
 output "SecondaryPrivateIPAddresses" {
   value = ["${data.baremetal_core_vnic.SecondaryVnic.*.private_ip_address}"]
-}
-
-data "baremetal_core_vnic" "PrivateVnic" {
-  vnic_id = "${baremetal_core_vnic_attachment.PrivateVnicAttachment.vnic_id}"
-}
-
-output "PrivateVnicIPAddresses" {
-  value = ["${data.baremetal_core_vnic.PrivateVnic.private_ip_address}", "${data.baremetal_core_vnic.PrivateVnic.public_ip_address}"]
 }

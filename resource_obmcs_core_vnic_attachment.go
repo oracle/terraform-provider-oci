@@ -97,7 +97,6 @@ func VnicAttachmentResource() *schema.Resource {
 				Computed: true,
 			},
 		},
-
 	}
 }
 
@@ -182,4 +181,3 @@ func (s *VnicAttachmentResourceCrud) SetData() {
 func (s *VnicAttachmentResourceCrud) Delete() (e error) {
 	return s.Client.DetachVnic(s.D.Id(), nil)
 }
-
