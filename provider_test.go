@@ -104,6 +104,57 @@ resource "baremetal_core_instance" "t" {
 }
 `
 
+var instanceDnsConfig = `
+data "baremetal_identity_availability_domains" "ADs" {
+  compartment_id = "${var.compartment_id}"
+}
+
+resource "baremetal_core_virtual_network" "t" {
+	cidr_block      = "10.0.0.0/16"
+	compartment_id  = "${var.compartment_id}"
+	display_name    = "-tf-vcn"
+	dns_label		= "testvcn"
+}
+
+resource "baremetal_core_subnet" "t" {
+  availability_domain = "${lookup(data.baremetal_identity_availability_domains.ADs.availability_domains[0],"name")}"
+  cidr_block          = "10.0.1.0/24"
+  display_name        = "-tf-subnet"
+  compartment_id      = "${var.compartment_id}"
+  vcn_id              = "${baremetal_core_virtual_network.t.id}"
+  route_table_id      = "${baremetal_core_virtual_network.t.default_route_table_id}"
+  security_list_ids = ["${baremetal_core_virtual_network.t.default_security_list_id}"]
+  dhcp_options_id     = "${baremetal_core_virtual_network.t.default_dhcp_options_id}"
+  dns_label			  = "testsubnet"
+}
+
+data "baremetal_core_images" "t" {
+	compartment_id = "${var.compartment_id}"
+  	operating_system = "Oracle Linux"
+  	operating_system_version = "7.3"
+  	limit = 1
+}
+
+resource "baremetal_core_instance" "t" {
+	availability_domain = "${data.baremetal_identity_availability_domains.ADs.availability_domains.0.name}"
+	compartment_id = "${var.compartment_id}"
+	display_name = "-tf-instance"
+	image = "${data.baremetal_core_images.t.images.0.id}"
+	shape = "VM.Standard1.8"
+	create_vnic_details {
+    	subnet_id = "${baremetal_core_subnet.t.id}"
+    	hostname_label = "testinstance"
+    	display_name = "-tf-instance-vnic"
+  	}
+	metadata {
+		ssh_authorized_keys = "${var.ssh_public_key}"
+	}
+	timeouts {
+		create = "15m"
+	}
+}
+`
+
 var certificateConfig = `
 resource "baremetal_load_balancer_certificate" "t" {
   load_balancer_id   = "${baremetal_load_balancer.t.id}"

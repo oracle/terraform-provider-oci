@@ -1,6 +1,6 @@
 # baremetal\_core\_volume\_attachment
 
-Provides a volue attachment resource
+Provides a volume attachment resource
 
 ## Example Usage
 
@@ -17,7 +17,7 @@ resource "baremetal_core_volume_attachment" "t" {
 
 The following arguments are supported:
 
-* `display_name` - (Required) The OCID of the compartment.
+* `display_name` - (Required) A user-friendly name. Does not have to be unique, and it cannot be changed.
 * `instance_id` - (Required) The OCID of the instance.
 * `volume_id` - (Required) The OCID of the volume.
 * `type` - (Required) The type of volume. The only supported value is "iscsi".
