@@ -20,16 +20,16 @@ resource "baremetal_core_vnic_attachment" "t" {
 
 The following arguments are supported:
 
-* `display_name` - A user-friendly name. Does not have to be unique.
+* `display_name` - (Optional) A user-friendly name. Does not have to be unique.
 * `instance_id` - (Required) The OCID of the instance.
 * `create_vnic_details` - (Required) Details for creating a new VNIC. See [Create Vnic Details](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/requests/CreateVnicDetails).
 
 ## Create VNIC Details Argument Reference
 
-* `assign_public_ip` - Whether the VNIC should be assigned a public IP address.
-* `display_name` - A user-friendly name for the VNIC. Does not have to be unique.
-* `hostname_label` - The hostname for the VNIC's primary private IP.
-* `private_p` - A private IP address of your choice to assign to the VNIC.
+* `assign_public_ip` - (Optional) Whether the VNIC should be assigned a public IP address.
+* `display_name` - (Optional) A user-friendly name for the VNIC. Does not have to be unique.
+* `hostname_label` - (Optional) The hostname for the VNIC's primary private IP.
+* `private_ip` - (Optional) A private IP address of your choice to assign to the VNIC.
 * `subnet_id` - (Required) The OCID of the subnet to create the VNIC in.
 
 ## Attributes Reference
