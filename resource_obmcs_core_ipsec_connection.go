@@ -46,6 +46,7 @@ func IPSecConnectionResource() *schema.Resource {
 			"display_name": {
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 			},
 			"state": {
 				Type:     schema.TypeString,
@@ -146,13 +147,12 @@ func (s *IPSecConnectionResourceCrud) Get() (e error) {
 
 func (s *IPSecConnectionResourceCrud) Update() (e error) {
 	opts := &baremetal.IfMatchDisplayNameOptions{}
-	compartmentID := s.D.Get("compartment_id").(string)
 	displayName, ok := s.D.GetOk("display_name")
 	if ok {
 		opts.DisplayName = displayName.(string)
 	}
 
-	s.Resource, e = s.Client.UpdateIPSecConnection(compartmentID, opts)
+	s.Resource, e = s.Client.UpdateIPSecConnection(s.D.Id(), opts)
 	return
 }
 

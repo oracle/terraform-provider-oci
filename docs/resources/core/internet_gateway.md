@@ -18,7 +18,7 @@ The following arguments are supported:
 
 * `compartment_id` - (Required) The OCID of the compartment.
 * `vcn_id` - (Required) The OCID of the VCN.
-* `is_enabled` - (Optional) Whether the gateway is enabled upon creation. Default false.
+* `enabled` - (Optional) Whether the gateway is enabled upon creation. Default is true.
 * `display_name` - (Optional) A user-friendly name. Does not have to be unique, and it's changeable.
 
 ## Attributes Reference
@@ -26,6 +26,6 @@ The following arguments are supported:
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable.
 * `id` - The internet gateway's Oracle Cloud ID (OCID).
 * `state` - The route table's current state. [PROVISIONING, AVAILABLE, TERMINATING, TERMINATED]
-* `is_enabled` - Whether the gateway is enabled. When the gateway is disabled, traffic is not routed to/from the Internet, regardless of route rules.
+* `enabled` - Whether the gateway is enabled. When the gateway is disabled, traffic is not routed to/from the Internet, regardless of route rules.
 * `time_created` - The date and time the security list was created.
 * `vcn_id` - The OCID of the VCN the security list belongs to.

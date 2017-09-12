@@ -144,9 +144,14 @@ func (s *InternetGatewayResourceCrud) Get() (e error) {
 
 func (s *InternetGatewayResourceCrud) Update() (e error) {
 	opts := &baremetal.UpdateGatewayOptions{}
-	if isEnabled, ok := s.D.GetOk("enabled"); ok {
-		opts.IsEnabled = isEnabled.(bool)
-	}
+
+	// todo: GetOk malfunction with this bool: 'ok' is always the value of the bool
+	//if isEnabled, ok := s.D.GetOk("enabled"); ok { 
+	isEnabled := s.D.Get("enabled")
+	opts.IsEnabled = new(bool)
+	*opts.IsEnabled = isEnabled.(bool)
+	//}
+	
 	if name, ok := s.D.GetOk("display_name"); ok {
 		opts.DisplayName = name.(string)
 	}

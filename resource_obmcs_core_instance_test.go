@@ -4,16 +4,13 @@ package main
 
 import (
 	"testing"
-	"time"
 
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/resource"
-	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
-	"github.com/stretchr/testify/suite"
-
 	"github.com/oracle/terraform-provider-oci/crud"
+	"github.com/stretchr/testify/suite"
 )
 
 type ResourceCoreInstanceTestSuite struct {
@@ -29,49 +26,89 @@ type ResourceCoreInstanceTestSuite struct {
 }
 
 func (s *ResourceCoreInstanceTestSuite) SetupTest() {
-	s.Client = GetTestProvider()
-
-	s.Provider = Provider(
-		func(d *schema.ResourceData) (interface{}, error) {
-			return s.Client, nil
-		},
-	)
-
-	s.Providers = map[string]terraform.ResourceProvider{
-		"oci": s.Provider,
+	s.Client = testAccClient
+	s.Provider = testAccProvider
+	s.Providers = testAccProviders
+	s.Config = testProviderConfig() + `
+	data "oci_identity_availability_domains" "ADs" {
+		compartment_id = "${var.compartment_id}"
 	}
-
-	s.TimeCreated = baremetal.Time{Time: time.Now()}
-
-	s.Config = instanceConfig + `
-	data "oci_core_instances" "s" {
-      		compartment_id = "${var.compartment_id}"
-      		availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-    	}`
-
-	s.Config += testProviderConfig()
+	
+	resource "oci_core_virtual_network" "t" {
+		compartment_id = "${var.compartment_id}"
+		cidr_block = "10.0.0.0/16"
+		display_name = "-tf-vcn"
+	}
+	
+	resource "oci_core_subnet" "t" {
+		compartment_id      = "${var.compartment_id}"
+		vcn_id              = "${oci_core_virtual_network.t.id}"
+		availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[0],"name")}"
+		route_table_id      = "${oci_core_virtual_network.t.default_route_table_id}"
+		security_list_ids = ["${oci_core_virtual_network.t.default_security_list_id}"]
+		dhcp_options_id     = "${oci_core_virtual_network.t.default_dhcp_options_id}"
+		cidr_block          = "10.0.1.0/24"
+		display_name        = "-tf-subnet"
+	}
+	
+	data "oci_core_images" "t" {
+		compartment_id = "${var.compartment_id}"
+		operating_system = "Oracle Linux"
+		operating_system_version = "7.3"
+		limit = 1
+	}`
 
 	s.ResourceName = "oci_core_instance.t"
 }
 
-func (s *ResourceCoreInstanceTestSuite) TestCreateResourceCoreInstance() {
+func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 
-	resource.UnitTest(s.T(), resource.TestCase{
+	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
+			// verify create
 			{
 				ImportState:       true,
 				ImportStateVerify: true,
-				Config:            s.Config,
+				Config: s.Config + `
+				resource "oci_core_instance" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${var.compartment_id}"
+					subnet_id = "${oci_core_subnet.t.id}"
+					image = "${data.oci_core_images.t.images.0.id}"
+					shape = "VM.Standard1.1"
+					metadata {
+						ssh_authorized_keys = "${var.ssh_public_key}"
+					}
+					timeouts {
+						create = "15m"
+					}
+				}`,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),
-					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "instance_name"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
-					resource.TestCheckResourceAttr(s.ResourceName, "state", baremetal.ResourceRunning),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "public_ip"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "private_ip"),
-					resource.TestCheckResourceAttrSet("data.oci_core_instances.s", "instances.#"),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", baremetal.ResourceRunning),
+				),
+			},
+			// verify update
+			{
+				Config: s.Config + `
+				resource "oci_core_instance" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${var.compartment_id}"
+					subnet_id = "${oci_core_subnet.t.id}"
+					image = "${data.oci_core_images.t.images.0.id}"
+					shape = "VM.Standard1.1"
+					display_name = "-tf-instance"
+					metadata {
+						ssh_authorized_keys = "${var.ssh_public_key}"
+					}
+				}`,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-instance"),
 				),
 			},
 		},
@@ -79,11 +116,7 @@ func (s *ResourceCoreInstanceTestSuite) TestCreateResourceCoreInstance() {
 }
 
 func TestIsStatefulResource(t *testing.T) {
-	var sr crud.StatefulResource
-	sr = &InstanceResourceCrud{}
-	if sr == nil {
-		t.Fail()
-	}
+	var _ crud.StatefulResource = (*InstanceResourceCrud)(nil)
 }
 
 func TestResourceCoreInstanceTestSuite(t *testing.T) {

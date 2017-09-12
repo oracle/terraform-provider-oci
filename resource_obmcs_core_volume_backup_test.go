@@ -7,7 +7,6 @@ import (
 
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/resource"
-	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
 	"github.com/stretchr/testify/suite"
@@ -25,17 +24,9 @@ type ResourceCoreVolumeBackupTestSuite struct {
 }
 
 func (s *ResourceCoreVolumeBackupTestSuite) SetupTest() {
-	s.Client = GetTestProvider()
-
-	s.Provider = Provider(
-		func(d *schema.ResourceData) (interface{}, error) {
-			return s.Client, nil
-		},
-	)
-	s.Providers = map[string]terraform.ResourceProvider{"oci": s.Provider}
-
-
-	s.ResourceName = "oci_core_volume_backup.t"
+	s.Client = testAccClient
+	s.Provider = testAccProvider
+	s.Providers = testAccProviders
 	s.Config = testProviderConfig() + `
 		data "oci_identity_availability_domains" "ADs" {
   			compartment_id = "${var.compartment_id}"
@@ -46,6 +37,7 @@ func (s *ResourceCoreVolumeBackupTestSuite) SetupTest() {
 			display_name = "-tf-volume"
 			size_in_mbs = 51200
 		}`
+	s.ResourceName = "oci_core_volume_backup.t"
 }
 
 func (s *ResourceCoreVolumeBackupTestSuite) TestCreateVolumeBackup() {
@@ -53,7 +45,7 @@ func (s *ResourceCoreVolumeBackupTestSuite) TestCreateVolumeBackup() {
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			// verify volume backup was created
+			// verify create
 			{
 				ImportState:       true,
 				ImportStateVerify: true,
@@ -62,15 +54,14 @@ func (s *ResourceCoreVolumeBackupTestSuite) TestCreateVolumeBackup() {
 						volume_id = "${oci_core_volume.t.id}"
 					}`,
 				Check: resource.ComposeTestCheckFunc(
-
-					resource.TestCheckResourceAttrSet(s.ResourceName, "display_name"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
-					resource.TestCheckResourceAttr(s.ResourceName, "state", baremetal.ResourceAvailable),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "display_name"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", baremetal.ResourceAvailable),
 				),
 			},
-			// update volume backup
+			// verify update
 			{
 				Config: s.Config + `
 					resource "oci_core_volume_backup" "t" {
@@ -81,8 +72,7 @@ func (s *ResourceCoreVolumeBackupTestSuite) TestCreateVolumeBackup() {
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-volume-backup"),
 				),
 			},
-
-			// restore to a new volume from the backup
+			// verify restore
 			{
 				Config: s.Config + `
 					resource "oci_core_volume_backup" "t" {
@@ -99,24 +89,6 @@ func (s *ResourceCoreVolumeBackupTestSuite) TestCreateVolumeBackup() {
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr("oci_core_volume.t2", "display_name", "-tf-volume-restored"),
 				),
-			},
-		},
-	})
-}
-
-func (s *ResourceCoreVolumeBackupTestSuite) TestDeleteVolumeBackup() {
-
-	resource.UnitTest(s.T(), resource.TestCase{
-		Providers: s.Providers,
-		Steps: []resource.TestStep{
-			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config:            s.Config,
-			},
-			{
-				Config:  s.Config,
-				Destroy: true,
 			},
 		},
 	})

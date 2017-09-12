@@ -217,13 +217,13 @@ func (s *SubnetResourceCrud) Get() (e error) {
 
 func (s *SubnetResourceCrud) Update() (e error) {
 	opts := &baremetal.IfMatchDisplayNameOptions{}
-	compartmentID := s.D.Get("compartment_id").(string)
+	
 	displayName, ok := s.D.GetOk("display_name")
 	if ok {
 		opts.DisplayName = displayName.(string)
 	}
 
-	s.Resource, e = s.Client.UpdateSubnet(compartmentID, opts)
+	s.Resource, e = s.Client.UpdateSubnet(s.D.Id(), opts)
 	return
 }
 

@@ -123,13 +123,12 @@ func (s *DrgResourceCrud) Get() (e error) {
 
 func (s *DrgResourceCrud) Update() (e error) {
 	opts := &baremetal.IfMatchDisplayNameOptions{}
-	compartmentID := s.D.Get("compartment_id").(string)
-	displayName, ok := s.D.GetOk("display_name")
-	if ok {
+	
+	if displayName, ok := s.D.GetOk("display_name"); ok {
 		opts.DisplayName = displayName.(string)
 	}
 
-	s.Res, e = s.Client.UpdateDrg(compartmentID, opts)
+	s.Res, e = s.Client.UpdateDrg(s.D.Id(), opts)
 	return
 }
 

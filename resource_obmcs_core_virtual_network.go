@@ -151,13 +151,13 @@ func (s *VirtualNetworkResourceCrud) Get() (e error) {
 
 func (s *VirtualNetworkResourceCrud) Update() (e error) {
 	opts := &baremetal.IfMatchDisplayNameOptions{}
-	compartmentID := s.D.Get("compartment_id").(string)
+	
 	displayName, ok := s.D.GetOk("display_name")
 	if ok {
 		opts.DisplayName = displayName.(string)
 	}
 
-	s.Res, e = s.Client.UpdateVirtualNetwork(compartmentID, opts)
+	s.Res, e = s.Client.UpdateVirtualNetwork(s.D.Id(), opts)
 	return
 }
 

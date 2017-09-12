@@ -11,7 +11,24 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/stretchr/testify/assert"
+	"fmt"
 )
+
+var testAccClient *baremetal.Client
+var testAccProvider *schema.Provider
+var testAccProviders map[string]terraform.ResourceProvider
+
+func init() {
+	testAccClient = GetTestProvider()
+	
+	testAccProvider = Provider(func(d *schema.ResourceData) (interface{}, error) {
+		return testAccClient, nil
+	}).(*schema.Provider)
+	
+	testAccProviders = map[string]terraform.ResourceProvider{
+		"oci": testAccProvider,
+	}
+}
 
 func testProviderConfig() string {
 	return `
@@ -44,7 +61,7 @@ func testProviderConfig() string {
 
 var subnetConfig = `
 data "oci_identity_availability_domains" "ADs" {
-  compartment_id = "${var.compartment_id}"
+	compartment_id = "${var.compartment_id}"
 }
 
 resource "oci_core_virtual_network" "t" {
@@ -54,17 +71,23 @@ resource "oci_core_virtual_network" "t" {
 }
 
 resource "oci_core_subnet" "WebSubnetAD1" {
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[0],"name")}"
-  cidr_block          = "10.0.1.0/24"
-  display_name        = "WebSubnetAD1"
-  compartment_id      = "${var.compartment_id}"
-  vcn_id              = "${oci_core_virtual_network.t.id}"
-  route_table_id      = "${oci_core_virtual_network.t.default_route_table_id}"
-  security_list_ids = ["${oci_core_virtual_network.t.default_security_list_id}"]
-  dhcp_options_id     = "${oci_core_virtual_network.t.default_dhcp_options_id}"
-}
+	availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[0],"name")}"
+	cidr_block          = "10.0.1.0/24"
+	display_name        = "WebSubnetAD1"
+	compartment_id      = "${var.compartment_id}"
+	vcn_id              = "${oci_core_virtual_network.t.id}"
+	route_table_id      = "${oci_core_virtual_network.t.default_route_table_id}"
+	security_list_ids = ["${oci_core_virtual_network.t.default_security_list_id}"]
+	dhcp_options_id     = "${oci_core_virtual_network.t.default_dhcp_options_id}"
+}`
 
-`
+var imageConf = `
+data "oci_core_images" "t" {
+	compartment_id = "${var.compartment_id}"
+  	operating_system = "Oracle Linux"
+  	operating_system_version = "7.3"
+  	limit = 1
+}`
 
 var instanceConfig = subnetConfig + `
 data "oci_core_images" "t" {
@@ -91,17 +114,17 @@ data "oci_core_shape" "shapes" {
 resource "oci_core_instance" "t" {
 	availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
 	compartment_id = "${var.compartment_id}"
-	display_name = "TFAcceptanceTest"
-      	image = "${data.oci_core_images.t.images.0.id}"
-      	shape = "VM.Standard1.1"
-      	subnet_id = "${oci_core_subnet.WebSubnetAD1.id}"
-      	metadata {
-        	ssh_authorized_keys = "${var.ssh_public_key}"
-      	}
+	display_name = "-tf-instance"
+	image = "${data.oci_core_images.t.images.0.id}"
+	shape = "VM.Standard1.1"
+	subnet_id = "${oci_core_subnet.WebSubnetAD1.id}"
+	metadata {
+		ssh_authorized_keys = "${var.ssh_public_key}"
+	}
 
-      	timeouts {
-      		create = "15m"
-      	}
+	timeouts {
+		create = "15m"
+	}
 }
 `
 
@@ -363,5 +386,27 @@ func testNoInstanceState(name string) resource.TestCheckFunc {
 		}
 
 		return errors.New("State exists for primary resource " + name)
+	}
+}
+
+// custom TestCheckFunc helper, returns a value associated with a key from an instance in the current state
+func fromInstanceState(s *terraform.State, name, key string) (string, error) {
+	ms := s.RootModule()
+	rs, ok := ms.Resources[name]
+	if !ok {
+		return "", fmt.Errorf("Not found: %s", name)
+	}
+
+	is := rs.Primary
+	if is == nil {
+		return "", fmt.Errorf("No primary instance: %s", name)
+	}
+
+	v, ok := is.Attributes[key];
+
+	if ok {
+		return v, nil
+	} else {
+		return "", fmt.Errorf("%s: Attribute '%s' not found", name, key)
 	}
 }
