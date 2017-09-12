@@ -35,28 +35,28 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) SetupTest() {
 	)
 
 	s.Providers = map[string]terraform.ResourceProvider{
-		"baremetal": s.Provider,
+		"oci": s.Provider,
 	}
 
 	s.TimeCreated = baremetal.Time{Time: time.Now()}
 
 	s.Config = instanceConfig + `
-		resource "baremetal_core_volume" "t" {
-			availability_domain = "${data.baremetal_identity_availability_domains.ADs.availability_domains.0.name}"
+		resource "oci_core_volume" "t" {
+			availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
 			compartment_id = "${var.compartment_id}"
 			display_name = "display_name"
 			size_in_mbs = 262144
 		}
-		resource "baremetal_core_volume_attachment" "t" {
+		resource "oci_core_volume_attachment" "t" {
 			attachment_type = "iscsi"
 			compartment_id = "${var.compartment_id}"
-			instance_id = "${baremetal_core_instance.t.id}"
-			volume_id = "${baremetal_core_volume.t.id}"
+			instance_id = "${oci_core_instance.t.id}"
+			volume_id = "${oci_core_volume.t.id}"
 		}
 	`
 	s.Config += testProviderConfig()
 
-	s.ResourceName = "baremetal_core_volume_attachment.t"
+	s.ResourceName = "oci_core_volume_attachment.t"
 
 }
 

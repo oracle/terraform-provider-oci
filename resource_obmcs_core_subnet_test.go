@@ -21,33 +21,33 @@ func TestResourceCoreSubnetCreate(t *testing.T) {
 	)
 
 	config := `
-data "baremetal_identity_availability_domains" "ADs" {
+data "oci_identity_availability_domains" "ADs" {
   compartment_id = "${var.compartment_id}"
 }
 
-resource "baremetal_core_virtual_network" "t" {
+resource "oci_core_virtual_network" "t" {
   cidr_block     = "10.0.0.0/16"
   compartment_id = "${var.compartment_id}"
   display_name   = "network_name"
 }
 
-resource "baremetal_core_subnet" "s" {
-  availability_domain = "${data.baremetal_identity_availability_domains.ADs.availability_domains.0.name}"
+resource "oci_core_subnet" "s" {
+  availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
   compartment_id      = "${var.compartment_id}"
-  vcn_id              = "${baremetal_core_virtual_network.t.id}"
-  security_list_ids   = ["${baremetal_core_virtual_network.t.default_security_list_id}"]
-  route_table_id      = "${baremetal_core_virtual_network.t.default_route_table_id}"
-  dhcp_options_id     = "${baremetal_core_virtual_network.t.default_dhcp_options_id}"
+  vcn_id              = "${oci_core_virtual_network.t.id}"
+  security_list_ids   = ["${oci_core_virtual_network.t.default_security_list_id}"]
+  route_table_id      = "${oci_core_virtual_network.t.default_route_table_id}"
+  dhcp_options_id     = "${oci_core_virtual_network.t.default_dhcp_options_id}"
   cidr_block          = "10.0.2.0/24"
 }
 	`
 	config += testProviderConfig()
 
-	resourceName := "baremetal_core_subnet.s"
+	resourceName := "oci_core_subnet.s"
 
 	resource.UnitTest(t, resource.TestCase{
 		Providers: map[string]terraform.ResourceProvider{
-			"baremetal": provider,
+			"oci": provider,
 		},
 		Steps: []resource.TestStep{
 			{
@@ -84,30 +84,30 @@ func TestResourceCoreSubnetTerminate(t *testing.T) {
 		},
 	)
 	config := `
-data "baremetal_identity_availability_domains" "ADs" {
+data "oci_identity_availability_domains" "ADs" {
   compartment_id = "${var.compartment_id}"
 }
 
-resource "baremetal_core_virtual_network" "t" {
+resource "oci_core_virtual_network" "t" {
   cidr_block     = "10.0.0.0/16"
   compartment_id = "${var.compartment_id}"
   display_name   = "network_name"
 }
 
-resource "baremetal_core_subnet" "s" {
-  availability_domain = "${data.baremetal_identity_availability_domains.ADs.availability_domains.0.name}"
+resource "oci_core_subnet" "s" {
+  availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
   compartment_id      = "${var.compartment_id}"
-  vcn_id              = "${baremetal_core_virtual_network.t.id}"
-  security_list_ids   = ["${baremetal_core_virtual_network.t.default_security_list_id}"]
-  route_table_id      = "${baremetal_core_virtual_network.t.default_route_table_id}"
-  dhcp_options_id     = "${baremetal_core_virtual_network.t.default_dhcp_options_id}"
+  vcn_id              = "${oci_core_virtual_network.t.id}"
+  security_list_ids   = ["${oci_core_virtual_network.t.default_security_list_id}"]
+  route_table_id      = "${oci_core_virtual_network.t.default_route_table_id}"
+  dhcp_options_id     = "${oci_core_virtual_network.t.default_dhcp_options_id}"
   cidr_block          = "10.0.2.0/24"
 }
 	`
 	config += testProviderConfig()
 	resource.UnitTest(t, resource.TestCase{
 		Providers: map[string]terraform.ResourceProvider{
-			"baremetal": provider,
+			"oci": provider,
 		},
 		Steps: []resource.TestStep{
 			{

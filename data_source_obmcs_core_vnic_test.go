@@ -28,12 +28,12 @@ func (s *DataSourceCoreVnicTestSuite) SetupTest() {
 	})
 
 	s.Providers = map[string]terraform.ResourceProvider{
-		"baremetal": s.Provider,
+		"oci": s.Provider,
 	}
 
 	s.Config = instanceDnsConfig
 	s.Config += testProviderConfig()
-	s.ResourceName = "data.baremetal_core_vnic.v"
+	s.ResourceName = "data.oci_core_vnic.v"
 }
 
 func (s *DataSourceCoreVnicTestSuite) TestAttachVnic() {
@@ -45,12 +45,12 @@ func (s *DataSourceCoreVnicTestSuite) TestAttachVnic() {
 				ImportState:       true,
 				ImportStateVerify: true,
 				Config: s.Config + `
-						data "baremetal_core_vnic_attachments" "va" {
+						data "oci_core_vnic_attachments" "va" {
 						  compartment_id = "${var.compartment_id}"
-						  instance_id = "${baremetal_core_instance.t.id}"
+						  instance_id = "${oci_core_instance.t.id}"
 						}
-						data "baremetal_core_vnic" "v" {
-						  vnic_id = "${lookup(data.baremetal_core_vnic_attachments.va.vnic_attachments[0],"vnic_id")}"
+						data "oci_core_vnic" "v" {
+						  vnic_id = "${lookup(data.oci_core_vnic_attachments.va.vnic_attachments[0],"vnic_id")}"
 						}
 					`,
 				Check: resource.ComposeTestCheckFunc(

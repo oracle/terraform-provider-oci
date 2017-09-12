@@ -1,11 +1,11 @@
-# baremetal\_core\_console_history
+# oci\_core\_console_history
 
 Gets a specific console history.
 
 ## Example Usage
 
 ```
-data "baremetal_core_console_history_data" "s" {
+data "oci_core_console_history_data" "s" {
       console_history_id = "ichid"
       length = 1
       offset = 1

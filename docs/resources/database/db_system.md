@@ -1,11 +1,11 @@
-# baremetal\_database\_db\_system
+# oci\_database\_db\_system
 
 Provides an DBSystem resource.
 
 ## Example Usage
 
 ```
-resource "baremetal_database_db_system" "TFDBNode" {
+resource "oci_database_db_system" "TFDBNode" {
   availability_domain = "${var.AvailabilityDomain}"
   compartment_id = "${var.CompartmentOCID}"
   cpu_core_count = "${var.CPUCoreCount}"

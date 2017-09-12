@@ -1,11 +1,11 @@
-# baremetal\_drg\_attachment
+# oci\_drg\_attachment
 
 Provide a drg attachment resource.
 
 ## Example Usage
 
 ```
-resource "baremetal_core_drg_attachment" "t" {
+resource "oci_core_drg_attachment" "t" {
     compartment_id = "compartment_id"
     display_name = "display_name"
     drg_id = "drg_id"

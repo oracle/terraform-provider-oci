@@ -29,24 +29,24 @@ func (s *CoreInternetGatewayDatasourceTestSuite) SetupTest() {
 	})
 
 	s.Providers = map[string]terraform.ResourceProvider{
-		"baremetal": s.Provider,
+		"oci": s.Provider,
 	}
 	s.Config = `
 
-resource "baremetal_core_virtual_network" "t" {
+resource "oci_core_virtual_network" "t" {
 	cidr_block = "10.0.0.0/16"
 	compartment_id = "${var.compartment_id}"
 	display_name = "display_name"
 }
 
-resource "baremetal_core_internet_gateway" "t" {
+resource "oci_core_internet_gateway" "t" {
     compartment_id = "${var.compartment_id}"
     display_name = "display_name"
-    vcn_id = "${baremetal_core_virtual_network.t.id}"
+    vcn_id = "${oci_core_virtual_network.t.id}"
 }
   `
 	s.Config += testProviderConfig()
-	s.ResourceName = "data.baremetal_core_internet_gateways.s"
+	s.ResourceName = "data.oci_core_internet_gateways.s"
 
 }
 
@@ -62,9 +62,9 @@ func (s *CoreInternetGatewayDatasourceTestSuite) TestResourceListInternetGateway
 			},
 			{
 				Config: s.Config + `
-				data "baremetal_core_internet_gateways" "s" {
+				data "oci_core_internet_gateways" "s" {
 				      compartment_id = "${var.compartment_id}"
-				      vcn_id = "${baremetal_core_virtual_network.t.id}"
+				      vcn_id = "${oci_core_virtual_network.t.id}"
 				    }`,
 				Check: resource.ComposeTestCheckFunc(
 

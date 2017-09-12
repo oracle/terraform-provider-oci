@@ -1,4 +1,4 @@
-# Contributing to the Terraform provider for Oracle Bare Metal Cloud Services
+# Contributing to the Terraform provider for Oracle Cloud Infrastructure
 
 *Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.*
 

@@ -1,13 +1,13 @@
-# baremetal\_identity\_user_group_memberships
+# oci\_identity\_user_group_memberships
 
 Lists user_group_memberships
 
 ## Example Usage
 
 ```
-data "baremetal_identity_user_group_memberships" "g_memberships" {
+data "oci_identity_user_group_memberships" "g_memberships" {
     compartment_id = "cid"
-    group_id = "${baremetal_identity_group.g.id}"
+    group_id = "${oci_identity_group.g.id}"
 }`
 ```
 

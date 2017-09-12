@@ -29,15 +29,15 @@ func (s *ResourceCoreInstanceCredentialTestSuite) SetupTest() {
 	})
 
 	s.Providers = map[string]terraform.ResourceProvider{
-		"baremetal": s.Provider,
+		"oci": s.Provider,
 	}
 	s.Config = instanceConfig + `
-    data "baremetal_core_instance_credentials" "s" {
-      instance_id = "${baremetal_core_instance.t.id}"
+    data "oci_core_instance_credentials" "s" {
+      instance_id = "${oci_core_instance.t.id}"
     }
   `
 	s.Config += testProviderConfig()
-	s.ResourceName = "data.baremetal_core_instance_credentials.s"
+	s.ResourceName = "data.oci_core_instance_credentials.s"
 
 }
 

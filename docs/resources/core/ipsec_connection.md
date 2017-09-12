@@ -1,11 +1,11 @@
-# baremetal\_core\_ipsec\_connection
+# oci\_core\_ipsec\_connection
 
 Provide an ipsec connection resource.
 
 ## Example Usage
 
 ```
-resource "baremetal_core_ipsec" "t" {
+resource "oci_core_ipsec" "t" {
     compartment_id = "compartmentid"
     cpe_id = "cpeid"
     drg_id = "drgid"

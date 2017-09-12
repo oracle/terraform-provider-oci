@@ -1,4 +1,4 @@
-# baremetal\_core\_dhcp\_option
+# oci\_core\_dhcp\_option
 
 Provide a Dhcp Options resource.
 
@@ -9,7 +9,7 @@ For more information, see
 
 #### VCN Local with Internet 
 ```
-resource "baremetal_core_dhcp_options" "dhcp-options1" {
+resource "oci_core_dhcp_options" "dhcp-options1" {
   compartment_id = "${var.compartment_ocid}"
   vcn_id = "${var.vcn_ocid}"
   display_name = "dhcp-options1"
@@ -31,7 +31,7 @@ resource "baremetal_core_dhcp_options" "dhcp-options1" {
 #### Custom DNS Server
 
 ```
-resource "baremetal_core_dhcp_options" "dhcp-options2" {
+resource "oci_core_dhcp_options" "dhcp-options2" {
   compartment_id = "${var.compartment_ocid}"
   vcn_id = "${var.vcn_ocid}"
   display_name = "dhcp-options3"

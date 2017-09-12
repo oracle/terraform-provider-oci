@@ -36,13 +36,13 @@ func (s *DatasourceObjectstorageObjectTestSuite) SetupTest() {
 	)
 
 	s.Providers = map[string]terraform.ResourceProvider{
-		"baremetal": s.Provider,
+		"oci": s.Provider,
 	}
 
 	s.TimeCreated = baremetal.Time{Time: time.Now()}
 
 	s.Config = `
-		data "baremetal_objectstorage_objects" "t" {
+		data "oci_objectstorage_objects" "t" {
 			namespace = "namespaceID"
 			bucket = "bucketID"
 			prefix = "testprefix"
@@ -51,7 +51,7 @@ func (s *DatasourceObjectstorageObjectTestSuite) SetupTest() {
 
 	s.Config += testProviderConfig()
 
-	s.ResourceName = "baremetal_objectstorage_objects.t"
+	s.ResourceName = "oci_objectstorage_objects.t"
 	s.Res = &baremetal.ListObjects{
 		NextStartWith: "testprefix-2",
 		Objects: []baremetal.ObjectSummary{

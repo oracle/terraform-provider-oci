@@ -1,11 +1,11 @@
-# baremetal\_load\_balancer_protocols 
+# oci\_load\_balancer_protocols 
 
 Provide a list of supported load balancer protocols.
 
 ## Example Usage
 
 ```
-data "baremetal_load_balancer_pprotocols" "t" {
+data "oci_load_balancer_pprotocols" "t" {
   compartment_id = "ocid1.compartment.stub_id"
 }
 ```

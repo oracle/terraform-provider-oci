@@ -3,7 +3,7 @@ resource "null_resource" "remote-exec" {
 		connection {
 			agent = false
 			timeout = "10m"
-			host = "${data.baremetal_core_vnic.DBNodeVnic.public_ip_address}"
+			host = "${data.oci_core_vnic.DBNodeVnic.public_ip_address}"
 			user = "${var.HostUserName}"
 			private_key = "${var.ssh_private_key}"
 		}
@@ -15,7 +15,7 @@ resource "null_resource" "remote-exec" {
         connection {
 			agent = false
 			timeout = "10m"
-			host = "${data.baremetal_core_vnic.DBNodeVnic.public_ip_address}"
+			host = "${data.oci_core_vnic.DBNodeVnic.public_ip_address}"
 			user = "${var.HostUserName}"
 			private_key = "${var.ssh_private_key}"
         }

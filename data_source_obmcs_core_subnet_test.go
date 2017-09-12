@@ -28,39 +28,39 @@ func (s *ResourceCoreSubnetsTestSuite) SetupTest() {
 	})
 
 	s.Providers = map[string]terraform.ResourceProvider{
-		"baremetal": s.Provider,
+		"oci": s.Provider,
 	}
 	s.Config = `
-data "baremetal_identity_availability_domains" "ADs" {
+data "oci_identity_availability_domains" "ADs" {
   compartment_id = "${var.compartment_id}"
 }
 
-resource "baremetal_core_virtual_network" "t" {
+resource "oci_core_virtual_network" "t" {
 	cidr_block = "10.0.0.0/16"
 	compartment_id = "${var.compartment_id}"
 	display_name = "network_name"
 }
 
-resource "baremetal_core_internet_gateway" "CompleteIG" {
+resource "oci_core_internet_gateway" "CompleteIG" {
     compartment_id = "${var.compartment_id}"
     display_name = "CompleteIG"
-    vcn_id = "${baremetal_core_virtual_network.t.id}"
+    vcn_id = "${oci_core_virtual_network.t.id}"
 }
 
-resource "baremetal_core_route_table" "RouteForComplete" {
+resource "oci_core_route_table" "RouteForComplete" {
     compartment_id = "${var.compartment_id}"
-    vcn_id = "${baremetal_core_virtual_network.t.id}"
+    vcn_id = "${oci_core_virtual_network.t.id}"
     display_name = "RouteTableForComplete"
     route_rules {
         cidr_block = "0.0.0.0/0"
-        network_entity_id = "${baremetal_core_internet_gateway.CompleteIG.id}"
+        network_entity_id = "${oci_core_internet_gateway.CompleteIG.id}"
     }
 }
 
-resource "baremetal_core_security_list" "WebSubnet" {
+resource "oci_core_security_list" "WebSubnet" {
     compartment_id = "${var.compartment_id}"
     display_name = "Public"
-    vcn_id = "${baremetal_core_virtual_network.t.id}"
+    vcn_id = "${oci_core_virtual_network.t.id}"
     egress_security_rules = [{
         destination = "0.0.0.0/0"
         protocol = "6"
@@ -80,19 +80,19 @@ resource "baremetal_core_security_list" "WebSubnet" {
 }
 
 
-resource "baremetal_core_subnet" "WebSubnetAD1" {
-  availability_domain = "${data.baremetal_identity_availability_domains.ADs.availability_domains.0.name}"
+resource "oci_core_subnet" "WebSubnetAD1" {
+  availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
   cidr_block = "10.0.0.0/16"
   display_name = "WebSubnetAD1"
   compartment_id = "${var.compartment_id}"
-  vcn_id = "${baremetal_core_virtual_network.t.id}"
-  route_table_id = "${baremetal_core_route_table.RouteForComplete.id}"
-  security_list_ids = ["${baremetal_core_security_list.WebSubnet.id}"]
-  dhcp_options_id = ["${baremetal_core_virtual_network.t.default_dhcp_options_id}"]
+  vcn_id = "${oci_core_virtual_network.t.id}"
+  route_table_id = "${oci_core_route_table.RouteForComplete.id}"
+  security_list_ids = ["${oci_core_security_list.WebSubnet.id}"]
+  dhcp_options_id = ["${oci_core_virtual_network.t.default_dhcp_options_id}"]
 }
   `
 	s.Config += testProviderConfig()
-	s.ResourceName = "data.baremetal_core_subnets.s"
+	s.ResourceName = "data.oci_core_subnets.s"
 
 }
 
@@ -109,9 +109,9 @@ func (s *ResourceCoreSubnetsTestSuite) TestResourceListSubnets() {
 			},
 			{
 				Config: s.Config + `
-				    data "baremetal_core_subnets" "s" {
+				    data "oci_core_subnets" "s" {
 				      compartment_id = "${var.compartment_id}"
-				      vcn_id = "${baremetal_core_virtual_network.t.id}"
+				      vcn_id = "${oci_core_virtual_network.t.id}"
 				    }`,
 				Check: resource.ComposeTestCheckFunc(
 

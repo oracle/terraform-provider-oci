@@ -32,15 +32,15 @@ func (s *ResourceIdentityAPIKeyTestSuite) SetupTest() {
 	s.Provider = Provider(
 		func(d *schema.ResourceData) (interface{}, error) { return s.Client, nil },
 	)
-	s.Providers = map[string]terraform.ResourceProvider{"baremetal": s.Provider}
+	s.Providers = map[string]terraform.ResourceProvider{"oci": s.Provider}
 
 	s.Config = `
-		resource "baremetal_identity_user" "t" {
+		resource "oci_identity_user" "t" {
 			name = "-tf-user"
 			description = "automated test user"
 		}
-		resource "baremetal_identity_api_key" "t" {
-			user_id = "${baremetal_identity_user.t.id}"
+		resource "oci_identity_api_key" "t" {
+			user_id = "${oci_identity_user.t.id}"
 			key_value = <<EOF
 -----BEGIN PUBLIC KEY-----
 MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtBLQAGmKJ7tpfzYJyqLG
@@ -55,7 +55,7 @@ EOF
 		}
 	`
 	s.Config += testProviderConfig()
-	s.ResourceName = "baremetal_identity_api_key.t"
+	s.ResourceName = "oci_identity_api_key.t"
 
 }
 

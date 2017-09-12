@@ -1,11 +1,11 @@
-# baremetal\_database\_db\_system\_shapes
+# oci\_database\_db\_system\_shapes
 
 Gets a list of the shapes that can be used to launch a new DB System.
 
 ## Example Usage
 
 ```
-data "baremetal_database_db_system_shapes" "t" {
+data "oci_database_db_system_shapes" "t" {
   availability_domain = "availability_domain"
   compartment_id = "compartment_id"
   limit = 1

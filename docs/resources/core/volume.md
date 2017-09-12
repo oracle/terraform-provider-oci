@@ -1,11 +1,11 @@
-# baremetal\_core\_volumes
+# oci\_core\_volumes
 
 Gets a list of volumes in a compartment.
 
 ## Example Usage
 
 ```
-resource "baremetal_core_volume" "t" {
+resource "oci_core_volume" "t" {
     availability_domain = "availability_domain"
     compartment_id = "compartment_id"
     size_in_mbs = 262144

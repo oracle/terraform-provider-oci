@@ -1,4 +1,4 @@
-module "bmc_resources" {
+module "oci_resources" {
   source = "../modules/datasources"
   tenancy_ocid = "${var.tenancy_ocid}"
 }
@@ -10,11 +10,11 @@ data "template_file" "omc_cloudinit_script" {
   }
 }
 
-resource "baremetal_core_instance" "omc_managed_instance" {
-  availability_domain = "${lookup(module.bmc_resources.ads[var.ad - 1],"name")}"
-  compartment_id = "${lookup(module.bmc_resources.compartments, var.compartment_name)}"
+resource "oci_core_instance" "omc_managed_instance" {
+  availability_domain = "${lookup(module.oci_resources.ads[var.ad - 1],"name")}"
+  compartment_id = "${lookup(module.oci_resources.compartments, var.compartment_name)}"
   display_name = "${var.server_display_name}"
-  image = "${lookup(module.bmc_resources.images, var.image_name)}"
+  image = "${lookup(module.oci_resources.images, var.image_name)}"
   shape = "${var.shape_name}"
   subnet_id = "${var.subnet_id}"
   metadata {

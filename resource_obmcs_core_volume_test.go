@@ -32,15 +32,15 @@ func (s *ResourceCoreVolumeTestSuite) SetupTest() {
 	)
 
 	s.Providers = map[string]terraform.ResourceProvider{
-		"baremetal": s.Provider,
+		"oci": s.Provider,
 	}
 
 	s.Config = testProviderConfig() + `
-		data "baremetal_identity_availability_domains" "ADs" {
+		data "oci_identity_availability_domains" "ADs" {
 			compartment_id = "${var.compartment_id}"
 		}`
 
-	s.ResourceName = "baremetal_core_volume.t"
+	s.ResourceName = "oci_core_volume.t"
 }
 
 func (s *ResourceCoreVolumeTestSuite) TestCreateResourceCoreVolume() {
@@ -53,8 +53,8 @@ func (s *ResourceCoreVolumeTestSuite) TestCreateResourceCoreVolume() {
 				ImportState:       true,
 				ImportStateVerify: true,
 				Config: s.Config + `
-					resource "baremetal_core_volume" "t" {
-						availability_domain = "${data.baremetal_identity_availability_domains.ADs.availability_domains.0.name}"
+					resource "oci_core_volume" "t" {
+						availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
 						compartment_id = "${var.compartment_id}"
 						display_name = "-tf-volume"
 						size_in_mbs = 51200
@@ -70,8 +70,8 @@ func (s *ResourceCoreVolumeTestSuite) TestCreateResourceCoreVolume() {
 			// update volume
 			{
 				Config: s.Config + `
-					resource "baremetal_core_volume" "t" {
-						availability_domain = "${data.baremetal_identity_availability_domains.ADs.availability_domains.0.name}"
+					resource "oci_core_volume" "t" {
+						availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
 						compartment_id = "${var.compartment_id}"
 						display_name = "-tf-volume-updated"
 						size_in_mbs = 51200
@@ -83,8 +83,8 @@ func (s *ResourceCoreVolumeTestSuite) TestCreateResourceCoreVolume() {
 			// verify changing volume AD causes destruct/recreate
 			{
 				Config: s.Config + `
-					resource "baremetal_core_volume" "t" {
-						availability_domain = "${data.baremetal_identity_availability_domains.ADs.availability_domains.1.name}"
+					resource "oci_core_volume" "t" {
+						availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.1.name}"
 						compartment_id = "${var.compartment_id}"
 						display_name = "-tf-volume-new"
 						size_in_mbs = 51200
@@ -107,8 +107,8 @@ func (s *ResourceCoreVolumeTestSuite) TestDeleteVolume() {
 				ImportState:       true,
 				ImportStateVerify: true,
 				Config: s.Config + `
-					resource "baremetal_core_volume" "t" {
-						availability_domain = "${data.baremetal_identity_availability_domains.ADs.availability_domains.0.name}"
+					resource "oci_core_volume" "t" {
+						availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
 						compartment_id = "${var.compartment_id}"
 						display_name = "-tf-volume"
 						size_in_mbs = 51200

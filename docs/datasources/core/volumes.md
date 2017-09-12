@@ -1,11 +1,11 @@
-# baremetal\_core\_volumes
+# oci\_core\_volumes
 
 Gets a list of volumes in a compartment.
 
 ## Example Usage
 
 ```
-data "baremetal_core_volumes" "t" {
+data "oci_core_volumes" "t" {
   compartment_id = "compartmentid"
 }
 ```

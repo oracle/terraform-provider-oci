@@ -1,4 +1,4 @@
-# baremetal\_objectstorage\_bucket
+# oci\_objectstorage\_bucket
 
 Provides an Objectstorage resource for CRUD operations on objects.
 
@@ -7,7 +7,7 @@ Provides an Objectstorage resource for CRUD operations on objects.
 ### Object w/ Metadata
 
 ```
-resource "baremetal_objectstorage_object" "t" {
+resource "oci_objectstorage_object" "t" {
     namespace = "namespaceID"
     bucket = "bucketID"
     object = "objectID"

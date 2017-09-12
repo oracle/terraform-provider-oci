@@ -30,16 +30,16 @@ func (s *DatasourceIdentityUsersTestSuite) SetupTest() {
 	})
 
 	s.Providers = map[string]terraform.ResourceProvider{
-		"baremetal": s.Provider,
+		"oci": s.Provider,
 	}
 	s.Config = `
-		resource "baremetal_identity_user" "t" {
+		resource "oci_identity_user" "t" {
 			name = "-tf-user"
 			description = "automated test user"
 		}
 	`
 	s.Config += testProviderConfig()
-	s.ResourceName = "data.baremetal_identity_users.t"
+	s.ResourceName = "data.oci_identity_users.t"
 }
 
 func (s *DatasourceIdentityUsersTestSuite) TestReadUsers() {
@@ -55,7 +55,7 @@ func (s *DatasourceIdentityUsersTestSuite) TestReadUsers() {
 			},
 			{
 				Config: s.Config + `
-				data "baremetal_identity_users" "t" {
+				data "oci_identity_users" "t" {
 					compartment_id = "${var.compartment_id}"
 				}`,
 				Check: resource.ComposeTestCheckFunc(

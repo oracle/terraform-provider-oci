@@ -4,7 +4,7 @@
     #   | |_| |  _ < / ___ | |___| |___| |___
     #    \___/|_| \_/_/   \_\____|_____|_____|
 ***
-## Bare Metal Cloud Instance monitored with Oracle Management Cloud Agent
+## Oracle Cloud Infrastructure Instance monitored with Oracle Management Cloud Agent
 
 
 ### Prerequisites
@@ -143,7 +143,7 @@ Before you plan, apply, or destroy the configuration source the file -
 ### Modules/datasources
 
 #### `datasources.tf`
-Reads BMC environment specific values for ADs, and Compartments used in the configuration
+Reads OCI environment specific values for ADs, and Compartments used in the configuration
 
 
 ### Stage Server 
@@ -153,7 +153,7 @@ Reads BMC environment specific values for ADs, and Compartments used in the conf
 Defines the compute resource
 
 #### `provider.tf`
-Specifies and passes authentication details to the OBMCS TF provider
+Specifies and passes authentication details to the OCI TF provider
 
 #### `./userdata/*`
 The user-data scripts that get injected into an instance on launch. More information on user-data scripts can be [found at the cloud-init project.](https://cloudinit.readthedocs.io/en/latest/topics/format.html)
@@ -171,7 +171,7 @@ Environment specific values passed into configuration.
 Defines the compute resource that is monitored by OMC
 
 #### `provider.tf`
-Specifies and passes authentication details to the OBMCS TF provider
+Specifies and passes authentication details to the OCI TF provider
 
 #### `./userdata/*`
 The user-data scripts that get injected into an instance on launch. More information on user-data scripts can be [found at the cloud-init project.](https://cloudinit.readthedocs.io/en/latest/topics/format.html)
@@ -197,7 +197,7 @@ Environment specific values passed into configuration.
 Defines the compute resource that is monitored by OMC
 
 #### `provider.tf`
-Specifies and passes authentication details to the OBMCS TF provider
+Specifies and passes authentication details to the OCI TF provider
 
 #### `./omc_config/install_omc.tpl`
 Installation script template file for the agent, and the monitoring configuration file.  This file is read by Terraform
@@ -220,7 +220,7 @@ Environment specific values passed into configuration.
 Defines the compute resource that is monitored by OMC
 
 #### `provider.tf`
-Specifies and passes authentication details to the OBMCS TF provider
+Specifies and passes authentication details to the OCI TF provider
 
 #### `variables.tf`
 Defines the variables used in the configuration

@@ -3,11 +3,11 @@ GOFMT_FILES?=$$(find . -name '*.go' | grep -v vendor)
 default: build
 
 clean:
-	rm -rf terraform-provider-baremetal
+	rm -rf terraform-provider-oci
 	rm -rf bin/*
 
 fmt:
-	goimports -w -local github.com/oracle/terraform-provider-baremetal $(GOFMT_FILES)
+	goimports -w -local github.com/oracle/terraform-provider-oci $(GOFMT_FILES)
 
 show_tests:
 	grep -ohi "Test.*$(test).*TestSuite" *.go
@@ -32,16 +32,16 @@ test:
 	TF_ORACLE_ENV=test TF_ACC=1 go test -v -timeout 120m
 
 build:
-	go build -o terraform-provider-baremetal
+	go build -o terraform-provider-oci
 
 version:
 	sed -i '' -e 's/version = ".*"/version = "\
-	$(shell curl -s https://api.github.com/repos/oracle/terraform-provider-baremetal/releases/latest | \
+	$(shell curl -s https://api.github.com/repos/oracle/terraform-provider-oci/releases/latest | \
 	jq -r '.tag_name')\
 	"/g' version.go
 
 release: clean version
-	gox -output "./bin/{{.OS}}_{{.Arch}}/terraform-provider-baremetal"
+	gox -output "./bin/{{.OS}}_{{.Arch}}/terraform-provider-oci"
 
 zip:
 	cd bin \

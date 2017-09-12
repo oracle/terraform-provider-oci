@@ -1,11 +1,11 @@
-# baremetal\_core\_vnic\_attachment
+# oci\_core\_vnic\_attachment
 
 Provides a VNIC attachment resource
 
 ## Example Usage
 
 ```
-resource "baremetal_core_vnic_attachment" "t" {
+resource "oci_core_vnic_attachment" "t" {
   instance_id = "${var.instance_id}"
   display_name = "secondary_vnic_attachment"
   create_vnic_details {

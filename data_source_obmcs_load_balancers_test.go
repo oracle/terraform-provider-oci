@@ -16,11 +16,11 @@ func TestLoadBalancersDatasource(t *testing.T) {
 		return client, nil
 	})
 	providers := map[string]terraform.ResourceProvider{
-		"baremetal": provider,
+		"oci": provider,
 	}
-	resourceName := "data.baremetal_load_balancers.t"
+	resourceName := "data.oci_load_balancers.t"
 	config := `
-data "baremetal_load_balancers" "t" {
+data "oci_load_balancers" "t" {
   compartment_id = "${var.compartment_id}"
 }
 `

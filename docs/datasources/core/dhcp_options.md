@@ -1,11 +1,11 @@
-# baremetal\_core\_dhcp\_options
+# oci\_core\_dhcp\_options
 
 List Dhcp Options.
 
 ## Example Usage
 
 ```
-data "baremetal_core_dhcp_options" "t" {
+data "oci_core_dhcp_options" "t" {
   compartment_id = "compartment_id"
   limit = 1
   page = "page"

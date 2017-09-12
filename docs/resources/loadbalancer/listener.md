@@ -1,11 +1,11 @@
-# baremetal\_load\_balancer\_backendset
+# oci\_load\_balancer\_backendset
 
 Provide a load balancer listener resource.
 
 ## Example Usage
 
 ```
-resource "baremetal_load_balancer_listener" "t" {
+resource "oci_load_balancer_listener" "t" {
   load_balancer_id         = "stub_load_balancer_id"
   name                     = "stub_name"
   default_backend_set_name = "stub_backend_set_name"

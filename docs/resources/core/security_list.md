@@ -1,4 +1,4 @@
-# baremetal\_core\_security\_lists
+# oci\_core\_security\_lists
 
 Provides a security list resource.
 See the [Security Lists](https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Concepts/securitylists.htm)
@@ -10,7 +10,7 @@ Protocols are specified as protocol numbers. For protocol numbers see
 http://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml
 
 ```
-resource "baremetal_core_security_list" "t" {
+resource "oci_core_security_list" "t" {
     compartment_id = "compartment_id"
     vcn_id = "vcn_id"
     display_name = "display_name"

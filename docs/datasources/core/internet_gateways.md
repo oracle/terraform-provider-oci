@@ -1,11 +1,11 @@
-# baremetal\_core\_internet\_gateways
+# oci\_core\_internet\_gateways
 
 Gets a list of internet gateways.
 
 ## Example Usage
 
 ```
-    data "baremetal_core_internet_gateways" "s" {
+    data "oci_core_internet_gateways" "s" {
       compartment_id = "compartmentid"
       vcn_id = "vcnid"
     }

@@ -13,13 +13,13 @@ import (
 func TestLoadBalancerCertificatesDatasource(t *testing.T) {
 	client := GetTestProvider()
 	providers := map[string]terraform.ResourceProvider{
-		"baremetal": Provider(func(d *schema.ResourceData) (interface{}, error) {
+		"oci": Provider(func(d *schema.ResourceData) (interface{}, error) {
 			return client, nil
 		}),
 	}
-	resourceName := "data.baremetal_load_balancer_certificates.t"
+	resourceName := "data.oci_load_balancer_certificates.t"
 	config := `
-data "baremetal_load_balancer_certificates" "t" {
+data "oci_load_balancer_certificates" "t" {
   load_balancer_id = "ocid1.loadbalancer.stub_id"
 }
 `

@@ -32,15 +32,16 @@ func (s *ResourceCoreVolumeBackupTestSuite) SetupTest() {
 			return s.Client, nil
 		},
 	)
-	s.Providers = map[string]terraform.ResourceProvider{"baremetal": s.Provider}
+	s.Providers = map[string]terraform.ResourceProvider{"oci": s.Provider}
 
-	s.ResourceName = "baremetal_core_volume_backup.t"
+
+	s.ResourceName = "oci_core_volume_backup.t"
 	s.Config = testProviderConfig() + `
-		data "baremetal_identity_availability_domains" "ADs" {
-			compartment_id = "${var.compartment_id}"
+		data "oci_identity_availability_domains" "ADs" {
+  			compartment_id = "${var.compartment_id}"
 		}
-		resource "baremetal_core_volume" "t" {
-			availability_domain = "${data.baremetal_identity_availability_domains.ADs.availability_domains.0.name}"
+		resource "oci_core_volume" "t" {
+			availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
 			compartment_id = "${var.compartment_id}"
 			display_name = "-tf-volume"
 			size_in_mbs = 51200
@@ -57,8 +58,8 @@ func (s *ResourceCoreVolumeBackupTestSuite) TestCreateVolumeBackup() {
 				ImportState:       true,
 				ImportStateVerify: true,
 				Config: s.Config + `
-					resource "baremetal_core_volume_backup" "t" {
-						volume_id = "${baremetal_core_volume.t.id}"
+					resource "oci_core_volume_backup" "t" {
+						volume_id = "${oci_core_volume.t.id}"
 					}`,
 				Check: resource.ComposeTestCheckFunc(
 
@@ -72,30 +73,31 @@ func (s *ResourceCoreVolumeBackupTestSuite) TestCreateVolumeBackup() {
 			// update volume backup
 			{
 				Config: s.Config + `
-					resource "baremetal_core_volume_backup" "t" {
-						volume_id = "${baremetal_core_volume.t.id}"
+					resource "oci_core_volume_backup" "t" {
+						volume_id = "${oci_core_volume.t.id}"
 						display_name = "-tf-volume-backup"
 					}`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-volume-backup"),
 				),
 			},
+
 			// restore to a new volume from the backup
 			{
 				Config: s.Config + `
-					resource "baremetal_core_volume_backup" "t" {
-						volume_id = "${baremetal_core_volume.t.id}"
+					resource "oci_core_volume_backup" "t" {
+						volume_id = "${oci_core_volume.t.id}"
 						display_name = "-tf-volume-backup"
 					}
-					resource "baremetal_core_volume" "t2" {
-						availability_domain = "${data.baremetal_identity_availability_domains.ADs.availability_domains.0.name}"
+					resource "oci_core_volume" "t2" {
+						availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
 						compartment_id = "${var.compartment_id}"
 						display_name = "-tf-volume-restored"
 						size_in_mbs = 51200
-						volume_backup_id = "${baremetal_core_volume_backup.t.id}"
+						volume_backup_id = "${oci_core_volume_backup.t.id}"
 					}`,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr("baremetal_core_volume.t2", "display_name", "-tf-volume-restored"),
+					resource.TestCheckResourceAttr("oci_core_volume.t2", "display_name", "-tf-volume-restored"),
 				),
 			},
 		},

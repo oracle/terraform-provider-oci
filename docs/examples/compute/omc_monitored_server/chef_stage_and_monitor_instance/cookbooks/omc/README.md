@@ -1,6 +1,6 @@
 # OMC Cookbook
 
-This cookbook automates the installation and configuration of the Oracle Management Cloud Service monitoring agent on Oracle Bare Metal Cloud Infrastucture.
+This cookbook automates the installation and configuration of the Oracle Management Cloud Service monitoring agent on Oracle Cloud Infrastructure Infrastucture.
 
 ## Requirements
 

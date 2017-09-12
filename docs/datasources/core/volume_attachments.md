@@ -1,11 +1,11 @@
-# baremetal\_core\_volume\_attachments
+# oci\_core\_volume\_attachments
 
 Gets a list of volume attachments.
 
 ## Example Usage
 
 ```
-data "baremetal_core_volume_attachments" "t" {
+data "oci_core_volume_attachments" "t" {
   availability_domain = "availability_domain"
   compartment_id = "compartment_id"
   limit = 1

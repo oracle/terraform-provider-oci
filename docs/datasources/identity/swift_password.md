@@ -1,11 +1,11 @@
-# baremetal\_identity\_swift\_passwords
+# oci\_identity\_swift\_passwords
 
 Lists swift passwords
 
 ## Example Usage
 
 ```
-data "baremetal_identity_swift_passwords" "p" {
+data "oci_identity_swift_passwords" "p" {
     compartment_id = "compartment ocid"
     user_id = "user ocid"
 }

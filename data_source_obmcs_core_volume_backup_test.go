@@ -31,25 +31,25 @@ func (s *ResourceCoreVolumeBackupsTestSuite) SetupTest() {
 	})
 
 	s.Providers = map[string]terraform.ResourceProvider{
-		"baremetal": s.Provider,
+		"oci": s.Provider,
 	}
 	s.Config = `
-data "baremetal_identity_availability_domains" "ADs" {
+data "oci_identity_availability_domains" "ADs" {
 	compartment_id = "${var.compartment_id}"
 }
-resource "baremetal_core_volume" "t" {
-	availability_domain = "${data.baremetal_identity_availability_domains.ADs.availability_domains.0.name}"
+resource "oci_core_volume" "t" {
+	availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
 	compartment_id = "${var.compartment_id}"
 	display_name = "display_name"
 	size_in_mbs = 262144
 }
-resource "baremetal_core_volume_backup" "t" {
-	volume_id = "${baremetal_core_volume.t.id}"
+resource "oci_core_volume_backup" "t" {
+	volume_id = "${oci_core_volume.t.id}"
 	display_name = "display_name"
 }
   `
 	s.Config += testProviderConfig()
-	s.ResourceName = "data.baremetal_core_volume_backups.t"
+	s.ResourceName = "data.oci_core_volume_backups.t"
 
 	b1 := baremetal.VolumeBackup{
 		CompartmentID:       "compartment_id",
@@ -83,10 +83,10 @@ func (s *ResourceCoreVolumeBackupsTestSuite) TestReadVolumeBackups() {
 			},
 			{
 				Config: s.Config + `
-				data "baremetal_core_volume_backups" "t" {
+				data "oci_core_volume_backups" "t" {
 					compartment_id = "${var.compartment_id}"
 					limit = 1
-					volume_id = "${baremetal_core_volume.t.id}"
+					volume_id = "${oci_core_volume.t.id}"
 				}`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_id"),

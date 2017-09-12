@@ -1,11 +1,11 @@
-# baremetal\_identity\_availability\_domain
+# oci\_identity\_availability\_domain
 
 Lists availability domains.
 
 ## Example Usage
 
 ```
-data "baremetal_identity_availability_domains" "t" {
+data "oci_identity_availability_domains" "t" {
   compartment_id = "compartmentID"
 }
 ```

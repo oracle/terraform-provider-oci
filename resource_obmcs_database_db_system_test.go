@@ -32,14 +32,14 @@ func (s *ResourceDatabaseDBSystemTestSuite) SetupTest() {
 	)
 
 	s.Providers = map[string]terraform.ResourceProvider{
-		"baremetal": s.Provider,
+		"oci": s.Provider,
 	}
 
 	s.Config = databaseConfig
 
 	s.Config += testProviderConfig()
 
-	s.ResourceName = "baremetal_database_db_system.t"
+	s.ResourceName = "oci_database_db_system.t"
 }
 
 func (s *ResourceDatabaseDBSystemTestSuite) TestCreateResourceDatabaseDBSystem() {

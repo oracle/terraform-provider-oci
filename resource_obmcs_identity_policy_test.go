@@ -32,26 +32,26 @@ func (s *ResourceIdentityPolicyTestSuite) SetupTest() {
 	},
 	)
 	s.Providers = map[string]terraform.ResourceProvider{
-		"baremetal": s.Provider,
+		"oci": s.Provider,
 	}
 	s.TimeCreated, _ = time.Parse("2006-Jan-02", "2006-Jan-02")
 	s.Config = `
-	resource "baremetal_identity_group" "t" {
+	resource "oci_identity_group" "t" {
 		name = "-tf-group"
 		description = "automated test group"
 	}
-	data "baremetal_identity_compartments" "t" {
+	data "oci_identity_compartments" "t" {
 		compartment_id = "${var.compartment_id}"
 	}
-	resource "baremetal_identity_policy" "p" {
+	resource "oci_identity_policy" "p" {
 		name = "-tf-policy"
 		description = "automated test policy"
-		compartment_id = "${data.baremetal_identity_compartments.t.compartments.0.id}"
-		statements = ["Allow group ${baremetal_identity_group.t.name} to read instances in compartment ${data.baremetal_identity_compartments.t.compartments.0.name}"]
+		compartment_id = "${data.oci_identity_compartments.t.compartments.0.id}"
+		statements = ["Allow group ${oci_identity_group.t.name} to read instances in compartment ${data.oci_identity_compartments.t.compartments.0.name}"]
 	}
 	`
 	s.Config += testProviderConfig()
-	s.PolicyName = "baremetal_identity_policy.p"
+	s.PolicyName = "oci_identity_policy.p"
 
 }
 

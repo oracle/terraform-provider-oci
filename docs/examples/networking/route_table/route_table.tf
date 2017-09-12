@@ -9,7 +9,7 @@ variable "vcn_ocid" {}
 variable "internet_gateway_ocid" {}
 
 
-provider "baremetal" {
+provider "oci" {
   tenancy_ocid = "${var.tenancy_ocid}"
   user_ocid = "${var.user_ocid}"
   fingerprint = "${var.fingerprint}"
@@ -17,7 +17,7 @@ provider "baremetal" {
   region = "${var.region}"
 }
 
-resource "baremetal_core_route_table" "route_table1" {
+resource "oci_core_route_table" "route_table1" {
   compartment_id = "${var.compartment_ocid}"
   vcn_id = "${var.vcn_ocid}}"
   display_name = "route_table1"

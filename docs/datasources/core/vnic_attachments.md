@@ -1,11 +1,11 @@
-# baremetal\_core\_vnic_attachments
+# oci\_core\_vnic_attachments
 
 Gets information about a specific vnic.
 
 ## Example Usage
 
 ```
-data "baremetal_core_vnic_attachments" "s" {
+data "oci_core_vnic_attachments" "s" {
     compartment_id = "compartmentid"
     availability_domain = "availabilityid"
     vnic_id = "vnicid"

@@ -1,11 +1,11 @@
-# baremetal\_identity\_group
+# oci\_identity\_group
 
 Provides a group resource.
 
 ## Example Usage
 
 ```
-resource "baremetal_identity_group" "t" {
+resource "oci_identity_group" "t" {
     name = "name!"
     description = "desc!"
 }

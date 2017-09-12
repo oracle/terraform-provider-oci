@@ -28,33 +28,33 @@ func (s *CoreDrgAttachmentDatasourceTestSuite) SetupTest() {
 	})
 
 	s.Providers = map[string]terraform.ResourceProvider{
-		"baremetal": s.Provider,
+		"oci": s.Provider,
 	}
 	s.Config = `
-	resource "baremetal_core_virtual_network" "t" {
+	resource "oci_core_virtual_network" "t" {
 		cidr_block = "10.0.0.0/16"
 		compartment_id = "${var.compartment_id}"
 		display_name = "network_name"
 	}
-	resource "baremetal_core_drg" "t" {
+	resource "oci_core_drg" "t" {
 		compartment_id = "${var.compartment_id}"
 		display_name = "display_name"
 	}
-	resource "baremetal_core_drg_attachment" "t" {
+	resource "oci_core_drg_attachment" "t" {
 		compartment_id = "${var.compartment_id}"
 		display_name = "display_name"
-		drg_id = "${baremetal_core_drg.t.id}"
-		vcn_id = "${baremetal_core_virtual_network.t.id}"
+		drg_id = "${oci_core_drg.t.id}"
+		vcn_id = "${oci_core_virtual_network.t.id}"
 	}
-    data "baremetal_core_drg_attachments" "t" {
+    data "oci_core_drg_attachments" "t" {
         compartment_id = "${var.compartment_id}"
-	drg_id = "${baremetal_core_drg.t.id}"
+	drg_id = "${oci_core_drg.t.id}"
         limit = 1
-	vcn_id = "${baremetal_core_virtual_network.t.id}"
+	vcn_id = "${oci_core_virtual_network.t.id}"
     }
   `
 	s.Config += testProviderConfig()
-	s.ResourceName = "data.baremetal_core_drg_attachments.t"
+	s.ResourceName = "data.oci_core_drg_attachments.t"
 }
 
 func (s *CoreDrgAttachmentDatasourceTestSuite) TestReadDrgAttachments() {

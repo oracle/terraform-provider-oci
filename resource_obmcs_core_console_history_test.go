@@ -30,21 +30,21 @@ func (s *ResourceCoreConsoleHistoryTestSuite) SetupTest() {
 	})
 
 	p := s.Provider.(*schema.Provider)
-	res := p.ResourcesMap["baremetal_core_console_history"]
+	res := p.ResourcesMap["oci_core_console_history"]
 	res.Delete = func(d *schema.ResourceData, m interface{}) (e error) {
 		return nil
 	}
 
 	s.Providers = map[string]terraform.ResourceProvider{
-		"baremetal": s.Provider,
+		"oci": s.Provider,
 	}
 	s.Config = instanceConfig + `
-    resource "baremetal_core_console_history" "t" {
-	instance_id = "${baremetal_core_instance.t.id}"
+    resource "oci_core_console_history" "t" {
+	instance_id = "${oci_core_instance.t.id}"
     }
   `
 	s.Config += testProviderConfig()
-	s.ResourceName = "baremetal_core_console_history.t"
+	s.ResourceName = "oci_core_console_history.t"
 	s.Res = &baremetal.ConsoleHistoryMetadata{
 		AvailabilityDomain: "availability_domain",
 		CompartmentID:      "compartmentid",

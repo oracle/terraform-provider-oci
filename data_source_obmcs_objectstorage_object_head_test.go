@@ -35,13 +35,13 @@ func (s *DatasourceObjectstorageObjectHeadTestSuite) SetupTest() {
 	)
 
 	s.Providers = map[string]terraform.ResourceProvider{
-		"baremetal": s.Provider,
+		"oci": s.Provider,
 	}
 
 	s.TimeCreated = baremetal.Time{Time: time.Now()}
 
 	s.Config = `
-		resource "baremetal_objectstorage_bucket" "t" {
+		resource "oci_objectstorage_bucket" "t" {
 			compartment_id = "${var.compartment_id}"
 			name = "bucketID"
 			namespace = "${var.namespace}"
@@ -50,25 +50,25 @@ func (s *DatasourceObjectstorageObjectHeadTestSuite) SetupTest() {
 			}
 		}
 
-		resource "baremetal_objectstorage_object" "t" {
+		resource "oci_objectstorage_object" "t" {
 			namespace = "${var.namespace}"
-			bucket = "${baremetal_objectstorage_bucket.t.name}"
+			bucket = "${oci_objectstorage_bucket.t.name}"
 			object = "objectID"
 			content = "bodyContent"
 			metadata = {
 				"foo" = "bar"
 			}
 		}
-		data "baremetal_objectstorage_object_head" "t" {
+		data "oci_objectstorage_object_head" "t" {
 			namespace = "${var.namespace}"
-			bucket = "${baremetal_objectstorage_bucket.t.name}"
-			object = "${baremetal_objectstorage_object.t.object}"
+			bucket = "${oci_objectstorage_bucket.t.name}"
+			object = "${oci_objectstorage_object.t.object}"
 		}
 	`
 
 	s.Config += testProviderConfig()
 
-	s.ResourceName = "data.baremetal_objectstorage_object_head.t"
+	s.ResourceName = "data.oci_objectstorage_object_head.t"
 }
 
 func (s *DatasourceObjectstorageObjectHeadTestSuite) TestObjectstorageHeadObject() {

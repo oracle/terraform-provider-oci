@@ -1,11 +1,11 @@
-# baremetal\_load\_balancer_policies
+# oci\_load\_balancer_policies
 
 Provide a list of supported load balancer policies.
 
 ## Example Usage
 
 ```
-data "baremetal_load_balancer_policies" "t" {
+data "oci_load_balancer_policies" "t" {
   compartment_id = "ocid1.compartment.stub_id"
 }
 ```

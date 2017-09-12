@@ -1,11 +1,11 @@
-# baremetal\_identity\_api\_key
+# oci\_identity\_api\_key
 
 Provides an api key resource.
 
 ## Example Usage
 
 ```
-resource "baremetal_identity_api_key" "t" {
+resource "oci_identity_api_key" "t" {
     user_id = "user_id"
     key_value = "1"
 }

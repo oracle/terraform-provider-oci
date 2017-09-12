@@ -28,4 +28,4 @@ Defines the variables used in the configuration
 Defines the buckets we are going to create
 
 #### `provider.tf`
-Specifies and passes authentication details to the OBMCS TF provider
+Specifies and passes authentication details to the OCI TF provider

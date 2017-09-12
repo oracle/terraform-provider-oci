@@ -1,11 +1,11 @@
-# baremetal\_database\_db\_versions
+# oci\_database\_db\_versions
 
 Gets a list of supported Oracle database versions.
 
 ## Example Usage
 
 ```
-data "baremetal_database_db_versions" "t" {
+data "oci_database_db_versions" "t" {
   compartment_id = "compartment_id"
   limit = 1
   page = "page"

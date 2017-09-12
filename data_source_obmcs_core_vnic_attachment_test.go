@@ -29,18 +29,18 @@ func (s *ResourceCoreVnicAttachmentsTestSuite) SetupTest() {
 	})
 
 	s.Providers = map[string]terraform.ResourceProvider{
-		"baremetal": s.Provider,
+		"oci": s.Provider,
 	}
 
 	s.Config = instanceConfig + `
-    data "baremetal_core_vnic_attachments" "s" {
+    data "oci_core_vnic_attachments" "s" {
       compartment_id = "${var.compartment_id}"
-      availability_domain = "${data.baremetal_identity_availability_domains.ADs.availability_domains.0.name}"
-      instance_id = "${baremetal_core_instance.t.id}"
+      availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+      instance_id = "${oci_core_instance.t.id}"
     }
   `
 	s.Config += testProviderConfig()
-	s.ResourceName = "data.baremetal_core_vnic_attachments.s"
+	s.ResourceName = "data.oci_core_vnic_attachments.s"
 
 }
 

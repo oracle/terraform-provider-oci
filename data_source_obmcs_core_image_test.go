@@ -31,16 +31,16 @@ func (s *ResourceCoreImagesTestSuite) SetupTest() {
 	})
 
 	s.Providers = map[string]terraform.ResourceProvider{
-		"baremetal": s.Provider,
+		"oci": s.Provider,
 	}
 	s.Config = `
-    data "baremetal_core_images" "t" {
+    data "oci_core_images" "t" {
       compartment_id = "${var.compartment_id}"
       limit = 1
     }
   `
 	s.Config += testProviderConfig()
-	s.ResourceName = "data.baremetal_core_images.t"
+	s.ResourceName = "data.oci_core_images.t"
 
 	b1 := baremetal.Image{
 		BaseImageID:            "base_image_id",
