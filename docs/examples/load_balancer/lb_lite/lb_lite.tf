@@ -15,7 +15,7 @@ variable "instance_ip" {}
 variable "subnet1" {}
 variable "subnet2" {}
 
-provider "baremetal" {
+provider "oci" {
   tenancy_ocid = "${var.tenancy_ocid}"
   user_ocid = "${var.user_ocid}"
   fingerprint = "${var.fingerprint}"
@@ -25,7 +25,7 @@ provider "baremetal" {
 
 /* Load Balancer */
 
-resource "baremetal_load_balancer" "lb1" {
+resource "oci_load_balancer" "lb1" {
   shape          = "100Mbps"
   compartment_id = "${var.compartment_ocid}"
   subnet_ids     = [
@@ -35,9 +35,9 @@ resource "baremetal_load_balancer" "lb1" {
   display_name   = "lb1"
 }
 
-resource "baremetal_load_balancer_backendset" "lb-bes1" {
+resource "oci_load_balancer_backendset" "lb-bes1" {
   name             = "lb-bes1"
-  load_balancer_id = "${baremetal_load_balancer.lb1.id}"
+  load_balancer_id = "${oci_load_balancer.lb1.id}"
   policy           = "ROUND_ROBIN"
 
   health_checker {
@@ -48,22 +48,22 @@ resource "baremetal_load_balancer_backendset" "lb-bes1" {
   }
 }
 
-resource "baremetal_load_balancer_listener" "lb-listener1" {
-  load_balancer_id         = "${baremetal_load_balancer.lb1.id}"
+resource "oci_load_balancer_listener" "lb-listener1" {
+  load_balancer_id         = "${oci_load_balancer.lb1.id}"
   name                     = "lb-listener1"
-  default_backend_set_name = "${baremetal_load_balancer_backendset.lb-bes1.id}"
+  default_backend_set_name = "${oci_load_balancer_backendset.lb-bes1.id}"
   port                     = 80
   protocol                 = "HTTP"
 
   ssl_configuration {
-    certificate_name        = "${baremetal_load_balancer_certificate.lb-cert1.certificate_name}"
+    certificate_name        = "${oci_load_balancer_certificate.lb-cert1.certificate_name}"
     verify_peer_certificate = false
   }
 }
 
-resource "baremetal_load_balancer_backend" "lb-be1" {
-  load_balancer_id = "${baremetal_load_balancer.lb1.id}"
-  backendset_name  = "${baremetal_load_balancer_backendset.lb-bes1.id}"
+resource "oci_load_balancer_backend" "lb-be1" {
+  load_balancer_id = "${oci_load_balancer.lb1.id}"
+  backendset_name  = "${oci_load_balancer_backendset.lb-bes1.id}"
   ip_address       = "${var.instance_ip}"
   port             = 80
   backup           = false
@@ -72,8 +72,8 @@ resource "baremetal_load_balancer_backend" "lb-be1" {
   weight           = 1
 }
 
-resource "baremetal_load_balancer_certificate" "lb-cert1" {
-  load_balancer_id   = "${baremetal_load_balancer.lb1.id}"
+resource "oci_load_balancer_certificate" "lb-cert1" {
+  load_balancer_id   = "${oci_load_balancer.lb1.id}"
   certificate_name   = "certificate1"
   ca_certificate     = ""
   public_certificate = "${file("${path.module}/cert.crt")}"

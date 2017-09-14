@@ -36,13 +36,13 @@ func (s *ResourceCoreVirtualNetworkTestSuite) SetupTest() {
 	)
 
 	s.Providers = map[string]terraform.ResourceProvider{
-		"baremetal": s.Provider,
+		"oci": s.Provider,
 	}
 
 	s.TimeCreated = baremetal.Time{Time: time.Now()}
 
 	s.Config = `
-		resource "baremetal_core_virtual_network" "t" {
+		resource "oci_core_virtual_network" "t" {
 			cidr_block = "10.0.0.0/16"
 			compartment_id = "${var.compartment_id}"
 			display_name = "display_name"
@@ -51,7 +51,7 @@ func (s *ResourceCoreVirtualNetworkTestSuite) SetupTest() {
 
 	s.Config += testProviderConfig()
 
-	s.ResourceName = "baremetal_core_virtual_network.t"
+	s.ResourceName = "oci_core_virtual_network.t"
 
 }
 
@@ -93,7 +93,7 @@ func (s *ResourceCoreVirtualNetworkTestSuite) TestDeleteResourceCoreVirtualNetwo
 			{
 				Config: testProviderConfig(),
 				Check: resource.ComposeTestCheckFunc(
-					testNoInstanceState("baremetal_core_virtual_network"),
+					testNoInstanceState("oci_core_virtual_network"),
 				),
 			},
 		},
@@ -105,7 +105,7 @@ func (s ResourceCoreVirtualNetworkTestSuite) TestUpdateCidrBlockForcesNewVirtual
 	// and then destroy the original resource.
 
 	config := `
-		resource "baremetal_core_virtual_network" "t" {
+		resource "oci_core_virtual_network" "t" {
 			cidr_block = "10.0.0.0/24"
 			compartment_id = "${var.compartment_id}"
 		}

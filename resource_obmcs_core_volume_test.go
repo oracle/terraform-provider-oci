@@ -3,14 +3,12 @@
 package main
 
 import (
-	"testing"
-	"time"
-
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/stretchr/testify/suite"
+	"testing"
 )
 
 type ResourceCoreVolumeTestSuite struct {
@@ -18,7 +16,6 @@ type ResourceCoreVolumeTestSuite struct {
 	Client       *baremetal.Client
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
-	TimeCreated  baremetal.Time
 	Config       string
 	ResourceName string
 	Res          *baremetal.Volume
@@ -35,27 +32,15 @@ func (s *ResourceCoreVolumeTestSuite) SetupTest() {
 	)
 
 	s.Providers = map[string]terraform.ResourceProvider{
-		"baremetal": s.Provider,
+		"oci": s.Provider,
 	}
 
-	s.TimeCreated = baremetal.Time{Time: time.Now()}
-
-	s.Config = `
-		data "baremetal_identity_availability_domains" "ADs" {
-  			compartment_id = "${var.compartment_id}"
-		}
-		resource "baremetal_core_volume" "t" {
-			availability_domain = "${data.baremetal_identity_availability_domains.ADs.availability_domains.0.name}"
+	s.Config = testProviderConfig() + `
+		data "oci_identity_availability_domains" "ADs" {
 			compartment_id = "${var.compartment_id}"
-			display_name = "display_name"
-			size_in_mbs = 262144
-		}
-	`
+		}`
 
-	s.Config += testProviderConfig()
-
-	s.ResourceName = "baremetal_core_volume.t"
-
+	s.ResourceName = "oci_core_volume.t"
 }
 
 func (s *ResourceCoreVolumeTestSuite) TestCreateResourceCoreVolume() {
@@ -63,81 +48,49 @@ func (s *ResourceCoreVolumeTestSuite) TestCreateResourceCoreVolume() {
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
+			// verify volume was created
 			{
 				ImportState:       true,
 				ImportStateVerify: true,
-				Config:            s.Config,
+				Config: s.Config + `
+					resource "oci_core_volume" "t" {
+						availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+						compartment_id = "${var.compartment_id}"
+						display_name = "-tf-volume"
+						size_in_mbs = 51200
+					}`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),
 
-					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "display_name"),
+					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-volume"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
-					//resource.TestCheckResourceAttr(s.ResourceName, "size_in_mbs", strconv.Itoa(s.Res.SizeInMBs)),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", baremetal.ResourceAvailable),
 				),
 			},
-		},
-	})
-}
-
-func (s ResourceCoreVolumeTestSuite) TestUpdateVolumeDisplayName() {
-
-	config := `
-		data "baremetal_identity_availability_domains" "ADs" {
-  			compartment_id = "${var.compartment_id}"
-		}
-		resource "baremetal_core_volume" "t" {
-			availability_domain = "${data.baremetal_identity_availability_domains.ADs.availability_domains.0.name}"
-			compartment_id = "${var.compartment_id}"
-			display_name = "new_display_name"
-			size_in_mbs = 262144
-		}
-	`
-	config += testProviderConfig()
-
-	resource.UnitTest(s.T(), resource.TestCase{
-		Providers: s.Providers,
-		Steps: []resource.TestStep{
+			// update volume
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config:            s.Config,
-			},
-			{
-				Config: config,
+				Config: s.Config + `
+					resource "oci_core_volume" "t" {
+						availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+						compartment_id = "${var.compartment_id}"
+						display_name = "-tf-volume-updated"
+						size_in_mbs = 51200
+					}`,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "new_display_name"),
+					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-volume-updated"),
 				),
 			},
-		},
-	})
-}
-
-func (s ResourceCoreVolumeTestSuite) TestUpdateAvailabilityDomainForcesNewVolume() {
-
-	config := `
-		data "baremetal_identity_availability_domains" "ADs" {
-  			compartment_id = "${var.compartment_id}"
-		}
-		resource "baremetal_core_volume" "t" {
-			availability_domain = "${data.baremetal_identity_availability_domains.ADs.availability_domains.1.name}"
-			compartment_id = "${var.compartment_id}"
-			size_in_mbs = 262144
-		}
-  `
-	config += testProviderConfig()
-
-	resource.UnitTest(s.T(), resource.TestCase{
-		Providers: s.Providers,
-		Steps: []resource.TestStep{
+			// verify changing volume AD causes destruct/recreate
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config:            s.Config,
-			},
-			{
-				Config: config,
+				Config: s.Config + `
+					resource "oci_core_volume" "t" {
+						availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.1.name}"
+						compartment_id = "${var.compartment_id}"
+						display_name = "-tf-volume-new"
+						size_in_mbs = 51200
+					}`,
 				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-volume-new"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),
 				),
 			},
@@ -153,7 +106,13 @@ func (s *ResourceCoreVolumeTestSuite) TestDeleteVolume() {
 			{
 				ImportState:       true,
 				ImportStateVerify: true,
-				Config:            s.Config,
+				Config: s.Config + `
+					resource "oci_core_volume" "t" {
+						availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+						compartment_id = "${var.compartment_id}"
+						display_name = "-tf-volume"
+						size_in_mbs = 51200
+					}`,
 			},
 			{
 				Config:  s.Config,
@@ -161,7 +120,6 @@ func (s *ResourceCoreVolumeTestSuite) TestDeleteVolume() {
 			},
 		},
 	})
-
 }
 
 func TestResourceCoreVolumeTestSuite(t *testing.T) {

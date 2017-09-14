@@ -29,12 +29,14 @@ terraform.tfstate.backup
 tf.plan
 
 # Don't version the default binary
+terraform-provider-oci
 terraform-provider-baremetal
 terraform-Oracle-BareMetal-Provider
 *.orig
 .idea
 terraform-Oracle-BareMetal-Provider.iml
 terraform-provider-baremetal.iml
+terraform-provider-oci.iml
 .env
 crash.log
 terraform-encrypted-des.sh

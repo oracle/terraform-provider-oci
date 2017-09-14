@@ -1,11 +1,11 @@
-# baremetal\_load\_balancer
+# oci\_load\_balancer
 
 Provide a load balancer resource.
 
 ## Example Usage
 
 ```
-resource "baremetal_load_balancer" "t" {
+resource "oci_load_balancer" "t" {
   shape          = "stub_shape_id"
   compartment_id = "ocid1.compartment.stub_id"
   subnet_ids     = ["ocid1.subnet.stub_id"]

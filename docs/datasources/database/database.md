@@ -1,11 +1,11 @@
-# baremetal\_database\_database
+# oci\_database\_database
 
 Gets information about a specific database.
 
 ## Example Usage
 
 ```
-data "baremetal_database_database" "t" {
+data "oci_database_database" "t" {
   database_id = "id"
 }
 ```

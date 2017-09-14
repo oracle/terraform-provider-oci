@@ -1,11 +1,11 @@
-# baremetal\_load\_balancers
+# oci\_load\_balancers
 
 Provide a list of load balancer resources.
 
 ## Example Usage
 
 ```
-data "baremetal_load_balancers" "t" {
+data "oci_load_balancers" "t" {
   compartment_id = "ocid1.compartment.stub_id"
 }
 ```

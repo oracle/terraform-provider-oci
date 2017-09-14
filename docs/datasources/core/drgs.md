@@ -1,11 +1,11 @@
-# baremetal\_core\_drg
+# oci\_core\_drg
 
 Provide a drg attachment resource.
 
 ## Example Usage
 
 ```
-data "baremetal_core_drgs" "t" {
+data "oci_core_drgs" "t" {
   compartment_id = "compartment_id"
   limit = 1
   page = "page"

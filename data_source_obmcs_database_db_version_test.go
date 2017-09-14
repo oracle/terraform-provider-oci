@@ -29,15 +29,15 @@ func (s *DatabaseDBVersionTestSuite) SetupTest() {
 	})
 
 	s.Providers = map[string]terraform.ResourceProvider{
-		"baremetal": s.Provider,
+		"oci": s.Provider,
 	}
 	s.Config = `
-    data "baremetal_database_db_versions" "t" {
+    data "oci_database_db_versions" "t" {
       compartment_id = "${var.compartment_id}"
     }
   `
 	s.Config += testProviderConfig()
-	s.ResourceName = "data.baremetal_database_db_versions.t"
+	s.ResourceName = "data.oci_database_db_versions.t"
 }
 
 func (s *DatabaseDBVersionTestSuite) TestReadDBVersions() {

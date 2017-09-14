@@ -1,6 +1,6 @@
 
 #
-# Cookbook Name:: bmc-server
+# Cookbook Name:: oci-server
 # Recipe:: bootstrap-omc
 #
 # Copyright (c) 2016 The Authors, All Rights Reserved.

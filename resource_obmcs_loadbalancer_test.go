@@ -37,30 +37,30 @@ func (s *ResourceLoadBalancerTestSuite) SetupTest() {
 	)
 
 	s.Providers = map[string]terraform.ResourceProvider{
-		"baremetal": s.Provider,
+		"oci": s.Provider,
 	}
 
-	s.ResourceName = "baremetal_load_balancer.t"
+	s.ResourceName = "oci_load_balancer.t"
 
 	s.listenerT = `
-resource "baremetal_load_balancer_listener" "t" {
-  load_balancer_id         = "${baremetal_load_balancer.t.id}"
+resource "oci_load_balancer_listener" "t" {
+  load_balancer_id         = "${oci_load_balancer.t.id}"
   name                     = "stub_listener_name"
-  default_backend_set_name = "${baremetal_load_balancer_backendset.t.name}"
+  default_backend_set_name = "${oci_load_balancer_backendset.t.name}"
   port                     = 443
   protocol                 = "HTTP"
 
   ssl_configuration {
-      certificate_name        = "${baremetal_load_balancer_certificate.t.certificate_name}"
+      certificate_name        = "${oci_load_balancer_certificate.t.certificate_name}"
       verify_depth            = 6
       verify_peer_certificate = false
   }
 }
 `
 	s.backendT = `
-resource "baremetal_load_balancer_backend" "t" {
-  load_balancer_id = "${baremetal_load_balancer.t.id}"
-  backendset_name  = "${baremetal_load_balancer_backendset.t.name}"
+resource "oci_load_balancer_backend" "t" {
+  load_balancer_id = "${oci_load_balancer.t.id}"
+  backendset_name  = "${oci_load_balancer_backendset.t.name}"
   ip_address       = "1.2.3.4"
   port             = 1234
   backup           = true
@@ -69,9 +69,9 @@ resource "baremetal_load_balancer_backend" "t" {
   weight           = 1
 }`
 	s.backendF = `
-resource "baremetal_load_balancer_backend" "f" {
-  load_balancer_id = "${baremetal_load_balancer.t.id}"
-  backendset_name  = "${baremetal_load_balancer_backendset.t.name}"
+resource "oci_load_balancer_backend" "f" {
+  load_balancer_id = "${oci_load_balancer.t.id}"
+  backendset_name  = "${oci_load_balancer_backendset.t.name}"
   ip_address       = "1.2.3.5"
   port             = 1234
   backup           = false
@@ -81,8 +81,8 @@ resource "baremetal_load_balancer_backend" "f" {
 }`
 
 	s.backendSetT = `
-resource "baremetal_load_balancer_backendset" "t" {
-  load_balancer_id = "${baremetal_load_balancer.t.id}"
+resource "oci_load_balancer_backendset" "t" {
+  load_balancer_id = "${oci_load_balancer.t.id}"
   name             = "stub_backendset_name"
   policy           = "ROUND_ROBIN"
 
@@ -95,7 +95,7 @@ resource "baremetal_load_balancer_backendset" "t" {
   }
 
   ssl_configuration {
-    certificate_name        = "${baremetal_load_balancer_certificate.t.certificate_name}"
+    certificate_name        = "${oci_load_balancer_certificate.t.certificate_name}"
     verify_depth            = 6
     verify_peer_certificate = false
   }
@@ -103,8 +103,8 @@ resource "baremetal_load_balancer_backendset" "t" {
 
 	s.Config = loadbalancerConfig + certificateConfig + `
 
-resource "baremetal_load_balancer_backendset" "no_cert" {
-  load_balancer_id = "${baremetal_load_balancer.t.id}"
+resource "oci_load_balancer_backendset" "no_cert" {
+  load_balancer_id = "${oci_load_balancer.t.id}"
   name             = "stub_backendset_name_no_cert"
   policy           = "ROUND_ROBIN"
 
@@ -118,8 +118,8 @@ resource "baremetal_load_balancer_backendset" "no_cert" {
 }
 
 
-resource "baremetal_load_balancer_backendset" "tcp" {
-  load_balancer_id = "${baremetal_load_balancer.t.id}"
+resource "oci_load_balancer_backendset" "tcp" {
+  load_balancer_id = "${oci_load_balancer.t.id}"
   name             = "stub_backendset_name_tcp"
   policy           = "ROUND_ROBIN"
 
@@ -132,25 +132,25 @@ resource "baremetal_load_balancer_backendset" "tcp" {
   }
 }
 
-resource "baremetal_load_balancer_listener" "tcp" {
-  load_balancer_id         = "${baremetal_load_balancer.t.id}"
+resource "oci_load_balancer_listener" "tcp" {
+  load_balancer_id         = "${oci_load_balancer.t.id}"
   name                     = "stub_listener_name_tcp"
-  default_backend_set_name = "${baremetal_load_balancer_backendset.tcp.name}"
+  default_backend_set_name = "${oci_load_balancer_backendset.tcp.name}"
   port                     = 8080
   protocol                 = "TCP"
 }
 
-resource "baremetal_load_balancer_listener" "no_cert" {
-  load_balancer_id         = "${baremetal_load_balancer.t.id}"
+resource "oci_load_balancer_listener" "no_cert" {
+  load_balancer_id         = "${oci_load_balancer.t.id}"
   name                     = "stub_listener_name_no_cert"
-  default_backend_set_name = "${baremetal_load_balancer_backendset.t.name}"
+  default_backend_set_name = "${oci_load_balancer_backendset.t.name}"
   port                     = 80
   protocol                 = "HTTP"
 }
 
-resource "baremetal_load_balancer_backend" "minimal" {
-  load_balancer_id = "${baremetal_load_balancer.t.id}"
-  backendset_name  = "${baremetal_load_balancer_backendset.t.name}"
+resource "oci_load_balancer_backend" "minimal" {
+  load_balancer_id = "${oci_load_balancer.t.id}"
+  backendset_name  = "${oci_load_balancer_backendset.t.name}"
   ip_address       = "1.2.3.6"
   port             = 1234
 }
@@ -167,57 +167,57 @@ func (s *ResourceLoadBalancerTestSuite) TestCreateResourceLoadBalancerMaximal() 
 				Config: s.Config + s.backendSetT + s.listenerT + s.backendT + s.backendF,
 				Check: resource.ComposeTestCheckFunc(
 					// Assigned
-					resource.TestCheckResourceAttr("baremetal_load_balancer.t", "display_name", "lb_display_name"),
-					resource.TestCheckResourceAttrSet("baremetal_load_balancer.t", "id"),
+					resource.TestCheckResourceAttr("oci_load_balancer.t", "display_name", "lb_display_name"),
+					resource.TestCheckResourceAttrSet("oci_load_balancer.t", "id"),
 					// Computed
-					resource.TestCheckResourceAttrSet("baremetal_load_balancer.t", "ip_addresses.#"),
+					resource.TestCheckResourceAttrSet("oci_load_balancer.t", "ip_addresses.#"),
 
-					resource.TestCheckResourceAttr("baremetal_load_balancer_listener.t", "ssl_configuration.#", "1"),
+					resource.TestCheckResourceAttr("oci_load_balancer_listener.t", "ssl_configuration.#", "1"),
 
 					// Certificate
-					resource.TestCheckResourceAttr("baremetal_load_balancer_certificate.t", "certificate_name", "stub_certificate_name"),
+					resource.TestCheckResourceAttr("oci_load_balancer_certificate.t", "certificate_name", "stub_certificate_name"),
 
 					// BackendSet
-					resource.TestCheckResourceAttr("baremetal_load_balancer_backendset.t", "name", "stub_backendset_name"),
-					resource.TestCheckResourceAttr("baremetal_load_balancer_backendset.t", "health_checker.0.port", "1234"),
-					resource.TestCheckResourceAttr("baremetal_load_balancer_backendset.t", "ssl_configuration.#", "1"),
-					resource.TestCheckResourceAttr("baremetal_load_balancer_backendset.t", "ssl_configuration.0.certificate_name", "stub_certificate_name"),
-					resource.TestCheckResourceAttr("baremetal_load_balancer_backendset.t", "ssl_configuration.0.verify_depth", "6"),
-					resource.TestCheckResourceAttr("baremetal_load_balancer_backendset.t", "ssl_configuration.0.verify_peer_certificate", "false"),
+					resource.TestCheckResourceAttr("oci_load_balancer_backendset.t", "name", "stub_backendset_name"),
+					resource.TestCheckResourceAttr("oci_load_balancer_backendset.t", "health_checker.0.port", "1234"),
+					resource.TestCheckResourceAttr("oci_load_balancer_backendset.t", "ssl_configuration.#", "1"),
+					resource.TestCheckResourceAttr("oci_load_balancer_backendset.t", "ssl_configuration.0.certificate_name", "stub_certificate_name"),
+					resource.TestCheckResourceAttr("oci_load_balancer_backendset.t", "ssl_configuration.0.verify_depth", "6"),
+					resource.TestCheckResourceAttr("oci_load_balancer_backendset.t", "ssl_configuration.0.verify_peer_certificate", "false"),
 
-					resource.TestCheckResourceAttr("baremetal_load_balancer_backendset.no_cert", "name", "stub_backendset_name_no_cert"),
-					resource.TestCheckResourceAttr("baremetal_load_balancer_backendset.no_cert", "health_checker.0.port", "1234"),
+					resource.TestCheckResourceAttr("oci_load_balancer_backendset.no_cert", "name", "stub_backendset_name_no_cert"),
+					resource.TestCheckResourceAttr("oci_load_balancer_backendset.no_cert", "health_checker.0.port", "1234"),
 
 					// Listener
-					resource.TestCheckResourceAttr("baremetal_load_balancer_listener.t", "name", "stub_listener_name"),
-					resource.TestCheckResourceAttr("baremetal_load_balancer_listener.t", "ssl_configuration.0.certificate_name", "stub_certificate_name"),
-					resource.TestCheckResourceAttr("baremetal_load_balancer_listener.t", "ssl_configuration.0.verify_depth", "6"),
-					resource.TestCheckResourceAttr("baremetal_load_balancer_listener.t", "ssl_configuration.0.verify_peer_certificate", "false"),
+					resource.TestCheckResourceAttr("oci_load_balancer_listener.t", "name", "stub_listener_name"),
+					resource.TestCheckResourceAttr("oci_load_balancer_listener.t", "ssl_configuration.0.certificate_name", "stub_certificate_name"),
+					resource.TestCheckResourceAttr("oci_load_balancer_listener.t", "ssl_configuration.0.verify_depth", "6"),
+					resource.TestCheckResourceAttr("oci_load_balancer_listener.t", "ssl_configuration.0.verify_peer_certificate", "false"),
 
-					resource.TestCheckResourceAttr("baremetal_load_balancer_listener.no_cert", "name", "stub_listener_name_no_cert"),
-					resource.TestCheckResourceAttr("baremetal_load_balancer_listener.no_cert", "port", "80"),
+					resource.TestCheckResourceAttr("oci_load_balancer_listener.no_cert", "name", "stub_listener_name_no_cert"),
+					resource.TestCheckResourceAttr("oci_load_balancer_listener.no_cert", "port", "80"),
 
-					resource.TestCheckResourceAttr("baremetal_load_balancer_listener.tcp", "name", "stub_listener_name_tcp"),
-					resource.TestCheckResourceAttr("baremetal_load_balancer_listener.tcp", "port", "8080"),
+					resource.TestCheckResourceAttr("oci_load_balancer_listener.tcp", "name", "stub_listener_name_tcp"),
+					resource.TestCheckResourceAttr("oci_load_balancer_listener.tcp", "port", "8080"),
 
 					// Backend
-					resource.TestCheckResourceAttr("baremetal_load_balancer_backend.t", "ip_address", "1.2.3.4"),
-					resource.TestCheckResourceAttr("baremetal_load_balancer_backend.t", "backup", "true"),
-					resource.TestCheckResourceAttr("baremetal_load_balancer_backend.t", "drain", "true"),
-					resource.TestCheckResourceAttr("baremetal_load_balancer_backend.t", "offline", "true"),
-					resource.TestCheckResourceAttr("baremetal_load_balancer_backend.t", "weight", "1"),
+					resource.TestCheckResourceAttr("oci_load_balancer_backend.t", "ip_address", "1.2.3.4"),
+					resource.TestCheckResourceAttr("oci_load_balancer_backend.t", "backup", "true"),
+					resource.TestCheckResourceAttr("oci_load_balancer_backend.t", "drain", "true"),
+					resource.TestCheckResourceAttr("oci_load_balancer_backend.t", "offline", "true"),
+					resource.TestCheckResourceAttr("oci_load_balancer_backend.t", "weight", "1"),
 
-					resource.TestCheckResourceAttr("baremetal_load_balancer_backend.f", "ip_address", "1.2.3.5"),
-					resource.TestCheckResourceAttr("baremetal_load_balancer_backend.f", "backup", "false"),
-					resource.TestCheckResourceAttr("baremetal_load_balancer_backend.f", "drain", "false"),
-					resource.TestCheckResourceAttr("baremetal_load_balancer_backend.f", "offline", "false"),
-					resource.TestCheckResourceAttr("baremetal_load_balancer_backend.f", "weight", "1"),
+					resource.TestCheckResourceAttr("oci_load_balancer_backend.f", "ip_address", "1.2.3.5"),
+					resource.TestCheckResourceAttr("oci_load_balancer_backend.f", "backup", "false"),
+					resource.TestCheckResourceAttr("oci_load_balancer_backend.f", "drain", "false"),
+					resource.TestCheckResourceAttr("oci_load_balancer_backend.f", "offline", "false"),
+					resource.TestCheckResourceAttr("oci_load_balancer_backend.f", "weight", "1"),
 
-					resource.TestCheckResourceAttr("baremetal_load_balancer_backend.minimal", "ip_address", "1.2.3.6"),
-					resource.TestCheckResourceAttr("baremetal_load_balancer_backend.minimal", "backup", "false"),
-					resource.TestCheckResourceAttr("baremetal_load_balancer_backend.minimal", "drain", "false"),
-					resource.TestCheckResourceAttr("baremetal_load_balancer_backend.minimal", "offline", "false"),
-					resource.TestCheckResourceAttrSet("baremetal_load_balancer_backend.minimal", "weight"),
+					resource.TestCheckResourceAttr("oci_load_balancer_backend.minimal", "ip_address", "1.2.3.6"),
+					resource.TestCheckResourceAttr("oci_load_balancer_backend.minimal", "backup", "false"),
+					resource.TestCheckResourceAttr("oci_load_balancer_backend.minimal", "drain", "false"),
+					resource.TestCheckResourceAttr("oci_load_balancer_backend.minimal", "offline", "false"),
+					resource.TestCheckResourceAttrSet("oci_load_balancer_backend.minimal", "weight"),
 				),
 			},
 			{
@@ -225,8 +225,8 @@ func (s *ResourceLoadBalancerTestSuite) TestCreateResourceLoadBalancerMaximal() 
 				// and backend with some things swapped true/false
 
 				Config: s.Config + `
-resource "baremetal_load_balancer_backendset" "t" {
-  load_balancer_id = "${baremetal_load_balancer.t.id}"
+resource "oci_load_balancer_backendset" "t" {
+  load_balancer_id = "${oci_load_balancer.t.id}"
   name             = "stub_backendset_name"
   policy           = "ROUND_ROBIN"
 
@@ -239,16 +239,16 @@ resource "baremetal_load_balancer_backendset" "t" {
   }
 }
 
-resource "baremetal_load_balancer_listener" "t" {
-  load_balancer_id         = "${baremetal_load_balancer.t.id}"
+resource "oci_load_balancer_listener" "t" {
+  load_balancer_id         = "${oci_load_balancer.t.id}"
   name                     = "stub_listener_name"
-  default_backend_set_name = "${baremetal_load_balancer_backendset.t.name}"
+  default_backend_set_name = "${oci_load_balancer_backendset.t.name}"
   port                     = 443
   protocol                 = "HTTP"
 }
-resource "baremetal_load_balancer_backend" "t" {
-	load_balancer_id = "${baremetal_load_balancer.t.id}"
-	backendset_name  = "${baremetal_load_balancer_backendset.t.name}"
+resource "oci_load_balancer_backend" "t" {
+	load_balancer_id = "${oci_load_balancer.t.id}"
+	backendset_name  = "${oci_load_balancer_backendset.t.name}"
 	ip_address       = "1.2.3.4"
 	port             = 1234
 	backup           = true
@@ -256,9 +256,9 @@ resource "baremetal_load_balancer_backend" "t" {
 	offline          = true
 	weight           = 1
 }
-resource "baremetal_load_balancer_backend" "f" {
-  load_balancer_id = "${baremetal_load_balancer.t.id}"
-  backendset_name  = "${baremetal_load_balancer_backendset.t.name}"
+resource "oci_load_balancer_backend" "f" {
+  load_balancer_id = "${oci_load_balancer.t.id}"
+  backendset_name  = "${oci_load_balancer_backendset.t.name}"
   ip_address       = "1.2.3.5"
   port             = 1234
   backup           = false
@@ -268,20 +268,20 @@ resource "baremetal_load_balancer_backend" "f" {
 }
 `,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr("baremetal_load_balancer_backend.t", "drain", "false"),
-					resource.TestCheckResourceAttr("baremetal_load_balancer_backend.f", "drain", "true"),
-					resource.TestCheckResourceAttr("baremetal_load_balancer_backend.f", "offline", "true"),
-					resource.TestCheckNoResourceAttr("baremetal_load_balancer_listener.t", "ssl_configuration"),
-					resource.TestCheckNoResourceAttr("baremetal_load_balancer_backendset.t", "ssl_configuration"),
+					resource.TestCheckResourceAttr("oci_load_balancer_backend.t", "drain", "false"),
+					resource.TestCheckResourceAttr("oci_load_balancer_backend.f", "drain", "true"),
+					resource.TestCheckResourceAttr("oci_load_balancer_backend.f", "offline", "true"),
+					resource.TestCheckNoResourceAttr("oci_load_balancer_listener.t", "ssl_configuration"),
+					resource.TestCheckNoResourceAttr("oci_load_balancer_backendset.t", "ssl_configuration"),
 				),
 			},
 			{
 				// Add back the backendset cert, add an invalid certificate for the listener
 				Config: s.Config + s.backendSetT + `
-resource "baremetal_load_balancer_listener" "t" {
-  load_balancer_id         = "${baremetal_load_balancer.t.id}"
+resource "oci_load_balancer_listener" "t" {
+  load_balancer_id         = "${oci_load_balancer.t.id}"
   name                     = "stub_listener_name"
-  default_backend_set_name = "${baremetal_load_balancer_backendset.t.name}"
+  default_backend_set_name = "${oci_load_balancer_backendset.t.name}"
   port                     = 443
   protocol                 = "HTTP"
   ssl_configuration {
@@ -290,9 +290,9 @@ resource "baremetal_load_balancer_listener" "t" {
     verify_peer_certificate = false
   }
 }
-resource "baremetal_load_balancer_backend" "t" {
-	load_balancer_id = "${baremetal_load_balancer.t.id}"
-	backendset_name  = "${baremetal_load_balancer_backendset.t.name}"
+resource "oci_load_balancer_backend" "t" {
+	load_balancer_id = "${oci_load_balancer.t.id}"
+	backendset_name  = "${oci_load_balancer_backendset.t.name}"
 	ip_address       = "1.2.3.4"
 	port             = 1234
 	backup           = false
@@ -300,9 +300,9 @@ resource "baremetal_load_balancer_backend" "t" {
 	offline          = false
 	weight           = 1
 }
-resource "baremetal_load_balancer_backend" "f" {
-  load_balancer_id = "${baremetal_load_balancer.t.id}"
-  backendset_name  = "${baremetal_load_balancer_backendset.t.name}"
+resource "oci_load_balancer_backend" "f" {
+  load_balancer_id = "${oci_load_balancer.t.id}"
+  backendset_name  = "${oci_load_balancer_backendset.t.name}"
   ip_address       = "1.2.3.5"
   port             = 1234
   backup           = true
@@ -312,13 +312,13 @@ resource "baremetal_load_balancer_backend" "f" {
 }
 `,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr("baremetal_load_balancer_backend.t", "drain", "true"),
-					resource.TestCheckResourceAttr("baremetal_load_balancer_backend.t", "backup", "false"),
-					resource.TestCheckResourceAttr("baremetal_load_balancer_backend.t", "offline", "false"),
-					resource.TestCheckResourceAttr("baremetal_load_balancer_backend.f", "drain", "false"),
-					resource.TestCheckResourceAttr("baremetal_load_balancer_backend.f", "offline", "false"),
-					resource.TestCheckResourceAttr("baremetal_load_balancer_backend.f", "backup", "true"),
-					resource.TestCheckResourceAttr("baremetal_load_balancer_backendset.t", "ssl_configuration.0.certificate_name", "stub_certificate_name"),
+					resource.TestCheckResourceAttr("oci_load_balancer_backend.t", "drain", "true"),
+					resource.TestCheckResourceAttr("oci_load_balancer_backend.t", "backup", "false"),
+					resource.TestCheckResourceAttr("oci_load_balancer_backend.t", "offline", "false"),
+					resource.TestCheckResourceAttr("oci_load_balancer_backend.f", "drain", "false"),
+					resource.TestCheckResourceAttr("oci_load_balancer_backend.f", "offline", "false"),
+					resource.TestCheckResourceAttr("oci_load_balancer_backend.f", "backup", "true"),
+					resource.TestCheckResourceAttr("oci_load_balancer_backendset.t", "ssl_configuration.0.certificate_name", "stub_certificate_name"),
 				),
 				ExpectError: regexp.MustCompile("Invalid SSL configuration"),
 			},

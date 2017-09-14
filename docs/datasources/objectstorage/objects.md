@@ -1,4 +1,4 @@
-# baremetal\_objectstorage\_bucket
+# oci\_objectstorage\_bucket
 
 Provides an Objectstorage datasource for listing objects.
 
@@ -7,7 +7,7 @@ Provides an Objectstorage datasource for listing objects.
 ### Object w/ Metadata
 
 ```
-data "baremetal_objectstorage_objects" "t" {
+data "oci_objectstorage_objects" "t" {
     namespace = "namespaceID"
     bucket = "bucketID"
     prefix = "startswith-"

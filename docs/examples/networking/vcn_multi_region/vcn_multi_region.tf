@@ -9,7 +9,7 @@ variable "fingerprint" {}
 variable "private_key_path" {}
 variable "compartment_ocid" {}
 
-provider "baremetal" {
+provider "oci" {
   region = "us-phoenix-1"
   alias = "phx"
   tenancy_ocid = "${var.tenancy_ocid}"
@@ -18,7 +18,7 @@ provider "baremetal" {
   private_key_path = "${var.private_key_path}"
 }
 
-provider "baremetal" {
+provider "oci" {
   region = "us-ashburn-1"
   alias = "iad"
   tenancy_ocid = "${var.tenancy_ocid}"
@@ -27,16 +27,16 @@ provider "baremetal" {
   private_key_path = "${var.private_key_path}"
 }
 
-resource "baremetal_core_virtual_network" "vcn-phx" {
-  provider = "baremetal.phx"
+resource "oci_core_virtual_network" "vcn-phx" {
+  provider = "oci.phx"
   display_name = "vcn-phx"
   dns_label = "vcnwest"
   cidr_block = "10.0.0.0/16"
   compartment_id = "${var.compartment_ocid}"
 }
 
-resource "baremetal_core_virtual_network" "vcn-iad" {
-  provider = "baremetal.iad"
+resource "oci_core_virtual_network" "vcn-iad" {
+  provider = "oci.iad"
   display_name = "vcn-iad"
   dns_label = "vcneast"
   cidr_block = "10.0.0.0/16"

@@ -36,21 +36,21 @@ func (s *ResourceCoreDHCPOptionsTestSuite) SetupTest() {
 	)
 
 	s.Providers = map[string]terraform.ResourceProvider{
-		"baremetal": s.Provider,
+		"oci": s.Provider,
 	}
 
 	s.TimeCreated = baremetal.Time{Time: time.Now()}
 
 	s.Config = `
-	resource "baremetal_core_virtual_network" "t" {
+	resource "oci_core_virtual_network" "t" {
 		cidr_block = "10.0.0.0/16"
 		compartment_id = "${var.compartment_id}"
 		display_name = "network_name"
 	}
 
-	resource "baremetal_core_dhcp_options" "opt1" {
+	resource "oci_core_dhcp_options" "opt1" {
 	  compartment_id = "${var.compartment_id}"
-	  vcn_id = "${baremetal_core_virtual_network.t.id}"
+	  vcn_id = "${oci_core_virtual_network.t.id}"
 	  display_name = "display_name"
 	  options {
 	    type = "DomainNameServer"
@@ -58,9 +58,9 @@ func (s *ResourceCoreDHCPOptionsTestSuite) SetupTest() {
 	  }
 	}
 
-	resource "baremetal_core_dhcp_options" "opt2" {
+	resource "oci_core_dhcp_options" "opt2" {
 	  compartment_id = "${var.compartment_id}"
-	  vcn_id = "${baremetal_core_virtual_network.t.id}"
+	  vcn_id = "${oci_core_virtual_network.t.id}"
 	  display_name = "display_name"
 	  options {
 	    type = "DomainNameServer"
@@ -72,9 +72,9 @@ func (s *ResourceCoreDHCPOptionsTestSuite) SetupTest() {
 	  }
 	}
 
-	resource "baremetal_core_dhcp_options" "opt3" {
+	resource "oci_core_dhcp_options" "opt3" {
 	  compartment_id = "${var.compartment_id}"
-	  vcn_id = "${baremetal_core_virtual_network.t.id}"
+	  vcn_id = "${oci_core_virtual_network.t.id}"
 	  display_name = "display_name"
 	  options {
 	    type = "DomainNameServer"
@@ -83,9 +83,9 @@ func (s *ResourceCoreDHCPOptionsTestSuite) SetupTest() {
 	  }
 	}
 
-	resource "baremetal_core_dhcp_options" "opt4" {
+	resource "oci_core_dhcp_options" "opt4" {
 	  compartment_id = "${var.compartment_id}"
-	  vcn_id = "${baremetal_core_virtual_network.t.id}"
+	  vcn_id = "${oci_core_virtual_network.t.id}"
 	  display_name = "display_name"
 	  options {
 	    type = "DomainNameServer"
@@ -112,21 +112,21 @@ func (s *ResourceCoreDHCPOptionsTestSuite) TestCreateResourceCoreDHCPOptions() {
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
 
-					resource.TestCheckResourceAttr("baremetal_core_dhcp_options.opt1", "display_name", "display_name"),
+					resource.TestCheckResourceAttr("oci_core_dhcp_options.opt1", "display_name", "display_name"),
 
-					resource.TestCheckResourceAttr("baremetal_core_dhcp_options.opt1", "options.0.type", "DomainNameServer"),
-					resource.TestCheckResourceAttr("baremetal_core_dhcp_options.opt1", "options.0.server_type", "VcnLocalPlusInternet"),
+					resource.TestCheckResourceAttr("oci_core_dhcp_options.opt1", "options.0.type", "DomainNameServer"),
+					resource.TestCheckResourceAttr("oci_core_dhcp_options.opt1", "options.0.server_type", "VcnLocalPlusInternet"),
 
-					resource.TestCheckResourceAttr("baremetal_core_dhcp_options.opt2", "options.0.type", "DomainNameServer"),
-					resource.TestCheckResourceAttr("baremetal_core_dhcp_options.opt2", "options.0.server_type", "VcnLocalPlusInternet"),
-					resource.TestCheckResourceAttr("baremetal_core_dhcp_options.opt2", "options.1.type", "SearchDomain"),
+					resource.TestCheckResourceAttr("oci_core_dhcp_options.opt2", "options.0.type", "DomainNameServer"),
+					resource.TestCheckResourceAttr("oci_core_dhcp_options.opt2", "options.0.server_type", "VcnLocalPlusInternet"),
+					resource.TestCheckResourceAttr("oci_core_dhcp_options.opt2", "options.1.type", "SearchDomain"),
 
-					resource.TestCheckResourceAttr("baremetal_core_dhcp_options.opt3", "options.0.type", "DomainNameServer"),
-					resource.TestCheckResourceAttr("baremetal_core_dhcp_options.opt3", "options.0.server_type", "CustomDnsServer"),
+					resource.TestCheckResourceAttr("oci_core_dhcp_options.opt3", "options.0.type", "DomainNameServer"),
+					resource.TestCheckResourceAttr("oci_core_dhcp_options.opt3", "options.0.server_type", "CustomDnsServer"),
 
-					resource.TestCheckResourceAttr("baremetal_core_dhcp_options.opt4", "options.0.type", "DomainNameServer"),
-					resource.TestCheckResourceAttr("baremetal_core_dhcp_options.opt4", "options.0.server_type", "CustomDnsServer"),
-					resource.TestCheckResourceAttr("baremetal_core_dhcp_options.opt4", "options.1.type", "SearchDomain"),
+					resource.TestCheckResourceAttr("oci_core_dhcp_options.opt4", "options.0.type", "DomainNameServer"),
+					resource.TestCheckResourceAttr("oci_core_dhcp_options.opt4", "options.0.server_type", "CustomDnsServer"),
+					resource.TestCheckResourceAttr("oci_core_dhcp_options.opt4", "options.1.type", "SearchDomain"),
 				),
 			},
 		},

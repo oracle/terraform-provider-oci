@@ -8,7 +8,7 @@ variable "fingerprint" {}
 variable "private_key_path" {}
 variable "compartment_ocid" {}
 
-provider "baremetal" {
+provider "oci" {
   region = "us-phoenix-1"
   alias = "phx"
   tenancy_ocid = "${var.tenancy_ocid}"
@@ -17,7 +17,7 @@ provider "baremetal" {
   private_key_path = "${var.private_key_path}"
 }
 
-provider "baremetal" {
+provider "oci" {
   region = "us-ashburn-1"
   alias = "iad"
   tenancy_ocid = "${var.tenancy_ocid}"
@@ -26,21 +26,21 @@ provider "baremetal" {
   private_key_path = "${var.private_key_path}"
 }
 
-data "baremetal_identity_availability_domains" "ad-phx" {
+data "oci_identity_availability_domains" "ad-phx" {
   compartment_id = "${var.tenancy_ocid}"
-  provider = "baremetal.phx"
+  provider = "oci.phx"
 }
 
-data "baremetal_identity_availability_domains" "ad-iad" {
+data "oci_identity_availability_domains" "ad-iad" {
   compartment_id = "${var.tenancy_ocid}"
-  provider = "baremetal.iad"
+  provider = "oci.iad"
 }
 
 
 output "ad-phx" {
-  value = ["${data.baremetal_identity_availability_domains.ad-phx.availability_domains}"]
+  value = ["${data.oci_identity_availability_domains.ad-phx.availability_domains}"]
 }
 
 output "ad-iad" {
-  value = ["${data.baremetal_identity_availability_domains.ad-iad.availability_domains}"]
+  value = ["${data.oci_identity_availability_domains.ad-iad.availability_domains}"]
 }

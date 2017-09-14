@@ -155,6 +155,7 @@ const (
 	resourceInstances                resourceName = "instances"
 	resourceInternetGateways         resourceName = "internetGateways"
 	resourceIPSecConnections         resourceName = "ipsecConnections"
+	resourcePrivateIPs               resourceName = "privateIps"
 	resourceRouteTables              resourceName = "routeTables"
 	resourceSecurityLists            resourceName = "securityLists"
 	resourceShapes                   resourceName = "shapes"

@@ -20,7 +20,7 @@ variable "region" {}
 variable "bucket_name" {}
 variable "object_name" {}
 
-provider "baremetal" {
+provider "oci" {
   tenancy_ocid = "${var.tenancy_ocid}"
   user_ocid = "${var.user_ocid}"
   fingerprint = "${var.fingerprint}"
@@ -29,7 +29,7 @@ provider "baremetal" {
 }
 
 
-resource "baremetal_objectstorage_preauthrequest" "parOnBucket" {
+resource "oci_objectstorage_preauthrequest" "parOnBucket" {
   namespace = "${var.namespace_name}"
   bucket = "${var.bucket_name}"
   name = "parOnBucket"
@@ -37,7 +37,7 @@ resource "baremetal_objectstorage_preauthrequest" "parOnBucket" {
   time_expires = "2019-11-10T23:00:00Z"
 }
 
-resource "baremetal_objectstorage_preauthrequest" "parOnObject" {
+resource "oci_objectstorage_preauthrequest" "parOnObject" {
   namespace = "${var.namespace_name}"
   bucket = "${var.bucket_name}"
   object = "${var.object_name}"
@@ -47,9 +47,9 @@ resource "baremetal_objectstorage_preauthrequest" "parOnObject" {
 }
 
 output "par_request_url" {
-  value = "${baremetal_objectstorage_preauthrequest.parOnObject.access_uri}"
+  value = "${oci_objectstorage_preauthrequest.parOnObject.access_uri}"
 }
 
 output "par_request_name" {
-  value = "${baremetal_objectstorage_preauthrequest.parOnObject.name}"
+  value = "${oci_objectstorage_preauthrequest.parOnObject.name}"
 }

@@ -1,11 +1,11 @@
-# baremetal\_identity\_compartments
+# oci\_identity\_compartments
 
 Lists compartments
 
 ## Example Usage
 
 ```
-data "baremetal_identity_compartments" "t" {
+data "oci_identity_compartments" "t" {
   compartment_id = "compartment"
 }
 ```

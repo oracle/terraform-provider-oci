@@ -1,11 +1,11 @@
-# baremetal\_database\_db\_nodes
+# oci\_database\_db\_nodes
 
 Gets a list of database nodes in the specified DB System and compartment.
 
 ## Example Usage
 
 ```
-data "baremetal_database_db_nodes" "t" {
+data "oci_database_db_nodes" "t" {
   compartment_id = "compartment_id"
   db_system_id = "db_system_id"
   limit = 1

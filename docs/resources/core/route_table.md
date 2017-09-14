@@ -1,11 +1,11 @@
-# baremetal\_core\_route\_tables
+# oci\_core\_route\_tables
 
 Provide a route table resource.
 
 ## Example Usage
 
 ```
-resource "baremetal_core_route_table" "t" {
+resource "oci_core_route_table" "t" {
     compartment_id = "compartment_id"
     display_name = "display_name"
     route_rules {

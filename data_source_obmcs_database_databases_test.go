@@ -27,7 +27,7 @@ func (s *DatabaseDatabasesTestSuite) SetupTest() {
 	})
 
 	s.Providers = map[string]terraform.ResourceProvider{
-		"baremetal": s.Provider,
+		"oci": s.Provider,
 	}
 	s.Config = databaseConfig
 
@@ -46,32 +46,32 @@ func (s *DatabaseDatabasesTestSuite) TestReadDatabases() {
 			},
 			{
 				Config: s.Config + `
-				data "baremetal_database_db_systems" "t" {
+				data "oci_database_db_systems" "t" {
 				  compartment_id = "${var.compartment_id}"
 				}
-				data "baremetal_database_db_homes" "t" {
+				data "oci_database_db_homes" "t" {
 				  compartment_id = "${var.compartment_id}"
-				  db_system_id = "${baremetal_database_db_system.t.id}"
+				  db_system_id = "${oci_database_db_system.t.id}"
 				}
-			        data "baremetal_database_databases" "t" {
+			        data "oci_database_databases" "t" {
 				      compartment_id = "${var.compartment_id}"
-				      db_home_id = "${data.baremetal_database_db_homes.t.id}"
+				      db_home_id = "${data.oci_database_db_homes.t.id}"
 				}
-				data "baremetal_database_database" "t" {
-				      database_id = "${data.baremetal_database_databases.t.databases.0.id}"
+				data "oci_database_database" "t" {
+				      database_id = "${data.oci_database_databases.t.databases.0.id}"
 				}
-			        data "baremetal_database_db_nodes" "t" {
+			        data "oci_database_db_nodes" "t" {
 				      compartment_id = "${var.compartment_id}"
-				      db_system_id = "${baremetal_database_db_system.t.id}"
+				      db_system_id = "${oci_database_db_system.t.id}"
 			        }
 				`,
 				Check: resource.ComposeTestCheckFunc(
 
-					resource.TestCheckResourceAttrSet("data.baremetal_database_db_systems.t", "db_systems.#"),
-					resource.TestCheckResourceAttrSet("data.baremetal_database_db_homes.t", "db_homes.#"),
-					resource.TestCheckResourceAttrSet("data.baremetal_database_databases.t", "databases.#"),
-					resource.TestCheckResourceAttrSet("data.baremetal_database_db_nodes.t", "db_nodes.#"),
-					resource.TestCheckResourceAttrSet("data.baremetal_database_database.t", "id"),
+					resource.TestCheckResourceAttrSet("data.oci_database_db_systems.t", "db_systems.#"),
+					resource.TestCheckResourceAttrSet("data.oci_database_db_homes.t", "db_homes.#"),
+					resource.TestCheckResourceAttrSet("data.oci_database_databases.t", "databases.#"),
+					resource.TestCheckResourceAttrSet("data.oci_database_db_nodes.t", "db_nodes.#"),
+					resource.TestCheckResourceAttrSet("data.oci_database_database.t", "id"),
 				),
 			},
 		},

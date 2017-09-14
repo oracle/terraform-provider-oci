@@ -35,18 +35,18 @@ func (s *DatasourceObjectstorageNamespaceTestSuite) SetupTest() {
 	)
 
 	s.Providers = map[string]terraform.ResourceProvider{
-		"baremetal": s.Provider,
+		"oci": s.Provider,
 	}
 
 	s.TimeCreated = baremetal.Time{Time: time.Now()}
 
 	s.Config = `
-		data "baremetal_objectstorage_namespace" "t" {}
+		data "oci_objectstorage_namespace" "t" {}
 	`
 
 	s.Config += testProviderConfig()
 
-	s.ResourceName = "baremetal_objectstorage_namespace.t"
+	s.ResourceName = "oci_objectstorage_namespace.t"
 	namespace := baremetal.Namespace("namespaceID")
 	s.Res = &namespace
 }

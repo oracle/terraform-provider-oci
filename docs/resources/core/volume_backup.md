@@ -1,11 +1,11 @@
-# baremetal\_core\_volume\_backups
+# oci\_core\_volume\_backups
 
 Gets a list of volume backups in a compartment.
 
 ## Example Usage
 
 ```
-resource "baremetal_core_volume_backup" "t" {
+resource "oci_core_volume_backup" "t" {
     volume_id = "volume_id"
     display_name = "display_name"
 }

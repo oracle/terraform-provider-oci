@@ -1,11 +1,11 @@
-# baremetal\_database\_db\_node
+# oci\_database\_db\_node
 
 Gets information about the specified database node.
 
 ## Example Usage
 
 ```
-data "baremetal_database_db_node" "t" {
+data "oci_database_db_node" "t" {
   db_node_id = "id"
 }
 ```

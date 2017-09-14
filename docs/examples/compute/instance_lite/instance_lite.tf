@@ -12,7 +12,7 @@ variable "region" {}
 variable "subnet" {}
 
 
-provider "baremetal" {
+provider "oci" {
   tenancy_ocid = "${var.tenancy_ocid}"
   user_ocid = "${var.user_ocid}"
   fingerprint = "${var.fingerprint}"
@@ -20,24 +20,24 @@ provider "baremetal" {
   region = "${var.region}"
 }
 
-data "baremetal_identity_availability_domains" "ADs" {
+data "oci_identity_availability_domains" "ADs" {
     compartment_id = "${var.tenancy_ocid}"
 }
 
 
 /* Instances */
 
-data "baremetal_core_images" "image-list" {
+data "oci_core_images" "image-list" {
   compartment_id = "${var.compartment_ocid}"
   operating_system = "Oracle Linux"
   operating_system_version = "7.3"
 }
 
-resource "baremetal_core_instance" "instance1" {
-  availability_domain = "${lookup(data.baremetal_identity_availability_domains.ADs.availability_domains[0],"name")}" 
+resource "oci_core_instance" "instance1" {
+  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[0],"name")}"
   compartment_id = "${var.compartment_ocid}"
   display_name = "be-instance1"
-  image = "${lookup(data.baremetal_core_images.image-list.images[0], "id")}"
+  image = "${lookup(data.oci_core_images.image-list.images[0], "id")}"
   shape = "VM.Standard1.1"
   metadata = {}
 
@@ -51,5 +51,5 @@ resource "baremetal_core_instance" "instance1" {
 
 
 output "InstancePublicIP" {
-  value = ["${baremetal_core_instance.instance1.public_ip}"]
+  value = ["${oci_core_instance.instance1.public_ip}"]
 }

@@ -34,22 +34,22 @@ func (s *ResourceIdentityCompartmentTestSuite) SetupTest() {
 
 	s.Provider = Provider(configfn)
 	p := s.Provider.(*schema.Provider)
-	res := p.ResourcesMap["baremetal_identity_compartment"]
+	res := p.ResourcesMap["oci_identity_compartment"]
 	res.Delete = func(d *schema.ResourceData, m interface{}) (e error) {
 		return nil
 	}
 	s.Providers = map[string]terraform.ResourceProvider{
-		"baremetal": s.Provider,
+		"oci": s.Provider,
 	}
 	s.TimeCreated, _ = time.Parse("2006-Jan-02", "2006-Jan-02")
 	s.Config = `
-		resource "baremetal_identity_compartment" "t" {
+		resource "oci_identity_compartment" "t" {
 			name = "test-compartment"
 			description = "automated test compartment"
 		}
 	`
 	s.Config += testProviderConfig()
-	s.ResourceName = "baremetal_identity_compartment.t"
+	s.ResourceName = "oci_identity_compartment.t"
 	s.Res = &baremetal.Compartment{
 		ID:            "id!",
 		Name:          "test-compartment",

@@ -37,13 +37,13 @@ func (s *ResourceObjectstorageBucketTestSuite) SetupTest() {
 	)
 
 	s.Providers = map[string]terraform.ResourceProvider{
-		"baremetal": s.Provider,
+		"oci": s.Provider,
 	}
 
 	s.TimeCreated = baremetal.Time{Time: time.Now()}
 
 	s.Config = `
-		resource "baremetal_objectstorage_bucket" "t" {
+		resource "oci_objectstorage_bucket" "t" {
 			compartment_id = "${var.compartment_id}"
 			name = "name"
 			namespace = "${var.namespace}"
@@ -55,7 +55,7 @@ func (s *ResourceObjectstorageBucketTestSuite) SetupTest() {
 
 	s.Config += testProviderConfig()
 
-	s.ResourceName = "baremetal_objectstorage_bucket.t"
+	s.ResourceName = "oci_objectstorage_bucket.t"
 	metadata := map[string]string{
 		"foo": "bar",
 	}

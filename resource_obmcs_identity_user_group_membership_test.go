@@ -28,26 +28,26 @@ func (s *ResourceIdentityUserGroupMembershipTestSuite) SetupTest() {
 	})
 
 	s.Providers = map[string]terraform.ResourceProvider{
-		"baremetal": s.Provider,
+		"oci": s.Provider,
 	}
 
 	s.Config = `
-	resource "baremetal_identity_user" "u" {
+    resource "oci_identity_user" "u" {
 		name = "-tf-user"
 		description = "automated test user"
-	}
-	resource "baremetal_identity_group" "g" {
+    }
+    resource "oci_identity_group" "g" {
 		name = "-tf-group"
 		description = "automated test group"
-	}
-	resource "baremetal_identity_user_group_membership" "ug_membership" {
-		compartment_id = "${var.tenancy_ocid}"
-		user_id = "${baremetal_identity_user.u.id}"
-		group_id = "${baremetal_identity_group.g.id}"
-	}
+    }
+    resource "oci_identity_user_group_membership" "ug_membership" {
+    	compartment_id = "${var.tenancy_ocid}"
+		user_id = "${oci_identity_user.u.id}"
+		group_id = "${oci_identity_group.g.id}"
+    }
   `
 	s.Config += testProviderConfig()
-	s.ResourceName = "baremetal_identity_user_group_membership.ug_membership"
+	s.ResourceName = "oci_identity_user_group_membership.ug_membership"
 }
 
 func (s *ResourceIdentityUserGroupMembershipTestSuite) TestGetUserGroupMembershipsByGroup() {
@@ -66,7 +66,7 @@ func (s *ResourceIdentityUserGroupMembershipTestSuite) TestGetUserGroupMembershi
 			{
 				Config: s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet("baremetal_identity_user_group_membership.ug_membership", "user_id"),
+					resource.TestCheckResourceAttrSet("oci_identity_user_group_membership.ug_membership", "user_id"),
 				),
 			},
 		},

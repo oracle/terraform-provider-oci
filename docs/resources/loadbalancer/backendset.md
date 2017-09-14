@@ -1,11 +1,11 @@
-# baremetal\_load\_balancer\_backendset
+# oci\_load\_balancer\_backendset
 
 Provide a load balancer backend set resource.
 
 ## Example Usage
 
 ```
-resource "baremetal_load_balancer_backendset" "t" {
+resource "oci_load_balancer_backendset" "t" {
   load_balancer_id = "ocid1.loadbalancer.stub_id"
   name             = "stub_backendset_name"
   policy           = "stub_policy"

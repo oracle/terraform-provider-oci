@@ -6,7 +6,7 @@ import (
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/oracle/terraform-provider-baremetal/crud"
+	"github.com/oracle/terraform-provider-oci/crud"
 )
 
 func VolumeResource() *schema.Resource {
@@ -34,6 +34,7 @@ func VolumeResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Optional: true,
 				ForceNew: true,
+				Computed: true,
 			},
 			"display_name": {
 				Type:     schema.TypeString,
@@ -103,7 +104,7 @@ func (s *VolumeResourceCrud) ID() string {
 }
 
 func (s *VolumeResourceCrud) CreatedPending() []string {
-	return []string{baremetal.ResourceProvisioning}
+	return []string{baremetal.ResourceProvisioning, baremetal.ResourceRestoring}
 }
 
 func (s *VolumeResourceCrud) CreatedTarget() []string {

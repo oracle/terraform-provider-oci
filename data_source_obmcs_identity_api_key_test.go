@@ -31,15 +31,15 @@ func (s *DatasourceIdentityAPIKeysTestSuite) SetupTest() {
 	})
 
 	s.Providers = map[string]terraform.ResourceProvider{
-		"baremetal": s.Provider,
+		"oci": s.Provider,
 	}
 	s.Config = `
-	resource "baremetal_identity_user" "t" {
+	resource "oci_identity_user" "t" {
 			name = "-tf-test"
 			description = "automated test user"
 		}
-		resource "baremetal_identity_api_key" "t" {
-			user_id = "${baremetal_identity_user.t.id}"
+		resource "oci_identity_api_key" "t" {
+			user_id = "${oci_identity_user.t.id}"
 			key_value = <<EOF
 -----BEGIN PUBLIC KEY-----
 MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtBLQAGmKJ7tpfzYJyqLG
@@ -55,7 +55,7 @@ EOF
 
   `
 	s.Config += testProviderConfig()
-	s.ResourceName = "data.baremetal_identity_api_keys.t"
+	s.ResourceName = "data.oci_identity_api_keys.t"
 
 	b1 := baremetal.APIKey{
 		Fingerprint: "fingerprint",
@@ -87,8 +87,8 @@ func (s *DatasourceIdentityAPIKeysTestSuite) TestReadAPIKeys() {
 			},
 			{
 				Config: s.Config + `
-				    data "baremetal_identity_api_keys" "t" {
-				      user_id = "${baremetal_identity_user.t.id}"
+				    data "oci_identity_api_keys" "t" {
+				      user_id = "${oci_identity_user.t.id}"
 				    }`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "api_keys.0.id"),

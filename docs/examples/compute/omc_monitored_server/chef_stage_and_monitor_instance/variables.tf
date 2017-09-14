@@ -1,4 +1,4 @@
-#BMC Provider Configuration
+#OCI Provider Configuration
 variable "tenancy_ocid" {}
 variable "user_ocid" {}
 variable "fingerprint" {}
@@ -23,11 +23,11 @@ variable "ad" {
 }
 
 variable "shape_name" {
-  description = "BMC server shape common name, find valid values in the BMC console drop down"
+  description = "OCI server shape common name, find valid values in the OCI console drop down"
 }
 
 variable "image_name" {
-  description = "BMC server image common name, find valid values in the BMC console drop down"
+  description = "OCI server image common name, find valid values in the OCI console drop down"
   default = "Oracle-Linux-7.3-2017.05.23-0"
 }
 

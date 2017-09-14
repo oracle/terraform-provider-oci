@@ -36,35 +36,35 @@ func (s *ResourceCoreRouteTableTestSuite) SetupTest() {
 	)
 
 	s.Providers = map[string]terraform.ResourceProvider{
-		"baremetal": s.Provider,
+		"oci": s.Provider,
 	}
 
 	s.TimeCreated = baremetal.Time{Time: time.Now()}
 
 	s.Config = `
-resource "baremetal_core_virtual_network" "t" {
+resource "oci_core_virtual_network" "t" {
 	cidr_block = "10.0.0.0/16"
 	compartment_id = "${var.compartment_id}"
 	display_name = "display_name"
 }
-resource "baremetal_core_internet_gateway" "CompleteIG" {
+resource "oci_core_internet_gateway" "CompleteIG" {
     compartment_id = "${var.compartment_id}"
     display_name = "CompleteIG"
-    vcn_id = "${baremetal_core_virtual_network.t.id}"
+    vcn_id = "${oci_core_virtual_network.t.id}"
 }
-resource "baremetal_core_route_table" "t" {
+resource "oci_core_route_table" "t" {
 	compartment_id = "${var.compartment_id}"
 	display_name = "display_name"
 	route_rules {
 		cidr_block = "0.0.0.0/0"
-		network_entity_id = "${baremetal_core_internet_gateway.CompleteIG.id}"
+		network_entity_id = "${oci_core_internet_gateway.CompleteIG.id}"
 	}
-	vcn_id = "${baremetal_core_virtual_network.t.id}"
+	vcn_id = "${oci_core_virtual_network.t.id}"
 }
 	`
 	s.Config += testProviderConfig()
 
-	s.ResourceName = "baremetal_core_route_table.t"
+	s.ResourceName = "oci_core_route_table.t"
 
 }
 
@@ -90,7 +90,7 @@ func (s *ResourceCoreRouteTableTestSuite) TestCreateResourceCoreRouteTable() {
 
 func (s ResourceCoreRouteTableTestSuite) TestUpdateRouteTable() {
 	config := `
-		resource "baremetal_core_route_table" "t" {
+		resource "oci_core_route_table" "t" {
 			compartment_id = "${var.compartment_id}"
 			display_name = "display_name"
       route_rules {

@@ -1,12 +1,12 @@
 
-# baremetal\_core\_instances
+# oci\_core\_instances
 
 Gets a list of instances.
 
 ## Example Usage
 
 ```
-resource "baremetal_core_instance" "t" {
+resource "oci_core_instance" "t" {
     availability_domain = "availability_domain"
     compartment_id = "compartment_id"
     display_name = "display_name"

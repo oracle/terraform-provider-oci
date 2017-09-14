@@ -31,29 +31,29 @@ func (s *DatasourceIdentityPoliciesTestSuite) SetupTest() {
 	},
 	)
 	s.Providers = map[string]terraform.ResourceProvider{
-		"baremetal": s.Provider,
+		"oci": s.Provider,
 	}
 	s.TimeCreated, _ = time.Parse("2006-Jan-02", "2006-Jan-02")
 	s.Config = `
-	resource "baremetal_identity_compartment" "t" {
+	resource "oci_identity_compartment" "t" {
 		name = "test-compartment"
 		description = "automated test compartment"
 	}
 
-	resource "baremetal_identity_group" "t" {
+	resource "oci_identity_group" "t" {
 		name = "-tf-group"
 		description = "automated test group"
 	}
 
-	resource "baremetal_identity_policy" "p" {
+	resource "oci_identity_policy" "p" {
 		name = "-tf-policy"
 		description = "automated test policy"
-		compartment_id = "${baremetal_identity_compartment.t.id}"
-		statements = ["Allow group ${baremetal_identity_group.t.name} to read instances in compartment ${baremetal_identity_compartment.t.name}"]
+		compartment_id = "${oci_identity_compartment.t.id}"
+		statements = ["Allow group ${oci_identity_group.t.name} to read instances in compartment ${oci_identity_compartment.t.name}"]
 	}
 	`
 	s.Config += testProviderConfig()
-	s.PoliciesName = "data.baremetal_identity_policies.p"
+	s.PoliciesName = "data.oci_identity_policies.p"
 }
 
 func (s *DatasourceIdentityPoliciesTestSuite) TestListResourceIdentityPolicies() {
@@ -64,8 +64,8 @@ func (s *DatasourceIdentityPoliciesTestSuite) TestListResourceIdentityPolicies()
 				ImportState:       true,
 				ImportStateVerify: true,
 				Config: s.Config +
-					`	data "baremetal_identity_policies" "p" {
-							compartment_id = "${baremetal_identity_compartment.t.id}"
+					`	data "oci_identity_policies" "p" {
+							compartment_id = "${oci_identity_compartment.t.id}"
 						}`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.PoliciesName, "policies.#"),

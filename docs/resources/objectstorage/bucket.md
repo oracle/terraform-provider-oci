@@ -1,4 +1,4 @@
-# baremetal\_objectstorage\_bucket
+# oci\_objectstorage\_bucket
 
 Provides an Objectstorage resource.
 
@@ -7,7 +7,7 @@ Provides an Objectstorage resource.
 ### Bucket w/ Metadata
 
 ```
-resource "baremetal_objectstorage_bucket" "t" {
+resource "oci_objectstorage_bucket" "t" {
   compartment_id = "compartment_id"
   name = "name"
   access_type = "ObjectRead"

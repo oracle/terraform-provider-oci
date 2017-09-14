@@ -1,11 +1,11 @@
-# baremetal\_core\_route\_tables
+# oci\_core\_route\_tables
 
 Gets a list of route tables.
 
 ## Example Usage
 
 ```
-    data "baremetal_core_route_tables" "t" {
+    data "oci_core_route_tables" "t" {
       compartment_id = "compartment_id"
       vcn_id = "vcn_id"
     }

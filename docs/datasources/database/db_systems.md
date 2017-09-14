@@ -1,11 +1,11 @@
-# baremetal\_database\_db\_systems
+# oci\_database\_db\_systems
 
 Gets a list of the DB Systems in the specified compartment.
 
 ## Example Usage
 
 ```
-data "baremetal_database_db_systems" "t" {
+data "oci_database_db_systems" "t" {
   compartment_id = "compartmentid"
   limit = 1
   page = "page"

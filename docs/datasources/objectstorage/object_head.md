@@ -1,4 +1,4 @@
-# baremetal\_objectstorage\_object_head
+# oci\_objectstorage\_object_head
 
 Provides an Objectstorage datasource for fetching an objects metadata.
 
@@ -7,7 +7,7 @@ Provides an Objectstorage datasource for fetching an objects metadata.
 ### Object Metadata
 
 ```
-data "baremetal_objectstorage_object_head" "t" {
+data "oci_objectstorage_object_head" "t" {
      namespace = "namespaceID"
      bucket = "bucketID"
      object = "objectID"

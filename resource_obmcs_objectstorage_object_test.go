@@ -35,13 +35,13 @@ func (s *ResourceObjectstorageObjectTestSuite) SetupTest() {
 	)
 
 	s.Providers = map[string]terraform.ResourceProvider{
-		"baremetal": s.Provider,
+		"oci": s.Provider,
 	}
 
 	s.TimeCreated = baremetal.Time{Time: time.Now()}
 
 	s.Config = `
-		resource "baremetal_objectstorage_bucket" "t" {
+		resource "oci_objectstorage_bucket" "t" {
 			compartment_id = "${var.compartment_id}"
 			name = "bucketID"
 			access_type="ObjectRead"
@@ -51,9 +51,9 @@ func (s *ResourceObjectstorageObjectTestSuite) SetupTest() {
 			}
 		}
 
-		resource "baremetal_objectstorage_object" "t" {
+		resource "oci_objectstorage_object" "t" {
 			namespace = "${var.namespace}"
-			bucket = "${baremetal_objectstorage_bucket.t.name}"
+			bucket = "${oci_objectstorage_bucket.t.name}"
 			object = "objectID"
 			content = "bodyContent"
 			metadata = {
@@ -64,7 +64,7 @@ func (s *ResourceObjectstorageObjectTestSuite) SetupTest() {
 
 	s.Config += testProviderConfig()
 
-	s.ResourceName = "baremetal_objectstorage_object.t"
+	s.ResourceName = "oci_objectstorage_object.t"
 
 }
 
@@ -88,7 +88,7 @@ func (s *ResourceObjectstorageObjectTestSuite) TestCreateResourceObjectstorageOb
 func (s *ResourceObjectstorageObjectTestSuite) TestUpdateResourceObjectstorageObject() {
 
 	config := `
-		resource "baremetal_objectstorage_bucket" "t" {
+		resource "oci_objectstorage_bucket" "t" {
 			compartment_id = "${var.compartment_id}"
 			name = "bucketID"
 			namespace = "${var.namespace}"
@@ -97,9 +97,9 @@ func (s *ResourceObjectstorageObjectTestSuite) TestUpdateResourceObjectstorageOb
 			}
 		}
 
-		resource "baremetal_objectstorage_object" "t" {
+		resource "oci_objectstorage_object" "t" {
 			object = "objectID"
-			bucket = "${baremetal_objectstorage_bucket.t.name}"
+			bucket = "${oci_objectstorage_bucket.t.name}"
 			namespace = "${var.namespace}"
 			content = "bodyContent2"
 			metadata = {

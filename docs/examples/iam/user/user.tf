@@ -5,7 +5,7 @@ variable "private_key_path" {}
 variable "compartment_ocid" {}
 variable "region" {}
 
-provider "baremetal" {
+provider "oci" {
   tenancy_ocid = "${var.tenancy_ocid}"
   user_ocid = "${var.user_ocid}"
   fingerprint = "${var.fingerprint}"
@@ -13,16 +13,16 @@ provider "baremetal" {
   region = "${var.region}"
 }
 
-resource "baremetal_identity_user" "user1" {
+resource "oci_identity_user" "user1" {
   name = "user1"
   description = "A user managed with Terraform"
 }
 
-resource "baremetal_identity_ui_password" "tf_password" {
-  user_id = "${baremetal_identity_user.user1.id}"
+resource "oci_identity_ui_password" "tf_password" {
+  user_id = "${oci_identity_user.user1.id}"
 }
 
 output "UserUIPassword" {
   sensitive = false
-  value = ["${baremetal_identity_ui_password.tf_password.password}"]
+  value = ["${oci_identity_ui_password.tf_password.password}"]
 }

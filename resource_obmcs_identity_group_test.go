@@ -33,17 +33,17 @@ func (s *ResourceIdentityGroupTestSuite) SetupTest() {
 	})
 
 	s.Providers = map[string]terraform.ResourceProvider{
-		"baremetal": s.Provider,
+		"oci": s.Provider,
 	}
 	s.TimeCreated, _ = time.Parse("2006-Jan-02", "2006-Jan-02")
 	s.Config = testProviderConfig() + `
-		resource "baremetal_identity_group" "t" {
+		resource "oci_identity_group" "t" {
 			name = "-tf-group"
 			description = "automated test group"
 		}
 	`
 
-	s.ResourceName = "baremetal_identity_group.t"
+	s.ResourceName = "oci_identity_group.t"
 }
 
 func (s *ResourceIdentityGroupTestSuite) TestCreateResourceIdentityGroup() {
@@ -65,7 +65,7 @@ func (s *ResourceIdentityGroupTestSuite) TestCreateResourceIdentityGroup() {
 			},
 			{
 				Config: testProviderConfig() + `
-					resource "baremetal_identity_group" "t" {
+					resource "oci_identity_group" "t" {
 						name = "-tf-group"
 						description = "automated test group (updated)"
 					}

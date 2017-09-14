@@ -15,12 +15,13 @@ import (
 
 func testProviderConfig() string {
 	return `
-	provider "baremetal" {
+	provider "oci" {
 		tenancy_ocid = "ocid.tenancy.aaaa"
 		user_ocid = "ocid.user.bbbbb"
 		fingerprint = "xxxxxxxxxx"
 		private_key_path = "/home/foo/private_key.pem"
 		private_key_password = "password"
+		region = "us-phoenix-1"
 	}
 
 	variable "compartment_id" {
@@ -42,58 +43,58 @@ func testProviderConfig() string {
 }
 
 var subnetConfig = `
-data "baremetal_identity_availability_domains" "ADs" {
+data "oci_identity_availability_domains" "ADs" {
   compartment_id = "${var.compartment_id}"
 }
 
-resource "baremetal_core_virtual_network" "t" {
+resource "oci_core_virtual_network" "t" {
 	cidr_block = "10.0.0.0/16"
 	compartment_id = "${var.compartment_id}"
 	display_name = "network_name"
 }
 
-resource "baremetal_core_subnet" "WebSubnetAD1" {
-  availability_domain = "${lookup(data.baremetal_identity_availability_domains.ADs.availability_domains[0],"name")}"
+resource "oci_core_subnet" "WebSubnetAD1" {
+  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[0],"name")}"
   cidr_block          = "10.0.1.0/24"
   display_name        = "WebSubnetAD1"
   compartment_id      = "${var.compartment_id}"
-  vcn_id              = "${baremetal_core_virtual_network.t.id}"
-  route_table_id      = "${baremetal_core_virtual_network.t.default_route_table_id}"
-  security_list_ids = ["${baremetal_core_virtual_network.t.default_security_list_id}"]
-  dhcp_options_id     = "${baremetal_core_virtual_network.t.default_dhcp_options_id}"
+  vcn_id              = "${oci_core_virtual_network.t.id}"
+  route_table_id      = "${oci_core_virtual_network.t.default_route_table_id}"
+  security_list_ids = ["${oci_core_virtual_network.t.default_security_list_id}"]
+  dhcp_options_id     = "${oci_core_virtual_network.t.default_dhcp_options_id}"
 }
 
 `
 
 var instanceConfig = subnetConfig + `
-data "baremetal_core_images" "t" {
+data "oci_core_images" "t" {
 	compartment_id = "${var.compartment_id}"
   	operating_system = "Oracle Linux"
   	operating_system_version = "7.3"
   	limit = 1
 }
 
-data "baremetal_identity_policies" "policies" {
+data "oci_identity_policies" "policies" {
 	compartment_id = "${var.compartment_id}"
 }
 
-data "baremetal_load_balancer_protocols" "protocols" {
+data "oci_load_balancer_protocols" "protocols" {
 	compartment_id = "${var.compartment_id}"
 }
 
-data "baremetal_core_shape" "shapes" {
+data "oci_core_shape" "shapes" {
 	compartment_id = "${var.compartment_id}"
-	availability_domain = "${data.baremetal_identity_availability_domains.ADs.availability_domains.0.name}"
-	image_id = "${data.baremetal_core_images.t.images.0.id}"
+	availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+	image_id = "${data.oci_core_images.t.images.0.id}"
 }
 
-resource "baremetal_core_instance" "t" {
-	availability_domain = "${data.baremetal_identity_availability_domains.ADs.availability_domains.0.name}"
+resource "oci_core_instance" "t" {
+	availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
 	compartment_id = "${var.compartment_id}"
 	display_name = "TFAcceptanceTest"
-      	image = "${data.baremetal_core_images.t.images.0.id}"
+      	image = "${data.oci_core_images.t.images.0.id}"
       	shape = "VM.Standard1.1"
-      	subnet_id = "${baremetal_core_subnet.WebSubnetAD1.id}"
+      	subnet_id = "${oci_core_subnet.WebSubnetAD1.id}"
       	metadata {
         	ssh_authorized_keys = "${var.ssh_public_key}"
       	}
@@ -103,10 +104,68 @@ resource "baremetal_core_instance" "t" {
       	}
 }
 `
+var vnicConfig = instanceConfig + `
+data "oci_core_vnic_attachments" "vnics" {
+    compartment_id = "${var.compartment_id}"
+	availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+    instance_id = "${oci_core_instance.t.id}"
+}
+`
+
+var instanceDnsConfig = `
+data "oci_identity_availability_domains" "ADs" {
+  compartment_id = "${var.compartment_id}"
+}
+
+resource "oci_core_virtual_network" "t" {
+	cidr_block      = "10.0.0.0/16"
+	compartment_id  = "${var.compartment_id}"
+	display_name    = "-tf-vcn"
+	dns_label		= "testvcn"
+}
+
+resource "oci_core_subnet" "t" {
+  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[0],"name")}"
+  cidr_block          = "10.0.1.0/24"
+  display_name        = "-tf-subnet"
+  compartment_id      = "${var.compartment_id}"
+  vcn_id              = "${oci_core_virtual_network.t.id}"
+  route_table_id      = "${oci_core_virtual_network.t.default_route_table_id}"
+  security_list_ids = ["${oci_core_virtual_network.t.default_security_list_id}"]
+  dhcp_options_id     = "${oci_core_virtual_network.t.default_dhcp_options_id}"
+  dns_label			  = "testsubnet"
+}
+
+data "oci_core_images" "t" {
+	compartment_id = "${var.compartment_id}"
+  	operating_system = "Oracle Linux"
+  	operating_system_version = "7.3"
+  	limit = 1
+}
+
+resource "oci_core_instance" "t" {
+	availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+	compartment_id = "${var.compartment_id}"
+	display_name = "-tf-instance"
+	image = "${data.oci_core_images.t.images.0.id}"
+	shape = "VM.Standard1.8"
+	create_vnic_details {
+        subnet_id = "${oci_core_subnet.t.id}"
+        hostname_label = "testinstance"
+        display_name = "-tf-instance-vnic"
+  	}
+	metadata {
+		ssh_authorized_keys = "${var.ssh_public_key}"
+	}
+	timeouts {
+		create = "15m"
+	}
+}
+`
 
 var certificateConfig = `
-resource "baremetal_load_balancer_certificate" "t" {
-  load_balancer_id   = "${baremetal_load_balancer.t.id}"
+resource "oci_load_balancer_certificate" "t" {
+  load_balancer_id   = "${oci_load_balancer.t.id}"
   ca_certificate     = "-----BEGIN CERTIFICATE-----\nMIIBNzCB4gIJAKtwJkxUgNpzMA0GCSqGSIb3DQEBCwUAMCMxITAfBgNVBAoTGElu\ndGVybmV0IFdpZGdpdHMgUHR5IEx0ZDAeFw0xNzA0MTIyMTU3NTZaFw0xODA0MTIy\nMTU3NTZaMCMxITAfBgNVBAoTGEludGVybmV0IFdpZGdpdHMgUHR5IEx0ZDBcMA0G\nCSqGSIb3DQEBAQUAA0sAMEgCQQDlM8lz3BFJA6zBlsF63k9ajPVq3Q1WQoHQ3j35\n08DRKIfwqfV+CxL63W3dZrwL4TrjqorP5CQ36+I6OWALH2zVAgMBAAEwDQYJKoZI\nhvcNAQELBQADQQCEjHVQJoiiVpIIvDWF+4YDRReVuwzrvq2xduWw7CIsDWlYuGZT\nQKVY6tnTy2XpoUk0fqUvMB/M2HGQ1WqZGHs6\n-----END CERTIFICATE-----"
   certificate_name   = "stub_certificate_name"
   private_key        = "-----BEGIN RSA PRIVATE KEY-----\nMIIBOgIBAAJBAOUzyXPcEUkDrMGWwXreT1qM9WrdDVZCgdDePfnTwNEoh/Cp9X4L\nEvrdbd1mvAvhOuOqis/kJDfr4jo5YAsfbNUCAwEAAQJAJz8k4bfvJceBT2zXGIj0\noZa9d1z+qaSdwfwsNJkzzRyGkj/j8yv5FV7KNdSfsBbStlcuxUm4i9o5LXhIA+iQ\ngQIhAPzStAN8+Rz3dWKTjRWuCfy+Pwcmyjl3pkMPSiXzgSJlAiEA6BUZWHP0b542\nu8AizBT3b3xKr1AH2nkIx9OHq7F/QbECIHzqqpDypa8/QVuUZegpVrvvT/r7mn1s\nddS6cDtyJgLVAiEA1Z5OFQeuL2sekBRbMyP9WOW7zMBKakLL3TqL/3JCYxECIAkG\nl96uo1MjK/66X5zQXBG7F2DN2CbcYEz0r3c3vvfq\n-----END RSA PRIVATE KEY-----"
@@ -116,25 +175,25 @@ resource "baremetal_load_balancer_certificate" "t" {
 
 var loadbalancerConfig = subnetConfig + `
 
-resource "baremetal_core_subnet" "WebSubnetAD2" {
-  availability_domain = "${data.baremetal_identity_availability_domains.ADs.availability_domains.1.name}"
+resource "oci_core_subnet" "WebSubnetAD2" {
+  availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.1.name}"
   cidr_block = "10.0.2.0/24"
   display_name = "WebSubnetAD2"
   compartment_id = "${var.compartment_id}"
-  vcn_id = "${baremetal_core_virtual_network.t.id}"
-  route_table_id      = "${baremetal_core_virtual_network.t.default_route_table_id}"
-  security_list_ids = ["${baremetal_core_virtual_network.t.default_security_list_id}"]
-  dhcp_options_id     = "${baremetal_core_virtual_network.t.default_dhcp_options_id}"
+  vcn_id = "${oci_core_virtual_network.t.id}"
+  route_table_id      = "${oci_core_virtual_network.t.default_route_table_id}"
+  security_list_ids = ["${oci_core_virtual_network.t.default_security_list_id}"]
+  dhcp_options_id     = "${oci_core_virtual_network.t.default_dhcp_options_id}"
 }
 
-data "baremetal_load_balancer_shapes" "t" {
+data "oci_load_balancer_shapes" "t" {
   compartment_id = "${var.compartment_id}"
 }
-resource "baremetal_load_balancer" "t" {
-  shape          = "${data.baremetal_load_balancer_shapes.t.shapes.0.name}"
+resource "oci_load_balancer" "t" {
+  shape          = "${data.oci_load_balancer_shapes.t.shapes.0.name}"
   compartment_id = "${var.compartment_id}"
   display_name   = "lb_display_name"
-  subnet_ids     = ["${baremetal_core_subnet.WebSubnetAD1.id}", "${baremetal_core_subnet.WebSubnetAD2.id}"]
+  subnet_ids     = ["${oci_core_subnet.WebSubnetAD1.id}", "${oci_core_subnet.WebSubnetAD2.id}"]
 }
 `
 
@@ -180,8 +239,8 @@ variable "DBNodeHostName" {
     default = "myOracleDB"
 }
 
-	resource "baremetal_database_db_system" "t" {
-	  availability_domain = "${data.baremetal_identity_availability_domains.ADs.availability_domains.0.name}"
+	resource "oci_database_db_system" "t" {
+	  availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
 	  compartment_id = "${var.compartment_id}"
 	  cpu_core_count = "${var.CPUCoreCount}"
 	  database_edition = "${var.DBEdition}"
@@ -197,7 +256,7 @@ variable "DBNodeHostName" {
 	  }
 	  disk_redundancy = "NORMAL"
 	  shape = "${var.DBNodeShape}"
-	  subnet_id = "${baremetal_core_subnet.WebSubnetAD1.id}"
+	  subnet_id = "${oci_core_subnet.WebSubnetAD1.id}"
 	  ssh_public_keys = ["${var.ssh_public_key}"]
 	  display_name = "MyTFDatabaseNode0"
 	  domain = "${var.DBNodeDomainName}"

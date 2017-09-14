@@ -1,11 +1,11 @@
-# baremetal\_load\_balancer\_certificates
+# oci\_load\_balancer\_certificates
 
 Provide a list of load balancer certificates.
 
 ## Example Usage
 
 ```
-data "baremetal_load_balancer_certificates" "t" {
+data "oci_load_balancer_certificates" "t" {
   load_balancer_id   = "ocid1.loadbalancer.stub_id"
 }
 ```

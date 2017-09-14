@@ -8,6 +8,8 @@ import "time"
 //
 // See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/VnicAttachment/
 type VnicAttachment struct {
+	OPCRequestIDUnmarshaller
+	ETagUnmarshaller
 	AvailabilityDomain string    `json:"availabilityDomain"`
 	CompartmentID      string    `json:"compartmentId"`
 	DisplayName        string    `json:"displayName"`
@@ -16,6 +18,7 @@ type VnicAttachment struct {
 	State              string    `json:"lifecycleState"`
 	SubnetID           string    `json:"subnetId"`
 	TimeCreated        time.Time `json:"TimeCreated"`
+	VlanTag            int       `json:"vlanTag"`
 	VnicID             string    `json:"vnicId"`
 }
 
@@ -54,4 +57,69 @@ func (c *Client) ListVnicAttachments(compartmentID string, opts *ListVnicAttachm
 	res = &ListVnicAttachments{}
 	e = resp.unmarshal(res)
 	return
+}
+
+// GetVnicAttachment gets information about the specified VNIC attachment
+//
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/VnicAttachment/GetVnicAttachment
+func (c *Client) GetVnicAttachment(id string) (res *VnicAttachment, e error) {
+	details := &requestDetails{
+		ids:  urlParts{id},
+		name: resourceVnicAttachments,
+	}
+
+	var resp *response
+	if resp, e = c.coreApi.getRequest(details); e != nil {
+		return
+	}
+
+	res = &VnicAttachment{}
+	e = resp.unmarshal(res)
+	return
+}
+
+// AttachVnic will create a new VnicAttachment and Vnic.
+//
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/VnicAttachment/AttachVnic
+func (c *Client) AttachVnic(
+	instanceId string,
+	vnicOpts *CreateVnicOptions,
+	attachmentOpts *AttachVnicOptions,
+) (va *VnicAttachment, e error) {
+
+	required := struct {
+		InstanceId        string             `header:"-" json:"instanceId" url:"-"`
+		CreateVnicDetails *CreateVnicOptions `header:"-" json:"createVnicDetails" url:"-"`
+	}{
+		InstanceId:        instanceId,
+		CreateVnicDetails: vnicOpts,
+	}
+
+	details := &requestDetails{
+		name:     resourceVnicAttachments,
+		optional: attachmentOpts,
+		required: required,
+	}
+
+	var resp *response
+	if resp, e = c.coreApi.postRequest(details); e != nil {
+		return
+	}
+
+	va = &VnicAttachment{}
+	e = resp.unmarshal(va)
+	return
+}
+
+// DetachVnic detaches and deletes the specified secondary VNIC.
+//
+// See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/VnicAttachment/DetachVnic
+func (c *Client) DetachVnic(id string, opts *IfMatchOptions) (e error) {
+	details := &requestDetails{
+		ids:      urlParts{id},
+		name:     resourceVnicAttachments,
+		optional: opts,
+	}
+
+	return c.coreApi.deleteRequest(details)
 }

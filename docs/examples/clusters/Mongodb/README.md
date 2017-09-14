@@ -42,4 +42,4 @@ Defines the datasources used in the configuration
 Defines the outputs of the configuration
 
 #### `provider.tf`
-Specifies and passes authentication details to the OBMCS TF provider
+Specifies and passes authentication details to the OCI TF provider

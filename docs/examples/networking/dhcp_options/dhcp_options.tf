@@ -12,7 +12,7 @@ variable "region" {}
 variable "vcn_ocid" {}
 
 
-provider "baremetal" {
+provider "oci" {
   tenancy_ocid = "${var.tenancy_ocid}"
   user_ocid = "${var.user_ocid}"
   fingerprint = "${var.fingerprint}"
@@ -21,7 +21,7 @@ provider "baremetal" {
 }
 
 
-resource "baremetal_core_dhcp_options" "dhcp-options1" {
+resource "oci_core_dhcp_options" "dhcp-options1" {
   compartment_id = "${var.compartment_ocid}"
   vcn_id = "${var.vcn_ocid}"
   display_name = "dhcp-options1"
@@ -40,7 +40,7 @@ resource "baremetal_core_dhcp_options" "dhcp-options1" {
 }
 
 
-resource "baremetal_core_dhcp_options" "dhcp-options2" {
+resource "oci_core_dhcp_options" "dhcp-options2" {
   compartment_id = "${var.compartment_ocid}"
   vcn_id = "${var.vcn_ocid}"
   display_name = "dhcp-options2"

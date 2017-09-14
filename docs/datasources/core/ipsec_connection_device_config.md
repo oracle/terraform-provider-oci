@@ -1,11 +1,11 @@
-# baremetal\_core\_ipsec\_config
+# oci\_core\_ipsec\_config
 
 Gets a list of internet gateways.
 
 ## Example Usage
 
 ```
-data "baremetal_core_ipsec_config" "s" {
+data "oci_core_ipsec_config" "s" {
   ipsec_id = "ipsecid"
 }
 ```

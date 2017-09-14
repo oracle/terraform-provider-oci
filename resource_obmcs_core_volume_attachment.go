@@ -7,7 +7,7 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/helper/validation"
 
-	"github.com/oracle/terraform-provider-baremetal/crud"
+	"github.com/oracle/terraform-provider-oci/crud"
 )
 
 func VolumeAttachmentResource() *schema.Resource {

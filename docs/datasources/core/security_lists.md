@@ -1,11 +1,11 @@
-# baremetal\_core\_security\_lists
+# oci\_core\_security\_lists
 
 Gets a list of security lists
 
 ## Example Usage
 
 ```
-    data "baremetal_core_security_lists" "t" {
+    data "oci_core_security_lists" "t" {
       compartment_id = "compartment_id"
       limit = 1
       page = "page"

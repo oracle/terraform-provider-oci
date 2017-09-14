@@ -1,11 +1,11 @@
-# baremetal\_core\_shape
+# oci\_core\_shape
 
 Gets the list of shapes that can be used to launch an instance within the specified compartment.
 
 ## Example Usage
 
 ```
-data "baremetal_core_shape" "s" {
+data "oci_core_shape" "s" {
   compartment_id = "compartmentid"
   availability_domain = "availability_domain"
   image_id = "imageid"

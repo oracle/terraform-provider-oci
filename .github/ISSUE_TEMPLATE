@@ -7,12 +7,12 @@ $ terraform -v
 
 </details>
 
-### Baremetal Provider Version
+### OCI Provider Version
 
 <details>
 # Execute the plugin directly to get the version:
 
-$ \<path-to-plugin\>/terraform-provider-baremetal
+$ \<path-to-plugin\>/terraform-provider-oci
 
 </details>
 

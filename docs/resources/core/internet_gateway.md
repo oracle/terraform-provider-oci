@@ -1,11 +1,11 @@
-# baremetal\_core\_internet\_gateways
+# oci\_core\_internet\_gateways
 
 Gets a list of internet gateways.
 
 ## Example Usage
 
 ```
-resource "baremetal_core_internet_gateway" "t" {
+resource "oci_core_internet_gateway" "t" {
     compartment_id = "compartment_id"
     display_name = "display_name"
     vcn_id = "vcnid"

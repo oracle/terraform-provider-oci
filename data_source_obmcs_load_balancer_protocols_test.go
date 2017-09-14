@@ -13,13 +13,13 @@ import (
 func TestLoadBalancerProtocolsDatasource(t *testing.T) {
 	client := GetTestProvider()
 	providers := map[string]terraform.ResourceProvider{
-		"baremetal": Provider(func(d *schema.ResourceData) (interface{}, error) {
+		"oci": Provider(func(d *schema.ResourceData) (interface{}, error) {
 			return client, nil
 		}),
 	}
-	resourceName := "data.baremetal_load_balancer_protocols.t"
+	resourceName := "data.oci_load_balancer_protocols.t"
 	config := `
-data "baremetal_load_balancer_protocols" "t" {
+data "oci_load_balancer_protocols" "t" {
   compartment_id = "${var.compartment_id}"
 }
 `

@@ -5,7 +5,7 @@ variable "private_key_path" {}
 variable "compartment_ocid" {}
 variable "region" {}
 
-provider "baremetal" {
+provider "oci" {
   tenancy_ocid = "${var.tenancy_ocid}"
   user_ocid = "${var.user_ocid}"
   fingerprint = "${var.fingerprint}"
@@ -13,7 +13,7 @@ provider "baremetal" {
   region = "${var.region}"
 }
 
-resource "baremetal_core_virtual_network" "vcn1" {
+resource "oci_core_virtual_network" "vcn1" {
   cidr_block = "10.0.0.0/16"
   dns_label = "vnc1"
   compartment_id = "${var.compartment_ocid}"

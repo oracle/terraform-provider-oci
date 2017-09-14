@@ -1,14 +1,14 @@
-# baremetal\_identity\_user\_group\_membership
+# oci\_identity\_user\_group\_membership
 
 Provides a user group membership resource.
 
 ## Example Usage
 
 ```
-resource "baremetal_identity_user_group_membership" "t" {
+resource "oci_identity_user_group_membership" "t" {
 			compartment_id = "cid"
-            	user_id = "${baremetal_identity_user.u.id}"
-            	group_id = "${baremetal_identity_group.g.id}"
+            	user_id = "${oci_identity_user.u.id}"
+            	group_id = "${oci_identity_group.g.id}"
 		}
 ```
 

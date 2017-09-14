@@ -1,11 +1,11 @@
-# baremetal\_identity\_compartment
+# oci\_identity\_compartment
 
 Provides a compartment resource.
 
 ## Example Usage
 
 ```
-resource "baremetal_identity_compartment" "t" {
+resource "oci_identity_compartment" "t" {
     name = "name!"
     description = "desc!"
 }

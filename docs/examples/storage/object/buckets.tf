@@ -1,4 +1,4 @@
-resource "baremetal_objectstorage_bucket" "t" {
+resource "oci_objectstorage_bucket" "t" {
   compartment_id = "${var.compartment_ocid}"
   name = "BucketOne"
   access_type = "ObjectRead" // or NoPublicAccess
@@ -8,7 +8,7 @@ resource "baremetal_objectstorage_bucket" "t" {
   }
 }
 
-resource "baremetal_objectstorage_bucket" "t_private" {
+resource "oci_objectstorage_bucket" "t_private" {
   compartment_id = "${var.compartment_ocid}"
   name = "PrivateBucket"
   //defaults to NoPublicAccess

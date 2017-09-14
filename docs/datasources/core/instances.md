@@ -1,12 +1,12 @@
 
-# baremetal\_core\_instances
+# oci\_core\_instances
 
 Gets a list of instances.
 
 ## Example Usage
 
 ```
-data "baremetal_core_instances" "s" {
+data "oci_core_instances" "s" {
   compartment_id = "compartmentid"
   availability_domain = "availabilityid"
 }

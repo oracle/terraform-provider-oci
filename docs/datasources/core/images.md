@@ -1,11 +1,11 @@
-# baremetal\_core\_images
+# oci\_core\_images
 
 Gets a list of images.
 
 ## Example Usage
 
 ```
-data "baremetal_core_images" "t" {
+data "oci_core_images" "t" {
   compartment_id = "compartment_id"
   limit = 1
   page = "page"

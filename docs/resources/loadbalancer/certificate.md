@@ -1,11 +1,11 @@
-# baremetal\_load\_balancer\_certificate
+# oci\_load\_balancer\_certificate
 
 Provide a load balancer certificate set resource.
 
 ## Example Usage
 
 ```
-resource "baremetal_load_balancer_certificate" "t" {
+resource "oci_load_balancer_certificate" "t" {
   load_balancer_id   = "ocid1.loadbalancer.stub_id"
   ca_certificate     = "stub_ca_certificate"
   certificate_name   = "stub_certificate_name"

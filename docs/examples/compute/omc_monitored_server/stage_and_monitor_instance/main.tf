@@ -1,4 +1,4 @@
-module "bmc_resources" {
+module "oci_resources" {
   source = "../modules/datasources"
   tenancy_ocid = "${var.tenancy_ocid}"
 }
@@ -10,11 +10,11 @@ data "template_file" "omc_cloudinit_script" {
   }
 }
 
-resource "baremetal_core_instance" "omc_managed_instance" {
-  availability_domain = "${lookup(module.bmc_resources.ads[var.ad - 1],"name")}"
-  compartment_id = "${lookup(module.bmc_resources.compartments, var.compartment_name)}"
+resource "oci_core_instance" "omc_managed_instance" {
+  availability_domain = "${lookup(module.oci_resources.ads[var.ad - 1],"name")}"
+  compartment_id = "${lookup(module.oci_resources.compartments, var.compartment_name)}"
   display_name = "${var.server_display_name}"
-  image = "${lookup(module.bmc_resources.images, var.image_name)}"
+  image = "${lookup(module.oci_resources.images, var.image_name)}"
   shape = "${var.shape_name}"
   subnet_id = "${var.subnet_id}"
   metadata {
@@ -76,7 +76,7 @@ resource "null_resource" "omc_instance_configure"{
     content = "${file("${path.module}/omc_config/omc_entity.json")}"
     destination = "/omc/stage/omc_entity.json"
     connection {
-      host = "${baremetal_core_instance.omc_managed_instance.public_ip}"
+      host = "${oci_core_instance.omc_managed_instance.public_ip}"
       type = "ssh"
       user = "oracle"
       private_key = "${file(var.ssh_private_key)}"
@@ -87,7 +87,7 @@ resource "null_resource" "omc_instance_configure"{
     content = "${data.template_file.omc_install_script.rendered}"
     destination = "/omc/stage/omc_agent_install.sh"
     connection {
-      host = "${baremetal_core_instance.omc_managed_instance.public_ip}"
+      host = "${oci_core_instance.omc_managed_instance.public_ip}"
       type = "ssh"
       user = "oracle"
       private_key = "${file(var.ssh_private_key)}"
@@ -100,7 +100,7 @@ resource "null_resource" "omc_instance_configure"{
       "/omc/stage/omc_agent_install.sh"
     ]
     connection {
-      host = "${baremetal_core_instance.omc_managed_instance.public_ip}"
+      host = "${oci_core_instance.omc_managed_instance.public_ip}"
       type = "ssh"
       user = "oracle"
       private_key = "${file(var.ssh_private_key)}"
@@ -113,7 +113,7 @@ resource "null_resource" "omc_instance_configure"{
       "/omc/app/cloud_agent/agent_inst/bin/omcli delete_entity agent /omc/stage/omc_entity_update.json"
     ]
     connection {
-      host = "${baremetal_core_instance.omc_managed_instance.public_ip}"
+      host = "${oci_core_instance.omc_managed_instance.public_ip}"
       type = "ssh"
       user = "oracle"
       private_key = "${file(var.ssh_private_key)}"

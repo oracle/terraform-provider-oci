@@ -35,22 +35,22 @@ func (s *ResourceIdentityUIPasswordTestSuite) SetupTest() {
 	)
 
 	s.Providers = map[string]terraform.ResourceProvider{
-		"baremetal": s.Provider,
+		"oci": s.Provider,
 	}
 
 	s.Config = `
-		resource "baremetal_identity_user" "t" {
+		resource "oci_identity_user" "t" {
 			name = "-tf-user"
 			description = "automated test user"
 		}
-		resource "baremetal_identity_ui_password" "t" {
-			user_id = "${baremetal_identity_user.t.id}"
+		resource "oci_identity_ui_password" "t" {
+			user_id = "${oci_identity_user.t.id}"
 		}
 	`
 	s.Config += testProviderConfig()
 
 	s.TimeCreated = baremetal.Time{Time: time.Now()}
-	s.ResourceName = "baremetal_identity_ui_password.t"
+	s.ResourceName = "oci_identity_ui_password.t"
 }
 
 func (s *ResourceIdentityUIPasswordTestSuite) TestCreateUIPassword() {
@@ -72,12 +72,12 @@ func (s *ResourceIdentityUIPasswordTestSuite) TestCreateUIPassword() {
 
 func (s ResourceIdentityUIPasswordTestSuite) TestUpdateVersionForcesNewUIPassword() {
 	config := `
-		resource "baremetal_identity_user" "t" {
+		resource "oci_identity_user" "t" {
 			name = "-tf-user"
 			description = "automated test user"
 		}
-		resource "baremetal_identity_ui_password" "t" {
-			user_id = "${baremetal_identity_user.t.id}"
+		resource "oci_identity_ui_password" "t" {
+			user_id = "${oci_identity_user.t.id}"
 		}
   `
 	config += testProviderConfig()

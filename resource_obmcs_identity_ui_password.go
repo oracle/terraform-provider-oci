@@ -6,7 +6,7 @@ import (
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/oracle/terraform-provider-baremetal/crud"
+	"github.com/oracle/terraform-provider-oci/crud"
 )
 
 // Version is exposed to allow resetting an existing user's password.

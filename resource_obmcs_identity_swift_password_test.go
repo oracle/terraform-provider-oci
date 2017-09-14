@@ -34,24 +34,24 @@ func (s *ResourceIdentitySwiftPasswordTestSuite) SetupTest() {
 	)
 
 	s.Providers = map[string]terraform.ResourceProvider{
-		"baremetal": s.Provider,
+		"oci": s.Provider,
 	}
 
 	description := "blah blah blah"
 	s.Config = `
-		resource "baremetal_identity_user" "t" {
+		resource "oci_identity_user" "t" {
 			name = "name1"
 			description = "desc!"
 		}
-		resource "baremetal_identity_swift_password" "t" {
-			user_id = "${baremetal_identity_user.t.id}"
+		resource "oci_identity_swift_password" "t" {
+			user_id = "${oci_identity_user.t.id}"
 			description = "` + description + `"
 		}
 	`
 	s.Config += testProviderConfig()
 
 	s.TimeCreated = time.Now()
-	s.ResourceName = "baremetal_identity_swift_password.t"
+	s.ResourceName = "oci_identity_swift_password.t"
 
 }
 
@@ -74,12 +74,12 @@ func (s *ResourceIdentitySwiftPasswordTestSuite) TestCreateSwiftPassword() {
 
 func (s ResourceIdentitySwiftPasswordTestSuite) TestUpdateDescriptionUpdatesSwiftPassword() {
 	config := `
-		resource "baremetal_identity_user" "t" {
+		resource "oci_identity_user" "t" {
 			name = "-tf-user"
 			description = "automated test user"
 		}
-		resource "baremetal_identity_swift_password" "t" {
-			user_id = "${baremetal_identity_user.t.id}"
+		resource "oci_identity_swift_password" "t" {
+			user_id = "${oci_identity_user.t.id}"
 			description = "automated test swift password"
 		}
   `

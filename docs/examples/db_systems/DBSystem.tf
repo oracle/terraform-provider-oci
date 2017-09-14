@@ -1,5 +1,5 @@
-resource "baremetal_database_db_system" "TFDBNode" {
-  availability_domain = "${lookup(data.baremetal_identity_availability_domains.ADs.availability_domains[0],"name")}" 
+resource "oci_database_db_system" "TFDBNode" {
+  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[0],"name")}"
   compartment_id = "${var.compartment_ocid}"
   cpu_core_count = "${var.CPUCoreCount}"
   database_edition = "${var.DBEdition}"

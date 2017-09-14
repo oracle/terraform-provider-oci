@@ -36,31 +36,31 @@ func (s *ResourceCoreDrgAttachmentTestSuite) SetupTest() {
 	)
 
 	s.Providers = map[string]terraform.ResourceProvider{
-		"baremetal": s.Provider,
+		"oci": s.Provider,
 	}
 
 	s.TimeCreated = baremetal.Time{Time: time.Now()}
 
 	s.Config = `
-		resource "baremetal_core_virtual_network" "t" {
+		resource "oci_core_virtual_network" "t" {
 			cidr_block = "10.0.0.0/16"
 			compartment_id = "${var.compartment_id}"
 			display_name = "network_name"
 		}
-		resource "baremetal_core_drg" "t" {
+		resource "oci_core_drg" "t" {
 			compartment_id = "${var.compartment_id}"
 			display_name = "display_name"
 		}
-		resource "baremetal_core_drg_attachment" "t" {
+		resource "oci_core_drg_attachment" "t" {
 			compartment_id = "${var.compartment_id}"
 			display_name = "display_name"
-			drg_id = "${baremetal_core_drg.t.id}"
-			vcn_id = "${baremetal_core_virtual_network.t.id}"
+			drg_id = "${oci_core_drg.t.id}"
+			vcn_id = "${oci_core_virtual_network.t.id}"
 		}
 	`
 	s.Config += testProviderConfig()
 
-	s.ResourceName = "baremetal_core_drg_attachment.t"
+	s.ResourceName = "oci_core_drg_attachment.t"
 
 }
 

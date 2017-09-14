@@ -30,15 +30,15 @@ func (s *ResourceCoreDHCPOptionsDatasourceTestSuite) SetupTest() {
 	})
 
 	s.Providers = map[string]terraform.ResourceProvider{
-		"baremetal": s.Provider,
+		"oci": s.Provider,
 	}
 	s.Config = `
-	resource "baremetal_core_virtual_network" "t" {
+	resource "oci_core_virtual_network" "t" {
 		cidr_block = "10.0.0.0/16"
 		compartment_id = "${var.compartment_id}"
 		display_name = "network_name"
 	}
-	resource "baremetal_core_dhcp_options" "t" {
+	resource "oci_core_dhcp_options" "t" {
 		compartment_id = "${var.compartment_id}"
 		display_name = "display_name"
      		options {
@@ -46,16 +46,16 @@ func (s *ResourceCoreDHCPOptionsDatasourceTestSuite) SetupTest() {
 			custom_dns_servers = [ "8.8.8.8" ]
 			server_type = "CustomDnsServer"
 		}
-     		vcn_id = "${baremetal_core_virtual_network.t.id}"
+     		vcn_id = "${oci_core_virtual_network.t.id}"
 	}
-    data "baremetal_core_dhcp_options" "t" {
+    data "oci_core_dhcp_options" "t" {
       compartment_id = "${var.compartment_id}"
       limit = 1
-      vcn_id = "${baremetal_core_virtual_network.t.id}"
+      vcn_id = "${oci_core_virtual_network.t.id}"
     }
   `
 	s.Config += testProviderConfig()
-	s.ResourceName = "data.baremetal_core_dhcp_options.t"
+	s.ResourceName = "data.oci_core_dhcp_options.t"
 }
 
 func (s *ResourceCoreDHCPOptionsDatasourceTestSuite) TestReadDHCPOptions() {

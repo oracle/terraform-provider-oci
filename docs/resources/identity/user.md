@@ -1,11 +1,11 @@
-# baremetal\_identity\_user
+# oci\_identity\_user
 
 Provides a user resource.
 
 ## Example Usage
 
 ```
-resource "baremetal_identity_user" "t" {
+resource "oci_identity_user" "t" {
 			name = "name!"
 			description = "desc!"
 		}

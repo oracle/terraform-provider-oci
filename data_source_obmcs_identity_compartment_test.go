@@ -31,15 +31,15 @@ func (s *DatasourceIdentityCompartmentsTestSuite) SetupTest() {
 	})
 
 	s.Providers = map[string]terraform.ResourceProvider{
-		"baremetal": s.Provider,
+		"oci": s.Provider,
 	}
 	s.Config = `
-    data "baremetal_identity_compartments" "t" {
+    data "oci_identity_compartments" "t" {
       compartment_id = "${var.compartment_id}"
     }
   `
 	s.Config += testProviderConfig()
-	s.ResourceName = "data.baremetal_identity_compartments.t"
+	s.ResourceName = "data.oci_identity_compartments.t"
 
 	b1 := baremetal.Compartment{
 		ID:            "id",

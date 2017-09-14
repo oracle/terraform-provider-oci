@@ -1,11 +1,11 @@
-# baremetal\_load\_balancer_shapes
+# oci\_load\_balancer_shapes
 
 Provide a list of supported load balancer shapes.
 
 ## Example Usage
 
 ```
-data "baremetal_load_balancer_shapes" "t" {
+data "oci_load_balancer_shapes" "t" {
   compartment_id = "ocid1.compartment.stub_id"
 }
 ```

@@ -1,11 +1,11 @@
-# baremetal\_core\_cpe
+# oci\_core\_cpe
 
 Provide a CPE resource.
 
 ## Example Usage
 
 ```
-resource "baremetal_core_cpe" "t" {
+resource "oci_core_cpe" "t" {
     compartment_id = "compartmentid"
     display_name = "displayname"
     ip_address = "123.123.123.123"
