@@ -1,3 +1,9 @@
+## NOTICE
+**The terraform provider has been renamed, see [this wiki](https://github.com/oracle/terraform-provider-oci/wiki/Oracle-Terraform-Provider-Name-Change) for information on migration steps.**
+
+*Legacy provider documentation (for v1.0.18 and earlier) can be found [here](https://github.com/oracle/terraform-provider-oci/tree/v1.0.18/docs)* 
+ 
+
     #     ___  ____     _    ____ _     _____
     #    / _ \|  _ \   / \  / ___| |   | ____|
     #   | | | | |_) | / _ \| |   | |   |  _|
@@ -129,6 +135,3 @@ https://community.oracle.com/community/cloud_computing/bare-metal
 
 ## About the provider
 This provider was written on behalf of Oracle by [MustWin.](http://mustwin.com/)
-
-## Documentation and examples for v1.0.18 (when the provider's name was "baremetal") can be found here:
-https://github.com/oracle/terraform-provider-oci/tree/v1.0.18/docs
