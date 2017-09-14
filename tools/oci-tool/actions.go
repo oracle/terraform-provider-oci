@@ -27,7 +27,7 @@ func ProcessDirectory(targetDir string, backupDir string, fileActionFn FileActio
 	files, err := ioutil.ReadDir(targetDir)
 
 	if err != nil {
-		fmt.Errorf("Error reading directory contents \n %s", err)
+		return fmt.Errorf("Error reading directory contents \n %s", err)
 	}
 
 	for _, res := range files {
