@@ -7,13 +7,12 @@ import (
 
 	baremetal "github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/resource"
-	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
 	"github.com/stretchr/testify/suite"
 )
 
-type ResourceCoreShapeTestSuite struct {
+type DatasourceCoreShapeTestSuite struct {
 	suite.Suite
 	Client       *baremetal.Client
 	Config       string
@@ -22,32 +21,24 @@ type ResourceCoreShapeTestSuite struct {
 	ResourceName string
 }
 
-func (s *ResourceCoreShapeTestSuite) SetupTest() {
-	s.Client = GetTestProvider()
-	s.Provider = Provider(func(d *schema.ResourceData) (interface{}, error) {
-		return s.Client, nil
-	})
-
-	s.Providers = map[string]terraform.ResourceProvider{
-		"oci": s.Provider,
+func (s *DatasourceCoreShapeTestSuite) SetupTest() {
+	s.Client = testAccClient
+	s.Provider = testAccProvider
+	s.Providers = testAccProviders
+	s.Config = testProviderConfig() + `
+	data "oci_identity_availability_domains" "t" {
+		compartment_id = "${var.compartment_id}"
 	}
-	s.Config = `
-    data "oci_identity_availability_domains" "t" {
-      compartment_id = "${var.compartment_id}"
-    }
-    data "oci_core_shape" "s" {
-      compartment_id = "${var.compartment_id}"
-      availability_domain = "${data.oci_identity_availability_domains.t.availability_domains.0.name}"
-    }
-  `
-	s.Config += testProviderConfig()
+	data "oci_core_shape" "s" {
+		compartment_id = "${var.compartment_id}"
+		availability_domain = "${data.oci_identity_availability_domains.t.availability_domains.0.name}"
+	}`
 	s.ResourceName = "data.oci_core_shape.s"
-
 }
 
-func (s *ResourceCoreShapeTestSuite) TestResourceReadCoreShape() {
+func (s *DatasourceCoreShapeTestSuite) TestAccDatasourceCoreShape_basic() {
 
-	resource.UnitTest(s.T(), resource.TestCase{
+	resource.Test(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
@@ -56,7 +47,6 @@ func (s *ResourceCoreShapeTestSuite) TestResourceReadCoreShape() {
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-
 					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "shapes.0.name"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "shapes.1.name"),
@@ -68,6 +58,6 @@ func (s *ResourceCoreShapeTestSuite) TestResourceReadCoreShape() {
 	)
 }
 
-func TestResourceCoreShapeTestSuite(t *testing.T) {
-	suite.Run(t, new(ResourceCoreShapeTestSuite))
+func TestDatasourceCoreShapeTestSuite(t *testing.T) {
+	suite.Run(t, new(DatasourceCoreShapeTestSuite))
 }

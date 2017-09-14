@@ -4,11 +4,9 @@ package main
 
 import (
 	"testing"
-	"time"
 
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/resource"
-	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
 	"github.com/stretchr/testify/suite"
@@ -24,33 +22,25 @@ type DatasourceCoreCpeTestSuite struct {
 }
 
 func (s *DatasourceCoreCpeTestSuite) SetupTest() {
-	s.Client = GetTestProvider()
-	s.Provider = Provider(func(d *schema.ResourceData) (interface{}, error) {
-		return s.Client, nil
-	})
-
-	s.Providers = map[string]terraform.ResourceProvider{
-		"oci": s.Provider,
+	s.Client = testAccClient
+	s.Provider = testAccProvider
+	s.Providers = testAccProviders
+	s.Config = testProviderConfig() + `
+	resource "oci_core_cpe" "t" {
+		compartment_id = "${var.compartment_id}"
+		display_name = "-tf-cpe"
+		ip_address = "142.10.10.1"
 	}
-	s.Config = `
-resource "oci_core_cpe" "t" {
-    compartment_id = "${var.compartment_id}"
-    display_name = "name1"
-    ip_address = "142.10.10.2"
-}
-
-data "oci_core_cpes" "s" {
-    compartment_id = "${oci_core_cpe.t.compartment_id}"
-}
-  `
-	s.Config += testProviderConfig()
+	data "oci_core_cpes" "s" {
+		compartment_id = "${oci_core_cpe.t.compartment_id}"
+		limit = 1
+	}`
 	s.ResourceName = "data.oci_core_cpes.s"
-
 }
 
-func (s *DatasourceCoreCpeTestSuite) TestCpeList() {
+func (s *DatasourceCoreCpeTestSuite) TestAccDatasourceCoreCpe_basic() {
 
-	resource.UnitTest(s.T(), resource.TestCase{
+	resource.Test(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
@@ -59,61 +49,14 @@ func (s *DatasourceCoreCpeTestSuite) TestCpeList() {
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "cpes.0.ip_address", "142.10.10.2"),
-					resource.TestCheckResourceAttr(s.ResourceName, "cpes.0.display_name", "name1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "cpes.0.ip_address", "142.10.10.1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "cpes.0.display_name", "-tf-cpe"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "cpes.#"),
 				),
 			},
 		},
 	},
 	)
-
-}
-
-func (s *DatasourceCoreCpeTestSuite) TestCpePagedList() {
-	res := &baremetal.ListCpes{}
-	res.NextPage = "nextpage"
-	res.Cpes = []baremetal.Cpe{
-		{
-			ID:            "id1",
-			CompartmentID: "compartmentid",
-			DisplayName:   "name",
-			IPAddress:     "10.10.10.2",
-			TimeCreated:   baremetal.Time{Time: time.Now()},
-		},
-		{
-			ID:            "id2",
-			CompartmentID: "compartmentid",
-			DisplayName:   "name",
-			IPAddress:     "10.10.10.3",
-			TimeCreated:   baremetal.Time{Time: time.Now()},
-		},
-	}
-
-	resource.UnitTest(s.T(), resource.TestCase{
-		PreventPostDestroyRefresh: true,
-		Providers:                 s.Providers,
-		Steps: []resource.TestStep{
-			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config:            s.Config,
-				Check: resource.ComposeTestCheckFunc(
-
-					resource.TestCheckResourceAttr(s.ResourceName, "cpes.0.ip_address", "10.10.10.2"),
-					resource.TestCheckResourceAttr(s.ResourceName, "cpes.0.id", "id1"),
-					resource.TestCheckResourceAttr(s.ResourceName, "cpes.1.ip_address", "10.10.10.3"),
-					resource.TestCheckResourceAttr(s.ResourceName, "cpes.1.id", "id2"),
-					resource.TestCheckResourceAttr(s.ResourceName, "cpes.2.id", "id3"),
-					resource.TestCheckResourceAttr(s.ResourceName, "cpes.3.id", "id4"),
-					resource.TestCheckResourceAttr(s.ResourceName, "cpes.#", "4"),
-				),
-			},
-		},
-	},
-	)
-
-	//
 }
 
 func TestDatasourceCoreCpeTestSuite(t *testing.T) {

@@ -4,17 +4,15 @@ package main
 
 import (
 	"testing"
-	"time"
 
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/resource"
-	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
 	"github.com/stretchr/testify/suite"
 )
 
-type ResourceCoreImagesTestSuite struct {
+type DatasourceCoreImageTestSuite struct {
 	suite.Suite
 	Client       *baremetal.Client
 	Config       string
@@ -24,46 +22,21 @@ type ResourceCoreImagesTestSuite struct {
 	List         *baremetal.ListImages
 }
 
-func (s *ResourceCoreImagesTestSuite) SetupTest() {
-	s.Client = GetTestProvider()
-	s.Provider = Provider(func(d *schema.ResourceData) (interface{}, error) {
-		return s.Client, nil
-	})
+func (s *DatasourceCoreImageTestSuite) SetupTest() {
+	s.Client = testAccClient
+	s.Provider = testAccProvider
+	s.Providers = testAccProviders
+	s.Config = testProviderConfig() + `
+	data "oci_core_images" "t" {
+		compartment_id = "${var.compartment_id}"
+		limit = 1
+	}`
 
-	s.Providers = map[string]terraform.ResourceProvider{
-		"oci": s.Provider,
-	}
-	s.Config = `
-    data "oci_core_images" "t" {
-      compartment_id = "${var.compartment_id}"
-      limit = 1
-    }
-  `
-	s.Config += testProviderConfig()
 	s.ResourceName = "data.oci_core_images.t"
-
-	b1 := baremetal.Image{
-		BaseImageID:            "base_image_id",
-		CompartmentID:          "compartment_id",
-		CreateImageAllowed:     true,
-		DisplayName:            "display_name",
-		ID:                     "id1",
-		State:                  baremetal.ResourceAvailable,
-		OperatingSystem:        "operating_system",
-		OperatingSystemVersion: "operating_system_version",
-		TimeCreated:            baremetal.Time{Time: time.Now()},
-	}
-
-	b2 := b1
-	b2.ID = "id2"
-
-	s.List = &baremetal.ListImages{
-		Images: []baremetal.Image{b1, b2},
-	}
 }
 
-func (s *ResourceCoreImagesTestSuite) TestReadImages() {
-	resource.UnitTest(s.T(), resource.TestCase{
+func (s *DatasourceCoreImageTestSuite) TestAccImage_basic() {
+	resource.Test(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
@@ -80,9 +53,8 @@ func (s *ResourceCoreImagesTestSuite) TestReadImages() {
 		},
 	},
 	)
-
 }
 
-func TestResourceCoreImagesTestSuite(t *testing.T) {
-	suite.Run(t, new(ResourceCoreImagesTestSuite))
+func TestDatasourceCoreImageTestSuite(t *testing.T) {
+	suite.Run(t, new(DatasourceCoreImageTestSuite))
 }

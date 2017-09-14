@@ -7,13 +7,12 @@ import (
 
 	baremetal "github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/resource"
-	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
 	"github.com/stretchr/testify/suite"
 )
 
-type ResourceCoreDrgsTestSuite struct {
+type DatasourceCoreDrgTestSuite struct {
 	suite.Suite
 	Client       *baremetal.Client
 	Config       string
@@ -22,28 +21,21 @@ type ResourceCoreDrgsTestSuite struct {
 	ResourceName string
 }
 
-func (s *ResourceCoreDrgsTestSuite) SetupTest() {
-	s.Client = GetTestProvider()
-	s.Provider = Provider(func(d *schema.ResourceData) (interface{}, error) {
-		return s.Client, nil
-	})
-
-	s.Providers = map[string]terraform.ResourceProvider{
-		"oci": s.Provider,
-	}
-	s.Config = `
+func (s *DatasourceCoreDrgTestSuite) SetupTest() {
+	s.Client = testAccClient
+	s.Provider = testAccProvider
+	s.Providers = testAccProviders
+	s.Config = testProviderConfig() + `
 	resource "oci_core_drg" "t" {
 		compartment_id = "${var.compartment_id}"
-		display_name = "display_name"
-	}
-  `
-	s.Config += testProviderConfig()
+		display_name = "-tf-drg"
+	}`
 	s.ResourceName = "data.oci_core_drgs.t"
 }
 
-func (s *ResourceCoreDrgsTestSuite) TestReadDrgs() {
+func (s *DatasourceCoreDrgTestSuite) TestAccDatasourceCoreDrg_basic() {
 
-	resource.UnitTest(s.T(), resource.TestCase{
+	resource.Test(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
@@ -66,9 +58,8 @@ func (s *ResourceCoreDrgsTestSuite) TestReadDrgs() {
 		},
 	},
 	)
-
 }
 
 func TestDatasourceCoreDrgsTestSuite(t *testing.T) {
-	suite.Run(t, new(ResourceCoreDrgsTestSuite))
+	suite.Run(t, new(DatasourceCoreDrgTestSuite))
 }

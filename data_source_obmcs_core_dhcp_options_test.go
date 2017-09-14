@@ -7,13 +7,12 @@ import (
 
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/resource"
-	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
 	"github.com/stretchr/testify/suite"
 )
 
-type ResourceCoreDHCPOptionsDatasourceTestSuite struct {
+type DatasourceCoreDHCPOptionsTestSuite struct {
 	suite.Suite
 	Client       *baremetal.Client
 	Config       string
@@ -23,16 +22,11 @@ type ResourceCoreDHCPOptionsDatasourceTestSuite struct {
 	List         *baremetal.ListDHCPOptions
 }
 
-func (s *ResourceCoreDHCPOptionsDatasourceTestSuite) SetupTest() {
-	s.Client = GetTestProvider()
-	s.Provider = Provider(func(d *schema.ResourceData) (interface{}, error) {
-		return s.Client, nil
-	})
-
-	s.Providers = map[string]terraform.ResourceProvider{
-		"oci": s.Provider,
-	}
-	s.Config = `
+func (s *DatasourceCoreDHCPOptionsTestSuite) SetupTest() {
+	s.Client = testAccClient
+	s.Provider = testAccProvider
+	s.Providers = testAccProviders
+	s.Config = testProviderConfig() + `
 	resource "oci_core_virtual_network" "t" {
 		cidr_block = "10.0.0.0/16"
 		compartment_id = "${var.compartment_id}"
@@ -52,14 +46,12 @@ func (s *ResourceCoreDHCPOptionsDatasourceTestSuite) SetupTest() {
       compartment_id = "${var.compartment_id}"
       limit = 1
       vcn_id = "${oci_core_virtual_network.t.id}"
-    }
-  `
-	s.Config += testProviderConfig()
+    }`
 	s.ResourceName = "data.oci_core_dhcp_options.t"
 }
 
-func (s *ResourceCoreDHCPOptionsDatasourceTestSuite) TestReadDHCPOptions() {
-	resource.UnitTest(s.T(), resource.TestCase{
+func (s *DatasourceCoreDHCPOptionsTestSuite) TestAccDatasourceCoreDHCPOptions_basic() {
+	resource.Test(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
@@ -79,6 +71,6 @@ func (s *ResourceCoreDHCPOptionsDatasourceTestSuite) TestReadDHCPOptions() {
 
 }
 
-func TestResourceCoreDHCPOptionsDatasourceTestSuite(t *testing.T) {
-	suite.Run(t, new(ResourceCoreDHCPOptionsDatasourceTestSuite))
+func TestDatasourceCoreDHCPOptionsTestSuite(t *testing.T) {
+	suite.Run(t, new(DatasourceCoreDHCPOptionsTestSuite))
 }

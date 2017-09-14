@@ -7,12 +7,11 @@ import (
 
 	baremetal "github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/resource"
-	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/stretchr/testify/suite"
 )
 
-type CoreDrgAttachmentDatasourceTestSuite struct {
+type DatasourceCoreDrgAttachmentTestSuite struct {
 	suite.Suite
 	Client       *baremetal.Client
 	Config       string
@@ -21,16 +20,11 @@ type CoreDrgAttachmentDatasourceTestSuite struct {
 	ResourceName string
 }
 
-func (s *CoreDrgAttachmentDatasourceTestSuite) SetupTest() {
-	s.Client = GetTestProvider()
-	s.Provider = Provider(func(d *schema.ResourceData) (interface{}, error) {
-		return s.Client, nil
-	})
-
-	s.Providers = map[string]terraform.ResourceProvider{
-		"oci": s.Provider,
-	}
-	s.Config = `
+func (s *DatasourceCoreDrgAttachmentTestSuite) SetupTest() {
+	s.Client = testAccClient
+	s.Provider = testAccProvider
+	s.Providers = testAccProviders
+	s.Config = testProviderConfig() + `
 	resource "oci_core_virtual_network" "t" {
 		cidr_block = "10.0.0.0/16"
 		compartment_id = "${var.compartment_id}"
@@ -42,35 +36,37 @@ func (s *CoreDrgAttachmentDatasourceTestSuite) SetupTest() {
 	}
 	resource "oci_core_drg_attachment" "t" {
 		compartment_id = "${var.compartment_id}"
-		display_name = "display_name"
 		drg_id = "${oci_core_drg.t.id}"
 		vcn_id = "${oci_core_virtual_network.t.id}"
-	}
-    data "oci_core_drg_attachments" "t" {
-        compartment_id = "${var.compartment_id}"
-	drg_id = "${oci_core_drg.t.id}"
-        limit = 1
-	vcn_id = "${oci_core_virtual_network.t.id}"
-    }
-  `
-	s.Config += testProviderConfig()
+		display_name = "-tf-drg-attachment"
+	}`
 	s.ResourceName = "data.oci_core_drg_attachments.t"
 }
 
-func (s *CoreDrgAttachmentDatasourceTestSuite) TestReadDrgAttachments() {
+func (s *DatasourceCoreDrgAttachmentTestSuite) TestAccDatasourceCoreDrgAttachment_basic() {
 
-	resource.UnitTest(s.T(), resource.TestCase{
+	resource.Test(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
 			{
+				Config:            s.Config,
+			},
+			// todo: investigate, related issue with TestAccDatasourceCoreIPConnections_basic
+			{
 				ImportState:       true,
 				ImportStateVerify: true,
-				Config:            s.Config,
+				Config:            s.Config + `
+				data "oci_core_drg_attachments" "t" {
+					compartment_id = "${var.compartment_id}"
+					drg_id = "${oci_core_drg.t.id}"
+					vcn_id = "${oci_core_virtual_network.t.id}"
+					limit = 1
+				}`,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "drg_attachments.0.display_name", "display_name"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "drg_attachments.0.id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "drg_attachments.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "drg_attachments.0.display_name", "-tf-drg-attachment"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "drg_attachments.0.id"),
 				),
 			},
 		},
@@ -78,6 +74,6 @@ func (s *CoreDrgAttachmentDatasourceTestSuite) TestReadDrgAttachments() {
 	)
 }
 
-func TestCoreDrgAttachmentDatasourceTestSuite(t *testing.T) {
-	suite.Run(t, new(CoreDrgAttachmentDatasourceTestSuite))
+func TestDatasourceCoreDrgAttachmentTestSuite(t *testing.T) {
+	suite.Run(t, new(DatasourceCoreDrgAttachmentTestSuite))
 }

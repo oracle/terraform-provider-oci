@@ -7,13 +7,12 @@ import (
 
 	baremetal "github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/resource"
-	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
 	"github.com/stretchr/testify/suite"
 )
 
-type ResourceCoreVolumesTestSuite struct {
+type DatasourceCoreVolumeTestSuite struct {
 	suite.Suite
 	Client       *baremetal.Client
 	Config       string
@@ -22,16 +21,11 @@ type ResourceCoreVolumesTestSuite struct {
 	ResourceName string
 }
 
-func (s *ResourceCoreVolumesTestSuite) SetupTest() {
-	s.Client = GetTestProvider()
-	s.Provider = Provider(func(d *schema.ResourceData) (interface{}, error) {
-		return s.Client, nil
-	})
-
-	s.Providers = map[string]terraform.ResourceProvider{
-		"oci": s.Provider,
-	}
-	s.Config = `
+func (s *DatasourceCoreVolumeTestSuite) SetupTest() {
+	s.Client = testAccClient
+	s.Provider = testAccProvider
+	s.Providers = testAccProviders
+	s.Config = testProviderConfig() + `
 	data "oci_identity_availability_domains" "ADs" {
 		compartment_id = "${var.compartment_id}"
 	}
@@ -41,19 +35,17 @@ func (s *ResourceCoreVolumesTestSuite) SetupTest() {
 		display_name = "display_name"
 		size_in_mbs = 262144
 	}
-    data "oci_core_volumes" "t" {
-      availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-      compartment_id = "${var.compartment_id}"
-      limit = 1
-    }
-  `
-	s.Config += testProviderConfig()
+	data "oci_core_volumes" "t" {
+		availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+		compartment_id = "${var.compartment_id}"
+		limit = 1
+	}`
 	s.ResourceName = "data.oci_core_volumes.t"
 }
 
-func (s *ResourceCoreVolumesTestSuite) TestReadVolumes() {
+func (s *DatasourceCoreVolumeTestSuite) TestAccDatasourceCoreVolume_basic() {
 
-	resource.UnitTest(s.T(), resource.TestCase{
+	resource.Test(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
@@ -71,31 +63,8 @@ func (s *ResourceCoreVolumesTestSuite) TestReadVolumes() {
 		},
 	},
 	)
-
 }
 
-func (s *ResourceCoreVolumesTestSuite) TestReadVolumesWithPagination() {
-
-	resource.UnitTest(s.T(), resource.TestCase{
-		PreventPostDestroyRefresh: true,
-		Providers:                 s.Providers,
-		Steps: []resource.TestStep{
-			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config:            s.Config,
-				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet(s.ResourceName, "volumes.0.availability_domain"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "volumes.0.id"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "volumes.#"),
-				),
-			},
-		},
-	},
-	)
-
-}
-
-func TestResourceCoreVolumesTestSuite(t *testing.T) {
-	suite.Run(t, new(ResourceCoreVolumesTestSuite))
+func TestDatasourceCoreVolumeTestSuite(t *testing.T) {
+	suite.Run(t, new(DatasourceCoreVolumeTestSuite))
 }
