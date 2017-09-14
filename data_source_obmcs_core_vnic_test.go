@@ -7,7 +7,6 @@ import (
 
 	baremetal "github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/resource"
-	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/stretchr/testify/suite"
 )
@@ -22,50 +21,42 @@ type DataSourceCoreVnicTestSuite struct {
 }
 
 func (s *DataSourceCoreVnicTestSuite) SetupTest() {
-	s.Client = GetTestProvider()
-	s.Provider = Provider(func(d *schema.ResourceData) (interface{}, error) {
-		return s.Client, nil
-	})
-
-	s.Providers = map[string]terraform.ResourceProvider{
-		"oci": s.Provider,
-	}
-
-	s.Config = instanceDnsConfig
-	s.Config += testProviderConfig()
+	s.Client = testAccClient
+	s.Provider = testAccProvider
+	s.Providers = testAccProviders
+	s.Config = testProviderConfig() + instanceDnsConfig
 	s.ResourceName = "data.oci_core_vnic.v"
 }
 
-func (s *DataSourceCoreVnicTestSuite) TestAttachVnic() {
+func (s *DataSourceCoreVnicTestSuite) TestAccDatasrouceCoreAttachVnic() {
 
-	resource.UnitTest(s.T(), resource.TestCase{
+	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
 				ImportState:       true,
 				ImportStateVerify: true,
 				Config: s.Config + `
-						data "oci_core_vnic_attachments" "va" {
-						  compartment_id = "${var.compartment_id}"
-						  instance_id = "${oci_core_instance.t.id}"
-						}
-						data "oci_core_vnic" "v" {
-						  vnic_id = "${lookup(data.oci_core_vnic_attachments.va.vnic_attachments[0],"vnic_id")}"
-						}
-					`,
+				data "oci_core_vnic_attachments" "va" {
+					compartment_id = "${var.compartment_id}"
+					instance_id = "${oci_core_instance.t.id}"
+				}
+				data "oci_core_vnic" "v" {
+					vnic_id = "${lookup(data.oci_core_vnic_attachments.va.vnic_attachments[0],"vnic_id")}"
+				}`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "compartment_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "subnet_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "mac_address"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "private_ip_address"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "public_ip_address"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-instance-vnic"),
 					resource.TestCheckResourceAttr(s.ResourceName, "hostname_label", "testinstance"),
 					resource.TestCheckResourceAttr(s.ResourceName, "is_primary", "true"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "mac_address"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", baremetal.ResourceAvailable),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "private_ip_address"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "public_ip_address"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "subnet_id"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
 				),
 			},
 		},

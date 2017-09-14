@@ -153,9 +153,10 @@ func (s IPSecConnectionsDatasourceCrud) SetData() {
 
 			resources = append(resources, resource)
 		}
-
-		s.D.Set("connections", resources)
-
+		
+		if err := s.D.Set("connections", resources); err != nil {
+			panic(err)
+		}
 	}
 
 	return

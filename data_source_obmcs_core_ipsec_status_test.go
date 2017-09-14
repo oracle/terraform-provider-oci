@@ -7,7 +7,6 @@ import (
 
 	baremetal "github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/resource"
-	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
 	"github.com/stretchr/testify/suite"
@@ -23,42 +22,34 @@ type DatasourceCoreIPSecStatusTestSuite struct {
 }
 
 func (s *DatasourceCoreIPSecStatusTestSuite) SetupTest() {
-	s.Client = GetTestProvider()
-	s.Provider = Provider(func(d *schema.ResourceData) (interface{}, error) {
-		return s.Client, nil
-	})
-
-	s.Providers = map[string]terraform.ResourceProvider{
-		"oci": s.Provider,
-	}
-	s.Config = `
+	s.Client = testAccClient
+	s.Provider = testAccProvider
+	s.Providers = testAccProviders
+	s.Config = testProviderConfig() + `
 	resource "oci_core_drg" "t" {
 		compartment_id = "${var.compartment_id}"
-		display_name = "display_name"
+		display_name = "-tf-drg"
 	}
 	resource "oci_core_cpe" "t" {
 		compartment_id = "${var.compartment_id}"
-		display_name = "displayname"
+		display_name = "-tf-cpe"
 		ip_address = "123.123.123.123"
 	}
 	resource "oci_core_ipsec" "t" {
 		compartment_id = "${var.compartment_id}"
 		cpe_id = "${oci_core_cpe.t.id}"
 		drg_id = "${oci_core_drg.t.id}"
-		display_name = "display_name"
+		display_name = "-tf-ipsec"
 		static_routes = ["10.0.0.0/16"]
 	}
-    	data "oci_core_ipsec_status" "s" {
-      		ipsec_id = "${oci_core_ipsec.t.id}"
-    	}
-  `
-	s.Config += testProviderConfig()
+	data "oci_core_ipsec_status" "s" {
+		ipsec_id = "${oci_core_ipsec.t.id}"
+	}`
 	s.ResourceName = "data.oci_core_ipsec_status.s"
-
 }
 
-func (s *DatasourceCoreIPSecStatusTestSuite) TestIPSecStatus() {
-	resource.UnitTest(s.T(), resource.TestCase{
+func (s *DatasourceCoreIPSecStatusTestSuite) TestAccDatasourceCoreIPSecStatus_basic() {
+	resource.Test(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
@@ -67,15 +58,13 @@ func (s *DatasourceCoreIPSecStatusTestSuite) TestIPSecStatus() {
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-
-					resource.TestCheckResourceAttr(s.ResourceName, "id", "id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "tunnels.#"),
 				),
 			},
 		},
 	},
 	)
-
 }
 
 func TestDatasourceCoreIPSecStatusTestSuite(t *testing.T) {

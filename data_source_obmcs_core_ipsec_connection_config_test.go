@@ -7,13 +7,12 @@ import (
 
 	baremetal "github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/resource"
-	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
 	"github.com/stretchr/testify/suite"
 )
 
-type DatasourceCoreIPSecTestSuite struct {
+type DatasourceCoreIPSecConnectionConfigTestSuite struct {
 	suite.Suite
 	Client       *baremetal.Client
 	Config       string
@@ -22,16 +21,11 @@ type DatasourceCoreIPSecTestSuite struct {
 	ResourceName string
 }
 
-func (s *DatasourceCoreIPSecTestSuite) SetupTest() {
-	s.Client = GetTestProvider()
-	s.Provider = Provider(func(d *schema.ResourceData) (interface{}, error) {
-		return s.Client, nil
-	})
-
-	s.Providers = map[string]terraform.ResourceProvider{
-		"oci": s.Provider,
-	}
-	s.Config = `
+func (s *DatasourceCoreIPSecConnectionConfigTestSuite) SetupTest() {
+	s.Client = testAccClient
+	s.Provider = testAccProvider
+	s.Providers = testAccProviders
+	s.Config = testProviderConfig() + `
 	resource "oci_core_drg" "t" {
 		compartment_id = "${var.compartment_id}"
 		display_name = "display_name"
@@ -40,6 +34,7 @@ func (s *DatasourceCoreIPSecTestSuite) SetupTest() {
 		compartment_id = "${var.compartment_id}"
 		display_name = "displayname"
 		ip_address = "123.123.123.123"
+		depends_on = ["oci_core_drg.t"}
 	}
 	resource "oci_core_ipsec" "t" {
 		compartment_id = "${var.compartment_id}"
@@ -48,18 +43,14 @@ func (s *DatasourceCoreIPSecTestSuite) SetupTest() {
 		display_name = "display_name"
 		static_routes = ["10.0.0.0/16"]
 	}
-	data "oci_core_ipsec_connections" "s" {
-	      compartment_id = "${var.compartment_id}"
-	      cpe_id = "${oci_core_cpe.t.id}"
-	}
-  `
-	s.Config += testProviderConfig()
-	s.ResourceName = "data.oci_core_ipsec_connections.s"
-
+	data "oci_core_ipsec_config" "s" {
+		ipsec_id = "${oci_core_ipsec.t.id}"
+	}`
+	s.ResourceName = "data.oci_core_ipsec_config.s"
 }
 
-func (s *DatasourceCoreIPSecTestSuite) TestResourceListIPConnections() {
-	resource.UnitTest(s.T(), resource.TestCase{
+func (s *DatasourceCoreIPSecConnectionConfigTestSuite) TestAccDatasourceCoreIPSecConnectionConfig_basic() {
+	resource.Test(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
@@ -68,10 +59,9 @@ func (s *DatasourceCoreIPSecTestSuite) TestResourceListIPConnections() {
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet(s.ResourceName, "drg_id"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "connections.0.compartment_id"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "connections.0.id"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "connections.#"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "tunnels.0.ip_address"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "tunnels.0.shared_secret"),
 				),
 			},
 		},
@@ -80,6 +70,6 @@ func (s *DatasourceCoreIPSecTestSuite) TestResourceListIPConnections() {
 
 }
 
-func TestDatasourceCoreIPSecTestSuite(t *testing.T) {
-	suite.Run(t, new(DatasourceCoreIPSecTestSuite))
+func TestDatasourceCoreIPSecConnectionConfigTestSuite(t *testing.T) {
+	suite.Run(t, new(DatasourceCoreIPSecConnectionConfigTestSuite))
 }

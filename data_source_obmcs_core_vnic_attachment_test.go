@@ -7,13 +7,12 @@ import (
 
 	baremetal "github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/resource"
-	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
 	"github.com/stretchr/testify/suite"
 )
 
-type ResourceCoreVnicAttachmentsTestSuite struct {
+type DatasourceCoreVnicAttachmentTestSuite struct {
 	suite.Suite
 	Client       *baremetal.Client
 	Config       string
@@ -22,30 +21,21 @@ type ResourceCoreVnicAttachmentsTestSuite struct {
 	ResourceName string
 }
 
-func (s *ResourceCoreVnicAttachmentsTestSuite) SetupTest() {
-	s.Client = GetTestProvider()
-	s.Provider = Provider(func(d *schema.ResourceData) (interface{}, error) {
-		return s.Client, nil
-	})
-
-	s.Providers = map[string]terraform.ResourceProvider{
-		"oci": s.Provider,
-	}
-
-	s.Config = instanceConfig + `
+func (s *DatasourceCoreVnicAttachmentTestSuite) SetupTest() {
+	s.Client = testAccClient
+	s.Provider = testAccProvider
+	s.Providers = testAccProviders
+	s.Config = testProviderConfig() + instanceConfig + `
     data "oci_core_vnic_attachments" "s" {
-      compartment_id = "${var.compartment_id}"
-      availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-      instance_id = "${oci_core_instance.t.id}"
-    }
-  `
-	s.Config += testProviderConfig()
+		compartment_id = "${var.compartment_id}"
+		availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+		instance_id = "${oci_core_instance.t.id}"
+    }`
 	s.ResourceName = "data.oci_core_vnic_attachments.s"
-
 }
 
-func (s *ResourceCoreVnicAttachmentsTestSuite) TestResourceReadCoreVnicAttachments() {
-	resource.UnitTest(s.T(), resource.TestCase{
+func (s *DatasourceCoreVnicAttachmentTestSuite) TestAccDatasourceCoreVnicAttachment_basic() {
+	resource.Test(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
@@ -60,9 +50,8 @@ func (s *ResourceCoreVnicAttachmentsTestSuite) TestResourceReadCoreVnicAttachmen
 		},
 	},
 	)
-
 }
 
-func TestResourceCoreVnicAttachmentsTestSuite(t *testing.T) {
-	suite.Run(t, new(ResourceCoreVnicAttachmentsTestSuite))
+func TestDatasourceCoreVnicAttachmentTestSuite(t *testing.T) {
+	suite.Run(t, new(DatasourceCoreVnicAttachmentTestSuite))
 }

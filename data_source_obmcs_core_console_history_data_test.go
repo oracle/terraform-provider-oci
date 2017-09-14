@@ -7,7 +7,6 @@ import (
 
 	baremetal "github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/resource"
-	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
 	"github.com/stretchr/testify/suite"
@@ -23,29 +22,22 @@ type CoreConsoleHistoryDataDatasourceTestSuite struct {
 }
 
 func (s *CoreConsoleHistoryDataDatasourceTestSuite) SetupTest() {
-	s.Client = GetTestProvider()
-	s.Provider = Provider(func(d *schema.ResourceData) (interface{}, error) {
-		return s.Client, nil
-	})
-
-	s.Providers = map[string]terraform.ResourceProvider{
-		"oci": s.Provider,
+	s.Client = testAccClient
+	s.Provider = testAccProvider
+	s.Providers = testAccProviders
+	s.Config = testProviderConfig() + instanceConfig + `
+	resource "oci_core_console_history" "t" {
+		instance_id = "${oci_core_instance.t.id}"
 	}
-	s.Config = instanceConfig + `
-    resource "oci_core_console_history" "t" {
-	instance_id = "${oci_core_instance.t.id}"
-    }
-    data "oci_core_console_history_data" "s" {
-      console_history_id = "${oci_core_console_history.t.id}"
-      length = 10240
-    }
-  `
-	s.Config += testProviderConfig()
+	data "oci_core_console_history_data" "s" {
+		console_history_id = "${oci_core_console_history.t.id}"
+		length = 10240
+	}`
 	s.ResourceName = "data.oci_core_console_history_data.s"
 }
 
-func (s *CoreConsoleHistoryDataDatasourceTestSuite) TestResourceShowConsoleHistory() {
-	resource.UnitTest(s.T(), resource.TestCase{
+func (s *CoreConsoleHistoryDataDatasourceTestSuite) TestAccDatasourceCoreConsoleHistory_basic() {
+	resource.Test(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
