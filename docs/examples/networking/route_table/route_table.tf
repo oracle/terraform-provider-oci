@@ -19,10 +19,10 @@ provider "oci" {
 
 resource "oci_core_route_table" "route_table1" {
   compartment_id = "${var.compartment_ocid}"
-  vcn_id = "${var.vcn_ocid}}"
+  vcn_id = "${var.vcn_ocid}"
   display_name = "route_table1"
   route_rules {
     cidr_block = "0.0.0.0/0"
-    network_entity_id = "${var.internet_gateway_ocid}}"
+    network_entity_id = "${var.internet_gateway_ocid}"
   }
 }
