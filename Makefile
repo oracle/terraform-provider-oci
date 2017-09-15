@@ -8,7 +8,7 @@ fmt: ;goimports -w -local github.com/oracle/terraform-provider-oci $(GOFMT_FILES
 ### `make release version=2.0.1`
 release: clean
 ifdef version
-	sed -i '' -e 's/version = ".*"/version = "$(version)"/g' version.go
+	sed -i '' -e 's/Version = ".*"/Version = "$(version)"/g' version.go
 	gox -output ./bin/{{.OS}}_{{.Arch}}/terraform-provider-oci_v$(version)
 else
 	@echo Err! `make release` requires a version argument 
