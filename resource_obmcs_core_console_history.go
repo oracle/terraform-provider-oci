@@ -85,7 +85,7 @@ func (s *ConsoleHistoryResourceCrud) ID() string {
 }
 
 func (s *ConsoleHistoryResourceCrud) CreatedPending() []string {
-	return []string{baremetal.ResourceRequested}
+	return []string{baremetal.ResourceRequested, baremetal.ResourceGettingHistory}
 }
 
 func (s *ConsoleHistoryResourceCrud) CreatedTarget() []string {

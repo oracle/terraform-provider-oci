@@ -259,7 +259,7 @@ type UpdateDHCPDNSOptions struct {
 type UpdateGatewayOptions struct {
 	IfMatchOptions
 	DisplayNameOptions
-	IsEnabled bool `header:"-" json:"isEnabled,omitempty" url:"-"`
+	IsEnabled *bool `header:"-" json:"isEnabled,omitempty" url:"-"`
 }
 
 type UpdateRouteTableOptions struct {

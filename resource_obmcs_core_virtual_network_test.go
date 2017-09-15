@@ -4,11 +4,10 @@ package main
 
 import (
 	"testing"
-	"time"
 
+	"fmt"
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/resource"
-	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/stretchr/testify/suite"
 )
@@ -18,135 +17,77 @@ type ResourceCoreVirtualNetworkTestSuite struct {
 	Client       *baremetal.Client
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
-	TimeCreated  baremetal.Time
 	Config       string
 	ResourceName string
-	Res          *baremetal.VirtualNetwork
-	DeletedRes   *baremetal.VirtualNetwork
-	DeletingRes  *baremetal.VirtualNetwork
 }
 
 func (s *ResourceCoreVirtualNetworkTestSuite) SetupTest() {
-	s.Client = GetTestProvider()
-
-	s.Provider = Provider(
-		func(d *schema.ResourceData) (interface{}, error) {
-			return s.Client, nil
-		},
-	)
-
-	s.Providers = map[string]terraform.ResourceProvider{
-		"oci": s.Provider,
-	}
-
-	s.TimeCreated = baremetal.Time{Time: time.Now()}
-
-	s.Config = `
-		resource "oci_core_virtual_network" "t" {
-			cidr_block = "10.0.0.0/16"
-			compartment_id = "${var.compartment_id}"
-			display_name = "display_name"
-		}
-	`
-
-	s.Config += testProviderConfig()
-
+	s.Client = testAccClient
+	s.Provider = testAccProvider
+	s.Providers = testAccProviders
+	s.Config = testProviderConfig()
 	s.ResourceName = "oci_core_virtual_network.t"
-
 }
 
-func (s *ResourceCoreVirtualNetworkTestSuite) TestCreateResourceCoreVirtualNetwork() {
-
-	resource.UnitTest(s.T(), resource.TestCase{
+func (s *ResourceCoreVirtualNetworkTestSuite) TestAccResourceCoreVirtualNetwork_basic() {
+	var resId string
+	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
+			// test create
 			{
 				ImportState:       true,
 				ImportStateVerify: true,
-				Config:            s.Config,
+				Config: s.Config + `
+					resource "oci_core_virtual_network" "t" {
+						cidr_block = "10.0.0.0/16"
+						compartment_id = "${var.compartment_id}"
+					}`,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "cidr_block", "10.0.0.0/16"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "default_route_table_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "default_security_list_id"),
-					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "display_name"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "display_name"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "cidr_block", "10.0.0.0/16"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", baremetal.ResourceAvailable),
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, "oci_core_virtual_network.t", "id")
+						return err
+					},
 				),
 			},
-		},
-	})
-}
-
-func (s *ResourceCoreVirtualNetworkTestSuite) TestDeleteResourceCoreVirtualNetwork() {
-
-	resource.UnitTest(s.T(), resource.TestCase{
-		Providers: s.Providers,
-		Steps: []resource.TestStep{
+			// test update
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config:            s.Config,
+				Config: s.Config + `
+					resource "oci_core_virtual_network" "t" {
+						cidr_block = "10.0.0.0/16"
+						compartment_id = "${var.compartment_id}"
+						display_name = "-tf-vcn"
+					}`,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-vcn"),
 				),
 			},
+			// test a destructive update results in a new resource
 			{
-				Config: testProviderConfig(),
-				Check: resource.ComposeTestCheckFunc(
-					testNoInstanceState("oci_core_virtual_network"),
-				),
-			},
-		},
-	})
-}
-
-func (s ResourceCoreVirtualNetworkTestSuite) TestUpdateCidrBlockForcesNewVirtualNetwork() {
-	// Step 1 uses the mocking in Setup plus the following two Get mocks to create
-	// and then destroy the original resource.
-
-	config := `
-		resource "oci_core_virtual_network" "t" {
-			cidr_block = "10.0.0.0/24"
-			compartment_id = "${var.compartment_id}"
-		}
-  `
-	config += testProviderConfig()
-
-	resource.UnitTest(s.T(), resource.TestCase{
-		Providers: s.Providers,
-		Steps: []resource.TestStep{
-			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config:            s.Config,
-			},
-			{
-				Config: config,
+				Config: testProviderConfig() + `
+					resource "oci_core_virtual_network" "t" {
+						cidr_block = "10.0.0.0/24"
+						compartment_id = "${var.compartment_id}"
+					}`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "cidr_block", "10.0.0.0/24"),
+					func(s *terraform.State) (err error) {
+						resId2, err := fromInstanceState(s, "oci_core_virtual_network.t", "id")
+						if resId == resId2 {
+							return fmt.Errorf("Expected new vcn ocid, got the same")
+						}
+						return err
+					},
 				),
 			},
 		},
 	})
-}
-
-func (s *ResourceCoreVirtualNetworkTestSuite) TestDeleteVirtualNetwork() {
-
-	resource.UnitTest(s.T(), resource.TestCase{
-		Providers: s.Providers,
-		Steps: []resource.TestStep{
-			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config:            s.Config,
-			},
-			{
-				Config:  s.Config,
-				Destroy: true,
-			},
-		},
-	})
-
 }
 
 func TestResourceCoreVirtualNetworkTestSuite(t *testing.T) {

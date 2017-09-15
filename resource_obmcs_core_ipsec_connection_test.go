@@ -8,10 +8,11 @@ import (
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
+
 	"github.com/stretchr/testify/suite"
 )
 
-type ResourceCoreInternetGatewayTestSuite struct {
+type ResourceCoreIPSecTestSuite struct {
 	suite.Suite
 	Client       *baremetal.Client
 	Provider     terraform.ResourceProvider
@@ -20,21 +21,26 @@ type ResourceCoreInternetGatewayTestSuite struct {
 	ResourceName string
 }
 
-func (s *ResourceCoreInternetGatewayTestSuite) SetupTest() {
+func (s *ResourceCoreIPSecTestSuite) SetupTest() {
 	s.Client = testAccClient
 	s.Provider = testAccProvider
 	s.Providers = testAccProviders
 	s.Config = testProviderConfig() + `
-	resource "oci_core_virtual_network" "t" {
-		compartment_id = "${var.compartment_id}"
-		cidr_block = "10.0.0.0/16"
-		display_name = "-tf-vcn"
-	}`
+		resource "oci_core_drg" "t" {
+			compartment_id = "${var.compartment_id}"
+			display_name = "-tf-drg"
+		}
+		resource "oci_core_cpe" "t" {
+			compartment_id = "${var.compartment_id}"
+			display_name = "-tf-cpe"
+			ip_address = "123.123.123.123"
+			depends_on = ["oci_core_drg.t"]
+		}`
 
-	s.ResourceName = "oci_core_internet_gateway.t"
+	s.ResourceName = "oci_core_ipsec.t"
 }
 
-func (s *ResourceCoreInternetGatewayTestSuite) TestAccResourceCoreInternetGateway_basic() {
+func (s *ResourceCoreIPSecTestSuite) TestAccResourceCoreIpsec_basic() {
 
 	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -43,39 +49,39 @@ func (s *ResourceCoreInternetGatewayTestSuite) TestAccResourceCoreInternetGatewa
 			{
 				ImportState:       true,
 				ImportStateVerify: true,
-				Config: s.Config +
-					`resource "oci_core_internet_gateway" "t" {
+				Config: s.Config + `
+				resource "oci_core_ipsec" "t" {
 					compartment_id = "${var.compartment_id}"
-					vcn_id = "${oci_core_virtual_network.t.id}"
+					cpe_id = "${oci_core_cpe.t.id}"
+					drg_id = "${oci_core_drg.t.id}"
+					static_routes = ["10.0.0.0/16"]
 				}`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "drg_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "display_name"),
-					resource.TestCheckResourceAttr(s.ResourceName, "enabled", "true"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", baremetal.ResourceAvailable),
 				),
 			},
 			// verify update
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config: s.Config +
-					`resource "oci_core_internet_gateway" "t" {
+				Config: s.Config + `
+				resource "oci_core_ipsec" "t" {
 					compartment_id = "${var.compartment_id}"
-					vcn_id = "${oci_core_virtual_network.t.id}"
-					display_name = "-tf-internet-gateway"
-					enabled = false
+					cpe_id = "${oci_core_cpe.t.id}"
+					drg_id = "${oci_core_drg.t.id}"
+					display_name = "-tf-ipsec"
+					static_routes = ["10.0.0.0/16"]
 				}`,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-internet-gateway"),
-					resource.TestCheckResourceAttr(s.ResourceName, "enabled", "false"),
+					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-ipsec"),
 				),
 			},
 		},
 	})
 }
 
-func TestResourceCoreInternetGatewayTestSuite(t *testing.T) {
-	suite.Run(t, new(ResourceCoreInternetGatewayTestSuite))
+func TestResourceCoreIPSecTestSuite(t *testing.T) {
+	suite.Run(t, new(ResourceCoreIPSecTestSuite))
 }

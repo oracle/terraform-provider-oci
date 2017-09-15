@@ -4,11 +4,9 @@ package main
 
 import (
 	"testing"
-	"time"
 
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/resource"
-	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/stretchr/testify/suite"
 	"regexp"
@@ -27,47 +25,35 @@ type ResourceCoreVnicAttachmentTestSuite struct {
 }
 
 func (s *ResourceCoreVnicAttachmentTestSuite) SetupTest() {
-	s.Client = GetTestProvider()
-
-	s.Provider = Provider(
-		func(d *schema.ResourceData) (interface{}, error) {
-			return s.Client, nil
-		},
-	)
-
-	s.Providers = map[string]terraform.ResourceProvider{
-		"oci": s.Provider,
-	}
-
-	s.TimeCreated = baremetal.Time{Time: time.Now()}
-	s.Config = instanceDnsConfig
-	s.Config += testProviderConfig()
+	s.Client = testAccClient
+	s.Provider = testAccProvider
+	s.Providers = testAccProviders
+	s.Config = testProviderConfig() + instanceDnsConfig
 	s.ResourceName = "oci_core_vnic_attachment.va"
 	s.VnicResourceName = "data.oci_core_vnic.v"
 }
 
-func (s *ResourceCoreVnicAttachmentTestSuite) TestAttachVnic() {
+func (s *ResourceCoreVnicAttachmentTestSuite) TestAccResourceCoreVnicAttachment_basic() {
 
-	resource.UnitTest(s.T(), resource.TestCase{
+	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
 				ImportState:       true,
 				ImportStateVerify: true,
 				Config: s.Config + `
-						resource "oci_core_vnic_attachment" "va" {
-							instance_id = "${oci_core_instance.t.id}"
-							display_name = "-tf-va1"
-							create_vnic_details {
-								subnet_id = "${oci_core_subnet.t.id}"
-								display_name = "-tf-vnic"
-								assign_public_ip = false
-							}
+					resource "oci_core_vnic_attachment" "va" {
+						instance_id = "${oci_core_instance.t.id}"
+						display_name = "-tf-va1"
+						create_vnic_details {
+							subnet_id = "${oci_core_subnet.t.id}"
+							display_name = "-tf-vnic"
+							assign_public_ip = false
 						}
-						data "oci_core_vnic" "v" {
-						  vnic_id = "${oci_core_vnic_attachment.va.vnic_id}"
-						}
-					`,
+					}
+					data "oci_core_vnic" "v" {
+						vnic_id = "${oci_core_vnic_attachment.va.vnic_id}"
+					}`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "compartment_id"),

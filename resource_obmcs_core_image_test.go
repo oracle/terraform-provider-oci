@@ -7,7 +7,6 @@ import (
 
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/resource"
-	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
 	"github.com/stretchr/testify/suite"
@@ -18,103 +17,59 @@ type ResourceCoreImageTestSuite struct {
 	Client       *baremetal.Client
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
-	TimeCreated  baremetal.Time
 	Config       string
 	ResourceName string
-	Res          *baremetal.Image
-	DeletedRes   *baremetal.Image
 }
 
 func (s *ResourceCoreImageTestSuite) SetupTest() {
-	s.Client = GetTestProvider()
-
-	s.Provider = Provider(
-		func(d *schema.ResourceData) (interface{}, error) {
-			return s.Client, nil
-		},
-	)
-	s.Providers = map[string]terraform.ResourceProvider{"oci": s.Provider}
-
-	s.Config = instanceConfig + `
-		resource "oci_core_image" "t" {
-			compartment_id = "${var.compartment_id}"
-			display_name = "display_name"
-			instance_id = "${oci_core_instance.t.id}"
-		}
-	`
-	s.Config += testProviderConfig()
-
+	s.Client = testAccClient
+	s.Provider = testAccProvider
+	s.Providers = testAccProviders
+	s.Config = testProviderConfig() + instanceConfig
 	s.ResourceName = "oci_core_image.t"
 }
 
-func (s *ResourceCoreImageTestSuite) TestCreateImage() {
+func (s *ResourceCoreImageTestSuite) TestAccResourceCoreImage_basic() {
 
-	resource.UnitTest(s.T(), resource.TestCase{
+	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
+			// create image
 			{
 				ImportState:       true,
 				ImportStateVerify: true,
-				Config:            s.Config,
+				Config: s.Config + `
+					resource "oci_core_image" "t" {
+						compartment_id = "${var.compartment_id}"
+						instance_id = "${oci_core_instance.t.id}"
+						timeouts {
+							create = "15m"
+						}
+					}
+				`,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet(s.ResourceName, "base_image_id"),
-
-					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "display_name"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
-					resource.TestCheckResourceAttr(s.ResourceName, "state", baremetal.ResourceAvailable),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "base_image_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "display_name"),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", baremetal.ResourceAvailable),
 				),
 			},
-		},
-	})
-}
-
-func (s ResourceCoreImageTestSuite) TestUpdateImageDisplayName() {
-
-	config := `
-		resource "oci_core_image" "t" {
-			compartment_id = "${var.compartment_id}"
-			instance_id = "instance_id"
-			display_name = "new_display_name"
-		}
-	`
-	config += testProviderConfig()
-
-	resource.UnitTest(s.T(), resource.TestCase{
-		Providers: s.Providers,
-		Steps: []resource.TestStep{
+			// update image display name
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config:            s.Config,
-			},
-			{
-				Config: config,
+				Config: s.Config + `
+					resource "oci_core_image" "t" {
+						compartment_id = "${var.compartment_id}"
+						instance_id = "${oci_core_instance.t.id}"
+						display_name = "-tf-image"
+					}
+				`,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "new_display_name"),
+					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-image"),
 				),
 			},
 		},
 	})
-}
-
-func (s *ResourceCoreImageTestSuite) TestDeleteImage() {
-
-	resource.UnitTest(s.T(), resource.TestCase{
-		Providers: s.Providers,
-		Steps: []resource.TestStep{
-			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config:            s.Config,
-			},
-			{
-				Config:  s.Config,
-				Destroy: true,
-			},
-		},
-	})
-
 }
 
 func TestResourceCoreImageTestSuite(t *testing.T) {

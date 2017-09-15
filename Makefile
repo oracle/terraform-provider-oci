@@ -13,10 +13,10 @@ show_tests:
 	grep -ohi "Test.*$(test).*TestSuite" *.go
 
 run_one:
-	TF_ORACLE_ENV=test TF_ACC=1 go test -v -run $(test)
+	TF_ORACLE_ENV=test TF_ACC=1 go test -v -timeout 120m -run $(test)
 
 run_one_debug:
-	TF_LOG=DEBUG DEBUG=true TF_ORACLE_ENV=test TF_ACC=1 go test -v -run $(test)
+	TF_LOG=DEBUG DEBUG=true TF_ORACLE_ENV=test TF_ACC=1 go test -v -timeout 120m -run $(test)
 
 test_debug:
 	TF_LOG=DEBUG DEBUG=true TF_ORACLE_ENV=test TF_ACC=1 go test -v -timeout 120m
