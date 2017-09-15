@@ -206,7 +206,15 @@ func (s *LoadBalancerResourceCrud) Update() (e error) {
 		return
 	}
 	s.WorkRequest, e = s.Client.GetWorkRequest(workReqID, nil)
-	return
+	if e != nil {
+		return
+	}
+	e = crud.LoadBalancerWaitForWorkRequest(s.Client, s.D, s.WorkRequest)
+	if e != nil {
+		return
+	}
+	
+	return s.Get()
 }
 
 // SetData populates the resourceData from the model
@@ -232,7 +240,6 @@ func (s *LoadBalancerResourceCrud) SetData() {
 
 // Delete makes a request to delete the load balancer
 func (s *LoadBalancerResourceCrud) Delete() (e error) {
-	// TODO: make sure this actually works
 	if strings.Contains(s.D.Id(), "ocid1.loadbalancerworkrequest") {
 		return
 	}
