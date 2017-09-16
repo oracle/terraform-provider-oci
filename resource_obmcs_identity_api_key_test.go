@@ -4,11 +4,9 @@ package main
 
 import (
 	"testing"
-	"time"
 
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/resource"
-	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
 	"github.com/stretchr/testify/suite"
@@ -19,29 +17,22 @@ type ResourceIdentityAPIKeyTestSuite struct {
 	Client       *baremetal.Client
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
-	TimeCreated  time.Time
 	Config       string
 	ResourceName string
-	Res          *baremetal.APIKey
-	DeletedRes   *baremetal.APIKey
 }
 
 func (s *ResourceIdentityAPIKeyTestSuite) SetupTest() {
-	s.Client = GetTestProvider()
-
-	s.Provider = Provider(
-		func(d *schema.ResourceData) (interface{}, error) { return s.Client, nil },
-	)
-	s.Providers = map[string]terraform.ResourceProvider{"oci": s.Provider}
-
-	s.Config = `
-		resource "oci_identity_user" "t" {
-			name = "-tf-user"
-			description = "automated test user"
-		}
-		resource "oci_identity_api_key" "t" {
-			user_id = "${oci_identity_user.t.id}"
-			key_value = <<EOF
+	s.Client = testAccClient
+	s.Provider = testAccProvider
+	s.Providers = testAccProviders
+	s.Config = testProviderConfig() + `
+	resource "oci_identity_user" "t" {
+		name = "-tf-user"
+		description = "automated test user"
+	}
+	resource "oci_identity_api_key" "t" {
+		user_id = "${oci_identity_user.t.id}"
+		key_value = <<EOF
 -----BEGIN PUBLIC KEY-----
 MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtBLQAGmKJ7tpfzYJyqLG
 ZDwHL51+d6T8Z00BnP9CFfzxZZZ48PcYSUHuTyCM8mR5JqYLyH6C8tZ/DKqwxUnc
@@ -52,15 +43,12 @@ mXlrQB7nNKsJrrv5fHwaPDrAY4iNP2W0q3LRpyNigJ6cgRuGJhHa82iHPmxgIx8m
 fwIDAQAB
 -----END PUBLIC KEY-----
 EOF
-		}
-	`
-	s.Config += testProviderConfig()
+	}`
 	s.ResourceName = "oci_identity_api_key.t"
-
 }
 
-func (s *ResourceIdentityAPIKeyTestSuite) TestCreateAPIKey() {
-	resource.UnitTest(s.T(), resource.TestCase{
+func (s *ResourceIdentityAPIKeyTestSuite) TestAccResourceIdentityAPIKey_basic() {
+	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
@@ -74,25 +62,6 @@ func (s *ResourceIdentityAPIKeyTestSuite) TestCreateAPIKey() {
 			},
 		},
 	})
-}
-
-func (s *ResourceIdentityAPIKeyTestSuite) TestDeleteAPIKey() {
-
-	resource.UnitTest(s.T(), resource.TestCase{
-		Providers: s.Providers,
-		Steps: []resource.TestStep{
-			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config:            s.Config,
-			},
-			{
-				Config:  s.Config,
-				Destroy: true,
-			},
-		},
-	})
-
 }
 
 func TestResourceIdentityAPIKeyTestSuite(t *testing.T) {

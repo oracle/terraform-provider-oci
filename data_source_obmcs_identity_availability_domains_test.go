@@ -7,7 +7,6 @@ import (
 
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/resource"
-	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/stretchr/testify/suite"
 )
@@ -23,38 +22,19 @@ type DatasourceIdentityAvailabilityDomainsTestSuite struct {
 }
 
 func (s *DatasourceIdentityAvailabilityDomainsTestSuite) SetupTest() {
-	s.Client = GetTestProvider()
-	s.Provider = Provider(func(d *schema.ResourceData) (interface{}, error) {
-		return s.Client, nil
-	})
-
-	s.Providers = map[string]terraform.ResourceProvider{
-		"oci": s.Provider,
-	}
-	s.Config = `
+	s.Client = testAccClient
+	s.Provider = testAccProvider
+	s.Providers = testAccProviders
+	s.Config = testProviderConfig() + `
 	data "oci_identity_availability_domains" "t" {
-	  compartment_id = "${var.compartment_id}"
-	}
-`
-	s.Config += testProviderConfig()
+		compartment_id = "${var.compartment_id}"
+	}`
+
 	s.ResourceName = "data.oci_identity_availability_domains.t"
-
-	a1 := baremetal.AvailabilityDomain{
-		Name:          "AD1",
-		CompartmentID: "compartmentID",
-	}
-
-	a2 := a1
-	a2.Name = "AD2"
-
-	s.List = &baremetal.ListAvailabilityDomains{
-		AvailabilityDomains: []baremetal.AvailabilityDomain{a1, a2},
-	}
 }
 
-func (s *DatasourceIdentityAvailabilityDomainsTestSuite) TestReadAvailabilityDomains() {
-
-	resource.UnitTest(s.T(), resource.TestCase{
+func (s *DatasourceIdentityAvailabilityDomainsTestSuite) TestAccIdentityAvailabilityDomains_basic() {
+	resource.Test(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
@@ -70,7 +50,6 @@ func (s *DatasourceIdentityAvailabilityDomainsTestSuite) TestReadAvailabilityDom
 		},
 	},
 	)
-
 }
 
 func TestDatasourceIdentityAvailabilityDomainsTestSuite(t *testing.T) {

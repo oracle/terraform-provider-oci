@@ -4,11 +4,9 @@ package main
 
 import (
 	"testing"
-	"time"
 
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/resource"
-	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
 	"github.com/stretchr/testify/suite"
@@ -19,62 +17,57 @@ type ResourceIdentityCompartmentTestSuite struct {
 	Client       *baremetal.Client
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
-	TimeCreated  time.Time
 	Config       string
 	ResourceName string
-	Res          *baremetal.Compartment
 }
 
 func (s *ResourceIdentityCompartmentTestSuite) SetupTest() {
-	s.Client = GetTestProvider()
+	s.Client = testAccClient
+	s.Provider = testAccProvider
+	s.Providers = testAccProviders
+	s.Config = testProviderConfig()
 
-	configfn := func(d *schema.ResourceData) (interface{}, error) {
-		return s.Client, nil
-	}
-
-	s.Provider = Provider(configfn)
-	p := s.Provider.(*schema.Provider)
-	res := p.ResourcesMap["oci_identity_compartment"]
-	res.Delete = func(d *schema.ResourceData, m interface{}) (e error) {
-		return nil
-	}
-	s.Providers = map[string]terraform.ResourceProvider{
-		"oci": s.Provider,
-	}
-	s.TimeCreated, _ = time.Parse("2006-Jan-02", "2006-Jan-02")
-	s.Config = `
-		resource "oci_identity_compartment" "t" {
-			name = "test-compartment"
-			description = "automated test compartment"
-		}
-	`
-	s.Config += testProviderConfig()
 	s.ResourceName = "oci_identity_compartment.t"
-	s.Res = &baremetal.Compartment{
-		ID:            "id!",
-		Name:          "test-compartment",
-		Description:   "automated test compartment",
-		CompartmentID: "cid!",
-		State:         baremetal.ResourceActive,
-		TimeCreated:   s.TimeCreated,
-	}
-
 }
 
-func (s *ResourceIdentityCompartmentTestSuite) TestCreateResourceIdentityCompartment() {
-
-	resource.UnitTest(s.T(), resource.TestCase{
+func (s *ResourceIdentityCompartmentTestSuite) TestAccResourceIdentityCompartment_basic() {
+	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
+			// compartments are permanent, sync to existing test compartment
 			{
 				ImportState:       true,
 				ImportStateVerify: true,
-				Config:            s.Config,
+				Config: s.Config + `
+				resource "oci_identity_compartment" "t" {
+					name = "-tf-compartment"
+					description = "tf test compartment"
+				}`,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "name", s.Res.Name),
-					resource.TestCheckResourceAttr(s.ResourceName, "description", s.Res.Description),
-					resource.TestCheckResourceAttr(s.ResourceName, "state", s.Res.State),
+					resource.TestCheckResourceAttr(s.ResourceName, "name", "-tf-compartment"),
+					resource.TestCheckResourceAttr(s.ResourceName, "description", "tf test compartment"),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", baremetal.ResourceActive),
 				),
+			},
+			// verify update
+			{
+				Config: s.Config + `
+				resource "oci_identity_compartment" "t" {
+					name = "-tf-compartment"
+					description = "tf test compartment2"
+				}`,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttr(s.ResourceName, "name", "-tf-compartment"),
+					resource.TestCheckResourceAttr(s.ResourceName, "description", "tf test compartment2"),
+				),
+			},
+			// restore compartment to original state (for future tests)
+			{
+				Config: s.Config + `
+				resource "oci_identity_compartment" "t" {
+					name = "-tf-compartment"
+					description = "tf test compartment"
+				}`,
 			},
 		},
 	})

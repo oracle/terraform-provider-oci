@@ -5,9 +5,8 @@ package main
 import (
 	"testing"
 
-	baremetal "github.com/MustWin/baremetal-sdk-go"
+	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/resource"
-	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/stretchr/testify/suite"
 )
@@ -22,51 +21,41 @@ type ResourceIdentityUserGroupMembershipTestSuite struct {
 }
 
 func (s *ResourceIdentityUserGroupMembershipTestSuite) SetupTest() {
-	s.Client = GetTestProvider()
-	s.Provider = Provider(func(d *schema.ResourceData) (interface{}, error) {
-		return s.Client, nil
-	})
-
-	s.Providers = map[string]terraform.ResourceProvider{
-		"oci": s.Provider,
-	}
-
-	s.Config = `
-    resource "oci_identity_user" "u" {
+	s.Client = testAccClient
+	s.Provider = testAccProvider
+	s.Providers = testAccProviders
+	s.Config = testProviderConfig() + `
+	resource "oci_identity_user" "t" {
 		name = "-tf-user"
-		description = "automated test user"
-    }
-    resource "oci_identity_group" "g" {
+		description = "tf test user"
+	}
+	
+	resource "oci_identity_group" "t" {
 		name = "-tf-group"
-		description = "automated test group"
-    }
-    resource "oci_identity_user_group_membership" "ug_membership" {
-    	compartment_id = "${var.tenancy_ocid}"
-		user_id = "${oci_identity_user.u.id}"
-		group_id = "${oci_identity_group.g.id}"
-    }
-  `
-	s.Config += testProviderConfig()
-	s.ResourceName = "oci_identity_user_group_membership.ug_membership"
+		description = "tf test group"
+	}`
+	s.ResourceName = "oci_identity_user_group_membership.t"
 }
 
-func (s *ResourceIdentityUserGroupMembershipTestSuite) TestGetUserGroupMembershipsByGroup() {
-	resource.UnitTest(s.T(), resource.TestCase{
+func (s *ResourceIdentityUserGroupMembershipTestSuite) TestAccResourceUserGroupMemberships_basic() {
+	resource.Test(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
 			{
 				ImportState:       true,
 				ImportStateVerify: true,
-				Config:            s.Config,
+				Config: s.Config + `
+				resource "oci_identity_user_group_membership" "t" {
+					compartment_id = "${var.tenancy_ocid}"
+					user_id = "${oci_identity_user.t.id}"
+					group_id = "${oci_identity_group.t.id}"
+				}`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
-				),
-			},
-			{
-				Config: s.Config,
-				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet("oci_identity_user_group_membership.ug_membership", "user_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "compartment_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "user_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "group_id"),
 				),
 			},
 		},
