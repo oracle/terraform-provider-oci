@@ -7,7 +7,6 @@ import (
 
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/resource"
-	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
 	"github.com/stretchr/testify/suite"
@@ -24,27 +23,20 @@ type DatasourceIdentityUsersTestSuite struct {
 }
 
 func (s *DatasourceIdentityUsersTestSuite) SetupTest() {
-	s.Client = GetTestProvider()
-	s.Provider = Provider(func(d *schema.ResourceData) (interface{}, error) {
-		return s.Client, nil
-	})
-
-	s.Providers = map[string]terraform.ResourceProvider{
-		"oci": s.Provider,
+	s.Client = testAccClient
+	s.Provider = testAccProvider
+	s.Providers = testAccProviders
+	s.Config = testProviderConfig() + `
+	resource "oci_identity_user" "t" {
+		name = "-tf-user"
+		description = "automated test user"
 	}
-	s.Config = `
-		resource "oci_identity_user" "t" {
-			name = "-tf-user"
-			description = "automated test user"
-		}
 	`
-	s.Config += testProviderConfig()
 	s.ResourceName = "data.oci_identity_users.t"
 }
 
-func (s *DatasourceIdentityUsersTestSuite) TestReadUsers() {
-
-	resource.UnitTest(s.T(), resource.TestCase{
+func (s *DatasourceIdentityUsersTestSuite) TestAccIdentityUsers_basic() {
+	resource.Test(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
@@ -59,8 +51,8 @@ func (s *DatasourceIdentityUsersTestSuite) TestReadUsers() {
 					compartment_id = "${var.compartment_id}"
 				}`,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet(s.ResourceName, "users.0.id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "users.#"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "users.0.id"),
 				),
 			},
 		},

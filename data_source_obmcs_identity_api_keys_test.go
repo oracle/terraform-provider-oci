@@ -4,11 +4,9 @@ package main
 
 import (
 	"testing"
-	"time"
 
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/resource"
-	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
 	"github.com/stretchr/testify/suite"
@@ -25,22 +23,18 @@ type DatasourceIdentityAPIKeysTestSuite struct {
 }
 
 func (s *DatasourceIdentityAPIKeysTestSuite) SetupTest() {
-	s.Client = GetTestProvider()
-	s.Provider = Provider(func(d *schema.ResourceData) (interface{}, error) {
-		return s.Client, nil
-	})
-
-	s.Providers = map[string]terraform.ResourceProvider{
-		"oci": s.Provider,
-	}
-	s.Config = `
+	s.Client = testAccClient
+	s.Provider = testAccProvider
+	s.Providers = testAccProviders
+	s.Config = testProviderConfig() + `
 	resource "oci_identity_user" "t" {
-			name = "-tf-test"
-			description = "automated test user"
-		}
-		resource "oci_identity_api_key" "t" {
-			user_id = "${oci_identity_user.t.id}"
-			key_value = <<EOF
+		name = "-tf-test"
+		description = "automated test user"
+	}
+	
+	resource "oci_identity_api_key" "t" {
+		user_id = "${oci_identity_user.t.id}"
+		key_value = <<EOF
 -----BEGIN PUBLIC KEY-----
 MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtBLQAGmKJ7tpfzYJyqLG
 ZDwHL51+d6T8Z00BnP9CFfzxZZZ48PcYSUHuTyCM8mR5JqYLyH6C8tZ/DKqwxUnc
@@ -51,32 +45,12 @@ mXlrQB7nNKsJrrv5fHwaPDrAY4iNP2W0q3LRpyNigJ6cgRuGJhHa82iHPmxgIx8m
 fwIDAQAB
 -----END PUBLIC KEY-----
 EOF
-		}
-
-  `
-	s.Config += testProviderConfig()
+	}`
 	s.ResourceName = "data.oci_identity_api_keys.t"
-
-	b1 := baremetal.APIKey{
-		Fingerprint: "fingerprint",
-		KeyID:       "id1",
-		KeyValue:    "key_value",
-		State:       baremetal.ResourceAvailable,
-		TimeCreated: time.Now(),
-		UserID:      "user_id",
-	}
-
-	b2 := b1
-	b2.KeyID = "id2"
-
-	s.List = &baremetal.ListAPIKeyResponses{
-		Keys: []baremetal.APIKey{b1, b2},
-	}
 }
 
-func (s *DatasourceIdentityAPIKeysTestSuite) TestReadAPIKeys() {
-
-	resource.UnitTest(s.T(), resource.TestCase{
+func (s *DatasourceIdentityAPIKeysTestSuite) TestAccDatasourceIdentityAPIKeys_basic() {
+	resource.Test(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
@@ -87,9 +61,9 @@ func (s *DatasourceIdentityAPIKeysTestSuite) TestReadAPIKeys() {
 			},
 			{
 				Config: s.Config + `
-				    data "oci_identity_api_keys" "t" {
-				      user_id = "${oci_identity_user.t.id}"
-				    }`,
+				data "oci_identity_api_keys" "t" {
+				  user_id = "${oci_identity_user.t.id}"
+				}`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "api_keys.0.id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "api_keys.#", "1"),

@@ -4,11 +4,9 @@ package main
 
 import (
 	"testing"
-	"time"
 
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/resource"
-	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
 	"github.com/stretchr/testify/suite"
@@ -25,49 +23,29 @@ type DatasourceIdentityCompartmentsTestSuite struct {
 }
 
 func (s *DatasourceIdentityCompartmentsTestSuite) SetupTest() {
-	s.Client = GetTestProvider()
-	s.Provider = Provider(func(d *schema.ResourceData) (interface{}, error) {
-		return s.Client, nil
-	})
-
-	s.Providers = map[string]terraform.ResourceProvider{
-		"oci": s.Provider,
-	}
-	s.Config = `
-    data "oci_identity_compartments" "t" {
-      compartment_id = "${var.compartment_id}"
-    }
-  `
-	s.Config += testProviderConfig()
+	s.Client = testAccClient
+	s.Provider = testAccProvider
+	s.Providers = testAccProviders
+	s.Config = testProviderConfig() + `
+	resource "oci_identity_compartment" "t" {
+		name = "-tf-compartment"
+		description = "tf test compartment"
+	}`
 	s.ResourceName = "data.oci_identity_compartments.t"
-
-	b1 := baremetal.Compartment{
-		ID:            "id",
-		Name:          "compartmentname",
-		CompartmentID: "compartment",
-		Description:   "blah",
-		State:         baremetal.ResourceActive,
-		TimeCreated:   time.Now(),
-	}
-
-	b2 := b1
-	b2.ID = "id2"
-
-	s.List = &baremetal.ListCompartments{
-		Compartments: []baremetal.Compartment{b1, b2},
-	}
 }
 
-func (s *DatasourceIdentityCompartmentsTestSuite) TestReadCompartments() {
-
-	resource.UnitTest(s.T(), resource.TestCase{
+func (s *DatasourceIdentityCompartmentsTestSuite) TestAccIdentityCompartments_basic() {
+	resource.Test(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
 			{
 				ImportState:       true,
 				ImportStateVerify: true,
-				Config:            s.Config,
+				Config: s.Config + `
+				data "oci_identity_compartments" "t" {
+					compartment_id = "${var.compartment_id}"
+				}`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "compartments.0.id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "compartments.#"),

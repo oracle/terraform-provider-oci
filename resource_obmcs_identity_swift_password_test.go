@@ -4,11 +4,9 @@ package main
 
 import (
 	"testing"
-	"time"
 
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/resource"
-	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/stretchr/testify/suite"
 )
@@ -18,88 +16,53 @@ type ResourceIdentitySwiftPasswordTestSuite struct {
 	Client       *baremetal.Client
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
-	TimeCreated  time.Time
 	Config       string
 	ResourceName string
-	Res          *baremetal.SwiftPassword
 }
 
 func (s *ResourceIdentitySwiftPasswordTestSuite) SetupTest() {
-	s.Client = GetTestProvider()
+	s.Client = testAccClient
+	s.Provider = testAccProvider
+	s.Providers = testAccProviders
+	s.Config = testProviderConfig() + `
+	resource "oci_identity_user" "t" {
+		name = "tf-user"
+		description = "tf test user"
+	}`
 
-	s.Provider = Provider(
-		func(d *schema.ResourceData) (interface{}, error) {
-			return s.Client, nil
-		},
-	)
-
-	s.Providers = map[string]terraform.ResourceProvider{
-		"oci": s.Provider,
-	}
-
-	description := "blah blah blah"
-	s.Config = `
-		resource "oci_identity_user" "t" {
-			name = "name1"
-			description = "desc!"
-		}
-		resource "oci_identity_swift_password" "t" {
-			user_id = "${oci_identity_user.t.id}"
-			description = "` + description + `"
-		}
-	`
-	s.Config += testProviderConfig()
-
-	s.TimeCreated = time.Now()
 	s.ResourceName = "oci_identity_swift_password.t"
-
 }
 
-func (s *ResourceIdentitySwiftPasswordTestSuite) TestCreateSwiftPassword() {
-	resource.UnitTest(s.T(), resource.TestCase{
+func (s *ResourceIdentitySwiftPasswordTestSuite) TestAccResourceIdentitySwiftPassword_basic() {
+	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
+			// verify create
 			{
 				ImportState:       true,
 				ImportStateVerify: true,
-				Config:            s.Config,
+				Config: s.Config + `
+				resource "oci_identity_swift_password" "t" {
+					user_id = "${oci_identity_user.t.id}"
+					description = "tf test swift password"
+				}`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "user_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "password"),
+					resource.TestCheckResourceAttr(s.ResourceName, "description", "tf test swift password"),
 				),
 			},
-		},
-	})
-}
-
-func (s ResourceIdentitySwiftPasswordTestSuite) TestUpdateDescriptionUpdatesSwiftPassword() {
-	config := `
-		resource "oci_identity_user" "t" {
-			name = "-tf-user"
-			description = "automated test user"
-		}
-		resource "oci_identity_swift_password" "t" {
-			user_id = "${oci_identity_user.t.id}"
-			description = "automated test swift password"
-		}
-  `
-	config += testProviderConfig()
-
-	resource.UnitTest(s.T(), resource.TestCase{
-		Providers: s.Providers,
-		Steps: []resource.TestStep{
+			// verify update
 			{
 				ImportState:       true,
 				ImportStateVerify: true,
-				Config:            s.Config,
+				Config: s.Config + `
+				resource "oci_identity_swift_password" "t" {
+					user_id = "${oci_identity_user.t.id}"
+					description = "tf test swift password (updated)"
+				}`,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet(s.ResourceName, "password"),
-				),
-			},
-			{
-				Config: config,
-				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "description", "automated test swift password"),
+					resource.TestCheckResourceAttr(s.ResourceName, "description", "tf test swift password (updated)"),
 				),
 			},
 		},

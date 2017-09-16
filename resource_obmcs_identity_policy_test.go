@@ -4,11 +4,9 @@ package main
 
 import (
 	"testing"
-	"time"
 
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/resource"
-	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
 	"github.com/stretchr/testify/suite"
@@ -16,58 +14,70 @@ import (
 
 type ResourceIdentityPolicyTestSuite struct {
 	suite.Suite
-	Client      *baremetal.Client
-	Provider    terraform.ResourceProvider
-	Providers   map[string]terraform.ResourceProvider
-	TimeCreated time.Time
-	Config      string
-	PolicyName  string
-	Policy      *baremetal.Policy
+	Client       *baremetal.Client
+	Provider     terraform.ResourceProvider
+	Providers    map[string]terraform.ResourceProvider
+	Config       string
+	ResourceName string
 }
 
 func (s *ResourceIdentityPolicyTestSuite) SetupTest() {
-	s.Client = GetTestProvider()
-	s.Provider = Provider(func(d *schema.ResourceData) (interface{}, error) {
-		return s.Client, nil
-	},
-	)
-	s.Providers = map[string]terraform.ResourceProvider{
-		"oci": s.Provider,
+	s.Client = testAccClient
+	s.Provider = testAccProvider
+	s.Providers = testAccProviders
+	s.Config = testProviderConfig() + `
+	resource "oci_identity_compartment" "t" {
+		name = "-tf-compartment"
+		description = "tf test compartment"
 	}
-	s.TimeCreated, _ = time.Parse("2006-Jan-02", "2006-Jan-02")
-	s.Config = `
+	
 	resource "oci_identity_group" "t" {
 		name = "-tf-group"
 		description = "automated test group"
-	}
-	data "oci_identity_compartments" "t" {
-		compartment_id = "${var.compartment_id}"
-	}
-	resource "oci_identity_policy" "p" {
-		name = "-tf-policy"
-		description = "automated test policy"
-		compartment_id = "${data.oci_identity_compartments.t.compartments.0.id}"
-		statements = ["Allow group ${oci_identity_group.t.name} to read instances in compartment ${data.oci_identity_compartments.t.compartments.0.name}"]
-	}
-	`
-	s.Config += testProviderConfig()
-	s.PolicyName = "oci_identity_policy.p"
-
+	}`
+	s.ResourceName = "oci_identity_policy.p"
 }
 
-func (s *ResourceIdentityPolicyTestSuite) TestCreateResourceIdentityPolicy() {
-
-	resource.UnitTest(s.T(), resource.TestCase{
+func (s *ResourceIdentityPolicyTestSuite) TestAccResourceIdentityPolicy_basic() {
+	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
+			// verify create
 			{
 				ImportState:       true,
 				ImportStateVerify: true,
-				Config:            s.Config,
+				Config: s.Config + `
+				resource "oci_identity_policy" "p" {
+					compartment_id = "${oci_identity_compartment.t.id}"
+					name = "-tf-policy"
+					description = "automated test policy"
+					statements = ["Allow group ${oci_identity_group.t.name} to read instances in compartment ${oci_identity_compartment.t.name}"]
+				}`,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet(s.PolicyName, "id"),
-					resource.TestCheckResourceAttrSet(s.PolicyName, "time_created"),
-					resource.TestCheckResourceAttr(s.PolicyName, "statements.#", "1"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "compartment_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
+					resource.TestCheckResourceAttr(s.ResourceName, "name", "-tf-policy"),
+					resource.TestCheckResourceAttr(s.ResourceName, "description", "automated test policy"),
+					resource.TestCheckResourceAttr(s.ResourceName, "statements.#", "1"),
+				),
+			},
+			// verify update
+			{
+				Config: s.Config + `
+				resource "oci_identity_policy" "p" {
+					compartment_id = "${oci_identity_compartment.t.id}"
+					name = "-tf-policy-update"
+					description = "automated test policy (updated)"
+					statements = [
+						"Allow group ${oci_identity_group.t.name} to read instances in compartment ${oci_identity_compartment.t.name}",
+						"Allow group ${oci_identity_group.t.name} to read instances in compartment ${oci_identity_compartment.t.name}"
+					]
+				}`,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttr(s.ResourceName, "name", "-tf-policy-update"),
+					resource.TestCheckResourceAttr(s.ResourceName, "description", "automated test policy (updated)"),
+					resource.TestCheckResourceAttr(s.ResourceName, "statements.#", "2"),
 				),
 			},
 		},

@@ -8,11 +8,10 @@ import (
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
-
 	"github.com/stretchr/testify/suite"
 )
 
-type ResourceIdentityUIPasswordTestSuite struct {
+type DatasourceIdentitySwiftPasswordsTestSuite struct {
 	suite.Suite
 	Client       *baremetal.Client
 	Provider     terraform.ResourceProvider
@@ -21,7 +20,7 @@ type ResourceIdentityUIPasswordTestSuite struct {
 	ResourceName string
 }
 
-func (s *ResourceIdentityUIPasswordTestSuite) SetupTest() {
+func (s *DatasourceIdentitySwiftPasswordsTestSuite) SetupTest() {
 	s.Client = testAccClient
 	s.Provider = testAccProvider
 	s.Providers = testAccProviders
@@ -29,32 +28,39 @@ func (s *ResourceIdentityUIPasswordTestSuite) SetupTest() {
 	resource "oci_identity_user" "t" {
 		name = "-tf-user"
 		description = "tf test user"
+	}
+	resource "oci_identity_swift_password" "t" {
+		user_id = "${oci_identity_user.t.id}"
+		description = "tf test user swift password"
 	}`
-
-	s.ResourceName = "oci_identity_ui_password.t"
+	s.ResourceName = "data.oci_identity_swift_passwords.p"
 }
 
-func (s *ResourceIdentityUIPasswordTestSuite) TestAccIdentityUIPassword_basic() {
+func (s *DatasourceIdentitySwiftPasswordsTestSuite) TestAccDatasourceIdentitySwiftPasswords_basic() {
 	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			// verify create
 			{
 				ImportState:       true,
 				ImportStateVerify: true,
+				Config:            s.Config,
+			},
+			{
 				Config: s.Config + `
-				resource "oci_identity_ui_password" "t" {
+				data "oci_identity_swift_passwords" "p" {
 					user_id = "${oci_identity_user.t.id}"
 				}`,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet(s.ResourceName, "user_id"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "password"),
+					resource.TestCheckResourceAttr(s.ResourceName, "passwords.#", "1"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "passwords.0.id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "passwords.0.description", "tf test user swift password"),
 				),
 			},
 		},
-	})
+	},
+	)
 }
 
-func TestResourceIdentityUIPasswordTestSuite(t *testing.T) {
-	suite.Run(t, new(ResourceIdentityUIPasswordTestSuite))
+func TestDatasourceIdentitySwiftPasswordsTestSuite(t *testing.T) {
+	suite.Run(t, new(DatasourceIdentitySwiftPasswordsTestSuite))
 }
