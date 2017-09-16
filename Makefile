@@ -1,54 +1,38 @@
 GOFMT_FILES?=$$(find . -name '*.go' | grep -v vendor)
 
 default: build
+build: ;go build -o terraform-provider-oci
+clean: ;@rm -rf terraform-provider-oci  rm -rf bin/*  rm bin
+fmt: ;goimports -w -local github.com/oracle/terraform-provider-oci $(GOFMT_FILES)
 
-clean:
-	rm -rf terraform-provider-oci
-	rm -rf bin/*
+### `make release version=2.0.1`
+release: clean
+ifdef version
+	sed -i '' -e 's/version = ".*"/version = "$(version)"/g' version.go
+	gox -output ./bin/{{.OS}}_{{.Arch}}/terraform-provider-oci_v$(version)
+else
+	@echo Err! `make release` requires a version argument 
+endif
 
-fmt:
-	goimports -w -local github.com/oracle/terraform-provider-oci $(GOFMT_FILES)
+zip: ;@cd bin
+	zip -r windows.zip windows_386 windows_amd64
+	tar -czvf darwin.tar.gz darwin_386 darwin_amd64
+	tar -czvf freebsd.tar.gz freebsd_386 freebsd_amd64 freebsd_arm
+	tar -czvf linux.tar.gz linux_386 linux_amd64 linux_arm
+	tar -czvf openbsd.tar.gz openbsd_386 openbsd_amd64
 
-show_tests:
-	grep -ohi "Test.*$(test).*TestSuite" *.go
+### `make test run=TestResourceCore debug=1`
+cmd := TF_ACC=1 TF_ORACLE_ENV=test go test -v -timeout 120m
+ifdef run
+  cmd := $(cmd) -run $(run)
+endif
+ifdef debug
+  cmd := DEBUG=true TF_LOG=DEBUG $(cmd)
+endif
+test: ;$(cmd)
 
-run_one:
-	TF_ORACLE_ENV=test TF_ACC=1 go test -v -timeout 120m -run $(test)
+test_print:
+	@grep -ohi "Test.*$(test).*TestSuite" *.go
+	@grep -oh "TestAcc.*\*testing.T" *.go | cut -d \( -f 1
 
-run_one_debug:
-	TF_LOG=DEBUG DEBUG=true TF_ORACLE_ENV=test TF_ACC=1 go test -v -timeout 120m -run $(test)
-
-test_debug:
-	TF_LOG=DEBUG DEBUG=true TF_ORACLE_ENV=test TF_ACC=1 go test -v -timeout 120m
-
-test:
-	# You MUST export these variables
-	# export TF_VAR_private_key_path=/Users/Mike/.ssh/oracle2
-	# export TF_VAR_fingerprint=46:08:e3:7b:95:0a:d6:5f:78:24:32:87:23:3f:56:31
-	# export TF_VAR_user_ocid=ocid1.user.oc1..aaaaaaaa5hpflij6krfusympeuugy2bawg25pralmnw7v4xdveysdpoxdjsk
-	# export TF_VAR_tenancy_ocid=ocid1.tenancy.oc1..aaaaaaaayfzsknaowsjdlheebqsaicjddtlubq7dnwz5izbvs3vfs4xmkargta
-	# export TF_VAR_compartment_id=ocid1.compartment.oc1..aaaaaaaajszpk2siudrmdhaknxvny7vktxk2dm43xpk7sa5d4vmrol2n2qsa
-	# export TF_VAR_namespace=mustwin
-	TF_ORACLE_ENV=test TF_ACC=1 go test -v -timeout 120m
-
-build:
-	go build -o terraform-provider-oci
-
-version:
-	sed -i '' -e 's/version = ".*"/version = "\
-	$(shell curl -s https://api.github.com/repos/oracle/terraform-provider-oci/releases/latest | \
-	jq -r '.tag_name')\
-	"/g' version.go
-
-release: clean version
-	gox -output "./bin/{{.OS}}_{{.Arch}}/terraform-provider-oci"
-
-zip:
-	cd bin \
-	&& zip -r windows.zip windows_386 windows_amd64 \
-	&& tar -czvf darwin.tar.gz darwin_386 darwin_amd64 \
-	&& tar -czvf freebsd.tar.gz freebsd_386 freebsd_amd64 freebsd_arm \
-	&& tar -czvf linux.tar.gz linux_386 linux_amd64 linux_arm \
-	&& tar -czvf openbsd.tar.gz openbsd_386 openbsd_amd64
-
-.PHONY: clean fmt build release test test_unit zip version
+.PHONY: build clean fmt release zip test test_print
