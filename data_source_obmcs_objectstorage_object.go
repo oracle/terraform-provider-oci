@@ -9,6 +9,7 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 
 	"github.com/oracle/terraform-provider-oci/crud"
+	"strconv"
 )
 
 func ObjectDatasource() *schema.Resource {
@@ -127,6 +128,7 @@ func (s *ObjectDatasourceCrud) Get() (e error) {
 }
 
 func (s *ObjectDatasourceCrud) SetData() {
+	
 	if s.Res != nil {
 		// Important, if you don't have an ID, make one up for your datasource
 		// or things will end in tears
@@ -135,9 +137,9 @@ func (s *ObjectDatasourceCrud) SetData() {
 		for _, v := range s.Res.Objects {
 			res := map[string]interface{}{
 				"name":         v.Name,
-				"size":         v.Size,
+				"size":         strconv.FormatUint(v.Size, 10),
 				"md5":          v.MD5,
-				"time_created": v.TimeCreated,
+				"time_created": v.TimeCreated.String(),
 			}
 			resources = append(resources, res)
 		}
