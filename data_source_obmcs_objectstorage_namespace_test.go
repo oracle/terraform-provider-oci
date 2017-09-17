@@ -4,11 +4,9 @@ package main
 
 import (
 	"testing"
-	"time"
 
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/resource"
-	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
 	"github.com/stretchr/testify/suite"
@@ -19,41 +17,23 @@ type DatasourceObjectstorageNamespaceTestSuite struct {
 	Client       *baremetal.Client
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
-	TimeCreated  baremetal.Time
 	Config       string
 	ResourceName string
-	Res          *baremetal.Namespace
 }
 
 func (s *DatasourceObjectstorageNamespaceTestSuite) SetupTest() {
-	s.Client = GetTestProvider()
-
-	s.Provider = Provider(
-		func(d *schema.ResourceData) (interface{}, error) {
-			return s.Client, nil
-		},
-	)
-
-	s.Providers = map[string]terraform.ResourceProvider{
-		"oci": s.Provider,
-	}
-
-	s.TimeCreated = baremetal.Time{Time: time.Now()}
-
-	s.Config = `
-		data "oci_objectstorage_namespace" "t" {}
-	`
-
-	s.Config += testProviderConfig()
-
-	s.ResourceName = "oci_objectstorage_namespace.t"
-	namespace := baremetal.Namespace("namespaceID")
-	s.Res = &namespace
+	s.Client = testAccClient
+	s.Provider = testAccProvider
+	s.Providers = testAccProviders
+	s.Config = testProviderConfig() + `
+	data "oci_objectstorage_namespace" "t" {
+	}`
+	s.ResourceName = "data.oci_objectstorage_namespace.t"
 }
 
-func (s *DatasourceObjectstorageNamespaceTestSuite) TestObjectstorageNamespace() {
+func (s *DatasourceObjectstorageNamespaceTestSuite) TestAccDatasourceObjectstorageNamespace_basic() {
 
-	resource.UnitTest(s.T(), resource.TestCase{
+	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
@@ -61,14 +41,13 @@ func (s *DatasourceObjectstorageNamespaceTestSuite) TestObjectstorageNamespace()
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "namespace", "namespaceID"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "namespace"),
 				),
 			},
 		},
 	})
-
 }
 
-func TestDatasourceobjectstorageNamespaceTestSuite(t *testing.T) {
-	suite.Run(t, new(ResourceObjectstorageObjectTestSuite))
+func TestDatasourceObjectstorageNamespaceTestSuite(t *testing.T) {
+	suite.Run(t, new(DatasourceObjectstorageNamespaceTestSuite))
 }

@@ -4,11 +4,9 @@ package main
 
 import (
 	"testing"
-	"time"
 
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/resource"
-	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
 	"github.com/stretchr/testify/suite"
@@ -19,96 +17,46 @@ type ResourceObjectstorageBucketTestSuite struct {
 	Client       *baremetal.Client
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
-	TimeCreated  baremetal.Time
 	Config       string
 	ResourceName string
-	Res          *baremetal.Bucket
-	Namespace    baremetal.Namespace
-	AccessType   baremetal.BucketAccessType
 }
 
 func (s *ResourceObjectstorageBucketTestSuite) SetupTest() {
-	s.Client = GetTestProvider()
-
-	s.Provider = Provider(
-		func(d *schema.ResourceData) (interface{}, error) {
-			return s.Client, nil
-		},
-	)
-
-	s.Providers = map[string]terraform.ResourceProvider{
-		"oci": s.Provider,
-	}
-
-	s.TimeCreated = baremetal.Time{Time: time.Now()}
-
-	s.Config = `
-		resource "oci_objectstorage_bucket" "t" {
-			compartment_id = "${var.compartment_id}"
-			name = "name"
-			namespace = "${var.namespace}"
-			metadata = {
-				"foo" = "bar"
-			}
-		}
-	`
-
-	s.Config += testProviderConfig()
+	s.Client = testAccClient
+	s.Provider = testAccProvider
+	s.Providers = testAccProviders
+	s.Config = testProviderConfig() + `
+	data "oci_objectstorage_namespace" "t" {
+	}`
 
 	s.ResourceName = "oci_objectstorage_bucket.t"
-	metadata := map[string]string{
-		"foo": "bar",
-	}
-	s.Namespace = baremetal.Namespace("namespace")
-	s.Res = &baremetal.Bucket{
-		CompartmentID: "compartment_id",
-		Name:          "name",
-		Namespace:     s.Namespace,
-		Metadata:      metadata,
-		CreatedBy:     "created_by",
-		TimeCreated:   s.TimeCreated,
-	}
-	s.Res.ETag = "etag"
-	s.Res.RequestID = "opcrequestid"
-
 }
 
-func (s *ResourceObjectstorageBucketTestSuite) TestCreateResourceObjectstorageBucket() {
-
-	resource.UnitTest(s.T(), resource.TestCase{
+func (s *ResourceObjectstorageBucketTestSuite) TestAccResourceObjectstorageBucket_basic() {
+	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
 				ImportState:       true,
 				ImportStateVerify: true,
-				Config:            s.Config,
+				Config: s.Config + `
+				resource "oci_objectstorage_bucket" "t" {
+					namespace = "${data.oci_objectstorage_namespace.t.namespace}"
+					compartment_id = "${var.compartment_id}"
+					name = "-tf-bucket"
+					metadata = {
+						"content-type" = "text/plain"
+					}
+				}`,
 				Check: resource.ComposeTestCheckFunc(
-
-					resource.TestCheckResourceAttr(s.ResourceName, "name", s.Res.Name),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "namespace"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "compartment_id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "name", "-tf-bucket"),
+					resource.TestCheckResourceAttr(s.ResourceName, "metadata.content-type", "text/plain"),
 				),
 			},
 		},
 	})
-}
-
-func (s *ResourceObjectstorageBucketTestSuite) TestDeleteResourceObjectstorageBucket() {
-
-	resource.UnitTest(s.T(), resource.TestCase{
-		Providers: s.Providers,
-		Steps: []resource.TestStep{
-			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config:            s.Config,
-			},
-			{
-				Config:  s.Config,
-				Destroy: true,
-			},
-		},
-	})
-
 }
 
 func TestResourceObjectstorageBucketTestSuite(t *testing.T) {

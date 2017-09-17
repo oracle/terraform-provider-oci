@@ -62,6 +62,7 @@ func (s *BucketResourceCrud) ID() string {
 	return string(s.Res.Namespace) + "/" + s.Res.Name
 }
 
+// todo: this delay doesnt seem necessary but should be well tested in real world scenarios before removal
 func (s *BucketResourceCrud) ExtraWaitPostCreateDelete() time.Duration {
 	return time.Duration(10 * time.Second)
 }
