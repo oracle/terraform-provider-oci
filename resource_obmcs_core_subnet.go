@@ -76,6 +76,7 @@ func SubnetResource() *schema.Resource {
 				Type:     schema.TypeBool,
 				Optional: true,
 				Default:  false,
+				ForceNew: true,
 			},
 			// Computed
 			"id": {
@@ -235,6 +236,7 @@ func (s *SubnetResourceCrud) SetData() {
 	s.D.Set("cidr_block", s.Resource.CIDRBlock)
 	s.D.Set("dhcp_options_id", s.Resource.DHCPOptionsID)
 	s.D.Set("dns_label", s.Resource.DNSLabel)
+	s.D.Set("prohibit_public_ip_on_vnic", s.Resource.ProhibitPublicIpOnVnic)
 	s.D.Set("route_table_id", s.Resource.RouteTableID)
 	s.D.Set("vcn_id", s.Resource.VcnID)
 	s.D.Set("security_list_ids", makeSetFromStrings(s.Resource.SecurityListIDs))
