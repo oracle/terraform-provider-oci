@@ -7,8 +7,8 @@ import (
 
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
-
 	"github.com/oracle/terraform-provider-oci/crud"
+	"github.com/oracle/terraform-provider-oci/options"
 )
 
 func UserDatasource() *schema.Resource {
@@ -42,7 +42,25 @@ type UserDatasourceCrud struct {
 }
 
 func (s *UserDatasourceCrud) Get() (e error) {
-	s.Res, e = s.Client.ListUsers(nil)
+
+	opts := &baremetal.ListOptions{}
+	options.SetListOptions(s.D, opts)
+
+	s.Res = &baremetal.ListUsers{Users: []baremetal.User{}}
+
+	for {
+		var list *baremetal.ListUsers
+		if list, e = s.Client.ListUsers(opts); e != nil {
+			break
+		}
+
+		s.Res.Users = append(s.Res.Users, list.Users...)
+
+		if hasNexPage := options.SetNextPageOption(list.NextPage, &opts.PageListOptions); !hasNexPage {
+			break
+		}
+	}
+
 	return
 }
 

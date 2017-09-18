@@ -9,6 +9,7 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 
 	"github.com/oracle/terraform-provider-oci/crud"
+	"github.com/oracle/terraform-provider-oci/options"
 )
 
 func GroupDatasource() *schema.Resource {
@@ -42,7 +43,24 @@ type GroupDatasourceCrud struct {
 }
 
 func (s *GroupDatasourceCrud) Get() (e error) {
-	s.Res, e = s.Client.ListGroups(nil)
+	opts := &baremetal.ListOptions{}
+	options.SetListOptions(s.D, opts)
+
+	s.Res = &baremetal.ListGroups{Groups: []baremetal.Group{}}
+
+	for {
+		var list *baremetal.ListGroups
+		if list, e = s.Client.ListGroups(opts); e != nil {
+			break
+		}
+
+		s.Res.Groups = append(s.Res.Groups, list.Groups...)
+
+		if hasNexPage := options.SetNextPageOption(list.NextPage, &opts.PageListOptions); !hasNexPage {
+			break
+		}
+	}
+
 	return
 }
 
