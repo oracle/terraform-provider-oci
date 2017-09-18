@@ -9,6 +9,7 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 
 	"github.com/oracle/terraform-provider-oci/crud"
+	"github.com/oracle/terraform-provider-oci/options"
 )
 
 func CompartmentDatasource() *schema.Resource {
@@ -42,7 +43,24 @@ type CompartmentDatasourceCrud struct {
 }
 
 func (s *CompartmentDatasourceCrud) Get() (e error) {
-	s.Res, e = s.Client.ListCompartments(nil)
+	opts := &baremetal.ListOptions{}
+	options.SetListOptions(s.D, opts)
+
+	s.Res = &baremetal.ListCompartments{Compartments: []baremetal.Compartment{}}
+
+	for {
+		var list *baremetal.ListCompartments
+		if list, e = s.Client.ListCompartments(opts); e != nil {
+			break
+		}
+
+		s.Res.Compartments = append(s.Res.Compartments, list.Compartments...)
+
+		if hasNexPage := options.SetNextPageOption(list.NextPage, &opts.PageListOptions); !hasNexPage {
+			break
+		}
+	}
+
 	return
 }
 

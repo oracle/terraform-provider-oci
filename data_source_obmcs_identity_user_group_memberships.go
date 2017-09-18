@@ -9,6 +9,7 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 
 	"github.com/oracle/terraform-provider-oci/crud"
+	"github.com/oracle/terraform-provider-oci/options"
 )
 
 func UserGroupMembershipDatasource() *schema.Resource {
@@ -58,7 +59,19 @@ func (s *UserGroupMembershipDatasourceCrud) Get() (e error) {
 		opts.UserID = id.(string)
 	}
 
-	s.Res, e = s.Client.ListUserGroupMemberships(opts)
+	s.Res = &baremetal.ListUserGroupMemberships{Memberships: []baremetal.UserGroupMembership{}}
+	for {
+		var list *baremetal.ListUserGroupMemberships
+		if list, e = s.Client.ListUserGroupMemberships(opts); e != nil {
+			break
+		}
+
+		s.Res.Memberships = append(s.Res.Memberships, list.Memberships...)
+
+		if hasNexPage := options.SetNextPageOption(list.NextPage, &opts.PageListOptions); !hasNexPage {
+			break
+		}
+	}
 	return
 }
 
