@@ -9,6 +9,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"runtime"
 
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
@@ -238,7 +239,9 @@ func providerConfig(d *schema.ResourceData) (client interface{}, err error) {
 
 	clientOpts := []baremetal.NewClientOptionsFunc{
 		func(o *baremetal.NewClientOptions) {
-			o.UserAgent = fmt.Sprintf("oci-terraform-v%s", baremetal.SDKVersion)
+			o.UserAgent = fmt.Sprintf("Oracle-GoSDK/%s (go/%s; %s/%s; terraform/%s) Oracle-TerraformProvider/%s",
+				baremetal.SDKVersion, runtime.Version(), runtime.GOOS, runtime.GOARCH, terraform.VersionString(), Version);
+			log.Println(fmt.Sprintf("User Agent: %s", o.UserAgent));
 		},
 	}
 
