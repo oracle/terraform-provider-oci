@@ -24,21 +24,19 @@ func (s *DatabaseDBSystemShapeTestSuite) SetupTest() {
 	s.Client = testAccClient
 	s.Provider = testAccProvider
 	s.Providers = testAccProviders
-	s.Config = `
-data "oci_identity_availability_domains" "ADs" {
-  compartment_id = "${var.compartment_id}"
-}
-    data "oci_database_db_system_shapes" "t" {
-      availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-      compartment_id = "${var.compartment_id}"
-    }
-  `
-	s.Config += testProviderConfig()
+	s.Config = testProviderConfig() + `
+	data "oci_identity_availability_domains" "ADs" {
+		compartment_id = "${var.compartment_id}"
+	}
+	data "oci_database_db_system_shapes" "t" {
+		availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+		compartment_id = "${var.compartment_id}"
+	}`
 	s.ResourceName = "data.oci_database_db_system_shapes.t"
 }
 
-func (s *DatabaseDBSystemShapeTestSuite) TestReadDBSystemShapes() {
-	resource.UnitTest(s.T(), resource.TestCase{
+func (s *DatabaseDBSystemShapeTestSuite) TestAccDatasourceDatabaseDBSystemShape_basic() {
+	resource.Test(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
@@ -56,6 +54,6 @@ func (s *DatabaseDBSystemShapeTestSuite) TestReadDBSystemShapes() {
 	)
 }
 
-func TestDatabaseDBSystemShapeTestSuite(t *testing.T) {
+func TestDatasourceDatabaseDBSystemShapeTestSuite(t *testing.T) {
 	suite.Run(t, new(DatabaseDBSystemShapeTestSuite))
 }
