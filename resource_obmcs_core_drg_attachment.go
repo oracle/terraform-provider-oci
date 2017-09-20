@@ -132,7 +132,10 @@ func (s *DrgAttachmentResourceCrud) Create() (e error) {
 }
 
 func (s *DrgAttachmentResourceCrud) Get() (e error) {
-	s.Res, e = s.Client.GetDrgAttachment(s.D.Id())
+	res, e := s.Client.GetDrgAttachment(s.D.Id())
+	if e == nil {
+		s.Res = res
+	}
 	return
 }
 

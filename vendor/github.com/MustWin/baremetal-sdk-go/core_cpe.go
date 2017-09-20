@@ -40,7 +40,7 @@ func (c *Client) ListCpes(compartmentID string, opts *ListOptions) (cpes *ListCp
 	}
 
 	var resp *response
-	if resp, e = c.coreApi.getRequest(details); e != nil {
+	if resp, e = c.coreApi.listRequest(details); e != nil {
 		return
 	}
 

@@ -80,7 +80,10 @@ func (s *ObjectResourceCrud) Get() (e error) {
 	namespace := s.D.Get("namespace").(string)
 	bucket := s.D.Get("bucket").(string)
 	object := s.D.Get("object").(string)
-	s.Res, e = s.Client.GetObject(baremetal.Namespace(namespace), bucket, object, &baremetal.GetObjectOptions{})
+	res, e := s.Client.GetObject(baremetal.Namespace(namespace), bucket, object, &baremetal.GetObjectOptions{})
+	if e == nil {
+		s.Res = res
+	}
 	return
 }
 

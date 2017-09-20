@@ -34,7 +34,7 @@ func (c *Client) ListShapes(compartmentID string, opts *ListShapesOptions) (shap
 	}
 
 	var resp *response
-	if resp, e = c.coreApi.getRequest(details); e != nil {
+	if resp, e = c.coreApi.listRequest(details); e != nil {
 		return
 	}
 

@@ -154,7 +154,10 @@ func (s *VolumeAttachmentResourceCrud) Create() (e error) {
 }
 
 func (s *VolumeAttachmentResourceCrud) Get() (e error) {
-	s.Res, e = s.Client.GetVolumeAttachment(s.D.Id())
+	res, e := s.Client.GetVolumeAttachment(s.D.Id())
+	if e == nil {
+		s.Res = res
+	}
 	return
 }
 

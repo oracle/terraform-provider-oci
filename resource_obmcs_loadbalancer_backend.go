@@ -188,7 +188,10 @@ func (s *LoadBalancerBackendResourceCrud) Get() (e error) {
 	if stillWorking {
 		return nil
 	}
-	s.Resource, e = s.Client.GetBackend(s.D.Get("load_balancer_id").(string), s.D.Get("backendset_name").(string), s.buildID(), nil)
+	res, e := s.Client.GetBackend(s.D.Get("load_balancer_id").(string), s.D.Get("backendset_name").(string), s.buildID(), nil)
+	if e == nil {
+		s.Resource = res
+	}
 	return
 }
 

@@ -211,7 +211,10 @@ func (s *SecurityListResourceCrud) Create() (e error) {
 }
 
 func (s *SecurityListResourceCrud) Get() (e error) {
-	s.Res, e = s.Client.GetSecurityList(s.D.Id())
+	res, e := s.Client.GetSecurityList(s.D.Id())
+	if e == nil {
+		s.Res = res
+	}
 	return
 }
 

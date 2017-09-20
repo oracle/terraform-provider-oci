@@ -162,7 +162,10 @@ func (s *VnicAttachmentResourceCrud) Create() (e error) {
 }
 
 func (s *VnicAttachmentResourceCrud) Get() (e error) {
-	s.Resource, e = s.Client.GetVnicAttachment(s.D.Id())
+	res, e := s.Client.GetVnicAttachment(s.D.Id())
+	if e == nil {
+		s.Resource = res
+	}
 	return
 }
 

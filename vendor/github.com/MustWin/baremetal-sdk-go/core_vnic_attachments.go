@@ -50,7 +50,7 @@ func (c *Client) ListVnicAttachments(compartmentID string, opts *ListVnicAttachm
 	}
 
 	var resp *response
-	if resp, e = c.coreApi.getRequest(details); e != nil {
+	if resp, e = c.coreApi.listRequest(details); e != nil {
 		return
 	}
 

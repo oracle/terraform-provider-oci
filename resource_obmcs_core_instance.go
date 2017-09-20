@@ -307,7 +307,10 @@ func (s *InstanceResourceCrud) getInstanceIPs() (public_ip string, private_ip st
 }
 
 func (s *InstanceResourceCrud) Get() (e error) {
-	s.Resource, e = s.Client.GetInstance(s.D.Id())
+	res, e := s.Client.GetInstance(s.D.Id())
+	if e == nil {
+		s.Resource = res
+	}
 
 	if e != nil {
 		return e

@@ -105,7 +105,10 @@ func (s *ConsoleHistoryResourceCrud) Create() (e error) {
 }
 
 func (s *ConsoleHistoryResourceCrud) Get() (e error) {
-	s.Res, e = s.Client.GetConsoleHistory(s.D.Id())
+	res, e := s.Client.GetConsoleHistory(s.D.Id())
+	if e == nil {
+		s.Res = res
+	}
 	return
 }
 

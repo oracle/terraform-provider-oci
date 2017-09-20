@@ -100,7 +100,10 @@ func (s *GroupSync) Create() (e error) {
 }
 
 func (s *GroupSync) Get() (e error) {
-	s.Res, e = s.Client.GetGroup(s.D.Id())
+	res, e := s.Client.GetGroup(s.D.Id())
+	if e == nil {
+		s.Res = res
+	}
 	return
 }
 

@@ -38,7 +38,10 @@ type NamespaceDatasourceCrud struct {
 }
 
 func (s *NamespaceDatasourceCrud) Get() (e error) {
-	s.Res, e = s.Client.GetNamespace()
+	res, e := s.Client.GetNamespace()
+	if e == nil {
+		s.Res = res
+	}
 	return
 }
 

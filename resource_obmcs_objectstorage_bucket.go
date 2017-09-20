@@ -97,7 +97,10 @@ func (s *BucketResourceCrud) Create() (e error) {
 func (s *BucketResourceCrud) Get() (e error) {
 	name := s.D.Get("name").(string)
 	namespace := s.D.Get("namespace").(string)
-	s.Res, e = s.Client.GetBucket(name, baremetal.Namespace(namespace))
+	res, e := s.Client.GetBucket(name, baremetal.Namespace(namespace))
+	if e == nil {
+		s.Res = res
+	}
 	return
 }
 
