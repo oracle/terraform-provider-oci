@@ -57,6 +57,10 @@ func VnicDatasource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"skip_source_dest_check": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
 			"subnet_id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -102,6 +106,7 @@ func (v *VnicDatasourceCrud) SetData() {
 		v.D.Set("state", v.Resource.State)
 		v.D.Set("private_ip_address", v.Resource.PrivateIPAddress)
 		v.D.Set("public_ip_address", v.Resource.PublicIPAddress)
+		v.D.Set("skip_source_dest_check", v.Resource.SkipSourceDestCheck)
 		v.D.Set("subnet_id", v.Resource.SubnetID)
 		v.D.Set("time_created", v.Resource.TimeCreated.String())
 	}

@@ -155,7 +155,8 @@ type UpdatePrivateIPOptions struct {
 
 type UpdateVnicOptions struct {
 	UpdateOptions
-	HostnameLabel string `header:"-" json:"hostnameLabel,omitempty" url:"-"`
+	HostnameLabel 		string `header:"-" json:"hostnameLabel,omitempty" url:"-"`
+	SkipSourceDestCheck	*bool  `header:"-" json:"skipSourceDestCheck,omitempty" url:"-"`
 }
 
 type CreateVolumeOptions struct {
@@ -170,11 +171,12 @@ type CreatePolicyOptions struct {
 }
 
 type CreateVnicOptions struct {
-	AssignPublicIp *bool  `header:"-" json:"assignPublicIp,omitempty" url:"-"`
-	DisplayName    string `header:"-" json:"displayName,omitempty" url:"-"`
-	HostnameLabel  string `header:"-" json:"hostnameLabel,omitempty" url:"-"`
-	PrivateIp      string `header:"-" json:"privateIp,omitempty" url:"-"`
-	SubnetID       string `header:"-" json:"subnetId,omitempty" url:"-"`
+	AssignPublicIp 		*bool  `header:"-" json:"assignPublicIp,omitempty" url:"-"`
+	DisplayName    		string `header:"-" json:"displayName,omitempty" url:"-"`
+	HostnameLabel  		string `header:"-" json:"hostnameLabel,omitempty" url:"-"`
+	PrivateIp      		string `header:"-" json:"privateIp,omitempty" url:"-"`
+	SkipSourceDestCheck	*bool  `header:"-" json:"skipSourceDestCheck,omitempty" url:"-"`
+	SubnetID      		string `header:"-" json:"subnetId,omitempty" url:"-"`
 }
 
 type LaunchInstanceOptions struct {

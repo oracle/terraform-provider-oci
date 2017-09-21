@@ -56,6 +56,7 @@ func (s *DataSourceCoreVnicTestSuite) TestAccDatasrouceCoreAttachVnic() {
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-instance-vnic"),
 					resource.TestCheckResourceAttr(s.ResourceName, "hostname_label", "testinstance"),
 					resource.TestCheckResourceAttr(s.ResourceName, "is_primary", "true"),
+					resource.TestCheckResourceAttr(s.ResourceName, "skip_source_dest_check", "false"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", baremetal.ResourceAvailable),
 				),
 			},

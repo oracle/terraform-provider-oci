@@ -53,6 +53,11 @@ func VnicAttachmentResource() *schema.Resource {
 							Optional: true,
 							ForceNew: true,
 						},
+						"skip_source_dest_check": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							ForceNew: true,
+						},
 						"subnet_id": {
 							Type:     schema.TypeString,
 							Required: true,

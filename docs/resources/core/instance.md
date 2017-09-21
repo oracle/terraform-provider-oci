@@ -28,13 +28,23 @@ resource "oci_core_instance" "t" {
 The following arguments are supported:
 
 * `compartment_id` - (Required) The OCID of the compartment.
+* `create_vnic_details` - (Optional) Details for creating a new VNIC. See [Create Vnic Details](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/requests/CreateVnicDetails).
 * `shape` - (Required) The shape of an instance.
-* `subnet_id` - (Required) The OCID of the subnet.
+* `subnet_id` - (Optional) The OCID of the subnet. This must be specified either here or in create_vnic_details.
 * `availability_domain` - (Optional) The name of the Availability Domain.
 * `display_name` - (Optional) A user-friendly name. Does not have to be unique, and it's changeable.
 * `image_id` - (Required) The OCID of the image used to boot the instance.
 * `metadata` - (Optional) Custom metadata key/value pairs that you provide, such as the SSH public key required to connect to the instance.
 * `extended_metadata` - (Optional) Like metadata but allows nested metadata if you pass a valid JSON string as a value
+
+## Create VNIC Details Argument Reference
+
+* `assign_public_ip` - (Optional) Whether the VNIC should be assigned a public IP address.
+* `display_name` - (Optional) A user-friendly name for the VNIC. Does not have to be unique.
+* `hostname_label` - (Optional) The hostname for the VNIC's primary private IP.
+* `private_ip` - (Optional) A private IP address of your choice to assign to the VNIC.
+* `subnet_id` - (Required) The OCID of the subnet to create the VNIC in.
+* `skip_source_dest_check` - (Optional) Whether the source/destination check is disabled on the VNIC. Defaults to false, which means the check is performed. For information about why you would skip the source/destination check, see [Using a Private IP as a Route Target](https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Tasks/managingroutetables.htm#privateip).
 
 ## Attributes Reference
 

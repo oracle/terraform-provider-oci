@@ -70,10 +70,11 @@ func (s *ResourceCoreVnicAttachmentTestSuite) TestAccResourceCoreVnicAttachment_
 					resource.TestCheckResourceAttr(s.VnicResourceName, "display_name", "-tf-vnic"),
 					resource.TestCheckResourceAttrSet(s.VnicResourceName, "private_ip_address"),
 					resource.TestCheckResourceAttr(s.VnicResourceName, "public_ip_address", ""),
+					resource.TestCheckResourceAttr(s.VnicResourceName, "skip_source_dest_check", "false"),
 				),
 			},
 			{
-				// Create a new VNIC and VNIC Attachment with private IP, hostname, and assign a public IP.
+				// Create a new VNIC and VNIC Attachment with different options.
 				ImportState:       true,
 				ImportStateVerify: true,
 				Config: s.Config + `
@@ -86,6 +87,7 @@ func (s *ResourceCoreVnicAttachmentTestSuite) TestAccResourceCoreVnicAttachment_
 								assign_public_ip = true
 								private_ip = "10.0.1.20"
 								hostname_label = "myvnichostname"
+								skip_source_dest_check = true
 							}
 						}
 						data "oci_core_vnic" "v" {
@@ -99,6 +101,7 @@ func (s *ResourceCoreVnicAttachmentTestSuite) TestAccResourceCoreVnicAttachment_
 					resource.TestCheckResourceAttrSet(s.VnicResourceName, "public_ip_address"),
 					resource.TestMatchResourceAttr(s.VnicResourceName, "public_ip_address", regexp.MustCompile(`[0-9]+\.[0-9]+\.[0-9]+\.[0-9]`)),
 					resource.TestCheckResourceAttr(s.VnicResourceName, "hostname_label", "myvnichostname"),
+					resource.TestCheckResourceAttr(s.VnicResourceName, "skip_source_dest_check", "true"),
 				),
 			},
 		},

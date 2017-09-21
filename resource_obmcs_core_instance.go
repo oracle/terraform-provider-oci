@@ -32,27 +32,38 @@ func InstanceResource() *schema.Resource {
 			"create_vnic_details": {
 				Type:     schema.TypeMap,
 				Optional: true,
+				ForceNew: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"assign_public_ip": {
 							Type:     schema.TypeBool,
 							Optional: true,
+							ForceNew: true,
 						},
 						"display_name": {
 							Type:     schema.TypeString,
 							Optional: true,
+							ForceNew: true,
 						},
 						"hostname_label": {
 							Type:     schema.TypeString,
 							Optional: true,
+							ForceNew: true,
 						},
 						"private_ip": {
 							Type:     schema.TypeString,
 							Optional: true,
+							ForceNew: true,
+						},
+						"skip_source_dest_check": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							ForceNew: true,
 						},
 						"subnet_id": {
 							Type:     schema.TypeString,
 							Required: true,
+							ForceNew: true,
 						},
 					},
 				},

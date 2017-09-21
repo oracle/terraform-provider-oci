@@ -92,6 +92,7 @@ resource "oci_core_vnic_attachment" "SecondaryVnicAttachment" {
     subnet_id = "${oci_core_subnet.ExampleSubnet.id}"
     display_name = "SecondaryVnic_${count.index}"
     assign_public_ip = true
+    skip_source_dest_check = true
   }
   count = "${var.SecondaryVnicCount}"
 }
