@@ -235,8 +235,7 @@ func ReadResource(sync ResourceReader) (e error) {
 
 	sync.SetData()
 
-	/* Attempt at #113, but this breaks everything. Probably because this is used internally by other state checking mechanisms.
-
+	// Remove resource from state if it has been terminated so that it is recreated on next apply
 	if dr, ok := sync.(StatefullyDeletedResource); ok {
 		for _, target := range dr.DeletedTarget() {
 			if dr.State() == target {
@@ -244,7 +243,7 @@ func ReadResource(sync ResourceReader) (e error) {
 				return
 			}
 		}
-	}*/
+	}
 
 	return
 }
