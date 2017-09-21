@@ -132,7 +132,10 @@ func (s *PrivateIPResourceCrud) Create() (e error) {
 }
 
 func (s *PrivateIPResourceCrud) Get() (e error) {
-	s.Res, e = s.Client.GetPrivateIP(s.D.Id())
+	res, e := s.Client.GetPrivateIP(s.D.Id())
+	if e == nil {
+		s.Res = res
+	}
 	return
 }
 

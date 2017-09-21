@@ -125,7 +125,10 @@ func (s *PolicyResourceCrud) Create() (e error) {
 }
 
 func (s *PolicyResourceCrud) Get() (e error) {
-	s.Res, e = s.Client.GetPolicy(s.D.Id())
+	res, e := s.Client.GetPolicy(s.D.Id())
+	if e == nil {
+		s.Res = res
+	}
 	return
 }
 

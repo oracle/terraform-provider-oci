@@ -117,7 +117,10 @@ func (s *UserGroupMembershipResourceCrud) DeletedTarget() []string {
 }
 
 func (s *UserGroupMembershipResourceCrud) Get() (e error) {
-	s.Res, e = s.Client.GetUserGroupMembership(s.D.Id())
+	res, e := s.Client.GetUserGroupMembership(s.D.Id())
+	if e == nil {
+		s.Res = res
+	}
 	return
 }
 

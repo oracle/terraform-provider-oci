@@ -102,7 +102,10 @@ func (s *CompartmentResourceCrud) Create() (e error) {
 }
 
 func (s *CompartmentResourceCrud) Get() (e error) {
-	s.Res, e = s.Client.GetCompartment(s.D.Id())
+	res, e := s.Client.GetCompartment(s.D.Id())
+	if e == nil {
+		s.Res = res
+	}
 	return
 }
 

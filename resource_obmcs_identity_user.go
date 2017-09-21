@@ -94,7 +94,10 @@ func (s *UserResourceCrud) DeletedTarget() []string {
 }
 
 func (s *UserResourceCrud) Get() (e error) {
-	s.Res, e = s.Client.GetUser(s.D.Id())
+	res, e := s.Client.GetUser(s.D.Id())
+	if e == nil {
+		s.Res = res
+	}
 	return
 }
 

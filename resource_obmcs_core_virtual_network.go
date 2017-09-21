@@ -145,7 +145,10 @@ func (s *VirtualNetworkResourceCrud) Create() (e error) {
 }
 
 func (s *VirtualNetworkResourceCrud) Get() (e error) {
-	s.Res, e = s.Client.GetVirtualNetwork(s.D.Id())
+	res, e := s.Client.GetVirtualNetwork(s.D.Id())
+	if e == nil {
+		s.Res = res
+	}
 	return
 }
 

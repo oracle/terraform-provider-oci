@@ -188,7 +188,10 @@ func (s *LoadBalancerResourceCrud) Get() (e error) {
 		s.D.SetId(id)
 	}
 
-	s.Resource, e = s.Client.GetLoadBalancer(id, nil)
+	res, e := s.Client.GetLoadBalancer(id, nil)
+	if e == nil {
+		s.Resource = res
+	}
 
 	return
 }

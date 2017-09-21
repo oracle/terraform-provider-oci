@@ -41,7 +41,7 @@ func (c *Client) ListLoadBalancerShapes(
 	}
 
 	var resp *response
-	if resp, e = c.loadBalancerApi.getRequest(details); e != nil {
+	if resp, e = c.loadBalancerApi.listRequest(details); e != nil {
 		return
 	}
 

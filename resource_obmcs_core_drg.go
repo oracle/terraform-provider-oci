@@ -117,7 +117,10 @@ func (s *DrgResourceCrud) Create() (e error) {
 }
 
 func (s *DrgResourceCrud) Get() (e error) {
-	s.Res, e = s.Client.GetDrg(s.D.Id())
+	res, e := s.Client.GetDrg(s.D.Id())
+	if e == nil {
+		s.Res = res
+	}
 	return
 }
 

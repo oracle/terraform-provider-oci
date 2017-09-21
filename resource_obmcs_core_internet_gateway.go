@@ -138,7 +138,10 @@ func (s *InternetGatewayResourceCrud) Create() (e error) {
 }
 
 func (s *InternetGatewayResourceCrud) Get() (e error) {
-	s.Resource, e = s.Client.GetInternetGateway(s.D.Id())
+	res, e := s.Client.GetInternetGateway(s.D.Id())
+	if e == nil {
+		s.Resource = res
+	}
 	return
 }
 

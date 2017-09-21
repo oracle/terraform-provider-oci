@@ -212,7 +212,10 @@ func (s *SubnetResourceCrud) Create() (e error) {
 }
 
 func (s *SubnetResourceCrud) Get() (e error) {
-	s.Resource, e = s.Client.GetSubnet(s.D.Id())
+	res, e := s.Client.GetSubnet(s.D.Id())
+	if e == nil {
+		s.Resource = res
+	}
 	return
 }
 

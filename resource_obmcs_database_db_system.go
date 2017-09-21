@@ -354,7 +354,10 @@ func (s *DBSystemResourceCrud) Create() (e error) {
 }
 
 func (s *DBSystemResourceCrud) Get() (e error) {
-	s.Res, e = s.Client.GetDBSystem(s.D.Id())
+	res, e := s.Client.GetDBSystem(s.D.Id())
+	if e == nil {
+		s.Res = res
+	}
 	return
 }
 
