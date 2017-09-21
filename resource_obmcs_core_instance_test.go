@@ -9,9 +9,9 @@ import (
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
 
+	"fmt"
 	"github.com/oracle/terraform-provider-oci/crud"
 	"github.com/stretchr/testify/suite"
-	"fmt"
 )
 
 type ResourceCoreInstanceTestSuite struct {
@@ -126,7 +126,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 					},
 				),
 			},
-			// verify force refresh by creating an instance with create_vnic_details.
+			// verify force new by creating an instance with create_vnic_details.
 			{
 				Config: s.Config + `
 				resource "oci_core_instance" "t" {
@@ -139,8 +139,8 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 						ssh_authorized_keys = "${var.ssh_public_key}"
 					}
 					create_vnic_details {
-							subnet_id = "${oci_core_subnet.t.id}"
-							display_name = "-tf-vnic"
+						subnet_id = "${oci_core_subnet.t.id}"
+						display_name = "-tf-vnic"
 					}
 				}
 				data "oci_core_vnic_attachments" "t" {
@@ -164,7 +164,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 					},
 				),
 			},
-			// verify force refresh by creating an instance with different VNIC details.
+			// verify force new by creating an instance with different VNIC details.
 			{
 				Config: s.Config + `
 				resource "oci_core_instance" "t" {
@@ -177,11 +177,11 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 						ssh_authorized_keys = "${var.ssh_public_key}"
 					}
 					create_vnic_details {
-							subnet_id = "${oci_core_subnet.t.id}"
-							display_name = "-tf-vnic"
-							assign_public_ip = true
-							private_ip = "10.0.1.20"
-							skip_source_dest_check = true
+						subnet_id = "${oci_core_subnet.t.id}"
+						display_name = "-tf-vnic"
+						assign_public_ip = true
+						private_ip = "10.0.1.20"
+						skip_source_dest_check = true
 					}
 				}
 				data "oci_core_vnic_attachments" "t" {
