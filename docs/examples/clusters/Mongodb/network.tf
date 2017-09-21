@@ -106,6 +106,7 @@ resource "oci_core_subnet" "PublicSubnetAD1" {
   vcn_id = "${oci_core_virtual_network.MongoDB.id}"
   route_table_id = "${oci_core_route_table.MongoDB.id}"
   security_list_ids = ["${oci_core_security_list.PublicSubnet.id}"]
+  dhcp_options_id = "${oci_core_virtual_network.MongoDB.default_dhcp_options_id}"
 }
 
 resource "oci_core_subnet" "PrivSubnetAD1" {
@@ -116,6 +117,7 @@ resource "oci_core_subnet" "PrivSubnetAD1" {
   vcn_id = "${oci_core_virtual_network.MongoDB.id}"
   route_table_id = "${oci_core_route_table.MongoDB.id}"
   security_list_ids = ["${oci_core_security_list.PrivateSubnets.id}"]
+  dhcp_options_id = "${oci_core_virtual_network.MongoDB.default_dhcp_options_id}"
 }
 
 resource "oci_core_subnet" "PrivSubnetAD2" {
@@ -126,6 +128,7 @@ resource "oci_core_subnet" "PrivSubnetAD2" {
   vcn_id = "${oci_core_virtual_network.MongoDB.id}"
   route_table_id = "${oci_core_route_table.MongoDB.id}"
   security_list_ids = ["${oci_core_security_list.PrivateSubnets.id}"]
+  dhcp_options_id = "${oci_core_virtual_network.MongoDB.default_dhcp_options_id}"
 }
 
 resource "oci_core_subnet" "BastionSubnetAD1" {
@@ -136,5 +139,6 @@ resource "oci_core_subnet" "BastionSubnetAD1" {
   vcn_id = "${oci_core_virtual_network.MongoDB.id}"
   route_table_id = "${oci_core_route_table.MongoDB.id}"
   security_list_ids = ["${oci_core_security_list.BastionSubnet.id}"]
+  dhcp_options_id = "${oci_core_virtual_network.MongoDB.default_dhcp_options_id}"
 }
 
