@@ -9,8 +9,6 @@ variable "private_key_path" {}
 variable "compartment_ocid" {}
 variable "region" {}
 
-variable "group_name" {}
-
 provider "oci" {
   tenancy_ocid = "${var.tenancy_ocid}"
   user_ocid = "${var.user_ocid}"
@@ -33,7 +31,7 @@ resource "oci_identity_policy" "p" {
   name = "-tf-policy"
   description = "automated test policy"
   compartment_id = "${oci_identity_compartment.t.id}"
-  statements = ["Allow group ${"oci_identity_group.t.name} to read instances in compartment ${"oci_identity_compartment.t.name}"]
+  statements = ["Allow group ${oci_identity_group.t.name} to read instances in compartment ${oci_identity_compartment.t.name}"]
 }
 
 data "oci_identity_policies" "p" {
