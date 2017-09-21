@@ -4,11 +4,9 @@ package main
 
 import (
 	"testing"
-	"time"
 
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/resource"
-	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
 	"github.com/stretchr/testify/suite"
@@ -19,84 +17,68 @@ type DatasourceObjectstorageObjectTestSuite struct {
 	Client       *baremetal.Client
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
-	TimeCreated  baremetal.Time
 	Config       string
 	ResourceName string
-	Res          *baremetal.ListObjects
-	Res2         *baremetal.ListObjects
 }
 
 func (s *DatasourceObjectstorageObjectTestSuite) SetupTest() {
-	s.Client = GetTestProvider()
-
-	s.Provider = Provider(
-		func(d *schema.ResourceData) (interface{}, error) {
-			return s.Client, nil
-		},
-	)
-
-	s.Providers = map[string]terraform.ResourceProvider{
-		"oci": s.Provider,
+	s.Client = testAccClient
+	s.Provider = testAccProvider
+	s.Providers = testAccProviders
+	s.Config = testProviderConfig() + `
+	data "oci_objectstorage_namespace" "t" {
 	}
-
-	s.TimeCreated = baremetal.Time{Time: time.Now()}
-
-	s.Config = `
-		data "oci_objectstorage_objects" "t" {
-			namespace = "namespaceID"
-			bucket = "bucketID"
-			prefix = "testprefix"
-		}
-	`
-
-	s.Config += testProviderConfig()
-
-	s.ResourceName = "oci_objectstorage_objects.t"
-	s.Res = &baremetal.ListObjects{
-		NextStartWith: "testprefix-2",
-		Objects: []baremetal.ObjectSummary{
-			{
-				Name: "testprefix-1",
-			},
-			{
-				Name: "testprefix-2",
-			},
-		},
+	
+	resource "oci_objectstorage_bucket" "t" {
+		compartment_id = "${var.compartment_id}"
+		namespace = "${data.oci_objectstorage_namespace.t.namespace}"
+		name = "-tf-bucket"
+		access_type="ObjectRead"
 	}
-	s.Res2 = &baremetal.ListObjects{
+	
+	resource "oci_objectstorage_object" "t" {
+		namespace = "${data.oci_objectstorage_namespace.t.namespace}"
+		bucket = "${oci_objectstorage_bucket.t.name}"
+		object = "-tf-object"
+		content = "123"
+	}`
 
-		Objects: []baremetal.ObjectSummary{
-			{
-				Name: "testprefix-3",
-			},
-			{
-				Name: "testprefix-4",
-			},
-		},
-	}
+	s.ResourceName = "data.oci_objectstorage_objects.t"
 }
 
-func (s *DatasourceObjectstorageObjectTestSuite) TestObjectstorageListObjects() {
-	resource.UnitTest(s.T(), resource.TestCase{
+func (s *DatasourceObjectstorageObjectTestSuite) TestAccDatasourceObjectstorageObjects_basic() {
+	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
 				ImportState:       true,
 				ImportStateVerify: true,
-				Config:            s.Config,
+				Config: s.Config + `
+				data "oci_objectstorage_objects" "t" {
+					namespace = "${data.oci_objectstorage_namespace.t.namespace}"
+					bucket = "${oci_objectstorage_bucket.t.name}"
+				}`,
+			},
+			{
+				Config: s.Config + `
+				data "oci_objectstorage_objects" "t" {
+					namespace = "${data.oci_objectstorage_namespace.t.namespace}"
+					bucket = "${oci_objectstorage_bucket.t.name}"
+				}`,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "prefix", "testprefix"),
-					resource.TestCheckResourceAttr(s.ResourceName, "bucket", "bucketID"),
-					resource.TestCheckResourceAttr(s.ResourceName, "namespace", "namespaceID"),
-					resource.TestCheckResourceAttr(s.ResourceName, "namespace", "namespaceID"),
-					resource.TestCheckResourceAttr(s.ResourceName, "objects.2.name", "testprefix-3"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "namespace"),
+					resource.TestCheckResourceAttr(s.ResourceName, "bucket", "-tf-bucket"),
+					resource.TestCheckResourceAttr(s.ResourceName, "objects.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "objects.0.name", "-tf-object"),
+					resource.TestCheckResourceAttr(s.ResourceName, "objects.0.size", "3"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "objects.0.md5"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "objects.0.time_created"),
 				),
 			},
 		},
 	})
-
 }
 
-func TestDatasourceobjectstorageObjectTestSuite(t *testing.T) {
-	suite.Run(t, new(ResourceObjectstorageObjectTestSuite))
+func TestDatasourceObjectstorageObjectTestSuite(t *testing.T) {
+	suite.Run(t, new(DatasourceObjectstorageObjectTestSuite))
 }

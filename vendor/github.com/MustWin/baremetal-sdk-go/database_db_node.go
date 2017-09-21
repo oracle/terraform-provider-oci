@@ -94,7 +94,7 @@ func (c *Client) ListDBNodes(compartmentID, dbSystemID string, opts *ListOptions
 	}
 
 	var resp *response
-	if resp, e = c.databaseApi.getRequest(details); e != nil {
+	if resp, e = c.databaseApi.listRequest(details); e != nil {
 		return
 	}
 

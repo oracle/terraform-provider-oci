@@ -141,7 +141,10 @@ func (s *IPSecConnectionResourceCrud) Create() (e error) {
 }
 
 func (s *IPSecConnectionResourceCrud) Get() (e error) {
-	s.Resource, e = s.Client.GetIPSecConnection(s.D.Id())
+	res, e := s.Client.GetIPSecConnection(s.D.Id())
+	if e == nil {
+		s.Resource = res
+	}
 	return
 }
 

@@ -62,6 +62,7 @@ func (s *BucketResourceCrud) ID() string {
 	return string(s.Res.Namespace) + "/" + s.Res.Name
 }
 
+// todo: this delay doesnt seem necessary but should be well tested in real world scenarios before removal
 func (s *BucketResourceCrud) ExtraWaitPostCreateDelete() time.Duration {
 	return time.Duration(10 * time.Second)
 }
@@ -96,7 +97,10 @@ func (s *BucketResourceCrud) Create() (e error) {
 func (s *BucketResourceCrud) Get() (e error) {
 	name := s.D.Get("name").(string)
 	namespace := s.D.Get("namespace").(string)
-	s.Res, e = s.Client.GetBucket(name, baremetal.Namespace(namespace))
+	res, e := s.Client.GetBucket(name, baremetal.Namespace(namespace))
+	if e == nil {
+		s.Res = res
+	}
 	return
 }
 

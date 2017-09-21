@@ -104,7 +104,10 @@ func (s *CpeResourceCrud) Create() (e error) {
 }
 
 func (s *CpeResourceCrud) Get() (e error) {
-	s.Resource, e = s.Client.GetCpe(s.D.Id())
+	res, e := s.Client.GetCpe(s.D.Id())
+	if e == nil {
+		s.Resource = res
+	}
 	return
 }
 

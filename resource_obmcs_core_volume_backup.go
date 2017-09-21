@@ -139,7 +139,10 @@ func (s *VolumeBackupResourceCrud) Create() (e error) {
 }
 
 func (s *VolumeBackupResourceCrud) Get() (e error) {
-	s.Res, e = s.Client.GetVolumeBackup(s.D.Id())
+	res, e := s.Client.GetVolumeBackup(s.D.Id())
+	if e == nil {
+		s.Res = res
+	}
 	return
 }
 

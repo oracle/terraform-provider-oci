@@ -170,7 +170,10 @@ func (s *LoadBalancerListenerResourceCrud) Get() (e error) {
 		return nil
 	}
 
-	s.Resource, e = s.GetListener(s.D.Get("load_balancer_id").(string), s.D.Get("name").(string))
+	res, e := s.GetListener(s.D.Get("load_balancer_id").(string), s.D.Get("name").(string))
+	if e == nil {
+		s.Resource = res
+	}
 	return
 }
 

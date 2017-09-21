@@ -71,7 +71,7 @@ func (c *Client) ListDatabases(compartmentID, dbHomeID string, limit uint64, opt
 	}
 
 	var resp *response
-	if resp, e = c.databaseApi.getRequest(details); e != nil {
+	if resp, e = c.databaseApi.listRequest(details); e != nil {
 		return
 	}
 

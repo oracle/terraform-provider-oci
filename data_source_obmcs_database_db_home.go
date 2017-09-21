@@ -64,7 +64,10 @@ type DBHomeDatasourceCrud struct {
 
 func (s *DBHomeDatasourceCrud) Get() (e error) {
 	id := s.D.Get("db_home_id").(string)
-	s.Res, e = s.Client.GetDBHome(id)
+	res, e := s.Client.GetDBHome(id)
+	if e == nil {
+		s.Res = res
+	}
 	return
 }
 

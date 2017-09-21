@@ -32,7 +32,7 @@ func (c *Client) ListAvailabilityDomains(compartmentID string) (ads *ListAvailab
 	}
 
 	var getResp *response
-	if getResp, e = c.identityApi.getRequest(details); e != nil {
+	if getResp, e = c.identityApi.listRequest(details); e != nil {
 		return
 	}
 

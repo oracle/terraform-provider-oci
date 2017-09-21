@@ -69,7 +69,10 @@ type IPSecConnectionConfigDatasourceCrud struct {
 
 func (s *IPSecConnectionConfigDatasourceCrud) Get() (e error) {
 	ipsecID := s.D.Get("ipsec_id").(string)
-	s.Resource, e = s.Client.GetIPSecConnectionDeviceConfig(ipsecID)
+	res, e := s.Client.GetIPSecConnectionDeviceConfig(ipsecID)
+	if e == nil {
+		s.Resource = res
+	}
 	return
 }
 

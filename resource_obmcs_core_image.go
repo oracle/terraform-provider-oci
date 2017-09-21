@@ -144,7 +144,10 @@ func (s *ImageResourceCrud) Create() (e error) {
 }
 
 func (s *ImageResourceCrud) Get() (e error) {
-	s.Res, e = s.Client.GetImage(s.D.Id())
+	res, e := s.Client.GetImage(s.D.Id())
+	if e == nil {
+		s.Res = res
+	}
 	return
 }
 

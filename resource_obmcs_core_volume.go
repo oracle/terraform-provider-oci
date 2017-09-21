@@ -147,7 +147,10 @@ func (s *VolumeResourceCrud) Create() (e error) {
 }
 
 func (s *VolumeResourceCrud) Get() (e error) {
-	s.Res, e = s.Client.GetVolume(s.D.Id())
+	res, e := s.Client.GetVolume(s.D.Id())
+	if e == nil {
+		s.Res = res
+	}
 	return
 }
 

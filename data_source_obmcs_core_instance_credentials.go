@@ -46,7 +46,10 @@ type InstanceCredentialsDatasourceCrud struct {
 
 func (s *InstanceCredentialsDatasourceCrud) Get() (e error) {
 	instanceId := s.D.Get("instance_id").(string)
-	s.Res, e = s.Client.GetWindowsInstanceInitialCredentials(instanceId)
+	res, e := s.Client.GetWindowsInstanceInitialCredentials(instanceId)
+	if e == nil {
+		s.Res = res
+	}
 	return
 }
 

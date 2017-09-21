@@ -142,7 +142,7 @@ func (c *Client) ListUsers(opts *ListOptions) (resources *ListUsers, e error) {
 		required: listOCIDRequirement{c.authInfo.tenancyOCID},
 	}
 	var resp *response
-	if resp, e = c.identityApi.getRequest(details); e != nil {
+	if resp, e = c.identityApi.listRequest(details); e != nil {
 		return
 	}
 

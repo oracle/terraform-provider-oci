@@ -318,14 +318,19 @@ func (s *InstanceResourceCrud) getInstanceIPs() (public_ip string, private_ip st
 }
 
 func (s *InstanceResourceCrud) Get() (e error) {
-	s.Resource, e = s.Client.GetInstance(s.D.Id())
+	res, e := s.Client.GetInstance(s.D.Id())
+	if e == nil {
+		s.Resource = res
+	}
 
 	if e != nil {
 		return e
 	}
 
 	// Compute instance IPs through attached Vnic
-	// (Not available while state==PROVISIONING)
+	if s.Resource.State != baremetal.ResourceRunning {
+		return
+	}
 	public_ip, private_ip, e2 := s.getInstanceIPs()
 	if e2 != nil {
 		log.Printf("[DEBUG] Primary VNIC could not be found: %q (InstanceID: %q, State: %q)", e2, s.Resource.ID, s.Resource.State)

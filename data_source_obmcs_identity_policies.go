@@ -9,6 +9,7 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 
 	"github.com/oracle/terraform-provider-oci/crud"
+	"github.com/oracle/terraform-provider-oci/options"
 )
 
 func IdentityPolicyDatasource() *schema.Resource {
@@ -44,7 +45,24 @@ type IdentityPolicyDatasourceCrud struct {
 func (s *IdentityPolicyDatasourceCrud) Get() (e error) {
 	compartment_id := s.D.Get("compartment_id").(string)
 
-	s.Res, e = s.Client.ListPolicies(compartment_id, nil)
+	opts := &baremetal.ListOptions{}
+	options.SetListOptions(s.D, opts)
+
+	s.Res = &baremetal.ListPolicies{Policies: []baremetal.Policy{}}
+
+	for {
+		var list *baremetal.ListPolicies
+		if list, e = s.Client.ListPolicies(compartment_id, opts); e != nil {
+			break
+		}
+
+		s.Res.Policies = append(s.Res.Policies, list.Policies...)
+
+		if hasNexPage := options.SetNextPageOption(list.NextPage, &opts.PageListOptions); !hasNexPage {
+			break
+		}
+	}
+
 	return
 }
 

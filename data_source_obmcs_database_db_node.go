@@ -64,7 +64,10 @@ type DBNodeDatasourceCrud struct {
 
 func (s *DBNodeDatasourceCrud) Get() (e error) {
 	id := s.D.Get("db_node_id").(string)
-	s.Res, e = s.Client.GetDBNode(id)
+	res, e := s.Client.GetDBNode(id)
+	if e == nil {
+		s.Res = res
+	}
 	return
 }
 

@@ -153,7 +153,10 @@ func (s *RouteTableResourceCrud) Create() (e error) {
 }
 
 func (s *RouteTableResourceCrud) Get() (e error) {
-	s.Res, e = s.Client.GetRouteTable(s.D.Id())
+	res, e := s.Client.GetRouteTable(s.D.Id())
+	if e == nil {
+		s.Res = res
+	}
 	return
 }
 

@@ -10,6 +10,7 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 
 	"github.com/oracle/terraform-provider-oci/crud"
+	"github.com/oracle/terraform-provider-oci/options"
 )
 
 // ResourceIdentityCompartment exposes an IdentityCompartment Resource
@@ -79,6 +80,28 @@ func (s *CompartmentResourceCrud) CreatedTarget() []string {
 	return []string{baremetal.ResourceActive}
 }
 
+func listAllCompartments(s *CompartmentResourceCrud) (result *baremetal.ListCompartments, e error){
+	opts := &baremetal.ListOptions{}
+	options.SetListOptions(s.D, opts)
+
+	result = &baremetal.ListCompartments{Compartments: []baremetal.Compartment{}}
+
+	for {
+		var page *baremetal.ListCompartments
+		if page, e = s.Client.ListCompartments(opts); e != nil {
+			break
+		}
+
+		result.Compartments = append(result.Compartments, page.Compartments...)
+
+		if hasNexPage := options.SetNextPageOption(page.NextPage, &opts.PageListOptions); !hasNexPage {
+			break
+		}
+	}
+	return
+}
+
+
 func (s *CompartmentResourceCrud) Create() (e error) {
 	name := s.D.Get("name").(string)
 	description := s.D.Get("description").(string)
@@ -86,7 +109,7 @@ func (s *CompartmentResourceCrud) Create() (e error) {
 	// Compartments can't be destroyed, so we shouldn't complain about them being created.
 	if e != nil && strings.Contains(e.Error(), "already exists") {
 		e = nil
-		list, err := s.Client.ListCompartments(nil) // TODO: This won't paginate...
+		list, err := listAllCompartments(s)
 		if err != nil {
 			e = err
 			return
@@ -102,7 +125,10 @@ func (s *CompartmentResourceCrud) Create() (e error) {
 }
 
 func (s *CompartmentResourceCrud) Get() (e error) {
-	s.Res, e = s.Client.GetCompartment(s.D.Id())
+	res, e := s.Client.GetCompartment(s.D.Id())
+	if e == nil {
+		s.Res = res
+	}
 	return
 }
 

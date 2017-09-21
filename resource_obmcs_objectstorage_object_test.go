@@ -4,11 +4,9 @@ package main
 
 import (
 	"testing"
-	"time"
 
 	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/resource"
-	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 
 	"github.com/stretchr/testify/suite"
@@ -26,124 +24,67 @@ type ResourceObjectstorageObjectTestSuite struct {
 }
 
 func (s *ResourceObjectstorageObjectTestSuite) SetupTest() {
-	s.Client = GetTestProvider()
-
-	s.Provider = Provider(
-		func(d *schema.ResourceData) (interface{}, error) {
-			return s.Client, nil
-		},
-	)
-
-	s.Providers = map[string]terraform.ResourceProvider{
-		"oci": s.Provider,
+	s.Client = testAccClient
+	s.Provider = testAccProvider
+	s.Providers = testAccProviders
+	s.Config = testProviderConfig() + `
+	data "oci_objectstorage_namespace" "t" {
 	}
-
-	s.TimeCreated = baremetal.Time{Time: time.Now()}
-
-	s.Config = `
-		resource "oci_objectstorage_bucket" "t" {
-			compartment_id = "${var.compartment_id}"
-			name = "bucketID"
-			access_type="ObjectRead"
-			namespace = "${var.namespace}"
-			metadata = {
-				"foo" = "bar"
-			}
-		}
-
-		resource "oci_objectstorage_object" "t" {
-			namespace = "${var.namespace}"
-			bucket = "${oci_objectstorage_bucket.t.name}"
-			object = "objectID"
-			content = "bodyContent"
-			metadata = {
-				"foo" = "bar"
-			}
-		}
-	`
-
-	s.Config += testProviderConfig()
-
+	
+	resource "oci_objectstorage_bucket" "t" {
+		compartment_id = "${var.compartment_id}"
+		namespace = "${data.oci_objectstorage_namespace.t.namespace}"
+		name = "-tf-bucket"
+		access_type="ObjectRead"
+	}`
 	s.ResourceName = "oci_objectstorage_object.t"
-
 }
 
-func (s *ResourceObjectstorageObjectTestSuite) TestCreateResourceObjectstorageObject() {
-
-	resource.UnitTest(s.T(), resource.TestCase{
+func (s *ResourceObjectstorageObjectTestSuite) TestAccResourceObjectstorageObject_basic() {
+	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
+			// verify create
 			{
 				ImportState:       true,
 				ImportStateVerify: true,
-				Config:            s.Config,
+				Config: s.Config + `
+				resource "oci_objectstorage_object" "t" {
+					namespace = "${data.oci_objectstorage_namespace.t.namespace}"
+					bucket = "${oci_objectstorage_bucket.t.name}"
+					object = "-tf-object"
+					content = "test content"
+					metadata = {
+						"content-type" = "text/plain"
+					}
+				}`,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "content", "bodyContent"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "namespace"),
+					resource.TestCheckResourceAttr(s.ResourceName, "bucket", "-tf-bucket"),
+					resource.TestCheckResourceAttr(s.ResourceName, "object", "-tf-object"),
+					resource.TestCheckResourceAttr(s.ResourceName, "content", "test content"),
+					resource.TestCheckResourceAttr(s.ResourceName, "metadata.content-type", "text/plain"),
+				),
+			},
+			// verify update
+			{
+				Config: s.Config + `
+				resource "oci_objectstorage_object" "t" {
+					namespace = "${data.oci_objectstorage_namespace.t.namespace}"
+					bucket = "${oci_objectstorage_bucket.t.name}"
+					object = "-tf-object"
+					content = "{}"
+					metadata = {
+						"content-type" = "text/json"
+					}
+				}`,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttr(s.ResourceName, "content", "{}"),
+					resource.TestCheckResourceAttr(s.ResourceName, "metadata.content-type", "text/json"),
 				),
 			},
 		},
 	})
-}
-
-func (s *ResourceObjectstorageObjectTestSuite) TestUpdateResourceObjectstorageObject() {
-
-	config := `
-		resource "oci_objectstorage_bucket" "t" {
-			compartment_id = "${var.compartment_id}"
-			name = "bucketID"
-			namespace = "${var.namespace}"
-			metadata = {
-				"foo" = "bar"
-			}
-		}
-
-		resource "oci_objectstorage_object" "t" {
-			object = "objectID"
-			bucket = "${oci_objectstorage_bucket.t.name}"
-			namespace = "${var.namespace}"
-			content = "bodyContent2"
-			metadata = {
-				"foo" = "bar"
-			}
-		}
-	`
-	config += testProviderConfig()
-
-	resource.UnitTest(s.T(), resource.TestCase{
-		Providers: s.Providers,
-		Steps: []resource.TestStep{
-			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config:            s.Config,
-			},
-			{
-				Config: config,
-				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "content", "bodyContent2"),
-				),
-			},
-		},
-	})
-}
-
-func (s *ResourceObjectstorageObjectTestSuite) TestDeleteResourceObjectstorageObject() {
-
-	resource.UnitTest(s.T(), resource.TestCase{
-		Providers: s.Providers,
-		Steps: []resource.TestStep{
-			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config:            s.Config,
-			},
-			{
-				Config:  s.Config,
-				Destroy: true,
-			},
-		},
-	})
-
 }
 
 func TestResourceObjectstorageObjectTestSuite(t *testing.T) {

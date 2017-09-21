@@ -151,7 +151,10 @@ func (s *DHCPOptionsResourceCrud) Create() (e error) {
 }
 
 func (s *DHCPOptionsResourceCrud) Get() (e error) {
-	s.Res, e = s.Client.GetDHCPOptions(s.D.Id())
+	res, e := s.Client.GetDHCPOptions(s.D.Id())
+	if e == nil {
+		s.Res = res
+	}
 	return
 }
 

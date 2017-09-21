@@ -84,7 +84,10 @@ type DatabaseDatasourceCrud struct {
 
 func (s *DatabaseDatasourceCrud) Get() (e error) {
 	id := s.D.Get("database_id").(string)
-	s.Res, e = s.Client.GetDatabase(id)
+	res, e := s.Client.GetDatabase(id)
+	if e == nil {
+		s.Res = res
+	}
 	return
 }
 
