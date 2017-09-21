@@ -314,7 +314,9 @@ func (s *InstanceResourceCrud) Get() (e error) {
 	}
 
 	// Compute instance IPs through attached Vnic
-	// (Not available while state==PROVISIONING)
+	if s.Resource.State != baremetal.ResourceRunning {
+		return
+	}
 	public_ip, private_ip, e2 := s.getInstanceIPs()
 	if e2 != nil {
 		log.Printf("[DEBUG] Primary VNIC could not be found: %q (InstanceID: %q, State: %q)", e2, s.Resource.ID, s.Resource.State)
