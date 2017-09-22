@@ -32,3 +32,4 @@ The following attributes are exported:
 * `public_ip_address` - The public IP address of the VNIC, which Oracle performs NAT for at the gateway.
 * `subnet_id` - The OCID of the subnet the VNIC is in.
 * `time_created` - The date and time the VNIC was created.
+* `skip_source_dest_check` - Whether the source/destination check is disabled on the VNIC.

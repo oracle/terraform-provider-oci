@@ -9,6 +9,7 @@ import (
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
 
+	"fmt"
 	"github.com/oracle/terraform-provider-oci/crud"
 	"github.com/stretchr/testify/suite"
 )
@@ -63,6 +64,9 @@ func (s *ResourceCoreInstanceTestSuite) SetupTest() {
 
 func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 
+	var instanceId string
+	vnicResourceName := "data.oci_core_vnic.t"
+
 	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
@@ -91,6 +95,10 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 					resource.TestCheckResourceAttrSet(s.ResourceName, "public_ip"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "private_ip"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", baremetal.ResourceRunning),
+					func(ts *terraform.State) (err error) {
+						instanceId, err = fromInstanceState(ts, s.ResourceName, "id")
+						return err
+					},
 				),
 			},
 			// verify update
@@ -109,6 +117,91 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 				}`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-instance"),
+					func(ts *terraform.State) (err error) {
+						newId, err := fromInstanceState(ts, s.ResourceName, "id")
+						if newId != instanceId {
+							return fmt.Errorf("Expected same instance ocid, got the different.")
+						}
+						return err
+					},
+				),
+			},
+			// verify force new by creating an instance with create_vnic_details.
+			{
+				Config: s.Config + `
+				resource "oci_core_instance" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${var.compartment_id}"
+					image = "${data.oci_core_images.t.images.0.id}"
+					shape = "VM.Standard1.1"
+					display_name = "-tf-instance"
+					metadata {
+						ssh_authorized_keys = "${var.ssh_public_key}"
+					}
+					create_vnic_details {
+						subnet_id = "${oci_core_subnet.t.id}"
+						display_name = "-tf-vnic"
+					}
+				}
+				data "oci_core_vnic_attachments" "t" {
+					compartment_id = "${var.compartment_id}"
+					instance_id = "${oci_core_instance.t.id}"
+				}
+				data "oci_core_vnic" "t" {
+					vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}"
+				}`,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-instance"),
+					resource.TestCheckResourceAttr(vnicResourceName, "display_name", "-tf-vnic"),
+					resource.TestCheckResourceAttr(vnicResourceName, "skip_source_dest_check", "false"),
+					func(ts *terraform.State) (err error) {
+						newId, err := fromInstanceState(ts, s.ResourceName, "id")
+						if newId == instanceId {
+							return fmt.Errorf("Expected new instance ocid, got the same.")
+						}
+						instanceId = newId
+						return err
+					},
+				),
+			},
+			// verify force new by creating an instance with different VNIC details.
+			{
+				Config: s.Config + `
+				resource "oci_core_instance" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${var.compartment_id}"
+					image = "${data.oci_core_images.t.images.0.id}"
+					shape = "VM.Standard1.1"
+					display_name = "-tf-instance"
+					metadata {
+						ssh_authorized_keys = "${var.ssh_public_key}"
+					}
+					create_vnic_details {
+						subnet_id = "${oci_core_subnet.t.id}"
+						display_name = "-tf-vnic"
+						assign_public_ip = true
+						private_ip = "10.0.1.20"
+						skip_source_dest_check = true
+					}
+				}
+				data "oci_core_vnic_attachments" "t" {
+					compartment_id = "${var.compartment_id}"
+					instance_id = "${oci_core_instance.t.id}"
+				}
+				data "oci_core_vnic" "t" {
+					vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}"
+				}`,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-instance"),
+					resource.TestCheckResourceAttr(vnicResourceName, "display_name", "-tf-vnic"),
+					resource.TestCheckResourceAttr(vnicResourceName, "skip_source_dest_check", "true"),
+					func(ts *terraform.State) (err error) {
+						newId, err := fromInstanceState(ts, s.ResourceName, "id")
+						if newId == instanceId {
+							return fmt.Errorf("Expected new instance ocid, got the same.")
+						}
+						return err
+					},
 				),
 			},
 		},

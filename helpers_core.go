@@ -32,5 +32,11 @@ func SetCreateVnicOptions(rawCreateVnicDetails interface{}) (vnicOpts *baremetal
 		*vnicOpts.AssignPublicIp = assignPublicIp.(string) == "1"
 	}
 
+	skipSourceDestCheck := vnic["skip_source_dest_check"]
+	if skipSourceDestCheck != nil {
+		vnicOpts.SkipSourceDestCheck = new(bool)
+		*vnicOpts.SkipSourceDestCheck = skipSourceDestCheck.(string) == "1"
+	}
+
 	return
 }

@@ -31,6 +31,7 @@ The following arguments are supported:
 * `hostname_label` - (Optional) The hostname for the VNIC's primary private IP.
 * `private_ip` - (Optional) A private IP address of your choice to assign to the VNIC.
 * `subnet_id` - (Required) The OCID of the subnet to create the VNIC in.
+* `skip_source_dest_check` - (Optional) Whether the source/destination check is disabled on the VNIC. Defaults to false, which means the check is performed. For information about why you would skip the source/destination check, see [Using a Private IP as a Route Target](https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Tasks/managingroutetables.htm#privateip).
 
 ## Attributes Reference
 
