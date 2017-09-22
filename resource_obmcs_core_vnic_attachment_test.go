@@ -104,6 +104,34 @@ func (s *ResourceCoreVnicAttachmentTestSuite) TestAccResourceCoreVnicAttachment_
 					resource.TestCheckResourceAttr(s.VnicResourceName, "skip_source_dest_check", "true"),
 				),
 			},
+			{
+				// Switching skip_source_dest_check and assign_public_ip from true to "true" will destroy and recreate, but should result in a
+				// VNIC with the same value.
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config: s.Config + `
+						resource "oci_core_vnic_attachment" "va" {
+							instance_id = "${oci_core_instance.t.id}"
+							display_name = "-tf-va1"
+							create_vnic_details {
+								subnet_id = "${oci_core_subnet.t.id}"
+								display_name = "-tf-vnic"
+								assign_public_ip = "true"
+								private_ip = "10.0.1.20"
+								hostname_label = "myvnichostname"
+								skip_source_dest_check = "true"
+							}
+						}
+						data "oci_core_vnic" "v" {
+						  vnic_id = "${oci_core_vnic_attachment.va.vnic_id}"
+						}
+					`,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttr(s.ResourceName, "state", baremetal.ResourceAttached),
+					resource.TestCheckResourceAttr(s.VnicResourceName, "private_ip_address", "10.0.1.20"),
+					resource.TestCheckResourceAttr(s.VnicResourceName, "skip_source_dest_check", "true"),
+				),
+			},
 		},
 	})
 }
