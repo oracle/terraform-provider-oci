@@ -159,9 +159,10 @@ func (s *VnicAttachmentResourceCrud) Create() (e error) {
 		vaOpts.DisplayName = displayName.(string)
 	}
 
-	vnicOpts := SetCreateVnicOptions(s.D.Get("create_vnic_details"))
-
-	s.Resource, e = s.Client.AttachVnic(instanceID, vnicOpts, vaOpts)
+	vnicOpts, e := SetCreateVnicOptions(s.D.Get("create_vnic_details"))
+	if e == nil {
+		s.Resource, e = s.Client.AttachVnic(instanceID, vnicOpts, vaOpts)
+	}
 
 	return
 }

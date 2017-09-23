@@ -2,9 +2,12 @@
 
 package main
 
-import "github.com/MustWin/baremetal-sdk-go"
+import (
+	"github.com/MustWin/baremetal-sdk-go"
+	"strconv"
+)
 
-func SetCreateVnicOptions(rawCreateVnicDetails interface{}) (vnicOpts *baremetal.CreateVnicOptions) {
+func SetCreateVnicOptions(rawCreateVnicDetails interface{}) (vnicOpts *baremetal.CreateVnicOptions, err error) {
 	vnic := rawCreateVnicDetails.(map[string]interface{})
 
 	vnicOpts = &baremetal.CreateVnicOptions{}
@@ -25,17 +28,20 @@ func SetCreateVnicOptions(rawCreateVnicDetails interface{}) (vnicOpts *baremetal
 		vnicOpts.PrivateIp = privateIp.(string)
 	}
 
-	//todo: work around for tf bug https://github.com/hashicorp/terraform/issues/13512
+	// Work around for tf bug https://github.com/hashicorp/terraform/issues/13512.
+	// For bool values that are nested in maps, if the value is set to true/false then
+	// it will appear here as "1"/"0". However, if the value is set to "true"/"false"
+	// then it will appear here as "true"/"false". ParseBool() handles both of these cases.
 	assignPublicIp := vnic["assign_public_ip"]
 	if assignPublicIp != nil {
 		vnicOpts.AssignPublicIp = new(bool)
-		*vnicOpts.AssignPublicIp = assignPublicIp.(string) == "1"
+		*vnicOpts.AssignPublicIp, err = strconv.ParseBool(assignPublicIp.(string))
 	}
 
 	skipSourceDestCheck := vnic["skip_source_dest_check"]
 	if skipSourceDestCheck != nil {
 		vnicOpts.SkipSourceDestCheck = new(bool)
-		*vnicOpts.SkipSourceDestCheck = skipSourceDestCheck.(string) == "1"
+		*vnicOpts.SkipSourceDestCheck, err = strconv.ParseBool(skipSourceDestCheck.(string))
 	}
 
 	return

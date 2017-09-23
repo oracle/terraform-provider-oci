@@ -260,16 +260,19 @@ func (s *InstanceResourceCrud) Create() (e error) {
 	}
 
 	if rawVnic, ok := s.D.GetOk("create_vnic_details"); ok {
-		opts.CreateVnicOptions = SetCreateVnicOptions(rawVnic)
+		opts.CreateVnicOptions, e = SetCreateVnicOptions(rawVnic)
 	}
 
-	s.Resource, e = s.Client.LaunchInstance(
-		availabilityDomain,
-		compartmentID,
-		image,
-		shape,
-		subnet,
-		opts)
+	if e == nil {
+		s.Resource, e = s.Client.LaunchInstance(
+			availabilityDomain,
+			compartmentID,
+			image,
+			shape,
+			subnet,
+			opts)
+	}
+
 	return
 }
 
