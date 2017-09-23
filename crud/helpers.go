@@ -10,9 +10,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/oracle/bmcs-go-sdk"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/oracle/bmcs-go-sdk"
 )
 
 var (

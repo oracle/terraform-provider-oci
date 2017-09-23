@@ -5,9 +5,9 @@ package main
 import (
 	"testing"
 
-	"github.com/oracle/bmcs-go-sdk"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
+	"github.com/oracle/bmcs-go-sdk"
 	"github.com/stretchr/testify/suite"
 )
 
@@ -89,7 +89,7 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) TestResourceCoreVolumeAttachment
 			{
 				ImportState:       true,
 				ImportStateVerify: true,
-				Config:            s.Config + `
+				Config: s.Config + `
 				resource "oci_core_volume_attachment" "t" {
 					attachment_type = "iscsi"
 					compartment_id = "${var.compartment_id}"

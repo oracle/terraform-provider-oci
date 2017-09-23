@@ -80,7 +80,7 @@ func (s *CompartmentResourceCrud) CreatedTarget() []string {
 	return []string{baremetal.ResourceActive}
 }
 
-func listAllCompartments(s *CompartmentResourceCrud) (result *baremetal.ListCompartments, e error){
+func listAllCompartments(s *CompartmentResourceCrud) (result *baremetal.ListCompartments, e error) {
 	opts := &baremetal.ListOptions{}
 	options.SetListOptions(s.D, opts)
 
@@ -100,7 +100,6 @@ func listAllCompartments(s *CompartmentResourceCrud) (result *baremetal.ListComp
 	}
 	return
 }
-
 
 func (s *CompartmentResourceCrud) Create() (e error) {
 	name := s.D.Get("name").(string)

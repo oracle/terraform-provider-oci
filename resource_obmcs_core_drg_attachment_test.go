@@ -5,9 +5,9 @@ package main
 import (
 	"testing"
 
-	"github.com/oracle/bmcs-go-sdk"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
+	"github.com/oracle/bmcs-go-sdk"
 
 	"github.com/stretchr/testify/suite"
 )
@@ -37,7 +37,7 @@ func (s *ResourceCoreDrgAttachmentTestSuite) SetupTest() {
 			compartment_id = "${var.compartment_id}"
 			display_name = "-tf-drg"
 		}`
-	
+
 	s.ResourceName = "oci_core_drg_attachment.t"
 }
 
@@ -50,7 +50,7 @@ func (s *ResourceCoreDrgAttachmentTestSuite) TestAccResourceCoreDrgAttachment_ba
 			{
 				ImportState:       true,
 				ImportStateVerify: true,
-				Config:            s.Config + `
+				Config: s.Config + `
 				resource "oci_core_drg_attachment" "t" {
 					compartment_id = "${var.compartment_id}"
 					drg_id = "${oci_core_drg.t.id}"

@@ -3,8 +3,8 @@
 package main
 
 import (
-	"github.com/oracle/bmcs-go-sdk"
 	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/oracle/bmcs-go-sdk"
 
 	"github.com/oracle/terraform-provider-oci/crud"
 )
@@ -150,12 +150,12 @@ func (s *InternetGatewayResourceCrud) Update() (e error) {
 
 	// todo: GetOk malfunction with this bool: 'ok' is always the value of the bool
 	// newer versions of terraform support GetOkExists which should resolve this problem
-	//if isEnabled, ok := s.D.GetOk("enabled"); ok { 
+	//if isEnabled, ok := s.D.GetOk("enabled"); ok {
 	isEnabled := s.D.Get("enabled")
 	opts.IsEnabled = new(bool)
 	*opts.IsEnabled = isEnabled.(bool)
 	//}
-	
+
 	if name, ok := s.D.GetOk("display_name"); ok {
 		opts.DisplayName = name.(string)
 	}

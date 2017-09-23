@@ -5,9 +5,9 @@ package main
 import (
 	"testing"
 
-	baremetal "github.com/oracle/bmcs-go-sdk"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
+	baremetal "github.com/oracle/bmcs-go-sdk"
 	"github.com/stretchr/testify/suite"
 )
 

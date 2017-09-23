@@ -5,10 +5,10 @@ package main
 import (
 	"testing"
 
-	"github.com/oracle/bmcs-go-sdk"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
+	"github.com/oracle/bmcs-go-sdk"
 
 	"github.com/stretchr/testify/suite"
 )
@@ -34,7 +34,7 @@ func (s *ResourceCoreConsoleHistoryTestSuite) SetupTest() {
 	res.Delete = func(d *schema.ResourceData, m interface{}) (e error) {
 		return nil
 	}
-	
+
 	s.ResourceName = "oci_core_console_history.t"
 	s.Res = &baremetal.ConsoleHistoryMetadata{
 		AvailabilityDomain: "availability_domain",
@@ -56,7 +56,7 @@ func (s *ResourceCoreConsoleHistoryTestSuite) TestAccResourceCoreInstanceConsole
 			{
 				ImportState:       true,
 				ImportStateVerify: true,
-				Config:            s.Config + `
+				Config: s.Config + `
 				resource "oci_core_console_history" "t" {
 					instance_id = "${oci_core_instance.t.id}"
 				}`,

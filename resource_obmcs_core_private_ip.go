@@ -3,8 +3,8 @@
 package main
 
 import (
-	"github.com/oracle/bmcs-go-sdk"
 	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/oracle/bmcs-go-sdk"
 
 	"github.com/oracle/terraform-provider-oci/crud"
 )
@@ -15,10 +15,10 @@ func PrivateIPResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: crud.DefaultTimeout,
-		Create: createPrivateIP,
-		Read:   readPrivateIP,
-		Update: updatePrivateIP,
-		Delete: deletePrivateIP,
+		Create:   createPrivateIP,
+		Read:     readPrivateIP,
+		Update:   updatePrivateIP,
+		Delete:   deletePrivateIP,
 		Schema: map[string]*schema.Schema{
 			//Required
 			"vnic_id": {

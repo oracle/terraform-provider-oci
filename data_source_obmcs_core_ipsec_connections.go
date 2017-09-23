@@ -5,8 +5,9 @@ package main
 import (
 	"time"
 
-	"github.com/oracle/bmcs-go-sdk"
 	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/oracle/bmcs-go-sdk"
+
 	"github.com/oracle/terraform-provider-oci/options"
 
 	"github.com/oracle/terraform-provider-oci/crud"
@@ -153,7 +154,7 @@ func (s IPSecConnectionsDatasourceCrud) SetData() {
 
 			resources = append(resources, resource)
 		}
-		
+
 		if err := s.D.Set("connections", resources); err != nil {
 			panic(err)
 		}

@@ -5,8 +5,8 @@ package main
 import (
 	"strings"
 
-	"github.com/oracle/bmcs-go-sdk"
 	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/oracle/bmcs-go-sdk"
 
 	"github.com/oracle/terraform-provider-oci/crud"
 )
@@ -216,7 +216,7 @@ func (s *LoadBalancerResourceCrud) Update() (e error) {
 	if e != nil {
 		return
 	}
-	
+
 	return s.Get()
 }
 

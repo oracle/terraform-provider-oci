@@ -6,12 +6,13 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/oracle/bmcs-go-sdk"
+	"fmt"
+
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
+	"github.com/oracle/bmcs-go-sdk"
 	"github.com/stretchr/testify/assert"
-	"fmt"
 )
 
 var testAccClient *baremetal.Client
@@ -20,11 +21,11 @@ var testAccProviders map[string]terraform.ResourceProvider
 
 func init() {
 	testAccClient = GetTestProvider()
-	
+
 	testAccProvider = Provider(func(d *schema.ResourceData) (interface{}, error) {
 		return testAccClient, nil
 	}).(*schema.Provider)
-	
+
 	testAccProviders = map[string]terraform.ResourceProvider{
 		"oci": testAccProvider,
 	}
@@ -409,7 +410,7 @@ func fromInstanceState(s *terraform.State, name, key string) (string, error) {
 		return "", fmt.Errorf("No primary instance: %s", name)
 	}
 
-	v, ok := is.Attributes[key];
+	v, ok := is.Attributes[key]
 
 	if ok {
 		return v, nil

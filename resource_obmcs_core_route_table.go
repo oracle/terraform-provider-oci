@@ -3,12 +3,13 @@
 package main
 
 import (
-	"github.com/oracle/bmcs-go-sdk"
 	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/oracle/bmcs-go-sdk"
 
 	"fmt"
-	"github.com/oracle/terraform-provider-oci/crud"
 	"time"
+
+	"github.com/oracle/terraform-provider-oci/crud"
 )
 
 func RouteTableResource() *schema.Resource {

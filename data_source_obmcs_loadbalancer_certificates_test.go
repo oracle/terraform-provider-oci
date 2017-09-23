@@ -5,8 +5,9 @@ package main
 import (
 	"testing"
 
-	"github.com/hashicorp/terraform/helper/resource"
 	"regexp"
+
+	"github.com/hashicorp/terraform/helper/resource"
 )
 
 func TestAccDatasourceLoadBalancerCertificates_basic(t *testing.T) {
@@ -62,7 +63,7 @@ func TestAccDatasourceLoadBalancerCertificates_basic(t *testing.T) {
 			{
 				ImportState:       true,
 				ImportStateVerify: true,
-				Config: config,
+				Config:            config,
 			},
 			{
 				Config: config,

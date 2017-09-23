@@ -5,13 +5,14 @@ package main
 import (
 	"testing"
 
-	"github.com/oracle/bmcs-go-sdk"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
+	"github.com/oracle/bmcs-go-sdk"
 
 	"fmt"
-	"github.com/oracle/terraform-provider-oci/crud"
 	"github.com/stretchr/testify/suite"
+
+	"github.com/oracle/terraform-provider-oci/crud"
 )
 
 type ResourceCoreInstanceTestSuite struct {

@@ -5,9 +5,9 @@ package main
 import (
 	"testing"
 
-	baremetal "github.com/oracle/bmcs-go-sdk"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
+	baremetal "github.com/oracle/bmcs-go-sdk"
 
 	"github.com/stretchr/testify/suite"
 )
@@ -54,10 +54,10 @@ func (s *DatasourceCoreIPSecConnectionsTestSuite) TestAccDatasourceCoreIPConnect
 				Config: s.Config,
 			},
 			// todo: investigate--there's some kind of consistency/sync issue here. If this extra step isn't
-			// here the connections length asserts with 0, though the data is properly pulled in Get() at 
-			// it first availability state and correctly synced in SetData(). Adding this multistep somehow 
+			// here the connections length asserts with 0, though the data is properly pulled in Get() at
+			// it first availability state and correctly synced in SetData(). Adding this multistep somehow
 			// overcomes it.
-			{	
+			{
 				ImportState:       true,
 				ImportStateVerify: true,
 				Config: s.Config +

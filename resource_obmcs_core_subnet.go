@@ -5,8 +5,8 @@ package main
 import (
 	"time"
 
-	"github.com/oracle/bmcs-go-sdk"
 	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/oracle/bmcs-go-sdk"
 
 	"github.com/oracle/terraform-provider-oci/crud"
 )
@@ -221,7 +221,7 @@ func (s *SubnetResourceCrud) Get() (e error) {
 
 func (s *SubnetResourceCrud) Update() (e error) {
 	opts := &baremetal.IfMatchDisplayNameOptions{}
-	
+
 	displayName, ok := s.D.GetOk("display_name")
 	if ok {
 		opts.DisplayName = displayName.(string)

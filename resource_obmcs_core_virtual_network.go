@@ -3,8 +3,8 @@
 package main
 
 import (
-	"github.com/oracle/bmcs-go-sdk"
 	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/oracle/bmcs-go-sdk"
 
 	"github.com/oracle/terraform-provider-oci/crud"
 )
@@ -154,7 +154,7 @@ func (s *VirtualNetworkResourceCrud) Get() (e error) {
 
 func (s *VirtualNetworkResourceCrud) Update() (e error) {
 	opts := &baremetal.IfMatchDisplayNameOptions{}
-	
+
 	displayName, ok := s.D.GetOk("display_name")
 	if ok {
 		opts.DisplayName = displayName.(string)
