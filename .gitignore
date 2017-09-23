@@ -23,10 +23,11 @@ _testmain.go
 *.test
 *.prof
 bin/*
-terraform.tfstate
 *.tfvars
+terraform.tfstate
 terraform.tfstate.backup
 tf.plan
+obmc-container-clean
 
 # Don't version the default binary
 terraform-provider-oci

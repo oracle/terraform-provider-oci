@@ -52,7 +52,7 @@ func TestAccDatasourceLoadBalancerLB_basic(t *testing.T) {
 			{
 				ImportState:       true,
 				ImportStateVerify: true,
-				Config: config,
+				Config:            config,
 			},
 			{
 				Config: config,

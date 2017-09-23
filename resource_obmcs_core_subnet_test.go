@@ -7,9 +7,10 @@ import (
 	"testing"
 
 	"fmt"
-	"github.com/MustWin/baremetal-sdk-go"
+
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
+	"github.com/oracle/bmcs-go-sdk"
 )
 
 func TestAccResourceCoreSubnetCreate_basic(t *testing.T) {

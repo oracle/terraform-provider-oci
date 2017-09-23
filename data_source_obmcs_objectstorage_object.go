@@ -5,11 +5,12 @@ package main
 import (
 	"time"
 
-	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/oracle/bmcs-go-sdk"
+
+	"strconv"
 
 	"github.com/oracle/terraform-provider-oci/crud"
-	"strconv"
 )
 
 func ObjectDatasource() *schema.Resource {
@@ -128,7 +129,7 @@ func (s *ObjectDatasourceCrud) Get() (e error) {
 }
 
 func (s *ObjectDatasourceCrud) SetData() {
-	
+
 	if s.Res != nil {
 		// Important, if you don't have an ID, make one up for your datasource
 		// or things will end in tears

@@ -3,9 +3,9 @@
 package main
 
 import (
-	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/helper/validation"
+	"github.com/oracle/bmcs-go-sdk"
 )
 
 func resourceObjectStorageMapToMetadata(rm map[string]interface{}) map[string]string {

@@ -24,7 +24,7 @@ func TestAccDatasourceLoadBalancerShapes_basic(t *testing.T) {
 			{
 				ImportState:       true,
 				ImportStateVerify: true,
-				Config: config,
+				Config:            config,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "shapes.#"),
 					resource.TestCheckResourceAttrSet(resourceName, "shapes.0.name"),

@@ -5,9 +5,9 @@ package main
 import (
 	"testing"
 
-	baremetal "github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
+	baremetal "github.com/oracle/bmcs-go-sdk"
 	"github.com/stretchr/testify/suite"
 )
 
@@ -44,7 +44,7 @@ func (s *DatasourceCoreSubnetTestSuite) SetupTest() {
 		dhcp_options_id = "${oci_core_virtual_network.t.default_dhcp_options_id}"
 		cidr_block = "10.0.2.0/24"
 	}`
-	
+
 	s.ResourceName = "data.oci_core_subnets.s"
 }
 

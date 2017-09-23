@@ -5,9 +5,9 @@ package main
 import (
 	"testing"
 
-	baremetal "github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
+	baremetal "github.com/oracle/bmcs-go-sdk"
 	"github.com/stretchr/testify/suite"
 )
 
@@ -48,7 +48,6 @@ func (s *DatasourceCoreRouteTableTestSuite) SetupTest() {
 	s.ResourceName = "data.oci_core_route_tables.t"
 }
 
-
 func (s *DatasourceCoreRouteTableTestSuite) TestAccDatasourceRouteTable_basic() {
 	resource.Test(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,
@@ -57,7 +56,7 @@ func (s *DatasourceCoreRouteTableTestSuite) TestAccDatasourceRouteTable_basic() 
 			{
 				ImportState:       true,
 				ImportStateVerify: true,
-				Config:            s.Config + `
+				Config: s.Config + `
 				data "oci_core_route_tables" "t" {
 					compartment_id = "${var.compartment_id}"
 					vcn_id = "${oci_core_virtual_network.t.id}"

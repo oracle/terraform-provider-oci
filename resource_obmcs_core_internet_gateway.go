@@ -3,8 +3,8 @@
 package main
 
 import (
-	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/oracle/bmcs-go-sdk"
 
 	"github.com/oracle/terraform-provider-oci/crud"
 )
@@ -149,12 +149,13 @@ func (s *InternetGatewayResourceCrud) Update() (e error) {
 	opts := &baremetal.UpdateGatewayOptions{}
 
 	// todo: GetOk malfunction with this bool: 'ok' is always the value of the bool
-	//if isEnabled, ok := s.D.GetOk("enabled"); ok { 
+	// newer versions of terraform support GetOkExists which should resolve this problem
+	//if isEnabled, ok := s.D.GetOk("enabled"); ok {
 	isEnabled := s.D.Get("enabled")
 	opts.IsEnabled = new(bool)
 	*opts.IsEnabled = isEnabled.(bool)
 	//}
-	
+
 	if name, ok := s.D.GetOk("display_name"); ok {
 		opts.DisplayName = name.(string)
 	}

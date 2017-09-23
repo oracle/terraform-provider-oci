@@ -2,7 +2,7 @@
 
 package options
 
-import "github.com/MustWin/baremetal-sdk-go"
+import "github.com/oracle/bmcs-go-sdk"
 
 type resourceProvider interface {
 	GetOk(string) (interface{}, bool)

@@ -3,8 +3,8 @@
 package main
 
 import (
-	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/oracle/bmcs-go-sdk"
 
 	"github.com/oracle/terraform-provider-oci/crud"
 )
@@ -141,7 +141,7 @@ func (s *DrgAttachmentResourceCrud) Get() (e error) {
 
 func (s *DrgAttachmentResourceCrud) Update() (e error) {
 	opts := &baremetal.IfMatchDisplayNameOptions{}
-	
+
 	if displayName, ok := s.D.GetOk("display_name"); ok {
 		opts.DisplayName = displayName.(string)
 	}

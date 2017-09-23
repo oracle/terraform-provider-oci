@@ -3,8 +3,8 @@
 package main
 
 import (
-	"github.com/MustWin/baremetal-sdk-go"
 	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/oracle/bmcs-go-sdk"
 
 	"github.com/oracle/terraform-provider-oci/crud"
 )

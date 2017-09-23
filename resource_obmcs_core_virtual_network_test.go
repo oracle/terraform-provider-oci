@@ -6,9 +6,10 @@ import (
 	"testing"
 
 	"fmt"
-	"github.com/MustWin/baremetal-sdk-go"
+
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
+	"github.com/oracle/bmcs-go-sdk"
 	"github.com/stretchr/testify/suite"
 )
 

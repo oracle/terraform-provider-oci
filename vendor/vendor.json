@@ -327,12 +327,6 @@
 			"revisionTime": "2017-02-01T00:43:30Z"
 		},
 		{
-			"checksumSHA1": "jpyRoXyBTYv3cfiCW6HfnRy48iQ=",
-			"path": "github.com/MustWin/baremetal-sdk-go",
-			"revision": "c0b829692995da6a4e3a2d1984e8145702c6db71",
-			"revisionTime": "2017-08-11T20:04:59Z"
-		},
-		{
 			"checksumSHA1": "Aqy8/FoAIidY/DeQ5oTYSZ4YFVc=",
 			"path": "github.com/Nvveen/Gotty",
 			"revision": "cd527374f1e5bff4938207604a14f2e38a9cf512",
@@ -2976,6 +2970,12 @@
 			"path": "github.com/opsgenie/opsgenie-go-sdk/user",
 			"revision": "2a85fd55a1662632a2697424866985fe4829ff64",
 			"revisionTime": "2017-01-25T16:36:56Z"
+		},
+		{
+			"checksumSHA1": "LLjO8iLOBkY3nqJY4XeCxEj/weo=",
+			"path": "github.com/oracle/bmcs-go-sdk",
+			"revision": "f6e8e0e1ecd839e6ea496e83fe158bab9988791f",
+			"revisionTime": "2017-09-22T19:58:54Z"
 		},
 		{
 			"checksumSHA1": "ImgLNIpeXsGjZGXw4rd+rwzQxpo=",

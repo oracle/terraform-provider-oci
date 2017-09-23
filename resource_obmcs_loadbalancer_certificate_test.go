@@ -1,12 +1,13 @@
 package main
 
 import (
+	"regexp"
 	"testing"
-	"github.com/stretchr/testify/suite"
-	"github.com/MustWin/baremetal-sdk-go"
+
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
-	"regexp"
+	"github.com/oracle/bmcs-go-sdk"
+	"github.com/stretchr/testify/suite"
 )
 
 type ResourceLoadBalancerCertificateTestSuite struct {
