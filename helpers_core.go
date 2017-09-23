@@ -3,8 +3,9 @@
 package main
 
 import (
-	"github.com/MustWin/baremetal-sdk-go"
 	"strconv"
+
+	"github.com/oracle/bmcs-go-sdk"
 )
 
 func SetCreateVnicOptions(rawCreateVnicDetails interface{}) (vnicOpts *baremetal.CreateVnicOptions, err error) {
