@@ -3,7 +3,7 @@
 package main
 
 import (
-	"github.com/MustWin/baremetal-sdk-go"
+	"github.com/oracle/bmcs-go-sdk"
 	"github.com/hashicorp/terraform/helper/schema"
 
 	"fmt"

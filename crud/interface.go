@@ -5,7 +5,7 @@ package crud
 import (
 	"time"
 
-	"github.com/MustWin/baremetal-sdk-go"
+	"github.com/oracle/bmcs-go-sdk"
 )
 
 // Common interfaces

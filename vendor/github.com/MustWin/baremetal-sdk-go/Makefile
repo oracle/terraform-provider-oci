@@ -1,5 +1,5 @@
 GOFMT_FILES?=$$(find . -name '*.go' | grep -v vendor)
-PACKAGE=github.com/MustWin/baremetal-sdk-go
+PACKAGE=github.com/oracle/bmcs-go-sdk
 
 default: fmt build
 

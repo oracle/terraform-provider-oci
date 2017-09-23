@@ -11,7 +11,7 @@ Then call functions as the example below illustrates.
 ```
 import (
   "fmt"
-  "github.com/MustWin/baremetal-sdk-go"
+  "github.com/oracle/bmcs-go-sdk"
 )
 
 func main() {
@@ -68,7 +68,7 @@ make record_acceptance_test
 
 To record individual tests, you need to specify the `recording` tag when running your test. For example:
 ```
-go test -v -timeout 120m -tags "recording all" github.com/MustWin/baremetal-sdk-go/acceptance-test -run  TestInstanceCRUD
+go test -v -timeout 120m -tags "recording all" github.com/oracle/bmcs-go-sdk/acceptance-test -run  TestInstanceCRUD
 ```
 
 You will need to provide credentials to access the Bare Metal API in an .env file
