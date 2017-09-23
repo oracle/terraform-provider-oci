@@ -7,7 +7,7 @@ machine:
   environment:
     GOROOT: "/usr/local/go"
     PATH: "/usr/local/go/bin:${PATH}"
-    PROJECT_OWNER: "MustWin"
+    PROJECT_OWNER: "Oracle"
 
 test:
   override:
