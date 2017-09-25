@@ -6,7 +6,7 @@ resource "null_resource" "remote-exec" {
         timeout = "30m"
         host = "${data.oci_core_vnic.InstanceVnic.public_ip_address}"
         user = "opc"
-        private_key = "${file(var.ssh_private_key)}"
+        private_key = "${var.ssh_private_key}"
     }
       inline = [
         "touch ~/IMadeAFile.Right.Here",

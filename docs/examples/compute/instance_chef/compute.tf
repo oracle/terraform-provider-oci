@@ -27,7 +27,7 @@ resource "oci_core_instance" "TFInstance" {
       host = "${self.public_ip}"
       type = "ssh"
       user = "opc"
-      private_key = "${file(var.ssh_private_key)}"
+      private_key = "${var.ssh_private_key}"
       timeout = "3m"
     }
   }
