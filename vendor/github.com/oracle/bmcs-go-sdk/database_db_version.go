@@ -33,7 +33,7 @@ func (c *Client) ListDBVersions(compartmentID string, opts *ListOptions) (resour
 	}
 
 	var resp *response
-	if resp, e = c.databaseApi.listRequest(details); e != nil {
+	if resp, e = c.databaseApi.getRequest(details); e != nil {
 		return
 	}
 

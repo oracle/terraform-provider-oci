@@ -112,7 +112,7 @@ func (c *Client) ListPreauthenticatedRequests(
 	}
 
 	var resp *response
-	if resp, e = c.objectStorageApi.listRequest(&details); e != nil {
+	if resp, e = c.objectStorageApi.getRequest(&details); e != nil {
 		return
 	}
 

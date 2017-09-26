@@ -66,7 +66,7 @@ func (c *Client) ListDBHomes(compartmentID, dbSystemID string, opts *ListOptions
 	}
 
 	var resp *response
-	if resp, e = c.databaseApi.listRequest(details); e != nil {
+	if resp, e = c.databaseApi.getRequest(details); e != nil {
 		return
 	}
 

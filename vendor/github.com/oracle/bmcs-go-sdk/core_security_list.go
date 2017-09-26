@@ -199,7 +199,7 @@ func (c *Client) ListSecurityLists(compartmentID, vcnID string, opts *ListOption
 	}
 
 	var resp *response
-	if resp, e = c.coreApi.listRequest(details); e != nil {
+	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}
 
