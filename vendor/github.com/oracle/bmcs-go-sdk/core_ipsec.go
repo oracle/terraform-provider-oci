@@ -116,7 +116,7 @@ func (c *Client) ListIPSecConnections(compartmentID string, opts *ListIPSecConns
 	}
 
 	var resp *response
-	if resp, e = c.coreApi.listRequest(details); e != nil {
+	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}
 

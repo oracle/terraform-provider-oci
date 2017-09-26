@@ -54,7 +54,7 @@ func (c *Client) ListAPIKeys(userID string) (resp *ListAPIKeyResponses, e error)
 	}
 
 	var getResp *response
-	if getResp, e = c.identityApi.listRequest(details); e != nil {
+	if getResp, e = c.identityApi.getRequest(details); e != nil {
 		return
 	}
 

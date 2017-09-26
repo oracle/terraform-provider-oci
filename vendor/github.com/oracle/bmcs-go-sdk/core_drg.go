@@ -111,7 +111,7 @@ func (c *Client) ListDrgs(compartmentID string, opts *ListOptions) (res *ListDrg
 	}
 
 	var resp *response
-	if resp, e = c.coreApi.listRequest(details); e != nil {
+	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}
 

@@ -238,7 +238,7 @@ func ReadResource(sync ResourceReader) (e error) {
 	// Remove resource from state if it has been terminated so that it is recreated on next apply
 	if dr, ok := sync.(StatefullyDeletedResource); ok {
 		for _, target := range dr.DeletedTarget() {
-			if dr.State() == target {
+			if dr.State() == target && dr.State() != baremetal.ResourceSucceededWorkRequest && dr.State() != baremetal.WorkRequestSucceeded {
 				dr.VoidState()
 				return
 			}
