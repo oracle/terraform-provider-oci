@@ -53,7 +53,9 @@ func (s *DatasourceIdentityPolicyTestSuite) TestAccDatasourceIdentityPolicies_ba
 			{
 				ImportState:       true,
 				ImportStateVerify: true,
-				Config: s.Config + `	
+				Config: s.Config,
+			},{
+				Config: s.Config + `
 				data "oci_identity_policies" "p" {
 					compartment_id = "${oci_identity_compartment.t.id}"
 				}`,
