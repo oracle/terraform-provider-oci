@@ -32,8 +32,8 @@ func (s *DatasourceCoreVolumeTestSuite) SetupTest() {
 	resource "oci_core_volume" "t" {
 		availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
 		compartment_id = "${var.compartment_id}"
-		display_name = "display_name"
-		size_in_mbs = 262144
+		display_name = "-tf-volume"
+		size_in_gbs = 50
 	}
 	data "oci_core_volumes" "t" {
 		availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"

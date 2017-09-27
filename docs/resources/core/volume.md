@@ -8,7 +8,7 @@ Gets a list of volumes in a compartment.
 resource "oci_core_volume" "t" {
     availability_domain = "availability_domain"
     compartment_id = "compartment_id"
-    size_in_mbs = 262144
+    size_in_gbs = 50
     volume_backup_id = "volume_id"
 }
 ```
@@ -17,8 +17,8 @@ resource "oci_core_volume" "t" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) The OCID of the compartment.
 * `availability_domain` - (Required) The Availability Domain of the volume.
+* `compartment_id` - (Required) The OCID of the compartment.
 * `display_name` - (Optional) A user-friendly name. Does not have to be unique, and it's changeable.
 * `volume_backup_id` - (Optional) The OCID of the volume backup from which the data should be restored on the newly created volume.
 
@@ -28,5 +28,6 @@ The following arguments are supported:
 * `display_name` - A user-friendly name. Does not have to be unique.
 * `id` - The OCID of the Volume backup.
 * `state` - The current state of the volume. [PROVISIONING,RESTORING,AVAILABLE,TERMINATING,TERMINATED,FAULTY]
-* `size_in_mbs` - The size of the volume, in MBs.
+* `size_in_mbs` - (Deprecated) The size of the volume, in MBs.
+* `size_in_gbs` - The size of the volume, in GBs.
 * `time_created` - The date and time the Volume was created.

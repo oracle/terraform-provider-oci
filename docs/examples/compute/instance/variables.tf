@@ -27,12 +27,8 @@ variable "InstanceOSVersion" {
     default = "7.3"
 }
 
-variable "2TB" {
-    default = "2097152"
-}
-
-variable "256GB" {
-    default = "262144"
+variable "DBSize" {
+    default = "50" // size in GBs
 }
 
 variable "BootStrapFile" {
