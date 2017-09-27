@@ -53,11 +53,11 @@ func (s *ResourceIdentityCompartmentTestSuite) TestAccResourceIdentityCompartmen
 			{
 				Config: s.Config + `
 				resource "oci_identity_compartment" "t" {
-					name = "-tf-compartment"
+					name = "-tf-compartment2"
 					description = "tf test compartment2"
 				}`,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "name", "-tf-compartment"),
+					resource.TestCheckResourceAttr(s.ResourceName, "name", "-tf-compartment2"),
 					resource.TestCheckResourceAttr(s.ResourceName, "description", "tf test compartment2"),
 				),
 			},

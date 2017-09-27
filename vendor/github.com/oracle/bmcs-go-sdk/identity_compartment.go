@@ -77,7 +77,7 @@ func (c *Client) GetCompartment(id string) (res *Compartment, e error) {
 // UpdateCompartment updates the description of a compartment.
 //
 // See https://docs.us-phoenix-1.oraclecloud.com/api/#/en/identity/20160918/Compartment/UpdateCompartment
-func (c *Client) UpdateCompartment(id string, opts *UpdateIdentityOptions) (res *Compartment, e error) {
+func (c *Client) UpdateCompartment(id string, opts *UpdateCompartmentOptions) (res *Compartment, e error) {
 	details := &requestDetails{
 		ids:      urlParts{id},
 		name:     resourceCompartments,
