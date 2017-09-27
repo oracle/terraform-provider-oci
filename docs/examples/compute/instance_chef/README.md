@@ -9,7 +9,6 @@ This example launches an instance into an existing subnet, registers the instanc
 
 ### Prerequisites
 
-* Subscription to the Oracle Management Cloud Service  -https://cloud.oracle.com/management
 * Access to a Chef server to upload the example_webserver recipe to.
 
 ### Using this example
