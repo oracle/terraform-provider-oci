@@ -2972,10 +2972,10 @@
 			"revisionTime": "2017-01-25T16:36:56Z"
 		},
 		{
-			"checksumSHA1": "i5+LuvTFk7sBs5CUWo9+cjE1YcA=",
+			"checksumSHA1": "1VsZhViFgd7wOkpScdSRCoQ6qls=",
 			"path": "github.com/oracle/bmcs-go-sdk",
-			"revision": "c58f2bfda490d2e87610265d056aea0716d94c87",
-			"revisionTime": "2017-09-27T00:20:41Z"
+			"revision": "ffd4c7da40cd18d9d1077fcfcf60f06037fba7f4",
+			"revisionTime": "2017-09-27T23:45:48Z"
 		},
 		{
 			"checksumSHA1": "ImgLNIpeXsGjZGXw4rd+rwzQxpo=",
