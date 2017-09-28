@@ -23,7 +23,7 @@ The following arguments are supported:
 ## Attribute Reference
 * `compartments` - A list of compartments.
 
-## Group Reference
+## Compartment Reference
 * `id` - The OCID of the compartment.
 * `compartment_id` - The OCID of the tenancy containing the compartment.
 * `name` - The name you assign to the compartment during creation. The name must be unique across all compartments in the tenancy and cannot be changed. Avoid entering confidential information.

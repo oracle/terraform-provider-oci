@@ -17,7 +17,6 @@ import (
 type requestor interface {
 	request(method string, reqOpts request) (r *response, e error)
 	getRequest(reqOpts request) (resp *response, e error)
-	listRequest(reqOpts request) (resp *response, e error)
 	postRequest(reqOpts request) (resp *response, e error)
 	deleteRequest(reqOpts request) (e error)
 }
@@ -125,13 +124,6 @@ func (api *apiRequestor) deleteRequest(reqOpts request) (e error) {
 	return
 }
 
-func (api *apiRequestor) listRequest(reqOpts request) (getResp *response, e error) {
-	if getResp, e = api.requestWithListFlag(http.MethodGet, reqOpts, true); e != nil {
-		return
-	}
-	return
-}
-
 func (api *apiRequestor) getRequest(reqOpts request) (getResp *response, e error) {
 	if getResp, e = api.request(http.MethodGet, reqOpts); e != nil {
 		return
@@ -147,15 +139,11 @@ func (api *apiRequestor) postRequest(reqOpts request) (postResp *response, e err
 }
 
 func (api *apiRequestor) request(method string, reqOpts request) (r *response, e error) {
-	return api.requestWithListFlag(method, reqOpts, false)
-}
-
-func (api *apiRequestor) requestWithListFlag(method string, reqOpts request, listOp bool) (r *response, e error) {
-	return submitRequestWithRetries(api, method, reqOpts, listOp, generateRetryToken(api.randGen),
+	return submitRequestWithRetries(api, method, reqOpts, generateRetryToken(api.randGen),
 		"", -1, 0, 1)
 }
 
-func submitRequestWithRetries(api *apiRequestor, method string, reqOpts request, listOp bool, generatedRetryToken string,
+func submitRequestWithRetries(api *apiRequestor, method string, reqOpts request, generatedRetryToken string,
 	currentErrorCode string, retryTimeRemaining time.Duration, timeWaited time.Duration, retryNum uint) (r *response, e error) {
 	var jsonBuffer []byte
 	var buffer *bytes.Buffer
@@ -240,15 +228,15 @@ func submitRequestWithRetries(api *apiRequestor, method string, reqOpts request,
 		}
 		errorCodeStr := fmt.Sprintf("%s:%s", apiError.Status, apiError.Code)
 		if retryNum == 1 {
-			retryTimeRemaining = getMaxRetryTimeInSeconds(api, apiError, req.URL.String(), method, listOp)
+			retryTimeRemaining = getMaxRetryTimeInSeconds(api, apiError, req.URL.String(), method)
 			currentErrorCode = errorCodeStr
 		} else if currentErrorCode != errorCodeStr {
-			retryTimeRemaining = getMaxRetryTimeInSeconds(api, apiError, req.URL.String(), method, listOp) - timeWaited
+			retryTimeRemaining = getMaxRetryTimeInSeconds(api, apiError, req.URL.String(), method) - timeWaited
 			currentErrorCode = errorCodeStr
 		}
 		if retryTimeRemaining > 0 {
 			timeSlept := polynomialBackoffSleep(retryNum, retryTimeRemaining)
-			return submitRequestWithRetries(api, method, reqOpts, listOp, generatedRetryToken,
+			return submitRequestWithRetries(api, method, reqOpts, generatedRetryToken,
 				currentErrorCode, retryTimeRemaining-timeSlept, timeWaited+timeSlept, retryNum+1)
 		} else {
 			e = &apiError
@@ -280,7 +268,7 @@ func polynomialBackoffSleep(retryNum uint, retryTimeRemaining time.Duration) tim
 	return secondsToSleep
 }
 
-func getMaxRetryTimeInSeconds(api *apiRequestor, e Error, requestURL string, method string, listOp bool) time.Duration {
+func getMaxRetryTimeInSeconds(api *apiRequestor, e Error, requestURL string, method string) time.Duration {
 	switch e.Status {
 	case "400":
 		return 0
@@ -290,9 +278,6 @@ func getMaxRetryTimeInSeconds(api *apiRequestor, e Error, requestURL string, met
 		return 0
 	case "404":
 		if method == http.MethodDelete {
-			return 0
-		}
-		if method == http.MethodGet && !listOp {
 			return 0
 		}
 		if requestServiceCheck(requestURL, identityServiceAPI) ||

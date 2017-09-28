@@ -128,7 +128,7 @@ func (c *Client) ListVirtualNetworks(compartmentID string, opts *ListOptions) (v
 	}
 
 	var resp *response
-	if resp, e = c.coreApi.listRequest(details); e != nil {
+	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}
 

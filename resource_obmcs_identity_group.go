@@ -22,7 +22,7 @@ func GroupResource() *schema.Resource {
 		Read:     readGroup,
 		Update:   updateGroup,
 		Delete:   deleteGroup,
-		Schema:   baseIdentitySchemaWithID,
+		Schema:   baseIdentitySchema,
 	}
 }
 

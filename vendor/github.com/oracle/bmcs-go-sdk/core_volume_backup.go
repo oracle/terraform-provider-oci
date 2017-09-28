@@ -122,7 +122,7 @@ func (c *Client) ListVolumeBackups(compartmentID string, opts *ListBackupsOption
 	}
 
 	var resp *response
-	if resp, e = c.coreApi.listRequest(details); e != nil {
+	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}
 

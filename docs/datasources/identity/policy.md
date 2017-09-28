@@ -23,7 +23,7 @@ The following arguments are supported:
 ## Attribute Reference
 * `policies` - A list of policies.
 
-## Group Reference
+## Policy Reference
 * `id` - The OCID of the policy.
 * `compartment_id` - The OCID of the compartment containing the policy (either the tenancy or another compartment).
 * `name` - The name you assign to the policy during creation. The name must be unique across all policies in the tenancy and cannot be changed. Avoid entering confidential information.

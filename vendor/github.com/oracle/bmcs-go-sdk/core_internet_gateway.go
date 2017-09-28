@@ -136,7 +136,7 @@ func (c *Client) ListInternetGateways(compartmentID, vcnID string, opts *ListOpt
 	}
 
 	var resp *response
-	if resp, e = c.coreApi.listRequest(details); e != nil {
+	if resp, e = c.coreApi.getRequest(details); e != nil {
 		return
 	}
 

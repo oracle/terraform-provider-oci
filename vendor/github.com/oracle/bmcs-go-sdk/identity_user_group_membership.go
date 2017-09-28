@@ -103,7 +103,7 @@ func (c *Client) ListUserGroupMemberships(opts *ListMembershipsOptions) (resourc
 	}
 
 	var resp *response
-	if resp, e = c.identityApi.listRequest(details); e != nil {
+	if resp, e = c.identityApi.getRequest(details); e != nil {
 		return
 	}
 

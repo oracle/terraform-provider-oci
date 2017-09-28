@@ -121,7 +121,7 @@ func (c *Client) ListGroups(opts *ListOptions) (resources *ListGroups, e error) 
 	}
 
 	var resp *response
-	if resp, e = c.identityApi.listRequest(details); e != nil {
+	if resp, e = c.identityApi.getRequest(details); e != nil {
 		return
 	}
 

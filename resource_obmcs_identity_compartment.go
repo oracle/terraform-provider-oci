@@ -15,6 +15,41 @@ import (
 
 // ResourceIdentityCompartment exposes an IdentityCompartment Resource
 func CompartmentResource() *schema.Resource {
+	compartmentSchema := map[string]*schema.Schema{
+		"id": {
+			Type:     schema.TypeString,
+			Computed: true,
+		},
+		"name": {
+			Type:     schema.TypeString,
+			Required: true,
+		},
+		"description": {
+			Type:     schema.TypeString,
+			Required: true,
+		},
+		"compartment_id": {
+			Type:     schema.TypeString,
+			Computed: true,
+		},
+		"state": {
+			Type:     schema.TypeString,
+			Computed: true,
+		},
+		"inactive_state": {
+			Type:     schema.TypeInt,
+			Computed: true,
+		},
+		"time_created": {
+			Type:     schema.TypeString,
+			Computed: true,
+		},
+		"time_modified": {
+			Type:     schema.TypeString,
+			Computed: true,
+		},
+	}
+
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
@@ -24,7 +59,7 @@ func CompartmentResource() *schema.Resource {
 		Read:     readCompartment,
 		Update:   updateCompartment,
 		Delete:   deleteCompartment,
-		Schema:   baseIdentitySchemaWithID,
+		Schema:   compartmentSchema,
 	}
 }
 
@@ -132,7 +167,10 @@ func (s *CompartmentResourceCrud) Get() (e error) {
 }
 
 func (s *CompartmentResourceCrud) Update() (e error) {
-	opts := &baremetal.UpdateIdentityOptions{}
+	opts := &baremetal.UpdateCompartmentOptions{}
+	if name, ok := s.D.GetOk("name"); ok {
+		opts.Name = name.(string)
+	}
 	if description, ok := s.D.GetOk("description"); ok {
 		opts.Description = description.(string)
 	}
