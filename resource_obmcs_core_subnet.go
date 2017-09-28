@@ -106,29 +106,29 @@ func SubnetResource() *schema.Resource {
 func createSubnet(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &SubnetResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*baremetal.Client)
+	sync.Client = m.(*OracleClients).client
 	return crud.CreateResource(d, sync)
 }
 
 func readSubnet(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &SubnetResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*baremetal.Client)
+	sync.Client = m.(*OracleClients).client
 	return crud.ReadResource(sync)
 }
 
 func updateSubnet(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*baremetal.Client)
+	client := m.(*OracleClients)
 	sync := &SubnetResourceCrud{}
 	sync.D = d
-	sync.Client = client
+	sync.Client = client.client
 	return crud.UpdateResource(sync.D, sync)
 }
 
 func deleteSubnet(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &SubnetResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*baremetal.Client)
+	sync.Client = m.(*OracleClients).clientWithoutNotFoundRetries
 	return crud.DeleteResource(d, sync)
 }
 

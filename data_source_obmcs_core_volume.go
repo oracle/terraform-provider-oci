@@ -43,10 +43,10 @@ func VolumeDatasource() *schema.Resource {
 }
 
 func readVolumes(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*baremetal.Client)
+	client := m.(*OracleClients)
 	sync := &VolumeDatasourceCrud{}
 	sync.D = d
-	sync.Client = client
+	sync.Client = client.client
 	return crud.ReadResource(sync)
 }
 

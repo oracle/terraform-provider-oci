@@ -108,21 +108,21 @@ func VnicAttachmentResource() *schema.Resource {
 func createVnicAttachment(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &VnicAttachmentResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*baremetal.Client)
+	sync.Client = m.(*OracleClients).client
 	return crud.CreateResource(d, sync)
 }
 
 func readVnicAttachment(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &VnicAttachmentResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*baremetal.Client)
+	sync.Client = m.(*OracleClients).client
 	return crud.ReadResource(sync)
 }
 
 func deleteVnicAttachment(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &VnicAttachmentResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*baremetal.Client)
+	sync.Client = m.(*OracleClients).clientWithoutNotFoundRetries
 	return crud.DeleteResource(d, sync)
 }
 

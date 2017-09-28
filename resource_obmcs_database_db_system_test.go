@@ -23,7 +23,7 @@ type ResourceDatabaseDBSystemTestSuite struct {
 }
 
 func (s *ResourceDatabaseDBSystemTestSuite) SetupTest() {
-	s.Client = GetTestProvider()
+	s.Client = testAccClient
 
 	s.Provider = Provider(
 		func(d *schema.ResourceData) (interface{}, error) {

@@ -50,10 +50,10 @@ func DBVersionDatasource() *schema.Resource {
 }
 
 func readDBVersions(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*baremetal.Client)
+	client := m.(*OracleClients)
 	reader := &DBVersionDatasourceCrud{}
 	reader.D = d
-	reader.Client = client
+	reader.Client = client.client
 	return crud.ReadResource(reader)
 }
 

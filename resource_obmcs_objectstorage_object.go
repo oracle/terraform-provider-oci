@@ -28,28 +28,28 @@ func ObjectResource() *schema.Resource {
 func createObject(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &ObjectResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*baremetal.Client)
+	sync.Client = m.(*OracleClients).client
 	return crud.CreateResource(d, sync)
 }
 
 func readObject(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &ObjectResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*baremetal.Client)
+	sync.Client = m.(*OracleClients).client
 	return crud.ReadResource(sync)
 }
 
 func updateObject(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &ObjectResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*baremetal.Client)
+	sync.Client = m.(*OracleClients).client
 	return crud.UpdateResource(d, sync)
 }
 
 func deleteObject(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &ObjectResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*baremetal.Client)
+	sync.Client = m.(*OracleClients).clientWithoutNotFoundRetries
 	return crud.DeleteResource(d, sync)
 }
 

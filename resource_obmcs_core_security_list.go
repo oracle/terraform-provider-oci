@@ -136,34 +136,34 @@ func SecurityListResource() *schema.Resource {
 }
 
 func createSecurityList(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*baremetal.Client)
+	client := m.(*OracleClients)
 	crd := &SecurityListResourceCrud{}
 	crd.D = d
-	crd.Client = client
+	crd.Client = client.client
 	return crud.CreateResource(d, crd)
 }
 
 func readSecurityList(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*baremetal.Client)
+	client := m.(*OracleClients)
 	crd := &SecurityListResourceCrud{}
 	crd.D = d
-	crd.Client = client
+	crd.Client = client.client
 	return crud.ReadResource(crd)
 }
 
 func updateSecurityList(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*baremetal.Client)
+	client := m.(*OracleClients)
 	crd := &SecurityListResourceCrud{}
 	crd.D = d
-	crd.Client = client
+	crd.Client = client.client
 	return crud.UpdateResource(d, crd)
 }
 
 func deleteSecurityList(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*baremetal.Client)
+	client := m.(*OracleClients)
 	crd := &SecurityListResourceCrud{}
 	crd.D = d
-	crd.Client = client
+	crd.Client = client.clientWithoutNotFoundRetries
 	return crud.DeleteResource(d, crd)
 }
 

@@ -42,10 +42,10 @@ func DHCPOptionsDatasource() *schema.Resource {
 }
 
 func readDHCPOptionsList(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*baremetal.Client)
+	client := m.(*OracleClients)
 	reader := &DHCPOptionsDatasourceCrud{}
 	reader.D = d
-	reader.Client = client
+	reader.Client = client.client
 
 	return crud.ReadResource(reader)
 }

@@ -30,10 +30,10 @@ func LoadBalancerDatasource() *schema.Resource {
 }
 
 func readLoadBalancers(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*baremetal.Client)
+	client := m.(*OracleClients)
 	sync := &LoadBalancerDatasourceCrud{}
 	sync.D = d
-	sync.Client = client
+	sync.Client = client.client
 	return crud.ReadResource(sync)
 }
 

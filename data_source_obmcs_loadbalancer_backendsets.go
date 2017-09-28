@@ -30,10 +30,10 @@ func BackendSetDatasource() *schema.Resource {
 }
 
 func readBackendSets(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*baremetal.Client)
+	client := m.(*OracleClients)
 	sync := &BackendSetDatasourceCrud{}
 	sync.D = d
-	sync.Client = client
+	sync.Client = client.client
 	return crud.ReadResource(sync)
 }
 

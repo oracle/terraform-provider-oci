@@ -43,10 +43,10 @@ func SecurityListDatasource() *schema.Resource {
 }
 
 func readSecurityLists(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*baremetal.Client)
+	client := m.(*OracleClients)
 	sync := &SecurityListDatasourceCrud{}
 	sync.D = d
-	sync.Client = client
+	sync.Client = client.client
 	return crud.ReadResource(sync)
 }
 

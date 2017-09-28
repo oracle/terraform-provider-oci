@@ -22,7 +22,7 @@ type DatabaseDBSystemShapeTestSuite struct {
 }
 
 func (s *DatabaseDBSystemShapeTestSuite) SetupTest() {
-	s.Client = GetTestProvider()
+	s.Client = testAccClient
 	s.Provider = Provider(func(d *schema.ResourceData) (interface{}, error) {
 		return s.Client, nil
 	})

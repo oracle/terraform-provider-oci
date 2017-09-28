@@ -43,10 +43,10 @@ func DBHomesDatasource() *schema.Resource {
 }
 
 func readDBHomes(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*baremetal.Client)
+	client := m.(*OracleClients)
 	sync := &DBHomesDatasourceCrud{}
 	sync.D = d
-	sync.Client = client
+	sync.Client = client.client
 	return crud.ReadResource(sync)
 }
 

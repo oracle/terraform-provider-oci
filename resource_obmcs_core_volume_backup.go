@@ -63,34 +63,34 @@ func VolumeBackupResource() *schema.Resource {
 }
 
 func createVolumeBackup(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*baremetal.Client)
+	client := m.(*OracleClients)
 	sync := &VolumeBackupResourceCrud{}
 	sync.D = d
-	sync.Client = client
+	sync.Client = client.client
 	return crud.CreateResource(d, sync)
 }
 
 func readVolumeBackup(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*baremetal.Client)
+	client := m.(*OracleClients)
 	sync := &VolumeBackupResourceCrud{}
 	sync.D = d
-	sync.Client = client
+	sync.Client = client.client
 	return crud.ReadResource(sync)
 }
 
 func updateVolumeBackup(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*baremetal.Client)
+	client := m.(*OracleClients)
 	sync := &VolumeBackupResourceCrud{}
 	sync.D = d
-	sync.Client = client
+	sync.Client = client.client
 	return crud.UpdateResource(d, sync)
 }
 
 func deleteVolumeBackup(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*baremetal.Client)
+	client := m.(*OracleClients)
 	sync := &VolumeBackupResourceCrud{}
 	sync.D = d
-	sync.Client = client
+	sync.Client = client.clientWithoutNotFoundRetries
 	return crud.DeleteResource(d, sync)
 }
 

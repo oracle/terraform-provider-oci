@@ -76,28 +76,28 @@ func PrivateIPResource() *schema.Resource {
 func createPrivateIP(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &PrivateIPResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*baremetal.Client)
+	sync.Client = m.(*OracleClients).client
 	return crud.CreateResource(d, sync)
 }
 
 func readPrivateIP(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &PrivateIPResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*baremetal.Client)
+	sync.Client = m.(*OracleClients).client
 	return crud.ReadResource(sync)
 }
 
 func updatePrivateIP(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &PrivateIPResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*baremetal.Client)
+	sync.Client = m.(*OracleClients).client
 	return crud.UpdateResource(d, sync)
 }
 
 func deletePrivateIP(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &PrivateIPResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*baremetal.Client)
+	sync.Client = m.(*OracleClients).clientWithoutNotFoundRetries
 	return crud.DeleteResource(d, sync)
 }
 
