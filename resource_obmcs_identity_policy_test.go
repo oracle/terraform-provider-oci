@@ -57,6 +57,9 @@ func (s *ResourceIdentityPolicyTestSuite) TestAccResourceIdentityPolicy_basic() 
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "compartment_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "ETag"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "lastUpdateETag"),
+					resource.TestCheckResourceAttr(s.ResourceName, "policyHash", "5b4814dcd284428ec85a969f94273fd0"),
 					resource.TestCheckResourceAttr(s.ResourceName, "name", "-tf-policy"),
 					resource.TestCheckResourceAttr(s.ResourceName, "description", "automated test policy"),
 					resource.TestCheckResourceAttr(s.ResourceName, "statements.#", "1"),
@@ -78,6 +81,55 @@ func (s *ResourceIdentityPolicyTestSuite) TestAccResourceIdentityPolicy_basic() 
 					resource.TestCheckResourceAttr(s.ResourceName, "name", "-tf-policy-update"),
 					resource.TestCheckResourceAttr(s.ResourceName, "description", "automated test policy (updated)"),
 					resource.TestCheckResourceAttr(s.ResourceName, "statements.#", "2"),
+					resource.TestCheckResourceAttr(s.ResourceName, "policyHash", "84af348fe943dfb06bf36fbd0903b136"),
+				),
+			},
+		},
+	},
+	)
+}
+
+func (s *ResourceIdentityPolicyTestSuite) TestAccResourceIdentityPolicy_formattingDiff() {
+	var lastUpdateETag, policyHash string
+	resource.Test(s.T(), resource.TestCase{
+		Providers: s.Providers,
+		Steps: []resource.TestStep{
+			// create policy with bad formatting
+			{
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config: s.Config + `
+				resource "oci_identity_policy" "p" {
+					compartment_id = "${oci_identity_compartment.t.id}"
+					name = "-tf-policy"
+					description = "automated test policy"
+					statements = ["Allow group ${oci_identity_group.t.name} to read instances in >> compartment ${oci_identity_compartment.t.name}"]
+				}`,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttr(s.ResourceName, "statements.0", "Allow group -tf-group to read instances in compartment -tf-compartment"),
+					func(s *terraform.State) (err error) {
+						if policyHash, err = fromInstanceState(s, "oci_identity_policy.p", "policyHash"); err == nil {
+							lastUpdateETag, err = fromInstanceState(s, "oci_identity_policy.p", "lastUpdateETag")
+						}
+						return err
+					},
+				),
+			},
+			// verify update does not change the hash and ETag value
+			{
+				Config: s.Config + `
+				resource "oci_identity_policy" "p" {
+					compartment_id = "${oci_identity_compartment.t.id}"
+					name = "-tf-policy"
+					description = "automated test policy"
+					statements = ["Allow group ${oci_identity_group.t.name} to read instances in >> compartment ${oci_identity_compartment.t.name}"]
+				}`,
+				Check: resource.ComposeTestCheckFunc(
+					func(s *terraform.State) (err error) {
+						resource.TestCheckResourceAttr("oci_identity_policy.p", "policyHash", policyHash)
+						resource.TestCheckResourceAttr("oci_identity_policy.p", "lastUpdateETag", lastUpdateETag)
+						return err
+					},
 				),
 			},
 		},
