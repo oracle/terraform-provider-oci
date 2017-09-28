@@ -9,6 +9,7 @@ This example launches an instance into an existing subnet, registers the instanc
 
 ### Prerequisites
 
+* `knife` must be installed and configured in your PATH. This allows the Chef node deletion to work properly when `terraform destroy` is called.
 * Access to a Chef server to upload the example_webserver recipe to.
 
 ### Using this example
@@ -20,6 +21,8 @@ This example launches an instance into an existing subnet, registers the instanc
   * `$ cd cookbooks/example_webserver`
   * `$ berks install`
   * `$ berks upload`
+* Run `terraform apply` from the instance_chef directory.
+* Navigate to the public IP address (reported by Terraform, above) in your browser.
 
 ### Files in the configuration
 
