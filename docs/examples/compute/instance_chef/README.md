@@ -38,9 +38,6 @@ so you will need to supply public/private keys to create an ssh connection.
 **NOTE**: do not try to use your api keys, see [this doc](https://docs.us-phoenix-1.oraclecloud.com/Content/Compute/Tasks/managingkeypairs.htm)
 for more info on configuring keys.
 
-#### `remote-exec.tf`
-Uses a `null_resource`, `remote-exec` and `depends_on` to execute a command on the instance. [More information on the remote-exec provisioner.](https://www.terraform.io/docs/provisioners/remote-exec.html)
-
 #### `./userdata/bootstrap`
 The user-data script that gets injected into the instance on launch. More information on user-data scripts can be [found at the cloud-init project.](https://cloudinit.readthedocs.io/en/latest/topics/format.html)
 

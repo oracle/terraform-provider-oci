@@ -28,3 +28,8 @@ firewall_rule 'ssh' do
   port 22
   command :allow
 end
+
+# create an example index page on the web server
+file '/var/www/html/index.html' do
+  content 'Hello World!'
+end
