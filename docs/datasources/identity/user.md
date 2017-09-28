@@ -19,7 +19,7 @@ The following arguments are supported:
 ## Attribute Reference
 * `users` - A list of users
 
-## Group Reference
+## User Reference
 * `id` - The OCID of the user.
 * `compartment_id` - The OCID of the tenancy containing the user.
 * `name` - The name you assign to the user during creation. This is the user's login for the Console. The name must be unique across all users in the tenancy and cannot be changed.

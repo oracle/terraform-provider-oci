@@ -10,24 +10,50 @@ import (
 )
 
 func PolicyResource() *schema.Resource {
-	policySchema := make(map[string]*schema.Schema)
-
-	for key, value := range identitySchemaWithID {
-		policySchema[key] = value
-	}
-
-	policySchema["statements"] = &schema.Schema{
-		Type:     schema.TypeList,
-		Required: true,
-		Elem:     &schema.Schema{Type: schema.TypeString},
-	}
-	policySchema["inactive_state"] = &schema.Schema{
-		Type:     schema.TypeInt,
-		Computed: true,
-	}
-	policySchema["version_date"] = &schema.Schema{
-		Type:     schema.TypeString,
-		Computed: true,
+	policySchema := map[string]*schema.Schema{
+		"id": {
+			Type:     schema.TypeString,
+			Computed: true,
+			ForceNew: true,
+		},
+		"name": {
+			Type:     schema.TypeString,
+			Required: true,
+			ForceNew: true,
+		},
+		"description": {
+			Type:     schema.TypeString,
+			Required: true,
+		},
+		"compartment_id": {
+			Type:     schema.TypeString,
+			Required: true,
+		},
+		"state": {
+			Type:     schema.TypeString,
+			Computed: true,
+		},
+		"time_created": {
+			Type:     schema.TypeString,
+			Computed: true,
+		},
+		"time_modified": {
+			Type:     schema.TypeString,
+			Computed: true,
+		},
+		"statements": {
+			Type:     schema.TypeList,
+			Required: true,
+			Elem:     &schema.Schema{Type: schema.TypeString},
+		},
+		"inactive_state": {
+			Type:     schema.TypeInt,
+			Computed: true,
+		},
+		"version_date": {
+			Type:     schema.TypeString,
+			Computed: true,
+		},
 	}
 
 	return &schema.Resource{

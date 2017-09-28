@@ -10,6 +10,7 @@ import (
 	"github.com/oracle/bmcs-go-sdk"
 
 	"github.com/stretchr/testify/suite"
+	"fmt"
 )
 
 type ResourceIdentityCompartmentTestSuite struct {
@@ -31,6 +32,7 @@ func (s *ResourceIdentityCompartmentTestSuite) SetupTest() {
 }
 
 func (s *ResourceIdentityCompartmentTestSuite) TestAccResourceIdentityCompartment_basic() {
+	var resId, resId2 string
 	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
@@ -47,18 +49,29 @@ func (s *ResourceIdentityCompartmentTestSuite) TestAccResourceIdentityCompartmen
 					resource.TestCheckResourceAttr(s.ResourceName, "name", "-tf-compartment"),
 					resource.TestCheckResourceAttr(s.ResourceName, "description", "tf test compartment"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", baremetal.ResourceActive),
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, "oci_identity_compartment.t", "id")
+						return err
+					},
 				),
 			},
 			// verify update
 			{
 				Config: s.Config + `
 				resource "oci_identity_compartment" "t" {
-					name = "-tf-compartment"
+					name = "-tf-compartment2"
 					description = "tf test compartment2"
 				}`,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "name", "-tf-compartment"),
+					resource.TestCheckResourceAttr(s.ResourceName, "name", "-tf-compartment2"),
 					resource.TestCheckResourceAttr(s.ResourceName, "description", "tf test compartment2"),
+					func(s *terraform.State) (err error) {
+						resId2, err = fromInstanceState(s, "oci_identity_compartment.t", "id")
+						if resId != resId2 {
+							return fmt.Errorf("Expected same ocid, got the different.")
+						}
+						return err
+					},
 				),
 			},
 			// restore compartment to original state (for future tests)
