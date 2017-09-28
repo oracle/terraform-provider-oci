@@ -19,7 +19,6 @@ func CompartmentResource() *schema.Resource {
 		"id": {
 			Type:     schema.TypeString,
 			Computed: true,
-			ForceNew: true,
 		},
 		"name": {
 			Type:     schema.TypeString,
