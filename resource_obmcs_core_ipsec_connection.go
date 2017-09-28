@@ -63,29 +63,29 @@ func IPSecConnectionResource() *schema.Resource {
 func createIPSec(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &IPSecConnectionResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*baremetal.Client)
+	sync.Client = m.(*OracleClients).client
 	return crud.CreateResource(d, sync)
 }
 
 func readIPSec(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &IPSecConnectionResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*baremetal.Client)
+	sync.Client = m.(*OracleClients).client
 	return crud.ReadResource(sync)
 }
 
 func updateIPSec(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*baremetal.Client)
+	client := m.(*OracleClients)
 	sync := &IPSecConnectionResourceCrud{}
 	sync.D = d
-	sync.Client = client
+	sync.Client = client.client
 	return crud.UpdateResource(sync.D, sync)
 }
 
 func deleteIPSec(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &IPSecConnectionResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*baremetal.Client)
+	sync.Client = m.(*OracleClients).clientWithoutNotFoundRetries
 	return crud.DeleteResource(d, sync)
 }
 

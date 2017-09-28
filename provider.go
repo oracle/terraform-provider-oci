@@ -223,7 +223,7 @@ func getRequiredEnvSetting(s string) string {
 	return v
 }
 
-func providerConfig(d *schema.ResourceData) (client interface{}, err error) {
+func providerConfig(d *schema.ResourceData) (clients interface{}, err error) {
 	tenancyOCID := d.Get("tenancy_ocid").(string)
 	userOCID := d.Get("user_ocid").(string)
 	fingerprint := d.Get("fingerprint").(string)
@@ -281,6 +281,18 @@ func providerConfig(d *schema.ResourceData) (client interface{}, err error) {
 		clientOpts = append(clientOpts, baremetal.UrlTemplate(urlTemplate))
 	}
 
-	client, err = baremetal.NewClient(userOCID, tenancyOCID, fingerprint, clientOpts...)
+	client, err := baremetal.NewClient(userOCID, tenancyOCID, fingerprint, clientOpts...)
+
+	clientOpts = append(clientOpts, baremetal.DisableNotFoundRetries(true))
+	clientWithoutNotFoundRetries, err := baremetal.NewClient(userOCID, tenancyOCID, fingerprint, clientOpts...)
+	clients = &OracleClients{
+		client: client,
+		clientWithoutNotFoundRetries: clientWithoutNotFoundRetries,
+	}
 	return
+}
+
+type OracleClients struct {
+	client                       *baremetal.Client
+	clientWithoutNotFoundRetries *baremetal.Client
 }

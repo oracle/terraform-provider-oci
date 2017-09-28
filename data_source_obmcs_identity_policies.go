@@ -30,10 +30,10 @@ func IdentityPolicyDatasource() *schema.Resource {
 }
 
 func readIdentityPolicies(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*baremetal.Client)
+	client := m.(*OracleClients)
 	sync := &IdentityPolicyDatasourceCrud{}
 	sync.D = d
-	sync.Client = client
+	sync.Client = client.client
 	return crud.ReadResource(sync)
 }
 

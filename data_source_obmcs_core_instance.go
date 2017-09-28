@@ -100,10 +100,10 @@ func resourceCoreInstance() *schema.Resource {
 }
 
 func readInstances(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*baremetal.Client)
+	client := m.(*OracleClients)
 	reader := &InstanceDatasourceCrud{}
 	reader.D = d
-	reader.Client = client
+	reader.Client = client.client
 
 	return crud.ReadResource(reader)
 }

@@ -22,16 +22,17 @@ type requestor interface {
 }
 
 type apiRequestor struct {
-	httpClient         *http.Client
-	authInfo           *authenticationInfo
-	urlBuilder         urlBuilderFn
-	urlTemplate        string
-	userAgent          string
-	region             string
-	shortRetryTime     time.Duration
-	longRetryTime      time.Duration
-	randGen            *rand.Rand
-	disableAutoRetries bool
+	httpClient             *http.Client
+	authInfo               *authenticationInfo
+	urlBuilder             urlBuilderFn
+	urlTemplate            string
+	userAgent              string
+	region                 string
+	shortRetryTime         time.Duration
+	longRetryTime          time.Duration
+	randGen                *rand.Rand
+	disableAutoRetries     bool
+	disableNotFoundRetries bool
 }
 
 func newCoreAPIRequestor(authInfo *authenticationInfo, nco *NewClientOptions) (r *apiRequestor) {
@@ -39,15 +40,16 @@ func newCoreAPIRequestor(authInfo *authenticationInfo, nco *NewClientOptions) (r
 		httpClient: &http.Client{
 			Transport: nco.Transport,
 		},
-		authInfo:           authInfo,
-		urlBuilder:         buildCoreURL,
-		urlTemplate:        nco.UrlTemplate,
-		userAgent:          nco.UserAgent,
-		region:             nco.Region,
-		shortRetryTime:     nco.ShortRetryTime,
-		longRetryTime:      nco.LongRetryTime,
-		randGen:            nco.RandGen,
-		disableAutoRetries: nco.DisableAutoRetries,
+		authInfo:               authInfo,
+		urlBuilder:             buildCoreURL,
+		urlTemplate:            nco.UrlTemplate,
+		userAgent:              nco.UserAgent,
+		region:                 nco.Region,
+		shortRetryTime:         nco.ShortRetryTime,
+		longRetryTime:          nco.LongRetryTime,
+		randGen:                nco.RandGen,
+		disableAutoRetries:     nco.DisableAutoRetries,
+		disableNotFoundRetries: nco.DisableNotFoundRetries,
 	}
 }
 
@@ -56,15 +58,16 @@ func newObjectStorageAPIRequestor(authInfo *authenticationInfo, nco *NewClientOp
 		httpClient: &http.Client{
 			Transport: nco.Transport,
 		},
-		authInfo:           authInfo,
-		urlBuilder:         buildObjectStorageURL,
-		urlTemplate:        nco.UrlTemplate,
-		userAgent:          nco.UserAgent,
-		region:             nco.Region,
-		shortRetryTime:     nco.ShortRetryTime,
-		longRetryTime:      nco.LongRetryTime,
-		randGen:            nco.RandGen,
-		disableAutoRetries: nco.DisableAutoRetries,
+		authInfo:               authInfo,
+		urlBuilder:             buildObjectStorageURL,
+		urlTemplate:            nco.UrlTemplate,
+		userAgent:              nco.UserAgent,
+		region:                 nco.Region,
+		shortRetryTime:         nco.ShortRetryTime,
+		longRetryTime:          nco.LongRetryTime,
+		randGen:                nco.RandGen,
+		disableAutoRetries:     nco.DisableAutoRetries,
+		disableNotFoundRetries: nco.DisableNotFoundRetries,
 	}
 }
 
@@ -73,15 +76,16 @@ func newDatabaseAPIRequestor(authInfo *authenticationInfo, nco *NewClientOptions
 		httpClient: &http.Client{
 			Transport: nco.Transport,
 		},
-		authInfo:           authInfo,
-		urlBuilder:         buildDatabaseURL,
-		urlTemplate:        nco.UrlTemplate,
-		userAgent:          nco.UserAgent,
-		region:             nco.Region,
-		shortRetryTime:     nco.ShortRetryTime,
-		longRetryTime:      nco.LongRetryTime,
-		randGen:            nco.RandGen,
-		disableAutoRetries: nco.DisableAutoRetries,
+		authInfo:               authInfo,
+		urlBuilder:             buildDatabaseURL,
+		urlTemplate:            nco.UrlTemplate,
+		userAgent:              nco.UserAgent,
+		region:                 nco.Region,
+		shortRetryTime:         nco.ShortRetryTime,
+		longRetryTime:          nco.LongRetryTime,
+		randGen:                nco.RandGen,
+		disableAutoRetries:     nco.DisableAutoRetries,
+		disableNotFoundRetries: nco.DisableNotFoundRetries,
 	}
 }
 
@@ -90,15 +94,16 @@ func newIdentityAPIRequestor(authInfo *authenticationInfo, nco *NewClientOptions
 		httpClient: &http.Client{
 			Transport: nco.Transport,
 		},
-		authInfo:           authInfo,
-		urlBuilder:         buildIdentityURL,
-		urlTemplate:        nco.UrlTemplate,
-		userAgent:          nco.UserAgent,
-		region:             nco.Region,
-		shortRetryTime:     nco.ShortRetryTime,
-		longRetryTime:      nco.LongRetryTime,
-		randGen:            nco.RandGen,
-		disableAutoRetries: nco.DisableAutoRetries,
+		authInfo:               authInfo,
+		urlBuilder:             buildIdentityURL,
+		urlTemplate:            nco.UrlTemplate,
+		userAgent:              nco.UserAgent,
+		region:                 nco.Region,
+		shortRetryTime:         nco.ShortRetryTime,
+		longRetryTime:          nco.LongRetryTime,
+		randGen:                nco.RandGen,
+		disableAutoRetries:     nco.DisableAutoRetries,
+		disableNotFoundRetries: nco.DisableNotFoundRetries,
 	}
 }
 
@@ -107,15 +112,16 @@ func newLoadBalancerAPIRequestor(authInfo *authenticationInfo, nco *NewClientOpt
 		httpClient: &http.Client{
 			Transport: nco.Transport,
 		},
-		authInfo:           authInfo,
-		urlBuilder:         buildLoadBalancerURL,
-		urlTemplate:        nco.UrlTemplate,
-		userAgent:          nco.UserAgent,
-		region:             nco.Region,
-		shortRetryTime:     nco.ShortRetryTime,
-		longRetryTime:      nco.LongRetryTime,
-		randGen:            nco.RandGen,
-		disableAutoRetries: nco.DisableAutoRetries,
+		authInfo:               authInfo,
+		urlBuilder:             buildLoadBalancerURL,
+		urlTemplate:            nco.UrlTemplate,
+		userAgent:              nco.UserAgent,
+		region:                 nco.Region,
+		shortRetryTime:         nco.ShortRetryTime,
+		longRetryTime:          nco.LongRetryTime,
+		randGen:                nco.RandGen,
+		disableAutoRetries:     nco.DisableAutoRetries,
+		disableNotFoundRetries: nco.DisableNotFoundRetries,
 	}
 }
 
@@ -228,10 +234,10 @@ func submitRequestWithRetries(api *apiRequestor, method string, reqOpts request,
 		}
 		errorCodeStr := fmt.Sprintf("%s:%s", apiError.Status, apiError.Code)
 		if retryNum == 1 {
-			retryTimeRemaining = getMaxRetryTimeInSeconds(api, apiError, req.URL.String(), method)
+			retryTimeRemaining = getMaxRetryTimeInSeconds(api, apiError, req.URL.String(), method, api.disableNotFoundRetries)
 			currentErrorCode = errorCodeStr
 		} else if currentErrorCode != errorCodeStr {
-			retryTimeRemaining = getMaxRetryTimeInSeconds(api, apiError, req.URL.String(), method) - timeWaited
+			retryTimeRemaining = getMaxRetryTimeInSeconds(api, apiError, req.URL.String(), method, api.disableNotFoundRetries) - timeWaited
 			currentErrorCode = errorCodeStr
 		}
 		if retryTimeRemaining > 0 {
@@ -268,7 +274,7 @@ func polynomialBackoffSleep(retryNum uint, retryTimeRemaining time.Duration) tim
 	return secondsToSleep
 }
 
-func getMaxRetryTimeInSeconds(api *apiRequestor, e Error, requestURL string, method string) time.Duration {
+func getMaxRetryTimeInSeconds(api *apiRequestor, e Error, requestURL string, method string, disableNotFoundRetries bool) time.Duration {
 	switch e.Status {
 	case "400":
 		return 0
@@ -277,6 +283,9 @@ func getMaxRetryTimeInSeconds(api *apiRequestor, e Error, requestURL string, met
 	case "403":
 		return 0
 	case "404":
+		if disableNotFoundRetries {
+			return 0
+		}
 		if method == http.MethodDelete {
 			return 0
 		}

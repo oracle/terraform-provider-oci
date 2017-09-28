@@ -31,17 +31,18 @@ type Client struct {
 }
 
 type NewClientOptions struct {
-	Region             string
-	Transport          http.RoundTripper
-	UrlTemplate        string
-	UserAgent          string
-	keyPassword        *string
-	keyPath            *string
-	keyBytes           []byte
-	ShortRetryTime     time.Duration
-	LongRetryTime      time.Duration
-	RandGen            *rand.Rand
-	DisableAutoRetries bool
+	Region                 string
+	Transport              http.RoundTripper
+	UrlTemplate            string
+	UserAgent              string
+	keyPassword            *string
+	keyPath                *string
+	keyBytes               []byte
+	ShortRetryTime         time.Duration
+	LongRetryTime          time.Duration
+	RandGen                *rand.Rand
+	DisableAutoRetries     bool
+	DisableNotFoundRetries bool
 }
 
 type NewClientOptionsFunc func(o *NewClientOptions)
@@ -113,6 +114,12 @@ func LongRetryTime(retryTime time.Duration) NewClientOptionsFunc {
 func DisableAutoRetries(disableAutoRetries bool) NewClientOptionsFunc {
 	return func(o *NewClientOptions) {
 		o.DisableAutoRetries = disableAutoRetries
+	}
+}
+
+func DisableNotFoundRetries(disableNotFoundRetries bool) NewClientOptionsFunc {
+	return func(o *NewClientOptions) {
+		o.DisableNotFoundRetries = disableNotFoundRetries
 	}
 }
 

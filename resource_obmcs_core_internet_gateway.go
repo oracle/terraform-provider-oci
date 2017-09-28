@@ -63,7 +63,7 @@ func InternetGatewayResource() *schema.Resource {
 func createInternetGateway(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &InternetGatewayResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*baremetal.Client)
+	sync.Client = m.(*OracleClients).client
 
 	return crud.CreateResource(d, sync)
 }
@@ -71,7 +71,7 @@ func createInternetGateway(d *schema.ResourceData, m interface{}) (e error) {
 func readInternetGateway(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &InternetGatewayResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*baremetal.Client)
+	sync.Client = m.(*OracleClients).client
 
 	return crud.ReadResource(sync)
 }
@@ -79,7 +79,7 @@ func readInternetGateway(d *schema.ResourceData, m interface{}) (e error) {
 func updateInternetGateway(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &InternetGatewayResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*baremetal.Client)
+	sync.Client = m.(*OracleClients).client
 
 	return crud.UpdateResource(d, sync)
 
@@ -88,7 +88,7 @@ func updateInternetGateway(d *schema.ResourceData, m interface{}) (e error) {
 func deleteInternetGateway(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &InternetGatewayResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*baremetal.Client)
+	sync.Client = m.(*OracleClients).clientWithoutNotFoundRetries
 	return crud.DeleteResource(d, sync)
 }
 

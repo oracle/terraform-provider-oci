@@ -52,10 +52,10 @@ func ConsoleHistoryDataDatasource() *schema.Resource {
 }
 
 func readConsoleHistoryData(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*baremetal.Client)
+	client := m.(*OracleClients)
 	reader := &ConsoleHistoryDataDatasourceCrud{}
 	reader.D = d
-	reader.Client = client
+	reader.Client = client.client
 
 	return crud.ReadResource(reader)
 }

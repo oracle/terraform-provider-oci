@@ -20,10 +20,10 @@ var testAccProvider *schema.Provider
 var testAccProviders map[string]terraform.ResourceProvider
 
 func init() {
-	testAccClient = GetTestProvider()
+	testAccClient = GetTestProvider().client
 
 	testAccProvider = Provider(func(d *schema.ResourceData) (interface{}, error) {
-		return testAccClient, nil
+		return GetTestProvider(), nil
 	}).(*schema.Provider)
 
 	testAccProviders = map[string]terraform.ResourceProvider{
@@ -288,7 +288,7 @@ variable "DBNodeHostName" {
 	}
 	`
 
-func GetTestProvider() *baremetal.Client {
+func GetTestProvider() *OracleClients {
 	r := &schema.Resource{
 		Schema: schemaMap(),
 	}
@@ -307,14 +307,14 @@ func GetTestProvider() *baremetal.Client {
 	if err != nil {
 		panic(err)
 	}
-	return client.(*baremetal.Client)
+	return client.(*OracleClients)
 }
 
 // This test runs the Provider sanity checks.
 func TestProvider(t *testing.T) {
 
 	// Real client for the sanity check. Makes this more of an acceptance test.
-	client := &baremetal.Client{}
+	client := &OracleClients{}
 	if err := Provider(func(d *schema.ResourceData) (interface{}, error) {
 		return client, nil
 	}).(*schema.Provider).InternalValidate(); err != nil {
@@ -375,7 +375,7 @@ func TestProviderConfig(t *testing.T) {
 	client, err := providerConfig(d)
 	assert.Nil(t, err)
 	assert.NotNil(t, client)
-	_, ok := client.(*baremetal.Client)
+	_, ok := client.(*OracleClients)
 	assert.True(t, ok)
 }
 

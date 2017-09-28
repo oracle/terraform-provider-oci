@@ -26,7 +26,7 @@ type ResourcePrivateIPTestSuite struct {
 }
 
 func (s *ResourcePrivateIPTestSuite) SetupTest() {
-	s.Client = GetTestProvider()
+	s.Client = testAccClient
 
 	s.Provider = Provider(
 		func(d *schema.ResourceData) (interface{}, error) {

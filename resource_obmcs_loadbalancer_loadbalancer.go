@@ -67,28 +67,28 @@ func LoadBalancerResource() *schema.Resource {
 func createLoadBalancer(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &LoadBalancerResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*baremetal.Client)
+	sync.Client = m.(*OracleClients).client
 	return crud.CreateResource(d, sync)
 }
 
 func readLoadBalancer(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &LoadBalancerResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*baremetal.Client)
+	sync.Client = m.(*OracleClients).client
 	return crud.ReadResource(sync)
 }
 
 func updateLoadBalancer(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &LoadBalancerResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*baremetal.Client)
+	sync.Client = m.(*OracleClients).client
 	return crud.UpdateResource(d, sync)
 }
 
 func deleteLoadBalancer(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &LoadBalancerResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*baremetal.Client)
+	sync.Client = m.(*OracleClients).clientWithoutNotFoundRetries
 	return crud.DeleteResource(d, sync)
 }
 

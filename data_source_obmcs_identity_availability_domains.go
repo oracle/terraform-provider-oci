@@ -41,10 +41,10 @@ func AvailabilityDomainDatasource() *schema.Resource {
 }
 
 func readAvailabilityDomains(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*baremetal.Client)
+	client := m.(*OracleClients)
 	sync := &AvailabilityDomainDatasourceCrud{}
 	sync.D = d
-	sync.Client = client
+	sync.Client = client.client
 	return crud.ReadResource(sync)
 }
 

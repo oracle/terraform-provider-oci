@@ -32,10 +32,10 @@ func InstanceCredentialsDatasource() *schema.Resource {
 }
 
 func readInstanceCredentials(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*baremetal.Client)
+	client := m.(*OracleClients)
 	sync := &InstanceCredentialsDatasourceCrud{}
 	sync.D = d
-	sync.Client = client
+	sync.Client = client.client
 	return crud.ReadResource(sync)
 }
 
