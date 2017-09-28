@@ -1,5 +1,9 @@
 # oci\_database\_db\_system\_shapes
 
+[DbSystem Reference][22fc7fa4]
+
+  [22fc7fa4]: https://docs.us-phoenix-1.oraclecloud.com/api/#/en/database/20160918/DbSystem/ "DbSystemReference"
+
 Gets a list of the shapes that can be used to launch a new DB System.
 
 ## Example Usage

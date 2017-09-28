@@ -1,6 +1,7 @@
 # oci\_objectstorage\_namespace
 
-Provides an Objectstorage datasource for fetching the authenticated user's namespace.
+
+Provides a datasource for fetching the authenticated user's namespace.
 
 ## Example Usage
 
@@ -12,8 +13,8 @@ data "oci_objectstorage_namespace" "t" {}
 
 ## Argument Reference
 
-This datasource takes no arguments
+This datasource takes no arguments.
 
 ## Attribute Reference
 
-* `namespace` - (Computed) The namespace of the object storage that the object is in.
+* `namespace` - (Computed) The namespace of the bucket that the object is in.

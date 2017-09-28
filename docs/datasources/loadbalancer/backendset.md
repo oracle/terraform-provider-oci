@@ -1,6 +1,10 @@
 # oci\_load\_balancer\_backendsets
 
-Provide a list of load balancer backendsets.
+[Backendset Reference][0aa66c9f]
+
+  [0aa66c9f]: https://docs.us-phoenix-1.oraclecloud.com/api/#/en/loadbalancer/20170115/BackendSet/ "BackendsetReference"
+
+Provides a list of load balancer backendsets.
 
 ## Example Usage
 
@@ -18,11 +22,11 @@ The following arguments are supported:
 
 
 ## Attributes Reference
-* `backendsets` - The list of backendsets
+* `backendsets` - The list of backendsets.
 
 ## Backendset reference
 * `name` - A friendly name for the backend set. It must be unique and it cannot be changed.
 * `policy` - The load balancer policy for the backend set. The default load balancing policy is 'ROUND_ROBIN'.
-* `health_checker` - Health Checker Settings
-* `ssl_configuration` - SSL Configuration Settings
+* `health_checker` - Health Checker Settings.
+* `ssl_configuration` - SSL Configuration Settings.
 * `session_persistence_configuration` - (Optional) Session persistence enables the Load Balancing Service to direct any number of requests that originate from a single logical client to a single backend web server.

@@ -1,6 +1,10 @@
 # oci\_load\_balancer_policies
 
-Provide a list of supported load balancer policies.
+[LoadBalancerPolicy Reference][ff23fb78]
+
+  [ff23fb78]: https://docs.us-phoenix-1.oraclecloud.com/api/#/en/loadbalancer/20170115/LoadBalancerPolicy/ "LoadBalancerPolicyReference"
+
+Provides a list of supported load balancer policies. A policy determines how traffic is distributed among backend servers.
 
 ## Example Usage
 
@@ -17,7 +21,7 @@ The following arguments are supported:
 * `compartment_id` - (Required) The OCID of the compartment.
 
 ## Attribute Reference
-* `policies` - The list of shapes
+* `policies` - The list of available load balancer policies.
 
 ## Policy Reference
 * `name` - The name of the policy.

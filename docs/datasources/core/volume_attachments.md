@@ -1,6 +1,10 @@
 # oci\_core\_volume\_attachments
 
-Gets a list of volume attachments.
+[VolumeAttachment Reference][36b19aa7]
+
+  [36b19aa7]: https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/VolumeAttachment/ "VolumeAttachmentReference"
+
+Gets a list of volume attachments between a storage volume and an instance.
 
 ## Example Usage
 
@@ -37,11 +41,9 @@ The following attributes are exported:
 * `attachment_type` - The type of volume attachment.
 * `availability_domain` - The Availability Domain of an instance.
 * `compartment_id` - The OCID of the compartment.
-* `display_name` - A user-friendly name. Does not have to be unique, and it cannot be changed.
+* `display_name` - A user-friendly name. Does not have to be unique, and it cannot be changed. Avoid entering confidential information.
 * `id` - The OCID of the volume attachment.
 * `instance_id` - The OCID of the instance the volume is attached to.
 * `state` - The current state of the volume attachment: [ATTACHING, ATTACHED, DETACHING, DETACHED].
-* `time_created` - The date and time the volume was created
+* `time_created` - The date and time the volume was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z`.
 * `volume_id` - The OCID of the volume.
-
-

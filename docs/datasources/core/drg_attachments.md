@@ -1,6 +1,10 @@
 # oci\_drg\_attachment
 
-Gets a list of drg attachments.
+[DrgAttachment Reference][e8fec6a0]
+
+  [e8fec6a0]: https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/DrgAttachment/ "DrgAttachmentReference"
+
+Gets a list of Dynamic Routing Gateway (DRG) attachments.
 
 ## Example Usage
 
@@ -32,10 +36,9 @@ The following attributes are exported:
 
 ## Drg Attachment reference
 * `compartment_id` - The OCID of the compartment containing the DRG attachment.
-* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable.
+* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 * `drg_id` - The OCID of the DRG.
 * `id` - The DRG attachment's Oracle ID (OCID).
 * `state` - The DRG attachment's current state: [ATTACHING, ATTACHED, DETACHING, DETACHED].
-* `time_created` - The date and time the image was created.
+* `time_created` - The date and time the DRG attachment was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z`.
 * `vcn_id` - The OCID of the VCN.
-

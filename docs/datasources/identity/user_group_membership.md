@@ -1,6 +1,10 @@
 # oci\_identity\_user_group_memberships
 
-Lists user_group_memberships
+[UserGroupMembership Reference][f5d3fcd7]
+
+  [f5d3fcd7]: https://docs.us-phoenix-1.oraclecloud.com/api/#/en/identity/20160918/UserGroupMembership/ "UserGroupMembershipReference"
+
+Lists user_group_memberships, the membership of a user in a group.
 
 ## Example Usage
 
@@ -20,13 +24,13 @@ The following arguments are supported:
 * `user_id` - (Optional) The OCID of the user. At least one of group_id or user_id is required.
 
 ## Attribute Reference
-* `memberships` - A list of user_group_memberships
+* `memberships` - A list of user_group_memberships.
 
 ## User Group Membership Reference
 * `id` - The OCID of the user.
 * `compartment_id` - The OCID of the tenancy containing the user.
 * `group_id` - The OCID of the group.
 * `user_id` - The OCID of the user.
-* `time_created` - Date and time the user was created, in the format defined by RFC3339.
+* `time_created` - Date and time the membership was created, in the format defined by RFC3339. Example: `2016-08-25T21:10:29.600Z`.
 * `state` - The membership's current state. [CREATING, ACTIVE, INACTIVE, DELETING, DELETED]
 * `inactive_status` - The detailed status of INACTIVE lifecycleState.

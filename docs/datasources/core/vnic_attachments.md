@@ -1,6 +1,10 @@
 # oci\_core\_vnic_attachments
 
-Gets information about a specific vnic.
+[VnicAttachment Reference][42bf6f8c]
+
+  [42bf6f8c]: https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/VnicAttachment/ "VnicAttachmentReference"
+
+Gets information about a specific VNIC attachment.
 
 ## Example Usage
 
@@ -34,10 +38,10 @@ The following attributes are exported:
 ## Vnic Attachment Reference
 * `availability_domain` - The VNIC Attachment's Availability Domain.
 * `compartment_id` - The OCID of the compartment.
-* `display_name` - A user-friendly name. Does not have to be unique.
+* `display_name` - A user-friendly name. Does not have to be unique. Avoid entering confidential information.
 * `id` - The OCID of the VNIC Attachment.
 * `instance_id` - The OCID of the instance.
 * `state` - The current state of the VNIC. [ATTACHING, ATTACHED, DETACHING, DETACHED].
 * `vnic_id` - The OCID of the VNIC.
 * `subnet_id` - The OCID of the subnet the VNIC Attachment is in.
-* `time_created` - The date and time the VNIC was created.
+* `time_created` - The date and time the VNIC was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z`.
