@@ -19,6 +19,7 @@ export TF_VAR_ssh_private_key=$(cat <path to private key>)
 ## Specific to this example
 ### Choose a subnet that exists in the AD and compartment you are launching the instance in
 export TF_VAR_SubnetOCID="<subnet>"
+export TF_VAR_AD="<availability domain>"
 
 # Path to Chef SSL certificate
 export TF_VAR_chef_key="<SSL certificate path>"
