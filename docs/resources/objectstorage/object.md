@@ -4,16 +4,19 @@ Provides an Objectstorage resource for CRUD operations on objects.
 
 ## Example Usage
 
-### Object w/ Metadata
+### Object
 
 ```
 resource "oci_objectstorage_object" "t" {
     namespace = "namespaceID"
     bucket = "bucketID"
     object = "objectID"
-    content = "bodyContent"
+    content = "the content"
+    content_type = "text/plain"
+    content_language = "en-US"
+    content_encoding = "identity"
     metadata = {
-        "foo" = "bar"
+        "version" = "1"
     }
 }
 ```
@@ -26,3 +29,11 @@ The following arguments are supported:
 * `bucket` - (Required) The name of the bucket.
 * `object` - (Required) The name of the object.
 * `content` - (Optional) A string that will form the body of the object.
+* `metadata` - (Optional) User-defined metadata key value pairs.
+* `content_type` - (Optional) The content type of the object. Defaults to 'application/octet-stream' if not overridden during the PutObject call.
+* `content_language` - (Optional) The content language of the object.
+* `content_encoding` - (Optional) The content encoding of the object.
+
+## Additional Attributes
+* `content_length` - The content length of the body.
+* `content_MD5` - The base-64 encoded MD5 hash of the body.

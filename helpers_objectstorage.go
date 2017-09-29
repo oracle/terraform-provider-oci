@@ -47,32 +47,6 @@ var bucketSchema = map[string]*schema.Schema{
 	},
 }
 
-var objectSchema = map[string]*schema.Schema{
-	"namespace": {
-		Type:     schema.TypeString,
-		Required: true,
-		Computed: false,
-	},
-	"bucket": {
-		Type:     schema.TypeString,
-		Required: true,
-		Computed: false,
-	},
-	"object": {
-		Type:     schema.TypeString,
-		Required: true,
-		Computed: false,
-	},
-	"content": {
-		Type:     schema.TypeString,
-		Optional: true,
-	},
-	"metadata": {
-		Type:     schema.TypeMap,
-		Optional: true,
-	},
-}
-
 var preauthenticatedRequestSchema = map[string]*schema.Schema{
 	"id": {
 		Type:     schema.TypeString,

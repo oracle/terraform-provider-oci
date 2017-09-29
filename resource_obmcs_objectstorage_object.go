@@ -8,10 +8,69 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/oracle/bmcs-go-sdk"
 
+	"crypto/md5"
+	"encoding/hex"
+	"strings"
+
 	"github.com/oracle/terraform-provider-oci/crud"
 )
 
 func ObjectResource() *schema.Resource {
+	var objectSchema = map[string]*schema.Schema{
+		"namespace": {
+			Type:     schema.TypeString,
+			Required: true,
+			Computed: false,
+		},
+		"bucket": {
+			Type:     schema.TypeString,
+			Required: true,
+			Computed: false,
+		},
+		"object": {
+			Type:     schema.TypeString,
+			Required: true,
+			Computed: false,
+		},
+		"content": {
+			Type:     schema.TypeString,
+			Optional: true,
+			StateFunc: func(body interface{}) string {
+				v := body.(string)
+				if v == "" {
+					return ""
+				}
+				h := md5.Sum([]byte(strings.TrimSpace(v)))
+				return hex.EncodeToString(h[:])
+			},
+		},
+		"content_encoding": {
+			Type:     schema.TypeString,
+			Optional: true,
+		},
+		"content_language": {
+			Type:     schema.TypeString,
+			Optional: true,
+		},
+		"content_length": {
+			Type:     schema.TypeInt,
+			Computed: true,
+		},
+		"content_MD5": {
+			Type:     schema.TypeString,
+			Computed: true,
+		},
+		"content_type": {
+			Type:     schema.TypeString,
+			Optional: true,
+			Computed: true,
+		},
+		"metadata": {
+			Type:     schema.TypeMap,
+			Optional: true,
+		},
+	}
+
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
@@ -69,6 +128,11 @@ func (s *ObjectResourceCrud) SetData() {
 	s.D.Set("object", s.Res.ID)
 	s.D.Set("content", s.Res.Body)
 	s.D.Set("metadata", s.Res.Metadata)
+	s.D.Set("content_encoding", s.Res.ContentEncoding)
+	s.D.Set("content_language", s.Res.ContentLanguage)
+	s.D.Set("content_length", s.Res.ContentLength)
+	s.D.Set("content_MD5", s.Res.ContentMD5)
+	s.D.Set("content_type", s.Res.ContentType)
 }
 
 func (s *ObjectResourceCrud) Create() (e error) {
@@ -93,6 +157,18 @@ func (s *ObjectResourceCrud) Update() (e error) {
 	object := s.D.Get("object").(string)
 	content := s.D.Get("content").(string)
 	opts := &baremetal.PutObjectOptions{}
+
+	if contentEncoding, ok := s.D.GetOk("content_encoding"); ok {
+		opts.ContentEncoding = contentEncoding.(string)
+	}
+
+	if contentLanguage, ok := s.D.GetOk("content_language"); ok {
+		opts.ContentLanguage = contentLanguage.(string)
+	}
+
+	if contentType, ok := s.D.GetOk("content_type"); ok {
+		opts.ContentType = contentType.(string)
+	}
 
 	if rawMetadata, ok := s.D.GetOk("metadata"); ok {
 		metadata := resourceObjectStorageMapToMetadata(rawMetadata.(map[string]interface{}))
