@@ -70,7 +70,7 @@ func (s *ResourceObjectstorageObjectTestSuite) TestAccResourceObjectstorageObjec
 					resource.TestCheckResourceAttr(s.ResourceName, "content_language", ""),
 					resource.TestCheckResourceAttr(s.ResourceName, "content_encoding", ""),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "content_length"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "content_MD5"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "content_md5"),
 					resource.TestCheckResourceAttr(s.ResourceName, "metadata.version", "1"),
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, "oci_objectstorage_object.t", "content")

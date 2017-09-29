@@ -36,4 +36,4 @@ The following arguments are supported:
 
 ## Additional Attributes
 * `content_length` - The content length of the body.
-* `content_MD5` - The base-64 encoded MD5 hash of the body.
+* `content_md5` - The base-64 encoded MD5 hash of the body.

@@ -10,7 +10,6 @@ import (
 
 	"crypto/md5"
 	"encoding/hex"
-	"strings"
 
 	"github.com/oracle/terraform-provider-oci/crud"
 )
@@ -40,7 +39,7 @@ func ObjectResource() *schema.Resource {
 				if v == "" {
 					return ""
 				}
-				h := md5.Sum([]byte(strings.TrimSpace(v)))
+				h := md5.Sum([]byte(v))
 				return hex.EncodeToString(h[:])
 			},
 		},
@@ -56,7 +55,7 @@ func ObjectResource() *schema.Resource {
 			Type:     schema.TypeInt,
 			Computed: true,
 		},
-		"content_MD5": {
+		"content_md5": {
 			Type:     schema.TypeString,
 			Computed: true,
 		},
@@ -131,7 +130,7 @@ func (s *ObjectResourceCrud) SetData() {
 	s.D.Set("content_encoding", s.Res.ContentEncoding)
 	s.D.Set("content_language", s.Res.ContentLanguage)
 	s.D.Set("content_length", s.Res.ContentLength)
-	s.D.Set("content_MD5", s.Res.ContentMD5)
+	s.D.Set("content_md5", s.Res.ContentMD5)
 	s.D.Set("content_type", s.Res.ContentType)
 }
 
