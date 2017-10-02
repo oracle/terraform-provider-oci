@@ -9,6 +9,8 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/bmcs-go-sdk"
 
+	"fmt"
+
 	"github.com/stretchr/testify/suite"
 )
 
@@ -41,10 +43,11 @@ func (s *ResourceObjectstorageObjectTestSuite) SetupTest() {
 }
 
 func (s *ResourceObjectstorageObjectTestSuite) TestAccResourceObjectstorageObject_basic() {
+	var resId, resId2 string
 	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			// verify create
+			// verify create with expected defaults
 			{
 				ImportState:       true,
 				ImportStateVerify: true,
@@ -53,17 +56,26 @@ func (s *ResourceObjectstorageObjectTestSuite) TestAccResourceObjectstorageObjec
 					namespace = "${data.oci_objectstorage_namespace.t.namespace}"
 					bucket = "${oci_objectstorage_bucket.t.name}"
 					object = "-tf-object"
-					content = "test content"
+					content = "123"
 					metadata = {
-						"content-type" = "text/plain"
+						"version" = "1"
 					}
 				}`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "namespace"),
 					resource.TestCheckResourceAttr(s.ResourceName, "bucket", "-tf-bucket"),
 					resource.TestCheckResourceAttr(s.ResourceName, "object", "-tf-object"),
-					resource.TestCheckResourceAttr(s.ResourceName, "content", "test content"),
-					resource.TestCheckResourceAttr(s.ResourceName, "metadata.content-type", "text/plain"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "content"),
+					resource.TestCheckResourceAttr(s.ResourceName, "content_type", "application/octet-stream"),
+					resource.TestCheckResourceAttr(s.ResourceName, "content_language", ""),
+					resource.TestCheckResourceAttr(s.ResourceName, "content_encoding", ""),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "content_length"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "content_md5"),
+					resource.TestCheckResourceAttr(s.ResourceName, "metadata.version", "1"),
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, "oci_objectstorage_object.t", "content")
+						return err
+					},
 				),
 			},
 			// verify update
@@ -74,13 +86,29 @@ func (s *ResourceObjectstorageObjectTestSuite) TestAccResourceObjectstorageObjec
 					bucket = "${oci_objectstorage_bucket.t.name}"
 					object = "-tf-object"
 					content = "{}"
+					content_type = "text/json"
+					content_language = "*"
+					content_encoding = "identity"
 					metadata = {
-						"content-type" = "text/json"
+						"version" = "2"
+						"modified" = "10-18-2017"
 					}
 				}`,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "content", "{}"),
-					resource.TestCheckResourceAttr(s.ResourceName, "metadata.content-type", "text/json"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "content"),
+					resource.TestCheckResourceAttr(s.ResourceName, "content_type", "text/json"),
+					resource.TestCheckResourceAttr(s.ResourceName, "content_language", "*"),
+					resource.TestCheckResourceAttr(s.ResourceName, "content_encoding", "identity"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "content_length"),
+					resource.TestCheckResourceAttr(s.ResourceName, "metadata.version", "2"),
+					resource.TestCheckResourceAttr(s.ResourceName, "metadata.modified", "10-18-2017"),
+					func(s *terraform.State) (err error) {
+						resId2, err = fromInstanceState(s, "oci_objectstorage_object.t", "content")
+						if resId == resId2 {
+							return fmt.Errorf("Expected different content hash, got same.")
+						}
+						return err
+					},
 				),
 			},
 		},
