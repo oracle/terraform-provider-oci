@@ -15,11 +15,11 @@ var matchBlockHeader = regexp.MustCompile(`(provider|resource|data)(\s+")(bareme
 
 // matches resource interpolation strings, ex:
 //   load_balancer_id = "${baremetal_load_balancer.lb1.id}"
-var matchResourceInterpolation = regexp.MustCompile(`(.*)(\${\s*)(baremetal)(_.*)`)
+var matchResourceInterpolation = regexp.MustCompile(`(.*?)(\${\s*)(baremetal)(_.*?)`)
 
 // matches datasource interpolation strings, ex:
 //   image = "${lookup(data.baremetal_core_images.image-list.images[0], "id")}"
-var matchDatasourceInterpolation = regexp.MustCompile(`(.*data)(\.)(baremetal)(_.*)`)
+var matchDatasourceInterpolation = regexp.MustCompile(`(.*?data)(\.)(baremetal)(_.*?)`)
 
 // replace specific string patterns in template files
 func replaceTemplateTokens(str string) string {
