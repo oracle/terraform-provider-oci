@@ -27,9 +27,7 @@ Otherwise, drop the new provider in your terraform plugin directory.
 
 #### Remote State
 
-The **oci-tool** does not support [remote state](https://www.terraform.io/docs/state/remote.html). If you are using remote state, then the recommended approach is to copy the state file locally, run the **oci-tool**, and then push the state file back to the remote location.
-
-If you remove the [backend configuration](https://www.terraform.io/docs/backends/config.html) and run `terraform init`, Terraform will ask if you'd like to copy the remote state file to a local locatation. After running **oci-tool** using the steps in the next section, adding the backend config back and running `terraform init` again will give you the option of uploading the updated state file.
+The **oci-tool** does not support [remote state](https://www.terraform.io/docs/state/remote.html). If you are using remote state, then the recommended approach is to copy the state file locally, run the **oci-tool**, and then push the state file back to the remote location. See the documentation [here](https://www.terraform.io/docs/backends/config.html) for details about how to unconfigure and reconfigure your backend.
 
 #### Using the tool
 
