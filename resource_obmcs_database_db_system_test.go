@@ -6,7 +6,6 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
-	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/bmcs-go-sdk"
 	"github.com/stretchr/testify/suite"
@@ -24,16 +23,8 @@ type ResourceDatabaseDBSystemTestSuite struct {
 
 func (s *ResourceDatabaseDBSystemTestSuite) SetupTest() {
 	s.Client = testAccClient
-
-	s.Provider = Provider(
-		func(d *schema.ResourceData) (interface{}, error) {
-			return s.Client, nil
-		},
-	)
-
-	s.Providers = map[string]terraform.ResourceProvider{
-		"oci": s.Provider,
-	}
+	s.Provider = testAccProvider
+	s.Providers = testAccProviders
 
 	s.Config = databaseConfig
 
