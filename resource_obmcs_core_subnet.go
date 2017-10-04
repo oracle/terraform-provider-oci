@@ -63,9 +63,10 @@ func SubnetResource() *schema.Resource {
 			},
 			// Optional
 			"dns_label": {
-				Type:     schema.TypeString,
-				Optional: true,
-				ForceNew: true,
+				Type:             schema.TypeString,
+				Optional:         true,
+				ForceNew:         true,
+				DiffSuppressFunc: crud.EqualIgnoreCaseSuppressDiff,
 			},
 			"display_name": {
 				Type:     schema.TypeString,

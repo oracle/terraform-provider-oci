@@ -24,6 +24,7 @@ func TestAccResourceCoreSubnetCreate_basic(t *testing.T) {
 			cidr_block     = "10.0.0.0/16"
 			compartment_id = "${var.compartment_id}"
 			display_name   = "network_name"
+			dns_label      = "myvcn"
 		}`
 
 	commonSubnetParams := `
@@ -97,6 +98,7 @@ func TestAccResourceCoreSubnetCreate_basic(t *testing.T) {
 					` + commonSubnetParams + `
 					display_name = "-tf-subnet"
 					prohibit_public_ip_on_vnic = "true"
+					dns_label = "MyTestLabel"
 				}`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "prohibit_public_ip_on_vnic", "true"),
@@ -108,6 +110,30 @@ func TestAccResourceCoreSubnetCreate_basic(t *testing.T) {
 						return err
 					},
 				),
+			},
+			// DNS capitalization changes should be ignored.
+			{
+				Config: config + `
+				resource "oci_core_subnet" "s" {
+					` + commonSubnetParams + `
+					display_name = "-tf-subnet"
+					prohibit_public_ip_on_vnic = "true"
+					dns_label = "mytestlabel"
+				}`,
+				ExpectNonEmptyPlan: false,
+				PlanOnly:           true,
+			},
+			// DNS label change should cause a change
+			{
+				Config: config + `
+				resource "oci_core_subnet" "s" {
+					` + commonSubnetParams + `
+					display_name = "-tf-subnet"
+					prohibit_public_ip_on_vnic = "true"
+					dns_label = "NewLabel"
+				}`,
+				ExpectNonEmptyPlan: true,
+				PlanOnly:           true,
 			},
 		},
 	})
