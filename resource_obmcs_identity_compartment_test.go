@@ -9,8 +9,8 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/bmcs-go-sdk"
 
-	"github.com/stretchr/testify/suite"
 	"fmt"
+	"github.com/stretchr/testify/suite"
 )
 
 type ResourceIdentityCompartmentTestSuite struct {

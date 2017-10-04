@@ -474,3 +474,73 @@ data "oci_identity_availability_domains" "ADs" {
 		t.Errorf("unexpected error\n %s", err)
 	}
 }
+
+func TestReplaceTemplateTokensBasic(t *testing.T) {
+	const original = `
+data "baremetal_core_images" "OLImageOCID" {
+    compartment_id = "${  data.baremetal_core_compartment.Comp.id  }" # extra space
+}
+resource "baremetal_core_instance" "ExampleInstance" {
+  availability_domain = "${lookup(data.baremetal_identity_availability_domains.ADs.availability_domains[var.AD - 1],"name")}"
+  compartment_id = "${data.baremetal_core_compartment.Comp.id}"
+  display_name = "baremetal_ExampleInstance" # use baremeta_ in a name
+  image = "${lookup(data.baremetal_core_images.OLImageOCID.images[0], "id")}"
+  shape = "${var.InstanceShape}"
+  subnet_id = "${baremetal_core_subnet.ExampleSubnet.id}"
+  create_vnic_details {
+    subnet_id = "${baremetal_core_subnet.ExampleSubnet.id}"
+  }
+  metadata {
+    ssh_authorized_keys = "${var.ssh_public_key}"
+  }
+}`
+
+	const expected = `
+data "oci_core_images" "OLImageOCID" {
+    compartment_id = "${  data.oci_core_compartment.Comp.id  }" # extra space
+}
+resource "oci_core_instance" "ExampleInstance" {
+  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.AD - 1],"name")}"
+  compartment_id = "${data.oci_core_compartment.Comp.id}"
+  display_name = "baremetal_ExampleInstance" # use baremeta_ in a name
+  image = "${lookup(data.oci_core_images.OLImageOCID.images[0], "id")}"
+  shape = "${var.InstanceShape}"
+  subnet_id = "${oci_core_subnet.ExampleSubnet.id}"
+  create_vnic_details {
+    subnet_id = "${oci_core_subnet.ExampleSubnet.id}"
+  }
+  metadata {
+    ssh_authorized_keys = "${var.ssh_public_key}"
+  }
+}`
+
+	actual := replaceTemplateTokens(original)
+
+	if expected != actual {
+		t.Errorf("expected %d, got %d ", expected, actual)
+	}
+}
+
+func TestReplaceTemplateTokensMultiplePerLine(t *testing.T) {
+	const original = `
+resource "baremetal_identity_policy" "p" {
+  name = "-tf-policy"
+  id1 = "${baremetal_identity_compartment1.t.id}", id2 = "${baremetal_core_subnet.ExampleSubnet2.id}", id3 = "${baremetal_core_subnet.ExampleSubnet3.id}"
+  id4 = "${data.baremetal_identity_compartment1.t.id}", id5 = "${data.baremetal_core_subnet.ExampleSubnet2.id}", id6 = "${lookup(data.baremetal_identity_group.groups[0], "id")}"
+  statements = ["Allow group ${baremetal_identity_group.t.name} to read instances in compartment ${baremetal_identity_compartment.t.name}", "Allow group "${lookup(data.baremetal_identity_group.groups[0], "id")}" to read instances in compartment "${lookup(data.baremetal_identity_compartment.compartments[0], "id")}"]
+}`
+
+	const expected = `
+resource "oci_identity_policy" "p" {
+  name = "-tf-policy"
+  id1 = "${oci_identity_compartment1.t.id}", id2 = "${oci_core_subnet.ExampleSubnet2.id}", id3 = "${oci_core_subnet.ExampleSubnet3.id}"
+  id4 = "${data.oci_identity_compartment1.t.id}", id5 = "${data.oci_core_subnet.ExampleSubnet2.id}", id6 = "${lookup(data.oci_identity_group.groups[0], "id")}"
+  statements = ["Allow group ${oci_identity_group.t.name} to read instances in compartment ${oci_identity_compartment.t.name}", "Allow group "${lookup(data.oci_identity_group.groups[0], "id")}" to read instances in compartment "${lookup(data.oci_identity_compartment.compartments[0], "id")}"]
+}`
+
+	actual := replaceTemplateTokens(original)
+
+	if expected != actual {
+		t.Errorf("expected %d, got %d ", expected, actual)
+	}
+}
