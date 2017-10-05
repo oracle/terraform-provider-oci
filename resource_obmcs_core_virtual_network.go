@@ -48,8 +48,10 @@ func VirtualNetworkResource() *schema.Resource {
 				Optional: true,
 			},
 			"dns_label": {
-				Type:     schema.TypeString,
-				Optional: true,
+				Type:             schema.TypeString,
+				Optional:         true,
+				ForceNew:         true,
+				DiffSuppressFunc: crud.EqualIgnoreCaseSuppressDiff,
 			},
 			"id": {
 				Type:     schema.TypeString,

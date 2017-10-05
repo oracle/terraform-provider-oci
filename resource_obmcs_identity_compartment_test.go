@@ -10,6 +10,7 @@ import (
 	"github.com/oracle/bmcs-go-sdk"
 
 	"fmt"
+
 	"github.com/stretchr/testify/suite"
 )
 
