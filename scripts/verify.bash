@@ -46,7 +46,8 @@ echo "checking: go build ..."
 go build ${all_packages}
 
 
-echo "checking: go test ..."
-go test ${all_packages} || [ -n "$IGNORE_TEST_ERRORS" ]
+# Skip tests until we have a better delineation between unit and acceptance tests.
+# echo "checking: go test ..."
+# go test ${all_packages} || [ -n "$IGNORE_TEST_ERRORS" ]
 
 echo "pass"

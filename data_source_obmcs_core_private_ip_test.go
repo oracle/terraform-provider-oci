@@ -6,7 +6,6 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
-	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/bmcs-go-sdk"
 
@@ -25,13 +24,8 @@ type DatasourcePrivateIPTestSuite struct {
 
 func (s *DatasourcePrivateIPTestSuite) SetupTest() {
 	s.Client = testAccClient
-	s.Provider = Provider(func(d *schema.ResourceData) (interface{}, error) {
-		return s.Client, nil
-	})
-
-	s.Providers = map[string]terraform.ResourceProvider{
-		"oci": s.Provider,
-	}
+	s.Provider = testAccProvider
+	s.Providers = testAccProviders
 	s.Config = vnicConfig + `
 resource "oci_core_private_ip" "testPrivateIP" {
 	vnic_id = "${lookup(data.oci_core_vnic_attachments.vnics.vnic_attachments[0],"vnic_id")}"

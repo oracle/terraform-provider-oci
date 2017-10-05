@@ -6,7 +6,6 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
-	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	baremetal "github.com/oracle/bmcs-go-sdk"
 	"github.com/stretchr/testify/suite"
@@ -23,13 +22,8 @@ type DatabaseDBSystemShapeTestSuite struct {
 
 func (s *DatabaseDBSystemShapeTestSuite) SetupTest() {
 	s.Client = testAccClient
-	s.Provider = Provider(func(d *schema.ResourceData) (interface{}, error) {
-		return s.Client, nil
-	})
-
-	s.Providers = map[string]terraform.ResourceProvider{
-		"oci": s.Provider,
-	}
+	s.Provider = testAccProvider
+	s.Providers = testAccProviders
 	s.Config = `
 data "oci_identity_availability_domains" "ADs" {
   compartment_id = "${var.compartment_id}"
