@@ -517,7 +517,7 @@ resource "oci_core_instance" "ExampleInstance" {
 	actual := replaceTemplateTokens(original)
 
 	if expected != actual {
-		t.Errorf("expected %d, got %d ", expected, actual)
+		t.Errorf("expected %s, got %s ", expected, actual)
 	}
 }
 
@@ -541,6 +541,6 @@ resource "oci_identity_policy" "p" {
 	actual := replaceTemplateTokens(original)
 
 	if expected != actual {
-		t.Errorf("expected %d, got %d ", expected, actual)
+		t.Errorf("expected %s, got %s ", expected, actual)
 	}
 }
