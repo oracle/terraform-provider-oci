@@ -4,8 +4,8 @@
     #   | |_| |  _ < / ___ | |___| |___| |___
     #    \___/|_| \_/_/   \_\____|_____|_____|
 ***
-## Manage an instance
-This example launches an instance into an existing subnet, registers the instance with a Chef server, includes a user-data script in the instance launch, remote executes a command, and outputs the public and private IP address of the instance.
+## Bootstrap an instance as a Chef node
+This example shows how to use Terraform to bootstrap an OCI instance as a Chef node, register it with an existing Chef server, and run a recipe. When the plan completes, you will have a running web server with content and the correct firewall configuration.
 
 ### Prerequisites
 
