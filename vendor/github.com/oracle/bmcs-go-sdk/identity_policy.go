@@ -22,7 +22,7 @@ type Policy struct {
 	State          string    `json:"lifecycleState"`
 	Statements     []string  `json:"statements"`
 	TimeCreated    time.Time `json:"timeCreated"`
-	VersionDate    time.Time `json:"versionDate"`
+	VersionDate    string    `json:"versionDate"`
 }
 
 type ListPolicies struct {
