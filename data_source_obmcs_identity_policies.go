@@ -80,7 +80,7 @@ func (s *IdentityPolicyDatasourceCrud) SetData() {
 				"time_created":   v.TimeCreated.String(),
 				"state":          v.State,
 				"inactive_state": v.InactiveStatus,
-				"version_date":   v.VersionDate.String(),
+				"version_date":   v.VersionDate,
 			}
 			resources = append(resources, res)
 		}
