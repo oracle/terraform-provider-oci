@@ -60,7 +60,6 @@ func (s *DatasourceCoreVolumeBackupTestSuite) TestAccDatasourceCoreVolumeBackup_
 				}`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_id"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_backups.0.id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "volume_backups.#", "1"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_backups.0.id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_backups.0.volume_id"),
