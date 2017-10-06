@@ -11,8 +11,6 @@ variable "ssh_public_key_path" {}
 variable "ssh_private_key_path" {}
 
 #Template used variables
-variable "50GB" {}
-
 variable "customer_name" {}
 variable "availability_domain" {}
 variable "instance_shape" {}

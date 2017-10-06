@@ -14,7 +14,6 @@ region="us-phoenix-1"
 #### Instance definition variables ####
 #######################################
 
-50GB = "51200"
 customer_name = "mycustomer"
 #availability_domain number For AD1 uses 1. For AD2, uses 2, For AD3, uses 3
 availability_domain = "1"

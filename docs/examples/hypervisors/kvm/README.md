@@ -49,8 +49,6 @@ region="<OCI region>"
 #### Instance definition variables ####
 #######################################
 
-#Fixed variable to specify 50GB of block volume
-50GB = "51200"
 #Customer Identifier to be used before the resources name
 customer_name = "mycustomer"
 
