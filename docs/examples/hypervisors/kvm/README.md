@@ -13,21 +13,25 @@ This sample code will be responsible to perform the following tasks:
 
 - Spin up a [Bare Metal](https://docs.us-phoenix-1.oraclecloud.com/Content/Compute/Concepts/computeoverview.htm) Instance based on Oracle Linux 7.x image
 
--	Installation of the KVM hypervisor provided by the Linux Kernel provided as a [Terraform module](https://www.terraform.io/docs/modules/usage.html) (reusable artifact). This process requires instance restart due to the kernel changes.
+-	Installation of the KVM hypervisor provided by the Linux Kernel available as a [Terraform module](https://www.terraform.io/docs/modules/usage.html) (reusable artifact). This process requires instance restart due to the kernel changes. You can find detailed information about how to setup KVM on OCI [here](https://docs.us-phoenix-1.oraclecloud.com/Content/Resources/Assets/installing_kvm_multi_vnics.pdf). Module documentation containing the list of input variables and Module usage is available [here](./modules/kvm-hypervisor/README.md).
 
 -	Download of the qcow2 image. In case you have your image file stored on your local computer, you can upload it to a [Bucket](https://docs.us-phoenix-1.oraclecloud.com/Content/Object/Tasks/managingbuckets.htm) on the [OCI Object Storage](https://docs.us-phoenix-1.oraclecloud.com/Content/Object/Concepts/overview.htm).
 
 Requirements
 ------------
 
-- access to OCI environment
-- [generated OCI keys and OCIDs](https://docs.us-phoenix-1.oraclecloud.com/Content/API/Concepts/apisigningkey.htm?Highlight=user)
+- Access to OCI environment
+- [Generated OCI keys and OCIDs](https://docs.us-phoenix-1.oraclecloud.com/Content/API/Concepts/apisigningkey.htm)
 - Terraform 0.10.x
 
 
 ### Usage
 
-- Update `terraform.tfvars` with the required information. Most examples use the same set of environment variables so you only need to do this once. There's a sample file in addition to the snippet below:
+- Update `terraform.tfvars` with the required information. Terraform automatically loads them to populate variables, but you can also use the -var-file flag directly to specify a file. These files are the same syntax as Terraform configuration files. And like Terraform configuration files, these files can also be JSON.
+
+We don't recommend saving usernames and password to version control, but you can create a local secret variables file and use -var-file to load it.
+
+Most examples use the same set of environment variables so you only need to do this once. There's a sample file available on this sample code for your reference in addition to the snippet below:
 
 ```
 ###############################
@@ -75,7 +79,9 @@ kvm_guest_vnc_port = "5901"
 kvm_guest_vnc_pwd = "Test123"
 ```
 
-- Run `terraform get` to bring the module files into the workspace
+- After saving your environment variables, you should run terraform following the same order as specified below:
+
+- Run `terraform get` to bring the module files into the current workspace
 
 - Run `terraform init` to download all the providers/plugins files
 
