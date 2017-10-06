@@ -1,13 +1,23 @@
 KVM Installation module
 =======================
 
-This Module is responsible for setting up a custom KVM based Virtual Machines on top of a KVM hypervisor on Oracle Cloud Infrastructure. KVM domain is installed as part of this module.
+This Module is responsible for setting up a custom KVM based Virtual Machines on top of a KVM hypervisor on Oracle Cloud Infrastructure. KVM domain is installed as part of this module. 
 
- #Oracle Linux image
 
-###Module required Variables
+### Reference:
+1. [OCI - Installing and Configuring KVM on Bare Metal
+Instances with Multi-VNIC](https://docs.us-phoenix-1.oraclecloud.com/Content/Resources/Assets/installing_kvm_multi_vnics.pdf)
 
-####private_key
+2. [OCI - About Secondary Vnics](https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Tasks/managingVNICs.htm)
+
+3. [Terraform template_file data source](https://www.terraform.io/docs/providers/template/d/file.html)
+
+4. [Terraform Modules](https://www.terraform.io/docs/modules/index.html)
+
+
+### Module required Variables
+
+#### private_key
 ssh private key. Example:
 private_key="SXSDKFJSKJAFKAJFLAJFLKAF"
 
@@ -65,7 +75,7 @@ kvm_guest_emulation_mode="virtio"
 
 
 
-###Sample Usage
+### Sample Usage
 
 ```
 module "setup-kvm-hypervisor" {
@@ -90,27 +100,32 @@ module "setup-kvm-hypervisor" {
 ```
 
 
-##Module Template files
+## Module Template files
 
-####main.tf
+#### main.tf
 Remote exec resources responsible for the installation and setup of KVM on the Oracle Linux instance.
 
-####variables.tf
+#### variables.tf
 Module variables as described above.
 
-##Module Data Source template_file
-####generate_virsh_attach.sh.tp
+
+
+## Module Data Source template_file
+
+#### generate_virsh_attach.sh.tp
 Data source template file used to generate a shell script dynamically based on the instance runtime variables.
 
-##Shell Scrips
-####/scripts/configure-secondary-vnics.sh
+
+
+## Shell Scrips
+#### /scripts/configure-secondary-vnics.sh
 Shell script to setup secondary vnics at OS level based on the metadata repository.
 
-####scripts/install-kvm-dependencies.sh
+#### /scripts/install-kvm-dependencies.sh
 Shell script responsible to install all the linux packages for KVM.
 
-####scripts/modify_grub.sh
+#### /scripts/modify_grub.sh
 Shell script to modify grub loader.
 
-####scripts/secondary_vnics.service
+#### /scripts/secondary_vnics.service
 Linux Service definition for setting up all the secondary vnics in terms of instance reboot since these data are not persisted.
