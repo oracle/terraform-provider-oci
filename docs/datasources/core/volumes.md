@@ -1,6 +1,6 @@
 # oci\_core\_volumes
 
-[Volume Reference][337fdb07]
+**API:** [Volume Reference][337fdb07]
 
   [337fdb07]: https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/Volume/ "VolumeReference"
 

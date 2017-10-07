@@ -1,10 +1,11 @@
 # oci\_core\_console_history
 
+**API:**
 [ConsoleHistory Reference][d1aa5bf0]
 
   [d1aa5bf0]: https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/ConsoleHistory/ "ConsoleHistoryReference"
 
-Gets a specific console's history data.
+Gets the history data for a specific console.
 
 ## Example Usage
 

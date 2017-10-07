@@ -1,10 +1,10 @@
 # oci\_core\_cpe
 
-[Cpe Reference][7f9e168e]
+**API:** [Cpe Reference][7f9e168e]
 
   [7f9e168e]: https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/Cpe/ "CpeReference"
 
-List Customer-Premises Equipment objects (CPEs). A virtual representation of the actual router on-premises at your site at your end of the IPSec VPN connection.
+List Customer-Premises Equipment objects (CPEs). These are a virtual representation of the actual router on-premises at your site at your end of the IPSec VPN connection.
 
 ## Example Usage
 

@@ -1,10 +1,10 @@
 # oci\_core\_dhcp\_options
 
-[DhcpOptions Reference][60fa58e0]
+**API:** [DhcpOptions Reference][60fa58e0]
 
   [60fa58e0]: https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/DhcpOptions/ "DhcpOptionsReference"
 
-List Dhcp Options.
+List DHCP Options.
 
 ## Example Usage
 

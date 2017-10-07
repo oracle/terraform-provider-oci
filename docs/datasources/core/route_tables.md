@@ -1,6 +1,6 @@
 # oci\_core\_route\_tables
 
-[RouteTable Reference][c78b8cc0]
+**API:** [RouteTable Reference][c78b8cc0]
 
   [c78b8cc0]: https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/RouteTable/ "RouteTableReference"
 

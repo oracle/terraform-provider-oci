@@ -1,7 +1,7 @@
 
 # oci\_core\_instances
 
-[Instance Reference][af7539b8]
+**API:** [Instance Reference][af7539b8]
 
   [af7539b8]: https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/Instance/ "InstanceReference"
 

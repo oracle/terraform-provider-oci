@@ -1,6 +1,6 @@
 # oci\_core\_volume\_attachments
 
-[VolumeAttachment Reference][36b19aa7]
+**API:** [VolumeAttachment Reference][36b19aa7]
 
   [36b19aa7]: https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/VolumeAttachment/ "VolumeAttachmentReference"
 

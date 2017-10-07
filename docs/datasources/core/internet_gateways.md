@@ -1,6 +1,6 @@
 # oci\_core\_internet\_gateways
 
-[InternetGateway Reference][873db635]
+**API:** [InternetGateway Reference][873db635]
 
   [873db635]: https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/InternetGateway/ "InternetGatewayReference"
 

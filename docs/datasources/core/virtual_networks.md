@@ -1,6 +1,6 @@
 # oci\_core\_virtual\_networks
 
-[Vcn Reference][0d11fda6]
+**API:** [Vcn Reference][0d11fda6]
 
   [0d11fda6]: https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/Vcn/ "VcnReference"
 
@@ -40,4 +40,4 @@ The following attributes are exported:
 * `display_name` - A user-friendly name. Does not have to be unique. Avoid entering confidential information.
 * `id` - The OCID of the VNIC.
 * `state` - The current state of the VCN. [PROVISIONING, AVAILABLE, TERMINATING, TERMINATED]
-* `time_created` - The date and time the VCN was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z`. 
+* `time_created` - The date and time the VCN was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z`.

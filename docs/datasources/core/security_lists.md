@@ -1,6 +1,6 @@
 # oci\_core\_security\_lists
 
-[SecurityList Reference][b6e408bf]
+**API:** [SecurityList Reference][b6e408bf]
 
   [b6e408bf]: https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/SecurityList/ "SecurityListReference"
 

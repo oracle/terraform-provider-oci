@@ -1,6 +1,6 @@
 # oci\_core\_drg
 
-[Drg Reference][18ac8fea]
+**API:** [Drg Reference][18ac8fea]
 
   [18ac8fea]: https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/Drg/ "DrgReference"
 

@@ -1,6 +1,6 @@
 # oci\_core\_vnic
 
-[Vnic Reference][38037a66]
+**API:** [Vnic Reference][38037a66]
 
   [38037a66]: https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/Vnic/ "VnicReference"
 

@@ -1,6 +1,6 @@
 # oci\_core\_subnets
 
-[Subnet Reference][c512efd1]
+**API:** [Subnet Reference][c512efd1]
 
   [c512efd1]: https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/Subnet/ "SubnetReference"
 

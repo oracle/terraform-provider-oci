@@ -1,6 +1,6 @@
 # oci\_drg\_attachment
 
-[DrgAttachment Reference][e8fec6a0]
+**API:** [DrgAttachment Reference][e8fec6a0]
 
   [e8fec6a0]: https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/DrgAttachment/ "DrgAttachmentReference"
 

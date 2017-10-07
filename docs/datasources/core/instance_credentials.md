@@ -1,6 +1,6 @@
 # oci\_core\_instance_credentials
 
-[InstanceCredentials Reference][5d7b7cd3]
+**API:** [InstanceCredentials Reference][5d7b7cd3]
 
   [5d7b7cd3]: https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/InstanceCredentials/ "InstanceCredentialsReference"
 

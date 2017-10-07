@@ -1,6 +1,6 @@
 # oci\_core\_vnic_attachments
 
-[VnicAttachment Reference][42bf6f8c]
+**API:** [VnicAttachment Reference][42bf6f8c]
 
   [42bf6f8c]: https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/VnicAttachment/ "VnicAttachmentReference"
 

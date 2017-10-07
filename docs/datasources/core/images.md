@@ -1,6 +1,6 @@
 # oci\_core\_images
 
-[Image Reference][d434df37]
+**API:** [Image Reference][d434df37]
 
   [d434df37]: https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/Image/ "ImageReference"
 

@@ -1,6 +1,6 @@
 # oci\_core\_ipsec\_status
 
-[IPSecConnectionDeviceStatus Reference][6c32ac75]
+**API:** [IPSecConnectionDeviceStatus Reference][6c32ac75]
 
   [6c32ac75]: https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/IPSecConnectionDeviceStatus/ "IPSecConnectionDeviceStatusReference"
 

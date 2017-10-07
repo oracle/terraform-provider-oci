@@ -1,6 +1,6 @@
 # oci\_core\_ipsec\_connection
 
-[IPSecConnection Reference][70301f58]
+**API:** [IPSecConnection Reference][70301f58]
 
   [70301f58]: https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/IPSecConnection/ "IPSecConnectionReference"
 

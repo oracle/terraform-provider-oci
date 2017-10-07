@@ -1,6 +1,6 @@
 # oci\_core\_private_ips
 
-[PrivateIp Reference][77747bf4]
+**API:** [PrivateIp Reference][77747bf4]
 
   [77747bf4]: https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/PrivateIp/ "PrivateIpReference"
 

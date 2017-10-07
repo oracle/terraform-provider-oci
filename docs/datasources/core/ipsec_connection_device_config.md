@@ -1,6 +1,6 @@
 # oci\_core\_ipsec\_config
 
-[IPSecConnectionDeviceConfig Reference][6b17cb47]
+**API:** [IPSecConnectionDeviceConfig Reference][6b17cb47]
 
   [6b17cb47]: https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/IPSecConnectionDeviceConfig/ "IPSecConnectionDeviceConfigReference"
 
