@@ -24,9 +24,10 @@ The following arguments are supported:
 * `display_name` - A user-friendly name. Does not have to be unique.
 * `id` - The OCID of the Volume backup.
 * `state` - The current state of the volume. [CREATING,AVAILABLE,TERMINATING,TERMINATED,FAULTY,REQUEST_RECEIVED]
-* `size_in_mbs` - The size of the volume, in MBs.
+* `size_in_mbs` - (Deprecated) The size of the volume, in MBs.
+* `size_in_gbs` - The size of the volume, in GBs.
 * `time_created` - The date and time the Volume was created.
 * `time_requested` - The date and time the request to create the volume backup was received.
-* `unique_size_in_mbs` - The size used by the backup, in MBs. It is typically smaller than sizeInMBs, depending on the space consumed on the volume and whether the backup is full or incremental.
+* `unique_size_in_mbs` - (Deprecated) The size used by the backup, in MBs. It is typically smaller than sizeInMBs, depending on the space consumed on the volume and whether the backup is full or incremental.
+* `unique_size_in_gbs` - The size used by the backup, in GBs. It is typically smaller than sizeInGBs, depending on the space consumed on the volume and whether the backup is full or incremental.
 * `volume_id` - The OCID of the Volume.
-

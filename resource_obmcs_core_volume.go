@@ -3,6 +3,8 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/oracle/bmcs-go-sdk"
 
@@ -31,6 +33,13 @@ func VolumeResource() *schema.Resource {
 				ForceNew: true,
 			},
 			"size_in_mbs": {
+				Type:       schema.TypeInt,
+				Optional:   true,
+				ForceNew:   true,
+				Computed:   true,
+				Deprecated: "This property is deprecated, please use size_in_gbs",
+			},
+			"size_in_gbs": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				ForceNew: true,
@@ -136,6 +145,15 @@ func (s *VolumeResourceCrud) Create() (e error) {
 	if ok {
 		opts.SizeInMBs = sizeInMBs.(int)
 	}
+	sizeInGBs, ok := s.D.GetOk("size_in_gbs")
+	if ok {
+		opts.SizeInGBs = sizeInGBs.(int)
+	}
+
+	if opts.SizeInMBs > 0 && opts.SizeInGBs > 0 {
+		return fmt.Errorf("Both size in Megabytes and Gigabytes cannot be set. Specify one or the other, or leave both undefined to use the default size.")
+	}
+
 	volumeBackupID, ok := s.D.GetOk("volume_backup_id")
 	if ok {
 		opts.VolumeBackupID = volumeBackupID.(string)
@@ -171,6 +189,7 @@ func (s *VolumeResourceCrud) SetData() {
 	s.D.Set("compartment_id", s.Res.CompartmentID)
 	s.D.Set("display_name", s.Res.DisplayName)
 	s.D.Set("size_in_mbs", s.Res.SizeInMBs)
+	s.D.Set("size_in_gbs", s.Res.SizeInGBs)
 	s.D.Set("state", s.Res.State)
 	s.D.Set("time_created", s.Res.TimeCreated.String())
 }

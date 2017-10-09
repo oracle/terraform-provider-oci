@@ -162,6 +162,7 @@ type UpdateVnicOptions struct {
 type CreateVolumeOptions struct {
 	CreateOptions
 	SizeInMBs      int    `header:"-" json:"sizeInMBs,omitempty" url:"-"`
+	SizeInGBs      int    `header:"-" json:"sizeInGBs,omitempty" url:"-"`
 	VolumeBackupID string `header:"-" json:"volumeBackupId,omitempty" url:"-"`
 }
 

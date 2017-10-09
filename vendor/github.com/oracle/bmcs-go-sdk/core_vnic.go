@@ -10,19 +10,19 @@ import "net/http"
 type Vnic struct {
 	OPCRequestIDUnmarshaller
 	ETagUnmarshaller
-	AvailabilityDomain	 string `json:"availabilityDomain"`
-	CompartmentID     	 string `json:"compartmentId"`
-	DisplayName        	 string `json:"displayName"`
-	HostnameLabel      	 string `json:"hostnameLabel"`
-	ID                 	 string `json:"id"`
-	IsPrimary          	 bool   `json:"isPrimary"`
-	MacAddress         	 string `json:"macAddress"`
-	State              	 string `json:"lifecycleState"`
-	PrivateIPAddress   	 string `json:"privateIp"`
-	PublicIPAddress    	 string `json:"publicIp"`
-	SkipSourceDestCheck	 bool   `json:"skipSourceDestCheck"`
-	SubnetID          	 string `json:"subnetId"`
-	TimeCreated       	 Time   `json:"timeCreated"`
+	AvailabilityDomain  string `json:"availabilityDomain"`
+	CompartmentID       string `json:"compartmentId"`
+	DisplayName         string `json:"displayName"`
+	HostnameLabel       string `json:"hostnameLabel"`
+	ID                  string `json:"id"`
+	IsPrimary           bool   `json:"isPrimary"`
+	MacAddress          string `json:"macAddress"`
+	State               string `json:"lifecycleState"`
+	PrivateIPAddress    string `json:"privateIp"`
+	PublicIPAddress     string `json:"publicIp"`
+	SkipSourceDestCheck bool   `json:"skipSourceDestCheck"`
+	SubnetID            string `json:"subnetId"`
+	TimeCreated         Time   `json:"timeCreated"`
 }
 
 // GetVnic retrieves information about a virtual network interface identified
