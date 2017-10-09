@@ -1,0 +1,8 @@
+### Region
+export TF_VAR_region=""
+
+### Compartment
+export TF_VAR_compartment_ocid=""
+
+export TF_VAR_ssh_public_key=$(cat .../id_rsa.pub)
+export TF_VAR_ssh_private_key=$(cat .../id_rsa)
