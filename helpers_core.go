@@ -3,13 +3,49 @@
 package main
 
 import (
-	"strconv"
-
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/oracle/bmcs-go-sdk"
 )
 
-func SetCreateVnicOptions(rawCreateVnicDetails interface{}) (vnicOpts *baremetal.CreateVnicOptions, err error) {
-	vnic := rawCreateVnicDetails.(map[string]interface{})
+var createVnicDetailsSchema = &schema.Resource{
+	Schema: map[string]*schema.Schema{
+		"assign_public_ip": {
+			Type:     schema.TypeBool,
+			Optional: true,
+			Default:  true,
+			ForceNew: true,
+		},
+		"display_name": {
+			Type:     schema.TypeString,
+			Optional: true,
+			Computed: true,
+		},
+		"hostname_label": {
+			Type:     schema.TypeString,
+			Optional: true,
+			Computed: true,
+		},
+		"private_ip": {
+			Type:     schema.TypeString,
+			Optional: true,
+			Computed: true,
+			ForceNew: true,
+		},
+		"skip_source_dest_check": {
+			Type:     schema.TypeBool,
+			Optional: true,
+			Default:  false,
+		},
+		"subnet_id": {
+			Type:     schema.TypeString,
+			Required: true,
+			ForceNew: true,
+		},
+	},
+}
+
+func SetCreateVnicOptions(vnicDetailsList []interface{}) (vnicOpts *baremetal.CreateVnicOptions) {
+	vnic := vnicDetailsList[0].(map[string]interface{})
 
 	vnicOpts = &baremetal.CreateVnicOptions{}
 	vnicOpts.SubnetID = vnic["subnet_id"].(string)
@@ -29,21 +65,51 @@ func SetCreateVnicOptions(rawCreateVnicDetails interface{}) (vnicOpts *baremetal
 		vnicOpts.PrivateIp = privateIp.(string)
 	}
 
-	// Work around for tf bug https://github.com/hashicorp/terraform/issues/13512.
-	// For bool values that are nested in maps, if the value is set to true/false then
-	// it will appear here as "1"/"0". However, if the value is set to "true"/"false"
-	// then it will appear here as "true"/"false". ParseBool() handles both of these cases.
 	assignPublicIp := vnic["assign_public_ip"]
 	if assignPublicIp != nil {
 		vnicOpts.AssignPublicIp = new(bool)
-		*vnicOpts.AssignPublicIp, err = strconv.ParseBool(assignPublicIp.(string))
+		*vnicOpts.AssignPublicIp = assignPublicIp.(bool)
 	}
 
 	skipSourceDestCheck := vnic["skip_source_dest_check"]
 	if skipSourceDestCheck != nil {
 		vnicOpts.SkipSourceDestCheck = new(bool)
-		*vnicOpts.SkipSourceDestCheck, err = strconv.ParseBool(skipSourceDestCheck.(string))
+		*vnicOpts.SkipSourceDestCheck = skipSourceDestCheck.(bool)
 	}
 
 	return
+}
+
+func SetUpdateVnicOptions(vnicDetailsList []interface{}) (vnicOpts *baremetal.UpdateVnicOptions) {
+	vnic := vnicDetailsList[0].(map[string]interface{})
+	vnicOpts = &baremetal.UpdateVnicOptions{}
+
+	displayName := vnic["display_name"]
+	if displayName != nil {
+		vnicOpts.DisplayName = displayName.(string)
+	}
+
+	hostnameLabel := vnic["hostname_label"]
+	if hostnameLabel != nil {
+		vnicOpts.HostnameLabel = hostnameLabel.(string)
+	}
+
+	skipSourceDestCheck := vnic["skip_source_dest_check"]
+	if skipSourceDestCheck != nil {
+		vnicOpts.SkipSourceDestCheck = new(bool)
+		*vnicOpts.SkipSourceDestCheck = skipSourceDestCheck.(bool)
+	}
+
+	return
+}
+
+func RefreshCreateVnicDetails(resourceData *schema.ResourceData, vnic *baremetal.Vnic) {
+	vnicDetails := make(map[string]interface{})
+	vnicDetails["subnet_id"] = vnic.SubnetID
+	vnicDetails["assign_public_ip"] = len(vnic.PublicIPAddress) > 0
+	vnicDetails["display_name"] = vnic.DisplayName
+	vnicDetails["hostname_label"] = vnic.HostnameLabel
+	vnicDetails["private_ip"] = vnic.PrivateIPAddress
+	vnicDetails["skip_source_dest_check"] = vnic.SkipSourceDestCheck
+	resourceData.Set("create_vnic_details", []interface{}{vnicDetails})
 }
