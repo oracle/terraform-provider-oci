@@ -5,12 +5,12 @@ variable "private_key_path" {}
 variable "compartment_ocid" {}
 variable "region" {}
 variable "ssh_public_key" {}
-variable "ssh_private_key" {}
 
 # Choose an Availability Domain
 variable "AD" {
     default = "1"
 }
+
 variable "InstanceShape" {
     default = "VM.Standard1.2"
 }
@@ -18,26 +18,37 @@ variable "InstanceShape" {
 variable "InstanceOS" {
     default = "Oracle Linux"
 }
+
 variable "InstanceOSVersion" {
     default = "7.4"
 }
+
+variable "vcn_cidr" {
+    default = "10.0.0.0/16"
+}
+
+variable "mgmt_subnet_cidr" {
+    default = "10.0.0.0/16"
+}
+
+variable "private_subnet_cidr" {
+    default = "10.0.0.0/16"
+}
+
 provider "oci" {
     tenancy_ocid = "${var.tenancy_ocid}"
     user_ocid = "${var.user_ocid}"
     fingerprint = "${var.fingerprint}"
     private_key_path = "${var.private_key_path}"
-    private_key_password = "${var.private_key_password}"
     region = "${var.region}"
 }
+
 data "oci_identity_availability_domains" "ADs" {
     compartment_id = "${var.tenancy_ocid}"
 }
-variable "VCN-CIDR" {
-    default = "10.0.0.0/16"
-}
 
 resource "oci_core_virtual_network" "CoreVCN" {
-    cidr_block = "${var.VCN-CIDR}"
+    cidr_block = "${var.vcn_cidr}"
     compartment_id = "${var.compartment_ocid}"
     display_name = "mgmt-vcn"
 }
@@ -86,7 +97,7 @@ resource "oci_core_security_list" "MgmtSecurityList" {
     },
 	{
         protocol = "all"
-        source = "${var.VCN-CIDR}"
+        source = "${var.vcn_cidr}"
     },
     {
         protocol = "6"
@@ -108,7 +119,7 @@ resource "oci_core_security_list" "MgmtSecurityList" {
 
 resource "oci_core_subnet" "MgmtSubnet" {
     availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.AD - 1],"name")}"
-    cidr_block = "10.0.0.0/24"
+    cidr_block = "${var.mgmt_subnet_cidr}"
     display_name = "MgmtSubnet"
     compartment_id = "${var.compartment_ocid}"
     vcn_id = "${oci_core_virtual_network.CoreVCN.id}"
@@ -170,7 +181,7 @@ resource "oci_core_security_list" "PrivateSecurityList" {
             "max" = 22
             "min" = 22
         }
-        source = "${var.VCN-CIDR}"
+        source = "${var.vcn_cidr}"
     }]
 }
 
@@ -186,7 +197,7 @@ resource "oci_core_route_table" "PrivateRouteTable" {
 
 resource "oci_core_subnet" "PrivateSubnet" {
     availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.AD - 1],"name")}"
-    cidr_block = "10.0.1.0/24"
+    cidr_block = "${var.private_subnet_cidr}"
     display_name = "PrivateSubnet"
     compartment_id = "${var.compartment_ocid}"
     vcn_id = "${oci_core_virtual_network.CoreVCN.id}"

@@ -6,7 +6,7 @@
 ***
 This example creates a VCN with a public subnet and a private subnet. Each subnet is created with a separate security list and route table. The template then launches a private instance in the private subnet, and a public instance in the public subnet. 
 The public instance is configured as a NAT instance (by enabling forwarding, and configuring firewall to do forwarind/masquerading).
-The private subnet's route table is configured to use the NAT instance's private IP address as the default route target.
+The private subnet's route table is configured to use the NAT instance's private IP address as the default route target. See [Using a Private IP as a Route Target](https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Tasks/managingroutetables.htm#privateip) for more details on this feature.
 
 ### Using this example
 * Update env-vars with the required information. Most examples use the same set of environment variables so you only need to do this once.
