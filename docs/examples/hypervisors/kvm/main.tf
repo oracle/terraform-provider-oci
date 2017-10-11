@@ -29,38 +29,38 @@ resource "oci_core_instance" "KVM-HOST" {
   }
 }
 
-resource "oci_core_vnic_attachment" "kvm-mgmt-vnic-attachmnt" {
+resource "oci_core_vnic_attachment" "kvm-guest-mgmt-vnic-attachmnt" {
   instance_id  = "${oci_core_instance.KVM-HOST.id}"
-  display_name = "kvm-mgmt-vnic-attachmnt"
+  display_name = "kvm-guest-mgmt-vnic-attachmnt"
 
   create_vnic_details {
     subnet_id        = "${oci_core_subnet.frontend-subnet.id}"
     hostname_label   = "kvmmanagement"
-    display_name     = "kvm-mgmt-vnic"
+    display_name     = "kvm-guest-mgmt-vnic"
     assign_public_ip = true
   }
 }
 
-resource "oci_core_vnic_attachment" "frontend-vnic-attachmnt" {
+resource "oci_core_vnic_attachment" "kvm-guest-frontend-vnic-attachmnt" {
   instance_id  = "${oci_core_instance.KVM-HOST.id}"
-  display_name = "frontend-vnic-attachmnt"
+  display_name = "kvm-guest-frontend-vnic-attachmnt"
 
   create_vnic_details {
     subnet_id        = "${oci_core_subnet.frontend-subnet.id}"
     hostname_label   = "kvmfrontend"
-    display_name     = "kvm-frontend-vnic"
+    display_name     = "kvm-guest-frontend-vnic"
     assign_public_ip = true
   }
 }
 
-resource "oci_core_vnic_attachment" "backend-vnic-attachmnt" {
+resource "oci_core_vnic_attachment" "kvm-guest-backend-vnic-attachmnt" {
   instance_id  = "${oci_core_instance.KVM-HOST.id}"
-  display_name = "backend-vnic-attachmnt"
+  display_name = "kvm-guest-backend-vnic-attachmnt"
 
   create_vnic_details {
     subnet_id        = "${oci_core_subnet.backend-subnet.id}"
     hostname_label   = "kvmbackend"
-    display_name     = "kvm-backend-vnic"
+    display_name     = "kvm-guest-backend-vnic"
     assign_public_ip = false
   }
 }
@@ -79,7 +79,7 @@ module "setup-kvm-hypervisor" {
   kvm_guest_vnc_port      = "${var.kvm_guest_vnc_port}"
   kvm_guest_vnc_pwd       = "${var.kvm_guest_vnc_pwd}"
 
-  kvm_guest_vnic_mac_address = "${data.oci_core_vnic.KVM-mgmt-vnic.mac_address}"
-  kvm_guest_vnic_id          = "${data.oci_core_vnic.KVM-mgmt-vnic.id}"
+  kvm_guest_vnic_mac_address = "${data.oci_core_vnic.kvm-guest-mgmt-vnic.mac_address}"
+  kvm_guest_vnic_id          = "${data.oci_core_vnic.kvm-guest-mgmt-vnic.id}"
   kvm_guest_emulation_mode   = "${var.kvm_emulation_mode}"
 }

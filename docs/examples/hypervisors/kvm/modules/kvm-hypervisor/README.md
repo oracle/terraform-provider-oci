@@ -1,7 +1,7 @@
 KVM Installation module
 =======================
 
-This Module is responsible for setting up a custom KVM based Virtual Machines on top of a KVM hypervisor on Oracle Cloud Infrastructure. KVM domain is installed as part of this module. 
+This Module is responsible for setting up a custom KVM based Virtual Machines on top of a KVM hypervisor on Oracle Cloud Infrastructure. KVM domain is installed as part of this module.
 
 
 ### Reference:
@@ -63,11 +63,11 @@ kvm_guest_vnc_pwd="Test123"
 
 #### kvm_guest_vnic_mac_address
 The secondary vnic MAC Address where the Guest VM will be hosted. Example:
-"${data.oci_core_vnic.KVM-mgmt-vnic.mac_address}"
+"${data.oci_core_vnic.kvm-guest-mgmt-vnic.mac_address}"
 
 #### kvm_guest_vnic_id
 The secondary vnic ID where the Guest VM will be hosted. Example:
-kvm_guest_vnic_id="${data.oci_core_vnic.KVM-mgmt-vnic.id}"
+kvm_guest_vnic_id="${data.oci_core_vnic.kvm-guest-mgmt-vnic.id}"
 
 #### kvm_guest_emulation_mode
 The guest vm emulation mode. Example:
@@ -92,8 +92,8 @@ module "setup-kvm-hypervisor" {
   kvm_guest_vnc_port = "${var.kvm_guest_vnc_port}"
   kvm_guest_vnc_pwd = "${var.kvm_guest_vnc_pwd}"
 
-  kvm_guest_vnic_mac_address = "${data.oci_core_vnic.KVM-mgmt-vnic.mac_address}"
-  kvm_guest_vnic_id = "${data.oci_core_vnic.KVM-mgmt-vnic.id}"
+  kvm_guest_vnic_mac_address = "${data.oci_core_vnic.kvm-guest-mgmt-vnic.mac_address}"
+  kvm_guest_vnic_id = "${data.oci_core_vnic.kvm-guest-mgmt-vnic.id}"
   kvm_guest_emulation_mode = "${var.kvm_emulation_mode}"
 
 }
@@ -113,7 +113,7 @@ Module variables as described above.
 ## Module Data Source template_file
 
 #### generate_virsh_attach.sh.tp
-Data source template file used to generate a shell script dynamically based on the instance runtime variables.
+Data source template file used to generate a shell script dynamically based on the instance runtime variables. The generated script retrieves vnic data from the metadata repository.
 
 
 
@@ -123,9 +123,6 @@ Shell script to setup secondary vnics at OS level based on the metadata reposito
 
 #### /scripts/install-kvm-dependencies.sh
 Shell script responsible to install all the linux packages for KVM.
-
-#### /scripts/modify_grub.sh
-Shell script to modify grub loader.
 
 #### /scripts/secondary_vnics.service
 Linux Service definition for setting up all the secondary vnics in terms of instance reboot since these data are not persisted.

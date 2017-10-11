@@ -1,6 +1,10 @@
 KVM Virtualization
 ==================
 
+In this example we demonstrate the automatic installation of a guest VM on a Bare Metal instance in Oracle Cloud Infrastructure (OCI). The guest VM will be configured with multiple [VNICs](https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Tasks/managingVNICs.htm) to be setup a [Web Application Firewall - WAF](https://en.wikipedia.org/wiki/Web_application_firewall) or a [NAT gateway](https://en.wikipedia.org/wiki/Network_address_translation) with the network topology as described in the diagram below. It can be easily adapted to automate the installation of any guest VM using KVM on a Bare Metal instance.
+
+Note that the guest VM's image URL needs to be provided by the user as one of the variables. We recommend to [upload the target image to OCI object storage](https://docs.us-phoenix-1.oraclecloud.com/Content/GSG/Tasks/addingbuckets.htm#two), create a [pre-authenticated request](https://docs.us-phoenix-1.oraclecloud.com/Content/Object/Tasks/managingobjects.htm#par), and use it as the image URL.
+
 This sample uses Terraform to demonstrate the Bring Your Own Hypervisor model to deploy custom KVM based Virtual Machines on top of a KVM hypervisor on Oracle Cloud Infrastructure.
 
 In this example we demonstrate the automatic installation of a [Web Application Firewall - WAF](https://en.wikipedia.org/wiki/Web_application_firewall) running on Oracle Cloud Infrastructure (OCI) based on the network topology described on the diagram below, but it can be easily adapted to automate the installation of any Virtual Machine based on KVM:
@@ -9,20 +13,27 @@ In this example we demonstrate the automatic installation of a [Web Application 
 
 This sample code will be responsible to perform the following tasks:
 
-- Setup of all required network components: VCN, Internet Gateway, frontend & backend subnets, and security lists
+- Setup of all required network components: VCN, Internet Gateway, frontend & backend subnets, and security lists.
 
-- Spin up a [Bare Metal](https://docs.us-phoenix-1.oraclecloud.com/Content/Compute/Concepts/computeoverview.htm) Instance based on Oracle Linux 7.x image
+- Spin up a [Bare Metal](https://docs.us-phoenix-1.oraclecloud.com/Content/Compute/Concepts/computeoverview.htm) Instance based on Oracle Linux 7.x image.
 
--	Installation of the KVM hypervisor provided by the Linux Kernel available as a [Terraform module](https://www.terraform.io/docs/modules/usage.html) (reusable artifact). This process requires instance restart due to the kernel changes. You can find detailed information about how to setup KVM on OCI [here](https://docs.us-phoenix-1.oraclecloud.com/Content/Resources/Assets/installing_kvm_multi_vnics.pdf). Module documentation containing the list of input variables and Module usage is available [here](./modules/kvm-hypervisor/README.md).
+- Attach [secondary VNICs](https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Tasks/managingVNICs.htm) to the Bare Metal instance, configure them as vlan-tagged interfaces.
+
+-	Installation of the KVM hypervisor provided by the Linux Kernel provided as a [Terraform module](https://www.terraform.io/docs/modules/usage.html) (reusable artifact). This process requires instance restart due to the kernel changes.
 
 -	Download of the qcow2 image. In case you have your image file stored on your local computer, you can upload it to a [Bucket](https://docs.us-phoenix-1.oraclecloud.com/Content/Object/Tasks/managingbuckets.htm) on the [OCI Object Storage](https://docs.us-phoenix-1.oraclecloud.com/Content/Object/Concepts/overview.htm).
+
+- Create a guest VM using the downloaded image.
+
+- Attach the vlan-tagged interface (in PCI-passthrough mode) as network interfaces to the guest VM.
+
 
 Requirements
 ------------
 
 - Access to OCI environment
 - [Generated OCI keys and OCIDs](https://docs.us-phoenix-1.oraclecloud.com/Content/API/Concepts/apisigningkey.htm)
-- Terraform 0.10.x
+- Terraform 0.10.x+
 
 
 ### Usage
@@ -52,7 +63,7 @@ region="<OCI region>"
 #Customer Identifier to be used before the resources name
 customer_name = "mycustomer"
 
-#availability_domain number For AD1 uses 1. For AD2, uses 2, For AD3, uses 3
+#availability_domain number - For AD1 uses 1. For AD2, uses 2, For AD3, uses 3
 availability_domain = "1"
 
 #Only BM Shapes are supported
@@ -97,12 +108,19 @@ You can create a simple shell script to retrieve the kvm host from the `terrafor
 
 ```
 #!/bin/bash
-export kvm_host=`terraform output KVM_HOST_PUBLIC_IP`
 
-ssh -i <ssh-private-key> -L $TF_VAR_kvm_guest_vnc_port:localhost:$TF_VAR_kvm_guest_vnc_port opc@$kvm_host
+export kvm_host=`terraform output KVM_HOST_PUBLIC_IP`
+export kvm_guest_vnc_port=`terraform output KVM_GUEST_VNC_PORT`
+
+ssh -i <ssh-private-key> -L $kvm_guest_vnc_port:localhost:$kvm_guest_vnc_port opc@$kvm_host
 ```
 
--	Access your Guest Instance. You can retrieve the KVM Guest public IP running the terraform output command as well:
+- Setup your Guest Instance. Access it through a [VNC](https://en.wikipedia.org/wiki/Virtual_Network_Computing) session
+
+`localhost:kvm_guest_vnc_port`
+
+
+- Finally, for access any application/tool within your Guest VM, you can retrieve the KVM Guest public IP running the terraform output command:
 
 ```
 $ terraform output KVM_GUEST_PUBLIC_IP

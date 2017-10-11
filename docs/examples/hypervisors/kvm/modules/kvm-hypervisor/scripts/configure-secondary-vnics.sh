@@ -66,116 +66,114 @@ options=($(curl -s $IMDSURL | python -c 'import sys, json; print "\n".join([vnic
 
 COUNTER=1
 while [ $COUNTER -lt $((${#options[@]} + 1 )) ]; do
-	echo "The counter is $COUNTER"
-	index=$COUNTER
+		echo "The counter is $COUNTER"
+		index=$COUNTER
 
-	let COUNTER=COUNTER+1
+		let COUNTER=COUNTER+1
 
+		CURL=$(which curl)
+		ROUTE=$(which route)
+		IP=$(which ip)
+		DHCLIENT=$(which dhclient)
+		SSHD=$(which sshd)
 
+		httpCode=$(curl -sL -w "%{http_code}\\n" $IMDSURL/$index/vlanTag -o /dev/null)
+		[[ $httpCode == 200 ]] || error_exit "Failed to get vlan tag for selected VNIC from IMDS"
 
-CURL=$(which curl)
-ROUTE=$(which route)
-IP=$(which ip)
-DHCLIENT=$(which dhclient)
-SSHD=$(which sshd)
+		vlanTag=$($CURL -s $IMDSURL/$index/vlanTag)
+		[[ $vlanTag =~ ^[0-9]+$ ]] || error_exit "Invalid format of vlan Tag"
 
-httpCode=$(curl -sL -w "%{http_code}\\n" $IMDSURL/$index/vlanTag -o /dev/null)
-[[ $httpCode == 200 ]] || error_exit "Failed to get vlan tag for selected VNIC from IMDS"
+		httpCode=$(curl -sL -w "%{http_code}\\n" $IMDSURL/$index/macAddr -o /dev/null)
+		[[ $httpCode == 200 ]] || error_exit "Failed to get macAddr for selected VNIC from IMDS"
+		macAddress=$($CURL -s $IMDSURL/$index/macAddr)
 
-vlanTag=$($CURL -s $IMDSURL/$index/vlanTag)
-[[ $vlanTag =~ ^[0-9]+$ ]] || error_exit "Invalid format of vlan Tag"
+		httpCode=$(curl -sL -w "%{http_code}\\n" $IMDSURL/$index/privateIp -o /dev/null)
+		[[ $httpCode == 200 ]] || error_exit "Failed to get privateIp for selected VNIC from IMDS"
+		privateIp=$($CURL -s $IMDSURL/$index/privateIp)
 
-httpCode=$(curl -sL -w "%{http_code}\\n" $IMDSURL/$index/macAddr -o /dev/null)
-[[ $httpCode == 200 ]] || error_exit "Failed to get macAddr for selected VNIC from IMDS"
-macAddress=$($CURL -s $IMDSURL/$index/macAddr)
+		httpCode=$(curl -sL -w "%{http_code}\\n" $IMDSURL/$index/virtualRouterIp -o /dev/null)
+		[[ $httpCode == 200 ]] || error_exit "Failed to get virtualRouterIp for selected VNIC from IMDS"
+		virtualRouterIp=$($CURL -s $IMDSURL/$index/virtualRouterIp)
 
-httpCode=$(curl -sL -w "%{http_code}\\n" $IMDSURL/$index/privateIp -o /dev/null)
-[[ $httpCode == 200 ]] || error_exit "Failed to get privateIp for selected VNIC from IMDS"
-privateIp=$($CURL -s $IMDSURL/$index/privateIp)
+		httpCode=$(curl -sL -w "%{http_code}\\n" $IMDSURL/$index/subnetCidrBlock -o /dev/null)
+		[[ $httpCode == 200 ]] || error_exit "Failed to get subnetCidrBlock for selected VNIC from IMDS"
+		subnetCidrBlock=$($CURL -s $IMDSURL/$index/subnetCidrBlock)
+		subnetCidrPrefix=$(echo $subnetCidrBlock | awk -F/ '{print $2}')
 
-httpCode=$(curl -sL -w "%{http_code}\\n" $IMDSURL/$index/virtualRouterIp -o /dev/null)
-[[ $httpCode == 200 ]] || error_exit "Failed to get virtualRouterIp for selected VNIC from IMDS"
-virtualRouterIp=$($CURL -s $IMDSURL/$index/virtualRouterIp)
+		echo "Configuring the interface with the IP address: $privateIp"
 
-httpCode=$(curl -sL -w "%{http_code}\\n" $IMDSURL/$index/subnetCidrBlock -o /dev/null)
-[[ $httpCode == 200 ]] || error_exit "Failed to get subnetCidrBlock for selected VNIC from IMDS"
-subnetCidrBlock=$($CURL -s $IMDSURL/$index/subnetCidrBlock)
-subnetCidrPrefix=$(echo $subnetCidrBlock | awk -F/ '{print $2}')
+		# Name of the primary network interface of the instance
+		primaryIntfName=$($ROUTE -n | grep '^0.0.0.0' | grep -o '[^ ]*$')
+		[ $? -eq 0 ] || error_exit "Unable to get primary network interface name"
 
-echo "Configuring the interface with the IP address: $privateIp"
+		# Name of the new interface.
+		# The naming format below is only a convention and can be changed as required
+		macVlanIntf="$primaryIntfName.macv.$vlanTag"
+		vlanIntf="$primaryIntfName.vlan.$vlanTag"
 
-# Name of the primary network interface of the instance
-primaryIntfName=$($ROUTE -n | grep '^0.0.0.0' | grep -o '[^ ]*$')
-[ $? -eq 0 ] || error_exit "Unable to get primary network interface name"
+		# Create a MAC VLAN with provided MAC or random MAC
+		$IP link add link $primaryIntfName $macVlanIntf address $macAddress type macvlan \
+		  || error_exit "Failed to create a MAC VLAN with provided MAC or random MAC"
 
-# Name of the new interface.
-# The naming format below is only a convention and can be changed as required
-macVlanIntf="$primaryIntfName.macv.$vlanTag"
-vlanIntf="$primaryIntfName.vlan.$vlanTag"
+		# Create a VLAN on top of the MAC VLAN
+		$IP link add link $macVlanIntf name $vlanIntf type vlan id $vlanTag \
+		  || error_exit "Failed to create a VLAN on top of the MAC VLAN"
 
-# Create a MAC VLAN with provided MAC or random MAC
-$IP link add link $primaryIntfName $macVlanIntf address $macAddress type macvlan \
-  || error_exit "Failed to create a MAC VLAN with provided MAC or random MAC"
+		NSPREFIX=
+		if ! [ -z $NS ]; then
+		   # Configure the secondary VNIC in namespace $NS
+		    NSPREFIX="$IP netns exec $NS"
 
-# Create a VLAN on top of the MAC VLAN
-$IP link add link $macVlanIntf name $vlanIntf type vlan id $vlanTag \
-  || error_exit "Failed to create a VLAN on top of the MAC VLAN"
+		    # Create a new namespace
+		    $IP netns add $NS \
+			  || error_exit "Failed to create a new namespace"
 
-NSPREFIX=
-if ! [ -z $NS ]; then
-   # Configure the secondary VNIC in namespace $NS
-    NSPREFIX="$IP netns exec $NS"
+		    # Move the MACVLAN interface and VLAN interface to the namespace
+		    $IP link set dev $macVlanIntf netns $NS \
+		      || error_exit "Failed to move the MACVLAN interface to the namespace"
 
-    # Create a new namespace
-    $IP netns add $NS \
-	  || error_exit "Failed to create a new namespace"
+		    $IP link set dev $vlanIntf netns $NS \
+		      || error_exit "Failed to move the VLAN interface to the namespace"
 
-    # Move the MACVLAN interface and VLAN interface to the namespace
-    $IP link set dev $macVlanIntf netns $NS \
-      || error_exit "Failed to move the MACVLAN interface to the namespace"
+		    # Start SSHD daemon in the namespace
+		    $NSPREFIX $SSHD \
+		      || error_exit "Failed to start SSH daemon in the namespace"
+		fi
 
-    $IP link set dev $vlanIntf netns $NS \
-      || error_exit "Failed to move the VLAN interface to the namespace"
+		# Bring the MACVLAN interface and VLAN interface up
+		$NSPREFIX $IP link set dev $macVlanIntf up \
+		  || error_exit "Failed to bring the MACVLAN interface up"
 
-    # Start SSHD daemon in the namespace
-    $NSPREFIX $SSHD \
-      || error_exit "Failed to start SSH daemon in the namespace"
-fi
+		$NSPREFIX $IP link set mtu 9000 dev $vlanIntf up \
+		  || error_exit "Failed to bring the VLAN interface up"
 
-# Bring the MACVLAN interface and VLAN interface up
-$NSPREFIX $IP link set dev $macVlanIntf up \
-  || error_exit "Failed to bring the MACVLAN interface up"
+		# Configure the IP address of the VLAN interface
+		$NSPREFIX $IP addr add $privateIp/$subnetCidrPrefix dev $vlanIntf \
+		  || error_exit "Failed to configure the IP address of the VLAN interface"
 
-$NSPREFIX $IP link set mtu 9000 dev $vlanIntf up \
-  || error_exit "Failed to bring the VLAN interface up"
+		if ! [ -z $NS ]; then
+		    # Set the default gateway for the secondary VNIC in the network namespace
+		    $NSPREFIX $ROUTE add default gw $virtualRouterIp \
+			  || error_exit "Failed to set the default gateway for the secondary VNIC in the network namespace"
+		else
+		    # Create custom route rules for this interface
+		    rtId=`expr 100 + $vlanTag`
+		    rtName=$vlanIntf
+		    RTFILE=/etc/iproute2/rt_tables
 
-# Configure the IP address of the VLAN interface
-$NSPREFIX $IP addr add $privateIp/$subnetCidrPrefix dev $vlanIntf \
-  || error_exit "Failed to configure the IP address of the VLAN interface"
+		    # Check if the route table exists
+		    if grep -qs "^$rtId " $RTFILE; then
+		        echo "Route table entry exists for this vlanTag. No route rules configured."
+		    else
+		        echo "$rtId    $rtName" >> $RTFILE
+		        # Add a rule to lookup $rtName route table for any packets sourced from $privateIp
+		        $IP rule add from $privateIp lookup $rtName \
+		          || error_exit "Failed to add a rule to lookup $rtName route table for any packets sourced from $privateIp"
 
-if ! [ -z $NS ]; then
-    # Set the default gateway for the secondary VNIC in the network namespace
-    $NSPREFIX $ROUTE add default gw $virtualRouterIp \
-	  || error_exit "Failed to set the default gateway for the secondary VNIC in the network namespace"
-else
-    # Create custom route rules for this interface
-    rtId=`expr 100 + $vlanTag`
-    rtName=$vlanIntf
-    RTFILE=/etc/iproute2/rt_tables
-
-    # Check if the route table exists
-    if grep -qs "^$rtId " $RTFILE; then
-        echo "Route table entry exists for this vlanTag. No route rules configured."
-    else
-        echo "$rtId    $rtName" >> $RTFILE
-        # Add a rule to lookup $rtName route table for any packets sourced from $privateIp
-        $IP rule add from $privateIp lookup $rtName \
-          || error_exit "Failed to add a rule to lookup $rtName route table for any packets sourced from $privateIp"
-
-        # Add a routing rule in $rtName route table to use $virtualRouterIp as the default gateway
-        $IP route add default via $virtualRouterIp dev $vlanIntf table $rtName \
-          || error_exit "Failed to add a routing rule in $rtName route table to use $virtualRouterIp as the default gateway"
-    fi
-fi
+		        # Add a routing rule in $rtName route table to use $virtualRouterIp as the default gateway
+		        $IP route add default via $virtualRouterIp dev $vlanIntf table $rtName \
+		          || error_exit "Failed to add a routing rule in $rtName route table to use $virtualRouterIp as the default gateway"
+		    fi
+		fi
 
 done
