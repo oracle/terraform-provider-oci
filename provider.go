@@ -241,7 +241,6 @@ func providerConfig(d *schema.ResourceData) (clients interface{}, err error) {
 		func(o *baremetal.NewClientOptions) {
 			o.UserAgent = fmt.Sprintf("Oracle-GoSDK/%s (go/%s; %s/%s; terraform/%s) Oracle-TerraformProvider/%s",
 				baremetal.SDKVersion, runtime.Version(), runtime.GOOS, runtime.GOARCH, terraform.VersionString(), Version)
-			log.Println(fmt.Sprintf("User Agent: %s", o.UserAgent))
 		},
 	}
 

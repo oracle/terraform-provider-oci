@@ -41,9 +41,6 @@ func (s *DatasourceCoreIPSecStatusTestSuite) SetupTest() {
 		drg_id = "${oci_core_drg.t.id}"
 		display_name = "-tf-ipsec"
 		static_routes = ["10.0.0.0/16"]
-	}
-	data "oci_core_ipsec_status" "s" {
-		ipsec_id = "${oci_core_ipsec.t.id}"
 	}`
 	s.ResourceName = "data.oci_core_ipsec_status.s"
 }
@@ -56,7 +53,10 @@ func (s *DatasourceCoreIPSecStatusTestSuite) TestAccDatasourceCoreIPSecStatus_ba
 			{
 				ImportState:       true,
 				ImportStateVerify: true,
-				Config:            s.Config,
+				Config: s.Config + `
+				data "oci_core_ipsec_status" "s" {
+					ipsec_id = "${oci_core_ipsec.t.id}"
+				}`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "tunnels.#"),

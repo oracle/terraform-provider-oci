@@ -57,7 +57,7 @@ func TestAccResourceCoreSubnetCreate_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(resourceName, "virtual_router_ip"),
 					resource.TestCheckResourceAttrSet(resourceName, "virtual_router_mac"),
-					resource.TestMatchResourceAttr(resourceName, "compartment_id", regexp.MustCompile("ocid1\\.compartment\\.oc1\\..*")),
+					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestMatchResourceAttr(resourceName, "vcn_id", regexp.MustCompile("ocid1\\.vcn\\.oc1\\..*")),
 					resource.TestMatchResourceAttr(resourceName, "dhcp_options_id", regexp.MustCompile("ocid1\\.dhcpoptions\\.oc1\\..*")),
 					resource.TestMatchResourceAttr(resourceName, "route_table_id", regexp.MustCompile("ocid1\\.routetable\\.oc1\\..*")),
