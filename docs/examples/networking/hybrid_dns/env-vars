@@ -26,3 +26,10 @@ export TF_VAR_InstanceOSVersion=""
 ### Instance credentials
 export TF_VAR_ssh_public_key=$(cat .../id_rsa.pub)
 export TF_VAR_ssh_private_key=$(cat .../id_rsa)
+
+### On-prem configuration
+export TF_VAR_onprem_cidr=""
+export TF_VAR_onprem_dns_zone=""
+export TF_VAR_onprem_dns_server1=""
+export TF_VAR_onprem_dns_server2=""
+
