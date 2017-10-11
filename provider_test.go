@@ -82,14 +82,6 @@ resource "oci_core_subnet" "WebSubnetAD1" {
 	dhcp_options_id     = "${oci_core_virtual_network.t.default_dhcp_options_id}"
 }`
 
-var imageConf = `
-data "oci_core_images" "t" {
-	compartment_id = "${var.compartment_id}"
-  	operating_system = "Oracle Linux"
-  	operating_system_version = "7.3"
-  	limit = 1
-}`
-
 var instanceConfig = subnetConfig + `
 data "oci_core_images" "t" {
 	compartment_id = "${var.compartment_id}"
@@ -126,13 +118,6 @@ resource "oci_core_instance" "t" {
 	timeouts {
 		create = "15m"
 	}
-}
-`
-var vnicConfig = instanceConfig + `
-data "oci_core_vnic_attachments" "vnics" {
-    compartment_id = "${var.compartment_id}"
-	availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-    instance_id = "${oci_core_instance.t.id}"
 }
 `
 
@@ -184,40 +169,6 @@ resource "oci_core_instance" "t" {
 	timeouts {
 		create = "15m"
 	}
-}
-`
-
-var certificateConfig = `
-resource "oci_load_balancer_certificate" "t" {
-  load_balancer_id   = "${oci_load_balancer.t.id}"
-  ca_certificate     = "-----BEGIN CERTIFICATE-----\nMIIBNzCB4gIJAKtwJkxUgNpzMA0GCSqGSIb3DQEBCwUAMCMxITAfBgNVBAoTGElu\ndGVybmV0IFdpZGdpdHMgUHR5IEx0ZDAeFw0xNzA0MTIyMTU3NTZaFw0xODA0MTIy\nMTU3NTZaMCMxITAfBgNVBAoTGEludGVybmV0IFdpZGdpdHMgUHR5IEx0ZDBcMA0G\nCSqGSIb3DQEBAQUAA0sAMEgCQQDlM8lz3BFJA6zBlsF63k9ajPVq3Q1WQoHQ3j35\n08DRKIfwqfV+CxL63W3dZrwL4TrjqorP5CQ36+I6OWALH2zVAgMBAAEwDQYJKoZI\nhvcNAQELBQADQQCEjHVQJoiiVpIIvDWF+4YDRReVuwzrvq2xduWw7CIsDWlYuGZT\nQKVY6tnTy2XpoUk0fqUvMB/M2HGQ1WqZGHs6\n-----END CERTIFICATE-----"
-  certificate_name   = "stub_certificate_name"
-  private_key        = "-----BEGIN RSA PRIVATE KEY-----\nMIIBOgIBAAJBAOUzyXPcEUkDrMGWwXreT1qM9WrdDVZCgdDePfnTwNEoh/Cp9X4L\nEvrdbd1mvAvhOuOqis/kJDfr4jo5YAsfbNUCAwEAAQJAJz8k4bfvJceBT2zXGIj0\noZa9d1z+qaSdwfwsNJkzzRyGkj/j8yv5FV7KNdSfsBbStlcuxUm4i9o5LXhIA+iQ\ngQIhAPzStAN8+Rz3dWKTjRWuCfy+Pwcmyjl3pkMPSiXzgSJlAiEA6BUZWHP0b542\nu8AizBT3b3xKr1AH2nkIx9OHq7F/QbECIHzqqpDypa8/QVuUZegpVrvvT/r7mn1s\nddS6cDtyJgLVAiEA1Z5OFQeuL2sekBRbMyP9WOW7zMBKakLL3TqL/3JCYxECIAkG\nl96uo1MjK/66X5zQXBG7F2DN2CbcYEz0r3c3vvfq\n-----END RSA PRIVATE KEY-----"
-  public_certificate = "-----BEGIN CERTIFICATE-----\nMIIBNzCB4gIJAKtwJkxUgNpzMA0GCSqGSIb3DQEBCwUAMCMxITAfBgNVBAoTGElu\ndGVybmV0IFdpZGdpdHMgUHR5IEx0ZDAeFw0xNzA0MTIyMTU3NTZaFw0xODA0MTIy\nMTU3NTZaMCMxITAfBgNVBAoTGEludGVybmV0IFdpZGdpdHMgUHR5IEx0ZDBcMA0G\nCSqGSIb3DQEBAQUAA0sAMEgCQQDlM8lz3BFJA6zBlsF63k9ajPVq3Q1WQoHQ3j35\n08DRKIfwqfV+CxL63W3dZrwL4TrjqorP5CQ36+I6OWALH2zVAgMBAAEwDQYJKoZI\nhvcNAQELBQADQQCEjHVQJoiiVpIIvDWF+4YDRReVuwzrvq2xduWw7CIsDWlYuGZT\nQKVY6tnTy2XpoUk0fqUvMB/M2HGQ1WqZGHs6\n-----END CERTIFICATE-----"
-}
-`
-
-var loadbalancerConfig = subnetConfig + `
-
-resource "oci_core_subnet" "WebSubnetAD2" {
-  availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.1.name}"
-  cidr_block = "10.0.2.0/24"
-  display_name = "WebSubnetAD2"
-  compartment_id = "${var.compartment_id}"
-  vcn_id = "${oci_core_virtual_network.t.id}"
-  route_table_id      = "${oci_core_virtual_network.t.default_route_table_id}"
-  security_list_ids = ["${oci_core_virtual_network.t.default_security_list_id}"]
-  dhcp_options_id     = "${oci_core_virtual_network.t.default_dhcp_options_id}"
-}
-
-data "oci_load_balancer_shapes" "t" {
-  compartment_id = "${var.compartment_id}"
-}
-resource "oci_load_balancer" "t" {
-  shape          = "${data.oci_load_balancer_shapes.t.shapes.0.name}"
-  compartment_id = "${var.compartment_id}"
-  display_name   = "lb_display_name"
-  subnet_ids     = ["${oci_core_subnet.WebSubnetAD1.id}", "${oci_core_subnet.WebSubnetAD2.id}"]
 }
 `
 
