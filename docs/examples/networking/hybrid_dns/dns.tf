@@ -11,6 +11,7 @@ variable "ssh_private_key" {}
 variable "AD" {
     default = "1"
 }
+
 variable "InstanceShape" {
     default = "VM.Standard1.1"
 }
@@ -18,9 +19,23 @@ variable "InstanceShape" {
 variable "InstanceOS" {
     default = "Oracle Linux"
 }
+
 variable "InstanceOSVersion" {
     default = "7.4"
 }
+
+variable "vcn_cidr" {
+    default = "10.0.0.0/16"
+}
+
+variable "mgmt_subnet_cidr" {
+    default = "10.0.10.0/24"
+}
+
+variable "onprem_cidr" {
+    default = "172.16.0.0/16"
+}
+
 provider "oci" {
     tenancy_ocid = "${var.tenancy_ocid}"
     user_ocid = "${var.user_ocid}"
@@ -32,16 +47,8 @@ provider "oci" {
 data "oci_identity_availability_domains" "ADs" {
     compartment_id = "${var.tenancy_ocid}"
 }
-variable "VCN-CIDR" {
-    default = "10.0.0.0/16"
-}
-
-variable "ONPREM-CIDR" {
-    default = "172.16.0.0/16"
-}
-
 resource "oci_core_virtual_network" "CoreVCN" {
-    cidr_block = "${var.VCN-CIDR}"
+    cidr_block = "${var.vcn_cidr}"
     compartment_id = "${var.compartment_ocid}"
     display_name = "mgmt-vcn"
 }
@@ -78,7 +85,7 @@ resource "oci_core_security_list" "MgmtSecurityList" {
             "min" = 53
         }
         protocol = "6"
-        source = "${var.VCN-CIDR}"
+        source = "${var.vcn_cidr}"
     },
     {
         udp_options {
@@ -86,7 +93,7 @@ resource "oci_core_security_list" "MgmtSecurityList" {
             "min" = 53
         }
         protocol = "17"
-        source = "${var.VCN-CIDR}"
+        source = "${var.vcn_cidr}"
     },
     {
         tcp_options {
@@ -94,7 +101,7 @@ resource "oci_core_security_list" "MgmtSecurityList" {
             "min" = 53
         }
         protocol = "6"
-        source = "${var.ONPREM-CIDR}"
+        source = "${var.onprem_cidr}"
     },
     {
         udp_options {
@@ -102,11 +109,11 @@ resource "oci_core_security_list" "MgmtSecurityList" {
             "min" = 53
         }
         protocol = "17"
-        source = "${var.ONPREM-CIDR}"
+        source = "${var.onprem_cidr}"
     },
 	{
         protocol = "all"
-        source = "${var.VCN-CIDR}"
+        source = "${var.vcn_cidr}"
     },
     {
         protocol = "6"
@@ -139,7 +146,7 @@ resource "oci_core_dhcp_options" "MgmtDhcpOptions" {
 
 resource "oci_core_subnet" "MgmtSubnet" {
     availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.AD - 1],"name")}"
-    cidr_block = "10.0.0.0/24"
+    cidr_block = "${var.mgmt_subnet_cidr}"
     display_name = "MgmtSubnet"
     compartment_id = "${var.compartment_ocid}"
     vcn_id = "${oci_core_virtual_network.CoreVCN.id}"
@@ -196,8 +203,11 @@ data "template_file" "generate_named_conf" {
     template = "${file("named.conf.tpl")}"
  
     vars {
-      vcn_cidr    = "${var.VCN-CIDR}"
-      onprem_cidr = "${var.ONPREM-CIDR}"
+      vcn_cidr           = "${var.vcn_cidr}"
+      onprem_cidr        = "${var.onprem_cidr}"
+      onprem_dns_zone    = "${var.onprem_dns_zone}"
+      onprem_dns_server1 = "${var.onprem_dns_server1}"
+      onprem_dns_server2 = "${var.onprem_dns_server2}"
     }
 }
 
