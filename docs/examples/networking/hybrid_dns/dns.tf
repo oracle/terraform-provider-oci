@@ -36,6 +36,18 @@ variable "onprem_cidr" {
     default = "172.16.0.0/16"
 }
 
+variable "onprem_dns_zone" {
+    default = "customer.net"
+}
+
+variable "onprem_dns_server1" {
+    default = "172.16.0.5"
+}
+
+variable "onprem_dns_server2" {
+    default = "172.16.31.5"
+}
+
 provider "oci" {
     tenancy_ocid = "${var.tenancy_ocid}"
     user_ocid = "${var.user_ocid}"
