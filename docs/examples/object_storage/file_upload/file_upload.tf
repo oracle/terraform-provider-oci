@@ -11,7 +11,7 @@ variable "user_ocid" {}
 variable "fingerprint" {}
 variable "private_key_path" {}
 variable "compartment_ocid" {}
-variable "region" { default = "us-phoenix-1" }
+variable "region" {}
 
 
 provider "oci" {
@@ -29,16 +29,27 @@ resource "oci_objectstorage_bucket" "t" {
   compartment_id = "${var.compartment_ocid}"
   namespace = "${data.oci_objectstorage_namespace.t.namespace}"
   name = "-tf-bucket"
-  access_type="ObjectRead"
 }
 
 resource "oci_objectstorage_object" "t" {
   namespace = "${data.oci_objectstorage_namespace.t.namespace}"
   bucket = "${oci_objectstorage_bucket.t.name}"
-  object = "-tf-object"
-  content = "${file("data.txt")}"
-  content_type = "text/plain"
-  metadata = {
-    "version" = "1"
-  }
+  object = "index.html"
+  content_language = "en-US"
+  content_type = "text/html"
+  content = "${file("index.html")}"
+}
+
+resource "oci_objectstorage_preauthrequest" "par" {
+  namespace = "${data.oci_objectstorage_namespace.t.namespace}"
+  bucket = "${oci_objectstorage_bucket.t.name}"
+  object = "${oci_objectstorage_object.t.object}"
+  name = "par"
+  access_type = "ObjectRead" // ObjectRead, ObjectWrite, ObjectReadWrite, AnyObjectWrite
+  time_expires = "2019-11-10T23:00:00Z"
+}
+
+// Note: this will only output the full, usable url the first time.
+output "par_request_url" {
+  value = "https://objectstorage.${var.region}.oraclecloud.com${oci_objectstorage_preauthrequest.par.access_uri}"
 }

@@ -19,21 +19,22 @@ func ObjectResource() *schema.Resource {
 		"namespace": {
 			Type:     schema.TypeString,
 			Required: true,
-			Computed: false,
+			ForceNew: true,
 		},
 		"bucket": {
 			Type:     schema.TypeString,
 			Required: true,
-			Computed: false,
+			ForceNew: true,
 		},
 		"object": {
 			Type:     schema.TypeString,
 			Required: true,
-			Computed: false,
+			ForceNew: true,
 		},
 		"content": {
 			Type:     schema.TypeString,
 			Optional: true,
+			ForceNew: true,
 			StateFunc: func(body interface{}) string {
 				v := body.(string)
 				if v == "" {
@@ -46,10 +47,12 @@ func ObjectResource() *schema.Resource {
 		"content_encoding": {
 			Type:     schema.TypeString,
 			Optional: true,
+			ForceNew: true,
 		},
 		"content_language": {
 			Type:     schema.TypeString,
 			Optional: true,
+			ForceNew: true,
 		},
 		"content_length": {
 			Type:     schema.TypeInt,
@@ -63,10 +66,12 @@ func ObjectResource() *schema.Resource {
 			Type:     schema.TypeString,
 			Optional: true,
 			Computed: true,
+			ForceNew: true,
 		},
 		"metadata": {
 			Type:     schema.TypeMap,
 			Optional: true,
+			ForceNew: true,
 		},
 	}
 
@@ -77,7 +82,6 @@ func ObjectResource() *schema.Resource {
 		Timeouts: crud.DefaultTimeout,
 		Create:   createObject,
 		Read:     readObject,
-		Update:   updateObject,
 		Delete:   deleteObject,
 		Schema:   objectSchema,
 	}
@@ -95,13 +99,6 @@ func readObject(d *schema.ResourceData, m interface{}) (e error) {
 	sync.D = d
 	sync.Client = m.(*OracleClients).client
 	return crud.ReadResource(sync)
-}
-
-func updateObject(d *schema.ResourceData, m interface{}) (e error) {
-	sync := &ObjectResourceCrud{}
-	sync.D = d
-	sync.Client = m.(*OracleClients).client
-	return crud.UpdateResource(d, sync)
 }
 
 func deleteObject(d *schema.ResourceData, m interface{}) (e error) {
@@ -135,22 +132,6 @@ func (s *ObjectResourceCrud) SetData() {
 }
 
 func (s *ObjectResourceCrud) Create() (e error) {
-	e = s.Update()
-	return
-}
-
-func (s *ObjectResourceCrud) Get() (e error) {
-	namespace := s.D.Get("namespace").(string)
-	bucket := s.D.Get("bucket").(string)
-	object := s.D.Get("object").(string)
-	res, e := s.Client.GetObject(baremetal.Namespace(namespace), bucket, object, &baremetal.GetObjectOptions{})
-	if e == nil {
-		s.Res = res
-	}
-	return
-}
-
-func (s *ObjectResourceCrud) Update() (e error) {
 	namespace := s.D.Get("namespace").(string)
 	bucket := s.D.Get("bucket").(string)
 	object := s.D.Get("object").(string)
@@ -176,6 +157,17 @@ func (s *ObjectResourceCrud) Update() (e error) {
 	_, e = s.Client.PutObject(baremetal.Namespace(namespace), bucket, object, []byte(content), opts)
 	if e == nil {
 		s.Res, e = s.Client.GetObject(baremetal.Namespace(namespace), bucket, object, &baremetal.GetObjectOptions{})
+	}
+	return
+}
+
+func (s *ObjectResourceCrud) Get() (e error) {
+	namespace := s.D.Get("namespace").(string)
+	bucket := s.D.Get("bucket").(string)
+	object := s.D.Get("object").(string)
+	res, e := s.Client.GetObject(baremetal.Namespace(namespace), bucket, object, &baremetal.GetObjectOptions{})
+	if e == nil {
+		s.Res = res
 	}
 	return
 }

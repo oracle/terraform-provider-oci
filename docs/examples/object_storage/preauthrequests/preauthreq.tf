@@ -14,7 +14,6 @@ variable "user_ocid" {}
 variable "fingerprint" {}
 variable "private_key_path" {}
 variable "compartment_ocid" {}
-variable "namespace_name" {}
 variable "region" {}
 
 variable "bucket_name" {}
@@ -28,9 +27,11 @@ provider "oci" {
   region = "${var.region}"
 }
 
+data "oci_objectstorage_namespace" "ns" {
+}
 
 resource "oci_objectstorage_preauthrequest" "parOnBucket" {
-  namespace = "${var.namespace_name}"
+  namespace = "${data.oci_objectstorage_namespace.ns.namespace}"
   bucket = "${var.bucket_name}"
   name = "parOnBucket"
   access_type = "AnyObjectWrite" //Other configurations accepted are ObjectWrite, ObjectReadWrite
@@ -38,7 +39,7 @@ resource "oci_objectstorage_preauthrequest" "parOnBucket" {
 }
 
 resource "oci_objectstorage_preauthrequest" "parOnObject" {
-  namespace = "${var.namespace_name}"
+  namespace = "${data.oci_objectstorage_namespace.ns.namespace}"
   bucket = "${var.bucket_name}"
   object = "${var.object_name}"
   name = "parOnObject"
@@ -46,10 +47,7 @@ resource "oci_objectstorage_preauthrequest" "parOnObject" {
   time_expires = "2019-11-10T23:00:00Z"
 }
 
+// Note: this will only output the full, usable url the first time.
 output "par_request_url" {
-  value = "${oci_objectstorage_preauthrequest.parOnObject.access_uri}"
-}
-
-output "par_request_name" {
-  value = "${oci_objectstorage_preauthrequest.parOnObject.name}"
+  value = "https://objectstorage.${var.region}.oraclecloud.com${oci_objectstorage_preauthrequest.parOnObject.access_uri}"
 }
