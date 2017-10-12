@@ -30,6 +30,7 @@ func (s *ResourceIdentityGroupTestSuite) SetupTest() {
 }
 
 func (s *ResourceIdentityGroupTestSuite) TestAccResourceIdentityGroup_basic() {
+	var token, tokenFn = tokenize()
 	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
@@ -37,13 +38,13 @@ func (s *ResourceIdentityGroupTestSuite) TestAccResourceIdentityGroup_basic() {
 			{
 				ImportState:       true,
 				ImportStateVerify: true,
-				Config: s.Config + `
+				Config: s.Config + tokenFn(`
 				resource "oci_identity_group" "t" {
-					name = "-tf-group"
+					name = "{{.token}}"
 					description = "tf test group"
-				}`,
+				}`, nil),
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "name", "-tf-group"),
+					resource.TestCheckResourceAttr(s.ResourceName, "name", token),
 					resource.TestCheckResourceAttr(s.ResourceName, "description", "tf test group"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", baremetal.ResourceActive),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
@@ -51,11 +52,11 @@ func (s *ResourceIdentityGroupTestSuite) TestAccResourceIdentityGroup_basic() {
 			},
 			// verify update
 			{
-				Config: s.Config + `
+				Config: s.Config + tokenFn(`
 				resource "oci_identity_group" "t" {
-					name = "-tf-group"
+					name = "{{.token}}"
 					description = "tf test group (updated)"
-				}`,
+				}`, nil),
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "description", "tf test group (updated)"),
 				),
