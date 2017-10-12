@@ -4,7 +4,6 @@ package main
 
 import (
 	"testing"
-	"time"
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
@@ -17,32 +16,32 @@ type DatasourceIdentityPolicyTestSuite struct {
 	Client       *baremetal.Client
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
-	TimeCreated  time.Time
 	Config       string
 	ResourceName string
 }
 
 func (s *DatasourceIdentityPolicyTestSuite) SetupTest() {
+	_, tokenFn := tokenize()
 	s.Client = testAccClient
 	s.Provider = testAccProvider
 	s.Providers = testAccProviders
-	s.Config = testProviderConfig() + `
+	s.Config = testProviderConfig() + tokenFn(`
 	resource "oci_identity_compartment" "t" {
 		name = "-tf-compartment"
 		description = "tf test compartment"
 	}
 
 	resource "oci_identity_group" "t" {
-		name = "-tf-group"
+		name = "{{.token}}"
 		description = "automated test group"
 	}
 
 	resource "oci_identity_policy" "p" {
-		name = "-tf-policy"
+		name = "{{.token}}"
 		description = "automated test policy"
 		compartment_id = "${oci_identity_compartment.t.id}"
 		statements = ["Allow group ${oci_identity_group.t.name} to read instances in compartment ${oci_identity_compartment.t.name}"]
-	}`
+	}`, nil)
 	s.ResourceName = "data.oci_identity_policies.p"
 }
 

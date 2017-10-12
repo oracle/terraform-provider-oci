@@ -19,26 +19,27 @@ type ResourceObjectstorageObjectTestSuite struct {
 	Client       *baremetal.Client
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
-	TimeCreated  baremetal.Time
 	Config       string
 	ResourceName string
-	Res          *baremetal.Object
+	Token        string
+	TokenFn      func(string, map[string]string) string
 }
 
 func (s *ResourceObjectstorageObjectTestSuite) SetupTest() {
+	s.Token, s.TokenFn = tokenize()
 	s.Client = testAccClient
 	s.Provider = testAccProvider
 	s.Providers = testAccProviders
-	s.Config = testProviderConfig() + `
+	s.Config = testProviderConfig() + s.TokenFn(`
 	data "oci_objectstorage_namespace" "t" {
 	}
 	
 	resource "oci_objectstorage_bucket" "t" {
 		compartment_id = "${var.compartment_id}"
 		namespace = "${data.oci_objectstorage_namespace.t.namespace}"
-		name = "-tf-bucket"
+		name = "{{.token}}"
 		access_type="ObjectRead"
-	}`
+	}`, nil)
 	s.ResourceName = "oci_objectstorage_object.t"
 }
 
@@ -63,7 +64,7 @@ func (s *ResourceObjectstorageObjectTestSuite) TestAccResourceObjectstorageObjec
 				}`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "namespace"),
-					resource.TestCheckResourceAttr(s.ResourceName, "bucket", "-tf-bucket"),
+					resource.TestCheckResourceAttr(s.ResourceName, "bucket", s.Token),
 					resource.TestCheckResourceAttr(s.ResourceName, "object", "-tf-object"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "content"),
 					resource.TestCheckResourceAttr(s.ResourceName, "content_type", "application/octet-stream"),

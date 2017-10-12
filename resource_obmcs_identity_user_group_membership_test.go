@@ -21,7 +21,7 @@ type ResourceIdentityUserGroupMembershipTestSuite struct {
 }
 
 func (s *ResourceIdentityUserGroupMembershipTestSuite) SetupTest() {
-	var _, tokenFn = tokenize()
+	_, tokenFn := tokenize()
 	s.Client = testAccClient
 	s.Provider = testAccProvider
 	s.Providers = testAccProviders

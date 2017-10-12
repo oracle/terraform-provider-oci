@@ -21,17 +21,18 @@ type DatasourceIdentityUserGroupMembershipsTestSuite struct {
 }
 
 func (s *DatasourceIdentityUserGroupMembershipsTestSuite) SetupTest() {
+	_, tokenFn := tokenize()
 	s.Client = testAccClient
 	s.Provider = testAccProvider
 	s.Providers = testAccProviders
-	s.Config = testProviderConfig() + `
+	s.Config = testProviderConfig() + tokenFn(`
 	resource "oci_identity_user" "t" {
-		name = "-tf-user"
+		name = "{{.token}}"
 		description = "tf test user"
 	}
 	
 	resource "oci_identity_group" "t" {
-		name = "-tf-group"
+		name = "{{.token}}"
 		description = "tf test group"
 	}
 	
@@ -39,7 +40,7 @@ func (s *DatasourceIdentityUserGroupMembershipsTestSuite) SetupTest() {
 		compartment_id = "${var.tenancy_ocid}"
 		user_id = "${oci_identity_user.t.id}"
 		group_id = "${oci_identity_group.t.id}"
-	}`
+	}`, nil)
 	s.ResourceName = "data.oci_identity_user_group_memberships.t"
 }
 
