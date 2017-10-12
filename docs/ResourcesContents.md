@@ -5,8 +5,8 @@ This file lists all the mutable resources in each category.
 - [console_history](https://github.com/oracle/terraform-provider-oci/tree/master/docs/resources/core/console_history.md)
 - [cpe](https://github.com/oracle/terraform-provider-oci/tree/master/docs/resources/core/cpe.md)
 - [dhcp_option](https://github.com/oracle/terraform-provider-oci/tree/master/docs/resources/core/dhcp_option.md)
-- [drg_attachment](https://github.com/oracle/terraform-provider-oci/tree/master/docs/resources/core/drg_attachment.md)
 - [drg](https://github.com/oracle/terraform-provider-oci/tree/master/docs/resources/core/drg.md)
+- [drg_attachment](https://github.com/oracle/terraform-provider-oci/tree/master/docs/resources/core/drg_attachment.md)
 - [image](https://github.com/oracle/terraform-provider-oci/tree/master/docs/resources/core/image.md)
 - [instance](https://github.com/oracle/terraform-provider-oci/tree/master/docs/resources/core/instance.md)
 - [internet_gateway](https://github.com/oracle/terraform-provider-oci/tree/master/docs/resources/core/internet_gateway.md)
@@ -16,9 +16,10 @@ This file lists all the mutable resources in each category.
 - [security_list](https://github.com/oracle/terraform-provider-oci/tree/master/docs/resources/core/security_list.md)
 - [subnet](https://github.com/oracle/terraform-provider-oci/tree/master/docs/resources/core/subnet.md)
 - [virtual_networks](https://github.com/oracle/terraform-provider-oci/tree/master/docs/resources/core/virtual_networks.md)
+- [vnic_attachment](https://github.com/oracle/terraform-provider-oci/tree/master/docs/resources/core/vnic_attachment.md)
+- [volume](https://github.com/oracle/terraform-provider-oci/tree/master/docs/resources/core/volume.md)
 - [volume_attachment](https://github.com/oracle/terraform-provider-oci/tree/master/docs/resources/core/volume_attachment.md)
 - [volume_backup](https://github.com/oracle/terraform-provider-oci/tree/master/docs/resources/core/volume_backup.md)
-- [volume](https://github.com/oracle/terraform-provider-oci/tree/master/docs/resources/core/volume.md)
 
 ## database
 - [db_system](https://github.com/oracle/terraform-provider-oci/tree/master/docs/resources/database/db_system.md)
@@ -30,8 +31,10 @@ This file lists all the mutable resources in each category.
 - [policy](https://github.com/oracle/terraform-provider-oci/tree/master/docs/resources/identity/policy.md)
 - [swift_password](https://github.com/oracle/terraform-provider-oci/tree/master/docs/resources/identity/swift_password.md)
 - [ui_password](https://github.com/oracle/terraform-provider-oci/tree/master/docs/resources/identity/ui_password.md)
-- [user_group_membership](https://github.com/oracle/terraform-provider-oci/tree/master/docs/resources/identity/user_group_membership.md)
 - [user](https://github.com/oracle/terraform-provider-oci/tree/master/docs/resources/identity/user.md)
+-
+[user_group_membership](https://github.com/oracle/terraform-provider-oci/tree/master/docs/resources/identity/user_group_membership.md)
+
 
 ## loadbalancer
 - [backend](https://github.com/oracle/terraform-provider-oci/tree/master/docs/resources/loadbalancer/backend.md)

@@ -44,17 +44,20 @@ This file lists all the immutable resources in each category.
 - [group](https://github.com/oracle/terraform-provider-oci/tree/master/docs/datasources/identity/group.md)
 - [policy](https://github.com/oracle/terraform-provider-oci/tree/master/docs/datasources/identity/policy.md)
 - [swift_password](https://github.com/oracle/terraform-provider-oci/tree/master/docs/datasources/identity/swift_password.md)
-- [user_group_membership](https://github.com/oracle/terraform-provider-oci/tree/master/docs/datasources/identity/user_group_membership.md)
 - [user](https://github.com/oracle/terraform-provider-oci/tree/master/docs/datasources/identity/user.md)
+-
+[user_group_membership](https://github.com/oracle/terraform-provider-oci/tree/master/docs/datasources/identity/user_group_membership.md)
+
 
 ## loadbalancer
 - [backend](https://github.com/oracle/terraform-provider-oci/tree/master/docs/datasources/loadbalancer/backend.md)
 - [backendset](https://github.com/oracle/terraform-provider-oci/tree/master/docs/datasources/loadbalancer/backendset.md)
 - [certificate](https://github.com/oracle/terraform-provider-oci/tree/master/docs/datasources/loadbalancer/certificate.md)
+-  [loadbalancer](https://github.com/oracle/terraform-provider-oci/tree/master/docs/datasources/loadbalancer/loadbalancer.md)
 - [loadbalancer_policy](https://github.com/oracle/terraform-provider-oci/tree/master/docs/datasources/loadbalancer/loadbalancer_policy.md)
 - [loadbalancer_protocol](https://github.com/oracle/terraform-provider-oci/tree/master/docs/datasources/loadbalancer/loadbalancer_protocol.md)
 - [loadbalancer_shape](https://github.com/oracle/terraform-provider-oci/tree/master/docs/datasources/loadbalancer/loadbalancer_shape.md)
-- [loadbalancer](https://github.com/oracle/terraform-provider-oci/tree/master/docs/datasources/loadbalancer/loadbalancer.md)
+
 
 ## objectstorage
 - [bucket_summary](https://github.com/oracle/terraform-provider-oci/tree/master/docs/datasources/objectstorage/bucket_summary.md)
