@@ -44,6 +44,7 @@ var createVnicDetailsSchema = &schema.Resource{
 	},
 }
 
+// vnicDetailsList is assumed to be non-nil and non-empty.
 func SetCreateVnicOptions(vnicDetailsList []interface{}) (vnicOpts *baremetal.CreateVnicOptions) {
 	vnic := vnicDetailsList[0].(map[string]interface{})
 
@@ -80,6 +81,7 @@ func SetCreateVnicOptions(vnicDetailsList []interface{}) (vnicOpts *baremetal.Cr
 	return
 }
 
+// vnicDetailsList is assumed to be non-nil and non-empty.
 func SetUpdateVnicOptions(vnicDetailsList []interface{}) (vnicOpts *baremetal.UpdateVnicOptions) {
 	vnic := vnicDetailsList[0].(map[string]interface{})
 	vnicOpts = &baremetal.UpdateVnicOptions{}

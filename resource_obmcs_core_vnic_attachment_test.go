@@ -83,8 +83,6 @@ func (s *ResourceCoreVnicAttachmentTestSuite) TestAccResourceCoreVnicAttachment_
 			},
 			{
 				// Update the VNIC
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + `
 					resource "oci_core_vnic_attachment" "va" {
 						instance_id = "${oci_core_instance.t.id}"
@@ -128,8 +126,6 @@ func (s *ResourceCoreVnicAttachmentTestSuite) TestAccResourceCoreVnicAttachment_
 			},
 			{
 				// Create a new VNIC and VNIC Attachment with different options.
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + `
 						resource "oci_core_vnic_attachment" "va" {
 							instance_id = "${oci_core_instance.t.id}"
