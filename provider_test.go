@@ -3,12 +3,8 @@
 package main
 
 import (
-	"errors"
 	"testing"
 
-	"fmt"
-
-	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/bmcs-go-sdk"
@@ -261,44 +257,4 @@ func TestProviderConfig(t *testing.T) {
 	assert.NotNil(t, client)
 	_, ok := client.(*OracleClients)
 	assert.True(t, ok)
-}
-
-// TestNoInstanceState determines if there is any state for a given name.
-func testNoInstanceState(name string) resource.TestCheckFunc {
-	return func(s *terraform.State) error {
-		ms := s.RootModule()
-		rs, ok := ms.Resources[name]
-		if !ok {
-			return nil
-		}
-
-		is := rs.Primary
-		if is == nil {
-			return nil
-		}
-
-		return errors.New("State exists for primary resource " + name)
-	}
-}
-
-// custom TestCheckFunc helper, returns a value associated with a key from an instance in the current state
-func fromInstanceState(s *terraform.State, name, key string) (string, error) {
-	ms := s.RootModule()
-	rs, ok := ms.Resources[name]
-	if !ok {
-		return "", fmt.Errorf("Not found: %s", name)
-	}
-
-	is := rs.Primary
-	if is == nil {
-		return "", fmt.Errorf("No primary instance: %s", name)
-	}
-
-	v, ok := is.Attributes[key]
-
-	if ok {
-		return v, nil
-	} else {
-		return "", fmt.Errorf("%s: Attribute '%s' not found", name, key)
-	}
 }
