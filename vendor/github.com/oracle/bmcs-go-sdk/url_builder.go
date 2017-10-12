@@ -3,13 +3,14 @@
 package baremetal
 
 import (
+	"errors"
 	"fmt"
 	"net/url"
 	"regexp"
 	"strconv"
 )
 
-type urlBuilderFn func(string, string, resourceName, url.Values, ...interface{}) string
+type urlBuilderFn func(string, string, resourceName, url.Values, ...interface{}) (string, error)
 
 var urlTemplateReg = regexp.MustCompile(`^.*%s+.*%s+.*$`)
 
@@ -21,25 +22,25 @@ func baseUrlHelper(urlTemplate string, service string, region string) string {
 	return fmt.Sprintf(urlTemplate, service, region)
 }
 
-func buildCoreURL(urlTemplate string, region string, resource resourceName, query url.Values, ids ...interface{}) string {
+func buildCoreURL(urlTemplate string, region string, resource resourceName, query url.Values, ids ...interface{}) (string, error) {
 	baseUrl := baseUrlHelper(urlTemplate, coreServiceAPI, region)
 	urlStr := fmt.Sprintf("%s/%s/%s", baseUrl, coreServiceAPIVersion, resource)
 	return buildURL(urlStr, query, ids...)
 }
 
-func buildIdentityURL(urlTemplate string, region string, resource resourceName, query url.Values, ids ...interface{}) string {
+func buildIdentityURL(urlTemplate string, region string, resource resourceName, query url.Values, ids ...interface{}) (string, error) {
 	baseUrl := baseUrlHelper(urlTemplate, identityServiceAPI, region)
 	urlStr := fmt.Sprintf("%s/%s/%s", baseUrl, identityServiceAPIVersion, resource)
 	return buildURL(urlStr, query, ids...)
 }
 
-func buildDatabaseURL(urlTemplate string, region string, resource resourceName, query url.Values, ids ...interface{}) string {
+func buildDatabaseURL(urlTemplate string, region string, resource resourceName, query url.Values, ids ...interface{}) (string, error) {
 	baseUrl := baseUrlHelper(urlTemplate, databaseServiceAPI, region)
 	urlStr := fmt.Sprintf("%s/%s/%s", baseUrl, databaseServiceAPIVersion, resource)
 	return buildURL(urlStr, query, ids...)
 }
 
-func buildObjectStorageURL(urlTemplate string, region string, resource resourceName, query url.Values, ids ...interface{}) string {
+func buildObjectStorageURL(urlTemplate string, region string, resource resourceName, query url.Values, ids ...interface{}) (string, error) {
 	baseUrl := baseUrlHelper(urlTemplate, objectStorageServiceAPI, region)
 	urlStr := fmt.Sprintf("%s/%s", baseUrl, resourceNamespaces)
 	if resource == resourcePAR {
@@ -48,20 +49,20 @@ func buildObjectStorageURL(urlTemplate string, region string, resource resourceN
 	return buildURL(urlStr, query, ids...)
 }
 
-func buildLoadBalancerURL(urlTemplate string, region string, resource resourceName, query url.Values, ids ...interface{}) string {
+func buildLoadBalancerURL(urlTemplate string, region string, resource resourceName, query url.Values, ids ...interface{}) (string, error) {
 	baseUrl := baseUrlHelper(urlTemplate, loadBalancerServiceAPI, region)
 	urlStr := fmt.Sprintf("%s/%s/%s", baseUrl, loadBalancerServiceAPIVersion, resource)
 	return buildURL(urlStr, query, ids...)
 }
 
-func buildURL(urlStr string, query url.Values, ids ...interface{}) string {
+func buildURL(urlStr string, query url.Values, ids ...interface{}) (string, error) {
 	const separator = "/"
 	for _, id := range ids {
 		var strVal string
 
 		switch id := id.(type) {
 		default:
-			panic("Unsupported type")
+			return "", errors.New("Unsupported type")
 		case bool:
 			strVal = strconv.FormatBool(id)
 		case uint64:
@@ -81,7 +82,10 @@ func buildURL(urlStr string, query url.Values, ids ...interface{}) string {
 		urlStr += strVal
 	}
 
-	u, _ := url.Parse(urlStr)
+	u, e := url.Parse(urlStr)
+	if e != nil {
+		return "", e
+	}
 	if query != nil {
 		q := u.Query()
 		for key, vals := range query {
@@ -93,6 +97,6 @@ func buildURL(urlStr string, query url.Values, ids ...interface{}) string {
 		u.RawQuery += q.Encode()
 	}
 
-	return u.String()
+	return u.String(), nil
 
 }
