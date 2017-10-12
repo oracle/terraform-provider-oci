@@ -7,6 +7,7 @@ import (
 
 	"regexp"
 
+	"fmt"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/bmcs-go-sdk"
@@ -35,6 +36,8 @@ func (s *ResourceCoreVnicAttachmentTestSuite) SetupTest() {
 }
 
 func (s *ResourceCoreVnicAttachmentTestSuite) TestAccResourceCoreVnicAttachment_basic() {
+
+	var vaId string
 
 	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -72,12 +75,57 @@ func (s *ResourceCoreVnicAttachmentTestSuite) TestAccResourceCoreVnicAttachment_
 					resource.TestCheckResourceAttrSet(s.VnicResourceName, "private_ip_address"),
 					resource.TestCheckResourceAttr(s.VnicResourceName, "public_ip_address", ""),
 					resource.TestCheckResourceAttr(s.VnicResourceName, "skip_source_dest_check", "false"),
+					func(ts *terraform.State) (err error) {
+						vaId, err = fromInstanceState(ts, s.ResourceName, "id")
+						return err
+					},
+				),
+			},
+			{
+				// Update the VNIC
+				Config: s.Config + `
+					resource "oci_core_vnic_attachment" "va" {
+						instance_id = "${oci_core_instance.t.id}"
+						display_name = "-tf-va1"
+						create_vnic_details {
+							subnet_id = "${oci_core_subnet.t.id}"
+							display_name = "-tf-vnic-2"
+							assign_public_ip = false
+							hostname_label = "myvnichostname"
+							skip_source_dest_check = true
+						}
+					}
+					data "oci_core_vnic" "v" {
+						vnic_id = "${oci_core_vnic_attachment.va.vnic_id}"
+					}`,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "compartment_id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-va1"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "instance_id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", baremetal.ResourceAttached),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "instance_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "subnet_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "vlan_tag"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "vnic_id"),
+					resource.TestCheckResourceAttrSet(s.VnicResourceName, "id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.display_name", "-tf-vnic-2"),
+					resource.TestCheckResourceAttrSet(s.VnicResourceName, "private_ip_address"),
+					resource.TestCheckResourceAttr(s.VnicResourceName, "public_ip_address", ""),
+					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.skip_source_dest_check", "true"),
+					func(ts *terraform.State) (err error) {
+						newId, err := fromInstanceState(ts, s.ResourceName, "id")
+						if newId != vaId {
+							return fmt.Errorf("Expected same ocid, got different.")
+						}
+						return err
+					},
 				),
 			},
 			{
 				// Create a new VNIC and VNIC Attachment with different options.
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + `
 						resource "oci_core_vnic_attachment" "va" {
 							instance_id = "${oci_core_instance.t.id}"
@@ -103,6 +151,14 @@ func (s *ResourceCoreVnicAttachmentTestSuite) TestAccResourceCoreVnicAttachment_
 					resource.TestMatchResourceAttr(s.VnicResourceName, "public_ip_address", regexp.MustCompile(`[0-9]+\.[0-9]+\.[0-9]+\.[0-9]`)),
 					resource.TestCheckResourceAttr(s.VnicResourceName, "hostname_label", "myvnichostname"),
 					resource.TestCheckResourceAttr(s.VnicResourceName, "skip_source_dest_check", "true"),
+					func(ts *terraform.State) (err error) {
+						newId, err := fromInstanceState(ts, s.ResourceName, "id")
+						if newId == vaId {
+							return fmt.Errorf("Expected new ocid, got the same.")
+						}
+						vaId = newId
+						return err
+					},
 				),
 			},
 			{
@@ -131,6 +187,13 @@ func (s *ResourceCoreVnicAttachmentTestSuite) TestAccResourceCoreVnicAttachment_
 					resource.TestCheckResourceAttr(s.ResourceName, "state", baremetal.ResourceAttached),
 					resource.TestCheckResourceAttr(s.VnicResourceName, "private_ip_address", "10.0.1.20"),
 					resource.TestCheckResourceAttr(s.VnicResourceName, "skip_source_dest_check", "true"),
+					func(ts *terraform.State) (err error) {
+						newId, err := fromInstanceState(ts, s.ResourceName, "id")
+						if newId != vaId {
+							return fmt.Errorf("Expected same ocid, got different.")
+						}
+						return err
+					},
 				),
 			},
 		},

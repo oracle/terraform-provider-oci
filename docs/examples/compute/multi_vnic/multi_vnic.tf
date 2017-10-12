@@ -7,7 +7,7 @@ variable "region" {}
 variable "ssh_public_key" {}
 
 variable "SecondaryVnicCount" {
-    default = 2
+    default = 1
 }
 
 # Choose an Availability Domain
