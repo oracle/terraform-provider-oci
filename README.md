@@ -19,7 +19,7 @@ Oracle customers now have access to an enterprise class, developer friendly orch
 This Terraform provider is OSS, available to all OCI customers at no charge.
 
 ## Compatibility
-The provider is compatible with Terraform .9.\*.
+The provider is compatible with Terraform v0.10.x.
 
 ### Coverage
 The Terraform provider provides coverage for the entire OCI API, with some minor exceptions.
@@ -28,11 +28,11 @@ The Terraform provider provides coverage for the entire OCI API, with some minor
 Be sure to read the FAQ and Writing Terraform configurations for OCI in [/docs](https://github.com/oracle/terraform-provider-oci/tree/master/docs).
 
 ### Download Terraform
-Download the appropriate **.9.x binary** for your platform.  
+Download the appropriate **v0.10.x binary** for your platform.  
 https://www.terraform.io/downloads.html
 
-**NOTE** Terraform v.10.x introduces a change to plugin management where 
-previous v.9.x configuration no longer applies. See note below.
+**NOTE** Terraform v0.10.x introduces a change to plugin management where 
+previous v0.9.x configuration no longer applies. See note below.
 
 
 ### Install Terraform
@@ -41,9 +41,9 @@ https://www.terraform.io/intro/getting-started/install.html
 ### Get the Oracle Cloud Infrastructure Terraform provider
 https://github.com/oracle/terraform-provider-oci/releases
 
-Unpack the provider. Terraform v.10.x introduces a change to plugin 
-management where v.9.x configuration no longer applies. To be compatible 
-with both terraform v.9.x and v.10.x, put the provider in the following 
+Unpack the provider. Terraform v0.10.x introduces a change to plugin 
+management where v0.9.x configuration no longer applies. To be compatible 
+with both terraform v0.9.x and v0.10.x, put the provider in the following 
 location:
 
 #### On \*nix
@@ -52,7 +52,7 @@ location:
 ```
 
 Then create the `~/.terraformrc` file that specifies the path to the 
-`oci` provider **(only required for v.9.x)**.
+`oci` provider **(only required for v0.9.x)**.
 ```
 providers {
   oci = "~/.terraform.d/plugins/terraform-provider-oci"
@@ -65,7 +65,7 @@ providers {
 ```
 
 Then create `%APPDATA%/terraform.rc` that specifies the path to the 
-`oci` provider **(only required for v.9.x)**.
+`oci` provider **(only required for v0.9.x)**.
 ```
 providers {
   oci = "%appdata%/terraform.d/plugins/terraform-provider-oci"
@@ -113,12 +113,21 @@ Edit it to include the OCID of the compartment you want to create the VCN. Remem
 
 You should always plan, then apply a configuration -
 ```
-# from the compute/instance directory
+# From the compute/instance directory
+
+# Initialize the plugin for this template directory
+$ terraform init
+
+# Run the plan command to see what will happen.
 $ terraform plan
   
-# Make sure the plan looks right.
+# If the plan looks right, apply it.
 $ terraform apply
+
+# If you are done with this infrastructure, take it down
+$ terraform destroy
 ```
+
 ## OCI resource and datasource details
 https://github.com/oracle/terraform-provider-oci/tree/master/docs
 
