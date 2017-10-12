@@ -22,12 +22,13 @@ type ResourceIdentityAPIKeyTestSuite struct {
 }
 
 func (s *ResourceIdentityAPIKeyTestSuite) SetupTest() {
+	_, tokenFn := tokenize()
 	s.Client = testAccClient
 	s.Provider = testAccProvider
 	s.Providers = testAccProviders
-	s.Config = testProviderConfig() + `
+	s.Config = testProviderConfig() + tokenFn(`
 	resource "oci_identity_user" "t" {
-		name = "-tf-user"
+		name = "{{.token}}"
 		description = "automated test user"
 	}
 	resource "oci_identity_api_key" "t" {
@@ -43,7 +44,7 @@ mXlrQB7nNKsJrrv5fHwaPDrAY4iNP2W0q3LRpyNigJ6cgRuGJhHa82iHPmxgIx8m
 fwIDAQAB
 -----END PUBLIC KEY-----
 EOF
-	}`
+	}`, nil)
 	s.ResourceName = "oci_identity_api_key.t"
 }
 

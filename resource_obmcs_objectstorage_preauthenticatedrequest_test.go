@@ -19,22 +19,25 @@ type ResourceObjectstoragePARTestSuite struct {
 	Providers    map[string]terraform.ResourceProvider
 	Config       string
 	ResourceName string
+	Token        string
+	TokenFn      func(string, map[string]string) string
 }
 
 func (s *ResourceObjectstoragePARTestSuite) SetupTest() {
+	s.Token, s.TokenFn = tokenize()
 	s.Client = testAccClient
 	s.Provider = testAccProvider
 	s.Providers = testAccProviders
-	s.Config = testProviderConfig() + `
+	s.Config = testProviderConfig() + s.TokenFn(`
 	data "oci_objectstorage_namespace" "t" {
 	}
 	
 	resource "oci_objectstorage_bucket" "t" {
 		compartment_id = "${var.compartment_id}"
 		namespace = "${data.oci_objectstorage_namespace.t.namespace}"
-		name = "-tf-bucket"
+		name = "{{.token}}"
 		access_type="ObjectRead"
-	}`
+	}`, nil)
 
 	s.ResourceName = "oci_objectstorage_preauthrequest.t"
 }
@@ -57,7 +60,7 @@ func (s *ResourceObjectstoragePARTestSuite) TestAccResourceObjectstoragePAR_basi
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "name", "-tf-par"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "namespace"),
-					resource.TestCheckResourceAttr(s.ResourceName, "bucket", "-tf-bucket"),
+					resource.TestCheckResourceAttr(s.ResourceName, "bucket", s.Token),
 					resource.TestCheckResourceAttr(s.ResourceName, "access_type", "AnyObjectWrite"),
 					resource.TestCheckResourceAttr(s.ResourceName, "time_expires", "2019-11-10T23:00:00Z"),
 				),

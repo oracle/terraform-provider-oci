@@ -30,7 +30,7 @@ func (s *ResourceIdentityGroupTestSuite) SetupTest() {
 }
 
 func (s *ResourceIdentityGroupTestSuite) TestAccResourceIdentityGroup_basic() {
-	var token, tokenFn = tokenize()
+	token, tokenFn := tokenize()
 	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{

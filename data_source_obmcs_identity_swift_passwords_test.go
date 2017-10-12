@@ -21,18 +21,19 @@ type DatasourceIdentitySwiftPasswordsTestSuite struct {
 }
 
 func (s *DatasourceIdentitySwiftPasswordsTestSuite) SetupTest() {
+	_, tokenFn := tokenize()
 	s.Client = testAccClient
 	s.Provider = testAccProvider
 	s.Providers = testAccProviders
-	s.Config = testProviderConfig() + `
+	s.Config = testProviderConfig() + tokenFn(`
 	resource "oci_identity_user" "t" {
-		name = "-tf-user"
+		name = "{{.token}}"
 		description = "tf test user"
 	}
 	resource "oci_identity_swift_password" "t" {
 		user_id = "${oci_identity_user.t.id}"
 		description = "tf test user swift password"
-	}`
+	}`, nil)
 	s.ResourceName = "data.oci_identity_swift_passwords.p"
 }
 

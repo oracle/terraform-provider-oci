@@ -19,20 +19,23 @@ type DatasourceObjectstorageObjectTestSuite struct {
 	Providers    map[string]terraform.ResourceProvider
 	Config       string
 	ResourceName string
+	Token        string
+	TokenFn      func(string, map[string]string) string
 }
 
 func (s *DatasourceObjectstorageObjectTestSuite) SetupTest() {
+	s.Token, s.TokenFn = tokenize()
 	s.Client = testAccClient
 	s.Provider = testAccProvider
 	s.Providers = testAccProviders
-	s.Config = testProviderConfig() + `
+	s.Config = testProviderConfig() + s.TokenFn(`
 	data "oci_objectstorage_namespace" "t" {
 	}
 	
 	resource "oci_objectstorage_bucket" "t" {
 		compartment_id = "${var.compartment_id}"
 		namespace = "${data.oci_objectstorage_namespace.t.namespace}"
-		name = "-tf-bucket"
+		name = "{{.token}}"
 		access_type="ObjectRead"
 	}
 	
@@ -41,7 +44,7 @@ func (s *DatasourceObjectstorageObjectTestSuite) SetupTest() {
 		bucket = "${oci_objectstorage_bucket.t.name}"
 		object = "-tf-object"
 		content = "123"
-	}`
+	}`, nil)
 
 	s.ResourceName = "data.oci_objectstorage_objects.t"
 }
@@ -67,7 +70,7 @@ func (s *DatasourceObjectstorageObjectTestSuite) TestAccDatasourceObjectstorageO
 				}`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "namespace"),
-					resource.TestCheckResourceAttr(s.ResourceName, "bucket", "-tf-bucket"),
+					resource.TestCheckResourceAttr(s.ResourceName, "bucket", s.Token),
 					resource.TestCheckResourceAttr(s.ResourceName, "objects.#", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "objects.0.name", "-tf-object"),
 					resource.TestCheckResourceAttr(s.ResourceName, "objects.0.size", "3"),

@@ -33,25 +33,26 @@ func (s *ResourceObjectstorageBucketTestSuite) SetupTest() {
 }
 
 func (s *ResourceObjectstorageBucketTestSuite) TestAccResourceObjectstorageBucket_basic() {
+	token, tokenFn := tokenize()
 	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
 				ImportState:       true,
 				ImportStateVerify: true,
-				Config: s.Config + `
+				Config: s.Config + tokenFn(`
 				resource "oci_objectstorage_bucket" "t" {
 					namespace = "${data.oci_objectstorage_namespace.t.namespace}"
 					compartment_id = "${var.compartment_id}"
-					name = "-tf-bucket"
+					name = "{{.token}}"
 					metadata = {
 						"content-type" = "text/plain"
 					}
-				}`,
+				}`, nil),
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "namespace"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "compartment_id"),
-					resource.TestCheckResourceAttr(s.ResourceName, "name", "-tf-bucket"),
+					resource.TestCheckResourceAttr(s.ResourceName, "name", token),
 					resource.TestCheckResourceAttr(s.ResourceName, "metadata.content-type", "text/plain"),
 				),
 			},
