@@ -1,0 +1,62 @@
+# Terraform Provider Documentation
+
+  Datasources|  Resources
+--|--
+Core| Core
+1  |1
+a  |
+b  |
+c  |
+d  |
+e  |
+f  |
+g  |
+h  |
+i  |
+j  |
+k  |
+legal  |
+m  |
+n  |
+o  |
+2  |
+3  |
+4  |
+5  |
+6  |
+7  |
+8  |
+9  |
+0 |  0
+Database  | Database
+1  |1
+2  |
+3  |
+4  |
+5  |
+6  |
+7  |
+8  |
+9  |
+Identity  | Identity
+ [api_key](https://github.com/oracle/terraform-provider-oci/tree/master/docs/datasources/identity/api_key.md) |[api_key](https://github.com/oracle/terraform-provider-oci/tree/master/docs/resources/identity/api_key.md)
+ [availability_domain](https://github.com/oracle/terraform-provider-oci/tree/master/docs/datasources/identity/availability_domain.md) |[compartment](https://github.com/oracle/terraform-provider-oci/tree/master/docs/resources/identity/compartment.md)
+ [compartment](https://github.com/oracle/terraform-provider-oci/tree/master/docs/datasources/identity/compartment.md) |[group](https://github.com/oracle/terraform-provider-oci/tree/master/docs/resources/identity/group.md)
+ [group](https://github.com/oracle/terraform-provider-oci/tree/master/docs/datasources/identity/group.md) |[policy](https://github.com/oracle/terraform-provider-oci/tree/master/docs/resources/identity/policy.md)
+ [policy](https://github.com/oracle/terraform-provider-oci/tree/master/docs/datasources/identity/policy.md) |[swift_password](https://github.com/oracle/terraform-provider-oci/tree/master/docs/resources/identity/swift_password.md)
+ [swift_password](https://github.com/oracle/terraform-provider-oci/tree/master/docs/datasources/identity/swift_password.md) |[ui_password](https://github.com/oracle/terraform-provider-oci/tree/master/docs/resources/identity/ui_password.md)
+ [user](https://github.com/oracle/terraform-provider-oci/tree/master/docs/datasources/identity/user.md) |[user](https://github.com/oracle/terraform-provider-oci/tree/master/docs/resources/identity/user.md)
+ [user_group_membership](https://github.com/oracle/terraform-provider-oci/tree/master/docs/datasources/identity/user_group_membership.md) |[user_group_membership](https://github.com/oracle/terraform-provider-oci/tree/master/docs/resources/identity/user_group_membership.md)
+Load Balancer  | Load Balancer
+ [backend](https://github.com/oracle/terraform-provider-oci/tree/master/docs/datasources/loadbalancer/backend.md)   |[backend](https://github.com/oracle/terraform-provider-oci/tree/master/docs/resources/loadbalancer/backend.md)
+ [backendset](https://github.com/oracle/terraform-provider-oci/tree/master/docs/datasources/loadbalancer/backendset.md) |[backendset](https://github.com/oracle/terraform-provider-oci/tree/master/docs/resources/loadbalancer/backendset.md)
+ [certificate](https://github.com/oracle/terraform-provider-oci/tree/master/docs/datasources/loadbalancer/certificate.md) |[certificate](https://github.com/oracle/terraform-provider-oci/tree/master/docs/resources/loadbalancer/certificate.md)
+ [loadbalancer](https://github.com/oracle/terraform-provider-oci/tree/master/docs/datasources/loadbalancer/loadbalancer.md)  |[listener](https://github.com/oracle/terraform-provider-oci/tree/master/docs/resources/loadbalancer/listener.md)
+ [loadbalancer_policy](https://github.com/oracle/terraform-provider-oci/tree/master/docs/datasources/loadbalancer/loadbalancer_policy.md)  |[loadbalancer](https://github.com/oracle/terraform-provider-oci/tree/master/docs/resources/loadbalancer/loadbalancer.md)
+ [loadbalancer_protocol](https://github.com/oracle/terraform-provider-oci/tree/master/docs/datasources/loadbalancer/loadbalancer_protocol.md) |
+ [loadbalancer_shape](https://github.com/oracle/terraform-provider-oci/tree/master/docs/datasources/loadbalancer/loadbalancer_shape.md) |
+Object Storage  | Object Storage
+[bucket_summary](https://github.com/oracle/terraform-provider-oci/tree/master/docs/datasources/objectstorage/bucket_summary.md)  |[bucket](https://github.com/oracle/terraform-provider-oci/tree/master/docs/resources/objectstorage/bucket.md)
+[namespace](https://github.com/oracle/terraform-provider-oci/tree/master/docs/datasources/objectstorage/namespace.md)|[object](https://github.com/oracle/terraform-provider-oci/tree/master/docs/resources/objectstorage/object.md)
+[object_head](https://github.com/oracle/terraform-provider-oci/tree/master/docs/datasources/objectstorage/object_head.md) [objects](https://github.com/oracle/terraform-provider-oci/tree/master/docs/datasources/objectstorage/objects.md) |
+[objects](https://github.com/oracle/terraform-provider-oci/tree/master/docs/datasources/objectstorage/objects.md)|
