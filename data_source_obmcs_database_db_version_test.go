@@ -25,18 +25,15 @@ func (s *DatabaseDBVersionTestSuite) SetupTest() {
 	s.Client = testAccClient
 	s.Provider = testAccProvider
 	s.Providers = testAccProviders
-	s.Config = `
-    data "oci_database_db_versions" "t" {
-      compartment_id = "${var.compartment_id}"
-    }
-  `
-	s.Config += testProviderConfig()
+	s.Config = testProviderConfig() + `
+	data "oci_database_db_versions" "t" {
+		compartment_id = "${var.compartment_id}"
+	}`
 	s.ResourceName = "data.oci_database_db_versions.t"
 }
 
-func (s *DatabaseDBVersionTestSuite) TestReadDBVersions() {
-
-	resource.UnitTest(s.T(), resource.TestCase{
+func (s *DatabaseDBVersionTestSuite) TestAccDatasourceDatabaseDBVersion_basic() {
+	resource.Test(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
@@ -45,7 +42,6 @@ func (s *DatabaseDBVersionTestSuite) TestReadDBVersions() {
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-
 					resource.TestCheckResourceAttrSet(s.ResourceName, "db_versions.0.version"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "db_versions.1.version"),
 				),
@@ -55,6 +51,6 @@ func (s *DatabaseDBVersionTestSuite) TestReadDBVersions() {
 	)
 }
 
-func TestDatabaseDBVersionTestSuite(t *testing.T) {
+func TestDatasourceDatabaseDBVersionTestSuite(t *testing.T) {
 	suite.Run(t, new(DatabaseDBVersionTestSuite))
 }
