@@ -4,7 +4,7 @@
     #   | |_| |  _ < / ___ | |___| |___| |___
     #    \___/|_| \_/_/   \_\____|_____|_____|
 ***
-This example creates a VCN with two management subnets, in two different availability domains. It then launches an instance in each of these management subnets and configures them to perform DNS forwarding for DNS hostnames in the VCN, and the DNS hostnames in the on-premises network. See document for more details on the setup. 
+This example creates a VCN with two management subnets, in two different availability domains. It then launches an instance in each of these management subnets and configures them to perform DNS forwarding for DNS hostnames in the VCN, and the DNS hostnames in the on-premises network. See ![Hybrid DNS configuration using DNS VMs in VCN.md](Hybrid-DNS-configuration-using-DNS-VM-in-VCN.md) for more details on the setup. 
 
 To enable resolution of DNS hostnames from on-premises, you will need to update the default DHCP options of the VCN to use the DNS VMs as the DNS resolvers.
 
