@@ -14,11 +14,12 @@ else
 	@echo Err! `make release` requires a version argument 
 endif
 
-zip: ;@cd bin
-	zip -r windows.zip windows_386 windows_amd64
-	tar -czvf darwin.tar.gz darwin_386 darwin_amd64
-	tar -czvf freebsd.tar.gz freebsd_386 freebsd_amd64 freebsd_arm
-	tar -czvf linux.tar.gz linux_386 linux_amd64 linux_arm
+zip: 
+	@cd bin; \
+	zip -r windows.zip windows_386 windows_amd64; \
+	tar -czvf darwin.tar.gz darwin_386 darwin_amd64; \
+	tar -czvf freebsd.tar.gz freebsd_386 freebsd_amd64 freebsd_arm; \
+	tar -czvf linux.tar.gz linux_386 linux_amd64 linux_arm; \
 	tar -czvf openbsd.tar.gz openbsd_386 openbsd_amd64
 
 ### `make test run=TestResourceCore debug=1`

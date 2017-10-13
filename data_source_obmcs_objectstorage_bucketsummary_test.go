@@ -60,8 +60,9 @@ func (s *DatasourceObjectstorageBucketSummaryTestSuite) TestAccDatasourceObjects
 					resource.TestCheckResourceAttrSet(s.ResourceName, "compartment_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "namespace"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "bucket_summaries.#"),
-					resource.TestCheckResourceAttr(s.ResourceName, "bucket_summaries.#", "1"),
-					resource.TestCheckResourceAttr(s.ResourceName, "bucket_summaries.0.name", s.Token),
+					// todo: these assertions wont be reliable until data sources support filters
+					//resource.TestCheckResourceAttr(s.ResourceName, "bucket_summaries.#", "1"),
+					//resource.TestCheckResourceAttr(s.ResourceName, "bucket_summaries.0.name", s.Token),
 				),
 			},
 		},
