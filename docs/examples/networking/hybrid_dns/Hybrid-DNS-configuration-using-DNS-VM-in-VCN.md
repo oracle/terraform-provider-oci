@@ -9,7 +9,7 @@ This document describes the process to enable resolution of DNS names of instanc
 
 ### Case1 – DNS resolution from on-premises to VCN
 
-!(images/architecture-onprem-to-vcn.png)
+![On-premises to VCN](images/architecture-onprem-to-vcn.png)
 
 When an on-premises client is trying to connecting to cloud VCN resources:
 
@@ -22,7 +22,7 @@ When an on-premises client is trying to connecting to cloud VCN resources:
 
 #### Case2 – DNS resolution from VCN to on-premises
 
-!(images/architecture-vcn-to-onprem.png)
+![VCN to on-premises](images/architecture-vcn-to-onprem.png)
 
 When an instance in the VCN is trying to connect to an on-premises instance:
 
@@ -73,6 +73,6 @@ zone &quot;customer.net&quot; {
 
 5. Configure forwarding on the on-prem DNS servers for &#39;VCN domain&#39; (custvcn.oraclevcn.com) to be forwarded to DNS VM in the VCN.
    Below is a snapshot of the setup in an AD/DNS server.
-   !(images/ad-cond-forwarding-setup.png)
+   ![AD conditional forwarding setup](images/ad-cond-forwarding-setup.png)
 
 
