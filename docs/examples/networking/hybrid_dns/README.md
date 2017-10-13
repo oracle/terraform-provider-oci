@@ -13,6 +13,8 @@ Once you apply the configuration, you will need to update the default DHCP optio
 * Source env-vars
   * `$ . env-vars`
 
+Once the environment is built, the DNS VMs will be able to query the DNS hostnames within the VCN. You can run 'nslookup <fqdn-of-an-instance-in-vcn> <DNS VM IP>' from any instance in the VCN to verify this. By specifying an IP address at the end of the 'nslookup' command, the DNS query is sent to the DNS service at that IP address.
+
 ### Files in the configuration
 
 #### `env-vars`
