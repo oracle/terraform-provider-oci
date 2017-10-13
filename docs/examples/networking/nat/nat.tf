@@ -28,11 +28,11 @@ variable "vcn_cidr" {
 }
 
 variable "mgmt_subnet_cidr" {
-    default = "10.0.0.0/16"
+    default = "10.0.0.0/24"
 }
 
 variable "private_subnet_cidr" {
-    default = "10.0.0.0/16"
+    default = "10.0.1.0/24"
 }
 
 provider "oci" {
