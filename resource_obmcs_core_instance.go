@@ -58,6 +58,7 @@ func InstanceResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+				ForceNew: true,
 			},
 			"id": {
 				Type:     schema.TypeString,
@@ -71,6 +72,7 @@ func InstanceResource() *schema.Resource {
 			"ipxe_script": {
 				Type:     schema.TypeString,
 				Optional: true,
+				ForceNew: true,
 			},
 			"metadata": {
 				Type:     schema.TypeMap,
@@ -100,6 +102,7 @@ func InstanceResource() *schema.Resource {
 			"subnet_id": {
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 				ForceNew: true,
 			},
 			"time_created": {
@@ -108,12 +111,10 @@ func InstanceResource() *schema.Resource {
 			},
 			"public_ip": {
 				Type:     schema.TypeString,
-				Required: false,
 				Computed: true,
 			},
 			"private_ip": {
 				Type:     schema.TypeString,
-				Required: false,
 				Computed: true,
 			},
 		},
@@ -352,8 +353,10 @@ func (s *InstanceResourceCrud) SetData() {
 		return
 	}
 
+	s.D.Set("hostname_label", vnic.HostnameLabel)
 	s.D.Set("public_ip", vnic.PublicIPAddress)
 	s.D.Set("private_ip", vnic.PrivateIPAddress)
+	s.D.Set("subnet_id", vnic.SubnetID)
 
 	RefreshCreateVnicDetails(s.D, vnic)
 }
