@@ -1,5 +1,19 @@
 # Terraform Provider Documentation
 
+Datasources  |  Resources
+--|--
+**Core**  |  **Core**
+[console_history](https://github.com/oracle/terraform-provider-oci/tree/master/docs/datasources/core/console_history.md)  |[console_history](https://github.com/oracle/terraform-provider-oci/tree/master/docs/resources/core/console_history.md)  |  
+[cpes](https://github.com/oracle/terraform-provider-oci/tree/master/docs/datasources/core/cpes.md)  |[cpe](https://github.com/oracle/terraform-provider-oci/tree/master/docs/resources/core/cpe.md)  |  
+[dhcp_options](https://github.com/oracle/terraform-provider-oci/tree/master/docs/datasources/core/dhcp_options.md)  |[dhcp_option](https://github.com/oracle/terraform-provider-oci/tree/master/docs/resources/core/dhcp_option.md)  |  
+[drg_attachments](https://github.com/oracle/terraform-provider-oci/tree/master/docs/datasources/core/drg_attachments.md) |[drg](https://github.com/oracle/terraform-provider-oci/tree/master/docs/resources/core/drg.md)  |  
+  |  
+  |  
+  |  
+  |  
+  |  
+  |  
+
 Datasources|  Resources
 --|--
 **Core**  |  **Core**
