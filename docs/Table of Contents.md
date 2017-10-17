@@ -2,7 +2,7 @@
 
 This table lists all of the available OCI resources and data sources.
 
-Datasources  |  Resources
+Data Sources  |  OCI Resources
 --|--
 **Core**  |  **Core**
 [console_history](https://github.com/oracle/terraform-provider-oci/tree/master/docs/datasources/core/console_history.md)  |[console_history](https://github.com/oracle/terraform-provider-oci/tree/master/docs/resources/core/console_history.md)
@@ -59,4 +59,4 @@ Datasources  |  Resources
 [bucket_summary](https://github.com/oracle/terraform-provider-oci/tree/master/docs/datasources/objectstorage/bucket_summary.md)  |[bucket](https://github.com/oracle/terraform-provider-oci/tree/master/docs/resources/objectstorage/bucket.md)
 [namespace](https://github.com/oracle/terraform-provider-oci/tree/master/docs/datasources/objectstorage/namespace.md)|[object](https://github.com/oracle/terraform-provider-oci/tree/master/docs/resources/objectstorage/object.md)
 [object_head](https://github.com/oracle/terraform-provider-oci/tree/master/docs/datasources/objectstorage/object_head.md)| |xccb
- [objects](https://github.com/oracle/terraform-provider-oci/tree/master/docs/datasources/objectstorage/objects.md)  | 
+ [objects](https://github.com/oracle/terraform-provider-oci/tree/master/docs/datasources/objectstorage/objects.md)  |
