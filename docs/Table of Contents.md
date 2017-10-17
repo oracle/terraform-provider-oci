@@ -2,7 +2,7 @@
 
 This table lists all of the available OCI resources and data sources.
 
-Data Sources  |  OCI Resources
+ Data Sources  |   OCI Resources
 --|--
 **Core**  |  **Core**
 [console_history](https://github.com/oracle/terraform-provider-oci/tree/master/docs/datasources/core/console_history.md)  |[console_history](https://github.com/oracle/terraform-provider-oci/tree/master/docs/resources/core/console_history.md)
