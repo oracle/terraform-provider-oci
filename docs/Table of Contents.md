@@ -2,7 +2,6 @@
 
 Datasources|  Resources
 --|--
-|
 **Core**  |  **Core**
 [console_history](https://github.com/oracle/terraform-provider-oci/tree/master/docs/datasources/core/console_history.md)  |[console_history](https://github.com/oracle/terraform-provider-oci/tree/master/docs/resources/core/console_history.md)
 [cpes](https://github.com/oracle/terraform-provider-oci/tree/master/docs/datasources/core/cpes.md)  |[cpe](https://github.com/oracle/terraform-provider-oci/tree/master/docs/resources/core/cpe.md)
