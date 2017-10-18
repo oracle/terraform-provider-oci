@@ -181,7 +181,7 @@ func GetTestProvider() *OracleClients {
 	d.Set("private_key_path", getRequiredEnvSetting("private_key_path"))
 	d.Set("private_key_password", getEnvSetting("private_key_password", ""))
 	d.Set("private_key", getEnvSetting("private_key", ""))
-	d.Set("region", getEnvSetting("region", "true"))
+	d.Set("region", getEnvSetting("region", "us-phoenix-1"))
 	d.Set("disable_auto_retries", true)
 
 	client, err := providerConfig(d)
