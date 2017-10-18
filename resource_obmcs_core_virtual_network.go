@@ -48,8 +48,10 @@ func VirtualNetworkResource() *schema.Resource {
 				Optional: true,
 			},
 			"dns_label": {
-				Type:     schema.TypeString,
-				Optional: true,
+				Type:             schema.TypeString,
+				Optional:         true,
+				ForceNew:         true,
+				DiffSuppressFunc: crud.EqualIgnoreCaseSuppressDiff,
 			},
 			"id": {
 				Type:     schema.TypeString,
@@ -68,34 +70,34 @@ func VirtualNetworkResource() *schema.Resource {
 }
 
 func createVirtualNetwork(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*baremetal.Client)
+	client := m.(*OracleClients)
 	sync := &VirtualNetworkResourceCrud{}
 	sync.D = d
-	sync.Client = client
+	sync.Client = client.client
 	return crud.CreateResource(d, sync)
 }
 
 func readVirtualNetwork(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*baremetal.Client)
+	client := m.(*OracleClients)
 	sync := &VirtualNetworkResourceCrud{}
 	sync.D = d
-	sync.Client = client
+	sync.Client = client.client
 	return crud.ReadResource(sync)
 }
 
 func updateVirtualNetwork(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*baremetal.Client)
+	client := m.(*OracleClients)
 	sync := &VirtualNetworkResourceCrud{}
 	sync.D = d
-	sync.Client = client
+	sync.Client = client.client
 	return crud.UpdateResource(sync.D, sync)
 }
 
 func deleteVirtualNetwork(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*baremetal.Client)
+	client := m.(*OracleClients)
 	sync := &VirtualNetworkResourceCrud{}
 	sync.D = d
-	sync.Client = client
+	sync.Client = client.clientWithoutNotFoundRetries
 	return crud.DeleteResource(d, sync)
 }
 

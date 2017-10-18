@@ -40,3 +40,4 @@ The following attributes are exported:
 * `time_requested` - The date and time the request to create the volume backup was received, in the format defined by RFC3339.
 * `unique_size_in_mbs` - The size used by the backup, in MBs. It is typically smaller than sizeInMBs, depending on the space consumed on the volume and whether the backup is full or incremental.
 * `volume_id` - The OCID of the volume.
+

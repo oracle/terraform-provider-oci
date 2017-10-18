@@ -204,6 +204,15 @@ func (c *Client) PutObject(
 	}
 	required.Body = content
 
+	// application/json gets added by default if content-type is not specified. This is not desirable
+	// for object storage, so override empty content-type with the object storage default
+	if opts == nil {
+		opts = &PutObjectOptions{}
+	}
+	if opts.ContentType == "" {
+		opts.ContentType = "application/octet-stream"
+	}
+
 	details := &requestDetails{
 		ids: urlParts{
 			namespace,

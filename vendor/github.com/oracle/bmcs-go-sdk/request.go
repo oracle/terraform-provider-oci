@@ -126,6 +126,6 @@ func (r *requestDetails) marshalURL(urlTemplate string, region string, urlFn url
 	if q, e = r.marshalQueryString(); e != nil {
 		return
 	}
-	val = urlFn(urlTemplate, region, r.name, q, r.ids...)
+	val, e = urlFn(urlTemplate, region, r.name, q, r.ids...)
 	return
 }

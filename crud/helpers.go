@@ -334,3 +334,7 @@ func FilterMissingResourceError(sync ResourceVoider, err *error) {
 		*err = nil
 	}
 }
+
+func EqualIgnoreCaseSuppressDiff(key string, old string, new string, d *schema.ResourceData) bool {
+	return strings.EqualFold(old, new)
+}

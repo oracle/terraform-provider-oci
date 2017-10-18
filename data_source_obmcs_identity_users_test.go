@@ -19,19 +19,18 @@ type DatasourceIdentityUsersTestSuite struct {
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	ResourceName string
-	List         *baremetal.ListUsers
 }
 
 func (s *DatasourceIdentityUsersTestSuite) SetupTest() {
+	_, tokenFn := tokenize()
 	s.Client = testAccClient
 	s.Provider = testAccProvider
 	s.Providers = testAccProviders
-	s.Config = testProviderConfig() + `
+	s.Config = testProviderConfig() + tokenFn(`
 	resource "oci_identity_user" "t" {
-		name = "-tf-user"
+		name = "{{.token}}"
 		description = "automated test user"
-	}
-	`
+	}`, nil)
 	s.ResourceName = "data.oci_identity_users.t"
 }
 

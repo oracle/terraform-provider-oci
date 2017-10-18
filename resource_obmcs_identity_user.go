@@ -25,34 +25,34 @@ func UserResource() *schema.Resource {
 }
 
 func createUser(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*baremetal.Client)
+	client := m.(*OracleClients)
 	sync := &UserResourceCrud{}
 	sync.D = d
-	sync.Client = client
+	sync.Client = client.client
 	return crud.CreateResource(d, sync)
 }
 
 func readUser(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*baremetal.Client)
+	client := m.(*OracleClients)
 	sync := &UserResourceCrud{}
 	sync.D = d
-	sync.Client = client
+	sync.Client = client.client
 	return crud.ReadResource(sync)
 }
 
 func updateUser(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*baremetal.Client)
+	client := m.(*OracleClients)
 	sync := &UserResourceCrud{}
 	sync.D = d
-	sync.Client = client
+	sync.Client = client.client
 	return crud.UpdateResource(d, sync)
 }
 
 func deleteUser(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*baremetal.Client)
+	client := m.(*OracleClients)
 	sync := &UserResourceCrud{}
 	sync.D = d
-	sync.Client = client
+	sync.Client = client.clientWithoutNotFoundRetries
 	return sync.Delete()
 }
 

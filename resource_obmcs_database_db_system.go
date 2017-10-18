@@ -220,26 +220,26 @@ func DBSystemResource() *schema.Resource {
 }
 
 func createDBSystem(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*baremetal.Client)
+	client := m.(*OracleClients)
 	sync := &DBSystemResourceCrud{}
 	sync.D = d
-	sync.Client = client
+	sync.Client = client.client
 	return crud.CreateDBSystemResource(d, sync)
 }
 
 func readDBSystem(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*baremetal.Client)
+	client := m.(*OracleClients)
 	sync := &DBSystemResourceCrud{}
 	sync.D = d
-	sync.Client = client
+	sync.Client = client.client
 	return crud.ReadResource(sync)
 }
 
 func deleteDBSystem(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*baremetal.Client)
+	client := m.(*OracleClients)
 	sync := &DBSystemResourceCrud{}
 	sync.D = d
-	sync.Client = client
+	sync.Client = client.clientWithoutNotFoundRetries
 	return sync.Delete()
 }
 

@@ -38,3 +38,4 @@ The following attributes are exported:
 * `state` - The current state of the volume. [PROVISIONING, RESTORING, AVAILABLE, TERMINATING, TERMINATED, FAULTY]
 * `size_in_mbs` - The size of the volume, in MBs. The size must be a multiple of 1024.
 * `time_created` - The date and time the Volume was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z`.
+

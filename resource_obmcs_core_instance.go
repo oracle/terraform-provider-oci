@@ -30,43 +30,14 @@ func InstanceResource() *schema.Resource {
 		Delete: deleteInstance,
 		Schema: map[string]*schema.Schema{
 			"create_vnic_details": {
-				Type:     schema.TypeMap,
+				Type:     schema.TypeList,
 				Optional: true,
-				ForceNew: true,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						"assign_public_ip": {
-							Type:     schema.TypeBool,
-							Optional: true,
-							ForceNew: true,
-						},
-						"display_name": {
-							Type:     schema.TypeString,
-							Optional: true,
-							ForceNew: true,
-						},
-						"hostname_label": {
-							Type:     schema.TypeString,
-							Optional: true,
-							ForceNew: true,
-						},
-						"private_ip": {
-							Type:     schema.TypeString,
-							Optional: true,
-							ForceNew: true,
-						},
-						"skip_source_dest_check": {
-							Type:     schema.TypeBool,
-							Optional: true,
-							ForceNew: true,
-						},
-						"subnet_id": {
-							Type:     schema.TypeString,
-							Required: true,
-							ForceNew: true,
-						},
-					},
-				},
+				// This must be set to computed, since it's optional and required subnet_id param is being refreshed.
+				// If this isn't computed, then that would always force a change on users who do not set create_vnic_details.
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem:     createVnicDetailsSchema,
 			},
 			"availability_domain": {
 				Type:     schema.TypeString,
@@ -152,28 +123,28 @@ func InstanceResource() *schema.Resource {
 func createInstance(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &InstanceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*baremetal.Client)
+	sync.Client = m.(*OracleClients).client
 	return crud.CreateResource(d, sync)
 }
 
 func readInstance(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &InstanceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*baremetal.Client)
+	sync.Client = m.(*OracleClients).client
 	return crud.ReadResource(sync)
 }
 
 func updateInstance(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &InstanceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*baremetal.Client)
+	sync.Client = m.(*OracleClients).client
 	return crud.UpdateResource(d, sync)
 }
 
 func deleteInstance(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &InstanceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*baremetal.Client)
+	sync.Client = m.(*OracleClients).clientWithoutNotFoundRetries
 	return crud.DeleteResource(d, sync)
 }
 
@@ -260,7 +231,7 @@ func (s *InstanceResourceCrud) Create() (e error) {
 	}
 
 	if rawVnic, ok := s.D.GetOk("create_vnic_details"); ok {
-		opts.CreateVnicOptions, e = SetCreateVnicOptions(rawVnic)
+		opts.CreateVnicOptions = SetCreateVnicOptions(rawVnic.([]interface{}))
 	}
 
 	if e == nil {
@@ -277,12 +248,11 @@ func (s *InstanceResourceCrud) Create() (e error) {
 }
 
 /*
- * Return the public, private IP pair associated with the instance's primary Vnic.
+ * Return the primary VNIC for this instance.
  *
- * NOTE while the instance is still being created, calls to this function
- * can return  an error priort to the Vnic being attached.
+ * Note that this may return an error during instance creation or deletion.
  */
-func (s *InstanceResourceCrud) getInstanceIPs() (public_ip string, private_ip string, e error) {
+func (s *InstanceResourceCrud) getPrimaryVnic() (vnic *baremetal.Vnic, e error) {
 	compartmentID := s.Resource.CompartmentID
 
 	opts := &baremetal.ListVnicAttachmentsOptions{}
@@ -303,7 +273,7 @@ func (s *InstanceResourceCrud) getInstanceIPs() (public_ip string, private_ip st
 	}
 
 	if len(attachments) < 1 {
-		return "", "", errors.New("No VNIC attachments found.")
+		return nil, errors.New("No VNIC attachments found.")
 	}
 
 	for _, attachment := range attachments {
@@ -312,12 +282,12 @@ func (s *InstanceResourceCrud) getInstanceIPs() (public_ip string, private_ip st
 
 			// Ignore errors on GetVnic, since we might not have permissions to view some secondary VNICs.
 			if vnic != nil && vnic.IsPrimary {
-				return vnic.PublicIPAddress, vnic.PrivateIPAddress, nil
+				return vnic, nil
 			}
 		}
 	}
 
-	return "", "", errors.New("Primary VNIC not found.")
+	return nil, errors.New("Primary VNIC not found.")
 }
 
 func (s *InstanceResourceCrud) Get() (e error) {
@@ -326,25 +296,6 @@ func (s *InstanceResourceCrud) Get() (e error) {
 		s.Resource = res
 	}
 
-	if e != nil {
-		return e
-	}
-
-	// Compute instance IPs through attached Vnic
-	if s.Resource.State != baremetal.ResourceRunning {
-		return
-	}
-	public_ip, private_ip, e2 := s.getInstanceIPs()
-	if e2 != nil {
-		log.Printf("[DEBUG] Primary VNIC could not be found: %q (InstanceID: %q, State: %q)", e2, s.Resource.ID, s.Resource.State)
-	}
-
-	if public_ip != "" {
-		s.public_ip = public_ip
-	}
-	if private_ip != "" {
-		s.private_ip = private_ip
-	}
 	return
 }
 
@@ -355,6 +306,27 @@ func (s *InstanceResourceCrud) Update() (e error) {
 	}
 
 	s.Resource, e = s.Client.UpdateInstance(s.D.Id(), opts)
+	if e != nil {
+		return
+	}
+
+	// HasChange returns true for any changes within create_vnic_details.
+	if !s.D.HasChange("create_vnic_details") {
+		log.Printf("[DEBUG] No changes to primary VNIC. Instance ID: %q", s.Resource.ID)
+		return
+	}
+
+	log.Printf("[DEBUG] Updating instance's primary VNIC. Instance ID: %q", s.Resource.ID)
+	vnic, e := s.getPrimaryVnic()
+	if e != nil {
+		log.Printf("[ERROR] Primary VNIC could not be found during instance update: %q (Instance ID: %q, State: %q)", e, s.Resource.ID, s.Resource.State)
+		return
+	}
+
+	if rawVnic, ok := s.D.GetOk("create_vnic_details"); ok {
+		_, e = s.Client.UpdateVnic(vnic.ID, SetUpdateVnicOptions(rawVnic.([]interface{})))
+	}
+
 	return
 }
 
@@ -369,8 +341,21 @@ func (s *InstanceResourceCrud) SetData() {
 	s.D.Set("shape", s.Resource.Shape)
 	s.D.Set("state", s.Resource.State)
 	s.D.Set("time_created", s.Resource.TimeCreated.String())
-	s.D.Set("public_ip", s.public_ip)
-	s.D.Set("private_ip", s.private_ip)
+
+	if s.Resource.State != baremetal.ResourceRunning {
+		return
+	}
+
+	vnic, vnicError := s.getPrimaryVnic()
+	if vnicError != nil {
+		log.Printf("[WARN] Primary VNIC could not be found during instance refresh: %q (Instance ID: %q, State: %q)", vnicError, s.Resource.ID, s.Resource.State)
+		return
+	}
+
+	s.D.Set("public_ip", vnic.PublicIPAddress)
+	s.D.Set("private_ip", vnic.PrivateIPAddress)
+
+	RefreshCreateVnicDetails(s.D, vnic)
 }
 
 func (s *InstanceResourceCrud) Delete() (e error) {

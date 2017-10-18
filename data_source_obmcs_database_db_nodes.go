@@ -43,10 +43,10 @@ func DBNodesDatasource() *schema.Resource {
 }
 
 func readDBNodes(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*baremetal.Client)
+	client := m.(*OracleClients)
 	sync := &DBNodesDatasourceCrud{}
 	sync.D = d
-	sync.Client = client
+	sync.Client = client.client
 	return crud.ReadResource(sync)
 }
 

@@ -33,12 +33,10 @@ func (s *DatasourceCoreVolumeBackupTestSuite) SetupTest() {
 	resource "oci_core_volume" "t" {
 		availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
 		compartment_id = "${var.compartment_id}"
-		display_name = "display_name"
-		size_in_mbs = 51200
 	}
 	resource "oci_core_volume_backup" "t" {
 		volume_id = "${oci_core_volume.t.id}"
-		display_name = "display_name"
+		display_name = "-tf-volume-backup"
 	}`
 	s.ResourceName = "data.oci_core_volume_backups.t"
 }
@@ -62,8 +60,16 @@ func (s *DatasourceCoreVolumeBackupTestSuite) TestAccDatasourceCoreVolumeBackup_
 				}`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_id"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_backups.0.id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "volume_backups.#", "1"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_backups.0.id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_backups.0.volume_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_backups.0.time_created"),
+					resource.TestCheckResourceAttr(s.ResourceName, "volume_backups.0.display_name", "-tf-volume-backup"),
+					resource.TestCheckResourceAttr(s.ResourceName, "volume_backups.0.state", baremetal.ResourceAvailable),
+					resource.TestCheckResourceAttr(s.ResourceName, "volume_backups.0.size_in_mbs", "51200"),
+					resource.TestCheckResourceAttr(s.ResourceName, "volume_backups.0.size_in_gbs", "50"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_backups.0.unique_size_in_mbs"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_backups.0.unique_size_in_gbs"),
 				),
 			},
 		},

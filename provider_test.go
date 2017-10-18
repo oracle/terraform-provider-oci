@@ -3,12 +3,8 @@
 package main
 
 import (
-	"errors"
 	"testing"
 
-	"fmt"
-
-	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/bmcs-go-sdk"
@@ -20,10 +16,10 @@ var testAccProvider *schema.Provider
 var testAccProviders map[string]terraform.ResourceProvider
 
 func init() {
-	testAccClient = GetTestProvider()
+	testAccClient = GetTestProvider().client
 
 	testAccProvider = Provider(func(d *schema.ResourceData) (interface{}, error) {
-		return testAccClient, nil
+		return GetTestProvider(), nil
 	}).(*schema.Provider)
 
 	testAccProviders = map[string]terraform.ResourceProvider{
@@ -82,14 +78,6 @@ resource "oci_core_subnet" "WebSubnetAD1" {
 	dhcp_options_id     = "${oci_core_virtual_network.t.default_dhcp_options_id}"
 }`
 
-var imageConf = `
-data "oci_core_images" "t" {
-	compartment_id = "${var.compartment_id}"
-  	operating_system = "Oracle Linux"
-  	operating_system_version = "7.3"
-  	limit = 1
-}`
-
 var instanceConfig = subnetConfig + `
 data "oci_core_images" "t" {
 	compartment_id = "${var.compartment_id}"
@@ -126,13 +114,6 @@ resource "oci_core_instance" "t" {
 	timeouts {
 		create = "15m"
 	}
-}
-`
-var vnicConfig = instanceConfig + `
-data "oci_core_vnic_attachments" "vnics" {
-    compartment_id = "${var.compartment_id}"
-	availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-    instance_id = "${oci_core_instance.t.id}"
 }
 `
 
@@ -187,108 +168,7 @@ resource "oci_core_instance" "t" {
 }
 `
 
-var certificateConfig = `
-resource "oci_load_balancer_certificate" "t" {
-  load_balancer_id   = "${oci_load_balancer.t.id}"
-  ca_certificate     = "-----BEGIN CERTIFICATE-----\nMIIBNzCB4gIJAKtwJkxUgNpzMA0GCSqGSIb3DQEBCwUAMCMxITAfBgNVBAoTGElu\ndGVybmV0IFdpZGdpdHMgUHR5IEx0ZDAeFw0xNzA0MTIyMTU3NTZaFw0xODA0MTIy\nMTU3NTZaMCMxITAfBgNVBAoTGEludGVybmV0IFdpZGdpdHMgUHR5IEx0ZDBcMA0G\nCSqGSIb3DQEBAQUAA0sAMEgCQQDlM8lz3BFJA6zBlsF63k9ajPVq3Q1WQoHQ3j35\n08DRKIfwqfV+CxL63W3dZrwL4TrjqorP5CQ36+I6OWALH2zVAgMBAAEwDQYJKoZI\nhvcNAQELBQADQQCEjHVQJoiiVpIIvDWF+4YDRReVuwzrvq2xduWw7CIsDWlYuGZT\nQKVY6tnTy2XpoUk0fqUvMB/M2HGQ1WqZGHs6\n-----END CERTIFICATE-----"
-  certificate_name   = "stub_certificate_name"
-  private_key        = "-----BEGIN RSA PRIVATE KEY-----\nMIIBOgIBAAJBAOUzyXPcEUkDrMGWwXreT1qM9WrdDVZCgdDePfnTwNEoh/Cp9X4L\nEvrdbd1mvAvhOuOqis/kJDfr4jo5YAsfbNUCAwEAAQJAJz8k4bfvJceBT2zXGIj0\noZa9d1z+qaSdwfwsNJkzzRyGkj/j8yv5FV7KNdSfsBbStlcuxUm4i9o5LXhIA+iQ\ngQIhAPzStAN8+Rz3dWKTjRWuCfy+Pwcmyjl3pkMPSiXzgSJlAiEA6BUZWHP0b542\nu8AizBT3b3xKr1AH2nkIx9OHq7F/QbECIHzqqpDypa8/QVuUZegpVrvvT/r7mn1s\nddS6cDtyJgLVAiEA1Z5OFQeuL2sekBRbMyP9WOW7zMBKakLL3TqL/3JCYxECIAkG\nl96uo1MjK/66X5zQXBG7F2DN2CbcYEz0r3c3vvfq\n-----END RSA PRIVATE KEY-----"
-  public_certificate = "-----BEGIN CERTIFICATE-----\nMIIBNzCB4gIJAKtwJkxUgNpzMA0GCSqGSIb3DQEBCwUAMCMxITAfBgNVBAoTGElu\ndGVybmV0IFdpZGdpdHMgUHR5IEx0ZDAeFw0xNzA0MTIyMTU3NTZaFw0xODA0MTIy\nMTU3NTZaMCMxITAfBgNVBAoTGEludGVybmV0IFdpZGdpdHMgUHR5IEx0ZDBcMA0G\nCSqGSIb3DQEBAQUAA0sAMEgCQQDlM8lz3BFJA6zBlsF63k9ajPVq3Q1WQoHQ3j35\n08DRKIfwqfV+CxL63W3dZrwL4TrjqorP5CQ36+I6OWALH2zVAgMBAAEwDQYJKoZI\nhvcNAQELBQADQQCEjHVQJoiiVpIIvDWF+4YDRReVuwzrvq2xduWw7CIsDWlYuGZT\nQKVY6tnTy2XpoUk0fqUvMB/M2HGQ1WqZGHs6\n-----END CERTIFICATE-----"
-}
-`
-
-var loadbalancerConfig = subnetConfig + `
-
-resource "oci_core_subnet" "WebSubnetAD2" {
-  availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.1.name}"
-  cidr_block = "10.0.2.0/24"
-  display_name = "WebSubnetAD2"
-  compartment_id = "${var.compartment_id}"
-  vcn_id = "${oci_core_virtual_network.t.id}"
-  route_table_id      = "${oci_core_virtual_network.t.default_route_table_id}"
-  security_list_ids = ["${oci_core_virtual_network.t.default_security_list_id}"]
-  dhcp_options_id     = "${oci_core_virtual_network.t.default_dhcp_options_id}"
-}
-
-data "oci_load_balancer_shapes" "t" {
-  compartment_id = "${var.compartment_id}"
-}
-resource "oci_load_balancer" "t" {
-  shape          = "${data.oci_load_balancer_shapes.t.shapes.0.name}"
-  compartment_id = "${var.compartment_id}"
-  display_name   = "lb_display_name"
-  subnet_ids     = ["${oci_core_subnet.WebSubnetAD1.id}", "${oci_core_subnet.WebSubnetAD2.id}"]
-}
-`
-
-var databaseConfig = subnetConfig + `
-variable "DBNodeShape" {
-    default = "BM.DenseIO1.36"
-}
-
-variable "CPUCoreCount" {
-    default = "2"
-}
-
-variable "DBEdition" {
-    default = "ENTERPRISE_EDITION"
-}
-
-variable "DBAdminPassword" {
-    default = "BEstrO0ng_#11"
-}
-
-variable "DBName" {
-    default = "aTFdb"
-}
-
-variable "DBVersion" {
-    default = "12.1.0.2"
-}
-
-
-variable "DBDiskRedundancy" {
-    default = "HIGH"
-}
-
-variable "DBNodeDisplayName" {
-    default = "MyTFDatabaseNode0"
-}
-
-variable "DBNodeDomainName" {
-    default = "mycompany.com"
-}
-
-variable "DBNodeHostName" {
-    default = "myOracleDB"
-}
-
-	resource "oci_database_db_system" "t" {
-	  availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-	  compartment_id = "${var.compartment_id}"
-	  cpu_core_count = "${var.CPUCoreCount}"
-	  database_edition = "${var.DBEdition}"
-	  db_home {
-	    database {
-	      "admin_password" = "${var.DBAdminPassword}"
-	      "db_name" = "${var.DBName}"
-	      character_set = "AL32UTF8"
-	      ncharacter_set = "AL16UTF16"
-	    }
-	    db_version = "${var.DBVersion}"
-	    display_name = "MyTFDB"
-	  }
-	  disk_redundancy = "NORMAL"
-	  shape = "${var.DBNodeShape}"
-	  subnet_id = "${oci_core_subnet.WebSubnetAD1.id}"
-	  ssh_public_keys = ["${var.ssh_public_key}"]
-	  display_name = "MyTFDatabaseNode0"
-	  domain = "${var.DBNodeDomainName}"
-	  hostname = "${var.DBNodeHostName}"
-	}
-	`
-
-func GetTestProvider() *baremetal.Client {
+func GetTestProvider() *OracleClients {
 	r := &schema.Resource{
 		Schema: schemaMap(),
 	}
@@ -301,20 +181,21 @@ func GetTestProvider() *baremetal.Client {
 	d.Set("private_key_path", getRequiredEnvSetting("private_key_path"))
 	d.Set("private_key_password", getEnvSetting("private_key_password", ""))
 	d.Set("private_key", getEnvSetting("private_key", ""))
+	d.Set("region", getEnvSetting("region", "us-phoenix-1"))
 	d.Set("disable_auto_retries", true)
 
 	client, err := providerConfig(d)
 	if err != nil {
 		panic(err)
 	}
-	return client.(*baremetal.Client)
+	return client.(*OracleClients)
 }
 
 // This test runs the Provider sanity checks.
 func TestProvider(t *testing.T) {
 
 	// Real client for the sanity check. Makes this more of an acceptance test.
-	client := &baremetal.Client{}
+	client := &OracleClients{}
 	if err := Provider(func(d *schema.ResourceData) (interface{}, error) {
 		return client, nil
 	}).(*schema.Provider).InternalValidate(); err != nil {
@@ -375,46 +256,6 @@ func TestProviderConfig(t *testing.T) {
 	client, err := providerConfig(d)
 	assert.Nil(t, err)
 	assert.NotNil(t, client)
-	_, ok := client.(*baremetal.Client)
+	_, ok := client.(*OracleClients)
 	assert.True(t, ok)
-}
-
-// TestNoInstanceState determines if there is any state for a given name.
-func testNoInstanceState(name string) resource.TestCheckFunc {
-	return func(s *terraform.State) error {
-		ms := s.RootModule()
-		rs, ok := ms.Resources[name]
-		if !ok {
-			return nil
-		}
-
-		is := rs.Primary
-		if is == nil {
-			return nil
-		}
-
-		return errors.New("State exists for primary resource " + name)
-	}
-}
-
-// custom TestCheckFunc helper, returns a value associated with a key from an instance in the current state
-func fromInstanceState(s *terraform.State, name, key string) (string, error) {
-	ms := s.RootModule()
-	rs, ok := ms.Resources[name]
-	if !ok {
-		return "", fmt.Errorf("Not found: %s", name)
-	}
-
-	is := rs.Primary
-	if is == nil {
-		return "", fmt.Errorf("No primary instance: %s", name)
-	}
-
-	v, ok := is.Attributes[key]
-
-	if ok {
-		return v, nil
-	} else {
-		return "", fmt.Errorf("%s: Attribute '%s' not found", name, key)
-	}
 }

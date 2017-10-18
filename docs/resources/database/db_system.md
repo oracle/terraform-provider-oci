@@ -72,7 +72,7 @@ The following arguments are supported:
 The following arguments are supported:
 
 * `admin_password` - (Required) A strong password for SYS, SYSTEM, and PDB Admin.
-* `db_name` - (Required) The database name.
+* `db_name` - (Required) The database name (alphanumeric only).
 
 ## Attributes Reference
 

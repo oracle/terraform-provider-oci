@@ -6,7 +6,6 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
-	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	baremetal "github.com/oracle/bmcs-go-sdk"
 	"github.com/stretchr/testify/suite"
@@ -22,29 +21,22 @@ type DatabaseDBSystemShapeTestSuite struct {
 }
 
 func (s *DatabaseDBSystemShapeTestSuite) SetupTest() {
-	s.Client = GetTestProvider()
-	s.Provider = Provider(func(d *schema.ResourceData) (interface{}, error) {
-		return s.Client, nil
-	})
-
-	s.Providers = map[string]terraform.ResourceProvider{
-		"oci": s.Provider,
+	s.Client = testAccClient
+	s.Provider = testAccProvider
+	s.Providers = testAccProviders
+	s.Config = testProviderConfig() + `
+	data "oci_identity_availability_domains" "ADs" {
+		compartment_id = "${var.compartment_id}"
 	}
-	s.Config = `
-data "oci_identity_availability_domains" "ADs" {
-  compartment_id = "${var.compartment_id}"
-}
-    data "oci_database_db_system_shapes" "t" {
-      availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-      compartment_id = "${var.compartment_id}"
-    }
-  `
-	s.Config += testProviderConfig()
+	data "oci_database_db_system_shapes" "t" {
+		availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+		compartment_id = "${var.compartment_id}"
+	}`
 	s.ResourceName = "data.oci_database_db_system_shapes.t"
 }
 
-func (s *DatabaseDBSystemShapeTestSuite) TestReadDBSystemShapes() {
-	resource.UnitTest(s.T(), resource.TestCase{
+func (s *DatabaseDBSystemShapeTestSuite) TestAccDatasourceDatabaseDBSystemShape_basic() {
+	resource.Test(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
@@ -62,6 +54,6 @@ func (s *DatabaseDBSystemShapeTestSuite) TestReadDBSystemShapes() {
 	)
 }
 
-func TestDatabaseDBSystemShapeTestSuite(t *testing.T) {
+func TestDatasourceDatabaseDBSystemShapeTestSuite(t *testing.T) {
 	suite.Run(t, new(DatabaseDBSystemShapeTestSuite))
 }

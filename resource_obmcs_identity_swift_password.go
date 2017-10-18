@@ -58,34 +58,34 @@ func SwiftPasswordResource() *schema.Resource {
 }
 
 func createSwiftPassword(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*baremetal.Client)
+	client := m.(*OracleClients)
 	sync := &SwiftPasswordResourceCrud{}
 	sync.D = d
-	sync.Client = client
+	sync.Client = client.client
 	return crud.CreateResource(d, sync)
 }
 
 func readSwiftPassword(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*baremetal.Client)
+	client := m.(*OracleClients)
 	sync := &SwiftPasswordResourceCrud{}
 	sync.D = d
-	sync.Client = client
+	sync.Client = client.client
 	return crud.ReadResource(sync)
 }
 
 func updateSwiftPassword(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*baremetal.Client)
+	client := m.(*OracleClients)
 	sync := &SwiftPasswordResourceCrud{}
 	sync.D = d
-	sync.Client = client
+	sync.Client = client.client
 	return crud.UpdateResource(d, sync)
 }
 
 func deleteSwiftPassword(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*baremetal.Client)
+	client := m.(*OracleClients)
 	sync := &SwiftPasswordResourceCrud{}
 	sync.D = d
-	sync.Client = client
+	sync.Client = client.clientWithoutNotFoundRetries
 	return crud.DeleteResource(d, sync)
 }
 

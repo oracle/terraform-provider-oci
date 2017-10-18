@@ -38,6 +38,11 @@ func VolumeBackupResource() *schema.Resource {
 				Computed: true,
 			},
 			"size_in_mbs": {
+				Type:       schema.TypeInt,
+				Computed:   true,
+				Deprecated: "This property is deprecated, please use size_in_gbs",
+			},
+			"size_in_gbs": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
@@ -50,6 +55,11 @@ func VolumeBackupResource() *schema.Resource {
 				Computed: true,
 			},
 			"unique_size_in_mbs": {
+				Type:       schema.TypeInt,
+				Computed:   true,
+				Deprecated: "This property is deprecated, please use unique_size_in_gbs",
+			},
+			"unique_size_in_gbs": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
@@ -63,34 +73,34 @@ func VolumeBackupResource() *schema.Resource {
 }
 
 func createVolumeBackup(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*baremetal.Client)
+	client := m.(*OracleClients)
 	sync := &VolumeBackupResourceCrud{}
 	sync.D = d
-	sync.Client = client
+	sync.Client = client.client
 	return crud.CreateResource(d, sync)
 }
 
 func readVolumeBackup(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*baremetal.Client)
+	client := m.(*OracleClients)
 	sync := &VolumeBackupResourceCrud{}
 	sync.D = d
-	sync.Client = client
+	sync.Client = client.client
 	return crud.ReadResource(sync)
 }
 
 func updateVolumeBackup(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*baremetal.Client)
+	client := m.(*OracleClients)
 	sync := &VolumeBackupResourceCrud{}
 	sync.D = d
-	sync.Client = client
+	sync.Client = client.client
 	return crud.UpdateResource(d, sync)
 }
 
 func deleteVolumeBackup(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*baremetal.Client)
+	client := m.(*OracleClients)
 	sync := &VolumeBackupResourceCrud{}
 	sync.D = d
-	sync.Client = client
+	sync.Client = client.clientWithoutNotFoundRetries
 	return crud.DeleteResource(d, sync)
 }
 
@@ -163,11 +173,13 @@ func (s *VolumeBackupResourceCrud) SetData() {
 	s.D.Set("display_name", s.Res.DisplayName)
 	s.D.Set("state", s.Res.State)
 	s.D.Set("size_in_mbs", s.Res.SizeInMBs)
+	s.D.Set("size_in_gbs", s.Res.SizeInGBs)
 	if !s.Res.TimeCreated.IsZero() {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
 	s.D.Set("time_request_received", s.Res.TimeCreated.String())
-	s.D.Set("unique_size_in_mbs", s.Res.SizeInMBs)
+	s.D.Set("unique_size_in_mbs", s.Res.UniqueSizeInMBs)
+	s.D.Set("unique_size_in_gbs", s.Res.UniqueSizeInGBs)
 	s.D.Set("volume_id", s.Res.VolumeID)
 }
 

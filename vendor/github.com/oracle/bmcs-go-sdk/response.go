@@ -61,14 +61,18 @@ func (r *response) unmarshal(resource interface{}) (e error) {
 	if cr, ok := resource.(ContentUnmarshallable); ok {
 		cr.SetContentEncoding(r.header.Get(headerContentEncoding))
 		cr.SetContentLanguage(r.header.Get(headerContentLanguage))
-		if length, err := strconv.Atoi(r.header.Get(headerContentLength)); err != nil {
-			e = err
-			return
-		} else {
-			cr.SetContentLength(uint64(length))
-		}
 		cr.SetContentMD5(r.header.Get(headerContentMD5))
 		cr.SetContentType(r.header.Get(headerContentType))
+
+		lengthStr := r.header.Get(headerContentLength)
+		if lengthStr != "" {
+			if length, err := strconv.Atoi(lengthStr); err != nil {
+				e = err
+				return
+			} else {
+				cr.SetContentLength(uint64(length))
+			}
+		}
 	}
 
 	if md, ok := resource.(MetadataUnmarshallable); ok {

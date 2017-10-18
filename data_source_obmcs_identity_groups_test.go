@@ -19,18 +19,18 @@ type DatasourceIdentityGroupsTestSuite struct {
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	ResourceName string
-	List         *baremetal.ListGroups
 }
 
 func (s *DatasourceIdentityGroupsTestSuite) SetupTest() {
+	_, tokenFn := tokenize()
 	s.Client = testAccClient
 	s.Provider = testAccProvider
 	s.Providers = testAccProviders
-	s.Config = testProviderConfig() + `
+	s.Config = testProviderConfig() + tokenFn(`
 	resource "oci_identity_group" "t" {
-		name = "-tf-group"
+		name = "{{.token}}"
 		description = "automated test group"
-	}`
+	}`, nil)
 	s.ResourceName = "data.oci_identity_groups.t"
 }
 

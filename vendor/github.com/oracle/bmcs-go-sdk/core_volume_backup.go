@@ -14,10 +14,12 @@ type VolumeBackup struct {
 	DisplayName         string `json:"displayName"`
 	ID                  string `json:"id"`
 	SizeInMBs           uint64 `json:"sizeInMBs"`
+	SizeInGBs           uint64 `json:"sizeInGBs"`
 	State               string `json:"lifecycleState"`
 	TimeCreated         Time   `json:"timeCreated"`
 	TimeRequestReceived Time   `json:"timeRequestReceived"`
 	UniqueSizeInMBs     uint64 `json:"uniqueSizeInMBs"`
+	UniqueSizeInGBs     uint64 `json:"uniqueSizeInGBs"`
 	VolumeID            string `json:"volumeId"`
 }
 

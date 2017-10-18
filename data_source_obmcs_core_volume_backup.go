@@ -43,10 +43,10 @@ func VolumeBackupDatasource() *schema.Resource {
 }
 
 func readVolumeBackups(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*baremetal.Client)
+	client := m.(*OracleClients)
 	sync := &VolumeBackupDatasourceCrud{}
 	sync.D = d
-	sync.Client = client
+	sync.Client = client.client
 	return crud.ReadResource(sync)
 }
 
@@ -95,6 +95,7 @@ func (s *VolumeBackupDatasourceCrud) SetData() {
 				"id":                    v.ID,
 				"state":                 v.State,
 				"size_in_mbs":           v.SizeInMBs,
+				"size_in_gbs":           v.SizeInGBs,
 				"time_created":          v.TimeCreated.String(),
 				"time_request_received": v.TimeRequestReceived.String(),
 				"unique_size_in_mbs":    v.UniqueSizeInMBs,
