@@ -29,5 +29,5 @@ The following arguments are supported:
 * `fingerprint` - The key's fingerprint (e.g., 12:34:56:78:90:ab:cd:ef:12:34:56:78:90:ab:cd:ef).
 * `user_id` - The OCID of the user the key belongs to.
 * `time_created` - Date and time the ApiKey was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z`.
-* `state` - The compartment's current state. [CREATING, ACTIVE, INACTIVE, DELETING, DELETED]
+* `state` - The compartment's current state. Allowed values are: [CREATING, ACTIVE, INACTIVE, DELETING, DELETED]
 * `inactive_status` - The detailed status of INACTIVE lifecycleState.

@@ -4,7 +4,7 @@
 
   [d434df37]: https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/Image/ "ImageReference"
 
-Gets a list of boot disk images for launching an instance. .
+Gets a list of boot disk images for launching an instance.
 
 ## Example Usage
 

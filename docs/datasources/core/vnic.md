@@ -30,7 +30,7 @@ The following attributes are exported:
 * `id` - The OCID of the VNIC.
 * `hostname_label` - The hostname for the VNIC that is created during instance launch. Used for DNS.
 * `is_primary` - Whether the VNIC is the primary VNIC (the VNIC that is automatically created and attached during instance launch).
-* `state` - The current state of the VNIC. [PROVISIONING, AVAILABLE, TERMINATING, TERMINATED]
+* `state` - The current state of the VNIC. Allowed values are: [PROVISIONING, AVAILABLE, TERMINATING, TERMINATED]
 * `mac_address` - The MAC address of the VNIC.
 * `private_ip_address` - The private IP addresses of the VNIC, which is within the VNIC subnet and is accessible within the VCN.
 * `public_ip_address` - The public IP address of the VNIC, which Oracle performs NAT for at the gateway.

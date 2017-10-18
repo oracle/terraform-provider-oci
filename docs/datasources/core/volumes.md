@@ -35,7 +35,6 @@ The following attributes are exported:
 * `compartment_id` - The OCID of the compartment.
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 * `id` - The OCID of the volume.
-* `state` - The current state of the volume. [PROVISIONING, RESTORING, AVAILABLE, TERMINATING, TERMINATED, FAULTY]
+* `state` - The current state of the volume. Allowed values are: [PROVISIONING, RESTORING, AVAILABLE, TERMINATING, TERMINATED, FAULTY]
 * `size_in_mbs` - The size of the volume, in MBs. The size must be a multiple of 1024.
 * `time_created` - The date and time the Volume was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z`.
-

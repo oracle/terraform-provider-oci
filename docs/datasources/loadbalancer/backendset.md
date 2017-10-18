@@ -25,7 +25,7 @@ The following arguments are supported:
 * `backendsets` - The list of backendsets.
 
 ## Backendset reference
-* `name` - A friendly name for the backend set. It must be unique and it cannot be changed.
+* `name` - A friendly name for the backend set. It must be unique and it cannot be changed. Avoid entering confidential information.
 * `policy` - The load balancer policy for the backend set. The default load balancing policy is 'ROUND_ROBIN'.
 * `health_checker` - Health Checker Settings.
 * `ssl_configuration` - SSL Configuration Settings.

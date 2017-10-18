@@ -4,7 +4,6 @@
 
   [6b17cb47]: https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/IPSecConnectionDeviceConfig/ "IPSecConnectionDeviceConfigReference"
 
-~~Gets a list of internet gateways.~~
 Gets information about the IPSecConnection device configurations.
 
 ## Example Usage

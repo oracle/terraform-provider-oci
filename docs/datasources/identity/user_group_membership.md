@@ -32,5 +32,5 @@ The following arguments are supported:
 * `group_id` - The OCID of the group.
 * `user_id` - The OCID of the user.
 * `time_created` - Date and time the membership was created, in the format defined by RFC3339. Example: `2016-08-25T21:10:29.600Z`.
-* `state` - The membership's current state. [CREATING, ACTIVE, INACTIVE, DELETING, DELETED]
+* `state` - The membership's current state. Allowed values are: [CREATING, ACTIVE, INACTIVE, DELETING, DELETED]
 * `inactive_status` - The detailed status of INACTIVE lifecycleState.

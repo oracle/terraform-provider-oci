@@ -6,9 +6,6 @@
 
 Get a list of all the `BucketSummary`'s in a namespace. A `BucketSummary` contains only summary fields for the bucket and does not contain fields like the user-defined metadata.
 
-~~To use this and other API operations, you must be authorized in an IAM policy.
-See [List Buckets API Docs](https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/objectstorage/20160918/BucketSummary/ListBuckets) for details.~~
-
 
 ## Example Usage
 

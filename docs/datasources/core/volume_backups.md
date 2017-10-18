@@ -34,10 +34,9 @@ The following attributes are exported:
 * `compartment_id` - The OCID of the compartment.
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 * `id` - The OCID of the volume backup.
-* `state` - The current state of the volume. [CREATING, AVAILABLE, TERMINATING, TERMINATED, FAULTY, REQUEST_RECEIVED]
+* `state` - The current state of the volume. Allowed values are: [CREATING, AVAILABLE, TERMINATING, TERMINATED, FAULTY, REQUEST_RECEIVED]
 * `size_in_mbs` - The size of the volume, in MBs. The value must be a multiple of 1024.
 * `time_created` - The date and time the volume was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z`.
 * `time_requested` - The date and time the request to create the volume backup was received, in the format defined by RFC3339.
 * `unique_size_in_mbs` - The size used by the backup, in MBs. It is typically smaller than sizeInMBs, depending on the space consumed on the volume and whether the backup is full or incremental.
 * `volume_id` - The OCID of the volume.
-

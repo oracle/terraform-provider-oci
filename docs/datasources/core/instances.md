@@ -38,7 +38,7 @@ The following attributes are exported:
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 * `id` - The OCID of the instance.
 * `image_id` - The image used to boot the instance. You can enumerate all available images by calling [ListImages][d198fa10].
-* `state` - The current state of the instance: [PROVISIONING, RUNNING, STARTING, STOPPING, STOPPED, CREATING_IMAGE, TERMINATING, TERMINATED]
+* `state` - The current state of the instance. Allowed values are: [PROVISIONING, RUNNING, STARTING, STOPPING, STOPPED, CREATING_IMAGE, TERMINATING, TERMINATED]
 * `metadata` - Custom metadata that you provide.
 * `extended_metadata` - Custom nested metadata that you provide.
 * `region` - The region that contains the Availability Domain the instance is running in.
