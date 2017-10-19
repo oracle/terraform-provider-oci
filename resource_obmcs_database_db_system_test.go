@@ -61,8 +61,8 @@ func (s *ResourceDatabaseDBSystemTestSuite) SetupTest() {
 		display_name = "-tf-db-system"
 		domain = "mycompany.com"
 		hostname = "myOracleDB"
-		initial_data_storage_size_in_gb = "256"
-		license_model = "BRING_YOUR_OWN_LICENSE"
+		data_storage_size_in_gb = "256"
+		license_model = "LICENSE_INCLUDED"
 		node_count = "1"
 		db_home {
 			db_version = "12.1.0.2"

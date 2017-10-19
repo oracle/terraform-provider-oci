@@ -90,7 +90,7 @@ variable "InitialDataStorageSizeInGB" {
 }
 
 variable "LicenseModel" {
-	default = "BRING_YOUR_OWN_LICENSE"
+	default = "LICENSE_INCLUDED"
 }
 
 variable "NodeCount" {

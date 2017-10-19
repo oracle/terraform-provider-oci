@@ -172,7 +172,7 @@ func DBSystemResource() *schema.Resource {
 				Optional: true,
 				ForceNew: true,
 			},
-			"initial_data_storage_size_in_gb": {
+			"data_storage_size_in_gb": {
 				Type:     schema.TypeInt,
 				Computed: true,
 				Optional: true,
@@ -204,6 +204,10 @@ func DBSystemResource() *schema.Resource {
 				Computed: true,
 			},
 			"listener_port": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
+			"reco_storage_size_in_gb": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
@@ -262,7 +266,7 @@ func deleteDBSystem(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &DBSystemResourceCrud{}
 	sync.D = d
 	sync.Client = client.clientWithoutNotFoundRetries
-	return sync.Delete()
+	return crud.DeleteResource(d, sync)
 }
 
 type DBSystemResourceCrud struct {
@@ -365,7 +369,7 @@ func (s *DBSystemResourceCrud) Create() (e error) {
 	if domain, ok := s.D.GetOk("domain"); ok {
 		opts.Domain = domain.(string)
 	}
-	if initialDataStorageSizeInGB, ok := s.D.GetOk("initial_data_storage_size_in_gb"); ok {
+	if initialDataStorageSizeInGB, ok := s.D.GetOk("data_storage_size_in_gb"); ok {
 		opts.InitialDataStorageSizeInGB = initialDataStorageSizeInGB.(int)
 	}
 	if licenseModel, ok := s.D.GetOk("license_model"); ok {
@@ -420,6 +424,7 @@ func (s *DBSystemResourceCrud) SetData() {
 	s.D.Set("id", s.Res.ID)
 	s.D.Set("lifecycle_details", s.Res.LifecycleDetails)
 	s.D.Set("listener_port", s.Res.ListenerPort)
+	s.D.Set("reco_storage_size_in_gb", s.Res.RecoStorageSizeInGB)
 	s.D.Set("scan_dns_record_id", s.Res.ScanDnsRecordId)
 	s.D.Set("scan_ip_ids", s.Res.ScanIpIds)
 	s.D.Set("state", s.Res.State)

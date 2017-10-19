@@ -54,7 +54,7 @@ The following arguments are supported:
 * `display_name` - (Optional) The user-friendly name for the DB System. It does not have to be unique.
 * `domain` - (Optional) A domain name to assign to the DB System.
 * `hostname` - (Required) The host name to assign to the DB Node.
-* `initial_data_storage_size_in_gb` - (Optional) Size, in GBs, of the initial data volume that will be created and attached to VM-shape based DB system. This storage can later be scaled up if needed. Note that the total storage size attached will be more than what is requested, to account for REDO/RECO space and software volume.
+* `data_storage_size_in_gb` - (Optional) Size, in GBs, of the data volume that will be created and attached to VM-shape based DB system. This storage can later be scaled up if needed. Note that the total storage size attached will be more than what is requested, to account for REDO/RECO space and software volume.
 * `license_model` - (Optional) The Oracle license model that applies to all the databases on the DB System. The default is LICENSE_INCLUDED.
 * `node_count` - (Optional) Number of nodes to launch for a VM-shape based RAC DB system.
 * `shape` - (Required) The shape of the DB System.
@@ -87,6 +87,7 @@ The following attributes are exported:
 * `id` - The OCID of the DB System.
 * `lifecycle_details` - Additional information about the current lifecycleState.
 * `listener_port` - The port number configured for the listener on the DB System.
+* `reco_storage_size_in_gb` - RECO/REDO storage size, in GBs, that is currently allocated to the DB system. This is applicable only for VM-based DBs.
 * `scan_dns_record_id` - The OCID of the DNS record for the SCAN IP addresses that are associated with the DB System.
 * `scan_ip_ids` - The OCID of the Single Client Access Name (SCAN) IP addresses associated with the DB System. SCAN IP addresses are typically used for load balancing and are not assigned to any interface.
 * `state` - The current state of the DB System.
