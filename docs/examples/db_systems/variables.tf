@@ -17,7 +17,7 @@ variable "AD" {
 
 # DBSystem specific 
 variable "DBNodeShape" {
-    default = "BM.DenseIO1.36"
+    default = "VM.Standard1.2"
 }
 
 variable "CPUCoreCount" {
@@ -85,5 +85,14 @@ variable "PDBName" {
 	default = "pdbName"
 }
 
+variable "InitialDataStorageSizeInGB" {
+	default = "256"
+}
 
+variable "LicenseModel" {
+	default = "BRING_YOUR_OWN_LICENSE"
+}
 
+variable "NodeCount" {
+	default = "1"
+}

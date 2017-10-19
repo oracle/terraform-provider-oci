@@ -32,6 +32,9 @@ resource "oci_database_db_system" "TFDBNode" {
   domain = "${var.DBNodeDomainName}"
   hostname = "${var.DBNodeHostName}"
   data_storage_percentage = "${var.DataStoragePercentage}"
+  initial_data_storage_size_in_gb = "${var.InitialDataStorageSizeInGB}"
+  license_model = "${var.LicenseModel}"
+  node_count = "${var.NodeCount}"
 }
 ```
 
@@ -51,6 +54,9 @@ The following arguments are supported:
 * `display_name` - (Optional) The user-friendly name for the DB System. It does not have to be unique.
 * `domain` - (Optional) A domain name to assign to the DB System.
 * `hostname` - (Required) The host name to assign to the DB Node.
+* `initial_data_storage_size_in_gb` - (Optional) Size, in GBs, of the initial data volume that will be created and attached to VM-shape based DB system. This storage can later be scaled up if needed. Note that the total storage size attached will be more than what is requested, to account for REDO/RECO space and software volume.
+* `license_model` - (Optional) The Oracle license model that applies to all the databases on the DB System. The default is LICENSE_INCLUDED.
+* `node_count` - (Optional) Number of nodes to launch for a VM-shape based RAC DB system.
 * `shape` - (Required) The shape of the DB System.
 * `ssh_public_keys` - (Required) The public key portion of the key pair to use for SSH access to the DB System.
 * `subnet_id` - (Required) The OCID of the subnet the DB System is associated with.
