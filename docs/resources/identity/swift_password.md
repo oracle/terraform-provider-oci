@@ -28,5 +28,5 @@ The following arguments are supported:
 * `password` - The Swift password. The value is available only in the response for `CreateSwiftPassword`, and not for `ListSwiftPasswords` or `UpdateSwiftPassword`.
 * `expires_on` - Date and time when this password will expire, in the format defined by RFC3339. Null if it never expires.
 * `time_created` - The date and time the password was created, in the format defined by RFC3339. Example: `2016-08-25T21:10:29.600Z`.
-* `state` - The user's current state. [CREATING, ACTIVE, INACTIVE, DELETING, DELETED]
+* `state` - The user's current state. Allowed values are: [CREATING, ACTIVE, INACTIVE, DELETING, DELETED]
 * `inactive_status` - The detailed status of INACTIVE `lifecycleState`.

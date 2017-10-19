@@ -68,7 +68,7 @@ The following arguments are supported:
 * `compartment_id` - The OCID of the compartment containing the set of DHCP options.
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 * `id` - Oracle ID (OCID) for the set of DHCP options.
-* `state` - The DRG's current state: [PROVISIONING, AVAILABLE, TERMINATING, TERMINATED]
+* `state` - The DRG's current state. Allowed values are: [PROVISIONING, AVAILABLE, TERMINATING, TERMINATED]
 * `options` - The collection of individual DHCP options.
-* `time_created` - The date and time the set of DHCP options was created, in the format defined by RFC3339. Example: `2016-08-25T21:10:29.600Z`. 
+* `time_created` - The date and time the set of DHCP options was created, in the format defined by RFC3339. Example: `2016-08-25T21:10:29.600Z`.
 * `vcn_id` - (Required) The OCID of the VCN the set of DHCP options belongs to.

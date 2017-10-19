@@ -31,7 +31,7 @@ The following arguments are supported:
 * `create_image_allowed` - Whether instances launched with this image can be used to create new images. Example: `true`
 * `display_name` - A user-friendly name for the image. It does not have to be unique, and it's changeable. Avoid entering confidential information.
 * `id` - The OCID of the image.
-* `state` - The state of the image: [PROVISIONING, IMPORTING, AVAILABLE, EXPORTING, DISABLED, DELETED].
+* `state` - The state of the image. Allowed values are: [PROVISIONING, IMPORTING, AVAILABLE, EXPORTING, DISABLED, DELETED].
 * `operating_system` - The image's operating system.
 * `operating_system_version` - The image's operating system version.
 * `time_created` - The date and time the image was created, in the format defined by RFC3339. Example: `2016-08-25T21:10:29.600Z`.

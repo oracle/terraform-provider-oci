@@ -29,7 +29,7 @@ The following arguments are supported:
 * `compartment_id` - The OCID of the compartment containing the internet gateway.
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 * `id` - The internet gateway's Oracle Cloud ID (OCID).
-* `state` - The route table's current state. [PROVISIONING, AVAILABLE, TERMINATING, TERMINATED]
+* `state` - The route table's current state. Allowed values are: [PROVISIONING, AVAILABLE, TERMINATING, TERMINATED]
 * `enabled` - Whether the gateway is enabled. When the gateway is disabled, traffic is not routed to/from the Internet, regardless of route rules. Example: `true`
 * `time_created` - The date and time the Internet Gateway was created, in the format defined by RFC3339. Example: `2016-08-25T21:10:29.600Z`.
 * `vcn_id` - The OCID of the VCN the Internet Gateway belongs to.

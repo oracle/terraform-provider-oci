@@ -34,5 +34,5 @@ The following arguments are supported:
 * `default_security_list_id` - The OCID for the VCN's default security list.
 * `display_name` - A user-friendly name. Does not have to be unique.  Avoid entering confidential information.
 * `id` - The OCID of the VCN.
-* `state` - The current state of the VCN. [PROVISIONING, AVAILABLE, TERMINATING, TERMINATED]
+* `state` - The current state of the VCN. Allowed values are: [PROVISIONING, AVAILABLE, TERMINATING, TERMINATED]
 * `time_created` - The date and time the VCN was created, in the format defined by RFC3339. Example: `2016-08-25T21:10:29.600Z`.

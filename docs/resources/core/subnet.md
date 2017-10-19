@@ -55,7 +55,7 @@ The following arguments are supported:
 ## Attributes Reference
 
 * `id` - The subnet's Oracle ID (OCID).
-* `state` - The subnet's current state. [PROVISIONING, AVAILABLE, TERMINATING, TERMINATED]
+* `state` - The subnet's current state. Allowed values are: [PROVISIONING, AVAILABLE, TERMINATING, TERMINATED]
 * `time_created` - The date and time the subnet was created, in the format defined by RFC3339. Example: `2016-08-25T21:10:29.600Z`.
 * `virtual_router_ip` - The IP address of the virtual router.
 * `virtual_router_mac` - The MAC address of the virtual router.

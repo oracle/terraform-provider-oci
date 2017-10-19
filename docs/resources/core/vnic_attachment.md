@@ -44,7 +44,7 @@ The following arguments are supported:
 * `display_name` - A user-friendly name. Does not have to be unique. Avoid entering confidential information.
 * `id` - The OCID of the VNIC Attachment.
 * `instance_id` - The OCID of the instance.
-* `state` - The current state of the VNIC attachment. [ATTACHING, ATTACHED, DETACHING, DETACHED].
+* `state` - The current state of the VNIC attachment. Allowed values are: [ATTACHING, ATTACHED, DETACHING, DETACHED].
 * `subnet_id` - The OCID of the VNIC's subnet.
 * `time_created` - The date and time the VNIC attachment was created, in the format defined by RFC3339. Example: `2016-08-25T21:10:29.600Z`.
 * `vlan_tag` - The Oracle-assigned VLAN tag of the attached VNIC. Available after the attachment process is complete.

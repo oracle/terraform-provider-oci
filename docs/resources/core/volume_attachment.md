@@ -34,7 +34,7 @@ The following arguments are supported:
 * `display_name` - A user-friendly name. Does not have to be unique, and it cannot be changed. Avoid entering confidential information.
 * `id` - The OCID of the volume attachment.
 * `instance_id` - The OCID of the instance the volume is attached to.
-* `state` - The current state of the volume attachment: [ATTACHING, ATTACHED, DETACHING, DETACHED].
+* `state` - The current state of the volume attachment. Allowed values are: [ATTACHING, ATTACHED, DETACHING, DETACHED].
 * `time_created` - The date and time the volume was created, in the format defined by RFC3339. Example: `2016-08-25T21:10:29.600Z`.
 * `volume_id` - The OCID of the volume.
 * `chap_username` - The volume's system-generated Challenge-Handshake-Authentication-Protocol (CHAP) user name.

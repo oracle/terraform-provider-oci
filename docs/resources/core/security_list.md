@@ -70,6 +70,6 @@ The following arguments are supported:
 * `egress_security_rules` - Rules for allowing egress IP packets.
 * `id` - The security list's Oracle Cloud ID (OCID).
 * `ingress_security_rules` - Rules for allowing ingress IP packets.
-* `state` - The security list's current state. [PROVISIONING, AVAILABLE, TERMINATING, TERMINATED]
+* `state` - The security list's current state. Allowed values are: [PROVISIONING, AVAILABLE, TERMINATING, TERMINATED]
 * `time_created` - The date and time the security list was created, in the format defined by RFC3339. Example: `2016-08-25T21:10:29.600Z`.
 * `vcn_id` - The OCID of the VCN the security list belongs to.

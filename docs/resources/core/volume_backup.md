@@ -27,7 +27,7 @@ The following arguments are supported:
 * `compartment_id` - The OCID of the compartment.
 * `display_name` - A user-friendly name for the volume backup. Does not have to be unique and it's changeable. Avoid entering confidential information.
 * `id` - The OCID of the Volume backup.
-* `state` - The current state of the volume. [CREATING, AVAILABLE, TERMINATING, TERMINATED, FAULTY, REQUEST_RECEIVED]
+* `state` - The current state of the volume. Allowed values are: [CREATING, AVAILABLE, TERMINATING, TERMINATED, FAULTY, REQUEST_RECEIVED]
 * `size_in_mbs` - The size of the volume, in MBs. Must be a multiple of 1024.
 * `time_created` - The date and time the volume backup was created. This is the time the actual point-in-time image of the volume data was taken. Format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z`.
 * `time_requested` - The date and time the request to create the volume backup was received, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z`.
