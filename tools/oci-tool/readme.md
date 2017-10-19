@@ -25,6 +25,10 @@ providers {
 
 Otherwise, drop the new provider in your terraform plugin directory.
 
+#### Remote State
+
+The **oci-tool** does not support [remote state](https://www.terraform.io/docs/state/remote.html). If you are using remote state, then the recommended approach is to copy the state file locally, run the **oci-tool**, and then push the state file back to the remote location. See the documentation [here](https://www.terraform.io/docs/backends/config.html) for details about how to unconfigure and reconfigure your backend.
+
 #### Using the tool
 
 To migrate a plan, follow these steps:  

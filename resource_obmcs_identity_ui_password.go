@@ -47,10 +47,10 @@ func UIPasswordResource() *schema.Resource {
 }
 
 func createUIPassword(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*baremetal.Client)
+	client := m.(*OracleClients)
 	sync := &UIPasswordResourceCrud{}
 	sync.D = d
-	sync.Client = client
+	sync.Client = client.client
 	return crud.CreateResource(d, sync)
 }
 

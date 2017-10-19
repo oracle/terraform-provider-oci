@@ -8,7 +8,6 @@ import (
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/bmcs-go-sdk"
-
 	"github.com/stretchr/testify/suite"
 )
 
@@ -35,14 +34,14 @@ func (s *ResourceCoreVolumeBackupTestSuite) SetupTest() {
 			availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
 			compartment_id = "${var.compartment_id}"
 			display_name = "-tf-volume"
-			size_in_mbs = 51200
+			size_in_gbs = 50
 		}`
 	s.ResourceName = "oci_core_volume_backup.t"
 }
 
-func (s *ResourceCoreVolumeBackupTestSuite) TestCreateVolumeBackup() {
+func (s *ResourceCoreVolumeBackupTestSuite) TestAccResourceCoreVolumeBackup_basic() {
 
-	resource.UnitTest(s.T(), resource.TestCase{
+	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			// verify create
@@ -59,6 +58,10 @@ func (s *ResourceCoreVolumeBackupTestSuite) TestCreateVolumeBackup() {
 					resource.TestCheckResourceAttrSet(s.ResourceName, "display_name"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", baremetal.ResourceAvailable),
+					resource.TestCheckResourceAttr(s.ResourceName, "size_in_mbs", "51200"),
+					resource.TestCheckResourceAttr(s.ResourceName, "size_in_gbs", "50"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "unique_size_in_mbs"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "unique_size_in_gbs"),
 				),
 			},
 			// verify update
@@ -83,7 +86,7 @@ func (s *ResourceCoreVolumeBackupTestSuite) TestCreateVolumeBackup() {
 						availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
 						compartment_id = "${var.compartment_id}"
 						display_name = "-tf-volume-restored"
-						size_in_mbs = 51200
+						size_in_gbs = 50
 						volume_backup_id = "${oci_core_volume_backup.t.id}"
 					}`,
 				Check: resource.ComposeTestCheckFunc(

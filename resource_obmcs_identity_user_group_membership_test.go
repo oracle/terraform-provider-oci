@@ -21,19 +21,20 @@ type ResourceIdentityUserGroupMembershipTestSuite struct {
 }
 
 func (s *ResourceIdentityUserGroupMembershipTestSuite) SetupTest() {
+	_, tokenFn := tokenize()
 	s.Client = testAccClient
 	s.Provider = testAccProvider
 	s.Providers = testAccProviders
-	s.Config = testProviderConfig() + `
+	s.Config = testProviderConfig() + tokenFn(`
 	resource "oci_identity_user" "t" {
-		name = "-tf-user"
+		name = "{{.token}}"
 		description = "tf test user"
 	}
 	
 	resource "oci_identity_group" "t" {
-		name = "-tf-group"
+		name = "{{.token}}"
 		description = "tf test group"
-	}`
+	}`, nil)
 	s.ResourceName = "oci_identity_user_group_membership.t"
 }
 

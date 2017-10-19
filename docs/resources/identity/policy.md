@@ -10,6 +10,7 @@ Provides a policy resource.
 
 ```
   resource "oci_identity_policy" "p" {
+    compartment_id = <Compartment or Tenancy OCID>
     name = "pol"
     description = "desc"
     statements = ["statementX","statementY"]
@@ -24,6 +25,8 @@ The following arguments are supported:
 * `statements` - (Required) An array of policy statements written in the policy language.
 * `descriptions` - (Required) The description you assign to the policy during creation. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 * `version_date` - (Optional) The version of the policy. If null or set to an empty string, when a request comes in for authorization, the policy will be evaluated according to the current behavior of the services at that moment. If set to a particular date (YYYY-MM-DD), the policy will be evaluated according to the behavior of the services on that date.
+* `compartment_id` - (Required) The OCID of the compartment containing the policy (either the tenancy or another compartment).
+* `statements` - (Required) An array of policy statements written in the policy language.
 
 ## Attributes Reference
 * `id` - The OCID of the policy.

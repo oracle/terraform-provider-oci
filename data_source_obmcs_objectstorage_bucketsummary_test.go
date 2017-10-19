@@ -19,21 +19,24 @@ type DatasourceObjectstorageBucketSummaryTestSuite struct {
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	ResourceName string
+	Token        string
+	TokenFn      func(string, map[string]string) string
 }
 
 func (s *DatasourceObjectstorageBucketSummaryTestSuite) SetupTest() {
+	s.Token, s.TokenFn = tokenize()
 	s.Client = testAccClient
 	s.Provider = testAccProvider
 	s.Providers = testAccProviders
-	s.Config = testProviderConfig() + `
+	s.Config = testProviderConfig() + s.TokenFn(`
 	data "oci_objectstorage_namespace" "t" {
 	}
 	
 	resource "oci_objectstorage_bucket" "t" {
 		compartment_id = "${var.compartment_id}"
 		namespace = "${data.oci_objectstorage_namespace.t.namespace}"
-		name = "-tf-bucket"
-	}`
+		name = "{{.token}}"
+	}`, nil)
 	s.ResourceName = "data.oci_objectstorage_bucket_summaries.t"
 }
 
@@ -57,8 +60,9 @@ func (s *DatasourceObjectstorageBucketSummaryTestSuite) TestAccDatasourceObjects
 					resource.TestCheckResourceAttrSet(s.ResourceName, "compartment_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "namespace"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "bucket_summaries.#"),
-					resource.TestCheckResourceAttr(s.ResourceName, "bucket_summaries.#", "1"),
-					resource.TestCheckResourceAttr(s.ResourceName, "bucket_summaries.0.name", "-tf-bucket"),
+					// todo: these assertions wont be reliable until data sources support filters
+					//resource.TestCheckResourceAttr(s.ResourceName, "bucket_summaries.#", "1"),
+					//resource.TestCheckResourceAttr(s.ResourceName, "bucket_summaries.0.name", s.Token),
 				),
 			},
 		},

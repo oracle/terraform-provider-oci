@@ -75,7 +75,6 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) SetupTest() {
 		availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
 		compartment_id = "${var.compartment_id}"
 		display_name = "display_name"
-		size_in_mbs = 262144
 	}`
 	s.ResourceName = "oci_core_volume_attachment.t"
 }

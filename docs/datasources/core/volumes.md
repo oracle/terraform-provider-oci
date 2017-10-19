@@ -32,5 +32,6 @@ The following attributes are exported:
 * `display_name` - A user-friendly name. Does not have to be unique.
 * `id` - The OCID of the Volume.
 * `state` - The current state of the volume. [PROVISIONING,RESTORING,AVAILABLE,TERMINATING,TERMINATED,FAULTY]
-* `size_in_mbs` - The size of the volume, in MBs.
+* `size_in_mbs` - (Deprecated) The size of the volume, in MBs.
+* `size_in_gbs` - The size of the volume, in GBs.
 * `time_created` - The date and time the Volume was created.

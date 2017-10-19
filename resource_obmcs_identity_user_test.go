@@ -31,6 +31,7 @@ func (s *ResourceIdentityUserTestSuite) SetupTest() {
 }
 
 func (s *ResourceIdentityUserTestSuite) TestAccResourceIdentityUser_basic() {
+	token, tokenFn := tokenize()
 	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
@@ -38,25 +39,28 @@ func (s *ResourceIdentityUserTestSuite) TestAccResourceIdentityUser_basic() {
 			{
 				ImportState:       true,
 				ImportStateVerify: true,
-				Config: s.Config + `
-				resource "oci_identity_user" "t" {
-					name = "-tf-user"
-					description = "automated test user"
-				}`,
+				Config: s.Config +
+					tokenFn(
+						`resource "oci_identity_user" "t" {
+							name = "{{.token}}"
+							description = "{{.description}}"
+						}`,
+						map[string]string{"description": "automated test user"}),
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
-					resource.TestCheckResourceAttr(s.ResourceName, "name", "-tf-user"),
+					resource.TestCheckResourceAttr(s.ResourceName, "name", token),
 					resource.TestCheckResourceAttr(s.ResourceName, "description", "automated test user"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", baremetal.ResourceActive),
 				),
 			},
 			// verify update
 			{
-				Config: s.Config + `
-				resource "oci_identity_user" "t" {
-					name = "-tf-user"
-					description = "automated test user (updated)"
-				}`,
+				Config: s.Config + tokenFn(
+					`resource "oci_identity_user" "t" {
+						name = "{{.token}}"
+						description = "{{.description}}"
+					}`,
+					map[string]string{"description": "automated test user (updated)"}),
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "description", "automated test user (updated)"),
 				),

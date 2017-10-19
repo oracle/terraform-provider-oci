@@ -9,8 +9,9 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/bmcs-go-sdk"
 
-	"github.com/stretchr/testify/suite"
 	"fmt"
+
+	"github.com/stretchr/testify/suite"
 )
 
 type ResourceIdentityCompartmentTestSuite struct {
@@ -27,7 +28,6 @@ func (s *ResourceIdentityCompartmentTestSuite) SetupTest() {
 	s.Provider = testAccProvider
 	s.Providers = testAccProviders
 	s.Config = testProviderConfig()
-
 	s.ResourceName = "oci_identity_compartment.t"
 }
 
@@ -42,12 +42,12 @@ func (s *ResourceIdentityCompartmentTestSuite) TestAccResourceIdentityCompartmen
 				ImportStateVerify: true,
 				Config: s.Config + `
 				resource "oci_identity_compartment" "t" {
-					name = "-tf-compartment"
-					description = "tf test compartment"
+					name = "terraform-update-test-compartment"
+					description = "for name and description update tests"
 				}`,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "name", "-tf-compartment"),
-					resource.TestCheckResourceAttr(s.ResourceName, "description", "tf test compartment"),
+					resource.TestCheckResourceAttr(s.ResourceName, "name", "terraform-update-test-compartment"),
+					resource.TestCheckResourceAttr(s.ResourceName, "description", "for name and description update tests"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", baremetal.ResourceActive),
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, "oci_identity_compartment.t", "id")
@@ -59,12 +59,12 @@ func (s *ResourceIdentityCompartmentTestSuite) TestAccResourceIdentityCompartmen
 			{
 				Config: s.Config + `
 				resource "oci_identity_compartment" "t" {
-					name = "-tf-compartment2"
-					description = "tf test compartment2"
+					name = "terraform-update-test-compartment2"
+					description = "for name and description update tests2"
 				}`,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "name", "-tf-compartment2"),
-					resource.TestCheckResourceAttr(s.ResourceName, "description", "tf test compartment2"),
+					resource.TestCheckResourceAttr(s.ResourceName, "name", "terraform-update-test-compartment2"),
+					resource.TestCheckResourceAttr(s.ResourceName, "description", "for name and description update tests2"),
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, "oci_identity_compartment.t", "id")
 						if resId != resId2 {
@@ -78,8 +78,8 @@ func (s *ResourceIdentityCompartmentTestSuite) TestAccResourceIdentityCompartmen
 			{
 				Config: s.Config + `
 				resource "oci_identity_compartment" "t" {
-					name = "-tf-compartment"
-					description = "tf test compartment"
+					name = "terraform-update-test-compartment"
+					description = "for name and description update tests"
 				}`,
 			},
 		},

@@ -7,6 +7,8 @@ import (
 	"github.com/oracle/bmcs-go-sdk"
 
 	"github.com/oracle/terraform-provider-oci/crud"
+
+	"log"
 )
 
 func VnicAttachmentResource() *schema.Resource {
@@ -17,6 +19,7 @@ func VnicAttachmentResource() *schema.Resource {
 		Timeouts: crud.DefaultTimeout,
 		Create:   createVnicAttachment,
 		Read:     readVnicAttachment,
+		Update:   updateVnicAttachment,
 		Delete:   deleteVnicAttachment,
 		Schema: map[string]*schema.Schema{
 			"availability_domain": {
@@ -28,43 +31,11 @@ func VnicAttachmentResource() *schema.Resource {
 				Computed: true,
 			},
 			"create_vnic_details": {
-				Type:     schema.TypeMap,
+				Type:     schema.TypeList,
 				Required: true,
-				ForceNew: true,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						"assign_public_ip": {
-							Type:     schema.TypeBool,
-							Optional: true,
-							ForceNew: true,
-						},
-						"display_name": {
-							Type:     schema.TypeString,
-							Optional: true,
-							ForceNew: true,
-						},
-						"hostname_label": {
-							Type:     schema.TypeString,
-							Optional: true,
-							ForceNew: true,
-						},
-						"private_ip": {
-							Type:     schema.TypeString,
-							Optional: true,
-							ForceNew: true,
-						},
-						"skip_source_dest_check": {
-							Type:     schema.TypeBool,
-							Optional: true,
-							ForceNew: true,
-						},
-						"subnet_id": {
-							Type:     schema.TypeString,
-							Required: true,
-							ForceNew: true,
-						},
-					},
-				},
+				MaxItems: 1,
+				MinItems: 1,
+				Elem:     createVnicDetailsSchema,
 			},
 			"display_name": {
 				Type:     schema.TypeString,
@@ -108,21 +79,28 @@ func VnicAttachmentResource() *schema.Resource {
 func createVnicAttachment(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &VnicAttachmentResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*baremetal.Client)
+	sync.Client = m.(*OracleClients).client
 	return crud.CreateResource(d, sync)
 }
 
 func readVnicAttachment(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &VnicAttachmentResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*baremetal.Client)
+	sync.Client = m.(*OracleClients).client
 	return crud.ReadResource(sync)
+}
+
+func updateVnicAttachment(d *schema.ResourceData, m interface{}) (e error) {
+	sync := &VnicAttachmentResourceCrud{}
+	sync.D = d
+	sync.Client = m.(*OracleClients).client
+	return crud.UpdateResource(sync.D, sync)
 }
 
 func deleteVnicAttachment(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &VnicAttachmentResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*baremetal.Client)
+	sync.Client = m.(*OracleClients).clientWithoutNotFoundRetries
 	return crud.DeleteResource(d, sync)
 }
 
@@ -159,11 +137,23 @@ func (s *VnicAttachmentResourceCrud) Create() (e error) {
 		vaOpts.DisplayName = displayName.(string)
 	}
 
-	vnicOpts, e := SetCreateVnicOptions(s.D.Get("create_vnic_details"))
-	if e == nil {
-		s.Resource, e = s.Client.AttachVnic(instanceID, vnicOpts, vaOpts)
+	vnicOpts := SetCreateVnicOptions(s.D.Get("create_vnic_details").([]interface{}))
+
+	s.Resource, e = s.Client.AttachVnic(instanceID, vnicOpts, vaOpts)
+	return
+}
+
+func (s *VnicAttachmentResourceCrud) Update() (e error) {
+	// The VNIC ID is also available at s.D.Get("vnic_id"). However,
+	// the VnicAttachment resources must be fetched anyway in order to update
+	// the state data after the update call.
+	s.Resource, e = s.Client.GetVnicAttachment(s.D.Id())
+	if e != nil {
+		return
 	}
 
+	opts := SetUpdateVnicOptions(s.D.Get("create_vnic_details").([]interface{}))
+	_, e = s.Client.UpdateVnic(s.Resource.VnicID, opts)
 	return
 }
 
@@ -185,6 +175,15 @@ func (s *VnicAttachmentResourceCrud) SetData() {
 	s.D.Set("time_created", s.Resource.TimeCreated.String())
 	s.D.Set("vlan_tag", s.Resource.VlanTag)
 	s.D.Set("vnic_id", s.Resource.VnicID)
+
+	vnic, err := s.Client.GetVnic(s.Resource.VnicID)
+	if vnic == nil {
+		// VNIC might not be found when attaching or detaching.
+		log.Printf("[DEBUG] VNIC not found during VNIC Attachment refresh. (VNIC ID: %q, Error: %q)", s.Resource.VnicID, err)
+		return
+	}
+
+	RefreshCreateVnicDetails(s.D, vnic)
 }
 
 func (s *VnicAttachmentResourceCrud) Delete() (e error) {

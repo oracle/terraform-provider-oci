@@ -43,28 +43,28 @@ func PreauthenticatedRequestResource() *schema.Resource {
 func createPreauthenticatedRequest(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &PreauthenticatedRequestResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*baremetal.Client)
+	sync.Client = m.(*OracleClients).client
 	return crud.CreateResource(d, sync)
 }
 
 func readPreauthenticatedRequest(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &PreauthenticatedRequestResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*baremetal.Client)
+	sync.Client = m.(*OracleClients).client
 	return crud.ReadResource(sync)
 }
 
 func updatePreauthenticatedRequest(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &PreauthenticatedRequestResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*baremetal.Client)
+	sync.Client = m.(*OracleClients).client
 	return crud.UpdateResource(d, sync)
 }
 
 func deletePreauthenticatedRequest(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &PreauthenticatedRequestResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*baremetal.Client)
+	sync.Client = m.(*OracleClients).clientWithoutNotFoundRetries
 	return crud.DeleteResource(d, sync)
 }
 

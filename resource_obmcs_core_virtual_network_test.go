@@ -75,6 +75,7 @@ func (s *ResourceCoreVirtualNetworkTestSuite) TestAccResourceCoreVirtualNetwork_
 					resource "oci_core_virtual_network" "t" {
 						cidr_block = "10.0.0.0/24"
 						compartment_id = "${var.compartment_id}"
+						dns_label= "MyTestDNSLabel"
 					}`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "cidr_block", "10.0.0.0/24"),
@@ -86,6 +87,28 @@ func (s *ResourceCoreVirtualNetworkTestSuite) TestAccResourceCoreVirtualNetwork_
 						return err
 					},
 				),
+			},
+			// DNS capitalization changes should be ignored.
+			{
+				Config: testProviderConfig() + `
+					resource "oci_core_virtual_network" "t" {
+						cidr_block = "10.0.0.0/24"
+						compartment_id = "${var.compartment_id}"
+						dns_label= "mYtESTdnsLABEL"
+					}`,
+				ExpectNonEmptyPlan: false,
+				PlanOnly:           true,
+			},
+			// DNS label change should cause a change
+			{
+				Config: testProviderConfig() + `
+					resource "oci_core_virtual_network" "t" {
+						cidr_block = "10.0.0.0/24"
+						compartment_id = "${var.compartment_id}"
+						dns_label= "mynewlabel"
+					}`,
+				ExpectNonEmptyPlan: true,
+				PlanOnly:           true,
 			},
 		},
 	})

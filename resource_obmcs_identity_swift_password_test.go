@@ -21,14 +21,15 @@ type ResourceIdentitySwiftPasswordTestSuite struct {
 }
 
 func (s *ResourceIdentitySwiftPasswordTestSuite) SetupTest() {
+	_, tokenFn := tokenize()
 	s.Client = testAccClient
 	s.Provider = testAccProvider
 	s.Providers = testAccProviders
-	s.Config = testProviderConfig() + `
+	s.Config = testProviderConfig() + tokenFn(`
 	resource "oci_identity_user" "t" {
-		name = "tf-user"
+		name = "{{.token}}"
 		description = "tf test user"
-	}`
+	}`, nil)
 
 	s.ResourceName = "oci_identity_swift_password.t"
 }

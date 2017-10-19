@@ -40,7 +40,7 @@ func CpeDatasource() *schema.Resource {
 func readCpeList(d *schema.ResourceData, m interface{}) (e error) {
 	reader := &CPEDatasourceCrud{}
 	reader.D = d
-	reader.Client = m.(*baremetal.Client)
+	reader.Client = m.(*OracleClients).client
 	return crud.ReadResource(reader)
 
 }

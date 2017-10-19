@@ -11,7 +11,7 @@ import (
 	"github.com/stretchr/testify/suite"
 )
 
-type DataSourceCoreVnicTestSuite struct {
+type DatasourceCoreVnicTestSuite struct {
 	suite.Suite
 	Client       *baremetal.Client
 	Config       string
@@ -20,16 +20,15 @@ type DataSourceCoreVnicTestSuite struct {
 	ResourceName string
 }
 
-func (s *DataSourceCoreVnicTestSuite) SetupTest() {
+func (s *DatasourceCoreVnicTestSuite) SetupTest() {
 	s.Client = testAccClient
 	s.Provider = testAccProvider
 	s.Providers = testAccProviders
 	s.Config = testProviderConfig() + instanceDnsConfig
-	s.ResourceName = "data.oci_core_vnic.v"
+	s.ResourceName = "data.oci_core_vnic.t"
 }
 
-func (s *DataSourceCoreVnicTestSuite) TestAccDatasrouceCoreAttachVnic() {
-
+func (s *DatasourceCoreVnicTestSuite) TestAccDatasourceCoreAttachVnic_basic() {
 	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
@@ -37,11 +36,11 @@ func (s *DataSourceCoreVnicTestSuite) TestAccDatasrouceCoreAttachVnic() {
 				ImportState:       true,
 				ImportStateVerify: true,
 				Config: s.Config + `
-				data "oci_core_vnic_attachments" "va" {
+				data "oci_core_vnic_attachments" "t" {
 					compartment_id = "${var.compartment_id}"
 					instance_id = "${oci_core_instance.t.id}"
 				}
-				data "oci_core_vnic" "v" {
+				data "oci_core_vnic" "t" {
 					vnic_id = "${lookup(data.oci_core_vnic_attachments.va.vnic_attachments[0],"vnic_id")}"
 				}`,
 				Check: resource.ComposeTestCheckFunc(
@@ -64,6 +63,6 @@ func (s *DataSourceCoreVnicTestSuite) TestAccDatasrouceCoreAttachVnic() {
 	})
 }
 
-func TestDataSourceCoreVnicTestSuite(t *testing.T) {
-	suite.Run(t, new(DataSourceCoreVnicTestSuite))
+func TestDatasourceCoreVnicTestSuite(t *testing.T) {
+	suite.Run(t, new(DatasourceCoreVnicTestSuite))
 }

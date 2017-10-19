@@ -17,7 +17,7 @@ func TestAccDatasourceLoadBalancerPolicies_basic(t *testing.T) {
 
 	resourceName := "data.oci_load_balancer_policies.t"
 
-	resource.UnitTest(t, resource.TestCase{
+	resource.Test(t, resource.TestCase{
 		PreventPostDestroyRefresh: true,
 		Providers:                 providers,
 		Steps: []resource.TestStep{

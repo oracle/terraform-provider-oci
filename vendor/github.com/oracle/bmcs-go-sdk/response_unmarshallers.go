@@ -110,7 +110,7 @@ type ContentUnmarshallable interface {
 type ContentUnmarshaller struct {
 	ContentLength   uint64
 	ContentRange    string
-	MD5             string
+	ContentMD5      string
 	ContentType     string
 	ContentLanguage string
 	ContentEncoding string
@@ -124,8 +124,8 @@ func (ref *ContentUnmarshaller) SetContentRange(r string) {
 	ref.ContentRange = r
 }
 
-func (ref *ContentUnmarshaller) SetMD5(md5 string) {
-	ref.MD5 = md5
+func (ref *ContentUnmarshaller) SetContentMD5(md5 string) {
+	ref.ContentMD5 = md5
 }
 
 func (ref *ContentUnmarshaller) SetContentType(t string) {
