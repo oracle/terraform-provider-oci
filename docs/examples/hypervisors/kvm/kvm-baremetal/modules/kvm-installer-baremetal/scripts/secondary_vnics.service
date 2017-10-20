@@ -1,0 +1,9 @@
+[Unit]
+Description=Enable Secondary vnics
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/configure-secondary-vnics.sh
+
+[Install]
+WantedBy=default.target

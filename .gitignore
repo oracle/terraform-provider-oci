@@ -2,7 +2,6 @@
 terraform.tfstate*
 .terraform.tfstate.lock.info
 tf.plan
-*.tfvars
 *.orig
 *.log
 .DS_Store
