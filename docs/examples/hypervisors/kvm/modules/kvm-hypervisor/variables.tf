@@ -1,0 +1,14 @@
+variable "private_key" {}
+variable "host" {}
+variable "qcow2_image_url" {}
+variable "qcow2_image_target_path" {}
+variable "qcow2_image_filename" {}
+variable "kvm_guest_domain_name" {}
+variable "kvm_guest_memory" {}
+variable "kvm_guest_vcpu" {}
+variable "kvm_guest_os_type" {}
+variable "kvm_guest_vnc_port" {}
+variable "kvm_guest_vnc_pwd" {}
+variable "kvm_guest_vnic_mac_address" {}
+variable "kvm_guest_vnic_id" {}
+variable "kvm_guest_emulation_mode" {}
