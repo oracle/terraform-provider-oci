@@ -1,7 +1,6 @@
 .terraform
 terraform.tfstate*
 tf.plan
-*.tfvars
 *.orig
 *.log
 .DS_Store
