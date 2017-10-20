@@ -101,7 +101,7 @@ func (s *DBSystemDatasourceCrud) SetData() {
 				"compartment_id":          r.CompartmentID,
 				"cpu_core_count":          int(r.CPUCoreCount),
 				"data_storage_percentage": r.DataStoragePercentage,
-				"data_storage_size_in_gb": int(r.DataStorageSizeInGB),
+				"data_storage_size_in_gb": int(r.DataStorageSizeInGBs),
 				"database_edition":        r.DatabaseEdition,
 				"db_home":                 []interface{}{dbHome},
 				"display_name":            r.DisplayName,

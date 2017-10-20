@@ -413,7 +413,7 @@ func (s *DBSystemResourceCrud) SetData() {
 	s.D.Set("backup_subnet_id", s.Res.BackupSubnetID)
 	s.D.Set("cluster_name", s.Res.ClusterName)
 	s.D.Set("data_storage_percentage", s.Res.DataStoragePercentage)
-	s.D.Set("data_storage_size_in_gb", s.Res.DataStorageSizeInGB)
+	s.D.Set("data_storage_size_in_gb", s.Res.DataStorageSizeInGBs)
 	s.D.Set("disk_redundancy", s.Res.DiskRedundancy)
 	s.D.Set("display_name", s.Res.DisplayName)
 	s.D.Set("domain", s.Res.Domain)

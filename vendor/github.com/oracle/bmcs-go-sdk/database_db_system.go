@@ -15,7 +15,7 @@ type DBSystem struct {
 	CPUCoreCount          uint64              `json:"cpuCoreCount"`
 	DatabaseEdition       DatabaseEdition     `json:"databaseEdition"`
 	DataStoragePercentage int                 `json:"dataStoragePercentage"`
-	DataStorageSizeInGB   int                 `json:"dataStorageSizeInGB"`
+	DataStorageSizeInGBs  int                 `json:"dataStorageSizeInGBs"`
 	DBHome                CreateDBHomeDetails `json:"dbHome"`
 	DiskRedundancy        DiskRedundancy      `json:"diskRedundancy"`
 	DisplayName           string              `json:"displayName"`
