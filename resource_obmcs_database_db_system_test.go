@@ -58,7 +58,7 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem() {
 			{
 				ImportState:       true,
 				ImportStateVerify: true,
-				Config:            s.Config + `
+				Config: s.Config + `
 				resource "oci_database_db_system" "t" {
 					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
 					compartment_id = "${var.compartment_id}"
