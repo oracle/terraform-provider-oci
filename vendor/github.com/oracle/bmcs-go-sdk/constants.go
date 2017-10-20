@@ -12,6 +12,7 @@ type NetworkEntityType string
 type DBNodeAction string
 type DatabaseEdition string
 type DiskRedundancy string
+type LicenseModel string
 type ListObjectOptionField string
 type BucketAccessType string
 type PARAccessType string
@@ -125,6 +126,10 @@ const (
 	// Database disk redundancy levels
 	DiskRedundancyHigh   DiskRedundancy = "HIGH"
 	DiskRedundancyNormal DiskRedundancy = "NORMAL"
+
+	// License models
+	LicenseIncluded     LicenseModel = "LICENSE_INCLUDED"
+	BringYourOwnLicense LicenseModel = "BRING_YOUR_OWN_LICENSE"
 
 	// DB Resources
 	resourceDBHomes               resourceName = "dbHomes"

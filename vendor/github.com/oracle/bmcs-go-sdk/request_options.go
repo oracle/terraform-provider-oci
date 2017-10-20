@@ -191,11 +191,14 @@ type LaunchInstanceOptions struct {
 
 type LaunchDBSystemOptions struct {
 	CreateOptions
-	BackupSubnetId        string         `header:"-" json:"backupSubnetId,omitempty" url:"-"`
-	ClusterName           string         `header:"-" json:"clusterName,omitempty" url:"-"`
-	DataStoragePercentage int            `header:"-" json:"dataStoragePercentage,omitempty" url:"-"`
-	DiskRedundancy        DiskRedundancy `header:"-" json:"diskRedundancy,omitempty" url:"-"`
-	Domain                string         `header:"-" json:"domain,omitempty" url:"-"`
+	BackupSubnetId             string         `header:"-" json:"backupSubnetId,omitempty" url:"-"`
+	ClusterName                string         `header:"-" json:"clusterName,omitempty" url:"-"`
+	DataStoragePercentage      int            `header:"-" json:"dataStoragePercentage,omitempty" url:"-"`
+	DiskRedundancy             DiskRedundancy `header:"-" json:"diskRedundancy,omitempty" url:"-"`
+	Domain                     string         `header:"-" json:"domain,omitempty" url:"-"`
+	InitialDataStorageSizeInGB int            `header:"-" json:"initialDataStorageSizeInGB,omitempty" url:"-"`
+	LicenseModel               LicenseModel   `header:"-" json:"licenseModel,omitempty" url:"-"`
+	NodeCount                  int            `header:"-" json:"nodeCount,omitempty" url:"-"`
 }
 
 type CreateDBHomeOptions struct {
