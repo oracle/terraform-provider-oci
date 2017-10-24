@@ -1,9 +1,10 @@
 # oci\_objectstorage\_bucket\_summary
 
-Get a list of all Bucket summaries in a namespace. A BucketSummary contains only summary fields for the bucket and does not contain fields like the user-defined metadata.
+[BucketSummary Reference][cb1f26ec]
 
-To use this and other API operations, you must be authorized in an IAM policy.
-See [List Buckets API Docs](https://docs.us-az-phoenix-1.oracleiaas.com/api/#/en/objectstorage/20160918/BucketSummary/ListBuckets) for details.
+  [cb1f26ec]: https://docs.us-phoenix-1.oraclecloud.com/api/#/en/objectstorage/20160918/BucketSummary/ "BucketSummaryReference"
+
+Get a list of all the `BucketSummary`'s in a namespace. A `BucketSummary` contains only summary fields for the bucket and does not contain fields like the user-defined metadata.
 
 
 ## Example Usage

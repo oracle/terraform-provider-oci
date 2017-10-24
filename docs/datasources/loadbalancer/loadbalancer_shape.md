@@ -1,6 +1,10 @@
 # oci\_load\_balancer_shapes
 
-Provide a list of supported load balancer shapes.
+[LoadBalancerShape Reference][843ad06b]
+
+  [843ad06b]: https://docs.us-phoenix-1.oraclecloud.com/api/#/en/loadbalancer/20170115/LoadBalancerShape/ "LoadBalancerShapeReference"
+
+Provides a list of supported load balancer shapes. A shape is a template that determines the total pre-provisioned bandwidth (ingress plus egress) for the load balancer.
 
 ## Example Usage
 
@@ -17,7 +21,7 @@ The following arguments are supported:
 * `compartment_id` - (Required) The OCID of the compartment.
 
 ## Attribute Reference
-* `shapes` - The list of shapes
+* `shapes` - The list of valid load balancer shapes.
 
 ## Shape Reference
 * `name` - The name of the shape.

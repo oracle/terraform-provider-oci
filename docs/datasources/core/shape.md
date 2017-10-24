@@ -1,5 +1,9 @@
 # oci\_core\_shape
 
+**API:** [Shape Reference][ba540762]
+
+  [ba540762]: https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/Shape/ "ShapeReference"
+
 Gets the list of shapes that can be used to launch an instance within the specified compartment.
 
 ## Example Usage

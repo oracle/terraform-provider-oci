@@ -1,6 +1,10 @@
 # oci\_identity\_availability\_domain
 
-Lists availability domains.
+[AvailabilityDomain Reference][65774c17]
+
+  [65774c17]: https://docs.us-phoenix-1.oraclecloud.com/api/#/en/identity/20160918/AvailabilityDomain/ "AvailabilityDomainReference"
+
+Lists Availability Domains (ADs).
 
 ## Example Usage
 

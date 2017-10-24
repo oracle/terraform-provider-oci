@@ -1,5 +1,9 @@
 # oci\_database\_db\_homes
 
+[DbHome Summary][40f7e502]
+
+  [40f7e502]: https://docs.us-phoenix-1.oraclecloud.com/api/#/en/database/20160918/DbHomeSummary/ "DbHomeSummary"
+
 Gets a list of database homes in the specified DB System and compartment.
 
 ## Example Usage

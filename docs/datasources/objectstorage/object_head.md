@@ -1,6 +1,6 @@
 # oci\_objectstorage\_object_head
 
-Provides an Objectstorage datasource for fetching an objects metadata.
+Provides a datasource for fetching object metadata.
 
 ## Example Usage
 
@@ -18,7 +18,7 @@ data "oci_objectstorage_object_head" "t" {
 
 * `namespace` - (Required) The namespace of the object storage that the object is in.
 * `bucket` - (Required) The name of the bucket in the namespace that the object is in.
-* `object` - (Required) The name of the object in the bucket
+* `object` - (Required) The name of the object in the bucket.
 
 ## Attribute Reference
 
