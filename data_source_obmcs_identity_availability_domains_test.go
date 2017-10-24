@@ -5,6 +5,8 @@ package main
 import (
 	"testing"
 
+	"regexp"
+
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/bmcs-go-sdk"
@@ -25,11 +27,7 @@ func (s *DatasourceIdentityAvailabilityDomainsTestSuite) SetupTest() {
 	s.Client = testAccClient
 	s.Provider = testAccProvider
 	s.Providers = testAccProviders
-	s.Config = testProviderConfig() + `
-	data "oci_identity_availability_domains" "t" {
-		compartment_id = "${var.compartment_id}"
-	}`
-
+	s.Config = testProviderConfig()
 	s.ResourceName = "data.oci_identity_availability_domains.t"
 }
 
@@ -38,13 +36,30 @@ func (s *DatasourceIdentityAvailabilityDomainsTestSuite) TestAccIdentityAvailabi
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
+			// Verify expected number of ADs
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config:            s.Config,
+				Config: s.Config + `
+				data "oci_identity_availability_domains" "t" {
+					compartment_id = "${var.compartment_id}"
+				}`,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domains.0.name"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domains.1.name"),
+					resource.TestCheckResourceAttr(s.ResourceName, "availability_domains.#", "3"),
+				),
+			},
+			// Verify regex filtering
+			{
+				Config: s.Config + `
+				data "oci_identity_availability_domains" "t" {
+					compartment_id = "${var.compartment_id}"
+					filter {
+						name = "name"
+						values = ["\\w*:\\w{3}-AD-2"]
+						regex = true
+					}
+				}`,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttr(s.ResourceName, "availability_domains.#", "1"),
+					resource.TestMatchResourceAttr(s.ResourceName, "availability_domains.0.name", regexp.MustCompile(".*AD-2")),
 				),
 			},
 		},

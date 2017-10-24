@@ -18,14 +18,16 @@ type DatasourceIdentityPolicyTestSuite struct {
 	Providers    map[string]terraform.ResourceProvider
 	Config       string
 	ResourceName string
+	Token        string
+	TokenFn      TokenFn
 }
 
 func (s *DatasourceIdentityPolicyTestSuite) SetupTest() {
-	_, tokenFn := tokenize()
+	s.Token, s.TokenFn = tokenize()
 	s.Client = testAccClient
 	s.Provider = testAccProvider
 	s.Providers = testAccProviders
-	s.Config = testProviderConfig() + tokenFn(`
+	s.Config = testProviderConfig() + s.TokenFn(`
 	resource "oci_identity_compartment" "t" {
 		name = "-tf-compartment"
 		description = "tf test compartment"
@@ -53,17 +55,48 @@ func (s *DatasourceIdentityPolicyTestSuite) TestAccDatasourceIdentityPolicies_ba
 				ImportState:       true,
 				ImportStateVerify: true,
 				Config:            s.Config,
-			}, {
+			},
+			{
 				Config: s.Config + `
 				data "oci_identity_policies" "p" {
 					compartment_id = "${oci_identity_compartment.t.id}"
 				}`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "policies.#"),
+				),
+			},
+			{
+				Config: s.Config + s.TokenFn(`
+				data "oci_identity_policies" "p" {
+					compartment_id = "${oci_identity_compartment.t.id}"
+					filter {
+						name   = "name"
+						values = ["{{.token}}"]
+					}
+				}`, nil),
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttr(s.ResourceName, "policies.#", "1"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "policies.0.id"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "policies.0.name"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "policies.0.description"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "policies.0.statements.#"),
+					resource.TestCheckResourceAttr(s.ResourceName, "policies.0.name", s.Token),
+					resource.TestCheckResourceAttr(s.ResourceName, "policies.0.description", "automated test policy"),
+					resource.TestCheckResourceAttr(s.ResourceName, "policies.0.state", "ACTIVE"),
+					resource.TestCheckResourceAttr(s.ResourceName, "policies.0.inactive_state", "0"),
+					resource.TestCheckResourceAttr(s.ResourceName, "policies.0.statements.#", "1"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "policies.0.time_created"),
+				),
+			},
+			// Test filter against array of strings
+			{
+				Config: s.Config + s.TokenFn(`
+				data "oci_identity_policies" "p" {
+					compartment_id = "${oci_identity_compartment.t.id}"
+					filter {
+						name   = "statements"
+						values = ["Allow group {{.token}} to read instances in compartment -tf-compartment"]
+					}
+				}`, nil),
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttr(s.ResourceName, "policies.#", "1"),
 				),
 			},
 		},
