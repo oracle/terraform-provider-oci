@@ -83,6 +83,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
 					compartment_id = "${var.compartment_id}"
 					subnet_id = "${oci_core_subnet.t.id}"
+					hostname_label = "hostname1"
 					image = "${data.oci_core_images.t.images.0.id}"
 					shape = "VM.Standard1.1"
 					metadata {
@@ -105,7 +106,31 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 					},
 				),
 			},
-			// verify update
+			// Switching to create_vnic_details for subnet_id and hostname_label should not lead to a change.
+			{
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config: s.Config + `
+				resource "oci_core_instance" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${var.compartment_id}"
+					create_vnic_details {
+						subnet_id = "${oci_core_subnet.t.id}"
+						hostname_label = "hostname1"
+					}
+					image = "${data.oci_core_images.t.images.0.id}"
+					shape = "VM.Standard1.1"
+					metadata {
+						ssh_authorized_keys = "${var.ssh_public_key}"
+					}
+					timeouts {
+						create = "15m"
+					}
+				}`,
+				ExpectNonEmptyPlan: false,
+				PlanOnly:           true,
+			},
+			// verify update - adds display name
 			{
 				ImportState:       true,
 				ImportStateVerify: true,
@@ -114,6 +139,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
 					compartment_id = "${var.compartment_id}"
 					subnet_id = "${oci_core_subnet.t.id}"
+					hostname_label = "hostname1"
 					image = "${data.oci_core_images.t.images.0.id}"
 					shape = "VM.Standard1.1"
 					display_name = "-tf-instance"
@@ -132,7 +158,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 					},
 				),
 			},
-			// Adding create_vnic_details with the same subnet_id and an updateable fields should cause an update only.
+			// Adding create_vnic_details with the same subnet_id and an updatable fields should cause an update only.
 			{
 				ImportState:       true,
 				ImportStateVerify: true,
