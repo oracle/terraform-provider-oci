@@ -84,15 +84,15 @@ func (s *DatasourceCoreInstanceTestSuite) TestAccDatasourceCoreInstance_basic() 
 			{
 				ImportState:       true,
 				ImportStateVerify: true,
-				Config:            s.Config,
-			},
-			{
 				Config: s.Config + s.TokenFn(`
 				data "oci_core_instances" "t" {
 					compartment_id = "${var.compartment_id}"
 					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
 					display_name = "{{.token}}"
-					limit = 1
+					filter {
+						name = "id"
+						values = ["${oci_core_instance.t.id}"]
+					}
 				}`, nil),
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "instances.#", "1"),

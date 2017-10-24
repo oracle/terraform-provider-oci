@@ -8,10 +8,11 @@ import (
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
 	baremetal "github.com/oracle/bmcs-go-sdk"
+
 	"github.com/stretchr/testify/suite"
 )
 
-type DatasourceCoreVirtualNetworkTestSuite struct {
+type DatasourceCoreShapeTestSuite struct {
 	suite.Suite
 	Client       *baremetal.Client
 	Config       string
@@ -20,24 +21,26 @@ type DatasourceCoreVirtualNetworkTestSuite struct {
 	ResourceName string
 }
 
-func (s *DatasourceCoreVirtualNetworkTestSuite) SetupTest() {
+func (s *DatasourceCoreShapeTestSuite) SetupTest() {
 	s.Client = testAccClient
 	s.Provider = testAccProvider
 	s.Providers = testAccProviders
 	s.Config = testProviderConfig() + `
-	resource "oci_core_virtual_network" "t" {
-		cidr_block = "10.0.0.0/16"
+	data "oci_identity_availability_domains" "t" {
 		compartment_id = "${var.compartment_id}"
-		display_name = "display_name"
 	}
-	data "oci_core_virtual_networks" "t" {
-		compartment_id = "${oci_core_virtual_network.t.compartment_id}"
-		limit = 1
+	data "oci_core_shape" "t" {
+		compartment_id = "${var.compartment_id}"
+		availability_domain = "${data.oci_identity_availability_domains.t.availability_domains.0.name}"
+		filter {
+			name = "name"
+			values = ["VM.Standard1.2"]
+		}
 	}`
-	s.ResourceName = "data.oci_core_virtual_networks.t"
+	s.ResourceName = "data.oci_core_shape.t"
 }
 
-func (s *DatasourceCoreVirtualNetworkTestSuite) TestAccDatasourceCoreVirtualNetwork_basic() {
+func (s *DatasourceCoreShapeTestSuite) TestAccDatasourceCoreShape_basic() {
 
 	resource.Test(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,
@@ -48,17 +51,16 @@ func (s *DatasourceCoreVirtualNetworkTestSuite) TestAccDatasourceCoreVirtualNetw
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "virtual_networks.0.cidr_block", "10.0.0.0/16"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "virtual_networks.0.id"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "virtual_networks.#"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),
+					resource.TestCheckResourceAttr(s.ResourceName, "shapes.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "shapes.0.name", "VM.Standard1.2"),
 				),
 			},
 		},
 	},
 	)
-
 }
 
-func TestDatasourceCoreVirtualNetworkTestSuite(t *testing.T) {
-	suite.Run(t, new(DatasourceCoreVirtualNetworkTestSuite))
+func TestDatasourceCoreShapeTestSuite(t *testing.T) {
+	suite.Run(t, new(DatasourceCoreShapeTestSuite))
 }

@@ -17,6 +17,7 @@ func VolumeBackupDatasource() *schema.Resource {
 	return &schema.Resource{
 		Read: readVolumeBackups,
 		Schema: map[string]*schema.Schema{
+			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -85,25 +86,35 @@ func (s *VolumeBackupDatasourceCrud) Get() (e error) {
 }
 
 func (s *VolumeBackupDatasourceCrud) SetData() {
-	if s.Res != nil {
-		s.D.SetId(time.Now().UTC().String())
-		volumes := []map[string]interface{}{}
-		for _, v := range s.Res.VolumeBackups {
-			vol := map[string]interface{}{
-				"compartment_id":        v.CompartmentID,
-				"display_name":          v.DisplayName,
-				"id":                    v.ID,
-				"state":                 v.State,
-				"size_in_mbs":           v.SizeInMBs,
-				"size_in_gbs":           v.SizeInGBs,
-				"time_created":          v.TimeCreated.String(),
-				"time_request_received": v.TimeRequestReceived.String(),
-				"unique_size_in_mbs":    v.UniqueSizeInMBs,
-				"volume_id":             v.VolumeID,
-			}
-			volumes = append(volumes, vol)
-		}
-		s.D.Set("volume_backups", volumes)
+	if s.Res == nil {
+		return
 	}
+
+	s.D.SetId(time.Now().UTC().String())
+	resources := []map[string]interface{}{}
+	for _, v := range s.Res.VolumeBackups {
+		vol := map[string]interface{}{
+			"compartment_id":        v.CompartmentID,
+			"display_name":          v.DisplayName,
+			"id":                    v.ID,
+			"state":                 v.State,
+			"size_in_mbs":           v.SizeInMBs,
+			"size_in_gbs":           v.SizeInGBs,
+			"time_created":          v.TimeCreated.String(),
+			"time_request_received": v.TimeRequestReceived.String(),
+			"unique_size_in_mbs":    v.UniqueSizeInMBs,
+			"volume_id":             v.VolumeID,
+		}
+		resources = append(resources, vol)
+	}
+
+	if f, fOk := s.D.GetOk("filter"); fOk {
+		resources = ApplyFilters(f.(*schema.Set), resources)
+	}
+
+	if err := s.D.Set("volume_backups", resources); err != nil {
+		panic(err)
+	}
+
 	return
 }

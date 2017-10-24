@@ -17,6 +17,7 @@ func SubnetDatasource() *schema.Resource {
 	return &schema.Resource{
 		Read: readSubnets,
 		Schema: map[string]*schema.Schema{
+			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -73,6 +74,14 @@ func resourceCoreSubnets() *schema.Resource {
 				},
 			},
 			"display_name": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"dhcp_options_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"dns_label": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -144,29 +153,40 @@ func (s *SubnetDatasourceCrud) Get() (e error) {
 }
 
 func (s *SubnetDatasourceCrud) SetData() {
-	if s.Res != nil {
-
-		s.D.SetId(time.Now().UTC().String())
-		resources := []map[string]interface{}{}
-		for _, v := range s.Res.Subnets {
-			res := map[string]interface{}{
-				"availability_domain": v.AvailabilityDomain,
-				"cidr_block":          v.CIDRBlock,
-				"compartment_id":      v.CompartmentID,
-				"route_table_id":      v.RouteTableID,
-				"vcn_id":              v.VcnID,
-				"security_list_ids":   v.SecurityListIDs,
-				"display_name":        v.DisplayName,
-				"id":                  v.ID,
-				"prohibit_public_ip_on_vnic": v.ProhibitPublicIpOnVnic,
-				"state":              v.State,
-				"time_created":       v.TimeCreated.String(),
-				"virtual_router_ip":  v.VirtualRouterIP,
-				"virtual_router_mac": v.VirtualRouterMac,
-			}
-			resources = append(resources, res)
-		}
-		s.D.Set("subnets", resources)
+	if s.Res == nil {
+		return
 	}
+
+	s.D.SetId(time.Now().UTC().String())
+	resources := []map[string]interface{}{}
+	for _, v := range s.Res.Subnets {
+		res := map[string]interface{}{
+			"availability_domain": v.AvailabilityDomain,
+			"cidr_block":          v.CIDRBlock,
+			"compartment_id":      v.CompartmentID,
+			"display_name":        v.DisplayName,
+			"dhcp_options_id":     v.DHCPOptionsID,
+			"dns_label":           v.DNSLabel,
+			"id":                  v.ID,
+			"prohibit_public_ip_on_vnic": v.ProhibitPublicIpOnVnic,
+			"route_table_id":             v.RouteTableID,
+			"security_list_ids":          v.SecurityListIDs,
+			"state":                      v.State,
+			"time_created":               v.TimeCreated.String(),
+			"vcn_id":                     v.VcnID,
+			"virtual_router_ip":          v.VirtualRouterIP,
+			"virtual_router_mac":         v.VirtualRouterMac,
+		}
+		resources = append(resources, res)
+	}
+
+	if f, fOk := s.D.GetOk("filter"); fOk {
+		resources = ApplyFilters(f.(*schema.Set), resources)
+	}
+
+	if err := s.D.Set("subnets", resources); err != nil {
+		panic(err)
+	}
+
 	return
 }

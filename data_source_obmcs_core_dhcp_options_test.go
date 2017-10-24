@@ -19,7 +19,6 @@ type DatasourceCoreDHCPOptionsTestSuite struct {
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	ResourceName string
-	List         *baremetal.ListDHCPOptions
 }
 
 func (s *DatasourceCoreDHCPOptionsTestSuite) SetupTest() {
@@ -30,23 +29,8 @@ func (s *DatasourceCoreDHCPOptionsTestSuite) SetupTest() {
 	resource "oci_core_virtual_network" "t" {
 		cidr_block = "10.0.0.0/16"
 		compartment_id = "${var.compartment_id}"
-		display_name = "network_name"
-	}
-	resource "oci_core_dhcp_options" "t" {
-		compartment_id = "${var.compartment_id}"
-		display_name = "display_name"
-     		options {
-			type = "DomainNameServer"
-			custom_dns_servers = [ "8.8.8.8" ]
-			server_type = "CustomDnsServer"
-		}
-     		vcn_id = "${oci_core_virtual_network.t.id}"
-	}
-    data "oci_core_dhcp_options" "t" {
-      compartment_id = "${var.compartment_id}"
-      limit = 1
-      vcn_id = "${oci_core_virtual_network.t.id}"
-    }`
+		display_name = "-tf-vcn"
+	}`
 	s.ResourceName = "data.oci_core_dhcp_options.t"
 }
 
@@ -58,17 +42,32 @@ func (s *DatasourceCoreDHCPOptionsTestSuite) TestAccDatasourceCoreDHCPOptions_ba
 			{
 				ImportState:       true,
 				ImportStateVerify: true,
-				Config:            s.Config,
+				Config: s.Config + `
+				data "oci_core_dhcp_options" "t" {
+					compartment_id = "${var.compartment_id}"
+					vcn_id = "${oci_core_virtual_network.t.id}"
+					
+					filter {
+						name = "display_name"
+						values = ["Default DHCP Options.*"]
+						regex = true
+					}
+				}`,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet(s.ResourceName, "options.0.id"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "options.#"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "vcn_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "compartment_id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "options.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "options.0.display_name", "Default DHCP Options for -tf-vcn"),
+					resource.TestCheckResourceAttr(s.ResourceName, "options.0.options.#", "1"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "options.0.compartment_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "options.0.id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "options.0.time_created"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "options.0.vcn_id"),
 				),
 			},
 		},
 	},
 	)
-
 }
 
 func TestDatasourceCoreDHCPOptionsTestSuite(t *testing.T) {

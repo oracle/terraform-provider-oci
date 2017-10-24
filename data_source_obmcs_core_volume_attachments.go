@@ -17,6 +17,7 @@ func VolumeAttachmentDatasource() *schema.Resource {
 	return &schema.Resource{
 		Read: readVolumeAttachments,
 		Schema: map[string]*schema.Schema{
+			"filter": dataSourceFiltersSchema(),
 			"availability_domain": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -99,26 +100,35 @@ func (s *VolumeAttachmentDatasourceCrud) Get() (e error) {
 }
 
 func (s *VolumeAttachmentDatasourceCrud) SetData() {
-	if s.Res != nil {
-		// Important, if you don't have an ID, make one up for your datasource
-		// or things will end in tears
-		s.D.SetId(time.Now().UTC().String())
-		resources := []map[string]string{}
-		for _, v := range s.Res.VolumeAttachments {
-			res := map[string]string{
-				"attachment_type":     v.AttachmentType,
-				"availability_domain": v.AvailabilityDomain,
-				"compartment_id":      v.CompartmentID,
-				"display_name":        v.DisplayName,
-				"id":                  v.ID,
-				"instance_id":         v.InstanceID,
-				"state":               v.State,
-				"time_created":        v.TimeCreated.String(),
-				"volume_id":           v.VolumeID,
-			}
-			resources = append(resources, res)
-		}
-		s.D.Set("volume_attachments", resources)
+	if s.Res == nil {
+		return
 	}
+	// Important, if you don't have an ID, make one up for your datasource
+	// or things will end in tears
+	s.D.SetId(time.Now().UTC().String())
+	resources := []map[string]interface{}{}
+	for _, v := range s.Res.VolumeAttachments {
+		res := map[string]interface{}{
+			"attachment_type":     v.AttachmentType,
+			"availability_domain": v.AvailabilityDomain,
+			"compartment_id":      v.CompartmentID,
+			"display_name":        v.DisplayName,
+			"id":                  v.ID,
+			"instance_id":         v.InstanceID,
+			"state":               v.State,
+			"time_created":        v.TimeCreated.String(),
+			"volume_id":           v.VolumeID,
+		}
+		resources = append(resources, res)
+	}
+
+	if f, fOk := s.D.GetOk("filter"); fOk {
+		resources = ApplyFilters(f.(*schema.Set), resources)
+	}
+
+	if err := s.D.Set("volume_attachments", resources); err != nil {
+		panic(err)
+	}
+
 	return
 }

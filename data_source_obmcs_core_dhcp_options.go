@@ -16,6 +16,7 @@ func DHCPOptionsDatasource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDHCPOptionsList,
 		Schema: map[string]*schema.Schema{
+			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -81,34 +82,45 @@ func (s *DHCPOptionsDatasourceCrud) Get() (e error) {
 }
 
 func (s *DHCPOptionsDatasourceCrud) SetData() {
-	if s.Res != nil {
-		s.D.SetId(time.Now().UTC().String())
-
-		stateObjs := []map[string]interface{}{}
-		for _, res := range s.Res.DHCPOptions {
-
-			nestedStateObjs := []map[string]interface{}{}
-
-			for _, nestedRes := range res.Options {
-				nestedStateObj := map[string]interface{}{
-					"type":               nestedRes.Type,
-					"custom_dns_servers": nestedRes.CustomDNSServers,
-					"server_type":        nestedRes.ServerType,
-				}
-				nestedStateObjs = append(nestedStateObjs, nestedStateObj)
-			}
-
-			stateObj := map[string]interface{}{
-				"compartment_id": res.CompartmentID,
-				"display_name":   res.DisplayName,
-				"id":             res.ID,
-				"options":        nestedStateObjs,
-				"state":          res.State,
-				"time_created":   res.TimeCreated.String(),
-			}
-			stateObjs = append(stateObjs, stateObj)
-		}
-		s.D.Set("options", stateObjs)
+	if s.Res == nil {
+		return
 	}
+
+	s.D.SetId(time.Now().UTC().String())
+
+	resources := []map[string]interface{}{}
+	for _, res := range s.Res.DHCPOptions {
+
+		nestedStateObjs := []map[string]interface{}{}
+
+		for _, nestedRes := range res.Options {
+			nestedStateObj := map[string]interface{}{
+				"type":               nestedRes.Type,
+				"custom_dns_servers": nestedRes.CustomDNSServers,
+				"server_type":        nestedRes.ServerType,
+			}
+			nestedStateObjs = append(nestedStateObjs, nestedStateObj)
+		}
+
+		stateObj := map[string]interface{}{
+			"compartment_id": res.CompartmentID,
+			"display_name":   res.DisplayName,
+			"id":             res.ID,
+			"options":        nestedStateObjs,
+			"state":          res.State,
+			"time_created":   res.TimeCreated.String(),
+			"vcn_id":         s.D.Get("vcn_id").(string), // todo: get this off the resource result
+		}
+		resources = append(resources, stateObj)
+	}
+
+	if f, fOk := s.D.GetOk("filter"); fOk {
+		resources = ApplyFilters(f.(*schema.Set), resources)
+	}
+
+	if err := s.D.Set("options", resources); err != nil {
+		panic(err)
+	}
+
 	return
 }

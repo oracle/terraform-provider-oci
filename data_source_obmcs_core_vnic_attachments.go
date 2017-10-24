@@ -13,6 +13,44 @@ import (
 	"github.com/oracle/terraform-provider-oci/crud"
 )
 
+func DatasourceCoreVnicAttachments() *schema.Resource {
+	return &schema.Resource{
+		Read: readVnicAttachments,
+		Schema: map[string]*schema.Schema{
+			"filter": dataSourceFiltersSchema(),
+			"compartment_id": {
+				Type:     schema.TypeString,
+				Required: true,
+			},
+			"availability_domain": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"instance_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"vnic_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"page": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"limit": {
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
+			"vnic_attachments": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem:     resourceVnicAttachment(),
+			},
+		},
+	}
+}
+
 func resourceVnicAttachment() *schema.Resource {
 	return &schema.Resource{
 		Schema: map[string]*schema.Schema{
@@ -51,43 +89,6 @@ func resourceVnicAttachment() *schema.Resource {
 			"vnic_id": {
 				Type:     schema.TypeString,
 				Computed: true,
-			},
-		},
-	}
-}
-
-func DatasourceCoreVnicAttachments() *schema.Resource {
-	return &schema.Resource{
-		Read: readVnicAttachments,
-		Schema: map[string]*schema.Schema{
-			"compartment_id": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			"availability_domain": {
-				Type:     schema.TypeString,
-				Optional: true,
-			},
-			"instance_id": {
-				Type:     schema.TypeString,
-				Optional: true,
-			},
-			"vnic_id": {
-				Type:     schema.TypeString,
-				Optional: true,
-			},
-			"page": {
-				Type:     schema.TypeString,
-				Optional: true,
-			},
-			"limit": {
-				Type:     schema.TypeInt,
-				Optional: true,
-			},
-			"vnic_attachments": {
-				Type:     schema.TypeList,
-				Computed: true,
-				Elem:     resourceVnicAttachment(),
 			},
 		},
 	}
@@ -142,28 +143,33 @@ func (r *VnicAttachmentDatasourceCrud) Get() (e error) {
 	return
 }
 
-func (r *VnicAttachmentDatasourceCrud) SetData() {
-
-	if r.Res != nil {
-		r.D.SetId(time.Now().UTC().String())
-		attachments := []map[string]string{}
-
-		for _, att := range r.Res.Attachments {
-			attachment := map[string]string{}
-			attachment["id"] = att.ID
-			attachment["display_name"] = att.DisplayName
-			attachment["availability_domain"] = att.AvailabilityDomain
-			attachment["compartment_id"] = att.CompartmentID
-			attachment["instance_id"] = att.InstanceID
-			attachment["state"] = att.State
-			attachment["subnet_id"] = att.SubnetID
-			attachment["time_created"] = att.TimeCreated.Format(time.RFC1123)
-			attachment["vnic_id"] = att.VnicID
-			attachments = append(attachments, attachment)
-		}
-
-		r.D.Set("vnic_attachments", attachments)
-
+func (s *VnicAttachmentDatasourceCrud) SetData() {
+	if s.Res == nil {
+		return
 	}
 
+	s.D.SetId(time.Now().UTC().String())
+	resources := []map[string]interface{}{}
+
+	for _, att := range s.Res.Attachments {
+		attachment := map[string]interface{}{}
+		attachment["id"] = att.ID
+		attachment["display_name"] = att.DisplayName
+		attachment["availability_domain"] = att.AvailabilityDomain
+		attachment["compartment_id"] = att.CompartmentID
+		attachment["instance_id"] = att.InstanceID
+		attachment["state"] = att.State
+		attachment["subnet_id"] = att.SubnetID
+		attachment["time_created"] = att.TimeCreated.Format(time.RFC1123)
+		attachment["vnic_id"] = att.VnicID
+		resources = append(resources, attachment)
+	}
+
+	if f, fOk := s.D.GetOk("filter"); fOk {
+		resources = ApplyFilters(f.(*schema.Set), resources)
+	}
+
+	if err := s.D.Set("vnic_attachments", resources); err != nil {
+		panic(err)
+	}
 }

@@ -17,6 +17,7 @@ func InternetGatewayDatasource() *schema.Resource {
 	return &schema.Resource{
 		Read: readInternetGateways,
 		Schema: map[string]*schema.Schema{
+			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -84,27 +85,33 @@ func (s *InternetGatewayDatasourceCrud) Get() (e error) {
 }
 
 func (s InternetGatewayDatasourceCrud) SetData() {
-	if s.Resource != nil {
-		s.D.SetId(time.Now().UTC().String())
-		resources := []map[string]interface{}{}
+	if s.Resource == nil {
+		return
+	}
+	s.D.SetId(time.Now().UTC().String())
+	resources := []map[string]interface{}{}
 
-		for _, v := range s.Resource.Gateways {
+	for _, v := range s.Resource.Gateways {
 
-			resource := map[string]interface{}{
-				"compartment_id": v.CompartmentID,
-				"display_name":   v.DisplayName,
-				"id":             v.ID,
-				"enabled":        v.IsEnabled,
-				"state":          v.State,
-				"time_modified":  v.ModifiedTime.String(),
-				"time_created":   v.TimeCreated.String(),
-			}
-
-			resources = append(resources, resource)
+		resource := map[string]interface{}{
+			"compartment_id": v.CompartmentID,
+			"display_name":   v.DisplayName,
+			"id":             v.ID,
+			"enabled":        v.IsEnabled,
+			"state":          v.State,
+			"time_modified":  v.ModifiedTime.String(),
+			"time_created":   v.TimeCreated.String(),
 		}
 
-		s.D.Set("gateways", resources)
+		resources = append(resources, resource)
+	}
 
+	if f, fOk := s.D.GetOk("filter"); fOk {
+		resources = ApplyFilters(f.(*schema.Set), resources)
+	}
+
+	if err := s.D.Set("gateways", resources); err != nil {
+		panic(err)
 	}
 
 	return

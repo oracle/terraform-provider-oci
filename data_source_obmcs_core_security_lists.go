@@ -17,6 +17,7 @@ func SecurityListDatasource() *schema.Resource {
 	return &schema.Resource{
 		Read: readSecurityLists,
 		Schema: map[string]*schema.Schema{
+			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -81,55 +82,65 @@ func (s *SecurityListDatasourceCrud) Get() (e error) {
 }
 
 func (s *SecurityListDatasourceCrud) SetData() {
-	if s.Res != nil {
-		s.D.SetId(time.Now().UTC().String())
-		resources := []map[string]interface{}{}
-		for _, v := range s.Res.SecurityLists {
-
-			res := map[string]interface{}{
-				"compartment_id": v.CompartmentID,
-				"display_name":   v.DisplayName,
-				"id":             v.ID,
-				"state":          v.State,
-				"time_created":   v.TimeCreated.String(),
-				"vcn_id":         v.VcnID,
-			}
-
-			confEgressRules := []map[string]interface{}{}
-			for _, egressRule := range v.EgressSecurityRules {
-				confEgressRule := map[string]interface{}{}
-				confEgressRule["destination"] = egressRule.Destination
-				confEgressRule = buildConfRule(
-					confEgressRule,
-					egressRule.Protocol,
-					egressRule.ICMPOptions,
-					egressRule.TCPOptions,
-					egressRule.UDPOptions,
-					&egressRule.IsStateless,
-				)
-				confEgressRules = append(confEgressRules, confEgressRule)
-			}
-			res["egress_security_rules"] = confEgressRules
-
-			confIngressRules := []map[string]interface{}{}
-			for _, ingressRule := range v.IngressSecurityRules {
-				confIngressRule := map[string]interface{}{}
-				confIngressRule["source"] = ingressRule.Source
-				confIngressRule = buildConfRule(
-					confIngressRule,
-					ingressRule.Protocol,
-					ingressRule.ICMPOptions,
-					ingressRule.TCPOptions,
-					ingressRule.UDPOptions,
-					nil,
-				)
-				confIngressRules = append(confIngressRules, confIngressRule)
-			}
-			res["ingress_security_rules"] = confIngressRules
-
-			resources = append(resources, res)
-		}
-		s.D.Set("security_lists", resources)
+	if s.Res == nil {
+		return
 	}
+
+	s.D.SetId(time.Now().UTC().String())
+	resources := []map[string]interface{}{}
+	for _, v := range s.Res.SecurityLists {
+
+		res := map[string]interface{}{
+			"compartment_id": v.CompartmentID,
+			"display_name":   v.DisplayName,
+			"id":             v.ID,
+			"state":          v.State,
+			"time_created":   v.TimeCreated.String(),
+			"vcn_id":         v.VcnID,
+		}
+
+		confEgressRules := []map[string]interface{}{}
+		for _, egressRule := range v.EgressSecurityRules {
+			confEgressRule := map[string]interface{}{}
+			confEgressRule["destination"] = egressRule.Destination
+			confEgressRule = buildConfRule(
+				confEgressRule,
+				egressRule.Protocol,
+				egressRule.ICMPOptions,
+				egressRule.TCPOptions,
+				egressRule.UDPOptions,
+				&egressRule.IsStateless,
+			)
+			confEgressRules = append(confEgressRules, confEgressRule)
+		}
+		res["egress_security_rules"] = confEgressRules
+
+		confIngressRules := []map[string]interface{}{}
+		for _, ingressRule := range v.IngressSecurityRules {
+			confIngressRule := map[string]interface{}{}
+			confIngressRule["source"] = ingressRule.Source
+			confIngressRule = buildConfRule(
+				confIngressRule,
+				ingressRule.Protocol,
+				ingressRule.ICMPOptions,
+				ingressRule.TCPOptions,
+				ingressRule.UDPOptions,
+				nil,
+			)
+			confIngressRules = append(confIngressRules, confIngressRule)
+		}
+		res["ingress_security_rules"] = confIngressRules
+
+		resources = append(resources, res)
+	}
+
+	if f, fOk := s.D.GetOk("filter"); fOk {
+		resources = ApplyFilters(f.(*schema.Set), resources)
+	}
+
+	if err := s.D.Set("security_lists", resources); err != nil {
+		panic(err)
+	}
+
 	return
 }

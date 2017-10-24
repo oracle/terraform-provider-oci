@@ -17,6 +17,7 @@ func InstanceDatasource() *schema.Resource {
 	return &schema.Resource{
 		Read: readInstances,
 		Schema: map[string]*schema.Schema{
+			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -148,29 +149,37 @@ func (s *InstanceDatasourceCrud) Get() (e error) {
 }
 
 func (s *InstanceDatasourceCrud) SetData() {
-	if s.Res != nil {
-		// Important, if you don't have an ID, make one up for your datasource
-		// or things will end in tears
-		s.D.SetId(time.Now().UTC().String())
-		resources := []map[string]interface{}{}
-		for _, v := range s.Res.Instances {
-			res := map[string]interface{}{
-				"availability_domain": v.AvailabilityDomain,
-				"compartment_id":      v.CompartmentID,
-				"display_name":        v.DisplayName,
-				"id":                  v.ID,
-				"image":               v.ImageID,
-				"ipxe_script":         v.IpxeScript,
-				"metadata":            v.Metadata,
-				"extended_metadata":   convertNestedMapToFlatMap(v.ExtendedMetadata),
-				"region":              v.Region,
-				"shape":               v.Shape,
-				"state":               v.State,
-				"time_created":        v.TimeCreated.String(),
-			}
-			resources = append(resources, res)
+	if s.Res == nil {
+		return
+	}
+	// Important, if you don't have an ID, make one up for your datasource
+	// or things will end in tears
+	s.D.SetId(time.Now().UTC().String())
+	resources := []map[string]interface{}{}
+	for _, v := range s.Res.Instances {
+		res := map[string]interface{}{
+			"availability_domain": v.AvailabilityDomain,
+			"compartment_id":      v.CompartmentID,
+			"display_name":        v.DisplayName,
+			"id":                  v.ID,
+			"image":               v.ImageID,
+			"ipxe_script":         v.IpxeScript,
+			"metadata":            v.Metadata,
+			"extended_metadata":   convertNestedMapToFlatMap(v.ExtendedMetadata),
+			"region":              v.Region,
+			"shape":               v.Shape,
+			"state":               v.State,
+			"time_created":        v.TimeCreated.String(),
 		}
-		s.D.Set("instances", resources)
+		resources = append(resources, res)
+
+		if f, fOk := s.D.GetOk("filter"); fOk {
+			resources = ApplyFilters(f.(*schema.Set), resources)
+		}
+
+		if err := s.D.Set("instances", resources); err != nil {
+			panic(err)
+		}
 	}
 	return
 }

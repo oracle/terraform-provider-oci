@@ -17,6 +17,7 @@ func IPSecConnectionsDatasource() *schema.Resource {
 	return &schema.Resource{
 		Read: readIPSecConnections,
 		Schema: map[string]*schema.Schema{
+			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -135,29 +136,35 @@ func (s *IPSecConnectionsDatasourceCrud) Get() (e error) {
 }
 
 func (s IPSecConnectionsDatasourceCrud) SetData() {
-	if s.Resource != nil {
-		s.D.SetId(time.Now().UTC().String())
-		resources := []map[string]interface{}{}
+	if s.Resource == nil {
+		return
+	}
 
-		for _, v := range s.Resource.Connections {
+	s.D.SetId(time.Now().UTC().String())
+	resources := []map[string]interface{}{}
 
-			resource := map[string]interface{}{
-				"compartment_id": v.CompartmentID,
-				"drg_id":         v.DrgID,
-				"cpe_id":         v.CpeID,
-				"display_name":   v.DisplayName,
-				"id":             v.ID,
-				"state":          v.State,
-				"static_routes":  v.StaticRoutes,
-				"time_created":   v.TimeCreated.String(),
-			}
+	for _, v := range s.Resource.Connections {
 
-			resources = append(resources, resource)
+		resource := map[string]interface{}{
+			"compartment_id": v.CompartmentID,
+			"drg_id":         v.DrgID,
+			"cpe_id":         v.CpeID,
+			"display_name":   v.DisplayName,
+			"id":             v.ID,
+			"state":          v.State,
+			"static_routes":  v.StaticRoutes,
+			"time_created":   v.TimeCreated.String(),
 		}
 
-		if err := s.D.Set("connections", resources); err != nil {
-			panic(err)
-		}
+		resources = append(resources, resource)
+	}
+
+	if f, fOk := s.D.GetOk("filter"); fOk {
+		resources = ApplyFilters(f.(*schema.Set), resources)
+	}
+
+	if err := s.D.Set("connections", resources); err != nil {
+		panic(err)
 	}
 
 	return
