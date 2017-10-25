@@ -25,6 +25,10 @@ func InstanceDatasource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"display_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"page": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -118,8 +122,11 @@ func (s *InstanceDatasourceCrud) Get() (e error) {
 
 	opts := &baremetal.ListInstancesOptions{}
 	options.SetListOptions(s.D, &opts.ListOptions)
-	if val, ok := s.D.GetOk("availability_domain"); ok {
-		opts.AvailabilityDomain = val.(string)
+	if ad, ok := s.D.GetOk("availability_domain"); ok {
+		opts.AvailabilityDomain = ad.(string)
+	}
+	if dispName, ok := s.D.GetOk("display_name"); ok {
+		opts.DisplayName = dispName.(string)
 	}
 
 	s.Res = &baremetal.ListInstances{Instances: []baremetal.Instance{}}
