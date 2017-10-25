@@ -55,6 +55,25 @@ func (s *DatasourceIdentityUserGroupMembershipsTestSuite) TestAccIdentityUserGro
 				ImportStateVerify: true,
 				Config:            s.Config,
 			},
+			//verify membership by specifying both user and group id
+			{
+				Config: s.Config + `			
+				data "oci_identity_user_group_memberships" "t" {
+					compartment_id = "${var.tenancy_ocid}"
+					user_id = "${oci_identity_user.t.id}"
+					group_id = "${oci_identity_group.t.id}"
+				}`,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttr(s.ResourceName, "memberships.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "memberships.0.state", "ACTIVE"),
+					resource.TestCheckResourceAttr(s.ResourceName, "memberships.0.inactive_state", "0"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "memberships.0.compartment_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "memberships.0.id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "memberships.0.user_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "memberships.0.group_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "memberships.0.time_created"),
+				),
+			},
 			// verify membership by group
 			{
 				Config: s.Config + `
@@ -78,13 +97,16 @@ func (s *DatasourceIdentityUserGroupMembershipsTestSuite) TestAccIdentityUserGro
 					resource.TestCheckResourceAttr(s.ResourceName, "memberships.#", "1"),
 				),
 			},
-			//verify membership by specifying both user and group id
+			// verify filtering
 			{
-				Config: s.Config + `			
+				Config: s.Config + `
 				data "oci_identity_user_group_memberships" "t" {
 					compartment_id = "${var.tenancy_ocid}"
-					user_id = "${oci_identity_user.t.id}"
 					group_id = "${oci_identity_group.t.id}"
+					filter {
+						name = "user_id"
+						values = ["${oci_identity_user.t.id}"]
+					}
 				}`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "memberships.#", "1"),
