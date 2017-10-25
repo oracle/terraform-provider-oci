@@ -36,7 +36,7 @@ func (s *DatasourceIdentityAvailabilityDomainsTestSuite) TestAccIdentityAvailabi
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
-			// Verify expected number of ADs
+			// Verify expected number of ADs in expected order
 			{
 				Config: s.Config + `
 				data "oci_identity_availability_domains" "t" {
@@ -44,6 +44,9 @@ func (s *DatasourceIdentityAvailabilityDomainsTestSuite) TestAccIdentityAvailabi
 				}`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "availability_domains.#", "3"),
+					resource.TestMatchResourceAttr(s.ResourceName, "availability_domains.0.name", regexp.MustCompile(`\w*:\w{3}-AD-1`)),
+					resource.TestMatchResourceAttr(s.ResourceName, "availability_domains.1.name", regexp.MustCompile(`\w*:\w{3}-AD-2`)),
+					resource.TestMatchResourceAttr(s.ResourceName, "availability_domains.2.name", regexp.MustCompile(`\w*:\w{3}-AD-3`)),
 				),
 			},
 			// Verify regex filtering
