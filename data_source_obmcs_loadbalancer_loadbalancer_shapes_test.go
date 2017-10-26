@@ -13,6 +13,10 @@ func TestAccDatasourceLoadBalancerShapes_basic(t *testing.T) {
 	config := testProviderConfig() + `
 	data "oci_load_balancer_shapes" "t" {
 		compartment_id = "${var.compartment_id}"
+		filter {
+			name = "name"
+			values = ["100Mbps"]
+		}
 	}`
 
 	resourceName := "data.oci_load_balancer_shapes.t"
@@ -26,8 +30,8 @@ func TestAccDatasourceLoadBalancerShapes_basic(t *testing.T) {
 				ImportStateVerify: true,
 				Config:            config,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttrSet(resourceName, "shapes.#"),
-					resource.TestCheckResourceAttrSet(resourceName, "shapes.0.name"),
+					resource.TestCheckResourceAttr(resourceName, "shapes.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "shapes.0.name", "100Mbps"),
 				),
 			},
 		},
