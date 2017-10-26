@@ -11,6 +11,12 @@ Lists Availability Domains (ADs).
 ```
 data "oci_identity_availability_domains" "t" {
   compartment_id = "compartmentID"
+  
+  filter {
+    name = "name"
+    values = ["\\w*-AD-1"]
+    regex = true
+  }
 }
 ```
 
