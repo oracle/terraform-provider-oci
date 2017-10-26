@@ -51,13 +51,6 @@ func (s *DatasourceCoreIPSecConnectionsTestSuite) TestAccDatasourceCoreIPConnect
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
-			},
-			// todo: investigate--there's some kind of consistency/sync issue here. If this extra step isn't
-			// here the connections length asserts with 0, though the data is properly pulled in Get() at
-			// it first availability state and correctly synced in SetData(). Adding this multistep somehow
-			// overcomes it.
-			{
 				ImportState:       true,
 				ImportStateVerify: true,
 				Config: s.Config +
@@ -65,7 +58,10 @@ func (s *DatasourceCoreIPSecConnectionsTestSuite) TestAccDatasourceCoreIPConnect
 						compartment_id = "${var.compartment_id}"
 						drg_id = "${oci_core_drg.t.id}"
 						cpe_id = "${oci_core_cpe.t.id}"
-						limit = 1
+						filter {
+							name = "display_name"
+							values = ["${oci_core_ipsec.t.display_name}"]
+						}
 					}`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "compartment_id"),

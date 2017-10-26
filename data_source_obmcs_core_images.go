@@ -17,6 +17,7 @@ func ImageDatasource() *schema.Resource {
 	return &schema.Resource{
 		Read: readImages,
 		Schema: map[string]*schema.Schema{
+			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -97,24 +98,34 @@ func (s *ImageDatasourceCrud) Get() (e error) {
 }
 
 func (s *ImageDatasourceCrud) SetData() {
-	if s.Res != nil {
-		s.D.SetId(time.Now().UTC().String())
-		resources := []map[string]interface{}{}
-		for _, v := range s.Res.Images {
-			res := map[string]interface{}{
-				"base_image_id":            v.BaseImageID,
-				"compartment_id":           v.CompartmentID,
-				"create_image_allowed":     v.CreateImageAllowed,
-				"display_name":             v.DisplayName,
-				"id":                       v.ID,
-				"state":                    v.State,
-				"operating_system":         v.OperatingSystem,
-				"operating_system_version": v.OperatingSystemVersion,
-				"time_created":             v.TimeCreated.String(),
-			}
-			resources = append(resources, res)
-		}
-		s.D.Set("images", resources)
+	if s.Res == nil {
+		return
 	}
+
+	s.D.SetId(time.Now().UTC().String())
+	resources := []map[string]interface{}{}
+	for _, v := range s.Res.Images {
+		res := map[string]interface{}{
+			"base_image_id":            v.BaseImageID,
+			"compartment_id":           v.CompartmentID,
+			"create_image_allowed":     v.CreateImageAllowed,
+			"display_name":             v.DisplayName,
+			"id":                       v.ID,
+			"state":                    v.State,
+			"operating_system":         v.OperatingSystem,
+			"operating_system_version": v.OperatingSystemVersion,
+			"time_created":             v.TimeCreated.String(),
+		}
+		resources = append(resources, res)
+	}
+
+	if f, fOk := s.D.GetOk("filter"); fOk {
+		resources = ApplyFilters(f.(*schema.Set), resources)
+	}
+
+	if err := s.D.Set("images", resources); err != nil {
+		panic(err)
+	}
+
 	return
 }

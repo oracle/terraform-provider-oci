@@ -16,6 +16,7 @@ func CpeDatasource() *schema.Resource {
 	return &schema.Resource{
 		Read: readCpeList,
 		Schema: map[string]*schema.Schema{
+			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -75,24 +76,33 @@ func (s *CPEDatasourceCrud) Get() (e error) {
 }
 
 func (s *CPEDatasourceCrud) SetData() {
-	if s.Resource != nil {
-		s.D.SetId(time.Now().UTC().String())
+	if s.Resource == nil {
+		return
+	}
 
-		cpes := []map[string]interface{}{}
+	s.D.SetId(time.Now().UTC().String())
 
-		for _, v := range s.Resource.Cpes {
-			cpe := map[string]interface{}{
-				"id":             v.ID,
-				"compartment_id": v.CompartmentID,
-				"display_name":   v.DisplayName,
-				"ip_address":     v.IPAddress,
-				"time_created":   v.TimeCreated.String(),
-			}
+	resources := []map[string]interface{}{}
 
-			cpes = append(cpes, cpe)
+	for _, v := range s.Resource.Cpes {
+		cpe := map[string]interface{}{
+			"id":             v.ID,
+			"compartment_id": v.CompartmentID,
+			"display_name":   v.DisplayName,
+			"ip_address":     v.IPAddress,
+			"time_created":   v.TimeCreated.String(),
 		}
 
-		s.D.Set("cpes", cpes)
-
+		resources = append(resources, cpe)
 	}
+
+	if f, fOk := s.D.GetOk("filter"); fOk {
+		resources = ApplyFilters(f.(*schema.Set), resources)
+	}
+
+	if err := s.D.Set("cpes", resources); err != nil {
+		panic(err)
+	}
+
+	return
 }

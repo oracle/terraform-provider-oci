@@ -17,6 +17,7 @@ func VolumeDatasource() *schema.Resource {
 	return &schema.Resource{
 		Read: readVolumes,
 		Schema: map[string]*schema.Schema{
+			"filter": dataSourceFiltersSchema(),
 			"availability_domain": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -60,6 +61,7 @@ func (s *VolumeDatasourceCrud) Get() (e error) {
 
 	opts := &baremetal.ListVolumesOptions{}
 	options.SetListOptions(s.D, &opts.ListOptions)
+
 	if val, ok := s.D.GetOk("availability_domain"); ok {
 		opts.AvailabilityDomain = val.(string)
 	}
@@ -83,25 +85,34 @@ func (s *VolumeDatasourceCrud) Get() (e error) {
 }
 
 func (s *VolumeDatasourceCrud) SetData() {
-	if s.Res != nil {
-		// Important, if you don't have an ID, make one up for your datasource
-		// or things will end in tears
-		s.D.SetId(time.Now().UTC().String())
-		volumes := []map[string]interface{}{}
-		for _, v := range s.Res.Volumes {
-			vol := map[string]interface{}{
-				"availability_domain": v.AvailabilityDomain,
-				"compartment_id":      v.CompartmentID,
-				"display_name":        v.DisplayName,
-				"id":                  v.ID,
-				"size_in_mbs":         v.SizeInMBs,
-				"size_in_gbs":         v.SizeInGBs,
-				"state":               v.State,
-				"time_created":        v.TimeCreated.String(),
-			}
-			volumes = append(volumes, vol)
-		}
-		s.D.Set("volumes", volumes)
+	if s.Res == nil {
+		return
 	}
+	// Important, if you don't have an ID, make one up for your datasource
+	// or things will end in tears
+	s.D.SetId(time.Now().UTC().String())
+	resources := []map[string]interface{}{}
+	for _, v := range s.Res.Volumes {
+		vol := map[string]interface{}{
+			"availability_domain": v.AvailabilityDomain,
+			"compartment_id":      v.CompartmentID,
+			"display_name":        v.DisplayName,
+			"id":                  v.ID,
+			"size_in_mbs":         v.SizeInMBs,
+			"size_in_gbs":         v.SizeInGBs,
+			"state":               v.State,
+			"time_created":        v.TimeCreated.String(),
+		}
+		resources = append(resources, vol)
+	}
+
+	if f, fOk := s.D.GetOk("filter"); fOk {
+		resources = ApplyFilters(f.(*schema.Set), resources)
+	}
+
+	if err := s.D.Set("volumes", resources); err != nil {
+		panic(err)
+	}
+
 	return
 }

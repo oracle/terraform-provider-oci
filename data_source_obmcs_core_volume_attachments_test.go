@@ -32,10 +32,10 @@ func (s *DatasourceCoreVolumeAttachmentTestSuite) SetupTest() {
 		display_name = "-tf-volume"
 	}
 	resource "oci_core_volume_attachment" "t" {
-		attachment_type = "iscsi"
 		compartment_id = "${var.compartment_id}"
 		instance_id = "${oci_core_instance.t.id}"
 		volume_id = "${oci_core_volume.t.id}"
+		attachment_type = "iscsi"
 	}`
 	s.ResourceName = "data.oci_core_volume_attachments.t"
 }
@@ -48,21 +48,27 @@ func (s *DatasourceCoreVolumeAttachmentTestSuite) TestAccDatasourceCoreVolumeAtt
 			{
 				ImportState:       true,
 				ImportStateVerify: true,
-				Config:            s.Config,
-			},
-			{
 				Config: s.Config + `
 				data "oci_core_volume_attachments" "t" {
 					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
 					compartment_id = "${var.compartment_id}"
-					limit = 1
 					instance_id = "${oci_core_instance.t.id}"
 					volume_id = "${oci_core_volume.t.id}"
+					filter {
+						name = "id"
+						values = ["${oci_core_volume_attachment.t.id}"]
+					}
 				}`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_attachments.0.id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "volume_attachments.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "volume_attachments.0.attachment_type", "iscsi"),
+					resource.TestCheckResourceAttr(s.ResourceName, "volume_attachments.0.state", "ATTACHED"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_attachments.0.availability_domain"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_attachments.0.id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_attachments.0.instance_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_attachments.0.time_created"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_attachments.0.volume_id"),
 				),
 			},
 		},

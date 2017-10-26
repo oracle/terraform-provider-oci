@@ -19,19 +19,13 @@ type DatasourceCoreImageTestSuite struct {
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	ResourceName string
-	List         *baremetal.ListImages
 }
 
 func (s *DatasourceCoreImageTestSuite) SetupTest() {
 	s.Client = testAccClient
 	s.Provider = testAccProvider
 	s.Providers = testAccProviders
-	s.Config = testProviderConfig() + `
-	data "oci_core_images" "t" {
-		compartment_id = "${var.compartment_id}"
-		limit = 1
-	}`
-
+	s.Config = testProviderConfig()
 	s.ResourceName = "data.oci_core_images.t"
 }
 
@@ -43,11 +37,27 @@ func (s *DatasourceCoreImageTestSuite) TestAccImage_basic() {
 			{
 				ImportState:       true,
 				ImportStateVerify: true,
-				Config:            s.Config,
+				Config: s.Config + `
+				data "oci_core_images" "t" {
+					compartment_id = "${var.compartment_id}"
+					operating_system = "Oracle Linux"
+					operating_system_version = "7.3"
+				
+					filter {
+						name = "display_name"
+						values = [".*2017.07.17-1"]
+						regex = true
+					}
+				}`,
 				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttr(s.ResourceName, "images.#", "1"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "images.0.id"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "images.1.id"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "images.#"),
+					resource.TestCheckResourceAttr(s.ResourceName, "images.0.create_image_allowed", "true"),
+					resource.TestCheckResourceAttr(s.ResourceName, "images.0.display_name", "Oracle-Linux-7.3-2017.07.17-1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "images.0.state", "AVAILABLE"),
+					resource.TestCheckResourceAttr(s.ResourceName, "images.0.operating_system", "Oracle Linux"),
+					resource.TestCheckResourceAttr(s.ResourceName, "images.0.operating_system_version", "7.3"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "images.0.time_created"),
 				),
 			},
 		},

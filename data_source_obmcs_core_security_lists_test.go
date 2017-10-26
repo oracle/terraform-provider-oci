@@ -29,29 +29,7 @@ func (s *DatasourceCoreSecurityListTestSuite) SetupTest() {
 	resource "oci_core_virtual_network" "t" {
 		cidr_block = "10.0.0.0/16"
 		compartment_id = "${var.compartment_id}"
-		display_name = "network_name"
-	}
-	
-	resource "oci_core_security_list" "WebSubnet" {
-		compartment_id = "${var.compartment_id}"
-		display_name = "Public"
-		vcn_id = "${oci_core_virtual_network.t.id}"
-		egress_security_rules = [{
-			destination = "0.0.0.0/0"
-			protocol = "6"
-		}]
-		ingress_security_rules = [{
-			tcp_options {
-				"max" = 80
-				"min" = 80
-			}
-			protocol = "6"
-			source = "0.0.0.0/0"
-		},
-		{
-			protocol = "6"
-			source = "10.0.0.0/16"
-		}]
+		display_name = "-tf-vcn"
 	}`
 	s.ResourceName = "data.oci_core_security_lists.t"
 }
@@ -64,20 +42,25 @@ func (s *DatasourceCoreSecurityListTestSuite) TestAccDatasourceCoreSecurityLists
 			{
 				ImportState:       true,
 				ImportStateVerify: true,
-				Config:            s.Config,
-			},
-			{
 				Config: s.Config + `
 				data "oci_core_security_lists" "t" {
 					compartment_id = "${var.compartment_id}"
-					limit = 1
 					vcn_id = "${oci_core_virtual_network.t.id}"
+					filter {
+						name = "display_name"
+						values = ["Default Security List.*"]
+						regex = true
+					}
 				}`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "vcn_id"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "security_lists.0.ingress_security_rules.0.tcp_options.0.max"),
+					resource.TestCheckResourceAttr(s.ResourceName, "security_lists.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "security_lists.0.display_name", "Default Security List for -tf-vcn"),
+					resource.TestCheckResourceAttr(s.ResourceName, "security_lists.0.ingress_security_rules.0.tcp_options.0.max", "22"),
+					resource.TestCheckResourceAttr(s.ResourceName, "security_lists.0.state", "AVAILABLE"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "security_lists.0.id"),
-					resource.TestCheckResourceAttr(s.ResourceName, "security_lists.#", "2"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "security_lists.0.vcn_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "security_lists.0.time_created"),
 				),
 			},
 		},

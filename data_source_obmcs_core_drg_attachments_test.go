@@ -28,11 +28,11 @@ func (s *DatasourceCoreDrgAttachmentTestSuite) SetupTest() {
 	resource "oci_core_virtual_network" "t" {
 		cidr_block = "10.0.0.0/16"
 		compartment_id = "${var.compartment_id}"
-		display_name = "network_name"
+		display_name = "-tf-vcn"
 	}
 	resource "oci_core_drg" "t" {
 		compartment_id = "${var.compartment_id}"
-		display_name = "display_name"
+		display_name = "-tf-drg"
 	}
 	resource "oci_core_drg_attachment" "t" {
 		compartment_id = "${var.compartment_id}"
@@ -50,10 +50,6 @@ func (s *DatasourceCoreDrgAttachmentTestSuite) TestAccDatasourceCoreDrgAttachmen
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
 			{
-				Config: s.Config,
-			},
-			// todo: investigate, related issue with TestAccDatasourceCoreIPConnections_basic
-			{
 				ImportState:       true,
 				ImportStateVerify: true,
 				Config: s.Config + `
@@ -61,12 +57,19 @@ func (s *DatasourceCoreDrgAttachmentTestSuite) TestAccDatasourceCoreDrgAttachmen
 					compartment_id = "${var.compartment_id}"
 					drg_id = "${oci_core_drg.t.id}"
 					vcn_id = "${oci_core_virtual_network.t.id}"
-					limit = 1
+					
+					filter {
+						name = "id"
+						values = ["${oci_core_drg_attachment.t.id}"]
+					}
 				}`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "drg_attachments.#", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "drg_attachments.0.display_name", "-tf-drg-attachment"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "drg_attachments.0.id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "drg_attachments.0.compartment_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "drg_attachments.0.drg_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "drg_attachments.0.vcn_id"),
 				),
 			},
 		},

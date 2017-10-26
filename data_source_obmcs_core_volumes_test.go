@@ -34,11 +34,6 @@ func (s *DatasourceCoreVolumeTestSuite) SetupTest() {
 		compartment_id = "${var.compartment_id}"
 		display_name = "-tf-volume"
 		size_in_gbs = 50
-	}
-	data "oci_core_volumes" "t" {
-		availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-		compartment_id = "${var.compartment_id}"
-		limit = 1
 	}`
 	s.ResourceName = "data.oci_core_volumes.t"
 }
@@ -52,12 +47,39 @@ func (s *DatasourceCoreVolumeTestSuite) TestAccDatasourceCoreVolume_basic() {
 			{
 				ImportState:       true,
 				ImportStateVerify: true,
-				Config:            s.Config,
+				Config: s.Config + `
+				data "oci_core_volumes" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${oci_core_volume.t.compartment_id}"
+				}`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "volumes.0.availability_domain"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "volumes.0.id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "compartment_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "volumes.#"),
+				),
+			},
+			{
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config: s.Config + `
+				data "oci_core_volumes" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${oci_core_volume.t.compartment_id}"
+					filter {
+						name = "id"
+						values = ["${oci_core_volume.t.id}"]
+					}
+				}`,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttr(s.ResourceName, "volumes.#", "1"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "volumes.0.availability_domain"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "volumes.0.compartment_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "volumes.0.id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "volumes.0.time_created"),
+					resource.TestCheckResourceAttr(s.ResourceName, "volumes.0.state", "AVAILABLE"),
+					resource.TestCheckResourceAttr(s.ResourceName, "volumes.0.display_name", "-tf-volume"),
+					resource.TestCheckResourceAttr(s.ResourceName, "volumes.0.size_in_gbs", "50"),
+					resource.TestCheckResourceAttr(s.ResourceName, "volumes.0.size_in_mbs", "51200"),
 				),
 			},
 		},

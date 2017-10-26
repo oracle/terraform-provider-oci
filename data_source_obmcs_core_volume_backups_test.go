@@ -19,7 +19,6 @@ type DatasourceCoreVolumeBackupTestSuite struct {
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	ResourceName string
-	List         *baremetal.ListVolumeBackups
 }
 
 func (s *DatasourceCoreVolumeBackupTestSuite) SetupTest() {
@@ -49,14 +48,14 @@ func (s *DatasourceCoreVolumeBackupTestSuite) TestAccDatasourceCoreVolumeBackup_
 			{
 				ImportState:       true,
 				ImportStateVerify: true,
-				Config:            s.Config,
-			},
-			{
 				Config: s.Config + `
 				data "oci_core_volume_backups" "t" {
 					compartment_id = "${var.compartment_id}"
 					volume_id = "${oci_core_volume.t.id}"
-					limit = 1
+					filter {
+						name = "id"
+						values = ["${oci_core_volume_backup.t.id}"]
+					}
 				}`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_id"),

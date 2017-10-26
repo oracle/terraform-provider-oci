@@ -17,18 +17,7 @@ func InstanceShapeDatasource() *schema.Resource {
 	return &schema.Resource{
 		Read: readInstanceShape,
 		Schema: map[string]*schema.Schema{
-			"shapes": {
-				Type:     schema.TypeList,
-				Computed: true,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						"name": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-					},
-				},
-			},
+			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -48,6 +37,18 @@ func InstanceShapeDatasource() *schema.Resource {
 			"limit": {
 				Type:     schema.TypeInt,
 				Optional: true,
+			},
+			"shapes": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
 			},
 		},
 	}
@@ -98,19 +99,28 @@ func (r *InstanceShapeDatasourceCrud) Get() (e error) {
 	return
 }
 
-func (r *InstanceShapeDatasourceCrud) SetData() {
-	if r.Res != nil {
-		// Important, if you don't have an ID, make one up for your datasource
-		// or things will end in tears
-		r.D.SetId(time.Now().UTC().String())
-		shapes := []map[string]string{}
-		for _, v := range r.Res.Shapes {
-			shape := map[string]string{
-				"name": v.Name,
-			}
-			shapes = append(shapes, shape)
-		}
-		r.D.Set("shapes", shapes)
+func (s *InstanceShapeDatasourceCrud) SetData() {
+	if s.Res == nil {
+		return
 	}
+	// Important, if you don't have an ID, make one up for your datasource
+	// or things will end in tears
+	s.D.SetId(time.Now().UTC().String())
+	resources := []map[string]interface{}{}
+	for _, v := range s.Res.Shapes {
+		shape := map[string]interface{}{
+			"name": v.Name,
+		}
+		resources = append(resources, shape)
+	}
+
+	if f, fOk := s.D.GetOk("filter"); fOk {
+		resources = ApplyFilters(f.(*schema.Set), resources)
+	}
+
+	if err := s.D.Set("shapes", resources); err != nil {
+		panic(err)
+	}
+
 	return
 }

@@ -26,23 +26,9 @@ func (s *DatasourceCoreRouteTableTestSuite) SetupTest() {
 	s.Providers = testAccProviders
 	s.Config = testProviderConfig() + `
 	resource "oci_core_virtual_network" "t" {
+		compartment_id = "${var.compartment_id}"
+		display_name = "-tf-vcn"
 		cidr_block = "10.0.0.0/16"
-		compartment_id = "${var.compartment_id}"
-		display_name = "display_name"
-	}
-	resource "oci_core_internet_gateway" "t" {
-		compartment_id = "${var.compartment_id}"
-		display_name = "-tf-internet_gateway"
-		vcn_id = "${oci_core_virtual_network.t.id}"
-	}
-	resource "oci_core_route_table" "t" {
-		compartment_id = "${var.compartment_id}"
-		display_name = "display_name"
-		route_rules {
-			cidr_block = "0.0.0.0/0"
-			network_entity_id = "${oci_core_internet_gateway.t.id}"
-		}
-		vcn_id = "${oci_core_virtual_network.t.id}"
 	}`
 
 	s.ResourceName = "data.oci_core_route_tables.t"
@@ -60,11 +46,23 @@ func (s *DatasourceCoreRouteTableTestSuite) TestAccDatasourceRouteTable_basic() 
 				data "oci_core_route_tables" "t" {
 					compartment_id = "${var.compartment_id}"
 					vcn_id = "${oci_core_virtual_network.t.id}"
+					filter {
+						name = "display_name"
+						values = ["Default Route Table.*"]
+						regex = true
+					}
 				}`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "vcn_id"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "route_tables.0.id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "route_tables.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "route_tables.0.display_name", "Default Route Table for -tf-vcn"),
+					resource.TestCheckResourceAttr(s.ResourceName, "route_tables.0.state", "AVAILABLE"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "route_tables.0.id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "route_tables.0.compartment_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "route_tables.0.vcn_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "route_tables.0.time_modified"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "route_tables.0.time_created"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "route_tables.0.route_rules.#"),
 				),
 			},
 		},

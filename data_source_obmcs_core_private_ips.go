@@ -17,6 +17,7 @@ func PrivateIPDatasource() *schema.Resource {
 	return &schema.Resource{
 		Read: readPrivateIPs,
 		Schema: map[string]*schema.Schema{
+			"filter": dataSourceFiltersSchema(),
 			"ip_address": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -84,25 +85,33 @@ func (s *PrivateIPDatasourceCrud) Get() (e error) {
 }
 
 func (s *PrivateIPDatasourceCrud) SetData() {
-	if s.Res != nil {
-		s.D.SetId(time.Now().UTC().String())
-		resources := []map[string]interface{}{}
-		for _, r := range s.Res.PrivateIPs {
-			res := map[string]interface{}{
-				"availability_domain": r.AvailabilityDomain,
-				"compartment_id":      r.CompartmentID,
-				"display_name":        r.DisplayName,
-				"hostname_label":      r.HostnameLabel,
-				"id":                  r.ID,
-				"ip_address":          r.IPAddress,
-				"is_primary":          r.IsPrimary,
-				"subnet_id":           r.SubnetID,
-				"time_created":        r.TimeCreated.String(),
-				"vnic_id":             r.VnicID,
-			}
-			resources = append(resources, res)
-		}
-		s.D.Set("private_ips", resources)
+	if s.Res == nil {
+		return
 	}
+	s.D.SetId(time.Now().UTC().String())
+	resources := []map[string]interface{}{}
+	for _, r := range s.Res.PrivateIPs {
+		res := map[string]interface{}{
+			"availability_domain": r.AvailabilityDomain,
+			"compartment_id":      r.CompartmentID,
+			"display_name":        r.DisplayName,
+			"hostname_label":      r.HostnameLabel,
+			"id":                  r.ID,
+			"ip_address":          r.IPAddress,
+			"is_primary":          r.IsPrimary,
+			"subnet_id":           r.SubnetID,
+			"time_created":        r.TimeCreated.String(),
+			"vnic_id":             r.VnicID,
+		}
+		resources = append(resources, res)
+	}
+	if f, fOk := s.D.GetOk("filter"); fOk {
+		resources = ApplyFilters(f.(*schema.Set), resources)
+	}
+
+	if err := s.D.Set("private_ips", resources); err != nil {
+		panic(err)
+	}
+
 	return
 }

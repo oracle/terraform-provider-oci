@@ -30,6 +30,10 @@ func (s *DatasourceCoreVnicAttachmentTestSuite) SetupTest() {
 		compartment_id = "${var.compartment_id}"
 		availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
 		instance_id = "${oci_core_instance.t.id}"
+		filter {
+			name = "instance_id"
+			values = ["${oci_core_instance.t.id}"]
+		}
     }`
 	s.ResourceName = "data.oci_core_vnic_attachments.s"
 }
@@ -44,7 +48,7 @@ func (s *DatasourceCoreVnicAttachmentTestSuite) TestAccDatasourceCoreVnicAttachm
 				ImportStateVerify: true,
 				Config:            s.Config,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet(s.ResourceName, "vnic_attachments.#"),
+					resource.TestCheckResourceAttr(s.ResourceName, "vnic_attachments.#", "1"),
 				),
 			},
 		},
