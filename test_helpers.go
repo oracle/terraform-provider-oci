@@ -28,8 +28,10 @@ func timestamp() string {
 		t.Year(), t.Month(), t.Day(), t.Hour(), t.Minute(), t.Second(), t.Nanosecond())
 }
 
+type TokenFn func(string, map[string]string) string
+
 // Creates a form of "apply" above that will always supply the same value for {{.token}}
-func tokenize() (string, func(string, map[string]string) string) {
+func tokenize() (string, TokenFn) {
 	ts := timestamp()
 	return ts, func(template string, values map[string]string) string {
 		if values == nil {

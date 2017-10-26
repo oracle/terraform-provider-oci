@@ -47,8 +47,26 @@ func (s *DatasourceIdentityCompartmentsTestSuite) TestAccIdentityCompartments_ba
 					compartment_id = "${var.compartment_id}"
 				}`,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet(s.ResourceName, "compartments.0.id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "compartments.#"),
+				),
+			},
+			{
+				Config: s.Config + `
+				data "oci_identity_compartments" "t" {
+					compartment_id = "${var.compartment_id}"
+					filter {
+						name   = "name"
+						values = ["-tf-compartment"]
+					}
+				}`,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttr(s.ResourceName, "compartments.#", "1"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "compartments.0.id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "compartments.0.compartment_id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "compartments.0.name", "-tf-compartment"),
+					resource.TestCheckResourceAttr(s.ResourceName, "compartments.0.description", "tf test compartment"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "compartments.0.time_created"),
+					resource.TestCheckResourceAttr(s.ResourceName, "compartments.0.inactive_state", "0"),
 				),
 			},
 		},

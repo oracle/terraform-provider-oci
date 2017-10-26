@@ -15,6 +15,7 @@ func SwiftPasswordDatasource() *schema.Resource {
 	return &schema.Resource{
 		Read: readSwiftPasswords,
 		Schema: map[string]*schema.Schema{
+			"filter": dataSourceFiltersSchema(),
 			"user_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -49,24 +50,32 @@ func (s *SwiftPasswordDatasourceCrud) Get() (e error) {
 }
 
 func (s *SwiftPasswordDatasourceCrud) SetData() {
-	if s.Res != nil {
-		s.D.SetId(time.Now().UTC().String())
-		resources := []map[string]interface{}{}
-		for _, v := range s.Res.SwiftPasswords {
-			res := map[string]interface{}{
-				"id":             v.ID,
-				"user_id":        v.UserID,
-				"description":    v.Description,
-				"state":          v.State,
-				"inactive_state": v.InactiveStatus,
-				"time_created":   v.TimeCreated.String(),
-				"expires_on":     v.ExpiresOn.String(),
-			}
-			resources = append(resources, res)
-		}
-		if err := s.D.Set("passwords", resources); err != nil {
-			panic(err)
-		}
+	if s.Res == nil {
+		return
 	}
+
+	s.D.SetId(time.Now().UTC().String())
+	resources := []map[string]interface{}{}
+	for _, v := range s.Res.SwiftPasswords {
+		res := map[string]interface{}{
+			"id":             v.ID,
+			"user_id":        v.UserID,
+			"description":    v.Description,
+			"state":          v.State,
+			"inactive_state": v.InactiveStatus,
+			"time_created":   v.TimeCreated.String(),
+			"expires_on":     v.ExpiresOn.String(),
+		}
+		resources = append(resources, res)
+	}
+
+	if f, fOk := s.D.GetOk("filter"); fOk {
+		resources = ApplyFilters(f.(*schema.Set), resources)
+	}
+
+	if err := s.D.Set("passwords", resources); err != nil {
+		panic(err)
+	}
+
 	return
 }

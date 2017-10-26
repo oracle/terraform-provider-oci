@@ -19,14 +19,16 @@ type DatasourceIdentityUsersTestSuite struct {
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	ResourceName string
+	Token        string
+	TokenFn      TokenFn
 }
 
 func (s *DatasourceIdentityUsersTestSuite) SetupTest() {
-	_, tokenFn := tokenize()
+	s.Token, s.TokenFn = tokenize()
 	s.Client = testAccClient
 	s.Provider = testAccProvider
 	s.Providers = testAccProviders
-	s.Config = testProviderConfig() + tokenFn(`
+	s.Config = testProviderConfig() + s.TokenFn(`
 	resource "oci_identity_user" "t" {
 		name = "{{.token}}"
 		description = "automated test user"
@@ -34,7 +36,7 @@ func (s *DatasourceIdentityUsersTestSuite) SetupTest() {
 	s.ResourceName = "data.oci_identity_users.t"
 }
 
-func (s *DatasourceIdentityUsersTestSuite) TestAccIdentityUsers_basic() {
+func (s *DatasourceIdentityUsersTestSuite) TestAccDatasourceIdentityUsers_basic() {
 	resource.Test(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
@@ -51,7 +53,26 @@ func (s *DatasourceIdentityUsersTestSuite) TestAccIdentityUsers_basic() {
 				}`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "users.#"),
+				),
+			},
+			{
+				Config: s.Config + s.TokenFn(`
+				data "oci_identity_users" "t" {
+					compartment_id = "${var.compartment_id}"
+					filter {
+						name = "name"
+						values = ["{{.token}}"]
+					}
+				}`, nil),
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttr(s.ResourceName, "users.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "users.0.name", s.Token),
+					resource.TestCheckResourceAttr(s.ResourceName, "users.0.description", "automated test user"),
+					resource.TestCheckResourceAttr(s.ResourceName, "users.0.state", "ACTIVE"),
+					resource.TestCheckResourceAttr(s.ResourceName, "users.0.inactive_state", "0"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "users.0.id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "users.0.compartment_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "users.0.time_created"),
 				),
 			},
 		},
