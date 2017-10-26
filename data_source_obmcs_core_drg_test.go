@@ -41,19 +41,15 @@ func (s *DatasourceCoreDrgTestSuite) TestAccDatasourceCoreDrg_basic() {
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
-			//{
-			//	Config:            s.Config,
-			//},
 			{
 				ImportState:       true,
 				ImportStateVerify: true,
 				Config: s.Config + s.TokenFn(`
 				data "oci_core_drgs" "t" {
 					compartment_id = "${var.compartment_id}"
-					depends_on = ["oci_core_drg.t"]
 					filter {
-						name = "display_name"
-						values = ["{{.token}}"]
+						name = "id"
+						values = ["${oci_core_drg.t.id}"]
 					}
 				}`, nil),
 				Check: resource.ComposeTestCheckFunc(
@@ -64,7 +60,6 @@ func (s *DatasourceCoreDrgTestSuite) TestAccDatasourceCoreDrg_basic() {
 					resource.TestCheckResourceAttrSet(s.ResourceName, "drgs.0.time_created"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "drgs.0.compartment_id"),
 				),
-				ExpectNonEmptyPlan: true,
 			},
 		},
 	},
