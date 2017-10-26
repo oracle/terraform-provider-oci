@@ -27,7 +27,7 @@ func dataSourceFiltersSchema() *schema.Schema {
 				},
 
 				"regex": {
-					Type:     schema.TypeString,
+					Type:     schema.TypeBool,
 					Optional: true,
 					Default:  false,
 				},

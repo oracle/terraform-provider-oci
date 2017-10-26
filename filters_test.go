@@ -113,7 +113,35 @@ func TestApplyFilters_duplicates(t *testing.T) {
 	}
 }
 
-func TestApplyFilters_cascade(t *testing.T) {
+func TestApplyFilters_OR(t *testing.T) {
+	items := []map[string]interface{}{
+		{"letter": "a"},
+		{"letter": "b"},
+		{"letter": "c"},
+	}
+
+	filters := &schema.Set{
+		F: func(v interface{}) int {
+			elems := v.(map[string]interface{})["values"].([]interface{})
+			res := make([]string, len(elems))
+			for i, v := range elems {
+				res[i] = v.(string)
+			}
+			return schema.HashString(strings.Join(res, ""))
+		},
+	}
+	filters.Add(map[string]interface{}{
+		"name":   "letter",
+		"values": []interface{}{"a", "b"},
+	})
+
+	res := ApplyFilters(filters, items)
+	if len(res) != 2 {
+		t.Errorf("Expected 2 results, got %d", len(res))
+	}
+}
+
+func TestApplyFilters_cascadeAND(t *testing.T) {
 	items := []map[string]interface{}{
 		{"letter": "a"},
 		{"letter": "b"},
