@@ -35,7 +35,7 @@ func (s *DatasourceDatabaseDBSystemTestSuite) SetupTest() {
 	}
 
 	resource "oci_core_subnet" "t" {
-		availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+		availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.2.name}"
 		cidr_block          = "10.0.1.0/24"
 		display_name        = "-tf-subnet"
 		compartment_id      = "${var.compartment_id}"
@@ -46,7 +46,7 @@ func (s *DatasourceDatabaseDBSystemTestSuite) SetupTest() {
 	}
 
 	resource "oci_database_db_system" "t" {
-		availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+		availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.2.name}"
 		compartment_id = "${var.compartment_id}"
 		subnet_id = "${oci_core_subnet.t.id}"
 		database_edition = "ENTERPRISE_EDITION"
@@ -91,7 +91,8 @@ func (s *DatasourceDatabaseDBSystemTestSuite) TestAccDatasourceDatabaseDBSystem_
 				}
 				data "oci_database_databases" "t" {
 					compartment_id = "${var.compartment_id}"
-					db_home_id = "${data.oci_database_db_homes.t.id}"
+					db_home_id = "${data.oci_database_db_homes.t.db_homes.0.id}"
+					limit = 1000 # oci_database_databases currently requires a limit to be set.
 				}
 				data "oci_database_database" "t" {
 					  database_id = "${data.oci_database_databases.t.databases.0.id}"
