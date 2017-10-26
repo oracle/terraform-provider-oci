@@ -14,7 +14,7 @@
 
 [![wercker status](https://app.wercker.com/status/666d2ee10f45dde41189bb03248aadf9/s/master "wercker status")](https://app.wercker.com/project/byKey/666d2ee10f45dde41189bb03248aadf9)
 
-Oracle customers now have access to an enterprise class, developer friendly orchestration tool they can use to manage [Oracle Cloud Infrastructure](https://cloud.oracle.com/en_US/bare-metal) resources as well as the [Oracle Compute Cloud](https://github.com/oracle/terraform-provider-compute).
+Oracle customers now have access to an enterprise class, developer friendly orchestration tool they can use to manage [Oracle Cloud Infrastructure](https://cloud.oracle.com/cloud-infrastructure).
 
 This Terraform provider is OSS, available to all OCI customers at no charge.
 
