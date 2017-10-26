@@ -15,6 +15,7 @@ func CertificateDatasource() *schema.Resource {
 	return &schema.Resource{
 		Read: readCertificate,
 		Schema: map[string]*schema.Schema{
+			"filter": dataSourceFiltersSchema(),
 			"load_balancer_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -59,6 +60,11 @@ func (s *CertificateDatasourceCrud) SetData() {
 			}
 			resources = append(resources, res)
 		}
+
+		if f, fOk := s.D.GetOk("filter"); fOk {
+			resources = ApplyFilters(f.(*schema.Set), resources)
+		}
+
 		s.D.Set("certificates", resources)
 	}
 	return

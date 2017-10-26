@@ -15,6 +15,7 @@ func LoadBalancerShapeDatasource() *schema.Resource {
 	return &schema.Resource{
 		Read: readLoadBalancerShapes,
 		Schema: map[string]*schema.Schema{
+			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -66,6 +67,11 @@ func (s *LoadBalancerShapeDatasourceCrud) SetData() {
 			resources = append(resources, res)
 
 		}
+
+		if f, fOk := s.D.GetOk("filter"); fOk {
+			resources = ApplyFilters(f.(*schema.Set), resources)
+		}
+
 		s.D.Set("shapes", resources)
 	}
 	return
