@@ -16,6 +16,7 @@ func LoadBalancerDatasource() *schema.Resource {
 	return &schema.Resource{
 		Read: readLoadBalancers,
 		Schema: map[string]*schema.Schema{
+			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -73,6 +74,11 @@ func (s *LoadBalancerDatasourceCrud) SetData() {
 		}
 
 	}
+
+	if f, fOk := s.D.GetOk("filter"); fOk {
+		resources = ApplyFilters(f.(*schema.Set), resources)
+	}
+
 	err := s.D.Set("load_balancers", resources)
 	if err != nil {
 		log.Printf("[ERROR] Failed to set load_balancers: %v", err)
