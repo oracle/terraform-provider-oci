@@ -1,9 +1,0 @@
-#!/bin/bash
-export TF_VAR_profile="DEFAULT"
-export TF_VAR_ssh_public_key="ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDt2jCrhnRGLjDZfUxENfvyMLUBn7T95FbZub4US0xWAjBqENdzw7H9djGfNLRp1TVB94Ra0eatDh7rFbIqiMZ4koBGTL2KVMhgbqTLk22E8rYIprdRMtKxNdsgAU9CKkBBlK9OIL3+SVMWqeekFcdItcrqZ32hi6w2yQ4FSWLDITqmPrt4t29b11YnOG6ugRtYtT8IBPw4ANTPFXaijvz6ZDhy5otA/idKGoihjnxOXHWgvTJxqFb0MyjZVijDnBZgnGCAjoYq3IvzELsgU3LYcXKTsAPP5y8QUVSDdyqWc37hhKDf2f57n7cpRqMGd5+6xaR0FkJpKZVAp3sSIRD5 sbnelson@sbnelson-Mac"
-export TF_VAR_tenancy_ocid="ocid1.tenancy.oc1..aaaaaaaarjmezrk7x6sdytr4qbpp36qulkilvvjjsmjod7tgnjzaqaxekkva"
-export TF_VAR_user_ocid="ocid1.user.oc1..aaaaaaaajpr5enxuuwlw75t3dcagcarkwth7lt4hlw27fnu5bykb3vo3ba6a"
-export TF_VAR_private_key_password=""
-export TF_VAR_fingerprint="75:72:09:90:6d:c6:1f:54:15:dc:21:7b:aa:24:d2:a8"
-export TF_VAR_private_key_path="/Users/sbnelson/.oraclebmc/snelson.pem"
-export TF_VAR_region="us-ashburn-1"

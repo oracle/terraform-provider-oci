@@ -15,7 +15,6 @@ variable "fingerprint" {}
 variable "private_key_path" {}
 variable "private_key_password" {}
 variable "ssh_public_key" {}
-variable "profile" {}
 variable "region" {}
 
 variable "ipxe_instance" {
@@ -24,5 +23,6 @@ variable "ipxe_instance" {
 		name = "ipxe-rhel74"
 		hostname = "ipxe-rhel74"
 		image = "Oracle-Linux-7.4-2017.09.29-0"
+		shape = "VM.Standard1.1"
 	}
 }

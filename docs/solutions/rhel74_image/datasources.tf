@@ -1,4 +1,4 @@
-# Do not alter this file.
+# DO NOT ALTER THIS FILE
 
 data "oci_identity_compartments" "compartment" {
 	compartment_id = "${var.tenancy_ocid}"
