@@ -26,9 +26,14 @@ Using this template is simple:
 2. Open the configuration.tf file and substitute the values in each of the sections appropriate to your environment
 3. Execute 'terraform plan; terraform apply'
 4. Get coffee or favorite beverage...
+5. After your image is created, execute 'terraform destroy -force' (there will not be a resource to actually kill,
+   so force is required).
 
 What happens in the background:
 The template generates a script that embeds all the configuration files needed to build the iPXE server, extract the ISO
 boot the instance used to load RHEL, causes RHEL to load, builds the image, destroys the build instance, and finally destroys the iPXE server.  You are left with a custom image named "RHEL_74" in your environment.
+
+NOTE: The source configuration files for the iPXE server are included here.  It is *STRONGLY* recommended that they not be 
+      altered.
 
 Enjoy.
