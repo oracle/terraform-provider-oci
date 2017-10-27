@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<direct>
+  <passthrough ipv="ipv4">-A OUTPUT -m state --state RELATED,ESTABLISHED -m -j ACCEPT</passthrough>
+  <passthrough ipv="ipv4">-A OUTPUT -d 169.254.0.2/32 -p tcp -m owner --uid-owner root -m tcp --dport 3260 -m -j ACCEPT</passthrough>
+  <passthrough ipv="ipv4">-A OUTPUT -d 169.254.2.0/24 -p tcp -m owner --uid-owner root -m tcp --dport 3260 -m -j ACCEPT</passthrough>
+  <passthrough ipv="ipv4">-A OUTPUT -d 169.254.0.2/32 -p tcp -m tcp --dport 80 -m -j ACCEPT</passthrough>
+  <passthrough ipv="ipv4">-A OUTPUT -d 169.254.169.254/32 -p udp -m udp --dport 53 -m -j ACCEPT</passthrough>
+  <passthrough ipv="ipv4">-A OUTPUT -d 169.254.169.254/32 -p tcp -m tcp --dport 53 -m -j ACCEPT</passthrough>
+  <passthrough ipv="ipv4">-A OUTPUT -d 169.254.0.3/32 -p tcp -m owner --uid-owner root -m tcp --dport 80 -m -j ACCEPT</passthrough>
+  <passthrough ipv="ipv4">-A OUTPUT -d 169.254.0.4/32 -p tcp -m tcp --dport 80 -m -j ACCEPT</passthrough>
+  <passthrough ipv="ipv4">-A OUTPUT -d 169.254.169.254/32 -p tcp -m tcp --dport 80 -m -j ACCEPT</passthrough>
+  <passthrough ipv="ipv4">-A OUTPUT -d 169.254.169.254/32 -p udp -m udp --dport 67 -m -j ACCEPT</passthrough>
+  <passthrough ipv="ipv4">-A OUTPUT -d 169.254.169.254/32 -p udp -m udp --dport 69 -m -j ACCEPT</passthrough>
+  <passthrough ipv="ipv4">-A OUTPUT -d 169.254.0.0/16 -p tcp -m tcp -m -j REJECT --reject-with tcp-reset</passthrough>
+  <passthrough ipv="ipv4">-A OUTPUT -d 169.254.0.0/16 -p udp -m udp -m -j REJECT --reject-with icmp-port-unreachable</passthrough>
+  <passthrough ipv="ipv4">-A OUTPUT -d <NETRANGE> -p tcp -m tcp --dport 80 -m -j ACCEPT</passthrough>
+</direct>

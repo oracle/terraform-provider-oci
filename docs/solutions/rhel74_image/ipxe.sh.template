@@ -1,0 +1,167 @@
+SSH_PUBLIC_KEY=<PUBLIC_KEY>
+TENANCY=<TENANCY>
+USER=<USER>
+FINGERPRINT=<FINGERPRINT>
+REGION=<REGION>
+PR_KEY_PW=<PASSPHRASE>
+LOCAL_IP=`curl -s http://169.254.169.254/opc/v1/vnics/0/privateIp`
+AD=`curl -s http://169.254.169.254/opc/v1/instance/availabilityDomain`
+COMPARTMENT=`curl -s http://169.254.169.254/opc/v1/instance/compartmentId`
+VNIC_ID=`curl -s http://169.254.169.254/opc/v1/vnics/0/vnicId`
+CIDR_BLOCK=`curl -s http://169.254.169.254/opc/v1/vnics/0/subnetCidrBlock`
+MY_OCID=`curl -s http://169.254.169.254/opc/v1/instance/id`
+SHAPE="BM.Standard1.36"
+BUCKET=<BUCKET>
+ISO_NAME=<ISO_NAME>
+OS="<OS_NAME>"
+RU="<RHEL_UNAME>"
+RP="<RHEL_PASS>"
+
+case ${REGION} in
+	"us-phoenix-1")
+		SAC_OCID="ocid1.image.oc1.phx.aaaaaaaay27pdopotkapf2ahjlsn2wxndui5hn5w37hd2wss4ses4ol5xs6a"
+		;;
+	"us-ashburn-1")
+		SAC_OCID="ocid1.image.oc1.iad.aaaaaaaaqftkoa5web2r7w4ls3wekgqmqy5f7untloetfiozyqbv2ql6qidq"
+		;;
+	"eu-frankfurt-1")
+		SAC_OCID="ocid1.image.oc1.eu-frankfurt-1.aaaaaaaah4rggbyglst25peqd7vnyjzl6n5lwogiyllb6jaircakom46nswq"
+		;;
+esac
+
+yum -y -q update
+yum -y -q install sharutils
+yum -y -q install httpd rsync lzma gcc libffi-devel python-devel openssl-devel unzip gcc rsyslog jq python-firewall
+
+sed -i.bak 's/<\/zone>/  <service name=\"http\"\/>/' /etc/firewalld/zones/public.xml
+echo "</zone>" >> /etc/firewalld/zones/public.xml
+restorecon -Rv /etc/firewalld/zones/public.xml
+service firewalld restart
+
+systemctl enable httpd
+systemctl start httpd
+
+mkdir /var/www/isos
+mkdir /mnt/iso
+mkdir /var/www/html/ipxe
+mkdir /var/www/html/oci
+mkdir /var/www/html/<OS_NAME>
+mkdir -p /home/opc/.oraclebmc
+
+chmod 755 /home/opc/.oraclebmc
+chmod 777 /var/www/isos
+
+easy_install pip
+pip install pip --upgrade
+pip install oci
+pip install oci-cli
+
+sed '/imtcp/s/#//g' -i.bak /etc/rsyslog.conf
+sed '/InputTCPServerRun/s/#//g' -i.bak /etc/rsyslog.conf
+systemctl restart rsyslog.service
+
+cd /home/opc/.oraclebmc
+if [ -z "${PR_KEY_PW}" ]
+then
+	cat > config <<-EOF
+[DEFAULT]
+user=${USER}
+fingerprint=${FINGERPRINT}
+key_file=/home/opc/.oraclebmc/oci_api_key.pem
+tenancy=${TENANCY}
+region=${REGION}
+EOF
+else
+	cat > config <<-EOF
+[DEFAULT]
+user=${USER}
+fingerprint=${FINGERPRINT}
+key_file=/home/opc/.oraclebmc/oci_api_key.pem
+tenancy=${TENANCY}
+region=${REGION}
+pass_phrase=${PR_KEY_PW}
+EOF
+fi
+
+privkey
+
+chown -R opc:opc /home/opc/.oraclebmc
+
+cd /var/www/html/ipxe
+ks
+sed -i.bak 's|<IP>|'"${LOCAL_IP}"'|g
+s|<OS>|'"${OS}"'|g
+s|<RHEL_USER>|'"${RU}"'|g
+s|<RHEL_PW>|'"${RP}"'|g' ks.cfg
+
+cat > ipxeboot <<-EOF
+#!ipxe
+set target-iqn iqn.2015-02.oracle.boot:uefi
+set root-path iscsi:169.254.0.2::::${target-iqn}
+sanhook ${root-path} || echo could not attach ${root-path}
+set uefi-filename \EFI\BOOT\grubx64.efi 
+sanboot || set url http://${LOCAL_IP}
+# Set your kernel and initrd here...
+kernel \${url}/<OS_NAME>/images/pxeboot/vmlinuz initrd=initrd.img vmlinuxconsole=tty0 console=ttyS0,9600 netroot=iscsi:@169.254.0.2::::iqn.2015-02.oracle.boot:uefi iscsi_initiator=iqn.2015-02.oracle.boot:instance ip=dhcp ks=http://${LOCAL_IP}/ipxe/ks.cfg
+initrd \${url}/<OS_NAME>/images/pxeboot/initrd.img
+boot
+EOF
+
+cd /var/www/html/oci
+cloud
+firewallcfg
+
+cat > /home/opc/sacrifice-launch.sh.template <<-EOF
+#!/bin/bash
+sac_inst_ocid=\`oci compute instance launch --availability-domain=${AD} \
+--compartment-id=${COMPARTMENT} --image-id=${SAC_OCID} \
+--display-name="sacrifice" --ipxe-script-file="/var/www/html/ipxe/ipxeboot" \
+--shape=${SHAPE} --subnet-id=<SUBNET_OCID> \
+--metadata='{"ssh_authorized_keys": "${SSH_PUBLIC_KEY}" }' | jq -r '.data["id"]'\`
+sleep 120
+sac_vnic_attach=\`oci compute vnic-attachment list --instance-id=\${sac_inst_ocid} \
+--compartment-id=${COMPARTMENT} | jq -r '.data[0]["vnic-id"]'\`
+sac_ip=\`oci network vnic get --vnic-id=\${sac_vnic_attach} | jq -r '.data["private-ip"]'\`
+build_ping=1
+while [ \${build_ping} == 1 ]
+do
+	sleep 10
+	ping -q -c 1 \${sac_ip}
+	build_ping=\$?
+done
+	
+ping_result=0
+while [ \${ping_result} == 0 ]
+do
+	sleep 10
+	ping -q -c 1 \${sac_ip}
+	ping_result=\$?
+done
+image_ocid=\`oci compute image create --compartment-id=${COMPARTMENT} --instance-id=\${sac_inst_ocid} \
+--display-name="RHEL_74" | jq -r '.data["id"]'\`
+image_status=\`oci image get --image-id=\${image_ocid} | jq -r '.data["lifecycle-state"]'\`
+while [ "\${image_status}" != "AVAILABLE" ]
+do
+	sleep 120
+	image_status=\`oci compute image get --image-id=\${image_ocid} | jq -r '.data["lifecycle-state"]'\`
+done
+oci compute instance terminate --instance-id=\${sac_inst_ocid} --force
+oci compute instance terminate --instance-id=${MY_OCID} --force
+EOF
+
+SUBNET_ID=`sudo -u opc oci network vnic get --vnic-id=${VNIC_ID} | jq '.data ["subnet-id"]' | sed 's/\"//g'`
+sed -i.bak 's/<SUBNET_OCID>/'"${SUBNET_ID}"'/g' /home/opc/sacrifice-launch.sh.template
+cp /home/opc/sacrifice-launch.sh.template /home/opc/sacrifice-launch.sh
+chown opc:opc /home/opc/sacrifice*
+chmod 755 /home/opc/sacrifice*
+cd /var/www/isos
+namespace=`sudo -u opc oci os ns get | jq '.data' | sed 's/\"//g'`
+sudo -u opc oci os object get --namespace=${namespace} --bucket-name=${BUCKET} --name=${ISO_NAME} --file=${ISO_NAME}
+mount -o ro ./${ISO_NAME} /mnt/iso
+cd /mnt/iso
+find . -print | cpio -pmvdu /var/www/html/${OS}
+cd ~
+umount /mnt/iso
+sudo -u opc nohup /home/opc/sacrifice-launch.sh &
+
+
