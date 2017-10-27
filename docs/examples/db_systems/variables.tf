@@ -85,7 +85,7 @@ variable "PDBName" {
 	default = "pdbName"
 }
 
-variable "InitialDataStorageSizeInGB" {
+variable "DataStorageSizeInGB" {
 	default = "256"
 }
 
