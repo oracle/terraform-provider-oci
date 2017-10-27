@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ## Unreleased
 
 ### Added
-- Filters for most core, IAM, and Load Balancer data sources
+- Filters for most core, IAM, and Load Balancer data sources. See [docs/Filters.md](https://github.com/oracle/terraform-provider-oci/blob/master/docs/Filters.md) for details.
 - Support for Virtual Machine (VM) DB Systems
 - Support for Bring Your Own License (BYOL) licensing model for DB Systems
 

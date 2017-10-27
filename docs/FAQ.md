@@ -6,8 +6,8 @@
 ***
 # FAQ for the Oracle Cloud Infrastructure Terraform provider
 
-#### Q: What is the Oracle Cloud Infrastructure?
-https://cloud.oracle.com/en_US/bare-metal/architecture
+#### Q: What is Oracle Cloud Infrastructure?
+https://cloud.oracle.com/infrastructure/architecture
 
 #### Q: What is Terraform?
 Terraform is an orchestration engine and language that enables you to safely and predictably create, change, and improve production infrastructure. It is an open source tool that codifies APIs into declarative configuration files that can be shared amongst team members, treated as code, edited, reviewed, and versioned.
@@ -22,7 +22,7 @@ Yes, Terraform supports configurations that can span multiple clouds and can all
 Terraform allows you to define infrastructure configurations and then have those configurations implemented/created by Terraform automatically. In this respect, you could compare Terraform to similar solutions like OpenStack Heat, AWS CloudFormation, and others. http://blog.scottlowe.org/2015/11/25/intro-to-terraform/
 
 #### Q: Can I use Terraform to manage both Oracle Public Cloud and Oracle Cloud Infrastructure?
-**Yes.** The Oracle Public Cloud Terraform provider is located here - https://github.com/oracle/terraform-provider-compute.
+**Yes.** The Oracle Public Cloud Terraform provider is located here - https://github.com/terraform-providers/terraform-provider-opc.
 See - http://darylscorner.com/2016/11/using-terraform-across-multiple-cloud-providers/ for examples of Terraform multi-cloud configurations.
 
 #### Q: What happens if I change infrastructure I'm managing with Terraform outside of Terraform?
@@ -33,4 +33,4 @@ You can file an issue against the project
 https://github.com/oracle/terraform-provider-oci/issues
 
 or meet us in the OCI forums
-https://community.oracle.com/community/cloud_computing/bare-metal
+https://community.oracle.com/community/oracle-cloud/cloud-infrastructure/
