@@ -4,8 +4,7 @@
 
   [ce7191fd]: https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/Volume/ "VolumeReference"
 
-Gets a list of volumes in a compartment.
-`**Dan_should this be providing a resource?**`
+Gets a list of volumes in a compartment. Resources in the data sources list that is returned support CRD operations.
 
 ## Example Usage
 

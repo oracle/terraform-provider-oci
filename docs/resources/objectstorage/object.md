@@ -1,7 +1,10 @@
 # oci\_objectstorage\_bucket
 
+[GetObject][91f4fff1]
+
+  [91f4fff1]: https://docs.us-phoenix-1.oraclecloud.com/api/#/en/objectstorage/20160918/Object/GetObject "GetObject"
+
 Provides an Objectstorage resource for CRUD operations on objects.
-`**Dan: not sure which links to use here**`
 
 ## Example Usage
 

@@ -4,7 +4,7 @@
 
   [b236f15a]: https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/PrivateIp/ "PrivateIpReference"
 
-**dan: does this get IP info, or does it provide a private IP resource/**
+Provides a private IP resource.
 
 ## Example Usage
 
