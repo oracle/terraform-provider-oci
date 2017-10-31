@@ -41,7 +41,7 @@ func (s *DatasourceCoreImageTestSuite) TestAccImage_basic() {
 				data "oci_core_images" "t" {
 					compartment_id = "${var.compartment_id}"
 					operating_system = "Oracle Linux"
-					operating_system_version = "7.3"
+					operating_system_version = "7.4"
 				
 					filter {
 						name = "display_name"
@@ -56,7 +56,7 @@ func (s *DatasourceCoreImageTestSuite) TestAccImage_basic() {
 					resource.TestCheckResourceAttr(s.ResourceName, "images.0.display_name", "Oracle-Linux-7.3-2017.07.17-1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "images.0.state", "AVAILABLE"),
 					resource.TestCheckResourceAttr(s.ResourceName, "images.0.operating_system", "Oracle Linux"),
-					resource.TestCheckResourceAttr(s.ResourceName, "images.0.operating_system_version", "7.3"),
+					resource.TestCheckResourceAttr(s.ResourceName, "images.0.operating_system_version", "7.4"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "images.0.time_created"),
 				),
 			},
