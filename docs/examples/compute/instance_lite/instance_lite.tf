@@ -30,7 +30,7 @@ data "oci_identity_availability_domains" "ADs" {
 data "oci_core_images" "image-list" {
   compartment_id = "${var.compartment_ocid}"
   operating_system = "Oracle Linux"
-  operating_system_version = "7.3"
+  operating_system_version = "7.4"
 }
 
 resource "oci_core_instance" "instance1" {
