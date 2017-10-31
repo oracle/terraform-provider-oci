@@ -53,7 +53,7 @@ func (s *DatasourceCoreInstanceTestSuite) SetupTest() {
 	data "oci_core_images" "t" {
 		compartment_id = "${var.compartment_id}"
 		operating_system = "Oracle Linux"
-		operating_system_version = "7.3"
+		operating_system_version = "7.4"
 		limit = 1
 	}
 

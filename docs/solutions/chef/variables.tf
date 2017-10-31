@@ -24,7 +24,7 @@ variable "InstanceOS" {
 }
 
 variable "InstanceOSVersion" {
-  default = "7.3"
+  default = "7.4"
 }
 
 variable "BootStrapFile" {
