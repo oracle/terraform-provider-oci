@@ -43,7 +43,7 @@ func (s *ResourceCoreImageTestSuite) TestAccResourceCoreImage_basic() {
 						compartment_id = "${var.compartment_id}"
 						instance_id = "${oci_core_instance.t.id}"
 						timeouts {
-							create = "15m"
+							create = "30m"
 						}
 					}
 				`,
