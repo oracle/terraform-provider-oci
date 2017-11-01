@@ -45,7 +45,7 @@ func (s *DatasourceCoreImageTestSuite) TestAccImage_basic() {
 				
 					filter {
 						name = "display_name"
-						values = [".*2017.07.17-1"]
+						values = [".*2017.09.29-0"]
 						regex = true
 					}
 				}`,
@@ -53,7 +53,7 @@ func (s *DatasourceCoreImageTestSuite) TestAccImage_basic() {
 					resource.TestCheckResourceAttr(s.ResourceName, "images.#", "1"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "images.0.id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "images.0.create_image_allowed", "true"),
-					resource.TestCheckResourceAttr(s.ResourceName, "images.0.display_name", "Oracle-Linux-7.3-2017.07.17-1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "images.0.display_name", "Oracle-Linux-7.4-2017.09.29-0"),
 					resource.TestCheckResourceAttr(s.ResourceName, "images.0.state", "AVAILABLE"),
 					resource.TestCheckResourceAttr(s.ResourceName, "images.0.operating_system", "Oracle Linux"),
 					resource.TestCheckResourceAttr(s.ResourceName, "images.0.operating_system_version", "7.4"),
