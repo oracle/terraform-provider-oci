@@ -9,8 +9,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 - Host header and version to signing (#340)
 - Support for block volume fast clones (#347)
 
-### Changed
-- Acceptance test refinements
+### Fixed
+- Examples of "oci_core_images" data source now filter on "display_name" to accommodate changes to available images (#342 and #345)
 
 ### Notes
 - If upgrading from v1, see [this wiki](https://github.com/oracle/terraform-provider-oci/wiki/Oracle-Terraform-Provider-Name-Change) for migration steps.
