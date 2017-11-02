@@ -63,6 +63,7 @@ func (s *ResourceCoreVolumeTestSuite) TestCreateResourceCoreVolume_basic() {
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "display_name"),
+					resource.TestCheckResourceAttr(s.ResourceName, "is_hydrated", "true"),
 					resource.TestCheckResourceAttr(s.ResourceName, "size_in_mbs", "51200"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", baremetal.ResourceAvailable),
 				),
@@ -122,6 +123,7 @@ func (s *ResourceCoreVolumeTestSuite) TestCreateResourceCoreVolume_basic() {
 				}`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("oci_core_volume.u", "source_details.0.id"),
+					resource.TestCheckResourceAttr("oci_core_volume.u", "is_hydrated", "true"),
 					resource.TestCheckResourceAttr("oci_core_volume.u", "display_name", "-tf-volume-clone"),
 					resource.TestCheckResourceAttr("oci_core_volume.u", "source_details.0.type", "volume"),
 					resource.TestCheckResourceAttr("oci_core_volume.u", "state", baremetal.ResourceAvailable),
