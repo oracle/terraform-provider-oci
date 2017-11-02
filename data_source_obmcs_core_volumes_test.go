@@ -34,6 +34,17 @@ func (s *DatasourceCoreVolumeTestSuite) SetupTest() {
 		compartment_id = "${var.compartment_id}"
 		display_name = "-tf-volume"
 		size_in_gbs = 50
+	}
+	
+	resource "oci_core_volume" "u" {
+		availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+		compartment_id = "${var.compartment_id}"
+		display_name = "-tf-volume-clone"
+		size_in_gbs = 50
+		source_details {
+			type = "volume"
+			id = "${oci_core_volume.t.id}"
+		}
 	}`
 	s.ResourceName = "data.oci_core_volumes.t"
 }
@@ -80,6 +91,22 @@ func (s *DatasourceCoreVolumeTestSuite) TestAccDatasourceCoreVolume_basic() {
 					resource.TestCheckResourceAttr(s.ResourceName, "volumes.0.display_name", "-tf-volume"),
 					resource.TestCheckResourceAttr(s.ResourceName, "volumes.0.size_in_gbs", "50"),
 					resource.TestCheckResourceAttr(s.ResourceName, "volumes.0.size_in_mbs", "51200"),
+				),
+			},
+			{
+				Config: s.Config + `
+				data "oci_core_volumes" "u" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${oci_core_volume.u.compartment_id}"
+					filter {
+						name = "id"
+						values = ["${oci_core_volume.u.id}"]
+					}
+				}`,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttr("data.oci_core_volumes.u", "volumes.#", "1"),
+					resource.TestCheckResourceAttr("data.oci_core_volumes.u", "volumes.0.source_details.0.type", "volume"),
+					resource.TestCheckResourceAttrSet("data.oci_core_volumes.u", "volumes.0.source_details.0.id"),
 				),
 			},
 		},

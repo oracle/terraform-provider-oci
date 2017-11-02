@@ -3,9 +3,10 @@
 package main
 
 import (
+	"testing"
+
 	"fmt"
 	"regexp"
-	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
@@ -20,8 +21,6 @@ type ResourceCoreVolumeTestSuite struct {
 	Providers    map[string]terraform.ResourceProvider
 	Config       string
 	ResourceName string
-	Res          *baremetal.Volume
-	DeletedRes   *baremetal.Volume
 }
 
 func (s *ResourceCoreVolumeTestSuite) SetupTest() {
@@ -101,6 +100,32 @@ func (s *ResourceCoreVolumeTestSuite) TestCreateResourceCoreVolume_basic() {
 					size_in_gbs = 50 //specify same size in GB, does nothing
 				}`,
 				ExpectNonEmptyPlan: false,
+			},
+			// create a clone off the existing volume
+			{
+				Config: s.Config + `
+				resource "oci_core_volume" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${var.compartment_id}"
+					display_name = "-tf-volume"
+					size_in_gbs = 50
+				}
+				resource "oci_core_volume" "u" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${var.compartment_id}"
+					display_name = "-tf-volume-clone"
+					size_in_gbs = 50
+					source_details {
+						type = "volume"
+						id = "${oci_core_volume.t.id}"
+					}
+				}`,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttrSet("oci_core_volume.u", "source_details.0.id"),
+					resource.TestCheckResourceAttr("oci_core_volume.u", "display_name", "-tf-volume-clone"),
+					resource.TestCheckResourceAttr("oci_core_volume.u", "source_details.0.type", "volume"),
+					resource.TestCheckResourceAttr("oci_core_volume.u", "state", baremetal.ResourceAvailable),
+				),
 			},
 		},
 	})

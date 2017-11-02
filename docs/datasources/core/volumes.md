@@ -38,3 +38,4 @@ The following attributes are exported:
 * `state` - The current state of the volume. Allowed values are: [PROVISIONING, RESTORING, AVAILABLE, TERMINATING, TERMINATED, FAULTY]
 * `size_in_gbs` - The size of the volume, in GBs. The size must be a multiple of 1024.
 * `time_created` - The date and time the Volume was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z`.
+* `source_details` - Specifies the volume source details for a new Block Volume.
