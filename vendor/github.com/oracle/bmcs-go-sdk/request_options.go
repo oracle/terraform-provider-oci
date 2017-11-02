@@ -159,11 +159,17 @@ type UpdateVnicOptions struct {
 	SkipSourceDestCheck *bool  `header:"-" json:"skipSourceDestCheck,omitempty" url:"-"`
 }
 
+type VolumeSourceDetails struct {
+	Id   string `header:"-" json:"id" url:"-"`
+	Type string `header:"-" json:"type" url:"-"`
+}
+
 type CreateVolumeOptions struct {
 	CreateOptions
-	SizeInMBs      int    `header:"-" json:"sizeInMBs,omitempty" url:"-"`
-	SizeInGBs      int    `header:"-" json:"sizeInGBs,omitempty" url:"-"`
-	VolumeBackupID string `header:"-" json:"volumeBackupId,omitempty" url:"-"`
+	SizeInMBs           int                  `header:"-" json:"sizeInMBs,omitempty" url:"-"`
+	SizeInGBs           int                  `header:"-" json:"sizeInGBs,omitempty" url:"-"`
+	VolumeBackupID      string               `header:"-" json:"volumeBackupId,omitempty" url:"-"`
+	VolumeSourceDetails *VolumeSourceDetails `header:"-" json:"sourceDetails,omitempty" url:"-"`
 }
 
 type CreatePolicyOptions struct {
