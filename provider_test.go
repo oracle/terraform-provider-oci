@@ -81,9 +81,7 @@ resource "oci_core_subnet" "WebSubnetAD1" {
 var instanceConfig = subnetConfig + `
 data "oci_core_images" "t" {
 	compartment_id = "${var.compartment_id}"
-  	operating_system = "Oracle Linux"
-  	operating_system_version = "7.4"
-  	limit = 1
+  	display_name = "Oracle-Linux-7.4-2017.10.25-0"
 }
 
 data "oci_identity_policies" "policies" {
@@ -143,9 +141,7 @@ resource "oci_core_subnet" "t" {
 
 data "oci_core_images" "t" {
 	compartment_id = "${var.compartment_id}"
-  	operating_system = "Oracle Linux"
-  	operating_system_version = "7.4"
-  	limit = 1
+  	display_name = "Oracle-Linux-7.4-2017.10.25-0"
 }
 
 resource "oci_core_instance" "t" {
