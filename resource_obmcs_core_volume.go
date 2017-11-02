@@ -67,6 +67,27 @@ func VolumeResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"source_details": {
+				Type:     schema.TypeList,
+				Optional: true,
+				ForceNew: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"id": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+						"type": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+					},
+				},
+			},
 		},
 	}
 }
@@ -159,6 +180,15 @@ func (s *VolumeResourceCrud) Create() (e error) {
 		opts.VolumeBackupID = volumeBackupID.(string)
 	}
 
+	if sourceDetailsList, listOk := s.D.GetOk("source_details"); listOk {
+		sourceDetailsItem := sourceDetailsList.([]interface{})[0] // if listOk this is assured to have exactly 1 item
+		sdItem := sourceDetailsItem.(map[string]interface{})
+		opts.VolumeSourceDetails = &baremetal.VolumeSourceDetails{
+			sdItem["id"].(string),
+			sdItem["type"].(string),
+		}
+	}
+
 	s.Res, e = s.Client.CreateVolume(availabilityDomain, compartmentID, opts)
 
 	return
@@ -192,6 +222,13 @@ func (s *VolumeResourceCrud) SetData() {
 	s.D.Set("size_in_gbs", s.Res.SizeInGBs)
 	s.D.Set("state", s.Res.State)
 	s.D.Set("time_created", s.Res.TimeCreated.String())
+
+	if vsdRaw := s.Res.VolumeSourceDetails; vsdRaw != nil {
+		vsd := make(map[string]interface{})
+		vsd["id"] = vsdRaw.Id
+		vsd["type"] = vsdRaw.Type
+		s.D.Set("source_details", vsd)
+	}
 }
 
 func (s *VolumeResourceCrud) Delete() (e error) {

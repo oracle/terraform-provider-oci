@@ -103,6 +103,14 @@ func (s *VolumeDatasourceCrud) SetData() {
 			"state":               v.State,
 			"time_created":        v.TimeCreated.String(),
 		}
+
+		if vsdRaw := v.VolumeSourceDetails; vsdRaw != nil {
+			vsd := make(map[string]interface{})
+			vsd["id"] = vsdRaw.Id
+			vsd["type"] = vsdRaw.Type
+			vol["source_details"] = []interface{}{vsd}
+		}
+
 		resources = append(resources, vol)
 	}
 
