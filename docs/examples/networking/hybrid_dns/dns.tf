@@ -21,12 +21,8 @@ variable "InstanceShape" {
     default = "VM.Standard1.1"
 }
 
-variable "InstanceOS" {
-    default = "Oracle Linux"
-}
-
-variable "InstanceOSVersion" {
-    default = "7.4"
+variable "InstanceImageDisplayName" {
+    default = "Oracle-Linux-7.4-2017.10.25-0"
 }
 
 variable "vcn_cidr" {
@@ -187,11 +183,11 @@ resource "oci_core_subnet" "MgmtSubnet2" {
     dhcp_options_id = "${oci_core_dhcp_options.MgmtDhcpOptions.id}"
 }
 
-# Gets the OCID of the OS image to use
+# Gets the OCID of the image. This technique is for example purposes only. The results of oci_core_images may
+# change over time for Oracle-provided images, so the only sure way to get the correct OCID is to supply it directly.
 data "oci_core_images" "OLImageOCID" {
     compartment_id = "${var.compartment_ocid}"
-    operating_system = "${var.InstanceOS}"
-    operating_system_version = "${var.InstanceOSVersion}"
+    display_name = "${var.InstanceImageDisplayName}"
 }
 
 resource "oci_core_instance" "DnsVM" {
