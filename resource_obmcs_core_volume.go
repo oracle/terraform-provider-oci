@@ -54,6 +54,10 @@ func VolumeResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"is_hydrated": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -196,9 +200,22 @@ func (s *VolumeResourceCrud) Create() (e error) {
 
 func (s *VolumeResourceCrud) Get() (e error) {
 	res, e := s.Client.GetVolume(s.D.Id())
-	if e == nil {
-		s.Res = res
+
+	// IsHydrated will be false (null) for regular block volumes in the provisioning phase,
+	// don't set state and continue polling until provisioning->available, when IsHydrated
+	// also becomes true.
+	//
+	// IsHydrated will be false for clones in the provisioning phase, don't set state and continue polling
+	// until provisioning->available, then:
+	// IsHydrated may still be false for clones after becoming available, still dont set state and
+	// continue polling until IsHydrated is true. This prevents 409 errors when trying to delete a volume
+	// while it is still hydrating.
+	if e != nil || !res.IsHydrated {
+		return
 	}
+
+	s.Res = res
+
 	return
 }
 
@@ -218,6 +235,7 @@ func (s *VolumeResourceCrud) SetData() {
 	s.D.Set("availability_domain", s.Res.AvailabilityDomain)
 	s.D.Set("compartment_id", s.Res.CompartmentID)
 	s.D.Set("display_name", s.Res.DisplayName)
+	s.D.Set("is_hydrated", s.Res.IsHydrated)
 	s.D.Set("size_in_mbs", s.Res.SizeInMBs)
 	s.D.Set("size_in_gbs", s.Res.SizeInGBs)
 	s.D.Set("state", s.Res.State)

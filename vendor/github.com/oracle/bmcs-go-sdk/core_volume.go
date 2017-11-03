@@ -15,6 +15,7 @@ type Volume struct {
 	CompartmentID       string               `json:"compartmentId"`
 	DisplayName         string               `json:"displayName"`
 	ID                  string               `json:"id"`
+	IsHydrated          bool                 `json:"isHydrated"`
 	SizeInMBs           int                  `json:"sizeInMBs"`
 	SizeInGBs           int                  `json:"sizeInGBs"`
 	State               string               `json:"lifecycleState"`
