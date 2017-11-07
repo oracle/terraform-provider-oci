@@ -1,12 +1,16 @@
 # oci\_core\_security\_lists
 
+[SecurityList Reference][b38fec4c]
+
+  [b38fec4c]: https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/SecurityList/ "SecurityListReference"
+
 Provides a security list resource.
 See the [Security Lists](https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Concepts/securitylists.htm)
-overview for more information
+overview for more information.
 
 ## Example Usage
 
-Protocols are specified as protocol numbers. For protocol numbers see
+Protocols are specified as protocol numbers. For information about protocol numbers, see
 http://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml
 
 ```
@@ -62,10 +66,10 @@ The following arguments are supported:
 ## Attributes Reference
 
 * `compartment_id` - The OCID of the compartment containing the security list.
-* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable.
+* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 * `egress_security_rules` - Rules for allowing egress IP packets.
 * `id` - The security list's Oracle Cloud ID (OCID).
 * `ingress_security_rules` - Rules for allowing ingress IP packets.
-* `state` - The security list's current state. [PROVISIONING, AVAILABLE, TERMINATING, TERMINATED]
-* `time_created` - The date and time the security list was created.
+* `state` - The security list's current state. Allowed values are: [PROVISIONING, AVAILABLE, TERMINATING, TERMINATED]
+* `time_created` - The date and time the security list was created, in the format defined by RFC3339. Example: `2016-08-25T21:10:29.600Z`.
 * `vcn_id` - The OCID of the VCN the security list belongs to.

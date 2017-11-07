@@ -1,5 +1,9 @@
 # oci\_load\_balancer\_certificate
 
+[Certificate Reference][11129d57]
+
+  [11129d57]: https://docs.us-phoenix-1.oraclecloud.com/api/#/en/loadbalancer/20170115/Certificate/ "CertificateReference"
+
 Provide a load balancer certificate set resource.
 
 ## Example Usage
@@ -24,7 +28,7 @@ The following arguments are supported:
 * `private_key` - (Required) The SSL private key for your certificate, in PEM format.
 * `public_certificate` - (Required) The public certificate, in PEM format, that you received from your SSL certificate provider.
 * `passphrase` - (Optional) A passphrase for encrypted private keys. This is needed only if you created your certificate with a passphrase.
-* `certificate_name` - (Optional) A friendly name for the certificate bundle. It must be unique and it cannot be changed.
+* `certificate_name` - (Optional) A friendly name for the certificate bundle. It must be unique and it cannot be changed. Avoid entering confidential information.
 
 
 ## Attributes Reference

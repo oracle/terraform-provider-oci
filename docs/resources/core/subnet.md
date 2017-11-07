@@ -1,5 +1,9 @@
 # oci\_core\_subnets
 
+[Subnet Reference][f9264814]
+
+  [f9264814]: https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/Subnet/ "SubnetReference"
+
 Gets a list of subnets.
 
 ## Example Usage
@@ -42,16 +46,16 @@ The following arguments are supported:
 * `security_list_ids` - (Required) OCIDs for the security lists to associate with the subnet. Remember that security lists are associated at the subnet level, but the rules are applied to the individual VNICs in the subnet.
 * `vcn_id` - (Required) The OCID of the VCN to contain the subnet.
 
-* `dns_label` - (Optional) DNS label for the subnet, used in conjunction with the VNIC's hostname and VCN's DNS label to form a fully qualified domain name (FQDN) for each VNIC within this subnet (e.g., bminstance-1.subnet123.vcn1.oraclevcn.com). Must be an alphanumeric string that begins with a letter and is unique within the VCN. The value cannot be changed. The absence of this parameter means the Internet and VCN Resolver will not resolve hostnames of instances in this subnet.
-* `display_name` - (Optional) User-friendly name. Does not have to be unique, and it's changeable.
-* `prohibit_public_ip_on_vnic` - (Optional) Whether VNICs within this subnet can have public IP. If it is allowed, VNICs created in the subnet will automatically be assigned public IP unless otherwise specified in the VNIC. If it is prohibited, VNICs in the subnet cannot have public IP address assigned. The default value is false if unspecified.
+* `dns_label` - (Optional) DNS label for the subnet, used in conjunction with the VNIC's hostname and VCN's DNS label to form a fully qualified domain name (FQDN) for each VNIC within this subnet (e.g., `bminstance-1.subnet123.vcn1.oraclevcn.com`). Must be an alphanumeric string that begins with a letter and is unique within the VCN. The value cannot be changed. The absence of this parameter means the Internet and VCN Resolver will not resolve hostnames of instances in this subnet.
+* `display_name` - (Optional) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+* `prohibit_public_ip_on_vnic` - (Optional) Whether VNICs within this subnet can have public IP. If it is allowed, VNICs created in the subnet will automatically be assigned public IP unless otherwise specified in the VNIC. If it is prohibited, VNICs in the subnet cannot have public IP address assigned. The default value is `false` if unspecified.
 
-WARNING: With some exceptions, changing these properties in a plan after the resources has been created results in destruction and recreation of the resources and all dependent resources. Display name can be changed non-destructively.  
+**WARNING: With some exceptions, changing these properties in a plan after the resources has been created results in destruction and recreation of the resources and all dependent resources. Display name can be changed non-destructively.**  
 
 ## Attributes Reference
 
 * `id` - The subnet's Oracle ID (OCID).
-* `state` - The VCN's current state. [PROVISIONING, AVAILABLE, TERMINATING, TERMINATED]
-* `time_created` - The date and time the VCN was created.
+* `state` - The subnet's current state. Allowed values are: [PROVISIONING, AVAILABLE, TERMINATING, TERMINATED]
+* `time_created` - The date and time the subnet was created, in the format defined by RFC3339. Example: `2016-08-25T21:10:29.600Z`.
 * `virtual_router_ip` - The IP address of the virtual router.
 * `virtual_router_mac` - The MAC address of the virtual router.

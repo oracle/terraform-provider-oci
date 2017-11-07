@@ -1,5 +1,9 @@
 # oci\_objectstorage\_bucket
 
+[GetObject][91f4fff1]
+
+  [91f4fff1]: https://docs.us-phoenix-1.oraclecloud.com/api/#/en/objectstorage/20160918/Object/GetObject "GetObject"
+
 Provides an Objectstorage resource for CRUD operations on objects.
 
 ## Example Usage
@@ -25,9 +29,9 @@ resource "oci_objectstorage_object" "t" {
 
 The following arguments are supported:
 
-* `namespace` - (Required) The namespace of the object storage that the object is in.
-* `bucket` - (Required) The name of the bucket.
-* `object` - (Required) The name of the object.
+* `namespace` - (Required) The namespace of the object store that the object is in.
+* `bucket` - (Required) The name of the bucket. Avoid entering confidential information.
+* `object` - (Required) The name of the object. Avoid entering confidential information.
 * `content` - (Optional) A string that will form the body of the object.
 * `metadata` - (Optional) User-defined metadata key value pairs.
 * `content_type` - (Optional) The content type of the object. Defaults to 'application/octet-stream' if not overridden during the PutObject call.

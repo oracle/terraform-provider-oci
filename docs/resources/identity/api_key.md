@@ -1,6 +1,10 @@
 # oci\_identity\_api\_key
 
-Provides an api key resource.
+[ApiKey Reference][90d9d1ba]
+
+  [90d9d1ba]: https://docs.us-phoenix-1.oraclecloud.com/api/#/en/identity/20160918/ApiKey/ "ApiKeyReference"
+
+Provides an API key resource.
 
 ## Example Usage
 
@@ -23,6 +27,6 @@ The following arguments are supported:
 * `key_value` - The key's value.
 * `fingerprint` - The key's fingerprint (e.g., 12:34:56:78:90:ab:cd:ef:12:34:56:78:90:ab:cd:ef).
 * `user_id` - The OCID of the user the key belongs to.
-* `time_created` - Date and time the ApiKey was created.
-* `state` - The compartment's current state. [CREATING, ACTIVE, INACTIVE, DELETING, DELETED]
-* `inactive_status` - The detailed status of INACTIVE lifecycleState.
+* `time_created` - Date and time the `ApiKey` was created.
+* `state` - The compartment's current state. Allowed values are: [CREATING, ACTIVE, INACTIVE, DELETING, DELETED]
+* `inactive_status` - The detailed status of INACTIVE `lifecycleState`.
