@@ -11,7 +11,6 @@ resource "oci_core_internet_gateway" "kvm-ig" {
   vcn_id         = "${oci_core_virtual_network.kvm-vcn.id}"
 }
 
-
 resource "oci_core_route_table" "kvm-rt" {
   compartment_id = "${var.compartment_ocid}"
   vcn_id         = "${oci_core_virtual_network.kvm-vcn.id}"
@@ -35,7 +34,6 @@ resource "oci_core_subnet" "kvm-host-subnet" {
   dns_label           = "kvmhostsubnet"
 }
 
-
 # Protocols are specified as protocol numbers.
 # http://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml
 resource "oci_core_security_list" "kvm-host-security_list" {
@@ -48,7 +46,6 @@ resource "oci_core_security_list" "kvm-host-security_list" {
     destination = "0.0.0.0/0"
     protocol    = "6"
   }
-
 
   // allow inbound http (port 443) traffic
   ingress_security_rules {

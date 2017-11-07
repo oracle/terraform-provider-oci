@@ -5,7 +5,7 @@ The Bring Your Own KVM (BYO-KVM) capability of OCI is designed to support custom
 
 In this example we demonstrate the automatic installation of a Guest Virtual Machine on a Bare Metal instance running KVM in Oracle Cloud Infrastructure (OCI). It can be easily adapted to automate the installation of any OS that KVM [supports](https://www.linux-kvm.org/page/Guest_Support_Status).
 
-We don't provide any specific Guest VM on this example. You are responsible to specify the VM file. You can search for a kvm/qcow2 image file on Google or search on some specialized linux sites such tuxfixer.com or you can just convert your own image into a qcow2 format.
+We don't provide any specific Guest VM on this example. You are responsible to specify the VM file. You can search for a kvm/qcow2 image file on Google or search on some specialized Linux sites such as tuxfixer.com or you can just convert your own image into a qcow2 format.
 
 Note that the Terraform template is expecting to download the image from a particular URL. Because of that, we recommend you to [upload the target image to OCI object storage](https://docs.us-phoenix-1.oraclecloud.com/Content/GSG/Tasks/addingbuckets.htm#two), create a [pre-authenticated request](https://docs.us-phoenix-1.oraclecloud.com/Content/Object/Tasks/managingobjects.htm#par), and use it as the image URL.
 
@@ -15,7 +15,7 @@ This sample code will be responsible to perform the following tasks:
 
 - Spin up a [Bare Metal](https://docs.us-phoenix-1.oraclecloud.com/Content/Compute/Concepts/computeoverview.htm) Instance based on Oracle Linux 7.x image.
 
-- Attach [a secondary VNIC](https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Tasks/managingVNICs.htm) to the Bare Metal instance, configured as a vlan-tagged interfaces.
+- Attach [a secondary VNIC](https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Tasks/managingVNICs.htm) to the Bare Metal instance, configured as a vlan-tagged interface.
 
 -	Installation of the KVM hypervisor provided by the Linux Kernel provided as a [Terraform module](https://www.terraform.io/docs/modules/usage.html) (reusable artifact). This process requires instance restart due to the kernel changes.
 
@@ -38,7 +38,7 @@ Requirements
 
 - Update `terraform.tfvars` with the required information. Terraform automatically loads them to populate variables, but you can also use the -var-file flag directly to specify a file. These files are the same syntax as Terraform configuration files. And like Terraform configuration files, these files can also be JSON.
 
-We don't recommend saving usernames and password to version control, but you can create a local secret variables file and use -var-file to load it.
+We don't recommend saving usernames and passwords to version control, but you can create a local secret variables file and use -var-file to load it.
 
 Most examples use the same set of environment variables so you only need to do this once. There's a sample file available on this sample code for your reference in addition to the snippet below:
 

@@ -11,14 +11,15 @@ resource "oci_core_instance" "kvm-host-instance" {
   compartment_id      = "${var.compartment_ocid}"
   display_name        = "${var.prefix}-kvm-host"
   image               = "${lookup(data.oci_core_images.base-image.images[0], "id")}"
-  shape               = "${var.instance_shape}"
+  shape               = "${contains(slice(data.oci_core_shape.supported_shapes.shapes, 0,
+    length(data.oci_core_shape.supported_shapes.shapes) - 1), var.instance_shape)  ? var.instance_shape : format("Only VM Shapes are supported on this demo. Selected: %s", var.instance_shape)  }"
 
-      create_vnic_details {
-        subnet_id        = "${oci_core_subnet.kvm-host-subnet.id}"
-        hostname_label   = "kvm-host"
-        display_name     = "kvm-host-vnic"
-        assign_public_ip = true
-      }
+  create_vnic_details {
+    subnet_id        = "${oci_core_subnet.kvm-host-subnet.id}"
+    hostname_label   = "kvm-host"
+    display_name     = "kvm-host-vnic"
+    assign_public_ip = true
+  }
 
   metadata {
     ssh_authorized_keys = "${file(var.ssh_public_key_path)}"
