@@ -18,7 +18,6 @@ output "KVM_GUEST_MAC_ADDRESS" {
   value = ["${data.oci_core_vnic.kvm-guest-vnic.*.mac_address}"]
 }
 
-
 output "KVM_GUEST_VNC_PWD" {
   value = "${var.kvm_guest_vnc_pwd}"
 }

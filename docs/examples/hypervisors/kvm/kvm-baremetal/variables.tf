@@ -15,7 +15,6 @@ variable "prefix" {}
 variable "availability_domain" {}
 variable "vcn_cidr_block" {}
 variable "kvm_host_subnet_cidr_block" {}
-
 variable "instance_shape" {}
 variable "kvm_image_url" {}
 variable "kvm_image_name" {}

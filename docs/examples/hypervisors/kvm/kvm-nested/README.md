@@ -5,7 +5,7 @@ The Bring Your Own KVM (BYO-KVM) capability of OCI is designed to support custom
 
 In this example we demonstrate the automatic installation of a Guest Virtual Machine on a Nested KVM in Oracle Cloud Infrastructure (OCI). Nested virtualization allows you to run a virtual machine (VM) inside another VM while still using hardware acceleration from the host.
 
-We don't provide any specific Guest VM on this example. You are responsible to specify the VM file which is [supported by KVM](https://www.linux-kvm.org/page/Guest_Support_Status). You can search for a kvm/qcow2 image file on Google or search on some specialized linux sites such tuxfixer.com or you can just convert your own image into a qcow2 format.
+We don't provide any specific Guest VM on this example. You are responsible to specify the VM file which is [supported by KVM](https://www.linux-kvm.org/page/Guest_Support_Status). You can search for a kvm/qcow2 image file on Google or search on some specialized Linux sites such as tuxfixer.com or you can just convert your own image into a qcow2 format.
 
 Note that the Terraform template is expecting to download the image from a particular URL. Because of that, we recommend you to [upload the target image to OCI object storage](https://docs.us-phoenix-1.oraclecloud.com/Content/GSG/Tasks/addingbuckets.htm#two), create a [pre-authenticated request](https://docs.us-phoenix-1.oraclecloud.com/Content/Object/Tasks/managingobjects.htm#par), and use it as the image URL.
 
@@ -40,7 +40,7 @@ Requirements
 
 - Update `terraform.tfvars` with the required information. Terraform automatically loads them to populate variables, but you can also use the -var-file flag directly to specify a file. These files are the same syntax as Terraform configuration files. And like Terraform configuration files, these files can also be JSON.
 
-We don't recommend saving usernames and password to version control, but you can create a local secret variables file and use -var-file to load it.
+We don't recommend saving usernames and passwords to version control, but you can create a local secret variables file and use -var-file to load it.
 
 Most examples use the same set of environment variables so you only need to do this once. There's a sample file available on this sample code for your reference in addition to the snippet below:
 
