@@ -1,6 +1,10 @@
 # oci\_core\_drg
 
-Provide a drg attachment resource.
+**API:** [Drg Reference][18ac8fea]
+
+  [18ac8fea]: https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/Drg/ "DrgReference"
+
+Provide a Dynamic Routing Gateway (DRG) resource.
 
 ## Example Usage
 
@@ -22,8 +26,7 @@ The following arguments are supported:
 
 ## Attributes Reference
 * `compartment_id` - The OCID of the compartment containing the DRG.
-* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable.
+* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 * `id` - The DRG's Oracle ID (OCID).
 * `state` - The DRG's current state: [PROVISIONING, AVAILABLE, TERMINATING, TERMINATED].
-* `time_created` - The date and time the image was created.
-
+* `time_created` - The date and time the DRG was created,  in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z`.

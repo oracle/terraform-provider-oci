@@ -1,5 +1,9 @@
 # oci\_database\_db\_nodes
 
+[DbNodeSummary Reference][3fd8c9a6]
+
+  [3fd8c9a6]: https://docs.us-phoenix-1.oraclecloud.com/api/#/en/database/20160918/DbNodeSummary/ "DbNodeSummaryReference"
+
 Gets a list of database nodes in the specified DB System and compartment.
 
 ## Example Usage

@@ -1,5 +1,9 @@
 # oci\_database\_db\_systems
 
+[DbSystemSummary Reference][28cea1db]
+
+  [28cea1db]: https://docs.us-phoenix-1.oraclecloud.com/api/#/en/database/20160918/DbSystemSummary/ "DbSystemSummaryReference"
+
 Gets a list of the DB Systems in the specified compartment.
 
 ## Example Usage

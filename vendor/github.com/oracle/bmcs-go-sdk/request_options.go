@@ -159,11 +159,17 @@ type UpdateVnicOptions struct {
 	SkipSourceDestCheck *bool  `header:"-" json:"skipSourceDestCheck,omitempty" url:"-"`
 }
 
+type VolumeSourceDetails struct {
+	Id   string `header:"-" json:"id" url:"-"`
+	Type string `header:"-" json:"type" url:"-"`
+}
+
 type CreateVolumeOptions struct {
 	CreateOptions
-	SizeInMBs      int    `header:"-" json:"sizeInMBs,omitempty" url:"-"`
-	SizeInGBs      int    `header:"-" json:"sizeInGBs,omitempty" url:"-"`
-	VolumeBackupID string `header:"-" json:"volumeBackupId,omitempty" url:"-"`
+	SizeInMBs           int                  `header:"-" json:"sizeInMBs,omitempty" url:"-"`
+	SizeInGBs           int                  `header:"-" json:"sizeInGBs,omitempty" url:"-"`
+	VolumeBackupID      string               `header:"-" json:"volumeBackupId,omitempty" url:"-"`
+	VolumeSourceDetails *VolumeSourceDetails `header:"-" json:"sourceDetails,omitempty" url:"-"`
 }
 
 type CreatePolicyOptions struct {
@@ -191,11 +197,14 @@ type LaunchInstanceOptions struct {
 
 type LaunchDBSystemOptions struct {
 	CreateOptions
-	BackupSubnetId        string         `header:"-" json:"backupSubnetId,omitempty" url:"-"`
-	ClusterName           string         `header:"-" json:"clusterName,omitempty" url:"-"`
-	DataStoragePercentage int            `header:"-" json:"dataStoragePercentage,omitempty" url:"-"`
-	DiskRedundancy        DiskRedundancy `header:"-" json:"diskRedundancy,omitempty" url:"-"`
-	Domain                string         `header:"-" json:"domain,omitempty" url:"-"`
+	BackupSubnetId             string         `header:"-" json:"backupSubnetId,omitempty" url:"-"`
+	ClusterName                string         `header:"-" json:"clusterName,omitempty" url:"-"`
+	DataStoragePercentage      int            `header:"-" json:"dataStoragePercentage,omitempty" url:"-"`
+	DiskRedundancy             DiskRedundancy `header:"-" json:"diskRedundancy,omitempty" url:"-"`
+	Domain                     string         `header:"-" json:"domain,omitempty" url:"-"`
+	InitialDataStorageSizeInGB int            `header:"-" json:"initialDataStorageSizeInGB,omitempty" url:"-"`
+	LicenseModel               LicenseModel   `header:"-" json:"licenseModel,omitempty" url:"-"`
+	NodeCount                  int            `header:"-" json:"nodeCount,omitempty" url:"-"`
 }
 
 type CreateDBHomeOptions struct {

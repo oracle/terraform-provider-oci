@@ -56,9 +56,7 @@ func testImage1() string {
 	return `
 	data "oci_core_images" "t" {
 		compartment_id = "${var.compartment_ocid}"
-		operating_system = "Oracle Linux"
-		operating_system_version = "7.3"
-		limit = 1
+		display_name = "Oracle-Linux-7.4-2017.10.25-0"
 	}`
 }
 

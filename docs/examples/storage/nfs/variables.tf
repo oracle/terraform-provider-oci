@@ -19,12 +19,8 @@ variable "InstanceShape" {
     default = "VM.Standard1.4"
 }
 
-variable "InstanceOS" {
-    default = "Oracle Linux"
-}
-
-variable "InstanceOSVersion" {
-    default = "7.3"
+variable "InstanceImageDisplayName" {
+    default = "Oracle-Linux-7.4-2017.10.25-0"
 }
 
 variable "2TB" {

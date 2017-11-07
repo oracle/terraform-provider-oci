@@ -1,5 +1,9 @@
 # oci\_database\_db\_versions
 
+[DbVersionSummary Reference][6318c25a]
+
+  [6318c25a]: https://docs.us-phoenix-1.oraclecloud.com/api/#/en/database/20160918/DbVersionSummary/ "DbVersionSummaryReference"
+
 Gets a list of supported Oracle database versions.
 
 ## Example Usage

@@ -15,6 +15,7 @@ func AvailabilityDomainDatasource() *schema.Resource {
 	return &schema.Resource{
 		Read: readAvailabilityDomains,
 		Schema: map[string]*schema.Schema{
+			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -60,17 +61,26 @@ func (s *AvailabilityDomainDatasourceCrud) Get() (e error) {
 }
 
 func (s *AvailabilityDomainDatasourceCrud) SetData() {
-	if s.Res != nil {
-		s.D.SetId(time.Now().UTC().String())
-		resources := []map[string]interface{}{}
-		for _, v := range s.Res.AvailabilityDomains {
-			res := map[string]interface{}{
-				"name":           v.Name,
-				"compartment_id": v.CompartmentID,
-			}
-			resources = append(resources, res)
+	if s.Res == nil {
+		return
+	}
+
+	s.D.SetId(time.Now().UTC().String())
+	resources := []map[string]interface{}{}
+	for _, v := range s.Res.AvailabilityDomains {
+		res := map[string]interface{}{
+			"name":           v.Name,
+			"compartment_id": v.CompartmentID,
 		}
-		s.D.Set("availability_domains", resources)
+		resources = append(resources, res)
+	}
+
+	if f, fOk := s.D.GetOk("filter"); fOk {
+		resources = ApplyFilters(f.(*schema.Set), resources)
+	}
+
+	if err := s.D.Set("availability_domains", resources); err != nil {
+		panic(err)
 	}
 	return
 }

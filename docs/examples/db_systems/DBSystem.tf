@@ -22,5 +22,8 @@ resource "oci_database_db_system" "TFDBNode" {
   display_name = "${var.DBNodeDisplayName}"
   domain = "${var.DBNodeDomainName}"
   hostname = "${var.DBNodeHostName}"
-  data_storage_percentage = "40" 
+  data_storage_percentage = "40"
+  data_storage_size_in_gb = "${var.DataStorageSizeInGB}"
+  license_model = "${var.LicenseModel}"
+  node_count = "${var.NodeCount}"
 }

@@ -75,7 +75,7 @@ func (s *ResourceCoreVolumeBackupTestSuite) TestAccResourceCoreVolumeBackup_basi
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-volume-backup"),
 				),
 			},
-			// verify restore
+			// verify conventional restore
 			{
 				Config: s.Config + `
 					resource "oci_core_volume_backup" "t" {
@@ -91,6 +91,30 @@ func (s *ResourceCoreVolumeBackupTestSuite) TestAccResourceCoreVolumeBackup_basi
 					}`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr("oci_core_volume.t2", "display_name", "-tf-volume-restored"),
+				),
+			},
+			// verify clone from backup
+			{
+				Config: s.Config + `
+					resource "oci_core_volume_backup" "t" {
+						volume_id = "${oci_core_volume.t.id}"
+						display_name = "-tf-volume-backup"
+					}
+					resource "oci_core_volume" "u" {
+						availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+						compartment_id = "${var.compartment_id}"
+						display_name = "-tf-volume-clone"
+						size_in_gbs = 50
+						source_details {
+							type = "volumeBackup"
+							id = "${oci_core_volume_backup.t.id}"
+						}
+					}`,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttrSet("oci_core_volume.u", "source_details.0.id"),
+					resource.TestCheckResourceAttr("oci_core_volume.u", "display_name", "-tf-volume-clone"),
+					resource.TestCheckResourceAttr("oci_core_volume.u", "source_details.0.type", "volumeBackup"),
+					resource.TestCheckResourceAttr("oci_core_volume.u", "state", baremetal.ResourceAvailable),
 				),
 			},
 		},

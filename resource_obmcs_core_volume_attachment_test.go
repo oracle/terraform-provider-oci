@@ -51,9 +51,7 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) SetupTest() {
 
 	data "oci_core_images" "t" {
 		compartment_id = "${var.compartment_id}"
-		operating_system = "Oracle Linux"
-		operating_system_version = "7.3"
-		limit = 1
+		display_name = "Oracle-Linux-7.4-2017.10.25-0"
 	}
 	
 	resource "oci_core_instance" "t" {

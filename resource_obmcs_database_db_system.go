@@ -4,6 +4,7 @@ package main
 
 import (
 	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform/helper/validation"
 	"github.com/oracle/bmcs-go-sdk"
 
 	"github.com/oracle/terraform-provider-oci/crud"
@@ -171,6 +172,27 @@ func DBSystemResource() *schema.Resource {
 				Optional: true,
 				ForceNew: true,
 			},
+			"data_storage_size_in_gb": {
+				Type:     schema.TypeInt,
+				Computed: true,
+				Optional: true,
+				ForceNew: true,
+			},
+			"license_model": {
+				Type:     schema.TypeString,
+				Computed: true,
+				Optional: true,
+				ForceNew: true,
+				ValidateFunc: validation.StringInSlice([]string{
+					string(baremetal.LicenseIncluded),
+					string(baremetal.BringYourOwnLicense)}, false),
+			},
+			"node_count": {
+				Type:     schema.TypeInt,
+				Computed: true,
+				Optional: true,
+				ForceNew: true,
+			},
 
 			//Computed
 			"id": {
@@ -182,6 +204,10 @@ func DBSystemResource() *schema.Resource {
 				Computed: true,
 			},
 			"listener_port": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
+			"reco_storage_size_in_gb": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
@@ -240,7 +266,7 @@ func deleteDBSystem(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &DBSystemResourceCrud{}
 	sync.D = d
 	sync.Client = client.clientWithoutNotFoundRetries
-	return sync.Delete()
+	return crud.DeleteResource(d, sync)
 }
 
 type DBSystemResourceCrud struct {
@@ -343,6 +369,15 @@ func (s *DBSystemResourceCrud) Create() (e error) {
 	if domain, ok := s.D.GetOk("domain"); ok {
 		opts.Domain = domain.(string)
 	}
+	if initialDataStorageSizeInGB, ok := s.D.GetOk("data_storage_size_in_gb"); ok {
+		opts.InitialDataStorageSizeInGB = initialDataStorageSizeInGB.(int)
+	}
+	if licenseModel, ok := s.D.GetOk("license_model"); ok {
+		opts.LicenseModel = baremetal.LicenseModel(licenseModel.(string))
+	}
+	if nodeCount, ok := s.D.GetOk("node_count"); ok {
+		opts.NodeCount = nodeCount.(int)
+	}
 
 	s.Res, e = s.Client.LaunchDBSystem(
 		availabilityDomain, compartmentID, cpuCoreCount, databaseEdition, dbHomeDetails,
@@ -378,14 +413,18 @@ func (s *DBSystemResourceCrud) SetData() {
 	s.D.Set("backup_subnet_id", s.Res.BackupSubnetID)
 	s.D.Set("cluster_name", s.Res.ClusterName)
 	s.D.Set("data_storage_percentage", s.Res.DataStoragePercentage)
+	s.D.Set("data_storage_size_in_gb", s.Res.DataStorageSizeInGBs)
 	s.D.Set("disk_redundancy", s.Res.DiskRedundancy)
 	s.D.Set("display_name", s.Res.DisplayName)
 	s.D.Set("domain", s.Res.Domain)
+	s.D.Set("license_model", s.Res.LicenseModel)
+	s.D.Set("node_count", s.Res.NodeCount)
 
 	//Computed
 	s.D.Set("id", s.Res.ID)
 	s.D.Set("lifecycle_details", s.Res.LifecycleDetails)
 	s.D.Set("listener_port", s.Res.ListenerPort)
+	s.D.Set("reco_storage_size_in_gb", s.Res.RecoStorageSizeInGB)
 	s.D.Set("scan_dns_record_id", s.Res.ScanDnsRecordId)
 	s.D.Set("scan_ip_ids", s.Res.ScanIpIds)
 	s.D.Set("state", s.Res.State)

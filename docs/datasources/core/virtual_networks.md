@@ -1,6 +1,10 @@
 # oci\_core\_virtual\_networks
 
-Gets a list of virtual networks.
+**API:** [Vcn Reference][0d11fda6]
+
+  [0d11fda6]: https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/Vcn/ "VcnReference"
+
+Gets a list of Virtual Cloud Networks (VCNs).
 
 ## Example Usage
 
@@ -33,8 +37,7 @@ The following attributes are exported:
 * `default_dhcp_options_id` - The OCID for the VCN's default set of DHCP options.
 * `default_route_table_id` - The OCID for the VCN's default route table.
 * `default_security_list_id` - The OCID for the VCN's default security list.
-* `display_name` - A user-friendly name. Does not have to be unique.
+* `display_name` - A user-friendly name. Does not have to be unique. Avoid entering confidential information.
 * `id` - The OCID of the VNIC.
-* `state` - The current state of the VNIC. [PROVISIONING, AVAILABLE, TERMINATING, TERMINATED]
-* `time_created` - The date and time the VNIC was created.
-
+* `state` - The current state of the VCN. Allowed values are: [PROVISIONING, AVAILABLE, TERMINATING, TERMINATED]
+* `time_created` - The date and time the VCN was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z`.

@@ -16,6 +16,7 @@ func GroupDatasource() *schema.Resource {
 	return &schema.Resource{
 		Read: readGroups,
 		Schema: map[string]*schema.Schema{
+			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -65,24 +66,33 @@ func (s *GroupDatasourceCrud) Get() (e error) {
 }
 
 func (s *GroupDatasourceCrud) SetData() {
-	if s.Res != nil {
-		s.D.SetId(time.Now().UTC().String())
-		resources := []map[string]interface{}{}
-		for _, v := range s.Res.Groups {
-			res := map[string]interface{}{
-				"compartment_id": v.CompartmentID,
-				"description":    v.Description,
-				"id":             v.ID,
-				"inactive_state": v.InactiveStatus,
-				"name":           v.Name,
-				"state":          v.State,
-				"time_created":   v.TimeCreated.String(),
-			}
-			resources = append(resources, res)
-		}
-		if err := s.D.Set("groups", resources); err != nil {
-			panic(err)
-		}
+	if s.Res == nil {
+		return
 	}
+
+	s.D.SetId(time.Now().UTC().String())
+	resources := []map[string]interface{}{}
+	for _, v := range s.Res.Groups {
+		res := map[string]interface{}{
+			"compartment_id": v.CompartmentID,
+			"description":    v.Description,
+			"id":             v.ID,
+			"inactive_state": v.InactiveStatus,
+			"name":           v.Name,
+			"state":          v.State,
+			"time_created":   v.TimeCreated.String(),
+		}
+
+		resources = append(resources, res)
+	}
+
+	if f, fOk := s.D.GetOk("filter"); fOk {
+		resources = ApplyFilters(f.(*schema.Set), resources)
+	}
+
+	if err := s.D.Set("groups", resources); err != nil {
+		panic(err)
+	}
+
 	return
 }

@@ -47,18 +47,25 @@ func (s *DatasourceCoreInternetGatewayTestSuite) TestAccDatasourceCoreInternetGa
 			{
 				ImportState:       true,
 				ImportStateVerify: true,
-				Config:            s.Config,
-			},
-			{
 				Config: s.Config + `
 				data "oci_core_internet_gateways" "s" {
 					compartment_id = "${var.compartment_id}"
 					vcn_id = "${oci_core_virtual_network.t.id}"
+				
+					filter {
+						name = "display_name"
+						values = ["${oci_core_internet_gateway.t.display_name}"]
+					}
 				}`,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "gateways.0.display_name", "-tf-internet-gateway"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "gateways.0.id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "gateways.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "gateways.0.display_name", "-tf-internet-gateway"),
+					resource.TestCheckResourceAttr(s.ResourceName, "gateways.0.state", "AVAILABLE"),
+					resource.TestCheckResourceAttr(s.ResourceName, "gateways.0.enabled", "true"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "gateways.0.id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "gateways.0.compartment_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "gateways.0.time_created"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "gateways.0.time_modified"),
 				),
 			},
 		},

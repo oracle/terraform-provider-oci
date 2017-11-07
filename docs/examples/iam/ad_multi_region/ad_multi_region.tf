@@ -1,5 +1,6 @@
 /*
- * This example demonstrates how to read AD values from multiple regions and outputs them for display.
+ * This example demonstrates how to read AD values from multiple regions and employ filters
+ * to isolate a specific AD value.
  */
 
 variable "tenancy_ocid" {}
@@ -27,13 +28,25 @@ provider "oci" {
 }
 
 data "oci_identity_availability_domains" "ad-phx" {
-  compartment_id = "${var.tenancy_ocid}"
   provider = "oci.phx"
+  compartment_id = "${var.tenancy_ocid}"
+
+  filter {
+    name = "name"
+    values = ["\\w*-AD-1"]
+    regex = true
+  }
 }
 
 data "oci_identity_availability_domains" "ad-iad" {
-  compartment_id = "${var.tenancy_ocid}"
   provider = "oci.iad"
+  compartment_id = "${var.tenancy_ocid}"
+
+  filter {
+    name = "name"
+    values = ["\\w*-AD-1"]
+    regex = true
+  }
 }
 
 

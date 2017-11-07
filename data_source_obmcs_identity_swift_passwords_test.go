@@ -44,17 +44,32 @@ func (s *DatasourceIdentitySwiftPasswordsTestSuite) TestAccDatasourceIdentitySwi
 			{
 				ImportState:       true,
 				ImportStateVerify: true,
-				Config:            s.Config,
-			},
-			{
 				Config: s.Config + `
 				data "oci_identity_swift_passwords" "p" {
 					user_id = "${oci_identity_user.t.id}"
 				}`,
 				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttrSet(s.ResourceName, "passwords.#"),
+				),
+			},
+			{
+				Config: s.Config + `
+				data "oci_identity_swift_passwords" "p" {
+					user_id = "${oci_identity_user.t.id}"
+					filter {
+						name   = "description"
+						values = ["${oci_identity_swift_password.t.description}"]
+					}
+				}`,
+				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "passwords.#", "1"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "passwords.0.id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "passwords.0.user_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "passwords.0.time_created"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "passwords.0.expires_on"),
 					resource.TestCheckResourceAttr(s.ResourceName, "passwords.0.description", "tf test user swift password"),
+					resource.TestCheckResourceAttr(s.ResourceName, "passwords.0.state", "ACTIVE"),
+					resource.TestCheckResourceAttr(s.ResourceName, "passwords.0.inactive_state", "0"),
 				),
 			},
 		},

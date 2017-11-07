@@ -12,6 +12,7 @@ type NetworkEntityType string
 type DBNodeAction string
 type DatabaseEdition string
 type DiskRedundancy string
+type LicenseModel string
 type ListObjectOptionField string
 type BucketAccessType string
 type PARAccessType string
@@ -126,6 +127,10 @@ const (
 	DiskRedundancyHigh   DiskRedundancy = "HIGH"
 	DiskRedundancyNormal DiskRedundancy = "NORMAL"
 
+	// License models
+	LicenseIncluded     LicenseModel = "LICENSE_INCLUDED"
+	BringYourOwnLicense LicenseModel = "BRING_YOUR_OWN_LICENSE"
+
 	// DB Resources
 	resourceDBHomes               resourceName = "dbHomes"
 	resourceDBNodes               resourceName = "dbNodes"
@@ -144,6 +149,8 @@ const (
 	resourceUsers                resourceName = "users"
 	resourceUserGroupMemberships resourceName = "userGroupMemberships"
 	resourceSwiftPasswords       resourceName = "swiftPasswords"
+	resourceTenancies            resourceName = "tenancies"
+	resourceRegions              resourceName = "regions"
 
 	// Core Resources
 	resourceCustomerPremiseEquipment resourceName = "cpes"

@@ -10,14 +10,15 @@ import "net/http"
 type Volume struct {
 	OPCRequestIDUnmarshaller
 	ETagUnmarshaller
-	AvailabilityDomain string `json:"availabilityDomain"`
-	CompartmentID      string `json:"compartmentId"`
-	DisplayName        string `json:"displayName"`
-	ID                 string `json:"id"`
-	SizeInMBs          int    `json:"sizeInMBs"`
-	SizeInGBs          int    `json:"sizeInGBs"`
-	State              string `json:"lifecycleState"`
-	TimeCreated        Time   `json:"timeCreated"`
+	VolumeSourceDetails *VolumeSourceDetails `json:"sourceDetails,omitempty"`
+	AvailabilityDomain  string               `json:"availabilityDomain"`
+	CompartmentID       string               `json:"compartmentId"`
+	DisplayName         string               `json:"displayName"`
+	ID                  string               `json:"id"`
+	SizeInMBs           int                  `json:"sizeInMBs"`
+	SizeInGBs           int                  `json:"sizeInGBs"`
+	State               string               `json:"lifecycleState"`
+	TimeCreated         Time                 `json:"timeCreated"`
 }
 
 // ListVolumes contains a list of block volumes

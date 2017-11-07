@@ -1,5 +1,9 @@
 # oci\_core\_instance_credentials
 
+**API:** [InstanceCredentials Reference][5d7b7cd3]
+
+  [5d7b7cd3]: https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/InstanceCredentials/ "InstanceCredentialsReference"
+
 Gets the initial user name and password for a Windows instance.
 
 ## Example Usage

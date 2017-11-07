@@ -15,14 +15,18 @@ type DBSystem struct {
 	CPUCoreCount          uint64              `json:"cpuCoreCount"`
 	DatabaseEdition       DatabaseEdition     `json:"databaseEdition"`
 	DataStoragePercentage int                 `json:"dataStoragePercentage"`
+	DataStorageSizeInGBs  int                 `json:"dataStorageSizeInGBs"`
 	DBHome                CreateDBHomeDetails `json:"dbHome"`
 	DiskRedundancy        DiskRedundancy      `json:"diskRedundancy"`
 	DisplayName           string              `json:"displayName"`
 	Domain                string              `json:"domain"`
 	Hostname              string              `json:"hostname"`
 	ID                    string              `json:"id"`
+	LicenseModel          LicenseModel        `json:"licenseModel"`
 	LifecycleDetails      string              `json:"lifecycleDetails"`
 	ListenerPort          uint64              `json:"listenerPort"`
+	NodeCount             int                 `json:"nodeCount"`
+	RecoStorageSizeInGB   int                 `json:"recoStorageSizeInGB"`
 	ScanDnsRecordId       string              `json:"scanDnsRecordId"`
 	ScanIpIds             []string            `json:"scanIpIds"`
 	Shape                 string              `json:"shape"`
