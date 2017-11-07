@@ -1,5 +1,9 @@
 # oci\_load\_balancer\_backendset
 
+[BackendSet Reference][1a928087]
+
+  [1a928087]: https://docs.us-phoenix-1.oraclecloud.com/api/#/en/loadbalancer/20170115/BackendSet/ "BackendSetReference"
+
 Provide a load balancer backend set resource.
 
 ## Example Usage
@@ -22,7 +26,7 @@ resource "oci_load_balancer_backendset" "t" {
     verify_depth            = 6
     verify_peer_certificate = false
   }
-  
+
   session_persistence_configuration {
     cookie_name      = "cookiename"
     disable_fallback = true
@@ -35,7 +39,7 @@ resource "oci_load_balancer_backendset" "t" {
 The following arguments are supported:
 
 * `load_balancer_id` - (Required) The OCID of the load balancer.
-* `name` - (Required) A friendly name for the backend set. It must be unique and it cannot be changed.
+* `name` - (Required) A friendly name for the backend set. It must be unique and it cannot be changed. Avoid entering confidential information.
 * `policy` - (Optional) The load balancer policy for the backend set. The default load balancing policy is 'ROUND_ROBIN'.
 * `health_checker` - (Optional) Health Checker Settings
 * `ssl_configuration` - (Optional) SSL Configuration Settings
@@ -43,6 +47,4 @@ The following arguments are supported:
 
 
 ## Attributes Reference
-* `backend` - The list of backends
-
-
+* `backend` - The list of backends.
