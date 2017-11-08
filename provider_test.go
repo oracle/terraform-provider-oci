@@ -28,6 +28,13 @@ func init() {
 }
 
 func testProviderConfig() string {
+	// We should check for "compartment_ocid" to be consistent with our README steps
+	// Some folks might still be using the old "compartment_id" name in their environment, so don't break them
+	var compartmentId string
+	if compartmentId = getEnvSetting("compartment_id", "compartment_id"); compartmentId == "compartment_id" {
+		compartmentId = getRequiredEnvSetting("compartment_ocid")
+	}
+
 	return `
 	provider "oci" {
 		tenancy_ocid = "ocid.tenancy.aaaa"
@@ -39,7 +46,7 @@ func testProviderConfig() string {
 	}
 
 	variable "compartment_id" {
-		default = "` + getEnvSetting("compartment_id", "compartment_id") + `"
+		default = "` + compartmentId + `"
 	}
 
 	variable "tenancy_ocid" {

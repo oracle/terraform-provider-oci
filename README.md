@@ -88,8 +88,9 @@ In your ~/.bash_profile set these variables
 ```
 export TF_VAR_tenancy_ocid=
 export TF_VAR_user_ocid=
+export TF_VAR_compartment_ocid=<The tenancy OCID can be used as the compartment OCID of your root compartment>
 export TF_VAR_fingerprint=
-export TF_VAR_private_key_path=<fully qualified path>`
+export TF_VAR_private_key_path=<fully qualified path>
 ```
 
 Once you've set these values open a new terminal or source your profile changes
@@ -101,19 +102,18 @@ $ source ~/.bash_profile
 ```
 setx TF_VAR_tenancy_ocid <value>
 setx TF_VAR_user_ocid <value>
+setx TF_VAR_compartment_ocid <value>
 setx TF_VAR_fingerprint <value>
 setx TF_VAR_private_key_path <value>
 ```
 The variables won't be set for the current session, exit the terminal and reopen.
 
 ## Deploy an example configuration
-Download the [compute single instance example](https://github.com/oracle/terraform-provider-oci/tree/master/docs/examples/compute/instance).
-
-Edit it to include the OCID of the compartment you want to create the VCN. Remember that the tenancy OCID is the compartment OCID of your root compartment.
+Download the [virtual cloud network example](https://github.com/oracle/terraform-provider-oci/tree/master/docs/examples/networking/vcn).
 
 You should always plan, then apply a configuration -
 ```
-# From the compute/instance directory
+# From the vcn directory
 
 # Initialize the plugin for this template directory
 $ terraform init
