@@ -1,6 +1,6 @@
-tenancy_id = "<tenancy OCID>"
+tenancy_id = "<tenancy_OCID>"
 
-user_id = "<user OCID>"
+user_id = "<user_OCID>"
 
 fingerprint = "<PEM key fingerprint>"
 
