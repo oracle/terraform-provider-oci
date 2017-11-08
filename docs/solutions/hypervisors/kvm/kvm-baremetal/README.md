@@ -17,7 +17,7 @@ This sample code will be responsible to perform the following tasks:
 
 - Attach [a secondary VNIC](https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Tasks/managingVNICs.htm) to the Bare Metal instance, configured as a vlan-tagged interface.
 
--	Installation of the KVM hypervisor provided by the Linux Kernel provided as a [Terraform module](https://www.terraform.io/docs/modules/usage.html) (reusable artifact). This process requires instance restart due to the kernel changes.
+-	Installation of the KVM hypervisor provided by the Linux Kernel is provided as a [Terraform module](https://www.terraform.io/docs/modules/usage.html) (reusable artifact). This process requires instance restart due to the kernel changes.
 
 -	Download of the image file.
 
@@ -58,15 +58,20 @@ region="<OCI region>"
 #### Instance definition variables ####
 #######################################
 
-#Customer Identifier to be used before the resources name
-customer_name = "mycustomer"
-
 #availability_domain number - For AD1 uses 1. For AD2, uses 2, For AD3, uses 3
 availability_domain = "1"
 
 #Only BM Shapes are supported
 instance_shape = "BM.Standard1.36"
 
+#Prefix to identify your resources
+prefix = "samplekvm"
+
+#Cidr block for your VCN
+vcn_cidr_block = "10.0.0.0/16"
+
+#Cidr block for your subnet
+kvm_host_subnet_cidr_block = "10.0.10.0/24"
 
 ##############################
 #### KVM related settings ####

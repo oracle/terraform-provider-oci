@@ -1,8 +1,8 @@
-.terraform
-terraform.tfstate*
+.terraform/
+terraform.tfstate
+terraform.tfstate.*
 .terraform.tfstate.lock.info
 tf.plan
-*.tfvars
 *.orig
 *.log
 .DS_Store

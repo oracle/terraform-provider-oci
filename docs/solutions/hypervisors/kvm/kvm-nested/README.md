@@ -70,6 +70,16 @@ availability_domain = "1"
 instance_shape = "VM.Standard1.8"
 
 
+#Prefix to identify your resources
+prefix = "samplekvm"
+
+#Cidr block for your VCN
+vcn_cidr_block = "10.0.0.0/16"
+
+#Cidr block for your subnet
+kvm_host_subnet_cidr_block = "10.0.10.0/24"
+
+
 ##############################
 #### KVM related settings ####
 ##############################
