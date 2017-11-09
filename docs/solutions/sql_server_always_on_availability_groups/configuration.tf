@@ -73,9 +73,15 @@ variable "witness_shape" {
 }
 
 locals {
-  // Subnet prefix declaration  // If not set otherwise, subnets will be auto generated.  // The first /21 block will be assigned to the DMZ-prefix.  // Second block to the Active Directory.  // Third for the SQL servers. Defaults are declared in the include.tf file.
+  // Subnet prefix declaration
+  // If not set otherwise, subnets will be auto generated.
+  // The first /21 block will be assigned to the DMZ-prefix.  
+  // Second block to the Active Directory.  
+  // Third for the SQL servers. Defaults are declared in the include.tf file.
 
-  // CIDR /21 subnets assigned for the roles  // Example override:  // DMZ_prefix = "192.168.0.0/21"
+  // CIDR /21 subnets assigned for the roles  
+    // Example override:  
+    // DMZ_prefix = "192.168.0.0/21"
 
   DMZ_prefix   = "${cidrsubnet("${var.vcn_cidr_block}", 2, 0)}"
   ADMIN_prefix = "${cidrsubnet("${var.vcn_cidr_block}", 2, 1)}"
