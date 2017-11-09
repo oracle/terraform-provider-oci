@@ -4,6 +4,7 @@ resource "oci_core_instance" "instance" {
   compartment_id      = "${var.compartment_id}"
   display_name        = "${var.dns_label}${"${count.index}" + 1}"
 
+// Uncomment the line below to set a hostname label to the instance 
   #hostname_label      = "${var.dns_label}${"${count.index}" + 1}"
   hostname_label = ""
   image          = "${var.image_id}"
