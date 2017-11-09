@@ -19,7 +19,7 @@ There are several prerequisites for using this process:
     
     There is a tool included in this directory, settfenv.py, that will generate a file that can be sourced into
     your shell, containing all these pieces of information.  The tool assumes you have previously setup
-    the OCI CLI locally.
+    the OCI python libraries (preferred) or OCI CLI locally.
 
 Using this template is simple:
 
