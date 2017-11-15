@@ -1,4 +1,4 @@
-This example provides method to generate a RHEL 7.4 image for use by both VM and BM shapes.
+This example provides a method to generate a RHEL 7.4 image for use by both VM and BM shapes.
 There are several prerequisites for using this process:
 
 1. You MUST have a valid RedHat account with subscriptions available.  The TF template needs a 

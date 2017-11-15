@@ -31,6 +31,7 @@ OCI_ISO_NAME=`echo ${INPUT_JSON} | jq -r '.iso_name'`
 OCI_OS_SHORT_NAME=`echo ${INPUT_JSON} | jq -r '.os_short_name'`
 RHEL_UNAME=`echo ${INPUT_JSON} | jq -r '.rhel_user'`
 RHEL_PW=`echo ${INPUT_JSON} | jq -r '.rhel_pw'`
+ZEROS_OCID=`echo ${INPUT_JSON} | jq -r '.zeros_ocid'`
 
 # If we get a pass phrase for the private key, use it, otherwise dont
 if [ -z "${OCI_PRKEY_PW}" ]
@@ -105,7 +106,8 @@ s|<BUCKET>|\"'"${OCI_BUCKET}"'\"|g
 s|<ISO_NAME>|\"'"${OCI_ISO_NAME}"'\"|g
 s|<OS_NAME>|'"${OCI_OS_SHORT_NAME}"'|g
 s|<RHEL_UNAME>|'"${RHEL_UNAME}"'|g
-s|<RHEL_PASS>|'"${RHEL_PW}"'|g' ./ipxe.sh
+s|<RHEL_PASS>|'"${RHEL_PW}"'|g 
+s|<ZEROS_OCID>|\"'"${ZEROS_OCID}"'\"|g' ./ipxe.sh
 
 chmod 755 ./ipxe.sh
 rm ./temp.uue

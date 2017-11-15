@@ -26,3 +26,12 @@ variable "ipxe_instance" {
 		shape = "VM.Standard1.1"
 	}
 }
+
+variable "region_all_zeros_ocid" {
+	type = "map"
+	default = {
+		us-phoenix-1 = "ocid1.image.oc1.phx.aaaaaaaay27pdopotkapf2ahjlsn2wxndui5hn5w37hd2wss4ses4ol5xs6a"
+		us-ashburn-1 = "ocid1.image.oc1.iad.aaaaaaaaqftkoa5web2r7w4ls3wekgqmqy5f7untloetfiozyqbv2ql6qidq"
+		eu-frankfurt-1 = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaah4rggbyglst25peqd7vnyjzl6n5lwogiyllb6jaircakom46nswq"
+	}
+}

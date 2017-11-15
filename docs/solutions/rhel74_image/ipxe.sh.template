@@ -1,33 +1,27 @@
+
+# DO NOT CHANGE - PRE-GENERATED VALUES #
 SSH_PUBLIC_KEY=<PUBLIC_KEY>
 TENANCY=<TENANCY>
 USER=<USER>
 FINGERPRINT=<FINGERPRINT>
 REGION=<REGION>
 PR_KEY_PW=<PASSPHRASE>
+BUCKET=<BUCKET>
+ISO_NAME=<ISO_NAME>
+OS="<OS_NAME>"
+RU="<RHEL_UNAME>"
+RP="<RHEL_PASS>"
+SAC_OCID=<ZEROS_OCID>
+
 LOCAL_IP=`curl -s http://169.254.169.254/opc/v1/vnics/0/privateIp`
 AD=`curl -s http://169.254.169.254/opc/v1/instance/availabilityDomain`
 COMPARTMENT=`curl -s http://169.254.169.254/opc/v1/instance/compartmentId`
 VNIC_ID=`curl -s http://169.254.169.254/opc/v1/vnics/0/vnicId`
 CIDR_BLOCK=`curl -s http://169.254.169.254/opc/v1/vnics/0/subnetCidrBlock`
 MY_OCID=`curl -s http://169.254.169.254/opc/v1/instance/id`
-SHAPE="BM.Standard1.36"
-BUCKET=<BUCKET>
-ISO_NAME=<ISO_NAME>
-OS="<OS_NAME>"
-RU="<RHEL_UNAME>"
-RP="<RHEL_PASS>"
 
-case ${REGION} in
-	"us-phoenix-1")
-		SAC_OCID="ocid1.image.oc1.phx.aaaaaaaay27pdopotkapf2ahjlsn2wxndui5hn5w37hd2wss4ses4ol5xs6a"
-		;;
-	"us-ashburn-1")
-		SAC_OCID="ocid1.image.oc1.iad.aaaaaaaaqftkoa5web2r7w4ls3wekgqmqy5f7untloetfiozyqbv2ql6qidq"
-		;;
-	"eu-frankfurt-1")
-		SAC_OCID="ocid1.image.oc1.eu-frankfurt-1.aaaaaaaah4rggbyglst25peqd7vnyjzl6n5lwogiyllb6jaircakom46nswq"
-		;;
-esac
+### DO NOT CHANGE THIS SHAPE!!! ###
+SHAPE="BM.Standard1.36"
 
 yum -y -q update
 yum -y -q install sharutils
@@ -46,28 +40,27 @@ mkdir /mnt/iso
 mkdir /var/www/html/ipxe
 mkdir /var/www/html/oci
 mkdir /var/www/html/<OS_NAME>
-mkdir -p /home/opc/.oraclebmc
+mkdir -p /home/opc/.oci
 
-chmod 755 /home/opc/.oraclebmc
+chmod 755 /home/opc/.oci
 chmod 777 /var/www/isos
 
 easy_install pip
 pip install pip --upgrade
-pip install oci
 pip install oci-cli
 
 sed '/imtcp/s/#//g' -i.bak /etc/rsyslog.conf
 sed '/InputTCPServerRun/s/#//g' -i.bak /etc/rsyslog.conf
 systemctl restart rsyslog.service
 
-cd /home/opc/.oraclebmc
+cd /home/opc/.oci
 if [ -z "${PR_KEY_PW}" ]
 then
 	cat > config <<-EOF
 [DEFAULT]
 user=${USER}
 fingerprint=${FINGERPRINT}
-key_file=/home/opc/.oraclebmc/oci_api_key.pem
+key_file=/home/opc/.oci/oci_api_key.pem
 tenancy=${TENANCY}
 region=${REGION}
 EOF
@@ -76,7 +69,7 @@ else
 [DEFAULT]
 user=${USER}
 fingerprint=${FINGERPRINT}
-key_file=/home/opc/.oraclebmc/oci_api_key.pem
+key_file=/home/opc/.oci/oci_api_key.pem
 tenancy=${TENANCY}
 region=${REGION}
 pass_phrase=${PR_KEY_PW}
@@ -85,7 +78,7 @@ fi
 
 privkey
 
-chown -R opc:opc /home/opc/.oraclebmc
+chown -R opc:opc /home/opc/.oci
 
 cd /var/www/html/ipxe
 ks
@@ -98,7 +91,8 @@ cat > ipxeboot <<-EOF
 #!ipxe
 set target-iqn iqn.2015-02.oracle.boot:uefi
 set root-path iscsi:169.254.0.2::::${target-iqn}
-sanhook ${root-path} || echo could not attach ${root-path}
+set alt-root iscsi:169.254.0.2:::1:${target-iqn}
+sanhook ${root-path} || sanhook ${alt-root}
 set uefi-filename \EFI\BOOT\grubx64.efi 
 sanboot || set url http://${LOCAL_IP}
 # Set your kernel and initrd here...
