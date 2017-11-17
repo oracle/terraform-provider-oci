@@ -35,6 +35,10 @@ data "oci_core_subnets" "subnet" {
 
 }
 
+# Gets the OCID of the image. This technique is for example purposes only. 
+# The results of oci_core_images may change over time for Oracle-provided images, 
+# so the only sure way to get the correct OCID is to supply it directly.
+
 data "oci_core_images" "image" {
 	compartment_id = "${data.oci_identity_compartments.compartment.compartments.0.id}"
 	display_name = "${var.ipxe_instance["image"]}"
