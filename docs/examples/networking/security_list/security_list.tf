@@ -17,26 +17,20 @@ provider "oci" {
   region = "${var.region}"
 }
 
-resource "oci_core_virtual_network" "vcn1" {
+resource "oci_core_virtual_network" "ExampleVCN" {
   cidr_block = "10.0.0.0/16"
-  dns_label = "vnc1"
+  dns_label = "examplevcn"
   compartment_id = "${var.compartment_ocid}"
-  display_name = "vnc1"
+  display_name = "ExampleVCN"
 }
 
 # Protocols are specified as protocol numbers.
 # http://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml
 
-resource "oci_core_security_list" "empty_list" {
+resource "oci_core_security_list" "ExampleSecurityList" {
   compartment_id = "${var.compartment_ocid}"
-  vcn_id = "${oci_core_virtual_network.vcn1.id}"
-  display_name = "empty_list"
-}
-
-resource "oci_core_security_list" "security_list1" {
-  compartment_id = "${var.compartment_ocid}"
-  vcn_id = "${oci_core_virtual_network.vcn1.id}"
-  display_name = "security_list1"
+  vcn_id = "${oci_core_virtual_network.ExampleVCN.id}"
+  display_name = "ExampleSecurityList"
 
   // allow outbound tcp traffic on all ports
   egress_security_rules {

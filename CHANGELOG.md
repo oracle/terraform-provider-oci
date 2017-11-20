@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+## Unreleased
+
+### Added
+- Support for security list rule source port ranges (#340). This can be specified in "tcp_options" and "udp_options" using "source_port_range".
+
 ## 2.0.4 - 2017-11-2
 
 ### Added
