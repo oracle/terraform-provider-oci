@@ -13,7 +13,6 @@ import (
 	"fmt"
 	"io"
 	"net/http"
-	"runtime"
 	"strconv"
 	"strings"
 	"time"
@@ -157,9 +156,7 @@ func addRequiredRequestHeaders(request *http.Request, userAgent string, body []b
 	addIfNotPresent(&request.Header, "date", time.Now().UTC().Format(http.TimeFormat))
 	addIfNotPresent(&request.Header, "host", request.URL.Host)
 	if userAgent == "" {
-		addIfNotPresent(&request.Header, "User-Agent",
-			fmt.Sprintf("Oracle-GoSDK/%s (go/%s; %s/%s)",
-				SDKVersion, runtime.Version(), runtime.GOOS, runtime.GOARCH))
+		addIfNotPresent(&request.Header, "User-Agent", fmt.Sprintf("baremetal-sdk-go-v%s", SDKVersion))
 	} else {
 		addIfNotPresent(&request.Header, "User-Agent", userAgent)
 	}
