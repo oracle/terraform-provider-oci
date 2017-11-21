@@ -32,20 +32,27 @@ resource "oci_core_security_list" "t" {
     ingress_security_rules {
         protocol = "6"
         source = "0.0.0.0/0"
-        stateful = true
+        stateless = true
 
         tcp_options {
-            "min" = 80
-            "max" = 82
+            source_port_range {
+                "min" = 100
+                "max" = 100
+             }
+             // These values correspond to the destination port range.
+             "min" = 22
+             "max" = 22
         }
     }
 
     ingress_security_rules {
         protocol = "17"
         source = "0.0.0.0/0"
-        stateful = true
+        stateless = true
 
-        upd_options {
+        udp_options {
+            // These values correspond to the destination port range.
+            // source_port_range may also be specified.
             "min" = 319
             "max" = 320
         }
@@ -58,10 +65,10 @@ resource "oci_core_security_list" "t" {
 The following arguments are supported:
 
 * `compartment_id` - (Required) The OCID of the compartment to contain the security list.
-* `display_name` - (Required) The OCID of the VCN.
-* `egress_security_rules` - (Required) Rules for allowing egress IP packets. [EgressSecurityRule API Docs](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/EgressSecurityRule/)
-* `ingress_security_rules` - (Required) Rules for allowing ingress IP packets. [IngressSecurityRule API Docs](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/IngressSecurityRule/)
-* `vcn_id` - (Optional) The OCID of the VCN the security list belongs to.
+* `display_name` - (Optional) The OCID of the VCN.
+* `egress_security_rules` - (Optional) Rules for allowing egress IP packets. [EgressSecurityRule API Docs](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/EgressSecurityRule/)
+* `ingress_security_rules` - (Optional) Rules for allowing ingress IP packets. [IngressSecurityRule API Docs](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/IngressSecurityRule/)
+* `vcn_id` - (Required) The OCID of the VCN the security list belongs to.
 
 ## Attributes Reference
 

@@ -99,36 +99,8 @@ func (s *SecurityListDatasourceCrud) SetData() {
 			"vcn_id":         v.VcnID,
 		}
 
-		confEgressRules := []map[string]interface{}{}
-		for _, egressRule := range v.EgressSecurityRules {
-			confEgressRule := map[string]interface{}{}
-			confEgressRule["destination"] = egressRule.Destination
-			confEgressRule = buildConfRule(
-				confEgressRule,
-				egressRule.Protocol,
-				egressRule.ICMPOptions,
-				egressRule.TCPOptions,
-				egressRule.UDPOptions,
-				&egressRule.IsStateless,
-			)
-			confEgressRules = append(confEgressRules, confEgressRule)
-		}
+		confEgressRules, confIngressRules := buildConfRuleLists(&v)
 		res["egress_security_rules"] = confEgressRules
-
-		confIngressRules := []map[string]interface{}{}
-		for _, ingressRule := range v.IngressSecurityRules {
-			confIngressRule := map[string]interface{}{}
-			confIngressRule["source"] = ingressRule.Source
-			confIngressRule = buildConfRule(
-				confIngressRule,
-				ingressRule.Protocol,
-				ingressRule.ICMPOptions,
-				ingressRule.TCPOptions,
-				ingressRule.UDPOptions,
-				nil,
-			)
-			confIngressRules = append(confIngressRules, confIngressRule)
-		}
 		res["ingress_security_rules"] = confIngressRules
 
 		resources = append(resources, res)
