@@ -36,5 +36,8 @@ boot the instance used to load RHEL, causes RHEL to load, builds the image, dest
 
 NOTE: The source configuration files for the iPXE server are included here.  It is *STRONGLY* recommended that they not be 
       altered.
+      
+      
+ALSO NOTE: *THE PRIVATE KEY USED TO ACCESS OCI WILL TEMPORARILY BE TRANSFERRED TO THE IPXE INSTANCE.  ONCE THE IPXE INSTANCE IS DESTROYED, THE COPY OF THE PRIVATE KEY IS DESTROYED ALONG WITH IT.  THE PRIVATE KEY IS TRANSFERED IN A UUENCODED FORMAT TO OBSCURE THE KEY.*
 
 Enjoy.
