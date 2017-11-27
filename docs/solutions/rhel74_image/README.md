@@ -16,7 +16,11 @@ There are several prerequisites for using this process:
     - private_key_password (if required)
     - ssh_public_key (the actual public key, not the file)
     - region
-    
+
+NOTE: A template env-vars file is provided as part of this example.  Simply complete the items inside the template and source the result into your shell by using:
+
+. ./env-vars    
+
 Using this template is simple:
 
 1. Set your environment variables
