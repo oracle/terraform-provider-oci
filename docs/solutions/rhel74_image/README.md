@@ -8,7 +8,7 @@ There are several prerequisites for using this process:
 3. You need to have a bucket in the OCI object store that contains the RHEL 7.4 iso.  The bucket must be in 
    your tenancy, and must be accessible by the user executing the build.
 4. The template uses filters that expect unique Compartment, VCN and Subnet names.
-5. The following must be specified in your shell environment (prefixed with TF_VAR_ of course:
+5. The following must be specified in your shell environment (prefixed with TF_VAR_ of course):
     - tenancy_ocid
     - user_ocid
     - fingerprint
@@ -17,10 +17,6 @@ There are several prerequisites for using this process:
     - ssh_public_key (the actual public key, not the file)
     - region
     
-    There is a tool included in this directory, settfenv.py, that will generate a file that can be sourced into
-    your shell, containing all these pieces of information.  The tool assumes you have previously setup
-    the OCI python libraries (preferred) or OCI CLI locally.
-
 Using this template is simple:
 
 1. Set your environment variables
@@ -38,6 +34,6 @@ NOTE: The source configuration files for the iPXE server are included here.  It 
       altered.
       
       
-ALSO NOTE: *THE PRIVATE KEY USED TO ACCESS OCI WILL TEMPORARILY BE TRANSFERRED TO THE IPXE INSTANCE.  ONCE THE IPXE INSTANCE IS DESTROYED, THE COPY OF THE PRIVATE KEY IS DESTROYED ALONG WITH IT.  THE PRIVATE KEY IS TRANSFERED IN A UUENCODED FORMAT TO OBSCURE THE KEY.*
+ALSO NOTE: *THE PRIVATE KEY USED TO ACCESS OCI WILL TEMPORARILY BE TRANSFERRED TO THE IPXE INSTANCE.  ONCE THE IPXE INSTANCE IS DESTROYED, THE COPY OF THE PRIVATE KEY IS DESTROYED ALONG WITH IT.*
 
 Enjoy.

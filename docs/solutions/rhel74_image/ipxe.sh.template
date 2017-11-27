@@ -134,10 +134,16 @@ done
 image_ocid=\`oci compute image create --compartment-id=${COMPARTMENT} --instance-id=\${sac_inst_ocid} \
 --display-name="RHEL_74" | jq -r '.data["id"]'\`
 image_status=\`oci image get --image-id=\${image_ocid} | jq -r '.data["lifecycle-state"]'\`
+loopcount=0
 while [ "\${image_status}" != "AVAILABLE" ]
 do
 	sleep 120
 	image_status=\`oci compute image get --image-id=\${image_ocid} | jq -r '.data["lifecycle-state"]'\`
+	(( loopcount = loopcount + 1 ))
+	if [ \${loopcount} -ge 3600 ] 
+	then
+		break
+	fi
 done
 oci compute instance terminate --instance-id=\${sac_inst_ocid} --force
 oci compute instance terminate --instance-id=${MY_OCID} --force
