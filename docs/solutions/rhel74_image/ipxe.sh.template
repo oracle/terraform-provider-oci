@@ -142,7 +142,7 @@ then
 	ping_result=0
 	while [ \${ping_result} == 0 ]
 	do
-		sleep 120
+		sleep 20
 		ping -q -c 1 \${sac_ip}
 		build_ping=\$?
 		state=\`inst_status \${sac_inst_ocid}\`
