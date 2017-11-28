@@ -76,6 +76,7 @@ pass_phrase=${PR_KEY_PW}
 EOF
 fi
 
+chmod 600 ./config
 privkey
 
 chown -R opc:opc /home/opc/.oci
@@ -92,9 +93,9 @@ cat > ipxeboot <<-EOF
 set target-iqn iqn.2015-02.oracle.boot:uefi
 set root-path iscsi:169.254.0.2::::${target-iqn}
 set alt-root iscsi:169.254.0.2:::1:${target-iqn}
-sanhook ${root-path} || sanhook ${alt-root}
 set uefi-filename \EFI\BOOT\grubx64.efi 
-sanboot || set url http://${LOCAL_IP}
+sanhook ${root-path} || sanboot || 
+sanhook ${alt-root} || sanboot || set url http://${LOCAL_IP}
 # Set your kernel and initrd here...
 kernel \${url}/<OS_NAME>/images/pxeboot/vmlinuz initrd=initrd.img vmlinuxconsole=tty0 console=ttyS0,9600 netroot=iscsi:@169.254.0.2::::iqn.2015-02.oracle.boot:uefi iscsi_initiator=iqn.2015-02.oracle.boot:instance ip=dhcp ks=http://${LOCAL_IP}/ipxe/ks.cfg
 initrd \${url}/<OS_NAME>/images/pxeboot/initrd.img
@@ -107,6 +108,12 @@ firewallcfg
 
 cat > /home/opc/sacrifice-launch.sh.template <<-EOF
 #!/bin/bash
+function inst_status { 
+	oci compute instance get --instance-id=\$1 | jq -r '.data["lifecycle-state"]'
+}
+function img_status {
+	oci image get --image-id=\$1 | jq -r '.data["lifecycle-state"]'
+}
 sac_inst_ocid=\`oci compute instance launch --availability-domain=${AD} \
 --compartment-id=${COMPARTMENT} --image-id=${SAC_OCID} \
 --display-name="sacrifice" --ipxe-script-file="/var/www/html/ipxe/ipxeboot" \
@@ -117,35 +124,46 @@ sac_vnic_attach=\`oci compute vnic-attachment list --instance-id=\${sac_inst_oci
 --compartment-id=${COMPARTMENT} | jq -r '.data[0]["vnic-id"]'\`
 sac_ip=\`oci network vnic get --vnic-id=\${sac_vnic_attach} | jq -r '.data["private-ip"]'\`
 build_ping=1
+state=""
 while [ \${build_ping} == 1 ]
 do
-	sleep 10
+	sleep 120
 	ping -q -c 1 \${sac_ip}
 	build_ping=\$?
-done
-	
-ping_result=0
-while [ \${ping_result} == 0 ]
-do
-	sleep 10
-	ping -q -c 1 \${sac_ip}
-	ping_result=\$?
-done
-image_ocid=\`oci compute image create --compartment-id=${COMPARTMENT} --instance-id=\${sac_inst_ocid} \
---display-name="RHEL_74" | jq -r '.data["id"]'\`
-image_status=\`oci image get --image-id=\${image_ocid} | jq -r '.data["lifecycle-state"]'\`
-loopcount=0
-while [ "\${image_status}" != "AVAILABLE" ]
-do
-	sleep 120
-	image_status=\`oci compute image get --image-id=\${image_ocid} | jq -r '.data["lifecycle-state"]'\`
-	(( loopcount = loopcount + 1 ))
-	if [ \${loopcount} -ge 3600 ] 
+	state=\`inst_status \${sac_inst_ocid}\`
+	if [ "\${state}" == "TERMINATED" ]
 	then
 		break
 	fi
 done
-oci compute instance terminate --instance-id=\${sac_inst_ocid} --force
+
+if [ "\${state}" != "TERMINATED" ]
+then
+	ping_result=0
+	while [ \${ping_result} == 0 ]
+	do
+		sleep 120
+		ping -q -c 1 \${sac_ip}
+		build_ping=\$?
+		state=\`inst_status \${sac_inst_ocid}\`
+		if [ "\${state}" == "TERMINATED" ]
+		then
+			break
+		fi
+	done
+	if [ "\${state}" != "TERMINATED" ]
+	then
+		image_ocid=\`oci compute image create --compartment-id=${COMPARTMENT} \
+		--instance-id=\${sac_inst_ocid} --display-name="RHEL_74" | jq -r '.data["id"]'\`
+		image_status=\`img_status \${image_ocid}\`
+		while [ "\${image_status}" != "AVAILABLE" ]
+		do
+			sleep 120
+			image_status=\`img_status \${image_ocid}\`
+		done
+		oci compute instance terminate --instance-id=\${sac_inst_ocid} --force
+	fi
+fi
 oci compute instance terminate --instance-id=${MY_OCID} --force
 EOF
 

@@ -14,3 +14,10 @@ resource "oci_core_instance" "ipxe_node" {
     user_data = "${base64encode(file(data.external.ipxe_gen.result["shell"]))}"
   }
 }
+
+resource "null_resource" "delete_ipxe" {
+  depends_on = [ "oci_core_instance.ipxe_node" ]
+  provisioner "local-exec" {
+    command = "./ipxe_del.sh"
+  }
+}
