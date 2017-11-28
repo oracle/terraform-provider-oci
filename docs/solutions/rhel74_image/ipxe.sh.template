@@ -144,7 +144,7 @@ then
 	do
 		sleep 20
 		ping -q -c 1 \${sac_ip}
-		build_ping=\$?
+		ping_result=\$?
 		state=\`inst_status \${sac_inst_ocid}\`
 		if [ "\${state}" == "TERMINATED" ]
 		then
