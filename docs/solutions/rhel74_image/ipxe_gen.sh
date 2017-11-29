@@ -109,7 +109,8 @@ s|<RHEL_UNAME>|'"${RHEL_UNAME}"'|g
 s|<RHEL_PASS>|'"${RHEL_PW}"'|g 
 s|<ZEROS_OCID>|\"'"${ZEROS_OCID}"'\"|g' ./ipxe.sh
 
-chmod 755 ./ipxe.sh
+chmod 700 ./ipxe.sh
+rm -rf ./ipxe.sh.bak
 rm ./temp.uue
 
 jq -n --arg shell "./ipxe.sh" '{ "shell":$shell }'

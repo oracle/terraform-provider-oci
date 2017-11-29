@@ -13,15 +13,22 @@ resource "oci_core_instance" "ipxe_node" {
     ssh_authorized_keys = "${var.ssh_public_key}"
     user_data = "${base64encode(file(data.external.ipxe_gen.result["shell"]))}"
   }
-  provisioner "local-exec" {
-    when = "destroy"
-    command = "./ipxe_del.sh"
-  }
 }
 
 resource "null_resource" "delete_ipxe" {
-  depends_on = [ "oci_core_instance.ipxe_node" ]
+  triggers {
+    ipxe_node_id = "${oci_core_instance.ipxe_node.id}"
+  }
+#  depends_on = [ "oci_core_instance.ipxe_node" ]
   provisioner "local-exec" {
-    command = "./ipxe_del.sh"
+    command = "rm -rf ./ipxe.sh"
   }
 }
+
+resource "null_resource" "delete_ipxe_destroy" {
+  provisioner "local-exec" {
+    when = "destroy"
+    command = "rm -rf ./ipxe.sh"
+  }
+}
+

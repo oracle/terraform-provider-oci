@@ -80,6 +80,7 @@ chmod 600 ./config
 privkey
 
 chown -R opc:opc /home/opc/.oci
+chmod 700 /home/opc/.oci
 
 cd /var/www/html/ipxe
 ks
@@ -112,7 +113,7 @@ function inst_status {
 	oci compute instance get --instance-id=\$1 | jq -r '.data["lifecycle-state"]'
 }
 function img_status {
-	oci image get --image-id=\$1 | jq -r '.data["lifecycle-state"]'
+	oci compute image get --image-id=\$1 | jq -r '.data["lifecycle-state"]'
 }
 sac_inst_ocid=\`oci compute instance launch --availability-domain=${AD} \
 --compartment-id=${COMPARTMENT} --image-id=${SAC_OCID} \
