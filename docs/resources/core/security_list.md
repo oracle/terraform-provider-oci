@@ -8,6 +8,9 @@ Provides a security list resource.
 See the [Security Lists](https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Concepts/securitylists.htm)
 overview for more information.
 
+For more information on configuring a VCN's default security list, 
+see [Managing Default VCN Resources](https://github.com/oracle/terraform-provider-oci/blob/master/docs/Managing%20Default%20Resources.md)
+
 ## Example Usage
 
 Protocols are specified as protocol numbers. For information about protocol numbers, see
@@ -58,10 +61,10 @@ resource "oci_core_security_list" "t" {
 The following arguments are supported:
 
 * `compartment_id` - (Required) The OCID of the compartment to contain the security list.
-* `display_name` - (Optional) The OCID of the VCN.
+* `vcn_id` - (Required) The OCID of the VCN the security list belongs to.
+* `display_name` - (Optional) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 * `egress_security_rules` - (Required) Rules for allowing egress IP packets. [EgressSecurityRule API Docs](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/EgressSecurityRule/)
 * `ingress_security_rules` - (Required) Rules for allowing ingress IP packets. [IngressSecurityRule API Docs](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/IngressSecurityRule/)
-* `vcn_id` - (Required) The OCID of the VCN the security list belongs to.
 
 ## Attributes Reference
 

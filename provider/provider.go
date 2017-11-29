@@ -163,6 +163,7 @@ func resourcesMap() map[string]*schema.Resource {
 	return map[string]*schema.Resource{
 		"oci_core_console_history":           ConsoleHistoryResource(),
 		"oci_core_cpe":                       CpeResource(),
+		"oci_core_default_dhcp_options":      DefaultDHCPOptionsResource(),
 		"oci_core_dhcp_options":              DHCPOptionsResource(),
 		"oci_core_drg":                       DrgResource(),
 		"oci_core_drg_attachment":            DrgAttachmentResource(),
@@ -171,7 +172,9 @@ func resourcesMap() map[string]*schema.Resource {
 		"oci_core_internet_gateway":          InternetGatewayResource(),
 		"oci_core_ipsec":                     IPSecConnectionResource(),
 		"oci_core_private_ip":                PrivateIPResource(),
+		"oci_core_default_route_table":       DefaultRouteTableResource(),
 		"oci_core_route_table":               RouteTableResource(),
+		"oci_core_default_security_list":     DefaultSecurityListResource(),
 		"oci_core_security_list":             SecurityListResource(),
 		"oci_core_subnet":                    SubnetResource(),
 		"oci_core_virtual_network":           VirtualNetworkResource(),

@@ -9,6 +9,8 @@ Provide a DHCP options resource.
 For more information, see
 [DNS in Your Virtual Cloud Network](https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Concepts/dns.htm)
 
+For more information on configuring a VCN's default DHCP options, see [Managing Default VCN Resources](https://github.com/oracle/terraform-provider-oci/blob/master/docs/Managing%20Default%20Resources.md)
+
 ## Example Usage
 
 #### VCN Local with Internet

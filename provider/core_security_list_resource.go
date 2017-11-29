@@ -45,6 +45,91 @@ var icmpSchema = &schema.Schema{
 	},
 }
 
+func DefaultSecurityListResource() *schema.Resource {
+	return &schema.Resource{
+		Importer: &schema.ResourceImporter{
+			State: schema.ImportStatePassthrough,
+		},
+		Timeouts: crud.DefaultTimeout,
+		Create:   createSecurityList,
+		Read:     readSecurityList,
+		Update:   updateSecurityList,
+		Delete:   deleteSecurityList,
+		Schema: map[string]*schema.Schema{
+			"display_name": {
+				Type:     schema.TypeString,
+				Computed: true,
+				Optional: true,
+			},
+			"egress_security_rules": {
+				Type:     schema.TypeList,
+				Required: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"destination": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+						"icmp_options": icmpSchema,
+						"protocol": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+						"tcp_options": transportSchema,
+						"udp_options": transportSchema,
+						"stateless": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Default:  false,
+						},
+					},
+				},
+			},
+			"id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"manage_default_resource_id": {
+				Type:     schema.TypeString,
+				Required: true,
+				ForceNew: true,
+			},
+			"ingress_security_rules": {
+				Type:     schema.TypeList,
+				Required: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"icmp_options": icmpSchema,
+						"protocol": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+						"source": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+						"tcp_options": transportSchema,
+						"udp_options": transportSchema,
+						"stateless": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Default:  false,
+						},
+					},
+				},
+			},
+			"state": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_created": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+		},
+	}
+}
+
 func SecurityListResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
@@ -197,6 +282,14 @@ func (s *SecurityListResourceCrud) State() string {
 }
 
 func (s *SecurityListResourceCrud) Create() (e error) {
+	// If we are creating a default resource, then don't have to
+	// actually create it. Just set the ID and update it.
+	if defaultId, ok := s.D.GetOk("manage_default_resource_id"); ok {
+		s.D.SetId(defaultId.(string))
+		e = s.Update()
+		return
+	}
+
 	compartmentID := s.D.Get("compartment_id").(string)
 	egress := s.buildEgressRules()
 	ingress := s.buildIngressRules()
@@ -214,6 +307,16 @@ func (s *SecurityListResourceCrud) Get() (e error) {
 	res, e := s.Client.GetSecurityList(s.D.Id())
 	if e == nil {
 		s.Res = res
+
+		// If this is a default resource that we removed earlier, then
+		// we need to assume that the parent resource will remove it
+		// and notify terraform of it. Otherwise, terraform will
+		// see that the resource is still available and error out
+		deleteTargetState := s.DeletedTarget()[0]
+		if _, ok := s.D.GetOk("manage_default_resource_id"); ok &&
+			s.D.Get("state") == deleteTargetState {
+			s.Res.State = deleteTargetState
+		}
 	}
 	return
 }
@@ -277,7 +380,25 @@ func (s *SecurityListResourceCrud) SetData() {
 	s.D.Set("vcn_id", s.Res.VcnID)
 }
 
+func (s *SecurityListResourceCrud) reset() (e error) {
+	opts := &baremetal.UpdateSecurityListOptions{
+		IngressRules: []baremetal.IngressSecurityRule{},
+		EgressRules:  []baremetal.EgressSecurityRule{},
+	}
+
+	_, e = s.Client.UpdateSecurityList(s.D.Id(), opts)
+	return
+}
+
 func (s *SecurityListResourceCrud) Delete() (e error) {
+	if _, ok := s.D.GetOk("manage_default_resource_id"); ok {
+		// We can't actually delete a default resource.
+		// Clear out its settings and mark it as deleted.
+		e = s.reset()
+		s.D.Set("state", s.DeletedTarget()[0])
+		return
+	}
+
 	return s.Client.DeleteSecurityList(s.D.Id(), nil)
 }
 
