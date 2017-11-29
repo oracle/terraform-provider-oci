@@ -12,6 +12,63 @@ import (
 	"github.com/oracle/terraform-provider-oci/crud"
 )
 
+func DefaultRouteTableResource() *schema.Resource {
+	return &schema.Resource{
+		Importer: &schema.ResourceImporter{
+			State: schema.ImportStatePassthrough,
+		},
+		Timeouts: crud.DefaultTimeout,
+		Create:   createRouteTable,
+		Read:     readRouteTable,
+		Update:   updateRouteTable,
+		Delete:   deleteRouteTable,
+		Schema: map[string]*schema.Schema{
+			"display_name": {
+				Type:     schema.TypeString,
+				Computed: true,
+				Optional: true,
+			},
+			"id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"manage_default_resource_id": {
+				Type:     schema.TypeString,
+				Required: true,
+				ForceNew: true,
+			},
+			"route_rules": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"cidr_block": {
+							Type:     schema.TypeString,
+							Optional: true,
+						},
+						"network_entity_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+						},
+					},
+				},
+			},
+			"time_modified": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"state": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_created": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+		},
+	}
+}
+
 func RouteTableResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
@@ -136,6 +193,14 @@ func (s *RouteTableResourceCrud) State() string {
 }
 
 func (s *RouteTableResourceCrud) Create() (e error) {
+	// If we are creating a default resource, then don't have to
+	// actually create it. Just set the ID and update it.
+	if defaultId, ok := s.D.GetOk("manage_default_resource_id"); ok {
+		s.D.SetId(defaultId.(string))
+		e = s.Update()
+		return
+	}
+
 	compartmentID := s.D.Get("compartment_id").(string)
 	vcnID := s.D.Get("vcn_id").(string)
 
@@ -147,7 +212,6 @@ func (s *RouteTableResourceCrud) Create() (e error) {
 	if e != nil {
 		return e
 	}
-
 	s.Res, e = s.Client.CreateRouteTable(compartmentID, vcnID, rr, opts)
 
 	return
@@ -157,6 +221,16 @@ func (s *RouteTableResourceCrud) Get() (e error) {
 	res, e := s.Client.GetRouteTable(s.D.Id())
 	if e == nil {
 		s.Res = res
+
+		// If this is a default resource that we removed earlier, then
+		// we need to assume that the parent resource will remove it
+		// and notify terraform of it. Otherwise, terraform will
+		// see that the resource is still available and error out
+		deleteTargetState := s.DeletedTarget()[0]
+		if _, ok := s.D.GetOk("manage_default_resource_id"); ok &&
+			s.D.Get("state") == deleteTargetState {
+			s.Res.State = deleteTargetState
+		}
 	}
 	return
 }
@@ -197,7 +271,24 @@ func (s *RouteTableResourceCrud) SetData() {
 	s.D.Set("time_created", s.Res.TimeCreated.String())
 }
 
+func (s *RouteTableResourceCrud) reset() (e error) {
+	opts := &baremetal.UpdateRouteTableOptions{
+		RouteRules: []baremetal.RouteRule{},
+	}
+
+	_, e = s.Client.UpdateRouteTable(s.D.Id(), opts)
+	return
+}
+
 func (s *RouteTableResourceCrud) Delete() (e error) {
+	if _, ok := s.D.GetOk("manage_default_resource_id"); ok {
+		// We can't actually delete a default resource.
+		// Clear out its settings and mark it as deleted.
+		e = s.reset()
+		s.D.Set("state", s.DeletedTarget()[0])
+		return
+	}
+
 	return s.Client.DeleteRouteTable(s.D.Id(), nil)
 }
 
