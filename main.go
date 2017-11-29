@@ -5,14 +5,15 @@ package main
 import (
 	"github.com/hashicorp/terraform/plugin"
 	"github.com/hashicorp/terraform/terraform"
+	"github.com/oracle/terraform-provider-oci/provider"
 )
 
 func main() {
-	printVersion()
+	provider.PrintVersion()
 
 	plugin.Serve(&plugin.ServeOpts{
 		ProviderFunc: func() terraform.ResourceProvider {
-			return Provider(providerConfig)
+			return provider.Provider(provider.ProviderConfig)
 		},
 	})
 }

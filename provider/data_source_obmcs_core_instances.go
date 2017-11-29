@@ -1,0 +1,200 @@
+// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+
+package provider
+
+import (
+	"encoding/json"
+	"time"
+
+	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/oracle/bmcs-go-sdk"
+
+	"github.com/oracle/terraform-provider-oci/crud"
+	"github.com/oracle/terraform-provider-oci/options"
+)
+
+func InstanceDatasource() *schema.Resource {
+	return &schema.Resource{
+		Read: readInstances,
+		Schema: map[string]*schema.Schema{
+			"filter": dataSourceFiltersSchema(),
+			"compartment_id": {
+				Type:     schema.TypeString,
+				Required: true,
+			},
+			"availability_domain": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"display_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"page": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"limit": {
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
+			"instances": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem:     resourceCoreInstance(),
+			},
+		},
+	}
+}
+
+func resourceCoreInstance() *schema.Resource {
+	return &schema.Resource{
+		Schema: map[string]*schema.Schema{
+			"availability_domain": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"compartment_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"display_name": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"image": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"ipxe_script": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"metadata": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
+			"extended_metadata": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
+			"region": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"shape": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"state": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_created": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+		},
+	}
+}
+
+func readInstances(d *schema.ResourceData, m interface{}) (e error) {
+	client := m.(*OracleClients)
+	reader := &InstanceDatasourceCrud{}
+	reader.D = d
+	reader.Client = client.client
+
+	return crud.ReadResource(reader)
+}
+
+type InstanceDatasourceCrud struct {
+	crud.BaseCrud
+	Res *baremetal.ListInstances
+}
+
+func (s *InstanceDatasourceCrud) Get() (e error) {
+	compartmentID := s.D.Get("compartment_id").(string)
+
+	opts := &baremetal.ListInstancesOptions{}
+	options.SetListOptions(s.D, &opts.ListOptions)
+	if ad, ok := s.D.GetOk("availability_domain"); ok {
+		opts.AvailabilityDomain = ad.(string)
+	}
+	if dispName, ok := s.D.GetOk("display_name"); ok {
+		opts.DisplayName = dispName.(string)
+	}
+
+	s.Res = &baremetal.ListInstances{Instances: []baremetal.Instance{}}
+
+	for {
+		var list *baremetal.ListInstances
+		if list, e = s.Client.ListInstances(compartmentID, opts); e != nil {
+			break
+		}
+
+		s.Res.Instances = append(s.Res.Instances, list.Instances...)
+
+		if hasNextPage := options.SetNextPageOption(list.NextPage, &opts.ListOptions.PageListOptions); !hasNextPage {
+			break
+		}
+	}
+
+	return
+}
+
+func (s *InstanceDatasourceCrud) SetData() {
+	if s.Res == nil {
+		return
+	}
+	// Important, if you don't have an ID, make one up for your datasource
+	// or things will end in tears
+	s.D.SetId(time.Now().UTC().String())
+	resources := []map[string]interface{}{}
+	for _, v := range s.Res.Instances {
+		res := map[string]interface{}{
+			"availability_domain": v.AvailabilityDomain,
+			"compartment_id":      v.CompartmentID,
+			"display_name":        v.DisplayName,
+			"id":                  v.ID,
+			"image":               v.ImageID,
+			"ipxe_script":         v.IpxeScript,
+			"metadata":            v.Metadata,
+			"extended_metadata":   convertNestedMapToFlatMap(v.ExtendedMetadata),
+			"region":              v.Region,
+			"shape":               v.Shape,
+			"state":               v.State,
+			"time_created":        v.TimeCreated.String(),
+		}
+		resources = append(resources, res)
+
+		if f, fOk := s.D.GetOk("filter"); fOk {
+			resources = ApplyFilters(f.(*schema.Set), resources)
+		}
+
+		if err := s.D.Set("instances", resources); err != nil {
+			panic(err)
+		}
+	}
+	return
+}
+
+func convertNestedMapToFlatMap(m map[string]interface{}) map[string]string {
+	flatMap := make(map[string]string)
+	var ok bool
+	for key, val := range m {
+		if flatMap[key], ok = val.(string); !ok {
+			mapValStr, err := json.Marshal(val)
+			if err != nil {
+				mapValStr = []byte{}
+			}
+			flatMap[key] = string(mapValStr)
+		}
+	}
+	return flatMap
+}

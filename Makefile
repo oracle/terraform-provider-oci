@@ -23,7 +23,7 @@ zip:
 	tar -czvf openbsd.tar.gz openbsd_386 openbsd_amd64
 
 ### `make test run=TestResourceCore debug=1`
-cmd := TF_ACC=1 TF_ORACLE_ENV=test go test -v -timeout 120m
+cmd := TF_ACC=1 TF_ORACLE_ENV=test go test ./provider -v -timeout 120m
 ifdef run
   cmd := $(cmd) -run $(run)
 endif
