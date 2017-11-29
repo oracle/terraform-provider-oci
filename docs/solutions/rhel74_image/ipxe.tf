@@ -19,7 +19,6 @@ resource "null_resource" "delete_ipxe" {
   triggers {
     ipxe_node_id = "${oci_core_instance.ipxe_node.id}"
   }
-#  depends_on = [ "oci_core_instance.ipxe_node" ]
   provisioner "local-exec" {
     command = "rm -rf ./ipxe.sh"
   }
