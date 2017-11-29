@@ -2972,10 +2972,10 @@
 			"revisionTime": "2017-01-25T16:36:56Z"
 		},
 		{
-			"checksumSHA1": "16wWla3HWHMOrJHo0yN7iu1YIhw=",
+			"checksumSHA1": "jU2TjFc4VCRbdD93AmkrF3VbOuA=",
 			"path": "github.com/oracle/bmcs-go-sdk",
-			"revision": "2f3eb845627cb625dc2de52ccd7c4b69ecf60240",
-			"revisionTime": "2017-10-20T17:32:20Z",
+			"revision": "694de4d6e89b05a3428bdc549a47d265f6e704cc",
+			"revisionTime": "2017-11-28T18:53:23Z",
 			"version": "add-db-license-model",
 			"versionExact": "add-db-license-model"
 		},

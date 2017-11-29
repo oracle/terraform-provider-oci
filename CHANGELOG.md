@@ -3,6 +3,19 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+## 2.0.4 - 2017-11-2
+
+### Added
+- Host header and version to signing (#340)
+- Support for block volume fast clones (#347)
+
+### Fixed
+- Examples of "oci_core_images" data source now filter on "display_name" to accommodate changes to available images (#342 and #345)
+
+### Notes
+- If upgrading from v1, see [this wiki](https://github.com/oracle/terraform-provider-oci/wiki/Oracle-Terraform-Provider-Name-Change) for migration steps.
+- See docs for this version [here](https://github.com/oracle/terraform-provider-oci/tree/v2.0.4).
+
 ## 2.0.3 - 2017-10-26
 
 ### Added

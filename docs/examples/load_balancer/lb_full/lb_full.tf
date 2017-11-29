@@ -120,10 +120,11 @@ resource "oci_core_security_list" "securitylist1" {
 
 /* Instances */
 
+# Gets the OCID of the image. This technique is for example purposes only. The results of oci_core_images may
+# change over time for Oracle-provided images, so the only sure way to get the correct OCID is to supply it directly.
 data "oci_core_images" "image-list" {
-  compartment_id = "${var.compartment_ocid}"
-  operating_system = "Oracle Linux"
-  operating_system_version = "7.3"
+    compartment_id = "${var.compartment_ocid}"
+    display_name = "Oracle-Linux-7.4-2017.10.25-0"
 }
 
 resource "oci_core_instance" "instance1" {

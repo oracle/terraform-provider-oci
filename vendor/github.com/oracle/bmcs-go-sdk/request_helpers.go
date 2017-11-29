@@ -25,6 +25,8 @@ type authenticationInfo struct {
 	keyFingerPrint string
 }
 
+var signerVersion = "1"
+
 func (a *authenticationInfo) getKeyID() string {
 	return fmt.Sprintf("%s/%s/%s", a.tenancyOCID, a.userOCID, a.keyFingerPrint)
 }
@@ -64,7 +66,7 @@ func createAuthorizationHeader(request *http.Request, auth *authenticationInfo, 
 	signedHeaders := getSigningHeaders(request.Method)
 	headers := concatenateHeaders(signedHeaders)
 
-	authValue := fmt.Sprintf("Signature headers=\"%s\",keyId=\"%s\",algorithm=\"rsa-sha256\",signature=\"%s\"", headers, auth.getKeyID(), sig)
+	authValue := fmt.Sprintf("Signature version=\"%s\",headers=\"%s\",keyId=\"%s\",algorithm=\"rsa-sha256\",signature=\"%s\"", signerVersion, headers, auth.getKeyID(), sig)
 
 	request.Header.Add("authorization", authValue)
 
@@ -87,6 +89,7 @@ func getSigningHeaders(method string) []string {
 	result := []string{
 		"date",
 		"(request-target)",
+		"host",
 	}
 
 	if method == http.MethodPost || method == http.MethodPut {
@@ -151,6 +154,7 @@ func getBodyHash(body []byte) string {
 func addRequiredRequestHeaders(request *http.Request, userAgent string, body []byte) {
 	addIfNotPresent(&request.Header, "content-type", "application/json")
 	addIfNotPresent(&request.Header, "date", time.Now().UTC().Format(http.TimeFormat))
+	addIfNotPresent(&request.Header, "host", request.URL.Host)
 	if userAgent == "" {
 		addIfNotPresent(&request.Header, "User-Agent", fmt.Sprintf("baremetal-sdk-go-v%s", SDKVersion))
 	} else {
