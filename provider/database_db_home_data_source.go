@@ -11,7 +11,7 @@ import (
 
 func DBHomeDatasource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDBHome,
+		Read: readDBHomeDatasource,
 		Schema: map[string]*schema.Schema{
 			"compartment_id": {
 				Type:     schema.TypeString,
@@ -49,7 +49,7 @@ func DBHomeDatasource() *schema.Resource {
 	}
 }
 
-func readDBHome(d *schema.ResourceData, m interface{}) (e error) {
+func readDBHomeDatasource(d *schema.ResourceData, m interface{}) (e error) {
 	client := m.(*OracleClients)
 	sync := &DBHomeDatasourceCrud{}
 	sync.D = d

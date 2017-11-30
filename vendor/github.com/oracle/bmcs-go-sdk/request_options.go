@@ -207,10 +207,6 @@ type LaunchDBSystemOptions struct {
 	NodeCount                  int            `header:"-" json:"nodeCount,omitempty" url:"-"`
 }
 
-type CreateDBHomeOptions struct {
-	DisplayNameOptions
-}
-
 type CreateDatabaseOptions struct {
 	CharacterSet  string
 	NCharacterSet string
