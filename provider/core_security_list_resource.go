@@ -5,7 +5,6 @@ package provider
 import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/oracle/bmcs-go-sdk"
-
 	"github.com/oracle/terraform-provider-oci/crud"
 )
 
@@ -15,13 +14,31 @@ var transportSchema = &schema.Schema{
 	MaxItems: 1,
 	Elem: &schema.Resource{
 		Schema: map[string]*schema.Schema{
+			"source_port_range": {
+				Type:     schema.TypeList,
+				Optional: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"max": {
+							Type:     schema.TypeInt,
+							Required: true,
+						},
+						"min": {
+							Type:     schema.TypeInt,
+							Required: true,
+						},
+					},
+				},
+			},
 			"max": {
 				Type:     schema.TypeInt,
-				Required: true,
+				Optional: true,
 			},
 			"min": {
 				Type:     schema.TypeInt,
-				Required: true,
+				Optional: true,
 			},
 		},
 	},
@@ -153,7 +170,7 @@ func SecurityListResource() *schema.Resource {
 			},
 			"egress_security_rules": {
 				Type:     schema.TypeList,
-				Required: true,
+				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"destination": {
@@ -181,7 +198,7 @@ func SecurityListResource() *schema.Resource {
 			},
 			"ingress_security_rules": {
 				Type:     schema.TypeList,
-				Required: true,
+				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"icmp_options": icmpSchema,
@@ -336,48 +353,20 @@ func (s *SecurityListResourceCrud) Update() (e error) {
 	}
 
 	s.Res, e = s.Client.UpdateSecurityList(s.D.Id(), opts)
+
 	return
 }
 
 func (s *SecurityListResourceCrud) SetData() {
 	s.D.Set("compartment_id", s.Res.CompartmentID)
 	s.D.Set("display_name", s.Res.DisplayName)
-
-	confEgressRules := []map[string]interface{}{}
-	for _, egressRule := range s.Res.EgressSecurityRules {
-		confEgressRule := map[string]interface{}{}
-		confEgressRule["destination"] = egressRule.Destination
-		confEgressRule = buildConfRule(
-			confEgressRule,
-			egressRule.Protocol,
-			egressRule.ICMPOptions,
-			egressRule.TCPOptions,
-			egressRule.UDPOptions,
-			&egressRule.IsStateless,
-		)
-		confEgressRules = append(confEgressRules, confEgressRule)
-	}
-	s.D.Set("egress_security_rules", confEgressRules)
-
-	confIngressRules := []map[string]interface{}{}
-	for _, ingressRule := range s.Res.IngressSecurityRules {
-		confIngressRule := map[string]interface{}{}
-		confIngressRule["source"] = ingressRule.Source
-		confIngressRule = buildConfRule(
-			confIngressRule,
-			ingressRule.Protocol,
-			ingressRule.ICMPOptions,
-			ingressRule.TCPOptions,
-			ingressRule.UDPOptions,
-			&ingressRule.IsStateless,
-		)
-		confIngressRules = append(confIngressRules, confIngressRule)
-	}
-	s.D.Set("ingress_security_rules", confIngressRules)
-
 	s.D.Set("state", s.Res.State)
 	s.D.Set("time_created", s.Res.TimeCreated.String())
 	s.D.Set("vcn_id", s.Res.VcnID)
+
+	confEgressRules, confIngressRules := buildConfRuleLists(s.Res)
+	s.D.Set("egress_security_rules", confEgressRules)
+	s.D.Set("ingress_security_rules", confIngressRules)
 }
 
 func (s *SecurityListResourceCrud) reset() (e error) {
@@ -453,30 +442,56 @@ func (s *SecurityListResourceCrud) buildICMPOptions(conf map[string]interface{})
 }
 
 func (s *SecurityListResourceCrud) buildTCPOptions(conf map[string]interface{}) (opts *baremetal.TCPOptions) {
-	l := conf["tcp_options"].([]interface{})
-	if len(l) > 0 {
-		confOpts := l[0].(map[string]interface{})
+	options := conf["tcp_options"].([]interface{})
+	if len(options) > 0 {
+		sourcePortRange, destinationPortRange := s.buildSourceAndDestinationPortRanges(options)
 		opts = &baremetal.TCPOptions{
-			baremetal.PortRange{
-				Max: uint64(confOpts["max"].(int)),
-				Min: uint64(confOpts["min"].(int)),
-			},
+			destinationPortRange,
+			sourcePortRange,
 		}
 	}
 	return
 }
 
 func (s *SecurityListResourceCrud) buildUDPOptions(conf map[string]interface{}) (opts *baremetal.UDPOptions) {
-	l := conf["udp_options"].([]interface{})
-	if len(l) > 0 {
-		confOpts := l[0].(map[string]interface{})
+	options := conf["udp_options"].([]interface{})
+	if len(options) > 0 {
+		sourcePortRange, destinationPortRange := s.buildSourceAndDestinationPortRanges(options)
 		opts = &baremetal.UDPOptions{
-			baremetal.PortRange{
-				Max: uint64(confOpts["max"].(int)),
-				Min: uint64(confOpts["min"].(int)),
-			},
+			destinationPortRange,
+			sourcePortRange,
 		}
 	}
+	return
+}
+
+func buildPortRange(conf []interface{}) (portRange *baremetal.PortRange) {
+	if len(conf) > 0 && conf[0] != nil {
+		mapConf := conf[0].(map[string]interface{})
+
+		// The ok value will always be true, so we need to check against the default value instead.
+		max := mapConf["max"].(int)
+		min := mapConf["min"].(int)
+
+		// Max and Min default to 0, and that is not a valid port number, so we can assume that if
+		// the value is 0 then the user has not set the port number.
+		if max != 0 || min != 0 {
+			portRange = &baremetal.PortRange{
+				Max: uint64(max),
+				Min: uint64(min),
+			}
+		}
+	}
+	return
+}
+
+func (s *SecurityListResourceCrud) buildSourceAndDestinationPortRanges(conf []interface{}) (sourcePortRange, destinationPortRange *baremetal.PortRange) {
+	if len(conf) > 0 && conf[0] != nil {
+		mapConf := conf[0].(map[string]interface{})
+		sourcePortRange = buildPortRange(mapConf["source_port_range"].([]interface{}))
+		destinationPortRange = buildPortRange(conf)
+	}
+
 	return
 }
 
@@ -488,12 +503,53 @@ func buildConfICMPOptions(opts *baremetal.ICMPOptions) (list []interface{}) {
 	return []interface{}{confOpts}
 }
 
-func buildConfTransportOptions(portRange baremetal.PortRange) (list []interface{}) {
-	confOpts := map[string]interface{}{
-		"max": int(portRange.Max),
-		"min": int(portRange.Min),
+func buildConfTransportOptions(destinationPortRange *baremetal.PortRange, sourcePortRange *baremetal.PortRange) (list []interface{}) {
+	confOpts := map[string]interface{}{}
+	if destinationPortRange != nil {
+		confOpts["max"] = int(destinationPortRange.Max)
+		confOpts["min"] = int(destinationPortRange.Min)
 	}
+
+	if sourcePortRange != nil {
+		confOpts["source_port_range"] = []interface{}{map[string]interface{}{
+			"max": int(sourcePortRange.Max),
+			"min": int(sourcePortRange.Min),
+		}}
+	}
+
 	return []interface{}{confOpts}
+}
+
+func buildConfRuleLists(res *baremetal.SecurityList) (confEgressRules, confIngressRules []map[string]interface{}) {
+	for _, egressRule := range res.EgressSecurityRules {
+		confEgressRule := map[string]interface{}{}
+		confEgressRule["destination"] = egressRule.Destination
+		confEgressRule = buildConfRule(
+			confEgressRule,
+			egressRule.Protocol,
+			egressRule.ICMPOptions,
+			egressRule.TCPOptions,
+			egressRule.UDPOptions,
+			&egressRule.IsStateless,
+		)
+		confEgressRules = append(confEgressRules, confEgressRule)
+	}
+
+	for _, ingressRule := range res.IngressSecurityRules {
+		confIngressRule := map[string]interface{}{}
+		confIngressRule["source"] = ingressRule.Source
+		confIngressRule = buildConfRule(
+			confIngressRule,
+			ingressRule.Protocol,
+			ingressRule.ICMPOptions,
+			ingressRule.TCPOptions,
+			ingressRule.UDPOptions,
+			&ingressRule.IsStateless,
+		)
+		confIngressRules = append(confIngressRules, confIngressRule)
+	}
+
+	return
 }
 
 func buildConfRule(
@@ -509,10 +565,10 @@ func buildConfRule(
 		confRule["icmp_options"] = buildConfICMPOptions(icmpOpts)
 	}
 	if tcpOpts != nil {
-		confRule["tcp_options"] = buildConfTransportOptions(tcpOpts.DestinationPortRange)
+		confRule["tcp_options"] = buildConfTransportOptions(tcpOpts.DestinationPortRange, tcpOpts.SourcePortRange)
 	}
 	if udpOpts != nil {
-		confRule["udp_options"] = buildConfTransportOptions(udpOpts.DestinationPortRange)
+		confRule["udp_options"] = buildConfTransportOptions(udpOpts.DestinationPortRange, udpOpts.SourcePortRange)
 	}
 	if stateless != nil {
 		confRule["stateless"] = *stateless

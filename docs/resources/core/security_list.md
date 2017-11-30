@@ -38,8 +38,13 @@ resource "oci_core_security_list" "t" {
         stateless = true
 
         tcp_options {
-            "min" = 80
-            "max" = 82
+            source_port_range {
+                "min" = 100
+                "max" = 100
+             }
+             // These values correspond to the destination port range.
+             "min" = 22
+             "max" = 22
         }
     }
 
@@ -49,6 +54,8 @@ resource "oci_core_security_list" "t" {
         stateless = true
 
         udp_options {
+            // These values correspond to the destination port range.
+            // source_port_range may also be specified.
             "min" = 319
             "max" = 320
         }
