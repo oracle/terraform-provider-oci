@@ -5,6 +5,7 @@ package provider
 import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/oracle/bmcs-go-sdk"
+
 	"github.com/oracle/terraform-provider-oci/crud"
 )
 
@@ -348,12 +349,13 @@ func buildPortRange(conf []interface{}) (portRange *baremetal.PortRange) {
 	if len(conf) > 0 && conf[0] != nil {
 		mapConf := conf[0].(map[string]interface{})
 
-		// The ok value will always be true, so we need to check against the default value instead.
 		max := mapConf["max"].(int)
 		min := mapConf["min"].(int)
 
 		// Max and Min default to 0, and that is not a valid port number, so we can assume that if
 		// the value is 0 then the user has not set the port number.
+		// Also, note that if either max or min is set, then the service will return an error if both are not
+		// set. However, we want to create the PortRange if either is set and let the service return the error.
 		if max != 0 || min != 0 {
 			portRange = &baremetal.PortRange{
 				Max: uint64(max),
@@ -374,31 +376,7 @@ func (s *SecurityListResourceCrud) buildSourceAndDestinationPortRanges(conf []in
 	return
 }
 
-func buildConfICMPOptions(opts *baremetal.ICMPOptions) (list []interface{}) {
-	confOpts := map[string]interface{}{
-		"code": int(opts.Code),
-		"type": int(opts.Type),
-	}
-	return []interface{}{confOpts}
-}
-
-func buildConfTransportOptions(destinationPortRange *baremetal.PortRange, sourcePortRange *baremetal.PortRange) (list []interface{}) {
-	confOpts := map[string]interface{}{}
-	if destinationPortRange != nil {
-		confOpts["max"] = int(destinationPortRange.Max)
-		confOpts["min"] = int(destinationPortRange.Min)
-	}
-
-	if sourcePortRange != nil {
-		confOpts["source_port_range"] = []interface{}{map[string]interface{}{
-			"max": int(sourcePortRange.Max),
-			"min": int(sourcePortRange.Min),
-		}}
-	}
-
-	return []interface{}{confOpts}
-}
-
+// Used to build rule lists for SetData.
 func buildConfRuleLists(res *baremetal.SecurityList) (confEgressRules, confIngressRules []map[string]interface{}) {
 	for _, egressRule := range res.EgressSecurityRules {
 		confEgressRule := map[string]interface{}{}
@@ -431,6 +409,7 @@ func buildConfRuleLists(res *baremetal.SecurityList) (confEgressRules, confIngre
 	return
 }
 
+// Used to build rules for SetData.
 func buildConfRule(
 	confRule map[string]interface{},
 	protocol string,
@@ -453,4 +432,31 @@ func buildConfRule(
 		confRule["stateless"] = *stateless
 	}
 	return confRule
+}
+
+// Used to build ICMP options for SetData.
+func buildConfICMPOptions(opts *baremetal.ICMPOptions) (list []interface{}) {
+	confOpts := map[string]interface{}{
+		"code": int(opts.Code),
+		"type": int(opts.Type),
+	}
+	return []interface{}{confOpts}
+}
+
+// Used to build TCP/UDP port ranges for SetData.
+func buildConfTransportOptions(destinationPortRange *baremetal.PortRange, sourcePortRange *baremetal.PortRange) (list []interface{}) {
+	confOpts := map[string]interface{}{}
+	if destinationPortRange != nil {
+		confOpts["max"] = int(destinationPortRange.Max)
+		confOpts["min"] = int(destinationPortRange.Min)
+	}
+
+	if sourcePortRange != nil {
+		confOpts["source_port_range"] = []interface{}{map[string]interface{}{
+			"max": int(sourcePortRange.Max),
+			"min": int(sourcePortRange.Min),
+		}}
+	}
+
+	return []interface{}{confOpts}
 }

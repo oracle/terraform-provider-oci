@@ -38,10 +38,10 @@ resource "oci_core_security_list" "t" {
             source_port_range {
                 "min" = 100
                 "max" = 100
-             }
-             // These values correspond to the destination port range.
-             "min" = 22
-             "max" = 22
+            }
+            // These values correspond to the destination port range.
+            "min" = 22
+            "max" = 22
         }
     }
 
