@@ -35,8 +35,13 @@ resource "oci_core_security_list" "t" {
         stateless = true
 
         tcp_options {
-            "min" = 80
-            "max" = 82
+            source_port_range {
+                "min" = 100
+                "max" = 100
+             }
+             // These values correspond to the destination port range.
+             "min" = 22
+             "max" = 22
         }
     }
 
@@ -46,6 +51,8 @@ resource "oci_core_security_list" "t" {
         stateless = true
 
         udp_options {
+            // These values correspond to the destination port range.
+            // source_port_range may also be specified.
             "min" = 319
             "max" = 320
         }
@@ -58,7 +65,7 @@ resource "oci_core_security_list" "t" {
 The following arguments are supported:
 
 * `compartment_id` - (Required) The OCID of the compartment to contain the security list.
-* `display_name` - (Optional) The OCID of the VCN.
+* `display_name` - (Optional) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 * `egress_security_rules` - (Required) Rules for allowing egress IP packets. [EgressSecurityRule API Docs](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/EgressSecurityRule/)
 * `ingress_security_rules` - (Required) Rules for allowing ingress IP packets. [IngressSecurityRule API Docs](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/IngressSecurityRule/)
 * `vcn_id` - (Required) The OCID of the VCN the security list belongs to.
