@@ -5,6 +5,7 @@ package main
 import (
 	"github.com/hashicorp/terraform/plugin"
 	"github.com/hashicorp/terraform/terraform"
+
 	"github.com/oracle/terraform-provider-oci/provider"
 )
 
