@@ -80,15 +80,6 @@ func (c *Client) ListDatabases(compartmentID, dbHomeID string, limit uint64, opt
 	return
 }
 
-type CreateDatabaseDetails struct {
-	AdminPassword string `header:"-" json:"adminPassword" url:"-"`
-	DBName        string `header:"-" json:"dbName" url:"-"`
-	DBWorkload    string `header:"-" json:"dbWorkload,omitempty" url:"-"`
-	CharacterSet  string `header:"-" json:"characterSet,omitempty" url:"-"`
-	NCharacterSet string `header:"-" json:"ncharacterSet,omitempty" url:"-"`
-	PDBName       string `header:"-" json:"pdbName,omitempty" url:"-"`
-}
-
 func NewCreateDatabaseDetails(adminPassword, dbName string, opts *CreateDatabaseOptions) (db CreateDatabaseDetails) {
 	db = CreateDatabaseDetails{
 		AdminPassword: adminPassword,
@@ -102,7 +93,7 @@ func NewCreateDatabaseDetails(adminPassword, dbName string, opts *CreateDatabase
 			db.CharacterSet = opts.CharacterSet
 		}
 		if opts.NCharacterSet != "" {
-			db.NCharacterSet = opts.NCharacterSet
+			db.NcharacterSet = opts.NCharacterSet
 		}
 		if opts.PDBName != "" {
 			db.PDBName = opts.PDBName
