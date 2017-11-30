@@ -1,33 +1,38 @@
-# oci\_database\_db\_homes
+# oci\_database\_db_homes
 
-[DbHome Summary][40f7e502]
-
-  [40f7e502]: https://docs.us-phoenix-1.oraclecloud.com/api/#/en/database/20160918/DbHomeSummary/ "DbHomeSummary"
-
-Gets a list of database homes in the specified DB System and compartment.
+Gets a list of db_homes.
 
 ## Example Usage
 
 ```
-data "oci_database_db_homes" "t" {
-  compartment_id = "compartment_id"
-  db_system_id = "db_system_id"
-  limit = 1
-  page = "page"
+data "oci_database_db_homes" "testDBHomes" {
+	#Required
+	compartment_id = "${var.compartment_id}"
+	db_system_id = "${var.db_system_id}"
 }
+
 ```
 
-## Argument Reference
+## List Operation
+Gets a list of database homes in the specified DB System and compartment. A database home is a directory where Oracle database software is installed.
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) The compartment OCID.
-* `db_system_id` - (Required) The OCID of the DB System.
-* `limit` - (Required) The maximum number of items to return.
-* `page` - (Optional) The pagination token to continue listing from.
+* `compartment_id` - (Required) The compartment [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
+* `db_system_id` - (Required) The [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the DB System.
 
-## Attributes Reference
 
 The following attributes are exported:
 
-* `db_homes` - A list of database homes in the specified DB System and compartment.
+* `db_homes` - The list of db_homes.
+
+## DBHome Reference
+* `compartment_id` - The OCID of the compartment.
+* `db_system_id` - The OCID of the DB System.
+* `db_version` - The Oracle database version.
+* `display_name` - The user-provided name for the database home. It does not need to be unique.
+* `id` - The OCID of the database home.
+* `last_patch_history_entry_id` - The OCID of the last patch history. This is updated as soon as a patch operation is started.
+* `state` - The current state of the database home.
+* `time_created` - The date and time the database home was created.
+

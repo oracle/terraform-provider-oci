@@ -85,7 +85,7 @@ func (s *DBSystemDatasourceCrud) SetData() {
 				"admin_password": r.DBHome.Database.AdminPassword,
 				"db_name":        r.DBHome.Database.DBName,
 				"character_set":  r.DBHome.Database.CharacterSet,
-				"ncharacter_set": r.DBHome.Database.NCharacterSet,
+				"ncharacter_set": r.DBHome.Database.NcharacterSet,
 				"pdb_name":       r.DBHome.Database.PDBName,
 				"db_workload":    r.DBHome.Database.DBWorkload,
 			}
