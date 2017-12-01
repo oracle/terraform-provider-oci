@@ -13,7 +13,7 @@ This sample code will be responsible to perform the following tasks:
 
 - Setup of all required network components: VCN, Internet Gateway, subnet, and security lists.
 
-- Spin up a [Virtual Machine](https://docs.us-phoenix-1.oraclecloud.com/Content/Compute/Concepts/computeoverview.htm) Instance based on Oracle Linux 7.x image.
+- Spin up a [Virtual Machine](https://docs.us-phoenix-1.oraclecloud.com/Content/Compute/Concepts/computeoverview.htm) Instance based on Oracle Linux 7.4 image.
 
 - Attach [a secondary VNIC](https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Tasks/managingVNICs.htm) to the VM instance.
 

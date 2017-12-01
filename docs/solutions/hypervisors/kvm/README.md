@@ -1,6 +1,6 @@
 KVM Virtualization
 ===============================
-This folder contains sample terraform templates to allow you to run a KVM hypervisor on Oracle Cloud Infrastructure, based on the [Installing and Configuring KVM on Bare Metal Instances with Multi-VNIC] (https://docs.us-phoenix-1.oraclecloud.com/Content/Resources/Assets/installing_kvm_multi_vnics.pdf) white-paper and [A Simple Guide to Nested KVM Virtualization on Oracle Cloud Infrastructure](https://blogs.oracle.com/cloud-infrastructure/nested-kvm-virtualization-on-oracle-iaas) blog post.
+This folder contains sample terraform templates to allow you to run a KVM hypervisor on Oracle Cloud Infrastructure, based on the [Installing and Configuring KVM on Bare Metal Instances with Multi-VNIC](https://docs.us-phoenix-1.oraclecloud.com/Content/Resources/Assets/installing_kvm_multi_vnics.pdf) white-paper and [A Simple Guide to Nested KVM Virtualization on Oracle Cloud Infrastructure](https://blogs.oracle.com/cloud-infrastructure/nested-kvm-virtualization-on-oracle-iaas) blog post.
 
 
 Oracle Cloud Infrastructure does not offer a prepackaged image with KVM preconfigured.
@@ -14,7 +14,7 @@ The ability to bring the KVM hypervisor is unique to Oracle and is enabled by us
 * Multiple virtual network interface cards (multi-VNIC) capabilities within the Network Service
 
 
-On Oracle Cloud Infrastructure (OCI) you can use a Bare Metal Compute shape for your KVM hypervisor or a Virtual Machine Compute Shape on Nested Virtualization. On this folder you can find sample code for both scenarios.
+On Oracle Cloud Infrastructure (OCI) you can use a Bare Metal Compute shape for your KVM hypervisor or a Virtual Machine Compute Shape on Nested Virtualization. On this folder you can find sample code for both scenarios. 
 
 * [KVM on Bare Metal](./kvm-baremetal/README.md)
 * [KVM Nested](./kvm-nested/README.md)
