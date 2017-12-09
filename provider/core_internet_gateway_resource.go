@@ -171,6 +171,7 @@ func (s *InternetGatewayResourceCrud) SetData() {
 	s.D.Set("time_modified", s.Resource.ModifiedTime.String())
 	s.D.Set("state", s.Resource.State)
 	s.D.Set("time_created", s.Resource.TimeCreated.String())
+	s.D.Set("vcn_id", s.Resource.VcnID)
 }
 
 func (s *InternetGatewayResourceCrud) Delete() (e error) {

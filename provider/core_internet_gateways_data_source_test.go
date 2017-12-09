@@ -64,6 +64,7 @@ func (s *DatasourceCoreInternetGatewayTestSuite) TestAccDatasourceCoreInternetGa
 					resource.TestCheckResourceAttr(s.ResourceName, "gateways.0.enabled", "true"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "gateways.0.id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "gateways.0.compartment_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "gateways.0.vcn_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "gateways.0.time_created"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "gateways.0.time_modified"),
 				),
