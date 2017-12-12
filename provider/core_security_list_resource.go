@@ -447,8 +447,8 @@ func (s *SecurityListResourceCrud) buildTCPOptions(conf map[string]interface{}) 
 	if len(options) > 0 {
 		sourcePortRange, destinationPortRange := s.buildSourceAndDestinationPortRanges(options)
 		opts = &baremetal.TCPOptions{
-			destinationPortRange,
-			sourcePortRange,
+			DestinationPortRange: destinationPortRange,
+			SourcePortRange:      sourcePortRange,
 		}
 	}
 	return
@@ -459,8 +459,8 @@ func (s *SecurityListResourceCrud) buildUDPOptions(conf map[string]interface{}) 
 	if len(options) > 0 {
 		sourcePortRange, destinationPortRange := s.buildSourceAndDestinationPortRanges(options)
 		opts = &baremetal.UDPOptions{
-			destinationPortRange,
-			sourcePortRange,
+			DestinationPortRange: destinationPortRange,
+			SourcePortRange:      sourcePortRange,
 		}
 	}
 	return
@@ -500,30 +500,26 @@ func (s *SecurityListResourceCrud) buildSourceAndDestinationPortRanges(conf []in
 // Used to build rule lists for SetData.
 func buildConfRuleLists(res *baremetal.SecurityList) (confEgressRules, confIngressRules []map[string]interface{}) {
 	for _, egressRule := range res.EgressSecurityRules {
-		confEgressRule := map[string]interface{}{}
-		confEgressRule["destination"] = egressRule.Destination
-		confEgressRule = buildConfRule(
-			confEgressRule,
+		confEgressRule := buildConfRule(
 			egressRule.Protocol,
 			egressRule.ICMPOptions,
 			egressRule.TCPOptions,
 			egressRule.UDPOptions,
 			&egressRule.IsStateless,
 		)
+		confEgressRule["destination"] = egressRule.Destination
 		confEgressRules = append(confEgressRules, confEgressRule)
 	}
 
 	for _, ingressRule := range res.IngressSecurityRules {
-		confIngressRule := map[string]interface{}{}
-		confIngressRule["source"] = ingressRule.Source
-		confIngressRule = buildConfRule(
-			confIngressRule,
+		confIngressRule := buildConfRule(
 			ingressRule.Protocol,
 			ingressRule.ICMPOptions,
 			ingressRule.TCPOptions,
 			ingressRule.UDPOptions,
 			&ingressRule.IsStateless,
 		)
+		confIngressRule["source"] = ingressRule.Source
 		confIngressRules = append(confIngressRules, confIngressRule)
 	}
 
@@ -532,13 +528,13 @@ func buildConfRuleLists(res *baremetal.SecurityList) (confEgressRules, confIngre
 
 // Used to build rules for SetData.
 func buildConfRule(
-	confRule map[string]interface{},
 	protocol string,
 	icmpOpts *baremetal.ICMPOptions,
 	tcpOpts *baremetal.TCPOptions,
 	udpOpts *baremetal.UDPOptions,
 	stateless *bool,
-) map[string]interface{} {
+) (confRule map[string]interface{}) {
+	confRule = map[string]interface{}{}
 	confRule["protocol"] = protocol
 	if icmpOpts != nil {
 		confRule["icmp_options"] = buildConfICMPOptions(icmpOpts)

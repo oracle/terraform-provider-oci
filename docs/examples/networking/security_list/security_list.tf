@@ -45,6 +45,7 @@ resource "oci_core_security_list" "ExampleSecurityList" {
     stateless = true
 
     udp_options {
+      // These values correspond to the destination port range.
       "min" = 319
       "max" = 320
     }
