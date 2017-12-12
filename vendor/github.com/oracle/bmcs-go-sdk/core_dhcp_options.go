@@ -26,6 +26,7 @@ type DHCPOptions struct {
 	Options       []DHCPDNSOption `json:"options"`
 	State         string          `json:"lifecycleState"`
 	TimeCreated   Time            `json:"timeCreated"`
+	VcnID         string          `json:"vcnId"`
 }
 
 // ListDHCPOptions contains a list of dhcp options

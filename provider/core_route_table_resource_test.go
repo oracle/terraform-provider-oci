@@ -72,9 +72,11 @@ func (s *ResourceCoreRouteTableTestSuite) TestAccResourceCoreRouteTable_basic() 
 					}`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "display_name"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "vcn_in"),
 					resource.TestCheckResourceAttr(s.ResourceName, "route_rules.#", "0"),
 					resource.TestCheckResourceAttrSet(s.DefaultResourceName, "display_name"),
 					resource.TestCheckResourceAttr(s.DefaultResourceName, "route_rules.#", "0"),
+					resource.TestCheckResourceAttrSet(s.DefaultResourceName, "vcn_in"),
 				),
 			},
 			// verify add rule
@@ -148,6 +150,7 @@ func (s *ResourceCoreRouteTableTestSuite) TestAccResourceCoreRouteTable_basic() 
 				Config: s.Config + defaultRouteTable,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.DefaultResourceName, "display_name"),
+					resource.TestCheckResourceAttrSet(s.DefaultResourceName, "vcn_in"),
 					resource.TestCheckResourceAttrSet(s.DefaultResourceName, "route_rules.0.network_entity_id"),
 					resource.TestCheckResourceAttr(s.DefaultResourceName, "route_rules.#", "1"),
 					resource.TestCheckResourceAttr(s.DefaultResourceName, "route_rules.0.cidr_block", "0.0.0.0/0"),

@@ -15,8 +15,8 @@ import (
 	"io/ioutil"
 	"math/rand"
 	"net/http"
-	"time"
 	"sync/atomic"
+	"time"
 )
 
 var clientCounter int64
@@ -138,7 +138,7 @@ func NewClient(userOCID, tenancyOCID, keyFingerprint string, opts ...NewClientOp
 	/* Create random number generator for creating Retry Tokens
 	 * Terraform operations create multiple clients.
 	 * We need the clientCounter because some customers were seeing issues with using the same retry token for multiple requests (time granularity issue in env)
-	*/
+	 */
 	newClientCounterValue := atomic.AddInt64(&clientCounter, 1)
 	seed := newClientCounterValue + time.Now().UnixNano()
 	randGen := rand.New(rand.NewSource(seed))

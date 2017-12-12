@@ -18,6 +18,7 @@ type InternetGateway struct {
 	ModifiedTime  Time   `json:"modifiedTime"`
 	State         string `json:"lifecycleState"`
 	TimeCreated   Time   `json:"timeCreated"`
+	VcnID         string `json:"vcnId"`
 }
 
 // ListInternetGateways contains a set of internet gateways
