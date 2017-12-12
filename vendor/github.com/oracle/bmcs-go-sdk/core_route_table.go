@@ -22,6 +22,7 @@ type RouteTable struct {
 	RouteRules    []RouteRule `json:"routeRules"`
 	State         string      `json:"lifecycleState"`
 	TimeCreated   Time        `json:"timeCreated"`
+	VcnID         string      `json:"vcnId"`
 }
 
 // ListRouteTables contains a list of route tables

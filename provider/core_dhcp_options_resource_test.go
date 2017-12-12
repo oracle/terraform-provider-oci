@@ -128,6 +128,11 @@ func (s *ResourceCoreDHCPOptionsTestSuite) TestAccResourceCoreDHCPOptions_basic(
 					resource.TestCheckResourceAttr("oci_core_default_dhcp_options.default", "options.0.type", "DomainNameServer"),
 					resource.TestCheckResourceAttr("oci_core_default_dhcp_options.default", "options.0.server_type", "CustomDnsServer"),
 					resource.TestCheckResourceAttr("oci_core_default_dhcp_options.default", "options.1.type", "SearchDomain"),
+
+					resource.TestCheckResourceAttrSet("oci_core_dhcp_options.opt1", "vcn_id"),
+					resource.TestCheckResourceAttrSet("oci_core_dhcp_options.opt2", "vcn_id"),
+					resource.TestCheckResourceAttrSet("oci_core_dhcp_options.opt3", "vcn_id"),
+					resource.TestCheckResourceAttrSet("oci_core_dhcp_options.opt4", "vcn_id"),
 				),
 			},
 			// Verify removing default DHCP options

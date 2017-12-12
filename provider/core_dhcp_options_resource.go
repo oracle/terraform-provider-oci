@@ -250,6 +250,7 @@ func (s *DHCPOptionsResourceCrud) Update() (e error) {
 func (s *DHCPOptionsResourceCrud) SetData() {
 	s.D.Set("compartment_id", s.Res.CompartmentID)
 	s.D.Set("display_name", s.Res.DisplayName)
+	s.D.Set("vcn_id", s.Res.VcnID)
 
 	entities := []map[string]interface{}{}
 	for _, val := range s.Res.Options {

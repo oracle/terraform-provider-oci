@@ -15,3 +15,4 @@ terraform-plain.sh
 bin/*
 obmc-container-clean
 terraform-provider-oci
+*.iml
