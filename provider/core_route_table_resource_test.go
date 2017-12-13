@@ -72,6 +72,8 @@ func (s *ResourceCoreRouteTableTestSuite) TestAccResourceCoreRouteTable_basic() 
 					}`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "display_name"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "vcn_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "route_rules.#", "0"),
 					resource.TestCheckResourceAttrSet(s.DefaultResourceName, "display_name"),
 					resource.TestCheckResourceAttr(s.DefaultResourceName, "route_rules.#", "0"),
@@ -90,6 +92,8 @@ func (s *ResourceCoreRouteTableTestSuite) TestAccResourceCoreRouteTable_basic() 
 					}` + defaultRouteTable,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "display_name"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "vcn_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "compartment_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "route_rules.0.network_entity_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "route_rules.#", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "route_rules.0.cidr_block", "0.0.0.0/0"),
@@ -129,6 +133,8 @@ func (s *ResourceCoreRouteTableTestSuite) TestAccResourceCoreRouteTable_basic() 
 					}`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-route-table"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "vcn_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "route_rules.#", "2"),
 					resource.TestCheckResourceAttr(s.ResourceName, "route_rules.0.cidr_block", "0.0.0.0/0"),
 					resource.TestCheckResourceAttr(s.ResourceName, "route_rules.1.cidr_block", "10.0.0.0/8"),

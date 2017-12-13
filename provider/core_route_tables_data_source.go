@@ -108,7 +108,7 @@ func (s *RouteTableDatasourceCrud) SetData() {
 			"state":          v.State,
 			"time_created":   v.TimeCreated.String(),
 			"time_modified":  v.TimeModified.String(),
-			"vcn_id":         s.D.Get("vcn_id").(string), // todo: get this off the route table result
+			"vcn_id":         v.VcnID,
 		}
 		resources = append(resources, res)
 	}
