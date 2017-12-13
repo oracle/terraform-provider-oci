@@ -109,7 +109,7 @@ func (s *DHCPOptionsDatasourceCrud) SetData() {
 			"options":        nestedStateObjs,
 			"state":          res.State,
 			"time_created":   res.TimeCreated.String(),
-			"vcn_id":         s.D.Get("vcn_id").(string), // todo: get this off the resource result
+			"vcn_id":         res.VcnID,
 		}
 		resources = append(resources, stateObj)
 	}
