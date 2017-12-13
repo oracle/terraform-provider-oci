@@ -144,9 +144,9 @@ func (s *ResourceCoreDHCPOptionsTestSuite) TestAccResourceCoreDHCPOptions_basic(
 			{
 				Config: s.Config + defaultDhcpOpts,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr("oci_core_dhcp_options.default", "options.0.type", "DomainNameServer"),
-					resource.TestCheckResourceAttr("oci_core_dhcp_options.default", "options.0.server_type", "CustomDnsServer"),
-					resource.TestCheckResourceAttr("oci_core_dhcp_options.default", "options.1.type", "SearchDomain"),
+					resource.TestCheckResourceAttr("oci_core_default_dhcp_options.default", "options.0.type", "DomainNameServer"),
+					resource.TestCheckResourceAttr("oci_core_default_dhcp_options.default", "options.0.server_type", "CustomDnsServer"),
+					resource.TestCheckResourceAttr("oci_core_default_dhcp_options.default", "options.1.type", "SearchDomain"),
 				),
 			},
 		},
