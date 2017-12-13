@@ -255,6 +255,7 @@ func (s *RouteTableResourceCrud) Update() (e error) {
 func (s *RouteTableResourceCrud) SetData() {
 	s.D.Set("compartment_id", s.Res.CompartmentID)
 	s.D.Set("display_name", s.Res.DisplayName)
+	s.D.Set("vcn_id", s.Res.VcnID)
 
 	rules := []map[string]interface{}{}
 	for _, val := range s.Res.RouteRules {
