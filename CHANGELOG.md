@@ -7,7 +7,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Added
 - Support for security list rule source port ranges (#340). This can be specified in "tcp_options" and "udp_options" using "source_port_range".
-- Allow configuration of default resources under VCNs (#374)
+- Allow configuration of default resources under VCNs (#374). See more details about this feature [here]()https://github.com/oracle/terraform-provider-oci/blob/master/docs/Managing%20Default%20Resources.md)
 
 ### Fixed
 - Fixed bug wherein policy was not destroyed and recreated when compartment is changed (#389)
