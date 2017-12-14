@@ -32,6 +32,7 @@ func PolicyResource() *schema.Resource {
 		"compartment_id": {
 			Type:     schema.TypeString,
 			Required: true,
+			ForceNew: true,
 		},
 		"state": {
 			Type:     schema.TypeString,
