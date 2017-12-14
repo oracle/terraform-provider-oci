@@ -15,6 +15,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Notes
 - Code refactoring was done as part of this release. Go source file names have changed, the `provider` directory has been added. Should not impact the users in any way.
+- If upgrading from v1, see [this wiki](https://github.com/oracle/terraform-provider-oci/wiki/Oracle-Terraform-Provider-Name-Change) for migration steps.
+- See docs for this version [here](https://github.com/oracle/terraform-provider-oci/tree/v2.0.4).
 
 ## 2.0.4 - 2017-11-2
 
