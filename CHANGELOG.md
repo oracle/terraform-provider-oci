@@ -3,10 +3,18 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
-## Unreleased
+## 2.0.5 - 2017-12-14
 
 ### Added
 - Support for security list rule source port ranges (#340). This can be specified in "tcp_options" and "udp_options" using "source_port_range".
+- Allow configuration of default resources under VCNs (#374)
+
+### Fixed
+- Fixed bug wherein policy was not destroyed and recreated when compartment is changed (#389)
+- Fixed errors with terraform import because of missing vcn_id in `*.tfstate` files (internet_gateway, route_tables, dhcp_options) (#388, #379)
+
+### Notes
+- Code refactoring was done as part of this release. Go source file names have changed, the `provider` directory has been added. Should not impact the users in any way.
 
 ## 2.0.4 - 2017-11-2
 
