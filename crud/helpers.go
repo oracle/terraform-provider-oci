@@ -338,3 +338,8 @@ func FilterMissingResourceError(sync ResourceVoider, err *error) {
 func EqualIgnoreCaseSuppressDiff(key string, old string, new string, d *schema.ResourceData) bool {
 	return strings.EqualFold(old, new)
 }
+
+func ImportDefaultResource(d *schema.ResourceData, value interface{}) ([]*schema.ResourceData, error) {
+	err := d.Set("manage_default_resource_id", d.Id())
+	return []*schema.ResourceData{d}, err
+}

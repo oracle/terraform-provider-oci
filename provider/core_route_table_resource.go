@@ -15,7 +15,7 @@ import (
 func DefaultRouteTableResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
-			State: schema.ImportStatePassthrough,
+			State: crud.ImportDefaultResource,
 		},
 		Timeouts: crud.DefaultTimeout,
 		Create:   createRouteTable,
