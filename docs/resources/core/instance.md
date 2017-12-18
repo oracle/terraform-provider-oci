@@ -56,7 +56,7 @@ The following arguments are supported:
 * `availability_domain` - (Optional) The name of the Availability Domain.
 * `display_name` - (Optional) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 * `image` - (Required) The OCID of the image used to boot the instance.
-* `ipxe_script` - (Optional) This is an advanced option. See [Instance reference](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/Instance/) for details.
+* `ipxe_script` - (Optional) This is an advanced option. See the [instance API reference](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/Instance/) for details.
 * `metadata` - (Optional) Custom metadata key/value pairs that you provide, such as the SSH public key required to connect to the instance.
 * `extended_metadata` - (Optional) Like metadata but allows nested metadata if you pass a valid JSON string as a value
 
