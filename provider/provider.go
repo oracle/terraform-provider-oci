@@ -258,6 +258,10 @@ func ProviderConfig(d *schema.ResourceData) (clients interface{}, err error) {
 		)
 	}
 
+	clientOpts = append(clientOpts, baremetal.CustomTransport(
+		&http.Transport{TLSClientConfig: &tls.Config{MinVersion: tls.VersionTLS12}},
+	))
+
 	if hasKey && privateKeyBuffer != "" {
 		clientOpts = append(clientOpts, baremetal.PrivateKeyBytes([]byte(privateKeyBuffer)))
 	} else if hasKeyPath && privateKeyPath != "" {
