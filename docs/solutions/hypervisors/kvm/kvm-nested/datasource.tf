@@ -7,17 +7,6 @@ data "oci_core_images" "base-image" {
   display_name   = "Oracle-Linux-7.4-2017.10.25-0"
 }
 
-data "oci_core_shape" "supported_shapes" {
-  compartment_id      = "${var.compartment_ocid}"
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ads.availability_domains[var.availability_domain - 1],"name")}"
-
-  filter {
-    name   = "name"
-    values = ["(?:VM)+(${var.instance_shape})*"]
-    regex  = "true"
-  }
-}
-
 data "oci_core_vnic_attachments" "kvm-host-vnics" {
   compartment_id      = "${var.compartment_ocid}"
   availability_domain = "${lookup(data.oci_identity_availability_domains.ads.availability_domains[var.availability_domain - 1],"name")}"

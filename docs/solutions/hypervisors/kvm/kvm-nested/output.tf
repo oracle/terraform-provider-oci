@@ -27,9 +27,9 @@ output "KVM_GUEST_VNC_PORT" {
 }
 
 output "KVM_HOST_SSH_KEY_PATH" {
-  value = "${var.ssh_private_key_path}"
+  value = "${var.ssh_user_private_key_path}"
 }
 
 output "SSH_TUNNEL_TO_GUEST" {
-  value = "ssh -i ${var.ssh_private_key_path} -L ${var.kvm_guest_vnc_port}:localhost:${var.kvm_guest_vnc_port} opc@${oci_core_instance.kvm-host-instance.public_ip}"
+  value = "ssh -i ${var.ssh_user_private_key_path} -L ${var.kvm_guest_vnc_port}:localhost:${var.kvm_guest_vnc_port} opc@${oci_core_instance.kvm-host-instance.public_ip}"
 }

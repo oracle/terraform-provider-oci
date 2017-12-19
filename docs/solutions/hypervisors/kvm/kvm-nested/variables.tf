@@ -6,8 +6,9 @@ variable "user_ocid" {}
 variable "compartment_ocid" {}
 variable "region" {}
 variable "fingerprint" {}
-variable "ssh_public_key_path" {}
-variable "ssh_private_key_path" {}
+variable "ssh_api_private_key_path" {}
+variable "ssh_user_private_key_path" {}
+variable "ssh_user_public_key_path" {}
 
 
 #Prefix to identify your resources
@@ -31,7 +32,7 @@ variable "kvm_host_subnet_cidr_block" {
 }
 
 #KVM Host instance shape. Only VM Shapes are supported on this example
-variable "instance_shape" {
+variable "instance_vm_shape" {
   default = "VM.Standard1.8"
 }
 
@@ -47,7 +48,7 @@ variable "kvm_image_name" {
 
 #Location where the qcow2 file will be placed in the KVM host
 variable "kvm_image_path" {
-  kvm_image_path = "/kvm-imgs/"
+  default = "/kvm-imgs/"
 }
 
 ########################################################################

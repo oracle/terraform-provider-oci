@@ -2,7 +2,7 @@ provider "oci" {
   tenancy_ocid     = "${var.tenancy_ocid}"
   user_ocid        = "${var.user_ocid}"
   fingerprint      = "${var.fingerprint}"
-  private_key_path = "${var.ssh_private_key_path}"
+  private_key_path = "${var.ssh_api_private_key_path}"
   region           = "${var.region}"
 }
 
@@ -11,8 +11,7 @@ resource "oci_core_instance" "kvm-host-instance" {
   compartment_id      = "${var.compartment_ocid}"
   display_name        = "${var.prefix}-kvm-host"
   image               = "${lookup(data.oci_core_images.base-image.images[0], "id")}"
-  shape               = "${contains(slice(data.oci_core_shape.supported_shapes.shapes, 0,
-    length(data.oci_core_shape.supported_shapes.shapes) - 1), var.instance_shape)  ? var.instance_shape : format("Only BM Shapes are supported on this demo. Selected: %s", var.instance_shape)  }"
+  shape               = "${instance_bm_shape}"
 
   create_vnic_details {
     subnet_id        = "${oci_core_subnet.kvm-host-subnet.id}"
@@ -22,7 +21,7 @@ resource "oci_core_instance" "kvm-host-instance" {
   }
 
   metadata {
-    ssh_authorized_keys = "${file(var.ssh_public_key_path)}"
+    ssh_authorized_keys = "${file(var.ssh_user_public_key_path)}"
   }
 
   timeouts {
@@ -56,7 +55,7 @@ resource "oci_core_vnic_attachment" "kvm-guest-vnic-attachmnt" {
 
 module "setup-kvm-hypervisor" {
   source                  = "./modules/kvm-installer-baremetal"
-  private_key             = "${file(var.ssh_private_key_path)}"
+  private_key             = "${file(var.ssh_user_private_key_path)}"
   host                    = "${oci_core_instance.kvm-host-instance.public_ip}"
   qcow2_image_url         = "${var.kvm_image_url}"
   qcow2_image_target_path = "${var.kvm_image_path}"

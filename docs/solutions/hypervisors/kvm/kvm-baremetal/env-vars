@@ -1,13 +1,16 @@
 ### Authentication details
+### https://docs.us-phoenix-1.oraclecloud.com/Content/API/Concepts/apisigningkey.htm
 export TF_VAR_tenancy_ocid="<tenancy OCID>"
 export TF_VAR_user_ocid="<user OCID>"
 export TF_VAR_compartment_ocid="<compartment OCID>"
 export TF_VAR_fingerprint="<PEM key fingerprint>"
+export TF_VAR_ssh_api_private_key_path="<SSH PEM key which matches with the PEM key fingerprint>"
 
-### SSH keys used on the instance
-## https://docs.us-phoenix-1.oraclecloud.com/Content/Compute/Tasks/managingkeypairs.htm
-export TF_VAR_ssh_private_key_path="<path to the private key that matches the fingerprint above>"
-export TF_VAR_ssh_public_key_path="<path to public key>"
+
+### SSH keys used by the user to connect to the instance
+### https://docs.us-phoenix-1.oraclecloud.com/Content/Compute/Tasks/managingkeypairs.htm
+export TF_VAR_ssh_user_private_key_path="<path to the ssh private key>"
+export TF_VAR_ssh_user_public_key_path="<path to the ssh public key>"
 
 ### Region
 export TF_VAR_region="<region in which to operate, example: us-ashburn-1, us-phoenix-1>"
