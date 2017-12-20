@@ -22,7 +22,42 @@ func GroupResource() *schema.Resource {
 		Read:     readGroup,
 		Update:   updateGroup,
 		Delete:   deleteGroup,
-		Schema:   baseIdentitySchema,
+		Schema: map[string]*schema.Schema{
+			"id": {
+				Type:     schema.TypeString,
+				Computed: true,
+				ForceNew: true,
+			},
+			"name": {
+				Type:     schema.TypeString,
+				Required: true,
+				ForceNew: true,
+			},
+			"description": {
+				Type:     schema.TypeString,
+				Required: true,
+			},
+			"compartment_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"state": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"inactive_state": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
+			"time_created": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_modified": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+		},
 	}
 }
 
