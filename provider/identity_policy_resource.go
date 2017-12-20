@@ -14,66 +14,6 @@ import (
 )
 
 func PolicyResource() *schema.Resource {
-	policySchema := map[string]*schema.Schema{
-		"id": {
-			Type:     schema.TypeString,
-			Computed: true,
-			ForceNew: true,
-		},
-		"name": {
-			Type:     schema.TypeString,
-			Required: true,
-			ForceNew: true,
-		},
-		"description": {
-			Type:     schema.TypeString,
-			Required: true,
-		},
-		"compartment_id": {
-			Type:     schema.TypeString,
-			Required: true,
-			ForceNew: true,
-		},
-		"state": {
-			Type:     schema.TypeString,
-			Computed: true,
-		},
-		"time_created": {
-			Type:     schema.TypeString,
-			Computed: true,
-		},
-		"time_modified": {
-			Type:     schema.TypeString,
-			Computed: true,
-		},
-		"statements": {
-			Type:             schema.TypeList,
-			Required:         true,
-			DiffSuppressFunc: ignorePolicyFormatDiff,
-			Elem:             &schema.Schema{Type: schema.TypeString},
-		},
-		"ETag": {
-			Type:     schema.TypeString,
-			Computed: true,
-		},
-		"policyHash": {
-			Type:     schema.TypeString,
-			Computed: true,
-		},
-		"lastUpdateETag": {
-			Type:     schema.TypeString,
-			Computed: true,
-		},
-		"inactive_state": {
-			Type:     schema.TypeInt,
-			Computed: true,
-		},
-		"version_date": {
-			Type:     schema.TypeString,
-			Computed: true,
-		},
-	}
-
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
@@ -83,7 +23,65 @@ func PolicyResource() *schema.Resource {
 		Read:     readPolicy,
 		Update:   updatePolicy,
 		Delete:   deletePolicy,
-		Schema:   policySchema,
+		Schema: map[string]*schema.Schema{
+			"id": {
+				Type:     schema.TypeString,
+				Computed: true,
+				ForceNew: true,
+			},
+			"name": {
+				Type:     schema.TypeString,
+				Required: true,
+				ForceNew: true,
+			},
+			"description": {
+				Type:     schema.TypeString,
+				Required: true,
+			},
+			"compartment_id": {
+				Type:     schema.TypeString,
+				Required: true,
+				ForceNew: true,
+			},
+			"state": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_created": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_modified": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"statements": {
+				Type:             schema.TypeList,
+				Required:         true,
+				DiffSuppressFunc: ignorePolicyFormatDiff,
+				Elem:             &schema.Schema{Type: schema.TypeString},
+			},
+			"ETag": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"policyHash": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"lastUpdateETag": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"inactive_state": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
+			"version_date": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+		},
 	}
 }
 

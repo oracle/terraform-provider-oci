@@ -15,66 +15,6 @@ import (
 )
 
 func ObjectResource() *schema.Resource {
-	var objectSchema = map[string]*schema.Schema{
-		"namespace": {
-			Type:     schema.TypeString,
-			Required: true,
-			ForceNew: true,
-		},
-		"bucket": {
-			Type:     schema.TypeString,
-			Required: true,
-			ForceNew: true,
-		},
-		"object": {
-			Type:     schema.TypeString,
-			Required: true,
-			ForceNew: true,
-		},
-		"content": {
-			Type:     schema.TypeString,
-			Optional: true,
-			ForceNew: true,
-			StateFunc: func(body interface{}) string {
-				v := body.(string)
-				if v == "" {
-					return ""
-				}
-				h := md5.Sum([]byte(v))
-				return hex.EncodeToString(h[:])
-			},
-		},
-		"content_encoding": {
-			Type:     schema.TypeString,
-			Optional: true,
-			ForceNew: true,
-		},
-		"content_language": {
-			Type:     schema.TypeString,
-			Optional: true,
-			ForceNew: true,
-		},
-		"content_length": {
-			Type:     schema.TypeInt,
-			Computed: true,
-		},
-		"content_md5": {
-			Type:     schema.TypeString,
-			Computed: true,
-		},
-		"content_type": {
-			Type:     schema.TypeString,
-			Optional: true,
-			Computed: true,
-			ForceNew: true,
-		},
-		"metadata": {
-			Type:     schema.TypeMap,
-			Optional: true,
-			ForceNew: true,
-		},
-	}
-
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
@@ -83,7 +23,65 @@ func ObjectResource() *schema.Resource {
 		Create:   createObject,
 		Read:     readObject,
 		Delete:   deleteObject,
-		Schema:   objectSchema,
+		Schema: map[string]*schema.Schema{
+			"namespace": {
+				Type:     schema.TypeString,
+				Required: true,
+				ForceNew: true,
+			},
+			"bucket": {
+				Type:     schema.TypeString,
+				Required: true,
+				ForceNew: true,
+			},
+			"object": {
+				Type:     schema.TypeString,
+				Required: true,
+				ForceNew: true,
+			},
+			"content": {
+				Type:     schema.TypeString,
+				Optional: true,
+				ForceNew: true,
+				StateFunc: func(body interface{}) string {
+					v := body.(string)
+					if v == "" {
+						return ""
+					}
+					h := md5.Sum([]byte(v))
+					return hex.EncodeToString(h[:])
+				},
+			},
+			"content_encoding": {
+				Type:     schema.TypeString,
+				Optional: true,
+				ForceNew: true,
+			},
+			"content_language": {
+				Type:     schema.TypeString,
+				Optional: true,
+				ForceNew: true,
+			},
+			"content_length": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
+			"content_md5": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"content_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"metadata": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				ForceNew: true,
+			},
+		},
 	}
 }
 
