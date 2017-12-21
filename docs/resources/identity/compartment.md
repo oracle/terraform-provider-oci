@@ -4,7 +4,7 @@
 
   [84ff5b4e]: https://docs.us-phoenix-1.oraclecloud.com/api/#/en/identity/20160918/Compartment/ "CompartmentReference"
 
-Provides a compartment resource.
+Provides a compartment resource. If a compartment with the given `name` already exists, then that compartment will be used instead of creating a new compartment. Also, note that compartments may not be deleted.
 
 ## Example Usage
 
