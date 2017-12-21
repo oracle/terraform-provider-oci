@@ -9,9 +9,6 @@ variable "private_key_path" {}
 variable "compartment_ocid" {}
 variable "region" {}
 
-variable "vcn_ocid" {}
-
-
 provider "oci" {
   tenancy_ocid = "${var.tenancy_ocid}"
   user_ocid = "${var.user_ocid}"
@@ -20,10 +17,16 @@ provider "oci" {
   region = "${var.region}"
 }
 
+resource "oci_core_virtual_network" "ExampleVCN" {
+  cidr_block = "10.1.0.0/16"
+  compartment_id = "${var.compartment_ocid}"
+  display_name = "TFExampleVCN"
+  dns_label = "tfexamplevcn"
+}
 
 resource "oci_core_dhcp_options" "dhcp-options1" {
   compartment_id = "${var.compartment_ocid}"
-  vcn_id = "${var.vcn_ocid}"
+  vcn_id = "${oci_core_virtual_network.ExampleVCN.id}"
   display_name = "dhcp-options1"
 
   // required
@@ -42,7 +45,7 @@ resource "oci_core_dhcp_options" "dhcp-options1" {
 
 resource "oci_core_dhcp_options" "dhcp-options2" {
   compartment_id = "${var.compartment_ocid}"
-  vcn_id = "${var.vcn_ocid}"
+  vcn_id = "${oci_core_virtual_network.ExampleVCN.id}"
   display_name = "dhcp-options2"
 
   // required

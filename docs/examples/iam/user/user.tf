@@ -14,8 +14,8 @@ provider "oci" {
 }
 
 resource "oci_identity_user" "user1" {
-  name = "user1"
-  description = "A user managed with Terraform"
+  name = "TerraformExampleUser"
+  description = "A user managed with Terraform - can be deleted."
 }
 
 resource "oci_identity_ui_password" "tf_password" {
@@ -26,3 +26,4 @@ output "UserUIPassword" {
   sensitive = false
   value = ["${oci_identity_ui_password.tf_password.password}"]
 }
+
