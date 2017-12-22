@@ -28,22 +28,22 @@ data "oci_identity_availability_domains" "ADs" {
 }
 
 resource "oci_core_virtual_network" "TFExampleVCN" {
-  cidr_block = "10.1.0.0/16"
-  compartment_id = "${var.compartment_ocid}"
-  display_name = "TFExampleVCN"
-  dns_label = "tfexamplevcn"
+	cidr_block = "10.1.0.0/16"
+	compartment_id = "${var.compartment_ocid}"
+	display_name = "TFExampleVCN"
+	dns_label = "tfexamplevcn"
 }
 
 resource "oci_core_subnet" "TFExampleSubnet" {
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.AD - 1],"name")}"
-  cidr_block = "10.1.20.0/24"
-  display_name = "TFExampleSubnet"
-  dns_label = "tfexamplesubnet"
-  security_list_ids = ["${oci_core_virtual_network.TFExampleVCN.default_security_list_id}"]
-  compartment_id = "${var.compartment_ocid}"
-  vcn_id = "${oci_core_virtual_network.TFExampleVCN.id}"
-  route_table_id = "${oci_core_virtual_network.TFExampleVCN.default_route_table_id}"
-  dhcp_options_id = "${oci_core_virtual_network.TFExampleVCN.default_dhcp_options_id}"
+	availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.AD - 1],"name")}"
+	cidr_block = "10.1.20.0/24"
+	display_name = "TFExampleSubnet"
+	dns_label = "tfexamplesubnet"
+	security_list_ids = ["${oci_core_virtual_network.TFExampleVCN.default_security_list_id}"]
+	compartment_id = "${var.compartment_ocid}"
+	vcn_id = "${oci_core_virtual_network.TFExampleVCN.id}"
+	route_table_id = "${oci_core_virtual_network.TFExampleVCN.default_route_table_id}"
+	dhcp_options_id = "${oci_core_virtual_network.TFExampleVCN.default_dhcp_options_id}"
 }
 
 # Gets the OCID of the image. This technique is for example purposes only. The results of oci_core_images may
