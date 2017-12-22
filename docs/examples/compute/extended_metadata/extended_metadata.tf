@@ -45,6 +45,20 @@ resource "oci_core_subnet" "ExampleSubnet" {
     dhcp_options_id = "${oci_core_virtual_network.ExampleVCN.default_dhcp_options_id}"
 }
 
+resource "oci_core_internet_gateway" "ExampleIG" {
+    compartment_id = "${var.compartment_ocid}"
+    display_name = "TFExampleIG"
+    vcn_id = "${oci_core_virtual_network.ExampleVCN.id}"
+}
+
+resource "oci_core_default_route_table" "ExampleRT" {
+    manage_default_resource_id = "${oci_core_virtual_network.ExampleVCN.default_route_table_id}"
+    route_rules {
+        cidr_block = "0.0.0.0/0"
+        network_entity_id = "${oci_core_internet_gateway.ExampleIG.id}"
+    }
+}
+
 # Gets the OCID of the image. This technique is for example purposes only. The results of oci_core_images may
 # change over time for Oracle-provided images, so the only sure way to get the correct OCID is to supply it directly.
 data "oci_core_images" "OLImageOCID" {

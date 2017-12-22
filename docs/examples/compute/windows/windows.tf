@@ -11,15 +11,16 @@ variable "AD" {
 }
 
 variable "InstanceShape" {
-  default = "VM.Standard1.2"
+  default = "VM.Standard1.1"
 }
 
-variable "InstanceOS" {
-  default = "Windows"
-}
-
-variable "InstanceOSVersion" {
-  default = "Server 2012 R2 Standard"
+variable image_id {
+  type = "map"
+  default = {
+    us-phoenix-1 = "ocid1.image.oc1.phx.aaaaaaaab2xgy6bijtudhsgsbgns6zwfqnkdb2bp4l4qap7e4mehv6bv3qca"
+    us-ashburn-1 = "ocid1.image.oc1.iad.aaaaaaaajlfsi5npxguvhad3v5d5lu7dc3zcylr2csfdexgd6kor3f6zeqeq"
+    eu-frankfurt-1 = "ocid1.image.oc1.eu-frankfurt1.aaaaaaaanc7bsuauwkfonfmk52cn3mwjzgamhp4llsh754yahbv2e6no4u3q"
+  }
 }
 
 provider "oci" {
@@ -53,12 +54,6 @@ resource "oci_core_subnet" "ExampleSubnet" {
   dhcp_options_id = "${oci_core_virtual_network.ExampleVCN.default_dhcp_options_id}"
 }
 
-data "oci_core_images" "ImageOCID" {
-  compartment_id = "${var.compartment_ocid}"
-  operating_system = "${var.InstanceOS}"
-  operating_system_version = "${var.InstanceOSVersion}"
-}
-
 data "oci_core_instance_credentials" "InstanceCredentials" {
   instance_id = "${oci_core_instance.TFInstance.id}"
 }
@@ -67,7 +62,7 @@ resource "oci_core_instance" "TFInstance" {
   availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.AD - 1],"name")}"
   compartment_id = "${var.compartment_ocid}"
   display_name = "TFWindows"
-  image = "${lookup(data.oci_core_images.ImageOCID.images[0], "id")}"
+  image = "${var.image_id[var.region]}"
   shape = "${var.InstanceShape}"
   subnet_id = "${oci_core_subnet.ExampleSubnet.id}"
   hostname_label = "winmachine"
