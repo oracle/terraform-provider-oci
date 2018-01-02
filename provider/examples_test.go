@@ -12,9 +12,9 @@ import (
 	"testing"
 )
 
-const examples_test_state_file = "test_examples.tfstate"
+const examplesTestStateFile = "test_examples.tfstate"
 
-var examples_test_allowed_environment_variables = []string{
+var examplesTestAllowedEnvironmentVariables = []string{
 	"PATH",
 	"TF_VAR_user_ocid",
 	"TF_VAR_tenancy_ocid",
@@ -84,8 +84,8 @@ func GetConfigPaths(t *testing.T, rootPath string) (pathList []string, err error
 func RunConfig(t *testing.T, path string, planOnly bool) bool {
 	// Fail if a state file already exists, since that indicates that a previous run did not
 	// properly clean up.
-	if _, err := os.Stat(filepath.Join(path, examples_test_state_file)); err == nil {
-		t.Errorf("State file '%v' already exists at %v.", examples_test_state_file, path)
+	if _, err := os.Stat(filepath.Join(path, examplesTestStateFile)); err == nil {
+		t.Errorf("State file '%v' already exists at %v.", examplesTestStateFile, path)
 		return false
 	}
 
@@ -94,15 +94,15 @@ func RunConfig(t *testing.T, path string, planOnly bool) bool {
 	}
 
 	if planOnly {
-		return RunCommand(t, path, fmt.Sprintf("terraform plan -state=%v", examples_test_state_file))
+		return RunCommand(t, path, fmt.Sprintf("terraform plan -state=%v", examplesTestStateFile))
 	} else {
-		result := RunCommand(t, path, fmt.Sprintf("terraform apply -auto-approve -state=%v", examples_test_state_file))
+		result := RunCommand(t, path, fmt.Sprintf("terraform apply -auto-approve -state=%v", examplesTestStateFile))
 
 		// Regardless of the result, attempt to destroy.
-		if RunCommand(t, path, fmt.Sprintf("terraform destroy -force -state=%v", examples_test_state_file)) {
+		if RunCommand(t, path, fmt.Sprintf("terraform destroy -force -state=%v", examplesTestStateFile)) {
 			// Only remove the state file if destroy was successful. Otherwise, leave it in place so that further
 			// cleanup can be done manually.
-			result = RunCommand(t, path, fmt.Sprintf("rm %v*", examples_test_state_file)) && result
+			result = RunCommand(t, path, fmt.Sprintf("rm %v*", examplesTestStateFile)) && result
 		} else {
 			result = false
 		}
@@ -114,8 +114,8 @@ func RunConfig(t *testing.T, path string, planOnly bool) bool {
 func RunCommand(t *testing.T, path, command string) bool {
 	log.Printf("Running command '%v' at %v", command, path)
 
-	env := make([]string, len(examples_test_allowed_environment_variables))
-	for index, variable := range examples_test_allowed_environment_variables {
+	env := make([]string, len(examplesTestAllowedEnvironmentVariables))
+	for index, variable := range examplesTestAllowedEnvironmentVariables {
 		env[index] = fmt.Sprintf("%v=%v", variable, os.Getenv(variable))
 	}
 
