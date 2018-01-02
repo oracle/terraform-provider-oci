@@ -24,10 +24,10 @@ resource "oci_core_virtual_network" "ExampleVCN" {
   dns_label = "tfexamplevcn"
 }
 
-resource "oci_core_dhcp_options" "dhcp-options1" {
+resource "oci_core_dhcp_options" "ExampleDhcpOptions1" {
   compartment_id = "${var.compartment_ocid}"
   vcn_id = "${oci_core_virtual_network.ExampleVCN.id}"
-  display_name = "dhcp-options1"
+  display_name = "TFExampleDhcpOptions1"
 
   // required
   options {
@@ -43,10 +43,10 @@ resource "oci_core_dhcp_options" "dhcp-options1" {
 }
 
 
-resource "oci_core_dhcp_options" "dhcp-options2" {
+resource "oci_core_dhcp_options" "ExampleDhcpOptions2" {
   compartment_id = "${var.compartment_ocid}"
   vcn_id = "${oci_core_virtual_network.ExampleVCN.id}"
-  display_name = "dhcp-options2"
+  display_name = "TFExampleDhcpOptions2"
 
   // required
   options {

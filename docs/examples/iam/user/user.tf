@@ -14,7 +14,7 @@ provider "oci" {
 }
 
 resource "oci_identity_user" "user1" {
-  name = "TerraformExampleUser"
+  name = "TFExampleUser"
   description = "A user managed with Terraform"
 }
 
