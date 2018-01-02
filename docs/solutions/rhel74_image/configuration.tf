@@ -20,7 +20,7 @@ variable "build_env" {
 	type = "map"
 	default = {
 		compartment = "<Compartment display name>"
-		ad = "<the AD you want>"
+		ad = "<The number of the availability domain to use - 1, 2, or 3>"
 		vcn = "<VCN name>"
 		subnet = "<subnet name in compartment in ad in vcn>"
 	}
