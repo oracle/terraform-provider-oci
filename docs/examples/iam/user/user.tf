@@ -15,7 +15,7 @@ provider "oci" {
 
 resource "oci_identity_user" "user1" {
   name = "TerraformExampleUser"
-  description = "A user managed with Terraform - can be deleted."
+  description = "A user managed with Terraform"
 }
 
 resource "oci_identity_ui_password" "tf_password" {
