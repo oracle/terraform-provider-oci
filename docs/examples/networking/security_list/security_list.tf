@@ -21,7 +21,7 @@ resource "oci_core_virtual_network" "ExampleVCN" {
   cidr_block = "10.0.0.0/16"
   dns_label = "examplevcn"
   compartment_id = "${var.compartment_ocid}"
-  display_name = "ExampleVCN"
+  display_name = "TFExampleVCN"
 }
 
 # Protocols are specified as protocol numbers.
@@ -30,7 +30,7 @@ resource "oci_core_virtual_network" "ExampleVCN" {
 resource "oci_core_security_list" "ExampleSecurityList" {
   compartment_id = "${var.compartment_ocid}"
   vcn_id = "${oci_core_virtual_network.ExampleVCN.id}"
-  display_name = "ExampleSecurityList"
+  display_name = "TFExampleSecurityList"
 
   // allow outbound tcp traffic on all ports
   egress_security_rules {

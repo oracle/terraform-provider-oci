@@ -16,8 +16,13 @@ variable "private_key_path" {}
 variable "compartment_ocid" {}
 variable "region" {}
 
-variable "bucket_name" {}
-variable "object_name" {}
+variable "bucket_name" {
+  default = "-tf-bucket"
+}
+
+variable "object_name" {
+  default = "-tf-object"
+}
 
 provider "oci" {
   tenancy_ocid = "${var.tenancy_ocid}"
@@ -30,9 +35,22 @@ provider "oci" {
 data "oci_objectstorage_namespace" "ns" {
 }
 
+resource "oci_objectstorage_bucket" "ExampleBucket" {
+  compartment_id = "${var.compartment_ocid}"
+  namespace = "${data.oci_objectstorage_namespace.ns.namespace}"
+  name = "${var.bucket_name}"
+}
+
+resource "oci_objectstorage_object" "ExampleObject" {
+  namespace = "${data.oci_objectstorage_namespace.ns.namespace}"
+  bucket = "${oci_objectstorage_bucket.ExampleBucket.name}"
+  object = "${var.object_name}"
+  content = "This is some example text content!"
+}
+
 resource "oci_objectstorage_preauthrequest" "parOnBucket" {
   namespace = "${data.oci_objectstorage_namespace.ns.namespace}"
-  bucket = "${var.bucket_name}"
+  bucket = "${oci_objectstorage_bucket.ExampleBucket.name}"
   name = "parOnBucket"
   access_type = "AnyObjectWrite" //Other configurations accepted are ObjectWrite, ObjectReadWrite
   time_expires = "2019-11-10T23:00:00Z"
@@ -40,8 +58,8 @@ resource "oci_objectstorage_preauthrequest" "parOnBucket" {
 
 resource "oci_objectstorage_preauthrequest" "parOnObject" {
   namespace = "${data.oci_objectstorage_namespace.ns.namespace}"
-  bucket = "${var.bucket_name}"
-  object = "${var.object_name}"
+  bucket = "${oci_objectstorage_bucket.ExampleBucket.name}"
+  object = "${oci_objectstorage_object.ExampleObject.object}"
   name = "parOnObject"
   access_type = "ObjectRead" //Other configurations accepted are ObjectWrite, ObjectReadWrite
   time_expires = "2019-11-10T23:00:00Z"

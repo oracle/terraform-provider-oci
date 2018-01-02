@@ -21,7 +21,6 @@ data "oci_identity_availability_domains" "ADs" {
   compartment_id = "${var.tenancy_ocid}"
 }
 
-
 resource "oci_core_virtual_network" "CompleteVCN" {
   cidr_block = "${var.VPC-CIDR}"
   compartment_id = "${var.compartment_ocid}"

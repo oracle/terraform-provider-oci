@@ -13,7 +13,7 @@ provider "oci" {
   region = "${var.region}"
 }
 
-resource "oci_identity_group" "group1" {
-    name = "group1"
+resource "oci_identity_group" "ExampleGroup" {
+    name = "TFExampleGroup"
     description = "A group managed with terraform"
 }

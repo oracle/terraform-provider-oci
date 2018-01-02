@@ -5,7 +5,7 @@
     #    \___/|_| \_/_/   \_\____|_____|_____|
 ***
 ## Manage an instance
-This example launches an instance into an existing subnet, includes a user-data script in the instance launch, remote executes a command, and outputs the public and private IP address of the instance.
+This example launches an instance, includes a user-data script in the instance launch, remote executes a command, and outputs the public and private IP address of the instance.
 
 ### Using this example
 * Update env-vars with the required information. Most examples use the same set of environment variables so you only need to do this once.

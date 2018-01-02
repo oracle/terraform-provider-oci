@@ -8,8 +8,6 @@ variable "compartment_ocid" {}
 variable "ssh_public_key" {}
 variable "ssh_private_key" {}
 
-variable "subnet_ocid" {}
-
 # Choose an Availability Domain
 variable "AD" {
     default = "1"
@@ -29,6 +27,25 @@ data "oci_identity_availability_domains" "ADs" {
     compartment_id = "${var.tenancy_ocid}"
 }
 
+resource "oci_core_virtual_network" "ExampleVCN" {
+	cidr_block = "10.1.0.0/16"
+	compartment_id = "${var.compartment_ocid}"
+	display_name = "TFExampleVCN"
+	dns_label = "tfexamplevcn"
+}
+
+resource "oci_core_subnet" "ExampleSubnet" {
+	availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.AD - 1],"name")}"
+	cidr_block = "10.1.20.0/24"
+	display_name = "TFExampleSubnet"
+	dns_label = "tfexamplesubnet"
+	security_list_ids = ["${oci_core_virtual_network.ExampleVCN.default_security_list_id}"]
+	compartment_id = "${var.compartment_ocid}"
+	vcn_id = "${oci_core_virtual_network.ExampleVCN.id}"
+	route_table_id = "${oci_core_virtual_network.ExampleVCN.default_route_table_id}"
+	dhcp_options_id = "${oci_core_virtual_network.ExampleVCN.default_dhcp_options_id}"
+}
+
 # Gets the OCID of the image. This technique is for example purposes only. The results of oci_core_images may
 # change over time for Oracle-provided images, so the only sure way to get the correct OCID is to supply it directly.
 data "oci_core_images" "OLImageOCID" {
@@ -44,7 +61,9 @@ resource "oci_core_instance" "TFInstance1" {
     hostname_label = "instance"
     image = "${lookup(data.oci_core_images.OLImageOCID.images[0], "id")}"
     shape = "VM.Standard1.2"
-    subnet_id = "${var.subnet_ocid}"
+  create_vnic_details {
+    subnet_id = "${oci_core_subnet.ExampleSubnet.id}"
+  },
 }
 
 # Gets a list of VNIC attachments on the instance

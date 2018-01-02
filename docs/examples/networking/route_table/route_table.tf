@@ -5,10 +5,6 @@ variable "private_key_path" {}
 variable "compartment_ocid" {}
 variable "region" {}
 
-variable "vcn_ocid" {}
-variable "internet_gateway_ocid" {}
-
-
 provider "oci" {
   tenancy_ocid = "${var.tenancy_ocid}"
   user_ocid = "${var.user_ocid}"
@@ -17,12 +13,25 @@ provider "oci" {
   region = "${var.region}"
 }
 
-resource "oci_core_route_table" "route_table1" {
+resource "oci_core_virtual_network" "ExampleVCN" {
+  cidr_block = "10.1.0.0/16"
   compartment_id = "${var.compartment_ocid}"
-  vcn_id = "${var.vcn_ocid}"
-  display_name = "route_table1"
+  display_name = "TFExampleVCN"
+  dns_label = "tfexamplevcn"
+}
+
+resource "oci_core_internet_gateway" "ExampleIG" {
+  compartment_id = "${var.compartment_ocid}"
+  display_name = "TFExampleIG"
+  vcn_id = "${oci_core_virtual_network.ExampleVCN.id}"
+}
+
+resource "oci_core_route_table" "ExampleRouteTable" {
+  compartment_id = "${var.compartment_ocid}"
+  vcn_id = "${oci_core_virtual_network.ExampleVCN.id}"
+  display_name = "TFExampleRouteTable"
   route_rules {
     cidr_block = "0.0.0.0/0"
-    network_entity_id = "${var.internet_gateway_ocid}"
+    network_entity_id = "${oci_core_internet_gateway.ExampleIG.id}"
   }
 }

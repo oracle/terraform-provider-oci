@@ -23,12 +23,12 @@ resource "oci_identity_compartment" "t" {
 }
 
 resource "oci_identity_group" "t" {
-  name = "-tf-group"
+  name = "TFExampleGroup"
   description = "automated test group"
 }
 
-resource "oci_identity_policy" "p" {
-  name = "-tf-policy"
+resource "oci_identity_policy" "t" {
+  name = "TFExamplePolicy"
   description = "automated test policy"
   compartment_id = "${oci_identity_compartment.t.id}"
   statements = ["Allow group ${oci_identity_group.t.name} to read instances in compartment ${oci_identity_compartment.t.name}"]

@@ -14,7 +14,4 @@ export TF_VAR_compartment_ocid="<compartment OCID>"
 #### Availability Domain represented as an integer [1-3]. Default value is 1 if env var is not set.
 export TF_VAR_AD=1
 
-## Specific to this example
-### Choose a subnet that exists in the AD and compartment you are launching the instance in
-export TF_VAR_subnet_ocid="<subnet>"
 
