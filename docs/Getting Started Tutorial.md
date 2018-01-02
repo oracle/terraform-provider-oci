@@ -173,7 +173,7 @@ At this point we need to run the following command, in the sequence shown below.
 -- change to a directory which has the *.tf files
 $ cd ./examples/getting_started
 
--- General Initialization Step. Does some basic syntactic, semantic checking of configuration files.
+-- Loads the OCI Provider. Does some basic syntactic, semantic checking of configuration files.
 $ terraform init
 
 -- Generates a plan, as in, lists what will happen if we executed upon our configuration files

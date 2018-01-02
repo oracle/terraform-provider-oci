@@ -50,6 +50,8 @@ resource "oci_core_security_list" "MyPublicSubnetSecurityList" {
     }]
 }
 
+# The allow/deny rules in the security list determine if a subnet is public or private.
+# If we choose to run Oracle RDBMS in our private subnet, we might want to allow traffic to port 1521 etc.
 resource "oci_core_security_list" "MyPrivateSubnetSecurityList" {
   compartment_id = "${var.compartment_ocid}"
   display_name = "MyPrivateSubnetSecurityList"
@@ -92,6 +94,7 @@ resource "oci_core_subnet" "MyWebSubnetAD2" {
 
 # Creating a private subnet within our VCN.
 # Instances hosted in private subnets can only talk to other instances hosted in the same VCN.
+# Note that we prohibit instances in this "private" subnet from having public IPs.
 resource "oci_core_subnet" "MyPrivateSubnetAD1" {
   availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[0],"name")}"
   cidr_block = "10.0.4.0/24"
