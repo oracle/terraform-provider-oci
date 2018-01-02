@@ -6,7 +6,7 @@ resource "oci_core_instance" "TFInstance" {
   shape = "${var.InstanceShape}"
 
   create_vnic_details {
-    subnet_id = "${oci_core_subnet.TFExampleSubnet.id}"
+    subnet_id = "${oci_core_subnet.ExampleSubnet.id}"
     display_name = "primaryvnic"
     assign_public_ip = true
     hostname_label = "tfexampleinstance"
