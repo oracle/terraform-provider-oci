@@ -16,7 +16,7 @@ variable "AD" {
 }
 
 variable "InstanceShape" {
-    default = "VM.Standard1.8"
+    default = "VM.Standard1.1"
 }
 
 variable "InstanceImageDisplayName" {
