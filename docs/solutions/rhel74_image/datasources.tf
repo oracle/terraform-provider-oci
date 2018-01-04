@@ -41,7 +41,13 @@ data "oci_core_subnets" "subnet" {
 
 data "oci_core_images" "image" {
 	compartment_id = "${data.oci_identity_compartments.compartment.compartments.0.id}"
-	display_name = "${var.ipxe_instance["image"]}"
+	operating_system = "${var.ipxe_instance["os"]}"
+	operating_system_version = "${var.ipxe_instance["os-version"]}"
+	filter {
+		name = "display_name"
+		values = [ ".*-${var.ipxe_instance["os-version"]}-2.*" ]
+		regex = true
+	}
 }
 
 data "external" "ipxe_gen" {
@@ -54,10 +60,9 @@ data "external" "ipxe_gen" {
 		region               = "${var.region}"
 		ssh_public_key		 = "${var.ssh_public_key}"
 		os_short_name		 = "rhel74"
-		bucket			 = "${var.iso_location["bucket_name"]}"
-		iso_name			 = "${var.iso_location["iso_name"]}"
 		rhel_user			 = "${var.rhel_account["user_name"]}"
 		rhel_pw			 = "${var.rhel_account["password"]}"
 		zeros_ocid		 = "${var.region_all_zeros_ocid[var.region]}"
+		iso_url			 = "${var.iso_url}"
 	}
 }

@@ -26,12 +26,13 @@ OCI_API_TENANCY=`echo ${INPUT_JSON} | jq -r '.tenancy_ocid'`
 OCI_API_USER=`echo ${INPUT_JSON} | jq -r '.user_ocid'`
 OCI_API_REGION=`echo ${INPUT_JSON} | jq -r '.region'`
 OCI_PRKEY_PW=`echo ${INPUT_JSON} | jq -r '.private_key_password'`
-OCI_BUCKET=`echo ${INPUT_JSON} | jq -r '.bucket'`
-OCI_ISO_NAME=`echo ${INPUT_JSON} | jq -r '.iso_name'`
+#OCI_BUCKET=`echo ${INPUT_JSON} | jq -r '.bucket'`
+#OCI_ISO_NAME=`echo ${INPUT_JSON} | jq -r '.iso_name'`
 OCI_OS_SHORT_NAME=`echo ${INPUT_JSON} | jq -r '.os_short_name'`
 RHEL_UNAME=`echo ${INPUT_JSON} | jq -r '.rhel_user'`
 RHEL_PW=`echo ${INPUT_JSON} | jq -r '.rhel_pw'`
 ZEROS_OCID=`echo ${INPUT_JSON} | jq -r '.zeros_ocid'`
+ISO_URL=`echo ${INPUT_JSON} | jq -r '.iso_url'`
 
 # If we get a pass phrase for the private key, use it, otherwise dont
 if [ -z "${OCI_PRKEY_PW}" ]
@@ -102,12 +103,14 @@ s|<USER>|\"'"${OCI_API_USER}"'\"|g
 s|<FINGERPRINT>|\"'"${OCI_API_FINGERPRINT}"'\"|g
 s|<REGION>|\"'"${OCI_API_REGION}"'\"|g
 s|<PASSPHRASE>|\"'"${OCI_PRKEY_PW}"'\"|g
-s|<BUCKET>|\"'"${OCI_BUCKET}"'\"|g
-s|<ISO_NAME>|\"'"${OCI_ISO_NAME}"'\"|g
 s|<OS_NAME>|'"${OCI_OS_SHORT_NAME}"'|g
 s|<RHEL_UNAME>|'"${RHEL_UNAME}"'|g
 s|<RHEL_PASS>|'"${RHEL_PW}"'|g 
+s|<ISO_URL>|'"${ISO_URL}"'|g
 s|<ZEROS_OCID>|\"'"${ZEROS_OCID}"'\"|g' ./ipxe.sh
+
+#s|<BUCKET>|\"'"${OCI_BUCKET}"'\"|g
+#s|<ISO_NAME>|\"'"${OCI_ISO_NAME}"'\"|g
 
 chmod 700 ./ipxe.sh
 rm -rf ./ipxe.sh.bak

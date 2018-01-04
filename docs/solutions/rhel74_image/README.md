@@ -5,9 +5,10 @@ There are several prerequisites for using this process:
    RH Username and Password to allow you to temporarily subscribe the instance that is building the image 
    and get access to the various RH repos.
 2. The template expects pre-configured VCNs and Subnets.  
-3. You need to have a bucket in the OCI object store that contains the RHEL 7.4 iso.  The bucket must be in 
-   your tenancy, and must be accessible by the user executing the build.
+3. You need to provide a URL that points to the RHEL 7.4 ISO.  This URL must contain the name of the ISO, 
+   with an '.iso' extension.  An OCI PAR works well for this operation.
 4. The template uses filters that expect unique Compartment, VCN and Subnet names.
+	NOTE: The root compartment CANNOT be used for this process.
 5. The following must be specified in your shell environment (prefixed with TF_VAR_ of course):
     - tenancy_ocid
     - user_ocid
@@ -16,6 +17,9 @@ There are several prerequisites for using this process:
     - private_key_password (if required)
     - ssh_public_key (the actual public key, not the file)
     - region
+6. The subnet to be used must have the following configuration:
+	- Port 80 TCP must be allowed on the subnet
+	- All ICMP traffic must be allowed on the subnet (ICMP All)
 
 NOTE: A template env-vars file is provided as part of this example.  Simply complete the items inside the template and source the result into your shell by using:
 
@@ -25,6 +29,7 @@ Using this template is simple:
 
 1. Set your environment variables
 2. Open the configuration.tf file and substitute the values in each of the sections appropriate to your environment
+	NOTE: The AD is specified as either 'AD-x' or 'ad-x' where x is the AD number you wish to use for the process.
 3. Execute 'terraform plan; terraform apply'
 4. Get coffee or favorite beverage...
 5. After your image is created, execute 'terraform destroy -force' (there will not be a resource to actually kill,
