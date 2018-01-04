@@ -11,8 +11,6 @@ Gets a list of security lists. Each security list is a set of virtual firewall r
 ```
     data "oci_core_security_lists" "t" {
       compartment_id = "compartment_id"
-      limit = 1
-      page = "page"
       vcn_id = "vcn_id"
     }
 ```

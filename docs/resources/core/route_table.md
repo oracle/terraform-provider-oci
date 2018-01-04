@@ -6,6 +6,9 @@
 
 Provide a route table resource.
 
+For more information on configuring a VCN's default route table, 
+see [Managing Default VCN Resources](https://github.com/oracle/terraform-provider-oci/blob/master/docs/Managing%20Default%20Resources.md)
+
 ## Example Usage
 
 ```
@@ -28,10 +31,10 @@ resource "oci_core_route_table" "t" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) The OCID of the compartment.
+* `compartment_id` - (Required) The OCID of the compartment containing the route table.
+* `vcn_id` - (Required) The OCID of the VCN the route table list belongs to.
 * `display_name` - (Optional) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 * `route_rules` - (Required) The collection of rules for routing destination IPs to network devices.
-* `vcn_id` - (Required) The OCID of the VCN the route table list belongs to.
 
 ## Attributes reference
 

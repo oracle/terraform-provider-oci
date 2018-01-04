@@ -8,8 +8,6 @@ variable "compartment_ocid" {}
 variable "ssh_public_key" {}
 variable "ssh_private_key" {}
 
-variable "SubnetOCID" {}
-
 # Choose an Availability Domain
 variable "AD" {
     default = "1"

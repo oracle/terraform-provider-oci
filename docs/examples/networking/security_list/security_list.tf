@@ -9,9 +9,6 @@ variable "private_key_path" {}
 variable "compartment_ocid" {}
 variable "region" {}
 
-variable "vcn_ocid" {}
-
-
 provider "oci" {
   tenancy_ocid = "${var.tenancy_ocid}"
   user_ocid = "${var.user_ocid}"
@@ -20,13 +17,20 @@ provider "oci" {
   region = "${var.region}"
 }
 
+resource "oci_core_virtual_network" "ExampleVCN" {
+  cidr_block = "10.0.0.0/16"
+  dns_label = "examplevcn"
+  compartment_id = "${var.compartment_ocid}"
+  display_name = "TFExampleVCN"
+}
+
 # Protocols are specified as protocol numbers.
 # http://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml
 
-resource "oci_core_security_list" "security_list1" {
+resource "oci_core_security_list" "ExampleSecurityList" {
   compartment_id = "${var.compartment_ocid}"
-  vcn_id = "${var.vcn_ocid}"
-  display_name = "security_list1"
+  vcn_id = "${oci_core_virtual_network.ExampleVCN.id}"
+  display_name = "TFExampleSecurityList"
 
   // allow outbound tcp traffic on all ports
   egress_security_rules {
@@ -41,18 +45,24 @@ resource "oci_core_security_list" "security_list1" {
     stateless = true
 
     udp_options {
+      // These values correspond to the destination port range.
       "min" = 319
       "max" = 320
     }
   }
 
-  // allow inbound ssh traffic
+  // allow inbound ssh traffic from a specific port
   ingress_security_rules {
     protocol = "6" // tcp
     source = "0.0.0.0/0"
     stateless = false
 
     tcp_options {
+      source_port_range {
+        "min" = 100
+        "max" = 100
+      }
+      // These values correspond to the destination port range.
       "min" = 22
       "max" = 22
     }

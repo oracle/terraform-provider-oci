@@ -101,6 +101,7 @@ func (s InternetGatewayDatasourceCrud) SetData() {
 			"state":          v.State,
 			"time_modified":  v.ModifiedTime.String(),
 			"time_created":   v.TimeCreated.String(),
+			"vcn_id":         v.VcnID,
 		}
 
 		resources = append(resources, resource)

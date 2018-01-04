@@ -31,6 +31,6 @@ variable "build_env" {
 		compartment = "<Display Name of compartment>"
 		ad = "ad-<AD Number to use>"
 		vcn = "<Display name of the VCN>"
-		subnet = "<Display name of subnet>"
+		subnet = "<Display name of subnet>"=======
 	}
 }

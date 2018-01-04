@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform/helper/validation"
 	"github.com/oracle/bmcs-go-sdk"
 
 	"github.com/oracle/terraform-provider-oci/crud"
@@ -21,7 +22,36 @@ func BucketResource() *schema.Resource {
 		Read:     readBucket,
 		Update:   updateBucket,
 		Delete:   deleteBucket,
-		Schema:   bucketSchema,
+		Schema: map[string]*schema.Schema{
+			"compartment_id": {
+				Type:     schema.TypeString,
+				Required: true,
+				Computed: false,
+			},
+			"name": {
+				Type:     schema.TypeString,
+				Required: true,
+				Computed: false,
+			},
+			"namespace": {
+				Type:     schema.TypeString,
+				Required: true,
+				Computed: false,
+			},
+			"access_type": {
+				Type:     schema.TypeString,
+				Computed: false,
+				Default:  baremetal.NoPublicAccess,
+				Optional: true,
+				ValidateFunc: validation.StringInSlice([]string{
+					string(baremetal.NoPublicAccess),
+					string(baremetal.ObjectRead)}, true),
+			},
+			"metadata": {
+				Type:     schema.TypeMap,
+				Optional: true,
+			},
+		},
 	}
 }
 

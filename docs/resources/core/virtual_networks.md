@@ -6,6 +6,8 @@
 
 Provides a Virtual Cloud Network (VCN) resource.
 
+VCN resources have a default set of DHCP options, security list, and route table.
+To learn more about managing these resources, see [Managing Default Virtual Cloud Network Resources](https://github.com/oracle/terraform-provider-oci/blob/master/docs/Managing%20Default%20Resources.md).
 
 ## Example Usage
 

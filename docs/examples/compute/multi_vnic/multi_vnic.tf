@@ -16,7 +16,7 @@ variable "AD" {
 }
 
 variable "InstanceShape" {
-    default = "VM.Standard1.8"
+    default = "VM.Standard1.1"
 }
 
 variable "InstanceImageDisplayName" {
@@ -45,7 +45,7 @@ resource "oci_core_virtual_network" "ExampleVCN" {
 resource "oci_core_subnet" "ExampleSubnet" {
   availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.AD - 1],"name")}"
   cidr_block = "10.0.1.0/24"
-  display_name = "ExampleSubnet"
+  display_name = "TFExampleSubnet"
   compartment_id = "${var.compartment_ocid}"
   vcn_id = "${oci_core_virtual_network.ExampleVCN.id}"
   route_table_id = "${oci_core_virtual_network.ExampleVCN.default_route_table_id}"
@@ -64,7 +64,7 @@ data "oci_core_images" "OLImageOCID" {
 resource "oci_core_instance" "ExampleInstance" {
   availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.AD - 1],"name")}"
   compartment_id = "${var.compartment_ocid}"
-  display_name = "ExampleInstance"
+  display_name = "TFExampleInstance"
   image = "${lookup(data.oci_core_images.OLImageOCID.images[0], "id")}"
   shape = "${var.InstanceShape}"
   subnet_id = "${oci_core_subnet.ExampleSubnet.id}"
