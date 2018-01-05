@@ -8,6 +8,30 @@
 # for building ipxe server.  Resulting script is then base64encoded via
 # terraform and run at instance provisioning time.
 
+# Function build_ipxe - build the uuencode file functions
+# Arguments - $1: function name, $2:source directory, $3: file name, $4:desired filename
+# This just contains the function template and the rest is filled out by the variables.
+# Since shar (in certain linux distros) created too big of function, we had to simplify
+# to the bare minimum.
+ 
+function build_ipxe {
+cat >> ./ipxe.sh <<-EOF
+function $1 {
+cat > ./temp.uue <<"EoF"
+EOF
+
+source_file=$2"/"$3
+uuencode ${source_file} $4 >> ./ipxe.sh
+
+cat >> ./ipxe.sh <<-"EOF"
+EoF
+uudecode ./temp.uue
+rm ./temp.uue
+}
+
+EOF
+}
+
 # Set input for stdin to capture JSON from terraform
 INPUT_JSON=`cat -`
 
@@ -34,55 +58,15 @@ ZEROS_OCID=`echo ${INPUT_JSON} | jq -r '.zeros_ocid'`
 ISO_URL=`echo ${INPUT_JSON} | jq -r '.iso_url'`
 
 # Create the head of the script and initialize our first function.  All functions are 
-# simply encapsulations of uuencoded shar files.  This design pattern repeats
+# simply encapsulations of uuencoded files.  This design pattern repeats
 # for each of the files needed during build - cloud.cfg, direct.xml (firewalld), 
 # ks.cfg (kickstart), and private key (OCI CLI)
-cat > ./ipxe.sh <<-EOF
-#!/bin/bash
-function cloud {
-EOF
 
-cloud=${IPXE_SOURCE_DIR}"/"${IPXE_CLOUDINIT}
-uuencode ${cloud} ${IPXE_CLOUDINIT} > ./temp.uue
-shar temp.uue | sed '/^#/d' | grep -v exit >> ./ipxe.sh
-
-cat >> ./ipxe.sh <<-EOF
-uudecode ./temp.uue
-rm temp.uue
-}
-function firewallcfg {
-EOF
-
-fw=${IPXE_SOURCE_DIR}"/"${IPXE_FWCFG}
-uuencode ${fw} ${IPXE_FWCFG} > ./temp.uue
-shar temp.uue | sed '/^#/d' | grep -v exit >> ./ipxe.sh
-
-cat >> ./ipxe.sh <<-EOF
-uudecode ./temp.uue
-rm temp.uue
-}
-function ks {
-EOF
-
-ks=${IPXE_SOURCE_DIR}"/"${IPXE_KS}
-uuencode ${ks} ${IPXE_KS} > ./temp.uue
-shar temp.uue | sed '/^#/d' | grep -v exit >> ./ipxe.sh
-
-cat >> ./ipxe.sh <<-EOF
-uudecode ./temp.uue
-rm temp.uue
-}
-function privkey {
-EOF
-
-uuencode ${OCI_API_PRIVATE_KEY} oci_api_key.pem > ./temp.uue
-shar temp.uue | sed '/^#/d' | grep -v exit >> ./ipxe.sh
-
-cat >> ./ipxe.sh <<-EOF
-uudecode ./temp.uue
-rm temp.uue
-}
-EOF
+echo "#!/bin/bash" > ./ipxe.sh
+build_ipxe cloud ${IPXE_SOURCE_DIR} ${IPXE_CLOUDINIT} ${IPXE_CLOUDINIT}
+build_ipxe firewallcfg ${IPXE_SOURCE_DIR} ${IPXE_FWCFG} ${IPXE_FWCFG}
+build_ipxe ks ${IPXE_SOURCE_DIR} ${IPXE_KS} ${IPXE_KS}
+build_ipxe privkey `dirname ${OCI_API_PRIVATE_KEY}` `basename ${OCI_API_PRIVATE_KEY}` oci_api_key.pem
 
 # Add the template file to the shell script being built
 cat ${IPXE_BUILD_TEMPLATE} >> ./ipxe.sh
