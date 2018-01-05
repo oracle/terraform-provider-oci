@@ -14,12 +14,23 @@ import (
 
 type ResourceCoreRouteTableTestSuite struct {
 	suite.Suite
-	Client       *baremetal.Client
-	Provider     terraform.ResourceProvider
-	Providers    map[string]terraform.ResourceProvider
-	Config       string
-	ResourceName string
+	Client              *baremetal.Client
+	Provider            terraform.ResourceProvider
+	Providers           map[string]terraform.ResourceProvider
+	Config              string
+	ResourceName        string
+	DefaultResourceName string
 }
+
+var defaultRouteTable = `
+resource "oci_core_default_route_table" "default" {
+	manage_default_resource_id = "${oci_core_virtual_network.t.default_route_table_id}"
+	route_rules {
+		cidr_block = "0.0.0.0/0"
+		network_entity_id = "${oci_core_internet_gateway.internet-gateway1.id}"
+	}
+}
+`
 
 func (s *ResourceCoreRouteTableTestSuite) SetupTest() {
 	s.Client = testAccClient
@@ -31,6 +42,7 @@ func (s *ResourceCoreRouteTableTestSuite) SetupTest() {
 			cidr_block = "10.0.0.0/16"
 			display_name = "-tf-vcn"
 		}
+
 		resource "oci_core_internet_gateway" "internet-gateway1" {
 			compartment_id = "${var.compartment_id}"
 			vcn_id = "${oci_core_virtual_network.t.id}"
@@ -38,6 +50,7 @@ func (s *ResourceCoreRouteTableTestSuite) SetupTest() {
 		}`
 
 	s.ResourceName = "oci_core_route_table.t"
+	s.DefaultResourceName = "oci_core_default_route_table.default"
 }
 
 func (s *ResourceCoreRouteTableTestSuite) TestAccResourceCoreRouteTable_basic() {
@@ -52,10 +65,18 @@ func (s *ResourceCoreRouteTableTestSuite) TestAccResourceCoreRouteTable_basic() 
 					resource "oci_core_route_table" "t" {
 						compartment_id = "${var.compartment_id}"
 						vcn_id = "${oci_core_virtual_network.t.id}"
+					}
+
+					resource "oci_core_default_route_table" "default" {
+						manage_default_resource_id = "${oci_core_virtual_network.t.default_route_table_id}"
 					}`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "display_name"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "vcn_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "route_rules.#", "0"),
+					resource.TestCheckResourceAttrSet(s.DefaultResourceName, "display_name"),
+					resource.TestCheckResourceAttr(s.DefaultResourceName, "route_rules.#", "0"),
 				),
 			},
 			// verify add rule
@@ -68,12 +89,18 @@ func (s *ResourceCoreRouteTableTestSuite) TestAccResourceCoreRouteTable_basic() 
 							cidr_block = "0.0.0.0/0"
 							network_entity_id = "${oci_core_internet_gateway.internet-gateway1.id}"
 						}
-					}`,
+					}` + defaultRouteTable,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "display_name"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "vcn_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "compartment_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "route_rules.0.network_entity_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "route_rules.#", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "route_rules.0.cidr_block", "0.0.0.0/0"),
+					resource.TestCheckResourceAttrSet(s.DefaultResourceName, "display_name"),
+					resource.TestCheckResourceAttrSet(s.DefaultResourceName, "route_rules.0.network_entity_id"),
+					resource.TestCheckResourceAttr(s.DefaultResourceName, "route_rules.#", "1"),
+					resource.TestCheckResourceAttr(s.DefaultResourceName, "route_rules.0.cidr_block", "0.0.0.0/0"),
 				),
 			},
 			// verify update
@@ -91,12 +118,45 @@ func (s *ResourceCoreRouteTableTestSuite) TestAccResourceCoreRouteTable_basic() 
 							cidr_block = "10.0.0.0/8"
 							network_entity_id = "${oci_core_internet_gateway.internet-gateway1.id}"
 						}
+					}
+					resource "oci_core_default_route_table" "default" {
+						manage_default_resource_id = "${oci_core_virtual_network.t.default_route_table_id}"
+						display_name = "default-tf-route-table"
+						route_rules {
+							cidr_block = "0.0.0.0/0"
+							network_entity_id = "${oci_core_internet_gateway.internet-gateway1.id}"
+						}
+						route_rules {
+							cidr_block = "10.0.0.0/8"
+							network_entity_id = "${oci_core_internet_gateway.internet-gateway1.id}"
+						}
 					}`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-route-table"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "vcn_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "route_rules.#", "2"),
 					resource.TestCheckResourceAttr(s.ResourceName, "route_rules.0.cidr_block", "0.0.0.0/0"),
 					resource.TestCheckResourceAttr(s.ResourceName, "route_rules.1.cidr_block", "10.0.0.0/8"),
+					resource.TestCheckResourceAttr(s.DefaultResourceName, "display_name", "default-tf-route-table"),
+					resource.TestCheckResourceAttr(s.DefaultResourceName, "route_rules.#", "2"),
+					resource.TestCheckResourceAttr(s.DefaultResourceName, "route_rules.0.cidr_block", "0.0.0.0/0"),
+					resource.TestCheckResourceAttr(s.DefaultResourceName, "route_rules.1.cidr_block", "10.0.0.0/8"),
+				),
+			},
+			// verify default resource delete
+			{
+				Config: s.Config,
+				Check:  nil,
+			},
+			// verify adding the default resource back to the config
+			{
+				Config: s.Config + defaultRouteTable,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttrSet(s.DefaultResourceName, "display_name"),
+					resource.TestCheckResourceAttrSet(s.DefaultResourceName, "route_rules.0.network_entity_id"),
+					resource.TestCheckResourceAttr(s.DefaultResourceName, "route_rules.#", "1"),
+					resource.TestCheckResourceAttr(s.DefaultResourceName, "route_rules.0.cidr_block", "0.0.0.0/0"),
 				),
 			},
 		},

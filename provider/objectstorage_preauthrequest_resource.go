@@ -3,11 +3,11 @@
 package provider
 
 import (
-	"github.com/hashicorp/terraform/helper/schema"
-	"github.com/oracle/bmcs-go-sdk"
-
 	"time"
 
+	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform/helper/validation"
+	"github.com/oracle/bmcs-go-sdk"
 	"github.com/pkg/errors"
 
 	"github.com/oracle/terraform-provider-oci/crud"
@@ -36,7 +36,53 @@ func PreauthenticatedRequestResource() *schema.Resource {
 		Read:     readPreauthenticatedRequest,
 		Update:   updatePreauthenticatedRequest,
 		Delete:   deletePreauthenticatedRequest,
-		Schema:   preauthenticatedRequestSchema,
+		Schema: map[string]*schema.Schema{
+			"id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"namespace": {
+				Type:     schema.TypeString,
+				Required: true,
+				Computed: false,
+			},
+			"name": {
+				Type:     schema.TypeString,
+				Required: true,
+				Computed: false,
+			},
+			"bucket": {
+				Type:     schema.TypeString,
+				Required: true,
+				Computed: false,
+			},
+			"object": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: false,
+			},
+			"access_type": {
+				Type:     schema.TypeString,
+				Computed: false,
+				Required: true,
+				ValidateFunc: validation.StringInSlice([]string{
+					string(baremetal.PARAnyObjectWrite),
+					string(baremetal.PARObjectRead),
+					string(baremetal.PARObjectReadWrite),
+					string(baremetal.ObjectRead)}, true),
+			},
+			"access_uri": {
+				Type:     schema.TypeString,
+				Computed: true,
+				Optional: true,
+			},
+			"time_expires": {
+				Type:     schema.TypeString,
+				Computed: false,
+				Required: true,
+			},
+		},
 	}
 }
 

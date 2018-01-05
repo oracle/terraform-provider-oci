@@ -28,6 +28,16 @@ variable "ipxe_instance" {
 	}
 }
 
+variable "ipxe_instance_image_ocid" {
+	type = "map"
+	default = {
+		// Use the image "Oracle-Linux-7.4-2017.09.29-0"
+		us-phoenix-1 = "ocid1.image.oc1.phx.aaaaaaaa3g2xpzlbrrdknqcjtzv2tvxcofjc55vdcmpxdlbohmtt7encpana"
+		us-ashburn-1 = "ocid1.image.oc1.iad.aaaaaaaaawy2hh3nreaesyqcdp4m6csg4lwen6ya2njgiyjeu5sodiahlaxq"
+		eu-frankfurt-1 = "ocid1.image.oc1.eu-frankfurt1.aaaaaaaaydqkfzrcejyllfiwhcfqob2yyvkmytghwki6zcmhyciyruinokva"
+	}
+}
+
 variable "region_all_zeros_ocid" {
 	type = "map"
 	default = {

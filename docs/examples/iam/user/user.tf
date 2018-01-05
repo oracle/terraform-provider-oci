@@ -14,7 +14,7 @@ provider "oci" {
 }
 
 resource "oci_identity_user" "user1" {
-  name = "user1"
+  name = "TFExampleUser"
   description = "A user managed with Terraform"
 }
 
@@ -26,3 +26,4 @@ output "UserUIPassword" {
   sensitive = false
   value = ["${oci_identity_ui_password.tf_password.password}"]
 }
+
