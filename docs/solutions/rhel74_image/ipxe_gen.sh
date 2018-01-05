@@ -22,6 +22,7 @@ IPXE_SOURCE_DIR="./sources"
 # Capture all the JSON info passed by the terraform into local variables
 SSH_PUBLIC_KEY=`echo ${INPUT_JSON} | jq -r '.ssh_public_key'`
 OCI_API_PRIVATE_KEY=`echo ${INPUT_JSON} | jq -r '.private_key_path'`
+OCI_API_FINGERPRINT=`echo ${INPUT_JSON} | jq -r '.fingerprint'`
 OCI_API_TENANCY=`echo ${INPUT_JSON} | jq -r '.tenancy_ocid'`
 OCI_API_USER=`echo ${INPUT_JSON} | jq -r '.user_ocid'`
 OCI_API_REGION=`echo ${INPUT_JSON} | jq -r '.region'`
@@ -33,12 +34,12 @@ ZEROS_OCID=`echo ${INPUT_JSON} | jq -r '.zeros_ocid'`
 ISO_URL=`echo ${INPUT_JSON} | jq -r '.iso_url'`
 
 # If we get a pass phrase for the private key, use it, otherwise dont
-if [ -z "${OCI_PRKEY_PW}" ]
-then
-	OCI_API_FINGERPRINT=`openssl rsa -pubout -outform DER -in ${OCI_API_PRIVATE_KEY} 2> /dev/null | openssl md5 -c`
-else
-	OCI_API_FINGERPRINT=`openssl rsa -pubout -outform DER -passin pass:${OCI_PRKEY_PW} -in ${OCI_API_PRIVATE_KEY} 2> /dev/null | openssl md5 -c`
-fi
+# if [ -z "${OCI_PRKEY_PW}" ]
+# then
+#	OCI_API_FINGERPRINT=`openssl rsa -pubout -outform DER -in ${OCI_API_PRIVATE_KEY} 2> /dev/null | openssl md5 -c`
+# else
+#	OCI_API_FINGERPRINT=`openssl rsa -pubout -outform DER -passin pass:${OCI_PRKEY_PW} -in ${OCI_API_PRIVATE_KEY} 2> /dev/null | openssl md5 -c`
+# fi
 
 # Create the head of the script and initialize our first function.  All functions are 
 # simply encapsulations of uuencoded shar files.  This design pattern repeats
