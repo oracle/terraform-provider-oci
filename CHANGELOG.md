@@ -3,6 +3,18 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+## 2.0.6 - 2018-01-08
+
+### Added
+- A minimum of TLS 1.2 is now enforced by the provider (#394)
+
+### Fixed
+- Fixed an issue where importing a default resource would leave the manage_default_resource_id empty in the state file during import of default resources (#393, #379)
+
+### Notes
+- If upgrading from v1, see [this wiki](https://github.com/oracle/terraform-provider-oci/wiki/Oracle-Terraform-Provider-Name-Change) for migration steps.
+- See docs for this version [here](https://github.com/oracle/terraform-provider-oci/tree/v2.0.6).
+
 ## 2.0.5 - 2017-12-14
 
 ### Added
