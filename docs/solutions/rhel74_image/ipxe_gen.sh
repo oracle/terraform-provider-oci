@@ -33,14 +33,6 @@ RHEL_PW=`echo ${INPUT_JSON} | jq -r '.rhel_pw'`
 ZEROS_OCID=`echo ${INPUT_JSON} | jq -r '.zeros_ocid'`
 ISO_URL=`echo ${INPUT_JSON} | jq -r '.iso_url'`
 
-# If we get a pass phrase for the private key, use it, otherwise dont
-# if [ -z "${OCI_PRKEY_PW}" ]
-# then
-#	OCI_API_FINGERPRINT=`openssl rsa -pubout -outform DER -in ${OCI_API_PRIVATE_KEY} 2> /dev/null | openssl md5 -c`
-# else
-#	OCI_API_FINGERPRINT=`openssl rsa -pubout -outform DER -passin pass:${OCI_PRKEY_PW} -in ${OCI_API_PRIVATE_KEY} 2> /dev/null | openssl md5 -c`
-# fi
-
 # Create the head of the script and initialize our first function.  All functions are 
 # simply encapsulations of uuencoded shar files.  This design pattern repeats
 # for each of the files needed during build - cloud.cfg, direct.xml (firewalld), 
