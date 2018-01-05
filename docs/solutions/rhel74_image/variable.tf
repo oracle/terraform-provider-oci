@@ -22,6 +22,8 @@ variable "ipxe_instance" {
 	default = {
 		name = "ipxe-rhel74"
 		hostname = "ipxe-rhel74"
+		os = "Oracle Linux"
+		os-version = "7.4"
 		shape = "VM.Standard1.1"
 	}
 }
