@@ -56,7 +56,7 @@ resource "oci_core_default_dhcp_options" "default-dhcp-options" {
 }
 ```
 
-For more detailed examples, refer to [docs/examples/networking/vcn_default](https://github.com/oracle/terraform-provider-oci/tree/master/docs/examples/networking/vcn_default/vcn_default.tf)
+For more detailed examples, refer to [docs/examples/networking/vcn_default](https://github.com/oracle/terraform-provider-oci/tree/master/docs/examples/networking/vcn_default/vcn.tf)
 
 ### Limitations
 
