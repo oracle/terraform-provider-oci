@@ -6,7 +6,8 @@ There are several prerequisites for using this process:
    and get access to the various RH repos.
 2. The template expects pre-configured VCNs and Subnets.  
 3. You need to provide a URL that points to the RHEL 7.4 ISO.  This URL must contain the name of the ISO, 
-   with an '.iso' extension.  An OCI PAR works well for this operation.
+   with an '.iso' extension.  An OCI Pre-Authenticated Request (PAR) works well for this operation.  How to create
+   OCI PARs can be found here: https://docs.us-phoenix-1.oraclecloud.com/Content/Object/Tasks/managingobjects.htm#par.
 4. The template uses filters that expect unique Compartment, VCN and Subnet names.
 	NOTE: The root compartment CANNOT be used for this process.
 5. The following must be specified in your shell environment (prefixed with TF_VAR_ of course):

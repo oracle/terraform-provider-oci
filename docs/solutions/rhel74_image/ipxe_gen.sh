@@ -15,14 +15,20 @@
 # to the bare minimum.
  
 function build_ipxe {
+# Build the top of the function.  Temp.uue will be used as the file 
+# name for each extraction of the encoded file.
 cat >> ./ipxe.sh <<-EOF
 function $1 {
 cat > ./temp.uue <<"EoF"
 EOF
 
+# Find the file to encode based on the parameters passed.  UUencode the file and redirect
+# the output to append to the ipxe.sh script.
 source_file=$2"/"$3
 uuencode ${source_file} $4 >> ./ipxe.sh
 
+# Build the bottom of the function which includes the method for decoding the encoded 
+# file out of the function when it is extracted.  Remove the temp.uue file after decoding.
 cat >> ./ipxe.sh <<-"EOF"
 EoF
 uudecode ./temp.uue
@@ -57,12 +63,15 @@ RHEL_PW=`echo ${INPUT_JSON} | jq -r '.rhel_pw'`
 ZEROS_OCID=`echo ${INPUT_JSON} | jq -r '.zeros_ocid'`
 ISO_URL=`echo ${INPUT_JSON} | jq -r '.iso_url'`
 
-# Create the head of the script and initialize our first function.  All functions are 
+# Create the head of the script and initialize the functions.  All functions are 
 # simply encapsulations of uuencoded files.  This design pattern repeats
 # for each of the files needed during build - cloud.cfg, direct.xml (firewalld), 
 # ks.cfg (kickstart), and private key (OCI CLI)
 
+# Echo the first line to the new build.
 echo "#!/bin/bash" > ./ipxe.sh
+
+# Call the function build function for each file to be encoded.
 build_ipxe cloud ${IPXE_SOURCE_DIR} ${IPXE_CLOUDINIT} ${IPXE_CLOUDINIT}
 build_ipxe firewallcfg ${IPXE_SOURCE_DIR} ${IPXE_FWCFG} ${IPXE_FWCFG}
 build_ipxe ks ${IPXE_SOURCE_DIR} ${IPXE_KS} ${IPXE_KS}
@@ -84,8 +93,10 @@ s|<RHEL_PASS>|'"${RHEL_PW}"'|g
 s|<ISO_URL>|'"${ISO_URL}"'|g
 s|<ZEROS_OCID>|\"'"${ZEROS_OCID}"'\"|g' ./ipxe.sh
 
+# Change the permissions of the script (so it can execute). Remove any kruft.
 chmod 700 ./ipxe.sh
 rm -rf ./ipxe.sh.bak
 rm ./temp.uue
 
+# Return back the location of the completed script to Terraform.
 jq -n --arg shell "./ipxe.sh" '{ "shell":$shell }'
