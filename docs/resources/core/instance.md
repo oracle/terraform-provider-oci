@@ -33,6 +33,7 @@ resource "oci_core_instance" "testInstance" {
 	ipxe_script = "${var.ipxe_script}"
 	metadata {
 		ssh_authorized_keys = "${var.ssh_public_key}"
+		user_data = "${base64encode(file(var.custom_bootstrap_file_name))}"
 	}
 	extended_metadata {
 		some_string = "stringA"
@@ -56,8 +57,10 @@ The following arguments are supported:
 * `image` - (Required) The OCID of the image used to boot the instance.
 * `ipxe_script` - (Optional) This is an advanced option. See the [instance API reference](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/Instance/) for details.
 * `metadata` - (Optional) Custom metadata key/value pairs that you provide. Some possible key/value pairs:
-  * `ssh_authorized_keys` - SSH public key required to connect to the instance
-  * `user_data` - Specify cloud-init data for Linux instances. On Windows instances, this data isn't used.
+  * `ssh_authorized_keys` - SSH public key required to connect to the instance.
+  * `user_data` - Specify base64-encoded data used by Cloud-Init to run custom scripts or configuration on Linux instances. On Windows instances, this data isn't used.
+
+  See [Cloud-Init Documentation](http://cloudinit.readthedocs.org/en/latest/topics/format.html) for more details about Cloud-Init data formats.
 * `extended_metadata` - (Optional) Like metadata but allows nested metadata if you pass a valid JSON string as a value
 
 ## Create VNIC Details Argument Reference
