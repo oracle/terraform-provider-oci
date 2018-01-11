@@ -5,7 +5,6 @@ package provider
 import (
 	"log"
 	"strconv"
-	"strings"
 
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/oracle/bmcs-go-sdk"
@@ -120,7 +119,6 @@ func (s *LoadBalancerBackendResourceCrud) ID() string {
 
 func (s *LoadBalancerBackendResourceCrud) CreatedPending() []string {
 	return []string{
-		baremetal.ResourceWaitingForWorkRequest,
 		baremetal.WorkRequestInProgress,
 		baremetal.WorkRequestAccepted,
 	}
@@ -128,15 +126,13 @@ func (s *LoadBalancerBackendResourceCrud) CreatedPending() []string {
 
 func (s *LoadBalancerBackendResourceCrud) CreatedTarget() []string {
 	return []string{
-		baremetal.ResourceSucceededWorkRequest,
 		baremetal.WorkRequestSucceeded,
-		baremetal.ResourceFailed,
+		baremetal.WorkRequestFailed,
 	}
 }
 
 func (s *LoadBalancerBackendResourceCrud) DeletedPending() []string {
 	return []string{
-		baremetal.ResourceWaitingForWorkRequest,
 		baremetal.WorkRequestInProgress,
 		baremetal.WorkRequestAccepted,
 	}
@@ -144,8 +140,8 @@ func (s *LoadBalancerBackendResourceCrud) DeletedPending() []string {
 
 func (s *LoadBalancerBackendResourceCrud) DeletedTarget() []string {
 	return []string{
-		baremetal.ResourceSucceededWorkRequest,
 		baremetal.WorkRequestSucceeded,
+		baremetal.WorkRequestFailed,
 	}
 }
 
@@ -176,6 +172,7 @@ func (s *LoadBalancerBackendResourceCrud) Create() (e error) {
 	if e != nil {
 		return
 	}
+	s.D.SetId(workReqID)
 	s.WorkRequest, e = s.Client.GetWorkRequest(workReqID, nil)
 	return
 }
@@ -211,7 +208,7 @@ func (s *LoadBalancerBackendResourceCrud) Update() (e error) {
 	}
 
 	var workReqID string
-	workReqID, e = s.Client.UpdateBackend(s.D.Get("load_balancer_id").(string), s.D.Get("backendset_name").(string), s.D.Id(), opts)
+	workReqID, e = s.Client.UpdateBackend(s.D.Get("load_balancer_id").(string), s.D.Get("backendset_name").(string), s.buildID(), opts)
 	if e != nil {
 		return
 	}
@@ -237,12 +234,8 @@ func (s *LoadBalancerBackendResourceCrud) SetData() {
 }
 
 func (s *LoadBalancerBackendResourceCrud) Delete() (e error) {
-	// TODO: make sure this actually works
-	if strings.Contains(s.D.Id(), "ocid1.loadbalancerworkrequest") {
-		return
-	}
 	var workReqID string
-	workReqID, e = s.Client.DeleteBackend(s.D.Get("load_balancer_id").(string), s.D.Get("backendset_name").(string), s.D.Id(), nil)
+	workReqID, e = s.Client.DeleteBackend(s.D.Get("load_balancer_id").(string), s.D.Get("backendset_name").(string), s.buildID(), nil)
 	if e != nil {
 		return
 	}

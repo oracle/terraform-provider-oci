@@ -3,11 +3,10 @@
 package provider
 
 import (
-	"strings"
-
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/oracle/bmcs-go-sdk"
 
+	"errors"
 	"github.com/oracle/terraform-provider-oci/crud"
 )
 
@@ -114,7 +113,6 @@ func (s *LoadBalancerResourceCrud) ID() string {
 // CreatedPending returns the resource states which qualify as "creating"
 func (s *LoadBalancerResourceCrud) CreatedPending() []string {
 	return []string{
-		baremetal.ResourceWaitingForWorkRequest,
 		baremetal.ResourceCreating,
 		baremetal.WorkRequestAccepted,
 		baremetal.WorkRequestInProgress,
@@ -126,13 +124,14 @@ func (s *LoadBalancerResourceCrud) CreatedTarget() []string {
 	return []string{
 		baremetal.ResourceActive,
 		baremetal.ResourceFailed,
+		baremetal.WorkRequestFailed,
+		baremetal.WorkRequestSucceeded,
 	}
 }
 
 // DeletedPending returns the resource states which qualify as "deleting"
 func (s *LoadBalancerResourceCrud) DeletedPending() []string {
 	return []string{
-		baremetal.ResourceWaitingForWorkRequest,
 		baremetal.ResourceDeleting,
 		baremetal.WorkRequestAccepted,
 		baremetal.WorkRequestInProgress,
@@ -141,7 +140,12 @@ func (s *LoadBalancerResourceCrud) DeletedPending() []string {
 
 // DeletedTarget returns the resource states which qualify as "deleted"
 func (s *LoadBalancerResourceCrud) DeletedTarget() []string {
-	return []string{baremetal.ResourceDeleted}
+	return []string{
+		baremetal.ResourceDeleted,
+		baremetal.ResourceFailed,
+		baremetal.WorkRequestFailed,
+		baremetal.WorkRequestSucceeded,
+	}
 }
 
 // Create makes a request to create a new load balancer from the resourceData
@@ -168,8 +172,8 @@ func (s *LoadBalancerResourceCrud) Create() (e error) {
 	if e != nil {
 		return
 	}
+	s.D.SetId(workReqID)
 	s.WorkRequest, e = s.Client.GetWorkRequest(workReqID, nil)
-	s.D.Set("state", s.WorkRequest.State)
 	return
 }
 
@@ -243,8 +247,8 @@ func (s *LoadBalancerResourceCrud) SetData() {
 
 // Delete makes a request to delete the load balancer
 func (s *LoadBalancerResourceCrud) Delete() (e error) {
-	if strings.Contains(s.D.Id(), "ocid1.loadbalancerworkrequest") {
-		return
+	if crud.IsLoadBalancerWorkRequestId(s.D.Id()) {
+		return errors.New("Resource has unexpected pending work request.")
 	}
 	var workReqID string
 	workReqID, e = s.Client.DeleteLoadBalancer(s.D.Id(), nil)

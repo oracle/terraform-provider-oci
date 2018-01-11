@@ -123,10 +123,14 @@ func LoadBalancerResourceID(res interface{}, workReq *baremetal.WorkRequest) (id
 	return nil, false
 }
 
+func IsLoadBalancerWorkRequestId(id string) bool {
+	return strings.HasPrefix(id, "ocid1.loadbalancerworkrequest.")
+}
+
 func LoadBalancerResourceGet(s BaseCrud, workReq *baremetal.WorkRequest) (id string, stillWorking bool, err error) {
 	id = s.D.Id()
 	// NOTE: if the id is for a work request, refresh its state and loadBalancerID.
-	if strings.HasPrefix(id, "ocid1.loadbalancerworkrequest.") {
+	if IsLoadBalancerWorkRequestId(id) {
 		updatedWorkReq, err := s.Client.GetWorkRequest(id, nil)
 		if err != nil {
 			return "", false, err
@@ -147,14 +151,12 @@ func LoadBalancerWaitForWorkRequest(client *baremetal.Client, d *schema.Resource
 	var e error
 	stateConf := &resource.StateChangeConf{
 		Pending: []string{
-			baremetal.ResourceWaitingForWorkRequest,
 			baremetal.WorkRequestInProgress,
 			baremetal.WorkRequestAccepted,
 		},
 		Target: []string{
-			baremetal.ResourceSucceededWorkRequest,
 			baremetal.WorkRequestSucceeded,
-			baremetal.ResourceFailed,
+			baremetal.WorkRequestFailed,
 		},
 		Refresh: func() (interface{}, string, error) {
 			wr, e = client.GetWorkRequest(wr.ID, nil)
