@@ -99,7 +99,6 @@ func (s *LoadBalancerListenerResourceCrud) ID() string {
 
 func (s *LoadBalancerListenerResourceCrud) CreatedPending() []string {
 	return []string{
-		baremetal.ResourceWaitingForWorkRequest,
 		baremetal.WorkRequestInProgress,
 		baremetal.WorkRequestAccepted,
 	}
@@ -107,15 +106,13 @@ func (s *LoadBalancerListenerResourceCrud) CreatedPending() []string {
 
 func (s *LoadBalancerListenerResourceCrud) CreatedTarget() []string {
 	return []string{
-		baremetal.ResourceSucceededWorkRequest,
 		baremetal.WorkRequestSucceeded,
-		baremetal.ResourceFailed,
+		baremetal.WorkRequestFailed,
 	}
 }
 
 func (s *LoadBalancerListenerResourceCrud) DeletedPending() []string {
 	return []string{
-		baremetal.ResourceWaitingForWorkRequest,
 		baremetal.WorkRequestInProgress,
 		baremetal.WorkRequestAccepted,
 	}
@@ -123,7 +120,7 @@ func (s *LoadBalancerListenerResourceCrud) DeletedPending() []string {
 
 func (s *LoadBalancerListenerResourceCrud) DeletedTarget() []string {
 	return []string{
-		baremetal.ResourceSucceededWorkRequest,
+		baremetal.WorkRequestFailed,
 		baremetal.WorkRequestSucceeded,
 	}
 }
@@ -156,6 +153,7 @@ func (s *LoadBalancerListenerResourceCrud) Create() (e error) {
 	if e != nil {
 		return
 	}
+	s.D.SetId(workReqID)
 	s.WorkRequest, e = s.Client.GetWorkRequest(workReqID, nil)
 	return
 }

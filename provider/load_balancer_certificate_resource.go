@@ -97,7 +97,6 @@ func (s *LoadBalancerCertificateResourceCrud) ID() string {
 
 func (s *LoadBalancerCertificateResourceCrud) CreatedPending() []string {
 	return []string{
-		baremetal.ResourceWaitingForWorkRequest,
 		baremetal.WorkRequestInProgress,
 		baremetal.WorkRequestAccepted,
 	}
@@ -105,15 +104,13 @@ func (s *LoadBalancerCertificateResourceCrud) CreatedPending() []string {
 
 func (s *LoadBalancerCertificateResourceCrud) CreatedTarget() []string {
 	return []string{
-		baremetal.ResourceSucceededWorkRequest,
 		baremetal.WorkRequestSucceeded,
-		baremetal.ResourceFailed,
+		baremetal.WorkRequestFailed,
 	}
 }
 
 func (s *LoadBalancerCertificateResourceCrud) DeletedPending() []string {
 	return []string{
-		baremetal.ResourceWaitingForWorkRequest,
 		baremetal.WorkRequestInProgress,
 		baremetal.WorkRequestAccepted,
 	}
@@ -121,8 +118,8 @@ func (s *LoadBalancerCertificateResourceCrud) DeletedPending() []string {
 
 func (s *LoadBalancerCertificateResourceCrud) DeletedTarget() []string {
 	return []string{
-		baremetal.ResourceSucceededWorkRequest,
 		baremetal.WorkRequestSucceeded,
+		baremetal.WorkRequestFailed,
 	}
 }
 
@@ -142,6 +139,7 @@ func (s *LoadBalancerCertificateResourceCrud) Create() (e error) {
 	if e != nil {
 		return
 	}
+	s.D.SetId(workReqID)
 	s.WorkRequest, e = s.Client.GetWorkRequest(workReqID, nil)
 	return
 }
