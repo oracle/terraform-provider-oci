@@ -14,6 +14,16 @@ variable "private_key_path" {}
 variable "compartment_ocid" {}
 variable "region" {}
 
+variable "InstanceImageOCID" {
+  type = "map"
+  default = {
+    // Oracle-provided image "Oracle-Linux-7.4-2017.12.18-0"
+    // See https://docs.us-phoenix-1.oraclecloud.com/Content/Resources/Assets/OracleProvidedImageOCIDs.pdf
+    us-phoenix-1 = "ocid1.image.oc1.phx.aaaaaaaasc56hnpnx7swoyd2fw5gyvbn3kcdmqc2guiiuvnztl2erth62xnq"
+    us-ashburn-1 = "ocid1.image.oc1.iad.aaaaaaaaxrqeombwty6jyqgk3fraczdd63bv66xgfsqka4ktr7c57awr3p5a"
+    eu-frankfurt-1 = "ocid1.image.oc1.eu-frankfurt1.aaaaaaaayxmzu6n5hsntq4wlffpb4h6qh6z3uskpbm5v3v4egqlqvwicfbyq"
+  }
+}
 
 provider "oci" {
   tenancy_ocid = "${var.tenancy_ocid}"
@@ -120,18 +130,11 @@ resource "oci_core_security_list" "securitylist1" {
 
 /* Instances */
 
-# Gets the OCID of the image. This technique is for example purposes only. The results of oci_core_images may
-# change over time for Oracle-provided images, so the only sure way to get the correct OCID is to supply it directly.
-data "oci_core_images" "image-list" {
-    compartment_id = "${var.compartment_ocid}"
-    display_name = "Oracle-Linux-7.4-2017.10.25-0"
-}
-
 resource "oci_core_instance" "instance1" {
   availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[0],"name")}"
   compartment_id = "${var.compartment_ocid}"
   display_name = "be-instance1"
-  image = "${lookup(data.oci_core_images.image-list.images[0], "id")}"
+  image = "${var.InstanceImageOCID[var.region]}"
   shape = "VM.Standard1.2"
   subnet_id = "${oci_core_subnet.subnet1.id}"
   hostname_label = "be-instance1"
@@ -144,7 +147,7 @@ resource "oci_core_instance" "instance2" {
   availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[1],"name")}"
   compartment_id = "${var.compartment_ocid}"
   display_name = "be-instance2"
-  image = "${lookup(data.oci_core_images.image-list.images[0], "id")}"
+  image = "${var.InstanceImageOCID[var.region]}"
   shape = "VM.Standard1.2"
   subnet_id = "${oci_core_subnet.subnet2.id}"
   hostname_label = "be-instance2"

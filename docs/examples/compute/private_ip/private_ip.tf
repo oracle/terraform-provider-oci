@@ -13,6 +13,17 @@ variable "AD" {
     default = "1"
 }
 
+variable "InstanceImageOCID" {
+  type = "map"
+  default = {
+    // Oracle-provided image "Oracle-Linux-7.4-2017.12.18-0"
+    // See https://docs.us-phoenix-1.oraclecloud.com/Content/Resources/Assets/OracleProvidedImageOCIDs.pdf
+    us-phoenix-1 = "ocid1.image.oc1.phx.aaaaaaaasc56hnpnx7swoyd2fw5gyvbn3kcdmqc2guiiuvnztl2erth62xnq"
+    us-ashburn-1 = "ocid1.image.oc1.iad.aaaaaaaaxrqeombwty6jyqgk3fraczdd63bv66xgfsqka4ktr7c57awr3p5a"
+    eu-frankfurt-1 = "ocid1.image.oc1.eu-frankfurt1.aaaaaaaayxmzu6n5hsntq4wlffpb4h6qh6z3uskpbm5v3v4egqlqvwicfbyq"
+  }
+}
+
 provider "oci" {
     tenancy_ocid = "${var.tenancy_ocid}"
     user_ocid = "${var.user_ocid}"
@@ -46,20 +57,13 @@ resource "oci_core_subnet" "ExampleSubnet" {
 	dhcp_options_id = "${oci_core_virtual_network.ExampleVCN.default_dhcp_options_id}"
 }
 
-# Gets the OCID of the image. This technique is for example purposes only. The results of oci_core_images may
-# change over time for Oracle-provided images, so the only sure way to get the correct OCID is to supply it directly.
-data "oci_core_images" "OLImageOCID" {
-    compartment_id = "${var.compartment_ocid}"
-    display_name = "Oracle-Linux-7.4-2017.10.25-0"
-}
-
 # Create Instance
 resource "oci_core_instance" "TFInstance1" {
     availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.AD - 1],"name")}" 
     compartment_id = "${var.compartment_ocid}"
     display_name = "TFInstance"
     hostname_label = "instance"
-    image = "${lookup(data.oci_core_images.OLImageOCID.images[0], "id")}"
+    image = "${var.InstanceImageOCID[var.region]}"
     shape = "VM.Standard1.2"
   create_vnic_details {
     subnet_id = "${oci_core_subnet.ExampleSubnet.id}"

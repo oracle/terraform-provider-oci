@@ -19,8 +19,15 @@ variable "InstanceShape" {
     default = "VM.Standard1.1"
 }
 
-variable "InstanceImageDisplayName" {
-    default = "Oracle-Linux-7.4-2017.10.25-0"
+variable "instance_image_ocid" {
+  type = "map"
+  default = {
+    // Oracle-provided image "Oracle-Linux-7.4-2017.12.18-0"
+    // See https://docs.us-phoenix-1.oraclecloud.com/Content/Resources/Assets/OracleProvidedImageOCIDs.pdf
+    us-phoenix-1 = "ocid1.image.oc1.phx.aaaaaaaasc56hnpnx7swoyd2fw5gyvbn3kcdmqc2guiiuvnztl2erth62xnq"
+    us-ashburn-1 = "ocid1.image.oc1.iad.aaaaaaaaxrqeombwty6jyqgk3fraczdd63bv66xgfsqka4ktr7c57awr3p5a"
+    eu-frankfurt-1 = "ocid1.image.oc1.eu-frankfurt1.aaaaaaaayxmzu6n5hsntq4wlffpb4h6qh6z3uskpbm5v3v4egqlqvwicfbyq"
+  }
 }
 
 provider "oci" {
@@ -54,18 +61,11 @@ resource "oci_core_subnet" "ExampleSubnet" {
   dns_label = "examplesubnet"
 }
 
-# Gets the OCID of the image. This technique is for example purposes only. The results of oci_core_images may
-# change over time for Oracle-provided images, so the only sure way to get the correct OCID is to supply it directly.
-data "oci_core_images" "OLImageOCID" {
-    compartment_id = "${var.compartment_ocid}"
-    display_name = "${var.InstanceImageDisplayName}"
-}
-
 resource "oci_core_instance" "ExampleInstance" {
   availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.AD - 1],"name")}"
   compartment_id = "${var.compartment_ocid}"
   display_name = "TFExampleInstance"
-  image = "${lookup(data.oci_core_images.OLImageOCID.images[0], "id")}"
+  image = "${var.instance_image_ocid[var.region]}"
   shape = "${var.InstanceShape}"
   subnet_id = "${oci_core_subnet.ExampleSubnet.id}"
   create_vnic_details {

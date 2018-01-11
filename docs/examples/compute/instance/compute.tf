@@ -2,7 +2,7 @@ resource "oci_core_instance" "TFInstance" {
   availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.AD - 1],"name")}"
   compartment_id = "${var.compartment_ocid}"
   display_name = "TFInstance"
-  image = "${lookup(data.oci_core_images.OLImageOCID.images[0], "id")}"
+  image = "${var.InstanceImageOCID[var.region]}"
   shape = "${var.InstanceShape}"
 
   create_vnic_details {
