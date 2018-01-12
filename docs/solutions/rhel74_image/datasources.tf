@@ -42,13 +42,13 @@ data "external" "ipxe_gen" {
   		user_ocid            = "${var.user_ocid}"
  		private_key_path     = "${var.private_key_path}"
 		private_key_password = "${var.private_key_password}"
+		fingerprint		 = "${var.fingerprint}"
 		region               = "${var.region}"
 		ssh_public_key		 = "${var.ssh_public_key}"
 		os_short_name		 = "rhel74"
-		bucket			 = "${var.iso_location["bucket_name"]}"
-		iso_name			 = "${var.iso_location["iso_name"]}"
 		rhel_user			 = "${var.rhel_account["user_name"]}"
 		rhel_pw			 = "${var.rhel_account["password"]}"
 		zeros_ocid		 = "${var.region_all_zeros_ocid[var.region]}"
+		iso_url			 = "${var.iso_url}"
 	}
 }

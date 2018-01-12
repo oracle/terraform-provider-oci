@@ -4,7 +4,7 @@ resource "oci_core_instance" "ipxe_node" {
   availability_domain = "${data.oci_identity_availability_domains.ad.availability_domains.0.name}"
   compartment_id      = "${data.oci_identity_compartments.compartment.compartments.0.id}"
   display_name        = "${var.ipxe_instance["name"]}"
-  image               = "${var.ipxe_instance_image_ocid[var.region]}"
+  image               = "${var.ipxe_image_ocid[var.region]}" 
   shape               = "${var.ipxe_instance["shape"]}"
   subnet_id           = "${data.oci_core_subnets.subnet.subnets.0.id}"
   hostname_label      = "${var.ipxe_instance["hostname"]}"
