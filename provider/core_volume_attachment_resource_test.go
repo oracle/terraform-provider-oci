@@ -49,16 +49,21 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) SetupTest() {
 		security_list_ids = ["${oci_core_virtual_network.t.default_security_list_id}"]
 	}
 
-	data "oci_core_images" "t" {
-		compartment_id = "${var.compartment_id}"
-		display_name = "Oracle-Linux-7.4-2017.10.25-0"
+	variable "InstanceImageOCID" {
+	  type = "map"
+	  default = {
+		// Oracle-provided image "Oracle-Linux-7.4-2017.12.18-0"
+		us-phoenix-1 = "ocid1.image.oc1.phx.aaaaaaaasc56hnpnx7swoyd2fw5gyvbn3kcdmqc2guiiuvnztl2erth62xnq"
+		us-ashburn-1 = "ocid1.image.oc1.iad.aaaaaaaaxrqeombwty6jyqgk3fraczdd63bv66xgfsqka4ktr7c57awr3p5a"
+		eu-frankfurt-1 = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaayxmzu6n5hsntq4wlffpb4h6qh6z3uskpbm5v3v4egqlqvwicfbyq"
+	  }
 	}
-	
+
 	resource "oci_core_instance" "t" {
 		availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
 		compartment_id = "${var.compartment_id}"
 		display_name = "-tf-instance"
-		image = "${data.oci_core_images.t.images.0.id}"
+		image = "${var.InstanceImageOCID[var.region]}"
 		shape = "VM.Standard1.1"
 		subnet_id = "${oci_core_subnet.t.id}"
 		metadata {
