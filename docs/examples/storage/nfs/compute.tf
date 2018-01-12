@@ -3,7 +3,7 @@ resource "oci_core_instance" "TFInstance" {
   compartment_id = "${var.compartment_ocid}"
   display_name = "NFS server"
   hostname_label = "NFSserver"
-  image = "${lookup(data.oci_core_images.OLImageOCID.images[0], "id")}"
+  image = "${var.InstanceImageOCID[var.region]}"
   shape = "${var.InstanceShape}"
   subnet_id = "${oci_core_subnet.ExampleSubnet.id}"
   metadata {

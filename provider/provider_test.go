@@ -60,6 +60,11 @@ func testProviderConfig() string {
 	variable "ssh_public_key" {
 		default = "ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"
 	}
+
+	variable "region" {
+		default = "` + getRequiredEnvSetting("region") + `"
+	}
+
 	`
 }
 
@@ -86,9 +91,14 @@ resource "oci_core_subnet" "WebSubnetAD1" {
 }`
 
 var instanceConfig = subnetConfig + `
-data "oci_core_images" "t" {
-	compartment_id = "${var.compartment_id}"
-  	display_name = "Oracle-Linux-7.4-2017.10.25-0"
+variable "InstanceImageOCID" {
+  type = "map"
+  default = {
+    // Oracle-provided image "Oracle-Linux-7.4-2017.12.18-0"
+    us-phoenix-1 = "ocid1.image.oc1.phx.aaaaaaaasc56hnpnx7swoyd2fw5gyvbn3kcdmqc2guiiuvnztl2erth62xnq"
+    us-ashburn-1 = "ocid1.image.oc1.iad.aaaaaaaaxrqeombwty6jyqgk3fraczdd63bv66xgfsqka4ktr7c57awr3p5a"
+    eu-frankfurt-1 = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaayxmzu6n5hsntq4wlffpb4h6qh6z3uskpbm5v3v4egqlqvwicfbyq"
+  }
 }
 
 data "oci_identity_policies" "policies" {
@@ -102,14 +112,14 @@ data "oci_load_balancer_protocols" "protocols" {
 data "oci_core_shape" "shapes" {
 	compartment_id = "${var.compartment_id}"
 	availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-	image_id = "${data.oci_core_images.t.images.0.id}"
+	image_id =  "${var.InstanceImageOCID[var.region]}"
 }
 
 resource "oci_core_instance" "t" {
 	availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
 	compartment_id = "${var.compartment_id}"
 	display_name = "-tf-instance"
-	image = "${data.oci_core_images.t.images.0.id}"
+	image = "${var.InstanceImageOCID[var.region]}"
 	shape = "VM.Standard1.1"
 	subnet_id = "${oci_core_subnet.WebSubnetAD1.id}"
 	metadata {
@@ -146,16 +156,21 @@ resource "oci_core_subnet" "t" {
   dns_label			  = "testsubnet"
 }
 
-data "oci_core_images" "t" {
-	compartment_id = "${var.compartment_id}"
-  	display_name = "Oracle-Linux-7.4-2017.10.25-0"
+variable "InstanceImageOCID" {
+  type = "map"
+  default = {
+    // Oracle-provided image "Oracle-Linux-7.4-2017.12.18-0"
+    us-phoenix-1 = "ocid1.image.oc1.phx.aaaaaaaasc56hnpnx7swoyd2fw5gyvbn3kcdmqc2guiiuvnztl2erth62xnq"
+    us-ashburn-1 = "ocid1.image.oc1.iad.aaaaaaaaxrqeombwty6jyqgk3fraczdd63bv66xgfsqka4ktr7c57awr3p5a"
+    eu-frankfurt-1 = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaayxmzu6n5hsntq4wlffpb4h6qh6z3uskpbm5v3v4egqlqvwicfbyq"
+  }
 }
 
 resource "oci_core_instance" "t" {
 	availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
 	compartment_id = "${var.compartment_id}"
 	display_name = "-tf-instance"
-	image = "${data.oci_core_images.t.images.0.id}"
+	image = "${var.InstanceImageOCID[var.region]}"
 	shape = "VM.Standard1.8"
 	create_vnic_details {
         subnet_id = "${oci_core_subnet.t.id}"

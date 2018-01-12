@@ -15,5 +15,3 @@ export TF_VAR_ssh_public_key=$(cat <path to public key>)
 export TF_VAR_ssh_private_key=$(cat <path to private key>)
 ## NOTE: These are not your api keys. More info on the right keys see
 ## https://docs.us-phoenix-1.oraclecloud.com/Content/Compute/Tasks/managingkeypairs.htm
-
-
