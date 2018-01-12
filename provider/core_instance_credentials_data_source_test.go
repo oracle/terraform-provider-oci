@@ -50,10 +50,10 @@ func (s *DatasourceCoreInstanceCredentialTestSuite) SetupTest() {
 	variable "InstanceImageOCID" {
 	  type = "map"
 	  default = {
-		// Oracle-provided image "Windows-Server-2012-R2-Standard-Edition-VM-Gen2-2017.10.31-0"
-		us-phoenix-1 = "ocid1.image.oc1.phx.aaaaaaaae5cbnhdfyd75lzxypq2vk4n7w7rj6uj7rqvquoghn6n67omy5lqq"
-		us-ashburn-1 = "ocid1.image.oc1.iad.aaaaaaaamjrkigt6tdtfq2ovkaosmuyksbqd4y562chfd7qg4ujxpv7fe6pa"
-		eu-frankfurt-1 = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaajfu4alt5mdx6hvdh2xpnqjuistonr4vndj37aipuec7c23ifarsq"
+		// Oracle-provided image "Windows-Server-2012-R2-Standard-Edition-VM-2017.07.25-0"
+		us-phoenix-1 = "ocid1.image.oc1.phx.aaaaaaaab2xgy6bijtudhsgsbgns6zwfqnkdb2bp4l4qap7e4mehv6bv3qca"
+		us-ashburn-1 = "ocid1.image.oc1.iad.aaaaaaaajlfsi5npxguvhad3v5d5lu7dc3zcylr2csfdexgd6kor3f6zeqeq"
+		eu-frankfurt-1 = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaanc7bsuauwkfonfmk52cn3mwjzgamhp4llsh754yahbv2e6no4u3q"
 	  }
 	}
 	
