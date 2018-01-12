@@ -4,7 +4,7 @@
 # The URL must contain the name of the ISO image with an '.iso' extension.
 
 variable "iso_url" {
-	default = "<URL to RHEL ISO image>"
+	default = "<URL of ISO>"
 }
 
 # RHEL account variables:
@@ -14,8 +14,8 @@ variable "iso_url" {
 variable "rhel_account" {
 	type = "map"
 	default = {
-		user_name = "<Your RHEL Support Username>"
-		password = "<Your RHEL Support Password>"
+		user_name = "<RHEL subscription username>"
+		password = "<RHEL subscription password>"
 	}
 }
 
@@ -28,9 +28,9 @@ variable "rhel_account" {
 variable "build_env" {
 	type = "map"
 	default = {
-		compartment = "<Display Name of compartment>"
-		ad = "ad-<AD Number to use>"
-		vcn = "<Display name of the VCN>"
-		subnet = "<Display name of subnet>"=======
+		compartment = "<Compartment display name>"
+		ad = "<AD specified as ad-x or AD-x>"
+		vcn = "<VCN display name>"
+		subnet = "<Subnet display name>"
 	}
 }

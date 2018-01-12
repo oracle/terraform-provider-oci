@@ -35,21 +35,6 @@ data "oci_core_subnets" "subnet" {
 
 }
 
-# Gets the OCID of the image. This technique is for example purposes only. 
-# The results of oci_core_images may change over time for Oracle-provided images, 
-# so the only sure way to get the correct OCID is to supply it directly.
-
-data "oci_core_images" "image" {
-	compartment_id = "${data.oci_identity_compartments.compartment.compartments.0.id}"
-	operating_system = "${var.ipxe_instance["os"]}"
-	operating_system_version = "${var.ipxe_instance["os-version"]}"
-	filter {
-		name = "display_name"
-		values = [ ".*-${var.ipxe_instance["os-version"]}-2.*" ]
-		regex = true
-	}
-}
-
 data "external" "ipxe_gen" {
 	program = [ "/bin/bash", "./ipxe_gen.sh"]
 	query = {
