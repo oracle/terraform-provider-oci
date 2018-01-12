@@ -6,12 +6,12 @@ USER=<USER>
 FINGERPRINT=<FINGERPRINT>
 REGION=<REGION>
 PR_KEY_PW=<PASSPHRASE>
-BUCKET=<BUCKET>
-ISO_NAME=<ISO_NAME>
 OS="<OS_NAME>"
 RU="<RHEL_UNAME>"
 RP="<RHEL_PASS>"
 SAC_OCID=<ZEROS_OCID>
+ISO_URL="<ISO_URL>"
+ISO_NAME=`echo ${ISO_URL} | awk -F/ '{ print $NF }'`
 
 LOCAL_IP=`curl -s http://169.254.169.254/opc/v1/vnics/0/privateIp`
 AD=`curl -s http://169.254.169.254/opc/v1/instance/availabilityDomain`
@@ -24,8 +24,7 @@ MY_OCID=`curl -s http://169.254.169.254/opc/v1/instance/id`
 SHAPE="BM.Standard1.36"
 
 yum -y -q update
-yum -y -q install sharutils
-yum -y -q install httpd rsync lzma gcc libffi-devel python-devel openssl-devel unzip gcc rsyslog jq python-firewall
+yum -y -q install sharutils httpd rsync lzma gcc libffi-devel python-devel openssl-devel unzip gcc rsyslog jq python-firewall
 
 sed -i.bak 's/<\/zone>/  <service name=\"http\"\/>/' /etc/firewalld/zones/public.xml
 echo "</zone>" >> /etc/firewalld/zones/public.xml
@@ -35,11 +34,9 @@ service firewalld restart
 systemctl enable httpd
 systemctl start httpd
 
-mkdir /var/www/isos
+mkdir -p /var/www/{isos,html}
+mkdir -p /var/www/html/{ipxe,oci,<OS_NAME>}
 mkdir /mnt/iso
-mkdir /var/www/html/ipxe
-mkdir /var/www/html/oci
-mkdir /var/www/html/<OS_NAME>
 mkdir -p /home/opc/.oci
 
 chmod 755 /home/opc/.oci
@@ -107,7 +104,7 @@ cd /var/www/html/oci
 cloud
 firewallcfg
 
-cat > /home/opc/sacrifice-launch.sh.template <<-EOF
+cat > /home/opc/sacrifice-launch.sh <<-EOF
 #!/bin/bash
 function inst_status { 
 	oci compute instance get --instance-id=\$1 | jq -r '.data["lifecycle-state"]'
@@ -169,13 +166,11 @@ oci compute instance terminate --instance-id=${MY_OCID} --force
 EOF
 
 SUBNET_ID=`sudo -u opc oci network vnic get --vnic-id=${VNIC_ID} | jq '.data ["subnet-id"]' | sed 's/\"//g'`
-sed -i.bak 's/<SUBNET_OCID>/'"${SUBNET_ID}"'/g' /home/opc/sacrifice-launch.sh.template
-cp /home/opc/sacrifice-launch.sh.template /home/opc/sacrifice-launch.sh
+sed -i.bak 's/<SUBNET_OCID>/'"${SUBNET_ID}"'/g' /home/opc/sacrifice-launch.sh
 chown opc:opc /home/opc/sacrifice*
 chmod 755 /home/opc/sacrifice*
 cd /var/www/isos
-namespace=`sudo -u opc oci os ns get | jq '.data' | sed 's/\"//g'`
-sudo -u opc oci os object get --namespace=${namespace} --bucket-name=${BUCKET} --name=${ISO_NAME} --file=${ISO_NAME}
+curl -s -o ${ISO_NAME} ${ISO_URL}
 mount -o ro ./${ISO_NAME} /mnt/iso
 cd /mnt/iso
 find . -print | cpio -pmvdu /var/www/html/${OS}
