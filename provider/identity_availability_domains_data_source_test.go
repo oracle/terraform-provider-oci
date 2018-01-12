@@ -44,9 +44,9 @@ func (s *DatasourceIdentityAvailabilityDomainsTestSuite) TestAccIdentityAvailabi
 				}`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "availability_domains.#", "3"),
-					resource.TestMatchResourceAttr(s.ResourceName, "availability_domains.0.name", regexp.MustCompile(`\w*:\w{3}-AD-1`)),
-					resource.TestMatchResourceAttr(s.ResourceName, "availability_domains.1.name", regexp.MustCompile(`\w*:\w{3}-AD-2`)),
-					resource.TestMatchResourceAttr(s.ResourceName, "availability_domains.2.name", regexp.MustCompile(`\w*:\w{3}-AD-3`)),
+					resource.TestMatchResourceAttr(s.ResourceName, "availability_domains.0.name", regexp.MustCompile(`\w*-AD-1`)),
+					resource.TestMatchResourceAttr(s.ResourceName, "availability_domains.1.name", regexp.MustCompile(`\w*-AD-2`)),
+					resource.TestMatchResourceAttr(s.ResourceName, "availability_domains.2.name", regexp.MustCompile(`\w*-AD-3`)),
 				),
 			},
 			// Verify regex filtering
@@ -56,7 +56,7 @@ func (s *DatasourceIdentityAvailabilityDomainsTestSuite) TestAccIdentityAvailabi
 					compartment_id = "${var.compartment_id}"
 					filter {
 						name = "name"
-						values = ["\\w*:\\w{3}-AD-2"]
+						values = ["\\w*-AD-2"]
 						regex = true
 					}
 				}`,
