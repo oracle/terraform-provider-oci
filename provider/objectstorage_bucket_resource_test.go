@@ -37,6 +37,7 @@ func (s *ResourceObjectstorageBucketTestSuite) TestAccResourceObjectstorageBucke
 	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
+			// test create
 			{
 				ImportState:       true,
 				ImportStateVerify: true,
@@ -53,6 +54,24 @@ func (s *ResourceObjectstorageBucketTestSuite) TestAccResourceObjectstorageBucke
 					resource.TestCheckResourceAttrSet(s.ResourceName, "namespace"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "name", token),
+					resource.TestCheckResourceAttr(s.ResourceName, "metadata.content-type", "text/plain"),
+				),
+			},
+			// test update
+			{
+				Config: s.Config + tokenFn(`
+				resource "oci_objectstorage_bucket" "t" {
+					namespace = "${data.oci_objectstorage_namespace.t.namespace}"
+					compartment_id = "${var.compartment_id}"
+					name = "{{.token}}-changed"
+					metadata = {
+						"content-type" = "text/plain"
+					}
+				}`, nil),
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttrSet(s.ResourceName, "namespace"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "compartment_id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "name", token+"-changed"),
 					resource.TestCheckResourceAttr(s.ResourceName, "metadata.content-type", "text/plain"),
 				),
 			},

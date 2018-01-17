@@ -32,6 +32,7 @@ func BucketResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 				Computed: false,
+				ForceNew: true,
 			},
 			"namespace": {
 				Type:     schema.TypeString,
