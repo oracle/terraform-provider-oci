@@ -24,7 +24,7 @@ resource "null_resource" "install-kvm-dependencies" {
   provisioner "remote-exec" {
     inline = [
       "chmod +x ~/install-kvm-dependencies.sh",
-      "sudo sh -x ~/install-kvm-dependencies.sh",
+      "sudo sh -x ~/install-kvm-dependencies.sh"
     ]
   }
 }
@@ -44,7 +44,7 @@ resource "null_resource" "restart-instance" {
     inline = [
       "echo waiting...",
       "echo restarting instance",
-      "sudo shutdown -r now",
+      "sudo shutdown -r now"
     ]
   }
 }
@@ -62,7 +62,7 @@ resource "null_resource" "waiting_for_reboot" {
 
   provisioner "remote-exec" {
     inline = [
-      "ls -la ~/",
+      "ls -la ~/"
     ]
   }
 }
@@ -82,7 +82,7 @@ resource "null_resource" "upload-kvm-qcow2-image" {
     inline = [
       "wget ${var.qcow2_image_url}",
       "sudo mkdir ${var.qcow2_image_target_path}",
-      "sudo mv ~/${var.qcow2_image_filename} ${var.qcow2_image_target_path}${var.qcow2_image_filename}",
+      "sudo mv ~/${var.qcow2_image_filename} ${var.qcow2_image_target_path}${var.qcow2_image_filename}"
     ]
   }
 }
@@ -109,7 +109,7 @@ resource "null_resource" "create-kvm-domain" {
       "sudo systemctl enable libvirtd",
       "sudo virt-install --arch=x86_64 --name=${var.kvm_guest_domain_name} --ram=${var.kvm_guest_memory} --cpu Haswell-noTSX --vcpus ${var.kvm_guest_vcpu} --hvm --video qxl --nonetwork --os-type ${var.kvm_guest_os_type} --noautoconsole --disk ${var.qcow2_image_target_path}${var.qcow2_image_filename},format=raw,bus=virtio --graphics vnc,port=${var.kvm_guest_vnc_port},listen=0.0.0.0,password=${var.kvm_guest_vnc_pwd} --import",
       "sudo virsh attach-device ${var.kvm_guest_domain_name} ~/attach.xml --config",
-      "sudo virsh autostart ${var.kvm_guest_domain_name}",
+      "sudo virsh autostart ${var.kvm_guest_domain_name}"
     ]
   }
 }
@@ -128,7 +128,7 @@ resource "null_resource" "start-kvm-domain" {
   provisioner "remote-exec" {
     inline = [
       "sudo virsh destroy ${var.kvm_guest_domain_name}",
-      "sudo virsh start ${var.kvm_guest_domain_name}",
+      "sudo virsh start ${var.kvm_guest_domain_name}"
     ]
   }
 }

@@ -4,7 +4,7 @@ export TF_VAR_tenancy_ocid="<tenancy OCID>"
 export TF_VAR_user_ocid="<user OCID>"
 export TF_VAR_compartment_ocid="<compartment OCID>"
 export TF_VAR_fingerprint="<PEM key fingerprint>"
-export TF_VAR_ssh_api_private_key_path="<SSH PEM key which matches with the PEM key fingerprint>"
+export TF_VAR_private_key_path="<RSA PEM key which matches with the PEM key fingerprint>"
 
 
 ### SSH keys used by the user to connect to the instance

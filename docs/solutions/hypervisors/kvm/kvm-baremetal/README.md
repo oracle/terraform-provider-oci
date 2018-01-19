@@ -50,8 +50,9 @@ tenancy_ocid="<tenancy OCID>"
 compartment_ocid="<compartment OCID>"
 user_ocid="<tenancy OCID>"
 fingerprint="<PEM key fingerprint>"
+private_key_path="<RSA PEM key which matches with the PEM key fingerprint>"
 ssh_private_key_path="<path to the ssh private key to ssh to the instance>"
-ssh_public_key_path="<path to the ssh public key to setup on the instance>"
+ssh_public_key_path="<path to the ssh public key to setup on the KVM Host>"
 region="<OCI region>"
 
 #######################################
@@ -73,9 +74,9 @@ vcn_cidr_block = "10.0.0.0/16"
 #Cidr block for your subnet
 kvm_host_subnet_cidr_block = "10.0.10.0/24"
 
-##############################
-#### KVM related settings ####
-##############################
+############################################
+#### KVM related settings - Sample data ####
+############################################
 
 #URL of your image file (you can place your image in the object storage!)
 kvm_image_url = "<my-qcow2-image-url>"
@@ -101,7 +102,13 @@ kvm_guest_vnc_pwd = "Test123"
 
 - Run `terraform apply`
 
-- Create a Tunnel over SSH to establish a VNC connection to access the guest VM. As a result of the `terraform apply`, you will get the command line used for creating the SSH tunnel.
+- Then, you can ssh to the KVM Host and connect to the Guest VM using `virsh`
+
+```
+sudo virsh connect <KVM domain name>
+```
+
+- Alternatively, you can create a Tunnel over SSH to establish a VNC connection to access the guest VM. As a result of the `terraform apply`, you will get the command line used for creating the SSH tunnel.
 
 ```
 ssh -i <ssh-private-key> -L <vnc_port>:localhost:<vnc_port> opc@<kvm_host_public_ip>

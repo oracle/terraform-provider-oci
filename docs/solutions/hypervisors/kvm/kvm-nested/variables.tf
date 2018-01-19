@@ -2,14 +2,14 @@
 
 #OCI Environment variables
 variable "tenancy_ocid" {}
+
 variable "user_ocid" {}
 variable "compartment_ocid" {}
 variable "region" {}
 variable "fingerprint" {}
-variable "ssh_api_private_key_path" {}
+variable "private_key_path" {}
 variable "ssh_user_private_key_path" {}
 variable "ssh_user_public_key_path" {}
-
 
 #Prefix to identify your resources
 variable "prefix" {
@@ -30,6 +30,14 @@ variable "vcn_cidr_block" {
 variable "kvm_host_subnet_cidr_block" {
   default = "10.0.10.0/24"
 }
+
+#Oracle Linux 7.x Image OCID
+#Reference: https://docs.us-phoenix-1.oraclecloud.com/Content/Compute/References/images.htm
+variable "image_ocid" {
+  #Default Oracle Linux 7.4 image - Ashburn
+  default = "ocid1.image.oc1.iad.aaaaaaaaxrqeombwty6jyqgk3fraczdd63bv66xgfsqka4ktr7c57awr3p5a"
+}
+
 
 #KVM Host instance shape. Only VM Shapes are supported on this example
 variable "instance_vm_shape" {
@@ -55,25 +63,30 @@ variable "kvm_image_path" {
 #### KVM domain settings, modify them accordingly with your needs. #####
 ########################################################################
 
-
 variable "kvm_guest_domain_name" {
   default = "MyKVMDomain"
 }
+
 variable "kvm_guest_memory" {
   default = "16384"
 }
+
 variable "kvm_guest_vcpu" {
   default = "8"
 }
+
 variable "kvm_emulation_mode" {
   default = "virtio"
 }
+
 variable "kvm_guest_os_type" {
   default = "linux"
 }
+
 variable "kvm_guest_vnc_port" {
   default = "5901"
 }
+
 variable "kvm_guest_vnc_pwd" {
   default = "Test123"
 }

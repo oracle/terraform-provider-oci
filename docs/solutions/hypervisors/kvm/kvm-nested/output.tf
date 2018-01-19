@@ -33,3 +33,7 @@ output "KVM_HOST_SSH_KEY_PATH" {
 output "SSH_TUNNEL_TO_GUEST" {
   value = "ssh -i ${var.ssh_user_private_key_path} -L ${var.kvm_guest_vnc_port}:localhost:${var.kvm_guest_vnc_port} opc@${oci_core_instance.kvm-host-instance.public_ip}"
 }
+
+output "VIRSH_CONNECT_TO_GUEST_VM_CONSOLE_FROM_KVM_HOST" {
+  value = "sudo virsh console ${var.kvm_guest_domain_name}"
+}

@@ -2,7 +2,7 @@ provider "oci" {
   tenancy_ocid     = "${var.tenancy_ocid}"
   user_ocid        = "${var.user_ocid}"
   fingerprint      = "${var.fingerprint}"
-  private_key_path = "${var.ssh_api_private_key_path}"
+  private_key_path = "${var.private_key_path}"
   region           = "${var.region}"
 }
 
@@ -10,8 +10,8 @@ resource "oci_core_instance" "kvm-host-instance" {
   availability_domain = "${lookup(data.oci_identity_availability_domains.ads.availability_domains[var.availability_domain - 1],"name")}"
   compartment_id      = "${var.compartment_ocid}"
   display_name        = "${var.prefix}-kvm-host"
-  image               = "${lookup(data.oci_core_images.base-image.images[0], "id")}"
-  shape               = "${instance_bm_shape}"
+  image               = "${var.image_ocid}"
+  shape               = "${var.instance_bm_shape}"
 
   create_vnic_details {
     subnet_id        = "${oci_core_subnet.kvm-host-subnet.id}"

@@ -25,7 +25,7 @@ This sample code will be responsible to perform the following tasks:
 
 - Attach the secondary network interface (in PCI-passthrough mode) as network interfaces to the guest VM.
 
-- We don't cover the setup of the Guest VM, but you can connect to it via VNC.
+- We don't cover the setup of the Guest VM, but you can connect to it via VNC or running `virsh connect <KVM Domain>` from the KVM host instance.
 
 
 Requirements
@@ -52,8 +52,9 @@ tenancy_ocid="<tenancy OCID>"
 compartment_ocid="<compartment OCID>"
 user_ocid="<tenancy OCID>"
 fingerprint="<PEM key fingerprint>"
+private_key_path="<RSA PEM key which matches with the PEM key fingerprint>"
 ssh_private_key_path="<path to the ssh private key to ssh to the instance>"
-ssh_public_key_path="<path to the ssh public key to setup on the instance>"
+ssh_public_key_path="<path to the ssh public key to setup on the KVM Host>"
 region="<OCI region>"
 
 #######################################
@@ -66,7 +67,15 @@ customer_name = "mycustomer"
 #availability_domain number - For AD1 uses 1. For AD2, uses 2, For AD3, uses 3
 availability_domain = "1"
 
-#Only BM Shapes are supported
+#Oracle Linux 7.4 Image OCID. Image OCI for specific region is available in the documentation:
+# https://docs.us-phoenix-1.oraclecloud.com/Content/Compute/References/images.htm
+variable "image_ocid" {
+  #Default Oracle Linux 7.4 image - Ashburn
+  default = "ocid1.image.oc1.iad.aaaaaaaaxrqeombwty6jyqgk3fraczdd63bv66xgfsqka4ktr7c57awr3p5a"
+}
+
+
+#Only VM Shapes are supported
 instance_shape = "VM.Standard1.8"
 
 
@@ -80,9 +89,9 @@ vcn_cidr_block = "10.0.0.0/16"
 kvm_host_subnet_cidr_block = "10.0.10.0/24"
 
 
-##############################
-#### KVM related settings ####
-##############################
+############################################
+#### KVM related settings - Sample data ####
+############################################
 
 #URL of your image file (you can place your image in the object storage!)
 kvm_image_url = "<my-qcow2-image-url>"
@@ -108,7 +117,13 @@ kvm_guest_vnc_pwd = "Test123"
 
 - Run `terraform apply`
 
-- Create a Tunnel over SSH to establish a VNC connection to access the guest VM. As a result of the `terraform apply`, you will get the command line used for creating the SSH tunnel.
+- Then, you can ssh to the KVM Host and connect to the Guest VM using `virsh`
+
+```
+sudo virsh connect <KVM domain name>
+```
+
+- Alternatively, you can create a Tunnel over SSH to establish a VNC connection to access the guest VM. As a result of the `terraform apply`, you will get the command line used for creating the SSH tunnel.
 
 ```
 ssh -i <ssh-private-key> -L <vnc_port>:localhost:<vnc_port> opc@<kvm_host_public_ip>
