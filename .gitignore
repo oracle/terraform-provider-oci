@@ -16,3 +16,4 @@ bin/*
 obmc-container-clean
 terraform-provider-oci
 *.iml
+docs/solutions/rhel74_image/ipxe.sh
