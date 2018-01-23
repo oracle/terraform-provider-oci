@@ -107,7 +107,7 @@ func (s *LoadBalancerCertificateResourceCrud) CreatedTarget() []string {
 	return []string{
 		baremetal.ResourceSucceededWorkRequest,
 		baremetal.WorkRequestSucceeded,
-		baremetal.ResourceFailed,
+		baremetal.WorkRequestFailed,
 	}
 }
 
@@ -123,6 +123,7 @@ func (s *LoadBalancerCertificateResourceCrud) DeletedTarget() []string {
 	return []string{
 		baremetal.ResourceSucceededWorkRequest,
 		baremetal.WorkRequestSucceeded,
+		baremetal.WorkRequestFailed,
 	}
 }
 

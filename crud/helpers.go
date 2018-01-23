@@ -214,6 +214,13 @@ func CreateResource(d *schema.ResourceData, sync ResourceCreator) (e error) {
 
 	if stateful, ok := sync.(StatefullyCreatedResource); ok {
 		e = waitForStateRefresh(stateful, d.Timeout(schema.TimeoutCreate), stateful.CreatedPending(), stateful.CreatedTarget())
+
+		if stateful.State() == baremetal.WorkRequestFailed {
+			// Remove resource from state if asynchronous work request has failed so that it is recreated on next apply
+			// TODO: automatic retry on WorkRequestFailed
+			sync.VoidState()
+			return
+		}
 	}
 
 	d.SetId(sync.ID())
@@ -320,7 +327,7 @@ func waitForStateRefresh(sync StatefulResource, timeout time.Duration, pending, 
 		handleMissingResourceError(sync, &e)
 		return
 	}
-	if sync.State() == baremetal.ResourceFailed {
+	if sync.State() == baremetal.ResourceFailed || sync.State() == baremetal.WorkRequestFailed {
 		return errors.New("Resource creation failed, state FAILED")
 	}
 
