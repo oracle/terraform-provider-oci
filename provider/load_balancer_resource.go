@@ -125,7 +125,7 @@ func (s *LoadBalancerResourceCrud) CreatedPending() []string {
 func (s *LoadBalancerResourceCrud) CreatedTarget() []string {
 	return []string{
 		baremetal.ResourceActive,
-		baremetal.ResourceFailed,
+		baremetal.WorkRequestFailed,
 	}
 }
 
@@ -141,7 +141,10 @@ func (s *LoadBalancerResourceCrud) DeletedPending() []string {
 
 // DeletedTarget returns the resource states which qualify as "deleted"
 func (s *LoadBalancerResourceCrud) DeletedTarget() []string {
-	return []string{baremetal.ResourceDeleted}
+	return []string{
+		baremetal.ResourceDeleted,
+		baremetal.WorkRequestFailed,
+	}
 }
 
 // Create makes a request to create a new load balancer from the resourceData

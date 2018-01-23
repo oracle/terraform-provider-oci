@@ -109,7 +109,7 @@ func (s *LoadBalancerListenerResourceCrud) CreatedTarget() []string {
 	return []string{
 		baremetal.ResourceSucceededWorkRequest,
 		baremetal.WorkRequestSucceeded,
-		baremetal.ResourceFailed,
+		baremetal.WorkRequestFailed,
 	}
 }
 
@@ -125,6 +125,7 @@ func (s *LoadBalancerListenerResourceCrud) DeletedTarget() []string {
 	return []string{
 		baremetal.ResourceSucceededWorkRequest,
 		baremetal.WorkRequestSucceeded,
+		baremetal.WorkRequestFailed,
 	}
 }
 
