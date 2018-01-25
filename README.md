@@ -142,5 +142,8 @@ https://community.oracle.com/community/cloud_computing/bare-metal
 
 [Github issues](https://github.com/oracle/terraform-provider-oci/issues)
 
+## Backlog
+You can track the status of community-requested enhancements [here](https://github.com/oracle/terraform-provider-oci/blob/master/BACKLOG.md)
+
 ## About the provider
 This provider was written on behalf of Oracle by [MustWin.](http://mustwin.com/)
