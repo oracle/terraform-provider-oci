@@ -75,6 +75,7 @@ resource "oci_core_virtual_network" "CoreVCN" {
     cidr_block = "${var.vcn_cidr}"
     compartment_id = "${var.compartment_ocid}"
     display_name = "mgmt-vcn"
+    dns_label = "mgmtvcn"
 }
 
 resource "oci_core_internet_gateway" "MgmtIG" {
@@ -172,6 +173,7 @@ resource "oci_core_subnet" "MgmtSubnet" {
     availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.AD1 - 1],"name")}"
     cidr_block = "${var.mgmt_subnet_cidr1}"
     display_name = "MgmtSubnet"
+    dns_label = "mgmtsubnet"
     compartment_id = "${var.compartment_ocid}"
     vcn_id = "${oci_core_virtual_network.CoreVCN.id}"
     route_table_id = "${oci_core_route_table.MgmtRouteTable.id}"
@@ -183,6 +185,7 @@ resource "oci_core_subnet" "MgmtSubnet2" {
     availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.AD2 - 1],"name")}"
     cidr_block = "${var.mgmt_subnet_cidr2}"
     display_name = "MgmtSubnet2"
+    dns_label = "mgmtsubnet2"
     compartment_id = "${var.compartment_ocid}"
     vcn_id = "${oci_core_virtual_network.CoreVCN.id}"
     route_table_id = "${oci_core_route_table.MgmtRouteTable.id}"
@@ -246,12 +249,23 @@ data "oci_core_vnic" "DnsVMVnic2" {
     vnic_id = "${lookup(data.oci_core_vnic_attachments.DnsVMVnics2.vnic_attachments[0],"vnic_id")}"
 }
 
-output "DefaultDHCPOptions" {
-    value = ["${oci_core_virtual_network.CoreVCN.default_dhcp_options_id}"]
-}
+# Update the default DHCP options to use custom DNS servers
+resource "oci_core_default_dhcp_options" "default-dhcp-options" {
+    manage_default_resource_id = "${oci_core_virtual_network.CoreVCN.default_dhcp_options_id}"
 
-output "VcnId" {
-    value = ["${oci_core_virtual_network.CoreVCN.id}"]
+    // required
+    options {
+        type = "DomainNameServer"
+        server_type = "CustomDnsServer"
+        custom_dns_servers = [  "${data.oci_core_vnic.DnsVMVnic.private_ip_address}",
+                                "${data.oci_core_vnic.DnsVMVnic2.private_ip_address}" ]
+    }
+
+  // optional
+  options {
+    type = "SearchDomain"
+    search_domain_names = [ "${oci_core_virtual_network.CoreVCN.dns_label}.oraclevcn.com" ]
+  }
 }
 
 output "DnsServer1" {
