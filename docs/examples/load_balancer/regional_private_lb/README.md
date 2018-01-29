@@ -14,7 +14,7 @@ It configures [monit|https://mmonit.com/monit/] (an open-source utility to monit
 
 In case of an AD-level failure or when a private loadbalancer is down, 'monit' will detect that endpoint is down and remove it from round-robin DNS entries. When clients query for the FQDN, it resolves to the IP address of the other private loadbalancer which is available. 
 
-See [images/regional_ha_private_lb.png] for the architecture diagram.
+![Architecture diagram](images/regional_ha_private_lb.png)
 
 
 ### Using this example
