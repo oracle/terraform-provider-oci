@@ -36,11 +36,11 @@ variable "vcn_cidr" {
     default = "10.0.0.0/16"
 }
 
-variable "mgmt_subnet_cidr1" {
+variable "mgmt1_subnet_cidr" {
     default = "10.0.0.0/24"
 }
 
-variable "mgmt_subnet_cidr2" {
+variable "mgmt2_subnet_cidr" {
     default = "10.0.1.0/24"
 }
 

@@ -104,7 +104,7 @@ resource "oci_core_dhcp_options" "MgmtDhcpOptions" {
 
 resource "oci_core_subnet" "MgmtSubnet1" {
     availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.AD1 - 1],"name")}"
-    cidr_block = "${var.mgmt_subnet_cidr1}"
+    cidr_block = "${var.mgmt1_subnet_cidr}"
     display_name = "MgmtSubnet1"
     dns_label = "mgmtsubnet"
     compartment_id = "${var.compartment_ocid}"
@@ -116,7 +116,7 @@ resource "oci_core_subnet" "MgmtSubnet1" {
 
 resource "oci_core_subnet" "MgmtSubnet2" {
     availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.AD2 - 1],"name")}"
-    cidr_block = "${var.mgmt_subnet_cidr2}"
+    cidr_block = "${var.mgmt2_subnet_cidr}"
     display_name = "MgmtSubnet2"
     dns_label = "mgmtsubnet2"
     compartment_id = "${var.compartment_ocid}"
@@ -147,16 +147,8 @@ resource "oci_core_security_list" "LBSecurityList" {
 
     ingress_security_rules = [{
         tcp_options {
-            "max" = 80
-            "min" = 80
-        }
-        protocol = "6"
-        source = "0.0.0.0/0"
-    },
-    {
-        tcp_options {
-            "max" = 443
-            "min" = 443
+            "max" = "${var.ha_app_port}"
+            "min" = "${var.ha_app_port}"
         }
         protocol = "6"
         source = "0.0.0.0/0"
@@ -260,24 +252,16 @@ resource "oci_core_security_list" "BESecurityList" {
 
     ingress_security_rules = [{
         tcp_options {
-            "max" = 80
-            "min" = 80
+            "max" = "${var.ha_app_port}"
+            "min" = "${var.ha_app_port}"
         }
         protocol = "6"
         source = "0.0.0.0/0"
     },
     {
         tcp_options {
-            "max" = 443
-            "min" = 443
-        }
-        protocol = "6"
-        source = "0.0.0.0/0"
-    },
-    {
-        tcp_options {
-            "max" = 22
             "min" = 22
+            "max" = 22
         }
         protocol = "6"
         source = "0.0.0.0/0"
