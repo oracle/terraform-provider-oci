@@ -1,10 +1,10 @@
 
-output "DnsServer1" {
-    value = ["${data.oci_core_vnic.DnsVMVnic.private_ip_address}"]
+output "BackendInstance1" {
+    value = "${data.oci_core_vnic.Instance1Vnic.public_ip_address}"
 }
 
-output "DnsServer2" {
-    value = ["${data.oci_core_vnic.DnsVMVnic2.private_ip_address}"]
+output "AppFQDN" {
+    value = "${var.ha_app_name}.${var.ha_app_domain}"
 }
 
 output "lb1_private_ip" {
