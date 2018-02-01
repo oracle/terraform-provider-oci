@@ -1,0 +1,19 @@
+set daemon  10              # check services at 10 seconds intervals
+set logfile syslog          # log to syslog
+include /etc/monit.d/*
+
+set httpd port 2812 and
+    use address localhost  # only accept connection from localhost
+    allow localhost        # allow localhost to connect to the server and
+    allow admin:monit      # require user 'admin' with password 'monit'
+
+check host privatelb1 with address ${lb_ip1}
+    if failed port ${lb_port} protocol ${lb_protocol}
+        then exec "/home/opc/dnsops/removeserver ${zone_file} ${lb_ip1} ${app}"
+        else if succeeded then exec "/home/opc/dnsops/addserver ${zone_file} ${lb_ip1} ${app}"
+
+check host privatelb2 with address ${lb_ip2}
+    if failed port ${lb_port} protocol ${lb_protocol}
+        then exec "/home/opc/dnsops/removeserver ${zone_file} ${lb_ip2} ${app}"
+        else if succeeded then exec "/home/opc/dnsops/addserver ${zone_file} ${lb_ip2} ${app}"
+
