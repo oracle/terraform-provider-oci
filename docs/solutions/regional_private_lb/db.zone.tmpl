@@ -1,0 +1,17 @@
+;
+; Named file for custom entries in ha.oraclevcn.com
+;
+$TTL    5S
+@       IN      SOA     ha.oraclevcn.com. root.ha.oraclevcn.com. (
+                 2018012810         ; Serial
+                     604800         ; Refresh
+                      86400         ; Retry
+                    2419200         ; Expire
+                     604800 )       ; Negative Cache TTL
+;
+	NS		ha.oraclevcn.com.
+	A		${dns_server_ip}
+
+;; Round robin entry for the private loadbalancer
+${app}  IN      A       ${lb_ip1}
+${app}  IN      A       ${lb_ip2}

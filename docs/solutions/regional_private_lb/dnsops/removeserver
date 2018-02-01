@@ -1,0 +1,14 @@
+#!/bin/bash
+
+zonefile=$1
+ip=$2
+name=$3
+
+if [ $(grep ^$name $zonefile | grep -qs $ip ; echo $?) == 0 ]
+then
+    tmpfile=$(mktemp)
+    cp -p $zonefile $tmpfile
+    grep -v "^$name.*$ip" $tmpfile > $zonefile
+fi
+
+sudo systemctl reload named
