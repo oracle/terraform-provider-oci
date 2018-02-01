@@ -208,10 +208,6 @@ resource "oci_core_subnet" "BESubnet1" {
     route_table_id = "${oci_core_route_table.BERouteTable.id}"
     security_list_ids = ["${oci_core_security_list.BESecurityList.id}"]
     dhcp_options_id = "${oci_core_virtual_network.MgmtVcn.default_dhcp_options_id}"
-
-    provisioner "local-exec" {
-        command = "sleep 5"
-    }
 }
 
 resource "oci_core_subnet" "BESubnet2" {
@@ -224,10 +220,6 @@ resource "oci_core_subnet" "BESubnet2" {
     route_table_id = "${oci_core_route_table.BERouteTable.id}"
     security_list_ids = ["${oci_core_security_list.BESecurityList.id}"]
     dhcp_options_id = "${oci_core_virtual_network.MgmtVcn.default_dhcp_options_id}"
-
-    provisioner "local-exec" {
-        command = "sleep 5"
-    }
 }
 
 resource "oci_core_route_table" "BERouteTable" {
