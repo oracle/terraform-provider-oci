@@ -4,7 +4,7 @@
     #   | |_| |  _ < / ___ | |___| |___| |___
     #    \___/|_| \_/_/   \_\____|_____|_____|
 ***
-This example configures a regionally highly-available private load balancer using custom DNS servers.
+This example configures regionally highly-available private load balancers using custom DNS servers.
 
 It creates a VCN with the required subnets and other components, and it creates two private load balancers in two availability domains with the same set of backend instances.
 
@@ -22,7 +22,7 @@ In case of an AD-level failure or when a private load balancer is down, 'monit' 
 * Source env-vars
   * `$ . env-vars`
 
-Once the environment is built, the DNS VMs will be able to query the DNS hostnames within the VCN. You can run 'nslookup <fqdn-of-the-app>' from any instance in the VCN (that uses default DHCP options) to verify this. 
+Once the environment is built, you can connect to the load-balanced application using the FQDN (ha_app_name.ha_app_domain) from any instance in the VCN (that uses default DHCP options or the DNS VMs as the customer DNS resolvers). 
 
 ### Files in the configuration
 
