@@ -1,7 +1,21 @@
 # Change Log
-All notable changes to this project will be documented in this file.
+All notable changes to this project are documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
+
+## 2.0.7 - 2018-02-08
+
+### Added
+- NA
+
+### Fixed
+- Correctly resolve Load Balancer and Listener creation failures so plans can be reapplied (#414 and #430).
+- Allow Object Storage Buckets to be renamed in plans by implementing the correct ForceNew behavior (#424).
+
+### Notes
+- If upgrading from v1, see [this wiki](https://github.com/oracle/terraform-provider-oci/wiki/Oracle-Terraform-Provider-Name-Change) for migration steps.
+- See docs for this version [here](https://github.com/oracle/terraform-provider-oci/tree/v2.0.7).
+
 
 ## 2.0.6 - 2018-01-08
 
