@@ -1926,12 +1926,6 @@
 			"revisionTime": "2016-11-16T05:51:26Z"
 		},
 		{
-			"checksumSHA1": "feWRO67/Rq9zMkIlQIbUhgnOg7w=",
-			"path": "github.com/gotascii/go-http-header/header",
-			"revision": "2946fb04c49fedaf775dd5ee4c63a8eb68c4dc40",
-			"revisionTime": "2016-12-16T01:18:56Z"
-		},
-		{
 			"checksumSHA1": "hQtHHr+BpkNqWKVh2/CT4w+9Zak=",
 			"path": "github.com/grafana/grafana/pkg/api/dtos",
 			"revision": "2ad2b96133283e35158edc993db8806e69bb28ef",
@@ -2510,12 +2504,6 @@
 			"revisionTime": "2016-12-02T19:23:08Z"
 		},
 		{
-			"checksumSHA1": "PDzjpRNeytdYU39/PByzwCMvKQ8=",
-			"path": "github.com/joyent/gosdc/cloudapi",
-			"revision": "ec8b3503a75edca0df26581b83807677b0240716",
-			"revisionTime": "2016-12-02T19:23:12Z"
-		},
-		{
 			"checksumSHA1": "N0NRIcJF7aj1wd56DA1N9GpYq/4=",
 			"path": "github.com/joyent/gosign/auth",
 			"revision": "9abcee278795b82b36858cdfc857c8a0e7de797c",
@@ -3002,12 +2990,6 @@
 			"revisionTime": "2017-01-12T15:04:04Z"
 		},
 		{
-			"checksumSHA1": "l4Vk0AvaT/bjIzqUDn/mNlx6lmo=",
-			"path": "github.com/pearkes/dnsimple",
-			"revision": "0adf7d0dae07ba10af74af1a047c98d3d02b3382",
-			"revisionTime": "2016-10-03T16:26:59Z"
-		},
-		{
 			"checksumSHA1": "/MD+L6YZ45L3llJvG/LVUxi/BdA=",
 			"path": "github.com/pearkes/mailgun",
 			"revision": "b88605989c4141d22a6d874f78800399e5bb7ac2",
@@ -3394,12 +3376,6 @@
 			"path": "github.com/ziutek/mymysql/thrsafe",
 			"revision": "0582bcf675f52c0c2045c027fd135bd726048f45",
 			"revisionTime": "2017-02-06T13:45:17Z"
-		},
-		{
-			"checksumSHA1": "uynUzdKeOsfi7flpYWFx835Nafo=",
-			"path": "github.com/zorkian/go-datadog-api",
-			"revision": "6308094e4aca46eb16a227b50be29772242bf3aa",
-			"revisionTime": "2017-02-02T00:47:50Z"
 		},
 		{
 			"checksumSHA1": "C1KKOxFoW7/W/NFNpiXK+boguNo=",
