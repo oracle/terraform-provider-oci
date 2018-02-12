@@ -35,7 +35,7 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `virtual_networks` - The list of virtual networks.
+* `volume_attachments` - The list of volume attachments.
 
 ## Volume Attachment Reference
 * `attachment_type` - The type of volume attachment.
