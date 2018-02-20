@@ -32,7 +32,7 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `drg_attachments` - The list of images.
+* `drg_attachments` - The list of drg attachments.
 
 ## Drg Attachment reference
 * `compartment_id` - The OCID of the compartment containing the DRG attachment.

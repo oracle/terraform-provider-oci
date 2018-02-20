@@ -27,6 +27,12 @@ The following arguments are supported:
 * `page` - (Optional) The page to fetch.
 
 ## Attributes Reference
+
+The following attributes are exported:
+
+* `options` - The list of dhcp options.
+
+## DHCP Options Reference
 * `compartment_id` - The OCID of the compartment containing the set of DHCP options.
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 * `id` - Oracle ID (OCID) for the set of DHCP options.

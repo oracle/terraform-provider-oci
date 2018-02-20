@@ -25,6 +25,12 @@ The following arguments are supported:
 * `page` - (Optional) The page to fetch.
 
 ## Attributes Reference
+
+The following attributes are exported:
+
+* `drgs` - The list of dynamic routing gateways.
+
+## DRG Reference
 * `compartment_id` - The OCID of the compartment containing the DRG.
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 * `id` - The DRG's Oracle ID (OCID).
