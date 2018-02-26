@@ -1,0 +1,15 @@
+machine:
+  pre:
+    - sudo curl -O https://storage.googleapis.com/golang/go1.8.3.linux-amd64.tar.gz
+    - sudo tar -xvf go1.8.3.linux-amd64.tar.gz
+    - sudo rm -fr /usr/local/go
+    - sudo mv go /usr/local/go
+  environment:
+    GOROOT: "/usr/local/go"
+    PATH: "/usr/local/go/bin:${PATH}"
+    PROJECT_OWNER: "Oracle"
+
+test:
+  override:
+    - go test -v github.com/${PROJECT_OWNER}/baremetal-sdk-go
+    - TEST=true go test -v -timeout 120m github.com/${PROJECT_OWNER}/baremetal-sdk-go/acceptance-test

@@ -1,0 +1,95 @@
+# oci\_core\_volume_backup
+
+## VolumeBackup Resource
+
+### VolumeBackup Reference
+
+The following attributes are exported:
+
+* `compartment_id` - The OCID of the compartment that contains the volume backup.
+* `display_name` - A user-friendly name for the volume backup. Does not have to be unique and it's changeable. Avoid entering confidential information. 
+* `id` - The OCID of the volume backup.
+* `size_in_gbs` - The size of the volume, in GBs. 
+* `size_in_mbs` - The size of the volume in MBs. The value must be a multiple of 1024. This field is deprecated. Please use sizeInGBs. 
+* `state` - The current state of a volume backup.
+* `time_created` - The date and time the volume backup was created. This is the time the actual point-in-time image of the volume data was taken. Format defined by RFC3339. 
+* `time_request_received` - The date and time the request to create the volume backup was received. Format defined by RFC3339. 
+* `unique_size_in_gbs` - The size used by the backup, in GBs. It is typically smaller than sizeInGBs, depending on the space consumed on the volume and whether the backup is full or incremental. 
+* `unique_size_in_mbs` - The size used by the backup, in MBs. It is typically smaller than sizeInMBs, depending on the space consumed on the volume and whether the backup is full or incremental. This field is deprecated. Please use uniqueSizeInGBs. 
+* `volume_id` - The OCID of the volume.
+
+
+
+### Create Operation
+Creates a new backup of the specified volume. For general information about volume backups,
+see [Overview of Block Volume Service Backups](https://docs.us-phoenix-1.oraclecloud.com/Content/Block/Concepts/blockvolumebackups.htm)
+
+When the request is received, the backup object is in a REQUEST_RECEIVED state.
+When the data is imaged, it goes into a CREATING state.
+After the backup is fully uploaded to the cloud, it goes into an AVAILABLE state.
+
+
+The following arguments are supported:
+
+* `display_name` - (Optional) A user-friendly name for the volume backup. Does not have to be unique and it's changeable. Avoid entering confidential information. 
+* `volume_id` - (Required) The OCID of the volume that needs to be backed up.
+
+
+### Update Operation
+Updates the display name for the specified volume backup.
+Avoid entering confidential information.
+
+
+The following arguments support updates:
+* `display_name` - A user-friendly name for the volume backup. Does not have to be unique and it's changeable. Avoid entering confidential information. 
+
+
+** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values
+
+### Example Usage
+
+```
+resource "oci_core_volume_backup" "test_volume_backup" {
+	#Required
+	volume_id = "${oci_core_volume.test_volume.id}"
+
+	#Optional
+	display_name = "${var.volume_backup_display_name}"
+}
+```
+
+# oci\_core\_volume_backups
+
+## VolumeBackup DataSource
+
+Gets a list of volume_backups.
+
+### List Operation
+Lists the volume backups in the specified compartment. You can filter the results by volume.
+
+The following arguments are supported:
+
+* `compartment_id` - (Required) The OCID of the compartment.
+* `display_name` - (Optional) A filter to return only resources that match the given display name exactly. 
+* `state` - (Optional) A filter to only return resources that match the given lifecycle state.  The state value is case-insensitive. 
+* `volume_id` - (Optional) The OCID of the volume.
+
+
+The following attributes are exported:
+
+* `volume_backups` - The list of volume_backups.
+
+### Example Usage
+
+```
+data "oci_core_volume_backups" "test_volume_backups" {
+	#Required
+	compartment_id = "${var.compartment_id}"
+
+	#Optional
+	display_name = "${var.volume_backup_display_name}"
+	state = "${var.volume_backup_state}"
+	volume_id = "${oci_core_volume.test_volume.id}"
+}
+```

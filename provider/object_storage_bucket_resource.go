@@ -1,0 +1,284 @@
+// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+
+package provider
+
+import (
+	"context"
+
+	"github.com/hashicorp/terraform/helper/schema"
+
+	"github.com/oracle/terraform-provider-oci/crud"
+
+	"log"
+
+	"github.com/hashicorp/terraform/helper/validation"
+	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
+)
+
+func BucketResource() *schema.Resource {
+	return &schema.Resource{
+		Importer: &schema.ResourceImporter{
+			State: schema.ImportStatePassthrough,
+		},
+		Timeouts: crud.DefaultTimeout,
+		Create:   createBucket,
+		Read:     readBucket,
+		Update:   updateBucket,
+		Delete:   deleteBucket,
+		Schema: map[string]*schema.Schema{
+			// Required
+			"compartment_id": {
+				Type:     schema.TypeString,
+				Required: true,
+			},
+			"name": {
+				Type:     schema.TypeString,
+				Required: true,
+				ForceNew: true,
+			},
+			"namespace": {
+				Type:     schema.TypeString,
+				Required: true,
+			},
+
+			// Optional
+			"access_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				// @CODEGEN 2/2018: To avoid breaking change, set a default enum value for this property.
+				// Also include a validation function to check one of the expected values is passed in
+				Default: string(oci_object_storage.CreateBucketDetailsPublicAccessTypeNopublicaccess),
+				ValidateFunc: validation.StringInSlice([]string{
+					string(oci_object_storage.CreateBucketDetailsPublicAccessTypeNopublicaccess),
+					string(oci_object_storage.CreateBucketDetailsPublicAccessTypeObjectread),
+				}, true),
+			},
+			"metadata": {
+				// @CODEGEN 2/2018: This is generated as TypeList because we don't handle maps properly in the
+				// generator.
+				// The actual type of this property should be a map[string]string
+				Type:     schema.TypeMap,
+				Elem:     schema.TypeString,
+				Optional: true,
+			},
+
+			// Computed
+			"created_by": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"etag": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_created": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+		},
+	}
+}
+
+func createBucket(d *schema.ResourceData, m interface{}) error {
+	sync := &BucketResourceCrud{}
+	sync.D = d
+	sync.Client = m.(*OracleClients).objectStorageClient
+
+	return crud.CreateResource(d, sync)
+}
+
+func readBucket(d *schema.ResourceData, m interface{}) error {
+	sync := &BucketResourceCrud{}
+	sync.D = d
+	sync.Client = m.(*OracleClients).objectStorageClient
+
+	return crud.ReadResource(sync)
+}
+
+func updateBucket(d *schema.ResourceData, m interface{}) error {
+	sync := &BucketResourceCrud{}
+	sync.D = d
+	sync.Client = m.(*OracleClients).objectStorageClient
+
+	return crud.UpdateResource(d, sync)
+}
+
+func deleteBucket(d *schema.ResourceData, m interface{}) error {
+	sync := &BucketResourceCrud{}
+	sync.D = d
+	sync.Client = m.(*OracleClients).objectStorageClient
+	sync.DisableNotFoundRetries = true
+
+	return crud.DeleteResource(d, sync)
+}
+
+type BucketResourceCrud struct {
+	crud.BaseCrud
+	Client                 *oci_object_storage.ObjectStorageClient
+	Res                    *oci_object_storage.Bucket
+	DisableNotFoundRetries bool
+}
+
+// @CODEGEN 2/2018: Remove ID() function from here. This resource doesn't have an ID property.
+func (s *BucketResourceCrud) ID() string {
+	if s.Res.Namespace == nil || s.Res.Name == nil {
+		log.Printf("Could not get ID for bucket. The bucket namespace and/or name is nil")
+	}
+
+	return *s.Res.Namespace + "/" + *s.Res.Name
+}
+
+func (s *BucketResourceCrud) Create() error {
+	request := oci_object_storage.CreateBucketRequest{}
+
+	if accessType, ok := s.D.GetOk("access_type"); ok {
+		request.PublicAccessType = oci_object_storage.CreateBucketDetailsPublicAccessTypeEnum(accessType.(string))
+	}
+
+	if compartmentId, ok := s.D.GetOk("compartment_id"); ok {
+		tmp := compartmentId.(string)
+		request.CompartmentId = &tmp
+	}
+
+	if metadata, ok := s.D.GetOk("metadata"); ok {
+		request.Metadata = resourceObjectStorageMapToMetadata(metadata.(map[string]interface{}))
+	}
+
+	if name, ok := s.D.GetOk("name"); ok {
+		tmp := name.(string)
+		request.Name = &tmp
+	}
+
+	if namespace, ok := s.D.GetOk("namespace"); ok {
+		tmp := namespace.(string)
+		request.NamespaceName = &tmp
+	}
+
+	response, err := s.Client.CreateBucket(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "object_storage")...)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response.Bucket
+	return nil
+}
+
+func (s *BucketResourceCrud) Get() error {
+	request := oci_object_storage.GetBucketRequest{}
+
+	if bucketName, ok := s.D.GetOk("name"); ok {
+		tmp := bucketName.(string)
+		request.BucketName = &tmp
+	}
+
+	if namespace, ok := s.D.GetOk("namespace"); ok {
+		tmp := namespace.(string)
+		request.NamespaceName = &tmp
+	}
+
+	response, err := s.Client.GetBucket(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "object_storage")...)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response.Bucket
+	return nil
+}
+
+func (s *BucketResourceCrud) Update() error {
+	request := oci_object_storage.UpdateBucketRequest{}
+
+	if accessType, ok := s.D.GetOk("access_type"); ok {
+		request.PublicAccessType = oci_object_storage.UpdateBucketDetailsPublicAccessTypeEnum(accessType.(string))
+	}
+
+	if bucketName, ok := s.D.GetOk("name"); ok {
+		tmp := bucketName.(string)
+		request.BucketName = &tmp
+	}
+
+	if metadata, ok := s.D.GetOk("metadata"); ok {
+		request.Metadata = resourceObjectStorageMapToMetadata(metadata.(map[string]interface{}))
+	}
+
+	// @CODEGEN 2/2018: This should be used to change the name of a bucket, but the "name" field
+	// is already being used to identify the bucket. Should have a new field for this.
+	// Existing provider omits this, so we will omit it for now to avoid a potential breaking change.
+	//if name, ok := s.D.GetOk("name"); ok {
+	//	tmp := name.(string)
+	//	request.Name = &tmp
+	//}
+
+	if namespace, ok := s.D.GetOk("namespace"); ok {
+		tmp := namespace.(string)
+		request.NamespaceName = &tmp
+	}
+
+	// @CODEGEN 2/2018: This should be used to change the name of a bucket, but the "namespace" field
+	// is already being used to identify the bucket. Should have a new field for this.
+	// Existing provider omits this, so we will omit it for now to avoid a potential breaking change.
+	//if namespace, ok := s.D.GetOk("namespace"); ok {
+	//	tmp := namespace.(string)
+	//	request.Namespace = &tmp
+	//}
+
+	response, err := s.Client.UpdateBucket(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "object_storage")...)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response.Bucket
+	return nil
+}
+
+func (s *BucketResourceCrud) Delete() error {
+	request := oci_object_storage.DeleteBucketRequest{}
+
+	if bucketName, ok := s.D.GetOk("name"); ok {
+		tmp := bucketName.(string)
+		request.BucketName = &tmp
+	}
+
+	if namespace, ok := s.D.GetOk("namespace"); ok {
+		tmp := namespace.(string)
+		request.NamespaceName = &tmp
+	}
+
+	_, err := s.Client.DeleteBucket(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "object_storage")...)
+	return err
+}
+
+func (s *BucketResourceCrud) SetData() {
+	s.D.Set("access_type", s.Res.PublicAccessType)
+
+	if s.Res.CompartmentId != nil {
+		s.D.Set("compartment_id", *s.Res.CompartmentId)
+	}
+
+	if s.Res.CreatedBy != nil {
+		s.D.Set("created_by", *s.Res.CreatedBy)
+	}
+
+	if s.Res.Etag != nil {
+		s.D.Set("etag", *s.Res.Etag)
+	}
+
+	if s.Res.Metadata != nil {
+		s.D.Set("metadata", s.Res.Metadata)
+	}
+
+	if s.Res.Name != nil {
+		s.D.Set("name", *s.Res.Name)
+	}
+
+	if s.Res.Namespace != nil {
+		s.D.Set("namespace", *s.Res.Namespace)
+	}
+
+	s.D.Set("time_created", s.Res.TimeCreated.String())
+
+}
+
+// @CODEGEN 2/2018: mapToObject functions are generated here because generator doesn't handle map types from the spec.
+// Metadata field actually needs to be converted to a map[string]string type.
+// Remove the mapToObject functions from here and use the converter from helpers_objectstorage.go

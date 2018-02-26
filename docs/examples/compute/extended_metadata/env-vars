@@ -1,0 +1,9 @@
+### Authentication details
+export TF_VAR_tenancy_ocid="<tenancy OCID>"
+export TF_VAR_user_ocid="<user OCID>"
+export TF_VAR_fingerprint="<PEM key fingerprint>"
+export TF_VAR_private_key_path="<path to the private key that matches the fingerprint above>"
+
+### Public/private keys used on the instance
+export TF_VAR_ssh_public_key=$(cat ~/.ssh/key.pub)
+export TF_VAR_ssh_private_key=$(cat ~/.ssh/key)
