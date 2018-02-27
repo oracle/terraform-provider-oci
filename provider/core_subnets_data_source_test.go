@@ -49,7 +49,6 @@ func (s *DatasourceCoreSubnetTestSuite) SetupTest() {
 }
 
 func (s *DatasourceCoreSubnetTestSuite) TestAccDatasourceCoreSubnet_basic() {
-
 	resource.Test(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
@@ -62,34 +61,56 @@ func (s *DatasourceCoreSubnetTestSuite) TestAccDatasourceCoreSubnet_basic() {
 				data "oci_core_subnets" "s" {
 					compartment_id = "${var.compartment_id}"
 					vcn_id = "${oci_core_virtual_network.vcn1.id}"
-					depends_on = ["oci_core_subnet.s"]
 					filter {
 						name   = "availability_domain"
-						values = ["${lookup(data.oci_identity_availability_domains.ADs.availability_domains[1], "name")}"]
+						values = ["${oci_core_subnet.s.*.availability_domain[1]}"]
 					}
 				}`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "vcn_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "subnets.#", "1"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "subnets.0.availability_domain"),
+					TestCheckResourceAttributesEqual(s.ResourceName, "subnets.0.availability_domain", "oci_core_subnet.s.1", "availability_domain"),
 					resource.TestCheckResourceAttr(s.ResourceName, "subnets.0.cidr_block", "10.1.21.0/24"),
 					resource.TestCheckResourceAttr(s.ResourceName, "subnets.0.display_name", "subnet1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "subnets.0.dns_label", "subnet1"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "subnets.0.id"),
+					TestCheckResourceAttributesEqual(s.ResourceName, "subnets.0.id", "oci_core_subnet.s.1", "id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "subnets.0.prohibit_public_ip_on_vnic", "false"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "subnets.0.route_table_id"),
+					TestCheckResourceAttributesEqual(s.ResourceName, "subnets.0.route_table_id", "oci_core_subnet.s.1", "route_table_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "subnets.0.security_list_ids.#", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "subnets.0.state", string(core.SubnetLifecycleStateAvailable)),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "subnets.0.time_created"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "subnets.0.vcn_id"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "subnets.0.dhcp_options_id"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "subnets.0.virtual_router_ip"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "subnets.0.virtual_router_mac"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "subnets.0.subnet_domain_name"),
+					TestCheckResourceAttributesEqual(s.ResourceName, "subnets.0.time_created", "oci_core_subnet.s.1", "time_created"),
+					TestCheckResourceAttributesEqual(s.ResourceName, "subnets.0.vcn_id", "oci_core_subnet.s.1", "vcn_id"),
+					TestCheckResourceAttributesEqual(s.ResourceName, "subnets.0.dhcp_options_id", "oci_core_subnet.s.1", "dhcp_options_id"),
+					TestCheckResourceAttributesEqual(s.ResourceName, "subnets.0.virtual_router_ip", "oci_core_subnet.s.1", "virtual_router_ip"),
+					TestCheckResourceAttributesEqual(s.ResourceName, "subnets.0.virtual_router_mac", "oci_core_subnet.s.1", "virtual_router_mac"),
+					TestCheckResourceAttributesEqual(s.ResourceName, "subnets.0.subnet_domain_name", "oci_core_subnet.s.1", "subnet_domain_name"),
 				),
-				// Work around for terraform bug where depends_on results in "plan was not empty"
-				// https://github.com/hashicorp/terraform/issues/11139
-				ExpectNonEmptyPlan: true,
+			},
+			// Server-side filtering tests.
+			{
+				Config: s.Config + `
+				data "oci_core_subnets" "s" {
+					compartment_id = "${var.compartment_id}"
+					vcn_id = "${oci_core_virtual_network.vcn1.id}"
+					display_name = "${oci_core_subnet.s.2.display_name}"
+				}`,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttrSet(s.ResourceName, "vcn_id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "subnets.#", "1"),
+					TestCheckResourceAttributesEqual(s.ResourceName, "subnets.0.id", "oci_core_subnet.s.2", "id"),
+				),
+			},
+			{
+				Config: s.Config + `
+				data "oci_core_subnets" "s" {
+					compartment_id = "${var.compartment_id}"
+					vcn_id = "${oci_core_virtual_network.vcn1.id}"
+					state = "${oci_core_subnet.s.0.state}" # Adding implicit dependency
+				}`,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttrSet(s.ResourceName, "vcn_id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "subnets.#", "3"),
+				),
 			},
 		},
 	},
