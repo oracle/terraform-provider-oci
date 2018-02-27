@@ -31,7 +31,6 @@ func (s *DatasourceCoreVolumeTestSuite) SetupTest() {
 		display_name = "-tf-volume"
 		size_in_gbs = 50
 	}
-	
 	resource "oci_core_volume" "u" {
 		availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
 		compartment_id = "${var.compartment_id}"
@@ -46,7 +45,7 @@ func (s *DatasourceCoreVolumeTestSuite) SetupTest() {
 }
 
 func (s *DatasourceCoreVolumeTestSuite) TestAccDatasourceCoreVolume_basic() {
-
+	compartmentID := getCompartmentIDForLegacyTests()
 	resource.Test(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
@@ -60,11 +59,52 @@ func (s *DatasourceCoreVolumeTestSuite) TestAccDatasourceCoreVolume_basic() {
 					compartment_id = "${oci_core_volume.t.compartment_id}"
 				}`,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "compartment_id"),
+					TestCheckResourceAttributesEqual(s.ResourceName, "availability_domain", "data.oci_identity_availability_domains.ADs", "availability_domains.0.name"),
+					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", compartmentID),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "volumes.#"),
 				),
 			},
+			// Server-side filtering tests.
+			{
+				// This test exercises filtering by state. Adding client-side filtering by display_name
+				// to restrict the results to the volumes created in this test.
+				Config: s.Config + `
+				data "oci_core_volumes" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${oci_core_volume.t.compartment_id}"
+					state = "` + string(core.VolumeLifecycleStateAvailable) + `"
+					filter {
+						name = "display_name"
+						values = ["-tf.*"]
+						regex = true
+					}
+				}`,
+				Check: resource.ComposeTestCheckFunc(
+					TestCheckResourceAttributesEqual(s.ResourceName, "availability_domain", "data.oci_identity_availability_domains.ADs", "availability_domains.0.name"),
+					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", compartmentID),
+					resource.TestCheckResourceAttr(s.ResourceName, "volumes.#", "2"),
+					// TODO: Add id checks once order-by is supported.
+				),
+			},
+			{
+				// This test exercises filtering by display_name. Adding filtering by state filter as
+				// well to limit the scope to available volumes because the service can return terminated
+				// if they have the same display name.
+				Config: s.Config + `
+				data "oci_core_volumes" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${oci_core_volume.t.compartment_id}"
+					state = "` + string(core.VolumeLifecycleStateAvailable) + `"
+					display_name = "${oci_core_volume.t.display_name}"
+				}`,
+				Check: resource.ComposeTestCheckFunc(
+					TestCheckResourceAttributesEqual(s.ResourceName, "availability_domain", "data.oci_identity_availability_domains.ADs", "availability_domains.0.name"),
+					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", compartmentID),
+					resource.TestCheckResourceAttr(s.ResourceName, "volumes.#", "1"),
+					TestCheckResourceAttributesEqual(s.ResourceName, "volumes.0.id", "oci_core_volume.t", "id"),
+				),
+			},
+			// Client-side filtering tests.
 			{
 				ImportState:       true,
 				ImportStateVerify: true,
@@ -78,13 +118,13 @@ func (s *DatasourceCoreVolumeTestSuite) TestAccDatasourceCoreVolume_basic() {
 					}
 				}`,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "compartment_id"),
+					TestCheckResourceAttributesEqual(s.ResourceName, "availability_domain", "data.oci_identity_availability_domains.ADs", "availability_domains.0.name"),
+					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", compartmentID),
 					resource.TestCheckResourceAttr(s.ResourceName, "volumes.#", "1"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "volumes.0.availability_domain"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "volumes.0.compartment_id"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "volumes.0.id"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "volumes.0.time_created"),
+					TestCheckResourceAttributesEqual(s.ResourceName, "volumes.0.availability_domain", "oci_core_volume.t", "availability_domain"),
+					TestCheckResourceAttributesEqual(s.ResourceName, "volumes.0.compartment_id", "oci_core_volume.t", "compartment_id"),
+					TestCheckResourceAttributesEqual(s.ResourceName, "volumes.0.id", "oci_core_volume.t", "id"),
+					TestCheckResourceAttributesEqual(s.ResourceName, "volumes.0.time_created", "oci_core_volume.t", "time_created"),
 					resource.TestCheckResourceAttr(s.ResourceName, "volumes.0.state", string(core.VolumeLifecycleStateAvailable)),
 					resource.TestCheckResourceAttr(s.ResourceName, "volumes.0.display_name", "-tf-volume"),
 					resource.TestCheckResourceAttr(s.ResourceName, "volumes.0.size_in_gbs", "50"),
@@ -104,19 +144,21 @@ func (s *DatasourceCoreVolumeTestSuite) TestAccDatasourceCoreVolume_basic() {
 					}
 				}`,
 				Check: resource.ComposeTestCheckFunc(
+					TestCheckResourceAttributesEqual("data.oci_core_volumes.u", "availability_domain", "data.oci_identity_availability_domains.ADs", "availability_domains.0.name"),
+					resource.TestCheckResourceAttr("data.oci_core_volumes.u", "compartment_id", compartmentID),
 					resource.TestCheckResourceAttr("data.oci_core_volumes.u", "volumes.#", "1"),
 					resource.TestCheckResourceAttr("data.oci_core_volumes.u", "volumes.0.source_details.#", "1"),
-					resource.TestCheckResourceAttrSet("data.oci_core_volumes.u", "volumes.0.availability_domain"),
-					resource.TestCheckResourceAttrSet("data.oci_core_volumes.u", "volumes.0.compartment_id"),
-					resource.TestCheckResourceAttrSet("data.oci_core_volumes.u", "volumes.0.id"),
+					TestCheckResourceAttributesEqual("data.oci_core_volumes.u", "volumes.0.availability_domain", "oci_core_volume.u", "availability_domain"),
+					TestCheckResourceAttributesEqual("data.oci_core_volumes.u", "volumes.0.compartment_id", "oci_core_volume.u", "compartment_id"),
+					TestCheckResourceAttributesEqual("data.oci_core_volumes.u", "volumes.0.id", "oci_core_volume.u", "id"),
 					resource.TestCheckResourceAttr("data.oci_core_volumes.u", "volumes.0.source_details.0.type", "volume"),
-					resource.TestCheckResourceAttrSet("data.oci_core_volumes.u", "volumes.0.source_details.0.id"),
+					TestCheckResourceAttributesEqual("data.oci_core_volumes.u", "volumes.0.source_details.0.id", "oci_core_volume.u", "source_details.0.id"),
 					resource.TestCheckResourceAttr("data.oci_core_volumes.u", "volumes.0.state", string(core.VolumeLifecycleStateAvailable)),
 					resource.TestCheckResourceAttr("data.oci_core_volumes.u", "volumes.0.display_name", "-tf-volume-clone"),
 					resource.TestCheckResourceAttr("data.oci_core_volumes.u", "volumes.0.size_in_gbs", "50"),
 					resource.TestCheckResourceAttr("data.oci_core_volumes.u", "volumes.0.size_in_mbs", "51200"),
-					resource.TestCheckResourceAttr("data.oci_core_volumes.u", "volumes.0.is_hydrated", "true"),
-					resource.TestCheckResourceAttrSet("data.oci_core_volumes.u", "volumes.0.time_created"),
+					TestCheckResourceAttributesEqual("data.oci_core_volumes.u", "volumes.0.is_hydrated", "oci_core_volume.u", "is_hydrated"),
+					TestCheckResourceAttributesEqual("data.oci_core_volumes.u", "volumes.0.time_created", "oci_core_volume.u", "time_created"),
 				),
 			},
 		},
