@@ -3,6 +3,31 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+## 2.1.0-beta - 2018-02-26
+
+### Added
+- OCI Terraform Provider now uses the [official Go SDK](https://github.com/oracle/oci-go-sdk)
+- [Filter](https://github.com/oracle/terraform-provider-oci/blob/master/docs/Filters.md) was added for several data sources.
+- New server-side filter fields have been added for some data sources
+- Several resources and data sources now allow new fields in their configurations, enabling functionality that was missing in the OCI provider earlier.
+
+The full details of added functionality is available [here](add-link)
+
+### Deprecated
+- Several fields that are not supported by the backend services have been deprecated.
+
+The full list of deprecated fields is available [here](add-link)
+
+### Fixed
+- Several bug fixes have been made.
+
+The full list of bug fixes is available [here](add-link)
+
+### Notes
+- This is a significant update of the OCI Terraform Provider. This is an internal beta release.
+- If upgrading from v1, see [this wiki](https://github.com/oracle/terraform-provider-oci/wiki/Oracle-Terraform-Provider-Name-Change) for migration steps.
+- See docs for this version [here](https://github.com/oracle/terraform-provider-oci/tree/v2.0.6).
+
 ## 2.0.6 - 2018-01-08
 
 ### Added
