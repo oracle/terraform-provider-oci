@@ -26,16 +26,21 @@ func (s *DatasourceObjectstorageBucketSummaryTestSuite) SetupTest() {
 	s.Config = legacyTestProviderConfig() + s.TokenFn(`
 	data "oci_objectstorage_namespace" "t" {
 	}
-	
 	resource "oci_objectstorage_bucket" "t" {
 		compartment_id = "${var.compartment_id}"
 		namespace = "${data.oci_objectstorage_namespace.t.namespace}"
 		name = "{{.token}}"
-	}`, nil)
+	}
+	resource "oci_objectstorage_bucket" "u" {
+		compartment_id = "${var.compartment_id}"
+		namespace = "${data.oci_objectstorage_namespace.t.namespace}"
+		name = "{{.otherToken}}"
+	}`, map[string]string{"otherToken": s.Token + "-2"})
 	s.ResourceName = "data.oci_objectstorage_bucket_summaries.t"
 }
 
 func (s *DatasourceObjectstorageBucketSummaryTestSuite) TestAccDatasourceObjectstorageBucketSummaries_basic() {
+	compartmentID := getCompartmentIDForLegacyTests()
 	resource.Test(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
@@ -45,19 +50,55 @@ func (s *DatasourceObjectstorageBucketSummaryTestSuite) TestAccDatasourceObjects
 				ImportStateVerify: true,
 				Config:            s.Config,
 			},
+			// Client-side filtering.
+			{
+				Config: s.Config + s.TokenFn(`
+				data "oci_objectstorage_bucket_summaries" "t" {
+					compartment_id = "${var.compartment_id}"
+					namespace = "${data.oci_objectstorage_namespace.t.namespace}"
+					filter {
+						name = "name"
+						values = ["{{.token}}"]
+					}
+				}`, nil),
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", compartmentID),
+					TestCheckResourceAttributesEqual(s.ResourceName, "namespace", "data.oci_objectstorage_namespace.t", "namespace"),
+					resource.TestCheckResourceAttr(s.ResourceName, "bucket_summaries.#", "1"),
+					TestCheckResourceAttributesEqual(s.ResourceName, "bucket_summaries.0.name", "oci_objectstorage_bucket.t", "name"),
+				),
+			},
+			{
+				Config: s.Config + s.TokenFn(`
+				data "oci_objectstorage_bucket_summaries" "t" {
+					compartment_id = "${var.compartment_id}"
+					namespace = "${data.oci_objectstorage_namespace.t.namespace}"
+					filter {
+						name = "name"
+						values = ["{{.otherToken}}"]
+					}
+				}`, map[string]string{"otherToken": s.Token + "-2"}),
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", compartmentID),
+					TestCheckResourceAttributesEqual(s.ResourceName, "namespace", "data.oci_objectstorage_namespace.t", "namespace"),
+					resource.TestCheckResourceAttr(s.ResourceName, "bucket_summaries.#", "1"),
+					TestCheckResourceAttributesEqual(s.ResourceName, "bucket_summaries.0.name", "oci_objectstorage_bucket.u", "name"),
+				),
+			},
 			{
 				Config: s.Config + `
 				data "oci_objectstorage_bucket_summaries" "t" {
 					compartment_id = "${var.compartment_id}"
 					namespace = "${data.oci_objectstorage_namespace.t.namespace}"
+					filter {
+						name = "name"
+						values = ["non-existent-bucket"]
+					}
 				}`,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet(s.ResourceName, "compartment_id"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "namespace"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "bucket_summaries.#"),
-					// todo: these assertions wont be reliable until data sources support filters
-					//resource.TestCheckResourceAttr(s.ResourceName, "bucket_summaries.#", "1"),
-					//resource.TestCheckResourceAttr(s.ResourceName, "bucket_summaries.0.name", s.Token),
+					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", compartmentID),
+					TestCheckResourceAttributesEqual(s.ResourceName, "namespace", "data.oci_objectstorage_namespace.t", "namespace"),
+					resource.TestCheckResourceAttr(s.ResourceName, "bucket_summaries.#", "0"),
 				),
 			},
 		},

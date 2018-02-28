@@ -31,7 +31,14 @@ func (s *DatasourceIdentityAPIKeysTestSuite) SetupTest() {
 	resource "oci_identity_api_key" "t" {
 		user_id = "${oci_identity_user.t.id}"
 		key_value = <<EOF
-`+api_key+`
+`+apiKey+`
+EOF
+	}
+	
+	resource "oci_identity_api_key" "u" {
+		user_id = "${oci_identity_user.t.id}"
+		key_value = <<EOF
+`+apiKey2+`
 EOF
 	}`, map[string]string{"userName": "user_" + timestamp()})
 	s.ResourceName = "data.oci_identity_api_keys.t"
@@ -50,14 +57,28 @@ func (s *DatasourceIdentityAPIKeysTestSuite) TestAccDatasourceIdentityAPIKeys_ba
 			{
 				Config: s.Config + `
 				data "oci_identity_api_keys" "t" {
-				  user_id = "${oci_identity_user.t.id}"
+					user_id = "${oci_identity_user.t.id}"
+				}`,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttr(s.ResourceName, "api_keys.#", "2"),
+				),
+			},
+			// Client-side filtering.
+			{
+				Config: s.Config + `
+				data "oci_identity_api_keys" "t" {
+					user_id = "${oci_identity_user.t.id}"
+					filter {
+						name = "id"
+						values = ["${oci_identity_api_key.t.id}"]
+					}
 				}`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "api_keys.#", "1"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "api_keys.0.id"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "api_keys.0.fingerprint"),
-					resource.TestCheckResourceAttr(s.ResourceName, "api_keys.0.key_value", api_key),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "api_keys.0.time_created"),
+					TestCheckResourceAttributesEqual(s.ResourceName, "api_keys.0.id", "oci_identity_api_key.t", "id"),
+					TestCheckResourceAttributesEqual(s.ResourceName, "api_keys.0.fingerprint", "oci_identity_api_key.t", "fingerprint"),
+					resource.TestCheckResourceAttr(s.ResourceName, "api_keys.0.key_value", apiKey),
+					TestCheckResourceAttributesEqual(s.ResourceName, "api_keys.0.time_created", "oci_identity_api_key.t", "time_created"),
 					// TODO: This field is not being returned by the service call but is showing up in the datasource
 					//resource.TestCheckNoResourceAttr(s.ResourceName, "api_keys.0.inactive_status"),
 					resource.TestCheckResourceAttr(s.ResourceName, "api_keys.0.state", string(identity.ApiKeyLifecycleStateActive)),

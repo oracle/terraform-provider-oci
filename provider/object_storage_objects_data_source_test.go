@@ -39,6 +39,13 @@ func (s *DatasourceObjectstorageObjectTestSuite) SetupTest() {
 		bucket = "${oci_objectstorage_bucket.t.name}"
 		object = "-tf-object"
 		content = "123"
+	}
+	
+	resource "oci_objectstorage_object" "u" {
+		namespace = "${data.oci_objectstorage_namespace.t.namespace}"
+		bucket = "${oci_objectstorage_bucket.t.name}"
+		object = "-tf-object2"
+		content = "456"
 	}`, nil)
 
 	s.ResourceName = "data.oci_objectstorage_objects.t"
@@ -64,7 +71,24 @@ func (s *DatasourceObjectstorageObjectTestSuite) TestAccDatasourceObjectstorageO
 					bucket = "${oci_objectstorage_bucket.t.name}"
 				}`,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet(s.ResourceName, "namespace"),
+					TestCheckResourceAttributesEqual(s.ResourceName, "namespace", "data.oci_objectstorage_namespace.t", "namespace"),
+					resource.TestCheckResourceAttr(s.ResourceName, "bucket", s.Token),
+					resource.TestCheckResourceAttr(s.ResourceName, "objects.#", "2"),
+				),
+			},
+			// Client-side filtering.
+			{
+				Config: s.Config + `
+				data "oci_objectstorage_objects" "t" {
+					namespace = "${data.oci_objectstorage_namespace.t.namespace}"
+					bucket = "${oci_objectstorage_bucket.t.name}"
+					filter {
+						name = "name"
+						values = ["-tf-object"]
+					}
+				}`,
+				Check: resource.ComposeTestCheckFunc(
+					TestCheckResourceAttributesEqual(s.ResourceName, "namespace", "data.oci_objectstorage_namespace.t", "namespace"),
 					resource.TestCheckResourceAttr(s.ResourceName, "bucket", s.Token),
 					resource.TestCheckResourceAttr(s.ResourceName, "objects.#", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "objects.0.name", "-tf-object"),
