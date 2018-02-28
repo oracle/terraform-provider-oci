@@ -3,9 +3,11 @@
 package provider
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/terraform"
 )
 
 func TestAccDatasourceLoadBalancerBackends_basic(t *testing.T) {
@@ -62,11 +64,6 @@ func TestAccDatasourceLoadBalancerBackends_basic(t *testing.T) {
 		drain = false
 		offline = false
 		weight = 1
-	}
-	
-	data "oci_load_balancer_backends" "t" {
-		load_balancer_id = "${oci_load_balancer.t.id}"
-		backendset_name  = "${oci_load_balancer_backendset.t.name}"
 	}`
 
 	resourceName := "data.oci_load_balancer_backends.t"
@@ -81,20 +78,78 @@ func TestAccDatasourceLoadBalancerBackends_basic(t *testing.T) {
 				Config:            config,
 			},
 			{
-				Config: config,
+				Config: config + `
+				data "oci_load_balancer_backends" "t" {
+					load_balancer_id = "${oci_load_balancer.t.id}"
+					backendset_name  = "${oci_load_balancer_backendset.t.name}"
+				}`,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "backendset_name"),
+					TestCheckResourceAttributesEqual(resourceName, "load_balancer_id", "oci_load_balancer.t", "id"),
+					TestCheckResourceAttributesEqual(resourceName, "backendset_name", "oci_load_balancer_backendset.t", "name"),
 					resource.TestCheckResourceAttr(resourceName, "backends.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "backends.0.ip_address", "1.2.3.4"),
-					resource.TestCheckResourceAttr(resourceName, "backends.0.port", "8080"),
-					resource.TestCheckResourceAttr(resourceName, "backends.0.backup", "false"),
-					resource.TestCheckResourceAttr(resourceName, "backends.0.drain", "false"),
-					resource.TestCheckResourceAttr(resourceName, "backends.0.offline", "false"),
-					resource.TestCheckResourceAttr(resourceName, "backends.0.weight", "1"),
+					TestCheckResourceAttributesEqual(resourceName, "backends.0.ip_address", "oci_load_balancer_backend.t", "ip_address"),
+					TestCheckResourceAttributesEqual(resourceName, "backends.0.port", "oci_load_balancer_backend.t", "port"),
+					TestCheckResourceAttributesEqual(resourceName, "backends.0.backup", "oci_load_balancer_backend.t", "backup"),
+					TestCheckResourceAttributesEqual(resourceName, "backends.0.drain", "oci_load_balancer_backend.t", "drain"),
+					TestCheckResourceAttributesEqual(resourceName, "backends.0.offline", "oci_load_balancer_backend.t", "offline"),
+					TestCheckResourceAttributesEqual(resourceName, "backends.0.weight", "oci_load_balancer_backend.t", "weight"),
 					resource.TestCheckResourceAttrSet(resourceName, "backends.0.name"),
+					validateBackendName(resourceName),
+				),
+			},
+			// Client-side filtering.
+			{
+				Config: config + `
+				resource "oci_load_balancer_backend" "u" {
+					load_balancer_id = "${oci_load_balancer.t.id}"
+					backendset_name = "${oci_load_balancer_backendset.t.name}"
+					ip_address = "5.6.7.8"
+					port = 80
+					backup = false
+					drain = false
+					offline = false
+					weight = 1
+				}
+				
+				data "oci_load_balancer_backends" "t" {
+					load_balancer_id = "${oci_load_balancer.t.id}"
+					backendset_name  = "${oci_load_balancer_backendset.t.name}"
+					filter {
+						name = "ip_address"
+						values = ["1.2.3.4"]
+					}
+				}`,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					TestCheckResourceAttributesEqual(resourceName, "load_balancer_id", "oci_load_balancer.t", "id"),
+					TestCheckResourceAttributesEqual(resourceName, "backendset_name", "oci_load_balancer_backendset.t", "name"),
+					resource.TestCheckResourceAttr(resourceName, "backends.#", "1"),
+					TestCheckResourceAttributesEqual(resourceName, "backends.0.ip_address", "oci_load_balancer_backend.t", "ip_address"),
+					TestCheckResourceAttributesEqual(resourceName, "backends.0.port", "oci_load_balancer_backend.t", "port"),
+					validateBackendName(resourceName),
 				),
 			},
 		},
 	})
+}
+
+func validateBackendName(resourceName string) resource.TestCheckFunc {
+	return func(s *terraform.State) error {
+		ipAddress, err := fromInstanceState(s, resourceName, "backends.0.ip_address")
+		if err != nil {
+			return err
+		}
+		port, err := fromInstanceState(s, resourceName, "backends.0.port")
+		if err != nil {
+			return err
+		}
+		actualName, err := fromInstanceState(s, resourceName, "backends.0.name")
+		if err != nil {
+			return err
+		}
+		expectedName := ipAddress + ":" + port
+		if expectedName != actualName {
+			return fmt.Errorf("invalid name: expected %s, got %s", expectedName, actualName)
+		}
+		return nil
+	}
 }

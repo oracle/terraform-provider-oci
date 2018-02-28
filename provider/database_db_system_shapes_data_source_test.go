@@ -3,6 +3,7 @@
 package provider
 
 import (
+	"regexp"
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
@@ -44,6 +45,38 @@ func (s *DatabaseDBSystemShapeTestSuite) TestAccDatasourceDatabaseDBSystemShape_
 					resource.TestCheckResourceAttrSet(s.ResourceName, "db_system_shapes.0.name"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "db_system_shapes.0.shape"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "db_system_shapes.0.available_core_count"),
+				),
+			},
+			// Client-side filtering.
+			{
+				Config: s.Config + `
+					data "oci_database_db_system_shapes" "t" {
+						availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+						compartment_id = "${var.compartment_id}"
+						filter {
+							name = "shape"
+							values = ["non-existent-db-shape"]
+						}
+					}`,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttr(s.ResourceName, "db_system_shapes.#", "0"),
+				),
+			},
+			{
+				Config: s.Config + `
+					data "oci_database_db_system_shapes" "t" {
+						availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+						compartment_id = "${var.compartment_id}"
+						filter {
+							name = "shape"
+							values = ["VM\\.Standard.+"]
+							regex = true
+						}
+					}`,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestMatchResourceAttr(s.ResourceName, "db_system_shapes.#", regexp.MustCompile("[1-9][0-9]*")), // At least one image returned.
+					resource.TestMatchResourceAttr(s.ResourceName, "db_system_shapes.0.name", regexp.MustCompile(`VM\.Standard.+`)),
+					resource.TestMatchResourceAttr(s.ResourceName, "db_system_shapes.0.shape", regexp.MustCompile(`VM\.Standard.+`)),
 				),
 			},
 		},
