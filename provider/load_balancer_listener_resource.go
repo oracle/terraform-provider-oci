@@ -3,16 +3,16 @@
 package provider
 
 import (
+	"context"
 	"fmt"
-	"log"
 
 	"github.com/hashicorp/terraform/helper/schema"
-	"github.com/oracle/bmcs-go-sdk"
+	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
 
 	"github.com/oracle/terraform-provider-oci/crud"
 )
 
-func LoadBalancerListenerResource() *schema.Resource {
+func ListenerResource() *schema.Resource {
 	return &schema.Resource{
 		Create: createLoadBalancerListener,
 		Read:   readLoadBalancerListener,
@@ -41,7 +41,29 @@ func LoadBalancerListenerResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"ssl_configuration": SSLConfigSchema,
+			"ssl_configuration": {
+				Type:     schema.TypeList,
+				Optional: true,
+				MaxItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"certificate_name": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+						"verify_depth": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Default:  5,
+						},
+						"verify_peer_certificate": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Default:  true,
+						},
+					},
+				},
+			},
 			// internal for work request access
 			"state": {
 				Type:     schema.TypeString,
@@ -54,40 +76,43 @@ func LoadBalancerListenerResource() *schema.Resource {
 func createLoadBalancerListener(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &LoadBalancerListenerResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).client
+	sync.Client = m.(*OracleClients).loadBalancerClient
 	return crud.CreateResource(d, sync)
 }
 
 func readLoadBalancerListener(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &LoadBalancerListenerResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).client
+	sync.Client = m.(*OracleClients).loadBalancerClient
 	return crud.ReadResource(sync)
 }
 
 func updateLoadBalancerListener(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &LoadBalancerListenerResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).client
+	sync.Client = m.(*OracleClients).loadBalancerClient
 	return crud.UpdateResource(d, sync)
 }
 
 func deleteLoadBalancerListener(d *schema.ResourceData, m interface{}) (e error) {
 	sync := &LoadBalancerListenerResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).clientWithoutNotFoundRetries
+	sync.Client = m.(*OracleClients).loadBalancerClient
+	sync.DisableNotFoundRetries = true
 	return crud.DeleteResource(d, sync)
 }
 
 type LoadBalancerListenerResourceCrud struct {
 	crud.BaseCrud
-	WorkRequest *baremetal.WorkRequest
-	Resource    *baremetal.Listener
+	Client                 *oci_load_balancer.LoadBalancerClient
+	WorkRequest            *oci_load_balancer.WorkRequest
+	Res                    *oci_load_balancer.Listener
+	DisableNotFoundRetries bool
 }
 
 // ID uniquely identifies the listener and its parent load balancer
 func (s *LoadBalancerListenerResourceCrud) ID() string {
-	id, workSuccess := crud.LoadBalancerResourceID(s.Resource, s.WorkRequest)
+	id, workSuccess := crud.LoadBalancerResourceID(s.Res, s.WorkRequest)
 	if id != nil {
 		return *id
 	}
@@ -99,44 +124,43 @@ func (s *LoadBalancerListenerResourceCrud) ID() string {
 
 func (s *LoadBalancerListenerResourceCrud) CreatedPending() []string {
 	return []string{
-		baremetal.ResourceWaitingForWorkRequest,
-		baremetal.WorkRequestInProgress,
-		baremetal.WorkRequestAccepted,
+		string(oci_load_balancer.WorkRequestLifecycleStateInProgress),
+		string(oci_load_balancer.WorkRequestLifecycleStateAccepted),
 	}
 }
 
 func (s *LoadBalancerListenerResourceCrud) CreatedTarget() []string {
 	return []string{
-		baremetal.ResourceSucceededWorkRequest,
-		baremetal.WorkRequestSucceeded,
-		baremetal.WorkRequestFailed,
+		string(oci_load_balancer.WorkRequestLifecycleStateSucceeded),
+		string(oci_load_balancer.WorkRequestLifecycleStateFailed),
 	}
 }
 
 func (s *LoadBalancerListenerResourceCrud) DeletedPending() []string {
 	return []string{
-		baremetal.ResourceWaitingForWorkRequest,
-		baremetal.WorkRequestInProgress,
-		baremetal.WorkRequestAccepted,
+		string(oci_load_balancer.WorkRequestLifecycleStateInProgress),
+		string(oci_load_balancer.WorkRequestLifecycleStateAccepted),
 	}
 }
 
 func (s *LoadBalancerListenerResourceCrud) DeletedTarget() []string {
 	return []string{
-		baremetal.ResourceSucceededWorkRequest,
-		baremetal.WorkRequestSucceeded,
-		baremetal.WorkRequestFailed,
+		string(oci_load_balancer.WorkRequestLifecycleStateSucceeded),
+		string(oci_load_balancer.WorkRequestLifecycleStateFailed),
 	}
 }
 
-func (s *LoadBalancerListenerResourceCrud) sslConfig() (sslConfig *baremetal.SSLConfiguration) {
+func (s *LoadBalancerListenerResourceCrud) sslConfig() (sslConfig *oci_load_balancer.SslConfigurationDetails) {
 	vs := s.D.Get("ssl_configuration").([]interface{})
 	if len(vs) == 1 {
-		sslConfig = new(baremetal.SSLConfiguration)
+		sslConfig = new(oci_load_balancer.SslConfigurationDetails)
 		v := vs[0].(map[string]interface{})
-		sslConfig.CertificateName = v["certificate_name"].(string)
-		sslConfig.VerifyDepth = v["verify_depth"].(int)
-		sslConfig.VerifyPeerCertificate = v["verify_peer_certificate"].(bool)
+		certificateNameStr := v["certificate_name"].(string)
+		sslConfig.CertificateName = &certificateNameStr
+		verifyDepthInt := v["verify_depth"].(int)
+		sslConfig.VerifyDepth = &verifyDepthInt
+		verifyPeerCertificateBool := v["verify_peer_certificate"].(bool)
+		sslConfig.VerifyPeerCertificate = &verifyPeerCertificateBool
 		return sslConfig
 	}
 
@@ -144,26 +168,53 @@ func (s *LoadBalancerListenerResourceCrud) sslConfig() (sslConfig *baremetal.SSL
 }
 
 func (s *LoadBalancerListenerResourceCrud) Create() (e error) {
-	var workReqID string
-	workReqID, e = s.Client.CreateListener(
-		s.D.Get("load_balancer_id").(string),
-		s.D.Get("name").(string),
-		s.D.Get("default_backend_set_name").(string),
-		s.D.Get("protocol").(string),
-		s.D.Get("port").(int),
-		s.sslConfig(),
-		nil, // neither OPCClientRequestID nor RetryToken is needed
-	)
-	if e != nil {
-		return
+	request := oci_load_balancer.CreateListenerRequest{}
+
+	if defaultBackendSetName, ok := s.D.GetOkExists("default_backend_set_name"); ok {
+		tmp := defaultBackendSetName.(string)
+		request.DefaultBackendSetName = &tmp
 	}
-	s.WorkRequest, e = s.Client.GetWorkRequest(workReqID, nil)
-	return
+
+	if loadBalancerId, ok := s.D.GetOkExists("load_balancer_id"); ok {
+		tmp := loadBalancerId.(string)
+		request.LoadBalancerId = &tmp
+	}
+
+	if name, ok := s.D.GetOkExists("name"); ok {
+		tmp := name.(string)
+		request.Name = &tmp
+	}
+
+	if port, ok := s.D.GetOkExists("port"); ok {
+		tmp := port.(int)
+		request.Port = &tmp
+	}
+
+	if protocol, ok := s.D.GetOkExists("protocol"); ok {
+		tmp := protocol.(string)
+		request.Protocol = &tmp
+	}
+
+	request.SslConfiguration = s.sslConfig()
+
+	response, err := s.Client.CreateListener(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "load_balancer")...)
+	if err != nil {
+		return err
+	}
+	workReqID := response.OpcWorkRequestId
+	getWorkRequestRequest := oci_load_balancer.GetWorkRequestRequest{}
+	getWorkRequestRequest.WorkRequestId = workReqID
+	workRequestResponse, err := s.Client.GetWorkRequest(context.Background(), getWorkRequestRequest, getRetryOptions(s.DisableNotFoundRetries, "load_balancer")...)
+	if err != nil {
+		return err
+	}
+	s.WorkRequest = &workRequestResponse.WorkRequest
+	return nil
 }
 
 func (s *LoadBalancerListenerResourceCrud) Get() (e error) {
 	// key: {workRequestID} || {loadBalancerID,name}
-	_, stillWorking, err := crud.LoadBalancerResourceGet(s.BaseCrud, s.WorkRequest)
+	_, stillWorking, err := crud.LoadBalancerResourceGet(s.Client, s.D, s.WorkRequest, getRetryOptions(s.DisableNotFoundRetries, "load_balancer")...)
 	if err != nil {
 		return err
 	}
@@ -173,68 +224,120 @@ func (s *LoadBalancerListenerResourceCrud) Get() (e error) {
 
 	res, e := s.GetListener(s.D.Get("load_balancer_id").(string), s.D.Get("name").(string))
 	if e == nil {
-		s.Resource = res
+		s.Res = res
 	}
 	return
 }
 
-// TODO: move this into the SDK, onto the client
-func (s *LoadBalancerListenerResourceCrud) GetListener(loadBalancerID, name string) (*baremetal.Listener, error) {
-	lb, err := s.Client.GetLoadBalancer(loadBalancerID, nil)
+func (s *LoadBalancerListenerResourceCrud) GetListener(loadBalancerID, name string) (*oci_load_balancer.Listener, error) {
+	request := oci_load_balancer.GetLoadBalancerRequest{}
+	request.LoadBalancerId = &loadBalancerID
+	response, err := s.Client.GetLoadBalancer(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "load_balancer")...)
 	if err != nil {
 		return nil, err
 	}
-	l := lb.Listeners[name]
-	if l.Name == name {
-		return &l, nil
+	lb := &response.LoadBalancer
+	if lb != nil && lb.Listeners != nil {
+		if l, ok := lb.Listeners[name]; ok {
+			if l.Name != nil && *l.Name == name {
+				return &l, nil
+			}
+		}
 	}
 	return nil, fmt.Errorf("Listener %s on load balancer %s does not exist", name, loadBalancerID)
 }
 
 func (s *LoadBalancerListenerResourceCrud) Update() (e error) {
+	request := oci_load_balancer.UpdateListenerRequest{}
 
-	opts := &baremetal.UpdateLoadBalancerListenerOptions{
-		DefaultBackendSetName: s.D.Get("default_backend_set_name").(string),
-		Port:     s.D.Get("port").(int),
-		Protocol: s.D.Get("protocol").(string),
+	if defaultBackendSetName, ok := s.D.GetOkExists("default_backend_set_name"); ok {
+		tmp := defaultBackendSetName.(string)
+		request.DefaultBackendSetName = &tmp
 	}
-	opts.SSLConfig = s.sslConfig()
-	log.Printf("SSL CONFIGURATION: %v", opts.SSLConfig)
 
-	var workReqID string
-	workReqID, e = s.Client.UpdateListener(s.D.Get("load_balancer_id").(string), s.D.Get("name").(string), opts)
-	if e != nil {
+	if loadBalancerId, ok := s.D.GetOkExists("load_balancer_id"); ok {
+		tmp := loadBalancerId.(string)
+		request.LoadBalancerId = &tmp
+	}
+
+	if name, ok := s.D.GetOkExists("name"); ok {
+		tmp := name.(string)
+		request.ListenerName = &tmp
+	}
+
+	if port, ok := s.D.GetOkExists("port"); ok {
+		tmp := port.(int)
+		request.Port = &tmp
+	}
+
+	if protocol, ok := s.D.GetOkExists("protocol"); ok {
+		tmp := protocol.(string)
+		request.Protocol = &tmp
+	}
+
+	request.SslConfiguration = s.sslConfig()
+
+	response, err := s.Client.UpdateListener(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "load_balancer")...)
+	if err != nil {
 		return
 	}
-	s.WorkRequest, e = s.Client.GetWorkRequest(workReqID, nil)
-	if e != nil {
-		return
+	workReqID := response.OpcWorkRequestId
+	getWorkRequestRequest := oci_load_balancer.GetWorkRequestRequest{}
+	getWorkRequestRequest.WorkRequestId = workReqID
+	workRequestResponse, err := s.Client.GetWorkRequest(context.Background(), getWorkRequestRequest, getRetryOptions(s.DisableNotFoundRetries, "load_balancer")...)
+	if err != nil {
+		return err
 	}
-	e = crud.LoadBalancerWaitForWorkRequest(s.Client, s.D, s.WorkRequest)
-	if e != nil {
-		return
+	s.WorkRequest = &workRequestResponse.WorkRequest
+	err = crud.LoadBalancerWaitForWorkRequest(s.Client, s.D, s.WorkRequest, getRetryOptions(s.DisableNotFoundRetries, "load_balancer")...)
+	if err != nil {
+		return err
 	}
+
 	return s.Get()
 }
 
-func (s *LoadBalancerListenerResourceCrud) SetData() {
-	if s.Resource == nil {
-		return
+func (s *LoadBalancerListenerResourceCrud) Delete() (e error) {
+	request := oci_load_balancer.DeleteListenerRequest{}
+
+	if loadBalancerId, ok := s.D.GetOkExists("load_balancer_id"); ok {
+		tmp := loadBalancerId.(string)
+		request.LoadBalancerId = &tmp
 	}
-	s.D.Set("name", s.Resource.Name)
-	s.D.Set("default_backend_set_name", s.Resource.DefaultBackendSetName)
-	s.D.Set("port", s.Resource.Port)
-	s.D.Set("protocol", s.Resource.Protocol)
-	s.D.Set("ssl_configuration", s.Resource.SSLConfig)
+
+	if name, ok := s.D.GetOkExists("name"); ok {
+		tmp := name.(string)
+		request.ListenerName = &tmp
+	}
+	response, e := s.Client.DeleteListener(context.Background(), request)
+	workReqID := response.OpcWorkRequestId
+	getWorkRequestRequest := oci_load_balancer.GetWorkRequestRequest{}
+	getWorkRequestRequest.WorkRequestId = workReqID
+	workRequestResponse, err := s.Client.GetWorkRequest(context.Background(), getWorkRequestRequest, getRetryOptions(s.DisableNotFoundRetries, "load_balancer")...)
+	if err != nil {
+		return err
+	}
+	s.WorkRequest = &workRequestResponse.WorkRequest
+	return nil
 }
 
-func (s *LoadBalancerListenerResourceCrud) Delete() (e error) {
-	var workReqID string
-	workReqID, e = s.Client.DeleteListener(s.D.Get("load_balancer_id").(string), s.D.Get("name").(string), nil)
-	if e != nil {
+func (s *LoadBalancerListenerResourceCrud) SetData() {
+	if s.Res == nil {
 		return
 	}
-	s.D.SetId(workReqID)
-	s.WorkRequest, e = s.Client.GetWorkRequest(workReqID, nil)
-	return
+	if s.Res.DefaultBackendSetName != nil {
+		s.D.Set("default_backend_set_name", *s.Res.DefaultBackendSetName)
+	}
+	if s.Res.Name != nil {
+		s.D.Set("name", *s.Res.Name)
+	}
+	if s.Res.Port != nil {
+		s.D.Set("port", *s.Res.Port)
+	}
+	if s.Res.Protocol != nil {
+		s.D.Set("protocol", *s.Res.Protocol)
+	}
+	if s.Res.SslConfiguration != nil {
+		s.D.Set("ssl_configuration", *s.Res.SslConfiguration)
+	}
 }

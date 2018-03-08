@@ -3,184 +3,176 @@
 package provider
 
 import (
+	"context"
 	"encoding/json"
-	"time"
 
 	"github.com/hashicorp/terraform/helper/schema"
-	"github.com/oracle/bmcs-go-sdk"
+	oci_core "github.com/oracle/oci-go-sdk/core"
 
 	"github.com/oracle/terraform-provider-oci/crud"
-	"github.com/oracle/terraform-provider-oci/options"
 )
 
-func InstanceDatasource() *schema.Resource {
+func InstancesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readInstances,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
+			"availability_domain": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"availability_domain": {
-				Type:     schema.TypeString,
-				Optional: true,
-			},
 			"display_name": {
-				Type:     schema.TypeString,
-				Optional: true,
-			},
-			"page": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
 			"limit": {
-				Type:     schema.TypeInt,
-				Optional: true,
+				Type:       schema.TypeInt,
+				Optional:   true,
+				Deprecated: crud.FieldDeprecated("limit"),
+			},
+			"page": {
+				Type:       schema.TypeString,
+				Optional:   true,
+				Deprecated: crud.FieldDeprecated("page"),
 			},
 			"instances": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     resourceCoreInstance(),
+				Elem:     InstanceResource(),
 			},
 		},
 	}
 }
 
-func resourceCoreInstance() *schema.Resource {
-	return &schema.Resource{
-		Schema: map[string]*schema.Schema{
-			"availability_domain": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"compartment_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"display_name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"image": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"ipxe_script": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"metadata": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
-			"extended_metadata": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
-			"region": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"shape": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"state": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_created": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-		},
-	}
+func readInstances(d *schema.ResourceData, m interface{}) error {
+	sync := &InstancesDataSourceCrud{}
+	sync.D = d
+	sync.Client = m.(*OracleClients).computeClient
+
+	return crud.ReadResource(sync)
 }
 
-func readInstances(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*OracleClients)
-	reader := &InstanceDatasourceCrud{}
-	reader.D = d
-	reader.Client = client.client
-
-	return crud.ReadResource(reader)
-}
-
-type InstanceDatasourceCrud struct {
+type InstancesDataSourceCrud struct {
 	crud.BaseCrud
-	Res *baremetal.ListInstances
+	Client *oci_core.ComputeClient
+	Res    *oci_core.ListInstancesResponse
 }
 
-func (s *InstanceDatasourceCrud) Get() (e error) {
-	compartmentID := s.D.Get("compartment_id").(string)
+func (s *InstancesDataSourceCrud) Get() error {
+	request := oci_core.ListInstancesRequest{}
 
-	opts := &baremetal.ListInstancesOptions{}
-	options.SetListOptions(s.D, &opts.ListOptions)
-	if ad, ok := s.D.GetOk("availability_domain"); ok {
-		opts.AvailabilityDomain = ad.(string)
-	}
-	if dispName, ok := s.D.GetOk("display_name"); ok {
-		opts.DisplayName = dispName.(string)
+	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
+		tmp := availabilityDomain.(string)
+		request.AvailabilityDomain = &tmp
 	}
 
-	s.Res = &baremetal.ListInstances{Instances: []baremetal.Instance{}}
+	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+		tmp := compartmentId.(string)
+		request.CompartmentId = &tmp
+	}
 
-	for {
-		var list *baremetal.ListInstances
-		if list, e = s.Client.ListInstances(compartmentID, opts); e != nil {
-			break
+	if displayName, ok := s.D.GetOkExists("display_name"); ok {
+		tmp := displayName.(string)
+		request.DisplayName = &tmp
+	}
+
+	// @CODEGEN 1/2018: page & limit were never actually wired to requests
+
+	if state, ok := s.D.GetOkExists("state"); ok {
+		request.LifecycleState = oci_core.InstanceLifecycleStateEnum(state.(string))
+	}
+
+	response, err := s.Client.ListInstances(context.Background(), request, getRetryOptions(false, "core")...)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response
+	request.Page = s.Res.OpcNextPage
+
+	for request.Page != nil {
+		listResponse, err := s.Client.ListInstances(context.Background(), request, getRetryOptions(false, "core")...)
+		if err != nil {
+			return err
 		}
 
-		s.Res.Instances = append(s.Res.Instances, list.Instances...)
-
-		if hasNextPage := options.SetNextPageOption(list.NextPage, &opts.ListOptions.PageListOptions); !hasNextPage {
-			break
-		}
+		s.Res.Items = append(s.Res.Items, listResponse.Items...)
+		request.Page = listResponse.OpcNextPage
 	}
 
-	return
+	return nil
 }
 
-func (s *InstanceDatasourceCrud) SetData() {
+func (s *InstancesDataSourceCrud) SetData() {
 	if s.Res == nil {
 		return
 	}
-	// Important, if you don't have an ID, make one up for your datasource
-	// or things will end in tears
-	s.D.SetId(time.Now().UTC().String())
+
+	s.D.SetId(crud.GenerateDataSourceID())
 	resources := []map[string]interface{}{}
-	for _, v := range s.Res.Instances {
-		res := map[string]interface{}{
-			"availability_domain": v.AvailabilityDomain,
-			"compartment_id":      v.CompartmentID,
-			"display_name":        v.DisplayName,
-			"id":                  v.ID,
-			"image":               v.ImageID,
-			"ipxe_script":         v.IpxeScript,
-			"metadata":            v.Metadata,
-			"extended_metadata":   convertNestedMapToFlatMap(v.ExtendedMetadata),
-			"region":              v.Region,
-			"shape":               v.Shape,
-			"state":               v.State,
-			"time_created":        v.TimeCreated.String(),
-		}
-		resources = append(resources, res)
 
-		if f, fOk := s.D.GetOk("filter"); fOk {
-			resources = ApplyFilters(f.(*schema.Set), resources)
+	for _, r := range s.Res.Items {
+		instance := map[string]interface{}{
+			"compartment_id": *r.CompartmentId,
 		}
 
-		if err := s.D.Set("instances", resources); err != nil {
-			panic(err)
+		if r.AvailabilityDomain != nil {
+			instance["availability_domain"] = *r.AvailabilityDomain
 		}
+
+		if r.DisplayName != nil {
+			instance["display_name"] = *r.DisplayName
+		}
+
+		if r.ExtendedMetadata != nil {
+			instance["extended_metadata"] = convertNestedMapToFlatMap(r.ExtendedMetadata)
+		}
+
+		if r.Id != nil {
+			instance["id"] = *r.Id
+		}
+
+		if r.ImageId != nil {
+			instance["image"] = *r.ImageId
+		}
+
+		if r.IpxeScript != nil {
+			instance["ipxe_script"] = *r.IpxeScript
+		}
+
+		if r.Metadata != nil {
+			instance["metadata"] = r.Metadata
+		}
+
+		if r.Region != nil {
+			instance["region"] = *r.Region
+		}
+
+		if r.Shape != nil {
+			instance["shape"] = *r.Shape
+		}
+
+		// @CODEGEN 1/2018: source_details not currently supported
+
+		instance["state"] = r.LifecycleState
+
+		instance["time_created"] = r.TimeCreated.String()
+
+		resources = append(resources, instance)
 	}
+
+	if f, fOk := s.D.GetOkExists("filter"); fOk {
+		resources = ApplyFilters(f.(*schema.Set), resources)
+	}
+
+	if err := s.D.Set("instances", resources); err != nil {
+		panic(err)
+	}
+
 	return
 }
 

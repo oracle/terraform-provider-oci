@@ -7,16 +7,14 @@ import (
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
-	"github.com/oracle/bmcs-go-sdk"
 
+	"github.com/oracle/oci-go-sdk/identity"
 	"github.com/stretchr/testify/suite"
 )
 
 type DatasourceIdentityUsersTestSuite struct {
 	suite.Suite
-	Client       *baremetal.Client
 	Config       string
-	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	ResourceName string
 	Token        string
@@ -25,10 +23,8 @@ type DatasourceIdentityUsersTestSuite struct {
 
 func (s *DatasourceIdentityUsersTestSuite) SetupTest() {
 	s.Token, s.TokenFn = tokenize()
-	s.Client = testAccClient
-	s.Provider = testAccProvider
 	s.Providers = testAccProviders
-	s.Config = testProviderConfig() + s.TokenFn(`
+	s.Config = legacyTestProviderConfig() + s.TokenFn(`
 	resource "oci_identity_user" "t" {
 		name = "{{.token}}"
 		description = "automated test user"
@@ -49,7 +45,7 @@ func (s *DatasourceIdentityUsersTestSuite) TestAccDatasourceIdentityUsers_basic(
 			{
 				Config: s.Config + `
 				data "oci_identity_users" "t" {
-					compartment_id = "${var.compartment_id}"
+					compartment_id = "${var.tenancy_ocid}"
 				}`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "users.#"),
@@ -58,7 +54,7 @@ func (s *DatasourceIdentityUsersTestSuite) TestAccDatasourceIdentityUsers_basic(
 			{
 				Config: s.Config + s.TokenFn(`
 				data "oci_identity_users" "t" {
-					compartment_id = "${var.compartment_id}"
+					compartment_id = "${var.tenancy_ocid}"
 					filter {
 						name = "name"
 						values = ["{{.token}}"]
@@ -68,8 +64,9 @@ func (s *DatasourceIdentityUsersTestSuite) TestAccDatasourceIdentityUsers_basic(
 					resource.TestCheckResourceAttr(s.ResourceName, "users.#", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "users.0.name", s.Token),
 					resource.TestCheckResourceAttr(s.ResourceName, "users.0.description", "automated test user"),
-					resource.TestCheckResourceAttr(s.ResourceName, "users.0.state", "ACTIVE"),
-					resource.TestCheckResourceAttr(s.ResourceName, "users.0.inactive_state", "0"),
+					resource.TestCheckResourceAttr(s.ResourceName, "users.0.state", string(identity.UserLifecycleStateActive)),
+					// TODO: These fields are not being returned by the service call but are still showing up in the datasource
+					// resource.TestCheckNoResourceAttr(s.ResourceName, "users.0.inactive_state"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "users.0.id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "users.0.compartment_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "users.0.time_created"),

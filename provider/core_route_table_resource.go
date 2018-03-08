@@ -3,71 +3,14 @@
 package provider
 
 import (
-	"github.com/hashicorp/terraform/helper/schema"
-	"github.com/oracle/bmcs-go-sdk"
+	"context"
 
-	"fmt"
-	"time"
+	"github.com/hashicorp/terraform/helper/schema"
 
 	"github.com/oracle/terraform-provider-oci/crud"
-)
 
-func DefaultRouteTableResource() *schema.Resource {
-	return &schema.Resource{
-		Importer: &schema.ResourceImporter{
-			State: crud.ImportDefaultResource,
-		},
-		Timeouts: crud.DefaultTimeout,
-		Create:   createRouteTable,
-		Read:     readRouteTable,
-		Update:   updateRouteTable,
-		Delete:   deleteRouteTable,
-		Schema: map[string]*schema.Schema{
-			"display_name": {
-				Type:     schema.TypeString,
-				Computed: true,
-				Optional: true,
-			},
-			"id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"manage_default_resource_id": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
-			},
-			"route_rules": {
-				Type:     schema.TypeList,
-				Optional: true,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						"cidr_block": {
-							Type:     schema.TypeString,
-							Optional: true,
-						},
-						"network_entity_id": {
-							Type:     schema.TypeString,
-							Optional: true,
-						},
-					},
-				},
-			},
-			"time_modified": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"state": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_created": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-		},
-	}
-}
+	oci_core "github.com/oracle/oci-go-sdk/core"
+)
 
 func RouteTableResource() *schema.Resource {
 	return &schema.Resource{
@@ -80,37 +23,52 @@ func RouteTableResource() *schema.Resource {
 		Update:   updateRouteTable,
 		Delete:   deleteRouteTable,
 		Schema: map[string]*schema.Schema{
+			// Required
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
 			},
-			"display_name": {
-				Type:     schema.TypeString,
-				Computed: true,
-				Optional: true,
-			},
-			"id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"route_rules": {
-				Type:     schema.TypeList,
+				Type: schema.TypeList,
+				// Code-gen and specs say this should be required and has a max item limit
+				// Keep it optional to continue to allow empty route_rules and avoid a breaking change.
+				// Also remove the max item limit, to avoid a potential breaking change.
 				Optional: true,
+				MinItems: 0,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
+						// Required
 						"cidr_block": {
 							Type:     schema.TypeString,
-							Optional: true,
+							Required: true,
 						},
 						"network_entity_id": {
 							Type:     schema.TypeString,
-							Optional: true,
+							Required: true,
 						},
+
+						// Optional
+
+						// Computed
 					},
 				},
 			},
-			"time_modified": {
+			"vcn_id": {
+				Type:     schema.TypeString,
+				Required: true,
+				ForceNew: true,
+			},
+
+			// Optional
+			"display_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+
+			// Computed
+			"id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -122,195 +80,231 @@ func RouteTableResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"vcn_id": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
+			// @Deprecated: time_modified (removed)
+			"time_modified": {
+				Type:       schema.TypeString,
+				Deprecated: crud.FieldDeprecated("time_modified"),
+				Computed:   true,
 			},
 		},
 	}
 }
 
-func createRouteTable(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*OracleClients)
-	crd := &RouteTableResourceCrud{}
-	crd.D = d
-	crd.Client = client.client
-	return crud.CreateResource(d, crd)
+func createRouteTable(d *schema.ResourceData, m interface{}) error {
+	sync := &RouteTableResourceCrud{}
+	sync.D = d
+	sync.Client = m.(*OracleClients).virtualNetworkClient
+
+	return crud.CreateResource(d, sync)
 }
 
-func readRouteTable(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*OracleClients)
-	crd := &RouteTableResourceCrud{}
-	crd.D = d
-	crd.Client = client.client
-	return crud.ReadResource(crd)
+func readRouteTable(d *schema.ResourceData, m interface{}) error {
+	sync := &RouteTableResourceCrud{}
+	sync.D = d
+	sync.Client = m.(*OracleClients).virtualNetworkClient
+
+	return crud.ReadResource(sync)
 }
 
-func updateRouteTable(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*OracleClients)
-	crd := &RouteTableResourceCrud{}
-	crd.D = d
-	crd.Client = client.client
-	return crud.UpdateResource(d, crd)
+func updateRouteTable(d *schema.ResourceData, m interface{}) error {
+	sync := &RouteTableResourceCrud{}
+	sync.D = d
+	sync.Client = m.(*OracleClients).virtualNetworkClient
+
+	return crud.UpdateResource(d, sync)
 }
 
-func deleteRouteTable(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*OracleClients)
-	crd := &RouteTableResourceCrud{}
-	crd.D = d
-	crd.Client = client.clientWithoutNotFoundRetries
-	return crud.DeleteResource(d, crd)
+func deleteRouteTable(d *schema.ResourceData, m interface{}) error {
+	sync := &RouteTableResourceCrud{}
+	sync.D = d
+	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.DisableNotFoundRetries = true
+
+	return crud.DeleteResource(d, sync)
 }
 
 type RouteTableResourceCrud struct {
 	crud.BaseCrud
-	Res *baremetal.RouteTable
+	Client                 *oci_core.VirtualNetworkClient
+	Res                    *oci_core.RouteTable
+	DisableNotFoundRetries bool
 }
 
 func (s *RouteTableResourceCrud) ID() string {
-	return s.Res.ID
+	return *s.Res.Id
 }
 
 func (s *RouteTableResourceCrud) CreatedPending() []string {
-	return []string{baremetal.ResourceProvisioning}
+	return []string{
+		string(oci_core.RouteTableLifecycleStateProvisioning),
+	}
 }
 
 func (s *RouteTableResourceCrud) CreatedTarget() []string {
-	return []string{baremetal.ResourceAvailable}
+	return []string{
+		string(oci_core.RouteTableLifecycleStateAvailable),
+	}
 }
 
 func (s *RouteTableResourceCrud) DeletedPending() []string {
-	return []string{baremetal.ResourceTerminating}
+	return []string{
+		string(oci_core.RouteTableLifecycleStateTerminating),
+	}
 }
 
 func (s *RouteTableResourceCrud) DeletedTarget() []string {
-	return []string{baremetal.ResourceTerminated}
+	return []string{
+		string(oci_core.RouteTableLifecycleStateTerminated),
+	}
 }
 
-func (s *RouteTableResourceCrud) State() string {
-	return s.Res.State
-}
+func (s *RouteTableResourceCrud) Create() error {
+	request := oci_core.CreateRouteTableRequest{}
 
-func (s *RouteTableResourceCrud) Create() (e error) {
-	// If we are creating a default resource, then don't have to
-	// actually create it. Just set the ID and update it.
-	if defaultId, ok := s.D.GetOk("manage_default_resource_id"); ok {
-		s.D.SetId(defaultId.(string))
-		e = s.Update()
-		return
+	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+		tmp := compartmentId.(string)
+		request.CompartmentId = &tmp
 	}
 
-	compartmentID := s.D.Get("compartment_id").(string)
-	vcnID := s.D.Get("vcn_id").(string)
-
-	opts := &baremetal.CreateOptions{}
-	opts.DisplayName = s.D.Get("display_name").(string)
-
-	rr, e := s.buildRouteRules()
-
-	if e != nil {
-		return e
+	if displayName, ok := s.D.GetOkExists("display_name"); ok {
+		tmp := displayName.(string)
+		request.DisplayName = &tmp
 	}
-	s.Res, e = s.Client.CreateRouteTable(compartmentID, vcnID, rr, opts)
 
-	return
-}
-
-func (s *RouteTableResourceCrud) Get() (e error) {
-	res, e := s.Client.GetRouteTable(s.D.Id())
-	if e == nil {
-		s.Res = res
-
-		// If this is a default resource that we removed earlier, then
-		// we need to assume that the parent resource will remove it
-		// and notify terraform of it. Otherwise, terraform will
-		// see that the resource is still available and error out
-		deleteTargetState := s.DeletedTarget()[0]
-		if _, ok := s.D.GetOk("manage_default_resource_id"); ok &&
-			s.D.Get("state") == deleteTargetState {
-			s.Res.State = deleteTargetState
+	request.RouteRules = []oci_core.RouteRule{}
+	if routeRules, ok := s.D.GetOkExists("route_rules"); ok {
+		interfaces := routeRules.([]interface{})
+		tmp := make([]oci_core.RouteRule, len(interfaces))
+		for i, toBeConverted := range interfaces {
+			tmp[i] = mapToRouteRule(toBeConverted.(map[string]interface{}))
 		}
+		request.RouteRules = tmp
 	}
-	return
+
+	if vcnId, ok := s.D.GetOkExists("vcn_id"); ok {
+		tmp := vcnId.(string)
+		request.VcnId = &tmp
+	}
+
+	response, err := s.Client.CreateRouteTable(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response.RouteTable
+	return nil
 }
 
-func (s *RouteTableResourceCrud) Update() (e error) {
-	opts := &baremetal.UpdateRouteTableOptions{}
+func (s *RouteTableResourceCrud) Get() error {
+	request := oci_core.GetRouteTableRequest{}
 
-	if displayName, ok := s.D.GetOk("display_name"); ok {
-		opts.DisplayName = displayName.(string)
+	tmp := s.D.Id()
+	request.RtId = &tmp
+
+	response, err := s.Client.GetRouteTable(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	if err != nil {
+		return err
 	}
 
-	opts.RouteRules, e = s.buildRouteRules()
+	s.Res = &response.RouteTable
+	return nil
+}
 
-	if e != nil {
-		return e
+func (s *RouteTableResourceCrud) Update() error {
+	request := oci_core.UpdateRouteTableRequest{}
+
+	if displayName, ok := s.D.GetOkExists("display_name"); ok {
+		tmp := displayName.(string)
+		request.DisplayName = &tmp
 	}
 
-	s.Res, e = s.Client.UpdateRouteTable(s.D.Id(), opts)
-	return
+	request.RouteRules = []oci_core.RouteRule{}
+	if routeRules, ok := s.D.GetOkExists("route_rules"); ok {
+		interfaces := routeRules.([]interface{})
+		tmp := make([]oci_core.RouteRule, len(interfaces))
+		for i, toBeConverted := range interfaces {
+			tmp[i] = mapToRouteRule(toBeConverted.(map[string]interface{}))
+		}
+		request.RouteRules = tmp
+	}
+
+	tmp := s.D.Id()
+	request.RtId = &tmp
+
+	response, err := s.Client.UpdateRouteTable(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response.RouteTable
+	return nil
+}
+
+func (s *RouteTableResourceCrud) Delete() error {
+	request := oci_core.DeleteRouteTableRequest{}
+
+	tmp := s.D.Id()
+	request.RtId = &tmp
+
+	_, err := s.Client.DeleteRouteTable(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	return err
 }
 
 func (s *RouteTableResourceCrud) SetData() {
-	s.D.Set("compartment_id", s.Res.CompartmentID)
-	s.D.Set("display_name", s.Res.DisplayName)
-	s.D.Set("vcn_id", s.Res.VcnID)
-
-	rules := []map[string]interface{}{}
-	for _, val := range s.Res.RouteRules {
-		rule := map[string]interface{}{
-			"cidr_block":        val.CidrBlock,
-			"network_entity_id": val.NetworkEntityID,
-		}
-		rules = append(rules, rule)
+	if s.Res.CompartmentId != nil {
+		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
-	s.D.Set("route_rules", rules)
 
-	s.D.Set("time_modified", s.Res.TimeModified.String())
-	s.D.Set("state", s.Res.State)
+	if s.Res.DisplayName != nil {
+		s.D.Set("display_name", *s.Res.DisplayName)
+	}
+
+	if s.Res.Id != nil {
+		s.D.Set("id", *s.Res.Id)
+	}
+
+	routeRules := []interface{}{}
+	for _, item := range s.Res.RouteRules {
+		routeRules = append(routeRules, RouteRuleToMap(item))
+	}
+	s.D.Set("route_rules", routeRules)
+
+	s.D.Set("state", s.Res.LifecycleState)
+
 	s.D.Set("time_created", s.Res.TimeCreated.String())
-}
 
-func (s *RouteTableResourceCrud) reset() (e error) {
-	opts := &baremetal.UpdateRouteTableOptions{
-		RouteRules: []baremetal.RouteRule{},
+	if s.Res.VcnId != nil {
+		s.D.Set("vcn_id", *s.Res.VcnId)
 	}
 
-	_, e = s.Client.UpdateRouteTable(s.D.Id(), opts)
-	return
 }
 
-func (s *RouteTableResourceCrud) Delete() (e error) {
-	if _, ok := s.D.GetOk("manage_default_resource_id"); ok {
-		// We can't actually delete a default resource.
-		// Clear out its settings and mark it as deleted.
-		e = s.reset()
-		s.D.Set("state", s.DeletedTarget()[0])
-		return
+func mapToRouteRule(raw map[string]interface{}) oci_core.RouteRule {
+	result := oci_core.RouteRule{}
+
+	if cidrBlock, ok := raw["cidr_block"]; ok {
+		tmp := cidrBlock.(string)
+		result.CidrBlock = &tmp
 	}
 
-	return s.Client.DeleteRouteTable(s.D.Id(), nil)
-}
-
-func (s *RouteTableResourceCrud) ExtraWaitPostCreateDelete() time.Duration {
-	return time.Duration(15 * time.Second)
-}
-
-func (s *RouteTableResourceCrud) buildRouteRules() (routeRules []baremetal.RouteRule, e error) {
-	routeRules = []baremetal.RouteRule{}
-	for _, val := range s.D.Get("route_rules").([]interface{}) {
-
-		if val == nil {
-			return nil, fmt.Errorf("Empty route_rules are not permitted. Instead, the route_rules block may be omitted entirely.")
-		}
-
-		data := val.(map[string]interface{})
-		routeRule := baremetal.RouteRule{
-			CidrBlock:       data["cidr_block"].(string),
-			NetworkEntityID: data["network_entity_id"].(string),
-		}
-		routeRules = append(routeRules, routeRule)
+	if networkEntityId, ok := raw["network_entity_id"]; ok {
+		tmp := networkEntityId.(string)
+		result.NetworkEntityId = &tmp
 	}
-	return
+
+	return result
+}
+
+func RouteRuleToMap(obj oci_core.RouteRule) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.CidrBlock != nil {
+		result["cidr_block"] = string(*obj.CidrBlock)
+	}
+
+	if obj.NetworkEntityId != nil {
+		result["network_entity_id"] = string(*obj.NetworkEntityId)
+	}
+
+	return result
 }

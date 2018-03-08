@@ -4,8 +4,6 @@ package crud
 
 import (
 	"time"
-
-	"github.com/oracle/bmcs-go-sdk"
 )
 
 // Common interfaces
@@ -95,14 +93,4 @@ type StatefullyDeletedResource interface {
 	StatefulResource
 	DeletedPending() []string
 	DeletedTarget() []string
-}
-
-type IdentitySync struct{}
-
-func (s *IdentitySync) CreatedPending() []string {
-	return []string{baremetal.ResourceCreating}
-}
-
-func (s *IdentitySync) CreatedTarget() []string {
-	return []string{baremetal.ResourceCreated}
 }

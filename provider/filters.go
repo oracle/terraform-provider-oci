@@ -1,6 +1,7 @@
 package provider
 
 import (
+	"reflect"
 	"regexp"
 
 	"fmt"
@@ -56,34 +57,46 @@ func ApplyFilters(filters *schema.Set, items []map[string]interface{}) []map[str
 			}
 		}
 
-		check := func(filterVal, propertyVal string) bool {
+		check := func(filterVal string, propertyVal string) bool {
 			if isReg {
 				re, err := regexp.Compile(filterVal)
 				if err != nil {
 					panic(fmt.Errorf(`Invalid regular expression "%s" for "%s" filter`, filterVal, keyword))
 				}
 				return re.MatchString(propertyVal)
-			} else {
-				return filterVal == propertyVal
 			}
+
+			return filterVal == propertyVal
 		}
 
 		orComparator := func(item map[string]interface{}) bool {
-			for _, val := range fSet["values"].([]interface{}) {
+			actualValue, valueExists := item[keyword]
+			if !valueExists {
+				return false
+			}
 
-				// if the property contains an array of strings
-				strArr, strArrOk := item[keyword].([]string)
-				if strArrOk {
-					for _, subStr := range strArr {
-						if check(val.(string), subStr) {
+			// We use reflection to determine whether the underlying type of the filtering attribute is a string or
+			// array of strings. Mainly used because the property could be an SDK enum with underlying string type.
+			// TODO: We should store SDK enum values in state as strings prior to calling ApplyFilters, to avoid using reflection
+			rValue := reflect.ValueOf(actualValue)
+			rType := rValue.Type()
+
+			isStringArray := (rType.Kind() == reflect.Slice || rType.Kind() == reflect.Array) && rType.Elem().Kind() == reflect.String
+			isString := rType.Kind() == reflect.String
+			if !isStringArray && !isString {
+				// property is neither a string nor array of strings, so it can be filtered out
+				return false
+			}
+
+			for _, filterValue := range fSet["values"].([]interface{}) {
+				if isStringArray {
+					arrLen := rValue.Len()
+					for i := 0; i < arrLen; i++ {
+						if check(filterValue.(string), rValue.Index(i).String()) {
 							return true
 						}
 					}
-				}
-
-				// if the property is a literal string
-				str, strOk := item[keyword].(string)
-				if strOk && check(val.(string), str) {
+				} else if check(filterValue.(string), rValue.String()) {
 					return true
 				}
 			}

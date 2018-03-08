@@ -3,18 +3,19 @@
 package provider
 
 import (
-	"time"
+	"context"
 
 	"github.com/hashicorp/terraform/helper/schema"
-	"github.com/oracle/bmcs-go-sdk"
+	oci_identity "github.com/oracle/oci-go-sdk/identity"
 
 	"github.com/oracle/terraform-provider-oci/crud"
 )
 
-func APIKeyDatasource() *schema.Resource {
+func ApiKeysDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readAPIKeys,
+		Read: readApiKeys,
 		Schema: map[string]*schema.Schema{
+			"filter": dataSourceFiltersSchema(),
 			"user_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -22,47 +23,90 @@ func APIKeyDatasource() *schema.Resource {
 			"api_keys": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     APIKeyResource(),
+				Elem:     ApiKeyResource(),
 			},
 		},
 	}
 }
 
-func readAPIKeys(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*OracleClients)
-	sync := &APIKeyDatasourceCrud{}
+func readApiKeys(d *schema.ResourceData, m interface{}) error {
+	sync := &ApiKeysDataSourceCrud{}
 	sync.D = d
-	sync.Client = client.client
+	sync.Client = m.(*OracleClients).identityClient
+
 	return crud.ReadResource(sync)
 }
 
-type APIKeyDatasourceCrud struct {
-	crud.BaseCrud
-	Res *baremetal.ListAPIKeyResponses
+type ApiKeysDataSourceCrud struct {
+	D      *schema.ResourceData
+	Client *oci_identity.IdentityClient
+	Res    *oci_identity.ListApiKeysResponse
 }
 
-func (s *APIKeyDatasourceCrud) Get() (e error) {
-	userID := s.D.Get("user_id").(string)
-	s.Res, e = s.Client.ListAPIKeys(userID)
-	return
+func (s *ApiKeysDataSourceCrud) VoidState() {
+	s.D.SetId("")
 }
 
-func (s *APIKeyDatasourceCrud) SetData() {
-	if s.Res != nil {
-		s.D.SetId(time.Now().UTC().String())
-		resources := []map[string]interface{}{}
-		for _, v := range s.Res.Keys {
-			res := map[string]interface{}{
-				"fingerprint":  v.Fingerprint,
-				"id":           v.KeyID,
-				"key_value":    v.KeyValue,
-				"state":        v.State,
-				"time_created": v.TimeCreated.String(),
-				"user_id":      v.UserID,
-			}
-			resources = append(resources, res)
-		}
-		s.D.Set("api_keys", resources)
+func (s *ApiKeysDataSourceCrud) Get() error {
+	request := oci_identity.ListApiKeysRequest{}
+
+	if userId, ok := s.D.GetOkExists("user_id"); ok {
+		tmp := userId.(string)
+		request.UserId = &tmp
 	}
+
+	response, err := s.Client.ListApiKeys(context.Background(), request, getRetryOptions(false, "identity")...)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response
+	return nil
+}
+
+func (s *ApiKeysDataSourceCrud) SetData() {
+	if s.Res == nil {
+		return
+	}
+
+	s.D.SetId(crud.GenerateDataSourceID())
+	resources := []map[string]interface{}{}
+
+	for _, r := range s.Res.Items {
+		apiKey := map[string]interface{}{
+			"user_id": *r.UserId,
+		}
+
+		if r.Fingerprint != nil {
+			apiKey["fingerprint"] = *r.Fingerprint
+		}
+
+		if r.KeyId != nil {
+			apiKey["id"] = *r.KeyId
+		}
+
+		if r.InactiveStatus != nil {
+			apiKey["inactive_status"] = *r.InactiveStatus
+		}
+
+		if r.KeyValue != nil {
+			apiKey["key_value"] = *r.KeyValue
+		}
+
+		apiKey["state"] = r.LifecycleState
+
+		apiKey["time_created"] = r.TimeCreated.String()
+
+		resources = append(resources, apiKey)
+	}
+
+	if f, fOk := s.D.GetOkExists("filter"); fOk {
+		resources = ApplyFilters(f.(*schema.Set), resources)
+	}
+
+	if err := s.D.Set("api_keys", resources); err != nil {
+		panic(err)
+	}
+
 	return
 }

@@ -7,24 +7,20 @@ import (
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
-	baremetal "github.com/oracle/bmcs-go-sdk"
+	"github.com/oracle/oci-go-sdk/core"
 	"github.com/stretchr/testify/suite"
 )
 
 type DatasourceCoreDrgAttachmentTestSuite struct {
 	suite.Suite
-	Client       *baremetal.Client
 	Config       string
-	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	ResourceName string
 }
 
 func (s *DatasourceCoreDrgAttachmentTestSuite) SetupTest() {
-	s.Client = testAccClient
-	s.Provider = testAccProvider
 	s.Providers = testAccProviders
-	s.Config = testProviderConfig() + `
+	s.Config = legacyTestProviderConfig() + `
 	resource "oci_core_virtual_network" "t" {
 		cidr_block = "10.0.0.0/16"
 		compartment_id = "${var.compartment_id}"
@@ -70,6 +66,7 @@ func (s *DatasourceCoreDrgAttachmentTestSuite) TestAccDatasourceCoreDrgAttachmen
 					resource.TestCheckResourceAttrSet(s.ResourceName, "drg_attachments.0.compartment_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "drg_attachments.0.drg_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "drg_attachments.0.vcn_id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "drg_attachments.0.state", string(core.DrgAttachmentLifecycleStateAttached)),
 				),
 			},
 		},

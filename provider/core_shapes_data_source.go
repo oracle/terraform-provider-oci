@@ -3,46 +3,51 @@
 package provider
 
 import (
-	"time"
+	"context"
 
 	"github.com/hashicorp/terraform/helper/schema"
-	"github.com/oracle/bmcs-go-sdk"
-
-	"github.com/oracle/terraform-provider-oci/options"
+	oci_core "github.com/oracle/oci-go-sdk/core"
 
 	"github.com/oracle/terraform-provider-oci/crud"
 )
 
-func InstanceShapeDatasource() *schema.Resource {
+func InstanceShapesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readInstanceShape,
+		Read: readInstanceShapes,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
-			"compartment_id": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
 			"availability_domain": {
 				Type:     schema.TypeString,
 				Optional: true,
+			},
+			"compartment_id": {
+				Type:     schema.TypeString,
+				Required: true,
 			},
 			"image_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"page": {
-				Type:     schema.TypeString,
-				Optional: true,
-			},
 			"limit": {
-				Type:     schema.TypeInt,
-				Optional: true,
+				Type:       schema.TypeInt,
+				Optional:   true,
+				Deprecated: crud.FieldDeprecated("limit"),
+			},
+			"page": {
+				Type:       schema.TypeString,
+				Optional:   true,
+				Deprecated: crud.FieldDeprecated("page"),
 			},
 			"shapes": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
 						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -54,67 +59,91 @@ func InstanceShapeDatasource() *schema.Resource {
 	}
 }
 
-func readInstanceShape(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*OracleClients)
-	reader := &InstanceShapeDatasourceCrud{}
-	reader.D = d
-	reader.Client = client.client
+func readInstanceShapes(d *schema.ResourceData, m interface{}) error {
+	sync := &InstanceShapesDataSourceCrud{}
+	sync.D = d
+	sync.Client = m.(*OracleClients).computeClient
 
-	return crud.ReadResource(reader)
-
+	return crud.ReadResource(sync)
 }
 
-type InstanceShapeDatasourceCrud struct {
-	crud.BaseCrud
-	Res *baremetal.ListShapes
+type InstanceShapesDataSourceCrud struct {
+	D      *schema.ResourceData
+	Client *oci_core.ComputeClient
+	Res    *oci_core.ListShapesResponse
 }
 
-func (r *InstanceShapeDatasourceCrud) Get() (e error) {
-	compartmentID := r.D.Get("compartment_id").(string)
+func (s *InstanceShapesDataSourceCrud) VoidState() {
+	s.D.SetId("")
+}
 
-	opts := &baremetal.ListShapesOptions{}
-	options.SetListOptions(r.D, &opts.ListOptions)
-	if val, ok := r.D.GetOk("availability_domain"); ok {
-		opts.AvailabilityDomain = val.(string)
+func (s *InstanceShapesDataSourceCrud) Get() error {
+	request := oci_core.ListShapesRequest{}
+
+	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
+		tmp := availabilityDomain.(string)
+		request.AvailabilityDomain = &tmp
 	}
-	if val, ok := r.D.GetOk("image_id"); ok {
-		opts.ImageID = val.(string)
+
+	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+		tmp := compartmentId.(string)
+		request.CompartmentId = &tmp
 	}
 
-	r.Res = &baremetal.ListShapes{Shapes: []baremetal.Shape{}}
+	if imageId, ok := s.D.GetOkExists("image_id"); ok {
+		tmp := imageId.(string)
+		request.ImageId = &tmp
+	}
 
-	for {
-		var list *baremetal.ListShapes
-		if list, e = r.Client.ListShapes(compartmentID, opts); e != nil {
-			break
+	if limit, ok := s.D.GetOkExists("limit"); ok {
+		tmp := limit.(int)
+		request.Limit = &tmp
+	}
+
+	if page, ok := s.D.GetOkExists("page"); ok {
+		tmp := page.(string)
+		request.Page = &tmp
+	}
+
+	response, err := s.Client.ListShapes(context.Background(), request, getRetryOptions(false, "core")...)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response
+	request.Page = s.Res.OpcNextPage
+
+	for request.Page != nil {
+		listResponse, err := s.Client.ListShapes(context.Background(), request, getRetryOptions(false, "core")...)
+		if err != nil {
+			return err
 		}
 
-		r.Res.Shapes = append(r.Res.Shapes, list.Shapes...)
-
-		if hasNextPage := options.SetNextPageOption(list.NextPage, &opts.ListOptions.PageListOptions); !hasNextPage {
-			break
-		}
+		s.Res.Items = append(s.Res.Items, listResponse.Items...)
+		request.Page = listResponse.OpcNextPage
 	}
-
-	return
+	return nil
 }
 
-func (s *InstanceShapeDatasourceCrud) SetData() {
+func (s *InstanceShapesDataSourceCrud) SetData() {
 	if s.Res == nil {
 		return
 	}
-	// Important, if you don't have an ID, make one up for your datasource
-	// or things will end in tears
-	s.D.SetId(time.Now().UTC().String())
+
+	s.D.SetId(crud.GenerateDataSourceID())
 	resources := []map[string]interface{}{}
-	for _, v := range s.Res.Shapes {
-		shape := map[string]interface{}{
-			"name": v.Name,
+
+	for _, r := range s.Res.Items {
+		shape := map[string]interface{}{}
+
+		if r.Shape != nil {
+			shape["name"] = *r.Shape
 		}
+
 		resources = append(resources, shape)
 	}
 
-	if f, fOk := s.D.GetOk("filter"); fOk {
+	if f, fOk := s.D.GetOkExists("filter"); fOk {
 		resources = ApplyFilters(f.(*schema.Set), resources)
 	}
 

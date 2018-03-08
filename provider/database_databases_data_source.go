@@ -3,20 +3,19 @@
 package provider
 
 import (
-	"time"
+	"context"
 
 	"github.com/hashicorp/terraform/helper/schema"
-	"github.com/oracle/bmcs-go-sdk"
-
-	"github.com/oracle/terraform-provider-oci/options"
+	oci_database "github.com/oracle/oci-go-sdk/database"
 
 	"github.com/oracle/terraform-provider-oci/crud"
 )
 
-func DatabasesDatasource() *schema.Resource {
+func DatabasesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDatabases,
 		Schema: map[string]*schema.Schema{
+			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -26,80 +25,147 @@ func DatabasesDatasource() *schema.Resource {
 				Required: true,
 			},
 			"limit": {
-				Type:     schema.TypeInt,
-				Optional: true,
+				Type:       schema.TypeInt,
+				Optional:   true,
+				Deprecated: crud.FieldDeprecated("limit"),
 			},
 			"page": {
-				Type:     schema.TypeString,
-				Optional: true,
+				Type:       schema.TypeString,
+				Optional:   true,
+				Deprecated: crud.FieldDeprecated("page"),
 			},
 			"databases": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     DatabaseDatasource(),
+				Elem:     DatabaseDataSource(),
 			},
 		},
 	}
 }
 
-func readDatabases(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*OracleClients)
-	sync := &DatabasesDatasourceCrud{}
+func readDatabases(d *schema.ResourceData, m interface{}) error {
+	sync := &DatabasesDataSourceCrud{}
 	sync.D = d
-	sync.Client = client.client
+	sync.Client = m.(*OracleClients).databaseClient
+
 	return crud.ReadResource(sync)
 }
 
-type DatabasesDatasourceCrud struct {
-	crud.BaseCrud
-	Res *baremetal.ListDatabases
+type DatabasesDataSourceCrud struct {
+	D      *schema.ResourceData
+	Client *oci_database.DatabaseClient
+	Res    *oci_database.ListDatabasesResponse
 }
 
-func (s *DatabasesDatasourceCrud) Get() (e error) {
-	compartmentID := s.D.Get("compartment_id").(string)
-	dbHomeID := s.D.Get("db_home_id").(string)
-	limit := uint64(s.D.Get("limit").(int))
-
-	opts := &baremetal.PageListOptions{}
-	options.SetPageOptions(s.D, opts)
-
-	s.Res = &baremetal.ListDatabases{}
-
-	for {
-		var list *baremetal.ListDatabases
-		if list, e = s.Client.ListDatabases(
-			compartmentID, dbHomeID, limit, opts,
-		); e != nil {
-			break
-		}
-
-		s.Res.Databases = append(s.Res.Databases, list.Databases...)
-
-		if hasNextPage := options.SetNextPageOption(list.NextPage, opts); !hasNextPage {
-			break
-		}
-	}
-
-	return
+func (s *DatabasesDataSourceCrud) VoidState() {
+	s.D.SetId("")
 }
 
-func (s *DatabasesDatasourceCrud) SetData() {
-	if s.Res != nil {
-		s.D.SetId(time.Now().UTC().String())
-		resources := []map[string]interface{}{}
-		for _, v := range s.Res.Databases {
-			res := map[string]interface{}{
-				"compartment_id": v.CompartmentID,
-				"db_home_id":     v.DBHomeID,
-				"db_name":        v.DBName,
-				"db_unique_name": v.DBUniqueName,
-				"id":             v.ID,
-				"state":          v.State,
-				"time_created":   v.TimeCreated.String(),
-			}
-			resources = append(resources, res)
-		}
-		s.D.Set("databases", resources)
+func (s *DatabasesDataSourceCrud) Get() error {
+	request := oci_database.ListDatabasesRequest{}
+
+	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+		tmp := compartmentId.(string)
+		request.CompartmentId = &tmp
 	}
+
+	if dbHomeId, ok := s.D.GetOkExists("db_home_id"); ok {
+		tmp := dbHomeId.(string)
+		request.DbHomeId = &tmp
+	}
+
+	if limit, ok := s.D.GetOkExists("limit"); ok {
+		tmp := limit.(int)
+		request.Limit = &tmp
+	}
+
+	// @CODEGEN "page" was never wired up, omit
+
+	response, err := s.Client.ListDatabases(context.Background(), request, getRetryOptions(false, "database")...)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response
+	request.Page = s.Res.OpcNextPage
+
+	for request.Page != nil {
+		listResponse, err := s.Client.ListDatabases(context.Background(), request, getRetryOptions(false, "database")...)
+		if err != nil {
+			return err
+		}
+
+		s.Res.Items = append(s.Res.Items, listResponse.Items...)
+		request.Page = listResponse.OpcNextPage
+	}
+
+	return nil
+}
+
+func (s *DatabasesDataSourceCrud) SetData() {
+	if s.Res == nil {
+		return
+	}
+
+	s.D.SetId(crud.GenerateDataSourceID())
+	resources := []map[string]interface{}{}
+
+	for _, r := range s.Res.Items {
+		database := map[string]interface{}{
+			"compartment_id": *r.CompartmentId,
+			"db_home_id":     *r.DbHomeId,
+		}
+
+		if r.CharacterSet != nil {
+			database["character_set"] = *r.CharacterSet
+		}
+
+		if r.DbBackupConfig != nil {
+			database["db_backup_config"] = []interface{}{dbBackupConfigToMap(r.DbBackupConfig)}
+		}
+
+		if r.DbName != nil {
+			database["db_name"] = *r.DbName
+		}
+
+		if r.DbUniqueName != nil {
+			database["db_unique_name"] = *r.DbUniqueName
+		}
+
+		if r.DbWorkload != nil {
+			database["db_workload"] = *r.DbWorkload
+		}
+
+		if r.Id != nil {
+			database["id"] = *r.Id
+		}
+
+		if r.LifecycleDetails != nil {
+			database["lifecycle_details"] = *r.LifecycleDetails
+		}
+
+		if r.NcharacterSet != nil {
+			database["ncharacter_set"] = *r.NcharacterSet
+		}
+
+		if r.PdbName != nil {
+			database["pdb_name"] = *r.PdbName
+		}
+
+		database["state"] = r.LifecycleState
+
+		database["time_created"] = r.TimeCreated.String()
+
+		resources = append(resources, database)
+	}
+
+	if f, fOk := s.D.GetOkExists("filter"); fOk {
+		resources = ApplyFilters(f.(*schema.Set), resources)
+	}
+
+	if err := s.D.Set("databases", resources); err != nil {
+		panic(err)
+	}
+
 	return
 }

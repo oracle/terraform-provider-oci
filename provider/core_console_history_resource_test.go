@@ -8,26 +8,23 @@ import (
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
-	"github.com/oracle/bmcs-go-sdk"
 
+	"github.com/oracle/oci-go-sdk/core"
 	"github.com/stretchr/testify/suite"
 )
 
 type ResourceCoreConsoleHistoryTestSuite struct {
 	suite.Suite
-	Client       *baremetal.Client
 	Config       string
 	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
-	Res          *baremetal.ConsoleHistoryMetadata
 	ResourceName string
 }
 
 func (s *ResourceCoreConsoleHistoryTestSuite) SetupTest() {
-	s.Client = testAccClient
 	s.Provider = testAccProvider
 	s.Providers = testAccProviders
-	s.Config = testProviderConfig() + instanceConfig
+	s.Config = legacyTestProviderConfig() + instanceConfig
 
 	p := s.Provider.(*schema.Provider)
 	res := p.ResourcesMap["oci_core_console_history"]
@@ -36,16 +33,6 @@ func (s *ResourceCoreConsoleHistoryTestSuite) SetupTest() {
 	}
 
 	s.ResourceName = "oci_core_console_history.t"
-	s.Res = &baremetal.ConsoleHistoryMetadata{
-		AvailabilityDomain: "availability_domain",
-		CompartmentID:      "compartmentid",
-		DisplayName:        "display_name",
-		InstanceID:         "instance_id",
-		ID:                 "id",
-		State:              baremetal.ResourceSucceeded,
-	}
-	s.Res.ETag = "etag"
-	s.Res.RequestID = "opcrequestid"
 }
 
 func (s *ResourceCoreConsoleHistoryTestSuite) TestAccResourceCoreInstanceConsoleHistory_basic() {
@@ -62,6 +49,12 @@ func (s *ResourceCoreConsoleHistoryTestSuite) TestAccResourceCoreInstanceConsole
 				}`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "instance_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "compartment_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "display_name"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", string(core.ConsoleHistoryLifecycleStateSucceeded)),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
 				),
 			},
 		},

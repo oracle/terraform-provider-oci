@@ -3,6 +3,30 @@ All notable changes to this project are documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+## 2.1.0 - 2018-03-08
+More details for the changes introduced in 2.1.0 can be found [here](https://github.com/oracle/terraform-provider-oci/wiki/Details-for-v2.1.0-Release)
+
+### Added
+- [Client side filtering](https://github.com/oracle/terraform-provider-oci/blob/master/docs/Filters.md) is now enabled for all data sources that return a list.
+- Some Core data sources now support server side filtering by `display_name` and `state`.
+- New optional parameters and fields have been added to existing resources and data sources to support new functionality added by the services.
+- Documentation files have been updated and improved. Documentation files for resources and data sources of the same entity have now been consolidated into one file.
+
+### Deprecated
+- `limit` and `page` parameters in data sources have been deprecated. All list data sources loop through all the pages and return one aggregated list.  
+- The `time_modified` field was deprecated from a few resources as it is no longer set by the service.
+
+### Fixed
+- Updates to fields in `oci_objectstorage_preauthrequest` resource will force the destruction and recreation of the resource. Updates to fields in this resource had no effect earlier.
+- Updating some fields resulted in nothing happening. This has been fixed.
+- Unexpected destruction and recreation of `oci_objectstorage_object` was fixed by constraining all keys in the `metadata` map to be lower case.
+
+### Notes
+- With this release we started using the new official [OCI Go SDK](https://github.com/oracle/oci-go-sdk). Widespread changes to the source code were needed to make this happen.
+- Removing optional parameters from a created resource will not result in a difference and the value for that field will remain as it was. If you want to reset the field to the default value returned by the service for that field you will have to taint the resource to destroy it and recreate it. 
+- If upgrading the OCI provider from v1.x.x, see [this wiki](https://github.com/oracle/terraform-provider-oci/wiki/Oracle-Terraform-Provider-Name-Change) for migration steps.
+- See docs for this version [here](https://github.com/oracle/terraform-provider-oci/tree/v2.1.0).
+
 ## 2.0.7 - 2018-02-08
 
 ### Added
@@ -15,7 +39,6 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ### Notes
 - If upgrading from v1, see [this wiki](https://github.com/oracle/terraform-provider-oci/wiki/Oracle-Terraform-Provider-Name-Change) for migration steps.
 - See docs for this version [here](https://github.com/oracle/terraform-provider-oci/tree/v2.0.7).
-
 
 ## 2.0.6 - 2018-01-08
 

@@ -3,28 +3,25 @@
 package provider
 
 import (
-	"log"
+	"context"
 	"strconv"
 	"strings"
 
 	"github.com/hashicorp/terraform/helper/schema"
-	"github.com/oracle/bmcs-go-sdk"
 
 	"github.com/oracle/terraform-provider-oci/crud"
+
+	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
 )
 
-func LoadBalancerBackendResource() *schema.Resource {
+func BackendResource() *schema.Resource {
 	return &schema.Resource{
-		Create: createLoadBalancerBackend,
-		Read:   readLoadBalancerBackend,
-		Update: updateLoadBalancerBackend,
-		Delete: deleteLoadBalancerBackend,
+		Create: createBackend,
+		Read:   readBackend,
+		Update: updateBackend,
+		Delete: deleteBackend,
 		Schema: map[string]*schema.Schema{
-			"load_balancer_id": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
-			},
+			// Required
 			"backendset_name": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -35,11 +32,18 @@ func LoadBalancerBackendResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
+			"load_balancer_id": {
+				Type:     schema.TypeString,
+				Required: true,
+				ForceNew: true,
+			},
 			"port": {
 				Type:     schema.TypeInt,
 				Required: true,
 				ForceNew: true,
 			},
+
+			// Optional
 			"backup": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -48,14 +52,22 @@ func LoadBalancerBackendResource() *schema.Resource {
 			"drain": {
 				Type:     schema.TypeBool,
 				Optional: true,
+				Computed: true,
 			},
 			"offline": {
 				Type:     schema.TypeBool,
 				Optional: true,
+				Computed: true,
 			},
 			"weight": {
 				Type:     schema.TypeInt,
 				Optional: true,
+				Computed: true,
+			},
+
+			// Computed
+			"name": {
+				Type:     schema.TypeString,
 				Computed: true,
 			},
 			// internal for work request access
@@ -67,47 +79,53 @@ func LoadBalancerBackendResource() *schema.Resource {
 	}
 }
 
-func createLoadBalancerBackend(d *schema.ResourceData, m interface{}) (e error) {
-	sync := &LoadBalancerBackendResourceCrud{}
+func createBackend(d *schema.ResourceData, m interface{}) error {
+	sync := &BackendResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).client
+	sync.Client = m.(*OracleClients).loadBalancerClient
+
 	return crud.CreateResource(d, sync)
 }
 
-func readLoadBalancerBackend(d *schema.ResourceData, m interface{}) (e error) {
-	sync := &LoadBalancerBackendResourceCrud{}
+func readBackend(d *schema.ResourceData, m interface{}) error {
+	sync := &BackendResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).client
+	sync.Client = m.(*OracleClients).loadBalancerClient
+
 	return crud.ReadResource(sync)
 }
 
-func updateLoadBalancerBackend(d *schema.ResourceData, m interface{}) (e error) {
-	sync := &LoadBalancerBackendResourceCrud{}
+func updateBackend(d *schema.ResourceData, m interface{}) error {
+	sync := &BackendResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).client
+	sync.Client = m.(*OracleClients).loadBalancerClient
+
 	return crud.UpdateResource(d, sync)
 }
 
-func deleteLoadBalancerBackend(d *schema.ResourceData, m interface{}) (e error) {
-	sync := &LoadBalancerBackendResourceCrud{}
+func deleteBackend(d *schema.ResourceData, m interface{}) error {
+	sync := &BackendResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).clientWithoutNotFoundRetries
+	sync.Client = m.(*OracleClients).loadBalancerClient
+	sync.DisableNotFoundRetries = true
+
 	return crud.DeleteResource(d, sync)
 }
 
-type LoadBalancerBackendResourceCrud struct {
+type BackendResourceCrud struct {
 	crud.BaseCrud
-	WorkRequest *baremetal.WorkRequest
-	Resource    *baremetal.Backend
+	Client                 *oci_load_balancer.LoadBalancerClient
+	Res                    *oci_load_balancer.Backend
+	DisableNotFoundRetries bool
+	WorkRequest            *oci_load_balancer.WorkRequest
 }
 
-func (s *LoadBalancerBackendResourceCrud) buildID() string {
+func (s *BackendResourceCrud) buildID() string {
 	return s.D.Get("ip_address").(string) + ":" + strconv.Itoa(s.D.Get("port").(int))
 }
 
-func (s *LoadBalancerBackendResourceCrud) ID() string {
-	id, workSuccess := crud.LoadBalancerResourceID(s.Resource, s.WorkRequest)
-	log.Printf("ID in load balancer backend ID(): %v", id)
+func (s *BackendResourceCrud) ID() string {
+	id, workSuccess := crud.LoadBalancerResourceID(s.Res, s.WorkRequest)
 	if id != nil {
 		return *id
 	}
@@ -118,136 +136,249 @@ func (s *LoadBalancerBackendResourceCrud) ID() string {
 	return ""
 }
 
-func (s *LoadBalancerBackendResourceCrud) CreatedPending() []string {
+func (s *BackendResourceCrud) CreatedPending() []string {
 	return []string{
-		baremetal.ResourceWaitingForWorkRequest,
-		baremetal.WorkRequestInProgress,
-		baremetal.WorkRequestAccepted,
+		string(oci_load_balancer.WorkRequestLifecycleStateInProgress),
+		string(oci_load_balancer.WorkRequestLifecycleStateAccepted),
 	}
 }
 
-func (s *LoadBalancerBackendResourceCrud) CreatedTarget() []string {
+func (s *BackendResourceCrud) CreatedTarget() []string {
 	return []string{
-		baremetal.ResourceSucceededWorkRequest,
-		baremetal.WorkRequestSucceeded,
-		baremetal.WorkRequestFailed,
+		string(oci_load_balancer.WorkRequestLifecycleStateSucceeded),
+		string(oci_load_balancer.WorkRequestLifecycleStateFailed),
 	}
 }
 
-func (s *LoadBalancerBackendResourceCrud) DeletedPending() []string {
+func (s *BackendResourceCrud) DeletedPending() []string {
 	return []string{
-		baremetal.ResourceWaitingForWorkRequest,
-		baremetal.WorkRequestInProgress,
-		baremetal.WorkRequestAccepted,
+		string(oci_load_balancer.WorkRequestLifecycleStateInProgress),
+		string(oci_load_balancer.WorkRequestLifecycleStateAccepted),
 	}
 }
 
-func (s *LoadBalancerBackendResourceCrud) DeletedTarget() []string {
+func (s *BackendResourceCrud) DeletedTarget() []string {
 	return []string{
-		baremetal.ResourceSucceededWorkRequest,
-		baremetal.WorkRequestSucceeded,
-		baremetal.WorkRequestFailed,
+		string(oci_load_balancer.WorkRequestLifecycleStateSucceeded),
+		string(oci_load_balancer.WorkRequestLifecycleStateFailed),
 	}
 }
 
-func (s *LoadBalancerBackendResourceCrud) Create() (e error) {
+func (s *BackendResourceCrud) Create() error {
+	request := oci_load_balancer.CreateBackendRequest{}
 
-	opts := &baremetal.CreateLoadBalancerBackendOptions{}
-	if v, ok := s.D.GetOk("backup"); ok {
-		opts.Backup = v.(bool)
-	}
-	if v, ok := s.D.GetOk("drain"); ok {
-		opts.Drain = v.(bool)
-	}
-	if v, ok := s.D.GetOk("offline"); ok {
-		opts.Offline = v.(bool)
-	}
-	if v, ok := s.D.GetOk("weight"); ok {
-		opts.Weight = v.(int)
+	if backendsetName, ok := s.D.GetOkExists("backendset_name"); ok {
+		tmp := backendsetName.(string)
+		request.BackendSetName = &tmp
 	}
 
-	var workReqID string
-	workReqID, e = s.Client.CreateBackend(
-		s.D.Get("load_balancer_id").(string),
-		s.D.Get("backendset_name").(string),
-		s.D.Get("ip_address").(string),
-		s.D.Get("port").(int),
-		opts,
-	)
-	if e != nil {
-		return
+	if backup, ok := s.D.GetOkExists("backup"); ok {
+		tmp := backup.(bool)
+		request.Backup = &tmp
 	}
-	s.WorkRequest, e = s.Client.GetWorkRequest(workReqID, nil)
-	return
+
+	if drain, ok := s.D.GetOkExists("drain"); ok {
+		tmp := drain.(bool)
+		request.Drain = &tmp
+	}
+
+	if ipAddress, ok := s.D.GetOkExists("ip_address"); ok {
+		tmp := ipAddress.(string)
+		request.IpAddress = &tmp
+	}
+
+	if loadBalancerId, ok := s.D.GetOkExists("load_balancer_id"); ok {
+		tmp := loadBalancerId.(string)
+		request.LoadBalancerId = &tmp
+	}
+
+	if offline, ok := s.D.GetOkExists("offline"); ok {
+		tmp := offline.(bool)
+		request.Offline = &tmp
+	}
+
+	if port, ok := s.D.GetOkExists("port"); ok {
+		tmp := port.(int)
+		request.Port = &tmp
+	}
+
+	if weight, ok := s.D.GetOkExists("weight"); ok {
+		tmp := weight.(int)
+		request.Weight = &tmp
+	}
+
+	response, err := s.Client.CreateBackend(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "load_balancer")...)
+	if err != nil {
+		return err
+	}
+
+	workReqID := response.OpcWorkRequestId
+	getWorkRequestRequest := oci_load_balancer.GetWorkRequestRequest{}
+	getWorkRequestRequest.WorkRequestId = workReqID
+	workRequestResponse, err := s.Client.GetWorkRequest(context.Background(), getWorkRequestRequest, getRetryOptions(s.DisableNotFoundRetries, "load_balancer")...)
+	if err != nil {
+		return err
+	}
+	s.WorkRequest = &workRequestResponse.WorkRequest
+	return nil
 }
 
-func (s *LoadBalancerBackendResourceCrud) Get() (e error) {
-	_, stillWorking, err := crud.LoadBalancerResourceGet(s.BaseCrud, s.WorkRequest)
+func (s *BackendResourceCrud) Get() error {
+	_, stillWorking, err := crud.LoadBalancerResourceGet(s.Client, s.D, s.WorkRequest, getRetryOptions(s.DisableNotFoundRetries, "load_balancer")...)
 	if err != nil {
 		return err
 	}
 	if stillWorking {
 		return nil
 	}
-	res, e := s.Client.GetBackend(s.D.Get("load_balancer_id").(string), s.D.Get("backendset_name").(string), s.buildID(), nil)
-	if e == nil {
-		s.Resource = res
+	request := oci_load_balancer.GetBackendRequest{}
+
+	tmp := s.buildID()
+	request.BackendName = &tmp
+
+	if backendSetName, ok := s.D.GetOkExists("backendset_name"); ok {
+		tmp := backendSetName.(string)
+		request.BackendSetName = &tmp
 	}
-	return
+
+	if loadBalancerId, ok := s.D.GetOkExists("load_balancer_id"); ok {
+		tmp := loadBalancerId.(string)
+		request.LoadBalancerId = &tmp
+	}
+
+	response, err := s.Client.GetBackend(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "load_balancer")...)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response.Backend
+	return nil
 }
 
-func (s *LoadBalancerBackendResourceCrud) Update() (e error) {
-	opts := &baremetal.UpdateLoadBalancerBackendOptions{}
-	if v, ok := s.D.GetOk("backup"); ok {
-		opts.Backup = v.(bool)
-	}
-	if v, ok := s.D.GetOk("drain"); ok {
-		opts.Drain = v.(bool)
-	}
-	if v, ok := s.D.GetOk("offline"); ok {
-		opts.Offline = v.(bool)
-	}
-	if v, ok := s.D.GetOk("weight"); ok {
-		opts.Weight = v.(int)
+func (s *BackendResourceCrud) Update() error {
+	request := oci_load_balancer.UpdateBackendRequest{}
+
+	if backendName, ok := s.D.GetOkExists("name"); ok {
+		tmp := backendName.(string)
+		request.BackendName = &tmp
 	}
 
-	var workReqID string
-	workReqID, e = s.Client.UpdateBackend(s.D.Get("load_balancer_id").(string), s.D.Get("backendset_name").(string), s.D.Id(), opts)
-	if e != nil {
-		return
+	if backendsetName, ok := s.D.GetOkExists("backendset_name"); ok {
+		tmp := backendsetName.(string)
+		request.BackendSetName = &tmp
 	}
-	s.WorkRequest, e = s.Client.GetWorkRequest(workReqID, nil)
-	if e != nil {
-		return
+
+	if backup, ok := s.D.GetOkExists("backup"); ok {
+		tmp := backup.(bool)
+		request.Backup = &tmp
 	}
-	e = crud.LoadBalancerWaitForWorkRequest(s.Client, s.D, s.WorkRequest)
-	if e != nil {
-		return
+
+	if drain, ok := s.D.GetOkExists("drain"); ok {
+		tmp := drain.(bool)
+		request.Drain = &tmp
 	}
+
+	if loadBalancerId, ok := s.D.GetOkExists("load_balancer_id"); ok {
+		tmp := loadBalancerId.(string)
+		request.LoadBalancerId = &tmp
+	}
+
+	if offline, ok := s.D.GetOkExists("offline"); ok {
+		tmp := offline.(bool)
+		request.Offline = &tmp
+	}
+
+	if weight, ok := s.D.GetOkExists("weight"); ok {
+		tmp := weight.(int)
+		request.Weight = &tmp
+	}
+
+	response, err := s.Client.UpdateBackend(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "load_balancer")...)
+	if err != nil {
+		return err
+	}
+
+	workReqID := response.OpcWorkRequestId
+	getWorkRequestRequest := oci_load_balancer.GetWorkRequestRequest{}
+	getWorkRequestRequest.WorkRequestId = workReqID
+	workRequestResponse, err := s.Client.GetWorkRequest(context.Background(), getWorkRequestRequest, getRetryOptions(s.DisableNotFoundRetries, "load_balancer")...)
+	if err != nil {
+		return err
+	}
+	s.WorkRequest = &workRequestResponse.WorkRequest
+	err = crud.LoadBalancerWaitForWorkRequest(s.Client, s.D, s.WorkRequest, getRetryOptions(s.DisableNotFoundRetries, "load_balancer")...)
+	if err != nil {
+		return err
+	}
+
 	return s.Get()
 }
 
-func (s *LoadBalancerBackendResourceCrud) SetData() {
-	if s.Resource == nil {
-		return
+func (s *BackendResourceCrud) Delete() error {
+	if strings.Contains(s.D.Id(), "ocid1.loadbalancerworkrequest") {
+		return nil
 	}
-	s.D.Set("backup", s.Resource.Backup)
-	s.D.Set("drain", s.Resource.Drain)
-	s.D.Set("offline", s.Resource.Offline)
-	s.D.Set("weight", s.Resource.Weight)
+	request := oci_load_balancer.DeleteBackendRequest{}
+
+	if backendName, ok := s.D.GetOkExists("name"); ok {
+		tmp := backendName.(string)
+		request.BackendName = &tmp
+	}
+
+	if backendSetName, ok := s.D.GetOkExists("backendset_name"); ok {
+		tmp := backendSetName.(string)
+		request.BackendSetName = &tmp
+	}
+
+	if loadBalancerId, ok := s.D.GetOkExists("load_balancer_id"); ok {
+		tmp := loadBalancerId.(string)
+		request.LoadBalancerId = &tmp
+	}
+
+	response, err := s.Client.DeleteBackend(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "load_balancer")...)
+
+	workReqID := response.OpcWorkRequestId
+	getWorkRequestRequest := oci_load_balancer.GetWorkRequestRequest{}
+	getWorkRequestRequest.WorkRequestId = workReqID
+	workRequestResponse, err := s.Client.GetWorkRequest(context.Background(), getWorkRequestRequest, getRetryOptions(s.DisableNotFoundRetries, "load_balancer")...)
+	if err != nil {
+		return err
+	}
+	s.WorkRequest = &workRequestResponse.WorkRequest
+	s.D.SetId(*workReqID)
+	return nil
 }
 
-func (s *LoadBalancerBackendResourceCrud) Delete() (e error) {
-	// TODO: make sure this actually works
-	if strings.Contains(s.D.Id(), "ocid1.loadbalancerworkrequest") {
+func (s *BackendResourceCrud) SetData() {
+	if s.Res == nil {
 		return
 	}
-	var workReqID string
-	workReqID, e = s.Client.DeleteBackend(s.D.Get("load_balancer_id").(string), s.D.Get("backendset_name").(string), s.D.Id(), nil)
-	if e != nil {
-		return
+	if s.Res.Backup != nil {
+		s.D.Set("backup", *s.Res.Backup)
 	}
-	s.D.SetId(workReqID)
-	s.WorkRequest, e = s.Client.GetWorkRequest(workReqID, nil)
-	return
+
+	if s.Res.Drain != nil {
+		s.D.Set("drain", *s.Res.Drain)
+	}
+
+	if s.Res.IpAddress != nil {
+		s.D.Set("ip_address", *s.Res.IpAddress)
+	}
+
+	if s.Res.Name != nil {
+		s.D.Set("name", *s.Res.Name)
+	}
+
+	if s.Res.Offline != nil {
+		s.D.Set("offline", *s.Res.Offline)
+	}
+
+	if s.Res.Port != nil {
+		s.D.Set("port", *s.Res.Port)
+	}
+
+	if s.Res.Weight != nil {
+		s.D.Set("weight", *s.Res.Weight)
+	}
+
 }

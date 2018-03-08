@@ -8,6 +8,7 @@ import (
 	"text/template"
 	"time"
 
+	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
 )
 
@@ -61,5 +62,28 @@ func fromInstanceState(s *terraform.State, name, key string) (string, error) {
 		return v, nil
 	} else {
 		return "", fmt.Errorf("%s: Attribute '%s' not found", name, key)
+	}
+}
+
+// TestCheckResourceAttributesEqual is a TestCheckFunc which ensures that the values of two
+// attributes in two different resources are equal.
+func TestCheckResourceAttributesEqual(name1, key1, name2, key2 string) resource.TestCheckFunc {
+	return func(s *terraform.State) error {
+		val1, err := fromInstanceState(s, name1, key1)
+		if err != nil {
+			return err
+		}
+
+		val2, err := fromInstanceState(s, name2, key2)
+		if err != nil {
+			return err
+		}
+
+		if val1 != val2 {
+			return fmt.Errorf(
+				"%s: attribute '%s' value %#v not equal to '%s' attribute '%s' value %#v",
+				name1, key1, val1, name2, key2, val2)
+		}
+		return nil
 	}
 }

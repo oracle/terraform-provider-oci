@@ -3,10 +3,13 @@
 package provider
 
 import (
+	"context"
+
 	"github.com/hashicorp/terraform/helper/schema"
-	"github.com/oracle/bmcs-go-sdk"
 
 	"github.com/oracle/terraform-provider-oci/crud"
+
+	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
 func DrgAttachmentResource() *schema.Resource {
@@ -20,20 +23,33 @@ func DrgAttachmentResource() *schema.Resource {
 		Update:   updateDrgAttachment,
 		Delete:   deleteDrgAttachment,
 		Schema: map[string]*schema.Schema{
-			"compartment_id": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
-			},
-			"display_name": {
-				Type:     schema.TypeString,
-				Computed: true,
-				Optional: true,
-			},
+			// Required
 			"drg_id": {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
+			},
+			"vcn_id": {
+				Type:     schema.TypeString,
+				Required: true,
+				ForceNew: true,
+			},
+
+			// Optional
+			"display_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+
+			// Computed
+			"compartment_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+				// Used to be required. Added back as optional to avoid showing errors (this field
+				// cannot be set).
+				Optional:   true,
+				Deprecated: "No longer required. The DRG attachment is automatically placed into the same compartment as the VCN.",
 			},
 			"id": {
 				Type:     schema.TypeString,
@@ -47,118 +63,173 @@ func DrgAttachmentResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"vcn_id": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
-			},
 		},
 	}
 }
 
-func createDrgAttachment(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*OracleClients)
+func createDrgAttachment(d *schema.ResourceData, m interface{}) error {
 	sync := &DrgAttachmentResourceCrud{}
 	sync.D = d
-	sync.Client = client.client
+	sync.Client = m.(*OracleClients).virtualNetworkClient
+
 	return crud.CreateResource(d, sync)
 }
 
-func readDrgAttachment(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*OracleClients)
+func readDrgAttachment(d *schema.ResourceData, m interface{}) error {
 	sync := &DrgAttachmentResourceCrud{}
 	sync.D = d
-	sync.Client = client.client
+	sync.Client = m.(*OracleClients).virtualNetworkClient
+
 	return crud.ReadResource(sync)
 }
 
-func updateDrgAttachment(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*OracleClients)
+func updateDrgAttachment(d *schema.ResourceData, m interface{}) error {
 	sync := &DrgAttachmentResourceCrud{}
 	sync.D = d
-	sync.Client = client.client
-	return crud.UpdateResource(sync.D, sync)
+	sync.Client = m.(*OracleClients).virtualNetworkClient
+
+	return crud.UpdateResource(d, sync)
 }
 
-func deleteDrgAttachment(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*OracleClients)
+func deleteDrgAttachment(d *schema.ResourceData, m interface{}) error {
 	sync := &DrgAttachmentResourceCrud{}
 	sync.D = d
-	sync.Client = client.clientWithoutNotFoundRetries
+	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.DisableNotFoundRetries = true
+
 	return crud.DeleteResource(d, sync)
 }
 
 type DrgAttachmentResourceCrud struct {
 	crud.BaseCrud
-	Res *baremetal.DrgAttachment
+	Client                 *oci_core.VirtualNetworkClient
+	Res                    *oci_core.DrgAttachment
+	DisableNotFoundRetries bool
 }
 
 func (s *DrgAttachmentResourceCrud) ID() string {
-	return s.Res.ID
+	return *s.Res.Id
 }
 
 func (s *DrgAttachmentResourceCrud) CreatedPending() []string {
-	return []string{baremetal.ResourceAttaching}
+	return []string{
+		string(oci_core.DrgAttachmentLifecycleStateAttaching),
+	}
 }
 
 func (s *DrgAttachmentResourceCrud) CreatedTarget() []string {
-	return []string{baremetal.ResourceAttached}
+	return []string{
+		string(oci_core.DrgAttachmentLifecycleStateAttached),
+	}
 }
 
 func (s *DrgAttachmentResourceCrud) DeletedPending() []string {
-	return []string{baremetal.ResourceDetaching}
+	return []string{
+		string(oci_core.DrgAttachmentLifecycleStateDetaching),
+	}
 }
 
 func (s *DrgAttachmentResourceCrud) DeletedTarget() []string {
-	return []string{baremetal.ResourceDetached}
+	return []string{
+		string(oci_core.DrgAttachmentLifecycleStateDetached),
+	}
 }
 
-func (s *DrgAttachmentResourceCrud) State() string {
-	return s.Res.State
-}
+func (s *DrgAttachmentResourceCrud) Create() error {
+	request := oci_core.CreateDrgAttachmentRequest{}
 
-func (s *DrgAttachmentResourceCrud) Create() (e error) {
-	drgID := s.D.Get("drg_id").(string)
-	vcnID := s.D.Get("vcn_id").(string)
-
-	opts := &baremetal.CreateOptions{}
-	if displayName, ok := s.D.GetOk("display_name"); ok {
-		opts.DisplayName = displayName.(string)
+	if displayName, ok := s.D.GetOkExists("display_name"); ok {
+		tmp := displayName.(string)
+		request.DisplayName = &tmp
 	}
 
-	s.Res, e = s.Client.CreateDrgAttachment(drgID, vcnID, opts)
-
-	return
-}
-
-func (s *DrgAttachmentResourceCrud) Get() (e error) {
-	res, e := s.Client.GetDrgAttachment(s.D.Id())
-	if e == nil {
-		s.Res = res
-	}
-	return
-}
-
-func (s *DrgAttachmentResourceCrud) Update() (e error) {
-	opts := &baremetal.IfMatchDisplayNameOptions{}
-
-	if displayName, ok := s.D.GetOk("display_name"); ok {
-		opts.DisplayName = displayName.(string)
+	if drgId, ok := s.D.GetOkExists("drg_id"); ok {
+		tmp := drgId.(string)
+		request.DrgId = &tmp
 	}
 
-	s.Res, e = s.Client.UpdateDrgAttachment(s.D.Id(), opts)
-	return
+	if vcnId, ok := s.D.GetOkExists("vcn_id"); ok {
+		tmp := vcnId.(string)
+		request.VcnId = &tmp
+	}
+
+	response, err := s.Client.CreateDrgAttachment(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response.DrgAttachment
+	return nil
+}
+
+func (s *DrgAttachmentResourceCrud) Get() error {
+	request := oci_core.GetDrgAttachmentRequest{}
+
+	tmp := s.D.Id()
+	request.DrgAttachmentId = &tmp
+
+	response, err := s.Client.GetDrgAttachment(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response.DrgAttachment
+	return nil
+}
+
+func (s *DrgAttachmentResourceCrud) Update() error {
+	request := oci_core.UpdateDrgAttachmentRequest{}
+
+	if displayName, ok := s.D.GetOkExists("display_name"); ok {
+		tmp := displayName.(string)
+		request.DisplayName = &tmp
+	}
+
+	tmp := s.D.Id()
+	request.DrgAttachmentId = &tmp
+
+	response, err := s.Client.UpdateDrgAttachment(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response.DrgAttachment
+	return nil
+}
+
+func (s *DrgAttachmentResourceCrud) Delete() error {
+	request := oci_core.DeleteDrgAttachmentRequest{}
+
+	tmp := s.D.Id()
+	request.DrgAttachmentId = &tmp
+
+	_, err := s.Client.DeleteDrgAttachment(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	return err
 }
 
 func (s *DrgAttachmentResourceCrud) SetData() {
-	s.D.Set("compartment_id", s.Res.CompartmentID)
-	s.D.Set("display_name", s.Res.DisplayName)
-	s.D.Set("drg_id", s.Res.DrgID)
-	s.D.Set("state", s.Res.State)
-	s.D.Set("time_created", s.Res.TimeCreated.String())
-	s.D.Set("vcn_id", s.Res.VcnID)
-}
+	if s.Res.CompartmentId != nil {
+		s.D.Set("compartment_id", *s.Res.CompartmentId)
+	}
 
-func (s *DrgAttachmentResourceCrud) Delete() (e error) {
-	return s.Client.DeleteDrgAttachment(s.D.Id(), nil)
+	if s.Res.DisplayName != nil {
+		s.D.Set("display_name", *s.Res.DisplayName)
+	}
+
+	if s.Res.DrgId != nil {
+		s.D.Set("drg_id", *s.Res.DrgId)
+	}
+
+	if s.Res.Id != nil {
+		s.D.Set("id", *s.Res.Id)
+	}
+
+	s.D.Set("state", s.Res.LifecycleState)
+
+	s.D.Set("time_created", s.Res.TimeCreated.String())
+
+	if s.Res.VcnId != nil {
+		s.D.Set("vcn_id", *s.Res.VcnId)
+	}
+
 }

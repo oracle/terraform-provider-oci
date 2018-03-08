@@ -3,36 +3,31 @@
 package provider
 
 import (
-	"errors"
+	"context"
 	"regexp"
 
 	"github.com/hashicorp/terraform/helper/schema"
-	"github.com/oracle/bmcs-go-sdk"
 
 	"github.com/oracle/terraform-provider-oci/crud"
+
+	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
-func APIKeyResource() *schema.Resource {
+func ApiKeyResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: crud.DefaultTimeout,
-		Create:   createAPIKey,
-		Read:     readAPIKey,
-		Delete:   deleteAPIKey,
+		Create:   createApiKey,
+		Read:     readApiKey,
+		Delete:   deleteApiKey,
 		Schema: map[string]*schema.Schema{
-			"fingerprint": {
+			// Required
+			"user_id": {
 				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"inactive_status": {
-				Type:     schema.TypeString,
-				Computed: true,
+				Required: true,
+				ForceNew: true,
 			},
 			"key_value": {
 				Type:     schema.TypeString,
@@ -42,11 +37,24 @@ func APIKeyResource() *schema.Resource {
 					r := regexp.MustCompile("\\s")
 					strippedOld := r.ReplaceAllString(old, "")
 					strippedNew := r.ReplaceAllString(new, "")
-					if strippedOld == strippedNew {
-						return true
-					}
-					return false
+					return (strippedOld == strippedNew)
 				},
+			},
+
+			// Optional
+
+			// Computed
+			"fingerprint": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"inactive_status": {
+				Type:     schema.TypeInt,
+				Computed: true,
 			},
 			"state": {
 				Type:     schema.TypeString,
@@ -56,108 +64,160 @@ func APIKeyResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"user_id": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
-			},
 		},
 	}
 }
 
-func createAPIKey(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*OracleClients)
-	sync := &APIKeyResourceCrud{}
+func createApiKey(d *schema.ResourceData, m interface{}) error {
+	sync := &ApiKeyResourceCrud{}
 	sync.D = d
-	sync.Client = client.client
+	sync.Client = m.(*OracleClients).identityClient
+
 	return crud.CreateResource(d, sync)
 }
 
-func readAPIKey(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*OracleClients)
-	sync := &APIKeyResourceCrud{}
+func readApiKey(d *schema.ResourceData, m interface{}) error {
+	sync := &ApiKeyResourceCrud{}
 	sync.D = d
-	sync.Client = client.client
+	sync.Client = m.(*OracleClients).identityClient
+
 	return crud.ReadResource(sync)
 }
 
-func deleteAPIKey(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*OracleClients)
-	sync := &APIKeyResourceCrud{}
+func deleteApiKey(d *schema.ResourceData, m interface{}) error {
+	sync := &ApiKeyResourceCrud{}
 	sync.D = d
-	sync.Client = client.clientWithoutNotFoundRetries
+	sync.Client = m.(*OracleClients).identityClient
+	sync.DisableNotFoundRetries = true
+
 	return crud.DeleteResource(d, sync)
 }
 
-type APIKeyResourceCrud struct {
+type ApiKeyResourceCrud struct {
 	crud.BaseCrud
-	Res *baremetal.APIKey
+	Client                 *oci_identity.IdentityClient
+	Res                    *oci_identity.ApiKey
+	DisableNotFoundRetries bool
 }
 
-func (s *APIKeyResourceCrud) ID() string {
-	return s.Res.KeyID
+func (s *ApiKeyResourceCrud) ID() string {
+	return *s.Res.KeyId
 }
 
-func (s *APIKeyResourceCrud) CreatedPending() []string {
-	return []string{baremetal.ResourceCreating}
+func (s *ApiKeyResourceCrud) State() oci_identity.ApiKeyLifecycleStateEnum {
+	return s.Res.LifecycleState
 }
 
-func (s *APIKeyResourceCrud) CreatedTarget() []string {
-	return []string{baremetal.ResourceActive}
+func (s *ApiKeyResourceCrud) CreatedPending() []string {
+	return []string{
+		string(oci_identity.ApiKeyLifecycleStateCreating),
+	}
 }
 
-func (s *APIKeyResourceCrud) DeletedPending() []string {
-	return []string{baremetal.ResourceDeleting}
+func (s *ApiKeyResourceCrud) CreatedTarget() []string {
+	return []string{
+		string(oci_identity.ApiKeyLifecycleStateActive),
+	}
 }
 
-func (s *APIKeyResourceCrud) DeletedTarget() []string {
-	return []string{baremetal.ResourceDeleted}
+func (s *ApiKeyResourceCrud) DeletedPending() []string {
+	return []string{
+		string(oci_identity.ApiKeyLifecycleStateDeleting),
+	}
 }
 
-func (s *APIKeyResourceCrud) State() string {
-	return s.Res.State
+func (s *ApiKeyResourceCrud) DeletedTarget() []string {
+	return []string{
+		string(oci_identity.ApiKeyLifecycleStateDeleted),
+	}
 }
 
-func (s *APIKeyResourceCrud) Create() (e error) {
-	userID := s.D.Get("user_id").(string)
-	key := s.D.Get("key_value").(string)
+func (s *ApiKeyResourceCrud) Create() error {
+	request := oci_identity.UploadApiKeyRequest{}
 
-	s.Res, e = s.Client.UploadAPIKey(userID, key, nil)
-
-	return
-}
-
-func (s *APIKeyResourceCrud) Get() (e error) {
-	userID := s.D.Get("user_id").(string)
-	fingerprint := s.D.Get("fingerprint").(string)
-
-	var res *baremetal.ListAPIKeyResponses
-	if res, e = s.Client.ListAPIKeys(userID); e != nil {
-		return
+	if key, ok := s.D.GetOkExists("key_value"); ok {
+		tmp := key.(string)
+		request.Key = &tmp
 	}
 
-	// The API does not provide a Get(user_id, fingerprint) method.
-	// Loop through the list of keys and try to find by fingerprint.
-	for _, val := range res.Keys {
-		if val.Fingerprint == fingerprint {
-			s.Res = &val
+	if userId, ok := s.D.GetOkExists("user_id"); ok {
+		tmp := userId.(string)
+		request.UserId = &tmp
+	}
+
+	response, err := s.Client.UploadApiKey(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "identity")...)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response.ApiKey
+	return nil
+}
+
+func (s *ApiKeyResourceCrud) Get() error {
+	request := oci_identity.ListApiKeysRequest{}
+
+	if userId, ok := s.D.GetOkExists("user_id"); ok {
+		tmp := userId.(string)
+		request.UserId = &tmp
+	}
+
+	response, err := s.Client.ListApiKeys(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "identity")...)
+	if err != nil {
+		return err
+	}
+
+	fingerprint := s.D.Get("fingerprint").(string)
+	for _, item := range response.Items {
+		if *item.Fingerprint == fingerprint {
+			s.Res = &item
 			return nil
 		}
 	}
 
-	return errors.New("Specified APIKEY does not exist")
+	return nil
 }
 
-func (s *APIKeyResourceCrud) SetData() {
-	s.D.Set("fingerprint", s.Res.Fingerprint)
-	s.D.Set("key_value", s.Res.KeyValue)
-	s.D.Set("state", s.Res.State)
+func (s *ApiKeyResourceCrud) Delete() error {
+	request := oci_identity.DeleteApiKeyRequest{}
+
+	if fingerprint, ok := s.D.GetOkExists("fingerprint"); ok {
+		tmp := fingerprint.(string)
+		request.Fingerprint = &tmp
+	}
+
+	if userId, ok := s.D.GetOkExists("user_id"); ok {
+		tmp := userId.(string)
+		request.UserId = &tmp
+	}
+
+	_, err := s.Client.DeleteApiKey(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "identity")...)
+	return err
+}
+
+func (s *ApiKeyResourceCrud) SetData() {
+	if s.Res.Fingerprint != nil {
+		s.D.Set("fingerprint", *s.Res.Fingerprint)
+	}
+
+	if s.Res.KeyId != nil {
+		s.D.Set("id", *s.Res.KeyId)
+	}
+
+	if s.Res.InactiveStatus != nil {
+		s.D.Set("inactive_status", *s.Res.InactiveStatus)
+	}
+
+	if s.Res.KeyValue != nil {
+		s.D.Set("key_value", *s.Res.KeyValue)
+	}
+
+	s.D.Set("state", s.Res.LifecycleState)
+
 	s.D.Set("time_created", s.Res.TimeCreated.String())
-	s.D.Set("user_id", s.Res.UserID)
-}
 
-func (s *APIKeyResourceCrud) Delete() (e error) {
-	userID := s.D.Get("user_id").(string)
-	fingerprint := s.D.Get("fingerprint").(string)
-	return s.Client.DeleteAPIKey(userID, fingerprint, nil)
+	if s.Res.UserId != nil {
+		s.D.Set("user_id", *s.Res.UserId)
+	}
+
 }

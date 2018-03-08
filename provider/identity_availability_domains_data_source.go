@@ -3,15 +3,15 @@
 package provider
 
 import (
-	"time"
+	"context"
 
 	"github.com/hashicorp/terraform/helper/schema"
-	"github.com/oracle/bmcs-go-sdk"
+	oci_identity "github.com/oracle/oci-go-sdk/identity"
 
 	"github.com/oracle/terraform-provider-oci/crud"
 )
 
-func AvailabilityDomainDatasource() *schema.Resource {
+func AvailabilityDomainsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readAvailabilityDomains,
 		Schema: map[string]*schema.Schema{
@@ -25,11 +25,15 @@ func AvailabilityDomainDatasource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
 						"compartment_id": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-
 						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -41,46 +45,68 @@ func AvailabilityDomainDatasource() *schema.Resource {
 	}
 }
 
-func readAvailabilityDomains(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*OracleClients)
-	sync := &AvailabilityDomainDatasourceCrud{}
+func readAvailabilityDomains(d *schema.ResourceData, m interface{}) error {
+	sync := &AvailabilityDomainsDataSourceCrud{}
 	sync.D = d
-	sync.Client = client.client
+	sync.Client = m.(*OracleClients).identityClient
+
 	return crud.ReadResource(sync)
 }
 
-type AvailabilityDomainDatasourceCrud struct {
-	crud.BaseCrud
-	Res *baremetal.ListAvailabilityDomains
+type AvailabilityDomainsDataSourceCrud struct {
+	D      *schema.ResourceData
+	Client *oci_identity.IdentityClient
+	Res    *oci_identity.ListAvailabilityDomainsResponse
 }
 
-func (s *AvailabilityDomainDatasourceCrud) Get() (e error) {
-	compartmentID := s.D.Get("compartment_id").(string)
-	s.Res, e = s.Client.ListAvailabilityDomains(compartmentID)
-	return
+func (s *AvailabilityDomainsDataSourceCrud) VoidState() {
+	s.D.SetId("")
 }
 
-func (s *AvailabilityDomainDatasourceCrud) SetData() {
+func (s *AvailabilityDomainsDataSourceCrud) Get() error {
+	request := oci_identity.ListAvailabilityDomainsRequest{}
+
+	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+		tmp := compartmentId.(string)
+		request.CompartmentId = &tmp
+	}
+
+	response, err := s.Client.ListAvailabilityDomains(context.Background(), request, getRetryOptions(false, "identity")...)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response
+	return nil
+}
+
+func (s *AvailabilityDomainsDataSourceCrud) SetData() {
 	if s.Res == nil {
 		return
 	}
 
-	s.D.SetId(time.Now().UTC().String())
+	s.D.SetId(crud.GenerateDataSourceID())
 	resources := []map[string]interface{}{}
-	for _, v := range s.Res.AvailabilityDomains {
-		res := map[string]interface{}{
-			"name":           v.Name,
-			"compartment_id": v.CompartmentID,
+
+	for _, r := range s.Res.Items {
+		availabilityDomain := map[string]interface{}{
+			"compartment_id": *r.CompartmentId,
 		}
-		resources = append(resources, res)
+
+		if r.Name != nil {
+			availabilityDomain["name"] = *r.Name
+		}
+
+		resources = append(resources, availabilityDomain)
 	}
 
-	if f, fOk := s.D.GetOk("filter"); fOk {
+	if f, fOk := s.D.GetOkExists("filter"); fOk {
 		resources = ApplyFilters(f.(*schema.Set), resources)
 	}
 
 	if err := s.D.Set("availability_domains", resources); err != nil {
 		panic(err)
 	}
+
 	return
 }

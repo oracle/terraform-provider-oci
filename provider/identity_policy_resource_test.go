@@ -7,17 +7,15 @@ import (
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
-	"github.com/oracle/bmcs-go-sdk"
 
 	"fmt"
 
+	"github.com/oracle/oci-go-sdk/identity"
 	"github.com/stretchr/testify/suite"
 )
 
 type ResourceIdentityPolicyTestSuite struct {
 	suite.Suite
-	Client       *baremetal.Client
-	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	Config       string
 	ResourceName string
@@ -27,10 +25,8 @@ type ResourceIdentityPolicyTestSuite struct {
 
 func (s *ResourceIdentityPolicyTestSuite) SetupTest() {
 	s.Token, s.TokenFn = tokenize()
-	s.Client = testAccClient
-	s.Provider = testAccProvider
 	s.Providers = testAccProviders
-	s.Config = testProviderConfig() + s.TokenFn(`
+	s.Config = legacyTestProviderConfig() + s.TokenFn(`
 	resource "oci_identity_compartment" "t" {
 		name = "-tf-compartment"
 		description = "tf test compartment"
@@ -69,6 +65,9 @@ func (s *ResourceIdentityPolicyTestSuite) TestAccResourceIdentityPolicy_basic() 
 					resource.TestCheckResourceAttr(s.ResourceName, "name", "p1-"+s.Token),
 					resource.TestCheckResourceAttr(s.ResourceName, "description", "automated test policy"),
 					resource.TestCheckResourceAttr(s.ResourceName, "statements.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", string(identity.PolicyLifecycleStateActive)),
+					resource.TestCheckNoResourceAttr(s.ResourceName, "version_date"),
+					resource.TestCheckNoResourceAttr(s.ResourceName, "inactive_state"),
 					func(s *terraform.State) (err error) {
 						policyHash, err = fromInstanceState(s, "oci_identity_policy.p", "policyHash")
 						return err

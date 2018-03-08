@@ -3,10 +3,13 @@
 package provider
 
 import (
+	"context"
+
 	"github.com/hashicorp/terraform/helper/schema"
-	"github.com/oracle/bmcs-go-sdk"
 
 	"github.com/oracle/terraform-provider-oci/crud"
+
+	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
 func UserGroupMembershipResource() *schema.Resource {
@@ -19,9 +22,10 @@ func UserGroupMembershipResource() *schema.Resource {
 		Read:     readUserGroupMembership,
 		Delete:   deleteUserGroupMembership,
 		Schema: map[string]*schema.Schema{
-			"id": {
+			// Required
+			"group_id": {
 				Type:     schema.TypeString,
-				Computed: true,
+				Required: true,
 				ForceNew: true,
 			},
 			"user_id": {
@@ -29,22 +33,27 @@ func UserGroupMembershipResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
-			"group_id": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
-			},
+
+			// Optional
+
+			// Computed
+			// The legacy provider required this but never sent it to the API (api does not accept it).
+			// Make it optional for legacy users.
 			"compartment_id": {
 				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
+				Computed: true,
+				Optional: true, // this property is ignored, keep it optional for legacy configurations
 			},
-			"state": {
+			"id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"inactive_state": {
 				Type:     schema.TypeInt,
+				Computed: true,
+			},
+			"state": {
+				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"time_created": {
@@ -55,84 +64,136 @@ func UserGroupMembershipResource() *schema.Resource {
 	}
 }
 
-func createUserGroupMembership(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*OracleClients)
+func createUserGroupMembership(d *schema.ResourceData, m interface{}) error {
 	sync := &UserGroupMembershipResourceCrud{}
 	sync.D = d
-	sync.Client = client.client
+	sync.Client = m.(*OracleClients).identityClient
+
 	return crud.CreateResource(d, sync)
 }
 
-func readUserGroupMembership(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*OracleClients)
+func readUserGroupMembership(d *schema.ResourceData, m interface{}) error {
 	sync := &UserGroupMembershipResourceCrud{}
 	sync.D = d
-	sync.Client = client.client
+	sync.Client = m.(*OracleClients).identityClient
+
 	return crud.ReadResource(sync)
 }
 
-func deleteUserGroupMembership(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*OracleClients)
+func deleteUserGroupMembership(d *schema.ResourceData, m interface{}) error {
 	sync := &UserGroupMembershipResourceCrud{}
 	sync.D = d
-	sync.Client = client.clientWithoutNotFoundRetries
-	return sync.Delete()
+	sync.Client = m.(*OracleClients).identityClient
+	sync.DisableNotFoundRetries = true
+
+	return crud.DeleteResource(d, sync)
 }
 
 type UserGroupMembershipResourceCrud struct {
-	*crud.IdentitySync
 	crud.BaseCrud
-	Res *baremetal.UserGroupMembership
+	Client                 *oci_identity.IdentityClient
+	Res                    *oci_identity.UserGroupMembership
+	DisableNotFoundRetries bool
 }
 
 func (s *UserGroupMembershipResourceCrud) ID() string {
-	return s.Res.ID
-}
-
-func (s *UserGroupMembershipResourceCrud) State() string {
-	return s.Res.State
-}
-
-func (s *UserGroupMembershipResourceCrud) Create() (e error) {
-	userID := s.D.Get("user_id").(string)
-	groupID := s.D.Get("group_id").(string)
-	s.Res, e = s.Client.AddUserToGroup(userID, groupID, nil)
-	return
+	return *s.Res.Id
 }
 
 func (s *UserGroupMembershipResourceCrud) CreatedPending() []string {
-	return []string{baremetal.ResourceCreating}
+	return []string{
+		string(oci_identity.UserGroupMembershipLifecycleStateCreating),
+	}
 }
 
 func (s *UserGroupMembershipResourceCrud) CreatedTarget() []string {
-	return []string{baremetal.ResourceActive}
+	return []string{
+		string(oci_identity.UserGroupMembershipLifecycleStateActive),
+	}
 }
 
 func (s *UserGroupMembershipResourceCrud) DeletedPending() []string {
-	return []string{baremetal.ResourceDeleting}
+	return []string{
+		string(oci_identity.UserGroupMembershipLifecycleStateDeleting),
+	}
 }
 
 func (s *UserGroupMembershipResourceCrud) DeletedTarget() []string {
-	return []string{baremetal.ResourceDeleted}
+	return []string{
+		string(oci_identity.UserGroupMembershipLifecycleStateDeleted),
+	}
 }
 
-func (s *UserGroupMembershipResourceCrud) Get() (e error) {
-	res, e := s.Client.GetUserGroupMembership(s.D.Id())
-	if e == nil {
-		s.Res = res
+func (s *UserGroupMembershipResourceCrud) Create() error {
+	request := oci_identity.AddUserToGroupRequest{}
+
+	if groupId, ok := s.D.GetOkExists("group_id"); ok {
+		tmp := groupId.(string)
+		request.GroupId = &tmp
 	}
-	return
+
+	if userId, ok := s.D.GetOkExists("user_id"); ok {
+		tmp := userId.(string)
+		request.UserId = &tmp
+	}
+
+	response, err := s.Client.AddUserToGroup(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "identity")...)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response.UserGroupMembership
+	return nil
+}
+
+func (s *UserGroupMembershipResourceCrud) Get() error {
+	request := oci_identity.GetUserGroupMembershipRequest{}
+
+	tmp := s.D.Id()
+	request.UserGroupMembershipId = &tmp
+
+	response, err := s.Client.GetUserGroupMembership(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "identity")...)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response.UserGroupMembership
+	return nil
+}
+
+func (s *UserGroupMembershipResourceCrud) Delete() error {
+	request := oci_identity.RemoveUserFromGroupRequest{}
+
+	tmp := s.D.Id()
+	request.UserGroupMembershipId = &tmp
+
+	_, err := s.Client.RemoveUserFromGroup(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "identity")...)
+	return err
 }
 
 func (s *UserGroupMembershipResourceCrud) SetData() {
-	s.D.Set("compartment_id", s.Res.CompartmentID)
-	s.D.Set("group_id", s.Res.GroupID)
-	s.D.Set("user_id", s.Res.UserID)
-	s.D.Set("inactive_state", s.Res.InactiveStatus)
-	s.D.Set("state", s.Res.State)
-	s.D.Set("time_created", s.Res.TimeCreated.String())
-}
+	if s.Res.CompartmentId != nil {
+		s.D.Set("compartment_id", *s.Res.CompartmentId)
+	}
 
-func (s *UserGroupMembershipResourceCrud) Delete() (e error) {
-	return s.Client.DeleteUserGroupMembership(s.D.Id(), nil)
+	if s.Res.GroupId != nil {
+		s.D.Set("group_id", *s.Res.GroupId)
+	}
+
+	if s.Res.Id != nil {
+		s.D.Set("id", *s.Res.Id)
+	}
+
+	if s.Res.InactiveStatus != nil {
+		s.D.Set("inactive_state", *s.Res.InactiveStatus)
+	}
+
+	s.D.Set("state", s.Res.LifecycleState)
+
+	s.D.Set("time_created", s.Res.TimeCreated.String())
+
+	if s.Res.UserId != nil {
+		s.D.Set("user_id", *s.Res.UserId)
+	}
+
 }

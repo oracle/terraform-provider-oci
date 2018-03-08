@@ -3,26 +3,37 @@
 package provider
 
 import (
+	"context"
+
 	"github.com/hashicorp/terraform/helper/schema"
-	"github.com/oracle/bmcs-go-sdk"
 
 	"github.com/oracle/terraform-provider-oci/crud"
+
+	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
-// Version is exposed to allow resetting an existing user's password.
-// Incrementing the value of version will cause a new UIPassword to be created.
-func UIPasswordResource() *schema.Resource {
+func UiPasswordResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: crud.DefaultTimeout,
-		Create:   createUIPassword,
-		Read:     readUIPassword,
-		Delete:   deleteUIPassword,
+		Create:   createUiPassword,
+		Read:     readUiPassword,
+		Delete:   deleteUiPassword,
 		Schema: map[string]*schema.Schema{
-			"inactive_status": {
+			// Required
+			"user_id": {
 				Type:     schema.TypeString,
+				Required: true,
+				ForceNew: true,
+			},
+
+			// Optional
+
+			// Computed
+			"inactive_status": {
+				Type:     schema.TypeInt,
 				Computed: true,
 			},
 			"password": {
@@ -37,50 +48,93 @@ func UIPasswordResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"user_id": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
-			},
 		},
 	}
 }
 
-func createUIPassword(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*OracleClients)
-	sync := &UIPasswordResourceCrud{}
+func createUiPassword(d *schema.ResourceData, m interface{}) error {
+	sync := &UiPasswordResourceCrud{}
 	sync.D = d
-	sync.Client = client.client
+	sync.Client = m.(*OracleClients).identityClient
+
 	return crud.CreateResource(d, sync)
 }
 
-func readUIPassword(d *schema.ResourceData, m interface{}) (e error) {
+func readUiPassword(d *schema.ResourceData, m interface{}) error {
 	return nil
 }
 
-func deleteUIPassword(d *schema.ResourceData, m interface{}) (e error) {
+func deleteUiPassword(d *schema.ResourceData, m interface{}) error {
 	return nil
 }
 
-type UIPasswordResourceCrud struct {
+type UiPasswordResourceCrud struct {
 	crud.BaseCrud
-	Res *baremetal.UIPassword
+	Client                 *oci_identity.IdentityClient
+	Res                    *oci_identity.UiPassword
+	DisableNotFoundRetries bool
 }
 
-func (s *UIPasswordResourceCrud) ID() string {
-	return s.D.Get("user_id").(string)
+func (s *UiPasswordResourceCrud) ID() string {
+	return *s.Res.UserId
 }
 
-func (s *UIPasswordResourceCrud) Create() (e error) {
-	userID := s.D.Get("user_id").(string)
-	s.Res, e = s.Client.CreateOrResetUIPassword(userID, nil)
-	return
+func (s *UiPasswordResourceCrud) CreatedPending() []string {
+	return []string{
+		string(oci_identity.UiPasswordLifecycleStateCreating),
+	}
 }
 
-func (s *UIPasswordResourceCrud) SetData() {
-	s.D.Set("inactive_status", s.Res.InactiveStatus)
-	s.D.Set("state", s.Res.State)
-	s.D.Set("password", s.Res.Password)
+func (s *UiPasswordResourceCrud) CreatedTarget() []string {
+	return []string{
+		string(oci_identity.UiPasswordLifecycleStateActive),
+	}
+}
+
+func (s *UiPasswordResourceCrud) DeletedPending() []string {
+	return []string{
+		string(oci_identity.UiPasswordLifecycleStateDeleting),
+	}
+}
+
+func (s *UiPasswordResourceCrud) DeletedTarget() []string {
+	return []string{
+		string(oci_identity.UiPasswordLifecycleStateDeleted),
+	}
+}
+
+func (s *UiPasswordResourceCrud) Create() error {
+	request := oci_identity.CreateOrResetUIPasswordRequest{}
+
+	if userId, ok := s.D.GetOkExists("user_id"); ok {
+		tmp := userId.(string)
+		request.UserId = &tmp
+	}
+
+	response, err := s.Client.CreateOrResetUIPassword(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "identity")...)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response.UiPassword
+	return nil
+}
+
+func (s *UiPasswordResourceCrud) SetData() {
+	if s.Res.InactiveStatus != nil {
+		s.D.Set("inactive_status", *s.Res.InactiveStatus)
+	}
+
+	if s.Res.Password != nil {
+		s.D.Set("password", *s.Res.Password)
+	}
+
+	s.D.Set("state", s.Res.LifecycleState)
+
 	s.D.Set("time_created", s.Res.TimeCreated.String())
-	s.D.Set("user_id", s.Res.UserID)
+
+	if s.Res.UserId != nil {
+		s.D.Set("user_id", *s.Res.UserId)
+	}
+
 }

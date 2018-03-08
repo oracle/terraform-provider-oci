@@ -74,7 +74,7 @@ func GetConfigPaths(t *testing.T, rootPath string) (pathList []string, err error
 	err = filepath.Walk(rootPath, fileScanner)
 	pathList = make([]string, 0, len(dirSet))
 
-	for dir, _ := range dirSet {
+	for dir := range dirSet {
 		pathList = append(pathList, dir)
 	}
 

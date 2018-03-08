@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/hashicorp/terraform/helper/schema"
+	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
 // Filter function should select an item for which the compare function returns true
@@ -253,6 +254,180 @@ func TestApplyFilters_arrayOfStrings(t *testing.T) {
 	res = ApplyFilters(filters, items)
 	if len(res) != 2 {
 		t.Errorf("Expected 2 result, got %d", len(res))
+	}
+}
+
+type CustomStringTypeA string
+type CustomStringTypeB CustomStringTypeA
+type CustomEnumType oci_core.VcnLifecycleStateEnum
+
+func TestApplyFilters_underlyingStringTypes(t *testing.T) {
+	items := []map[string]interface{}{
+		{
+			"letters": []CustomStringTypeA{"a"},
+			"number":  CustomStringTypeB("1"),
+			"state":   oci_core.SecurityListLifecycleStateAvailable,
+			"custom":  CustomEnumType(oci_core.VcnLifecycleStateTerminated),
+		},
+		{
+			"letters": []CustomStringTypeA{"a"},
+			"number":  CustomStringTypeB("1"),
+			"state":   oci_core.SecurityListLifecycleStateProvisioning,
+			"custom":  CustomEnumType(oci_core.VcnLifecycleStateTerminating),
+		},
+		{
+			"letters": []CustomStringTypeA{"b", "c"},
+			"number":  CustomStringTypeB("2"),
+			"state":   oci_core.SecurityListLifecycleStateTerminating,
+			"custom":  CustomEnumType(oci_core.VcnLifecycleStateProvisioning),
+		},
+		{
+			"letters": []CustomStringTypeA{"c", "d", "e"},
+			"number":  CustomStringTypeB("3"),
+			"state":   oci_core.SecurityListLifecycleStateTerminated,
+			"custom":  CustomEnumType(oci_core.VcnLifecycleStateAvailable),
+		},
+		{
+			"letters": []CustomStringTypeA{"e", "f"},
+			"number":  CustomStringTypeB("5"),
+			"state":   oci_core.SecurityListLifecycleStateAvailable,
+			"custom":  CustomEnumType(oci_core.VcnLifecycleStateTerminated),
+		},
+	}
+
+	filters := &schema.Set{
+		F: func(v interface{}) int {
+			return schema.HashString(v.(map[string]interface{})["name"])
+		},
+	}
+	filters.Add(map[string]interface{}{
+		"name":   "letters",
+		"values": []interface{}{"a", "c"},
+	})
+
+	res := ApplyFilters(filters, items)
+	if len(res) != 4 {
+		t.Errorf("Expected 4 result, got %d", len(res))
+	}
+
+	filters1 := &schema.Set{
+		F: func(v interface{}) int {
+			return schema.HashString(v.(map[string]interface{})["name"])
+		},
+	}
+	filters1.Add(map[string]interface{}{
+		"name":   "letters",
+		"values": []interface{}{"a", "b", "e"},
+	})
+	filters1.Add(map[string]interface{}{
+		"name":   "number",
+		"values": []interface{}{"1", "notANumber"},
+	})
+
+	res = ApplyFilters(filters1, items)
+	if len(res) != 2 {
+		t.Errorf("Expected 2 result, got %d", len(res))
+	}
+
+	filters2 := &schema.Set{
+		F: func(v interface{}) int {
+			return schema.HashString(v.(map[string]interface{})["name"])
+		},
+	}
+	filters2.Add(map[string]interface{}{
+		"name":   "letters",
+		"values": []interface{}{"a", "b", "e"},
+	})
+	filters2.Add(map[string]interface{}{
+		"name":   "number",
+		"values": []interface{}{"1", "2", "3", "5"},
+	})
+	filters2.Add(map[string]interface{}{
+		"name":   "state",
+		"values": []interface{}{string(oci_core.SecurityListLifecycleStateAvailable), string(oci_core.SecurityListLifecycleStateTerminating)},
+	})
+	filters2.Add(map[string]interface{}{
+		"name":   "custom",
+		"values": []interface{}{string(oci_core.VcnLifecycleStateProvisioning)},
+	})
+
+	res = ApplyFilters(filters2, items)
+	if len(res) != 1 {
+		t.Errorf("Expected 1 result, got %d", len(res))
+	}
+}
+
+// Test various fields that aren't strings. Non-string filters should result in item being filtered out.
+func TestApplyFilters_nonString(t *testing.T) {
+	items := []map[string]interface{}{
+		{
+			"letter":  "a",
+			"number":  1,
+			"enabled": true,
+			"nums":    []int{1, 2, 3},
+		},
+		{
+			"letter":  "b",
+			"number":  2,
+			"enabled": false,
+			"nums":    []int{3, 4, 5},
+		},
+		{
+			"letter":  "c",
+			"number":  2,
+			"enabled": true,
+			"nums":    []int{5, 6, 7},
+		},
+	}
+
+	filters := &schema.Set{
+		F: func(v interface{}) int {
+			return schema.HashString(v.(map[string]interface{})["name"])
+		},
+	}
+	filters.Add(map[string]interface{}{
+		"name":   "letter",
+		"values": []interface{}{"a", "b", "d"},
+	})
+
+	res := ApplyFilters(filters, items)
+	if len(res) != 2 {
+		t.Errorf("Expected 2 result, got %d", len(res))
+	}
+
+	numberFilter := map[string]interface{}{
+		"name":   "number",
+		"values": []interface{}{"1", "2", "3"},
+	}
+	filters.Add(numberFilter)
+
+	res = ApplyFilters(filters, items)
+	if len(res) != 0 {
+		t.Errorf("Expected 0 result, got %d", len(res))
+	}
+	filters.Remove(numberFilter)
+
+	booleanFilter := map[string]interface{}{
+		"name":   "enabled",
+		"values": []interface{}{"true", "false", "1", "0"},
+	}
+	filters.Add(booleanFilter)
+
+	res = ApplyFilters(filters, items)
+	if len(res) != 0 {
+		t.Errorf("Expected 0 result, got %d", len(res))
+	}
+	filters.Remove(booleanFilter)
+
+	intArrayFilter := map[string]interface{}{
+		"name":   "nums",
+		"values": []interface{}{"1", "3", "5"},
+	}
+	filters.Add(intArrayFilter)
+
+	res = ApplyFilters(filters, items)
+	if len(res) != 0 {
+		t.Errorf("Expected 0 result, got %d", len(res))
 	}
 }
 

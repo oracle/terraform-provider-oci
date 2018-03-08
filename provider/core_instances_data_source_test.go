@@ -7,16 +7,14 @@ import (
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
-	baremetal "github.com/oracle/bmcs-go-sdk"
 
+	"github.com/oracle/oci-go-sdk/core"
 	"github.com/stretchr/testify/suite"
 )
 
 type DatasourceCoreInstanceTestSuite struct {
 	suite.Suite
-	Client       *baremetal.Client
 	Config       string
-	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	ResourceName string
 	Token        string
@@ -25,10 +23,8 @@ type DatasourceCoreInstanceTestSuite struct {
 
 func (s *DatasourceCoreInstanceTestSuite) SetupTest() {
 	s.Token, s.TokenFn = tokenize()
-	s.Client = testAccClient
-	s.Provider = testAccProvider
 	s.Providers = testAccProviders
-	s.Config = testProviderConfig() + s.TokenFn(`
+	s.Config = legacyTestProviderConfig() + s.TokenFn(`
 	data "oci_identity_availability_domains" "ADs" {
 		compartment_id = "${var.compartment_id}"
 	}
@@ -100,13 +96,22 @@ func (s *DatasourceCoreInstanceTestSuite) TestAccDatasourceCoreInstance_basic() 
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "instances.#", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "instances.0.display_name", s.Token),
-					resource.TestCheckResourceAttr(s.ResourceName, "instances.0.state", "RUNNING"),
+					resource.TestCheckResourceAttr(s.ResourceName, "instances.0.state", string(core.InstanceLifecycleStateRunning)),
 					resource.TestCheckResourceAttr(s.ResourceName, "instances.0.shape", "VM.Standard1.1"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "instances.0.availability_domain"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "instances.0.id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "instances.0.region"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "instances.0.image"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "instances.0.time_created"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "instances.0.metadata.%"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "instances.0.metadata.ssh_authorized_keys"),
+					resource.TestCheckResourceAttr(s.ResourceName, "instances.0.ipxe_script", ""),
+					resource.TestCheckResourceAttr(s.ResourceName, "instances.0.extended_metadata.%", "0"),
+					resource.TestCheckNoResourceAttr(s.ResourceName, "instances.0.create_vnic_details"),
+					resource.TestCheckResourceAttr(s.ResourceName, "instances.0.subnet_id", ""),
+					resource.TestCheckResourceAttr(s.ResourceName, "instances.0.private_ip", ""),
+					resource.TestCheckResourceAttr(s.ResourceName, "instances.0.public_ip", ""),
+					resource.TestCheckResourceAttr(s.ResourceName, "instances.0.hostname_label", ""),
 				),
 			},
 		},

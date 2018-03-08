@@ -7,32 +7,26 @@ import (
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
-	"github.com/oracle/bmcs-go-sdk"
 
 	"fmt"
 
 	"github.com/stretchr/testify/suite"
+
+	"github.com/oracle/oci-go-sdk/core"
 
 	"github.com/oracle/terraform-provider-oci/crud"
 )
 
 type ResourceCoreInstanceTestSuite struct {
 	suite.Suite
-	Client       *baremetal.Client
-	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
-	TimeCreated  baremetal.Time
 	Config       string
 	ResourceName string
-	Res          *baremetal.Instance
-	DeletedRes   *baremetal.Instance
 }
 
 func (s *ResourceCoreInstanceTestSuite) SetupTest() {
-	s.Client = testAccClient
-	s.Provider = testAccProvider
 	s.Providers = testAccProviders
-	s.Config = testProviderConfig() + `
+	s.Config = legacyTestProviderConfig() + `
 	data "oci_identity_availability_domains" "ADs" {
 		compartment_id = "${var.compartment_id}"
 	}
@@ -91,6 +85,11 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 					shape = "VM.Standard1.1"
 					metadata {
 						ssh_authorized_keys = "${var.ssh_public_key}"
+						user_data = "SWYgeW91IGNhbiBzZWUgdGhpcywgdGhlbiBpdCB3b3JrZWQgbWF5YmUuCg=="
+					}
+					extended_metadata {
+						keyA = "valA"
+						keyB = "{\"keyB1\": \"valB1\", \"keyB2\": {\"keyB2\": \"valB2\"}}"
 					}
 					timeouts {
 						create = "15m"
@@ -102,7 +101,27 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "public_ip"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "private_ip"),
-					resource.TestCheckResourceAttr(s.ResourceName, "state", baremetal.ResourceRunning),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "display_name"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "image"),
+					// only set if specified
+					resource.TestCheckNoResourceAttr(s.ResourceName, "ipxe_script"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "subnet_id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "hostname_label", "hostname1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "shape", "VM.Standard1.1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "metadata.%", "2"),
+					resource.TestCheckResourceAttr(s.ResourceName, "metadata.user_data", "SWYgeW91IGNhbiBzZWUgdGhpcywgdGhlbiBpdCB3b3JrZWQgbWF5YmUuCg=="),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "metadata.ssh_authorized_keys"),
+					resource.TestCheckResourceAttr(s.ResourceName, "extended_metadata.%", "2"),
+					resource.TestCheckResourceAttr(s.ResourceName, "extended_metadata.keyA", "valA"),
+					resource.TestCheckResourceAttr(s.ResourceName, "extended_metadata.keyB", "{\"keyB1\": \"valB1\", \"keyB2\": {\"keyB2\": \"valB2\"}}"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "region"),
+					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.#", "1"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "create_vnic_details.0.display_name"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "create_vnic_details.0.hostname_label"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "create_vnic_details.0.private_ip"),
+					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.skip_source_dest_check", "false"),
+					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.assign_public_ip", "true"),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", string(core.InstanceLifecycleStateRunning)),
 					func(ts *terraform.State) (err error) {
 						instanceId, err = fromInstanceState(ts, s.ResourceName, "id")
 						return err
@@ -110,6 +129,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 				),
 			},
 			// Switching to create_vnic_details for subnet_id and hostname_label should not lead to a change.
+			// Changing the letter case in the hostname_label of the instance should also not result in a change.
 			{
 				ImportState:       true,
 				ImportStateVerify: true,
@@ -119,12 +139,18 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 					compartment_id = "${var.compartment_id}"
 					create_vnic_details {
 						subnet_id = "${oci_core_subnet.t.id}"
-						hostname_label = "hostname1"
+						hostname_label = "hostNAME1"
 					}
 					image = "${var.InstanceImageOCID[var.region]}"
+					hostname_label = "HOSTName1"
 					shape = "VM.Standard1.1"
 					metadata {
 						ssh_authorized_keys = "${var.ssh_public_key}"
+						user_data = "SWYgeW91IGNhbiBzZWUgdGhpcywgdGhlbiBpdCB3b3JrZWQgbWF5YmUuCg=="
+					}
+					extended_metadata {
+						keyA = "valA"
+						keyB = "{\"keyB1\": \"valB1\", \"keyB2\": {\"keyB2\": \"valB2\"}}"
 					}
 					timeouts {
 						create = "15m"
@@ -148,6 +174,11 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 					display_name = "-tf-instance"
 					metadata {
 						ssh_authorized_keys = "${var.ssh_public_key}"
+						user_data = "SWYgeW91IGNhbiBzZWUgdGhpcywgdGhlbiBpdCB3b3JrZWQgbWF5YmUuCg=="
+					}
+					extended_metadata {
+						keyA = "valA"
+						keyB = "{\"keyB1\": \"valB1\", \"keyB2\": {\"keyB2\": \"valB2\"}}"
 					}
 				}`,
 				Check: resource.ComposeTestCheckFunc(
@@ -155,7 +186,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 					func(ts *terraform.State) (err error) {
 						newId, err := fromInstanceState(ts, s.ResourceName, "id")
 						if newId != instanceId {
-							return fmt.Errorf("Expected same instance ocid, got different.")
+							return fmt.Errorf("expected same instance ocid, got different")
 						}
 						return err
 					},
@@ -175,10 +206,14 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 					subnet_id = "${oci_core_subnet.t.id}"
 					metadata {
 						ssh_authorized_keys = "${var.ssh_public_key}"
+						user_data = "SWYgeW91IGNhbiBzZWUgdGhpcywgdGhlbiBpdCB3b3JrZWQgbWF5YmUuCg=="
+					}
+					extended_metadata {
+						keyA = "valA"
+						keyB = "{\"keyB1\": \"valB1\", \"keyB2\": {\"keyB2\": \"valB2\"}}"
 					}
 					create_vnic_details {
 						subnet_id = "${oci_core_subnet.t.id}"
-						display_name = "-tf-vnic"
 					}
 				}
 				data "oci_core_vnic_attachments" "t" {
@@ -190,12 +225,17 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 				}`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-instance"),
-					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.display_name", "-tf-vnic"),
+					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.#", "1"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "create_vnic_details.0.display_name"),
 					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.skip_source_dest_check", "false"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "create_vnic_details.0.subnet_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "create_vnic_details.0.hostname_label"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "create_vnic_details.0.private_ip"),
+					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.assign_public_ip", "true"),
 					func(ts *terraform.State) (err error) {
 						newId, err := fromInstanceState(ts, s.ResourceName, "id")
 						if newId != instanceId {
-							return fmt.Errorf("Expected same instance ocid, got different.")
+							return fmt.Errorf("expected same instance ocid, got different")
 						}
 						return err
 					},
@@ -215,10 +255,14 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 					subnet_id = "${oci_core_subnet.t.id}"
 					metadata {
 						ssh_authorized_keys = "${var.ssh_public_key}"
+						user_data = "SWYgeW91IGNhbiBzZWUgdGhpcywgdGhlbiBpdCB3b3JrZWQgbWF5YmUuCg=="
+					}
+					extended_metadata {
+						keyA = "valA"
+						keyB = "{\"keyB1\": \"valB1\", \"keyB2\": {\"keyB2\": \"valB2\"}}"
 					}
 					create_vnic_details {
 						subnet_id = "${oci_core_subnet.t.id}"
-						display_name = "-tf-vnic"
 						skip_source_dest_check = false
 						assign_public_ip = true
 					}
@@ -247,6 +291,11 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 					subnet_id = "${oci_core_subnet.t.id}"
 					metadata {
 						ssh_authorized_keys = "${var.ssh_public_key}"
+						user_data = "SWYgeW91IGNhbiBzZWUgdGhpcywgdGhlbiBpdCB3b3JrZWQgbWF5YmUuCg=="
+					}
+					extended_metadata {
+						keyA = "valA"
+						keyB = "{\"keyB1\": \"valB1\", \"keyB2\": {\"keyB2\": \"valB2\"}}"
 					}
 					create_vnic_details {
 						subnet_id = "${oci_core_subnet.t.id}"
@@ -264,8 +313,12 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 				}`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-instance"),
+					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.#", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.skip_source_dest_check", "true"),
 					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.display_name", "-tf-vnic-2"),
+					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.hostname_label", "mytftesthostname"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "create_vnic_details.0.subnet_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "create_vnic_details.0.private_ip"),
 					func(ts *terraform.State) (err error) {
 						newId, err := fromInstanceState(ts, s.ResourceName, "id")
 						if newId != instanceId {
@@ -288,6 +341,11 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 					display_name = "-tf-instance"
 					metadata {
 						ssh_authorized_keys = "${var.ssh_public_key}"
+						user_data = "SWYgeW91IGNhbiBzZWUgdGhpcywgdGhlbiBpdCB3b3JrZWQgbWF5YmUuCg=="
+					}
+					extended_metadata {
+						keyA = "valA"
+						keyB = "{\"keyB1\": \"valB1\", \"keyB2\": {\"keyB2\": \"valB2\"}}"
 					}
 					create_vnic_details {
 						subnet_id = "${oci_core_subnet.t.id}"
@@ -309,11 +367,11 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 					resource.TestCheckResourceAttr(s.ResourceName, "private_ip", "10.0.1.20"),
 					resource.TestCheckResourceAttr(vnicResourceName, "display_name", "-tf-vnic-2"),
 					resource.TestCheckResourceAttr(vnicResourceName, "skip_source_dest_check", "true"),
-					resource.TestCheckResourceAttr(vnicResourceName, "public_ip_address", ""),
+					resource.TestCheckNoResourceAttr(vnicResourceName, "public_ip_address"),
 					func(ts *terraform.State) (err error) {
 						newId, err := fromInstanceState(ts, s.ResourceName, "id")
 						if newId == instanceId {
-							return fmt.Errorf("Expected new instance ocid, got the same.")
+							return fmt.Errorf("expected new instance ocid, got the same")
 						}
 						return err
 					},

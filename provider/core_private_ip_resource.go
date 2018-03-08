@@ -3,30 +3,33 @@
 package provider
 
 import (
+	"context"
+
 	"github.com/hashicorp/terraform/helper/schema"
-	"github.com/oracle/bmcs-go-sdk"
 
 	"github.com/oracle/terraform-provider-oci/crud"
+
+	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func PrivateIPResource() *schema.Resource {
+func PrivateIpResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: crud.DefaultTimeout,
-		Create:   createPrivateIP,
-		Read:     readPrivateIP,
-		Update:   updatePrivateIP,
-		Delete:   deletePrivateIP,
+		Create:   createPrivateIp,
+		Read:     readPrivateIp,
+		Update:   updatePrivateIp,
+		Delete:   deletePrivateIp,
 		Schema: map[string]*schema.Schema{
-			//Required
+			// Required
 			"vnic_id": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
 
-			//Optional
+			// Optional
 			"display_name": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -44,7 +47,7 @@ func PrivateIPResource() *schema.Resource {
 				ForceNew: true,
 			},
 
-			//Computed
+			// Computed
 			"availability_domain": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -73,100 +76,174 @@ func PrivateIPResource() *schema.Resource {
 	}
 }
 
-func createPrivateIP(d *schema.ResourceData, m interface{}) (e error) {
-	sync := &PrivateIPResourceCrud{}
+func createPrivateIp(d *schema.ResourceData, m interface{}) error {
+	sync := &PrivateIpResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).client
+	sync.Client = m.(*OracleClients).virtualNetworkClient
+
 	return crud.CreateResource(d, sync)
 }
 
-func readPrivateIP(d *schema.ResourceData, m interface{}) (e error) {
-	sync := &PrivateIPResourceCrud{}
+func readPrivateIp(d *schema.ResourceData, m interface{}) error {
+	sync := &PrivateIpResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).client
+	sync.Client = m.(*OracleClients).virtualNetworkClient
+
 	return crud.ReadResource(sync)
 }
 
-func updatePrivateIP(d *schema.ResourceData, m interface{}) (e error) {
-	sync := &PrivateIPResourceCrud{}
+func updatePrivateIp(d *schema.ResourceData, m interface{}) error {
+	sync := &PrivateIpResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).client
+	sync.Client = m.(*OracleClients).virtualNetworkClient
+
 	return crud.UpdateResource(d, sync)
 }
 
-func deletePrivateIP(d *schema.ResourceData, m interface{}) (e error) {
-	sync := &PrivateIPResourceCrud{}
+func deletePrivateIp(d *schema.ResourceData, m interface{}) error {
+	sync := &PrivateIpResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).clientWithoutNotFoundRetries
+	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.DisableNotFoundRetries = true
+
 	return crud.DeleteResource(d, sync)
 }
 
-type PrivateIPResourceCrud struct {
+type PrivateIpResourceCrud struct {
 	crud.BaseCrud
-	Res *baremetal.PrivateIP
+	Client                 *oci_core.VirtualNetworkClient
+	Res                    *oci_core.PrivateIp
+	DisableNotFoundRetries bool
 }
 
-func (s *PrivateIPResourceCrud) ID() string {
-	return s.Res.ID
+func (s *PrivateIpResourceCrud) ID() string {
+	return *s.Res.Id
 }
 
-func (s *PrivateIPResourceCrud) Create() (e error) {
-	vnicID := s.D.Get("vnic_id").(string)
+func (s *PrivateIpResourceCrud) Create() error {
+	request := oci_core.CreatePrivateIpRequest{}
 
-	opts := &baremetal.CreatePrivateIPOptions{}
-	displayName, ok := s.D.GetOk("display_name")
-	if ok {
-		opts.DisplayName = displayName.(string)
-	}
-	hostnameLabel, ok := s.D.GetOk("hostname_label")
-	if ok {
-		opts.HostnameLabel = hostnameLabel.(string)
-	}
-	ipAddress, ok := s.D.GetOk("ip_address")
-	if ok {
-		opts.IPAddress = ipAddress.(string)
+	if displayName, ok := s.D.GetOkExists("display_name"); ok {
+		tmp := displayName.(string)
+		request.DisplayName = &tmp
 	}
 
-	s.Res, e = s.Client.CreatePrivateIP(vnicID, opts)
-	return
+	if hostnameLabel, ok := s.D.GetOkExists("hostname_label"); ok {
+		tmp := hostnameLabel.(string)
+		request.HostnameLabel = &tmp
+	}
+
+	if ipAddress, ok := s.D.GetOkExists("ip_address"); ok {
+		tmp := ipAddress.(string)
+		request.IpAddress = &tmp
+	}
+
+	if vnicId, ok := s.D.GetOkExists("vnic_id"); ok {
+		tmp := vnicId.(string)
+		request.VnicId = &tmp
+	}
+
+	response, err := s.Client.CreatePrivateIp(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response.PrivateIp
+	return nil
 }
 
-func (s *PrivateIPResourceCrud) Get() (e error) {
-	res, e := s.Client.GetPrivateIP(s.D.Id())
-	if e == nil {
-		s.Res = res
+func (s *PrivateIpResourceCrud) Get() error {
+	request := oci_core.GetPrivateIpRequest{}
+
+	tmp := s.D.Id()
+	request.PrivateIpId = &tmp
+
+	response, err := s.Client.GetPrivateIp(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	if err != nil {
+		return err
 	}
-	return
+
+	s.Res = &response.PrivateIp
+	return nil
 }
 
-func (s *PrivateIPResourceCrud) Update() (e error) {
-	opts := &baremetal.UpdatePrivateIPOptions{}
-	if displayName, ok := s.D.GetOk("display_name"); ok {
-		opts.DisplayName = displayName.(string)
+func (s *PrivateIpResourceCrud) Update() error {
+	request := oci_core.UpdatePrivateIpRequest{}
+
+	if displayName, ok := s.D.GetOkExists("display_name"); ok {
+		tmp := displayName.(string)
+		request.DisplayName = &tmp
 	}
-	if hostnameLabel, ok := s.D.GetOk("hostname_label"); ok {
-		opts.HostnameLabel = hostnameLabel.(string)
+
+	if hostnameLabel, ok := s.D.GetOkExists("hostname_label"); ok {
+		tmp := hostnameLabel.(string)
+		request.HostnameLabel = &tmp
 	}
-	if vnicID, ok := s.D.GetOk("vnic_id"); ok {
-		opts.VnicID = vnicID.(string)
+
+	tmp := s.D.Id()
+	request.PrivateIpId = &tmp
+
+	if vnicId, ok := s.D.GetOkExists("vnic_id"); ok {
+		tmp := vnicId.(string)
+		request.VnicId = &tmp
 	}
-	s.Res, e = s.Client.UpdatePrivateIP(s.D.Id(), opts)
-	return
+
+	response, err := s.Client.UpdatePrivateIp(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response.PrivateIp
+	return nil
 }
 
-func (s *PrivateIPResourceCrud) SetData() {
-	s.D.Set("availability_domain", s.Res.AvailabilityDomain)
-	s.D.Set("compartment_id", s.Res.CompartmentID)
-	s.D.Set("display_name", s.Res.DisplayName)
-	s.D.Set("hostname_label", s.Res.HostnameLabel)
-	s.D.Set("id", s.Res.ID)
-	s.D.Set("ip_address", s.Res.IPAddress)
-	s.D.Set("is_primary", s.Res.IsPrimary)
-	s.D.Set("subnet_id", s.Res.SubnetID)
+func (s *PrivateIpResourceCrud) Delete() error {
+	request := oci_core.DeletePrivateIpRequest{}
+
+	tmp := s.D.Id()
+	request.PrivateIpId = &tmp
+
+	_, err := s.Client.DeletePrivateIp(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	return err
+}
+
+func (s *PrivateIpResourceCrud) SetData() {
+	if s.Res.AvailabilityDomain != nil {
+		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
+	}
+
+	if s.Res.CompartmentId != nil {
+		s.D.Set("compartment_id", *s.Res.CompartmentId)
+	}
+
+	if s.Res.DisplayName != nil {
+		s.D.Set("display_name", *s.Res.DisplayName)
+	}
+
+	if s.Res.HostnameLabel != nil {
+		s.D.Set("hostname_label", *s.Res.HostnameLabel)
+	}
+
+	if s.Res.Id != nil {
+		s.D.Set("id", *s.Res.Id)
+	}
+
+	if s.Res.IpAddress != nil {
+		s.D.Set("ip_address", *s.Res.IpAddress)
+	}
+
+	if s.Res.IsPrimary != nil {
+		s.D.Set("is_primary", *s.Res.IsPrimary)
+	}
+
+	if s.Res.SubnetId != nil {
+		s.D.Set("subnet_id", *s.Res.SubnetId)
+	}
+
 	s.D.Set("time_created", s.Res.TimeCreated.String())
-	s.D.Set("vnic_id", s.Res.VnicID)
-}
 
-func (s *PrivateIPResourceCrud) Delete() (e error) {
-	return s.Client.DeletePrivateIP(s.D.Id(), nil)
+	if s.Res.VnicId != nil {
+		s.D.Set("vnic_id", *s.Res.VnicId)
+	}
+
 }

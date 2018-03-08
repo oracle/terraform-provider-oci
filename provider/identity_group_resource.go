@@ -3,15 +3,17 @@
 package provider
 
 import (
+	"context"
+	"fmt"
 	"time"
 
 	"github.com/hashicorp/terraform/helper/schema"
-	"github.com/oracle/bmcs-go-sdk"
 
 	"github.com/oracle/terraform-provider-oci/crud"
+
+	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
-// ResourceIdentityGroup exposes an IdentityGroup Resource
 func GroupResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
@@ -23,25 +25,30 @@ func GroupResource() *schema.Resource {
 		Update:   updateGroup,
 		Delete:   deleteGroup,
 		Schema: map[string]*schema.Schema{
-			"id": {
+			// The legacy provider exposed this as read-only/computed. The API requires this param. For legacy users who are
+			// not supplying a value, make it optional, behind the scenes it will use the tenancy ocid if not supplied.
+			// If a user supplies the value, then changes it, it requires forcing new.
+			"compartment_id": {
 				Type:     schema.TypeString,
 				Computed: true,
+				Optional: true,
 				ForceNew: true,
+			},
+			// Required
+			"description": {
+				Type:     schema.TypeString,
+				Required: true,
 			},
 			"name": {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
 			},
-			"description": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			"compartment_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"state": {
+
+			// Optional
+
+			// Computed
+			"id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -49,117 +56,201 @@ func GroupResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
+			"state": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"time_created": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			// @Deprecated 01/2018: time_modified (removed)
 			"time_modified": {
-				Type:     schema.TypeString,
-				Computed: true,
+				Type:       schema.TypeString,
+				Deprecated: crud.FieldDeprecated("time_modified"),
+				Computed:   true,
 			},
 		},
 	}
 }
 
-func createGroup(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*OracleClients)
-	sync := &GroupSync{}
+func createGroup(d *schema.ResourceData, m interface{}) error {
+	sync := &GroupResourceCrud{}
 	sync.D = d
-	sync.Client = client.client
+	sync.Client = m.(*OracleClients).identityClient
+
 	return crud.CreateResource(d, sync)
 }
 
-func readGroup(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*OracleClients)
-	sync := &GroupSync{}
+func readGroup(d *schema.ResourceData, m interface{}) error {
+	sync := &GroupResourceCrud{}
 	sync.D = d
-	sync.Client = client.client
+	sync.Client = m.(*OracleClients).identityClient
+
 	return crud.ReadResource(sync)
 }
 
-func updateGroup(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*OracleClients)
-	sync := &GroupSync{}
+func updateGroup(d *schema.ResourceData, m interface{}) error {
+	sync := &GroupResourceCrud{}
 	sync.D = d
-	sync.Client = client.client
+	sync.Client = m.(*OracleClients).identityClient
+
 	return crud.UpdateResource(d, sync)
 }
 
-func deleteGroup(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*OracleClients)
-	sync := &GroupSync{}
+func deleteGroup(d *schema.ResourceData, m interface{}) error {
+	sync := &GroupResourceCrud{}
 	sync.D = d
-	sync.Client = client.clientWithoutNotFoundRetries
-	return sync.Delete()
+	sync.Client = m.(*OracleClients).identityClient
+	sync.DisableNotFoundRetries = true
+
+	return crud.DeleteResource(d, sync)
 }
 
-type GroupSync struct {
-	*crud.IdentitySync
+type GroupResourceCrud struct {
 	crud.BaseCrud
-	Res *baremetal.Group
+	Client                 *oci_identity.IdentityClient
+	Res                    *oci_identity.Group
+	DisableNotFoundRetries bool
 }
 
-func (s *GroupSync) ID() string {
-	return s.Res.ID
+func (s *GroupResourceCrud) ID() string {
+	return *s.Res.Id
 }
 
-func (s *GroupSync) State() string {
-	return s.Res.State
-}
-
-func (s *GroupSync) CreatedPending() []string {
-	return []string{baremetal.ResourceCreating}
-}
-
-func (s *GroupSync) CreatedTarget() []string {
-	return []string{baremetal.ResourceActive}
-}
-
-func (s *GroupSync) DeletedPending() []string {
-	return []string{baremetal.ResourceDeleting}
-}
-
-func (s *GroupSync) DeletedTarget() []string {
-	return []string{baremetal.ResourceDeleted}
-}
-
-func (s *GroupSync) ExtraWaitPostCreateDelete() time.Duration {
-	return time.Duration(2 * time.Second)
-}
-
-func (s *GroupSync) Create() (e error) {
-	name := s.D.Get("name").(string)
-	description := s.D.Get("description").(string)
-	s.Res, e = s.Client.CreateGroup(name, description, nil)
-	return
-}
-
-func (s *GroupSync) Get() (e error) {
-	res, e := s.Client.GetGroup(s.D.Id())
-	if e == nil {
-		s.Res = res
+func (s *GroupResourceCrud) CreatedPending() []string {
+	return []string{
+		string(oci_identity.GroupLifecycleStateCreating),
 	}
-	return
 }
 
-func (s *GroupSync) Update() (e error) {
-	opts := &baremetal.UpdateIdentityOptions{}
-	if description, ok := s.D.GetOk("description"); ok {
-		opts.Description = description.(string)
+func (s *GroupResourceCrud) CreatedTarget() []string {
+	return []string{
+		string(oci_identity.GroupLifecycleStateActive),
+	}
+}
+
+func (s *GroupResourceCrud) DeletedPending() []string {
+	return []string{
+		string(oci_identity.GroupLifecycleStateDeleting),
+	}
+}
+
+func (s *GroupResourceCrud) DeletedTarget() []string {
+	return []string{
+		string(oci_identity.GroupLifecycleStateDeleted),
+	}
+}
+
+func (s *GroupResourceCrud) Create() error {
+	request := oci_identity.CreateGroupRequest{}
+
+	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+		tmp := compartmentId.(string)
+		request.CompartmentId = &tmp
+	} else {
+		c := *s.Client.ConfigurationProvider()
+		if c == nil {
+			return fmt.Errorf("cannot access tenancyOCID")
+		}
+		tenancy, err := c.TenancyOCID()
+		if err != nil {
+			return err
+		}
+		request.CompartmentId = &tenancy
 	}
 
-	s.Res, e = s.Client.UpdateGroup(s.D.Id(), opts)
-	return
+	if description, ok := s.D.GetOkExists("description"); ok {
+		tmp := description.(string)
+		request.Description = &tmp
+	}
+
+	if name, ok := s.D.GetOkExists("name"); ok {
+		tmp := name.(string)
+		request.Name = &tmp
+	}
+
+	response, err := s.Client.CreateGroup(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "identity")...)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response.Group
+	return nil
 }
 
-func (s *GroupSync) SetData() {
-	s.D.Set("name", s.Res.Name)
-	s.D.Set("description", s.Res.Description)
-	s.D.Set("compartment_id", s.Res.CompartmentID)
-	s.D.Set("state", s.Res.State)
+func (s *GroupResourceCrud) Get() error {
+	request := oci_identity.GetGroupRequest{}
+
+	tmp := s.D.Id()
+	request.GroupId = &tmp
+
+	response, err := s.Client.GetGroup(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "identity")...)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response.Group
+	return nil
+}
+
+func (s *GroupResourceCrud) Update() error {
+	request := oci_identity.UpdateGroupRequest{}
+
+	if description, ok := s.D.GetOkExists("description"); ok {
+		tmp := description.(string)
+		request.Description = &tmp
+	}
+
+	tmp := s.D.Id()
+	request.GroupId = &tmp
+
+	response, err := s.Client.UpdateGroup(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "identity")...)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response.Group
+	return nil
+}
+
+func (s *GroupResourceCrud) Delete() error {
+	request := oci_identity.DeleteGroupRequest{}
+
+	tmp := s.D.Id()
+	request.GroupId = &tmp
+
+	_, err := s.Client.DeleteGroup(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "identity")...)
+	return err
+}
+
+func (s *GroupResourceCrud) SetData() {
+	if s.Res.CompartmentId != nil {
+		s.D.Set("compartment_id", *s.Res.CompartmentId)
+	}
+
+	if s.Res.Description != nil {
+		s.D.Set("description", *s.Res.Description)
+	}
+
+	if s.Res.Id != nil {
+		s.D.Set("id", *s.Res.Id)
+	}
+
+	if s.Res.InactiveStatus != nil {
+		s.D.Set("inactive_state", *s.Res.InactiveStatus)
+	}
+
+	if s.Res.Name != nil {
+		s.D.Set("name", *s.Res.Name)
+	}
+
+	s.D.Set("state", s.Res.LifecycleState)
+
 	s.D.Set("time_created", s.Res.TimeCreated.String())
+
 }
 
-func (s *GroupSync) Delete() (e error) {
-	return s.Client.DeleteGroup(s.D.Id(), nil)
+func (s *GroupResourceCrud) ExtraWaitPostCreateDelete() time.Duration {
+	return time.Duration(2 * time.Second)
 }

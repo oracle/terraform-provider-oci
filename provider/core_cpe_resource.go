@@ -3,10 +3,13 @@
 package provider
 
 import (
+	"context"
+
 	"github.com/hashicorp/terraform/helper/schema"
-	"github.com/oracle/bmcs-go-sdk"
 
 	"github.com/oracle/terraform-provider-oci/crud"
+
+	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
 func CpeResource() *schema.Resource {
@@ -20,24 +23,29 @@ func CpeResource() *schema.Resource {
 		Update:   updateCpe,
 		Delete:   deleteCpe,
 		Schema: map[string]*schema.Schema{
-			"id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
+			// Required
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
 			},
+			"ip_address": {
+				Type:     schema.TypeString,
+				Required: true,
+				ForceNew: true,
+			},
+
+			// Optional
 			"display_name": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ip_address": {
+
+			// Computed
+			"id": {
 				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
+				Computed: true,
 			},
 			"time_created": {
 				Type:     schema.TypeString,
@@ -45,91 +53,141 @@ func CpeResource() *schema.Resource {
 			},
 		},
 	}
-
 }
 
-func createCpe(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*OracleClients)
+func createCpe(d *schema.ResourceData, m interface{}) error {
 	sync := &CpeResourceCrud{}
 	sync.D = d
-	sync.Client = client.client
+	sync.Client = m.(*OracleClients).virtualNetworkClient
+
 	return crud.CreateResource(d, sync)
 }
 
-func readCpe(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*OracleClients)
+func readCpe(d *schema.ResourceData, m interface{}) error {
 	sync := &CpeResourceCrud{}
 	sync.D = d
-	sync.Client = client.client
+	sync.Client = m.(*OracleClients).virtualNetworkClient
+
 	return crud.ReadResource(sync)
 }
 
-func updateCpe(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*OracleClients)
-	crd := &CpeResourceCrud{}
-	crd.D = d
-	crd.Client = client.client
-	return crud.UpdateResource(d, crd)
-}
-
-func deleteCpe(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*OracleClients)
+func updateCpe(d *schema.ResourceData, m interface{}) error {
 	sync := &CpeResourceCrud{}
 	sync.D = d
-	sync.Client = client.clientWithoutNotFoundRetries
-	return sync.Delete()
+	sync.Client = m.(*OracleClients).virtualNetworkClient
+
+	return crud.UpdateResource(d, sync)
+}
+
+func deleteCpe(d *schema.ResourceData, m interface{}) error {
+	sync := &CpeResourceCrud{}
+	sync.D = d
+	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.DisableNotFoundRetries = true
+
+	return crud.DeleteResource(d, sync)
 }
 
 type CpeResourceCrud struct {
 	crud.BaseCrud
-	Resource *baremetal.Cpe
+	Client                 *oci_core.VirtualNetworkClient
+	Res                    *oci_core.Cpe
+	DisableNotFoundRetries bool
 }
 
 func (s *CpeResourceCrud) ID() string {
-	return s.Resource.ID
+	return *s.Res.Id
 }
 
-func (s *CpeResourceCrud) Create() (e error) {
-	compartmentID := s.D.Get("compartment_id").(string)
-	ipAddress := s.D.Get("ip_address").(string)
+func (s *CpeResourceCrud) Create() error {
+	request := oci_core.CreateCpeRequest{}
 
-	opts := &baremetal.CreateOptions{}
-	displayName, ok := s.D.GetOk("display_name")
-	if ok {
-		opts.DisplayName = displayName.(string)
+	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+		tmp := compartmentId.(string)
+		request.CompartmentId = &tmp
 	}
 
-	s.Resource, e = s.Client.CreateCpe(compartmentID, ipAddress, opts)
-	return
+	if displayName, ok := s.D.GetOkExists("display_name"); ok {
+		tmp := displayName.(string)
+		request.DisplayName = &tmp
+	}
+
+	if ipAddress, ok := s.D.GetOkExists("ip_address"); ok {
+		tmp := ipAddress.(string)
+		request.IpAddress = &tmp
+	}
+
+	response, err := s.Client.CreateCpe(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response.Cpe
+	return nil
 }
 
-func (s *CpeResourceCrud) Get() (e error) {
-	res, e := s.Client.GetCpe(s.D.Id())
-	if e == nil {
-		s.Resource = res
+func (s *CpeResourceCrud) Get() error {
+	request := oci_core.GetCpeRequest{}
+
+	tmp := s.D.Id()
+	request.CpeId = &tmp
+
+	response, err := s.Client.GetCpe(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	if err != nil {
+		return err
 	}
-	return
+
+	s.Res = &response.Cpe
+	return nil
 }
 
-func (s *CpeResourceCrud) Update() (e error) {
-	opts := &baremetal.IfMatchDisplayNameOptions{}
-	compartmentID := s.D.Get("compartment_id").(string)
-	displayName, ok := s.D.GetOk("display_name")
-	if ok {
-		opts.DisplayName = displayName.(string)
+func (s *CpeResourceCrud) Update() error {
+	request := oci_core.UpdateCpeRequest{}
+
+	tmp := s.D.Id()
+	request.CpeId = &tmp
+
+	if displayName, ok := s.D.GetOkExists("display_name"); ok {
+		tmp := displayName.(string)
+		request.DisplayName = &tmp
 	}
 
-	s.Resource, e = s.Client.UpdateCpe(compartmentID, opts)
-	return
+	response, err := s.Client.UpdateCpe(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response.Cpe
+	return nil
+}
+
+func (s *CpeResourceCrud) Delete() error {
+	request := oci_core.DeleteCpeRequest{}
+
+	tmp := s.D.Id()
+	request.CpeId = &tmp
+
+	_, err := s.Client.DeleteCpe(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	return err
 }
 
 func (s *CpeResourceCrud) SetData() {
-	s.D.Set("compartment_id", s.Resource.CompartmentID)
-	s.D.Set("display_name", s.Resource.DisplayName)
-	s.D.Set("ip_address", s.Resource.IPAddress)
-	s.D.Set("time_created", s.Resource.TimeCreated.String())
-}
+	if s.Res.CompartmentId != nil {
+		s.D.Set("compartment_id", *s.Res.CompartmentId)
+	}
 
-func (s *CpeResourceCrud) Delete() (e error) {
-	return s.Client.DeleteCpe(s.D.Id(), nil)
+	if s.Res.DisplayName != nil {
+		s.D.Set("display_name", *s.Res.DisplayName)
+	}
+
+	if s.Res.Id != nil {
+		s.D.Set("id", *s.Res.Id)
+	}
+
+	if s.Res.IpAddress != nil {
+		s.D.Set("ip_address", *s.Res.IpAddress)
+	}
+
+	s.D.Set("time_created", s.Res.TimeCreated.String())
+
 }

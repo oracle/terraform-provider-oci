@@ -7,25 +7,21 @@ import (
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
-	"github.com/oracle/bmcs-go-sdk"
 
+	"github.com/oracle/oci-go-sdk/core"
 	"github.com/stretchr/testify/suite"
 )
 
 type DatasourceCoreVolumeBackupTestSuite struct {
 	suite.Suite
-	Client       *baremetal.Client
 	Config       string
-	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	ResourceName string
 }
 
 func (s *DatasourceCoreVolumeBackupTestSuite) SetupTest() {
-	s.Client = testAccClient
-	s.Provider = testAccProvider
 	s.Providers = testAccProviders
-	s.Config = testProviderConfig() + `
+	s.Config = legacyTestProviderConfig() + `
 	data "oci_identity_availability_domains" "ADs" {
 		compartment_id = "${var.compartment_id}"
 	}
@@ -64,11 +60,12 @@ func (s *DatasourceCoreVolumeBackupTestSuite) TestAccDatasourceCoreVolumeBackup_
 					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_backups.0.volume_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_backups.0.time_created"),
 					resource.TestCheckResourceAttr(s.ResourceName, "volume_backups.0.display_name", "-tf-volume-backup"),
-					resource.TestCheckResourceAttr(s.ResourceName, "volume_backups.0.state", baremetal.ResourceAvailable),
+					resource.TestCheckResourceAttr(s.ResourceName, "volume_backups.0.state", string(core.VolumeBackupLifecycleStateAvailable)),
 					resource.TestCheckResourceAttr(s.ResourceName, "volume_backups.0.size_in_mbs", "51200"),
 					resource.TestCheckResourceAttr(s.ResourceName, "volume_backups.0.size_in_gbs", "50"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_backups.0.unique_size_in_mbs"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_backups.0.unique_size_in_gbs"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_backups.0.time_request_received"),
 				),
 			},
 		},

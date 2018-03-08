@@ -7,18 +7,16 @@ import (
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
-	"github.com/oracle/bmcs-go-sdk"
 
 	"fmt"
+
+	"github.com/oracle/oci-go-sdk/core"
 	"github.com/stretchr/testify/suite"
-	"regexp"
 )
 
 type DatasourceCoreImageTestSuite struct {
 	suite.Suite
-	Client                 *baremetal.Client
 	Config                 string
-	Provider               terraform.ResourceProvider
 	Providers              map[string]terraform.ResourceProvider
 	ResourceName           string
 	FilterExpression       string
@@ -27,15 +25,10 @@ type DatasourceCoreImageTestSuite struct {
 }
 
 func (s *DatasourceCoreImageTestSuite) SetupTest() {
-	s.Client = testAccClient
-	s.Provider = testAccProvider
 	s.Providers = testAccProviders
 	s.Config = testProviderConfig()
 	s.ResourceName = "data.oci_core_images.t"
-	// This test will need to be updated when this image is removed from ListImages.
-	s.FilterExpression = ".*2017.12.18-0"
 	s.OperatingSystem = "Oracle Linux"
-	s.OperatingSystemVersion = "7.4"
 }
 
 func (s *DatasourceCoreImageTestSuite) TestAccImage_basic() {
@@ -47,26 +40,35 @@ func (s *DatasourceCoreImageTestSuite) TestAccImage_basic() {
 				ImportState:       true,
 				ImportStateVerify: true,
 				Config: s.Config + fmt.Sprintf(`
-				data "oci_core_images" "t" {
-					compartment_id = "${var.compartment_id}"
+				data "oci_core_images" "allOracleImages" {
+					compartment_id = "${var.tenancy_ocid}"
 					operating_system = "%s"
-					operating_system_version = "%s"
+				}
+
+				data "oci_core_images" "t" {
+					compartment_id = "${var.tenancy_ocid}"
+					operating_system = "${lookup(data.oci_core_images.allOracleImages.images[0], "operating_system")}"
+					operating_system_version = "${lookup(data.oci_core_images.allOracleImages.images[0], "operating_system_version")}"
 				
 					filter {
 						name = "display_name"
-						values = ["%s"]
+						values = ["${lookup(data.oci_core_images.allOracleImages.images[0], "display_name")}"]
 						regex = true
 					}
-				}`, s.OperatingSystem, s.OperatingSystemVersion, s.FilterExpression),
+				}`, s.OperatingSystem),
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestMatchResourceAttr(s.ResourceName, "images.#", regexp.MustCompile("[1-9][0-9]*")),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "images.0.id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "images.#", "1"),
+					TestCheckResourceAttributesEqual(s.ResourceName, "images.0.id", "data.oci_core_images.allOracleImages", "images.0.id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "images.0.create_image_allowed", "true"),
-					resource.TestMatchResourceAttr(s.ResourceName, "images.0.display_name", regexp.MustCompile(s.FilterExpression)),
-					resource.TestCheckResourceAttr(s.ResourceName, "images.0.state", "AVAILABLE"),
+					TestCheckResourceAttributesEqual(s.ResourceName, "images.0.display_name", "data.oci_core_images.allOracleImages", "images.0.display_name"),
+					resource.TestCheckResourceAttr(s.ResourceName, "images.0.state", string(core.ImageLifecycleStateAvailable)),
 					resource.TestCheckResourceAttr(s.ResourceName, "images.0.operating_system", s.OperatingSystem),
-					resource.TestCheckResourceAttr(s.ResourceName, "images.0.operating_system_version", s.OperatingSystemVersion),
+					TestCheckResourceAttributesEqual(s.ResourceName, "images.0.operating_system_version", "data.oci_core_images.allOracleImages", "images.0.operating_system_version"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "images.0.time_created"),
+					// This test filters to official images, which do not derive from another so the below properties are expected to be null
+					resource.TestCheckResourceAttr(s.ResourceName, "images.0.base_image_id", ""),
+					resource.TestCheckResourceAttr(s.ResourceName, "images.0.instance_id", ""),
+					resource.TestCheckResourceAttr(s.ResourceName, "images.0.compartment_id", ""),
 				),
 			},
 		},

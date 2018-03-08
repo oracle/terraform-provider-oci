@@ -5,29 +5,24 @@ package provider
 import (
 	"testing"
 
+	"fmt"
+
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
-	"github.com/oracle/bmcs-go-sdk"
+	"github.com/oracle/oci-go-sdk/core"
 	"github.com/stretchr/testify/suite"
 )
 
 type ResourceCoreVolumeAttachmentTestSuite struct {
 	suite.Suite
-	Client       *baremetal.Client
-	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
-	TimeCreated  baremetal.Time
 	Config       string
 	ResourceName string
-	Res          *baremetal.VolumeAttachment
-	DetachedRes  *baremetal.VolumeAttachment
 }
 
 func (s *ResourceCoreVolumeAttachmentTestSuite) SetupTest() {
-	s.Client = testAccClient
-	s.Provider = testAccProvider
 	s.Providers = testAccProviders
-	s.Config = testProviderConfig() + `
+	s.Config = legacyTestProviderConfig() + `
 	data "oci_identity_availability_domains" "ADs" {
 		compartment_id = "${var.compartment_id}"
 	}
@@ -73,17 +68,39 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) SetupTest() {
 			create = "15m"
 		}
 	}
-	
+
+	resource "oci_core_instance" "t2" {
+		availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+		compartment_id = "${var.compartment_id}"
+		display_name = "-tf-instance"
+		image = "${var.InstanceImageOCID[var.region]}"
+		shape = "VM.Standard1.1"
+		subnet_id = "${oci_core_subnet.t.id}"
+		metadata {
+			ssh_authorized_keys = "${var.ssh_public_key}"
+		}
+		timeouts {
+			create = "15m"
+		}
+	}
+
 	resource "oci_core_volume" "t" {
 		availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
 		compartment_id = "${var.compartment_id}"
 		display_name = "display_name"
+	}
+
+	resource "oci_core_volume" "t2" {
+		availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+		compartment_id = "${var.compartment_id}"
+		display_name = "display_name"
 	}`
+
 	s.ResourceName = "oci_core_volume_attachment.t"
 }
 
 func (s *ResourceCoreVolumeAttachmentTestSuite) TestResourceCoreVolumeAttachment_basic() {
-
+	var resId, resId2 string
 	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
@@ -93,16 +110,16 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) TestResourceCoreVolumeAttachment
 				ImportStateVerify: true,
 				Config: s.Config + `
 				resource "oci_core_volume_attachment" "t" {
-					attachment_type = "iscsi"
+					attachment_type = "iSCSI"	# case-insensitive
 					compartment_id = "${var.compartment_id}"
 					instance_id = "${oci_core_instance.t.id}"
 					volume_id = "${oci_core_volume.t.id}"
 				}`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "instance_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "display_name"),
 					// todo: reenable and expect these to be set when "useChap" param is supported
 					//resource.TestCheckResourceAttrSet(s.ResourceName, "chap_secret"),
 					//resource.TestCheckResourceAttrSet(s.ResourceName, "chap_username"),
@@ -110,7 +127,162 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) TestResourceCoreVolumeAttachment
 					resource.TestCheckResourceAttrSet(s.ResourceName, "iqn"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "port"),
 					resource.TestCheckResourceAttr(s.ResourceName, "attachment_type", "iscsi"),
-					resource.TestCheckResourceAttr(s.ResourceName, "state", baremetal.ResourceAttached),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", string(core.VolumeAttachmentLifecycleStateAttached)),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
+					func(ts *terraform.State) (err error) {
+						resId, err = fromInstanceState(ts, s.ResourceName, "id")
+						return err
+					},
+				),
+			},
+			// ensure that changing the case for attachment_type (polymorphic discriminator) is a no-op.
+			{
+				Config: s.Config + `
+				resource "oci_core_volume_attachment" "t" {
+					attachment_type = "IscSi"	# case-insensitive
+					compartment_id = "${var.compartment_id}"
+					instance_id = "${oci_core_instance.t.id}"
+					volume_id = "${oci_core_volume.t.id}"
+				}`,
+				PlanOnly: true,
+			},
+			// NOTE: Update to attachment type should force a new resource to be created, however there is only one
+			// option for attachement type at this time, so skip this test for now
+			//
+			// verify attachment type update forces creation of a new resource
+			//{
+			//	Config: s.Config + `
+			//	resource "oci_core_volume_attachment" "t" {
+			//		attachment_type = "TBD"	# case-insensitive
+			//		compartment_id = "${var.compartment_id}"
+			//		instance_id = "${oci_core_instance.t.id}"
+			//		volume_id = "${oci_core_volume.t.id}"
+			//	}`,
+			//	Check: resource.ComposeTestCheckFunc(
+			//		resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),
+			//		resource.TestCheckResourceAttrSet(s.ResourceName, "instance_id"),
+			//		resource.TestCheckResourceAttrSet(s.ResourceName, "volume_id"),
+			//		resource.TestCheckResourceAttr(s.ResourceName, "display_name", "tf-vol-attach-upd"),
+			//		// todo: reenable and expect these to be set when "useChap" param is supported
+			//		//resource.TestCheckResourceAttrSet(s.ResourceName, "chap_secret"),
+			//		//resource.TestCheckResourceAttrSet(s.ResourceName, "chap_username"),
+			//		resource.TestCheckResourceAttrSet(s.ResourceName, "ipv4"),
+			//		resource.TestCheckResourceAttrSet(s.ResourceName, "iqn"),
+			//		resource.TestCheckResourceAttrSet(s.ResourceName, "port"),
+			//		resource.TestCheckResourceAttr(s.ResourceName, "attachment_type", "iscsi"),
+			//		resource.TestCheckResourceAttr(s.ResourceName, "state", string(core.VolumeAttachmentLifecycleStateAttached)),
+			//		resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
+			//		func (ts *terraform.State) (err error) {
+			//			resId2, err = fromInstanceState(ts, s.ResourceName, "id")
+			//			if resId2 == resId {
+			//				return fmt.Errorf("resource not recreated when expected to be when updating display name")
+			//			}
+			//			resId = resId2
+			//			return err
+			//		},
+			//	),
+			//},
+			//
+			// verify display name update forces creation of a new resource
+			{
+				Config: s.Config + `
+				resource "oci_core_volume_attachment" "t" {
+					attachment_type = "IscSi"	# case-insensitive
+					compartment_id = "${var.compartment_id}"
+					instance_id = "${oci_core_instance.t.id}"
+					volume_id = "${oci_core_volume.t.id}"
+					display_name = "tf-vol-attach-upd"
+				}`,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "instance_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "tf-vol-attach-upd"),
+					// todo: reenable and expect these to be set when "useChap" param is supported
+					//resource.TestCheckResourceAttrSet(s.ResourceName, "chap_secret"),
+					//resource.TestCheckResourceAttrSet(s.ResourceName, "chap_username"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "ipv4"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "iqn"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "port"),
+					resource.TestCheckResourceAttr(s.ResourceName, "attachment_type", "iscsi"),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", string(core.VolumeAttachmentLifecycleStateAttached)),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
+					func(ts *terraform.State) (err error) {
+						resId2, err = fromInstanceState(ts, s.ResourceName, "id")
+						if resId2 == resId {
+							return fmt.Errorf("resource not recreated when expected to be when updating display name")
+						}
+						resId = resId2
+						return err
+					},
+				),
+			},
+			// verify instance id update forces new resource creation
+			{
+				Config: s.Config + `
+				resource "oci_core_volume_attachment" "t" {
+					attachment_type = "IscSi"	# case-insensitive
+					compartment_id = "${var.compartment_id}"
+					instance_id = "${oci_core_instance.t2.id}"
+					volume_id = "${oci_core_volume.t.id}"
+					display_name = "tf-vol-attach-upd"
+				}`,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "instance_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "tf-vol-attach-upd"),
+					// todo: reenable and expect these to be set when "useChap" param is supported
+					//resource.TestCheckResourceAttrSet(s.ResourceName, "chap_secret"),
+					//resource.TestCheckResourceAttrSet(s.ResourceName, "chap_username"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "ipv4"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "iqn"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "port"),
+					resource.TestCheckResourceAttr(s.ResourceName, "attachment_type", "iscsi"),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", string(core.VolumeAttachmentLifecycleStateAttached)),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
+					func(ts *terraform.State) (err error) {
+						resId2, err = fromInstanceState(ts, s.ResourceName, "id")
+						if resId2 == resId {
+							return fmt.Errorf("resource not recreated when expected to be when updating instance id")
+						}
+						resId = resId2
+						return err
+					},
+				),
+			},
+			// verify volume id update forces new resource creation
+			{
+				Config: s.Config + `
+				resource "oci_core_volume_attachment" "t" {
+					attachment_type = "IscSi"	# case-insensitive
+					compartment_id = "${var.compartment_id}"
+					instance_id = "${oci_core_instance.t2.id}"
+					volume_id = "${oci_core_volume.t2.id}"
+					display_name = "tf-vol-attach-upd"
+				}`,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "instance_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "tf-vol-attach-upd"),
+					// todo: reenable and expect these to be set when "useChap" param is supported
+					//resource.TestCheckResourceAttrSet(s.ResourceName, "chap_secret"),
+					//resource.TestCheckResourceAttrSet(s.ResourceName, "chap_username"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "ipv4"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "iqn"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "port"),
+					resource.TestCheckResourceAttr(s.ResourceName, "attachment_type", "iscsi"),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", string(core.VolumeAttachmentLifecycleStateAttached)),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
+					func(ts *terraform.State) (err error) {
+						resId2, err = fromInstanceState(ts, s.ResourceName, "id")
+						if resId2 == resId {
+							return fmt.Errorf("resource not recreated when expected to be when updating volume id")
+						}
+						resId = resId2
+						return err
+					},
 				),
 			},
 		},

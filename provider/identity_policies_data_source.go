@@ -3,16 +3,15 @@
 package provider
 
 import (
-	"time"
+	"context"
 
 	"github.com/hashicorp/terraform/helper/schema"
-	"github.com/oracle/bmcs-go-sdk"
+	oci_identity "github.com/oracle/oci-go-sdk/identity"
 
 	"github.com/oracle/terraform-provider-oci/crud"
-	"github.com/oracle/terraform-provider-oci/options"
 )
 
-func IdentityPolicyDatasource() *schema.Resource {
+func IdentityPoliciesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readIdentityPolicies,
 		Schema: map[string]*schema.Schema{
@@ -30,71 +29,102 @@ func IdentityPolicyDatasource() *schema.Resource {
 	}
 }
 
-func readIdentityPolicies(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*OracleClients)
-	sync := &IdentityPolicyDatasourceCrud{}
+func readIdentityPolicies(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityPoliciesDataSourceCrud{}
 	sync.D = d
-	sync.Client = client.client
+	sync.Client = m.(*OracleClients).identityClient
+
 	return crud.ReadResource(sync)
 }
 
-type IdentityPolicyDatasourceCrud struct {
-	crud.BaseCrud
-	Res *baremetal.ListPolicies
+type IdentityPoliciesDataSourceCrud struct {
+	D      *schema.ResourceData
+	Client *oci_identity.IdentityClient
+	Res    *oci_identity.ListPoliciesResponse
 }
 
-func (s *IdentityPolicyDatasourceCrud) Get() (e error) {
-	compartment_id := s.D.Get("compartment_id").(string)
+func (s *IdentityPoliciesDataSourceCrud) VoidState() {
+	s.D.SetId("")
+}
 
-	opts := &baremetal.ListOptions{}
-	options.SetListOptions(s.D, opts)
+func (s *IdentityPoliciesDataSourceCrud) Get() error {
+	request := oci_identity.ListPoliciesRequest{}
 
-	s.Res = &baremetal.ListPolicies{Policies: []baremetal.Policy{}}
-
-	for {
-		var list *baremetal.ListPolicies
-		if list, e = s.Client.ListPolicies(compartment_id, opts); e != nil {
-			break
-		}
-
-		s.Res.Policies = append(s.Res.Policies, list.Policies...)
-
-		if hasNexPage := options.SetNextPageOption(list.NextPage, &opts.PageListOptions); !hasNexPage {
-			break
-		}
+	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+		tmp := compartmentId.(string)
+		request.CompartmentId = &tmp
 	}
 
-	return
+	response, err := s.Client.ListPolicies(context.Background(), request, getRetryOptions(false, "identity")...)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response
+	request.Page = s.Res.OpcNextPage
+
+	for request.Page != nil {
+		listResponse, err := s.Client.ListPolicies(context.Background(), request, getRetryOptions(false, "identity")...)
+		if err != nil {
+			return err
+		}
+
+		s.Res.Items = append(s.Res.Items, listResponse.Items...)
+		request.Page = listResponse.OpcNextPage
+	}
+
+	return nil
 }
 
-func (s *IdentityPolicyDatasourceCrud) SetData() {
+func (s *IdentityPoliciesDataSourceCrud) SetData() {
 	if s.Res == nil {
 		return
 	}
 
-	s.D.SetId(time.Now().UTC().String())
+	s.D.SetId(crud.GenerateDataSourceID())
 	resources := []map[string]interface{}{}
-	for _, v := range s.Res.Policies {
-		res := map[string]interface{}{
-			"id":             v.ID,
-			"compartment_id": v.CompartmentID,
-			"name":           v.Name,
-			"statements":     v.Statements,
-			"description":    v.Description,
-			"time_created":   v.TimeCreated.String(),
-			"state":          v.State,
-			"inactive_state": v.InactiveStatus,
-			"version_date":   v.VersionDate,
+
+	for _, r := range s.Res.Items {
+		policy := map[string]interface{}{
+			"compartment_id": *r.CompartmentId,
 		}
-		resources = append(resources, res)
+
+		if r.Description != nil {
+			policy["description"] = *r.Description
+		}
+
+		if r.Id != nil {
+			policy["id"] = *r.Id
+		}
+
+		if r.InactiveStatus != nil {
+			policy["inactive_state"] = *r.InactiveStatus
+		}
+
+		if r.Name != nil {
+			policy["name"] = *r.Name
+		}
+
+		policy["state"] = r.LifecycleState
+
+		policy["statements"] = r.Statements
+
+		policy["time_created"] = r.TimeCreated.String()
+
+		if r.VersionDate != nil {
+			policy["version_date"] = *r.VersionDate
+		}
+
+		resources = append(resources, policy)
 	}
 
-	if f, fOk := s.D.GetOk("filter"); fOk {
+	if f, fOk := s.D.GetOkExists("filter"); fOk {
 		resources = ApplyFilters(f.(*schema.Set), resources)
 	}
 
 	if err := s.D.Set("policies", resources); err != nil {
 		panic(err)
 	}
+
 	return
 }

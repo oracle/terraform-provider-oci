@@ -7,16 +7,14 @@ import (
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
-	"github.com/oracle/bmcs-go-sdk"
 
+	"github.com/oracle/oci-go-sdk/identity"
 	"github.com/stretchr/testify/suite"
 )
 
 type DatasourceIdentityGroupsTestSuite struct {
 	suite.Suite
-	Client       *baremetal.Client
 	Config       string
-	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	ResourceName string
 	Token        string
@@ -25,10 +23,8 @@ type DatasourceIdentityGroupsTestSuite struct {
 
 func (s *DatasourceIdentityGroupsTestSuite) SetupTest() {
 	s.Token, s.TokenFn = tokenize()
-	s.Client = testAccClient
-	s.Provider = testAccProvider
 	s.Providers = testAccProviders
-	s.Config = testProviderConfig() + s.TokenFn(`
+	s.Config = legacyTestProviderConfig() + s.TokenFn(`
 	resource "oci_identity_group" "t" {
 		name = "{{.token}}"
 		description = "automated test group"
@@ -49,7 +45,7 @@ func (s *DatasourceIdentityGroupsTestSuite) TestAccDatasourceIdentityGroups_basi
 			{
 				Config: s.Config + `
 				data "oci_identity_groups" "t" {
-					compartment_id = "${var.compartment_id}"
+					compartment_id = "${var.tenancy_ocid}"
 				}`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "groups.#"),
@@ -59,7 +55,7 @@ func (s *DatasourceIdentityGroupsTestSuite) TestAccDatasourceIdentityGroups_basi
 			{
 				Config: s.Config + s.TokenFn(`
 				data "oci_identity_groups" "t" {
-					compartment_id = "${var.compartment_id}"
+					compartment_id = "${var.tenancy_ocid}"
 					filter {
 						name   = "name"
 						values = ["{{.token}}", "Administrators"]
@@ -76,8 +72,9 @@ func (s *DatasourceIdentityGroupsTestSuite) TestAccDatasourceIdentityGroups_basi
 					resource.TestCheckResourceAttrSet(s.ResourceName, "groups.0.time_created"),
 					resource.TestCheckResourceAttr(s.ResourceName, "groups.0.name", s.Token),
 					resource.TestCheckResourceAttr(s.ResourceName, "groups.0.description", "automated test group"),
-					resource.TestCheckResourceAttr(s.ResourceName, "groups.0.state", "ACTIVE"),
-					resource.TestCheckResourceAttr(s.ResourceName, "groups.0.inactive_state", "0"),
+					resource.TestCheckResourceAttr(s.ResourceName, "groups.0.state", string(identity.GroupLifecycleStateActive)),
+					// TODO: This field is not being returned by the service call but is still showing up in the datasource
+					// resource.TestCheckNoResourceAttr(s.ResourceName, "groups.0.inactive_state"),
 				),
 			},
 		},

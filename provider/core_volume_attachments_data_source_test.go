@@ -7,25 +7,21 @@ import (
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
-	baremetal "github.com/oracle/bmcs-go-sdk"
 
+	"github.com/oracle/oci-go-sdk/core"
 	"github.com/stretchr/testify/suite"
 )
 
 type DatasourceCoreVolumeAttachmentTestSuite struct {
 	suite.Suite
-	Client       *baremetal.Client
 	Config       string
-	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	ResourceName string
 }
 
 func (s *DatasourceCoreVolumeAttachmentTestSuite) SetupTest() {
-	s.Client = testAccClient
-	s.Provider = testAccProvider
 	s.Providers = testAccProviders
-	s.Config = testProviderConfig() + instanceConfig + `
+	s.Config = legacyTestProviderConfig() + instanceConfig + `
 	resource "oci_core_volume" "t" {
 		availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
 		compartment_id = "${var.compartment_id}"
@@ -63,12 +59,18 @@ func (s *DatasourceCoreVolumeAttachmentTestSuite) TestAccDatasourceCoreVolumeAtt
 					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(s.ResourceName, "volume_attachments.#", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "volume_attachments.0.attachment_type", "iscsi"),
-					resource.TestCheckResourceAttr(s.ResourceName, "volume_attachments.0.state", "ATTACHED"),
+					resource.TestCheckResourceAttr(s.ResourceName, "volume_attachments.0.state", string(core.VolumeAttachmentLifecycleStateAttached)),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_attachments.0.availability_domain"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_attachments.0.id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_attachments.0.instance_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_attachments.0.time_created"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_attachments.0.volume_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_attachments.0.ipv4"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_attachments.0.port"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_attachments.0.iqn"),
+					// todo: reenable and expect these to be set when "useChap" param is supported
+					//resource.TestCheckResourceAttrSet(s.ResourceName, "volume_attachments.0.chap_secret"),
+					//resource.TestCheckResourceAttrSet(s.ResourceName, "volume_attachments.0.chap_username")
 				),
 			},
 		},

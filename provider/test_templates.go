@@ -2,35 +2,17 @@
 
 package provider
 
-func testProvider1() string {
-	return `
-	variable "tenancy_ocid" { default = "` + getRequiredEnvSetting("tenancy_ocid") + `" }
-	variable "user_ocid" {default = "` + getRequiredEnvSetting("user_ocid") + `"}
-	variable "fingerprint" {default = "` + getRequiredEnvSetting("fingerprint") + `"}
-	variable "private_key_path" {default = "` + getRequiredEnvSetting("private_key_path") + `"}
-	variable "region" {default = "` + getRequiredEnvSetting("region") + `"}
-	variable "compartment_ocid" {default = "` + getRequiredEnvSetting("compartment_id") + `"}
-	
-	provider "oci" {
-		tenancy_ocid = "${var.tenancy_ocid}"
-		user_ocid = "${var.user_ocid}"
-		fingerprint = "${var.fingerprint}"
-		private_key_path = "${var.private_key_path}"
-		region = "${var.region}"
-	}`
-}
-
 func testADs() string {
 	return `
 	data "oci_identity_availability_domains" "t" {
-		compartment_id = "${var.compartment_ocid}"
+		compartment_id = "${var.compartment_id}"
 	}`
 }
 
 func testVCN1() string {
 	return `
 	resource "oci_core_virtual_network" "t" {
-		compartment_id = "${var.compartment_ocid}"
+		compartment_id = "${var.compartment_id}"
 		cidr_block = "10.0.0.0/16"
 		display_name = "-tf-vcn"
 		dns_label    = "vcndns"
@@ -40,7 +22,7 @@ func testVCN1() string {
 func testSubnet1() string {
 	return `
 	resource "oci_core_subnet" "t" {
-		compartment_id      = "${var.compartment_ocid}"
+		compartment_id      = "${var.compartment_id}"
 		vcn_id              = "${oci_core_virtual_network.t.id}"
 		availability_domain = "${lookup(data.oci_identity_availability_domains.t.availability_domains[0],"name")}"
 		route_table_id      = "${oci_core_virtual_network.t.default_route_table_id}"
@@ -69,7 +51,7 @@ func testInstance1() string {
 	return `
 	resource "oci_core_instance" "t" {
 		availability_domain = "${data.oci_identity_availability_domains.t.availability_domains.0.name}"
-		compartment_id = "${var.compartment_ocid}"
+		compartment_id = "${var.compartment_id}"
 		subnet_id = "${oci_core_subnet.t.id}"
 		image = "${var.InstanceImageOCID[var.region]}"
 		shape = "VM.Standard1.1"

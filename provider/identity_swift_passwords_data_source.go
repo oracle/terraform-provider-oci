@@ -3,15 +3,15 @@
 package provider
 
 import (
-	"time"
+	"context"
 
 	"github.com/hashicorp/terraform/helper/schema"
-	"github.com/oracle/bmcs-go-sdk"
+	oci_identity "github.com/oracle/oci-go-sdk/identity"
 
 	"github.com/oracle/terraform-provider-oci/crud"
 )
 
-func SwiftPasswordDatasource() *schema.Resource {
+func SwiftPasswordsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readSwiftPasswords,
 		Schema: map[string]*schema.Schema{
@@ -20,6 +20,7 @@ func SwiftPasswordDatasource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			// @CODEGEN 01/2018: swift_passwords => passwords
 			"passwords": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -29,50 +30,86 @@ func SwiftPasswordDatasource() *schema.Resource {
 	}
 }
 
-func readSwiftPasswords(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*OracleClients)
-	sync := &SwiftPasswordDatasourceCrud{}
+func readSwiftPasswords(d *schema.ResourceData, m interface{}) error {
+	sync := &SwiftPasswordsDataSourceCrud{}
 	sync.D = d
-	sync.Client = client.client
+	sync.Client = m.(*OracleClients).identityClient
+
 	return crud.ReadResource(sync)
 }
 
-type SwiftPasswordDatasourceCrud struct {
-	crud.BaseCrud
-	Res *baremetal.ListSwiftPasswords
+type SwiftPasswordsDataSourceCrud struct {
+	D      *schema.ResourceData
+	Client *oci_identity.IdentityClient
+	Res    *oci_identity.ListSwiftPasswordsResponse
 }
 
-func (s *SwiftPasswordDatasourceCrud) Get() (e error) {
-	userID := s.D.Get("user_id").(string)
-
-	s.Res, e = s.Client.ListSwiftPasswords(userID)
-	return
+func (s *SwiftPasswordsDataSourceCrud) VoidState() {
+	s.D.SetId("")
 }
 
-func (s *SwiftPasswordDatasourceCrud) SetData() {
+func (s *SwiftPasswordsDataSourceCrud) Get() error {
+	request := oci_identity.ListSwiftPasswordsRequest{}
+
+	if userId, ok := s.D.GetOkExists("user_id"); ok {
+		tmp := userId.(string)
+		request.UserId = &tmp
+	}
+
+	response, err := s.Client.ListSwiftPasswords(context.Background(), request, getRetryOptions(false, "identity")...)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response
+	return nil
+}
+
+func (s *SwiftPasswordsDataSourceCrud) SetData() {
 	if s.Res == nil {
 		return
 	}
 
-	s.D.SetId(time.Now().UTC().String())
+	s.D.SetId(crud.GenerateDataSourceID())
 	resources := []map[string]interface{}{}
-	for _, v := range s.Res.SwiftPasswords {
-		res := map[string]interface{}{
-			"id":             v.ID,
-			"user_id":        v.UserID,
-			"description":    v.Description,
-			"state":          v.State,
-			"inactive_state": v.InactiveStatus,
-			"time_created":   v.TimeCreated.String(),
-			"expires_on":     v.ExpiresOn.String(),
+
+	for _, r := range s.Res.Items {
+		swiftPassword := map[string]interface{}{
+			"user_id": *r.UserId,
 		}
-		resources = append(resources, res)
+
+		if r.Description != nil {
+			swiftPassword["description"] = *r.Description
+		}
+
+		if r.ExpiresOn != nil {
+			swiftPassword["expires_on"] = *r.ExpiresOn
+		}
+
+		if r.Id != nil {
+			swiftPassword["id"] = *r.Id
+		}
+
+		if r.InactiveStatus != nil {
+			swiftPassword["inactive_state"] = *r.InactiveStatus
+		}
+
+		if r.Password != nil {
+			swiftPassword["password"] = *r.Password
+		}
+
+		swiftPassword["state"] = r.LifecycleState
+
+		swiftPassword["time_created"] = r.TimeCreated.String()
+
+		resources = append(resources, swiftPassword)
 	}
 
-	if f, fOk := s.D.GetOk("filter"); fOk {
+	if f, fOk := s.D.GetOkExists("filter"); fOk {
 		resources = ApplyFilters(f.(*schema.Set), resources)
 	}
 
+	// @CODEGEN 01/2018: swift_passwords => passwords
 	if err := s.D.Set("passwords", resources); err != nil {
 		panic(err)
 	}

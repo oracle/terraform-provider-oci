@@ -7,25 +7,21 @@ import (
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
-	baremetal "github.com/oracle/bmcs-go-sdk"
 
+	"github.com/oracle/oci-go-sdk/core"
 	"github.com/stretchr/testify/suite"
 )
 
 type DatasourceCoreInternetGatewayTestSuite struct {
 	suite.Suite
-	Client       *baremetal.Client
 	Config       string
-	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	ResourceName string
 }
 
 func (s *DatasourceCoreInternetGatewayTestSuite) SetupTest() {
-	s.Client = testAccClient
-	s.Provider = testAccProvider
 	s.Providers = testAccProviders
-	s.Config = testProviderConfig() + `
+	s.Config = legacyTestProviderConfig() + `
 	resource "oci_core_virtual_network" "t" {
 		cidr_block = "10.0.0.0/16"
 		compartment_id = "${var.compartment_id}"
@@ -60,13 +56,12 @@ func (s *DatasourceCoreInternetGatewayTestSuite) TestAccDatasourceCoreInternetGa
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "gateways.#", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "gateways.0.display_name", "-tf-internet-gateway"),
-					resource.TestCheckResourceAttr(s.ResourceName, "gateways.0.state", "AVAILABLE"),
+					resource.TestCheckResourceAttr(s.ResourceName, "gateways.0.state", string(core.InternetGatewayLifecycleStateAvailable)),
 					resource.TestCheckResourceAttr(s.ResourceName, "gateways.0.enabled", "true"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "gateways.0.id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "gateways.0.compartment_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "gateways.0.vcn_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "gateways.0.time_created"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "gateways.0.time_modified"),
 				),
 			},
 		},

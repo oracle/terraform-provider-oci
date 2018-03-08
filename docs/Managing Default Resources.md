@@ -1,14 +1,14 @@
 ## Managing Default Virtual Cloud Network Resources
 
-When you create an [oci_core_virtual_network](https://github.com/oracle/terraform-provider-oci/blob/master/docs/resources/core/virtual_networks.md)
+When you create an [oci_core_vcn](https://github.com/oracle/terraform-provider-oci/blob/master/docs/core/vcns.md)
 resource, it will also create the following associated resources by default.
 
-- [oci_core_security_list](https://github.com/oracle/terraform-provider-oci/blob/master/docs/resources/core/security_list.md)
-- [oci_core_dhcp_options](https://github.com/oracle/terraform-provider-oci/blob/master/docs/resources/core/dhcp_option.md)
-- [oci_core_route_table](https://github.com/oracle/terraform-provider-oci/blob/master/docs/resources/core/route_table.md)
+- [oci_core_security_list](https://github.com/oracle/terraform-provider-oci/blob/master/docs/core/security_lists.md)
+- [oci_core_dhcp_options](https://github.com/oracle/terraform-provider-oci/blob/master/docs/core/dhcp_options.md)
+- [oci_core_route_table](https://github.com/oracle/terraform-provider-oci/blob/master/docs/core/route_tables.md)
 
 These default resources will be implicitly created even if they are not specified in the Terraform configuration.
-Their OCIDs are returned by the following attributes under the `oci_core_virtual_network` resource:
+Their OCIDs are returned by the following attributes under the `oci_core_vcn` resource:
 
 - `default_security_list_id`
 - `default_dhcp_options_id`
@@ -32,7 +32,7 @@ Consequently, the `compartment_id` and `vcn_id` are no longer necessary for defa
 #### Modifying a VCN's default DHCP options
 
 ```
-resource "oci_core_virtual_network" "vcn1" {
+resource "oci_core_vcn" "vcn1" {
   cidr_block = "10.0.0.0/16"
   dns_label = "vcn1"
   compartment_id = "${var.compartment_ocid}"
@@ -40,7 +40,7 @@ resource "oci_core_virtual_network" "vcn1" {
 }
 
 resource "oci_core_default_dhcp_options" "default-dhcp-options" {
-  manage_default_resource_id = "${oci_core_virtual_network.vcn1.default_dhcp_options_id}"
+  manage_default_resource_id = "${oci_core_vcn.vcn1.default_dhcp_options_id}"
 
   // required
   options {
@@ -60,7 +60,7 @@ For more detailed examples, refer to [docs/examples/networking/vcn_default](http
 
 ### Limitations
 
-Default resources can only be removed when the associated `oci_core_virtual_network resource` is removed. When attempting
+Default resources can only be removed when the associated `oci_core_vcn resource` is removed. When attempting
 a targeted removal of a default resource, the resource will be removed from the Terraform state file but the resource may
 still exist in OCI with empty settings.
  
