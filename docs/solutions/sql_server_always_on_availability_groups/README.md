@@ -26,6 +26,7 @@ Some items of note:
 	- Log into the OCI console for the tenancy in which you are going to deploy.
 	- In the upper left hand side of the console there is a hyperlink that highlights your tenancy name.  Click on the hyperlink.
 	- On the left hand side of the resulting web page is a field labeled "Home Region".  This is the value to insert into the env-vars file.
+- The infrastructure can be deployed in multiple compartments, or within the same compartment by specifying a unique, non-empty value in the 'label-prefix' variable contained in configuration.tf.  If deploying multiple times in the same compartment, this must be done in order to prevent confusion.
 
 A sample ConfigurationFile.ini file has been included for SQL.  Use at your own discretion.  
 
