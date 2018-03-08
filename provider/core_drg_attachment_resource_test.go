@@ -7,27 +7,23 @@ import (
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
-	"github.com/oracle/bmcs-go-sdk"
 
+	"fmt"
+
+	"github.com/oracle/oci-go-sdk/core"
 	"github.com/stretchr/testify/suite"
 )
 
 type ResourceCoreDrgAttachmentTestSuite struct {
 	suite.Suite
-	Client       *baremetal.Client
-	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	Config       string
 	ResourceName string
-	Res          *baremetal.DrgAttachment
-	DetachedRes  *baremetal.DrgAttachment
 }
 
 func (s *ResourceCoreDrgAttachmentTestSuite) SetupTest() {
-	s.Client = testAccClient
-	s.Provider = testAccProvider
 	s.Providers = testAccProviders
-	s.Config = testProviderConfig() + `
+	s.Config = legacyTestProviderConfig() + `
 		resource "oci_core_virtual_network" "t" {
 			cidr_block = "10.0.0.0/16"
 			compartment_id = "${var.compartment_id}"
@@ -42,7 +38,7 @@ func (s *ResourceCoreDrgAttachmentTestSuite) SetupTest() {
 }
 
 func (s *ResourceCoreDrgAttachmentTestSuite) TestAccResourceCoreDrgAttachment_basic() {
-
+	var resId, resId2 string
 	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
@@ -57,12 +53,16 @@ func (s *ResourceCoreDrgAttachmentTestSuite) TestAccResourceCoreDrgAttachment_ba
 					vcn_id = "${oci_core_virtual_network.t.id}"
 				}`,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "drg_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "vcn_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "display_name"),
-					resource.TestCheckResourceAttr(s.ResourceName, "state", baremetal.ResourceAttached),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "compartment_id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", string(core.DrgAttachmentLifecycleStateAttached)),
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, "oci_core_drg.t", "id")
+						return err
+					},
 				),
 			},
 			// verify drg attachment update
@@ -76,6 +76,19 @@ func (s *ResourceCoreDrgAttachmentTestSuite) TestAccResourceCoreDrgAttachment_ba
 				}`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-drg-attachment"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "drg_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "vcn_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "compartment_id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", string(core.DrgAttachmentLifecycleStateAttached)),
+					func(s *terraform.State) (err error) {
+						resId2, err = fromInstanceState(s, "oci_core_drg.t", "id")
+						if resId != resId2 {
+							return fmt.Errorf("resource recreated when it was supposed to be updated")
+						}
+						return err
+					},
 				),
 			},
 		},

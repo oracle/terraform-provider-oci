@@ -3,19 +3,17 @@
 package provider
 
 import (
-	"time"
+	"context"
 
 	"github.com/hashicorp/terraform/helper/schema"
-	"github.com/oracle/bmcs-go-sdk"
-
-	"github.com/oracle/terraform-provider-oci/options"
+	oci_core "github.com/oracle/oci-go-sdk/core"
 
 	"github.com/oracle/terraform-provider-oci/crud"
 )
 
-func PrivateIPDatasource() *schema.Resource {
+func PrivateIpsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readPrivateIPs,
+		Read: readPrivateIps,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"ip_address": {
@@ -30,82 +28,125 @@ func PrivateIPDatasource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-
 			"private_ips": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     PrivateIPResource(),
+				Elem:     PrivateIpResource(),
 			},
 		},
 	}
 }
 
-func readPrivateIPs(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*OracleClients)
-	sync := &PrivateIPDatasourceCrud{}
+func readPrivateIps(d *schema.ResourceData, m interface{}) error {
+	sync := &PrivateIpsDataSourceCrud{}
 	sync.D = d
-	sync.Client = client.client
+	sync.Client = m.(*OracleClients).virtualNetworkClient
+
 	return crud.ReadResource(sync)
 }
 
-type PrivateIPDatasourceCrud struct {
-	crud.BaseCrud
-	Res *baremetal.ListPrivateIPs
+type PrivateIpsDataSourceCrud struct {
+	D      *schema.ResourceData
+	Client *oci_core.VirtualNetworkClient
+	Res    *oci_core.ListPrivateIpsResponse
 }
 
-func (s *PrivateIPDatasourceCrud) Get() (e error) {
-
-	opts := &baremetal.ListPrivateIPsOptions{}
-	options.SetListOptions(s.D, &opts.ListOptions)
-	if val, ok := s.D.GetOk("ip_address"); ok {
-		opts.IPAddress = val.(string)
-	}
-	if val, ok := s.D.GetOk("subnet_id"); ok {
-		opts.SubnetID = val.(string)
-	}
-	if val, ok := s.D.GetOk("vnic_id"); ok {
-		opts.VnicID = val.(string)
-	}
-
-	s.Res = &baremetal.ListPrivateIPs{PrivateIPs: []baremetal.PrivateIP{}}
-
-	for {
-		var list *baremetal.ListPrivateIPs
-		if list, e = s.Client.ListPrivateIPs(opts); e != nil {
-			break
-		}
-
-		s.Res.PrivateIPs = append(s.Res.PrivateIPs, list.PrivateIPs...)
-
-		if hasNextPage := options.SetNextPageOption(list.NextPage, &opts.PageListOptions); !hasNextPage {
-			break
-		}
-	}
-	return
+func (s *PrivateIpsDataSourceCrud) VoidState() {
+	s.D.SetId("")
 }
 
-func (s *PrivateIPDatasourceCrud) SetData() {
+func (s *PrivateIpsDataSourceCrud) Get() error {
+	request := oci_core.ListPrivateIpsRequest{}
+
+	if ipAddress, ok := s.D.GetOkExists("ip_address"); ok {
+		tmp := ipAddress.(string)
+		request.IpAddress = &tmp
+	}
+
+	if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
+		tmp := subnetId.(string)
+		request.SubnetId = &tmp
+	}
+
+	if vnicId, ok := s.D.GetOkExists("vnic_id"); ok {
+		tmp := vnicId.(string)
+		request.VnicId = &tmp
+	}
+
+	response, err := s.Client.ListPrivateIps(context.Background(), request, getRetryOptions(false, "core")...)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response
+	request.Page = s.Res.OpcNextPage
+
+	for request.Page != nil {
+		listResponse, err := s.Client.ListPrivateIps(context.Background(), request, getRetryOptions(false, "core")...)
+		if err != nil {
+			return err
+		}
+
+		s.Res.Items = append(s.Res.Items, listResponse.Items...)
+		request.Page = listResponse.OpcNextPage
+	}
+
+	return nil
+}
+
+func (s *PrivateIpsDataSourceCrud) SetData() {
 	if s.Res == nil {
 		return
 	}
-	s.D.SetId(time.Now().UTC().String())
+
+	s.D.SetId(crud.GenerateDataSourceID())
 	resources := []map[string]interface{}{}
-	for _, r := range s.Res.PrivateIPs {
-		res := map[string]interface{}{
-			"availability_domain": r.AvailabilityDomain,
-			"compartment_id":      r.CompartmentID,
-			"display_name":        r.DisplayName,
-			"hostname_label":      r.HostnameLabel,
-			"id":                  r.ID,
-			"ip_address":          r.IPAddress,
-			"is_primary":          r.IsPrimary,
-			"subnet_id":           r.SubnetID,
-			"time_created":        r.TimeCreated.String(),
-			"vnic_id":             r.VnicID,
+
+	for _, r := range s.Res.Items {
+		privateIp := map[string]interface{}{}
+
+		if r.AvailabilityDomain != nil {
+			privateIp["availability_domain"] = *r.AvailabilityDomain
 		}
-		resources = append(resources, res)
+
+		if r.CompartmentId != nil {
+			privateIp["compartment_id"] = *r.CompartmentId
+		}
+
+		if r.DisplayName != nil {
+			privateIp["display_name"] = *r.DisplayName
+		}
+
+		if r.HostnameLabel != nil {
+			privateIp["hostname_label"] = *r.HostnameLabel
+		}
+
+		if r.Id != nil {
+			privateIp["id"] = *r.Id
+		}
+
+		if r.IpAddress != nil {
+			privateIp["ip_address"] = *r.IpAddress
+		}
+
+		if r.IsPrimary != nil {
+			privateIp["is_primary"] = *r.IsPrimary
+		}
+
+		if r.SubnetId != nil {
+			privateIp["subnet_id"] = *r.SubnetId
+		}
+
+		privateIp["time_created"] = r.TimeCreated.String()
+
+		if r.VnicId != nil {
+			privateIp["vnic_id"] = *r.VnicId
+		}
+
+		resources = append(resources, privateIp)
 	}
-	if f, fOk := s.D.GetOk("filter"); fOk {
+
+	if f, fOk := s.D.GetOkExists("filter"); fOk {
 		resources = ApplyFilters(f.(*schema.Set), resources)
 	}
 

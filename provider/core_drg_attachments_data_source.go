@@ -3,16 +3,15 @@
 package provider
 
 import (
-	"time"
+	"context"
 
 	"github.com/hashicorp/terraform/helper/schema"
-	"github.com/oracle/bmcs-go-sdk"
+	oci_core "github.com/oracle/oci-go-sdk/core"
 
 	"github.com/oracle/terraform-provider-oci/crud"
-	"github.com/oracle/terraform-provider-oci/options"
 )
 
-func DrgAttachmentDatasource() *schema.Resource {
+func DrgAttachmentsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDrgAttachments,
 		Schema: map[string]*schema.Schema{
@@ -26,12 +25,14 @@ func DrgAttachmentDatasource() *schema.Resource {
 				Optional: true,
 			},
 			"limit": {
-				Type:     schema.TypeInt,
-				Optional: true,
+				Type:       schema.TypeInt,
+				Optional:   true,
+				Deprecated: crud.FieldDeprecated("limit"),
 			},
 			"page": {
-				Type:     schema.TypeString,
-				Optional: true,
+				Type:       schema.TypeString,
+				Optional:   true,
+				Deprecated: crud.FieldDeprecated("page"),
 			},
 			"vcn_id": {
 				Type:     schema.TypeString,
@@ -46,73 +47,110 @@ func DrgAttachmentDatasource() *schema.Resource {
 	}
 }
 
-func readDrgAttachments(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*OracleClients)
-	sync := &DrgAttachmentDatasourceCrud{}
+func readDrgAttachments(d *schema.ResourceData, m interface{}) error {
+	sync := &DrgAttachmentsDataSourceCrud{}
 	sync.D = d
-	sync.Client = client.client
+	sync.Client = m.(*OracleClients).virtualNetworkClient
+
 	return crud.ReadResource(sync)
 }
 
-type DrgAttachmentDatasourceCrud struct {
-	crud.BaseCrud
-	Res *baremetal.ListDrgAttachments
+type DrgAttachmentsDataSourceCrud struct {
+	D      *schema.ResourceData
+	Client *oci_core.VirtualNetworkClient
+	Res    *oci_core.ListDrgAttachmentsResponse
 }
 
-func (s *DrgAttachmentDatasourceCrud) Get() (e error) {
-	compartmentID := s.D.Get("compartment_id").(string)
-
-	opts := &baremetal.ListDrgAttachmentsOptions{}
-	options.SetListOptions(s.D, &opts.ListOptions)
-	if val, ok := s.D.GetOk("drg_id"); ok {
-		opts.DrgID = val.(string)
-	}
-	if val, ok := s.D.GetOk("vcn_id"); ok {
-		opts.VcnID = val.(string)
-	}
-
-	s.Res = &baremetal.ListDrgAttachments{
-		DrgAttachments: []baremetal.DrgAttachment{},
-	}
-
-	for {
-		var list *baremetal.ListDrgAttachments
-		if list, e = s.Client.ListDrgAttachments(compartmentID, opts); e != nil {
-			break
-		}
-
-		s.Res.DrgAttachments = append(s.Res.DrgAttachments, list.DrgAttachments...)
-
-		if hasNextPage := options.SetNextPageOption(list.NextPage, &opts.ListOptions.PageListOptions); !hasNextPage {
-			break
-		}
-	}
-
-	return
+func (s *DrgAttachmentsDataSourceCrud) VoidState() {
+	s.D.SetId("")
 }
 
-func (s *DrgAttachmentDatasourceCrud) SetData() {
+func (s *DrgAttachmentsDataSourceCrud) Get() error {
+	request := oci_core.ListDrgAttachmentsRequest{}
+
+	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+		tmp := compartmentId.(string)
+		request.CompartmentId = &tmp
+	}
+
+	if drgId, ok := s.D.GetOkExists("drg_id"); ok {
+		tmp := drgId.(string)
+		request.DrgId = &tmp
+	}
+
+	if limit, ok := s.D.GetOkExists("limit"); ok {
+		tmp := limit.(int)
+		request.Limit = &tmp
+	}
+
+	if page, ok := s.D.GetOkExists("page"); ok {
+		tmp := page.(string)
+		request.Page = &tmp
+	}
+
+	if vcnId, ok := s.D.GetOkExists("vcn_id"); ok {
+		tmp := vcnId.(string)
+		request.VcnId = &tmp
+	}
+
+	response, err := s.Client.ListDrgAttachments(context.Background(), request, getRetryOptions(false, "core")...)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response
+	request.Page = s.Res.OpcNextPage
+
+	for request.Page != nil {
+		listResponse, err := s.Client.ListDrgAttachments(context.Background(), request, getRetryOptions(false, "core")...)
+		if err != nil {
+			return err
+		}
+
+		s.Res.Items = append(s.Res.Items, listResponse.Items...)
+		request.Page = listResponse.OpcNextPage
+	}
+
+	return nil
+}
+
+func (s *DrgAttachmentsDataSourceCrud) SetData() {
 	if s.Res == nil {
 		return
 	}
-	// Important, if you don't have an ID, make one up for your datasource
-	// or things will end in tears
-	s.D.SetId(time.Now().UTC().String())
+
+	s.D.SetId(crud.GenerateDataSourceID())
 	resources := []map[string]interface{}{}
-	for _, v := range s.Res.DrgAttachments {
-		res := map[string]interface{}{
-			"compartment_id": v.CompartmentID,
-			"display_name":   v.DisplayName,
-			"drg_id":         v.DrgID,
-			"id":             v.ID,
-			"state":          v.State,
-			"time_created":   v.TimeCreated.String(),
-			"vcn_id":         v.VcnID,
+
+	for _, r := range s.Res.Items {
+		drgAttachment := map[string]interface{}{
+			"compartment_id": *r.CompartmentId,
 		}
-		resources = append(resources, res)
+
+		if r.DisplayName != nil {
+			drgAttachment["display_name"] = *r.DisplayName
+		}
+
+		if r.DrgId != nil {
+			drgAttachment["drg_id"] = *r.DrgId
+		}
+
+		if r.Id != nil {
+			drgAttachment["id"] = *r.Id
+		}
+
+		drgAttachment["state"] = r.LifecycleState
+
+		drgAttachment["time_created"] = r.TimeCreated.String()
+
+		if r.VcnId != nil {
+			drgAttachment["vcn_id"] = *r.VcnId
+		}
+
+		resources = append(resources, drgAttachment)
 	}
 
-	if f, fOk := s.D.GetOk("filter"); fOk {
+	if f, fOk := s.D.GetOkExists("filter"); fOk {
 		resources = ApplyFilters(f.(*schema.Set), resources)
 	}
 

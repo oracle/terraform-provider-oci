@@ -5,28 +5,24 @@ package provider
 import (
 	"testing"
 
+	"fmt"
+
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
-	"github.com/oracle/bmcs-go-sdk"
+	"github.com/oracle/oci-go-sdk/core"
 	"github.com/stretchr/testify/suite"
 )
 
 type ResourceCoreVolumeBackupTestSuite struct {
 	suite.Suite
-	Client       *baremetal.Client
-	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	Config       string
 	ResourceName string
-	Res          *baremetal.VolumeBackup
-	DeletedRes   *baremetal.VolumeBackup
 }
 
 func (s *ResourceCoreVolumeBackupTestSuite) SetupTest() {
-	s.Client = testAccClient
-	s.Provider = testAccProvider
 	s.Providers = testAccProviders
-	s.Config = testProviderConfig() + `
+	s.Config = legacyTestProviderConfig() + `
 		data "oci_identity_availability_domains" "ADs" {
   			compartment_id = "${var.compartment_id}"
 		}
@@ -40,7 +36,7 @@ func (s *ResourceCoreVolumeBackupTestSuite) SetupTest() {
 }
 
 func (s *ResourceCoreVolumeBackupTestSuite) TestAccResourceCoreVolumeBackup_basic() {
-
+	var resId, resId2 string
 	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
@@ -53,15 +49,19 @@ func (s *ResourceCoreVolumeBackupTestSuite) TestAccResourceCoreVolumeBackup_basi
 						volume_id = "${oci_core_volume.t.id}"
 					}`,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "display_name"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
-					resource.TestCheckResourceAttr(s.ResourceName, "state", baremetal.ResourceAvailable),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", string(core.VolumeBackupLifecycleStateAvailable)),
 					resource.TestCheckResourceAttr(s.ResourceName, "size_in_mbs", "51200"),
 					resource.TestCheckResourceAttr(s.ResourceName, "size_in_gbs", "50"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "unique_size_in_mbs"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "unique_size_in_gbs"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "time_request_received"),
+					func(ts *terraform.State) (err error) {
+						resId, err = fromInstanceState(ts, s.ResourceName, "id")
+						return err
+					},
 				),
 			},
 			// verify update
@@ -73,6 +73,22 @@ func (s *ResourceCoreVolumeBackupTestSuite) TestAccResourceCoreVolumeBackup_basi
 					}`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-volume-backup"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "display_name"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", string(core.VolumeBackupLifecycleStateAvailable)),
+					resource.TestCheckResourceAttr(s.ResourceName, "size_in_mbs", "51200"),
+					resource.TestCheckResourceAttr(s.ResourceName, "size_in_gbs", "50"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "unique_size_in_mbs"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "unique_size_in_gbs"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "time_request_received"),
+					func(ts *terraform.State) (err error) {
+						resId2, err = fromInstanceState(ts, s.ResourceName, "id")
+						if resId2 != resId {
+							return fmt.Errorf("expected same instance ocid, got different")
+						}
+						return err
+					},
 				),
 			},
 			// verify conventional restore
@@ -90,7 +106,36 @@ func (s *ResourceCoreVolumeBackupTestSuite) TestAccResourceCoreVolumeBackup_basi
 						volume_backup_id = "${oci_core_volume_backup.t.id}"
 					}`,
 				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "display_name"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", string(core.VolumeBackupLifecycleStateAvailable)),
+					resource.TestCheckResourceAttr(s.ResourceName, "size_in_mbs", "51200"),
+					resource.TestCheckResourceAttr(s.ResourceName, "size_in_gbs", "50"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "unique_size_in_mbs"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "unique_size_in_gbs"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "time_request_received"),
 					resource.TestCheckResourceAttr("oci_core_volume.t2", "display_name", "-tf-volume-restored"),
+					resource.TestCheckResourceAttrSet("oci_core_volume.t2", "source_details.0.id"),
+					resource.TestCheckResourceAttr("oci_core_volume.t2", "source_details.0.type", "volumeBackup"),
+					resource.TestCheckResourceAttr("oci_core_volume.t2", "state", string(core.VolumeLifecycleStateAvailable)),
+					resource.TestCheckResourceAttr("oci_core_volume.t2", "size_in_mbs", "51200"),
+					resource.TestCheckResourceAttr("oci_core_volume.t2", "size_in_gbs", "50"),
+					// Only set during "create" scenarios
+					resource.TestCheckNoResourceAttr("oci_core_volume.t2", "time_request_received"),
+					func(ts *terraform.State) (err error) {
+						var backupId, volBackupId string
+						if backupId, err = fromInstanceState(ts, s.ResourceName, "id"); err == nil {
+							if volBackupId, err = fromInstanceState(ts, "oci_core_volume.t2", "volume_backup_id"); err == nil {
+								if volBackupId != backupId {
+									return fmt.Errorf("volume created from different backup than expected")
+								}
+							}
+							return err
+						}
+						return err
+					},
 				),
 			},
 			// verify clone from backup
@@ -114,7 +159,13 @@ func (s *ResourceCoreVolumeBackupTestSuite) TestAccResourceCoreVolumeBackup_basi
 					resource.TestCheckResourceAttrSet("oci_core_volume.u", "source_details.0.id"),
 					resource.TestCheckResourceAttr("oci_core_volume.u", "display_name", "-tf-volume-clone"),
 					resource.TestCheckResourceAttr("oci_core_volume.u", "source_details.0.type", "volumeBackup"),
-					resource.TestCheckResourceAttr("oci_core_volume.u", "state", baremetal.ResourceAvailable),
+					resource.TestCheckResourceAttr("oci_core_volume.u", "state", string(core.VolumeLifecycleStateAvailable)),
+					resource.TestCheckResourceAttr("oci_core_volume.u", "size_in_mbs", "51200"),
+					resource.TestCheckResourceAttr("oci_core_volume.u", "size_in_gbs", "50"),
+					// Only set during "create" scenarios
+					resource.TestCheckNoResourceAttr("oci_core_volume.u", "time_request_received"),
+					// Only present if specific in configuration
+					resource.TestCheckNoResourceAttr("oci_core_volume.u", "volume_backup_id"),
 				),
 			},
 		},

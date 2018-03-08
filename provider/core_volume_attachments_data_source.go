@@ -3,17 +3,15 @@
 package provider
 
 import (
-	"time"
+	"context"
 
 	"github.com/hashicorp/terraform/helper/schema"
-	"github.com/oracle/bmcs-go-sdk"
-
-	"github.com/oracle/terraform-provider-oci/options"
+	oci_core "github.com/oracle/oci-go-sdk/core"
 
 	"github.com/oracle/terraform-provider-oci/crud"
 )
 
-func VolumeAttachmentDatasource() *schema.Resource {
+func VolumeAttachmentsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readVolumeAttachments,
 		Schema: map[string]*schema.Schema{
@@ -26,17 +24,19 @@ func VolumeAttachmentDatasource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"limit": {
-				Type:     schema.TypeInt,
-				Optional: true,
-			},
-			"page": {
-				Type:     schema.TypeString,
-				Optional: true,
-			},
 			"instance_id": {
 				Type:     schema.TypeString,
 				Optional: true,
+			},
+			"limit": {
+				Type:       schema.TypeInt,
+				Optional:   true,
+				Deprecated: crud.FieldDeprecated("limit"),
+			},
+			"page": {
+				Type:       schema.TypeString,
+				Optional:   true,
+				Deprecated: crud.FieldDeprecated("page"),
 			},
 			"volume_id": {
 				Type:     schema.TypeString,
@@ -51,78 +51,146 @@ func VolumeAttachmentDatasource() *schema.Resource {
 	}
 }
 
-func readVolumeAttachments(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*OracleClients)
-	sync := &VolumeAttachmentDatasourceCrud{}
+func readVolumeAttachments(d *schema.ResourceData, m interface{}) error {
+	sync := &VolumeAttachmentsDataSourceCrud{}
 	sync.D = d
-	sync.Client = client.client
+	sync.Client = m.(*OracleClients).computeClient
+
 	return crud.ReadResource(sync)
 }
 
-type VolumeAttachmentDatasourceCrud struct {
-	crud.BaseCrud
-	Res *baremetal.ListVolumeAttachments
+type VolumeAttachmentsDataSourceCrud struct {
+	D      *schema.ResourceData
+	Client *oci_core.ComputeClient
+	Res    *oci_core.ListVolumeAttachmentsResponse
 }
 
-func (s *VolumeAttachmentDatasourceCrud) Get() (e error) {
-	compartmentID := s.D.Get("compartment_id").(string)
-
-	opts := &baremetal.ListVolumeAttachmentsOptions{}
-	options.SetListOptions(s.D, &opts.ListOptions)
-	if val, ok := s.D.GetOk("availability_domain"); ok {
-		opts.AvailabilityDomain = val.(string)
-	}
-	if val, ok := s.D.GetOk("instance_id"); ok {
-		opts.InstanceID = val.(string)
-	}
-	if val, ok := s.D.GetOk("volume_id"); ok {
-		opts.VolumeID = val.(string)
-	}
-
-	s.Res = &baremetal.ListVolumeAttachments{
-		VolumeAttachments: []baremetal.VolumeAttachment{},
-	}
-
-	for {
-		var list *baremetal.ListVolumeAttachments
-		if list, e = s.Client.ListVolumeAttachments(compartmentID, opts); e != nil {
-			break
-		}
-
-		s.Res.VolumeAttachments = append(s.Res.VolumeAttachments, list.VolumeAttachments...)
-
-		if hasNextPage := options.SetNextPageOption(list.NextPage, &opts.ListOptions.PageListOptions); !hasNextPage {
-			break
-		}
-	}
-
-	return
+func (s *VolumeAttachmentsDataSourceCrud) VoidState() {
+	s.D.SetId("")
 }
 
-func (s *VolumeAttachmentDatasourceCrud) SetData() {
+func (s *VolumeAttachmentsDataSourceCrud) Get() error {
+	request := oci_core.ListVolumeAttachmentsRequest{}
+
+	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
+		tmp := availabilityDomain.(string)
+		request.AvailabilityDomain = &tmp
+	}
+
+	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+		tmp := compartmentId.(string)
+		request.CompartmentId = &tmp
+	}
+
+	if instanceId, ok := s.D.GetOkExists("instance_id"); ok {
+		tmp := instanceId.(string)
+		request.InstanceId = &tmp
+	}
+
+	if limit, ok := s.D.GetOkExists("limit"); ok {
+		tmp := limit.(int)
+		request.Limit = &tmp
+	}
+
+	if page, ok := s.D.GetOkExists("page"); ok {
+		tmp := page.(string)
+		request.Page = &tmp
+	}
+
+	if volumeId, ok := s.D.GetOkExists("volume_id"); ok {
+		tmp := volumeId.(string)
+		request.VolumeId = &tmp
+	}
+
+	response, err := s.Client.ListVolumeAttachments(context.Background(), request, getRetryOptions(false, "core")...)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response
+	request.Page = s.Res.OpcNextPage
+
+	for request.Page != nil {
+		listResponse, err := s.Client.ListVolumeAttachments(context.Background(), request, getRetryOptions(false, "core")...)
+		if err != nil {
+			return err
+		}
+
+		s.Res.Items = append(s.Res.Items, listResponse.Items...)
+		request.Page = listResponse.OpcNextPage
+	}
+
+	return nil
+}
+
+func (s *VolumeAttachmentsDataSourceCrud) SetData() {
 	if s.Res == nil {
 		return
 	}
-	// Important, if you don't have an ID, make one up for your datasource
-	// or things will end in tears
-	s.D.SetId(time.Now().UTC().String())
+
+	s.D.SetId(crud.GenerateDataSourceID())
 	resources := []map[string]interface{}{}
-	for _, v := range s.Res.VolumeAttachments {
-		res := map[string]interface{}{
-			"attachment_type":     v.AttachmentType,
-			"availability_domain": v.AvailabilityDomain,
-			"compartment_id":      v.CompartmentID,
-			"display_name":        v.DisplayName,
-			"id":                  v.ID,
-			"instance_id":         v.InstanceID,
-			"state":               v.State,
-			"time_created":        v.TimeCreated.String(),
-			"volume_id":           v.VolumeID,
+
+	for _, r := range s.Res.Items {
+		iscsiVolumeAttachment, castOk := r.(oci_core.IScsiVolumeAttachment)
+		if !castOk {
+			panic("unexpected VolumeAttachment type on item.")
 		}
-		resources = append(resources, res)
+
+		volumeAttachment := map[string]interface{}{
+			"compartment_id":  *r.GetCompartmentId(),
+			"attachment_type": IScsiVolumeAttachmentDiscriminator,
+		}
+
+		if iscsiVolumeAttachment.AvailabilityDomain != nil {
+			volumeAttachment["availability_domain"] = *iscsiVolumeAttachment.AvailabilityDomain
+		}
+
+		if iscsiVolumeAttachment.DisplayName != nil {
+			volumeAttachment["display_name"] = *iscsiVolumeAttachment.DisplayName
+		}
+
+		if iscsiVolumeAttachment.Id != nil {
+			volumeAttachment["id"] = *iscsiVolumeAttachment.Id
+		}
+
+		if iscsiVolumeAttachment.InstanceId != nil {
+			volumeAttachment["instance_id"] = *iscsiVolumeAttachment.InstanceId
+		}
+
+		volumeAttachment["state"] = iscsiVolumeAttachment.LifecycleState
+
+		volumeAttachment["time_created"] = iscsiVolumeAttachment.TimeCreated.String()
+
+		if iscsiVolumeAttachment.VolumeId != nil {
+			volumeAttachment["volume_id"] = *iscsiVolumeAttachment.VolumeId
+		}
+
+		// IScsiVolumeAttachment-specific fields:
+		if iscsiVolumeAttachment.ChapSecret != nil {
+			volumeAttachment["chap_secret"] = *iscsiVolumeAttachment.ChapSecret
+		}
+
+		if iscsiVolumeAttachment.ChapUsername != nil {
+			volumeAttachment["chap_username"] = *iscsiVolumeAttachment.ChapUsername
+		}
+
+		if iscsiVolumeAttachment.Ipv4 != nil {
+			volumeAttachment["ipv4"] = *iscsiVolumeAttachment.Ipv4
+		}
+
+		if iscsiVolumeAttachment.Iqn != nil {
+			volumeAttachment["iqn"] = *iscsiVolumeAttachment.Iqn
+		}
+
+		if iscsiVolumeAttachment.Port != nil {
+			volumeAttachment["port"] = *iscsiVolumeAttachment.Port
+		}
+
+		resources = append(resources, volumeAttachment)
 	}
 
-	if f, fOk := s.D.GetOk("filter"); fOk {
+	if f, fOk := s.D.GetOkExists("filter"); fOk {
 		resources = ApplyFilters(f.(*schema.Set), resources)
 	}
 

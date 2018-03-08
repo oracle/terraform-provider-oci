@@ -3,20 +3,35 @@
 package provider
 
 import (
+	"crypto/rsa"
 	"crypto/tls"
-	"errors"
 	"fmt"
-	"log"
+	"io/ioutil"
+	"net"
 	"net/http"
 	"os"
 	"runtime"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
-	"github.com/oracle/bmcs-go-sdk"
+
+	oci_common "github.com/oracle/oci-go-sdk/common"
+	oci_core "github.com/oracle/oci-go-sdk/core"
+	oci_database "github.com/oracle/oci-go-sdk/database"
+	oci_identity "github.com/oracle/oci-go-sdk/identity"
+	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
+	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
 )
 
 var descriptions map[string]string
+var disableAutoRetries bool
+
+const (
+	defaultRequestTimeout      = 0
+	defaultConnectionTimeout   = 10 * time.Second
+	defaultTLSHandshakeTimeout = 5 * time.Second
+)
 
 func init() {
 	descriptions = map[string]string{
@@ -105,57 +120,60 @@ func schemaMap() map[string]*schema.Schema {
 
 func dataSourcesMap() map[string]*schema.Resource {
 	return map[string]*schema.Resource{
-		"oci_core_console_history_data":       ConsoleHistoryDataDatasource(),
-		"oci_core_cpes":                       CpeDatasource(),
-		"oci_core_dhcp_options":               DHCPOptionsDatasource(),
-		"oci_core_drg_attachments":            DrgAttachmentDatasource(),
-		"oci_core_drgs":                       DrgDatasource(),
-		"oci_core_images":                     ImageDatasource(),
-		"oci_core_instance_credentials":       InstanceCredentialsDatasource(),
-		"oci_core_instances":                  InstanceDatasource(),
-		"oci_core_internet_gateways":          InternetGatewayDatasource(),
-		"oci_core_ipsec_config":               IPSecConnectionConfigDatasource(),
-		"oci_core_ipsec_connections":          IPSecConnectionsDatasource(),
-		"oci_core_ipsec_status":               IPSecConnectionStatusDatasource(),
-		"oci_core_private_ips":                PrivateIPDatasource(),
-		"oci_core_route_tables":               RouteTableDatasource(),
-		"oci_core_security_lists":             SecurityListDatasource(),
-		"oci_core_shape":                      InstanceShapeDatasource(),
-		"oci_core_subnets":                    SubnetDatasource(),
-		"oci_core_virtual_networks":           VirtualNetworkDatasource(),
-		"oci_core_vnic":                       VnicDatasource(),
-		"oci_core_vnic_attachments":           DatasourceCoreVnicAttachments(),
-		"oci_core_volume_attachments":         VolumeAttachmentDatasource(),
-		"oci_core_volume_backups":             VolumeBackupDatasource(),
-		"oci_core_volumes":                    VolumeDatasource(),
-		"oci_database_database":               DatabaseDatasource(),
-		"oci_database_databases":              DatabasesDatasource(),
-		"oci_database_db_home":                DBHomeDatasource(),
-		"oci_database_db_homes":               DBHomesDatasource(),
-		"oci_database_db_node":                DBNodeDatasource(),
-		"oci_database_db_nodes":               DBNodesDatasource(),
-		"oci_database_db_system_shapes":       DBSystemShapeDatasource(),
-		"oci_database_db_systems":             DBSystemDatasource(),
-		"oci_database_db_versions":            DBVersionDatasource(),
-		"oci_identity_api_keys":               APIKeyDatasource(),
-		"oci_identity_availability_domains":   AvailabilityDomainDatasource(),
-		"oci_identity_compartments":           CompartmentDatasource(),
-		"oci_identity_groups":                 GroupDatasource(),
-		"oci_identity_policies":               IdentityPolicyDatasource(),
-		"oci_identity_swift_passwords":        SwiftPasswordDatasource(),
-		"oci_identity_user_group_memberships": UserGroupMembershipDatasource(),
-		"oci_identity_users":                  UserDatasource(),
-		"oci_load_balancer_backends":          BackendDatasource(),
-		"oci_load_balancer_backendsets":       BackendSetDatasource(),
-		"oci_load_balancer_certificates":      CertificateDatasource(),
-		"oci_load_balancer_policies":          LoadBalancerPolicyDatasource(),
-		"oci_load_balancer_protocols":         ProtocolDatasource(),
-		"oci_load_balancer_shapes":            LoadBalancerShapeDatasource(),
-		"oci_load_balancers":                  LoadBalancerDatasource(),
-		"oci_objectstorage_bucket_summaries":  BucketSummaryDatasource(),
-		"oci_objectstorage_namespace":         NamespaceDatasource(),
-		"oci_objectstorage_object_head":       ObjectHeadDatasource(),
-		"oci_objectstorage_objects":           ObjectDatasource(),
+		"oci_core_console_history_data":       ConsoleHistoryContentDataSource(),
+		"oci_core_cpes":                       CpesDataSource(),
+		"oci_core_dhcp_options":               DhcpOptionsDataSource(),
+		"oci_core_drg_attachments":            DrgAttachmentsDataSource(),
+		"oci_core_drgs":                       DrgsDataSource(),
+		"oci_core_images":                     ImagesDataSource(),
+		"oci_core_instance_credentials":       InstanceCredentialsDataSource(),
+		"oci_core_instances":                  InstancesDataSource(),
+		"oci_core_internet_gateways":          InternetGatewaysDataSource(),
+		"oci_core_ipsec_config":               IpSecConnectionDeviceConfigsDataSource(),
+		"oci_core_ipsec_connections":          IpSecConnectionsDataSource(),
+		"oci_core_ipsec_status":               IpSecConnectionDeviceStatusDataSource(),
+		"oci_core_private_ips":                PrivateIpsDataSource(),
+		"oci_core_route_tables":               RouteTablesDataSource(),
+		"oci_core_security_lists":             SecurityListsDataSource(),
+		"oci_core_shape":                      InstanceShapesDataSource(),
+		"oci_core_shapes":                     InstanceShapesDataSource(),
+		"oci_core_subnets":                    SubnetsDataSource(),
+		"oci_core_virtual_networks":           VcnsDataSource(), //This is a legacy name for VCN, removing it can cause breaking changes
+		"oci_core_vcns":                       VcnsDataSource(),
+		"oci_core_vnic":                       VnicsDataSource(),
+		"oci_core_vnic_attachments":           VnicAttachmentsDataSource(),
+		"oci_core_volume_attachments":         VolumeAttachmentsDataSource(),
+		"oci_core_volume_backups":             VolumeBackupsDataSource(),
+		"oci_core_volumes":                    VolumesDataSource(),
+		"oci_database_database":               DatabaseDataSource(),
+		"oci_database_databases":              DatabasesDataSource(),
+		"oci_database_db_home":                DbHomeDataSource(),
+		"oci_database_db_homes":               DbHomesDataSource(),
+		"oci_database_db_node":                DbNodeDataSource(),
+		"oci_database_db_nodes":               DbNodesDataSource(),
+		"oci_database_db_system_shapes":       DbSystemShapesDataSource(),
+		"oci_database_db_systems":             DbSystemsDataSource(),
+		"oci_database_db_versions":            DbVersionsDataSource(),
+		"oci_identity_api_keys":               ApiKeysDataSource(),
+		"oci_identity_availability_domains":   AvailabilityDomainsDataSource(),
+		"oci_identity_compartments":           CompartmentsDataSource(),
+		"oci_identity_groups":                 GroupsDataSource(),
+		"oci_identity_policies":               IdentityPoliciesDataSource(),
+		"oci_identity_swift_passwords":        SwiftPasswordsDataSource(),
+		"oci_identity_user_group_memberships": UserGroupMembershipsDataSource(),
+		"oci_identity_users":                  UsersDataSource(),
+		"oci_load_balancer_backends":          BackendsDataSource(),
+		"oci_load_balancer_backendsets":       BackendSetsDataSource(),
+		"oci_load_balancer_certificates":      CertificatesDataSource(),
+		"oci_load_balancer_policies":          LoadBalancerPoliciesDataSource(),
+		"oci_load_balancer_protocols":         LoadBalancerProtocolsDataSource(),
+		"oci_load_balancer_shapes":            LoadBalancerShapesDataSource(),
+		"oci_load_balancer_load_balancers":    LoadBalancersDataSource(),
+		"oci_load_balancers":                  LoadBalancersDataSource(),
+		"oci_objectstorage_bucket_summaries":  BucketsDataSource(),
+		"oci_objectstorage_namespace":         NamespacesDataSource(),
+		"oci_objectstorage_object_head":       ObjectHeadDataSource(),
+		"oci_objectstorage_objects":           ObjectsDataSource(),
 	}
 }
 
@@ -163,39 +181,41 @@ func resourcesMap() map[string]*schema.Resource {
 	return map[string]*schema.Resource{
 		"oci_core_console_history":           ConsoleHistoryResource(),
 		"oci_core_cpe":                       CpeResource(),
-		"oci_core_default_dhcp_options":      DefaultDHCPOptionsResource(),
-		"oci_core_dhcp_options":              DHCPOptionsResource(),
+		"oci_core_default_dhcp_options":      DefaultDhcpOptionsResource(),
+		"oci_core_dhcp_options":              DhcpOptionsResource(),
 		"oci_core_drg":                       DrgResource(),
 		"oci_core_drg_attachment":            DrgAttachmentResource(),
 		"oci_core_image":                     ImageResource(),
 		"oci_core_instance":                  InstanceResource(),
 		"oci_core_internet_gateway":          InternetGatewayResource(),
-		"oci_core_ipsec":                     IPSecConnectionResource(),
-		"oci_core_private_ip":                PrivateIPResource(),
+		"oci_core_ipsec":                     IpSecConnectionResource(),
+		"oci_core_private_ip":                PrivateIpResource(),
 		"oci_core_default_route_table":       DefaultRouteTableResource(),
 		"oci_core_route_table":               RouteTableResource(),
 		"oci_core_default_security_list":     DefaultSecurityListResource(),
 		"oci_core_security_list":             SecurityListResource(),
 		"oci_core_subnet":                    SubnetResource(),
-		"oci_core_virtual_network":           VirtualNetworkResource(),
+		"oci_core_virtual_network":           VcnResource(), //This is a legacy name for VCN, removing it can cause breaking changes
+		"oci_core_vcn":                       VcnResource(),
 		"oci_core_vnic_attachment":           VnicAttachmentResource(),
 		"oci_core_volume":                    VolumeResource(),
 		"oci_core_volume_attachment":         VolumeAttachmentResource(),
 		"oci_core_volume_backup":             VolumeBackupResource(),
-		"oci_database_db_system":             DBSystemResource(),
-		"oci_identity_api_key":               APIKeyResource(),
+		"oci_database_db_system":             DbSystemResource(),
+		"oci_identity_api_key":               ApiKeyResource(),
 		"oci_identity_compartment":           CompartmentResource(),
 		"oci_identity_group":                 GroupResource(),
 		"oci_identity_policy":                PolicyResource(),
 		"oci_identity_swift_password":        SwiftPasswordResource(),
-		"oci_identity_ui_password":           UIPasswordResource(),
+		"oci_identity_ui_password":           UiPasswordResource(),
 		"oci_identity_user":                  UserResource(),
 		"oci_identity_user_group_membership": UserGroupMembershipResource(),
 		"oci_load_balancer":                  LoadBalancerResource(),
-		"oci_load_balancer_backend":          LoadBalancerBackendResource(),
-		"oci_load_balancer_backendset":       LoadBalancerBackendSetResource(),
-		"oci_load_balancer_certificate":      LoadBalancerCertificateResource(),
-		"oci_load_balancer_listener":         LoadBalancerListenerResource(),
+		"oci_load_balancer_load_balancer":    LoadBalancerResource(),
+		"oci_load_balancer_backend":          BackendResource(),
+		"oci_load_balancer_backendset":       BackendSetResource(),
+		"oci_load_balancer_certificate":      CertificateResource(),
+		"oci_load_balancer_listener":         ListenerResource(),
 		"oci_objectstorage_bucket":           BucketResource(),
 		"oci_objectstorage_object":           ObjectResource(),
 		"oci_objectstorage_preauthrequest":   PreauthenticatedRequestResource(),
@@ -227,78 +247,194 @@ func getRequiredEnvSetting(s string) string {
 }
 
 func ProviderConfig(d *schema.ResourceData) (clients interface{}, err error) {
-	tenancyOCID := d.Get("tenancy_ocid").(string)
-	userOCID := d.Get("user_ocid").(string)
-	fingerprint := d.Get("fingerprint").(string)
-	privateKeyBuffer, hasKey := d.Get("private_key").(string)
-	privateKeyPath, hasKeyPath := d.Get("private_key_path").(string)
-	privateKeyPassword, hasKeyPass := d.Get("private_key_password").(string)
-	region, hasRegion := d.Get("region").(string)
-	disableAutoRetries, hasDisableRetries := d.Get("disable_auto_retries").(bool)
+	clients = &OracleClients{}
+	disableAutoRetries = d.Get("disable_auto_retries").(bool)
 
-	// for internal use
-	urlTemplate := getEnvSetting("url_template", "")
-	allowInsecureTls := getEnvSetting("allow_insecure_tls", "")
+	userAgent := fmt.Sprintf("Oracle-GoSDK/%s (go/%s; %s/%s; terraform/%s) Oracle-TerraformProvider/%s",
+		oci_common.Version(), runtime.Version(), runtime.GOOS, runtime.GOARCH, terraform.VersionString(), Version)
 
-	clientOpts := []baremetal.NewClientOptionsFunc{
-		func(o *baremetal.NewClientOptions) {
-			o.UserAgent = fmt.Sprintf("Oracle-GoSDK/%s (go/%s; %s/%s; terraform/%s) Oracle-TerraformProvider/%s",
-				baremetal.SDKVersion, runtime.Version(), runtime.GOOS, runtime.GOARCH, terraform.VersionString(), Version)
+	httpClient := &http.Client{
+		Timeout: defaultRequestTimeout,
+		Transport: &http.Transport{
+			Dial: (&net.Dialer{
+				Timeout: defaultConnectionTimeout,
+			}).Dial,
+			TLSHandshakeTimeout: defaultTLSHandshakeTimeout,
+			TLSClientConfig:     &tls.Config{MinVersion: tls.VersionTLS12},
+			Proxy:               http.ProxyFromEnvironment,
 		},
 	}
 
-	if allowInsecureTls == "true" {
-		log.Println("[WARN] USING INSECURE TLS")
-		clientOpts = append(clientOpts, baremetal.CustomTransport(
-			&http.Transport{TLSClientConfig: &tls.Config{InsecureSkipVerify: true}},
-		))
-	} else {
-		clientOpts = append(clientOpts, baremetal.CustomTransport(
-			&http.Transport{Proxy: http.ProxyFromEnvironment}),
-		)
+	tfConfigProvider := ResourceDataConfigProvider{d}
+
+	// TODO: DefaultConfigProvider will return us a composingConfigurationProvider that reads from SDK config files,
+	// and then from the environment variables ("TF_VAR" prefix). References to "TF_VAR" prefix should be removed from
+	// the SDK, since it's Terraform specific. When that happens, we need to update this to pass in the right prefix.
+	defaultConfigProvider := oci_common.DefaultConfigProvider()
+
+	officialSdkConfigProvider, err := oci_common.ComposingConfigurationProvider([]oci_common.ConfigurationProvider{tfConfigProvider, defaultConfigProvider})
+	if err != nil {
+		return nil, err
 	}
 
-	clientOpts = append(clientOpts, baremetal.CustomTransport(
-		&http.Transport{TLSClientConfig: &tls.Config{MinVersion: tls.VersionTLS12}},
-	))
+	err = setGoSDKClients(clients.(*OracleClients), officialSdkConfigProvider, httpClient, userAgent)
+	if err != nil {
+		return nil, err
+	}
 
-	if hasKey && privateKeyBuffer != "" {
-		clientOpts = append(clientOpts, baremetal.PrivateKeyBytes([]byte(privateKeyBuffer)))
-	} else if hasKeyPath && privateKeyPath != "" {
-		clientOpts = append(clientOpts, baremetal.PrivateKeyFilePath(privateKeyPath))
-	} else {
-		err = errors.New("One of private_key or private_key_path is required")
+	return clients, nil
+}
+
+func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_common.ConfigurationProvider, httpClient *http.Client, userAgent string) (err error) {
+	// Official Go SDK clients:
+	blockStorageClient, err := oci_core.NewBlockstorageClientWithConfigurationProvider(officialSdkConfigProvider)
+	if err != nil {
 		return
 	}
 
-	if hasKeyPass && privateKeyPassword != "" {
-		clientOpts = append(clientOpts, baremetal.PrivateKeyPassword(privateKeyPassword))
+	computeClient, err := oci_core.NewComputeClientWithConfigurationProvider(officialSdkConfigProvider)
+	if err != nil {
+		return
 	}
 
-	if hasRegion && region != "" {
-		clientOpts = append(clientOpts, baremetal.Region(region))
+	databaseClient, err := oci_database.NewDatabaseClientWithConfigurationProvider(officialSdkConfigProvider)
+	if err != nil {
+		return
 	}
 
-	if hasDisableRetries {
-		clientOpts = append(clientOpts, baremetal.DisableAutoRetries(disableAutoRetries))
+	identityClient, err := oci_identity.NewIdentityClientWithConfigurationProvider(officialSdkConfigProvider)
+	if err != nil {
+		return
 	}
 
-	if urlTemplate != "" {
-		clientOpts = append(clientOpts, baremetal.UrlTemplate(urlTemplate))
+	virtualNetworkClient, err := oci_core.NewVirtualNetworkClientWithConfigurationProvider(officialSdkConfigProvider)
+	if err != nil {
+		return
 	}
 
-	client, err := baremetal.NewClient(userOCID, tenancyOCID, fingerprint, clientOpts...)
-
-	clientOpts = append(clientOpts, baremetal.DisableNotFoundRetries(true))
-	clientWithoutNotFoundRetries, err := baremetal.NewClient(userOCID, tenancyOCID, fingerprint, clientOpts...)
-	clients = &OracleClients{
-		client: client,
-		clientWithoutNotFoundRetries: clientWithoutNotFoundRetries,
+	objectStorageClient, err := oci_object_storage.NewObjectStorageClientWithConfigurationProvider(officialSdkConfigProvider)
+	if err != nil {
+		return
 	}
+
+	loadBalancerClient, err := oci_load_balancer.NewLoadBalancerClientWithConfigurationProvider(officialSdkConfigProvider)
+	if err != nil {
+		return
+	}
+
+	clients.blockStorageClient = &blockStorageClient
+	clients.blockStorageClient.BaseClient.HTTPClient = httpClient
+	clients.blockStorageClient.UserAgent = userAgent
+
+	clients.computeClient = &computeClient
+	clients.computeClient.BaseClient.HTTPClient = httpClient
+	clients.computeClient.UserAgent = userAgent
+
+	clients.databaseClient = &databaseClient
+	clients.databaseClient.BaseClient.HTTPClient = httpClient
+	clients.databaseClient.UserAgent = userAgent
+
+	clients.identityClient = &identityClient
+	clients.identityClient.BaseClient.HTTPClient = httpClient
+	clients.identityClient.UserAgent = userAgent
+
+	clients.virtualNetworkClient = &virtualNetworkClient
+	clients.virtualNetworkClient.BaseClient.HTTPClient = httpClient
+	clients.virtualNetworkClient.UserAgent = userAgent
+
+	clients.objectStorageClient = &objectStorageClient
+	clients.objectStorageClient.BaseClient.HTTPClient = httpClient
+	clients.objectStorageClient.UserAgent = userAgent
+
+	clients.loadBalancerClient = &loadBalancerClient
+	clients.loadBalancerClient.BaseClient.HTTPClient = httpClient
+	clients.loadBalancerClient.UserAgent = userAgent
+
 	return
 }
 
 type OracleClients struct {
-	client                       *baremetal.Client
-	clientWithoutNotFoundRetries *baremetal.Client
+	blockStorageClient   *oci_core.BlockstorageClient
+	computeClient        *oci_core.ComputeClient
+	databaseClient       *oci_database.DatabaseClient
+	identityClient       *oci_identity.IdentityClient
+	virtualNetworkClient *oci_core.VirtualNetworkClient
+	objectStorageClient  *oci_object_storage.ObjectStorageClient
+	loadBalancerClient   *oci_load_balancer.LoadBalancerClient
+}
+
+type ResourceDataConfigProvider struct {
+	D *schema.ResourceData
+}
+
+// TODO: The error messages returned by following methods get swallowed up by the ComposingConfigurationProvider,
+// since it only checks whether an error exists or not.
+// The ComposingConfigurationProvider in SDK should log the errors as debug statements instead.
+
+func (p ResourceDataConfigProvider) TenancyOCID() (string, error) {
+	if tenancyOCID, ok := p.D.GetOkExists("tenancy_ocid"); ok {
+		return tenancyOCID.(string), nil
+	}
+	return "", fmt.Errorf("Can not get tenancy_ocid from Terraform configuration")
+}
+
+func (p ResourceDataConfigProvider) UserOCID() (string, error) {
+	if userOCID, ok := p.D.GetOkExists("user_ocid"); ok {
+		return userOCID.(string), nil
+	}
+	return "", fmt.Errorf("Can not get user_ocid from Terraform configuration")
+}
+
+func (p ResourceDataConfigProvider) KeyFingerprint() (string, error) {
+	if fingerprint, ok := p.D.GetOkExists("fingerprint"); ok {
+		return fingerprint.(string), nil
+	}
+	return "", fmt.Errorf("Can not get fingerprint from Terraform configuration")
+}
+
+func (p ResourceDataConfigProvider) Region() (string, error) {
+	if region, ok := p.D.GetOkExists("region"); ok {
+		return region.(string), nil
+	}
+	return "", fmt.Errorf("Can not get region from Terraform configuration")
+}
+
+func (p ResourceDataConfigProvider) KeyID() (string, error) {
+	tenancy, err := p.TenancyOCID()
+	if err != nil {
+		return "", err
+	}
+
+	user, err := p.UserOCID()
+	if err != nil {
+		return "", err
+	}
+
+	fingerprint, err := p.KeyFingerprint()
+	if err != nil {
+		return "", err
+	}
+
+	return fmt.Sprintf("%s/%s/%s", tenancy, user, fingerprint), nil
+}
+
+func (p ResourceDataConfigProvider) PrivateRSAKey() (key *rsa.PrivateKey, err error) {
+	password := ""
+	if privateKeyPassword, hasPrivateKeyPassword := p.D.GetOkExists("private_key_password"); hasPrivateKeyPassword {
+		password = privateKeyPassword.(string)
+	}
+
+	if privateKey, hasPrivateKey := p.D.GetOkExists("private_key"); hasPrivateKey {
+		return oci_common.PrivateKeyFromBytes([]byte(privateKey.(string)), &password)
+	}
+
+	if privateKeyPath, hasPrivateKeyPath := p.D.GetOkExists("private_key_path"); hasPrivateKeyPath {
+		pemFileContent, readFileErr := ioutil.ReadFile(privateKeyPath.(string))
+		if readFileErr != nil {
+			return nil, fmt.Errorf("Can not read private key from: '%s', Error: %q", privateKeyPath, readFileErr)
+		}
+		return oci_common.PrivateKeyFromBytes(pemFileContent, &password)
+	}
+
+	return nil, fmt.Errorf("Can not get private_key or private_key_path from Terraform configuration")
 }

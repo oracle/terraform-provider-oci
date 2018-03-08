@@ -7,31 +7,28 @@ import (
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
-	"github.com/oracle/bmcs-go-sdk"
 
+	"fmt"
+
+	"github.com/oracle/oci-go-sdk/core"
 	"github.com/stretchr/testify/suite"
 )
 
 type ResourceCoreDrgTestSuite struct {
 	suite.Suite
-	Client       *baremetal.Client
-	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	Config       string
 	ResourceName string
-	Res          *baremetal.Drg
-	DeletedRes   *baremetal.Drg
 }
 
 func (s *ResourceCoreDrgTestSuite) SetupTest() {
-	s.Client = testAccClient
-	s.Provider = testAccProvider
 	s.Providers = testAccProviders
-	s.Config = testProviderConfig()
+	s.Config = legacyTestProviderConfig()
 	s.ResourceName = "oci_core_drg.t"
 }
 
 func (s *ResourceCoreDrgTestSuite) TestAccResourceCoreDrg_basic() {
+	var resId, resId2 string
 
 	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -40,7 +37,7 @@ func (s *ResourceCoreDrgTestSuite) TestAccResourceCoreDrg_basic() {
 			{
 				ImportState:       true,
 				ImportStateVerify: true,
-				Config: testProviderConfig() + `
+				Config: legacyTestProviderConfig() + `
 				resource "oci_core_drg" "t" {
 					compartment_id = "${var.compartment_id}"
 				}`,
@@ -48,18 +45,31 @@ func (s *ResourceCoreDrgTestSuite) TestAccResourceCoreDrg_basic() {
 					resource.TestCheckResourceAttrSet("oci_core_drg.t", "id"),
 					resource.TestCheckResourceAttrSet("oci_core_drg.t", "time_created"),
 					resource.TestCheckResourceAttrSet("oci_core_drg.t", "display_name"),
-					resource.TestCheckResourceAttr("oci_core_drg.t", "state", baremetal.ResourceAvailable),
+					resource.TestCheckResourceAttr("oci_core_drg.t", "state", string(core.DrgLifecycleStateAvailable)),
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, "oci_core_drg.t", "id")
+						return err
+					},
 				),
 			},
 			// verify drg update
 			{
-				Config: testProviderConfig() + `
+				Config: legacyTestProviderConfig() + `
 				resource "oci_core_drg" "t" {
 					compartment_id = "${var.compartment_id}"
 					display_name = "-tf-drg"
 				}`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr("oci_core_drg.t", "display_name", "-tf-drg"),
+					resource.TestCheckResourceAttrSet("oci_core_drg.t", "time_created"),
+					resource.TestCheckResourceAttr("oci_core_drg.t", "state", string(core.DrgLifecycleStateAvailable)),
+					func(s *terraform.State) (err error) {
+						resId2, err = fromInstanceState(s, "oci_core_drg.t", "id")
+						if resId != resId2 {
+							return fmt.Errorf("Resource recreated when it was supposed to be updated")
+						}
+						return err
+					},
 				),
 			},
 		},

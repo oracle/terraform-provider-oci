@@ -3,18 +3,19 @@
 package provider
 
 import (
-	"time"
+	"context"
 
 	"github.com/hashicorp/terraform/helper/schema"
-	"github.com/oracle/bmcs-go-sdk"
+	oci_core "github.com/oracle/oci-go-sdk/core"
 
 	"github.com/oracle/terraform-provider-oci/crud"
 )
 
-func InstanceCredentialsDatasource() *schema.Resource {
+func InstanceCredentialsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readInstanceCredentials,
 		Schema: map[string]*schema.Schema{
+			// InstanceCredentials is a single-value data source.
 			"instance_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -31,33 +32,51 @@ func InstanceCredentialsDatasource() *schema.Resource {
 	}
 }
 
-func readInstanceCredentials(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*OracleClients)
-	sync := &InstanceCredentialsDatasourceCrud{}
+func readInstanceCredentials(d *schema.ResourceData, m interface{}) error {
+	sync := &InstanceCredentialsDataSourceCrud{}
 	sync.D = d
-	sync.Client = client.client
+	sync.Client = m.(*OracleClients).computeClient
+
 	return crud.ReadResource(sync)
 }
 
-type InstanceCredentialsDatasourceCrud struct {
+type InstanceCredentialsDataSourceCrud struct {
 	crud.BaseCrud
-	Res *baremetal.InstanceCredentials
+	Client *oci_core.ComputeClient
+	Res    *oci_core.GetWindowsInstanceInitialCredentialsResponse
 }
 
-func (s *InstanceCredentialsDatasourceCrud) Get() (e error) {
-	instanceId := s.D.Get("instance_id").(string)
-	res, e := s.Client.GetWindowsInstanceInitialCredentials(instanceId)
-	if e == nil {
-		s.Res = res
+func (s *InstanceCredentialsDataSourceCrud) Get() error {
+	request := oci_core.GetWindowsInstanceInitialCredentialsRequest{}
+
+	if instanceId, ok := s.D.GetOkExists("instance_id"); ok {
+		tmp := instanceId.(string)
+		request.InstanceId = &tmp
 	}
-	return
+
+	response, err := s.Client.GetWindowsInstanceInitialCredentials(context.Background(), request, getRetryOptions(false, "core")...)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response
+	return nil
 }
 
-func (s *InstanceCredentialsDatasourceCrud) SetData() {
-	if s.Res != nil {
-		s.D.SetId(time.Now().UTC().String())
-		s.D.Set("username", s.Res.Username)
-		s.D.Set("password", s.Res.Password)
+func (s *InstanceCredentialsDataSourceCrud) SetData() {
+	if s.Res == nil {
+		return
 	}
+
+	s.D.SetId(crud.GenerateDataSourceID())
+
+	if s.Res.Password != nil {
+		s.D.Set("password", *s.Res.Password)
+	}
+
+	if s.Res.Username != nil {
+		s.D.Set("username", *s.Res.Username)
+	}
+
 	return
 }

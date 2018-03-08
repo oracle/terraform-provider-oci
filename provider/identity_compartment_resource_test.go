@@ -7,27 +7,23 @@ import (
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
-	"github.com/oracle/bmcs-go-sdk"
 
 	"fmt"
 
+	"github.com/oracle/oci-go-sdk/identity"
 	"github.com/stretchr/testify/suite"
 )
 
 type ResourceIdentityCompartmentTestSuite struct {
 	suite.Suite
-	Client       *baremetal.Client
-	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	Config       string
 	ResourceName string
 }
 
 func (s *ResourceIdentityCompartmentTestSuite) SetupTest() {
-	s.Client = testAccClient
-	s.Provider = testAccProvider
 	s.Providers = testAccProviders
-	s.Config = testProviderConfig()
+	s.Config = legacyTestProviderConfig()
 	s.ResourceName = "oci_identity_compartment.t"
 }
 
@@ -46,9 +42,12 @@ func (s *ResourceIdentityCompartmentTestSuite) TestAccResourceIdentityCompartmen
 					description = "for name and description update tests"
 				}`,
 				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttrSet(s.ResourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "name", "terraform-update-test-compartment"),
 					resource.TestCheckResourceAttr(s.ResourceName, "description", "for name and description update tests"),
-					resource.TestCheckResourceAttr(s.ResourceName, "state", baremetal.ResourceActive),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", string(identity.CompartmentLifecycleStateActive)),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
+					resource.TestCheckNoResourceAttr(s.ResourceName, "inactive_state"),
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, "oci_identity_compartment.t", "id")
 						return err
@@ -63,8 +62,12 @@ func (s *ResourceIdentityCompartmentTestSuite) TestAccResourceIdentityCompartmen
 					description = "for name and description update tests2"
 				}`,
 				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttrSet(s.ResourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "name", "terraform-update-test-compartment2"),
 					resource.TestCheckResourceAttr(s.ResourceName, "description", "for name and description update tests2"),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", string(identity.CompartmentLifecycleStateActive)),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
+					resource.TestCheckNoResourceAttr(s.ResourceName, "inactive_state"),
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, "oci_identity_compartment.t", "id")
 						if resId != resId2 {

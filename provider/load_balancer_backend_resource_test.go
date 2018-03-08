@@ -5,26 +5,24 @@ package provider
 import (
 	"testing"
 
+	"fmt"
+
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
-	"github.com/oracle/bmcs-go-sdk"
+	"github.com/oracle/oci-go-sdk/loadbalancer"
 	"github.com/stretchr/testify/suite"
 )
 
 type ResourceLoadBalancerBackendTestSuite struct {
 	suite.Suite
-	Client       *baremetal.Client
-	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	Config       string
 	ResourceName string
 }
 
 func (s *ResourceLoadBalancerBackendTestSuite) SetupTest() {
-	s.Client = testAccClient
-	s.Provider = testAccProvider
 	s.Providers = testAccProviders
-	s.Config = testProviderConfig() + `
+	s.Config = legacyTestProviderConfig() + `
 	data "oci_identity_availability_domains" "ADs" {
 		compartment_id = "${var.compartment_id}"
 	}
@@ -70,10 +68,11 @@ func (s *ResourceLoadBalancerBackendTestSuite) SetupTest() {
 }
 
 func (s *ResourceLoadBalancerBackendTestSuite) TestAccResourceLoadBalancerBackend_basic() {
+	var res, res2 string
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			// test create
+			// test create minimal
 			{
 				ImportState:       true,
 				ImportStateVerify: true,
@@ -83,10 +82,6 @@ func (s *ResourceLoadBalancerBackendTestSuite) TestAccResourceLoadBalancerBacken
 					backendset_name = "${oci_load_balancer_backendset.t.name}"
 					ip_address = "1.2.3.4"
 					port = 8080
-					backup = false
-					drain = false
-					offline = false
-					weight = 1
 				}`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "load_balancer_id"),
@@ -97,27 +92,105 @@ func (s *ResourceLoadBalancerBackendTestSuite) TestAccResourceLoadBalancerBacken
 					resource.TestCheckResourceAttr(s.ResourceName, "drain", "false"),
 					resource.TestCheckResourceAttr(s.ResourceName, "offline", "false"),
 					resource.TestCheckResourceAttr(s.ResourceName, "weight", "1"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "name"),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", string(loadbalancer.WorkRequestLifecycleStateSucceeded)),
+					func(ts *terraform.State) (err error) {
+						res, err = fromInstanceState(ts, s.ResourceName, "name")
+						return err
+					},
 				),
 			},
-			// test update
+			// test partial update: "weight" only, omitted bool properties should be not be named and null in the update request
+			{
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config: s.Config + `
+				resource "oci_load_balancer_backend" "t" {
+					load_balancer_id = "${oci_load_balancer.t.id}"
+					backendset_name = "${oci_load_balancer_backendset.t.name}"
+					ip_address = "1.2.3.4"
+					port = 8080
+					weight = 2
+				}`,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttrSet(s.ResourceName, "load_balancer_id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "backendset_name", "-tf-backend-set"),
+					resource.TestCheckResourceAttr(s.ResourceName, "ip_address", "1.2.3.4"),
+					resource.TestCheckResourceAttr(s.ResourceName, "port", "8080"),
+					resource.TestCheckResourceAttr(s.ResourceName, "backup", "false"),
+					resource.TestCheckResourceAttr(s.ResourceName, "drain", "false"),
+					resource.TestCheckResourceAttr(s.ResourceName, "offline", "false"),
+					resource.TestCheckResourceAttr(s.ResourceName, "weight", "2"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "name"),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", string(loadbalancer.WorkRequestLifecycleStateSucceeded)),
+					func(ts *terraform.State) (err error) {
+						res, err = fromInstanceState(ts, s.ResourceName, "name")
+						return err
+					},
+				),
+			},
+			// test partial update - previously omitted bools explicitly set to a mix of true and false
+			{
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config: s.Config + `
+				resource "oci_load_balancer_backend" "t" {
+					load_balancer_id = "${oci_load_balancer.t.id}"
+					backendset_name = "${oci_load_balancer_backendset.t.name}"
+					ip_address = "1.2.3.4"
+					port = 8080
+					backup = false
+					drain = true
+					offline = false
+					weight = 1
+				}`,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttrSet(s.ResourceName, "load_balancer_id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "backendset_name", "-tf-backend-set"),
+					resource.TestCheckResourceAttr(s.ResourceName, "ip_address", "1.2.3.4"),
+					resource.TestCheckResourceAttr(s.ResourceName, "port", "8080"),
+					resource.TestCheckResourceAttr(s.ResourceName, "backup", "false"),
+					resource.TestCheckResourceAttr(s.ResourceName, "drain", "true"),
+					resource.TestCheckResourceAttr(s.ResourceName, "offline", "false"),
+					resource.TestCheckResourceAttr(s.ResourceName, "weight", "1"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "name"),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", string(loadbalancer.WorkRequestLifecycleStateSucceeded)),
+					func(ts *terraform.State) (err error) {
+						res, err = fromInstanceState(ts, s.ResourceName, "name")
+						return err
+					},
+				),
+			},
+			// test full update - invert bools
 			{
 				Config: s.Config + `
 				resource "oci_load_balancer_backend" "t" {
 					load_balancer_id = "${oci_load_balancer.t.id}"
 					backendset_name = "${oci_load_balancer_backendset.t.name}"
 					ip_address = "1.2.3.4"
-					port = 8081
+					port = 8080
 					backup = true
-					drain = true
+					drain = false
 					offline = true
 					weight = 3
 				}`,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "port", "8081"),
+					resource.TestCheckResourceAttr(s.ResourceName, "port", "8080"),
 					resource.TestCheckResourceAttr(s.ResourceName, "backup", "true"),
-					resource.TestCheckResourceAttr(s.ResourceName, "drain", "true"),
+					resource.TestCheckResourceAttr(s.ResourceName, "drain", "false"),
 					resource.TestCheckResourceAttr(s.ResourceName, "offline", "true"),
 					resource.TestCheckResourceAttr(s.ResourceName, "weight", "3"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "load_balancer_id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "backendset_name", "-tf-backend-set"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "name"),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", string(loadbalancer.WorkRequestLifecycleStateSucceeded)),
+					func(ts *terraform.State) (err error) {
+						res2, err = fromInstanceState(ts, s.ResourceName, "name")
+						if res == res2 {
+							fmt.Errorf("new resource expected to be created but was not")
+						}
+						return err
+					},
 				),
 			},
 		},

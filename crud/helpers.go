@@ -3,7 +3,9 @@
 package crud
 
 import (
+	"context"
 	"errors"
+	"fmt"
 	"log"
 	"reflect"
 	"strconv"
@@ -12,7 +14,8 @@ import (
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
-	"github.com/oracle/bmcs-go-sdk"
+	oci_common "github.com/oracle/oci-go-sdk/common"
+	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
 )
 
 var (
@@ -27,9 +30,12 @@ var (
 	}
 )
 
+const (
+	FAILED = "FAILED"
+)
+
 type BaseCrud struct {
-	D      *schema.ResourceData
-	Client *baremetal.Client
+	D *schema.ResourceData
 }
 
 func (s *BaseCrud) VoidState() {
@@ -46,7 +52,18 @@ func (s *BaseCrud) setState(sync StatefulResource) error {
 		// Yes, this "valid"ation is terrible
 		if resourceReferenceValue := v.FieldByName(key); resourceReferenceValue.IsValid() {
 			if resourceValue := resourceReferenceValue.Elem(); resourceValue.IsValid() {
-				if stateValue := resourceValue.FieldByName("State"); stateValue.IsValid() {
+				// In rare cases, the kind for "Res" is an interface (e.g. if the resource itself is
+				// a polymorphic type, opposed to a field on the resource). Use Elem() to get the value
+				// the interface contains, otherwise the ".FieldByName()" method will throw.
+				if resourceValue.Kind() == reflect.Interface {
+					resourceValue = resourceValue.Elem()
+				}
+
+				if stateValue := resourceValue.FieldByName("LifecycleState"); stateValue.IsValid() {
+					currentState := stateValue.String()
+					log.Printf("[DEBUG] crud.BaseCrud.setState: state: %#v", currentState)
+					return s.D.Set("state", currentState)
+				} else if stateValue := resourceValue.FieldByName("State"); stateValue.IsValid() {
 					currentState := stateValue.String()
 					log.Printf("[DEBUG] crud.BaseCrud.setState: state: %#v", currentState)
 					return s.D.Set("state", currentState)
@@ -82,59 +99,61 @@ func handleMissingResourceError(sync ResourceVoider, err *error) {
 	}
 }
 
-func LoadBalancerResourceID(res interface{}, workReq *baremetal.WorkRequest) (id *string, workReqSucceeded bool) {
+func LoadBalancerResourceID(res interface{}, workReq *oci_load_balancer.WorkRequest) (id *string, workReqSucceeded bool) {
 	v := reflect.ValueOf(res).Elem()
 	if v.IsValid() {
 		// This is super fugly. It's this way because the LB API has no convention for ID formats.
 
 		// Load balancer
-		id := v.FieldByName("ID")
-		if id.IsValid() {
-			s := id.String()
+		id := v.FieldByName("Id")
+		if id.IsValid() && !id.IsNil() {
+			s := id.Elem().String()
 			return &s, false
 		}
 		// backendset, listener
 		name := v.FieldByName("Name")
-		if name.IsValid() {
-			s := name.String()
+		if name.IsValid() && !name.IsNil() {
+			s := name.Elem().String()
 			return &s, false
 		}
 		// certificate
 		certName := v.FieldByName("CertificateName")
-		if certName.IsValid() {
-			s := certName.String()
+		if certName.IsValid() && !certName.IsNil() {
+			s := certName.Elem().String()
 			return &s, false
 		}
-		// backend
-		ip := v.FieldByName("ip_address")
-		port := v.FieldByName("port")
-		if ip.IsValid() && port.IsValid() {
-			s := ip.String() + ":" + strconv.Itoa(int(int(port.Int())))
+		// backend TODO The following can probably be removed because the Backend object has a Name parameter)
+		ip := v.FieldByName("IpAddress")
+		port := v.FieldByName("Port")
+		if ip.IsValid() && !ip.IsNil() && port.IsValid() && !port.IsNil() {
+			s := ip.Elem().String() + ":" + strconv.Itoa(int(int(port.Elem().Int())))
 			return &s, false
 		}
 	}
 	if workReq != nil {
-		if workReq.State == baremetal.WorkRequestSucceeded {
+		if workReq.LifecycleState == oci_load_balancer.WorkRequestLifecycleStateSucceeded {
 			return nil, true
 		} else {
-			return &workReq.ID, false
+			return workReq.Id, false
 		}
 	}
 	return nil, false
 }
 
-func LoadBalancerResourceGet(s BaseCrud, workReq *baremetal.WorkRequest) (id string, stillWorking bool, err error) {
-	id = s.D.Id()
+func LoadBalancerResourceGet(client *oci_load_balancer.LoadBalancerClient, d *schema.ResourceData, wr *oci_load_balancer.WorkRequest, retryOptions ...oci_common.RetryPolicyOption) (id string, stillWorking bool, err error) {
+	id = d.Id()
 	// NOTE: if the id is for a work request, refresh its state and loadBalancerID.
 	if strings.HasPrefix(id, "ocid1.loadbalancerworkrequest.") {
-		updatedWorkReq, err := s.Client.GetWorkRequest(id, nil)
+		getWorkRequestRequest := oci_load_balancer.GetWorkRequestRequest{}
+		getWorkRequestRequest.WorkRequestId = &id
+		updatedWorkRes, err := client.GetWorkRequest(context.Background(), getWorkRequestRequest, retryOptions...)
 		if err != nil {
 			return "", false, err
 		}
-		if workReq != nil {
-			*workReq = *updatedWorkReq
-			s.D.Set("state", workReq.State)
-			if workReq.State == baremetal.WorkRequestSucceeded {
+		if wr != nil {
+			*wr = updatedWorkRes.WorkRequest
+			d.Set("state", wr.LifecycleState)
+			if wr.LifecycleState == oci_load_balancer.WorkRequestLifecycleStateSucceeded {
 				return "", false, nil
 			}
 		}
@@ -143,22 +162,23 @@ func LoadBalancerResourceGet(s BaseCrud, workReq *baremetal.WorkRequest) (id str
 	return id, false, nil
 }
 
-func LoadBalancerWaitForWorkRequest(client *baremetal.Client, d *schema.ResourceData, wr *baremetal.WorkRequest) error {
+func LoadBalancerWaitForWorkRequest(client *oci_load_balancer.LoadBalancerClient, d *schema.ResourceData, wr *oci_load_balancer.WorkRequest, retryOptions ...oci_common.RetryPolicyOption) error {
 	var e error
 	stateConf := &resource.StateChangeConf{
 		Pending: []string{
-			baremetal.ResourceWaitingForWorkRequest,
-			baremetal.WorkRequestInProgress,
-			baremetal.WorkRequestAccepted,
+			string(oci_load_balancer.WorkRequestLifecycleStateInProgress),
+			string(oci_load_balancer.WorkRequestLifecycleStateAccepted),
 		},
 		Target: []string{
-			baremetal.ResourceSucceededWorkRequest,
-			baremetal.WorkRequestSucceeded,
-			baremetal.ResourceFailed,
+			string(oci_load_balancer.WorkRequestLifecycleStateSucceeded),
+			string(oci_load_balancer.WorkRequestLifecycleStateFailed),
 		},
 		Refresh: func() (interface{}, string, error) {
-			wr, e = client.GetWorkRequest(wr.ID, nil)
-			return wr, wr.State, e
+			getWorkRequestRequest := oci_load_balancer.GetWorkRequestRequest{}
+			getWorkRequestRequest.WorkRequestId = wr.Id
+			workRequestResponse, err := client.GetWorkRequest(context.Background(), getWorkRequestRequest, retryOptions...)
+			wr = &workRequestResponse.WorkRequest
+			return wr, string(wr.LifecycleState), err
 		},
 		Timeout: d.Timeout(schema.TimeoutCreate),
 	}
@@ -166,7 +186,7 @@ func LoadBalancerWaitForWorkRequest(client *baremetal.Client, d *schema.Resource
 	if _, e = stateConf.WaitForState(); e != nil {
 		return e
 	}
-	if wr.State == baremetal.ResourceFailed {
+	if wr.LifecycleState == oci_load_balancer.WorkRequestLifecycleStateFailed {
 		return errors.New("Resource creation failed, state FAILED")
 	}
 	return nil
@@ -214,8 +234,7 @@ func CreateResource(d *schema.ResourceData, sync ResourceCreator) (e error) {
 
 	if stateful, ok := sync.(StatefullyCreatedResource); ok {
 		e = waitForStateRefresh(stateful, d.Timeout(schema.TimeoutCreate), stateful.CreatedPending(), stateful.CreatedTarget())
-
-		if stateful.State() == baremetal.WorkRequestFailed {
+		if stateful.State() == string(oci_load_balancer.WorkRequestLifecycleStateFailed) {
 			// Remove resource from state if asynchronous work request has failed so that it is recreated on next apply
 			// TODO: automatic retry on WorkRequestFailed
 			sync.VoidState()
@@ -245,7 +264,7 @@ func ReadResource(sync ResourceReader) (e error) {
 	// Remove resource from state if it has been terminated so that it is recreated on next apply
 	if dr, ok := sync.(StatefullyDeletedResource); ok {
 		for _, target := range dr.DeletedTarget() {
-			if dr.State() == target && dr.State() != baremetal.ResourceSucceededWorkRequest && dr.State() != baremetal.WorkRequestSucceeded {
+			if dr.State() == target && dr.State() != string(oci_load_balancer.WorkRequestLifecycleStateSucceeded) {
 				dr.VoidState()
 				return
 			}
@@ -327,7 +346,7 @@ func waitForStateRefresh(sync StatefulResource, timeout time.Duration, pending, 
 		handleMissingResourceError(sync, &e)
 		return
 	}
-	if sync.State() == baremetal.ResourceFailed || sync.State() == baremetal.WorkRequestFailed {
+	if sync.State() == FAILED {
 		return errors.New("Resource creation failed, state FAILED")
 	}
 
@@ -346,7 +365,29 @@ func EqualIgnoreCaseSuppressDiff(key string, old string, new string, d *schema.R
 	return strings.EqualFold(old, new)
 }
 
-func ImportDefaultResource(d *schema.ResourceData, value interface{}) ([]*schema.ResourceData, error) {
-	err := d.Set("manage_default_resource_id", d.Id())
-	return []*schema.ResourceData{d}, err
+func FieldDeprecated(deprecatedFieldName string) string {
+	return fmt.Sprintf("The '%s' field has been deprecated. It is no longer supported.", deprecatedFieldName)
+}
+
+func FieldDeprecatedForAnother(deprecatedFieldName string, newFieldName string) string {
+	return fmt.Sprintf("The '%s' field has been deprecated. Please use '%s' instead.", deprecatedFieldName, newFieldName)
+}
+
+// GenerateDataSourceID generates an ID for the data source based on the current time stamp.
+func GenerateDataSourceID() string {
+	// Important, if you don't have an ID, make one up for your datasource
+	// or things will end in tears.
+
+	// Consider prefixing with resource name or useful identifier beyond just a timestamp.
+	return time.Now().UTC().String()
+}
+
+// stringsToSet encodes an []string into a
+// *schema.Set in the appropriate structure for the schema
+func StringsToSet(ss []string) *schema.Set {
+	st := &schema.Set{F: schema.HashString}
+	for _, s := range ss {
+		st.Add(s)
+	}
+	return st
 }

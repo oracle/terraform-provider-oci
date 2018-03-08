@@ -10,7 +10,7 @@ import (
 
 func TestAccDatasourceLoadBalancerBackends_basic(t *testing.T) {
 	providers := testAccProviders
-	config := testProviderConfig() + `
+	config := legacyTestProviderConfig() + `
 	data "oci_identity_availability_domains" "ADs" {
 		compartment_id = "${var.compartment_id}"
 	}
@@ -85,7 +85,6 @@ func TestAccDatasourceLoadBalancerBackends_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "backendset_name"),
-					resource.TestCheckResourceAttrSet(resourceName, "backends.#"),
 					resource.TestCheckResourceAttr(resourceName, "backends.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "backends.0.ip_address", "1.2.3.4"),
 					resource.TestCheckResourceAttr(resourceName, "backends.0.port", "8080"),
@@ -93,6 +92,7 @@ func TestAccDatasourceLoadBalancerBackends_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "backends.0.drain", "false"),
 					resource.TestCheckResourceAttr(resourceName, "backends.0.offline", "false"),
 					resource.TestCheckResourceAttr(resourceName, "backends.0.weight", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "backends.0.name"),
 				),
 			},
 		},

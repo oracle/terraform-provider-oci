@@ -104,6 +104,15 @@ func (d *ResourceData) GetOk(key string) (interface{}, bool) {
 	return r.Value, exists
 }
 
+// Shim GetOkExists into the current vendored Terraform version until vendoring the latest Terraform.
+// Present here: https://github.com/hashicorp/terraform/blob/master/helper/schema/resource_data.go
+// TODO: update to latest Terraform lib and let this be overwritten.
+func (d *ResourceData) GetOkExists(key string) (interface{}, bool) {
+	r := d.getRaw(key, getSourceSet)
+	exists := r.Exists && !r.Computed
+	return r.Value, exists
+}
+
 func (d *ResourceData) getRaw(key string, level getSource) getResult {
 	var parts []string
 	if key != "" {

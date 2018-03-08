@@ -3,13 +3,16 @@
 package provider
 
 import (
+	"context"
+	"fmt"
+
 	"github.com/hashicorp/terraform/helper/schema"
-	"github.com/oracle/bmcs-go-sdk"
 
 	"github.com/oracle/terraform-provider-oci/crud"
+
+	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
-// ResourceIdentityUser exposes a IdentityUser Resource
 func UserResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
@@ -21,25 +24,30 @@ func UserResource() *schema.Resource {
 		Update:   updateUser,
 		Delete:   deleteUser,
 		Schema: map[string]*schema.Schema{
-			"id": {
+			// The legacy provider exposed this as read-only/computed. The API requires this param. For legacy users who are
+			// not supplying a value, make it optional, behind the scenes it will use the tenancy ocid if not supplied.
+			// If a user supplies the value, then changes it, it requires forcing new.
+			"compartment_id": {
 				Type:     schema.TypeString,
 				Computed: true,
+				Optional: true,
 				ForceNew: true,
+			},
+			// Required
+			"description": {
+				Type:     schema.TypeString,
+				Required: true,
 			},
 			"name": {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
 			},
-			"description": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			"compartment_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"state": {
+
+			// Optional
+
+			// Computed
+			"id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -47,113 +55,197 @@ func UserResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
+			"state": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"time_created": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			// @Deprecated: time_modified (removed)
 			"time_modified": {
-				Type:     schema.TypeString,
-				Computed: true,
+				Type:       schema.TypeString,
+				Deprecated: crud.FieldDeprecated("time_modified"),
+				Computed:   true,
 			},
 		},
 	}
 }
 
-func createUser(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*OracleClients)
+func createUser(d *schema.ResourceData, m interface{}) error {
 	sync := &UserResourceCrud{}
 	sync.D = d
-	sync.Client = client.client
+	sync.Client = m.(*OracleClients).identityClient
+
 	return crud.CreateResource(d, sync)
 }
 
-func readUser(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*OracleClients)
+func readUser(d *schema.ResourceData, m interface{}) error {
 	sync := &UserResourceCrud{}
 	sync.D = d
-	sync.Client = client.client
+	sync.Client = m.(*OracleClients).identityClient
+
 	return crud.ReadResource(sync)
 }
 
-func updateUser(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*OracleClients)
+func updateUser(d *schema.ResourceData, m interface{}) error {
 	sync := &UserResourceCrud{}
 	sync.D = d
-	sync.Client = client.client
+	sync.Client = m.(*OracleClients).identityClient
+
 	return crud.UpdateResource(d, sync)
 }
 
-func deleteUser(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*OracleClients)
+func deleteUser(d *schema.ResourceData, m interface{}) error {
 	sync := &UserResourceCrud{}
 	sync.D = d
-	sync.Client = client.clientWithoutNotFoundRetries
-	return sync.Delete()
+	sync.Client = m.(*OracleClients).identityClient
+	sync.DisableNotFoundRetries = true
+
+	return crud.DeleteResource(d, sync)
 }
 
 type UserResourceCrud struct {
-	*crud.IdentitySync
 	crud.BaseCrud
-	Res *baremetal.User
+	Client                 *oci_identity.IdentityClient
+	Res                    *oci_identity.User
+	DisableNotFoundRetries bool
 }
 
 func (s *UserResourceCrud) ID() string {
-	return s.Res.ID
-}
-
-func (s *UserResourceCrud) State() string {
-	return s.Res.State
-}
-
-func (s *UserResourceCrud) Create() (e error) {
-	name := s.D.Get("name").(string)
-	description := s.D.Get("description").(string)
-	s.Res, e = s.Client.CreateUser(name, description, nil)
-	return
+	return *s.Res.Id
 }
 
 func (s *UserResourceCrud) CreatedPending() []string {
-	return []string{baremetal.ResourceCreating}
+	return []string{
+		string(oci_identity.UserLifecycleStateCreating),
+	}
 }
 
 func (s *UserResourceCrud) CreatedTarget() []string {
-	return []string{baremetal.ResourceActive}
+	return []string{
+		string(oci_identity.UserLifecycleStateActive),
+	}
 }
 
 func (s *UserResourceCrud) DeletedPending() []string {
-	return []string{baremetal.ResourceDeleting}
+	return []string{
+		string(oci_identity.UserLifecycleStateDeleting),
+	}
 }
 
 func (s *UserResourceCrud) DeletedTarget() []string {
-	return []string{baremetal.ResourceDeleted}
+	return []string{
+		string(oci_identity.UserLifecycleStateDeleted),
+	}
 }
 
-func (s *UserResourceCrud) Get() (e error) {
-	res, e := s.Client.GetUser(s.D.Id())
-	if e == nil {
-		s.Res = res
+func (s *UserResourceCrud) Create() error {
+	request := oci_identity.CreateUserRequest{}
+
+	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+		tmp := compartmentId.(string)
+		request.CompartmentId = &tmp
+	} else {
+		c := *s.Client.ConfigurationProvider()
+		if c == nil {
+			return fmt.Errorf("cannot access tenancyOCID")
+		}
+		tenancy, err := c.TenancyOCID()
+		if err != nil {
+			return err
+		}
+		request.CompartmentId = &tenancy
 	}
-	return
+
+	if description, ok := s.D.GetOkExists("description"); ok {
+		tmp := description.(string)
+		request.Description = &tmp
+	}
+
+	if name, ok := s.D.GetOkExists("name"); ok {
+		tmp := name.(string)
+		request.Name = &tmp
+	}
+
+	response, err := s.Client.CreateUser(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "identity")...)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response.User
+	return nil
 }
 
-func (s *UserResourceCrud) Update() (e error) {
-	opts := &baremetal.UpdateIdentityOptions{}
-	if description, ok := s.D.GetOk("description"); ok {
-		opts.Description = description.(string)
+func (s *UserResourceCrud) Get() error {
+	request := oci_identity.GetUserRequest{}
+
+	tmp := s.D.Id()
+	request.UserId = &tmp
+
+	response, err := s.Client.GetUser(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "identity")...)
+	if err != nil {
+		return err
 	}
 
-	s.Res, e = s.Client.UpdateUser(s.D.Id(), opts)
-	return
+	s.Res = &response.User
+	return nil
+}
+
+func (s *UserResourceCrud) Update() error {
+	request := oci_identity.UpdateUserRequest{}
+
+	if description, ok := s.D.GetOkExists("description"); ok {
+		tmp := description.(string)
+		request.Description = &tmp
+	}
+
+	tmp := s.D.Id()
+	request.UserId = &tmp
+
+	response, err := s.Client.UpdateUser(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "identity")...)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response.User
+	return nil
+}
+
+func (s *UserResourceCrud) Delete() error {
+	request := oci_identity.DeleteUserRequest{}
+
+	tmp := s.D.Id()
+	request.UserId = &tmp
+
+	_, err := s.Client.DeleteUser(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "identity")...)
+	return err
 }
 
 func (s *UserResourceCrud) SetData() {
-	s.D.Set("name", s.Res.Name)
-	s.D.Set("description", s.Res.Description)
-	s.D.Set("compartment_id", s.Res.CompartmentID)
-	s.D.Set("state", s.Res.State)
-	s.D.Set("time_created", s.Res.TimeCreated.String())
-}
+	if s.Res.CompartmentId != nil {
+		s.D.Set("compartment_id", *s.Res.CompartmentId)
+	}
 
-func (s *UserResourceCrud) Delete() (e error) {
-	return s.Client.DeleteUser(s.D.Id(), nil)
+	if s.Res.Description != nil {
+		s.D.Set("description", *s.Res.Description)
+	}
+
+	if s.Res.Id != nil {
+		s.D.Set("id", *s.Res.Id)
+	}
+
+	if s.Res.InactiveStatus != nil {
+		s.D.Set("inactive_state", *s.Res.InactiveStatus)
+	}
+
+	if s.Res.Name != nil {
+		s.D.Set("name", *s.Res.Name)
+	}
+
+	s.D.Set("state", s.Res.LifecycleState)
+
+	s.D.Set("time_created", s.Res.TimeCreated.String())
+
 }

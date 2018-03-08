@@ -3,16 +3,15 @@
 package provider
 
 import (
-	"time"
+	"context"
 
 	"github.com/hashicorp/terraform/helper/schema"
-	"github.com/oracle/bmcs-go-sdk"
+	oci_identity "github.com/oracle/oci-go-sdk/identity"
 
 	"github.com/oracle/terraform-provider-oci/crud"
-	"github.com/oracle/terraform-provider-oci/options"
 )
 
-func UserGroupMembershipDatasource() *schema.Resource {
+func UserGroupMembershipsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readUserGroupMemberships,
 		Schema: map[string]*schema.Schema{
@@ -21,14 +20,15 @@ func UserGroupMembershipDatasource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"user_id": {
-				Type:     schema.TypeString,
-				Optional: true,
-			},
 			"group_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"user_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			// @CODEGEN 01/2018: user_group_memberships => memberships
 			"memberships": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -38,68 +38,104 @@ func UserGroupMembershipDatasource() *schema.Resource {
 	}
 }
 
-func readUserGroupMemberships(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*OracleClients)
-	sync := &UserGroupMembershipDatasourceCrud{}
+func readUserGroupMemberships(d *schema.ResourceData, m interface{}) error {
+	sync := &UserGroupMembershipsDataSourceCrud{}
 	sync.D = d
-	sync.Client = client.client
+	sync.Client = m.(*OracleClients).identityClient
+
 	return crud.ReadResource(sync)
 }
 
-type UserGroupMembershipDatasourceCrud struct {
-	crud.BaseCrud
-	Res *baremetal.ListUserGroupMemberships
+type UserGroupMembershipsDataSourceCrud struct {
+	D      *schema.ResourceData
+	Client *oci_identity.IdentityClient
+	Res    *oci_identity.ListUserGroupMembershipsResponse
 }
 
-func (s *UserGroupMembershipDatasourceCrud) Get() (e error) {
-	opts := &baremetal.ListMembershipsOptions{}
-	if id, ok := s.D.GetOk("group_id"); ok {
-		opts.GroupID = id.(string)
-	}
-	if id, ok := s.D.GetOk("user_id"); ok {
-		opts.UserID = id.(string)
-	}
-
-	s.Res = &baremetal.ListUserGroupMemberships{Memberships: []baremetal.UserGroupMembership{}}
-	for {
-		var list *baremetal.ListUserGroupMemberships
-		if list, e = s.Client.ListUserGroupMemberships(opts); e != nil {
-			break
-		}
-
-		s.Res.Memberships = append(s.Res.Memberships, list.Memberships...)
-
-		if hasNexPage := options.SetNextPageOption(list.NextPage, &opts.PageListOptions); !hasNexPage {
-			break
-		}
-	}
-	return
+func (s *UserGroupMembershipsDataSourceCrud) VoidState() {
+	s.D.SetId("")
 }
 
-func (s *UserGroupMembershipDatasourceCrud) SetData() {
+func (s *UserGroupMembershipsDataSourceCrud) Get() error {
+	request := oci_identity.ListUserGroupMembershipsRequest{}
+
+	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+		tmp := compartmentId.(string)
+		request.CompartmentId = &tmp
+	}
+
+	if groupId, ok := s.D.GetOkExists("group_id"); ok {
+		tmp := groupId.(string)
+		request.GroupId = &tmp
+	}
+
+	if userId, ok := s.D.GetOkExists("user_id"); ok {
+		tmp := userId.(string)
+		request.UserId = &tmp
+	}
+
+	response, err := s.Client.ListUserGroupMemberships(context.Background(), request, getRetryOptions(false, "identity")...)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response
+	request.Page = s.Res.OpcNextPage
+
+	for request.Page != nil {
+		listResponse, err := s.Client.ListUserGroupMemberships(context.Background(), request, getRetryOptions(false, "identity")...)
+		if err != nil {
+			return err
+		}
+
+		s.Res.Items = append(s.Res.Items, listResponse.Items...)
+		request.Page = listResponse.OpcNextPage
+	}
+
+	return nil
+}
+
+func (s *UserGroupMembershipsDataSourceCrud) SetData() {
 	if s.Res == nil {
 		return
 	}
 
-	s.D.SetId(time.Now().UTC().String())
+	s.D.SetId(crud.GenerateDataSourceID())
 	resources := []map[string]interface{}{}
-	for _, v := range s.Res.Memberships {
-		res := map[string]interface{}{
-			"compartment_id": v.CompartmentID,
-			"id":             v.ID,
-			"user_id":        v.UserID,
-			"group_id":       v.GroupID,
-			"inactive_state": v.InactiveStatus,
-			"state":          v.State,
-			"time_created":   v.TimeCreated.String(),
+
+	for _, r := range s.Res.Items {
+		userGroupMembership := map[string]interface{}{
+			"compartment_id": *r.CompartmentId,
 		}
-		resources = append(resources, res)
+
+		if r.GroupId != nil {
+			userGroupMembership["group_id"] = *r.GroupId
+		}
+
+		if r.Id != nil {
+			userGroupMembership["id"] = *r.Id
+		}
+
+		if r.InactiveStatus != nil {
+			userGroupMembership["inactive_state"] = *r.InactiveStatus
+		}
+
+		userGroupMembership["state"] = r.LifecycleState
+
+		userGroupMembership["time_created"] = r.TimeCreated.String()
+
+		if r.UserId != nil {
+			userGroupMembership["user_id"] = *r.UserId
+		}
+
+		resources = append(resources, userGroupMembership)
 	}
 
-	if f, fOk := s.D.GetOk("filter"); fOk {
+	if f, fOk := s.D.GetOkExists("filter"); fOk {
 		resources = ApplyFilters(f.(*schema.Set), resources)
 	}
 
+	// @CODEGEN 01/2018: user_group_memberships => memberships
 	if err := s.D.Set("memberships", resources); err != nil {
 		panic(err)
 	}

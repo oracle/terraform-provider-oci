@@ -7,14 +7,11 @@ import (
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
-	"github.com/oracle/bmcs-go-sdk"
 	"github.com/stretchr/testify/suite"
 )
 
 type ResourceCoreSecurityListTestSuite struct {
 	suite.Suite
-	Client              *baremetal.Client
-	Provider            terraform.ResourceProvider
 	Providers           map[string]terraform.ResourceProvider
 	Config              string
 	ResourceName        string
@@ -23,10 +20,8 @@ type ResourceCoreSecurityListTestSuite struct {
 }
 
 func (s *ResourceCoreSecurityListTestSuite) SetupTest() {
-	s.Client = testAccClient
-	s.Provider = testAccProvider
 	s.Providers = testAccProviders
-	s.Config = testProviderConfig() + `
+	s.Config = legacyTestProviderConfig() + `
 		resource "oci_core_virtual_network" "t" {
 			cidr_block = "10.0.0.0/16"
 			compartment_id = "${var.compartment_id}"
@@ -268,7 +263,82 @@ func (s *ResourceCoreSecurityListTestSuite) TestAccResourceCoreSecurityList_basi
 					resource.TestCheckResourceAttr(s.ResourceName, "ingress_security_rules.#", "0"),
 				),
 			},
+			// Update to add ICMP options
+			{
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config: s.Config + `
+					resource "oci_core_security_list" "t" {
+						compartment_id = "${var.compartment_id}"
+						display_name = "-tf-security_list"
+						vcn_id = "${oci_core_virtual_network.t.id}"
+						ingress_security_rules = {
+							protocol = "1"
+							source = "0.0.0.0/6"
+							icmp_options {
+								"type" = 3
+								"code" = 4
+							}
+						}
+						egress_security_rules = {
+							protocol = "1"
+							destination = "0.0.0.0/6"
+							icmp_options {
+								"type" = 3
+								"code" = 4
+							}
+						}
+					}
+				`,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttr(s.ResourceName, "egress_security_rules.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "ingress_security_rules.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "ingress_security_rules.0.icmp_options.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "ingress_security_rules.0.icmp_options.0.type", "3"),
+					resource.TestCheckResourceAttr(s.ResourceName, "ingress_security_rules.0.icmp_options.0.code", "4"),
+					resource.TestCheckResourceAttr(s.ResourceName, "egress_security_rules.0.icmp_options.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "egress_security_rules.0.icmp_options.0.type", "3"),
+					resource.TestCheckResourceAttr(s.ResourceName, "egress_security_rules.0.icmp_options.0.code", "4"),
+				),
+			},
+			// Update to ICMP options that don't contain an optional 'code'
+			{
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config: s.Config + `
+					resource "oci_core_security_list" "t" {
+						compartment_id = "${var.compartment_id}"
+						display_name = "-tf-security_list"
+						vcn_id = "${oci_core_virtual_network.t.id}"
+						ingress_security_rules = {
+							protocol = "1"
+							source = "0.0.0.0/6"
+							icmp_options {
+								"type" = 3
+							}
+						}
+						egress_security_rules = {
+							protocol = "1"
+							destination = "0.0.0.0/6"
+							icmp_options {
+								"type" = 3
+							}
+						}
+					}
+				`,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttr(s.ResourceName, "egress_security_rules.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "ingress_security_rules.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "ingress_security_rules.0.icmp_options.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "ingress_security_rules.0.icmp_options.0.type", "3"),
+					resource.TestCheckResourceAttr(s.ResourceName, "ingress_security_rules.0.icmp_options.0.code", "-1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "egress_security_rules.0.icmp_options.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "egress_security_rules.0.icmp_options.0.type", "3"),
+					resource.TestCheckResourceAttr(s.ResourceName, "egress_security_rules.0.icmp_options.0.code", "-1"),
+				),
+			},
 			// Update to rules that use only source and only destination port ranges
+			// Also tests removal of icmp_options
 			{
 				ImportState:       true,
 				ImportStateVerify: true,
@@ -322,6 +392,60 @@ func (s *ResourceCoreSecurityListTestSuite) TestAccResourceCoreSecurityList_basi
 					resource.TestCheckResourceAttr(s.ResourceName, "egress_security_rules.1.udp_options.0.source_port_range.#", "0"),
 				),
 			},
+			// Remove source_port_range from tcp_options and add it to udp_options
+			{
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config: s.Config + `
+					resource "oci_core_security_list" "t" {
+						compartment_id = "${var.compartment_id}"
+						display_name = "-tf-security_list"
+						vcn_id = "${oci_core_virtual_network.t.id}"
+						egress_security_rules = {
+							destination = "0.0.0.0/3"
+							protocol = "6"
+							stateless = false
+							tcp_options {
+								"min" = 20
+								"max" = 21
+							}
+						}
+						# Check the maximum range
+						egress_security_rules = {
+							destination = "0.0.0.0/4"
+							protocol = "17"
+							udp_options {
+								source_port_range {
+									"min" = 1
+									"max" = 65535
+								}
+							}
+						}
+					}
+				`,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttr(s.ResourceName, "egress_security_rules.#", "2"),
+					resource.TestCheckResourceAttr(s.ResourceName, "ingress_security_rules.#", "0"),
+					resource.TestCheckResourceAttr(s.ResourceName, "egress_security_rules.0.destination", "0.0.0.0/3"),
+					resource.TestCheckResourceAttr(s.ResourceName, "egress_security_rules.0.protocol", "6"),
+					resource.TestCheckResourceAttr(s.ResourceName, "egress_security_rules.0.stateless", "false"),
+					resource.TestCheckResourceAttr(s.ResourceName, "egress_security_rules.0.tcp_options.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "egress_security_rules.0.tcp_options.0.min", "20"),
+					resource.TestCheckResourceAttr(s.ResourceName, "egress_security_rules.0.tcp_options.0.max", "21"),
+					resource.TestCheckResourceAttr(s.ResourceName, "egress_security_rules.0.tcp_options.0.source_port_range.#", "0"),
+					resource.TestCheckResourceAttr(s.ResourceName, "egress_security_rules.0.udp_options.#", "0"),
+					resource.TestCheckResourceAttr(s.ResourceName, "egress_security_rules.0.icmp_options.#", "0"),
+					resource.TestCheckResourceAttr(s.ResourceName, "egress_security_rules.1.destination", "0.0.0.0/4"),
+					resource.TestCheckResourceAttr(s.ResourceName, "egress_security_rules.1.protocol", "17"),
+					resource.TestCheckResourceAttr(s.ResourceName, "egress_security_rules.1.stateless", "false"),
+					resource.TestCheckResourceAttr(s.ResourceName, "egress_security_rules.1.tcp_options.#", "0"),
+					resource.TestCheckResourceAttr(s.ResourceName, "egress_security_rules.1.udp_options.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "egress_security_rules.1.udp_options.0.min", "0"),
+					resource.TestCheckResourceAttr(s.ResourceName, "egress_security_rules.1.udp_options.0.max", "0"),
+					resource.TestCheckResourceAttr(s.ResourceName, "egress_security_rules.1.udp_options.0.source_port_range.0.min", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "egress_security_rules.1.udp_options.0.source_port_range.0.max", "65535"),
+				),
+			},
 		},
 	})
 }
@@ -344,8 +468,6 @@ func (s *ResourceCoreSecurityListTestSuite) TestAccResourceCoreSecurityList_empt
 					resource "oci_core_default_security_list" "default" {
 						manage_default_resource_id = "${oci_core_virtual_network.t.default_security_list_id}"
 						display_name = "default-tf-security_list-updated"
-						egress_security_rules = []
-						ingress_security_rules = []
 					}
 				`,
 				Check: resource.ComposeTestCheckFunc(
@@ -500,8 +622,6 @@ func (s *ResourceCoreSecurityListTestSuite) TestAccResourceCoreSecurityList_defa
 					resource "oci_core_default_security_list" "default" {
 						manage_default_resource_id = "${oci_core_virtual_network.t.default_security_list_id}"
 						display_name = "default-tf-security_list-updated"
-						egress_security_rules = []
-						ingress_security_rules = []
 					}
 					resource "oci_core_security_list" "t" {
 						compartment_id = "${var.compartment_id}"

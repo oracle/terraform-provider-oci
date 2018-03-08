@@ -3,10 +3,13 @@
 package provider
 
 import (
+	"context"
+
 	"github.com/hashicorp/terraform/helper/schema"
-	"github.com/oracle/bmcs-go-sdk"
 
 	"github.com/oracle/terraform-provider-oci/crud"
+
+	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
 func ConsoleHistoryResource() *schema.Resource {
@@ -19,6 +22,21 @@ func ConsoleHistoryResource() *schema.Resource {
 		Read:     readConsoleHistory,
 		Delete:   deleteConsoleHistory,
 		Schema: map[string]*schema.Schema{
+			// Required
+			"instance_id": {
+				Type:     schema.TypeString,
+				Required: true,
+				ForceNew: true,
+			},
+
+			// Optional
+			"display_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+
+			// Computed
 			"availability_domain": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -27,19 +45,9 @@ func ConsoleHistoryResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"display_name": {
-				Type:     schema.TypeString,
-				Computed: true,
-				Optional: true,
-			},
 			"id": {
 				Type:     schema.TypeString,
 				Computed: true,
-			},
-			"instance_id": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
 			},
 			"state": {
 				Type:     schema.TypeString,
@@ -53,75 +61,120 @@ func ConsoleHistoryResource() *schema.Resource {
 	}
 }
 
-func createConsoleHistory(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*OracleClients)
-	ichCrud := &ConsoleHistoryResourceCrud{}
-	ichCrud.D = d
-	ichCrud.Client = client.client
-	return crud.CreateResource(d, ichCrud)
-}
-
-func readConsoleHistory(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*OracleClients)
-	ichCrud := &ConsoleHistoryResourceCrud{}
-	ichCrud.D = d
-	ichCrud.Client = client.client
-	return crud.ReadResource(ichCrud)
-}
-
-func deleteConsoleHistory(d *schema.ResourceData, m interface{}) (e error) {
+func createConsoleHistory(d *schema.ResourceData, m interface{}) error {
 	sync := &ConsoleHistoryResourceCrud{}
 	sync.D = d
+	sync.Client = m.(*OracleClients).computeClient
+
+	return crud.CreateResource(d, sync)
+}
+
+func readConsoleHistory(d *schema.ResourceData, m interface{}) error {
+	sync := &ConsoleHistoryResourceCrud{}
+	sync.D = d
+	sync.Client = m.(*OracleClients).computeClient
+
+	return crud.ReadResource(sync)
+}
+
+func deleteConsoleHistory(d *schema.ResourceData, m interface{}) error {
+	sync := &ConsoleHistoryResourceCrud{}
+	sync.D = d
+	sync.Client = m.(*OracleClients).computeClient
+	sync.DisableNotFoundRetries = true
+
 	return crud.DeleteResource(d, sync)
 }
 
 type ConsoleHistoryResourceCrud struct {
 	crud.BaseCrud
-	Res *baremetal.ConsoleHistoryMetadata
+	Client                 *oci_core.ComputeClient
+	Res                    *oci_core.ConsoleHistory
+	DisableNotFoundRetries bool
 }
 
 func (s *ConsoleHistoryResourceCrud) ID() string {
-	return s.Res.ID
+	return *s.Res.Id
 }
 
 func (s *ConsoleHistoryResourceCrud) CreatedPending() []string {
-	return []string{baremetal.ResourceRequested, baremetal.ResourceGettingHistory}
+	return []string{
+		string(oci_core.ConsoleHistoryLifecycleStateRequested),
+		string(oci_core.ConsoleHistoryLifecycleStateGettingHistory),
+	}
 }
 
 func (s *ConsoleHistoryResourceCrud) CreatedTarget() []string {
-	return []string{baremetal.ResourceSucceeded}
-}
-
-func (s *ConsoleHistoryResourceCrud) State() string {
-	return s.Res.State
-}
-
-func (s *ConsoleHistoryResourceCrud) Create() (e error) {
-	instanceID := s.D.Get("instance_id").(string)
-
-	s.Res, e = s.Client.CaptureConsoleHistory(instanceID, nil)
-
-	return
-}
-
-func (s *ConsoleHistoryResourceCrud) Get() (e error) {
-	res, e := s.Client.GetConsoleHistory(s.D.Id())
-	if e == nil {
-		s.Res = res
+	return []string{
+		string(oci_core.ConsoleHistoryLifecycleStateSucceeded),
 	}
-	return
 }
 
-func (s *ConsoleHistoryResourceCrud) Delete() (e error) {
-	e = nil
-	return
+func (s *ConsoleHistoryResourceCrud) Create() error {
+	request := oci_core.CaptureConsoleHistoryRequest{}
+
+	if displayName, ok := s.D.GetOkExists("display_name"); ok {
+		tmp := displayName.(string)
+		request.DisplayName = &tmp
+	}
+
+	if instanceId, ok := s.D.GetOkExists("instance_id"); ok {
+		tmp := instanceId.(string)
+		request.InstanceId = &tmp
+	}
+
+	response, err := s.Client.CaptureConsoleHistory(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response.ConsoleHistory
+	return nil
+}
+
+func (s *ConsoleHistoryResourceCrud) Get() error {
+	request := oci_core.GetConsoleHistoryRequest{}
+
+	tmp := s.D.Id()
+	request.InstanceConsoleHistoryId = &tmp
+
+	response, err := s.Client.GetConsoleHistory(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response.ConsoleHistory
+	return nil
+}
+
+func (s *ConsoleHistoryResourceCrud) Delete() error {
+	// Do not delete console history.
+	return nil
 }
 
 func (s *ConsoleHistoryResourceCrud) SetData() {
-	s.D.Set("availability_domain", s.Res.AvailabilityDomain)
-	s.D.Set("compartment_id", s.Res.CompartmentID)
-	s.D.Set("display_name", s.Res.DisplayName)
-	s.D.Set("instance_id", s.Res.InstanceID)
-	s.D.Set("state", s.Res.State)
+	if s.Res.AvailabilityDomain != nil {
+		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
+	}
+
+	if s.Res.CompartmentId != nil {
+		s.D.Set("compartment_id", *s.Res.CompartmentId)
+	}
+
+	if s.Res.DisplayName != nil {
+		s.D.Set("display_name", *s.Res.DisplayName)
+	}
+
+	if s.Res.Id != nil {
+		s.D.Set("id", *s.Res.Id)
+	}
+
+	if s.Res.InstanceId != nil {
+		s.D.Set("instance_id", *s.Res.InstanceId)
+	}
+
+	s.D.Set("state", s.Res.LifecycleState)
+
 	s.D.Set("time_created", s.Res.TimeCreated.String())
+
 }

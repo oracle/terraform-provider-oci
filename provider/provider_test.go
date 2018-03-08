@@ -7,17 +7,13 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
-	"github.com/oracle/bmcs-go-sdk"
 	"github.com/stretchr/testify/assert"
 )
 
-var testAccClient *baremetal.Client
 var testAccProvider *schema.Provider
 var testAccProviders map[string]terraform.ResourceProvider
 
 func init() {
-	testAccClient = GetTestProvider().client
-
 	testAccProvider = Provider(func(d *schema.ResourceData) (interface{}, error) {
 		return GetTestProvider(), nil
 	}).(*schema.Provider)
@@ -28,12 +24,6 @@ func init() {
 }
 
 func testProviderConfig() string {
-	// We should check for "compartment_ocid" to be consistent with our README steps
-	// Some folks might still be using the old "compartment_id" name in their environment, so don't break them
-	var compartmentId string
-	if compartmentId = getEnvSetting("compartment_id", "compartment_id"); compartmentId == "compartment_id" {
-		compartmentId = getRequiredEnvSetting("compartment_ocid")
-	}
 
 	return `
 	provider "oci" {
@@ -43,10 +33,6 @@ func testProviderConfig() string {
 		private_key_path = "/home/foo/private_key.pem"
 		private_key_password = "password"
 		region = "us-phoenix-1"
-	}
-
-	variable "compartment_id" {
-		default = "` + compartmentId + `"
 	}
 
 	variable "tenancy_ocid" {
@@ -66,6 +52,24 @@ func testProviderConfig() string {
 	}
 
 	`
+}
+
+func getCompartmentIDForLegacyTests() string {
+	var compartmentId string
+	if compartmentId = getEnvSetting("compartment_ocid", "compartment_ocid"); compartmentId == "compartment_ocid" {
+		compartmentId = getRequiredEnvSetting("compartment_id_for_create")
+	}
+	return compartmentId
+}
+
+func legacyTestProviderConfig() string {
+	// Use the same config as the generated tests.
+	config := testProviderConfig()
+
+	// Add the 'compartment_id' used by the legacy tests.
+	return config + `variable "compartment_id" {
+		default = "` + getCompartmentIDForLegacyTests() + `"
+	}`
 }
 
 var subnetConfig = `
@@ -171,7 +175,7 @@ resource "oci_core_instance" "t" {
 	compartment_id = "${var.compartment_id}"
 	display_name = "-tf-instance"
 	image = "${var.InstanceImageOCID[var.region]}"
-	shape = "VM.Standard1.8"
+	shape = "VM.Standard1.1"
 	create_vnic_details {
         subnet_id = "${oci_core_subnet.t.id}"
         hostname_label = "testinstance"
@@ -200,7 +204,6 @@ func GetTestProvider() *OracleClients {
 	d.Set("private_key_password", getEnvSetting("private_key_password", ""))
 	d.Set("private_key", getEnvSetting("private_key", ""))
 	d.Set("region", getEnvSetting("region", "us-phoenix-1"))
-	d.Set("disable_auto_retries", true)
 
 	client, err := ProviderConfig(d)
 	if err != nil {

@@ -3,17 +3,31 @@
 package provider
 
 import (
-	"time"
+	"context"
 
 	"github.com/hashicorp/terraform/helper/schema"
-	"github.com/oracle/bmcs-go-sdk"
-
-	"github.com/oracle/terraform-provider-oci/options"
+	oci_core "github.com/oracle/oci-go-sdk/core"
 
 	"github.com/oracle/terraform-provider-oci/crud"
 )
 
-func SubnetDatasource() *schema.Resource {
+// @CODEGEN: Override the resource schema's 'security_list_ids' to make it TypeList instead of TypeSet.
+// Avoids a potential breaking change with existing schema.
+func SubnetDataSource() *schema.Resource {
+	result := SubnetResource()
+
+	result.Schema["security_list_ids"] = &schema.Schema{
+		Type:     schema.TypeList,
+		Computed: true,
+		Elem: &schema.Schema{
+			Type: schema.TypeString,
+		},
+	}
+
+	return result
+}
+
+func SubnetsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readSubnets,
 		Schema: map[string]*schema.Schema{
@@ -22,165 +36,176 @@ func SubnetDatasource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"vcn_id": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			"page": {
+			"display_name": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
 			"limit": {
-				Type:     schema.TypeInt,
+				Type:       schema.TypeInt,
+				Optional:   true,
+				Deprecated: crud.FieldDeprecated("limit"),
+			},
+			"page": {
+				Type:       schema.TypeString,
+				Optional:   true,
+				Deprecated: crud.FieldDeprecated("page"),
+			},
+			"state": {
+				Type:     schema.TypeString,
 				Optional: true,
+			},
+			"vcn_id": {
+				Type:     schema.TypeString,
+				Required: true,
 			},
 			"subnets": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     resourceCoreSubnets(),
+				Elem:     SubnetDataSource(),
 			},
 		},
 	}
 }
 
-func resourceCoreSubnets() *schema.Resource {
-	return &schema.Resource{
-		Schema: map[string]*schema.Schema{
-			"availability_domain": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"cidr_block": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"compartment_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"route_table_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"vcn_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"security_list_ids": {
-				Type:     schema.TypeList,
-				Computed: true,
-				Elem: &schema.Schema{
-					Type: schema.TypeString,
-				},
-			},
-			"display_name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"dhcp_options_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"dns_label": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"prohibit_public_ip_on_vnic": {
-				Type:     schema.TypeBool,
-				Computed: true,
-			},
-			"state": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_created": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"virtual_router_ip": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"virtual_router_mac": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-		},
-	}
+func readSubnets(d *schema.ResourceData, m interface{}) error {
+	sync := &SubnetsDataSourceCrud{}
+	sync.D = d
+	sync.Client = m.(*OracleClients).virtualNetworkClient
+
+	return crud.ReadResource(sync)
 }
 
-func readSubnets(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*OracleClients)
-	reader := &SubnetDatasourceCrud{}
-	reader.D = d
-	reader.Client = client.client
-
-	return crud.ReadResource(reader)
+type SubnetsDataSourceCrud struct {
+	D      *schema.ResourceData
+	Client *oci_core.VirtualNetworkClient
+	Res    *oci_core.ListSubnetsResponse
 }
 
-type SubnetDatasourceCrud struct {
-	crud.BaseCrud
-	Res *baremetal.ListSubnets
+func (s *SubnetsDataSourceCrud) VoidState() {
+	s.D.SetId("")
 }
 
-func (s *SubnetDatasourceCrud) Get() (e error) {
-	compartmentID := s.D.Get("compartment_id").(string)
-	vcnID := s.D.Get("vcn_id").(string)
+func (s *SubnetsDataSourceCrud) Get() error {
+	request := oci_core.ListSubnetsRequest{}
 
-	opts := &baremetal.ListOptions{}
-	options.SetListOptions(s.D, opts)
-
-	s.Res = &baremetal.ListSubnets{Subnets: []baremetal.Subnet{}}
-
-	for {
-		var list *baremetal.ListSubnets
-		if list, e = s.Client.ListSubnets(compartmentID, vcnID, opts); e != nil {
-			break
-		}
-
-		s.Res.Subnets = append(s.Res.Subnets, list.Subnets...)
-
-		if hasNexPage := options.SetNextPageOption(list.NextPage, &opts.PageListOptions); !hasNexPage {
-			break
-		}
+	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+		tmp := compartmentId.(string)
+		request.CompartmentId = &tmp
 	}
 
-	return
+	if displayName, ok := s.D.GetOkExists("display_name"); ok {
+		tmp := displayName.(string)
+		request.DisplayName = &tmp
+	}
+
+	if limit, ok := s.D.GetOkExists("limit"); ok {
+		tmp := limit.(int)
+		request.Limit = &tmp
+	}
+
+	if page, ok := s.D.GetOkExists("page"); ok {
+		tmp := page.(string)
+		request.Page = &tmp
+	}
+
+	if state, ok := s.D.GetOkExists("state"); ok {
+		request.LifecycleState = oci_core.SubnetLifecycleStateEnum(state.(string))
+	}
+
+	if vcnId, ok := s.D.GetOkExists("vcn_id"); ok {
+		tmp := vcnId.(string)
+		request.VcnId = &tmp
+	}
+
+	response, err := s.Client.ListSubnets(context.Background(), request, getRetryOptions(false, "core")...)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response
+	request.Page = s.Res.OpcNextPage
+
+	for request.Page != nil {
+		listResponse, err := s.Client.ListSubnets(context.Background(), request, getRetryOptions(false, "core")...)
+		if err != nil {
+			return err
+		}
+
+		s.Res.Items = append(s.Res.Items, listResponse.Items...)
+		request.Page = listResponse.OpcNextPage
+	}
+
+	return nil
 }
 
-func (s *SubnetDatasourceCrud) SetData() {
+func (s *SubnetsDataSourceCrud) SetData() {
 	if s.Res == nil {
 		return
 	}
 
-	s.D.SetId(time.Now().UTC().String())
+	s.D.SetId(crud.GenerateDataSourceID())
 	resources := []map[string]interface{}{}
-	for _, v := range s.Res.Subnets {
-		res := map[string]interface{}{
-			"availability_domain": v.AvailabilityDomain,
-			"cidr_block":          v.CIDRBlock,
-			"compartment_id":      v.CompartmentID,
-			"display_name":        v.DisplayName,
-			"dhcp_options_id":     v.DHCPOptionsID,
-			"dns_label":           v.DNSLabel,
-			"id":                  v.ID,
-			"prohibit_public_ip_on_vnic": v.ProhibitPublicIpOnVnic,
-			"route_table_id":             v.RouteTableID,
-			"security_list_ids":          v.SecurityListIDs,
-			"state":                      v.State,
-			"time_created":               v.TimeCreated.String(),
-			"vcn_id":                     v.VcnID,
-			"virtual_router_ip":          v.VirtualRouterIP,
-			"virtual_router_mac":         v.VirtualRouterMac,
+
+	for _, r := range s.Res.Items {
+		subnet := map[string]interface{}{
+			"compartment_id": *r.CompartmentId,
+			"vcn_id":         *r.VcnId,
 		}
-		resources = append(resources, res)
+
+		if r.AvailabilityDomain != nil {
+			subnet["availability_domain"] = *r.AvailabilityDomain
+		}
+
+		if r.CidrBlock != nil {
+			subnet["cidr_block"] = *r.CidrBlock
+		}
+
+		if r.DhcpOptionsId != nil {
+			subnet["dhcp_options_id"] = *r.DhcpOptionsId
+		}
+
+		if r.DisplayName != nil {
+			subnet["display_name"] = *r.DisplayName
+		}
+
+		if r.DnsLabel != nil {
+			subnet["dns_label"] = *r.DnsLabel
+		}
+
+		if r.Id != nil {
+			subnet["id"] = *r.Id
+		}
+
+		if r.ProhibitPublicIpOnVnic != nil {
+			subnet["prohibit_public_ip_on_vnic"] = *r.ProhibitPublicIpOnVnic
+		}
+
+		if r.RouteTableId != nil {
+			subnet["route_table_id"] = *r.RouteTableId
+		}
+
+		subnet["security_list_ids"] = r.SecurityListIds
+
+		subnet["state"] = r.LifecycleState
+
+		if r.SubnetDomainName != nil {
+			subnet["subnet_domain_name"] = *r.SubnetDomainName
+		}
+
+		subnet["time_created"] = r.TimeCreated.String()
+
+		if r.VirtualRouterIp != nil {
+			subnet["virtual_router_ip"] = *r.VirtualRouterIp
+		}
+
+		if r.VirtualRouterMac != nil {
+			subnet["virtual_router_mac"] = *r.VirtualRouterMac
+		}
+
+		resources = append(resources, subnet)
 	}
 
-	if f, fOk := s.D.GetOk("filter"); fOk {
+	if f, fOk := s.D.GetOkExists("filter"); fOk {
 		resources = ApplyFilters(f.(*schema.Set), resources)
 	}
 

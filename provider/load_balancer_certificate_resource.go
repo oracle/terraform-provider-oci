@@ -3,33 +3,40 @@
 package provider
 
 import (
+	"context"
 	"errors"
+	"strings"
 
 	"github.com/hashicorp/terraform/helper/schema"
-	"github.com/oracle/bmcs-go-sdk"
 
 	"github.com/oracle/terraform-provider-oci/crud"
+
+	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
 )
 
-func LoadBalancerCertificateResource() *schema.Resource {
+func CertificateResource() *schema.Resource {
 	return &schema.Resource{
-		Create: createLoadBalancerCertificate,
-		Read:   readLoadBalancerCertificate,
-		Delete: deleteLoadBalancerCertificate,
+		Create: createCertificate,
+		Read:   readCertificate,
+		Delete: deleteCertificate,
 		Schema: map[string]*schema.Schema{
+			// Required
+			"certificate_name": {
+				Type:     schema.TypeString,
+				Required: true,
+				ForceNew: true,
+			},
 			"load_balancer_id": {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
 			},
+
+			// Optional
 			"ca_certificate": {
 				Type:     schema.TypeString,
 				Optional: true,
-				ForceNew: true,
-			},
-			"certificate_name": {
-				Type:     schema.TypeString,
-				Required: true,
+				Computed: true,
 				ForceNew: true,
 			},
 			"passphrase": {
@@ -40,14 +47,19 @@ func LoadBalancerCertificateResource() *schema.Resource {
 			},
 			"private_key": {
 				Type:     schema.TypeString,
-				Required: true,
+				Optional: true,
+				Computed: true,
 				ForceNew: true,
 			},
 			"public_certificate": {
 				Type:     schema.TypeString,
-				Required: true,
+				Optional: true,
+				Computed: true,
 				ForceNew: true,
 			},
+
+			// Computed
+
 			// internal for work request access
 			"state": {
 				Type:     schema.TypeString,
@@ -57,35 +69,41 @@ func LoadBalancerCertificateResource() *schema.Resource {
 	}
 }
 
-func createLoadBalancerCertificate(d *schema.ResourceData, m interface{}) (e error) {
-	sync := &LoadBalancerCertificateResourceCrud{}
+func createCertificate(d *schema.ResourceData, m interface{}) error {
+	sync := &CertificateResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).client
+	sync.Client = m.(*OracleClients).loadBalancerClient
+
 	return crud.CreateResource(d, sync)
 }
 
-func readLoadBalancerCertificate(d *schema.ResourceData, m interface{}) (e error) {
-	sync := &LoadBalancerCertificateResourceCrud{}
+func readCertificate(d *schema.ResourceData, m interface{}) error {
+	sync := &CertificateResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).client
+	sync.Client = m.(*OracleClients).loadBalancerClient
+
 	return crud.ReadResource(sync)
 }
 
-func deleteLoadBalancerCertificate(d *schema.ResourceData, m interface{}) (e error) {
-	sync := &LoadBalancerCertificateResourceCrud{}
+func deleteCertificate(d *schema.ResourceData, m interface{}) error {
+	sync := &CertificateResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).clientWithoutNotFoundRetries
+	sync.Client = m.(*OracleClients).loadBalancerClient
+	sync.DisableNotFoundRetries = true
+
 	return crud.DeleteResource(d, sync)
 }
 
-type LoadBalancerCertificateResourceCrud struct {
+type CertificateResourceCrud struct {
 	crud.BaseCrud
-	WorkRequest *baremetal.WorkRequest
-	Resource    *baremetal.Certificate
+	Client                 *oci_load_balancer.LoadBalancerClient
+	Res                    *oci_load_balancer.Certificate
+	DisableNotFoundRetries bool
+	WorkRequest            *oci_load_balancer.WorkRequest
 }
 
-func (s *LoadBalancerCertificateResourceCrud) ID() string {
-	id, workSuccess := crud.LoadBalancerResourceID(s.Resource, s.WorkRequest)
+func (s *CertificateResourceCrud) ID() string {
+	id, workSuccess := crud.LoadBalancerResourceID(s.Res, s.WorkRequest)
 	if id != nil {
 		return *id
 	}
@@ -95,61 +113,85 @@ func (s *LoadBalancerCertificateResourceCrud) ID() string {
 	return ""
 }
 
-func (s *LoadBalancerCertificateResourceCrud) CreatedPending() []string {
+func (s *CertificateResourceCrud) CreatedPending() []string {
 	return []string{
-		baremetal.ResourceWaitingForWorkRequest,
-		baremetal.WorkRequestInProgress,
-		baremetal.WorkRequestAccepted,
+		string(oci_load_balancer.WorkRequestLifecycleStateInProgress),
+		string(oci_load_balancer.WorkRequestLifecycleStateAccepted),
 	}
 }
 
-func (s *LoadBalancerCertificateResourceCrud) CreatedTarget() []string {
+func (s *CertificateResourceCrud) CreatedTarget() []string {
 	return []string{
-		baremetal.ResourceSucceededWorkRequest,
-		baremetal.WorkRequestSucceeded,
-		baremetal.WorkRequestFailed,
+		string(oci_load_balancer.WorkRequestLifecycleStateSucceeded),
+		string(oci_load_balancer.WorkRequestLifecycleStateFailed),
 	}
 }
 
-func (s *LoadBalancerCertificateResourceCrud) DeletedPending() []string {
+func (s *CertificateResourceCrud) DeletedPending() []string {
 	return []string{
-		baremetal.ResourceWaitingForWorkRequest,
-		baremetal.WorkRequestInProgress,
-		baremetal.WorkRequestAccepted,
+		string(oci_load_balancer.WorkRequestLifecycleStateAccepted),
+		string(oci_load_balancer.WorkRequestLifecycleStateInProgress),
 	}
 }
 
-func (s *LoadBalancerCertificateResourceCrud) DeletedTarget() []string {
+func (s *CertificateResourceCrud) DeletedTarget() []string {
 	return []string{
-		baremetal.ResourceSucceededWorkRequest,
-		baremetal.WorkRequestSucceeded,
-		baremetal.WorkRequestFailed,
+		string(oci_load_balancer.WorkRequestLifecycleStateSucceeded),
+		string(oci_load_balancer.WorkRequestLifecycleStateFailed),
 	}
 }
 
-func (s *LoadBalancerCertificateResourceCrud) Create() (e error) {
-	opts := &baremetal.LoadBalancerOptions{}
+func (s *CertificateResourceCrud) Create() error {
+	request := oci_load_balancer.CreateCertificateRequest{}
 
-	var workReqID string
-	workReqID, e = s.Client.CreateCertificate(
-		s.D.Get("load_balancer_id").(string),
-		s.D.Get("certificate_name").(string),
-		s.D.Get("ca_certificate").(string),
-		s.D.Get("private_key").(string),
-		s.D.Get("passphrase").(string),
-		s.D.Get("public_certificate").(string),
-		opts,
-	)
-	if e != nil {
-		return
+	if caCertificate, ok := s.D.GetOkExists("ca_certificate"); ok {
+		tmp := caCertificate.(string)
+		request.CaCertificate = &tmp
 	}
-	s.WorkRequest, e = s.Client.GetWorkRequest(workReqID, nil)
-	return
+
+	if certificateName, ok := s.D.GetOkExists("certificate_name"); ok {
+		tmp := certificateName.(string)
+		request.CertificateName = &tmp
+	}
+
+	if loadBalancerId, ok := s.D.GetOkExists("load_balancer_id"); ok {
+		tmp := loadBalancerId.(string)
+		request.LoadBalancerId = &tmp
+	}
+
+	if passphrase, ok := s.D.GetOkExists("passphrase"); ok {
+		tmp := passphrase.(string)
+		request.Passphrase = &tmp
+	}
+
+	if privateKey, ok := s.D.GetOkExists("private_key"); ok {
+		tmp := privateKey.(string)
+		request.PrivateKey = &tmp
+	}
+
+	if publicCertificate, ok := s.D.GetOkExists("public_certificate"); ok {
+		tmp := publicCertificate.(string)
+		request.PublicCertificate = &tmp
+	}
+
+	response, err := s.Client.CreateCertificate(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "load_balancer")...)
+	if err != nil {
+		return err
+	}
+
+	workReqID := response.OpcWorkRequestId
+	getWorkRequestRequest := oci_load_balancer.GetWorkRequestRequest{}
+	getWorkRequestRequest.WorkRequestId = workReqID
+	workRequestResponse, err := s.Client.GetWorkRequest(context.Background(), getWorkRequestRequest, getRetryOptions(s.DisableNotFoundRetries, "load_balancer")...)
+	if err != nil {
+		return err
+	}
+	s.WorkRequest = &workRequestResponse.WorkRequest
+	return nil
 }
 
-func (s *LoadBalancerCertificateResourceCrud) Get() (e error) {
-
-	_, stillWorking, err := crud.LoadBalancerResourceGet(s.BaseCrud, s.WorkRequest)
+func (s *CertificateResourceCrud) Get() error {
+	_, stillWorking, err := crud.LoadBalancerResourceGet(s.Client, s.D, s.WorkRequest, getRetryOptions(s.DisableNotFoundRetries, "load_balancer")...)
 	if err != nil {
 		return err
 	}
@@ -157,32 +199,57 @@ func (s *LoadBalancerCertificateResourceCrud) Get() (e error) {
 		return nil
 	}
 
-	var list *baremetal.ListCertificates
-	list, e = s.Client.ListCertificates(s.D.Get("load_balancer_id").(string), nil)
-	if e != nil {
-		return
+	request := oci_load_balancer.ListCertificatesRequest{}
+
+	if loadBalancerId, ok := s.D.GetOkExists("load_balancer_id"); ok {
+		tmp := loadBalancerId.(string)
+		request.LoadBalancerId = &tmp
 	}
-	for _, cert := range list.Certificates {
-		if cert.CertificateName == s.D.Get("certificate_name").(string) {
-			s.Resource = &cert
-			return
+
+	response, err := s.Client.ListCertificates(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "load_balancer")...)
+	if err != nil {
+		return err
+	}
+	for _, cert := range response.Items {
+		if *cert.CertificateName == s.D.Get("certificate_name").(string) {
+			s.Res = &cert
+			return nil
 		}
 	}
-	e = errors.New("Certificate does not exist")
-	return
+	err = errors.New("Certificate does not exist")
+	return err
 }
 
-func (s *LoadBalancerCertificateResourceCrud) SetData() {
-	// Noop for this resource
-}
-
-func (s *LoadBalancerCertificateResourceCrud) Delete() (e error) {
-	var workReqID string
-	workReqID, e = s.Client.DeleteCertificate(s.D.Get("load_balancer_id").(string), s.D.Get("certificate_name").(string), nil)
-	if e != nil {
-		return
+func (s *CertificateResourceCrud) Delete() error {
+	if strings.Contains(s.D.Id(), "ocid1.loadbalancerworkrequest") {
+		return nil
 	}
-	s.D.SetId(workReqID)
-	s.WorkRequest, e = s.Client.GetWorkRequest(workReqID, nil)
-	return
+	request := oci_load_balancer.DeleteCertificateRequest{}
+
+	if certificateName, ok := s.D.GetOkExists("certificate_name"); ok {
+		tmp := certificateName.(string)
+		request.CertificateName = &tmp
+	}
+
+	if loadBalancerId, ok := s.D.GetOkExists("load_balancer_id"); ok {
+		tmp := loadBalancerId.(string)
+		request.LoadBalancerId = &tmp
+	}
+
+	response, err := s.Client.DeleteCertificate(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "load_balancer")...)
+
+	workReqID := response.OpcWorkRequestId
+	s.D.SetId(*workReqID)
+	getWorkRequestRequest := oci_load_balancer.GetWorkRequestRequest{}
+	getWorkRequestRequest.WorkRequestId = workReqID
+	workRequestResponse, err := s.Client.GetWorkRequest(context.Background(), getWorkRequestRequest, getRetryOptions(s.DisableNotFoundRetries, "load_balancer")...)
+	if err != nil {
+		return err
+	}
+	s.WorkRequest = &workRequestResponse.WorkRequest
+	return nil
+}
+
+func (s *CertificateResourceCrud) SetData() {
+	// Noop for this resource
 }

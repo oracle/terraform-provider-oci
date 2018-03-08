@@ -3,10 +3,13 @@
 package provider
 
 import (
+	"context"
+
 	"github.com/hashicorp/terraform/helper/schema"
-	"github.com/oracle/bmcs-go-sdk"
 
 	"github.com/oracle/terraform-provider-oci/crud"
+
+	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
 func DrgResource() *schema.Resource {
@@ -20,16 +23,21 @@ func DrgResource() *schema.Resource {
 		Update:   updateDrg,
 		Delete:   deleteDrg,
 		Schema: map[string]*schema.Schema{
+			// Required
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
 			},
+
+			// Optional
 			"display_name": {
 				Type:     schema.TypeString,
-				Computed: true,
 				Optional: true,
+				Computed: true,
 			},
+
+			// Computed
 			"id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -46,102 +54,156 @@ func DrgResource() *schema.Resource {
 	}
 }
 
-func createDrg(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*OracleClients)
+func createDrg(d *schema.ResourceData, m interface{}) error {
 	sync := &DrgResourceCrud{}
 	sync.D = d
-	sync.Client = client.client
+	sync.Client = m.(*OracleClients).virtualNetworkClient
+
 	return crud.CreateResource(d, sync)
 }
 
-func readDrg(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*OracleClients)
+func readDrg(d *schema.ResourceData, m interface{}) error {
 	sync := &DrgResourceCrud{}
 	sync.D = d
-	sync.Client = client.client
+	sync.Client = m.(*OracleClients).virtualNetworkClient
+
 	return crud.ReadResource(sync)
 }
 
-func updateDrg(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*OracleClients)
+func updateDrg(d *schema.ResourceData, m interface{}) error {
 	sync := &DrgResourceCrud{}
 	sync.D = d
-	sync.Client = client.client
-	return crud.UpdateResource(sync.D, sync)
+	sync.Client = m.(*OracleClients).virtualNetworkClient
+
+	return crud.UpdateResource(d, sync)
 }
 
-func deleteDrg(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*OracleClients)
+func deleteDrg(d *schema.ResourceData, m interface{}) error {
 	sync := &DrgResourceCrud{}
 	sync.D = d
-	sync.Client = client.clientWithoutNotFoundRetries
+	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.DisableNotFoundRetries = true
+
 	return crud.DeleteResource(d, sync)
 }
 
 type DrgResourceCrud struct {
 	crud.BaseCrud
-	Res *baremetal.Drg
+	Client                 *oci_core.VirtualNetworkClient
+	Res                    *oci_core.Drg
+	DisableNotFoundRetries bool
 }
 
 func (s *DrgResourceCrud) ID() string {
-	return s.Res.ID
+	return *s.Res.Id
 }
 
 func (s *DrgResourceCrud) CreatedPending() []string {
-	return []string{baremetal.ResourceProvisioning}
+	return []string{
+		string(oci_core.DrgLifecycleStateProvisioning),
+	}
 }
 
 func (s *DrgResourceCrud) CreatedTarget() []string {
-	return []string{baremetal.ResourceAvailable}
+	return []string{
+		string(oci_core.DrgLifecycleStateAvailable),
+	}
 }
 
 func (s *DrgResourceCrud) DeletedPending() []string {
-	return []string{baremetal.ResourceTerminating}
+	return []string{
+		string(oci_core.DrgLifecycleStateTerminating),
+	}
 }
 
 func (s *DrgResourceCrud) DeletedTarget() []string {
-	return []string{baremetal.ResourceTerminated}
+	return []string{
+		string(oci_core.DrgLifecycleStateTerminated),
+	}
 }
 
-func (s *DrgResourceCrud) Create() (e error) {
-	opts := &baremetal.CreateOptions{}
-	compartmentID := s.D.Get("compartment_id").(string)
-	displayName, ok := s.D.GetOk("display_name")
-	if ok {
-		opts.DisplayName = displayName.(string)
+func (s *DrgResourceCrud) Create() error {
+	request := oci_core.CreateDrgRequest{}
+
+	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+		tmp := compartmentId.(string)
+		request.CompartmentId = &tmp
 	}
 
-	s.Res, e = s.Client.CreateDrg(compartmentID, opts)
+	if displayName, ok := s.D.GetOkExists("display_name"); ok {
+		tmp := displayName.(string)
+		request.DisplayName = &tmp
+	}
 
-	return
+	response, err := s.Client.CreateDrg(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response.Drg
+	return nil
 }
 
-func (s *DrgResourceCrud) Get() (e error) {
-	res, e := s.Client.GetDrg(s.D.Id())
-	if e == nil {
-		s.Res = res
+func (s *DrgResourceCrud) Get() error {
+	request := oci_core.GetDrgRequest{}
+
+	tmp := s.D.Id()
+	request.DrgId = &tmp
+
+	response, err := s.Client.GetDrg(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	if err != nil {
+		return err
 	}
-	return
+
+	s.Res = &response.Drg
+	return nil
 }
 
-func (s *DrgResourceCrud) Update() (e error) {
-	opts := &baremetal.IfMatchDisplayNameOptions{}
+func (s *DrgResourceCrud) Update() error {
+	request := oci_core.UpdateDrgRequest{}
 
-	if displayName, ok := s.D.GetOk("display_name"); ok {
-		opts.DisplayName = displayName.(string)
+	if displayName, ok := s.D.GetOkExists("display_name"); ok {
+		tmp := displayName.(string)
+		request.DisplayName = &tmp
 	}
 
-	s.Res, e = s.Client.UpdateDrg(s.D.Id(), opts)
-	return
+	tmp := s.D.Id()
+	request.DrgId = &tmp
+
+	response, err := s.Client.UpdateDrg(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response.Drg
+	return nil
+}
+
+func (s *DrgResourceCrud) Delete() error {
+	request := oci_core.DeleteDrgRequest{}
+
+	tmp := s.D.Id()
+	request.DrgId = &tmp
+
+	_, err := s.Client.DeleteDrg(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	return err
 }
 
 func (s *DrgResourceCrud) SetData() {
-	s.D.Set("compartment_id", s.Res.CompartmentID)
-	s.D.Set("display_name", s.Res.DisplayName)
-	s.D.Set("state", s.Res.State)
-	s.D.Set("time_created", s.Res.TimeCreated.String())
-}
+	if s.Res.CompartmentId != nil {
+		s.D.Set("compartment_id", *s.Res.CompartmentId)
+	}
 
-func (s *DrgResourceCrud) Delete() (e error) {
-	return s.Client.DeleteDrg(s.D.Id(), nil)
+	if s.Res.DisplayName != nil {
+		s.D.Set("display_name", *s.Res.DisplayName)
+	}
+
+	if s.Res.Id != nil {
+		s.D.Set("id", *s.Res.Id)
+	}
+
+	s.D.Set("state", s.Res.LifecycleState)
+
+	s.D.Set("time_created", s.Res.TimeCreated.String())
+
 }

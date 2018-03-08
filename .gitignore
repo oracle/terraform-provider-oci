@@ -8,6 +8,7 @@ tf.plan
 .DS_Store
 .env
 .idea
+.vscode
 .wercker
 terraform-encrypted-des.sh
 terraform-encrypted.sh
@@ -16,4 +17,7 @@ bin/*
 obmc-container-clean
 terraform-provider-oci
 *.iml
+debug.test
+*.iws
+*.ipr
 docs/solutions/rhel74_image/ipxe.sh

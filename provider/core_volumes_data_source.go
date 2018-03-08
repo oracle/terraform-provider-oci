@@ -3,17 +3,15 @@
 package provider
 
 import (
-	"time"
+	"context"
 
 	"github.com/hashicorp/terraform/helper/schema"
-	"github.com/oracle/bmcs-go-sdk"
-
-	"github.com/oracle/terraform-provider-oci/options"
+	oci_core "github.com/oracle/oci-go-sdk/core"
 
 	"github.com/oracle/terraform-provider-oci/crud"
 )
 
-func VolumeDatasource() *schema.Resource {
+func VolumesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readVolumes,
 		Schema: map[string]*schema.Schema{
@@ -26,11 +24,21 @@ func VolumeDatasource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"limit": {
-				Type:     schema.TypeInt,
+			"display_name": {
+				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"limit": {
+				Type:       schema.TypeInt,
+				Optional:   true,
+				Deprecated: crud.FieldDeprecated("limit"),
+			},
 			"page": {
+				Type:       schema.TypeString,
+				Optional:   true,
+				Deprecated: crud.FieldDeprecated("page"),
+			},
+			"state": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -43,78 +51,124 @@ func VolumeDatasource() *schema.Resource {
 	}
 }
 
-func readVolumes(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*OracleClients)
-	sync := &VolumeDatasourceCrud{}
+func readVolumes(d *schema.ResourceData, m interface{}) error {
+	sync := &VolumesDataSourceCrud{}
 	sync.D = d
-	sync.Client = client.client
+	sync.Client = m.(*OracleClients).blockStorageClient
+
 	return crud.ReadResource(sync)
 }
 
-type VolumeDatasourceCrud struct {
-	crud.BaseCrud
-	Res *baremetal.ListVolumes
+type VolumesDataSourceCrud struct {
+	D      *schema.ResourceData
+	Client *oci_core.BlockstorageClient
+	Res    *oci_core.ListVolumesResponse
 }
 
-func (s *VolumeDatasourceCrud) Get() (e error) {
-	compartmentID := s.D.Get("compartment_id").(string)
-
-	opts := &baremetal.ListVolumesOptions{}
-	options.SetListOptions(s.D, &opts.ListOptions)
-
-	if val, ok := s.D.GetOk("availability_domain"); ok {
-		opts.AvailabilityDomain = val.(string)
-	}
-
-	s.Res = &baremetal.ListVolumes{Volumes: []baremetal.Volume{}}
-
-	for {
-		var list *baremetal.ListVolumes
-		if list, e = s.Client.ListVolumes(compartmentID, opts); e != nil {
-			break
-		}
-
-		s.Res.Volumes = append(s.Res.Volumes, list.Volumes...)
-
-		if hasNextPage := options.SetNextPageOption(list.NextPage, &opts.ListOptions.PageListOptions); !hasNextPage {
-			break
-		}
-	}
-
-	return
+func (s *VolumesDataSourceCrud) VoidState() {
+	s.D.SetId("")
 }
 
-func (s *VolumeDatasourceCrud) SetData() {
+func (s *VolumesDataSourceCrud) Get() error {
+	request := oci_core.ListVolumesRequest{}
+
+	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
+		tmp := availabilityDomain.(string)
+		request.AvailabilityDomain = &tmp
+	}
+
+	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+		tmp := compartmentId.(string)
+		request.CompartmentId = &tmp
+	}
+
+	if displayName, ok := s.D.GetOkExists("display_name"); ok {
+		tmp := displayName.(string)
+		request.DisplayName = &tmp
+	}
+
+	if limit, ok := s.D.GetOkExists("limit"); ok {
+		tmp := limit.(int)
+		request.Limit = &tmp
+	}
+
+	if page, ok := s.D.GetOkExists("page"); ok {
+		tmp := page.(string)
+		request.Page = &tmp
+	}
+
+	if state, ok := s.D.GetOkExists("state"); ok {
+		request.LifecycleState = oci_core.VolumeLifecycleStateEnum(state.(string))
+	}
+
+	response, err := s.Client.ListVolumes(context.Background(), request, getRetryOptions(false, "core")...)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response
+	request.Page = s.Res.OpcNextPage
+
+	for request.Page != nil {
+		listResponse, err := s.Client.ListVolumes(context.Background(), request, getRetryOptions(false, "core")...)
+		if err != nil {
+			return err
+		}
+
+		s.Res.Items = append(s.Res.Items, listResponse.Items...)
+		request.Page = listResponse.OpcNextPage
+	}
+
+	return nil
+}
+
+func (s *VolumesDataSourceCrud) SetData() {
 	if s.Res == nil {
 		return
 	}
-	// Important, if you don't have an ID, make one up for your datasource
-	// or things will end in tears
-	s.D.SetId(time.Now().UTC().String())
+
+	s.D.SetId(crud.GenerateDataSourceID())
 	resources := []map[string]interface{}{}
-	for _, v := range s.Res.Volumes {
-		vol := map[string]interface{}{
-			"availability_domain": v.AvailabilityDomain,
-			"compartment_id":      v.CompartmentID,
-			"display_name":        v.DisplayName,
-			"id":                  v.ID,
-			"size_in_mbs":         v.SizeInMBs,
-			"size_in_gbs":         v.SizeInGBs,
-			"state":               v.State,
-			"time_created":        v.TimeCreated.String(),
+
+	for _, r := range s.Res.Items {
+		volume := map[string]interface{}{
+			"compartment_id": *r.CompartmentId,
 		}
 
-		if vsdRaw := v.VolumeSourceDetails; vsdRaw != nil {
-			vsd := make(map[string]interface{})
-			vsd["id"] = vsdRaw.Id
-			vsd["type"] = vsdRaw.Type
-			vol["source_details"] = []interface{}{vsd}
+		if r.AvailabilityDomain != nil {
+			volume["availability_domain"] = *r.AvailabilityDomain
 		}
 
-		resources = append(resources, vol)
+		if r.DisplayName != nil {
+			volume["display_name"] = *r.DisplayName
+		}
+
+		if r.Id != nil {
+			volume["id"] = *r.Id
+		}
+
+		if r.IsHydrated != nil {
+			volume["is_hydrated"] = *r.IsHydrated
+		}
+
+		if r.SizeInGBs != nil {
+			volume["size_in_gbs"] = *r.SizeInGBs
+		}
+
+		if r.SizeInMBs != nil {
+			volume["size_in_mbs"] = *r.SizeInMBs
+		}
+
+		volume["source_details"] = VolumeSourceDetailsToMap(r.SourceDetails)
+
+		volume["state"] = r.LifecycleState
+
+		volume["time_created"] = r.TimeCreated.String()
+
+		resources = append(resources, volume)
 	}
 
-	if f, fOk := s.D.GetOk("filter"); fOk {
+	if f, fOk := s.D.GetOkExists("filter"); fOk {
 		resources = ApplyFilters(f.(*schema.Set), resources)
 	}
 

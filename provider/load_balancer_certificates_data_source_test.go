@@ -12,7 +12,7 @@ import (
 
 func TestAccDatasourceLoadBalancerCertificates_basic(t *testing.T) {
 	providers := testAccProviders
-	config := testProviderConfig() + `
+	config := legacyTestProviderConfig() + `
 	data "oci_identity_availability_domains" "ADs" {
 		compartment_id = "${var.compartment_id}"
 	}

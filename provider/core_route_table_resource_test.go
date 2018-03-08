@@ -7,15 +7,13 @@ import (
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
-	"github.com/oracle/bmcs-go-sdk"
 
+	"github.com/oracle/oci-go-sdk/core"
 	"github.com/stretchr/testify/suite"
 )
 
 type ResourceCoreRouteTableTestSuite struct {
 	suite.Suite
-	Client              *baremetal.Client
-	Provider            terraform.ResourceProvider
 	Providers           map[string]terraform.ResourceProvider
 	Config              string
 	ResourceName        string
@@ -33,10 +31,8 @@ resource "oci_core_default_route_table" "default" {
 `
 
 func (s *ResourceCoreRouteTableTestSuite) SetupTest() {
-	s.Client = testAccClient
-	s.Provider = testAccProvider
 	s.Providers = testAccProviders
-	s.Config = testProviderConfig() + `
+	s.Config = legacyTestProviderConfig() + `
 		resource "oci_core_virtual_network" "t" {
 			compartment_id = "${var.compartment_id}"
 			cidr_block = "10.0.0.0/16"
@@ -71,12 +67,16 @@ func (s *ResourceCoreRouteTableTestSuite) TestAccResourceCoreRouteTable_basic() 
 						manage_default_resource_id = "${oci_core_virtual_network.t.default_route_table_id}"
 					}`,
 				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "display_name"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "vcn_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "compartment_id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", string(core.RouteTableLifecycleStateAvailable)),
 					resource.TestCheckResourceAttr(s.ResourceName, "route_rules.#", "0"),
+					resource.TestCheckResourceAttrSet(s.DefaultResourceName, "manage_default_resource_id"),
 					resource.TestCheckResourceAttrSet(s.DefaultResourceName, "display_name"),
 					resource.TestCheckResourceAttr(s.DefaultResourceName, "route_rules.#", "0"),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", string(core.RouteTableLifecycleStateAvailable)),
 				),
 			},
 			// verify add rule
@@ -91,12 +91,16 @@ func (s *ResourceCoreRouteTableTestSuite) TestAccResourceCoreRouteTable_basic() 
 						}
 					}` + defaultRouteTable,
 				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "display_name"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "vcn_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "compartment_id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", string(core.RouteTableLifecycleStateAvailable)),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "route_rules.0.network_entity_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "route_rules.#", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "route_rules.0.cidr_block", "0.0.0.0/0"),
+					resource.TestCheckResourceAttrSet(s.DefaultResourceName, "manage_default_resource_id"),
+					resource.TestCheckResourceAttr(s.DefaultResourceName, "state", string(core.RouteTableLifecycleStateAvailable)),
 					resource.TestCheckResourceAttrSet(s.DefaultResourceName, "display_name"),
 					resource.TestCheckResourceAttrSet(s.DefaultResourceName, "route_rules.0.network_entity_id"),
 					resource.TestCheckResourceAttr(s.DefaultResourceName, "route_rules.#", "1"),
@@ -132,16 +136,20 @@ func (s *ResourceCoreRouteTableTestSuite) TestAccResourceCoreRouteTable_basic() 
 						}
 					}`,
 				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-route-table"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "vcn_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "route_rules.#", "2"),
 					resource.TestCheckResourceAttr(s.ResourceName, "route_rules.0.cidr_block", "0.0.0.0/0"),
 					resource.TestCheckResourceAttr(s.ResourceName, "route_rules.1.cidr_block", "10.0.0.0/8"),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", string(core.RouteTableLifecycleStateAvailable)),
+					resource.TestCheckResourceAttrSet(s.DefaultResourceName, "manage_default_resource_id"),
 					resource.TestCheckResourceAttr(s.DefaultResourceName, "display_name", "default-tf-route-table"),
 					resource.TestCheckResourceAttr(s.DefaultResourceName, "route_rules.#", "2"),
 					resource.TestCheckResourceAttr(s.DefaultResourceName, "route_rules.0.cidr_block", "0.0.0.0/0"),
 					resource.TestCheckResourceAttr(s.DefaultResourceName, "route_rules.1.cidr_block", "10.0.0.0/8"),
+					resource.TestCheckResourceAttr(s.DefaultResourceName, "state", string(core.RouteTableLifecycleStateAvailable)),
 				),
 			},
 			// verify default resource delete
@@ -153,10 +161,12 @@ func (s *ResourceCoreRouteTableTestSuite) TestAccResourceCoreRouteTable_basic() 
 			{
 				Config: s.Config + defaultRouteTable,
 				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttrSet(s.DefaultResourceName, "manage_default_resource_id"),
 					resource.TestCheckResourceAttrSet(s.DefaultResourceName, "display_name"),
 					resource.TestCheckResourceAttrSet(s.DefaultResourceName, "route_rules.0.network_entity_id"),
 					resource.TestCheckResourceAttr(s.DefaultResourceName, "route_rules.#", "1"),
 					resource.TestCheckResourceAttr(s.DefaultResourceName, "route_rules.0.cidr_block", "0.0.0.0/0"),
+					resource.TestCheckResourceAttr(s.DefaultResourceName, "state", string(core.RouteTableLifecycleStateAvailable)),
 				),
 			},
 		},

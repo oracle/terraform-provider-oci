@@ -3,29 +3,26 @@
 package provider
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
-	baremetal "github.com/oracle/bmcs-go-sdk"
 
+	"github.com/oracle/oci-go-sdk/core"
 	"github.com/stretchr/testify/suite"
 )
 
 type DatasourceCoreSecurityListTestSuite struct {
 	suite.Suite
-	Client       *baremetal.Client
 	Config       string
-	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	ResourceName string
 }
 
 func (s *DatasourceCoreSecurityListTestSuite) SetupTest() {
-	s.Client = testAccClient
-	s.Provider = testAccProvider
 	s.Providers = testAccProviders
-	s.Config = testProviderConfig() + `
+	s.Config = legacyTestProviderConfig() + `
 	resource "oci_core_virtual_network" "t" {
 		cidr_block = "10.0.0.0/16"
 		compartment_id = "${var.compartment_id}"
@@ -57,10 +54,47 @@ func (s *DatasourceCoreSecurityListTestSuite) TestAccDatasourceCoreSecurityLists
 					resource.TestCheckResourceAttr(s.ResourceName, "security_lists.#", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "security_lists.0.display_name", "Default Security List for -tf-vcn"),
 					resource.TestCheckResourceAttr(s.ResourceName, "security_lists.0.ingress_security_rules.0.tcp_options.0.max", "22"),
-					resource.TestCheckResourceAttr(s.ResourceName, "security_lists.0.state", "AVAILABLE"),
+					resource.TestCheckResourceAttr(s.ResourceName, "security_lists.0.state", string(core.SecurityListLifecycleStateAvailable)),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "security_lists.0.id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "security_lists.0.vcn_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "security_lists.0.time_created"),
+				),
+			},
+			// Test that enum fields such as 'state' can be filtered with multiple values
+			{
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config: s.Config + fmt.Sprintf(`
+				data "oci_core_security_lists" "t" {
+					compartment_id = "${var.compartment_id}"
+					vcn_id = "${oci_core_virtual_network.t.id}"
+					filter {
+						name = "state"
+						values = ["%s", "%s"]
+						regex = true
+					}
+				}`, string(core.SecurityListLifecycleStateTerminated), string(core.SecurityListLifecycleStateAvailable)),
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttr(s.ResourceName, "security_lists.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "security_lists.0.state", string(core.SecurityListLifecycleStateAvailable)),
+				),
+			},
+			// Test that items can be filtered out
+			{
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config: s.Config + fmt.Sprintf(`
+				data "oci_core_security_lists" "t" {
+					compartment_id = "${var.compartment_id}"
+					vcn_id = "${oci_core_virtual_network.t.id}"
+					filter {
+						name = "state"
+						values = ["%s"]
+						regex = true
+					}
+				}`, string(core.SecurityListLifecycleStateTerminated)),
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttr(s.ResourceName, "security_lists.#", "0"),
 				),
 			},
 		},

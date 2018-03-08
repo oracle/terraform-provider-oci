@@ -7,26 +7,22 @@ import (
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
-	"github.com/oracle/bmcs-go-sdk"
 
+	"github.com/oracle/oci-go-sdk/identity"
 	"github.com/stretchr/testify/suite"
 )
 
 type DatasourceIdentityCompartmentsTestSuite struct {
 	suite.Suite
-	Client       *baremetal.Client
 	Config       string
-	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	ResourceName string
-	List         *baremetal.ListCompartments
+	List         *identity.ListCompartmentsResponse
 }
 
 func (s *DatasourceIdentityCompartmentsTestSuite) SetupTest() {
-	s.Client = testAccClient
-	s.Provider = testAccProvider
 	s.Providers = testAccProviders
-	s.Config = testProviderConfig() + `
+	s.Config = legacyTestProviderConfig() + `
 	resource "oci_identity_compartment" "t" {
 		name = "-tf-compartment"
 		description = "tf test compartment"
@@ -44,7 +40,7 @@ func (s *DatasourceIdentityCompartmentsTestSuite) TestAccIdentityCompartments_ba
 				ImportStateVerify: true,
 				Config: s.Config + `
 				data "oci_identity_compartments" "t" {
-					compartment_id = "${var.compartment_id}"
+					compartment_id = "${var.tenancy_ocid}"
 				}`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "compartments.#"),
@@ -53,7 +49,7 @@ func (s *DatasourceIdentityCompartmentsTestSuite) TestAccIdentityCompartments_ba
 			{
 				Config: s.Config + `
 				data "oci_identity_compartments" "t" {
-					compartment_id = "${var.compartment_id}"
+					compartment_id = "${var.tenancy_ocid}"
 					filter {
 						name   = "name"
 						values = ["-tf-compartment"]
@@ -65,8 +61,10 @@ func (s *DatasourceIdentityCompartmentsTestSuite) TestAccIdentityCompartments_ba
 					resource.TestCheckResourceAttrSet(s.ResourceName, "compartments.0.compartment_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "compartments.0.name", "-tf-compartment"),
 					resource.TestCheckResourceAttr(s.ResourceName, "compartments.0.description", "tf test compartment"),
+					resource.TestCheckResourceAttr(s.ResourceName, "compartments.0.state", string(identity.CompartmentLifecycleStateActive)),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "compartments.0.time_created"),
-					resource.TestCheckResourceAttr(s.ResourceName, "compartments.0.inactive_state", "0"),
+					// TODO: This field is not being returned by the service call but is still showing up in the datasource
+					// resource.TestCheckNoResourceAttr(s.ResourceName, "compartments.0.inactive_state"),
 				),
 			},
 		},

@@ -7,15 +7,13 @@ import (
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
-	"github.com/oracle/bmcs-go-sdk"
 
+	"github.com/oracle/oci-go-sdk/identity"
 	"github.com/stretchr/testify/suite"
 )
 
 type ResourceIdentityUIPasswordTestSuite struct {
 	suite.Suite
-	Client       *baremetal.Client
-	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	Config       string
 	ResourceName string
@@ -23,10 +21,8 @@ type ResourceIdentityUIPasswordTestSuite struct {
 
 func (s *ResourceIdentityUIPasswordTestSuite) SetupTest() {
 	_, tokenFn := tokenize()
-	s.Client = testAccClient
-	s.Provider = testAccProvider
 	s.Providers = testAccProviders
-	s.Config = testProviderConfig() + tokenFn(`
+	s.Config = legacyTestProviderConfig() + tokenFn(`
 	resource "oci_identity_user" "t" {
 		name = "-tf-user"
 		description = "tf test user"
@@ -50,6 +46,9 @@ func (s *ResourceIdentityUIPasswordTestSuite) TestAccIdentityUIPassword_basic() 
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "user_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "password"),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", string(identity.UiPasswordLifecycleStateActive)),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
+					resource.TestCheckNoResourceAttr(s.ResourceName, "inactive_status"),
 				),
 			},
 		},

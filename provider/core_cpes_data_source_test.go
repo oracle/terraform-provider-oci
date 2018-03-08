@@ -7,16 +7,13 @@ import (
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
-	"github.com/oracle/bmcs-go-sdk"
 
 	"github.com/stretchr/testify/suite"
 )
 
 type DatasourceCoreCpeTestSuite struct {
 	suite.Suite
-	Client       *baremetal.Client
 	Config       string
-	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	ResourceName string
 	Token        string
@@ -25,10 +22,8 @@ type DatasourceCoreCpeTestSuite struct {
 
 func (s *DatasourceCoreCpeTestSuite) SetupTest() {
 	s.Token, s.TokenFn = tokenize()
-	s.Client = testAccClient
-	s.Provider = testAccProvider
 	s.Providers = testAccProviders
-	s.Config = testProviderConfig() + s.TokenFn(`
+	s.Config = legacyTestProviderConfig() + s.TokenFn(`
 	resource "oci_core_cpe" "t" {
 		compartment_id = "${var.compartment_id}"
 		display_name = "{{.token}}"
@@ -38,6 +33,7 @@ func (s *DatasourceCoreCpeTestSuite) SetupTest() {
 }
 
 func (s *DatasourceCoreCpeTestSuite) TestAccDatasourceCoreCpe_basic() {
+	compartmentId := getCompartmentIDForLegacyTests()
 	resource.Test(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
@@ -55,8 +51,11 @@ func (s *DatasourceCoreCpeTestSuite) TestAccDatasourceCoreCpe_basic() {
 				}`, nil),
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "cpes.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "cpes.0.compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(s.ResourceName, "cpes.0.display_name", s.Token),
 					resource.TestCheckResourceAttr(s.ResourceName, "cpes.0.ip_address", "142.10.10.1"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "cpes.0.id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "cpes.0.time_created"),
 				),
 			},
 		},

@@ -5,26 +5,24 @@ package provider
 import (
 	"testing"
 
+	"fmt"
+
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
-	"github.com/oracle/bmcs-go-sdk"
+	"github.com/oracle/oci-go-sdk/loadbalancer"
 	"github.com/stretchr/testify/suite"
 )
 
 type ResourceLoadBalancerListenerTestSuite struct {
 	suite.Suite
-	Client       *baremetal.Client
-	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	Config       string
 	ResourceName string
 }
 
 func (s *ResourceLoadBalancerListenerTestSuite) SetupTest() {
-	s.Client = testAccClient
-	s.Provider = testAccProvider
 	s.Providers = testAccProviders
-	s.Config = testProviderConfig() + `
+	s.Config = legacyTestProviderConfig() + `
 	data "oci_identity_availability_domains" "ADs" {
 		compartment_id = "${var.compartment_id}"
 	}
@@ -78,6 +76,7 @@ func (s *ResourceLoadBalancerListenerTestSuite) SetupTest() {
 }
 
 func (s *ResourceLoadBalancerListenerTestSuite) TestAccResourceLoadBalancerListener_basic() {
+	var resId, resId2 string
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
@@ -99,6 +98,11 @@ func (s *ResourceLoadBalancerListenerTestSuite) TestAccResourceLoadBalancerListe
 					resource.TestCheckResourceAttr(s.ResourceName, "default_backend_set_name", "-tf-backend-set"),
 					resource.TestCheckResourceAttr(s.ResourceName, "port", "8080"),
 					resource.TestCheckResourceAttr(s.ResourceName, "protocol", "TCP"),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", string(loadbalancer.WorkRequestLifecycleStateSucceeded)),
+					func(ts *terraform.State) (err error) {
+						resId, err = fromInstanceState(ts, s.ResourceName, "id")
+						return err
+					},
 				),
 			},
 			// test update
@@ -112,10 +116,20 @@ func (s *ResourceLoadBalancerListenerTestSuite) TestAccResourceLoadBalancerListe
 					protocol = "HTTP"
 				}`,
 				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttrSet(s.ResourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "name", "-tf-listener-updated"),
 					resource.TestCheckResourceAttr(s.ResourceName, "default_backend_set_name", "-tf-backend-set"),
 					resource.TestCheckResourceAttr(s.ResourceName, "port", "80"),
 					resource.TestCheckResourceAttr(s.ResourceName, "protocol", "HTTP"),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", string(loadbalancer.WorkRequestLifecycleStateSucceeded)),
+					func(ts *terraform.State) (err error) {
+						resId2, err = fromInstanceState(ts, s.ResourceName, "id")
+						if resId2 == resId {
+							fmt.Errorf("resource expected to be recreated but was not")
+						}
+						resId = resId2
+						return err
+					},
 				),
 			},
 			// test add ssl configuration
@@ -135,10 +149,23 @@ func (s *ResourceLoadBalancerListenerTestSuite) TestAccResourceLoadBalancerListe
 					}
 				}`,
 				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttrSet(s.ResourceName, "load_balancer_id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "name", "-tf-listener-updated"),
+					resource.TestCheckResourceAttr(s.ResourceName, "default_backend_set_name", "-tf-backend-set"),
+					resource.TestCheckResourceAttr(s.ResourceName, "protocol", "HTTP"),
 					resource.TestCheckResourceAttr(s.ResourceName, "port", "443"),
 					resource.TestCheckResourceAttr(s.ResourceName, "ssl_configuration.0.certificate_name", "tf_cert_name"),
 					resource.TestCheckResourceAttr(s.ResourceName, "ssl_configuration.0.verify_depth", "6"),
 					resource.TestCheckResourceAttr(s.ResourceName, "ssl_configuration.0.verify_peer_certificate", "false"),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", string(loadbalancer.WorkRequestLifecycleStateSucceeded)),
+					func(ts *terraform.State) (err error) {
+						resId2, err = fromInstanceState(ts, s.ResourceName, "id")
+						if resId2 != resId {
+							fmt.Errorf("resource recreated when it should not have been")
+						}
+						resId = resId2
+						return err
+					},
 				),
 			},
 		},

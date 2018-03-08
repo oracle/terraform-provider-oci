@@ -7,24 +7,20 @@ import (
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
-	baremetal "github.com/oracle/bmcs-go-sdk"
+	"github.com/oracle/oci-go-sdk/core"
 	"github.com/stretchr/testify/suite"
 )
 
 type DatasourceCoreSubnetTestSuite struct {
 	suite.Suite
-	Client       *baremetal.Client
 	Config       string
-	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	ResourceName string
 }
 
 func (s *DatasourceCoreSubnetTestSuite) SetupTest() {
-	s.Client = testAccClient
-	s.Provider = testAccProvider
 	s.Providers = testAccProviders
-	s.Config = testProviderConfig() + `
+	s.Config = legacyTestProviderConfig() + `
 	data "oci_identity_availability_domains" "ADs" {
 		compartment_id = "${var.compartment_id}"
 	}
@@ -83,12 +79,13 @@ func (s *DatasourceCoreSubnetTestSuite) TestAccDatasourceCoreSubnet_basic() {
 					resource.TestCheckResourceAttr(s.ResourceName, "subnets.0.prohibit_public_ip_on_vnic", "false"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "subnets.0.route_table_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "subnets.0.security_list_ids.#", "1"),
-					resource.TestCheckResourceAttr(s.ResourceName, "subnets.0.state", "AVAILABLE"),
+					resource.TestCheckResourceAttr(s.ResourceName, "subnets.0.state", string(core.SubnetLifecycleStateAvailable)),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "subnets.0.time_created"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "subnets.0.vcn_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "subnets.0.dhcp_options_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "subnets.0.virtual_router_ip"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "subnets.0.virtual_router_mac"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "subnets.0.subnet_domain_name"),
 				),
 				// Work around for terraform bug where depends_on results in "plan was not empty"
 				// https://github.com/hashicorp/terraform/issues/11139

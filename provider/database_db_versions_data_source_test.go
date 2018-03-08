@@ -7,28 +7,22 @@ import (
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
-	baremetal "github.com/oracle/bmcs-go-sdk"
+
+	"regexp"
 
 	"github.com/stretchr/testify/suite"
 )
 
 type DatabaseDBVersionTestSuite struct {
 	suite.Suite
-	Client       *baremetal.Client
 	Config       string
-	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	ResourceName string
 }
 
 func (s *DatabaseDBVersionTestSuite) SetupTest() {
-	s.Client = testAccClient
-	s.Provider = testAccProvider
 	s.Providers = testAccProviders
-	s.Config = testProviderConfig() + `
-	data "oci_database_db_versions" "t" {
-		compartment_id = "${var.compartment_id}"
-	}`
+	s.Config = legacyTestProviderConfig()
 	s.ResourceName = "data.oci_database_db_versions.t"
 }
 
@@ -40,10 +34,25 @@ func (s *DatabaseDBVersionTestSuite) TestAccDatasourceDatabaseDBVersion_basic() 
 			{
 				ImportState:       true,
 				ImportStateVerify: true,
-				Config:            s.Config,
+				Config: s.Config + `
+					data "oci_database_db_versions" "t" {
+						compartment_id = "${var.compartment_id}"
+					}`,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet(s.ResourceName, "db_versions.0.version"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "db_versions.1.version"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "db_versions.#"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "db_versions.0.supports_pdb"),
+					resource.TestMatchResourceAttr(s.ResourceName, "db_versions.0.version", regexp.MustCompile(`\d+\.\d+\.\d+\.\d+`)),
+				),
+			},
+			{
+				Config: s.Config + `
+					data "oci_database_db_versions" "t" {
+						compartment_id = "${var.compartment_id}"
+						db_system_shape = "BM.DenseIO1.36"
+					}`,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttrSet(s.ResourceName, "db_versions.#"),
+					resource.TestCheckResourceAttr(s.ResourceName, "db_system_shape", "BM.DenseIO1.36"),
 				),
 			},
 		},

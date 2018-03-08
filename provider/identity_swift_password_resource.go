@@ -3,10 +3,13 @@
 package provider
 
 import (
+	"context"
+
 	"github.com/hashicorp/terraform/helper/schema"
-	"github.com/oracle/bmcs-go-sdk"
 
 	"github.com/oracle/terraform-provider-oci/crud"
+
+	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
 func SwiftPasswordResource() *schema.Resource {
@@ -20,6 +23,24 @@ func SwiftPasswordResource() *schema.Resource {
 		Update:   updateSwiftPassword,
 		Delete:   deleteSwiftPassword,
 		Schema: map[string]*schema.Schema{
+			// Required
+			"description": {
+				Type:     schema.TypeString,
+				Required: true,
+			},
+			"user_id": {
+				Type:     schema.TypeString,
+				Required: true,
+				ForceNew: true,
+			},
+
+			// Optional
+
+			// Computed
+			"expires_on": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -40,110 +61,195 @@ func SwiftPasswordResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"user_id": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
-			},
-			"description": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			"expires_on": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 		},
 	}
 }
 
-func createSwiftPassword(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*OracleClients)
+func createSwiftPassword(d *schema.ResourceData, m interface{}) error {
 	sync := &SwiftPasswordResourceCrud{}
 	sync.D = d
-	sync.Client = client.client
+	sync.Client = m.(*OracleClients).identityClient
+
 	return crud.CreateResource(d, sync)
 }
 
-func readSwiftPassword(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*OracleClients)
+func readSwiftPassword(d *schema.ResourceData, m interface{}) error {
 	sync := &SwiftPasswordResourceCrud{}
 	sync.D = d
-	sync.Client = client.client
+	sync.Client = m.(*OracleClients).identityClient
+
 	return crud.ReadResource(sync)
 }
 
-func updateSwiftPassword(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*OracleClients)
+func updateSwiftPassword(d *schema.ResourceData, m interface{}) error {
 	sync := &SwiftPasswordResourceCrud{}
 	sync.D = d
-	sync.Client = client.client
+	sync.Client = m.(*OracleClients).identityClient
+
 	return crud.UpdateResource(d, sync)
 }
 
-func deleteSwiftPassword(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*OracleClients)
+func deleteSwiftPassword(d *schema.ResourceData, m interface{}) error {
 	sync := &SwiftPasswordResourceCrud{}
 	sync.D = d
-	sync.Client = client.clientWithoutNotFoundRetries
+	sync.Client = m.(*OracleClients).identityClient
+	sync.DisableNotFoundRetries = true
+
 	return crud.DeleteResource(d, sync)
 }
 
 type SwiftPasswordResourceCrud struct {
 	crud.BaseCrud
-	Res *baremetal.SwiftPassword
+	Client                 *oci_identity.IdentityClient
+	Res                    *oci_identity.SwiftPassword
+	DisableNotFoundRetries bool
 }
 
 func (s *SwiftPasswordResourceCrud) ID() string {
-	return s.Res.ID
+	return *s.Res.Id
 }
 
-func (s *SwiftPasswordResourceCrud) Get() (e error) {
-	// There is no get resource for swift passwords, so we list them all and match
-	id := s.D.Id()
-	userID := s.D.Get("user_id").(string)
-	var list *baremetal.ListSwiftPasswords
-	list, e = s.Client.ListSwiftPasswords(userID)
-	if e != nil {
-		return
+func (s *SwiftPasswordResourceCrud) State() oci_identity.SwiftPasswordLifecycleStateEnum {
+	return s.Res.LifecycleState
+}
+
+func (s *SwiftPasswordResourceCrud) CreatedPending() []string {
+	return []string{
+		string(oci_identity.SwiftPasswordLifecycleStateCreating),
 	}
-	for _, sp := range list.SwiftPasswords {
-		if sp.ID == id {
-			s.Res = &sp
+}
+
+func (s *SwiftPasswordResourceCrud) CreatedTarget() []string {
+	return []string{
+		string(oci_identity.SwiftPasswordLifecycleStateActive),
+	}
+}
+
+func (s *SwiftPasswordResourceCrud) DeletedPending() []string {
+	return []string{
+		string(oci_identity.SwiftPasswordLifecycleStateDeleting),
+	}
+}
+
+func (s *SwiftPasswordResourceCrud) DeletedTarget() []string {
+	return []string{
+		string(oci_identity.SwiftPasswordLifecycleStateDeleted),
+	}
+}
+
+func (s *SwiftPasswordResourceCrud) Create() error {
+	request := oci_identity.CreateSwiftPasswordRequest{}
+
+	if description, ok := s.D.GetOkExists("description"); ok {
+		tmp := description.(string)
+		request.Description = &tmp
+	}
+
+	if userId, ok := s.D.GetOkExists("user_id"); ok {
+		tmp := userId.(string)
+		request.UserId = &tmp
+	}
+
+	response, err := s.Client.CreateSwiftPassword(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "identity")...)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response.SwiftPassword
+	return nil
+}
+
+func (s *SwiftPasswordResourceCrud) Get() error {
+	request := oci_identity.ListSwiftPasswordsRequest{}
+
+	if userId, ok := s.D.GetOkExists("user_id"); ok {
+		tmp := userId.(string)
+		request.UserId = &tmp
+	}
+
+	response, err := s.Client.ListSwiftPasswords(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "identity")...)
+	if err != nil {
+		return err
+	}
+
+	id := s.D.Get("id").(string)
+	for _, item := range response.Items {
+		if *item.Id == id {
+			s.Res = &item
+			return nil
 		}
 	}
-	return
+
+	return nil
 }
 
-func (s *SwiftPasswordResourceCrud) Create() (e error) {
-	userID := s.D.Get("user_id").(string)
-	desc := s.D.Get("description").(string)
-	s.Res, e = s.Client.CreateSwiftPassword(userID, desc, nil)
-	return
-}
+func (s *SwiftPasswordResourceCrud) Update() error {
+	request := oci_identity.UpdateSwiftPasswordRequest{}
 
-func (s *SwiftPasswordResourceCrud) Update() (e error) {
-	userID := s.D.Get("user_id").(string)
-	opts := &baremetal.UpdateIdentityOptions{}
-	if description, ok := s.D.GetOk("description"); ok {
-		opts.Description = description.(string)
+	if description, ok := s.D.GetOkExists("description"); ok {
+		tmp := description.(string)
+		request.Description = &tmp
 	}
 
-	s.Res, e = s.Client.UpdateSwiftPassword(s.D.Id(), userID, opts)
-	return
+	tmp := s.D.Id()
+	request.SwiftPasswordId = &tmp
+
+	if userId, ok := s.D.GetOkExists("user_id"); ok {
+		tmp := userId.(string)
+		request.UserId = &tmp
+	}
+
+	response, err := s.Client.UpdateSwiftPassword(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "identity")...)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response.SwiftPassword
+	return nil
 }
 
-func (s *SwiftPasswordResourceCrud) Delete() (e error) {
-	userID := s.D.Get("user_id").(string)
-	return s.Client.DeleteSwiftPassword(s.D.Id(), userID, nil)
+func (s *SwiftPasswordResourceCrud) Delete() error {
+	request := oci_identity.DeleteSwiftPasswordRequest{}
+
+	tmp := s.D.Id()
+	request.SwiftPasswordId = &tmp
+
+	if userId, ok := s.D.GetOkExists("user_id"); ok {
+		tmp := userId.(string)
+		request.UserId = &tmp
+	}
+
+	_, err := s.Client.DeleteSwiftPassword(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "identity")...)
+	return err
 }
 
 func (s *SwiftPasswordResourceCrud) SetData() {
-	s.D.Set("inactive_status", s.Res.InactiveStatus)
-	s.D.Set("state", s.Res.State)
-	s.D.Set("password", s.Res.Password)
+	if s.Res.Description != nil {
+		s.D.Set("description", *s.Res.Description)
+	}
+
+	if s.Res.ExpiresOn != nil {
+		s.D.Set("expires_on", *s.Res.ExpiresOn)
+	}
+
+	if s.Res.Id != nil {
+		s.D.Set("id", *s.Res.Id)
+	}
+
+	if s.Res.InactiveStatus != nil {
+		s.D.Set("inactive_state", *s.Res.InactiveStatus)
+	}
+
+	if s.Res.Password != nil {
+		s.D.Set("password", *s.Res.Password)
+	}
+
+	s.D.Set("state", s.Res.LifecycleState)
+
 	s.D.Set("time_created", s.Res.TimeCreated.String())
-	s.D.Set("user_id", s.Res.UserID)
-	s.D.Set("description", s.Res.Description)
-	s.D.Set("expires_on", s.Res.ExpiresOn.String())
+
+	if s.Res.UserId != nil {
+		s.D.Set("user_id", *s.Res.UserId)
+	}
+
 }

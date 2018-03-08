@@ -7,24 +7,20 @@ import (
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
-	baremetal "github.com/oracle/bmcs-go-sdk"
+	"github.com/oracle/oci-go-sdk/core"
 	"github.com/stretchr/testify/suite"
 )
 
 type DatasourceCoreRouteTableTestSuite struct {
 	suite.Suite
-	Client       *baremetal.Client
 	Config       string
-	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	ResourceName string
 }
 
 func (s *DatasourceCoreRouteTableTestSuite) SetupTest() {
-	s.Client = testAccClient
-	s.Provider = testAccProvider
 	s.Providers = testAccProviders
-	s.Config = testProviderConfig() + `
+	s.Config = legacyTestProviderConfig() + `
 	resource "oci_core_virtual_network" "t" {
 		compartment_id = "${var.compartment_id}"
 		display_name = "-tf-vcn"
@@ -56,13 +52,12 @@ func (s *DatasourceCoreRouteTableTestSuite) TestAccDatasourceRouteTable_basic() 
 					resource.TestCheckResourceAttrSet(s.ResourceName, "vcn_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "route_tables.#", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "route_tables.0.display_name", "Default Route Table for -tf-vcn"),
-					resource.TestCheckResourceAttr(s.ResourceName, "route_tables.0.state", "AVAILABLE"),
+					resource.TestCheckResourceAttr(s.ResourceName, "route_tables.0.state", string(core.RouteTableLifecycleStateAvailable)),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "route_tables.0.id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "route_tables.0.compartment_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "route_tables.0.vcn_id"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "route_tables.0.time_modified"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "route_tables.0.time_created"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "route_tables.0.route_rules.#"),
+					resource.TestCheckResourceAttr(s.ResourceName, "route_tables.0.route_rules.#", "0"),
 				),
 			},
 		},

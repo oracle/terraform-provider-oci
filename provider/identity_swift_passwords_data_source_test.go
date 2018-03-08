@@ -7,14 +7,12 @@ import (
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
-	"github.com/oracle/bmcs-go-sdk"
+	"github.com/oracle/oci-go-sdk/identity"
 	"github.com/stretchr/testify/suite"
 )
 
 type DatasourceIdentitySwiftPasswordsTestSuite struct {
 	suite.Suite
-	Client       *baremetal.Client
-	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	Config       string
 	ResourceName string
@@ -22,10 +20,9 @@ type DatasourceIdentitySwiftPasswordsTestSuite struct {
 
 func (s *DatasourceIdentitySwiftPasswordsTestSuite) SetupTest() {
 	_, tokenFn := tokenize()
-	s.Client = testAccClient
-	s.Provider = testAccProvider
+
 	s.Providers = testAccProviders
-	s.Config = testProviderConfig() + tokenFn(`
+	s.Config = legacyTestProviderConfig() + tokenFn(`
 	resource "oci_identity_user" "t" {
 		name = "{{.token}}"
 		description = "tf test user"
@@ -66,10 +63,11 @@ func (s *DatasourceIdentitySwiftPasswordsTestSuite) TestAccDatasourceIdentitySwi
 					resource.TestCheckResourceAttrSet(s.ResourceName, "passwords.0.id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "passwords.0.user_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "passwords.0.time_created"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "passwords.0.expires_on"),
 					resource.TestCheckResourceAttr(s.ResourceName, "passwords.0.description", "tf test user swift password"),
-					resource.TestCheckResourceAttr(s.ResourceName, "passwords.0.state", "ACTIVE"),
-					resource.TestCheckResourceAttr(s.ResourceName, "passwords.0.inactive_state", "0"),
+					resource.TestCheckResourceAttr(s.ResourceName, "passwords.0.state", string(identity.SwiftPasswordLifecycleStateActive)),
+					// TODO: These fields are not being returned by the service call but are still showing up in the datasource
+					// resource.TestCheckNoResourceAttr(s.ResourceName, "passwords.0.expires_on",
+					// resource.TestCheckNoResourceAttr(s.ResourceName, "passwords.0.inactive_state"),
 				),
 			},
 		},

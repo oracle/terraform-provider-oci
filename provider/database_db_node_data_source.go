@@ -3,15 +3,17 @@
 package provider
 
 import (
+	"context"
+
 	"github.com/hashicorp/terraform/helper/schema"
-	"github.com/oracle/bmcs-go-sdk"
+	oci_database "github.com/oracle/oci-go-sdk/database"
 
 	"github.com/oracle/terraform-provider-oci/crud"
 )
 
-func DBNodeDatasource() *schema.Resource {
+func DbNodeDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDBNode,
+		Read: readDbNode,
 		Schema: map[string]*schema.Schema{
 			"db_node_id": {
 				Type:     schema.TypeString,
@@ -45,42 +47,75 @@ func DBNodeDatasource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			// todo: // @codegen omits this
+			"software_storage_size_in_gb": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
 		},
 	}
 }
 
-func readDBNode(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*OracleClients)
-	sync := &DBNodeDatasourceCrud{}
+func readDbNode(d *schema.ResourceData, m interface{}) error {
+	sync := &DbNodeDataSourceCrud{}
 	sync.D = d
-	sync.Client = client.client
+	sync.Client = m.(*OracleClients).databaseClient
+
 	return crud.ReadResource(sync)
 }
 
-type DBNodeDatasourceCrud struct {
+type DbNodeDataSourceCrud struct {
 	crud.BaseCrud
-	Res *baremetal.DBNode
+	Client *oci_database.DatabaseClient
+	Res    *oci_database.DbNode
 }
 
-func (s *DBNodeDatasourceCrud) Get() (e error) {
-	id := s.D.Get("db_node_id").(string)
-	res, e := s.Client.GetDBNode(id)
-	if e == nil {
-		s.Res = res
+func (s *DbNodeDataSourceCrud) Get() error {
+	request := oci_database.GetDbNodeRequest{}
+
+	dbNodeId := s.D.Get("db_node_id")
+	tmp := dbNodeId.(string)
+	request.DbNodeId = &tmp
+
+	response, err := s.Client.GetDbNode(context.Background(), request, getRetryOptions(false, "database")...)
+	if err != nil {
+		return err
 	}
-	return
+
+	s.Res = &response.DbNode
+	return nil
 }
 
-func (s *DBNodeDatasourceCrud) SetData() {
-	if s.Res != nil {
-		s.D.SetId(s.Res.ID)
-		s.D.Set("db_system_id", s.Res.DBSystemID)
-		s.D.Set("hostname", s.Res.Hostname)
-		s.D.Set("id", s.Res.ID)
-		s.D.Set("state", s.Res.State)
-		s.D.Set("time_created", s.Res.TimeCreated.String())
-		s.D.Set("vnic_id", s.Res.VnicID)
-		s.D.Set("backup_vnic_id", s.Res.BackupVnicID)
+func (s *DbNodeDataSourceCrud) SetData() {
+	s.D.SetId(*s.Res.Id)
+
+	if s.Res.BackupVnicId != nil {
+		s.D.Set("backup_vnic_id", *s.Res.BackupVnicId)
 	}
-	return
+
+	if s.Res.DbSystemId != nil {
+		s.D.Set("db_system_id", *s.Res.DbSystemId)
+	}
+
+	if s.Res.Hostname != nil {
+		s.D.Set("hostname", *s.Res.Hostname)
+	}
+
+	if s.Res.Id != nil {
+		s.D.Set("id", *s.Res.Id)
+	}
+
+	// todo: @codegen includes this but misses schema entry
+	if s.Res.SoftwareStorageSizeInGB != nil {
+		s.D.Set("software_storage_size_in_gb", *s.Res.SoftwareStorageSizeInGB)
+	}
+
+	s.D.Set("state", s.Res.LifecycleState)
+
+	s.D.Set("time_created", s.Res.TimeCreated.String())
+
+	if s.Res.VnicId != nil {
+		s.D.Set("vnic_id", *s.Res.VnicId)
+	}
+
 }

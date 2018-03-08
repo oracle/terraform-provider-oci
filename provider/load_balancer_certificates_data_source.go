@@ -3,17 +3,17 @@
 package provider
 
 import (
-	"time"
+	"context"
 
 	"github.com/hashicorp/terraform/helper/schema"
-	"github.com/oracle/bmcs-go-sdk"
+	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
 
 	"github.com/oracle/terraform-provider-oci/crud"
 )
 
-func CertificateDatasource() *schema.Resource {
+func CertificatesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readCertificate,
+		Read: readCertificates,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"load_balancer_id": {
@@ -23,49 +23,81 @@ func CertificateDatasource() *schema.Resource {
 			"certificates": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     LoadBalancerCertificateResource(),
+				Elem:     CertificateResource(),
 			},
 		},
 	}
 }
 
-func readCertificate(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*OracleClients)
-	sync := &CertificateDatasourceCrud{}
+func readCertificates(d *schema.ResourceData, m interface{}) error {
+	sync := &CertificatesDataSourceCrud{}
 	sync.D = d
-	sync.Client = client.client
+	sync.Client = m.(*OracleClients).loadBalancerClient
+
 	return crud.ReadResource(sync)
 }
 
-type CertificateDatasourceCrud struct {
-	crud.BaseCrud
-	Res *baremetal.ListCertificates
+type CertificatesDataSourceCrud struct {
+	D      *schema.ResourceData
+	Client *oci_load_balancer.LoadBalancerClient
+	Res    *oci_load_balancer.ListCertificatesResponse
 }
 
-func (s *CertificateDatasourceCrud) Get() (e error) {
-	lbID := s.D.Get("load_balancer_id").(string)
-	s.Res, e = s.Client.ListCertificates(lbID, nil)
-	return
+func (s *CertificatesDataSourceCrud) VoidState() {
+	s.D.SetId("")
 }
 
-func (s *CertificateDatasourceCrud) SetData() {
-	if s.Res != nil {
-		s.D.SetId(time.Now().UTC().String())
-		resources := []map[string]interface{}{}
-		for _, v := range s.Res.Certificates {
-			res := map[string]interface{}{
-				"ca_certificate":     v.CACertificate,
-				"certificate_name":   v.CertificateName,
-				"public_certificate": v.PublicCertificate,
-			}
-			resources = append(resources, res)
-		}
+func (s *CertificatesDataSourceCrud) Get() error {
+	request := oci_load_balancer.ListCertificatesRequest{}
 
-		if f, fOk := s.D.GetOk("filter"); fOk {
-			resources = ApplyFilters(f.(*schema.Set), resources)
-		}
-
-		s.D.Set("certificates", resources)
+	if loadBalancerId, ok := s.D.GetOkExists("load_balancer_id"); ok {
+		tmp := loadBalancerId.(string)
+		request.LoadBalancerId = &tmp
 	}
+
+	response, err := s.Client.ListCertificates(context.Background(), request, getRetryOptions(false, "load_balancer")...)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response
+
+	return nil
+}
+
+func (s *CertificatesDataSourceCrud) SetData() {
+	if s.Res == nil {
+		return
+	}
+
+	s.D.SetId(crud.GenerateDataSourceID())
+	resources := []map[string]interface{}{}
+
+	for _, r := range s.Res.Items {
+		certificate := map[string]interface{}{}
+
+		if r.CaCertificate != nil {
+			certificate["ca_certificate"] = *r.CaCertificate
+		}
+
+		if r.CertificateName != nil {
+			certificate["certificate_name"] = *r.CertificateName
+		}
+
+		if r.PublicCertificate != nil {
+			certificate["public_certificate"] = *r.PublicCertificate
+		}
+
+		resources = append(resources, certificate)
+	}
+
+	if f, fOk := s.D.GetOkExists("filter"); fOk {
+		resources = ApplyFilters(f.(*schema.Set), resources)
+	}
+
+	if err := s.D.Set("certificates", resources); err != nil {
+		panic(err)
+	}
+
 	return
 }

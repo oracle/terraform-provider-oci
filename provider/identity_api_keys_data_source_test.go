@@ -7,46 +7,33 @@ import (
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
-	"github.com/oracle/bmcs-go-sdk"
-
+	"github.com/oracle/oci-go-sdk/identity"
 	"github.com/stretchr/testify/suite"
 )
 
 type DatasourceIdentityAPIKeysTestSuite struct {
 	suite.Suite
-	Client       *baremetal.Client
 	Config       string
-	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	ResourceName string
-	List         *baremetal.ListAPIKeyResponses
+	List         identity.ListApiKeysResponse
 }
 
 func (s *DatasourceIdentityAPIKeysTestSuite) SetupTest() {
 	_, tokenFn := tokenize()
-	s.Client = testAccClient
-	s.Provider = testAccProvider
 	s.Providers = testAccProviders
-	s.Config = testProviderConfig() + tokenFn(`
+	s.Config = legacyTestProviderConfig() + tokenFn(`
 	resource "oci_identity_user" "t" {
-		name = "-tf-test"
+		name = "{{.userName}}"
 		description = "automated test user"
 	}
 	
 	resource "oci_identity_api_key" "t" {
 		user_id = "${oci_identity_user.t.id}"
 		key_value = <<EOF
------BEGIN PUBLIC KEY-----
-MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtBLQAGmKJ7tpfzYJyqLG
-ZDwHL51+d6T8Z00BnP9CFfzxZZZ48PcYSUHuTyCM8mR5JqYLyH6C8tZ/DKqwxUnc
-ONgBytG3MM42bgxfHIhsZRj5rCz1oqWlSLuXvgww1kuqWnt6r+NtnXog439YsGTH
-RotrTLTdEgOxH0EFP5uHUc9w/Uix7rWU7GB2ra060oeTB/hKpts5U70eI2EI6ec9
-1sJdUIj7xNfBJeQQrz4CFUrkyzL06211CFvhmxH2hA9gBKOqC3rGL8XraHZBhGWn
-mXlrQB7nNKsJrrv5fHwaPDrAY4iNP2W0q3LRpyNigJ6cgRuGJhHa82iHPmxgIx8m
-fwIDAQAB
------END PUBLIC KEY-----
+`+api_key+`
 EOF
-	}`, nil)
+	}`, map[string]string{"userName": "user_" + timestamp()})
 	s.ResourceName = "data.oci_identity_api_keys.t"
 }
 
@@ -66,8 +53,14 @@ func (s *DatasourceIdentityAPIKeysTestSuite) TestAccDatasourceIdentityAPIKeys_ba
 				  user_id = "${oci_identity_user.t.id}"
 				}`,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet(s.ResourceName, "api_keys.0.id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "api_keys.#", "1"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "api_keys.0.id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "api_keys.0.fingerprint"),
+					resource.TestCheckResourceAttr(s.ResourceName, "api_keys.0.key_value", api_key),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "api_keys.0.time_created"),
+					// TODO: This field is not being returned by the service call but is showing up in the datasource
+					//resource.TestCheckNoResourceAttr(s.ResourceName, "api_keys.0.inactive_status"),
+					resource.TestCheckResourceAttr(s.ResourceName, "api_keys.0.state", string(identity.ApiKeyLifecycleStateActive)),
 				),
 			},
 		},

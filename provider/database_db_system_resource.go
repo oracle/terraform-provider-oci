@@ -3,28 +3,37 @@
 package provider
 
 import (
+	"context"
+
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/helper/validation"
-	"github.com/oracle/bmcs-go-sdk"
 
 	"github.com/oracle/terraform-provider-oci/crud"
+
+	"net/http"
+	"strconv"
+
+	oci_database "github.com/oracle/oci-go-sdk/database"
+
+	"strings"
 )
 
-func DBSystemResource() *schema.Resource {
+func DbSystemResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
+			// crud.ZeroTime is a marker so a user supplied default is not overwritten. See crud.CreateDBSystemResource
 			Create: &crud.ZeroTime,
 			Delete: &crud.TwoHours,
 			Update: &crud.TwoHours,
 		},
-		Create: createDBSystem,
-		Read:   readDBSystem,
-		Delete: deleteDBSystem,
+		Create: createDbSystem,
+		Read:   readDbSystem,
+		Delete: deleteDbSystem,
 		Schema: map[string]*schema.Schema{
-			//Required
+			// Required
 			"availability_domain": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -35,83 +44,99 @@ func DBSystemResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
-			"shape": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
-			},
-			"subnet_id": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
-			},
-			"ssh_public_keys": {
-				Type:     schema.TypeList,
-				Required: true,
-				ForceNew: true,
-				Elem: &schema.Schema{
-					Type: schema.TypeString,
-				},
-			},
 			"cpu_core_count": {
 				Type:     schema.TypeInt,
 				Required: true,
-				ForceNew: true,
+				ForceNew: true, // todo: remove when update is supported
 			},
 			"database_edition": {
 				Type:     schema.TypeString,
-				ForceNew: true,
 				Required: true,
+				ForceNew: true,
 			},
 			"db_home": {
 				Type:     schema.TypeList,
 				Required: true,
 				ForceNew: true,
 				MaxItems: 1,
+				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
+						// Required
 						"database": {
 							Type:     schema.TypeList,
 							Required: true,
 							ForceNew: true,
 							MaxItems: 1,
+							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
+									// Required
 									"admin_password": {
 										Type:      schema.TypeString,
 										Required:  true,
-										Sensitive: true,
 										ForceNew:  true,
+										Sensitive: true,
 									},
 									"db_name": {
 										Type:     schema.TypeString,
 										Required: true,
 										ForceNew: true,
 									},
-									"db_workload": {
-										Type:     schema.TypeString,
-										Optional: true,
-										ForceNew: true,
-										Computed: true,
-									},
+
+									// Optional
+									// server side defaults to AL32UTF8, but returns as "" when not supplied
 									"character_set": {
 										Type:     schema.TypeString,
 										Optional: true,
-										ForceNew: true,
 										Computed: true,
+										ForceNew: true,
 									},
+									"db_backup_config": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+												"auto_backup_enabled": {
+													Type:     schema.TypeBool,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+
+												// Computed
+											},
+										},
+									},
+									// this supports OLTP or DSS, returns "" if not supplied
+									"db_workload": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									// serverside defaults to AL16UTF16, but returns as "" if not supplied
 									"ncharacter_set": {
 										Type:     schema.TypeString,
 										Optional: true,
-										ForceNew: true,
 										Computed: true,
+										ForceNew: true,
 									},
 									"pdb_name": {
 										Type:     schema.TypeString,
 										Optional: true,
-										ForceNew: true,
 										Computed: true,
+										ForceNew: true,
 									},
+
+									// Computed
 								},
 							},
 						},
@@ -120,40 +145,45 @@ func DBSystemResource() *schema.Resource {
 							Required: true,
 							ForceNew: true,
 						},
+
+						// Optional
 						"display_name": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 							ForceNew: true,
 						},
+
+						// Computed
 					},
 				},
 			},
 			"hostname": {
+				Type:             schema.TypeString,
+				Required:         true,
+				ForceNew:         true,
+				DiffSuppressFunc: crud.EqualIgnoreCaseSuppressDiff,
+			},
+			"shape": {
 				Type:     schema.TypeString,
-				ForceNew: true,
 				Required: true,
+				ForceNew: true,
+			},
+			"ssh_public_keys": {
+				Type:     schema.TypeList,
+				Required: true,
+				ForceNew: true, // todo: remove when update is supported
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
+			"subnet_id": {
+				Type:     schema.TypeString,
+				Required: true,
+				ForceNew: true,
 			},
 
-			//Optional
-			"display_name": {
-				Type:     schema.TypeString,
-				Computed: true,
-				ForceNew: true,
-				Optional: true,
-			},
-			"disk_redundancy": {
-				Type:     schema.TypeString,
-				Computed: true,
-				ForceNew: true,
-				Optional: true,
-			},
-			"domain": {
-				Type:     schema.TypeString,
-				Computed: true,
-				ForceNew: true,
-				Optional: true,
-			},
+			// Optional
 			"backup_subnet_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -162,40 +192,65 @@ func DBSystemResource() *schema.Resource {
 			},
 			"cluster_name": {
 				Type:     schema.TypeString,
-				Computed: true,
 				Optional: true,
+				Computed: true,
 				ForceNew: true,
 			},
 			"data_storage_percentage": {
 				Type:     schema.TypeInt,
-				Computed: true,
 				Optional: true,
+				Computed: true,
 				ForceNew: true,
 			},
+			"disk_redundancy": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"display_name": {
+				Type:     schema.TypeString,
+				Optional: true, // omitting property or setting empty results in a server generated name like "dbsystem20180214005205"
+				Computed: true,
+				ForceNew: true,
+			},
+			"domain": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			// @codegen "initial_data_storage_size_in_gb" not scoped for this effort
+			"license_model": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				ValidateFunc: validation.StringInSlice([]string{
+					string(oci_database.DbSystemLicenseModelLicenseIncluded),
+					string(oci_database.DbSystemLicenseModelBringYourOwnLicense)}, false),
+			},
+			"node_count": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+
+			// Computed
+
+			// @CODEGEN support legacy name
 			"data_storage_size_in_gb": {
 				Type:     schema.TypeInt,
 				Computed: true,
 				Optional: true,
-				ForceNew: true,
+				ForceNew: true, // remove when update is supported
 			},
-			"license_model": {
+			"id": {
 				Type:     schema.TypeString,
 				Computed: true,
-				Optional: true,
-				ForceNew: true,
-				ValidateFunc: validation.StringInSlice([]string{
-					string(baremetal.LicenseIncluded),
-					string(baremetal.BringYourOwnLicense)}, false),
 			},
-			"node_count": {
-				Type:     schema.TypeInt,
-				Computed: true,
-				Optional: true,
-				ForceNew: true,
-			},
-
-			//Computed
-			"id": {
+			"last_patch_history_entry_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -216,11 +271,11 @@ func DBSystemResource() *schema.Resource {
 				Computed: true,
 			},
 			"scan_ip_ids": {
-				Type: schema.TypeList,
+				Type:     schema.TypeList,
+				Computed: true,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
-				Computed: true,
 			},
 			"state": {
 				Type:     schema.TypeString,
@@ -235,204 +290,400 @@ func DBSystemResource() *schema.Resource {
 				Computed: true,
 			},
 			"vip_ids": {
-				Type: schema.TypeList,
+				Type:     schema.TypeList,
+				Computed: true,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
-				Computed: true,
 			},
 		},
 	}
 }
 
-func createDBSystem(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*OracleClients)
-	sync := &DBSystemResourceCrud{}
+func createDbSystem(d *schema.ResourceData, m interface{}) error {
+	sync := &DbSystemResourceCrud{}
 	sync.D = d
-	sync.Client = client.client
+	sync.Client = m.(*OracleClients).databaseClient
+
 	return crud.CreateDBSystemResource(d, sync)
 }
 
-func readDBSystem(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*OracleClients)
-	sync := &DBSystemResourceCrud{}
+func readDbSystem(d *schema.ResourceData, m interface{}) error {
+	sync := &DbSystemResourceCrud{}
 	sync.D = d
-	sync.Client = client.client
+	sync.Client = m.(*OracleClients).databaseClient
+
 	return crud.ReadResource(sync)
 }
 
-func deleteDBSystem(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*OracleClients)
-	sync := &DBSystemResourceCrud{}
+// @codegen: todo: integrate and test update functionality. The use cases for reconciling initial_data_storage_size_in_gb
+// and data_storage_size_in_gb between create and update operations need consideration and thorough testing
+
+func deleteDbSystem(d *schema.ResourceData, m interface{}) error {
+	sync := &DbSystemResourceCrud{}
 	sync.D = d
-	sync.Client = client.clientWithoutNotFoundRetries
+	sync.Client = m.(*OracleClients).databaseClient
+	sync.DisableNotFoundRetries = true
+
 	return crud.DeleteResource(d, sync)
 }
 
-type DBSystemResourceCrud struct {
+type DbSystemResourceCrud struct {
 	crud.BaseCrud
-	Res *baremetal.DBSystem
+	Client                 *oci_database.DatabaseClient
+	Res                    *oci_database.DbSystem
+	DisableNotFoundRetries bool
 }
 
-func (s *DBSystemResourceCrud) ID() string {
-	return s.Res.ID
+func (s *DbSystemResourceCrud) ID() string {
+	return *s.Res.Id
 }
 
-func (s *DBSystemResourceCrud) CreatedPending() []string {
-	return []string{baremetal.ResourceProvisioning}
-}
-
-func (s *DBSystemResourceCrud) CreatedTarget() []string {
-	return []string{baremetal.ResourceAvailable}
-}
-
-func (s *DBSystemResourceCrud) DeletedPending() []string {
-	return []string{baremetal.ResourceTerminating}
-}
-
-func (s *DBSystemResourceCrud) DeletedTarget() []string {
-	return []string{baremetal.ResourceTerminated}
-}
-
-func (s *DBSystemResourceCrud) State() string {
-	return s.Res.State
-}
-
-func (s *DBSystemResourceCrud) Create() (e error) {
-	availabilityDomain := s.D.Get("availability_domain").(string)
-	compartmentID := s.D.Get("compartment_id").(string)
-	cpuCoreCount := uint64(s.D.Get("cpu_core_count").(int))
-	databaseEdition := baremetal.DatabaseEdition(s.D.Get("database_edition").(string))
-	hostname := s.D.Get("hostname").(string)
-	shape := s.D.Get("shape").(string)
-	sshPublicKeys := []string{}
-	for _, key := range s.D.Get("ssh_public_keys").([]interface{}) {
-		sshPublicKeys = append(sshPublicKeys, key.(string))
+func (s *DbSystemResourceCrud) CreatedPending() []string {
+	return []string{
+		string(oci_database.DbSystemLifecycleStateProvisioning),
 	}
-	subnetID := s.D.Get("subnet_id").(string)
-	rawDBHome := s.D.Get("db_home")
-	var dbHomeDetails baremetal.CreateDBHomeDetails
-	l := rawDBHome.([]interface{})
-	if len(l) > 0 {
-		dbHome := l[0].(map[string]interface{})
-		db := dbHome["database"].([]interface{})[0].(map[string]interface{})
-		dbVersion := dbHome["db_version"].(string)
-		displayName := dbHome["display_name"]
-		adminPassword := db["admin_password"].(string)
-		dbName := db["db_name"].(string)
-		dbWorkload := db["db_workload"]
-		characterSet := db["character_set"]
-		ncharacterSet := db["ncharacter_set"]
-		pdbName := db["pdb_name"]
+}
 
-		dbHomeOpts := &baremetal.CreateDBHomeOptions{}
-		if displayName != nil {
-			dbHomeOpts.DisplayName = displayName.(string)
+func (s *DbSystemResourceCrud) CreatedTarget() []string {
+	return []string{
+		string(oci_database.DbSystemLifecycleStateAvailable),
+	}
+}
+
+func (s *DbSystemResourceCrud) DeletedPending() []string {
+	return []string{
+		string(oci_database.DbSystemLifecycleStateTerminating),
+	}
+}
+
+func (s *DbSystemResourceCrud) DeletedTarget() []string {
+	return []string{
+		string(oci_database.DbSystemLifecycleStateTerminated),
+	}
+}
+
+func (s *DbSystemResourceCrud) Create() error {
+	request := oci_database.LaunchDbSystemRequest{}
+
+	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
+		tmp := availabilityDomain.(string)
+		request.AvailabilityDomain = &tmp
+	}
+
+	if backupSubnetId, ok := s.D.GetOkExists("backup_subnet_id"); ok {
+		tmp := backupSubnetId.(string)
+		request.BackupSubnetId = &tmp
+	}
+
+	if clusterName, ok := s.D.GetOkExists("cluster_name"); ok {
+		tmp := clusterName.(string)
+		request.ClusterName = &tmp
+	}
+
+	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+		tmp := compartmentId.(string)
+		request.CompartmentId = &tmp
+	}
+
+	if cpuCoreCount, ok := s.D.GetOkExists("cpu_core_count"); ok {
+		tmp := cpuCoreCount.(int)
+		request.CpuCoreCount = &tmp
+	}
+
+	if dataStoragePercentage, ok := s.D.GetOkExists("data_storage_percentage"); ok {
+		tmp := dataStoragePercentage.(int)
+		request.DataStoragePercentage = &tmp
+	}
+
+	if databaseEdition, ok := s.D.GetOkExists("database_edition"); ok {
+		request.DatabaseEdition = oci_database.LaunchDbSystemDetailsDatabaseEditionEnum(databaseEdition.(string))
+	}
+
+	if dbHome, ok := s.D.GetOkExists("db_home"); ok {
+		if tmpList := dbHome.([]interface{}); len(tmpList) > 0 {
+			tmp := mapToCreateDbHomeDetails(tmpList[0].(map[string]interface{}))
+			request.DbHome = &tmp
 		}
-		dbOpts := &baremetal.CreateDatabaseOptions{}
-		if dbWorkload != nil {
-			dbOpts.DBWorkload = dbWorkload.(string)
-		}
-		if characterSet != nil {
-			dbOpts.CharacterSet = characterSet.(string)
-		}
-		if ncharacterSet != nil {
-			dbOpts.NCharacterSet = ncharacterSet.(string)
-		}
-		if pdbName != nil {
-			dbOpts.PDBName = pdbName.(string)
-		}
-
-		dbHomeDetails = baremetal.NewCreateDBHomeDetails(
-			baremetal.NewCreateDatabaseDetails(adminPassword, dbName, dbOpts),
-			dbVersion,
-			dbHomeOpts,
-		)
 	}
 
-	opts := &baremetal.LaunchDBSystemOptions{}
-	if backupSubnetId, ok := s.D.GetOk("backup_subnet_id"); ok {
-		opts.BackupSubnetId = backupSubnetId.(string)
-	}
-	if clusterName, ok := s.D.GetOk("cluster_name"); ok {
-		opts.ClusterName = clusterName.(string)
-	}
-	if dataStoragePercentage, ok := s.D.GetOk("data_storage_percentage"); ok {
-		opts.DataStoragePercentage = dataStoragePercentage.(int)
-	}
-	if diskRedundancy, ok := s.D.GetOk("disk_redundancy"); ok {
-		opts.DiskRedundancy = baremetal.DiskRedundancy(diskRedundancy.(string))
-	}
-	if displayName, ok := s.D.GetOk("display_name"); ok {
-		opts.DisplayName = displayName.(string)
-	}
-	if domain, ok := s.D.GetOk("domain"); ok {
-		opts.Domain = domain.(string)
-	}
-	if initialDataStorageSizeInGB, ok := s.D.GetOk("data_storage_size_in_gb"); ok {
-		opts.InitialDataStorageSizeInGB = initialDataStorageSizeInGB.(int)
-	}
-	if licenseModel, ok := s.D.GetOk("license_model"); ok {
-		opts.LicenseModel = baremetal.LicenseModel(licenseModel.(string))
-	}
-	if nodeCount, ok := s.D.GetOk("node_count"); ok {
-		opts.NodeCount = nodeCount.(int)
+	if diskRedundancy, ok := s.D.GetOkExists("disk_redundancy"); ok {
+		request.DiskRedundancy = oci_database.LaunchDbSystemDetailsDiskRedundancyEnum(diskRedundancy.(string))
 	}
 
-	s.Res, e = s.Client.LaunchDBSystem(
-		availabilityDomain, compartmentID, cpuCoreCount, databaseEdition, dbHomeDetails,
-		hostname, shape, sshPublicKeys, subnetID,
-		opts,
-	)
+	if displayName, ok := s.D.GetOkExists("display_name"); ok {
+		tmp := displayName.(string)
+		if len(tmp) > 0 {
+			request.DisplayName = &tmp
+		}
+	}
 
-	return
+	if domain, ok := s.D.GetOkExists("domain"); ok {
+		tmp := domain.(string)
+		request.Domain = &tmp
+	}
+
+	if hostname, ok := s.D.GetOkExists("hostname"); ok {
+		tmp := hostname.(string)
+		request.Hostname = &tmp
+	}
+
+	if dataStorageSizeInGB, ok := s.D.GetOkExists("data_storage_size_in_gb"); ok {
+		tmp := dataStorageSizeInGB.(int)
+		request.InitialDataStorageSizeInGB = &tmp
+	}
+
+	if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
+		request.LicenseModel = oci_database.LaunchDbSystemDetailsLicenseModelEnum(licenseModel.(string))
+	}
+
+	if nodeCount, ok := s.D.GetOkExists("node_count"); ok {
+		tmp := nodeCount.(int)
+		request.NodeCount = &tmp
+	}
+
+	if shape, ok := s.D.GetOkExists("shape"); ok {
+		tmp := shape.(string)
+		request.Shape = &tmp
+	}
+
+	request.SshPublicKeys = []string{}
+	if sshPublicKeys, ok := s.D.GetOkExists("ssh_public_keys"); ok {
+		interfaces := sshPublicKeys.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i, toBeConverted := range interfaces {
+			if toBeConverted != nil {
+				tmp[i] = toBeConverted.(string)
+			}
+		}
+		request.SshPublicKeys = tmp
+	}
+
+	if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
+		tmp := subnetId.(string)
+		request.SubnetId = &tmp
+	}
+
+	// Internal, not intended for public use.
+	// This flag allows faster testing but requires a whitelisted tenancy to use.
+	// To use set environment variable: simulate_db=true
+	simulateDb, _ := strconv.ParseBool(getEnvSetting("simulate_db", "false"))
+	if simulateDb {
+		s.Client.Interceptor = func(r *http.Request) error {
+			if r.Method == http.MethodPost && strings.Contains(r.URL.Path, "/dbSystems") {
+				r.Header.Set("opc-host-serial", "FAKEHOSTSERIAL")
+			}
+			return nil
+		}
+	}
+
+	response, err := s.Client.LaunchDbSystem(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "database")...)
+	if err != nil {
+		return err
+	}
+
+	s.Client.Interceptor = nil
+
+	s.Res = &response.DbSystem
+	return nil
 }
 
-func (s *DBSystemResourceCrud) Get() (e error) {
-	res, e := s.Client.GetDBSystem(s.D.Id())
-	if e == nil {
-		s.Res = res
+func (s *DbSystemResourceCrud) Get() error {
+	request := oci_database.GetDbSystemRequest{}
+
+	tmp := s.D.Id()
+	request.DbSystemId = &tmp
+
+	response, err := s.Client.GetDbSystem(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "database")...)
+	if err != nil {
+		return err
 	}
-	return
+
+	s.Res = &response.DbSystem
+	return nil
 }
 
-func (s *DBSystemResourceCrud) SetData() {
-	//Required
-	s.D.Set("availability_domain", s.Res.AvailabilityDomain)
-	s.D.Set("compartment_id", s.Res.CompartmentID)
-	s.D.Set("cpu_core_count", s.Res.CPUCoreCount)
+func (s *DbSystemResourceCrud) Delete() error {
+	request := oci_database.TerminateDbSystemRequest{}
+
+	tmp := s.D.Id()
+	request.DbSystemId = &tmp
+
+	_, err := s.Client.TerminateDbSystem(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "database")...)
+	return err
+}
+
+func (s *DbSystemResourceCrud) SetData() {
+	if s.Res.AvailabilityDomain != nil {
+		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
+	}
+
+	if s.Res.BackupSubnetId != nil {
+		s.D.Set("backup_subnet_id", *s.Res.BackupSubnetId)
+	}
+
+	if s.Res.ClusterName != nil {
+		s.D.Set("cluster_name", *s.Res.ClusterName)
+	}
+
+	if s.Res.CompartmentId != nil {
+		s.D.Set("compartment_id", *s.Res.CompartmentId)
+	}
+
+	if s.Res.CpuCoreCount != nil {
+		s.D.Set("cpu_core_count", *s.Res.CpuCoreCount)
+	}
+
+	if s.Res.DataStoragePercentage != nil {
+		s.D.Set("data_storage_percentage", *s.Res.DataStoragePercentage)
+	}
+
+	if s.Res.DataStorageSizeInGBs != nil {
+		s.D.Set("data_storage_size_in_gb", *s.Res.DataStorageSizeInGBs)
+	}
+
 	s.D.Set("database_edition", s.Res.DatabaseEdition)
-	s.D.Set("db_home", s.Res.DBHome)
-	//leave hostname commented out. Refreshing hostname causes problems because API adds suffix in some cases (like Exadata).
-	//s.D.Set("hostname", s.Res.Hostname)
-	s.D.Set("shape", s.Res.Shape)
-	s.D.Set("ssh_public_keys", s.Res.SSHPublicKeys)
-	s.D.Set("subnet_id", s.Res.SubnetID)
 
-	//Optional
-	s.D.Set("backup_subnet_id", s.Res.BackupSubnetID)
-	s.D.Set("cluster_name", s.Res.ClusterName)
-	s.D.Set("data_storage_percentage", s.Res.DataStoragePercentage)
-	s.D.Set("data_storage_size_in_gb", s.Res.DataStorageSizeInGBs)
+	// todo: at this point the DBHome object should be pulled and refreshed on this resource
+	//s.D.Set("db_home", s.Res.DBHome)
+
 	s.D.Set("disk_redundancy", s.Res.DiskRedundancy)
-	s.D.Set("display_name", s.Res.DisplayName)
-	s.D.Set("domain", s.Res.Domain)
-	s.D.Set("license_model", s.Res.LicenseModel)
-	s.D.Set("node_count", s.Res.NodeCount)
 
-	//Computed
-	s.D.Set("id", s.Res.ID)
-	s.D.Set("lifecycle_details", s.Res.LifecycleDetails)
-	s.D.Set("listener_port", s.Res.ListenerPort)
-	s.D.Set("reco_storage_size_in_gb", s.Res.RecoStorageSizeInGB)
-	s.D.Set("scan_dns_record_id", s.Res.ScanDnsRecordId)
+	if s.Res.DisplayName != nil {
+		s.D.Set("display_name", *s.Res.DisplayName)
+	}
+
+	if s.Res.Domain != nil {
+		s.D.Set("domain", *s.Res.Domain)
+	}
+
+	// @codegen: Do not set hostname. Refreshing hostname causes undesirable diffs because the service may add a suffix
+	// as in the case of Exadatas. Possible implication when importing the resource.
+
+	if s.Res.Id != nil {
+		s.D.Set("id", *s.Res.Id)
+	}
+
+	if s.Res.LastPatchHistoryEntryId != nil {
+		s.D.Set("last_patch_history_entry_id", *s.Res.LastPatchHistoryEntryId)
+	}
+
+	s.D.Set("license_model", s.Res.LicenseModel)
+
+	if s.Res.LifecycleDetails != nil {
+		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
+	}
+
+	if s.Res.ListenerPort != nil {
+		s.D.Set("listener_port", *s.Res.ListenerPort)
+	}
+
+	if s.Res.NodeCount != nil {
+		s.D.Set("node_count", *s.Res.NodeCount)
+	}
+
+	if s.Res.RecoStorageSizeInGB != nil {
+		s.D.Set("reco_storage_size_in_gb", *s.Res.RecoStorageSizeInGB)
+	}
+
+	if s.Res.ScanDnsRecordId != nil {
+		s.D.Set("scan_dns_record_id", *s.Res.ScanDnsRecordId)
+	}
+
 	s.D.Set("scan_ip_ids", s.Res.ScanIpIds)
-	s.D.Set("state", s.Res.State)
+
+	if s.Res.Shape != nil {
+		s.D.Set("shape", *s.Res.Shape)
+	}
+
+	s.D.Set("ssh_public_keys", s.Res.SshPublicKeys)
+
+	s.D.Set("state", s.Res.LifecycleState)
+
+	if s.Res.SubnetId != nil {
+		s.D.Set("subnet_id", *s.Res.SubnetId)
+	}
+
 	s.D.Set("time_created", s.Res.TimeCreated.String())
-	s.D.Set("version", s.Res.Version)
+
+	if s.Res.Version != nil {
+		s.D.Set("version", *s.Res.Version)
+	}
+
 	s.D.Set("vip_ids", s.Res.VipIds)
+
 }
 
-func (s *DBSystemResourceCrud) Delete() (e error) {
-	return s.Client.TerminateDBSystem(s.D.Id(), nil)
+func mapToCreateDatabaseDetails(raw map[string]interface{}) oci_database.CreateDatabaseDetails {
+	result := oci_database.CreateDatabaseDetails{}
+
+	if adminPassword, ok := raw["admin_password"]; ok {
+		tmp := adminPassword.(string)
+		result.AdminPassword = &tmp
+	}
+
+	if characterSet, ok := raw["character_set"]; ok {
+		tmp := characterSet.(string)
+		if len(tmp) > 0 {
+			result.CharacterSet = &tmp
+		}
+	}
+
+	if dbBackupConfig, ok := raw["db_backup_config"]; ok {
+		if tmpList := dbBackupConfig.([]interface{}); len(tmpList) > 0 {
+			tmp := mapToDbBackupConfig(tmpList[0].(map[string]interface{}))
+			result.DbBackupConfig = &tmp
+		}
+	}
+
+	if dbName, ok := raw["db_name"]; ok {
+		tmp := dbName.(string)
+		result.DbName = &tmp
+	}
+
+	if dbWorkload, ok := raw["db_workload"]; ok {
+		tmp := dbWorkload.(string)
+		result.DbWorkload = oci_database.CreateDatabaseDetailsDbWorkloadEnum(tmp)
+	}
+
+	if ncharacterSet, ok := raw["ncharacter_set"]; ok {
+		tmp := ncharacterSet.(string)
+		if len(tmp) > 0 {
+			result.NcharacterSet = &tmp
+		}
+	}
+
+	if pdbName, ok := raw["pdb_name"]; ok {
+		tmp := pdbName.(string)
+		if len(tmp) > 0 {
+			result.PdbName = &tmp
+		}
+	}
+
+	return result
+}
+
+func mapToCreateDbHomeDetails(raw map[string]interface{}) oci_database.CreateDbHomeDetails {
+	result := oci_database.CreateDbHomeDetails{}
+
+	if database, ok := raw["database"]; ok {
+		if tmpList := database.([]interface{}); len(tmpList) > 0 {
+			tmp := mapToCreateDatabaseDetails(tmpList[0].(map[string]interface{}))
+			result.Database = &tmp
+		}
+	}
+
+	if dbVersion, ok := raw["db_version"]; ok {
+		tmp := dbVersion.(string)
+		result.DbVersion = &tmp
+	}
+
+	if displayName, ok := raw["display_name"]; ok {
+		tmp := displayName.(string)
+		if len(tmp) > 0 {
+			result.DisplayName = &tmp
+		}
+	}
+
+	return result
 }

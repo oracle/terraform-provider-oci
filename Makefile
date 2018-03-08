@@ -1,6 +1,6 @@
 GOFMT_FILES?=$$(find . -name '*.go' | grep -v vendor)
 
-default: build
+default: fmt build
 build: ;go build -o terraform-provider-oci
 clean: ;@rm -rf terraform-provider-oci  rm -rf bin/*  rm bin
 fmt: ;goimports -w -local github.com/oracle/terraform-provider-oci $(GOFMT_FILES)
@@ -28,12 +28,12 @@ ifdef run
   cmd := $(cmd) -run $(run)
 endif
 ifdef debug
-  cmd := DEBUG=true TF_LOG=DEBUG $(cmd)
+  cmd := DEBUG=true TF_LOG=DEBUG OCI_GO_SDK_DEBUG=1 $(cmd)
 endif
 test: ;$(cmd)
 
 test_print:
-	@grep -ohi "Test.*$(test).*TestSuite" *.go
-	@grep -oh "TestAcc.*\*testing.T" *.go | cut -d \( -f 1
+	@grep -ohi "Test.*$(test).*TestSuite" provider/*.go
+	@grep -oh "TestAcc.*\*testing.T" provider/*.go | cut -d \( -f 1
 
 .PHONY: build clean fmt release zip test test_print

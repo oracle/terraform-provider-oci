@@ -7,16 +7,14 @@ import (
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
-	baremetal "github.com/oracle/bmcs-go-sdk"
 
+	"github.com/oracle/oci-go-sdk/core"
 	"github.com/stretchr/testify/suite"
 )
 
 type DatasourceCoreDrgTestSuite struct {
 	suite.Suite
-	Client       *baremetal.Client
 	Config       string
-	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	ResourceName string
 	Token        string
@@ -25,10 +23,8 @@ type DatasourceCoreDrgTestSuite struct {
 
 func (s *DatasourceCoreDrgTestSuite) SetupTest() {
 	s.Token, s.TokenFn = tokenize()
-	s.Client = testAccClient
-	s.Provider = testAccProvider
 	s.Providers = testAccProviders
-	s.Config = testProviderConfig() + s.TokenFn(`
+	s.Config = legacyTestProviderConfig() + s.TokenFn(`
 	resource "oci_core_drg" "t" {
 		compartment_id = "${var.compartment_id}"
 		display_name = "{{.token}}"
@@ -55,7 +51,7 @@ func (s *DatasourceCoreDrgTestSuite) TestAccDatasourceCoreDrg_basic() {
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "drgs.#", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "drgs.0.display_name", s.Token),
-					resource.TestCheckResourceAttr(s.ResourceName, "drgs.0.state", "AVAILABLE"),
+					resource.TestCheckResourceAttr(s.ResourceName, "drgs.0.state", string(core.DrgLifecycleStateAvailable)),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "drgs.0.id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "drgs.0.time_created"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "drgs.0.compartment_id"),

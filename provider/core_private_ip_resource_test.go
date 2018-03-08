@@ -9,27 +9,22 @@ import (
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
-	"github.com/oracle/bmcs-go-sdk"
 	"github.com/stretchr/testify/suite"
 )
 
 type ResourcePrivateIPTestSuite struct {
 	suite.Suite
-	Client       *baremetal.Client
-	Provider     terraform.ResourceProvider
 	Providers    map[string]terraform.ResourceProvider
 	Config       string
 	ResourceName string
 }
 
 func (s *ResourcePrivateIPTestSuite) SetupTest() {
-	s.Client = testAccClient
-	s.Provider = testAccProvider
 	s.Providers = testAccProviders
-	s.Config = testProvider1() + testADs() + testVCN1() + testSubnet1() + testImage1() + testInstance1() + `
+	s.Config = legacyTestProviderConfig() + testADs() + testVCN1() + testSubnet1() + testImage1() + testInstance1() + `
 	data "oci_core_vnic_attachments" "t" {
 		availability_domain = "${data.oci_identity_availability_domains.t.availability_domains.0.name}"
-		compartment_id = "${var.compartment_ocid}"
+		compartment_id = "${var.compartment_id}"
 		instance_id = "${oci_core_instance.t.id}"
 	}`
 
@@ -59,6 +54,8 @@ func (s *ResourcePrivateIPTestSuite) TestAccCoreResourcePrivateIP_basic() {
 					resource.TestCheckResourceAttrSet(s.ResourceName, "is_primary"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "subnet_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
+					// hostname_label should not be set unless explicitly set
+					resource.TestCheckNoResourceAttr(s.ResourceName, "hostname_label"),
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-private-ip"),
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, "oci_core_private_ip.t", "id")
@@ -75,6 +72,15 @@ func (s *ResourcePrivateIPTestSuite) TestAccCoreResourcePrivateIP_basic() {
 				}`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-private-ip2"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "vnic_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "ip_address"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "compartment_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "is_primary"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "subnet_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
+					// hostname_label should not be set unless explicitly set
+					resource.TestCheckNoResourceAttr(s.ResourceName, "hostname_label"),
 				),
 			},
 			// test add host name label
@@ -86,6 +92,14 @@ func (s *ResourcePrivateIPTestSuite) TestAccCoreResourcePrivateIP_basic() {
 					hostname_label = "ahostname"
 				}`,
 				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-private-ip2"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "vnic_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "ip_address"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "compartment_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "is_primary"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "subnet_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
 					resource.TestCheckResourceAttr(s.ResourceName, "hostname_label", "ahostname"),
 				),
 			},
@@ -99,6 +113,15 @@ func (s *ResourcePrivateIPTestSuite) TestAccCoreResourcePrivateIP_basic() {
 					ip_address = "10.0.1.22"
 				}`,
 				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-private-ip2"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "vnic_id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "ip_address", "10.0.1.22"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "compartment_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "is_primary"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "subnet_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
+					resource.TestCheckResourceAttr(s.ResourceName, "hostname_label", "ahostname"),
 					func(s *terraform.State) (err error) {
 						resId2, err := fromInstanceState(s, "oci_core_private_ip.t", "id")
 						if resId == resId2 {

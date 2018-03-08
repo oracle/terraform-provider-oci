@@ -3,17 +3,15 @@
 package provider
 
 import (
-	"time"
+	"context"
 
 	"github.com/hashicorp/terraform/helper/schema"
-	"github.com/oracle/bmcs-go-sdk"
-
-	"github.com/oracle/terraform-provider-oci/options"
+	oci_core "github.com/oracle/oci-go-sdk/core"
 
 	"github.com/oracle/terraform-provider-oci/crud"
 )
 
-func ImageDatasource() *schema.Resource {
+func ImagesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readImages,
 		Schema: map[string]*schema.Schema{
@@ -22,23 +20,29 @@ func ImageDatasource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"limit": {
-				Type:     schema.TypeInt,
-				Optional: true,
-			},
-			"page": {
-				Type:     schema.TypeString,
-				Optional: true,
-			},
 			"display_name": {
 				Type:     schema.TypeString,
 				Optional: true,
+			},
+			"limit": {
+				Type:       schema.TypeInt,
+				Optional:   true,
+				Deprecated: crud.FieldDeprecated("limit"),
 			},
 			"operating_system": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
 			"operating_system_version": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"page": {
+				Type:       schema.TypeString,
+				Optional:   true,
+				Deprecated: crud.FieldDeprecated("page"),
+			},
+			"state": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -51,75 +55,132 @@ func ImageDatasource() *schema.Resource {
 	}
 }
 
-func readImages(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*OracleClients)
-	sync := &ImageDatasourceCrud{}
+func readImages(d *schema.ResourceData, m interface{}) error {
+	sync := &ImagesDataSourceCrud{}
 	sync.D = d
-	sync.Client = client.client
+	sync.Client = m.(*OracleClients).computeClient
+
 	return crud.ReadResource(sync)
 }
 
-type ImageDatasourceCrud struct {
-	crud.BaseCrud
-	Res *baremetal.ListImages
+type ImagesDataSourceCrud struct {
+	D      *schema.ResourceData
+	Client *oci_core.ComputeClient
+	Res    *oci_core.ListImagesResponse
 }
 
-func (s *ImageDatasourceCrud) Get() (e error) {
-	compartmentID := s.D.Get("compartment_id").(string)
-
-	opts := &baremetal.ListImagesOptions{}
-	options.SetListOptions(s.D, &opts.ListOptions)
-	if val, ok := s.D.GetOk("operating_system"); ok {
-		opts.OperatingSystem = val.(string)
-	}
-	if val, ok := s.D.GetOk("operating_system_version"); ok {
-		opts.OperatingSystemVersion = val.(string)
-	}
-	if val, ok := s.D.GetOk("display_name"); ok {
-		opts.DisplayName = val.(string)
-	}
-
-	s.Res = &baremetal.ListImages{Images: []baremetal.Image{}}
-
-	for {
-		var list *baremetal.ListImages
-		if list, e = s.Client.ListImages(compartmentID, opts); e != nil {
-			break
-		}
-
-		s.Res.Images = append(s.Res.Images, list.Images...)
-
-		if hasNextPage := options.SetNextPageOption(list.NextPage, &opts.ListOptions.PageListOptions); !hasNextPage {
-			break
-		}
-	}
-
-	return
+func (s *ImagesDataSourceCrud) VoidState() {
+	s.D.SetId("")
 }
 
-func (s *ImageDatasourceCrud) SetData() {
+func (s *ImagesDataSourceCrud) Get() error {
+	request := oci_core.ListImagesRequest{}
+
+	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+		tmp := compartmentId.(string)
+		request.CompartmentId = &tmp
+	}
+
+	if displayName, ok := s.D.GetOkExists("display_name"); ok {
+		tmp := displayName.(string)
+		request.DisplayName = &tmp
+	}
+
+	if limit, ok := s.D.GetOkExists("limit"); ok {
+		tmp := limit.(int)
+		request.Limit = &tmp
+	}
+
+	if operatingSystem, ok := s.D.GetOkExists("operating_system"); ok {
+		tmp := operatingSystem.(string)
+		request.OperatingSystem = &tmp
+	}
+
+	if operatingSystemVersion, ok := s.D.GetOkExists("operating_system_version"); ok {
+		tmp := operatingSystemVersion.(string)
+		request.OperatingSystemVersion = &tmp
+	}
+
+	if page, ok := s.D.GetOkExists("page"); ok {
+		tmp := page.(string)
+		request.Page = &tmp
+	}
+
+	if state, ok := s.D.GetOkExists("state"); ok {
+		request.LifecycleState = oci_core.ImageLifecycleStateEnum(state.(string))
+	}
+
+	response, err := s.Client.ListImages(context.Background(), request, getRetryOptions(false, "core")...)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response
+	request.Page = s.Res.OpcNextPage
+
+	for request.Page != nil {
+		listResponse, err := s.Client.ListImages(context.Background(), request, getRetryOptions(false, "core")...)
+		if err != nil {
+			return err
+		}
+
+		s.Res.Items = append(s.Res.Items, listResponse.Items...)
+		request.Page = listResponse.OpcNextPage
+	}
+
+	return nil
+}
+
+func (s *ImagesDataSourceCrud) SetData() {
 	if s.Res == nil {
 		return
 	}
 
-	s.D.SetId(time.Now().UTC().String())
+	s.D.SetId(crud.GenerateDataSourceID())
 	resources := []map[string]interface{}{}
-	for _, v := range s.Res.Images {
-		res := map[string]interface{}{
-			"base_image_id":            v.BaseImageID,
-			"compartment_id":           v.CompartmentID,
-			"create_image_allowed":     v.CreateImageAllowed,
-			"display_name":             v.DisplayName,
-			"id":                       v.ID,
-			"state":                    v.State,
-			"operating_system":         v.OperatingSystem,
-			"operating_system_version": v.OperatingSystemVersion,
-			"time_created":             v.TimeCreated.String(),
+
+	for _, r := range s.Res.Items {
+		image := map[string]interface{}{
+		// "compartment_id": *r.CompartmentId,
 		}
-		resources = append(resources, res)
+
+		// The spec marks compartmentId as a required field, but the service doesn't return it for official images.
+		if r.CompartmentId != nil {
+			image["compartment_id"] = *r.CompartmentId
+		}
+
+		if r.BaseImageId != nil {
+			image["base_image_id"] = *r.BaseImageId
+		}
+
+		if r.CreateImageAllowed != nil {
+			image["create_image_allowed"] = *r.CreateImageAllowed
+		}
+
+		if r.DisplayName != nil {
+			image["display_name"] = *r.DisplayName
+		}
+
+		if r.Id != nil {
+			image["id"] = *r.Id
+		}
+
+		if r.OperatingSystem != nil {
+			image["operating_system"] = *r.OperatingSystem
+		}
+
+		if r.OperatingSystemVersion != nil {
+			image["operating_system_version"] = *r.OperatingSystemVersion
+		}
+
+		image["state"] = r.LifecycleState
+
+		image["time_created"] = r.TimeCreated.String()
+
+		resources = append(resources, image)
 	}
 
-	if f, fOk := s.D.GetOk("filter"); fOk {
+	if f, fOk := s.D.GetOkExists("filter"); fOk {
 		resources = ApplyFilters(f.(*schema.Set), resources)
 	}
 

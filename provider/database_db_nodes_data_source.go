@@ -3,20 +3,19 @@
 package provider
 
 import (
-	"time"
+	"context"
 
 	"github.com/hashicorp/terraform/helper/schema"
-	"github.com/oracle/bmcs-go-sdk"
-
-	"github.com/oracle/terraform-provider-oci/options"
+	oci_database "github.com/oracle/oci-go-sdk/database"
 
 	"github.com/oracle/terraform-provider-oci/crud"
 )
 
-func DBNodesDatasource() *schema.Resource {
+func DbNodesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDBNodes,
+		Read: readDbNodes,
 		Schema: map[string]*schema.Schema{
+			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -26,79 +25,135 @@ func DBNodesDatasource() *schema.Resource {
 				Required: true,
 			},
 			"limit": {
-				Type:     schema.TypeInt,
-				Optional: true,
+				Type:       schema.TypeInt,
+				Optional:   true,
+				Deprecated: crud.FieldDeprecated("limit"),
 			},
 			"page": {
-				Type:     schema.TypeString,
-				Optional: true,
+				Type:       schema.TypeString,
+				Optional:   true,
+				Deprecated: crud.FieldDeprecated("page"),
 			},
 			"db_nodes": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     DBNodeDatasource(),
+				Elem:     DbNodeDataSource(),
 			},
 		},
 	}
 }
 
-func readDBNodes(d *schema.ResourceData, m interface{}) (e error) {
-	client := m.(*OracleClients)
-	sync := &DBNodesDatasourceCrud{}
+func readDbNodes(d *schema.ResourceData, m interface{}) error {
+	sync := &DbNodesDataSourceCrud{}
 	sync.D = d
-	sync.Client = client.client
+	sync.Client = m.(*OracleClients).databaseClient
+
 	return crud.ReadResource(sync)
 }
 
-type DBNodesDatasourceCrud struct {
-	crud.BaseCrud
-	Res *baremetal.ListDBNodes
+type DbNodesDataSourceCrud struct {
+	D      *schema.ResourceData
+	Client *oci_database.DatabaseClient
+	Res    *oci_database.ListDbNodesResponse
 }
 
-func (s *DBNodesDatasourceCrud) Get() (e error) {
-	compartmentID := s.D.Get("compartment_id").(string)
-	dbSystemID := s.D.Get("db_system_id").(string)
-
-	opts := &baremetal.ListOptions{}
-	options.SetPageOptions(s.D, &opts.PageListOptions)
-	options.SetLimitOptions(s.D, &opts.LimitListOptions)
-
-	s.Res = &baremetal.ListDBNodes{}
-
-	for {
-		var list *baremetal.ListDBNodes
-		if list, e = s.Client.ListDBNodes(
-			compartmentID, dbSystemID, opts,
-		); e != nil {
-			break
-		}
-
-		s.Res.DBNodes = append(s.Res.DBNodes, list.DBNodes...)
-
-		if hasNextPage := options.SetNextPageOption(list.NextPage, &opts.PageListOptions); !hasNextPage {
-			break
-		}
-	}
-
-	return
+func (s *DbNodesDataSourceCrud) VoidState() {
+	s.D.SetId("")
 }
 
-func (s *DBNodesDatasourceCrud) SetData() {
-	if s.Res != nil {
-		s.D.SetId(time.Now().UTC().String())
-		resources := []map[string]interface{}{}
-		for _, v := range s.Res.DBNodes {
-			res := map[string]interface{}{
-				"db_system_id": v.DBSystemID,
-				"hostname":     v.Hostname,
-				"id":           v.ID,
-				"state":        v.State,
-				"time_created": v.TimeCreated.String(),
-				"vnic_id":      v.VnicID,
-			}
-			resources = append(resources, res)
-		}
-		s.D.Set("db_nodes", resources)
+func (s *DbNodesDataSourceCrud) Get() error {
+	request := oci_database.ListDbNodesRequest{}
+
+	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+		tmp := compartmentId.(string)
+		request.CompartmentId = &tmp
 	}
+
+	if dbSystemId, ok := s.D.GetOkExists("db_system_id"); ok {
+		tmp := dbSystemId.(string)
+		request.DbSystemId = &tmp
+	}
+
+	if limit, ok := s.D.GetOkExists("limit"); ok {
+		tmp := limit.(int)
+		request.Limit = &tmp
+	}
+
+	if page, ok := s.D.GetOkExists("page"); ok {
+		tmp := page.(string)
+		request.Page = &tmp
+	}
+
+	response, err := s.Client.ListDbNodes(context.Background(), request, getRetryOptions(false, "database")...)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response
+	request.Page = s.Res.OpcNextPage
+
+	for request.Page != nil {
+		listResponse, err := s.Client.ListDbNodes(context.Background(), request, getRetryOptions(false, "database")...)
+		if err != nil {
+			return err
+		}
+
+		s.Res.Items = append(s.Res.Items, listResponse.Items...)
+		request.Page = listResponse.OpcNextPage
+	}
+
+	return nil
+}
+
+func (s *DbNodesDataSourceCrud) SetData() {
+	if s.Res == nil {
+		return
+	}
+
+	s.D.SetId(crud.GenerateDataSourceID())
+	resources := []map[string]interface{}{}
+
+	for _, r := range s.Res.Items {
+		dbNode := map[string]interface{}{
+			"db_system_id": *r.DbSystemId,
+		}
+
+		if r.BackupVnicId != nil {
+			dbNode["backup_vnic_id"] = *r.BackupVnicId
+		}
+
+		if r.Hostname != nil {
+			dbNode["hostname"] = *r.Hostname
+		}
+
+		if r.Id != nil {
+			dbNode["id"] = *r.Id
+			dbNode["db_node_id"] = *r.Id // maintain legacy vanity id
+		}
+
+		// @CODEGEN not present in schema
+		if r.SoftwareStorageSizeInGB != nil {
+			dbNode["software_storage_size_in_gb"] = *r.SoftwareStorageSizeInGB
+		}
+
+		dbNode["state"] = r.LifecycleState
+
+		dbNode["time_created"] = r.TimeCreated.String()
+
+		if r.VnicId != nil {
+			dbNode["vnic_id"] = *r.VnicId
+		}
+
+		resources = append(resources, dbNode)
+	}
+
+	if f, fOk := s.D.GetOkExists("filter"); fOk {
+		resources = ApplyFilters(f.(*schema.Set), resources)
+	}
+
+	if err := s.D.Set("db_nodes", resources); err != nil {
+		panic(err)
+	}
+
 	return
 }
