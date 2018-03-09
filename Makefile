@@ -10,17 +10,26 @@ release: clean
 ifdef version
 	sed -i '' -e 's/Version = ".*"/Version = "$(version)"/g' provider/version.go
 	gox -output ./bin/{{.OS}}_{{.Arch}}/terraform-provider-oci_v$(version)
+	gox -output ./bin/solaris_amd64/terraform-provider-oci_v$(version) -osarch="solaris/amd64" 
 else
 	@echo Err! `make release` requires a version argument 
 endif
 
 zip: 
 	@cd bin; \
-	zip -r windows.zip windows_386 windows_amd64; \
-	tar -czvf darwin.tar.gz darwin_386 darwin_amd64; \
-	tar -czvf freebsd.tar.gz freebsd_386 freebsd_amd64 freebsd_arm; \
-	tar -czvf linux.tar.gz linux_386 linux_amd64 linux_arm; \
-	tar -czvf openbsd.tar.gz openbsd_386 openbsd_amd64
+	zip -r windows_386.zip windows_386; \
+	zip -r windows_amd64.zip windows_amd64; \
+	tar -czvf darwin_386.tar.gz darwin_386; \
+	tar -czvf darwin_amd64.tar.gz darwin_amd64; \
+	tar -czvf freebsd_386.tar.gz freebsd_386; \
+	tar -czvf freebsd_amd64.tar.gz freebsd_amd64; \
+	tar -czvf freebsd_arm.tar.gz freebsd_arm; \
+	tar -czvf linux_386.tar.gz linux_386; \
+	tar -czvf linux_amd64.tar.gz linux_amd64; \
+	tar -czvf linux_arm.tar.gz linux_arm; \
+	tar -czvf openbsd_386.tar.gz openbsd_386; \
+	tar -czvf openbsd_amd64.tar.gz openbsd_amd64; \
+	tar -czvf solaris_amd64.tar.gz solaris_amd64
 
 ### `make test run=TestResourceCore debug=1`
 cmd := TF_ACC=1 TF_ORACLE_ENV=test go test ./provider -v -timeout 120m
