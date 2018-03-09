@@ -143,7 +143,7 @@ func (s *ResourceLoadBalancerBackendSetTestSuite) TestAccResourceLoadBalancerBac
 					func(ts *terraform.State) (err error) {
 						res2, err = fromInstanceState(ts, s.ResourceName, "name")
 						if res != res2 {
-							fmt.Errorf("new resource created when it should not have been")
+							return fmt.Errorf("new resource created when it should not have been")
 						}
 						return err
 					},
@@ -190,7 +190,7 @@ func (s *ResourceLoadBalancerBackendSetTestSuite) TestAccResourceLoadBalancerBac
 					func(ts *terraform.State) (err error) {
 						res2, err = fromInstanceState(ts, s.ResourceName, "name")
 						if res != res2 {
-							fmt.Errorf("new resource created when it should not have been")
+							return fmt.Errorf("new resource created when it should not have been")
 						}
 						return err
 					},
@@ -245,7 +245,7 @@ func (s *ResourceLoadBalancerBackendSetTestSuite) TestAccResourceLoadBalancerBac
 					func(ts *terraform.State) (err error) {
 						res2, err = fromInstanceState(ts, s.ResourceName, "name")
 						if res != res2 {
-							fmt.Errorf("new resource created when it should not have been")
+							return fmt.Errorf("new resource created when it should not have been")
 						}
 						return err
 					},

@@ -125,7 +125,7 @@ func (s *ResourceLoadBalancerListenerTestSuite) TestAccResourceLoadBalancerListe
 					func(ts *terraform.State) (err error) {
 						resId2, err = fromInstanceState(ts, s.ResourceName, "id")
 						if resId2 == resId {
-							fmt.Errorf("resource expected to be recreated but was not")
+							return fmt.Errorf("resource expected to be recreated but was not")
 						}
 						resId = resId2
 						return err
@@ -161,7 +161,7 @@ func (s *ResourceLoadBalancerListenerTestSuite) TestAccResourceLoadBalancerListe
 					func(ts *terraform.State) (err error) {
 						resId2, err = fromInstanceState(ts, s.ResourceName, "id")
 						if resId2 != resId {
-							fmt.Errorf("resource recreated when it should not have been")
+							return fmt.Errorf("resource recreated when it should not have been")
 						}
 						resId = resId2
 						return err
