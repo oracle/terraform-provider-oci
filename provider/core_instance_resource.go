@@ -624,7 +624,7 @@ func (s *InstanceResourceCrud) getPrimaryVnic() (*oci_core.Vnic, error) {
 
 	for _, attachment := range attachments {
 		if attachment.LifecycleState == oci_core.VnicAttachmentLifecycleStateAttached {
-			request := oci_core.GetVnicRequest{attachment.VnicId}
+			request := oci_core.GetVnicRequest{VnicId: attachment.VnicId}
 			response, _ := s.VirtualNetworkClient.GetVnic(context.Background(), request)
 			vnic := &response.Vnic
 

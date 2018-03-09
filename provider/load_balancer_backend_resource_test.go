@@ -187,7 +187,7 @@ func (s *ResourceLoadBalancerBackendTestSuite) TestAccResourceLoadBalancerBacken
 					func(ts *terraform.State) (err error) {
 						res2, err = fromInstanceState(ts, s.ResourceName, "name")
 						if res == res2 {
-							fmt.Errorf("new resource expected to be created but was not")
+							return fmt.Errorf("new resource expected to be created but was not")
 						}
 						return err
 					},
