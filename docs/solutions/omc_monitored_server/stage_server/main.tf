@@ -14,7 +14,7 @@ resource "oci_core_instance" "omc_managed_instance" {
   availability_domain = "${lookup(module.oci_resources.ads[var.ad - 1],"name")}"
   compartment_id = "${lookup(module.oci_resources.compartments, var.compartment_name)}"
   display_name = "${var.server_display_name}"
-  image = "${lookup(module.oci_resources.images, var.image_name)}"
+  image = "${var.InstanceImageOCID[var.region]}"
   shape = "${var.shape_name}"
   subnet_id = "${var.subnet_id}"
   metadata {

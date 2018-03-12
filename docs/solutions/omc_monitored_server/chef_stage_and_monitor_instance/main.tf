@@ -7,7 +7,7 @@ resource "oci_core_instance" "omc_managed_instance" {
   availability_domain = "${lookup(module.oci_resources.ads[var.ad - 1],"name")}"
   compartment_id = "${lookup(module.oci_resources.compartments, var.compartment_name)}"
   display_name = "${var.server_display_name}"
-  image = "${var.omc_custom_image_id == "notset" ? lookup(module.oci_resources.images, var.image_name) : var.omc_custom_image_id}"
+  image = "${var.omc_custom_image_id == "notset" ? var.InstanceImageOCID[var.region] : var.omc_custom_image_id}"
   shape = "${var.shape_name}"
   subnet_id = "${var.subnet_id}"
   hostname_label = "${var.hostname}"
