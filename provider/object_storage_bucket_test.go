@@ -35,7 +35,7 @@ resource "oci_object_storage_bucket" "test_bucket" {
 	BucketPropertyVariables = `
 variable "bucket_access_type" { default = "accessType" }
 variable "bucket_metadata" { default = object{} }
-variable "bucket_name" { default = "myTest1" }
+variable "bucket_name" { default = "my-test-1" }
 variable "bucket_namespace" { default = "example_namespace" }
 
 `
@@ -68,7 +68,7 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 				Config:            config + BucketPropertyVariables + compartmentIdVariableStr + BucketRequiredOnlyResource,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "name", "myTest1"),
+					resource.TestCheckResourceAttr(resourceName, "name", "my-test-1"),
 					resource.TestCheckResourceAttr(resourceName, "namespace", "example_namespace"),
 
 					func(s *terraform.State) (err error) {
@@ -91,7 +91,7 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "created_by"),
 					resource.TestCheckResourceAttrSet(resourceName, "etag"),
 					//resource.TestCheckResourceAttr(resourceName, "metadata", object{}),
-					resource.TestCheckResourceAttr(resourceName, "name", "myTest1"),
+					resource.TestCheckResourceAttr(resourceName, "name", "my-test-1"),
 					resource.TestCheckResourceAttr(resourceName, "namespace", "example_namespace"),
 					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -228,7 +228,7 @@ func TestObjectStorageBucketResource_forcenew(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "created_by"),
 					resource.TestCheckResourceAttrSet(resourceName, "etag"),
 					//resource.TestCheckResourceAttr(resourceName, "metadata", object{}),
-					resource.TestCheckResourceAttr(resourceName, "name", "myTest1"),
+					resource.TestCheckResourceAttr(resourceName, "name", "my-test-1"),
 					resource.TestCheckResourceAttr(resourceName, "namespace", "example_namespace"),
 					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -245,7 +245,7 @@ func TestObjectStorageBucketResource_forcenew(t *testing.T) {
 				Config: config + `
 variable "bucket_access_type" { default = "accessType" }
 variable "bucket_metadata" { default = object{} }
-variable "bucket_name" { default = "myTest1" }
+variable "bucket_name" { default = "my-test-1" }
 variable "bucket_namespace" { default = "example_namespace" }
 				` + compartmentIdVariableStr2 + BucketResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
@@ -254,7 +254,7 @@ variable "bucket_namespace" { default = "example_namespace" }
 					resource.TestCheckResourceAttrSet(resourceName, "created_by"),
 					resource.TestCheckResourceAttrSet(resourceName, "etag"),
 					//resource.TestCheckResourceAttr(resourceName, "metadata", object{}),
-					resource.TestCheckResourceAttr(resourceName, "name", "myTest1"),
+					resource.TestCheckResourceAttr(resourceName, "name", "my-test-1"),
 					resource.TestCheckResourceAttr(resourceName, "namespace", "example_namespace"),
 					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
