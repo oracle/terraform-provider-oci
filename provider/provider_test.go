@@ -3,10 +3,13 @@
 package provider
 
 import (
+	"fmt"
+	"runtime"
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
+	oci_common "github.com/oracle/oci-go-sdk/common"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -24,7 +27,6 @@ func init() {
 }
 
 func testProviderConfig() string {
-
 	return `
 	provider "oci" {
 		tenancy_ocid = "ocid.tenancy.aaaa"
@@ -197,6 +199,7 @@ func GetTestProvider() *OracleClients {
 	d := r.Data(nil)
 	d.SetId(getRequiredEnvSetting("tenancy_ocid"))
 
+	d.Set("auth", getEnvSetting("auth", authAPIKeySetting))
 	d.Set("tenancy_ocid", getRequiredEnvSetting("tenancy_ocid"))
 	d.Set("user_ocid", getRequiredEnvSetting("user_ocid"))
 	d.Set("fingerprint", getRequiredEnvSetting("fingerprint"))
@@ -214,7 +217,6 @@ func GetTestProvider() *OracleClients {
 
 // This test runs the Provider sanity checks.
 func TestProvider(t *testing.T) {
-
 	// Real client for the sanity check. Makes this more of an acceptance test.
 	client := &OracleClients{}
 	if err := Provider(func(d *schema.ResourceData) (interface{}, error) {
@@ -260,23 +262,68 @@ var testKeyFingerPrint = "b4:8a:7d:54:e6:81:04:b2:fa:ce:ba:55:34:dd:00:00"
 var testTenancyOCID = "ocid1.tenancy.oc1..faketenancy"
 var testUserOCID = "ocid1.user.oc1..fakeuser"
 
-func TestProviderConfig(t *testing.T) {
+func providerConfigTest(t *testing.T, disableRetries bool, skipRequiredField bool, auth string) {
 	r := &schema.Resource{
 		Schema: schemaMap(),
 	}
 	d := r.Data(nil)
 	d.SetId("tenancy_ocid")
-
-	d.Set("tenancy_ocid", testTenancyOCID)
+	d.Set("auth", auth)
+	if !skipRequiredField {
+		d.Set("tenancy_ocid", testTenancyOCID)
+	}
 	d.Set("user_ocid", testUserOCID)
 	d.Set("fingerprint", testKeyFingerPrint)
 	d.Set("private_key", testPrivateKey)
 	//d.Set("private_key_path", "")
 	d.Set("private_key_password", "password")
 
+	if disableRetries {
+		d.Set("disable_auto_retries", disableRetries)
+	}
+
 	client, err := ProviderConfig(d)
+
+	switch auth {
+	case authAPIKeySetting, "":
+		if skipRequiredField {
+			assert.Error(t, err, fmt.Sprintf("when auth is set to '%s', tenancy_ocid, user_ocid, and fingerprint are required", authAPIKeySetting))
+			return
+		}
+	case authInstancePrincipalSetting:
+		assert.Regexp(t, "failed to create a new key provider for instance principal.*", err.Error())
+		return
+	default:
+		assert.Error(t, err, fmt.Sprintf("auth must be one of '%s' or '%s'", authAPIKeySetting, authInstancePrincipalSetting))
+		return
+	}
 	assert.Nil(t, err)
 	assert.NotNil(t, client)
-	_, ok := client.(*OracleClients)
+
+	oracleClient, ok := client.(*OracleClients)
 	assert.True(t, ok)
+
+	userAgent := fmt.Sprintf(userAgentFormatter, oci_common.Version(), runtime.Version(), runtime.GOOS, runtime.GOARCH, terraform.VersionString(), Version)
+	testClient := func(c *oci_common.BaseClient) {
+		assert.NotNil(t, c)
+		assert.NotNil(t, c.HTTPClient)
+		assert.Exactly(t, c.UserAgent, userAgent)
+		assert.NotNil(t, c.Obo)
+	}
+
+	assert.Exactly(t, disableAutoRetries, disableRetries)
+	testClient(&oracleClient.blockStorageClient.BaseClient)
+	testClient(&oracleClient.computeClient.BaseClient)
+	testClient(&oracleClient.databaseClient.BaseClient)
+	testClient(&oracleClient.identityClient.BaseClient)
+	testClient(&oracleClient.virtualNetworkClient.BaseClient)
+	testClient(&oracleClient.objectStorageClient.BaseClient)
+	testClient(&oracleClient.loadBalancerClient.BaseClient)
+}
+
+func TestProviderConfig(t *testing.T) {
+	providerConfigTest(t, true, true, authAPIKeySetting)              // ApiKey with required fields + disable auto-retries
+	providerConfigTest(t, false, true, authAPIKeySetting)             // ApiKey without required fields
+	providerConfigTest(t, false, false, authInstancePrincipalSetting) // InstancePrincipal
+	providerConfigTest(t, true, false, "invalid-auth-setting")        // Invalid auth + disable auto-retries
 }
