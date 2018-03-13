@@ -117,7 +117,9 @@ func (s *CpeResourceCrud) Create() error {
 		request.IpAddress = &tmp
 	}
 
-	response, err := s.Client.CreateCpe(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	response, err := s.Client.CreateCpe(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -132,7 +134,9 @@ func (s *CpeResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.CpeId = &tmp
 
-	response, err := s.Client.GetCpe(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	response, err := s.Client.GetCpe(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -152,7 +156,9 @@ func (s *CpeResourceCrud) Update() error {
 		request.DisplayName = &tmp
 	}
 
-	response, err := s.Client.UpdateCpe(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	response, err := s.Client.UpdateCpe(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -167,7 +173,9 @@ func (s *CpeResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.CpeId = &tmp
 
-	_, err := s.Client.DeleteCpe(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	_, err := s.Client.DeleteCpe(context.Background(), request)
 	return err
 }
 

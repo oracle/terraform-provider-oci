@@ -55,7 +55,9 @@ func (s *UsersDataSourceCrud) Get() error {
 		request.CompartmentId = &tmp
 	}
 
-	response, err := s.Client.ListUsers(context.Background(), request, getRetryOptions(false, "identity")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "identity")
+
+	response, err := s.Client.ListUsers(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -64,7 +66,7 @@ func (s *UsersDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListUsers(context.Background(), request, getRetryOptions(false, "identity")...)
+		listResponse, err := s.Client.ListUsers(context.Background(), request)
 		if err != nil {
 			return err
 		}

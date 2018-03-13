@@ -213,7 +213,9 @@ func (s *DhcpOptionsResourceCrud) Create() error {
 		request.VcnId = &tmp
 	}
 
-	response, err := s.Client.CreateDhcpOptions(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	response, err := s.Client.CreateDhcpOptions(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -228,7 +230,9 @@ func (s *DhcpOptionsResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.DhcpId = &tmp
 
-	response, err := s.Client.GetDhcpOptions(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	response, err := s.Client.GetDhcpOptions(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -262,7 +266,9 @@ func (s *DhcpOptionsResourceCrud) Update() error {
 		request.Options = tmp
 	}
 
-	response, err := s.Client.UpdateDhcpOptions(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	response, err := s.Client.UpdateDhcpOptions(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -277,7 +283,9 @@ func (s *DhcpOptionsResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.DhcpId = &tmp
 
-	_, err := s.Client.DeleteDhcpOptions(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	_, err := s.Client.DeleteDhcpOptions(context.Background(), request)
 	return err
 }
 

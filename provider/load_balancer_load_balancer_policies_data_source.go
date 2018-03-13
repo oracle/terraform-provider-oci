@@ -67,7 +67,9 @@ func (s *LoadBalancerPoliciesDataSourceCrud) Get() error {
 		request.CompartmentId = &tmp
 	}
 
-	response, err := s.Client.ListPolicies(context.Background(), request, getRetryOptions(false, "load_balancer")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "load_balancer")
+
+	response, err := s.Client.ListPolicies(context.Background(), request)
 	if err != nil {
 		return err
 	}

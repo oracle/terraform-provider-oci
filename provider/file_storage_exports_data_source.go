@@ -90,7 +90,9 @@ func (s *ExportsDataSourceCrud) Get() error {
 		request.LifecycleState = oci_file_storage.ListExportsLifecycleStateEnum(state.(string))
 	}
 
-	response, err := s.Client.ListExports(context.Background(), request, getRetryOptions(false, "file_storage")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "file_storage")
+
+	response, err := s.Client.ListExports(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -99,7 +101,7 @@ func (s *ExportsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListExports(context.Background(), request, getRetryOptions(false, "file_storage")...)
+		listResponse, err := s.Client.ListExports(context.Background(), request)
 		if err != nil {
 			return err
 		}

@@ -16,10 +16,24 @@ type GetDbHomePatchHistoryEntryRequest struct {
 
 	// The OCID of the patch history entry.
 	PatchHistoryEntryId *string `mandatory:"true" contributesTo:"path" name:"patchHistoryEntryId"`
+
+	// Metadata about the request. This information will not be transmitted to the service, but
+	// represents information that the SDK will consume to drive retry behavior.
+	RequestMetadata common.RequestMetadata
 }
 
 func (request GetDbHomePatchHistoryEntryRequest) String() string {
 	return common.PointerString(request)
+}
+
+// HTTPRequest implements the OCIRequest interface
+func (request GetDbHomePatchHistoryEntryRequest) HTTPRequest(method, path string) (http.Request, error) {
+	return common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
+}
+
+// RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
+func (request GetDbHomePatchHistoryEntryRequest) RetryPolicy() *common.RetryPolicy {
+	return request.RequestMetadata.RetryPolicy
 }
 
 // GetDbHomePatchHistoryEntryResponse wrapper for the GetDbHomePatchHistoryEntry operation
@@ -41,4 +55,9 @@ type GetDbHomePatchHistoryEntryResponse struct {
 
 func (response GetDbHomePatchHistoryEntryResponse) String() string {
 	return common.PointerString(response)
+}
+
+// HTTPResponse implements the OCIResponse interface
+func (response GetDbHomePatchHistoryEntryResponse) HTTPResponse() *http.Response {
+	return response.RawResponse
 }

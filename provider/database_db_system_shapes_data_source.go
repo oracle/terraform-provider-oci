@@ -104,7 +104,9 @@ func (s *DbSystemShapesDataSourceCrud) Get() error {
 		request.Page = &tmp
 	}
 
-	response, err := s.Client.ListDbSystemShapes(context.Background(), request, getRetryOptions(false, "database")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
+
+	response, err := s.Client.ListDbSystemShapes(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -113,7 +115,7 @@ func (s *DbSystemShapesDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListDbSystemShapes(context.Background(), request, getRetryOptions(false, "database")...)
+		listResponse, err := s.Client.ListDbSystemShapes(context.Background(), request)
 		if err != nil {
 			return err
 		}

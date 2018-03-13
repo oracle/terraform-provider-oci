@@ -4,6 +4,7 @@ package common
 
 import (
 	"fmt"
+	"io"
 	"io/ioutil"
 	"log"
 	"os"
@@ -17,32 +18,34 @@ var mainLog = log.New(os.Stderr, "", log.Ldate|log.Ltime|log.Lshortfile)
 var isDebugLogEnabled bool
 var checkDebug sync.Once
 
-func setOutputForEnv() {
+func getOutputForEnv() (writer io.Writer) {
 	checkDebug.Do(func() {
 		isDebugLogEnabled = *new(bool)
 		_, isDebugLogEnabled = os.LookupEnv("OCI_GO_SDK_DEBUG")
-
-		if !isDebugLogEnabled {
-			debugLog.SetOutput(ioutil.Discard)
-		}
 	})
+
+	writer = ioutil.Discard
+	if isDebugLogEnabled {
+		writer = os.Stderr
+	}
+	return
 }
 
 // Debugf logs v with the provided format if debug mode is set
 func Debugf(format string, v ...interface{}) {
-	setOutputForEnv()
+	debugLog.SetOutput(getOutputForEnv())
 	debugLog.Output(3, fmt.Sprintf(format, v...))
 }
 
 // Debug  logs v if debug mode is set
 func Debug(v ...interface{}) {
-	setOutputForEnv()
+	debugLog.SetOutput(getOutputForEnv())
 	debugLog.Output(3, fmt.Sprint(v...))
 }
 
 // Debugln logs v appending a new line if debug mode is set
 func Debugln(v ...interface{}) {
-	setOutputForEnv()
+	debugLog.SetOutput(getOutputForEnv())
 	debugLog.Output(3, fmt.Sprintln(v...))
 }
 

@@ -175,7 +175,9 @@ func (s *CertificateResourceCrud) Create() error {
 		request.PublicCertificate = &tmp
 	}
 
-	response, err := s.Client.CreateCertificate(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "load_balancer")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
+
+	response, err := s.Client.CreateCertificate(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -183,7 +185,8 @@ func (s *CertificateResourceCrud) Create() error {
 	workReqID := response.OpcWorkRequestId
 	getWorkRequestRequest := oci_load_balancer.GetWorkRequestRequest{}
 	getWorkRequestRequest.WorkRequestId = workReqID
-	workRequestResponse, err := s.Client.GetWorkRequest(context.Background(), getWorkRequestRequest, getRetryOptions(s.DisableNotFoundRetries, "load_balancer")...)
+	getWorkRequestRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
+	workRequestResponse, err := s.Client.GetWorkRequest(context.Background(), getWorkRequestRequest)
 	if err != nil {
 		return err
 	}
@@ -192,7 +195,7 @@ func (s *CertificateResourceCrud) Create() error {
 }
 
 func (s *CertificateResourceCrud) Get() error {
-	_, stillWorking, err := crud.LoadBalancerResourceGet(s.Client, s.D, s.WorkRequest, getRetryOptions(s.DisableNotFoundRetries, "load_balancer")...)
+	_, stillWorking, err := crud.LoadBalancerResourceGet(s.Client, s.D, s.WorkRequest, getRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
 	if err != nil {
 		return err
 	}
@@ -206,7 +209,9 @@ func (s *CertificateResourceCrud) Get() error {
 		request.LoadBalancerId = &tmp
 	}
 
-	response, err := s.Client.ListCertificates(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "load_balancer")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
+
+	response, err := s.Client.ListCertificates(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -236,13 +241,16 @@ func (s *CertificateResourceCrud) Delete() error {
 		request.LoadBalancerId = &tmp
 	}
 
-	response, err := s.Client.DeleteCertificate(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "load_balancer")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
+
+	response, err := s.Client.DeleteCertificate(context.Background(), request)
 
 	workReqID := response.OpcWorkRequestId
 	s.D.SetId(*workReqID)
 	getWorkRequestRequest := oci_load_balancer.GetWorkRequestRequest{}
 	getWorkRequestRequest.WorkRequestId = workReqID
-	workRequestResponse, err := s.Client.GetWorkRequest(context.Background(), getWorkRequestRequest, getRetryOptions(s.DisableNotFoundRetries, "load_balancer")...)
+	getWorkRequestRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
+	workRequestResponse, err := s.Client.GetWorkRequest(context.Background(), getWorkRequestRequest)
 	if err != nil {
 		return err
 	}

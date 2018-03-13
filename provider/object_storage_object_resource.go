@@ -222,7 +222,9 @@ func (s *ObjectResourceCrud) Create() error {
 	}
 
 	// @CODEGEN 2/2018: SDK doesn't have response and retry arguments for PutObject. Removed them for now.
-	_, err := s.Client.PutObject(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "object_storage")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
+
+	_, err := s.Client.PutObject(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -257,7 +259,9 @@ func (s *ObjectResourceCrud) Get() error {
 	// TODO: May be better to use HeadObject() to retrieve status of the object. For large content, doesn't make sense
 	// to call Get() all the time
 	// @CODEGEN 2/2018: SDK is missing retry arguments for GetObject. Removed them for now.
-	response, err := s.Client.GetObject(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "object_storage")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
+
+	response, err := s.Client.GetObject(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -297,7 +301,9 @@ func (s *ObjectResourceCrud) Delete() error {
 		request.ObjectName = &tmp
 	}
 
-	_, err := s.Client.DeleteObject(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "object_storage")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
+
+	_, err := s.Client.DeleteObject(context.Background(), request)
 	return err
 }
 

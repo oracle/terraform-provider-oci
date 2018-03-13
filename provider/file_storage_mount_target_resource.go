@@ -194,7 +194,9 @@ func (s *MountTargetResourceCrud) Create() error {
 		request.SubnetId = &tmp
 	}
 
-	response, err := s.Client.CreateMountTarget(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "file_storage")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "file_storage")
+
+	response, err := s.Client.CreateMountTarget(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -209,7 +211,9 @@ func (s *MountTargetResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.MountTargetId = &tmp
 
-	response, err := s.Client.GetMountTarget(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "file_storage")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "file_storage")
+
+	response, err := s.Client.GetMountTarget(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -229,7 +233,9 @@ func (s *MountTargetResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.MountTargetId = &tmp
 
-	response, err := s.Client.UpdateMountTarget(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "file_storage")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "file_storage")
+
+	response, err := s.Client.UpdateMountTarget(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -244,7 +250,9 @@ func (s *MountTargetResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.MountTargetId = &tmp
 
-	_, err := s.Client.DeleteMountTarget(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "file_storage")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "file_storage")
+
+	_, err := s.Client.DeleteMountTarget(context.Background(), request)
 	return err
 }
 

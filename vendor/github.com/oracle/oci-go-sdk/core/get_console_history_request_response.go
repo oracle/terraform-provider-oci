@@ -13,10 +13,24 @@ type GetConsoleHistoryRequest struct {
 
 	// The OCID of the console history.
 	InstanceConsoleHistoryId *string `mandatory:"true" contributesTo:"path" name:"instanceConsoleHistoryId"`
+
+	// Metadata about the request. This information will not be transmitted to the service, but
+	// represents information that the SDK will consume to drive retry behavior.
+	RequestMetadata common.RequestMetadata
 }
 
 func (request GetConsoleHistoryRequest) String() string {
 	return common.PointerString(request)
+}
+
+// HTTPRequest implements the OCIRequest interface
+func (request GetConsoleHistoryRequest) HTTPRequest(method, path string) (http.Request, error) {
+	return common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
+}
+
+// RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
+func (request GetConsoleHistoryRequest) RetryPolicy() *common.RetryPolicy {
+	return request.RequestMetadata.RetryPolicy
 }
 
 // GetConsoleHistoryResponse wrapper for the GetConsoleHistory operation
@@ -38,4 +52,9 @@ type GetConsoleHistoryResponse struct {
 
 func (response GetConsoleHistoryResponse) String() string {
 	return common.PointerString(response)
+}
+
+// HTTPResponse implements the OCIResponse interface
+func (response GetConsoleHistoryResponse) HTTPResponse() *http.Response {
+	return response.RawResponse
 }

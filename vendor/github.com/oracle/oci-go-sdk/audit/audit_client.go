@@ -11,9 +11,8 @@ package audit
 import (
 	"context"
 	"fmt"
-	"net/http"
-
 	"github.com/oracle/oci-go-sdk/common"
+	"net/http"
 )
 
 //AuditClient a client for Audit
@@ -60,64 +59,118 @@ func (client *AuditClient) ConfigurationProvider() *common.ConfigurationProvider
 }
 
 // GetConfiguration Get the configuration
-func (client AuditClient) GetConfiguration(ctx context.Context, request GetConfigurationRequest, options ...common.RetryPolicyOption) (response GetConfigurationResponse, err error) {
-	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodGet, "/configuration", request)
+func (client AuditClient) GetConfiguration(ctx context.Context, request GetConfigurationRequest) (response GetConfigurationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getConfiguration, policy)
 	if err != nil {
 		return
 	}
-
-	err = client.Call(ctx, &httpRequest, common.CallConfig{
-		ResponseCallback: func(httpResponse *http.Response, e error) error {
-			response.RawResponse = httpResponse
-			if e != nil {
-				return e
-			}
-
-			return common.UnmarshalResponse(httpResponse, &response)
-		},
-		RetryPolicyOptions: options,
-	})
+	if convertedResponse, ok := ociResponse.(GetConfigurationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetConfigurationResponse")
+	}
 	return
+}
+
+// getConfiguration implements the OCIOperation interface (enables retrying operations)
+func (client AuditClient) getConfiguration(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/configuration")
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetConfigurationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
 }
 
 // ListEvents Returns all audit events for the specified compartment that were processed within the specified time range.
-func (client AuditClient) ListEvents(ctx context.Context, request ListEventsRequest, options ...common.RetryPolicyOption) (response ListEventsResponse, err error) {
-	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodGet, "/auditEvents", request)
+func (client AuditClient) ListEvents(ctx context.Context, request ListEventsRequest) (response ListEventsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listEvents, policy)
 	if err != nil {
 		return
 	}
-
-	err = client.Call(ctx, &httpRequest, common.CallConfig{
-		ResponseCallback: func(httpResponse *http.Response, e error) error {
-			response.RawResponse = httpResponse
-			if e != nil {
-				return e
-			}
-
-			return common.UnmarshalResponse(httpResponse, &response)
-		},
-		RetryPolicyOptions: options,
-	})
+	if convertedResponse, ok := ociResponse.(ListEventsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListEventsResponse")
+	}
 	return
 }
 
+// listEvents implements the OCIOperation interface (enables retrying operations)
+func (client AuditClient) listEvents(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/auditEvents")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListEventsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UpdateConfiguration Update the configuration
-func (client AuditClient) UpdateConfiguration(ctx context.Context, request UpdateConfigurationRequest, options ...common.RetryPolicyOption) (response UpdateConfigurationResponse, err error) {
-	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodPut, "/configuration", request)
+func (client AuditClient) UpdateConfiguration(ctx context.Context, request UpdateConfigurationRequest) (response UpdateConfigurationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateConfiguration, policy)
 	if err != nil {
 		return
 	}
-
-	err = client.Call(ctx, &httpRequest, common.CallConfig{
-		ResponseCallback: func(httpResponse *http.Response, e error) error {
-			response.RawResponse = httpResponse
-			if e != nil {
-				return e
-			}
-
-			return common.UnmarshalResponse(httpResponse, &response)
-		},
-		RetryPolicyOptions: options,
-	})
+	if convertedResponse, ok := ociResponse.(UpdateConfigurationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateConfigurationResponse")
+	}
 	return
+}
+
+// updateConfiguration implements the OCIOperation interface (enables retrying operations)
+func (client AuditClient) updateConfiguration(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/configuration")
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateConfigurationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
 }

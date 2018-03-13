@@ -11,9 +11,8 @@ package loadbalancer
 import (
 	"context"
 	"fmt"
-	"net/http"
-
 	"github.com/oracle/oci-go-sdk/common"
+	"net/http"
 )
 
 //LoadBalancerClient a client for LoadBalancer
@@ -60,87 +59,159 @@ func (client *LoadBalancerClient) ConfigurationProvider() *common.ConfigurationP
 }
 
 // CreateBackend Adds a backend server to a backend set.
-func (client LoadBalancerClient) CreateBackend(ctx context.Context, request CreateBackendRequest, options ...common.RetryPolicyOption) (response CreateBackendResponse, err error) {
-	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodPost, "/loadBalancers/{loadBalancerId}/backendSets/{backendSetName}/backends", request)
+func (client LoadBalancerClient) CreateBackend(ctx context.Context, request CreateBackendRequest) (response CreateBackendResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.createBackend, policy)
 	if err != nil {
 		return
 	}
-
-	err = client.Call(ctx, &httpRequest, common.CallConfig{
-		ResponseCallback: func(httpResponse *http.Response, e error) error {
-			response.RawResponse = httpResponse
-			if e != nil {
-				return e
-			}
-
-			return common.UnmarshalResponse(httpResponse, &response)
-		},
-		RetryPolicyOptions: options,
-	})
+	if convertedResponse, ok := ociResponse.(CreateBackendResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateBackendResponse")
+	}
 	return
+}
+
+// createBackend implements the OCIOperation interface (enables retrying operations)
+func (client LoadBalancerClient) createBackend(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/loadBalancers/{loadBalancerId}/backendSets/{backendSetName}/backends")
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateBackendResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
 }
 
 // CreateBackendSet Adds a backend set to a load balancer.
-func (client LoadBalancerClient) CreateBackendSet(ctx context.Context, request CreateBackendSetRequest, options ...common.RetryPolicyOption) (response CreateBackendSetResponse, err error) {
-	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodPost, "/loadBalancers/{loadBalancerId}/backendSets", request)
+func (client LoadBalancerClient) CreateBackendSet(ctx context.Context, request CreateBackendSetRequest) (response CreateBackendSetResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.createBackendSet, policy)
 	if err != nil {
 		return
 	}
-
-	err = client.Call(ctx, &httpRequest, common.CallConfig{
-		ResponseCallback: func(httpResponse *http.Response, e error) error {
-			response.RawResponse = httpResponse
-			if e != nil {
-				return e
-			}
-
-			return common.UnmarshalResponse(httpResponse, &response)
-		},
-		RetryPolicyOptions: options,
-	})
+	if convertedResponse, ok := ociResponse.(CreateBackendSetResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateBackendSetResponse")
+	}
 	return
+}
+
+// createBackendSet implements the OCIOperation interface (enables retrying operations)
+func (client LoadBalancerClient) createBackendSet(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/loadBalancers/{loadBalancerId}/backendSets")
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateBackendSetResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
 }
 
 // CreateCertificate Creates an asynchronous request to add an SSL certificate.
-func (client LoadBalancerClient) CreateCertificate(ctx context.Context, request CreateCertificateRequest, options ...common.RetryPolicyOption) (response CreateCertificateResponse, err error) {
-	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodPost, "/loadBalancers/{loadBalancerId}/certificates", request)
+func (client LoadBalancerClient) CreateCertificate(ctx context.Context, request CreateCertificateRequest) (response CreateCertificateResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.createCertificate, policy)
 	if err != nil {
 		return
 	}
-
-	err = client.Call(ctx, &httpRequest, common.CallConfig{
-		ResponseCallback: func(httpResponse *http.Response, e error) error {
-			response.RawResponse = httpResponse
-			if e != nil {
-				return e
-			}
-
-			return common.UnmarshalResponse(httpResponse, &response)
-		},
-		RetryPolicyOptions: options,
-	})
+	if convertedResponse, ok := ociResponse.(CreateCertificateResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateCertificateResponse")
+	}
 	return
 }
 
+// createCertificate implements the OCIOperation interface (enables retrying operations)
+func (client LoadBalancerClient) createCertificate(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/loadBalancers/{loadBalancerId}/certificates")
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateCertificateResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateListener Adds a listener to a load balancer.
-func (client LoadBalancerClient) CreateListener(ctx context.Context, request CreateListenerRequest, options ...common.RetryPolicyOption) (response CreateListenerResponse, err error) {
-	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodPost, "/loadBalancers/{loadBalancerId}/listeners", request)
+func (client LoadBalancerClient) CreateListener(ctx context.Context, request CreateListenerRequest) (response CreateListenerResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.createListener, policy)
 	if err != nil {
 		return
 	}
-
-	err = client.Call(ctx, &httpRequest, common.CallConfig{
-		ResponseCallback: func(httpResponse *http.Response, e error) error {
-			response.RawResponse = httpResponse
-			if e != nil {
-				return e
-			}
-
-			return common.UnmarshalResponse(httpResponse, &response)
-		},
-		RetryPolicyOptions: options,
-	})
+	if convertedResponse, ok := ociResponse.(CreateListenerResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateListenerResponse")
+	}
 	return
+}
+
+// createListener implements the OCIOperation interface (enables retrying operations)
+func (client LoadBalancerClient) createListener(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/loadBalancers/{loadBalancerId}/listeners")
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateListenerResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
 }
 
 // CreateLoadBalancer Creates a new load balancer in the specified compartment. For general information about load balancers,
@@ -164,679 +235,1255 @@ func (client LoadBalancerClient) CreateListener(ctx context.Context, request Cre
 // object, first make sure its state has changed to RUNNING.
 // When you create a load balancer, the system assigns an IP address.
 // To get the IP address, use the GetLoadBalancer operation.
-func (client LoadBalancerClient) CreateLoadBalancer(ctx context.Context, request CreateLoadBalancerRequest, options ...common.RetryPolicyOption) (response CreateLoadBalancerResponse, err error) {
-	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodPost, "/loadBalancers", request)
+func (client LoadBalancerClient) CreateLoadBalancer(ctx context.Context, request CreateLoadBalancerRequest) (response CreateLoadBalancerResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.createLoadBalancer, policy)
 	if err != nil {
 		return
 	}
-
-	err = client.Call(ctx, &httpRequest, common.CallConfig{
-		ResponseCallback: func(httpResponse *http.Response, e error) error {
-			response.RawResponse = httpResponse
-			if e != nil {
-				return e
-			}
-
-			return common.UnmarshalResponse(httpResponse, &response)
-		},
-		RetryPolicyOptions: options,
-	})
+	if convertedResponse, ok := ociResponse.(CreateLoadBalancerResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateLoadBalancerResponse")
+	}
 	return
+}
+
+// createLoadBalancer implements the OCIOperation interface (enables retrying operations)
+func (client LoadBalancerClient) createLoadBalancer(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/loadBalancers")
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateLoadBalancerResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
 }
 
 // CreatePathRouteSet Adds a path route set to a load balancer. For more information, see
 // Managing Request Routing (https://docs.us-phoenix-1.oraclecloud.com/Content/Balance/Tasks/managingrequest.htm).
-func (client LoadBalancerClient) CreatePathRouteSet(ctx context.Context, request CreatePathRouteSetRequest, options ...common.RetryPolicyOption) (response CreatePathRouteSetResponse, err error) {
-	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodPost, "/loadBalancers/{loadBalancerId}/pathRouteSets", request)
+func (client LoadBalancerClient) CreatePathRouteSet(ctx context.Context, request CreatePathRouteSetRequest) (response CreatePathRouteSetResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.createPathRouteSet, policy)
 	if err != nil {
 		return
 	}
-
-	err = client.Call(ctx, &httpRequest, common.CallConfig{
-		ResponseCallback: func(httpResponse *http.Response, e error) error {
-			response.RawResponse = httpResponse
-			if e != nil {
-				return e
-			}
-
-			return common.UnmarshalResponse(httpResponse, &response)
-		},
-		RetryPolicyOptions: options,
-	})
+	if convertedResponse, ok := ociResponse.(CreatePathRouteSetResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreatePathRouteSetResponse")
+	}
 	return
 }
 
+// createPathRouteSet implements the OCIOperation interface (enables retrying operations)
+func (client LoadBalancerClient) createPathRouteSet(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/loadBalancers/{loadBalancerId}/pathRouteSets")
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreatePathRouteSetResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteBackend Removes a backend server from a given load balancer and backend set.
-func (client LoadBalancerClient) DeleteBackend(ctx context.Context, request DeleteBackendRequest, options ...common.RetryPolicyOption) (response DeleteBackendResponse, err error) {
-	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodDelete, "/loadBalancers/{loadBalancerId}/backendSets/{backendSetName}/backends/{backendName}", request)
+func (client LoadBalancerClient) DeleteBackend(ctx context.Context, request DeleteBackendRequest) (response DeleteBackendResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteBackend, policy)
 	if err != nil {
 		return
 	}
-
-	err = client.Call(ctx, &httpRequest, common.CallConfig{
-		ResponseCallback: func(httpResponse *http.Response, e error) error {
-			response.RawResponse = httpResponse
-			if e != nil {
-				return e
-			}
-
-			return common.UnmarshalResponse(httpResponse, &response)
-		},
-		RetryPolicyOptions: options,
-	})
+	if convertedResponse, ok := ociResponse.(DeleteBackendResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteBackendResponse")
+	}
 	return
+}
+
+// deleteBackend implements the OCIOperation interface (enables retrying operations)
+func (client LoadBalancerClient) deleteBackend(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/loadBalancers/{loadBalancerId}/backendSets/{backendSetName}/backends/{backendName}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteBackendResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
 }
 
 // DeleteBackendSet Deletes the specified backend set. Note that deleting a backend set removes its backend servers from the load balancer.
 // Before you can delete a backend set, you must remove it from any active listeners.
-func (client LoadBalancerClient) DeleteBackendSet(ctx context.Context, request DeleteBackendSetRequest, options ...common.RetryPolicyOption) (response DeleteBackendSetResponse, err error) {
-	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodDelete, "/loadBalancers/{loadBalancerId}/backendSets/{backendSetName}", request)
+func (client LoadBalancerClient) DeleteBackendSet(ctx context.Context, request DeleteBackendSetRequest) (response DeleteBackendSetResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteBackendSet, policy)
 	if err != nil {
 		return
 	}
-
-	err = client.Call(ctx, &httpRequest, common.CallConfig{
-		ResponseCallback: func(httpResponse *http.Response, e error) error {
-			response.RawResponse = httpResponse
-			if e != nil {
-				return e
-			}
-
-			return common.UnmarshalResponse(httpResponse, &response)
-		},
-		RetryPolicyOptions: options,
-	})
+	if convertedResponse, ok := ociResponse.(DeleteBackendSetResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteBackendSetResponse")
+	}
 	return
+}
+
+// deleteBackendSet implements the OCIOperation interface (enables retrying operations)
+func (client LoadBalancerClient) deleteBackendSet(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/loadBalancers/{loadBalancerId}/backendSets/{backendSetName}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteBackendSetResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
 }
 
 // DeleteCertificate Deletes an SSL certificate from a load balancer.
-func (client LoadBalancerClient) DeleteCertificate(ctx context.Context, request DeleteCertificateRequest, options ...common.RetryPolicyOption) (response DeleteCertificateResponse, err error) {
-	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodDelete, "/loadBalancers/{loadBalancerId}/certificates/{certificateName}", request)
+func (client LoadBalancerClient) DeleteCertificate(ctx context.Context, request DeleteCertificateRequest) (response DeleteCertificateResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteCertificate, policy)
 	if err != nil {
 		return
 	}
-
-	err = client.Call(ctx, &httpRequest, common.CallConfig{
-		ResponseCallback: func(httpResponse *http.Response, e error) error {
-			response.RawResponse = httpResponse
-			if e != nil {
-				return e
-			}
-
-			return common.UnmarshalResponse(httpResponse, &response)
-		},
-		RetryPolicyOptions: options,
-	})
+	if convertedResponse, ok := ociResponse.(DeleteCertificateResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteCertificateResponse")
+	}
 	return
+}
+
+// deleteCertificate implements the OCIOperation interface (enables retrying operations)
+func (client LoadBalancerClient) deleteCertificate(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/loadBalancers/{loadBalancerId}/certificates/{certificateName}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteCertificateResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
 }
 
 // DeleteListener Deletes a listener from a load balancer.
-func (client LoadBalancerClient) DeleteListener(ctx context.Context, request DeleteListenerRequest, options ...common.RetryPolicyOption) (response DeleteListenerResponse, err error) {
-	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodDelete, "/loadBalancers/{loadBalancerId}/listeners/{listenerName}", request)
+func (client LoadBalancerClient) DeleteListener(ctx context.Context, request DeleteListenerRequest) (response DeleteListenerResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteListener, policy)
 	if err != nil {
 		return
 	}
-
-	err = client.Call(ctx, &httpRequest, common.CallConfig{
-		ResponseCallback: func(httpResponse *http.Response, e error) error {
-			response.RawResponse = httpResponse
-			if e != nil {
-				return e
-			}
-
-			return common.UnmarshalResponse(httpResponse, &response)
-		},
-		RetryPolicyOptions: options,
-	})
+	if convertedResponse, ok := ociResponse.(DeleteListenerResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteListenerResponse")
+	}
 	return
 }
 
+// deleteListener implements the OCIOperation interface (enables retrying operations)
+func (client LoadBalancerClient) deleteListener(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/loadBalancers/{loadBalancerId}/listeners/{listenerName}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteListenerResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteLoadBalancer Stops a load balancer and removes it from service.
-func (client LoadBalancerClient) DeleteLoadBalancer(ctx context.Context, request DeleteLoadBalancerRequest, options ...common.RetryPolicyOption) (response DeleteLoadBalancerResponse, err error) {
-	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodDelete, "/loadBalancers/{loadBalancerId}", request)
+func (client LoadBalancerClient) DeleteLoadBalancer(ctx context.Context, request DeleteLoadBalancerRequest) (response DeleteLoadBalancerResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteLoadBalancer, policy)
 	if err != nil {
 		return
 	}
-
-	err = client.Call(ctx, &httpRequest, common.CallConfig{
-		ResponseCallback: func(httpResponse *http.Response, e error) error {
-			response.RawResponse = httpResponse
-			if e != nil {
-				return e
-			}
-
-			return common.UnmarshalResponse(httpResponse, &response)
-		},
-		RetryPolicyOptions: options,
-	})
+	if convertedResponse, ok := ociResponse.(DeleteLoadBalancerResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteLoadBalancerResponse")
+	}
 	return
+}
+
+// deleteLoadBalancer implements the OCIOperation interface (enables retrying operations)
+func (client LoadBalancerClient) deleteLoadBalancer(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/loadBalancers/{loadBalancerId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteLoadBalancerResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
 }
 
 // DeletePathRouteSet Deletes a path route set from the specified load balancer.
 // To delete a path route rule from a path route set, use the
 // UpdatePathRouteSet operation.
-func (client LoadBalancerClient) DeletePathRouteSet(ctx context.Context, request DeletePathRouteSetRequest, options ...common.RetryPolicyOption) (response DeletePathRouteSetResponse, err error) {
-	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodDelete, "/loadBalancers/{loadBalancerId}/pathRouteSets/{pathRouteSetName}", request)
+func (client LoadBalancerClient) DeletePathRouteSet(ctx context.Context, request DeletePathRouteSetRequest) (response DeletePathRouteSetResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deletePathRouteSet, policy)
 	if err != nil {
 		return
 	}
-
-	err = client.Call(ctx, &httpRequest, common.CallConfig{
-		ResponseCallback: func(httpResponse *http.Response, e error) error {
-			response.RawResponse = httpResponse
-			if e != nil {
-				return e
-			}
-
-			return common.UnmarshalResponse(httpResponse, &response)
-		},
-		RetryPolicyOptions: options,
-	})
+	if convertedResponse, ok := ociResponse.(DeletePathRouteSetResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeletePathRouteSetResponse")
+	}
 	return
+}
+
+// deletePathRouteSet implements the OCIOperation interface (enables retrying operations)
+func (client LoadBalancerClient) deletePathRouteSet(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/loadBalancers/{loadBalancerId}/pathRouteSets/{pathRouteSetName}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeletePathRouteSetResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
 }
 
 // GetBackend Gets the specified backend server's configuration information.
-func (client LoadBalancerClient) GetBackend(ctx context.Context, request GetBackendRequest, options ...common.RetryPolicyOption) (response GetBackendResponse, err error) {
-	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodGet, "/loadBalancers/{loadBalancerId}/backendSets/{backendSetName}/backends/{backendName}", request)
+func (client LoadBalancerClient) GetBackend(ctx context.Context, request GetBackendRequest) (response GetBackendResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getBackend, policy)
 	if err != nil {
 		return
 	}
-
-	err = client.Call(ctx, &httpRequest, common.CallConfig{
-		ResponseCallback: func(httpResponse *http.Response, e error) error {
-			response.RawResponse = httpResponse
-			if e != nil {
-				return e
-			}
-
-			return common.UnmarshalResponse(httpResponse, &response)
-		},
-		RetryPolicyOptions: options,
-	})
+	if convertedResponse, ok := ociResponse.(GetBackendResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetBackendResponse")
+	}
 	return
+}
+
+// getBackend implements the OCIOperation interface (enables retrying operations)
+func (client LoadBalancerClient) getBackend(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancers/{loadBalancerId}/backendSets/{backendSetName}/backends/{backendName}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetBackendResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
 }
 
 // GetBackendHealth Gets the current health status of the specified backend server.
-func (client LoadBalancerClient) GetBackendHealth(ctx context.Context, request GetBackendHealthRequest, options ...common.RetryPolicyOption) (response GetBackendHealthResponse, err error) {
-	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodGet, "/loadBalancers/{loadBalancerId}/backendSets/{backendSetName}/backends/{backendName}/health", request)
+func (client LoadBalancerClient) GetBackendHealth(ctx context.Context, request GetBackendHealthRequest) (response GetBackendHealthResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getBackendHealth, policy)
 	if err != nil {
 		return
 	}
-
-	err = client.Call(ctx, &httpRequest, common.CallConfig{
-		ResponseCallback: func(httpResponse *http.Response, e error) error {
-			response.RawResponse = httpResponse
-			if e != nil {
-				return e
-			}
-
-			return common.UnmarshalResponse(httpResponse, &response)
-		},
-		RetryPolicyOptions: options,
-	})
+	if convertedResponse, ok := ociResponse.(GetBackendHealthResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetBackendHealthResponse")
+	}
 	return
+}
+
+// getBackendHealth implements the OCIOperation interface (enables retrying operations)
+func (client LoadBalancerClient) getBackendHealth(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancers/{loadBalancerId}/backendSets/{backendSetName}/backends/{backendName}/health")
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetBackendHealthResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
 }
 
 // GetBackendSet Gets the specified backend set's configuration information.
-func (client LoadBalancerClient) GetBackendSet(ctx context.Context, request GetBackendSetRequest, options ...common.RetryPolicyOption) (response GetBackendSetResponse, err error) {
-	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodGet, "/loadBalancers/{loadBalancerId}/backendSets/{backendSetName}", request)
+func (client LoadBalancerClient) GetBackendSet(ctx context.Context, request GetBackendSetRequest) (response GetBackendSetResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getBackendSet, policy)
 	if err != nil {
 		return
 	}
-
-	err = client.Call(ctx, &httpRequest, common.CallConfig{
-		ResponseCallback: func(httpResponse *http.Response, e error) error {
-			response.RawResponse = httpResponse
-			if e != nil {
-				return e
-			}
-
-			return common.UnmarshalResponse(httpResponse, &response)
-		},
-		RetryPolicyOptions: options,
-	})
+	if convertedResponse, ok := ociResponse.(GetBackendSetResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetBackendSetResponse")
+	}
 	return
+}
+
+// getBackendSet implements the OCIOperation interface (enables retrying operations)
+func (client LoadBalancerClient) getBackendSet(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancers/{loadBalancerId}/backendSets/{backendSetName}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetBackendSetResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
 }
 
 // GetBackendSetHealth Gets the health status for the specified backend set.
-func (client LoadBalancerClient) GetBackendSetHealth(ctx context.Context, request GetBackendSetHealthRequest, options ...common.RetryPolicyOption) (response GetBackendSetHealthResponse, err error) {
-	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodGet, "/loadBalancers/{loadBalancerId}/backendSets/{backendSetName}/health", request)
+func (client LoadBalancerClient) GetBackendSetHealth(ctx context.Context, request GetBackendSetHealthRequest) (response GetBackendSetHealthResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getBackendSetHealth, policy)
 	if err != nil {
 		return
 	}
-
-	err = client.Call(ctx, &httpRequest, common.CallConfig{
-		ResponseCallback: func(httpResponse *http.Response, e error) error {
-			response.RawResponse = httpResponse
-			if e != nil {
-				return e
-			}
-
-			return common.UnmarshalResponse(httpResponse, &response)
-		},
-		RetryPolicyOptions: options,
-	})
+	if convertedResponse, ok := ociResponse.(GetBackendSetHealthResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetBackendSetHealthResponse")
+	}
 	return
+}
+
+// getBackendSetHealth implements the OCIOperation interface (enables retrying operations)
+func (client LoadBalancerClient) getBackendSetHealth(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancers/{loadBalancerId}/backendSets/{backendSetName}/health")
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetBackendSetHealthResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
 }
 
 // GetHealthChecker Gets the health check policy information for a given load balancer and backend set.
-func (client LoadBalancerClient) GetHealthChecker(ctx context.Context, request GetHealthCheckerRequest, options ...common.RetryPolicyOption) (response GetHealthCheckerResponse, err error) {
-	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodGet, "/loadBalancers/{loadBalancerId}/backendSets/{backendSetName}/healthChecker", request)
+func (client LoadBalancerClient) GetHealthChecker(ctx context.Context, request GetHealthCheckerRequest) (response GetHealthCheckerResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getHealthChecker, policy)
 	if err != nil {
 		return
 	}
-
-	err = client.Call(ctx, &httpRequest, common.CallConfig{
-		ResponseCallback: func(httpResponse *http.Response, e error) error {
-			response.RawResponse = httpResponse
-			if e != nil {
-				return e
-			}
-
-			return common.UnmarshalResponse(httpResponse, &response)
-		},
-		RetryPolicyOptions: options,
-	})
+	if convertedResponse, ok := ociResponse.(GetHealthCheckerResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetHealthCheckerResponse")
+	}
 	return
+}
+
+// getHealthChecker implements the OCIOperation interface (enables retrying operations)
+func (client LoadBalancerClient) getHealthChecker(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancers/{loadBalancerId}/backendSets/{backendSetName}/healthChecker")
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetHealthCheckerResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
 }
 
 // GetLoadBalancer Gets the specified load balancer's configuration information.
-func (client LoadBalancerClient) GetLoadBalancer(ctx context.Context, request GetLoadBalancerRequest, options ...common.RetryPolicyOption) (response GetLoadBalancerResponse, err error) {
-	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodGet, "/loadBalancers/{loadBalancerId}", request)
+func (client LoadBalancerClient) GetLoadBalancer(ctx context.Context, request GetLoadBalancerRequest) (response GetLoadBalancerResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getLoadBalancer, policy)
 	if err != nil {
 		return
 	}
-
-	err = client.Call(ctx, &httpRequest, common.CallConfig{
-		ResponseCallback: func(httpResponse *http.Response, e error) error {
-			response.RawResponse = httpResponse
-			if e != nil {
-				return e
-			}
-
-			return common.UnmarshalResponse(httpResponse, &response)
-		},
-		RetryPolicyOptions: options,
-	})
+	if convertedResponse, ok := ociResponse.(GetLoadBalancerResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetLoadBalancerResponse")
+	}
 	return
+}
+
+// getLoadBalancer implements the OCIOperation interface (enables retrying operations)
+func (client LoadBalancerClient) getLoadBalancer(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancers/{loadBalancerId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetLoadBalancerResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
 }
 
 // GetLoadBalancerHealth Gets the health status for the specified load balancer.
-func (client LoadBalancerClient) GetLoadBalancerHealth(ctx context.Context, request GetLoadBalancerHealthRequest, options ...common.RetryPolicyOption) (response GetLoadBalancerHealthResponse, err error) {
-	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodGet, "/loadBalancers/{loadBalancerId}/health", request)
+func (client LoadBalancerClient) GetLoadBalancerHealth(ctx context.Context, request GetLoadBalancerHealthRequest) (response GetLoadBalancerHealthResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getLoadBalancerHealth, policy)
 	if err != nil {
 		return
 	}
-
-	err = client.Call(ctx, &httpRequest, common.CallConfig{
-		ResponseCallback: func(httpResponse *http.Response, e error) error {
-			response.RawResponse = httpResponse
-			if e != nil {
-				return e
-			}
-
-			return common.UnmarshalResponse(httpResponse, &response)
-		},
-		RetryPolicyOptions: options,
-	})
+	if convertedResponse, ok := ociResponse.(GetLoadBalancerHealthResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetLoadBalancerHealthResponse")
+	}
 	return
+}
+
+// getLoadBalancerHealth implements the OCIOperation interface (enables retrying operations)
+func (client LoadBalancerClient) getLoadBalancerHealth(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancers/{loadBalancerId}/health")
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetLoadBalancerHealthResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
 }
 
 // GetPathRouteSet Gets the specified path route set's configuration information.
-func (client LoadBalancerClient) GetPathRouteSet(ctx context.Context, request GetPathRouteSetRequest, options ...common.RetryPolicyOption) (response GetPathRouteSetResponse, err error) {
-	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodGet, "/loadBalancers/{loadBalancerId}/pathRouteSets/{pathRouteSetName}", request)
+func (client LoadBalancerClient) GetPathRouteSet(ctx context.Context, request GetPathRouteSetRequest) (response GetPathRouteSetResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getPathRouteSet, policy)
 	if err != nil {
 		return
 	}
-
-	err = client.Call(ctx, &httpRequest, common.CallConfig{
-		ResponseCallback: func(httpResponse *http.Response, e error) error {
-			response.RawResponse = httpResponse
-			if e != nil {
-				return e
-			}
-
-			return common.UnmarshalResponse(httpResponse, &response)
-		},
-		RetryPolicyOptions: options,
-	})
+	if convertedResponse, ok := ociResponse.(GetPathRouteSetResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetPathRouteSetResponse")
+	}
 	return
+}
+
+// getPathRouteSet implements the OCIOperation interface (enables retrying operations)
+func (client LoadBalancerClient) getPathRouteSet(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancers/{loadBalancerId}/pathRouteSets/{pathRouteSetName}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetPathRouteSetResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
 }
 
 // GetWorkRequest Gets the details of a work request.
-func (client LoadBalancerClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest, options ...common.RetryPolicyOption) (response GetWorkRequestResponse, err error) {
-	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodGet, "/loadBalancerWorkRequests/{workRequestId}", request)
+func (client LoadBalancerClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getWorkRequest, policy)
 	if err != nil {
 		return
 	}
-
-	err = client.Call(ctx, &httpRequest, common.CallConfig{
-		ResponseCallback: func(httpResponse *http.Response, e error) error {
-			response.RawResponse = httpResponse
-			if e != nil {
-				return e
-			}
-
-			return common.UnmarshalResponse(httpResponse, &response)
-		},
-		RetryPolicyOptions: options,
-	})
+	if convertedResponse, ok := ociResponse.(GetWorkRequestResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetWorkRequestResponse")
+	}
 	return
+}
+
+// getWorkRequest implements the OCIOperation interface (enables retrying operations)
+func (client LoadBalancerClient) getWorkRequest(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancerWorkRequests/{workRequestId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetWorkRequestResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
 }
 
 // ListBackendSets Lists all backend sets associated with a given load balancer.
-func (client LoadBalancerClient) ListBackendSets(ctx context.Context, request ListBackendSetsRequest, options ...common.RetryPolicyOption) (response ListBackendSetsResponse, err error) {
-	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodGet, "/loadBalancers/{loadBalancerId}/backendSets", request)
+func (client LoadBalancerClient) ListBackendSets(ctx context.Context, request ListBackendSetsRequest) (response ListBackendSetsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listBackendSets, policy)
 	if err != nil {
 		return
 	}
-
-	err = client.Call(ctx, &httpRequest, common.CallConfig{
-		ResponseCallback: func(httpResponse *http.Response, e error) error {
-			response.RawResponse = httpResponse
-			if e != nil {
-				return e
-			}
-
-			return common.UnmarshalResponse(httpResponse, &response)
-		},
-		RetryPolicyOptions: options,
-	})
+	if convertedResponse, ok := ociResponse.(ListBackendSetsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListBackendSetsResponse")
+	}
 	return
+}
+
+// listBackendSets implements the OCIOperation interface (enables retrying operations)
+func (client LoadBalancerClient) listBackendSets(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancers/{loadBalancerId}/backendSets")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListBackendSetsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
 }
 
 // ListBackends Lists the backend servers for a given load balancer and backend set.
-func (client LoadBalancerClient) ListBackends(ctx context.Context, request ListBackendsRequest, options ...common.RetryPolicyOption) (response ListBackendsResponse, err error) {
-	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodGet, "/loadBalancers/{loadBalancerId}/backendSets/{backendSetName}/backends", request)
+func (client LoadBalancerClient) ListBackends(ctx context.Context, request ListBackendsRequest) (response ListBackendsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listBackends, policy)
 	if err != nil {
 		return
 	}
-
-	err = client.Call(ctx, &httpRequest, common.CallConfig{
-		ResponseCallback: func(httpResponse *http.Response, e error) error {
-			response.RawResponse = httpResponse
-			if e != nil {
-				return e
-			}
-
-			return common.UnmarshalResponse(httpResponse, &response)
-		},
-		RetryPolicyOptions: options,
-	})
+	if convertedResponse, ok := ociResponse.(ListBackendsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListBackendsResponse")
+	}
 	return
+}
+
+// listBackends implements the OCIOperation interface (enables retrying operations)
+func (client LoadBalancerClient) listBackends(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancers/{loadBalancerId}/backendSets/{backendSetName}/backends")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListBackendsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
 }
 
 // ListCertificates Lists all SSL certificates associated with a given load balancer.
-func (client LoadBalancerClient) ListCertificates(ctx context.Context, request ListCertificatesRequest, options ...common.RetryPolicyOption) (response ListCertificatesResponse, err error) {
-	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodGet, "/loadBalancers/{loadBalancerId}/certificates", request)
+func (client LoadBalancerClient) ListCertificates(ctx context.Context, request ListCertificatesRequest) (response ListCertificatesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listCertificates, policy)
 	if err != nil {
 		return
 	}
-
-	err = client.Call(ctx, &httpRequest, common.CallConfig{
-		ResponseCallback: func(httpResponse *http.Response, e error) error {
-			response.RawResponse = httpResponse
-			if e != nil {
-				return e
-			}
-
-			return common.UnmarshalResponse(httpResponse, &response)
-		},
-		RetryPolicyOptions: options,
-	})
+	if convertedResponse, ok := ociResponse.(ListCertificatesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListCertificatesResponse")
+	}
 	return
+}
+
+// listCertificates implements the OCIOperation interface (enables retrying operations)
+func (client LoadBalancerClient) listCertificates(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancers/{loadBalancerId}/certificates")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListCertificatesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
 }
 
 // ListLoadBalancerHealths Lists the summary health statuses for all load balancers in the specified compartment.
-func (client LoadBalancerClient) ListLoadBalancerHealths(ctx context.Context, request ListLoadBalancerHealthsRequest, options ...common.RetryPolicyOption) (response ListLoadBalancerHealthsResponse, err error) {
-	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodGet, "/loadBalancerHealths", request)
+func (client LoadBalancerClient) ListLoadBalancerHealths(ctx context.Context, request ListLoadBalancerHealthsRequest) (response ListLoadBalancerHealthsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listLoadBalancerHealths, policy)
 	if err != nil {
 		return
 	}
-
-	err = client.Call(ctx, &httpRequest, common.CallConfig{
-		ResponseCallback: func(httpResponse *http.Response, e error) error {
-			response.RawResponse = httpResponse
-			if e != nil {
-				return e
-			}
-
-			return common.UnmarshalResponse(httpResponse, &response)
-		},
-		RetryPolicyOptions: options,
-	})
+	if convertedResponse, ok := ociResponse.(ListLoadBalancerHealthsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListLoadBalancerHealthsResponse")
+	}
 	return
+}
+
+// listLoadBalancerHealths implements the OCIOperation interface (enables retrying operations)
+func (client LoadBalancerClient) listLoadBalancerHealths(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancerHealths")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListLoadBalancerHealthsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
 }
 
 // ListLoadBalancers Lists all load balancers in the specified compartment.
-func (client LoadBalancerClient) ListLoadBalancers(ctx context.Context, request ListLoadBalancersRequest, options ...common.RetryPolicyOption) (response ListLoadBalancersResponse, err error) {
-	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodGet, "/loadBalancers", request)
+func (client LoadBalancerClient) ListLoadBalancers(ctx context.Context, request ListLoadBalancersRequest) (response ListLoadBalancersResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listLoadBalancers, policy)
 	if err != nil {
 		return
 	}
-
-	err = client.Call(ctx, &httpRequest, common.CallConfig{
-		ResponseCallback: func(httpResponse *http.Response, e error) error {
-			response.RawResponse = httpResponse
-			if e != nil {
-				return e
-			}
-
-			return common.UnmarshalResponse(httpResponse, &response)
-		},
-		RetryPolicyOptions: options,
-	})
+	if convertedResponse, ok := ociResponse.(ListLoadBalancersResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListLoadBalancersResponse")
+	}
 	return
+}
+
+// listLoadBalancers implements the OCIOperation interface (enables retrying operations)
+func (client LoadBalancerClient) listLoadBalancers(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancers")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListLoadBalancersResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
 }
 
 // ListPathRouteSets Lists all path route sets associated with the specified load balancer.
-func (client LoadBalancerClient) ListPathRouteSets(ctx context.Context, request ListPathRouteSetsRequest, options ...common.RetryPolicyOption) (response ListPathRouteSetsResponse, err error) {
-	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodGet, "/loadBalancers/{loadBalancerId}/pathRouteSets", request)
+func (client LoadBalancerClient) ListPathRouteSets(ctx context.Context, request ListPathRouteSetsRequest) (response ListPathRouteSetsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listPathRouteSets, policy)
 	if err != nil {
 		return
 	}
-
-	err = client.Call(ctx, &httpRequest, common.CallConfig{
-		ResponseCallback: func(httpResponse *http.Response, e error) error {
-			response.RawResponse = httpResponse
-			if e != nil {
-				return e
-			}
-
-			return common.UnmarshalResponse(httpResponse, &response)
-		},
-		RetryPolicyOptions: options,
-	})
+	if convertedResponse, ok := ociResponse.(ListPathRouteSetsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListPathRouteSetsResponse")
+	}
 	return
+}
+
+// listPathRouteSets implements the OCIOperation interface (enables retrying operations)
+func (client LoadBalancerClient) listPathRouteSets(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancers/{loadBalancerId}/pathRouteSets")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListPathRouteSetsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
 }
 
 // ListPolicies Lists the available load balancer policies.
-func (client LoadBalancerClient) ListPolicies(ctx context.Context, request ListPoliciesRequest, options ...common.RetryPolicyOption) (response ListPoliciesResponse, err error) {
-	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodGet, "/loadBalancerPolicies", request)
+func (client LoadBalancerClient) ListPolicies(ctx context.Context, request ListPoliciesRequest) (response ListPoliciesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listPolicies, policy)
 	if err != nil {
 		return
 	}
-
-	err = client.Call(ctx, &httpRequest, common.CallConfig{
-		ResponseCallback: func(httpResponse *http.Response, e error) error {
-			response.RawResponse = httpResponse
-			if e != nil {
-				return e
-			}
-
-			return common.UnmarshalResponse(httpResponse, &response)
-		},
-		RetryPolicyOptions: options,
-	})
+	if convertedResponse, ok := ociResponse.(ListPoliciesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListPoliciesResponse")
+	}
 	return
+}
+
+// listPolicies implements the OCIOperation interface (enables retrying operations)
+func (client LoadBalancerClient) listPolicies(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancerPolicies")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListPoliciesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
 }
 
 // ListProtocols Lists all supported traffic protocols.
-func (client LoadBalancerClient) ListProtocols(ctx context.Context, request ListProtocolsRequest, options ...common.RetryPolicyOption) (response ListProtocolsResponse, err error) {
-	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodGet, "/loadBalancerProtocols", request)
+func (client LoadBalancerClient) ListProtocols(ctx context.Context, request ListProtocolsRequest) (response ListProtocolsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listProtocols, policy)
 	if err != nil {
 		return
 	}
-
-	err = client.Call(ctx, &httpRequest, common.CallConfig{
-		ResponseCallback: func(httpResponse *http.Response, e error) error {
-			response.RawResponse = httpResponse
-			if e != nil {
-				return e
-			}
-
-			return common.UnmarshalResponse(httpResponse, &response)
-		},
-		RetryPolicyOptions: options,
-	})
+	if convertedResponse, ok := ociResponse.(ListProtocolsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListProtocolsResponse")
+	}
 	return
+}
+
+// listProtocols implements the OCIOperation interface (enables retrying operations)
+func (client LoadBalancerClient) listProtocols(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancerProtocols")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListProtocolsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
 }
 
 // ListShapes Lists the valid load balancer shapes.
-func (client LoadBalancerClient) ListShapes(ctx context.Context, request ListShapesRequest, options ...common.RetryPolicyOption) (response ListShapesResponse, err error) {
-	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodGet, "/loadBalancerShapes", request)
+func (client LoadBalancerClient) ListShapes(ctx context.Context, request ListShapesRequest) (response ListShapesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listShapes, policy)
 	if err != nil {
 		return
 	}
-
-	err = client.Call(ctx, &httpRequest, common.CallConfig{
-		ResponseCallback: func(httpResponse *http.Response, e error) error {
-			response.RawResponse = httpResponse
-			if e != nil {
-				return e
-			}
-
-			return common.UnmarshalResponse(httpResponse, &response)
-		},
-		RetryPolicyOptions: options,
-	})
+	if convertedResponse, ok := ociResponse.(ListShapesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListShapesResponse")
+	}
 	return
+}
+
+// listShapes implements the OCIOperation interface (enables retrying operations)
+func (client LoadBalancerClient) listShapes(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancerShapes")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListShapesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
 }
 
 // ListWorkRequests Lists the work requests for a given load balancer.
-func (client LoadBalancerClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest, options ...common.RetryPolicyOption) (response ListWorkRequestsResponse, err error) {
-	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodGet, "/loadBalancers/{loadBalancerId}/workRequests", request)
+func (client LoadBalancerClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listWorkRequests, policy)
 	if err != nil {
 		return
 	}
-
-	err = client.Call(ctx, &httpRequest, common.CallConfig{
-		ResponseCallback: func(httpResponse *http.Response, e error) error {
-			response.RawResponse = httpResponse
-			if e != nil {
-				return e
-			}
-
-			return common.UnmarshalResponse(httpResponse, &response)
-		},
-		RetryPolicyOptions: options,
-	})
+	if convertedResponse, ok := ociResponse.(ListWorkRequestsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListWorkRequestsResponse")
+	}
 	return
+}
+
+// listWorkRequests implements the OCIOperation interface (enables retrying operations)
+func (client LoadBalancerClient) listWorkRequests(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancers/{loadBalancerId}/workRequests")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListWorkRequestsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
 }
 
 // UpdateBackend Updates the configuration of a backend server within the specified backend set.
-func (client LoadBalancerClient) UpdateBackend(ctx context.Context, request UpdateBackendRequest, options ...common.RetryPolicyOption) (response UpdateBackendResponse, err error) {
-	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodPut, "/loadBalancers/{loadBalancerId}/backendSets/{backendSetName}/backends/{backendName}", request)
+func (client LoadBalancerClient) UpdateBackend(ctx context.Context, request UpdateBackendRequest) (response UpdateBackendResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateBackend, policy)
 	if err != nil {
 		return
 	}
-
-	err = client.Call(ctx, &httpRequest, common.CallConfig{
-		ResponseCallback: func(httpResponse *http.Response, e error) error {
-			response.RawResponse = httpResponse
-			if e != nil {
-				return e
-			}
-
-			return common.UnmarshalResponse(httpResponse, &response)
-		},
-		RetryPolicyOptions: options,
-	})
+	if convertedResponse, ok := ociResponse.(UpdateBackendResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateBackendResponse")
+	}
 	return
+}
+
+// updateBackend implements the OCIOperation interface (enables retrying operations)
+func (client LoadBalancerClient) updateBackend(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/loadBalancers/{loadBalancerId}/backendSets/{backendSetName}/backends/{backendName}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateBackendResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
 }
 
 // UpdateBackendSet Updates a backend set.
-func (client LoadBalancerClient) UpdateBackendSet(ctx context.Context, request UpdateBackendSetRequest, options ...common.RetryPolicyOption) (response UpdateBackendSetResponse, err error) {
-	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodPut, "/loadBalancers/{loadBalancerId}/backendSets/{backendSetName}", request)
+func (client LoadBalancerClient) UpdateBackendSet(ctx context.Context, request UpdateBackendSetRequest) (response UpdateBackendSetResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateBackendSet, policy)
 	if err != nil {
 		return
 	}
-
-	err = client.Call(ctx, &httpRequest, common.CallConfig{
-		ResponseCallback: func(httpResponse *http.Response, e error) error {
-			response.RawResponse = httpResponse
-			if e != nil {
-				return e
-			}
-
-			return common.UnmarshalResponse(httpResponse, &response)
-		},
-		RetryPolicyOptions: options,
-	})
+	if convertedResponse, ok := ociResponse.(UpdateBackendSetResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateBackendSetResponse")
+	}
 	return
+}
+
+// updateBackendSet implements the OCIOperation interface (enables retrying operations)
+func (client LoadBalancerClient) updateBackendSet(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/loadBalancers/{loadBalancerId}/backendSets/{backendSetName}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateBackendSetResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
 }
 
 // UpdateHealthChecker Updates the health check policy for a given load balancer and backend set.
-func (client LoadBalancerClient) UpdateHealthChecker(ctx context.Context, request UpdateHealthCheckerRequest, options ...common.RetryPolicyOption) (response UpdateHealthCheckerResponse, err error) {
-	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodPut, "/loadBalancers/{loadBalancerId}/backendSets/{backendSetName}/healthChecker", request)
+func (client LoadBalancerClient) UpdateHealthChecker(ctx context.Context, request UpdateHealthCheckerRequest) (response UpdateHealthCheckerResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateHealthChecker, policy)
 	if err != nil {
 		return
 	}
-
-	err = client.Call(ctx, &httpRequest, common.CallConfig{
-		ResponseCallback: func(httpResponse *http.Response, e error) error {
-			response.RawResponse = httpResponse
-			if e != nil {
-				return e
-			}
-
-			return common.UnmarshalResponse(httpResponse, &response)
-		},
-		RetryPolicyOptions: options,
-	})
+	if convertedResponse, ok := ociResponse.(UpdateHealthCheckerResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateHealthCheckerResponse")
+	}
 	return
+}
+
+// updateHealthChecker implements the OCIOperation interface (enables retrying operations)
+func (client LoadBalancerClient) updateHealthChecker(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/loadBalancers/{loadBalancerId}/backendSets/{backendSetName}/healthChecker")
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateHealthCheckerResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
 }
 
 // UpdateListener Updates a listener for a given load balancer.
-func (client LoadBalancerClient) UpdateListener(ctx context.Context, request UpdateListenerRequest, options ...common.RetryPolicyOption) (response UpdateListenerResponse, err error) {
-	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodPut, "/loadBalancers/{loadBalancerId}/listeners/{listenerName}", request)
+func (client LoadBalancerClient) UpdateListener(ctx context.Context, request UpdateListenerRequest) (response UpdateListenerResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateListener, policy)
 	if err != nil {
 		return
 	}
-
-	err = client.Call(ctx, &httpRequest, common.CallConfig{
-		ResponseCallback: func(httpResponse *http.Response, e error) error {
-			response.RawResponse = httpResponse
-			if e != nil {
-				return e
-			}
-
-			return common.UnmarshalResponse(httpResponse, &response)
-		},
-		RetryPolicyOptions: options,
-	})
+	if convertedResponse, ok := ociResponse.(UpdateListenerResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateListenerResponse")
+	}
 	return
 }
 
+// updateListener implements the OCIOperation interface (enables retrying operations)
+func (client LoadBalancerClient) updateListener(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/loadBalancers/{loadBalancerId}/listeners/{listenerName}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateListenerResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UpdateLoadBalancer Updates a load balancer's configuration.
-func (client LoadBalancerClient) UpdateLoadBalancer(ctx context.Context, request UpdateLoadBalancerRequest, options ...common.RetryPolicyOption) (response UpdateLoadBalancerResponse, err error) {
-	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodPut, "/loadBalancers/{loadBalancerId}", request)
+func (client LoadBalancerClient) UpdateLoadBalancer(ctx context.Context, request UpdateLoadBalancerRequest) (response UpdateLoadBalancerResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateLoadBalancer, policy)
 	if err != nil {
 		return
 	}
-
-	err = client.Call(ctx, &httpRequest, common.CallConfig{
-		ResponseCallback: func(httpResponse *http.Response, e error) error {
-			response.RawResponse = httpResponse
-			if e != nil {
-				return e
-			}
-
-			return common.UnmarshalResponse(httpResponse, &response)
-		},
-		RetryPolicyOptions: options,
-	})
+	if convertedResponse, ok := ociResponse.(UpdateLoadBalancerResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateLoadBalancerResponse")
+	}
 	return
+}
+
+// updateLoadBalancer implements the OCIOperation interface (enables retrying operations)
+func (client LoadBalancerClient) updateLoadBalancer(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/loadBalancers/{loadBalancerId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateLoadBalancerResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
 }
 
 // UpdatePathRouteSet Overwrites an existing path route set on the specified load balancer. Use this operation to add, delete, or alter
@@ -844,22 +1491,40 @@ func (client LoadBalancerClient) UpdateLoadBalancer(ctx context.Context, request
 // To add a new path route rule to a path route set, the `pathRoutes` in the
 // UpdatePathRouteSetDetails object must include
 // both the new path route rule to add and the existing path route rules to retain.
-func (client LoadBalancerClient) UpdatePathRouteSet(ctx context.Context, request UpdatePathRouteSetRequest, options ...common.RetryPolicyOption) (response UpdatePathRouteSetResponse, err error) {
-	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodPut, "/loadBalancers/{loadBalancerId}/pathRouteSets/{pathRouteSetName}", request)
+func (client LoadBalancerClient) UpdatePathRouteSet(ctx context.Context, request UpdatePathRouteSetRequest) (response UpdatePathRouteSetResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updatePathRouteSet, policy)
 	if err != nil {
 		return
 	}
-
-	err = client.Call(ctx, &httpRequest, common.CallConfig{
-		ResponseCallback: func(httpResponse *http.Response, e error) error {
-			response.RawResponse = httpResponse
-			if e != nil {
-				return e
-			}
-
-			return common.UnmarshalResponse(httpResponse, &response)
-		},
-		RetryPolicyOptions: options,
-	})
+	if convertedResponse, ok := ociResponse.(UpdatePathRouteSetResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdatePathRouteSetResponse")
+	}
 	return
+}
+
+// updatePathRouteSet implements the OCIOperation interface (enables retrying operations)
+func (client LoadBalancerClient) updatePathRouteSet(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/loadBalancers/{loadBalancerId}/pathRouteSets/{pathRouteSetName}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdatePathRouteSetResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
 }

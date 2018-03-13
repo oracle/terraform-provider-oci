@@ -43,10 +43,24 @@ type ListConsoleHistoriesRequest struct {
 
 	// A filter to only return resources that match the given lifecycle state.  The state value is case-insensitive.
 	LifecycleState ConsoleHistoryLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
+
+	// Metadata about the request. This information will not be transmitted to the service, but
+	// represents information that the SDK will consume to drive retry behavior.
+	RequestMetadata common.RequestMetadata
 }
 
 func (request ListConsoleHistoriesRequest) String() string {
 	return common.PointerString(request)
+}
+
+// HTTPRequest implements the OCIRequest interface
+func (request ListConsoleHistoriesRequest) HTTPRequest(method, path string) (http.Request, error) {
+	return common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
+}
+
+// RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
+func (request ListConsoleHistoriesRequest) RetryPolicy() *common.RetryPolicy {
+	return request.RequestMetadata.RetryPolicy
 }
 
 // ListConsoleHistoriesResponse wrapper for the ListConsoleHistories operation
@@ -70,6 +84,11 @@ type ListConsoleHistoriesResponse struct {
 
 func (response ListConsoleHistoriesResponse) String() string {
 	return common.PointerString(response)
+}
+
+// HTTPResponse implements the OCIResponse interface
+func (response ListConsoleHistoriesResponse) HTTPResponse() *http.Response {
+	return response.RawResponse
 }
 
 // ListConsoleHistoriesSortByEnum Enum with underlying type: string

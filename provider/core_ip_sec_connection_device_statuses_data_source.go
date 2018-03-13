@@ -97,7 +97,9 @@ func (s *IpSecConnectionDeviceStatusDataSourceCrud) Get() error {
 		request.IpscId = &tmp
 	}
 
-	response, err := s.Client.GetIPSecConnectionDeviceStatus(context.Background(), request, getRetryOptions(false, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+
+	response, err := s.Client.GetIPSecConnectionDeviceStatus(context.Background(), request)
 	if err != nil {
 		return err
 	}

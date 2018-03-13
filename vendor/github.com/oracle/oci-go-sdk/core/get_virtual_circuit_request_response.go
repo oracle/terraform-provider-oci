@@ -13,10 +13,24 @@ type GetVirtualCircuitRequest struct {
 
 	// The OCID of the virtual circuit.
 	VirtualCircuitId *string `mandatory:"true" contributesTo:"path" name:"virtualCircuitId"`
+
+	// Metadata about the request. This information will not be transmitted to the service, but
+	// represents information that the SDK will consume to drive retry behavior.
+	RequestMetadata common.RequestMetadata
 }
 
 func (request GetVirtualCircuitRequest) String() string {
 	return common.PointerString(request)
+}
+
+// HTTPRequest implements the OCIRequest interface
+func (request GetVirtualCircuitRequest) HTTPRequest(method, path string) (http.Request, error) {
+	return common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
+}
+
+// RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
+func (request GetVirtualCircuitRequest) RetryPolicy() *common.RetryPolicy {
+	return request.RequestMetadata.RetryPolicy
 }
 
 // GetVirtualCircuitResponse wrapper for the GetVirtualCircuit operation
@@ -38,4 +52,9 @@ type GetVirtualCircuitResponse struct {
 
 func (response GetVirtualCircuitResponse) String() string {
 	return common.PointerString(response)
+}
+
+// HTTPResponse implements the OCIResponse interface
+func (response GetVirtualCircuitResponse) HTTPResponse() *http.Response {
+	return response.RawResponse
 }

@@ -74,7 +74,9 @@ func (s *UserGroupMembershipsDataSourceCrud) Get() error {
 		request.UserId = &tmp
 	}
 
-	response, err := s.Client.ListUserGroupMemberships(context.Background(), request, getRetryOptions(false, "identity")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "identity")
+
+	response, err := s.Client.ListUserGroupMemberships(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -83,7 +85,7 @@ func (s *UserGroupMembershipsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListUserGroupMemberships(context.Background(), request, getRetryOptions(false, "identity")...)
+		listResponse, err := s.Client.ListUserGroupMemberships(context.Background(), request)
 		if err != nil {
 			return err
 		}

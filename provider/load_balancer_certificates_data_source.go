@@ -55,7 +55,9 @@ func (s *CertificatesDataSourceCrud) Get() error {
 		request.LoadBalancerId = &tmp
 	}
 
-	response, err := s.Client.ListCertificates(context.Background(), request, getRetryOptions(false, "load_balancer")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "load_balancer")
+
+	response, err := s.Client.ListCertificates(context.Background(), request)
 	if err != nil {
 		return err
 	}

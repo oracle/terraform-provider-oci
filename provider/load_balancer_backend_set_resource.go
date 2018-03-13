@@ -333,7 +333,9 @@ func (s *BackendSetResourceCrud) Create() error {
 		}
 	}
 
-	response, err := s.Client.CreateBackendSet(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "load_balancer")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
+
+	response, err := s.Client.CreateBackendSet(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -341,7 +343,8 @@ func (s *BackendSetResourceCrud) Create() error {
 	workReqID := response.OpcWorkRequestId
 	getWorkRequestRequest := oci_load_balancer.GetWorkRequestRequest{}
 	getWorkRequestRequest.WorkRequestId = workReqID
-	workRequestResponse, err := s.Client.GetWorkRequest(context.Background(), getWorkRequestRequest, getRetryOptions(s.DisableNotFoundRetries, "load_balancer")...)
+	getWorkRequestRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
+	workRequestResponse, err := s.Client.GetWorkRequest(context.Background(), getWorkRequestRequest)
 	if err != nil {
 		return err
 	}
@@ -350,7 +353,7 @@ func (s *BackendSetResourceCrud) Create() error {
 }
 
 func (s *BackendSetResourceCrud) Get() error {
-	_, stillWorking, err := crud.LoadBalancerResourceGet(s.Client, s.D, s.WorkRequest, getRetryOptions(s.DisableNotFoundRetries, "load_balancer")...)
+	_, stillWorking, err := crud.LoadBalancerResourceGet(s.Client, s.D, s.WorkRequest, getRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
 	if err != nil {
 		return err
 	}
@@ -369,7 +372,9 @@ func (s *BackendSetResourceCrud) Get() error {
 		request.LoadBalancerId = &tmp
 	}
 
-	response, err := s.Client.GetBackendSet(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "load_balancer")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
+
+	response, err := s.Client.GetBackendSet(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -435,7 +440,9 @@ func (s *BackendSetResourceCrud) Update() error {
 		}
 	}
 
-	response, err := s.Client.UpdateBackendSet(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "load_balancer")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
+
+	response, err := s.Client.UpdateBackendSet(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -443,12 +450,13 @@ func (s *BackendSetResourceCrud) Update() error {
 	workReqID := response.OpcWorkRequestId
 	getWorkRequestRequest := oci_load_balancer.GetWorkRequestRequest{}
 	getWorkRequestRequest.WorkRequestId = workReqID
-	workRequestResponse, err := s.Client.GetWorkRequest(context.Background(), getWorkRequestRequest, getRetryOptions(s.DisableNotFoundRetries, "load_balancer")...)
+	getWorkRequestRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
+	workRequestResponse, err := s.Client.GetWorkRequest(context.Background(), getWorkRequestRequest)
 	if err != nil {
 		return err
 	}
 	s.WorkRequest = &workRequestResponse.WorkRequest
-	err = crud.LoadBalancerWaitForWorkRequest(s.Client, s.D, s.WorkRequest, getRetryOptions(s.DisableNotFoundRetries, "load_balancer")...)
+	err = crud.LoadBalancerWaitForWorkRequest(s.Client, s.D, s.WorkRequest, getRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
 	if err != nil {
 		return err
 	}
@@ -469,12 +477,15 @@ func (s *BackendSetResourceCrud) Delete() error {
 		request.LoadBalancerId = &tmp
 	}
 
-	response, err := s.Client.DeleteBackendSet(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "load_balancer")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
+
+	response, err := s.Client.DeleteBackendSet(context.Background(), request)
 
 	workReqID := response.OpcWorkRequestId
 	getWorkRequestRequest := oci_load_balancer.GetWorkRequestRequest{}
 	getWorkRequestRequest.WorkRequestId = workReqID
-	workRequestResponse, err := s.Client.GetWorkRequest(context.Background(), getWorkRequestRequest, getRetryOptions(s.DisableNotFoundRetries, "load_balancer")...)
+	getWorkRequestRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
+	workRequestResponse, err := s.Client.GetWorkRequest(context.Background(), getWorkRequestRequest)
 	if err != nil {
 		return err
 	}

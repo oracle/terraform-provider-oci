@@ -140,13 +140,14 @@ func LoadBalancerResourceID(res interface{}, workReq *oci_load_balancer.WorkRequ
 	return nil, false
 }
 
-func LoadBalancerResourceGet(client *oci_load_balancer.LoadBalancerClient, d *schema.ResourceData, wr *oci_load_balancer.WorkRequest, retryOptions ...oci_common.RetryPolicyOption) (id string, stillWorking bool, err error) {
+func LoadBalancerResourceGet(client *oci_load_balancer.LoadBalancerClient, d *schema.ResourceData, wr *oci_load_balancer.WorkRequest, retryPolicy *oci_common.RetryPolicy) (id string, stillWorking bool, err error) {
 	id = d.Id()
 	// NOTE: if the id is for a work request, refresh its state and loadBalancerID.
 	if strings.HasPrefix(id, "ocid1.loadbalancerworkrequest.") {
 		getWorkRequestRequest := oci_load_balancer.GetWorkRequestRequest{}
 		getWorkRequestRequest.WorkRequestId = &id
-		updatedWorkRes, err := client.GetWorkRequest(context.Background(), getWorkRequestRequest, retryOptions...)
+		getWorkRequestRequest.RequestMetadata.RetryPolicy = retryPolicy
+		updatedWorkRes, err := client.GetWorkRequest(context.Background(), getWorkRequestRequest)
 		if err != nil {
 			return "", false, err
 		}
@@ -165,7 +166,7 @@ func LoadBalancerResourceGet(client *oci_load_balancer.LoadBalancerClient, d *sc
 	return id, false, nil
 }
 
-func LoadBalancerWaitForWorkRequest(client *oci_load_balancer.LoadBalancerClient, d *schema.ResourceData, wr *oci_load_balancer.WorkRequest, retryOptions ...oci_common.RetryPolicyOption) error {
+func LoadBalancerWaitForWorkRequest(client *oci_load_balancer.LoadBalancerClient, d *schema.ResourceData, wr *oci_load_balancer.WorkRequest, retryPolicy *oci_common.RetryPolicy) error {
 	var e error
 	stateConf := &resource.StateChangeConf{
 		Pending: []string{
@@ -179,7 +180,8 @@ func LoadBalancerWaitForWorkRequest(client *oci_load_balancer.LoadBalancerClient
 		Refresh: func() (interface{}, string, error) {
 			getWorkRequestRequest := oci_load_balancer.GetWorkRequestRequest{}
 			getWorkRequestRequest.WorkRequestId = wr.Id
-			workRequestResponse, err := client.GetWorkRequest(context.Background(), getWorkRequestRequest, retryOptions...)
+			getWorkRequestRequest.RequestMetadata.RetryPolicy = retryPolicy
+			workRequestResponse, err := client.GetWorkRequest(context.Background(), getWorkRequestRequest)
 			wr = &workRequestResponse.WorkRequest
 			return wr, string(wr.LifecycleState), err
 		},

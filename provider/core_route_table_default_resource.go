@@ -65,7 +65,9 @@ func (s *DefaultRouteTableResourceCrud) reset() error {
 
 	request.RouteRules = []oci_core.RouteRule{}
 
-	response, err := s.Client.UpdateRouteTable(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	response, err := s.Client.UpdateRouteTable(context.Background(), request)
 	if err != nil {
 		return err
 	}

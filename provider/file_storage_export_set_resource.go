@@ -125,7 +125,9 @@ func (s *ExportSetResourceCrud) Create() error {
 		request := oci_file_storage.GetMountTargetRequest{}
 		request.MountTargetId = &tmp
 
-		response, err := s.Client.GetMountTarget(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "file_storage")...)
+		request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "file_storage")
+
+		response, err := s.Client.GetMountTarget(context.Background(), request)
 		if err != nil {
 			return fmt.Errorf("getting mount target details failed with error: %s", err.Error())
 		}
@@ -149,7 +151,9 @@ func (s *ExportSetResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.ExportSetId = &tmp
 
-	response, err := s.Client.GetExportSet(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "file_storage")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "file_storage")
+
+	response, err := s.Client.GetExportSet(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -179,7 +183,9 @@ func (s *ExportSetResourceCrud) Update() error {
 		request.MaxFsStatFiles = &tmp
 	}
 
-	response, err := s.Client.UpdateExportSet(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "file_storage")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "file_storage")
+
+	response, err := s.Client.UpdateExportSet(context.Background(), request)
 	if err != nil {
 		return err
 	}

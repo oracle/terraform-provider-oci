@@ -71,7 +71,9 @@ func (s *AvailabilityDomainsDataSourceCrud) Get() error {
 		request.CompartmentId = &tmp
 	}
 
-	response, err := s.Client.ListAvailabilityDomains(context.Background(), request, getRetryOptions(false, "identity")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "identity")
+
+	response, err := s.Client.ListAvailabilityDomains(context.Background(), request)
 	if err != nil {
 		return err
 	}

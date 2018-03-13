@@ -81,7 +81,9 @@ func (s *ObjectHeadDataSourceCrud) Get() error {
 		request.ObjectName = &tmp
 	}
 
-	response, err := s.Client.HeadObject(context.Background(), request, getRetryOptions(false, "object_storage")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "object_storage")
+
+	response, err := s.Client.HeadObject(context.Background(), request)
 	if err != nil {
 		return err
 	}

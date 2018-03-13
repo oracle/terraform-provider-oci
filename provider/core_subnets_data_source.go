@@ -117,7 +117,9 @@ func (s *SubnetsDataSourceCrud) Get() error {
 		request.VcnId = &tmp
 	}
 
-	response, err := s.Client.ListSubnets(context.Background(), request, getRetryOptions(false, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+
+	response, err := s.Client.ListSubnets(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -126,7 +128,7 @@ func (s *SubnetsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListSubnets(context.Background(), request, getRetryOptions(false, "core")...)
+		listResponse, err := s.Client.ListSubnets(context.Background(), request)
 		if err != nil {
 			return err
 		}

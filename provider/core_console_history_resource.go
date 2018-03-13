@@ -123,7 +123,9 @@ func (s *ConsoleHistoryResourceCrud) Create() error {
 		request.InstanceId = &tmp
 	}
 
-	response, err := s.Client.CaptureConsoleHistory(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	response, err := s.Client.CaptureConsoleHistory(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -138,7 +140,9 @@ func (s *ConsoleHistoryResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.InstanceConsoleHistoryId = &tmp
 
-	response, err := s.Client.GetConsoleHistory(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	response, err := s.Client.GetConsoleHistory(context.Background(), request)
 	if err != nil {
 		return err
 	}

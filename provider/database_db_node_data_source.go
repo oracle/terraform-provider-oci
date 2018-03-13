@@ -77,7 +77,9 @@ func (s *DbNodeDataSourceCrud) Get() error {
 	tmp := dbNodeId.(string)
 	request.DbNodeId = &tmp
 
-	response, err := s.Client.GetDbNode(context.Background(), request, getRetryOptions(false, "database")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
+
+	response, err := s.Client.GetDbNode(context.Background(), request)
 	if err != nil {
 		return err
 	}

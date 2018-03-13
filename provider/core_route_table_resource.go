@@ -186,7 +186,9 @@ func (s *RouteTableResourceCrud) Create() error {
 		request.VcnId = &tmp
 	}
 
-	response, err := s.Client.CreateRouteTable(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	response, err := s.Client.CreateRouteTable(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -201,7 +203,9 @@ func (s *RouteTableResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.RtId = &tmp
 
-	response, err := s.Client.GetRouteTable(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	response, err := s.Client.GetRouteTable(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -231,7 +235,9 @@ func (s *RouteTableResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.RtId = &tmp
 
-	response, err := s.Client.UpdateRouteTable(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	response, err := s.Client.UpdateRouteTable(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -246,7 +252,9 @@ func (s *RouteTableResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.RtId = &tmp
 
-	_, err := s.Client.DeleteRouteTable(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	_, err := s.Client.DeleteRouteTable(context.Background(), request)
 	return err
 }
 

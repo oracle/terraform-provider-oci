@@ -72,7 +72,9 @@ func (s *SnapshotsDataSourceCrud) Get() error {
 		request.LifecycleState = oci_file_storage.ListSnapshotsLifecycleStateEnum(state.(string))
 	}
 
-	response, err := s.Client.ListSnapshots(context.Background(), request, getRetryOptions(false, "file_storage")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "file_storage")
+
+	response, err := s.Client.ListSnapshots(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -81,7 +83,7 @@ func (s *SnapshotsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListSnapshots(context.Background(), request, getRetryOptions(false, "file_storage")...)
+		listResponse, err := s.Client.ListSnapshots(context.Background(), request)
 		if err != nil {
 			return err
 		}

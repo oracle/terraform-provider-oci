@@ -13,10 +13,24 @@ type GetVolumeBackupRequest struct {
 
 	// The OCID of the volume backup.
 	VolumeBackupId *string `mandatory:"true" contributesTo:"path" name:"volumeBackupId"`
+
+	// Metadata about the request. This information will not be transmitted to the service, but
+	// represents information that the SDK will consume to drive retry behavior.
+	RequestMetadata common.RequestMetadata
 }
 
 func (request GetVolumeBackupRequest) String() string {
 	return common.PointerString(request)
+}
+
+// HTTPRequest implements the OCIRequest interface
+func (request GetVolumeBackupRequest) HTTPRequest(method, path string) (http.Request, error) {
+	return common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
+}
+
+// RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
+func (request GetVolumeBackupRequest) RetryPolicy() *common.RetryPolicy {
+	return request.RequestMetadata.RetryPolicy
 }
 
 // GetVolumeBackupResponse wrapper for the GetVolumeBackup operation
@@ -38,4 +52,9 @@ type GetVolumeBackupResponse struct {
 
 func (response GetVolumeBackupResponse) String() string {
 	return common.PointerString(response)
+}
+
+// HTTPResponse implements the OCIResponse interface
+func (response GetVolumeBackupResponse) HTTPResponse() *http.Response {
+	return response.RawResponse
 }

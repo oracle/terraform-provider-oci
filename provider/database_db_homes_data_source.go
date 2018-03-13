@@ -84,7 +84,9 @@ func (s *DbHomesDataSourceCrud) Get() error {
 		request.Page = &tmp
 	}
 
-	response, err := s.Client.ListDbHomes(context.Background(), request, getRetryOptions(false, "database")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
+
+	response, err := s.Client.ListDbHomes(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -93,7 +95,7 @@ func (s *DbHomesDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListDbHomes(context.Background(), request, getRetryOptions(false, "database")...)
+		listResponse, err := s.Client.ListDbHomes(context.Background(), request)
 		if err != nil {
 			return err
 		}

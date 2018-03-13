@@ -67,7 +67,9 @@ func (s *DefaultSecurityListResourceCrud) reset() error {
 
 	request.EgressSecurityRules = []oci_core.EgressSecurityRule{}
 
-	response, err := s.Client.UpdateSecurityList(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	response, err := s.Client.UpdateSecurityList(context.Background(), request)
 	if err != nil {
 		return err
 	}

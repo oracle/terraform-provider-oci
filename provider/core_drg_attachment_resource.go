@@ -153,7 +153,9 @@ func (s *DrgAttachmentResourceCrud) Create() error {
 		request.VcnId = &tmp
 	}
 
-	response, err := s.Client.CreateDrgAttachment(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	response, err := s.Client.CreateDrgAttachment(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -168,7 +170,9 @@ func (s *DrgAttachmentResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.DrgAttachmentId = &tmp
 
-	response, err := s.Client.GetDrgAttachment(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	response, err := s.Client.GetDrgAttachment(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -188,7 +192,9 @@ func (s *DrgAttachmentResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.DrgAttachmentId = &tmp
 
-	response, err := s.Client.UpdateDrgAttachment(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	response, err := s.Client.UpdateDrgAttachment(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -203,7 +209,9 @@ func (s *DrgAttachmentResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.DrgAttachmentId = &tmp
 
-	_, err := s.Client.DeleteDrgAttachment(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	_, err := s.Client.DeleteDrgAttachment(context.Background(), request)
 	return err
 }
 

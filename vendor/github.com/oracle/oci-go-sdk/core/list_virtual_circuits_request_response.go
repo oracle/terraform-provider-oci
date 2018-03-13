@@ -39,10 +39,24 @@ type ListVirtualCircuitsRequest struct {
 
 	// A filter to return only resources that match the specified lifecycle state. The value is case insensitive.
 	LifecycleState VirtualCircuitLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
+
+	// Metadata about the request. This information will not be transmitted to the service, but
+	// represents information that the SDK will consume to drive retry behavior.
+	RequestMetadata common.RequestMetadata
 }
 
 func (request ListVirtualCircuitsRequest) String() string {
 	return common.PointerString(request)
+}
+
+// HTTPRequest implements the OCIRequest interface
+func (request ListVirtualCircuitsRequest) HTTPRequest(method, path string) (http.Request, error) {
+	return common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
+}
+
+// RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
+func (request ListVirtualCircuitsRequest) RetryPolicy() *common.RetryPolicy {
+	return request.RequestMetadata.RetryPolicy
 }
 
 // ListVirtualCircuitsResponse wrapper for the ListVirtualCircuits operation
@@ -66,6 +80,11 @@ type ListVirtualCircuitsResponse struct {
 
 func (response ListVirtualCircuitsResponse) String() string {
 	return common.PointerString(response)
+}
+
+// HTTPResponse implements the OCIResponse interface
+func (response ListVirtualCircuitsResponse) HTTPResponse() *http.Response {
+	return response.RawResponse
 }
 
 // ListVirtualCircuitsSortByEnum Enum with underlying type: string

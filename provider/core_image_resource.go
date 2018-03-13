@@ -200,7 +200,9 @@ func (s *ImageResourceCrud) Create() error {
 		request.InstanceId = &tmp
 	}
 
-	response, err := s.Client.CreateImage(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	response, err := s.Client.CreateImage(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -215,7 +217,9 @@ func (s *ImageResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.ImageId = &tmp
 
-	response, err := s.Client.GetImage(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	response, err := s.Client.GetImage(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -235,7 +239,9 @@ func (s *ImageResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.ImageId = &tmp
 
-	response, err := s.Client.UpdateImage(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	response, err := s.Client.UpdateImage(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -250,7 +256,9 @@ func (s *ImageResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.ImageId = &tmp
 
-	_, err := s.Client.DeleteImage(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	_, err := s.Client.DeleteImage(context.Background(), request)
 	return err
 }
 

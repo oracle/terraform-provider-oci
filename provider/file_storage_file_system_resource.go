@@ -149,7 +149,9 @@ func (s *FileSystemResourceCrud) Create() error {
 		request.DisplayName = &tmp
 	}
 
-	response, err := s.Client.CreateFileSystem(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "file_storage")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "file_storage")
+
+	response, err := s.Client.CreateFileSystem(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -164,7 +166,9 @@ func (s *FileSystemResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.FileSystemId = &tmp
 
-	response, err := s.Client.GetFileSystem(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "file_storage")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "file_storage")
+
+	response, err := s.Client.GetFileSystem(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -184,7 +188,9 @@ func (s *FileSystemResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.FileSystemId = &tmp
 
-	response, err := s.Client.UpdateFileSystem(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "file_storage")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "file_storage")
+
+	response, err := s.Client.UpdateFileSystem(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -199,7 +205,9 @@ func (s *FileSystemResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.FileSystemId = &tmp
 
-	_, err := s.Client.DeleteFileSystem(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "file_storage")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "file_storage")
+
+	_, err := s.Client.DeleteFileSystem(context.Background(), request)
 	return err
 }
 

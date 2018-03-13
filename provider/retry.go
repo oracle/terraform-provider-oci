@@ -1,9 +1,10 @@
 package provider
 
 import (
-	"net/http"
 	"strings"
 	"time"
+
+	"log"
 
 	oci_common "github.com/oracle/oci-go-sdk/common"
 )
@@ -19,6 +20,10 @@ var timeWaitedCache map[uint]time.Duration
 
 //attempt starts at 1
 //quadratic backoff (attempt^2) with forced retries at shortRetryTime and longRetryTime
+func nextDuration(response oci_common.OCIOperationResponse) time.Duration {
+	return getNextDuration(response.AttemptNumber)
+}
+
 func getNextDuration(attempt uint) time.Duration {
 	timeWaited := getTimeWaited(attempt)
 	nextDuration := time.Duration(attempt*attempt) * time.Second
@@ -46,21 +51,25 @@ func getTimeWaited(attempt uint) time.Duration {
 	return timeWaited
 }
 
-func shouldRetry(response *http.Response, e error, attempt uint, disableNotFoundRetries bool, service string) bool {
+func shouldRetry(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, service string) bool {
 	if disableAutoRetries {
 		return false
 	}
-	if response == nil {
-		return false
-	}
-	if response.StatusCode >= 200 && response.StatusCode < 300 {
+	if response.Response == nil {
 		return false
 	}
 
-	timeWaited := getTimeWaited(attempt)
+	statusCode := response.Response.HTTPResponse().StatusCode
+	e := response.Error
+
+	if statusCode >= 200 && statusCode < 300 {
+		return false
+	}
+
+	timeWaited := getTimeWaited(response.AttemptNumber)
 	shortTimeDecision := timeWaited < shortRetryTime
 	longTimeDecision := timeWaited < longRetryTime
-	switch response.StatusCode {
+	switch statusCode {
 	case 400:
 		return false
 	case 401:
@@ -96,14 +105,18 @@ func shouldRetry(response *http.Response, e error, attempt uint, disableNotFound
 	return shortTimeDecision
 }
 
-func getRetryOptions(disableNotFoundRetries bool, service string) []oci_common.RetryPolicyOption {
-	retryOptions := []oci_common.RetryPolicyOption{
-		oci_common.MaximumNumberAttempts(0),
-		oci_common.GetNextDuration(getNextDuration),
-		oci_common.ShouldRetryOperation(func(response *http.Response, e error, attempt uint) bool {
-			return shouldRetry(response, e, attempt, disableNotFoundRetries, service)
-		}),
+func getRetryPolicy(disableNotFoundRetries bool, service string) *oci_common.RetryPolicy {
+	retryPolicy := &oci_common.RetryPolicy{
+		MaximumNumberAttempts: 0,
+		ShouldRetryOperation: func(response oci_common.OCIOperationResponse) bool {
+			shouldRetry := shouldRetry(response, disableNotFoundRetries, service)
+			if shouldRetry {
+				log.Printf("[DEBUG] Got a retriable error. Waiting %ds before next attempt.", nextDuration(response)/time.Second)
+			}
+			return shouldRetry
+		},
+		NextDuration: nextDuration,
 	}
 
-	return retryOptions
+	return retryPolicy
 }

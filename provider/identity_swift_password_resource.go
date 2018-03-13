@@ -150,7 +150,9 @@ func (s *SwiftPasswordResourceCrud) Create() error {
 		request.UserId = &tmp
 	}
 
-	response, err := s.Client.CreateSwiftPassword(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "identity")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+
+	response, err := s.Client.CreateSwiftPassword(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -167,7 +169,9 @@ func (s *SwiftPasswordResourceCrud) Get() error {
 		request.UserId = &tmp
 	}
 
-	response, err := s.Client.ListSwiftPasswords(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "identity")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+
+	response, err := s.Client.ListSwiftPasswords(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -199,7 +203,9 @@ func (s *SwiftPasswordResourceCrud) Update() error {
 		request.UserId = &tmp
 	}
 
-	response, err := s.Client.UpdateSwiftPassword(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "identity")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+
+	response, err := s.Client.UpdateSwiftPassword(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -219,7 +225,9 @@ func (s *SwiftPasswordResourceCrud) Delete() error {
 		request.UserId = &tmp
 	}
 
-	_, err := s.Client.DeleteSwiftPassword(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "identity")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+
+	_, err := s.Client.DeleteSwiftPassword(context.Background(), request)
 	return err
 }
 
