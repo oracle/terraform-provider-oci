@@ -111,7 +111,9 @@ func (s *VnicsDataSourceCrud) Get() error {
 		request.VnicId = &tmp
 	}
 
-	response, err := s.Client.GetVnic(context.Background(), request, getRetryOptions(false, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+
+	response, err := s.Client.GetVnic(context.Background(), request)
 	if err != nil {
 		return err
 	}

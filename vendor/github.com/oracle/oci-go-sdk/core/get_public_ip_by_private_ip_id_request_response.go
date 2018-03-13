@@ -13,10 +13,24 @@ type GetPublicIpByPrivateIpIdRequest struct {
 
 	// Private IP details for fetching the public IP.
 	GetPublicIpByPrivateIpIdDetails `contributesTo:"body"`
+
+	// Metadata about the request. This information will not be transmitted to the service, but
+	// represents information that the SDK will consume to drive retry behavior.
+	RequestMetadata common.RequestMetadata
 }
 
 func (request GetPublicIpByPrivateIpIdRequest) String() string {
 	return common.PointerString(request)
+}
+
+// HTTPRequest implements the OCIRequest interface
+func (request GetPublicIpByPrivateIpIdRequest) HTTPRequest(method, path string) (http.Request, error) {
+	return common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
+}
+
+// RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
+func (request GetPublicIpByPrivateIpIdRequest) RetryPolicy() *common.RetryPolicy {
+	return request.RequestMetadata.RetryPolicy
 }
 
 // GetPublicIpByPrivateIpIdResponse wrapper for the GetPublicIpByPrivateIpId operation
@@ -38,4 +52,9 @@ type GetPublicIpByPrivateIpIdResponse struct {
 
 func (response GetPublicIpByPrivateIpIdResponse) String() string {
 	return common.PointerString(response)
+}
+
+// HTTPResponse implements the OCIResponse interface
+func (response GetPublicIpByPrivateIpIdResponse) HTTPResponse() *http.Response {
+	return response.RawResponse
 }

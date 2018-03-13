@@ -13,10 +13,24 @@ type GetIdentityProviderRequest struct {
 
 	// The OCID of the identity provider.
 	IdentityProviderId *string `mandatory:"true" contributesTo:"path" name:"identityProviderId"`
+
+	// Metadata about the request. This information will not be transmitted to the service, but
+	// represents information that the SDK will consume to drive retry behavior.
+	RequestMetadata common.RequestMetadata
 }
 
 func (request GetIdentityProviderRequest) String() string {
 	return common.PointerString(request)
+}
+
+// HTTPRequest implements the OCIRequest interface
+func (request GetIdentityProviderRequest) HTTPRequest(method, path string) (http.Request, error) {
+	return common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
+}
+
+// RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
+func (request GetIdentityProviderRequest) RetryPolicy() *common.RetryPolicy {
+	return request.RequestMetadata.RetryPolicy
 }
 
 // GetIdentityProviderResponse wrapper for the GetIdentityProvider operation
@@ -38,4 +52,9 @@ type GetIdentityProviderResponse struct {
 
 func (response GetIdentityProviderResponse) String() string {
 	return common.PointerString(response)
+}
+
+// HTTPResponse implements the OCIResponse interface
+func (response GetIdentityProviderResponse) HTTPResponse() *http.Response {
+	return response.RawResponse
 }

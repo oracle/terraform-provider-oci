@@ -234,7 +234,9 @@ func (s *VnicAttachmentResourceCrud) Create() error {
 		request.NicIndex = &tmp
 	}
 
-	response, err := s.Client.AttachVnic(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	response, err := s.Client.AttachVnic(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -271,7 +273,9 @@ func (s *VnicAttachmentResourceCrud) Update() error {
 		}
 	}
 
-	_, err = s.VirtualNetworkClient.UpdateVnic(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	_, err = s.VirtualNetworkClient.UpdateVnic(context.Background(), request)
 	return err
 }
 
@@ -281,7 +285,9 @@ func (s *VnicAttachmentResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.VnicAttachmentId = &tmp
 
-	response, err := s.Client.GetVnicAttachment(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	response, err := s.Client.GetVnicAttachment(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -296,7 +302,9 @@ func (s *VnicAttachmentResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.VnicAttachmentId = &tmp
 
-	_, err := s.Client.DetachVnic(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	_, err := s.Client.DetachVnic(context.Background(), request)
 	return err
 }
 
@@ -344,7 +352,9 @@ func (s *VnicAttachmentResourceCrud) SetData() {
 	// @CODEGEN 1/2018: We need to refresh the vnic details after every refresh.
 	request := oci_core.GetVnicRequest{}
 	request.VnicId = s.Res.VnicId
-	response, err := s.VirtualNetworkClient.GetVnic(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	response, err := s.VirtualNetworkClient.GetVnic(context.Background(), request)
 	if err != nil {
 		// VNIC might not be found when attaching or detaching.
 		log.Printf("[DEBUG] VNIC not found during VNIC Attachment refresh. (VNIC ID: %q, Error: %q)", *request.VnicId, err)

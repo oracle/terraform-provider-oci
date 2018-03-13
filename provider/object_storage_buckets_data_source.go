@@ -84,7 +84,9 @@ func (s *BucketsDataSourceCrud) Get() error {
 		request.Page = &tmp
 	}
 
-	response, err := s.Client.ListBuckets(context.Background(), request, getRetryOptions(false, "object_storage")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "object_storage")
+
+	response, err := s.Client.ListBuckets(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -93,7 +95,7 @@ func (s *BucketsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListBuckets(context.Background(), request, getRetryOptions(false, "object_storage")...)
+		listResponse, err := s.Client.ListBuckets(context.Background(), request)
 		if err != nil {
 			return err
 		}

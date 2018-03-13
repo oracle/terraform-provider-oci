@@ -23,10 +23,24 @@ type UpdateExportSetRequest struct {
 	// The resource will be updated or deleted only if the etag you
 	// provide matches the resource's current etag value.
 	IfMatch *string `mandatory:"false" contributesTo:"header" name:"if-match"`
+
+	// Metadata about the request. This information will not be transmitted to the service, but
+	// represents information that the SDK will consume to drive retry behavior.
+	RequestMetadata common.RequestMetadata
 }
 
 func (request UpdateExportSetRequest) String() string {
 	return common.PointerString(request)
+}
+
+// HTTPRequest implements the OCIRequest interface
+func (request UpdateExportSetRequest) HTTPRequest(method, path string) (http.Request, error) {
+	return common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
+}
+
+// RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
+func (request UpdateExportSetRequest) RetryPolicy() *common.RetryPolicy {
+	return request.RequestMetadata.RetryPolicy
 }
 
 // UpdateExportSetResponse wrapper for the UpdateExportSet operation
@@ -49,4 +63,9 @@ type UpdateExportSetResponse struct {
 
 func (response UpdateExportSetResponse) String() string {
 	return common.PointerString(response)
+}
+
+// HTTPResponse implements the OCIResponse interface
+func (response UpdateExportSetResponse) HTTPResponse() *http.Response {
+	return response.RawResponse
 }

@@ -164,7 +164,9 @@ func (s *CompartmentResourceCrud) Create() error {
 		request.Name = &tmp
 	}
 
-	response, err := s.Client.CreateCompartment(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "identity")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+
+	response, err := s.Client.CreateCompartment(context.Background(), request)
 	if err == nil {
 		s.Res = &response.Compartment
 		return nil
@@ -199,7 +201,9 @@ func (s *CompartmentResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.CompartmentId = &tmp
 
-	response, err := s.Client.GetCompartment(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "identity")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+
+	response, err := s.Client.GetCompartment(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -224,7 +228,9 @@ func (s *CompartmentResourceCrud) Update() error {
 		request.Name = &tmp
 	}
 
-	response, err := s.Client.UpdateCompartment(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "identity")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+
+	response, err := s.Client.UpdateCompartment(context.Background(), request)
 	if err != nil {
 		return err
 	}

@@ -125,7 +125,7 @@ func calculateHashOfBody(request *http.Request) (err error) {
 	} else {
 		hash = hashAndEncode([]byte(""))
 	}
-	request.Header.Set("X-Content-Sha256", hash)
+	request.Header.Set(requestHeaderXContentSHA256, hash)
 	return
 }
 
@@ -224,7 +224,7 @@ func (signer ociRequestSigner) Sign(request *http.Request) (err error) {
 	authValue := fmt.Sprintf("Signature version=\"%s\",headers=\"%s\",keyId=\"%s\",algorithm=\"rsa-sha256\",signature=\"%s\"",
 		signerVersion, signingHeaders, keyID, signature)
 
-	request.Header.Set("Authorization", authValue)
+	request.Header.Set(requestHeaderAuthorization, authValue)
 
 	return
 }

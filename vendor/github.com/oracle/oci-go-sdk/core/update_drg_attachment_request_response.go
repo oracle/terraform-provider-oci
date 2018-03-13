@@ -21,10 +21,24 @@ type UpdateDrgAttachmentRequest struct {
 	// parameter to the value of the etag from a previous GET or POST response for that resource.  The resource
 	// will be updated or deleted only if the etag you provide matches the resource's current etag value.
 	IfMatch *string `mandatory:"false" contributesTo:"header" name:"if-match"`
+
+	// Metadata about the request. This information will not be transmitted to the service, but
+	// represents information that the SDK will consume to drive retry behavior.
+	RequestMetadata common.RequestMetadata
 }
 
 func (request UpdateDrgAttachmentRequest) String() string {
 	return common.PointerString(request)
+}
+
+// HTTPRequest implements the OCIRequest interface
+func (request UpdateDrgAttachmentRequest) HTTPRequest(method, path string) (http.Request, error) {
+	return common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
+}
+
+// RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
+func (request UpdateDrgAttachmentRequest) RetryPolicy() *common.RetryPolicy {
+	return request.RequestMetadata.RetryPolicy
 }
 
 // UpdateDrgAttachmentResponse wrapper for the UpdateDrgAttachment operation
@@ -46,4 +60,9 @@ type UpdateDrgAttachmentResponse struct {
 
 func (response UpdateDrgAttachmentResponse) String() string {
 	return common.PointerString(response)
+}
+
+// HTTPResponse implements the OCIResponse interface
+func (response UpdateDrgAttachmentResponse) HTTPResponse() *http.Response {
+	return response.RawResponse
 }

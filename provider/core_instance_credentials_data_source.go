@@ -54,7 +54,9 @@ func (s *InstanceCredentialsDataSourceCrud) Get() error {
 		request.InstanceId = &tmp
 	}
 
-	response, err := s.Client.GetWindowsInstanceInitialCredentials(context.Background(), request, getRetryOptions(false, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+
+	response, err := s.Client.GetWindowsInstanceInitialCredentials(context.Background(), request)
 	if err != nil {
 		return err
 	}

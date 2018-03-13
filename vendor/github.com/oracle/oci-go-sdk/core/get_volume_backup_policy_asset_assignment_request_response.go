@@ -20,10 +20,24 @@ type GetVolumeBackupPolicyAssetAssignmentRequest struct {
 
 	// The value of the `opc-next-page` response header from the previous "List" call.
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
+
+	// Metadata about the request. This information will not be transmitted to the service, but
+	// represents information that the SDK will consume to drive retry behavior.
+	RequestMetadata common.RequestMetadata
 }
 
 func (request GetVolumeBackupPolicyAssetAssignmentRequest) String() string {
 	return common.PointerString(request)
+}
+
+// HTTPRequest implements the OCIRequest interface
+func (request GetVolumeBackupPolicyAssetAssignmentRequest) HTTPRequest(method, path string) (http.Request, error) {
+	return common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
+}
+
+// RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
+func (request GetVolumeBackupPolicyAssetAssignmentRequest) RetryPolicy() *common.RetryPolicy {
+	return request.RequestMetadata.RetryPolicy
 }
 
 // GetVolumeBackupPolicyAssetAssignmentResponse wrapper for the GetVolumeBackupPolicyAssetAssignment operation
@@ -47,4 +61,9 @@ type GetVolumeBackupPolicyAssetAssignmentResponse struct {
 
 func (response GetVolumeBackupPolicyAssetAssignmentResponse) String() string {
 	return common.PointerString(response)
+}
+
+// HTTPResponse implements the OCIResponse interface
+func (response GetVolumeBackupPolicyAssetAssignmentResponse) HTTPResponse() *http.Response {
+	return response.RawResponse
 }

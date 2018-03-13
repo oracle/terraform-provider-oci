@@ -166,7 +166,9 @@ func (s *VolumeBackupResourceCrud) Create() error {
 		request.VolumeId = &tmp
 	}
 
-	response, err := s.Client.CreateVolumeBackup(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	response, err := s.Client.CreateVolumeBackup(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -181,7 +183,9 @@ func (s *VolumeBackupResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.VolumeBackupId = &tmp
 
-	response, err := s.Client.GetVolumeBackup(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	response, err := s.Client.GetVolumeBackup(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -201,7 +205,9 @@ func (s *VolumeBackupResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.VolumeBackupId = &tmp
 
-	response, err := s.Client.UpdateVolumeBackup(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	response, err := s.Client.UpdateVolumeBackup(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -216,7 +222,9 @@ func (s *VolumeBackupResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.VolumeBackupId = &tmp
 
-	_, err := s.Client.DeleteVolumeBackup(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	_, err := s.Client.DeleteVolumeBackup(context.Background(), request)
 	return err
 }
 

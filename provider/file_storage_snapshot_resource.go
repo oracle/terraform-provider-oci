@@ -126,7 +126,9 @@ func (s *SnapshotResourceCrud) Create() error {
 		request.Name = &tmp
 	}
 
-	response, err := s.Client.CreateSnapshot(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "file_storage")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "file_storage")
+
+	response, err := s.Client.CreateSnapshot(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -141,7 +143,9 @@ func (s *SnapshotResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.SnapshotId = &tmp
 
-	response, err := s.Client.GetSnapshot(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "file_storage")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "file_storage")
+
+	response, err := s.Client.GetSnapshot(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -156,7 +160,9 @@ func (s *SnapshotResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.SnapshotId = &tmp
 
-	_, err := s.Client.DeleteSnapshot(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "file_storage")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "file_storage")
+
+	_, err := s.Client.DeleteSnapshot(context.Background(), request)
 	return err
 }
 

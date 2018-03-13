@@ -232,7 +232,9 @@ func (s *VolumeResourceCrud) Create() error {
 		request.VolumeBackupId = &tmp
 	}
 
-	response, err := s.Client.CreateVolume(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	response, err := s.Client.CreateVolume(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -247,7 +249,9 @@ func (s *VolumeResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.VolumeId = &tmp
 
-	response, err := s.Client.GetVolume(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	response, err := s.Client.GetVolume(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -267,7 +271,9 @@ func (s *VolumeResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.VolumeId = &tmp
 
-	response, err := s.Client.UpdateVolume(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	response, err := s.Client.UpdateVolume(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -282,7 +288,9 @@ func (s *VolumeResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.VolumeId = &tmp
 
-	_, err := s.Client.DeleteVolume(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	_, err := s.Client.DeleteVolume(context.Background(), request)
 	return err
 }
 

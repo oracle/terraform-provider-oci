@@ -117,7 +117,9 @@ func (s *DatabaseDataSourceCrud) Get() (e error) {
 	tmp := s.D.Get("database_id").(string)
 	request.DatabaseId = &tmp
 
-	response, err := s.Client.GetDatabase(context.Background(), request, getRetryOptions(false, "database")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
+
+	response, err := s.Client.GetDatabase(context.Background(), request)
 	if err != nil {
 		return err
 	}

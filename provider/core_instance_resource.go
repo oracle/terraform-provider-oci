@@ -313,7 +313,9 @@ func (s *InstanceResourceCrud) Create() error {
 		request.SubnetId = &tmp
 	}
 
-	response, err := s.Client.LaunchInstance(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	response, err := s.Client.LaunchInstance(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -328,7 +330,9 @@ func (s *InstanceResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.InstanceId = &tmp
 
-	response, err := s.Client.GetInstance(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	response, err := s.Client.GetInstance(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -348,7 +352,9 @@ func (s *InstanceResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.InstanceId = &tmp
 
-	response, err := s.Client.UpdateInstance(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	response, err := s.Client.UpdateInstance(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -397,7 +403,9 @@ func (s *InstanceResourceCrud) Delete() error {
 		request.PreserveBootVolume = &tmp
 	}
 
-	_, err := s.Client.TerminateInstance(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	_, err := s.Client.TerminateInstance(context.Background(), request)
 	return err
 }
 

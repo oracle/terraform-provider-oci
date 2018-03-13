@@ -21,10 +21,24 @@ type DeletePathRouteSetRequest struct {
 	// The unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
 	// particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
+
+	// Metadata about the request. This information will not be transmitted to the service, but
+	// represents information that the SDK will consume to drive retry behavior.
+	RequestMetadata common.RequestMetadata
 }
 
 func (request DeletePathRouteSetRequest) String() string {
 	return common.PointerString(request)
+}
+
+// HTTPRequest implements the OCIRequest interface
+func (request DeletePathRouteSetRequest) HTTPRequest(method, path string) (http.Request, error) {
+	return common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
+}
+
+// RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
+func (request DeletePathRouteSetRequest) RetryPolicy() *common.RetryPolicy {
+	return request.RequestMetadata.RetryPolicy
 }
 
 // DeletePathRouteSetResponse wrapper for the DeletePathRouteSet operation
@@ -43,4 +57,9 @@ type DeletePathRouteSetResponse struct {
 
 func (response DeletePathRouteSetResponse) String() string {
 	return common.PointerString(response)
+}
+
+// HTTPResponse implements the OCIResponse interface
+func (response DeletePathRouteSetResponse) HTTPResponse() *http.Response {
+	return response.RawResponse
 }

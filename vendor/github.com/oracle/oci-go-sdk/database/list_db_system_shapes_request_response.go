@@ -22,10 +22,24 @@ type ListDbSystemShapesRequest struct {
 
 	// The pagination token to continue listing from.
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
+
+	// Metadata about the request. This information will not be transmitted to the service, but
+	// represents information that the SDK will consume to drive retry behavior.
+	RequestMetadata common.RequestMetadata
 }
 
 func (request ListDbSystemShapesRequest) String() string {
 	return common.PointerString(request)
+}
+
+// HTTPRequest implements the OCIRequest interface
+func (request ListDbSystemShapesRequest) HTTPRequest(method, path string) (http.Request, error) {
+	return common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
+}
+
+// RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
+func (request ListDbSystemShapesRequest) RetryPolicy() *common.RetryPolicy {
+	return request.RequestMetadata.RetryPolicy
 }
 
 // ListDbSystemShapesResponse wrapper for the ListDbSystemShapes operation
@@ -50,4 +64,9 @@ type ListDbSystemShapesResponse struct {
 
 func (response ListDbSystemShapesResponse) String() string {
 	return common.PointerString(response)
+}
+
+// HTTPResponse implements the OCIResponse interface
+func (response ListDbSystemShapesResponse) HTTPResponse() *http.Response {
+	return response.RawResponse
 }

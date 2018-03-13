@@ -170,7 +170,9 @@ func (s *GroupResourceCrud) Create() error {
 		request.Name = &tmp
 	}
 
-	response, err := s.Client.CreateGroup(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "identity")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+
+	response, err := s.Client.CreateGroup(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -185,7 +187,9 @@ func (s *GroupResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.GroupId = &tmp
 
-	response, err := s.Client.GetGroup(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "identity")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+
+	response, err := s.Client.GetGroup(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -205,7 +209,9 @@ func (s *GroupResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.GroupId = &tmp
 
-	response, err := s.Client.UpdateGroup(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "identity")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+
+	response, err := s.Client.UpdateGroup(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -220,7 +226,9 @@ func (s *GroupResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.GroupId = &tmp
 
-	_, err := s.Client.DeleteGroup(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "identity")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+
+	_, err := s.Client.DeleteGroup(context.Background(), request)
 	return err
 }
 

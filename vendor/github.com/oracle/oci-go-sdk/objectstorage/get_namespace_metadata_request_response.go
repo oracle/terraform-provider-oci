@@ -16,10 +16,24 @@ type GetNamespaceMetadataRequest struct {
 
 	// The client request ID for tracing.
 	OpcClientRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-client-request-id"`
+
+	// Metadata about the request. This information will not be transmitted to the service, but
+	// represents information that the SDK will consume to drive retry behavior.
+	RequestMetadata common.RequestMetadata
 }
 
 func (request GetNamespaceMetadataRequest) String() string {
 	return common.PointerString(request)
+}
+
+// HTTPRequest implements the OCIRequest interface
+func (request GetNamespaceMetadataRequest) HTTPRequest(method, path string) (http.Request, error) {
+	return common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
+}
+
+// RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
+func (request GetNamespaceMetadataRequest) RetryPolicy() *common.RetryPolicy {
+	return request.RequestMetadata.RetryPolicy
 }
 
 // GetNamespaceMetadataResponse wrapper for the GetNamespaceMetadata operation
@@ -41,4 +55,9 @@ type GetNamespaceMetadataResponse struct {
 
 func (response GetNamespaceMetadataResponse) String() string {
 	return common.PointerString(response)
+}
+
+// HTTPResponse implements the OCIResponse interface
+func (response GetNamespaceMetadataResponse) HTTPResponse() *http.Response {
+	return response.RawResponse
 }

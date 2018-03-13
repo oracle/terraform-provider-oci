@@ -145,7 +145,9 @@ func (s *ApiKeyResourceCrud) Create() error {
 		request.UserId = &tmp
 	}
 
-	response, err := s.Client.UploadApiKey(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "identity")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+
+	response, err := s.Client.UploadApiKey(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -162,7 +164,9 @@ func (s *ApiKeyResourceCrud) Get() error {
 		request.UserId = &tmp
 	}
 
-	response, err := s.Client.ListApiKeys(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "identity")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+
+	response, err := s.Client.ListApiKeys(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -191,7 +195,9 @@ func (s *ApiKeyResourceCrud) Delete() error {
 		request.UserId = &tmp
 	}
 
-	_, err := s.Client.DeleteApiKey(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "identity")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+
+	_, err := s.Client.DeleteApiKey(context.Background(), request)
 	return err
 }
 

@@ -42,10 +42,24 @@ type ListLoadBalancersRequest struct {
 
 	// A filter to return only resources that match the given lifecycle state.
 	LifecycleState LoadBalancerLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
+
+	// Metadata about the request. This information will not be transmitted to the service, but
+	// represents information that the SDK will consume to drive retry behavior.
+	RequestMetadata common.RequestMetadata
 }
 
 func (request ListLoadBalancersRequest) String() string {
 	return common.PointerString(request)
+}
+
+// HTTPRequest implements the OCIRequest interface
+func (request ListLoadBalancersRequest) HTTPRequest(method, path string) (http.Request, error) {
+	return common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
+}
+
+// RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
+func (request ListLoadBalancersRequest) RetryPolicy() *common.RetryPolicy {
+	return request.RequestMetadata.RetryPolicy
 }
 
 // ListLoadBalancersResponse wrapper for the ListLoadBalancers operation
@@ -69,6 +83,11 @@ type ListLoadBalancersResponse struct {
 
 func (response ListLoadBalancersResponse) String() string {
 	return common.PointerString(response)
+}
+
+// HTTPResponse implements the OCIResponse interface
+func (response ListLoadBalancersResponse) HTTPResponse() *http.Response {
+	return response.RawResponse
 }
 
 // ListLoadBalancersSortByEnum Enum with underlying type: string

@@ -176,7 +176,9 @@ func (s *IpSecConnectionResourceCrud) Create() error {
 		request.StaticRoutes = tmp
 	}
 
-	response, err := s.Client.CreateIPSecConnection(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	response, err := s.Client.CreateIPSecConnection(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -191,7 +193,9 @@ func (s *IpSecConnectionResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.IpscId = &tmp
 
-	response, err := s.Client.GetIPSecConnection(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	response, err := s.Client.GetIPSecConnection(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -211,7 +215,9 @@ func (s *IpSecConnectionResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.IpscId = &tmp
 
-	response, err := s.Client.UpdateIPSecConnection(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	response, err := s.Client.UpdateIPSecConnection(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -226,7 +232,9 @@ func (s *IpSecConnectionResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.IpscId = &tmp
 
-	_, err := s.Client.DeleteIPSecConnection(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	_, err := s.Client.DeleteIPSecConnection(context.Background(), request)
 	return err
 }
 

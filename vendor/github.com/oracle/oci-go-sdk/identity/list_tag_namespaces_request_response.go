@@ -23,10 +23,24 @@ type ListTagNamespacesRequest struct {
 	// An optional boolean parameter indicating whether to retrieve all tag namespaces in subcompartments. If this
 	// parameter is not specified, only the tag namespaces defined in the specified compartment are retrieved.
 	IncludeSubcompartments *bool `mandatory:"false" contributesTo:"query" name:"includeSubcompartments"`
+
+	// Metadata about the request. This information will not be transmitted to the service, but
+	// represents information that the SDK will consume to drive retry behavior.
+	RequestMetadata common.RequestMetadata
 }
 
 func (request ListTagNamespacesRequest) String() string {
 	return common.PointerString(request)
+}
+
+// HTTPRequest implements the OCIRequest interface
+func (request ListTagNamespacesRequest) HTTPRequest(method, path string) (http.Request, error) {
+	return common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
+}
+
+// RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
+func (request ListTagNamespacesRequest) RetryPolicy() *common.RetryPolicy {
+	return request.RequestMetadata.RetryPolicy
 }
 
 // ListTagNamespacesResponse wrapper for the ListTagNamespaces operation
@@ -50,4 +64,9 @@ type ListTagNamespacesResponse struct {
 
 func (response ListTagNamespacesResponse) String() string {
 	return common.PointerString(response)
+}
+
+// HTTPResponse implements the OCIResponse interface
+func (response ListTagNamespacesResponse) HTTPResponse() *http.Response {
+	return response.RawResponse
 }

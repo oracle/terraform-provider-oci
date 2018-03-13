@@ -173,7 +173,9 @@ func (s *VcnResourceCrud) Create() error {
 		request.DnsLabel = &tmp
 	}
 
-	response, err := s.Client.CreateVcn(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	response, err := s.Client.CreateVcn(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -188,7 +190,9 @@ func (s *VcnResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.VcnId = &tmp
 
-	response, err := s.Client.GetVcn(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	response, err := s.Client.GetVcn(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -208,7 +212,9 @@ func (s *VcnResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.VcnId = &tmp
 
-	response, err := s.Client.UpdateVcn(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	response, err := s.Client.UpdateVcn(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -223,7 +229,9 @@ func (s *VcnResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.VcnId = &tmp
 
-	_, err := s.Client.DeleteVcn(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	_, err := s.Client.DeleteVcn(context.Background(), request)
 	return err
 }
 

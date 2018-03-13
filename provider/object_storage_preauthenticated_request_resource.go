@@ -155,7 +155,9 @@ func (s *PreauthenticatedRequestResourceCrud) Create() error {
 		request.TimeExpires = &oci_common.SDKTime{Time: tmp}
 	}
 
-	response, err := s.Client.CreatePreauthenticatedRequest(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "object_storage")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
+
+	response, err := s.Client.CreatePreauthenticatedRequest(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -180,7 +182,9 @@ func (s *PreauthenticatedRequestResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.ParId = &tmp
 
-	response, err := s.Client.GetPreauthenticatedRequest(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "object_storage")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
+
+	response, err := s.Client.GetPreauthenticatedRequest(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -216,7 +220,9 @@ func (s *PreauthenticatedRequestResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.ParId = &tmp
 
-	_, err := s.Client.DeletePreauthenticatedRequest(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "object_storage")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
+
+	_, err := s.Client.DeletePreauthenticatedRequest(context.Background(), request)
 	return err
 }
 

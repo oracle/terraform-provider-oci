@@ -88,7 +88,9 @@ func (s *DbHomeDataSourceCrud) Get() error {
 		return fmt.Errorf("db_home_id must contain a valid ocid")
 	}
 
-	response, err := s.Client.GetDbHome(context.Background(), request, getRetryOptions(false, "database")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
+
+	response, err := s.Client.GetDbHome(context.Background(), request)
 	if err != nil {
 		return err
 	}

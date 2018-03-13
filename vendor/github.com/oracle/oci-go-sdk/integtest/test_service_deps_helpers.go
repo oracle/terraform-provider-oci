@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 // Core Services API
@@ -63,7 +63,7 @@ func createOrGetVcn(t *testing.T) core.Vcn {
 
 	// create a new VCN
 	// Notes: here will not destroy it. so for test cases depends on VCN can reuse it in next run
-	c, clerr := core.NewVirtualNetworkClientWithConfigurationProvider(common.DefaultConfigProvider())
+	c, clerr := core.NewVirtualNetworkClientWithConfigurationProvider(configurationProvider())
 	failIfError(t, clerr)
 
 	request := core.CreateVcnRequest{}
@@ -79,7 +79,7 @@ func createOrGetVcn(t *testing.T) core.Vcn {
 }
 
 func listVcns(t *testing.T) []core.Vcn {
-	c, clerr := core.NewVirtualNetworkClientWithConfigurationProvider(common.DefaultConfigProvider())
+	c, clerr := core.NewVirtualNetworkClientWithConfigurationProvider(configurationProvider())
 	failIfError(t, clerr)
 	request := core.ListVcnsRequest{
 		CompartmentId: common.String(getCompartmentID()),
@@ -126,7 +126,7 @@ func createOrGetSubnetWithDetails(t *testing.T, displayName *string, cidrBlock *
 	request.DisplayName = displayName
 	request.DnsLabel = dnsLabel
 
-	c, clerr := core.NewVirtualNetworkClientWithConfigurationProvider(common.DefaultConfigProvider())
+	c, clerr := core.NewVirtualNetworkClientWithConfigurationProvider(configurationProvider())
 	failIfError(t, clerr)
 
 	r, err := c.CreateSubnet(context.Background(), request)
@@ -192,7 +192,7 @@ func createOrGetSubnetWithDetails(t *testing.T, displayName *string, cidrBlock *
 func listSubnets(t *testing.T) []core.Subnet {
 	vcn := createOrGetVcn(t)
 
-	c, clerr := core.NewVirtualNetworkClientWithConfigurationProvider(common.DefaultConfigProvider())
+	c, clerr := core.NewVirtualNetworkClientWithConfigurationProvider(configurationProvider())
 	failIfError(t, clerr)
 	request := core.ListSubnetsRequest{
 		CompartmentId: common.String(getCompartmentID()),
@@ -211,7 +211,7 @@ func listImages(t *testing.T) []core.Image {
 }
 
 func listImagesByDisplayName(t *testing.T, displayName *string) []core.Image {
-	c, clerr := core.NewComputeClientWithConfigurationProvider(common.DefaultConfigProvider())
+	c, clerr := core.NewComputeClientWithConfigurationProvider(configurationProvider())
 	failIfError(t, clerr)
 	request := core.ListImagesRequest{
 		CompartmentId: common.String(getCompartmentID()),
@@ -234,7 +234,7 @@ func listBootVolumes(t *testing.T) []core.BootVolume {
 	// this line make sure boot volumes is created
 	createOrGetInstance(t)
 
-	c, clerr := core.NewBlockstorageClientWithConfigurationProvider(common.DefaultConfigProvider())
+	c, clerr := core.NewBlockstorageClientWithConfigurationProvider(configurationProvider())
 	failIfError(t, clerr)
 	request := core.ListBootVolumesRequest{
 		AvailabilityDomain: common.String(validAD()),
@@ -252,7 +252,7 @@ func listBootVolumeAttachments(t *testing.T) []core.BootVolumeAttachment {
 	// this line make sure boot volumes is created
 	createOrGetInstance(t)
 
-	c, clerr := core.NewComputeClientWithConfigurationProvider(common.DefaultConfigProvider())
+	c, clerr := core.NewComputeClientWithConfigurationProvider(configurationProvider())
 	failIfError(t, clerr)
 	request := core.ListBootVolumeAttachmentsRequest{
 		AvailabilityDomain: common.String(validAD()),
@@ -270,7 +270,7 @@ func listShapes(t *testing.T) []core.Shape {
 }
 
 func listShapesForImage(t *testing.T, imageID *string) []core.Shape {
-	c, clerr := core.NewComputeClientWithConfigurationProvider(common.DefaultConfigProvider())
+	c, clerr := core.NewComputeClientWithConfigurationProvider(configurationProvider())
 	failIfError(t, clerr)
 
 	if imageID == nil {
@@ -294,7 +294,7 @@ func listShapesForImage(t *testing.T, imageID *string) []core.Shape {
 }
 
 func createOrGetInstance(t *testing.T) core.Instance {
-	c, clerr := core.NewComputeClientWithConfigurationProvider(common.DefaultConfigProvider())
+	c, clerr := core.NewComputeClientWithConfigurationProvider(configurationProvider())
 	failIfError(t, clerr)
 	listRequest := core.ListInstancesRequest{}
 	listRequest.CompartmentId = common.String(getCompartmentID())
@@ -335,7 +335,7 @@ func createOrGetInstance(t *testing.T) core.Instance {
 
 	// get new created instance
 	getInstance := func() (interface{}, error) {
-		c, clerr := core.NewComputeClientWithConfigurationProvider(common.DefaultConfigProvider())
+		c, clerr := core.NewComputeClientWithConfigurationProvider(configurationProvider())
 		if clerr != nil {
 			return nil, clerr
 		}
@@ -375,7 +375,7 @@ func createOrGetCrossConnectGroup(t *testing.T) core.CrossConnectGroup {
 		}
 	}
 
-	c, clerr := core.NewVirtualNetworkClientWithConfigurationProvider(common.DefaultConfigProvider())
+	c, clerr := core.NewVirtualNetworkClientWithConfigurationProvider(configurationProvider())
 	failIfError(t, clerr)
 
 	// create a new one
@@ -391,7 +391,7 @@ func createOrGetCrossConnectGroup(t *testing.T) core.CrossConnectGroup {
 }
 
 func listCrossConnectGroups(t *testing.T) []core.CrossConnectGroup {
-	c, clerr := core.NewVirtualNetworkClientWithConfigurationProvider(common.DefaultConfigProvider())
+	c, clerr := core.NewVirtualNetworkClientWithConfigurationProvider(configurationProvider())
 	failIfError(t, clerr)
 
 	request := core.ListCrossConnectGroupsRequest{}
@@ -414,7 +414,7 @@ func createOrGetCrossConnect(t *testing.T) core.CrossConnect {
 		}
 	}
 
-	c, clerr := core.NewVirtualNetworkClientWithConfigurationProvider(common.DefaultConfigProvider())
+	c, clerr := core.NewVirtualNetworkClientWithConfigurationProvider(configurationProvider())
 	failIfError(t, clerr)
 
 	// create a new one
@@ -440,7 +440,7 @@ func createOrGetCrossConnect(t *testing.T) core.CrossConnect {
 func listCrossConnects(t *testing.T) []core.CrossConnect {
 	crossConnectGroup := createOrGetCrossConnectGroup(t)
 
-	c, clerr := core.NewVirtualNetworkClientWithConfigurationProvider(common.DefaultConfigProvider())
+	c, clerr := core.NewVirtualNetworkClientWithConfigurationProvider(configurationProvider())
 	failIfError(t, clerr)
 
 	request := core.ListCrossConnectsRequest{}
@@ -455,7 +455,7 @@ func listCrossConnects(t *testing.T) []core.CrossConnect {
 }
 
 func listCrossConnectLocations(t *testing.T) []core.CrossConnectLocation {
-	c, clerr := core.NewVirtualNetworkClientWithConfigurationProvider(common.DefaultConfigProvider())
+	c, clerr := core.NewVirtualNetworkClientWithConfigurationProvider(configurationProvider())
 	failIfError(t, clerr)
 
 	request := core.ListCrossConnectLocationsRequest{}
@@ -471,7 +471,7 @@ func getCrossConnectStatus(t *testing.T) core.CrossConnectStatus {
 	crossConnect := createOrGetCrossConnect(t)
 	assert.NotEmpty(t, crossConnect)
 
-	c, clerr := core.NewVirtualNetworkClientWithConfigurationProvider(common.DefaultConfigProvider())
+	c, clerr := core.NewVirtualNetworkClientWithConfigurationProvider(configurationProvider())
 	failIfError(t, clerr)
 
 	request := core.GetCrossConnectStatusRequest{}
@@ -484,7 +484,7 @@ func getCrossConnectStatus(t *testing.T) core.CrossConnectStatus {
 }
 
 func listCrossConnectPortSpeedShapes(t *testing.T) []core.CrossConnectPortSpeedShape {
-	c, clerr := core.NewVirtualNetworkClientWithConfigurationProvider(common.DefaultConfigProvider())
+	c, clerr := core.NewVirtualNetworkClientWithConfigurationProvider(configurationProvider())
 	failIfError(t, clerr)
 
 	request := core.ListCrossconnectPortSpeedShapesRequest{}
@@ -499,7 +499,7 @@ func listCrossConnectPortSpeedShapes(t *testing.T) []core.CrossConnectPortSpeedS
 func getCrossConnectLetterOfAuthority(t *testing.T) core.LetterOfAuthority {
 	crossConnect := createOrGetCrossConnect(t)
 
-	c, clerr := core.NewVirtualNetworkClientWithConfigurationProvider(common.DefaultConfigProvider())
+	c, clerr := core.NewVirtualNetworkClientWithConfigurationProvider(configurationProvider())
 	failIfError(t, clerr)
 
 	request := core.GetCrossConnectLetterOfAuthorityRequest{}
@@ -515,7 +515,7 @@ func getFastConnectProviderServices(t *testing.T) core.FastConnectProviderServic
 	prividerServices := listFastConnectProviderServices(t)
 	assert.NotEqual(t, len(prividerServices), 0)
 
-	c, clerr := core.NewVirtualNetworkClientWithConfigurationProvider(common.DefaultConfigProvider())
+	c, clerr := core.NewVirtualNetworkClientWithConfigurationProvider(configurationProvider())
 	failIfError(t, clerr)
 
 	request := core.GetFastConnectProviderServiceRequest{}
@@ -528,7 +528,7 @@ func getFastConnectProviderServices(t *testing.T) core.FastConnectProviderServic
 }
 
 func listFastConnectProviderServices(t *testing.T) []core.FastConnectProviderService {
-	c, clerr := core.NewVirtualNetworkClientWithConfigurationProvider(common.DefaultConfigProvider())
+	c, clerr := core.NewVirtualNetworkClientWithConfigurationProvider(configurationProvider())
 	failIfError(t, clerr)
 
 	request := core.ListFastConnectProviderServicesRequest{}
@@ -544,7 +544,7 @@ func listFastConnectProviderServices(t *testing.T) []core.FastConnectProviderSer
 func listFastConnectProviderVirtualCircuitBandwidthShapes(t *testing.T) []core.VirtualCircuitBandwidthShape {
 	providerService := getFastConnectProviderServices(t)
 
-	c, clerr := core.NewVirtualNetworkClientWithConfigurationProvider(common.DefaultConfigProvider())
+	c, clerr := core.NewVirtualNetworkClientWithConfigurationProvider(configurationProvider())
 	failIfError(t, clerr)
 
 	request := core.ListFastConnectProviderVirtualCircuitBandwidthShapesRequest{}
@@ -558,7 +558,7 @@ func listFastConnectProviderVirtualCircuitBandwidthShapes(t *testing.T) []core.V
 }
 
 func listVirtualCircuitBandwidthShapes(t *testing.T) []core.VirtualCircuitBandwidthShape {
-	c, clerr := core.NewVirtualNetworkClientWithConfigurationProvider(common.DefaultConfigProvider())
+	c, clerr := core.NewVirtualNetworkClientWithConfigurationProvider(configurationProvider())
 	failIfError(t, clerr)
 
 	request := core.ListVirtualCircuitBandwidthShapesRequest{}
@@ -572,7 +572,7 @@ func listVirtualCircuitBandwidthShapes(t *testing.T) []core.VirtualCircuitBandwi
 }
 
 func createOrGetInstanceConsoleConnection(t *testing.T) core.InstanceConsoleConnection {
-	c, clerr := core.NewComputeClientWithConfigurationProvider(common.DefaultConfigProvider())
+	c, clerr := core.NewComputeClientWithConfigurationProvider(configurationProvider())
 	failIfError(t, clerr)
 	instance := createOrGetInstance(t)
 
@@ -637,7 +637,7 @@ func getConsoleHistory(t *testing.T, historyID *string) core.ConsoleHistory {
 		InstanceConsoleHistoryId: historyID,
 	}
 
-	c, clerr := core.NewComputeClientWithConfigurationProvider(common.DefaultConfigProvider())
+	c, clerr := core.NewComputeClientWithConfigurationProvider(configurationProvider())
 	failIfError(t, clerr)
 
 	resp, err := c.GetConsoleHistory(context.Background(), request)
@@ -666,7 +666,7 @@ func captureOrGetConsoleHistory(t *testing.T) core.ConsoleHistory {
 	request.InstanceId = instance.Id
 	request.DisplayName = common.String(consoleHistoryDisplayName)
 
-	c, clerr := core.NewComputeClientWithConfigurationProvider(common.DefaultConfigProvider())
+	c, clerr := core.NewComputeClientWithConfigurationProvider(configurationProvider())
 	failIfError(t, clerr)
 
 	resp, err := c.CaptureConsoleHistory(context.Background(), request)
@@ -709,7 +709,7 @@ func listConsoleHistories(t *testing.T) []core.ConsoleHistory {
 		InstanceId:         instance.Id,
 	}
 
-	c, clerr := core.NewComputeClientWithConfigurationProvider(common.DefaultConfigProvider())
+	c, clerr := core.NewComputeClientWithConfigurationProvider(configurationProvider())
 	failIfError(t, clerr)
 
 	resp, err := c.ListConsoleHistories(context.Background(), request)
@@ -733,7 +733,7 @@ func createOrGetLocalPeeringGateway(t *testing.T) core.LocalPeeringGateway {
 	vcn := createOrGetVcn(t)
 	assert.NotEmpty(t, vcn)
 
-	c, clerr := core.NewVirtualNetworkClientWithConfigurationProvider(common.DefaultConfigProvider())
+	c, clerr := core.NewVirtualNetworkClientWithConfigurationProvider(configurationProvider())
 	failIfError(t, clerr)
 
 	request := core.CreateLocalPeeringGatewayRequest{}
@@ -751,7 +751,7 @@ func listLocalPeeringGateways(t *testing.T) []core.LocalPeeringGateway {
 	vnc := createOrGetVcn(t)
 	assert.NotEmpty(t, vnc)
 
-	c, clerr := core.NewVirtualNetworkClientWithConfigurationProvider(common.DefaultConfigProvider())
+	c, clerr := core.NewVirtualNetworkClientWithConfigurationProvider(configurationProvider())
 	failIfError(t, clerr)
 
 	request := core.ListLocalPeeringGatewaysRequest{
@@ -781,7 +781,7 @@ func createOrGetVirtualCircuit(t *testing.T) core.VirtualCircuit {
 	request.DisplayName = common.String(virtualCircuitDisplayName)
 	request.Type = "PRIVATE"
 
-	c, clerr := core.NewVirtualNetworkClientWithConfigurationProvider(common.DefaultConfigProvider())
+	c, clerr := core.NewVirtualNetworkClientWithConfigurationProvider(configurationProvider())
 	failIfError(t, clerr)
 	resp, err := c.CreateVirtualCircuit(context.Background(), request)
 	failIfError(t, err)
@@ -790,7 +790,7 @@ func createOrGetVirtualCircuit(t *testing.T) core.VirtualCircuit {
 }
 
 func listVirtualCircuits(t *testing.T) []core.VirtualCircuit {
-	c, clerr := core.NewVirtualNetworkClientWithConfigurationProvider(common.DefaultConfigProvider())
+	c, clerr := core.NewVirtualNetworkClientWithConfigurationProvider(configurationProvider())
 	failIfError(t, clerr)
 
 	request := core.ListVirtualCircuitsRequest{
@@ -816,7 +816,7 @@ func createOrGetLoadBalancer(t *testing.T) *string {
 	}
 
 	// create new load balancer
-	c, clerr := loadbalancer.NewLoadBalancerClientWithConfigurationProvider(common.DefaultConfigProvider())
+	c, clerr := loadbalancer.NewLoadBalancerClientWithConfigurationProvider(configurationProvider())
 	failIfError(t, clerr)
 	request := loadbalancer.CreateLoadBalancerRequest{}
 	request.CompartmentId = common.String(getCompartmentID())
@@ -824,7 +824,7 @@ func createOrGetLoadBalancer(t *testing.T) *string {
 
 	subnet1 := createOrGetSubnet(t)
 
-	identityClient, err := identity.NewIdentityClientWithConfigurationProvider(common.DefaultConfigProvider())
+	identityClient, err := identity.NewIdentityClientWithConfigurationProvider(configurationProvider())
 	failIfError(t, err)
 	req := identity.ListAvailabilityDomainsRequest{}
 	req.CompartmentId = common.String(getCompartmentID())
@@ -882,7 +882,7 @@ func createOrGetLoadBalancer(t *testing.T) *string {
 }
 
 func listActiveLoadBalancers(t *testing.T) []loadbalancer.LoadBalancer {
-	c, clerr := loadbalancer.NewLoadBalancerClientWithConfigurationProvider(common.DefaultConfigProvider())
+	c, clerr := loadbalancer.NewLoadBalancerClientWithConfigurationProvider(configurationProvider())
 	failIfError(t, clerr)
 
 	request := loadbalancer.ListLoadBalancersRequest{
@@ -898,7 +898,7 @@ func listActiveLoadBalancers(t *testing.T) []loadbalancer.LoadBalancer {
 }
 
 func listLoadBalancerShapes(t *testing.T) []loadbalancer.LoadBalancerShape {
-	c, clerr := loadbalancer.NewLoadBalancerClientWithConfigurationProvider(common.DefaultConfigProvider())
+	c, clerr := loadbalancer.NewLoadBalancerClientWithConfigurationProvider(configurationProvider())
 	failIfError(t, clerr)
 	request := loadbalancer.ListShapesRequest{
 		CompartmentId: common.String(getCompartmentID()),
@@ -925,7 +925,7 @@ func createOrGetVolume(t *testing.T) core.Volume {
 	}
 
 	// create a new one
-	c, clerr := core.NewBlockstorageClientWithConfigurationProvider(common.DefaultConfigProvider())
+	c, clerr := core.NewBlockstorageClientWithConfigurationProvider(configurationProvider())
 	failIfError(t, clerr)
 	request := core.CreateVolumeRequest{}
 	request.AvailabilityDomain = common.String(validAD())
@@ -965,7 +965,7 @@ func createOrGetVolume(t *testing.T) core.Volume {
 }
 
 func listVolumes(t *testing.T) []core.Volume {
-	c, clerr := core.NewBlockstorageClientWithConfigurationProvider(common.DefaultConfigProvider())
+	c, clerr := core.NewBlockstorageClientWithConfigurationProvider(configurationProvider())
 	failIfError(t, clerr)
 
 	request := core.ListVolumesRequest{
@@ -980,27 +980,31 @@ func listVolumes(t *testing.T) []core.Volume {
 }
 
 func createTestUser(t *testing.T, name *string) identity.User {
-	c, clerr := identity.NewIdentityClientWithConfigurationProvider(common.DefaultConfigProvider())
+	c, clerr := identity.NewIdentityClientWithConfigurationProvider(configurationProvider())
 	failIfError(t, clerr)
 	req := identity.CreateUserRequest{}
 	req.CompartmentId = common.String(getTenancyID())
 	req.Name = name
 	req.Description = common.String("GoSDK Test User")
+	req.RequestMetadata = getRequestMetadataWithDefaultRetryPolicy()
 	rsp, err := c.CreateUser(context.Background(), req)
+	verifyResponseIsValid(t, rsp, err)
 	failIfError(t, err)
 	return rsp.User
 }
 
 func createOrGetTestGroup(t *testing.T) identity.Group {
-	c, clerr := identity.NewIdentityClientWithConfigurationProvider(common.DefaultConfigProvider())
+	c, clerr := identity.NewIdentityClientWithConfigurationProvider(configurationProvider())
 	failIfError(t, clerr)
 
 	listReq := identity.ListGroupsRequest{
 		CompartmentId: common.String(getTenancyID()),
 		Limit:         common.Int(500),
+		RequestMetadata: getRequestMetadataWithDefaultRetryPolicy(),
 	}
 
 	listResp, err := c.ListGroups(context.Background(), listReq)
+	verifyResponseIsValid(t, listResp, err)
 	failIfError(t, err)
 
 	for _, group := range listResp.Items {
@@ -1015,13 +1019,15 @@ func createOrGetTestGroup(t *testing.T) identity.Group {
 }
 
 func createTestGroup(t *testing.T, name *string) identity.Group {
-	c, clerr := identity.NewIdentityClientWithConfigurationProvider(common.DefaultConfigProvider())
+	c, clerr := identity.NewIdentityClientWithConfigurationProvider(configurationProvider())
 	failIfError(t, clerr)
 	req := identity.CreateGroupRequest{}
 	req.CompartmentId = common.String(getTenancyID())
 	req.Name = name
 	req.Description = common.String("Go SDK Test Group")
+	req.RequestMetadata = getRequestMetadataWithDefaultRetryPolicy()
 	rsp, err := c.CreateGroup(context.Background(), req)
+	verifyResponseIsValid(t, rsp, err)
 	failIfError(t, err)
 	return rsp.Group
 }
@@ -1268,7 +1274,7 @@ func createOrGetDataGuardAssociation(t *testing.T) *string {
 }
 
 func createOrGetUser(t *testing.T) identity.User {
-	c, clerr := identity.NewIdentityClientWithConfigurationProvider(common.DefaultConfigProvider())
+	c, clerr := identity.NewIdentityClientWithConfigurationProvider(configurationProvider())
 	failIfError(t, clerr)
 
 	listReq := identity.ListUsersRequest{
@@ -1277,6 +1283,7 @@ func createOrGetUser(t *testing.T) identity.User {
 	}
 
 	listResp, err := c.ListUsers(context.Background(), listReq)
+	verifyResponseIsValid(t, listResp, err)
 	failIfError(t, err)
 
 	for _, user := range listResp.Items {
@@ -1291,7 +1298,7 @@ func createOrGetUser(t *testing.T) identity.User {
 }
 
 func createOrGetFreeformTags(t *testing.T) map[string]string {
-	c, clerr := identity.NewIdentityClientWithConfigurationProvider(common.DefaultConfigProvider())
+	c, clerr := identity.NewIdentityClientWithConfigurationProvider(configurationProvider())
 	failIfError(t, clerr)
 
 	tagNamespaceID := createOrGetTagNamespace(t)
@@ -1324,7 +1331,7 @@ func createOrGetFreeformTags(t *testing.T) map[string]string {
 }
 
 func createOrGetTagNamespace(t *testing.T) *string {
-	c, clerr := identity.NewIdentityClientWithConfigurationProvider(common.DefaultConfigProvider())
+	c, clerr := identity.NewIdentityClientWithConfigurationProvider(configurationProvider())
 	failIfError(t, clerr)
 	listReq := identity.ListTagNamespacesRequest{
 		CompartmentId: common.String(getTenancyID()),

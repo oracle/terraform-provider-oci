@@ -162,7 +162,9 @@ func (s *InternetGatewayResourceCrud) Create() error {
 		request.VcnId = &tmp
 	}
 
-	response, err := s.Client.CreateInternetGateway(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	response, err := s.Client.CreateInternetGateway(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -177,7 +179,9 @@ func (s *InternetGatewayResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.IgId = &tmp
 
-	response, err := s.Client.GetInternetGateway(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	response, err := s.Client.GetInternetGateway(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -202,7 +206,9 @@ func (s *InternetGatewayResourceCrud) Update() error {
 	enabledTmp := s.D.Get("enabled").(bool)
 	request.IsEnabled = &enabledTmp
 
-	response, err := s.Client.UpdateInternetGateway(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	response, err := s.Client.UpdateInternetGateway(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -217,7 +223,9 @@ func (s *InternetGatewayResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.IgId = &tmp
 
-	_, err := s.Client.DeleteInternetGateway(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	_, err := s.Client.DeleteInternetGateway(context.Background(), request)
 	return err
 }
 

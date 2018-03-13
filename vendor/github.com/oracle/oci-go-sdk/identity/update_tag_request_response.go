@@ -19,10 +19,24 @@ type UpdateTagRequest struct {
 
 	// Request object for updating a tag.
 	UpdateTagDetails `contributesTo:"body"`
+
+	// Metadata about the request. This information will not be transmitted to the service, but
+	// represents information that the SDK will consume to drive retry behavior.
+	RequestMetadata common.RequestMetadata
 }
 
 func (request UpdateTagRequest) String() string {
 	return common.PointerString(request)
+}
+
+// HTTPRequest implements the OCIRequest interface
+func (request UpdateTagRequest) HTTPRequest(method, path string) (http.Request, error) {
+	return common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
+}
+
+// RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
+func (request UpdateTagRequest) RetryPolicy() *common.RetryPolicy {
+	return request.RequestMetadata.RetryPolicy
 }
 
 // UpdateTagResponse wrapper for the UpdateTag operation
@@ -41,4 +55,9 @@ type UpdateTagResponse struct {
 
 func (response UpdateTagResponse) String() string {
 	return common.PointerString(response)
+}
+
+// HTTPResponse implements the OCIResponse interface
+func (response UpdateTagResponse) HTTPResponse() *http.Response {
+	return response.RawResponse
 }

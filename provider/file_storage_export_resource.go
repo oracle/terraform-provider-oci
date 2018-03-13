@@ -136,7 +136,9 @@ func (s *ExportResourceCrud) Create() error {
 		request.Path = &tmp
 	}
 
-	response, err := s.Client.CreateExport(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "file_storage")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "file_storage")
+
+	response, err := s.Client.CreateExport(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -151,7 +153,9 @@ func (s *ExportResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.ExportId = &tmp
 
-	response, err := s.Client.GetExport(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "file_storage")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "file_storage")
+
+	response, err := s.Client.GetExport(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -166,7 +170,9 @@ func (s *ExportResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.ExportId = &tmp
 
-	_, err := s.Client.DeleteExport(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "file_storage")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "file_storage")
+
+	_, err := s.Client.DeleteExport(context.Background(), request)
 	return err
 }
 

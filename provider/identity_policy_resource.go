@@ -199,7 +199,9 @@ func (s *PolicyResourceCrud) Create() error {
 		request.VersionDate = &tmp
 	}
 
-	response, err := s.Client.CreatePolicy(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "identity")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+
+	response, err := s.Client.CreatePolicy(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -221,7 +223,9 @@ func (s *PolicyResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.PolicyId = &tmp
 
-	response, err := s.Client.GetPolicy(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "identity")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+
+	response, err := s.Client.GetPolicy(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -260,7 +264,9 @@ func (s *PolicyResourceCrud) Update() error {
 		request.VersionDate = &tmp
 	}
 
-	response, err := s.Client.UpdatePolicy(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "identity")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+
+	response, err := s.Client.UpdatePolicy(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -282,7 +288,9 @@ func (s *PolicyResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.PolicyId = &tmp
 
-	_, err := s.Client.DeletePolicy(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "identity")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+
+	_, err := s.Client.DeletePolicy(context.Background(), request)
 	return err
 }
 

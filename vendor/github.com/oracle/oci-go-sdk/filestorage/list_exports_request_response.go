@@ -44,10 +44,24 @@ type ListExportsRequest struct {
 	// The sort order to use, either 'asc' or 'desc', where 'asc' is
 	// ascending and 'desc' is descending.
 	SortOrder ListExportsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
+
+	// Metadata about the request. This information will not be transmitted to the service, but
+	// represents information that the SDK will consume to drive retry behavior.
+	RequestMetadata common.RequestMetadata
 }
 
 func (request ListExportsRequest) String() string {
 	return common.PointerString(request)
+}
+
+// HTTPRequest implements the OCIRequest interface
+func (request ListExportsRequest) HTTPRequest(method, path string) (http.Request, error) {
+	return common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
+}
+
+// RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
+func (request ListExportsRequest) RetryPolicy() *common.RetryPolicy {
+	return request.RequestMetadata.RetryPolicy
 }
 
 // ListExportsResponse wrapper for the ListExports operation
@@ -74,6 +88,11 @@ type ListExportsResponse struct {
 
 func (response ListExportsResponse) String() string {
 	return common.PointerString(response)
+}
+
+// HTTPResponse implements the OCIResponse interface
+func (response ListExportsResponse) HTTPResponse() *http.Response {
+	return response.RawResponse
 }
 
 // ListExportsLifecycleStateEnum Enum with underlying type: string

@@ -13,10 +13,24 @@ type GetExportSetRequest struct {
 
 	// The OCID of the export set.
 	ExportSetId *string `mandatory:"true" contributesTo:"path" name:"exportSetId"`
+
+	// Metadata about the request. This information will not be transmitted to the service, but
+	// represents information that the SDK will consume to drive retry behavior.
+	RequestMetadata common.RequestMetadata
 }
 
 func (request GetExportSetRequest) String() string {
 	return common.PointerString(request)
+}
+
+// HTTPRequest implements the OCIRequest interface
+func (request GetExportSetRequest) HTTPRequest(method, path string) (http.Request, error) {
+	return common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
+}
+
+// RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
+func (request GetExportSetRequest) RetryPolicy() *common.RetryPolicy {
+	return request.RequestMetadata.RetryPolicy
 }
 
 // GetExportSetResponse wrapper for the GetExportSet operation
@@ -39,4 +53,9 @@ type GetExportSetResponse struct {
 
 func (response GetExportSetResponse) String() string {
 	return common.PointerString(response)
+}
+
+// HTTPResponse implements the OCIResponse interface
+func (response GetExportSetResponse) HTTPResponse() *http.Response {
+	return response.RawResponse
 }

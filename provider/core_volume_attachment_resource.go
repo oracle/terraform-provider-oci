@@ -196,7 +196,9 @@ func (s *VolumeAttachmentResourceCrud) Create() error {
 
 	request.AttachVolumeDetails = details
 
-	response, err := s.Client.AttachVolume(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	response, err := s.Client.AttachVolume(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -211,7 +213,9 @@ func (s *VolumeAttachmentResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.VolumeAttachmentId = &tmp
 
-	response, err := s.Client.GetVolumeAttachment(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	response, err := s.Client.GetVolumeAttachment(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -226,7 +230,9 @@ func (s *VolumeAttachmentResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.VolumeAttachmentId = &tmp
 
-	_, err := s.Client.DetachVolume(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	_, err := s.Client.DetachVolume(context.Background(), request)
 	return err
 }
 

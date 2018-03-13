@@ -92,7 +92,9 @@ func (s *VcnsDataSourceCrud) Get() error {
 		request.LifecycleState = oci_core.VcnLifecycleStateEnum(state.(string))
 	}
 
-	response, err := s.Client.ListVcns(context.Background(), request, getRetryOptions(false, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+
+	response, err := s.Client.ListVcns(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -101,7 +103,7 @@ func (s *VcnsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListVcns(context.Background(), request, getRetryOptions(false, "core")...)
+		listResponse, err := s.Client.ListVcns(context.Background(), request)
 		if err != nil {
 			return err
 		}

@@ -55,7 +55,9 @@ func (s *ApiKeysDataSourceCrud) Get() error {
 		request.UserId = &tmp
 	}
 
-	response, err := s.Client.ListApiKeys(context.Background(), request, getRetryOptions(false, "identity")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "identity")
+
+	response, err := s.Client.ListApiKeys(context.Background(), request)
 	if err != nil {
 		return err
 	}

@@ -22,10 +22,24 @@ type ListDbHomesRequest struct {
 
 	// The pagination token to continue listing from.
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
+
+	// Metadata about the request. This information will not be transmitted to the service, but
+	// represents information that the SDK will consume to drive retry behavior.
+	RequestMetadata common.RequestMetadata
 }
 
 func (request ListDbHomesRequest) String() string {
 	return common.PointerString(request)
+}
+
+// HTTPRequest implements the OCIRequest interface
+func (request ListDbHomesRequest) HTTPRequest(method, path string) (http.Request, error) {
+	return common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
+}
+
+// RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
+func (request ListDbHomesRequest) RetryPolicy() *common.RetryPolicy {
+	return request.RequestMetadata.RetryPolicy
 }
 
 // ListDbHomesResponse wrapper for the ListDbHomes operation
@@ -50,4 +64,9 @@ type ListDbHomesResponse struct {
 
 func (response ListDbHomesResponse) String() string {
 	return common.PointerString(response)
+}
+
+// HTTPResponse implements the OCIResponse interface
+func (response ListDbHomesResponse) HTTPResponse() *http.Response {
+	return response.RawResponse
 }

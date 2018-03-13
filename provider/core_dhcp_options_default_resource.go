@@ -70,7 +70,9 @@ func (s *DefaultDhcpOptionsResourceCrud) reset() error {
 		},
 	}
 
-	response, err := s.Client.UpdateDhcpOptions(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	response, err := s.Client.UpdateDhcpOptions(context.Background(), request)
 	if err != nil {
 		return err
 	}

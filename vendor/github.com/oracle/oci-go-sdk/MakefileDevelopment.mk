@@ -6,7 +6,7 @@ REMOVE_AFTER_GENERATE=audit/audit_waiters.go objectstorage/objectstorage_waiters
 #### Versions
 #### If you are doing a release, do not forget to increment this versions
 VER_MAJOR=1
-VER_MINOR=0
+VER_MINOR=1
 ###################
 
 ##### Integ test setup
@@ -56,7 +56,7 @@ test-sdk-only:
 
 
 release-sdk:
-	@echo "Building oci-go-sdk with major:$(VER_MARJOR) minor:$(VER_MINOR) patch:$(VER_PATCH) tag:$(VER_TAG)"
+	@echo "Building oci-go-sdk with major:$(VER_MAJOR) minor:$(VER_MINOR) patch:$(VER_PATCH) tag:$(VER_TAG)"
 	@(cd $(PROJECT_PATH) && VER_MAJOR=$(VER_MAJOR) VER_MINOR=$(VER_MINOR) VER_PATCH=$(VER_PATCH) VER_TAG=$(VER_TAG) make release)
 
 build: generate build-sdk

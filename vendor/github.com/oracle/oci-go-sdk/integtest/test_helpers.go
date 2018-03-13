@@ -21,22 +21,13 @@ import (
 	"github.com/oracle/oci-go-sdk/database"
 	"github.com/oracle/oci-go-sdk/identity"
 	"github.com/stretchr/testify/assert"
+	"math"
 )
 
 const (
 	GoSDK2_Test_Prefix      = "GOSDK2_Test_"
-	ENV_TENANCY_OCID        = "tenancy_ocid"
-	ENV_USER_OCID           = "user_ocid"
 	ENV_COMPARTMENT_OCID    = "compartment_ocid"
-	ENV_GROUP_OCID          = "group_ocid"
-	ENV_REGION              = "region"
 	ENV_RUN_EXPENSIVE_TESTS = "gosdk_run_expensive_tests"
-
-	DEF_ROOT_COMPARTMENT_ID = "ocidv1:tenancy:oc1:phx:1460406592660:aaaaaaaab4faofrfkxecohhjuivjq262pu"
-	DEF_USER_ID             = "ocid1.user.oc1..aaaaaaaav6gsclr6pd4yjqengmriylyck55lvon5ujjnhkok5gyxii34lvra"
-	DEF_COMPARTMENT_ID      = "ocid1.compartment.oc1..aaaaaaaa5dvrjzvfn3rub24nczhih3zb3a673b6tmbvpng3j5apobtxshlma"
-	DEF_GROUP_ID            = "ocid1.group.oc1..aaaaaaaayvxomawkk23wkp32cgdufufgqvx62qanmbn6vs3lv65xuc42r5sq"
-	DEF_REGION              = common.RegionPHX
 	DEF_RUN_EXPENSIVE_TESTS = "false"
 )
 
@@ -67,29 +58,27 @@ func getEnvSetting(s string, defaultValue string) string {
 //}
 
 func getTenancyID() string {
-	return getEnvSetting(ENV_TENANCY_OCID, DEF_ROOT_COMPARTMENT_ID)
+	tenancy, _ := configurationProvider().TenancyOCID()
+	return tenancy
 }
 
 func getUserID() string {
-	return getEnvSetting(ENV_USER_OCID, DEF_USER_ID)
+	user, _ := configurationProvider().UserOCID()
+	return user
 }
 
 func getCompartmentID() string {
-	return getEnvSetting(ENV_COMPARTMENT_OCID, DEF_COMPARTMENT_ID)
+	return getEnvSetting(ENV_COMPARTMENT_OCID, "")
 }
 
-func getGroupID() string {
-	return getEnvSetting(ENV_GROUP_OCID, DEF_GROUP_ID)
-}
-
-func getRegion() common.Region {
-	region := getEnvSetting(ENV_REGION, "")
-
-	if region != "" {
-		return common.StringToRegion(region)
+func configurationProvider() common.ConfigurationProvider {
+	fileConfig := os.Getenv("SDK_FILE_CONFIG")
+	if fileConfig == "" {
+		return common.DefaultConfigProvider()
 	}
 
-	return DEF_REGION
+	fileConfigProvider, _ := common.ConfigurationProviderFromFile(fileConfig, "")
+	return fileConfigProvider
 }
 
 // if return true, make test command will include all tests (including the expensive ones. i.e. launch database)
@@ -249,7 +238,7 @@ func deleteTestUser(client identity.IdentityClient, userID *string) error {
 }
 
 func validAD() string {
-	c, _ := identity.NewIdentityClientWithConfigurationProvider(common.DefaultConfigProvider())
+	c, _ := identity.NewIdentityClientWithConfigurationProvider(configurationProvider())
 	req := identity.ListAvailabilityDomainsRequest{}
 	req.CompartmentId = common.String(getCompartmentID())
 	response, _ := c.ListAvailabilityDomains(context.Background(), req)
@@ -289,7 +278,7 @@ func getRandomString(n int) string {
 
 // get database client for either real or mock service
 func getDatabaseClient() (database.DatabaseClient, error) {
-	c, clerr := database.NewDatabaseClientWithConfigurationProvider(common.DefaultConfigProvider())
+	c, clerr := database.NewDatabaseClientWithConfigurationProvider(configurationProvider())
 
 	if !getRunExpensiveTests() {
 		// use mock service
@@ -300,4 +289,26 @@ func getDatabaseClient() (database.DatabaseClient, error) {
 	}
 
 	return c, clerr
+}
+
+func getRequestMetadataWithDefaultRetryPolicy() common.RequestMetadata {
+	return common.RequestMetadata{
+		RetryPolicy: getDefaultRetryPolicy(),
+	}
+}
+
+func getDefaultRetryPolicy() *common.RetryPolicy {
+	attempts := uint(10)
+	retryOnAllNon200ResponseCodes := func(r common.OCIOperationResponse) bool {
+		return !(r.Error == nil && 199 < r.Response.HTTPResponse().StatusCode && r.Response.HTTPResponse().StatusCode < 300)
+	}
+	return getExponentialBackoffRetryPolicy(attempts, retryOnAllNon200ResponseCodes)
+}
+
+func getExponentialBackoffRetryPolicy(n uint, fn func(r common.OCIOperationResponse) bool) *common.RetryPolicy {
+	exponentialBackoff := func(r common.OCIOperationResponse) time.Duration {
+		return time.Duration(math.Pow(float64(2), float64(r.AttemptNumber - 1))) * time.Second
+	}
+	policy := common.NewRetryPolicy(n, fn, exponentialBackoff)
+	return &policy
 }

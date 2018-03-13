@@ -103,7 +103,9 @@ func (s *VolumeAttachmentsDataSourceCrud) Get() error {
 		request.VolumeId = &tmp
 	}
 
-	response, err := s.Client.ListVolumeAttachments(context.Background(), request, getRetryOptions(false, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+
+	response, err := s.Client.ListVolumeAttachments(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -112,7 +114,7 @@ func (s *VolumeAttachmentsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListVolumeAttachments(context.Background(), request, getRetryOptions(false, "core")...)
+		listResponse, err := s.Client.ListVolumeAttachments(context.Background(), request)
 		if err != nil {
 			return err
 		}

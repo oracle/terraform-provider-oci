@@ -13,10 +13,24 @@ type GetMountTargetRequest struct {
 
 	// The OCID of the mount target.
 	MountTargetId *string `mandatory:"true" contributesTo:"path" name:"mountTargetId"`
+
+	// Metadata about the request. This information will not be transmitted to the service, but
+	// represents information that the SDK will consume to drive retry behavior.
+	RequestMetadata common.RequestMetadata
 }
 
 func (request GetMountTargetRequest) String() string {
 	return common.PointerString(request)
+}
+
+// HTTPRequest implements the OCIRequest interface
+func (request GetMountTargetRequest) HTTPRequest(method, path string) (http.Request, error) {
+	return common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
+}
+
+// RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
+func (request GetMountTargetRequest) RetryPolicy() *common.RetryPolicy {
+	return request.RequestMetadata.RetryPolicy
 }
 
 // GetMountTargetResponse wrapper for the GetMountTarget operation
@@ -39,4 +53,9 @@ type GetMountTargetResponse struct {
 
 func (response GetMountTargetResponse) String() string {
 	return common.PointerString(response)
+}
+
+// HTTPResponse implements the OCIResponse interface
+func (response GetMountTargetResponse) HTTPResponse() *http.Response {
+	return response.RawResponse
 }

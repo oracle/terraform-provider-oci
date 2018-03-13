@@ -3,7 +3,9 @@
 ^common/
 ^core/
 ^database/
+^dns/
 ^example/
+^filestorage/
 ^identity/
 ^loadbalancer/
 ^objectstorage/

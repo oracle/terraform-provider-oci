@@ -156,7 +156,9 @@ func (s *BucketResourceCrud) Create() error {
 		request.NamespaceName = &tmp
 	}
 
-	response, err := s.Client.CreateBucket(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "object_storage")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
+
+	response, err := s.Client.CreateBucket(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -178,7 +180,9 @@ func (s *BucketResourceCrud) Get() error {
 		request.NamespaceName = &tmp
 	}
 
-	response, err := s.Client.GetBucket(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "object_storage")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
+
+	response, err := s.Client.GetBucket(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -224,7 +228,9 @@ func (s *BucketResourceCrud) Update() error {
 	//	request.Namespace = &tmp
 	//}
 
-	response, err := s.Client.UpdateBucket(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "object_storage")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
+
+	response, err := s.Client.UpdateBucket(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -246,7 +252,9 @@ func (s *BucketResourceCrud) Delete() error {
 		request.NamespaceName = &tmp
 	}
 
-	_, err := s.Client.DeleteBucket(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "object_storage")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
+
+	_, err := s.Client.DeleteBucket(context.Background(), request)
 	return err
 }
 

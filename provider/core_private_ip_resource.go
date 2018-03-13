@@ -143,7 +143,9 @@ func (s *PrivateIpResourceCrud) Create() error {
 		request.VnicId = &tmp
 	}
 
-	response, err := s.Client.CreatePrivateIp(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	response, err := s.Client.CreatePrivateIp(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -158,7 +160,9 @@ func (s *PrivateIpResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.PrivateIpId = &tmp
 
-	response, err := s.Client.GetPrivateIp(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	response, err := s.Client.GetPrivateIp(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -188,7 +192,9 @@ func (s *PrivateIpResourceCrud) Update() error {
 		request.VnicId = &tmp
 	}
 
-	response, err := s.Client.UpdatePrivateIp(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	response, err := s.Client.UpdatePrivateIp(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -203,7 +209,9 @@ func (s *PrivateIpResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.PrivateIpId = &tmp
 
-	_, err := s.Client.DeletePrivateIp(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	_, err := s.Client.DeletePrivateIp(context.Background(), request)
 	return err
 }
 

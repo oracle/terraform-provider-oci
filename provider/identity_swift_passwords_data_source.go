@@ -56,7 +56,9 @@ func (s *SwiftPasswordsDataSourceCrud) Get() error {
 		request.UserId = &tmp
 	}
 
-	response, err := s.Client.ListSwiftPasswords(context.Background(), request, getRetryOptions(false, "identity")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "identity")
+
+	response, err := s.Client.ListSwiftPasswords(context.Background(), request)
 	if err != nil {
 		return err
 	}

@@ -50,10 +50,24 @@ type ListImagesRequest struct {
 
 	// A filter to only return resources that match the given lifecycle state.  The state value is case-insensitive.
 	LifecycleState ImageLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
+
+	// Metadata about the request. This information will not be transmitted to the service, but
+	// represents information that the SDK will consume to drive retry behavior.
+	RequestMetadata common.RequestMetadata
 }
 
 func (request ListImagesRequest) String() string {
 	return common.PointerString(request)
+}
+
+// HTTPRequest implements the OCIRequest interface
+func (request ListImagesRequest) HTTPRequest(method, path string) (http.Request, error) {
+	return common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
+}
+
+// RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
+func (request ListImagesRequest) RetryPolicy() *common.RetryPolicy {
+	return request.RequestMetadata.RetryPolicy
 }
 
 // ListImagesResponse wrapper for the ListImages operation
@@ -77,6 +91,11 @@ type ListImagesResponse struct {
 
 func (response ListImagesResponse) String() string {
 	return common.PointerString(response)
+}
+
+// HTTPResponse implements the OCIResponse interface
+func (response ListImagesResponse) HTTPResponse() *http.Response {
+	return response.RawResponse
 }
 
 // ListImagesSortByEnum Enum with underlying type: string

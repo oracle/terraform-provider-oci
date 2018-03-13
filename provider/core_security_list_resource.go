@@ -484,7 +484,9 @@ func (s *SecurityListResourceCrud) Create() error {
 		request.VcnId = &tmp
 	}
 
-	response, err := s.Client.CreateSecurityList(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	response, err := s.Client.CreateSecurityList(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -499,7 +501,9 @@ func (s *SecurityListResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.SecurityListId = &tmp
 
-	response, err := s.Client.GetSecurityList(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	response, err := s.Client.GetSecurityList(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -539,7 +543,9 @@ func (s *SecurityListResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.SecurityListId = &tmp
 
-	response, err := s.Client.UpdateSecurityList(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	response, err := s.Client.UpdateSecurityList(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -554,7 +560,9 @@ func (s *SecurityListResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.SecurityListId = &tmp
 
-	_, err := s.Client.DeleteSecurityList(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	_, err := s.Client.DeleteSecurityList(context.Background(), request)
 	return err
 }
 

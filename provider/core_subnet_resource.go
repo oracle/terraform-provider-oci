@@ -253,7 +253,9 @@ func (s *SubnetResourceCrud) Create() error {
 		request.VcnId = &tmp
 	}
 
-	response, err := s.Client.CreateSubnet(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	response, err := s.Client.CreateSubnet(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -268,7 +270,9 @@ func (s *SubnetResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.SubnetId = &tmp
 
-	response, err := s.Client.GetSubnet(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	response, err := s.Client.GetSubnet(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -288,7 +292,9 @@ func (s *SubnetResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.SubnetId = &tmp
 
-	response, err := s.Client.UpdateSubnet(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	response, err := s.Client.UpdateSubnet(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -303,7 +309,9 @@ func (s *SubnetResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.SubnetId = &tmp
 
-	_, err := s.Client.DeleteSubnet(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	_, err := s.Client.DeleteSubnet(context.Background(), request)
 	return err
 }
 

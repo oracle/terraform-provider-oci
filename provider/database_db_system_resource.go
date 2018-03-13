@@ -477,7 +477,9 @@ func (s *DbSystemResourceCrud) Create() error {
 		}
 	}
 
-	response, err := s.Client.LaunchDbSystem(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "database")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+
+	response, err := s.Client.LaunchDbSystem(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -494,7 +496,9 @@ func (s *DbSystemResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.DbSystemId = &tmp
 
-	response, err := s.Client.GetDbSystem(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "database")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+
+	response, err := s.Client.GetDbSystem(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -509,7 +513,9 @@ func (s *DbSystemResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.DbSystemId = &tmp
 
-	_, err := s.Client.TerminateDbSystem(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "database")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+
+	_, err := s.Client.TerminateDbSystem(context.Background(), request)
 	return err
 }
 

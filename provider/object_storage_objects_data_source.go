@@ -136,7 +136,9 @@ func (s *ObjectsDataSourceCrud) Get() error {
 	// @CODEGEN 2/2018: Preserve the custom logic to extract the ObjectSummary results from ListObjects response
 	// and to handle pagination.
 	for {
-		response, err := s.Client.ListObjects(context.Background(), request, getRetryOptions(false, "object_storage")...)
+		request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "object_storage")
+
+		response, err := s.Client.ListObjects(context.Background(), request)
 		if err != nil {
 			return err
 		}

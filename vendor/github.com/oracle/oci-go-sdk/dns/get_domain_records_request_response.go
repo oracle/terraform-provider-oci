@@ -50,10 +50,24 @@ type GetDomainRecordsRequest struct {
 
 	// The OCID of the compartment the resource belongs to.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
+
+	// Metadata about the request. This information will not be transmitted to the service, but
+	// represents information that the SDK will consume to drive retry behavior.
+	RequestMetadata common.RequestMetadata
 }
 
 func (request GetDomainRecordsRequest) String() string {
 	return common.PointerString(request)
+}
+
+// HTTPRequest implements the OCIRequest interface
+func (request GetDomainRecordsRequest) HTTPRequest(method, path string) (http.Request, error) {
+	return common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
+}
+
+// RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
+func (request GetDomainRecordsRequest) RetryPolicy() *common.RetryPolicy {
+	return request.RequestMetadata.RetryPolicy
 }
 
 // GetDomainRecordsResponse wrapper for the GetDomainRecords operation
@@ -87,6 +101,11 @@ type GetDomainRecordsResponse struct {
 
 func (response GetDomainRecordsResponse) String() string {
 	return common.PointerString(response)
+}
+
+// HTTPResponse implements the OCIResponse interface
+func (response GetDomainRecordsResponse) HTTPResponse() *http.Response {
+	return response.RawResponse
 }
 
 // GetDomainRecordsSortByEnum Enum with underlying type: string

@@ -135,7 +135,9 @@ func (s *DrgResourceCrud) Create() error {
 		request.DisplayName = &tmp
 	}
 
-	response, err := s.Client.CreateDrg(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	response, err := s.Client.CreateDrg(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -150,7 +152,9 @@ func (s *DrgResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.DrgId = &tmp
 
-	response, err := s.Client.GetDrg(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	response, err := s.Client.GetDrg(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -170,7 +174,9 @@ func (s *DrgResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.DrgId = &tmp
 
-	response, err := s.Client.UpdateDrg(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	response, err := s.Client.UpdateDrg(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -185,7 +191,9 @@ func (s *DrgResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.DrgId = &tmp
 
-	_, err := s.Client.DeleteDrg(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	_, err := s.Client.DeleteDrg(context.Background(), request)
 	return err
 }
 

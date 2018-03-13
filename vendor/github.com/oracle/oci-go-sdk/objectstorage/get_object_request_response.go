@@ -37,10 +37,24 @@ type GetObjectRequest struct {
 	// Optional byte range to fetch, as described in RFC 7233 (https://tools.ietf.org/rfc/rfc7233), section 2.1.
 	// Note that only a single range of bytes is supported.
 	Range *string `mandatory:"false" contributesTo:"header" name:"range"`
+
+	// Metadata about the request. This information will not be transmitted to the service, but
+	// represents information that the SDK will consume to drive retry behavior.
+	RequestMetadata common.RequestMetadata
 }
 
 func (request GetObjectRequest) String() string {
 	return common.PointerString(request)
+}
+
+// HTTPRequest implements the OCIRequest interface
+func (request GetObjectRequest) HTTPRequest(method, path string) (http.Request, error) {
+	return common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
+}
+
+// RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
+func (request GetObjectRequest) RetryPolicy() *common.RetryPolicy {
+	return request.RequestMetadata.RetryPolicy
 }
 
 // GetObjectResponse wrapper for the GetObject operation
@@ -109,6 +123,11 @@ type GetObjectResponse struct {
 
 func (response GetObjectResponse) String() string {
 	return common.PointerString(response)
+}
+
+// HTTPResponse implements the OCIResponse interface
+func (response GetObjectResponse) HTTPResponse() *http.Response {
+	return response.RawResponse
 }
 
 // GetObjectArchivalStateEnum Enum with underlying type: string

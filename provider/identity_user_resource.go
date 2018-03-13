@@ -169,7 +169,9 @@ func (s *UserResourceCrud) Create() error {
 		request.Name = &tmp
 	}
 
-	response, err := s.Client.CreateUser(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "identity")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+
+	response, err := s.Client.CreateUser(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -184,7 +186,9 @@ func (s *UserResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.UserId = &tmp
 
-	response, err := s.Client.GetUser(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "identity")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+
+	response, err := s.Client.GetUser(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -204,7 +208,9 @@ func (s *UserResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.UserId = &tmp
 
-	response, err := s.Client.UpdateUser(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "identity")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+
+	response, err := s.Client.UpdateUser(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -219,7 +225,9 @@ func (s *UserResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.UserId = &tmp
 
-	_, err := s.Client.DeleteUser(context.Background(), request, getRetryOptions(s.DisableNotFoundRetries, "identity")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+
+	_, err := s.Client.DeleteUser(context.Background(), request)
 	return err
 }
 

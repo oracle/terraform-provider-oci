@@ -166,9 +166,3 @@ func PrivateKeyFromBytes(pemData []byte, password *string) (key *rsa.PrivateKey,
 	}
 	return
 }
-
-// ShouldContinueIssuingRequests returns true if we should continue retrying a request, based on the current attempt
-// number and the maximum number of attempts specified, or false otherwise.
-func ShouldContinueIssuingRequests(current, maximum uint) bool {
-	return maximum == UnlimitedNumAttemptsValue || current <= maximum
-}

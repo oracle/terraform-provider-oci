@@ -82,7 +82,9 @@ func (s *LoadBalancersDataSourceCrud) Get() error {
 		request.LifecycleState = oci_load_balancer.LoadBalancerLifecycleStateEnum(state.(string))
 	}
 
-	response, err := s.Client.ListLoadBalancers(context.Background(), request, getRetryOptions(false, "load_balancer")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "load_balancer")
+
+	response, err := s.Client.ListLoadBalancers(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -91,7 +93,7 @@ func (s *LoadBalancersDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListLoadBalancers(context.Background(), request, getRetryOptions(false, "load_balancer")...)
+		listResponse, err := s.Client.ListLoadBalancers(context.Background(), request)
 		if err != nil {
 			return err
 		}

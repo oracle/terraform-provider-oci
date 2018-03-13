@@ -110,7 +110,9 @@ func (s *ImagesDataSourceCrud) Get() error {
 		request.LifecycleState = oci_core.ImageLifecycleStateEnum(state.(string))
 	}
 
-	response, err := s.Client.ListImages(context.Background(), request, getRetryOptions(false, "core")...)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+
+	response, err := s.Client.ListImages(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -119,7 +121,7 @@ func (s *ImagesDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListImages(context.Background(), request, getRetryOptions(false, "core")...)
+		listResponse, err := s.Client.ListImages(context.Background(), request)
 		if err != nil {
 			return err
 		}

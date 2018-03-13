@@ -16,10 +16,24 @@ type GetTagRequest struct {
 
 	// The name of the tag.
 	TagName *string `mandatory:"true" contributesTo:"path" name:"tagName"`
+
+	// Metadata about the request. This information will not be transmitted to the service, but
+	// represents information that the SDK will consume to drive retry behavior.
+	RequestMetadata common.RequestMetadata
 }
 
 func (request GetTagRequest) String() string {
 	return common.PointerString(request)
+}
+
+// HTTPRequest implements the OCIRequest interface
+func (request GetTagRequest) HTTPRequest(method, path string) (http.Request, error) {
+	return common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
+}
+
+// RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
+func (request GetTagRequest) RetryPolicy() *common.RetryPolicy {
+	return request.RequestMetadata.RetryPolicy
 }
 
 // GetTagResponse wrapper for the GetTag operation
@@ -38,4 +52,9 @@ type GetTagResponse struct {
 
 func (response GetTagResponse) String() string {
 	return common.PointerString(response)
+}
+
+// HTTPResponse implements the OCIResponse interface
+func (response GetTagResponse) HTTPResponse() *http.Response {
+	return response.RawResponse
 }
