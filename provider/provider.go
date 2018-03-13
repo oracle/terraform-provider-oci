@@ -11,12 +11,16 @@ import (
 	"net/http"
 	"os"
 	"runtime"
+	"strconv"
+	"strings"
 	"time"
 
 	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform/helper/validation"
 	"github.com/hashicorp/terraform/terraform"
 
 	oci_common "github.com/oracle/oci-go-sdk/common"
+	oci_common_auth "github.com/oracle/oci-go-sdk/common/auth"
 	oci_core "github.com/oracle/oci-go-sdk/core"
 	oci_database "github.com/oracle/oci-go-sdk/database"
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
@@ -28,21 +32,31 @@ var descriptions map[string]string
 var disableAutoRetries bool
 
 const (
-	defaultRequestTimeout      = 0
-	defaultConnectionTimeout   = 10 * time.Second
-	defaultTLSHandshakeTimeout = 5 * time.Second
+	authAPIKeySetting            = "ApiKey"
+	authInstancePrincipalSetting = "InstancePrincipal"
+	defaultRequestTimeout        = 0
+	defaultConnectionTimeout     = 10 * time.Second
+	defaultTLSHandshakeTimeout   = 5 * time.Second
+	userAgentFormatter           = "Oracle-GoSDK/%s (go/%s; %s/%s; terraform/%s) Oracle-TerraformProvider/%s"
 )
+
+type oboTokenProviderFromEnv struct{}
+
+func (p oboTokenProviderFromEnv) OboToken() (string, error) {
+	return getEnvSetting("obo_token", ""), nil
+}
 
 func init() {
 	descriptions = map[string]string{
-		"tenancy_ocid": "(Required) The tenancy OCID for a user. The tenancy OCID can be found at the bottom of user settings in the Oracle Cloud Infrastructure console.",
-		"user_ocid":    "(Required) The user OCID. This can be found in user settings in the Oracle Cloud Infrastructure console.",
-		"fingerprint":  "(Required) The fingerprint for the user's RSA key. This can be found in user settings in the Oracle Cloud Infrastructure console.",
+		"auth":         fmt.Sprintf("(Optional) The type of auth to use. Options are '%s' and '%s'. By default, '%s' will be used.", authAPIKeySetting, authInstancePrincipalSetting, authAPIKeySetting),
+		"tenancy_ocid": fmt.Sprintf("(Optional) The tenancy OCID for a user. The tenancy OCID can be found at the bottom of user settings in the Oracle Cloud Infrastructure console. Required if auth is set to '%s', ignored otherwise.", authAPIKeySetting),
+		"user_ocid":    fmt.Sprintf("(Optional) The user OCID. This can be found in user settings in the Oracle Cloud Infrastructure console. Required if auth is set to '%s', ignored otherwise.", authAPIKeySetting),
+		"fingerprint":  fmt.Sprintf("(Optional) The fingerprint for the user's RSA key. This can be found in user settings in the Oracle Cloud Infrastructure console. Required if auth is set to '%s', ignored otherwise.", authAPIKeySetting),
 		"region":       "(Required) The region for API connections (e.g. us-ashburn-1).",
 		"private_key": "(Optional) A PEM formatted RSA private key for the user.\n" +
-			"A private_key or a private_key_path must be provided.",
+			fmt.Sprintf("A private_key or a private_key_path must be provided if auth is set to '%s', ignored otherwise.", authAPIKeySetting),
 		"private_key_path": "(Optional) The path to the user's PEM formatted private key.\n" +
-			"A private_key or a private_key_path must be provided.",
+			fmt.Sprintf("A private_key or a private_key_path must be provided if auth is set to '%s', ignored otherwise.", authAPIKeySetting),
 		"private_key_password": "(Optional) The password used to secure the private key.",
 		"disable_auto_retries": "(Optional) Disable Automatic retries for retriable errors.\n" +
 			"Auto retries were introduced to solve some eventual consistency problems but it also introduced performance issues on destroy operations.",
@@ -61,21 +75,28 @@ func Provider(configfn schema.ConfigureFunc) terraform.ResourceProvider {
 
 func schemaMap() map[string]*schema.Schema {
 	return map[string]*schema.Schema{
+		"auth": {
+			Type:         schema.TypeString,
+			Optional:     true,
+			Description:  descriptions["auth"],
+			DefaultFunc:  schema.EnvDefaultFunc("OCI_AUTH", authAPIKeySetting),
+			ValidateFunc: validation.StringInSlice([]string{authAPIKeySetting, authInstancePrincipalSetting}, true),
+		},
 		"tenancy_ocid": {
 			Type:        schema.TypeString,
-			Required:    true,
+			Optional:    true,
 			Description: descriptions["tenancy_ocid"],
 			DefaultFunc: schema.EnvDefaultFunc("OCI_TENANCY_OCID", nil),
 		},
 		"user_ocid": {
 			Type:        schema.TypeString,
-			Required:    true,
+			Optional:    true,
 			Description: descriptions["user_ocid"],
 			DefaultFunc: schema.EnvDefaultFunc("OCI_USER_OCID", nil),
 		},
 		"fingerprint": {
 			Type:        schema.TypeString,
-			Required:    true,
+			Optional:    true,
 			Description: descriptions["fingerprint"],
 			DefaultFunc: schema.EnvDefaultFunc("OCI_FINGERPRINT", nil),
 		},
@@ -246,12 +267,22 @@ func getRequiredEnvSetting(s string) string {
 	return v
 }
 
+func validateConfigForAPIKeyAuth(d *schema.ResourceData) error {
+	_, hasTenancyOCID := d.GetOkExists("tenancy_ocid")
+	_, hasUserOCID := d.GetOkExists("user_ocid")
+	_, hasFingerprint := d.GetOkExists("fingerprint")
+	if !hasTenancyOCID || !hasUserOCID || !hasFingerprint {
+		return fmt.Errorf("when auth is set to '%s', tenancy_ocid, user_ocid, and fingerprint are required", authAPIKeySetting)
+	}
+	return nil
+}
+
 func ProviderConfig(d *schema.ResourceData) (clients interface{}, err error) {
 	clients = &OracleClients{}
 	disableAutoRetries = d.Get("disable_auto_retries").(bool)
+	auth := strings.ToLower(d.Get("auth").(string))
 
-	userAgent := fmt.Sprintf("Oracle-GoSDK/%s (go/%s; %s/%s; terraform/%s) Oracle-TerraformProvider/%s",
-		oci_common.Version(), runtime.Version(), runtime.GOOS, runtime.GOARCH, terraform.VersionString(), Version)
+	userAgent := fmt.Sprintf(userAgentFormatter, oci_common.Version(), runtime.Version(), runtime.GOOS, runtime.GOARCH, terraform.VersionString(), Version)
 
 	httpClient := &http.Client{
 		Timeout: defaultRequestTimeout,
@@ -265,14 +296,31 @@ func ProviderConfig(d *schema.ResourceData) (clients interface{}, err error) {
 		},
 	}
 
-	tfConfigProvider := ResourceDataConfigProvider{d}
+	var configProviders []oci_common.ConfigurationProvider
+
+	switch auth {
+	case strings.ToLower(authAPIKeySetting):
+		if err := validateConfigForAPIKeyAuth(d); err != nil {
+			return nil, err
+		}
+	case strings.ToLower(authInstancePrincipalSetting):
+		cfg, err := oci_common_auth.InstancePrincipalConfigurationProvider()
+		if err != nil {
+			return nil, err
+		}
+		configProviders = append(configProviders, cfg)
+	default:
+		return nil, fmt.Errorf("auth must be one of '%s' or '%s'", authAPIKeySetting, authInstancePrincipalSetting)
+	}
+
+	configProviders = append(configProviders, ResourceDataConfigProvider{d})
 
 	// TODO: DefaultConfigProvider will return us a composingConfigurationProvider that reads from SDK config files,
 	// and then from the environment variables ("TF_VAR" prefix). References to "TF_VAR" prefix should be removed from
 	// the SDK, since it's Terraform specific. When that happens, we need to update this to pass in the right prefix.
-	defaultConfigProvider := oci_common.DefaultConfigProvider()
+	configProviders = append(configProviders, oci_common.DefaultConfigProvider())
 
-	officialSdkConfigProvider, err := oci_common.ComposingConfigurationProvider([]oci_common.ConfigurationProvider{tfConfigProvider, defaultConfigProvider})
+	officialSdkConfigProvider, err := oci_common.ComposingConfigurationProvider(configProviders)
 	if err != nil {
 		return nil, err
 	}
@@ -322,33 +370,39 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 		return
 	}
 
+	useOboToken, err := strconv.ParseBool(getEnvSetting("use_obo_token", "false"))
+	if err != nil {
+		return
+	}
+
+	var oboTokenProvider oci_common.OboTokenProvider
+	if useOboToken {
+		oboTokenProvider = oboTokenProviderFromEnv{}
+	} else {
+		oboTokenProvider = oci_common.NewEmptyOboTokenProvider()
+	}
+
+	configureClient := func(client *oci_common.BaseClient) {
+		client.HTTPClient = httpClient
+		client.UserAgent = userAgent
+		client.Obo = oboTokenProvider
+	}
+
+	configureClient(&blockStorageClient.BaseClient)
+	configureClient(&computeClient.BaseClient)
+	configureClient(&databaseClient.BaseClient)
+	configureClient(&identityClient.BaseClient)
+	configureClient(&virtualNetworkClient.BaseClient)
+	configureClient(&objectStorageClient.BaseClient)
+	configureClient(&loadBalancerClient.BaseClient)
+
 	clients.blockStorageClient = &blockStorageClient
-	clients.blockStorageClient.BaseClient.HTTPClient = httpClient
-	clients.blockStorageClient.UserAgent = userAgent
-
 	clients.computeClient = &computeClient
-	clients.computeClient.BaseClient.HTTPClient = httpClient
-	clients.computeClient.UserAgent = userAgent
-
 	clients.databaseClient = &databaseClient
-	clients.databaseClient.BaseClient.HTTPClient = httpClient
-	clients.databaseClient.UserAgent = userAgent
-
 	clients.identityClient = &identityClient
-	clients.identityClient.BaseClient.HTTPClient = httpClient
-	clients.identityClient.UserAgent = userAgent
-
 	clients.virtualNetworkClient = &virtualNetworkClient
-	clients.virtualNetworkClient.BaseClient.HTTPClient = httpClient
-	clients.virtualNetworkClient.UserAgent = userAgent
-
 	clients.objectStorageClient = &objectStorageClient
-	clients.objectStorageClient.BaseClient.HTTPClient = httpClient
-	clients.objectStorageClient.UserAgent = userAgent
-
 	clients.loadBalancerClient = &loadBalancerClient
-	clients.loadBalancerClient.BaseClient.HTTPClient = httpClient
-	clients.loadBalancerClient.UserAgent = userAgent
 
 	return
 }
@@ -375,28 +429,28 @@ func (p ResourceDataConfigProvider) TenancyOCID() (string, error) {
 	if tenancyOCID, ok := p.D.GetOkExists("tenancy_ocid"); ok {
 		return tenancyOCID.(string), nil
 	}
-	return "", fmt.Errorf("Can not get tenancy_ocid from Terraform configuration")
+	return "", fmt.Errorf("can not get tenancy_ocid from Terraform configuration")
 }
 
 func (p ResourceDataConfigProvider) UserOCID() (string, error) {
 	if userOCID, ok := p.D.GetOkExists("user_ocid"); ok {
 		return userOCID.(string), nil
 	}
-	return "", fmt.Errorf("Can not get user_ocid from Terraform configuration")
+	return "", fmt.Errorf("can not get user_ocid from Terraform configuration")
 }
 
 func (p ResourceDataConfigProvider) KeyFingerprint() (string, error) {
 	if fingerprint, ok := p.D.GetOkExists("fingerprint"); ok {
 		return fingerprint.(string), nil
 	}
-	return "", fmt.Errorf("Can not get fingerprint from Terraform configuration")
+	return "", fmt.Errorf("can not get fingerprint from Terraform configuration")
 }
 
 func (p ResourceDataConfigProvider) Region() (string, error) {
 	if region, ok := p.D.GetOkExists("region"); ok {
 		return region.(string), nil
 	}
-	return "", fmt.Errorf("Can not get region from Terraform configuration")
+	return "", fmt.Errorf("can not get region from Terraform configuration")
 }
 
 func (p ResourceDataConfigProvider) KeyID() (string, error) {
@@ -436,5 +490,5 @@ func (p ResourceDataConfigProvider) PrivateRSAKey() (key *rsa.PrivateKey, err er
 		return oci_common.PrivateKeyFromBytes(pemFileContent, &password)
 	}
 
-	return nil, fmt.Errorf("Can not get private_key or private_key_path from Terraform configuration")
+	return nil, fmt.Errorf("can not get private_key or private_key_path from Terraform configuration")
 }
