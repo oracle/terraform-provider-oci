@@ -65,7 +65,8 @@ The following arguments are supported:
 Updates a load balancer's configuration.
 
 The following arguments support updates:
-* NO arguments in this resource support updates
+* `display_name` - A user-friendly name. It does not have to be unique, and it is changeable. Avoid entering confidential information.  Example: `My load balancer` 
+
 
 ** IMPORTANT **
 Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values
@@ -98,8 +99,8 @@ The following arguments are supported:
 
 * `compartment_id` - (Required) The [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the compartment containing the load balancers to list.
 * `detail` - (Optional) The level of detail to return for each result. Can be `full` or `simple`.  Example: `full` 
-* `display_name` - (Optional) A filter to only return resources that match the given display name exactly. 
-* `state` - (Optional) A filter to only return resources that match the given lifecycle state. 
+* `display_name` - (Optional) A filter to return only resources that match the given display name exactly. 
+* `state` - (Optional) A filter to return only resources that match the given lifecycle state. 
 
 
 The following attributes are exported:

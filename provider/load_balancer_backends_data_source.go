@@ -70,7 +70,6 @@ func (s *BackendsDataSourceCrud) Get() error {
 	}
 
 	s.Res = &response
-
 	return nil
 }
 

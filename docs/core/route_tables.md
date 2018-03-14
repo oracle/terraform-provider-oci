@@ -58,6 +58,8 @@ Note that the `routeRules` object you provide replaces the entire existing set o
 The following arguments support updates:
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 * `route_rules` - The collection of rules used for routing destination IPs to network devices.
+	* `cidr_block` - A destination IP address range in CIDR notation. Matching packets will be routed to the indicated network entity (the target).  Example: `0.0.0.0/0` 
+	* `network_entity_id` - The OCID for the route rule's target. For information about the type of targets you can specify, see [Route Tables](https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Tasks/managingroutetables.htm). 
 
 
 ** IMPORTANT **

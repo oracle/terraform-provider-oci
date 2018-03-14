@@ -11,51 +11,51 @@ import (
 	"github.com/oracle/terraform-provider-oci/crud"
 )
 
-func CertificatesDataSource() *schema.Resource {
+func PathRouteSetsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readCertificates,
+		Read: readPathRouteSets,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"load_balancer_id": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"certificates": {
+			"path_route_sets": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     CertificateResource(),
+				Elem:     PathRouteSetResource(),
 			},
 		},
 	}
 }
 
-func readCertificates(d *schema.ResourceData, m interface{}) error {
-	sync := &CertificatesDataSourceCrud{}
+func readPathRouteSets(d *schema.ResourceData, m interface{}) error {
+	sync := &PathRouteSetsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).loadBalancerClient
 
 	return crud.ReadResource(sync)
 }
 
-type CertificatesDataSourceCrud struct {
+type PathRouteSetsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_load_balancer.LoadBalancerClient
-	Res    *oci_load_balancer.ListCertificatesResponse
+	Res    *oci_load_balancer.ListPathRouteSetsResponse
 }
 
-func (s *CertificatesDataSourceCrud) VoidState() {
+func (s *PathRouteSetsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CertificatesDataSourceCrud) Get() error {
-	request := oci_load_balancer.ListCertificatesRequest{}
+func (s *PathRouteSetsDataSourceCrud) Get() error {
+	request := oci_load_balancer.ListPathRouteSetsRequest{}
 
 	if loadBalancerId, ok := s.D.GetOkExists("load_balancer_id"); ok {
 		tmp := loadBalancerId.(string)
 		request.LoadBalancerId = &tmp
 	}
 
-	response, err := s.Client.ListCertificates(context.Background(), request, getRetryOptions(false, "load_balancer")...)
+	response, err := s.Client.ListPathRouteSets(context.Background(), request, getRetryOptions(false, "load_balancer")...)
 	if err != nil {
 		return err
 	}
@@ -64,7 +64,7 @@ func (s *CertificatesDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *CertificatesDataSourceCrud) SetData() {
+func (s *PathRouteSetsDataSourceCrud) SetData() {
 	if s.Res == nil {
 		return
 	}
@@ -73,28 +73,26 @@ func (s *CertificatesDataSourceCrud) SetData() {
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {
-		certificate := map[string]interface{}{}
+		pathRouteSet := map[string]interface{}{}
 
-		if r.CaCertificate != nil {
-			certificate["ca_certificate"] = *r.CaCertificate
+		if r.Name != nil {
+			pathRouteSet["name"] = *r.Name
 		}
 
-		if r.CertificateName != nil {
-			certificate["certificate_name"] = *r.CertificateName
+		pathRoutes := []interface{}{}
+		for _, item := range r.PathRoutes {
+			pathRoutes = append(pathRoutes, PathRouteToMap(item))
 		}
+		pathRouteSet["path_routes"] = pathRoutes
 
-		if r.PublicCertificate != nil {
-			certificate["public_certificate"] = *r.PublicCertificate
-		}
-
-		resources = append(resources, certificate)
+		resources = append(resources, pathRouteSet)
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
 		resources = ApplyFilters(f.(*schema.Set), resources)
 	}
 
-	if err := s.D.Set("certificates", resources); err != nil {
+	if err := s.D.Set("path_route_sets", resources); err != nil {
 		panic(err)
 	}
 
