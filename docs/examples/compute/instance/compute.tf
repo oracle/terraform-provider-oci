@@ -1,7 +1,8 @@
 resource "oci_core_instance" "TFInstance" {
+  count = "${var.NumInstances}"
   availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.AD - 1],"name")}"
   compartment_id = "${var.compartment_ocid}"
-  display_name = "TFInstance"
+  display_name = "TFInstance${count.index}"
   image = "${var.InstanceImageOCID[var.region]}"
   shape = "${var.InstanceShape}"
 
@@ -9,7 +10,7 @@ resource "oci_core_instance" "TFInstance" {
     subnet_id = "${oci_core_subnet.ExampleSubnet.id}"
     display_name = "primaryvnic"
     assign_public_ip = true
-    hostname_label = "tfexampleinstance"
+    hostname_label = "tfexampleinstance${count.index}"
   },
 
   metadata {

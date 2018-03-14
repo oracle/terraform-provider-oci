@@ -8,6 +8,18 @@ variable "compartment_ocid" {}
 variable "ssh_public_key" {}
 variable "ssh_private_key" {}
 
+# Defines the number of instances to deploy
+variable "NumInstances" {
+    default = "3"
+}
+
+# Defines the number of volumes to create and attach to each instance
+# NOTE: Changing this value after applying it could result in re-attaching existing volumes to different instances.
+# This is a result of using 'count' variables to specify the volume and instance IDs for the volume attachment resource.
+variable "NumVolumesPerInstance" {
+    default = "2"
+}
+
 # Choose an Availability Domain
 variable "AD" {
     default = "1"

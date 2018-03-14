@@ -1,10 +1,8 @@
 # Output the private and public IPs of the instance
-
-output "InstancePrivateIP" {
-value = ["${data.oci_core_vnic.InstanceVnic.private_ip_address}"]
+output "InstancePrivateIPs" {
+value = ["${oci_core_instance.TFInstance.*.private_ip}"]
 }
 
-output "InstancePublicIP" {
-value = ["${data.oci_core_vnic.InstanceVnic.public_ip_address}"]
+output "InstancePublicIPs" {
+value = ["${oci_core_instance.TFInstance.*.public_ip}"]
 }
-

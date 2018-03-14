@@ -4,14 +4,18 @@
     #   | |_| |  _ < / ___ | |___| |___| |___
     #    \___/|_| \_/_/   \_\____|_____|_____|
 ***
-## Manage an instance
-This example launches an instance, includes a user-data script in the instance launch, remote executes a command, and outputs the public and private IP address of the instance.
+## Manage instances with multiple attached volumes
+This example launches 3 instances and attaches 2 volumes per instance.
+
+This is done using Terraform's [interpolation syntax](https://www.terraform.io/docs/configuration/interpolation.html) for `count` variables and `math` operations.
+
+The example also includes a user-data script in the instance launch, remote executes a command on each instance to setup the volumes, and outputs the public and private IP address of the instances.
 
 ### Using this example
 * Update env-vars with the required information. Most examples use the same set of environment variables so you only need to do this once.
 * Source env-vars
   * `$ . env-vars`
-* Update `variables.tf` with your instance options.
+* Update `variables.tf` with your instance options. You may also modify the `NumInstances` and `NumVolumesPerInstance` variables to change the number of instances and volumes that are launched.
 
 ### Files in the configuration
 
@@ -20,6 +24,9 @@ Is used to export the environmental variables used in the configuration. These a
 
 Before you plan, apply, or destroy the configuration source the file -  
 `$ . env-vars`
+
+#### `block.tf`
+Defines the volumes that are attached to the compute instances.
 
 #### `compute.tf`
 Defines the compute resource. This demo connects to the running instance 
