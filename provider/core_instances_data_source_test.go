@@ -114,6 +114,41 @@ func (s *DatasourceCoreInstanceTestSuite) TestAccDatasourceCoreInstance_basic() 
 					resource.TestCheckResourceAttr(s.ResourceName, "instances.0.hostname_label", ""),
 				),
 			},
+			// Check that the optional "state" field can be queried on
+			{
+				Config: s.Config + s.TokenFn(`
+					data "oci_core_instances" "t" {
+						compartment_id = "${var.compartment_id}"
+						availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+						display_name = "{{.token}}"
+						state = "{{.lifecycleState1}}"
+						filter {
+							name = "id"
+							values = ["${oci_core_instance.t.id}"]
+						}
+					}
+
+					data "oci_core_instances" "t2" {
+						compartment_id = "${var.compartment_id}"
+						availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+						display_name = "{{.token}}"
+						state = "{{.lifecycleState2}}"
+						filter {
+							name = "id"
+							values = ["${oci_core_instance.t.id}"]
+						}
+					}`,
+					map[string]string{
+						"lifecycleState1": string(core.InstanceLifecycleStateRunning),
+						"lifecycleState2": string(core.InstanceLifecycleStateTerminated),
+					},
+				),
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttr(s.ResourceName, "instances.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "instances.0.state", string(core.InstanceLifecycleStateRunning)),
+					resource.TestCheckResourceAttr("data.oci_core_instances.t2", "instances.#", "0"),
+				),
+			},
 		},
 	},
 	)
