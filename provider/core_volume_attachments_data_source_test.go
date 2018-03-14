@@ -4,6 +4,11 @@ package provider
 
 import (
 	"testing"
+	"time"
+
+	common "github.com/oracle/oci-go-sdk/common"
+
+	oci_core "github.com/oracle/oci-go-sdk/core"
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
@@ -76,6 +81,93 @@ func (s *DatasourceCoreVolumeAttachmentTestSuite) TestAccDatasourceCoreVolumeAtt
 		},
 	},
 	)
+}
+
+type customVolumeAttachment struct {
+	ad            string
+	compartmentId string
+	id            string
+	instanceId    string
+	volumeId      string
+	displayName   string
+	timeCreated   common.SDKTime
+	state         oci_core.VolumeAttachmentLifecycleStateEnum
+}
+
+//GetAvailabilityDomain returns AvailabilityDomain
+func (m customVolumeAttachment) GetAvailabilityDomain() *string {
+	return &m.ad
+}
+
+//GetCompartmentId returns CompartmentId
+func (m customVolumeAttachment) GetCompartmentId() *string {
+	return &m.compartmentId
+}
+
+//GetId returns Id
+func (m customVolumeAttachment) GetId() *string {
+	return &m.id
+}
+
+//GetInstanceId returns InstanceId
+func (m customVolumeAttachment) GetInstanceId() *string {
+	return &m.instanceId
+}
+
+//GetLifecycleState returns LifecycleState
+func (m customVolumeAttachment) GetLifecycleState() oci_core.VolumeAttachmentLifecycleStateEnum {
+	return m.state
+}
+
+//GetTimeCreated returns TimeCreated
+func (m customVolumeAttachment) GetTimeCreated() *common.SDKTime {
+	return &m.timeCreated
+}
+
+//GetVolumeId returns VolumeId
+func (m customVolumeAttachment) GetVolumeId() *string {
+	return &m.volumeId
+}
+
+//GetDisplayName returns DisplayName
+func (m customVolumeAttachment) GetDisplayName() *string {
+	return &m.displayName
+}
+
+func checkExpectedValue(mapped map[string]interface{}, key string, expected string, t *testing.T) {
+	if value := mapped[key].(string); value != expected {
+		t.Errorf("Expected attachment to have type %s, but got %s", expected, value)
+	}
+}
+
+// This unit tests that any datasource result that implements the SDK's VolumeAttachment interface can
+// be converted to a map to be stored in Terraform.
+func TestUnitVolumeAttachmentToMap_unknownType(t *testing.T) {
+	customAttachment := customVolumeAttachment{
+		ad:            "ad1",
+		compartmentId: "compartment",
+		id:            "myId",
+		instanceId:    "myInstanceId",
+		volumeId:      "myVolumeId",
+		displayName:   "myDisplayName",
+		timeCreated:   common.SDKTime{time.Now()},
+		state:         oci_core.VolumeAttachmentLifecycleStateDetached,
+	}
+
+	result := volumeAttachmentToMap(customAttachment)
+
+	// Check that type is set to Unknown for unsupported VolumeAttachment types
+	checkExpectedValue(result, "attachment_type", "Unknown", t)
+
+	// Check that all VolumeAttachment base class attributes are set
+	checkExpectedValue(result, "availability_domain", customAttachment.ad, t)
+	checkExpectedValue(result, "compartment_id", customAttachment.compartmentId, t)
+	checkExpectedValue(result, "id", customAttachment.id, t)
+	checkExpectedValue(result, "instance_id", customAttachment.instanceId, t)
+	checkExpectedValue(result, "volume_id", customAttachment.volumeId, t)
+	checkExpectedValue(result, "display_name", customAttachment.displayName, t)
+	checkExpectedValue(result, "time_created", customAttachment.timeCreated.String(), t)
+	checkExpectedValue(result, "state", string(customAttachment.state), t)
 }
 
 func TestDatasourceCoreVolumeAttachmentTestSuite(t *testing.T) {

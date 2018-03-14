@@ -4,6 +4,7 @@ package provider
 
 import (
 	"context"
+	"log"
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/core"
@@ -132,62 +133,7 @@ func (s *VolumeAttachmentsDataSourceCrud) SetData() {
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {
-		iscsiVolumeAttachment, castOk := r.(oci_core.IScsiVolumeAttachment)
-		if !castOk {
-			panic("unexpected VolumeAttachment type on item.")
-		}
-
-		volumeAttachment := map[string]interface{}{
-			"compartment_id":  *r.GetCompartmentId(),
-			"attachment_type": IScsiVolumeAttachmentDiscriminator,
-		}
-
-		if iscsiVolumeAttachment.AvailabilityDomain != nil {
-			volumeAttachment["availability_domain"] = *iscsiVolumeAttachment.AvailabilityDomain
-		}
-
-		if iscsiVolumeAttachment.DisplayName != nil {
-			volumeAttachment["display_name"] = *iscsiVolumeAttachment.DisplayName
-		}
-
-		if iscsiVolumeAttachment.Id != nil {
-			volumeAttachment["id"] = *iscsiVolumeAttachment.Id
-		}
-
-		if iscsiVolumeAttachment.InstanceId != nil {
-			volumeAttachment["instance_id"] = *iscsiVolumeAttachment.InstanceId
-		}
-
-		volumeAttachment["state"] = iscsiVolumeAttachment.LifecycleState
-
-		volumeAttachment["time_created"] = iscsiVolumeAttachment.TimeCreated.String()
-
-		if iscsiVolumeAttachment.VolumeId != nil {
-			volumeAttachment["volume_id"] = *iscsiVolumeAttachment.VolumeId
-		}
-
-		// IScsiVolumeAttachment-specific fields:
-		if iscsiVolumeAttachment.ChapSecret != nil {
-			volumeAttachment["chap_secret"] = *iscsiVolumeAttachment.ChapSecret
-		}
-
-		if iscsiVolumeAttachment.ChapUsername != nil {
-			volumeAttachment["chap_username"] = *iscsiVolumeAttachment.ChapUsername
-		}
-
-		if iscsiVolumeAttachment.Ipv4 != nil {
-			volumeAttachment["ipv4"] = *iscsiVolumeAttachment.Ipv4
-		}
-
-		if iscsiVolumeAttachment.Iqn != nil {
-			volumeAttachment["iqn"] = *iscsiVolumeAttachment.Iqn
-		}
-
-		if iscsiVolumeAttachment.Port != nil {
-			volumeAttachment["port"] = *iscsiVolumeAttachment.Port
-		}
-
-		resources = append(resources, volumeAttachment)
+		resources = append(resources, volumeAttachmentToMap(r))
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
@@ -199,4 +145,67 @@ func (s *VolumeAttachmentsDataSourceCrud) SetData() {
 	}
 
 	return
+}
+
+func volumeAttachmentToMap(r oci_core.VolumeAttachment) map[string]interface{} {
+	volumeAttachment := map[string]interface{}{
+		"compartment_id": *r.GetCompartmentId(),
+	}
+
+	if availabilityDomain := r.GetAvailabilityDomain(); availabilityDomain != nil {
+		volumeAttachment["availability_domain"] = *availabilityDomain
+	}
+
+	if displayName := r.GetDisplayName(); displayName != nil {
+		volumeAttachment["display_name"] = *displayName
+	}
+
+	if id := r.GetId(); id != nil {
+		volumeAttachment["id"] = *id
+	}
+
+	if instanceId := r.GetInstanceId(); instanceId != nil {
+		volumeAttachment["instance_id"] = *instanceId
+	}
+
+	volumeAttachment["state"] = string(r.GetLifecycleState())
+
+	if timeCreated := r.GetTimeCreated(); timeCreated != nil {
+		volumeAttachment["time_created"] = timeCreated.String()
+	}
+
+	if volumeId := r.GetVolumeId(); volumeId != nil {
+		volumeAttachment["volume_id"] = *volumeId
+	}
+
+	switch typedValue := r.(type) {
+	case oci_core.IScsiVolumeAttachment:
+		volumeAttachment["attachment_type"] = IScsiVolumeAttachmentDiscriminator
+
+		// IScsiVolumeAttachment-specific fields:
+		if typedValue.ChapSecret != nil {
+			volumeAttachment["chap_secret"] = *typedValue.ChapSecret
+		}
+
+		if typedValue.ChapUsername != nil {
+			volumeAttachment["chap_username"] = *typedValue.ChapUsername
+		}
+
+		if typedValue.Ipv4 != nil {
+			volumeAttachment["ipv4"] = *typedValue.Ipv4
+		}
+
+		if typedValue.Iqn != nil {
+			volumeAttachment["iqn"] = *typedValue.Iqn
+		}
+
+		if typedValue.Port != nil {
+			volumeAttachment["port"] = *typedValue.Port
+		}
+	default:
+		volumeAttachment["attachment_type"] = "Unknown"
+		log.Printf("[WARNING] Retrieved a volume attachment of unknown type.")
+	}
+
+	return volumeAttachment
 }
