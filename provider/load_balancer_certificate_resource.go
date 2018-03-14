@@ -61,7 +61,6 @@ func CertificateResource() *schema.Resource {
 			},
 
 			// Computed
-
 			// internal for work request access
 			"state": {
 				Type:     schema.TypeString,
@@ -131,8 +130,8 @@ func (s *CertificateResourceCrud) CreatedTarget() []string {
 
 func (s *CertificateResourceCrud) DeletedPending() []string {
 	return []string{
-		string(oci_load_balancer.WorkRequestLifecycleStateAccepted),
 		string(oci_load_balancer.WorkRequestLifecycleStateInProgress),
+		string(oci_load_balancer.WorkRequestLifecycleStateAccepted),
 	}
 }
 
@@ -200,7 +199,6 @@ func (s *CertificateResourceCrud) Get() error {
 	if stillWorking {
 		return nil
 	}
-
 	request := oci_load_balancer.ListCertificatesRequest{}
 
 	if loadBalancerId, ok := s.D.GetOkExists("load_balancer_id"); ok {

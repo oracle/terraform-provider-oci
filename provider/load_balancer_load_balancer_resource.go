@@ -221,6 +221,7 @@ func (s *LoadBalancerResourceCrud) Get() error {
 		id = *s.WorkRequest.LoadBalancerId
 		s.D.SetId(id)
 	}
+
 	request := oci_load_balancer.GetLoadBalancerRequest{}
 
 	tmp := s.D.Id()

@@ -61,7 +61,6 @@ func (s *BackendSetsDataSourceCrud) Get() error {
 	}
 
 	s.Res = &response
-
 	return nil
 }
 

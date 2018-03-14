@@ -193,7 +193,6 @@ func BackendSetResource() *schema.Resource {
 			},
 
 			// Computed
-
 			// internal for work request access
 			"state": {
 				Type:     schema.TypeString,

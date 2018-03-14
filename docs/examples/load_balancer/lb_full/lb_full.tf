@@ -217,12 +217,31 @@ resource "oci_load_balancer_certificate" "lb-cert1" {
   public_certificate = "-----BEGIN CERTIFICATE-----\nMIIBNzCB4gIJAKtwJkxUgNpzMA0GCSqGSIb3DQEBCwUAMCMxITAfBgNVBAoTGElu\ndGVybmV0IFdpZGdpdHMgUHR5IEx0ZDAeFw0xNzA0MTIyMTU3NTZaFw0xODA0MTIy\nMTU3NTZaMCMxITAfBgNVBAoTGEludGVybmV0IFdpZGdpdHMgUHR5IEx0ZDBcMA0G\nCSqGSIb3DQEBAQUAA0sAMEgCQQDlM8lz3BFJA6zBlsF63k9ajPVq3Q1WQoHQ3j35\n08DRKIfwqfV+CxL63W3dZrwL4TrjqorP5CQ36+I6OWALH2zVAgMBAAEwDQYJKoZI\nhvcNAQELBQADQQCEjHVQJoiiVpIIvDWF+4YDRReVuwzrvq2xduWw7CIsDWlYuGZT\nQKVY6tnTy2XpoUk0fqUvMB/M2HGQ1WqZGHs6\n-----END CERTIFICATE-----"
 }
 
+resource "oci_load_balancer_path_route_set" "test_path_route_set" {
+    #Required
+    load_balancer_id = "${oci_load_balancer.lb1.id}"
+    name = "pr-set1"
+    path_routes {
+        #Required
+        backend_set_name = "${oci_load_balancer_backendset.lb-bes1.name}"
+        path = "/example/video/123"
+        path_match_type {
+            #Required
+            match_type = "EXACT_MATCH"
+        }
+
+    }
+}
+
 resource "oci_load_balancer_listener" "lb-listener1" {
   load_balancer_id         = "${oci_load_balancer.lb1.id}"
   name                     = "http"
   default_backend_set_name = "${oci_load_balancer_backendset.lb-bes1.id}"
   port                     = 80
   protocol                 = "HTTP"
+  connection_configuration {
+    idle_timeout_in_seconds = "2"
+  }
 }
 
 resource "oci_load_balancer_listener" "lb-listener2" {
