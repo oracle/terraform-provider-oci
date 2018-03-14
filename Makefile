@@ -32,13 +32,24 @@ zip:
 	tar -czvf solaris_amd64.tar.gz solaris_amd64
 
 ### `make test run=TestResourceCore debug=1`
-cmd := TF_ACC=1 TF_ORACLE_ENV=test go test ./provider -v -timeout 120m
+basecmd := TF_ORACLE_ENV=test go test ./provider -v -timeout 120m
+
+### Run all tests by default. Omit acceptance tests if unit tests are specified (e.g. `make test mode=unit`)
+cmd := TF_ACC=1 $(basecmd)
+ifdef mode
+  ifeq ($(mode),unit)
+    cmd := $(basecmd)
+  endif
+endif
+
 ifdef run
   cmd := $(cmd) -run $(run)
 endif
+
 ifdef debug
   cmd := DEBUG=true TF_LOG=DEBUG OCI_GO_SDK_DEBUG=1 $(cmd)
 endif
+
 test: ;$(cmd)
 
 test_print:
