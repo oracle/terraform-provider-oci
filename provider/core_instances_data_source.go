@@ -39,6 +39,10 @@ func InstancesDataSource() *schema.Resource {
 				Optional:   true,
 				Deprecated: crud.FieldDeprecated("page"),
 			},
+			"state": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"instances": {
 				Type:     schema.TypeList,
 				Computed: true,
