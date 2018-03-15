@@ -1,12 +1,17 @@
-#     ___  ____     _    ____ _     _____
-#    / _ \|  _ \   / \  / ___| |   | ____|
-#   | | | | |_) | / _ \| |   | |   |  _|
-#   | |_| |  _ < / ___ | |___| |___| |___
-#    \___/|_| \_/_/   \_\____|_____|_____|
+## NOTICE
+**The terraform provider has been renamed, see [this wiki](https://github.com/oracle/terraform-provider-oci/wiki/Oracle-Terraform-Provider-Name-Change) for information on migration steps.**
+
+*Legacy provider documentation (for v1.0.18 and earlier) can be found [here](https://github.com/oracle/terraform-provider-oci/tree/v1.0.18/docs)*
+
+
+    #     ___  ____     _    ____ _     _____
+    #    / _ \|  _ \   / \  / ___| |   | ____|
+    #   | | | | |_) | / _ \| |   | |   |  _|
+    #   | |_| |  _ < / ___ | |___| |___| |___
+    #    \___/|_| \_/_/   \_\____|_____|_____|
 ***
 
-
-Solution: MS SQL Always On.
+# MS SQL Always On.
 
 This Terraform template implements the infrastructure needed to fully deploy an MS SQL Always On cluster across availability domains.  The cluster can be spread across either 2 or 3 ADs, depending on your requirements, but cannot be located in a single AD.
 
