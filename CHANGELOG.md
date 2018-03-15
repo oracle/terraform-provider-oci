@@ -3,6 +3,12 @@ All notable changes to this project are documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+## 2.1.1 - 2018-03-14
+
+## Fixed
+- VolumeAttachment: Handle unsupported attachment types. If an unsupported attachment type is returned by the service, the SDK's base interface is used to populate common fields.
+- Instances: Add missing state field to datasource.
+
 ## 2.1.0 - 2018-03-08
 More details for the changes introduced in 2.1.0 can be found [here](https://github.com/oracle/terraform-provider-oci/wiki/Details-for-v2.1.0-Release)
 
