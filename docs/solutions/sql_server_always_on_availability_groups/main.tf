@@ -25,8 +25,6 @@ module "securitylist" {
 module "dmz_subnets" {
   dns_label  = "DMZ"
   cidr_block = "${local.DMZ_subnets_cidrs}"
-
-  # Constants
   source           = "./modules/network/subnet"
   compartment_ocid = "${module.compartment.id}"
   vcn_id           = "${module.vcn.vcn_id}"
@@ -41,8 +39,6 @@ module "dmz_subnets" {
 module "admin_subnets" {
   dns_label  = "ADMIN"
   cidr_block = "${local.ADMIN_subnets_cidrs}"
-
-  # Constants
   source           = "./modules/network/subnet"
   compartment_ocid = "${module.compartment.id}"
   vcn_id           = "${module.vcn.vcn_id}"
@@ -58,8 +54,6 @@ module "admin_subnets" {
 module "sql_subnets" {
   dns_label  = "SQL"
   cidr_block = "${local.SQL_subnets_cidrs}"
-
-  # Constants
   source           = "./modules/network/subnet"
   compartment_ocid = "${module.compartment.id}"
   vcn_id           = "${module.vcn.vcn_id}"
@@ -75,8 +69,6 @@ module "sql_subnets" {
 module "witness_subnets" {
   dns_label  = "Witness"
   cidr_block = "${local.Witness_subnets_cidrs}"
-
-  # Constants
   source           = "./modules/network/subnet"
   compartment_ocid = "${module.compartment.id}"
   vcn_id           = "${module.vcn.vcn_id}"
@@ -91,7 +83,6 @@ module "witness_subnets" {
 }
 
 module "volumes" {
-  # Constants
   source             = "./modules/storage/volume"
   compartment_ocid   = "${module.compartment.id}"
   ad_count           = "${var.ad_count}"
@@ -108,30 +99,26 @@ module "volumes" {
 module "dmz_hosts" {
   dns_label = "Bastion"
   subnets   = "${module.dmz_subnets.subnet_id}"
-
-  # Constants
   source         = "./modules/instances/bastion/"
   compartment_ocid = "${module.compartment.id}"
   vcn_id         = "${module.vcn.vcn_id}"
   ad_count       = "${var.ad_count}"
   label_prefix   = "${var.label_prefix}"
   tenancy_ocid   = "${var.tenancy_ocid}"
-  image_id       = "${var.image_id}"
+  image_id       = "${var.image_id[var.region]}"
   shape          = "${var.dmz_shape}"
 }
 
 module "admin_hosts" {
   dns_label = "DC"
   subnets   = "${module.admin_subnets.subnet_id}"
-
-  # Constants
   source         = "./modules/instances/active_directory/"
   compartment_ocid = "${module.compartment.id}"
   vcn_id         = "${module.vcn.vcn_id}"
   ad_count       = "${var.ad_count}"
   label_prefix   = "${var.label_prefix}"
   tenancy_ocid   = "${var.tenancy_ocid}"
-  image_id       = "${var.image_id}"
+  image_id       = "${var.image_id[var.region]}"
   shape          = "${var.admin_shape}"
 }
 
@@ -139,14 +126,12 @@ module "sql_hosts" {
   dns_label = "SQL"
   ad_count  = "${var.ad_count}"
   subnets   = "${module.sql_subnets.subnet_id}"
-
-  # Constants
   source         = "./modules/instances/sql/"
   compartment_ocid = "${module.compartment.id}"
   vcn_id         = "${module.vcn.vcn_id}"
   label_prefix   = "${var.label_prefix}"
   tenancy_ocid   = "${var.tenancy_ocid}"
-  image_id       = "${var.image_id}"
+  image_id       = "${var.image_id[var.region]}"
   shape          = "${var.sql_shape}"
   db_volumes     = "${module.volumes.sql_db_id}"
   log_volumes    = "${module.volumes.sql_log_id}"
@@ -156,15 +141,13 @@ module "sql_hosts" {
 module "witness_hosts" {
   dns_label = "WITNESS"
   subnets   = "${module.witness_subnets.subnet_id}"
-
-  # Constants
   source          = "./modules/instances/witness/"
   compartment_ocid  = "${module.compartment.id}"
   vcn_id          = "${module.vcn.vcn_id}"
   ad_count        = "${var.ad_count}"
   label_prefix    = "${var.label_prefix}"
   tenancy_ocid    = "${var.tenancy_ocid}"
-  image_id        = "${var.image_id}"
+  image_id        = "${var.image_id[var.region]}"
   shape           = "${var.witness_shape}"
   witness_volumes = "${module.volumes.witness_id}"
   ad_deployment   = "${var.witness_deployment}"
@@ -173,8 +156,6 @@ module "witness_hosts" {
 module "secondaryIPs" {
   dns_label = "SQL"
   subnets   = "${module.sql_subnets.subnet_id}"
-
-  # Constants
   source         = "./modules/network/secondaryip/"
   compartment_ocid = "${module.compartment.id}"
   vcn_id         = "${module.vcn.vcn_id}"

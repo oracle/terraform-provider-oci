@@ -1,11 +1,19 @@
+#     ___  ____     _    ____ _     _____
+#    / _ \|  _ \   / \  / ___| |   | ____|
+#   | | | | |_) | / _ \| |   | |   |  _|
+#   | |_| |  _ < / ___ | |___| |___| |___
+#    \___/|_| \_/_/   \_\____|_____|_____|
+
+
+
 Solution: MS SQL Always On.
 
-This Terraform template implements the infrastructure needed to fully deploy a cross AD, MS SQL Always On cluster.  The cluster can be spread across either 2 or 3 ADs, depending on your needs/preferences, but cannot be located in a single AD.
+This Terraform template implements the infrastructure needed to fully deploy an MS SQL Always On cluster across availability domains.  The cluster can be spread across either 2 or 3 ADs, depending on your requirements, but cannot be located in a single AD.
 
 The template is configured by modifying the variables contained in two files:
 
-configuration.tf - generalized configuration for the environment as a whole.
-sql.tf - configuration specific to the implementation of MS SQL Always On.
+- configuration.tf - generalized configuration for the environment as a whole.
+- sql.tf - configuration specific to the implementation of MS SQL Always On.
 
 To configure, simply edit these two files, apply values that are appropriate to your environment, and run 'terraform plan; terraform apply'.  Before attempting to run the template, setup your environment by performing the following:
 
@@ -18,7 +26,7 @@ To configure, simply edit these two files, apply values that are appropriate to 
 Some items of note:
 
 - This has only been tested using Windows 2012 R2 images.  The template and accompanying whitepaper has not been deployed using Windows 2016 Datacenter within the OCI environment.
-- The image OCID listed in the configuration.tf file is the one used for testing.  You should update this with the image OCID of the latest revision of Windows 2012 R2.
+- The image OCID listed in the configuration.tf file is the one used for testing.  You should update this with the image OCID of the latest revision of Windows 2012 R2.  For a list of image OCIDs, see https://docs.us-phoenix-1.oraclecloud.com/Content/Resources/Assets/OracleProvidedImageOCIDs.pdf
 - If you choose *NOT* to specify an existing compartment in which to deploy MS SQL Always On, one will be created for you.  Understand that compartments, once created, *CANNOT* be destroyed.
 - Do not edit any of the files other than configuration.tf and sql.tf. Look, but touch at your own peril.
 - The template itself has been tested against Terraform version 0.11.3 and OCI Provider 2.0.6.  Running against older versions of both Terraform and the provider may provide unpredicable results.

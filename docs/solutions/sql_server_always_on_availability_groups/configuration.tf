@@ -2,11 +2,20 @@
 # Set variables here to meet your needs within your particular environment
 # Check both this file and sql.tf!
 
-# image_id - OCID of the Windows image to use.
-# BE SURE TO UPDATE WITH MOST CURRENT IMAGE.
+# image_id - OCID of the Windows image to use.  This image is the basis for 
+# all instances deployed for  SQL Always On
+# BE SURE TO UPDATE WITH MOST CURRENT LIST OF WINDOWS 2012 or 2016 IMAGES.
 variable "image_id" {
-  default = "ocid1.image.oc1.iad.aaaaaaaajlfsi5npxguvhad3v5d5lu7dc3zcylr2csfdexgd6kor3f6zeqeq"
+  type = "map"
+  default = {
+	us-phoenix-1 = "ocid1.image.oc1.phx.aaaaaaaak7y2ojnh6uteltilfcoziymglfordtitx5pixefkymlcxhjjf67q"
+	us-ashburn-1 = "ocid1.image.oc1.iad.aaaaaaaad53p62uzibzsj6gm7szrbbtap6acgev7funbo7ghr2stcrholqxa"
+	eu-frankfurt-1 = "ocid1.image.oc1.eu-frankfurt1.aaaaaaaabd3goasbc74pfphlyysurtvgox55ryngz5r6tpwnpkx5kddvud6q"
+	}
 }
+
+
+
 
 # vcn_dns_name - Set the domain zone, e.g. <vcn_dns_name>.oraclevcn.com .
 variable "vcn_dns_name" {
