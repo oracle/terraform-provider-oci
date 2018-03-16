@@ -11,4 +11,3 @@ export TF_VAR_private_key_password=<Private key password, if set, otherwise "">
 # Additional information required by TF template
 export TF_VAR_home_region=<Home Region - may be different than above>
 export TF_VAR_ssh_public_key=<public portion of SSH key used to log into instance>
-export TF_VAR_image_id=<Windows image OCID to use for SQL deployment>

@@ -5,6 +5,7 @@
 # image_id - OCID of the Windows image to use.  This image is the basis for 
 # all instances deployed for  SQL Always On
 # BE SURE TO UPDATE WITH MOST CURRENT LIST OF WINDOWS 2012 or 2016 IMAGES.
+# These are the current images for Windows 2012 R2.
 variable "image_id" {
   type = "map"
   default = {
