@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# OCI Account authentication information
+export TF_VAR_tenancy_ocid=<Tenancy OCID>
+export TF_VAR_user_ocid=<OCI User OCID that will deploy SQL AO>
+export TF_VAR_region=<Region to deploy SQL AO>
+export TF_VAR_private_key_path=<Private portion of API key associated with user>
+export TF_VAR_fingerprint=<Fingerprint of public portion of API key>
+export TF_VAR_private_key_password=<Private key password, if set, otherwise "">
+
+# Additional information required by TF template
+export TF_VAR_home_region=<Home Region - may be different than above>
+export TF_VAR_ssh_public_key=<public portion of SSH key used to log into instance>
