@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 // Identity and Access Management Service API
@@ -54,7 +54,6 @@ const (
 	UserGroupMembershipLifecycleStateInactive UserGroupMembershipLifecycleStateEnum = "INACTIVE"
 	UserGroupMembershipLifecycleStateDeleting UserGroupMembershipLifecycleStateEnum = "DELETING"
 	UserGroupMembershipLifecycleStateDeleted  UserGroupMembershipLifecycleStateEnum = "DELETED"
-	UserGroupMembershipLifecycleStateUnknown  UserGroupMembershipLifecycleStateEnum = "UNKNOWN"
 )
 
 var mappingUserGroupMembershipLifecycleState = map[string]UserGroupMembershipLifecycleStateEnum{
@@ -63,16 +62,13 @@ var mappingUserGroupMembershipLifecycleState = map[string]UserGroupMembershipLif
 	"INACTIVE": UserGroupMembershipLifecycleStateInactive,
 	"DELETING": UserGroupMembershipLifecycleStateDeleting,
 	"DELETED":  UserGroupMembershipLifecycleStateDeleted,
-	"UNKNOWN":  UserGroupMembershipLifecycleStateUnknown,
 }
 
 // GetUserGroupMembershipLifecycleStateEnumValues Enumerates the set of values for UserGroupMembershipLifecycleState
 func GetUserGroupMembershipLifecycleStateEnumValues() []UserGroupMembershipLifecycleStateEnum {
 	values := make([]UserGroupMembershipLifecycleStateEnum, 0)
 	for _, v := range mappingUserGroupMembershipLifecycleState {
-		if v != UserGroupMembershipLifecycleStateUnknown {
-			values = append(values, v)
-		}
+		values = append(values, v)
 	}
 	return values
 }

@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 // Database Service API
@@ -13,14 +13,14 @@ import (
 )
 
 // DbSystem The Database Service supports several types of DB Systems, ranging in size, price, and performance. For details about each type of system, see:
-// - [Exadata DB Systems]({{DOC_SERVER_URL}}/Content/Database/Concepts/exaoverview.htm)
-// - [Bare Metal or VM DB Systems]({{DOC_SERVER_URL}}/Content/Database/Concepts/overview.htm)
-// To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized, talk to an administrator. If you're an administrator who needs to write policies to give users access, see [Getting Started with Policies]({{DOC_SERVER_URL}}/Content/Identity/Concepts/policygetstarted.htm).
+// - Exadata DB Systems (https://docs.us-phoenix-1.oraclecloud.com/Content/Database/Concepts/exaoverview.htm)
+// - Bare Metal or VM DB Systems (https://docs.us-phoenix-1.oraclecloud.com/Content/Database/Concepts/overview.htm)
+// To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized, talk to an administrator. If you're an administrator who needs to write policies to give users access, see Getting Started with Policies (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/policygetstarted.htm).
 //
 // For information about access control and compartments, see
-// [Overview of the Identity Service]({{DOC_SERVER_URL}}/Content/Identity/Concepts/overview.htm).
+// Overview of the Identity Service (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/overview.htm).
 // For information about Availability Domains, see
-// [Regions and Availability Domains]({{DOC_SERVER_URL}}/Content/General/Concepts/regions.htm).
+// Regions and Availability Domains (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/regions.htm).
 // To get a list of Availability Domains, use the `ListAvailabilityDomains` operation
 // in the Identity Service API.
 type DbSystem struct {
@@ -85,13 +85,13 @@ type DbSystem struct {
 	// The type of redundancy configured for the DB System.
 	// Normal is 2-way redundancy.
 	// High is 3-way redundancy.
-	DiskRedundancy DbSystemDiskRedundancyEnum `mandatory:"false" json:"diskRedundancy"`
+	DiskRedundancy DbSystemDiskRedundancyEnum `mandatory:"false" json:"diskRedundancy,omitempty"`
 
 	// The OCID of the last patch history. This is updated as soon as a patch operation is started.
 	LastPatchHistoryEntryId *string `mandatory:"false" json:"lastPatchHistoryEntryId"`
 
 	// The Oracle license model that applies to all the databases on the DB System. The default is LICENSE_INCLUDED.
-	LicenseModel DbSystemLicenseModelEnum `mandatory:"false" json:"licenseModel"`
+	LicenseModel DbSystemLicenseModelEnum `mandatory:"false" json:"licenseModel,omitempty"`
 
 	// Additional information about the current lifecycleState.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
@@ -140,7 +140,6 @@ const (
 	DbSystemDatabaseEditionEnterpriseEdition                   DbSystemDatabaseEditionEnum = "ENTERPRISE_EDITION"
 	DbSystemDatabaseEditionEnterpriseEditionExtremePerformance DbSystemDatabaseEditionEnum = "ENTERPRISE_EDITION_EXTREME_PERFORMANCE"
 	DbSystemDatabaseEditionEnterpriseEditionHighPerformance    DbSystemDatabaseEditionEnum = "ENTERPRISE_EDITION_HIGH_PERFORMANCE"
-	DbSystemDatabaseEditionUnknown                             DbSystemDatabaseEditionEnum = "UNKNOWN"
 )
 
 var mappingDbSystemDatabaseEdition = map[string]DbSystemDatabaseEditionEnum{
@@ -148,16 +147,13 @@ var mappingDbSystemDatabaseEdition = map[string]DbSystemDatabaseEditionEnum{
 	"ENTERPRISE_EDITION":                     DbSystemDatabaseEditionEnterpriseEdition,
 	"ENTERPRISE_EDITION_EXTREME_PERFORMANCE": DbSystemDatabaseEditionEnterpriseEditionExtremePerformance,
 	"ENTERPRISE_EDITION_HIGH_PERFORMANCE":    DbSystemDatabaseEditionEnterpriseEditionHighPerformance,
-	"UNKNOWN": DbSystemDatabaseEditionUnknown,
 }
 
 // GetDbSystemDatabaseEditionEnumValues Enumerates the set of values for DbSystemDatabaseEdition
 func GetDbSystemDatabaseEditionEnumValues() []DbSystemDatabaseEditionEnum {
 	values := make([]DbSystemDatabaseEditionEnum, 0)
 	for _, v := range mappingDbSystemDatabaseEdition {
-		if v != DbSystemDatabaseEditionUnknown {
-			values = append(values, v)
-		}
+		values = append(values, v)
 	}
 	return values
 }
@@ -167,24 +163,20 @@ type DbSystemDiskRedundancyEnum string
 
 // Set of constants representing the allowable values for DbSystemDiskRedundancy
 const (
-	DbSystemDiskRedundancyHigh    DbSystemDiskRedundancyEnum = "HIGH"
-	DbSystemDiskRedundancyNormal  DbSystemDiskRedundancyEnum = "NORMAL"
-	DbSystemDiskRedundancyUnknown DbSystemDiskRedundancyEnum = "UNKNOWN"
+	DbSystemDiskRedundancyHigh   DbSystemDiskRedundancyEnum = "HIGH"
+	DbSystemDiskRedundancyNormal DbSystemDiskRedundancyEnum = "NORMAL"
 )
 
 var mappingDbSystemDiskRedundancy = map[string]DbSystemDiskRedundancyEnum{
-	"HIGH":    DbSystemDiskRedundancyHigh,
-	"NORMAL":  DbSystemDiskRedundancyNormal,
-	"UNKNOWN": DbSystemDiskRedundancyUnknown,
+	"HIGH":   DbSystemDiskRedundancyHigh,
+	"NORMAL": DbSystemDiskRedundancyNormal,
 }
 
 // GetDbSystemDiskRedundancyEnumValues Enumerates the set of values for DbSystemDiskRedundancy
 func GetDbSystemDiskRedundancyEnumValues() []DbSystemDiskRedundancyEnum {
 	values := make([]DbSystemDiskRedundancyEnum, 0)
 	for _, v := range mappingDbSystemDiskRedundancy {
-		if v != DbSystemDiskRedundancyUnknown {
-			values = append(values, v)
-		}
+		values = append(values, v)
 	}
 	return values
 }
@@ -196,22 +188,18 @@ type DbSystemLicenseModelEnum string
 const (
 	DbSystemLicenseModelLicenseIncluded     DbSystemLicenseModelEnum = "LICENSE_INCLUDED"
 	DbSystemLicenseModelBringYourOwnLicense DbSystemLicenseModelEnum = "BRING_YOUR_OWN_LICENSE"
-	DbSystemLicenseModelUnknown             DbSystemLicenseModelEnum = "UNKNOWN"
 )
 
 var mappingDbSystemLicenseModel = map[string]DbSystemLicenseModelEnum{
 	"LICENSE_INCLUDED":       DbSystemLicenseModelLicenseIncluded,
 	"BRING_YOUR_OWN_LICENSE": DbSystemLicenseModelBringYourOwnLicense,
-	"UNKNOWN":                DbSystemLicenseModelUnknown,
 }
 
 // GetDbSystemLicenseModelEnumValues Enumerates the set of values for DbSystemLicenseModel
 func GetDbSystemLicenseModelEnumValues() []DbSystemLicenseModelEnum {
 	values := make([]DbSystemLicenseModelEnum, 0)
 	for _, v := range mappingDbSystemLicenseModel {
-		if v != DbSystemLicenseModelUnknown {
-			values = append(values, v)
-		}
+		values = append(values, v)
 	}
 	return values
 }
@@ -227,7 +215,6 @@ const (
 	DbSystemLifecycleStateTerminating  DbSystemLifecycleStateEnum = "TERMINATING"
 	DbSystemLifecycleStateTerminated   DbSystemLifecycleStateEnum = "TERMINATED"
 	DbSystemLifecycleStateFailed       DbSystemLifecycleStateEnum = "FAILED"
-	DbSystemLifecycleStateUnknown      DbSystemLifecycleStateEnum = "UNKNOWN"
 )
 
 var mappingDbSystemLifecycleState = map[string]DbSystemLifecycleStateEnum{
@@ -237,16 +224,13 @@ var mappingDbSystemLifecycleState = map[string]DbSystemLifecycleStateEnum{
 	"TERMINATING":  DbSystemLifecycleStateTerminating,
 	"TERMINATED":   DbSystemLifecycleStateTerminated,
 	"FAILED":       DbSystemLifecycleStateFailed,
-	"UNKNOWN":      DbSystemLifecycleStateUnknown,
 }
 
 // GetDbSystemLifecycleStateEnumValues Enumerates the set of values for DbSystemLifecycleState
 func GetDbSystemLifecycleStateEnumValues() []DbSystemLifecycleStateEnum {
 	values := make([]DbSystemLifecycleStateEnum, 0)
 	for _, v := range mappingDbSystemLifecycleState {
-		if v != DbSystemLifecycleStateUnknown {
-			values = append(values, v)
-		}
+		values = append(values, v)
 	}
 	return values
 }

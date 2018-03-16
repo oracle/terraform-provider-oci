@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 package loadbalancer
@@ -11,7 +11,7 @@ import (
 // GetBackendRequest wrapper for the GetBackend operation
 type GetBackendRequest struct {
 
-	// The [OCID]({{DOC_SERVER_URL}}/Content/General/Concepts/identifiers.htm) of the load balancer associated with the backend set and server.
+	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the load balancer associated with the backend set and server.
 	LoadBalancerId *string `mandatory:"true" contributesTo:"path" name:"loadBalancerId"`
 
 	// The name of the backend set that includes the backend server.

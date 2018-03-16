@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 // Database Service API
@@ -28,7 +28,7 @@ type CreateDatabaseDetails struct {
 	DbBackupConfig *DbBackupConfig `mandatory:"false" json:"dbBackupConfig"`
 
 	// Database workload type.
-	DbWorkload CreateDatabaseDetailsDbWorkloadEnum `mandatory:"false" json:"dbWorkload"`
+	DbWorkload CreateDatabaseDetailsDbWorkloadEnum `mandatory:"false" json:"dbWorkload,omitempty"`
 
 	// National character set for the database.  The default is AL16UTF16. Allowed values are:
 	// AL16UTF16 or UTF8.
@@ -47,24 +47,20 @@ type CreateDatabaseDetailsDbWorkloadEnum string
 
 // Set of constants representing the allowable values for CreateDatabaseDetailsDbWorkload
 const (
-	CreateDatabaseDetailsDbWorkloadOltp    CreateDatabaseDetailsDbWorkloadEnum = "OLTP"
-	CreateDatabaseDetailsDbWorkloadDss     CreateDatabaseDetailsDbWorkloadEnum = "DSS"
-	CreateDatabaseDetailsDbWorkloadUnknown CreateDatabaseDetailsDbWorkloadEnum = "UNKNOWN"
+	CreateDatabaseDetailsDbWorkloadOltp CreateDatabaseDetailsDbWorkloadEnum = "OLTP"
+	CreateDatabaseDetailsDbWorkloadDss  CreateDatabaseDetailsDbWorkloadEnum = "DSS"
 )
 
 var mappingCreateDatabaseDetailsDbWorkload = map[string]CreateDatabaseDetailsDbWorkloadEnum{
-	"OLTP":    CreateDatabaseDetailsDbWorkloadOltp,
-	"DSS":     CreateDatabaseDetailsDbWorkloadDss,
-	"UNKNOWN": CreateDatabaseDetailsDbWorkloadUnknown,
+	"OLTP": CreateDatabaseDetailsDbWorkloadOltp,
+	"DSS":  CreateDatabaseDetailsDbWorkloadDss,
 }
 
 // GetCreateDatabaseDetailsDbWorkloadEnumValues Enumerates the set of values for CreateDatabaseDetailsDbWorkload
 func GetCreateDatabaseDetailsDbWorkloadEnumValues() []CreateDatabaseDetailsDbWorkloadEnum {
 	values := make([]CreateDatabaseDetailsDbWorkloadEnum, 0)
 	for _, v := range mappingCreateDatabaseDetailsDbWorkload {
-		if v != CreateDatabaseDetailsDbWorkloadUnknown {
-			values = append(values, v)
-		}
+		values = append(values, v)
 	}
 	return values
 }

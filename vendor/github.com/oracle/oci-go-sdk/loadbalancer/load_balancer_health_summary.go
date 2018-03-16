@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 // Load Balancing Service API
@@ -15,7 +15,7 @@ import (
 // LoadBalancerHealthSummary A health status summary for the specified load balancer.
 type LoadBalancerHealthSummary struct {
 
-	// The [OCID]({{DOC_SERVER_URL}}/Content/General/Concepts/identifiers.htm) of the load balancer the health status is associated with.
+	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the load balancer the health status is associated with.
 	LoadBalancerId *string `mandatory:"true" json:"loadBalancerId"`
 
 	// The overall health status of the load balancer.

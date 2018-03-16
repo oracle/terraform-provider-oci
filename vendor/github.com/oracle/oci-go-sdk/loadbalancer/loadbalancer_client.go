@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 // Load Balancing Service API
@@ -144,28 +144,50 @@ func (client LoadBalancerClient) CreateListener(ctx context.Context, request Cre
 }
 
 // CreateLoadBalancer Creates a new load balancer in the specified compartment. For general information about load balancers,
-// see [Overview of the Load Balancing Service]({{DOC_SERVER_URL}}/Content/Balance/Concepts/balanceoverview.htm).
+// see Overview of the Load Balancing Service (https://docs.us-phoenix-1.oraclecloud.com/Content/Balance/Concepts/balanceoverview.htm).
 // For the purposes of access control, you must provide the OCID of the compartment where you want
 // the load balancer to reside. Notice that the load balancer doesn't have to be in the same compartment as the VCN
 // or backend set. If you're not sure which compartment to use, put the load balancer in the same compartment as the VCN.
 // For information about access control and compartments, see
-// [Overview of the IAM Service]({{DOC_SERVER_URL}}/Content/Identity/Concepts/overview.htm).
+// Overview of the IAM Service (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/overview.htm).
 // You must specify a display name for the load balancer. It does not have to be unique, and you can change it.
 // For information about Availability Domains, see
-// [Regions and Availability Domains]({{DOC_SERVER_URL}}/Content/General/Concepts/regions.htm).
+// Regions and Availability Domains (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/regions.htm).
 // To get a list of Availability Domains, use the `ListAvailabilityDomains` operation
 // in the Identity and Access Management Service API.
 // All Oracle Cloud Infrastructure resources, including load balancers, get an Oracle-assigned,
 // unique ID called an Oracle Cloud Identifier (OCID). When you create a resource, you can find its OCID
 // in the response. You can also retrieve a resource's OCID by using a List API operation on that resource type,
 // or by viewing the resource in the Console. Fore more information, see
-// [Resource Identifiers]({{DOC_SERVER_URL}}/Content/General/Concepts/identifiers.htm).
+// Resource Identifiers (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
 // After you send your request, the new object's state will temporarily be PROVISIONING. Before using the
 // object, first make sure its state has changed to RUNNING.
 // When you create a load balancer, the system assigns an IP address.
 // To get the IP address, use the GetLoadBalancer operation.
 func (client LoadBalancerClient) CreateLoadBalancer(ctx context.Context, request CreateLoadBalancerRequest, options ...common.RetryPolicyOption) (response CreateLoadBalancerResponse, err error) {
 	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodPost, "/loadBalancers", request)
+	if err != nil {
+		return
+	}
+
+	err = client.Call(ctx, &httpRequest, common.CallConfig{
+		ResponseCallback: func(httpResponse *http.Response, e error) error {
+			response.RawResponse = httpResponse
+			if e != nil {
+				return e
+			}
+
+			return common.UnmarshalResponse(httpResponse, &response)
+		},
+		RetryPolicyOptions: options,
+	})
+	return
+}
+
+// CreatePathRouteSet Adds a path route set to a load balancer. For more information, see
+// Managing Request Routing (https://docs.us-phoenix-1.oraclecloud.com/Content/Balance/Tasks/managingrequest.htm).
+func (client LoadBalancerClient) CreatePathRouteSet(ctx context.Context, request CreatePathRouteSetRequest, options ...common.RetryPolicyOption) (response CreatePathRouteSetResponse, err error) {
+	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodPost, "/loadBalancers/{loadBalancerId}/pathRouteSets", request)
 	if err != nil {
 		return
 	}
@@ -272,6 +294,29 @@ func (client LoadBalancerClient) DeleteListener(ctx context.Context, request Del
 // DeleteLoadBalancer Stops a load balancer and removes it from service.
 func (client LoadBalancerClient) DeleteLoadBalancer(ctx context.Context, request DeleteLoadBalancerRequest, options ...common.RetryPolicyOption) (response DeleteLoadBalancerResponse, err error) {
 	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodDelete, "/loadBalancers/{loadBalancerId}", request)
+	if err != nil {
+		return
+	}
+
+	err = client.Call(ctx, &httpRequest, common.CallConfig{
+		ResponseCallback: func(httpResponse *http.Response, e error) error {
+			response.RawResponse = httpResponse
+			if e != nil {
+				return e
+			}
+
+			return common.UnmarshalResponse(httpResponse, &response)
+		},
+		RetryPolicyOptions: options,
+	})
+	return
+}
+
+// DeletePathRouteSet Deletes a path route set from the specified load balancer.
+// To delete a path route rule from a path route set, use the
+// UpdatePathRouteSet operation.
+func (client LoadBalancerClient) DeletePathRouteSet(ctx context.Context, request DeletePathRouteSetRequest, options ...common.RetryPolicyOption) (response DeletePathRouteSetResponse, err error) {
+	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodDelete, "/loadBalancers/{loadBalancerId}/pathRouteSets/{pathRouteSetName}", request)
 	if err != nil {
 		return
 	}
@@ -437,6 +482,27 @@ func (client LoadBalancerClient) GetLoadBalancerHealth(ctx context.Context, requ
 	return
 }
 
+// GetPathRouteSet Gets the specified path route set's configuration information.
+func (client LoadBalancerClient) GetPathRouteSet(ctx context.Context, request GetPathRouteSetRequest, options ...common.RetryPolicyOption) (response GetPathRouteSetResponse, err error) {
+	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodGet, "/loadBalancers/{loadBalancerId}/pathRouteSets/{pathRouteSetName}", request)
+	if err != nil {
+		return
+	}
+
+	err = client.Call(ctx, &httpRequest, common.CallConfig{
+		ResponseCallback: func(httpResponse *http.Response, e error) error {
+			response.RawResponse = httpResponse
+			if e != nil {
+				return e
+			}
+
+			return common.UnmarshalResponse(httpResponse, &response)
+		},
+		RetryPolicyOptions: options,
+	})
+	return
+}
+
 // GetWorkRequest Gets the details of a work request.
 func (client LoadBalancerClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest, options ...common.RetryPolicyOption) (response GetWorkRequestResponse, err error) {
 	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodGet, "/loadBalancerWorkRequests/{workRequestId}", request)
@@ -545,6 +611,27 @@ func (client LoadBalancerClient) ListLoadBalancerHealths(ctx context.Context, re
 // ListLoadBalancers Lists all load balancers in the specified compartment.
 func (client LoadBalancerClient) ListLoadBalancers(ctx context.Context, request ListLoadBalancersRequest, options ...common.RetryPolicyOption) (response ListLoadBalancersResponse, err error) {
 	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodGet, "/loadBalancers", request)
+	if err != nil {
+		return
+	}
+
+	err = client.Call(ctx, &httpRequest, common.CallConfig{
+		ResponseCallback: func(httpResponse *http.Response, e error) error {
+			response.RawResponse = httpResponse
+			if e != nil {
+				return e
+			}
+
+			return common.UnmarshalResponse(httpResponse, &response)
+		},
+		RetryPolicyOptions: options,
+	})
+	return
+}
+
+// ListPathRouteSets Lists all path route sets associated with the specified load balancer.
+func (client LoadBalancerClient) ListPathRouteSets(ctx context.Context, request ListPathRouteSetsRequest, options ...common.RetryPolicyOption) (response ListPathRouteSetsResponse, err error) {
+	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodGet, "/loadBalancers/{loadBalancerId}/pathRouteSets", request)
 	if err != nil {
 		return
 	}
@@ -734,6 +821,31 @@ func (client LoadBalancerClient) UpdateListener(ctx context.Context, request Upd
 // UpdateLoadBalancer Updates a load balancer's configuration.
 func (client LoadBalancerClient) UpdateLoadBalancer(ctx context.Context, request UpdateLoadBalancerRequest, options ...common.RetryPolicyOption) (response UpdateLoadBalancerResponse, err error) {
 	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodPut, "/loadBalancers/{loadBalancerId}", request)
+	if err != nil {
+		return
+	}
+
+	err = client.Call(ctx, &httpRequest, common.CallConfig{
+		ResponseCallback: func(httpResponse *http.Response, e error) error {
+			response.RawResponse = httpResponse
+			if e != nil {
+				return e
+			}
+
+			return common.UnmarshalResponse(httpResponse, &response)
+		},
+		RetryPolicyOptions: options,
+	})
+	return
+}
+
+// UpdatePathRouteSet Overwrites an existing path route set on the specified load balancer. Use this operation to add, delete, or alter
+// path route rules in a path route set.
+// To add a new path route rule to a path route set, the `pathRoutes` in the
+// UpdatePathRouteSetDetails object must include
+// both the new path route rule to add and the existing path route rules to retain.
+func (client LoadBalancerClient) UpdatePathRouteSet(ctx context.Context, request UpdatePathRouteSetRequest, options ...common.RetryPolicyOption) (response UpdatePathRouteSetResponse, err error) {
+	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodPut, "/loadBalancers/{loadBalancerId}/pathRouteSets/{pathRouteSetName}", request)
 	if err != nil {
 		return
 	}

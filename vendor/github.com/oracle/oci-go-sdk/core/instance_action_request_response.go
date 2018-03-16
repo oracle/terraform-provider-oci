@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 package core
@@ -64,7 +64,6 @@ const (
 	InstanceActionActionStart     InstanceActionActionEnum = "START"
 	InstanceActionActionSoftreset InstanceActionActionEnum = "SOFTRESET"
 	InstanceActionActionReset     InstanceActionActionEnum = "RESET"
-	InstanceActionActionUnknown   InstanceActionActionEnum = "UNKNOWN"
 )
 
 var mappingInstanceActionAction = map[string]InstanceActionActionEnum{
@@ -72,16 +71,13 @@ var mappingInstanceActionAction = map[string]InstanceActionActionEnum{
 	"START":     InstanceActionActionStart,
 	"SOFTRESET": InstanceActionActionSoftreset,
 	"RESET":     InstanceActionActionReset,
-	"UNKNOWN":   InstanceActionActionUnknown,
 }
 
 // GetInstanceActionActionEnumValues Enumerates the set of values for InstanceActionAction
 func GetInstanceActionActionEnumValues() []InstanceActionActionEnum {
 	values := make([]InstanceActionActionEnum, 0)
 	for _, v := range mappingInstanceActionAction {
-		if v != InstanceActionActionUnknown {
-			values = append(values, v)
-		}
+		values = append(values, v)
 	}
 	return values
 }

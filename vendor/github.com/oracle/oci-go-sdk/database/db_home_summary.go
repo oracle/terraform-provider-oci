@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 // Database Service API
@@ -15,10 +15,10 @@ import (
 // DbHomeSummary A directory where Oracle database software is installed. Each DB System can have multiple database homes,
 // and each database home can have multiple databases within it. All the databases within a single database home
 // must be the same database version, but different database homes can run different versions. For more information,
-// see [Managing Oracle Databases]({{DOC_SERVER_URL}}/Content/Database/Concepts/overview.htm).
+// see Managing Oracle Databases (https://docs.us-phoenix-1.oraclecloud.com/Content/Database/Concepts/overview.htm).
 // To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized, talk to an
 // administrator. If you're an administrator who needs to write policies to give users access,
-// see [Getting Started with Policies]({{DOC_SERVER_URL}}/Content/Identity/Concepts/policygetstarted.htm).
+// see Getting Started with Policies (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/policygetstarted.htm).
 type DbHomeSummary struct {
 
 	// The OCID of the compartment.
@@ -61,7 +61,6 @@ const (
 	DbHomeSummaryLifecycleStateTerminating  DbHomeSummaryLifecycleStateEnum = "TERMINATING"
 	DbHomeSummaryLifecycleStateTerminated   DbHomeSummaryLifecycleStateEnum = "TERMINATED"
 	DbHomeSummaryLifecycleStateFailed       DbHomeSummaryLifecycleStateEnum = "FAILED"
-	DbHomeSummaryLifecycleStateUnknown      DbHomeSummaryLifecycleStateEnum = "UNKNOWN"
 )
 
 var mappingDbHomeSummaryLifecycleState = map[string]DbHomeSummaryLifecycleStateEnum{
@@ -71,16 +70,13 @@ var mappingDbHomeSummaryLifecycleState = map[string]DbHomeSummaryLifecycleStateE
 	"TERMINATING":  DbHomeSummaryLifecycleStateTerminating,
 	"TERMINATED":   DbHomeSummaryLifecycleStateTerminated,
 	"FAILED":       DbHomeSummaryLifecycleStateFailed,
-	"UNKNOWN":      DbHomeSummaryLifecycleStateUnknown,
 }
 
 // GetDbHomeSummaryLifecycleStateEnumValues Enumerates the set of values for DbHomeSummaryLifecycleState
 func GetDbHomeSummaryLifecycleStateEnumValues() []DbHomeSummaryLifecycleStateEnum {
 	values := make([]DbHomeSummaryLifecycleStateEnum, 0)
 	for _, v := range mappingDbHomeSummaryLifecycleState {
-		if v != DbHomeSummaryLifecycleStateUnknown {
-			values = append(values, v)
-		}
+		values = append(values, v)
 	}
 	return values
 }

@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 package database
@@ -11,7 +11,7 @@ import (
 // DbNodeActionRequest wrapper for the DbNodeAction operation
 type DbNodeActionRequest struct {
 
-	// The database node [OCID]({{DOC_SERVER_URL}}/Content/General/Concepts/identifiers.htm).
+	// The database node OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
 	DbNodeId *string `mandatory:"true" contributesTo:"path" name:"dbNodeId"`
 
 	// The action to perform on the DB Node.
@@ -64,7 +64,6 @@ const (
 	DbNodeActionActionStart     DbNodeActionActionEnum = "START"
 	DbNodeActionActionSoftreset DbNodeActionActionEnum = "SOFTRESET"
 	DbNodeActionActionReset     DbNodeActionActionEnum = "RESET"
-	DbNodeActionActionUnknown   DbNodeActionActionEnum = "UNKNOWN"
 )
 
 var mappingDbNodeActionAction = map[string]DbNodeActionActionEnum{
@@ -72,16 +71,13 @@ var mappingDbNodeActionAction = map[string]DbNodeActionActionEnum{
 	"START":     DbNodeActionActionStart,
 	"SOFTRESET": DbNodeActionActionSoftreset,
 	"RESET":     DbNodeActionActionReset,
-	"UNKNOWN":   DbNodeActionActionUnknown,
 }
 
 // GetDbNodeActionActionEnumValues Enumerates the set of values for DbNodeActionAction
 func GetDbNodeActionActionEnumValues() []DbNodeActionActionEnum {
 	values := make([]DbNodeActionActionEnum, 0)
 	for _, v := range mappingDbNodeActionAction {
-		if v != DbNodeActionActionUnknown {
-			values = append(values, v)
-		}
+		values = append(values, v)
 	}
 	return values
 }

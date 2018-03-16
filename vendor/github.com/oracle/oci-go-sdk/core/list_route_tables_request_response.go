@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 package core
@@ -78,22 +78,18 @@ type ListRouteTablesSortByEnum string
 const (
 	ListRouteTablesSortByTimecreated ListRouteTablesSortByEnum = "TIMECREATED"
 	ListRouteTablesSortByDisplayname ListRouteTablesSortByEnum = "DISPLAYNAME"
-	ListRouteTablesSortByUnknown     ListRouteTablesSortByEnum = "UNKNOWN"
 )
 
 var mappingListRouteTablesSortBy = map[string]ListRouteTablesSortByEnum{
 	"TIMECREATED": ListRouteTablesSortByTimecreated,
 	"DISPLAYNAME": ListRouteTablesSortByDisplayname,
-	"UNKNOWN":     ListRouteTablesSortByUnknown,
 }
 
 // GetListRouteTablesSortByEnumValues Enumerates the set of values for ListRouteTablesSortBy
 func GetListRouteTablesSortByEnumValues() []ListRouteTablesSortByEnum {
 	values := make([]ListRouteTablesSortByEnum, 0)
 	for _, v := range mappingListRouteTablesSortBy {
-		if v != ListRouteTablesSortByUnknown {
-			values = append(values, v)
-		}
+		values = append(values, v)
 	}
 	return values
 }
@@ -103,24 +99,20 @@ type ListRouteTablesSortOrderEnum string
 
 // Set of constants representing the allowable values for ListRouteTablesSortOrder
 const (
-	ListRouteTablesSortOrderAsc     ListRouteTablesSortOrderEnum = "ASC"
-	ListRouteTablesSortOrderDesc    ListRouteTablesSortOrderEnum = "DESC"
-	ListRouteTablesSortOrderUnknown ListRouteTablesSortOrderEnum = "UNKNOWN"
+	ListRouteTablesSortOrderAsc  ListRouteTablesSortOrderEnum = "ASC"
+	ListRouteTablesSortOrderDesc ListRouteTablesSortOrderEnum = "DESC"
 )
 
 var mappingListRouteTablesSortOrder = map[string]ListRouteTablesSortOrderEnum{
-	"ASC":     ListRouteTablesSortOrderAsc,
-	"DESC":    ListRouteTablesSortOrderDesc,
-	"UNKNOWN": ListRouteTablesSortOrderUnknown,
+	"ASC":  ListRouteTablesSortOrderAsc,
+	"DESC": ListRouteTablesSortOrderDesc,
 }
 
 // GetListRouteTablesSortOrderEnumValues Enumerates the set of values for ListRouteTablesSortOrder
 func GetListRouteTablesSortOrderEnumValues() []ListRouteTablesSortOrderEnum {
 	values := make([]ListRouteTablesSortOrderEnum, 0)
 	for _, v := range mappingListRouteTablesSortOrder {
-		if v != ListRouteTablesSortOrderUnknown {
-			values = append(values, v)
-		}
+		values = append(values, v)
 	}
 	return values
 }

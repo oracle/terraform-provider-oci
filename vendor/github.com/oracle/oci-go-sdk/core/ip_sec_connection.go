@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 // Core Services API
@@ -15,10 +15,10 @@ import (
 // IpSecConnection A connection between a DRG and CPE. This connection consists of multiple IPSec
 // tunnels. Creating this connection is one of the steps required when setting up
 // an IPSec VPN. For more information, see
-// [Overview of the Networking Service]({{DOC_SERVER_URL}}/Content/Network/Concepts/overview.htm).
+// Overview of the Networking Service (https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Concepts/overview.htm).
 // To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized,
 // talk to an administrator. If you're an administrator who needs to write policies to give users access, see
-// [Getting Started with Policies]({{DOC_SERVER_URL}}/Content/Identity/Concepts/policygetstarted.htm).
+// Getting Started with Policies (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/policygetstarted.htm).
 type IpSecConnection struct {
 
 	// The OCID of the compartment containing the IPSec connection.
@@ -63,7 +63,6 @@ const (
 	IpSecConnectionLifecycleStateAvailable    IpSecConnectionLifecycleStateEnum = "AVAILABLE"
 	IpSecConnectionLifecycleStateTerminating  IpSecConnectionLifecycleStateEnum = "TERMINATING"
 	IpSecConnectionLifecycleStateTerminated   IpSecConnectionLifecycleStateEnum = "TERMINATED"
-	IpSecConnectionLifecycleStateUnknown      IpSecConnectionLifecycleStateEnum = "UNKNOWN"
 )
 
 var mappingIpSecConnectionLifecycleState = map[string]IpSecConnectionLifecycleStateEnum{
@@ -71,16 +70,13 @@ var mappingIpSecConnectionLifecycleState = map[string]IpSecConnectionLifecycleSt
 	"AVAILABLE":    IpSecConnectionLifecycleStateAvailable,
 	"TERMINATING":  IpSecConnectionLifecycleStateTerminating,
 	"TERMINATED":   IpSecConnectionLifecycleStateTerminated,
-	"UNKNOWN":      IpSecConnectionLifecycleStateUnknown,
 }
 
 // GetIpSecConnectionLifecycleStateEnumValues Enumerates the set of values for IpSecConnectionLifecycleState
 func GetIpSecConnectionLifecycleStateEnumValues() []IpSecConnectionLifecycleStateEnum {
 	values := make([]IpSecConnectionLifecycleStateEnum, 0)
 	for _, v := range mappingIpSecConnectionLifecycleState {
-		if v != IpSecConnectionLifecycleStateUnknown {
-			values = append(values, v)
-		}
+		values = append(values, v)
 	}
 	return values
 }

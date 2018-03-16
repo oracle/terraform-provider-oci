@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.oracle.pic.commons</groupId>
+    <artifactId>pic-pom</artifactId>
+    <version>0.5.42</version>
+  </parent>
+
+  <groupId>com.oracle.pic.ffsw</groupId>
+  <artifactId>fss-api-spec</artifactId>
+  <version>0.0.9</version>
+  <packaging>jar</packaging>
+
+  <name>fss-api-spec</name>
+
+  <scm>
+    <connection>scm:git:ssh://git@bitbucket.aka.lgl.grungy.us:7999/ffsw/ffsw-control-plane.git</connection>
+    <developerConnection>scm:git:ssh://git@bitbucket.aka.lgl.grungy.us:7999/ffsw/ffsw-control-plane.git</developerConnection>
+    <tag>fss-api-spec-0.0.9</tag>
+    <url>ssh://git@bitbucket.aka.lgl.grungy.us:7999/ffsw/ffsw-control-plane.git</url>
+  </scm>
+
+  <distributionManagement>
+    <repository>
+        <id>central</id>
+        <name>Spartafactory-releases</name>
+        <url>http://artifactory.aka.lgl.grungy.us:80/ffsw-release-maven-local</url>
+    </repository>
+    <snapshotRepository>
+        <id>snapshots</id>
+        <name>Spartafactory-snapshots</name>
+        <url>http://artifactory.aka.lgl.grungy.us:80/ffsw-snapshot-maven-local</url>
+    </snapshotRepository>
+  </distributionManagement>
+
+  <build>
+    <plugins>
+
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>1.4.0</version>
+        <executions>
+          <execution>
+            <id>generate-spec</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <executable>python</executable>
+              <workingDirectory>${project.basedir}</workingDirectory>
+              <arguments>
+                <argument>${project.basedir}/tools/dexify.py</argument>
+                <argument>${project.basedir}/specs/fss-api-spec-20171215.proto.yaml</argument>
+		<argument>--output_file</argument>
+                <argument>${project.basedir}/target/classes/fss-api-spec-20171215.yaml</argument>
+              </arguments>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>com.oracle.bmc.sdk</groupId>
+        <artifactId>bmc-sdk-swagger-validator</artifactId>
+        <version>1.4.0-20170926.030931-12</version>
+        <executions>
+          <execution>
+            <id>public-api-validation</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>validate</goal>
+            </goals>
+            <configuration>
+              <specPath>${project.basedir}/target/classes/fss-api-spec-20171215.yaml</specPath>
+	      <configPath>${project.basedir}/spec-validation-config.yaml</configPath>
+              <outputPath>${project.basedir}/spec-validation-output.txt</outputPath>
+              <failBuildOnError>true</failBuildOnError>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+    </plugins>
+  </build>
+</project>

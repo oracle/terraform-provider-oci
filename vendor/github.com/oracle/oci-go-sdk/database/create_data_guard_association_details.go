@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 // Database Service API
@@ -32,7 +32,7 @@ type CreateDataGuardAssociationDetails interface {
 	GetDatabaseAdminPassword() *string
 
 	// The protection mode to set up between the primary and standby databases. For more information, see
-	// [Oracle Data Guard Protection Modes](http://docs.oracle.com/database/122/SBYDB/oracle-data-guard-protection-modes.htm#SBYDB02000)
+	// Oracle Data Guard Protection Modes (http://docs.oracle.com/database/122/SBYDB/oracle-data-guard-protection-modes.htm#SBYDB02000)
 	// in the Oracle Data Guard documentation.
 	// **IMPORTANT** - The only protection mode currently supported by the Database Service is MAXIMUM_PERFORMANCE.
 	GetProtectionMode() CreateDataGuardAssociationDetailsProtectionModeEnum
@@ -42,7 +42,7 @@ type CreateDataGuardAssociationDetails interface {
 	// * MAXIMUM_PERFORMANCE - ASYNC
 	// * MAXIMUM_PROTECTION - SYNC
 	// For more information, see
-	// [Redo Transport Services](http://docs.oracle.com/database/122/SBYDB/oracle-data-guard-redo-transport-services.htm#SBYDB00400)
+	// Redo Transport Services (http://docs.oracle.com/database/122/SBYDB/oracle-data-guard-redo-transport-services.htm#SBYDB00400)
 	// in the Oracle Data Guard documentation.
 	// **IMPORTANT** - The only transport type currently supported by the Database Service is ASYNC.
 	GetTransportType() CreateDataGuardAssociationDetailsTransportTypeEnum
@@ -115,23 +115,19 @@ const (
 	CreateDataGuardAssociationDetailsProtectionModeAvailability CreateDataGuardAssociationDetailsProtectionModeEnum = "MAXIMUM_AVAILABILITY"
 	CreateDataGuardAssociationDetailsProtectionModePerformance  CreateDataGuardAssociationDetailsProtectionModeEnum = "MAXIMUM_PERFORMANCE"
 	CreateDataGuardAssociationDetailsProtectionModeProtection   CreateDataGuardAssociationDetailsProtectionModeEnum = "MAXIMUM_PROTECTION"
-	CreateDataGuardAssociationDetailsProtectionModeUnknown      CreateDataGuardAssociationDetailsProtectionModeEnum = "UNKNOWN"
 )
 
 var mappingCreateDataGuardAssociationDetailsProtectionMode = map[string]CreateDataGuardAssociationDetailsProtectionModeEnum{
 	"MAXIMUM_AVAILABILITY": CreateDataGuardAssociationDetailsProtectionModeAvailability,
 	"MAXIMUM_PERFORMANCE":  CreateDataGuardAssociationDetailsProtectionModePerformance,
 	"MAXIMUM_PROTECTION":   CreateDataGuardAssociationDetailsProtectionModeProtection,
-	"UNKNOWN":              CreateDataGuardAssociationDetailsProtectionModeUnknown,
 }
 
 // GetCreateDataGuardAssociationDetailsProtectionModeEnumValues Enumerates the set of values for CreateDataGuardAssociationDetailsProtectionMode
 func GetCreateDataGuardAssociationDetailsProtectionModeEnumValues() []CreateDataGuardAssociationDetailsProtectionModeEnum {
 	values := make([]CreateDataGuardAssociationDetailsProtectionModeEnum, 0)
 	for _, v := range mappingCreateDataGuardAssociationDetailsProtectionMode {
-		if v != CreateDataGuardAssociationDetailsProtectionModeUnknown {
-			values = append(values, v)
-		}
+		values = append(values, v)
 	}
 	return values
 }
@@ -144,23 +140,19 @@ const (
 	CreateDataGuardAssociationDetailsTransportTypeSync     CreateDataGuardAssociationDetailsTransportTypeEnum = "SYNC"
 	CreateDataGuardAssociationDetailsTransportTypeAsync    CreateDataGuardAssociationDetailsTransportTypeEnum = "ASYNC"
 	CreateDataGuardAssociationDetailsTransportTypeFastsync CreateDataGuardAssociationDetailsTransportTypeEnum = "FASTSYNC"
-	CreateDataGuardAssociationDetailsTransportTypeUnknown  CreateDataGuardAssociationDetailsTransportTypeEnum = "UNKNOWN"
 )
 
 var mappingCreateDataGuardAssociationDetailsTransportType = map[string]CreateDataGuardAssociationDetailsTransportTypeEnum{
 	"SYNC":     CreateDataGuardAssociationDetailsTransportTypeSync,
 	"ASYNC":    CreateDataGuardAssociationDetailsTransportTypeAsync,
 	"FASTSYNC": CreateDataGuardAssociationDetailsTransportTypeFastsync,
-	"UNKNOWN":  CreateDataGuardAssociationDetailsTransportTypeUnknown,
 }
 
 // GetCreateDataGuardAssociationDetailsTransportTypeEnumValues Enumerates the set of values for CreateDataGuardAssociationDetailsTransportType
 func GetCreateDataGuardAssociationDetailsTransportTypeEnumValues() []CreateDataGuardAssociationDetailsTransportTypeEnum {
 	values := make([]CreateDataGuardAssociationDetailsTransportTypeEnum, 0)
 	for _, v := range mappingCreateDataGuardAssociationDetailsTransportType {
-		if v != CreateDataGuardAssociationDetailsTransportTypeUnknown {
-			values = append(values, v)
-		}
+		values = append(values, v)
 	}
 	return values
 }

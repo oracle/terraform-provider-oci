@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 // Identity and Access Management Service API
@@ -86,11 +86,11 @@ func (client IdentityClient) AddUserToGroup(ctx context.Context, request AddUser
 // **Important:** Compartments cannot be deleted.
 // You must specify your tenancy's OCID as the compartment ID in the request object. Remember that the tenancy
 // is simply the root compartment. For information about OCIDs, see
-// [Resource Identifiers]({{DOC_SERVER_URL}}/Content/General/Concepts/identifiers.htm).
+// Resource Identifiers (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
 // You must also specify a *name* for the compartment, which must be unique across all compartments in
 // your tenancy. You can use this name or the OCID when writing policies that apply
 // to the compartment. For more information about policies, see
-// [How Policies Work]({{DOC_SERVER_URL}}/Content/Identity/Concepts/policies.htm).
+// How Policies Work (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/policies.htm).
 // You must also specify a *description* for the compartment (although it can be an empty string). It does
 // not have to be unique, and you can change it anytime with
 // UpdateCompartment.
@@ -118,7 +118,7 @@ func (client IdentityClient) CreateCompartment(ctx context.Context, request Crea
 
 // CreateCustomerSecretKey Creates a new secret key for the specified user. Secret keys are used for authentication with the Object Storage Service's Amazon S3
 // compatible API. For information, see
-// [Managing User Credentials]({{DOC_SERVER_URL}}/Content/Identity/Tasks/managingcredentials.htm).
+// Managing User Credentials (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Tasks/managingcredentials.htm).
 // You must specify a *description* for the secret key (although it can be an empty string). It does not
 // have to be unique, and you can change it anytime with
 // UpdateCustomerSecretKey.
@@ -145,15 +145,49 @@ func (client IdentityClient) CreateCustomerSecretKey(ctx context.Context, reques
 	return
 }
 
+// CreateDynamicGroup Creates a new dynamic group in your tenancy.
+// You must specify your tenancy's OCID as the compartment ID in the request object (remember that the tenancy
+// is simply the root compartment). Notice that IAM resources (users, groups, compartments, and some policies)
+// reside within the tenancy itself, unlike cloud resources such as compute instances, which typically
+// reside within compartments inside the tenancy. For information about OCIDs, see
+// Resource Identifiers (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
+// You must also specify a *name* for the dynamic group, which must be unique across all dynamic groups in your
+// tenancy, and cannot be changed. Note that this name has to be also unique accross all groups in your tenancy.
+// You can use this name or the OCID when writing policies that apply to the dynamic group. For more information
+// about policies, see How Policies Work (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/policies.htm).
+// You must also specify a *description* for the dynamic group (although it can be an empty string). It does not
+// have to be unique, and you can change it anytime with UpdateDynamicGroup.
+// After you send your request, the new object's `lifecycleState` will temporarily be CREATING. Before using the
+// object, first make sure its `lifecycleState` has changed to ACTIVE.
+func (client IdentityClient) CreateDynamicGroup(ctx context.Context, request CreateDynamicGroupRequest, options ...common.RetryPolicyOption) (response CreateDynamicGroupResponse, err error) {
+	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodPost, "/dynamicGroups/", request)
+	if err != nil {
+		return
+	}
+
+	err = client.Call(ctx, &httpRequest, common.CallConfig{
+		ResponseCallback: func(httpResponse *http.Response, e error) error {
+			response.RawResponse = httpResponse
+			if e != nil {
+				return e
+			}
+
+			return common.UnmarshalResponse(httpResponse, &response)
+		},
+		RetryPolicyOptions: options,
+	})
+	return
+}
+
 // CreateGroup Creates a new group in your tenancy.
 // You must specify your tenancy's OCID as the compartment ID in the request object (remember that the tenancy
 // is simply the root compartment). Notice that IAM resources (users, groups, compartments, and some policies)
 // reside within the tenancy itself, unlike cloud resources such as compute instances, which typically
 // reside within compartments inside the tenancy. For information about OCIDs, see
-// [Resource Identifiers]({{DOC_SERVER_URL}}/Content/General/Concepts/identifiers.htm).
+// Resource Identifiers (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
 // You must also specify a *name* for the group, which must be unique across all groups in your tenancy and
 // cannot be changed. You can use this name or the OCID when writing policies that apply to the group. For more
-// information about policies, see [How Policies Work]({{DOC_SERVER_URL}}/Content/Identity/Concepts/policies.htm).
+// information about policies, see How Policies Work (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/policies.htm).
 // You must also specify a *description* for the group (although it can be an empty string). It does not
 // have to be unique, and you can change it anytime with UpdateGroup.
 // After you send your request, the new object's `lifecycleState` will temporarily be CREATING. Before using the
@@ -182,10 +216,10 @@ func (client IdentityClient) CreateGroup(ctx context.Context, request CreateGrou
 }
 
 // CreateIdentityProvider Creates a new identity provider in your tenancy. For more information, see
-// [Identity Providers and Federation]({{DOC_SERVER_URL}}/Content/Identity/Concepts/federation.htm).
+// Identity Providers and Federation (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/federation.htm).
 // You must specify your tenancy's OCID as the compartment ID in the request object.
 // Remember that the tenancy is simply the root compartment. For information about
-// OCIDs, see [Resource Identifiers]({{DOC_SERVER_URL}}/Content/General/Concepts/identifiers.htm).
+// OCIDs, see Resource Identifiers (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
 // You must also specify a *name* for the `IdentityProvider`, which must be unique
 // across all `IdentityProvider` objects in your tenancy and cannot be changed.
 // You must also specify a *description* for the `IdentityProvider` (although
@@ -238,7 +272,7 @@ func (client IdentityClient) CreateIdpGroupMapping(ctx context.Context, request 
 }
 
 // CreateOrResetUIPassword Creates a new Console one-time password for the specified user. For more information about user
-// credentials, see [User Credentials]({{DOC_SERVER_URL}}/Content/Identity/Concepts/usercredentials.htm).
+// credentials, see User Credentials (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/usercredentials.htm).
 // Use this operation after creating a new user, or if a user forgets their password. The new one-time
 // password is returned to you in the response, and you must securely deliver it to the user. They'll
 // be prompted to change this password the next time they sign in to the Console. If they don't change
@@ -267,14 +301,14 @@ func (client IdentityClient) CreateOrResetUIPassword(ctx context.Context, reques
 }
 
 // CreatePolicy Creates a new policy in the specified compartment (either the tenancy or another of your compartments).
-// If you're new to policies, see [Getting Started with Policies]({{DOC_SERVER_URL}}/Content/Identity/Concepts/policygetstarted.htm).
+// If you're new to policies, see Getting Started with Policies (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/policygetstarted.htm).
 // You must specify a *name* for the policy, which must be unique across all policies in your tenancy
 // and cannot be changed.
 // You must also specify a *description* for the policy (although it can be an empty string). It does not
 // have to be unique, and you can change it anytime with UpdatePolicy.
 // You must specify one or more policy statements in the statements array. For information about writing
-// policies, see [How Policies Work]({{DOC_SERVER_URL}}/Content/Identity/Concepts/policies.htm) and
-// [Common Policies]({{DOC_SERVER_URL}}/Content/Identity/Concepts/commonpolicies.htm).
+// policies, see How Policies Work (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/policies.htm) and
+// Common Policies (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/commonpolicies.htm).
 // After you send your request, the new object's `lifecycleState` will temporarily be CREATING. Before using the
 // object, first make sure its `lifecycleState` has changed to ACTIVE.
 // New policies take effect typically within 10 seconds.
@@ -320,7 +354,7 @@ func (client IdentityClient) CreateRegionSubscription(ctx context.Context, reque
 }
 
 // CreateSwiftPassword Creates a new Swift password for the specified user. For information about what Swift passwords are for, see
-// [Managing User Credentials]({{DOC_SERVER_URL}}/Content/Identity/Tasks/managingcredentials.htm).
+// Managing User Credentials (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Tasks/managingcredentials.htm).
 // You must specify a *description* for the Swift password (although it can be an empty string). It does not
 // have to be unique, and you can change it anytime with
 // UpdateSwiftPassword.
@@ -347,13 +381,75 @@ func (client IdentityClient) CreateSwiftPassword(ctx context.Context, request Cr
 	return
 }
 
+// CreateTag Creates a new tag in the specified tag namespace.
+// You must specify either the OCID or the name of the tag namespace that will contain this tag definition.
+// You must also specify a *name* for the tag, which must be unique across all tags in the tag namespace
+// and cannot be changed. The name can contain any ASCII character except the space (_) or period (.) characters.
+// Names are case insensitive. That means, for example, "myTag" and "mytag" are not allowed in the same namespace.
+// If you specify a name that's already in use in the tag namespace, a 409 error is returned.
+// You must also specify a *description* for the tag.
+// It does not have to be unique, and you can change it with
+// UpdateTag.
+func (client IdentityClient) CreateTag(ctx context.Context, request CreateTagRequest, options ...common.RetryPolicyOption) (response CreateTagResponse, err error) {
+	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodPost, "/tagNamespaces/{tagNamespaceId}/tags", request)
+	if err != nil {
+		return
+	}
+
+	err = client.Call(ctx, &httpRequest, common.CallConfig{
+		ResponseCallback: func(httpResponse *http.Response, e error) error {
+			response.RawResponse = httpResponse
+			if e != nil {
+				return e
+			}
+
+			return common.UnmarshalResponse(httpResponse, &response)
+		},
+		RetryPolicyOptions: options,
+	})
+	return
+}
+
+// CreateTagNamespace Creates a new tag namespace in the specified compartment.
+// You must specify the compartment ID in the request object (remember that the tenancy is simply the root
+// compartment).
+// You must also specify a *name* for the namespace, which must be unique across all namespaces in your tenancy
+// and cannot be changed. The name can contain any ASCII character except the space (_) or period (.).
+// Names are case insensitive. That means, for example, "myNamespace" and "mynamespace" are not allowed
+// in the same tenancy. Once you created a namespace, you cannot change the name.
+// If you specify a name that's already in use in the tenancy, a 409 error is returned.
+// You must also specify a *description* for the namespace.
+// It does not have to be unique, and you can change it with
+// UpdateTagNamespace.
+// Tag namespaces cannot be deleted, but they can be retired.
+// See Retiring Key Definitions and Namespace Definitions (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/taggingoverview.htm#Retiring) for more information.
+func (client IdentityClient) CreateTagNamespace(ctx context.Context, request CreateTagNamespaceRequest, options ...common.RetryPolicyOption) (response CreateTagNamespaceResponse, err error) {
+	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodPost, "/tagNamespaces", request)
+	if err != nil {
+		return
+	}
+
+	err = client.Call(ctx, &httpRequest, common.CallConfig{
+		ResponseCallback: func(httpResponse *http.Response, e error) error {
+			response.RawResponse = httpResponse
+			if e != nil {
+				return e
+			}
+
+			return common.UnmarshalResponse(httpResponse, &response)
+		},
+		RetryPolicyOptions: options,
+	})
+	return
+}
+
 // CreateUser Creates a new user in your tenancy. For conceptual information about users, your tenancy, and other
-// IAM Service components, see [Overview of the IAM Service]({{DOC_SERVER_URL}}/Content/Identity/Concepts/overview.htm).
+// IAM Service components, see Overview of the IAM Service (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/overview.htm).
 // You must specify your tenancy's OCID as the compartment ID in the request object (remember that the
 // tenancy is simply the root compartment). Notice that IAM resources (users, groups, compartments, and
 // some policies) reside within the tenancy itself, unlike cloud resources such as compute instances,
 // which typically reside within compartments inside the tenancy. For information about OCIDs, see
-// [Resource Identifiers]({{DOC_SERVER_URL}}/Content/General/Concepts/identifiers.htm).
+// Resource Identifiers (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
 // You must also specify a *name* for the user, which must be unique across all users in your tenancy
 // and cannot be changed. Allowed characters: No spaces. Only letters, numerals, hyphens, periods,
 // underscores, +, and @. If you specify a name that's already in use, you'll get a 409 error.
@@ -373,7 +469,7 @@ func (client IdentityClient) CreateSwiftPassword(ctx context.Context, request Cr
 // CreateOrResetUIPassword).
 // If the user needs to access the Oracle Cloud Infrastructure REST API, you need to upload a
 // public API signing key for that user (see
-// [Required Keys and OCIDs]({{DOC_SERVER_URL}}/Content/API/Concepts/apisigningkey.htm) and also
+// Required Keys and OCIDs (https://docs.us-phoenix-1.oraclecloud.com/Content/API/Concepts/apisigningkey.htm) and also
 // UploadApiKey).
 // **Important:** Make sure to inform the new user which compartment(s) they have access to.
 func (client IdentityClient) CreateUser(ctx context.Context, request CreateUserRequest, options ...common.RetryPolicyOption) (response CreateUserResponse, err error) {
@@ -424,6 +520,27 @@ func (client IdentityClient) DeleteApiKey(ctx context.Context, request DeleteApi
 // DeleteCustomerSecretKey Deletes the specified secret key for the specified user.
 func (client IdentityClient) DeleteCustomerSecretKey(ctx context.Context, request DeleteCustomerSecretKeyRequest, options ...common.RetryPolicyOption) (response DeleteCustomerSecretKeyResponse, err error) {
 	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodDelete, "/users/{userId}/customerSecretKeys/{customerSecretKeyId}", request)
+	if err != nil {
+		return
+	}
+
+	err = client.Call(ctx, &httpRequest, common.CallConfig{
+		ResponseCallback: func(httpResponse *http.Response, e error) error {
+			response.RawResponse = httpResponse
+			if e != nil {
+				return e
+			}
+
+			return common.UnmarshalResponse(httpResponse, &response)
+		},
+		RetryPolicyOptions: options,
+	})
+	return
+}
+
+// DeleteDynamicGroup Deletes the specified dynamic group.
+func (client IdentityClient) DeleteDynamicGroup(ctx context.Context, request DeleteDynamicGroupRequest, options ...common.RetryPolicyOption) (response DeleteDynamicGroupResponse, err error) {
+	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodDelete, "/dynamicGroups/{dynamicGroupId}", request)
 	if err != nil {
 		return
 	}
@@ -596,6 +713,27 @@ func (client IdentityClient) GetCompartment(ctx context.Context, request GetComp
 	return
 }
 
+// GetDynamicGroup Gets the specified dynamic group's information.
+func (client IdentityClient) GetDynamicGroup(ctx context.Context, request GetDynamicGroupRequest, options ...common.RetryPolicyOption) (response GetDynamicGroupResponse, err error) {
+	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodGet, "/dynamicGroups/{dynamicGroupId}", request)
+	if err != nil {
+		return
+	}
+
+	err = client.Call(ctx, &httpRequest, common.CallConfig{
+		ResponseCallback: func(httpResponse *http.Response, e error) error {
+			response.RawResponse = httpResponse
+			if e != nil {
+				return e
+			}
+
+			return common.UnmarshalResponse(httpResponse, &response)
+		},
+		RetryPolicyOptions: options,
+	})
+	return
+}
+
 // GetGroup Gets the specified group's information.
 // This operation does not return a list of all the users in the group. To do that, use
 // ListUserGroupMemberships and
@@ -665,6 +803,48 @@ func (client IdentityClient) GetIdpGroupMapping(ctx context.Context, request Get
 // GetPolicy Gets the specified policy's information.
 func (client IdentityClient) GetPolicy(ctx context.Context, request GetPolicyRequest, options ...common.RetryPolicyOption) (response GetPolicyResponse, err error) {
 	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodGet, "/policies/{policyId}", request)
+	if err != nil {
+		return
+	}
+
+	err = client.Call(ctx, &httpRequest, common.CallConfig{
+		ResponseCallback: func(httpResponse *http.Response, e error) error {
+			response.RawResponse = httpResponse
+			if e != nil {
+				return e
+			}
+
+			return common.UnmarshalResponse(httpResponse, &response)
+		},
+		RetryPolicyOptions: options,
+	})
+	return
+}
+
+// GetTag Gets the specified tag's information.
+func (client IdentityClient) GetTag(ctx context.Context, request GetTagRequest, options ...common.RetryPolicyOption) (response GetTagResponse, err error) {
+	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodGet, "/tagNamespaces/{tagNamespaceId}/tags/{tagName}", request)
+	if err != nil {
+		return
+	}
+
+	err = client.Call(ctx, &httpRequest, common.CallConfig{
+		ResponseCallback: func(httpResponse *http.Response, e error) error {
+			response.RawResponse = httpResponse
+			if e != nil {
+				return e
+			}
+
+			return common.UnmarshalResponse(httpResponse, &response)
+		},
+		RetryPolicyOptions: options,
+	})
+	return
+}
+
+// GetTagNamespace Gets the specified tag namespace's information.
+func (client IdentityClient) GetTagNamespace(ctx context.Context, request GetTagNamespaceRequest, options ...common.RetryPolicyOption) (response GetTagNamespaceResponse, err error) {
+	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodGet, "/tagNamespaces/{tagNamespaceId}", request)
 	if err != nil {
 		return
 	}
@@ -771,7 +951,7 @@ func (client IdentityClient) ListApiKeys(ctx context.Context, request ListApiKey
 
 // ListAvailabilityDomains Lists the Availability Domains in your tenancy. Specify the OCID of either the tenancy or another
 // of your compartments as the value for the compartment ID (remember that the tenancy is simply the root compartment).
-// See [Where to Get the Tenancy's OCID and User's OCID]({{DOC_SERVER_URL}}/Content/API/Concepts/apisigningkey.htm#five).
+// See Where to Get the Tenancy's OCID and User's OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/API/Concepts/apisigningkey.htm#five).
 func (client IdentityClient) ListAvailabilityDomains(ctx context.Context, request ListAvailabilityDomainsRequest, options ...common.RetryPolicyOption) (response ListAvailabilityDomainsResponse, err error) {
 	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodGet, "/availabilityDomains/", request)
 	if err != nil {
@@ -794,7 +974,7 @@ func (client IdentityClient) ListAvailabilityDomains(ctx context.Context, reques
 
 // ListCompartments Lists the compartments in your tenancy. You must specify your tenancy's OCID as the value
 // for the compartment ID (remember that the tenancy is simply the root compartment).
-// See [Where to Get the Tenancy's OCID and User's OCID]({{DOC_SERVER_URL}}/Content/API/Concepts/apisigningkey.htm#five).
+// See Where to Get the Tenancy's OCID and User's OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/API/Concepts/apisigningkey.htm#five).
 func (client IdentityClient) ListCompartments(ctx context.Context, request ListCompartmentsRequest, options ...common.RetryPolicyOption) (response ListCompartmentsResponse, err error) {
 	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodGet, "/compartments/", request)
 	if err != nil {
@@ -837,11 +1017,11 @@ func (client IdentityClient) ListCustomerSecretKeys(ctx context.Context, request
 	return
 }
 
-// ListFaultDomains Lists the Fault Domains in your tenancy. Specify the OCID of either the tenancy or another
-// of your compartments as the value for the compartment ID (remember that the tenancy is simply the root compartment).
-// See [Where to Get the Tenancy's OCID and User's OCID]({{DOC_SERVER_URL}}/Content/API/Concepts/apisigningkey.htm#five).
-func (client IdentityClient) ListFaultDomains(ctx context.Context, request ListFaultDomainsRequest, options ...common.RetryPolicyOption) (response ListFaultDomainsResponse, err error) {
-	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodGet, "/faultDomains/", request)
+// ListDynamicGroups Lists the dynamic groups in your tenancy. You must specify your tenancy's OCID as the value for
+// the compartment ID (remember that the tenancy is simply the root compartment).
+// See Where to Get the Tenancy's OCID and User's OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/API/Concepts/apisigningkey.htm#five).
+func (client IdentityClient) ListDynamicGroups(ctx context.Context, request ListDynamicGroupsRequest, options ...common.RetryPolicyOption) (response ListDynamicGroupsResponse, err error) {
+	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodGet, "/dynamicGroups/", request)
 	if err != nil {
 		return
 	}
@@ -862,7 +1042,7 @@ func (client IdentityClient) ListFaultDomains(ctx context.Context, request ListF
 
 // ListGroups Lists the groups in your tenancy. You must specify your tenancy's OCID as the value for
 // the compartment ID (remember that the tenancy is simply the root compartment).
-// See [Where to Get the Tenancy's OCID and User's OCID]({{DOC_SERVER_URL}}/Content/API/Concepts/apisigningkey.htm#five).
+// See Where to Get the Tenancy's OCID and User's OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/API/Concepts/apisigningkey.htm#five).
 func (client IdentityClient) ListGroups(ctx context.Context, request ListGroupsRequest, options ...common.RetryPolicyOption) (response ListGroupsResponse, err error) {
 	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodGet, "/groups/", request)
 	if err != nil {
@@ -902,7 +1082,7 @@ func (m *listidentityprovider) UnmarshalPolymorphicJSON(data []byte) (interface{
 // ListIdentityProviders Lists all the identity providers in your tenancy. You must specify the identity provider type (e.g., `SAML2` for
 // identity providers using the SAML2.0 protocol). You must specify your tenancy's OCID as the value for the
 // compartment ID (remember that the tenancy is simply the root compartment).
-// See [Where to Get the Tenancy's OCID and User's OCID]({{DOC_SERVER_URL}}/Content/API/Concepts/apisigningkey.htm#five).
+// See Where to Get the Tenancy's OCID and User's OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/API/Concepts/apisigningkey.htm#five).
 func (client IdentityClient) ListIdentityProviders(ctx context.Context, request ListIdentityProvidersRequest, options ...common.RetryPolicyOption) (response ListIdentityProvidersResponse, err error) {
 	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodGet, "/identityProviders/", request)
 	if err != nil {
@@ -945,7 +1125,7 @@ func (client IdentityClient) ListIdpGroupMappings(ctx context.Context, request L
 }
 
 // ListPolicies Lists the policies in the specified compartment (either the tenancy or another of your compartments).
-// See [Where to Get the Tenancy's OCID and User's OCID]({{DOC_SERVER_URL}}/Content/API/Concepts/apisigningkey.htm#five).
+// See Where to Get the Tenancy's OCID and User's OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/API/Concepts/apisigningkey.htm#five).
 // To determine which policies apply to a particular group or compartment, you must view the individual
 // statements inside all your policies. There isn't a way to automatically obtain that information via the API.
 func (client IdentityClient) ListPolicies(ctx context.Context, request ListPoliciesRequest, options ...common.RetryPolicyOption) (response ListPoliciesResponse, err error) {
@@ -1029,14 +1209,57 @@ func (client IdentityClient) ListSwiftPasswords(ctx context.Context, request Lis
 	return
 }
 
+// ListTagNamespaces Lists the tag namespaces in the specified compartment.
+func (client IdentityClient) ListTagNamespaces(ctx context.Context, request ListTagNamespacesRequest, options ...common.RetryPolicyOption) (response ListTagNamespacesResponse, err error) {
+	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodGet, "/tagNamespaces", request)
+	if err != nil {
+		return
+	}
+
+	err = client.Call(ctx, &httpRequest, common.CallConfig{
+		ResponseCallback: func(httpResponse *http.Response, e error) error {
+			response.RawResponse = httpResponse
+			if e != nil {
+				return e
+			}
+
+			return common.UnmarshalResponse(httpResponse, &response)
+		},
+		RetryPolicyOptions: options,
+	})
+	return
+}
+
+// ListTags Lists the tag definitions in the specified tag namespace.
+func (client IdentityClient) ListTags(ctx context.Context, request ListTagsRequest, options ...common.RetryPolicyOption) (response ListTagsResponse, err error) {
+	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodGet, "/tagNamespaces/{tagNamespaceId}/tags", request)
+	if err != nil {
+		return
+	}
+
+	err = client.Call(ctx, &httpRequest, common.CallConfig{
+		ResponseCallback: func(httpResponse *http.Response, e error) error {
+			response.RawResponse = httpResponse
+			if e != nil {
+				return e
+			}
+
+			return common.UnmarshalResponse(httpResponse, &response)
+		},
+		RetryPolicyOptions: options,
+	})
+	return
+}
+
 // ListUserGroupMemberships Lists the `UserGroupMembership` objects in your tenancy. You must specify your tenancy's OCID
 // as the value for the compartment ID
-// (see [Where to Get the Tenancy's OCID and User's OCID]({{DOC_SERVER_URL}}/Content/API/Concepts/apisigningkey.htm#five)).
+// (see Where to Get the Tenancy's OCID and User's OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/API/Concepts/apisigningkey.htm#five)).
 // You must also then filter the list in one of these ways:
 // - You can limit the results to just the memberships for a given user by specifying a `userId`.
 // - Similarly, you can limit the results to just the memberships for a given group by specifying a `groupId`.
 // - You can set both the `userId` and `groupId` to determine if the specified user is in the specified group.
 // If the answer is no, the response is an empty list.
+// - Although`userId` and `groupId` are not indvidually required, you must set one of them.
 func (client IdentityClient) ListUserGroupMemberships(ctx context.Context, request ListUserGroupMembershipsRequest, options ...common.RetryPolicyOption) (response ListUserGroupMembershipsResponse, err error) {
 	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodGet, "/userGroupMemberships/", request)
 	if err != nil {
@@ -1059,7 +1282,7 @@ func (client IdentityClient) ListUserGroupMemberships(ctx context.Context, reque
 
 // ListUsers Lists the users in your tenancy. You must specify your tenancy's OCID as the value for the
 // compartment ID (remember that the tenancy is simply the root compartment).
-// See [Where to Get the Tenancy's OCID and User's OCID]({{DOC_SERVER_URL}}/Content/API/Concepts/apisigningkey.htm#five).
+// See Where to Get the Tenancy's OCID and User's OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/API/Concepts/apisigningkey.htm#five).
 func (client IdentityClient) ListUsers(ctx context.Context, request ListUsersRequest, options ...common.RetryPolicyOption) (response ListUsersResponse, err error) {
 	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodGet, "/users/", request)
 	if err != nil {
@@ -1125,6 +1348,27 @@ func (client IdentityClient) UpdateCompartment(ctx context.Context, request Upda
 // UpdateCustomerSecretKey Updates the specified secret key's description.
 func (client IdentityClient) UpdateCustomerSecretKey(ctx context.Context, request UpdateCustomerSecretKeyRequest, options ...common.RetryPolicyOption) (response UpdateCustomerSecretKeyResponse, err error) {
 	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodPut, "/users/{userId}/customerSecretKeys/{customerSecretKeyId}", request)
+	if err != nil {
+		return
+	}
+
+	err = client.Call(ctx, &httpRequest, common.CallConfig{
+		ResponseCallback: func(httpResponse *http.Response, e error) error {
+			response.RawResponse = httpResponse
+			if e != nil {
+				return e
+			}
+
+			return common.UnmarshalResponse(httpResponse, &response)
+		},
+		RetryPolicyOptions: options,
+	})
+	return
+}
+
+// UpdateDynamicGroup Updates the specified dynamic group.
+func (client IdentityClient) UpdateDynamicGroup(ctx context.Context, request UpdateDynamicGroupRequest, options ...common.RetryPolicyOption) (response UpdateDynamicGroupResponse, err error) {
+	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodPut, "/dynamicGroups/{dynamicGroupId}", request)
 	if err != nil {
 		return
 	}
@@ -1231,6 +1475,54 @@ func (client IdentityClient) UpdatePolicy(ctx context.Context, request UpdatePol
 // UpdateSwiftPassword Updates the specified Swift password's description.
 func (client IdentityClient) UpdateSwiftPassword(ctx context.Context, request UpdateSwiftPasswordRequest, options ...common.RetryPolicyOption) (response UpdateSwiftPasswordResponse, err error) {
 	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodPut, "/users/{userId}/swiftPasswords/{swiftPasswordId}", request)
+	if err != nil {
+		return
+	}
+
+	err = client.Call(ctx, &httpRequest, common.CallConfig{
+		ResponseCallback: func(httpResponse *http.Response, e error) error {
+			response.RawResponse = httpResponse
+			if e != nil {
+				return e
+			}
+
+			return common.UnmarshalResponse(httpResponse, &response)
+		},
+		RetryPolicyOptions: options,
+	})
+	return
+}
+
+// UpdateTag Updates the the specified tag definition. You can update `description`, and `isRetired`.
+func (client IdentityClient) UpdateTag(ctx context.Context, request UpdateTagRequest, options ...common.RetryPolicyOption) (response UpdateTagResponse, err error) {
+	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodPut, "/tagNamespaces/{tagNamespaceId}/tags/{tagName}", request)
+	if err != nil {
+		return
+	}
+
+	err = client.Call(ctx, &httpRequest, common.CallConfig{
+		ResponseCallback: func(httpResponse *http.Response, e error) error {
+			response.RawResponse = httpResponse
+			if e != nil {
+				return e
+			}
+
+			return common.UnmarshalResponse(httpResponse, &response)
+		},
+		RetryPolicyOptions: options,
+	})
+	return
+}
+
+// UpdateTagNamespace Updates the the specified tag namespace. You can't update the namespace name.
+// Updating `isRetired` to 'true' retires the namespace and all the tag definitions in the namespace. Reactivating a
+// namespace (changing `isRetired` from 'true' to 'false') does not reactivate tag definitions.
+// To reactivate the tag definitions, you must reactivate each one indvidually *after* you reactivate the namespace,
+// using UpdateTag. For more information about retiring tag namespaces, see
+// Retiring Key Definitions and Namespace Definitions (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/taggingoverview.htm#Retiring).
+// You can't add a namespace with the same name as a retired namespace in the same tenancy.
+func (client IdentityClient) UpdateTagNamespace(ctx context.Context, request UpdateTagNamespaceRequest, options ...common.RetryPolicyOption) (response UpdateTagNamespaceResponse, err error) {
+	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodPut, "/tagNamespaces/{tagNamespaceId}", request)
 	if err != nil {
 		return
 	}

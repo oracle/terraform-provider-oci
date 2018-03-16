@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 package core
@@ -18,7 +18,7 @@ type ListPrivateIpsRequest struct {
 	// The value of the `opc-next-page` response header from the previous "List" call.
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
-	// The private IP address of the `privateIp` object.
+	// An IP address.
 	// Example: `10.0.3.3`
 	IpAddress *string `mandatory:"false" contributesTo:"query" name:"ipAddress"`
 

@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 // Load Balancing Service API
@@ -34,7 +34,7 @@ type UpdateBackendDetails struct {
 	// proportion of incoming traffic. For example, a server weighted '3' receives 3 times the number of new connections
 	// as a server weighted '1'.
 	// For more information on load balancing policies, see
-	// [How Load Balancing Policies Work]({{DOC_SERVER_URL}}/Content/Balance/Reference/lbpolicies.htm).
+	// How Load Balancing Policies Work (https://docs.us-phoenix-1.oraclecloud.com/Content/Balance/Reference/lbpolicies.htm).
 	// Example: `3`
 	Weight *int `mandatory:"true" json:"weight"`
 }

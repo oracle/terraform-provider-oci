@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 // Database Service API
@@ -73,7 +73,7 @@ type LaunchDbSystemDetails struct {
 	// The type of redundancy configured for the DB System.
 	// Normal is 2-way redundancy, recommended for test and development systems.
 	// High is 3-way redundancy, recommended for production systems.
-	DiskRedundancy LaunchDbSystemDetailsDiskRedundancyEnum `mandatory:"false" json:"diskRedundancy"`
+	DiskRedundancy LaunchDbSystemDetailsDiskRedundancyEnum `mandatory:"false" json:"diskRedundancy,omitempty"`
 
 	// The user-friendly name for the DB System. It does not have to be unique.
 	DisplayName *string `mandatory:"false" json:"displayName"`
@@ -87,7 +87,7 @@ type LaunchDbSystemDetails struct {
 	InitialDataStorageSizeInGB *int `mandatory:"false" json:"initialDataStorageSizeInGB"`
 
 	// The Oracle license model that applies to all the databases on the DB System. The default is LICENSE_INCLUDED.
-	LicenseModel LaunchDbSystemDetailsLicenseModelEnum `mandatory:"false" json:"licenseModel"`
+	LicenseModel LaunchDbSystemDetailsLicenseModelEnum `mandatory:"false" json:"licenseModel,omitempty"`
 
 	// Number of nodes to launch for a VM-shape based RAC DB system.
 	NodeCount *int `mandatory:"false" json:"nodeCount"`
@@ -106,7 +106,6 @@ const (
 	LaunchDbSystemDetailsDatabaseEditionEnterpriseEdition                   LaunchDbSystemDetailsDatabaseEditionEnum = "ENTERPRISE_EDITION"
 	LaunchDbSystemDetailsDatabaseEditionEnterpriseEditionExtremePerformance LaunchDbSystemDetailsDatabaseEditionEnum = "ENTERPRISE_EDITION_EXTREME_PERFORMANCE"
 	LaunchDbSystemDetailsDatabaseEditionEnterpriseEditionHighPerformance    LaunchDbSystemDetailsDatabaseEditionEnum = "ENTERPRISE_EDITION_HIGH_PERFORMANCE"
-	LaunchDbSystemDetailsDatabaseEditionUnknown                             LaunchDbSystemDetailsDatabaseEditionEnum = "UNKNOWN"
 )
 
 var mappingLaunchDbSystemDetailsDatabaseEdition = map[string]LaunchDbSystemDetailsDatabaseEditionEnum{
@@ -114,16 +113,13 @@ var mappingLaunchDbSystemDetailsDatabaseEdition = map[string]LaunchDbSystemDetai
 	"ENTERPRISE_EDITION":                     LaunchDbSystemDetailsDatabaseEditionEnterpriseEdition,
 	"ENTERPRISE_EDITION_EXTREME_PERFORMANCE": LaunchDbSystemDetailsDatabaseEditionEnterpriseEditionExtremePerformance,
 	"ENTERPRISE_EDITION_HIGH_PERFORMANCE":    LaunchDbSystemDetailsDatabaseEditionEnterpriseEditionHighPerformance,
-	"UNKNOWN": LaunchDbSystemDetailsDatabaseEditionUnknown,
 }
 
 // GetLaunchDbSystemDetailsDatabaseEditionEnumValues Enumerates the set of values for LaunchDbSystemDetailsDatabaseEdition
 func GetLaunchDbSystemDetailsDatabaseEditionEnumValues() []LaunchDbSystemDetailsDatabaseEditionEnum {
 	values := make([]LaunchDbSystemDetailsDatabaseEditionEnum, 0)
 	for _, v := range mappingLaunchDbSystemDetailsDatabaseEdition {
-		if v != LaunchDbSystemDetailsDatabaseEditionUnknown {
-			values = append(values, v)
-		}
+		values = append(values, v)
 	}
 	return values
 }
@@ -133,24 +129,20 @@ type LaunchDbSystemDetailsDiskRedundancyEnum string
 
 // Set of constants representing the allowable values for LaunchDbSystemDetailsDiskRedundancy
 const (
-	LaunchDbSystemDetailsDiskRedundancyHigh    LaunchDbSystemDetailsDiskRedundancyEnum = "HIGH"
-	LaunchDbSystemDetailsDiskRedundancyNormal  LaunchDbSystemDetailsDiskRedundancyEnum = "NORMAL"
-	LaunchDbSystemDetailsDiskRedundancyUnknown LaunchDbSystemDetailsDiskRedundancyEnum = "UNKNOWN"
+	LaunchDbSystemDetailsDiskRedundancyHigh   LaunchDbSystemDetailsDiskRedundancyEnum = "HIGH"
+	LaunchDbSystemDetailsDiskRedundancyNormal LaunchDbSystemDetailsDiskRedundancyEnum = "NORMAL"
 )
 
 var mappingLaunchDbSystemDetailsDiskRedundancy = map[string]LaunchDbSystemDetailsDiskRedundancyEnum{
-	"HIGH":    LaunchDbSystemDetailsDiskRedundancyHigh,
-	"NORMAL":  LaunchDbSystemDetailsDiskRedundancyNormal,
-	"UNKNOWN": LaunchDbSystemDetailsDiskRedundancyUnknown,
+	"HIGH":   LaunchDbSystemDetailsDiskRedundancyHigh,
+	"NORMAL": LaunchDbSystemDetailsDiskRedundancyNormal,
 }
 
 // GetLaunchDbSystemDetailsDiskRedundancyEnumValues Enumerates the set of values for LaunchDbSystemDetailsDiskRedundancy
 func GetLaunchDbSystemDetailsDiskRedundancyEnumValues() []LaunchDbSystemDetailsDiskRedundancyEnum {
 	values := make([]LaunchDbSystemDetailsDiskRedundancyEnum, 0)
 	for _, v := range mappingLaunchDbSystemDetailsDiskRedundancy {
-		if v != LaunchDbSystemDetailsDiskRedundancyUnknown {
-			values = append(values, v)
-		}
+		values = append(values, v)
 	}
 	return values
 }
@@ -162,22 +154,18 @@ type LaunchDbSystemDetailsLicenseModelEnum string
 const (
 	LaunchDbSystemDetailsLicenseModelLicenseIncluded     LaunchDbSystemDetailsLicenseModelEnum = "LICENSE_INCLUDED"
 	LaunchDbSystemDetailsLicenseModelBringYourOwnLicense LaunchDbSystemDetailsLicenseModelEnum = "BRING_YOUR_OWN_LICENSE"
-	LaunchDbSystemDetailsLicenseModelUnknown             LaunchDbSystemDetailsLicenseModelEnum = "UNKNOWN"
 )
 
 var mappingLaunchDbSystemDetailsLicenseModel = map[string]LaunchDbSystemDetailsLicenseModelEnum{
 	"LICENSE_INCLUDED":       LaunchDbSystemDetailsLicenseModelLicenseIncluded,
 	"BRING_YOUR_OWN_LICENSE": LaunchDbSystemDetailsLicenseModelBringYourOwnLicense,
-	"UNKNOWN":                LaunchDbSystemDetailsLicenseModelUnknown,
 }
 
 // GetLaunchDbSystemDetailsLicenseModelEnumValues Enumerates the set of values for LaunchDbSystemDetailsLicenseModel
 func GetLaunchDbSystemDetailsLicenseModelEnumValues() []LaunchDbSystemDetailsLicenseModelEnum {
 	values := make([]LaunchDbSystemDetailsLicenseModelEnum, 0)
 	for _, v := range mappingLaunchDbSystemDetailsLicenseModel {
-		if v != LaunchDbSystemDetailsLicenseModelUnknown {
-			values = append(values, v)
-		}
+		values = append(values, v)
 	}
 	return values
 }

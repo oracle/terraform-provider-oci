@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 // Load Balancing Service API
@@ -14,10 +14,11 @@ import (
 
 // Listener The listener's configuration.
 // For more information on backend set configuration, see
-// [Managing Load Balancer Listeners]({{DOC_SERVER_URL}}/Content/Balance/tasks/managinglisteners.htm).
+// Managing Load Balancer Listeners (https://docs.us-phoenix-1.oraclecloud.com/Content/Balance/tasks/managinglisteners.htm).
 type Listener struct {
 
 	// The name of the associated backend set.
+	// Example: `My_backend_set`
 	DefaultBackendSetName *string `mandatory:"true" json:"defaultBackendSetName"`
 
 	// A friendly name for the listener. It must be unique and it cannot be changed.
@@ -33,6 +34,13 @@ type Listener struct {
 	// operation.
 	// Example: `HTTP`
 	Protocol *string `mandatory:"true" json:"protocol"`
+
+	ConnectionConfiguration *ConnectionConfiguration `mandatory:"false" json:"connectionConfiguration"`
+
+	// The name of the set of path-based routing rules, PathRouteSet,
+	// applied to this listener's traffic.
+	// Example: `path-route-set-001`
+	PathRouteSetName *string `mandatory:"false" json:"pathRouteSetName"`
 
 	SslConfiguration *SslConfiguration `mandatory:"false" json:"sslConfiguration"`
 }

@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 // Database Service API
@@ -81,12 +81,12 @@ func (client DatabaseClient) CreateBackup(ctx context.Context, request CreateBac
 }
 
 // CreateDataGuardAssociation Creates a new Data Guard association.  A Data Guard association represents the replication relationship between the
-// specified database and a peer database. For more information, see [Using Oracle Data Guard]({{DOC_SERVER_URL}}/Content/Database/Tasks/usingdataguard.htm).
+// specified database and a peer database. For more information, see Using Oracle Data Guard (https://docs.us-phoenix-1.oraclecloud.com/Content/Database/Tasks/usingdataguard.htm).
 // All Oracle Cloud Infrastructure resources, including Data Guard associations, get an Oracle-assigned, unique ID
 // called an Oracle Cloud Identifier (OCID). When you create a resource, you can find its OCID in the response.
 // You can also retrieve a resource's OCID by using a List API operation on that resource type, or by viewing the
 // resource in the Console. Fore more information, see
-// [Resource Identifiers](http://localhost:8000/Content/General/Concepts/identifiers.htm).
+// Resource Identifiers (http://localhost:8000/Content/General/Concepts/identifiers.htm).
 func (client DatabaseClient) CreateDataGuardAssociation(ctx context.Context, request CreateDataGuardAssociationRequest, options ...common.RetryPolicyOption) (response CreateDataGuardAssociationResponse, err error) {
 	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodPost, "/databases/{databaseId}/dataGuardAssociations", request)
 	if err != nil {
@@ -438,10 +438,10 @@ func (client DatabaseClient) GetDbSystemPatchHistoryEntry(ctx context.Context, r
 // Database Edition that applies to all the databases on that DB System. The selected edition cannot be changed.
 // An initial database is created on the DB System based on the request parameters you provide and some default
 // options. For more information,
-// see [Default Options for the Initial Database]({{DOC_SERVER_URL}}/Content/Database/Tasks/launchingDB.htm#Default_Options_for_the_Initial_Database).
+// see Default Options for the Initial Database (https://docs.us-phoenix-1.oraclecloud.com/Content/Database/Tasks/launchingDB.htm#Default_Options_for_the_Initial_Database).
 // The DB System will include a command line interface (CLI) that you can use to create additional databases and
 // manage existing databases. For more information, see the
-// [Oracle Database CLI Reference]({{DOC_SERVER_URL}}/Content/Database/References/odacli.htm#Oracle_Database_CLI_Reference).
+// Oracle Database CLI Reference (https://docs.us-phoenix-1.oraclecloud.com/Content/Database/References/odacli.htm#Oracle_Database_CLI_Reference).
 func (client DatabaseClient) LaunchDbSystem(ctx context.Context, request LaunchDbSystemRequest, options ...common.RetryPolicyOption) (response LaunchDbSystemResponse, err error) {
 	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodPost, "/dbSystems", request)
 	if err != nil {
@@ -672,7 +672,7 @@ func (client DatabaseClient) ListDbSystemShapes(ctx context.Context, request Lis
 	return
 }
 
-// ListDbSystems Gets a list of the DB Systems in the specified compartment.
+// ListDbSystems Gets a list of the DB Systems in the specified compartment. You can specify a backupId to list only the DB Systems that support creating a database using this backup in this compartment.
 //
 func (client DatabaseClient) ListDbSystems(ctx context.Context, request ListDbSystemsRequest, options ...common.RetryPolicyOption) (response ListDbSystemsResponse, err error) {
 	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodGet, "/dbSystems", request)

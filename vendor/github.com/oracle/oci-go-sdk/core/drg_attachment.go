@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 // Core Services API
@@ -13,7 +13,7 @@ import (
 )
 
 // DrgAttachment A link between a DRG and VCN. For more information, see
-// [Overview of the Networking Service]({{DOC_SERVER_URL}}/Content/Network/Concepts/overview.htm).
+// Overview of the Networking Service (https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Concepts/overview.htm).
 type DrgAttachment struct {
 
 	// The OCID of the compartment containing the DRG attachment.
@@ -53,7 +53,6 @@ const (
 	DrgAttachmentLifecycleStateAttached  DrgAttachmentLifecycleStateEnum = "ATTACHED"
 	DrgAttachmentLifecycleStateDetaching DrgAttachmentLifecycleStateEnum = "DETACHING"
 	DrgAttachmentLifecycleStateDetached  DrgAttachmentLifecycleStateEnum = "DETACHED"
-	DrgAttachmentLifecycleStateUnknown   DrgAttachmentLifecycleStateEnum = "UNKNOWN"
 )
 
 var mappingDrgAttachmentLifecycleState = map[string]DrgAttachmentLifecycleStateEnum{
@@ -61,16 +60,13 @@ var mappingDrgAttachmentLifecycleState = map[string]DrgAttachmentLifecycleStateE
 	"ATTACHED":  DrgAttachmentLifecycleStateAttached,
 	"DETACHING": DrgAttachmentLifecycleStateDetaching,
 	"DETACHED":  DrgAttachmentLifecycleStateDetached,
-	"UNKNOWN":   DrgAttachmentLifecycleStateUnknown,
 }
 
 // GetDrgAttachmentLifecycleStateEnumValues Enumerates the set of values for DrgAttachmentLifecycleState
 func GetDrgAttachmentLifecycleStateEnumValues() []DrgAttachmentLifecycleStateEnum {
 	values := make([]DrgAttachmentLifecycleStateEnum, 0)
 	for _, v := range mappingDrgAttachmentLifecycleState {
-		if v != DrgAttachmentLifecycleStateUnknown {
-			values = append(values, v)
-		}
+		values = append(values, v)
 	}
 	return values
 }

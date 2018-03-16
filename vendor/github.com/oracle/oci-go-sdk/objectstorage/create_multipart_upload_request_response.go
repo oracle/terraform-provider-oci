@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 package objectstorage
@@ -14,7 +14,7 @@ type CreateMultipartUploadRequest struct {
 	// The top-level namespace used for the request.
 	NamespaceName *string `mandatory:"true" contributesTo:"path" name:"namespaceName"`
 
-	// The name of the bucket.
+	// The name of the bucket. Avoid entering confidential information.
 	// Example: `my-new-bucket1`
 	BucketName *string `mandatory:"true" contributesTo:"path" name:"bucketName"`
 
@@ -26,8 +26,7 @@ type CreateMultipartUploadRequest struct {
 	IfMatch *string `mandatory:"false" contributesTo:"header" name:"if-match"`
 
 	// The entity tag to avoid matching. The only valid value is ‘*’, which indicates that the request should fail if the object already exists.
-	// For creating and committing a multipart upload, this is the entity tag of the target object. For uploading a part, this is the entity tag
-	// of the target part.
+	// For creating and committing a multipart upload, this is the entity tag of the target object. For uploading a part, this is the entity tag of the target part.
 	IfNoneMatch *string `mandatory:"false" contributesTo:"header" name:"if-none-match"`
 
 	// The client request ID for tracing.
@@ -51,7 +50,7 @@ type CreateMultipartUploadResponse struct {
 	OpcClientRequestId *string `presentIn:"header" name:"opc-client-request-id"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular
-	// request, please provide this request ID.
+	// request, provide this request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
 	// The full path to the new upload.

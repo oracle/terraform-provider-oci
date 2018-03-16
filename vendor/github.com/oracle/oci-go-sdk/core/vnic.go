@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 // Core Services API
@@ -17,14 +17,14 @@ import (
 // through that subnet. Each instance has a *primary VNIC* that is automatically
 // created and attached during launch. You can add *secondary VNICs* to an
 // instance after it's launched. For more information, see
-// [Virtual Network Interface Cards (VNICs)]({{DOC_SERVER_URL}}/Content/Network/Tasks/managingVNICs.htm).
+// Virtual Network Interface Cards (VNICs) (https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Tasks/managingVNICs.htm).
 // Each VNIC has a *primary private IP* that is automatically assigned during launch.
 // You can add *secondary private IPs* to a VNIC after it's created. For more
 // information, see CreatePrivateIp and
-// [IP Addresses]({{DOC_SERVER_URL}}/Content/Network/Tasks/managingIPaddresses.htm).
+// IP Addresses (https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Tasks/managingIPaddresses.htm).
 // To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized,
 // talk to an administrator. If you're an administrator who needs to write policies to give users access, see
-// [Getting Started with Policies]({{DOC_SERVER_URL}}/Content/Identity/Concepts/policygetstarted.htm).
+// Getting Started with Policies (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/policygetstarted.htm).
 type Vnic struct {
 
 	// The VNIC's Availability Domain.
@@ -60,10 +60,10 @@ type Vnic struct {
 	// portion of the primary private IP's fully qualified domain name (FQDN)
 	// (for example, `bminstance-1` in FQDN `bminstance-1.subnet123.vcn1.oraclevcn.com`).
 	// Must be unique across all VNICs in the subnet and comply with
-	// [RFC 952](https://tools.ietf.org/html/rfc952) and
-	// [RFC 1123](https://tools.ietf.org/html/rfc1123).
+	// RFC 952 (https://tools.ietf.org/html/rfc952) and
+	// RFC 1123 (https://tools.ietf.org/html/rfc1123).
 	// For more information, see
-	// [DNS in Your Virtual Cloud Network]({{DOC_SERVER_URL}}/Content/Network/Concepts/dns.htm).
+	// DNS in Your Virtual Cloud Network (https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Concepts/dns.htm).
 	// Example: `bminstance-1`
 	HostnameLabel *string `mandatory:"false" json:"hostnameLabel"`
 
@@ -81,7 +81,7 @@ type Vnic struct {
 	// Whether the source/destination check is disabled on the VNIC.
 	// Defaults to `false`, which means the check is performed. For information
 	// about why you would skip the source/destination check, see
-	// [Using a Private IP as a Route Target]({{DOC_SERVER_URL}}/Content/Network/Tasks/managingroutetables.htm#privateip).
+	// Using a Private IP as a Route Target (https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Tasks/managingroutetables.htm#privateip).
 	// Example: `true`
 	SkipSourceDestCheck *bool `mandatory:"false" json:"skipSourceDestCheck"`
 }
@@ -99,7 +99,6 @@ const (
 	VnicLifecycleStateAvailable    VnicLifecycleStateEnum = "AVAILABLE"
 	VnicLifecycleStateTerminating  VnicLifecycleStateEnum = "TERMINATING"
 	VnicLifecycleStateTerminated   VnicLifecycleStateEnum = "TERMINATED"
-	VnicLifecycleStateUnknown      VnicLifecycleStateEnum = "UNKNOWN"
 )
 
 var mappingVnicLifecycleState = map[string]VnicLifecycleStateEnum{
@@ -107,16 +106,13 @@ var mappingVnicLifecycleState = map[string]VnicLifecycleStateEnum{
 	"AVAILABLE":    VnicLifecycleStateAvailable,
 	"TERMINATING":  VnicLifecycleStateTerminating,
 	"TERMINATED":   VnicLifecycleStateTerminated,
-	"UNKNOWN":      VnicLifecycleStateUnknown,
 }
 
 // GetVnicLifecycleStateEnumValues Enumerates the set of values for VnicLifecycleState
 func GetVnicLifecycleStateEnumValues() []VnicLifecycleStateEnum {
 	values := make([]VnicLifecycleStateEnum, 0)
 	for _, v := range mappingVnicLifecycleState {
-		if v != VnicLifecycleStateUnknown {
-			values = append(values, v)
-		}
+		values = append(values, v)
 	}
 	return values
 }

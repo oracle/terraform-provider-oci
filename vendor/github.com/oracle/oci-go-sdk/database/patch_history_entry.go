@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 // Database Service API
@@ -28,7 +28,7 @@ type PatchHistoryEntry struct {
 	TimeStarted *common.SDKTime `mandatory:"true" json:"timeStarted"`
 
 	// The action being performed or was completed.
-	Action PatchHistoryEntryActionEnum `mandatory:"false" json:"action"`
+	Action PatchHistoryEntryActionEnum `mandatory:"false" json:"action,omitempty"`
 
 	// A descriptive text associated with the lifecycleState.
 	// Typically contains additional displayable text.
@@ -49,22 +49,18 @@ type PatchHistoryEntryActionEnum string
 const (
 	PatchHistoryEntryActionApply    PatchHistoryEntryActionEnum = "APPLY"
 	PatchHistoryEntryActionPrecheck PatchHistoryEntryActionEnum = "PRECHECK"
-	PatchHistoryEntryActionUnknown  PatchHistoryEntryActionEnum = "UNKNOWN"
 )
 
 var mappingPatchHistoryEntryAction = map[string]PatchHistoryEntryActionEnum{
 	"APPLY":    PatchHistoryEntryActionApply,
 	"PRECHECK": PatchHistoryEntryActionPrecheck,
-	"UNKNOWN":  PatchHistoryEntryActionUnknown,
 }
 
 // GetPatchHistoryEntryActionEnumValues Enumerates the set of values for PatchHistoryEntryAction
 func GetPatchHistoryEntryActionEnumValues() []PatchHistoryEntryActionEnum {
 	values := make([]PatchHistoryEntryActionEnum, 0)
 	for _, v := range mappingPatchHistoryEntryAction {
-		if v != PatchHistoryEntryActionUnknown {
-			values = append(values, v)
-		}
+		values = append(values, v)
 	}
 	return values
 }
@@ -77,23 +73,19 @@ const (
 	PatchHistoryEntryLifecycleStateInProgress PatchHistoryEntryLifecycleStateEnum = "IN_PROGRESS"
 	PatchHistoryEntryLifecycleStateSucceeded  PatchHistoryEntryLifecycleStateEnum = "SUCCEEDED"
 	PatchHistoryEntryLifecycleStateFailed     PatchHistoryEntryLifecycleStateEnum = "FAILED"
-	PatchHistoryEntryLifecycleStateUnknown    PatchHistoryEntryLifecycleStateEnum = "UNKNOWN"
 )
 
 var mappingPatchHistoryEntryLifecycleState = map[string]PatchHistoryEntryLifecycleStateEnum{
 	"IN_PROGRESS": PatchHistoryEntryLifecycleStateInProgress,
 	"SUCCEEDED":   PatchHistoryEntryLifecycleStateSucceeded,
 	"FAILED":      PatchHistoryEntryLifecycleStateFailed,
-	"UNKNOWN":     PatchHistoryEntryLifecycleStateUnknown,
 }
 
 // GetPatchHistoryEntryLifecycleStateEnumValues Enumerates the set of values for PatchHistoryEntryLifecycleState
 func GetPatchHistoryEntryLifecycleStateEnumValues() []PatchHistoryEntryLifecycleStateEnum {
 	values := make([]PatchHistoryEntryLifecycleStateEnum, 0)
 	for _, v := range mappingPatchHistoryEntryLifecycleState {
-		if v != PatchHistoryEntryLifecycleStateUnknown {
-			values = append(values, v)
-		}
+		values = append(values, v)
 	}
 	return values
 }

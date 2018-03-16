@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 package database
@@ -11,7 +11,7 @@ import (
 // GetDbNodeRequest wrapper for the GetDbNode operation
 type GetDbNodeRequest struct {
 
-	// The database node [OCID]({{DOC_SERVER_URL}}/Content/General/Concepts/identifiers.htm).
+	// The database node OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
 	DbNodeId *string `mandatory:"true" contributesTo:"path" name:"dbNodeId"`
 }
 

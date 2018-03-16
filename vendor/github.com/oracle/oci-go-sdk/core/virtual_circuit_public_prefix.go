@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 // Core Services API
@@ -14,7 +14,7 @@ import (
 
 // VirtualCircuitPublicPrefix A public IP prefix and its details. With a public virtual circuit, the customer
 // specifies the customer-owned public IP prefixes to advertise across the connection.
-// For more information, see [FastConnect Overview]({{DOC_SERVER_URL}}/Content/Network/Concepts/fastconnect.htm).
+// For more information, see FastConnect Overview (https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Concepts/fastconnect.htm).
 type VirtualCircuitPublicPrefix struct {
 
 	// Publix IP prefix (CIDR) that the customer specified.
@@ -40,23 +40,19 @@ const (
 	VirtualCircuitPublicPrefixVerificationStateInProgress VirtualCircuitPublicPrefixVerificationStateEnum = "IN_PROGRESS"
 	VirtualCircuitPublicPrefixVerificationStateCompleted  VirtualCircuitPublicPrefixVerificationStateEnum = "COMPLETED"
 	VirtualCircuitPublicPrefixVerificationStateFailed     VirtualCircuitPublicPrefixVerificationStateEnum = "FAILED"
-	VirtualCircuitPublicPrefixVerificationStateUnknown    VirtualCircuitPublicPrefixVerificationStateEnum = "UNKNOWN"
 )
 
 var mappingVirtualCircuitPublicPrefixVerificationState = map[string]VirtualCircuitPublicPrefixVerificationStateEnum{
 	"IN_PROGRESS": VirtualCircuitPublicPrefixVerificationStateInProgress,
 	"COMPLETED":   VirtualCircuitPublicPrefixVerificationStateCompleted,
 	"FAILED":      VirtualCircuitPublicPrefixVerificationStateFailed,
-	"UNKNOWN":     VirtualCircuitPublicPrefixVerificationStateUnknown,
 }
 
 // GetVirtualCircuitPublicPrefixVerificationStateEnumValues Enumerates the set of values for VirtualCircuitPublicPrefixVerificationState
 func GetVirtualCircuitPublicPrefixVerificationStateEnumValues() []VirtualCircuitPublicPrefixVerificationStateEnum {
 	values := make([]VirtualCircuitPublicPrefixVerificationStateEnum, 0)
 	for _, v := range mappingVirtualCircuitPublicPrefixVerificationState {
-		if v != VirtualCircuitPublicPrefixVerificationStateUnknown {
-			values = append(values, v)
-		}
+		values = append(values, v)
 	}
 	return values
 }

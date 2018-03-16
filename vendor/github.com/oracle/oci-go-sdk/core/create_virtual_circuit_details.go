@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 // Core Services API
@@ -19,7 +19,7 @@ type CreateVirtualCircuitDetails struct {
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The type of IP addresses used in this virtual circuit. PRIVATE
-	// means [RFC 1918](https://tools.ietf.org/html/rfc1918) addresses
+	// means RFC 1918 (https://tools.ietf.org/html/rfc1918) addresses
 	// (10.0.0.0/8, 172.16/12, and 192.168/16). Only PRIVATE is supported.
 	Type CreateVirtualCircuitDetailsTypeEnum `mandatory:"true" json:"type"`
 
@@ -81,22 +81,18 @@ type CreateVirtualCircuitDetailsTypeEnum string
 const (
 	CreateVirtualCircuitDetailsTypePublic  CreateVirtualCircuitDetailsTypeEnum = "PUBLIC"
 	CreateVirtualCircuitDetailsTypePrivate CreateVirtualCircuitDetailsTypeEnum = "PRIVATE"
-	CreateVirtualCircuitDetailsTypeUnknown CreateVirtualCircuitDetailsTypeEnum = "UNKNOWN"
 )
 
 var mappingCreateVirtualCircuitDetailsType = map[string]CreateVirtualCircuitDetailsTypeEnum{
 	"PUBLIC":  CreateVirtualCircuitDetailsTypePublic,
 	"PRIVATE": CreateVirtualCircuitDetailsTypePrivate,
-	"UNKNOWN": CreateVirtualCircuitDetailsTypeUnknown,
 }
 
 // GetCreateVirtualCircuitDetailsTypeEnumValues Enumerates the set of values for CreateVirtualCircuitDetailsType
 func GetCreateVirtualCircuitDetailsTypeEnumValues() []CreateVirtualCircuitDetailsTypeEnum {
 	values := make([]CreateVirtualCircuitDetailsTypeEnum, 0)
 	for _, v := range mappingCreateVirtualCircuitDetailsType {
-		if v != CreateVirtualCircuitDetailsTypeUnknown {
-			values = append(values, v)
-		}
+		values = append(values, v)
 	}
 	return values
 }

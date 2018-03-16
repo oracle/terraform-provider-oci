@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 package database
@@ -11,10 +11,10 @@ import (
 // FailoverDataGuardAssociationRequest wrapper for the FailoverDataGuardAssociation operation
 type FailoverDataGuardAssociationRequest struct {
 
-	// The database [OCID]({{DOC_SERVER_URL}}/Content/General/Concepts/identifiers.htm).
+	// The database OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
 	DatabaseId *string `mandatory:"true" contributesTo:"path" name:"databaseId"`
 
-	// The Data Guard association's [OCID]({{DOC_SERVER_URL}}/Content/General/Concepts/identifiers.htm).
+	// The Data Guard association's OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
 	DataGuardAssociationId *string `mandatory:"true" contributesTo:"path" name:"dataGuardAssociationId"`
 
 	// A request to perform a failover, transitioning a standby database into a primary database.

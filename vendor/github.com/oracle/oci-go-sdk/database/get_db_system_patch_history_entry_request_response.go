@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 package database
@@ -11,7 +11,7 @@ import (
 // GetDbSystemPatchHistoryEntryRequest wrapper for the GetDbSystemPatchHistoryEntry operation
 type GetDbSystemPatchHistoryEntryRequest struct {
 
-	// The DB System [OCID]({{DOC_SERVER_URL}}/Content/General/Concepts/identifiers.htm).
+	// The DB System OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
 	DbSystemId *string `mandatory:"true" contributesTo:"path" name:"dbSystemId"`
 
 	// The OCID of the patch history entry.

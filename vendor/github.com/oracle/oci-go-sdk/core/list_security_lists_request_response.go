@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 package core
@@ -78,22 +78,18 @@ type ListSecurityListsSortByEnum string
 const (
 	ListSecurityListsSortByTimecreated ListSecurityListsSortByEnum = "TIMECREATED"
 	ListSecurityListsSortByDisplayname ListSecurityListsSortByEnum = "DISPLAYNAME"
-	ListSecurityListsSortByUnknown     ListSecurityListsSortByEnum = "UNKNOWN"
 )
 
 var mappingListSecurityListsSortBy = map[string]ListSecurityListsSortByEnum{
 	"TIMECREATED": ListSecurityListsSortByTimecreated,
 	"DISPLAYNAME": ListSecurityListsSortByDisplayname,
-	"UNKNOWN":     ListSecurityListsSortByUnknown,
 }
 
 // GetListSecurityListsSortByEnumValues Enumerates the set of values for ListSecurityListsSortBy
 func GetListSecurityListsSortByEnumValues() []ListSecurityListsSortByEnum {
 	values := make([]ListSecurityListsSortByEnum, 0)
 	for _, v := range mappingListSecurityListsSortBy {
-		if v != ListSecurityListsSortByUnknown {
-			values = append(values, v)
-		}
+		values = append(values, v)
 	}
 	return values
 }
@@ -103,24 +99,20 @@ type ListSecurityListsSortOrderEnum string
 
 // Set of constants representing the allowable values for ListSecurityListsSortOrder
 const (
-	ListSecurityListsSortOrderAsc     ListSecurityListsSortOrderEnum = "ASC"
-	ListSecurityListsSortOrderDesc    ListSecurityListsSortOrderEnum = "DESC"
-	ListSecurityListsSortOrderUnknown ListSecurityListsSortOrderEnum = "UNKNOWN"
+	ListSecurityListsSortOrderAsc  ListSecurityListsSortOrderEnum = "ASC"
+	ListSecurityListsSortOrderDesc ListSecurityListsSortOrderEnum = "DESC"
 )
 
 var mappingListSecurityListsSortOrder = map[string]ListSecurityListsSortOrderEnum{
-	"ASC":     ListSecurityListsSortOrderAsc,
-	"DESC":    ListSecurityListsSortOrderDesc,
-	"UNKNOWN": ListSecurityListsSortOrderUnknown,
+	"ASC":  ListSecurityListsSortOrderAsc,
+	"DESC": ListSecurityListsSortOrderDesc,
 }
 
 // GetListSecurityListsSortOrderEnumValues Enumerates the set of values for ListSecurityListsSortOrder
 func GetListSecurityListsSortOrderEnumValues() []ListSecurityListsSortOrderEnum {
 	values := make([]ListSecurityListsSortOrderEnum, 0)
 	for _, v := range mappingListSecurityListsSortOrder {
-		if v != ListSecurityListsSortOrderUnknown {
-			values = append(values, v)
-		}
+		values = append(values, v)
 	}
 	return values
 }

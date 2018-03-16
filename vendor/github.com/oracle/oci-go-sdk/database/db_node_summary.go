@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 // Database Service API
@@ -13,7 +13,7 @@ import (
 )
 
 // DbNodeSummary A server where Oracle database software is running.
-// To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized, talk to an administrator. If you're an administrator who needs to write policies to give users access, see [Getting Started with Policies]({{DOC_SERVER_URL}}/Content/Identity/Concepts/policygetstarted.htm).
+// To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized, talk to an administrator. If you're an administrator who needs to write policies to give users access, see Getting Started with Policies (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/policygetstarted.htm).
 type DbNodeSummary struct {
 
 	// The OCID of the DB System.
@@ -59,7 +59,6 @@ const (
 	DbNodeSummaryLifecycleStateTerminating  DbNodeSummaryLifecycleStateEnum = "TERMINATING"
 	DbNodeSummaryLifecycleStateTerminated   DbNodeSummaryLifecycleStateEnum = "TERMINATED"
 	DbNodeSummaryLifecycleStateFailed       DbNodeSummaryLifecycleStateEnum = "FAILED"
-	DbNodeSummaryLifecycleStateUnknown      DbNodeSummaryLifecycleStateEnum = "UNKNOWN"
 )
 
 var mappingDbNodeSummaryLifecycleState = map[string]DbNodeSummaryLifecycleStateEnum{
@@ -72,16 +71,13 @@ var mappingDbNodeSummaryLifecycleState = map[string]DbNodeSummaryLifecycleStateE
 	"TERMINATING":  DbNodeSummaryLifecycleStateTerminating,
 	"TERMINATED":   DbNodeSummaryLifecycleStateTerminated,
 	"FAILED":       DbNodeSummaryLifecycleStateFailed,
-	"UNKNOWN":      DbNodeSummaryLifecycleStateUnknown,
 }
 
 // GetDbNodeSummaryLifecycleStateEnumValues Enumerates the set of values for DbNodeSummaryLifecycleState
 func GetDbNodeSummaryLifecycleStateEnumValues() []DbNodeSummaryLifecycleStateEnum {
 	values := make([]DbNodeSummaryLifecycleStateEnum, 0)
 	for _, v := range mappingDbNodeSummaryLifecycleState {
-		if v != DbNodeSummaryLifecycleStateUnknown {
-			values = append(values, v)
-		}
+		values = append(values, v)
 	}
 	return values
 }

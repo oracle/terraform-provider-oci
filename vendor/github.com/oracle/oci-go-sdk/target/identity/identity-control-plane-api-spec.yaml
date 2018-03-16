@@ -1,0 +1,1755 @@
+swagger: "2.0"
+info:
+  version: 1.0.0
+  title: Identity Service
+  description: API for the Identity Service
+  license:
+    name: Oracle Corporation
+host: localhost:9000
+basePath: /v1
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+#-----------------------------------------------------------------------------------------------------------------------
+# Users
+#-----------------------------------------------------------------------------------------------------------------------
+  /users/:
+    get:
+      tags: ['Identity']
+      summary: ListUsers
+      description: |
+        Gets a list of all the users in your tenancy. You must specify your tenancy's OCID as the value for the
+        compartment ID (remember that the tenancy is simply the root compartment).
+        See [Where to Find Your Tenancy's OCID](../../../#API/Concepts/usingapi.htm#Where_to_Find_Your_Tenancy's_OCID).
+      operationId: ListUsers
+      parameters:
+        - $ref: '#/parameters/CompartmentIdQueryParam'
+        - $ref: '#/parameters/PaginationTokenQueryParam'
+        - $ref: '#/parameters/PaginationLimitQueryParam'
+      responses:
+        200:
+          description: A page of `User` objects.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/User'
+          headers:
+            opc-request-id:
+               type: string
+               description: |
+                 Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
+                 a particular request, please provide the request ID.
+            opc-next-page:
+               type: string
+               description: |
+                 For pagination of a list of items. When paging through a list, if this header appears in the response,
+                 then there are additional items still to get. Include this value as the `page` parameter for the
+                 subsequent GET request. For information about pagination, see
+                 [List Pagination](../../../#API/Concepts/usingapi.htm#List_Pagination).
+        default:
+          $ref: '#/responses/Error'
+    post:
+      tags: ['Identity']
+      summary: CreateUser
+      description: |
+            Creates a new user in your tenancy. For conceptual information about users, your tenancy, and other
+            Identity Service components, see [Overview of the Identity Service](../../../#Identity/Concepts/overview.htm).
+
+            You must specify your tenancy's OCID as the compartment ID in the request object (remember that the
+            tenancy is simply the root compartment). Notice that Identity Service resources reside within the
+            tenancy itself, unlike cloud resources such as compute instances, which typically reside within
+            compartments inside the tenancy. For information about OCIDs, see
+            [Resource Identifiers](../../../#General/Concepts/identifiers.htm).
+
+            You must also specify a *name* for the user, which must be unique across all users in your tenancy
+            and cannot be changed. If you specify a name that's already in use, you'll get a 409 error.
+            This name will be the user's login to the Console. You might want to pick a
+            name that your company's own identity system (e.g., Active Directory, LDAP, etc.) already uses.
+            If you delete a user and then create a new user with the same name, they'll be considered different
+            users because they have different OCIDs.
+
+            You must also specify a *description* for the user (although it can be an empty string).
+            It does not have to be unique, and you can change it anytime with [UpdateUser](#updateUser).
+            You can use the field to provide the user's full name, a description, a nickname, or other
+            information to generally identify the user.
+
+            After you send your request, the new object's state will temporarily be CREATING. Before using the
+            object, first make sure its state has changed to CREATED.
+
+            A new user has no permissions until you place the user in one or more groups (see
+            [AddUserToGroup](#addUserToGroup). If the user needs to access the Console, you need to
+            provide the user a password (see [CreateOrResetUIPassword](#createOrResetUIPassword)).
+            If the user needs to access the Oracle Bare Metal IaaS API, you need to upload a public API signing
+            key for that user (see [UploadApiKey](#uploadApiKey)).
+
+            For information about endpoints and signing API requests,
+            see [Making API Requests](../../../#API/Concepts/usingapi.htm).
+      operationId: CreateUser
+      parameters:
+        - name: createUserRequest
+          description: Request object for creating a new user.
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/CreateUserRequest'
+        - $ref: '#/parameters/IdempotencyTokenHeader'
+      responses:
+        200:
+          description: The user is being created.
+          schema:
+            $ref: '#/definitions/User'
+          headers:
+            etag:
+              type: string
+              description: For optimistic concurrency control. See `if-match`.
+            opc-request-id:
+              type: string
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
+                particular request, please provide the request ID.
+        default:
+          $ref: '#/responses/Error'
+  /users/{userId}:
+    get:
+      tags: ['Identity']
+      summary: GetUser
+      description: Gets the specified user's information.
+      operationId: GetUser
+      parameters:
+        - $ref: '#/parameters/UserIdPathParam'
+      responses:
+        200:
+          description: The user was found.
+          schema:
+            $ref: '#/definitions/User'
+          headers:
+            etag:
+              type: string
+              description: For optimistic concurrency control. See `if-match`.
+            opc-request-id:
+              type: string
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
+                particular request, please provide the request ID.
+        default:
+          $ref: '#/responses/Error'
+    delete:
+      tags: ['Identity']
+      summary: DeleteUser
+      description: Deletes the specified user. The user must not be in any groups.
+      operationId: DeleteUser
+      parameters:
+        - $ref: '#/parameters/UserIdPathParam'
+        - $ref: '#/parameters/IfMatchHeader'
+      responses:
+        200:
+          description: The user is being deleted.
+        default:
+          $ref: '#/responses/Error'
+    put:
+      tags: ['Identity']
+      summary: UpdateUser
+      description: Updates the specified user's description.
+      operationId: UpdateUser
+      parameters:
+        - $ref: '#/parameters/UserIdPathParam'
+        - name: updateUserRequest
+          description: Request object for updating a user.
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/UpdateUserRequest'
+        - $ref: '#/parameters/IfMatchHeader'
+      responses:
+        200:
+          description: The user is being updated.
+          schema:
+            $ref: '#/definitions/User'
+          headers:
+            etag:
+              type: string
+              description: For optimistic concurrency control. See `if-match`.
+            opc-request-id:
+              type: string
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
+                particular request, please provide the request ID.
+        default:
+          $ref: '#/responses/Error'
+#-----------------------------------------------------------------------------------------------------------------------
+  /users/{userId}/apiKeys/:
+    get:
+      tags: ['Identity']
+      summary: ListApiKeys
+      description: |
+        Gets a list of the API signing keys for the specified user. A user can have a maximum of three keys.
+
+        Every user has permission to use this API call for *their own user ID*.  An Administrator in your
+        organization does not need to write a policy to give users this ability.
+      operationId: ListApiKeys
+      parameters:
+        - $ref: '#/parameters/UserIdPathParam'
+      responses:
+        200:
+          description: A page of `ApiKey` objects.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ApiKey'
+          headers:
+            opc-request-id:
+               type: string
+               description: |
+                 Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
+                 particular request, please provide the request ID.
+        default:
+          $ref: '#/responses/Error'
+    post:
+      tags: ['Identity']
+      summary: UploadApiKey
+      description: |
+        Uploads an API signing key for the specified user.  Each user can have a maximum of three keys.
+        Each key must be an RSA public key in PEM format. For more information about the format and how
+        to generate a key, see [Signing Requests] (../../../#API/Concepts/signingrequests.htm). For more
+        information about user credentials, see [User Credentials](../../../#Identity/Concepts/usercredentials.htm).
+
+        Every user has permission to use this operation to upload a key for *their own user ID*. An
+        Administrator in your organization does not need to write a policy to give users this ability.
+        To compare, Administrators who have permission to the tenancy can use this operation to upload a
+        key for any user, including themselves.
+
+        **Important:** Even though you have permission to upload an API key, you might not yet
+        have permission to do much else. If you try calling an operation unrelated to your own credential
+        management (e.g., `ListUsers`, `LaunchInstance`) and receive a 403 error (i.e., unauthorized),
+        check with an administrator to confirm which Identity Service group(s) you're in and what permissions
+        you have.
+
+        **Note:** The resulting `ApiKey` object includes a placeholder, Oracle-assigned description.
+        You can't set or change that value.
+
+        After you send your request, the new object's state will temporarily be CREATING. Before using
+        the object, first make sure its state has changed to CREATED.
+      operationId: UploadApiKey
+      parameters:
+        - $ref: '#/parameters/UserIdPathParam'
+        - name: createApiKeyRequest
+          description: Request object for uploading an API key for a user.
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/CreateApiKeyRequest'
+        - $ref: '#/parameters/IdempotencyTokenHeader'
+      responses:
+        200:
+          description: The key is being uploaded.
+          schema:
+            $ref: '#/definitions/ApiKey'
+        default:
+          $ref: '#/responses/Error'
+
+  /users/{userId}/apiKeys/{fingerprint}:
+    delete:
+      tags: ['Identity']
+      summary: DeleteApiKey
+      description: |
+        Deletes the specified API signing key for the specified user.
+
+        Every user has permission to use this operation to delete a key for *their own user ID*. An
+        Administrator in your organization does not need to write a policy to give users this ability.
+        To compare, Administrators who have permission to the tenancy can use this operation to delete
+        a key for any user, including themselves.
+      operationId: DeleteApiKey
+      parameters:
+        - $ref: '#/parameters/UserIdPathParam'
+        - $ref: '#/parameters/KeyFingerprintPathParam'
+        - $ref: '#/parameters/IfMatchHeader'
+      responses:
+        200:
+          description: The key is being deleted.
+        default:
+          $ref: '#/responses/Error'
+#-----------------------------------------------------------------------------------------------------------------------
+  /users/{userId}/uiPassword:
+    post:
+      tags: ['Identity']
+      summary: CreateOrResetUIPassword
+      description: |
+        Creates a new Console one-time password for the specified user. For more information about user
+        credentials, see [User Credentials](../../../#Identity/Concepts/usercredentials.htm).
+
+        Use this operation after creating a new user, or if a user forgets their password. The new one-time
+        password is returned to you in the response, and you must securely deliver it to the user. They'll
+        be prompted to change this password the next time they sign in to the Console.
+
+        **Note:** The user's Console login is the unique name you specified when you created the user
+        (see [CreateUser](#createUser)).
+      operationId: CreateOrResetUIPassword
+      parameters:
+        - $ref: '#/parameters/UserIdPathParam'
+        - $ref: '#/parameters/IdempotencyTokenHeader'
+      responses:
+        200:
+          description: The new UI password is being created.
+          schema:
+            $ref: '#/definitions/UIPassword'
+          headers:
+            etag:
+              type: string
+              description: For optimistic concurrency control. See `if-match`.
+            opc-request-id:
+              type: string
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
+                particular request, please provide the request ID.
+        default:
+          $ref: '#/responses/Error'
+    put:
+      tags: ['Identity']
+      summary: UpdateUserUIPassword
+      description: |
+        Changes the specified user's Console password. For more information about user credentials,
+        see [User Credentials](../../../#Identity/Concepts/usercredentials.htm).
+
+        Every user has permission to use this operation to change *their own password*.  An Administrator in
+        your organization does not need to write a policy to give users this ability. To compare,
+        Administrators who have permission to the tenancy can use this operation to change a password for any
+        user, including themselves.
+      operationId: UpdateUserUIPassword
+      parameters:
+        - $ref: '#/parameters/UserIdPathParam'
+        - name: updateUiPasswordRequest
+          description: Request object for updating a user's UI password.
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/UpdateUiPasswordRequest'
+        - $ref: '#/parameters/IfMatchHeader'
+      responses:
+        200:
+          description: The UI password is being updated.
+          schema:
+            $ref: '#/definitions/UIPassword'
+          headers:
+            etag:
+              type: string
+              description: For optimistic concurrency control. See `if-match`.
+            opc-request-id:
+              type: string
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
+                particular request, please provide the request ID.
+        default:
+          $ref: '#/responses/Error'
+#-----------------------------------------------------------------------------------------------------------------------
+# Swift Password
+#-----------------------------------------------------------------------------------------------------------------------
+  /users/{userId}/swiftPasswords/:
+    post:
+      tags: ['Identity']
+      summary: CreateSwiftPassword
+      description: |
+        Create a new Swift password. There is a limit of 2 Swift passwords per user.
+      operationId: CreateSwiftPassword
+      parameters:
+        - name: createSwiftPasswordRequest
+          description: Request object for creating a new swift password.
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/CreateSwiftPasswordRequest'
+        - $ref: '#/parameters/UserIdPathParam'
+        - $ref: '#/parameters/IdempotencyTokenHeader'
+      responses:
+        200:
+          description: The new Swift password is being created.
+          schema:
+            $ref: '#/definitions/SwiftPassword'
+          headers:
+            etag:
+              type: string
+              description: For optimistic concurrency control. See `if-match`.
+            opc-request-id:
+              type: string
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
+                particular request, please provide the request ID.
+        default:
+          $ref: '#/responses/Error'
+    get:
+      tags: ['Identity']
+      summary: ListSwiftPasswords
+      description: |
+        List all the Swift passwords of the user. This list of Swift password entities will not actually send back
+        the current Swift password strings of the user. Rather it will only send back the ids of the Swift password
+        entities, so that the user can make refresh/delete calls on a certain Swift password entity. The caller gets
+        the passwords string only when making the create or refresh call.
+      operationId: ListSwiftPasswords
+      parameters:
+        - $ref: '#/parameters/UserIdPathParam'
+      responses:
+        200:
+          description: The list of Swift passwords.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/SwiftPassword'
+          headers:
+            opc-request-id:
+              type: string
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
+                particular request, please provide the request ID.
+        default:
+          $ref: '#/responses/Error'
+
+  /users/{userId}/swiftPasswords/{swiftPasswordId}:
+    put:
+      tags: ['Identity']
+      summary: UpdateSwiftPassword
+      description: |
+        Updates a specific Swift password entity. It does not update the actual password, rather only the description field.
+      operationId: UpdateSwiftPassword
+      parameters:
+        - $ref: '#/parameters/UserIdPathParam'
+        - $ref: '#/parameters/SwiftPasswordIdPathParam'
+        - name: updateSwiftPasswordRequest
+          description: Request object for updating a Swift password.
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/UpdateSwiftPasswordRequest'
+      responses:
+        200:
+          description: The Swift password entity has been updated.
+          schema:
+            $ref: '#/definitions/SwiftPassword'
+          headers:
+            etag:
+              type: string
+              description: For optimistic concurrency control. See `if-match`.
+            opc-request-id:
+              type: string
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
+                particular request, please provide the request ID.
+        default:
+          $ref: '#/responses/Error'
+    delete:
+      tags: ['Identity']
+      summary: DeleteSwiftPassword
+      description: |
+        Deletes a specific Swift password.
+      operationId: DeleteSwiftPassword
+      parameters:
+        - $ref: '#/parameters/UserIdPathParam'
+        - $ref: '#/parameters/SwiftPasswordIdPathParam'
+      responses:
+        200:
+          description: The Swift password was deleted.
+          headers:
+            opc-request-id:
+              type: string
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
+                particular request, please provide the request ID.
+        default:
+          $ref: '#/responses/Error'
+#-----------------------------------------------------------------------------------------------------------------------
+# Groups
+#-----------------------------------------------------------------------------------------------------------------------
+  /groups/:
+    get:
+      tags: ['Identity']
+      summary: ListGroups
+      description: |
+        Gets a list of all the groups in your tenancy. You must specify your tenancy's OCID as the value for
+        the compartment ID (remember that the tenancy is simply the root compartment).
+        See [Where to Find Your Tenancy's OCID](../../../#API/Concepts/usingapi.htm#Where_to_Find_Your_Tenancy's_OCID).
+      operationId: ListGroups
+      parameters:
+        - $ref: '#/parameters/CompartmentIdQueryParam'
+        - $ref: '#/parameters/PaginationTokenQueryParam'
+        - $ref: '#/parameters/PaginationLimitQueryParam'
+      responses:
+        200:
+          description: A page of `Group` objects.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Group'
+          headers:
+            opc-request-id:
+              type: string
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
+                particular request, please provide the request ID.
+            opc-next-page:
+              type: string
+              description: |
+                For pagination of a list of items. When paging through a list, if this header appears in the
+                response, then there are additional items still to get. Include this value as the `page` parameter
+                for the subsequent GET request. For information about pagination, see
+                [List Pagination](../../../#API/Concepts/usingapi.htm#List_Pagination).
+        default:
+          $ref: '#/responses/Error'
+    post:
+      tags: ['Identity']
+      summary: CreateGroup
+      description: |
+        Creates a new group in your tenancy. A group is a container for users who all need the same permissions.
+        For conceptual information about groups and other Identity Service components,
+        see [Overview of the Identity Service](../../../#Identity/Concepts/overview.htm).
+
+        You must specify your tenancy's OCID as the compartment ID in the request object (remember that the tenancy
+        is simply the root compartment). Notice that Identity Service resources reside within the tenancy itself,
+        unlike cloud resources such as compute instances, which typically reside within compartments inside the tenancy.
+        For information about OCIDs, see [Resource Identifiers](../../../#General/Concepts/identifiers.htm).
+
+        You must also specify a *name* for the group, which must be unique across all groups in your tenancy and
+        cannot be changed. You can use this name or the OCID when writing policies that apply to the group. For more
+        information about policies, see [Policies](../../../#Identity/Concepts/policies.htm).
+
+        You must also specify a *description* for the group (although it can be an empty string). It does not
+        have to be unique, and you can change it anytime with [UpdateGroup](#updateGroup).
+
+        After you send your request, the new object's state will temporarily be CREATING. Before using the object, first
+        make sure its state has changed to CREATED.
+
+        After creating the group, you need to put users in it and write policies for it.
+        See [AddUserToGroup](#addUserToGroup) and [CreatePolicy](#createPolicy).
+
+        For information about endpoints and signing API requests, see
+        [Making API Requests](../../../#API/Concepts/usingapi.htm).
+      operationId: CreateGroup
+      parameters:
+        - name: createGroupRequest
+          description: Request object for creating a new group.
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/CreateGroupRequest'
+        - $ref: '#/parameters/IdempotencyTokenHeader'
+      responses:
+        200:
+          description: The group is being created.
+          schema:
+            $ref: '#/definitions/Group'
+          headers:
+            etag:
+              type: string
+              description: For optimistic concurrency control. See `if-match`.
+            opc-request-id:
+              type: string
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
+                particular request, please provide the request ID.
+        default:
+          $ref: '#/responses/Error'
+  /groups/{groupId}:
+    get:
+      tags: ['Identity']
+      summary: GetGroup
+      description: |
+        Gets the specified group's information.
+
+        This operation does not return a list of all the users in the group. To do that, use
+        [ListUserGroupMemberships](#listUserGroupMemberships) and provide the group's OCID as a
+        query parameter in the request.
+      operationId: GetGroup
+      parameters:
+        - $ref: '#/parameters/GroupIdPathParam'
+      responses:
+        200:
+          description: The group was found.
+          schema:
+            $ref: '#/definitions/Group'
+          headers:
+            etag:
+              type: string
+              description: For optimistic concurrency control. See `if-match`.
+            opc-request-id:
+              type: string
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
+                particular request, please provide the request ID.
+        default:
+          $ref: '#/responses/Error'
+    delete:
+      tags: ['Identity']
+      summary: DeleteGroup
+      description: |
+        Deletes the specified group. The group must be empty.
+
+        **IMPORTANT**: To avoid confusion, we recommend you also delete any policies that apply to that group.
+        If you were to later create a new group with the same name as the deleted group, the existing policy
+        would not apply to the new group, because the two groups would have different OCIDs. However, the existence
+        of the policy could still cause confusion because your policies might use the name and not the OCID to
+        identify the applicable group.
+      operationId: DeleteGroup
+      parameters:
+        - $ref: '#/parameters/GroupIdPathParam'
+        - $ref: '#/parameters/IfMatchHeader'
+      responses:
+        200:
+          description: The group is being deleted.
+        default:
+          $ref: '#/responses/Error'
+    put:
+      tags: ['Identity']
+      summary: UpdateGroup
+      description: Updates the specified group's description.
+      operationId: UpdateGroup
+      parameters:
+        - $ref: '#/parameters/GroupIdPathParam'
+        - name: updateGroupRequest
+          description: Request object for updating a group.
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/UpdateGroupRequest'
+        - $ref: '#/parameters/IfMatchHeader'
+      responses:
+        200:
+          description: The group is being updated.
+          schema:
+            $ref: '#/definitions/Group'
+          headers:
+            etag:
+              type: string
+              description: For optimistic concurrency control. See `if-match`.
+            opc-request-id:
+              type: string
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
+                particular request, please provide the request ID.
+        default:
+          $ref: '#/responses/Error'
+#-----------------------------------------------------------------------------------------------------------------------
+# Policy
+#-----------------------------------------------------------------------------------------------------------------------
+  /policies/:
+    get:
+      tags: ['Identity']
+      summary: ListPolicies
+      description: |
+        Gets a list of all the policies in your tenancy. You must specify your tenancy's OCID as the value
+        for the compartment ID (remember that the tenancy is simply the root compartment).
+        See [Where to Find Your Tenancy's OCID](../../../#API/Concepts/usingapi.htm#Where_to_Find_Your_Tenancy's_OCID).
+
+        To determine which policies apply to a particular group or compartment, you must view the individual
+        statements inside all your policies. There isn't a way to automatically obtain that information via the API.
+      operationId: ListPolicies
+      parameters:
+        - $ref: '#/parameters/CompartmentIdQueryParam'
+        - $ref: '#/parameters/PaginationTokenQueryParam'
+        - $ref: '#/parameters/PaginationLimitQueryParam'
+      responses:
+        200:
+          description: A page of `Policy` objects.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Policy'
+          headers:
+            opc-request-id:
+              type: string
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
+                particular request, please provide the request ID.
+            opc-next-page:
+              type: string
+              description: |
+                For pagination of a list of items. When paging through a list, if this header appears in the
+                response, then there are additional items still to get. Include this value as the `page`
+                parameter for the subsequent GET request. For information about pagination,
+                see [List Pagination](../../../#API/Concepts/usingapi.htm#List_Pagination).
+        default:
+          $ref: '#/responses/Error'
+    post:
+      tags: ['Identity']
+      summary: CreatePolicy
+      description: |
+        Creates a new policy in your tenancy. A policy is a document that specifies permissions for the groups
+        and compartments in your tenancy. For information about policies and other Identity Service components,
+        see [Overview of the Identity Service](../../../#Identity/Concepts/overview.htm).
+
+        You must specify your tenancy's OCID as the compartment ID in the request object (all Identity Service
+        resources reside within the tenancy itself). For information about OCIDs, see
+        [Resource Identifiers](../../../#General/Concepts/identifiers.htm).
+
+        You must also specify a *name* for the policy, which must be unique across all policies in your tenancy
+        and cannot be changed.
+
+        You must also specify a *description* for the policy (although it can be an empty string). It does not
+        have to be unique, and you can change it anytime with [UpdatePolicy](#updatePolicy).
+
+        You must specify one or more policy statements in the statements array. For information about writing
+        policies, see [Policies](../../../#Identity/Concepts/policies.htm).
+
+        After you send your request, the new object's state will temporarily be CREATING. Before using the object,
+        first make sure its state has changed to CREATED.
+
+        New policies take effect typically within 10 seconds.
+
+        For information about endpoints and signing API requests,
+        see [Making API Requests](../../../#API/Concepts/usingapi.htm).
+      operationId: CreatePolicy
+      parameters:
+        - name: createPolicyRequest
+          description: Request object for creating a new policy.
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/CreatePolicyRequest'
+        - $ref: '#/parameters/IdempotencyTokenHeader'
+      responses:
+        200:
+          description: The policy is being created.
+          schema:
+            $ref: '#/definitions/Policy'
+          headers:
+            etag:
+              type: string
+              description: For optimistic concurrency control. See `if-match`.
+            opc-request-id:
+              type: string
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
+                particular request, please provide the request ID.
+        default:
+          $ref: '#/responses/Error'
+  /policies/{policyId}:
+    get:
+      tags: ['Identity']
+      summary: GetPolicy
+      description: Gets the specified policy's information.
+      operationId: GetPolicy
+      parameters:
+        - $ref: '#/parameters/PolicyIdPathParam'
+      responses:
+        200:
+          description: The policy was found.
+          schema:
+            $ref: '#/definitions/Policy'
+          headers:
+            etag:
+              type: string
+              description: For optimistic concurrency control. See `if-match`.
+            opc-request-id:
+              type: string
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
+                particular request, please provide the request ID.
+        default:
+          $ref: '#/responses/Error'
+    delete:
+      tags: ['Identity']
+      summary: DeletePolicy
+      description: Deletes the specified policy. The deletion takes effect typically within 10 seconds.
+      operationId: DeletePolicy
+      parameters:
+        - $ref: '#/parameters/PolicyIdPathParam'
+        - $ref: '#/parameters/IfMatchHeader'
+      responses:
+        200:
+          description: The policy is being deleted.
+        default:
+          $ref: '#/responses/Error'
+    put:
+      tags: ['Identity']
+      summary: UpdatePolicy
+      description: |
+        Updates the specified policy's description and statements. Both a description and a `statements` object
+        are required, even if you want to modify only one of them.
+
+        Policy changes take effect typically within 10 seconds.
+      operationId: UpdatePolicy
+      parameters:
+        - $ref: '#/parameters/PolicyIdPathParam'
+        - name: updatePolicyRequest
+          description: Request object for updating a policy.
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/UpdatePolicyRequest'
+        - $ref: '#/parameters/IfMatchHeader'
+      responses:
+        200:
+          description: The policy is being updated.
+          schema:
+            $ref: '#/definitions/Policy'
+          headers:
+            etag:
+              type: string
+              description: For optimistic concurrency control. See `if-match`.
+            opc-request-id:
+              type: string
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
+                particular request, please provide the request ID.
+        default:
+          $ref: '#/responses/Error'
+#-----------------------------------------------------------------------------------------------------------------------
+# Memberships
+#-----------------------------------------------------------------------------------------------------------------------
+  /userGroupMemberships/:
+    get:
+      tags: ['Identity']
+      summary: ListUserGroupMemberships
+      description: |
+        Gets a list of all the `UserGroupMembership` objects in your tenancy. You must specify your tenancy's OCID
+        as the value for the compartment ID
+        (see [Where to Find Your Tenancy's OCID](../../../#API/Concepts/usingapi.htm#Where_to_Find_Your_Tenancy's_OCID)).
+        You must also then filter the list in one of these ways:
+
+        - You can limit the results to just the memberships for a given user by specifying a `userId`.
+        - Similarly, you can limit the results to just the memberships for a given group by specifying a `groupId`.
+        - You can set both the `userId` and `groupId` to determine if the specified user is in the specified group.
+        If the answer is no, the response is an empty list.
+      operationId: ListUserGroupMemberships
+      parameters:
+        - $ref: '#/parameters/CompartmentIdQueryParam'
+        - $ref: '#/parameters/UserIdQueryParam'
+        - $ref: '#/parameters/GroupIdQueryParam'
+        - $ref: '#/parameters/PaginationTokenQueryParam'
+        - $ref: '#/parameters/PaginationLimitQueryParam'
+      responses:
+        200:
+          description: Page of `UserGroupMembership` objects matching the specified criteria.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/UserGroupMembership'
+          headers:
+            opc-request-id:
+              type: string
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
+                particular request, please provide the request ID.
+            opc-next-page:
+              type: string
+              description: |
+                For pagination of a list of items. When paging through a list, if this header appears in the
+                response, then there are additional items still to get. Include this value as the `page`
+                parameter for the subsequent GET request. For information about pagination, see
+                [List Pagination](../../../#API/Concepts/usingapi.htm#List_Pagination).
+        default:
+          $ref: '#/responses/Error'
+    post:
+      tags: ['Identity']
+      summary: AddUserToGroup
+      description: |
+        Adds the specified user to the specified group and returns a `UserGroupMembership` object with its own OCID.
+
+        After you send your request, the new object's state will temporarily be CREATING. Before using the object,
+        first make sure its state has changed to CREATED.
+      operationId: AddUserToGroup
+      parameters:
+        - name: addUserToGroupRequest
+          description: Request object for adding a user to a group.
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/AddUserToGroupRequest'
+        - $ref: '#/parameters/IdempotencyTokenHeader'
+      responses:
+        200:
+          description: The user is being added to the group.
+          schema:
+            $ref: '#/definitions/UserGroupMembership'
+          headers:
+            etag:
+              type: string
+              description: For optimistic concurrency control. See `if-match`.
+            opc-request-id:
+              type: string
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
+                particular request, please provide the request ID.
+        default:
+          $ref: '#/responses/Error'
+  /userGroupMemberships/{userGroupMembershipId}:
+    get:
+      tags: ['Identity']
+      summary: GetUserGroupMembership
+      description: Gets the specified UserGroupMembership's information.
+      operationId: GetUserGroupMembership
+      parameters:
+        - $ref: '#/parameters/UserGroupMembershipIdPathParam'
+      responses:
+        200:
+          description: The membership was found.
+          schema:
+            $ref: '#/definitions/UserGroupMembership'
+          headers:
+            etag:
+              type: string
+              description: For optimistic concurrency control. See `if-match`.
+            opc-request-id:
+              type: string
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
+                particular request, please provide the request ID.
+        default:
+          $ref: '#/responses/Error'
+    delete:
+      tags: ['Identity']
+      summary: RemoveUserFromGroup
+      description: Removes a user from a group by deleting the corresponding `UserGroupMembership`.
+      operationId: RemoveUserFromGroup
+      parameters:
+        - $ref: '#/parameters/UserGroupMembershipIdPathParam'
+        - $ref: '#/parameters/IfMatchHeader'
+      responses:
+        200:
+          description: The user is being removed from the group.
+        default:
+          $ref: '#/responses/Error'
+#-----------------------------------------------------------------------------------------------------------------------
+# Compartment
+#-----------------------------------------------------------------------------------------------------------------------
+  /compartments/:
+    get:
+      tags: ['Identity']
+      summary: ListCompartments
+      description: |
+        Gets a list of all the compartments in your tenancy. You must specify your tenancy's OCID as the value
+        for the compartment ID (remember that the tenancy is simply the root compartment).
+        See [Where to Find Your Tenancy's OCID](../../../#API/Concepts/usingapi.htm#Where_to_Find_Your_Tenancy's_OCID).
+      operationId: ListCompartments
+      parameters:
+        - $ref: '#/parameters/CompartmentIdQueryParam'
+        - $ref: '#/parameters/PaginationTokenQueryParam'
+        - $ref: '#/parameters/PaginationLimitQueryParam'
+      responses:
+        200:
+          description: A page of `Compartment` objects.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Compartment'
+          headers:
+            opc-request-id:
+              type: string
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
+                particular request, please provide the request ID.
+            opc-next-page:
+              type: string
+              description: |
+                For pagination of a list of items. When paging through a list, if this header appears in the
+                response, then there are additional items still to get. Include this value as the `page`
+                parameter for the subsequent GET request. For information about pagination, see
+                [List Pagination](../../../#API/Concepts/usingapi.htm#List_Pagination).
+        default:
+          $ref: '#/responses/Error'
+    post:
+      tags: ['Identity']
+      summary: CreateCompartment
+      description: |
+        Creates a new compartment in your tenancy. A compartment is a collection of related resources that can
+        be accessed only by certain groups that have been given permission in a policy. For conceptual
+        information about compartments and other Identity Service components,
+        see [Overview of the Identity Service](../../../#Identity/Concepts/overview.htm).
+
+        You must specify your tenancy's OCID as the compartment ID in the request object (all Identity Service
+        resources reside within the tenancy itself). Remember that the tenancy is simply the root compartment.
+        For information about OCIDs, see [Resource Identifiers](../../../#General/Concepts/identifiers.htm).
+
+        You must also specify a *name* for the compartment, which must be unique across all compartments in
+        your tenancy and cannot be changed. You can use this name or the OCID when writing policies that apply
+        to the compartment. For more information about policies, see [Policies](../../../#Identity/Concepts/policies.htm).
+
+        You must also specify a *description* for the compartment (although it can be an empty string). It does
+        not have to be unique, and you can change it anytime with [UpdateCompartment](#updateCompartment).
+
+        After you send your request, the new object's state will temporarily be CREATING. Before using the object,
+        first make sure its state has changed to CREATED.
+
+        To place a resource in a compartment, simply specify the compartment ID in the "Create" request object when
+        initially creating the resource. For example, to launch an instance into a particular compartment, specify
+        that compartment's OCID in the `LaunchInstance` request. You can't move an existing resource from one
+        compartment to another.
+
+        For information about endpoints and signing API requests,
+        see [Making API Requests](../../../#API/Concepts/usingapi.htm).
+      operationId: CreateCompartment
+      parameters:
+        - name: createCompartmentRequest
+          description: Request object for creating a new compartment.
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/CreateCompartmentRequest'
+        - $ref: '#/parameters/IdempotencyTokenHeader'
+      responses:
+        200:
+          description: The compartment is being created.
+          schema:
+            $ref: '#/definitions/Compartment'
+          headers:
+            etag:
+              type: string
+              description: For optimistic concurrency control. See `if-match`.
+            opc-request-id:
+              type: string
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
+                particular request, please provide the request ID.
+        default:
+          $ref: '#/responses/Error'
+  /compartments/{compartmentId}:
+    get:
+      tags: ['Identity']
+      summary: GetCompartment
+      description: |
+        Gets the specified compartment's information.
+
+        This operation does not return a list of all the resources inside the compartment. There is no single
+        API operation that does that. Compartments can contain multiple types of resources (instances, block
+        storage volumes, etc.). To find out what's in a compartment, you must call the "List" operation for
+        each resource type and specify the compartment's OCID as a query parameter in the request. For example,
+        call the `ListInstances` operation in the Cloud Compute Service or the `ListVolumes` operation in
+         Cloud Block Storage.
+      operationId: GetCompartment
+      parameters:
+        - $ref: '#/parameters/CompartmentIdPathParam'
+      responses:
+        200:
+          description: The compartment was found.
+          schema:
+            $ref: '#/definitions/Compartment'
+          headers:
+            etag:
+              type: string
+              description: For optimistic concurrency control. See `if-match`.
+            opc-request-id:
+              type: string
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
+                particular request, please provide the request ID.
+        default:
+          $ref: '#/responses/Error'
+    put:
+      tags: ['Identity']
+      summary: UpdateCompartment
+      description: Updates the specified compartment's description.
+      operationId: UpdateCompartment
+      parameters:
+        - $ref: '#/parameters/CompartmentIdPathParam'
+        - name: updateCompartmentRequest
+          description: Request object for updating a compartment.
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/UpdateCompartmentRequest'
+        - $ref: '#/parameters/IfMatchHeader'
+      responses:
+        200:
+          description: The compartment is being updated.
+          schema:
+            $ref: '#/definitions/Compartment'
+          headers:
+            etag:
+              type: string
+              description: For optimistic concurrency control. See `if-match`.
+            opc-request-id:
+              type: string
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
+                particular request, please provide the request ID.
+        default:
+          $ref: '#/responses/Error'
+#-----------------------------------------------------------------------------------------------------------------------
+# AvailabilityDomains
+#-----------------------------------------------------------------------------------------------------------------------
+  /availabilityDomains/:
+    get:
+      tags: ['Identity']
+      summary: ListAvailabilityDomains
+      description: |
+        Gets a list of all the Availability Domains in your tenancy. You must specify your tenancy's OCID
+        as the value for the compartment ID (remember that the tenancy is simply the root compartment). See
+        [Where to Find Your Tenancy's OCID](../../../#API/Concepts/usingapi.htm#Where_to_Find_Your_Tenancy's_OCID).
+        For information about Availability Domains, see
+        [Regions and Availability Domains](../../../#General/Concepts/regions.htm).
+
+        For information about endpoints and signing API requests,
+        see [Making API Requests](../../../#API/Concepts/usingapi.htm).
+      operationId: ListAvailabilityDomains
+      parameters:
+        - $ref: '#/parameters/CompartmentIdQueryParam'
+      responses:
+        200:
+          description: A page of `AvailabilityDomain` objects.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/AvailabilityDomain'
+          headers:
+            opc-request-id:
+              type: string
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
+                particular request, please provide the request ID.
+        default:
+          $ref: '#/responses/Error'
+#=======================================================================================================================
+# Definitions of Primary Entities
+#=======================================================================================================================
+definitions:
+  User:
+    required:
+      - id
+      - compartmentId
+      - name
+      - description
+      - timeCreated
+      - timeModified
+      - state
+    properties:
+      id:
+        type: string
+        description: The user's Oracle ID (OCID).
+      compartmentId:
+        type: string
+        description: The OCID of the tenancy containing the user.
+      name:
+        type: string
+        description: |
+          The unique, unchangeable name you assign to the user during creation. This is the user's login for
+          the Console. Must be unique across all users in the tenancy.
+        minLength: 1
+        maxLength: 100
+      description:
+        type: string
+        description: The non-unique, changeable description you assign to the user during creation.
+        minLength: 1
+        maxLength: 400
+      timeCreated:
+        type: string
+        format:   date-time
+        description: Date and time the user was created.
+      timeModified:
+        type: string
+        format:   date-time
+        description: Date and time the user was last modified (same as `TimeCreated` if not yet modified).
+      state:
+        type: string
+        description: |
+          The user's state. After creating a user, make sure its state changes from CREATING to CREATED
+          before using it.
+        minLength: 1
+        maxLength: 64
+#-----------------------------------------------------------------------------------------------------------------------
+  Group:
+    required:
+      - id
+      - compartmentId
+      - name
+      - description
+      - timeCreated
+      - timeModified
+      - state
+    properties:
+      id:
+        type: string
+        description: The group's Oracle ID (OCID).
+      compartmentId:
+        type: string
+        description: The OCID of the tenancy containing the group.
+      name:
+        type: string
+        description: |
+          The unique, unchangeable name you assign to the group during creation. Must be unique across all
+          groups in the tenancy.
+        minLength: 1
+        maxLength: 100
+      description:
+        type: string
+        description: The non-unique, changeable description you assign to the group during creation.
+        minLength: 1
+        maxLength: 400
+      timeCreated:
+        type: string
+        format:   date-time
+        description: Date and time the group was created.
+      timeModified:
+        type: string
+        format:   date-time
+        description: Date and time the group was last modified (same as `TimeCreated` if not yet modified).
+      state:
+        type: string
+        description: |
+          The group's state. After creating a group, make sure its state changes from CREATING to CREATED
+          before using it.
+        minLength: 1
+        maxLength: 64
+#-----------------------------------------------------------------------------------------------------------------------
+  Compartment:
+    required:
+      - id
+      - compartmentId
+      - name
+      - description
+      - timeCreated
+      - timeModified
+      - state
+    properties:
+      id:
+        type: string
+        description: The compartment's Oracle ID (OCID).
+      compartmentId:
+         type: string
+         description: The OCID of the tenancy containing the compartment.
+      name:
+        type: string
+        description: |
+          The unique, unchangeable name you assign to the compartment during creation. Must be unique across
+          all compartments in the tenancy.
+        minLength: 1
+        maxLength: 100
+      description:
+        type: string
+        description: The non-unique, changeable description you assign to the compartment during creation.
+        minLength: 1
+        maxLength: 400
+      timeCreated:
+        type: string
+        format:   date-time
+        description: Date and time the compartment was created.
+      timeModified:
+        type: string
+        format:   date-time
+        description: Date and time the compartment was last modified (same as `TimeCreated` if not yet modified).
+      state:
+        type: string
+        description: |
+          The compartment's state. After creating a compartment, make sure its state changes from CREATING to
+          CREATED before using it.
+        minLength: 1
+        maxLength: 64
+#-----------------------------------------------------------------------------------------------------------------------
+  Policy:
+    required:
+      - id
+      - compartmentId
+      - name
+      - statements
+      - description
+      - timeCreated
+      - timeModified
+      - state
+    properties:
+      id:
+        type: string
+        description: The policy's Oracle ID (OCID).
+      compartmentId:
+        type: string
+        description: The OCID of the tenancy containing the policy.
+      name:
+        type: string
+        description: |
+          The unique, unchangeable name you assign to the policy during creation. Must be unique across all
+          policies in the tenancy.
+        minLength: 1
+        maxLength: 100
+      statements:
+        type: array
+        items:
+          type: string
+        description:  An array of one or more policy statements written in the policy language.
+      description:
+        type: string
+        description: The non-unique, changeable description you assign to the policy during creation.
+        minLength: 1
+        maxLength: 400
+      timeCreated:
+        type: string
+        format:   date-time
+        description: Date and time the policy was created.
+      timeModified:
+        type: string
+        format:   date-time
+        description: Date and time the policy was last modified (same as `TimeCreated` if not yet modified).
+      state:
+        type: string
+        description: |
+          The policy's state. After creating a policy, make sure its state changes from CREATING to
+          CREATED before using it.
+        minLength: 1
+        maxLength: 64
+#-----------------------------------------------------------------------------------------------------------------------
+  UserGroupMembership:
+    required:
+      - id
+      - compartmentId
+      - timeCreated
+      - timeModified
+      - state
+      - groupId
+      - userId
+    properties:
+      id:
+        type: string
+        description: The membership's Oracle ID (OCID).
+      compartmentId:
+        type: string
+        description: The OCID of the tenancy containing the user, group, and membership object.
+      groupId:
+        type: string
+        description: The OCID of the group.
+      userId:
+        type: string
+        description: The OCID of the user.
+      timeCreated:
+        type: string
+        format:   date-time
+        description: Date and time the membership was created.
+      timeModified:
+        type: string
+        format:   date-time
+        description: Date and time the membership was last modified (same as `TimeCreated` if not yet modified).
+      state:
+        type: string
+        description: |
+          The membership's state.  After creating a membership object, make sure its state changes from CREATING
+          to CREATED before using it.
+        minLength: 1
+        maxLength: 64
+#=======================================================================================================================
+# Definitions of CreationRequests
+#=======================================================================================================================
+  CreateUserRequest:
+    required:
+      - name
+      - compartmentId
+      - description
+    properties:
+      compartmentId:
+        type: string
+        description: The OCID of the tenancy containing the user.
+      name:
+        type: string
+        description: |
+          A unique, unchangeable name you assign to the user during creation. This is the user's login for the
+          Console. Must be unique across all users in the tenancy.
+        minLength: 1
+        maxLength: 100
+      description:
+        type: string
+        description: The non-unique, changeable description you assign to the user during creation.
+        minLength: 1
+        maxLength: 400
+#-----------------------------------------------------------------------------------------------------------------------
+  CreateGroupRequest:
+    required:
+      - name
+      - compartmentId
+      - description
+    properties:
+      compartmentId:
+        type: string
+        description: The OCID of the tenancy containing the group.
+      name:
+        type: string
+        description: |
+          A unique, unchangeable name you assign to the group during creation. Must be unique across all groups
+          in the tenancy.
+        minLength: 1
+        maxLength: 100
+      description:
+        type: string
+        description: The non-unique, changeable description you assign to the group during creation.
+        minLength: 1
+        maxLength: 400
+#-----------------------------------------------------------------------------------------------------------------------
+  CreateApiKeyRequest:
+    required:
+      - key
+    properties:
+      key:
+        type: string
+        description: The public key.  Must be an RSA key in PEM format.
+#-----------------------------------------------------------------------------------------------------------------------
+  CreateCompartmentRequest:
+    required:
+      - name
+      - compartmentId
+      - description
+    properties:
+      compartmentId:
+        type: string
+        description: The OCID of the tenancy containing the compartment.
+      name:
+        type: string
+        description: |
+          A unique, unchangeable name you assign to the compartment during creation. Must be unique across all
+          compartments in the tenancy.
+        minLength: 1
+        maxLength: 100
+      description:
+        type: string
+        description: The non-unique, changeable description you assign to the compartment during creation.
+        minLength: 1
+        maxLength: 400
+#-----------------------------------------------------------------------------------------------------------------------
+  CreatePolicyRequest:
+    required:
+      - name
+      - compartmentId
+      - statements
+      - description
+    properties:
+      compartmentId:
+        type: string
+        description: The OCID of the tenancy containing the policy.
+      name:
+        type: string
+        description: |
+          A unique, unchangeable name you assign to the policy during creation. Must be unique across all policies
+          in the tenancy.
+        minLength: 1
+        maxLength: 100
+      statements:
+        type: array
+        items:
+          type: string
+        description: |
+          An array of policy statements written in the policy language. See [Policies](../../../#Identity/Concepts/policies.htm).
+      description:
+        type: string
+        description: The non-unique, changeable description you assign to the policy during creation.
+        minLength: 1
+        maxLength: 400
+#-----------------------------------------------------------------------------------------------------------------------
+  CreateSwiftPasswordRequest:
+    required:
+      - description
+    properties:
+      description:
+        type: string
+        description: The non-unique, changeable description you assign to the swift credential during creation.
+        minLength: 1
+        maxLength: 400
+
+#=======================================================================================================================
+# Definitions of UpdateRequests
+#=======================================================================================================================
+  UpdateUserRequest:
+    required:
+      - description
+    properties:
+      description:
+        type: string
+        description: The non-unique, changeable description you assign to the user.
+        minLength: 1
+        maxLength: 400
+#-----------------------------------------------------------------------------------------------------------------------
+  UpdateGroupRequest:
+    required:
+      - description
+    properties:
+      description:
+        type: string
+        description: The non-unique, changeable description you assign to the group.
+        minLength: 1
+        maxLength: 400
+#-----------------------------------------------------------------------------------------------------------------------
+  UpdateUiPasswordRequest:
+    required:
+      - password
+    properties:
+      password:
+        type: string
+        description: The new password.
+#-----------------------------------------------------------------------------------------------------------------------
+  UpdateSwiftPasswordRequest:
+    required:
+      - description
+    properties:
+      description:
+        type: string
+        description: The new description of the Swift password.
+#-----------------------------------------------------------------------------------------------------------------------
+  UpdateCompartmentRequest:
+    required:
+      - description
+    properties:
+      description:
+        type: string
+        description: The non-unique, changeable description you assign to the compartment.
+        minLength: 1
+        maxLength: 400
+#-----------------------------------------------------------------------------------------------------------------------
+  UpdatePolicyRequest:
+    required:
+      - description
+      - statements
+    properties:
+      description:
+        type: string
+        description: The non-unique, changeable description you assign to the policy.
+        minLength: 1
+        maxLength: 400
+      statements:
+        type: array
+        items:
+          type: string
+        description: |
+          An array of policy statements written in the policy language. See
+          [Policies](../../../#Identity/Concepts/policies.htm).
+#=======================================================================================================================
+# Definitions of Add Requests
+#=======================================================================================================================
+  AddUserToGroupRequest:
+    required:
+      - userId
+      - groupId
+    properties:
+      userId:
+        type: string
+        description: The OCID of the user.
+      groupId:
+        type: string
+        description: The OCID of the group.
+#=======================================================================================================================
+# Definitions of secondary entities
+#=======================================================================================================================
+  ApiKey:
+    properties:
+      keyId:
+        type: string
+        description: |
+          An Oracle-assigned identifier for the key, in this format:
+          TENANCY_OCID/USER_OCID/KEY_FINGERPRINT.
+      keyValue:
+        type: string
+        description: The key's value.
+      fingerprint:
+        type: string
+        description: The key's fingerprint (e.g., 12:34:56:78:90:ab:cd:ef:12:34:56:78:90:ab:cd:ef).
+      userId:
+        type: string
+        description: The OCID of the user the key belongs to.
+      timeCreated:
+        type: string
+        format:   date-time
+        description: Date and time the `ApiKey` object was created.
+      timeModified:
+        type: string
+        format:   date-time
+        description: Date and time the `ApiKey` object was last modified (same as `TimeCreated` if not yet modified).
+      state:
+        type: string
+        description: |
+          The API key's state. After creating an `ApiKey` object, make sure its state changes from CREATING
+          to CREATED before using it.
+        minLength: 1
+        maxLength: 64
+#-----------------------------------------------------------------------------------------------------------------------
+  UIPassword:
+    properties:
+      password:
+        type: string
+        description: The user's password for the Console.
+      userId:
+        type: string
+        description: The OCID of the user.
+      timeCreated:
+        type: string
+        format:   date-time
+        description: Date and time the password was created.
+      timeModified:
+        type: string
+        format:   date-time
+        description: Date and time the password was last modified (same as `TimeCreated` if not yet modified).
+      state:
+        type: string
+        description: |
+          The password's current state. After creating a password, make sure its state changes from CREATING to
+          CREATED before using it.
+        minLength: 1
+        maxLength: 64
+#-----------------------------------------------------------------------------------------------------------------------
+  SwiftPassword:
+    properties:
+      password:
+        type: string
+        description: The Swift password.
+      id:
+        type: string
+        description: The OCID of the Swift password.
+      userId:
+        type: string
+        description: The OCID of the user who owns this password.
+      description:
+        type: string
+        description: The description of the Swift password.
+      timeCreated:
+        type: string
+        format: date-time
+        description: Date and time the password was created.
+      timeModified:
+        type: string
+        format: date-time
+        description: Date and time the password was last modified (same as `TimeCreated` if not yet modified).
+      expiresOn:
+        type: string
+        format: date-time
+        description: Date and time when this password will expire. Null if it never expires.
+      state:
+        type: string
+        description: |
+          The password's current state. After creating a password, make sure its state changes from CREATING to
+          CREATED before using it.
+        minLength: 1
+        maxLength: 64
+#-----------------------------------------------------------------------------------------------------------------------
+  AvailabilityDomain:
+    properties:
+      name:
+        type: string
+        description: The name of the Availability Domain.
+      compartmentId:
+        type: string
+        description: The OCID of the tenancy.
+#-----------------------------------------------------------------------------------------------------------------------
+  Error:
+    required:
+      - code
+      - message
+    properties:
+      code:
+        type: string
+      message:
+        type: string
+#=======================================================================================================================
+# Definitions of Parameters
+#=======================================================================================================================
+parameters:
+  PaginationLimitQueryParam:
+    name: limit
+    in: query
+    type: integer
+    description: |
+      The maximum number of items to return in a paginated "List" call. For information about pagination, see
+      [List Pagination](../../../#API/Concepts/usingapi.htm#List_Pagination).
+    minimum: 1
+    maximum: 1000
+#-----------------------------------------------------------------------------------------------------------------------
+  PaginationTokenQueryParam:
+    name: page
+    in: query
+    type: string
+    description: |
+      The value of the `opc-next-page` response header from the previous "List" call. For information about
+      pagination, see [List Pagination](../../../#API/Concepts/usingapi.htm#List_Pagination).
+    minLength: 1
+    maxLength: 512
+#-----------------------------------------------------------------------------------------------------------------------
+  IfMatchHeader:
+    name: if-match
+    in: header
+    type: string
+    description: |
+      For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`
+      parameter to the value of the etag from a previous GET or POST response for that resource.  The resource
+      will be updated or deleted only if the etag you provide matches the resource's current etag value.
+ #-----------------------------------------------------------------------------------------------------------------------
+  IdempotencyTokenHeader:
+    name: opc-idempotency-token
+    in: header
+    type: string
+    description: |
+      A token you supply to uniquely identify the request and provide idempotency if
+      the request is retried. Idempotency tokens expire after 30 minutes.
+    minLength: 1
+    maxLength: 64
+#-----------------------------------------------------------------------------------------------------------------------
+  CompartmentIdQueryParam:
+    name: compartmentId
+    in: query
+    required: true
+    type: string
+    description: |
+      Your tenancy's OCID (remember that the tenancy is simply the root compartment).
+    minLength: 1
+    maxLength: 255
+#-----------------------------------------------------------------------------------------------------------------------
+  UserGroupMembershipIdPathParam:
+    name: userGroupMembershipId
+    in: path
+    required : true
+    type: string
+    description: The userGroupMembership's OCID.
+#-----------------------------------------------------------------------------------------------------------------------
+  UserIdPathParam:
+    name: userId
+    in: path
+    required : true
+    type: string
+    description: The user's OCID.
+#-----------------------------------------------------------------------------------------------------------------------
+  GroupIdPathParam:
+    name: groupId
+    in: path
+    required : true
+    type: string
+    description: The group's OCID.
+#-----------------------------------------------------------------------------------------------------------------------
+  UserIdQueryParam:
+    name: userId
+    in: query
+    type: string
+    description: The user's OCID.
+#-----------------------------------------------------------------------------------------------------------------------
+  GroupIdQueryParam:
+    name: groupId
+    in: query
+    type: string
+    description: The group's OCID.
+#-----------------------------------------------------------------------------------------------------------------------
+  CompartmentIdPathParam:
+    name: compartmentId
+    in: path
+    required : true
+    type: string
+    description: The compartment's OCID.
+#-----------------------------------------------------------------------------------------------------------------------
+  PolicyIdPathParam:
+    name: policyId
+    in: path
+    required : true
+    type: string
+    description: The policy's OCID.
+#-----------------------------------------------------------------------------------------------------------------------
+  KeyFingerprintPathParam:
+    name: fingerprint
+    in: path
+    type: string
+    description: The key's fingerprint.
+#-----------------------------------------------------------------------------------------------------------------------
+  SwiftPasswordIdPathParam:
+    name: swiftPasswordId
+    in: path
+    required : true
+    type: string
+    description: The Swift password's OCID.
+#-----------------------------------------------------------------------------------------------------------------------
+responses:
+  Error:
+    description: |
+      An error has occurred. The `opc-request-id` response header contains the request ID.
+    schema:
+      $ref: '#/definitions/Error'
+    headers:
+      opc-request-id:
+        type: string
+        description: |
+          Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
+          a particular request, please provide the request ID.

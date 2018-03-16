@@ -1,4 +1,5 @@
-// Package common Copyright (c) 2016, 2017, 2018 Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
+
 package common
 
 import (
@@ -105,18 +106,6 @@ func getTaggedNilFieldNameOrError(field reflect.StructField, fieldValue reflect.
 	}
 
 	Debugf("Adjusting tag: mandatory is false and json tag is valid on field: %s", field.Name)
-
-	// non-mandatory enum with empty value should be removed
-	// this is a temp fix to unblock integration test, new task created to fix it by
-	// adding omitempty tag in code gen
-	if strings.HasSuffix(strings.ToLower(field.Type.Name()), "enum") &&
-		(&fieldValue).Kind() == reflect.String &&
-		fieldValue.Len() == 0 {
-		// remove the property if it's string type with empty string
-		// also type name ends with enum
-		Debugf("empty enum, field name: %s", field.Name)
-		return true, nameJSONField, nil
-	}
 
 	// If the field can not be nil, then no-op
 	if !isNillableType(&fieldValue) {

@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 // Identity and Access Management Service API
@@ -13,10 +13,10 @@ import (
 )
 
 // RegionSubscription An object that represents your tenancy's access to a particular region (i.e., a subscription), the status of that
-// access, and whether that region is the home region. For more information, see [Managing Regions]({{DOC_SERVER_URL}}/Content/Identity/Tasks/managingregions.htm).
+// access, and whether that region is the home region. For more information, see Managing Regions (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Tasks/managingregions.htm).
 // To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized,
 // talk to an administrator. If you're an administrator who needs to write policies to give users access,
-// see [Getting Started with Policies]({{DOC_SERVER_URL}}/Content/Identity/Concepts/policygetstarted.htm).
+// see Getting Started with Policies (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/policygetstarted.htm).
 type RegionSubscription struct {
 
 	// The region's key.
@@ -51,22 +51,18 @@ type RegionSubscriptionStatusEnum string
 const (
 	RegionSubscriptionStatusReady      RegionSubscriptionStatusEnum = "READY"
 	RegionSubscriptionStatusInProgress RegionSubscriptionStatusEnum = "IN_PROGRESS"
-	RegionSubscriptionStatusUnknown    RegionSubscriptionStatusEnum = "UNKNOWN"
 )
 
 var mappingRegionSubscriptionStatus = map[string]RegionSubscriptionStatusEnum{
 	"READY":       RegionSubscriptionStatusReady,
 	"IN_PROGRESS": RegionSubscriptionStatusInProgress,
-	"UNKNOWN":     RegionSubscriptionStatusUnknown,
 }
 
 // GetRegionSubscriptionStatusEnumValues Enumerates the set of values for RegionSubscriptionStatus
 func GetRegionSubscriptionStatusEnumValues() []RegionSubscriptionStatusEnum {
 	values := make([]RegionSubscriptionStatusEnum, 0)
 	for _, v := range mappingRegionSubscriptionStatus {
-		if v != RegionSubscriptionStatusUnknown {
-			values = append(values, v)
-		}
+		values = append(values, v)
 	}
 	return values
 }

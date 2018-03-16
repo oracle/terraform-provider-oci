@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 package core
@@ -79,22 +79,18 @@ type ListVolumesSortByEnum string
 const (
 	ListVolumesSortByTimecreated ListVolumesSortByEnum = "TIMECREATED"
 	ListVolumesSortByDisplayname ListVolumesSortByEnum = "DISPLAYNAME"
-	ListVolumesSortByUnknown     ListVolumesSortByEnum = "UNKNOWN"
 )
 
 var mappingListVolumesSortBy = map[string]ListVolumesSortByEnum{
 	"TIMECREATED": ListVolumesSortByTimecreated,
 	"DISPLAYNAME": ListVolumesSortByDisplayname,
-	"UNKNOWN":     ListVolumesSortByUnknown,
 }
 
 // GetListVolumesSortByEnumValues Enumerates the set of values for ListVolumesSortBy
 func GetListVolumesSortByEnumValues() []ListVolumesSortByEnum {
 	values := make([]ListVolumesSortByEnum, 0)
 	for _, v := range mappingListVolumesSortBy {
-		if v != ListVolumesSortByUnknown {
-			values = append(values, v)
-		}
+		values = append(values, v)
 	}
 	return values
 }
@@ -104,24 +100,20 @@ type ListVolumesSortOrderEnum string
 
 // Set of constants representing the allowable values for ListVolumesSortOrder
 const (
-	ListVolumesSortOrderAsc     ListVolumesSortOrderEnum = "ASC"
-	ListVolumesSortOrderDesc    ListVolumesSortOrderEnum = "DESC"
-	ListVolumesSortOrderUnknown ListVolumesSortOrderEnum = "UNKNOWN"
+	ListVolumesSortOrderAsc  ListVolumesSortOrderEnum = "ASC"
+	ListVolumesSortOrderDesc ListVolumesSortOrderEnum = "DESC"
 )
 
 var mappingListVolumesSortOrder = map[string]ListVolumesSortOrderEnum{
-	"ASC":     ListVolumesSortOrderAsc,
-	"DESC":    ListVolumesSortOrderDesc,
-	"UNKNOWN": ListVolumesSortOrderUnknown,
+	"ASC":  ListVolumesSortOrderAsc,
+	"DESC": ListVolumesSortOrderDesc,
 }
 
 // GetListVolumesSortOrderEnumValues Enumerates the set of values for ListVolumesSortOrder
 func GetListVolumesSortOrderEnumValues() []ListVolumesSortOrderEnum {
 	values := make([]ListVolumesSortOrderEnum, 0)
 	for _, v := range mappingListVolumesSortOrder {
-		if v != ListVolumesSortOrderUnknown {
-			values = append(values, v)
-		}
+		values = append(values, v)
 	}
 	return values
 }

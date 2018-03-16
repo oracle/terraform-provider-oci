@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 package core
@@ -75,22 +75,18 @@ type ListCrossConnectGroupsSortByEnum string
 const (
 	ListCrossConnectGroupsSortByTimecreated ListCrossConnectGroupsSortByEnum = "TIMECREATED"
 	ListCrossConnectGroupsSortByDisplayname ListCrossConnectGroupsSortByEnum = "DISPLAYNAME"
-	ListCrossConnectGroupsSortByUnknown     ListCrossConnectGroupsSortByEnum = "UNKNOWN"
 )
 
 var mappingListCrossConnectGroupsSortBy = map[string]ListCrossConnectGroupsSortByEnum{
 	"TIMECREATED": ListCrossConnectGroupsSortByTimecreated,
 	"DISPLAYNAME": ListCrossConnectGroupsSortByDisplayname,
-	"UNKNOWN":     ListCrossConnectGroupsSortByUnknown,
 }
 
 // GetListCrossConnectGroupsSortByEnumValues Enumerates the set of values for ListCrossConnectGroupsSortBy
 func GetListCrossConnectGroupsSortByEnumValues() []ListCrossConnectGroupsSortByEnum {
 	values := make([]ListCrossConnectGroupsSortByEnum, 0)
 	for _, v := range mappingListCrossConnectGroupsSortBy {
-		if v != ListCrossConnectGroupsSortByUnknown {
-			values = append(values, v)
-		}
+		values = append(values, v)
 	}
 	return values
 }
@@ -100,24 +96,20 @@ type ListCrossConnectGroupsSortOrderEnum string
 
 // Set of constants representing the allowable values for ListCrossConnectGroupsSortOrder
 const (
-	ListCrossConnectGroupsSortOrderAsc     ListCrossConnectGroupsSortOrderEnum = "ASC"
-	ListCrossConnectGroupsSortOrderDesc    ListCrossConnectGroupsSortOrderEnum = "DESC"
-	ListCrossConnectGroupsSortOrderUnknown ListCrossConnectGroupsSortOrderEnum = "UNKNOWN"
+	ListCrossConnectGroupsSortOrderAsc  ListCrossConnectGroupsSortOrderEnum = "ASC"
+	ListCrossConnectGroupsSortOrderDesc ListCrossConnectGroupsSortOrderEnum = "DESC"
 )
 
 var mappingListCrossConnectGroupsSortOrder = map[string]ListCrossConnectGroupsSortOrderEnum{
-	"ASC":     ListCrossConnectGroupsSortOrderAsc,
-	"DESC":    ListCrossConnectGroupsSortOrderDesc,
-	"UNKNOWN": ListCrossConnectGroupsSortOrderUnknown,
+	"ASC":  ListCrossConnectGroupsSortOrderAsc,
+	"DESC": ListCrossConnectGroupsSortOrderDesc,
 }
 
 // GetListCrossConnectGroupsSortOrderEnumValues Enumerates the set of values for ListCrossConnectGroupsSortOrder
 func GetListCrossConnectGroupsSortOrderEnumValues() []ListCrossConnectGroupsSortOrderEnum {
 	values := make([]ListCrossConnectGroupsSortOrderEnum, 0)
 	for _, v := range mappingListCrossConnectGroupsSortOrder {
-		if v != ListCrossConnectGroupsSortOrderUnknown {
-			values = append(values, v)
-		}
+		values = append(values, v)
 	}
 	return values
 }

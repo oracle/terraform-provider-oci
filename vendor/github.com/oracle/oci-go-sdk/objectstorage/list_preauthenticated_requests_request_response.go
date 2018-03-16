@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 package objectstorage
@@ -14,11 +14,11 @@ type ListPreauthenticatedRequestsRequest struct {
 	// The top-level namespace used for the request.
 	NamespaceName *string `mandatory:"true" contributesTo:"path" name:"namespaceName"`
 
-	// The name of the bucket.
+	// The name of the bucket. Avoid entering confidential information.
 	// Example: `my-new-bucket1`
 	BucketName *string `mandatory:"true" contributesTo:"path" name:"bucketName"`
 
-	// Pre-authenticated requests returned by the list must have object names starting with prefix
+	// User-specified object name prefixes can be used to query and return a list of pre-authenticated requests.
 	ObjectNamePrefix *string `mandatory:"false" contributesTo:"query" name:"objectNamePrefix"`
 
 	// The maximum number of items to return.
@@ -48,13 +48,13 @@ type ListPreauthenticatedRequestsResponse struct {
 	OpcClientRequestId *string `presentIn:"header" name:"opc-client-request-id"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular
-	// request, please provide this request ID.
+	// request, provide this request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
 	// For pagination of a list of pre-authenticated requests, if this header appears in the response,
 	// then this is a partial list. Include this value as the `page` parameter in a subsequent
 	// GET request to get the next batch of pre-authenticated requests.
-	// For information about pagination, see [List Pagination]({{DOC_SERVER_URL}}/Content/API/Concepts/usingapi.htm#nine).
+	// For information about pagination, see List Pagination (https://docs.us-phoenix-1.oraclecloud.com/Content/API/Concepts/usingapi.htm#nine).
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 }
 

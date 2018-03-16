@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 // Load Balancing Service API
@@ -14,7 +14,7 @@ import (
 
 // SessionPersistenceConfigurationDetails The configuration details for implementing session persistence. Session persistence enables the Load Balancing
 // Service to direct any number of requests that originate from a single logical client to a single backend web server.
-// For more information, see [Session Persistence]({{DOC_SERVER_URL}}/Content/Balance/Reference/sessionpersistence.htm).
+// For more information, see Session Persistence (https://docs.us-phoenix-1.oraclecloud.com/Content/Balance/Reference/sessionpersistence.htm).
 // To disable session persistence on a running load balancer, use the
 // UpdateBackendSet operation and specify "null" for the
 // `SessionPersistenceConfigurationDetails` object.

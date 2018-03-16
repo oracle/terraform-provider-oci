@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 // Database Service API
@@ -12,8 +12,8 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// Database An Oracle database on a DB System. For more information, see [Managing Oracle Databases]({{DOC_SERVER_URL}}/Content/Database/Concepts/overview.htm).
-// To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized, talk to an administrator. If you're an administrator who needs to write policies to give users access, see [Getting Started with Policies]({{DOC_SERVER_URL}}/Content/Identity/Concepts/policygetstarted.htm).
+// Database An Oracle database on a DB System. For more information, see Managing Oracle Databases (https://docs.us-phoenix-1.oraclecloud.com/Content/Database/Concepts/overview.htm).
+// To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized, talk to an administrator. If you're an administrator who needs to write policies to give users access, see Getting Started with Policies (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/policygetstarted.htm).
 type Database struct {
 
 	// The OCID of the compartment.
@@ -72,7 +72,6 @@ const (
 	DatabaseLifecycleStateTerminated       DatabaseLifecycleStateEnum = "TERMINATED"
 	DatabaseLifecycleStateRestoreFailed    DatabaseLifecycleStateEnum = "RESTORE_FAILED"
 	DatabaseLifecycleStateFailed           DatabaseLifecycleStateEnum = "FAILED"
-	DatabaseLifecycleStateUnknown          DatabaseLifecycleStateEnum = "UNKNOWN"
 )
 
 var mappingDatabaseLifecycleState = map[string]DatabaseLifecycleStateEnum{
@@ -84,16 +83,13 @@ var mappingDatabaseLifecycleState = map[string]DatabaseLifecycleStateEnum{
 	"TERMINATED":         DatabaseLifecycleStateTerminated,
 	"RESTORE_FAILED":     DatabaseLifecycleStateRestoreFailed,
 	"FAILED":             DatabaseLifecycleStateFailed,
-	"UNKNOWN":            DatabaseLifecycleStateUnknown,
 }
 
 // GetDatabaseLifecycleStateEnumValues Enumerates the set of values for DatabaseLifecycleState
 func GetDatabaseLifecycleStateEnumValues() []DatabaseLifecycleStateEnum {
 	values := make([]DatabaseLifecycleStateEnum, 0)
 	for _, v := range mappingDatabaseLifecycleState {
-		if v != DatabaseLifecycleStateUnknown {
-			values = append(values, v)
-		}
+		values = append(values, v)
 	}
 	return values
 }

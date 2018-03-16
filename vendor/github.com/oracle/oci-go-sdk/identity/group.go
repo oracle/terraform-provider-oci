@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 // Identity and Access Management Service API
@@ -14,15 +14,15 @@ import (
 
 // Group A collection of users who all need the same type of access to a particular set of resources or compartment.
 // For conceptual information about groups and other IAM Service components, see
-// [Overview of the IAM Service]({{DOC_SERVER_URL}}/Content/Identity/Concepts/overview.htm).
+// Overview of the IAM Service (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/overview.htm).
 // If you're federating with an identity provider (IdP), you need to create mappings between the groups
 // defined in the IdP and groups you define in the IAM service. For more information, see
-// [Identity Providers and Federation]({{DOC_SERVER_URL}}/Content/Identity/Concepts/federation.htm). Also see
+// Identity Providers and Federation (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/federation.htm). Also see
 // IdentityProvider and
 // IdpGroupMapping.
 // To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized,
 // talk to an administrator. If you're an administrator who needs to write policies to give users access,
-// see [Getting Started with Policies]({{DOC_SERVER_URL}}/Content/Identity/Concepts/policygetstarted.htm).
+// see Getting Started with Policies (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/policygetstarted.htm).
 type Group struct {
 
 	// The OCID of the group.
@@ -48,6 +48,16 @@ type Group struct {
 
 	// The detailed status of INACTIVE lifecycleState.
 	InactiveStatus *int `mandatory:"false" json:"inactiveStatus"`
+
+	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
+	// For more information, see Resource Tags (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Department": "Finance"}`
+	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Operations": {"CostCenter": "42"}}`
+	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 
 func (m Group) String() string {
@@ -64,7 +74,6 @@ const (
 	GroupLifecycleStateInactive GroupLifecycleStateEnum = "INACTIVE"
 	GroupLifecycleStateDeleting GroupLifecycleStateEnum = "DELETING"
 	GroupLifecycleStateDeleted  GroupLifecycleStateEnum = "DELETED"
-	GroupLifecycleStateUnknown  GroupLifecycleStateEnum = "UNKNOWN"
 )
 
 var mappingGroupLifecycleState = map[string]GroupLifecycleStateEnum{
@@ -73,16 +82,13 @@ var mappingGroupLifecycleState = map[string]GroupLifecycleStateEnum{
 	"INACTIVE": GroupLifecycleStateInactive,
 	"DELETING": GroupLifecycleStateDeleting,
 	"DELETED":  GroupLifecycleStateDeleted,
-	"UNKNOWN":  GroupLifecycleStateUnknown,
 }
 
 // GetGroupLifecycleStateEnumValues Enumerates the set of values for GroupLifecycleState
 func GetGroupLifecycleStateEnumValues() []GroupLifecycleStateEnum {
 	values := make([]GroupLifecycleStateEnum, 0)
 	for _, v := range mappingGroupLifecycleState {
-		if v != GroupLifecycleStateUnknown {
-			values = append(values, v)
-		}
+		values = append(values, v)
 	}
 	return values
 }

@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 // Core Services API
@@ -13,7 +13,7 @@ import (
 )
 
 // FastConnectProviderService A service offering from a supported provider. For more information,
-// see [FastConnect Overview]({{DOC_SERVER_URL}}/Content/Network/Concepts/fastconnect.htm).
+// see FastConnect Overview (https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Concepts/fastconnect.htm).
 type FastConnectProviderService struct {
 
 	// The OCID of the service offered by the provider.
@@ -38,7 +38,7 @@ type FastConnectProviderService struct {
 	Description *string `mandatory:"false" json:"description"`
 
 	// An array of virtual circuit types supported by this service.
-	SupportedVirtualCircuitTypes []FastConnectProviderServiceSupportedVirtualCircuitTypesEnum `mandatory:"false" json:"supportedVirtualCircuitTypes"`
+	SupportedVirtualCircuitTypes []FastConnectProviderServiceSupportedVirtualCircuitTypesEnum `mandatory:"false" json:"supportedVirtualCircuitTypes,omitempty"`
 }
 
 func (m FastConnectProviderService) String() string {
@@ -53,23 +53,19 @@ const (
 	FastConnectProviderServicePrivatePeeringBgpManagementCustomerManaged FastConnectProviderServicePrivatePeeringBgpManagementEnum = "CUSTOMER_MANAGED"
 	FastConnectProviderServicePrivatePeeringBgpManagementProviderManaged FastConnectProviderServicePrivatePeeringBgpManagementEnum = "PROVIDER_MANAGED"
 	FastConnectProviderServicePrivatePeeringBgpManagementOracleManaged   FastConnectProviderServicePrivatePeeringBgpManagementEnum = "ORACLE_MANAGED"
-	FastConnectProviderServicePrivatePeeringBgpManagementUnknown         FastConnectProviderServicePrivatePeeringBgpManagementEnum = "UNKNOWN"
 )
 
 var mappingFastConnectProviderServicePrivatePeeringBgpManagement = map[string]FastConnectProviderServicePrivatePeeringBgpManagementEnum{
 	"CUSTOMER_MANAGED": FastConnectProviderServicePrivatePeeringBgpManagementCustomerManaged,
 	"PROVIDER_MANAGED": FastConnectProviderServicePrivatePeeringBgpManagementProviderManaged,
 	"ORACLE_MANAGED":   FastConnectProviderServicePrivatePeeringBgpManagementOracleManaged,
-	"UNKNOWN":          FastConnectProviderServicePrivatePeeringBgpManagementUnknown,
 }
 
 // GetFastConnectProviderServicePrivatePeeringBgpManagementEnumValues Enumerates the set of values for FastConnectProviderServicePrivatePeeringBgpManagement
 func GetFastConnectProviderServicePrivatePeeringBgpManagementEnumValues() []FastConnectProviderServicePrivatePeeringBgpManagementEnum {
 	values := make([]FastConnectProviderServicePrivatePeeringBgpManagementEnum, 0)
 	for _, v := range mappingFastConnectProviderServicePrivatePeeringBgpManagement {
-		if v != FastConnectProviderServicePrivatePeeringBgpManagementUnknown {
-			values = append(values, v)
-		}
+		values = append(values, v)
 	}
 	return values
 }
@@ -82,23 +78,19 @@ const (
 	FastConnectProviderServicePublicPeeringBgpManagementCustomerManaged FastConnectProviderServicePublicPeeringBgpManagementEnum = "CUSTOMER_MANAGED"
 	FastConnectProviderServicePublicPeeringBgpManagementProviderManaged FastConnectProviderServicePublicPeeringBgpManagementEnum = "PROVIDER_MANAGED"
 	FastConnectProviderServicePublicPeeringBgpManagementOracleManaged   FastConnectProviderServicePublicPeeringBgpManagementEnum = "ORACLE_MANAGED"
-	FastConnectProviderServicePublicPeeringBgpManagementUnknown         FastConnectProviderServicePublicPeeringBgpManagementEnum = "UNKNOWN"
 )
 
 var mappingFastConnectProviderServicePublicPeeringBgpManagement = map[string]FastConnectProviderServicePublicPeeringBgpManagementEnum{
 	"CUSTOMER_MANAGED": FastConnectProviderServicePublicPeeringBgpManagementCustomerManaged,
 	"PROVIDER_MANAGED": FastConnectProviderServicePublicPeeringBgpManagementProviderManaged,
 	"ORACLE_MANAGED":   FastConnectProviderServicePublicPeeringBgpManagementOracleManaged,
-	"UNKNOWN":          FastConnectProviderServicePublicPeeringBgpManagementUnknown,
 }
 
 // GetFastConnectProviderServicePublicPeeringBgpManagementEnumValues Enumerates the set of values for FastConnectProviderServicePublicPeeringBgpManagement
 func GetFastConnectProviderServicePublicPeeringBgpManagementEnumValues() []FastConnectProviderServicePublicPeeringBgpManagementEnum {
 	values := make([]FastConnectProviderServicePublicPeeringBgpManagementEnum, 0)
 	for _, v := range mappingFastConnectProviderServicePublicPeeringBgpManagement {
-		if v != FastConnectProviderServicePublicPeeringBgpManagementUnknown {
-			values = append(values, v)
-		}
+		values = append(values, v)
 	}
 	return values
 }
@@ -110,22 +102,18 @@ type FastConnectProviderServiceSupportedVirtualCircuitTypesEnum string
 const (
 	FastConnectProviderServiceSupportedVirtualCircuitTypesPublic  FastConnectProviderServiceSupportedVirtualCircuitTypesEnum = "PUBLIC"
 	FastConnectProviderServiceSupportedVirtualCircuitTypesPrivate FastConnectProviderServiceSupportedVirtualCircuitTypesEnum = "PRIVATE"
-	FastConnectProviderServiceSupportedVirtualCircuitTypesUnknown FastConnectProviderServiceSupportedVirtualCircuitTypesEnum = "UNKNOWN"
 )
 
 var mappingFastConnectProviderServiceSupportedVirtualCircuitTypes = map[string]FastConnectProviderServiceSupportedVirtualCircuitTypesEnum{
 	"PUBLIC":  FastConnectProviderServiceSupportedVirtualCircuitTypesPublic,
 	"PRIVATE": FastConnectProviderServiceSupportedVirtualCircuitTypesPrivate,
-	"UNKNOWN": FastConnectProviderServiceSupportedVirtualCircuitTypesUnknown,
 }
 
 // GetFastConnectProviderServiceSupportedVirtualCircuitTypesEnumValues Enumerates the set of values for FastConnectProviderServiceSupportedVirtualCircuitTypes
 func GetFastConnectProviderServiceSupportedVirtualCircuitTypesEnumValues() []FastConnectProviderServiceSupportedVirtualCircuitTypesEnum {
 	values := make([]FastConnectProviderServiceSupportedVirtualCircuitTypesEnum, 0)
 	for _, v := range mappingFastConnectProviderServiceSupportedVirtualCircuitTypes {
-		if v != FastConnectProviderServiceSupportedVirtualCircuitTypesUnknown {
-			values = append(values, v)
-		}
+		values = append(values, v)
 	}
 	return values
 }
@@ -135,24 +123,20 @@ type FastConnectProviderServiceTypeEnum string
 
 // Set of constants representing the allowable values for FastConnectProviderServiceType
 const (
-	FastConnectProviderServiceTypeLayer2  FastConnectProviderServiceTypeEnum = "LAYER2"
-	FastConnectProviderServiceTypeLayer3  FastConnectProviderServiceTypeEnum = "LAYER3"
-	FastConnectProviderServiceTypeUnknown FastConnectProviderServiceTypeEnum = "UNKNOWN"
+	FastConnectProviderServiceTypeLayer2 FastConnectProviderServiceTypeEnum = "LAYER2"
+	FastConnectProviderServiceTypeLayer3 FastConnectProviderServiceTypeEnum = "LAYER3"
 )
 
 var mappingFastConnectProviderServiceType = map[string]FastConnectProviderServiceTypeEnum{
-	"LAYER2":  FastConnectProviderServiceTypeLayer2,
-	"LAYER3":  FastConnectProviderServiceTypeLayer3,
-	"UNKNOWN": FastConnectProviderServiceTypeUnknown,
+	"LAYER2": FastConnectProviderServiceTypeLayer2,
+	"LAYER3": FastConnectProviderServiceTypeLayer3,
 }
 
 // GetFastConnectProviderServiceTypeEnumValues Enumerates the set of values for FastConnectProviderServiceType
 func GetFastConnectProviderServiceTypeEnumValues() []FastConnectProviderServiceTypeEnum {
 	values := make([]FastConnectProviderServiceTypeEnum, 0)
 	for _, v := range mappingFastConnectProviderServiceType {
-		if v != FastConnectProviderServiceTypeUnknown {
-			values = append(values, v)
-		}
+		values = append(values, v)
 	}
 	return values
 }

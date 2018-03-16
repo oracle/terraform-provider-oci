@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 // Load Balancing Service API
@@ -14,7 +14,7 @@ import (
 
 // CertificateDetails The configuration details for a listener certificate bundle.
 // For more information on SSL certficate configuration, see
-// [Managing SSL Certificates]({{DOC_SERVER_URL}}/Content/Balance/Tasks/managingcertificates.htm).
+// Managing SSL Certificates (https://docs.us-phoenix-1.oraclecloud.com/Content/Balance/Tasks/managingcertificates.htm).
 type CertificateDetails struct {
 
 	// A friendly name for the certificate bundle. It must be unique and it cannot be changed.
