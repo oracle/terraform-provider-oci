@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 // Core Services API
@@ -15,7 +15,7 @@ import (
 
 // DhcpDnsOption DHCP option for specifying how DNS (hostname resolution) is handled in the subnets in the VCN.
 // For more information, see
-// [DNS in Your Virtual Cloud Network]({{DOC_SERVER_URL}}/Content/Network/Concepts/dns.htm).
+// DNS in Your Virtual Cloud Network (https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Concepts/dns.htm).
 type DhcpDnsOption struct {
 
 	// If you set `serverType` to `CustomDnsServer`, specify the IP address
@@ -32,7 +32,7 @@ type DhcpDnsOption struct {
 	// The Internet and VCN Resolver also enables reverse DNS lookup, which lets
 	// you determine the hostname corresponding to the private IP address. For more
 	// information, see
-	// [DNS in Your Virtual Cloud Network]({{DOC_SERVER_URL}}/Content/Network/Concepts/dns.htm).
+	// DNS in Your Virtual Cloud Network (https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Concepts/dns.htm).
 	// - **CustomDnsServer:** Instances use a DNS server of your choice (three maximum).
 	ServerType DhcpDnsOptionServerTypeEnum `mandatory:"true" json:"serverType"`
 }
@@ -63,23 +63,19 @@ const (
 	DhcpDnsOptionServerTypeVcnlocal             DhcpDnsOptionServerTypeEnum = "VcnLocal"
 	DhcpDnsOptionServerTypeVcnlocalplusinternet DhcpDnsOptionServerTypeEnum = "VcnLocalPlusInternet"
 	DhcpDnsOptionServerTypeCustomdnsserver      DhcpDnsOptionServerTypeEnum = "CustomDnsServer"
-	DhcpDnsOptionServerTypeUnknown              DhcpDnsOptionServerTypeEnum = "UNKNOWN"
 )
 
 var mappingDhcpDnsOptionServerType = map[string]DhcpDnsOptionServerTypeEnum{
 	"VcnLocal":             DhcpDnsOptionServerTypeVcnlocal,
 	"VcnLocalPlusInternet": DhcpDnsOptionServerTypeVcnlocalplusinternet,
 	"CustomDnsServer":      DhcpDnsOptionServerTypeCustomdnsserver,
-	"UNKNOWN":              DhcpDnsOptionServerTypeUnknown,
 }
 
 // GetDhcpDnsOptionServerTypeEnumValues Enumerates the set of values for DhcpDnsOptionServerType
 func GetDhcpDnsOptionServerTypeEnumValues() []DhcpDnsOptionServerTypeEnum {
 	values := make([]DhcpDnsOptionServerTypeEnum, 0)
 	for _, v := range mappingDhcpDnsOptionServerType {
-		if v != DhcpDnsOptionServerTypeUnknown {
-			values = append(values, v)
-		}
+		values = append(values, v)
 	}
 	return values
 }

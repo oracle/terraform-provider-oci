@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 package core
@@ -78,22 +78,18 @@ type ListDhcpOptionsSortByEnum string
 const (
 	ListDhcpOptionsSortByTimecreated ListDhcpOptionsSortByEnum = "TIMECREATED"
 	ListDhcpOptionsSortByDisplayname ListDhcpOptionsSortByEnum = "DISPLAYNAME"
-	ListDhcpOptionsSortByUnknown     ListDhcpOptionsSortByEnum = "UNKNOWN"
 )
 
 var mappingListDhcpOptionsSortBy = map[string]ListDhcpOptionsSortByEnum{
 	"TIMECREATED": ListDhcpOptionsSortByTimecreated,
 	"DISPLAYNAME": ListDhcpOptionsSortByDisplayname,
-	"UNKNOWN":     ListDhcpOptionsSortByUnknown,
 }
 
 // GetListDhcpOptionsSortByEnumValues Enumerates the set of values for ListDhcpOptionsSortBy
 func GetListDhcpOptionsSortByEnumValues() []ListDhcpOptionsSortByEnum {
 	values := make([]ListDhcpOptionsSortByEnum, 0)
 	for _, v := range mappingListDhcpOptionsSortBy {
-		if v != ListDhcpOptionsSortByUnknown {
-			values = append(values, v)
-		}
+		values = append(values, v)
 	}
 	return values
 }
@@ -103,24 +99,20 @@ type ListDhcpOptionsSortOrderEnum string
 
 // Set of constants representing the allowable values for ListDhcpOptionsSortOrder
 const (
-	ListDhcpOptionsSortOrderAsc     ListDhcpOptionsSortOrderEnum = "ASC"
-	ListDhcpOptionsSortOrderDesc    ListDhcpOptionsSortOrderEnum = "DESC"
-	ListDhcpOptionsSortOrderUnknown ListDhcpOptionsSortOrderEnum = "UNKNOWN"
+	ListDhcpOptionsSortOrderAsc  ListDhcpOptionsSortOrderEnum = "ASC"
+	ListDhcpOptionsSortOrderDesc ListDhcpOptionsSortOrderEnum = "DESC"
 )
 
 var mappingListDhcpOptionsSortOrder = map[string]ListDhcpOptionsSortOrderEnum{
-	"ASC":     ListDhcpOptionsSortOrderAsc,
-	"DESC":    ListDhcpOptionsSortOrderDesc,
-	"UNKNOWN": ListDhcpOptionsSortOrderUnknown,
+	"ASC":  ListDhcpOptionsSortOrderAsc,
+	"DESC": ListDhcpOptionsSortOrderDesc,
 }
 
 // GetListDhcpOptionsSortOrderEnumValues Enumerates the set of values for ListDhcpOptionsSortOrder
 func GetListDhcpOptionsSortOrderEnumValues() []ListDhcpOptionsSortOrderEnum {
 	values := make([]ListDhcpOptionsSortOrderEnum, 0)
 	for _, v := range mappingListDhcpOptionsSortOrder {
-		if v != ListDhcpOptionsSortOrderUnknown {
-			values = append(values, v)
-		}
+		values = append(values, v)
 	}
 	return values
 }

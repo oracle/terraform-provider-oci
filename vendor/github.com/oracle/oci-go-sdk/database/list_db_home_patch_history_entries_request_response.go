@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 package database
@@ -11,7 +11,7 @@ import (
 // ListDbHomePatchHistoryEntriesRequest wrapper for the ListDbHomePatchHistoryEntries operation
 type ListDbHomePatchHistoryEntriesRequest struct {
 
-	// The database home [OCID]({{DOC_SERVER_URL}}/Content/General/Concepts/identifiers.htm).
+	// The database home OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
 	DbHomeId *string `mandatory:"true" contributesTo:"path" name:"dbHomeId"`
 
 	// The maximum number of items to return.
@@ -37,7 +37,7 @@ type ListDbHomePatchHistoryEntriesResponse struct {
 	// For pagination of a list of items. When paging through a list, if this header appears in the response,
 	// then there are additional items still to get. Include this value as the `page` parameter for the
 	// subsequent GET request. For information about pagination, see
-	// [List Pagination]({{DOC_SERVER_URL}}/Content/API/Concepts/usingapi.htm#List_Pagination).
+	// List Pagination (https://docs.us-phoenix-1.oraclecloud.com/Content/API/Concepts/usingapi.htm#List_Pagination).
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about

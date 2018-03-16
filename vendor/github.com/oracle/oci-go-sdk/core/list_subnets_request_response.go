@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 package core
@@ -78,22 +78,18 @@ type ListSubnetsSortByEnum string
 const (
 	ListSubnetsSortByTimecreated ListSubnetsSortByEnum = "TIMECREATED"
 	ListSubnetsSortByDisplayname ListSubnetsSortByEnum = "DISPLAYNAME"
-	ListSubnetsSortByUnknown     ListSubnetsSortByEnum = "UNKNOWN"
 )
 
 var mappingListSubnetsSortBy = map[string]ListSubnetsSortByEnum{
 	"TIMECREATED": ListSubnetsSortByTimecreated,
 	"DISPLAYNAME": ListSubnetsSortByDisplayname,
-	"UNKNOWN":     ListSubnetsSortByUnknown,
 }
 
 // GetListSubnetsSortByEnumValues Enumerates the set of values for ListSubnetsSortBy
 func GetListSubnetsSortByEnumValues() []ListSubnetsSortByEnum {
 	values := make([]ListSubnetsSortByEnum, 0)
 	for _, v := range mappingListSubnetsSortBy {
-		if v != ListSubnetsSortByUnknown {
-			values = append(values, v)
-		}
+		values = append(values, v)
 	}
 	return values
 }
@@ -103,24 +99,20 @@ type ListSubnetsSortOrderEnum string
 
 // Set of constants representing the allowable values for ListSubnetsSortOrder
 const (
-	ListSubnetsSortOrderAsc     ListSubnetsSortOrderEnum = "ASC"
-	ListSubnetsSortOrderDesc    ListSubnetsSortOrderEnum = "DESC"
-	ListSubnetsSortOrderUnknown ListSubnetsSortOrderEnum = "UNKNOWN"
+	ListSubnetsSortOrderAsc  ListSubnetsSortOrderEnum = "ASC"
+	ListSubnetsSortOrderDesc ListSubnetsSortOrderEnum = "DESC"
 )
 
 var mappingListSubnetsSortOrder = map[string]ListSubnetsSortOrderEnum{
-	"ASC":     ListSubnetsSortOrderAsc,
-	"DESC":    ListSubnetsSortOrderDesc,
-	"UNKNOWN": ListSubnetsSortOrderUnknown,
+	"ASC":  ListSubnetsSortOrderAsc,
+	"DESC": ListSubnetsSortOrderDesc,
 }
 
 // GetListSubnetsSortOrderEnumValues Enumerates the set of values for ListSubnetsSortOrder
 func GetListSubnetsSortOrderEnumValues() []ListSubnetsSortOrderEnum {
 	values := make([]ListSubnetsSortOrderEnum, 0)
 	for _, v := range mappingListSubnetsSortOrder {
-		if v != ListSubnetsSortOrderUnknown {
-			values = append(values, v)
-		}
+		values = append(values, v)
 	}
 	return values
 }

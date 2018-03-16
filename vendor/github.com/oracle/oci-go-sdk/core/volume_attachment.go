@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 // Core Services API
@@ -17,7 +17,7 @@ import (
 // For specific details about iSCSI attachments, see
 // IScsiVolumeAttachment.
 // For general information about volume attachments, see
-// [Overview of Block Volume Storage]({{DOC_SERVER_URL}}/Content/Block/Concepts/overview.htm).
+// Overview of Block Volume Storage (https://docs.us-phoenix-1.oraclecloud.com/Content/Block/Concepts/overview.htm).
 type VolumeAttachment interface {
 
 	// The Availability Domain of an instance.
@@ -47,6 +47,9 @@ type VolumeAttachment interface {
 	// Avoid entering confidential information.
 	// Example: `My volume attachment`
 	GetDisplayName() *string
+
+	// Whether the attachment was created in read-only mode.
+	GetIsReadOnly() *bool
 }
 
 type volumeattachment struct {
@@ -59,6 +62,7 @@ type volumeattachment struct {
 	TimeCreated        *common.SDKTime                    `mandatory:"true" json:"timeCreated"`
 	VolumeId           *string                            `mandatory:"true" json:"volumeId"`
 	DisplayName        *string                            `mandatory:"false" json:"displayName"`
+	IsReadOnly         *bool                              `mandatory:"false" json:"isReadOnly"`
 	AttachmentType     string                             `json:"attachmentType"`
 }
 
@@ -81,6 +85,7 @@ func (m *volumeattachment) UnmarshalJSON(data []byte) error {
 	m.TimeCreated = s.Model.TimeCreated
 	m.VolumeId = s.Model.VolumeId
 	m.DisplayName = s.Model.DisplayName
+	m.IsReadOnly = s.Model.IsReadOnly
 	m.AttachmentType = s.Model.AttachmentType
 
 	return err
@@ -139,6 +144,11 @@ func (m volumeattachment) GetDisplayName() *string {
 	return m.DisplayName
 }
 
+//GetIsReadOnly returns IsReadOnly
+func (m volumeattachment) GetIsReadOnly() *bool {
+	return m.IsReadOnly
+}
+
 func (m volumeattachment) String() string {
 	return common.PointerString(m)
 }
@@ -152,7 +162,6 @@ const (
 	VolumeAttachmentLifecycleStateAttached  VolumeAttachmentLifecycleStateEnum = "ATTACHED"
 	VolumeAttachmentLifecycleStateDetaching VolumeAttachmentLifecycleStateEnum = "DETACHING"
 	VolumeAttachmentLifecycleStateDetached  VolumeAttachmentLifecycleStateEnum = "DETACHED"
-	VolumeAttachmentLifecycleStateUnknown   VolumeAttachmentLifecycleStateEnum = "UNKNOWN"
 )
 
 var mappingVolumeAttachmentLifecycleState = map[string]VolumeAttachmentLifecycleStateEnum{
@@ -160,16 +169,13 @@ var mappingVolumeAttachmentLifecycleState = map[string]VolumeAttachmentLifecycle
 	"ATTACHED":  VolumeAttachmentLifecycleStateAttached,
 	"DETACHING": VolumeAttachmentLifecycleStateDetaching,
 	"DETACHED":  VolumeAttachmentLifecycleStateDetached,
-	"UNKNOWN":   VolumeAttachmentLifecycleStateUnknown,
 }
 
 // GetVolumeAttachmentLifecycleStateEnumValues Enumerates the set of values for VolumeAttachmentLifecycleState
 func GetVolumeAttachmentLifecycleStateEnumValues() []VolumeAttachmentLifecycleStateEnum {
 	values := make([]VolumeAttachmentLifecycleStateEnum, 0)
 	for _, v := range mappingVolumeAttachmentLifecycleState {
-		if v != VolumeAttachmentLifecycleStateUnknown {
-			values = append(values, v)
-		}
+		values = append(values, v)
 	}
 	return values
 }

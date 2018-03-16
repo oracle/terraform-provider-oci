@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 // Identity and Access Management Service API
@@ -17,10 +17,10 @@ import (
 // Saml2IdentityProvider
 // is a specific type of `IdentityProvider` that supports the SAML 2.0 protocol. Each
 // `IdentityProvider` object has its own OCID. For more information, see
-// [Identity Providers and Federation]({{DOC_SERVER_URL}}/Content/Identity/Concepts/federation.htm).
+// Identity Providers and Federation (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/federation.htm).
 // To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized,
 // talk to an administrator. If you're an administrator who needs to write policies to give users access,
-// see [Getting Started with Policies]({{DOC_SERVER_URL}}/Content/Identity/Concepts/policygetstarted.htm).
+// see Getting Started with Policies (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/policygetstarted.htm).
 type IdentityProvider interface {
 
 	// The OCID of the `IdentityProvider`.
@@ -59,6 +59,16 @@ type IdentityProvider interface {
 
 	// The detailed status of INACTIVE lifecycleState.
 	GetInactiveStatus() *int
+
+	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
+	// For more information, see Resource Tags (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Department": "Finance"}`
+	GetFreeformTags() map[string]string
+
+	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Operations": {"CostCenter": "42"}}`
+	GetDefinedTags() map[string]map[string]interface{}
 }
 
 type identityprovider struct {
@@ -71,6 +81,8 @@ type identityprovider struct {
 	TimeCreated    *common.SDKTime                    `mandatory:"true" json:"timeCreated"`
 	LifecycleState IdentityProviderLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 	InactiveStatus *int                               `mandatory:"false" json:"inactiveStatus"`
+	FreeformTags   map[string]string                  `mandatory:"false" json:"freeformTags"`
+	DefinedTags    map[string]map[string]interface{}  `mandatory:"false" json:"definedTags"`
 	Protocol       string                             `json:"protocol"`
 }
 
@@ -93,6 +105,8 @@ func (m *identityprovider) UnmarshalJSON(data []byte) error {
 	m.TimeCreated = s.Model.TimeCreated
 	m.LifecycleState = s.Model.LifecycleState
 	m.InactiveStatus = s.Model.InactiveStatus
+	m.FreeformTags = s.Model.FreeformTags
+	m.DefinedTags = s.Model.DefinedTags
 	m.Protocol = s.Model.Protocol
 
 	return err
@@ -151,6 +165,16 @@ func (m identityprovider) GetInactiveStatus() *int {
 	return m.InactiveStatus
 }
 
+//GetFreeformTags returns FreeformTags
+func (m identityprovider) GetFreeformTags() map[string]string {
+	return m.FreeformTags
+}
+
+//GetDefinedTags returns DefinedTags
+func (m identityprovider) GetDefinedTags() map[string]map[string]interface{} {
+	return m.DefinedTags
+}
+
 func (m identityprovider) String() string {
 	return common.PointerString(m)
 }
@@ -165,7 +189,6 @@ const (
 	IdentityProviderLifecycleStateInactive IdentityProviderLifecycleStateEnum = "INACTIVE"
 	IdentityProviderLifecycleStateDeleting IdentityProviderLifecycleStateEnum = "DELETING"
 	IdentityProviderLifecycleStateDeleted  IdentityProviderLifecycleStateEnum = "DELETED"
-	IdentityProviderLifecycleStateUnknown  IdentityProviderLifecycleStateEnum = "UNKNOWN"
 )
 
 var mappingIdentityProviderLifecycleState = map[string]IdentityProviderLifecycleStateEnum{
@@ -174,16 +197,13 @@ var mappingIdentityProviderLifecycleState = map[string]IdentityProviderLifecycle
 	"INACTIVE": IdentityProviderLifecycleStateInactive,
 	"DELETING": IdentityProviderLifecycleStateDeleting,
 	"DELETED":  IdentityProviderLifecycleStateDeleted,
-	"UNKNOWN":  IdentityProviderLifecycleStateUnknown,
 }
 
 // GetIdentityProviderLifecycleStateEnumValues Enumerates the set of values for IdentityProviderLifecycleState
 func GetIdentityProviderLifecycleStateEnumValues() []IdentityProviderLifecycleStateEnum {
 	values := make([]IdentityProviderLifecycleStateEnum, 0)
 	for _, v := range mappingIdentityProviderLifecycleState {
-		if v != IdentityProviderLifecycleStateUnknown {
-			values = append(values, v)
-		}
+		values = append(values, v)
 	}
 	return values
 }

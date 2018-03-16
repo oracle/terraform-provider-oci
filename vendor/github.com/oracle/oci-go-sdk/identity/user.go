@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 // Identity and Access Management Service API
@@ -16,16 +16,16 @@ import (
 // resources. Users might need to launch instances, manage remote disks, work with your cloud network, etc. Users
 // have one or more IAM Service credentials (ApiKey,
 // UIPassword, and SwiftPassword).
-// For more information, see [User Credentials]({{DOC_SERVER_URL}}/Content/API/Concepts/usercredentials.htm)). End users of your
+// For more information, see User Credentials (https://docs.us-phoenix-1.oraclecloud.com/Content/API/Concepts/usercredentials.htm)). End users of your
 // application are not typically IAM Service users. For conceptual information about users and other IAM Service
-// components, see [Overview of the IAM Service]({{DOC_SERVER_URL}}/Content/Identity/Concepts/overview.htm).
+// components, see Overview of the IAM Service (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/overview.htm).
 // These users are created directly within the Oracle Cloud Infrastructure system, via the IAM service.
 // They are different from *federated users*, who authenticate themselves to the Oracle Cloud Infrastructure
 // Console via an identity provider. For more information, see
-// [Identity Providers and Federation]({{DOC_SERVER_URL}}/Content/Identity/Concepts/federation.htm).
+// Identity Providers and Federation (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/federation.htm).
 // To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized,
 // talk to an administrator. If you're an administrator who needs to write policies to give users access,
-// see [Getting Started with Policies]({{DOC_SERVER_URL}}/Content/Identity/Concepts/policygetstarted.htm).
+// see Getting Started with Policies (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/policygetstarted.htm).
 type User struct {
 
 	// The OCID of the user.
@@ -55,6 +55,16 @@ type User struct {
 	// - bit 1: DISABLED (reserved for future use)
 	// - bit 2: BLOCKED (the user has exceeded the maximum number of failed login attempts for the Console)
 	InactiveStatus *int `mandatory:"false" json:"inactiveStatus"`
+
+	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
+	// For more information, see Resource Tags (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Department": "Finance"}`
+	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Operations": {"CostCenter": "42"}}`
+	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 
 func (m User) String() string {
@@ -71,7 +81,6 @@ const (
 	UserLifecycleStateInactive UserLifecycleStateEnum = "INACTIVE"
 	UserLifecycleStateDeleting UserLifecycleStateEnum = "DELETING"
 	UserLifecycleStateDeleted  UserLifecycleStateEnum = "DELETED"
-	UserLifecycleStateUnknown  UserLifecycleStateEnum = "UNKNOWN"
 )
 
 var mappingUserLifecycleState = map[string]UserLifecycleStateEnum{
@@ -80,16 +89,13 @@ var mappingUserLifecycleState = map[string]UserLifecycleStateEnum{
 	"INACTIVE": UserLifecycleStateInactive,
 	"DELETING": UserLifecycleStateDeleting,
 	"DELETED":  UserLifecycleStateDeleted,
-	"UNKNOWN":  UserLifecycleStateUnknown,
 }
 
 // GetUserLifecycleStateEnumValues Enumerates the set of values for UserLifecycleState
 func GetUserLifecycleStateEnumValues() []UserLifecycleStateEnum {
 	values := make([]UserLifecycleStateEnum, 0)
 	for _, v := range mappingUserLifecycleState {
-		if v != UserLifecycleStateUnknown {
-			values = append(values, v)
-		}
+		values = append(values, v)
 	}
 	return values
 }

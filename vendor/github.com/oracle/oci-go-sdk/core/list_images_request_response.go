@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 package core
@@ -24,6 +24,9 @@ type ListImagesRequest struct {
 	// The image's operating system version.
 	// Example: `7.2`
 	OperatingSystemVersion *string `mandatory:"false" contributesTo:"query" name:"operatingSystemVersion"`
+
+	// Shape name.
+	Shape *string `mandatory:"false" contributesTo:"query" name:"shape"`
 
 	// The maximum number of items to return in a paginated "List" call.
 	// Example: `500`
@@ -83,22 +86,18 @@ type ListImagesSortByEnum string
 const (
 	ListImagesSortByTimecreated ListImagesSortByEnum = "TIMECREATED"
 	ListImagesSortByDisplayname ListImagesSortByEnum = "DISPLAYNAME"
-	ListImagesSortByUnknown     ListImagesSortByEnum = "UNKNOWN"
 )
 
 var mappingListImagesSortBy = map[string]ListImagesSortByEnum{
 	"TIMECREATED": ListImagesSortByTimecreated,
 	"DISPLAYNAME": ListImagesSortByDisplayname,
-	"UNKNOWN":     ListImagesSortByUnknown,
 }
 
 // GetListImagesSortByEnumValues Enumerates the set of values for ListImagesSortBy
 func GetListImagesSortByEnumValues() []ListImagesSortByEnum {
 	values := make([]ListImagesSortByEnum, 0)
 	for _, v := range mappingListImagesSortBy {
-		if v != ListImagesSortByUnknown {
-			values = append(values, v)
-		}
+		values = append(values, v)
 	}
 	return values
 }
@@ -108,24 +107,20 @@ type ListImagesSortOrderEnum string
 
 // Set of constants representing the allowable values for ListImagesSortOrder
 const (
-	ListImagesSortOrderAsc     ListImagesSortOrderEnum = "ASC"
-	ListImagesSortOrderDesc    ListImagesSortOrderEnum = "DESC"
-	ListImagesSortOrderUnknown ListImagesSortOrderEnum = "UNKNOWN"
+	ListImagesSortOrderAsc  ListImagesSortOrderEnum = "ASC"
+	ListImagesSortOrderDesc ListImagesSortOrderEnum = "DESC"
 )
 
 var mappingListImagesSortOrder = map[string]ListImagesSortOrderEnum{
-	"ASC":     ListImagesSortOrderAsc,
-	"DESC":    ListImagesSortOrderDesc,
-	"UNKNOWN": ListImagesSortOrderUnknown,
+	"ASC":  ListImagesSortOrderAsc,
+	"DESC": ListImagesSortOrderDesc,
 }
 
 // GetListImagesSortOrderEnumValues Enumerates the set of values for ListImagesSortOrder
 func GetListImagesSortOrderEnumValues() []ListImagesSortOrderEnum {
 	values := make([]ListImagesSortOrderEnum, 0)
 	for _, v := range mappingListImagesSortOrder {
-		if v != ListImagesSortOrderUnknown {
-			values = append(values, v)
-		}
+		values = append(values, v)
 	}
 	return values
 }

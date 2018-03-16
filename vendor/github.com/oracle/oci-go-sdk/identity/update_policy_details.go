@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 // Identity and Access Management Service API
@@ -19,14 +19,24 @@ type UpdatePolicyDetails struct {
 	Description *string `mandatory:"false" json:"description"`
 
 	// An array of policy statements written in the policy language. See
-	// [How Policies Work]({{DOC_SERVER_URL}}/Content/Identity/Concepts/policies.htm) and
-	// [Common Policies]({{DOC_SERVER_URL}}/Content/Identity/Concepts/commonpolicies.htm).
+	// How Policies Work (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/policies.htm) and
+	// Common Policies (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/commonpolicies.htm).
 	Statements []string `mandatory:"false" json:"statements"`
 
 	// The version of the policy. If null or set to an empty string, when a request comes in for authorization, the
 	// policy will be evaluated according to the current behavior of the services at that moment. If set to a particular
 	// date (YYYY-MM-DD), the policy will be evaluated according to the behavior of the services on that date.
 	VersionDate *common.SDKTime `mandatory:"false" json:"versionDate"`
+
+	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
+	// For more information, see Resource Tags (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Department": "Finance"}`
+	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Operations": {"CostCenter": "42"}}`
+	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 
 func (m UpdatePolicyDetails) String() string {

@@ -1,0 +1,4645 @@
+swagger: '2.0'
+info:
+  description: API for the Load Balancing Service
+  title: Load Balancing Service API
+  version: '20170115'
+basePath: /20170115
+paths:
+  /loadBalancerHealths:
+    get:
+      description: Lists the summary health statuses for all load balancers in the
+        specified compartment.
+      operationId: ListLoadBalancerHealths
+      parameters:
+      - default: ''
+        description: 'The unique Oracle-assigned identifier for the request. If you
+          need to contact Oracle about a
+
+          particular request, please provide the request ID.
+
+          '
+        in: header
+        name: opc-request-id
+        required: false
+        type: string
+      - default: 10
+        description: 'The maximum number of items to return in a paginated "List"
+          call.
+
+
+          Example: `500`
+
+          '
+        format: int64
+        in: query
+        name: limit
+        required: false
+        type: integer
+      - description: 'The value of the `opc-next-page` response header from the previous
+          "List" call.
+
+
+          Example: `3`
+
+          '
+        in: query
+        name: page
+        required: false
+        type: string
+      - description: The [OCID](/Content/General/Concepts/identifiers.htm) of the
+          compartment containing the load balancers to return health status information
+          for.
+        in: query
+        name: compartmentId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        200:
+          description: The health status information was retrieved.
+          headers:
+            opc-next-page:
+              description: |
+                For pagination of a list of items. When paging through a list, if this header appears in the response,
+                then a partial list might have been returned. Include this value as the `page` parameter for the
+                subsequent GET request to get the next batch of items.
+              type: string
+            opc-request-id:
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
+                a particular request, please provide the request ID.
+              type: string
+          schema:
+            items:
+              $ref: '#/definitions/LoadBalancerHealthSummary'
+            type: array
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+      summary: ListLoadBalancerHealths
+      tags:
+      - loadBalancer
+  /loadBalancerPolicies:
+    get:
+      description: Lists the available load balancer policies.
+      operationId: ListPolicies
+      parameters:
+      - default: ''
+        description: 'The unique Oracle-assigned identifier for the request. If you
+          need to contact Oracle about a
+
+          particular request, please provide the request ID.
+
+          '
+        in: header
+        name: opc-request-id
+        required: false
+        type: string
+      - description: The [OCID](/Content/General/Concepts/identifiers.htm) of the
+          compartment containing the load balancer policies to list.
+        in: query
+        name: compartmentId
+        required: true
+        type: string
+      - default: 16
+        description: 'The maximum number of items to return in a paginated "List"
+          call.
+
+
+          Example: `500`
+
+          '
+        format: int64
+        in: query
+        name: limit
+        required: false
+        type: integer
+      - description: 'The value of the `opc-next-page` response header from the previous
+          "List" call.
+
+
+          Example: `3`
+
+          '
+        in: query
+        name: page
+        required: false
+        type: string
+      produces:
+      - application/json
+      responses:
+        200:
+          description: The list is being retrieved.
+          headers:
+            opc-next-page:
+              description: |
+                For pagination of a list of items. When paging through a list, if this header appears in the response,
+                then a partial list might have been returned. Include this value as the `page` parameter for the
+                subsequent GET request to get the next batch of items.
+              type: string
+            opc-request-id:
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
+                a particular request, please provide the request ID.
+              type: string
+          schema:
+            items:
+              $ref: '#/definitions/LoadBalancerPolicy'
+            type: array
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+      summary: ListPolicies
+      tags:
+      - loadBalancer
+  /loadBalancerProtocols:
+    get:
+      description: Lists all supported traffic protocols.
+      operationId: ListProtocols
+      parameters:
+      - default: ''
+        description: 'The unique Oracle-assigned identifier for the request. If you
+          need to contact Oracle about a
+
+          particular request, please provide the request ID.
+
+          '
+        in: header
+        name: opc-request-id
+        required: false
+        type: string
+      - description: The [OCID](/Content/General/Concepts/identifiers.htm) of the
+          compartment containing the load balancer protocols to list.
+        in: query
+        name: compartmentId
+        required: true
+        type: string
+      - default: 16
+        description: 'The maximum number of items to return in a paginated "List"
+          call.
+
+
+          Example: `500`
+
+          '
+        format: int64
+        in: query
+        name: limit
+        required: false
+        type: integer
+      - description: 'The value of the `opc-next-page` response header from the previous
+          "List" call.
+
+
+          Example: `3`
+
+          '
+        in: query
+        name: page
+        required: false
+        type: string
+      produces:
+      - application/json
+      responses:
+        200:
+          description: The list is being retrieved.
+          headers:
+            opc-next-page:
+              description: |
+                For pagination of a list of items. When paging through a list, if this header appears in the response,
+                then a partial list might have been returned. Include this value as the `page` parameter for the
+                subsequent GET request to get the next batch of items.
+              type: string
+            opc-request-id:
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
+                a particular request, please provide the request ID.
+              type: string
+          schema:
+            items:
+              $ref: '#/definitions/LoadBalancerProtocol'
+            type: array
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+      summary: ListProtocols
+      tags:
+      - loadBalancer
+  /loadBalancerShapes:
+    get:
+      description: Lists the valid load balancer shapes.
+      operationId: ListShapes
+      parameters:
+      - default: ''
+        description: 'The unique Oracle-assigned identifier for the request. If you
+          need to contact Oracle about a
+
+          particular request, please provide the request ID.
+
+          '
+        in: header
+        name: opc-request-id
+        required: false
+        type: string
+      - description: The [OCID](/Content/General/Concepts/identifiers.htm) of the
+          compartment containing the load balancer shapes to list.
+        in: query
+        name: compartmentId
+        required: true
+        type: string
+      - default: 16
+        description: 'The maximum number of items to return in a paginated "List"
+          call.
+
+
+          Example: `500`
+
+          '
+        format: int64
+        in: query
+        name: limit
+        required: false
+        type: integer
+      - description: 'The value of the `opc-next-page` response header from the previous
+          "List" call.
+
+
+          Example: `3`
+
+          '
+        in: query
+        name: page
+        required: false
+        type: string
+      produces:
+      - application/json
+      responses:
+        200:
+          description: The list is being retrieved.
+          headers:
+            opc-next-page:
+              description: |
+                For pagination of a list of items. When paging through a list, if this header appears in the response,
+                then a partial list might have been returned. Include this value as the `page` parameter for the
+                subsequent GET request to get the next batch of items.
+              type: string
+            opc-request-id:
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
+                a particular request, please provide the request ID.
+              type: string
+          schema:
+            items:
+              $ref: '#/definitions/LoadBalancerShape'
+            type: array
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+      summary: ListShapes
+      tags:
+      - loadBalancer
+  /loadBalancerWorkRequests/{workRequestId}:
+    get:
+      description: Gets the details of a work request.
+      operationId: GetWorkRequest
+      parameters:
+      - default: ''
+        description: 'The unique Oracle-assigned identifier for the request. If you
+          need to contact Oracle about a
+
+          particular request, please provide the request ID.
+
+          '
+        in: header
+        name: opc-request-id
+        required: false
+        type: string
+      - description: The [OCID](/Content/General/Concepts/identifiers.htm) of the
+          work request to retrieve.
+        in: path
+        name: workRequestId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        200:
+          description: The work request is being retrieved.
+          headers:
+            opc-request-id:
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
+                a particular request, please provide the request ID.
+              type: string
+          schema:
+            $ref: '#/definitions/WorkRequest'
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+      summary: GetWorkRequest
+      tags:
+      - loadBalancer
+  /loadBalancers:
+    get:
+      description: Lists all load balancers in the specified compartment.
+      operationId: ListLoadBalancers
+      parameters:
+      - default: ''
+        description: 'The unique Oracle-assigned identifier for the request. If you
+          need to contact Oracle about a
+
+          particular request, please provide the request ID.
+
+          '
+        in: header
+        name: opc-request-id
+        required: false
+        type: string
+      - default: 10
+        description: 'The maximum number of items to return in a paginated "List"
+          call.
+
+
+          Example: `500`
+
+          '
+        format: int64
+        in: query
+        name: limit
+        required: false
+        type: integer
+      - description: 'The value of the `opc-next-page` response header from the previous
+          "List" call.
+
+
+          Example: `3`
+
+          '
+        in: query
+        name: page
+        required: false
+        type: string
+      - description: The [OCID](/Content/General/Concepts/identifiers.htm) of the
+          compartment containing the load balancers to list.
+        in: query
+        name: compartmentId
+        required: true
+        type: string
+      - default: full
+        description: 'The level of detail to return for each result. Can be `full`
+          or `simple`.
+
+
+          Example: `full`
+
+          '
+        in: query
+        name: detail
+        required: false
+        type: string
+      - $ref: '#/parameters/SortByQueryParam'
+      - $ref: '#/parameters/SortOrderQueryParam'
+      - $ref: '#/parameters/FilterByDisplayNameQueryParam'
+      - $ref: '#/parameters/FilterByLifecycleStateQueryParam'
+      produces:
+      - application/json
+      responses:
+        200:
+          description: The list is being retrieved.
+          headers:
+            opc-next-page:
+              description: |
+                For pagination of a list of items. When paging through a list, if this header appears in the response,
+                then a partial list might have been returned. Include this value as the `page` parameter for the
+                subsequent GET request to get the next batch of items.
+              type: string
+            opc-request-id:
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
+                a particular request, please provide the request ID.
+              type: string
+          schema:
+            items:
+              $ref: '#/definitions/LoadBalancer'
+            type: array
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+      summary: ListLoadBalancers
+      tags:
+      - loadBalancer
+    post:
+      consumes:
+      - application/json
+      description: |
+        Creates a new load balancer in the specified compartment. For general information about load balancers,
+        see [Overview of the Load Balancing Service](/Content/Balance/Concepts/balanceoverview.htm).
+
+        For the purposes of access control, you must provide the OCID of the compartment where you want
+        the load balancer to reside. Notice that the load balancer doesn't have to be in the same compartment as the VCN
+        or backend set. If you're not sure which compartment to use, put the load balancer in the same compartment as the VCN.
+        For information about access control and compartments, see
+        [Overview of the IAM Service](/Content/Identity/Concepts/overview.htm).
+
+        You must specify a display name for the load balancer. It does not have to be unique, and you can change it.
+
+        For information about Availability Domains, see
+        [Regions and Availability Domains](/Content/General/Concepts/regions.htm).
+        To get a list of Availability Domains, use the `ListAvailabilityDomains` operation
+        in the Identity and Access Management Service API.
+
+        All Oracle Cloud Infrastructure resources, including load balancers, get an Oracle-assigned,
+        unique ID called an Oracle Cloud Identifier (OCID). When you create a resource, you can find its OCID
+        in the response. You can also retrieve a resource's OCID by using a List API operation on that resource type,
+        or by viewing the resource in the Console. Fore more information, see
+        [Resource Identifiers](/Content/General/Concepts/identifiers.htm).
+
+        After you send your request, the new object's state will temporarily be PROVISIONING. Before using the
+        object, first make sure its state has changed to RUNNING.
+
+        When you create a load balancer, the system assigns an IP address.
+        To get the IP address, use the [GetLoadBalancer](#/en/loadbalancer/20170115/LoadBalancer/GetLoadBalancer) operation.
+      operationId: CreateLoadBalancer
+      parameters:
+      - default: ''
+        description: 'The unique Oracle-assigned identifier for the request. If you
+          need to contact Oracle about a
+
+          particular request, please provide the request ID.
+
+          '
+        in: header
+        name: opc-request-id
+        required: false
+        type: string
+      - $ref: '#/parameters/RetryTokenHeader'
+      - description: The configuration details for creating a load balancer.
+        in: body
+        name: CreateLoadBalancerDetails
+        required: true
+        schema:
+          $ref: '#/definitions/CreateLoadBalancerDetails'
+      produces:
+      - application/json
+      responses:
+        204:
+          description: The request was accepted for processing.
+          headers:
+            opc-request-id:
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
+                a particular request, please provide the request ID.
+              type: string
+            opc-work-request-id:
+              description: The [OCID](/Content/General/Concepts/identifiers.htm) of
+                the work request.
+              type: string
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+      summary: CreateLoadBalancer
+      tags:
+      - loadBalancer
+      x-example: |
+        POST /20170115/loadBalancers
+        Host: iaas.us-phoenix-1.oraclecloud.com
+        <var>&lt;authorization and other headers&gt;</var>
+        {
+          "displayName": "demoLoadBalancer",
+          "shape": "100Mbps",
+          "listeners": {},
+          "backendSets": {},
+          "subnetIds": ["ocid1.subnet.oc1.phx.aaaaajdsrd4qjlvh4be7qmqwq6bwuk5tx2dt7n6nt5oq5faux5sxscrjxt6a","ocid1.subnet.oc1.phx.aaaaajds23llt4so7icmml7yk4zgfgpelurndfauxsntjagvlots7a35aypq"],
+          "compartmentId": "ocid1.compartment.oc1..aaaaajdstulmjn6slkkzxqvscobn7cwgzt534fauxkfsgvgrwkybbhak4jfq"
+        }
+  /loadBalancers/{loadBalancerId}:
+    delete:
+      description: Stops a load balancer and removes it from service.
+      operationId: DeleteLoadBalancer
+      parameters:
+      - default: ''
+        description: 'The unique Oracle-assigned identifier for the request. If you
+          need to contact Oracle about a
+
+          particular request, please provide the request ID.
+
+          '
+        in: header
+        name: opc-request-id
+        required: false
+        type: string
+      - description: The [OCID](/Content/General/Concepts/identifiers.htm) of the
+          load balancer to delete.
+        in: path
+        name: loadBalancerId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        204:
+          description: The request to delete the load balancer was accepted for processing.
+          headers:
+            opc-request-id:
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
+                a particular request, please provide the request ID.
+              type: string
+            opc-work-request-id:
+              description: The [OCID](/Content/General/Concepts/identifiers.htm) of
+                the work request.
+              type: string
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+      summary: DeleteLoadBalancer
+      tags:
+      - loadBalancer
+    get:
+      description: Gets the specified load balancer's configuration information.
+      operationId: GetLoadBalancer
+      parameters:
+      - default: ''
+        description: 'The unique Oracle-assigned identifier for the request. If you
+          need to contact Oracle about a
+
+          particular request, please provide the request ID.
+
+          '
+        in: header
+        name: opc-request-id
+        required: false
+        type: string
+      - description: The [OCID](/Content/General/Concepts/identifiers.htm) of the
+          load balancer to retrieve.
+        in: path
+        name: loadBalancerId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        200:
+          description: The configuration information is being retrieved.
+          headers:
+            opc-request-id:
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
+                a particular request, please provide the request ID.
+              type: string
+          schema:
+            $ref: '#/definitions/LoadBalancer'
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+      summary: GetLoadBalancer
+      tags:
+      - loadBalancer
+    put:
+      consumes:
+      - application/json
+      description: Updates a load balancer's configuration.
+      operationId: UpdateLoadBalancer
+      parameters:
+      - default: ''
+        description: 'The unique Oracle-assigned identifier for the request. If you
+          need to contact Oracle about a
+
+          particular request, please provide the request ID.
+
+          '
+        in: header
+        name: opc-request-id
+        required: false
+        type: string
+      - $ref: '#/parameters/RetryTokenHeader'
+      - description: The details for updating a load balancer's configuration.
+        in: body
+        name: UpdateLoadBalancerDetails
+        required: true
+        schema:
+          $ref: '#/definitions/UpdateLoadBalancerDetails'
+      - description: The [OCID](/Content/General/Concepts/identifiers.htm) of the
+          load balancer to update.
+        in: path
+        name: loadBalancerId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        204:
+          description: The request was accepted for processing.
+          headers:
+            opc-request-id:
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
+                a particular request, please provide the request ID.
+              type: string
+            opc-work-request-id:
+              description: The [OCID](/Content/General/Concepts/identifiers.htm) of
+                the work request.
+              type: string
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+      summary: UpdateLoadBalancer
+      tags:
+      - loadBalancer
+  /loadBalancers/{loadBalancerId}/backendSets:
+    get:
+      description: Lists all backend sets associated with a given load balancer.
+      operationId: ListBackendSets
+      parameters:
+      - default: ''
+        description: 'The unique Oracle-assigned identifier for the request. If you
+          need to contact Oracle about a
+
+          particular request, please provide the request ID.
+
+          '
+        in: header
+        name: opc-request-id
+        required: false
+        type: string
+      - description: The [OCID](/Content/General/Concepts/identifiers.htm) of the
+          load balancer associated with the backend sets to retrieve.
+        in: path
+        name: loadBalancerId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        200:
+          description: The list is being retrieved.
+          headers:
+            opc-request-id:
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
+                a particular request, please provide the request ID.
+              type: string
+          schema:
+            items:
+              $ref: '#/definitions/BackendSet'
+            type: array
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+      summary: ListBackendSets
+      tags:
+      - loadBalancer
+    post:
+      consumes:
+      - application/json
+      description: Adds a backend set to a load balancer.
+      operationId: CreateBackendSet
+      parameters:
+      - default: ''
+        description: 'The unique Oracle-assigned identifier for the request. If you
+          need to contact Oracle about a
+
+          particular request, please provide the request ID.
+
+          '
+        in: header
+        name: opc-request-id
+        required: false
+        type: string
+      - $ref: '#/parameters/RetryTokenHeader'
+      - description: The details for adding a backend set.
+        in: body
+        name: CreateBackendSetDetails
+        required: true
+        schema:
+          $ref: '#/definitions/CreateBackendSetDetails'
+      - description: The [OCID](/Content/General/Concepts/identifiers.htm) of the
+          load balancer on which to add a backend set.
+        in: path
+        name: loadBalancerId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        204:
+          description: The request was accepted for processing.
+          headers:
+            opc-request-id:
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
+                a particular request, please provide the request ID.
+              type: string
+            opc-work-request-id:
+              description: The [OCID](/Content/General/Concepts/identifiers.htm) of
+                the work request.
+              type: string
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+      summary: CreateBackendSet
+      tags:
+      - loadBalancer
+      x-example: |
+        POST /20170115/loadBalancers/<var>&lt;loadBalancerId&gt;</var>/backendSets
+        Host: iaas.us-phoenix-1.oraclecloud.com
+        <var>&lt;authorization and other headers&gt;</var>
+        {
+          "name": demoBackendSet,
+          "policy": "ROUND_ROBIN",
+          "healthChecker": {
+            "protocol": "HTTP",
+            "timeoutInMillis": "10000",
+            "retries": "3",
+            "returnCode": "200",
+            "port": "80",
+            "urlPath": "/healthcheck",
+            "intervalInMillis": "3000"
+          },
+          "backends": [],
+          "sslConfiguration": {
+            "certificateName": "My_certificate_bundle",
+            "verifyDepth": "3",
+            "verifyPeerCertificate": true
+          }
+        }
+  /loadBalancers/{loadBalancerId}/backendSets/{backendSetName}:
+    delete:
+      description: |
+        Deletes the specified backend set. Note that deleting a backend set removes its backend servers from the load balancer.
+
+        Before you can delete a backend set, you must remove it from any active listeners.
+      operationId: DeleteBackendSet
+      parameters:
+      - default: ''
+        description: 'The unique Oracle-assigned identifier for the request. If you
+          need to contact Oracle about a
+
+          particular request, please provide the request ID.
+
+          '
+        in: header
+        name: opc-request-id
+        required: false
+        type: string
+      - description: The [OCID](/Content/General/Concepts/identifiers.htm) of the
+          load balancer associated with the backend set.
+        in: path
+        name: loadBalancerId
+        required: true
+        type: string
+      - description: 'The name of the backend set to delete.
+
+
+          Example: `My_backend_set`
+
+          '
+        in: path
+        name: backendSetName
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        204:
+          description: The request was accepted for processing.
+          headers:
+            opc-request-id:
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
+                a particular request, please provide the request ID.
+              type: string
+            opc-work-request-id:
+              description: The [OCID](/Content/General/Concepts/identifiers.htm) of
+                the work request.
+              type: string
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+      summary: DeleteBackendSet
+      tags:
+      - loadBalancer
+    get:
+      description: Gets the specified backend set's configuration information.
+      operationId: GetBackendSet
+      parameters:
+      - default: ''
+        description: 'The unique Oracle-assigned identifier for the request. If you
+          need to contact Oracle about a
+
+          particular request, please provide the request ID.
+
+          '
+        in: header
+        name: opc-request-id
+        required: false
+        type: string
+      - description: The [OCID](/Content/General/Concepts/identifiers.htm) of the
+          specified load balancer.
+        in: path
+        name: loadBalancerId
+        required: true
+        type: string
+      - description: 'The name of the backend set to retrieve.
+
+
+          Example: `My_backend_set`
+
+          '
+        in: path
+        name: backendSetName
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        200:
+          description: The backend set information is being retrieved.
+          headers:
+            opc-request-id:
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
+                a particular request, please provide the request ID.
+              type: string
+          schema:
+            $ref: '#/definitions/BackendSet'
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+      summary: GetBackendSet
+      tags:
+      - loadBalancer
+    put:
+      consumes:
+      - application/json
+      description: Updates a backend set.
+      operationId: UpdateBackendSet
+      parameters:
+      - default: ''
+        description: 'The unique Oracle-assigned identifier for the request. If you
+          need to contact Oracle about a
+
+          particular request, please provide the request ID.
+
+          '
+        in: header
+        name: opc-request-id
+        required: false
+        type: string
+      - $ref: '#/parameters/RetryTokenHeader'
+      - description: The details to update a backend set.
+        in: body
+        name: UpdateBackendSetDetails
+        required: true
+        schema:
+          $ref: '#/definitions/UpdateBackendSetDetails'
+      - description: The [OCID](/Content/General/Concepts/identifiers.htm) of the
+          load balancer associated with the backend set.
+        in: path
+        name: loadBalancerId
+        required: true
+        type: string
+      - description: 'The name of the backend set to update.
+
+
+          Example: `My_backend_set`
+
+          '
+        in: path
+        name: backendSetName
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        204:
+          description: The request was accepted for processing.
+          headers:
+            opc-request-id:
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
+                a particular request, please provide the request ID.
+              type: string
+            opc-work-request-id:
+              description: The [OCID](/Content/General/Concepts/identifiers.htm) of
+                the work request.
+              type: string
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+      summary: UpdateBackendSet
+      tags:
+      - loadBalancer
+  /loadBalancers/{loadBalancerId}/backendSets/{backendSetName}/backends:
+    get:
+      description: Lists the backend servers for a given load balancer and backend
+        set.
+      operationId: ListBackends
+      parameters:
+      - default: ''
+        description: 'The unique Oracle-assigned identifier for the request. If you
+          need to contact Oracle about a
+
+          particular request, please provide the request ID.
+
+          '
+        in: header
+        name: opc-request-id
+        required: false
+        type: string
+      - description: The [OCID](/Content/General/Concepts/identifiers.htm) of the
+          load balancer associated with the backend set and servers.
+        in: path
+        name: loadBalancerId
+        required: true
+        type: string
+      - description: 'The name of the backend set associated with the backend servers.
+
+
+          Example: `My_backend_set`
+
+          '
+        in: path
+        name: backendSetName
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        200:
+          description: The list is being retrieved.
+          headers:
+            opc-request-id:
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
+                a particular request, please provide the request ID.
+              type: string
+          schema:
+            items:
+              $ref: '#/definitions/Backend'
+            type: array
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+      summary: ListBackends
+      tags:
+      - loadBalancer
+    post:
+      consumes:
+      - application/json
+      description: Adds a backend server to a backend set.
+      operationId: CreateBackend
+      parameters:
+      - default: ''
+        description: 'The unique Oracle-assigned identifier for the request. If you
+          need to contact Oracle about a
+
+          particular request, please provide the request ID.
+
+          '
+        in: header
+        name: opc-request-id
+        required: false
+        type: string
+      - $ref: '#/parameters/RetryTokenHeader'
+      - description: The details to add a backend server to a backend set.
+        in: body
+        name: CreateBackendDetails
+        required: true
+        schema:
+          $ref: '#/definitions/CreateBackendDetails'
+      - description: The [OCID](/Content/General/Concepts/identifiers.htm) of the
+          load balancer associated with the backend set and servers.
+        in: path
+        name: loadBalancerId
+        required: true
+        type: string
+      - description: 'The name of the backend set to add the backend server to.
+
+
+          Example: `My_backend_set`
+
+          '
+        in: path
+        name: backendSetName
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        204:
+          description: The request was accepted for processing.
+          headers:
+            opc-request-id:
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
+                a particular request, please provide the request ID.
+              type: string
+            opc-work-request-id:
+              description: The [OCID](/Content/General/Concepts/identifiers.htm) of
+                the work request.
+              type: string
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+      summary: CreateBackend
+      tags:
+      - loadBalancer
+      x-example: |
+        POST /20170115/loadBalancers/<var>&lt;loadBalancerId&gt;</var>/backendSets/<var>&lt;backendSetName&gt;</var>/backends
+        Host: iaas.us-phoenix-1.oraclecloud.com
+        <var>&lt;authorization and other headers&gt;</var>
+        {
+          "ipAddress": "10.10.10.4",
+          "port": "8080",
+          "weight": "3",
+          "backup": "false",
+          "drain": "false",
+          "offline": "false",
+        }
+  /loadBalancers/{loadBalancerId}/backendSets/{backendSetName}/backends/{backendName}:
+    delete:
+      description: Removes a backend server from a given load balancer and backend
+        set.
+      operationId: DeleteBackend
+      parameters:
+      - default: ''
+        description: 'The unique Oracle-assigned identifier for the request. If you
+          need to contact Oracle about a
+
+          particular request, please provide the request ID.
+
+          '
+        in: header
+        name: opc-request-id
+        required: false
+        type: string
+      - description: The [OCID](/Content/General/Concepts/identifiers.htm) of the
+          load balancer associated with the backend set and server.
+        in: path
+        name: loadBalancerId
+        required: true
+        type: string
+      - description: 'The name of the backend set associated with the backend server.
+
+
+          Example: `My_backend_set`
+
+          '
+        in: path
+        name: backendSetName
+        required: true
+        type: string
+      - description: 'The IP address and port of the backend server to remove.
+
+
+          Example: `1.1.1.7:42`
+
+          '
+        in: path
+        name: backendName
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        204:
+          description: The request was accepted for processing.
+          headers:
+            opc-request-id:
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
+                a particular request, please provide the request ID.
+              type: string
+            opc-work-request-id:
+              description: The [OCID](/Content/General/Concepts/identifiers.htm) of
+                the work request.
+              type: string
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+      summary: DeleteBackend
+      tags:
+      - loadBalancer
+    get:
+      description: Gets the specified backend server's configuration information.
+      operationId: GetBackend
+      parameters:
+      - default: ''
+        description: 'The unique Oracle-assigned identifier for the request. If you
+          need to contact Oracle about a
+
+          particular request, please provide the request ID.
+
+          '
+        in: header
+        name: opc-request-id
+        required: false
+        type: string
+      - description: The [OCID](/Content/General/Concepts/identifiers.htm) of the
+          load balancer associated with the backend set and server.
+        in: path
+        name: loadBalancerId
+        required: true
+        type: string
+      - description: 'The name of the backend set that includes the backend server.
+
+
+          Example: `My_backend_set`
+
+          '
+        in: path
+        name: backendSetName
+        required: true
+        type: string
+      - description: 'The IP address and port of the backend server to retrieve.
+
+
+          Example: `1.1.1.7:42`
+
+          '
+        in: path
+        name: backendName
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        200:
+          description: The backend server information is being retrieved.
+          headers:
+            opc-request-id:
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
+                a particular request, please provide the request ID.
+              type: string
+          schema:
+            $ref: '#/definitions/Backend'
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+      summary: GetBackend
+      tags:
+      - loadBalancer
+    put:
+      consumes:
+      - application/json
+      description: Updates the configuration of a backend server within the specified
+        backend set.
+      operationId: UpdateBackend
+      parameters:
+      - default: ''
+        description: 'The unique Oracle-assigned identifier for the request. If you
+          need to contact Oracle about a
+
+          particular request, please provide the request ID.
+
+          '
+        in: header
+        name: opc-request-id
+        required: false
+        type: string
+      - $ref: '#/parameters/RetryTokenHeader'
+      - description: Details for updating a backend server.
+        in: body
+        name: UpdateBackendDetails
+        required: true
+        schema:
+          $ref: '#/definitions/UpdateBackendDetails'
+      - description: The [OCID](/Content/General/Concepts/identifiers.htm) of the
+          load balancer associated with the backend set and server.
+        in: path
+        name: loadBalancerId
+        required: true
+        type: string
+      - description: 'The name of the backend set associated with the backend server.
+
+
+          Example: `My_backend_set`
+
+          '
+        in: path
+        name: backendSetName
+        required: true
+        type: string
+      - description: 'The IP address and port of the backend server to update.
+
+
+          Example: `1.1.1.7:42`
+
+          '
+        in: path
+        name: backendName
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        204:
+          description: The request was accepted for processing.
+          headers:
+            opc-request-id:
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
+                a particular request, please provide the request ID.
+              type: string
+            opc-work-request-id:
+              description: The [OCID](/Content/General/Concepts/identifiers.htm) of
+                the work request.
+              type: string
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+      summary: UpdateBackend
+      tags:
+      - loadBalancer
+  /loadBalancers/{loadBalancerId}/backendSets/{backendSetName}/backends/{backendName}/health:
+    get:
+      description: Gets the current health status of the specified backend server.
+      operationId: GetBackendHealth
+      parameters:
+      - default: ''
+        description: 'The unique Oracle-assigned identifier for the request. If you
+          need to contact Oracle about a
+
+          particular request, please provide the request ID.
+
+          '
+        in: header
+        name: opc-request-id
+        required: false
+        type: string
+      - description: The [OCID](/Content/General/Concepts/identifiers.htm) of the
+          load balancer associated with the backend server health status to be retrieved.
+        in: path
+        name: loadBalancerId
+        required: true
+        type: string
+      - description: 'The name of the backend set associated with the backend server
+          to retrieve the health status for.
+
+
+          Example: `My_backend_set`
+
+          '
+        in: path
+        name: backendSetName
+        required: true
+        type: string
+      - description: 'The IP address and port of the backend server to retrieve the
+          health status for.
+
+
+          Example: `1.1.1.7:42`
+
+          '
+        in: path
+        name: backendName
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        200:
+          description: The health status information was retrieved.
+          headers:
+            opc-request-id:
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
+                a particular request, please provide the request ID.
+              type: string
+          schema:
+            $ref: '#/definitions/BackendHealth'
+            type: array
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+      summary: BackendHealth
+      tags:
+      - loadBalancer
+  /loadBalancers/{loadBalancerId}/backendSets/{backendSetName}/health:
+    get:
+      description: Gets the health status for the specified backend set.
+      operationId: GetBackendSetHealth
+      parameters:
+      - default: ''
+        description: 'The unique Oracle-assigned identifier for the request. If you
+          need to contact Oracle about a
+
+          particular request, please provide the request ID.
+
+          '
+        in: header
+        name: opc-request-id
+        required: false
+        type: string
+      - description: The [OCID](/Content/General/Concepts/identifiers.htm) of the
+          load balancer associated with the backend set health status to be retrieved.
+        in: path
+        name: loadBalancerId
+        required: true
+        type: string
+      - description: 'The name of the backend set to retrieve the health status for.
+
+
+          Example: `My_backend_set`
+
+          '
+        in: path
+        name: backendSetName
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        200:
+          description: The health status information was retrieved.
+          headers:
+            opc-request-id:
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
+                a particular request, please provide the request ID.
+              type: string
+          schema:
+            $ref: '#/definitions/BackendSetHealth'
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+      summary: BackendSetHealth
+      tags:
+      - loadBalancer
+  /loadBalancers/{loadBalancerId}/backendSets/{backendSetName}/healthChecker:
+    get:
+      description: Gets the health check policy information for a given load balancer
+        and backend set.
+      operationId: GetHealthChecker
+      parameters:
+      - default: ''
+        description: 'The unique Oracle-assigned identifier for the request. If you
+          need to contact Oracle about a
+
+          particular request, please provide the request ID.
+
+          '
+        in: header
+        name: opc-request-id
+        required: false
+        type: string
+      - description: The [OCID](/Content/General/Concepts/identifiers.htm) of the
+          load balancer associated with the health check policy to be retrieved.
+        in: path
+        name: loadBalancerId
+        required: true
+        type: string
+      - description: 'The name of the backend set associated with the health check
+          policy to be retrieved.
+
+
+          Example: `My_backend_set`
+
+          '
+        in: path
+        name: backendSetName
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        200:
+          description: The health check policy information is being retrieved.
+          headers:
+            opc-request-id:
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
+                a particular request, please provide the request ID.
+              type: string
+          schema:
+            $ref: '#/definitions/HealthChecker'
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+      summary: GetHealthChecker
+      tags:
+      - loadBalancer
+    put:
+      consumes:
+      - application/json
+      description: Updates the health check policy for a given load balancer and backend
+        set.
+      operationId: UpdateHealthChecker
+      parameters:
+      - default: ''
+        description: 'The unique Oracle-assigned identifier for the request. If you
+          need to contact Oracle about a
+
+          particular request, please provide the request ID.
+
+          '
+        in: header
+        name: opc-request-id
+        required: false
+        type: string
+      - $ref: '#/parameters/RetryTokenHeader'
+      - description: The health check policy configuration details.
+        in: body
+        name: HealthChecker
+        required: true
+        schema:
+          $ref: '#/definitions/UpdateHealthCheckerDetails'
+      - description: The [OCID](/Content/General/Concepts/identifiers.htm) of the
+          load balancer associated with the health check policy to be updated.
+        in: path
+        name: loadBalancerId
+        required: true
+        type: string
+      - description: 'The name of the backend set associated with the health check
+          policy to be retrieved.
+
+
+          Example: `My_backend_set`
+
+          '
+        in: path
+        name: backendSetName
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        204:
+          description: The request was accepted for processing.
+          headers:
+            opc-request-id:
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
+                a particular request, please provide the request ID.
+              type: string
+            opc-work-request-id:
+              description: The [OCID](/Content/General/Concepts/identifiers.htm) of
+                the work request.
+              type: string
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+      summary: UpdateHealthChecker
+      tags:
+      - loadBalancer
+  /loadBalancers/{loadBalancerId}/certificates:
+    get:
+      description: Lists all SSL certificates associated with a given load balancer.
+      operationId: ListCertificates
+      parameters:
+      - default: ''
+        description: 'The unique Oracle-assigned identifier for the request. If you
+          need to contact Oracle about a
+
+          particular request, please provide the request ID.
+
+          '
+        in: header
+        name: opc-request-id
+        required: false
+        type: string
+      - description: The [OCID](/Content/General/Concepts/identifiers.htm) of the
+          load balancer associated with the certificates to be listed.
+        in: path
+        name: loadBalancerId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        200:
+          description: The list is being retrieved.
+          headers:
+            opc-request-id:
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
+                a particular request, please provide the request ID.
+              type: string
+          schema:
+            items:
+              $ref: '#/definitions/Certificate'
+            type: array
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+      summary: ListCertificates
+      tags:
+      - loadBalancer
+    post:
+      consumes:
+      - application/json
+      description: Creates an asynchronous request to add an SSL certificate.
+      operationId: CreateCertificate
+      parameters:
+      - default: ''
+        description: 'The unique Oracle-assigned identifier for the request. If you
+          need to contact Oracle about a
+
+          particular request, please provide the request ID.
+
+          '
+        in: header
+        name: opc-request-id
+        required: false
+        type: string
+      - $ref: '#/parameters/RetryTokenHeader'
+      - description: The details of the certificate to add.
+        in: body
+        name: CreateCertificateDetails
+        required: true
+        schema:
+          $ref: '#/definitions/CreateCertificateDetails'
+      - description: The [OCID](/Content/General/Concepts/identifiers.htm) of the
+          load balancer on which to add the certificate.
+        in: path
+        name: loadBalancerId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        204:
+          description: The request was accepted for processing.
+          headers:
+            opc-request-id:
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
+                a particular request, please provide the request ID.
+              type: string
+            opc-work-request-id:
+              description: The [OCID](/Content/General/Concepts/identifiers.htm) of
+                the work request.
+              type: string
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+      summary: CreateCertificate
+      tags:
+      - loadBalancer
+      x-example: |
+        POST /20170115/loadBalancers/<var>&lt;loadBalancerId&gt;</var>/certificates
+        Host: iaas.us-phoenix-1.oraclecloud.com
+        <var>&lt;authorization and other headers&gt;</var>
+        {
+          "passphrase": "Mysecretunlockingcode42!1!",
+          "privateKey": "-----BEGIN RSA PRIVATE KEY-----jO1O1v2ftXMsawM90tnXwc6xhOAT1gDBC9S8DKeca...JZNUgYYwNS0dP2UK-----END RSA PRIVATE KEY-----",
+          "publicCertificate": "-----BEGIN CERTIFICATE-----MIIC2jCCAkMCAg38MA0GCSqGSIb3DQEBBQUAMIGbM...QswCQYDVQQGEwJKUDEOMAwG-----END CERTIFICATE-----",
+          "caCertificate": "-----BEGIN CERTIFICATE-----MIIEczCCA1ugAwIBAgIBADANBgkqhkiG9w0BAQQFAD...AkGA1UEBhMCR0Ix-----END CERTIFICATE-----",
+          "certificateName": "My_certificate_bundle"
+        }
+  /loadBalancers/{loadBalancerId}/certificates/{certificateName}:
+    delete:
+      description: Deletes an SSL certificate from a load balancer.
+      operationId: DeleteCertificate
+      parameters:
+      - default: ''
+        description: 'The unique Oracle-assigned identifier for the request. If you
+          need to contact Oracle about a
+
+          particular request, please provide the request ID.
+
+          '
+        in: header
+        name: opc-request-id
+        required: false
+        type: string
+      - description: The [OCID](/Content/General/Concepts/identifiers.htm) of the
+          load balancer associated with the certificate to be deleted.
+        in: path
+        name: loadBalancerId
+        required: true
+        type: string
+      - description: 'The name of the certificate to delete.
+
+
+          Example: `My_certificate_bundle`
+
+          '
+        in: path
+        maxLength: 255
+        minLength: 1
+        name: certificateName
+        pattern: ^[a-zA-Z0-9_.-]*$
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        204:
+          description: The request was accepted for processing.
+          headers:
+            opc-request-id:
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
+                a particular request, please provide the request ID.
+              type: string
+            opc-work-request-id:
+              description: The [OCID](/Content/General/Concepts/identifiers.htm) of
+                the work request.
+              type: string
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+      summary: DeleteCertificate
+      tags:
+      - loadBalancer
+  /loadBalancers/{loadBalancerId}/health:
+    get:
+      description: Gets the health status for the specified load balancer.
+      operationId: GetLoadBalancerHealth
+      parameters:
+      - default: ''
+        description: 'The unique Oracle-assigned identifier for the request. If you
+          need to contact Oracle about a
+
+          particular request, please provide the request ID.
+
+          '
+        in: header
+        name: opc-request-id
+        required: false
+        type: string
+      - description: The [OCID](/Content/General/Concepts/identifiers.htm) of the
+          load balancer to return health status for.
+        in: path
+        name: loadBalancerId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        200:
+          description: The health status information was retrieved.
+          headers:
+            opc-request-id:
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
+                a particular request, please provide the request ID.
+              type: string
+          schema:
+            $ref: '#/definitions/LoadBalancerHealth'
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+      summary: LoadBalancerHealth
+      tags:
+      - loadBalancer
+  /loadBalancers/{loadBalancerId}/listeners:
+    post:
+      consumes:
+      - application/json
+      description: Adds a listener to a load balancer.
+      operationId: CreateListener
+      parameters:
+      - default: ''
+        description: 'The unique Oracle-assigned identifier for the request. If you
+          need to contact Oracle about a
+
+          particular request, please provide the request ID.
+
+          '
+        in: header
+        name: opc-request-id
+        required: false
+        type: string
+      - $ref: '#/parameters/RetryTokenHeader'
+      - description: Details to add a listener.
+        in: body
+        name: CreateListenerDetails
+        required: true
+        schema:
+          $ref: '#/definitions/CreateListenerDetails'
+      - description: The [OCID](/Content/General/Concepts/identifiers.htm) of the
+          load balancer on which to add a listener.
+        in: path
+        name: loadBalancerId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        204:
+          description: The request was accepted for processing.
+          headers:
+            opc-request-id:
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
+                a particular request, please provide the request ID.
+              type: string
+            opc-work-request-id:
+              description: The [OCID](/Content/General/Concepts/identifiers.htm) of
+                the work request.
+              type: string
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+      summary: CreateListener
+      tags:
+      - loadBalancer
+      x-example: |
+        POST /20170115/loadBalancers/<var>&lt;loadBalancerId&gt;</var>/listeners
+        Host: iaas.us-phoenix-1.oraclecloud.com
+        <var>&lt;authorization and other headers&gt;</var>
+        {
+          "defaultBackendSetName": "My_backend_set",
+          "pathRouteSetName": "path-route-set-001",
+          "port": "80",
+          "protocol": "HTTP",
+          "sslConfiguration": {
+            "certificateName": "My_certificate_bundle",
+            "verifyDepth": "3",
+            "verifyPeerCertificate": true
+          }
+          "connectionConfiguration": {
+            "idleTimeout": 1200
+          }
+          "name": "My listener"
+        }
+  /loadBalancers/{loadBalancerId}/listeners/{listenerName}:
+    delete:
+      description: Deletes a listener from a load balancer.
+      operationId: DeleteListener
+      parameters:
+      - default: ''
+        description: 'The unique Oracle-assigned identifier for the request. If you
+          need to contact Oracle about a
+
+          particular request, please provide the request ID.
+
+          '
+        in: header
+        name: opc-request-id
+        required: false
+        type: string
+      - description: The [OCID](/Content/General/Concepts/identifiers.htm) of the
+          load balancer associated with the listener to delete.
+        in: path
+        name: loadBalancerId
+        required: true
+        type: string
+      - description: 'The name of the listener to delete.
+
+
+          Example: `My listener`
+
+          '
+        in: path
+        name: listenerName
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        204:
+          description: The request was accepted for processing.
+          headers:
+            opc-request-id:
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
+                a particular request, please provide the request ID.
+              type: string
+            opc-work-request-id:
+              description: The [OCID](/Content/General/Concepts/identifiers.htm) of
+                the work request.
+              type: string
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+      summary: DeleteListener
+      tags:
+      - loadBalancer
+    put:
+      consumes:
+      - application/json
+      description: Updates a listener for a given load balancer.
+      operationId: UpdateListener
+      parameters:
+      - default: ''
+        description: 'The unique Oracle-assigned identifier for the request. If you
+          need to contact Oracle about a
+
+          particular request, please provide the request ID.
+
+          '
+        in: header
+        name: opc-request-id
+        required: false
+        type: string
+      - $ref: '#/parameters/RetryTokenHeader'
+      - description: Details to update a listener.
+        in: body
+        name: UpdateListenerDetails
+        required: true
+        schema:
+          $ref: '#/definitions/UpdateListenerDetails'
+      - description: The [OCID](/Content/General/Concepts/identifiers.htm) of the
+          load balancer associated with the listener to update.
+        in: path
+        name: loadBalancerId
+        required: true
+        type: string
+      - description: 'The name of the listener to update.
+
+
+          Example: `My listener`
+
+          '
+        in: path
+        name: listenerName
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        204:
+          description: The request was accepted for processing.
+          headers:
+            opc-request-id:
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
+                a particular request, please provide the request ID.
+              type: string
+            opc-work-request-id:
+              description: The [OCID](/Content/General/Concepts/identifiers.htm) of
+                the work request.
+              type: string
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+      summary: UpdateListener
+      tags:
+      - loadBalancer
+  /loadBalancers/{loadBalancerId}/pathRouteSets:
+    get:
+      description: Lists all path route sets associated with the specified load balancer.
+      operationId: ListPathRouteSets
+      parameters:
+      - default: ''
+        description: 'The unique Oracle-assigned identifier for the request. If you
+          need to contact Oracle about a
+
+          particular request, please provide the request ID.
+
+          '
+        in: header
+        name: opc-request-id
+        required: false
+        type: string
+      - description: 'The [OCID](/Content/General/Concepts/identifiers.htm) of the
+          load balancer associated with the path route sets
+
+          to retrieve.
+
+          '
+        in: path
+        name: loadBalancerId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        200:
+          description: The list is being retrieved.
+          headers:
+            opc-request-id:
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
+                a particular request, please provide the request ID.
+              type: string
+          schema:
+            items:
+              $ref: '#/definitions/PathRouteSet'
+            type: array
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+      summary: ListPathRouteSets
+      tags:
+      - loadBalancer
+      x-obmcs-feature-id:
+      - udx-491
+    post:
+      consumes:
+      - application/json
+      description: |
+        Adds a path route set to a load balancer. For more information, see
+        [Managing Request Routing](/Content/Balance/Tasks/managingrequest.htm).
+      operationId: CreatePathRouteSet
+      parameters:
+      - default: ''
+        description: 'The unique Oracle-assigned identifier for the request. If you
+          need to contact Oracle about a
+
+          particular request, please provide the request ID.
+
+          '
+        in: header
+        name: opc-request-id
+        required: false
+        type: string
+      - $ref: '#/parameters/RetryTokenHeader'
+      - description: The details of the path route set to add.
+        in: body
+        name: CreatePathRouteSetDetails
+        required: true
+        schema:
+          $ref: '#/definitions/CreatePathRouteSetDetails'
+      - description: The [OCID](/Content/General/Concepts/identifiers.htm) of the
+          load balancer to add the path route set to.
+        in: path
+        name: loadBalancerId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        204:
+          description: The request was accepted for processing.
+          headers:
+            opc-request-id:
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
+                a particular request, please provide the request ID.
+              type: string
+            opc-work-request-id:
+              description: The [OCID](/Content/General/Concepts/identifiers.htm) of
+                the work request.
+              type: string
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+      summary: CreatePathRouteSet
+      tags:
+      - loadBalancer
+      x-example: |
+        POST /20170115/loadBalancers/<var>&lt;loadBalancerId&gt;</var>/pathRouteSets
+        Host: iaas.us-phoenix-1.oraclecloud.com
+        <var>&lt;authorization and other headers&gt;</var>
+        {
+          "name": "path-route-set-001",
+          "pathRoutes": [
+            {
+              "backendSetName": "My_backend_set",
+              "path": "/example/video/123",
+              "pathMatchType": {
+                "matchType": "EXACT_MATCH"
+              }
+            }
+          ]
+        }
+      x-obmcs-feature-id:
+      - udx-491
+  /loadBalancers/{loadBalancerId}/pathRouteSets/{pathRouteSetName}:
+    delete:
+      description: |
+        Deletes a path route set from the specified load balancer.
+
+        To delete a path route rule from a path route set, use the
+        [UpdatePathRouteSet](#/en/loadbalancer/20170115/PathRouteSet/UpdatePathRouteSet) operation.
+      operationId: DeletePathRouteSet
+      parameters:
+      - default: ''
+        description: 'The unique Oracle-assigned identifier for the request. If you
+          need to contact Oracle about a
+
+          particular request, please provide the request ID.
+
+          '
+        in: header
+        name: opc-request-id
+        required: false
+        type: string
+      - description: The [OCID](/Content/General/Concepts/identifiers.htm) of the
+          load balancer associated with the path route set to delete.
+        in: path
+        name: loadBalancerId
+        required: true
+        type: string
+      - description: 'The name of the path route set to delete.
+
+
+          Example: `path-route-set-001`
+
+          '
+        in: path
+        name: pathRouteSetName
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        204:
+          description: The request was accepted for processing.
+          headers:
+            opc-request-id:
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
+                a particular request, please provide the request ID.
+              type: string
+            opc-work-request-id:
+              description: The [OCID](/Content/General/Concepts/identifiers.htm) of
+                the work request.
+              type: string
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+      summary: DeletePathRouteSet
+      tags:
+      - loadBalancer
+      x-obmcs-feature-id:
+      - udx-491
+    get:
+      description: Gets the specified path route set's configuration information.
+      operationId: GetPathRouteSet
+      parameters:
+      - default: ''
+        description: 'The unique Oracle-assigned identifier for the request. If you
+          need to contact Oracle about a
+
+          particular request, please provide the request ID.
+
+          '
+        in: header
+        name: opc-request-id
+        required: false
+        type: string
+      - description: The [OCID](/Content/General/Concepts/identifiers.htm) of the
+          specified load balancer.
+        in: path
+        name: loadBalancerId
+        required: true
+        type: string
+      - description: 'The name of the path route set to retrieve.
+
+
+          Example: `path-route-set-001`
+
+          '
+        in: path
+        name: pathRouteSetName
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        200:
+          description: The path route set information is being retrieved.
+          headers:
+            opc-request-id:
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
+                a particular request, please provide the request ID.
+              type: string
+          schema:
+            $ref: '#/definitions/PathRouteSet'
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+      summary: GetPathRouteSet
+      tags:
+      - loadBalancer
+      x-obmcs-feature-id:
+      - udx-491
+    put:
+      consumes:
+      - application/json
+      description: |
+        Overwrites an existing path route set on the specified load balancer. Use this operation to add, delete, or alter
+        path route rules in a path route set.
+
+        To add a new path route rule to a path route set, the `pathRoutes` in the
+        [UpdatePathRouteSetDetails](#/en/loadbalancer/20170115/requests/UpdatePathRouteSetDetails) object must include
+        both the new path route rule to add and the existing path route rules to retain.
+      operationId: UpdatePathRouteSet
+      parameters:
+      - default: ''
+        description: 'The unique Oracle-assigned identifier for the request. If you
+          need to contact Oracle about a
+
+          particular request, please provide the request ID.
+
+          '
+        in: header
+        name: opc-request-id
+        required: false
+        type: string
+      - $ref: '#/parameters/RetryTokenHeader'
+      - description: The configuration details to update a path route set.
+        in: body
+        name: UpdatePathRouteSetDetails
+        required: true
+        schema:
+          $ref: '#/definitions/UpdatePathRouteSetDetails'
+      - description: The [OCID](/Content/General/Concepts/identifiers.htm) of the
+          load balancer associated with the path route set to update.
+        in: path
+        name: loadBalancerId
+        required: true
+        type: string
+      - description: 'The name of the path route set to update.
+
+
+          Example: `path-route-set-001`
+
+          '
+        in: path
+        name: pathRouteSetName
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        204:
+          description: The request was accepted for processing.
+          headers:
+            opc-request-id:
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
+                a particular request, please provide the request ID.
+              type: string
+            opc-work-request-id:
+              description: The [OCID](/Content/General/Concepts/identifiers.htm) of
+                the work request.
+              type: string
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+      summary: UpdatePathRouteSet
+      tags:
+      - loadBalancer
+      x-obmcs-feature-id:
+      - udx-491
+  /loadBalancers/{loadBalancerId}/workRequests:
+    get:
+      description: Lists the work requests for a given load balancer.
+      operationId: ListWorkRequests
+      parameters:
+      - default: ''
+        description: 'The unique Oracle-assigned identifier for the request. If you
+          need to contact Oracle about a
+
+          particular request, please provide the request ID.
+
+          '
+        in: header
+        name: opc-request-id
+        required: false
+        type: string
+      - default: 100
+        description: 'The maximum number of items to return in a paginated "List"
+          call.
+
+
+          Example: `500`
+
+          '
+        format: int64
+        in: query
+        name: limit
+        required: false
+        type: integer
+      - description: 'The value of the `opc-next-page` response header from the previous
+          "List" call.
+
+
+          Example: `3`
+
+          '
+        in: query
+        name: page
+        required: false
+        type: string
+      - description: The [OCID](/Content/General/Concepts/identifiers.htm) of the
+          load balancer associated with the work requests to retrieve.
+        in: path
+        name: loadBalancerId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        200:
+          description: The list is being retrieved.
+          headers:
+            opc-next-page:
+              description: |
+                For pagination of a list of items. When paging through a list, if this header appears in the response,
+                then a partial list might have been returned. Include this value as the `page` parameter for the
+                subsequent GET request to get the next batch of items.
+              type: string
+            opc-request-id:
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
+                a particular request, please provide the request ID.
+              type: string
+          schema:
+            items:
+              $ref: '#/definitions/WorkRequest'
+            type: array
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+      summary: ListWorkRequests
+      tags:
+      - loadBalancer
+definitions:
+  Backend:
+    description: |
+      The configuration of a backend server that is a member of a load balancer backend set.
+      For more information, see [Managing Backend Servers](/Content/Balance/Tasks/managingbackendservers.htm).
+    properties:
+      backup:
+        default: false
+        description: |
+          Whether the load balancer should treat this server as a backup unit. If `true`, the load balancer forwards no ingress
+          traffic to this backend server unless all other backend servers not marked as "backup" fail the health check policy.
+
+          Example: `true`
+        type: boolean
+      drain:
+        default: false
+        description: |
+          Whether the load balancer should drain this server. Servers marked "drain" receive no new
+          incoming traffic.
+
+          Example: `true`
+        type: boolean
+      ipAddress:
+        description: |
+          The IP address of the backend server.
+
+          Example: `10.10.10.4`
+        type: string
+      name:
+        description: |
+          A read-only field showing the IP address and port that uniquely identify this backend server in the backend set.
+
+          Example: `10.10.10.4:8080`
+        readOnly: true
+        type: string
+      offline:
+        default: false
+        description: |
+          Whether the load balancer should treat this server as offline. Offline servers receive no incoming
+          traffic.
+
+          Example: `true`
+        type: boolean
+      port:
+        description: |
+          The communication port for the backend server.
+
+          Example: `8080`
+        format: int32
+        type: integer
+      weight:
+        description: |
+          The load balancing policy weight assigned to the server. Backend servers with a higher weight receive a larger
+          proportion of incoming traffic. For example, a server weighted '3' receives 3 times the number of new connections
+          as a server weighted '1'.
+          For more information on load balancing policies, see
+          [How Load Balancing Policies Work](/Content/Balance/Reference/lbpolicies.htm).
+
+          Example: `3`
+        format: int32
+        type: integer
+    required:
+    - backup
+    - drain
+    - ipAddress
+    - name
+    - offline
+    - port
+    - weight
+    type: object
+  BackendDetails:
+    description: The load balancing configuration details of a backend server.
+    properties:
+      backup:
+        default: false
+        description: |
+          Whether the load balancer should treat this server as a backup unit. If `true`, the load balancer forwards no ingress
+          traffic to this backend server unless all other backend servers not marked as "backup" fail the health check policy.
+
+          Example: `true`
+        type: boolean
+      drain:
+        default: false
+        description: |
+          Whether the load balancer should drain this server. Servers marked "drain" receive no new
+          incoming traffic.
+
+          Example: `true`
+        type: boolean
+      ipAddress:
+        description: |
+          The IP address of the backend server.
+
+          Example: `10.10.10.4`
+        type: string
+      offline:
+        default: false
+        description: |
+          Whether the load balancer should treat this server as offline. Offline servers receive no incoming
+          traffic.
+
+          Example: `true`
+        type: boolean
+      port:
+        description: |
+          The communication port for the backend server.
+
+          Example: `8080`
+        format: int32
+        maximum: 65535.0
+        minimum: 1.0
+        type: integer
+      weight:
+        description: |
+          The load balancing policy weight assigned to the server. Backend servers with a higher weight receive a larger
+          proportion of incoming traffic. For example, a server weighted '3' receives 3 times the number of new connections
+          as a server weighted '1'.
+          For more information on load balancing policies, see
+          [How Load Balancing Policies Work](/Content/Balance/Reference/lbpolicies.htm).
+
+          Example: `3`
+        format: int32
+        type: integer
+    required:
+    - ipAddress
+    - port
+    type: object
+  BackendHealth:
+    description: |
+      The health status of the specified backend server as reported by the primary and standby load balancers.
+    properties:
+      healthCheckResults:
+        description: |
+          A list of the most recent health check results returned for the specified backend server.
+        items:
+          $ref: '#/definitions/HealthCheckResult'
+        type: array
+      status:
+        description: |
+          The general health status of the specified backend server as reported by the primary and standby load balancers.
+
+          *   **OK:** Both health checks returned `OK`.
+
+          *   **WARNING:** One health check returned `OK` and one did not.
+
+          *   **CRITICAL:** Neither health check returned `OK`.
+
+          *   **UNKNOWN:** One or both health checks returned `UNKNOWN`, or the system was unable to retrieve metrics at this time.
+        enum:
+        - OK
+        - WARNING
+        - CRITICAL
+        - UNKNOWN
+        type: string
+    required:
+    - status
+    - healthCheckResults
+    type: object
+  BackendSet:
+    description: |
+      The configuration of a load balancer backend set.
+      For more information on backend set configuration, see
+      [Managing Backend Sets](/Content/Balance/tasks/managingbackendsets.htm).
+    properties:
+      backends:
+        items:
+          $ref: '#/definitions/Backend'
+        type: array
+        uniqueItems: true
+      healthChecker:
+        $ref: '#/definitions/HealthChecker'
+      name:
+        description: |
+          A friendly name for the backend set. It must be unique and it cannot be changed.
+
+          Valid backend set names include only alphanumeric characters, dashes, and underscores. Backend set names cannot
+          contain spaces. Avoid entering confidential information.
+
+          Example: `My_backend_set`
+        type: string
+      policy:
+        description: |
+          The load balancer policy for the backend set. To get a list of available policies, use the
+          [ListPolicies](#/en/loadbalancer/20170115/LoadBalancerPolicy/ListPolicies) operation.
+
+          Example: `LEAST_CONNECTIONS`
+        type: string
+      sessionPersistenceConfiguration:
+        $ref: '#/definitions/SessionPersistenceConfigurationDetails'
+      sslConfiguration:
+        $ref: '#/definitions/SSLConfiguration'
+    required:
+    - backends
+    - healthChecker
+    - name
+    - policy
+    type: object
+  BackendSetDetails:
+    description: |
+      The configuration details for a load balancer backend set.
+      For more information on backend set configuration, see
+      [Managing Backend Sets](/Content/Balance/tasks/managingbackendsets.htm).
+    properties:
+      backends:
+        items:
+          $ref: '#/definitions/BackendDetails'
+        type: array
+        uniqueItems: true
+      healthChecker:
+        $ref: '#/definitions/HealthCheckerDetails'
+      policy:
+        description: |
+          The load balancer policy for the backend set. To get a list of available policies, use the
+          [ListPolicies](#/en/loadbalancer/20170115/LoadBalancerPolicy/ListPolicies) operation.
+
+          Example: `LEAST_CONNECTIONS`
+        type: string
+      sessionPersistenceConfiguration:
+        $ref: '#/definitions/SessionPersistenceConfigurationDetails'
+      sslConfiguration:
+        $ref: '#/definitions/SSLConfigurationDetails'
+    required:
+    - healthChecker
+    - policy
+    type: object
+  BackendSetHealth:
+    description: |
+      The health status details for a backend set.
+
+      This object does not explicitly enumerate backend servers with a status of `OK`. However, they are included in the
+      `totalBackendCount` sum.
+    properties:
+      criticalStateBackendNames:
+        description: |
+          A list of backend servers that are currently in the `CRITICAL` health state. The list identifies each backend server by
+          IP address and port.
+
+          Example: `1.1.1.1:80`
+        items:
+          type: string
+        type: array
+      status:
+        description: |
+          Overall health status of the backend set.
+
+          *  **OK:** All backend servers in the backend set return a status of `OK`.
+
+          *  **WARNING:** Half or more of the backend set's backend servers return a status of `OK` and at least one backend
+          server returns a status of `WARNING`, `CRITICAL`, or `UNKNOWN`.
+
+          *  **CRITICAL:** Fewer than half of the backend set's backend servers return a status of `OK`.
+
+          *  **UNKNOWN:** More than half of the backend set's backend servers return a status of `UNKNOWN`, the system was
+          unable to retrieve metrics, or the backend set does not have a listener attached.
+        enum:
+        - OK
+        - WARNING
+        - CRITICAL
+        - UNKNOWN
+        type: string
+      totalBackendCount:
+        description: |
+          The total number of backend servers in this backend set.
+
+          Example: `5`
+        type: integer
+      unknownStateBackendNames:
+        description: |
+          A list of backend servers that are currently in the `UNKNOWN` health state. The list identifies each backend server by
+          IP address and port.
+
+          Example: `1.1.1.5:80`
+        items:
+          type: string
+        type: array
+      warningStateBackendNames:
+        description: |
+          A list of backend servers that are currently in the `WARNING` health state. The list identifies each backend server by
+          IP address and port.
+
+          Example: `1.1.1.7:42`
+        items:
+          type: string
+        type: array
+    required:
+    - status
+    - warningStateBackendNames
+    - criticalStateBackendNames
+    - unknownStateBackendNames
+    - totalBackendCount
+    type: object
+  Certificate:
+    description: |
+      The configuration details of a listener certificate bundle.
+      For more information on SSL certficate configuration, see
+      [Managing SSL Certificates](/Content/Balance/Tasks/managingcertificates.htm).
+    properties:
+      caCertificate:
+        description: |
+          The Certificate Authority certificate, or any interim certificate, that you received from your SSL certificate provider.
+
+          Example:
+
+              -----BEGIN CERTIFICATE-----
+              MIIEczCCA1ugAwIBAgIBADANBgkqhkiG9w0BAQQFAD..AkGA1UEBhMCR0Ix
+              EzARBgNVBAgTClNvbWUtU3RhdGUxFDASBgNVBAoTC0..0EgTHRkMTcwNQYD
+              VQQLEy5DbGFzcyAxIFB1YmxpYyBQcmltYXJ5IENlcn..XRpb24gQXV0aG9y
+              aXR5MRQwEgYDVQQDEwtCZXN0IENBIEx0ZDAeFw0wMD..TUwMTZaFw0wMTAy
+              ...
+              -----END CERTIFICATE-----
+        type: string
+      certificateName:
+        description: |
+          A friendly name for the certificate bundle. It must be unique and it cannot be changed.
+          Valid certificate bundle names include only alphanumeric characters, dashes, and underscores.
+          Certificate bundle names cannot contain spaces. Avoid entering confidential information.
+
+          Example: `My_certificate_bundle`
+        maxLength: 255
+        minLength: 1
+        pattern: ^[a-zA-Z0-9_.-]*$
+        type: string
+      publicCertificate:
+        description: |
+          The public certificate, in PEM format, that you received from your SSL certificate provider.
+
+          Example:
+
+              -----BEGIN CERTIFICATE-----
+              MIIC2jCCAkMCAg38MA0GCSqGSIb3DQEBBQUAMIGbMQswCQYDVQQGEwJKUDEOMAwG
+              A1UECBMFVG9reW8xEDAOBgNVBAcTB0NodW8ta3UxETAPBgNVBAoTCEZyYW5rNERE
+              MRgwFgYDVQQLEw9XZWJDZXJ0IFN1cHBvcnQxGDAWBgNVBAMTD0ZyYW5rNEREIFdl
+              YiBDQTEjMCEGCSqGSIb3DQEJARYUc3VwcG9ydEBmcmFuazRkZC5jb20wHhcNMTIw
+              ...
+              -----END CERTIFICATE-----
+        type: string
+    required:
+    - caCertificate
+    - certificateName
+    - publicCertificate
+    type: object
+  CertificateDetails:
+    description: |
+      The configuration details for a listener certificate bundle.
+      For more information on SSL certficate configuration, see
+      [Managing SSL Certificates](/Content/Balance/Tasks/managingcertificates.htm).
+    properties:
+      caCertificate:
+        description: |
+          The Certificate Authority certificate, or any interim certificate, that you received from your SSL certificate provider.
+
+          Example:
+
+              -----BEGIN CERTIFICATE-----
+              MIIEczCCA1ugAwIBAgIBADANBgkqhkiG9w0BAQQFAD..AkGA1UEBhMCR0Ix
+              EzARBgNVBAgTClNvbWUtU3RhdGUxFDASBgNVBAoTC0..0EgTHRkMTcwNQYD
+              VQQLEy5DbGFzcyAxIFB1YmxpYyBQcmltYXJ5IENlcn..XRpb24gQXV0aG9y
+              aXR5MRQwEgYDVQQDEwtCZXN0IENBIEx0ZDAeFw0wMD..TUwMTZaFw0wMTAy
+              ...
+              -----END CERTIFICATE-----
+        type: string
+      certificateName:
+        description: |
+          A friendly name for the certificate bundle. It must be unique and it cannot be changed.
+          Valid certificate bundle names include only alphanumeric characters, dashes, and underscores.
+          Certificate bundle names cannot contain spaces. Avoid entering confidential information.
+
+          Example: `My_certificate_bundle`
+        maxLength: 255
+        minLength: 1
+        pattern: ^[a-zA-Z0-9_.-]*$
+        type: string
+      passphrase:
+        description: |
+          A passphrase for encrypted private keys. This is needed only if you created your certificate with a passphrase.
+
+          Example: `Mysecretunlockingcode42!1!`
+        type: string
+      privateKey:
+        description: |
+          The SSL private key for your certificate, in PEM format.
+
+          Example:
+
+              -----BEGIN RSA PRIVATE KEY-----
+              jO1O1v2ftXMsawM90tnXwc6xhOAT1gDBC9S8DKeca..JZNUgYYwNS0dP2UK
+              tmyN+XqVcAKw4HqVmChXy5b5msu8eIq3uc2NqNVtR..2ksSLukP8pxXcHyb
+              +sEwvM4uf8qbnHAqwnOnP9+KV9vds6BaH1eRA4CHz..n+NVZlzBsTxTlS16
+              /Umr7wJzVrMqK5sDiSu4WuaaBdqMGfL5hLsTjcBFD..Da2iyQmSKuVD4lIZ
+              ...
+              -----END RSA PRIVATE KEY-----
+        type: string
+      publicCertificate:
+        description: |
+          The public certificate, in PEM format, that you received from your SSL certificate provider.
+
+          Example:
+
+              -----BEGIN CERTIFICATE-----
+              MIIC2jCCAkMCAg38MA0GCSqGSIb3DQEBBQUAMIGbMQswCQYDVQQGEwJKUDEOMAwG
+              A1UECBMFVG9reW8xEDAOBgNVBAcTB0NodW8ta3UxETAPBgNVBAoTCEZyYW5rNERE
+              MRgwFgYDVQQLEw9XZWJDZXJ0IFN1cHBvcnQxGDAWBgNVBAMTD0ZyYW5rNEREIFdl
+              YiBDQTEjMCEGCSqGSIb3DQEJARYUc3VwcG9ydEBmcmFuazRkZC5jb20wHhcNMTIw
+              ...
+              -----END CERTIFICATE-----
+        type: string
+    required:
+    - certificateName
+    type: object
+  ConnectionConfiguration:
+    description: |
+      Configuration details for the connection between the client and backend servers.
+    properties:
+      idleTimeout:
+        description: |
+          The maximum idle time, in seconds, allowed between two successive receive or two successive send operations
+          between the client and backend servers. A send operation does not reset the timer for receive operations. A
+          receive operation does not reset the timer for send operations.
+
+          The default values are:
+
+          *  300 seconds for TCP
+
+          *  60 seconds for HTTP and WebSocket protocols.
+
+          Note: The protocol is set at the listener.
+
+          Modify this parameter if the client or backend server stops transmitting data for more than the default time.
+          Some examples include:
+
+          *  The client sends a database query to the backend server and the database takes over 300 seconds to execute.
+             Therefore, the backend server does not transmit any data within 300 seconds.
+
+          *  The client uploads data using the HTTP protocol. During the upload, the backend does not transmit any data
+             to the client for more than 60 seconds.
+
+          *  The client downloads data using the HTTP protocol.  After the initial request, it stops transmitting data to
+             the backend server for more than 60 seconds.
+
+          *  The client starts transmitting data after establishing a WebSocket connection, but the backend server does
+             not transmit data for more than 60 seconds.
+
+          *  The backend server starts transmitting data after establishing a WebSocket connection, but the client does
+             not transmit data for more than 60 seconds.
+
+          The maximum value is 7200 seconds. Contact My Oracle Support to file a service request if you want to increase
+          this limit for your tenancy. For more information, see [Service Limits](/Content/General/Concepts/servicelimits.htm).
+
+          Example: `1200`
+        format: int64
+        minimum: 1.0
+        type: integer
+    required:
+    - idleTimeout
+    type: object
+  CreateBackendDetails:
+    description: |
+      The configuration details for creating a backend server in a backend set.
+      For more information on backend server configuration, see
+      [Managing Backend Servers](/Content/Balance/tasks/managingbackendservers.htm).
+    properties:
+      backup:
+        default: false
+        description: |
+          Whether the load balancer should treat this server as a backup unit. If `true`, the load balancer forwards no ingress
+          traffic to this backend server unless all other backend servers not marked as "backup" fail the health check policy.
+
+          Example: `true`
+        type: boolean
+      drain:
+        default: false
+        description: |
+          Whether the load balancer should drain this server. Servers marked "drain" receive no new
+          incoming traffic.
+
+          Example: `true`
+        type: boolean
+      ipAddress:
+        description: |
+          The IP address of the backend server.
+
+          Example: `10.10.10.4`
+        type: string
+      offline:
+        default: false
+        description: |
+          Whether the load balancer should treat this server as offline. Offline servers receive no incoming
+          traffic.
+
+          Example: `true`
+        type: boolean
+      port:
+        description: |
+          The communication port for the backend server.
+
+          Example: `8080`
+        format: int32
+        maximum: 65535.0
+        minimum: 1.0
+        type: integer
+      weight:
+        description: |
+          The load balancing policy weight assigned to the server. Backend servers with a higher weight receive a larger
+          proportion of incoming traffic. For example, a server weighted '3' receives 3 times the number of new connections
+          as a server weighted '1'.
+          For more information on load balancing policies, see
+          [How Load Balancing Policies Work](/Content/Balance/Reference/lbpolicies.htm).
+
+          Example: `3`
+        format: int32
+        type: integer
+    required:
+    - ipAddress
+    - port
+    type: object
+  CreateBackendSetDetails:
+    description: |
+      The configuration details for creating a backend set in a load balancer.
+      For more information on backend set configuration, see
+      [Managing Backend Sets](/Content/Balance/tasks/managingbackendsets.htm).
+    properties:
+      backends:
+        items:
+          $ref: '#/definitions/BackendDetails'
+        type: array
+        uniqueItems: true
+      healthChecker:
+        $ref: '#/definitions/HealthCheckerDetails'
+      name:
+        description: |
+          A friendly name for the backend set. It must be unique and it cannot be changed.
+
+          Valid backend set names include only alphanumeric characters, dashes, and underscores. Backend set names cannot
+          contain spaces. Avoid entering confidential information.
+
+          Example: `My_backend_set`
+        maxLength: 32
+        minLength: 1
+        type: string
+      policy:
+        description: |
+          The load balancer policy for the backend set. To get a list of available policies, use the
+          [ListPolicies](#/en/loadbalancer/20170115/LoadBalancerPolicy/ListPolicies) operation.
+
+          Example: `LEAST_CONNECTIONS`
+        type: string
+      sessionPersistenceConfiguration:
+        $ref: '#/definitions/SessionPersistenceConfigurationDetails'
+      sslConfiguration:
+        $ref: '#/definitions/SSLConfigurationDetails'
+    required:
+    - healthChecker
+    - name
+    - policy
+    type: object
+  CreateCertificateDetails:
+    description: |
+      The configuration details for adding a certificate bundle to a listener.
+      For more information on SSL certficate configuration, see
+      [Managing SSL Certificates](/Content/Balance/Tasks/managingcertificates.htm).
+    properties:
+      caCertificate:
+        description: |
+          The Certificate Authority certificate, or any interim certificate, that you received from your SSL certificate provider.
+
+          Example:
+
+              -----BEGIN CERTIFICATE-----
+              MIIEczCCA1ugAwIBAgIBADANBgkqhkiG9w0BAQQFAD..AkGA1UEBhMCR0Ix
+              EzARBgNVBAgTClNvbWUtU3RhdGUxFDASBgNVBAoTC0..0EgTHRkMTcwNQYD
+              VQQLEy5DbGFzcyAxIFB1YmxpYyBQcmltYXJ5IENlcn..XRpb24gQXV0aG9y
+              aXR5MRQwEgYDVQQDEwtCZXN0IENBIEx0ZDAeFw0wMD..TUwMTZaFw0wMTAy
+              ...
+              -----END CERTIFICATE-----
+        type: string
+      certificateName:
+        description: |
+          A friendly name for the certificate bundle. It must be unique and it cannot be changed.
+          Valid certificate bundle names include only alphanumeric characters, dashes, and underscores.
+          Certificate bundle names cannot contain spaces. Avoid entering confidential information.
+
+          Example: `My_certificate_bundle`
+        maxLength: 255
+        minLength: 1
+        pattern: ^[a-zA-Z0-9_.-]*$
+        type: string
+      passphrase:
+        description: |
+          A passphrase for encrypted private keys. This is needed only if you created your certificate with a passphrase.
+
+          Example: `Mysecretunlockingcode42!1!`
+        type: string
+      privateKey:
+        description: |
+          The SSL private key for your certificate, in PEM format.
+
+          Example:
+
+              -----BEGIN RSA PRIVATE KEY-----
+              jO1O1v2ftXMsawM90tnXwc6xhOAT1gDBC9S8DKeca..JZNUgYYwNS0dP2UK
+              tmyN+XqVcAKw4HqVmChXy5b5msu8eIq3uc2NqNVtR..2ksSLukP8pxXcHyb
+              +sEwvM4uf8qbnHAqwnOnP9+KV9vds6BaH1eRA4CHz..n+NVZlzBsTxTlS16
+              /Umr7wJzVrMqK5sDiSu4WuaaBdqMGfL5hLsTjcBFD..Da2iyQmSKuVD4lIZ
+              ...
+              -----END RSA PRIVATE KEY-----
+        type: string
+      publicCertificate:
+        description: |
+          The public certificate, in PEM format, that you received from your SSL certificate provider.
+
+          Example:
+
+              -----BEGIN CERTIFICATE-----
+              MIIC2jCCAkMCAg38MA0GCSqGSIb3DQEBBQUAMIGbMQswCQYDVQQGEwJKUDEOMAwG
+              A1UECBMFVG9reW8xEDAOBgNVBAcTB0NodW8ta3UxETAPBgNVBAoTCEZyYW5rNERE
+              MRgwFgYDVQQLEw9XZWJDZXJ0IFN1cHBvcnQxGDAWBgNVBAMTD0ZyYW5rNEREIFdl
+              YiBDQTEjMCEGCSqGSIb3DQEJARYUc3VwcG9ydEBmcmFuazRkZC5jb20wHhcNMTIw
+              ...
+              -----END CERTIFICATE-----
+        type: string
+    required:
+    - certificateName
+    type: object
+  CreateListenerDetails:
+    description: |
+      The configuration details for adding a listener to a backend set.
+      For more information on listener configuration, see
+      [Managing Load Balancer Listeners](/Content/Balance/tasks/managinglisteners.htm).
+    properties:
+      connectionConfiguration:
+        $ref: '#/definitions/ConnectionConfiguration'
+      defaultBackendSetName:
+        description: |
+          The name of the associated backend set.
+
+          Example: `My_backend_set`
+        maxLength: 32
+        minLength: 1
+        type: string
+      name:
+        description: |
+          A friendly name for the listener. It must be unique and it cannot be changed.
+          Avoid entering confidential information.
+
+          Example: `My listener`
+        maxLength: 255
+        minLength: 1
+        type: string
+      pathRouteSetName:
+        description: |
+          The name of the set of path-based routing rules, [PathRouteSet](#/en/loadbalancer/20170115/PathRouteSet/),
+          applied to this listener's traffic.
+
+          Example: `path-route-set-001`
+        maxLength: 32
+        minLength: 1
+        type: string
+        x-obmcs-feature-id:
+        - udx-491
+      port:
+        description: |
+          The communication port for the listener.
+
+          Example: `80`
+        format: int32
+        maximum: 65535.0
+        minimum: 1.0
+        type: integer
+      protocol:
+        description: |
+          The protocol on which the listener accepts connection requests.
+          To get a list of valid protocols, use the [ListProtocols](#/en/loadbalancer/20170115/LoadBalancerProtocol/ListProtocols)
+          operation.
+
+          Example: `HTTP`
+        type: string
+      serverName:
+        description: |
+          Specifies a virtual host name for this listener.
+
+          Example: `app.example.com`
+
+          This feature supports HTTP and HTTPS listeners only. It does not support TCP listeners.
+
+          You can define an exact virtual server name, as in the preceding example, or you can use a wildcard name. A
+          wildcard name includes an asterisk (*) in place of the first or last part of the name. When searching for a
+          virtual server name, the service chooses the first matching variant in the following priority order:
+
+          1. Exact name match (no asterisk), such as `app.example.com`.
+
+          2. Longest wildcard name that begins with an asterisk, such as `*.example.com`.
+
+             Note: Prefix wildcard names might require a wildcard certificate for HTTPS sites.
+
+          3. Longest wildcard name that ends with an asterisk, such as `app.example.*`.
+
+             Note: Suffix wildcard names might require a multi-domain Subject Alternative Name (SAN) certificate for HTTPS sites.
+
+          You do not need to specify the matching pattern to apply. It is inherent in the `serverName` asterisk position,
+          that is, starting, ending, or none. Server name selection priority is not related to the virtual server's
+          configuration order.
+
+          You cannot use regular expressions.
+
+          If a listener has no `serverName` specified, it is the default listener on the assigned port.
+
+          If all listeners on a port have virtual host names, the first virtual host configured for the port serves as
+          the default listener.
+
+          For information on the interaction between virtual servers and path route rules, see
+          [Managing Request Routing](/Content/Balance/Tasks/managingrequest.htm).
+        type: string
+        x-obmcs-feature-id:
+        - udx-491
+        x-obmcs-internal-only: true
+      sslConfiguration:
+        $ref: '#/definitions/SSLConfigurationDetails'
+    required:
+    - defaultBackendSetName
+    - name
+    - port
+    - protocol
+    type: object
+  CreateLoadBalancerDetails:
+    description: The configuration details for creating a load balancer.
+    properties:
+      backendSets:
+        additionalProperties:
+          $ref: '#/definitions/BackendSetDetails'
+        type: object
+      certificates:
+        additionalProperties:
+          $ref: '#/definitions/CertificateDetails'
+        type: object
+      compartmentId:
+        description: The [OCID](/Content/General/Concepts/identifiers.htm) of the
+          compartment in which to create the load balancer.
+        maxLength: 255
+        minLength: 1
+        type: string
+      displayName:
+        description: |
+          A user-friendly name. It does not have to be unique, and it is changeable.
+          Avoid entering confidential information.
+
+          Example: `My load balancer`
+        maxLength: 1024
+        minLength: 1
+        type: string
+      isPrivate:
+        default: false
+        description: |
+          Whether the load balancer has a VCN-local (private) IP address.
+
+          If "true", the service assigns a private IP address to the load balancer. The load balancer requires only one subnet
+          to host both the primary and secondary load balancers. The private IP address is local to the subnet. The load balancer
+          is accessible only from within the VCN that contains the associated subnet, or as further restricted by your security
+          list rules. The load balancer can route traffic to any backend server that is reachable from the VCN.
+
+          For a private load balancer, both the primary and secondary load balancer hosts are within the same Availability Domain.
+
+          If "false", the service assigns a public IP address to the load balancer. A load balancer with a public IP address
+          requires two subnets, each in a different Availability Domain. One subnet hosts the primary load balancer and the other
+          hosts the secondary (standby) load balancer. A public load balancer is accessible from the internet, depending on your
+          VCN's [security list rules](/Content/Network/Concepts/securitylists.htm).
+
+          Example: `false`
+        type: boolean
+      listeners:
+        additionalProperties:
+          $ref: '#/definitions/ListenerDetails'
+        type: object
+      pathRouteSets:
+        additionalProperties:
+          $ref: '#/definitions/PathRouteSetDetails'
+        type: object
+        x-obmcs-feature-id:
+        - udx-491
+      shapeName:
+        description: |
+          A template that determines the total pre-provisioned bandwidth (ingress plus egress).
+          To get a list of available shapes, use the [ListShapes](#/en/loadbalancer/20170115/LoadBalancerShape/ListShapes)
+          operation.
+
+          Example: `100Mbps`
+        type: string
+      subnetIds:
+        description: An array of subnet [OCIDs](/Content/General/Concepts/identifiers.htm).
+        items:
+          maxLength: 255
+          minLength: 1
+          type: string
+        type: array
+    required:
+    - compartmentId
+    - displayName
+    - shapeName
+    - subnetIds
+    type: object
+  CreatePathRouteSetDetails:
+    description: A named set of path route rules to add to the load balancer.
+    properties:
+      name:
+        description: |
+          The name for this set of path route rules. It must be unique and it cannot be changed. Avoid entering
+          confidential information.
+
+          Example: `path-route-set-001`
+        maxLength: 32
+        minLength: 1
+        type: string
+      pathRoutes:
+        description: The set of path route rules.
+        items:
+          $ref: '#/definitions/PathRoute'
+        maxItems: 20
+        minItems: 1
+        type: array
+    required:
+    - name
+    - pathRoutes
+    type: object
+    x-obmcs-feature-id:
+    - udx-491
+  Error:
+    properties:
+      code:
+        description: |
+          A short error code that defines the error, meant for programmatic parsing. See
+          [API Errors](/Content/API/References/apierrors.htm).
+        type: string
+      message:
+        description: A human-readable error string.
+        type: string
+    required:
+    - code
+    - message
+  HealthCheckResult:
+    description: |
+      Information about a single backend server health check result reported by a load balancer.
+    properties:
+      healthCheckStatus:
+        description: |
+          The result of the most recent health check.
+        enum:
+        - OK
+        - INVALID_STATUS_CODE
+        - TIMED_OUT
+        - REGEX_MISMATCH
+        - CONNECT_FAILED
+        - IO_ERROR
+        - OFFLINE
+        - UNKNOWN
+        type: string
+      sourceIpAddress:
+        description: |
+          The IP address of the health check status report provider. This identifier helps you differentiate same-subnet
+          (private) load balancers that report health check status.
+
+          Example: `10.2.0.1`
+        type: string
+      subnetId:
+        description: |
+          The OCID of the subnet hosting the load balancer that reported this health check status.
+        type: string
+      timestamp:
+        description: |
+          The date and time the data was retrieved, in the format defined by RFC3339.
+
+          Example: `2017-06-02T18:28:11+00:00`
+        format: date-time
+        type: string
+    required:
+    - subnetId
+    - sourceIpAddress
+    - timestamp
+    - healthCheckStatus
+    type: object
+  HealthChecker:
+    description: |
+      The health check policy configuration.
+      For more information, see [Editing Health Check Policies](/Content/Balance/Tasks/editinghealthcheck.htm).
+    properties:
+      intervalInMillis:
+        description: |
+          The interval between health checks, in milliseconds. The default is 10000 (10 seconds).
+
+          Example: `30000`
+        format: int32
+        type: integer
+      port:
+        description: |
+          The backend server port against which to run the health check. If the port is not specified, the load balancer uses the
+          port information from the `Backend` object.
+
+          Example: `8080`
+        example: '0'
+        format: int32
+        type: integer
+      protocol:
+        description: |
+          The protocol the health check must use; either HTTP or TCP.
+
+          Example: `HTTP`
+        type: string
+      responseBodyRegex:
+        description: |
+          A regular expression for parsing the response body from the backend server.
+
+          Example: `^(500|40[1348])$`
+        type: string
+      retries:
+        description: |
+          The number of retries to attempt before a backend server is considered "unhealthy". Defaults to 3.
+
+          Example: `3`
+        format: int32
+        type: integer
+      returnCode:
+        description: |
+          The status code a healthy backend server should return. If you configure the health check policy to use the HTTP protocol,
+          you can use common HTTP status codes such as "200".
+
+          Example: `200`
+        example: '0'
+        format: int32
+        type: integer
+      timeoutInMillis:
+        description: |
+          The maximum time, in milliseconds, to wait for a reply to a health check. A health check is successful only if a reply
+          returns within this timeout period. Defaults to 3000 (3 seconds).
+
+          Example: `6000`
+        format: int32
+        type: integer
+      urlPath:
+        description: |
+          The path against which to run the health check.
+
+          Example: `/healthcheck`
+        type: string
+    required:
+    - port
+    - protocol
+    - responseBodyRegex
+    - returnCode
+    type: object
+  HealthCheckerDetails:
+    description: The health check policy's configuration details.
+    properties:
+      intervalInMillis:
+        description: |
+          The interval between health checks, in milliseconds.
+
+          Example: `30000`
+        format: int32
+        maximum: 1800000.0
+        minimum: 1000.0
+        type: integer
+      port:
+        description: |
+          The backend server port against which to run the health check. If the port is not specified, the load balancer uses the
+          port information from the `Backend` object.
+
+          Example: `8080`
+        format: int32
+        maximum: 65535.0
+        minimum: 0.0
+        type: integer
+      protocol:
+        description: |
+          The protocol the health check must use; either HTTP or TCP.
+
+          Example: `HTTP`
+        type: string
+      responseBodyRegex:
+        description: |
+          A regular expression for parsing the response body from the backend server.
+
+          Example: `^(500|40[1348])$`
+        maxLength: 255
+        type: string
+      retries:
+        description: |
+          The number of retries to attempt before a backend server is considered "unhealthy".
+
+          Example: `3`
+        format: int32
+        type: integer
+      returnCode:
+        description: |
+          The status code a healthy backend server should return.
+
+          Example: `200`
+        format: int32
+        type: integer
+      timeoutInMillis:
+        description: |
+          The maximum time, in milliseconds, to wait for a reply to a health check. A health check is successful only if a reply
+          returns within this timeout period.
+
+          Example: `6000`
+        format: int32
+        maximum: 600000.0
+        minimum: 1.0
+        type: integer
+      urlPath:
+        description: |
+          The path against which to run the health check.
+
+          Example: `/healthcheck`
+        maxLength: 1024
+        type: string
+    required:
+    - protocol
+    type: object
+  IpAddress:
+    description: A load balancer IP address.
+    properties:
+      ipAddress:
+        description: |
+          An IP address.
+
+          Example: `128.148.10.20`
+        type: string
+      isPublic:
+        description: |
+          Whether the IP address is public or private.
+
+          If "true", the IP address is public and accessible from the internet.
+
+          If "false", the IP address is private and accessible only from within the associated VCN.
+        type: boolean
+    required:
+    - ipAddress
+  Listener:
+    description: |
+      The listener's configuration.
+      For more information on backend set configuration, see
+      [Managing Load Balancer Listeners](/Content/Balance/tasks/managinglisteners.htm).
+    properties:
+      connectionConfiguration:
+        $ref: '#/definitions/ConnectionConfiguration'
+      defaultBackendSetName:
+        description: |
+          The name of the associated backend set.
+
+          Example: `My_backend_set`
+        type: string
+      name:
+        description: |
+          A friendly name for the listener. It must be unique and it cannot be changed.
+
+          Example: `My listener`
+        type: string
+      pathRouteSetName:
+        description: |
+          The name of the set of path-based routing rules, [PathRouteSet](#/en/loadbalancer/20170115/PathRouteSet/),
+          applied to this listener's traffic.
+
+          Example: `path-route-set-001`
+        maxLength: 32
+        minLength: 1
+        type: string
+        x-obmcs-feature-id:
+        - udx-491
+      port:
+        description: |
+          The communication port for the listener.
+
+          Example: `80`
+        example: '0'
+        format: int32
+        type: integer
+      protocol:
+        description: |
+          The protocol on which the listener accepts connection requests.
+          To get a list of valid protocols, use the [ListProtocols](#/en/loadbalancer/20170115/LoadBalancerProtocol/ListProtocols)
+          operation.
+
+          Example: `HTTP`
+        type: string
+      serverName:
+        description: |
+          Specifies a virtual host name for this listener.
+
+          Example: `app.example.com`
+
+          This feature supports HTTP and HTTPS listeners only. It does not support TCP listeners.
+
+          You can define an exact virtual server name, as in the preceding example, or you can use a wildcard name. A
+          wildcard name includes an asterisk (*) in place of the first or last part of the name. When searching for a
+          virtual server name, the service chooses the first matching variant in the following priority order:
+
+          1. Exact name match (no asterisk), such as `app.example.com`.
+
+          2. Longest wildcard name that begins with an asterisk, such as `*.example.com`.
+
+             Note: Prefix wildcard names might require a wildcard certificate for HTTPS sites.
+
+          3. Longest wildcard name that ends with an asterisk, such as `app.example.*`.
+
+             Note: Suffix wildcard names might require a multi-domain Subject Alternative Name (SAN) certificate for HTTPS sites.
+
+          You do not need to specify the matching pattern to apply. It is inherent in the `serverName` asterisk position,
+          that is, starting, ending, or none. Server name selection priority is not related to the virtual server's
+          configuration order.
+
+          You cannot use regular expressions.
+
+          If a listener has no `serverName` specified, it is the default listener on the assigned port.
+
+          If all listeners on a port have virtual host names, the first virtual host configured for the port serves as
+          the default listener.
+
+          For information on the interaction between virtual servers and path route rules, see
+          [Managing Request Routing](/Content/Balance/Tasks/managingrequest.htm).
+        type: string
+        x-obmcs-feature-id:
+        - udx-491
+        x-obmcs-internal-only: true
+      sslConfiguration:
+        $ref: '#/definitions/SSLConfiguration'
+    required:
+    - defaultBackendSetName
+    - name
+    - port
+    - protocol
+    type: object
+  ListenerDetails:
+    description: The listener's configuration details.
+    properties:
+      connectionConfiguration:
+        $ref: '#/definitions/ConnectionConfiguration'
+      defaultBackendSetName:
+        description: |
+          The name of the associated backend set.
+
+          Example: `My_backend_set`
+        maxLength: 32
+        minLength: 1
+        type: string
+      pathRouteSetName:
+        description: |
+          The name of the set of path-based routing rules, [PathRouteSet](#/en/loadbalancer/20170115/PathRouteSet/),
+          applied to this listener's traffic.
+
+          Example: `path-route-set-001`
+        maxLength: 32
+        minLength: 1
+        type: string
+        x-obmcs-feature-id:
+        - udx-491
+      port:
+        description: |
+          The communication port for the listener.
+
+          Example: `80`
+        format: int32
+        maximum: 65535.0
+        minimum: 1.0
+        type: integer
+      protocol:
+        description: |
+          The protocol on which the listener accepts connection requests.
+          To get a list of valid protocols, use the [ListProtocols](#/en/loadbalancer/20170115/LoadBalancerProtocol/ListProtocols)
+          operation.
+
+          Example: `HTTP`
+        type: string
+      serverName:
+        description: |
+          Specifies a virtual host name for this listener.
+
+          Example: `app.example.com`
+
+          This feature supports HTTP and HTTPS listeners only. It does not support TCP listeners.
+
+          You can define an exact virtual server name, as in the preceding example, or you can use a wildcard name. A
+          wildcard name includes an asterisk (*) in place of the first or last part of the name. When searching for a
+          virtual server name, the service chooses the first matching variant in the following priority order:
+
+          1. Exact name match (no asterisk), such as `app.example.com`.
+
+          2. Longest wildcard name that begins with an asterisk, such as `*.example.com`.
+
+             Note: Prefix wildcard names might require a wildcard certificate for HTTPS sites.
+
+          3. Longest wildcard name that ends with an asterisk, such as `app.example.*`.
+
+             Note: Suffix wildcard names might require a multi-domain Subject Alternative Name (SAN) certificate for HTTPS sites.
+
+          You do not need to specify the matching pattern to apply. It is inherent in the `serverName` asterisk position,
+          that is, starting, ending, or none. Server name selection priority is not related to the virtual server's
+          configuration order.
+
+          You cannot use regular expressions.
+
+          If a listener has no `serverName` specified, it is the default listener on the assigned port.
+
+          If all listeners on a port have virtual host names, the first virtual host configured for the port serves as
+          the default listener.
+
+          For information on the interaction between virtual servers and path route rules, see
+          [Managing Request Routing](/Content/Balance/Tasks/managingrequest.htm).
+        type: string
+        x-obmcs-feature-id:
+        - udx-491
+        x-obmcs-internal-only: true
+      sslConfiguration:
+        $ref: '#/definitions/SSLConfigurationDetails'
+    required:
+    - defaultBackendSetName
+    - port
+    - protocol
+    type: object
+  LoadBalancer:
+    description: |
+      The properties that define a load balancer. For more information, see
+      [Managing a Load Balancer](/Content/Balance/Tasks/managingloadbalancer.htm).
+
+      To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized,
+      talk to an administrator. If you're an administrator who needs to write policies to give users access, see
+      [Getting Started with Policies](/Content/Identity/Concepts/policygetstarted.htm).
+
+      For information about endpoints and signing API requests, see
+      [About the API](/Content/API/Concepts/usingapi.htm). For information about available SDKs and tools, see
+      [SDKS and Other Tools](/Content/API/Concepts/sdks.htm).
+    properties:
+      backendSets:
+        additionalProperties:
+          $ref: '#/definitions/BackendSet'
+        type: object
+      certificates:
+        additionalProperties:
+          $ref: '#/definitions/Certificate'
+        type: object
+      compartmentId:
+        description: The [OCID](/Content/General/Concepts/identifiers.htm) of the
+          compartment containing the load balancer.
+        type: string
+      displayName:
+        description: |
+          A user-friendly name. It does not have to be unique, and it is changeable.
+
+          Example: `My load balancer`
+        type: string
+      id:
+        description: The [OCID](/Content/General/Concepts/identifiers.htm) of the
+          load balancer.
+        type: string
+      ipAddresses:
+        description: |
+          An array of IP addresses.
+        items:
+          $ref: '#/definitions/IpAddress'
+        type: array
+        uniqueItems: true
+      isPrivate:
+        description: |
+          Whether the load balancer has a VCN-local (private) IP address.
+
+          If "true", the service assigns a private IP address to the load balancer. The load balancer requires only one subnet
+          to host both the primary and secondary load balancers. The private IP address is local to the subnet. The load balancer
+          is accessible only from within the VCN that contains the associated subnet, or as further restricted by your security
+          list rules. The load balancer can route traffic to any backend server that is reachable from the VCN.
+
+          For a private load balancer, both the primary and secondary load balancer hosts are within the same Availability Domain.
+
+          If "false", the service assigns a public IP address to the load balancer. A load balancer with a public IP address
+          requires two subnets, each in a different Availability Domain. One subnet hosts the primary load balancer and the other
+          hosts the secondary (standby) load balancer. A public load balancer is accessible from the internet, depending on your
+          VCN's [security list rules](/Content/Network/Concepts/securitylists.htm).
+        type: boolean
+      lifecycleState:
+        description: |
+          The current state of the load balancer.
+        enum:
+        - CREATING
+        - FAILED
+        - ACTIVE
+        - DELETING
+        - DELETED
+        type: string
+      listeners:
+        additionalProperties:
+          $ref: '#/definitions/Listener'
+        type: object
+      pathRouteSets:
+        additionalProperties:
+          $ref: '#/definitions/PathRouteSet'
+        type: object
+        x-obmcs-feature-id:
+        - udx-491
+      shapeName:
+        description: |
+          A template that determines the total pre-provisioned bandwidth (ingress plus egress).
+          To get a list of available shapes, use the [ListShapes](#/en/loadbalancer/20170115/LoadBalancerShape/ListShapes)
+          operation.
+
+          Example: `100Mbps`
+        type: string
+      subnetIds:
+        description: An array of subnet [OCIDs](/Content/General/Concepts/identifiers.htm).
+        items:
+          type: string
+        type: array
+      timeCreated:
+        description: |
+          The date and time the load balancer was created, in the format defined by RFC3339.
+
+          Example: `2016-08-25T21:10:29.600Z`
+        format: date-time
+        type: string
+    required:
+    - id
+    - compartmentId
+    - lifecycleState
+    - displayName
+    - shapeName
+    - timeCreated
+    type: object
+  LoadBalancerHealth:
+    description: |
+      The health status details for the specified load balancer.
+
+      This object does not explicitly enumerate backend sets with a status of `OK`. However, they are included in the
+      `totalBackendSetCount` sum.
+    properties:
+      criticalStateBackendSetNames:
+        description: |
+          A list of backend sets that are currently in the `CRITICAL` health state. The list identifies each backend set by the
+          friendly name you assigned when you created it.
+
+          Example: `My_backend_set`
+        items:
+          type: string
+        type: array
+      status:
+        description: |
+          The overall health status of the load balancer.
+
+          *  **OK:** All backend sets associated with the load balancer return a status of `OK`.
+
+          *  **WARNING:** At least one of the backend sets associated with the load balancer returns a status of `WARNING`,
+          no backend sets return a status of `CRITICAL`, and the load balancer life cycle state is `ACTIVE`.
+
+          *  **CRITICAL:** One or more of the backend sets associated with the load balancer return a status of `CRITICAL`.
+
+          *  **UNKNOWN:** If any one of the following conditions is true:
+
+              *  The load balancer life cycle state is not `ACTIVE`.
+
+              *  No backend sets are defined for the load balancer.
+
+              *  More than half of the backend sets associated with the load balancer return a status of `UNKNOWN`, none of the backend
+                 sets return a status of `WARNING` or `CRITICAL`, and the load balancer life cycle state is `ACTIVE`.
+
+              *  The system could not retrieve metrics for any reason.
+        enum:
+        - OK
+        - WARNING
+        - CRITICAL
+        - UNKNOWN
+        type: string
+      totalBackendSetCount:
+        description: |
+          The total number of backend sets associated with this load balancer.
+
+          Example: `4`
+        type: integer
+      unknownStateBackendSetNames:
+        description: |
+          A list of backend sets that are currently in the `UNKNOWN` health state. The list identifies each backend set by the
+          friendly name you assigned when you created it.
+
+          Example: `Backend_set2`
+        items:
+          type: string
+        type: array
+      warningStateBackendSetNames:
+        description: |
+          A list of backend sets that are currently in the `WARNING` health state. The list identifies each backend set by the
+          friendly name you assigned when you created it.
+
+          Example: `Backend_set3`
+        items:
+          type: string
+        type: array
+    required:
+    - status
+    - warningStateBackendSetNames
+    - criticalStateBackendSetNames
+    - unknownStateBackendSetNames
+    - totalBackendSetCount
+    type: object
+  LoadBalancerHealthSummary:
+    description: A health status summary for the specified load balancer.
+    properties:
+      loadBalancerId:
+        description: |
+          The [OCID](/Content/General/Concepts/identifiers.htm) of the load balancer the health status is associated with.
+        type: string
+      status:
+        description: |
+          The overall health status of the load balancer.
+
+          *  **OK:** All backend sets associated with the load balancer return a status of `OK`.
+
+          *  **WARNING:** At least one of the backend sets associated with the load balancer returns a status of `WARNING`,
+          no backend sets return a status of `CRITICAL`, and the load balancer life cycle state is `ACTIVE`.
+
+          *  **CRITICAL:** One or more of the backend sets associated with the load balancer return a status of `CRITICAL`.
+
+          *  **UNKNOWN:** If any one of the following conditions is true:
+
+              *  The load balancer life cycle state is not `ACTIVE`.
+
+              *  No backend sets are defined for the load balancer.
+
+              *  More than half of the backend sets associated with the load balancer return a status of `UNKNOWN`, none of the backend
+                 sets return a status of `WARNING` or `CRITICAL`, and the load balancer life cycle state is `ACTIVE`.
+
+              *  The system could not retrieve metrics for any reason.
+        enum:
+        - OK
+        - WARNING
+        - CRITICAL
+        - UNKNOWN
+        type: string
+    required:
+    - loadBalancerId
+    - status
+    type: object
+  LoadBalancerPolicy:
+    description: |
+      A policy that determines how traffic is distributed among backend servers.
+      For more information on load balancing policies, see
+      [How Load Balancing Policies Work](/Content/Balance/Reference/lbpolicies.htm).
+    properties:
+      name:
+        description: The name of the load balancing policy.
+        type: string
+    required:
+    - name
+    type: object
+  LoadBalancerProtocol:
+    description: The protocol that defines the type of traffic accepted by a listener.
+    properties:
+      name:
+        description: The name of the protocol.
+        type: string
+    required:
+    - name
+    type: object
+  LoadBalancerShape:
+    description: |
+      A shape is a template that determines the total pre-provisioned bandwidth (ingress plus egress) for the
+      load balancer.
+
+      Note that the pre-provisioned maximum capacity applies to aggregated connections, not to a single client
+      attempting to use the full bandwidth.
+    properties:
+      name:
+        description: The name of the shape.
+        type: string
+    required:
+    - name
+    type: object
+  PathMatchType:
+    description: The type of matching to apply to incoming URIs.
+    properties:
+      matchType:
+        description: |
+          Specifies how the load balancing service compares a [PathRoute](#/en/loadbalancer/20170115/requests/PathRoute)
+          object's `path` string against the incoming URI.
+
+          *  **EXACT_MATCH** - Looks for a `path` string that exactly matches the incoming URI path.
+
+          *  **FORCE_LONGEST_PREFIX_MATCH** - Looks for the `path` string with the best, longest match of the beginning
+             portion of the incoming URI path.
+
+          *  **PREFIX_MATCH** - Looks for a `path` string that matches the beginning portion of the incoming URI path.
+
+          *  **SUFFIX_MATCH** - Looks for a `path` string that matches the ending portion of the incoming URI path.
+
+          For a full description of how the system handles `matchType` in a path route set containing multiple rules, see
+          [Managing Request Routing](/Content/Balance/Tasks/managingrequest.htm).
+        enum:
+        - EXACT_MATCH
+        - FORCE_LONGEST_PREFIX_MATCH
+        - PREFIX_MATCH
+        - SUFFIX_MATCH
+        type: string
+    required:
+    - matchType
+    type: object
+    x-obmcs-feature-id:
+    - udx-491
+  PathRoute:
+    description: |
+      A "path route rule" to evaluate an incoming URI path, and then route a matching request to the specified backend set.
+
+      Path route rules apply only to HTTP and HTTPS requests. They have no effect on TCP requests.
+    properties:
+      backendSetName:
+        description: |
+          The name of the target backend set for requests where the incoming URI matches the specified path.
+
+          Example: `My_backend_set`
+        maxLength: 32
+        minLength: 1
+        type: string
+      path:
+        description: |
+          The path string to match against the incoming URI path.
+
+          *  Path strings are case-insensitive.
+
+          *  Asterisk (*) wildcards are not supported.
+
+          *  Regular expressions are not supported.
+
+          Example: `/example/video/123`
+        maxLength: 2048
+        minLength: 1
+        type: string
+      pathMatchType:
+        $ref: '#/definitions/PathMatchType'
+        description: The type of matching to apply to incoming URIs.
+    required:
+    - path
+    - pathMatchType
+    - backendSetName
+    type: object
+    x-obmcs-feature-id:
+    - udx-491
+  PathRouteSet:
+    description: |
+      A named set of path route rules. For more information, see
+      [Managing Request Routing](/Content/Balance/Tasks/managingrequest.htm).
+    properties:
+      name:
+        description: |
+          The unique name for this set of path route rules. Avoid entering confidential information.
+
+          Example: `path-route-set-001`
+        maxLength: 32
+        minLength: 1
+        type: string
+      pathRoutes:
+        description: The set of path route rules.
+        items:
+          $ref: '#/definitions/PathRoute'
+        maxItems: 20
+        minItems: 0
+        type: array
+    required:
+    - name
+    - pathRoutes
+    type: object
+    x-obmcs-feature-id:
+    - udx-491
+  PathRouteSetDetails:
+    description: A set of path route rules.
+    properties:
+      pathRoutes:
+        description: The set of path route rules.
+        items:
+          $ref: '#/definitions/PathRoute'
+        maxItems: 20
+        minItems: 1
+        type: array
+    required:
+    - pathRoutes
+    type: object
+    x-obmcs-feature-id:
+    - udx-491
+  SSLConfiguration:
+    description: |
+      A listener's SSL handling configuration.
+
+      To use SSL, a listener must be associated with a [certificate bundle](#/en/loadbalancer/20170115/Certificate/).
+    properties:
+      certificateName:
+        description: |
+          A friendly name for the certificate bundle. It must be unique and it cannot be changed.
+          Valid certificate bundle names include only alphanumeric characters, dashes, and underscores.
+          Certificate bundle names cannot contain spaces. Avoid entering confidential information.
+
+          Example: `My_certificate_bundle`
+        maxLength: 255
+        minLength: 1
+        pattern: ^[a-zA-Z0-9_.-]*$
+        type: string
+      verifyDepth:
+        description: |
+          The maximum depth for peer certificate chain verification.
+
+          Example: `3`
+        format: int32
+        type: integer
+      verifyPeerCertificate:
+        default: false
+        description: |
+          Whether the load balancer listener should verify peer certificates.
+
+          Example: `true`
+        example: 'true'
+        type: boolean
+    required:
+    - certificateName
+    - verifyDepth
+    - verifyPeerCertificate
+    type: object
+  SSLConfigurationDetails:
+    description: The load balancer's SSL handling configuration details.
+    properties:
+      certificateName:
+        description: |
+          A friendly name for the certificate bundle. It must be unique and it cannot be changed.
+          Valid certificate bundle names include only alphanumeric characters, dashes, and underscores.
+          Certificate bundle names cannot contain spaces. Avoid entering confidential information.
+
+          Example: `My_certificate_bundle`
+        maxLength: 255
+        minLength: 1
+        pattern: ^[a-zA-Z0-9_.-]*$
+        type: string
+      verifyDepth:
+        description: |
+          The maximum depth for peer certificate chain verification.
+
+          Example: `3`
+        format: int32
+        type: integer
+      verifyPeerCertificate:
+        default: false
+        description: |
+          Whether the load balancer listener should verify peer certificates.
+
+          Example: `true`
+        type: boolean
+    required:
+    - certificateName
+    type: object
+  SessionPersistenceConfigurationDetails:
+    description: |
+      The configuration details for implementing session persistence. Session persistence enables the Load Balancing
+      Service to direct any number of requests that originate from a single logical client to a single backend web server.
+      For more information, see [Session Persistence](/Content/Balance/Reference/sessionpersistence.htm).
+
+      To disable session persistence on a running load balancer, use the
+      [UpdateBackendSet](#/en/loadbalancer/20170115/BackendSet/UpdateBackendSet) operation and specify "null" for the
+      `SessionPersistenceConfigurationDetails` object.
+
+      Example: `SessionPersistenceConfigurationDetails: null`
+    properties:
+      cookieName:
+        description: |
+          The name of the cookie used to detect a session initiated by the backend server. Use '*' to specify
+          that any cookie set by the backend causes the session to persist.
+
+          Example: `myCookieName`
+        maxLength: 4096
+        minLength: 1
+        type: string
+      disableFallback:
+        default: false
+        description: |
+          Whether the load balancer is prevented from directing traffic from a persistent session client to
+          a different backend server if the original server is unavailable. Defaults to false.
+
+          Example: `true`
+        type: boolean
+    required:
+    - cookieName
+    type: object
+  UpdateBackendDetails:
+    description: The configuration details for updating a backend server.
+    properties:
+      backup:
+        default: false
+        description: |
+          Whether the load balancer should treat this server as a backup unit. If `true`, the load balancer forwards no ingress
+          traffic to this backend server unless all other backend servers not marked as "backup" fail the health check policy.
+
+          Example: `true`
+        type: boolean
+      drain:
+        default: false
+        description: |
+          Whether the load balancer should drain this server. Servers marked "drain" receive no new
+          incoming traffic.
+
+          Example: `true`
+        type: boolean
+      offline:
+        default: false
+        description: |
+          Whether the load balancer should treat this server as offline. Offline servers receive no incoming
+          traffic.
+
+          Example: `true`
+        type: boolean
+      weight:
+        description: |
+          The load balancing policy weight assigned to the server. Backend servers with a higher weight receive a larger
+          proportion of incoming traffic. For example, a server weighted '3' receives 3 times the number of new connections
+          as a server weighted '1'.
+          For more information on load balancing policies, see
+          [How Load Balancing Policies Work](/Content/Balance/Reference/lbpolicies.htm).
+
+          Example: `3`
+        format: int32
+        type: integer
+    required:
+    - weight
+    - backup
+    - drain
+    - offline
+    type: object
+  UpdateBackendSetDetails:
+    description: |
+      The configuration details for updating a load balancer backend set.
+      For more information on backend set configuration, see
+      [Managing Backend Sets](/Content/Balance/tasks/managingbackendsets.htm).
+    properties:
+      backends:
+        items:
+          $ref: '#/definitions/BackendDetails'
+        type: array
+        uniqueItems: true
+      healthChecker:
+        $ref: '#/definitions/HealthCheckerDetails'
+      policy:
+        description: |
+          The load balancer policy for the backend set. To get a list of available policies, use the
+          [ListPolicies](#/en/loadbalancer/20170115/LoadBalancerPolicy/ListPolicies) operation.
+
+          Example: `LEAST_CONNECTIONS`
+        type: string
+      sessionPersistenceConfiguration:
+        $ref: '#/definitions/SessionPersistenceConfigurationDetails'
+      sslConfiguration:
+        $ref: '#/definitions/SSLConfigurationDetails'
+    required:
+    - policy
+    - backends
+    - healthChecker
+    type: object
+  UpdateHealthCheckerDetails:
+    description: The health checker's configuration details.
+    properties:
+      intervalInMillis:
+        description: |
+          The interval between health checks, in milliseconds.
+
+          Example: `30000`
+        format: int32
+        maximum: 1800000.0
+        minimum: 1000.0
+        type: integer
+      port:
+        description: |
+          The backend server port against which to run the health check.
+
+          Example: `8080`
+        format: int32
+        maximum: 65535.0
+        minimum: 0.0
+        type: integer
+      protocol:
+        description: |
+          The protocol the health check must use; either HTTP or TCP.
+
+          Example: `HTTP`
+        type: string
+      responseBodyRegex:
+        description: |
+          A regular expression for parsing the response body from the backend server.
+
+          Example: `^(500|40[1348])$`
+        maxLength: 255
+        type: string
+      retries:
+        description: |
+          The number of retries to attempt before a backend server is considered "unhealthy".
+
+          Example: `3`
+        format: int32
+        type: integer
+      returnCode:
+        description: |
+          The status code a healthy backend server should return.
+
+          Example: `200`
+        format: int32
+        type: integer
+      timeoutInMillis:
+        description: |
+          The maximum time, in milliseconds, to wait for a reply to a health check. A health check is successful only if a reply
+          returns within this timeout period.
+
+          Example: `6000`
+        format: int32
+        maximum: 600000.0
+        minimum: 1.0
+        type: integer
+      urlPath:
+        description: |
+          The path against which to run the health check.
+
+          Example: `/healthcheck`
+        maxLength: 1024
+        type: string
+    required:
+    - protocol
+    - port
+    - returnCode
+    - retries
+    - timeoutInMillis
+    - intervalInMillis
+    - responseBodyRegex
+    type: object
+  UpdateListenerDetails:
+    description: The configuration details for updating a listener.
+    properties:
+      connectionConfiguration:
+        $ref: '#/definitions/ConnectionConfiguration'
+      defaultBackendSetName:
+        description: |
+          The name of the associated backend set.
+
+          Example: `My_backend_set`
+        maxLength: 32
+        minLength: 1
+        type: string
+      pathRouteSetName:
+        description: |
+          The name of the set of path-based routing rules, [PathRouteSet](#/en/loadbalancer/20170115/PathRouteSet/),
+          applied to this listener's traffic.
+
+          Example: `path-route-set-001`
+        maxLength: 32
+        minLength: 1
+        type: string
+        x-obmcs-feature-id:
+        - udx-491
+      port:
+        description: |
+          The communication port for the listener.
+
+          Example: `80`
+        format: int32
+        maximum: 65535.0
+        minimum: 1.0
+        type: integer
+      protocol:
+        description: |
+          The protocol on which the listener accepts connection requests.
+          To get a list of valid protocols, use the [ListProtocols](#/en/loadbalancer/20170115/LoadBalancerProtocol/ListProtocols)
+          operation.
+
+          Example: `HTTP`
+        type: string
+      serverName:
+        description: |
+          Specifies a virtual host name for this listener.
+
+          Example: `app.example.com`
+
+          This feature supports HTTP and HTTPS listeners only. It does not support TCP listeners.
+
+          You can define an exact virtual server name, as in the preceding example, or you can use a wildcard name. A
+          wildcard name includes an asterisk (*) in place of the first or last part of the name. When searching for a
+          virtual server name, the service chooses the first matching variant in the following priority order:
+
+          1. Exact name match (no asterisk), such as `app.example.com`.
+
+          2. Longest wildcard name that begins with an asterisk, such as `*.example.com`.
+
+             Note: Prefix wildcard names might require a wildcard certificate for HTTPS sites.
+
+          3. Longest wildcard name that ends with an asterisk, such as `app.example.*`.
+
+             Note: Suffix wildcard names might require a multi-domain Subject Alternative Name (SAN) certificate for HTTPS sites.
+
+          You do not need to specify the matching pattern to apply. It is inherent in the `serverName` asterisk position,
+          that is, starting, ending, or none. Server name selection priority is not related to the virtual server's
+          configuration order.
+
+          You cannot use regular expressions.
+
+          If a listener has no `serverName` specified, it is the default listener on the assigned port.
+
+          If all listeners on a port have virtual host names, the first virtual host configured for the port serves as
+          the default listener.
+
+          For information on the interaction between virtual servers and path route rules, see
+          [Managing Request Routing](/Content/Balance/Tasks/managingrequest.htm).
+        type: string
+        x-obmcs-feature-id:
+        - udx-491
+        x-obmcs-internal-only: true
+      sslConfiguration:
+        $ref: '#/definitions/SSLConfigurationDetails'
+    required:
+    - defaultBackendSetName
+    - port
+    - protocol
+    type: object
+  UpdateLoadBalancerDetails:
+    description: Configuration details to update a load balancer.
+    properties:
+      displayName:
+        description: |
+          The user-friendly display name for the load balancer. It does not have to be unique, and it is changeable.
+          Avoid entering confidential information.
+
+          Example: `My load balancer`
+        maxLength: 1024
+        minLength: 1
+        type: string
+    required:
+    - displayName
+    type: object
+  UpdatePathRouteSetDetails:
+    description: An updated set of path route rules that overwrites the existing set
+      of rules.
+    properties:
+      pathRoutes:
+        description: The set of path route rules.
+        items:
+          $ref: '#/definitions/PathRoute'
+        maxItems: 20
+        minItems: 0
+        type: array
+    required:
+    - pathRoutes
+    type: object
+    x-obmcs-feature-id:
+    - udx-491
+  WorkRequest:
+    description: |
+      Many of the API requests you use to create and configure load balancing do not take effect immediately.
+      In these cases, the request spawns an asynchronous work flow to fulfill the request. WorkRequest objects provide visibility
+      for in-progress work flows.
+      For more information about work requests, see [Viewing the State of a Work Request](/Content/Balance/Tasks/viewingworkrequest.htm).
+    properties:
+      errorDetails:
+        items:
+          $ref: '#/definitions/WorkRequestError'
+        type: array
+      id:
+        description: The [OCID](/Content/General/Concepts/identifiers.htm) of the
+          work request.
+        type: string
+      lifecycleState:
+        description: |
+          The current state of the work request.
+        enum:
+        - ACCEPTED
+        - IN_PROGRESS
+        - FAILED
+        - SUCCEEDED
+        type: string
+      loadBalancerId:
+        description: |
+          The [OCID](/Content/General/Concepts/identifiers.htm) of the load balancer with which the work request
+          is associated.
+        type: string
+      message:
+        description: |
+          A collection of data, related to the load balancer provisioning process, that helps with debugging in the event of failure.
+          Possible data elements include:
+
+          - workflow name
+          - event ID
+          - work request ID
+          - load balancer ID
+          - workflow completion message
+        type: string
+      timeAccepted:
+        description: |
+          The date and time the work request was created, in the format defined by RFC3339.
+
+          Example: `2016-08-25T21:10:29.600Z`
+        format: date-time
+        type: string
+      timeFinished:
+        description: |
+          The date and time the work request was completed, in the format defined by RFC3339.
+
+          Example: `2016-08-25T21:10:29.600Z`
+        format: date-time
+        type: string
+      type:
+        description: |
+          The type of action the work request represents.
+        type: string
+    required:
+    - errorDetails
+    - id
+    - lifecycleState
+    - loadBalancerId
+    - message
+    - timeAccepted
+    - type
+    type: object
+  WorkRequestError:
+    description: An object returned in the event of a work request error.
+    properties:
+      errorCode:
+        enum:
+        - BAD_INPUT
+        - INTERNAL_ERROR
+        type: string
+      message:
+        description: A human-readable error string.
+        type: string
+    required:
+    - errorCode
+    - message
+    type: object
+parameters:
+  FilterByDisplayNameQueryParam:
+    description: |
+      A filter to return only resources that match the given display name exactly.
+    in: query
+    name: displayName
+    required: false
+    type: string
+  FilterByLifecycleStateQueryParam:
+    description: |
+      A filter to return only resources that match the given lifecycle state.
+    in: query
+    name: lifecycleState
+    required: false
+    type: string
+    x-obmcs-enumref: '#/definitions/LoadBalancer/lifecycleState'
+  RetryTokenHeader:
+    description: |
+      A token that uniquely identifies a request so it can be retried in case of a timeout or
+      server error without risk of executing that same action again. Retry tokens expire after 24
+      hours, but can be invalidated before then due to conflicting operations (e.g., if a resource
+      has been deleted and purged from the system, then a retry of the original creation request
+      may be rejected).
+    in: header
+    maxLength: 64
+    minLength: 1
+    name: opc-retry-token
+    type: string
+  SortByQueryParam:
+    description: |
+      The field to sort by.  You can provide one sort order (`sortOrder`). Default order for TIMECREATED is descending.
+      Default order for DISPLAYNAME is ascending. The DISPLAYNAME sort order is case sensitive.
+    enum:
+    - TIMECREATED
+    - DISPLAYNAME
+    in: query
+    name: sortBy
+    required: false
+    type: string
+  SortOrderQueryParam:
+    description: |
+      The sort order to use, either ascending (`ASC`) or descending (`DESC`). The DISPLAYNAME sort order is case sensitive.
+    enum:
+    - ASC
+    - DESC
+    in: query
+    name: sortOrder
+    required: false
+    type: string
+responses:
+  400:
+    description: Bad Request
+    headers:
+      opc-request-id:
+        description: |
+          Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
+          a particular request, please provide the request ID.
+        type: string
+    schema:
+      $ref: '#/definitions/Error'
+  401:
+    description: Unauthorized
+    headers:
+      opc-request-id:
+        description: |
+          Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
+          a particular request, please provide the request ID.
+        type: string
+    schema:
+      $ref: '#/definitions/Error'
+  404:
+    description: Not Found
+    headers:
+      opc-request-id:
+        description: |
+          Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
+          a particular request, please provide the request ID.
+        type: string
+    schema:
+      $ref: '#/definitions/Error'
+  409:
+    description: Conflict
+    headers:
+      opc-request-id:
+        description: |
+          Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
+          a particular request, please provide the request ID.
+        type: string
+    schema:
+      $ref: '#/definitions/Error'
+  412:
+    description: Precondition Failed
+    headers:
+      opc-request-id:
+        description: |
+          Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
+          a particular request, please provide the request ID.
+        type: string
+    schema:
+      $ref: '#/definitions/Error'
+  500:
+    description: Internal Server Error
+    headers:
+      opc-request-id:
+        description: |
+          Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
+          a particular request, please provide the request ID.
+        type: string
+    schema:
+      $ref: '#/definitions/Error'
+  DefaultError:
+    description: An error has occurred.
+    headers:
+      opc-request-id:
+        description: |
+          Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
+          a particular request, please provide the request ID.
+        type: string
+    schema:
+      $ref: '#/definitions/Error'

@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 // Core Services API
@@ -29,6 +29,11 @@ type CreateSubnetDetails struct {
 	// The OCID of the VCN to contain the subnet.
 	VcnId *string `mandatory:"true" json:"vcnId"`
 
+	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Operations": {"CostCenter": "42"}}`
+	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
 	// The OCID of the set of DHCP options the subnet will use. If you don't
 	// provide a value, the subnet will use the VCN's default set of DHCP options.
 	DhcpOptionsId *string `mandatory:"false" json:"dhcpOptionsId"`
@@ -45,9 +50,15 @@ type CreateSubnetDetails struct {
 	// hostnames of instances in the subnet. It can only be set if the VCN itself
 	// was created with a DNS label.
 	// For more information, see
-	// [DNS in Your Virtual Cloud Network]({{DOC_SERVER_URL}}/Content/Network/Concepts/dns.htm).
+	// DNS in Your Virtual Cloud Network (https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Concepts/dns.htm).
 	// Example: `subnet123`
 	DnsLabel *string `mandatory:"false" json:"dnsLabel"`
+
+	// Free-form tags for this resource. Each tag is a simple key-value pair with no
+	// predefined name, type, or namespace. For more information, see
+	// Resource Tags (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Department": "Finance"}`
+	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
 	// Whether VNICs within this subnet can have public IP addresses.
 	// Defaults to false, which means VNICs created in this subnet will

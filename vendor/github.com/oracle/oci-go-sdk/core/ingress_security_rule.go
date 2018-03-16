@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 // Core Services API
@@ -17,7 +17,7 @@ type IngressSecurityRule struct {
 
 	// The transport protocol. Specify either `all` or an IPv4 protocol number as
 	// defined in
-	// [Protocol Numbers](http://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml).
+	// Protocol Numbers (http://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml).
 	// Options are supported only for ICMP ("1"), TCP ("6"), and UDP ("17").
 	Protocol *string `mandatory:"true" json:"protocol"`
 
@@ -27,7 +27,7 @@ type IngressSecurityRule struct {
 
 	// Optional and valid only for ICMP. Use to specify a particular ICMP type and code
 	// as defined in
-	// [ICMP Parameters](http://www.iana.org/assignments/icmp-parameters/icmp-parameters.xhtml).
+	// ICMP Parameters (http://www.iana.org/assignments/icmp-parameters/icmp-parameters.xhtml).
 	// If you specify ICMP as the protocol but omit this object, then all ICMP types and
 	// codes are allowed. If you do provide this object, the type is required and the code is optional.
 	// To enable MTU negotiation for ingress internet traffic, make sure to allow type 3 ("Destination

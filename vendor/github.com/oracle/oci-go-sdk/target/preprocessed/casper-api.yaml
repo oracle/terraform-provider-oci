@@ -1,0 +1,2847 @@
+#==========[ Schema ]===================================================================================================
+
+swagger: "2.0"
+info:
+  version: '20160918'
+  title: Object Storage Service API
+  description: Common set of Object and Archive Storage APIs for managing buckets and objects.
+  contact:
+    name: Object Storage Team
+    url: https://confluence.aka.lgl.grungy.us/display/CASPER/Integrating+With+Casper
+    email: opc_casper_users_us_grp@oracle.com
+  license:
+    name: Oracle Corporation
+host: localhost:9000
+basePath: /
+schemes:
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+
+#==========[ Paths ]====================================================================================================
+
+paths:
+
+  #----------[ Namespace Collection ]-----------------------------------------------------------------------------------
+
+  /n/:
+
+    get:
+      tags:
+        - objectStorage
+      summary: GET Namespace Name
+      operationId: GetNamespace
+      x-related-resource: '#/definitions/Namespace'
+      description: |
+        Namespaces are unique. Namespaces are either the tenancy name or a random string automatically generated during
+        account creation. You cannot edit a namespace.
+      parameters:
+        - $ref: '#/parameters/ClientRequestIdHeader'
+      x-example: |
+        GET /n/ HTTP/1.1
+        Host: objectstorage.us-phoenix-1.oraclecloud.com
+        connection: keep-alive
+        accept-encoding: gzip, deflate
+        accept: */*
+        user-agent: python-requests/2.11.0
+        date: Fri, 12 Aug 2016 22:42:15 GMT
+        authorization: <var>&lt;authorization_string&gt;</var>
+      responses:
+        200:
+          description: The name of the user's namespace.
+          schema:
+            type: string
+            pattern: '[A-Za-z][A-Za-z0-9\\-_\\.]+'
+          examples:
+            application-json: |
+              "example_namespace"
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/responses/Error'
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/responses/Error'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/responses/Error'
+        default:
+          $ref: '#/responses/Error'
+
+  #----------[ Compartment Collection ]---------------------------------------------------------------------------------
+
+  /n/{namespaceName}:
+
+    get:
+      tags:
+        - objectStorage
+      summary: GetNamespaceMetadata
+      operationId: GetNamespaceMetadata
+      x-related-resource: '#/definitions/Namespace'
+      description: |
+        Get the metadata for the namespace, which contains defaultS3CompartmentId and defaultSwiftCompartmentId.
+        Any user with the NAMESPACE_READ permission will be able to see the current metadata. If you're not authorized,
+        talk to an administrator. If you're an administrator who needs to write
+        policies to give users access, see [Getting Started with Policies](/Content/Identity/Concepts/policygetstarted.htm).
+      parameters:
+        - $ref: '#/parameters/NamespacePathParam'
+        - $ref: '#/parameters/ClientRequestIdHeader'
+      x-example: |
+        GET /n/example_namespace HTTP/1.1
+        Host: objectstorage.us-phoenix-1.oraclecloud.com
+        connection: keep-alive
+        accept-encoding: gzip, deflate
+        accept: */*
+        user-agent: python-requests/2.11.0
+        date: Fri, 12 Aug 2016 22:42:15 GMT
+        authorization: <var>&lt;authorization_string&gt;</var>
+      responses:
+        200:
+          description: The default metadata.
+          schema:
+            $ref: '#/definitions/NamespaceMetadata'
+          headers:
+            opc-client-request-id:
+              type: string
+              description: Echoes back the value passed in the opc-client-request-id header, for use by clients when debugging.
+            opc-request-id:
+              type: string
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular
+                request, provide this request ID.
+          examples:
+            application-json: |
+              [
+                {
+                  "namespace": "namespace",
+                  "defaultS3CompartmentId": "<ocid>",
+                  "defaultSwiftCompartmentId": "<ocid>"
+                }
+              ]
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/responses/Error'
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/responses/Error'
+        404:
+          description: Not Found
+          schema:
+            $ref: '#/responses/Error'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/responses/Error'
+        default:
+          $ref: '#/responses/Error'
+
+    put:
+      tags:
+        - objectStorage
+      summary: UpdateNamespaceMetadata
+      description: |
+        Change the default Swift/S3 compartmentId of user's namespace into the user-defined compartmentId. Upon doing
+        this, all subsequent bucket creations will use the new default compartment, but no previously created
+        buckets will be modified. A user must have the NAMESPACE_UPDATE permission to make changes to the default
+        compartments for S3 and Swift.
+      operationId: UpdateNamespaceMetadata
+      x-related-resource: '#/definitions/Namespace'
+      parameters:
+        - $ref: '#/parameters/NamespacePathParam'
+        - $ref: '#/parameters/ClientRequestIdHeader'
+        - name: UpdateNamespaceMetadataDetails
+          description: Request object for update NamespaceMetadata.
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/UpdateNamespaceMetadataDetails'
+      x-example: |
+        PUT /n/example_namespace HTTP/1.1
+        Host: objectstorage.us-phoenix-1.oraclecloud.com
+        connection: keep-alive
+        accept-encoding: gzip, deflate
+        accept: */*
+        user-agent: python-requests/2.11.0
+        date: Fri, 12 Aug 2016 22:50:18 GMT
+        content-type: application/json
+        authorization: <var>&lt;authorization_string&gt;</var>
+        {
+          "defaultS3CompartmentId": "<ocid>",
+          "defaultSwiftCompartmentId": "<ocid>"
+        }
+      responses:
+        200:
+          description: The updated NamespaceMetadata information.
+          schema:
+            $ref: '#/definitions/NamespaceMetadata'
+          headers:
+            opc-client-request-id:
+              type: string
+              description: Echoes back the value passed in the opc-client-request-id header, for use by clients when debugging.
+            opc-request-id:
+              type: string
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular
+                request, provide this request ID.
+          examples:
+            application-json: |
+              {
+                "name": "namespace",
+                "defaultS3CompartmentId": "<ocid>",
+                "defaultSwiftCompartmentId": "<ocid>"
+              }
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/responses/Error'
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/responses/Error'
+        404:
+          description: Not Found
+          schema:
+            $ref: '#/responses/Error'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/responses/Error'
+        default:
+          $ref: '#/responses/Error'
+
+  #----------[ Bucket Collection ]--------------------------------------------------------------------------------------
+
+  /n/{namespaceName}/b/:
+
+    get:
+      tags:
+        - objectStorage
+      summary: List Buckets
+      operationId: ListBuckets
+      x-related-resource: '#/definitions/Bucket'
+      description: |
+        Gets a list of all `BucketSummary`s in a compartment. A `BucketSummary` contains only summary fields for the bucket
+        and does not contain fields like the user-defined metadata.
+
+        To use this and other API operations, you must be authorized in an IAM policy. If you're not authorized,
+        talk to an administrator. If you're an administrator who needs to write policies to give users access, see
+        [Getting Started with Policies](/Content/Identity/Concepts/policygetstarted.htm).
+      parameters:
+        - $ref: '#/parameters/NamespacePathParam'
+        - $ref: '#/parameters/CompartmentIdQueryParam'
+        - $ref: '#/parameters/PaginationLimitQueryParam'
+        - $ref: '#/parameters/PaginationTokenQueryParam'
+        - $ref: '#/parameters/ClientRequestIdHeader'
+      x-example: |
+        GET /n/example_namespace/b/ HTTP/1.1
+        Host: objectstorage.us-phoenix-1.oraclecloud.com
+        connection: keep-alive
+        accept-encoding: gzip, deflate
+        accept: */*
+        user-agent: python-requests/2.11.0
+        date: Fri, 20 Jan 2017 22:52:33 GMT
+        authorization: <var>&lt;authorization_string&gt;</var>
+      responses:
+        200:
+          description: A page of `BucketSummary` objects.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/BucketSummary'
+          headers:
+            opc-client-request-id:
+              type: string
+              description: Echoes back the value passed in the opc-client-request-id header, for use by clients when debugging.
+            opc-request-id:
+              type: string
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular
+                request, provide this request ID.
+            opc-next-page:
+              type: string
+              description: |
+                For pagination of a list of `Bucket`s. If this header appears in the response, then this
+                is a partial list of buckets. Include this value as the `page` parameter in a subsequent
+                GET request to get the next batch of buckets. For information about pagination, see
+                [List Pagination](/Content/API/Concepts/usingapi.htm#nine).
+          examples:
+            application-json: |
+              [
+                {
+                  "namespace": "example_namespace",
+                  "name": "example_bucket_1",
+                  "compartmentId": "ocid1.compartment.oc1..aaaaaaaam3we6vgnherjq5cvbq2idnccdflvjsnog7mlr6rtdb25gilchfeyjxa",
+                  "createdBy": "ocid1.user.oc1..aaaaaaaabtbjyjp3dbfdthepdzgecvb2s336zq6xyfrrtvir2q4kiqnepsokywq",
+                  "timeCreated": "2016-08-09T01:11:38.639Z",
+                  "etag": "dc450b1e-a22c-479a-aae2-a5903e519661"
+                },
+                {
+                  "namespace": "example_namespace",
+                  "name": "example_bucket_2",
+                  "compartmentId": "ocid1.compartment.oc1..aaaaaaaam3we6vgnherjq5cvbq2idnccdflvjsnog7mlr6rtdb25gilchfeyjxa",
+                  "createdBy": "ocid1.user.oc1..aaaaaaaavephoafuxmqlwb4t7cvbdvik5m2ibuokweo6oadif5pda7nxv2nwp3a",
+                  "timeCreated": "2016-08-09T00:41:50.236Z",
+                  "etag": "31e21d43-41e8-42b0-beb8-cc0baa50ef94"
+                },
+                {
+                  "namespace": "example_namespace",
+                  "name": "example_bucket_3",
+                  "compartmentId": "ocid1.compartment.oc1..aaaaaaaam3we6vgnherjq5cvbq2idnccdflvjsnog7mlr6rtdb25gilchfeyjxa",
+                  "createdBy": "ocid1.user.oc1..aaaaaaaabtbjyjp3dbfdthepdzgecvb2s336zq6xyfrrtvir2q4kiqnepsokywq",
+                  "timeCreated": "2016-08-08T21:18:37.448Z",
+                  "etag": "ed042fb0-a22f-48cc-a6d3-5590ee0bd0d2"
+                },
+                {
+                  "namespace": "example_namespace",
+                  "name": "example_bucket_4",
+                  "compartmentId": "ocid1.compartment.oc1..aaaaaaaam3we6vgnherjq5cvbq2idnccdflvjsnog7mlr6rtdb25gilchfeyjxa",
+                  "createdBy": "ocid1.user.oc1..aaaaaaaavephoafuxmqlwb4t7cvbdvik5m2ibuokweo6oadif5pda7nxv2nwp3a",
+                  "timeCreated": "2017-01-20T00:25:55.758Z",
+                  "etag": "21edf865-d3d9-424f-8218-37188e803db8"
+                },
+                {
+                  "namespace": "example_namespace",
+                  "name": "example_bucket_5",
+                  "compartmentId": "ocid1.compartment.oc1..aaaaaaaam3we6vgnherjq5cvbq2idnccdflvjsnog7mlr6rtdb25gilchfeyjxa",
+                  "createdBy": "ocid1.user.oc1..aaaaaaaavephoafuxmqlwb4t7cvbdvik5m2ibuokweo6oadif5pda7nxv2nwp3a",
+                  "timeCreated": "2017-01-20T19:12:41.886Z",
+                  "etag": "30d83c79-dd32-4c07-ace9-9240ed7083fd"
+                }
+              ]
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/responses/Error'
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/responses/Error'
+        404:
+          description: Not Found
+          schema:
+            $ref: '#/responses/Error'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/responses/Error'
+        default:
+          $ref: '#/responses/Error'
+
+    # TODO: document the max size of the JSON, and the max size of the user-defined metadata field?
+    post:
+      tags:
+        - objectStorage
+      summary: Create Bucket
+      operationId: CreateBucket
+      x-related-resource: '#/definitions/Bucket'
+      description: |
+        Creates a bucket in the given namespace with a bucket name and optional user-defined metadata.
+      parameters:
+        - $ref: '#/parameters/NamespacePathParam'
+        - $ref: '#/parameters/ClientRequestIdHeader'
+        - name: CreateBucketDetails
+          description: Request object for creating a bucket.
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/CreateBucketDetails'
+      x-example: |
+        POST /n/example_namespace/b/ HTTP/1.1
+        Host: objectstorage.us-phoenix-1.oraclecloud.com
+        connection: keep-alive
+        accept-encoding: gzip, deflate
+        accept: */*
+        user-agent: python-requests/2.11.0
+        date: Fri, 12 Aug 2016 22:50:18 GMT
+        x-content-sha256: GzeGbC8Ad9cEhdcnD2wjPiUej5TIHHw2I+uj4w7Jot4=
+        Content-Length: 148
+        content-type: application/json
+        authorization: <var>&lt;authorization_string&gt;</var>
+        {
+          "compartmentId": "ocid1.compartment.oc1..aaaaaaaam3we6vgnherjq5cvbq2idnccdflvjsnog7mlr6rtdb25gilchfeyjxa",
+          "namespace": "example_namespace",
+          "name": "my-test-1"
+        }
+      responses:
+        200:
+          description: The full bucket representation, including fields set by the server.
+          schema:
+            $ref: '#/definitions/Bucket'
+          headers:
+            opc-client-request-id:
+              type: string
+              description: Echoes back the value passed in the opc-client-request-id header, for use by clients when debugging.
+            opc-request-id:
+              type: string
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular
+                request, provide this request ID.
+            ETag:
+              description: The entity tag for the bucket that was created.
+              type: string
+            Location:
+              description: The full path to the bucket that was created.
+              type: string
+          examples:
+            application-json: |
+              {
+                "namespace": "example_namespace",
+                "name": "example_bucket_6",
+                "compartmentId": "ocid1.compartment.oc1..aaaaaaaam3we6vgnherjq5q2idncvbccdflvjsnog7mlr6rtdb25gilchfeyjxa",
+                "createdBy": "ocid1.user.oc1..aaaaaaaavephoafuxmqlwb4t7cvbdvik5m2ibuokweo6oadif5pda7nxv2nwp3a",
+                "timeCreated": "2016-08-09T01:11:38.639Z",
+                "metadata": {},
+                "etag": "21edf865-d3d9-424f-8218-37188e803db8"
+              }
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/responses/Error'
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/responses/Error'
+        404:
+          description: Not Found
+          schema:
+            $ref: '#/responses/Error'
+        409:
+          description: Conflict
+          schema:
+            $ref: '#/responses/Error'
+        411:
+          description: Content-Length Required
+          schema:
+            $ref: '#/responses/Error'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/responses/Error'
+        default:
+          $ref: '#/responses/Error'
+
+  #----------[ Bucket ]-------------------------------------------------------------------------------------------------
+
+  /n/{namespaceName}/b/{bucketName}/:
+
+    get:
+      tags:
+        - objectStorage
+      summary: GET Bucket
+      operationId: GetBucket
+      x-related-resource: '#/definitions/Bucket'
+      description: |
+        Gets the current representation of the given bucket in the given namespace.
+      parameters:
+        - $ref: '#/parameters/NamespacePathParam'
+        - $ref: '#/parameters/BucketPathParam'
+        - $ref: '#/parameters/IfMatchHeader'
+        - $ref: '#/parameters/IfNoneMatchHeader'
+        - $ref: '#/parameters/ClientRequestIdHeader'
+      x-example: |
+        GET /n/example_namespace/b/example_bucket HTTP/1.1
+        Host: objectstorage.us-phoenix-1.oraclecloud.com
+        connection: keep-alive
+        accept-encoding: gzip, deflate
+        accept: */*
+        user-agent: python-requests/2.11.0
+        date: Fri, 12 Aug 2016 22:52:33 GMT
+        authorization: <var>&lt;authorization_string&gt;</var>
+      responses:
+        200:
+          description: A bucket representation for the requested bucket.
+          schema:
+            $ref: '#/definitions/Bucket'
+          headers:
+            opc-client-request-id:
+              type: string
+              description: Echoes back the value passed in the opc-client-request-id header, for use by clients when debugging.
+            opc-request-id:
+              type: string
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular
+                request, provide this request ID.
+            ETag:
+              type: string
+              description: The current entity tag for the bucket.
+          examples:
+            application-json: |
+              {
+                "namespace": "example_namespace",
+                "name": "example_bucket",
+                "compartmentId": "ocid1.compartment.oc1..aaaaaaaam3we6vgnherjq5q2idncvbccdflvjsnog7mlr6rtdb25gilchfeyjxa",
+                "createdBy": "ocid1.user.oc1..aaaaaaaabtbjyjp3dbfdthepdzgecvb2s336zq6xyfrrtvir2q4kiqnepsokywq",
+                "timeCreated": "2016-08-08T03:48:40.511Z",
+                "metadata": {},
+                "etag": "9282a931-6367-4e8a-85d0-cfe9796b20ef"
+              }
+        304:
+          description: Not Modified
+          headers:
+            opc-client-request-id:
+              type: string
+              description: Echoes back the value passed in the opc-client-request-id header, for use by clients when debugging.
+            opc-request-id:
+              type: string
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular
+                request, provide this request ID.
+            ETag:
+              type: string
+              description: The current entity tag for the bucket.
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/responses/Error'
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/responses/Error'
+        404:
+          description: Not Found
+          schema:
+            $ref: '#/responses/Error'
+        412:
+          description: Precondition Failed
+          schema:
+            $ref: '#/responses/Error'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/responses/Error'
+        default:
+          $ref: '#/responses/Error'
+
+    head:
+      tags:
+        - objectStorage
+      summary: HEAD Bucket
+      operationId: HeadBucket
+      x-related-resource: '#/definitions/Bucket'
+      description: |
+        Efficiently checks to see if a bucket exists and gets the current ETag for the bucket.
+      parameters:
+        - $ref: '#/parameters/NamespacePathParam'
+        - $ref: '#/parameters/BucketPathParam'
+        - $ref: '#/parameters/IfMatchHeader'
+        - $ref: '#/parameters/IfNoneMatchHeader'
+        - $ref: '#/parameters/ClientRequestIdHeader'
+      x-example: |
+        HEAD /n/example_namespace/b/example_bucket HTTP/1.1
+        Host: objectstorage.us-phoenix-1.oraclecloud.com
+        connection: keep-alive
+        accept-encoding: gzip, deflate
+        accept: */*
+        user-agent: python-requests/2.11.0
+        date: Fri, 12 Aug 2016 22:52:33 GMT
+        authorization: <var>&lt;authorization_string&gt;</var>
+      responses:
+        200:
+          description: The bucket exists.
+          headers:
+            opc-client-request-id:
+              type: string
+              description: Echoes back the value passed in the opc-client-request-id header, for use by clients when debugging.
+            opc-request-id:
+              type: string
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular
+                request, provide this request ID.
+            ETag:
+              type: string
+              description: The current entity tag for the bucket.
+        304:
+          description: Not Modified
+          headers:
+            opc-client-request-id:
+              type: string
+              description: Echoes back the value passed in the opc-client-request-id header, for use by clients when debugging.
+            opc-request-id:
+              type: string
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular
+                request, provide this request ID.
+            ETag:
+              type: string
+              description: The current entity tag for the bucket.
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/responses/Error'
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/responses/Error'
+        404:
+          description: Not Found
+          schema:
+            $ref: '#/responses/Error'
+        412:
+          description: Precondition Failed
+          schema:
+            $ref: '#/responses/Error'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/responses/Error'
+        default:
+          $ref: '#/responses/Error'
+
+    post:
+      tags:
+        - objectStorage
+      summary: POST Bucket
+      operationId: UpdateBucket
+      x-related-resource: '#/definitions/Bucket'
+      description: |
+        Performs a partial or full update of a bucket's user-defined metadata.
+      parameters:
+        - $ref: '#/parameters/NamespacePathParam'
+        - $ref: '#/parameters/BucketPathParam'
+        - $ref: '#/parameters/IfMatchHeader'
+        - $ref: '#/parameters/ClientRequestIdHeader'
+        - name: UpdateBucketDetails
+          description: Request object for updating a bucket.
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/UpdateBucketDetails'
+      x-example: |
+        POST /n/example_namespace/b/example_bucket HTTP/1.1
+        Host: objectstorage.us-phoenix-1.oraclecloud.com
+        connection: keep-alive
+        accept-encoding: gzip, deflate
+        accept: */*
+        user-agent: python-requests/2.10.0
+        date: Tue, 23 Aug 2016 21:01:55 GMT
+        x-content-sha256: XK0yY+agfR3IHWjFyQlO5LCU8IysvgpDdDGSRrb/xzA=
+        Content-Length: 80
+        content-type: application/json
+        authorization: <var>&lt;authorization_string&gt;</var>
+        {
+          "namespace": "example_namespace",
+          "name": "example_bucket",
+          "metadata":
+            {
+              "foo": "bar"
+            }
+        }
+      responses:
+        200:
+          description: The full representation of the bucket, including fields set by the server.
+          schema:
+            $ref: '#/definitions/Bucket'
+          headers:
+            opc-client-request-id:
+              type: string
+              description: Echoes back the value passed in the opc-client-request-id header, for use by clients when debugging.
+            opc-request-id:
+              type: string
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular
+                request, provide this request ID.
+            ETag:
+              type: string
+              description: The entity tag for the updated bucket.
+          examples:
+            application-json: |
+              {
+                "compartmentId": "ocid1.compartment.oc1..aaaaaaaafsibchi6223zl2ctjwfnsvkpfienjx65zhei5wv2hkkoak5vghmq",
+                "createdBy": "ocid1.user.oc1..aaaaaaaai4acamh234aal2uiiaqaauvpxqxp333obxi6y3rrynljvhd5b6bq",
+                "etag": "82361183-a765-4e51-be48-933518c6ee5a",
+                "metadata":
+                  {
+                    "foo": "bar"
+                  },
+                "name": "example_bucket",
+                "namespace": "example_namespace",
+                "timeCreated": "2016-08-23T20:58:02.497Z"
+              }
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/responses/Error'
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/responses/Error'
+        404:
+          description: Not Found
+          schema:
+            $ref: '#/responses/Error'
+        409:
+          description: Conflict
+          schema:
+            $ref: '#/responses/Error'
+        412:
+          description: Precondition Failed
+          schema:
+            $ref: '#/responses/Error'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/responses/Error'
+        default:
+          $ref: '#/responses/Error'
+
+    delete:
+      tags:
+        - objectStorage
+      summary: DELETE Bucket
+      operationId: DeleteBucket
+      x-related-resource: '#/definitions/Bucket'
+      description: |
+        Deletes a bucket if it is already empty. If the bucket is not empty, use [DeleteObject](#/en/objectstorage/20160918/methods/DeleteObject) first.
+      parameters:
+        - $ref: '#/parameters/NamespacePathParam'
+        - $ref: '#/parameters/BucketPathParam'
+        - $ref: '#/parameters/IfMatchHeader'
+        - $ref: '#/parameters/ClientRequestIdHeader'
+      x-example: |
+        DELETE /n/example_namespace/b/example_bucket HTTP/1.1
+        Host: objectstorage.us-phoenix-1.oraclecloud.com
+        connection: keep-alive
+        accept-encoding: gzip, deflate
+        accept: */*
+        user-agent: python-requests/2.11.0
+        date: Fri, 12 Aug 2016 23:04:28 GMT
+        content-length: 0
+        authorization: <var>&lt;authorization_string&gt;</var>
+      responses:
+        204:
+          description: The response body is always empty.
+          headers:
+            opc-client-request-id:
+              type: string
+              description: Echoes back the value passed in the opc-client-request-id header, for use by clients when debugging.
+            opc-request-id:
+              type: string
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular
+                request, provide this request ID.
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/responses/Error'
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/responses/Error'
+        404:
+          description: Not Found
+          schema:
+            $ref: '#/responses/Error'
+        409:
+          description: Conflict
+          schema:
+            $ref: '#/responses/Error'
+        412:
+          description: Precondition Failed
+          schema:
+            $ref: '#/responses/Error'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/responses/Error'
+        default:
+          $ref: '#/responses/Error'
+
+  #----------[ Object Rename ]--------------------------------------------------------------------------------------
+
+  /n/{namespaceName}/b/{bucketName}/actions/renameObject:
+
+    post:
+      tags:
+        - objectStorage
+      summary: RenameObject
+      description: |
+        Rename an object from source key to target key in the given namespace.
+      operationId: RenameObject
+      x-related-resource: '#/definitions/Object'
+      parameters:
+        - $ref: '#/parameters/NamespacePathParam'
+        - $ref: '#/parameters/BucketPathParam'
+        - $ref: '#/parameters/ClientRequestIdHeader'
+        - name: RenameObjectDetails
+          description: The sourceName and newName of rename operation.
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/RenameObjectDetails'
+      x-example: |
+        POST /n/example_namespace/b/example_bucket/actions/renameObject HTTP/1.1
+        Host: objectstorage.us-phoenix-1.oraclecloud.com
+        connection: keep-alive
+        accept-encoding: gzip, deflate
+        accept: */*
+        user-agent: python-requests/2.11.0
+        date: Fri, 12 Aug 2016 22:50:18 GMT
+        content-type: application/json
+        authorization: <var>&lt;authorization_string&gt;</var>
+        {
+            “sourceName" : “Source",
+            “newName" : "Target",
+            "srcObjIfMatchETag": "*",
+            "newObjIfMatchETag": "*",
+            "newObjIfNoneMatchETag": "*"
+        }
+      responses:
+        200:
+          description: The object was successfully renamed.
+          headers:
+            opc-client-request-id:
+              type: string
+              description: Echoes back the value passed in the opc-client-request-id header, for use by clients when debugging.
+            opc-request-id:
+              type: string
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular
+                request, provide this request ID.
+            ETag:
+              type: string
+              description: The entity tag for the object.
+            last-modified:
+              type: string
+              format: date-time
+              description: The time the object was modified, as described in [RFC 2616](https://tools.ietf.org/rfc/rfc2616), section 14.29.
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/responses/Error'
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/responses/Error'
+        404:
+          description: Not Found
+          schema:
+            $ref: '#/responses/Error'
+        412:
+          description: Precondition Failed
+          schema:
+            $ref: '#/responses/Error'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/responses/Error'
+        default:
+          $ref: '#/responses/Error'
+
+  #----------[ Object Collection ]--------------------------------------------------------------------------------------
+
+  /n/{namespaceName}/b/{bucketName}/o:
+
+    get:
+      tags:
+        - objectStorage
+      summary: List Objects
+      operationId: ListObjects
+      x-related-resource: '#/definitions/Object'
+      description: |
+        Lists the objects in a bucket.
+
+        To use this and other API operations, you must be authorized in an IAM policy. If you're not authorized,
+        talk to an administrator. If you're an administrator who needs to write policies to give users access, see
+        [Getting Started with Policies](/Content/Identity/Concepts/policygetstarted.htm).
+      parameters:
+        - $ref: '#/parameters/NamespacePathParam'
+        - $ref: '#/parameters/BucketPathParam'
+        - $ref: '#/parameters/PrefixQueryParam'
+        - $ref: '#/parameters/StartWithQueryParam'
+        - $ref: '#/parameters/EndBeforeQueryParam'
+        - $ref: '#/parameters/PaginationLimitQueryParam'
+        - $ref: '#/parameters/DelimiterQueryParam'
+        - $ref: '#/parameters/FieldsQueryParam'
+        - $ref: '#/parameters/ClientRequestIdHeader'
+      x-example: |
+        GET /n/example_namespace/b/example_bucket/o HTTP/1.1
+        Host: objectstorage.us-phoenix-1.oraclecloud.com
+        connection: keep-alive
+        accept-encoding: gzip, deflate
+        accept: */*
+        user-agent: python-requests/2.11.0
+        date: Fri, 12 Aug 2016 23:00:25 GMT
+        authorization: <var>&lt;authorization_string&gt;</var>
+      responses:
+        200:
+          description: List of object summaries, including optional prefixes and, in a truncated response, the name of the object to start next page of results.
+          schema:
+            $ref: '#/definitions/ListObjects'
+          headers:
+            opc-client-request-id:
+              type: string
+              description: Echoes back the value passed in the opc-client-request-id header, for use by clients when debugging.
+            opc-request-id:
+              type: string
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular
+                request, provide this request ID.
+          examples:
+            application-json: |
+                {
+                  "objects": [
+                    {
+                      "name": "1MB.data"
+                    }
+                  ]
+                }
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/responses/Error'
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/responses/Error'
+        404:
+          description: Not Found
+          schema:
+            $ref: '#/responses/Error'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/responses/Error'
+        default:
+          $ref: '#/responses/Error'
+
+  #----------[ Object ]-------------------------------------------------------------------------------------------------
+
+  /n/{namespaceName}/b/{bucketName}/o/{objectName}:
+
+    get:
+      tags:
+        - objectStorage
+      summary: GET Object
+      operationId: GetObject
+      x-related-resource: '#/definitions/Object'
+      description: |
+        Gets the metadata and body of an object.
+      parameters:
+        - $ref: '#/parameters/NamespacePathParam'
+        - $ref: '#/parameters/BucketPathParam'
+        - $ref: '#/parameters/ObjectPathParam'
+        - $ref: '#/parameters/IfMatchHeader'
+        - $ref: '#/parameters/IfNoneMatchHeader'
+        - $ref: '#/parameters/ClientRequestIdHeader'
+        - $ref: '#/parameters/RangeRequestHeader'
+      x-example: |
+        GET /n/example_namespace/b/example_bucket/o/dummy_object HTTP/1.1
+        Host: objectstorage.us-phoenix-1.oraclecloud.com
+        connection: keep-alive
+        accept-encoding: gzip, deflate
+        accept: */*
+        user-agent: python-requests/2.10.0
+        date: Fri, 19 Aug 2016 23:43:49 GMT
+        authorization: <var>&lt;authorization_string&gt;</var>
+      responses:
+        200:
+          description: The object metadata and bytes.
+          schema:
+            type: string
+            format: binary
+          headers:
+            opc-client-request-id:
+              type: string
+              description: Echoes back the value passed in the opc-client-request-id header, for use by clients when debugging.
+            opc-request-id:
+              type: string
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular
+                request, provide this request ID.
+            ETag:
+              type: string
+              description: The entity tag for the object.
+            opc-meta-*:
+              type: string
+              description: The user-defined metadata for the object.
+              x-obmcs-header-collection: true
+              x-obmcs-prefix: opc-meta-
+            content-length:
+              type: integer
+              format: int64
+              description: The object size in bytes.
+            content-range:
+              type: string
+              description: Content-Range header for range requests, per [RFC 7233](https://tools.ietf.org/rfc/rfc7233), section 4.2.
+            content-md5:
+              type: string
+              description: |
+                Content-MD5 header, as described in [RFC 2616](https://tools.ietf.org/rfc/rfc2616), section 14.15.
+                Unavailable for objects uploaded using multipart upload.
+            opc-multipart-md5:
+              type: string
+              description: |
+                Only applicable to objects uploaded using multipart upload.
+                Base-64 representation of the multipart object hash.
+                The multipart object hash is calculated by taking the MD5 hashes of the parts,
+                concatenating the binary representation of those hashes in order of their part numbers,
+                and then calculating the MD5 hash of the concatenated values.
+            content-type:
+              type: string
+              description: Content-Type header, as described in [RFC 2616](https://tools.ietf.org/rfc/rfc2616), section 14.17.
+            content-language:
+              type: string
+              description: Content-Language header, as described in [RFC 2616](https://tools.ietf.org/rfc/rfc2616), section 14.12.
+            content-encoding:
+              type: string
+              description: Content-Encoding header, as described in [RFC 2616](https://tools.ietf.org/rfc/rfc2616), section 14.11.
+            last-modified:
+              type: string
+              format: date-time
+              description: The object modification time, as described in [RFC 2616](https://tools.ietf.org/rfc/rfc2616), section 14.29.
+            archival-state:
+              type: string
+              enum:
+              - AVAILABLE
+              - ARCHIVED
+              - RESTORING
+              - RESTORED
+              description: The current state of the object.
+            time-of-archival:
+              type: string
+              format: date-time
+              description: Time that the object is returned to the archived state. This field is only present for restored objects.
+          examples:
+            application-json: |
+              {
+                "ETag": "3A63FDC17F6B9AADE053C20610AC801F",
+                "MD5": "36Gwtu9HoVxgCwlKk+VgAg==",
+                "Size": "12",
+                "Trace ID": "d13fe5a5-0358-9d32-a25c-d6864b5b9a64"
+              }
+        304:
+          description: Not Modified
+          headers:
+            opc-client-request-id:
+              type: string
+              description: Echoes back the value passed in the opc-client-request-id header, for use by clients when debugging.
+            opc-request-id:
+              type: string
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular
+                request, provide this request ID.
+            ETag:
+              type: string
+              description: The entity tag for the object.
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/responses/Error'
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/responses/Error'
+        404:
+          description: Not Found
+          schema:
+            $ref: '#/responses/Error'
+        409:
+          description: Conflict
+          schema:
+            $ref: '#/responses/Error'
+        412:
+          description: Precondition Failed
+          schema:
+            $ref: '#/responses/Error'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/responses/Error'
+        default:
+          $ref: '#/responses/Error'
+
+    head:
+      tags:
+        - objectStorage
+      summary: HEAD Object
+      operationId: HeadObject
+      x-related-resource: '#/definitions/Object'
+      description: |
+        Gets the user-defined metadata and entity tag for an object.
+      parameters:
+        - $ref: '#/parameters/NamespacePathParam'
+        - $ref: '#/parameters/BucketPathParam'
+        - $ref: '#/parameters/ObjectPathParam'
+        - $ref: '#/parameters/IfMatchHeader'
+        - $ref: '#/parameters/IfNoneMatchHeader'
+        - $ref: '#/parameters/ClientRequestIdHeader'
+      x-example: |
+        HEAD /n/example_namespace/b/example_bucket/o/dummy_object HTTP/1.1
+        Host: objectstorage.us-phoenix-1.oraclecloud.com
+        connection: keep-alive
+        accept-encoding: gzip, deflate
+        accept: */*
+        user-agent: python-requests/2.10.0
+        date: Fri, 19 Aug 2016 23:39:51 GMT
+        authorization: <var>&lt;authorization_string&gt;</var>
+      responses:
+        200:
+          description: The object metadata and bytes.
+          headers:
+            opc-client-request-id:
+              type: string
+              description: Echoes back the value passed in the opc-client-request-id header, for use by clients when debugging.
+            opc-request-id:
+              type: string
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular
+                request, provide this request ID.
+            ETag:
+              type: string
+              description: The entity tag for the object.
+            opc-meta-*:
+              type: string
+              description: The user-defined metadata for the object.
+              x-obmcs-header-collection: true
+              x-obmcs-prefix: opc-meta-
+            content-length:
+              type: integer
+              format: int64
+              description: The object size in bytes.
+            content-md5:
+              type: string
+              description: |
+                Content-MD5 header, as described in [RFC 2616](https://tools.ietf.org/rfc/rfc2616), section 14.15.
+                Unavailable for objects uploaded using multipart upload.
+            opc-multipart-md5:
+              type: string
+              description: |
+                Only applicable to objects uploaded using multipart upload.
+                Base-64 representation of the multipart object hash.
+                The multipart object hash is calculated by taking the MD5 hashes of the parts,
+                concatenating the binary representation of those hashes in order of their part numbers,
+                and then calculating the MD5 hash of the concatenated values.
+            content-type:
+              type: string
+              description: Content-Type header, as described in [RFC 2616](https://tools.ietf.org/rfc/rfc2616), section 14.17.
+            content-language:
+              type: string
+              description: Content-Language header, as described in [RFC 2616](https://tools.ietf.org/rfc/rfc2616), section 14.12.
+            content-encoding:
+              type: string
+              description: Content-Encoding header, as described in [RFC 2616](https://tools.ietf.org/rfc/rfc2616), section 14.11.
+            last-modified:
+              type: string
+              format: date-time
+              description: The object modification time, as described in [RFC 2616](https://tools.ietf.org/rfc/rfc2616), section 14.29.
+            archival-state:
+              type: string
+              enum:
+              - AVAILABLE
+              - ARCHIVED
+              - RESTORING
+              - RESTORED
+              description: The current state of the object.
+            time-of-archival:
+              type: string
+              format: date-time
+              description: Time that the object is returned to the archived state. This field is only present for restored objects.
+        304:
+          description: Not Modified
+          headers:
+            opc-client-request-id:
+              type: string
+              description: Echoes back the value passed in the opc-client-request-id header, for use by clients when debugging.
+            opc-request-id:
+              type: string
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular
+                request, provide this request ID.
+            ETag:
+              type: string
+              description: The entity tag for the object.
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized
+        404:
+          description: Not Found
+        412:
+          description: Precondition Failed
+          schema:
+            $ref: '#/responses/Error'
+        500:
+          description: Internal Server Error
+        default:
+          $ref: '#/responses/Error'
+
+    put:
+      tags:
+        - objectStorage
+      summary: PUT Object
+      operationId: PutObject
+      x-related-resource: '#/definitions/Object'
+      description: |
+        Creates a new object or overwrites an existing one.
+      parameters:
+        - $ref: '#/parameters/NamespacePathParam'
+        - $ref: '#/parameters/BucketPathParam'
+        - $ref: '#/parameters/ObjectPathParam'
+        - $ref: '#/parameters/IfMatchHeader'
+        - $ref: '#/parameters/IfNoneMatchHeader'
+        - $ref: '#/parameters/ClientRequestIdHeader'
+        - $ref: '#/parameters/Expect100ContinueHeader'
+        - $ref: '#/parameters/RequiredContentLengthHeader'
+        - $ref: '#/parameters/OptionalContentMD5Header'
+        - $ref: '#/parameters/OptionalContentTypeHeader'
+        - $ref: '#/parameters/OptionalContentLanguageHeader'
+        - $ref: '#/parameters/OptionalContentEncodingHeader'
+        - $ref: '#/parameters/OpcMetaHeader'
+        - name: PutObjectBody
+          description: The object to upload to the object store.
+          required: true
+          in: body
+          schema:
+            type: string
+            format: binary
+      x-example: |
+        PUT /n/example_namespace/b/example_bucket/o/example_object HTTP/1.1
+        Host: objectstorage.us-phoenix-1.oraclecloud.com
+        Connection: keep-alive
+        Accept-Encoding: gzip, deflate
+        Accept: */*
+        User-Agent: python-requests/2.11.0
+        date: Fri, 12 Aug 2016 22:55:34 GMT
+        Content-Length: 128
+        authorization: <var>&lt;authorization string&gt;</var>
+      responses:
+        200:
+          description: The object was successfully created.
+          headers:
+            opc-client-request-id:
+              type: string
+              description: Echoes back the value passed in the opc-client-request-id header, for use by clients when debugging.
+            opc-request-id:
+              type: string
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular
+                request, provide this request ID.
+            opc-content-md5:
+              type: string
+              description: The base-64 encoded MD5 hash of the request body as computed by the server.
+            ETag:
+              type: string
+              description: The entity tag for the object.
+            last-modified:
+              type: string
+              format: date-time
+              description: The time the object was modified, as described in [RFC 2616](https://tools.ietf.org/rfc/rfc2616), section 14.29.
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/responses/Error'
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/responses/Error'
+        404:
+          description: Not Found
+          schema:
+            $ref: '#/responses/Error'
+        409:
+          description: Conflict
+          schema:
+            $ref: '#/responses/Error'
+        412:
+          description: Precondition Failed
+          schema:
+            $ref: '#/responses/Error'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/responses/Error'
+        default:
+          $ref: '#/responses/Error'
+
+    delete:
+      tags:
+        - objectStorage
+      summary: DELETE Object
+      operationId: DeleteObject
+      x-related-resource: '#/definitions/Object'
+      description: |
+        Deletes an object.
+      parameters:
+        - $ref: '#/parameters/NamespacePathParam'
+        - $ref: '#/parameters/BucketPathParam'
+        - $ref: '#/parameters/ObjectPathParam'
+        - $ref: '#/parameters/IfMatchHeader'
+        - $ref: '#/parameters/ClientRequestIdHeader'
+      x-example: |
+        DELETE /n/example_namespace/b/example_bucket/o/example_object HTTP/1.1
+        Host: objectstorage.us-phoenix-1.oraclecloud.com
+        connection: keep-alive
+        accept-encoding: gzip, deflate
+        accept: */*
+        user-agent: python-requests/2.11.0
+        date: Fri, 12 Aug 2016 23:01:51 GMT
+        content-length: 0
+        authorization: <var>&lt;authorization_string&gt;</var>
+      responses:
+        204:
+          description: The object was successfully deleted.
+          headers:
+            opc-client-request-id:
+              type: string
+              description: Echoes back the value passed in the opc-client-request-id header, for use by clients when debugging.
+            opc-request-id:
+              type: string
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular
+                request, provide this request ID.
+            last-modified:
+              type: string
+              format: date-time
+              description: The time the object was deleted, as described in [RFC 2616](https://tools.ietf.org/rfc/rfc2616), section 14.29.
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/responses/Error'
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/responses/Error'
+        404:
+          description: Not Found
+          schema:
+            $ref: '#/responses/Error'
+        409:
+          description: Conflict
+          schema:
+            $ref: '#/responses/Error'
+        412:
+          description: Precondition Failed
+          schema:
+            $ref: '#/responses/Error'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/responses/Error'
+        default:
+          $ref: '#/responses/Error'
+  #----------[ Restore Object]---------------------------------------------------------------------------
+  /n/{namespaceName}/b/{bucketName}/actions/restoreObjects:
+    post:
+      tags:
+        - objectStorage
+      summary: RestoreObjects
+      description: |
+        Restore one or more objects specified by objectName parameter.
+      operationId: RestoreObjects
+      x-related-resource: '#/definitions/Object'
+      parameters:
+        - $ref: '#/parameters/NamespacePathParam'
+        - $ref: '#/parameters/BucketPathParam'
+        - $ref: '#/parameters/ClientRequestIdHeader'
+        - name: RestoreObjectsDetails
+          description: Request to restore objects.
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/RestoreObjectsDetails'
+      x-example: |
+        POST /n/example_namespace/b/example_bucket/actions/restoreObjects HTTP/1.1
+        Host: objectstorage.us-phoenix-1.oraclecloud.com
+        connection: keep-alive
+        accept-encoding: gzip, deflate
+        accept: */*
+        user-agent: python-requests/2.11.0
+        date: Fri, 12 Aug 2017 23:01:51 GMT
+        content-length: 0
+        authorization: <var>&lt;authorization_string&gt;</var>
+        {
+          "objectName" : "objectNameFoo"
+        }
+      responses:
+        200:
+          description: The object is already restored.
+          headers:
+            opc-client-request-id:
+              type: string
+              description: Echoes back the value passed in the opc-client-request-id header, for use by clients when debugging.
+            opc-request-id:
+              type: string
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular
+                request, provide this request ID.
+        202:
+          description: Accepted the request. The object will be restored.
+          headers:
+            opc-client-request-id:
+              type: string
+              description: Echoes back the value passed in the opc-client-request-id header, for use by clients when debugging.
+            opc-request-id:
+              type: string
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular
+                request, provide this request ID.
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/responses/Error'
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/responses/Error'
+        404:
+          description: Not Found
+          schema:
+            $ref: '#/responses/Error'
+        409:
+          description: Conflict. A restore operation is already in progress.
+          schema:
+            $ref: '#/responses/Error'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/responses/Error'
+        default:
+          $ref: '#/responses/Error'
+
+  #----------[ Multi-Part Upload Collection ]---------------------------------------------------------------------------
+
+  /n/{namespaceName}/b/{bucketName}/u:
+
+    get:
+      tags:
+        - objectStorage
+      summary: List Multipart Uploads
+      operationId: ListMultipartUploads
+      x-related-resource: '#/definitions/Object'
+      description: |
+        Lists all in-progress multipart uploads for the given bucket in the given namespace.
+      parameters:
+        - $ref: '#/parameters/NamespacePathParam'
+        - $ref: '#/parameters/BucketPathParam'
+        - $ref: '#/parameters/PaginationLimitQueryParam'
+        - $ref: '#/parameters/PaginationTokenQueryParam'
+        - $ref: '#/parameters/ClientRequestIdHeader'
+      x-example: |
+        GET /n/example_namespace/b/example_bucket/u HTTP/1.1
+        Host: objectstorage.us-phoenix-1.oraclecloud.com
+        User-Agent: curl/7.43.0
+        Accept: */*
+        Date: Fri, 10 Mar 2017 11:19:32 GMT
+        Authorization: <var>&lt;authorization_string&gt;</var>
+      responses:
+        200:
+          description: The list of in-progress multipart uploads.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/MultipartUpload'
+          headers:
+            opc-client-request-id:
+              type: string
+              description: Echoes back the value passed in the opc-client-request-id header, for use by clients when debugging.
+            opc-request-id:
+              type: string
+              description: |
+                  Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular
+                  request, provide this request ID.
+            opc-next-page:
+                type: string
+                description: |
+                  For pagination of a list of `MultipartUpload`s. If this header appears in the response, then
+                  this is a partial list of multipart uploads. Include this value as the `page` parameter in a subsequent
+                  GET request. For information about pagination, see [List Pagination](/Content/API/Concepts/usingapi.htm).
+          examples:
+            application-json: |
+              [
+                {
+                  "namespace": "example_namespace",
+                  "bucket": "example_bucket",
+                  "object": "example_object1",
+                  "uploadId": "c892336f-ccvb-1bb8-6e75-a5649fd91178"
+                },
+                {
+                  "namespace": "example_namespace",
+                  "bucket": "example_bucket",
+                  "object": "example_object2",
+                  "uploadId": "a54f378a-49c0-acvb-189f-58959597453a"
+                }
+              ]
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/responses/Error'
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/responses/Error'
+        404:
+          description: Not Found
+          schema:
+            $ref: '#/responses/Error'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/responses/Error'
+        default:
+          $ref: '#/responses/Error'
+
+    post:
+      tags:
+        - objectStorage
+      summary: Create Multipart Upload
+      operationId: CreateMultipartUpload
+      x-related-resource: '#/definitions/Object'
+      description: |
+        Starts a new multipart upload to a specific object in the given bucket in the given namespace.
+      parameters:
+        - $ref: '#/parameters/NamespacePathParam'
+        - $ref: '#/parameters/BucketPathParam'
+        - $ref: '#/parameters/IfMatchHeader'
+        - $ref: '#/parameters/IfNoneMatchHeader'
+        - $ref: '#/parameters/ClientRequestIdHeader'
+        - name: CreateMultipartUploadDetails
+          description: Request object for creating a multi-part upload.
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/CreateMultipartUploadDetails'
+      x-example: |
+        POST /n/example_namespace/b/example_bucket/u HTTP/1.1
+        Host: objectstorage.us-phoenix-1.oraclecloud.com
+        User-Agent: curl/7.43.0
+        Accept: */*
+        Date: Fri, 10 Mar 2017 11:44:08 GMT
+        Authorization: <var>&lt;authorization_string&gt;</var>
+        {
+          "object": "example_object1"
+        }
+      responses:
+        200:
+          description: The full details of the newly created multipart upload.
+          schema:
+            $ref: '#/definitions/MultipartUpload'
+          headers:
+            opc-client-request-id:
+              type: string
+              description: Echoes back the value passed in the opc-client-request-id header, for use by clients when debugging.
+            opc-request-id:
+              type: string
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular
+                request, provide this request ID.
+            Location:
+              description: The full path to the new upload.
+              type: string
+          examples:
+            application-json: |
+              {
+                "namespace": "example_namespace",
+                "bucket": "example_bucket",
+                "object": "example_object1",
+                "uploadId": "c892336f-ccvb-1bb8-6e75-a5649fd91178"
+              }
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/responses/Error'
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/responses/Error'
+        404:
+          description: Not Found
+          schema:
+            $ref: '#/responses/Error'
+        409:
+          description: Conflict
+          schema:
+            $ref: '#/responses/Error'
+        411:
+          description: Content-Length Required
+          schema:
+            $ref: '#/responses/Error'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/responses/Error'
+        default:
+          $ref: '#/responses/Error'
+
+  #----------[ Multi-Part Upload ]--------------------------------------------------------------------------------------
+
+  /n/{namespaceName}/b/{bucketName}/u/{objectName}:
+
+    post:
+      tags:
+        - objectStorage
+      summary: Commit Multipart Upload
+      operationId: CommitMultipartUpload
+      x-related-resource: '#/definitions/Object'
+      description: |
+        Commits a multipart upload, which involves checking part numbers and ETags of the parts, to create an aggregate object.
+      parameters:
+        - $ref: '#/parameters/NamespacePathParam'
+        - $ref: '#/parameters/BucketPathParam'
+        - $ref: '#/parameters/ObjectPathParam'
+        - $ref: '#/parameters/UploadIdQueryParam'
+        - $ref: '#/parameters/IfMatchHeader'
+        - $ref: '#/parameters/IfNoneMatchHeader'
+        - $ref: '#/parameters/ClientRequestIdHeader'
+        - name: CommitMultipartUploadDetails
+          description: The part numbers and ETags for the parts you want to commit.
+          required: True
+          in: body
+          schema:
+            $ref: '#/definitions/CommitMultipartUploadDetails'
+      x-example: |
+        POST /n/example_namespace/b/example_bucket/u/example_object1?uploadid=c892336f-ccvb-1bb8-6e75-a5649fd91178 HTTP/1.1
+        Host: objectstorage.us-phoenix-1.oraclecloud.com
+        User-Agent: curl/7.43.0
+        Accept: */*
+        Content-Type: application/json
+        Content-Length: 139
+        Date: Fri, 10 Mar 2017 11:50:24 GMT
+        Authorization: <var>&lt;authorization_string&gt;</var>
+        {
+          "partsToCommit": [
+            {
+              "partNum": 1,
+              "etag": "3d240a5a-a2b0-45b2-bcvb-2ac6a02b422c"
+            },
+            {
+              "partNum": 2,
+              "etag" : "15de104e-7cvb-3513-8da1-3b5e75a65ad7"
+            }
+          ]
+        }
+      responses:
+        200:
+          description: The commit was successful.
+          headers:
+            opc-client-request-id:
+              type: string
+              description: Echoes back the value passed in the opc-client-request-id header, for use by clients when debugging.
+            opc-request-id:
+              type: string
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular
+                request, provide this request ID.
+            opc-multipart-md5:
+              type: string
+              description: |
+                Base-64 representation of the multipart object hash.
+                The multipart object hash is calculated by taking the MD5 hashes of the parts passed to this call,
+                concatenating the binary representation of those hashes in order of their part numbers,
+                and then calculating the MD5 hash of the concatenated values. The multipart object hash is followed
+                by a hyphen and the total number of parts (for example, '-6').
+            ETag:
+              type: string
+              description: The entity tag for the object.
+            last-modified:
+              type: string
+              format: date-time
+              description: The time the object was last modified, as described in [RFC 2616](https://tools.ietf.org/rfc/rfc2616), section 14.29.
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/responses/Error'
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/responses/Error'
+        404:
+          description: Not Found
+          schema:
+            $ref: '#/responses/Error'
+        409:
+          description: Conflict
+          schema:
+            $ref: '#/responses/Error'
+        412:
+          description: Precondition Failed
+          schema:
+            $ref: '#/responses/Error'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/responses/Error'
+        default:
+          $ref: '#/responses/Error'
+
+    delete:
+      tags:
+        - objectStorage
+      summary: Abort Multipart Upload
+      operationId: AbortMultipartUpload
+      x-related-resource: '#/definitions/Object'
+      description: |
+        Aborts an in-progress multipart upload and deletes all parts that have been uploaded.
+      parameters:
+        - $ref: '#/parameters/NamespacePathParam'
+        - $ref: '#/parameters/BucketPathParam'
+        - $ref: '#/parameters/ObjectPathParam'
+        - $ref: '#/parameters/UploadIdQueryParam'
+        - $ref: '#/parameters/ClientRequestIdHeader'
+      x-example: |
+        DELETE /n/example_namespace/b/example_bucket/u/example_object2?uploadid=a54f378a-49c0-acvb-189f-58959597453a HTTP/1.1
+        Host: objectstorage.us-phoenix-1.oraclecloud.com
+        User-Agent: curl/7.43.0
+        Accept: */*
+        Date: Fri, 10 Mar 2017 11:53:13 GMT
+        Authorization: <var>&lt;authorization_string&gt;</var>
+      responses:
+        204:
+          description: The abort was successful. The response body is always empty.
+          headers:
+            opc-client-request-id:
+              type: string
+              description: Echoes back the value passed in the opc-client-request-id header, for use by clients when debugging.
+            opc-request-id:
+              type: string
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular
+                request, provide this request ID.
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/responses/Error'
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/responses/Error'
+        404:
+          description: Not Found
+          schema:
+            $ref: '#/responses/Error'
+        409:
+          description: Conflict
+          schema:
+            $ref: '#/responses/Error'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/responses/Error'
+        default:
+          $ref: '#/responses/Error'
+
+    get:
+      tags:
+        - objectStorage
+      summary: List Multipart Upload Parts
+      operationId: ListMultipartUploadParts
+      x-related-resource: '#/definitions/Object'
+      description: |
+        Lists the parts of an in-progress multipart upload.
+      parameters:
+        - $ref: '#/parameters/NamespacePathParam'
+        - $ref: '#/parameters/BucketPathParam'
+        - $ref: '#/parameters/ObjectPathParam'
+        - $ref: '#/parameters/UploadIdQueryParam'
+        - $ref: '#/parameters/PaginationLimitQueryParam'
+        - $ref: '#/parameters/PaginationTokenQueryParam'
+        - $ref: '#/parameters/ClientRequestIdHeader'
+      x-example: |
+        GET /n/example_namespace/b/example_bucket/u/example_object2?uploadid=a54f378a-49c0-acvb-189f-58959597453a HTTP/1.1
+        Host: objectstorage.us-phoenix-1.oraclecloud.com
+        User-Agent: curl/7.43.0
+        Accept: */*
+        Date: Fri, 10 Mar 2017 11:50:55 GMT
+        Authorization: <var>&lt;authorization_string&gt;</var>
+      responses:
+        200:
+          description: The list of parts associated with the specified in-progress multipart upload.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/MultipartUploadPartSummary'
+          headers:
+            opc-client-request-id:
+              type: string
+              description: Echoes back the value passed in the opc-client-request-id header, for use by clients when debugging.
+            opc-request-id:
+              type: string
+              description: |
+                  Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular
+                  request, provide this request ID.
+            opc-next-page:
+                type: string
+                description: |
+                  For pagination of a list of `MultipartUploadPartSummary`s. If this header appears in the response,
+                  then this is a partial list of object parts. Include this value as the `page` parameter in a subsequent
+                  GET request to get the next batch of object parts. For information about pagination, see
+                  [List Pagination](/Content/API/Concepts/usingapi.htm).
+          examples:
+            application-json: |
+              [
+                {
+                  "partNumber": 1,
+                  "etag": "3d240a5a-a2b0-45b2-bcvb-2ac6a02b422c",
+                  "md5": "rvr3UC1SmUw7cvb2NqPN0g==",
+                  "size": 8
+                },
+                {
+                  "partNumber": 2,
+                  "etag": "15de104e-7cvb-3513-8da1-3b5e75a65ad7",
+                  "md5": "3poFVtJezCVBOi8RzhUB8Q==",
+                  "size": 8
+                }
+              ]
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/responses/Error'
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/responses/Error'
+        404:
+          description: Not Found
+          schema:
+            $ref: '#/responses/Error'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/responses/Error'
+        default:
+          $ref: '#/responses/Error'
+
+    put:
+      tags:
+        - objectStorage
+      summary: Upload Multipart Object Part
+      operationId: UploadPart
+      x-related-resource: '#/definitions/Object'
+      description: |
+        Uploads a single part of a multipart upload.
+      parameters:
+        - $ref: '#/parameters/NamespacePathParam'
+        - $ref: '#/parameters/BucketPathParam'
+        - $ref: '#/parameters/ObjectPathParam'
+        - $ref: '#/parameters/UploadIdQueryParam'
+        - $ref: '#/parameters/UploadPartNumberQueryParam'
+        - $ref: '#/parameters/ClientRequestIdHeader'
+        - $ref: '#/parameters/IfMatchHeader'
+        - $ref: '#/parameters/IfNoneMatchHeader'
+        - $ref: '#/parameters/Expect100ContinueHeader'
+        - $ref: '#/parameters/RequiredContentLengthHeader'
+        - $ref: '#/parameters/OptionalContentMD5Header'
+        - name: UploadPartBody
+          description: The part being uploaded to the Object Storage Service.
+          required: true
+          in: body
+          schema:
+            type: string
+            format: binary
+      x-example: |
+        PUT /n/example_namespace/b/example_bucket/u/example_object2?uploadid=a54f378a-49c0-acvb-189f-58959597453a&uploadPartNum=1 HTTP/1.1
+        Host: objectstorage.us-phoenix-1.oraclecloud.com
+        User-Agent: curl/7.43.0
+        Accept: */*
+        Content-Length: 8
+        Content-Type: application/x-www-form-urlencoded
+        Date: Fri, 10 Mar 2017 11:50:55 GMT
+        Authorization: <var>&lt;authorization_string&gt;</var>
+      responses:
+        200:
+          description: The upload of the part was successful. The response includes an ETag header.
+          headers:
+            opc-client-request-id:
+              type: string
+              description: Echoes back the value passed in the opc-client-request-id header, for use by clients when debugging.
+            opc-request-id:
+              type: string
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular
+                request, provide this request ID.
+            opc-content-md5:
+              type: string
+              description: The base64-encoded MD5 hash of the request body, as computed by the server.
+            ETag:
+              type: string
+              description: The entity tag for the object.
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/responses/Error'
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/responses/Error'
+        404:
+          description: Not Found
+          schema:
+            $ref: '#/responses/Error'
+        409:
+          description: Conflict
+          schema:
+            $ref: '#/responses/Error'
+        412:
+          description: Precondition Failed
+          schema:
+            $ref: '#/responses/Error'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/responses/Error'
+        default:
+          $ref: '#/responses/Error'
+
+  #----------[ Pre-Authenticated Requests - PARs ]--------------------------------------------------------------------------------------
+
+  /n/{namespaceName}/b/{bucketName}/p/:
+
+    post:
+      tags:
+        - objectStorage
+      summary: Create Preauthenticated Request
+      operationId: CreatePreauthenticatedRequest
+      x-related-resource: '#/definitions/PreauthenticatedRequest'
+      description: |
+        Creates a pre-authenticated request specific to the bucket.
+      parameters:
+        - $ref: '#/parameters/NamespacePathParam'
+        - $ref: '#/parameters/BucketPathParam'
+        - $ref: '#/parameters/ClientRequestIdHeader'
+        - name: CreatePreauthenticatedRequestDetails
+          description: Information needed to create the pre-authenticated request.
+          required: True
+          in: body
+          schema:
+            $ref: '#/definitions/CreatePreauthenticatedRequestDetails'
+      responses:
+        200:
+          description: The pre-authenticated request for the object was successfully created.
+          schema:
+            $ref: '#/definitions/PreauthenticatedRequest'
+          headers:
+            opc-client-request-id:
+              type: string
+              description: Echoes back the value passed in the opc-client-request-id header, for use by clients when debugging.
+            opc-request-id:
+              type: string
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular
+                request, provide this request ID.
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/responses/Error'
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/responses/Error'
+        404:
+          description: Not Found
+          schema:
+            $ref: '#/responses/Error'
+        409:
+          description: Conflict for cases where the pre-authenticated request already exists.
+          schema:
+            $ref: '#/responses/Error'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/responses/Error'
+        default:
+          $ref: '#/responses/Error'
+
+    get:
+      tags:
+        - objectStorage
+      summary: List Preauthenticated Requests
+      operationId: ListPreauthenticatedRequests
+      x-related-resource: '#/definitions/PreauthenticatedRequest'
+      description: |
+        Lists pre-authenticated requests for the bucket.
+      parameters:
+        - $ref: '#/parameters/NamespacePathParam'
+        - $ref: '#/parameters/BucketPathParam'
+        - $ref: '#/parameters/ObjectNamePrefixQueryParam'
+        - $ref: '#/parameters/PaginationLimitQueryParam'
+        - $ref: '#/parameters/PaginationTokenQueryParam'
+        - $ref: '#/parameters/ClientRequestIdHeader'
+      responses:
+        200:
+          description: Lists pre-authenticated requests metadata for this bucket and object.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/PreauthenticatedRequestSummary'
+          headers:
+            opc-client-request-id:
+              type: string
+              description: Echoes back the value passed in the opc-client-request-id header, for use by clients when debugging.
+            opc-request-id:
+              type: string
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular
+                request, provide this request ID.
+            opc-next-page:
+              type: string
+              description: |
+                For pagination of a list of pre-authenticated requests, if this header appears in the response,
+                then this is a partial list. Include this value as the `page` parameter in a subsequent
+                GET request to get the next batch of pre-authenticated requests.
+                For information about pagination, see [List Pagination](/Content/API/Concepts/usingapi.htm#nine).
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/responses/Error'
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/responses/Error'
+        404:
+          description: Not Found
+          schema:
+            $ref: '#/responses/Error'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/responses/Error'
+        default:
+          $ref: '#/responses/Error'
+
+
+  /n/{namespaceName}/b/{bucketName}/p/{parId}:
+
+    get:
+      tags:
+        - objectStorage
+      summary: GET Preauthenticated Request
+      operationId: GetPreauthenticatedRequest
+      x-related-resource: '#/definitions/PreauthenticatedRequest'
+      description: Gets the pre-authenticated request for the bucket.
+      parameters:
+        - $ref: '#/parameters/NamespacePathParam'
+        - $ref: '#/parameters/BucketPathParam'
+        - $ref: '#/parameters/PreauthenticatedRequestIdPathParam'
+        - $ref: '#/parameters/ClientRequestIdHeader'
+      responses:
+        200:
+          description: Fetches the metadata for the specified pre-authenticated request.
+          schema:
+            $ref: '#/definitions/PreauthenticatedRequestSummary'
+          headers:
+            opc-client-request-id:
+              type: string
+              description: Echoes back the value passed in the opc-client-request-id header, for use by clients when debugging.
+            opc-request-id:
+              type: string
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular
+                request, provide this request ID.
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/responses/Error'
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/responses/Error'
+        404:
+          description: The pre-authenticated request was not found.
+          schema:
+            $ref: '#/responses/Error'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/responses/Error'
+        default:
+          $ref: '#/responses/Error'
+
+
+    delete:
+      tags:
+        - objectStorage
+      summary: DELETE Preauthenticated Request
+      operationId: DeletePreauthenticatedRequest
+      x-related-resource: '#/definitions/PreauthenticatedRequest'
+      description: Deletes the pre-authenticated request for the bucket.
+      parameters:
+        - $ref: '#/parameters/NamespacePathParam'
+        - $ref: '#/parameters/BucketPathParam'
+        - $ref: '#/parameters/PreauthenticatedRequestIdPathParam'
+        - $ref: '#/parameters/ClientRequestIdHeader'
+      responses:
+        200:
+          description: Deletes the metadata for the specified pre-authenticated request.
+          headers:
+            opc-client-request-id:
+              type: string
+              description: Echoes back the value passed in the opc-client-request-id header, for use by clients when debugging.
+            opc-request-id:
+              type: string
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular
+                request, provide this request ID.
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/responses/Error'
+        401:
+          description: Unauthorized
+          schema:
+        404:
+          description: The pre-authenticated request was not found.
+          schema:
+            $ref: '#/responses/Error'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/responses/Error'
+        default:
+            $ref: '#/responses/Error'
+
+#==========[ Definitions ]==============================================================================================
+
+definitions:
+  NamespaceMetadata:
+    description: |
+      A NamespaceMetadta is a map for storing namespace and defaultS3CompartmentId, defaultSwiftCompartmentId.
+    required:
+      - namespace
+      - defaultS3CompartmentId
+      - defaultSwiftCompartmentId
+    properties:
+      namespace:
+        type: string
+        description: The namespace to which the metadata belongs.
+      defaultS3CompartmentId:
+        type: string
+        description: The default compartment ID for an S3 client.
+      defaultSwiftCompartmentId:
+        type: string
+        description: The default compartment ID for a Swift client.
+  UpdateNamespaceMetadataDetails:
+    description: |
+      An UpdateNamespaceMetadataDetails is used for update NamespaceMetadata. To be able to upate the NamespaceMetadata, a user
+       must have NAMESPACE_UPDATE permission.
+    properties:
+      defaultS3CompartmentId:
+        type: string
+        description: The update compartment id for an S3 client if this field is set.
+      defaultSwiftCompartmentId:
+        type: string
+        description: The update compartment id for a Swift client if this field is set.
+  Bucket:
+    description: |
+      A bucket is a container for storing objects in a compartment within a namespace. A bucket is associated with a single compartment.
+      The compartment has policies that indicate what actions a user can perform on a bucket and all the objects in the bucket. For more
+      information, see [Managing Buckets](/Content/Object/Tasks/managingbuckets.htm).
+
+      To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized,
+      talk to an administrator. If you're an administrator who needs to write policies to give users access, see
+      [Getting Started with Policies](/Content/Identity/Concepts/policygetstarted.htm).
+    required:
+      - namespace
+      - name
+      - compartmentId
+      - createdBy
+      - timeCreated
+      - metadata
+      - etag
+    properties:
+      namespace:
+        type: string
+        description: The namespace in which the bucket lives.
+      name:
+        type: string
+        description: |
+          The name of the bucket. Avoid entering confidential information.
+          Example: my-new-bucket1
+      compartmentId:
+        type: string
+        description: The compartment ID in which the bucket is authorized.
+      metadata:
+        additionalProperties:
+          type: string
+        type: object
+        description: Arbitrary string keys and values for user-defined metadata.
+      createdBy:
+        type: string
+        description: The OCID of the user who created the bucket.
+      timeCreated:
+        type: string
+        format: date-time
+        description: The date and time the bucket was created, as described in [RFC 2616](https://tools.ietf.org/rfc/rfc2616), section 14.29.
+      etag:
+        type: string
+        description: The entity tag for the bucket.
+      publicAccessType:
+        type: string
+        enum:
+        - NoPublicAccess
+        - ObjectRead
+        - ObjectReadWithoutList
+        description: |
+          The type of public access enabled on this bucket.
+          A bucket is set to `NoPublicAccess` by default, which only allows an authenticated caller to access the
+          bucket and its contents. When `ObjectRead` is enabled on the bucket, public access is allowed for the
+          `GetObject`, `HeadObject`, and `ListObjects` operations. When `ObjectReadWithoutList` is enabled on the
+          bucket, public access is allowed for the `GetObject` and `HeadObject` operations.
+      storageTier:
+        type: string
+        enum:
+        - Standard
+        - Archive
+        description: |
+          The type of storage tier of this bucket.
+          A bucket is set to 'Standard' tier by default, which means the bucket will be put in the standard storage tier.
+          When 'Archive' tier type is set explicitly, the bucket is put in the Archive Storage tier. The 'storageTier'
+          property is immutable once the bucket is created.
+  BucketSummary:
+    description: |
+      To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized,
+      talk to an administrator. If you're an administrator who needs to write policies to give users access, see
+      [Getting Started with Policies](/Content/Identity/Concepts/policygetstarted.htm).
+    required:
+      - namespace
+      - name
+      - compartmentId
+      - createdBy
+      - timeCreated
+      - etag
+    properties:
+      namespace:
+        type: string
+        description: The namespace in which the bucket lives.
+      name:
+        type: string
+        description: |
+          The name of the bucket. Avoid entering confidential information.
+          Example: my-new-bucket1
+      compartmentId:
+        type: string
+        description: The compartment ID in which the bucket is authorized.
+      createdBy:
+        type: string
+        description: The OCID of the user who created the bucket.
+      timeCreated:
+        type: string
+        format: date-time
+        description: The date and time the bucket was created, as described in [RFC 2616](https://tools.ietf.org/rfc/rfc2616), section 14.29.
+      etag:
+        type: string
+        description: The entity tag for the bucket.
+  CreateMultipartUploadDetails:
+    description: |
+      To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized,
+      talk to an administrator. If you're an administrator who needs to write policies to give users access, see
+      [Getting Started with Policies](/Content/Identity/Concepts/policygetstarted.htm).
+    required:
+      - object
+    properties:
+      object:
+        type: string
+        description: |
+          The name of the object to which this multi-part upload is targeted. Avoid entering confidential information.
+          Example: test/object1.log
+      contentType:
+        type: string
+        description: The content type of the object to upload.
+      contentLanguage:
+        type: string
+        description: The content language of the object to upload.
+      contentEncoding:
+        type: string
+        description: The content encoding of the object to upload.
+      metadata:
+        additionalProperties:
+          type: string
+        type: object
+        description: |
+          Arbitrary string keys and values for the user-defined metadata for the object.
+          Keys must be in "opc-meta-*" format. Avoid entering confidential information.
+  MultipartUpload:
+    description: |
+      Multipart uploads provide efficient and resilient uploads, especially for large objects. Multipart uploads also accommodate
+      objects that are too large for a single upload operation. With multipart uploads, individual parts of an object can be
+      uploaded in parallel to reduce the amount of time you spend uploading. Multipart uploads can also minimize the impact
+      of network failures by letting you retry a failed part upload instead of requiring you to retry an entire object upload.
+      See [Managing Multipart Uploads](/Content/Object/Tasks/managingmultipartuploads.htm).
+
+      To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized,
+      talk to an administrator. If you're an administrator who needs to write policies to give users access, see
+      [Getting Started with Policies](/Content/Identity/Concepts/policygetstarted.htm).
+    required:
+      - namespace
+      - bucket
+      - object
+      - uploadId
+      - timeCreated
+    properties:
+      namespace:
+        type: string
+        description: The namespace in which the in-progress multipart upload is stored.
+      bucket:
+        type: string
+        description: The bucket in which the in-progress multipart upload is stored.
+      object:
+        type: string
+        description: The object name of the in-progress multipart upload.
+      uploadId:
+        type: string
+        description: The unique identifier for the in-progress multipart upload.
+      timeCreated:
+        type: string
+        format: date-time
+        description: The date and time the upload was created, as described in [RFC 2616](https://tools.ietf.org/rfc/rfc2616), section 14.29.
+  MultipartUploadPartSummary:
+    description: |
+      Get summary information about multipart uploads.
+      To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized,
+      talk to an administrator. If you're an administrator who needs to write policies to give users access, 
+      see [Getting Started with Policies](/Content/Identity/Concepts/policygetstarted.htm).
+    required:
+      - etag
+      - md5
+      - size
+      - partNumber
+    properties:
+      etag:
+        type: string
+        description: The current entity tag for the part.
+      md5:
+        type: string
+        description: The MD5 hash of the bytes of the part.
+      size:
+        type: integer
+        format: int64
+        description: The size of the part in bytes.
+      partNumber:
+        type: integer
+        description: The part number for this part.
+  CommitMultipartUploadDetails:
+    description: |
+      To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized,
+      talk to an administrator. If you're an administrator who needs to write policies to give users access, see
+      [Getting Started with Policies](/Content/Identity/Concepts/policygetstarted.htm).
+    required:
+      - partsToCommit
+    properties:
+      partsToCommit:
+        type: array
+        items:
+          $ref: '#/definitions/CommitMultipartUploadPartDetails'
+        description: The part numbers and ETags for the parts to be committed.
+      partsToExclude:
+        type: array
+        items:
+          type: integer
+        description: |
+          The part numbers for the parts to be excluded from the completed object.
+          Each part created for this upload must be in either partsToExclude or partsToCommit, but cannot be in both.
+  CommitMultipartUploadPartDetails:
+    description: |
+      To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized,
+      talk to an administrator. If you're an administrator who needs to write policies to give users access, see
+      [Getting Started with Policies](/Content/Identity/Concepts/policygetstarted.htm).
+    required:
+      - partNum
+      - etag
+    properties:
+      partNum:
+        type: integer
+        description: The part number for this part.
+      etag:
+        type: string
+        description: The ETag returned when this part was uploaded.
+  # TODO: document the max size of this object, and the max size of the metadata field (these are separate).
+  CreateBucketDetails:
+    description: |
+      To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized,
+      talk to an administrator. If you're an administrator who needs to write policies to give users access, see
+      [Getting Started with Policies](/Content/Identity/Concepts/policygetstarted.htm).
+    required:
+      - name
+      - compartmentId
+    properties:
+      name:
+        type: string
+        description: |
+          The name of the bucket. Valid characters are uppercase or lowercase letters,
+          numbers, and dashes. Bucket names must be unique within the namespace. Avoid entering confidential information.
+          example: Example: my-new-bucket1
+        maxLength: 63
+        minLength: 1
+      compartmentId:
+        type: string
+        description: The ID of the compartment in which to create the bucket.
+      metadata:
+        additionalProperties:
+          type: string
+        type: object
+        description: Arbitrary string, up to 4KB, of keys and values for user-defined metadata.
+      publicAccessType:
+        type: string
+        enum:
+        - NoPublicAccess
+        - ObjectRead
+        - ObjectReadWithoutList
+        description: |
+         The type of public access enabled on this bucket.
+         A bucket is set to `NoPublicAccess` by default, which only allows an authenticated caller to access the
+         bucket and its contents. When `ObjectRead` is enabled on the bucket, public access is allowed for the
+         `GetObject`, `HeadObject`, and `ListObjects` operations. When `ObjectReadWithoutList` is enabled on the bucket,
+         public access is allowed for the `GetObject` and `HeadObject` operations.
+      storageTier:
+        type: string
+        enum:
+        - Standard
+        - Archive
+        description: |
+          The type of storage tier of this bucket.
+          A bucket is set to 'Standard' tier by default, which means the bucket will be put in the standard storage tier.
+          When 'Archive' tier type is set explicitly, the bucket is put in the Archive Storage tier. The 'storageTier'
+          property is immutable after bucket is created.
+  # TODO: document the max size of this object, and the max size of the metadata field (these are separate).
+  UpdateBucketDetails:
+    description: |
+      To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized,
+      talk to an administrator. If you're an administrator who needs to write policies to give users access, see
+      [Getting Started with Policies](/Content/Identity/Concepts/policygetstarted.htm).
+    properties:
+      namespace:
+        type: string
+        description: The namespace in which the bucket lives.
+      compartmentId:
+              type: string
+              description: The compartmentId for the compartment to which the bucket is targeted to move to.
+      name:
+        type: string
+        description: |
+          The name of the bucket. Avoid entering confidential information.
+          Example: my-new-bucket1
+      metadata:
+        additionalProperties:
+          type: string
+        type: object
+        description: Arbitrary string, up to 4KB, of keys and values for user-defined metadata.
+      publicAccessType:
+        type: string
+        enum:
+        - NoPublicAccess
+        - ObjectRead
+        - ObjectReadWithoutList
+        description: |
+          The type of public access enabled on this bucket. A bucket is set to `NoPublicAccess` by default, which only allows an
+          authenticated caller to access the bucket and its contents. When `ObjectRead` is enabled on the bucket, public access
+          is allowed for the `GetObject`, `HeadObject`, and `ListObjects` operations. When `ObjectReadWithoutList` is enabled
+          on the bucket, public access is allowed for the `GetObject` and `HeadObject` operations.
+  # This can't be named "Object", or the JS will break.
+  ListObjects:
+    description: |
+      To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized,
+      talk to an administrator. If you're an administrator who needs to write policies to give users access, see
+      [Getting Started with Policies](/Content/Identity/Concepts/policygetstarted.htm).
+    required:
+      - objects
+    properties:
+      objects:
+        type: array
+        items:
+          $ref: "#/definitions/ObjectSummary"
+        description: |
+          An array of object summaries.
+      prefixes:
+        type: array
+        items:
+          type: string
+        description: |
+          Prefixes that are common to the results returned by the request if the request specified a delimiter.
+      nextStartWith:
+        type: string
+        description: |
+          The name of the object to use in the 'startWith' parameter to obtain the next page of
+          a truncated ListObjects response. Avoid entering confidential information.
+          Example: test/object1.log
+  ObjectSummary:
+    description: |
+      To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized,
+      talk to an administrator. If you're an administrator who needs to write policies to give users access, see
+      [Getting Started with Policies](/Content/Identity/Concepts/policygetstarted.htm).
+    required:
+      - name
+    properties:
+      name:
+        type: string
+        description: |
+          The name of the object. Avoid entering confidential information.
+          Example: test/object1.log
+      size:
+        type: integer
+        format: int64
+        description: Size of the object in bytes.
+      md5:
+        type: string
+        description: Base64-encoded MD5 hash of the object data.
+      timeCreated:
+        type: string
+        format: date-time
+        description: The date and time the object was created, as described in [RFC 2616](https://tools.ietf.org/rfc/rfc2616), section 14.29.
+  CreatePreauthenticatedRequestDetails:
+    required:
+      - name
+      - accessType
+      - timeExpires
+    properties:
+      name:
+        type: string
+        description: A user-specified name for the pre-authenticated request. Helpful for management purposes.
+      objectName:
+        type: string
+        description: The name of object that is being granted access to by the pre-authenticated request. This can be null and if it is, the pre-authenticated request grants access to the entire bucket.
+      accessType:
+        type: string
+        enum:
+          - ObjectRead
+          - ObjectWrite
+          - ObjectReadWrite
+          - AnyObjectWrite
+        description: The operation that can be performed on this resource.
+      timeExpires:
+        type: string
+        format: date-time
+        description: |
+          The expiration date for the pre-authenticated request as per [RFC 3339](https://tools.ietf.org/rfc/rfc3339). After this date the pre-authenticated request will no longer be valid.
+  PreauthenticatedRequest:
+    description: |
+      Pre-authenticated requests provide a way to let users access a bucket or an object without having their own credentials.
+      When you create a pre-authenticated request, a unique URL is generated. Users in your organization, partners, or third
+      parties can use this URL to access the targets identified in the pre-authenticated request. See [Managing Access to Buckets and Objects](/Content/Object/Tasks/managingaccess.htm).
+
+      To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized, talk to an administrator.
+      If you're an administrator who needs to write policies to give users access, see [Getting Started with Policies](/Content/Identity/Concepts/policygetstarted.htm).
+    required:
+      - id
+      - name
+      - accessUri
+      - accessType
+      - timeExpires
+      - timeCreated
+    properties:
+      id:
+        type: string
+        description: The unique identifier to use when directly addressing the pre-authenticated request.
+      name:
+        type: string
+        description: The user-provided name of the pre-authenticated request.
+      accessUri:
+        type: string
+        description: The URI to embed in the URL when using the pre-authenticated request.
+      objectName:
+        type: string
+        description: |
+          The name of the object that is being granted access to by the pre-authenticated request. This can be null and
+          if so, the pre-authenticated request grants access to the entire bucket. Avoid entering confidential information.
+          Example: test/object1.log
+      accessType:
+        type: string
+        enum:
+          - ObjectRead
+          - ObjectWrite
+          - ObjectReadWrite
+          - AnyObjectWrite
+        description: The operation that can be performed on this resource.
+      timeExpires:
+        type: string
+        format: date-time
+        description: |
+          The expiration date for the pre-authenticated request as per [RFC 3339](https://tools.ietf.org/rfc/rfc3339). After this date the pre-authenticated request will no longer be valid.
+      timeCreated:
+        type: string
+        format: date-time
+        description: |
+          The date when the pre-authenticated request was created as per specification
+          [RFC 3339](https://tools.ietf.org/rfc/rfc3339).
+  PreauthenticatedRequestSummary:
+    description: |
+      Get summary information about pre-authenticated requests.  
+    required:
+      - id
+      - name
+      - accessType
+      - timeExpires
+      - timeCreated
+    properties:
+      id:
+        type: string
+        description: The unique identifier to use when directly addressing the pre-authenticated request.
+      name:
+        type: string
+        description: The user-provided name of the pre-authenticated request.
+      objectName:
+        type: string
+        description: The name of object that is being granted access to by the pre-authenticated request. This can be null and if it is, the pre-authenticated request grants access to the entire bucket.
+      accessType:
+        type: string
+        enum:
+          - ObjectRead
+          - ObjectWrite
+          - ObjectReadWrite
+          - AnyObjectWrite
+        description: The operation that can be performed on this resource.
+      timeExpires:
+        type: string
+        format: date-time
+        description: |
+          The expiration date for the pre-authenticated request as per [RFC 3339](https://tools.ietf.org/rfc/rfc3339). After this date the pre-authenticated request will no longer be valid.
+      timeCreated:
+        type: string
+        format: date-time
+        description: |
+          The date when the pre-authenticated request was created as per [RFC 3339](https://tools.ietf.org/rfc/rfc3339).
+  RenameObjectDetails:
+    description: |
+      To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized,
+      talk to an administrator. If you're an administrator who needs to write policies to give users access, see
+      [Getting Started with Policies](/Content/Identity/Concepts/policygetstarted.htm).
+    required:
+      - sourceName
+      - newName
+    properties:
+      sourceName:
+        type: string
+        description: The name of the source object to be renamed.
+      newName:
+        type: string
+        description: The new name of the source object.
+      srcObjIfMatchETag:
+        type: string
+        description: The if-match entity tag of the source object.
+      newObjIfMatchETag:
+        type: string
+        description: The if-match entity tag of the new object.
+      newObjIfNoneMatchETag:
+        type: string
+        description: The if-none-match entity tag of the new object.
+  Error:
+    required:
+      - code
+      - message
+    properties:
+      code:
+        type: string
+        description: A short error code that defines the error, meant for programmatic parsing.
+      message:
+        type: string
+        description: A human-readable error string.
+  RestoreObjectsDetails:
+    required:
+      - objectName
+    properties:
+      objectName:
+        type: string
+        description: A object which was in an archived state and need to be restored.
+
+#==========[ Parameters ]===============================================================================================
+
+parameters:
+  NamespacePathParam:
+    name: namespaceName
+    in: path
+    required: true
+    type: string
+    pattern: '[A-Za-z][A-Za-z0-9\\-_\\.]+'
+    minLength: 1
+    description: The top-level namespace used for the request.
+  BucketPathParam:
+    name: bucketName
+    in: path
+    required: true
+    type: string
+    pattern: '[A-Za-z0-9\\-_\\.]+'
+    minLength: 1
+    description:  |
+      The name of the bucket. Avoid entering confidential information.
+      Example: `my-new-bucket1`
+  ObjectPathParam:
+    name: objectName
+    in: path
+    required: true
+    type: string
+    pattern: '[^\\r\\n\\00#\\?]+'
+    minLength: 1
+    maxLength: 1024
+    description: |
+      The name of the object. Avoid entering confidential information.
+      Example: `test/object1.log`
+  UploadIdQueryParam:
+    name: uploadId
+    in: query
+    required: true
+    type: string
+    description: The upload ID for a multipart upload.
+  UploadPartNumberQueryParam:
+    name: uploadPartNum
+    in: query
+    required: true
+    type: integer
+    minimum: 1
+    maximum: 10000
+    description: The part number that identifies the object part currently being uploaded.
+  CompartmentIdQueryParam:
+    name: compartmentId
+    in: query
+    required: true
+    type: string
+    description: The ID of the compartment in which to list buckets.
+  PaginationLimitQueryParam:
+    name: limit
+    in: query
+    type: integer
+    minimum: 1
+    maximum: 1000
+    description: The maximum number of items to return.
+  PaginationTokenQueryParam:
+    name: page
+    in: query
+    type: string
+    minLength: 1
+    maxLength: 1024
+    description: The page at which to start retrieving results.
+  PrefixQueryParam:
+    name: prefix
+    in: query
+    type: string
+    description: The string to use for matching against the start of object names in a list query.
+  StartWithQueryParam:
+    name: start
+    in: query
+    type: string
+    description: Object names returned by a list query must be greater or equal to this parameter.
+  EndBeforeQueryParam:
+    name: end
+    in: query
+    type: string
+    description: Object names returned by a list query must be strictly less than this parameter.
+  DelimiterQueryParam:
+    name: delimiter
+    in: query
+    type: string
+    description: |
+      When this parameter is set, only objects whose names do not contain the delimiter character
+      (after an optionally specified prefix) are returned in the objects key of the response body.
+      Scanned objects whose names contain the delimiter have the part of their name up to the first
+      occurrence of the delimiter (including the optional prefix) returned as a set of prefixes.
+      Note that only '/' is a supported delimiter character at this time.
+  FieldsQueryParam:
+    name: fields
+    in: query
+    type: string
+    enum:
+    - name
+    - size
+    - timeCreated
+    - md5
+    x-obmcs-inline-enum: false
+    description: |
+      Object summary in list of objects includes the 'name' field. This parameter can also include 'size'
+      (object size in bytes), 'md5', and 'timeCreated' (object creation date and time) fields.
+      Value of this parameter should be a comma-separated, case-insensitive list of those field names.
+      For example 'name,timeCreated,md5'.
+  ObjectNamePrefixQueryParam:
+    name: objectNamePrefix
+    in: query
+    type: string
+    description: User-specified object name prefixes can be used to query and return a list of pre-authenticated requests.
+  PreauthenticatedRequestIdPathParam:
+    name: parId
+    in: path
+    required: true
+    type: string
+    description: |
+      The unique identifier for the pre-authenticated request. This can be used to manage operations against
+      the pre-authenticated request, such as GET or DELETE.
+  IfMatchHeader:
+    name: if-match
+    in: header
+    type: string
+    description: |
+      The entity tag to match. For creating and committing a multipart upload to an object, this is the entity tag of the target object.
+      For uploading a part, this is the entity tag of the target part.
+  IfNoneMatchHeader:
+    name: if-none-match
+    in: header
+    type: string
+    pattern: "^[*]$"
+    minLength: 0
+    maxLength: 1
+    description: |
+      The entity tag to avoid matching. The only valid value is ‘*’, which indicates that the request should fail if the object already exists.
+      For creating and committing a multipart upload, this is the entity tag of the target object. For uploading a part, this is the entity tag of the target part.
+  ClientRequestIdHeader:
+    name: opc-client-request-id
+    in: header
+    type: string
+    description: The client request ID for tracing.
+  Expect100ContinueHeader:
+    name: Expect
+    in: header
+    type: string
+    description: 100-continue
+    default: 100-continue
+  RequiredContentLengthHeader:
+    name: Content-Length
+    in: header
+    type: integer
+    format: int64
+    description: The content length of the body.
+    required: true
+  OptionalContentMD5Header:
+    name: Content-MD5
+    in: header
+    type: string
+    description: The base-64 encoded MD5 hash of the body.
+  OptionalContentTypeHeader:
+    name: Content-Type
+    in: header
+    type: string
+    description: The content type of the object.  Defaults to 'application/octet-stream' if not overridden during the PutObject call.
+  OptionalContentLanguageHeader:
+    name: Content-Language
+    in: header
+    type: string
+    description: The content language of the object.
+  OptionalContentEncodingHeader:
+    name: Content-Encoding
+    in: header
+    type: string
+    description: The content encoding of the object.
+  OpcMetaHeader:
+    name: opc-meta-*
+    in: header
+    type: string
+    description: Optional user-defined metadata key and value.
+    x-obmcs-header-collection: true
+    x-obmcs-prefix: opc-meta-
+  RangeRequestHeader:
+    name: range
+    in: header
+    type: string
+    description: |
+      Optional byte range to fetch, as described in [RFC 7233](https://tools.ietf.org/rfc/rfc7233), section 2.1.
+      Note that only a single range of bytes is supported.
+
+#==========[ Responses ]================================================================================================
+
+responses:
+  Error:
+    description: A description of an error that occurred.
+    schema:
+      $ref: '#/definitions/Error'
+    headers:
+      opc-client-request-id:
+        type: string
+        description: Echoes back the value passed in the opc-client-request-id header, for use by clients when debugging.
+      opc-request-id:
+        type: string
+        description: |
+          Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular
+          request, provide this request ID.
+
+# spec-conditionals-preprocessor-plugin: Enabled conditional groups:
+# spec-conditionals-preprocessor-plugin:
+# spec-conditionals-preprocessor-plugin: Filtered out conditional groups:

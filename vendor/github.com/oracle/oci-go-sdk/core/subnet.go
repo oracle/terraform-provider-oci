@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 // Core Services API
@@ -15,11 +15,11 @@ import (
 // Subnet A logical subdivision of a VCN. Each subnet exists in a single Availability Domain and
 // consists of a contiguous range of IP addresses that do not overlap with
 // other subnets in the VCN. Example: 172.16.1.0/24. For more information, see
-// [Overview of the Networking Service]({{DOC_SERVER_URL}}/Content/Network/Concepts/overview.htm) and
-// [VCNs and Subnets]({{DOC_SERVER_URL}}/Content/Network/Tasks/managingVCNs.htm).
+// Overview of the Networking Service (https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Concepts/overview.htm) and
+// VCNs and Subnets (https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Tasks/managingVCNs.htm).
 // To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized,
 // talk to an administrator. If you're an administrator who needs to write policies to give users access, see
-// [Getting Started with Policies]({{DOC_SERVER_URL}}/Content/Identity/Concepts/policygetstarted.htm).
+// Getting Started with Policies (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/policygetstarted.htm).
 type Subnet struct {
 
 	// The subnet's Availability Domain.
@@ -53,6 +53,11 @@ type Subnet struct {
 	// Example: `00:00:17:B6:4D:DD`
 	VirtualRouterMac *string `mandatory:"true" json:"virtualRouterMac"`
 
+	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Operations": {"CostCenter": "42"}}`
+	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
 	// The OCID of the set of DHCP options associated with the subnet.
 	DhcpOptionsId *string `mandatory:"false" json:"dhcpOptionsId"`
 
@@ -68,9 +73,15 @@ type Subnet struct {
 	// The absence of this parameter means the Internet and VCN Resolver
 	// will not resolve hostnames of instances in this subnet.
 	// For more information, see
-	// [DNS in Your Virtual Cloud Network]({{DOC_SERVER_URL}}/Content/Network/Concepts/dns.htm).
+	// DNS in Your Virtual Cloud Network (https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Concepts/dns.htm).
 	// Example: `subnet123`
 	DnsLabel *string `mandatory:"false" json:"dnsLabel"`
+
+	// Free-form tags for this resource. Each tag is a simple key-value pair with no
+	// predefined name, type, or namespace. For more information, see
+	// Resource Tags (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Department": "Finance"}`
+	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
 	// Whether VNICs within this subnet can have public IP addresses.
 	// Defaults to false, which means VNICs created in this subnet will
@@ -90,7 +101,7 @@ type Subnet struct {
 	// The subnet's domain name, which consists of the subnet's DNS label,
 	// the VCN's DNS label, and the `oraclevcn.com` domain.
 	// For more information, see
-	// [DNS in Your Virtual Cloud Network]({{DOC_SERVER_URL}}/Content/Network/Concepts/dns.htm).
+	// DNS in Your Virtual Cloud Network (https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Concepts/dns.htm).
 	// Example: `subnet123.vcn1.oraclevcn.com`
 	SubnetDomainName *string `mandatory:"false" json:"subnetDomainName"`
 
@@ -112,7 +123,6 @@ const (
 	SubnetLifecycleStateAvailable    SubnetLifecycleStateEnum = "AVAILABLE"
 	SubnetLifecycleStateTerminating  SubnetLifecycleStateEnum = "TERMINATING"
 	SubnetLifecycleStateTerminated   SubnetLifecycleStateEnum = "TERMINATED"
-	SubnetLifecycleStateUnknown      SubnetLifecycleStateEnum = "UNKNOWN"
 )
 
 var mappingSubnetLifecycleState = map[string]SubnetLifecycleStateEnum{
@@ -120,16 +130,13 @@ var mappingSubnetLifecycleState = map[string]SubnetLifecycleStateEnum{
 	"AVAILABLE":    SubnetLifecycleStateAvailable,
 	"TERMINATING":  SubnetLifecycleStateTerminating,
 	"TERMINATED":   SubnetLifecycleStateTerminated,
-	"UNKNOWN":      SubnetLifecycleStateUnknown,
 }
 
 // GetSubnetLifecycleStateEnumValues Enumerates the set of values for SubnetLifecycleState
 func GetSubnetLifecycleStateEnumValues() []SubnetLifecycleStateEnum {
 	values := make([]SubnetLifecycleStateEnum, 0)
 	for _, v := range mappingSubnetLifecycleState {
-		if v != SubnetLifecycleStateUnknown {
-			values = append(values, v)
-		}
+		values = append(values, v)
 	}
 	return values
 }

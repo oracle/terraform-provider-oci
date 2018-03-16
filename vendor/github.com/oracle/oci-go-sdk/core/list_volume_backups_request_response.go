@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 package core
@@ -78,22 +78,18 @@ type ListVolumeBackupsSortByEnum string
 const (
 	ListVolumeBackupsSortByTimecreated ListVolumeBackupsSortByEnum = "TIMECREATED"
 	ListVolumeBackupsSortByDisplayname ListVolumeBackupsSortByEnum = "DISPLAYNAME"
-	ListVolumeBackupsSortByUnknown     ListVolumeBackupsSortByEnum = "UNKNOWN"
 )
 
 var mappingListVolumeBackupsSortBy = map[string]ListVolumeBackupsSortByEnum{
 	"TIMECREATED": ListVolumeBackupsSortByTimecreated,
 	"DISPLAYNAME": ListVolumeBackupsSortByDisplayname,
-	"UNKNOWN":     ListVolumeBackupsSortByUnknown,
 }
 
 // GetListVolumeBackupsSortByEnumValues Enumerates the set of values for ListVolumeBackupsSortBy
 func GetListVolumeBackupsSortByEnumValues() []ListVolumeBackupsSortByEnum {
 	values := make([]ListVolumeBackupsSortByEnum, 0)
 	for _, v := range mappingListVolumeBackupsSortBy {
-		if v != ListVolumeBackupsSortByUnknown {
-			values = append(values, v)
-		}
+		values = append(values, v)
 	}
 	return values
 }
@@ -103,24 +99,20 @@ type ListVolumeBackupsSortOrderEnum string
 
 // Set of constants representing the allowable values for ListVolumeBackupsSortOrder
 const (
-	ListVolumeBackupsSortOrderAsc     ListVolumeBackupsSortOrderEnum = "ASC"
-	ListVolumeBackupsSortOrderDesc    ListVolumeBackupsSortOrderEnum = "DESC"
-	ListVolumeBackupsSortOrderUnknown ListVolumeBackupsSortOrderEnum = "UNKNOWN"
+	ListVolumeBackupsSortOrderAsc  ListVolumeBackupsSortOrderEnum = "ASC"
+	ListVolumeBackupsSortOrderDesc ListVolumeBackupsSortOrderEnum = "DESC"
 )
 
 var mappingListVolumeBackupsSortOrder = map[string]ListVolumeBackupsSortOrderEnum{
-	"ASC":     ListVolumeBackupsSortOrderAsc,
-	"DESC":    ListVolumeBackupsSortOrderDesc,
-	"UNKNOWN": ListVolumeBackupsSortOrderUnknown,
+	"ASC":  ListVolumeBackupsSortOrderAsc,
+	"DESC": ListVolumeBackupsSortOrderDesc,
 }
 
 // GetListVolumeBackupsSortOrderEnumValues Enumerates the set of values for ListVolumeBackupsSortOrder
 func GetListVolumeBackupsSortOrderEnumValues() []ListVolumeBackupsSortOrderEnum {
 	values := make([]ListVolumeBackupsSortOrderEnum, 0)
 	for _, v := range mappingListVolumeBackupsSortOrder {
-		if v != ListVolumeBackupsSortOrderUnknown {
-			values = append(values, v)
-		}
+		values = append(values, v)
 	}
 	return values
 }

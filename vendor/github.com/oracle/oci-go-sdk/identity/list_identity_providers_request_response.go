@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 package identity
@@ -56,22 +56,18 @@ type ListIdentityProvidersProtocolEnum string
 
 // Set of constants representing the allowable values for ListIdentityProvidersProtocol
 const (
-	ListIdentityProvidersProtocolSaml2   ListIdentityProvidersProtocolEnum = "SAML2"
-	ListIdentityProvidersProtocolUnknown ListIdentityProvidersProtocolEnum = "UNKNOWN"
+	ListIdentityProvidersProtocolSaml2 ListIdentityProvidersProtocolEnum = "SAML2"
 )
 
 var mappingListIdentityProvidersProtocol = map[string]ListIdentityProvidersProtocolEnum{
-	"SAML2":   ListIdentityProvidersProtocolSaml2,
-	"UNKNOWN": ListIdentityProvidersProtocolUnknown,
+	"SAML2": ListIdentityProvidersProtocolSaml2,
 }
 
 // GetListIdentityProvidersProtocolEnumValues Enumerates the set of values for ListIdentityProvidersProtocol
 func GetListIdentityProvidersProtocolEnumValues() []ListIdentityProvidersProtocolEnum {
 	values := make([]ListIdentityProvidersProtocolEnum, 0)
 	for _, v := range mappingListIdentityProvidersProtocol {
-		if v != ListIdentityProvidersProtocolUnknown {
-			values = append(values, v)
-		}
+		values = append(values, v)
 	}
 	return values
 }

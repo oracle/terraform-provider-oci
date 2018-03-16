@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 package core
@@ -78,22 +78,18 @@ type ListInternetGatewaysSortByEnum string
 const (
 	ListInternetGatewaysSortByTimecreated ListInternetGatewaysSortByEnum = "TIMECREATED"
 	ListInternetGatewaysSortByDisplayname ListInternetGatewaysSortByEnum = "DISPLAYNAME"
-	ListInternetGatewaysSortByUnknown     ListInternetGatewaysSortByEnum = "UNKNOWN"
 )
 
 var mappingListInternetGatewaysSortBy = map[string]ListInternetGatewaysSortByEnum{
 	"TIMECREATED": ListInternetGatewaysSortByTimecreated,
 	"DISPLAYNAME": ListInternetGatewaysSortByDisplayname,
-	"UNKNOWN":     ListInternetGatewaysSortByUnknown,
 }
 
 // GetListInternetGatewaysSortByEnumValues Enumerates the set of values for ListInternetGatewaysSortBy
 func GetListInternetGatewaysSortByEnumValues() []ListInternetGatewaysSortByEnum {
 	values := make([]ListInternetGatewaysSortByEnum, 0)
 	for _, v := range mappingListInternetGatewaysSortBy {
-		if v != ListInternetGatewaysSortByUnknown {
-			values = append(values, v)
-		}
+		values = append(values, v)
 	}
 	return values
 }
@@ -103,24 +99,20 @@ type ListInternetGatewaysSortOrderEnum string
 
 // Set of constants representing the allowable values for ListInternetGatewaysSortOrder
 const (
-	ListInternetGatewaysSortOrderAsc     ListInternetGatewaysSortOrderEnum = "ASC"
-	ListInternetGatewaysSortOrderDesc    ListInternetGatewaysSortOrderEnum = "DESC"
-	ListInternetGatewaysSortOrderUnknown ListInternetGatewaysSortOrderEnum = "UNKNOWN"
+	ListInternetGatewaysSortOrderAsc  ListInternetGatewaysSortOrderEnum = "ASC"
+	ListInternetGatewaysSortOrderDesc ListInternetGatewaysSortOrderEnum = "DESC"
 )
 
 var mappingListInternetGatewaysSortOrder = map[string]ListInternetGatewaysSortOrderEnum{
-	"ASC":     ListInternetGatewaysSortOrderAsc,
-	"DESC":    ListInternetGatewaysSortOrderDesc,
-	"UNKNOWN": ListInternetGatewaysSortOrderUnknown,
+	"ASC":  ListInternetGatewaysSortOrderAsc,
+	"DESC": ListInternetGatewaysSortOrderDesc,
 }
 
 // GetListInternetGatewaysSortOrderEnumValues Enumerates the set of values for ListInternetGatewaysSortOrder
 func GetListInternetGatewaysSortOrderEnumValues() []ListInternetGatewaysSortOrderEnum {
 	values := make([]ListInternetGatewaysSortOrderEnum, 0)
 	for _, v := range mappingListInternetGatewaysSortOrder {
-		if v != ListInternetGatewaysSortOrderUnknown {
-			values = append(values, v)
-		}
+		values = append(values, v)
 	}
 	return values
 }

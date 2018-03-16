@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 // Identity and Access Management Service API
@@ -17,16 +17,15 @@ import (
 // of measuring usage and billing, access (through the use of IAM Service policies), and isolation (separating the
 // resources for one project or business unit from another). A common approach is to create a compartment for each
 // major part of your organization. For more information, see
-// [Overview of the IAM Service]({{DOC_SERVER_URL}}/Content/Identity/Concepts/overview.htm) and also
-// [Setting Up Your Tenancy]({{DOC_SERVER_URL}}/Content/GSG/Concepts/settinguptenancy.htm).
-//
+// Overview of the IAM Service (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/overview.htm) and also
+// Setting Up Your Tenancy (https://docs.us-phoenix-1.oraclecloud.com/Content/GSG/Concepts/settinguptenancy.htm).
 // To place a resource in a compartment, simply specify the compartment ID in the "Create" request object when
 // initially creating the resource. For example, to launch an instance into a particular compartment, specify
 // that compartment's OCID in the `LaunchInstance` request. You can't move an existing resource from one
 // compartment to another.
 // To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized,
 // talk to an administrator. If you're an administrator who needs to write policies to give users access,
-// see [Getting Started with Policies]({{DOC_SERVER_URL}}/Content/Identity/Concepts/policygetstarted.htm).
+// see Getting Started with Policies (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/policygetstarted.htm).
 type Compartment struct {
 
 	// The OCID of the compartment.
@@ -52,6 +51,16 @@ type Compartment struct {
 
 	// The detailed status of INACTIVE lifecycleState.
 	InactiveStatus *int `mandatory:"false" json:"inactiveStatus"`
+
+	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
+	// For more information, see Resource Tags (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Department": "Finance"}`
+	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Operations": {"CostCenter": "42"}}`
+	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 
 func (m Compartment) String() string {
@@ -68,7 +77,6 @@ const (
 	CompartmentLifecycleStateInactive CompartmentLifecycleStateEnum = "INACTIVE"
 	CompartmentLifecycleStateDeleting CompartmentLifecycleStateEnum = "DELETING"
 	CompartmentLifecycleStateDeleted  CompartmentLifecycleStateEnum = "DELETED"
-	CompartmentLifecycleStateUnknown  CompartmentLifecycleStateEnum = "UNKNOWN"
 )
 
 var mappingCompartmentLifecycleState = map[string]CompartmentLifecycleStateEnum{
@@ -77,16 +85,13 @@ var mappingCompartmentLifecycleState = map[string]CompartmentLifecycleStateEnum{
 	"INACTIVE": CompartmentLifecycleStateInactive,
 	"DELETING": CompartmentLifecycleStateDeleting,
 	"DELETED":  CompartmentLifecycleStateDeleted,
-	"UNKNOWN":  CompartmentLifecycleStateUnknown,
 }
 
 // GetCompartmentLifecycleStateEnumValues Enumerates the set of values for CompartmentLifecycleState
 func GetCompartmentLifecycleStateEnumValues() []CompartmentLifecycleStateEnum {
 	values := make([]CompartmentLifecycleStateEnum, 0)
 	for _, v := range mappingCompartmentLifecycleState {
-		if v != CompartmentLifecycleStateUnknown {
-			values = append(values, v)
-		}
+		values = append(values, v)
 	}
 	return values
 }

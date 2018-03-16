@@ -88,6 +88,7 @@ type customVolumeAttachment struct {
 	compartmentId string
 	id            string
 	instanceId    string
+	isReadOnly    bool
 	volumeId      string
 	displayName   string
 	timeCreated   common.SDKTime
@@ -112,6 +113,11 @@ func (m customVolumeAttachment) GetId() *string {
 //GetInstanceId returns InstanceId
 func (m customVolumeAttachment) GetInstanceId() *string {
 	return &m.instanceId
+}
+
+//GetIsReadOnly returns IsReadOnly
+func (m customVolumeAttachment) GetIsReadOnly() *bool {
+	return &m.isReadOnly
 }
 
 //GetLifecycleState returns LifecycleState
@@ -148,9 +154,10 @@ func TestUnitVolumeAttachmentToMap_unknownType(t *testing.T) {
 		compartmentId: "compartment",
 		id:            "myId",
 		instanceId:    "myInstanceId",
+		isReadOnly:    false,
 		volumeId:      "myVolumeId",
 		displayName:   "myDisplayName",
-		timeCreated:   common.SDKTime{time.Now()},
+		timeCreated:   common.SDKTime{Time: time.Now()},
 		state:         oci_core.VolumeAttachmentLifecycleStateDetached,
 	}
 

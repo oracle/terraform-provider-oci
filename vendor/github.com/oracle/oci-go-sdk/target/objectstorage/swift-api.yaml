@@ -1,0 +1,1192 @@
+#==========[ Schema ]===================================================================================================
+
+swagger: "2.0"
+info:
+# TODO(jfriedly):  Figure out what this version means and if it should be bumped
+  version: '20160918'
+  title: Swift Object Storage Service
+  description: Swift API supported by Oracle BMCS
+  contact:
+    name: BMC Object Storage Team
+    url: https://confluence.aka.lgl.grungy.us/display/CASPER/Integrating+With+Casper
+    email: opc_casper_users_us_grp@oracle.com
+  license:
+    name: Oracle Corporation
+# This value is unused for now.
+host: https://swiftobjectstorage.us-phoenix-1.oraclecloud.com
+basePath: /v1
+schemes:
+  - https
+
+#==========[ Paths ]====================================================================================================
+
+paths:
+
+  /{accountName}:
+
+    head:
+      tags:
+        - swiftObjectStorage
+      summary: HeadAccount
+      description: |
+        This method (kind of) shows account metadata. We do not completely adhere to the Swift specification. The official documentation requires that this API return metadata for the account including: the number of containers (buckets), the number of objects, and the total number of bytes stored in the account. We do not return any of these values.
+      operationId: HeadAccount
+      parameters:
+        - $ref: '#/parameters/AccountPathParam'
+        - $ref: '#/parameters/FormatQueryParam'
+        - $ref: '#/parameters/ClientRequestIdHeader'
+      produces:
+        - application/json
+        - application/xml
+      x-example: |
+        HEAD /v1/example_account HTTP/1.1
+        Host: swiftobjectstorage.us-phoenix-1.oraclecloud.com
+        connection: keep-alive
+        accept-encoding: gzip, deflate
+        accept: */*
+        user-agent: python-requests/2.11.0
+        date: Fri, 12 Aug 2016 22:52:33 GMT
+        authorization: <basic_access_authorization_string>
+      responses:
+        204:
+          description:  An empty success response indicating that authentication succeeded.
+          headers:
+            opc-client-request-id:
+              type: string
+              description: Echoes back the value passed in in the opc-client-request-id header, for use by clients when debugging.
+            opc-request-id:
+              type: string
+              description: Same value as x-trans-id.
+            x-trans-id:
+              type: string
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular
+                request, please provide this request ID.
+            x-timestamp:
+              type: number
+              format: double
+              description: Seconds since the Unix epoch with 10us precision.
+            accept-ranges:
+              type: string
+              description: Value will always be `none`.
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/responses/Error'
+        401:
+          description: Forbidden
+          schema:
+            $ref: '#/responses/Error'
+        404:
+          description: Not Found
+          schema:
+            $ref: '#/responses/Error'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/responses/Error'
+        default:
+          $ref: '#/responses/Error'
+
+    get:
+# TODO(jfriedly):  What are tags used for?  Do we want them in our Swift swagger spec?
+      tags:
+        - swiftObjectStorage
+      summary: ListContainers
+      description: |
+        This method retrieves a list of containers for the account.  Each container will always show zero for the object count and byte count.
+
+        JSON will be returned by default, but XML is supported with the `?format=xml` query parameter or XML content-type `Accept` header values.
+# TODO(jfriedly):  Should this map to CasperOperation, or just be the same as summary?
+      operationId: ListContainers
+      parameters:
+        - $ref: '#/parameters/AccountPathParam'
+        - $ref: '#/parameters/PaginationLimitQueryParam'
+        - $ref: '#/parameters/PaginationMarkerQueryParam'
+        - $ref: '#/parameters/FormatQueryParam'
+        - $ref: '#/parameters/ClientRequestIdHeader'
+        - $ref: '#/parameters/AcceptHeader'
+      produces:
+        - application/json
+        - application/xml
+      x-example: |
+        GET /v1/example_account HTTP/1.1
+        Host: swiftobjectstorage.us-phoenix-1.oraclecloud.com
+        connection: keep-alive
+        accept-encoding: gzip, deflate
+        accept: */*
+        user-agent: python-requests/2.11.0
+        date: Fri, 12 Aug 2016 22:42:15 GMT
+        authorization: <basic_access_authorization_string>
+      responses:
+        200:
+          description: A page of `Container` objects.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Container'
+          headers:
+            opc-client-request-id:
+              type: string
+              description: Echoes back the value passed in in the opc-client-request-id header, for use by clients when debugging.
+            opc-request-id:
+              type: string
+              description: Same value as x-trans-id.
+            x-trans-id:
+              type: string
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular
+                request, please provide this request ID.
+            x-timestamp:
+              type: number
+              format: double
+              description: Seconds since the Unix epoch with 10us precision.
+            accept-ranges:
+              type: string
+              description: Value will always be `none`.
+          examples:
+            application-json: |
+              [
+                {
+                  "count": 0,
+                  "bytes": 0,
+                  "name": "example_container_1"
+                },
+                {
+                  "count": 0,
+                  "bytes": 0,
+                  "name": "example_container_2"
+                }
+              ]
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/responses/Error'
+        401:
+          description: Forbidden
+          schema:
+            $ref: '#/responses/Error'
+        404:
+          description: Not Found
+          schema:
+            $ref: '#/responses/Error'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/responses/Error'
+        default:
+          $ref: '#/responses/Error'
+
+    post:
+          tags:
+            - swiftObjectStorage
+          summary: BulkDelete
+          description: |
+            This operation deletes multiple objects in any containers of this account.
+            JSON will be returned by default, but XML is supported with the `?format=xml` query parameter or XML content-type `Accept` header values.
+          operationId: BulkDelete
+          parameters:
+            - $ref: '#/parameters/AccountPathParam'
+            - $ref: '#/parameters/ClientRequestIdHeader'
+            - $ref: '#/parameters/BulkDeleteQueryParam'
+            - $ref: '#/parameters/AcceptHeader'
+            - name: BulkDeleteList
+              description: A list of objects to delete, in the format of <container>/<object>, separated by line breaks.
+              required: true
+              in: body
+              schema:
+                type: string
+                format: binary
+          produces:
+            - application/json
+            - application/xml
+          x-example: |
+            DELETE /v1/example_account HTTP/1.1
+            Host: swiftobjectstorage.us-phoenix-1.oraclecloud.com
+            connection: keep-alive
+            accept-encoding: gzip, deflate
+            accept: */*
+            Content-Type: text/plain
+            Content-Length: 38
+            user-agent: python-requests/2.11.0
+            date: Fri, 12 Aug 2016 22:42:15 GMT
+            authorization: <basic_access_authorization_string>
+            bucketA/myobject
+            bucketB/anotherobject
+          responses:
+            200:
+              description: The result of the bulk deletes.
+              schema:
+                $ref: '#/definitions/BulkDeleteResult'
+              headers:
+                opc-client-request-id:
+                  type: string
+                  description: Echoes back the value passed in in the opc-client-request-id header, for use by clients when debugging.
+                opc-request-id:
+                  type: string
+                  description: Same value as x-trans-id.
+                x-trans-id:
+                  type: string
+                  description: |
+                    Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular
+                    request, please provide this request ID.
+                x-timestamp:
+                  type: number
+                  format: double
+                  description: Seconds since the Unix epoch with 10us precision.
+              examples:
+                application-json: |
+                  {
+                    "errors": [],
+                    "number_deleted": 2,
+                    "number_not_found": 0
+                  }
+            400:
+              description: Bad Request
+              schema:
+                $ref: '#/responses/Error'
+            401:
+              description: Forbidden
+              schema:
+                $ref: '#/responses/Error'
+            500:
+              description: Internal Server Error
+              schema:
+                $ref: '#/responses/Error'
+            default:
+              $ref: '#/responses/Error'
+
+#----------[ CONTAINER ]-------------------------------------------------------------------------------------------------
+
+  /{accountName}/{containerName}/:
+
+    head:
+      tags:
+        - swiftObjectStorage
+      summary: HeadContainer
+      description: |
+        Reads custom user metadata on a container.
+        Also useful for checking existence of a container efficiently.
+      operationId: HeadContainer
+      parameters:
+        - $ref: '#/parameters/AccountPathParam'
+        - $ref: '#/parameters/ContainerPathParam'
+        - $ref: '#/parameters/FormatQueryParam'
+        - $ref: '#/parameters/ClientRequestIdHeader'
+      produces:
+        - application/json
+        - application/xml
+      x-example: |
+        HEAD /v1/example_account/example_container HTTP/1.1
+        Host: swiftobjectstorage.us-phoenix-1.oraclecloud.com
+        connection: keep-alive
+        accept-encoding: gzip, deflate
+        accept: */*
+        user-agent: python-requests/2.11.0
+        date: Fri, 12 Aug 2016 22:52:33 GMT
+        authorization: <basic_access_authorization_string>
+      responses:
+        204:
+          description: An empty success response indicating that the container exists and including metadata headers.
+          headers:
+            opc-client-request-id:
+              type: string
+              description: Echoes back the value passed in in the opc-client-request-id header, for use by clients when debugging.
+            opc-request-id:
+              type: string
+              description: Same value as x-trans-id.
+            x-trans-id:
+              type: string
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular
+                request, please provide this request ID.
+            x-timestamp:
+              type: number
+              format: double
+              description: Seconds since the Unix epoch with 10us precision.
+            accept-ranges:
+              type: string
+              description: Value will always be `none`.
+            x-container-meta-*:
+              type: string
+              description: Custom metadata key-value pairs set by the user.
+              x-obmcs-header-collection: true
+              x-obmcs-prefix: x-container-meta-
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/responses/Error'
+        401:
+          description: Forbidden
+          schema:
+            $ref: '#/responses/Error'
+        404:
+          description: Not Found
+          schema:
+            $ref: '#/responses/Error'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/responses/Error'
+        default:
+          $ref: '#/responses/Error'
+
+    post:
+      tags:
+        - swiftObjectStorage
+      summary: PostContainer
+      description: |
+        Updates custom user metadata on a container.
+      operationId: PostContainer
+      parameters:
+        - $ref: '#/parameters/AccountPathParam'
+        - $ref: '#/parameters/ContainerPathParam'
+        - $ref: '#/parameters/ClientRequestIdHeader'
+        - $ref: '#/parameters/CustomContainerMetadataHeaders'
+        - $ref: '#/parameters/CustomContainerMetadataRemovalHeaders'
+      x-example: |
+        POST /v1/example_account/example_container HTTP/1.1
+        Host: swiftobjectstorage.us-phoenix-1.oraclecloud.com
+        connection: keep-alive
+        accept-encoding: gzip, deflate
+        accept: */*
+        user-agent: python-requests/2.11.0
+        date: Fri, 12 Aug 2016 22:52:33 GMT
+        authorization: <basic_access_authorization_string>
+        x-container-meta-foo: bar
+      responses:
+        204:
+          description: An empty response indicating that the container metadata was updated successfully.
+          headers:
+            opc-client-request-id:
+              type: string
+              description: Echoes back the value passed in in the opc-client-request-id header, for use by clients when debugging.
+            opc-request-id:
+              type: string
+              description: Same value as x-trans-id.
+            x-trans-id:
+              type: string
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular
+                request, please provide this request ID.
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/responses/Error'
+        401:
+          description: Forbidden
+          schema:
+            $ref: '#/responses/Error'
+        404:
+          description: Not Found
+          schema:
+            $ref: '#/responses/Error'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/responses/Error'
+        default:
+          $ref: '#/responses/Error'
+
+    get:
+      tags:
+        - swiftObjectStorage
+      summary: ListObjects
+      description: |
+        List the objects in a container.  The content type for each will always be "binary/octet-stream".
+
+        JSON will be returned by default, but XML is supported with the `?format=xml` query parameter or XML content-type `Accept` header values.
+      operationId: ListObjects
+      parameters:
+        - $ref: '#/parameters/AccountPathParam'
+        - $ref: '#/parameters/ContainerPathParam'
+        - $ref: '#/parameters/PaginationLimitQueryParam'
+        - $ref: '#/parameters/PaginationMarkerQueryParam'
+        - $ref: '#/parameters/PrefixQueryParam'
+        - $ref: '#/parameters/FormatQueryParam'
+        - $ref: '#/parameters/ClientRequestIdHeader'
+        - $ref: '#/parameters/AcceptHeader'
+      produces:
+        - application/json
+        - application/xml
+      x-example: |
+        GET /v1/example_account/example_container HTTP/1.1
+        Host: swiftobjectstorage.us-phoenix-1.oraclecloud.com
+        connection: keep-alive
+        accept-encoding: gzip, deflate
+        accept: */*
+        user-agent: python-requests/2.11.0
+        date: Fri, 12 Aug 2016 22:52:33 GMT
+        authorization: <basic_access_authorization_string>
+      responses:
+        200:
+          description: A page of `Objects`.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/SwiftObject'
+          headers:
+            opc-client-request-id:
+              type: string
+              description: Echoes back the value passed in in the opc-client-request-id header, for use by clients when debugging.
+            opc-request-id:
+              type: string
+              description: Same value as x-trans-id.
+            x-trans-id:
+              type: string
+              description: |
+                Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular
+                request, please provide this request ID.
+            x-timestamp:
+              type: number
+              format: double
+              description: Seconds since the Unix epoch with 10us precision.
+            accept-ranges:
+              type: string
+              description: Value will always be `none`.
+            x-container-meta-*:
+              type: string
+              description: Custom metadata key-value pairs set by the user.
+              x-obmcs-header-collection: true
+              x-obmcs-prefix: x-container-meta-
+          examples:
+            application-json: |
+              [
+                {
+                  "name": "example_object_1",
+                  "hash": "3e25960a79dbc69b674cd4ec67a72c62",
+                  "bytes": 11,
+                  "last_modified": "2016-11-15T01:16:17.706000",
+                  "content_type": "binary/octet-stream"
+                },
+                {
+                  "name":"sbt_catalog/c-1022049030-20160913-00/metadata.xml",
+                  "hash":"3149a35775e35586645202643c8321fe",
+                  "bytes":1733,
+                  "last_modified":"2016-09-13T22:35:42.841000",
+                  "content_type":"binary/octet-stream"
+                }
+              ]
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/responses/Error'
+        401:
+          description: Forbidden
+          schema:
+            $ref: '#/responses/Error'
+        404:
+          description: Not Found
+          schema:
+            $ref: '#/responses/Error'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/responses/Error'
+        default:
+          $ref: '#/responses/Error'
+
+#----------[ OBJECT ]-------------------------------------------------------------------------------------------------
+
+  /{accountName}/{containerName}/{objectName}:
+
+    get:
+      tags:
+        - swiftObjectStorage
+      summary: GetObject
+      description: "Reads an object's data and metadata."
+      operationId: GetObject
+      parameters:
+        - $ref: '#/parameters/AccountPathParam'
+        - $ref: '#/parameters/ContainerPathParam'
+        - $ref: '#/parameters/ObjectPathParam'
+        - $ref: '#/parameters/IfMatchHeader'
+        - $ref: '#/parameters/IfNoneMatchHeader'
+        - $ref: '#/parameters/RangeHeader'
+        - $ref: '#/parameters/ClientRequestIdHeader'
+      produces:
+        - binary/octet-stream
+      x-example: |
+        GET /v1/example_account/example_container/example_object_1 HTTP/1.1
+        Host: swiftobjectstorage.us-phoenix-1.oraclecloud.com
+        connection: keep-alive
+        accept-encoding: gzip, deflate
+        accept: */*
+        user-agent: python-requests/2.11.0
+        date: Fri, 12 Aug 2016 22:52:33 GMT
+        authorization: <basic_access_authorization_string>
+        range: bytes=0-4
+      responses:
+        200:
+          description: The object metadata and bytes.
+          schema:
+            type: string
+            format: binary
+          headers:
+            opc-client-request-id:
+              type: string
+              description: echoes back the value passed in in the opc-client-request-id header, for use by clients when debugging.
+            opc-request-id:
+              type: string
+              description: same value as x-trans-id.
+            x-trans-id:
+              type: string
+              description: |
+                unique oracle-assigned identifier for the request. if you need to contact oracle about a particular
+                request, please provide this request id.
+            x-timestamp:
+              type: number
+              format: double
+              description: Seconds since the Unix epoch with 10us precision.
+            accept-ranges:
+              type: string
+              description: Value will always be `bytes`.
+            content-length:
+              type: integer
+              format: int64
+              description: The object size in bytes.
+            last-modified:
+              type: string
+              format: date-time
+              description: The creation timestamp for the object.
+            ETag:
+              type: string
+              description: "The hex encoded MD5 of the object's data."
+            x-object-meta-*:
+              type: string
+              description: Custom metadata key-value pairs set by the user.
+              x-obmcs-header-collection: true
+              x-obmcs-prefix: x-object-meta-
+          examples:
+            binary/octet-stream: |
+              Hello world
+        206:
+          description: The portion of the object requested with the range header.
+          schema:
+            type: string
+            format: binary
+          headers:
+            opc-client-request-id:
+              type: string
+              description: echoes back the value passed in in the opc-client-request-id header, for use by clients when debugging.
+            opc-request-id:
+              type: string
+              description: same value as x-trans-id.
+            x-trans-id:
+              type: string
+              description: |
+                unique oracle-assigned identifier for the request. if you need to contact oracle about a particular
+                request, please provide this request id.
+            x-timestamp:
+              type: number
+              format: double
+              description: Seconds since the Unix epoch with 10us precision.
+            accept-ranges:
+              type: string
+              description: Value will always be `bytes`.
+            content-range:
+              type: string
+              description: The byte range being returned, as defined in RFC 7233.
+            content-length:
+              type: integer
+              format: int64
+              description: The length of the object portion being returned.
+            last-modified:
+              type: string
+              format: date-time
+              description: The creation timestamp for the object.
+            ETag:
+              type: string
+              description: "The hex encoded MD5 of the entire object's data."
+            x-object-meta-*:
+              type: string
+              description: Custom metadata key-value pairs set by the user.
+              x-obmcs-header-collection: true
+              x-obmcs-prefix: x-object-meta-
+          examples:
+            binary/octet-stream: |
+              Hello
+        304:
+          description: Not Modified
+          headers:
+            opc-client-request-id:
+              type: string
+              description: echoes back the value passed in in the opc-client-request-id header, for use by clients when debugging.
+            opc-request-id:
+              type: string
+              description: same value as x-trans-id.
+            x-trans-id:
+              type: string
+              description: |
+                unique oracle-assigned identifier for the request. if you need to contact oracle about a particular
+                request, please provide this request id.
+            x-timestamp:
+              type: number
+              format: double
+              description: Seconds since the Unix epoch with 10us precision.
+            accept-ranges:
+              type: string
+              description: Value will always be `bytes`.
+            last-modified:
+              type: string
+              format: date-time
+              description: The creation timestamp for the object.
+            ETag:
+              type: string
+              description: "The hex encoded MD5 of the object's data."
+            x-object-meta-*:
+              type: string
+              description: Custom metadata key-value pairs set by the user.
+              x-obmcs-header-collection: true
+              x-obmcs-prefix: x-object-meta-
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/responses/Error'
+        401:
+          description: Forbidden
+          schema:
+            $ref: '#/responses/Error'
+        404:
+          description: Not Found
+          schema:
+            $ref: '#/responses/Error'
+        412:
+          description: Precondition Failed
+          schema:
+            $ref: '#/responses/Error'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/responses/Error'
+        default:
+          $ref: '#/responses/Error'
+
+    head:
+      tags:
+        - swiftObjectStorage
+      summary: HeadObject
+      description: "Reads an object's metadata only."
+      operationId: HeadObject
+      parameters:
+        - $ref: '#/parameters/AccountPathParam'
+        - $ref: '#/parameters/ContainerPathParam'
+        - $ref: '#/parameters/ObjectPathParam'
+        - $ref: '#/parameters/IfMatchHeader'
+        - $ref: '#/parameters/IfNoneMatchHeader'
+        - $ref: '#/parameters/ClientRequestIdHeader'
+      x-example: |
+        HEAD /v1/example_account/example_container/example_object_1 HTTP/1.1
+        Host: swiftobjectstorage.us-phoenix-1.oraclecloud.com
+        connection: keep-alive
+        accept-encoding: gzip, deflate
+        accept: */*
+        user-agent: python-requests/2.11.0
+        date: Fri, 12 Aug 2016 22:52:33 GMT
+        authorization: <basic_access_authorization_string>
+      responses:
+        200:
+          description: The object metadata only.
+          headers:
+            opc-client-request-id:
+              type: string
+              description: echoes back the value passed in in the opc-client-request-id header, for use by clients when debugging.
+            opc-request-id:
+              type: string
+              description: same value as x-trans-id.
+            x-trans-id:
+              type: string
+              description: |
+                unique oracle-assigned identifier for the request. if you need to contact oracle about a particular
+                request, please provide this request id.
+            x-timestamp:
+              type: number
+              format: double
+              description: Seconds since the Unix epoch with 10us precision.
+            accept-ranges:
+              type: string
+              description: Value will always be `bytes`.
+            content-length:
+              type: integer
+              format: int64
+              description: The object size in bytes.
+            content-type:
+              type: string
+              description: Value will always be `binary/octet-stream`.
+            last-modified:
+              type: string
+              format: date-time
+              description: The creation timestamp for the object.
+            ETag:
+              type: string
+              description: "The hex encoded MD5 of the object's data."
+            x-object-meta-*:
+              type: string
+              description: Custom metadata key-value pairs set by the user.
+              x-obmcs-header-collection: true
+              x-obmcs-prefix: x-object-meta-
+        304:
+          description: Not Modified
+          headers:
+            opc-client-request-id:
+              type: string
+              description: echoes back the value passed in in the opc-client-request-id header, for use by clients when debugging.
+            opc-request-id:
+              type: string
+              description: same value as x-trans-id.
+            x-trans-id:
+              type: string
+              description: |
+                unique oracle-assigned identifier for the request. if you need to contact oracle about a particular
+                request, please provide this request id.
+            x-timestamp:
+              type: number
+              format: double
+              description: Seconds since the Unix epoch with 10us precision.
+            accept-ranges:
+              type: string
+              description: Value will always be `bytes`.
+            content-type:
+              type: string
+              description: Value will always be `binary/octet-stream`.
+            last-modified:
+              type: string
+              format: date-time
+              description: The creation timestamp for the object.
+            ETag:
+              type: string
+              description: "The hex encoded MD5 of the object's data."
+            x-object-meta-*:
+              type: string
+              description: Custom metadata key-value pairs set by the user.
+              x-obmcs-header-collection: true
+              x-obmcs-prefix: x-object-meta-
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/responses/Error'
+        401:
+          description: Forbidden
+          schema:
+            $ref: '#/responses/Error'
+        404:
+          description: Not Found
+          schema:
+            $ref: '#/responses/Error'
+        412:
+          description: Precondition Failed
+          schema:
+            $ref: '#/responses/Error'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/responses/Error'
+        default:
+          $ref: '#/responses/Error'
+
+    put:
+      tags:
+        - swiftObjectStorage
+      summary: PutObject
+      description: Create a new object or overwrite an existing one.
+      operationId: PutObject
+      parameters:
+        - $ref: '#/parameters/AccountPathParam'
+        - $ref: '#/parameters/ContainerPathParam'
+        - $ref: '#/parameters/ObjectPathParam'
+        - $ref: '#/parameters/IfNoneMatchHeader'
+        - $ref: '#/parameters/Expect100ContinueHeader'
+        - $ref: '#/parameters/RequiredContentLengthHeader'
+        - $ref: '#/parameters/OptionalETagHeader'
+        - $ref: '#/parameters/CustomObjectMetadataHeaders'
+        - $ref: '#/parameters/LargeObjectManifestHeader'
+        - $ref: '#/parameters/ClientRequestIdHeader'
+        - name: PutObjectBody
+          description: The object being put to the object store.
+          required: true
+          in: body
+          schema:
+            type: string
+            format: binary
+      x-example: |
+        PUT /v1/example_account/example_container/example_object_1 HTTP/1.1
+        Host: swiftobjectstorage.us-phoenix-1.oraclecloud.com
+        connection: keep-alive
+        accept-encoding: gzip, deflate
+        accept: */*
+        user-agent: python-requests/2.11.0
+        date: Fri, 12 Aug 2016 22:52:33 GMT
+        content-length: 11
+        expect: 100-continue
+        etag: 3e25960a79dbc69b674cd4ec67a72c62
+        authorization: <basic_access_authorization_string>
+        x-object-meta-foo: bar
+
+        Hello world
+      responses:
+        201:
+          description: The object metadata and bytes.
+          headers:
+            opc-client-request-id:
+              type: string
+              description: echoes back the value passed in in the opc-client-request-id header, for use by clients when debugging.
+            opc-request-id:
+              type: string
+              description: same value as x-trans-id.
+            x-trans-id:
+              type: string
+              description: |
+                unique oracle-assigned identifier for the request. if you need to contact oracle about a particular
+                request, please provide this request id.
+            x-timestamp:
+              type: number
+              format: double
+              description: Seconds since the Unix epoch with 10us precision.
+            content-type:
+              type: string
+              description: Value will always be `binary/octet-stream`.
+            last-modified:
+              type: string
+              format: date-time
+              description: The creation timestamp for the object.
+            ETag:
+              type: string
+              description: "The hex encoded MD5 of the object's data."
+            x-object-meta-*:
+              type: string
+              description: Custom metadata key-value pairs set by the user.
+              x-obmcs-header-collection: true
+              x-obmcs-prefix: x-object-meta-
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/responses/Error'
+        401:
+          description: Forbidden
+          schema:
+            $ref: '#/responses/Error'
+        404:
+          description: Not Found
+          schema:
+            $ref: '#/responses/Error'
+        412:
+          description: Precondition Failed
+          schema:
+            $ref: '#/responses/Error'
+        422:
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/responses/Error'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/responses/Error'
+        default:
+          $ref: '#/responses/Error'
+
+    delete:
+      tags:
+        - swiftObjectStorage
+      summary: DeleteObject
+      description: Delete an object.
+      operationId: DeleteObject
+      parameters:
+        - $ref: '#/parameters/AccountPathParam'
+        - $ref: '#/parameters/ContainerPathParam'
+        - $ref: '#/parameters/ObjectPathParam'
+        - $ref: '#/parameters/ClientRequestIdHeader'
+      produces:
+        - text/html; charset=UTF-8
+      x-example: |
+        DELETE /v1/example_account/example_container/example_object_1 HTTP/1.1
+        Host: swiftobjectstorage.us-phoenix-1.oraclecloud.com
+        connection: keep-alive
+        accept-encoding: gzip, deflate
+        accept: */*
+        user-agent: python-requests/2.11.0
+        date: Fri, 12 Aug 2016 22:52:33 GMT
+        authorization: <basic_access_authorization_string>
+      responses:
+        204:
+          description: An empty success response indicating that the container exists and including metadata headers.
+          headers:
+            opc-client-request-id:
+              type: string
+              description: echoes back the value passed in in the opc-client-request-id header, for use by clients when debugging.
+            opc-request-id:
+              type: string
+              description: same value as x-trans-id.
+            x-trans-id:
+              type: string
+              description: |
+                unique oracle-assigned identifier for the request. if you need to contact oracle about a particular
+                request, please provide this request id.
+            content-type:
+              type: string
+              description: Value will always be `text/html; charset=UTF-8`.
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/responses/Error'
+        401:
+          description: Forbidden
+          schema:
+            $ref: '#/responses/Error'
+        404:
+          description: Not Found
+          schema:
+            $ref: '#/responses/Error'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/responses/Error'
+        default:
+          $ref: '#/responses/Error'
+
+#==========[ Definitions ]==============================================================================================
+
+definitions:
+  Container:
+    required:
+      - name
+      - count
+      - bytes
+    properties:
+      name:
+        type: string
+        description: The name of the container.
+      count:
+        type: integer
+        format: int32
+        description: The number zero.
+      bytes:
+        type: integer
+        format: int64
+        description: The number zero.
+  # This can't be named "Object", or the JS will break.
+  SwiftObject:
+    required:
+      - name
+      - hash
+      - bytes
+      - last_modified
+      - content_type
+    properties:
+      name:
+        type: string
+        description: The name of the object.
+      hash:
+        type: string
+        description: "The hex encoded MD5 of the object's data."
+      bytes:
+        type: integer
+        format: int64
+        description: The size of the object in bytes.
+      last_modified:
+        type: string
+        format: date-time
+        description: "The object's creation timestamp."
+      content_type:
+        type: string
+        description: The value `binary/octet-stream`.
+  DeleteErrorObject:
+    required:
+      - name
+      - status
+    properties:
+      name:
+        type: string
+        description: The name of the object, in the format "<container>/<object>".
+      status:
+        type: string
+        description: The error status of the delete operation, in the format "<status code> <error>".
+  BulkDeleteResult:
+    required:
+      - number_deleted
+      - number_not_found
+      - errors
+    properties:
+      number_deleted:
+        type: integer
+        description: The number of objects successfully deleted.
+      number_not_found:
+        type: integer
+        description: The number of objects not found.
+      errors:
+        type: array
+        items:
+          $ref: "#/definitions/DeleteErrorObject"
+        description: The requested deletes that returned an error.
+
+#==========[ Parameters ]===============================================================================================
+
+parameters:
+  AccountPathParam:
+    name: accountName
+    in: path
+    required: true
+    type: string
+    pattern: '[A-Za-z][A-Za-z0-9\\-_\\.]+'
+    minLength: 1
+    description: The top-level account used for the request.
+  ContainerPathParam:
+    name: containerName
+    in: path
+    required: true
+    type: string
+    pattern: '[A-Za-z0-9\\-_\\.]+'
+    minLength: 1
+    description: The name of the container.
+  ObjectPathParam:
+    name: objectName
+    in: path
+    required: true
+    type: string
+    pattern: '[^\\r\\n\\00#\\?]+'
+    minLength: 1
+    description: The name of the object.
+  PaginationLimitQueryParam:
+    name: limit
+    in: query
+    type: integer
+    minimum: 1
+    maximum: 10000
+    default: 10000
+    description: The maximum number of items to return.
+  PaginationMarkerQueryParam:
+    name: marker
+    in: query
+    type: string
+    minLength: 1
+    maxLength: 1024
+    description: The name of the object to start listing after.  Should be the last object from the pervious page.
+  PrefixQueryParam:
+    name: prefix
+    in: query
+    type: string
+    description: Object names returned by a list query must start with prefix
+  FormatQueryParam:
+    name: format
+    in: query
+    type: string
+    enum:
+      - json
+      - xml
+    description: The format that the response listing should be returned in, JSON or XML.  Overrides the `Accept` header.
+  BulkDeleteQueryParam:
+    name: bulk-delete
+    in: query
+    type: boolean
+    enum: [true]
+    allowEmptyValue: true
+  ClientRequestIdHeader:
+    name: opc-client-request-id
+    in: header
+    type: string
+    description: The client request ID for tracing
+  AcceptHeader:
+    name: accept
+    in: header
+    type: string
+    enum:
+      - application/json
+      - application/xml
+      - text/xml
+    description: The format that the response listing should be returned in, JSON or XML.  Overridden by the `format` query parameter.
+  CustomContainerMetadataHeaders:
+    name: x-container-meta-*
+    in: header
+    type: string
+    description: Optional user-defined metadata key and value.  May be passed multiple times with multiple suffixes.
+    x-obmcs-header-collection: true
+    x-obmcs-prefix: x-container-meta-
+  CustomContainerMetadataRemovalHeaders:
+    name: x-remove-container-meta-*
+    in: header
+    type: string
+    description: Optional user-defined metadata key to delete.  The value is ignored.  May be passed multiple times with multiple suffixes.
+    x-obmcs-header-collection: true
+    x-obmcs-prefix: x-remove-container-meta-
+  CustomObjectMetadataHeaders:
+    name: x-object-meta-*
+    in: header
+    type: string
+    description: Optional user-defined metadata key and value.  May be passed multiple times with multiple suffixes.
+    x-obmcs-header-collection: true
+    x-obmcs-prefix: x-object-meta-
+  LargeObjectManifestHeader:
+    name: X-Object-Manifest
+    in: header
+    type: string
+    description: |
+      For dynamic large object. The basic steps of uploading a large object is to first upload each object segment as
+      individual objects with a common object name prefix in the same container, sorted in the order in which they
+      should be concatenated. Next, upload a zero-byte manifest object with this header. The value of this header must
+      be in <container>/<prefix> format to specify which container the object segments are in and the prefix they share.
+      Any GET or HEAD requests to the manifest object will return the concatenated object segments as one large object.
+      For more information, please read https://docs.openstack.org/developer/swift/overview_large_objects.html.
+  IfMatchHeader:
+    name: if-match
+    in: header
+    type: string
+    description: The entity tag to match.
+  IfNoneMatchHeader:
+    name: if-none-match
+    in: header
+    type: string
+    description: The entity tag to avoid matching.
+  RangeHeader:
+    name: range
+    in: header
+    type: string
+    description: The byte range to retrieve, as defined in RFC 7233.  This implementation does not support multiple byte ranges.
+  Expect100ContinueHeader:
+    name: Expect
+    in: header
+    type: string
+    description: 100-continue
+    default: 100-continue
+  RequiredContentLengthHeader:
+    name: Content-Length
+    in: header
+    type: integer
+    format: int64
+    description: The content length of the body.
+    required: true
+  OptionalETagHeader:
+    name: ETag
+    in: header
+    type: string
+    description: The hex encoded MD5 of the body.
+
+#==========[ Responses ]================================================================================================
+
+responses:
+  Error:
+    description: A description of an error that occurred.
+    schema:
+      type: string
+      description: An error message.
+    headers:
+      opc-client-request-id:
+        type: string
+        description: Echoes back the value passed in in the opc-client-request-id header, for use by clients when debugging.
+      opc-request-id:
+        type: string
+        description: |
+          Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular
+          request, please provide this request ID.
+
+# TODO(jfriedly):  Make all generic error response be reference objects to reduce duplication
+
+# TODO(jfriedly):  While the Swagger spec documents support for `security` and `securityDefinitions`, our local-docs-server seems to host HTML that ignores these keys.  Without knowing this info, users won't know how to authenticate to us.
+securityDefinitions:
+  default:
+    type: basic
+    description: |
+      Basic Access Authentication, as described in RFC 2617 section 2.  A Swift password may be obtained from the console, in Identity -> Users -> <username> -> Swift Passwords, or using the `idc` tool.
+
+security:
+  default: []
+
+# TODO(jfriedly):  Consider adding a http://swagger.io/specification/#externalDocumentationObject with links to the OpenStack spec for each operation and / or the HTTP Basic Access Authentication wikipedia page.

@@ -1,4 +1,6 @@
-// Package common Copyright (c) 2016, 2017, 2018 Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
+
+// Package common provides supporting functions and structs used by service packages
 package common
 
 import (
@@ -7,7 +9,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"math/rand"
-	"net"
 	"net/http"
 	"net/http/httputil"
 	"net/url"
@@ -55,6 +56,9 @@ type BaseClient struct {
 	//Signer performs auth operation
 	Signer HTTPRequestSigner
 
+	//Provides an on-behalf-of token
+	Obo OboTokenProvider
+
 	//A request interceptor can be used to customize the request before signing and dispatching
 	Interceptor RequestInterceptor
 
@@ -88,6 +92,7 @@ func newBaseClient(signer HTTPRequestSigner, dispatcher HTTPRequestDispatcher) B
 		UserAgent:   defaultUserAgent(),
 		Interceptor: nil,
 		Signer:      signer,
+		Obo:         NewEmptyOboTokenProvider(),
 		HTTPClient:  dispatcher,
 		generator:   rand.New(rand.NewSource(getNextSeed())),
 	}
@@ -96,19 +101,13 @@ func newBaseClient(signer HTTPRequestSigner, dispatcher HTTPRequestDispatcher) B
 func defaultHTTPDispatcher() http.Client {
 	httpClient := http.Client{
 		Timeout: defaultRequestTimeout,
-		Transport: &http.Transport{
-			Dial: (&net.Dialer{
-				Timeout: defaultConnectionTimeout,
-			}).Dial,
-			TLSHandshakeTimeout: defaultTLSHandshakeTimeout,
-		},
 	}
 	return httpClient
 }
 
 func defaultBaseClient(provider KeyProvider) BaseClient {
 	dispatcher := defaultHTTPDispatcher()
-	signer := defaultRequestSigner(provider)
+	signer := DefaultRequestSigner(provider)
 	return newBaseClient(signer, &dispatcher)
 }
 
@@ -147,7 +146,7 @@ func getHomeFolder() string {
 
 // DefaultConfigProvider returns the default config provider. The default config provider
 // will look for configurations in 3 places: file in $HOME/.oci/config, HOME/.obmcs/config and
-// variables names starting with the string TF_VAR. If the same configuration are found in multiple
+// variables names starting with the string TF_VAR. If the same configuration is found in multiple
 // places the provider will prefer the first one.
 func DefaultConfigProvider() ConfigurationProvider {
 	homeFolder := getHomeFolder()
@@ -354,6 +353,15 @@ func (client BaseClient) Call(ctx context.Context, request *http.Request, config
 func (client BaseClient) doRequest(ctx context.Context, request *http.Request) (response *http.Response, err error) {
 	Debugln("Atempting to call downstream service")
 	request = request.WithContext(ctx)
+
+	//Fetch an obo token from the provider, and if one is returned put it into the request headers
+	oboToken, err := client.Obo.OboToken()
+	if err != nil {
+		return
+	}
+	if oboToken != "" {
+		request.Header.Set("Opc-Obo-Token", oboToken)
+	}
 
 	//Intercept
 	err = client.intercept(request)

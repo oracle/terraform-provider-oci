@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.oracle.pic.commons</groupId>
+    <artifactId>pic-pom</artifactId>
+    <version>0.5.1</version>
+  </parent>
+
+  <groupId>com.oracle.pic.commons</groupId>
+  <artifactId>coreservices-api-spec</artifactId>
+  <!--
+    Do not manage this version by hand.  Releases are handled in TeamCity. Each TeamCity build produces a new release artifact.
+    TeamCity: https://teamcity.aka.lgl.grungy.us/viewType.html?buildTypeId=Common_CoreservicesApiSpec_BuildApiSpecRelease
+    Artifacts: https://artifactory.aka.lgl.grungy.us/commons-release-maven-local/com/oracle/pic/commons/coreservices-api-spec/
+  -->
+  <version>0.1.103</version>
+  <packaging>jar</packaging>
+
+  <name>pic_commons/coreservices-api-spec</name>
+
+  <scm>
+    <connection>scm:git:ssh://git@bitbucket.aka.lgl.grungy.us:7999/commons/coreservices-api-spec.git</connection>
+    <developerConnection>scm:git:ssh://git@bitbucket.aka.lgl.grungy.us:7999/commons/coreservices-api-spec.git</developerConnection>
+    <tag>HEAD</tag>
+    <url>https://bitbucket.aka.lgl.grungy.us/projects/COMMONS/repos/coreservices-api-spec</url>
+  </scm>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <dependencies>
+          <dependency>
+            <groupId>org.sonatype.plexus</groupId>
+            <artifactId>plexus-cipher</artifactId>
+            <version>1.4</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>1.4.0</version>
+        <executions>
+          <execution>
+            <id>generate-coreservices-spec</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <executable>python</executable>
+              <workingDirectory>${project.basedir}/src/main/resources</workingDirectory>
+              <arguments>
+                <argument>merge_and_validate_spec.py</argument>
+                <argument>--input_directory</argument>
+                <argument>20160918</argument>
+                <argument>--output_file</argument>
+                <argument>coreservices-api-spec-20160918.yaml</argument>
+              </arguments>
+            </configuration>
+          </execution>
+          <execution>
+            <id>generate-external-coreservices-spec</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <executable>python</executable>
+              <workingDirectory>${project.basedir}/src/main/resources</workingDirectory>
+              <arguments>
+                <argument>merge_and_validate_spec.py</argument>
+                <argument>--input_directory</argument>
+                <argument>20160918</argument>
+                <argument>--output_file</argument>
+                <argument>coreservices-api-spec-20160918-external.yaml</argument>
+                <argument>--external</argument>
+              </arguments>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>com.oracle.pic.commons.maven</groupId>
+        <artifactId>oracle-swagger-maven-plugin</artifactId>
+        <version>0.2.4</version>
+        <executions>
+          <execution>
+            <id>public-api-validation</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>validate</goal>
+            </goals>
+            <configuration>
+              <basePackage>com.oracle.pic.commons</basePackage>
+              <specPath>src/main/resources/coreservices-api-spec-20160918.yaml</specPath>
+              <failBuildOnError>false</failBuildOnError>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+  <dependencyManagement>
+    <!-- This section of your POM is managed by Badger, though you can still hand-edit it. Manual changes
+       to package versions will be preserved. Everything else will be clobbered. -->
+    <dependencies>
+    </dependencies>
+  </dependencyManagement>
+</project>

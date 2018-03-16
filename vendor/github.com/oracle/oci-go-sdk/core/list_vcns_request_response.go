@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 package core
@@ -75,22 +75,18 @@ type ListVcnsSortByEnum string
 const (
 	ListVcnsSortByTimecreated ListVcnsSortByEnum = "TIMECREATED"
 	ListVcnsSortByDisplayname ListVcnsSortByEnum = "DISPLAYNAME"
-	ListVcnsSortByUnknown     ListVcnsSortByEnum = "UNKNOWN"
 )
 
 var mappingListVcnsSortBy = map[string]ListVcnsSortByEnum{
 	"TIMECREATED": ListVcnsSortByTimecreated,
 	"DISPLAYNAME": ListVcnsSortByDisplayname,
-	"UNKNOWN":     ListVcnsSortByUnknown,
 }
 
 // GetListVcnsSortByEnumValues Enumerates the set of values for ListVcnsSortBy
 func GetListVcnsSortByEnumValues() []ListVcnsSortByEnum {
 	values := make([]ListVcnsSortByEnum, 0)
 	for _, v := range mappingListVcnsSortBy {
-		if v != ListVcnsSortByUnknown {
-			values = append(values, v)
-		}
+		values = append(values, v)
 	}
 	return values
 }
@@ -100,24 +96,20 @@ type ListVcnsSortOrderEnum string
 
 // Set of constants representing the allowable values for ListVcnsSortOrder
 const (
-	ListVcnsSortOrderAsc     ListVcnsSortOrderEnum = "ASC"
-	ListVcnsSortOrderDesc    ListVcnsSortOrderEnum = "DESC"
-	ListVcnsSortOrderUnknown ListVcnsSortOrderEnum = "UNKNOWN"
+	ListVcnsSortOrderAsc  ListVcnsSortOrderEnum = "ASC"
+	ListVcnsSortOrderDesc ListVcnsSortOrderEnum = "DESC"
 )
 
 var mappingListVcnsSortOrder = map[string]ListVcnsSortOrderEnum{
-	"ASC":     ListVcnsSortOrderAsc,
-	"DESC":    ListVcnsSortOrderDesc,
-	"UNKNOWN": ListVcnsSortOrderUnknown,
+	"ASC":  ListVcnsSortOrderAsc,
+	"DESC": ListVcnsSortOrderDesc,
 }
 
 // GetListVcnsSortOrderEnumValues Enumerates the set of values for ListVcnsSortOrder
 func GetListVcnsSortOrderEnumValues() []ListVcnsSortOrderEnum {
 	values := make([]ListVcnsSortOrderEnum, 0)
 	for _, v := range mappingListVcnsSortOrder {
-		if v != ListVcnsSortOrderUnknown {
-			values = append(values, v)
-		}
+		values = append(values, v)
 	}
 	return values
 }

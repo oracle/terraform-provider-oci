@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 // Core Services API
@@ -24,6 +24,15 @@ type ImageSourceViaObjectStorageTupleDetails struct {
 
 	// The Object Storage name for the image.
 	ObjectName *string `mandatory:"true" json:"objectName"`
+
+	// The format of the image to be imported.  Exported Oracle images are QCOW2.  Only monolithic
+	// images are supported.
+	SourceImageType ImageSourceDetailsSourceImageTypeEnum `mandatory:"false" json:"sourceImageType,omitempty"`
+}
+
+//GetSourceImageType returns SourceImageType
+func (m ImageSourceViaObjectStorageTupleDetails) GetSourceImageType() ImageSourceDetailsSourceImageTypeEnum {
+	return m.SourceImageType
 }
 
 func (m ImageSourceViaObjectStorageTupleDetails) String() string {

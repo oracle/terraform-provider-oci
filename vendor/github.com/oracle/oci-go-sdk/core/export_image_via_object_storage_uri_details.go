@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 // Core Services API
@@ -16,8 +16,8 @@ import (
 // ExportImageViaObjectStorageUriDetails The representation of ExportImageViaObjectStorageUriDetails
 type ExportImageViaObjectStorageUriDetails struct {
 
-	// The Object Storage URL to export the image to. See [Object Storage URLs]({{DOC_SERVER_URL}}/Content/Compute/Tasks/imageimportexport.htm#URLs)
-	// and [pre-authenticated requests]({{DOC_SERVER_URL}}/Content/Object/Tasks/managingaccess.htm#pre-auth) for constructing URLs for image import/export.
+	// The Object Storage URL to export the image to. See Object Storage URLs (https://docs.us-phoenix-1.oraclecloud.com/Content/Compute/Tasks/imageimportexport.htm#URLs)
+	// and pre-authenticated requests (https://docs.us-phoenix-1.oraclecloud.com/Content/Object/Tasks/managingaccess.htm#pre-auth) for constructing URLs for image import/export.
 	DestinationUri *string `mandatory:"true" json:"destinationUri"`
 }
 

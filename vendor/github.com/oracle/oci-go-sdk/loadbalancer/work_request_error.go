@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 // Load Balancing Service API
@@ -31,22 +31,18 @@ type WorkRequestErrorErrorCodeEnum string
 const (
 	WorkRequestErrorErrorCodeBadInput      WorkRequestErrorErrorCodeEnum = "BAD_INPUT"
 	WorkRequestErrorErrorCodeInternalError WorkRequestErrorErrorCodeEnum = "INTERNAL_ERROR"
-	WorkRequestErrorErrorCodeUnknown       WorkRequestErrorErrorCodeEnum = "UNKNOWN"
 )
 
 var mappingWorkRequestErrorErrorCode = map[string]WorkRequestErrorErrorCodeEnum{
 	"BAD_INPUT":      WorkRequestErrorErrorCodeBadInput,
 	"INTERNAL_ERROR": WorkRequestErrorErrorCodeInternalError,
-	"UNKNOWN":        WorkRequestErrorErrorCodeUnknown,
 }
 
 // GetWorkRequestErrorErrorCodeEnumValues Enumerates the set of values for WorkRequestErrorErrorCode
 func GetWorkRequestErrorErrorCodeEnumValues() []WorkRequestErrorErrorCodeEnum {
 	values := make([]WorkRequestErrorErrorCodeEnum, 0)
 	for _, v := range mappingWorkRequestErrorErrorCode {
-		if v != WorkRequestErrorErrorCodeUnknown {
-			values = append(values, v)
-		}
+		values = append(values, v)
 	}
 	return values
 }

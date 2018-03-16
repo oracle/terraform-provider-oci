@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 // Core Services API
@@ -16,10 +16,10 @@ import (
 // network traffic between your VCN and your existing network. You use it with other Networking
 // Service components to create an IPSec VPN or a connection that uses
 // Oracle Cloud Infrastructure FastConnect. For more information, see
-// [Overview of the Networking Service]({{DOC_SERVER_URL}}/Content/Network/Concepts/overview.htm).
+// Overview of the Networking Service (https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Concepts/overview.htm).
 // To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized,
 // talk to an administrator. If you're an administrator who needs to write policies to give users access, see
-// [Getting Started with Policies]({{DOC_SERVER_URL}}/Content/Identity/Concepts/policygetstarted.htm).
+// Getting Started with Policies (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/policygetstarted.htm).
 type Drg struct {
 
 	// The OCID of the compartment containing the DRG.
@@ -53,7 +53,6 @@ const (
 	DrgLifecycleStateAvailable    DrgLifecycleStateEnum = "AVAILABLE"
 	DrgLifecycleStateTerminating  DrgLifecycleStateEnum = "TERMINATING"
 	DrgLifecycleStateTerminated   DrgLifecycleStateEnum = "TERMINATED"
-	DrgLifecycleStateUnknown      DrgLifecycleStateEnum = "UNKNOWN"
 )
 
 var mappingDrgLifecycleState = map[string]DrgLifecycleStateEnum{
@@ -61,16 +60,13 @@ var mappingDrgLifecycleState = map[string]DrgLifecycleStateEnum{
 	"AVAILABLE":    DrgLifecycleStateAvailable,
 	"TERMINATING":  DrgLifecycleStateTerminating,
 	"TERMINATED":   DrgLifecycleStateTerminated,
-	"UNKNOWN":      DrgLifecycleStateUnknown,
 }
 
 // GetDrgLifecycleStateEnumValues Enumerates the set of values for DrgLifecycleState
 func GetDrgLifecycleStateEnumValues() []DrgLifecycleStateEnum {
 	values := make([]DrgLifecycleStateEnum, 0)
 	for _, v := range mappingDrgLifecycleState {
-		if v != DrgLifecycleStateUnknown {
-			values = append(values, v)
-		}
+		values = append(values, v)
 	}
 	return values
 }

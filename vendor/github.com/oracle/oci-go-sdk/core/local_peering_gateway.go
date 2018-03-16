@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 // Core Services API
@@ -16,10 +16,10 @@ import (
 // with another VCN in the same region. *Peering* means that the two VCNs can
 // communicate using private IP addresses, but without the traffic traversing the
 // internet or routing through your on-premises network. For more information,
-// see [VCN Peering]({{DOC_SERVER_URL}}/Content/Network/Tasks/VCNpeering.htm).
+// see VCN Peering (https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Tasks/VCNpeering.htm).
 // To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized,
 // talk to an administrator. If you're an administrator who needs to write policies to give users access, see
-// [Getting Started with Policies]({{DOC_SERVER_URL}}/Content/Identity/Concepts/policygetstarted.htm).
+// Getting Started with Policies (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/policygetstarted.htm).
 type LocalPeeringGateway struct {
 
 	// The OCID of the compartment containing the LPG.
@@ -75,7 +75,6 @@ const (
 	LocalPeeringGatewayLifecycleStateAvailable    LocalPeeringGatewayLifecycleStateEnum = "AVAILABLE"
 	LocalPeeringGatewayLifecycleStateTerminating  LocalPeeringGatewayLifecycleStateEnum = "TERMINATING"
 	LocalPeeringGatewayLifecycleStateTerminated   LocalPeeringGatewayLifecycleStateEnum = "TERMINATED"
-	LocalPeeringGatewayLifecycleStateUnknown      LocalPeeringGatewayLifecycleStateEnum = "UNKNOWN"
 )
 
 var mappingLocalPeeringGatewayLifecycleState = map[string]LocalPeeringGatewayLifecycleStateEnum{
@@ -83,16 +82,13 @@ var mappingLocalPeeringGatewayLifecycleState = map[string]LocalPeeringGatewayLif
 	"AVAILABLE":    LocalPeeringGatewayLifecycleStateAvailable,
 	"TERMINATING":  LocalPeeringGatewayLifecycleStateTerminating,
 	"TERMINATED":   LocalPeeringGatewayLifecycleStateTerminated,
-	"UNKNOWN":      LocalPeeringGatewayLifecycleStateUnknown,
 }
 
 // GetLocalPeeringGatewayLifecycleStateEnumValues Enumerates the set of values for LocalPeeringGatewayLifecycleState
 func GetLocalPeeringGatewayLifecycleStateEnumValues() []LocalPeeringGatewayLifecycleStateEnum {
 	values := make([]LocalPeeringGatewayLifecycleStateEnum, 0)
 	for _, v := range mappingLocalPeeringGatewayLifecycleState {
-		if v != LocalPeeringGatewayLifecycleStateUnknown {
-			values = append(values, v)
-		}
+		values = append(values, v)
 	}
 	return values
 }
@@ -107,7 +103,6 @@ const (
 	LocalPeeringGatewayPeeringStatusPeered  LocalPeeringGatewayPeeringStatusEnum = "PEERED"
 	LocalPeeringGatewayPeeringStatusPending LocalPeeringGatewayPeeringStatusEnum = "PENDING"
 	LocalPeeringGatewayPeeringStatusRevoked LocalPeeringGatewayPeeringStatusEnum = "REVOKED"
-	LocalPeeringGatewayPeeringStatusUnknown LocalPeeringGatewayPeeringStatusEnum = "UNKNOWN"
 )
 
 var mappingLocalPeeringGatewayPeeringStatus = map[string]LocalPeeringGatewayPeeringStatusEnum{
@@ -116,16 +111,13 @@ var mappingLocalPeeringGatewayPeeringStatus = map[string]LocalPeeringGatewayPeer
 	"PEERED":  LocalPeeringGatewayPeeringStatusPeered,
 	"PENDING": LocalPeeringGatewayPeeringStatusPending,
 	"REVOKED": LocalPeeringGatewayPeeringStatusRevoked,
-	"UNKNOWN": LocalPeeringGatewayPeeringStatusUnknown,
 }
 
 // GetLocalPeeringGatewayPeeringStatusEnumValues Enumerates the set of values for LocalPeeringGatewayPeeringStatus
 func GetLocalPeeringGatewayPeeringStatusEnumValues() []LocalPeeringGatewayPeeringStatusEnum {
 	values := make([]LocalPeeringGatewayPeeringStatusEnum, 0)
 	for _, v := range mappingLocalPeeringGatewayPeeringStatus {
-		if v != LocalPeeringGatewayPeeringStatusUnknown {
-			values = append(values, v)
-		}
+		values = append(values, v)
 	}
 	return values
 }

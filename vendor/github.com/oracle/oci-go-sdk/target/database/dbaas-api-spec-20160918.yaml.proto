@@ -1,0 +1,3789 @@
+swagger: "2.0"
+info:
+  version: '20160918'
+  title: Database Service API
+  description: The API for the Database Service.
+  contact:
+    name: DBaaS
+    email: sic_dbaas_cp_us_grp@oracle.com
+  license:
+    name: Oracle Corporation
+host: localhost:19222
+basePath: /20160918
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+
+paths:
+  /dbVersions:
+    get:
+      tags: ['database']
+      description: Gets a list of supported Oracle database versions.
+      operationId: ListDbVersions
+      summary: ListDbVersions
+      parameters:
+        - $ref: '#/parameters/CompartmentId'
+        - $ref: '#/parameters/PaginationLimitParam'
+        - $ref: '#/parameters/PaginationToken'
+        - $ref: '#/parameters/DbSystemShapeParam'
+      x-example: |
+        GET /20160918/dbVersions?compartmentId=<var>&lt;compartmentId&gt;</var>&limit=100
+        Host: database.us-phoenix-1.oraclecloud.com
+        <var>&lt;authorization and other headers&gt;</var>
+      responses:
+        200:
+          description: Supported Oracle database versions.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/DbVersionSummary'
+          headers:
+            opc-request-id:
+              $ref: '#/x-descriptions/opc-request-id'
+            opc-next-page:
+              $ref: '#/x-descriptions/opc-next-page'
+          examples: 
+            application-json: |
+              [
+                {
+                  "version" : "11.2.0.4",
+                  "supportsPdb" : "false"
+                }, {
+                  "version" : "12.1.0.2",
+                  "supportsPdb" : "true"
+                }
+              ]
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+
+  /dbSystemShapes:
+    get:
+      tags: ['database']
+      description: Gets a list of the shapes that can be used to launch a new DB System. The shape determines resources to allocate to the DB system - CPU cores and memory for VM shapes; CPU cores, memory and storage for non-VM (or bare metal) shapes.
+      operationId: ListDbSystemShapes
+      summary: ListDbSystemShapes
+      parameters:
+        - $ref: '#/parameters/AvailabilityDomainQueryParam'
+        - $ref: '#/parameters/CompartmentId'
+        - $ref: '#/parameters/PaginationLimitParam'
+        - $ref: '#/parameters/PaginationToken'
+      x-example: |
+        GET /20160918/dbSystemShapes?availabilityDomain=<var>&lt;availabilityDomain&gt;</var>&compartmentId=<var>&lt;compartmentId&gt;</var>&limit=100 
+        Host: database.us-phoenix-1.oraclecloud.com
+        <var>&lt;authorization and other headers&gt;</var>
+      responses:
+        200:
+          description: Supported DB System shapes.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/DbSystemShapeSummary'
+          headers:
+            opc-request-id:
+              $ref: '#/x-descriptions/opc-request-id'
+            opc-next-page:
+              $ref: '#/x-descriptions/opc-next-page'
+          examples: 
+            application-json: |
+              [
+                {
+                  "availableCoreCount" : 36,
+                  "shape" : "BM.HighIO1.36"
+                }, {
+                  "availableCoreCount" : 36,
+                  "shape" : "BM.DenseIO1.36"
+                }
+              ]
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+
+  /dbSystems:
+    get:
+      tags: ['database']
+      description: |
+        Gets a list of the DB Systems in the specified compartment. You can specify a backupId to list only the DB Systems that support creating a database using this backup in this compartment.
+            
+      operationId: ListDbSystems
+      x-related-resource: '#/definitions/DbSystem'
+      summary: ListDbSystems
+      parameters:
+        - $ref: '#/parameters/CompartmentId'
+        - $ref: '#/parameters/PaginationLimitParam'
+        - $ref: '#/parameters/PaginationToken'
+        - $ref: '#/parameters/BackupIdQueryParam'
+      x-example: |
+        Example I:
+          GET /20160918/dbSystems?compartmentId=<var>&lt;compartmentId&gt;</var>&limit=10
+          Host: database.us-phoenix-1.oraclecloud.com
+          <var>&lt;authorization and other headers&gt;</var>
+
+        Example II:
+          GET /20160918/dbSystems?compartmentId=<var>&lt;compartmentId&gt;</var>&backupId=<var>&lt;backupId&gt;</var>&limit=10
+          Host: database.us-phoenix-1.oraclecloud.com
+          <var>&lt;authorization and other headers&gt;</var>
+
+      responses:
+        200:
+          description: All the DB Systems.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/DbSystemSummary'
+          headers:
+            opc-request-id:
+              $ref: '#/x-descriptions/opc-request-id'
+            opc-next-page:
+              $ref: '#/x-descriptions/opc-next-page'
+          examples:
+            application-json: |
+              [
+              {
+                "availabilityDomain" : "OXET:PHX-AD-1",
+                "compartmentId" : "ocid1.tenancy.oc1..aaaaaaaah2sauv373xyfrpcnaed2ptfy67fnspzyda2hacgdbrkijhffugaa",
+                "cpuCoreCount" : 8,
+                "databaseEdition" : "ENTERPRISE_EDITION",
+                "diskRedundancy" : "HIGH",
+                "displayName" : "tst1dbsys",
+                "domain" : "my.company.com",
+                "hostname" : "apollo",
+                "id" : "ocid1.dbsystem.oc1.phx.abuxgljrbgyconplgryuyakyicvbqlveceapi53jhfiqtipmxymythslrmza",
+                "lastPatchHistoryEntryId" : null,
+                "licenseModel" : "LICENSE_INCLUDED",
+                "lifecycleDetails" : null,
+                "lifecycleState" : "AVAILABLE",
+                "listenerPort" : 1521,
+                "scanIpIds": null,
+                "shape" : "BM.DenseIO1.36",
+                "sshPublicKeys" : [ "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDIhMFpW4HqUJI1GehitjhfxbaE3QtU770bei9+znc5jSnOS/c9jhfHmyQ1osVrdFAhhMjlF6vZRYYi5U0Fa+zqqtnCKlhgOdgXAEtbpusCoR/Ed8Q+bABfdb+VigejXigkEi0UyCxE6ZB9d9wdtx68DuY+QQLsnry5o0pZvMjWlBjXEzqRmw2r2TxXhn0S4Jbk19lPiCIUCBZ3TrJ4+uyq2/H5feDzpgQxoszgoWX/0aeT+ahpz5J0Ka+fswdwp3lhADrKgi0xJ+qzNZ4YG+OS4+CyvtMpKK2eX19vfheHxNGQNamZ+XOSEXk5bcwVa8rF62RmEc4IFnbfa3F979X jjohns@mycompany.com" ],
+                "subnetId" : "ocid1.subnet.oc1.phx.aaaaaaaahlnxiytzxhvat7fxcycge3tlxmmraivbtomh32j5ljhfr44zsqqa",
+                "timeCreated" : "2016-11-22T19:25:42.755Z",
+                "version" : "201703160308",
+                "vipIds": null
+              }, {
+                "availabilityDomain" : "OXET:PHX-AD-1",
+                "compartmentId" : "ocid1.tenancy.oc1..aaaaaaaah2sauv373xyfrpcnaed2ptfy67fnspzyda2hacgdbrkijhffugaa",
+                "cpuCoreCount" : 8,
+                "databaseEdition" : "ENTERPRISE_EDITION",
+                "diskRedundancy" : "HIGH",
+                "displayName" : "tst2dbsys",
+                "domain" : "my.company.com",
+                "hostname" : "artemis",
+                "id" : "ocid1.dbsystem.oc1.phx.abuxgljrf5et3qm25lnldou6xcgel2hf7r4knc3mlwjhfdqpteuoysy4cd5q",
+                "lastPatchHistoryEntryId" : "ocid1.dbpatchhistory.oc1.phx.abzwkljr7jdmapjf2pcdltavwgsxdct2my5ohnz5ta7sn3zehvmmgrxkk3sq",
+                "licenseModel" : "BRING_YOUR_OWN_LICENSE",
+                "lifecycleDetails" : null,
+                "lifecycleState" : "AVAILABLE",
+                "listenerPort" : 1521,
+                "scanIpIds": null,
+                "shape" : "BM.DenseIO1.36",
+                "sshPublicKeys" : [ "ssh-rsa AAAAJHF3NzaC1yc2EAAAADAQABAAABAQDIhMFpW4HqUJI1GejhfSqDDxbaE3QtU770bei9+znc5jSnOS/c9zzmHmyQ1osVrdFAhhMjlF6vZRYYi5U0Fa+zqqtnCKlhgOdgXAEtbpusCoR/Ed8Q+bABfdb+VigejXigkEi0UyCxE6ZB9d9wdtx68DuY+QQLsnry5o0pZvMjWlBjXEzqRmw2r2TxXhn0S4Jbk19lPiCIUCBZ3TrJ4+uyq2/H5feDzpgQxoszgoWX/0aeT+ahpz5J0Ka+fswdwp3lhADrKgi0xJ+qzNZ4YG+OS4+CyvtMpKK2eX19vfheHxNGQNamZ+XOSEXk5bcwVa8rF62RmEc4IFnbfa3F979X jjohns@mycompany.com" ],
+                "subnetId" : "ocid1.subnet.oc1.phx.aaaaaaaahlnxiytzxhvat7fxcycge3tlxmmraivbtomh32jhfmdxr44zsqqa",
+                "timeCreated" : "2016-11-22T19:49:54.146Z",
+                "version" : "201701011007",
+                "vipIds": null
+              }
+              ]
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+    post:
+      tags: ['database']
+      description: |
+        Launches a new DB System in the specified compartment and Availability Domain. You'll specify a single Oracle
+        Database Edition that applies to all the databases on that DB System. The selected edition cannot be changed.
+
+        An initial database is created on the DB System based on the request parameters you provide and some default
+        options. For more information,
+        see [Default Options for the Initial Database](/Content/Database/Tasks/launchingDB.htm#Default_Options_for_the_Initial_Database).
+
+        The DB System will include a command line interface (CLI) that you can use to create additional databases and
+        manage existing databases. For more information, see the
+        [Oracle Database CLI Reference](/Content/Database/References/odacli.htm#Oracle_Database_CLI_Reference).
+
+      operationId: LaunchDbSystem
+      summary: LaunchDbSystem
+      parameters:
+        - name: LaunchDbSystemDetails
+          description: Request to launch a DB System.
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/LaunchDbSystemDetails'
+        - $ref: '#/parameters/RetryTokenHeader'
+      x-example: |
+        POST /20160918/dbSystems
+        Host: database.us-phoenix-1.oraclecloud.com
+        <var>&lt;authorization and other headers&gt;</var>
+        {
+          "availabilityDomain" : "OXET:PHX-AD-1",
+          "compartmentId" : "ocid1.tenancy.oc1..aaaaaaaah2sauv373xyfrpcnaed2ptfy67fnspzyda2hacgdbrkijhffugaa",
+          "cpuCoreCount" : 8,
+          "databaseEdition" : "ENTERPRISE_EDITION",
+          "dbHome" : {
+            "database" : {
+              "adminPassword" : "BEstr0ng_#1",
+              "dbName" : "myTestDb",
+              "dbBackupConfig" : {
+               "autoBackupEnabled" : true
+              }
+            },
+            "dbVersion" : "12.1.0.2",
+            "displayName" : null
+          },
+          "diskRedundancy" : null,
+          "displayName" : "tst3dbsys",
+          "domain" : "my.company.com",
+          "hostname" : "athena",
+          "shape" : "BM.DenseIO1.36",
+          "sshPublicKeys" : [ "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDIhMFpW4HqUJI1GehitSqDDxbaE3QtU770bei9+jhf5jSnOS/c9zzmHmyQ1osVrdFAhhMjlF6vZRYYi5U0Fa+zqqtnCKlhgOdgXAEtbpusCoR/Ed8Q+bABfdb+VigejXigkEi0UyCxE6ZB9d9wdtx68DuY+QQLsnry5o0pZvMjWlBjXEzqRmw2r2TxXhn0S4Jbk19lPiCIUCBZ3TrJ4+uyq2/H5feDzpgQxoszgoWX/0aeT+ahpz5J0Ka+fswdwp3lhADrKgi0xJ+qzNZ4YG+OS4+CyvtMpKK2eX19vfheHxNGQNamZ+XOSEXk5bcwVa8rF62RmEc4IFnbfa3F979X jjohns@mycompany.com" ],
+          "subnetId" : "ocid1.subnet.oc1.phx.aaaaaaaahlnxiytzxhvat7fxcycge3tlxmmraivbtomh32j5lmdjhf4zsqqa"
+        }
+      responses:
+        200:
+          description: The request was successfully received and the DB System launch is in-progress.
+          schema:
+            $ref: '#/definitions/DbSystem'
+          headers:
+            etag:
+              $ref: '#/x-descriptions/etag'
+            opc-request-id:
+              $ref: '#/x-descriptions/opc-request-id'
+          examples: 
+            application-json: |
+              {
+                "availabilityDomain" : "OXET:PHX-AD-1",
+                "compartmentId" : "ocid1.tenancy.oc1..aaaaaaaah2sauv373xyfrpcnaed2ptfy67fnspzyda2hacgdbrkijhffugaa",
+                "cpuCoreCount" : 8,
+                "databaseEdition" : "ENTERPRISE_EDITION",
+                "diskRedundancy" : "HIGH",
+                "displayName" : "tst3dbsys",
+                "domain" : "my.company.com",
+                "hostname" : "athena",
+                "id" : "ocid1.dbsystem.oc1.phx.abuxgljrvkwamqmkukhluitmxsgupmgpv2lt4jf6i4mrksrjhfysfpqjbjyq",
+                "lastPatchHistoryEntryId" : null,
+                "licenseModel" : "LICENSE_INCLUDED",
+                "lifecycleDetails" : null,
+                "lifecycleState" : "PROVISIONING",
+                "listenerPort" : 1521,
+                "scanIpIds": null,
+                "shape" : "BM.DenseIO1.36",
+                "sshPublicKeys" : [ "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDIhMFpW4HqUJI1GehitSqDDxbaE3QtU770jhf9+znc5jSnOS/c9zzmHmyQ1osVrdFAhhMjlF6vZRYYi5U0Fa+zqqtnCKlhgOdgXAEtbpusCoR/Ed8Q+bABfdb+VigejXigkEi0UyCxE6ZB9d9wdtx68DuY+QQLsnry5o0pZvMjWlBjXEzqRmw2r2TxXhn0S4Jbk19lPiCIUCBZ3TrJ4+uyq2/H5feDzpgQxoszgoWX/0aeT+ahpz5J0Ka+fswdwp3lhADrKgi0xJ+qzNZ4YG+OS4+CyvtMpKK2eX19vfheHxNGQNamZ+XOSEXk5bcwVa8rF62RmEc4IFnbfa3F979X jjohns@mycompany.com" ],
+                "subnetId" : "ocid1.subnet.oc1.phx.aaaaaaaahlnxiytzxhvat7fxcycge3tlxmmraivbtomh32j5lmjhf44zsqqa",
+                "timeCreated" : "2016-11-23T01:59:07.030Z",
+                "version" : "201609160308",
+                "vipIds": null
+              }
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        409:
+          $ref: '#/responses/409'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+
+  /dbSystems/{dbSystemId}:
+    get:
+      tags: ['database']
+      description: Gets information about the specified DB System.
+      operationId: GetDbSystem
+      summary: GetDbSystem
+      parameters:
+        - $ref: '#/parameters/DbSystemIdPathParam'
+      x-example: |
+        GET /20160918/dbSystems/<var>&lt;dbSystemId&gt;</var>
+        Host: database.us-phoenix-1.oraclecloud.com
+        <var>&lt;authorization and other headers&gt;</var>
+      responses:
+        200:
+          description: The DB System.
+          schema:
+            $ref: '#/definitions/DbSystem'
+          headers:
+            etag:
+              $ref: '#/x-descriptions/etag'
+            opc-request-id:
+              $ref: '#/x-descriptions/opc-request-id'
+          examples: 
+            application-json: |
+              {
+                "availabilityDomain" : "OXET:PHX-AD-1",
+                "compartmentId" : "ocid1.tenancy.oc1..aaaaaaaah2sauv373xyfrpcnaed2ptfy67fnspzyda2hacgdbrkijhffugaa",
+                "cpuCoreCount" : 8,
+                "databaseEdition" : "ENTERPRISE_EDITION",
+                "diskRedundancy" : "HIGH",
+                "displayName" : "tst3dbsys",
+                "domain" : "my.company.com",
+                "hostname" : "athena",
+                "id" : "ocid1.dbsystem.oc1.phx.abuxgljrvkwamqmkukhluitmxsgupmgpv2lt4jf6i4mrksrqk4ysjhfjbjyq",
+                "lastPatchHistoryEntryId" : "ocid1.dbpatchhistory.oc1.phx.abzwkljr7jdmapjf2pcdltavwgsxdct2my5ohnz5ta7sn3zehvmmgrxkk3sq",
+                "licenseModel" : "LICENSE_INCLUDED",
+                "lifecycleDetails" : null,
+                "lifecycleState" : "PROVISIONING",
+                "listenerPort" : 1521,
+                "scanIpIds": null,
+                "shape" : "BM.DenseIO1.36",
+                "sshPublicKeys" : [ "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDIhMFpW4HqUJI1GehitSqDDxbaE3QtU770bei9+znc5jSjhf/c9zzmHmyQ1osVrdFAhhMjlF6vZRYYi5U0Fa+zqqtnCKlhgOdgXAEtbpusCoR/Ed8Q+bABfdb+VigejXigkEi0UyCxE6ZB9d9wdtx68DuY+QQLsnry5o0pZvMjWlBjXEzqRmw2r2TxXhn0S4Jbk19lPiCIUCBZ3TrJ4+uyq2/H5feDzpgQxoszgoWX/0aeT+ahpz5J0Ka+fswdwp3lhADrKgi0xJ+qzNZ4YG+OS4+CyvtMpKK2eX19vfheHxNGQNamZ+XOSEXk5bcwVa8rF62RmEc4IFnbfa3F979X jjohns@mycompany.com" ],
+                "subnetId" : "ocid1.subnet.oc1.phx.aaaaaaaahlnxiytzxhvat7fxcycge3tlxmmraivbtomh32j5lmdxrjhfsqqa",
+                "timeCreated" : "2016-11-23T01:59:07.030Z",
+                "version" : "201609160308",
+                "vipIds": null
+              }
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+
+    delete:
+      tags: ['database']
+      description: Terminates a DB System and permanently deletes it and any databases running on it, and any storage volumes attached to it. The database data is local to the DB System and will be lost when the system is terminated. Oracle recommends that you back up any data in the DB System prior to terminating it.
+      operationId: TerminateDbSystem
+      summary: TerminateDbSystem
+      parameters:
+        - $ref: '#/parameters/DbSystemIdPathParam'
+        - $ref: '#/parameters/IfMatchHeader'
+      x-example: |
+        DELETE /20160918/dbSystems/<var>&lt;dbSystemId&gt;</var>
+        Host: database.us-phoenix-1.oraclecloud.com
+        <var>&lt;authorization and other headers&gt;</var>
+      responses:
+        204:
+          description: The request to terminate the DB System was accepted.
+          headers:
+            opc-request-id:
+              $ref: '#/x-descriptions/opc-request-id'
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        412:
+          $ref: '#/responses/412'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+
+    put:
+      tags: ['database']
+      description: Updates the properties of a DB System, such as the CPU core count.
+      operationId: UpdateDbSystem
+      summary: UpdateDbSystem
+      parameters:
+        - $ref: '#/parameters/IfMatchHeader'
+        - $ref: '#/parameters/DbSystemIdPathParam'
+        - name: UpdateDbSystemDetails
+          description: Request to update the properties of a DB System.
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/UpdateDbSystemDetails'
+      x-example: |
+        Example I:
+          PUT /20160918/dbSystems/<var>&lt;dbSystemId&gt;</var>
+          Host: database.us-phoenix-1.oraclecloud.com
+          <var>&lt;authorization and other headers&gt;</var>
+          {
+            "cpuCoreCount" : 10
+          }
+
+        Example II:
+          PUT /20160918/dbSystems/<var>&lt;dbSystemId&gt;</var>
+          Host: database.us-phoenix-1.oraclecloud.com
+          <var>&lt;authorization and other headers&gt;</var>
+          {
+            "version" : {
+              "patchId" : "ocid1.patch.oc1.phx.aaaaaaaahlnxiytzxhvat7fxcycge3tlxmmraivbtomh32j5lmjhf44zsqqa",
+              "action" : "APPLY"
+            }
+          }
+
+        Example III:
+          PUT /20160918/dbSystems/<var>&lt;dbSystemId&gt;</var>
+          Host: database.us-phoenix-1.oraclecloud.com
+          <var>&lt;authorization and other headers&gt;</var>
+          {
+            "sshPublicKeys" : [ "ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAQEA...BOk70tWmJHF== rsa-key-20170408" ]
+          }
+
+        Example IV:
+          PUT /20160918/dbSystems/<var>&lt;dbSystemId&gt;</var>
+          Host: database.us-phoenix-1.oraclecloud.com
+          <var>&lt;authorization and other headers&gt;</var>
+          {
+            "cpuCoreCount" : 10,
+            "version" : {
+              "patchId" : "ocid1.patch.oc1.phx.aaaaaaaahlnxiytzxhvat7fxcycge3tlxmmraivbtomh32j5lmjhf44zsqqa",
+              "action" : "APPLY"
+            },
+            "sshPublicKeys" : [ "ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAQEA...BOk70tWmJHF== rsa-key-20170408" ]
+          }
+
+      responses:
+        200:
+          description: The request was successfully received and the DB System update is in-progress.
+          schema:
+            $ref: '#/definitions/DbSystem'
+          headers:
+            etag:
+              $ref: '#/x-descriptions/etag'
+            opc-request-id:
+              $ref: '#/x-descriptions/opc-request-id'
+          examples:
+            application-json: |
+              Response to example I:
+                {
+                  "availabilityDomain" : "OXET:PHX-AD-1",
+                  "compartmentId" : "ocid1.tenancy.oc1..aaaaaaaah2sauv373xyfrpcnaed2ptfy67fnspzyda2hacgdbrkijhffugaa",
+                  "cpuCoreCount" : 8,
+                  "databaseEdition" : "ENTERPRISE_EDITION",
+                  "diskRedundancy" : "HIGH",
+                  "displayName" : "tst3dbsys",
+                  "domain" : "my.company.com",
+                  "hostname" : "athena",
+                  "id" : "ocid1.dbsystem.oc1.phx.abuxgljrvkwamqmkukhluitmxsgupmgpv2lt4jf6i4mrksrjhfysfpqjbjyq",
+                  "lastPatchHistoryEntryId" : null,
+                  "lifecycleDetails" : null,
+                  "lifecycleState" : "UPDATING",
+                  "listenerPort" : 1521,
+                  "scanIpIds": null,
+                  "shape" : "BM.DenseIO1.36",
+                  "sshPublicKeys" : [ "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDIhMFpW4HqUJI1GehitSqDDxbaE3QtU770jhf9+znc5jSnOS/c9zzmHmyQ1osVrdFAhhMjlF6vZRYYi5U0Fa+zqqtnCKlhgOdgXAEtbpusCoR/Ed8Q+bABfdb+VigejXigkEi0UyCxE6ZB9d9wdtx68DuY+QQLsnry5o0pZvMjWlBjXEzqRmw2r2TxXhn0S4Jbk19lPiCIUCBZ3TrJ4+uyq2/H5feDzpgQxoszgoWX/0aeT+ahpz5J0Ka+fswdwp3lhADrKgi0xJ+qzNZ4YG+OS4+CyvtMpKK2eX19vfheHxNGQNamZ+XOSEXk5bcwVa8rF62RmEc4IFnbfa3F979X jjohns@mycompany.com" ],
+                  "subnetId" : "ocid1.subnet.oc1.phx.aaaaaaaahlnxiytzxhvat7fxcycge3tlxmmraivbtomh32j5lmjhf44zsqqa",
+                  "timeCreated" : "2016-11-23T01:59:07.030Z",
+                  "version" : "201609160308",
+                  "vipIds": null
+                }
+
+              Response to example II:
+                {
+                  "availabilityDomain" : "OXET:PHX-AD-1",
+                  "compartmentId" : "ocid1.tenancy.oc1..aaaaaaaah2sauv373xyfrpcnaed2ptfy67fnspzyda2hacgdbrkijhffugaa",
+                  "cpuCoreCount" : 8,
+                  "databaseEdition" : "ENTERPRISE_EDITION",
+                  "diskRedundancy" : "HIGH",
+                  "displayName" : "tst3dbsys",
+                  "domain" : "my.company.com",
+                  "hostname" : "athena",
+                  "id" : "ocid1.dbsystem.oc1.phx.abuxgljrvkwamqmkukhluitmxsgupmgpv2lt4jf6i4mrksrjhfysfpqjbjyq",
+                  "lastPatchHistoryEntryId" : "ocid1.dbpatchhistory.oc1.phx.avbdferefsdfesdfkukhluitmxsgupmgpv2lt4jf6i4mrksrjhfysfpxdewf",
+                  "lifecycleDetails" : "Executing APPLY with patch 'The patch display name'",
+                  "lifecycleState" : "UPDATING",
+                  "listenerPort" : 1521,
+                  "scanIpIds": null,
+                  "shape" : "BM.DenseIO1.36",
+                  "sshPublicKeys" : [ "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDIhMFpW4HqUJI1GehitSqDDxbaE3QtU770jhf9+znc5jSnOS/c9zzmHmyQ1osVrdFAhhMjlF6vZRYYi5U0Fa+zqqtnCKlhgOdgXAEtbpusCoR/Ed8Q+bABfdb+VigejXigkEi0UyCxE6ZB9d9wdtx68DuY+QQLsnry5o0pZvMjWlBjXEzqRmw2r2TxXhn0S4Jbk19lPiCIUCBZ3TrJ4+uyq2/H5feDzpgQxoszgoWX/0aeT+ahpz5J0Ka+fswdwp3lhADrKgi0xJ+qzNZ4YG+OS4+CyvtMpKK2eX19vfheHxNGQNamZ+XOSEXk5bcwVa8rF62RmEc4IFnbfa3F979X jjohns@mycompany.com" ],
+                  "subnetId" : "ocid1.subnet.oc1.phx.aaaaaaaahlnxiytzxhvat7fxcycge3tlxmmraivbtomh32j5lmjhf44zsqqa",
+                  "timeCreated" : "2016-11-23T01:59:07.030Z",
+                  "version" : "201609160308",
+                  "vipIds": null
+                }
+
+              Response to example III:
+                {
+                  "availabilityDomain" : "OXET:PHX-AD-1",
+                  "compartmentId" : "ocid1.tenancy.oc1..aaaaaaaah2sauv373xyfrpcnaed2ptfy67fnspzyda2hacgdbrkijhffugaa",
+                  "cpuCoreCount" : 8,
+                  "databaseEdition" : "ENTERPRISE_EDITION",
+                  "diskRedundancy" : "HIGH",
+                  "displayName" : "tst3dbsys",
+                  "domain" : "my.company.com",
+                  "hostname" : "athena",
+                  "id" : "ocid1.dbsystem.oc1.phx.abuxgljrvkwamqmkukhluitmxsgupmgpv2lt4jf6i4mrksrjhfysfpqjbjyq",
+                  "lastPatchHistoryEntryId" : null,
+                  "lifecycleDetails" : null,
+                  "lifecycleState" : "UPDATING",
+                  "listenerPort" : 1521,
+                  "scanIpIds": null,
+                  "shape" : "BM.DenseIO1.36",
+                  "sshPublicKeys" : [ "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDIhMFpW4HqUJI1GehitSqDDxbaE3QtU770jhf9+znc5jSnOS/c9zzmHmyQ1osVrdFAhhMjlF6vZRYYi5U0Fa+zqqtnCKlhgOdgXAEtbpusCoR/Ed8Q+bABfdb+VigejXigkEi0UyCxE6ZB9d9wdtx68DuY+QQLsnry5o0pZvMjWlBjXEzqRmw2r2TxXhn0S4Jbk19lPiCIUCBZ3TrJ4+uyq2/H5feDzpgQxoszgoWX/0aeT+ahpz5J0Ka+fswdwp3lhADrKgi0xJ+qzNZ4YG+OS4+CyvtMpKK2eX19vfheHxNGQNamZ+XOSEXk5bcwVa8rF62RmEc4IFnbfa3F979X jjohns@mycompany.com" ],
+                  "subnetId" : "ocid1.subnet.oc1.phx.aaaaaaaahlnxiytzxhvat7fxcycge3tlxmmraivbtomh32j5lmjhf44zsqqa",
+                  "timeCreated" : "2016-11-23T01:59:07.030Z",
+                  "version" : "201609160308",
+                  "vipIds": null
+                }
+
+              Response to example IV:
+                {
+                  "availabilityDomain" : "OXET:PHX-AD-1",
+                  "compartmentId" : "ocid1.tenancy.oc1..aaaaaaaah2sauv373xyfrpcnaed2ptfy67fnspzyda2hacgdbrkijhffugaa",
+                  "cpuCoreCount" : 8,
+                  "databaseEdition" : "ENTERPRISE_EDITION",
+                  "diskRedundancy" : "HIGH",
+                  "displayName" : "tst3dbsys",
+                  "domain" : "my.company.com",
+                  "hostname" : "athena",
+                  "id" : "ocid1.dbsystem.oc1.phx.abuxgljrvkwamqmkukhluitmxsgupmgpv2lt4jf6i4mrksrjhfysfpqjbjyq",
+                  "lastPatchHistoryEntryId" : "ocid1.dbpatchhistory.oc1.phx.avbdferefsdfesdfkukhluitmxsgupmgpv2lt4jf6i4mrksrjhfysfpxdewf",
+                  "lifecycleDetails" : "Executing APPLY with patch 'The patch display name'",
+                  "lifecycleState" : "UPDATING",
+                  "listenerPort" : 1521,
+                  "scanIpIds": null,
+                  "shape" : "BM.DenseIO1.36",
+                  "sshPublicKeys" : [ "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDIhMFpW4HqUJI1GehitSqDDxbaE3QtU770jhf9+znc5jSnOS/c9zzmHmyQ1osVrdFAhhMjlF6vZRYYi5U0Fa+zqqtnCKlhgOdgXAEtbpusCoR/Ed8Q+bABfdb+VigejXigkEi0UyCxE6ZB9d9wdtx68DuY+QQLsnry5o0pZvMjWlBjXEzqRmw2r2TxXhn0S4Jbk19lPiCIUCBZ3TrJ4+uyq2/H5feDzpgQxoszgoWX/0aeT+ahpz5J0Ka+fswdwp3lhADrKgi0xJ+qzNZ4YG+OS4+CyvtMpKK2eX19vfheHxNGQNamZ+XOSEXk5bcwVa8rF62RmEc4IFnbfa3F979X jjohns@mycompany.com" ],
+                  "subnetId" : "ocid1.subnet.oc1.phx.aaaaaaaahlnxiytzxhvat7fxcycge3tlxmmraivbtomh32j5lmjhf44zsqqa",
+                  "timeCreated" : "2016-11-23T01:59:07.030Z",
+                  "version" : "201609160308",
+                  "vipIds": null
+                }
+
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        409:
+          $ref: '#/responses/409'
+        412:
+          $ref: '#/responses/412'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+
+  /dbSystems/{dbSystemId}/patches:
+    get:
+      tags: ['database']
+      operationId: ListDbSystemPatches
+      x-related-resource: '#/definitions/Patch'
+      summary: ListDbSystemPatches
+      parameters:
+        - $ref: '#/parameters/DbSystemIdPathParam'
+        - $ref: '#/parameters/PaginationLimitParam'
+        - $ref: '#/parameters/PaginationToken'
+      description: |
+        Lists the patches applicable to the requested DB System.
+      x-example: |
+        GET /20160918/dbSystems/<var>&lt;dbSystemId&gt;</var>/patches?limit=10
+        Host: database.us-phoenix-1.oraclecloud.com
+        <var>&lt;authorization and other headers&gt;</var>
+      responses:
+        200:
+          description: A list of the patch packages.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/PatchSummary'
+          headers:
+            opc-request-id:
+              $ref: '#/x-descriptions/opc-request-id'
+            opc-next-page:
+              $ref: '#/x-descriptions/opc-next-page'
+          examples:
+            application-json: |
+              [
+                {
+                  "availableActions" : ["APPLY"],
+                  "description" : "Patch PSU as released on 201611"
+                  "id" : "ocid1.dbpatch.oc1.phx.aaaaaaamilwaukeekiu123527iqufozuxobvrk2rtfakjhfm6fmqv5ddee32",
+                  "lastAction" : "APPLY",
+                  "lifecycleDetails" : "A failure message that can be displayed to the user",
+                  "lifecycleState" : "FAILED",
+                  "timeReleased" : "2017-02-16T01:50:07.0001",
+                  "type" : "BUNDLE",
+                  "version" : "20170127",
+                },
+                {
+                  "availableActions" : ["APPLY"],
+                  "description" : "Patch PSU as released on 20170127"
+                  "id" : "ocid1.dbpatch.oc1.phx.2rtfakjhfm6fmqv5ddee32aaaaaaamilwaukeekiu123527iqufozuxobvrk",
+                  "lastAction" : null,
+                  "lifecycleDetails" : null,
+                  "lifecycleState" : "AVAILABLE",
+                  "timeReleased" : "2017-02-17T09:20:01.0007",
+                  "type" : "BUNDLE",
+                  "version" : "20170127",
+                }
+              ]
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+
+  /dbSystems/{dbSystemId}/patches/{patchId}:
+    get:
+      tags: ['database']
+      operationId: GetDbSystemPatch
+      summary: GetDbSystemPatch
+      parameters:
+        - $ref: '#/parameters/DbSystemIdPathParam'
+        - $ref: '#/parameters/PatchIdPathParam'
+      description: |
+        Gets information about a specified patch package.
+      x-example: |
+        GET /20160918/dbSystems/<var>&lt;dbSystemId&gt;</var>/patches/<var>&lt;patchId&gt;</var>
+        Host: database.us-phoenix-1.oraclecloud.com
+        <var>&lt;authorization and other headers&gt;</var>
+      responses:
+        200:
+          description: The patch package.
+          schema:
+            $ref: '#/definitions/Patch'
+          headers:
+            opc-request-id:
+              $ref: '#/x-descriptions/opc-request-id'
+          examples:
+            application-json: |
+              {
+                "description" : "Patch PSU as released on 20170127"
+                "id" : "ocid1.dbpatch.oc1.phx.abuxgljr44mawu5drtz6mb527iqufozuxobvrk2rtfakjhfm6fmqv5evnavq",
+                "name" : "DbSystem 20170127",
+                "timeReleased" : "2017-01-16T01:50:07.0001Z",
+                "type" : "BUNDLE",
+                "version" : "20170127",
+              }
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+
+  /dbSystems/{dbSystemId}/patchHistoryEntries:
+    get:
+      tags: ['database']
+      operationId: ListDbSystemPatchHistoryEntries
+      x-related-resource: '#/definitions/PatchHistoryEntry'
+      summary: ListDbSystemPatchHistoryEntries
+      parameters:
+        - $ref: '#/parameters/DbSystemIdPathParam'
+        - $ref: '#/parameters/PaginationLimitParam'
+        - $ref: '#/parameters/PaginationToken'
+      description: |
+        Gets the history of the patch actions performed on the specified DB System.
+      x-example: |
+        GET /20160918/dbSystems/<var>&lt;dbSystemId&gt;</var>/patchHistoryEntries?limit=100
+        Host: database.us-phoenix-1.oraclecloud.com
+        <var>&lt;authorization and other headers&gt;</var>
+      responses:
+        200:
+          description: The patch history for the specified DB System.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/PatchHistoryEntrySummary'
+          headers:
+            opc-request-id:
+              $ref: '#/x-descriptions/opc-request-id'
+            opc-next-page:
+              $ref: '#/x-descriptions/opc-next-page'
+          examples:
+            application-json: |
+              [
+                {
+                  "action" : "APPLY",
+                  "patchId" : "ocid1.dbpatch.oc1.phx.ag31dsjucyzkj123nkusdfyanerlkjsudyre812308sdfksdflsersdfki2",
+                  "id" : "ocid1.dbpatchhistory.oc1.phx.cccccccjucyxtrexatsxgaxlorxexdxdxdxdxsa1swa1s1s12s2wsxas",
+                  "lifecycleState" : "IN_PROGRESS",
+                  "lifecycleDetails" : null,
+                  "timeStarted" : "2017-01-01T07:07:07.007Z",
+                  "timeEnded" : null,
+                }, {
+                  "action" : "APPLY",
+                  "id" : "ocid1.dbpatchhistory.oc1.phx.bbbbbbbjucyxtrexatsxgaxlorxexdxdxdxdxsa1swa1s1s12s2wsxas",
+                  "patchId" : "ocid1.dbpatch.oc1.phx.ag31dsjucyzkj123nkusdfyanerlkjsudyre812308sdfksdflsersdfki2",
+                  "lifecycleState" : "SUCCESS",
+                  "lifecycleDetails" : "Completed successfully.",
+                  "timeStarted" : "2016-12-21T01:59:07.032Z",
+                  "timeEnded" : "2016-12-21T02:21:07.032Z"
+                }, {
+                  "action" : "APPLY",
+                  "patchId" : "ocid1.dbpatch.oc1.phx.zzzzzzjxudcyxl987xddx3txerxminxedxt0xd4nxc3xr34xllyx6x48x81y",
+                  "id" : "ocid1.dbpatchhistory.oc1.phx.zzzzzzzzjucyxtrexatsxgaxlorxexdxdxdxdxsa1swa1s1s12s2wsxaxxxs",
+                  "lifecycleState" : "FAILED",
+                  "lifecycleDetails" : "Something failed that needs attention.",
+                  "timeStarted" : "2016-11-20T01:23:45.6789Z",
+                  "timeEnded" : "2016-11-20T01:23:45.6789Z",
+                }
+              ]
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+
+  /dbSystems/{dbSystemId}/patchHistoryEntries/{patchHistoryEntryId}:
+    get:
+      tags: ['database']
+      operationId: GetDbSystemPatchHistoryEntry
+      summary: GetDbSystemPatchHistoryEntry
+      parameters:
+        - $ref: '#/parameters/DbSystemIdPathParam'
+        - $ref: '#/parameters/PatchHistoryEntryIdPathParam'
+      description: |
+        Gets the patch history details for the specified patchHistoryEntryId.
+      x-example: |
+        GET /20160918/patchHistoryEntries/<var>&lt;patchHistoryEntryId&gt;</var>
+        Host: database.us-phoenix-1.oraclecloud.com
+        <var>&lt;authorization and other headers&gt;</var>
+      responses:
+        200:
+          description: The patch history details for the specified patchHistoryEntryId.
+          schema:
+            $ref: '#/definitions/PatchHistoryEntry'
+          headers:
+            etag:
+              $ref: '#/x-descriptions/etag'
+            opc-request-id:
+              $ref: '#/x-descriptions/opc-request-id'
+          examples:
+            application-json: |
+              {
+                  "action" : "APPLY",
+                  "patchId" : "ocid1.dbpatch.oc1.phx.zzzzzzjxudcyxl987xddx3txerxminxedxt0xd4nxc3xr34xllyx6x48x81y",
+                  "id" : "ocid1.dbpatchhistory.oc1.phx.zzzzzzzzjucyxtrexatsxgaxlorxexdxdxdxdxsa1swa1s1s12s2wsxaxxxs",
+                  "lifecycleState" : "FAILED",
+                  "lifecycleDetails" : "Something failed that needs attention.",
+                  "timeStarted" : "2016-11-20T01:23:45.6789Z",
+                  "timeEnded" : "2016-11-20T01:23:45.6789Z",
+              }
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+
+  /dbNodes:
+    get:
+      tags: ['database']
+      description: |
+        Gets a list of database nodes in the specified DB System and compartment. A database node is a server running database software.
+        
+      operationId: ListDbNodes
+      x-related-resource: '#/definitions/DbNode'
+      summary: ListDbNodes
+      parameters:
+        - $ref: '#/parameters/CompartmentId'
+        - $ref: '#/parameters/DbSystemIdQueryParam'
+        - $ref: '#/parameters/PaginationLimitParam'
+        - $ref: '#/parameters/PaginationToken'
+      x-example: |
+        GET /20160918/dbNodes?compartmentId=<var>&lt;compartmentId&gt;</var>&dbSystemId=<var>&lt;dbSystemId&gt;</var>&limit=10 
+        Host: database.us-phoenix-1.oraclecloud.com
+        <var>&lt;authorization and other headers&gt;</var>
+      responses:
+        200:
+          description: A list of dbNodes
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/DbNodeSummary'
+          headers:
+            opc-request-id:
+              $ref: '#/x-descriptions/opc-request-id'
+            opc-next-page:
+              $ref: '#/x-descriptions/opc-next-page'
+          examples: 
+            application-json: |
+              [{
+                "dbSystemId" : "ocid1.dbsystem.oc1.phx.abuxgljrvkwamqmkukhluitmxsgupmgpv2lt4jf6i4mrksrqk4ysfpjhfjyq",
+                "hostname" : "host559086",
+                "id" : "ocid1.dbnode.oc1.phx.abuxgljrjtaswtxgqqfgeiwm5x4lx4u4leovegnzdftdf35hujhfttjt5geq",
+                "lifecycleState" : "PROVISIONING",
+                "timeCreated" : "2016-11-23T01:59:07.031Z",
+                "vnicId" : null
+              }]
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+
+  /dbNodes/{dbNodeId}:
+    get:
+      tags: ['database']
+      description: Gets information about the specified database node.
+      operationId: GetDbNode
+      summary: GetDbNode
+      parameters:
+        - $ref: '#/parameters/DbNodeIdPathParam'
+      x-example: |
+        GET /20160918/dbNodes/<var>&lt;dbNodeId&gt;</var> 
+        Host: database.us-phoenix-1.oraclecloud.com
+        <var>&lt;authorization and other headers&gt;</var>
+      responses:
+        200:
+          description: The database node.
+          schema:
+            $ref: '#/definitions/DbNode'
+          headers:
+            etag:
+              $ref: '#/x-descriptions/etag'
+            opc-request-id:
+              $ref: '#/x-descriptions/opc-request-id'
+          examples: 
+            application-json: |
+              {
+                "dbSystemId" : "ocid1.dbsystem.oc1.phx.abxxgljrvkwamqmkukhluitmxsgupmgpv2lt4jf6i4mrksrqk4jhfpqjbjyq",
+                "hostname" : "host559086",
+                "id" : "ocid1.dbnode.oc1.phx.abuxgljrjtasxtxgqqfgeiwm5x4lx4u4leovegnzdftdf35hu4jhftjt5geq",
+                "lifecycleState" : "PROVISIONING",
+                "timeCreated" : "2016-11-23T01:59:07.031Z",
+                "vnicId" : null
+              }
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+
+    post:
+      tags: ['database']
+      description: |
+        Performs an action, such as one of the power actions (start, stop, softreset, or reset), on the specified DB Node.
+      
+        **start** - power on
+
+        **stop** - power off
+
+        **softreset** - ACPI shutdown and power on
+
+        **reset** - power off and power on
+
+        Note that the **stop** state has no effect on the resources you consume.
+        Billing continues for DB Nodes that you stop, and related resources continue
+        to apply against any relevant quotas. You must terminate the DB System 
+        ([TerminateDbSystem](#/en/database/20160918/DbSystem/TerminateDbSystem))
+        to remove its resources from billing and quotas.
+
+      operationId: DbNodeAction
+      summary: DbNodeAction
+      parameters:
+      - $ref: '#/parameters/DbNodeIdPathParam'
+      - $ref: '#/parameters/DbNodeActionQueryParam'
+      - $ref: '#/parameters/RetryTokenHeader'
+      - $ref: '#/parameters/IfMatchHeader'
+      x-example: |
+        POST /20160918/dbNodes/<var>&lt;dbNodeId&gt;</var>?action=stop
+        Host: database.us-phoenix-1.oraclecloud.com
+        <var>&lt;authorization and other headers&gt;</var>
+      responses:
+        200:
+          description: The request was successfully received and the action is being performed.
+          headers:
+            etag:
+              $ref: '#/x-descriptions/etag'
+            opc-request-id:
+              $ref: '#/x-descriptions/opc-request-id'
+          schema:
+            $ref: '#/definitions/DbNode'
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        409:
+          $ref: '#/responses/409'
+        412:
+          $ref: '#/responses/412'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+
+  /dbHomes:
+    post:
+      tags: ['database']
+      description: |
+        Creates a new DB Home in the specified DB System based on the request parameters you provide.
+      operationId: CreateDbHome
+      summary: CreateDbHome
+      parameters:
+        - name: CreateDbHomeWithDbSystemIdDetails
+          description: Request to create a new DB Home.
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/CreateDbHomeWithDbSystemIdBase'
+        - $ref: '#/parameters/RetryTokenHeader'
+      x-example: |
+        Example I:
+          POST /20160918/dbHomes
+          Host: database.us-phoenix-1.oraclecloud.com
+          <var>&lt;authorization and other headers&gt;</var>
+          {
+            "dbSystemId" : "ocid1.dbsystem.oc1.phx.abuxgljrvkwamqmkukhluitmxsgupmgpv2lt4jf6i4mrksrjhfysfpqjbjyq",
+            "displayName" : "createdDbHome",
+            "source": "NONE",
+            "dbVersion" : "12.1.0.2",
+            "database" : {
+              "adminPassword" : "BEstr0ng_#1",
+              "dbName" : "myTestDb"
+            }
+          }
+        Example II:
+          POST /20160918/dbHomes
+          Host: database.us-phoenix-1.oraclecloud.com
+          <var>&lt;authorization and other headers&gt;</var>
+          {
+            "dbSystemId" : "ocid1.dbsystem.oc1.phx.abuxgljrvkwamqmkukhluitmxsgupmgpv2lt4jf6i4mrksrjhfysfpqjbjyq",
+            "displayName" : "restoredDbHome",
+            "source": "DB_BACKUP",
+            "database" : {
+              "backupId" : "ocid1.backup.oc1.phx.abuxgljrojzggj3o5eh2okamyhsikksxzpencitkhqu5jweyfdb4tjhfhuyq",
+              "backupTDEPassword" : "BEstr0ng_#1",
+              "adminPassword" : "BEstr0ng_#1"
+            }
+          }
+      responses:
+        200:
+          description: The request was successfully received and the DbHome create is in-progress.
+          schema:
+            $ref: '#/definitions/DbHome'
+          headers:
+            etag:
+              $ref: '#/x-descriptions/etag'
+            opc-request-id:
+              $ref: '#/x-descriptions/opc-request-id'
+          examples:
+            application-json: |
+              {
+                "compartmentId" : "ocid1.tenancy.oc1..aaaaaaaah2sauv373xyfrpcnaed2ptfy67fnspzyda2hacgdbrkijhffugaa",
+                "dbSystemId" : "ocid1.dbsystem.oc1.phx.abuxgljrvkwamqmkukhluitmxsgupmgpv2lt4jf6i4mrksrqk4ysjhfjbjyq",
+                "dbVersion" : "12.1.0.2",
+                "displayName" : "dbhome20161123015907",
+                "id" : "ocid1.dbhome.oc1.phx.abuxgljrojzggj3o5eh2okamyhsikksxzpencitkhqu5jweyfdb4tjhfhuyq",
+                "lastPatchHistoryEntryId" : null,
+                "lifecycleState" : "PROVISIONING",
+                "timeCreated" : "2016-11-23T01:59:07.032Z"'
+              }
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        409:
+          $ref: '#/responses/409'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+
+    get:
+      tags: ['database']
+      description: |
+        Gets a list of database homes in the specified DB System and compartment. A database home is a directory where Oracle database software is installed.
+      operationId: ListDbHomes
+      x-related-resource: '#/definitions/DbHome'
+      summary: ListDbHomes
+      parameters:
+        - $ref: '#/parameters/CompartmentId'
+        - $ref: '#/parameters/DbSystemIdQueryParam'
+        - $ref: '#/parameters/PaginationLimitParam'
+        - $ref: '#/parameters/PaginationToken'
+      x-example: |
+        GET /20160918/dbHomes?compartmentId=<var>&lt;compartmentId&gt;</var>&dbSystemId=<var>&lt;dbSystemId&gt;</var>&limit=10
+        Host: database.us-phoenix-1.oraclecloud.com
+        <var>&lt;authorization and other headers&gt;</var>
+      responses:
+        200:
+          description: A list of dbHomes
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/DbHomeSummary'
+          headers:
+            opc-request-id:
+              $ref: '#/x-descriptions/opc-request-id'
+            opc-next-page:
+              $ref: '#/x-descriptions/opc-next-page'
+          examples:
+            application-json: |
+              [
+                {
+                  "compartmentId" : "ocid1.tenancy.oc1..aaaaaaaah2sauv373xyfrpcnaed2ptfy67fnspzyda2hacgdbrkijhffugaa",
+                  "dbSystemId" : "ocid1.dbsystem.oc1.phx.abuxgljrvkwamqmkukhluitmxsgupmgpv2lt4jf6i4mjhfrqk4ysfpqjbjyq",
+                  "dbVersion" : "12.1.0.2",
+                  "displayName" : "dbhome20161123015907",
+                  "id" : "ocid1.dbhome.oc1.phx.abuxgljrojzggj3o5eh2okamyhsikksxzpencitkhqu5jweyfjhft5jbhuyq",
+                  "lastPatchHistoryEntryId" : null,
+                  "lifecycleState" : "PROVISIONING",
+                  "timeCreated" : "2016-11-23T01:59:07.032Z"
+                }
+              ]
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+
+  /dbHomes/{dbHomeId}:
+    delete:
+      tags: ['database']
+      description: |
+        Deletes a DB Home. The DB Home and its database data are local to the DB System and will be lost when it is deleted. Oracle recommends that you back up any data in the DB System prior to deleting it.
+      operationId: DeleteDbHome
+      summary: DeleteDbHome
+      parameters:
+        - $ref: '#/parameters/DbHomeIdPathParam'
+        - $ref: '#/parameters/IfMatchHeader'
+        - $ref: '#/parameters/PerformFinalBackupParam'
+      x-example: |
+        DELETE /20160918/dbHomes/<var>&lt;dbHomeId&gt
+        Host: database.us-phoenix-1.oraclecloud.com
+        <var>&lt;authorization and other headers&gt;</var>
+      responses:
+        204:
+          description: The request to delete the DB Home was accepted.
+          headers:
+            opc-request-id:
+              $ref: '#/x-descriptions/opc-request-id'
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        409:
+          $ref: '#/responses/409'
+        412:
+          $ref: '#/responses/412'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+
+    get:
+      tags: ['database']
+      description: Gets information about the specified database home.
+      operationId: GetDbHome
+      summary: GetDbHome
+      parameters:
+        - $ref: '#/parameters/DbHomeIdPathParam'
+      x-example: |
+        GET /20160918/dbHomes/<var>&lt;dbHomeId&gt;</var>
+        Host: database.us-phoenix-1.oraclecloud.com
+        <var>&lt;authorization and other headers&gt;</var>
+      responses:
+        200:
+          description: The database home.
+          schema:
+            $ref: '#/definitions/DbHome'
+          headers:
+            etag:
+              $ref: '#/x-descriptions/etag'
+            opc-request-id:
+              $ref: '#/x-descriptions/opc-request-id'
+          examples:
+            application-json: |
+              {
+                "compartmentId" : "ocid1.tenancy.oc1..aaaaaaaah2sauv373xyfrpcnaed2ptfy67fnspzyda2hacgdbrkijhffugaa",
+                "dbSystemId" : "ocid1.dbsystem.oc1.phx.abuxgljrvkwamqmkukhluitmxsgupmgpv2lt4jf6i4mrksrqk4ysjhfjbjyq",
+                "dbVersion" : "12.1.0.2",
+                "displayName" : "dbhome20161123015907",
+                "id" : "ocid1.dbhome.oc1.phx.abuxgljrojzggj3o5eh2okamyhsikksxzpencitkhqu5jweyfdb4tjhfhuyq",
+                "lastPatchHistoryEntryId" : null,
+                "lifecycleState" : "PROVISIONING",
+                "timeCreated" : "2016-11-23T01:59:07.032Z"
+              }
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+
+    put:
+      tags: ['database']
+      description: Patches the specified dbHome.
+      operationId: UpdateDbHome
+      summary: UpdateDbHome
+      parameters:
+        - $ref: '#/parameters/IfMatchHeader'
+        - $ref: '#/parameters/DbHomeIdPathParam'
+        - name: UpdateDbHomeDetails
+          description: Request to update the properties of a DB Home.
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/UpdateDbHomeDetails'
+      x-example: |
+        PUT /20160918/dbHomes/<var>&lt;dbHomeId&gt;</var>
+        Host: database.us-phoenix-1.oraclecloud.com
+        <var>&lt;authorization and other headers&gt;</var>
+        {
+          "patch" : {
+            "patchId" : "ocid1.dbpatch.oc1.phx.ag31dsjucyzkj123nkusdfyanerlkjsudyre812308sdfksdflsersdfki2",
+            "action" : "APPLY",
+          },
+        }
+      responses:
+        200:
+          description: The request was successfully received and the DB Home update is in-progress.
+          schema:
+            $ref: '#/definitions/DbHome'
+          headers:
+            etag:
+              $ref: '#/x-descriptions/etag'
+            opc-request-id:
+              $ref: '#/x-descriptions/opc-request-id'
+          examples:
+            application-json: |
+              {
+                "compartmentId" : "ocid1.tenancy.oc1..aaaaaaaah2sauv373xyfrpcnaed2ptfy67fnspzyda2hacgdbrkijhffugaa",
+                "dbSystemId" : "ocid1.dbsystem.oc1.phx.abuxgljrvkwamqmkukhluitmxsgupmgpv2lt4jf6i4mrksrqk4ysjhfjbjyq",
+                "dbVersion" : "12.1.0.2",
+                "displayName" : "dbhome20161123015907",
+                "id" : "ocid1.dbhome.oc1.phx.abuxgljrojzggj3o5eh2okamyhsikksxzpencitkhqu5jweyfdb4tjhfhuyq",
+                "lastPatchHistoryEntryId" : "ocid1.dbpatchhistory.oc1.phx.abuxgljrojzggj3o5eh2okamyhsikksxzpencitkhqu5aed9fj12jif8jsdf",
+                "lifecycleState" : "UPDATING",
+                "timeCreated" : "2016-11-23T01:59:07.032Z",
+              }
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        409:
+          $ref: '#/responses/409'
+        412:
+          $ref: '#/responses/412'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+
+  /dbHomes/{dbHomeId}/patches:
+    get:
+      tags: ['database']
+      operationId: ListDbHomePatches
+      x-related-resource: '#/definitions/Patch'
+      summary: ListDbHomePatches
+      parameters:
+        - $ref: '#/parameters/DbHomeIdPathParam'
+        - $ref: '#/parameters/PaginationLimitParam'
+        - $ref: '#/parameters/PaginationToken'
+      description: |
+        Lists patches applicable to the requested database home.
+      x-example: |
+        GET /20160918/dbHomes/<var>&lt;dbHomeId&gt;</var>/patches?limit=10
+        Host: database.us-phoenix-1.oraclecloud.com
+        <var>&lt;authorization and other headers&gt;</var>
+      responses:
+        200:
+          description: A list of the patch packages.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/PatchSummary'
+          headers:
+            opc-request-id:
+              $ref: '#/x-descriptions/opc-request-id'
+            opc-next-page:
+              $ref: '#/x-descriptions/opc-next-page'
+          examples:
+            application-json: |
+              [
+                {
+                  "availableActions" : ["APPLY"],
+                  "description" : "Jan DB patch for 12.0.2.3.1"
+                  "id" : "ocid1.dbpatch.oc1.phx.abuxgljr44mawu5drtz6mb527iqufozuxobvrk2rtfakjhfm6fmqv5evnavq",
+                  "lastAction": "APPLY",
+                  "lifecycleDetails" : "A failure message that can be displayed to the user",
+                  "lifecycleState" : "FAILED",
+                  "name" : "db.12.0.2.3.1",
+                  "timeReleased" : "2017-01-16T01:50:07.0001",
+                  "type" : "BUNDLE",
+                  "version" : "12.0.2.3.1",
+                }
+              ]
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+
+  /dbHomes/{dbHomeId}/patches/{patchId}:
+    get:
+      tags: ['database']
+      operationId: GetDbHomePatch
+      summary: GetDbHomePatch
+      parameters:
+        - $ref: '#/parameters/DbHomeIdPathParam'
+        - $ref: '#/parameters/PatchIdPathParam'
+      description: |
+        Gets information about a specified patch package.
+      x-example: |
+        GET /20160918/dbHomes/<var>&lt;dbHomeId&gt;</var>/patches/<var>&lt;patchId&gt;</var>
+        Host: database.us-phoenix-1.oraclecloud.com
+        <var>&lt;authorization and other headers&gt;</var>
+      responses:
+        200:
+          description: The patch package.
+          schema:
+            $ref: '#/definitions/Patch'
+          headers:
+            opc-request-id:
+              $ref: '#/x-descriptions/opc-request-id'
+          examples:
+            application-json: |
+                {
+                  "availableActions" : ["APPLY"],
+                  "description" : "Jan DB patch for 12.0.2.3.1"
+                  "id" : "ocid1.dbpatch.oc1.phx.abuxgljr44mawu5drtz6mb527iqufozuxobvrk2rtfakjhfm6fmqv5evnavq",
+                  "lastAction": "APPLY",
+                  "lifecycleDetails" : "A failure message that can be displayed to the user",
+                  "lifecycleState" : "FAILED",
+                  "name" : "db.12.0.2.3.1",
+                  "timeReleased" : "2017-01-16T01:50:07.0001",
+                  "type" : "BUNDLE",
+                  "version" : "12.0.2.3.1",
+                }
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+
+  /dbHomes/{dbHomeId}/patchHistoryEntries:
+    get:
+      tags: ['database']
+      operationId: ListDbHomePatchHistoryEntries
+      x-related-resource: '#/definitions/PatchHistoryEntry'
+      summary: ListDbHomePatchHistoryEntries
+      parameters:
+        - $ref: '#/parameters/DbHomeIdPathParam'
+        - $ref: '#/parameters/PaginationLimitParam'
+        - $ref: '#/parameters/PaginationToken'
+      description: |
+        Gets history of the actions taken for patches for the specified database home.
+      x-example: |
+        GET /20160918/dbHomes/<var>&lt;dbHomeId&gt;</var>/patchHistoryEntries?limit=100
+        Host: database.us-phoenix-1.oraclecloud.com
+        <var>&lt;authorization and other headers&gt;</var>
+      responses:
+        200:
+          description: The patch history for the specified database home.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/PatchHistoryEntrySummary'
+          headers:
+            opc-request-id:
+              $ref: '#/x-descriptions/opc-request-id'
+            opc-next-page:
+              $ref: '#/x-descriptions/opc-next-page'
+          examples:
+            application-json: |
+              [
+                {
+                  "action" : "APPLY",
+                  "patchId" : "ocid1.dbpatch.oc1.phx.ag31dsjucyzkj123nkusdfyanerlkjsudyre812308sdfksdflsersdfki2",
+                  "id" : "ocid1.dbpatchhistory.oc1.phx.cccccccjucyxtrexatsxgaxlorxexdxdxdxdxsa1swa1s1s12s2wsxas",
+                  "lifecycleState" : "IN_PROGRESS",
+                  "lifecycleDetails" : "",
+                  "timeStarted" : "2017-01-01T07:07:07.007Z",
+                  "timeEnded" : null,
+                }, {
+                  "action" : "APPLY",
+                  "id" : "ocid1.dbpatchhistory.oc1.phx.bbbbbbbjucyxtrexatsxgaxlorxexdxdxdxdxsa1swa1s1s12s2wsxas",
+                  "patchId" : "ocid1.dbpatch.oc1.phx.ag31dsjucyzkj123nkusdfyanerlkjsudyre812308sdfksdflsersdfki2",
+                  "lifecycleState" : "SUCCESS",
+                  "lifecycleDetails" : "",
+                  "timeStarted" : "2016-12-21T01:59:07.032Z",
+                  "timeEnded" : "2016-12-21T02:21:07.032Z"
+                }, {
+                  "action" : "APPLY",
+                  "patchId" : "ocid1.dbpatch.oc1.phx.ag31dsjucyzkj123nkusdfyanerlkjsudyre812308sdfksdflsersdfki2",
+                  "id" : "ocid1.dbpatchhistory.oc1.phx.aaaaaaaajucyxtrexatsxgaxlorxexdxdxdxdxsa1swa1s1s12s2wsxas",
+                  "lifecycleState" : "SUCCESS",
+                  "lifecycleDetails" : "",
+                  "timeStarted" : "2016-12-20T01:23:45.6789Z",
+                  "timeEnded" : "2016-12-20T01:23:45.6789Z",
+                }, {
+                  "action" : "APPLY",
+                  "patchId" : "ocid1.dbpatch.oc1.phx.zzzzzzjxudcyxl987xddx3txerxminxedxt0xd4nxc3xr34xllyx6x48x81y",
+                  "id" : "ocid1.dbpatchhistory.oc1.phx.zzzzzzzzjucyxtrexatsxgaxlorxexdxdxdxdxsa1swa1s1s12s2wsxaxxxs",
+                  "lifecycleState" : "FAILED",
+                  "lifecycleDetails" : "Something failed that needs attention.",
+                  "timeStarted" : "2016-11-20T01:23:45.6789Z",
+                  "timeEnded" : "2016-11-20T01:23:45.6789Z",
+                }
+              ]
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        409:
+          $ref: '#/responses/409'
+        412:
+          $ref: '#/responses/412'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+
+  /dbHomes/{dbHomeId}/patchHistoryEntries/{patchHistoryEntryId}:
+    get:
+      tags: ['database']
+      operationId: GetDbHomePatchHistoryEntry
+      summary: GetDbHomePatchHistoryEntry
+      parameters:
+        - $ref: '#/parameters/DbHomeIdPathParam'
+        - $ref: '#/parameters/PatchHistoryEntryIdPathParam'
+      description: |
+        Gets the patch history details for the specified patchHistoryEntryId
+      x-example: |
+        GET /20160918/patchHistoryEntries/<var>&lt;patchHistoryEntryId&gt;</var>
+        Host: database.us-phoenix-1.oraclecloud.com
+        <var>&lt;authorization and other headers&gt;</var>
+      responses:
+        200:
+          description: The patch history details for the specified patchHistoryEntryId.
+          schema:
+            $ref: '#/definitions/PatchHistoryEntry'
+          headers:
+            etag:
+              $ref: '#/x-descriptions/etag'
+            opc-request-id:
+              $ref: '#/x-descriptions/opc-request-id'
+          examples:
+            application-json: |
+              {
+                  "action" : "APPLY",
+                  "patchId" : "ocid1.dbpatch.oc1.phx.zzzzzzjxudcyxl987xddx3txerxminxedxt0xd4nxc3xr34xllyx6x48x81y",
+                  "id" : "ocid1.dbpatchhistory.oc1.phx.zzzzzzzzjucyxtrexatsxgaxlorxexdxdxdxdxsa1swa1s1s12s2wsxaxxxs",
+                  "lifecycleState" : "FAILED",
+                  "lifecycleDetails" : "Something failed that needs attention.",
+                  "timeStarted" : "2016-11-20T01:23:45.6789Z",
+                  "timeEnded" : "2016-11-20T01:23:45.6789Z",
+              }
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+
+  /backups:
+    post:
+      tags: ['database']
+      description: |
+        Creates a new backup in the specified database based on the request parameters you provide. If you previously used RMAN or dbcli to configure backups and then you switch to using the Console or the API for backups, a new backup configuration is created and associated with your database. This means that you can no longer rely on your previously configured unmanaged backups to work.
+      operationId: CreateBackup
+      summary: CreateBackup
+      parameters:
+        - name: CreateBackupDetails
+          description: Request to create a new database backup.
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/CreateBackupDetails'
+        - $ref: '#/parameters/RetryTokenHeader'
+      x-example: |
+        POST /20160918/backups
+        Host: database.us-phoenix-1.oraclecloud.com
+        <var>&lt;authorization and other headers&gt;</var>
+        {
+          "databaseId" : "ocid1.database.oc1.phx.abuxgljrvkwamqmkukhluitmxsgupmgpv2lt4jf6i4mrksrqk4ysjhfjbjyq",
+          "displayName" : "Monthly Backup"
+        }
+      responses:
+        200:
+          description: The request was successfully received and the backup operation is in progress.
+          schema:
+            $ref: '#/definitions/Backup'
+          headers:
+            etag:
+              $ref: '#/x-descriptions/etag'
+            opc-request-id:
+              $ref: '#/x-descriptions/opc-request-id'
+          examples:
+            application-json: |
+              {
+                "compartmentId" : "ocid1.tenancy.oc1..zzzzzh2sauv373xyfrpcnaed2ptfy67fnspzyda2hacgdbrkijhffugaa",
+                "databaseId" : "ocid1.database.oc1.phx.zzzzzjrvkwamqmkukhluitmxsgupmgpv2lt4jf6i4mrksrqk4ysjhfjbjyq",
+                "displayName" : "Monthly Backup",
+                "id" : "ocid1.backup.oc1.phx.zzzzzjrojzggj3o5eh2okamyhsikksxzpencitkhqu5jweyfdb4tjhfhuyq",
+                "lifecycleState" : "CREATING",
+                "timeStarted" : "2016-11-23T01:59:07.032Z",
+                "timeEnded" : null
+              }
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        409:
+          $ref: '#/responses/409'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+
+    get:
+      tags: ['database']
+      description: |
+        Gets a list of backups based on the databaseId or compartmentId specified. Either one of the query parameters must be provided.
+      operationId: ListBackups
+      x-related-resource: '#/definitions/Backup'
+      summary: ListBackups
+      parameters:
+        - $ref: '#/parameters/OptionalDatabaseIdQueryParam'
+        - $ref: '#/parameters/OptionalCompartmentIdQueryParam'
+        - $ref: '#/parameters/PaginationLimitParam'
+        - $ref: '#/parameters/PaginationToken'
+      x-example: |
+        GET /20160918/databases/backups?databaseId=<var>&lt;databaseId&gt;</var>&limit=10
+        Host: database.us-phoenix-1.oraclecloud.com
+        <var>&lt;authorization and other headers&gt;</var>
+      responses:
+        200:
+          description: A list of Backups
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/BackupSummary'
+          headers:
+            opc-request-id:
+              $ref: '#/x-descriptions/opc-request-id'
+            opc-next-page:
+              $ref: '#/x-descriptions/opc-next-page'
+          examples:
+            application-json: |
+              {[
+                {
+                   "compartmentId" : "ocid1.tenancy.oc1..aaaaaaaah2sauv373xyfrpcnaed2ptfy67fnspzyda2hacgdbrkijhffugaa",
+                   "databaseId" : "ocid1.database.oc1.phx.abuxgljrvkwamqmkukhluitmxsgupmgpv2lt4jf6i4mrksrqk4ysjhfjbjyq",
+                   "displayName" : "Monthly Backup",
+                   "type" : "FULL",
+                   "id" : "ocid1.backup.oc1.phx.abuxgljrojzggj3o5eh2okamyhsikksxzpencitkhqu5jweyfdb4tjhfhuyq",
+                   "lifecycleState" : "CREATING",
+                   "timeStarted" : "2016-11-23T01:59:07.032Z",
+                   "timeEnded" : null
+                }
+              ]}
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+
+  /backups/{backupId}:
+    delete:
+      tags: ['database']
+      description: Deletes a full backup. You cannot delete automatic backups using this API.
+      operationId: DeleteBackup
+      summary: DeleteBackup
+      parameters:
+        - $ref: '#/parameters/BackupIdPathParam'
+        - $ref: '#/parameters/IfMatchHeader'
+      x-example: |
+        DELETE /20160918/backups/<var>&lt;backupId&gt;</var>
+        Host: database.us-phoenix-1.oraclecloud.com
+        <var>&lt;authorization and other headers&gt;</var>
+      responses:
+        204:
+          description: The request to delete the backup was accepted.
+          headers:
+            opc-request-id:
+              $ref: '#/x-descriptions/opc-request-id'
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        412:
+          $ref: '#/responses/412'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+
+    get:
+      tags: ['database']
+      description: Gets information about the specified backup.
+      operationId: GetBackup
+      summary: GetBackup
+      parameters:
+        - $ref: '#/parameters/BackupIdPathParam'
+      x-example: |
+        GET /20160918/backups/<var>&lt;backupId&gt;</var>
+        Host: database.us-phoenix-1.oraclecloud.com
+        <var>&lt;authorization and other headers&gt;</var>
+      responses:
+        200:
+          description: The database backup.
+          schema:
+            $ref: '#/definitions/Backup'
+          headers:
+            etag:
+              $ref: '#/x-descriptions/etag'
+            opc-request-id:
+              $ref: '#/x-descriptions/opc-request-id'
+          examples:
+            application-json: |
+              {
+                "compartmentId" : "ocid1.tenancy.oc1..aaaaaaaah2sauv373xyfrpcnaed2ptfy67fnspzyda2hacgdbrkijhffugaa",
+                "databaseId" : "ocid1.database.oc1.phx.abuxgljrvkwamqmkukhluitmxsgupmgpv2lt4jf6i4mrksrqk4ysjhfjbjyq",
+                "displayName" : "Monthly Backup",
+                "type" : "FULL",
+                "id" : "ocid1.backup.oc1.phx.abuxgljrojzggj3o5eh2okamyhsikksxzpencitkhqu5jweyfdb4tjhfhuyq",
+                "lifecycleState" : "CREATING",
+                "timeStarted" : "2016-11-23T01:59:07.032Z",
+                "timeEnded" : null
+              }
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+
+  /databases:
+    get:
+      tags: ['database']
+      description: |
+        Gets a list of the databases in the specified database home.
+
+      operationId: ListDatabases
+      x-related-resource: '#/definitions/Database'
+      summary: ListDatabases
+      parameters:
+        - $ref: '#/parameters/CompartmentId'
+        - $ref: '#/parameters/DbHomeIdQueryParam'
+        - $ref: '#/parameters/PaginationLimitParam'
+        - $ref: '#/parameters/PaginationToken'
+      x-example: |
+        GET /20160918/databases?compartmentId=<var>&lt;compartmentId&gt;</var>&dbHomeId=<var>&lt;dbHomeId&gt;</var>&limit=10
+        Host: database.us-phoenix-1.oraclecloud.com
+        <var>&lt;authorization and other headers&gt;</var>
+      responses:
+        200:
+          description: A list of the databases.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/DatabaseSummary'
+          headers:
+            opc-request-id:
+              $ref: '#/x-descriptions/opc-request-id'
+            opc-next-page:
+              $ref: '#/x-descriptions/opc-next-page'
+          examples: 
+            application-json: |
+              [
+                {
+                  "compartmentId" : "ocid1.tenancy.oc1..aaaaaaaah2sauh373xyfrpcnaed2ptfy67fnspzyda2hacgdbrkijhffugaa",
+                  "dbHomeId" : "ocid1.dbhome.oc1.phx.abuxgljrojzggj3o5eh2vkamyhsikksxzpencitkhqu5jweyfdbjhfjbhuyq",
+                  "dbName" : "myTestDb",
+                  "dbUniqueName" : "myTestDb_phx1cs",
+                  "characterSet" : "AL32UTF8",
+                  "ncharacterSet" : "AL16UTF16",
+                  "id" : "ocid1.database.oc1.phx.abuxgljr44mawu5drtz6mb527iqufozuxobvrk2rtfakjhfm6fmqv5evnavq",
+                  "lifecycleState" : "PROVISIONING",
+                  "timeCreated" : "2016-11-23T01:59:07.032Z",
+                  "dbBackupConfig" : {
+                   "autoBackupEnabled" : true
+                   }
+                }
+              ]
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+
+  /databases/{databaseId}:
+    put:
+      tags: ['database']
+      description: |
+        Update a Database based on the request parameters you provide.
+      operationId: UpdateDatabase
+      summary: UpdateDatabase
+      parameters:
+        - $ref: '#/parameters/DatabaseIdPathParam'
+        - name: UpdateDatabaseDetails
+          description: Request to perform database update.
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/UpdateDatabaseDetails'
+        - $ref: '#/parameters/IfMatchHeader'
+      x-example: |
+        PUT /20160918/databases/<var>&lt;databaseId&gt;</var>
+        Host: database.us-phoenix-1.oraclecloud.com
+        <var>&lt;authorization and other headers&gt;</var>
+        {
+          "dbBackupConfig" :
+          {
+            "autoBackupEnabled" : true
+          }
+        }
+      responses:
+        200:
+          description: The request was successfully received and the Database update is in-progress.
+          schema:
+            $ref: '#/definitions/Database'
+          headers:
+            etag:
+              $ref: '#/x-descriptions/etag'
+            opc-request-id:
+              $ref: '#/x-descriptions/opc-request-id'
+          examples:
+            application-json: |
+              {
+                "availabilityDomain" : "OXET:PHX-AD-1",
+                "compartmentId" : "ocid1.tenancy.oc1..aaaaaaaah2sauv373xyfrpcnaed2ptfy67fnspzyda2hacgdbrkijhffugaa",
+                "dbHomeId" : "ocid1.dbhome.oc1.phx.abuxgljrojzggj3o5eh2okamyhsikksxzpencitkhqu5jweyfdb4tjhfhuyq",
+                "dbName" : "myTestDb",
+                "dbUniqueName" : "myTestDb",
+                "id" : "ocid1.database.oc1.phx.abuxgljr44mawu5drtz6mb527iqufozuxobvrk2rtfakjpjhffmqv5evnavq",
+                "lifecycleState" : "UPDATING",
+                "timeCreated" : "2016-11-23T01:59:07.032Z",
+                "dbBackupConfig" : {
+                 "autoBackupEnabled" : true
+                }
+              }
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        409:
+          $ref: '#/responses/409'
+        412:
+          $ref: '#/responses/412'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+
+    get:
+      tags: ['database']
+      description: Gets information about a specific database.
+      operationId: GetDatabase
+      summary: GetDatabase
+      parameters:
+        - $ref: '#/parameters/DatabaseIdPathParam'
+      x-example: |
+        GET /20160918/databases/<var>&lt;databaseId&gt;</var>
+        Host: database.us-phoenix-1.oraclecloud.com
+        <var>&lt;authorization and other headers&gt;</var>
+      responses:
+        200:
+          description: The database.
+          schema:
+            $ref: '#/definitions/Database'
+          headers:
+            etag:
+              $ref: '#/x-descriptions/etag'
+            opc-request-id:
+              $ref: '#/x-descriptions/opc-request-id'
+          examples: 
+            application-json: |
+              {
+                "availabilityDomain" : "OXET:PHX-AD-1",
+                "compartmentId" : "ocid1.tenancy.oc1..aaaaaaaah2sauv373xyfrpcnaed2ptfy67fnspzyda2hacgdbrkijhffugaa",
+                "dbHomeId" : "ocid1.dbhome.oc1.phx.abuxgljrojzggj3o5eh2okamyhsikksxzpencitkhqu5jweyfdb4tjhfhuyq",
+                "dbName" : "myTestDb",
+                "characterSet" : "AL32UTF8",
+                "ncharacterSet" : "AL16UTF16",
+                "dbUniqueName" : "myTestDb_phx1cs",
+                "id" : "ocid1.database.oc1.phx.abuxgljr44mawu5drtz6mb527iqufozuxobvrk2rtfakjpjhffmqv5evnavq",
+                "lifecycleState" : "PROVISIONING",
+                "timeCreated" : "2016-11-23T01:59:07.032Z",
+                "dbBackupConfig" : {
+                 "autoBackupEnabled" : true
+                }
+              }
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+
+  /databases/{databaseId}/actions/restore:
+
+     post:
+       tags: ['database']
+       description: |
+         Restore a Database based on the request parameters you provide.
+       operationId: RestoreDatabase
+       summary: RestoreDatabase
+       parameters:
+         - $ref: '#/parameters/DatabaseIdPathParam'
+         - name: RestoreDatabaseDetails
+           description: Request to perform database restore.
+           required: true
+           in: body
+           schema:
+             $ref: '#/definitions/RestoreDatabaseDetails'
+         - $ref: '#/parameters/IfMatchHeader'
+       x-example: |
+         POST /20160918/databases/<var>&lt;databaseId&gt;</var>/actions/restore
+         Host: database.us-phoenix-1.oraclecloud.com
+         <var>&lt;authorization and other headers&gt;</var>
+         {
+           "restoreDetails" :
+           {
+             "databaseSCN" : null,
+             "timestamp" : null,
+             "latest" : true
+           }
+         }
+       responses:
+         200:
+           description: The request was successfully received and the Database restore is in-progress.
+           schema:
+             $ref: '#/definitions/Database'
+           headers:
+             etag:
+               $ref: '#/x-descriptions/etag'
+             opc-request-id:
+               $ref: '#/x-descriptions/opc-request-id'
+           examples:
+             application-json: |
+               {
+                 "availabilityDomain" : "OXET:PHX-AD-1",
+                 "compartmentId" : "ocid1.tenancy.oc1..aaaaaaaah2sauv373xyfrpcnaed2ptfy67fnspzyda2hacgdbrkijhffugaa",
+                 "dbHomeId" : "ocid1.dbhome.oc1.phx.abuxgljrojzggj3o5eh2okamyhsikksxzpencitkhqu5jweyfdb4tjhfhuyq",
+                 "dbName" : "myTestDb",
+                 "dbUniqueName" : "myTestDb",
+                 "id" : "ocid1.database.oc1.phx.abuxgljr44mawu5drtz6mb527iqufozuxobvrk2rtfakjpjhffmqv5evnavq",
+                 "lifecycleState" : "UPDATING",
+                 "timeCreated" : "2016-11-23T01:59:07.032Z",
+                 "dbBackupConfig" : {
+                  "autoBackupEnabled" : true
+                 }
+               }
+         400:
+           $ref: '#/responses/400'
+         401:
+           $ref: '#/responses/401'
+         404:
+           $ref: '#/responses/404'
+         409:
+           $ref: '#/responses/409'
+         412:
+           $ref: '#/responses/412'
+         500:
+           $ref: '#/responses/500'
+         default:
+           $ref: '#/responses/DefaultError'
+
+  /databases/{databaseId}/dataGuardAssociations:
+    get:
+      tags: ['database']
+      operationId: ListDataGuardAssociations
+      x-related-resource: '#/definitions/DataGuardAssociation'
+      summary: Lists all Data Guard associations for the specified database.
+      parameters:
+        - $ref: '#/parameters/DatabaseIdPathParam'
+        - $ref: '#/parameters/PaginationLimitParam'
+        - $ref: '#/parameters/PaginationToken'
+      description: |
+        Lists all Data Guard associations for the specified database.
+      x-example: |
+        GET /20160918/databases/<var>&lt;databaseId&gt;</var>/dataguardassociations?limit=100
+        Host: database.us-phoenix-1.oraclecloud.com
+        <var>&lt;authorization and other headers&gt;</var>
+      responses:
+        200:
+          description: The list is being retrieved.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/DataGuardAssociationSummary'
+          headers:
+            opc-request-id:
+              $ref: '#/x-descriptions/opc-request-id'
+            opc-next-page:
+              $ref: '#/x-descriptions/opc-next-page'
+          examples:
+            application-json: |
+              Example-1 (Primary)
+              [
+                {
+                  "id" : "ocid1.dataguardassociation.oc1.phx.cccccccjucyxtrexatsfauxlorxexdxdxdxdxsa1swa1s1s12s2wsxas",
+                  "lifecycleState" : "AVAILABLE",
+                  "databaseId" : "ocid1.database.oc1.phx.abuxgljrvkwamqmkukhluitmxsgrumpyv2lt4jf6i4mrksrqk4ysjhfjbjyq",
+                  "role" : "primary"
+                  "peerDbSystemId" : "ocid1.dbsystem.oc1.phx.abuxgljrbgyconplgryuyakyicvbqlvecfaux53jhfiqtipmxymythslrmza",
+                  "peerDatabaseId" : "ocid1.database.oc1.phx.abuxgljrvkwamqmkukhluitmxsgupmgpv2lt4jf6i4mrksrqk4ysjhfauxde",
+                  "peerRole" : "standby"
+                  "applyLag" : null,
+                  "applyRate" : null,
+                  "protectionMode" : "MAXIMUM_PERFORMANCE"
+                },
+                {
+                  "id" : "ocid1.dataguardassociation.oc1.phx.cccccccjucyxtrexatsfauxlorxexdxdxdxdxsa1swa1s1s12s2pqrst",
+                  "lifecycleState" : "AVAILABLE",
+                  "databaseId" : "ocid1.database.oc1.phx.abuxgljrvkwamqmkukhluitmxsgrumpyv2lt4jf6i4mrksrqk4ysjhfjbjyq",
+                  "role" : "primary"
+                  "peerDbSystemId" : "ocid1.dbsystem.oc1.phx.abuxgljrbgyconplgryuyakyicvbqlveceapi53jhfauxipmxymythsmnopq",
+                  "peerDatabaseId" : "ocid1.database.oc1.phx.abuxgljrvkwamqmkukhluitmxsgupmgpv2lt4jfauxmrksrqk4ysjhfjefgh",
+                  "peerRole" : "standby"
+                  "applyLag" : null,
+                  "applyRate" : null,
+                  "protectionMode" : "MAXIMUM_PERFORMANCE"
+                }
+              ]
+
+              Example-2 (Standby)
+              [
+                {
+                  "id" : "ocid1.dataguardassociation.oc1.phx.cccccccjucyxtrexatsfauxlorxexdxdxdxdxsa1swa1s1s12s2mnopq",
+                  "lifecycleState" : "AVAILABLE",
+                  "databaseId" : "ocid1.database.oc1.phx.abuxgljrvkwamqmkukhluitmxsgrumpyv2lt4jf6i4mrksrqk4ysjhfjbjyq",
+                  "role" : "standby"
+                  "peerDbSystemId" : "ocid1.dbsystem.oc1.phx.abuxgljrbgyconplgryuyakyicvbqlveceapi53jhfauxipmxymythslrmza",
+                  "peerDatabaseId" : "ocid1.database.oc1.phx.abuxgljrvkwamqmkukhluitmxsgupmgpv2lt4jfauxmrksrqk4ysjhfxxyyj",
+                  "peerRole" : "primary"
+                  "applyLag" : "0 seconds",
+                  "applyRate" : "180 Mb per second",
+                  "protectionMode" : "MAXIMUM_PERFORMANCE"
+                }
+              ]
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+
+    post:
+      tags: ['database']
+      description: |
+        Creates a new Data Guard association.  A Data Guard association represents the replication relationship between the
+        specified database and a peer database. For more information, see [Using Oracle Data Guard](/Content/Database/Tasks/usingdataguard.htm).
+
+        All Oracle Cloud Infrastructure resources, including Data Guard associations, get an Oracle-assigned, unique ID
+        called an Oracle Cloud Identifier (OCID). When you create a resource, you can find its OCID in the response.
+        You can also retrieve a resource's OCID by using a List API operation on that resource type, or by viewing the
+        resource in the Console. Fore more information, see
+        [Resource Identifiers](http://localhost:8000/Content/General/Concepts/identifiers.htm).
+      operationId: CreateDataGuardAssociation
+      summary: Creates a Data Guard association.
+      parameters:
+        - $ref: '#/parameters/DatabaseIdPathParam'
+        - $ref: '#/parameters/RetryTokenHeader'
+        - name: CreateDataGuardAssociationDetails
+          description: A request to create a Data Guard association.
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/CreateDataGuardAssociationDetails'
+      x-example: |
+        POST /20160918/databases/<var>&lt;databaseId&gt;</var>/dataguardassociations
+        Host: database.us-phoenix-1.oraclecloud.com
+        <var>&lt;authorization and other headers&gt;</var>
+        {
+          "databaseAdminPassword" : "MYs3cr3t_pass-w0rd"
+          "protectionMode" : "MAXIMUM_PERFORMANCE"
+          "creationType" : "ExistingDbSystem"
+          "transportType" : "ASYNC"
+          "peerDbSystemId" : "ocid1.dbsystem.oc1.phx.abuxgljrvkwamqmkukhluitmxsgupmgpv2lt4jf6i4fauxrjhfysfpqjbjyq"
+        }
+      responses:
+        200:
+          description: The request was accepted for processing.
+          schema:
+            $ref: '#/definitions/DataGuardAssociation'
+          headers:
+            etag:
+              $ref: '#/x-descriptions/etag'
+            opc-request-id:
+              $ref: '#/x-descriptions/opc-request-id'
+          examples:
+            application-json: |
+              {
+                "id" : "ocid1.dataguardassociation.oc1.phx.cccccccjucyxtrexatfauxxlorxexdxdxdxdxsa1swa1s1s12s2wsxas",
+                "lifecycleState" : "IN_PROGRESS",
+                "databaseId" : "ocid1.database.oc1.phx.abuxgljrvkwamqmkukhluitmxsgupmgpv2lt4faux4mrksrqk4ysjhfjbjyq",
+                "role" : "primary"
+                "peerDbSystemId" : "ocid1.dbsystem.oc1.phx.abuxgljrbgyconplgryuyfauxcvbqlveceapi53jhfiqtipmxymythslrmza",
+                "peerDatabaseId" : "ocid1.database.oc1.phx.abuxgljrvkwamqmkukhluitmxsgupmgpv2lt4faux4mrksrqk4ysjhfjbjyq",
+                "peerRole" : "standby"
+                "applyLag" : null,
+                "applyRate" : null,
+                "protectionMode" : "MAXIMUM_PERFORMANCE",
+                "transportType" : "ASYNC"
+                "timeCreated" : "2016-11-22T19:25:42.755Z"
+              }
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        409:
+          $ref: '#/responses/409'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+
+  /databases/{databaseId}/dataGuardAssociations/{dataGuardAssociationId}:
+    get:
+      tags: ['database']
+      operationId: GetDataGuardAssociation
+      summary: Gets configuration information for the specified database and Data Guard association.
+      parameters:
+        - $ref: '#/parameters/DatabaseIdPathParam'
+        - $ref: '#/parameters/DataGuardAssociationIdPathParam'
+      description: |
+        Gets the specified Data Guard association's configuration information.
+      x-example: |
+        GET /20160918/databases/<var>&lt;databaseId&gt;</var>/dataguardassociations/<var>&lt;dataguardAssociationId&gt;</var>
+        Host: database.us-phoenix-1.oraclecloud.com
+        <var>&lt;authorization and other headers&gt;</var>
+      responses:
+        200:
+          description: The configuration information is being retrieved.
+          schema:
+            $ref: '#/definitions/DataGuardAssociation'
+          headers:
+            etag:
+              $ref: '#/x-descriptions/etag'
+            opc-request-id:
+              $ref: '#/x-descriptions/opc-request-id'
+          examples:
+            application-json: |
+              {
+                  "id" : "ocid1.dataguardassociation.oc1.phx.cccccccjucyxtrexatsxgaxlorxexdxdxdxdxsa1swa1s1s12s2wsxas",
+                  "lifecycleState" : "IN_PROGRESS",
+                  "databaseId" : "ocid1.database.oc1.phx.abuxgljrvkwamqmkukhluitmxsgupmgpv2lt4jf6i4mrksrqk4ysjhfjbjyq",
+                  "role" : "primary",
+                  "peerDbSystemId" : "ocid1.dbsystem.oc1.phx.abuxgljrbgyconplgryuyakyicvbqlveceapi53jhfiqtipmxymythslrmza",
+                  "peerDatabaseId" : "ocid1.database.oc1.phx.abuxgljrvkwamqmkukhluitmxsgupmgpv2lt4jf6i4mrksrqk4ysjhfjbjyq",
+                  "peerRole" : "standby",
+                  "applyLag" : null,
+                  "applyRate" : null,
+                  "protectionMode" : "MAXIMUM_PERFORMANCE",
+                  "transportType" : "ASYNC"
+                  "timeCreated" : "2016-11-22T19:25:42.755Z"
+              }
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+
+  /databases/{databaseId}/dataGuardAssociations/{dataGuardAssociationId}/actions/failover:
+    post:
+      tags: ['database']
+      description: |
+        Performs a failover to transition the standby database identified by the `databaseId` parameter into the
+        specified Data Guard association's primary role after the existing primary database fails or becomes unreachable.
+
+        A failover might result in data loss depending on the protection mode in effect at the time of the primary
+        database failure.
+      operationId: FailoverDataGuardAssociation
+      summary: Performs a failover to transition a standby database into the primary database role.
+      parameters:
+        - $ref: '#/parameters/DatabaseIdPathParam'
+        - $ref: '#/parameters/DataGuardAssociationIdPathParam'
+        - $ref: '#/parameters/IfMatchHeader'
+        - name: FailoverDataGuardAssociationDetails
+          description: A request to perform a failover, transitioning a standby database into a primary database.
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/FailoverDataGuardAssociationDetails'
+      x-example: |
+        POST /20160918/databases/<var>&lt;databaseId&gt;</var>/actions/failover
+        Host: database.us-phoenix-1.oraclecloud.com
+        <var>&lt;authorization and other headers&gt;</var>
+
+      responses:
+        200:
+          description: The request was accepted for processing.
+          schema:
+            $ref: '#/definitions/DataGuardAssociation'
+          headers:
+            etag:
+              $ref: '#/x-descriptions/etag'
+            opc-request-id:
+              $ref: '#/x-descriptions/opc-request-id'
+          examples:
+            application-json: |
+              {
+                  "id" : "ocid1.dataguardassociation.oc1.phx.cccccccjucyxtrexatsxgaxlorxefauxxdxdxsa1swa1s1s12s2wsxas",
+                  "lifecycleState" : "IN_PROGRESS",
+                  "databaseId" : "ocid1.database.oc1.phx.abuxgljrvkwamqmkukhluitmxsgupmgpv2lt4jfauxmrksrqk4ysjhfjbjyq",
+                  "role" : "standby",
+                  "peerDbSystemId" : "ocid1.dbsystem.oc1.phx.abuxgljrbgyconplgryuyafauxvbqlveceapi53jhfiqtipmxymythslrmza",
+                  "peerDatabaseId" : "ocid1.database.oc1.phx.abuxgljrvkwamqmkukhluitmxsgupmgpv2lt4jfauxmrksrqk4ysjhfjbjyq",
+                  "peerRole" : "primary",
+                  "applyLag" : "0 seconds",
+                  "applyRate" : "180 Mb per second",
+                  "protectionMode" : "MAXIMUM_PERFORMANCE"
+              }
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        409:
+          $ref: '#/responses/409'
+        412:
+          $ref: '#/responses/412'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+
+  /databases/{databaseId}/dataGuardAssociations/{dataGuardAssociationId}/actions/switchover:
+    post:
+      tags: ['database']
+      description: |
+        Performs a switchover to transition the primary database of a Data Guard association into a standby role. The
+        standby database associated with the `dataGuardAssociationId` assumes the primary database role.
+
+        A switchover guarantees no data loss.
+      operationId: SwitchoverDataGuardAssociation
+      summary: Performs a switchover to transition the primary database of a Data Guard association into a standby role.
+      parameters:
+        - $ref: '#/parameters/DatabaseIdPathParam'
+        - $ref: '#/parameters/DataGuardAssociationIdPathParam'
+        - $ref: '#/parameters/IfMatchHeader'
+        - name: SwitchoverDataGuardAssociationDetails
+          description: Request to swtichover a primary to a standby.
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/SwitchoverDataGuardAssociationDetails'
+      x-example: |
+        POST /20160918/databases/<var>&lt;databaseId&gt;</var>/actions/switchover
+        Host: database.us-phoenix-1.oraclecloud.com
+        <var>&lt;authorization and other headers&gt;</var>
+
+      responses:
+        200:
+          description: The request was accepted for processing.
+          schema:
+            $ref: '#/definitions/DataGuardAssociation'
+          headers:
+            etag:
+              $ref: '#/x-descriptions/etag'
+            opc-request-id:
+              $ref: '#/x-descriptions/opc-request-id'
+          examples:
+            application-json: |
+              {
+                  "id" : "ocid1.dataguardassociation.oc1.phx.cccccccjucyxtrexatsxgaxlorxexfauxdxdxsa1swa1s1s12s2wsxas",
+                  "lifecycleState" : "IN_PROGRESS",
+                  "databaseId" : "ocid1.database.oc1.phx.abuxgljrvkwamqmkukhluitmxsgupmgpv2lt4jfauxmrksrqk4ysjhfjbjyq",
+                  "role" : "standby",
+                  "peerDbSystemId" : "ocid1.dbsystem.oc1.phx.abuxgljrbgyconplgryuyafauxvbqlveceapi53jhfiqtipmxymythslrmza",
+                  "peerDatabaseId" : "ocid1.database.oc1.phx.abuxgljrvkwamqmkukhluitmxsgupmgpv2lt4jfauxmrksrqk4ysjhfjbjyq",
+                  "peerRole" : "primary",
+                  "applyLag" : "0 seconds",
+                  "applyRate" : "180 Mb per second",
+                  "protectionMode" : "MAXIMUM_PERFORMANCE"
+              }
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        409:
+          $ref: '#/responses/409'
+        412:
+          $ref: '#/responses/412'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+
+  /databases/{databaseId}/dataGuardAssociations/{dataGuardAssociationId}/actions/reinstate:
+    post:
+      tags: ['database']
+      description: |
+        Reinstates the database identified by the `databaseId` parameter into the standby role in a Data Guard association.
+      operationId: ReinstateDataGuardAssociation
+      summary: Reinstates a database to a Data Guard association standby role.
+      parameters:
+        - $ref: '#/parameters/DatabaseIdPathParam'
+        - $ref: '#/parameters/DataGuardAssociationIdPathParam'
+        - $ref: '#/parameters/IfMatchHeader'
+        - name: ReinstateDataGuardAssociationDetails
+          description: A request to reinstate a database in a standby role.
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/ReinstateDataGuardAssociationDetails'
+      x-example: |
+        POST /20160918/databases/<var>&lt;databaseId&gt;</var>/actions/reinstate
+        Host: database.us-phoenix-1.oraclecloud.com
+        <var>&lt;authorization and other headers&gt;</var>
+
+      responses:
+        200:
+          description: The request was accepted for processing.
+          schema:
+            $ref: '#/definitions/DataGuardAssociation'
+          headers:
+            etag:
+              $ref: '#/x-descriptions/etag'
+            opc-request-id:
+              $ref: '#/x-descriptions/opc-request-id'
+          examples:
+            application-json: |
+              {
+                  "id" : "ocid1.dataguardassociation.oc1.phx.cccccccjucyxtrexatsxgaxlorxexfauxdxdxsa1swa1s1s12s2wsxas",
+                  "lifecycleState" : "IN_PROGRESS",
+                  "databaseId" : "ocid1.database.oc1.phx.abuxgljrvkwamqmkukhluitmxsgupmgpv2lt4jfauxmrksrqk4ysjhfjbjyq",
+                  "role" : "standby",
+                  "peerDbSystemId" : "ocid1.dbsystem.oc1.phx.abuxgljrbgyconplgryuyafauxvbqlveceapi53jhfiqtipmxymythslrmza",
+                  "peerDatabaseId" : "ocid1.database.oc1.phx.abuxgljrvkwamqmkukhluitmxsgupmgpv2lt4jfauxmrksrqk4ysjhfjbjyq",
+                  "peerRole" : "primary",
+                  "applyLag" : "0 seconds",
+                  "applyRate" : "180 Mb per second",
+                  "protectionMode" : "MAXIMUM_PERFORMANCE"
+              }
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        409:
+          $ref: '#/responses/409'
+        412:
+          $ref: '#/responses/412'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+
+
+definitions:
+  DbSystem:
+    allOf:
+      - $ref: '#/definitions/DbSystemSummary'
+
+  DbSystemSummary:
+    description: |
+      The Database Service supports several types of DB Systems, ranging in size, price, and performance. For details about each type of system, see:
+
+      - [Exadata DB Systems](/Content/Database/Concepts/exaoverview.htm)
+      - [Bare Metal or VM DB Systems](/Content/Database/Concepts/overview.htm)
+      
+      To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized, talk to an administrator. If you're an administrator who needs to write policies to give users access, see [Getting Started with Policies](/Content/Identity/Concepts/policygetstarted.htm).      
+        
+      For information about access control and compartments, see
+      [Overview of the Identity Service](/Content/Identity/Concepts/overview.htm).
+
+      For information about Availability Domains, see
+      [Regions and Availability Domains](/Content/General/Concepts/regions.htm).
+
+      To get a list of Availability Domains, use the `ListAvailabilityDomains` operation
+      in the Identity Service API.
+
+    required:
+      - id
+      - compartmentId
+      - lifecycleState
+      - displayName
+      - availabilityDomain
+      - subnetId
+      - shape
+      - sshPublicKeys
+      - cpuCoreCount
+      - databaseEdition
+      - hostname
+      - domain
+    properties:
+      id:
+        type: string
+        description: The OCID of the DB System.
+        minLength: 1
+        maxLength: 255
+      compartmentId:
+        type: string
+        description: The OCID of the compartment.
+        minLength: 1
+        maxLength: 255
+      displayName:
+        type: string
+        description: The user-friendly name for the DB System. It does not have to be unique.
+        minLength: 1
+        maxLength: 255
+      availabilityDomain:
+        type: string
+        description: The name of the Availability Domain that the DB System is located in.
+        minLength: 1
+        maxLength: 255
+      subnetId:
+        type: string
+        description: |
+          The OCID of the subnet the DB System is associated with.
+
+          **Subnet Restrictions:**
+          - For single node and 2-node (RAC) DB Systems, do not use a subnet that overlaps with 192.168.16.16/28
+          - For Exadata and VM-based RAC DB Systems, do not use a subnet that overlaps with 192.168.128.0/20
+
+          These subnets are used by the Oracle Clusterware private interconnect on the database instance.
+          Specifying an overlapping subnet will cause the private interconnect to malfunction.
+          This restriction applies to both the client subnet and backup subnet.
+        minLength: 1
+        maxLength: 255
+      backupSubnetId:
+        type: string
+        description: |
+          The OCID of the backup network subnet the DB System is associated with. Applicable only to Exadata.
+
+          **Subnet Restriction:** See above subnetId's 'Subnet Restriction'.
+          to malfunction.
+        minLength: 1
+        maxLength: 255
+      shape:
+        type: string
+        description: The shape of the DB System. The shape determines resources to allocate to the DB system - CPU cores and memory for VM shapes; CPU cores, memory and storage for non-VM (or bare metal) shapes.
+        minLength: 1
+        maxLength: 255
+      sshPublicKeys:
+        type: array
+        description: The public key portion of one or more key pairs used for SSH access to the DB System.
+        items:
+          type: string
+          minLength: 1
+          maxLength: 1024
+      hostname:
+        type: string
+        description: The host name for the DB Node.
+      domain:
+        type: string
+        description: The domain name for the DB System.
+      version:
+        type: string
+        description: The version of the DB System.
+      cpuCoreCount:
+        type: integer
+        description: The number of CPU cores enabled on the DB System.
+      clusterName:
+        type: string
+        description: |
+           Cluster name for Exadata and 2-node RAC DB Systems. The cluster name must begin with an an alphabetic character, and may contain hyphens (-). Underscores (_) are not permitted. The cluster name can be no longer than 11 characters and is not case sensitive.
+      dataStoragePercentage:
+        type: integer
+        description: |
+          The percentage assigned to DATA storage (user data and database files).
+          The remaining percentage is assigned to RECO storage (database redo logs, archive logs, and recovery manager backups). Accepted values are 40 and 80.
+      databaseEdition:
+        type: string
+        description: |
+          The Oracle Database Edition that applies to all the databases on the DB System.
+        enum:
+          - STANDARD_EDITION
+          - ENTERPRISE_EDITION
+          - ENTERPRISE_EDITION_EXTREME_PERFORMANCE
+          - ENTERPRISE_EDITION_HIGH_PERFORMANCE
+      lastPatchHistoryEntryId:
+        type: string
+        description: The OCID of the last patch history. This is updated as soon as a patch operation is started.
+        minLength: 1
+        maxLength: 255
+      listenerPort:
+        type: integer
+        description: The port number configured for the listener on the DB System.
+      lifecycleState:
+        type: string
+        description: The current state of the DB System.
+        enum:
+          - PROVISIONING
+          - AVAILABLE
+          - UPDATING
+          - TERMINATING
+          - TERMINATED
+          - FAILED
+      timeCreated:
+        type: string
+        format: date-time
+        description: The date and time the DB System was created.
+      lifecycleDetails:
+        type: string
+        description: Additional information about the current lifecycleState.
+      diskRedundancy:
+        type: string
+        description: |
+            The type of redundancy configured for the DB System.
+            Normal is 2-way redundancy.
+            High is 3-way redundancy.
+        enum:
+          - HIGH
+          - NORMAL
+      scanIpIds:
+        type: array
+        description: |
+            The OCID of the Single Client Access Name (SCAN) IP addresses associated with the DB System.
+            SCAN IP addresses are typically used for load balancing and are not assigned to any interface.
+            Clusterware directs the requests to the appropriate nodes in the cluster.
+
+            - For a single-node DB System, this list is empty.
+        items:
+          type: string
+          minLength: 1
+          maxLength: 255
+      vipIds:
+        type: array
+        description: |
+            The OCID of the virtual IP (VIP) addresses associated with the DB System.
+            The Cluster Ready Services (CRS) creates and maintains one VIP address for each node in the DB System to
+            enable failover. If one node fails, the VIP is reassigned to another active node in the cluster.
+
+            - For a single-node DB System, this list is empty.
+
+        items:
+          type: string
+          minLength: 1
+          maxLength: 255
+      scanDnsRecordId:
+        type: string
+        description: |
+          The OCID of the DNS record for the SCAN IP addresses that are associated with the DB System.
+        minLength: 1
+        maxLength: 255
+      dataStorageSizeInGBs:
+        type: integer
+        description: |
+          Data storage size, in GBs, that is currently available to the DB system. This is applicable only for VM-based DBs.
+      recoStorageSizeInGB:
+        type: integer
+        description: |
+          RECO/REDO storage size, in GBs, that is currently allocated to the DB system. This is applicable only for VM-based DBs.
+      nodeCount:
+        type: integer
+        description: |
+          Number of nodes in this DB system. For RAC DBs, this will be greater than 1.
+        min: 1
+      licenseModel:
+        type: string
+        description: |
+          The Oracle license model that applies to all the databases on the DB System. The default is LICENSE_INCLUDED.
+        enum:
+          - LICENSE_INCLUDED
+          - BRING_YOUR_OWN_LICENSE
+
+  UpdateDbSystemDetails:
+    description: |
+      Describes the modification parameters for the DB System.
+    properties:
+      cpuCoreCount:
+        min: 1
+        type: integer
+        description: The number of CPU Cores to be set on the DB System. Applicable only for non-VM based DB systems.
+      version:
+        $ref: '#/definitions/PatchDetails'
+      sshPublicKeys:
+        type: array
+        description: The public key portion of the key pair to use for SSH access to the DB System. Multiple public keys can be provided. The length of the combined keys cannot exceed 10,000 characters.
+        items:
+          type: string
+          minLength: 1
+          maxLength: 1024
+      dataStorageSizeInGBs:
+        type: integer
+        description: |
+           Size, in GBs, to which the currently attached storage needs to be scaled up to for VM based DB system. This must be greater than current storage size. Note that the total storage size attached will be more than what is requested, to account for REDO/RECO space and software volume.
+
+  LaunchDbSystemDetails:
+    required:
+      - compartmentId
+      - availabilityDomain
+      - subnetId
+      - shape
+      - sshPublicKeys
+      - hostname
+      - cpuCoreCount
+      - databaseEdition
+      - dbHome
+    properties:
+      compartmentId:
+        type: string
+        description: The Oracle Cloud ID (OCID) of the compartment the DB System  belongs in.
+        minLength: 1
+        maxLength: 255
+      displayName:
+        type: string
+        description: The user-friendly name for the DB System. It does not have to be unique.
+        minLength: 1
+        maxLength: 255
+      availabilityDomain:
+        type: string
+        description: The Availability Domain where the DB System is located.
+        minLength: 1
+        maxLength: 255
+      subnetId:
+        type: string
+        description: |
+          The OCID of the subnet the DB System is associated with.
+
+          **Subnet Restrictions:**
+          - For single node and 2-node (RAC) DB Systems, do not use a subnet that overlaps with 192.168.16.16/28
+          - For Exadata and VM-based RAC DB Systems, do not use a subnet that overlaps with 192.168.128.0/20
+
+          These subnets are used by the Oracle Clusterware private interconnect on the database instance.
+          Specifying an overlapping subnet will cause the private interconnect to malfunction.
+          This restriction applies to both the client subnet and backup subnet.
+
+        minLength: 1
+        maxLength: 255
+      backupSubnetId:
+        type: string
+        description: |
+          The OCID of the backup network subnet the DB System is associated with. Applicable only to Exadata.
+
+          **Subnet Restrictions:** See above subnetId's **Subnet Restriction**.
+        minLength: 1
+        maxLength: 255
+      shape:
+        type: string
+        description: The shape of the DB System. The shape determines resources allocated to the DB System - CPU cores and memory for VM shapes; CPU cores, memory and storage for non-VM (or bare metal) shapes. To get a list of shapes, use the [ListDbSystemShapes](#/en/database/20160918/DbSystemShape/ListDbSystemShapes) operation.
+        minLength: 1
+        maxLength: 255
+      sshPublicKeys:
+        type: array
+        description: The public key portion of the key pair to use for SSH access to the DB System. Multiple public keys can be provided. The length of the combined keys cannot exceed 10,000 characters.
+        items:
+          type: string
+          minLength: 1
+          maxLength: 1024
+      hostname:
+        type: string
+        description: |
+           The host name for the DB System. The host name must begin with an alphabetic character and
+           can contain a maximum of 30 alphanumeric characters, including hyphens (-).
+
+           The maximum length of the combined hostname and domain is 63 characters.
+
+           **Note:** The hostname must be unique within the subnet. If it is not unique,
+           the DB System will fail to provision.
+      domain:
+        type: string
+        description: |
+           A domain name used for the DB System. If the Oracle-provided Internet and VCN
+           Resolver is enabled for the specified subnet, the domain name for the subnet is used
+           (don't provide one). Otherwise, provide a valid DNS domain name. Hyphens (-) are not permitted.
+      cpuCoreCount:
+        type: integer
+        description: |
+           The number of CPU cores to enable. The valid values depend on the specified shape:
+
+           - BM.DenseIO1.36 and BM.HighIO1.36 - Specify a multiple of 2, from 2 to 36.
+           - BM.RACLocalStorage1.72 - Specify a multiple of 4, from 4 to 72.
+           - Exadata.Quarter1.84 - Specify a multiple of 2, from 22 to 84.
+           - Exadata.Half1.168 - Specify a multiple of 4, from 44 to 168.
+           - Exadata.Full1.336 - Specify a multiple of 8, from 88 to 336.
+
+           For VM DB systems, the core count is inferred from the specific VM shape chosen, so this parameter is not used.
+        min: 1
+      clusterName:
+        type: string
+        description: |
+           Cluster name for Exadata and 2-node RAC DB Systems. The cluster name must begin with an an alphabetic character, and may contain hyphens (-). Underscores (_) are not permitted. The cluster name can be no longer than 11 characters and is not case sensitive.
+        minLength: 1
+        maxLength: 11
+      dataStoragePercentage:
+        type: integer
+        description: |
+          The percentage assigned to DATA storage (user data and database files).
+          The remaining percentage is assigned to RECO storage (database redo logs, archive logs, and recovery manager backups).
+          Specify 80 or 40. The default is 80 percent assigned to DATA storage. This is not applicable for VM based DB systems.
+      databaseEdition:
+        type: string
+        description: |
+          The Oracle Database Edition that applies to all the databases on the DB System.
+
+          Exadata DB Systems and 2-node RAC DB Systems require ENTERPRISE_EDITION_EXTREME_PERFORMANCE.
+        enum:
+          - STANDARD_EDITION
+          - ENTERPRISE_EDITION
+          - ENTERPRISE_EDITION_EXTREME_PERFORMANCE
+          - ENTERPRISE_EDITION_HIGH_PERFORMANCE
+      dbHome:
+        $ref: '#/definitions/CreateDbHomeDetails'
+      diskRedundancy:
+        type: string
+        description: |
+            The type of redundancy configured for the DB System.
+            Normal is 2-way redundancy, recommended for test and development systems.
+            High is 3-way redundancy, recommended for production systems.
+        enum:
+          - HIGH
+          - NORMAL
+      initialDataStorageSizeInGB:
+        type: integer
+        description: |
+           Size, in GBs, of the initial data volume that will be created and attached to VM-shape based DB system. This storage can later be scaled up if needed. Note that the total storage size attached will be more than what is requested, to account for REDO/RECO space and software volume.
+        min: 2
+      nodeCount:
+        type: integer
+        description: |
+           Number of nodes to launch for a VM-shape based RAC DB system.
+        min: 1
+      licenseModel:
+        type: string
+        description: |
+          The Oracle license model that applies to all the databases on the DB System. The default is LICENSE_INCLUDED.
+        enum:
+          - LICENSE_INCLUDED
+          - BRING_YOUR_OWN_LICENSE
+
+  DbNode:
+    allOf:
+      - $ref: '#/definitions/DbNodeSummary'
+
+  DbNodeSummary:
+    description: |
+      A server where Oracle database software is running.
+
+      To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized, talk to an administrator. If you're an administrator who needs to write policies to give users access, see [Getting Started with Policies](/Content/Identity/Concepts/policygetstarted.htm).
+    required:
+      - id
+      - dbSystemId
+      - vnicId
+      - lifecycleState
+      - timeCreated
+    properties:
+      id:
+        type: string
+        description: The OCID of the DB Node.
+        minLength: 1
+        maxLength: 255
+      dbSystemId:
+        type: string
+        description: The OCID of the DB System.
+        minLength: 1
+        maxLength: 255
+      vnicId:
+        type: string
+        description: The OCID of the VNIC.
+        minLength: 1
+        maxLength: 255
+      backupVnicId:
+        type: string
+        description: The OCID of the backup VNIC.
+        minLength: 1
+        maxLength: 255
+      lifecycleState:
+        type: string
+        description: The current state of the database node.
+        enum:
+          - PROVISIONING
+          - AVAILABLE
+          - UPDATING
+          - STOPPING
+          - STOPPED
+          - STARTING
+          - TERMINATING
+          - TERMINATED
+          - FAILED
+      hostname:
+        type: string
+        description: The host name for the DB Node.
+      timeCreated:
+        type: string
+        format: date-time
+        description: The date and time that the DB Node was created.
+      softwareStorageSizeInGB:
+        type: integer
+        description: |
+          Storage size, in GBs, of the software volume that is allocated to the DB system. This is applicable only for VM-based DBs.
+
+  DbHome:
+    allOf:
+      - $ref: '#/definitions/DbHomeSummary'
+
+  DbHomeSummary:
+    description: |
+      A directory where Oracle database software is installed. Each DB System can have multiple database homes,
+      and each database home can have multiple databases within it. All the databases within a single database home
+      must be the same database version, but different database homes can run different versions. For more information,
+      see [Managing Oracle Databases](/Content/Database/Concepts/overview.htm).
+
+      To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized, talk to an
+      administrator. If you're an administrator who needs to write policies to give users access,
+      see [Getting Started with Policies](/Content/Identity/Concepts/policygetstarted.htm).
+    required:
+      - id
+      - compartmentId
+      - lifecycleState
+      - displayName
+      - dbVersion
+    properties:
+      id:
+        type: string
+        description: The OCID of the database home.
+        minLength: 1
+        maxLength: 255
+      compartmentId:
+        type: string
+        description: The OCID of the compartment.
+        minLength: 1
+        maxLength: 255
+      displayName:
+        type: string
+        description: The user-provided name for the database home. It does not need to be unique.
+        minLength: 1
+        maxLength: 255
+      lastPatchHistoryEntryId:
+        type: string
+        description: The OCID of the last patch history. This is updated as soon as a patch operation is started.
+        minLength: 1
+        maxLength: 255
+      lifecycleState:
+        type: string
+        description: The current state of the database home.
+        enum:
+          - PROVISIONING
+          - AVAILABLE
+          - UPDATING
+          - TERMINATING
+          - TERMINATED
+          - FAILED
+      dbSystemId:
+        type: string
+        description: The OCID of the DB System.
+        minLength: 1
+        maxLength: 255
+      dbVersion:
+        type: string
+        description: The Oracle database version.
+        minLength: 1
+        maxLength: 255
+      timeCreated:
+        type: string
+        format: date-time
+        description: The date and time the database home was created.
+
+  UpdateDbHomeDetails:
+    description: |
+      Describes the modification parameters for the DB Home.
+    properties:
+      dbVersion:
+        $ref: '#/definitions/PatchDetails'
+
+  CreateDbHomeWithDbSystemIdBase:
+    discriminator: source
+    required:
+      - dbSystemId
+    properties:
+      dbSystemId:
+        type: string
+        description: The OCID of the DB System.
+        minLength: 1
+        maxLength: 255
+      displayName:
+        type: string
+        description: The user-provided name of the database home.
+        minLength: 1
+        maxLength: 255
+      source:
+        type: string
+        description: |
+          Source of database:
+            NONE for creating a new database
+            DB_BACKUP for creating a new database by restoring a backup
+        enum:
+          - NONE
+          - DB_BACKUP
+        default: 'NONE'
+
+  CreateDbHomeWithDbSystemIdDetails:
+    allOf:
+    - $ref: '#/definitions/CreateDbHomeWithDbSystemIdBase'
+    - discriminator: 'NONE'
+      required:
+        - dbVersion
+        - database
+      properties:
+        dbVersion:
+          type: string
+          description: A valid Oracle database version. To get a list of supported versions, use the [ListDbVersions](#/en/database/20160918/DbVersion/ListDbVersions) operation.
+        database:
+          $ref: '#/definitions/CreateDatabaseDetails'
+
+  CreateDbHomeWithDbSystemIdFromBackupDetails:
+    allOf:
+    - $ref: '#/definitions/CreateDbHomeWithDbSystemIdBase'
+    - discriminator: 'DB_BACKUP'
+      required:
+        - database
+      properties:
+        database:
+          $ref: '#/definitions/CreateDatabaseFromBackupDetails'
+
+  CreateDatabaseFromBackupDetails:
+    required:
+      - backupId
+      - backupTDEPassword
+      - adminPassword
+    properties:
+      backupId:
+        type: string
+        description: The backup OCID.
+        minLength: 1
+        maxLength: 255
+      backupTDEPassword:
+        type: string
+        description: The password to open the TDE wallet.
+        minLength: 8
+        maxLength: 255
+      adminPassword:
+        type: string
+        description: A strong password for SYS, SYSTEM, PDB Admin and TDE Wallet. The password must be at least nine characters and contain at least two uppercase, two lowercase, two numbers, and two special characters. The special characters must be _, \#, or -.
+        minLength: 9
+        maxLength: 255
+
+  CreateDbHomeDetails:
+    required:
+      - dbVersion
+      - database
+    properties:
+      displayName:
+        type: string
+        description: The user-provided name of the database home.
+        minLength: 1
+        maxLength: 255
+      dbVersion:
+        type: string
+        description: A valid Oracle database version. To get a list of supported versions, use the [ListDbVersions](#/en/database/20160918/DbVersion/ListDbVersions) operation.
+      database:
+        $ref: '#/definitions/CreateDatabaseDetails'
+
+  UpdateDatabaseDetails:
+    properties:
+      dbBackupConfig:
+        $ref: '#/definitions/DbBackupConfig'
+
+  RestoreDatabaseDetails:
+    properties:
+      databaseSCN:
+        type: string
+        description: |
+          Restores using the backup with the System Change Number (SCN) specified.
+        minLength: 1
+        maxLength: 255
+      timestamp:
+        type: string
+        format: date-time
+        description: |
+          Restores to the timestamp specified.
+      latest:
+        type: boolean
+        description: |
+          Restores to the last known good state with the least possible data loss.
+
+  CreateBackupDetails:
+    required:
+      - databaseId
+      - displayName
+    properties:
+      databaseId:
+        type: string
+        description: The OCID of the database.
+        minLength: 1
+        maxLength: 255
+      displayName:
+        type: string
+        description: The user-friendly name for the backup. It does not have to be unique.
+        minLength: 1
+        maxLength: 255
+
+  DbBackupConfig:
+      description: |
+        Backup Options
+        To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized, talk to an administrator. If you're an administrator who needs to write policies to give users access, see [Getting Started with Policies](/Content/Identity/Concepts/policygetstarted.htm).
+      properties:
+        autoBackupEnabled:
+          description: If set to true, configures automatic backups. If you previously used RMAN or dbcli to configure backups and then you switch to using the Console or the API for backups, a new backup configuration is created and associated with your database. This means that you can no longer rely on your previously configured unmanaged backups to work.
+          type: boolean
+
+  Backup:
+    allOf:
+      - $ref: '#/definitions/BackupSummary'
+
+  BackupSummary:
+    description: |
+      A database backup
+      To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized, talk to an administrator. If you're an administrator who needs to write policies to give users access, see [Getting Started with Policies](/Content/Identity/Concepts/policygetstarted.htm).
+    properties:
+      id:
+        type: string
+        description: The OCID of the backup.
+        minLength: 1
+        maxLength: 255
+      compartmentId:
+        type: string
+        description: The OCID of the compartment.
+        minLength: 1
+        maxLength: 255
+      databaseId:
+        type: string
+        description: The OCID of the database.
+        minLength: 1
+        maxLength: 255
+      displayName:
+        type: string
+        description: The user-friendly name for the backup. It does not have to be unique.
+        minLength: 1
+        maxLength: 255
+      type:
+        type: string
+        description: The type of backup.
+        enum:
+          - INCREMENTAL
+          - FULL
+      timeStarted:
+        type: string
+        format: date-time
+        description: The date and time the backup starts.
+      timeEnded:
+        type: string
+        format: date-time
+        description: The date and time the backup was completed.
+      lifecycleDetails:
+        type: string
+        description: Additional information about the current lifecycleState.
+      availabilityDomain:
+        type: string
+        description: The name of the Availability Domain that the backup is located in.
+      lifecycleState:
+        type: string
+        description: The current state of the backup.
+        enum:
+          - CREATING
+          - ACTIVE
+          - DELETING
+          - DELETED
+          - FAILED
+          - RESTORING
+
+  Database:
+    allOf:
+      - $ref: '#/definitions/DatabaseSummary'
+
+  DatabaseSummary:
+    description: |
+      An Oracle database on a DB System. For more information, see [Managing Oracle Databases](/Content/Database/Concepts/overview.htm).
+
+      To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized, talk to an administrator. If you're an administrator who needs to write policies to give users access, see [Getting Started with Policies](/Content/Identity/Concepts/policygetstarted.htm).
+    required:
+      - id
+      - compartmentId
+      - lifecycleState
+      - dbName
+      - dbUniqueName
+    properties:
+      id:
+        type: string
+        description: The OCID of the database.
+        minLength: 1
+        maxLength: 255
+      compartmentId:
+        type: string
+        description: The OCID of the compartment.
+        minLength: 1
+        maxLength: 255
+      characterSet:
+        type: string
+        description: The character set for the database.
+        minLength: 1
+        maxLength: 255
+      ncharacterSet:
+        type: string
+        description: The national character set for the database.
+        minLength: 1
+        maxLength: 255
+      dbHomeId:
+        type: string
+        description: The OCID of the database home.
+        minLength: 1
+        maxLength: 255
+      dbName:
+        type: string
+        description: The database name.
+        minLength: 1
+        maxLength: 255
+      pdbName:
+        type: string
+        description: Pluggable database name. It must begin with an alphabetic character and can contain a maximum of eight alphanumeric characters. Special characters are not permitted. Pluggable database should not be same as database name.
+        minLength: 1
+        maxLength: 255
+      dbWorkload:
+        type: string
+        description: Database workload type.
+      dbUniqueName:
+        type: string
+        description: |
+          A system-generated name for the database to ensure uniqueness within an Oracle Data Guard group (a primary database and its standby databases). The unique name cannot be changed.
+        minLength: 1
+        maxLength: 30
+      lifecycleDetails:
+        type: string
+        description: Additional information about the current lifecycleState.
+      lifecycleState:
+        type: string
+        description: The current state of the database.
+        enum:
+          - PROVISIONING
+          - AVAILABLE
+          - UPDATING
+          - BACKUP_IN_PROGRESS
+          - TERMINATING
+          - TERMINATED
+          - RESTORE_FAILED
+          - FAILED
+      timeCreated:
+        type: string
+        format: date-time
+        description: The date and time the database was created.
+      dbBackupConfig:
+        $ref: '#/definitions/DbBackupConfig'
+
+  CreateDatabaseDetails:
+    required:
+      - dbName
+      - adminPassword
+    properties:
+      dbName:
+        type: string
+        description: The database name. It must begin with an alphabetic character and can contain a maximum of eight alphanumeric characters. Special characters are not permitted.
+        minLength: 1
+        maxLength: 8
+      pdbName:
+        type: string
+        description: Pluggable database name. It must begin with an alphabetic character and can contain a maximum of eight alphanumeric characters. Special characters are not permitted. Pluggable database should not be same as database name.
+        minLength: 1
+        maxLength: 255
+      adminPassword:
+        type: string
+        description: A strong password for SYS, SYSTEM, and PDB Admin. The password must be at least nine characters and contain at least two uppercase, two lowercase, two numbers, and two special characters. The special characters must be _, \#, or -.
+        minLength: 1
+        maxLength: 255
+      characterSet:
+        type: string
+        description: |
+           The character set for the database.  The default is AL32UTF8. Allowed values are:
+
+           AL32UTF8, AR8ADOS710, AR8ADOS720, AR8APTEC715, AR8ARABICMACS, AR8ASMO8X, AR8ISO8859P6, AR8MSWIN1256, AR8MUSSAD768, AR8NAFITHA711, AR8NAFITHA721, AR8SAKHR706, AR8SAKHR707, AZ8ISO8859P9E, BG8MSWIN, BG8PC437S, BLT8CP921, BLT8ISO8859P13, BLT8MSWIN1257, BLT8PC775, BN8BSCII, CDN8PC863, CEL8ISO8859P14, CL8ISO8859P5, CL8ISOIR111, CL8KOI8R, CL8KOI8U, CL8MACCYRILLICS, CL8MSWIN1251, EE8ISO8859P2, EE8MACCES, EE8MACCROATIANS, EE8MSWIN1250, EE8PC852, EL8DEC, EL8ISO8859P7, EL8MACGREEKS, EL8MSWIN1253, EL8PC437S, EL8PC851, EL8PC869, ET8MSWIN923, HU8ABMOD, HU8CWI2, IN8ISCII, IS8PC861, IW8ISO8859P8, IW8MACHEBREWS, IW8MSWIN1255, IW8PC1507, JA16EUC, JA16EUCTILDE, JA16SJIS, JA16SJISTILDE, JA16VMS, KO16KSCCS, KO16MSWIN949, LA8ISO6937, LA8PASSPORT, LT8MSWIN921, LT8PC772, LT8PC774, LV8PC1117, LV8PC8LR, LV8RST104090, N8PC865, NE8ISO8859P10, NEE8ISO8859P4, RU8BESTA, RU8PC855, RU8PC866, SE8ISO8859P3, TH8MACTHAIS, TH8TISASCII, TR8DEC, TR8MACTURKISHS, TR8MSWIN1254, TR8PC857, US7ASCII, US8PC437, UTF8, VN8MSWIN1258, VN8VN3, WE8DEC, WE8DG, WE8ISO8859P15, WE8ISO8859P9, WE8MACROMAN8S, WE8MSWIN1252, WE8NCR4970, WE8NEXTSTEP, WE8PC850, WE8PC858, WE8PC860, WE8ROMAN8, ZHS16CGB231280, ZHS16GBK, ZHT16BIG5, ZHT16CCDC, ZHT16DBT, ZHT16HKSCS, ZHT16MSWIN950, ZHT32EUC, ZHT32SOPS, ZHT32TRIS
+        minLength: 1
+        maxLength: 255
+      ncharacterSet:
+        type: string
+        description: |
+            National character set for the database.  The default is AL16UTF16. Allowed values are:
+            AL16UTF16 or UTF8.
+        minLength: 1
+        maxLength: 255
+      dbWorkload:
+        type: string
+        description: Database workload type.
+        enum:
+          - OLTP
+          - DSS
+      dbBackupConfig:
+        $ref: '#/definitions/DbBackupConfig'
+
+  DbVersionSummary:
+    description: |
+      The Oracle database software version.
+
+      To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized, talk to an administrator. If you're an administrator who needs to write policies to give users access, see [Getting Started with Policies](/Content/Identity/Concepts/policygetstarted.htm).
+    required:
+      - version
+    properties:
+      version:
+        type: string
+        description: A valid Oracle database version.
+        minLength: 1
+        maxLength: 255
+      supportsPdb:
+        description: True if this version of the Oracle database software supports pluggable dbs.
+        type: boolean
+
+
+  DbSystemShapeSummary:
+    description: |
+      The shape of the DB System. The shape determines resources to allocate to the DB system - CPU cores and memory for VM shapes; CPU cores, memory and storage for non-VM (or bare metal) shapes.
+      For a description of shapes, see [DB System Launch Options](/Content/Database/References/launchoptions.htm).
+      To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized, talk to an administrator.
+      If you're an administrator who needs to write policies to give users access,
+      see [Getting Started with Policies](/Content/Identity/Concepts/policygetstarted.htm).
+
+    required:
+      - name
+      - availableCoreCount
+    properties:
+      name:
+        type: string
+        description: The name of the shape used for the DB System.
+        minLength: 1
+        maxLength: 255
+      shape:
+        type: string
+        description: Deprecated. Use `name` instead of `shape`.
+        minLength: 1
+        maxLength: 255
+      availableCoreCount:
+        type: integer
+        description: The maximum number of CPU cores that can be enabled on the DB System.
+
+  Patch:
+    allOf:
+      - $ref: '#/definitions/PatchSummary'
+
+  PatchSummary:
+    description: |
+      A Patch for a DB System or DB Home.
+
+      To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized,
+      talk to an administrator. If you're an administrator who needs to write policies to give users access,
+      see [Getting Started with Policies](/Content/Identity/Concepts/policygetstarted.htm).
+    required:
+      - id
+      - description
+      - version
+      - timeReleased
+      - type
+    properties:
+      id:
+        type: string
+        description: The OCID of the patch.
+        minLength: 1
+        maxLength: 255
+      description:
+        type: string
+        description: The text describing this patch package.
+        minLength: 1
+        maxLength: 255
+      lastAction:
+        description: Action that is currently being performed or was completed last.
+        type: string
+        enum:
+          - APPLY
+          - PRECHECK
+      availableActions:
+        description: Actions that can possibly be performed using this patch.
+        type: array
+        items:
+            type: string
+            enum:
+              - APPLY
+              - PRECHECK
+      lifecycleDetails:
+        type: string
+        description: |
+          A descriptive text associated with the lifecycleState.
+          Typically can contain additional displayable text.
+      lifecycleState:
+        type: string
+        description: The current state of the patch as a result of lastAction.
+        enum:
+          - AVAILABLE
+          - SUCCESS
+          - IN_PROGRESS
+          - FAILED
+      timeReleased:
+        type: string
+        format: date-time
+        description: The date and time that the patch was released.
+      version:
+        type: string
+        description: The version of this patch package.
+        minLength: 1
+        maxLength: 255
+
+  PatchDetails:
+    description: |
+        The details about what actions to perform and using what patch to the specified target.
+        This is part of an update request that is applied to a version field on the target such
+        as DB System, database home, etc.
+    properties:
+      patchId:
+        type: string
+        description: The OCID of the patch.
+        minLength: 1
+        maxLength: 255
+      action:
+        description: The action to perform on the patch.
+        type: string
+        enum:
+          - APPLY
+          - PRECHECK
+
+  PatchHistoryEntry:
+    allOf:
+      - $ref: '#/definitions/PatchHistoryEntrySummary'
+
+  PatchHistoryEntrySummary:
+    description: The record of a patch action on a specified target.
+    required:
+      - id
+      - patchId
+      - lifecycleState
+      - timeStarted
+    properties:
+      id:
+        type: string
+        description: The OCID of the patch history entry.
+        minLength: 1
+        maxLength: 255
+      patchId:
+        type: string
+        description: The OCID of the patch.
+        minLength: 1
+        maxLength: 255
+      action:
+        type: string
+        description: The action being performed or was completed.
+        enum:
+          - APPLY
+          - PRECHECK
+      lifecycleState:
+        type: string
+        description: The current state of the action.
+        enum:
+          - IN_PROGRESS
+          - SUCCEEDED
+          - FAILED
+      lifecycleDetails:
+        type: string
+        description: |
+          A descriptive text associated with the lifecycleState.
+          Typically contains additional displayable text.
+      timeStarted:
+        type: string
+        format: date-time
+        description: The date and time when the patch action started.
+      timeEnded:
+        type: string
+        format: date-time
+        description: The date and time when the patch action completed.
+
+  DataGuardAssociation:
+    allOf:
+      - $ref: '#/definitions/DataGuardAssociationSummary'
+
+  DataGuardAssociationSummary:
+    description: |
+      The properties that define a Data Guard association.
+
+      To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized, talk to an
+      administrator. If you're an administrator who needs to write policies to give users access, see
+      [Getting Started with Policies](/Content/Identity/Concepts/policygetstarted.htm).
+
+      For information about endpoints and signing API requests, see
+      [About the API](/Content/API/Concepts/usingapi.htm). For information about available SDKs and tools, see
+      [SDKS and Other Tools](/Content/API/Concepts/sdks.htm).
+    required:
+      - id
+      - databaseId
+      - role
+      - peerDbSystemId
+      - peerRole
+      - protectionMode
+      - lifecycleState
+    properties:
+      id:
+        type: string
+        description: The [OCID](/Content/General/Concepts/identifiers.htm) of the Data Guard association.
+        minLength: 1
+        maxLength: 255
+      databaseId:
+        type: string
+        description: The [OCID](/Content/General/Concepts/identifiers.htm) of the reporting database.
+        minLength: 1
+        maxLength: 255
+      role:
+        type: string
+        description: The role of the reporting database in this Data Guard association.
+        enum:
+          - PRIMARY
+          - STANDBY
+          - DISABLED_STANDBY
+      lifecycleState:
+        type: string
+        description: The current state of the Data Guard association.
+        enum:
+          - PROVISIONING
+          - AVAILABLE
+          - UPDATING
+          - TERMINATING
+          - TERMINATED
+          - FAILED
+      lifecycleDetails:
+        type: string
+        description: |
+          Additional information about the current lifecycleState, if available.
+      peerDbSystemId:
+        type: string
+        description: |
+          The [OCID](/Content/General/Concepts/identifiers.htm) of the DB System containing the associated
+          peer database.
+        minLength: 1
+        maxLength: 255
+      peerDbHomeId:
+        type: string
+        description: |
+          The [OCID](/Content/General/Concepts/identifiers.htm) of the database home containing the associated peer database.
+        minLength: 1
+        maxLength: 255
+      peerDatabaseId:
+        type: string
+        description: The [OCID](/Content/General/Concepts/identifiers.htm) of the associated peer database.
+        minLength: 1
+        maxLength: 255
+      peerDataGuardAssociationId:
+        type: string
+        description: The [OCID](/Content/General/Concepts/identifiers.htm) of the peer database's Data Guard association.
+        minLength: 1
+        maxLength: 255
+      peerRole:
+        type: string
+        description: The role of the peer database in this Data Guard association.
+        enum:
+          - PRIMARY
+          - STANDBY
+          - DISABLED_STANDBY
+      applyLag:
+        type: string
+        description: |
+          The lag time between updates to the primary database and application of the redo data on the standby database,
+          as computed by the reporting database.
+
+          Example: `9 seconds`
+      applyRate:
+        type: string
+        description: |
+          The rate at which redo logs are synced between the associated databases.
+
+          Example: `180 Mb per second`
+      protectionMode:
+        type: string
+        description: |
+          The protection mode of this Data Guard association. For more information, see
+          [Oracle Data Guard Protection Modes](http://docs.oracle.com/database/122/SBYDB/oracle-data-guard-protection-modes.htm#SBYDB02000)
+          in the Oracle Data Guard documentation.
+        enum:
+          - MAXIMUM_AVAILABILITY
+          - MAXIMUM_PERFORMANCE
+          - MAXIMUM_PROTECTION
+      transportType:
+        type: string
+        description: |
+          The redo transport type used by this Data Guard association.  For more information, see
+          [Redo Transport Services](http://docs.oracle.com/database/122/SBYDB/oracle-data-guard-redo-transport-services.htm#SBYDB00400)
+          in the Oracle Data Guard documentation.
+        enum:
+          - SYNC
+          - ASYNC
+          - FASTSYNC
+      timeCreated:
+        type: string
+        format: date-time
+        description: The date and time the Data Guard Association was created.
+
+  CreateDataGuardAssociationDetails:
+    description: |
+      The configuration details for creating a Data Guard association between databases.
+
+      **NOTE:**
+      "ExistingDbSystem" is the only supported `creationType` value. Therefore, all
+      [CreateDataGuardAssociation](#/en/database/20160918/DataGuardAssociation/CreateDataGuardAssociation)
+      requests must include the `peerDbSystemId` parameter found in the
+      [CreateDataGuardAssociationToExistingDbSystemDetails](#/en/database/20160918/requests/CreateDataGuardAssociationToExistingDbSystemDetails)
+      object.
+    discriminator: creationType
+    required:
+      - databaseAdminPassword
+      - protectionMode
+      - transportType
+      - creationType
+    properties:
+      databaseAdminPassword:
+        type: string
+        description: |
+          A strong password for the `SYS`, `SYSTEM`, and `PDB Admin` users to apply during standby creation.
+
+          The password must contain no fewer than nine characters and include:
+
+          * At least two uppercase characters.
+
+          * At least two lowercase characters.
+
+          * At least two numeric characters.
+
+          * At least two special characters. Valid special characters include "_", "#", and "-" only.
+
+          **The password MUST be the same as the primary admin password.**
+
+        minLength: 1
+        maxLength: 255
+      protectionMode:
+        type: string
+        description: |
+          The protection mode to set up between the primary and standby databases. For more information, see
+          [Oracle Data Guard Protection Modes](http://docs.oracle.com/database/122/SBYDB/oracle-data-guard-protection-modes.htm#SBYDB02000)
+          in the Oracle Data Guard documentation.
+
+          **IMPORTANT** - The only protection mode currently supported by the Database Service is MAXIMUM_PERFORMANCE.
+        enum:
+          - MAXIMUM_AVAILABILITY
+          - MAXIMUM_PERFORMANCE
+          - MAXIMUM_PROTECTION
+      transportType:
+        type: string
+        description: |
+          The redo transport type to use for this Data Guard association.  Valid values depend on the specified `protectionMode`:
+
+          * MAXIMUM_AVAILABILITY - SYNC or FASTSYNC
+          * MAXIMUM_PERFORMANCE - ASYNC
+          * MAXIMUM_PROTECTION - SYNC
+
+          For more information, see
+          [Redo Transport Services](http://docs.oracle.com/database/122/SBYDB/oracle-data-guard-redo-transport-services.htm#SBYDB00400)
+          in the Oracle Data Guard documentation.
+
+          **IMPORTANT** - The only transport type currently supported by the Database Service is ASYNC.
+
+        enum:
+          - SYNC
+          - ASYNC
+          - FASTSYNC
+      creationType:
+        type: string
+        description: |
+          Specifies where to create the associated database.
+          "ExistingDbSystem" is the only supported `creationType` value.
+        minLength: 1
+        maxLength: 255
+
+  CreateDataGuardAssociationToExistingDbSystemDetails:
+    description: The configuration details for creating a Data Guard association to an existing database.
+    allOf:
+      - $ref: '#/definitions/CreateDataGuardAssociationDetails' # CreateDataGuardAssociationToExistingDbSystemDetails has all properties of a CreateDataGuardAssociationDetails
+      - discriminator: ExistingDbSystem
+        properties: # extra properties only for CreateDataGuardAssociationToExistingDbSystemDetails
+          peerDbSystemId:
+            type: string
+            description: |
+              The [OCID](/Content/General/Concepts/identifiers.htm) of the DB System to create the standby database on.
+            minLength: 1
+            maxLength: 255
+
+  FailoverDataGuardAssociationDetails:
+    description: |
+      The Data Guard association failover parameters.
+    required:
+      - databaseAdminPassword
+    properties:
+        databaseAdminPassword:
+          type: string
+          description: The DB System administrator password.
+          minLength: 1
+          maxLength: 255
+
+  SwitchoverDataGuardAssociationDetails:
+    description: |
+      The Data Guard association switchover parameters.
+    required:
+      - databaseAdminPassword
+    properties:
+        databaseAdminPassword:
+          type: string
+          description: The DB System administrator password.
+          minLength: 1
+          maxLength: 255
+
+  ReinstateDataGuardAssociationDetails:
+    description: |
+      The Data Guard association reinstate parameters.
+    required:
+      - databaseAdminPassword
+    properties:
+        databaseAdminPassword:
+          type: string
+          description: The DB System administrator password.
+          minLength: 1
+          maxLength: 255
+
+  Error:
+    required:
+      - code
+      - message
+    properties:
+      code:
+        type: string
+        description: |
+          A short error code that defines the error, meant for programmatic parsing. See
+          [API Errors](/Content/API/References/apierrors.htm).
+      message:
+        type: string
+        description: A human-readable error string.
+
+parameters:
+  PaginationLimitParam:
+    name: limit
+    type: integer
+    in: query
+    required: false
+    description: The maximum number of items to return.
+    minimum: 1
+    maximum: 1000
+  PaginationToken:
+    name: page
+    type: string
+    in: query
+    required: false
+    description: The pagination token to continue listing from.
+    minLength: 1
+    maxLength: 256
+  IfMatchHeader:
+    name: if-match
+    in: header
+    type: string
+    description: |
+      For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`
+      parameter to the value of the etag from a previous GET or POST response for that resource.  The resource
+      will be updated or deleted only if the etag you provide matches the resource's current etag value.
+  DbSystemShapeParam:
+    name: dbSystemShape
+    type: string
+    in: query
+    required: false
+    description: If provided, filters the results to the set of database versions which are supported for the given shape.
+    minLength: 1
+    maxLength: 255
+  RetryTokenHeader:
+    name: opc-retry-token
+    type: string
+    in: header
+    description: |
+      A token that uniquely identifies a request so it can be retried in case of a timeout or
+      server error without risk of executing that same action again. Retry tokens expire after 24
+      hours, but can be invalidated before then due to conflicting operations (for example, if a resource
+      has been deleted and purged from the system, then a retry of the original creation request
+      may be rejected).
+    minLength: 1
+    maxLength: 64
+  CompartmentId:
+    name: compartmentId
+    type: string
+    in: query
+    required: true
+    description: The compartment [OCID](/Content/General/Concepts/identifiers.htm).
+    minLength: 1
+    maxLength: 255
+  DbSystemIdPathParam:
+    name: dbSystemId
+    in: path
+    required: true
+    type: string
+    description: The DB System [OCID](/Content/General/Concepts/identifiers.htm).
+    minLength: 1
+    maxLength: 255
+  DbNodeIdPathParam:
+    name: dbNodeId
+    in: path
+    required: true
+    type: string
+    description: The database node [OCID](/Content/General/Concepts/identifiers.htm).
+    minLength: 1
+    maxLength: 255
+  DbHomeIdPathParam:
+    name: dbHomeId
+    in: path
+    required: true
+    type: string
+    description: The database home [OCID](/Content/General/Concepts/identifiers.htm).
+    minLength: 1
+    maxLength: 255
+  DatabaseIdPathParam:
+    name: databaseId
+    in: path
+    required: true
+    type: string
+    description: The database [OCID](/Content/General/Concepts/identifiers.htm).
+    minLength: 1
+    maxLength: 255
+  DataGuardAssociationIdPathParam:
+    name: dataGuardAssociationId
+    in: path
+    required: true
+    type: string
+    description: The Data Guard association's [OCID](/Content/General/Concepts/identifiers.htm).
+    minLength: 1
+    maxLength: 255
+  BackupIdPathParam:
+    name: backupId
+    in: path
+    required: true
+    type: string
+    description: The backup OCID.
+    minLength: 1
+    maxLength: 255
+  OptionalCompartmentIdQueryParam:
+    name: compartmentId
+    type: string
+    in: query
+    required: false
+    description: The compartment OCID.
+    minLength: 1
+    maxLength: 255
+  OptionalDatabaseIdQueryParam:
+    name: databaseId
+    in: query
+    required: false
+    type: string
+    description: The OCID of the database.
+  DbSystemIdQueryParam:
+    name: dbSystemId
+    in: query
+    required: true
+    type: string
+    description: The [OCID](/Content/General/Concepts/identifiers.htm) of the DB System.
+    minLength: 1
+    maxLength: 255
+  DbHomeIdQueryParam:
+    name: dbHomeId
+    in: query
+    required: true
+    type: string
+    description: A database home [OCID](/Content/General/Concepts/identifiers.htm).
+    minLength: 1
+    maxLength: 255
+  AvailabilityDomainQueryParam:
+    description: The name of the Availability Domain.
+    in: query
+    name: availabilityDomain
+    required: true
+    type: string
+  BackupIdQueryParam:
+    name: backupId
+    in: query
+    required: false
+    type: string
+    description: The OCID of the backup. Specify a backupId to list only the DB Systems that support creating a database using this backup in this compartment.
+    minLength: 1
+    maxLength: 255
+    x-obmcs-feature-id:
+    - udx-667
+  DbNodeActionQueryParam:
+    description: The action to perform on the DB Node.
+    enum:
+    - STOP
+    - START
+    - SOFTRESET
+    - RESET
+    in: query
+    name: action
+    required: true
+    type: string
+    x-obmcs-inline-enum: false
+
+  PatchIdPathParam:
+    name: patchId
+    in: path
+    required: true
+    type: string
+    description: The OCID of the patch.
+    minLength: 1
+    maxLength: 255
+  PatchHistoryEntryIdPathParam:
+    name: patchHistoryEntryId
+    in: path
+    required: true
+    type: string
+    description: The OCID of the patch history entry.
+    minLength: 1
+    maxLength: 255
+
+  DatabaseActionQueryParam:
+    description: The action to perform on the Database.
+
+  DataGuardAssociationActionQueryParam:
+    description: The action to perform on the DataGuardAssociation.
+    enum:
+    - SWITCHOVER
+    - FAILOVER
+    - REINSTATE
+    in: query
+    name: action
+    required: true
+    type: string
+
+  PerformFinalBackupParam:
+    name: performFinalBackup
+    in: query
+    required: false
+    type: boolean
+    description: Whether to perform a final backup of the database or not. Default is false. If you previously used RMAN or dbcli to configure backups and then you switch to using the Console or the API for backups, a new backup configuration is created and associated with your database. This means that you can no longer rely on your previously configured unmanaged backups to work.
+
+responses:
+  400:
+    description: Bad Request
+    $ref: '#/responses/Error'
+  401:
+    description: Unauthorized
+    $ref: '#/responses/Error'
+  403:
+    description: Forbidden
+    $ref: '#/responses/Error'
+  404:
+    description: Not Found
+    $ref: '#/responses/Error'
+  409:
+    description: Conflict
+    $ref: '#/responses/Error'
+  412:
+    description: Precondition Failed
+    $ref: '#/responses/Error'
+  500:
+    description: Internal Server Error
+    $ref: '#/responses/Error'
+  DefaultError:
+    description: An error has occurred.
+    $ref: '#/responses/Error'
+  Error:
+    headers:
+      opc-request-id:
+        $ref: '#/x-descriptions/opc-request-id'
+    schema:
+      $ref: '#/definitions/Error'
+    description: An unexpected error has occurred.
+
+x-descriptions:
+  etag:
+    description: For optimistic concurrency control. See `if-match`.
+    type: string
+  opc-next-page:
+    description: |
+      For pagination of a list of items. When paging through a list, if this header appears in the response,
+      then there are additional items still to get. Include this value as the `page` parameter for the
+      subsequent GET request. For information about pagination, see
+      [List Pagination](/Content/API/Concepts/usingapi.htm#List_Pagination).
+    type: string
+  opc-request-id:
+    description: |
+      Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
+      a particular request, please provide the request ID.
+    type: string

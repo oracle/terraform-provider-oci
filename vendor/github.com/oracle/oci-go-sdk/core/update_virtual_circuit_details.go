@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 // Core Services API
@@ -54,7 +54,7 @@ type UpdateVirtualCircuitDetails struct {
 	// end. INACTIVE means the provider has not yet provisioned the virtual
 	// circuit, or has de-provisioned it.
 	// To be updated only by the provider.
-	ProviderState UpdateVirtualCircuitDetailsProviderStateEnum `mandatory:"false" json:"providerState"`
+	ProviderState UpdateVirtualCircuitDetailsProviderStateEnum `mandatory:"false" json:"providerState,omitempty"`
 
 	// Provider-supplied reference information about this virtual circuit.
 	// Relevant only if the customer is using FastConnect via a provider.
@@ -73,22 +73,18 @@ type UpdateVirtualCircuitDetailsProviderStateEnum string
 const (
 	UpdateVirtualCircuitDetailsProviderStateActive   UpdateVirtualCircuitDetailsProviderStateEnum = "ACTIVE"
 	UpdateVirtualCircuitDetailsProviderStateInactive UpdateVirtualCircuitDetailsProviderStateEnum = "INACTIVE"
-	UpdateVirtualCircuitDetailsProviderStateUnknown  UpdateVirtualCircuitDetailsProviderStateEnum = "UNKNOWN"
 )
 
 var mappingUpdateVirtualCircuitDetailsProviderState = map[string]UpdateVirtualCircuitDetailsProviderStateEnum{
 	"ACTIVE":   UpdateVirtualCircuitDetailsProviderStateActive,
 	"INACTIVE": UpdateVirtualCircuitDetailsProviderStateInactive,
-	"UNKNOWN":  UpdateVirtualCircuitDetailsProviderStateUnknown,
 }
 
 // GetUpdateVirtualCircuitDetailsProviderStateEnumValues Enumerates the set of values for UpdateVirtualCircuitDetailsProviderState
 func GetUpdateVirtualCircuitDetailsProviderStateEnumValues() []UpdateVirtualCircuitDetailsProviderStateEnum {
 	values := make([]UpdateVirtualCircuitDetailsProviderStateEnum, 0)
 	for _, v := range mappingUpdateVirtualCircuitDetailsProviderState {
-		if v != UpdateVirtualCircuitDetailsProviderStateUnknown {
-			values = append(values, v)
-		}
+		values = append(values, v)
 	}
 	return values
 }

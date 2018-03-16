@@ -1,0 +1,2938 @@
+swagger: '2.0'
+info:
+  version: '20171215'
+  title: File Storage Service API
+  description: |
+    The API for the File Storage Service.
+
+    You can use the table of contents or the version selector and search tool to explore the File Storage Service API.
+  license:
+    name: Oracle Corporation
+schemes:
+- http
+consumes:
+- application/json
+produces:
+- application/json
+basePath: /20171215
+paths:
+  /fileSystems:
+    get:
+      description: |
+        Lists the file system resources in the specified compartment.
+      operationId: ListFileSystems
+      parameters:
+      - $ref: '#/parameters/CompartmentIdQueryParam'
+      - $ref: '#/parameters/AvailabilityDomainQueryParam'
+      - $ref: '#/parameters/PaginationLimitQueryParam'
+      - $ref: '#/parameters/PaginationTokenQueryParam'
+      - $ref: '#/parameters/DisplayNameQueryParam'
+      - $ref: '#/parameters/LifecycleStateQueryParam'
+      - $ref: '#/parameters/OcidQueryParam'
+      - $ref: '#/parameters/FileSystemSortByQueryParam'
+      - $ref: '#/parameters/SortOrderQueryParam'
+      x-example: |
+        GET /20171215/fileSystems?compartmentId=<var>&lt;compartmentId&gt;</var>
+        Host: filestorage.us-phoenix-1.oraclecloud.com
+        <var>&lt;authorization and other headers&gt;</var>
+      responses:
+        200:
+          description: The list is being retrieved.
+          headers:
+            opc-next-page:
+              description: |
+                For pagination of a list of items. When paging through
+                a list, if this header appears in the response, then a
+                partial list might have been returned. Include this
+                value as the `page` parameter for the subsequent GET
+                request to get the next batch of items.
+              type: string
+            opc-request-id:
+              description: |
+                Unique Oracle-assigned identifier for the request. If
+                you need to contact Oracle about a particular request,
+                please provide the request ID.
+              type: string
+          schema:
+            items:
+              $ref: '#/definitions/FileSystemSummary'
+            type: array
+          examples:
+            application-json: |
+              [
+                {
+                  "availabilityDomain": "pWEh:PHX-AD-2",
+                  "meteredBytes": 0,
+                  "compartmentId": "ocid1.compartment.oc1..aaaaaaaa4ssrz2joq66nyomcvb4ydlbfmn2qg7wow5neo2ytcdznohhsyca",
+                  "displayName": "media-files-1",
+                  "id": "ocid1.filesystem.oc1.phx.aaaaaaaaaaaaacvbobuhqllhmfwwcotqnb4c2ylefuzaaaaa",
+                  "lifecycleState": "ACTIVE",
+                  "timeCreated": "2017-11-25T21:14:50.024Z"
+                },
+                {
+                  "availabilityDomain": "pWEh:PHX-AD-1",
+                  "meteredBytes": 0,
+                  "compartmentId": "ocid1.compartment.oc1..aaaaaaaa4ssrz2joq66nyomcvb4ydlbfmn2qg7wow5neo2ytcdznohhsyca",
+                  "displayName": "vmdk-repo-1",
+                  "id": "ocid1.filesystem.oc1.phx.aaaaaaaaaaaaacvbobuhqllhmfwwcotqnb4c2ylefuzaabbb",
+                  "lifecycleState": "ACTIVE",
+                  "timeCreated": "2017-11-29T21:04:12.622Z"
+                }
+              ]
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        429:
+          $ref: '#/responses/429'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+      summary: ListFileSystems
+      tags:
+      - fileStorage
+    post:
+      description: |
+        Creates a new file system in the specified compartment and
+        availability domain. Instances can mount file systems in
+        another availability domain, but doing so might increase
+        latency when compared to mounting instances in the same
+        availability domain.
+
+        After you create a file system, you can associate it with a mount
+        target. Instances can then mount the file system by connecting to the
+        mount target's IP address. You can associate a file system with
+        more than one mount target at a time.
+
+        For information about access control and compartments, see
+        [Overview of the IAM Service](/Content/Identity/Concepts/overview.htm).
+
+        For information about availability domains, see [Regions and
+        Availability Domains](/Content/General/Concepts/regions.htm).
+        To get a list of availability domains, use the
+        `ListAvailabilityDomains` operation in the Identity and Access
+        Management Service API.
+
+        All Oracle Cloud Infrastructure resources, including
+        file systems, get an Oracle-assigned, unique ID called an Oracle
+        Cloud Identifier (OCID).  When you create a resource, you can
+        find its OCID in the response. You can also retrieve a
+        resource's OCID by using a List API operation on that resource
+        type or by viewing the resource in the Console.
+      operationId: CreateFileSystem
+      parameters:
+      - description: Details for creating a new file system.
+        in: body
+        name: CreateFileSystemDetails
+        required: true
+        schema:
+          $ref: '#/definitions/CreateFileSystemDetails'
+      - $ref: '#/parameters/RetryTokenHeader'
+      x-example: |
+        POST /20171215/fileSystems
+        Host: filestorage.us-phoenix-1.oraclecloud.com
+        <var>&lt;authorization and other headers&gt;</var>
+        {
+          "availabilityDomain" : "pWEh:PHX-AD-2",
+          "compartmentId" : "ocid1.compartment.oc1..aaaaaaaa4ssrz2joq66nyomcvb4ydlbfmn2qg7wow5neo2ytcdznohhsyca",
+          "displayName" : "media-files-1"
+        }
+      responses:
+        200:
+          description: The file system was created.
+          headers:
+            etag:
+              description: For optimistic concurrency control. See `if-match`.
+              type: string
+            opc-request-id:
+              description: |
+                Unique Oracle-assigned identifier for the request. If
+                you need to contact Oracle about a particular request,
+                please provide the request ID.
+              type: string
+          schema:
+            $ref: '#/definitions/FileSystem'
+          examples: 
+            application-json: |
+              {
+                "availabilityDomain": "pWEh:PHX-AD-2",
+                "meteredBytes": 0,
+                "compartmentId": "ocid1.compartment.oc1..aaaaaaaa4ssrz2joq66nyomcvb4ydlbfmn2qg7wow5neo2ytcdznohhsyca",
+                "displayName": "media-files-1",
+                "id": "ocid1.filesystem.oc1.phx.aaaaaaaaaaaaacvbobuhqllhmfwwcotqnb4c2ylefuzaaaaa",
+                "lifecycleState": "ACTIVE",
+                "timeCreated": "2017-11-25T21:14:50.024Z"
+              }
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        409:
+          $ref: '#/responses/409'
+        429:
+          $ref: '#/responses/429'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+      summary: CreateFileSystem
+      tags:
+      - fileStorage
+  /fileSystems/{fileSystemId}:
+    delete:
+      description: |
+        Deletes the specified file system. Before you delete the file system,
+        verify that no remaining export resources still reference it. Deleting a
+        file system also deletes all of its snapshots.
+      operationId: DeleteFileSystem
+      x-related-resource: '#/definitions/FileSystem'
+      parameters:
+      - $ref: '#/parameters/FileSystemIdPathParam'
+      - $ref: '#/parameters/IfMatchHeader'
+      x-example: |
+        DELETE /20171215/fileSystems/<var>&lt;fileSystemId&gt;</var>
+        Host: filestorage.us-phoenix-1.oraclecloud.com
+        <var>&lt;authorization and other headers&gt;</var>
+      responses:
+        204:
+          description: The file system is being deleted.
+          headers:
+            opc-request-id:
+              description: |
+                Unique Oracle-assigned identifier for the request. If
+                you need to contact Oracle about a particular request,
+                please provide the request ID.
+              type: string
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        412:
+          $ref: '#/responses/412'
+        429:
+          $ref: '#/responses/429'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+      summary: DeleteFileSystem
+      tags:
+      - fileStorage
+    get:
+      description: Gets the specified file system's information.
+      operationId: GetFileSystem
+      parameters:
+      - $ref: '#/parameters/FileSystemIdPathParam'
+      x-example: |
+        GET /20171215/fileSystems/<var>&lt;fileSystemId&gt;</var>
+        Host: filestorage.us-phoenix-1.oraclecloud.com
+        <var>&lt;authorization and other headers&gt;</var>
+      responses:
+        200:
+          description: The file system was retrieved.
+          headers:
+            etag:
+              description: For optimistic concurrency control. See `if-match`.
+              type: string
+            opc-request-id:
+              description: |
+                Unique Oracle-assigned identifier for the request. If
+                you need to contact Oracle about a particular request,
+                please provide the request ID.
+              type: string
+          schema:
+            $ref: '#/definitions/FileSystem'
+          examples:
+            application-json: |
+              {
+                "availabilityDomain": "pWEh:PHX-AD-2",
+                "meteredBytes": 0,
+                "compartmentId": "ocid1.compartment.oc1..aaaaaaaa4ssrz2joq66nyomcvb4ydlbfmn2qg7wow5neo2ytcdznohhsyca",
+                "displayName": "media-files-1",
+                "id": "ocid1.filesystem.oc1.phx.aaaaaaaaaaaaacvbobuhqllhmfwwcotqnb4c2ylefuzaaaaa",
+                "lifecycleState": "ACTIVE",
+                "timeCreated": "2017-11-25T21:14:50.024Z"
+              }
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        429:
+          $ref: '#/responses/429'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+      summary: GetFileSystem
+      tags:
+      - fileStorage
+    put:
+      description: |
+        Updates the specified file system's information.
+        You can use this operation to rename a file system.
+      operationId: UpdateFileSystem
+      parameters:
+      - $ref: '#/parameters/FileSystemIdPathParam'
+      - $ref: '#/parameters/IfMatchHeader'
+      - description: Details object for updating a file system.
+        in: body
+        name: UpdateFileSystemDetails
+        required: true
+        schema:
+          $ref: '#/definitions/UpdateFileSystemDetails'
+        x-example: |
+          PUT /20171215/fileSystems/<var>&lt;fileSystemId&gt;</var>
+          Host: filestorage.us-phoenix-1.oraclecloud.com
+          <var>&lt;authorization and other headers&gt;</var>
+          {
+            "displayName": "mediafiles1"
+          }
+      responses:
+        200:
+          description: The file system was updated.
+          headers:
+            etag:
+              description: For optimistic concurrency control. See `if-match`.
+              type: string
+            opc-request-id:
+              description: |
+                Unique Oracle-assigned identifier for the request. If
+                you need to contact Oracle about a particular request,
+                please provide the request ID.
+              type: string
+          schema:
+            $ref: '#/definitions/FileSystem'
+          examples:
+            application-json: |
+              {
+                "availabilityDomain": "pWEh:PHX-AD-2",
+                "meteredBytes": 0,
+                "compartmentId": "ocid1.compartment.oc1..aaaaaaaa4ssrz2joq66nyomcvb4ydlbfmn2qg7wow5neo2ytcdznohhsyca",
+                "displayName": "mediafiles1",
+                "id": "ocid1.filesystem.oc1.phx.aaaaaaaaaaaaacvbobuhqllhmfwwcotqnb4c2ylefuzaaaaa",
+                "lifecycleState": "ACTIVE",
+                "timeCreated": "2017-11-25T21:14:50.024Z"
+              }
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        412:
+          $ref: '#/responses/412'
+        429:
+          $ref: '#/responses/429'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+      summary: UpdateFileSystem
+      tags:
+      - fileStorage
+  /fileSystems/{fileSystemId}/lockOwners:
+    get:
+      x-obmcs-preview-only: true
+      description: |
+        List the lock owners in a given file system.
+      operationId: ListLockOwners
+      x-related-resource: '#/definitions/FileSystem'
+      parameters:
+      - $ref: '#/parameters/FileSystemIdPathParam'
+      - $ref: '#/parameters/MountTargetOptionalQueryParam'
+      - $ref: '#/parameters/PaginationLimitQueryParam'
+      - $ref: '#/parameters/PaginationTokenQueryParam'
+      x-example: |
+        GET /20171215/fileSystems/<var>&lt;fileSystemId&gt;</var>/lockOwners
+        Host: filestorage.us-phoenix-1.oraclecloud.com
+        <var>&lt;authorization and other headers&gt;</var>
+      responses:
+        200:
+          description: The list is being retrieved.
+          headers:
+            opc-next-page:
+              description: |
+                For pagination of a list of items. When paging through
+                a list, if this header appears in the response, then a
+                partial list might have been returned. Include this
+                value as the `page` parameter for the subsequent GET
+                request to get the next batch of items.
+              type: string
+            opc-request-id:
+              description: |
+                Unique Oracle-assigned identifier for the request. If
+                you need to contact Oracle about a particular request,
+                please provide the request ID.
+              type: string
+          schema:
+            items:
+              $ref: '#/definitions/LockOwner'
+            type: array
+          examples:
+            application-json: |
+              [
+                {
+                  "fileSystemId": "ocid1.filesystem.oc1.phx.aaaaaaaaaaaaacvbobuhqllhmfwwcotqnb4c2ylefuzaaaaa",
+                  "clientIpAddress": "192.168.0.10",
+                  "mountTargetId": "ocid1.mounttarget.oc1.phx.aaaaaaaaaaaacvbfauxhqllhmfwwcotqnb4c2ylefuzaaaaa",
+                  "vcnId": "ocid1.vcn.oc1.phx.aaaaaaaafx7g55xhcvbquc2vv3c2adknvo3d6j2t6vfljy6gkxz6xutfwjxa"
+                }
+              ]
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        429:
+          $ref: '#/responses/429'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+      summary: ListLockOwners
+      tags:
+      - fileStorage
+  /mountTargets:
+    get:
+      description: |
+        Lists the mount target resources in the specified compartment.
+      operationId: ListMountTargets
+      parameters:
+      - $ref: '#/parameters/CompartmentIdQueryParam'
+      - $ref: '#/parameters/AvailabilityDomainQueryParam'
+      - $ref: '#/parameters/PaginationLimitQueryParam'
+      - $ref: '#/parameters/PaginationTokenQueryParam'
+      - $ref: '#/parameters/DisplayNameQueryParam'
+      - $ref: '#/parameters/ExportSetOptionalQueryParam'
+      - $ref: '#/parameters/LifecycleStateQueryParam'
+      - $ref: '#/parameters/OcidQueryParam'
+      - $ref: '#/parameters/MountTargetSortByQueryParam'
+      - $ref: '#/parameters/SortOrderQueryParam'
+      x-example: |
+        GET /20171215/mountTargets?compartmentId=<var>&lt;compartmentId&gt;</var>
+        Host: filestorage.us-phoenix-1.oraclecloud.com
+        <var>&lt;authorization and other headers&gt;</var>
+        {
+          "compartmentId": "ocid1.compartment.oc1..aaaaaaaa4ssrz2joq66nyomcvb4ydlbfmn2qg7wow5neo2ytcdznohhsyca"
+        }
+      responses:
+        200:
+          description: The list is being retrieved.
+          headers:
+            opc-next-page:
+              description: |
+                For pagination of a list of items. When paging through
+                a list, if this header appears in the response, then a
+                partial list might have been returned. Include this
+                value as the `page` parameter for the subsequent GET
+                request to get the next batch of items.
+              type: string
+            opc-request-id:
+              description: |
+                Unique Oracle-assigned identifier for the request. If
+                you need to contact Oracle about a particular request,
+                please provide the request ID.
+              type: string
+          schema:
+            items:
+              $ref: '#/definitions/MountTargetSummary'
+            type: array
+          examples:
+            application-json: |
+              [
+                {
+                  "availabilityDomain": "pWEh:PHX-AD-2",
+                  "compartmentId": "ocid1.compartment.oc1..aaaaaaaa4ssrz2joq66nyomcvb4ydlbfmn2qg7wow5neo2ytcdznohhsyca",
+                  "displayName": "mount-target-5",
+                  "exportSetId": "ocid1.exportset.oc1.phx.aaaaaaaaaaaacvbobuhqllhmfwwcotqnb4c2ylefuzaaaaa",
+                  "id": "ocid1.mounttarget.oc1.phx.aaaaaaaaaaaaafcvbobuhqllhmfwwcotqnb4c2ylefuzaaaaa",
+                  "lifecycleState": "ACTIVE",
+                  "privateIpIds": [
+                    "ocid1.privateip.oc1.phx.abyhqljt6rxwzfauxvmlhuvh4z3rhmyyucik6u5pl4qai6dulsfeerr7nsma"
+                  ],
+                  "subnetId": "ocid1.subnet.oc1.phx.aaaaaaaale662rd2rcvbqi5dlerqvfcobnjs5h4h7ssosxwo4fu7mjvp2ia",
+                  "timeCreated": "2017-12-01T22:13:22.534Z"
+                },
+                {
+                  "availabilityDomain": "pWEh:PHX-AD-2",
+                  "compartmentId": "ocid1.compartment.oc1..aaaaaaaa4ssrz2joq66nyomcvb4ydlbfmn2qg7wow5neo2ytcdznohhsyca",
+                  "displayName": "mount-target-6",
+                  "exportSetId": "ocid1.exportset.oc1.phx.aaaaaaaaaaaacvbobuhqllhmfwwcotqnb4c2ylefuzaabbb",
+                  "id": "ocid1.mounttarget.oc1.phx.aaaaaaaaaaaacvbvobuhqllhmfwwcotqnb4c2ylefuzaabbb",
+                  "lifecycleState": "ACTIVE",
+                  "privateIpIds": [
+                    "ocid1.privateip.oc1.phx.abyhqljti3mvlhmsrbcvb4pkviufdt6ubzute4sugv3csk6swpzp22clk7fq"
+                  ],
+                  "subnetId": "ocid1.subnet.oc1.phx.aaaaaaaale662rd2rcvbqi5dlerqvfcobnjs5h4h7ssosxwo4fu7mjvp2ia",
+                  "timeCreated": "2017-12-01T22:15:20.264Z"
+                }
+              ]
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        429:
+          $ref: '#/responses/429'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+      summary: ListMountTargets
+      tags:
+      - fileStorage
+    post:
+      description: |
+        Creates a new mount target in the specified compartment and
+        subnet. You can associate a file system with a mount
+        target only when they exist in the same availability domain. Instances
+        can connect to mount targets in another availablity domain, but
+        you might see higher latency than with instances in the same
+        availability domain as the mount target.
+
+        Mount targets have one or more private IP addresses that you can
+        provide as the host portion of remote target parameters in
+        client mount commands. These private IP addresses are listed
+        in the privateIpIds property of the mount target and are highly available. Mount
+        targets also consume additional IP addresses in their subnet.
+
+        For information about access control and compartments, see
+        [Overview of the IAM
+        Service](/Content/Identity/Concepts/overview.htm).
+
+        For information about availability domains, see [Regions and
+        Availability Domains](/Content/General/Concepts/regions.htm).
+        To get a list of availability domains, use the
+        `ListAvailabilityDomains` operation in the Identity and Access
+        Management Service API.
+
+        All Oracle Cloud Infrastructure Services resources, including
+        mount targets, get an Oracle-assigned, unique ID called an
+        Oracle Cloud Identifier (OCID).  When you create a resource,
+        you can find its OCID in the response. You can also retrieve a
+        resource's OCID by using a List API operation on that resource
+        type, or by viewing the resource in the Console.
+      operationId: CreateMountTarget
+      parameters:
+      - description: Details for creating a new mount target.
+        in: body
+        name: CreateMountTargetDetails
+        required: true
+        schema:
+          $ref: '#/definitions/CreateMountTargetDetails'
+      - $ref: '#/parameters/RetryTokenHeader'
+      x-example: |
+        POST /20171215/mountTargets
+        Host: filestorage.us-phoenix-1.oraclecloud.com
+        <var>&lt;authorization and other headers&gt;</var>
+        {
+          "availabilityDomain" : "pWEh:PHX-AD-2",
+          "compartmentId" : "ocid1.compartment.oc1..aaaaaaaa4ssrz2joq66nyomcvb4ydlbfmn2qg7wow5neo2ytcdznohhsyca",
+          "displayName" : "mount-target-5",
+          "subnetId" : "ocid1.subnet.oc1.phx.aaaaaaaale662rd2rcvbqi5dlerqvfcobnjs5h4h7ssosxwo4fu7mjvp2ia"
+        }
+      responses:
+        200:
+          description: The mount target was created.
+          headers:
+            etag:
+              description: For optimistic concurrency control. See `if-match`.
+              type: string
+            opc-request-id:
+              description: |
+                Unique Oracle-assigned identifier for the request. If
+                you need to contact Oracle about a particular request,
+                please provide the request ID.
+              type: string
+          schema:
+            $ref: '#/definitions/MountTarget'
+          examples:
+            application-json: |
+              {
+                "availabilityDomain": "pWEh:PHX-AD-2",
+                "compartmentId": "ocid1.compartment.oc1..aaaaaaaa4ssrz2joq66nyomcvb4ydlbfmn2qg7wow5neo2ytcdznohhsyca",
+                "displayName": "mount-target-5",
+                "exportSetId": "ocid1.exportset.oc1.phx.aaaaaaaaaaaacvbobuhqllhmfwwcotqnb4c2ylefuzaaaaa",
+                "id": "ocid1.mounttarget.oc1.phx.aaaaaaaaaaaaafcvbobuhqllhmfwwcotqnb4c2ylefuzaaaaa",
+                "lifecycleDetails": "",
+                "lifecycleState": "ACTIVE",
+                "privateIpIds": [
+                  "ocid1.privateip.oc1.phx.abyhqljt6rxwzfauxvmlhuvh4z3rhmyyucik6u5pl4qai6dulsfeerr7nsma"
+                ],
+                "subnetId": "ocid1.subnet.oc1.phx.aaaaaaaale662rd2rcvbqi5dlerqvfcobnjs5h4h7ssosxwo4fu7mjvp2ia",
+                "timeCreated": "2017-12-01T22:13:22.534Z"
+              }
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        409:
+          $ref: '#/responses/409'
+        429:
+          $ref: '#/responses/429'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+      summary: CreateMountTarget
+      tags:
+      - fileStorage
+  /mountTargets/{mountTargetId}:
+    delete:
+      description: |
+        Deletes the specified mount target. This operation also deletes the
+        mount target's VNICs.
+      operationId: DeleteMountTarget
+      x-related-resource: '#/definitions/MountTarget'
+      parameters:
+      - $ref: '#/parameters/MountTargetIdPathParam'
+      - $ref: '#/parameters/IfMatchHeader'
+      x-example: |
+        DELETE /20171215/mountTargets/<var>&lt;mountTargetId&gt;</var>
+        Host: filestorage.us-phoenix-1.oraclecloud.com
+        <var>&lt;authorization and other headers&gt;</var>
+      responses:
+        204:
+          description: The mount target is being deleted.
+          headers:
+            opc-request-id:
+              description: |
+                Unique Oracle-assigned identifier for the request. If
+                you need to contact Oracle about a particular request,
+                please provide the request ID.
+              type: string
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        412:
+          $ref: '#/responses/412'
+        429:
+          $ref: '#/responses/429'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+      summary: DeleteMountTarget
+      tags:
+      - fileStorage
+    get:
+      description: Gets the specified mount target's information.
+      operationId: GetMountTarget
+      parameters:
+      - $ref: '#/parameters/MountTargetIdPathParam'
+      x-example: |
+        GET /20171215/mountTargets/<var>&lt;mountTargetId&gt;</var>?compartmentId=<var>&lt;compartmentId&gt;</var>
+        Host: filestorage.us-phoenix-1.oraclecloud.com
+        <var>&lt;authorization and other headers&gt;</var>
+      responses:
+        200:
+          description: The mount target was retrieved.
+          headers:
+            etag:
+              description: For optimistic concurrency control. See `if-match`.
+              type: string
+            opc-request-id:
+              description: |
+                Unique Oracle-assigned identifier for the request. If
+                you need to contact Oracle about a particular request,
+                please provide the request ID.
+              type: string
+          schema:
+            $ref: '#/definitions/MountTarget'
+          examples:
+            application-json: |
+              {
+                "availabilityDomain": "pWEh:PHX-AD-2",
+                "compartmentId": "ocid1.compartment.oc1..aaaaaaaa4ssrz2joq66nyomcvb4ydlbfmn2qg7wow5neo2ytcdznohhsyca",
+                "displayName": "mount-target-6",
+                "exportSetId": "ocid1.exportset.oc1.phx.aaaaaaaaaaaacvbobuhqllhmfwwcotqnb4c2ylefuzaabbb",
+                "id": "ocid1.mounttarget.oc1.phx.aaaaaaaaaaaacvbvobuhqllhmfwwcotqnb4c2ylefuzaaaaa",
+                "lifecycleDetails": "string",
+                "lifecycleState": "ACTIVE",
+                "privateIpIds": [
+                  "ocid1.privateip.oc1.phx.abyhqljti3mvlhmsrbcvb4pkviufdt6ubzute4sugv3csk6swpzp22clk7fq"
+                ],
+                "subnetId": "ocid1.subnet.oc1.phx.aaaaaaaale662rd2rcvbqi5dlerqvfcobnjs5h4h7ssosxwo4fu7mjvp2ia",
+                "timeCreated": "2017-12-01T22:15:20.264Z"
+              }
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        429:
+          $ref: '#/responses/429'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+      summary: GetMountTarget
+      tags:
+      - fileStorage
+    put:
+      description: Updates the specified mount target's information.
+      operationId: UpdateMountTarget
+      parameters:
+      - $ref: '#/parameters/MountTargetIdPathParam'
+      - $ref: '#/parameters/IfMatchHeader'
+      - description: Details object for updating a mount target.
+        in: body
+        name: UpdateMountTargetDetails
+        required: true
+        schema:
+          $ref: '#/definitions/UpdateMountTargetDetails'
+      x-example: |
+        PUT /20171215/mountTargets/<var>&lt;mountTargetId&gt;</var>
+        Host: filestorage.us-phoenix-1.oraclecloud.com
+        <var>&lt;authorization and other headers&gt;</var>
+        {
+          "displayName": "mount-target-1"
+        }
+      responses:
+        200:
+          description: The mount target was updated.
+          headers:
+            etag:
+              description: For optimistic concurrency control. See `if-match`.
+              type: string
+            opc-request-id:
+              description: |
+                Unique Oracle-assigned identifier for the request. If
+                you need to contact Oracle about a particular request,
+                please provide the request ID.
+              type: string
+          schema:
+            $ref: '#/definitions/MountTarget'
+          examples:
+            application-json: |
+              {
+                "availabilityDomain": "pWEh:PHX-AD-2",
+                "compartmentId": "ocid1.compartment.oc1..aaaaaaaa4ssrz2joq66nyomcvb4ydlbfmn2qg7wow5neo2ytcdznohhsyca",
+                "displayName": "mount-target-1",
+                "exportSetId": "ocid1.exportset.oc1.phx.aaaaaaaaaaaacvbvfauxhqllhmfwwcotqnb4c2ylefuzaaaaa",
+                "id": "ocid1.mounttarget.oc1.phx.aaaaaaaaaaaacvbfauxhqllhmfwwcotqnb4c2ylefuzaaaaa",
+                "lifecycleDetails": "",
+                "lifecycleState": "ACTIVE",
+                "privateIpIds": [
+                  "ocid1.privateip.oc1.phx.abyhqljthzqcvbi3fewpfahdehvt3wl5eqvwawpzxh7j5sxxnj5dcel6gbla"
+                ],
+                "subnetId": "ocid1.subnet.oc1.phx.aaaaaaaale662rd2rcvbqi5dlerqvfcobnjs5h4h7ssosxwo4fu7mjvp2ia",
+                "timeCreated": "2017-12-01T22:23:06.807Z"
+              }
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        412:
+          $ref: '#/responses/412'
+        429:
+          $ref: '#/responses/429'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+      summary: UpdateMountTarget
+      tags:
+      - fileStorage
+  /exportSets:
+    get:
+      description: |
+        Lists the export set resources in the specified compartment.
+      operationId: ListExportSets
+      parameters:
+      - $ref: '#/parameters/CompartmentIdQueryParam'
+      - $ref: '#/parameters/AvailabilityDomainQueryParam'
+      - $ref: '#/parameters/PaginationLimitQueryParam'
+      - $ref: '#/parameters/PaginationTokenQueryParam'
+      - $ref: '#/parameters/DisplayNameQueryParam'
+      - $ref: '#/parameters/LifecycleStateQueryParam'
+      - $ref: '#/parameters/OcidQueryParam'
+      - $ref: '#/parameters/ExportSetSortByQueryParam'
+      - $ref: '#/parameters/SortOrderQueryParam'
+      x-example: |
+        GET /20171215/exportSets?compartmentId=<var>&lt;compartmentId&gt;</var>&availabilityDomain=<var>&lt;availabilityDomain&gt;</var>
+        Host: filestorage.us-phoenix-1.oraclecloud.com
+        <var>&lt;authorization and other headers&gt;</var>
+      responses:
+        200:
+          description: The list is being retrieved.
+          headers:
+            opc-next-page:
+              description: |
+                For pagination of a list of items. When paging through
+                a list, if this header appears in the response, then a
+                partial list might have been returned. Include this
+                value as the `page` parameter for the subsequent GET
+                request to get the next batch of items.
+              type: string
+            opc-request-id:
+              description: |
+                Unique Oracle-assigned identifier for the request. If
+                you need to contact Oracle about a particular request,
+                please provide the request ID.
+              type: string
+          schema:
+            items:
+              $ref: '#/definitions/ExportSetSummary'
+            type: array
+          examples:
+            application-json: |
+              [
+                {
+                  "availabilityDomain": "pWEh:PHX-AD-2",
+                  "compartmentId": "ocid1.compartment.oc1..aaaaaaaa4ssrz2joq66nyomcvb4ydlbfmn2qg7wow5neo2ytcdznohhsyca",
+                  "displayName": "mount-target-5 - export set",
+                  "id": "ocid1.exportset.oc1.phx.aaaaaaaaaaaaafcvbobuhqllhmfwwcotqnb4c2ylefuzaaaaa",
+                  "lifecycleState": "ACTIVE",
+                  "timeCreated": "2017-12-01T22:13:22.534Z",
+                  "vcnId": "ocid1.vcn.oc1.phx.aaaaaaaafx7g55xhcvbquc2vv3c2adknvo3d6j2t6vfljy6gkxz6xutfwjxa"
+                },
+                {
+                  "availabilityDomain": "pWEh:PHX-AD-2",
+                  "compartmentId": "ocid1.compartment.oc1..aaaaaaaa4ssrz2joq66nyomcvb4ydlbfmn2qg7wow5neo2ytcdznohhsyca",
+                  "displayName": "mount-target-6 - export set",
+                  "id": "ocid1.exportset.oc1.phx.aaaaaaaaaaaacvbvobuhqllhmfwwcotqnb4c2ylefuzaaaaa",
+                  "lifecycleState": "ACTIVE",
+                  "timeCreated": "2017-12-01T22:15:20.264Z",
+                  "vcnId": "ocid1.vcn.oc1.phx.aaaaaaaafx7g55xhcvbquc2vv3c2adknvo3d6j2t6vfljy6gkxz6xutfwjxa"
+                }
+              ]
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        429:
+          $ref: '#/responses/429'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+      summary: ListExportSets
+      tags:
+      - fileStorage
+  /exportSets/{exportSetId}:
+    get:
+      description: Gets the specified export set's information.
+      operationId: GetExportSet
+      parameters:
+      - $ref: '#/parameters/ExportSetIdPathParam'
+      x-example: |
+        GET /20171215/exportSets/<var>&lt;exportSetId&gt;</var>
+        Host: filestorage.us-phoenix-1.oraclecloud.com
+        <var>&lt;authorization and other headers&gt;</var>
+      responses:
+        200:
+          description: The export set was retrieved.
+          headers:
+            etag:
+              description: For optimistic concurrency control. See `if-match`.
+              type: string
+            opc-request-id:
+              description: |
+                Unique Oracle-assigned identifier for the request. If
+                you need to contact Oracle about a particular request,
+                please provide the request ID.
+              type: string
+          schema:
+            $ref: '#/definitions/ExportSet'
+          examples:
+            application-json: |
+              {
+                "availabilityDomain": "pWEh:PHX-AD-2",
+                "compartmentId": "ocid1.compartment.oc1..aaaaaaaa4ssrz2joq66nyomcvb4ydlbfmn2qg7wow5neo2ytcdznohhsyca",
+                "displayName": "mount-target-5 - export set",
+                "id": "ocid1.exportset.oc1.phx.aaaaaaaaaaaaafcvbobuhqllhmfwwcotqnb4c2ylefuzaaaaa",
+                "lifecycleState": "ACTIVE",
+                "maxFsStatBytes": 9223372036854775807,
+                "maxFsStatFiles": 9223372036854775807,
+                "timeCreated": "2017-12-01T22:35:59.954Z",
+                "vcnId": "ocid1.vcn.oc1.phx.aaaaaaaafx7g55xhcvbquc2vv3c2adknvo3d6j2t6vfljy6gkxz6xutfwjxa"
+              }
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        429:
+          $ref: '#/responses/429'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+      summary: GetExportSet
+      tags:
+      - fileStorage
+    put:
+      description: Updates the specified export set's information.
+      operationId: UpdateExportSet
+      parameters:
+      - $ref: '#/parameters/ExportSetIdPathParam'
+      - $ref: '#/parameters/IfMatchHeader'
+      - description: Details object for updating an export set.
+        in: body
+        name: UpdateExportSetDetails
+        required: true
+        schema:
+          $ref: '#/definitions/UpdateExportSetDetails'
+      x-example: |
+        PUT /20171215/exportSets/<var>&lt;exportSetId&gt;</var>
+        Host: filestorage.us-phoenix-1.oraclecloud.com
+        <var>&lt;authorization and other headers&gt;</var>
+        {
+          "displayName": "mount-target-5-new-exportset"
+        }
+      responses:
+        200:
+          description: The export set was updated.
+          headers:
+            etag:
+              description: For optimistic concurrency control. See `if-match`.
+              type: string
+            opc-request-id:
+              description: |
+                Unique Oracle-assigned identifier for the request. If
+                you need to contact Oracle about a particular request,
+                please provide the request ID.
+              type: string
+          schema:
+            $ref: '#/definitions/ExportSet'
+          examples:
+            application-json: |
+              {
+                "availabilityDomain": "pWEh:PHX-AD-2",
+                "compartmentId": "ocid1.compartment.oc1..aaaaaaaa4ssrz2joq66nyomcvb4ydlbfmn2qg7wow5neo2ytcdznohhsyca",
+                "displayName": "mount-target-5-new-exportset",
+                "id": "ocid1.exportset.oc1.phx.aaaaaaaaaaaacvbobuhqllhmfwwcotqnb4c2ylefuzaaaaa",
+                "lifecycleState": "ACTIVE",
+                "maxFsStatBytes": 9223372036854775807,
+                "maxFsStatFiles": 9223372036854775807,
+                "timeCreated": "2017-12-01T22:13:22.534Z",
+                "vcnId": "ocid1.vcn.oc1.phx.aaaaaaaafx7g55xhcvbquc2vv3c2adknvo3d6j2t6vfljy6gkxz6xutfwjxa"
+              }
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        412:
+          $ref: '#/responses/412'
+        429:
+          $ref: '#/responses/429'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+      summary: UpdateExportSet
+      tags:
+      - fileStorage
+  /exports:
+    get:
+      description: |
+        Lists the export resources in the specified compartment. You must
+        also specify an export set, a file system, or both.
+      operationId: ListExports
+      parameters:
+      - $ref: '#/parameters/CompartmentIdQueryParam'
+      - $ref: '#/parameters/PaginationLimitQueryParam'
+      - $ref: '#/parameters/PaginationTokenQueryParam'
+      - $ref: '#/parameters/ExportSetOptionalQueryParam'
+      - $ref: '#/parameters/FileSystemOptionalQueryParam'
+      - $ref: '#/parameters/LifecycleStateQueryParam'
+      - $ref: '#/parameters/OcidQueryParam'
+      - $ref: '#/parameters/ExportSortByQueryParam'
+      - $ref: '#/parameters/SortOrderQueryParam'
+      x-example: |
+        GET /20171215/exports?compartmentId=<var>&lt;compartmentId&gt;</var>
+        Host: filestorage.us-phoenix-1.oraclecloud.com
+        <var>&lt;authorization and other headers&gt;</var>
+        {
+          "exportSetId" : "ocid1.exportset.oc1.phx.aaaaaaaaaaaacvbobuhqllhmfwwcotqnb4c2ylefuzaaaaa"
+        }
+      responses:
+        200:
+          description: The list is being retrieved.
+          headers:
+            opc-next-page:
+              description: |
+                For pagination of a list of items. When paging through
+                a list, if this header appears in the response, then a
+                partial list might have been returned. Include this
+                value as the `page` parameter for the subsequent GET
+                request to get the next batch of items.
+              type: string
+            opc-request-id:
+              description: |
+                Unique Oracle-assigned identifier for the request. If
+                you need to contact Oracle about a particular request,
+                please provide the request ID.
+              type: string
+          schema:
+            items:
+              $ref: '#/definitions/ExportSummary'
+            type: array
+          examples:
+            application-json: |
+              [
+                {
+                  "exportSetId": "ocid1.mounttarget.oc1.phx.aaaaaaaaaaaacvbfauxhqllhmfwwcotqnb4c2ylefuzaaaaa",
+                  "fileSystemId": "ocid1.filesystem.oc1.phx.aaaaaaaaaaaaacvbobuhqllhmfwwcotqnb4c2ylefuzaaccc",
+                  "id": "ocid1.export.oc1.phx.aaaaaaaaafauxcvbobuhqllhmfwwqnb4c2bvtfuzaabbb",
+                  "lifecycleState": "ACTIVE",
+                  "path": "/mediafiles",
+                  "timeCreated": "2017-12-01T22:31:12.303Z"
+                },
+                {
+                  "exportSetId": "ocid1.exportset.oc1.phx.aaaaaaaaaaaacvbobuhqllhmfwwcotqnb4c2ylefuzaaaaa",
+                  "fileSystemId": "ocid1.filesystem.oc1.phx.aaaaaaaaaaaaacvbobuhqllhmfwwcotqnb4c2ylefuzaaaaa",
+                  "id": "ocid1.export.oc1.phx.aaaaaaaaafauxcvbobuhqllhmfwwqnb4c2ylefuzaaaaa",
+                  "lifecycleState": "ACTIVE",
+                  "path": "/files-5",
+                  "timeCreated": "2017-12-01T22:13:22.534Z"
+                }
+              ]
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        429:
+          $ref: '#/responses/429'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+      summary: ListExports
+      tags:
+      - fileStorage
+    post:
+      description: |
+        Creates a new export in the specified export set, path, and
+        file system.
+      operationId: CreateExport
+      parameters:
+      - description: Details for creating a new export.
+        in: body
+        name: CreateExportDetails
+        required: true
+        schema:
+          $ref: '#/definitions/CreateExportDetails'
+      - $ref: '#/parameters/RetryTokenHeader'
+      x-example: |
+        POST /20171215/exports
+        Host: filestorage.us-phoenix-1.oraclecloud.com
+        <var>&lt;authorization and other headers&gt;</var>
+        {
+          "exportSetId" : "ocid1.exportset.oc1.phx.aaaaaaaaaaaacvbobuhqllhmfwwcotqnb4c2ylefuzaaaaa",
+          "fileSystemId" : "ocid1.filesystem.oc1.phx.aaaaaaaaaaaaacvbobuhqllhmfwwcotqnb4c2ylefuzaaaaa",
+          "path" : "/files-5"
+        }
+      responses:
+        200:
+          description: The export was created.
+          headers:
+            etag:
+              description: For optimistic concurrency control. See `if-match`.
+              type: string
+            opc-request-id:
+              description: |
+                Unique Oracle-assigned identifier for the request. If
+                you need to contact Oracle about a particular request,
+                please provide the request ID.
+              type: string
+          schema:
+            $ref: '#/definitions/Export'
+          examples:
+            application-json: |
+              {
+                "exportSetId": "ocid1.exportset.oc1.phx.aaaaaaaaaaaacvbobuhqllhmfwwcotqnb4c2ylefuzaaaaa",
+                "fileSystemId": "ocid1.filesystem.oc1.phx.aaaaaaaaaaaaacvbobuhqllhmfwwcotqnb4c2ylefuzaaaaa",
+                "id": "ocid1.export.oc1.phx.aaaaaaaaaaaacvbobuhqllhmfwwcotqnb4c2ylefuzaaaaa",
+                "lifecycleState": "ACTIVE",
+                "path": "/files-5",
+                "timeCreated": "2017-12-01T22:13:22.534Z"
+              }
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        409:
+          $ref: '#/responses/409'
+        429:
+          $ref: '#/responses/429'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+      summary: CreateExport
+      tags:
+      - fileStorage
+  /exports/{exportId}:
+    delete:
+      description: |
+        Deletes the specified export.
+      operationId: DeleteExport
+      x-related-resource: '#/definitions/Export'
+      parameters:
+      - $ref: '#/parameters/ExportIdPathParam'
+      - $ref: '#/parameters/IfMatchHeader'
+      x-example: |
+        DELETE /20171215/exports/<var>&lt;exportId&gt;</var>
+        Host: filestorage.us-phoenix-1.oraclecloud.com
+        <var>&lt;authorization and other headers&gt;</var>
+      responses:
+        204:
+          description: The export is being deleted.
+          headers:
+            opc-request-id:
+              description: |
+                Unique Oracle-assigned identifier for the request. If
+                you need to contact Oracle about a particular request,
+                please provide the request ID.
+              type: string
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        412:
+          $ref: '#/responses/412'
+        429:
+          $ref: '#/responses/429'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+      summary: DeleteExport
+      tags:
+      - fileStorage
+    get:
+      description: Gets the specified export's information.
+      operationId: GetExport
+      parameters:
+      - $ref: '#/parameters/ExportIdPathParam'
+      x-example: |
+        GET /20171215/exports/<var>&lt;exportSetId&gt;</var>
+        Host: filestorage.us-phoenix-1.oraclecloud.com
+        <var>&lt;authorization and other headers&gt;</var>
+      responses:
+        200:
+          description: The export was retrieved.
+          headers:
+            etag:
+              description: For optimistic concurrency control. See `if-match`.
+              type: string
+            opc-request-id:
+              description: |
+                Unique Oracle-assigned identifier for the request. If
+                you need to contact Oracle about a particular request,
+                please provide the request ID.
+              type: string
+          schema:
+            $ref: '#/definitions/Export'
+          examples:
+            application-json: |
+              {
+                "exportSetId": "ocid1.exportset.oc1.phx.aaaaaaaaaaaaafcvbobuhqllhmfwwcotqnb4c2ylefuzaaaaa",
+                "fileSystemId": "ocid1.filesystem.oc1.phx.aaaaaaaaaaaaacvbobuhqllhmfwwcotqnb4c2ylefuzaaaaa",
+                "id": "ocid1.export.oc1.phx.aaaaaaaaafauxcvbobuhqllhmfwwqnb4c2ylefuzaaaaa",
+                "lifecycleState": "ACTIVE",
+                "path": "/mediafiles",
+                "timeCreated": "2017-12-01T22:35:59.954Z"
+              }
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        429:
+          $ref: '#/responses/429'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+      summary: GetExport
+      tags:
+      - fileStorage
+  /snapshots:
+    get:
+      description: |
+        Lists snapshots of the specified file system.
+      operationId: ListSnapshots
+      parameters:
+      - $ref: '#/parameters/FileSystemQueryParam'
+      - $ref: '#/parameters/PaginationLimitQueryParam'
+      - $ref: '#/parameters/PaginationTokenQueryParam'
+      - $ref: '#/parameters/NameQueryParam'
+      - $ref: '#/parameters/LifecycleStateQueryParam'
+      - $ref: '#/parameters/OcidQueryParam'
+      - $ref: '#/parameters/SnapshotSortByQueryParam'
+      - $ref: '#/parameters/SortOrderQueryParam'
+      x-example: |
+        GET /20171215/snapshots?fileSystemId=<var>&lt;fileSystemId&gt;</var>
+        Host: filestorage.us-phoenix-1.oraclecloud.com
+        <var>&lt;authorization and other headers&gt;</var>
+      responses:
+        200:
+          description: The list is being retrieved.
+          headers:
+            opc-next-page:
+              description: |
+                For pagination of a list of items. When paging through
+                a list, if this header appears in the response, then a
+                partial list might have been returned. Include this
+                value as the `page` parameter for the subsequent GET
+                request to get the next batch of items.
+              type: string
+            opc-request-id:
+              description: |
+                Unique Oracle-assigned identifier for the request. If
+                you need to contact Oracle about a particular request,
+                please provide the request ID.
+              type: string
+          schema:
+            items:
+              $ref: '#/definitions/SnapshotSummary'
+            type: array
+          examples:
+            application-json: |
+              [
+                {
+                  "fileSystemId": "ocid1.filesystem.oc1.phx.aaaaaaaaaaaaacvbobuhqllhmfwwcotqnb4c2ylefuzaaaaa",
+                  "id": "string",
+                  "lifecycleState": "ACTIVE",
+                  "name": "snapshot-1",
+                  "timeCreated": "2017-12-10T22:37:23.706Z"
+                }
+              ]
+        404:
+          $ref: '#/responses/404'
+        429:
+          $ref: '#/responses/429'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+      summary: ListSnapshots
+      tags:
+      - fileStorage
+    post:
+      description: |
+        Creates a new snapshot of the specified file system. You
+        can access the snapshot at `.snapshot/<name>`.
+      operationId: CreateSnapshot
+      parameters:
+      - description: Details for creating a new snapshot.
+        in: body
+        name: CreateSnapshotDetails
+        required: true
+        schema:
+          $ref: '#/definitions/CreateSnapshotDetails'
+      - $ref: '#/parameters/RetryTokenHeader'
+      x-example: |
+        POST /20171215/snapshots
+        Host: filestorage.us-phoenix-1.oraclecloud.com
+        <var>&lt;authorization and other headers&gt;</var>
+        {
+          "name": "snapshot-1",
+          "fileSystemId": "ocid1.filesystem.oc1.phx.aaaaaaaaaaaaacvbobuhqllhmfwwcotqnb4c2ylefuzaaaaa"
+        }
+      responses:
+        200:
+          description: The snapshot was created.
+          headers:
+            etag:
+              description: For optimistic concurrency control. See `if-match`.
+              type: string
+            opc-request-id:
+              description: |
+                Unique Oracle-assigned identifier for the request. If
+                you need to contact Oracle about a particular request,
+                please provide the request ID.
+              type: string
+          schema:
+            $ref: '#/definitions/Snapshot'
+          examples:
+            application-json: |
+              {
+                "fileSystemId": "ocid1.filesystem.oc1.phx.aaaaaaaaaaaaacvbobuhqllhmfwwcotqnb4c2ylefuzaaaaa",
+                "id": "string",
+                "lifecycleState": "ACTIVE",
+                "name": "snapshot-1",
+                "timeCreated": "2017-12-10T22:37:23.706Z"
+              }
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        409:
+          $ref: '#/responses/409'
+        429:
+          $ref: '#/responses/429'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+      summary: CreateSnapshot
+      tags:
+      - fileStorage
+  /snapshots/{snapshotId}:
+    delete:
+      description: |
+        Deletes the specified snapshot.
+      operationId: DeleteSnapshot
+      x-related-resource: '#/definitions/Snapshot'
+      parameters:
+      - $ref: '#/parameters/SnapshotIdPathParam'
+      - $ref: '#/parameters/IfMatchHeader'
+      x-example: |
+        DELETE /20171215/snapshots
+        Host: filestorage.us-phoenix-1.oraclecloud.com
+        <var>&lt;authorization and other headers&gt;</var>
+        {
+          "snapshotId": "string"
+        }
+      responses:
+        204:
+          description: The snapshot is being deleted.
+          headers:
+            opc-request-id:
+              description: |
+                Unique Oracle-assigned identifier for the request. If
+                you need to contact Oracle about a particular request,
+                please provide the request ID.
+              type: string
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        412:
+          $ref: '#/responses/412'
+        429:
+          $ref: '#/responses/429'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+      summary: DeleteSnapshot
+      tags:
+      - fileStorage
+    get:
+      description: Gets the specified snapshot's information.
+      operationId: GetSnapshot
+      parameters:
+      - $ref: '#/parameters/SnapshotIdPathParam'
+      x-example: |
+        GET /20171215/snapshots/<var>&lt;snapshotId&gt;</var>
+        Host: filestorage.us-phoenix-1.oraclecloud.com
+        <var>&lt;authorization and other headers&gt;</var>
+      responses:
+        200:
+          description: The snapshot was retrieved.
+          headers:
+            etag:
+              description: For optimistic concurrency control. See `if-match`.
+              type: string
+            opc-request-id:
+              description: |
+                Unique Oracle-assigned identifier for the request. If
+                you need to contact Oracle about a particular request,
+                please provide the request ID.
+              type: string
+          schema:
+            $ref: '#/definitions/Snapshot'
+          examples:
+            application-json: |
+              {
+                "fileSystemId": "ocid1.filesystem.oc1.phx.aaaaaaaaaaaaacvbobuhqllhmfwwcotqnb4c2ylefuzaaaaa",
+                "id": "string",
+                "lifecycleState": "ACTIVE",
+                "name": "snapshot-1",
+                "timeCreated": "2017-12-10T22:37:23.706Z"
+              }
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        429:
+          $ref: '#/responses/429'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+      summary: GetSnapshot
+      tags:
+      - fileStorage
+    put:
+      x-obmcs-preview-only: true
+      description: Updates the specified snapshot's information.
+      operationId: UpdateSnapshot
+      parameters:
+      - $ref: '#/parameters/SnapshotIdPathParam'
+      - $ref: '#/parameters/IfMatchHeader'
+      - description: Details object for updating a snapshot.
+        in: body
+        name: UpdateSnapshotDetails
+        required: true
+        schema:
+          $ref: '#/definitions/UpdateSnapshotDetails'
+      x-example: |
+        POST /20171215/snapshots/<var>&lt;snapshotId&gt;</var>
+        Host: filestorage.us-phoenix-1.oraclecloud.com
+        <var>&lt;authorization and other headers&gt;</var>
+        {
+          "name": "snapshot-1-new"
+        }
+      responses:
+        200:
+          description: The snapshot was updated.
+          headers:
+            etag:
+              description: For optimistic concurrency control. See `if-match`.
+              type: string
+            opc-request-id:
+              description: |
+                Unique Oracle-assigned identifier for the request. If
+                you need to contact Oracle about a particular request,
+                please provide the request ID.
+              type: string
+          schema:
+            $ref: '#/definitions/Snapshot'
+          examples:
+            application-json: |
+              {
+                "fileSystemId": "ocid1.filesystem.oc1.phx.aaaaaaaaaaaaacvbobuhqllhmfwwcotqnb4c2ylefuzaaaaa",
+                "id": "string",
+                "lifecycleState": "ACTIVE",
+                "name": "snapshot-1-new",
+                "timeCreated": "2017-12-10T22:37:23.706Z"
+              }
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        412:
+          $ref: '#/responses/412'
+        429:
+          $ref: '#/responses/429'
+        500:
+          $ref: '#/responses/500'
+        default:
+          $ref: '#/responses/DefaultError'
+      summary: UpdateSnapshot
+      tags:
+      - fileStorage
+definitions:
+  FileSystem:
+    description: |
+      An NFS file system. To allow access to a file system, add it
+      to an export set and associate the export set with a mount
+      target. The same file system can be in multiple export sets and
+      associated with multiple mount targets.
+
+      To use any of the API operations, you must be authorized in an
+      IAM policy. If you're not authorized, talk to an
+      administrator. If you're an administrator who needs to write
+      policies to give users access, see [Getting Started with
+      Policies](/Content/Identity/Concepts/policygetstarted.htm).
+    properties:
+      availabilityDomain:
+        description: |
+          The availability domain the file system is in. May be unset
+          as a blank or NULL value.
+
+          Example: `Uocm:PHX-AD-1`
+
+        maxLength: 255
+        minLength: 1
+        type: string
+      meteredBytes:
+        description: |
+          The number of bytes consumed by the file system, including
+          any snapshots. This number reflects the metered size of the file
+          system and is updated asynchronously with respect to
+          updates to the file system.
+        format: int64
+        type: integer
+      compartmentId:
+        description: The OCID of the compartment that contains the file system.
+        maxLength: 255
+        minLength: 1
+        type: string
+      displayName:
+        description: |
+          A user-friendly name. It does not have to be unique, and it is changeable.
+          Avoid entering confidential information.
+
+          Example: `My file system`
+
+        maxLength: 255
+        minLength: 1
+        type: string
+      id:
+        description: The OCID of the file system.
+        maxLength: 255
+        minLength: 1
+        type: string
+      lifecycleState:
+        description: The current state of the file system.
+        enum:
+        - CREATING
+        - ACTIVE
+        - DELETING
+        - DELETED
+        type: string
+      timeCreated:
+        description: |
+          The date and time the file system was created, expressed in
+          [RFC 3339](https://tools.ietf.org/rfc/rfc3339) timestamp format.
+
+          Example: `2016-08-25T21:10:29.600Z`
+
+        format: date-time
+        type: string
+      freeformTags:
+        x-obmcs-preview-only: true
+        description: |
+          Simple key-value pair that is applied without any predefined name,
+          type, or scope.
+          Exists for cross-compatibility only.
+          Example: `{"bar-key": "value"}`
+        type: object
+        additionalProperties:
+          type: string
+      definedTags:
+        x-obmcs-preview-only: true
+        type: object
+        description: |
+          Usage of predefined tag keys.
+          These predefined keys are scoped to a namespace.
+          Example: `{"foo-namespace": {"bar-key": "foo-value"}}`
+        additionalProperties:
+          type: object
+          description: |
+            Key-value pair represneting predefined tags' keys and values
+            scoped to a namespace
+            Example: `{"bar-key": "value"}`
+          additionalProperties:
+            type: object
+            description: |
+              An object that represents the value of the tag.
+              Only 'String', 'Integer', and 'Boolean' types are supported
+    required:
+    - meteredBytes
+    - compartmentId
+    - displayName
+    - id
+    - lifecycleState
+    - timeCreated
+  FileSystemSummary:
+    description: |
+      Summary information for a file system.
+    properties:
+      availabilityDomain:
+        description: |
+          The availability domain the file system is in. May be unset
+          as a blank or NULL value.
+
+          Example: `Uocm:PHX-AD-1`
+
+        maxLength: 255
+        minLength: 1
+        type: string
+      meteredBytes:
+        description: |
+          The number of bytes consumed by the file system, including
+          any snapshots. This number reflects the metered size of the file
+          system and is updated asynchronously with respect to
+          updates to the file system. For details on file system
+          metering see [File System Metering](/Content/File/Concepts/metering.htm).
+        format: int64
+        type: integer
+      compartmentId:
+        description: The OCID of the compartment that contains the file system.
+        maxLength: 255
+        minLength: 1
+        type: string
+      displayName:
+        description: |
+          A user-friendly name. It does not have to be unique, and it is changeable.
+          Avoid entering confidential information.
+
+          Example: `My file system`
+
+        maxLength: 255
+        minLength: 1
+        type: string
+      id:
+        description: The OCID of the file system.
+        maxLength: 255
+        minLength: 1
+        type: string
+      lifecycleState:
+        description: The current state of the file system.
+        enum:
+        - CREATING
+        - ACTIVE
+        - DELETING
+        - DELETED
+        type: string
+      timeCreated:
+        description: |
+          The date and time the file system was created, expressed
+          in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) timestamp format.
+
+          Example: `2016-08-25T21:10:29.600Z`
+
+        format: date-time
+        type: string
+    required:
+    - meteredBytes
+    - compartmentId
+    - displayName
+    - id
+    - lifecycleState
+    - timeCreated
+  CreateFileSystemDetails:
+    properties:
+      availabilityDomain:
+        description: |
+          The availability domain to create the file system in.
+
+          Example: `Uocm:PHX-AD-1`
+
+        maxLength: 255
+        minLength: 1
+        type: string
+      compartmentId:
+        description: The OCID of the compartment to create the file system in.
+        maxLength: 255
+        minLength: 1
+        type: string
+      displayName:
+        description: |
+          A user-friendly name. It does not have to be unique, and it is changeable.
+          Avoid entering confidential information.
+
+          Example: `My file system`
+
+        maxLength: 255
+        minLength: 1
+        type: string
+      freeformTags:
+        x-obmcs-preview-only: true
+        description: |
+          Simple key-value pair that is applied without any predefined name,
+          type, or scope.
+          Exists for cross-compatibility only.
+          Example: `{"bar-key": "value"}`
+        type: object
+        additionalProperties:
+          type: string
+      definedTags:
+        x-obmcs-preview-only: true
+        type: object
+        description: |
+          Usage of predefined tag keys.
+          These predefined keys are scoped to a namespace.
+          Example: `{"foo-namespace": {"bar-key": "foo-value"}}`
+        additionalProperties:
+          type: object
+          description: |
+            Key-value pair represneting predefined tags' keys and values
+            scoped to a namespace
+            Example: `{"bar-key": "value"}`
+          additionalProperties:
+            type: object
+            description: |
+              An object that represents the value of the tag.
+              Only 'String', 'Integer', and 'Boolean' types are supported
+    required:
+    - availabilityDomain # Because this is a request we can make compatibly optional in the future
+    - compartmentId
+  UpdateFileSystemDetails:
+    properties:
+      displayName:
+        description: |
+          A user-friendly name. It does not have to be unique, and it is changeable.
+          Avoid entering confidential information.
+
+          Example: `My file system`
+
+        maxLength: 255
+        minLength: 1
+        type: string
+      freeformTags:
+        x-obmcs-preview-only: true
+        description: |
+          Simple key-value pair that is applied without any predefined name,
+          type, or scope.
+          Exists for cross-compatibility only.
+          Example: `{"bar-key": "value"}`
+        type: object
+        additionalProperties:
+          type: string
+      definedTags:
+        x-obmcs-preview-only: true
+        type: object
+        description: |
+          Usage of predefined tag keys.
+          These predefined keys are scoped to a namespace.
+          Example: `{"foo-namespace": {"bar-key": "foo-value"}}`
+        additionalProperties:
+          type: object
+          description: |
+            Key-value pair represneting predefined tags' keys and values
+            scoped to a namespace
+            Example: `{"bar-key": "value"}`
+          additionalProperties:
+            type: object
+            description: |
+              An object that represents the value of the tag.
+              Only 'String', 'Integer', and 'Boolean' types are supported
+  LockOwner:
+    x-obmcs-preview-only: true
+    description: |
+      The client that owns one or more locks in the specified file system.
+    properties:
+      fileSystemId:
+        description: The OCID of the file system where the locks are held.
+        maxLength: 255
+        minLength: 1
+        type: string
+      clientIpAddress:
+        description: The IP address of the client that holds the locks.
+        maxLength: 46
+        minLength: 1
+        type: string
+      mountTargetId:
+        description: The OCID of the mount target through which locks are held.
+        maxLength: 255
+        minLength: 1
+        type: string
+      vcnId:
+        description: The OCID of the mount target's virtual cloud network (VCN).
+        maxLength: 255
+        minLength: 1
+        type: string
+    required:
+    - fileSystemId
+    - clientIpAddress
+    - mountTargetId
+    - vcnId
+  MountTarget:
+    description: |
+      Provides access to a collection of file systems through one or more VNICs on a
+      specified subnet. The set of file systems is controlled through the
+      referenced export set.
+    properties:
+      availabilityDomain:
+        description: |
+          The availability domain the mount target is in. May be unset
+          as a blank or NULL value.
+
+          Example: `Uocm:PHX-AD-1`
+
+        maxLength: 255
+        minLength: 1
+        type: string
+      compartmentId:
+        description: The OCID of the compartment that contains the mount target.
+        maxLength: 255
+        minLength: 1
+        type: string
+      displayName:
+        description: |
+          A user-friendly name. It does not have to be unique, and it is changeable.
+          Avoid entering confidential information.
+
+          Example: `My mount target`
+
+        maxLength: 255
+        minLength: 1
+        type: string
+      exportSetId:
+        description: |
+          The OCID of the associated export set. Controls what file
+          systems will be exported through Network File System (NFS) protocol on this
+          mount target.
+        maxLength: 255
+        minLength: 1
+        type: string
+      id:
+        description: The OCID of the mount target.
+        maxLength: 255
+        minLength: 1
+        type: string
+      lifecycleDetails:
+        description: Additional information about the current 'lifecycleState'.
+        type: string
+      lifecycleState:
+        description: The current state of the mount target.
+        enum:
+        - CREATING
+        - ACTIVE
+        - DELETING
+        - DELETED
+        - FAILED
+        type: string
+      privateIpIds:
+        description: The OCIDs of the private IP addresses associated with this mount target.
+        type: array
+        items:
+          maxLength: 255
+          minLength: 1
+          type: string
+      subnetId:
+        description: The OCID of the subnet the mount target is in.
+        maxLength: 255
+        minLength: 1
+        type: string
+      timeCreated:
+        description: |
+          The date and time the mount target was created, expressed
+          in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) timestamp format.
+
+          Example: `2016-08-25T21:10:29.600Z`
+
+        format: date-time
+        type: string
+      freeformTags:
+        x-obmcs-preview-only: true
+        description: |
+          Simple key-value pair that is applied without any predefined name,
+          type, or scope.
+          Exists for cross-compatibility only.
+          Example: `{"bar-key": "value"}`
+        type: object
+        additionalProperties:
+          type: string
+      definedTags:
+        x-obmcs-preview-only: true
+        type: object
+        description: |
+          Usage of predefined tag keys.
+          These predefined keys are scoped to a namespace.
+          Example: `{"foo-namespace": {"bar-key": "foo-value"}}`
+        additionalProperties:
+          type: object
+          description: |
+            Key-value pair represneting predefined tags' keys and values
+            scoped to a namespace
+            Example: `{"bar-key": "value"}`
+          additionalProperties:
+            type: object
+            description: |
+              An object that represents the value of the tag.
+              Only 'String', 'Integer', and 'Boolean' types are supported
+    required:
+    - compartmentId
+    - displayName
+    - id
+    - lifecycleState
+    - lifecycleDetails
+    - subnetId
+    - timeCreated
+    - privateIpIds
+  MountTargetSummary:
+    description: |
+      Summary information for the specified mount target.
+    properties:
+      availabilityDomain:
+        description: |
+          The availability domain the mount target is in. May be unset
+          as a blank or NULL value.
+
+          Example: `Uocm:PHX-AD-1`
+
+        maxLength: 255
+        minLength: 1
+        type: string
+      compartmentId:
+        description: The OCID of the compartment that contains the mount target.
+        maxLength: 255
+        minLength: 1
+        type: string
+      displayName:
+        description: |
+          A user-friendly name. It does not have to be unique, and it is changeable.
+          Avoid entering confidential information.
+
+          Example: `My mount target`
+
+        maxLength: 255
+        minLength: 1
+        type: string
+      exportSetId:
+        description: |
+          The OCID of the associated export set. Controls what file
+          systems will be exported using Network File System (NFS) protocol on
+          this mount target.
+        maxLength: 255
+        minLength: 1
+        type: string
+      id:
+        description: The OCID of the mount target.
+        maxLength: 255
+        minLength: 1
+        type: string
+      lifecycleState:
+        description: The current state of the mount target.
+        enum:
+        - CREATING
+        - ACTIVE
+        - DELETING
+        - DELETED
+        - FAILED
+        type: string
+      privateIpIds:
+        description: The OCIDs of the private IP addresses associated with this mount target.
+        type: array
+        items:
+          maxLength: 255
+          minLength: 1
+          type: string
+      subnetId:
+        description: The OCID of the subnet the mount target is in.
+        maxLength: 255
+        minLength: 1
+        type: string
+      timeCreated:
+        description: |
+          The date and time the mount target was created, expressed
+          in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) timestamp format.
+
+          Example: `2016-08-25T21:10:29.600Z`
+
+        format: date-time
+        type: string
+    required:
+    - compartmentId
+    - displayName
+    - id
+    - lifecycleState
+    - privateIpIds
+    - subnetId
+    - timeCreated
+  CreateMountTargetDetails:
+    properties:
+      availabilityDomain:
+        description: |
+          The availability domain in which to create the mount target.
+
+          Example: `Uocm:PHX-AD-1`
+
+        maxLength: 255
+        minLength: 1
+        type: string
+      compartmentId:
+        description: The OCID of the compartment in which to create the mount target.
+        maxLength: 255
+        minLength: 1
+        type: string
+      displayName:
+        description: |
+          A user-friendly name. It does not have to be unique, and it is changeable.
+          Avoid entering confidential information.
+
+          Example: `My mount target`
+
+        maxLength: 255
+        minLength: 1
+        type: string
+      hostnameLabel:
+        description: |
+          The hostname for the mount target's IP address, used for
+          DNS resolution. The value is the hostname portion of the private IP
+          address's fully qualified domain name (FQDN). For example,
+          `files-1` in the FQDN `files-1.subnet123.vcn1.oraclevcn.com`.
+          Must be unique across all VNICs in the subnet and comply
+          with [RFC 952](https://tools.ietf.org/html/rfc952)
+          and [RFC 1123](https://tools.ietf.org/html/rfc1123).
+
+          For more information, see
+          [DNS in Your Virtual Cloud Network](/Content/Network/Concepts/dns.htm).
+
+          Example: `files-1`
+        type: string
+        minLength: 1
+        maxLength: 63
+      ipAddress:
+        type: string
+        description: |
+          A private IP address of your choice. Must be an available IP address within
+          the subnet's CIDR. If you don't specify a value, Oracle automatically
+          assigns a private IP address from the subnet.
+
+          Example: `10.0.3.3`
+        minLength: 1
+        maxLength: 32
+      subnetId:
+        description: |
+          The OCID of the subnet in which to create the mount target.
+        maxLength: 255
+        minLength: 1
+        type: string
+      freeformTags:
+        x-obmcs-preview-only: true
+        description: |
+          Simple key-value pair that is applied without any predefined name,
+          type, or scope.
+          Exists for cross-compatibility only.
+          Example: `{"bar-key": "value"}`
+        type: object
+        additionalProperties:
+          type: string
+      definedTags:
+        x-obmcs-preview-only: true
+        type: object
+        description: |
+          Usage of predefined tag keys.
+          These predefined keys are scoped to a namespace.
+          Example: `{"foo-namespace": {"bar-key": "foo-value"}}`
+        additionalProperties:
+          type: object
+          description: |
+            Key-value pair represneting predefined tags' keys and values
+            scoped to a namespace
+            Example: `{"bar-key": "value"}`
+          additionalProperties:
+            type: object
+            description: |
+              An object that represents the value of the tag.
+              Only 'String', 'Integer', and 'Boolean' types are supported
+    required:
+    - availabilityDomain # Because this is a request we can make compatibly optional in the future
+    - compartmentId
+    - subnetId
+  UpdateMountTargetDetails:
+    properties:
+      displayName:
+        description: |
+          A user-friendly name. Does not have to be unique, and it is changeable.
+          Avoid entering confidential information.
+
+          Example: `My mount target`
+
+        maxLength: 255
+        minLength: 1
+        type: string
+      freeformTags:
+        x-obmcs-preview-only: true
+        description: |
+          Simple key-value pair that is applied without any predefined name,
+          type, or scope.
+          Exists for cross-compatibility only.
+          Example: `{"bar-key": "value"}`
+        type: object
+        additionalProperties:
+          type: string
+      definedTags:
+        x-obmcs-preview-only: true
+        type: object
+        description: |
+          Usage of predefined tag keys.
+          These predefined keys are scoped to a namespace.
+          Example: `{"foo-namespace": {"bar-key": "foo-value"}}`
+        additionalProperties:
+          type: object
+          description: |
+            Key-value pair represneting predefined tags' keys and values
+            scoped to a namespace
+            Example: `{"bar-key": "value"}`
+          additionalProperties:
+            type: object
+            description: |
+              An object that represents the value of the tag.
+              Only 'String', 'Integer', and 'Boolean' types are supported
+  ExportSet:
+    description: |
+      A set of file systems to export through one or more mount
+      targets. Composed of zero or more export resources.
+    properties:
+      availabilityDomain:
+        description: |
+          The availability domain the export set is in. May be unset
+          as a blank or NULL value.
+
+          Example: `Uocm:PHX-AD-1`
+
+        maxLength: 255
+        minLength: 1
+        type: string
+      compartmentId:
+        description: The OCID of the compartment that contains the export set.
+        maxLength: 255
+        minLength: 1
+        type: string
+      displayName:
+        description: |
+          A user-friendly name. It does not have to be unique, and it is changeable.
+          Avoid entering confidential information.
+
+          Example: `My export set`
+
+        maxLength: 255
+        minLength: 1
+        type: string
+      id:
+        description: The OCID of the export set.
+        maxLength: 255
+        minLength: 1
+        type: string
+      lifecycleState:
+        description: The current state of the export set.
+        enum:
+        - CREATING
+        - ACTIVE
+        - DELETING
+        - DELETED
+        type: string
+      maxFsStatBytes:
+        description: |
+          Controls the maximum `tbytes`, `fbytes`, and `abytes`,
+          values reported by `NFS FSSTAT` calls through any associated
+          mount targets. This is an advanced feature. For most
+          applications, use the default value. The
+          `tbytes` value reported by `FSSTAT` will be
+          `maxFsStatBytes`. The value of `fbytes` and `abytes` will be
+          `maxFsStatBytes` minus the metered size of the file
+          system. If the metered size is larger than `maxFsStatBytes`,
+          then `fbytes` and `abytes` will both be '0'.
+        format: int64
+        type: integer
+      maxFsStatFiles:
+        description: |
+          Controls the maximum `ffiles`, `ffiles`, and `afiles`
+          values reported by `NFS FSSTAT` calls through any associated
+          mount targets. This is an advanced feature. For most
+          applications, use the default value. The
+          `tfiles` value reported by `FSSTAT` will be
+          `maxFsStatFiles`. The value of `ffiles` and `afiles` will be
+          `maxFsStatFiles` minus the metered size of the file
+          system. If the metered size is larger than `maxFsStatFiles`,
+          then `ffiles` and `afiles` will both be '0'.
+        format: int64
+        type: integer
+      timeCreated:
+        description: |
+          The date and time the export set was created, expressed
+          in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) timestamp format.
+
+          Example: `2016-08-25T21:10:29.600Z`
+
+        format: date-time
+        type: string
+      vcnId:
+        description: The OCID of the virtual cloud network (VCN) the export set is in.
+        maxLength: 255
+        minLength: 1
+        type: string
+    required:
+    - compartmentId
+    - displayName
+    - id
+    - lifecycleState
+    - timeCreated
+    - vcnId
+  ExportSetSummary:
+    description: |
+      Summary information for an export set.
+    properties:
+      availabilityDomain:
+        description: |
+          The availability domain the export set is in. May be unset
+          as a blank or NULL value.
+
+          Example: `Uocm:PHX-AD-1`
+
+        maxLength: 255
+        minLength: 1
+        type: string
+      compartmentId:
+        description: The OCID of the compartment that contains the export set.
+        maxLength: 255
+        minLength: 1
+        type: string
+      displayName:
+        description: |
+          A user-friendly name. It does not have to be unique, and it is changeable.
+          Avoid entering confidential information.
+
+          Example: `My export set`
+
+        maxLength: 255
+        minLength: 1
+        type: string
+      id:
+        description: The OCID of the export set.
+        maxLength: 255
+        minLength: 1
+        type: string
+      lifecycleState:
+        description: The current state of the export set.
+        enum:
+        - CREATING
+        - ACTIVE
+        - DELETING
+        - DELETED
+        type: string
+      timeCreated:
+        description: |
+          The date and time the export set was created, expressed
+          in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) timestamp format.
+
+          Example: `2016-08-25T21:10:29.600Z`
+
+        format: date-time
+        type: string
+      vcnId:
+        description: The OCID of the virtual cloud network (VCN) the export set is in.
+        maxLength: 255
+        minLength: 1
+        type: string
+    required:
+    - compartmentId
+    - displayName
+    - id
+    - lifecycleState
+    - timeCreated
+    - vcnId
+  UpdateExportSetDetails:
+    properties:
+      displayName:
+        description: |
+          A user-friendly name. It does not have to be unique, and it is changeable.
+          Avoid entering confidential information.
+
+          Example: `My export set`
+
+        maxLength: 255
+        minLength: 1
+        type: string
+      maxFsStatBytes:
+        description: |
+          Controls the maximum `tbytes`, `fbytes`, and `abytes`
+          values reported by `NFS FSSTAT` calls through any associated
+          mount targets. This is an advanced feature. For most
+          applications, use the default value. The
+          `tbytes` value reported by `FSSTAT` will be
+          `maxFsStatBytes`. The value of `fbytes` and `abytes` will be
+          `maxFsStatBytes` minus the metered size of the file
+          system. If the metered size is larger than `maxFsStatBytes`,
+          then `fbytes` and `abytes` will both be '0'.
+        format: int64
+        type: integer
+      maxFsStatFiles:
+        description: |
+          Controls the maximum `ffiles`, `ffiles`, and `afiles`
+          values reported by `NFS FSSTAT` calls through any associated
+          mount targets. This is an advanced feature. For most
+          applications, use the default value. The
+          `tfiles` value reported by `FSSTAT` will be
+          `maxFsStatFiles`. The value of `ffiles` and `afiles` will be
+          `maxFsStatFiles` minus the metered size of the file
+          system. If the metered size is larger than `maxFsStatFiles`,
+          then `ffiles` and `afiles` will both be '0'.
+        format: int64
+        type: integer
+  Export:
+    description: |
+      A file system and the path that you can use to mount it. Each export
+      resource belongs to exactly one export set.
+
+      The export's path attribute is not a path in the
+      referenced file system, but the value used by clients for the path
+      component of the remotetarget argument when mounting the file
+      system.
+
+      The path must start with a slash (/) followed by a sequence of zero or more
+      slash-separated path elements. For any two export resources associated with
+      the same export set, except those in a 'DELETED' state, the path element
+      sequence for the first export resource can't contain the
+      complete path element sequence of the second export resource.
+
+      For example, the following are acceptable:
+
+        * /foo and /bar
+        * /foo1 and /foo2
+        * /foo and /foo1
+
+      The following examples are not acceptable:
+        * /foo and /foo/bar
+        * / and /foo
+
+      Paths may not end in a slash (/). No path element can be a period (.)
+      or two periods in sequence (..). All path elements must be 255 bytes or less.
+
+      No two non-'DELETED' export resources in the same export set can
+      reference the same file system.
+    properties:
+      exportSetId:
+        description: The OCID of this export's export set.
+        maxLength: 255
+        minLength: 1
+        type: string
+      fileSystemId:
+        description: The OCID of this export's file system.
+        maxLength: 255
+        minLength: 1
+        type: string
+      id:
+        description: The OCID of this export.
+        maxLength: 255
+        minLength: 1
+        type: string
+      lifecycleState:
+        description: The current state of this export.
+        enum:
+        - CREATING
+        - ACTIVE
+        - DELETING
+        - DELETED
+        type: string
+      path:
+        description: |
+          Path used to access the associated file system.
+
+          Avoid entering confidential information.
+
+          Example: `/accounting`
+
+        maxLength: 1024
+        minLength: 1
+        type: string
+      timeCreated:
+        description: |
+          The date and time the export was created, expressed
+          in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) timestamp format.
+
+          Example: `2016-08-25T21:10:29.600Z`
+
+        format: date-time
+        type: string
+    required:
+    - exportSetId
+    - fileSystemId
+    - id
+    - lifecycleState
+    - path
+    - timeCreated
+  ExportSummary:
+    description: |
+      Summary information for an export.
+    properties:
+      exportSetId:
+        description: The OCID of this export's export set.
+        maxLength: 255
+        minLength: 1
+        type: string
+      fileSystemId:
+        description: The OCID of this export's file system.
+        maxLength: 255
+        minLength: 1
+        type: string
+      id:
+        description: The OCID of this export.
+        maxLength: 255
+        minLength: 1
+        type: string
+      lifecycleState:
+        description: The current state of this export.
+        enum:
+        - CREATING
+        - ACTIVE
+        - DELETING
+        - DELETED
+        type: string
+      path:
+        description: |
+          Path used to access the associated file system.
+
+          Avoid entering confidential information.
+
+          Example: `/mediafiles`
+
+        maxLength: 1024
+        minLength: 1
+        type: string
+      timeCreated:
+        description: |
+          The date and time the export was created, expressed
+          in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) timestamp format.
+
+          Example: `2016-08-25T21:10:29.600Z`
+
+        format: date-time
+        type: string
+    required:
+    - exportSetId
+    - fileSystemId
+    - id
+    - lifecycleState
+    - path
+    - timeCreated
+  CreateExportDetails:
+    properties:
+      exportSetId:
+        description: The OCID of this export's export set.
+        maxLength: 255
+        minLength: 1
+        type: string
+      fileSystemId:
+        description: The OCID of this export's file system.
+        maxLength: 255
+        minLength: 1
+        type: string
+      path:
+        description: |
+          Path used to access the associated file system.
+
+          Avoid entering confidential information.
+
+          Example: `/mediafiles`
+
+        maxLength: 1024
+        minLength: 1
+        type: string
+    required:
+    - exportSetId
+    - fileSystemId
+    - path
+  Snapshot:
+    description: |
+      A point-in-time snapshot of a specified file system.
+    properties:
+      fileSystemId:
+        description: |
+          The OCID of the file system from which the snapshot
+          was created.
+        maxLength: 255
+        minLength: 1
+        type: string
+      id:
+        description: The OCID of the snapshot.
+        maxLength: 255
+        minLength: 1
+        type: string
+      lifecycleState:
+        description: The current state of the snapshot.
+        enum:
+        - CREATING
+        - ACTIVE
+        - DELETING
+        - DELETED
+        type: string
+      name:
+        description: |
+          Name of the snapshot. This value is immutable.
+
+          Avoid entering confidential information.
+
+          Example: `Sunday`
+
+        maxLength: 255
+        minLength: 1
+        type: string
+      timeCreated:
+        description: |
+          The date and time the snapshot was created, expressed
+          in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) timestamp format.
+
+          Example: `2016-08-25T21:10:29.600Z`
+
+        format: date-time
+        type: string
+      freeformTags:
+        x-obmcs-preview-only: true
+        description: |
+          Simple key-value pair that is applied without any predefined name,
+          type, or scope.
+          Exists for cross-compatibility only.
+          Example: `{"bar-key": "value"}`
+        type: object
+        additionalProperties:
+          type: string
+      definedTags:
+        x-obmcs-preview-only: true
+        type: object
+        description: |
+          Usage of predefined tag keys.
+          These predefined keys are scoped to a namespace.
+          Example: `{"foo-namespace": {"bar-key": "foo-value"}}`
+        additionalProperties:
+          type: object
+          description: |
+            Key-value pair represneting predefined tags' keys and values
+            scoped to a namespace
+            Example: `{"bar-key": "value"}`
+          additionalProperties:
+            type: object
+            description: |
+              An object that represents the value of the tag.
+              Only 'String', 'Integer', and 'Boolean' types are supported
+    required:
+    - fileSystemId
+    - id
+    - lifecycleState
+    - name
+    - timeCreated
+  SnapshotSummary:
+    description: |
+      Summary information for a snapshot.
+    properties:
+      fileSystemId:
+        description:  |
+          The OCID of the file system from which the
+          snapshot was created.
+        maxLength: 255
+        minLength: 1
+        type: string
+      id:
+        description: The OCID of the snapshot.
+        maxLength: 255
+        minLength: 1
+        type: string
+      lifecycleState:
+        description: The current state of the snapshot.
+        enum:
+        - CREATING
+        - ACTIVE
+        - DELETING
+        - DELETED
+        type: string
+      name:
+        description: |
+          Name of the snapshot. This value is immutable.
+
+          Avoid entering confidential information.
+
+          Example: `Sunday`
+
+        maxLength: 255
+        minLength: 1
+        type: string
+      timeCreated:
+        description: |
+          The date and time the snapshot was created, expressed
+          in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) timestamp format.
+
+          Example: `2016-08-25T21:10:29.600Z`
+
+        format: date-time
+        type: string
+    required:
+    - fileSystemId
+    - id
+    - lifecycleState
+    - name
+    - timeCreated
+  CreateSnapshotDetails:
+    properties:
+      fileSystemId:
+        description: The OCID of this export's file system.
+        maxLength: 255
+        minLength: 1
+        type: string
+      name:
+        description: |
+          Name of the snapshot. This value is immutable. It must also be unique with respect
+          to all other non-DELETED snapshots on the associated file
+          system.
+
+          Avoid entering confidential information.
+
+          Example: `Sunday`
+
+        maxLength: 255
+        minLength: 1
+        type: string
+      freeformTags:
+        x-obmcs-preview-only: true
+        description: |
+          Simple key-value pair that is applied without any predefined name,
+          type, or scope.
+          Exists for cross-compatibility only.
+          Example: `{"bar-key": "value"}`
+        type: object
+        additionalProperties:
+          type: string
+      definedTags:
+        x-obmcs-preview-only: true
+        type: object
+        description: |
+          Usage of predefined tag keys.
+          These predefined keys are scoped to a namespace.
+          Example: `{"foo-namespace": {"bar-key": "foo-value"}}`
+        additionalProperties:
+          type: object
+          description: |
+            Key-value pair represneting predefined tags' keys and values
+            scoped to a namespace
+            Example: `{"bar-key": "value"}`
+          additionalProperties:
+            type: object
+            description: |
+              An object that represents the value of the tag.
+              Only 'String', 'Integer', and 'Boolean' types are supported
+    required:
+    - fileSystemId
+    - name
+  UpdateSnapshotDetails:
+    x-obmcs-preview-only: true
+    properties:
+      freeformTags:
+        x-obmcs-preview-only: true
+        description: |
+          Simple key-value pair that is applied without any predefined name,
+          type, or scope.
+          Exists for cross-compatibility only.
+          Example: `{"bar-key": "value"}`
+        type: object
+        additionalProperties:
+          type: string
+      definedTags:
+        x-obmcs-preview-only: true
+        type: object
+        description: |
+          Usage of predefined tag keys.
+          These predefined keys are scoped to a namespace.
+          Example: `{"foo-namespace": {"bar-key": "foo-value"}}`
+        additionalProperties:
+          type: object
+          description: |
+            Key-value pair represneting predefined tags' keys and values
+            scoped to a namespace
+            Example: `{"bar-key": "value"}`
+          additionalProperties:
+            type: object
+            description: |
+              An object that represents the value of the tag.
+              Only 'String', 'Integer', and 'Boolean' types are supported
+  Error:
+    properties:
+      code:
+        type: string
+        description: |
+          A short error code that defines the error, meant for programmatic parsing. See
+          [API Errors](/Content/API/References/apierrors.htm).
+      message:
+        type: string
+        description: A human-readable error string.
+    required:
+    - code
+    - message
+parameters:
+  AvailabilityDomainQueryParam:
+    description: |
+      The name of the availability domain.
+
+      Example: `Uocm:PHX-AD-1`
+
+    in: query
+    name: availabilityDomain
+    # How would we transition to regional file systems? We would make
+    # this optional and add a scope query parameter. List operations
+    # would need to have one or (not xor) the other set.
+    required: true
+    type: string
+  CompartmentIdQueryParam:
+    description: The OCID of the compartment.
+    in: query
+    maxLength: 255
+    minLength: 1
+    name: compartmentId
+    required: true
+    type: string
+  DisplayNameQueryParam:
+    description: |
+      A user-friendly name. It does not have to be unique, and it is changeable.
+
+      Example: `My resource`
+
+    in: query
+    maxLength: 255
+    minLength: 1
+    name: displayName
+    required: false
+    type: string
+  NameQueryParam:
+    x-obmcs-preview-only: true
+    description: |
+      The name you assigned to the snapshot.
+
+      Example: `Sunday`
+
+    in: query
+    maxLength: 255
+    minLength: 1
+    name: name
+    required: false
+    type: string
+  LifecycleStateQueryParam:
+    description: |
+      Filter results by the specified lifecycle state. Must be a valid
+      state for the resource type.
+    in: query
+    name: lifecycleState
+    enum:
+      - CREATING
+      - ACTIVE
+      - DELETING
+      - DELETED
+      - FAILED
+    required: false
+    type: string
+  OcidQueryParam:
+    description: |
+      Filter results by OCID. Must be an OCID of the correct type for
+      the resouce type.
+    in: query
+    maxLength: 255
+    minLength: 1
+    name: id
+    required: false
+    type: string
+  IfMatchHeader:
+    description: |
+      For optimistic concurrency control. In the PUT or DELETE call
+      for a resource, set the `if-match` parameter to the value of the
+      etag from a previous GET or POST response for that resource.
+      The resource will be updated or deleted only if the etag you
+      provide matches the resource's current etag value.
+    in: header
+    name: if-match
+    required: false
+    type: string
+  PaginationLimitQueryParam:
+    description: |
+      The maximum number of items to return in a paginated "List" call.
+
+      Example: `500`
+
+    in: query
+    maximum: 1000
+    minimum: 1
+    name: limit
+    required: false
+    type: integer
+  PaginationTokenQueryParam:
+    description: |
+      The value of the `opc-next-page` response header from the previous "List" call.
+    in: query
+    maxLength: 512
+    minLength: 1
+    name: page
+    required: false
+    type: string
+  ExportSetOptionalQueryParam:
+    description: The OCID of the export set.
+    in: query
+    maxLength: 255
+    minLength: 1
+    name: exportSetId
+    required: false
+    type: string
+  FileSystemOptionalQueryParam:
+    description: The OCID of the file system.
+    in: query
+    maxLength: 255
+    minLength: 1
+    name: fileSystemId
+    required: false
+    type: string
+  FileSystemQueryParam:
+    description: The OCID of the file system.
+    in: query
+    maxLength: 255
+    minLength: 1
+    name: fileSystemId
+    type: string
+    required: true
+  FileSystemSortByQueryParam:
+    name: sortBy
+    in: query
+    required: false
+    type: string
+    enum:
+    - TIMECREATED
+    - DISPLAYNAME
+    description: |
+      The field to sort by. You can provide either value, but not both.
+      By default, when you sort by time created, results are shown
+      in descending order. When you sort by display name, results are
+      shown in ascending order.
+  MountTargetSortByQueryParam:
+    name: sortBy
+    in: query
+    required: false
+    type: string
+    enum:
+    - TIMECREATED
+    - DISPLAYNAME
+    description: |
+      The field to sort by. You can choose either value, but not both.
+      By default, when you sort by time created, results are shown
+      in descending order. When you sort by display name, results are
+      shown in ascending order.
+  ExportSetSortByQueryParam:
+    name: sortBy
+    in: query
+    required: false
+    type: string
+    enum:
+    - TIMECREATED
+    - DISPLAYNAME
+    description: |
+      The field to sort by. You can provide either value, but not both.
+      By default, when you sort by time created, results are shown
+      in descending order. When you sort by display name, results are
+      shown in ascending order.
+  ExportSortByQueryParam:
+    name: sortBy
+    in: query
+    required: false
+    type: string
+    enum:
+    - TIMECREATED
+    - PATH
+    description: |
+      The field to sort by. You can provide either value, but not both.
+      By default, when you sort by time created, results are shown
+      in descending order. When you sort by path, results are
+      shown in ascending alphanumeric order.
+  SnapshotSortByQueryParam:
+    x-obmcs-preview-only: true
+    name: sortBy
+    in: query
+    required: false
+    type: string
+    enum:
+    - TIMECREATED
+    - NAME
+    description: |
+      The field to sort by. You can provide either value, but not both.
+      By default, when you sort by time created, results are shown
+      in descending order. When you sort by name, results are
+      shown in alphabetical order.
+  SortOrderQueryParam:
+    name: sortOrder
+    in: query
+    required: false
+    type: string
+    enum:
+    - ASC
+    - DESC
+    description: |
+      The sort order to use, either 'asc' or 'desc', where 'asc' is
+      ascending and 'desc' is descending.
+  MountTargetOptionalQueryParam:
+    x-obmcs-preview-only: true
+    description: The OCID of a mount target.
+    in: query
+    maxLength: 255
+    minLength: 1
+    name: mountTarget
+    required: false
+    type: string
+  RetryTokenHeader:
+    description: |
+      A token that uniquely identifies a request so it can be retried in case of a timeout or
+      server error without risk of executing that same action again. Retry tokens expire after 24
+      hours, but can be invalidated before then due to conflicting operations. For example, if a resource
+      has been deleted and purged from the system, then a retry of the original creation request
+      might be rejected.
+    in: header
+    maxLength: 64
+    minLength: 1
+    name: opc-retry-token
+    required: false
+    type: string
+  FileSystemIdPathParam:
+    description: The OCID of the file system.
+    in: path
+    maxLength: 255
+    minLength: 1
+    name: fileSystemId
+    required: true
+    type: string
+  MountTargetIdPathParam:
+    description: The OCID of the mount target.
+    in: path
+    maxLength: 255
+    minLength: 1
+    name: mountTargetId
+    required: true
+    type: string
+  ExportSetIdPathParam:
+    description: The OCID of the export set.
+    in: path
+    maxLength: 255
+    minLength: 1
+    name: exportSetId
+    required: true
+    type: string
+  ExportIdPathParam:
+    description: The OCID of the export.
+    in: path
+    maxLength: 255
+    minLength: 1
+    name: exportId
+    required: true
+    type: string
+  SnapshotIdPathParam:
+    description: The OCID of the snapshot.
+    in: path
+    maxLength: 255
+    minLength: 1
+    name: snapshotId
+    required: true
+    type: string
+responses:
+  400:
+    description: Bad Request
+    $ref: '#/responses/Error'
+  401:
+    description: Unauthorized
+    $ref: '#/responses/Error'
+  403:
+    description: Forbidden
+    $ref: '#/responses/Error'
+  404:
+    description: Not Found
+    $ref: '#/responses/Error'
+  409:
+    description: Conflict
+    $ref: '#/responses/Error'
+  412:
+    description: Precondition Failed
+    $ref: '#/responses/Error'
+  429:
+    description: Too Many Requests
+    $ref: '#/responses/Error'
+  500:
+    description: Internal Server Error
+    $ref: '#/responses/Error'
+  DefaultError:
+    description: An error has occurred.
+    $ref: '#/responses/Error'
+  Error:
+    description: An error has occurred.
+    headers:
+      opc-request-id:
+        description: |
+          Unique Oracle-assigned identifier for the request. If
+          you need to contact Oracle about a particular request,
+          please provide the request ID.
+        type: string
+    schema:
+      $ref: '#/definitions/Error'

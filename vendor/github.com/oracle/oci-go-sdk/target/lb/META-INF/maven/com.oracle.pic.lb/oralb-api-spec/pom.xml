@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.oracle.pic.commons</groupId>
+        <artifactId>pic-pom</artifactId>
+        <version>0.5.1</version>
+    </parent>
+
+    <groupId>com.oracle.pic.lb</groupId>
+    <artifactId>oralb-api-spec</artifactId>
+    <version>1.0.15</version>
+    <packaging>jar</packaging>
+
+    <name>OraLB API specification</name>
+
+    <scm>
+        <connection>scm:git:ssh://git@bitbucket.aka.lgl.grungy.us:7999/flam/oralb-api-spec.git</connection>
+        <developerConnection>scm:git:ssh://git@bitbucket.aka.lgl.grungy.us:7999/flam/oralb-api-spec.git</developerConnection>
+        <tag>oralb-api-spec-1.0.15</tag>
+        <url>http://bitbucket.aka.lgl.grungy.us/projects/FLAM/repos/oralb-api-spec</url>
+    </scm>
+
+    <distributionManagement>
+        <repository>
+            <id>spartafactory-libs-release</id>
+            <name>artifactory.aka.lgl.grungy.us-flamingo-release</name>
+            <url>http://artifactory.aka.lgl.grungy.us/flamingo-libs-release-maven-local</url>
+        </repository>
+        <snapshotRepository>
+            <id>spartafactory-libs-snapshot</id>
+            <name>artifactory.aka.lgl.grungy.us-flamingo-snapshot</name>
+            <url>http://artifactory.aka.lgl.grungy.us/flamingo-libs-snapshot-maven-local</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>${project.basedir}/specs</directory>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.sonatype.plexus</groupId>
+                        <artifactId>plexus-cipher</artifactId>
+                        <version>1.4</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.4.0</version>
+                <executions>
+                    <execution>
+                        <id>cleanup-spec</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>python</executable>
+                            <workingDirectory>${project.basedir}/src/main/resources</workingDirectory>
+                            <arguments>
+                                <argument>valid_swagger.py</argument>
+                                <argument>${project.basedir}/specs/spec-20170115.proto.yaml</argument>
+                                <argument>--output_file</argument>
+                                <argument>${project.basedir}/specs/spec-20170115.yaml</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.oracle.pic.commons.maven</groupId>
+                <artifactId>oracle-swagger-maven-plugin</artifactId>
+                <version>0.2.4</version>
+                <executions>
+                    <execution>
+                        <id>spec-validation</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>validate</goal>
+                        </goals>
+                        <configuration>
+                            <basePackage>com.oracle.pic.lb.v20170115</basePackage>
+                            <specPath>${project.basedir}/specs/spec-20170115.yaml</specPath>
+                            <failBuildOnError>false</failBuildOnError>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+    </dependencies>
+
+</project>

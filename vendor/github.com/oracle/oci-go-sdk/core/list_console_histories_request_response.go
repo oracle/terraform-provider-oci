@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 package core
@@ -79,22 +79,18 @@ type ListConsoleHistoriesSortByEnum string
 const (
 	ListConsoleHistoriesSortByTimecreated ListConsoleHistoriesSortByEnum = "TIMECREATED"
 	ListConsoleHistoriesSortByDisplayname ListConsoleHistoriesSortByEnum = "DISPLAYNAME"
-	ListConsoleHistoriesSortByUnknown     ListConsoleHistoriesSortByEnum = "UNKNOWN"
 )
 
 var mappingListConsoleHistoriesSortBy = map[string]ListConsoleHistoriesSortByEnum{
 	"TIMECREATED": ListConsoleHistoriesSortByTimecreated,
 	"DISPLAYNAME": ListConsoleHistoriesSortByDisplayname,
-	"UNKNOWN":     ListConsoleHistoriesSortByUnknown,
 }
 
 // GetListConsoleHistoriesSortByEnumValues Enumerates the set of values for ListConsoleHistoriesSortBy
 func GetListConsoleHistoriesSortByEnumValues() []ListConsoleHistoriesSortByEnum {
 	values := make([]ListConsoleHistoriesSortByEnum, 0)
 	for _, v := range mappingListConsoleHistoriesSortBy {
-		if v != ListConsoleHistoriesSortByUnknown {
-			values = append(values, v)
-		}
+		values = append(values, v)
 	}
 	return values
 }
@@ -104,24 +100,20 @@ type ListConsoleHistoriesSortOrderEnum string
 
 // Set of constants representing the allowable values for ListConsoleHistoriesSortOrder
 const (
-	ListConsoleHistoriesSortOrderAsc     ListConsoleHistoriesSortOrderEnum = "ASC"
-	ListConsoleHistoriesSortOrderDesc    ListConsoleHistoriesSortOrderEnum = "DESC"
-	ListConsoleHistoriesSortOrderUnknown ListConsoleHistoriesSortOrderEnum = "UNKNOWN"
+	ListConsoleHistoriesSortOrderAsc  ListConsoleHistoriesSortOrderEnum = "ASC"
+	ListConsoleHistoriesSortOrderDesc ListConsoleHistoriesSortOrderEnum = "DESC"
 )
 
 var mappingListConsoleHistoriesSortOrder = map[string]ListConsoleHistoriesSortOrderEnum{
-	"ASC":     ListConsoleHistoriesSortOrderAsc,
-	"DESC":    ListConsoleHistoriesSortOrderDesc,
-	"UNKNOWN": ListConsoleHistoriesSortOrderUnknown,
+	"ASC":  ListConsoleHistoriesSortOrderAsc,
+	"DESC": ListConsoleHistoriesSortOrderDesc,
 }
 
 // GetListConsoleHistoriesSortOrderEnumValues Enumerates the set of values for ListConsoleHistoriesSortOrder
 func GetListConsoleHistoriesSortOrderEnumValues() []ListConsoleHistoriesSortOrderEnum {
 	values := make([]ListConsoleHistoriesSortOrderEnum, 0)
 	for _, v := range mappingListConsoleHistoriesSortOrder {
-		if v != ListConsoleHistoriesSortOrderUnknown {
-			values = append(values, v)
-		}
+		values = append(values, v)
 	}
 	return values
 }

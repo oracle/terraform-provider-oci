@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 // Load Balancing Service API
@@ -11,8 +11,9 @@ package loadbalancer
 import (
 	"context"
 	"fmt"
-	oci_common "github.com/oracle/oci-go-sdk/common"
 	"time"
+
+	oci_common "github.com/oracle/oci-go-sdk/common"
 )
 
 // PollBackendHealthUntil polls a resource until the specified predicate returns true

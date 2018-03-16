@@ -1,10 +1,10 @@
-DOC_SERVER_URL=http:\/\/lgl-bybliothece-01.virt.lgl.grungy.us
+DOC_SERVER_URL=https:\/\/docs.us-phoenix-1.oraclecloud.com
 
-GEN_TARGETS = identity core objectstorage loadbalancer database audit
+GEN_TARGETS = identity core objectstorage loadbalancer database audit dns filestorage
 NON_GEN_TARGETS = common common/auth
 TARGETS = $(NON_GEN_TARGETS) $(GEN_TARGETS)
 
-TARGETS_WITH_TESTS = common common/auth integtest
+TARGETS_WITH_TESTS = common common/auth
 TARGETS_BUILD = $(patsubst %,build-%, $(TARGETS))
 TARGETS_CLEAN = $(patsubst %,clean-%, $(GEN_TARGETS))
 TARGETS_LINT = $(patsubst %,lint-%, $(TARGETS))
@@ -39,16 +39,17 @@ $(TARGETS_BUILD): build-%:%
 	@(cd $< && go build -v)
 
 $(TARGETS_TEST): test-%:%
-	@(cd $< && OCI_GO_SDK_DEBUG=1 go test -v)
+	@(cd $< && go test -v)
 
 $(TARGETS_CLEAN): clean-%:%
 	@echo "cleaning $<"
 	@-rm -rf $<
 
 pre-doc:
+	@echo "Rendering doc server to ${DOC_SERVER_URL}"
 	find . -name \*.go |xargs sed -i '' 's/{{DOC_SERVER_URL}}/${DOC_SERVER_URL}/g'
 
 gen-version:
 	go generate -x
 
-release: gen-version build
+release: gen-version build pre-doc

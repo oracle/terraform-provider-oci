@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 // Core Services API
@@ -57,7 +57,6 @@ const (
 	BootVolumeAttachmentLifecycleStateAttached  BootVolumeAttachmentLifecycleStateEnum = "ATTACHED"
 	BootVolumeAttachmentLifecycleStateDetaching BootVolumeAttachmentLifecycleStateEnum = "DETACHING"
 	BootVolumeAttachmentLifecycleStateDetached  BootVolumeAttachmentLifecycleStateEnum = "DETACHED"
-	BootVolumeAttachmentLifecycleStateUnknown   BootVolumeAttachmentLifecycleStateEnum = "UNKNOWN"
 )
 
 var mappingBootVolumeAttachmentLifecycleState = map[string]BootVolumeAttachmentLifecycleStateEnum{
@@ -65,16 +64,13 @@ var mappingBootVolumeAttachmentLifecycleState = map[string]BootVolumeAttachmentL
 	"ATTACHED":  BootVolumeAttachmentLifecycleStateAttached,
 	"DETACHING": BootVolumeAttachmentLifecycleStateDetaching,
 	"DETACHED":  BootVolumeAttachmentLifecycleStateDetached,
-	"UNKNOWN":   BootVolumeAttachmentLifecycleStateUnknown,
 }
 
 // GetBootVolumeAttachmentLifecycleStateEnumValues Enumerates the set of values for BootVolumeAttachmentLifecycleState
 func GetBootVolumeAttachmentLifecycleStateEnumValues() []BootVolumeAttachmentLifecycleStateEnum {
 	values := make([]BootVolumeAttachmentLifecycleStateEnum, 0)
 	for _, v := range mappingBootVolumeAttachmentLifecycleState {
-		if v != BootVolumeAttachmentLifecycleStateUnknown {
-			values = append(values, v)
-		}
+		values = append(values, v)
 	}
 	return values
 }

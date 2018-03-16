@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 package core
@@ -11,7 +11,7 @@ import (
 // UpdatePrivateIpRequest wrapper for the UpdatePrivateIp operation
 type UpdatePrivateIpRequest struct {
 
-	// The private IP's OCID.
+	// The OCID of the private IP.
 	PrivateIpId *string `mandatory:"true" contributesTo:"path" name:"privateIpId"`
 
 	// Private IP details.

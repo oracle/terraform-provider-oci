@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 // Core Services API
@@ -14,7 +14,7 @@ import (
 )
 
 // LaunchInstanceDetails Instance launch details.
-// Use the sourceDetails parameter to specify whether a boot volume should be used for a new instance launch.
+// Use the `sourceDetails` parameter to specify whether a boot volume or an image should be used to launch a new instance.
 type LaunchInstanceDetails struct {
 
 	// The Availability Domain of the instance.
@@ -33,6 +33,11 @@ type LaunchInstanceDetails struct {
 	// the instance is launched.
 	CreateVnicDetails *CreateVnicDetails `mandatory:"false" json:"createVnicDetails"`
 
+	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Operations": {"CostCenter": "42"}}`
+	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
 	// A user-friendly name. Does not have to be unique, and it's changeable.
 	// Avoid entering confidential information.
 	// Example: `My bare metal instance`
@@ -43,7 +48,13 @@ type LaunchInstanceDetails struct {
 	// If you don't need nested metadata values, it is strongly advised to avoid using this object and use the Metadata object instead.
 	ExtendedMetadata map[string]interface{} `mandatory:"false" json:"extendedMetadata"`
 
-	// Deprecated. Instead Use `hostnameLabel` in
+	// Free-form tags for this resource. Each tag is a simple key-value pair with no
+	// predefined name, type, or namespace. For more information, see
+	// Resource Tags (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Department": "Finance"}`
+	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// Deprecated. Instead use `hostnameLabel` in
 	// CreateVnicDetails.
 	// If you provide both, the values must match.
 	HostnameLabel *string `mandatory:"false" json:"hostnameLabel"`
@@ -69,7 +80,7 @@ type LaunchInstanceDetails struct {
 	// iqn.2015-02.oracle.boot.
 	// For more information about the Bring Your Own Image feature of
 	// Oracle Cloud Infrastructure, see
-	// [Bring Your Own Image]({{DOC_SERVER_URL}}/Content/Compute/References/bringyourownimage.htm).
+	// Bring Your Own Image (https://docs.us-phoenix-1.oraclecloud.com/Content/Compute/References/bringyourownimage.htm).
 	// For more information about iPXE, see http://ipxe.org.
 	IpxeScript *string `mandatory:"false" json:"ipxeScript"`
 
@@ -77,7 +88,7 @@ type LaunchInstanceDetails struct {
 	// required to connect to the instance.
 	// A metadata service runs on every launched instance. The service is an HTTP
 	// endpoint listening on 169.254.169.254. You can use the service to:
-	// * Provide information to [Cloud-Init](https://cloudinit.readthedocs.org/en/latest/)
+	// * Provide information to Cloud-Init (https://cloudinit.readthedocs.org/en/latest/)
 	//   to be used for various system initialization tasks.
 	// * Get information about the instance, including the custom metadata that you
 	//   provide when you launch the instance.
@@ -92,7 +103,7 @@ type LaunchInstanceDetails struct {
 	//  **"user_data"** - Provide your own base64-encoded data to be used by
 	//  Cloud-Init to run custom scripts or provide custom Cloud-Init configuration. For
 	//  information about how to take advantage of user data, see the
-	//  [Cloud-Init Documentation](http://cloudinit.readthedocs.org/en/latest/topics/format.html).
+	//  Cloud-Init Documentation (http://cloudinit.readthedocs.org/en/latest/topics/format.html).
 	//  **Note:** Cloud-Init does not pull this data from the `http://169.254.169.254/opc/v1/instance/metadata/`
 	//  path. When the instance launches and either of these keys are provided, the key values are formatted as
 	//  OpenStack metadata and copied to the following locations, which are recognized by Cloud-Init:
@@ -119,6 +130,7 @@ type LaunchInstanceDetails struct {
 	Metadata map[string]string `mandatory:"false" json:"metadata"`
 
 	// Details for creating an instance.
+	// Use this parameter to specify whether a boot volume or an image should be used to launch a new instance.
 	SourceDetails InstanceSourceDetails `mandatory:"false" json:"sourceDetails"`
 
 	// Deprecated. Instead use `subnetId` in
@@ -134,18 +146,20 @@ func (m LaunchInstanceDetails) String() string {
 // UnmarshalJSON unmarshals from json
 func (m *LaunchInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		CreateVnicDetails  *CreateVnicDetails     `json:"createVnicDetails"`
-		DisplayName        *string                `json:"displayName"`
-		ExtendedMetadata   map[string]interface{} `json:"extendedMetadata"`
-		HostnameLabel      *string                `json:"hostnameLabel"`
-		ImageId            *string                `json:"imageId"`
-		IpxeScript         *string                `json:"ipxeScript"`
-		Metadata           map[string]string      `json:"metadata"`
-		SourceDetails      instancesourcedetails  `json:"sourceDetails"`
-		SubnetId           *string                `json:"subnetId"`
-		AvailabilityDomain *string                `json:"availabilityDomain"`
-		CompartmentId      *string                `json:"compartmentId"`
-		Shape              *string                `json:"shape"`
+		CreateVnicDetails  *CreateVnicDetails                `json:"createVnicDetails"`
+		DefinedTags        map[string]map[string]interface{} `json:"definedTags"`
+		DisplayName        *string                           `json:"displayName"`
+		ExtendedMetadata   map[string]interface{}            `json:"extendedMetadata"`
+		FreeformTags       map[string]string                 `json:"freeformTags"`
+		HostnameLabel      *string                           `json:"hostnameLabel"`
+		ImageId            *string                           `json:"imageId"`
+		IpxeScript         *string                           `json:"ipxeScript"`
+		Metadata           map[string]string                 `json:"metadata"`
+		SourceDetails      instancesourcedetails             `json:"sourceDetails"`
+		SubnetId           *string                           `json:"subnetId"`
+		AvailabilityDomain *string                           `json:"availabilityDomain"`
+		CompartmentId      *string                           `json:"compartmentId"`
+		Shape              *string                           `json:"shape"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -153,8 +167,10 @@ func (m *LaunchInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	m.CreateVnicDetails = model.CreateVnicDetails
+	m.DefinedTags = model.DefinedTags
 	m.DisplayName = model.DisplayName
 	m.ExtendedMetadata = model.ExtendedMetadata
+	m.FreeformTags = model.FreeformTags
 	m.HostnameLabel = model.HostnameLabel
 	m.ImageId = model.ImageId
 	m.IpxeScript = model.IpxeScript
@@ -163,7 +179,7 @@ func (m *LaunchInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 	if e != nil {
 		return
 	}
-	m.SourceDetails = nn
+	m.SourceDetails = nn.(InstanceSourceDetails)
 	m.SubnetId = model.SubnetId
 	m.AvailabilityDomain = model.AvailabilityDomain
 	m.CompartmentId = model.CompartmentId

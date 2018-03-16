@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 // Database Service API
@@ -13,7 +13,7 @@ import (
 )
 
 // DbNode A server where Oracle database software is running.
-// To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized, talk to an administrator. If you're an administrator who needs to write policies to give users access, see [Getting Started with Policies]({{DOC_SERVER_URL}}/Content/Identity/Concepts/policygetstarted.htm).
+// To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized, talk to an administrator. If you're an administrator who needs to write policies to give users access, see Getting Started with Policies (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/policygetstarted.htm).
 type DbNode struct {
 
 	// The OCID of the DB System.
@@ -59,7 +59,6 @@ const (
 	DbNodeLifecycleStateTerminating  DbNodeLifecycleStateEnum = "TERMINATING"
 	DbNodeLifecycleStateTerminated   DbNodeLifecycleStateEnum = "TERMINATED"
 	DbNodeLifecycleStateFailed       DbNodeLifecycleStateEnum = "FAILED"
-	DbNodeLifecycleStateUnknown      DbNodeLifecycleStateEnum = "UNKNOWN"
 )
 
 var mappingDbNodeLifecycleState = map[string]DbNodeLifecycleStateEnum{
@@ -72,16 +71,13 @@ var mappingDbNodeLifecycleState = map[string]DbNodeLifecycleStateEnum{
 	"TERMINATING":  DbNodeLifecycleStateTerminating,
 	"TERMINATED":   DbNodeLifecycleStateTerminated,
 	"FAILED":       DbNodeLifecycleStateFailed,
-	"UNKNOWN":      DbNodeLifecycleStateUnknown,
 }
 
 // GetDbNodeLifecycleStateEnumValues Enumerates the set of values for DbNodeLifecycleState
 func GetDbNodeLifecycleStateEnumValues() []DbNodeLifecycleStateEnum {
 	values := make([]DbNodeLifecycleStateEnum, 0)
 	for _, v := range mappingDbNodeLifecycleState {
-		if v != DbNodeLifecycleStateUnknown {
-			values = append(values, v)
-		}
+		values = append(values, v)
 	}
 	return values
 }

@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 // Core Services API
@@ -14,10 +14,10 @@ import (
 
 // InternetGateway Represents a router that connects the edge of a VCN with the Internet. For an example scenario
 // that uses an Internet Gateway, see
-// [Typical Networking Service Scenarios]({{DOC_SERVER_URL}}/Content/Network/Concepts/overview.htm#scenarios).
+// Typical Networking Service Scenarios (https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Concepts/overview.htm#scenarios).
 // To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized,
 // talk to an administrator. If you're an administrator who needs to write policies to give users access, see
-// [Getting Started with Policies]({{DOC_SERVER_URL}}/Content/Identity/Concepts/policygetstarted.htm).
+// Getting Started with Policies (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/policygetstarted.htm).
 type InternetGateway struct {
 
 	// The OCID of the compartment containing the Internet Gateway.
@@ -58,7 +58,6 @@ const (
 	InternetGatewayLifecycleStateAvailable    InternetGatewayLifecycleStateEnum = "AVAILABLE"
 	InternetGatewayLifecycleStateTerminating  InternetGatewayLifecycleStateEnum = "TERMINATING"
 	InternetGatewayLifecycleStateTerminated   InternetGatewayLifecycleStateEnum = "TERMINATED"
-	InternetGatewayLifecycleStateUnknown      InternetGatewayLifecycleStateEnum = "UNKNOWN"
 )
 
 var mappingInternetGatewayLifecycleState = map[string]InternetGatewayLifecycleStateEnum{
@@ -66,16 +65,13 @@ var mappingInternetGatewayLifecycleState = map[string]InternetGatewayLifecycleSt
 	"AVAILABLE":    InternetGatewayLifecycleStateAvailable,
 	"TERMINATING":  InternetGatewayLifecycleStateTerminating,
 	"TERMINATED":   InternetGatewayLifecycleStateTerminated,
-	"UNKNOWN":      InternetGatewayLifecycleStateUnknown,
 }
 
 // GetInternetGatewayLifecycleStateEnumValues Enumerates the set of values for InternetGatewayLifecycleState
 func GetInternetGatewayLifecycleStateEnumValues() []InternetGatewayLifecycleStateEnum {
 	values := make([]InternetGatewayLifecycleStateEnum, 0)
 	for _, v := range mappingInternetGatewayLifecycleState {
-		if v != InternetGatewayLifecycleStateUnknown {
-			values = append(values, v)
-		}
+		values = append(values, v)
 	}
 	return values
 }

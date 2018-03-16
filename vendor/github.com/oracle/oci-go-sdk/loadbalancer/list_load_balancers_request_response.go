@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 package loadbalancer
@@ -11,7 +11,7 @@ import (
 // ListLoadBalancersRequest wrapper for the ListLoadBalancers operation
 type ListLoadBalancersRequest struct {
 
-	// The [OCID]({{DOC_SERVER_URL}}/Content/General/Concepts/identifiers.htm) of the compartment containing the load balancers to list.
+	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the compartment containing the load balancers to list.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// The unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
@@ -30,16 +30,17 @@ type ListLoadBalancersRequest struct {
 	// Example: `full`
 	Detail *string `mandatory:"false" contributesTo:"query" name:"detail"`
 
-	// The field to sort by.  Only one sort order may be provided.  Time created is default ordered as descending.  Display name is default ordered as ascending.
+	// The field to sort by.  You can provide one sort order (`sortOrder`). Default order for TIMECREATED is descending.
+	// Default order for DISPLAYNAME is ascending. The DISPLAYNAME sort order is case sensitive.
 	SortBy ListLoadBalancersSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
-	// The sort order to use, either 'asc' or 'desc'
+	// The sort order to use, either ascending (`ASC`) or descending (`DESC`). The DISPLAYNAME sort order is case sensitive.
 	SortOrder ListLoadBalancersSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
-	// A filter to only return resources that match the given display name exactly.
+	// A filter to return only resources that match the given display name exactly.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
-	// A filter to only return resources that match the given lifecycle state.
+	// A filter to return only resources that match the given lifecycle state.
 	LifecycleState LoadBalancerLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 }
 
@@ -77,22 +78,18 @@ type ListLoadBalancersSortByEnum string
 const (
 	ListLoadBalancersSortByTimecreated ListLoadBalancersSortByEnum = "TIMECREATED"
 	ListLoadBalancersSortByDisplayname ListLoadBalancersSortByEnum = "DISPLAYNAME"
-	ListLoadBalancersSortByUnknown     ListLoadBalancersSortByEnum = "UNKNOWN"
 )
 
 var mappingListLoadBalancersSortBy = map[string]ListLoadBalancersSortByEnum{
 	"TIMECREATED": ListLoadBalancersSortByTimecreated,
 	"DISPLAYNAME": ListLoadBalancersSortByDisplayname,
-	"UNKNOWN":     ListLoadBalancersSortByUnknown,
 }
 
 // GetListLoadBalancersSortByEnumValues Enumerates the set of values for ListLoadBalancersSortBy
 func GetListLoadBalancersSortByEnumValues() []ListLoadBalancersSortByEnum {
 	values := make([]ListLoadBalancersSortByEnum, 0)
 	for _, v := range mappingListLoadBalancersSortBy {
-		if v != ListLoadBalancersSortByUnknown {
-			values = append(values, v)
-		}
+		values = append(values, v)
 	}
 	return values
 }
@@ -102,24 +99,20 @@ type ListLoadBalancersSortOrderEnum string
 
 // Set of constants representing the allowable values for ListLoadBalancersSortOrder
 const (
-	ListLoadBalancersSortOrderAsc     ListLoadBalancersSortOrderEnum = "ASC"
-	ListLoadBalancersSortOrderDesc    ListLoadBalancersSortOrderEnum = "DESC"
-	ListLoadBalancersSortOrderUnknown ListLoadBalancersSortOrderEnum = "UNKNOWN"
+	ListLoadBalancersSortOrderAsc  ListLoadBalancersSortOrderEnum = "ASC"
+	ListLoadBalancersSortOrderDesc ListLoadBalancersSortOrderEnum = "DESC"
 )
 
 var mappingListLoadBalancersSortOrder = map[string]ListLoadBalancersSortOrderEnum{
-	"ASC":     ListLoadBalancersSortOrderAsc,
-	"DESC":    ListLoadBalancersSortOrderDesc,
-	"UNKNOWN": ListLoadBalancersSortOrderUnknown,
+	"ASC":  ListLoadBalancersSortOrderAsc,
+	"DESC": ListLoadBalancersSortOrderDesc,
 }
 
 // GetListLoadBalancersSortOrderEnumValues Enumerates the set of values for ListLoadBalancersSortOrder
 func GetListLoadBalancersSortOrderEnumValues() []ListLoadBalancersSortOrderEnum {
 	values := make([]ListLoadBalancersSortOrderEnum, 0)
 	for _, v := range mappingListLoadBalancersSortOrder {
-		if v != ListLoadBalancersSortOrderUnknown {
-			values = append(values, v)
-		}
+		values = append(values, v)
 	}
 	return values
 }

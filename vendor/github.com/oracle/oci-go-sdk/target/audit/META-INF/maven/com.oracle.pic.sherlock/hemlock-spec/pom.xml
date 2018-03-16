@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.oracle.pic.sherlock</groupId>
+    <artifactId>hemlock-spec</artifactId>
+    <version>0.1.7</version>
+    <packaging>jar</packaging>
+    <name>hemlock-spec</name>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>${project.basedir}/specs</directory>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>com.oracle.pic.commons.maven</groupId>
+                <artifactId>oracle-swagger-maven-plugin</artifactId>
+                <version>0.3.59</version>
+                <executions>
+                    <execution>
+                        <id>validateSpec</id>
+                        <goals>
+                            <goal>validate</goal>
+                        </goals>
+                        <configuration>
+                            <basePackage>com.oracle.pic.sherlock.hemlock</basePackage>
+                            <language>oracle-java-jaxrs-client</language>
+                            <specPath>${project.basedir}/specs/hemlock-api-20160918.yaml</specPath>
+                            <failBuildOnError>false</failBuildOnError>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
