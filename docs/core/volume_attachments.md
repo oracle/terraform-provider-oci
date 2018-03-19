@@ -31,7 +31,7 @@ The following arguments are supported:
 
 * `display_name` - (Optional) A user-friendly name. Does not have to be unique, and it cannot be changed. Avoid entering confidential information. 
 * `instance_id` - (Required) The OCID of the instance.
-* `type` - (Required) The type of volume. The only supported value is "iscsi".
+* `attachment_type` - (Required) The type of volume. The only supported value is "iscsi".
 * `volume_id` - (Required) The OCID of the volume.
 
 
@@ -50,7 +50,7 @@ Any change to a property that does not support update will force the destruction
 resource "oci_core_volume_attachment" "test_volume_attachment" {
 	#Required
 	instance_id = "${oci_core_instance.test_instance.id}"
-	type = "iscsi"
+	attachment_type = "iscsi"
 	volume_id = "${oci_core_volume.test_volume.id}"
 
 	#Optional
