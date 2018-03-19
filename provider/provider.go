@@ -23,6 +23,7 @@ import (
 	oci_common_auth "github.com/oracle/oci-go-sdk/common/auth"
 	oci_core "github.com/oracle/oci-go-sdk/core"
 	oci_database "github.com/oracle/oci-go-sdk/database"
+	oci_file_storage "github.com/oracle/oci-go-sdk/filestorage"
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
 	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
@@ -175,6 +176,11 @@ func dataSourcesMap() map[string]*schema.Resource {
 		"oci_database_db_system_shapes":       DbSystemShapesDataSource(),
 		"oci_database_db_systems":             DbSystemsDataSource(),
 		"oci_database_db_versions":            DbVersionsDataSource(),
+		"oci_file_storage_exports":            ExportsDataSource(),
+		"oci_file_storage_export_sets":        ExportSetsDataSource(),
+		"oci_file_storage_file_systems":       FileSystemsDataSource(),
+		"oci_file_storage_mount_targets":      MountTargetsDataSource(),
+		"oci_file_storage_snapshots":          SnapshotsDataSource(),
 		"oci_identity_api_keys":               ApiKeysDataSource(),
 		"oci_identity_availability_domains":   AvailabilityDomainsDataSource(),
 		"oci_identity_compartments":           CompartmentsDataSource(),
@@ -223,6 +229,10 @@ func resourcesMap() map[string]*schema.Resource {
 		"oci_core_volume_attachment":         VolumeAttachmentResource(),
 		"oci_core_volume_backup":             VolumeBackupResource(),
 		"oci_database_db_system":             DbSystemResource(),
+		"oci_file_storage_export":            ExportResource(),
+		"oci_file_storage_file_system":       FileSystemResource(),
+		"oci_file_storage_mount_target":      MountTargetResource(),
+		"oci_file_storage_snapshot":          SnapshotResource(),
 		"oci_identity_api_key":               ApiKeyResource(),
 		"oci_identity_compartment":           CompartmentResource(),
 		"oci_identity_group":                 GroupResource(),
@@ -354,12 +364,17 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 		return
 	}
 
+	fileStorageClient, err := oci_file_storage.NewFileStorageClientWithConfigurationProvider(officialSdkConfigProvider)
+	if err != nil {
+		return
+	}
+
 	identityClient, err := oci_identity.NewIdentityClientWithConfigurationProvider(officialSdkConfigProvider)
 	if err != nil {
 		return
 	}
 
-	virtualNetworkClient, err := oci_core.NewVirtualNetworkClientWithConfigurationProvider(officialSdkConfigProvider)
+	loadBalancerClient, err := oci_load_balancer.NewLoadBalancerClientWithConfigurationProvider(officialSdkConfigProvider)
 	if err != nil {
 		return
 	}
@@ -369,7 +384,7 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 		return
 	}
 
-	loadBalancerClient, err := oci_load_balancer.NewLoadBalancerClientWithConfigurationProvider(officialSdkConfigProvider)
+	virtualNetworkClient, err := oci_core.NewVirtualNetworkClientWithConfigurationProvider(officialSdkConfigProvider)
 	if err != nil {
 		return
 	}
@@ -395,18 +410,20 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 	configureClient(&blockStorageClient.BaseClient)
 	configureClient(&computeClient.BaseClient)
 	configureClient(&databaseClient.BaseClient)
+	configureClient(&fileStorageClient.BaseClient)
 	configureClient(&identityClient.BaseClient)
-	configureClient(&virtualNetworkClient.BaseClient)
-	configureClient(&objectStorageClient.BaseClient)
 	configureClient(&loadBalancerClient.BaseClient)
+	configureClient(&objectStorageClient.BaseClient)
+	configureClient(&virtualNetworkClient.BaseClient)
 
 	clients.blockStorageClient = &blockStorageClient
 	clients.computeClient = &computeClient
 	clients.databaseClient = &databaseClient
+	clients.fileStorageClient = &fileStorageClient
 	clients.identityClient = &identityClient
-	clients.virtualNetworkClient = &virtualNetworkClient
-	clients.objectStorageClient = &objectStorageClient
 	clients.loadBalancerClient = &loadBalancerClient
+	clients.objectStorageClient = &objectStorageClient
+	clients.virtualNetworkClient = &virtualNetworkClient
 
 	return
 }
@@ -419,6 +436,7 @@ type OracleClients struct {
 	virtualNetworkClient *oci_core.VirtualNetworkClient
 	objectStorageClient  *oci_object_storage.ObjectStorageClient
 	loadBalancerClient   *oci_load_balancer.LoadBalancerClient
+	fileStorageClient    *oci_file_storage.FileStorageClient
 }
 
 type ResourceDataConfigProvider struct {
