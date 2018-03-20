@@ -1,5 +1,5 @@
 
-# oci_objectstorage_namespaces
+# oci_objectstorage_namespace
 
 ## Namespace DataSource
 
@@ -20,6 +20,6 @@ The following attributes are exported:
 ### Example Usage
 
 ```
-data "oci_objectstorage_namespaces" "test_namespaces" {
+data "oci_objectstorage_namespace" "test_namespace" {
 }
 ```
