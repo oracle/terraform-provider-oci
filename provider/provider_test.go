@@ -277,6 +277,7 @@ func providerConfigTest(t *testing.T, disableRetries bool, skipRequiredField boo
 	d.Set("private_key", testPrivateKey)
 	//d.Set("private_key_path", "")
 	d.Set("private_key_password", "password")
+	d.Set("region", "us-phoenix-1")
 
 	if disableRetries {
 		d.Set("disable_auto_retries", disableRetries)
