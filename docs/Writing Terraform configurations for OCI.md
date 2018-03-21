@@ -43,10 +43,26 @@ provider "oci" {
 }
 ```
 
-Use the region parameter in your provider definition to specify which region 
+Use the 'region' attribute in your provider definition to specify which region 
 your resources will be created in. See the [ad_multi_region](https://github.com/oracle/terraform-provider-oci/tree/master/docs/examples/iam/ad_multi_region/ad_multi_region.tf)
 or [vcn_multi_region](https://github.com/oracle/terraform-provider-oci/tree/master/docs/examples/networking/vcn_multi_region)
 examples for details on how to target multiple regions from one plan.
+
+### Enabling Instance Principal Authorization
+To enable instance principal authorization, you can set 'auth' attribute to "InstancePrincipal"
+in the provider definition as follows ('tenancy_ocid', 'user_ocid', 'fingerprint'
+and 'private_key_path' are not necessary):
+```
+variable "region" {}
+
+provider "oci" {
+  auth = "InstancePrincipal"
+  region = "${var.region}"
+}
+```
+
+See [Calling Services from an instance](https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Tasks/callingservicesfrominstances.htm)
+for setting up and using instances as principals.
 
 ## OCI resource and data source details
 A list of all supported OCI resources and data sources can be found in the [Table of Contents](https://github.com/oracle/terraform-provider-oci/blob/master/docs/Table%20of%20Contents.md).
