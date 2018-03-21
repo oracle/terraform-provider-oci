@@ -304,7 +304,11 @@ func ProviderConfig(d *schema.ResourceData) (clients interface{}, err error) {
 			return nil, err
 		}
 	case strings.ToLower(authInstancePrincipalSetting):
-		cfg, err := oci_common_auth.InstancePrincipalConfigurationProvider()
+		region, ok := d.GetOkExists("region")
+		if !ok {
+			return nil, fmt.Errorf("can not get region from Terraform configuration (InstancePrincipal)")
+		}
+		cfg, err := oci_common_auth.InstancePrincipalConfigurationProviderForRegion(oci_common.StringToRegion(region.(string)))
 		if err != nil {
 			return nil, err
 		}
