@@ -23,6 +23,7 @@ import (
 	oci_common_auth "github.com/oracle/oci-go-sdk/common/auth"
 	oci_core "github.com/oracle/oci-go-sdk/core"
 	oci_database "github.com/oracle/oci-go-sdk/database"
+	oci_dns "github.com/oracle/oci-go-sdk/dns"
 	oci_file_storage "github.com/oracle/oci-go-sdk/filestorage"
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
@@ -177,6 +178,8 @@ func dataSourcesMap() map[string]*schema.Resource {
 		"oci_database_db_system_shapes":       DbSystemShapesDataSource(),
 		"oci_database_db_systems":             DbSystemsDataSource(),
 		"oci_database_db_versions":            DbVersionsDataSource(),
+		"oci_dns_records":                     RecordsDataSource(),
+		"oci_dns_zones":                       ZonesDataSource(),
 		"oci_file_storage_exports":            ExportsDataSource(),
 		"oci_file_storage_export_sets":        ExportSetsDataSource(),
 		"oci_file_storage_file_systems":       FileSystemsDataSource(),
@@ -233,6 +236,8 @@ func resourcesMap() map[string]*schema.Resource {
 		"oci_core_volume_attachment":         VolumeAttachmentResource(),
 		"oci_core_volume_backup":             VolumeBackupResource(),
 		"oci_database_db_system":             DbSystemResource(),
+		"oci_dns_record":                     RecordResource(),
+		"oci_dns_zone":                       ZoneResource(),
 		"oci_file_storage_export":            ExportResource(),
 		"oci_file_storage_export_set":        ExportSetResource(),
 		"oci_file_storage_file_system":       FileSystemResource(),
@@ -371,6 +376,11 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 		return
 	}
 
+	dnsClient, err := oci_dns.NewDnsClientWithConfigurationProvider(officialSdkConfigProvider)
+	if err != nil {
+		return
+	}
+
 	fileStorageClient, err := oci_file_storage.NewFileStorageClientWithConfigurationProvider(officialSdkConfigProvider)
 	if err != nil {
 		return
@@ -426,6 +436,7 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 	clients.blockStorageClient = &blockStorageClient
 	clients.computeClient = &computeClient
 	clients.databaseClient = &databaseClient
+	clients.dnsClient = &dnsClient
 	clients.fileStorageClient = &fileStorageClient
 	clients.identityClient = &identityClient
 	clients.loadBalancerClient = &loadBalancerClient
@@ -439,6 +450,7 @@ type OracleClients struct {
 	blockStorageClient   *oci_core.BlockstorageClient
 	computeClient        *oci_core.ComputeClient
 	databaseClient       *oci_database.DatabaseClient
+	dnsClient            *oci_dns.DnsClient
 	identityClient       *oci_identity.IdentityClient
 	virtualNetworkClient *oci_core.VirtualNetworkClient
 	objectStorageClient  *oci_object_storage.ObjectStorageClient
