@@ -156,6 +156,9 @@ func LoadBalancerResourceGet(client *oci_load_balancer.LoadBalancerClient, d *sc
 			if wr.LifecycleState == oci_load_balancer.WorkRequestLifecycleStateSucceeded {
 				return "", false, nil
 			}
+			if wr.LifecycleState == oci_load_balancer.WorkRequestLifecycleStateFailed {
+				return "", false, fmt.Errorf("WorkRequest FAILED: %+v", wr.ErrorDetails)
+			}
 		}
 		return "", true, nil
 	}
@@ -187,7 +190,7 @@ func LoadBalancerWaitForWorkRequest(client *oci_load_balancer.LoadBalancerClient
 		return e
 	}
 	if wr.LifecycleState == oci_load_balancer.WorkRequestLifecycleStateFailed {
-		return errors.New("Resource creation failed, state FAILED")
+		return fmt.Errorf("WorkRequest FAILED: %+v", wr.ErrorDetails)
 	}
 	return nil
 }
