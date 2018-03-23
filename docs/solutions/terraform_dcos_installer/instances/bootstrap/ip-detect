@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -o nounset -o errexit
+export PATH=/usr/sbin:/usr/bin:$PATH
+tmpfile=$(mktemp /tmp/oci_vcn_md.XXXXX)
+curl -s http://169.254.169.254/opc/v1/vnics/ | tr , '\n' >"$tmpfile" 
+grep -w privateIp "$tmpfile" | cut -f 4 -d '"'
+rm "$tmpfile"
