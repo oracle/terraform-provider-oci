@@ -3,6 +3,20 @@ All notable changes to this project are documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+## 2.1.2 - 2018-03-26
+
+## Added
+- File Storage Service: Allows management of NFS filesystems, mount targets, exports, and snapshots. (#440)
+More details can be found [here](https://github.com/oracle/terraform-provider-oci/blob/master/docs/file_storage).
+- Load Balancer PathRouteSets: Added support for load balancer request routing using [path route sets](https://github.com/oracle/terraform-provider-oci/blob/master/docs/load_balancer/path_route_sets.md). (#434)
+- Load Balancer Listeners: Added [connection_configuration](https://github.com/oracle/terraform-provider-oci/blob/master/docs/load_balancer/listeners.md) attribute for specifying idle timeouts. (#425)
+- Instance Principals: Allows Terraform OCI provider running within an authorized instance to reach Oracle Cloud Infrastructure services.
+More details can be found [here](https://github.com/oracle/terraform-provider-oci/blob/master/docs/Writing%20Terraform%20configurations%20for%20OCI.md).
+
+## Fixed
+- Load Balancer Certificates: `passphrase` and `private_key` attributes are now marked as Sensitive. (#447)
+- Load Balancer work request failures now include extra error details from the service.
+
 ## 2.1.1 - 2018-03-14
 
 ## Fixed
