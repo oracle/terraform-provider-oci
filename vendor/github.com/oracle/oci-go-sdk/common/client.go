@@ -319,6 +319,8 @@ func (client BaseClient) Call(ctx context.Context, request *http.Request, config
 
 		Debugln(fmt.Sprintf("operation attempt #%v", currentOperationAttempt))
 
+		request.Header.Set("Date", time.Now().UTC().Format(http.TimeFormat))
+
 		response, err := client.doRequest(deadlineContext, request)
 		if !config.KeepResponseBodyOpen {
 			defer closeBodyIfValid(response)
