@@ -19,7 +19,6 @@ resource "oci_file_storage_snapshot" "test_snapshot" {
 }
 `
 	SnapshotPropertyVariables = `
-variable "snapshot_id" { default = "id" }
 variable "snapshot_name" { default = "snapshot-1" }
 variable "snapshot_state" { default = "state" }
 
@@ -65,9 +64,8 @@ func TestFileStorageSnapshotResource_basic(t *testing.T) {
 			// verify updates to Force New parameters.
 			{
 				Config: config + `
-variable "snapshot_id" { default = "id2" }
 variable "snapshot_name" { default = "name2" }
-variable "snapshot_state" { default = "AVAILABLE" }
+variable "snapshot_state" { default = "ACTIVE" }
 
                 ` + compartmentIdVariableStr2 + SnapshotResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
@@ -89,16 +87,15 @@ variable "snapshot_state" { default = "AVAILABLE" }
 			// verify datasource
 			{
 				Config: config + `
-variable "snapshot_id" { default = "id2" }
 variable "snapshot_name" { default = "name2" }
-variable "snapshot_state" { default = "AVAILABLE" }
+variable "snapshot_state" { default = "ACTIVE" }
 
 data "oci_file_storage_snapshots" "test_snapshots" {
 	#Required
 	file_system_id = "${oci_file_storage_file_system.test_file_system.id}"
 
 	#Optional
-	id = "${var.snapshot_id}"
+	id = "${oci_file_storage_snapshot.test_snapshot.id}"
 	state = "${var.snapshot_state}"
 
     filter {
@@ -109,8 +106,8 @@ data "oci_file_storage_snapshots" "test_snapshots" {
                 ` + compartmentIdVariableStr2 + SnapshotResourceConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "file_system_id"),
-					resource.TestCheckResourceAttr(datasourceName, "id", "id2"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
+					resource.TestCheckResourceAttrSet(datasourceName, "id"),
+					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
 					resource.TestCheckResourceAttr(datasourceName, "snapshots.#", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "snapshots.0.file_system_id"),
@@ -118,93 +115,6 @@ data "oci_file_storage_snapshots" "test_snapshots" {
 					resource.TestCheckResourceAttr(datasourceName, "snapshots.0.name", "name2"),
 					resource.TestCheckResourceAttrSet(datasourceName, "snapshots.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "snapshots.0.time_created"),
-				),
-			},
-		},
-	})
-}
-
-func TestFileStorageSnapshotResource_forcenew(t *testing.T) {
-	provider := testAccProvider
-	config := testProviderConfig()
-
-	compartmentId := getRequiredEnvSetting("compartment_id_for_create")
-	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
-	//compartmentId2 := getRequiredEnvSetting("compartment_id_for_update")
-	//compartmentIdVariableStr2 := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId2)
-
-	resourceName := "oci_file_storage_snapshot.test_snapshot"
-
-	var resId, resId2 string
-
-	resource.Test(t, resource.TestCase{
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		Steps: []resource.TestStep{
-			// verify create with optionals
-			{
-				Config: config + SnapshotPropertyVariables + compartmentIdVariableStr + SnapshotResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttrSet(resourceName, "file_system_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "name", "snapshot-1"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
-			// force new tests, test that changing a parameter would result in creation of a new resource.
-
-			{
-				Config: config + `
-variable "snapshot_id" { default = "id" }
-variable "snapshot_name" { default = "snapshot-1" }
-variable "snapshot_state" { default = "state" }
-				` + compartmentIdVariableStr + SnapshotResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttrSet(resourceName, "file_system_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "name", "snapshot-1"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId == resId2 {
-							return fmt.Errorf("Resource was expected to be recreated when updating parameter FileSystemId but the id did not change.")
-						}
-						resId = resId2
-						return err
-					},
-				),
-			},
-
-			{
-				Config: config + `
-variable "snapshot_id" { default = "id" }
-variable "snapshot_name" { default = "name2" }
-variable "snapshot_state" { default = "state" }
-				` + compartmentIdVariableStr + SnapshotResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttrSet(resourceName, "file_system_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "name", "name2"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId == resId2 {
-							return fmt.Errorf("Resource was expected to be recreated when updating parameter Name but the id did not change.")
-						}
-						resId = resId2
-						return err
-					},
 				),
 			},
 		},
