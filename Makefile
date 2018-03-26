@@ -2,6 +2,12 @@ GOFMT_FILES?=$$(find . -name '*.go' | grep -v vendor)
 
 default: fmt build
 build: ;go build -o terraform-provider-oci
+
+### buildall will build both the src & test code. Go doesn't build the tests by default. Running a fake
+### test will compile the test code w/o running any tests (because it won't find it).
+buildall: build
+	go test ./provider -run FAKE_BUILD_TEST
+
 clean: ;@rm -rf terraform-provider-oci  rm -rf bin/*  rm bin
 fmt: ;goimports -w -local github.com/oracle/terraform-provider-oci $(GOFMT_FILES)
 
