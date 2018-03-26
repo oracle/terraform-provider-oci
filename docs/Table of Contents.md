@@ -52,6 +52,7 @@ This lists all of the available OCI resources and/or data sources.
     * [Load Balancer Policies](https://github.com/oracle/terraform-provider-oci/tree/master/docs/load_balancer/load_balancer_policies.md)
     * [Load Balancer Protocols](https://github.com/oracle/terraform-provider-oci/tree/master/docs/load_balancer/load_balancer_protocols.md)
     * [Load Balancer Shapes](https://github.com/oracle/terraform-provider-oci/tree/master/docs/load_balancer/load_balancer_shapes.md)
+    * [Path Route Sets](https://github.com/oracle/terraform-provider-oci/tree/master/docs/load_balancer/path_route_sets.md)
 * **Object Storage**
     * [Buckets](https://github.com/oracle/terraform-provider-oci/tree/master/docs/object_storage/buckets.md)
     * [Namespaces](https://github.com/oracle/terraform-provider-oci/tree/master/docs/object_storage/namespaces.md)
