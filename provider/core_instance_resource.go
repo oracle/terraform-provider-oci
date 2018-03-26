@@ -5,6 +5,8 @@ package provider
 import (
 	"context"
 	"encoding/json"
+	"fmt"
+	"strconv"
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/core"
@@ -67,11 +69,26 @@ func InstanceResource() *schema.Resource {
 
 						// Optional
 						"assign_public_ip": {
-							Type:     schema.TypeBool,
+							// Change type from boolean to string because TF doesn't handle default
+							// values for boolean nested objects correctly.
+							Type:     schema.TypeString,
 							Optional: true,
-							// @CODEGEN 1/2018: Computed cant be used with legacy default value
+							// @CODEGEN 1/2018: Avoid breaking change by setting assign_public_ip to true by default.
 							ForceNew: true,
-							Default:  true,
+							Default:  "true",
+							ValidateFunc: func(v interface{}, k string) ([]string, []error) {
+								// Verify that we can parse the string value as a bool value.
+								var es []error
+								if _, err := strconv.ParseBool(v.(string)); err != nil {
+									es = append(es, fmt.Errorf("%s: cannot parse 'assign_public_ip' as bool: %v", k, err))
+								}
+								return nil, es
+							},
+							StateFunc: func(v interface{}) string {
+								// ValidateFunc runs before StateFunc. Must be valid by now.
+								b, _ := crud.NormalizeBoolString(v.(string))
+								return b
+							},
 						},
 						"display_name": {
 							Type:     schema.TypeString,
@@ -479,7 +496,14 @@ func (s *InstanceResourceCrud) SetData() {
 	s.D.Set("private_ip", vnic.PrivateIp)
 	s.D.Set("subnet_id", vnic.SubnetId)
 
-	err := s.D.Set("create_vnic_details", []interface{}{vnicDetailsToMap(vnic)})
+	var createVnicDetails map[string]interface{}
+	if details, ok := s.D.GetOkExists("create_vnic_details"); ok {
+		if tmpList := details.([]interface{}); len(tmpList) > 0 {
+			createVnicDetails = tmpList[0].(map[string]interface{})
+		}
+	}
+
+	err := s.D.Set("create_vnic_details", []interface{}{vnicDetailsToMap(vnic, createVnicDetails)})
 	if err != nil {
 		log.Printf("[WARN] create_vnic_details could not be set: %q", err)
 	}
@@ -489,8 +513,9 @@ func mapToCreateVnicDetailsInstance(raw map[string]interface{}) oci_core.CreateV
 	result := oci_core.CreateVnicDetails{}
 
 	if assignPublicIp, ok := raw["assign_public_ip"]; ok {
-		tmp := assignPublicIp.(bool)
-		result.AssignPublicIp = &tmp
+		tmp := assignPublicIp.(string)
+		boolVal, _ := strconv.ParseBool(tmp) // Must be valid.
+		result.AssignPublicIp = &boolVal
 	}
 
 	if displayName, ok := raw["display_name"]; ok {
@@ -552,11 +577,19 @@ func mapToUpdateVnicDetailsInstance(raw map[string]interface{}) oci_core.UpdateV
 	return result
 }
 
-func vnicDetailsToMap(obj *oci_core.Vnic) map[string]interface{} {
+func vnicDetailsToMap(obj *oci_core.Vnic, createVnicDetails map[string]interface{}) map[string]interface{} {
 	result := map[string]interface{}{}
 
-	if obj.PublicIp != nil {
-		result["assign_public_ip"] = bool(len(*obj.PublicIp) > 0)
+	// "assign_public_ip" isn't part of the VNIC's state & is only useful at creation time (and
+	// subsequent force-new creations). So persist the user-defined value in the config & update it
+	// when the user changes that value.
+	if createVnicDetails != nil {
+		assignPublicIP, _ := crud.NormalizeBoolString(createVnicDetails["assign_public_ip"].(string)) // Must be valid.
+		result["assign_public_ip"] = assignPublicIP
+	} else {
+		// Set to "true" in case "create_vnic_details" is ommited altogether & the default value for
+		// "assign_public_ip" doesn't kick in.
+		result["assign_public_ip"] = "true"
 	}
 
 	if obj.DisplayName != nil {

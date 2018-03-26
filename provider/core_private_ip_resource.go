@@ -36,9 +36,10 @@ func PrivateIpResource() *schema.Resource {
 				Computed: true,
 			},
 			"hostname_label": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
+				Type:             schema.TypeString,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: crud.EqualIgnoreCaseSuppressDiff,
 			},
 			"ip_address": {
 				Type:     schema.TypeString,

@@ -1,0 +1,175 @@
+variable "tenancy_ocid" {}
+variable "user_ocid" {}
+variable "fingerprint" {}
+variable "private_key_path" {}
+
+# variable "compartment_ocid" {}
+variable "compartment_ocid" {
+  default = "ocid1.compartment.oc1..aaaaaaaa5ndoui3at7y3ge4w6xodngv7dnetng5u4p2uffwfkwsfyl7karmq"
+}
+
+variable "region" {}
+
+provider "oci" {
+  tenancy_ocid         = "${var.tenancy_ocid}"
+  user_ocid            = "${var.user_ocid}"
+  fingerprint          = "${var.fingerprint}"
+  private_key_path     = "${var.private_key_path}"
+  region               = "${var.region}"
+  disable_auto_retries = true
+}
+
+# Choose an Availability Domain
+variable "AD" {
+  default = "1"
+}
+
+variable "InstanceImageOCID" {
+  type = "map"
+
+  default = {
+    // Oracle-provided image "Oracle-Linux-7.4-2017.12.18-0"
+    // See https://docs.us-phoenix-1.oraclecloud.com/Content/Resources/Assets/OracleProvidedImageOCIDs.pdf
+    us-phoenix-1   = "ocid1.image.oc1.phx.aaaaaaaasc56hnpnx7swoyd2fw5gyvbn3kcdmqc2guiiuvnztl2erth62xnq"
+    us-ashburn-1   = "ocid1.image.oc1.iad.aaaaaaaaxrqeombwty6jyqgk3fraczdd63bv66xgfsqka4ktr7c57awr3p5a"
+    eu-frankfurt-1 = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaayxmzu6n5hsntq4wlffpb4h6qh6z3uskpbm5v3v4egqlqvwicfbyq"
+  }
+}
+
+data "oci_identity_availability_domains" "ADs" {
+  compartment_id = "${var.tenancy_ocid}"
+}
+
+# Creates a VCN
+resource "oci_core_virtual_network" "TFVcn" {
+  cidr_block     = "10.1.0.0/16"
+  compartment_id = "${var.compartment_ocid}"
+  display_name   = "TFVcn"
+  dns_label      = "tfVcn"
+}
+
+# Creates a subnet
+resource "oci_core_subnet" "TFSubnet" {
+  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.AD - 1],"name")}"
+  cidr_block          = "10.1.20.0/24"
+  display_name        = "TFSubnet"
+  dns_label           = "tfsubnet"
+  security_list_ids   = ["${oci_core_virtual_network.TFVcn.default_security_list_id}"]
+  compartment_id      = "${var.compartment_ocid}"
+  vcn_id              = "${oci_core_virtual_network.TFVcn.id}"
+  route_table_id      = "${oci_core_virtual_network.TFVcn.default_route_table_id}"
+  dhcp_options_id     = "${oci_core_virtual_network.TFVcn.default_dhcp_options_id}"
+}
+
+# Creates an instance (without assigning a public IP to the primary private IP on the VNIC)
+resource "oci_core_instance" "TFInstance" {
+  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.AD - 1],"name")}"
+  compartment_id      = "${var.compartment_ocid}"
+  display_name        = "TFInstance"
+  hostname_label      = "instance"
+  image               = "${var.InstanceImageOCID[var.region]}"
+  shape               = "VM.Standard1.2"
+
+  create_vnic_details {
+    assign_public_ip = false
+    display_name     = "TFPrimaryVnic"
+    subnet_id        = "${oci_core_subnet.TFSubnet.id}"
+  }
+}
+
+# Creates a secondary VNIC on the instance using a VNIC attachment
+resource "oci_core_vnic_attachment" "TFSecondaryVnicAttachment" {
+  instance_id  = "${oci_core_instance.TFInstance.id}"
+  display_name = "TFTFSecondaryVnicAttachment"
+
+  create_vnic_details {
+    assign_public_ip       = false
+    display_name           = "TFSecondaryVnic"
+    skip_source_dest_check = true
+    subnet_id              = "${oci_core_subnet.TFSubnet.id}"
+  }
+}
+
+# Gets a list of VNIC attachments on the instance
+data "oci_core_vnic_attachments" "TFInstanceVnics" {
+  compartment_id      = "${var.compartment_ocid}"
+  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.AD - 1],"name")}"
+  instance_id         = "${oci_core_instance.TFInstance.id}"
+}
+
+# Gets the OCID of the first VNIC
+data "oci_core_vnic" "TFInstanceVnic1" {
+  vnic_id = "${lookup(data.oci_core_vnic_attachments.TFInstanceVnics.vnic_attachments[0],"vnic_id")}"
+}
+
+# Gets the OCID of the second VNIC
+data "oci_core_vnic" "TFInstanceVnic2" {
+  vnic_id = "${oci_core_vnic_attachment.TFSecondaryVnicAttachment.vnic_id}"
+}
+
+# Gets a list of private IPs on the first VNIC
+data "oci_core_private_ips" "TFPrivateIps1" {
+  vnic_id = "${data.oci_core_vnic.TFInstanceVnic1.id}"
+}
+
+# Gets a list of private IPs on the second VNIC
+data "oci_core_private_ips" "TFPrivateIps2" {
+  vnic_id = "${data.oci_core_vnic.TFInstanceVnic2.id}"
+}
+
+# Creates 3 public IPs: 
+#  - Assigned ephemeral public IP (assigned to the first private IP on the first VNIC)
+#  - Assigned reserved public IP (assigned to the first private IP on the second VNIC)
+#  - Unssigned reserved public IP (available for assignment)
+
+resource "oci_core_public_ip" "EphemeralPublicIPAssigned" {
+  compartment_id = "${var.compartment_ocid}"
+  display_name   = "TFEphemeralPublicIPAssigned"
+  lifetime       = "EPHEMERAL"
+  private_ip_id  = "${lookup(data.oci_core_private_ips.TFPrivateIps1.private_ips[0],"id")}"
+}
+
+resource "oci_core_public_ip" "ReservedPublicIPAssigned" {
+  compartment_id = "${var.compartment_ocid}"
+  display_name   = "TFReservedPublicIPAssigned"
+  lifetime       = "RESERVED"
+  private_ip_id  = "${lookup(data.oci_core_private_ips.TFPrivateIps2.private_ips[0],"id")}"
+}
+
+resource "oci_core_public_ip" "ReservedPublicIPUnassigned" {
+  compartment_id = "${var.compartment_ocid}"
+  display_name   = "TFReservedPublicIPUnassigned"
+  lifetime       = "RESERVED"
+}
+
+# List public IPs: 
+#  - Public IP with availability domain scope (ephemeral).
+#  - Public IP with regional scope (reserved).
+
+data "oci_core_public_ips" "AvailabilityDomainPublicIPsList" {
+  compartment_id      = "${var.compartment_ocid}"
+  scope               = "AVAILABILITY_DOMAIN"
+  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.AD - 1],"name")}"
+  
+  filter {
+    name = "id"
+    values = ["${oci_core_public_ip.EphemeralPublicIPAssigned.id}"]
+  }
+}
+
+data "oci_core_public_ips" "RegionPublicIPsList" {
+  compartment_id = "${var.compartment_ocid}"
+  scope          = "REGION"
+
+  filter {
+    name = "id"
+    values = ["${oci_core_public_ip.ReservedPublicIPAssigned.id}", "${oci_core_public_ip.ReservedPublicIPUnassigned.id}"]
+  }
+}
+
+output "PublicIPs" {
+  value = [
+    "${data.oci_core_public_ips.AvailabilityDomainPublicIPsList.public_ips}",
+    "${data.oci_core_public_ips.RegionPublicIPsList.public_ips}"
+  ]
+}
