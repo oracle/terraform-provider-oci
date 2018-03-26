@@ -4,7 +4,6 @@ package crud
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"log"
 	"reflect"
@@ -216,7 +215,7 @@ func CreateDBSystemResource(d *schema.ResourceData, sync ResourceCreator) (e err
 		}
 	}
 	if stateful, ok := sync.(StatefullyCreatedResource); ok {
-		e = waitForStateRefresh(stateful, timeout, stateful.CreatedPending(), stateful.CreatedTarget())
+		e = waitForStateRefresh(stateful, timeout, "creation", stateful.CreatedPending(), stateful.CreatedTarget())
 	}
 
 	d.SetId(sync.ID())
@@ -238,7 +237,7 @@ func CreateResource(d *schema.ResourceData, sync ResourceCreator) (e error) {
 	d.SetId(sync.ID())
 
 	if stateful, ok := sync.(StatefullyCreatedResource); ok {
-		e = waitForStateRefresh(stateful, d.Timeout(schema.TimeoutCreate), stateful.CreatedPending(), stateful.CreatedTarget())
+		e = waitForStateRefresh(stateful, d.Timeout(schema.TimeoutCreate), "creation", stateful.CreatedPending(), stateful.CreatedTarget())
 		if stateful.State() == string(oci_load_balancer.WorkRequestLifecycleStateFailed) {
 			// Remove resource from state if asynchronous work request has failed so that it is recreated on next apply
 			// TODO: automatic retry on WorkRequestFailed
@@ -285,6 +284,11 @@ func UpdateResource(d *schema.ResourceData, sync ResourceUpdater) (e error) {
 		return
 	}
 	d.Partial(false)
+
+	if stateful, ok := sync.(StatefullyUpdatedResource); ok {
+		e = waitForStateRefresh(stateful, d.Timeout(schema.TimeoutCreate), "update", stateful.UpdatedPending(), stateful.UpdatedTarget())
+	}
+
 	sync.SetData()
 
 	return
@@ -304,7 +308,7 @@ func DeleteResource(d *schema.ResourceData, sync ResourceDeleter) (e error) {
 
 	//d.SetId(sync.ID())
 	if stateful, ok := sync.(StatefullyDeletedResource); ok {
-		e = waitForStateRefresh(stateful, d.Timeout(schema.TimeoutDelete), stateful.DeletedPending(), stateful.DeletedTarget())
+		e = waitForStateRefresh(stateful, d.Timeout(schema.TimeoutDelete), "deletion", stateful.DeletedPending(), stateful.DeletedTarget())
 	}
 
 	if ew, waitOK := sync.(ExtraWaitPostCreateDelete); waitOK {
@@ -338,7 +342,7 @@ func stateRefreshFunc(sync StatefulResource) resource.StateRefreshFunc {
 //
 // sync.D.Id must be set.
 // It does not set state from that refreshed state.
-func waitForStateRefresh(sync StatefulResource, timeout time.Duration, pending, target []string) (e error) {
+func waitForStateRefresh(sync StatefulResource, timeout time.Duration, operationName string, pending, target []string) (e error) {
 	// TODO: try to move this onto sync
 	stateConf := &resource.StateChangeConf{
 		Pending: pending,
@@ -352,7 +356,7 @@ func waitForStateRefresh(sync StatefulResource, timeout time.Duration, pending, 
 		return
 	}
 	if sync.State() == FAILED {
-		return errors.New("Resource creation failed, state FAILED")
+		return fmt.Errorf("Resource %s failed, state FAILED", operationName)
 	}
 
 	return
@@ -395,4 +399,16 @@ func StringsToSet(ss []string) *schema.Set {
 		st.Add(s)
 	}
 	return st
+}
+
+// NormalizeBoolString parses a string value into a bool value, and if successful, formats it back
+// into a string & throws an error otherwise. This allows for normalizing the different formats of
+// valid bool strings (e.g. "1", "false", "TRUE", "F", etc.) to a uniform string representation of
+// a boolean value ("true" & "false").
+func NormalizeBoolString(v string) (string, error) {
+	boolVal, err := strconv.ParseBool(v)
+	if err != nil {
+		return "", err
+	}
+	return strconv.FormatBool(boolVal), nil
 }

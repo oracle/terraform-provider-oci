@@ -3,17 +3,15 @@
 package provider
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
 
-	"fmt"
-
 	"github.com/stretchr/testify/suite"
 
 	"github.com/oracle/oci-go-sdk/core"
-
 	"github.com/oracle/terraform-provider-oci/crud"
 )
 
