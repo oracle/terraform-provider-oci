@@ -39,51 +39,7 @@ func ExportSetsDataSource() *schema.Resource {
 			"export_sets": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
-						"availability_domain": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"compartment_id": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"display_name": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"id": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"max_fs_stat_bytes": {
-							Type:     schema.TypeInt,
-							Computed: true,
-						},
-						"max_fs_stat_files": {
-							Type:     schema.TypeInt,
-							Computed: true,
-						},
-						"state": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"time_created": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"vcn_id": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-					},
-				},
+				Elem:     ExportSetResource(),
 			},
 		},
 	}

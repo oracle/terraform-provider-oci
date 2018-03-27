@@ -58,3 +58,9 @@ This lists all of the available OCI resources and/or data sources.
     * [Namespaces](https://github.com/oracle/terraform-provider-oci/tree/master/docs/object_storage/namespaces.md)
     * [Objects](https://github.com/oracle/terraform-provider-oci/tree/master/docs/object_storage/objects.md)
     * [Preauthenticated Requests](https://github.com/oracle/terraform-provider-oci/tree/master/docs/object_storage/preauthenticated_requests.md)
+* **File Storage**
+    * [File Systems](https://github.com/oracle/terraform-provider-oci/blob/master/docs/file_storage/file_systems.md)
+    * [Mount Targets](https://github.com/oracle/terraform-provider-oci/blob/master/docs/file_storage/mount_targets.md)
+    * [Exports](https://github.com/oracle/terraform-provider-oci/blob/master/docs/file_storage/exports.md)
+    * [Snapshots](https://github.com/oracle/terraform-provider-oci/blob/master/docs/file_storage/snapshots.md)
+    * [Export Sets](https://github.com/oracle/terraform-provider-oci/blob/master/docs/file_storage/export_sets.md)

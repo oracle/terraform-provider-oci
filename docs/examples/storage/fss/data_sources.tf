@@ -41,7 +41,7 @@ data "oci_file_storage_exports" "exports" {
 }
 
 # Gets a list of snapshots for a particular file system
-data "oci_file_storage_snapshots" "test_snapshots" {
+data "oci_file_storage_snapshots" "snapshots" {
   #Required
   file_system_id = "${oci_file_storage_file_system.my_fs_1.id}"
 
@@ -51,7 +51,7 @@ data "oci_file_storage_snapshots" "test_snapshots" {
 }
 
 # Gets a list of export sets in a compartment and availability domain
-data "oci_file_storage_export_sets" "my_export_sets" {
+data "oci_file_storage_export_sets" "export_sets" {
   #Required
   availability_domain = "${var.availability_domain}"
   compartment_id = "${var.compartment_ocid}"
