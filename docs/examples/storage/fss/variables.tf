@@ -55,3 +55,19 @@ variable "export_path_fs2_mt1" {
 variable "snapshot_name" {
   default = "20180320_daily"
 }
+
+variable "export_set_name_1" {
+  default = "export set for mount target 1"
+}
+
+variable "export_set_name_2" {
+  default = "export set for mount target 2"
+}
+
+variable "max_byte" {
+  default = 23843202333
+}
+
+variable "max_files" {
+  default = 223442
+}

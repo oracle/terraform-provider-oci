@@ -11,18 +11,32 @@ import (
 )
 
 const (
+	ExportSetRequiredOnlyResource = ExportSetResourceDependencies + `
+resource "oci_file_storage_export_set" "test_export_set" {
+	#Required
+	mount_target_id = "${oci_file_storage_mount_target.test_mount_target.id}"
+}
+`
+
 	ExportSetResourceConfig = ExportSetResourceDependencies + `
 resource "oci_file_storage_export_set" "test_export_set" {
+	#Required
+	mount_target_id = "${oci_file_storage_mount_target.test_mount_target.id}"
+
+	# Optional
+	display_name = "${var.export_set_display_name}"
+	max_fs_stat_bytes = "${var.max_bytes}"
+	max_fs_stat_files = "${var.max_files}"
 }
 `
 	ExportSetPropertyVariables = `
-variable "export_set_availability_domain" { default = "availabilityDomain" }
-variable "export_set_display_name" { default = "displayName" }
-variable "export_set_id" { default = "id" }
-variable "export_set_state" { default = "state" }
-
+variable "export_set_availability_domain" { default = "kIdk:PHX-AD-1" }
+variable "export_set_display_name" { default = "export set display name" }
+variable "max_bytes" { default = 23843202333 }
+variable "max_files" { default = 223442 }
+variable "export_set_state" { default = "ACTIVE" }
 `
-	ExportSetResourceDependencies = ""
+	ExportSetResourceDependencies = MountTargetPropertyVariables + MountTargetResourceConfig
 )
 
 func TestFileStorageExportSetResource_basic(t *testing.T) {
@@ -31,8 +45,6 @@ func TestFileStorageExportSetResource_basic(t *testing.T) {
 
 	compartmentId := getRequiredEnvSetting("compartment_id_for_create")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
-	compartmentId2 := getRequiredEnvSetting("compartment_id_for_update")
-	compartmentIdVariableStr2 := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId2)
 
 	resourceName := "oci_file_storage_export_set.test_export_set"
 	datasourceName := "data.oci_file_storage_export_sets.test_export_sets"
@@ -44,12 +56,20 @@ func TestFileStorageExportSetResource_basic(t *testing.T) {
 			"oci": provider,
 		},
 		Steps: []resource.TestStep{
-			// verify create
+			// verify create - note that we don't really create an export set, see provider for details.
 			{
 				ImportState:       true,
 				ImportStateVerify: true,
-				Config:            config + ExportSetPropertyVariables + compartmentIdVariableStr + ExportSetResourceConfig,
+				Config:            config + ExportSetPropertyVariables + compartmentIdVariableStr + ExportSetRequiredOnlyResource,
 				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "availability_domain", "kIdk:PHX-AD-1"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					//resource.TestCheckResourceAttrSet(resourceName, "display_name"),
+					resource.TestCheckResourceAttrSet(resourceName, "max_fs_stat_bytes"),
+					resource.TestCheckResourceAttrSet(resourceName, "max_fs_stat_files"),
+					resource.TestCheckResourceAttrSet(resourceName, "mount_target_id"),
+					resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
+					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
@@ -57,23 +77,65 @@ func TestFileStorageExportSetResource_basic(t *testing.T) {
 					},
 				),
 			},
+			// This step serves the purpose of both "create with optionals" and "update non-forcenew fields". See provider for details.
+			{
+				Config: config + ExportSetPropertyVariables + compartmentIdVariableStr + ExportSetResourceConfig,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "availability_domain", "kIdk:PHX-AD-1"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "export set display name"),
+					resource.TestCheckResourceAttr(resourceName, "max_fs_stat_bytes", "23843202333"),
+					resource.TestCheckResourceAttr(resourceName, "max_fs_stat_files", "223442"),
+					resource.TestCheckResourceAttrSet(resourceName, "mount_target_id"),
+					resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
+					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
+					func(s *terraform.State) (err error) {
+						resId2, err = fromInstanceState(s, resourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+						}
+						return err
+					},
+				),
+			},
 			// verify updates to Force New parameters.
 			{
 				Config: config + `
-variable "export_set_availability_domain" { default = "availabilityDomain2" }
-variable "export_set_display_name" { default = "displayName2" }
-variable "export_set_id" { default = "id2" }
-variable "export_set_state" { default = "AVAILABLE" }
+variable "export_set_availability_domain" { default = "kIdk:PHX-AD-1" }
+variable "export_set_display_name" { default = "export set on mount target 2" }
+variable "max_bytes" { default = 23843202333 }
+variable "max_files" { default = 223442 }
+variable "export_set_state" { default = "ACTIVE" }
 
-                ` + compartmentIdVariableStr2 + ExportSetResourceConfig,
+# creating a second mount target
+resource "oci_file_storage_mount_target" "test_mount_target_2" {
+	#Required
+	availability_domain = "${var.mount_target_availability_domain}"
+	compartment_id = "${var.compartment_id}"
+	subnet_id = "${oci_core_subnet.test_subnet.id}"
+}
+
+# Using the same test_export_set variable, but specifying different mount target 
+resource "oci_file_storage_export_set" "test_export_set" {
+	#Required
+	mount_target_id = "${oci_file_storage_mount_target.test_mount_target_2.id}"
+
+	# Optional
+	display_name = "${var.export_set_display_name}"
+	max_fs_stat_bytes = "${var.max_bytes}"
+	max_fs_stat_files = "${var.max_files}"
+}
+                ` + compartmentIdVariableStr + MountTargetPropertyVariables + MountTargetResourceDependencies,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "display_name"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					resource.TestCheckResourceAttr(resourceName, "availability_domain", "kIdk:PHX-AD-1"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "export set on mount target 2"),
+					resource.TestCheckResourceAttr(resourceName, "max_fs_stat_bytes", "23843202333"),
+					resource.TestCheckResourceAttr(resourceName, "max_fs_stat_files", "223442"),
+					resource.TestCheckResourceAttrSet(resourceName, "mount_target_id"),
+					resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, resourceName, "id")
@@ -87,10 +149,11 @@ variable "export_set_state" { default = "AVAILABLE" }
 			// verify datasource
 			{
 				Config: config + `
-variable "export_set_availability_domain" { default = "availabilityDomain2" }
-variable "export_set_display_name" { default = "displayName2" }
-variable "export_set_id" { default = "id2" }
-variable "export_set_state" { default = "AVAILABLE" }
+variable "export_set_availability_domain" { default = "kIdk:PHX-AD-1" }
+variable "export_set_display_name" { default = "export set display name" }
+variable "max_bytes" { default = 23843202333 }
+variable "max_files" { default = 223442 }
+variable "export_set_state" { default = "ACTIVE" }
 
 data "oci_file_storage_export_sets" "test_export_sets" {
 	#Required
@@ -99,72 +162,28 @@ data "oci_file_storage_export_sets" "test_export_sets" {
 
 	#Optional
 	display_name = "${var.export_set_display_name}"
-	id = "${var.export_set_id}"
+	id = "${oci_file_storage_mount_target.test_mount_target.export_set_id}"
 	state = "${var.export_set_state}"
 
     filter {
     	name = "id"
-    	values = ["${oci_file_storage_export_set.test_export_set.id}"]
+    	values = ["${oci_file_storage_mount_target.test_mount_target.export_set_id}"]
     }
 }
-                ` + compartmentIdVariableStr2 + ExportSetResourceConfig,
+                ` + compartmentIdVariableStr + ExportSetResourceConfig,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(datasourceName, "availability_domain", "availabilityDomain2"),
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId2),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "id", "id2"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
+					resource.TestCheckResourceAttr(datasourceName, "availability_domain", "kIdk:PHX-AD-1"),
+					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
 					resource.TestCheckResourceAttr(datasourceName, "export_sets.#", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "export_sets.0.compartment_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "export_sets.0.display_name"),
 					resource.TestCheckResourceAttrSet(datasourceName, "export_sets.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "export_sets.0.state"),
+					resource.TestCheckResourceAttr(datasourceName, "export_sets.0.state", "ACTIVE"),
 					resource.TestCheckResourceAttrSet(datasourceName, "export_sets.0.time_created"),
-					resource.TestCheckResourceAttrSet(datasourceName, "export_sets.0.vcn_id"),
+					// resource.TestCheckResourceAttrSet(datasourceName, "export_sets.0.vcn_id"),
 				),
 			},
-		},
-	})
-}
-
-func TestFileStorageExportSetResource_forcenew(t *testing.T) {
-	provider := testAccProvider
-	config := testProviderConfig()
-
-	compartmentId := getRequiredEnvSetting("compartment_id_for_create")
-	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
-	//compartmentId2 := getRequiredEnvSetting("compartment_id_for_update")
-	//compartmentIdVariableStr2 := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId2)
-
-	resourceName := "oci_file_storage_export_set.test_export_set"
-
-	var resId string
-
-	resource.Test(t, resource.TestCase{
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		Steps: []resource.TestStep{
-			// verify create with optionals
-			{
-				Config: config + ExportSetPropertyVariables + compartmentIdVariableStr + ExportSetResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "display_name"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
-			// force new tests, test that changing a parameter would result in creation of a new resource.
-
 		},
 	})
 }

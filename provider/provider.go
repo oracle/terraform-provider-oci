@@ -232,6 +232,7 @@ func resourcesMap() map[string]*schema.Resource {
 		"oci_core_volume_backup":             VolumeBackupResource(),
 		"oci_database_db_system":             DbSystemResource(),
 		"oci_file_storage_export":            ExportResource(),
+		"oci_file_storage_export_set":        ExportSetResource(),
 		"oci_file_storage_file_system":       FileSystemResource(),
 		"oci_file_storage_mount_target":      MountTargetResource(),
 		"oci_file_storage_snapshot":          SnapshotResource(),
