@@ -196,7 +196,7 @@ resource "oci_load_balancer" "lb1" {
   display_name   = "lb1"
 }
 
-resource "oci_load_balancer_backendset" "lb-bes1" {
+resource "oci_load_balancer_backend_set" "lb-bes1" {
   name             = "lb-bes1"
   load_balancer_id = "${oci_load_balancer.lb1.id}"
   policy           = "ROUND_ROBIN"
@@ -223,7 +223,7 @@ resource "oci_load_balancer_path_route_set" "test_path_route_set" {
     name = "pr-set1"
     path_routes {
         #Required
-        backend_set_name = "${oci_load_balancer_backendset.lb-bes1.name}"
+        backend_set_name = "${oci_load_balancer_backend_set.lb-bes1.name}"
         path = "/example/video/123"
         path_match_type {
             #Required
@@ -236,7 +236,7 @@ resource "oci_load_balancer_path_route_set" "test_path_route_set" {
 resource "oci_load_balancer_listener" "lb-listener1" {
   load_balancer_id         = "${oci_load_balancer.lb1.id}"
   name                     = "http"
-  default_backend_set_name = "${oci_load_balancer_backendset.lb-bes1.id}"
+  default_backend_set_name = "${oci_load_balancer_backend_set.lb-bes1.id}"
   port                     = 80
   protocol                 = "HTTP"
   connection_configuration {
@@ -247,7 +247,7 @@ resource "oci_load_balancer_listener" "lb-listener1" {
 resource "oci_load_balancer_listener" "lb-listener2" {
   load_balancer_id         = "${oci_load_balancer.lb1.id}"
   name                     = "https"
-  default_backend_set_name = "${oci_load_balancer_backendset.lb-bes1.id}"
+  default_backend_set_name = "${oci_load_balancer_backend_set.lb-bes1.id}"
   port                     = 443
   protocol                 = "HTTP"
 
@@ -259,7 +259,7 @@ resource "oci_load_balancer_listener" "lb-listener2" {
 
 resource "oci_load_balancer_backend" "lb-be1" {
   load_balancer_id = "${oci_load_balancer.lb1.id}"
-  backendset_name  = "${oci_load_balancer_backendset.lb-bes1.id}"
+  backendset_name  = "${oci_load_balancer_backend_set.lb-bes1.id}"
   ip_address       = "${oci_core_instance.instance1.private_ip}"
   port             = 80
   backup           = false
@@ -270,7 +270,7 @@ resource "oci_load_balancer_backend" "lb-be1" {
 
 resource "oci_load_balancer_backend" "lb-be2" {
   load_balancer_id = "${oci_load_balancer.lb1.id}"
-  backendset_name  = "${oci_load_balancer_backendset.lb-bes1.id}"
+  backendset_name  = "${oci_load_balancer_backend_set.lb-bes1.id}"
   ip_address       = "${oci_core_instance.instance2.private_ip}"
   port             = 80
   backup           = false
