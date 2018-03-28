@@ -27,18 +27,24 @@ The Terraform provider provides coverage for the entire OCI API, with some minor
 ## Getting started
 Be sure to read the FAQ and Writing Terraform configurations for OCI in [/docs](https://github.com/oracle/terraform-provider-oci/tree/master/docs).
 
-### Download Terraform
-Download the appropriate **v0.10.x binary** for your platform.  
-https://www.terraform.io/downloads.html
-
+## Installation
 **NOTE** Terraform v0.10.x introduces a change to plugin management where 
 previous v0.9.x configuration no longer applies. See note below.
 
+### On Oracle Linux 7.x
+```
+$ sudo yum install -y terraform terraform-provider-oci
+```
 
-### Install Terraform
+### Other platforms
+#### Download Terraform
+Download the appropriate **v0.10.x binary** for your platform.  
+https://www.terraform.io/downloads.html
+
+#### Install Terraform
 https://www.terraform.io/intro/getting-started/install.html
 
-### Get the Oracle Cloud Infrastructure Terraform provider
+#### Get the Oracle Cloud Infrastructure Terraform provider
 https://github.com/oracle/terraform-provider-oci/releases
 
 Unpack the provider. Terraform v0.10.x introduces a change to plugin 
@@ -46,7 +52,7 @@ management where v0.9.x configuration no longer applies. To be compatible
 with both terraform v0.9.x and v0.10.x, put the provider in the following 
 location:
 
-#### On \*nix
+##### On \*nix other than Oracle Linux 7.x
 ```
 ~/.terraform.d/plugins/
 ```
