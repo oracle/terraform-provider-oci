@@ -1,4 +1,5 @@
-# oci_load_balancer_backendset
+# oci_load_balancer_backend_set
+`oci_load_balancer_backendset` is the old name for `oci_load_balancer_backend_set`. Both names are supported but `oci_load_balancer_backend_set` is used in the docs.
 
 ## BackendSet Resource
 
@@ -90,7 +91,7 @@ Any change to a property that does not support update will force the destruction
 ### Example Usage
 
 ```
-resource "oci_load_balancer_backendset" "test_backend_set" {
+resource "oci_load_balancer_backend_set" "test_backend_set" {
 	#Required
 	health_checker {
 		#Required
@@ -127,7 +128,8 @@ resource "oci_load_balancer_backendset" "test_backend_set" {
 }
 ```
 
-# oci_load_balancer_backendsets
+# oci_load_balancer_backend_sets
+`oci_load_balancer_backendsets` is the old name for `oci_load_balancer_backend_sets`. Both names are supported but `oci_load_balancer_backend_sets` is used in the docs.
 
 ## BackendSet DataSource
 
@@ -147,7 +149,7 @@ The following attributes are exported:
 ### Example Usage
 
 ```
-data "oci_load_balancer_backendsets" "test_backend_sets" {
+data "oci_load_balancer_backend_sets" "test_backend_sets" {
 	#Required
 	load_balancer_id = "${oci_load_balancer_load_balancer.test_load_balancer.id}"
 }

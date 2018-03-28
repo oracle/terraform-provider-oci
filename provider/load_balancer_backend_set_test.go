@@ -12,7 +12,7 @@ import (
 
 const (
 	BackendSetRequiredOnlyResource = BackendSetResourceDependencies + `
-resource "oci_load_balancer_backendset" "test_backend_set" {
+resource "oci_load_balancer_backend_set" "test_backend_set" {
 	#Required
 	health_checker {
 		#Required
@@ -26,7 +26,7 @@ resource "oci_load_balancer_backendset" "test_backend_set" {
 `
 
 	BackendSetResourceConfig = BackendSetResourceDependencies + `
-resource "oci_load_balancer_backendset" "test_backend_set" {
+resource "oci_load_balancer_backend_set" "test_backend_set" {
 	#Required
 	health_checker {
 		#Required
@@ -93,8 +93,8 @@ func TestLoadBalancerBackendSetResource_basic(t *testing.T) {
 	compartmentId2 := getRequiredEnvSetting("compartment_id_for_update")
 	compartmentIdVariableStr2 := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId2)
 
-	resourceName := "oci_load_balancer_backendset.test_backend_set"
-	datasourceName := "data.oci_load_balancer_backendsets.test_backend_sets"
+	resourceName := "oci_load_balancer_backend_set.test_backend_set"
+	datasourceName := "data.oci_load_balancer_backend_sets.test_backend_sets"
 
 	var resId, resId2 string
 
@@ -276,13 +276,13 @@ variable "backend_set_ssl_configuration_certificate_name" { default = "certifica
 variable "backend_set_ssl_configuration_verify_depth" { default = 11 }
 variable "backend_set_ssl_configuration_verify_peer_certificate" { default = true }
 
-data "oci_load_balancer_backendsets" "test_backend_sets" {
+data "oci_load_balancer_backend_sets" "test_backend_sets" {
 	#Required
 	load_balancer_id = "${oci_load_balancer_load_balancer.test_load_balancer.id}"
 
     filter {
     	name = "id"
-    	values = ["${oci_load_balancer_backendset.test_backend_set.id}"]
+    	values = ["${oci_load_balancer_backend_set.test_backend_set.id}"]
     }
 }
                 ` + compartmentIdVariableStr2 + BackendSetResourceConfig,
@@ -320,7 +320,7 @@ func TestLoadBalancerBackendSetResource_forcenew(t *testing.T) {
 	compartmentId := getRequiredEnvSetting("compartment_id_for_create")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	resourceName := "oci_load_balancer_backendset.test_backend_set"
+	resourceName := "oci_load_balancer_backend_set.test_backend_set"
 
 	var resId, resId2 string
 
