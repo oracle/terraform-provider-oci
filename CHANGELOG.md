@@ -3,6 +3,14 @@ All notable changes to this project are documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+## 2.1.3 - 2018-03-29
+
+## Added
+- Added export set resource to File Storage Service. Users can now update FSSTAT related parameters on the export set resource.
+
+## Notes
+- Support a new resource name for load balancer backend set that is consistent with other resources. The new name is 'oci_load_balancer_backend_set'. The previous usage of 'oci_load_balancer_backendset' is still supported.
+
 ## 2.1.2 - 2018-03-26
 
 ## Added
