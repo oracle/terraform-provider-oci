@@ -1,0 +1,50 @@
+### Provider credentials
+export TF_VAR_tenancy_ocid="ocid1.tenancy.oc1..aaaaaaaa4gfj2ejcnt4rfng3n7q6uduekkqx323475rnsar7undwfuqujlqq"
+export TF_VAR_user_ocid="ocid1.user.oc1..aaaaaaaam7dmgxvmfey7pfjclb2wmlsvcmzga4urcu7pmd4oye6b3vufzx2a"
+export TF_VAR_fingerprint="a1:cd:5d:e0:b6:f7:c2:e2:3b:5a:34:93:86:de:04:9e"
+export TF_VAR_private_key_path="/Users/chagong/.oraclebmc/bmcs_api_key.pem"
+
+### Region
+export TF_VAR_region="us-ashburn-1"
+
+### Compartment
+export TF_VAR_compartment_ocid="ocid1.compartment.oc1..aaaaaaaa7rvfzy52hxp3kah5xz57ljmy4elt4dbliqsbf2f5yg5ypzfezpfa"
+
+### VCN configuration
+
+### Path to get DC/OS installer
+export TF_VAR_dcos_installer_url="https://downloads.dcos.io/dcos/EarlyAccess/dcos_generate_config.sh"
+
+### Instance configuration
+export TF_VAR_BootstrapInstanceShape="VM.Standard1.1"
+export TF_VAR_MasterInstanceShape="VM.Standard1.2"
+export TF_VAR_AgentInstanceShape="VM.Standard1.4"
+export TF_VAR_PublicAgentInstanceShape="VM.Standard1.4"
+export TF_VAR_GPUInstanceShape="BM.GPU2.2"
+
+# Which AD to deploy Bootstrap node
+export TF_VAR_BootstrapAD="1"
+
+# How many Master node in each AD 
+export TF_VAR_dcos_master_ad1_count="1"
+export TF_VAR_dcos_master_ad2_count="0"
+export TF_VAR_dcos_master_ad3_count="0"
+
+# How many Agent node in each AD 
+export TF_VAR_dcos_agent_ad1_count="1"
+export TF_VAR_dcos_agent_ad2_count="1"
+export TF_VAR_dcos_agent_ad3_count="1"
+
+# How many Public Agent node in each AD 
+export TF_VAR_dcos_public_agent_ad1_count="1"
+export TF_VAR_dcos_public_agent_ad2_count="0"
+export TF_VAR_dcos_public_agent_ad3_count="0"
+
+# How many GPU Agent node in each AD 
+export TF_VAR_dcos_gpu_agent_ad1_count="1"
+export TF_VAR_dcos_gpu_agent_ad2_count="0"
+export TF_VAR_dcos_gpu_agent_ad3_count="0"
+
+### Instance credentials
+export TF_VAR_ssh_public_key=$(cat ./test.key.pub)
+export TF_VAR_ssh_private_key=$HOME/test.key
