@@ -3,6 +3,8 @@
 package provider
 
 import (
+	"fmt"
+
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
@@ -32,4 +34,18 @@ func ConvertToDefaultVcnResourceSchema(resourceSchema *schema.Resource) *schema.
 func ImportDefaultVcnResource(d *schema.ResourceData, value interface{}) ([]*schema.ResourceData, error) {
 	err := d.Set("manage_default_resource_id", d.Id())
 	return []*schema.ResourceData{d}, err
+}
+
+func validateNotEmptyString() schema.SchemaValidateFunc {
+	return func(i interface{}, k string) (s []string, es []error) {
+		v, ok := i.(string)
+		if !ok {
+			es = append(es, fmt.Errorf("expected type of %s to be string", k))
+			return
+		}
+		if len(v) == 0 {
+			es = append(es, fmt.Errorf("%s cannot be an empty string", k))
+		}
+		return
+	}
 }

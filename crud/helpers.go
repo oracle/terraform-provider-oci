@@ -301,9 +301,7 @@ func UpdateResource(d *schema.ResourceData, sync ResourceUpdater) (e error) {
 func DeleteResource(d *schema.ResourceData, sync ResourceDeleter) (e error) {
 	if e = sync.Delete(); e != nil {
 		handleMissingResourceError(sync, &e)
-		if e != nil {
-			return
-		}
+		return
 	}
 
 	//d.SetId(sync.ID())
