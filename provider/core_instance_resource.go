@@ -5,16 +5,22 @@ package provider
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
+	"log"
 	"strconv"
+	"strings"
 
 	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform/helper/validation"
 	oci_core "github.com/oracle/oci-go-sdk/core"
 
-	"errors"
-	"log"
-
 	"github.com/oracle/terraform-provider-oci/crud"
+)
+
+const (
+	InstanceSourceBootVolumeDiscriminator = "bootVolume"
+	InstanceSourceImageDiscriminator      = "image"
 )
 
 func InstanceResource() *schema.Resource {
@@ -139,9 +145,11 @@ func InstanceResource() *schema.Resource {
 				DiffSuppressFunc: crud.EqualIgnoreCaseSuppressDiff,
 			},
 			"image": {
-				Type:     schema.TypeString,
-				Required: true, // Changed from optional/computed to required till "sourceDetails" is supported.
-				ForceNew: true,
+				Type:       schema.TypeString,
+				Optional:   true,
+				Computed:   true,
+				ForceNew:   true,
+				Deprecated: crud.FieldDeprecatedAndOverridenByAnother("image", "source_details"),
 			},
 			"ipxe_script": {
 				Type:     schema.TypeString,
@@ -155,7 +163,35 @@ func InstanceResource() *schema.Resource {
 				Optional: true,
 				ForceNew: true,
 			},
-			// @CODEGEN 1/2018: source_details currently outside parity scope
+			"preserve_boot_volume": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
+			"source_details": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"source_id": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+						"source_type": {
+							Type:             schema.TypeString,
+							Required:         true,
+							ForceNew:         true,
+							DiffSuppressFunc: crud.EqualIgnoreCaseSuppressDiff,
+							ValidateFunc:     validation.StringInSlice([]string{InstanceSourceImageDiscriminator, InstanceSourceBootVolumeDiscriminator}, true),
+						},
+					},
+				},
+			},
 			"subnet_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -164,6 +200,12 @@ func InstanceResource() *schema.Resource {
 			},
 
 			// Computed
+			// Add this computed boot_volume_id field even though it's not part of the API specs. This will make it easier to
+			// discover the attached boot volume's ID; to preserve it for reattachment.
+			"boot_volume_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -323,7 +365,12 @@ func (s *InstanceResourceCrud) Create() error {
 		request.Shape = &tmp
 	}
 
-	// @CODEGEN 1/2018: source_details currently outside parity scope
+	if sourceDetails, ok := s.D.GetOkExists("source_details"); ok {
+		if tmpList := sourceDetails.([]interface{}); len(tmpList) > 0 {
+			tmp := mapToInstanceSourceDetails(tmpList[0].(map[string]interface{}))
+			request.SourceDetails = tmp
+		}
+	}
 
 	if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 		tmp := subnetId.(string)
@@ -475,37 +522,43 @@ func (s *InstanceResourceCrud) SetData() {
 		s.D.Set("shape", *s.Res.Shape)
 	}
 
-	// @CODEGEN 1/2018: source_details currently outside parity scope
+	if s.Res.SourceDetails != nil {
+		s.D.Set("source_details", []interface{}{InstanceSourceDetailsToMap(&s.Res.SourceDetails)})
+	}
 
 	s.D.Set("state", s.Res.LifecycleState)
 
 	s.D.Set("time_created", s.Res.TimeCreated.String())
 
-	if s.Res.LifecycleState != oci_core.InstanceLifecycleStateRunning {
-		return
-	}
+	if s.Res.LifecycleState == oci_core.InstanceLifecycleStateRunning {
+		vnic, vnicError := s.getPrimaryVnic()
+		if vnicError != nil || vnic == nil {
+			log.Printf("[WARN] Primary VNIC could not be found during instance refresh: %q", vnicError)
+		} else {
+			s.D.Set("hostname_label", vnic.HostnameLabel)
+			s.D.Set("public_ip", vnic.PublicIp)
+			s.D.Set("private_ip", vnic.PrivateIp)
+			s.D.Set("subnet_id", vnic.SubnetId)
 
-	vnic, vnicError := s.getPrimaryVnic()
-	if vnicError != nil || vnic == nil {
-		log.Printf("[WARN] Primary VNIC could not be found during instance refresh: %q", vnicError)
-		return
-	}
+			var createVnicDetails map[string]interface{}
+			if details, ok := s.D.GetOkExists("create_vnic_details"); ok {
+				if tmpList := details.([]interface{}); len(tmpList) > 0 {
+					createVnicDetails = tmpList[0].(map[string]interface{})
+				}
+			}
 
-	s.D.Set("hostname_label", vnic.HostnameLabel)
-	s.D.Set("public_ip", vnic.PublicIp)
-	s.D.Set("private_ip", vnic.PrivateIp)
-	s.D.Set("subnet_id", vnic.SubnetId)
-
-	var createVnicDetails map[string]interface{}
-	if details, ok := s.D.GetOkExists("create_vnic_details"); ok {
-		if tmpList := details.([]interface{}); len(tmpList) > 0 {
-			createVnicDetails = tmpList[0].(map[string]interface{})
+			err := s.D.Set("create_vnic_details", []interface{}{vnicDetailsToMap(vnic, createVnicDetails)})
+			if err != nil {
+				log.Printf("[WARN] create_vnic_details could not be set: %q", err)
+			}
 		}
 	}
 
-	err := s.D.Set("create_vnic_details", []interface{}{vnicDetailsToMap(vnic, createVnicDetails)})
+	bootVolumeId, err := s.getBootVolumeId()
 	if err != nil {
-		log.Printf("[WARN] create_vnic_details could not be set: %q", err)
+		log.Printf("[WARN] Boot volume ID could not be found: %q", err)
+	} else {
+		s.D.Set("boot_volume_id", bootVolumeId)
 	}
 }
 
@@ -547,6 +600,47 @@ func mapToCreateVnicDetailsInstance(raw map[string]interface{}) oci_core.CreateV
 	if subnetId, ok := raw["subnet_id"]; ok {
 		tmp := subnetId.(string)
 		result.SubnetId = &tmp
+	}
+
+	return result
+}
+
+func mapToInstanceSourceDetails(raw map[string]interface{}) oci_core.InstanceSourceDetails {
+	sourceType := raw["source_type"].(string)
+	sourceId := raw["source_id"].(string)
+
+	switch strings.ToLower(sourceType) {
+	case strings.ToLower(InstanceSourceBootVolumeDiscriminator):
+		result := oci_core.InstanceSourceViaBootVolumeDetails{}
+		result.BootVolumeId = &sourceId
+		return result
+	case strings.ToLower(InstanceSourceImageDiscriminator):
+		result := oci_core.InstanceSourceViaImageDetails{}
+		result.ImageId = &sourceId
+		return result
+	default:
+		log.Printf("[WARN] Unknown source_type '%v' was specified", sourceType)
+	}
+
+	return nil
+}
+
+func InstanceSourceDetailsToMap(obj *oci_core.InstanceSourceDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	switch v := (*obj).(type) {
+	case oci_core.InstanceSourceViaBootVolumeDetails:
+		result["source_type"] = InstanceSourceBootVolumeDiscriminator
+		if v.BootVolumeId != nil {
+			result["source_id"] = *v.BootVolumeId
+		}
+	case oci_core.InstanceSourceViaImageDetails:
+		result["source_type"] = InstanceSourceImageDiscriminator
+		if v.ImageId != nil {
+			result["source_id"] = *v.ImageId
+		}
+	default:
+		log.Printf("[WARN] Received 'source_details' of unknown type")
 	}
 
 	return result
@@ -677,4 +771,27 @@ func (s *InstanceResourceCrud) getPrimaryVnic() (*oci_core.Vnic, error) {
 	}
 
 	return nil, errors.New("Primary VNIC not found.")
+}
+
+func (s *InstanceResourceCrud) getBootVolumeId() (string, error) {
+	request := oci_core.ListBootVolumeAttachmentsRequest{
+		AvailabilityDomain: s.Res.AvailabilityDomain,
+		CompartmentId:      s.Res.CompartmentId,
+		InstanceId:         s.Res.Id,
+	}
+
+	response, err := s.Client.ListBootVolumeAttachments(context.Background(), request)
+	if err != nil {
+		return "", err
+	}
+
+	if len(response.Items) < 1 {
+		return "", fmt.Errorf("Could not find any attached boot volumes")
+	}
+
+	if bootVolumeId := response.Items[0].BootVolumeId; bootVolumeId != nil {
+		return *bootVolumeId, nil
+	}
+
+	return "", fmt.Errorf("Found a boot volume attachment with no boot volume ID")
 }

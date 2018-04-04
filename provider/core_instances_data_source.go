@@ -162,7 +162,9 @@ func (s *InstancesDataSourceCrud) SetData() {
 			instance["shape"] = *r.Shape
 		}
 
-		// @CODEGEN 1/2018: source_details not currently supported
+		if r.SourceDetails != nil {
+			instance["source_details"] = []interface{}{InstanceSourceDetailsToMap(&r.SourceDetails)}
+		}
 
 		instance["state"] = r.LifecycleState
 
