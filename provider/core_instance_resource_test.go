@@ -6,12 +6,12 @@ import (
 	"fmt"
 	"testing"
 
+	"regexp"
+
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
-
-	"github.com/stretchr/testify/suite"
-
 	"github.com/oracle/oci-go-sdk/core"
+	"github.com/stretchr/testify/suite"
 
 	"github.com/oracle/terraform-provider-oci/crud"
 )
@@ -122,6 +122,10 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.skip_source_dest_check", "false"),
 					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.assign_public_ip", "true"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(core.InstanceLifecycleStateRunning)),
+					resource.TestCheckResourceAttr(s.ResourceName, "source_details.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "source_details.0.source_type", "image"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "source_details.0.source_id"),
+					resource.TestCheckNoResourceAttr(s.ResourceName, "preserve_boot_volume"),
 					func(ts *terraform.State) (err error) {
 						instanceId, err = fromInstanceState(ts, s.ResourceName, "id")
 						return err
@@ -143,6 +147,37 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 					}
 					image = "${var.InstanceImageOCID[var.region]}"
 					hostname_label = "HOSTName1"
+					shape = "VM.Standard1.1"
+					metadata {
+						ssh_authorized_keys = "${var.ssh_public_key}"
+						user_data = "SWYgeW91IGNhbiBzZWUgdGhpcywgdGhlbiBpdCB3b3JrZWQgbWF5YmUuCg=="
+					}
+					extended_metadata {
+						keyA = "valA"
+						keyB = "{\"keyB1\": \"valB1\", \"keyB2\": {\"keyB2\": \"valB2\"}}"
+					}
+					timeouts {
+						create = "15m"
+					}
+				}`,
+				ExpectNonEmptyPlan: false,
+				PlanOnly:           true,
+			},
+			// Switching to source_details for the same image ID should not lead to a change.
+			// Also, check that source_type is case insensitive.
+			{
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config: s.Config + `
+				resource "oci_core_instance" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${var.compartment_id}"
+					subnet_id = "${oci_core_subnet.t.id}"
+					hostname_label = "hostname1"
+					source_details {
+						source_type = "ImAgE"
+						source_id = "${var.InstanceImageOCID[var.region]}"
+					}
 					shape = "VM.Standard1.1"
 					metadata {
 						ssh_authorized_keys = "${var.ssh_public_key}"
@@ -378,6 +413,283 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 				),
 			},
 		},
+	})
+}
+
+// Tests preserve boot volume and attach behavior using source details
+func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_preserveBootVolume() {
+
+	var instanceId string
+	var preservedBootVolumeId string
+
+	// This is a reference to the TestSteps. We will use this reference to change the TF configs while test steps are
+	// being run. This is necessary because some configs require a computed boot volume ID from a previous test step.
+	// We cannot set the boot volume id here (it will be nil), so we have to do it within a function closure that gets
+	// executed at test step execution time.
+	var testStepsReference []resource.TestStep
+
+	testSteps := []resource.TestStep{
+		// verify create of an instance with source_details and that we can get a boot volume id
+		{
+			ImportState:       true,
+			ImportStateVerify: true,
+			Config: s.Config + `
+				resource "oci_core_instance" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${var.compartment_id}"
+					subnet_id = "${oci_core_subnet.t.id}"
+					hostname_label = "hostname1"
+					source_details {
+						source_type = "image"
+						source_id = "${var.InstanceImageOCID[var.region]}"
+					}
+					shape = "VM.Standard1.1"
+					metadata {
+						ssh_authorized_keys = "${var.ssh_public_key}"
+						user_data = "SWYgeW91IGNhbiBzZWUgdGhpcywgdGhlbiBpdCB3b3JrZWQgbWF5YmUuCg=="
+					}
+					timeouts {
+						create = "15m"
+					}
+				}`,
+			Check: resource.ComposeTestCheckFunc(
+				resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
+				resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),
+				resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(s.ResourceName, "public_ip"),
+				resource.TestCheckResourceAttrSet(s.ResourceName, "private_ip"),
+				resource.TestCheckResourceAttrSet(s.ResourceName, "display_name"),
+				resource.TestCheckResourceAttrSet(s.ResourceName, "image"),
+				// only set if specified
+				resource.TestCheckNoResourceAttr(s.ResourceName, "ipxe_script"),
+				resource.TestCheckResourceAttrSet(s.ResourceName, "subnet_id"),
+				resource.TestCheckResourceAttr(s.ResourceName, "hostname_label", "hostname1"),
+				resource.TestCheckResourceAttr(s.ResourceName, "shape", "VM.Standard1.1"),
+				resource.TestCheckResourceAttr(s.ResourceName, "metadata.%", "2"),
+				resource.TestCheckResourceAttr(s.ResourceName, "metadata.user_data", "SWYgeW91IGNhbiBzZWUgdGhpcywgdGhlbiBpdCB3b3JrZWQgbWF5YmUuCg=="),
+				resource.TestCheckResourceAttrSet(s.ResourceName, "metadata.ssh_authorized_keys"),
+				resource.TestCheckResourceAttrSet(s.ResourceName, "region"),
+				resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.#", "1"),
+				resource.TestCheckResourceAttrSet(s.ResourceName, "create_vnic_details.0.display_name"),
+				resource.TestCheckResourceAttrSet(s.ResourceName, "create_vnic_details.0.hostname_label"),
+				resource.TestCheckResourceAttrSet(s.ResourceName, "create_vnic_details.0.private_ip"),
+				resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.skip_source_dest_check", "false"),
+				resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.assign_public_ip", "true"),
+				resource.TestCheckResourceAttr(s.ResourceName, "state", string(core.InstanceLifecycleStateRunning)),
+				resource.TestCheckResourceAttr(s.ResourceName, "source_details.#", "1"),
+				resource.TestCheckResourceAttr(s.ResourceName, "source_details.0.source_type", "image"),
+				resource.TestCheckResourceAttrSet(s.ResourceName, "source_details.0.source_id"),
+				resource.TestCheckNoResourceAttr(s.ResourceName, "preserve_boot_volume"),
+				resource.TestCheckResourceAttrSet(s.ResourceName, "boot_volume_id"),
+				// Store the instance ID for future verification
+				func(ts *terraform.State) (err error) {
+					instanceId, err = fromInstanceState(ts, s.ResourceName, "id")
+					return err
+				},
+			),
+		},
+		// Switching from source_details back to image ID should not lead to a change.
+		{
+			ImportState:       true,
+			ImportStateVerify: true,
+			Config: s.Config + `
+				resource "oci_core_instance" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${var.compartment_id}"
+					subnet_id = "${oci_core_subnet.t.id}"
+					hostname_label = "hostname1"
+					image = "${var.InstanceImageOCID[var.region]}"
+					shape = "VM.Standard1.1"
+					metadata {
+						ssh_authorized_keys = "${var.ssh_public_key}"
+						user_data = "SWYgeW91IGNhbiBzZWUgdGhpcywgdGhlbiBpdCB3b3JrZWQgbWF5YmUuCg=="
+					}
+					timeouts {
+						create = "15m"
+					}
+				}`,
+			ExpectNonEmptyPlan: false,
+			PlanOnly:           true,
+		},
+		// verify the preserve_boot_volume setting can be applied and doesn't cause a ForceNew instance
+		{
+			ImportState:       true,
+			ImportStateVerify: true,
+			Config: s.Config + `
+				resource "oci_core_instance" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${var.compartment_id}"
+					subnet_id = "${oci_core_subnet.t.id}"
+					hostname_label = "hostname1"
+					source_details {
+						source_type = "image"
+						source_id = "${var.InstanceImageOCID[var.region]}"
+					}
+					preserve_boot_volume = "true"
+					shape = "VM.Standard1.1"
+					metadata {
+						ssh_authorized_keys = "${var.ssh_public_key}"
+						user_data = "SWYgeW91IGNhbiBzZWUgdGhpcywgdGhlbiBpdCB3b3JrZWQgbWF5YmUuCg=="
+					}
+					timeouts {
+						create = "15m"
+					}
+				}`,
+			Check: resource.ComposeTestCheckFunc(
+				resource.TestCheckResourceAttr(s.ResourceName, "preserve_boot_volume", "true"),
+				resource.TestCheckResourceAttrSet(s.ResourceName, "boot_volume_id"),
+				// Verify that we didn't get a new Instance
+				func(ts *terraform.State) (err error) {
+					newId, err := fromInstanceState(ts, s.ResourceName, "id")
+					if newId != instanceId {
+						return fmt.Errorf("expected same instance ocid, got different")
+					}
+					return err
+				},
+				// Store the boot volume id, so we can use it for attaching to an Instance later
+				// Also update all the config test steps to use the computed boot volume ID
+				func(ts *terraform.State) (err error) {
+					preservedBootVolumeId, err = fromInstanceState(ts, s.ResourceName, "boot_volume_id")
+
+					_, tokenFn := tokenize()
+					for idx := range testStepsReference {
+						testStepsReference[idx].Config = tokenFn(testStepsReference[idx].Config, map[string]string{"preservedBootVolumeId": preservedBootVolumeId})
+					}
+
+					return err
+				},
+			),
+		},
+		// ForceNew an instance by changing its hostname_label
+		// Verify that the boot volume was preserved and can be attached to the new instance as a data volume.
+		{
+			Config: s.Config + `
+				resource "oci_core_instance" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${var.compartment_id}"
+					subnet_id = "${oci_core_subnet.t.id}"
+					hostname_label = "hostname2"
+					source_details {
+						source_type = "image"
+						source_id = "${var.InstanceImageOCID[var.region]}"
+					}
+					preserve_boot_volume = "false"
+					shape = "VM.Standard1.1"
+					metadata {
+						ssh_authorized_keys = "${var.ssh_public_key}"
+						user_data = "SWYgeW91IGNhbiBzZWUgdGhpcywgdGhlbiBpdCB3b3JrZWQgbWF5YmUuCg=="
+					}
+					timeouts {
+						create = "15m"
+					}
+				}
+
+				resource "oci_core_volume_attachment" "volume_attach" {
+					attachment_type = "iscsi"
+					instance_id = "${oci_core_instance.t.id}"
+					volume_id = "{{.preservedBootVolumeId}}"
+				}
+				`,
+			Check: resource.ComposeTestCheckFunc(
+				resource.TestCheckResourceAttr(s.ResourceName, "preserve_boot_volume", "false"),
+				TestCheckResourceAttributesEqual("oci_core_volume_attachment.volume_attach", "instance_id", s.ResourceName, "id"),
+				// Verify that we got a new Instance
+				func(ts *terraform.State) (err error) {
+					newId, err := fromInstanceState(ts, s.ResourceName, "id")
+					if newId == instanceId {
+						return fmt.Errorf("expected different instance ocid, got same")
+					}
+
+					instanceId = newId
+					return err
+				},
+				// Verify that the volume attachment's ID is the same as the preserved boot volume
+				func(ts *terraform.State) (err error) {
+					volumeId, err := fromInstanceState(ts, "oci_core_volume_attachment.volume_attach", "volume_id")
+					if preservedBootVolumeId != volumeId {
+						return fmt.Errorf("expected attached volume id to be same as preserved boot volume, got different one")
+					}
+
+					return err
+				},
+			),
+		},
+		// Detach the boot volume and force a new instance by attaching preserved boot volume in the source details.
+		{
+			Config: s.Config + `
+				resource "oci_core_instance" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${var.compartment_id}"
+					subnet_id = "${oci_core_subnet.t.id}"
+					hostname_label = "hostname2"
+					source_details {
+						source_type = "bootVolume"
+						source_id = "{{.preservedBootVolumeId}}"
+					}
+					preserve_boot_volume = "false"
+					shape = "VM.Standard1.1"
+					metadata {
+						ssh_authorized_keys = "${var.ssh_public_key}"
+						user_data = "SWYgeW91IGNhbiBzZWUgdGhpcywgdGhlbiBpdCB3b3JrZWQgbWF5YmUuCg=="
+					}
+					timeouts {
+						create = "15m"
+					}
+				}`,
+			Check: resource.ComposeTestCheckFunc(
+				resource.TestCheckResourceAttr(s.ResourceName, "preserve_boot_volume", "false"),
+				// Verify that we got a new Instance
+				func(ts *terraform.State) (err error) {
+					newId, err := fromInstanceState(ts, s.ResourceName, "id")
+					if newId == instanceId {
+						return fmt.Errorf("expected different instance ocid, got same")
+					}
+
+					instanceId = newId
+					return err
+				},
+				// Verify that the boot volume attachment is the same as the preserved boot volume
+				func(ts *terraform.State) (err error) {
+					volumeId, err := fromInstanceState(ts, s.ResourceName, "boot_volume_id")
+					if preservedBootVolumeId != volumeId {
+						return fmt.Errorf("expected attached boot volume ID to be same as preserved boot volume, got different one")
+					}
+
+					return err
+				},
+			),
+		},
+		// ForceNew an instance and attach to the old boot volume, which should have been deleted because we didn't set
+		// the preserve flag in the previous step. This should result in an error from service.
+		{
+			Config: s.Config + `
+				resource "oci_core_instance" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${var.compartment_id}"
+					subnet_id = "${oci_core_subnet.t.id}"
+					hostname_label = "hostname2"
+					source_details {
+						source_type = "bootVolume"
+						source_id = "{{.preservedBootVolumeId}}"
+					}
+					preserve_boot_volume = "false"
+					shape = "VM.Standard1.1"
+					metadata {
+						ssh_authorized_keys = "${var.ssh_public_key}"
+						user_data = "SWYgeW91IGNhbiBzZWUgdGhpcywgdGhlbiBpdCB3b3JrZWQgbWF5YmUuCg=="
+					}
+					timeouts {
+						create = "15m"
+					}
+				}`,
+			ExpectError: regexp.MustCompile("One or more of the specified volumes are not found"),
+		},
+	}
+
+	testStepsReference = testSteps
+	resource.Test(s.T(), resource.TestCase{
+		Providers: s.Providers,
+		Steps:     testSteps,
 	})
 }
 

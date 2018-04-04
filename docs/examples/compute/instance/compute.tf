@@ -3,7 +3,6 @@ resource "oci_core_instance" "TFInstance" {
   availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.AD - 1],"name")}"
   compartment_id = "${var.compartment_ocid}"
   display_name = "TFInstance${count.index}"
-  image = "${var.InstanceImageOCID[var.region]}"
   shape = "${var.InstanceShape}"
 
   create_vnic_details {
@@ -12,6 +11,16 @@ resource "oci_core_instance" "TFInstance" {
     assign_public_ip = true
     hostname_label = "tfexampleinstance${count.index}"
   },
+
+  source_details {
+    source_type = "image"
+    source_id = "${var.InstanceImageOCID[var.region]}"
+  }
+
+  # Apply the following flag only if you wish to preserve the attached boot volume upon destroying this instance
+  # Setting this and destroying the instance will result in a boot volume that should be managed outside of this config.
+  # When changing this value, make sure to run 'terraform apply' so that it takes effect before the resource is destroyed.
+  #preserve_boot_volume = true
 
   metadata {
     ssh_authorized_keys = "${var.ssh_public_key}"
