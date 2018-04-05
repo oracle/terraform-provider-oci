@@ -10,7 +10,7 @@ resource "oci_core_security_list" "my_security_list" {
   egress_security_rules = [
     {
       destination = "0.0.0.0/0"
-      protocol = "6"
+      protocol = "all"
     }]
 
   // See https://docs.us-phoenix-1.oraclecloud.com/Content/File/Tasks/creatingfilesystems.htm.
@@ -41,8 +41,38 @@ resource "oci_core_security_list" "my_security_list" {
       source = "${var.my_vcn-cidr}"
 
       tcp_options {
-        "max" = 111
         "min" = 111
+        "max" = 111
       }
-    }]
+    },
+    // Allowing inbound SSH traffic to instances in the subnet from any source
+    {
+      protocol = "6"
+      source = "0.0.0.0/0"
+
+      tcp_options {
+        "min" = 22
+        "max" = 22
+      }
+    },
+    // Allowing inbound ICMP traffic of a specific type and code from any source
+    {
+      protocol  = 1
+      source    = "0.0.0.0/0"
+
+      icmp_options {
+        "type" = 3
+        "code" = 4
+      }
+    },
+    // Allowing inbound ICMP traffic of a specific type from within our VCN
+    {
+      protocol  = 1
+      source    = "${var.my_vcn-cidr}"
+
+      icmp_options {
+        "type" = 3
+      }
+    }
+  ]
 }

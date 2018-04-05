@@ -61,3 +61,12 @@ data "oci_file_storage_export_sets" "export_sets" {
   #id = "${var.export_set_id}"
   #state = "${var.export_set_state}"
 }
+
+data "oci_core_private_ips" ip_mount_target1 {
+  subnet_id = "${oci_file_storage_mount_target.my_mount_target_1.subnet_id}"
+
+  filter {
+    name = "id"
+    values = ["${oci_file_storage_mount_target.my_mount_target_1.private_ip_ids.0}"]
+  }
+}
