@@ -4,8 +4,6 @@ import (
 	"strings"
 	"time"
 
-	"log"
-
 	oci_common "github.com/oracle/oci-go-sdk/common"
 )
 
@@ -109,11 +107,7 @@ func getRetryPolicy(disableNotFoundRetries bool, service string) *oci_common.Ret
 	retryPolicy := &oci_common.RetryPolicy{
 		MaximumNumberAttempts: 0,
 		ShouldRetryOperation: func(response oci_common.OCIOperationResponse) bool {
-			shouldRetry := shouldRetry(response, disableNotFoundRetries, service)
-			if shouldRetry {
-				log.Printf("[DEBUG] Got a retriable error. Waiting %ds before next attempt.", nextDuration(response)/time.Second)
-			}
-			return shouldRetry
+			return shouldRetry(response, disableNotFoundRetries, service)
 		},
 		NextDuration: nextDuration,
 	}
