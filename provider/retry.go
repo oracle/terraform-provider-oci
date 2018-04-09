@@ -53,7 +53,7 @@ func shouldRetry(response oci_common.OCIOperationResponse, disableNotFoundRetrie
 	if disableAutoRetries {
 		return false
 	}
-	if response.Response == nil {
+	if response.Response == nil || response.Response.HTTPResponse() == nil {
 		return false
 	}
 
