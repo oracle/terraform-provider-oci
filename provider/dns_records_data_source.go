@@ -7,6 +7,7 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_dns "github.com/oracle/oci-go-sdk/dns"
+
 	"github.com/oracle/terraform-provider-oci/crud"
 )
 
@@ -124,12 +125,24 @@ func (s *RecordsDataSourceCrud) Get() error {
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "dns")
+
 	response, err := s.Client.GetZoneRecords(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	s.Res = &response
+	request.Page = s.Res.OpcNextPage
+
+	for request.Page != nil {
+		listResponse, err := s.Client.GetZoneRecords(context.Background(), request)
+		if err != nil {
+			return err
+		}
+
+		s.Res.Items = append(s.Res.Items, listResponse.Items...)
+		request.Page = listResponse.OpcNextPage
+	}
 	return nil
 }
 

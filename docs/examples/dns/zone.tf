@@ -36,7 +36,7 @@ resource "oci_dns_zone" "zone2" {
 
 data "oci_dns_zones" "zs" {
   compartment_id = "${var.compartment_id}"
-  name_contains = "oci-test"
+  name_contains = "example"
   state = "ACTIVE"
   zone_type = "PRIMARY"
   sort_by = "name" # name|zoneType|timeCreated
