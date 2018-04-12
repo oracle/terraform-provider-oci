@@ -3,22 +3,35 @@ All notable changes to this project are documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+## 2.1.5 - 2018-04-12
+
+### Added
+- New features for Instances
+    - Add “preserve_boot_volume” attribute for preserving attached boot volume on destroy.
+    - Add “source_details” attribute for specifying either an image or an existing boot volume when launching.
+    - More details can be found [here](https://github.com/oracle/terraform-provider-oci/blob/master/docs/core/instances.md).
+- Added support for Local VCN Peering. More details can be found [here](https://github.com/oracle/terraform-provider-oci/blob/master/docs/core/local_peering_gateways.md).
+- DNS service integration: adds Zone and Record resources, datasources, documentation and basic examples. More details can be found [here](https://github.com/oracle/terraform-provider-oci/tree/master/docs/dns).
+
+### Deprecated 
+- Instances: The “image” attribute is now deprecated. Please use the “source_details” with “source_type” set to “image” instead.
+
 ## 2.1.4 - 2018-04-09
 
-## Added
+### Added
 - Add support for Public IPs. More details can be found [here](https://github.com/oracle/terraform-provider-oci/blob/master/docs/core/public_ips.md).
 
 ## 2.1.3 - 2018-03-29
 
-## Added
+### Added
 - Added export set resource to File Storage Service. Users can now update FSSTAT related parameters on the export set resource.
 
-## Notes
+### Notes
 - Support a new resource name for load balancer backend set that is consistent with other resources. The new name is 'oci_load_balancer_backend_set'. The previous usage of 'oci_load_balancer_backendset' is still supported.
 
 ## 2.1.2 - 2018-03-26
 
-## Added
+### Added
 - File Storage Service: Allows management of NFS filesystems, mount targets, exports, and snapshots. (#440)
 More details can be found [here](https://github.com/oracle/terraform-provider-oci/blob/master/docs/file_storage).
 - Load Balancer PathRouteSets: Added support for load balancer request routing using [path route sets](https://github.com/oracle/terraform-provider-oci/blob/master/docs/load_balancer/path_route_sets.md). (#434)
@@ -26,13 +39,13 @@ More details can be found [here](https://github.com/oracle/terraform-provider-oc
 - Instance Principals: Allows Terraform OCI provider running within an authorized instance to reach Oracle Cloud Infrastructure services.
 More details can be found [here](https://github.com/oracle/terraform-provider-oci/blob/master/docs/Writing%20Terraform%20configurations%20for%20OCI.md).
 
-## Fixed
+### Fixed
 - Load Balancer Certificates: `passphrase` and `private_key` attributes are now marked as Sensitive. (#447)
 - Load Balancer work request failures now include extra error details from the service.
 
 ## 2.1.1 - 2018-03-14
 
-## Fixed
+### Fixed
 - VolumeAttachment: Handle unsupported attachment types. If an unsupported attachment type is returned by the service, the SDK's base interface is used to populate common fields.
 - Instances: Add missing state field to datasource.
 
