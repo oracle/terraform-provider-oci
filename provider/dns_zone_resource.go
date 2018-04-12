@@ -9,6 +9,7 @@ import (
 	oci_dns "github.com/oracle/oci-go-sdk/dns"
 
 	"github.com/hashicorp/terraform/helper/validation"
+
 	"github.com/oracle/terraform-provider-oci/crud"
 )
 

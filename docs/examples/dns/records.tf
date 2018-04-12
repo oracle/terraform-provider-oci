@@ -73,8 +73,7 @@ data "oci_dns_records" "rs" {
   # optional
   compartment_id = "${var.compartment_id}"
   domain = "${oci_dns_zone.zone1.name}"
-  rtype = "NS"
-  sort_by = "ttl" # domain|rtype|ttl
+  sort_by = "rtype" # domain|rtype|ttl
   sort_order = "DESC" # ASC|DESC
 }
 

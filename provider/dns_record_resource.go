@@ -13,6 +13,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform/helper/schema"
+
 	"github.com/oracle/terraform-provider-oci/crud"
 
 	"fmt"
