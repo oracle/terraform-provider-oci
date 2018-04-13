@@ -17,6 +17,10 @@ type RestoreObjectsDetails struct {
 
 	// A object which was in an archived state and need to be restored.
 	ObjectName *string `mandatory:"true" json:"objectName"`
+
+	// The number of hours for which this object will be restored.
+	// By default object will be restored for 24 hours.It can be configured using hours parameter.
+	Hours *int `mandatory:"false" json:"hours"`
 }
 
 func (m RestoreObjectsDetails) String() string {

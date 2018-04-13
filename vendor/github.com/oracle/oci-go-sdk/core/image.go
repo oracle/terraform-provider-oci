@@ -71,6 +71,10 @@ type Image struct {
 	LaunchMode ImageLaunchModeEnum `mandatory:"false" json:"launchMode,omitempty"`
 
 	LaunchOptions *LaunchOptions `mandatory:"false" json:"launchOptions"`
+
+	// Image size (1 MB = 1048576 bytes)
+	// Example: `47694`
+	SizeInMBs *int `mandatory:"false" json:"sizeInMBs"`
 }
 
 func (m Image) String() string {

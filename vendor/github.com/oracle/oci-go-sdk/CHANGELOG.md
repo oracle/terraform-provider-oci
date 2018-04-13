@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 
+## 1.2.0 - 2018-04-05
+### Added
+- Support for Email Delivery Service. Example can be found on [Github](https://github.com/oracle/oci-go-sdk/tree/master/example/example_email_test.go)
+- Support for paravirtualized volume attachments in Core Services
+- Support for remote VCN peering across regions
+- Support for variable size boot volumes in Core Services
+- Support for SMTP credentials in the Identity Service
+- Support for tagging Bucket resources in the Object Storage Service
 
 ## 1.1.0 - 2018-03-27
 ### Added
@@ -23,4 +31,4 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 - Support for Database service
 - Support for IAM service
 - Support for Load Balancing service
-- Suport for Object Storage service
+- Support for Object Storage service

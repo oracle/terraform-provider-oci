@@ -273,7 +273,7 @@ func addToQuery(request *http.Request, value reflect.Value, field reflect.Struct
 		return
 	}
 
-	encoding := strings.ToLower(field.Tag.Get("encoding"))
+	encoding := strings.ToLower(field.Tag.Get("collectionFormat"))
 	switch encoding {
 	case "csv":
 		if value.Kind() != reflect.Slice && value.Kind() != reflect.Array {

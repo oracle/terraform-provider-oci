@@ -19,6 +19,7 @@ type UpdateCompartmentDetails struct {
 	Description *string `mandatory:"false" json:"description"`
 
 	// The new name you assign to the compartment. The name must be unique across all compartments in the tenancy.
+	// Avoid entering confidential information.
 	Name *string `mandatory:"false" json:"name"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
