@@ -87,7 +87,5 @@ data "oci_core_local_peering_gateways" "test_local_peering_gateways" {
 	#Required
 	compartment_id = "${var.compartment_id}"
 	vcn_id = "${oci_core_vcn.test_vcn.id}"
-
-	#Optional
 }
 ```

@@ -221,8 +221,6 @@ data "oci_core_local_peering_gateways" "test_local_peering_gateways" {
 	compartment_id = "${var.compartment_id}"
 	vcn_id = "${oci_core_vcn.test_vcn.id}"
 
-	#Optional
-
     filter {
     	name = "id"
     	values = ["${oci_core_local_peering_gateway.test_local_peering_gateway.id}"]
