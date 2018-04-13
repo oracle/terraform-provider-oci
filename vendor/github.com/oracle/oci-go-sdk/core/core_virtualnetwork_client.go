@@ -187,6 +187,51 @@ func (client VirtualNetworkClient) connectLocalPeeringGateways(ctx context.Conte
 	return response, err
 }
 
+// ConnectRemotePeeringConnections Connects this RPC to another one in a different region.
+// This operation must be called by the VCN administrator who is designated as
+// the *requestor* in the peering relationship. The *acceptor* must implement
+// an Identity and Access Management (IAM) policy that gives the requestor permission
+// to connect to RPCs in the acceptor's compartment. Without that permission, this
+// operation will fail. For more information, see
+// VCN Peering (https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Tasks/VCNpeering.htm).
+func (client VirtualNetworkClient) ConnectRemotePeeringConnections(ctx context.Context, request ConnectRemotePeeringConnectionsRequest) (response ConnectRemotePeeringConnectionsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.connectRemotePeeringConnections, policy)
+	if err != nil {
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ConnectRemotePeeringConnectionsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ConnectRemotePeeringConnectionsResponse")
+	}
+	return
+}
+
+// connectRemotePeeringConnections implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) connectRemotePeeringConnections(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/remotePeeringConnections/{remotePeeringConnectionId}/actions/connect")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ConnectRemotePeeringConnectionsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateCpe Creates a new virtual Customer-Premises Equipment (CPE) object in the specified compartment. For
 // more information, see IPSec VPNs (https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Tasks/managingIPsec.htm).
 // For the purposes of access control, you must provide the OCID of the compartment where you want
@@ -721,6 +766,45 @@ func (client VirtualNetworkClient) createPublicIp(ctx context.Context, request c
 	}
 
 	var response CreatePublicIpResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateRemotePeeringConnection Creates a new remote peering connection (RPC) for the specified DRG.
+func (client VirtualNetworkClient) CreateRemotePeeringConnection(ctx context.Context, request CreateRemotePeeringConnectionRequest) (response CreateRemotePeeringConnectionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.createRemotePeeringConnection, policy)
+	if err != nil {
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateRemotePeeringConnectionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateRemotePeeringConnectionResponse")
+	}
+	return
+}
+
+// createRemotePeeringConnection implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) createRemotePeeringConnection(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/remotePeeringConnections")
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateRemotePeeringConnectionResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -1471,6 +1555,47 @@ func (client VirtualNetworkClient) deletePublicIp(ctx context.Context, request c
 	}
 
 	var response DeletePublicIpResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteRemotePeeringConnection Deletes the remote peering connection (RPC).
+// This is an asynchronous operation; the RPC's `lifecycleState` changes to TERMINATING temporarily
+// until the RPC is completely removed.
+func (client VirtualNetworkClient) DeleteRemotePeeringConnection(ctx context.Context, request DeleteRemotePeeringConnectionRequest) (response DeleteRemotePeeringConnectionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteRemotePeeringConnection, policy)
+	if err != nil {
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteRemotePeeringConnectionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteRemotePeeringConnectionResponse")
+	}
+	return
+}
+
+// deleteRemotePeeringConnection implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) deleteRemotePeeringConnection(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/remotePeeringConnections/{remotePeeringConnectionId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteRemotePeeringConnectionResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -2419,6 +2544,45 @@ func (client VirtualNetworkClient) getPublicIpByPrivateIpId(ctx context.Context,
 	return response, err
 }
 
+// GetRemotePeeringConnection Get the specified remote peering connection's information.
+func (client VirtualNetworkClient) GetRemotePeeringConnection(ctx context.Context, request GetRemotePeeringConnectionRequest) (response GetRemotePeeringConnectionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getRemotePeeringConnection, policy)
+	if err != nil {
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetRemotePeeringConnectionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetRemotePeeringConnectionResponse")
+	}
+	return
+}
+
+// getRemotePeeringConnection implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) getRemotePeeringConnection(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/remotePeeringConnections/{remotePeeringConnectionId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetRemotePeeringConnectionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetRouteTable Gets the specified route table's information.
 func (client VirtualNetworkClient) GetRouteTable(ctx context.Context, request GetRouteTableRequest) (response GetRouteTableResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2644,6 +2808,46 @@ func (client VirtualNetworkClient) getVnic(ctx context.Context, request common.O
 	}
 
 	var response GetVnicResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListAllowedPeerRegionsForRemotePeering Lists the regions that support remote VCN peering (which is peering across regions).
+// For more information, see VCN Peering (https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Tasks/VCNpeering.htm).
+func (client VirtualNetworkClient) ListAllowedPeerRegionsForRemotePeering(ctx context.Context, request ListAllowedPeerRegionsForRemotePeeringRequest) (response ListAllowedPeerRegionsForRemotePeeringResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listAllowedPeerRegionsForRemotePeering, policy)
+	if err != nil {
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListAllowedPeerRegionsForRemotePeeringResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListAllowedPeerRegionsForRemotePeeringResponse")
+	}
+	return
+}
+
+// listAllowedPeerRegionsForRemotePeering implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) listAllowedPeerRegionsForRemotePeering(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/allowedPeerRegionsForRemotePeering")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListAllowedPeerRegionsForRemotePeeringResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -3260,6 +3464,46 @@ func (client VirtualNetworkClient) listPublicIps(ctx context.Context, request co
 	}
 
 	var response ListPublicIpsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListRemotePeeringConnections Lists the remote peering connections (RPCs) for the specified DRG and compartment
+// (the RPC's compartment).
+func (client VirtualNetworkClient) ListRemotePeeringConnections(ctx context.Context, request ListRemotePeeringConnectionsRequest) (response ListRemotePeeringConnectionsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listRemotePeeringConnections, policy)
+	if err != nil {
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListRemotePeeringConnectionsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListRemotePeeringConnectionsResponse")
+	}
+	return
+}
+
+// listRemotePeeringConnections implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) listRemotePeeringConnections(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/remotePeeringConnections")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListRemotePeeringConnectionsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -4012,6 +4256,45 @@ func (client VirtualNetworkClient) updatePublicIp(ctx context.Context, request c
 	}
 
 	var response UpdatePublicIpResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateRemotePeeringConnection Updates the specified remote peering connection (RPC).
+func (client VirtualNetworkClient) UpdateRemotePeeringConnection(ctx context.Context, request UpdateRemotePeeringConnectionRequest) (response UpdateRemotePeeringConnectionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateRemotePeeringConnection, policy)
+	if err != nil {
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateRemotePeeringConnectionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateRemotePeeringConnectionResponse")
+	}
+	return
+}
+
+// updateRemotePeeringConnection implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) updateRemotePeeringConnection(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/remotePeeringConnections/{remotePeeringConnectionId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateRemotePeeringConnectionResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)

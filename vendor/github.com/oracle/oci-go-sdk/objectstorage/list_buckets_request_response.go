@@ -23,6 +23,11 @@ type ListBucketsRequest struct {
 	// The page at which to start retrieving results.
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
+	// Bucket summary in list of buckets includes the 'namespace', 'name', 'compartmentId', 'createdBy', 'timeCreated',
+	// and 'etag' fields. This parameter can also include 'tags' (freeformTags and definedTags). The only supported value
+	// of this parameter is 'tags' for now. Example 'tags'.
+	Fields []ListBucketsFieldsEnum `contributesTo:"query" name:"fields" omitEmpty:"true" collectionFormat:"csv"`
+
 	// The client request ID for tracing.
 	OpcClientRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-client-request-id"`
 
@@ -75,4 +80,25 @@ func (response ListBucketsResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ListBucketsResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// ListBucketsFieldsEnum Enum with underlying type: string
+type ListBucketsFieldsEnum string
+
+// Set of constants representing the allowable values for ListBucketsFields
+const (
+	ListBucketsFieldsTags ListBucketsFieldsEnum = "tags"
+)
+
+var mappingListBucketsFields = map[string]ListBucketsFieldsEnum{
+	"tags": ListBucketsFieldsTags,
+}
+
+// GetListBucketsFieldsEnumValues Enumerates the set of values for ListBucketsFields
+func GetListBucketsFieldsEnumValues() []ListBucketsFieldsEnum {
+	values := make([]ListBucketsFieldsEnum, 0)
+	for _, v := range mappingListBucketsFields {
+		values = append(values, v)
+	}
+	return values
 }

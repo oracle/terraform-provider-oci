@@ -937,6 +937,7 @@ func (client ObjectStorageClient) renameObject(ctx context.Context, request comm
 }
 
 // RestoreObjects Restore one or more objects specified by objectName parameter.
+// By default object will be restored for 24 hours.Duration can be configured using hours parameter.
 func (client ObjectStorageClient) RestoreObjects(ctx context.Context, request RestoreObjectsRequest) (response RestoreObjectsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

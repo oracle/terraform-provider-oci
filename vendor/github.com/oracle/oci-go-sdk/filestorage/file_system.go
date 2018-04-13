@@ -4,7 +4,6 @@
 // File Storage Service API
 //
 // The API for the File Storage Service.
-// You can use the table of contents or the version selector and search tool to explore the File Storage Service API.
 //
 
 package filestorage

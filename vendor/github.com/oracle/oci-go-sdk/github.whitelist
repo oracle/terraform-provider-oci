@@ -5,6 +5,7 @@
 ^database/
 ^dns/
 ^example/
+^email/
 ^filestorage/
 ^identity/
 ^loadbalancer/

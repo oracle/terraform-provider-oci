@@ -532,6 +532,48 @@ func (client IdentityClient) createRegionSubscription(ctx context.Context, reque
 	return response, err
 }
 
+// CreateSmtpCredential Creates a new SMTP credential for the specified user. An SMTP credential has an SMTP user name and an SMTP password.
+// You must specify a *description* for the SMTP credential (although it can be an empty string). It does not
+// have to be unique, and you can change it anytime with
+// UpdateSmtpCredential.
+func (client IdentityClient) CreateSmtpCredential(ctx context.Context, request CreateSmtpCredentialRequest) (response CreateSmtpCredentialResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.createSmtpCredential, policy)
+	if err != nil {
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateSmtpCredentialResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateSmtpCredentialResponse")
+	}
+	return
+}
+
+// createSmtpCredential implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) createSmtpCredential(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/users/{userId}/smtpCredentials/")
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateSmtpCredentialResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateSwiftPassword Creates a new Swift password for the specified user. For information about what Swift passwords are for, see
 // Managing User Credentials (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Tasks/managingcredentials.htm).
 // You must specify a *description* for the Swift password (although it can be an empty string). It does not
@@ -1009,6 +1051,45 @@ func (client IdentityClient) deletePolicy(ctx context.Context, request common.OC
 	}
 
 	var response DeletePolicyResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteSmtpCredential Deletes the specified SMTP credential for the specified user.
+func (client IdentityClient) DeleteSmtpCredential(ctx context.Context, request DeleteSmtpCredentialRequest) (response DeleteSmtpCredentialResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteSmtpCredential, policy)
+	if err != nil {
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteSmtpCredentialResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteSmtpCredentialResponse")
+	}
+	return
+}
+
+// deleteSmtpCredential implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) deleteSmtpCredential(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/users/{userId}/smtpCredentials/{smtpCredentialId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteSmtpCredentialResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -1993,6 +2074,46 @@ func (client IdentityClient) listRegions(ctx context.Context) (common.OCIRespons
 	return response, err
 }
 
+// ListSmtpCredentials Lists the SMTP credentials for the specified user. The returned object contains the credential's OCID,
+// the SMTP user name but not the SMTP password. The SMTP password is returned only upon creation.
+func (client IdentityClient) ListSmtpCredentials(ctx context.Context, request ListSmtpCredentialsRequest) (response ListSmtpCredentialsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listSmtpCredentials, policy)
+	if err != nil {
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListSmtpCredentialsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListSmtpCredentialsResponse")
+	}
+	return
+}
+
+// listSmtpCredentials implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) listSmtpCredentials(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/users/{userId}/smtpCredentials/")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListSmtpCredentialsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListSwiftPasswords Lists the Swift passwords for the specified user. The returned object contains the password's OCID, but not
 // the password itself. The actual password is returned only upon creation.
 func (client IdentityClient) ListSwiftPasswords(ctx context.Context, request ListSwiftPasswordsRequest) (response ListSwiftPasswordsResponse, err error) {
@@ -2500,6 +2621,45 @@ func (client IdentityClient) updatePolicy(ctx context.Context, request common.OC
 	}
 
 	var response UpdatePolicyResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateSmtpCredential Updates the specified SMTP credential's description.
+func (client IdentityClient) UpdateSmtpCredential(ctx context.Context, request UpdateSmtpCredentialRequest) (response UpdateSmtpCredentialResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateSmtpCredential, policy)
+	if err != nil {
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateSmtpCredentialResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateSmtpCredentialResponse")
+	}
+	return
+}
+
+// updateSmtpCredential implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) updateSmtpCredential(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/users/{userId}/smtpCredentials/{smtpCredentialId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateSmtpCredentialResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)

@@ -4,7 +4,6 @@
 // File Storage Service API
 //
 // The API for the File Storage Service.
-// You can use the table of contents or the version selector and search tool to explore the File Storage Service API.
 //
 
 package filestorage
@@ -170,6 +169,9 @@ func (client FileStorageClient) createFileSystem(ctx context.Context, request co
 // client mount commands. These private IP addresses are listed
 // in the privateIpIds property of the mount target and are highly available. Mount
 // targets also consume additional IP addresses in their subnet.
+// Do not use /30 or smaller subnets for mount target creation because they
+// do not have sufficient available IP addresses.
+// Allow at least three IP addresses for each mount target.
 // For information about access control and compartments, see
 // Overview of the IAM
 // Service (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/overview.htm).

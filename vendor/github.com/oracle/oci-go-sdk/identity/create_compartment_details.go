@@ -19,7 +19,7 @@ type CreateCompartmentDetails struct {
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The name you assign to the compartment during creation. The name must be unique across all compartments
-	// in the tenancy.
+	// in the tenancy. Avoid entering confidential information.
 	Name *string `mandatory:"true" json:"name"`
 
 	// The description you assign to the compartment during creation. Does not have to be unique, and it's changeable.

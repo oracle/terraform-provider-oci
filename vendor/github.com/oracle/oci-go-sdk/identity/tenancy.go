@@ -30,11 +30,13 @@ type Tenancy struct {
 	// The description of the tenancy.
 	Description *string `mandatory:"false" json:"description"`
 
-	// The region key for the tenancy's home region.
+	// The region key for the tenancy's home region. For more information about regions, see
+	// Regions and Availability Domains (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/regions.htm).
 	// Allowed values are:
 	// - `IAD`
 	// - `PHX`
 	// - `FRA`
+	// - `LHR`
 	HomeRegionKey *string `mandatory:"false" json:"homeRegionKey"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
