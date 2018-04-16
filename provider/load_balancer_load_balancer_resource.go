@@ -15,6 +15,9 @@ import (
 
 func LoadBalancerResource() *schema.Resource {
 	return &schema.Resource{
+		Importer: &schema.ResourceImporter{
+			State: schema.ImportStatePassthrough,
+		},
 		Create: createLoadBalancer,
 		Read:   readLoadBalancer,
 		Update: updateLoadBalancer,
