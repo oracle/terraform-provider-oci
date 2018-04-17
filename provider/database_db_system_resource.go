@@ -648,8 +648,8 @@ func mapToCreateDatabaseDetails(raw map[string]interface{}) oci_database.CreateD
 	}
 
 	if dbWorkload, ok := raw["db_workload"]; ok {
-		tmp := dbWorkload.(string)
-		result.DbWorkload = oci_database.CreateDatabaseDetailsDbWorkloadEnum(tmp)
+		tmp := oci_database.CreateDatabaseDetailsDbWorkloadEnum(dbWorkload.(string))
+		result.DbWorkload = tmp
 	}
 
 	if ncharacterSet, ok := raw["ncharacter_set"]; ok {

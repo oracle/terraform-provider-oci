@@ -340,8 +340,8 @@ func mapToPathMatchType(raw map[string]interface{}) oci_load_balancer.PathMatchT
 	result := oci_load_balancer.PathMatchType{}
 
 	if matchType, ok := raw["match_type"]; ok {
-		tmp := matchType.(string)
-		result.MatchType = oci_load_balancer.PathMatchTypeMatchTypeEnum(tmp)
+		tmp := oci_load_balancer.PathMatchTypeMatchTypeEnum(matchType.(string))
+		result.MatchType = tmp
 	}
 
 	return result

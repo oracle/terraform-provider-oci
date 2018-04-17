@@ -159,9 +159,9 @@ func InstanceResource() *schema.Resource {
 			},
 			"metadata": {
 				Type:     schema.TypeMap,
-				Elem:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
+				Elem:     schema.TypeString,
 			},
 			"preserve_boot_volume": {
 				Type:     schema.TypeBool,

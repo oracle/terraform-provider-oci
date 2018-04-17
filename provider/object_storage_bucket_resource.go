@@ -56,12 +56,9 @@ func BucketResource() *schema.Resource {
 				}, true),
 			},
 			"metadata": {
-				// @CODEGEN 2/2018: This is generated as TypeList because we don't handle maps properly in the
-				// generator.
-				// The actual type of this property should be a map[string]string
 				Type:     schema.TypeMap,
-				Elem:     schema.TypeString,
 				Optional: true,
+				Elem:     schema.TypeString,
 			},
 
 			// Computed

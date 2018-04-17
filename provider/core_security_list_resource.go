@@ -601,6 +601,78 @@ func (s *SecurityListResourceCrud) SetData() {
 
 }
 
+func mapToEgressSecurityRule(raw map[string]interface{}) oci_core.EgressSecurityRule {
+	result := oci_core.EgressSecurityRule{}
+
+	if destination, ok := raw["destination"]; ok {
+		tmp := destination.(string)
+		result.Destination = &tmp
+	}
+
+	if icmpOptions, ok := raw["icmp_options"]; ok {
+		if tmpList := icmpOptions.([]interface{}); len(tmpList) > 0 {
+			tmp := mapToIcmpOptions(tmpList[0].(map[string]interface{}))
+			result.IcmpOptions = &tmp
+		}
+	}
+
+	if protocol, ok := raw["protocol"]; ok {
+		tmp := protocol.(string)
+		result.Protocol = &tmp
+	}
+
+	if stateless, ok := raw["stateless"]; ok {
+		tmp := stateless.(bool)
+		result.IsStateless = &tmp
+	}
+
+	if tcpOptions, ok := raw["tcp_options"]; ok {
+		if tmpList := tcpOptions.([]interface{}); len(tmpList) > 0 {
+			tmp := mapToTcpOptions(tmpList[0].(map[string]interface{}))
+			result.TcpOptions = &tmp
+		}
+	}
+
+	if udpOptions, ok := raw["udp_options"]; ok {
+		if tmpList := udpOptions.([]interface{}); len(tmpList) > 0 {
+			tmp := mapToUdpOptions(tmpList[0].(map[string]interface{}))
+			result.UdpOptions = &tmp
+		}
+	}
+
+	return result
+}
+
+func EgressSecurityRuleToMap(obj oci_core.EgressSecurityRule) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Destination != nil {
+		result["destination"] = string(*obj.Destination)
+	}
+
+	if obj.IcmpOptions != nil {
+		result["icmp_options"] = []interface{}{IcmpOptionsToMap(obj.IcmpOptions)}
+	}
+
+	if obj.Protocol != nil {
+		result["protocol"] = string(*obj.Protocol)
+	}
+
+	if obj.IsStateless != nil {
+		result["stateless"] = bool(*obj.IsStateless)
+	}
+
+	if obj.TcpOptions != nil {
+		result["tcp_options"] = []interface{}{TcpOptionsToMap(obj.TcpOptions)}
+	}
+
+	if obj.UdpOptions != nil {
+		result["udp_options"] = []interface{}{UdpOptionsToMap(obj.UdpOptions)}
+	}
+
+	return result
+}
+
 func mapToIcmpOptions(raw map[string]interface{}) oci_core.IcmpOptions {
 	result := oci_core.IcmpOptions{}
 
@@ -630,6 +702,78 @@ func IcmpOptionsToMap(obj *oci_core.IcmpOptions) map[string]interface{} {
 
 	if obj.Type != nil {
 		result["type"] = int(*obj.Type)
+	}
+
+	return result
+}
+
+func mapToIngressSecurityRule(raw map[string]interface{}) oci_core.IngressSecurityRule {
+	result := oci_core.IngressSecurityRule{}
+
+	if icmpOptions, ok := raw["icmp_options"]; ok {
+		if tmpList := icmpOptions.([]interface{}); len(tmpList) > 0 {
+			tmp := mapToIcmpOptions(tmpList[0].(map[string]interface{}))
+			result.IcmpOptions = &tmp
+		}
+	}
+
+	if protocol, ok := raw["protocol"]; ok {
+		tmp := protocol.(string)
+		result.Protocol = &tmp
+	}
+
+	if source, ok := raw["source"]; ok {
+		tmp := source.(string)
+		result.Source = &tmp
+	}
+
+	if stateless, ok := raw["stateless"]; ok {
+		tmp := stateless.(bool)
+		result.IsStateless = &tmp
+	}
+
+	if tcpOptions, ok := raw["tcp_options"]; ok {
+		if tmpList := tcpOptions.([]interface{}); len(tmpList) > 0 {
+			tmp := mapToTcpOptions(tmpList[0].(map[string]interface{}))
+			result.TcpOptions = &tmp
+		}
+	}
+
+	if udpOptions, ok := raw["udp_options"]; ok {
+		if tmpList := udpOptions.([]interface{}); len(tmpList) > 0 {
+			tmp := mapToUdpOptions(tmpList[0].(map[string]interface{}))
+			result.UdpOptions = &tmp
+		}
+	}
+
+	return result
+}
+
+func IngressSecurityRuleToMap(obj oci_core.IngressSecurityRule) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.IcmpOptions != nil {
+		result["icmp_options"] = []interface{}{IcmpOptionsToMap(obj.IcmpOptions)}
+	}
+
+	if obj.Protocol != nil {
+		result["protocol"] = string(*obj.Protocol)
+	}
+
+	if obj.Source != nil {
+		result["source"] = string(*obj.Source)
+	}
+
+	if obj.IsStateless != nil {
+		result["stateless"] = bool(*obj.IsStateless)
+	}
+
+	if obj.TcpOptions != nil {
+		result["tcp_options"] = []interface{}{TcpOptionsToMap(obj.TcpOptions)}
+	}
+
+	if obj.UdpOptions != nil {
+		result["udp_options"] = []interface{}{UdpOptionsToMap(obj.UdpOptions)}
 	}
 
 	return result
@@ -744,150 +888,6 @@ func UdpOptionsToMap(obj *oci_core.UdpOptions) map[string]interface{} {
 
 	if obj.SourcePortRange != nil {
 		result["source_port_range"] = []interface{}{PortRangeToMap(obj.SourcePortRange)}
-	}
-
-	return result
-}
-
-func mapToEgressSecurityRule(raw map[string]interface{}) oci_core.EgressSecurityRule {
-	result := oci_core.EgressSecurityRule{}
-
-	if destination, ok := raw["destination"]; ok {
-		tmp := destination.(string)
-		result.Destination = &tmp
-	}
-
-	if icmpOptions, ok := raw["icmp_options"]; ok {
-		if tmpList := icmpOptions.([]interface{}); len(tmpList) > 0 {
-			tmp := mapToIcmpOptions(tmpList[0].(map[string]interface{}))
-			result.IcmpOptions = &tmp
-		}
-	}
-
-	if protocol, ok := raw["protocol"]; ok {
-		tmp := protocol.(string)
-		result.Protocol = &tmp
-	}
-
-	if stateless, ok := raw["stateless"]; ok {
-		tmp := stateless.(bool)
-		result.IsStateless = &tmp
-	}
-
-	if tcpOptions, ok := raw["tcp_options"]; ok {
-		if tmpList := tcpOptions.([]interface{}); len(tmpList) > 0 {
-			tmp := mapToTcpOptions(tmpList[0].(map[string]interface{}))
-			result.TcpOptions = &tmp
-		}
-	}
-
-	if udpOptions, ok := raw["udp_options"]; ok {
-		if tmpList := udpOptions.([]interface{}); len(tmpList) > 0 {
-			tmp := mapToUdpOptions(tmpList[0].(map[string]interface{}))
-			result.UdpOptions = &tmp
-		}
-	}
-
-	return result
-}
-
-func EgressSecurityRuleToMap(obj oci_core.EgressSecurityRule) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.Destination != nil {
-		result["destination"] = string(*obj.Destination)
-	}
-
-	if obj.IcmpOptions != nil {
-		result["icmp_options"] = []interface{}{IcmpOptionsToMap(obj.IcmpOptions)}
-	}
-
-	if obj.Protocol != nil {
-		result["protocol"] = string(*obj.Protocol)
-	}
-
-	if obj.IsStateless != nil {
-		result["stateless"] = bool(*obj.IsStateless)
-	}
-
-	if obj.TcpOptions != nil {
-		result["tcp_options"] = []interface{}{TcpOptionsToMap(obj.TcpOptions)}
-	}
-
-	if obj.UdpOptions != nil {
-		result["udp_options"] = []interface{}{UdpOptionsToMap(obj.UdpOptions)}
-	}
-
-	return result
-}
-
-func mapToIngressSecurityRule(raw map[string]interface{}) oci_core.IngressSecurityRule {
-	result := oci_core.IngressSecurityRule{}
-
-	if icmpOptions, ok := raw["icmp_options"]; ok {
-		if tmpList := icmpOptions.([]interface{}); len(tmpList) > 0 {
-			tmp := mapToIcmpOptions(tmpList[0].(map[string]interface{}))
-			result.IcmpOptions = &tmp
-		}
-	}
-
-	if protocol, ok := raw["protocol"]; ok {
-		tmp := protocol.(string)
-		result.Protocol = &tmp
-	}
-
-	if source, ok := raw["source"]; ok {
-		tmp := source.(string)
-		result.Source = &tmp
-	}
-
-	if stateless, ok := raw["stateless"]; ok {
-		tmp := stateless.(bool)
-		result.IsStateless = &tmp
-	}
-
-	if tcpOptions, ok := raw["tcp_options"]; ok {
-		if tmpList := tcpOptions.([]interface{}); len(tmpList) > 0 {
-			tmp := mapToTcpOptions(tmpList[0].(map[string]interface{}))
-			result.TcpOptions = &tmp
-		}
-	}
-
-	if udpOptions, ok := raw["udp_options"]; ok {
-		if tmpList := udpOptions.([]interface{}); len(tmpList) > 0 {
-			tmp := mapToUdpOptions(tmpList[0].(map[string]interface{}))
-			result.UdpOptions = &tmp
-		}
-	}
-
-	return result
-}
-
-func IngressSecurityRuleToMap(obj oci_core.IngressSecurityRule) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.IcmpOptions != nil {
-		result["icmp_options"] = []interface{}{IcmpOptionsToMap(obj.IcmpOptions)}
-	}
-
-	if obj.Protocol != nil {
-		result["protocol"] = string(*obj.Protocol)
-	}
-
-	if obj.Source != nil {
-		result["source"] = string(*obj.Source)
-	}
-
-	if obj.IsStateless != nil {
-		result["stateless"] = bool(*obj.IsStateless)
-	}
-
-	if obj.TcpOptions != nil {
-		result["tcp_options"] = []interface{}{TcpOptionsToMap(obj.TcpOptions)}
-	}
-
-	if obj.UdpOptions != nil {
-		result["udp_options"] = []interface{}{UdpOptionsToMap(obj.UdpOptions)}
 	}
 
 	return result
