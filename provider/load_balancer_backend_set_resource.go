@@ -531,6 +531,40 @@ func (s *BackendSetResourceCrud) SetData() {
 
 }
 
+func BackendToMap(obj oci_load_balancer.Backend) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Backup != nil {
+		result["backup"] = bool(*obj.Backup)
+	}
+
+	if obj.Drain != nil {
+		result["drain"] = bool(*obj.Drain)
+	}
+
+	if obj.IpAddress != nil {
+		result["ip_address"] = string(*obj.IpAddress)
+	}
+
+	if obj.Name != nil {
+		result["name"] = string(*obj.Name)
+	}
+
+	if obj.Offline != nil {
+		result["offline"] = bool(*obj.Offline)
+	}
+
+	if obj.Port != nil {
+		result["port"] = int(*obj.Port)
+	}
+
+	if obj.Weight != nil {
+		result["weight"] = int(*obj.Weight)
+	}
+
+	return result
+}
+
 func mapToHealthCheckerDetails(raw map[string]interface{}) oci_load_balancer.HealthCheckerDetails {
 	result := oci_load_balancer.HealthCheckerDetails{}
 
@@ -709,40 +743,6 @@ func backendToBackendDetails(backend oci_load_balancer.Backend) oci_load_balance
 	result.Offline = backend.Offline
 	result.Port = backend.Port
 	result.Weight = backend.Weight
-
-	return result
-}
-
-func BackendToMap(obj oci_load_balancer.Backend) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.Backup != nil {
-		result["backup"] = bool(*obj.Backup)
-	}
-
-	if obj.Drain != nil {
-		result["drain"] = bool(*obj.Drain)
-	}
-
-	if obj.IpAddress != nil {
-		result["ip_address"] = string(*obj.IpAddress)
-	}
-
-	if obj.Name != nil {
-		result["name"] = string(*obj.Name)
-	}
-
-	if obj.Offline != nil {
-		result["offline"] = bool(*obj.Offline)
-	}
-
-	if obj.Port != nil {
-		result["port"] = int(*obj.Port)
-	}
-
-	if obj.Weight != nil {
-		result["weight"] = int(*obj.Weight)
-	}
 
 	return result
 }
