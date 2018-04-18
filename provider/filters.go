@@ -1,10 +1,12 @@
+// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+
 package provider
 
 import (
+	"log"
 	"reflect"
 	"regexp"
-
-	"fmt"
+	"strconv"
 
 	"github.com/hashicorp/terraform/helper/schema"
 )
@@ -49,19 +51,19 @@ func ApplyFilters(filters *schema.Set, items []map[string]interface{}) []map[str
 		keyword := fSet["name"].(string)
 
 		isReg := false
-		if regex, regexOk := fSet["regex"]; regexOk && regex != nil {
-			if strVal, strValOk := regex.(string); strValOk {
-				isReg = strVal == "1" || strVal == "true"
-			} else if boolVal, boolValOk := regex.(bool); boolValOk {
-				isReg = boolVal
-			}
+		if regex, regexOk := fSet["regex"]; regexOk {
+			isReg = regex.(bool)
 		}
 
-		check := func(filterVal string, propertyVal string) bool {
+		// create a string equality check strategy based on this filters "regex" flag
+		stringsEqual := func(propertyVal string, filterVal string) bool {
 			if isReg {
 				re, err := regexp.Compile(filterVal)
 				if err != nil {
-					panic(fmt.Errorf(`Invalid regular expression "%s" for "%s" filter`, filterVal, keyword))
+					// todo: when all SetData() fns are refactored to return a possible error, these log statements should
+					// be converted to errors for return propagation
+					log.Printf(`[WARN] Invalid regular expression "%s" for "%s" filter\n`, filterVal, keyword)
+					return false
 				}
 				return re.MatchString(propertyVal)
 			}
@@ -69,52 +71,75 @@ func ApplyFilters(filters *schema.Set, items []map[string]interface{}) []map[str
 			return filterVal == propertyVal
 		}
 
-		orComparator := func(item map[string]interface{}) bool {
-			actualValue, valueExists := item[keyword]
-			if !valueExists {
-				return false
+		// build a collection of items from matches against the set of filters
+		res := make([]map[string]interface{}, 0)
+		for _, item := range items {
+			targetVal, targetValOk := item[keyword]
+			if targetValOk && orComparator(targetVal, fSet["values"].([]interface{}), stringsEqual) {
+				res = append(res, item)
 			}
-
-			// We use reflection to determine whether the underlying type of the filtering attribute is a string or
-			// array of strings. Mainly used because the property could be an SDK enum with underlying string type.
-			// TODO: We should store SDK enum values in state as strings prior to calling ApplyFilters, to avoid using reflection
-			rValue := reflect.ValueOf(actualValue)
-			rType := rValue.Type()
-
-			isStringArray := (rType.Kind() == reflect.Slice || rType.Kind() == reflect.Array) && rType.Elem().Kind() == reflect.String
-			isString := rType.Kind() == reflect.String
-			if !isStringArray && !isString {
-				// property is neither a string nor array of strings, so it can be filtered out
-				return false
-			}
-
-			for _, filterValue := range fSet["values"].([]interface{}) {
-				if isStringArray {
-					arrLen := rValue.Len()
-					for i := 0; i < arrLen; i++ {
-						if check(filterValue.(string), rValue.Index(i).String()) {
-							return true
-						}
-					}
-				} else if check(filterValue.(string), rValue.String()) {
-					return true
-				}
-			}
-			return false
 		}
-
-		items = filter(items, orComparator)
+		items = res
 	}
 
 	return items
 }
 
-func filter(items []map[string]interface{}, comparator func(map[string]interface{}) bool) []map[string]interface{} {
-	res := make([]map[string]interface{}, 0)
-	for _, item := range items {
-		if comparator(item) {
-			res = append(res, item)
+type StringCheck func(propertyVal string, filterVal string) bool
+
+// orComparator returns true for any filter that matches the target property
+func orComparator(target interface{}, filters []interface{}, stringsEqual StringCheck) bool {
+	// Use reflection to determine whether the underlying type of the filtering attribute is a string or
+	// array of strings. Mainly used because the property could be an SDK enum with underlying string type.
+	val := reflect.ValueOf(target)
+	valType := val.Type()
+
+	for _, fVal := range filters {
+		switch valType.Kind() {
+		case reflect.Bool:
+			fBool, err := strconv.ParseBool(fVal.(string))
+			if err != nil {
+				log.Println("[WARN] Filtering against Type Bool field with un-parsable string boolean form")
+				return false
+			}
+			if val.Bool() == fBool {
+				return true
+			}
+		case reflect.Int:
+			// the target field is of type int, but the filter values list element type is string, users can supply string
+			// or int like `values = [300, "3600"]` but terraform will converts to string, so use ParseInt
+			fInt, err := strconv.ParseInt(fVal.(string), 10, 64)
+			if err != nil {
+				log.Println("[WARN] Filtering against Type Int field with non-int filter value")
+				return false
+			}
+			if val.Int() == fInt {
+				return true
+			}
+		case reflect.Float64:
+			// same comment as above for Ints
+			fFloat, err := strconv.ParseFloat(fVal.(string), 64)
+			if err != nil {
+				log.Println("[WARN] Filtering against Type Float field with non-float filter value")
+				return false
+			}
+			if val.Float() == fFloat {
+				return true
+			}
+		case reflect.String:
+			if stringsEqual(val.String(), fVal.(string)) {
+				return true
+			}
+		case reflect.Slice, reflect.Array:
+			if valType.Elem().Kind() == reflect.String {
+				arrLen := val.Len()
+				for i := 0; i < arrLen; i++ {
+					if stringsEqual(val.Index(i).String(), fVal.(string)) {
+						return true
+					}
+				}
+			}
 		}
 	}
-	return res
+	return false
 }
