@@ -189,6 +189,14 @@ func InstanceResource() *schema.Resource {
 							DiffSuppressFunc: crud.EqualIgnoreCaseSuppressDiff,
 							ValidateFunc:     validation.StringInSlice([]string{InstanceSourceImageDiscriminator, InstanceSourceBootVolumeDiscriminator}, true),
 						},
+
+						// Optional
+						"boot_volume_size_in_gbs": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
 					},
 				},
 			},
@@ -209,6 +217,41 @@ func InstanceResource() *schema.Resource {
 			"id": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"launch_mode": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"launch_options": {
+				Type:     schema.TypeList,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"boot_volume_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"firmware": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"network_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"remote_data_volume_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
 			},
 			"region": {
 				Type:     schema.TypeString,
@@ -240,6 +283,7 @@ func createInstance(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient
 	sync.VirtualNetworkClient = m.(*OracleClients).virtualNetworkClient
+	sync.BlockStorageClient = m.(*OracleClients).blockStorageClient
 
 	return crud.CreateResource(d, sync)
 }
@@ -249,6 +293,7 @@ func readInstance(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient
 	sync.VirtualNetworkClient = m.(*OracleClients).virtualNetworkClient
+	sync.BlockStorageClient = m.(*OracleClients).blockStorageClient
 
 	return crud.ReadResource(sync)
 }
@@ -258,6 +303,7 @@ func updateInstance(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient
 	sync.VirtualNetworkClient = m.(*OracleClients).virtualNetworkClient
+	sync.BlockStorageClient = m.(*OracleClients).blockStorageClient
 
 	return crud.UpdateResource(d, sync)
 }
@@ -267,6 +313,7 @@ func deleteInstance(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient
 	sync.VirtualNetworkClient = m.(*OracleClients).virtualNetworkClient
+	sync.BlockStorageClient = m.(*OracleClients).blockStorageClient
 	sync.DisableNotFoundRetries = true
 
 	return crud.DeleteResource(d, sync)
@@ -276,6 +323,7 @@ type InstanceResourceCrud struct {
 	crud.BaseCrud
 	Client                 *oci_core.ComputeClient
 	VirtualNetworkClient   *oci_core.VirtualNetworkClient
+	BlockStorageClient     *oci_core.BlockstorageClient
 	Res                    *oci_core.Instance
 	DisableNotFoundRetries bool
 }
@@ -507,6 +555,12 @@ func (s *InstanceResourceCrud) SetData() {
 		s.D.Set("ipxe_script", *s.Res.IpxeScript)
 	}
 
+	s.D.Set("launch_mode", s.Res.LaunchMode)
+
+	if s.Res.LaunchOptions != nil {
+		s.D.Set("launch_options", []interface{}{LaunchOptionsToMap(s.Res.LaunchOptions)})
+	}
+
 	if s.Res.Metadata != nil {
 		err := s.D.Set("metadata", s.Res.Metadata)
 		if err != nil {
@@ -522,8 +576,23 @@ func (s *InstanceResourceCrud) SetData() {
 		s.D.Set("shape", *s.Res.Shape)
 	}
 
+	bootVolume, bootVolumeErr := s.getBootVolume()
+	if bootVolumeErr != nil {
+		log.Printf("[WARN] Could not get the boot volume: %q", bootVolumeErr)
+	}
+
 	if s.Res.SourceDetails != nil {
-		s.D.Set("source_details", []interface{}{InstanceSourceDetailsToMap(&s.Res.SourceDetails)})
+		var sourceDetailsFromConfig map[string]interface{}
+		if details, ok := s.D.GetOkExists("source_details"); ok {
+			if tmpList := details.([]interface{}); len(tmpList) > 0 {
+				sourceDetailsFromConfig = tmpList[0].(map[string]interface{})
+			}
+		}
+		s.D.Set("source_details", []interface{}{InstanceSourceDetailsToMap(&s.Res.SourceDetails, bootVolume, sourceDetailsFromConfig)})
+	}
+
+	if bootVolume != nil && bootVolume.Id != nil {
+		s.D.Set("boot_volume_id", *bootVolume.Id)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
@@ -552,13 +621,6 @@ func (s *InstanceResourceCrud) SetData() {
 				log.Printf("[WARN] create_vnic_details could not be set: %q", err)
 			}
 		}
-	}
-
-	bootVolumeId, err := s.getBootVolumeId()
-	if err != nil {
-		log.Printf("[WARN] Boot volume ID could not be found: %q", err)
-	} else {
-		s.D.Set("boot_volume_id", bootVolumeId)
 	}
 }
 
@@ -617,6 +679,14 @@ func mapToInstanceSourceDetails(raw map[string]interface{}) oci_core.InstanceSou
 	case strings.ToLower(InstanceSourceImageDiscriminator):
 		result := oci_core.InstanceSourceViaImageDetails{}
 		result.ImageId = &sourceId
+
+		if bootVolumeSizeInGBs, ok := raw["boot_volume_size_in_gbs"]; ok {
+			tmp := bootVolumeSizeInGBs.(int)
+			if tmp != 0 {
+				result.BootVolumeSizeInGBs = &tmp
+			}
+		}
+
 		return result
 	default:
 		log.Printf("[WARN] Unknown source_type '%v' was specified", sourceType)
@@ -625,7 +695,7 @@ func mapToInstanceSourceDetails(raw map[string]interface{}) oci_core.InstanceSou
 	return nil
 }
 
-func InstanceSourceDetailsToMap(obj *oci_core.InstanceSourceDetails) map[string]interface{} {
+func InstanceSourceDetailsToMap(obj *oci_core.InstanceSourceDetails, bootVolume *oci_core.BootVolume, sourceDetailsFromConfig map[string]interface{}) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	switch v := (*obj).(type) {
@@ -638,6 +708,17 @@ func InstanceSourceDetailsToMap(obj *oci_core.InstanceSourceDetails) map[string]
 		result["source_type"] = InstanceSourceImageDiscriminator
 		if v.ImageId != nil {
 			result["source_id"] = *v.ImageId
+		}
+
+		if v.BootVolumeSizeInGBs != nil {
+			result["boot_volume_size_in_gbs"] = *v.BootVolumeSizeInGBs
+		} else if bootVolume != nil && bootVolume.SizeInGBs != nil {
+			// The service could omit the boot volume size in the InstanceSourceViaImageDetails, so use the boot volume
+			// SizeInGBs property if that's the case.
+			result["boot_volume_size_in_gbs"] = *bootVolume.SizeInGBs
+		} else if sourceDetailsFromConfig != nil {
+			// Last resort. If we can't query the boot volume size from service, use the config value.
+			result["boot_volume_size_in_gbs"] = sourceDetailsFromConfig["boot_volume_size_in_gbs"]
 		}
 	default:
 		log.Printf("[WARN] Received 'source_details' of unknown type")
@@ -773,7 +854,7 @@ func (s *InstanceResourceCrud) getPrimaryVnic() (*oci_core.Vnic, error) {
 	return nil, errors.New("Primary VNIC not found.")
 }
 
-func (s *InstanceResourceCrud) getBootVolumeId() (string, error) {
+func (s *InstanceResourceCrud) getBootVolume() (*oci_core.BootVolume, error) {
 	request := oci_core.ListBootVolumeAttachmentsRequest{
 		AvailabilityDomain: s.Res.AvailabilityDomain,
 		CompartmentId:      s.Res.CompartmentId,
@@ -782,16 +863,23 @@ func (s *InstanceResourceCrud) getBootVolumeId() (string, error) {
 
 	response, err := s.Client.ListBootVolumeAttachments(context.Background(), request)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
 	if len(response.Items) < 1 {
-		return "", fmt.Errorf("Could not find any attached boot volumes")
+		return nil, fmt.Errorf("Could not find any attached boot volumes")
 	}
 
-	if bootVolumeId := response.Items[0].BootVolumeId; bootVolumeId != nil {
-		return *bootVolumeId, nil
+	bootVolumeId := response.Items[0].BootVolumeId
+	if bootVolumeId == nil {
+		return nil, fmt.Errorf("Found a boot volume attachment with no boot volume ID")
 	}
 
-	return "", fmt.Errorf("Found a boot volume attachment with no boot volume ID")
+	bootVolumeRequest := oci_core.GetBootVolumeRequest{BootVolumeId: bootVolumeId}
+	bootVolumeResponse, err := s.BlockStorageClient.GetBootVolume(context.Background(), bootVolumeRequest)
+	if err != nil {
+		return nil, err
+	}
+
+	return &bootVolumeResponse.BootVolume, nil
 }

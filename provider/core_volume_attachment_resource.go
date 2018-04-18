@@ -4,6 +4,7 @@ package provider
 
 import (
 	"context"
+	"log"
 	"strings"
 
 	"github.com/hashicorp/terraform/helper/schema"
@@ -14,7 +15,10 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-const IScsiVolumeAttachmentDiscriminator = "iscsi"
+const (
+	IScsiVolumeAttachmentDiscriminator           = "iscsi"
+	ParavirtualizedVolumeAttachmentDiscriminator = "paravirtualized"
+)
 
 func VolumeAttachmentResource() *schema.Resource {
 	return &schema.Resource{
@@ -27,17 +31,17 @@ func VolumeAttachmentResource() *schema.Resource {
 		Delete:   deleteVolumeAttachment,
 		Schema: map[string]*schema.Schema{
 			// Required
-			"instance_id": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
-			},
 			"attachment_type": { // => "type" (polymorphic discriminator)
 				Type:             schema.TypeString,
 				Required:         true,
 				ForceNew:         true,
 				DiffSuppressFunc: crud.EqualIgnoreCaseSuppressDiff,
-				ValidateFunc:     validation.StringInSlice([]string{"iscsi"}, true),
+				ValidateFunc:     validation.StringInSlice([]string{IScsiVolumeAttachmentDiscriminator, ParavirtualizedVolumeAttachmentDiscriminator}, true),
+			},
+			"instance_id": {
+				Type:     schema.TypeString,
+				Required: true,
+				ForceNew: true,
 			},
 			"volume_id": {
 				Type:     schema.TypeString,
@@ -48,6 +52,18 @@ func VolumeAttachmentResource() *schema.Resource {
 			// Optional
 			"display_name": {
 				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"is_read_only": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"use_chap": {
+				Type:     schema.TypeBool,
 				Optional: true,
 				Computed: true,
 				ForceNew: true,
@@ -78,8 +94,7 @@ func VolumeAttachmentResource() *schema.Resource {
 				Computed: true,
 			},
 
-			// VolumeAttachment is a polymorphic type itself. However, it has only one subtype
-			// IScsiVolumeAttachment. Hence, the following are only computed if type == "iscsi".
+			// VolumeAttachment is a polymorphic type itself. The following are only computed if attachment_type == "iscsi".
 			"chap_secret": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -168,33 +183,7 @@ func (s *VolumeAttachmentResourceCrud) DeletedTarget() []string {
 func (s *VolumeAttachmentResourceCrud) Create() error {
 	request := oci_core.AttachVolumeRequest{}
 
-	// VolumeDetails is a polymorphic type, but will always be "iSCSI".
-	var details oci_core.AttachIScsiVolumeDetails
-
-	if displayName, ok := s.D.GetOkExists("display_name"); ok {
-		tmp := displayName.(string)
-		details.DisplayName = &tmp
-	}
-
-	if instanceId, ok := s.D.GetOkExists("instance_id"); ok {
-		tmp := instanceId.(string)
-		details.InstanceId = &tmp
-	}
-
-	if type_, ok := s.D.GetOkExists("attachment_type"); ok {
-		tmp := type_.(string)
-		// The only supported AttachmentType is "iSCSI". Panic otherwise.
-		if strings.ToLower(tmp) != strings.ToLower(IScsiVolumeAttachmentDiscriminator) {
-			panic("unable to convert configuration to a VolumeAttachment.")
-		}
-	}
-
-	if volumeId, ok := s.D.GetOkExists("volume_id"); ok {
-		tmp := volumeId.(string)
-		details.VolumeId = &tmp
-	}
-
-	request.AttachVolumeDetails = details
+	request.AttachVolumeDetails = mapToAttachVolumeDetails(s.D)
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
 
@@ -237,62 +226,133 @@ func (s *VolumeAttachmentResourceCrud) Delete() error {
 }
 
 func (s *VolumeAttachmentResourceCrud) SetData() {
-	// VolumeDetails is a polymorphic type, but will always be "iSCSI". Panic otherwise.
 	volumeAttachment := *s.Res
-	iscsiVolumeAttachment, castOk := volumeAttachment.(oci_core.IScsiVolumeAttachment)
-	if !castOk {
-		panic("unexpected VolumeAttachment type.")
+
+	if availabilityDomain := volumeAttachment.GetAvailabilityDomain(); availabilityDomain != nil {
+		s.D.Set("availability_domain", *availabilityDomain)
 	}
 
-	s.D.Set("attachment_type", IScsiVolumeAttachmentDiscriminator)
-
-	if iscsiVolumeAttachment.AvailabilityDomain != nil {
-		s.D.Set("availability_domain", *iscsiVolumeAttachment.AvailabilityDomain)
+	if compartmentId := volumeAttachment.GetCompartmentId(); compartmentId != nil {
+		s.D.Set("compartment_id", *compartmentId)
 	}
 
-	if iscsiVolumeAttachment.CompartmentId != nil {
-		s.D.Set("compartment_id", *iscsiVolumeAttachment.CompartmentId)
+	if displayName := volumeAttachment.GetDisplayName(); displayName != nil {
+		s.D.Set("display_name", *displayName)
 	}
 
-	if iscsiVolumeAttachment.DisplayName != nil {
-		s.D.Set("display_name", *iscsiVolumeAttachment.DisplayName)
+	if id := volumeAttachment.GetId(); id != nil {
+		s.D.Set("id", *id)
 	}
 
-	if iscsiVolumeAttachment.Id != nil {
-		s.D.Set("id", *iscsiVolumeAttachment.Id)
+	if instanceId := volumeAttachment.GetInstanceId(); instanceId != nil {
+		s.D.Set("instance_id", *instanceId)
 	}
 
-	if iscsiVolumeAttachment.InstanceId != nil {
-		s.D.Set("instance_id", *iscsiVolumeAttachment.InstanceId)
+	if isReadOnly := volumeAttachment.GetIsReadOnly(); isReadOnly != nil {
+		s.D.Set("is_read_only", *isReadOnly)
 	}
 
-	s.D.Set("state", iscsiVolumeAttachment.LifecycleState)
+	s.D.Set("state", volumeAttachment.GetLifecycleState())
 
-	s.D.Set("time_created", iscsiVolumeAttachment.TimeCreated.String())
-
-	if iscsiVolumeAttachment.VolumeId != nil {
-		s.D.Set("volume_id", *iscsiVolumeAttachment.VolumeId)
+	if timeCreated := volumeAttachment.GetTimeCreated(); timeCreated != nil {
+		s.D.Set("time_created", timeCreated.String())
 	}
 
-	// IScsiVolumeAttachment-specific fields:
-	if iscsiVolumeAttachment.ChapSecret != nil {
-		s.D.Set("chap_secret", *iscsiVolumeAttachment.ChapSecret)
+	if volumeId := volumeAttachment.GetVolumeId(); volumeId != nil {
+		s.D.Set("volume_id", *volumeId)
 	}
 
-	if iscsiVolumeAttachment.ChapUsername != nil {
-		s.D.Set("chap_username", *iscsiVolumeAttachment.ChapUsername)
+	switch v := volumeAttachment.(type) {
+	case oci_core.IScsiVolumeAttachment:
+		s.D.Set("attachment_type", IScsiVolumeAttachmentDiscriminator)
+
+		// IScsiVolumeAttachment-specific fields:
+		if v.ChapSecret != nil {
+			s.D.Set("chap_secret", *v.ChapSecret)
+		}
+
+		if v.ChapUsername != nil {
+			s.D.Set("chap_username", *v.ChapUsername)
+		}
+
+		if v.Ipv4 != nil {
+			s.D.Set("ipv4", *v.Ipv4)
+		}
+
+		if v.Iqn != nil {
+			s.D.Set("iqn", *v.Iqn)
+		}
+
+		if v.Port != nil {
+			s.D.Set("port", *v.Port)
+		}
+	case oci_core.ParavirtualizedVolumeAttachment:
+		s.D.Set("attachment_type", ParavirtualizedVolumeAttachmentDiscriminator)
+	default:
+		log.Printf("[WARN] Received volume attachment of unknown type")
+	}
+}
+
+func mapToAttachVolumeDetails(d *schema.ResourceData) oci_core.AttachVolumeDetails {
+	attachmentType := d.Get("attachment_type").(string)
+
+	switch strings.ToLower(attachmentType) {
+	case strings.ToLower(IScsiVolumeAttachmentDiscriminator):
+		result := oci_core.AttachIScsiVolumeDetails{}
+
+		if displayName, ok := d.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			result.DisplayName = &tmp
+		}
+
+		if instanceId, ok := d.GetOkExists("instance_id"); ok {
+			tmp := instanceId.(string)
+			result.InstanceId = &tmp
+		}
+
+		if isReadOnly, ok := d.GetOkExists("is_read_only"); ok {
+			tmp := isReadOnly.(bool)
+			result.IsReadOnly = &tmp
+		}
+
+		if useChap, ok := d.GetOkExists("use_chap"); ok {
+			tmp := useChap.(bool)
+			result.UseChap = &tmp
+		}
+
+		if volumeId, ok := d.GetOkExists("volume_id"); ok {
+			tmp := volumeId.(string)
+			result.VolumeId = &tmp
+		}
+
+		return result
+	case strings.ToLower(ParavirtualizedVolumeAttachmentDiscriminator):
+		result := oci_core.AttachParavirtualizedVolumeDetails{}
+
+		if displayName, ok := d.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			result.DisplayName = &tmp
+		}
+
+		if instanceId, ok := d.GetOkExists("instance_id"); ok {
+			tmp := instanceId.(string)
+			result.InstanceId = &tmp
+		}
+
+		if isReadOnly, ok := d.GetOkExists("is_read_only"); ok {
+			tmp := isReadOnly.(bool)
+			result.IsReadOnly = &tmp
+		}
+
+		if volumeId, ok := d.GetOkExists("volume_id"); ok {
+			tmp := volumeId.(string)
+			result.VolumeId = &tmp
+		}
+
+		return result
+	default:
+		log.Printf("[WARN] Unknown attachment_type '%v' was specified", attachmentType)
 	}
 
-	if iscsiVolumeAttachment.Ipv4 != nil {
-		s.D.Set("ipv4", *iscsiVolumeAttachment.Ipv4)
-	}
-
-	if iscsiVolumeAttachment.Iqn != nil {
-		s.D.Set("iqn", *iscsiVolumeAttachment.Iqn)
-	}
-
-	if iscsiVolumeAttachment.Port != nil {
-		s.D.Set("port", *iscsiVolumeAttachment.Port)
-	}
-
+	return nil
 }

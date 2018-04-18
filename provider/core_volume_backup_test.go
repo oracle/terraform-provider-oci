@@ -25,11 +25,13 @@ resource "oci_core_volume_backup" "test_volume_backup" {
 
 	#Optional
 	display_name = "${var.volume_backup_display_name}"
+	type = "${var.volume_backup_type}"
 }
 `
 	VolumeBackupPropertyVariables = `
 variable "volume_backup_display_name" { default = "displayName" }
 variable "volume_backup_state" { default = "state" }
+variable "volume_backup_type" { default = "type" }
 
 `
 	VolumeBackupResourceDependencies = VolumePropertyVariables + VolumeResourceConfig
@@ -82,6 +84,7 @@ func TestCoreVolumeBackupResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+					resource.TestCheckResourceAttr(resourceName, "type", "type"),
 					resource.TestCheckResourceAttrSet(resourceName, "volume_id"),
 
 					func(s *terraform.State) (err error) {
@@ -96,6 +99,7 @@ func TestCoreVolumeBackupResource_basic(t *testing.T) {
 				Config: config + `
 variable "volume_backup_display_name" { default = "displayName2" }
 variable "volume_backup_state" { default = "state" }
+variable "volume_backup_type" { default = "type" }
 
                 ` + compartmentIdVariableStr + VolumeBackupResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
@@ -104,6 +108,7 @@ variable "volume_backup_state" { default = "state" }
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+					resource.TestCheckResourceAttr(resourceName, "type", "type"),
 					resource.TestCheckResourceAttrSet(resourceName, "volume_id"),
 
 					func(s *terraform.State) (err error) {
@@ -120,6 +125,7 @@ variable "volume_backup_state" { default = "state" }
 				Config: config + `
 variable "volume_backup_display_name" { default = "displayName2" }
 variable "volume_backup_state" { default = "AVAILABLE" }
+variable "volume_backup_type" { default = "type2" }
 
                 ` + compartmentIdVariableStr2 + VolumeBackupResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
@@ -128,6 +134,7 @@ variable "volume_backup_state" { default = "AVAILABLE" }
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+					resource.TestCheckResourceAttr(resourceName, "type", "type2"),
 					resource.TestCheckResourceAttrSet(resourceName, "volume_id"),
 
 					func(s *terraform.State) (err error) {
@@ -144,6 +151,7 @@ variable "volume_backup_state" { default = "AVAILABLE" }
 				Config: config + `
 variable "volume_backup_display_name" { default = "displayName2" }
 variable "volume_backup_state" { default = "AVAILABLE" }
+variable "volume_backup_type" { default = "type2" }
 
 data "oci_core_volume_backups" "test_volume_backups" {
 	#Required
@@ -172,6 +180,7 @@ data "oci_core_volume_backups" "test_volume_backups" {
 					resource.TestCheckResourceAttrSet(datasourceName, "volume_backups.0.id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "volume_backups.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "volume_backups.0.time_created"),
+					resource.TestCheckResourceAttr(datasourceName, "volume_backups.0.type", "type2"),
 					resource.TestCheckResourceAttrSet(datasourceName, "volume_backups.0.volume_id"),
 				),
 			},
@@ -204,6 +213,7 @@ func TestCoreVolumeBackupResource_forcenew(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+					resource.TestCheckResourceAttr(resourceName, "type", "type"),
 					resource.TestCheckResourceAttrSet(resourceName, "volume_id"),
 
 					func(s *terraform.State) (err error) {
@@ -218,6 +228,7 @@ func TestCoreVolumeBackupResource_forcenew(t *testing.T) {
 				Config: config + `
 variable "volume_backup_display_name" { default = "displayName" }
 variable "volume_backup_state" { default = "state" }
+variable "volume_backup_type" { default = "type2" }
 				` + compartmentIdVariableStr + VolumeBackupResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
@@ -225,6 +236,33 @@ variable "volume_backup_state" { default = "state" }
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+					resource.TestCheckResourceAttr(resourceName, "type", "type2"),
+					resource.TestCheckResourceAttrSet(resourceName, "volume_id"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = fromInstanceState(s, resourceName, "id")
+						if resId == resId2 {
+							return fmt.Errorf("Resource was expected to be recreated when updating parameter Type but the id did not change.")
+						}
+						resId = resId2
+						return err
+					},
+				),
+			},
+
+			{
+				Config: config + `
+variable "volume_backup_display_name" { default = "displayName" }
+variable "volume_backup_state" { default = "state" }
+variable "volume_backup_type" { default = "type2" }
+				` + compartmentIdVariableStr + VolumeBackupResourceConfig,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+					resource.TestCheckResourceAttr(resourceName, "type", "type2"),
 					resource.TestCheckResourceAttrSet(resourceName, "volume_id"),
 
 					func(s *terraform.State) (err error) {

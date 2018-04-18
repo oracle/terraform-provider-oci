@@ -6,6 +6,7 @@ import (
 	"fmt"
 
 	"github.com/hashicorp/terraform/helper/schema"
+	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
 // This applies the differences between the regular schema and the one
@@ -48,4 +49,18 @@ func validateNotEmptyString() schema.SchemaValidateFunc {
 		}
 		return
 	}
+}
+
+func LaunchOptionsToMap(obj *oci_core.LaunchOptions) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["boot_volume_type"] = string(obj.BootVolumeType)
+
+	result["firmware"] = string(obj.Firmware)
+
+	result["network_type"] = string(obj.NetworkType)
+
+	result["remote_data_volume_type"] = string(obj.RemoteDataVolumeType)
+
+	return result
 }

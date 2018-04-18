@@ -5,7 +5,7 @@
     #    \___/|_| \_/_/   \_\____|_____|_____|
 ***
 ## Manage instances with multiple attached volumes
-This example launches 3 instances and attaches 2 volumes per instance.
+This example launches multiple instances and attaches multiple volumes to each instance.
 
 This is done using Terraform's [interpolation syntax](https://www.terraform.io/docs/configuration/interpolation.html) for `count` variables and `math` operations.
 

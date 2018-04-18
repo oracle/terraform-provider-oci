@@ -43,6 +43,7 @@ func (s *DatasourceCoreImageTestSuite) TestAccImage_basic() {
 				data "oci_core_images" "allOracleImages" {
 					compartment_id = "${var.tenancy_ocid}"
 					operating_system = "%s"
+					shape = "VM.Standard1.1"
 				}
 
 				data "oci_core_images" "t" {
@@ -62,6 +63,12 @@ func (s *DatasourceCoreImageTestSuite) TestAccImage_basic() {
 					resource.TestCheckResourceAttr(s.ResourceName, "images.0.create_image_allowed", "true"),
 					TestCheckResourceAttributesEqual(s.ResourceName, "images.0.display_name", "data.oci_core_images.allOracleImages", "images.0.display_name"),
 					resource.TestCheckResourceAttr(s.ResourceName, "images.0.state", string(core.ImageLifecycleStateAvailable)),
+					resource.TestCheckResourceAttr(s.ResourceName, "images.0.launch_mode", "NATIVE"),
+					resource.TestCheckResourceAttr(s.ResourceName, "images.0.launch_options.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "images.0.launch_options.0.boot_volume_type", "ISCSI"),
+					resource.TestCheckResourceAttr(s.ResourceName, "images.0.launch_options.0.firmware", "UEFI_64"),
+					resource.TestCheckResourceAttr(s.ResourceName, "images.0.launch_options.0.network_type", "VFIO"),
+					resource.TestCheckResourceAttr(s.ResourceName, "images.0.launch_options.0.remote_data_volume_type", "PARAVIRTUALIZED"),
 					resource.TestCheckResourceAttr(s.ResourceName, "images.0.operating_system", s.OperatingSystem),
 					TestCheckResourceAttributesEqual(s.ResourceName, "images.0.operating_system_version", "data.oci_core_images.allOracleImages", "images.0.operating_system_version"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "images.0.time_created"),

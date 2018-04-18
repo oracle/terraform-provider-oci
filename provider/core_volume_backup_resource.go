@@ -36,9 +36,19 @@ func VolumeBackupResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 
 			// Computed
 			"compartment_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"expiration_time": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -55,6 +65,10 @@ func VolumeBackupResource() *schema.Resource {
 				Type:       schema.TypeInt,
 				Computed:   true,
 				Deprecated: crud.FieldDeprecatedForAnother("size_in_mbs", "size_in_gbs"),
+			},
+			"source_type": {
+				Type:     schema.TypeString,
+				Computed: true,
 			},
 			"state": {
 				Type:     schema.TypeString,
@@ -161,6 +175,10 @@ func (s *VolumeBackupResourceCrud) Create() error {
 		request.DisplayName = &tmp
 	}
 
+	if type_, ok := s.D.GetOkExists("type"); ok {
+		request.Type = oci_core.CreateVolumeBackupDetailsTypeEnum(type_.(string))
+	}
+
 	if volumeId, ok := s.D.GetOkExists("volume_id"); ok {
 		tmp := volumeId.(string)
 		request.VolumeId = &tmp
@@ -237,6 +255,10 @@ func (s *VolumeBackupResourceCrud) SetData() {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
 
+	if s.Res.ExpirationTime != nil {
+		s.D.Set("expiration_time", s.Res.ExpirationTime.String())
+	}
+
 	if s.Res.Id != nil {
 		s.D.Set("id", *s.Res.Id)
 	}
@@ -249,11 +271,15 @@ func (s *VolumeBackupResourceCrud) SetData() {
 		s.D.Set("size_in_mbs", *s.Res.SizeInMBs)
 	}
 
+	s.D.Set("source_type", s.Res.SourceType)
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	s.D.Set("time_created", s.Res.TimeCreated.String())
 
 	s.D.Set("time_request_received", s.Res.TimeRequestReceived.String())
+
+	s.D.Set("type", s.Res.Type)
 
 	if s.Res.UniqueSizeInGBs != nil {
 		s.D.Set("unique_size_in_gbs", *s.Res.UniqueSizeInGBs)

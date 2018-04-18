@@ -121,9 +121,9 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) TestResourceCoreVolumeAttachment
 					resource.TestCheckResourceAttrSet(s.ResourceName, "instance_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "display_name"),
-					// todo: reenable and expect these to be set when "useChap" param is supported
-					//resource.TestCheckResourceAttrSet(s.ResourceName, "chap_secret"),
-					//resource.TestCheckResourceAttrSet(s.ResourceName, "chap_username"),
+					resource.TestCheckResourceAttr(s.ResourceName, "is_read_only", "false"),
+					resource.TestCheckNoResourceAttr(s.ResourceName, "chap_secret"),
+					resource.TestCheckNoResourceAttr(s.ResourceName, "chap_username"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "ipv4"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "iqn"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "port"),
@@ -147,44 +147,7 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) TestResourceCoreVolumeAttachment
 				}`,
 				PlanOnly: true,
 			},
-			// NOTE: Update to attachment type should force a new resource to be created, however there is only one
-			// option for attachement type at this time, so skip this test for now
-			//
-			// verify attachment type update forces creation of a new resource
-			//{
-			//	Config: s.Config + `
-			//	resource "oci_core_volume_attachment" "t" {
-			//		attachment_type = "TBD"	# case-insensitive
-			//		compartment_id = "${var.compartment_id}"
-			//		instance_id = "${oci_core_instance.t.id}"
-			//		volume_id = "${oci_core_volume.t.id}"
-			//	}`,
-			//	Check: resource.ComposeTestCheckFunc(
-			//		resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),
-			//		resource.TestCheckResourceAttrSet(s.ResourceName, "instance_id"),
-			//		resource.TestCheckResourceAttrSet(s.ResourceName, "volume_id"),
-			//		resource.TestCheckResourceAttr(s.ResourceName, "display_name", "tf-vol-attach-upd"),
-			//		// todo: reenable and expect these to be set when "useChap" param is supported
-			//		//resource.TestCheckResourceAttrSet(s.ResourceName, "chap_secret"),
-			//		//resource.TestCheckResourceAttrSet(s.ResourceName, "chap_username"),
-			//		resource.TestCheckResourceAttrSet(s.ResourceName, "ipv4"),
-			//		resource.TestCheckResourceAttrSet(s.ResourceName, "iqn"),
-			//		resource.TestCheckResourceAttrSet(s.ResourceName, "port"),
-			//		resource.TestCheckResourceAttr(s.ResourceName, "attachment_type", "iscsi"),
-			//		resource.TestCheckResourceAttr(s.ResourceName, "state", string(core.VolumeAttachmentLifecycleStateAttached)),
-			//		resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
-			//		func (ts *terraform.State) (err error) {
-			//			resId2, err = fromInstanceState(ts, s.ResourceName, "id")
-			//			if resId2 == resId {
-			//				return fmt.Errorf("resource not recreated when expected to be when updating display name")
-			//			}
-			//			resId = resId2
-			//			return err
-			//		},
-			//	),
-			//},
-			//
-			// verify display name update forces creation of a new resource
+			// verify display_name, is_read_only, and use_chap update forces creation of a new resource
 			{
 				Config: s.Config + `
 				resource "oci_core_volume_attachment" "t" {
@@ -193,15 +156,18 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) TestResourceCoreVolumeAttachment
 					instance_id = "${oci_core_instance.t.id}"
 					volume_id = "${oci_core_volume.t.id}"
 					display_name = "tf-vol-attach-upd"
+					is_read_only = true
+					use_chap = true
 				}`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "instance_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "tf-vol-attach-upd"),
-					// todo: reenable and expect these to be set when "useChap" param is supported
-					//resource.TestCheckResourceAttrSet(s.ResourceName, "chap_secret"),
-					//resource.TestCheckResourceAttrSet(s.ResourceName, "chap_username"),
+					resource.TestCheckResourceAttr(s.ResourceName, "is_read_only", "true"),
+					resource.TestCheckResourceAttr(s.ResourceName, "use_chap", "true"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "chap_secret"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "chap_username"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "ipv4"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "iqn"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "port"),
@@ -227,15 +193,18 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) TestResourceCoreVolumeAttachment
 					instance_id = "${oci_core_instance.t2.id}"
 					volume_id = "${oci_core_volume.t.id}"
 					display_name = "tf-vol-attach-upd"
+					is_read_only = true
+					use_chap = true
 				}`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "instance_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "tf-vol-attach-upd"),
-					// todo: reenable and expect these to be set when "useChap" param is supported
-					//resource.TestCheckResourceAttrSet(s.ResourceName, "chap_secret"),
-					//resource.TestCheckResourceAttrSet(s.ResourceName, "chap_username"),
+					resource.TestCheckResourceAttr(s.ResourceName, "is_read_only", "true"),
+					resource.TestCheckResourceAttr(s.ResourceName, "use_chap", "true"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "chap_secret"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "chap_username"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "ipv4"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "iqn"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "port"),
@@ -261,15 +230,18 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) TestResourceCoreVolumeAttachment
 					instance_id = "${oci_core_instance.t2.id}"
 					volume_id = "${oci_core_volume.t2.id}"
 					display_name = "tf-vol-attach-upd"
+					is_read_only = true
+					use_chap = true
 				}`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "instance_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "tf-vol-attach-upd"),
-					// todo: reenable and expect these to be set when "useChap" param is supported
-					//resource.TestCheckResourceAttrSet(s.ResourceName, "chap_secret"),
-					//resource.TestCheckResourceAttrSet(s.ResourceName, "chap_username"),
+					resource.TestCheckResourceAttr(s.ResourceName, "is_read_only", "true"),
+					resource.TestCheckResourceAttr(s.ResourceName, "use_chap", "true"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "chap_secret"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "chap_username"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "ipv4"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "iqn"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "port"),
@@ -280,6 +252,42 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) TestResourceCoreVolumeAttachment
 						resId2, err = fromInstanceState(ts, s.ResourceName, "id")
 						if resId2 == resId {
 							return fmt.Errorf("resource not recreated when expected to be when updating volume id")
+						}
+						resId = resId2
+						return err
+					},
+				),
+			},
+			// verify attachment type update to paravirtualized forces creation of a new resource
+			{
+				Config: s.Config + `
+				resource "oci_core_volume_attachment" "t" {
+					attachment_type = "paRAviRTualized"	# case-insensitive
+					compartment_id = "${var.compartment_id}"
+					instance_id = "${oci_core_instance.t2.id}"
+					volume_id = "${oci_core_volume.t2.id}"
+					display_name = "tf-vol-attach-upd"
+					is_read_only = true
+					use_chap = true # This should be ignored for paravirtualized attachments
+				}`,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "instance_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "tf-vol-attach-upd"),
+					resource.TestCheckResourceAttr(s.ResourceName, "is_read_only", "true"),
+					resource.TestCheckNoResourceAttr(s.ResourceName, "chap_secret"),
+					resource.TestCheckNoResourceAttr(s.ResourceName, "chap_username"),
+					resource.TestCheckNoResourceAttr(s.ResourceName, "ipv4"),
+					resource.TestCheckNoResourceAttr(s.ResourceName, "iqn"),
+					resource.TestCheckNoResourceAttr(s.ResourceName, "port"),
+					resource.TestCheckResourceAttr(s.ResourceName, "attachment_type", "paravirtualized"),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", string(core.VolumeAttachmentLifecycleStateAttached)),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
+					func(ts *terraform.State) (err error) {
+						resId2, err = fromInstanceState(ts, s.ResourceName, "id")
+						if resId2 == resId {
+							return fmt.Errorf("resource not recreated when expected to be when updating attachment type")
 						}
 						resId = resId2
 						return err

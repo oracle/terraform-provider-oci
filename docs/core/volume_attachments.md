@@ -12,11 +12,13 @@ The following attributes are exported:
 * `display_name` - A user-friendly name. Does not have to be unique, and it cannot be changed. Avoid entering confidential information.  Example: `My volume attachment` 
 * `id` - The OCID of the volume attachment.
 * `instance_id` - The OCID of the instance the volume is attached to.
+* `is_read_only` - Whether the attachment was created in read-only mode.
 * `state` - The current state of the volume attachment.
 * `time_created` - The date and time the volume was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
 * `volume_id` - The OCID of the volume.
 
 The following additional attributes are exported for the iSCSI volume attachment type:
+* `use_chap` - Whether to use CHAP authentication for the volume attachment.
 * `chap_username` - The volume's system-generated Challenge-Handshake-Authentication-Protocol (CHAP) user name.
 * `chap_secret` - The Challenge-Handshake-Authentication-Protocol (CHAP) secret valid for the associated CHAP user name. (Also called the "CHAP password".)
 * `ipv4` - The volume's iSCSI IP address.
@@ -29,9 +31,11 @@ Attaches the specified storage volume to the specified instance.
 
 The following arguments are supported:
 
+* `attachment_type` - (Required) The type of volume. The only supported value are "iscsi" and "paravirtualized".
 * `display_name` - (Optional) A user-friendly name. Does not have to be unique, and it cannot be changed. Avoid entering confidential information. 
 * `instance_id` - (Required) The OCID of the instance.
-* `attachment_type` - (Required) The type of volume. The only supported value is "iscsi".
+* `is_read_only` - (Optional) Whether the attachment was created in read-only mode.
+* `use_chap` - (Optional) Whether to use CHAP authentication for the volume attachment. This only applies if the attachment type is "iscsi".
 * `volume_id` - (Required) The OCID of the volume.
 
 
@@ -55,6 +59,7 @@ resource "oci_core_volume_attachment" "test_volume_attachment" {
 
 	#Optional
 	display_name = "${var.volume_attachment_display_name}"
+	is_read_only = "${var.volume_attachment_is_read_only}"
 }
 ```
 
@@ -68,7 +73,8 @@ Gets a list of volume_attachments.
 Lists the volume attachments in the specified compartment. You can filter the
 list by specifying an instance OCID, volume OCID, or both.
 
-Currently, the only supported volume attachment type is [IScsiVolumeAttachment](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/IScsiVolumeAttachment/).
+Currently, the only supported volume attachment type are [IScsiVolumeAttachment](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/IScsiVolumeAttachment/) and
+[ParavirtualizedVolumeAttachment](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/ParavirtualizedVolumeAttachment/).
 
 The following arguments are supported:
 

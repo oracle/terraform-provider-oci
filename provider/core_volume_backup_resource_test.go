@@ -52,6 +52,9 @@ func (s *ResourceCoreVolumeBackupTestSuite) TestAccResourceCoreVolumeBackup_basi
 					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "display_name"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
+					resource.TestCheckNoResourceAttr(s.ResourceName, "expiration_time"),
+					resource.TestCheckResourceAttr(s.ResourceName, "source_type", string(core.VolumeBackupSourceTypeManual)),
+					resource.TestCheckResourceAttr(s.ResourceName, "type", string(core.VolumeBackupTypeIncremental)),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(core.VolumeBackupLifecycleStateAvailable)),
 					resource.TestCheckResourceAttr(s.ResourceName, "size_in_mbs", "51200"),
 					resource.TestCheckResourceAttr(s.ResourceName, "size_in_gbs", "50"),
@@ -76,6 +79,9 @@ func (s *ResourceCoreVolumeBackupTestSuite) TestAccResourceCoreVolumeBackup_basi
 					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "display_name"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
+					resource.TestCheckNoResourceAttr(s.ResourceName, "expiration_time"),
+					resource.TestCheckResourceAttr(s.ResourceName, "source_type", string(core.VolumeBackupSourceTypeManual)),
+					resource.TestCheckResourceAttr(s.ResourceName, "type", string(core.VolumeBackupTypeIncremental)),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(core.VolumeBackupLifecycleStateAvailable)),
 					resource.TestCheckResourceAttr(s.ResourceName, "size_in_mbs", "51200"),
 					resource.TestCheckResourceAttr(s.ResourceName, "size_in_gbs", "50"),
@@ -85,8 +91,41 @@ func (s *ResourceCoreVolumeBackupTestSuite) TestAccResourceCoreVolumeBackup_basi
 					func(ts *terraform.State) (err error) {
 						resId2, err = fromInstanceState(ts, s.ResourceName, "id")
 						if resId2 != resId {
-							return fmt.Errorf("expected same instance ocid, got different")
+							return fmt.Errorf("expected same volume bakcup ocid, got different")
 						}
+						return err
+					},
+				),
+			},
+			// verify ForceNew when changing the backup type to FULL
+			{
+				Config: s.Config + `
+					resource "oci_core_volume_backup" "t" {
+						volume_id = "${oci_core_volume.t.id}"
+						display_name = "-tf-volume-backup"
+						type = "FULL"
+					}`,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-volume-backup"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "display_name"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
+					resource.TestCheckNoResourceAttr(s.ResourceName, "expiration_time"),
+					resource.TestCheckResourceAttr(s.ResourceName, "source_type", string(core.VolumeBackupSourceTypeManual)),
+					resource.TestCheckResourceAttr(s.ResourceName, "type", string(core.VolumeBackupTypeFull)),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", string(core.VolumeBackupLifecycleStateAvailable)),
+					resource.TestCheckResourceAttr(s.ResourceName, "size_in_mbs", "51200"),
+					resource.TestCheckResourceAttr(s.ResourceName, "size_in_gbs", "50"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "unique_size_in_mbs"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "unique_size_in_gbs"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "time_request_received"),
+					func(ts *terraform.State) (err error) {
+						resId2, err = fromInstanceState(ts, s.ResourceName, "id")
+						if resId2 == resId {
+							return fmt.Errorf("expected different volume backup ocid, got same")
+						}
+
+						resId = resId2
 						return err
 					},
 				),
@@ -97,6 +136,7 @@ func (s *ResourceCoreVolumeBackupTestSuite) TestAccResourceCoreVolumeBackup_basi
 					resource "oci_core_volume_backup" "t" {
 						volume_id = "${oci_core_volume.t.id}"
 						display_name = "-tf-volume-backup"
+						type = "FULL"
 					}
 					resource "oci_core_volume" "t2" {
 						availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
@@ -144,6 +184,7 @@ func (s *ResourceCoreVolumeBackupTestSuite) TestAccResourceCoreVolumeBackup_basi
 					resource "oci_core_volume_backup" "t" {
 						volume_id = "${oci_core_volume.t.id}"
 						display_name = "-tf-volume-backup"
+						type = "FULL"
 					}
 					resource "oci_core_volume" "u" {
 						availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"

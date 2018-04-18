@@ -92,7 +92,7 @@ or VNIC, the response includes both primary and secondary private IPs.
 
 The following arguments are supported:
 
-* `ip_address` - (Optional) The private IP address of the `privateIp` object.  Example: `10.0.3.3` 
+* `ip_address` - (Optional) An IP address.  Example: `10.0.3.3` 
 * `subnet_id` - (Optional) The OCID of the subnet.
 * `vnic_id` - (Optional) The OCID of the VNIC.
 

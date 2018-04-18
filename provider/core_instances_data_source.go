@@ -150,6 +150,12 @@ func (s *InstancesDataSourceCrud) SetData() {
 			instance["ipxe_script"] = *r.IpxeScript
 		}
 
+		instance["launch_mode"] = r.LaunchMode
+
+		if r.LaunchOptions != nil {
+			instance["launch_options"] = []interface{}{LaunchOptionsToMap(r.LaunchOptions)}
+		}
+
 		if r.Metadata != nil {
 			instance["metadata"] = r.Metadata
 		}
@@ -163,7 +169,7 @@ func (s *InstancesDataSourceCrud) SetData() {
 		}
 
 		if r.SourceDetails != nil {
-			instance["source_details"] = []interface{}{InstanceSourceDetailsToMap(&r.SourceDetails)}
+			instance["source_details"] = []interface{}{InstanceSourceDetailsToMap(&r.SourceDetails, nil, nil)}
 		}
 
 		instance["state"] = r.LifecycleState

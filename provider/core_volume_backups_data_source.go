@@ -141,6 +141,10 @@ func (s *VolumeBackupsDataSourceCrud) SetData() {
 			volumeBackup["display_name"] = *r.DisplayName
 		}
 
+		if r.ExpirationTime != nil {
+			volumeBackup["expiration_time"] = r.ExpirationTime.String()
+		}
+
 		if r.Id != nil {
 			volumeBackup["id"] = *r.Id
 		}
@@ -153,11 +157,15 @@ func (s *VolumeBackupsDataSourceCrud) SetData() {
 			volumeBackup["size_in_mbs"] = *r.SizeInMBs
 		}
 
+		volumeBackup["source_type"] = r.SourceType
+
 		volumeBackup["state"] = r.LifecycleState
 
 		volumeBackup["time_created"] = r.TimeCreated.String()
 
 		volumeBackup["time_request_received"] = r.TimeRequestReceived.String()
+
+		volumeBackup["type"] = r.Type
 
 		if r.UniqueSizeInGBs != nil {
 			volumeBackup["unique_size_in_gbs"] = *r.UniqueSizeInGBs

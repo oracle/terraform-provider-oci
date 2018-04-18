@@ -37,6 +37,7 @@ func (s *DatasourceCoreVolumeAttachmentTestSuite) SetupTest() {
 		instance_id = "${oci_core_instance.t.id}"
 		volume_id = "${oci_core_volume.t.id}"
 		attachment_type = "iscsi"
+		use_chap = true
 	}`
 	s.ResourceName = "data.oci_core_volume_attachments.t"
 }
@@ -70,12 +71,12 @@ func (s *DatasourceCoreVolumeAttachmentTestSuite) TestAccDatasourceCoreVolumeAtt
 					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_attachments.0.instance_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_attachments.0.time_created"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_attachments.0.volume_id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "volume_attachments.0.is_read_only", "false"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_attachments.0.ipv4"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_attachments.0.port"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_attachments.0.iqn"),
-					// todo: reenable and expect these to be set when "useChap" param is supported
-					//resource.TestCheckResourceAttrSet(s.ResourceName, "volume_attachments.0.chap_secret"),
-					//resource.TestCheckResourceAttrSet(s.ResourceName, "volume_attachments.0.chap_username")
+					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_attachments.0.chap_secret"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_attachments.0.chap_username"),
 				),
 			},
 		},
