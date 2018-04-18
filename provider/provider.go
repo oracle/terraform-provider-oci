@@ -5,6 +5,7 @@ package provider
 import (
 	"crypto/rsa"
 	"crypto/tls"
+	"crypto/x509"
 	"fmt"
 	"io/ioutil"
 	"net"
@@ -40,6 +41,7 @@ const (
 	defaultConnectionTimeout     = 10 * time.Second
 	defaultTLSHandshakeTimeout   = 5 * time.Second
 	userAgentFormatter           = "Oracle-GoSDK/%s (go/%s; %s/%s; terraform/%s) Oracle-TerraformProvider/%s"
+	r1CertLocationEnv            = "R1_CERT_LOCATION"
 )
 
 type oboTokenProviderFromEnv struct{}
@@ -420,20 +422,68 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 		oboTokenProvider = oci_common.NewEmptyOboTokenProvider()
 	}
 
-	configureClient := func(client *oci_common.BaseClient) {
+	configureClient := func(client *oci_common.BaseClient) error {
 		client.HTTPClient = httpClient
 		client.UserAgent = userAgent
 		client.Obo = oboTokenProvider
+
+		// R1 Support
+		if region, err := officialSdkConfigProvider.Region(); err == nil && strings.ToLower(region) == "r1" {
+			service := strings.Split(client.Host, ".")[0]
+			client.Host = fmt.Sprintf("%s.r1.oracleiaas.com", service)
+
+			pool := x509.NewCertPool()
+			//readCertPem reads the pem files to a []byte
+			cert, err := readCertPem()
+			if err != nil {
+				return err
+			}
+			if ok := pool.AppendCertsFromPEM(cert); !ok {
+				return fmt.Errorf("failed to append R1 cert to the cert pool")
+			}
+			//install the certificates to the client
+			if h, ok := client.HTTPClient.(*http.Client); ok {
+				tr := &http.Transport{TLSClientConfig: &tls.Config{RootCAs: pool}}
+				h.Transport = tr
+			} else {
+				return fmt.Errorf("the client dispatcher is not of http.Client type. can not patch the tls config")
+			}
+		}
+		return nil
 	}
 
-	configureClient(&blockStorageClient.BaseClient)
-	configureClient(&computeClient.BaseClient)
-	configureClient(&databaseClient.BaseClient)
-	configureClient(&fileStorageClient.BaseClient)
-	configureClient(&identityClient.BaseClient)
-	configureClient(&loadBalancerClient.BaseClient)
-	configureClient(&objectStorageClient.BaseClient)
-	configureClient(&virtualNetworkClient.BaseClient)
+	err = configureClient(&blockStorageClient.BaseClient)
+	if err != nil {
+		return
+	}
+	err = configureClient(&computeClient.BaseClient)
+	if err != nil {
+		return
+	}
+	err = configureClient(&databaseClient.BaseClient)
+	if err != nil {
+		return
+	}
+	err = configureClient(&fileStorageClient.BaseClient)
+	if err != nil {
+		return
+	}
+	err = configureClient(&identityClient.BaseClient)
+	if err != nil {
+		return
+	}
+	err = configureClient(&loadBalancerClient.BaseClient)
+	if err != nil {
+		return
+	}
+	err = configureClient(&objectStorageClient.BaseClient)
+	if err != nil {
+		return
+	}
+	err = configureClient(&virtualNetworkClient.BaseClient)
+	if err != nil {
+		return
+	}
 
 	clients.blockStorageClient = &blockStorageClient
 	clients.computeClient = &computeClient
@@ -534,4 +584,14 @@ func (p ResourceDataConfigProvider) PrivateRSAKey() (key *rsa.PrivateKey, err er
 	}
 
 	return nil, fmt.Errorf("can not get private_key or private_key_path from Terraform configuration")
+}
+
+func readCertPem() (file []byte, err error) {
+	r1CertLoc := getEnvSetting(r1CertLocationEnv, "")
+	if r1CertLoc == "" {
+		err = fmt.Errorf("the R1 Certificate Location must be specified in the environment variable %s", r1CertLocationEnv)
+		return
+	}
+	file, err = ioutil.ReadFile(r1CertLoc)
+	return
 }
