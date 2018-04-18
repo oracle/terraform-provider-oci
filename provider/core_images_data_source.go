@@ -42,6 +42,10 @@ func ImagesDataSource() *schema.Resource {
 				Optional:   true,
 				Deprecated: crud.FieldDeprecated("page"),
 			},
+			"shape": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -106,6 +110,11 @@ func (s *ImagesDataSourceCrud) Get() error {
 		request.Page = &tmp
 	}
 
+	if shape, ok := s.D.GetOkExists("shape"); ok {
+		tmp := shape.(string)
+		request.Shape = &tmp
+	}
+
 	if state, ok := s.D.GetOkExists("state"); ok {
 		request.LifecycleState = oci_core.ImageLifecycleStateEnum(state.(string))
 	}
@@ -167,12 +176,22 @@ func (s *ImagesDataSourceCrud) SetData() {
 			image["id"] = *r.Id
 		}
 
+		image["launch_mode"] = r.LaunchMode
+
+		if r.LaunchOptions != nil {
+			image["launch_options"] = []interface{}{LaunchOptionsToMap(r.LaunchOptions)}
+		}
+
 		if r.OperatingSystem != nil {
 			image["operating_system"] = *r.OperatingSystem
 		}
 
 		if r.OperatingSystemVersion != nil {
 			image["operating_system_version"] = *r.OperatingSystemVersion
+		}
+
+		if r.SizeInMBs != nil {
+			image["size_in_mbs"] = *r.SizeInMBs
 		}
 
 		image["state"] = r.LifecycleState

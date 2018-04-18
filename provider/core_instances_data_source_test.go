@@ -113,6 +113,12 @@ func (s *DatasourceCoreInstanceTestSuite) TestAccDatasourceCoreInstance_basic() 
 					resource.TestCheckResourceAttr(s.ResourceName, "instances.0.private_ip", ""),
 					resource.TestCheckResourceAttr(s.ResourceName, "instances.0.public_ip", ""),
 					resource.TestCheckResourceAttr(s.ResourceName, "instances.0.hostname_label", ""),
+					resource.TestCheckResourceAttr(s.ResourceName, "instances.0.launch_mode", "NATIVE"),
+					resource.TestCheckResourceAttr(s.ResourceName, "instances.0.launch_options.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "instances.0.launch_options.0.boot_volume_type", "ISCSI"),
+					resource.TestCheckResourceAttr(s.ResourceName, "instances.0.launch_options.0.firmware", "UEFI_64"),
+					resource.TestCheckResourceAttr(s.ResourceName, "instances.0.launch_options.0.network_type", "VFIO"),
+					resource.TestCheckResourceAttr(s.ResourceName, "instances.0.launch_options.0.remote_data_volume_type", "PARAVIRTUALIZED"),
 				),
 			},
 			// Check that the optional "state" field can be queried on

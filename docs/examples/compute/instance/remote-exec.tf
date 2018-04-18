@@ -1,6 +1,6 @@
 resource "null_resource" "remote-exec" {
     depends_on = ["oci_core_instance.TFInstance","oci_core_volume_attachment.TFBlockAttach"]
-    count = "${var.NumInstances * var.NumVolumesPerInstance}"
+    count = "${var.NumInstances * var.NumIscsiVolumesPerInstance}"
     provisioner "remote-exec" {
       connection {
         agent = false

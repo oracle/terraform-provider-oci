@@ -170,6 +170,10 @@ func volumeAttachmentToMap(r oci_core.VolumeAttachment) map[string]interface{} {
 		volumeAttachment["instance_id"] = *instanceId
 	}
 
+	if isReadOnly := r.GetIsReadOnly(); isReadOnly != nil {
+		volumeAttachment["is_read_only"] = *isReadOnly
+	}
+
 	volumeAttachment["state"] = string(r.GetLifecycleState())
 
 	if timeCreated := r.GetTimeCreated(); timeCreated != nil {
@@ -204,6 +208,8 @@ func volumeAttachmentToMap(r oci_core.VolumeAttachment) map[string]interface{} {
 		if typedValue.Port != nil {
 			volumeAttachment["port"] = *typedValue.Port
 		}
+	case oci_core.ParavirtualizedVolumeAttachment:
+		volumeAttachment["attachment_type"] = ParavirtualizedVolumeAttachmentDiscriminator
 	default:
 		volumeAttachment["attachment_type"] = "Unknown"
 		log.Printf("[WARNING] Retrieved a volume attachment of unknown type.")

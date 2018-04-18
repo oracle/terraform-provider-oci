@@ -103,6 +103,12 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 					resource.TestCheckResourceAttrSet(s.ResourceName, "private_ip"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "display_name"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "image"),
+					resource.TestCheckResourceAttr(s.ResourceName, "launch_mode", "NATIVE"),
+					resource.TestCheckResourceAttr(s.ResourceName, "launch_options.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "launch_options.0.boot_volume_type", "ISCSI"),
+					resource.TestCheckResourceAttr(s.ResourceName, "launch_options.0.firmware", "UEFI_64"),
+					resource.TestCheckResourceAttr(s.ResourceName, "launch_options.0.network_type", "VFIO"),
+					resource.TestCheckResourceAttr(s.ResourceName, "launch_options.0.remote_data_volume_type", "PARAVIRTUALIZED"),
 					// only set if specified
 					resource.TestCheckNoResourceAttr(s.ResourceName, "ipxe_script"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "subnet_id"),
@@ -460,6 +466,12 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_preserveBoot
 				resource.TestCheckResourceAttrSet(s.ResourceName, "private_ip"),
 				resource.TestCheckResourceAttrSet(s.ResourceName, "display_name"),
 				resource.TestCheckResourceAttrSet(s.ResourceName, "image"),
+				resource.TestCheckResourceAttr(s.ResourceName, "launch_mode", "NATIVE"),
+				resource.TestCheckResourceAttr(s.ResourceName, "launch_options.#", "1"),
+				resource.TestCheckResourceAttr(s.ResourceName, "launch_options.0.boot_volume_type", "ISCSI"),
+				resource.TestCheckResourceAttr(s.ResourceName, "launch_options.0.firmware", "UEFI_64"),
+				resource.TestCheckResourceAttr(s.ResourceName, "launch_options.0.network_type", "VFIO"),
+				resource.TestCheckResourceAttr(s.ResourceName, "launch_options.0.remote_data_volume_type", "PARAVIRTUALIZED"),
 				// only set if specified
 				resource.TestCheckNoResourceAttr(s.ResourceName, "ipxe_script"),
 				resource.TestCheckResourceAttrSet(s.ResourceName, "subnet_id"),
@@ -479,6 +491,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_preserveBoot
 				resource.TestCheckResourceAttr(s.ResourceName, "source_details.#", "1"),
 				resource.TestCheckResourceAttr(s.ResourceName, "source_details.0.source_type", "image"),
 				resource.TestCheckResourceAttrSet(s.ResourceName, "source_details.0.source_id"),
+				resource.TestCheckResourceAttrSet(s.ResourceName, "source_details.0.boot_volume_size_in_gbs"),
 				resource.TestCheckNoResourceAttr(s.ResourceName, "preserve_boot_volume"),
 				resource.TestCheckResourceAttrSet(s.ResourceName, "boot_volume_id"),
 				// Store the instance ID for future verification
@@ -560,8 +573,9 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_preserveBoot
 				},
 			),
 		},
-		// ForceNew an instance by changing its hostname_label
+		// ForceNew an instance by changing its hostname_label and boot volume size
 		// Verify that the boot volume was preserved and can be attached to the new instance as a data volume.
+		// Also verify that the new boot volume size is being used.
 		{
 			Config: s.Config + `
 				resource "oci_core_instance" "t" {
@@ -572,6 +586,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_preserveBoot
 					source_details {
 						source_type = "image"
 						source_id = "${var.InstanceImageOCID[var.region]}"
+						boot_volume_size_in_gbs = "60"
 					}
 					preserve_boot_volume = "false"
 					shape = "VM.Standard1.1"
@@ -593,6 +608,10 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_preserveBoot
 			Check: resource.ComposeTestCheckFunc(
 				resource.TestCheckResourceAttr(s.ResourceName, "preserve_boot_volume", "false"),
 				TestCheckResourceAttributesEqual("oci_core_volume_attachment.volume_attach", "instance_id", s.ResourceName, "id"),
+				resource.TestCheckResourceAttr(s.ResourceName, "source_details.#", "1"),
+				resource.TestCheckResourceAttr(s.ResourceName, "source_details.0.source_type", "image"),
+				resource.TestCheckResourceAttrSet(s.ResourceName, "source_details.0.source_id"),
+				resource.TestCheckResourceAttr(s.ResourceName, "source_details.0.boot_volume_size_in_gbs", "60"),
 				// Verify that we got a new Instance
 				func(ts *terraform.State) (err error) {
 					newId, err := fromInstanceState(ts, s.ResourceName, "id")

@@ -14,8 +14,8 @@ const (
 	VolumeAttachmentRequiredOnlyResource = VolumeAttachmentResourceDependencies + `
 resource "oci_core_volume_attachment" "test_volume_attachment" {
 	#Required
+	attachment_type = "${var.volume_attachment_attachment_type}"
 	instance_id = "${oci_core_instance.test_instance.id}"
-	type = "${var.volume_attachment_type}"
 	volume_id = "${oci_core_volume.test_volume.id}"
 }
 `
@@ -23,18 +23,20 @@ resource "oci_core_volume_attachment" "test_volume_attachment" {
 	VolumeAttachmentResourceConfig = VolumeAttachmentResourceDependencies + `
 resource "oci_core_volume_attachment" "test_volume_attachment" {
 	#Required
+	attachment_type = "${var.volume_attachment_attachment_type}"
 	instance_id = "${oci_core_instance.test_instance.id}"
-	type = "${var.volume_attachment_type}"
 	volume_id = "${oci_core_volume.test_volume.id}"
 
 	#Optional
 	display_name = "${var.volume_attachment_display_name}"
+	is_read_only = "${var.volume_attachment_is_read_only}"
 }
 `
 	VolumeAttachmentPropertyVariables = `
+variable "volume_attachment_attachment_type" { default = "attachmentType" }
 variable "volume_attachment_availability_domain" { default = "availabilityDomain" }
 variable "volume_attachment_display_name" { default = "displayName" }
-variable "volume_attachment_type" { default = "type" }
+variable "volume_attachment_is_read_only" { default = false }
 
 `
 	VolumeAttachmentResourceDependencies = "" // Uncomment once defined: InstancePropertyVariables + InstanceResourceConfig + VolumePropertyVariables + VolumeResourceConfig
@@ -65,8 +67,8 @@ func TestCoreVolumeAttachmentResource_basic(t *testing.T) {
 				ImportStateVerify: true,
 				Config:            config + VolumeAttachmentPropertyVariables + compartmentIdVariableStr + VolumeAttachmentRequiredOnlyResource,
 				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "attachment_type", "attachmentType"),
 					resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
-					resource.TestCheckResourceAttr(resourceName, "type", "type"),
 					resource.TestCheckResourceAttrSet(resourceName, "volume_id"),
 
 					func(s *terraform.State) (err error) {
@@ -84,15 +86,15 @@ func TestCoreVolumeAttachmentResource_basic(t *testing.T) {
 			{
 				Config: config + VolumeAttachmentPropertyVariables + compartmentIdVariableStr + VolumeAttachmentResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttrSet(resourceName, "attachment_type"),
+					resource.TestCheckResourceAttr(resourceName, "attachment_type", "attachmentType"),
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
+					resource.TestCheckResourceAttr(resourceName, "is_read_only", "false"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttr(resourceName, "type", "type"),
 					resource.TestCheckResourceAttrSet(resourceName, "volume_id"),
 
 					func(s *terraform.State) (err error) {
@@ -105,21 +107,22 @@ func TestCoreVolumeAttachmentResource_basic(t *testing.T) {
 			// verify updates to Force New parameters.
 			{
 				Config: config + `
+variable "volume_attachment_attachment_type" { default = "attachmentType2" }
 variable "volume_attachment_availability_domain" { default = "availabilityDomain2" }
 variable "volume_attachment_display_name" { default = "displayName2" }
-variable "volume_attachment_type" { default = "type2" }
+variable "volume_attachment_is_read_only" { default = true }
 
                 ` + compartmentIdVariableStr2 + VolumeAttachmentResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttrSet(resourceName, "attachment_type"),
+					resource.TestCheckResourceAttr(resourceName, "attachment_type", "attachmentType2"),
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
+					resource.TestCheckResourceAttr(resourceName, "is_read_only", "true"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttr(resourceName, "type", "type2"),
 					resource.TestCheckResourceAttrSet(resourceName, "volume_id"),
 
 					func(s *terraform.State) (err error) {
@@ -134,9 +137,10 @@ variable "volume_attachment_type" { default = "type2" }
 			// verify datasource
 			{
 				Config: config + `
+variable "volume_attachment_attachment_type" { default = "attachmentType2" }
 variable "volume_attachment_availability_domain" { default = "availabilityDomain2" }
 variable "volume_attachment_display_name" { default = "displayName2" }
-variable "volume_attachment_type" { default = "type2" }
+variable "volume_attachment_is_read_only" { default = true }
 
 data "oci_core_volume_attachments" "test_volume_attachments" {
 	#Required
@@ -160,12 +164,13 @@ data "oci_core_volume_attachments" "test_volume_attachments" {
 					resource.TestCheckResourceAttrSet(datasourceName, "volume_id"),
 
 					resource.TestCheckResourceAttr(datasourceName, "volume_attachments.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "volume_attachments.0.attachment_type"),
+					resource.TestCheckResourceAttr(datasourceName, "volume_attachments.0.attachment_type", "attachmentType2"),
 					resource.TestCheckResourceAttrSet(datasourceName, "volume_attachments.0.availability_domain"),
 					resource.TestCheckResourceAttrSet(datasourceName, "volume_attachments.0.compartment_id"),
 					resource.TestCheckResourceAttr(datasourceName, "volume_attachments.0.display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(datasourceName, "volume_attachments.0.id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "volume_attachments.0.instance_id"),
+					resource.TestCheckResourceAttr(datasourceName, "volume_attachments.0.is_read_only", "true"),
 					resource.TestCheckResourceAttrSet(datasourceName, "volume_attachments.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "volume_attachments.0.time_created"),
 					resource.TestCheckResourceAttrSet(datasourceName, "volume_attachments.0.volume_id"),
@@ -195,15 +200,15 @@ func TestCoreVolumeAttachmentResource_forcenew(t *testing.T) {
 			{
 				Config: config + VolumeAttachmentPropertyVariables + compartmentIdVariableStr + VolumeAttachmentResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttrSet(resourceName, "attachment_type"),
+					resource.TestCheckResourceAttr(resourceName, "attachment_type", "attachmentType"),
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
+					resource.TestCheckResourceAttr(resourceName, "is_read_only", "false"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttr(resourceName, "type", "type"),
 					resource.TestCheckResourceAttrSet(resourceName, "volume_id"),
 
 					func(s *terraform.State) (err error) {
@@ -216,20 +221,51 @@ func TestCoreVolumeAttachmentResource_forcenew(t *testing.T) {
 
 			{
 				Config: config + `
+variable "volume_attachment_attachment_type" { default = "attachmentType2" }
 variable "volume_attachment_availability_domain" { default = "availabilityDomain" }
-variable "volume_attachment_display_name" { default = "displayName2" }
-variable "volume_attachment_type" { default = "type" }
+variable "volume_attachment_display_name" { default = "displayName" }
+variable "volume_attachment_is_read_only" { default = false }
 				` + compartmentIdVariableStr + VolumeAttachmentResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttrSet(resourceName, "attachment_type"),
+					resource.TestCheckResourceAttr(resourceName, "attachment_type", "attachmentType2"),
+					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
+					resource.TestCheckResourceAttr(resourceName, "is_read_only", "false"),
+					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+					resource.TestCheckResourceAttrSet(resourceName, "volume_id"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = fromInstanceState(s, resourceName, "id")
+						if resId == resId2 {
+							return fmt.Errorf("Resource was expected to be recreated when updating parameter AttachmentType but the id did not change.")
+						}
+						resId = resId2
+						return err
+					},
+				),
+			},
+
+			{
+				Config: config + `
+variable "volume_attachment_attachment_type" { default = "attachmentType2" }
+variable "volume_attachment_availability_domain" { default = "availabilityDomain" }
+variable "volume_attachment_display_name" { default = "displayName2" }
+variable "volume_attachment_is_read_only" { default = false }
+				` + compartmentIdVariableStr + VolumeAttachmentResourceConfig,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "attachment_type", "attachmentType2"),
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
+					resource.TestCheckResourceAttr(resourceName, "is_read_only", "false"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttr(resourceName, "type", "type"),
 					resource.TestCheckResourceAttrSet(resourceName, "volume_id"),
 
 					func(s *terraform.State) (err error) {
@@ -245,20 +281,21 @@ variable "volume_attachment_type" { default = "type" }
 
 			{
 				Config: config + `
+variable "volume_attachment_attachment_type" { default = "attachmentType2" }
 variable "volume_attachment_availability_domain" { default = "availabilityDomain" }
 variable "volume_attachment_display_name" { default = "displayName2" }
-variable "volume_attachment_type" { default = "type" }
+variable "volume_attachment_is_read_only" { default = false }
 				` + compartmentIdVariableStr + VolumeAttachmentResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttrSet(resourceName, "attachment_type"),
+					resource.TestCheckResourceAttr(resourceName, "attachment_type", "attachmentType2"),
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
+					resource.TestCheckResourceAttr(resourceName, "is_read_only", "false"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttr(resourceName, "type", "type"),
 					resource.TestCheckResourceAttrSet(resourceName, "volume_id"),
 
 					func(s *terraform.State) (err error) {
@@ -274,26 +311,27 @@ variable "volume_attachment_type" { default = "type" }
 
 			{
 				Config: config + `
+variable "volume_attachment_attachment_type" { default = "attachmentType2" }
 variable "volume_attachment_availability_domain" { default = "availabilityDomain" }
 variable "volume_attachment_display_name" { default = "displayName2" }
-variable "volume_attachment_type" { default = "type2" }
+variable "volume_attachment_is_read_only" { default = true }
 				` + compartmentIdVariableStr + VolumeAttachmentResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttrSet(resourceName, "attachment_type"),
+					resource.TestCheckResourceAttr(resourceName, "attachment_type", "attachmentType2"),
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
+					resource.TestCheckResourceAttr(resourceName, "is_read_only", "true"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttr(resourceName, "type", "type2"),
 					resource.TestCheckResourceAttrSet(resourceName, "volume_id"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, resourceName, "id")
 						if resId == resId2 {
-							return fmt.Errorf("Resource was expected to be recreated when updating parameter Type but the id did not change.")
+							return fmt.Errorf("Resource was expected to be recreated when updating parameter IsReadOnly but the id did not change.")
 						}
 						resId = resId2
 						return err
@@ -303,20 +341,21 @@ variable "volume_attachment_type" { default = "type2" }
 
 			{
 				Config: config + `
+variable "volume_attachment_attachment_type" { default = "attachmentType2" }
 variable "volume_attachment_availability_domain" { default = "availabilityDomain" }
 variable "volume_attachment_display_name" { default = "displayName2" }
-variable "volume_attachment_type" { default = "type2" }
+variable "volume_attachment_is_read_only" { default = true }
 				` + compartmentIdVariableStr + VolumeAttachmentResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttrSet(resourceName, "attachment_type"),
+					resource.TestCheckResourceAttr(resourceName, "attachment_type", "attachmentType2"),
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
+					resource.TestCheckResourceAttr(resourceName, "is_read_only", "true"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttr(resourceName, "type", "type2"),
 					resource.TestCheckResourceAttrSet(resourceName, "volume_id"),
 
 					func(s *terraform.State) (err error) {

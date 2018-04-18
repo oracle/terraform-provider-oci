@@ -70,6 +70,12 @@ func ImageResource() *schema.Resource {
 				Required: true, // Changed from optional/computed to required till "imageSourceDetails" is supported.
 				ForceNew: true,
 			},
+			"launch_mode": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 
 			// Computed
 			"base_image_id": {
@@ -84,12 +90,47 @@ func ImageResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"launch_options": {
+				Type:     schema.TypeList,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"boot_volume_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"firmware": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"network_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"remote_data_volume_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"operating_system": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"operating_system_version": {
 				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"size_in_mbs": {
+				Type:     schema.TypeInt,
 				Computed: true,
 			},
 			"state": {
@@ -200,6 +241,10 @@ func (s *ImageResourceCrud) Create() error {
 		request.InstanceId = &tmp
 	}
 
+	if launchMode, ok := s.D.GetOkExists("launch_mode"); ok {
+		request.LaunchMode = oci_core.CreateImageDetailsLaunchModeEnum(launchMode.(string))
+	}
+
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.CreateImage(context.Background(), request)
@@ -283,12 +328,22 @@ func (s *ImageResourceCrud) SetData() {
 		s.D.Set("id", *s.Res.Id)
 	}
 
+	s.D.Set("launch_mode", s.Res.LaunchMode)
+
+	if s.Res.LaunchOptions != nil {
+		s.D.Set("launch_options", []interface{}{LaunchOptionsToMap(s.Res.LaunchOptions)})
+	}
+
 	if s.Res.OperatingSystem != nil {
 		s.D.Set("operating_system", *s.Res.OperatingSystem)
 	}
 
 	if s.Res.OperatingSystemVersion != nil {
 		s.D.Set("operating_system_version", *s.Res.OperatingSystemVersion)
+	}
+
+	if s.Res.SizeInMBs != nil {
+		s.D.Set("size_in_mbs", *s.Res.SizeInMBs)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
@@ -299,23 +354,30 @@ func (s *ImageResourceCrud) SetData() {
 
 // TODO: The following 2 functions are used by the ImageSourceDetails field which was skipped.
 // Tracked here: https://jira.aka.lgl.grungy.us/browse/ORCH-678
-// func mapToImageSourceDetails(raw map[string]interface{}) oci_core.ImageSourceDetails {
-// 	result := oci_core.ImageSourceDetails{}
-
-// 	if sourceType, ok := raw["source_type"]; ok {
-// 		tmp := sourceType.(string)
-// 		result.SourceType = &tmp
-// 	}
-
-// 	return result
-// }
-
-// func ImageSourceDetailsToMap(obj *oci_core.ImageSourceDetails) map[string]interface{} {
-// 	result := map[string]interface{}{}
-
-// 	if obj.SourceType != nil {
-// 		result["source_type"] = string(*obj.SourceType)
-// 	}
-
-// 	return result
-// }
+//func mapToImageSourceDetails(raw map[string]interface{}) oci_core.ImageSourceDetails {
+//	result := oci_core.ImageSourceDetails{}
+//
+//	if sourceImageType, ok := raw["source_image_type"]; ok {
+//		tmp := oci_core.ImageSourceDetailsSourceImageTypeEnum(sourceImageType.(string))
+//		result.SourceImageType = tmp
+//	}
+//
+//	if sourceType, ok := raw["source_type"]; ok {
+//		tmp := sourceType.(string)
+//		result.SourceType = &tmp
+//	}
+//
+//	return result
+//}
+//
+//func ImageSourceDetailsToMap(obj *oci_core.ImageSourceDetails) map[string]interface{} {
+//	result := map[string]interface{}{}
+//
+//	result["source_image_type"] = string(obj.SourceImageType)
+//
+//	if obj.SourceType != nil {
+//		result["source_type"] = string(*obj.SourceType)
+//	}
+//
+//	return result
+//}
