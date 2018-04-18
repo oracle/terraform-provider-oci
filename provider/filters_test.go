@@ -1,30 +1,13 @@
 package provider
 
 import (
-	"testing"
-
+	"strconv"
 	"strings"
+	"testing"
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
-
-// Filter function should select an item for which the compare function returns true
-func TestFilter(t *testing.T) {
-	items := []map[string]interface{}{
-		{"letter": "a"},
-		{"letter": "b"},
-		{"letter": "c"},
-	}
-
-	res := filter(items, func(item map[string]interface{}) bool {
-		return item["letter"] == "b"
-	})
-
-	if len(res) != 1 {
-		t.Errorf("Expected 1 result, got %d", len(res))
-	}
-}
 
 // Not supplying filters should not restrict results
 func TestApplyFilters_passThrough(t *testing.T) {
@@ -196,35 +179,6 @@ func TestApplyFilters_regex(t *testing.T) {
 	}
 }
 
-// Invalid regex should throw an error
-func TestApplyFilters_regexPanic(t *testing.T) {
-	defer func() {
-		err := recover()
-		if err == nil {
-			t.Errorf("Expected regex compile error was not thrown")
-		} else {
-			if err.(error).Error() != `Invalid regular expression ")(" for "string" filter` {
-				t.Errorf("Unexpected regex compile error:\n%s", err)
-			}
-		}
-	}()
-
-	items := []map[string]interface{}{
-		{"string": "xblx:PHX-AD-1"},
-	}
-
-	filters := &schema.Set{F: func(v interface{}) int {
-		return schema.HashString(v.(map[string]interface{})["name"])
-	}}
-	filters.Add(map[string]interface{}{
-		"name":   "string",
-		"values": []interface{}{")("},
-		"regex":  true,
-	})
-
-	ApplyFilters(filters, items)
-}
-
 // Filters should test against an array of strings
 func TestApplyFilters_arrayOfStrings(t *testing.T) {
 	items := []map[string]interface{}{
@@ -357,26 +311,17 @@ func TestApplyFilters_underlyingStringTypes(t *testing.T) {
 	}
 }
 
-// Test various fields that aren't strings. Non-string filters should result in item being filtered out.
-func TestApplyFilters_nonString(t *testing.T) {
+// Test fields that aren't supported: list of non-strings or structured objects
+func TestApplyFilters_unsupportedTypes(t *testing.T) {
 	items := []map[string]interface{}{
 		{
-			"letter":  "a",
-			"number":  1,
-			"enabled": true,
-			"nums":    []int{1, 2, 3},
+			"nums": []int{1, 2, 3},
 		},
 		{
-			"letter":  "b",
-			"number":  2,
-			"enabled": false,
-			"nums":    []int{3, 4, 5},
+			"nums": []int{3, 4, 5},
 		},
 		{
-			"letter":  "c",
-			"number":  2,
-			"enabled": true,
-			"nums":    []int{5, 6, 7},
+			"nums": []int{5, 6, 7},
 		},
 	}
 
@@ -385,39 +330,6 @@ func TestApplyFilters_nonString(t *testing.T) {
 			return schema.HashString(v.(map[string]interface{})["name"])
 		},
 	}
-	filters.Add(map[string]interface{}{
-		"name":   "letter",
-		"values": []interface{}{"a", "b", "d"},
-	})
-
-	res := ApplyFilters(filters, items)
-	if len(res) != 2 {
-		t.Errorf("Expected 2 result, got %d", len(res))
-	}
-
-	numberFilter := map[string]interface{}{
-		"name":   "number",
-		"values": []interface{}{"1", "2", "3"},
-	}
-	filters.Add(numberFilter)
-
-	res = ApplyFilters(filters, items)
-	if len(res) != 0 {
-		t.Errorf("Expected 0 result, got %d", len(res))
-	}
-	filters.Remove(numberFilter)
-
-	booleanFilter := map[string]interface{}{
-		"name":   "enabled",
-		"values": []interface{}{"true", "false", "1", "0"},
-	}
-	filters.Add(booleanFilter)
-
-	res = ApplyFilters(filters, items)
-	if len(res) != 0 {
-		t.Errorf("Expected 0 result, got %d", len(res))
-	}
-	filters.Remove(booleanFilter)
 
 	intArrayFilter := map[string]interface{}{
 		"name":   "nums",
@@ -425,10 +337,156 @@ func TestApplyFilters_nonString(t *testing.T) {
 	}
 	filters.Add(intArrayFilter)
 
-	res = ApplyFilters(filters, items)
+	res := ApplyFilters(filters, items)
 	if len(res) != 0 {
 		t.Errorf("Expected 0 result, got %d", len(res))
 	}
+}
+
+func TestApplyFilters_booleanTypes(t *testing.T) {
+	items := []map[string]interface{}{
+		{
+			"enabled": true,
+		},
+		{
+			"enabled": "true",
+		},
+		{
+			"enabled": "1",
+		},
+		{
+			"enabled": false,
+		},
+		{
+			"enabled": "false",
+		},
+		{
+			"enabled": "0",
+		},
+	}
+
+	filters := &schema.Set{
+		F: func(v interface{}) int {
+			return schema.HashString(v.(map[string]interface{})["name"])
+		},
+	}
+
+	truthyBooleanFilter := map[string]interface{}{
+		"name":   "enabled",
+		"values": []interface{}{"true", "1"}, // while we can pass an actual boolean true here in the test, terraform
+		// doesnt, so keep coercion logic simple in filters.go
+	}
+	filters.Add(truthyBooleanFilter)
+
+	res := ApplyFilters(filters, items)
+
+	for _, i := range res {
+		switch enabled := i["enabled"].(type) {
+		case bool:
+			if !enabled {
+				t.Errorf("Expected a truthy value, got %t", enabled)
+			}
+		case string:
+			enabledBool, _ := strconv.ParseBool(enabled)
+			if !enabledBool {
+				t.Errorf("Expected a truthy value, got %s", enabled)
+			}
+		}
+	}
+
+	if len(res) != 3 {
+		t.Errorf("Expected 3 results, got %d", len(res))
+	}
+	filters.Remove(truthyBooleanFilter)
+
+	falsyBooleanFilter := map[string]interface{}{
+		"name":   "enabled",
+		"values": []interface{}{"false", "0"},
+	}
+	filters.Add(falsyBooleanFilter)
+
+	res = ApplyFilters(filters, items)
+
+	for _, i := range res {
+		switch enabled := i["enabled"].(type) {
+		case bool:
+			if enabled {
+				t.Errorf("Expected a falsy value, got %t", enabled)
+			}
+		case string:
+			enabledBool, _ := strconv.ParseBool(enabled)
+			if enabledBool {
+				t.Errorf("Expected a falsy value, got %s", enabled)
+			}
+		}
+	}
+
+	if len(res) != 3 {
+		t.Errorf("Expected 3 results, got %d", len(res))
+	}
+	filters.Remove(falsyBooleanFilter)
+}
+
+func TestApplyFilters_numberTypes(t *testing.T) {
+	items := []map[string]interface{}{
+		{
+			"integer": 1,
+			"float":   1.1,
+		},
+		{
+			"integer": 2,
+			"float":   2.2,
+		},
+		{
+			"integer": 3,
+			"float":   3.3,
+		},
+	}
+
+	filters := &schema.Set{
+		F: func(v interface{}) int {
+			return schema.HashString(v.(map[string]interface{})["name"])
+		},
+	}
+
+	// int filter with single target value
+	intFilter := map[string]interface{}{
+		"name":   "integer",
+		"values": []interface{}{"2"},
+	}
+	filters.Add(intFilter)
+
+	res := ApplyFilters(filters, items)
+	if len(res) != 1 {
+		t.Errorf("Expected 1 result, got %d", len(res))
+	}
+	filters.Remove(intFilter)
+
+	// test filter with multiple target value
+	intsFilter := map[string]interface{}{
+		"name":   "integer",
+		"values": []interface{}{"1", "3"},
+	}
+	filters.Add(intsFilter)
+
+	res = ApplyFilters(filters, items)
+	if len(res) != 2 {
+		t.Errorf("Expected 2 results, got %d", len(res))
+	}
+	filters.Remove(intsFilter)
+
+	// test float filter
+	floatFilter := map[string]interface{}{
+		"name":   "float",
+		"values": []interface{}{"1.1", "3.3"},
+	}
+	filters.Add(floatFilter)
+
+	res = ApplyFilters(filters, items)
+	if len(res) != 2 {
+		t.Errorf("Expected 2 results, got %d", len(res))
+	}
+	filters.Remove(floatFilter)
 }
 
 func TestApplyFilters_multiProperty(t *testing.T) {

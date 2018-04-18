@@ -1,8 +1,7 @@
 ### Data Sources Filtering
 
-Most data sources that return lists of resources now support filtering 
-semantics. To employ a filter include this block in your data source 
-definition:
+Data sources that return lists of resources support filtering semantics. 
+To employ a filter include this block in your data source definition:
 
 ```
 filter {
@@ -27,8 +26,7 @@ data "oci_core_shape" "t" {
 }
 ```
 
-Multiple filters blocks can be composed to form **AND** type comparisons 
-as well. The example below will return a data source containing 
+Multiple filters blocks can be composed to form **AND** type comparisons. The example below will return a data source containing 
 _running instances_ in the _first AD_ of a region:
 ```
 data "oci_core_instances" "s" {
@@ -54,10 +52,8 @@ expression special characters need to be escaped with another slash,
 shown above as the first `\` before `\w` in `"\\w*-AD-1"`.
 
 ### Limitations
-Currently filters can only target top level string attributes of a 
+Currently filters can only target top level attributes of a 
 resource (or top level arrays of strings). 
 
-Support for other types (booleans) and drilling into properties of 
-structured objects or lists of structured objects is not currently 
-supported. If these properties are targeted no results will be 
-returned from the datasource.
+Drilling into properties of structured objects or lists of structured objects is not currently 
+supported. If these properties are targeted no results will be returned from the datasource.
