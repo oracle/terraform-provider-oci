@@ -36,9 +36,10 @@ resource "oci_core_security_list" "test_security_list" {
 	egress_security_rules {
 		#Required
 		destination = "${var.security_list_egress_security_rules_destination}"
-		protocol = "${var.security_list_egress_security_rules_protocol}"
+		protocol = "1"
 
 		#Optional
+		destination_type = "${var.security_list_egress_security_rules_destination_type}"
 		icmp_options {
 			#Required
 			type = "${var.security_list_egress_security_rules_icmp_options_type}"
@@ -48,9 +49,49 @@ resource "oci_core_security_list" "test_security_list" {
 		}
 		stateless = "${var.security_list_egress_security_rules_stateless}"
 	}
+	egress_security_rules {
+		#Required
+		destination = "${var.security_list_egress_security_rules_destination}"
+		protocol = "6"
+
+		#Optional
+		destination_type = "${var.security_list_egress_security_rules_destination_type}"
+		stateless = "${var.security_list_egress_security_rules_stateless}"
+		tcp_options {
+
+			#Optional
+			max = "${var.security_list_egress_security_rules_tcp_options_destination_port_range_max}"
+			min = "${var.security_list_egress_security_rules_tcp_options_destination_port_range_min}"
+			source_port_range {
+				#Required
+				max = "${var.security_list_egress_security_rules_tcp_options_source_port_range_max}"
+				min = "${var.security_list_egress_security_rules_tcp_options_source_port_range_min}"
+			}
+		}
+	}
+	egress_security_rules {
+		#Required
+		destination = "${var.security_list_egress_security_rules_destination}"
+		protocol = "17"
+
+		#Optional
+		destination_type = "${var.security_list_egress_security_rules_destination_type}"
+		stateless = "${var.security_list_egress_security_rules_stateless}"
+		udp_options {
+
+			#Optional
+			max = "${var.security_list_egress_security_rules_udp_options_destination_port_range_max}"
+			min = "${var.security_list_egress_security_rules_udp_options_destination_port_range_min}"
+			source_port_range {
+				#Required
+				max = "${var.security_list_egress_security_rules_udp_options_source_port_range_max}"
+				min = "${var.security_list_egress_security_rules_udp_options_source_port_range_min}"
+			}
+		}
+	}
 	ingress_security_rules {
 		#Required
-		protocol = "${var.security_list_ingress_security_rules_protocol}"
+		protocol = "1"
 		source = "${var.security_list_ingress_security_rules_source}"
 
 		#Optional
@@ -61,7 +102,48 @@ resource "oci_core_security_list" "test_security_list" {
 			#Optional
 			code = "${var.security_list_ingress_security_rules_icmp_options_code}"
 		}
+		source_type = "${var.security_list_ingress_security_rules_source_type}"
 		stateless = "${var.security_list_ingress_security_rules_stateless}"
+	}
+	ingress_security_rules {
+		#Required
+		protocol = "6"
+		source = "${var.security_list_ingress_security_rules_source}"
+
+		#Optional
+		source_type = "${var.security_list_ingress_security_rules_source_type}"
+		stateless = "${var.security_list_ingress_security_rules_stateless}"
+		tcp_options {
+
+			#Optional
+			max = "${var.security_list_ingress_security_rules_tcp_options_destination_port_range_max}"
+			min = "${var.security_list_ingress_security_rules_tcp_options_destination_port_range_min}"
+			source_port_range {
+				#Required
+				max = "${var.security_list_ingress_security_rules_tcp_options_source_port_range_max}"
+				min = "${var.security_list_ingress_security_rules_tcp_options_source_port_range_min}"
+			}
+		}
+	}
+	ingress_security_rules {
+		#Required
+		protocol = "17"
+		source = "${var.security_list_ingress_security_rules_source}"
+
+		#Optional
+		source_type = "${var.security_list_ingress_security_rules_source_type}"
+		stateless = "${var.security_list_ingress_security_rules_stateless}"
+		udp_options {
+
+			#Optional
+			max = "${var.security_list_ingress_security_rules_udp_options_destination_port_range_max}"
+			min = "${var.security_list_ingress_security_rules_udp_options_destination_port_range_min}"
+			source_port_range {
+				#Required
+				max = "${var.security_list_ingress_security_rules_udp_options_source_port_range_max}"
+				min = "${var.security_list_ingress_security_rules_udp_options_source_port_range_min}"
+			}
+		}
 	}
 	vcn_id = "${oci_core_vcn.test_vcn.id}"
 
@@ -71,20 +153,166 @@ resource "oci_core_security_list" "test_security_list" {
 	freeform_tags = "${var.security_list_freeform_tags}"
 }
 `
+
+	SecurityListResourceConfigWithServiceCidrBlock = SecurityListResourceDependencies + `
+resource "oci_core_security_list" "test_security_list" {
+	#Required
+	compartment_id = "${var.compartment_id}"
+	egress_security_rules {
+		#Required
+		destination = "${lookup(data.oci_core_services.test_services.services[0], "cidr_block")}"
+		protocol = "1"
+
+		#Optional
+		destination_type = "${var.security_list_egress_security_rules_destination_type}"
+		icmp_options {
+			#Required
+			type = "${var.security_list_egress_security_rules_icmp_options_type}"
+
+			#Optional
+			code = "${var.security_list_egress_security_rules_icmp_options_code}"
+		}
+		stateless = "${var.security_list_egress_security_rules_stateless}"
+	}
+	egress_security_rules {
+		#Required
+		destination = "${lookup(data.oci_core_services.test_services.services[0], "cidr_block")}"
+		protocol = "6"
+
+		#Optional
+		destination_type = "${var.security_list_egress_security_rules_destination_type}"
+		stateless = "${var.security_list_egress_security_rules_stateless}"
+		tcp_options {
+
+			#Optional
+			max = "${var.security_list_egress_security_rules_tcp_options_destination_port_range_max}"
+			min = "${var.security_list_egress_security_rules_tcp_options_destination_port_range_min}"
+			source_port_range {
+				#Required
+				max = "${var.security_list_egress_security_rules_tcp_options_source_port_range_max}"
+				min = "${var.security_list_egress_security_rules_tcp_options_source_port_range_min}"
+			}
+		}
+	}
+	egress_security_rules {
+		#Required
+		destination = "${lookup(data.oci_core_services.test_services.services[0], "cidr_block")}"
+		protocol = "17"
+
+		#Optional
+		destination_type = "${var.security_list_egress_security_rules_destination_type}"
+		stateless = "${var.security_list_egress_security_rules_stateless}"
+		udp_options {
+
+			#Optional
+			max = "${var.security_list_egress_security_rules_udp_options_destination_port_range_max}"
+			min = "${var.security_list_egress_security_rules_udp_options_destination_port_range_min}"
+			source_port_range {
+				#Required
+				max = "${var.security_list_egress_security_rules_udp_options_source_port_range_max}"
+				min = "${var.security_list_egress_security_rules_udp_options_source_port_range_min}"
+			}
+		}
+	}
+	ingress_security_rules {
+		#Required
+		protocol = "1"
+		source = "${lookup(data.oci_core_services.test_services.services[0], "cidr_block")}"
+
+		#Optional
+		icmp_options {
+			#Required
+			type = "${var.security_list_ingress_security_rules_icmp_options_type}"
+
+			#Optional
+			code = "${var.security_list_ingress_security_rules_icmp_options_code}"
+		}
+		source_type = "${var.security_list_ingress_security_rules_source_type}"
+		stateless = "${var.security_list_ingress_security_rules_stateless}"
+	}
+	ingress_security_rules {
+		#Required
+		protocol = "6"
+		source = "${lookup(data.oci_core_services.test_services.services[0], "cidr_block")}"
+
+		#Optional
+		source_type = "${var.security_list_ingress_security_rules_source_type}"
+		stateless = "${var.security_list_ingress_security_rules_stateless}"
+		tcp_options {
+
+			#Optional
+			max = "${var.security_list_ingress_security_rules_tcp_options_destination_port_range_max}"
+			min = "${var.security_list_ingress_security_rules_tcp_options_destination_port_range_min}"
+			source_port_range {
+				#Required
+				max = "${var.security_list_ingress_security_rules_tcp_options_source_port_range_max}"
+				min = "${var.security_list_ingress_security_rules_tcp_options_source_port_range_min}"
+			}
+		}
+	}
+	ingress_security_rules {
+		#Required
+		protocol = "17"
+		source = "${lookup(data.oci_core_services.test_services.services[0], "cidr_block")}"
+
+		#Optional
+		source_type = "${var.security_list_ingress_security_rules_source_type}"
+		stateless = "${var.security_list_ingress_security_rules_stateless}"
+		udp_options {
+
+			#Optional
+			max = "${var.security_list_ingress_security_rules_udp_options_destination_port_range_max}"
+			min = "${var.security_list_ingress_security_rules_udp_options_destination_port_range_min}"
+			source_port_range {
+				#Required
+				max = "${var.security_list_ingress_security_rules_udp_options_source_port_range_max}"
+				min = "${var.security_list_ingress_security_rules_udp_options_source_port_range_min}"
+			}
+		}
+	}
+	vcn_id = "${oci_core_vcn.test_vcn.id}"
+
+	#Optional
+	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.security_list_defined_tags_value}")}"
+	display_name = "${var.security_list_display_name}"
+	freeform_tags = "${var.security_list_freeform_tags}"
+}
+
+data "oci_core_services" "test_services" {
+}
+`
 	SecurityListPropertyVariables = `
 variable "security_list_defined_tags_value" { default = "value" }
 variable "security_list_display_name" { default = "MyPrivateSubnetSecurityList" }
 variable "security_list_egress_security_rules_destination" { default = "10.0.2.0/24" }
+variable "security_list_egress_security_rules_destination_type" { default = "CIDR_BLOCK" }
 variable "security_list_egress_security_rules_icmp_options_code" { default = 4 }
 variable "security_list_egress_security_rules_icmp_options_type" { default = 3 }
 variable "security_list_egress_security_rules_protocol" { default = "1" }
 variable "security_list_egress_security_rules_stateless" { default = false }
+variable "security_list_egress_security_rules_tcp_options_destination_port_range_max" { default = "1521" }
+variable "security_list_egress_security_rules_tcp_options_destination_port_range_min" { default = "1521" }
+variable "security_list_egress_security_rules_tcp_options_source_port_range_max" { default = "1521" }
+variable "security_list_egress_security_rules_tcp_options_source_port_range_min" { default = "1521" }
+variable "security_list_egress_security_rules_udp_options_destination_port_range_max" { default = "1521" }
+variable "security_list_egress_security_rules_udp_options_destination_port_range_min" { default = "1521" }
+variable "security_list_egress_security_rules_udp_options_source_port_range_max" { default = "1521" }
+variable "security_list_egress_security_rules_udp_options_source_port_range_min" { default = "1521" }
 variable "security_list_freeform_tags" { default = {"Department"= "Finance"} }
 variable "security_list_ingress_security_rules_icmp_options_code" { default = 4 }
 variable "security_list_ingress_security_rules_icmp_options_type" { default = 3 }
 variable "security_list_ingress_security_rules_protocol" { default = "1" }
 variable "security_list_ingress_security_rules_source" { default = "10.0.1.0/24" }
+variable "security_list_ingress_security_rules_source_type" { default = "CIDR_BLOCK" }
 variable "security_list_ingress_security_rules_stateless" { default = false }
+variable "security_list_ingress_security_rules_tcp_options_destination_port_range_max" { default = "1521" }
+variable "security_list_ingress_security_rules_tcp_options_destination_port_range_min" { default = "1521" }
+variable "security_list_ingress_security_rules_tcp_options_source_port_range_max" { default = "1521" }
+variable "security_list_ingress_security_rules_tcp_options_source_port_range_min" { default = "1521" }
+variable "security_list_ingress_security_rules_udp_options_destination_port_range_max" { default = "1521" }
+variable "security_list_ingress_security_rules_udp_options_destination_port_range_min" { default = "1521" }
+variable "security_list_ingress_security_rules_udp_options_source_port_range_max" { default = "1521" }
+variable "security_list_ingress_security_rules_udp_options_source_port_range_min" { default = "1521" }
 variable "security_list_state" { default = "AVAILABLE" }
 
 `
@@ -116,11 +344,17 @@ func TestCoreSecurityListResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.destination", "10.0.2.0/24"),
-					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.protocol", "1"),
+					CheckResourceSetContainsElementWithProperties(resourceName, "egress_security_rules", map[string]string{
+						"destination": "10.0.2.0/24",
+						"protocol":    "1",
+					},
+						nil),
 					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.protocol", "1"),
-					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.source", "10.0.1.0/24"),
+					CheckResourceSetContainsElementWithProperties(resourceName, "ingress_security_rules", map[string]string{
+						"protocol": "1",
+						"source":   "10.0.1.0/24",
+					},
+						nil),
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
 					func(s *terraform.State) (err error) {
@@ -141,22 +375,82 @@ func TestCoreSecurityListResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "MyPrivateSubnetSecurityList"),
-					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.destination", "10.0.2.0/24"),
-					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.icmp_options.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.icmp_options.0.code", "4"),
-					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.icmp_options.0.type", "3"),
-					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.protocol", "1"),
-					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.stateless", "false"),
+					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.#", "3"),
+					CheckResourceSetContainsElementWithProperties(resourceName, "egress_security_rules", map[string]string{
+						"destination":         "10.0.2.0/24",
+						"destination_type":    "CIDR_BLOCK",
+						"icmp_options.#":      "1",
+						"icmp_options.0.code": "4",
+						"icmp_options.0.type": "3",
+						"protocol":            "1",
+						"stateless":           "false",
+					},
+						nil),
+					CheckResourceSetContainsElementWithProperties(resourceName, "egress_security_rules", map[string]string{
+						"destination":                           "10.0.2.0/24",
+						"destination_type":                      "CIDR_BLOCK",
+						"protocol":                              "6",
+						"stateless":                             "false",
+						"tcp_options.#":                         "1",
+						"tcp_options.0.max":                     "1521",
+						"tcp_options.0.min":                     "1521",
+						"tcp_options.0.source_port_range.#":     "1",
+						"tcp_options.0.source_port_range.0.max": "1521",
+						"tcp_options.0.source_port_range.0.min": "1521",
+					},
+						nil),
+					CheckResourceSetContainsElementWithProperties(resourceName, "egress_security_rules", map[string]string{
+						"destination":                           "10.0.2.0/24",
+						"destination_type":                      "CIDR_BLOCK",
+						"protocol":                              "17",
+						"stateless":                             "false",
+						"udp_options.#":                         "1",
+						"udp_options.0.max":                     "1521",
+						"udp_options.0.min":                     "1521",
+						"udp_options.0.source_port_range.#":     "1",
+						"udp_options.0.source_port_range.0.max": "1521",
+						"udp_options.0.source_port_range.0.min": "1521",
+					},
+						nil),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.icmp_options.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.icmp_options.0.code", "4"),
-					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.icmp_options.0.type", "3"),
-					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.protocol", "1"),
-					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.source", "10.0.1.0/24"),
-					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.stateless", "false"),
+					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.#", "3"),
+					CheckResourceSetContainsElementWithProperties(resourceName, "ingress_security_rules", map[string]string{
+						"icmp_options.#":      "1",
+						"icmp_options.0.code": "4",
+						"icmp_options.0.type": "3",
+						"protocol":            "1",
+						"source":              "10.0.1.0/24",
+						"source_type":         "CIDR_BLOCK",
+						"stateless":           "false",
+					},
+						nil),
+					CheckResourceSetContainsElementWithProperties(resourceName, "ingress_security_rules", map[string]string{
+						"protocol":                              "6",
+						"source":                                "10.0.1.0/24",
+						"source_type":                           "CIDR_BLOCK",
+						"stateless":                             "false",
+						"tcp_options.#":                         "1",
+						"tcp_options.0.max":                     "1521",
+						"tcp_options.0.min":                     "1521",
+						"tcp_options.0.source_port_range.#":     "1",
+						"tcp_options.0.source_port_range.0.max": "1521",
+						"tcp_options.0.source_port_range.0.min": "1521",
+					},
+						nil),
+					CheckResourceSetContainsElementWithProperties(resourceName, "ingress_security_rules", map[string]string{
+						"protocol":                              "17",
+						"source":                                "10.0.1.0/24",
+						"source_type":                           "CIDR_BLOCK",
+						"stateless":                             "false",
+						"udp_options.#":                         "1",
+						"udp_options.0.max":                     "1521",
+						"udp_options.0.min":                     "1521",
+						"udp_options.0.source_port_range.#":     "1",
+						"udp_options.0.source_port_range.0.max": "1521",
+						"udp_options.0.source_port_range.0.min": "1521",
+					},
+						nil),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
@@ -174,39 +468,123 @@ func TestCoreSecurityListResource_basic(t *testing.T) {
 variable "security_list_defined_tags_value" { default = "updatedValue" }
 variable "security_list_display_name" { default = "displayName2" }
 variable "security_list_egress_security_rules_destination" { default = "10.0.2.0/24" }
+variable "security_list_egress_security_rules_destination_type" { default = "SERVICE_CIDR_BLOCK" }
 variable "security_list_egress_security_rules_icmp_options_code" { default = 0 }
 variable "security_list_egress_security_rules_icmp_options_type" { default = 3 }
 variable "security_list_egress_security_rules_protocol" { default = "1" }
 variable "security_list_egress_security_rules_stateless" { default = true }
+variable "security_list_egress_security_rules_tcp_options_destination_port_range_max" { default = "1522" }
+variable "security_list_egress_security_rules_tcp_options_destination_port_range_min" { default = "1522" }
+variable "security_list_egress_security_rules_tcp_options_source_port_range_max" { default = "1522" }
+variable "security_list_egress_security_rules_tcp_options_source_port_range_min" { default = "1522" }
+variable "security_list_egress_security_rules_udp_options_destination_port_range_max" { default = "1522" }
+variable "security_list_egress_security_rules_udp_options_destination_port_range_min" { default = "1522" }
+variable "security_list_egress_security_rules_udp_options_source_port_range_max" { default = "1522" }
+variable "security_list_egress_security_rules_udp_options_source_port_range_min" { default = "1522" }
 variable "security_list_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "security_list_ingress_security_rules_icmp_options_code" { default = 0 }
 variable "security_list_ingress_security_rules_icmp_options_type" { default = 3 }
 variable "security_list_ingress_security_rules_protocol" { default = "1" }
 variable "security_list_ingress_security_rules_source" { default = "10.0.1.0/24" }
+variable "security_list_ingress_security_rules_source_type" { default = "SERVICE_CIDR_BLOCK" }
 variable "security_list_ingress_security_rules_stateless" { default = true }
+variable "security_list_ingress_security_rules_tcp_options_destination_port_range_max" { default = "1522" }
+variable "security_list_ingress_security_rules_tcp_options_destination_port_range_min" { default = "1522" }
+variable "security_list_ingress_security_rules_tcp_options_source_port_range_max" { default = "1522" }
+variable "security_list_ingress_security_rules_tcp_options_source_port_range_min" { default = "1522" }
+variable "security_list_ingress_security_rules_udp_options_destination_port_range_max" { default = "1522" }
+variable "security_list_ingress_security_rules_udp_options_destination_port_range_min" { default = "1522" }
+variable "security_list_ingress_security_rules_udp_options_source_port_range_max" { default = "1522" }
+variable "security_list_ingress_security_rules_udp_options_source_port_range_min" { default = "1522" }
 variable "security_list_state" { default = "AVAILABLE" }
 
-                ` + compartmentIdVariableStr + SecurityListResourceConfig,
+                ` + compartmentIdVariableStr + SecurityListResourceConfigWithServiceCidrBlock,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.destination", "10.0.2.0/24"),
-					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.icmp_options.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.icmp_options.0.code", "0"),
-					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.icmp_options.0.type", "3"),
-					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.protocol", "1"),
-					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.stateless", "true"),
+					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.#", "3"),
+					CheckResourceSetContainsElementWithProperties(resourceName, "egress_security_rules", map[string]string{
+						"destination_type":    "SERVICE_CIDR_BLOCK",
+						"icmp_options.#":      "1",
+						"icmp_options.0.code": "0",
+						"icmp_options.0.type": "3",
+						"protocol":            "1",
+						"stateless":           "true",
+					},
+						[]string{
+							"destination",
+						}),
+					CheckResourceSetContainsElementWithProperties(resourceName, "egress_security_rules", map[string]string{
+						"destination_type":                      "SERVICE_CIDR_BLOCK",
+						"protocol":                              "6",
+						"stateless":                             "true",
+						"tcp_options.#":                         "1",
+						"tcp_options.0.max":                     "1522",
+						"tcp_options.0.min":                     "1522",
+						"tcp_options.0.source_port_range.#":     "1",
+						"tcp_options.0.source_port_range.0.max": "1522",
+						"tcp_options.0.source_port_range.0.min": "1522",
+					},
+						[]string{
+							"destination",
+						}),
+					CheckResourceSetContainsElementWithProperties(resourceName, "egress_security_rules", map[string]string{
+						"destination_type":                      "SERVICE_CIDR_BLOCK",
+						"protocol":                              "17",
+						"stateless":                             "true",
+						"udp_options.#":                         "1",
+						"udp_options.0.max":                     "1522",
+						"udp_options.0.min":                     "1522",
+						"udp_options.0.source_port_range.#":     "1",
+						"udp_options.0.source_port_range.0.max": "1522",
+						"udp_options.0.source_port_range.0.min": "1522",
+					},
+						[]string{
+							"destination",
+						}),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.icmp_options.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.icmp_options.0.code", "0"),
-					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.icmp_options.0.type", "3"),
-					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.protocol", "1"),
-					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.source", "10.0.1.0/24"),
-					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.stateless", "true"),
+					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.#", "3"),
+					CheckResourceSetContainsElementWithProperties(resourceName, "ingress_security_rules", map[string]string{
+						"icmp_options.#":      "1",
+						"icmp_options.0.code": "0",
+						"icmp_options.0.type": "3",
+						"protocol":            "1",
+						"source_type":         "SERVICE_CIDR_BLOCK",
+						"stateless":           "true",
+					},
+						[]string{
+							"source",
+						}),
+					CheckResourceSetContainsElementWithProperties(resourceName, "ingress_security_rules", map[string]string{
+						"protocol":                              "6",
+						"source_type":                           "SERVICE_CIDR_BLOCK",
+						"stateless":                             "true",
+						"tcp_options.#":                         "1",
+						"tcp_options.0.max":                     "1522",
+						"tcp_options.0.min":                     "1522",
+						"tcp_options.0.source_port_range.#":     "1",
+						"tcp_options.0.source_port_range.0.max": "1522",
+						"tcp_options.0.source_port_range.0.min": "1522",
+					},
+						[]string{
+							"source",
+						}),
+					CheckResourceSetContainsElementWithProperties(resourceName, "ingress_security_rules", map[string]string{
+						"protocol":                              "17",
+						"source_type":                           "SERVICE_CIDR_BLOCK",
+						"stateless":                             "true",
+						"udp_options.#":                         "1",
+						"udp_options.0.max":                     "1522",
+						"udp_options.0.min":                     "1522",
+						"udp_options.0.source_port_range.#":     "1",
+						"udp_options.0.source_port_range.0.max": "1522",
+						"udp_options.0.source_port_range.0.min": "1522",
+					},
+						[]string{
+							"source",
+						}),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
@@ -226,16 +604,34 @@ variable "security_list_state" { default = "AVAILABLE" }
 variable "security_list_defined_tags_value" { default = "updatedValue" }
 variable "security_list_display_name" { default = "displayName2" }
 variable "security_list_egress_security_rules_destination" { default = "10.0.2.0/24" }
+variable "security_list_egress_security_rules_destination_type" { default = "SERVICE_CIDR_BLOCK" }
 variable "security_list_egress_security_rules_icmp_options_code" { default = 0 }
 variable "security_list_egress_security_rules_icmp_options_type" { default = 3 }
 variable "security_list_egress_security_rules_protocol" { default = "1" }
 variable "security_list_egress_security_rules_stateless" { default = true }
+variable "security_list_egress_security_rules_tcp_options_destination_port_range_max" { default = "1522" }
+variable "security_list_egress_security_rules_tcp_options_destination_port_range_min" { default = "1522" }
+variable "security_list_egress_security_rules_tcp_options_source_port_range_max" { default = "1522" }
+variable "security_list_egress_security_rules_tcp_options_source_port_range_min" { default = "1522" }
+variable "security_list_egress_security_rules_udp_options_destination_port_range_max" { default = "1522" }
+variable "security_list_egress_security_rules_udp_options_destination_port_range_min" { default = "1522" }
+variable "security_list_egress_security_rules_udp_options_source_port_range_max" { default = "1522" }
+variable "security_list_egress_security_rules_udp_options_source_port_range_min" { default = "1522" }
 variable "security_list_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "security_list_ingress_security_rules_icmp_options_code" { default = 0 }
 variable "security_list_ingress_security_rules_icmp_options_type" { default = 3 }
 variable "security_list_ingress_security_rules_protocol" { default = "1" }
 variable "security_list_ingress_security_rules_source" { default = "10.0.1.0/24" }
+variable "security_list_ingress_security_rules_source_type" { default = "SERVICE_CIDR_BLOCK" }
 variable "security_list_ingress_security_rules_stateless" { default = true }
+variable "security_list_ingress_security_rules_tcp_options_destination_port_range_max" { default = "1522" }
+variable "security_list_ingress_security_rules_tcp_options_destination_port_range_min" { default = "1522" }
+variable "security_list_ingress_security_rules_tcp_options_source_port_range_max" { default = "1522" }
+variable "security_list_ingress_security_rules_tcp_options_source_port_range_min" { default = "1522" }
+variable "security_list_ingress_security_rules_udp_options_destination_port_range_max" { default = "1522" }
+variable "security_list_ingress_security_rules_udp_options_destination_port_range_min" { default = "1522" }
+variable "security_list_ingress_security_rules_udp_options_source_port_range_max" { default = "1522" }
+variable "security_list_ingress_security_rules_udp_options_source_port_range_min" { default = "1522" }
 variable "security_list_state" { default = "AVAILABLE" }
 
 data "oci_core_security_lists" "test_security_lists" {
@@ -252,7 +648,7 @@ data "oci_core_security_lists" "test_security_lists" {
     	values = ["${oci_core_security_list.test_security_list.id}"]
     }
 }
-                ` + compartmentIdVariableStr + SecurityListResourceConfig,
+                ` + compartmentIdVariableStr + SecurityListResourceConfigWithServiceCidrBlock,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -263,22 +659,88 @@ data "oci_core_security_lists" "test_security_lists" {
 					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.egress_security_rules.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.egress_security_rules.0.destination", "10.0.2.0/24"),
-					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.egress_security_rules.0.icmp_options.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.egress_security_rules.0.icmp_options.0.code", "0"),
-					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.egress_security_rules.0.icmp_options.0.type", "3"),
-					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.egress_security_rules.0.protocol", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.egress_security_rules.0.stateless", "true"),
+					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.egress_security_rules.#", "3"),
+					CheckResourceSetContainsElementWithProperties(datasourceName, "security_lists.0.egress_security_rules", map[string]string{
+						"destination_type":    "SERVICE_CIDR_BLOCK",
+						"icmp_options.#":      "1",
+						"icmp_options.0.code": "0",
+						"icmp_options.0.type": "3",
+						"protocol":            "1",
+						"stateless":           "true",
+					},
+						[]string{
+							"destination",
+						}),
+					CheckResourceSetContainsElementWithProperties(datasourceName, "security_lists.0.egress_security_rules", map[string]string{
+						"destination_type":                      "SERVICE_CIDR_BLOCK",
+						"protocol":                              "6",
+						"stateless":                             "true",
+						"tcp_options.#":                         "1",
+						"tcp_options.0.max":                     "1522",
+						"tcp_options.0.min":                     "1522",
+						"tcp_options.0.source_port_range.#":     "1",
+						"tcp_options.0.source_port_range.0.max": "1522",
+						"tcp_options.0.source_port_range.0.min": "1522",
+					},
+						[]string{
+							"destination",
+						}),
+					CheckResourceSetContainsElementWithProperties(datasourceName, "security_lists.0.egress_security_rules", map[string]string{
+						"destination_type":                      "SERVICE_CIDR_BLOCK",
+						"protocol":                              "17",
+						"stateless":                             "true",
+						"udp_options.#":                         "1",
+						"udp_options.0.max":                     "1522",
+						"udp_options.0.min":                     "1522",
+						"udp_options.0.source_port_range.#":     "1",
+						"udp_options.0.source_port_range.0.max": "1522",
+						"udp_options.0.source_port_range.0.min": "1522",
+					},
+						[]string{
+							"destination",
+						}),
 					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "security_lists.0.id"),
-					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.ingress_security_rules.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.ingress_security_rules.0.icmp_options.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.ingress_security_rules.0.icmp_options.0.code", "0"),
-					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.ingress_security_rules.0.icmp_options.0.type", "3"),
-					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.ingress_security_rules.0.protocol", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.ingress_security_rules.0.source", "10.0.1.0/24"),
-					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.ingress_security_rules.0.stateless", "true"),
+					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.ingress_security_rules.#", "3"),
+					CheckResourceSetContainsElementWithProperties(datasourceName, "security_lists.0.ingress_security_rules", map[string]string{
+						"icmp_options.#":      "1",
+						"icmp_options.0.code": "0",
+						"icmp_options.0.type": "3",
+						"protocol":            "1",
+						"source_type":         "SERVICE_CIDR_BLOCK",
+						"stateless":           "true",
+					},
+						[]string{
+							"source",
+						}),
+					CheckResourceSetContainsElementWithProperties(datasourceName, "security_lists.0.ingress_security_rules", map[string]string{
+						"protocol":                              "6",
+						"source_type":                           "SERVICE_CIDR_BLOCK",
+						"stateless":                             "true",
+						"tcp_options.#":                         "1",
+						"tcp_options.0.max":                     "1522",
+						"tcp_options.0.min":                     "1522",
+						"tcp_options.0.source_port_range.#":     "1",
+						"tcp_options.0.source_port_range.0.max": "1522",
+						"tcp_options.0.source_port_range.0.min": "1522",
+					},
+						[]string{
+							"source",
+						}),
+					CheckResourceSetContainsElementWithProperties(datasourceName, "security_lists.0.ingress_security_rules", map[string]string{
+						"protocol":                              "17",
+						"source_type":                           "SERVICE_CIDR_BLOCK",
+						"stateless":                             "true",
+						"udp_options.#":                         "1",
+						"udp_options.0.max":                     "1522",
+						"udp_options.0.min":                     "1522",
+						"udp_options.0.source_port_range.#":     "1",
+						"udp_options.0.source_port_range.0.max": "1522",
+						"udp_options.0.source_port_range.0.min": "1522",
+					},
+						[]string{
+							"source",
+						}),
 					resource.TestCheckResourceAttrSet(datasourceName, "security_lists.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "security_lists.0.time_created"),
 					resource.TestCheckResourceAttrSet(datasourceName, "security_lists.0.vcn_id"),

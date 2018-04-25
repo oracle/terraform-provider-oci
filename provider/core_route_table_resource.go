@@ -9,6 +9,10 @@ import (
 
 	"github.com/oracle/terraform-provider-oci/crud"
 
+	"bytes"
+	"fmt"
+
+	"github.com/hashicorp/terraform/helper/hashcode"
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
@@ -30,25 +34,38 @@ func RouteTableResource() *schema.Resource {
 				ForceNew: true,
 			},
 			"route_rules": {
-				Type: schema.TypeList,
+				Type: schema.TypeSet,
 				// Code-gen and specs say this should be required and has a max item limit
 				// Keep it optional to continue to allow empty route_rules and avoid a breaking change.
 				// Also remove the max item limit, to avoid a potential breaking change.
 				Optional: true,
 				MinItems: 0,
+				Set:      routeRuleHashCodeForSets,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
-						"cidr_block": {
-							Type:     schema.TypeString,
-							Required: true,
-						},
 						"network_entity_id": {
 							Type:     schema.TypeString,
 							Required: true,
 						},
 
 						// Optional
+						"cidr_block": {
+							Type:       schema.TypeString,
+							Optional:   true,
+							Computed:   true,
+							Deprecated: crud.FieldDeprecatedForAnother("cidr_block", "destination"),
+						},
+						"destination": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"destination_type": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
 
 						// Computed
 					},
@@ -198,10 +215,11 @@ func (s *RouteTableResourceCrud) Create() error {
 
 	request.RouteRules = []oci_core.RouteRule{}
 	if routeRules, ok := s.D.GetOkExists("route_rules"); ok {
-		interfaces := routeRules.([]interface{})
+		set := routeRules.(*schema.Set)
+		interfaces := set.List()
 		tmp := make([]oci_core.RouteRule, len(interfaces))
 		for i, toBeConverted := range interfaces {
-			tmp[i] = mapToRouteRule(toBeConverted.(map[string]interface{}))
+			tmp[i] = s.mapToRouteRule(routeRuleHashCodeForSets(toBeConverted))
 		}
 		request.RouteRules = tmp
 	}
@@ -261,10 +279,11 @@ func (s *RouteTableResourceCrud) Update() error {
 
 	request.RouteRules = []oci_core.RouteRule{}
 	if routeRules, ok := s.D.GetOkExists("route_rules"); ok {
-		interfaces := routeRules.([]interface{})
+		set := routeRules.(*schema.Set)
+		interfaces := set.List()
 		tmp := make([]oci_core.RouteRule, len(interfaces))
 		for i, toBeConverted := range interfaces {
-			tmp[i] = mapToRouteRule(toBeConverted.(map[string]interface{}))
+			tmp[i] = s.mapToRouteRule(routeRuleHashCodeForSets(toBeConverted))
 		}
 		request.RouteRules = tmp
 	}
@@ -318,7 +337,7 @@ func (s *RouteTableResourceCrud) SetData() {
 	for _, item := range s.Res.RouteRules {
 		routeRules = append(routeRules, RouteRuleToMap(item))
 	}
-	s.D.Set("route_rules", routeRules)
+	s.D.Set("route_rules", schema.NewSet(routeRuleHashCodeForSets, routeRules))
 
 	s.D.Set("state", s.Res.LifecycleState)
 
@@ -332,15 +351,41 @@ func (s *RouteTableResourceCrud) SetData() {
 
 }
 
-func mapToRouteRule(raw map[string]interface{}) oci_core.RouteRule {
+func (s *RouteTableResourceCrud) mapToRouteRule(hashcode int) oci_core.RouteRule {
 	result := oci_core.RouteRule{}
 
-	if cidrBlock, ok := raw["cidr_block"]; ok && cidrBlock != "" {
+	// @CODEGEN We need this change because the service will return both cidr_block and destination.
+	// Without this change on update operations terraform will send both paremeters since they are both in the statefile.
+	// The service will complain if both parameters are not the same on the update operation so we need to make sure only the relevant one in sent to the service.
+	cidrBlockChanged := false
+	cidrBlock, cidrBlockPresent := s.D.GetOkExists(fmt.Sprintf("route_rules.%d.cidr_block", hashcode))
+	if cidrBlockPresent && s.D.HasChange(fmt.Sprintf("route_rules.%d.cidr_block", hashcode)) {
+		cidrBlockChanged = true
+	}
+
+	destinationChanged := false
+	destination, destinationPresent := s.D.GetOkExists(fmt.Sprintf("route_rules.%d.destination", hashcode))
+	if destinationPresent && s.D.HasChange(fmt.Sprintf("route_rules.%d.destination", hashcode)) {
+		tmp := destination.(string)
+		result.Destination = &tmp
+		destinationChanged = true
+	}
+
+	if !destinationChanged && !cidrBlockChanged {
+		tmp := destination.(string)
+		result.Destination = &tmp
+	}
+	if !destinationChanged && cidrBlockPresent {
 		tmp := cidrBlock.(string)
 		result.CidrBlock = &tmp
 	}
 
-	if networkEntityId, ok := raw["network_entity_id"]; ok && networkEntityId != "" {
+	if destinationType, ok := s.D.GetOkExists(fmt.Sprintf("route_rules.%d.destination_type", hashcode)); ok {
+		tmp := oci_core.RouteRuleDestinationTypeEnum(destinationType.(string))
+		result.DestinationType = tmp
+	}
+
+	if networkEntityId, ok := s.D.GetOkExists(fmt.Sprintf("route_rules.%d.network_entity_id", hashcode)); ok {
 		tmp := networkEntityId.(string)
 		result.NetworkEntityId = &tmp
 	}
@@ -355,9 +400,46 @@ func RouteRuleToMap(obj oci_core.RouteRule) map[string]interface{} {
 		result["cidr_block"] = string(*obj.CidrBlock)
 	}
 
+	if obj.Destination != nil {
+		result["destination"] = string(*obj.Destination)
+	}
+
+	result["destination_type"] = string(obj.DestinationType)
+
 	if obj.NetworkEntityId != nil {
 		result["network_entity_id"] = string(*obj.NetworkEntityId)
 	}
 
 	return result
+}
+
+func routeRuleHashCodeForSets(v interface{}) int {
+	var buf bytes.Buffer
+	m := v.(map[string]interface{})
+
+	/* The user needs to provide either cidr_block or destination.
+	 * We need to make them both the same in the hashing function otherwise there will be a diff on every apply.
+	 * This is because the service will return both fields
+	 */
+	cidrBlock, cidrBlockPresent := m["cidr_block"]
+	destination, destinationPresent := m["destination"]
+	if cidrBlockPresent && cidrBlock != "" {
+		buf.WriteString(fmt.Sprintf("%s-", cidrBlock.(string)))
+	} else if destinationPresent && destination != "" {
+		buf.WriteString(fmt.Sprintf("%s-", destination.(string)))
+	}
+	if destinationPresent && destination != "" {
+		buf.WriteString(fmt.Sprintf("%s-", destination.(string)))
+	} else if cidrBlockPresent && cidrBlock != "" {
+		buf.WriteString(fmt.Sprintf("%s-", cidrBlock.(string)))
+	}
+
+	if destinationType, destinationTypePresent := m["destination_type"]; destinationTypePresent && destinationType != "" {
+		buf.WriteString(fmt.Sprintf("%s-", destinationType.(string)))
+	} else {
+		buf.WriteString(fmt.Sprintf("%s-", oci_core.RouteRuleDestinationTypeCidrBlock))
+	}
+
+	buf.WriteString(fmt.Sprintf("%s-", m["network_entity_id"].(string)))
+	return hashcode.String(buf.String())
 }

@@ -171,6 +171,8 @@ func dataSourcesMap() map[string]*schema.Resource {
 		"oci_core_remote_peering_connections":          RemotePeeringConnectionsDataSource(),
 		"oci_core_route_tables":                        RouteTablesDataSource(),
 		"oci_core_security_lists":                      SecurityListsDataSource(),
+		"oci_core_service_gateways":                    ServiceGatewaysDataSource(),
+		"oci_core_services":                            ServicesDataSource(),
 		"oci_core_shape":                               InstanceShapesDataSource(),
 		"oci_core_shapes":                              InstanceShapesDataSource(),
 		"oci_core_subnets":                             SubnetsDataSource(),
@@ -273,6 +275,7 @@ func resourcesMap() map[string]*schema.Resource {
 		"oci_core_remote_peering_connection":       RemotePeeringConnectionResource(),
 		"oci_core_default_security_list":           DefaultSecurityListResource(),
 		"oci_core_security_list":                   SecurityListResource(),
+		"oci_core_service_gateway":                 ServiceGatewayResource(),
 		"oci_core_subnet":                          SubnetResource(),
 		"oci_core_virtual_network":                 VcnResource(), //This is a legacy name for VCN, removing it can cause breaking changes
 		"oci_core_vcn":                             VcnResource(),

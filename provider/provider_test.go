@@ -5,8 +5,11 @@ package provider
 import (
 	"fmt"
 	"runtime"
+	"sort"
+	"strings"
 	"testing"
 
+	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	oci_common "github.com/oracle/oci-go-sdk/common"
@@ -331,4 +334,76 @@ func TestProviderConfig(t *testing.T) {
 	providerConfigTest(t, false, true, authAPIKeySetting)             // ApiKey without required fields
 	providerConfigTest(t, false, false, authInstancePrincipalSetting) // InstancePrincipal
 	providerConfigTest(t, true, false, "invalid-auth-setting")        // Invalid auth + disable auto-retries
+}
+
+/* This function is used in the test asserts to verify that an element in a set contains certain properties
+ * properties is a map of nameOfProperty -> expectedValueOfProperty
+ * presentProperties is an array of property names that are expected to be set in the set element but we don't care about matching the value
+ * will return nil (the positive response) if there is an element in the set that matches all properties in properties and presentProperties
+ */
+func CheckResourceSetContainsElementWithProperties(name, setKey string, properties map[string]string, presentProperties []string) resource.TestCheckFunc {
+	return func(s *terraform.State) error {
+		rm := s.RootModule()
+		rs, ok := rm.Resources[name]
+		if !ok {
+			return fmt.Errorf("Not found: %s", name)
+		}
+		is := rs.Primary
+		if is == nil {
+			return fmt.Errorf("No primary instance: %s", name)
+		}
+
+		orderedKeys := []string{}
+		for key, _ := range is.Attributes {
+			orderedKeys = append(orderedKeys, key)
+		}
+		sort.Strings(orderedKeys)
+		var currSetElementId string
+		currMatchedAttributes := []string{}
+		currMatchedPresentProperties := []string{}
+		setElementMatch := func() bool {
+			return len(currMatchedAttributes) == len(properties) && (presentProperties == nil || len(currMatchedPresentProperties) == len(presentProperties))
+		}
+		for _, key := range orderedKeys {
+			prefix := fmt.Sprintf("%s.", setKey)
+			if !strings.HasPrefix(key, prefix) {
+				continue
+			}
+			attrWithSetIdRaw := strings.TrimPrefix(key, prefix)
+
+			attrWithSetIdRawArr := strings.Split(attrWithSetIdRaw, ".")
+			if len(attrWithSetIdRawArr) < 2 {
+				continue
+			}
+			if currSetElementId == "" {
+				currSetElementId = attrWithSetIdRawArr[0]
+			}
+			if attrWithSetIdRawArr[0] != currSetElementId {
+				if setElementMatch() {
+					return nil
+				}
+				currMatchedPresentProperties = []string{}
+				currMatchedAttributes = []string{}
+				currSetElementId = attrWithSetIdRawArr[0]
+			}
+			attributeName := strings.Join(attrWithSetIdRawArr[1:], ".")
+			for propName, value := range properties {
+				if propName == attributeName && value == is.Attributes[key] {
+					currMatchedAttributes = append(currMatchedAttributes, propName)
+				}
+			}
+			if presentProperties != nil {
+				for _, propName := range presentProperties {
+					if propName == attributeName {
+						currMatchedPresentProperties = append(currMatchedPresentProperties, propName)
+					}
+				}
+			}
+		}
+		if setElementMatch() {
+			return nil
+		}
+
+		return fmt.Errorf("%s: Set Attribute '%s' does not contain an element with attributes %v %v\nAttributesInStatefile: %v", name, setKey, properties, presentProperties, is.Attributes)
+	}
 }
