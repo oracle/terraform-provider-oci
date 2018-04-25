@@ -13,7 +13,8 @@ The following attributes are exported:
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `egress_security_rules` - Rules for allowing egress IP packets.
-	* `destination` - The destination CIDR block for the egress rule. This is the range of IP addresses that a packet originating from the instance can go to. 
+	* `destination` - The destination service cidrBlock or destination IP address range in CIDR notation for the egress rule. This is the range of IP addresses that a packet originating from the instance can go to. 
+	* `destination_type` - Type of destination for EgressSecurityRule. SERVICE_CIDR_BLOCK should be used if destination is a service cidrBlock. CIDR_BLOCK should be used if destination is IP address range in CIDR notation. It defaults to CIDR_BLOCK, if not specified. 
 	* `icmp_options` - Optional and valid only for ICMP. Use to specify a particular ICMP type and code as defined in [ICMP Parameters](http://www.iana.org/assignments/icmp-parameters/icmp-parameters.xhtml). If you specify ICMP as the protocol but omit this object, then all ICMP types and codes are allowed. If you do provide this object, the type is required and the code is optional. To enable MTU negotiation for ingress internet traffic, make sure to allow type 3 ("Destination Unreachable") code 4 ("Fragmentation Needed and Don't Fragment was Set"). If you need to specify multiple codes for a single type, create a separate security list rule for each. 
 		* `code` - The ICMP code (optional).
 		* `type` - The ICMP type.
@@ -40,7 +41,8 @@ The following attributes are exported:
 		* `code` - The ICMP code (optional).
 		* `type` - The ICMP type.
 	* `protocol` - The transport protocol. Specify either `all` or an IPv4 protocol number as defined in [Protocol Numbers](http://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml). Options are supported only for ICMP ("1"), TCP ("6"), and UDP ("17"). 
-	* `source` - The source CIDR block for the ingress rule. This is the range of IP addresses that a packet coming into the instance can come from. 
+	* `source` - The source service cidrBlock or source IP address range in CIDR notation for the ingress rule. This is the range of IP addresses that a packet coming into the instance can come from.  Examples: `10.12.0.0/16`           `oci-phx-objectstorage` 
+	* `source_type` - Type of source for IngressSecurityRule. SERVICE_CIDR_BLOCK should be used if source is a service cidrBlock. CIDR_BLOCK should be used if source is IP address range in CIDR notation. It defaults to CIDR_BLOCK, if not specified. 
 	* `stateless` - A stateless rule allows traffic in one direction. Remember to add a corresponding stateless rule in the other direction if you need to support bidirectional traffic. For example, if ingress traffic allows TCP destination port 80, there should be an egress rule to allow TCP source port 80. Defaults to false, which means the rule is stateful and a corresponding rule is not necessary for bidirectional traffic. 
 	* `tcp_options` - Optional and valid only for TCP. Use to specify particular destination ports for TCP rules. If you specify TCP as the protocol but omit this object, then all destination ports are allowed. 
 		* The following 2 attributes specify an inclusive range of allowed destination ports. Use the same number for the min and max to indicate a single port. Defaults to all ports if not specified. 
@@ -85,7 +87,8 @@ The following arguments are supported:
 * `defined_tags` - (Optional) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 * `egress_security_rules` - (Optional) Rules for allowing egress IP packets.
-	* `destination` - (Required) The destination CIDR block for the egress rule. This is the range of IP addresses that a packet originating from the instance can go to. 
+	* `destination` - (Required) The destination service cidrBlock or destination IP address range in CIDR notation for the egress rule. This is the range of IP addresses that a packet originating from the instance can go to. 
+	* `destination_type` - (Optional) Type of destination for EgressSecurityRule. SERVICE_CIDR_BLOCK should be used if destination is a service cidrBlock. CIDR_BLOCK should be used if destination is IP address range in CIDR notation. It defaults to CIDR_BLOCK, if not specified. 
 	* `icmp_options` - (Optional) Optional and valid only for ICMP. Use to specify a particular ICMP type and code as defined in [ICMP Parameters](http://www.iana.org/assignments/icmp-parameters/icmp-parameters.xhtml). If you specify ICMP as the protocol but omit this object, then all ICMP types and codes are allowed. If you do provide this object, the type is required and the code is optional. To enable MTU negotiation for ingress internet traffic, make sure to allow type 3 ("Destination Unreachable") code 4 ("Fragmentation Needed and Don't Fragment was Set"). If you need to specify multiple codes for a single type, create a separate security list rule for each. 
 		* `code` - (Optional) The ICMP code (optional).
 		* `type` - (Required) The ICMP type.
@@ -111,7 +114,8 @@ The following arguments are supported:
 		* `code` - (Optional) The ICMP code (optional).
 		* `type` - (Required) The ICMP type.
 	* `protocol` - (Required) The transport protocol. Specify either `all` or an IPv4 protocol number as defined in [Protocol Numbers](http://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml). Options are supported only for ICMP ("1"), TCP ("6"), and UDP ("17"). 
-	* `source` - (Required) The source CIDR block for the ingress rule. This is the range of IP addresses that a packet coming into the instance can come from. 
+	* `source` - (Required) The source service cidrBlock or source IP address range in CIDR notation for the ingress rule. This is the range of IP addresses that a packet coming into the instance can come from.  Examples: `10.12.0.0/16`           `oci-phx-objectstorage` 
+	* `source_type` - (Optional) Type of source for IngressSecurityRule. SERVICE_CIDR_BLOCK should be used if source is a service cidrBlock. CIDR_BLOCK should be used if source is IP address range in CIDR notation. It defaults to CIDR_BLOCK, if not specified. 
 	* `stateless` - (Optional) A stateless rule allows traffic in one direction. Remember to add a corresponding stateless rule in the other direction if you need to support bidirectional traffic. For example, if ingress traffic allows TCP destination port 80, there should be an egress rule to allow TCP source port 80. Defaults to false, which means the rule is stateful and a corresponding rule is not necessary for bidirectional traffic. 
 	* `tcp_options` - (Optional) Optional and valid only for TCP. Use to specify particular destination ports for TCP rules. If you specify TCP as the protocol but omit this object, then all destination ports are allowed. 
 		* The following 2 attributes specify an inclusive range of allowed destination ports. Use the same number for the min and max to indicate a single port. Defaults to all ports if not specified. 
@@ -142,34 +146,50 @@ The following arguments support updates:
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 * `egress_security_rules` - Rules for allowing egress IP packets.
+	* `destination` - The destination service cidrBlock or destination IP address range in CIDR notation for the egress rule. This is the range of IP addresses that a packet originating from the instance can go to. 
+	* `destination_type` - Type of destination for EgressSecurityRule. SERVICE_CIDR_BLOCK should be used if destination is a service cidrBlock. CIDR_BLOCK should be used if destination is IP address range in CIDR notation. It defaults to CIDR_BLOCK, if not specified. 
 	* `icmp_options` - Optional and valid only for ICMP. Use to specify a particular ICMP type and code as defined in [ICMP Parameters](http://www.iana.org/assignments/icmp-parameters/icmp-parameters.xhtml). If you specify ICMP as the protocol but omit this object, then all ICMP types and codes are allowed. If you do provide this object, the type is required and the code is optional. To enable MTU negotiation for ingress internet traffic, make sure to allow type 3 ("Destination Unreachable") code 4 ("Fragmentation Needed and Don't Fragment was Set"). If you need to specify multiple codes for a single type, create a separate security list rule for each. 
 		* `code` - The ICMP code (optional).
+		* `type` - The ICMP type.
+	* `protocol` - The transport protocol. Specify either `all` or an IPv4 protocol number as defined in [Protocol Numbers](http://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml). Options are supported only for ICMP ("1"), TCP ("6"), and UDP ("17"). 
 	* `stateless` - A stateless rule allows traffic in one direction. Remember to add a corresponding stateless rule in the other direction if you need to support bidirectional traffic. For example, if egress traffic allows TCP destination port 80, there should be an ingress rule to allow TCP source port 80. Defaults to false, which means the rule is stateful and a corresponding rule is not necessary for bidirectional traffic. 
 	* `tcp_options` - Optional and valid only for TCP. Use to specify particular destination ports for TCP rules. If you specify TCP as the protocol but omit this object, then all destination ports are allowed. 
 		* The following 2 attributes specify an inclusive range of allowed destination ports. Use the same number for the min and max to indicate a single port. Defaults to all ports if not specified. 
         	* `max` - The maximum port number. Must not be lower than the minimum port number. To specify a single port number, set both the min and max to the same value. 
         	* `min` - The minimum port number. Must not be greater than the maximum port number. 
 		* `source_port_range` - An inclusive range of allowed source ports. Use the same number for the min and max to indicate a single port. Defaults to all ports if not specified. 
+			* `max` - The maximum port number. Must not be lower than the minimum port number. To specify a single port number, set both the min and max to the same value. 
+			* `min` - The minimum port number. Must not be greater than the maximum port number.
 	* `udp_options` - Optional and valid only for UDP. Use to specify particular destination ports for UDP rules. If you specify UDP as the protocol but omit this object, then all destination ports are allowed. 
 		* The following 2 attributes specify an inclusive range of allowed destination ports. Use the same number for the min and max to indicate a single port. Defaults to all ports if not specified. 
             * `max` - The maximum port number. Must not be lower than the minimum port number. To specify a single port number, set both the min and max to the same value. 
             * `min` - The minimum port number. Must not be greater than the maximum port number. 
 		* `source_port_range` - An inclusive range of allowed source ports. Use the same number for the min and max to indicate a single port. Defaults to all ports if not specified. 
+			* `max` - The maximum port number. Must not be lower than the minimum port number. To specify a single port number, set both the min and max to the same value. 
+			* `min` - The minimum port number. Must not be greater than the maximum port number.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `ingress_security_rules` - Rules for allowing ingress IP packets.
 	* `icmp_options` - Optional and valid only for ICMP. Use to specify a particular ICMP type and code as defined in [ICMP Parameters](http://www.iana.org/assignments/icmp-parameters/icmp-parameters.xhtml). If you specify ICMP as the protocol but omit this object, then all ICMP types and codes are allowed. If you do provide this object, the type is required and the code is optional. To enable MTU negotiation for ingress internet traffic, make sure to allow type 3 ("Destination Unreachable") code 4 ("Fragmentation Needed and Don't Fragment was Set"). If you need to specify multiple codes for a single type, create a separate security list rule for each. 
 		* `code` - The ICMP code (optional).
+		* `type` - The ICMP type.
+	* `protocol` - The transport protocol. Specify either `all` or an IPv4 protocol number as defined in [Protocol Numbers](http://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml). Options are supported only for ICMP ("1"), TCP ("6"), and UDP ("17"). 
+	* `source` - The source service cidrBlock or source IP address range in CIDR notation for the ingress rule. This is the range of IP addresses that a packet coming into the instance can come from.  Examples: `10.12.0.0/16`           `oci-phx-objectstorage` 
+	* `source_type` - Type of source for IngressSecurityRule. SERVICE_CIDR_BLOCK should be used if source is a service cidrBlock. CIDR_BLOCK should be used if source is IP address range in CIDR notation. It defaults to CIDR_BLOCK, if not specified. 
 	* `stateless` - A stateless rule allows traffic in one direction. Remember to add a corresponding stateless rule in the other direction if you need to support bidirectional traffic. For example, if ingress traffic allows TCP destination port 80, there should be an egress rule to allow TCP source port 80. Defaults to false, which means the rule is stateful and a corresponding rule is not necessary for bidirectional traffic. 
 	* `tcp_options` - Optional and valid only for TCP. Use to specify particular destination ports for TCP rules. If you specify TCP as the protocol but omit this object, then all destination ports are allowed. 
         * The following 2 attributes specify an inclusive range of allowed destination ports. Use the same number for the min and max to indicate a single port. Defaults to all ports if not specified. 
         	* `max` - The maximum port number. Must not be lower than the minimum port number. To specify a single port number, set both the min and max to the same value. 
         	* `min` - The minimum port number. Must not be greater than the maximum port number. 
 		* `source_port_range` - An inclusive range of allowed source ports. Use the same number for the min and max to indicate a single port. Defaults to all ports if not specified. 
+			* `max` - The maximum port number. Must not be lower than the minimum port number. To specify a single port number, set both the min and max to the same value. 
+			* `min` - The minimum port number. Must not be greater than the maximum port number.
 	* `udp_options` - Optional and valid only for UDP. Use to specify particular destination ports for UDP rules. If you specify UDP as the protocol but omit this object, then all destination ports are allowed. 
         * The following 2 attributes specify an inclusive range of allowed destination ports. Use the same number for the min and max to indicate a single port. Defaults to all ports if not specified. 
         	* `max` - The maximum port number. Must not be lower than the minimum port number. To specify a single port number, set both the min and max to the same value. 
         	* `min` - The minimum port number. Must not be greater than the maximum port number. 
 		* `source_port_range` - An inclusive range of allowed source ports. Use the same number for the min and max to indicate a single port. Defaults to all ports if not specified. 
+			* `max` - The maximum port number. Must not be lower than the minimum port number. To specify a single port number, set both the min and max to the same value. 
+			* `min` - The minimum port number. Must not be greater than the maximum port number.
 
 
 ** IMPORTANT **
@@ -187,6 +207,7 @@ resource "oci_core_security_list" "test_security_list" {
 		protocol = "${var.security_list_egress_security_rules_protocol}"
 
 		#Optional
+		destination_type = "${var.security_list_egress_security_rules_destination_type}"
 		icmp_options {
 			#Required
 			type = "${var.security_list_egress_security_rules_icmp_options_type}"
@@ -231,6 +252,7 @@ resource "oci_core_security_list" "test_security_list" {
 			#Optional
 			code = "${var.security_list_ingress_security_rules_icmp_options_code}"
 		}
+		source_type = "${var.security_list_ingress_security_rules_source_type}"
 		stateless = "${var.security_list_ingress_security_rules_stateless}"
 		tcp_options {
 

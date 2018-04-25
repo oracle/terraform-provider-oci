@@ -156,7 +156,7 @@ func (s *RouteTablesDataSourceCrud) SetData() {
 		for _, item := range r.RouteRules {
 			routeRules = append(routeRules, RouteRuleToMap(item))
 		}
-		routeTable["route_rules"] = routeRules
+		routeTable["route_rules"] = schema.NewSet(routeRuleHashCodeForSets, routeRules)
 
 		routeTable["state"] = r.LifecycleState
 
