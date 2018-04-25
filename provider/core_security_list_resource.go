@@ -48,6 +48,11 @@ func SecurityListResource() *schema.Resource {
 						},
 
 						// Optional
+						"destination_type": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
 						"icmp_options": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -237,6 +242,11 @@ func SecurityListResource() *schema.Resource {
 									// Computed
 								},
 							},
+						},
+						"source_type": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
 						},
 						"stateless": {
 							Type:     schema.TypeBool,
@@ -609,6 +619,11 @@ func mapToEgressSecurityRule(raw map[string]interface{}) oci_core.EgressSecurity
 		result.Destination = &tmp
 	}
 
+	if destinationType, ok := raw["destination_type"]; ok {
+		tmp := oci_core.EgressSecurityRuleDestinationTypeEnum(destinationType.(string))
+		result.DestinationType = tmp
+	}
+
 	if icmpOptions, ok := raw["icmp_options"]; ok {
 		if tmpList := icmpOptions.([]interface{}); len(tmpList) > 0 {
 			tmp := mapToIcmpOptions(tmpList[0].(map[string]interface{}))
@@ -649,6 +664,8 @@ func EgressSecurityRuleToMap(obj oci_core.EgressSecurityRule) map[string]interfa
 	if obj.Destination != nil {
 		result["destination"] = string(*obj.Destination)
 	}
+
+	result["destination_type"] = string(obj.DestinationType)
 
 	if obj.IcmpOptions != nil {
 		result["icmp_options"] = []interface{}{IcmpOptionsToMap(obj.IcmpOptions)}
@@ -727,6 +744,11 @@ func mapToIngressSecurityRule(raw map[string]interface{}) oci_core.IngressSecuri
 		result.Source = &tmp
 	}
 
+	if sourceType, ok := raw["source_type"]; ok {
+		tmp := oci_core.IngressSecurityRuleSourceTypeEnum(sourceType.(string))
+		result.SourceType = tmp
+	}
+
 	if stateless, ok := raw["stateless"]; ok {
 		tmp := stateless.(bool)
 		result.IsStateless = &tmp
@@ -763,6 +785,8 @@ func IngressSecurityRuleToMap(obj oci_core.IngressSecurityRule) map[string]inter
 	if obj.Source != nil {
 		result["source"] = string(*obj.Source)
 	}
+
+	result["source_type"] = string(obj.SourceType)
 
 	if obj.IsStateless != nil {
 		result["stateless"] = bool(*obj.IsStateless)

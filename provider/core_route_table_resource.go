@@ -39,16 +39,27 @@ func RouteTableResource() *schema.Resource {
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
-						"cidr_block": {
-							Type:     schema.TypeString,
-							Required: true,
-						},
 						"network_entity_id": {
 							Type:     schema.TypeString,
 							Required: true,
 						},
 
 						// Optional
+						"cidr_block": {
+							Type:       schema.TypeString,
+							Optional:   true,
+							Deprecated: crud.FieldDeprecatedAndOverridenByAnother("image", "destination"),
+						},
+						"destination": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"destination_type": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
 
 						// Computed
 					},
@@ -290,12 +301,22 @@ func (s *RouteTableResourceCrud) SetData() {
 func mapToRouteRule(raw map[string]interface{}) oci_core.RouteRule {
 	result := oci_core.RouteRule{}
 
-	if cidrBlock, ok := raw["cidr_block"]; ok {
+	if cidrBlock, ok := raw["cidr_block"]; ok && cidrBlock != "" {
 		tmp := cidrBlock.(string)
 		result.CidrBlock = &tmp
 	}
 
-	if networkEntityId, ok := raw["network_entity_id"]; ok {
+	if destination, ok := raw["destination"]; ok && destination != "" {
+		tmp := destination.(string)
+		result.Destination = &tmp
+	}
+
+	if destinationType, ok := raw["destination_type"]; ok && destinationType != "" {
+		tmp := oci_core.RouteRuleDestinationTypeEnum(destinationType.(string))
+		result.DestinationType = tmp
+	}
+
+	if networkEntityId, ok := raw["network_entity_id"]; ok && networkEntityId != "" {
 		tmp := networkEntityId.(string)
 		result.NetworkEntityId = &tmp
 	}
@@ -309,6 +330,12 @@ func RouteRuleToMap(obj oci_core.RouteRule) map[string]interface{} {
 	if obj.CidrBlock != nil {
 		result["cidr_block"] = string(*obj.CidrBlock)
 	}
+
+	if obj.Destination != nil {
+		result["destination"] = string(*obj.Destination)
+	}
+
+	result["destination_type"] = string(obj.DestinationType)
 
 	if obj.NetworkEntityId != nil {
 		result["network_entity_id"] = string(*obj.NetworkEntityId)

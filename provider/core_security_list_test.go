@@ -39,6 +39,7 @@ resource "oci_core_security_list" "test_security_list" {
 		protocol = "${var.security_list_egress_security_rules_protocol}"
 
 		#Optional
+		destination_type = "${var.security_list_egress_security_rules_destination_type}"
 		icmp_options {
 			#Required
 			type = "${var.security_list_egress_security_rules_icmp_options_type}"
@@ -89,6 +90,7 @@ resource "oci_core_security_list" "test_security_list" {
 			#Optional
 			code = "${var.security_list_ingress_security_rules_icmp_options_code}"
 		}
+		source_type = "${var.security_list_ingress_security_rules_source_type}"
 		stateless = "${var.security_list_ingress_security_rules_stateless}"
 		tcp_options {
 
@@ -128,6 +130,7 @@ resource "oci_core_security_list" "test_security_list" {
 	SecurityListPropertyVariables = `
 variable "security_list_display_name" { default = "MyPrivateSubnetSecurityList" }
 variable "security_list_egress_security_rules_destination" { default = "10.0.2.0/24" }
+variable "security_list_egress_security_rules_destination_type" { default = "destinationType" }
 variable "security_list_egress_security_rules_icmp_options_code" { default = 10 }
 variable "security_list_egress_security_rules_icmp_options_type" { default = 10 }
 variable "security_list_egress_security_rules_protocol" { default = "6" }
@@ -144,6 +147,7 @@ variable "security_list_ingress_security_rules_icmp_options_code" { default = 10
 variable "security_list_ingress_security_rules_icmp_options_type" { default = 10 }
 variable "security_list_ingress_security_rules_protocol" { default = "6" }
 variable "security_list_ingress_security_rules_source" { default = "10.0.1.0/24" }
+variable "security_list_ingress_security_rules_source_type" { default = "sourceType" }
 variable "security_list_ingress_security_rules_stateless" { default = false }
 variable "security_list_ingress_security_rules_tcp_options_destination_port_range_max" { default = "1521" }
 variable "security_list_ingress_security_rules_tcp_options_destination_port_range_min" { default = "1521" }
@@ -212,6 +216,7 @@ func TestCoreSecurityListResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "display_name", "MyPrivateSubnetSecurityList"),
 					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.destination", "10.0.2.0/24"),
+					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.destination_type", "destinationType"),
 					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.icmp_options.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.icmp_options.0.code", "10"),
 					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.icmp_options.0.type", "10"),
@@ -238,6 +243,7 @@ func TestCoreSecurityListResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.icmp_options.0.type", "10"),
 					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.protocol", "6"),
 					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.source", "10.0.1.0/24"),
+					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.source_type", "sourceType"),
 					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.stateless", "false"),
 					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.tcp_options.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.tcp_options.0.destination_port_range.#", "1"),
@@ -269,6 +275,7 @@ func TestCoreSecurityListResource_basic(t *testing.T) {
 				Config: config + `
 variable "security_list_display_name" { default = "displayName2" }
 variable "security_list_egress_security_rules_destination" { default = "10.0.2.0/24" }
+variable "security_list_egress_security_rules_destination_type" { default = "destinationType2" }
 variable "security_list_egress_security_rules_icmp_options_code" { default = 11 }
 variable "security_list_egress_security_rules_icmp_options_type" { default = 10 }
 variable "security_list_egress_security_rules_protocol" { default = "6" }
@@ -285,6 +292,7 @@ variable "security_list_ingress_security_rules_icmp_options_code" { default = 11
 variable "security_list_ingress_security_rules_icmp_options_type" { default = 10 }
 variable "security_list_ingress_security_rules_protocol" { default = "6" }
 variable "security_list_ingress_security_rules_source" { default = "10.0.1.0/24" }
+variable "security_list_ingress_security_rules_source_type" { default = "sourceType2" }
 variable "security_list_ingress_security_rules_stateless" { default = true }
 variable "security_list_ingress_security_rules_tcp_options_destination_port_range_max" { default = "1521" }
 variable "security_list_ingress_security_rules_tcp_options_destination_port_range_min" { default = "1521" }
@@ -302,6 +310,7 @@ variable "security_list_state" { default = "state" }
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.destination", "10.0.2.0/24"),
+					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.destination_type", "destinationType2"),
 					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.icmp_options.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.icmp_options.0.code", "11"),
 					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.icmp_options.0.type", "10"),
@@ -328,6 +337,7 @@ variable "security_list_state" { default = "state" }
 					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.icmp_options.0.type", "10"),
 					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.protocol", "6"),
 					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.source", "10.0.1.0/24"),
+					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.source_type", "sourceType2"),
 					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.stateless", "true"),
 					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.tcp_options.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.tcp_options.0.destination_port_range.#", "1"),
@@ -361,6 +371,7 @@ variable "security_list_state" { default = "state" }
 				Config: config + `
 variable "security_list_display_name" { default = "displayName2" }
 variable "security_list_egress_security_rules_destination" { default = "destination2" }
+variable "security_list_egress_security_rules_destination_type" { default = "destinationType2" }
 variable "security_list_egress_security_rules_icmp_options_code" { default = 11 }
 variable "security_list_egress_security_rules_icmp_options_type" { default = 11 }
 variable "security_list_egress_security_rules_protocol" { default = "TCP" }
@@ -377,6 +388,7 @@ variable "security_list_ingress_security_rules_icmp_options_code" { default = 11
 variable "security_list_ingress_security_rules_icmp_options_type" { default = 11 }
 variable "security_list_ingress_security_rules_protocol" { default = "TCP" }
 variable "security_list_ingress_security_rules_source" { default = "source2" }
+variable "security_list_ingress_security_rules_source_type" { default = "sourceType2" }
 variable "security_list_ingress_security_rules_stateless" { default = true }
 variable "security_list_ingress_security_rules_tcp_options_destination_port_range_max" { default = 11 }
 variable "security_list_ingress_security_rules_tcp_options_destination_port_range_min" { default = 11 }
@@ -394,6 +406,7 @@ variable "security_list_state" { default = "AVAILABLE" }
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.destination", "destination2"),
+					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.destination_type", "destinationType2"),
 					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.icmp_options.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.icmp_options.0.code", "11"),
 					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.icmp_options.0.type", "11"),
@@ -420,6 +433,7 @@ variable "security_list_state" { default = "AVAILABLE" }
 					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.icmp_options.0.type", "11"),
 					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.protocol", "TCP"),
 					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.source", "source2"),
+					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.source_type", "sourceType2"),
 					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.stateless", "true"),
 					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.tcp_options.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.tcp_options.0.destination_port_range.#", "1"),
@@ -453,6 +467,7 @@ variable "security_list_state" { default = "AVAILABLE" }
 				Config: config + `
 variable "security_list_display_name" { default = "displayName2" }
 variable "security_list_egress_security_rules_destination" { default = "destination2" }
+variable "security_list_egress_security_rules_destination_type" { default = "destinationType2" }
 variable "security_list_egress_security_rules_icmp_options_code" { default = 11 }
 variable "security_list_egress_security_rules_icmp_options_type" { default = 11 }
 variable "security_list_egress_security_rules_protocol" { default = "TCP" }
@@ -469,6 +484,7 @@ variable "security_list_ingress_security_rules_icmp_options_code" { default = 11
 variable "security_list_ingress_security_rules_icmp_options_type" { default = 11 }
 variable "security_list_ingress_security_rules_protocol" { default = "TCP" }
 variable "security_list_ingress_security_rules_source" { default = "source2" }
+variable "security_list_ingress_security_rules_source_type" { default = "sourceType2" }
 variable "security_list_ingress_security_rules_stateless" { default = true }
 variable "security_list_ingress_security_rules_tcp_options_destination_port_range_max" { default = 11 }
 variable "security_list_ingress_security_rules_tcp_options_destination_port_range_min" { default = 11 }
@@ -506,6 +522,7 @@ data "oci_core_security_lists" "test_security_lists" {
 					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.egress_security_rules.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.egress_security_rules.0.destination", "destination2"),
+					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.egress_security_rules.0.destination_type", "destinationType2"),
 					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.egress_security_rules.0.icmp_options.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.egress_security_rules.0.icmp_options.0.code", "11"),
 					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.egress_security_rules.0.icmp_options.0.type", "11"),
@@ -532,6 +549,7 @@ data "oci_core_security_lists" "test_security_lists" {
 					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.ingress_security_rules.0.icmp_options.0.type", "11"),
 					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.ingress_security_rules.0.protocol", "TCP"),
 					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.ingress_security_rules.0.source", "source2"),
+					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.ingress_security_rules.0.source_type", "sourceType2"),
 					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.ingress_security_rules.0.stateless", "true"),
 					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.ingress_security_rules.0.tcp_options.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.ingress_security_rules.0.tcp_options.0.destination_port_range.#", "1"),
@@ -582,6 +600,7 @@ func TestCoreSecurityListResource_forcenew(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "display_name", "MyPrivateSubnetSecurityList"),
 					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.destination", "10.0.2.0/24"),
+					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.destination_type", "destinationType"),
 					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.icmp_options.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.icmp_options.0.code", "10"),
 					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.icmp_options.0.type", "10"),
@@ -608,6 +627,7 @@ func TestCoreSecurityListResource_forcenew(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.icmp_options.0.type", "10"),
 					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.protocol", "6"),
 					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.source", "10.0.1.0/24"),
+					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.source_type", "sourceType"),
 					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.stateless", "false"),
 					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.tcp_options.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.tcp_options.0.destination_port_range.#", "1"),
@@ -639,6 +659,7 @@ func TestCoreSecurityListResource_forcenew(t *testing.T) {
 				Config: config + `
 variable "security_list_display_name" { default = "MyPrivateSubnetSecurityList" }
 variable "security_list_egress_security_rules_destination" { default = "10.0.2.0/24" }
+variable "security_list_egress_security_rules_destination_type" { default = "destinationType" }
 variable "security_list_egress_security_rules_icmp_options_code" { default = 10 }
 variable "security_list_egress_security_rules_icmp_options_type" { default = 10 }
 variable "security_list_egress_security_rules_protocol" { default = "6" }
@@ -655,6 +676,7 @@ variable "security_list_ingress_security_rules_icmp_options_code" { default = 10
 variable "security_list_ingress_security_rules_icmp_options_type" { default = 10 }
 variable "security_list_ingress_security_rules_protocol" { default = "6" }
 variable "security_list_ingress_security_rules_source" { default = "10.0.1.0/24" }
+variable "security_list_ingress_security_rules_source_type" { default = "sourceType" }
 variable "security_list_ingress_security_rules_stateless" { default = false }
 variable "security_list_ingress_security_rules_tcp_options_destination_port_range_max" { default = "1521" }
 variable "security_list_ingress_security_rules_tcp_options_destination_port_range_min" { default = "1521" }
@@ -671,6 +693,7 @@ variable "security_list_state" { default = "state" }
 					resource.TestCheckResourceAttr(resourceName, "display_name", "MyPrivateSubnetSecurityList"),
 					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.destination", "10.0.2.0/24"),
+					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.destination_type", "destinationType"),
 					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.icmp_options.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.icmp_options.0.code", "10"),
 					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.icmp_options.0.type", "10"),
@@ -697,6 +720,7 @@ variable "security_list_state" { default = "state" }
 					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.icmp_options.0.type", "10"),
 					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.protocol", "6"),
 					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.source", "10.0.1.0/24"),
+					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.source_type", "sourceType"),
 					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.stateless", "false"),
 					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.tcp_options.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.tcp_options.0.destination_port_range.#", "1"),
@@ -731,6 +755,7 @@ variable "security_list_state" { default = "state" }
 				Config: config + `
 variable "security_list_display_name" { default = "MyPrivateSubnetSecurityList" }
 variable "security_list_egress_security_rules_destination" { default = "10.0.2.0/24" }
+variable "security_list_egress_security_rules_destination_type" { default = "destinationType" }
 variable "security_list_egress_security_rules_icmp_options_code" { default = 10 }
 variable "security_list_egress_security_rules_icmp_options_type" { default = 10 }
 variable "security_list_egress_security_rules_protocol" { default = "6" }
@@ -747,6 +772,7 @@ variable "security_list_ingress_security_rules_icmp_options_code" { default = 10
 variable "security_list_ingress_security_rules_icmp_options_type" { default = 10 }
 variable "security_list_ingress_security_rules_protocol" { default = "6" }
 variable "security_list_ingress_security_rules_source" { default = "10.0.1.0/24" }
+variable "security_list_ingress_security_rules_source_type" { default = "sourceType" }
 variable "security_list_ingress_security_rules_stateless" { default = false }
 variable "security_list_ingress_security_rules_tcp_options_destination_port_range_max" { default = "1521" }
 variable "security_list_ingress_security_rules_tcp_options_destination_port_range_min" { default = "1521" }
@@ -763,6 +789,7 @@ variable "security_list_state" { default = "state" }
 					resource.TestCheckResourceAttr(resourceName, "display_name", "MyPrivateSubnetSecurityList"),
 					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.destination", "10.0.2.0/24"),
+					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.destination_type", "destinationType"),
 					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.icmp_options.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.icmp_options.0.code", "10"),
 					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.icmp_options.0.type", "10"),
@@ -789,6 +816,7 @@ variable "security_list_state" { default = "state" }
 					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.icmp_options.0.type", "10"),
 					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.protocol", "6"),
 					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.source", "10.0.1.0/24"),
+					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.source_type", "sourceType"),
 					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.stateless", "false"),
 					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.tcp_options.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.tcp_options.0.destination_port_range.#", "1"),

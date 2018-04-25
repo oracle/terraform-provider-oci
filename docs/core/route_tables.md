@@ -12,7 +12,9 @@ The following attributes are exported:
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `id` - The route table's Oracle ID (OCID).
 * `route_rules` - The collection of rules for routing destination IPs to network devices.
-	* `cidr_block` - A destination IP address range in CIDR notation. Matching packets will be routed to the indicated network entity (the target).  Example: `0.0.0.0/0` 
+	* `cidr_block` - Deprecated, Destination and DestinationType should be used instead; request including both fields will be rejected. A destination IP address range in CIDR notation. Matching packets will be routed to the indicated network entity (the target).  Example: `0.0.0.0/0` 
+	* `destination` - The destination service cidrBlock or destination IP address range in CIDR notation. Matching packets will be routed to the indicated network entity (the target).  Examples: `10.12.0.0/16`           `oci-phx-objectstorage` 
+	* `destination_type` - Type of destination for the route rule. SERVICE_CIDR_BLOCK should be used if destination is a service cidrBlock. CIDR_BLOCK should be used if destination is IP address range in CIDR notation. It must be provided along with `destination`. 
 	* `network_entity_id` - The OCID for the route rule's target. For information about the type of targets you can specify, see [Route Tables](https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Tasks/managingroutetables.htm). 
 * `state` - The route table's current state.
 * `time_created` - The date and time the route table was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
@@ -43,7 +45,9 @@ The following arguments are supported:
 * `compartment_id` - (Required) The OCID of the compartment to contain the route table.
 * `display_name` - (Optional) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 * `route_rules` - (Required) The collection of rules used for routing destination IPs to network devices.
-	* `cidr_block` - (Required) A destination IP address range in CIDR notation. Matching packets will be routed to the indicated network entity (the target).  Example: `0.0.0.0/0` 
+	* `cidr_block` - (Optional) Deprecated, Destination and DestinationType should be used instead; request including both fields will be rejected. A destination IP address range in CIDR notation. Matching packets will be routed to the indicated network entity (the target).  Example: `0.0.0.0/0` 
+	* `destination` - (Optional) The destination service cidrBlock or destination IP address range in CIDR notation. Matching packets will be routed to the indicated network entity (the target).  Examples: `10.12.0.0/16`           `oci-phx-objectstorage` 
+	* `destination_type` - (Optional) Type of destination for the route rule. SERVICE_CIDR_BLOCK should be used if destination is a service cidrBlock. CIDR_BLOCK should be used if destination is IP address range in CIDR notation. It must be provided along with `destination`. 
 	* `network_entity_id` - (Required) The OCID for the route rule's target. For information about the type of targets you can specify, see [Route Tables](https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Tasks/managingroutetables.htm). 
 * `vcn_id` - (Required) The OCID of the VCN the route table belongs to.
 
@@ -58,7 +62,9 @@ Note that the `routeRules` object you provide replaces the entire existing set o
 The following arguments support updates:
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 * `route_rules` - The collection of rules used for routing destination IPs to network devices.
-	* `cidr_block` - A destination IP address range in CIDR notation. Matching packets will be routed to the indicated network entity (the target).  Example: `0.0.0.0/0` 
+	* `cidr_block` - Deprecated, Destination and DestinationType should be used instead; request including both fields will be rejected. A destination IP address range in CIDR notation. Matching packets will be routed to the indicated network entity (the target).  Example: `0.0.0.0/0` 
+	* `destination` - The destination service cidrBlock or destination IP address range in CIDR notation. Matching packets will be routed to the indicated network entity (the target).  Examples: `10.12.0.0/16`           `oci-phx-objectstorage` 
+	* `destination_type` - Type of destination for the route rule. SERVICE_CIDR_BLOCK should be used if destination is a service cidrBlock. CIDR_BLOCK should be used if destination is IP address range in CIDR notation. It must be provided along with `destination`. 
 	* `network_entity_id` - The OCID for the route rule's target. For information about the type of targets you can specify, see [Route Tables](https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Tasks/managingroutetables.htm). 
 
 
@@ -73,8 +79,12 @@ resource "oci_core_route_table" "test_route_table" {
 	compartment_id = "${var.compartment_id}"
 	route_rules {
 		#Required
-		cidr_block = "${var.route_table_route_rules_cidr_block}"
 		network_entity_id = "${oci_core_network_entity.test_network_entity.id}"
+
+		#Optional
+		cidr_block = "${var.route_table_route_rules_cidr_block}"
+		destination = "${var.route_table_route_rules_destination}"
+		destination_type = "${var.route_table_route_rules_destination_type}"
 	}
 	vcn_id = "${oci_core_vcn.test_vcn.id}"
 
