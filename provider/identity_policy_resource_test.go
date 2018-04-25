@@ -53,6 +53,7 @@ func (s *ResourceIdentityPolicyTestSuite) TestAccResourceIdentityPolicy_basic() 
 					compartment_id = "${oci_identity_compartment.t.id}"
 					name = "p1-{{.token}}"
 					description = "automated test policy"
+					version_date = "2018-04-17"
 					statements = ["Allow group ${oci_identity_group.t.name} to read instances in compartment ${oci_identity_compartment.t.name}"]
 				}`, nil),
 				Check: resource.ComposeTestCheckFunc(
@@ -66,7 +67,7 @@ func (s *ResourceIdentityPolicyTestSuite) TestAccResourceIdentityPolicy_basic() 
 					resource.TestCheckResourceAttr(s.ResourceName, "description", "automated test policy"),
 					resource.TestCheckResourceAttr(s.ResourceName, "statements.#", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(identity.PolicyLifecycleStateActive)),
-					resource.TestCheckNoResourceAttr(s.ResourceName, "version_date"),
+					resource.TestCheckResourceAttr(s.ResourceName, "version_date", "2018-04-17"),
 					resource.TestCheckNoResourceAttr(s.ResourceName, "inactive_state"),
 					func(s *terraform.State) (err error) {
 						policyHash, err = fromInstanceState(s, "oci_identity_policy.p", "policyHash")
@@ -81,14 +82,16 @@ func (s *ResourceIdentityPolicyTestSuite) TestAccResourceIdentityPolicy_basic() 
 					compartment_id = "${oci_identity_compartment.t.id}"
 					name = "p2-{{.token}}"
 					description = "automated test policy (updated)"
+					version_date = "2018-04-18"
 					statements = [
-						"Allow group ${oci_identity_group.t.name} to read instances in compartment ${oci_identity_compartment.t.name}",
+						"Allow group ${oci_identity_group.t.name} to inspect instances in compartment ${oci_identity_compartment.t.name}",
 						"Allow group ${oci_identity_group.t.name} to read instances in compartment ${oci_identity_compartment.t.name}"
 					]
 				}`, nil),
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "name", "p2-"+s.Token),
 					resource.TestCheckResourceAttr(s.ResourceName, "description", "automated test policy (updated)"),
+					resource.TestCheckResourceAttr(s.ResourceName, "version_date", "2018-04-18"),
 					resource.TestCheckResourceAttr(s.ResourceName, "statements.#", "2"),
 					func(s *terraform.State) (err error) {
 						newHash, err := fromInstanceState(s, "oci_identity_policy.p", "policyHash")

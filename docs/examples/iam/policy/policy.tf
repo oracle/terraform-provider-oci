@@ -31,11 +31,16 @@ resource "oci_identity_policy" "t" {
   name = "TFExamplePolicy"
   description = "automated test policy"
   compartment_id = "${oci_identity_compartment.t.id}"
-  statements = ["Allow group ${oci_identity_group.t.name} to read instances in compartment ${oci_identity_compartment.t.name}"]
+  statements = ["Allow group ${oci_identity_group.t.name} to inspect instances in compartment ${oci_identity_compartment.t.name}",
+                "Allow group ${oci_identity_group.t.name} to read instances in compartment ${oci_identity_compartment.t.name}"]
 }
 
 data "oci_identity_policies" "p" {
   compartment_id = "${oci_identity_compartment.t.id}"
+  filter {
+    name = "name"
+    values = ["TFExamplePolicy"]
+  }
 }
 
 output "policy" {

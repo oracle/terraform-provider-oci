@@ -9,7 +9,6 @@ import (
 	"strings"
 
 	"github.com/hashicorp/terraform/helper/schema"
-	oci_common "github.com/oracle/oci-go-sdk/common"
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 
 	"github.com/oracle/terraform-provider-oci/crud"
@@ -195,9 +194,19 @@ func (s *PolicyResourceCrud) Create() error {
 	}
 
 	if versionDate, ok := s.D.GetOkExists("version_date"); ok {
-		tmp := versionDate.(oci_common.SDKTime)
+		// one off change to go sdk policy.go:57 create_policy_details.go:36 and update_policy_details.go:29 to treat this as a string
+		tmp := versionDate.(string)
 		request.VersionDate = &tmp
 	}
+	// TODO: pending spec/sdk versionDate solution to support basic `date` types, some form of this code may be required here and in `Update()` below
+	//if versionDate, ok := s.D.GetOkExists("version_date"); ok {
+	//	const scheme = `2006-01-02`
+	//	tmp, err := time.Parse(scheme, versionDate.(string))
+	//	if err != nil {
+	//		return err
+	//	}
+	//	request.VersionDate = &oci_common.SDKTime{Time: tmp}
+	//}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
 
@@ -259,8 +268,9 @@ func (s *PolicyResourceCrud) Update() error {
 		request.Statements = tmp
 	}
 
+	// TODO: see comment "pending spec/sdk versionDate solution" above
 	if versionDate, ok := s.D.GetOkExists("version_date"); ok {
-		tmp := versionDate.(oci_common.SDKTime)
+		tmp := versionDate.(string)
 		request.VersionDate = &tmp
 	}
 

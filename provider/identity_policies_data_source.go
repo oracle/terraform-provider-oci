@@ -113,6 +113,7 @@ func (s *IdentityPoliciesDataSourceCrud) SetData() {
 
 		policy["time_created"] = r.TimeCreated.String()
 
+		// TODO: see comment "pending spec/sdk versionDate solution" in identity_policy_resource.go
 		if r.VersionDate != nil {
 			policy["version_date"] = *r.VersionDate
 		}
