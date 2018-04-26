@@ -3,6 +3,27 @@ All notable changes to this project are documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+## 2.1.6 - 2018-04-26
+
+### Added
+- New features for images -
+     - Image launch mode can be specified when creating an image
+     - The image size can be read from image resources and data sources
+     - Image data sources can query using a “shape” filter
+- New features for boot volumes -     
+     - Custom instance boot volume sizes can be specified at launch time
+     - Launch options can be read from instance and image resources and data sources
+- New features for block volumes -
+     - Volume attachments can enable CHAP authentication for iSCSI attachments
+     - Volume attachments can be specified as read-only
+     - Paravirtualized volume attachments can be created
+     - Volume backups can specify whether a full or incremental backup type should be created
+ - Filters support all Terraform primitives (string, bool, int, float)
+ - Imports for Load Balancer resource are now enabled
+ 
+### Fixed
+- Fixed policy version_date bug (#508)
+     
 ## 2.1.5 - 2018-04-12
 
 ### Added
