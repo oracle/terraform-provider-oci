@@ -48,7 +48,7 @@ Any change to a property that does not support update will force the destruction
 
 ### Example Usage
 
-```
+```hcl
 resource "oci_core_local_peering_gateway" "test_local_peering_gateway" {
 	#Required
 	compartment_id = "${var.compartment_id}"
@@ -56,7 +56,7 @@ resource "oci_core_local_peering_gateway" "test_local_peering_gateway" {
 
 	#Optional
 	display_name = "${var.local_peering_gateway_display_name}"
-	peer_id = "${oci_core_local_peering_gateway.test_local_peering_gateway2}"
+	peer_id = "${oci_core_local_peering_gateway.test_local_peering_gateway2.id}"
 }
 ```
 
