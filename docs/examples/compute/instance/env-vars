@@ -11,7 +11,7 @@ export TF_VAR_region="<region in which to operate, example: us-ashburn-1, us-pho
 export TF_VAR_compartment_ocid="<compartment OCID>"
 
 ### Public/private keys used on the instance
-export TF_VAR_ssh_public_key_path=<path to public key>
-export TF_VAR_ssh_private_key_path=<path to private key>
+export TF_VAR_ssh_public_key=<path to public key>
+export TF_VAR_ssh_private_key=<path to private key>
 ## NOTE: These are not your api keys. More info on the right keys see
 ## https://docs.us-phoenix-1.oraclecloud.com/Content/Compute/Tasks/managingkeypairs.htm
