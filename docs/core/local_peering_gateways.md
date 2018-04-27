@@ -82,7 +82,7 @@ The following attributes are exported:
 
 ### Example Usage
 
-```
+```hcl
 data "oci_core_local_peering_gateways" "test_local_peering_gateways" {
 	#Required
 	compartment_id = "${var.compartment_id}"
