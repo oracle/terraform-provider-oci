@@ -49,29 +49,33 @@ https://github.com/oracle/terraform-provider-oci/releases
 
 Unpack the provider. Terraform v0.10.x introduces a change to plugin 
 management where v0.9.x configuration no longer applies. To be compatible 
-with both terraform v0.9.x and v0.10.x, put the provider in the following 
-location:
+with both terraform v0.9.x and v0.10.x, do the following depending on your
+platform.
 
 ##### On \*nix other than Oracle Linux 7.x
+Copy the provider to the following location:
 ```
 ~/.terraform.d/plugins/
 ```
-
-Then create the `~/.terraformrc` file that specifies the path to the 
-`oci` provider **(only required for v0.9.x)**.
+###### For terraform v0.9.x only
+Create the `~/.terraformrc` file that specifies the path to the 
+`oci` provider.
 ```
 providers {
   oci = "~/.terraform.d/plugins/terraform-provider-oci"
 }
 ```
 
-#### On Windows
+##### On Windows
+Copy the provider to the following location:
 ```
 %APPDATA%/terraform.d/plugins/
 ```
+Note: `%APPDATA%` is a system path specific to your Windows version.
 
-Then create `%APPDATA%/terraform.rc` that specifies the path to the 
-`oci` provider **(only required for v0.9.x)**.
+###### For terraform v0.9.x only
+Create `%APPDATA%/terraform.rc` that specifies the path to the 
+`oci` provider.
 ```
 providers {
   oci = "%appdata%/terraform.d/plugins/terraform-provider-oci"
@@ -90,7 +94,7 @@ environments you may want to maintain multiple sets of environment
 variables. 
 See the [compute single instance example](https://github.com/oracle/terraform-provider-oci/tree/master/docs/examples/compute/instance) for more info.
 
-In your ~/.bash_profile set these variables
+In your `~/.bash_profile` set these variables
 ```
 export TF_VAR_tenancy_ocid=
 export TF_VAR_user_ocid=
