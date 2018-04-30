@@ -21,7 +21,6 @@ resource "oci_load_balancer_listener" "test_listener" {
 	protocol = "${var.listener_protocol}"
 }
 `
-
 	ListenerResourceConfig = ListenerResourceDependencies + `
 resource "oci_load_balancer_listener" "test_listener" {
 	#Required
@@ -36,6 +35,34 @@ resource "oci_load_balancer_listener" "test_listener" {
 		#Required
 		idle_timeout_in_seconds = "${var.listener_connection_configuration_idle_timeout_in_seconds}"
 	}
+	hostname_names = ["${oci_load_balancer_hostname.test_hostname.name}"]
+	path_route_set_name = "${oci_load_balancer_path_route_set.test_path_route_set.name}"
+	ssl_configuration {
+		#Required
+		certificate_name = "${oci_load_balancer_certificate.test_certificate.certificate_name}"
+
+		#Optional
+		verify_depth = "${var.listener_ssl_configuration_verify_depth}"
+		verify_peer_certificate = "${var.listener_ssl_configuration_verify_peer_certificate}"
+	}
+}
+`
+
+	ListenerWithTwoHostnamesResourceConfig = ListenerResourceDependencies + `
+resource "oci_load_balancer_listener" "test_listener" {
+	#Required
+	default_backend_set_name = "${oci_load_balancer_backendset.test_backend_set.name}"
+	load_balancer_id = "${oci_load_balancer_load_balancer.test_load_balancer.id}"
+	name = "${var.listener_name}"
+	port = "${var.listener_port}"
+	protocol = "${var.listener_protocol}"
+
+	#Optional
+	connection_configuration {
+		#Required
+		idle_timeout_in_seconds = "${var.listener_connection_configuration_idle_timeout_in_seconds}"
+	}
+	hostname_names = ["${oci_load_balancer_hostname.test_hostname.name}", "${oci_load_balancer_hostname.test_hostname2.name}"]
 	path_route_set_name = "${oci_load_balancer_path_route_set.test_path_route_set.name}"
 	ssl_configuration {
 		#Required
@@ -49,16 +76,16 @@ resource "oci_load_balancer_listener" "test_listener" {
 `
 	ListenerPropertyVariables = `
 variable "listener_connection_configuration_idle_timeout_in_seconds" { default = 10 }
-variable "listener_default_backend_set_name" { default = "My_backend_set" }
+variable "listener_default_backend_set_name" { default = "example_backend_set" }
 variable "listener_name" { default = "mylistener" }
-variable "listener_port" { default = "80" }
+variable "listener_port" { default = 10 }
 variable "listener_protocol" { default = "HTTP" }
-variable "listener_ssl_configuration_certificate_name" { default = "My_certificate_bundle" }
-variable "listener_ssl_configuration_verify_depth" { default = "3" }
+variable "listener_ssl_configuration_certificate_name" { default = "example_certificate_bundle" }
+variable "listener_ssl_configuration_verify_depth" { default = 10 }
 variable "listener_ssl_configuration_verify_peer_certificate" { default = false }
 
 `
-	ListenerResourceDependencies = PathRouteSetPropertyVariables + `
+	ListenerResourceDependencies = PathRouteSetPropertyVariables + HostnamePropertyVariables + `
 	data "oci_identity_availability_domains" "ADs" {
 		compartment_id = "${var.compartment_id}"
 	}
@@ -90,7 +117,7 @@ variable "listener_ssl_configuration_verify_peer_certificate" { default = false 
 	
 	resource "oci_load_balancer_backendset" "test_backend_set" {
 		load_balancer_id = "${oci_load_balancer_load_balancer.test_load_balancer.id}"
-		name = "My_backend_set"
+		name = "example_backend_set"
 		policy = "ROUND_ROBIN"
 		health_checker {
 			interval_ms = 30000
@@ -104,7 +131,7 @@ variable "listener_ssl_configuration_verify_peer_certificate" { default = false 
 	resource "oci_load_balancer_certificate" "test_certificate" {
 		load_balancer_id = "${oci_load_balancer_load_balancer.test_load_balancer.id}"
 		ca_certificate = "-----BEGIN CERTIFICATE-----\nMIIBNzCB4gIJAKtwJkxUgNpzMA0GCSqGSIb3DQEBCwUAMCMxITAfBgNVBAoTGElu\ndGVybmV0IFdpZGdpdHMgUHR5IEx0ZDAeFw0xNzA0MTIyMTU3NTZaFw0xODA0MTIy\nMTU3NTZaMCMxITAfBgNVBAoTGEludGVybmV0IFdpZGdpdHMgUHR5IEx0ZDBcMA0G\nCSqGSIb3DQEBAQUAA0sAMEgCQQDlM8lz3BFJA6zBlsF63k9ajPVq3Q1WQoHQ3j35\n08DRKIfwqfV+CxL63W3dZrwL4TrjqorP5CQ36+I6OWALH2zVAgMBAAEwDQYJKoZI\nhvcNAQELBQADQQCEjHVQJoiiVpIIvDWF+4YDRReVuwzrvq2xduWw7CIsDWlYuGZT\nQKVY6tnTy2XpoUk0fqUvMB/M2HGQ1WqZGHs6\n-----END CERTIFICATE-----"
-		certificate_name = "My_certificate_bundle"
+		certificate_name = "example_certificate_bundle"
 		private_key = "-----BEGIN RSA PRIVATE KEY-----\nMIIBOgIBAAJBAOUzyXPcEUkDrMGWwXreT1qM9WrdDVZCgdDePfnTwNEoh/Cp9X4L\nEvrdbd1mvAvhOuOqis/kJDfr4jo5YAsfbNUCAwEAAQJAJz8k4bfvJceBT2zXGIj0\noZa9d1z+qaSdwfwsNJkzzRyGkj/j8yv5FV7KNdSfsBbStlcuxUm4i9o5LXhIA+iQ\ngQIhAPzStAN8+Rz3dWKTjRWuCfy+Pwcmyjl3pkMPSiXzgSJlAiEA6BUZWHP0b542\nu8AizBT3b3xKr1AH2nkIx9OHq7F/QbECIHzqqpDypa8/QVuUZegpVrvvT/r7mn1s\nddS6cDtyJgLVAiEA1Z5OFQeuL2sekBRbMyP9WOW7zMBKakLL3TqL/3JCYxECIAkG\nl96uo1MjK/66X5zQXBG7F2DN2CbcYEz0r3c3vvfq\n-----END RSA PRIVATE KEY-----"
 		public_certificate = "-----BEGIN CERTIFICATE-----\nMIIBNzCB4gIJAKtwJkxUgNpzMA0GCSqGSIb3DQEBCwUAMCMxITAfBgNVBAoTGElu\ndGVybmV0IFdpZGdpdHMgUHR5IEx0ZDAeFw0xNzA0MTIyMTU3NTZaFw0xODA0MTIy\nMTU3NTZaMCMxITAfBgNVBAoTGEludGVybmV0IFdpZGdpdHMgUHR5IEx0ZDBcMA0G\nCSqGSIb3DQEBAQUAA0sAMEgCQQDlM8lz3BFJA6zBlsF63k9ajPVq3Q1WQoHQ3j35\n08DRKIfwqfV+CxL63W3dZrwL4TrjqorP5CQ36+I6OWALH2zVAgMBAAEwDQYJKoZI\nhvcNAQELBQADQQCEjHVQJoiiVpIIvDWF+4YDRReVuwzrvq2xduWw7CIsDWlYuGZT\nQKVY6tnTy2XpoUk0fqUvMB/M2HGQ1WqZGHs6\n-----END CERTIFICATE-----"
 	}
@@ -122,7 +149,22 @@ variable "listener_ssl_configuration_verify_peer_certificate" { default = false 
 				match_type = "${var.path_route_set_path_routes_path_match_type_match_type}"
 			}
 		}
-	}`
+	}
+
+	resource "oci_load_balancer_hostname" "test_hostname" {
+		#Required
+		hostname = "${var.hostname_hostname}"
+		load_balancer_id = "${oci_load_balancer_load_balancer.test_load_balancer.id}"
+		name = "${var.hostname_name}"
+	}
+
+	resource "oci_load_balancer_hostname" "test_hostname2" {
+		#Required
+		hostname = "${var.hostname_hostname}2"
+		load_balancer_id = "${oci_load_balancer_load_balancer.test_load_balancer.id}"
+		name = "${var.hostname_name}2"
+	}
+`
 )
 
 func TestLoadBalancerListenerResource_basic(t *testing.T) {
@@ -149,10 +191,10 @@ func TestLoadBalancerListenerResource_basic(t *testing.T) {
 				ImportStateVerify: true,
 				Config:            config + ListenerPropertyVariables + compartmentIdVariableStr + ListenerRequiredOnlyResource,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "default_backend_set_name", "My_backend_set"),
+					resource.TestCheckResourceAttr(resourceName, "default_backend_set_name", "example_backend_set"),
 					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttr(resourceName, "name", "mylistener"),
-					resource.TestCheckResourceAttr(resourceName, "port", "80"),
+					resource.TestCheckResourceAttr(resourceName, "port", "10"),
 					resource.TestCheckResourceAttr(resourceName, "protocol", "HTTP"),
 
 					func(s *terraform.State) (err error) {
@@ -168,19 +210,22 @@ func TestLoadBalancerListenerResource_basic(t *testing.T) {
 			},
 			// verify create with optionals
 			{
-				Config: config + ListenerPropertyVariables + compartmentIdVariableStr + ListenerResourceConfig,
+				Config: config + ListenerPropertyVariables + compartmentIdVariableStr + ListenerWithTwoHostnamesResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "connection_configuration.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "connection_configuration.0.idle_timeout_in_seconds", "10"),
-					resource.TestCheckResourceAttr(resourceName, "default_backend_set_name", "My_backend_set"),
+					resource.TestCheckResourceAttr(resourceName, "default_backend_set_name", "example_backend_set"),
+					resource.TestCheckResourceAttr(resourceName, "hostname_names.#", "2"),
+					resource.TestCheckResourceAttr(resourceName, "hostname_names.0", "example_hostname_001"),
+					resource.TestCheckResourceAttr(resourceName, "hostname_names.1", "example_hostname_0012"),
 					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttr(resourceName, "name", "mylistener"),
 					resource.TestCheckResourceAttrSet(resourceName, "path_route_set_name"),
-					resource.TestCheckResourceAttr(resourceName, "port", "80"),
+					resource.TestCheckResourceAttr(resourceName, "port", "10"),
 					resource.TestCheckResourceAttr(resourceName, "protocol", "HTTP"),
 					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.certificate_name", "My_certificate_bundle"),
-					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_depth", "3"),
+					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.certificate_name", "example_certificate_bundle"),
+					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_depth", "10"),
 					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_peer_certificate", "false"),
 
 					func(s *terraform.State) (err error) {
@@ -194,11 +239,12 @@ func TestLoadBalancerListenerResource_basic(t *testing.T) {
 			{
 				Config: config + `
 variable "listener_connection_configuration_idle_timeout_in_seconds" { default = 10 }
-variable "listener_default_backend_set_name" { default = "My_backend_set" }
+variable "listener_default_backend_set_name" { default = "example_backend_set" }
+variable "listener_hostname_names" { default = [] }
 variable "listener_name" { default = "mylistener" }
-variable "listener_port" { default = "80" }
+variable "listener_port" { default = 10 }
 variable "listener_protocol" { default = "HTTP" }
-variable "listener_ssl_configuration_certificate_name" { default = "My_certificate_bundle" }
+variable "listener_ssl_configuration_certificate_name" { default = "example_certificate_bundle" }
 variable "listener_ssl_configuration_verify_depth" { default = 11 }
 variable "listener_ssl_configuration_verify_peer_certificate" { default = true }
 
@@ -206,14 +252,16 @@ variable "listener_ssl_configuration_verify_peer_certificate" { default = true }
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "connection_configuration.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "connection_configuration.0.idle_timeout_in_seconds", "10"),
-					resource.TestCheckResourceAttr(resourceName, "default_backend_set_name", "My_backend_set"),
+					resource.TestCheckResourceAttr(resourceName, "default_backend_set_name", "example_backend_set"),
+					resource.TestCheckResourceAttr(resourceName, "hostname_names.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "hostname_names.0", "example_hostname_001"),
 					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttr(resourceName, "name", "mylistener"),
 					resource.TestCheckResourceAttrSet(resourceName, "path_route_set_name"),
-					resource.TestCheckResourceAttr(resourceName, "port", "80"),
+					resource.TestCheckResourceAttr(resourceName, "port", "10"),
 					resource.TestCheckResourceAttr(resourceName, "protocol", "HTTP"),
 					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.certificate_name", "My_certificate_bundle"),
+					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.certificate_name", "example_certificate_bundle"),
 					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_depth", "11"),
 					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_peer_certificate", "true"),
 
@@ -230,11 +278,12 @@ variable "listener_ssl_configuration_verify_peer_certificate" { default = true }
 			{
 				Config: config + `
 variable "listener_connection_configuration_idle_timeout_in_seconds" { default = 11 }
-variable "listener_default_backend_set_name" { default = "My_backend_set" }
+variable "listener_default_backend_set_name" { default = "example_backend_set" }
+variable "listener_hostname_names" { default = [] }
 variable "listener_name" { default = "mylistener2" }
 variable "listener_port" { default = 11 }
 variable "listener_protocol" { default = "HTTP2" }
-variable "listener_ssl_configuration_certificate_name" { default = "My_certificate_bundle" }
+variable "listener_ssl_configuration_certificate_name" { default = "example_certificate_bundle" }
 variable "listener_ssl_configuration_verify_depth" { default = 11 }
 variable "listener_ssl_configuration_verify_peer_certificate" { default = true }
 
@@ -242,14 +291,16 @@ variable "listener_ssl_configuration_verify_peer_certificate" { default = true }
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "connection_configuration.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "connection_configuration.0.idle_timeout_in_seconds", "11"),
-					resource.TestCheckResourceAttr(resourceName, "default_backend_set_name", "My_backend_set"),
+					resource.TestCheckResourceAttr(resourceName, "default_backend_set_name", "example_backend_set"),
+					resource.TestCheckResourceAttr(resourceName, "hostname_names.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "hostname_names.0", "example_hostname_001"),
 					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttr(resourceName, "name", "mylistener2"),
 					resource.TestCheckResourceAttrSet(resourceName, "path_route_set_name"),
 					resource.TestCheckResourceAttr(resourceName, "port", "11"),
 					resource.TestCheckResourceAttr(resourceName, "protocol", "HTTP2"),
 					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.certificate_name", "My_certificate_bundle"),
+					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.certificate_name", "example_certificate_bundle"),
 					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_depth", "11"),
 					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_peer_certificate", "true"),
 
@@ -288,15 +339,17 @@ func TestLoadBalancerListenerResource_forcenew(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "connection_configuration.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "connection_configuration.0.idle_timeout_in_seconds", "10"),
-					resource.TestCheckResourceAttr(resourceName, "default_backend_set_name", "My_backend_set"),
+					resource.TestCheckResourceAttr(resourceName, "default_backend_set_name", "example_backend_set"),
+					resource.TestCheckResourceAttr(resourceName, "hostname_names.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "hostname_names.0", "example_hostname_001"),
 					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttr(resourceName, "name", "mylistener"),
 					resource.TestCheckResourceAttrSet(resourceName, "path_route_set_name"),
-					resource.TestCheckResourceAttr(resourceName, "port", "80"),
+					resource.TestCheckResourceAttr(resourceName, "port", "10"),
 					resource.TestCheckResourceAttr(resourceName, "protocol", "HTTP"),
 					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.certificate_name", "My_certificate_bundle"),
-					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_depth", "3"),
+					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.certificate_name", "example_certificate_bundle"),
+					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_depth", "10"),
 					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_peer_certificate", "false"),
 
 					func(s *terraform.State) (err error) {
@@ -310,26 +363,29 @@ func TestLoadBalancerListenerResource_forcenew(t *testing.T) {
 			{
 				Config: config + `
 variable "listener_connection_configuration_idle_timeout_in_seconds" { default = 10 }
-variable "listener_default_backend_set_name" { default = "My_backend_set" }
+variable "listener_default_backend_set_name" { default = "example_backend_set" }
+variable "listener_hostname_names" { default = [] }
 variable "listener_name" { default = "mylistener2" }
-variable "listener_port" { default = "80" }
+variable "listener_port" { default = 10 }
 variable "listener_protocol" { default = "HTTP" }
-variable "listener_ssl_configuration_certificate_name" { default = "My_certificate_bundle" }
-variable "listener_ssl_configuration_verify_depth" { default = "3" }
+variable "listener_ssl_configuration_certificate_name" { default = "example_certificate_bundle" }
+variable "listener_ssl_configuration_verify_depth" { default = 10 }
 variable "listener_ssl_configuration_verify_peer_certificate" { default = false }
 				` + compartmentIdVariableStr + ListenerResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "connection_configuration.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "connection_configuration.0.idle_timeout_in_seconds", "10"),
-					resource.TestCheckResourceAttr(resourceName, "default_backend_set_name", "My_backend_set"),
+					resource.TestCheckResourceAttr(resourceName, "default_backend_set_name", "example_backend_set"),
+					resource.TestCheckResourceAttr(resourceName, "hostname_names.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "hostname_names.0", "example_hostname_001"),
 					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttr(resourceName, "name", "mylistener2"),
 					resource.TestCheckResourceAttrSet(resourceName, "path_route_set_name"),
-					resource.TestCheckResourceAttr(resourceName, "port", "80"),
+					resource.TestCheckResourceAttr(resourceName, "port", "10"),
 					resource.TestCheckResourceAttr(resourceName, "protocol", "HTTP"),
 					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.certificate_name", "My_certificate_bundle"),
-					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_depth", "3"),
+					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.certificate_name", "example_certificate_bundle"),
+					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_depth", "10"),
 					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_peer_certificate", "false"),
 
 					func(s *terraform.State) (err error) {

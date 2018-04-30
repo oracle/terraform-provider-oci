@@ -66,6 +66,14 @@ func ListenerResource() *schema.Resource {
 					},
 				},
 			},
+			"hostname_names": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"path_route_set_name": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -206,6 +214,16 @@ func (s *ListenerResourceCrud) Create() error {
 		request.DefaultBackendSetName = &tmp
 	}
 
+	request.HostnameNames = []string{}
+	if hostnameNames, ok := s.D.GetOkExists("hostname_names"); ok {
+		interfaces := hostnameNames.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i, toBeConverted := range interfaces {
+			tmp[i] = toBeConverted.(string)
+		}
+		request.HostnameNames = tmp
+	}
+
 	if loadBalancerId, ok := s.D.GetOkExists("load_balancer_id"); ok {
 		tmp := loadBalancerId.(string)
 		request.LoadBalancerId = &tmp
@@ -309,6 +327,15 @@ func (s *ListenerResourceCrud) Update() error {
 		request.DefaultBackendSetName = &tmp
 	}
 
+	request.HostnameNames = []string{}
+	if hostnameNames, ok := s.D.GetOkExists("hostname_names"); ok {
+		interfaces := hostnameNames.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i, toBeConverted := range interfaces {
+			tmp[i] = toBeConverted.(string)
+		}
+		request.HostnameNames = tmp
+	}
 	if loadBalancerId, ok := s.D.GetOkExists("load_balancer_id"); ok {
 		tmp := loadBalancerId.(string)
 		request.LoadBalancerId = &tmp
@@ -408,6 +435,9 @@ func (s *ListenerResourceCrud) SetData() {
 	}
 	if s.Res.DefaultBackendSetName != nil {
 		s.D.Set("default_backend_set_name", *s.Res.DefaultBackendSetName)
+	}
+	if s.Res.HostnameNames != nil {
+		s.D.Set("hostname_names", s.Res.HostnameNames)
 	}
 	if s.Res.Name != nil {
 		s.D.Set("name", *s.Res.Name)
