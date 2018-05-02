@@ -17,7 +17,7 @@ variable "AD" { default = "2" }
 variable "image_ocid" {
   default = " "
 }
-variable "nodecount" { default = "5" }
+variable "nodecount" { default = "6" }
 
 variable "MasterNodeCount" { default = "2" }
 
