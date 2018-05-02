@@ -25,14 +25,14 @@ variable "MasterNodeCount" { default = "0" }
 variable "blocksize_in_gbs" { default = "1024" }
 
 variable "BastionInstanceShape" {
-  default = "VM.Standard1.8"
+  default = "VM.Standard2.8"
 }
 
 variable "MasterInstanceShape" {
-  default = "VM.Standard1.8"
+  default = "VM.Standard2.8"
 }
 
 variable "WorkerInstanceShape" {
-  default = "BM.Standard1.36"
+  default = "BM.DenseIO2.52"
 }
 
