@@ -318,7 +318,7 @@ func parseConfigAtLine(start int, content []string) (info *configFileInfo, err e
 
 		splits := strings.Split(line, "=")
 		switch key, value := strings.TrimSpace(splits[0]), strings.TrimSpace(splits[1]); strings.ToLower(key) {
-		case "passphrase":
+		case "passphrase", "pass_phrase":
 			configurationPresent = configurationPresent | hasPassphrase
 			info.Passphrase = value
 		case "user":

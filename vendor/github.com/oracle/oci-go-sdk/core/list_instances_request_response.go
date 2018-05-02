@@ -44,6 +44,10 @@ type ListInstancesRequest struct {
 	// A filter to only return resources that match the given lifecycle state.  The state value is case-insensitive.
 	LifecycleState InstanceLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
+	// Unique Oracle-assigned identifier for the request.
+	// If you need to contact Oracle about a particular request, please provide the request ID.
+	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -69,7 +73,7 @@ type ListInstancesResponse struct {
 	// The underlying http response
 	RawResponse *http.Response
 
-	// The []Instance instance
+	// A list of []Instance instances
 	Items []Instance `presentIn:"body"`
 
 	// For pagination of a list of items. When paging through a list, if this header appears in the response,

@@ -59,7 +59,7 @@ type ListMultipartUploadPartsResponse struct {
 	// The underlying http response
 	RawResponse *http.Response
 
-	// The []MultipartUploadPartSummary instance
+	// A list of []MultipartUploadPartSummary instances
 	Items []MultipartUploadPartSummary `presentIn:"body"`
 
 	// Echoes back the value passed in the opc-client-request-id header, for use by clients when debugging.

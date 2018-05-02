@@ -60,7 +60,7 @@ func (m *UpdateDhcpDetails) UnmarshalJSON(data []byte) (e error) {
 		if err != nil {
 			return err
 		}
-		m.Options[i] = nn
+		m.Options[i] = nn.(DhcpOption)
 	}
 	return
 }

@@ -48,8 +48,8 @@ func (client *ComputeClient) setConfigurationProvider(configProvider common.Conf
 
 	// Error has been checked already
 	region, _ := configProvider.Region()
-	client.config = &configProvider
 	client.SetRegion(region)
+	client.config = &configProvider
 	return nil
 }
 
@@ -934,8 +934,8 @@ func (client ComputeClient) getVolumeAttachment(ctx context.Context, request com
 	return response, err
 }
 
-// GetWindowsInstanceInitialCredentials Gets the generated credentials for the instance. Only works for Windows instances. The returned credentials
-// are only valid for the initial login.
+// GetWindowsInstanceInitialCredentials Gets the generated credentials for the instance. Only works for instances that require password to log in (E.g. Windows).
+// For certain OS'es, users will be forced to change the initial credentials.
 func (client ComputeClient) GetWindowsInstanceInitialCredentials(ctx context.Context, request GetWindowsInstanceInitialCredentialsRequest) (response GetWindowsInstanceInitialCredentialsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1209,7 +1209,7 @@ func (client ComputeClient) listImages(ctx context.Context, request common.OCIRe
 }
 
 // ListInstanceConsoleConnections Lists the console connections for the specified compartment or instance.
-// For more information about console access, see Accessing the Instance Console (https://docs.us-phoenix-1.oraclecloud.com/Content/Compute/References/serialconsole.htm).
+// For more information about console access, see Accessing the Console (https://docs.us-phoenix-1.oraclecloud.com/Content/Compute/References/serialconsole.htm).
 func (client ComputeClient) ListInstanceConsoleConnections(ctx context.Context, request ListInstanceConsoleConnectionsRequest) (response ListInstanceConsoleConnectionsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

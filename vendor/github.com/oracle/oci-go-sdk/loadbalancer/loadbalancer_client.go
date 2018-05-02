@@ -48,8 +48,8 @@ func (client *LoadBalancerClient) setConfigurationProvider(configProvider common
 
 	// Error has been checked already
 	region, _ := configProvider.Region()
-	client.config = &configProvider
 	client.SetRegion(region)
+	client.config = &configProvider
 	return nil
 }
 
@@ -136,7 +136,7 @@ func (client LoadBalancerClient) createBackendSet(ctx context.Context, request c
 	return response, err
 }
 
-// CreateCertificate Creates an asynchronous request to add an SSL certificate.
+// CreateCertificate Creates an asynchronous request to add an SSL certificate bundle.
 func (client LoadBalancerClient) CreateCertificate(ctx context.Context, request CreateCertificateRequest) (response CreateCertificateResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -163,6 +163,46 @@ func (client LoadBalancerClient) createCertificate(ctx context.Context, request 
 	}
 
 	var response CreateCertificateResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateHostname Adds a hostname resource to the specified load balancer. For more information, see
+// Managing Request Routing (https://docs.us-phoenix-1.oraclecloud.com/Content/Balance/Tasks/managingrequest.htm).
+func (client LoadBalancerClient) CreateHostname(ctx context.Context, request CreateHostnameRequest) (response CreateHostnameResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.createHostname, policy)
+	if err != nil {
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateHostnameResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateHostnameResponse")
+	}
+	return
+}
+
+// createHostname implements the OCIOperation interface (enables retrying operations)
+func (client LoadBalancerClient) createHostname(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/loadBalancers/{loadBalancerId}/hostnames")
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateHostnameResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -392,7 +432,7 @@ func (client LoadBalancerClient) deleteBackendSet(ctx context.Context, request c
 	return response, err
 }
 
-// DeleteCertificate Deletes an SSL certificate from a load balancer.
+// DeleteCertificate Deletes an SSL certificate bundle from a load balancer.
 func (client LoadBalancerClient) DeleteCertificate(ctx context.Context, request DeleteCertificateRequest) (response DeleteCertificateResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -419,6 +459,45 @@ func (client LoadBalancerClient) deleteCertificate(ctx context.Context, request 
 	}
 
 	var response DeleteCertificateResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteHostname Deletes a hostname resource from the specified load balancer.
+func (client LoadBalancerClient) DeleteHostname(ctx context.Context, request DeleteHostnameRequest) (response DeleteHostnameResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteHostname, policy)
+	if err != nil {
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteHostnameResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteHostnameResponse")
+	}
+	return
+}
+
+// deleteHostname implements the OCIOperation interface (enables retrying operations)
+func (client LoadBalancerClient) deleteHostname(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/loadBalancers/{loadBalancerId}/hostnames/{name}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteHostnameResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -745,6 +824,45 @@ func (client LoadBalancerClient) getHealthChecker(ctx context.Context, request c
 	return response, err
 }
 
+// GetHostname Gets the specified hostname resource's configuration information.
+func (client LoadBalancerClient) GetHostname(ctx context.Context, request GetHostnameRequest) (response GetHostnameResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getHostname, policy)
+	if err != nil {
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetHostnameResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetHostnameResponse")
+	}
+	return
+}
+
+// getHostname implements the OCIOperation interface (enables retrying operations)
+func (client LoadBalancerClient) getHostname(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancers/{loadBalancerId}/hostnames/{name}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetHostnameResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetLoadBalancer Gets the specified load balancer's configuration information.
 func (client LoadBalancerClient) GetLoadBalancer(ctx context.Context, request GetLoadBalancerRequest) (response GetLoadBalancerResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -979,7 +1097,7 @@ func (client LoadBalancerClient) listBackends(ctx context.Context, request commo
 	return response, err
 }
 
-// ListCertificates Lists all SSL certificates associated with a given load balancer.
+// ListCertificates Lists all SSL certificates bundles associated with a given load balancer.
 func (client LoadBalancerClient) ListCertificates(ctx context.Context, request ListCertificatesRequest) (response ListCertificatesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1006,6 +1124,45 @@ func (client LoadBalancerClient) listCertificates(ctx context.Context, request c
 	}
 
 	var response ListCertificatesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListHostnames Lists all hostname resources associated with the specified load balancer.
+func (client LoadBalancerClient) ListHostnames(ctx context.Context, request ListHostnamesRequest) (response ListHostnamesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listHostnames, policy)
+	if err != nil {
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListHostnamesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListHostnamesResponse")
+	}
+	return
+}
+
+// listHostnames implements the OCIOperation interface (enables retrying operations)
+func (client LoadBalancerClient) listHostnames(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancers/{loadBalancerId}/hostnames")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListHostnamesResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -1396,6 +1553,46 @@ func (client LoadBalancerClient) updateHealthChecker(ctx context.Context, reques
 	}
 
 	var response UpdateHealthCheckerResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateHostname Overwrites an existing hostname resource on the specified load balancer. Use this operation to change a
+// virtual hostname.
+func (client LoadBalancerClient) UpdateHostname(ctx context.Context, request UpdateHostnameRequest) (response UpdateHostnameResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateHostname, policy)
+	if err != nil {
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateHostnameResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateHostnameResponse")
+	}
+	return
+}
+
+// updateHostname implements the OCIOperation interface (enables retrying operations)
+func (client LoadBalancerClient) updateHostname(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/loadBalancers/{loadBalancerId}/hostnames/{name}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateHostnameResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)

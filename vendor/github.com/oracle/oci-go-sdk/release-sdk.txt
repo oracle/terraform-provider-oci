@@ -8,3 +8,12 @@
 #
 # GROUP1 # comment
 # GRPUP2 # comment
+
+# Hide the GetInstanceDefaultCredentials operation
+sdk_team_hide_GetInstanceDefaultCredentials
+# Hide the CreateImageDetails.launchOptions
+sdk_team_hide_CreateImageDetails_launchOptions
+# Hide Shape.availabilityDomain
+sdk_team_hide_Shape_availabilityDomain
+# Hide VCN tagging docs
+sdk_team_hide_vcn_tagging_docs

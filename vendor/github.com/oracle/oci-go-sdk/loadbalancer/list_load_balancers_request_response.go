@@ -38,9 +38,11 @@ type ListLoadBalancersRequest struct {
 	SortOrder ListLoadBalancersSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
 	// A filter to return only resources that match the given display name exactly.
+	// Example: `example_load_balancer`
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
 	// A filter to return only resources that match the given lifecycle state.
+	// Example: `SUCCEEDED`
 	LifecycleState LoadBalancerLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
@@ -68,7 +70,7 @@ type ListLoadBalancersResponse struct {
 	// The underlying http response
 	RawResponse *http.Response
 
-	// The []LoadBalancer instance
+	// A list of []LoadBalancer instances
 	Items []LoadBalancer `presentIn:"body"`
 
 	// For pagination of a list of items. When paging through a list, if this header appears in the response,

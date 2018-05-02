@@ -23,6 +23,10 @@ type ListDbSystemsRequest struct {
 	// The OCID of the backup. Specify a backupId to list only the DB Systems that support creating a database using this backup in this compartment.
 	BackupId *string `mandatory:"false" contributesTo:"query" name:"backupId"`
 
+	// Unique Oracle-assigned identifier for the request.
+	// If you need to contact Oracle about a particular request, please provide the request ID.
+	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -48,7 +52,7 @@ type ListDbSystemsResponse struct {
 	// The underlying http response
 	RawResponse *http.Response
 
-	// The []DbSystemSummary instance
+	// A list of []DbSystemSummary instances
 	Items []DbSystemSummary `presentIn:"body"`
 
 	// For pagination of a list of items. When paging through a list, if this header appears in the response,

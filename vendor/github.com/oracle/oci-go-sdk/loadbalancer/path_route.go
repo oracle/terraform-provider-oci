@@ -17,7 +17,7 @@ import (
 type PathRoute struct {
 
 	// The name of the target backend set for requests where the incoming URI matches the specified path.
-	// Example: `My_backend_set`
+	// Example: `example_backend_set`
 	BackendSetName *string `mandatory:"true" json:"backendSetName"`
 
 	// The path string to match against the incoming URI path.

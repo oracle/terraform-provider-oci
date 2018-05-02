@@ -15,7 +15,7 @@ type GetPathRouteSetRequest struct {
 	LoadBalancerId *string `mandatory:"true" contributesTo:"path" name:"loadBalancerId"`
 
 	// The name of the path route set to retrieve.
-	// Example: `path-route-set-001`
+	// Example: `example_path_route_set`
 	PathRouteSetName *string `mandatory:"true" contributesTo:"path" name:"pathRouteSetName"`
 
 	// The unique Oracle-assigned identifier for the request. If you need to contact Oracle about a

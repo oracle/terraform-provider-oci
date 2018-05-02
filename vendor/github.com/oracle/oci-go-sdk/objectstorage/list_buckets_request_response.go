@@ -56,7 +56,7 @@ type ListBucketsResponse struct {
 	// The underlying http response
 	RawResponse *http.Response
 
-	// The []BucketSummary instance
+	// A list of []BucketSummary instances
 	Items []BucketSummary `presentIn:"body"`
 
 	// Echoes back the value passed in the opc-client-request-id header, for use by clients when debugging.

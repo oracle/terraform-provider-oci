@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 
+
+## 1.3.0 - 2018-04-19
+### Added
+- Support for retry on OCI service APIs. Example can be found on [Github](https://github.com/oracle/oci-go-sdk/tree/master/example/example_retry_test.go)
+- Support for tagging DbSystem and Database resources in the Database Service
+- Support for filtering by DbSystemId in ListDbVersions operation in Database Service
+
+### Fixed
+- Fixed a request signing bug for PatchZoneRecords API
+- Fixed a bug in DebugLn
+
 ## 1.2.0 - 2018-04-05
 ### Added
 - Support for Email Delivery Service. Example can be found on [Github](https://github.com/oracle/oci-go-sdk/tree/master/example/example_email_test.go)
