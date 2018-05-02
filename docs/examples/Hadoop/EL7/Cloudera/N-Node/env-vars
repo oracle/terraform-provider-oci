@@ -21,10 +21,10 @@ export TF_VAR_AD="2"
 export TF_VAR_image_ocid="ocid1.image.oc1.phx.aaaaaaaazs4djfpanpbh7zwqjqe4enku3juqo6dntkj66u2vjx4p2k2oj5cq"
 
 ## Set the shape to be used for Bastion Host
-export TF_VAR_BastionInstanceShape="VM.Standard1.8"
+export TF_VAR_BastionInstanceShape="VM.Standard2.8"
 ## Set the shape to be used for Master Hosts
-export TF_VAR_MasterInstanceShape="VM.Standard1.8"
+export TF_VAR_MasterInstanceShape="VM.Standard2.8"
 ## Set the shape to be used for Worker Hosts
-export TF_VAR_WorkerInstanceShape="BM.Standard1.36"
+export TF_VAR_WorkerInstanceShape="BM.DenseIO2.52"
 ## Set the number of Worker Nodes
-export TF_VAR_nodecount="5"
+export TF_VAR_nodecount="10"
