@@ -38,12 +38,12 @@ resource "oci_load_balancer_backend" "test_backend" {
 `
 	BackendPropertyVariables = `
 variable "backend_backendset_name" { default = "backendsetName" }
-variable "backend_backup" { default = "false" }
-variable "backend_drain" { default = "false" }
-variable "backend_ip_address" { default = "10.10.10.4" }
-variable "backend_offline" { default = "false" }
-variable "backend_port" { default = "8080" }
-variable "backend_weight" { default = "3" }
+variable "backend_backup" { default = false }
+variable "backend_drain" { default = false }
+variable "backend_ip_address" { default = "10.0.0.3" }
+variable "backend_offline" { default = false }
+variable "backend_port" { default = 10 }
+variable "backend_weight" { default = 10 }
 
 `
 	BackendResourceDependencies = LoadBalancerPropertyVariables + LoadBalancerResourceConfig
@@ -75,9 +75,9 @@ func TestLoadBalancerBackendResource_basic(t *testing.T) {
 				Config:            config + BackendPropertyVariables + compartmentIdVariableStr + BackendRequiredOnlyResource,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "backendset_name", "backendsetName"),
-					resource.TestCheckResourceAttr(resourceName, "ip_address", "10.10.10.4"),
+					resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.3"),
 					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
-					resource.TestCheckResourceAttr(resourceName, "port", "8080"),
+					resource.TestCheckResourceAttr(resourceName, "port", "10"),
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
@@ -97,12 +97,12 @@ func TestLoadBalancerBackendResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "backendset_name", "backendsetName"),
 					resource.TestCheckResourceAttr(resourceName, "backup", "false"),
 					resource.TestCheckResourceAttr(resourceName, "drain", "false"),
-					resource.TestCheckResourceAttr(resourceName, "ip_address", "10.10.10.4"),
+					resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.3"),
 					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "name"),
 					resource.TestCheckResourceAttr(resourceName, "offline", "false"),
-					resource.TestCheckResourceAttr(resourceName, "port", "8080"),
-					resource.TestCheckResourceAttr(resourceName, "weight", "3"),
+					resource.TestCheckResourceAttr(resourceName, "port", "10"),
+					resource.TestCheckResourceAttr(resourceName, "weight", "10"),
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
@@ -115,24 +115,24 @@ func TestLoadBalancerBackendResource_basic(t *testing.T) {
 			{
 				Config: config + `
 variable "backend_backendset_name" { default = "backendsetName" }
-variable "backend_backup" { default = "false" }
-variable "backend_drain" { default = "false" }
-variable "backend_ip_address" { default = "10.10.10.4" }
-variable "backend_offline" { default = "false" }
-variable "backend_port" { default = "8080" }
-variable "backend_weight" { default = "3" }
+variable "backend_backup" { default = false }
+variable "backend_drain" { default = false }
+variable "backend_ip_address" { default = "10.0.0.3" }
+variable "backend_offline" { default = false }
+variable "backend_port" { default = 10 }
+variable "backend_weight" { default = 10 }
 
                 ` + compartmentIdVariableStr + BackendResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "backendset_name", "backendsetName"),
 					resource.TestCheckResourceAttr(resourceName, "backup", "false"),
 					resource.TestCheckResourceAttr(resourceName, "drain", "false"),
-					resource.TestCheckResourceAttr(resourceName, "ip_address", "10.10.10.4"),
+					resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.3"),
 					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "name"),
 					resource.TestCheckResourceAttr(resourceName, "offline", "false"),
-					resource.TestCheckResourceAttr(resourceName, "port", "8080"),
-					resource.TestCheckResourceAttr(resourceName, "weight", "3"),
+					resource.TestCheckResourceAttr(resourceName, "port", "10"),
+					resource.TestCheckResourceAttr(resourceName, "weight", "10"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, resourceName, "id")
@@ -239,12 +239,12 @@ func TestLoadBalancerBackendResource_forcenew(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "backendset_name", "backendsetName"),
 					resource.TestCheckResourceAttr(resourceName, "backup", "false"),
 					resource.TestCheckResourceAttr(resourceName, "drain", "false"),
-					resource.TestCheckResourceAttr(resourceName, "ip_address", "10.10.10.4"),
+					resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.3"),
 					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "name"),
 					resource.TestCheckResourceAttr(resourceName, "offline", "false"),
-					resource.TestCheckResourceAttr(resourceName, "port", "8080"),
-					resource.TestCheckResourceAttr(resourceName, "weight", "3"),
+					resource.TestCheckResourceAttr(resourceName, "port", "10"),
+					resource.TestCheckResourceAttr(resourceName, "weight", "10"),
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
@@ -257,12 +257,12 @@ func TestLoadBalancerBackendResource_forcenew(t *testing.T) {
 			{
 				Config: config + `
 variable "backend_backendset_name" { default = "backendsetName" }
-variable "backend_backup" { default = "false" }
-variable "backend_drain" { default = "false" }
+variable "backend_backup" { default = false }
+variable "backend_drain" { default = false }
 variable "backend_ip_address" { default = "ipAddress2" }
-variable "backend_offline" { default = "false" }
-variable "backend_port" { default = "8080" }
-variable "backend_weight" { default = "3" }
+variable "backend_offline" { default = false }
+variable "backend_port" { default = 10 }
+variable "backend_weight" { default = 10 }
 				` + compartmentIdVariableStr + BackendResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "backendset_name", "backendsetName"),
@@ -272,8 +272,8 @@ variable "backend_weight" { default = "3" }
 					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "name"),
 					resource.TestCheckResourceAttr(resourceName, "offline", "false"),
-					resource.TestCheckResourceAttr(resourceName, "port", "8080"),
-					resource.TestCheckResourceAttr(resourceName, "weight", "3"),
+					resource.TestCheckResourceAttr(resourceName, "port", "10"),
+					resource.TestCheckResourceAttr(resourceName, "weight", "10"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, resourceName, "id")
@@ -289,12 +289,12 @@ variable "backend_weight" { default = "3" }
 			{
 				Config: config + `
 variable "backend_backendset_name" { default = "backendsetName" }
-variable "backend_backup" { default = "false" }
-variable "backend_drain" { default = "false" }
+variable "backend_backup" { default = false }
+variable "backend_drain" { default = false }
 variable "backend_ip_address" { default = "ipAddress2" }
-variable "backend_offline" { default = "false" }
+variable "backend_offline" { default = false }
 variable "backend_port" { default = 11 }
-variable "backend_weight" { default = "3" }
+variable "backend_weight" { default = 10 }
 				` + compartmentIdVariableStr + BackendResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "backendset_name", "backendsetName"),
@@ -305,7 +305,7 @@ variable "backend_weight" { default = "3" }
 					resource.TestCheckResourceAttrSet(resourceName, "name"),
 					resource.TestCheckResourceAttr(resourceName, "offline", "false"),
 					resource.TestCheckResourceAttr(resourceName, "port", "11"),
-					resource.TestCheckResourceAttr(resourceName, "weight", "3"),
+					resource.TestCheckResourceAttr(resourceName, "weight", "10"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, resourceName, "id")
