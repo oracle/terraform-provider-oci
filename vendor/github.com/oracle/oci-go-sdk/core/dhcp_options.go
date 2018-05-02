@@ -95,7 +95,7 @@ func (m *DhcpOptions) UnmarshalJSON(data []byte) (e error) {
 		if err != nil {
 			return err
 		}
-		m.Options[i] = nn
+		m.Options[i] = nn.(DhcpOption)
 	}
 	m.TimeCreated = model.TimeCreated
 	m.VcnId = model.VcnId

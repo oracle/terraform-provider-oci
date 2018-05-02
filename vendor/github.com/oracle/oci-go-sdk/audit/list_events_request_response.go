@@ -56,7 +56,7 @@ type ListEventsResponse struct {
 	// The underlying http response
 	RawResponse *http.Response
 
-	// The []AuditEvent instance
+	// A list of []AuditEvent instances
 	Items []AuditEvent `presentIn:"body"`
 
 	// For pagination of a list of audit events. When this header appears in the response,

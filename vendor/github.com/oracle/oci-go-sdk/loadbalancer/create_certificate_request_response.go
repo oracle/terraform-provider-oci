@@ -11,10 +11,10 @@ import (
 // CreateCertificateRequest wrapper for the CreateCertificate operation
 type CreateCertificateRequest struct {
 
-	// The details of the certificate to add.
+	// The details of the certificate bundle to add.
 	CreateCertificateDetails `contributesTo:"body"`
 
-	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the load balancer on which to add the certificate.
+	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the load balancer on which to add the certificate bundle.
 	LoadBalancerId *string `mandatory:"true" contributesTo:"path" name:"loadBalancerId"`
 
 	// The unique Oracle-assigned identifier for the request. If you need to contact Oracle about a

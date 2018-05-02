@@ -11,11 +11,12 @@ import (
 // DeleteCertificateRequest wrapper for the DeleteCertificate operation
 type DeleteCertificateRequest struct {
 
-	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the load balancer associated with the certificate to be deleted.
+	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the load balancer associated with the certificate bundle
+	// to be deleted.
 	LoadBalancerId *string `mandatory:"true" contributesTo:"path" name:"loadBalancerId"`
 
-	// The name of the certificate to delete.
-	// Example: `My_certificate_bundle`
+	// The name of the certificate bundle to delete.
+	// Example: `example_certificate_bundle`
 	CertificateName *string `mandatory:"true" contributesTo:"path" name:"certificateName"`
 
 	// The unique Oracle-assigned identifier for the request. If you need to contact Oracle about a

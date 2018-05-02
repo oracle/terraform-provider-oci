@@ -12,7 +12,7 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// BootVolume A detachable boot volume device that contains the image used to boot an Compute instance. For more information, see
+// BootVolume A detachable boot volume device that contains the image used to boot a Compute instance. For more information, see
 // Overview of Boot Volumes (https://docs.us-phoenix-1.oraclecloud.com/Content/Block/Concepts/bootvolumes.htm).
 // To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized,
 // talk to an administrator. If you're an administrator who needs to write policies to give users access, see

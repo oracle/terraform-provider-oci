@@ -55,7 +55,7 @@ type ListPreauthenticatedRequestsResponse struct {
 	// The underlying http response
 	RawResponse *http.Response
 
-	// The []PreauthenticatedRequestSummary instance
+	// A list of []PreauthenticatedRequestSummary instances
 	Items []PreauthenticatedRequestSummary `presentIn:"body"`
 
 	// Echoes back the value passed in the opc-client-request-id header, for use by clients when debugging.

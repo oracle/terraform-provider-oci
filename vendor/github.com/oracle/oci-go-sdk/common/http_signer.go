@@ -55,6 +55,15 @@ func DefaultRequestSigner(provider KeyProvider) HTTPRequestSigner {
 	return RequestSigner(provider, defaultGenericHeaders, defaultBodyHeaders)
 }
 
+// RequestSignerExcludeBody creates a signer without hash the body.
+func RequestSignerExcludeBody(provider KeyProvider) HTTPRequestSigner {
+	bodyHashPredicate := func(r *http.Request) bool {
+		// week request signer will not hash the body
+		return false
+	}
+	return RequestSignerWithBodyHashingPredicate(provider, defaultGenericHeaders, defaultBodyHeaders, bodyHashPredicate)
+}
+
 // RequestSigner creates a signer that utilizes the specified headers for signing
 // and the default predicate for using the body of the request as part of the signature
 func RequestSigner(provider KeyProvider, genericHeaders, bodyHeaders []string) HTTPRequestSigner {

@@ -48,8 +48,8 @@ func (client *DnsClient) setConfigurationProvider(configProvider common.Configur
 
 	// Error has been checked already
 	region, _ := configProvider.Region()
-	client.config = &configProvider
 	client.SetRegion(region)
+	client.config = &configProvider
 	return nil
 }
 

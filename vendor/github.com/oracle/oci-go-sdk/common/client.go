@@ -50,6 +50,12 @@ const (
 	// requestHeaderOpcRetryToken The key for passing a header to indicate OPC Retry Token
 	requestHeaderOpcRetryToken = "opc-retry-token"
 
+	// requestHeaderOpcRequestID The key for unique Oracle-assigned identifier for the request.
+	requestHeaderOpcRequestID = "opc-request-id"
+
+	// requestHeaderOpcClientRequestID The key for unique Oracle-assigned identifier for the request.
+	requestHeaderOpcClientRequestID = "opc-client-request-id"
+
 	// requestHeaderUserAgent The key for passing a header to indicate User Agent
 	requestHeaderUserAgent = "User-Agent"
 

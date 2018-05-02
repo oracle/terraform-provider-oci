@@ -70,6 +70,11 @@ type LaunchDbSystemDetails struct {
 	// Specify 80 or 40. The default is 80 percent assigned to DATA storage. This is not applicable for VM based DB systems.
 	DataStoragePercentage *int `mandatory:"false" json:"dataStoragePercentage"`
 
+	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Operations": {"CostCenter": "42"}}`
+	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
 	// The type of redundancy configured for the DB System.
 	// Normal is 2-way redundancy, recommended for test and development systems.
 	// High is 3-way redundancy, recommended for production systems.
@@ -82,6 +87,11 @@ type LaunchDbSystemDetails struct {
 	// Resolver is enabled for the specified subnet, the domain name for the subnet is used
 	// (don't provide one). Otherwise, provide a valid DNS domain name. Hyphens (-) are not permitted.
 	Domain *string `mandatory:"false" json:"domain"`
+
+	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
+	// For more information, see Resource Tags (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Department": "Finance"}`
+	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
 	// Size, in GBs, of the initial data volume that will be created and attached to VM-shape based DB system. This storage can later be scaled up if needed. Note that the total storage size attached will be more than what is requested, to account for REDO/RECO space and software volume.
 	InitialDataStorageSizeInGB *int `mandatory:"false" json:"initialDataStorageSizeInGB"`

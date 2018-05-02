@@ -307,7 +307,7 @@ func getDefaultRetryPolicy() *common.RetryPolicy {
 
 func getExponentialBackoffRetryPolicy(n uint, fn func(r common.OCIOperationResponse) bool) *common.RetryPolicy {
 	exponentialBackoff := func(r common.OCIOperationResponse) time.Duration {
-		return time.Duration(math.Pow(float64(2), float64(r.AttemptNumber - 1))) * time.Second
+		return time.Duration(math.Pow(float64(2), float64(r.AttemptNumber-1))) * time.Second
 	}
 	policy := common.NewRetryPolicy(n, fn, exponentialBackoff)
 	return &policy

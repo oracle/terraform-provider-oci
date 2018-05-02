@@ -18,7 +18,7 @@ type UpdateBackendSetRequest struct {
 	LoadBalancerId *string `mandatory:"true" contributesTo:"path" name:"loadBalancerId"`
 
 	// The name of the backend set to update.
-	// Example: `My_backend_set`
+	// Example: `example_backend_set`
 	BackendSetName *string `mandatory:"true" contributesTo:"path" name:"backendSetName"`
 
 	// The unique Oracle-assigned identifier for the request. If you need to contact Oracle about a

@@ -15,7 +15,7 @@ type DeleteListenerRequest struct {
 	LoadBalancerId *string `mandatory:"true" contributesTo:"path" name:"loadBalancerId"`
 
 	// The name of the listener to delete.
-	// Example: `My listener`
+	// Example: `example_listener`
 	ListenerName *string `mandatory:"true" contributesTo:"path" name:"listenerName"`
 
 	// The unique Oracle-assigned identifier for the request. If you need to contact Oracle about a

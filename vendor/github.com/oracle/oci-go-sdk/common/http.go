@@ -384,6 +384,9 @@ func addToHeader(request *http.Request, value reflect.Value, field reflect.Struc
 		return fmt.Errorf("marshaling request to a header requires not nil pointer for field: %s", field.Name)
 	}
 
+	// generate opc-request-id if header value is nil and header name matches
+	value = generateOpcRequestID(headerName, value)
+
 	//if not mandatory and nil. Omit
 	if !mandatory && isNil(value) {
 		Debugf("Header value is not mandatory and is nil pointer in field: %s. Skipping header", field.Name)
@@ -888,4 +891,25 @@ func UnmarshalResponseWithPolymorphicBody(httpResponse *http.Response, responseS
 	}
 
 	return nil
+}
+
+// generate request id if user not provided and for each retry operation re-gen a new request id
+func generateOpcRequestID(headerName string, value reflect.Value) (newValue reflect.Value) {
+	newValue = value
+	isNilValue := isNil(newValue)
+	isOpcRequestIDHeader := headerName == requestHeaderOpcRequestID || headerName == requestHeaderOpcClientRequestID
+
+	if isNilValue && isOpcRequestIDHeader {
+		requestID, err := generateRandUUID()
+
+		if err != nil {
+			// this will not fail the request, just skip add opc-request-id
+			Debugf("unable to generate opc-request-id. %s", err.Error())
+		} else {
+			newValue = reflect.ValueOf(String(requestID))
+			Debugf("add request id for header: %s, with value: %s", headerName, requestID)
+		}
+	}
+
+	return
 }

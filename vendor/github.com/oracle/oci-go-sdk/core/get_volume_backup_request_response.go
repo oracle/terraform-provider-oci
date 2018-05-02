@@ -14,6 +14,10 @@ type GetVolumeBackupRequest struct {
 	// The OCID of the volume backup.
 	VolumeBackupId *string `mandatory:"true" contributesTo:"path" name:"volumeBackupId"`
 
+	// Unique Oracle-assigned identifier for the request.
+	// If you need to contact Oracle about a particular request, please provide the request ID.
+	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

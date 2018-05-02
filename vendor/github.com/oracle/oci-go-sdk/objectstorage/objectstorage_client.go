@@ -21,16 +21,6 @@ type ObjectStorageClient struct {
 	config *common.ConfigurationProvider
 }
 
-func buildSigner(configProvider common.ConfigurationProvider) common.HTTPRequestSigner {
-	objStorageHeaders := []string{"date", "(request-target)", "host"}
-	defaultBodyHeaders := []string{"content-length", "content-type", "x-content-sha256"}
-	shouldHashBody := func(r *http.Request) bool {
-		return r.Method == http.MethodPost
-	}
-	signer := common.RequestSignerWithBodyHashingPredicate(configProvider, objStorageHeaders, defaultBodyHeaders, shouldHashBody)
-	return signer
-}
-
 // NewObjectStorageClientWithConfigurationProvider Creates a new default ObjectStorage client with the given configuration provider.
 // the configuration provider will be used for the default signer as well as reading the region
 func NewObjectStorageClientWithConfigurationProvider(configProvider common.ConfigurationProvider) (client ObjectStorageClient, err error) {
@@ -38,7 +28,6 @@ func NewObjectStorageClientWithConfigurationProvider(configProvider common.Confi
 	if err != nil {
 		return
 	}
-	baseClient.Signer = buildSigner(configProvider)
 
 	client = ObjectStorageClient{BaseClient: baseClient}
 	err = client.setConfigurationProvider(configProvider)
@@ -58,8 +47,8 @@ func (client *ObjectStorageClient) setConfigurationProvider(configProvider commo
 
 	// Error has been checked already
 	region, _ := configProvider.Region()
-	client.config = &configProvider
 	client.SetRegion(region)
+	client.config = &configProvider
 	return nil
 }
 
@@ -860,6 +849,7 @@ func (client ObjectStorageClient) listPreauthenticatedRequests(ctx context.Conte
 
 // PutObject Creates a new object or overwrites an existing one.
 func (client ObjectStorageClient) PutObject(ctx context.Context, request PutObjectRequest) (response PutObjectResponse, err error) {
+	client.Signer = common.RequestSignerExcludeBody(*client.config)
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
 	if request.RetryPolicy() != nil {
@@ -1059,6 +1049,7 @@ func (client ObjectStorageClient) updateNamespaceMetadata(ctx context.Context, r
 
 // UploadPart Uploads a single part of a multipart upload.
 func (client ObjectStorageClient) UploadPart(ctx context.Context, request UploadPartRequest) (response UploadPartResponse, err error) {
+	client.Signer = common.RequestSignerExcludeBody(*client.config)
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
 	if request.RetryPolicy() != nil {

@@ -45,6 +45,7 @@ const (
 	testGroupDisplayName         = "GOSDK2_Test_Deps_TestGroup"
 	tagDisplayName               = "GOSDK2_Test_Deps_Tag"
 	tagNamespaceDisplayName      = "GOSDK2_Test_Deps_TagNamespcae"
+	testImageDisplayName         = "Oracle-Linux-7.4-2018.02.21-1"
 )
 
 // a helper method to either create a new vcn or get the one already exist
@@ -321,7 +322,7 @@ func createOrGetInstance(t *testing.T) core.Instance {
 
 	// search image by display name to make integration test running more relaible
 	// i.e. ServiceLimitExeceed error etc...
-	images := listImagesByDisplayName(t, common.String("Oracle-Linux-7.4-2018.01.20-0"))
+	images := listImagesByDisplayName(t, common.String(testImageDisplayName))
 	assert.NotEmpty(t, images)
 	createRequest.ImageId = images[0].Id
 
@@ -998,8 +999,8 @@ func createOrGetTestGroup(t *testing.T) identity.Group {
 	failIfError(t, clerr)
 
 	listReq := identity.ListGroupsRequest{
-		CompartmentId: common.String(getTenancyID()),
-		Limit:         common.Int(500),
+		CompartmentId:   common.String(getTenancyID()),
+		Limit:           common.Int(500),
 		RequestMetadata: getRequestMetadataWithDefaultRetryPolicy(),
 	}
 

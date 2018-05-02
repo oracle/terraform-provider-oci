@@ -17,7 +17,7 @@ import (
 type PathRouteSet struct {
 
 	// The unique name for this set of path route rules. Avoid entering confidential information.
-	// Example: `path-route-set-001`
+	// Example: `example_path_route_set`
 	Name *string `mandatory:"true" json:"name"`
 
 	// The set of path route rules.

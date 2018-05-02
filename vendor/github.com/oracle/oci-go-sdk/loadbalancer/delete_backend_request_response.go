@@ -15,11 +15,11 @@ type DeleteBackendRequest struct {
 	LoadBalancerId *string `mandatory:"true" contributesTo:"path" name:"loadBalancerId"`
 
 	// The name of the backend set associated with the backend server.
-	// Example: `My_backend_set`
+	// Example: `example_backend_set`
 	BackendSetName *string `mandatory:"true" contributesTo:"path" name:"backendSetName"`
 
 	// The IP address and port of the backend server to remove.
-	// Example: `1.1.1.7:42`
+	// Example: `10.0.0.3:8080`
 	BackendName *string `mandatory:"true" contributesTo:"path" name:"backendName"`
 
 	// The unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
