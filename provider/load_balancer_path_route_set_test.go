@@ -18,7 +18,7 @@ resource "oci_load_balancer_path_route_set" "test_path_route_set" {
 	name = "${var.path_route_set_name}"
 	path_routes {
 		#Required
-		backend_set_name = "${oci_load_balancer_backendset.test_backend_set.name}"
+		backend_set_name = "${oci_load_balancer_backend_set.test_backend_set.name}"
 		path = "${var.path_route_set_path_routes_path}"
 		path_match_type {
 			#Required
@@ -28,7 +28,7 @@ resource "oci_load_balancer_path_route_set" "test_path_route_set" {
 }
 `
 	PathRouteSetPropertyVariables = `
-variable "path_route_set_name" { default = "path-route-set-001" }
+variable "path_route_set_name" { default = "example_path_route_set" }
 variable "path_route_set_path_routes_path" { default = "/example/video/123" }
 variable "path_route_set_path_routes_path_match_type_match_type" { default = "EXACT_MATCH" }
 
@@ -62,7 +62,7 @@ func TestLoadBalancerPathRouteSetResource_basic(t *testing.T) {
 				Config:            config + PathRouteSetPropertyVariables + compartmentIdVariableStr + PathRouteSetResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
-					resource.TestCheckResourceAttr(resourceName, "name", "path-route-set-001"),
+					resource.TestCheckResourceAttr(resourceName, "name", "example_path_route_set"),
 					resource.TestCheckResourceAttr(resourceName, "path_routes.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "path_routes.0.backend_set_name"),
 					resource.TestCheckResourceAttr(resourceName, "path_routes.0.path", "/example/video/123"),
@@ -79,14 +79,14 @@ func TestLoadBalancerPathRouteSetResource_basic(t *testing.T) {
 			// verify updates to updatable parameters
 			{
 				Config: config + `
-variable "path_route_set_name" { default = "path-route-set-001" }
+variable "path_route_set_name" { default = "example_path_route_set" }
 variable "path_route_set_path_routes_path" { default = "/example/video/123" }
 variable "path_route_set_path_routes_path_match_type_match_type" { default = "EXACT_MATCH" }
 
                 ` + compartmentIdVariableStr + PathRouteSetResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
-					resource.TestCheckResourceAttr(resourceName, "name", "path-route-set-001"),
+					resource.TestCheckResourceAttr(resourceName, "name", "example_path_route_set"),
 					resource.TestCheckResourceAttr(resourceName, "path_routes.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "path_routes.0.backend_set_name"),
 					resource.TestCheckResourceAttr(resourceName, "path_routes.0.path", "/example/video/123"),
@@ -182,7 +182,7 @@ func TestLoadBalancerPathRouteSetResource_forcenew(t *testing.T) {
 				Config: config + PathRouteSetPropertyVariables + compartmentIdVariableStr + PathRouteSetResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
-					resource.TestCheckResourceAttr(resourceName, "name", "path-route-set-001"),
+					resource.TestCheckResourceAttr(resourceName, "name", "example_path_route_set"),
 					resource.TestCheckResourceAttr(resourceName, "path_routes.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "path_routes.0.backend_set_name"),
 					resource.TestCheckResourceAttr(resourceName, "path_routes.0.path", "/example/video/123"),

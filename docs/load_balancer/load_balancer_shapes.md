@@ -28,4 +28,4 @@ data "oci_load_balancer_shapes" "test_load_balancer_shapes" {
 
 The following attributes are exported:
 
-* `name` - The name of the shape.
+* `name` - The name of the shape.  Example: `100Mbps` 

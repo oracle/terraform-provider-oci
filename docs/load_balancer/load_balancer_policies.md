@@ -28,4 +28,4 @@ data "oci_load_balancer_policies" "test_load_balancer_policies" {
 
 The following attributes are exported:
 
-* `name` - The name of the load balancing policy.
+* `name` - The name of a load balancing policy.  Example: 'LEAST_CONNECTIONS' 

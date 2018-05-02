@@ -60,7 +60,7 @@ resource "oci_load_balancer_load_balancer" "test_load_balancer" {
 `
 	LoadBalancerPropertyVariables = `
 variable "load_balancer_detail" { default = "detail" }
-variable "load_balancer_display_name" { default = "demoLoadBalancer" }
+variable "load_balancer_display_name" { default = "example_load_balancer" }
 variable "load_balancer_is_private" { default = false }
 variable "load_balancer_shape" { default = "100Mbps" }
 variable "load_balancer_state" { default = "state" }
@@ -126,7 +126,7 @@ func TestLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 				Config:            config + LoadBalancerPropertyVariables + compartmentIdVariableStr + LoadBalancerRequiredOnlyResource,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "demoLoadBalancer"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "example_load_balancer"),
 					resource.TestCheckResourceAttr(resourceName, "shape", "100Mbps"),
 					resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "2"),
 
@@ -146,7 +146,7 @@ func TestLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 				Config: config + LoadBalancerPropertyVariables + compartmentIdVariableStr + LoadBalancerResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "demoLoadBalancer"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "example_load_balancer"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "is_private", "false"),
 					resource.TestCheckResourceAttr(resourceName, "shape", "100Mbps"),
@@ -165,7 +165,7 @@ func TestLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 			{
 				Config: config + `
 variable "load_balancer_detail" { default = "detail" }
-variable "load_balancer_display_name" { default = "demoLoadBalancer" }
+variable "load_balancer_display_name" { default = "example_load_balancer" }
 variable "load_balancer_is_private" { default = false }
 variable "load_balancer_shape" { default = "100Mbps" }
 variable "load_balancer_state" { default = "state" }
@@ -173,7 +173,7 @@ variable "load_balancer_state" { default = "state" }
                 ` + compartmentIdVariableStr + LoadBalancerResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "demoLoadBalancer"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "example_load_balancer"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "is_private", "false"),
 					resource.TestCheckResourceAttr(resourceName, "shape", "100Mbps"),
@@ -287,7 +287,7 @@ func TestLoadBalancerLoadBalancerResource_forcenew(t *testing.T) {
 				Config: config + LoadBalancerPropertyVariables + compartmentIdVariableStr + LoadBalancerResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "demoLoadBalancer"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "example_load_balancer"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "is_private", "false"),
 					resource.TestCheckResourceAttr(resourceName, "shape", "100Mbps"),
@@ -306,14 +306,14 @@ func TestLoadBalancerLoadBalancerResource_forcenew(t *testing.T) {
 			{
 				Config: config + `
 variable "load_balancer_detail" { default = "detail" }
-variable "load_balancer_display_name" { default = "demoLoadBalancer" }
+variable "load_balancer_display_name" { default = "example_load_balancer" }
 variable "load_balancer_is_private" { default = false }
 variable "load_balancer_shape" { default = "100Mbps" }
 variable "load_balancer_state" { default = "state" }
 				` + compartmentIdVariableStr2 + LoadBalancerResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId2),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "demoLoadBalancer"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "example_load_balancer"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "is_private", "false"),
 					resource.TestCheckResourceAttr(resourceName, "shape", "100Mbps"),
@@ -335,14 +335,14 @@ variable "load_balancer_state" { default = "state" }
 			{
 				Config: config + `
 variable "load_balancer_detail" { default = "detail" }
-variable "load_balancer_display_name" { default = "demoLoadBalancer" }
+variable "load_balancer_display_name" { default = "example_load_balancer" }
 variable "load_balancer_is_private" { default = true }
 variable "load_balancer_shape" { default = "100Mbps" }
 variable "load_balancer_state" { default = "state" }
 				` + compartmentIdVariableStr2 + LoadBalancerOneSubnetResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId2),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "demoLoadBalancer"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "example_load_balancer"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "is_private", "true"),
 					resource.TestCheckResourceAttr(resourceName, "shape", "100Mbps"),
@@ -364,14 +364,14 @@ variable "load_balancer_state" { default = "state" }
 			{
 				Config: config + `
 variable "load_balancer_detail" { default = "detail" }
-variable "load_balancer_display_name" { default = "demoLoadBalancer" }
+variable "load_balancer_display_name" { default = "example_load_balancer" }
 variable "load_balancer_is_private" { default = true }
 variable "load_balancer_shape" { default = "400Mbps" }
 variable "load_balancer_state" { default = "state" }
 				` + compartmentIdVariableStr2 + LoadBalancerOneSubnetResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId2),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "demoLoadBalancer"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "example_load_balancer"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "is_private", "true"),
 					resource.TestCheckResourceAttr(resourceName, "shape", "400Mbps"),
@@ -393,14 +393,14 @@ variable "load_balancer_state" { default = "state" }
 			{
 				Config: config + `
 variable "load_balancer_detail" { default = "detail" }
-variable "load_balancer_display_name" { default = "demoLoadBalancer" }
+variable "load_balancer_display_name" { default = "example_load_balancer" }
 variable "load_balancer_is_private" { default = true }
 variable "load_balancer_shape" { default = "400Mbps" }
 variable "load_balancer_state" { default = "state" }
 				` + compartmentIdVariableStr2 + LoadBalancerOneSubnetUpdateResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId2),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "demoLoadBalancer"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "example_load_balancer"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "is_private", "true"),
 					resource.TestCheckResourceAttr(resourceName, "shape", "400Mbps"),

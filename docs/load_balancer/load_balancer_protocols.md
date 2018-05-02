@@ -28,4 +28,4 @@ data "oci_load_balancer_protocols" "test_load_balancer_protocols" {
 
 The following attributes are exported:
 
-* `name` - The name of the protocol.
+* `name` - The name of a protocol.  Example: 'HTTP' 

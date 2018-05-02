@@ -9,12 +9,12 @@
 The following attributes are exported:
 
 * `compartment_id` - The [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the compartment containing the load balancer.
-* `display_name` - A user-friendly name. It does not have to be unique, and it is changeable.  Example: `My load balancer` 
+* `display_name` - A user-friendly name. It does not have to be unique, and it is changeable.  Example: `example_load_balancer` 
 * `id` - The [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the load balancer.
 * `ip_addresses` - An array of IP addresses. 
-	* `ip_address` - An IP address.  Example: `128.148.10.20` 
+	* `ip_address` - An IP address.  Example: `192.168.0.3` 
 	* `is_public` - Whether the IP address is public or private.  If "true", the IP address is public and accessible from the internet.  If "false", the IP address is private and accessible only from within the associated VCN. 
-* `is_private` - Whether the load balancer has a VCN-local (private) IP address.  If "true", the service assigns a private IP address to the load balancer. The load balancer requires only one subnet to host both the primary and secondary load balancers. The private IP address is local to the subnet. The load balancer is accessible only from within the VCN that contains the associated subnet, or as further restricted by your security list rules. The load balancer can route traffic to any backend server that is reachable from the VCN.  For a private load balancer, both the primary and secondary load balancer hosts are within the same Availability Domain.  If "false", the service assigns a public IP address to the load balancer. A load balancer with a public IP address requires two subnets, each in a different Availability Domain. One subnet hosts the primary load balancer and the other hosts the secondary (standby) load balancer. A public load balancer is accessible from the internet, depending on your VCN's [security list rules](https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Concepts/securitylists.htm). 
+* `is_private` - Whether the load balancer has a VCN-local (private) IP address.  If "true", the service assigns a private IP address to the load balancer. The load balancer requires only one subnet to host both the primary and secondary load balancers. The private IP address is local to the subnet. The load balancer is accessible only from within the VCN that contains the associated subnet, or as further restricted by your security list rules. The load balancer can route traffic to any backend server that is reachable from the VCN.  For a private load balancer, both the primary and secondary load balancer hosts are within the same Availability Domain.  If "false", the service assigns a public IP address to the load balancer. A load balancer with a public IP address requires two subnets, each in a different Availability Domain. One subnet hosts the primary load balancer and the other hosts the secondary (standby) load balancer. A public load balancer is accessible from the internet, depending on your VCN's [security list rules](https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Concepts/securitylists.htm).  Example: `true` 
 * `shape` - A template that determines the total pre-provisioned bandwidth (ingress plus egress). To get a list of available shapes, use the [ListShapes](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/loadbalancer/20170115/LoadBalancerShape/ListShapes) operation.  Example: `100Mbps` 
 * `state` - The current state of the load balancer. 
 * `subnet_ids` - An array of subnet [OCIDs](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
@@ -55,8 +55,8 @@ To get the IP address, use the [GetLoadBalancer](https://docs.us-phoenix-1.oracl
 The following arguments are supported:
 
 * `compartment_id` - (Required) The [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the compartment in which to create the load balancer.
-* `display_name` - (Required) A user-friendly name. It does not have to be unique, and it is changeable. Avoid entering confidential information.  Example: `My load balancer` 
-* `is_private` - (Optional) Whether the load balancer has a VCN-local (private) IP address.  If "true", the service assigns a private IP address to the load balancer. The load balancer requires only one subnet to host both the primary and secondary load balancers. The private IP address is local to the subnet. The load balancer is accessible only from within the VCN that contains the associated subnet, or as further restricted by your security list rules. The load balancer can route traffic to any backend server that is reachable from the VCN.  For a private load balancer, both the primary and secondary load balancer hosts are within the same Availability Domain.  If "false", the service assigns a public IP address to the load balancer. A load balancer with a public IP address requires two subnets, each in a different Availability Domain. One subnet hosts the primary load balancer and the other hosts the secondary (standby) load balancer. A public load balancer is accessible from the internet, depending on your VCN's [security list rules](https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Concepts/securitylists.htm).  Example: `false` 
+* `display_name` - (Required) A user-friendly name. It does not have to be unique, and it is changeable. Avoid entering confidential information.  Example: `example_load_balancer` 
+* `is_private` - (Optional) Whether the load balancer has a VCN-local (private) IP address.  If "true", the service assigns a private IP address to the load balancer. The load balancer requires only one subnet to host both the primary and secondary load balancers. The private IP address is local to the subnet. The load balancer is accessible only from within the VCN that contains the associated subnet, or as further restricted by your security list rules. The load balancer can route traffic to any backend server that is reachable from the VCN.  For a private load balancer, both the primary and secondary load balancer hosts are within the same Availability Domain.  If "false", the service assigns a public IP address to the load balancer. A load balancer with a public IP address requires two subnets, each in a different Availability Domain. One subnet hosts the primary load balancer and the other hosts the secondary (standby) load balancer. A public load balancer is accessible from the internet, depending on your VCN's [security list rules](https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Concepts/securitylists.htm).  Example: `true` 
 * `shape` - (Required) A template that determines the total pre-provisioned bandwidth (ingress plus egress). To get a list of available shapes, use the [ListShapes](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/loadbalancer/20170115/LoadBalancerShape/ListShapes) operation.  Example: `100Mbps` 
 * `subnet_ids` - (Required) An array of subnet [OCIDs](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
 
@@ -65,7 +65,7 @@ The following arguments are supported:
 Updates a load balancer's configuration.
 
 The following arguments support updates:
-* `display_name` - A user-friendly name. It does not have to be unique, and it is changeable. Avoid entering confidential information.  Example: `My load balancer` 
+* `display_name` - A user-friendly name. It does not have to be unique, and it is changeable. Avoid entering confidential information.  Example: `example_load_balancer` 
 
 
 ** IMPORTANT **
@@ -99,8 +99,8 @@ The following arguments are supported:
 
 * `compartment_id` - (Required) The [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the compartment containing the load balancers to list.
 * `detail` - (Optional) The level of detail to return for each result. Can be `full` or `simple`.  Example: `full` 
-* `display_name` - (Optional) A filter to return only resources that match the given display name exactly. 
-* `state` - (Optional) A filter to return only resources that match the given lifecycle state. 
+* `display_name` - (Optional) A filter to return only resources that match the given display name exactly.  Example: `example_load_balancer` 
+* `state` - (Optional) A filter to return only resources that match the given lifecycle state.  Example: `SUCCEEDED` 
 
 
 The following attributes are exported:
