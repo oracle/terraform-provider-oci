@@ -186,8 +186,8 @@ func (s *ResourceLoadBalancerBackendTestSuite) TestAccResourceLoadBalancerBacken
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(loadbalancer.WorkRequestLifecycleStateSucceeded)),
 					func(ts *terraform.State) (err error) {
 						res2, err = fromInstanceState(ts, s.ResourceName, "name")
-						if res == res2 {
-							return fmt.Errorf("new resource expected to be created but was not")
+						if res != res2 {
+							return fmt.Errorf("resource was unexpectedly recreated while updating updatable properties")
 						}
 						return err
 					},
