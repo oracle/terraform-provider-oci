@@ -9,7 +9,7 @@ The following attributes are exported:
 * `compartment_id` - The OCID of the compartment containing the Local Peering Gateway (LPG).
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `id` - The LPG's Oracle ID (OCID).
-* `is_cross_tenancy_peering` - Whether the VCN at the other end of the peering is in a different tenancy.  Cross tenancy local peering will be enabled when identity enables cross-tenancy authorization policies. Example: `false` 
+* `is_cross_tenancy_peering` - Whether the VCN at the other end of the peering is in a different tenancy.  Example: `false` 
 * `peer_advertised_cidr` - The range of IP addresses available on the VCN at the other end of the peering from this LPG. The value is `null` if the LPG is not peered. You can use this as the destination CIDR for a route rule to route a subnet's traffic to this LPG.  Example: `192.168.0.0/16` 
 * `peering_status` - Whether the LPG is peered with another LPG. `NEW` means the LPG has not yet been peered. `PENDING` means the peering is being established. `REVOKED` means the LPG at the other end of the peering has been deleted. 
 * `peering_status_details` - Additional information regarding the peering status, if applicable.
