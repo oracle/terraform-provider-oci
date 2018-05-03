@@ -184,7 +184,7 @@ func (s *LocalPeeringGatewayResourceCrud) ConnectLocalPeeringGateway() error {
 
 		// wait for peering status to not be Pending
 		waitForPeerStatusPolicy := &common.RetryPolicy{
-			ShouldRetryOperation:  waitForPeeringStatusShouldRetry(s.D.Timeout(schema.TimeoutCreate)),
+			ShouldRetryOperation:  waitForLPGPeeringStatusShouldRetry(s.D.Timeout(schema.TimeoutCreate)),
 			NextDuration:          nextDuration,
 			MaximumNumberAttempts: 0,
 		}
@@ -201,6 +201,10 @@ func (s *LocalPeeringGatewayResourceCrud) ConnectLocalPeeringGateway() error {
 			return getError
 		}
 		s.Res = &response.LocalPeeringGateway
+		if response.LocalPeeringGateway.PeeringStatus != oci_core.LocalPeeringGatewayPeeringStatusPeered {
+			s.D.Set("peer_id", "")
+			return fmt.Errorf("unexpected Peering Status `%s` after trying to connect to the peer Local Peering Gateway", string(response.LocalPeeringGateway.PeeringStatus))
+		}
 		s.SetData()
 	}
 	return nil
@@ -323,7 +327,7 @@ func (s *LocalPeeringGatewayResourceCrud) SetData() {
 
 }
 
-func waitForPeeringStatusShouldRetry(timeout time.Duration) func(response common.OCIOperationResponse) bool {
+func waitForLPGPeeringStatusShouldRetry(timeout time.Duration) func(response common.OCIOperationResponse) bool {
 	return func(response common.OCIOperationResponse) bool {
 		if shouldRetry(response, false, "core") {
 			return true
