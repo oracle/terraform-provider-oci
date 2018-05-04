@@ -94,6 +94,6 @@ while [ $t -le 120 ]; do
 	t=$((t+5))
 done;
 echo -e "Starting CDH Manager..."
-docker exec -it ${quickstart_ps} /home/cloudera/cloudera-manager --enterprise
+docker exec -it ${quickstart_ps} /home/cloudera/cloudera-manager --express
 
 
