@@ -79,7 +79,7 @@ resource "oci_core_subnet" "public" {
   count = "3"
   availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[count.index],"name")}"
   cidr_block = "${cidrsubnet(var.VPC-CIDR, 8, count.index)}"
-  display_name = "public_ad${count.index}"
+  display_name = "public_ad${count.index + 1}"
   compartment_id = "${var.compartment_ocid}"
   vcn_id = "${oci_core_virtual_network.cloudera_vcn.id}"
   route_table_id = "${oci_core_route_table.RouteForComplete.id}"
