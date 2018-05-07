@@ -679,14 +679,14 @@ func mapToInstanceSourceDetails(raw map[string]interface{}) oci_core.InstanceSou
 	case strings.ToLower(InstanceSourceImageDiscriminator):
 		result := oci_core.InstanceSourceViaImageDetails{}
 		result.ImageId = &sourceId
-
-		if bootVolumeSizeInGBs, ok := raw["boot_volume_size_in_gbs"]; ok {
-			tmp := bootVolumeSizeInGBs.(int)
-			if tmp != 0 {
-				result.BootVolumeSizeInGBs = &tmp
+		/*
+			if bootVolumeSizeInGBs, ok := raw["boot_volume_size_in_gbs"]; ok {
+				tmp := bootVolumeSizeInGBs.(int)
+				if tmp != 0 {
+					result.BootVolumeSizeInGBs = &tmp
+				}
 			}
-		}
-
+		*/
 		return result
 	default:
 		log.Printf("[WARN] Unknown source_type '%v' was specified", sourceType)
@@ -710,9 +710,9 @@ func InstanceSourceDetailsToMap(obj *oci_core.InstanceSourceDetails, bootVolume 
 			result["source_id"] = *v.ImageId
 		}
 
-		if v.BootVolumeSizeInGBs != nil {
+		/*if v.BootVolumeSizeInGBs != nil {
 			result["boot_volume_size_in_gbs"] = *v.BootVolumeSizeInGBs
-		} else if bootVolume != nil && bootVolume.SizeInGBs != nil {
+		} else */if bootVolume != nil && bootVolume.SizeInGBs != nil {
 			// The service could omit the boot volume size in the InstanceSourceViaImageDetails, so use the boot volume
 			// SizeInGBs property if that's the case.
 			result["boot_volume_size_in_gbs"] = *bootVolume.SizeInGBs
