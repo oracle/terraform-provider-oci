@@ -60,6 +60,12 @@ type CreateSubnetDetails struct {
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
+	// Whether learning mode is enabled for this subnet. The default is `false`.
+	// **Note:** When a subnet has learning mode enabled, only certain types
+	// of resources can be launched in the subnet.
+	// Example: `true`
+	IsLearningEnabled *bool `mandatory:"false" json:"isLearningEnabled"`
+
 	// Whether VNICs within this subnet can have public IP addresses.
 	// Defaults to false, which means VNICs created in this subnet will
 	// automatically be assigned public IP addresses unless specified

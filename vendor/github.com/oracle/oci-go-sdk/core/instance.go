@@ -63,6 +63,13 @@ type Instance struct {
 	// If you don't need nested metadata values, it is strongly advised to avoid using this object and use the Metadata object instead.
 	ExtendedMetadata map[string]interface{} `mandatory:"false" json:"extendedMetadata"`
 
+	// The name of the Fault Domain the instance is running in.
+	// A Fault Domain is a logical grouping of hardware and infrastructure within an Availability Domain that can become
+	// unavailable in its entirety either due to hardware failure such as Top-of-rack (TOR) switch failure or due to
+	// planned software maintenance such as security updates that reboot your instances.
+	// Example: `FAULT-DOMAIN-1`
+	FaultDomain *string `mandatory:"false" json:"faultDomain"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no
 	// predefined name, type, or namespace. For more information, see
 	// Resource Tags (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).
@@ -95,6 +102,7 @@ type Instance struct {
 	// Specifies the configuration mode for launching virtual machine (VM) instances. The configuration modes are:
 	// * `NATIVE` - VM instances launch with iSCSI boot and VFIO devices. The default value for Oracle-provided images.
 	// * `EMULATED` - VM instances launch with emulated devices, such as the E1000 network driver and emulated SCSI disk controller.
+	// * `PARAVIRTUALIZED` - VM instances launch with paravirtualized devices using virtio drivers.
 	// * `CUSTOM` - VM instances launch with custom configuration settings specified in the `LaunchOptions` parameter.
 	LaunchMode InstanceLaunchModeEnum `mandatory:"false" json:"launchMode,omitempty"`
 
@@ -117,6 +125,7 @@ func (m *Instance) UnmarshalJSON(data []byte) (e error) {
 		DefinedTags        map[string]map[string]interface{} `json:"definedTags"`
 		DisplayName        *string                           `json:"displayName"`
 		ExtendedMetadata   map[string]interface{}            `json:"extendedMetadata"`
+		FaultDomain        *string                           `json:"faultDomain"`
 		FreeformTags       map[string]string                 `json:"freeformTags"`
 		ImageId            *string                           `json:"imageId"`
 		IpxeScript         *string                           `json:"ipxeScript"`
@@ -140,6 +149,7 @@ func (m *Instance) UnmarshalJSON(data []byte) (e error) {
 	m.DefinedTags = model.DefinedTags
 	m.DisplayName = model.DisplayName
 	m.ExtendedMetadata = model.ExtendedMetadata
+	m.FaultDomain = model.FaultDomain
 	m.FreeformTags = model.FreeformTags
 	m.ImageId = model.ImageId
 	m.IpxeScript = model.IpxeScript
@@ -166,15 +176,17 @@ type InstanceLaunchModeEnum string
 
 // Set of constants representing the allowable values for InstanceLaunchMode
 const (
-	InstanceLaunchModeNative   InstanceLaunchModeEnum = "NATIVE"
-	InstanceLaunchModeEmulated InstanceLaunchModeEnum = "EMULATED"
-	InstanceLaunchModeCustom   InstanceLaunchModeEnum = "CUSTOM"
+	InstanceLaunchModeNative          InstanceLaunchModeEnum = "NATIVE"
+	InstanceLaunchModeEmulated        InstanceLaunchModeEnum = "EMULATED"
+	InstanceLaunchModeParavirtualized InstanceLaunchModeEnum = "PARAVIRTUALIZED"
+	InstanceLaunchModeCustom          InstanceLaunchModeEnum = "CUSTOM"
 )
 
 var mappingInstanceLaunchMode = map[string]InstanceLaunchModeEnum{
-	"NATIVE":   InstanceLaunchModeNative,
-	"EMULATED": InstanceLaunchModeEmulated,
-	"CUSTOM":   InstanceLaunchModeCustom,
+	"NATIVE":          InstanceLaunchModeNative,
+	"EMULATED":        InstanceLaunchModeEmulated,
+	"PARAVIRTUALIZED": InstanceLaunchModeParavirtualized,
+	"CUSTOM":          InstanceLaunchModeCustom,
 }
 
 // GetInstanceLaunchModeEnumValues Enumerates the set of values for InstanceLaunchMode

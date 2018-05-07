@@ -19,6 +19,9 @@ type Shape struct {
 	// The name of the shape. You can enumerate all available shapes by calling
 	// ListShapes.
 	Shape *string `mandatory:"true" json:"shape"`
+
+	// The shape's Availability Domain.
+	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
 }
 
 func (m Shape) String() string {

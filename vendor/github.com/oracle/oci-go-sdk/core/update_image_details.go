@@ -30,6 +30,14 @@ type UpdateImageDetails struct {
 	// Resource Tags (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// Operating system
+	// Example: `Oracle Linux`
+	OperatingSystem *string `mandatory:"false" json:"operatingSystem"`
+
+	// Operating system version
+	// Example: `7.4`
+	OperatingSystemVersion *string `mandatory:"false" json:"operatingSystemVersion"`
 }
 
 func (m UpdateImageDetails) String() string {

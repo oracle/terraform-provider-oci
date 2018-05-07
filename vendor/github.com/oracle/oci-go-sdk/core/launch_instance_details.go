@@ -48,6 +48,12 @@ type LaunchInstanceDetails struct {
 	// If you don't need nested metadata values, it is strongly advised to avoid using this object and use the Metadata object instead.
 	ExtendedMetadata map[string]interface{} `mandatory:"false" json:"extendedMetadata"`
 
+	// The name of the Fault Domain in which to launch an instance.
+	// To get a list of Fault Domains, use the ListFaultDomains
+	// operation in the Identity and Access Management Service API.
+	// Example: `FAULT-DOMAIN-1`
+	FaultDomain *string `mandatory:"false" json:"faultDomain"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no
 	// predefined name, type, or namespace. For more information, see
 	// Resource Tags (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).
@@ -137,6 +143,9 @@ type LaunchInstanceDetails struct {
 	// CreateVnicDetails.
 	// At least one of them is required; if you provide both, the values must match.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
+
+	// Volume attachments to create as part of the launch instance operation.
+	VolumeAttachments []CreateVolumeAttachmentDetails `mandatory:"false" json:"volumeAttachments"`
 }
 
 func (m LaunchInstanceDetails) String() string {
@@ -150,6 +159,7 @@ func (m *LaunchInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 		DefinedTags        map[string]map[string]interface{} `json:"definedTags"`
 		DisplayName        *string                           `json:"displayName"`
 		ExtendedMetadata   map[string]interface{}            `json:"extendedMetadata"`
+		FaultDomain        *string                           `json:"faultDomain"`
 		FreeformTags       map[string]string                 `json:"freeformTags"`
 		HostnameLabel      *string                           `json:"hostnameLabel"`
 		ImageId            *string                           `json:"imageId"`
@@ -157,6 +167,7 @@ func (m *LaunchInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 		Metadata           map[string]string                 `json:"metadata"`
 		SourceDetails      instancesourcedetails             `json:"sourceDetails"`
 		SubnetId           *string                           `json:"subnetId"`
+		VolumeAttachments  []createvolumeattachmentdetails   `json:"volumeAttachments"`
 		AvailabilityDomain *string                           `json:"availabilityDomain"`
 		CompartmentId      *string                           `json:"compartmentId"`
 		Shape              *string                           `json:"shape"`
@@ -170,6 +181,7 @@ func (m *LaunchInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 	m.DefinedTags = model.DefinedTags
 	m.DisplayName = model.DisplayName
 	m.ExtendedMetadata = model.ExtendedMetadata
+	m.FaultDomain = model.FaultDomain
 	m.FreeformTags = model.FreeformTags
 	m.HostnameLabel = model.HostnameLabel
 	m.ImageId = model.ImageId
@@ -181,6 +193,14 @@ func (m *LaunchInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 	}
 	m.SourceDetails = nn.(InstanceSourceDetails)
 	m.SubnetId = model.SubnetId
+	m.VolumeAttachments = make([]CreateVolumeAttachmentDetails, len(model.VolumeAttachments))
+	for i, n := range model.VolumeAttachments {
+		nn, err := n.UnmarshalPolymorphicJSON(n.JsonData)
+		if err != nil {
+			return err
+		}
+		m.VolumeAttachments[i] = nn.(CreateVolumeAttachmentDetails)
+	}
 	m.AvailabilityDomain = model.AvailabilityDomain
 	m.CompartmentId = model.CompartmentId
 	m.Shape = model.Shape

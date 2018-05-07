@@ -44,9 +44,6 @@ const (
 	// requestHeaderOpcClientInfo The key for passing a header to indicate OPC Client Info
 	requestHeaderOpcClientInfo = "opc-client-info"
 
-	// requestHeaderOpcOboToken The key for passing a header to use obo token auth
-	requestHeaderOpcOboToken = "opc-obo-token"
-
 	// requestHeaderOpcRetryToken The key for passing a header to indicate OPC Retry Token
 	requestHeaderOpcRetryToken = "opc-retry-token"
 
@@ -280,7 +277,7 @@ func (client BaseClient) Call(ctx context.Context, request *http.Request) (respo
 		return
 	}
 	if oboToken != "" {
-		request.Header.Set(requestHeaderOpcOboToken, oboToken)
+		request.Header.Set("Opc-Obo-Token", oboToken)
 	}
 
 	//Intercept

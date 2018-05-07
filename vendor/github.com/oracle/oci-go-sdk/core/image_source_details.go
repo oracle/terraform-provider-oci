@@ -15,6 +15,9 @@ import (
 
 // ImageSourceDetails The representation of ImageSourceDetails
 type ImageSourceDetails interface {
+	GetOperatingSystem() *string
+
+	GetOperatingSystemVersion() *string
 
 	// The format of the image to be imported.  Exported Oracle images are QCOW2.  Only monolithic
 	// images are supported.
@@ -22,9 +25,11 @@ type ImageSourceDetails interface {
 }
 
 type imagesourcedetails struct {
-	JsonData        []byte
-	SourceImageType ImageSourceDetailsSourceImageTypeEnum `mandatory:"false" json:"sourceImageType,omitempty"`
-	SourceType      string                                `json:"sourceType"`
+	JsonData               []byte
+	OperatingSystem        *string                               `mandatory:"false" json:"operatingSystem"`
+	OperatingSystemVersion *string                               `mandatory:"false" json:"operatingSystemVersion"`
+	SourceImageType        ImageSourceDetailsSourceImageTypeEnum `mandatory:"false" json:"sourceImageType,omitempty"`
+	SourceType             string                                `json:"sourceType"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -38,6 +43,8 @@ func (m *imagesourcedetails) UnmarshalJSON(data []byte) error {
 	if err != nil {
 		return err
 	}
+	m.OperatingSystem = s.Model.OperatingSystem
+	m.OperatingSystemVersion = s.Model.OperatingSystemVersion
 	m.SourceImageType = s.Model.SourceImageType
 	m.SourceType = s.Model.SourceType
 
@@ -59,6 +66,16 @@ func (m *imagesourcedetails) UnmarshalPolymorphicJSON(data []byte) (interface{},
 	default:
 		return m, nil
 	}
+}
+
+//GetOperatingSystem returns OperatingSystem
+func (m imagesourcedetails) GetOperatingSystem() *string {
+	return m.OperatingSystem
+}
+
+//GetOperatingSystemVersion returns OperatingSystemVersion
+func (m imagesourcedetails) GetOperatingSystemVersion() *string {
+	return m.OperatingSystemVersion
 }
 
 //GetSourceImageType returns SourceImageType

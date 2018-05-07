@@ -22,6 +22,7 @@ type LaunchOptions struct {
 	// * `IDE` - Emulated IDE disk.
 	// * `VFIO` - Direct attached Virtual Function storage.  This is the default option for Local data
 	// volumes on Oracle provided images.
+	// * `PARAVIRTUALIZED` - Paravirtualized disk.
 	BootVolumeType LaunchOptionsBootVolumeTypeEnum `mandatory:"true" json:"bootVolumeType"`
 
 	// Firmware used to boot VM.  Select the option that matches your operating system.
@@ -34,6 +35,7 @@ type LaunchOptions struct {
 	// Emulation type for NIC.
 	// * `E1000` - Emulated Gigabit ethernet controller.  Compatible with Linux e1000 network driver.
 	// * `VFIO` - Direct attached Virtual Function network controller.  Default for Oracle provided images.
+	// * `PARAVIRTUALIZED` - VM instances launch with paravirtualized devices using virtio drivers.
 	NetworkType LaunchOptionsNetworkTypeEnum `mandatory:"true" json:"networkType"`
 
 	// Emulation type for volume.
@@ -43,6 +45,7 @@ type LaunchOptions struct {
 	// * `IDE` - Emulated IDE disk.
 	// * `VFIO` - Direct attached Virtual Function storage.  This is the default option for Local data
 	// volumes on Oracle provided images.
+	// * `PARAVIRTUALIZED` - Paravirtualized disk.
 	RemoteDataVolumeType LaunchOptionsRemoteDataVolumeTypeEnum `mandatory:"true" json:"remoteDataVolumeType"`
 }
 
@@ -55,17 +58,19 @@ type LaunchOptionsBootVolumeTypeEnum string
 
 // Set of constants representing the allowable values for LaunchOptionsBootVolumeType
 const (
-	LaunchOptionsBootVolumeTypeIscsi LaunchOptionsBootVolumeTypeEnum = "ISCSI"
-	LaunchOptionsBootVolumeTypeScsi  LaunchOptionsBootVolumeTypeEnum = "SCSI"
-	LaunchOptionsBootVolumeTypeIde   LaunchOptionsBootVolumeTypeEnum = "IDE"
-	LaunchOptionsBootVolumeTypeVfio  LaunchOptionsBootVolumeTypeEnum = "VFIO"
+	LaunchOptionsBootVolumeTypeIscsi           LaunchOptionsBootVolumeTypeEnum = "ISCSI"
+	LaunchOptionsBootVolumeTypeScsi            LaunchOptionsBootVolumeTypeEnum = "SCSI"
+	LaunchOptionsBootVolumeTypeIde             LaunchOptionsBootVolumeTypeEnum = "IDE"
+	LaunchOptionsBootVolumeTypeVfio            LaunchOptionsBootVolumeTypeEnum = "VFIO"
+	LaunchOptionsBootVolumeTypeParavirtualized LaunchOptionsBootVolumeTypeEnum = "PARAVIRTUALIZED"
 )
 
 var mappingLaunchOptionsBootVolumeType = map[string]LaunchOptionsBootVolumeTypeEnum{
-	"ISCSI": LaunchOptionsBootVolumeTypeIscsi,
-	"SCSI":  LaunchOptionsBootVolumeTypeScsi,
-	"IDE":   LaunchOptionsBootVolumeTypeIde,
-	"VFIO":  LaunchOptionsBootVolumeTypeVfio,
+	"ISCSI":           LaunchOptionsBootVolumeTypeIscsi,
+	"SCSI":            LaunchOptionsBootVolumeTypeScsi,
+	"IDE":             LaunchOptionsBootVolumeTypeIde,
+	"VFIO":            LaunchOptionsBootVolumeTypeVfio,
+	"PARAVIRTUALIZED": LaunchOptionsBootVolumeTypeParavirtualized,
 }
 
 // GetLaunchOptionsBootVolumeTypeEnumValues Enumerates the set of values for LaunchOptionsBootVolumeType
@@ -105,13 +110,15 @@ type LaunchOptionsNetworkTypeEnum string
 
 // Set of constants representing the allowable values for LaunchOptionsNetworkType
 const (
-	LaunchOptionsNetworkTypeE1000 LaunchOptionsNetworkTypeEnum = "E1000"
-	LaunchOptionsNetworkTypeVfio  LaunchOptionsNetworkTypeEnum = "VFIO"
+	LaunchOptionsNetworkTypeE1000           LaunchOptionsNetworkTypeEnum = "E1000"
+	LaunchOptionsNetworkTypeVfio            LaunchOptionsNetworkTypeEnum = "VFIO"
+	LaunchOptionsNetworkTypeParavirtualized LaunchOptionsNetworkTypeEnum = "PARAVIRTUALIZED"
 )
 
 var mappingLaunchOptionsNetworkType = map[string]LaunchOptionsNetworkTypeEnum{
-	"E1000": LaunchOptionsNetworkTypeE1000,
-	"VFIO":  LaunchOptionsNetworkTypeVfio,
+	"E1000":           LaunchOptionsNetworkTypeE1000,
+	"VFIO":            LaunchOptionsNetworkTypeVfio,
+	"PARAVIRTUALIZED": LaunchOptionsNetworkTypeParavirtualized,
 }
 
 // GetLaunchOptionsNetworkTypeEnumValues Enumerates the set of values for LaunchOptionsNetworkType
@@ -128,17 +135,19 @@ type LaunchOptionsRemoteDataVolumeTypeEnum string
 
 // Set of constants representing the allowable values for LaunchOptionsRemoteDataVolumeType
 const (
-	LaunchOptionsRemoteDataVolumeTypeIscsi LaunchOptionsRemoteDataVolumeTypeEnum = "ISCSI"
-	LaunchOptionsRemoteDataVolumeTypeScsi  LaunchOptionsRemoteDataVolumeTypeEnum = "SCSI"
-	LaunchOptionsRemoteDataVolumeTypeIde   LaunchOptionsRemoteDataVolumeTypeEnum = "IDE"
-	LaunchOptionsRemoteDataVolumeTypeVfio  LaunchOptionsRemoteDataVolumeTypeEnum = "VFIO"
+	LaunchOptionsRemoteDataVolumeTypeIscsi           LaunchOptionsRemoteDataVolumeTypeEnum = "ISCSI"
+	LaunchOptionsRemoteDataVolumeTypeScsi            LaunchOptionsRemoteDataVolumeTypeEnum = "SCSI"
+	LaunchOptionsRemoteDataVolumeTypeIde             LaunchOptionsRemoteDataVolumeTypeEnum = "IDE"
+	LaunchOptionsRemoteDataVolumeTypeVfio            LaunchOptionsRemoteDataVolumeTypeEnum = "VFIO"
+	LaunchOptionsRemoteDataVolumeTypeParavirtualized LaunchOptionsRemoteDataVolumeTypeEnum = "PARAVIRTUALIZED"
 )
 
 var mappingLaunchOptionsRemoteDataVolumeType = map[string]LaunchOptionsRemoteDataVolumeTypeEnum{
-	"ISCSI": LaunchOptionsRemoteDataVolumeTypeIscsi,
-	"SCSI":  LaunchOptionsRemoteDataVolumeTypeScsi,
-	"IDE":   LaunchOptionsRemoteDataVolumeTypeIde,
-	"VFIO":  LaunchOptionsRemoteDataVolumeTypeVfio,
+	"ISCSI":           LaunchOptionsRemoteDataVolumeTypeIscsi,
+	"SCSI":            LaunchOptionsRemoteDataVolumeTypeScsi,
+	"IDE":             LaunchOptionsRemoteDataVolumeTypeIde,
+	"VFIO":            LaunchOptionsRemoteDataVolumeTypeVfio,
+	"PARAVIRTUALIZED": LaunchOptionsRemoteDataVolumeTypeParavirtualized,
 }
 
 // GetLaunchOptionsRemoteDataVolumeTypeEnumValues Enumerates the set of values for LaunchOptionsRemoteDataVolumeType

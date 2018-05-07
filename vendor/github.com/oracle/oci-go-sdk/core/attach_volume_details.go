@@ -27,6 +27,12 @@ type AttachVolumeDetails interface {
 
 	// Whether the attachment was created in read-only mode.
 	GetIsReadOnly() *bool
+
+	// Whether the attachment should be created in shareable mode. If an attachment
+	// is created in shareable mode, then other instances can attach the same volume, provided
+	// that they also create their attachments in shareable mode. Only certain volume types can
+	// be attached in shareable mode. Defaults to false if not specified.
+	GetIsShareable() *bool
 }
 
 type attachvolumedetails struct {
@@ -35,6 +41,7 @@ type attachvolumedetails struct {
 	VolumeId    *string `mandatory:"true" json:"volumeId"`
 	DisplayName *string `mandatory:"false" json:"displayName"`
 	IsReadOnly  *bool   `mandatory:"false" json:"isReadOnly"`
+	IsShareable *bool   `mandatory:"false" json:"isShareable"`
 	Type        string  `json:"type"`
 }
 
@@ -53,6 +60,7 @@ func (m *attachvolumedetails) UnmarshalJSON(data []byte) error {
 	m.VolumeId = s.Model.VolumeId
 	m.DisplayName = s.Model.DisplayName
 	m.IsReadOnly = s.Model.IsReadOnly
+	m.IsShareable = s.Model.IsShareable
 	m.Type = s.Model.Type
 
 	return err
@@ -62,6 +70,14 @@ func (m *attachvolumedetails) UnmarshalJSON(data []byte) error {
 func (m *attachvolumedetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 	var err error
 	switch m.Type {
+	case "service_determined":
+		mm := AttachServiceDeterminedVolumeDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "emulated":
+		mm := AttachEmulatedVolumeDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "iscsi":
 		mm := AttachIScsiVolumeDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -93,6 +109,11 @@ func (m attachvolumedetails) GetDisplayName() *string {
 //GetIsReadOnly returns IsReadOnly
 func (m attachvolumedetails) GetIsReadOnly() *bool {
 	return m.IsReadOnly
+}
+
+//GetIsShareable returns IsShareable
+func (m attachvolumedetails) GetIsShareable() *bool {
+	return m.IsShareable
 }
 
 func (m attachvolumedetails) String() string {

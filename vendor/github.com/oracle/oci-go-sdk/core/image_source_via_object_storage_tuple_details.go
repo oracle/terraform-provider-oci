@@ -25,9 +25,23 @@ type ImageSourceViaObjectStorageTupleDetails struct {
 	// The Object Storage name for the image.
 	ObjectName *string `mandatory:"true" json:"objectName"`
 
+	OperatingSystem *string `mandatory:"false" json:"operatingSystem"`
+
+	OperatingSystemVersion *string `mandatory:"false" json:"operatingSystemVersion"`
+
 	// The format of the image to be imported.  Exported Oracle images are QCOW2.  Only monolithic
 	// images are supported.
 	SourceImageType ImageSourceDetailsSourceImageTypeEnum `mandatory:"false" json:"sourceImageType,omitempty"`
+}
+
+//GetOperatingSystem returns OperatingSystem
+func (m ImageSourceViaObjectStorageTupleDetails) GetOperatingSystem() *string {
+	return m.OperatingSystem
+}
+
+//GetOperatingSystemVersion returns OperatingSystemVersion
+func (m ImageSourceViaObjectStorageTupleDetails) GetOperatingSystemVersion() *string {
+	return m.OperatingSystemVersion
 }
 
 //GetSourceImageType returns SourceImageType

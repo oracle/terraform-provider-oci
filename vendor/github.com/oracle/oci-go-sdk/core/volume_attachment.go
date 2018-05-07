@@ -99,6 +99,10 @@ func (m *volumeattachment) UnmarshalPolymorphicJSON(data []byte) (interface{}, e
 		mm := IScsiVolumeAttachment{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "emulated":
+		mm := EmulatedVolumeAttachment{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "paravirtualized":
 		mm := ParavirtualizedVolumeAttachment{}
 		err = json.Unmarshal(data, &mm)
