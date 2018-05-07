@@ -70,19 +70,17 @@ type ServiceGatewayLifecycleStateEnum string
 
 // Set of constants representing the allowable values for ServiceGatewayLifecycleState
 const (
-	ServiceGatewayLifecycleStateCreating ServiceGatewayLifecycleStateEnum = "CREATING"
-	ServiceGatewayLifecycleStateActive   ServiceGatewayLifecycleStateEnum = "ACTIVE"
-	ServiceGatewayLifecycleStateFailed   ServiceGatewayLifecycleStateEnum = "FAILED"
-	ServiceGatewayLifecycleStateDeleting ServiceGatewayLifecycleStateEnum = "DELETING"
-	ServiceGatewayLifecycleStateDeleted  ServiceGatewayLifecycleStateEnum = "DELETED"
+	ServiceGatewayLifecycleStateProvisioning ServiceGatewayLifecycleStateEnum = "PROVISIONING"
+	ServiceGatewayLifecycleStateAvailable    ServiceGatewayLifecycleStateEnum = "AVAILABLE"
+	ServiceGatewayLifecycleStateTerminating  ServiceGatewayLifecycleStateEnum = "TERMINATING"
+	ServiceGatewayLifecycleStateTerminated   ServiceGatewayLifecycleStateEnum = "TERMINATED"
 )
 
 var mappingServiceGatewayLifecycleState = map[string]ServiceGatewayLifecycleStateEnum{
-	"CREATING": ServiceGatewayLifecycleStateCreating,
-	"ACTIVE":   ServiceGatewayLifecycleStateActive,
-	"FAILED":   ServiceGatewayLifecycleStateFailed,
-	"DELETING": ServiceGatewayLifecycleStateDeleting,
-	"DELETED":  ServiceGatewayLifecycleStateDeleted,
+	"CREATING":    ServiceGatewayLifecycleStateProvisioning,
+	"AVAILABLE":   ServiceGatewayLifecycleStateAvailable,
+	"TERMINATING": ServiceGatewayLifecycleStateTerminating,
+	"TERMINATED":  ServiceGatewayLifecycleStateTerminated,
 }
 
 // GetServiceGatewayLifecycleStateEnumValues Enumerates the set of values for ServiceGatewayLifecycleState
