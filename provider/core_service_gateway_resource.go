@@ -130,25 +130,25 @@ func (s *ServiceGatewayResourceCrud) ID() string {
 
 func (s *ServiceGatewayResourceCrud) CreatedPending() []string {
 	return []string{
-		string(oci_core.ServiceGatewayLifecycleStateCreating),
+		string(oci_core.ServiceGatewayLifecycleStateProvisioning),
 	}
 }
 
 func (s *ServiceGatewayResourceCrud) CreatedTarget() []string {
 	return []string{
-		string(oci_core.ServiceGatewayLifecycleStateActive),
+		string(oci_core.ServiceGatewayLifecycleStateAvailable),
 	}
 }
 
 func (s *ServiceGatewayResourceCrud) DeletedPending() []string {
 	return []string{
-		string(oci_core.ServiceGatewayLifecycleStateDeleting),
+		string(oci_core.ServiceGatewayLifecycleStateTerminating),
 	}
 }
 
 func (s *ServiceGatewayResourceCrud) DeletedTarget() []string {
 	return []string{
-		string(oci_core.ServiceGatewayLifecycleStateDeleted),
+		string(oci_core.ServiceGatewayLifecycleStateTerminated),
 	}
 }
 
