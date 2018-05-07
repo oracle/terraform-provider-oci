@@ -117,16 +117,16 @@ func (s *NatGatewaysDataSourceCrud) SetData() {
 			"compartment_id": *r.CompartmentId,
 		}
 
+		if r.BlockTraffic != nil {
+			natGateway["block_traffic"] = *r.BlockTraffic
+		}
+
 		if r.DisplayName != nil {
 			natGateway["display_name"] = *r.DisplayName
 		}
 
 		if r.Id != nil {
 			natGateway["id"] = *r.Id
-		}
-
-		if r.IsEnabled != nil {
-			natGateway["is_enabled"] = *r.IsEnabled
 		}
 
 		if r.NatIp != nil {

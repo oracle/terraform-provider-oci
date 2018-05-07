@@ -18,7 +18,7 @@ variable "vcn_display_name" { default = "displayName" }
 variable "vcn_dns_label" { default = "dnslabel" }
 
 variable "nat_gateway_display_name" { default = "displayName" }
-variable "nat_gateway_is_enabled" { default = false }
+variable "nat_gateway_block_traffic" { default = false }
 
 variable "ssh_public_key" {}
 variable "InstanceShape" { default = "VM.Standard1.2" }
@@ -59,7 +59,7 @@ resource "oci_core_nat_gateway" "test_nat_gateway" {
 
 	#Optional
 	display_name = "${var.nat_gateway_display_name}"
-	#is_enabled = "${var.nat_gateway_is_enabled}"
+	#block_traffic = "${var.nat_gateway_block_traffic}"
 }
 
 data "oci_core_nat_gateways" "test_nat_gateways" {

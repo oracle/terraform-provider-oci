@@ -36,13 +36,13 @@ func NatGatewayResource() *schema.Resource {
 			},
 
 			// Optional
-			"display_name": {
-				Type:     schema.TypeString,
+			"block_traffic": {
+				Type:     schema.TypeBool,
 				Optional: true,
 				Computed: true,
 			},
-			"is_enabled": {
-				Type:     schema.TypeBool,
+			"display_name": {
+				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
@@ -139,6 +139,11 @@ func (s *NatGatewayResourceCrud) DeletedTarget() []string {
 func (s *NatGatewayResourceCrud) Create() error {
 	request := oci_core.CreateNatGatewayRequest{}
 
+	if blockTraffic, ok := s.D.GetOkExists("block_traffic"); ok {
+		tmp := blockTraffic.(bool)
+		request.BlockTraffic = &tmp
+	}
+
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
@@ -147,11 +152,6 @@ func (s *NatGatewayResourceCrud) Create() error {
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
-	}
-
-	if isEnabled, ok := s.D.GetOkExists("is_enabled"); ok {
-		tmp := isEnabled.(bool)
-		request.IsEnabled = &tmp
 	}
 
 	if vcnId, ok := s.D.GetOkExists("vcn_id"); ok {
@@ -190,14 +190,14 @@ func (s *NatGatewayResourceCrud) Get() error {
 func (s *NatGatewayResourceCrud) Update() error {
 	request := oci_core.UpdateNatGatewayRequest{}
 
+	if blockTraffic, ok := s.D.GetOkExists("block_traffic"); ok {
+		tmp := blockTraffic.(bool)
+		request.BlockTraffic = &tmp
+	}
+
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
-	}
-
-	if isEnabled, ok := s.D.GetOkExists("is_enabled"); ok {
-		tmp := isEnabled.(bool)
-		request.IsEnabled = &tmp
 	}
 
 	tmp := s.D.Id()
@@ -227,6 +227,10 @@ func (s *NatGatewayResourceCrud) Delete() error {
 }
 
 func (s *NatGatewayResourceCrud) SetData() {
+	if s.Res.BlockTraffic != nil {
+		s.D.Set("block_traffic", *s.Res.BlockTraffic)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -237,10 +241,6 @@ func (s *NatGatewayResourceCrud) SetData() {
 
 	if s.Res.Id != nil {
 		s.D.Set("id", *s.Res.Id)
-	}
-
-	if s.Res.IsEnabled != nil {
-		s.D.Set("is_enabled", *s.Res.IsEnabled)
 	}
 
 	if s.Res.NatIp != nil {

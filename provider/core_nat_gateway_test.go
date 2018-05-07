@@ -26,13 +26,13 @@ resource "oci_core_nat_gateway" "test_nat_gateway" {
 	vcn_id = "${oci_core_vcn.test_vcn.id}"
 
 	#Optional
+	#block_traffic = "${var.nat_gateway_block_traffic}"
 	display_name = "${var.nat_gateway_display_name}"
-	is_enabled = "${var.nat_gateway_is_enabled}"
 }
 `
 	NatGatewayPropertyVariables = `
+variable "nat_gateway_block_traffic" { default = false }
 variable "nat_gateway_display_name" { default = "displayName" }
-variable "nat_gateway_is_enabled" { default = false }
 variable "nat_gateway_state" { default = "state" }
 
 `
@@ -82,10 +82,10 @@ func TestCoreNatGatewayResource_basic(t *testing.T) {
 			{
 				Config: config + NatGatewayPropertyVariables + compartmentIdVariableStr + NatGatewayResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "block_traffic", "false"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "is_enabled", "false"),
 					resource.TestCheckResourceAttrSet(resourceName, "nat_ip"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -101,16 +101,16 @@ func TestCoreNatGatewayResource_basic(t *testing.T) {
 			// verify updates to updatable parameters
 			{
 				Config: config + `
+variable "nat_gateway_block_traffic" { default = true }
 variable "nat_gateway_display_name" { default = "displayName2" }
-variable "nat_gateway_is_enabled" { default = true }
 variable "nat_gateway_state" { default = "state" }
 
                 ` + compartmentIdVariableStr + NatGatewayResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
+					//resource.TestCheckResourceAttr(resourceName, "block_traffic", "true"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "is_enabled", "true"),
 					resource.TestCheckResourceAttrSet(resourceName, "nat_ip"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -128,16 +128,16 @@ variable "nat_gateway_state" { default = "state" }
 			// verify updates to Force New parameters.
 			{
 				Config: config + `
+variable "nat_gateway_block_traffic" { default = true }
 variable "nat_gateway_display_name" { default = "displayName2" }
-variable "nat_gateway_is_enabled" { default = true }
 variable "nat_gateway_state" { default = "AVAILABLE" }
 
                 ` + compartmentIdVariableStr2 + NatGatewayResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
+					//resource.TestCheckResourceAttr(resourceName, "block_traffic", "true"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId2),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "is_enabled", "true"),
 					resource.TestCheckResourceAttrSet(resourceName, "nat_ip"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -155,8 +155,8 @@ variable "nat_gateway_state" { default = "AVAILABLE" }
 			// verify datasource
 			{
 				Config: config + `
+variable "nat_gateway_block_traffic" { default = true }
 variable "nat_gateway_display_name" { default = "displayName2" }
-variable "nat_gateway_is_enabled" { default = true }
 variable "nat_gateway_state" { default = "AVAILABLE" }
 
 data "oci_core_nat_gateways" "test_nat_gateways" {
@@ -181,10 +181,10 @@ data "oci_core_nat_gateways" "test_nat_gateways" {
 					resource.TestCheckResourceAttrSet(datasourceName, "vcn_id"),
 
 					resource.TestCheckResourceAttr(datasourceName, "nat_gateways.#", "1"),
+					//resource.TestCheckResourceAttr(datasourceName, "nat_gateways.0.block_traffic", "true"),
 					resource.TestCheckResourceAttr(datasourceName, "nat_gateways.0.compartment_id", compartmentId2),
 					resource.TestCheckResourceAttr(datasourceName, "nat_gateways.0.display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(datasourceName, "nat_gateways.0.id"),
-					resource.TestCheckResourceAttr(datasourceName, "nat_gateways.0.is_enabled", "true"),
 					resource.TestCheckResourceAttrSet(datasourceName, "nat_gateways.0.nat_ip"),
 					resource.TestCheckResourceAttrSet(datasourceName, "nat_gateways.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "nat_gateways.0.time_created"),
@@ -217,10 +217,10 @@ func TestCoreNatGatewayResource_forcenew(t *testing.T) {
 			{
 				Config: config + NatGatewayPropertyVariables + compartmentIdVariableStr + NatGatewayResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "block_traffic", "false"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "is_enabled", "false"),
 					resource.TestCheckResourceAttrSet(resourceName, "nat_ip"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -236,15 +236,15 @@ func TestCoreNatGatewayResource_forcenew(t *testing.T) {
 
 			{
 				Config: config + `
+variable "nat_gateway_block_traffic" { default = false }
 variable "nat_gateway_display_name" { default = "displayName" }
-variable "nat_gateway_is_enabled" { default = false }
 variable "nat_gateway_state" { default = "state" }
 				` + compartmentIdVariableStr2 + NatGatewayResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "block_traffic", "false"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId2),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "is_enabled", "false"),
 					resource.TestCheckResourceAttrSet(resourceName, "nat_ip"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -263,15 +263,15 @@ variable "nat_gateway_state" { default = "state" }
 
 			{
 				Config: config + `
+variable "nat_gateway_block_traffic" { default = false }
 variable "nat_gateway_display_name" { default = "displayName" }
-variable "nat_gateway_is_enabled" { default = false }
 variable "nat_gateway_state" { default = "state" }
 				` + compartmentIdVariableStr2 + NatGatewayResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "block_traffic", "false"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId2),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "is_enabled", "false"),
 					resource.TestCheckResourceAttrSet(resourceName, "nat_ip"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
