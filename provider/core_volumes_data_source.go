@@ -54,7 +54,7 @@ func VolumesDataSource() *schema.Resource {
 func readVolumes(d *schema.ResourceData, m interface{}) error {
 	sync := &VolumesDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).blockStorageClient
+	sync.Client = m.(*OracleClients).blockstorageClient
 
 	return crud.ReadResource(sync)
 }

@@ -283,7 +283,7 @@ func createInstance(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient
 	sync.VirtualNetworkClient = m.(*OracleClients).virtualNetworkClient
-	sync.BlockStorageClient = m.(*OracleClients).blockStorageClient
+	sync.BlockStorageClient = m.(*OracleClients).blockstorageClient
 
 	return crud.CreateResource(d, sync)
 }
@@ -293,7 +293,7 @@ func readInstance(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient
 	sync.VirtualNetworkClient = m.(*OracleClients).virtualNetworkClient
-	sync.BlockStorageClient = m.(*OracleClients).blockStorageClient
+	sync.BlockStorageClient = m.(*OracleClients).blockstorageClient
 
 	return crud.ReadResource(sync)
 }
@@ -303,7 +303,7 @@ func updateInstance(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient
 	sync.VirtualNetworkClient = m.(*OracleClients).virtualNetworkClient
-	sync.BlockStorageClient = m.(*OracleClients).blockStorageClient
+	sync.BlockStorageClient = m.(*OracleClients).blockstorageClient
 
 	return crud.UpdateResource(d, sync)
 }
@@ -313,7 +313,7 @@ func deleteInstance(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient
 	sync.VirtualNetworkClient = m.(*OracleClients).virtualNetworkClient
-	sync.BlockStorageClient = m.(*OracleClients).blockStorageClient
+	sync.BlockStorageClient = m.(*OracleClients).blockstorageClient
 	sync.DisableNotFoundRetries = true
 
 	return crud.DeleteResource(d, sync)
