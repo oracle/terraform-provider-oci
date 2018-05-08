@@ -26,7 +26,7 @@ data "oci_core_services" "test_services" {
 
 The following attributes are exported:
 
-* `cidr_block` - A string that represents the public endpoints for the service. When you set up a route rule to route traffic to the service gateway, use this value as the destination CIDR block for the rule. See [Route Table](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/RouteTable/). 
-* `description` - Description of the service. 
-* `id` - The service's [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
-* `name` - Name of the service.
+* `cidr_block` - This value will be used as Destination CidrBlock while creating a route rule with service gateway as target.
+* `description` - Description of this particular Service, provided by the Service owner. 
+* `id` - The Service's Oracle ID ([OCID])(/Content/General/Concepts/identifiers.htm).
+* `name` - Name of the Service.
