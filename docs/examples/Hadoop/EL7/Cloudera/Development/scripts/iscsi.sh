@@ -4,7 +4,7 @@
 ## Last Update - March 2018
 
 #Look for all ISCSI devices in parallel
-for i in `seq 1 254`; do 
+for i in `seq 2 32`; do 
 	sudo iscsiadm -m discoverydb -D -t sendtargets -p 169.254.2.$i:3260 &
 done;
 sleep 10 
