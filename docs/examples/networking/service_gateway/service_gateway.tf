@@ -41,8 +41,9 @@ resource "oci_core_vcn" "test_vcn" {
 data "oci_core_services" "test_services" {
 	filter {
 		name = "name"
-		#values = ["Test-Casper-Service", "OCI SEA ObjectStorage"]
-		values = ["OCI SEA ObjectStorage"]
+		#values = ["Test-Casper-Service", ".*ObjectStorage"]
+		values = [".*ObjectStorage"]
+		regex = true
 	}
 }
 
