@@ -145,6 +145,7 @@ func schemaMap() map[string]*schema.Schema {
 
 func dataSourcesMap() map[string]*schema.Resource {
 	return map[string]*schema.Resource{
+		"oci_core_boot_volumes":                    BootVolumesDataSource(),
 		"oci_core_console_history_data":            ConsoleHistoryContentDataSource(),
 		"oci_core_cpes":                            CpesDataSource(),
 		"oci_core_dhcp_options":                    DhcpOptionsDataSource(),
@@ -370,7 +371,7 @@ func ProviderConfig(d *schema.ResourceData) (clients interface{}, err error) {
 
 func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_common.ConfigurationProvider, httpClient *http.Client, userAgent string) (err error) {
 	// Official Go SDK clients:
-	blockStorageClient, err := oci_core.NewBlockstorageClientWithConfigurationProvider(officialSdkConfigProvider)
+	blockstorageClient, err := oci_core.NewBlockstorageClientWithConfigurationProvider(officialSdkConfigProvider)
 	if err != nil {
 		return
 	}
@@ -457,7 +458,7 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 		return nil
 	}
 
-	err = configureClient(&blockStorageClient.BaseClient)
+	err = configureClient(&blockstorageClient.BaseClient)
 	if err != nil {
 		return
 	}
@@ -490,7 +491,7 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 		return
 	}
 
-	clients.blockStorageClient = &blockStorageClient
+	clients.blockstorageClient = &blockstorageClient
 	clients.computeClient = &computeClient
 	clients.databaseClient = &databaseClient
 	clients.dnsClient = &dnsClient
@@ -504,7 +505,7 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 }
 
 type OracleClients struct {
-	blockStorageClient   *oci_core.BlockstorageClient
+	blockstorageClient   *oci_core.BlockstorageClient
 	computeClient        *oci_core.ComputeClient
 	databaseClient       *oci_database.DatabaseClient
 	dnsClient            *oci_dns.DnsClient
