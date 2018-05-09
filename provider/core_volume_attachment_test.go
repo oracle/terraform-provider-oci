@@ -43,6 +43,7 @@ variable "volume_attachment_is_read_only" { default = false }
 )
 
 func TestCoreVolumeAttachmentResource_basic(t *testing.T) {
+	t.Skip("Skipping generated test for now as it has not been worked on.")
 	provider := testAccProvider
 	config := testProviderConfig()
 
@@ -181,6 +182,7 @@ data "oci_core_volume_attachments" "test_volume_attachments" {
 }
 
 func TestCoreVolumeAttachmentResource_forcenew(t *testing.T) {
+	t.Skip("Skipping generated test for now as it has not been worked on.")
 	provider := testAccProvider
 	config := testProviderConfig()
 

@@ -38,6 +38,7 @@ variable "volume_backup_type" { default = "type" }
 )
 
 func TestCoreVolumeBackupResource_basic(t *testing.T) {
+	t.Skip("Skipping generated test for now as it has not been worked on.")
 	provider := testAccProvider
 	config := testProviderConfig()
 
@@ -189,6 +190,7 @@ data "oci_core_volume_backups" "test_volume_backups" {
 }
 
 func TestCoreVolumeBackupResource_forcenew(t *testing.T) {
+	t.Skip("Skipping generated test for now as it has not been worked on.")
 	provider := testAccProvider
 	config := testProviderConfig()
 

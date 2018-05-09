@@ -51,6 +51,7 @@ variable "image_state" { default = "state" }
 )
 
 func TestCoreImageResource_basic(t *testing.T) {
+	t.Skip("Skipping generated test for now as it has not been worked on.")
 	provider := testAccProvider
 	config := testProviderConfig()
 
@@ -244,6 +245,7 @@ data "oci_core_images" "test_images" {
 }
 
 func TestCoreImageResource_forcenew(t *testing.T) {
+	t.Skip("Skipping generated test for now as it has not been worked on.")
 	provider := testAccProvider
 	config := testProviderConfig()
 

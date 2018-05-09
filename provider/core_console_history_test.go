@@ -37,6 +37,7 @@ variable "console_history_state" { default = "state" }
 )
 
 func TestCoreConsoleHistoryResource_basic(t *testing.T) {
+	t.Skip("Skipping generated test for now as it has not been worked on.")
 	provider := testAccProvider
 	config := testProviderConfig()
 
@@ -188,6 +189,7 @@ data "oci_core_console_histories" "test_console_histories" {
 }
 
 func TestCoreConsoleHistoryResource_forcenew(t *testing.T) {
+	t.Skip("Skipping generated test for now as it has not been worked on.")
 	provider := testAccProvider
 	config := testProviderConfig()
 

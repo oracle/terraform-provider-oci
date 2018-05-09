@@ -40,6 +40,7 @@ variable "private_ip_subnet_id" { default = "subnetId" }
 )
 
 func TestCorePrivateIpResource_basic(t *testing.T) {
+	t.Skip("Skipping generated test for now as it has not been worked on.")
 	provider := testAccProvider
 	config := testProviderConfig()
 
@@ -179,6 +180,7 @@ data "oci_core_private_ips" "test_private_ips" {
 }
 
 func TestCorePrivateIpResource_forcenew(t *testing.T) {
+	t.Skip("Skipping generated test for now as it has not been worked on.")
 	provider := testAccProvider
 	config := testProviderConfig()
 

@@ -278,33 +278,6 @@ variable "route_table_state" { default = "state" }
 					},
 				),
 			},
-
-			{
-				Config: config + `
-variable "route_table_display_name" { default = "MyRouteTable" }
-variable "route_table_route_rules_cidr_block" { default = "0.0.0.0/0" }
-variable "route_table_state" { default = "state" }
-				` + compartmentIdVariableStr2 + RouteTableResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId2),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "MyRouteTable"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "route_rules.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "route_rules.0.cidr_block", "0.0.0.0/0"),
-					resource.TestCheckResourceAttrSet(resourceName, "route_rules.0.network_entity_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId == resId2 {
-							return fmt.Errorf("Resource was expected to be recreated when updating parameter VcnId but the id did not change.")
-						}
-						resId = resId2
-						return err
-					},
-				),
-			},
 		},
 	})
 }

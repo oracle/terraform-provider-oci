@@ -23,6 +23,7 @@ variable "vnic_vnic_id" { default = "vnicId" }
 )
 
 func TestCoreVnicResource_basic(t *testing.T) {
+	t.Skip("Skipping generated test for now as it has not been worked on.")
 	provider := testAccProvider
 	config := testProviderConfig()
 
@@ -112,6 +113,7 @@ data "oci_core_vnics" "test_vnics" {
 }
 
 func TestCoreVnicResource_forcenew(t *testing.T) {
+	t.Skip("Skipping generated test for now as it has not been worked on.")
 	provider := testAccProvider
 	config := testProviderConfig()
 

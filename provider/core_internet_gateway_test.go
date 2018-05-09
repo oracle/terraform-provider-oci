@@ -176,13 +176,13 @@ data "oci_core_internet_gateways" "test_internet_gateways" {
 					resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
 					resource.TestCheckResourceAttrSet(datasourceName, "vcn_id"),
 
-					resource.TestCheckResourceAttr(datasourceName, "internet_gateways.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "internet_gateways.0.compartment_id", compartmentId2),
-					resource.TestCheckResourceAttr(datasourceName, "internet_gateways.0.display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "internet_gateways.0.enabled", "true"),
-					resource.TestCheckResourceAttrSet(datasourceName, "internet_gateways.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "internet_gateways.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "internet_gateways.0.vcn_id"),
+					resource.TestCheckResourceAttr(datasourceName, "gateways.#", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "gateways.0.compartment_id", compartmentId2),
+					resource.TestCheckResourceAttr(datasourceName, "gateways.0.display_name", "displayName2"),
+					resource.TestCheckResourceAttr(datasourceName, "gateways.0.enabled", "true"),
+					resource.TestCheckResourceAttrSet(datasourceName, "gateways.0.id"),
+					resource.TestCheckResourceAttrSet(datasourceName, "gateways.0.state"),
+					resource.TestCheckResourceAttrSet(datasourceName, "gateways.0.vcn_id"),
 				),
 			},
 		},
@@ -244,31 +244,6 @@ variable "internet_gateway_state" { default = "state" }
 						resId2, err = fromInstanceState(s, resourceName, "id")
 						if resId == resId2 {
 							return fmt.Errorf("Resource was expected to be recreated when updating parameter CompartmentId but the id did not change.")
-						}
-						resId = resId2
-						return err
-					},
-				),
-			},
-
-			{
-				Config: config + `
-variable "internet_gateway_display_name" { default = "MyInternetGateway" }
-variable "internet_gateway_enabled" { default = false }
-variable "internet_gateway_state" { default = "state" }
-				` + compartmentIdVariableStr2 + InternetGatewayResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId2),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "MyInternetGateway"),
-					resource.TestCheckResourceAttr(resourceName, "enabled", "false"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId == resId2 {
-							return fmt.Errorf("Resource was expected to be recreated when updating parameter VcnId but the id did not change.")
 						}
 						resId = resId2
 						return err
