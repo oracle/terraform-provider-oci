@@ -65,35 +65,35 @@ if [ $firewall_on = "1" ]; then
                 systemctl stop firewalld
                 systemctl disable firewalld
 	fi
-
-echo -e "Downloading CDH5 Docker Container..."
-wget https://downloads.cloudera.com/demo_vm/docker/cloudera-quickstart-vm-5.13.0-0-beta-docker.tar.gz
-tar -zxvf cloudera-quickstart-vm-5.13.0-0-beta-docker.tar.gz
+	
 echo -e "Installing Docker..."
 yum install docker.x86_64 -y
 systemctl start docker
+
 statuschk=`echo -e $?`
 if [ $statuschk = "0" ]; then 
-	continue
+        continue
 else
-	while [ $statuschk != "0" ]; do 
-		systemctl restart docker
-		statuschk=`echo -e $?`
-		sleep 1
-	done;
+        while [ $statuschk != "0" ]; do 
+                systemctl restart docker
+                statuschk=`echo -e $?`
+                sleep 1
+        done;
 fi
-cat /home/opc/cloudera-quickstart-vm-5.13.0-0-beta-docker/cloudera-quickstart-vm-5.13.0-0-beta-docker.tar | docker import - quickstart.cloudera
+
+echo -e "Downloading CDH5 Docker Container..."
+docker pull cloudera/quickstart:latest
+
 quickstart_id=`docker images | sed 1d | gawk '{print $3}'`
 docker run -d --hostname=quickstart.cloudera --privileged=true -it -p 7180:7180 ${quickstart_id} /usr/bin/docker-quickstart
+
 quickstart_ps=`docker ps | sed 1d | gawk '{print $1}'`
 t=0
 echo -e "Waiting 120 seconds on startup..."
 while [ $t -le 120 ]; do 
-	echo -e "$t"
-	sleep 5
-	t=$((t+5))
+        echo -e "$t"
+        sleep 5
+        t=$((t+5))
 done;
 echo -e "Starting CDH Manager..."
 docker exec -it ${quickstart_ps} /home/cloudera/cloudera-manager --express
-
-
