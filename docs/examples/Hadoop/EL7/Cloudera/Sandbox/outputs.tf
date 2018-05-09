@@ -9,7 +9,7 @@ output "HUE Login" {
 }
 
 output "Cloudera Guided Demo" {
-  value = ["http://${data.oci_core_vnic.sandbox_vnic.public_ip_address}:80/"]
+  value = ["http://${data.oci_core_vnic.sandbox_vnic.public_ip_address}/"]
 }
 
 output "Sandbox SSH" { 
