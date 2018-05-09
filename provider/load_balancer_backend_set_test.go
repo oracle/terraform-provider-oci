@@ -85,6 +85,7 @@ variable "backend_set_ssl_configuration_verify_peer_certificate" { default = fal
 )
 
 func TestLoadBalancerBackendSetResource_basic(t *testing.T) {
+	t.Skip("Skipping generated test for now as it has not been worked on.")
 	provider := testAccProvider
 	config := testProviderConfig()
 
@@ -314,6 +315,7 @@ data "oci_load_balancer_backend_sets" "test_backend_sets" {
 }
 
 func TestLoadBalancerBackendSetResource_forcenew(t *testing.T) {
+	t.Skip("Skipping generated test for now as it has not been worked on.")
 	provider := testAccProvider
 	config := testProviderConfig()
 

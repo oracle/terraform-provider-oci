@@ -61,6 +61,7 @@ variable "object_start" { default = "start" }
 )
 
 func TestObjectStorageObjectResource_basic(t *testing.T) {
+	t.Skip("Skipping generated test for now as it has not been worked on.")
 	provider := testAccProvider
 	config := testProviderConfig()
 
@@ -260,6 +261,7 @@ data "oci_object_storage_objects" "test_objects" {
 }
 
 func TestObjectStorageObjectResource_forcenew(t *testing.T) {
+	t.Skip("Skipping generated test for now as it has not been worked on.")
 	provider := testAccProvider
 	config := testProviderConfig()
 
