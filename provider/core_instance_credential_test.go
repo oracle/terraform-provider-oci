@@ -22,6 +22,7 @@ variable "instance_credential_instance_id" { default = "instanceId" }
 )
 
 func TestCoreInstanceCredentialResource_basic(t *testing.T) {
+	t.Skip("Skipping generated test for now as it has not been worked on.")
 	provider := testAccProvider
 	config := testProviderConfig()
 

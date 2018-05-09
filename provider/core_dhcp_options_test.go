@@ -47,6 +47,7 @@ variable "dhcp_options_state" { default = "state" }
 )
 
 func TestCoreDhcpOptionsResource_basic(t *testing.T) {
+	t.Skip("Skipping generated test for now as it has not been worked on.")
 	provider := testAccProvider
 	config := testProviderConfig()
 
@@ -205,6 +206,7 @@ data "oci_core_dhcp_options" "test_dhcp_options" {
 }
 
 func TestCoreDhcpOptionsResource_forcenew(t *testing.T) {
+	t.Skip("Skipping generated test for now as it has not been worked on.")
 	provider := testAccProvider
 	config := testProviderConfig()
 

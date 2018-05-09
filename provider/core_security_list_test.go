@@ -160,6 +160,7 @@ variable "security_list_state" { default = "state" }
 )
 
 func TestCoreSecurityListResource_basic(t *testing.T) {
+	t.Skip("Skipping generated test for now as it has not been worked on.")
 	provider := testAccProvider
 	config := testProviderConfig()
 
@@ -557,6 +558,7 @@ data "oci_core_security_lists" "test_security_lists" {
 }
 
 func TestCoreSecurityListResource_forcenew(t *testing.T) {
+	t.Skip("Skipping generated test for now as it has not been worked on.")
 	provider := testAccProvider
 	config := testProviderConfig()
 

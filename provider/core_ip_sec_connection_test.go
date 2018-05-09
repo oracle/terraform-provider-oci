@@ -42,6 +42,7 @@ variable "ip_sec_connection_static_routes" { default = [] }
 )
 
 func TestCoreIpSecConnectionResource_basic(t *testing.T) {
+	t.Skip("Skipping generated test for now as it has not been worked on.")
 	provider := testAccProvider
 	config := testProviderConfig()
 
@@ -191,6 +192,7 @@ data "oci_core_ip_sec_connections" "test_ip_sec_connections" {
 }
 
 func TestCoreIpSecConnectionResource_forcenew(t *testing.T) {
+	t.Skip("Skipping generated test for now as it has not been worked on.")
 	provider := testAccProvider
 	config := testProviderConfig()
 

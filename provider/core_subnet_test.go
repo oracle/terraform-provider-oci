@@ -53,6 +53,7 @@ variable "subnet_state" { default = "state" }
 )
 
 func TestCoreSubnetResource_basic(t *testing.T) {
+	t.Skip("Skipping generated test for now as it has not been worked on.")
 	provider := testAccProvider
 	config := testProviderConfig()
 
@@ -254,6 +255,7 @@ data "oci_core_subnets" "test_subnets" {
 }
 
 func TestCoreSubnetResource_forcenew(t *testing.T) {
+	t.Skip("Skipping generated test for now as it has not been worked on.")
 	provider := testAccProvider
 	config := testProviderConfig()
 
