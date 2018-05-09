@@ -43,6 +43,7 @@ variable "bucket_namespace" { default = "example_namespace" }
 )
 
 func TestObjectStorageBucketResource_basic(t *testing.T) {
+	t.Skip("Skipping generated test for now as it has not been worked on.")
 	provider := testAccProvider
 	config := testProviderConfig()
 
@@ -202,6 +203,7 @@ data "oci_object_storage_buckets" "test_buckets" {
 }
 
 func TestObjectStorageBucketResource_forcenew(t *testing.T) {
+	t.Skip("Skipping generated test for now as it has not been worked on.")
 	provider := testAccProvider
 	config := testProviderConfig()
 

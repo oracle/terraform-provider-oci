@@ -175,4 +175,3 @@ data "oci_core_drg_attachments" "test_drg_attachments" {
 		},
 	})
 }
-
