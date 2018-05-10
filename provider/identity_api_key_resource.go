@@ -4,6 +4,7 @@ package provider
 
 import (
 	"context"
+	"errors"
 	"regexp"
 
 	"github.com/hashicorp/terraform/helper/schema"
@@ -179,7 +180,7 @@ func (s *ApiKeyResourceCrud) Get() error {
 		}
 	}
 
-	return nil
+	return errors.New("API key not found")
 }
 
 func (s *ApiKeyResourceCrud) Delete() error {
