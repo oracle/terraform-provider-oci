@@ -63,7 +63,7 @@ resource "oci_identity_compartment" "t2" {
 
 resource "oci_identity_group" "t" {
 	#Required
-	compartment_id = "${var.tenancyocid}"
+	compartment_id = "${var.tenancy_ocid}"
 	description = "group for policy test"
 	name = "GroupName"
 }
@@ -74,12 +74,8 @@ func TestIdentityPolicyResource_basic(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 
-	tenancyOcid := getRequiredEnvSetting("tenancy_ocid")
-	tenancyOcidVariableStr := fmt.Sprintf("variable \"tenancyocid\" { default = \"%s\" }\n", tenancyOcid)
 	compartmentId := getRequiredEnvSetting("compartment_id_for_create")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
-	compartmentId2 := getRequiredEnvSetting("compartment_id_for_update")
-	compartmentIdVariableStr2 := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId2)
 
 	resourceName := "oci_identity_policy.test_policy"
 	datasourceName := "data.oci_identity_policies.test_policies"
@@ -95,7 +91,7 @@ func TestIdentityPolicyResource_basic(t *testing.T) {
 			{
 				ImportState:       true,
 				ImportStateVerify: true,
-				Config:            config + PolicyPropertyVariables + tenancyOcidVariableStr + compartmentIdVariableStr + PolicyRequiredOnlyResource,
+				Config:            config + PolicyPropertyVariables + compartmentIdVariableStr + PolicyRequiredOnlyResource,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "description", "Policy for users who need to launch instances, attach volumes, manage images"),
@@ -111,11 +107,11 @@ func TestIdentityPolicyResource_basic(t *testing.T) {
 
 			// delete before next create
 			{
-				Config: config + compartmentIdVariableStr,
+				Config: config + compartmentIdVariableStr + PolicyResourceDependencies,
 			},
 			// verify create with optionals
 			{
-				Config: config + PolicyPropertyVariables + tenancyOcidVariableStr + compartmentIdVariableStr + PolicyResourceConfig,
+				Config: config + PolicyPropertyVariables + compartmentIdVariableStr + PolicyResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "description", "Policy for users who need to launch instances, attach volumes, manage images"),
@@ -140,7 +136,7 @@ variable "policy_description" { default = "description2" }
 variable "policy_name" { default = "LaunchInstances" }
 variable "policy_version_date" { default = "" }
 
-                ` + compartmentIdVariableStr + tenancyOcidVariableStr + PolicyResourceConfig,
+                ` + compartmentIdVariableStr + PolicyResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -167,9 +163,9 @@ variable "policy_description" { default = "description2" }
 variable "policy_name" { default = "name2" }
 variable "policy_version_date" { default = "" }
 
-                ` + compartmentIdVariableStr2 + tenancyOcidVariableStr + PolicyRecreateResource,
+                ` + compartmentIdVariableStr + PolicyRecreateResource,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId2),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "name", "name2"),
@@ -202,12 +198,12 @@ data "oci_identity_policies" "test_policies" {
     	values = ["${oci_identity_policy.test_policy.id}"]
     }
 }
-                ` + compartmentIdVariableStr2 + tenancyOcidVariableStr + PolicyRecreateResource,
+                ` + compartmentIdVariableStr + PolicyRecreateResource,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId2),
+					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
 					resource.TestCheckResourceAttr(datasourceName, "policies.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "policies.0.compartment_id", compartmentId2),
+					resource.TestCheckResourceAttr(datasourceName, "policies.0.compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "policies.0.description", "description2"),
 					resource.TestCheckResourceAttrSet(datasourceName, "policies.0.id"),
 					resource.TestCheckResourceAttr(datasourceName, "policies.0.name", "name2"),
@@ -224,12 +220,8 @@ func TestIdentityPolicyResource_forcenew(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 
-	tenancyOcid := getRequiredEnvSetting("tenancy_ocid")
-	tenancyOcidVariableStr := fmt.Sprintf("variable \"tenancyocid\" { default = \"%s\" }\n", tenancyOcid)
 	compartmentId := getRequiredEnvSetting("compartment_id_for_create")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
-	compartmentId2 := getRequiredEnvSetting("compartment_id_for_update")
-	compartmentIdVariableStr2 := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId2)
 
 	resourceName := "oci_identity_policy.test_policy"
 
@@ -242,7 +234,7 @@ func TestIdentityPolicyResource_forcenew(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create with optionals
 			{
-				Config: config + PolicyPropertyVariables + tenancyOcidVariableStr + compartmentIdVariableStr + PolicyResourceConfig,
+				Config: config + PolicyPropertyVariables + compartmentIdVariableStr + PolicyResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "description", "Policy for users who need to launch instances, attach volumes, manage images"),
@@ -264,38 +256,11 @@ func TestIdentityPolicyResource_forcenew(t *testing.T) {
 			{
 				Config: config + `
 variable "policy_description" { default = "Policy for users who need to launch instances, attach volumes, manage images" }
-variable "policy_name" { default = "LaunchInstances" }
-variable "policy_version_date" { default = "" }
-				` + compartmentIdVariableStr2 + tenancyOcidVariableStr + PolicyRecreateResource,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId2),
-					resource.TestCheckResourceAttr(resourceName, "description", "Policy for users who need to launch instances, attach volumes, manage images"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "name", "LaunchInstances"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttr(resourceName, "statements.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckNoResourceAttr(resourceName, "version_date"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId == resId2 {
-							return fmt.Errorf("Resource was expected to be recreated when updating parameter CompartmentId but the id did not change.")
-						}
-						resId = resId2
-						return err
-					},
-				),
-			},
-
-			{
-				Config: config + `
-variable "policy_description" { default = "Policy for users who need to launch instances, attach volumes, manage images" }
 variable "policy_name" { default = "name2" }
 variable "policy_version_date" { default = "" }
-				` + compartmentIdVariableStr2 + tenancyOcidVariableStr + PolicyRecreateResource,
+				` + compartmentIdVariableStr + PolicyRecreateResource,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId2),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "description", "Policy for users who need to launch instances, attach volumes, manage images"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "name", "name2"),
