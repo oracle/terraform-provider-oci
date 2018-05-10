@@ -3,6 +3,16 @@ All notable changes to this project are documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+## 2.1.8 - 2018-05-10
+
+### Added
+- Added support for remote VCN peering. More details can be found [here](https://github.com/oracle/terraform-provider-oci/blob/master/docs/core/remote_peering_connections.md), and an example [here](https://github.com/oracle/terraform-provider-oci/blob/master/docs/examples/networking/remote_vcn_peering_full).
+- Added a data source for boot volumes. More details can be found [here](https://github.com/oracle/terraform-provider-oci/blob/master/docs/core/boot_volumes.md).
+
+### Fixed
+- Fixed a crash that can occur when using the `oci_identity_api_key` resource and editing the API key outside of Terraform.
+
+
 ## 2.1.7 - 2018-05-03
 
 ### Added
