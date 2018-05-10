@@ -68,7 +68,7 @@ func TestCoreBootVolumeResource_basic(t *testing.T) {
 						compartment_id = "${var.compartment_id}"
 
 					}
-                ` + compartmentIdVariableStr2 ,
+                ` + compartmentIdVariableStr2,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId2),
 
