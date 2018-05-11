@@ -99,4 +99,13 @@ done;
 echo -e "Starting CDH Manager..."
 docker exec -it ${quickstart_ps} /home/cloudera/cloudera-manager --express
 
+## Add Clouder User & Sudo privs
+useradd -s /bin/bash cloudera
+mkdir -p /home/cloudera/.ssh
+cp /home/opc/.ssh/authorized_keys /home/cloudera/.ssh/
+chown cloudera:cloudera -R /home/cloudera
+echo "cloudera    ALL=(ALL)       ALL" >> /etc/sudoers
+
+
+
 
