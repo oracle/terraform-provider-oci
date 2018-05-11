@@ -1,0 +1,20 @@
+###
+### Block Volumes for Sandbox
+###
+
+resource "oci_core_volume" "SandboxVolume" {
+  count="1"
+  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.AD - 1],"name")}"
+  compartment_id = "${var.compartment_ocid}"
+  display_name = "CDH Sandbox Volume"
+  size_in_gbs = "${var.blocksize_in_gbs}"
+}
+
+resource "oci_core_volume_attachment" "SandboxAttachment1" {
+  count="1"
+  attachment_type = "iscsi"
+  compartment_id = "${var.compartment_ocid}"
+  instance_id = "${oci_core_instance.Sandbox.id}"
+  volume_id = "${oci_core_volume.SandboxVolume.id}"
+}
+
