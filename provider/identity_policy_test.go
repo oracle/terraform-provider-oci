@@ -63,7 +63,7 @@ resource "oci_identity_compartment" "t2" {
 
 resource "oci_identity_group" "t" {
 	#Required
-	compartment_id = "${var.tenancy_ocid}"
+	compartment_id = "${var.compartment_id}"
 	description = "group for policy test"
 	name = "GroupName"
 }
