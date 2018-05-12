@@ -4,15 +4,11 @@ package provider
 
 import (
 	"context"
-
-	"github.com/hashicorp/terraform/helper/schema"
-
-	"github.com/oracle/terraform-provider-oci/crud"
-
 	"log"
 
-	"github.com/hashicorp/terraform/helper/validation"
+	"github.com/hashicorp/terraform/helper/schema"
 	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
+	"github.com/oracle/terraform-provider-oci/crud"
 )
 
 func BucketResource() *schema.Resource {
@@ -48,12 +44,7 @@ func BucketResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 				// @CODEGEN 2/2018: To avoid breaking change, set a default enum value for this property.
-				// Also include a validation function to check one of the expected values is passed in
 				Default: string(oci_object_storage.CreateBucketDetailsPublicAccessTypeNopublicaccess),
-				ValidateFunc: validation.StringInSlice([]string{
-					string(oci_object_storage.CreateBucketDetailsPublicAccessTypeNopublicaccess),
-					string(oci_object_storage.CreateBucketDetailsPublicAccessTypeObjectread),
-				}, true),
 			},
 			"metadata": {
 				Type:     schema.TypeMap,
