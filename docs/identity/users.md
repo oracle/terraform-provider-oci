@@ -76,7 +76,7 @@ Any change to a property that does not support update will force the destruction
 ```
 resource "oci_identity_user" "test_user" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = "${var.tenancy_ocid}"
 	description = "${var.user_description}"
 	name = "${var.user_name}"
 }
@@ -107,6 +107,6 @@ The following attributes are exported:
 ```
 data "oci_identity_users" "test_users" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = "${var.tenancy_ocid}"
 }
 ```
