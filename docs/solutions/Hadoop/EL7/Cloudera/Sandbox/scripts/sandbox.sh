@@ -56,9 +56,9 @@ if [ $firewall_on = "1" ]; then
                	echo -e "Port 7180"
                	 firewall-cmd --zone=public --add-port=7180/tcp
 		echo -e "Port 8888"
-		 firewall-cmd --zone=public --add-port=19888/tcp
+		 firewall-cmd --zone=public --add-port=8888/tcp
 		echo -e "Port 80"
-		 firewall-cmd --zone=public --add-port=8088/tcp
+		 firewall-cmd --zone=public --add-port=80/tcp
                  firewall-cmd --runtime-to-permanent
 		echo -e "DONE"
         else
@@ -86,7 +86,7 @@ echo -e "Downloading CDH5 Docker Container..."
 docker pull cloudera/quickstart:latest
 
 quickstart_id=`docker images | sed 1d | gawk '{print $3}'`
-docker run -d --hostname=quickstart.cloudera --privileged=true -it -p 7180:7180 ${quickstart_id} /usr/bin/docker-quickstart
+docker run -d --hostname=quickstart.cloudera --privileged=true -it -p 7180:7180 -p 80:80 -p 8888:8888 ${quickstart_id} /usr/bin/docker-quickstart
 
 quickstart_ps=`docker ps | sed 1d | gawk '{print $1}'`
 t=0
