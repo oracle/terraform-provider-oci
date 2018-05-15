@@ -14,7 +14,7 @@ const (
 	SubnetRequiredOnlyResource = SubnetResourceDependencies + `
 resource "oci_core_subnet" "test_subnet" {
 	#Required
-	availability_domain = "${var.subnet_availability_domain}"
+	availability_domain = "${lookup(data.oci_identity_availability_domains.test_availability_domains.availability_domains[var.subnet_availability_domain],"name")}"
 	cidr_block = "${var.subnet_cidr_block}"
 	compartment_id = "${var.compartment_id}"
 	vcn_id = "${oci_core_vcn.test_vcn.id}"
@@ -25,7 +25,7 @@ resource "oci_core_subnet" "test_subnet" {
 	SubnetResourceConfig = SubnetResourceDependencies + `
 resource "oci_core_subnet" "test_subnet" {
 	#Required
-	availability_domain = "${var.subnet_availability_domain}"
+	availability_domain = "${lookup(data.oci_identity_availability_domains.test_availability_domains.availability_domains[var.subnet_availability_domain],"name")}"
 	cidr_block = "${var.subnet_cidr_block}"
 	compartment_id = "${var.compartment_id}"
 	vcn_id = "${oci_core_vcn.test_vcn.id}"
@@ -40,7 +40,7 @@ resource "oci_core_subnet" "test_subnet" {
 }
 `
 	SubnetPropertyVariables = `
-variable "subnet_availability_domain" { default = "kIdk:PHX-AD-1" }
+variable "subnet_availability_domain" { default = "0" }
 variable "subnet_cidr_block" { default = "10.0.0.0/16" }
 variable "subnet_display_name" { default = "MySubnet" }
 variable "subnet_dns_label" { default = "dnslabel" }
@@ -49,7 +49,14 @@ variable "subnet_security_list_ids" { default = [] }
 variable "subnet_state" { default = "state" }
 
 `
-	SubnetResourceDependencies = /* Uncomment once defined: DhcpOptionsPropertyVariables + DhcpOptionsResourceConfig + RouteTablePropertyVariables + RouteTableResourceConfig + */ VcnPropertyVariables + VcnResourceConfig
+
+	AvailabilityDomainConfig = `
+data "oci_identity_availability_domains" "test_availability_domains" {
+	compartment_id = "${var.compartment_id}"
+}
+`
+
+	SubnetResourceDependencies = /* Uncomment once defined: DhcpOptionsPropertyVariables + DhcpOptionsResourceConfig + RouteTablePropertyVariables + RouteTableResourceConfig + */ VcnPropertyVariables + VcnResourceConfig + AvailabilityDomainConfig
 )
 
 func TestCoreSubnetResource_basic(t *testing.T) {
@@ -78,7 +85,7 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 				ImportStateVerify: true,
 				Config:            config + SubnetPropertyVariables + compartmentIdVariableStr + SubnetRequiredOnlyResource,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "availability_domain", "kIdk:PHX-AD-1"),
+					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/16"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "dhcp_options_id"),
@@ -103,7 +110,7 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 			{
 				Config: config + SubnetPropertyVariables + compartmentIdVariableStr + SubnetResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "availability_domain", "kIdk:PHX-AD-1"),
+					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/16"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "dhcp_options_id"),
@@ -128,7 +135,7 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 			// verify updates to updatable parameters
 			{
 				Config: config + `
-variable "subnet_availability_domain" { default = "kIdk:PHX-AD-1" }
+variable "subnet_availability_domain" { default = "0" }
 variable "subnet_cidr_block" { default = "10.0.0.0/16" }
 variable "subnet_display_name" { default = "displayName2" }
 variable "subnet_dns_label" { default = "dnslabel" }
@@ -138,7 +145,7 @@ variable "subnet_state" { default = "state" }
 
                 ` + compartmentIdVariableStr + SubnetResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "availability_domain", "kIdk:PHX-AD-1"),
+					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/16"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "dhcp_options_id"),
@@ -165,7 +172,7 @@ variable "subnet_state" { default = "state" }
 			// verify updates to Force New parameters.
 			{
 				Config: config + `
-variable "subnet_availability_domain" { default = "kIdk:PHX-AD-2" }
+variable "subnet_availability_domain" { default = "1" }
 variable "subnet_cidr_block" { default = "10.0.0.0/24" }
 variable "subnet_display_name" { default = "displayName2" }
 variable "subnet_dns_label" { default = "dnslabel2" }
@@ -175,7 +182,7 @@ variable "subnet_state" { default = "AVAILABLE" }
 
                 ` + compartmentIdVariableStr2 + SubnetResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "availability_domain", "kIdk:PHX-AD-2"),
+					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/24"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId2),
 					resource.TestCheckResourceAttrSet(resourceName, "dhcp_options_id"),
@@ -202,7 +209,7 @@ variable "subnet_state" { default = "AVAILABLE" }
 			// verify datasource
 			{
 				Config: config + `
-variable "subnet_availability_domain" { default = "kIdk:PHX-AD-2" }
+variable "subnet_availability_domain" { default = "1" }
 variable "subnet_cidr_block" { default = "10.0.0.0/24" }
 variable "subnet_display_name" { default = "displayName2" }
 variable "subnet_dns_label" { default = "dnslabel2" }
@@ -234,7 +241,7 @@ data "oci_core_subnets" "test_subnets" {
 					resource.TestCheckResourceAttrSet(datasourceName, "vcn_id"),
 
 					resource.TestCheckResourceAttr(datasourceName, "subnets.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "subnets.0.availability_domain", "kIdk:PHX-AD-2"),
+					resource.TestCheckResourceAttrSet(datasourceName, "subnets.0.availability_domain"),
 					resource.TestCheckResourceAttr(datasourceName, "subnets.0.cidr_block", "10.0.0.0/24"),
 					resource.TestCheckResourceAttr(datasourceName, "subnets.0.compartment_id", compartmentId2),
 					resource.TestCheckResourceAttrSet(datasourceName, "subnets.0.dhcp_options_id"),
@@ -277,7 +284,7 @@ func TestCoreSubnetResource_forcenew(t *testing.T) {
 			{
 				Config: config + SubnetPropertyVariables + compartmentIdVariableStr + SubnetResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "availability_domain", "kIdk:PHX-AD-1"),
+					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/16"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "dhcp_options_id"),
@@ -302,7 +309,7 @@ func TestCoreSubnetResource_forcenew(t *testing.T) {
 
 			{
 				Config: config + `
-variable "subnet_availability_domain" { default = "kIdk:PHX-AD-2" }
+variable "subnet_availability_domain" { default = "1" }
 variable "subnet_cidr_block" { default = "10.0.0.0/16" }
 variable "subnet_display_name" { default = "MySubnet" }
 variable "subnet_dns_label" { default = "dnslabel" }
@@ -311,7 +318,7 @@ variable "subnet_security_list_ids" { default = [] }
 variable "subnet_state" { default = "state" }
 				` + compartmentIdVariableStr + SubnetResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "availability_domain", "kIdk:PHX-AD-2"),
+					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/16"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "dhcp_options_id"),
@@ -339,7 +346,7 @@ variable "subnet_state" { default = "state" }
 
 			{
 				Config: config + `
-variable "subnet_availability_domain" { default = "kIdk:PHX-AD-2" }
+variable "subnet_availability_domain" { default = "1" }
 variable "subnet_cidr_block" { default = "10.0.0.0/24" }
 variable "subnet_display_name" { default = "MySubnet" }
 variable "subnet_dns_label" { default = "dnslabel" }
@@ -348,7 +355,7 @@ variable "subnet_security_list_ids" { default = [] }
 variable "subnet_state" { default = "state" }
 				` + compartmentIdVariableStr + SubnetResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "availability_domain", "kIdk:PHX-AD-2"),
+					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/24"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "dhcp_options_id"),
@@ -376,7 +383,7 @@ variable "subnet_state" { default = "state" }
 
 			{
 				Config: config + `
-variable "subnet_availability_domain" { default = "kIdk:PHX-AD-2" }
+variable "subnet_availability_domain" { default = "1" }
 variable "subnet_cidr_block" { default = "10.0.0.0/24" }
 variable "subnet_display_name" { default = "MySubnet" }
 variable "subnet_dns_label" { default = "dnslabel" }
@@ -385,7 +392,7 @@ variable "subnet_security_list_ids" { default = [] }
 variable "subnet_state" { default = "state" }
 				` + compartmentIdVariableStr2 + SubnetResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "availability_domain", "kIdk:PHX-AD-2"),
+					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/24"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId2),
 					resource.TestCheckResourceAttrSet(resourceName, "dhcp_options_id"),
@@ -413,7 +420,7 @@ variable "subnet_state" { default = "state" }
 
 			{
 				Config: config + `
-variable "subnet_availability_domain" { default = "kIdk:PHX-AD-2" }
+variable "subnet_availability_domain" { default = "1" }
 variable "subnet_cidr_block" { default = "10.0.0.0/24" }
 variable "subnet_display_name" { default = "MySubnet" }
 variable "subnet_dns_label" { default = "dnslabel" }
@@ -422,7 +429,7 @@ variable "subnet_security_list_ids" { default = [] }
 variable "subnet_state" { default = "state" }
 				` + compartmentIdVariableStr2 + SubnetResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "availability_domain", "kIdk:PHX-AD-2"),
+					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/24"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId2),
 					resource.TestCheckResourceAttrSet(resourceName, "dhcp_options_id"),
@@ -450,7 +457,7 @@ variable "subnet_state" { default = "state" }
 
 			{
 				Config: config + `
-variable "subnet_availability_domain" { default = "kIdk:PHX-AD-2" }
+variable "subnet_availability_domain" { default = "1" }
 variable "subnet_cidr_block" { default = "10.0.0.0/24" }
 variable "subnet_display_name" { default = "MySubnet" }
 variable "subnet_dns_label" { default = "dnslabel2" }
@@ -459,7 +466,7 @@ variable "subnet_security_list_ids" { default = [] }
 variable "subnet_state" { default = "state" }
 				` + compartmentIdVariableStr2 + SubnetResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "availability_domain", "kIdk:PHX-AD-2"),
+					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/24"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId2),
 					resource.TestCheckResourceAttrSet(resourceName, "dhcp_options_id"),
@@ -487,7 +494,7 @@ variable "subnet_state" { default = "state" }
 
 			{
 				Config: config + `
-variable "subnet_availability_domain" { default = "kIdk:PHX-AD-2" }
+variable "subnet_availability_domain" { default = "1" }
 variable "subnet_cidr_block" { default = "10.0.0.0/24" }
 variable "subnet_display_name" { default = "MySubnet" }
 variable "subnet_dns_label" { default = "dnslabel2" }
@@ -496,7 +503,7 @@ variable "subnet_security_list_ids" { default = [] }
 variable "subnet_state" { default = "state" }
 				` + compartmentIdVariableStr2 + SubnetResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "availability_domain", "kIdk:PHX-AD-2"),
+					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/24"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId2),
 					resource.TestCheckResourceAttrSet(resourceName, "dhcp_options_id"),
@@ -524,7 +531,7 @@ variable "subnet_state" { default = "state" }
 
 			{
 				Config: config + `
-variable "subnet_availability_domain" { default = "kIdk:PHX-AD-2" }
+variable "subnet_availability_domain" { default = "1" }
 variable "subnet_cidr_block" { default = "10.0.0.0/24" }
 variable "subnet_display_name" { default = "MySubnet" }
 variable "subnet_dns_label" { default = "dnslabel2" }
@@ -533,7 +540,7 @@ variable "subnet_security_list_ids" { default = [] }
 variable "subnet_state" { default = "state" }
 				` + compartmentIdVariableStr2 + SubnetResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "availability_domain", "kIdk:PHX-AD-2"),
+					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/24"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId2),
 					resource.TestCheckResourceAttrSet(resourceName, "dhcp_options_id"),
@@ -561,7 +568,7 @@ variable "subnet_state" { default = "state" }
 
 			{
 				Config: config + `
-variable "subnet_availability_domain" { default = "kIdk:PHX-AD-2" }
+variable "subnet_availability_domain" { default = "1" }
 variable "subnet_cidr_block" { default = "10.0.0.0/24" }
 variable "subnet_display_name" { default = "MySubnet" }
 variable "subnet_dns_label" { default = "dnslabel2" }
@@ -570,7 +577,7 @@ variable "subnet_security_list_ids" { default = [] }
 variable "subnet_state" { default = "state" }
 				` + compartmentIdVariableStr2 + SubnetResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "availability_domain", "kIdk:PHX-AD-2"),
+					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/24"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId2),
 					resource.TestCheckResourceAttrSet(resourceName, "dhcp_options_id"),
@@ -598,7 +605,7 @@ variable "subnet_state" { default = "state" }
 
 			{
 				Config: config + `
-variable "subnet_availability_domain" { default = "kIdk:PHX-AD-2" }
+variable "subnet_availability_domain" { default = "1" }
 variable "subnet_cidr_block" { default = "10.0.0.0/24" }
 variable "subnet_display_name" { default = "MySubnet" }
 variable "subnet_dns_label" { default = "dnslabel2" }
@@ -607,7 +614,7 @@ variable "subnet_security_list_ids" { default = [] }
 variable "subnet_state" { default = "state" }
 				` + compartmentIdVariableStr2 + SubnetResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "availability_domain", "kIdk:PHX-AD-2"),
+					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/24"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId2),
 					resource.TestCheckResourceAttrSet(resourceName, "dhcp_options_id"),

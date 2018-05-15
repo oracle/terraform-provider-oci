@@ -20,7 +20,7 @@ The following attributes are exported:
 
 ### Example Usage
 
-```
+```hcl
 data "oci_core_boot_volumes" "test_boot_volumes" {
 	#Required
 	availability_domain = "${var.boot_volume_availability_domain}"
