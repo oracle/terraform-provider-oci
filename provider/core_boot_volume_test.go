@@ -29,7 +29,7 @@ variable "InstanceImageOCID" {
 `
 	InstanceResourceConfigs = `
 resource "oci_core_instance" "test_instance" {
-	availability_domain = "${var.subnet_availability_domain}"
+	availability_domain = "${oci_core_subnet.test_subnet.availability_domain}"
 	compartment_id = "${var.compartment_id}"
 	display_name = "-tf-instance"
 	image = "${var.InstanceImageOCID[var.region]}"
@@ -43,6 +43,7 @@ resource "oci_core_instance" "test_instance" {
 		create = "15m"
 	}
 }`
+
 	BootVolumeResourceDependencies = BootVolumePropertyVariables + SubnetPropertyVariables + SubnetRequiredOnlyResource + InstanceResourceConfigs
 )
 
@@ -64,7 +65,7 @@ func TestCoreBootVolumeResource_basic(t *testing.T) {
 				Config: config + BootVolumeResourceConfig + `
 					data "oci_core_boot_volumes" "test_boot_volumes" {
 						#Required
-						availability_domain = "${var.subnet_availability_domain}"
+						availability_domain = "${oci_core_instance.test_instance.availability_domain}"
 						compartment_id = "${var.compartment_id}"
 
 					}

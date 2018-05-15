@@ -145,6 +145,7 @@ func schemaMap() map[string]*schema.Schema {
 
 func dataSourcesMap() map[string]*schema.Resource {
 	return map[string]*schema.Resource{
+		"oci_core_boot_volume_attachments":         BootVolumeAttachmentsDataSource(),
 		"oci_core_boot_volumes":                    BootVolumesDataSource(),
 		"oci_core_console_history_data":            ConsoleHistoryContentDataSource(),
 		"oci_core_cpes":                            CpesDataSource(),
