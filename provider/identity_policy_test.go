@@ -74,7 +74,7 @@ func TestIdentityPolicyResource_basic(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 
-	compartmentId := getRequiredEnvSetting("compartment_id_for_create")
+	compartmentId := getRequiredEnvSetting("tenancy_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_identity_policy.test_policy"
@@ -220,7 +220,7 @@ func TestIdentityPolicyResource_forcenew(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 
-	compartmentId := getRequiredEnvSetting("compartment_id_for_create")
+	compartmentId := getRequiredEnvSetting("tenancy_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_identity_policy.test_policy"

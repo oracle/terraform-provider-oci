@@ -83,7 +83,7 @@ func TestIdentityUserGroupMembershipResource_basic(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 
-	compartmentId := getRequiredEnvSetting("compartment_id_for_create")
+	compartmentId := getRequiredEnvSetting("tenancy_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_identity_user_group_membership.test_user_group_membership"
@@ -174,7 +174,7 @@ func TestIdentityUserGroupMembershipResource_forcenew(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 
-	compartmentId := getRequiredEnvSetting("compartment_id_for_create")
+	compartmentId := getRequiredEnvSetting("tenancy_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_identity_user_group_membership.test_user_group_membership"

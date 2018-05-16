@@ -45,7 +45,6 @@ func TestIdentityApiKeyResource_basic(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 
-	// For identity resources, the compartment ID *must* be the root compartment (a.k.a. tenancy ID)
 	compartmentId := getRequiredEnvSetting("tenancy_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
@@ -123,7 +122,6 @@ func TestIdentityApiKeyResource_forcenew(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 
-	// For identity resources, the compartment ID *must* be the root compartment (a.k.a. tenancy ID)
 	compartmentId := getRequiredEnvSetting("tenancy_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
