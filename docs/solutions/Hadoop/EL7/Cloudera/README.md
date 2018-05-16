@@ -41,3 +41,9 @@ OCI also supports N-Node EDH implementations for customers whose needs may excee
 | Suggested Worker Instance | Suggested Bastion Instance | Suggested Utility & Master Instance |
 | :---------------------: |  :---------------------: |  :---------------------: |
 | BM.DenseIO2.52 | VM.Standard2.4 | VM.Standard2.16 |         
+
+## Security Auditing
+
+Note that Terraform Automation templates currently disable the local firewall as part of the installation process.   It is recommended to run a security audit as part of the post-deployment process when choosing to use these automation templates.   This should include re-enabling host firewalls as needed, and adjusting Security List rules to be more restrictive to access requirements - this should include restricting access to publicly available services on Bastion & Utility hosts to allowed IP sources/segments only.  Oracle will be working to provide automation with local firewalls enabled in the future as part of updates to these Terraform templates.
+
+Also note that hosts on the Private Subnet currently require internet access as part of the deployment process to fetch installation packages.  This can also be disabled as part of the post-deployment process, but is currently required for setup.   Oracle is working with Cloudera to enhance this deployment process to provide additional security as part of the automation with Terraform.
