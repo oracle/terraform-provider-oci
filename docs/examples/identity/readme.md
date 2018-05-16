@@ -14,4 +14,4 @@ This example demonstrates the following Identity concepts:
 * Create users, add an api key and access their password
 * Create groups and add users
 * Create policies affecting groups and compartments
- 
+* Create dynamic groups and policies that govern it 

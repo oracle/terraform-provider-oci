@@ -24,3 +24,27 @@ data "oci_identity_policies" "policies1" {
 output "policy" {
   value = "${data.oci_identity_policies.policies1.policies}"
 }
+
+/*
+ * Policies for dynamic groups
+ */
+resource "oci_identity_policy" "dynamic-policy-1" {
+  name = "tf-example-dynamic-policy"
+  description = "dynamic policy created by terraform"
+  compartment_id = "${var.tenancy_ocid}"
+  statements = ["Allow dynamic-group ${oci_identity_dynamic_group.dynamic-group-1.name} to read instances in compartment ${oci_identity_compartment.compartment1.name}",
+                "Allow dynamic-group ${oci_identity_dynamic_group.dynamic-group-1.name} to inspect instances in compartment ${oci_identity_compartment.compartment1.name}"]
+}
+
+data "oci_identity_policies" "dynamic-policies-1" {
+  compartment_id = "${oci_identity_policy.dynamic-policy-1.compartment_id}"
+
+  filter {
+    name = "id"
+    values = ["${oci_identity_policy.dynamic-policy-1.id}"]
+  }
+}
+
+output "dynamicPolicies" {
+  value = "${data.oci_identity_policies.dynamic-policies-1.policies}"
+}
