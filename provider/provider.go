@@ -204,6 +204,7 @@ func dataSourcesMap() map[string]*schema.Resource {
 		"oci_identity_tenancy":                     TenancyDataSource(),
 		"oci_identity_user_group_memberships":      UserGroupMembershipsDataSource(),
 		"oci_identity_users":                       UsersDataSource(),
+		"oci_identity_region_subscriptions":        RegionSubscriptionsDataSource(),
 		"oci_load_balancer_backends":               BackendsDataSource(),
 		"oci_load_balancer_backend_sets":           BackendSetsDataSource(),
 		"oci_load_balancer_backendsets":            BackendSetsDataSource(),
