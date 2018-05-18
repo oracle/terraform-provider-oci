@@ -52,10 +52,6 @@ variable "DBNodeDisplayName" {
     default = "MyTFDatabaseNode0"
 }
 
-variable "DBNodeDomainName" {
-    default = "mycompany.com"
-}
-
 variable "DBNodeHostName" {
     default = "myOracleDB"
 }
