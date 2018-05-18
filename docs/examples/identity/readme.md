@@ -8,7 +8,7 @@
 ## Identity Resource and Datasource Examples
 
 This example demonstrates the following Identity concepts:
-* Show tenancy details and list OCI regions 
+* Show tenancy details and list OCI regions and region subscriptions
 * List and filter Availability Domains
 * Create and list compartments
 * Create users, add an api key and access their password
