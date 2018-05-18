@@ -1,3 +1,6 @@
+# Cloudera Docker VM Version
+Note that this template specifically uses wget to fetch a specific version of the Cloudera Docker VM - this is because the version currently availble in public Docker registry is an older version.   The wget command should be updated to fetch the latest Cloudera Docker VM when new versions are released.
+
 # Usage Guide
   
 Note that this installation is a stand-alone instance running the Cloudera VM Docker image.  This is a self contained environment.   Access to the Sandbox is done via post deployment URLs.   SSH access is also possible, but because this is running inside docker, shell commands to the container require attaching to the Docker container first:

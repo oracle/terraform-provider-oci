@@ -49,7 +49,6 @@ echo net.ipv4.tcp_low_latency=1 >> /etc/sysctl.conf
 sed -i "s/defaults        1 1/defaults,noatime        0 0/" /etc/fstab
 
 
-##sed -i "s/MASTERIP/$master_ip/g" startup.sh
 ## Firewall Setup
 if [ $firewall_on = "1" ]; then
         echo -e "\tSetting up Firewall Ports"
@@ -69,6 +68,7 @@ if [ $firewall_on = "1" ]; then
 echo -e "Downloading CDH5 Docker Container..."
 echo -e "Installing Docker..."
 yum install docker.x86_64 -y
+sed -i 's/DOCKER_STORAGE_OPTIONS=/DOCKER_STORAGE_OPTIONS= --storage-opt dm.basesize=20G/g' /etc/sysconfig/docker-storage
 systemctl start docker
 
 statuschk=`echo -e $?`
@@ -83,7 +83,9 @@ else
 fi
 
 echo -e "Downloading CDH5 Docker Container..."
-docker pull cloudera/quickstart:latest
+wget https://downloads.cloudera.com/demo_vm/docker/cloudera-quickstart-vm-5.13.0-0-beta-docker.tar.gz
+tar -zxvf cloudera-quickstart-vm-5.13.0-0-beta-docker.tar.gz
+docker import - cloudera/quickstart:latest < cloudera-quickstart-vm-*-docker/*.tar
 
 quickstart_id=`docker images | sed 1d | gawk '{print $3}'`
 docker run -d --hostname=quickstart.cloudera --privileged=true -it -p 7180:7180 -p 80:80 -p 8888:8888 ${quickstart_id} /usr/bin/docker-quickstart
