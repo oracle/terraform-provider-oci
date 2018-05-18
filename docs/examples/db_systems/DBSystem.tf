@@ -20,7 +20,10 @@ resource "oci_database_db_system" "TFDBNode" {
   subnet_id = "${var.SubnetOCID}"
   ssh_public_keys = ["${var.ssh_public_key}"]
   display_name = "${var.DBNodeDisplayName}"
-  domain = "${var.DBNodeDomainName}"
+
+  # Set this to specify the domain name for this DB System unless the Oracle-provided Internet and
+  # VCN Resolver is enabled for the specified subnet above.
+  #domain = "${var.DBNodeDomainName}"
   hostname = "${var.DBNodeHostName}"
   data_storage_percentage = "40"
   data_storage_size_in_gb = "${var.DataStorageSizeInGB}"

@@ -132,6 +132,5 @@ func (s *RegionSubscriptionsDataSourceCrud) SetData() {
 		panic(err)
 	}
 
-
 	return
 }
