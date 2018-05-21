@@ -57,7 +57,7 @@ resource "oci_identity_swift_password" "swift-password1" {
 }
 
 output "swift-password" {
-  value = "${oci_identity_swift_password.swift-password1.customer_secret_keys.password}"
+  value = "${oci_identity_swift_password.swift-password1.password}"
 }
 
 
