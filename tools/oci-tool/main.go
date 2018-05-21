@@ -115,6 +115,5 @@ Migration Successful. If you configure your plugins with a .terraformrc file, ad
 providers {
 	oci = "/Users/moi/providers/terraform-provider-oci"
 	baremetal = "/Users/moi/providers/terraform-provider-baremetal"
-}
-`)
+}`)
 }

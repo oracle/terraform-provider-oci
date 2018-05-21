@@ -7,6 +7,7 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
+
 	"github.com/oracle/terraform-provider-oci/crud"
 )
 
