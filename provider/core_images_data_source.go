@@ -152,7 +152,7 @@ func (s *ImagesDataSourceCrud) SetData() {
 
 	for _, r := range s.Res.Items {
 		image := map[string]interface{}{
-			// "compartment_id": *r.CompartmentId,
+		// "compartment_id": *r.CompartmentId,
 		}
 
 		// The spec marks compartmentId as a required field, but the service doesn't return it for official images.
