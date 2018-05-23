@@ -3,6 +3,11 @@ All notable changes to this project are documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+## 2.1.10 - 2018-05-24
+
+### Added
+- Added support for dynamic groups. More details can be found [here](https://github.com/oracle/terraform-provider-oci/tree/master/docs/identity/dynamic_groups.md).
+
 ## 2.1.9 - 2018-05-17
 
 ### Added
