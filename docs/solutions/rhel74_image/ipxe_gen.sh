@@ -51,12 +51,6 @@ IPXE_SOURCE_DIR="./sources"
 
 # Capture all the JSON info passed by the terraform into local variables
 SSH_PUBLIC_KEY=`echo ${INPUT_JSON} | jq -r '.ssh_public_key'`
-OCI_API_PRIVATE_KEY=`echo ${INPUT_JSON} | jq -r '.private_key_path'`
-OCI_API_FINGERPRINT=`echo ${INPUT_JSON} | jq -r '.fingerprint'`
-OCI_API_TENANCY=`echo ${INPUT_JSON} | jq -r '.tenancy_ocid'`
-OCI_API_USER=`echo ${INPUT_JSON} | jq -r '.user_ocid'`
-OCI_API_REGION=`echo ${INPUT_JSON} | jq -r '.region'`
-OCI_PRKEY_PW=`echo ${INPUT_JSON} | jq -r '.private_key_password'`
 OCI_OS_SHORT_NAME=`echo ${INPUT_JSON} | jq -r '.os_short_name'`
 RHEL_UNAME=`echo ${INPUT_JSON} | jq -r '.rhel_user'`
 RHEL_PW=`echo ${INPUT_JSON} | jq -r '.rhel_pw'`
@@ -68,25 +62,31 @@ ISO_URL=`echo ${INPUT_JSON} | jq -r '.iso_url'`
 # for each of the files needed during build - cloud.cfg, direct.xml (firewalld), 
 # ks.cfg (kickstart), and private key (OCI CLI)
 
-# Echo the first line to the new build.
-echo "#!/bin/bash" > ./ipxe.sh
+# Echo the first lines and static functions to the new build.
+cat > ./ipxe.sh <<-EOF
+#!/bin/bash
+
+function inst_status { 
+     oci --auth=instance_principal compute instance get \\
+     --instance-id=\$1 | jq -r '.data["lifecycle-state"]'
+}
+
+function img_status {
+     oci --auth=instance_principal compute image get \\
+     --image-id=\$1 | jq -r '.data["lifecycle-state"]'
+}
+EOF
 
 # Call the function build function for each file to be encoded.
 build_ipxe cloud ${IPXE_SOURCE_DIR} ${IPXE_CLOUDINIT} ${IPXE_CLOUDINIT}
 build_ipxe firewallcfg ${IPXE_SOURCE_DIR} ${IPXE_FWCFG} ${IPXE_FWCFG}
 build_ipxe ks ${IPXE_SOURCE_DIR} ${IPXE_KS} ${IPXE_KS}
-build_ipxe privkey `dirname ${OCI_API_PRIVATE_KEY}` `basename ${OCI_API_PRIVATE_KEY}` oci_api_key.pem
 
 # Add the template file to the shell script being built
 cat ${IPXE_BUILD_TEMPLATE} >> ./ipxe.sh
 
 # Replace all the tags in the shell script with actual values
 sed -i.bak 's|<PUBLIC_KEY>|\"'"${SSH_PUBLIC_KEY}"'\"|g
-s|<TENANCY>|\"'"${OCI_API_TENANCY}"'\"|g
-s|<USER>|\"'"${OCI_API_USER}"'\"|g
-s|<FINGERPRINT>|\"'"${OCI_API_FINGERPRINT}"'\"|g
-s|<REGION>|\"'"${OCI_API_REGION}"'\"|g
-s|<PASSPHRASE>|\"'"${OCI_PRKEY_PW}"'\"|g
 s|<OS_NAME>|'"${OCI_OS_SHORT_NAME}"'|g
 s|<RHEL_UNAME>|'"${RHEL_UNAME}"'|g
 s|<RHEL_PASS>|'"${RHEL_PW}"'|g 
