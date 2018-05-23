@@ -12,18 +12,8 @@ firewall_on="1"
 cd /home/opc/
 setenforce 0
 ### Tune Host
-## Install and start NTP
-yum install ntp.x86_64 java-1.8.0-openjdk.x86_64 -y
-cat /etc/ntp.conf | grep -iv rhel >> /tmp/ntp.conf
-echo "server 169.254.169.254 iburst" >> /tmp/ntp.conf
-cp /tmp/ntp.conf /etc/ntp.conf
-rm -f /tmp/ntp.conf
-systemctl stop ntpd
-ntpdate 169.254.169.254
-systemctl start ntpd
-systemctl enable ntpd
-systemctl stop chronyd
-systemctl disable chronyd
+## Install Java
+yum install java-1.8.0-openjdk.x86_64 -y
 
 ## Disable Transparent Huge Pages
 echo never | tee -a /sys/kernel/mm/transparent_hugepage/enabled
