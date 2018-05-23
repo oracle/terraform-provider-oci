@@ -53,6 +53,7 @@ This lists all of the available OCI resources and/or data sources.
     * [Availability Domains](https://github.com/oracle/terraform-provider-oci/tree/master/docs/identity/availability_domains.md)
     * [Compartments](https://github.com/oracle/terraform-provider-oci/tree/master/docs/identity/compartments.md)
     * [Customer Secret Keys](https://github.com/oracle/terraform-provider-oci/tree/master/docs/identity/customer_secret_keys.md)
+    * [Dynamic Groups](https://github.com/oracle/terraform-provider-oci/tree/master/docs/identity/dynamic_groups.md)
     * [Groups](https://github.com/oracle/terraform-provider-oci/tree/master/docs/identity/groups.md)
     * [Policies](https://github.com/oracle/terraform-provider-oci/tree/master/docs/identity/policies.md)
     * [Regions](https://github.com/oracle/terraform-provider-oci/tree/master/docs/identity/regions.md)
