@@ -4,18 +4,8 @@
 ## Last Update - March 2018
 
 
-## Install and start NTP
-sudo yum install ntp.x86_64 java-1.8.0-openjdk.x86_64 -y
-sudo cat /etc/ntp.conf | grep -iv rhel >> /tmp/ntp.conf
-echo "server 169.254.169.254 iburst" >> /tmp/ntp.conf
-sudo cp /tmp/ntp.conf /etc/ntp.conf
-sudo rm -f /tmp/ntp.conf
-systemctl stop ntpd
-sudo ntpdate 169.254.169.254
-systemctl start ntpd
-systemctl enable ntpd
-systemctl stop chronyd
-systemctl disable chronyd
+## Install Java
+sudo yum install java-1.8.0-openjdk.x86_64 -y
 
 ## Disable Transparent Huge Pages
 echo never | tee -a /sys/kernel/mm/transparent_hugepage/enabled
