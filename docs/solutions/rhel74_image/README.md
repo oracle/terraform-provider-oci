@@ -9,7 +9,7 @@ What is fixed/changed in this release:
   after some changes in pip.  So now we install pip locally to each user.
 - Changed our blank image OCID to use a new global value.  This makes the process *more* portable across
   regions (but not completely...see next bullet).
-- Updated the ipxe server image list to include the LON region.  LON is now fully supported on this process.
+- Updated the ipxe server image list to include the LHR region.  LHR is now fully supported on this process.
 - *** IMPORTANT CHANGE *** Updated process to use Instance Principal authorization method for OCI-CLI.  This
   removes the requirement to upload the user private key into the ipxe server.  *HOWEVER*, it does REQUIRE 
   the creation of a Dynamic Group for the Compartment this is being executed in.  This is included in the
