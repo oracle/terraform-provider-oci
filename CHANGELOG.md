@@ -6,7 +6,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ## 2.1.10 - 2018-05-24
 
 ### Added
-- Added support for dynamic groups. More details can be found [here](https://github.com/oracle/terraform-provider-oci/tree/master/docs/identity/dynamic_groups.md).
+- Support for dynamic group resources and data sources
+- Support for object storage namespace metadata resources and data sources
+- Support for region subscription data sources
 
 ## 2.1.9 - 2018-05-17
 
