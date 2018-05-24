@@ -56,6 +56,7 @@ This lists all of the available OCI resources and/or data sources.
     * [Dynamic Groups](https://github.com/oracle/terraform-provider-oci/tree/master/docs/identity/dynamic_groups.md)
     * [Groups](https://github.com/oracle/terraform-provider-oci/tree/master/docs/identity/groups.md)
     * [Policies](https://github.com/oracle/terraform-provider-oci/tree/master/docs/identity/policies.md)
+    * [Region Subscriptions](https://github.com/oracle/terraform-provider-oci/tree/master/docs/identity/region_subscriptions.md)
     * [Regions](https://github.com/oracle/terraform-provider-oci/tree/master/docs/identity/regions.md)
     * [Swift Passwords](https://github.com/oracle/terraform-provider-oci/tree/master/docs/identity/swift_passwords.md)
     * [Tenancies](https://github.com/oracle/terraform-provider-oci/tree/master/docs/identity/tenancies.md)
@@ -75,6 +76,7 @@ This lists all of the available OCI resources and/or data sources.
     * [Path Route Sets](https://github.com/oracle/terraform-provider-oci/tree/master/docs/load_balancer/path_route_sets.md)
 * **Object Storage**
     * [Buckets](https://github.com/oracle/terraform-provider-oci/tree/master/docs/object_storage/buckets.md)
+    * [Namespace Metadata](https://github.com/oracle/terraform-provider-oci/tree/master/docs/object_storage/namespace_metadata.md)
     * [Namespaces](https://github.com/oracle/terraform-provider-oci/tree/master/docs/object_storage/namespaces.md)
     * [Objects](https://github.com/oracle/terraform-provider-oci/tree/master/docs/object_storage/objects.md)
     * [Preauthenticated Requests](https://github.com/oracle/terraform-provider-oci/tree/master/docs/object_storage/preauthenticated_requests.md)
