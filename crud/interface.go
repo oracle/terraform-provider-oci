@@ -3,6 +3,7 @@
 package crud
 
 import (
+	"sync"
 	"time"
 )
 
@@ -93,4 +94,12 @@ type StatefullyDeletedResource interface {
 	StatefulResource
 	DeletedPending() []string
 	DeletedTarget() []string
+}
+
+// This provides a mechanism for synchronizing CRUD operations from different resources
+// that may concurrently modify the same resource. Implementing these interfaces will
+// cause the Create/Update/Delete operations to wait on the lock before starting those
+// operations.
+type SynchronizedResource interface {
+	GetMutex() *sync.Mutex
 }

@@ -4,6 +4,7 @@ package provider
 
 import (
 	"context"
+	"sync"
 
 	"github.com/hashicorp/terraform/helper/schema"
 
@@ -241,6 +242,12 @@ type BackendSetResourceCrud struct {
 	Res                    *oci_load_balancer.BackendSet
 	DisableNotFoundRetries bool
 	WorkRequest            *oci_load_balancer.WorkRequest
+}
+
+// The oci_loadbalancer_backend resource may implicitly modify this backend set and this could happen concurrently.
+// Use a per-backend set mutex to synchronize accesses to the backend set.
+func (s *BackendSetResourceCrud) GetMutex() *sync.Mutex {
+	return lbBackendSetMutexes.GetOrCreateBackendSetMutex(s.D.Get("load_balancer_id").(string), s.D.Get("name").(string))
 }
 
 func (s *BackendSetResourceCrud) ID() string {

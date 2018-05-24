@@ -6,6 +6,7 @@ import (
 	"context"
 	"strconv"
 	"strings"
+	"sync"
 
 	"github.com/hashicorp/terraform/helper/schema"
 
@@ -118,6 +119,13 @@ type BackendResourceCrud struct {
 	Res                    *oci_load_balancer.Backend
 	DisableNotFoundRetries bool
 	WorkRequest            *oci_load_balancer.WorkRequest
+}
+
+// The create, update, and delete operations may implicitly modify the associated backend set resource. This
+// may happen concurrently with an update to oci_loadbalancer_backend_set. Use a per-backend set
+// mutex to synchronize accesses to the backend set.
+func (s *BackendResourceCrud) GetMutex() *sync.Mutex {
+	return lbBackendSetMutexes.GetOrCreateBackendSetMutex(s.D.Get("load_balancer_id").(string), s.D.Get("backendset_name").(string))
 }
 
 func (s *BackendResourceCrud) buildID() string {
