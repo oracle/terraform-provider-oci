@@ -23,6 +23,7 @@ import (
 	oci_audit "github.com/oracle/oci-go-sdk/audit"
 	oci_common "github.com/oracle/oci-go-sdk/common"
 	oci_common_auth "github.com/oracle/oci-go-sdk/common/auth"
+	oci_containerengine "github.com/oracle/oci-go-sdk/containerengine"
 	oci_core "github.com/oracle/oci-go-sdk/core"
 	oci_database "github.com/oracle/oci-go-sdk/database"
 	oci_dns "github.com/oracle/oci-go-sdk/dns"
@@ -148,6 +149,10 @@ func schemaMap() map[string]*schema.Schema {
 func dataSourcesMap() map[string]*schema.Resource {
 	return map[string]*schema.Resource{
 		"oci_audit_configuration":                      ConfigurationDataSource(),
+		"oci_containerengine_clusters":                 ClustersDataSource(),
+		"oci_containerengine_cluster_option":           ClusterOptionDataSource(),
+		"oci_containerengine_node_pools":               NodePoolsDataSource(),
+		"oci_containerengine_node_pool_option":         NodePoolOptionDataSource(),
 		"oci_core_boot_volume_attachments":             BootVolumeAttachmentsDataSource(),
 		"oci_core_boot_volumes":                        BootVolumesDataSource(),
 		"oci_core_console_history_data":                ConsoleHistoryContentDataSource(),
@@ -256,6 +261,8 @@ func dataSourcesMap() map[string]*schema.Resource {
 func resourcesMap() map[string]*schema.Resource {
 	return map[string]*schema.Resource{
 		"oci_audit_configuration":                  ConfigurationResource(),
+		"oci_containerengine_cluster":              ClusterResource(),
+		"oci_containerengine_node_pool":            NodePoolResource(),
 		"oci_core_console_history":                 ConsoleHistoryResource(),
 		"oci_core_cpe":                             CpeResource(),
 		"oci_core_default_dhcp_options":            DefaultDhcpOptionsResource(),
@@ -481,6 +488,11 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 		return
 	}
 
+	containerEngineClient, err := oci_containerengine.NewContainerEngineClientWithConfigurationProvider(officialSdkConfigProvider)
+	if err != nil {
+		return
+	}
+
 	useOboToken, err := strconv.ParseBool(getEnvSetting("use_obo_token", "false"))
 	if err != nil {
 		return
@@ -563,6 +575,10 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 	if err != nil {
 		return
 	}
+	err = configureClient(&containerEngineClient.BaseClient)
+	if err != nil {
+		return
+	}
 
 	clients.auditClient = &auditClient
 	clients.blockstorageClient = &blockstorageClient
@@ -575,22 +591,24 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 	clients.loadBalancerClient = &loadBalancerClient
 	clients.objectStorageClient = &objectStorageClient
 	clients.virtualNetworkClient = &virtualNetworkClient
+	clients.containerEngineClient = &containerEngineClient
 
 	return
 }
 
 type OracleClients struct {
-	auditClient          *oci_audit.AuditClient
-	blockstorageClient   *oci_core.BlockstorageClient
-	computeClient        *oci_core.ComputeClient
-	databaseClient       *oci_database.DatabaseClient
-	dnsClient            *oci_dns.DnsClient
-	identityClient       *oci_identity.IdentityClient
-	virtualNetworkClient *oci_core.VirtualNetworkClient
-	objectStorageClient  *oci_object_storage.ObjectStorageClient
-	loadBalancerClient   *oci_load_balancer.LoadBalancerClient
-	fileStorageClient    *oci_file_storage.FileStorageClient
-	emailClient          *oci_email.EmailClient
+	auditClient           *oci_audit.AuditClient
+	blockstorageClient    *oci_core.BlockstorageClient
+	computeClient         *oci_core.ComputeClient
+	databaseClient        *oci_database.DatabaseClient
+	dnsClient             *oci_dns.DnsClient
+	identityClient        *oci_identity.IdentityClient
+	virtualNetworkClient  *oci_core.VirtualNetworkClient
+	objectStorageClient   *oci_object_storage.ObjectStorageClient
+	loadBalancerClient    *oci_load_balancer.LoadBalancerClient
+	fileStorageClient     *oci_file_storage.FileStorageClient
+	emailClient           *oci_email.EmailClient
+	containerEngineClient *oci_containerengine.ContainerEngineClient
 }
 
 type ResourceDataConfigProvider struct {

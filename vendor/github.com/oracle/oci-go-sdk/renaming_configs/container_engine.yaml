@@ -1,0 +1,10 @@
+languages:
+  oracle-go-sdk:
+    properties:
+      - originalName: "error"
+        mapping:
+            identifier: "nodeError"
+    models:
+      - originalName: "Error"
+        mapping:
+          identifier: "NodeError"
