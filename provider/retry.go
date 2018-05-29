@@ -67,17 +67,15 @@ func shouldRetry(response oci_common.OCIOperationResponse, disableNotFoundRetrie
 	timeWaited := getTimeWaited(response.AttemptNumber)
 	shortTimeDecision := timeWaited < shortRetryTime
 	longTimeDecision := timeWaited < longRetryTime
+
 	switch statusCode {
-	case 400:
-		return false
-	case 401:
-		return false
-	case 403:
+	case 400, 401, 403:
 		return false
 	case 404:
 		if disableNotFoundRetries {
 			return false
 		}
+
 		if service == identityService || service == objectstorageService {
 			return longTimeDecision
 		}
