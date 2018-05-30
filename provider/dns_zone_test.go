@@ -4,6 +4,7 @@ package provider
 
 import (
 	"fmt"
+	"regexp"
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
@@ -15,7 +16,7 @@ const (
 resource "oci_dns_zone" "test_zone" {
 	#Required
 	compartment_id = "${var.compartment_id}"
-	name = "${var.zone_name}"
+	name = "${data.oci_identity_tenancy.test_tenancy.name}.${var.zone_name}"
 	zone_type = "${var.zone_zone_type}"
 }
 `
@@ -24,7 +25,7 @@ resource "oci_dns_zone" "test_zone" {
 resource "oci_dns_zone" "test_zone" {
 	#Required
 	compartment_id = "${var.compartment_id}"
-	name = "${var.zone_name}"
+	name = "${data.oci_identity_tenancy.test_tenancy.name}.${var.zone_name}"
 	zone_type = "SECONDARY"
 
 	#Optional
@@ -49,11 +50,15 @@ variable "zone_external_masters_port" { default = 53 }  // (the only allowed val
 variable "zone_external_masters_tsig_algorithm" { default = "hmac-sha1" }
 variable "zone_external_masters_tsig_name" { default = "name" }
 variable "zone_external_masters_tsig_secret" { default = "c2VjcmV0" }
-variable "zone_name" { default = "tf-provider.oci-test" }
+variable "zone_name" { default = "oci-test" }
 variable "zone_zone_type" { default = "PRIMARY" }
 
 `
-	ZoneResourceDependencies = ""
+	ZoneResourceDependencies = `
+data "oci_identity_tenancy" "test_tenancy" {
+	tenancy_id = "${var.tenancy_ocid}"
+}
+`
 )
 
 func TestDnsZoneResource_basic(t *testing.T) {
@@ -80,7 +85,7 @@ func TestDnsZoneResource_basic(t *testing.T) {
 				Config:            config + ZonePropertyVariables + compartmentIdVariableStr + ZoneRequiredOnlyResource,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "name", "tf-provider.oci-test"),
+					resource.TestMatchResourceAttr(resourceName, "name", regexp.MustCompile("\\.oci-test")),
 					resource.TestCheckResourceAttr(resourceName, "zone_type", "PRIMARY"),
 
 					func(s *terraform.State) (err error) {
@@ -101,7 +106,7 @@ func TestDnsZoneResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "external_masters.0.tsig.0.algorithm", "hmac-sha1"),
 					resource.TestCheckResourceAttr(resourceName, "external_masters.0.tsig.0.name", "name"),
 					resource.TestCheckResourceAttr(resourceName, "external_masters.0.tsig.0.secret", "c2VjcmV0"),
-					resource.TestCheckResourceAttr(resourceName, "name", "tf-provider.oci-test"),
+					resource.TestMatchResourceAttr(resourceName, "name", regexp.MustCompile("\\.oci-test")),
 					resource.TestCheckResourceAttr(resourceName, "zone_type", "SECONDARY"),
 
 					func(s *terraform.State) (err error) {
@@ -134,11 +139,11 @@ data "oci_dns_zones" "test_zones" {
 				Config: config + ZonePropertyVariables + `
 data "oci_dns_zones" "test_zones" {
   compartment_id = "${var.compartment_id}"
-  name = "tf-provider.oci-test"
+  name = "${data.oci_identity_tenancy.test_tenancy.name}.oci-test"
 }
                 ` + compartmentIdVariableStr + ZoneResourceConfig,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(datasourceName, "name", "tf-provider.oci-test"),
+					resource.TestMatchResourceAttr(datasourceName, "name", regexp.MustCompile("\\.oci-test")),
 					resource.TestCheckResourceAttr(datasourceName, "zones.#", "1"),
 				),
 			},

@@ -17,7 +17,7 @@ const (
 resource "oci_dns_record" "test_record" {
 	#Required
 	zone_name_or_id = "${oci_dns_zone.test_zone.name}"
-	domain = "${var.record_items_domain}"
+	domain = "${data.oci_identity_tenancy.test_tenancy.name}.${var.record_items_domain}"
 	rdata = "${var.record_items_rdata}"
 	rtype = "${var.record_items_rtype}"
 	ttl = "${var.record_items_ttl}"
@@ -32,30 +32,34 @@ resource "oci_dns_record" "test_record" {
 	#Optional
 	compartment_id = "${var.compartment_id}"
 
-	domain = "${var.record_items_domain}"
+	domain = "${data.oci_identity_tenancy.test_tenancy.name}.${var.record_items_domain}"
 	rdata = "${var.record_items_rdata}"
 	rtype = "${var.record_items_rtype}"
 	ttl = "${var.record_items_ttl}"
 }
 `
 	RecordPropertyVariables = `
-variable "record_domain" { default = "tf-provider.oci-test" }
-variable "record_items_domain" { default = "tf-provider.oci-test" }
+variable "record_items_domain" { default = "oci-test" }
 variable "record_items_rdata" { default = "192.168.0.1" }
 variable "record_items_rtype" { default = "A" }
 variable "record_items_ttl" { default = 3600 }
 `
 	RecordResourceDependencies = `
+data "oci_identity_tenancy" "test_tenancy" {
+	tenancy_id = "${var.tenancy_ocid}"
+}
+
 resource "oci_dns_zone" "test_zone" {
 	#Required
 	compartment_id = "${var.compartment_id}"
-	name = "tf-provider.oci-test"
+	name = "${data.oci_identity_tenancy.test_tenancy.name}.oci-test"
 	zone_type = "PRIMARY"
 }
+
 resource "oci_dns_zone" "test_zone2" {
 	#Required
 	compartment_id = "${var.compartment_id}"
-	name = "tf-provider2.oci-test"
+	name = "${data.oci_identity_tenancy.test_tenancy.name}2.oci-test"
 	zone_type = "PRIMARY"
 }`
 )
@@ -101,14 +105,14 @@ func TestDnsRecordsResource_basic(t *testing.T) {
 				Config: config + RecordPropertyVariables + compartmentIdVariableStr + RecordResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "domain", "tf-provider.oci-test"),
+					resource.TestMatchResourceAttr(resourceName, "domain", regexp.MustCompile("\\.oci-test")),
 					resource.TestCheckResourceAttr(resourceName, "is_protected", "false"),
 					resource.TestCheckResourceAttr(resourceName, "rdata", "192.168.0.1"),
 					resource.TestCheckResourceAttrSet(resourceName, "record_hash"),
 					resource.TestCheckResourceAttrSet(resourceName, "rrset_version"),
 					resource.TestCheckResourceAttr(resourceName, "rtype", "A"),
 					resource.TestCheckResourceAttr(resourceName, "ttl", "3600"),
-					resource.TestCheckResourceAttr(resourceName, "zone_name_or_id", "tf-provider.oci-test"),
+					TestCheckResourceAttributesEqual(resourceName, "zone_name_or_id", "oci_dns_zone.test_zone", "name"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, resourceName, "id")
@@ -124,22 +128,21 @@ func TestDnsRecordsResource_basic(t *testing.T) {
 			// verify updates to updatable parameters
 			{
 				Config: config + `
-variable "record_domain" { default = "tf-provider.oci-test" }
-variable "record_items_domain" { default = "tf-provider.oci-test" }
+variable "record_items_domain" { default = "oci-test" }
 variable "record_items_rdata" { default = "77.77.77.77" }
 variable "record_items_rtype" { default = "A" }
 variable "record_items_ttl" { default = 1000 }
                 ` + compartmentIdVariableStr + RecordResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "domain", "tf-provider.oci-test"),
+					resource.TestMatchResourceAttr(resourceName, "domain", regexp.MustCompile("\\.oci-test")),
 					resource.TestCheckResourceAttr(resourceName, "is_protected", "false"),
 					resource.TestCheckResourceAttr(resourceName, "rdata", "77.77.77.77"),
 					resource.TestCheckResourceAttrSet(resourceName, "record_hash"),
 					resource.TestCheckResourceAttrSet(resourceName, "rrset_version"),
 					resource.TestCheckResourceAttr(resourceName, "rtype", "A"),
 					resource.TestCheckResourceAttr(resourceName, "ttl", "1000"),
-					resource.TestCheckResourceAttr(resourceName, "zone_name_or_id", "tf-provider.oci-test"),
+					TestCheckResourceAttributesEqual(resourceName, "zone_name_or_id", "oci_dns_zone.test_zone", "name"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, resourceName, "id")
@@ -154,15 +157,15 @@ variable "record_items_ttl" { default = 1000 }
 			{
 				Config: config + RecordPropertyVariables + compartmentIdVariableStr + RecordResourceDependencies + `
 resource "oci_dns_record" "test_record" {
-	zone_name_or_id = "tf-provider2.oci-test"
-	domain = "tf-provider2.oci-test"
+	zone_name_or_id = "${oci_dns_zone.test_zone2.name}"
+	domain = "${data.oci_identity_tenancy.test_tenancy.name}2.oci-test"
 	rdata = "${var.record_items_rdata}"
 	rtype = "${var.record_items_rtype}"
 	ttl = "${var.record_items_ttl}"
 }
 `,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "zone_name_or_id", "tf-provider2.oci-test"),
+					TestCheckResourceAttributesEqual(resourceName, "zone_name_or_id", "oci_dns_zone.test_zone2", "name"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, resourceName, "id")
@@ -180,7 +183,7 @@ data "oci_dns_records" "test_records" {
   zone_name_or_id = "${oci_dns_zone.test_zone.name}"
 
   # optional
-  domain = "tf-provider.oci-test"
+  domain = "${oci_dns_zone.test_zone.name}"
   rtype = "NS"
   sort_by = "ttl"
   sort_order = "DESC"
@@ -194,7 +197,7 @@ data "oci_dns_records" "test_records" {
 				Config: config + RecordPropertyVariables + compartmentIdVariableStr + RecordResourceDependencies + `
 data "oci_dns_records" "test_records" {
   zone_name_or_id = "${oci_dns_zone.test_zone.name}"
-  domain = "tf-provider.oci-test"
+  domain = "${oci_dns_zone.test_zone.name}"
 	filter {
 	  name = "rtype"
 	  values = ["SOA"]
@@ -226,8 +229,8 @@ func TestDnsRecordsResource_diffSuppression(t *testing.T) {
 			{
 				Config: config + RecordPropertyVariables + compartmentIdVariableStr + RecordResourceDependencies + `
 resource "oci_dns_record" "test_record" {
-	zone_name_or_id = "tf-provider.oci-test"
-	domain = "tf-provider.oci-test"
+	zone_name_or_id = "${data.oci_identity_tenancy.test_tenancy.name}.oci-test"
+	domain = "${data.oci_identity_tenancy.test_tenancy.name}.oci-test"
 	rtype = "AAAA"
 	rdata = "2001:0db8:85a3:0000:0000:8a2e:0370:7334"
 	ttl = "3600"
@@ -240,8 +243,8 @@ resource "oci_dns_record" "test_record" {
 			{
 				Config: config + RecordPropertyVariables + compartmentIdVariableStr + RecordResourceDependencies + `
 resource "oci_dns_record" "test_record" {
-	zone_name_or_id = "tf-provider.oci-test"
-	domain = "tf-provider.oci-test"
+	zone_name_or_id = "${data.oci_identity_tenancy.test_tenancy.name}.oci-test"
+	domain = "${data.oci_identity_tenancy.test_tenancy.name}.oci-test"
 	rtype = "AAAA"
 	rdata = "0000:0000:0000:0000:0000:8a2e:0370:0001"
 	ttl = "3600"
@@ -253,8 +256,8 @@ resource "oci_dns_record" "test_record" {
 			{
 				Config: config + RecordPropertyVariables + compartmentIdVariableStr + RecordResourceDependencies + `
 resource "oci_dns_record" "test_record" {
-	zone_name_or_id = "tf-provider.oci-test"
-	domain = "tf-provider.oci-test"
+	zone_name_or_id = "${data.oci_identity_tenancy.test_tenancy.name}.oci-test"
+	domain = "${data.oci_identity_tenancy.test_tenancy.name}.oci-test"
 	rtype = "AAAA"
 	rdata = "8a2e:0000:0000:0000:0000:0370:0000:0000"
 	ttl = "3600"
@@ -266,8 +269,8 @@ resource "oci_dns_record" "test_record" {
 			{
 				Config: config + RecordPropertyVariables + compartmentIdVariableStr + RecordResourceDependencies + `
 resource "oci_dns_record" "test_record" {
-	zone_name_or_id = "tf-provider.oci-test"
-	domain = "tf-provider.oci-test"
+	zone_name_or_id = "${data.oci_identity_tenancy.test_tenancy.name}.oci-test"
+	domain = "${data.oci_identity_tenancy.test_tenancy.name}.oci-test"
 	rtype = "TXT"
 	rdata = "arbitrary text"
 	ttl = "3600"
@@ -280,8 +283,8 @@ resource "oci_dns_record" "test_record" {
 			{
 				Config: config + RecordPropertyVariables + compartmentIdVariableStr + RecordResourceDependencies + `
 resource "oci_dns_record" "test_record" {
-	zone_name_or_id = "tf-provider.oci-test"
-	domain = "tf-provider.oci-test"
+	zone_name_or_id = "${data.oci_identity_tenancy.test_tenancy.name}.oci-test"
+	domain = "${data.oci_identity_tenancy.test_tenancy.name}.oci-test"
 	rtype = "ALIAS"
 	rdata = "other.tf-provider.oci-test"
 	ttl = "3600"
@@ -311,8 +314,8 @@ func TestDnsRecordsResource_badUpdate(t *testing.T) {
 			{
 				Config: config + RecordPropertyVariables + compartmentIdVariableStr + RecordResourceDependencies + `
 resource "oci_dns_record" "test_record" {
-	zone_name_or_id = "tf-provider.oci-test"
-	domain = "tf-provider.oci-test"
+	zone_name_or_id = "${data.oci_identity_tenancy.test_tenancy.name}.oci-test"
+	domain = "${data.oci_identity_tenancy.test_tenancy.name}.oci-test"
 	rtype = "A"
 	rdata = "192.168.0.1"
 	ttl = "3600"
@@ -322,10 +325,10 @@ resource "oci_dns_record" "test_record" {
 				),
 			},
 			{
-				Config: config + RecordPropertyVariables + RecordResourceDependencies + `
+				Config: config + RecordPropertyVariables + compartmentIdVariableStr + RecordResourceDependencies + `
 resource "oci_dns_record" "test_record" {
-	zone_name_or_id = "tf-provider.oci-test"
-	domain = "tf-provider.oci-test"
+	zone_name_or_id = "${data.oci_identity_tenancy.test_tenancy.name}.oci-test"
+	domain = "${data.oci_identity_tenancy.test_tenancy.name}.oci-test"
 	rtype = "A"
 	rdata = "192.168.0.1"
 	ttl = "-1"
