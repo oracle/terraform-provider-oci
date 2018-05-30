@@ -18,6 +18,12 @@ const (
 
 `
 	AvailabilityDomainResourceDependencies = ""
+
+	AvailabilityDomainConfig = `
+data "oci_identity_availability_domains" "test_availability_domains" {
+	compartment_id = "${var.compartment_id}"
+}
+`
 )
 
 func TestIdentityAvailabilityDomainResource_basic(t *testing.T) {

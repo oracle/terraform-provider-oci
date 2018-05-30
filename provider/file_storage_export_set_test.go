@@ -30,7 +30,6 @@ resource "oci_file_storage_export_set" "test_export_set" {
 }
 `
 	ExportSetPropertyVariables = `
-variable "export_set_availability_domain" { default = "kIdk:PHX-AD-1" }
 variable "export_set_display_name" { default = "export set display name" }
 variable "max_bytes" { default = 23843202333 }
 variable "max_files" { default = 223442 }
@@ -62,7 +61,7 @@ func TestFileStorageExportSetResource_basic(t *testing.T) {
 				ImportStateVerify: true,
 				Config:            config + ExportSetPropertyVariables + compartmentIdVariableStr + ExportSetRequiredOnlyResource,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "availability_domain", "kIdk:PHX-AD-1"),
+					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					//resource.TestCheckResourceAttrSet(resourceName, "display_name"),
 					resource.TestCheckResourceAttrSet(resourceName, "max_fs_stat_bytes"),
@@ -81,7 +80,7 @@ func TestFileStorageExportSetResource_basic(t *testing.T) {
 			{
 				Config: config + ExportSetPropertyVariables + compartmentIdVariableStr + ExportSetResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "availability_domain", "kIdk:PHX-AD-1"),
+					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "export set display name"),
 					resource.TestCheckResourceAttr(resourceName, "max_fs_stat_bytes", "23843202333"),
@@ -102,7 +101,6 @@ func TestFileStorageExportSetResource_basic(t *testing.T) {
 			// verify updates to Force New parameters.
 			{
 				Config: config + `
-variable "export_set_availability_domain" { default = "kIdk:PHX-AD-1" }
 variable "export_set_display_name" { default = "export set on mount target 2" }
 variable "max_bytes" { default = 23843202333 }
 variable "max_files" { default = 223442 }
@@ -111,7 +109,7 @@ variable "export_set_state" { default = "ACTIVE" }
 # creating a second mount target
 resource "oci_file_storage_mount_target" "test_mount_target_2" {
 	#Required
-	availability_domain = "${var.mount_target_availability_domain}"
+	availability_domain = "${oci_core_subnet.test_subnet.availability_domain}"
 	compartment_id = "${var.compartment_id}"
 	subnet_id = "${oci_core_subnet.test_subnet.id}"
 }
@@ -128,7 +126,7 @@ resource "oci_file_storage_export_set" "test_export_set" {
 }
                 ` + compartmentIdVariableStr + MountTargetPropertyVariables + MountTargetResourceDependencies,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "availability_domain", "kIdk:PHX-AD-1"),
+					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "export set on mount target 2"),
 					resource.TestCheckResourceAttr(resourceName, "max_fs_stat_bytes", "23843202333"),
@@ -149,7 +147,6 @@ resource "oci_file_storage_export_set" "test_export_set" {
 			// verify datasource
 			{
 				Config: config + `
-variable "export_set_availability_domain" { default = "kIdk:PHX-AD-1" }
 variable "export_set_display_name" { default = "export set display name" }
 variable "max_bytes" { default = 23843202333 }
 variable "max_files" { default = 223442 }
@@ -157,7 +154,7 @@ variable "export_set_state" { default = "ACTIVE" }
 
 data "oci_file_storage_export_sets" "test_export_sets" {
 	#Required
-	availability_domain = "${var.export_set_availability_domain}"
+	availability_domain = "${oci_file_storage_mount_target.test_mount_target.availability_domain}"
 	compartment_id = "${var.compartment_id}"
 
 	#Optional
@@ -172,7 +169,7 @@ data "oci_file_storage_export_sets" "test_export_sets" {
 }
                 ` + compartmentIdVariableStr + ExportSetResourceConfig,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(datasourceName, "availability_domain", "kIdk:PHX-AD-1"),
+					resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
 					resource.TestCheckResourceAttr(datasourceName, "export_sets.#", "1"),

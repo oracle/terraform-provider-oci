@@ -50,12 +50,6 @@ variable "subnet_state" { default = "state" }
 
 `
 
-	AvailabilityDomainConfig = `
-data "oci_identity_availability_domains" "test_availability_domains" {
-	compartment_id = "${var.compartment_id}"
-}
-`
-
 	SubnetResourceDependencies = /* Uncomment once defined: DhcpOptionsPropertyVariables + DhcpOptionsResourceConfig + RouteTablePropertyVariables + RouteTableResourceConfig + */ VcnPropertyVariables + VcnResourceConfig + AvailabilityDomainConfig
 )
 

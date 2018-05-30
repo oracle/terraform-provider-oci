@@ -25,7 +25,7 @@ variable "export_path" { default = "/files-5" }
 variable "export_state" { default = "ACTIVE" }
 
 `
-	ExportResourceDependencies = FileSystemPropertyVariables + FileSystemResourceConfig + MountTargetPropertyVariables + MountTargetResourceConfig
+	ExportResourceDependencies = FileSystemPropertyVariables + FileSystemResourceConfigOnly + MountTargetPropertyVariables + MountTargetResourceConfig
 )
 
 func TestFileStorageExportResource_basic(t *testing.T) {
