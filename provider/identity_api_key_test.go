@@ -11,12 +11,14 @@ import (
 )
 
 const (
-	ApiKeyResourceConfig = ApiKeyResourceDependencies + `
+	ApiKeyResourceConfigOnly = `
 resource "oci_identity_api_key" "test_api_key" {
 	#Required
 	user_id = "${oci_identity_user.test_user.id}"
 	key_value = "${var.api_key_value}"
 }`
+
+	ApiKeyResourceConfig = ApiKeyResourceDependencies + ApiKeyResourceConfigOnly
 
 	ApiKeyResourceDependencies = UserPropertyVariables + UserResourceConfig
 
@@ -48,8 +50,8 @@ func TestIdentityApiKeyResource_basic(t *testing.T) {
 	compartmentId := getRequiredEnvSetting("tenancy_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	apiKeyVarStr := "variable \"api_key_value\" { \n\tdefault = <<EOF\n" + fmt.Sprintf(`%s`, apiKey) + "EOF\n}\n"
-	apiKeyVarStr2 := "variable \"api_key_value\" { \n\tdefault = <<EOF\n" + fmt.Sprintf(`%s`, apiKey2) + "EOF\n}\n"
+	apiKeyVarStr := fmt.Sprintf("variable \"api_key_value\" { \n\tdefault = <<EOF\n%sEOF\n}\n", apiKey)
+	apiKeyVarStr2 := fmt.Sprintf("variable \"api_key_value\" { \n\tdefault = <<EOF\n%sEOF\n}\n", apiKey2)
 
 	resourceName := "oci_identity_api_key.test_api_key"
 	datasourceName := "data.oci_identity_api_keys.test_api_keys"
@@ -125,8 +127,8 @@ func TestIdentityApiKeyResource_forcenew(t *testing.T) {
 	compartmentId := getRequiredEnvSetting("tenancy_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	apiKeyVarStr := fmt.Sprintf("variable \"api_key_value\" { default = \"%s\" }\n", apiKey)
-	apiKeyVarStr2 := fmt.Sprintf("variable \"api_key_value\" { default = \"%s\" }\n", apiKey2)
+	apiKeyVarStr := fmt.Sprintf("variable \"api_key_value\" { \n\tdefault = <<EOF\n%sEOF\n}\n", apiKey)
+	apiKeyVarStr2 := fmt.Sprintf("variable \"api_key_value\" { \n\tdefault = <<EOF\n%sEOF\n}\n", apiKey2)
 
 	resourceName := "oci_identity_api_key.test_api_key"
 
@@ -168,9 +170,12 @@ func TestIdentityApiKeyResource_forcenew(t *testing.T) {
 					},
 				),
 			},
-
+			// Force new tests, changing the user id should result in new Api Key resource
 			{
-				Config: config + apiKeyVarStr2 + compartmentIdVariableStr + ApiKeyResourceConfig,
+				Config: config + `
+variable "user_description" { default = "John Smith" }
+variable "user_name" { default = "name2" }
+				` + apiKeyVarStr2 + compartmentIdVariableStr + ApiKeyResourceConfigOnly + UserResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "key_value", apiKey2),
 					resource.TestCheckResourceAttrSet(resourceName, "user_id"),
