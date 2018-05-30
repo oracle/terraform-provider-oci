@@ -24,6 +24,10 @@ func BootVolumesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"volume_group_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"boot_volumes": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -70,6 +74,10 @@ func BootVolumesDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"volume_group_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 					},
 				},
 			},
@@ -106,6 +114,11 @@ func (s *BootVolumesDataSourceCrud) Get() error {
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
+	}
+
+	if volumeGroupId, ok := s.D.GetOkExists("volume_group_id"); ok {
+		tmp := volumeGroupId.(string)
+		request.VolumeGroupId = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
@@ -168,6 +181,10 @@ func (s *BootVolumesDataSourceCrud) SetData() {
 		bootVolume["state"] = r.LifecycleState
 
 		bootVolume["time_created"] = r.TimeCreated.String()
+
+		if r.VolumeGroupId != nil {
+			bootVolume["volume_group_id"] = *r.VolumeGroupId
+		}
 
 		resources = append(resources, bootVolume)
 	}

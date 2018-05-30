@@ -18,6 +18,7 @@ The following attributes are exported:
 	* `id` - The OCID of the volume or volume backup.
 * `state` - The current state of a volume.
 * `time_created` - The date and time the volume was created. Format defined by RFC3339.
+* `volume_group_id` - The OCID of the source volume group.
 
 
 
@@ -98,6 +99,7 @@ The following arguments are supported:
 * `compartment_id` - (Required) The OCID of the compartment.
 * `display_name` - (Optional) A filter to return only resources that match the given display name exactly. 
 * `state` - (Optional) A filter to only return resources that match the given lifecycle state.  The state value is case-insensitive. 
+* `volume_group_id` - (Optional) The OCID of the volume group.
 
 
 The following attributes are exported:
@@ -115,5 +117,6 @@ data "oci_core_volumes" "test_volumes" {
 	availability_domain = "${var.volume_availability_domain}"
 	display_name = "${var.volume_display_name}"
 	state = "${var.volume_state}"
+	volume_group_id = "${var.volume_volume_group_id}"
 }
 ```

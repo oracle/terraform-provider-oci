@@ -428,6 +428,16 @@ func StringsToSet(ss []string) *schema.Set {
 	return st
 }
 
+// SetToString encodes an *schema.Set into an []string honoring the structure for the schema
+func SetToStrings(volumeIdsSet *schema.Set) []string {
+	interfaces := volumeIdsSet.List()
+	tmp := make([]string, len(interfaces))
+	for i, toBeConverted := range interfaces {
+		tmp[i] = toBeConverted.(string)
+	}
+	return tmp
+}
+
 // NormalizeBoolString parses a string value into a bool value, and if successful, formats it back
 // into a string & throws an error otherwise. This allows for normalizing the different formats of
 // valid bool strings (e.g. "1", "false", "TRUE", "F", etc.) to a uniform string representation of
