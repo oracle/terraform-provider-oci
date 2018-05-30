@@ -35,7 +35,22 @@ resource "oci_core_volume" "test_volume" {
 	}
 }
 `
+	VolumeResourceConfigFromVolBackup = VolumeResourceDependenciesFromVolBackup + `
+resource "oci_core_volume" "test_volume" {
+	#Required
+	availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+	compartment_id = "${var.compartment_id}"
 
+	#Optional
+	display_name = "${var.volume_display_name}"
+	size_in_gbs = "${var.volume_size_in_gbs}"
+	source_details {
+		#Required
+		type = "${var.volume_source_details_type}"
+		id = "${oci_core_volume_backup.source_volume_backup.id}"
+	}
+}
+`
 	VolumeNewADResourceConfig = VolumeResourceDependencies + `
 resource "oci_core_volume" "test_volume" {
 	#Required
@@ -65,6 +80,27 @@ resource "oci_core_volume" "source_volume" {
 	#Required
 	availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
 	compartment_id = "${var.compartment_id}"
+}
+`
+	VolumeResourceDependenciesFromVolBackup = `
+data "oci_identity_availability_domains" "ADs" {
+	compartment_id = "${var.compartment_id}"
+}
+
+resource "oci_core_volume" "source_volume_for_volume_backup" {
+	#Required
+	availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+	compartment_id = "${var.compartment_id}"
+	#Optional
+	display_name = "source-volume-for-volume-backup"
+	size_in_gbs = "${var.volume_size_in_gbs}"
+}
+
+resource "oci_core_volume_backup" "source_volume_backup" {
+	#Required
+	volume_id = "${oci_core_volume.source_volume_for_volume_backup.id}"
+	#Optional
+	display_name = "source-volume-backup"
 }
 `
 )
@@ -301,6 +337,33 @@ variable "volume_state" { default = "AVAILABLE" }
 				),
 			},
 
+			{
+				Config: config + `
+variable "volume_display_name" { default = "displayName" }
+variable "volume_size_in_gbs" { default = 50 }
+variable "volume_source_details_type" { default = "volume" }
+variable "volume_state" { default = "AVAILABLE" }
+				` + compartmentIdVariableStr2 + VolumeNewADResourceConfig,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId2),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "size_in_gbs", "50"),
+					resource.TestCheckResourceAttr(resourceName, "size_in_mbs", "51200"),
+					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = fromInstanceState(s, resourceName, "id")
+						if resId == resId2 {
+							return fmt.Errorf("Resource was expected to be recreated when updating parameter CompartmentId but the id did not change.")
+						}
+						resId = resId2
+						return err
+					},
+				),
+			},
 			{ // change volume size
 				Config: config + `
 variable "volume_display_name" { default = "displayName" }
@@ -322,6 +385,35 @@ variable "volume_state" { default = "AVAILABLE" }
 						resId2, err = fromInstanceState(s, resourceName, "id")
 						if resId == resId2 {
 							return fmt.Errorf("Resource was expected to be recreated when updating parameter SizeInGBs but the id did not change.")
+						}
+						resId = resId2
+						return err
+					},
+				),
+			},
+			{
+				Config: config + `
+variable "volume_display_name" { default = "displayName" }
+variable "volume_size_in_gbs" { default = 60 }
+variable "volume_source_details_type" { default = "volumeBackup" }
+variable "volume_state" { default = "Available" }
+				` + compartmentIdVariableStr2 + VolumeResourceConfigFromVolBackup,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId2),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "size_in_gbs", "60"),
+					resource.TestCheckResourceAttr(resourceName, "size_in_mbs", "61440"),
+					resource.TestCheckResourceAttr(resourceName, "source_details.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "source_details.0.type", "volumeBackup"),
+					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = fromInstanceState(s, resourceName, "id")
+						if resId == resId2 {
+							return fmt.Errorf("Resource was expected to be recreated when updating parameter Type but the id did not change.")
 						}
 						resId = resId2
 						return err

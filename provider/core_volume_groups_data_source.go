@@ -11,9 +11,9 @@ import (
 	"github.com/oracle/terraform-provider-oci/crud"
 )
 
-func VolumesDataSource() *schema.Resource {
+func VolumeGroupsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readVolumes,
+		Read: readVolumeGroups,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"availability_domain": {
@@ -28,53 +28,39 @@ func VolumesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"limit": {
-				Type:       schema.TypeInt,
-				Optional:   true,
-				Deprecated: crud.FieldDeprecated("limit"),
-			},
-			"page": {
-				Type:       schema.TypeString,
-				Optional:   true,
-				Deprecated: crud.FieldDeprecated("page"),
-			},
 			"state": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"volume_group_id": {
-				Type:     schema.TypeString,
-				Optional: true,
-			},
-			"volumes": {
+			"volume_groups": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     VolumeResource(),
+				Elem:     VolumeGroupResource(),
 			},
 		},
 	}
 }
 
-func readVolumes(d *schema.ResourceData, m interface{}) error {
-	sync := &VolumesDataSourceCrud{}
+func readVolumeGroups(d *schema.ResourceData, m interface{}) error {
+	sync := &VolumeGroupsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).blockstorageClient
 
 	return crud.ReadResource(sync)
 }
 
-type VolumesDataSourceCrud struct {
+type VolumeGroupsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.BlockstorageClient
-	Res    *oci_core.ListVolumesResponse
+	Res    *oci_core.ListVolumeGroupsResponse
 }
 
-func (s *VolumesDataSourceCrud) VoidState() {
+func (s *VolumeGroupsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *VolumesDataSourceCrud) Get() error {
-	request := oci_core.ListVolumesRequest{}
+func (s *VolumeGroupsDataSourceCrud) Get() error {
+	request := oci_core.ListVolumeGroupsRequest{}
 
 	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
 		tmp := availabilityDomain.(string)
@@ -91,28 +77,13 @@ func (s *VolumesDataSourceCrud) Get() error {
 		request.DisplayName = &tmp
 	}
 
-	if limit, ok := s.D.GetOkExists("limit"); ok {
-		tmp := limit.(int)
-		request.Limit = &tmp
-	}
-
-	if page, ok := s.D.GetOkExists("page"); ok {
-		tmp := page.(string)
-		request.Page = &tmp
-	}
-
 	if state, ok := s.D.GetOkExists("state"); ok {
-		request.LifecycleState = oci_core.VolumeLifecycleStateEnum(state.(string))
-	}
-
-	if volumeGroupId, ok := s.D.GetOkExists("volume_group_id"); ok {
-		tmp := volumeGroupId.(string)
-		request.VolumeGroupId = &tmp
+		request.LifecycleState = oci_core.VolumeGroupLifecycleStateEnum(state.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
 
-	response, err := s.Client.ListVolumes(context.Background(), request)
+	response, err := s.Client.ListVolumeGroups(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -121,7 +92,7 @@ func (s *VolumesDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListVolumes(context.Background(), request)
+		listResponse, err := s.Client.ListVolumeGroups(context.Background(), request)
 		if err != nil {
 			return err
 		}
@@ -133,7 +104,7 @@ func (s *VolumesDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *VolumesDataSourceCrud) SetData() {
+func (s *VolumeGroupsDataSourceCrud) SetData() {
 	if s.Res == nil {
 		return
 	}
@@ -142,52 +113,42 @@ func (s *VolumesDataSourceCrud) SetData() {
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {
-		volume := map[string]interface{}{
+		volumeGroup := map[string]interface{}{
 			"compartment_id": *r.CompartmentId,
 		}
 
 		if r.AvailabilityDomain != nil {
-			volume["availability_domain"] = *r.AvailabilityDomain
+			volumeGroup["availability_domain"] = *r.AvailabilityDomain
 		}
 
 		if r.DisplayName != nil {
-			volume["display_name"] = *r.DisplayName
+			volumeGroup["display_name"] = *r.DisplayName
 		}
 
 		if r.Id != nil {
-			volume["id"] = *r.Id
-		}
-
-		if r.IsHydrated != nil {
-			volume["is_hydrated"] = *r.IsHydrated
-		}
-
-		if r.SizeInGBs != nil {
-			volume["size_in_gbs"] = *r.SizeInGBs
+			volumeGroup["id"] = *r.Id
 		}
 
 		if r.SizeInMBs != nil {
-			volume["size_in_mbs"] = *r.SizeInMBs
+			volumeGroup["size_in_mbs"] = *r.SizeInMBs
 		}
 
-		volume["source_details"] = VolumeSourceDetailsToMap(r.SourceDetails)
+		volumeGroup["source_details"] = VolumeGroupSourceDetailsToMap(r.SourceDetails)
 
-		volume["state"] = r.LifecycleState
+		volumeGroup["state"] = r.LifecycleState
 
-		volume["time_created"] = r.TimeCreated.String()
+		volumeGroup["time_created"] = r.TimeCreated.String()
 
-		if r.VolumeGroupId != nil {
-			volume["volume_group_id"] = *r.VolumeGroupId
-		}
+		volumeGroup["volume_ids"] = r.VolumeIds
 
-		resources = append(resources, volume)
+		resources = append(resources, volumeGroup)
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
 		resources = ApplyFilters(f.(*schema.Set), resources)
 	}
 
-	if err := s.D.Set("volumes", resources); err != nil {
+	if err := s.D.Set("volume_groups", resources); err != nil {
 		panic(err)
 	}
 
