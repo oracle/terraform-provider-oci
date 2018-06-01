@@ -1,12 +1,24 @@
 #!/bin/bash
-## Bastion script to drive all provisioning tasks 
-## by Zachary Smith (Zachary.Smith@oracle.com) 
-## Last Update - March 2018
-##
+#### Bastion Master Setup Script
+
+ssh_check () {
+	if [ -z $user ]; then
+		user="opc"
+	fi
+	echo -ne "Checking SSH as $user on $host [*"
+        while [ "$sshchk" != "0" ]; do
+		sshchk=`ssh -o StrictHostKeyChecking=no -q -i /home/opc/.ssh/id_rsa ${user}@${host} 'echo 0'`
+                sleep 5
+                echo -n "*"
+        done;
+	echo -ne "*] - DONE\n"
+        unset sshchk user
+}
+
 ### Firewall Configuration
 ## Set this flag to 1 to enable host firewalls, 0 to disable
 firewall_on="0"
-### Main execution below this point - all tasks are initiated from Bastion host inside screen session ##
+### Main execution below this point - all tasks are initiated from Bastion host inside screen session called from remote-exec ##
 cd /home/opc/
 
 ## Set DNS to resolve all subnet domains
@@ -14,12 +26,15 @@ sudo rm -f /etc/resolv.conf
 sudo echo "search public1.cdhvcn.oraclevcn.com public2.cdhvcn.oraclevcn.com public3.cdhvcn.oraclevcn.com private1.cdhvcn.oraclevcn.com private2.cdhvcn.oraclevcn.com private3.cdhvcn.oraclevcn.com bastion1.cdhvcn.oraclevcn.com bastion2.cdhvcn.oraclevcn.com bastion3.cdhvcn.oraclevcn.com" > /etc/resolv.conf
 sudo echo "nameserver 169.254.169.254" >> /etc/resolv.conf
 
-## Continue with Main Setup
+## Cleanup any exiting files just in case
 if [ -f host_list ]; then 
 	rm -f host_list;
 	rm -f datanodes;
 	rm -f hosts;
-fi 
+fi
+
+## Continue with Main Setup 
+# First do some network & host discovery
 domain="cdhvcn.oraclevcn.com"
 utilname=`nslookup cdh-utility1 | grep Name | gawk '{print $2}'`
 echo "$utilname" >> host_list;
@@ -63,7 +78,8 @@ for host in `cat host_list`; do
 	h_ip=`dig +short $host`
 	echo -e "$h_ip\t$host" >> hosts
 done;
-## REFACTOR THE NETWORK LOOKUP FOR MULTI AD SUPPORT - OR JUST WHITELIST KNOWN SUBNET 10.0.0.0/16
+
+## REFACTOR THE NETWORK LOOKUP FOR MULTI AD SUPPORT - OR JUST WHITELIST KNOWN SUBNET 10.0.0.0/16 - Only needed for Firewall Enabled
 unset local_network
 if [ -f hosts ]; then
 	local_network="10.0.0.0/16"
@@ -71,19 +87,23 @@ if [ -f hosts ]; then
 fi
 master_ip=`dig +short $utilname`
 sed -i "s/MASTERIP/$master_ip/g" startup.sh
+
+## Wait 4 minutes for Cloud Init to finish
+#sc=0
+#echo -ne "Waiting 4 Minutes for Cloud Init to finish... [*"
+#while [ $sc -lt 240 ]; do
+#	sc=$((sc+10))
+#	sleep 5
+#	echo -ne "*"
+#done;
+#echo -ne "*] - DONE\n"
+#
+## Primary host setup section
 for host in `cat host_list | gawk -F '.' '{print $1}'`; do
         echo -e "\tConfiguring $host for deployment."
-        echo -ne "\tWaiting for SSH to be available on $host..."
         host_ip=`cat hosts | grep $host | gawk '{print $1}'`
-        ## Wait until SSH is available on host, checking every second."
-        while [ "$sshchk" != "0" ]; do
-                sshtest=`ssh -o BatchMode=yes -o StrictHostKeyChecking=no -q -i /home/opc/.ssh/id_rsa opc@$host 'uptime 2>&1 2>/dev/null' 2>&1 2>/dev/null`
-                sshchk=`echo -e $?`
-                sleep 1
-                echo -n "."
-        done;
-        unset sshchk
-        echo -ne "[OK]\n\tCopying Setup Scripts...\n"
+        ssh_check
+	echo -e "Copying Setup Scripts...\n"
         ## Copy Setup scripts
         scp -o BatchMode=yes -o StrictHostkeyChecking=no -i /home/opc/.ssh/id_rsa /home/opc/hosts opc@$host:~/
         scp -o BatchMode=yes -o StrictHostKeyChecking=no -i /home/opc/.ssh/id_rsa /home/opc/iscsi.sh opc@$host:~/
@@ -154,6 +174,7 @@ for host in `cat host_list | gawk -F '.' '{print $1}'`; do
         echo -e "\tDone initializing $host.\n\n"
 done;
 ## End Worker Node Setup
+## Discovery for later configuration - look at resources on first worker
 echo -e "Checking Resources on Worker Node..."
 wprocs=`ssh -o BatchMode=yes -o StrictHostKeyChecking=no -i /home/opc/.ssh/id_rsa opc@cdh-worker-1 'cat /proc/cpuinfo | grep processor | wc -l'`
 echo -e "$wprocs processors detected.."
@@ -164,20 +185,9 @@ ssh -o BatchMode=yes -o StrictHostKeyChecking=no -i /home/opc/.ssh/id_rsa opc@cd
 ssh -o BatchMode=yes -o StrictHostKeyChecking=no -i /home/opc/.ssh/id_rsa opc@cdh-utility1 "echo $memtotal > /tmp/memtotal"
 ## Finish Cluster Setup Below
 echo -e "Install Complete..."
-echo -n "Waiting for SSH to be ready as root on cdh-utility1..."
-count=0
-while [ $count -le "30" ]; do 
-	sleep 1
-	count=$((count+1))
-	echo -n "."
-done;
-        while [ "$sshchk" != "0" ]; do
-                sshtest=`ssh -o BatchMode=yes -o StrictHostKeyChecking=no -q -i /home/opc/.ssh/id_rsa opc@cdh-utility1 'uptime 2>&1 2>/dev/null' 2>&1 2>/dev/null`
-                sshchk=`echo -e $?`
-                sleep 1
-                echo -n "."
-        done;
-        unset sshchk
+host="cdh-utility1"
+user="root"
+ssh_check
 echo -e "\n"
 echo -e "Running CDH Manager Setup..."
 ## Invoke CMS installer

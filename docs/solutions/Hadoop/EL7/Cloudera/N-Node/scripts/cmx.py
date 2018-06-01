@@ -1,7 +1,4 @@
 #!/usr/bin/env python
-# GPL from public Github
-## Last modifed - March 2018 by Zachary Smith
-## Zachary.Smith@oracle.com
 
 __version__ = '0.11.2803'
 

@@ -1,7 +1,5 @@
 #!/bin/bash
-## CDH Cluster Startup Script by Zachary Smith
-## by Zachary Smith (Zachary.Smith@oracle.com)
-## Last Update - March 2018
+## Primary CDH Cluster setup script - invokes python script to setup cluster via CMS API
 
 ##
 ## DO NOT MODIFY THESE VARIABLES

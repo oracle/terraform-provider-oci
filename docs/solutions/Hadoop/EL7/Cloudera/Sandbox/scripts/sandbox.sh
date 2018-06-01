@@ -1,9 +1,4 @@
 #!/bin/bash
-## Bastion script to drive all provisioning tasks 
-## by Zachary Smith (Zachary.Smith@oracle.com) 
-## Last Update - April 2018
-##
-
 ### Firewall Configuration
 ## Set this flag to 1 to enable host firewall, 0 to disable
 firewall_on="1"

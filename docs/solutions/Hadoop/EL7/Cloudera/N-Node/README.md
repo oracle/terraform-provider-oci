@@ -6,6 +6,10 @@ Installation has a dependency on Terraform being installed and configured for th
 
         "source env-vars"
 
+## Scaling 
+
+Modify the env-vars file prior to deployment and modify the number of workers to scale your cluster dynamically.
+
 ## Password & User Details
 
 Please modify scripts/startup.sh and look for the MAIN CLUSTER CONFIGURATION section - this is where you can input your contact information, and set up the Cloudera Manager credentials prior to deployment.

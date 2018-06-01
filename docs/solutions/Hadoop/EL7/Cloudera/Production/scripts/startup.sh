@@ -1,7 +1,5 @@
 #!/bin/bash
-## CDH Cluster Startup Script by Zachary Smith
-## by Zachary Smith (Zachary.Smith@oracle.com)
-## Last Update - March 2018
+## Primary CDH Cluster setup script - invokes python script to setup cluster via CMS API
 
 ##
 ## DO NOT MODIFY THESE VARIABLES
@@ -99,4 +97,4 @@ done;
 ## Execute Python cluster setup
 mkdir -p /log/cloudera
 echo -e "Setup ready to execute... Running Cluster Initialization Script... (output will begin shortly)"
-python /home/opc/cmx.py -n "$ClusterName" -u "$User" -m "$mip" -w "$worker_ip" -a -c "$cmUser" -s "$cmPassword" -e -r "$EMAILADDRESS" -b "$BUSINESSPHONE" -f "$FIRSTNAME" -t "$LASTNAME" -o "$JOBROLE" -i "$JOBFUNCTION" -y "$COMPANY" -v "$VMSIZE" -k "$ssh_keypath"
+python /home/opc/cmx.py -n "$ClusterName" -u "$User" -m "$mip" -w "$worker_ip" -c "$cmUser" -s "$cmPassword" -e -r "$EMAILADDRESS" -b "$BUSINESSPHONE" -f "$FIRSTNAME" -t "$LASTNAME" -o "$JOBROLE" -i "$JOBFUNCTION" -y "$COMPANY" -v "$VMSIZE" -k "$ssh_keypath"

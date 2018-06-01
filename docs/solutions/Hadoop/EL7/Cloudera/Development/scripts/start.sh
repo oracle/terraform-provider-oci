@@ -1,8 +1,6 @@
 #!/bin/bash
-## First Script called on Bastion Host after TF Deployment
-## This script drives entire cluster setup process, invokes sub scripts in screen sessions 
-## by Zachary Smith (Zachary.Smith@oracle.com)
-## Last Update - March 2018
+## First Script called on Bastion Host after TF Deployment by remote-exec
+
 echo -e "Installing Screen on Bastion"
 sudo yum install screen.x86_64 -y
 sudo sed -i 's/1000/10000/g' /etc/screenrc

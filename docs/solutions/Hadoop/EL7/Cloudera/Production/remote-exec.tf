@@ -34,17 +34,6 @@ resource "null_resource" "cdh-setup" {
     }
     }
     provisioner "file" {
-      source = "scripts/master_setup.sh"
-      destination = "/home/opc/master_setup.sh"
-      connection {
-        agent = false
-        timeout = "10m"
-        host = "${data.oci_core_vnic.bastion_vnic.public_ip_address}"
-        user = "opc"
-        private_key = "${var.ssh_private_key}"
-    }
-    }
-    provisioner "file" {
       source = "scripts/cms_install.sh"
       destination = "/home/opc/cms_install.sh"
       connection {

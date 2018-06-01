@@ -4,9 +4,14 @@ resource "oci_core_instance" "Sandbox" {
   compartment_id      = "${var.compartment_ocid}"
   display_name        = "CDH Sandbox"
   hostname_label      = "CDH-Sandbox"
-  image		      = "${var.image_ocid}"
   shape               = "VM.Standard2.8"
   subnet_id	      = "${oci_core_subnet.public.*.id[var.AD - 1]}"
+
+  source_details {
+    source_type = "image"
+    source_id = "${var.image_ocid}"
+    boot_volume_size_in_gbs = "${var.boot_volume_size}"
+  }
 
   metadata {
     ssh_authorized_keys = "${var.ssh_public_key}"

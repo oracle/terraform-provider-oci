@@ -1,10 +1,6 @@
 #!/bin/bash
-## Node Tuning Script
-## by Zachary Smith (Zachary.Smith@oracle.com)
-## Last Update - March 2018
 
-
-## Install Java
+## Install Java 
 sudo yum install java-1.8.0-openjdk.x86_64 -y
 
 ## Disable Transparent Huge Pages

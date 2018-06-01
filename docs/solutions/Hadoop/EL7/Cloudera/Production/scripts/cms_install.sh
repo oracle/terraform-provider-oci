@@ -1,7 +1,4 @@
 #!/bin/bash
-## CMS Installation Script
-## by Zachary Smith (Zachary.Smith@oracle.com)
-## Last Update - March 2018
 ## Set cdh_version to "5" to use latest version, otherwise custom version can be specified
 #cdh_version="5.12.2"
 cdh_version="5"

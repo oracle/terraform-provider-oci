@@ -14,15 +14,15 @@ variable "ssh_private_key" {}
 
 variable "AD" { default = "2" }
 
-variable "image_ocid" {
-  default = " "
-}
+variable "image_ocid" { }
 
 variable "nodecount" { default = "3" }
 
 variable "MasterNodeCount" { default = "0" }
 
 variable "blocksize_in_gbs" { default = "1024" }
+
+variable "boot_volume_size" { default = "256" }
 
 variable "BastionInstanceShape" {
   default = "VM.Standard1.8"

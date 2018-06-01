@@ -14,8 +14,8 @@ variable "ssh_private_key" {}
 
 variable "AD" { default = "2" }
 
-variable "image_ocid" {
-  default = " "
-}
+variable "boot_volume_size" { default = "256" }
+
+variable "image_ocid" { }
 
 variable "blocksize_in_gbs" { default = "1024" }

@@ -14,12 +14,12 @@ variable "ssh_private_key" {}
 
 variable "AD" { default = "2" }
 
-variable "image_ocid" {
-  default = " "
-}
+variable "image_ocid" { }
 variable "nodecount" { default = "5" }
 
 variable "MasterNodeCount" { default = "2" }
+
+variable "boot_volume_size" { default = "256" }
 
 variable "blocksize_in_gbs" { default = "1024" }
 

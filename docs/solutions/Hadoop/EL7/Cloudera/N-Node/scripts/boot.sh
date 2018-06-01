@@ -1,5 +1,7 @@
 #!/bin/bash
 ## cloud-init bootstrap script
+## Stop SSHD to prevent remote execution during this process
+systemctl stop sshd
 ## set speedup="1" to bypass host reboot - should set selinux to permissive mode allowing for faster deployment
 speedup="1"
 if [ $speedup = "0" ]; then 
@@ -22,3 +24,7 @@ elif [ $speedup = "1" ]; then
         fi
 fi
 
+## Custom Boot Volume Extension
+sudo yum -y install cloud-utils-growpart
+sudo yum -y install gdisk
+sudo reboot

@@ -1,7 +1,4 @@
 #!/bin/bash
-## Script to prep each node in the cluster 
-## by Zachary Smith (Zachary.Smith@oracle.com)
-## Last Update - March 2018
 
 ## Modify resolv.conf to ensure DNS lookups work
 sudo rm -f /etc/resolv.conf

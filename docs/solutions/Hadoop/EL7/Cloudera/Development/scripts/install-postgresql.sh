@@ -1,5 +1,4 @@
 #!/bin/bash
-## GPL from public Github
 
 LOG_FILE="/var/log/cloudera-OCI-initialize.log"
 
