@@ -1,8 +1,0 @@
-use pritunl
-db.createUser(
-  {
-    user: "pritunl",
-    pwd: "pritunl",
-    roles: [{role: "dbOwner", db: "pritunl"}]
-  }
-)

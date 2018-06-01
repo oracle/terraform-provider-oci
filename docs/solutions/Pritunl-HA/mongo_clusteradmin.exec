@@ -1,9 +1,0 @@
-db.getSiblingDB("admin").createUser(
-  {
-    "user" : "pritunl",
-    "pwd" : "pritunl",
-    roles: [ { "role" : "clusterAdmin", "db" : "admin" } ]
-  }
-)
-
-
