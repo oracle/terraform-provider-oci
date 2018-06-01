@@ -366,88 +366,90 @@ func (s *DbSystemResourceCrud) DeletedTarget() []string {
 func (s *DbSystemResourceCrud) Create() error {
 	request := oci_database.LaunchDbSystemRequest{}
 
+	body := oci_database.LaunchDbSystemDetails{}
+
 	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
 		tmp := availabilityDomain.(string)
-		request.AvailabilityDomain = &tmp
+		body.AvailabilityDomain = &tmp
 	}
 
 	if backupSubnetId, ok := s.D.GetOkExists("backup_subnet_id"); ok {
 		tmp := backupSubnetId.(string)
-		request.BackupSubnetId = &tmp
+		body.BackupSubnetId = &tmp
 	}
 
 	if clusterName, ok := s.D.GetOkExists("cluster_name"); ok {
 		tmp := clusterName.(string)
-		request.ClusterName = &tmp
+		body.ClusterName = &tmp
 	}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
-		request.CompartmentId = &tmp
+		body.CompartmentId = &tmp
 	}
 
 	if cpuCoreCount, ok := s.D.GetOkExists("cpu_core_count"); ok {
 		tmp := cpuCoreCount.(int)
-		request.CpuCoreCount = &tmp
+		body.CpuCoreCount = &tmp
 	}
 
 	if dataStoragePercentage, ok := s.D.GetOkExists("data_storage_percentage"); ok {
 		tmp := dataStoragePercentage.(int)
-		request.DataStoragePercentage = &tmp
+		body.DataStoragePercentage = &tmp
 	}
 
 	if databaseEdition, ok := s.D.GetOkExists("database_edition"); ok {
-		request.DatabaseEdition = oci_database.LaunchDbSystemDetailsDatabaseEditionEnum(databaseEdition.(string))
+		body.DatabaseEdition = oci_database.LaunchDbSystemDetailsDatabaseEditionEnum(databaseEdition.(string))
 	}
 
 	if dbHome, ok := s.D.GetOkExists("db_home"); ok {
 		if tmpList := dbHome.([]interface{}); len(tmpList) > 0 {
 			tmp := mapToCreateDbHomeDetails(tmpList[0].(map[string]interface{}))
-			request.DbHome = &tmp
+			body.DbHome = &tmp
 		}
 	}
 
 	if diskRedundancy, ok := s.D.GetOkExists("disk_redundancy"); ok {
-		request.DiskRedundancy = oci_database.LaunchDbSystemDetailsDiskRedundancyEnum(diskRedundancy.(string))
+		body.DiskRedundancy = oci_database.LaunchDbSystemDetailsDiskRedundancyEnum(diskRedundancy.(string))
 	}
 
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		if len(tmp) > 0 {
-			request.DisplayName = &tmp
+			body.DisplayName = &tmp
 		}
 	}
 
 	if domain, ok := s.D.GetOkExists("domain"); ok {
 		tmp := domain.(string)
-		request.Domain = &tmp
+		body.Domain = &tmp
 	}
 
 	if hostname, ok := s.D.GetOkExists("hostname"); ok {
 		tmp := hostname.(string)
-		request.Hostname = &tmp
+		body.Hostname = &tmp
 	}
 
 	if dataStorageSizeInGB, ok := s.D.GetOkExists("data_storage_size_in_gb"); ok {
 		tmp := dataStorageSizeInGB.(int)
-		request.InitialDataStorageSizeInGB = &tmp
+		body.InitialDataStorageSizeInGB = &tmp
 	}
 
 	if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
-		request.LicenseModel = oci_database.LaunchDbSystemDetailsLicenseModelEnum(licenseModel.(string))
+		body.LicenseModel = oci_database.LaunchDbSystemDetailsLicenseModelEnum(licenseModel.(string))
 	}
 
 	if nodeCount, ok := s.D.GetOkExists("node_count"); ok {
 		tmp := nodeCount.(int)
-		request.NodeCount = &tmp
+		body.NodeCount = &tmp
 	}
 
 	if shape, ok := s.D.GetOkExists("shape"); ok {
 		tmp := shape.(string)
-		request.Shape = &tmp
+		body.Shape = &tmp
 	}
 
-	request.SshPublicKeys = []string{}
+	body.SshPublicKeys = []string{}
 	if sshPublicKeys, ok := s.D.GetOkExists("ssh_public_keys"); ok {
 		interfaces := sshPublicKeys.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -456,13 +458,15 @@ func (s *DbSystemResourceCrud) Create() error {
 				tmp[i] = toBeConverted.(string)
 			}
 		}
-		request.SshPublicKeys = tmp
+		body.SshPublicKeys = tmp
 	}
 
 	if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 		tmp := subnetId.(string)
-		request.SubnetId = &tmp
+		body.SubnetId = &tmp
 	}
+
+	request.LaunchDbSystemDetails = body
 
 	// Internal, not intended for public use.
 	// This flag allows faster testing but requires a whitelisted tenancy to use.
