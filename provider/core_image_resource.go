@@ -4,12 +4,19 @@ package provider
 
 import (
 	"context"
+	"log"
+	"strings"
 
 	"github.com/hashicorp/terraform/helper/schema"
-
+	"github.com/hashicorp/terraform/helper/validation"
 	"github.com/oracle/terraform-provider-oci/crud"
 
 	oci_core "github.com/oracle/oci-go-sdk/core"
+)
+
+const (
+	ImageSourceViaObjectStorageUriDiscriminator   = "objectStorageUri"
+	ImageSourceViaObjectStorageTupleDiscriminator = "objectStorageTuple"
 )
 
 func ImageResource() *schema.Resource {
@@ -40,34 +47,65 @@ func ImageResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
-			// TODO: New optional, polymorphic field. Skip for now.
-			// Tracked here: https://jira.aka.lgl.grungy.us/browse/ORCH-678
-			//
-			// "image_source_details": {
-			// 	Type:     schema.TypeList,
-			// 	Optional: true,
-			// 	Computed: true,
-			// 	ForceNew: true,
-			// 	MaxItems: 1,
-			// 	MinItems: 1,
-			// 	Elem: &schema.Resource{
-			// 		Schema: map[string]*schema.Schema{
-			// 			// Required
-			// 			"source_type": {
-			// 				Type:     schema.TypeString,
-			// 				Required: true,
-			// 				ForceNew: true,
-			// 			},
+			"image_source_details": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"source_type": {
+							Type:             schema.TypeString,
+							Required:         true,
+							ForceNew:         true,
+							DiffSuppressFunc: crud.EqualIgnoreCaseSuppressDiff,
+							ValidateFunc: validation.StringInSlice([]string{
+								ImageSourceViaObjectStorageUriDiscriminator,
+								ImageSourceViaObjectStorageTupleDiscriminator,
+							}, true),
+						},
 
-			// 			// Optional
+						// Optional
+						"source_image_type": {
+							Type:     schema.TypeString,
+							Optional: true,
+							ForceNew: true,
+						},
 
-			// 			// Computed
-			// 		},
-			// 	},
-			// },
+						// ImageSourceViaObjectStorageUriDetails
+						"source_uri": {
+							Type:     schema.TypeString,
+							Optional: true,
+							ForceNew: true,
+						},
+
+						// ImageSourceViaObjectStorageTupleDetails
+						"bucket_name": {
+							Type:     schema.TypeString,
+							Optional: true,
+							ForceNew: true,
+						},
+						"namespace_name": {
+							Type:     schema.TypeString,
+							Optional: true,
+							ForceNew: true,
+						},
+						"object_name": {
+							Type:     schema.TypeString,
+							Optional: true,
+							ForceNew: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"instance_id": {
 				Type:     schema.TypeString,
-				Required: true, // Changed from optional/computed to required till "imageSourceDetails" is supported.
+				Optional: true,
 				ForceNew: true,
 			},
 			"launch_mode": {
@@ -227,14 +265,11 @@ func (s *ImageResourceCrud) Create() error {
 		request.DisplayName = &tmp
 	}
 
-	// TODO: New optional, polymorphic field. Skip for now.
-	// Tracked here: https://jira.aka.lgl.grungy.us/browse/ORCH-678
-	// if imageSourceDetails, ok := s.D.GetOkExists("image_source_details"); ok {
-	// 	if tmpList := imageSourceDetails.([]interface{}); len(tmpList) > 0 {
-	// 		tmp := mapToImageSourceDetails(tmpList[0].(map[string]interface{}))
-	// 		request.ImageSourceDetails = &tmp
-	// 	}
-	// }
+	if imageSourceDetails, ok := s.D.GetOkExists("image_source_details"); ok {
+		if tmpList := imageSourceDetails.([]interface{}); len(tmpList) > 0 {
+			request.ImageSourceDetails = mapToImageSourceDetails(tmpList[0].(map[string]interface{}))
+		}
+	}
 
 	if instanceId, ok := s.D.GetOkExists("instance_id"); ok {
 		tmp := instanceId.(string)
@@ -352,32 +387,59 @@ func (s *ImageResourceCrud) SetData() {
 
 }
 
-// TODO: The following 2 functions are used by the ImageSourceDetails field which was skipped.
-// Tracked here: https://jira.aka.lgl.grungy.us/browse/ORCH-678
-//func mapToImageSourceDetails(raw map[string]interface{}) oci_core.ImageSourceDetails {
-//	result := oci_core.ImageSourceDetails{}
-//
-//	if sourceImageType, ok := raw["source_image_type"]; ok {
-//		tmp := oci_core.ImageSourceDetailsSourceImageTypeEnum(sourceImageType.(string))
-//		result.SourceImageType = tmp
-//	}
-//
-//	if sourceType, ok := raw["source_type"]; ok {
-//		tmp := sourceType.(string)
-//		result.SourceType = &tmp
-//	}
-//
-//	return result
-//}
-//
-//func ImageSourceDetailsToMap(obj *oci_core.ImageSourceDetails) map[string]interface{} {
-//	result := map[string]interface{}{}
-//
-//	result["source_image_type"] = string(obj.SourceImageType)
-//
-//	if obj.SourceType != nil {
-//		result["source_type"] = string(*obj.SourceType)
-//	}
-//
-//	return result
-//}
+func mapToImageSourceDetails(raw map[string]interface{}) oci_core.ImageSourceDetails {
+	sourceType := raw["source_type"].(string)
+
+	switch strings.ToLower(sourceType) {
+	case strings.ToLower(ImageSourceViaObjectStorageUriDiscriminator):
+		result := oci_core.ImageSourceViaObjectStorageUriDetails{}
+		if sourceImageType, ok := raw["source_image_type"]; ok {
+			tmp := sourceImageType.(string)
+			if tmp != "" {
+				result.SourceImageType = oci_core.ImageSourceDetailsSourceImageTypeEnum(tmp)
+			}
+		}
+		if sourceUri, ok := raw["source_uri"]; ok {
+			tmp := sourceUri.(string)
+			if tmp != "" {
+				result.SourceUri = &tmp
+			}
+		}
+		return result
+	case strings.ToLower(ImageSourceViaObjectStorageTupleDiscriminator):
+		result := oci_core.ImageSourceViaObjectStorageTupleDetails{}
+
+		if sourceImageType, ok := raw["source_image_type"]; ok {
+			tmp := sourceImageType.(string)
+			if tmp != "" {
+				result.SourceImageType = oci_core.ImageSourceDetailsSourceImageTypeEnum(tmp)
+			}
+		}
+
+		if bucketName, ok := raw["bucket_name"]; ok {
+			tmp := bucketName.(string)
+			if tmp != "" {
+				result.BucketName = &tmp
+			}
+		}
+
+		if namespaceName, ok := raw["namespace_name"]; ok {
+			tmp := namespaceName.(string)
+			if tmp != "" {
+				result.NamespaceName = &tmp
+			}
+		}
+
+		if objectName, ok := raw["object_name"]; ok {
+			tmp := objectName.(string)
+			if tmp != "" {
+				result.ObjectName = &tmp
+			}
+		}
+		return result
+	default:
+		log.Printf("[WARN] Unknown source_type '%v' was specified", sourceType)
+	}
+
+	return nil
+}
