@@ -3,13 +3,11 @@
 package provider
 
 import (
-	"testing"
-
 	"fmt"
+	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
-
 	"github.com/oracle/oci-go-sdk/core"
 	"github.com/stretchr/testify/suite"
 )
@@ -130,45 +128,87 @@ func (s *ResourceCoreImageTestSuite) TestAccResourceCoreImage_basic() {
 					func(ts *terraform.State) (err error) {
 						resId2, err = fromInstanceState(ts, s.ResourceName, "id")
 						if resId == resId2 {
-							return fmt.Errorf("resource updated when it was supposed to be recreated.")
+							return fmt.Errorf("resource updated when it was supposed to be recreated")
 						}
 						return err
 					},
 				),
 			},
-			// Update compartment_id to ForceNew
+		},
+	})
+}
+
+func (s *ResourceCoreImageTestSuite) TestAccResourceCoreImage_createFromExport_objectStorageUri() {
+	/*
+	 * To run, this test requires an exported image at the imagePar url value.
+	 */
+	s.T().Skip("Long running test, requires exported image available via public url")
+
+	imagePar := ""
+
+	resource.Test(s.T(), resource.TestCase{
+		Providers: s.Providers,
+		Steps: []resource.TestStep{
 			{
-				Config: s.Config + `
-					variable "update_compartment_id" {
-						default = "` + getRequiredEnvSetting("compartment_id_for_update") + `"
-					}
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config: legacyTestProviderConfig() + `
 					resource "oci_core_image" "t" {
-						compartment_id = "${var.update_compartment_id}"
-						instance_id = "${oci_core_instance.t.id}"
-						launch_mode = "EMULATED"
-						display_name = "-tf-image"
+						compartment_id = "${var.tenancy_ocid}"
+						image_source_details {
+							source_type = "objectStorageUri"
+							source_uri = "` + imagePar + `"
+							source_image_type = "QCOW2"
+						}
 						timeouts {
 							create = "30m"
 						}
 					}
 				`,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-image"),
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", getRequiredEnvSetting("compartment_id_for_update")),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "instance_id"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "base_image_id"),
-					resource.TestCheckResourceAttr(s.ResourceName, "create_image_allowed", "true"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "operating_system"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "operating_system_version"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
-					resource.TestCheckResourceAttr(s.ResourceName, "state", string(core.ImageLifecycleStateAvailable)),
-					func(ts *terraform.State) (err error) {
-						resId2, err = fromInstanceState(ts, s.ResourceName, "id")
-						if resId == resId2 {
-							return fmt.Errorf("resource updated when it was supposed to be recreated.")
+					resource.TestCheckNoResourceAttr(s.ResourceName, "instance_id"),
+					resource.TestCheckNoResourceAttr(s.ResourceName, "base_image_id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "operating_system", "Custom"),
+					resource.TestCheckResourceAttr(s.ResourceName, "operating_system_version", "Custom"),
+				),
+			},
+		},
+	})
+}
+
+func (s *ResourceCoreImageTestSuite) TestAccResourceCoreImage_createFromExport_objectStorageTuple() {
+	/*
+	 * To run, this test requires an image to have been exported relative to bucket_name and object_name below.
+	 */
+	s.T().Skip("Long running test, requires per tenancy namespace + bucket + image export object to run")
+
+	resource.Test(s.T(), resource.TestCase{
+		Providers: s.Providers,
+		Steps: []resource.TestStep{
+			{
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config: legacyTestProviderConfig() + `
+					data "oci_objectstorage_namespace" "t" {
+					}
+					resource "oci_core_image" "t" {
+						compartment_id = "${var.tenancy_ocid}"
+						image_source_details {
+							source_type = "objectStorageTuple"
+							namespace_name = "${data.oci_objectstorage_namespace.t.namespace}"
+							bucket_name = "test-artifacts"
+							object_name = "test-image-export"
 						}
-						return err
-					},
+						timeouts {
+							create = "30m"
+						}
+					}
+				`,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckNoResourceAttr(s.ResourceName, "instance_id"),
+					resource.TestCheckNoResourceAttr(s.ResourceName, "base_image_id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "operating_system", "Custom"),
+					resource.TestCheckResourceAttr(s.ResourceName, "operating_system_version", "Custom"),
 				),
 			},
 		},

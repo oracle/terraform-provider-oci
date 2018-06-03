@@ -53,8 +53,15 @@ Avoid entering confidential information.
 The following arguments are supported:
 
 * `compartment_id` - (Required) The OCID of the compartment containing the instance you want to use as the basis for the image.
-* `display_name` - (Optional) A user-friendly name for the image. It does not have to be unique, and it's changeable. Avoid entering confidential information.  You cannot use an Oracle-provided image name as a custom image name.  Example: `My Oracle Linux image`  
-* `instance_id` - (Optional) The OCID of the instance you want to use as the basis for the image.
+* `display_name` - (Optional) A user-friendly name for the image. It does not have to be unique, and it's changeable. Avoid entering confidential information.  You cannot use an Oracle-provided image name as a custom image name.  Example: `My Oracle Linux image`
+* `image_source_details` - (Optional) Details for creating an image through import
+    * `source_type` - (Required) The source type for the image. Use objectStorageTuple when specifying the namespace, bucket name, and object name. Use objectStorageUri when specifying the Object Storage URL. Allowed values are: - `objectStorageTuple` - `objectStorageUri` 
+    * `source_image_type` - (Optional) The format of the image to be imported. Exported Oracle images are QCOW2. Only monolithic images are supported. Allowed values are: - `QCOW2` - `VMDK`
+    * `source_uri` - (Required for objectStorageUri source_type) The Object Storage URL for the image.
+    * `bucket_name` - (Required for objectStorageTuple source_type) The Object Storage bucket for the image.
+    * `namespace_name` - (Required for objectStorageTuple source_type) The Object Storage namespace for the image.
+    * `object_name` - (Required for objectStorageTuple source_type) The Object Storage name for the image.
+* `instance_id` - (Optional -- required when not specifying `image_source_details`) The OCID of the instance you want to use as the basis for the image.
 * `launch_mode` - (Optional) Specifies the configuration mode for launching virtual machine (VM) instances. The configuration modes are: 
     * `NATIVE` - VM instances launch with iSCSI boot and VFIO devices. The default value for Oracle-provided images. 
     * `EMULATED` - VM instances launch with emulated devices, such as the E1000 network driver and emulated SCSI disk controller. 
@@ -73,6 +80,7 @@ Any change to a property that does not support update will force the destruction
 
 ### Example Usage
 
+#### Create image from instance in tenancy
 ```
 resource "oci_core_image" "test_image" {
 	#Required
@@ -82,6 +90,48 @@ resource "oci_core_image" "test_image" {
 	#Optional
 	display_name = "${var.image_display_name}"
 	launch_mode = "${var.image_launch_mode}"
+}
+```
+
+#### Create image from exported image via direct access to object store 
+```
+resource "oci_core_image" "test_image" {
+	#Required
+	compartment_id = "${var.compartment_id}"
+
+	#Optional
+	display_name = "${var.image_display_name}"
+	launch_mode = "${var.image_launch_mode}"
+	
+	image_source_details {
+		source_type = "objectStorageTuple"
+		bucket_name = "${var.bucket_name"}
+		namespace_name = "${var.namespace}"
+		object_name = "${var.object_name}" # exported image name
+        
+		#Optional
+		source_image_type = "${var.source_image_type}"
+	}
+}
+```
+
+#### Create image from exported image at publicly accessible uri  
+```
+resource "oci_core_image" "test_image" {
+	#Required
+	compartment_id = "${var.compartment_id}"
+
+	#Optional
+	display_name = "${var.image_display_name}"
+	launch_mode = "${var.image_launch_mode}"
+	
+	image_source_details {
+		source_type = "objectStorageUri"
+		source_uri = "${var.source_uri}" 
+
+		#Optional
+		source_image_type = "${var.source_image_type}"
+    }
 }
 ```
 
