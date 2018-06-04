@@ -186,10 +186,8 @@ func checkLifecycleState(lifecycleState string) func(interface{}) (bool, error) 
 	}
 }
 
-func removeFileFn(filename string) func() {
-	return func() {
+func removeFileFn(filename string) {
 		os.Remove(filename)
-	}
 }
 
 func writeTempFile(data string) (filename string) {

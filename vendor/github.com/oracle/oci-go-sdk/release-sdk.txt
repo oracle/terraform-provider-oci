@@ -15,5 +15,7 @@ sdk_team_hide_GetInstanceDefaultCredentials
 sdk_team_hide_CreateImageDetails_launchOptions
 # Hide Shape.availabilityDomain
 sdk_team_hide_Shape_availabilityDomain
-# Hide VCN tagging docs
-sdk_team_hide_vcn_tagging_docs
+# Block Storage: Coordinated multi-volume snapshot for backup and clone
+udx-190
+# Compute "Soft Shutdown" instance power action
+udx-1071

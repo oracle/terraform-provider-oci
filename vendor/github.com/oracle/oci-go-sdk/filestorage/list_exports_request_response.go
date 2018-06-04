@@ -12,7 +12,7 @@ import (
 type ListExportsRequest struct {
 
 	// The OCID of the compartment.
-	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
+	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
 	// The maximum number of items to return in a paginated "List" call.
 	// Example: `500`

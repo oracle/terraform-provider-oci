@@ -657,8 +657,9 @@ func (client FileStorageClient) listExportSets(ctx context.Context, request comm
 	return response, err
 }
 
-// ListExports Lists the export resources in the specified compartment. You must
-// also specify an export set, a file system, or both.
+// ListExports Lists export resources by compartment, file system, or export
+// set. You must specify an export set ID, a file system ID, and
+// / or a compartment ID.
 func (client FileStorageClient) ListExports(ctx context.Context, request ListExportsRequest) (response ListExportsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
