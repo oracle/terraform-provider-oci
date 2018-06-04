@@ -87,6 +87,7 @@ const (
 	InstanceActionActionStart     InstanceActionActionEnum = "START"
 	InstanceActionActionSoftreset InstanceActionActionEnum = "SOFTRESET"
 	InstanceActionActionReset     InstanceActionActionEnum = "RESET"
+	InstanceActionActionSoftstop  InstanceActionActionEnum = "SOFTSTOP"
 )
 
 var mappingInstanceActionAction = map[string]InstanceActionActionEnum{
@@ -94,6 +95,7 @@ var mappingInstanceActionAction = map[string]InstanceActionActionEnum{
 	"START":     InstanceActionActionStart,
 	"SOFTRESET": InstanceActionActionSoftreset,
 	"RESET":     InstanceActionActionReset,
+	"SOFTSTOP":  InstanceActionActionSoftstop,
 }
 
 // GetInstanceActionActionEnumValues Enumerates the set of values for InstanceActionAction

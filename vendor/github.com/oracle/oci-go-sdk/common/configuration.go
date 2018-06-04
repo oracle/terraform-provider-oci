@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"path"
 	"regexp"
 	"strings"
 )
@@ -153,7 +154,8 @@ func (p environmentConfigurationProvider) PrivateRSAKey() (key *rsa.PrivateKey, 
 		return nil, fmt.Errorf("can not read PrivateKey from env variable: %s", environmentVariable)
 	}
 
-	pemFileContent, err := ioutil.ReadFile(value)
+	expandedPath := expandPath(value)
+	pemFileContent, err := ioutil.ReadFile(expandedPath)
 	if err != nil {
 		Debugln("Can not read PrivateKey location from environment variable: " + environmentVariable)
 		return
@@ -346,8 +348,21 @@ func parseConfigAtLine(start int, content []string) (info *configFileInfo, err e
 
 }
 
+// cleans and expands the path if it contains a tilde , returns the expanded path or the input path as is if not expansion
+// was performed
+func expandPath(filepath string) (expandedPath string) {
+	cleanedPath := path.Clean(filepath)
+	expandedPath = cleanedPath
+	if strings.HasPrefix(cleanedPath, "~/") {
+		rest := cleanedPath[2:]
+		expandedPath = path.Join(getHomeFolder(), rest)
+	}
+	return
+}
+
 func openConfigFile(configFilePath string) (data []byte, err error) {
-	data, err = ioutil.ReadFile(configFilePath)
+	expandedPath := expandPath(configFilePath)
+	data, err = ioutil.ReadFile(expandedPath)
 	if err != nil {
 		err = fmt.Errorf("can not read config file: %s due to: %s", configFilePath, err.Error())
 	}
@@ -438,7 +453,9 @@ func (p fileConfigurationProvider) PrivateRSAKey() (key *rsa.PrivateKey, err err
 	if err != nil {
 		return
 	}
-	pemFileContent, err := ioutil.ReadFile(filePath)
+
+	expandedPath := expandPath(filePath)
+	pemFileContent, err := ioutil.ReadFile(expandedPath)
 	if err != nil {
 		err = fmt.Errorf("can not read PrivateKey  from configuration file due to: %s", err.Error())
 		return

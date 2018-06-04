@@ -41,6 +41,9 @@ type ListVolumesRequest struct {
 	// is case sensitive.
 	SortOrder ListVolumesSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
+	// The OCID of the volume group.
+	VolumeGroupId *string `mandatory:"false" contributesTo:"query" name:"volumeGroupId"`
+
 	// A filter to only return resources that match the given lifecycle state.  The state value is case-insensitive.
 	LifecycleState VolumeLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 

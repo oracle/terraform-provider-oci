@@ -45,6 +45,13 @@ $(TARGETS_CLEAN): clean-%:%
 	@echo "cleaning $<"
 	@-rm -rf $<
 
+# clean all generated code under GEN_TARGETS folder
+clean-generate:
+	for target in ${GEN_TARGETS}; do \
+		echo "cleaning $$target"; \
+		rm -rf $$target; \
+	done
+
 pre-doc:
 	@echo "Rendering doc server to ${DOC_SERVER_URL}"
 	find . -name \*.go |xargs sed -i '' 's/{{DOC_SERVER_URL}}/${DOC_SERVER_URL}/g'

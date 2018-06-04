@@ -99,6 +99,52 @@ func (client IdentityClient) addUserToGroup(ctx context.Context, request common.
 	return response, err
 }
 
+// CreateAuthToken Creates a new auth token for the specified user. For information about what auth tokens are for, see
+// Managing User Credentials (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Tasks/managingcredentials.htm).
+// You must specify a *description* for the auth token (although it can be an empty string). It does not
+// have to be unique, and you can change it anytime with
+// UpdateAuthToken.
+// Every user has permission to create an auth token for *their own user ID*. An administrator in your organization
+// does not need to write a policy to give users this ability. To compare, administrators who have permission to the
+// tenancy can use this operation to create an auth token for any user, including themselves.
+func (client IdentityClient) CreateAuthToken(ctx context.Context, request CreateAuthTokenRequest) (response CreateAuthTokenResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.createAuthToken, policy)
+	if err != nil {
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateAuthTokenResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateAuthTokenResponse")
+	}
+	return
+}
+
+// createAuthToken implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) createAuthToken(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/users/{userId}/authTokens/")
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateAuthTokenResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateCompartment Creates a new compartment in your tenancy.
 // **Important:** Compartments cannot be deleted.
 // You must specify your tenancy's OCID as the compartment ID in the request object. Remember that the tenancy
@@ -574,7 +620,8 @@ func (client IdentityClient) createSmtpCredential(ctx context.Context, request c
 	return response, err
 }
 
-// CreateSwiftPassword Creates a new Swift password for the specified user. For information about what Swift passwords are for, see
+// CreateSwiftPassword **Deprecated. Use CreateAuthToken instead.**
+// Creates a new Swift password for the specified user. For information about what Swift passwords are for, see
 // Managing User Credentials (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Tasks/managingcredentials.htm).
 // You must specify a *description* for the Swift password (although it can be an empty string). It does not
 // have to be unique, and you can change it anytime with
@@ -816,6 +863,45 @@ func (client IdentityClient) deleteApiKey(ctx context.Context, request common.OC
 	}
 
 	var response DeleteApiKeyResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteAuthToken Deletes the specified auth token for the specified user.
+func (client IdentityClient) DeleteAuthToken(ctx context.Context, request DeleteAuthTokenRequest) (response DeleteAuthTokenResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteAuthToken, policy)
+	if err != nil {
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteAuthTokenResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteAuthTokenResponse")
+	}
+	return
+}
+
+// deleteAuthToken implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) deleteAuthToken(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/users/{userId}/authTokens/{authTokenId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteAuthTokenResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -1102,7 +1188,8 @@ func (client IdentityClient) deleteSmtpCredential(ctx context.Context, request c
 	return response, err
 }
 
-// DeleteSwiftPassword Deletes the specified Swift password for the specified user.
+// DeleteSwiftPassword **Deprecated. Use DeleteAuthToken instead.**
+// Deletes the specified Swift password for the specified user.
 func (client IdentityClient) DeleteSwiftPassword(ctx context.Context, request DeleteSwiftPasswordRequest) (response DeleteSwiftPasswordResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1659,6 +1746,46 @@ func (client IdentityClient) listApiKeys(ctx context.Context, request common.OCI
 	return response, err
 }
 
+// ListAuthTokens Lists the auth tokens for the specified user. The returned object contains the token's OCID, but not
+// the token itself. The actual token is returned only upon creation.
+func (client IdentityClient) ListAuthTokens(ctx context.Context, request ListAuthTokensRequest) (response ListAuthTokensResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listAuthTokens, policy)
+	if err != nil {
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListAuthTokensResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListAuthTokensResponse")
+	}
+	return
+}
+
+// listAuthTokens implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) listAuthTokens(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/users/{userId}/authTokens/")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListAuthTokensResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListAvailabilityDomains Lists the Availability Domains in your tenancy. Specify the OCID of either the tenancy or another
 // of your compartments as the value for the compartment ID (remember that the tenancy is simply the root compartment).
 // See Where to Get the Tenancy's OCID and User's OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/API/Concepts/apisigningkey.htm#five).
@@ -2114,7 +2241,8 @@ func (client IdentityClient) listSmtpCredentials(ctx context.Context, request co
 	return response, err
 }
 
-// ListSwiftPasswords Lists the Swift passwords for the specified user. The returned object contains the password's OCID, but not
+// ListSwiftPasswords **Deprecated. Use ListAuthTokens instead.**
+// Lists the Swift passwords for the specified user. The returned object contains the password's OCID, but not
 // the password itself. The actual password is returned only upon creation.
 func (client IdentityClient) ListSwiftPasswords(ctx context.Context, request ListSwiftPasswordsRequest) (response ListSwiftPasswordsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2347,6 +2475,45 @@ func (client IdentityClient) removeUserFromGroup(ctx context.Context, request co
 	}
 
 	var response RemoveUserFromGroupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateAuthToken Updates the specified auth token's description.
+func (client IdentityClient) UpdateAuthToken(ctx context.Context, request UpdateAuthTokenRequest) (response UpdateAuthTokenResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateAuthToken, policy)
+	if err != nil {
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateAuthTokenResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateAuthTokenResponse")
+	}
+	return
+}
+
+// updateAuthToken implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) updateAuthToken(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/users/{userId}/authTokens/{authTokenId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateAuthTokenResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -2672,7 +2839,8 @@ func (client IdentityClient) updateSmtpCredential(ctx context.Context, request c
 	return response, err
 }
 
-// UpdateSwiftPassword Updates the specified Swift password's description.
+// UpdateSwiftPassword **Deprecated. Use UpdateAuthToken instead.**
+// Updates the specified Swift password's description.
 func (client IdentityClient) UpdateSwiftPassword(ctx context.Context, request UpdateSwiftPasswordRequest) (response UpdateSwiftPasswordResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

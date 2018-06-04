@@ -22,11 +22,11 @@
     <preferred.temp.dir>${project.build.directory}/preferred</preferred.temp.dir>
     <preprocessed.temp.dir>${project.build.directory}/preprocessed</preprocessed.temp.dir>
 
-    <core.artifact.version>0.2.26</core.artifact.version>
+    <core.artifact.version>0.2.64</core.artifact.version>
     <core.artifact.id>coreservices-api-spec</core.artifact.id>
     <core.spec.name>coreservices-api-spec-20160918.cond.yaml</core.spec.name>
 
-    <identity.artifact.version>0.2.97</identity.artifact.version>
+    <identity.artifact.version>0.2.101</identity.artifact.version>
     <identity.artifact.id>identity-control-plane-api-spec</identity.artifact.id>
     <identity.spec.name>identity-control-plane-api-spec-20160918.yaml</identity.spec.name>
 
@@ -38,7 +38,7 @@
     <objectstorage.artifact.id>casper-api-spec</objectstorage.artifact.id>
     <objectstorage.spec.name>casper-api.yaml</objectstorage.spec.name>
 
-    <database.artifact.version>0.0.137</database.artifact.version>
+    <database.artifact.version>0.0.139</database.artifact.version>
     <database.artifact.id>dbaas-api-spec</database.artifact.id>
     <database.spec.name>dbaas-api-spec-20160918.yaml</database.spec.name>
 
@@ -46,7 +46,7 @@
     <audit.artifact.id>hemlock-spec</audit.artifact.id>
     <audit.spec.name>hemlock-api-20160918.yaml</audit.spec.name>
 
-    <filestorage.artifact.version>0.0.10</filestorage.artifact.version>
+    <filestorage.artifact.version>0.0.11</filestorage.artifact.version>
     <filestorage.artifact.id>fss-api-spec</filestorage.artifact.id>
     <filestorage.spec.name>fss-api-spec-20171215.yaml</filestorage.spec.name>
 
@@ -524,7 +524,7 @@
       <plugin>
         <groupId>com.oracle.bmc.sdk</groupId>
         <artifactId>bmc-sdk-swagger-maven-plugin</artifactId>
-        <version>1.25-SNAPSHOT</version>
+        <version>1.27-SNAPSHOT</version>
         <executions>
           <execution>
             <id>go-public-sdk-identity</id>
@@ -559,6 +559,7 @@
               <additionalProperties>
                 <specName>core</specName>
                 <fqProjectName>${fullyQualifiedProjectName}</fqProjectName>
+                <serviceHostName>iaas</serviceHostName>
               </additionalProperties>
             </configuration>
           </execution>
@@ -577,6 +578,7 @@
               <additionalProperties>
                 <specName>loadbalancer</specName>
                 <fqProjectName>${fullyQualifiedProjectName}</fqProjectName>
+                <serviceHostName>iaas</serviceHostName>
               </additionalProperties>
             </configuration>
           </execution>
