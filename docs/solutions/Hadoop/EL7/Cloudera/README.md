@@ -1,5 +1,5 @@
 # Cloudera on OCI automation with Terraform
-Included here are Terraform templates for deploying a fully configured Cloudera Enterprise Data Hub (EDH) instance or cluster on OCI.  Descriptions follow:
+Included here are Terraform templates for deploying a fully configured Cloudera Enterprise Data Hub (EDH) instance or cluster on OCI. 
 
 ## Sandbox
 
