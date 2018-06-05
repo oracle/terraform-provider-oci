@@ -14,7 +14,7 @@ Please modify scripts/startup.sh and look for the MAIN CLUSTER CONFIGURATION sec
 
 Deploy using standard terraform commands
 
-        "terraform init && terraform plan && terraform apply
+        "terraform init && terraform plan && terraform apply"
 
 ## Post Deployment
 
@@ -32,4 +32,4 @@ Cluster provisioning can take up to a half hour.  After SCM setup is complete, p
 Note that as part of this deployment, ssh keys are used for root level access to provisioned hosts in order to setup software.  The key used is the same as the OPC user which has super-user access to the hosts by default.   If enhanced security is desired, then the following steps should be taken after the Cluster is up and running:
 
         1. Remove ssh private keys from Utility host "rm -f /home/opc/.ssh/id_rsa"
-        2. Replace the authorized_keys file in /root/.ssh/ on all hosts with the backup copy "mv /root/.ssh/authorized_keys.bak /root/.ssh/authorized_keys"
+        2. Replace the authorized_keys file in /root/.ssh/ on all hosts with the backup copy "sudo mv /root/.ssh/authorized_keys.bak /root/.ssh/authorized_keys"
