@@ -35,7 +35,8 @@ variable "region_all_zeros_ocid" {
 	}
 }
 
-# These will need to be periodically updated with the latest OL 7 images.
+# The images here represent the latest OL 7.x images - currently the latest 
+# OL 7.5.  As new major versions are released, these should be updated.
 variable "ipxe_image_ocid" {
 	type = "map"
 	default = {

@@ -1,24 +1,10 @@
 This example provides a method to generate a RHEL 7.4 image for use by both VM and BM shapes.
 
-UPDATED 23 May 2018!  Please read below!
+Please consult the Changelog for the latest changes to this process!
 
-What is fixed/changed in this release:
+There are several prerequisites:
 
-- Fixed issue with OCI-CLI and pip that was preventing the process from working.  The original 
-  process attempted to install OCI-CLI as a global resource in the global python repo...this broke
-  after some changes in pip.  So now we install pip locally to each user.
-- Changed our blank image OCID to use a new global value.  This makes the process *more* portable across
-  regions (but not completely...see next bullet).
-- Updated the ipxe server image list to include the LHR region.  LHR is now fully supported on this process.
-- *** IMPORTANT CHANGE *** Updated process to use Instance Principal authorization method for OCI-CLI.  This
-  removes the requirement to upload the user private key into the ipxe server.  *HOWEVER*, it does REQUIRE 
-  the creation of a Dynamic Group for the Compartment this is being executed in.  This is included in the
-  prerequisites section below.  The new process WILL NOT WORK without an Instance Principal (also known
-  as a Dynamic Group).
-  
-There are several prerequisites for using this process:
-
-1. *** UPDATE *** You MUST setup a Dynamic Group for the Compartment in which you are going to run this process.  The
+1. You MUST setup a Dynamic Group for the Compartment in which you are going to run this process.  The
    Dynamic Group allows the ipxe instance itself to authenticate to OCI so that no user configuration is 
    needed to create the image.  
    
@@ -47,7 +33,7 @@ There are several prerequisites for using this process:
    with an '.iso' extension.  An OCI Pre-Authenticated Request (PAR) works well for this operation.  How to create
    OCI PARs can be found here: https://docs.us-phoenix-1.oraclecloud.com/Content/Object/Tasks/managingobjects.htm#par.
 4. The template uses filters that expect unique Compartment, VCN and Subnet names.
-	NOTE: The root compartment CANNOT be used for this process.
+   NOTE: The root compartment CANNOT be used for this process.
 5. The following must be specified in your shell environment (prefixed with TF_VAR_ of course):
     - tenancy_ocid
     - user_ocid
@@ -59,9 +45,6 @@ There are several prerequisites for using this process:
 6. The subnet to be used must have the following configuration:
 	- Port 80 TCP must be allowed on the subnet
 	- All ICMP traffic must be allowed on the subnet (ICMP All)
-7. *** UPDATE *** Ensure that either uuencode/uudecode is available in your shell or that the sharutils package has been
-   installed on the OS where this terraform template will be executed.  Uuencode is used to dynamically load
-   the configuration files needed for the RHEL build process.
 
 NOTE: A template env-vars file is provided as part of this example.  Simply complete the items inside the template and source the result into your shell by using:
 
@@ -71,7 +54,7 @@ Using this template is simple:
 
 1. Set your environment variables
 2. Open the configuration.tf file and substitute the values in each of the sections appropriate to your environment
-	NOTE: The AD is specified as either 'AD-x' or 'ad-x' where x is the AD number you wish to use for the process.
+   NOTE: The AD is specified as either 'AD-x' or 'ad-x' where x is the AD number you wish to use for the process.
 3. Execute 'terraform plan; terraform apply'
 4. Get coffee or favorite beverage...
 5. After your image is created, execute 'terraform destroy -force' (there will not be a resource to actually kill,
