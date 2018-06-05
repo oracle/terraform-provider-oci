@@ -21,7 +21,7 @@ A small implementation, this is the next step up for running EDH on OCI.  This d
 | BM.Standard2.24 with (3) 1TB Block Storage devices per worker | VM.Standard2.4 | VM.Standard2.8 |
 
 ## Production Starter
-The largest pre-set configuration for EDH on OCI, this deployment contains 10 instances - a Bastion host, Utility Host, 2 Master hosts, and 6 workers.  This is the best pre-configured option for the most density and performance for EDH on OCI.  This environment provides high availability, and is an appropriate entry point for scaling up a Production Big Data practice.
+This is the most powerful pre-configured option, providing high density and performance for EDH on OCI. This environment provides high availability, and is an appropriate entry point for scaling up a Production Big Data practice. For larger scale deployments, see Custom (N-Node).
 
 | Minimum Worker Instance | Minimum Bastion Instance | Minimum Utility & Master Instance | 
 | :---------------------: |  :---------------------: |  :---------------------: |
