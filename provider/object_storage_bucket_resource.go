@@ -7,9 +7,10 @@ import (
 	"log"
 
 	"github.com/hashicorp/terraform/helper/schema"
-	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
 
 	"github.com/oracle/terraform-provider-oci/crud"
+
+	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
 )
 
 func BucketResource() *schema.Resource {

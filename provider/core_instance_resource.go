@@ -709,29 +709,23 @@ func mapToCreateVnicDetailsInstance(raw map[string]interface{}) (oci_core.Create
 		result.DefinedTags = convertedDefinedTags
 	}
 
-	if displayName, ok := raw["display_name"]; ok {
+	if displayName, ok := raw["display_name"]; ok && displayName != "" {
 		tmp := displayName.(string)
-		if tmp != "" {
-			result.DisplayName = &tmp
-		}
+		result.DisplayName = &tmp
 	}
 
 	if freeformTags, ok := raw["freeform_tags"]; ok {
 		result.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	if hostnameLabel, ok := raw["hostname_label"]; ok {
+	if hostnameLabel, ok := raw["hostname_label"]; ok && hostnameLabel != "" {
 		tmp := hostnameLabel.(string)
-		if tmp != "" {
-			result.HostnameLabel = &tmp
-		}
+		result.HostnameLabel = &tmp
 	}
 
-	if privateIp, ok := raw["private_ip"]; ok {
+	if privateIp, ok := raw["private_ip"]; ok && privateIp != "" {
 		tmp := privateIp.(string)
-		if tmp != "" {
-			result.PrivateIp = &tmp
-		}
+		result.PrivateIp = &tmp
 	}
 
 	if skipSourceDestCheck, ok := raw["skip_source_dest_check"]; ok {
@@ -739,7 +733,7 @@ func mapToCreateVnicDetailsInstance(raw map[string]interface{}) (oci_core.Create
 		result.SkipSourceDestCheck = &tmp
 	}
 
-	if subnetId, ok := raw["subnet_id"]; ok {
+	if subnetId, ok := raw["subnet_id"]; ok && subnetId != "" {
 		tmp := subnetId.(string)
 		result.SubnetId = &tmp
 	}

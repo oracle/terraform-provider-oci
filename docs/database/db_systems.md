@@ -12,7 +12,7 @@ The following attributes are exported:
 * `compartment_id` - The OCID of the compartment.
 * `cpu_core_count` - The number of CPU cores enabled on the DB System.
 * `data_storage_percentage` - The percentage assigned to DATA storage (user data and database files). The remaining percentage is assigned to RECO storage (database redo logs, archive logs, and recovery manager backups). Accepted values are 40 and 80. 
-* `data_storage_size_in_gbs` - Data storage size, in GBs, that is currently available to the DB system. This is applicable only for VM-based DBs. 
+* `data_storage_size_in_gb` - Data storage size, in GBs, that is currently available to the DB system. This is applicable only for VM-based DBs. 
 * `database_edition` - The Oracle Database Edition that applies to all the databases on the DB System. 
 * `disk_redundancy` - The type of redundancy configured for the DB System. Normal is 2-way redundancy. High is 3-way redundancy. 
 * `display_name` - The user-friendly name for the DB System. It does not have to be unique.
@@ -58,10 +58,13 @@ The following arguments are supported:
 * `compartment_id` - (Required) The Oracle Cloud ID (OCID) of the compartment the DB System  belongs in.
 * `cpu_core_count` - (Required) The number of CPU cores to enable. The valid values depend on the specified shape:  - BM.DenseIO1.36 and BM.HighIO1.36 - Specify a multiple of 2, from 2 to 36. - BM.RACLocalStorage1.72 - Specify a multiple of 4, from 4 to 72. - Exadata.Quarter1.84 - Specify a multiple of 2, from 22 to 84. - Exadata.Half1.168 - Specify a multiple of 4, from 44 to 168. - Exadata.Full1.336 - Specify a multiple of 8, from 88 to 336.  For VM DB systems, the core count is inferred from the specific VM shape chosen, so this parameter is not used. 
 * `data_storage_percentage` - (Optional) The percentage assigned to DATA storage (user data and database files). The remaining percentage is assigned to RECO storage (database redo logs, archive logs, and recovery manager backups). Specify 80 or 40. The default is 80 percent assigned to DATA storage. This is not applicable for VM based DB systems. 
-* `database_edition` - (Required) The Oracle Database Edition that applies to all the databases on the DB System.  Exadata DB Systems and 2-node RAC DB Systems require ENTERPRISE_EDITION_EXTREME_PERFORMANCE. 
+* `data_storage_size_in_gb` - (Optional) Size, in GBs, of the initial data volume that will be created and attached to VM-shape based DB system. This storage can later be scaled up if needed. Note that the total storage size attached will be more than what is requested, to account for REDO/RECO space and software volume. 
+* `database_edition` - (Required) The Oracle Database Edition that applies to all the databases on the DB System. Exadata DB Systems and 2-node RAC DB Systems require ENTERPRISE_EDITION_EXTREME_PERFORMANCE. 
 * `db_home` - (Required) 
 	* `database` - (Required) 
-		* `admin_password` - (Required) A strong password for SYS, SYSTEM, and PDB Admin. The password must be at least nine characters and contain at least two uppercase, two lowercase, two numbers, and two special characters. The special characters must be _, \#, or -.
+		* `admin_password` - (Required) A strong password for SYS, SYSTEM, PDB Admin and TDE Wallet. The password must be at least nine characters and contain at least two uppercase, two lowercase, two numbers, and two special characters. The special characters must be _, \#, or -.
+		* `backup_id` - (Required when source=DB_BACKUP) The backup OCID.
+		* `backup_tde_password` - (Required when source=DB_BACKUP) The password to open the TDE wallet.
 		* `character_set` - (Optional) The character set for the database.  The default is AL32UTF8. Allowed values are:  AL32UTF8, AR8ADOS710, AR8ADOS720, AR8APTEC715, AR8ARABICMACS, AR8ASMO8X, AR8ISO8859P6, AR8MSWIN1256, AR8MUSSAD768, AR8NAFITHA711, AR8NAFITHA721, AR8SAKHR706, AR8SAKHR707, AZ8ISO8859P9E, BG8MSWIN, BG8PC437S, BLT8CP921, BLT8ISO8859P13, BLT8MSWIN1257, BLT8PC775, BN8BSCII, CDN8PC863, CEL8ISO8859P14, CL8ISO8859P5, CL8ISOIR111, CL8KOI8R, CL8KOI8U, CL8MACCYRILLICS, CL8MSWIN1251, EE8ISO8859P2, EE8MACCES, EE8MACCROATIANS, EE8MSWIN1250, EE8PC852, EL8DEC, EL8ISO8859P7, EL8MACGREEKS, EL8MSWIN1253, EL8PC437S, EL8PC851, EL8PC869, ET8MSWIN923, HU8ABMOD, HU8CWI2, IN8ISCII, IS8PC861, IW8ISO8859P8, IW8MACHEBREWS, IW8MSWIN1255, IW8PC1507, JA16EUC, JA16EUCTILDE, JA16SJIS, JA16SJISTILDE, JA16VMS, KO16KSCCS, KO16MSWIN949, LA8ISO6937, LA8PASSPORT, LT8MSWIN921, LT8PC772, LT8PC774, LV8PC1117, LV8PC8LR, LV8RST104090, N8PC865, NE8ISO8859P10, NEE8ISO8859P4, RU8BESTA, RU8PC855, RU8PC866, SE8ISO8859P3, TH8MACTHAIS, TH8TISASCII, TR8DEC, TR8MACTURKISHS, TR8MSWIN1254, TR8PC857, US7ASCII, US8PC437, UTF8, VN8MSWIN1258, VN8VN3, WE8DEC, WE8DG, WE8ISO8859P15, WE8ISO8859P9, WE8MACROMAN8S, WE8MSWIN1252, WE8NCR4970, WE8NEXTSTEP, WE8PC850, WE8PC858, WE8PC860, WE8ROMAN8, ZHS16CGB231280, ZHS16GBK, ZHT16BIG5, ZHT16CCDC, ZHT16DBT, ZHT16HKSCS, ZHT16MSWIN950, ZHT32EUC, ZHT32SOPS, ZHT32TRIS 
 		* `db_backup_config` - (Optional) 
 			* `auto_backup_enabled` - (Optional) If set to true, configures automatic backups. If you previously used RMAN or dbcli to configure backups and then you switch to using the Console or the API for backups, a new backup configuration is created and associated with your database. This means that you can no longer rely on your previously configured unmanaged backups to work.
@@ -74,17 +77,23 @@ The following arguments are supported:
 * `disk_redundancy` - (Optional) The type of redundancy configured for the DB System. Normal is 2-way redundancy, recommended for test and development systems. High is 3-way redundancy, recommended for production systems. 
 * `display_name` - (Optional) The user-friendly name for the DB System. It does not have to be unique.
 * `domain` - (Optional) A domain name used for the DB System. If the Oracle-provided Internet and VCN Resolver is enabled for the specified subnet, the domain name for the subnet is used (don't provide one). Otherwise, provide a valid DNS domain name. Hyphens (-) are not permitted. 
-* `hostname` - (Required) The host name for the DB System. The host name must begin with an alphabetic character and can contain a maximum of 30 alphanumeric characters, including hyphens (-).  The maximum length of the combined hostname and domain is 63 characters.  **Note:** The hostname must be unique within the subnet. If it is not unique, the DB System will fail to provision.  
+* `hostname` - (Required) The host name for the DB System. The host name must begin with an alphabetic character and can contain a maximum of 30 alphanumeric characters, including hyphens (-).  The maximum length of the combined hostname and domain is 63 characters.  **Note:** The hostname must be unique within the subnet. If it is not unique, the DB System will fail to provision. 
 * `license_model` - (Optional) The Oracle license model that applies to all the databases on the DB System. The default is LICENSE_INCLUDED. 
 * `node_count` - (Optional) Number of nodes to launch for a VM-shape based RAC DB system. 
-* `shape` - (Required) The shape of the DB System. The shape determines resources allocated to the DB System - CPU cores and memory for VM shapes; CPU cores, memory and storage for non-VM (or bare metal) shapes. To get a list of shapes, use the [ListDbSystemShapes](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/database/20160918/DbSystemShape/ListDbSystemShapes) operation.
+* `shape` - (Required) The shape of the DB System. The shape determines resources allocated to the DB System - CPU cores and memory for VM shapes; CPU cores, memory and storage for non-VM (or bare metal) shapes. To get a list of shapes, use the [ListDbSystemShapes](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/database/20160918/DbSystemShapeSummary/ListDbSystemShapes) operation.
+* `source` - (Optional) Source of database:   NONE for creating a new database   DB_BACKUP for creating a new database by restoring a backup 
 * `ssh_public_keys` - (Required) The public key portion of the key pair to use for SSH access to the DB System. Multiple public keys can be provided. The length of the combined keys cannot exceed 10,000 characters.
 * `subnet_id` - (Required) The OCID of the subnet the DB System is associated with.  **Subnet Restrictions:** - For single node and 2-node (RAC) DB Systems, do not use a subnet that overlaps with 192.168.16.16/28 - For Exadata and VM-based RAC DB Systems, do not use a subnet that overlaps with 192.168.128.0/20  These subnets are used by the Oracle Clusterware private interconnect on the database instance. Specifying an overlapping subnet will cause the private interconnect to malfunction. This restriction applies to both the client subnet and backup subnet. 
 
-### Update Operation
-The following arguments support updates:
 
-* NO arguments in this resource support updates
+### Update Operation
+Updates the properties of a DB System, such as the CPU core count.
+
+The following arguments support updates:
+* `cpu_core_count` - The number of CPU cores to enable. The valid values depend on the specified shape:  - BM.DenseIO1.36 and BM.HighIO1.36 - Specify a multiple of 2, from 2 to 36. - BM.RACLocalStorage1.72 - Specify a multiple of 4, from 4 to 72. - Exadata.Quarter1.84 - Specify a multiple of 2, from 22 to 84. - Exadata.Half1.168 - Specify a multiple of 4, from 44 to 168. - Exadata.Full1.336 - Specify a multiple of 8, from 88 to 336.  For VM DB systems, the core count is inferred from the specific VM shape chosen, so this parameter is not used. 
+* `data_storage_size_in_gb` - Size, in GBs, of the initial data volume that will be created and attached to VM-shape based DB system. This storage can later be scaled up if needed. Note that the total storage size attached will be more than what is requested, to account for REDO/RECO space and software volume. 
+* `ssh_public_keys` - The public key portion of the key pair to use for SSH access to the DB System. Multiple public keys can be provided. The length of the combined keys cannot exceed 10,000 characters.
+
 
 ** IMPORTANT **
 Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values
@@ -103,6 +112,8 @@ resource "oci_database_db_system" "test_db_system" {
 		database {
 			#Required
 			admin_password = "${var.db_system_db_home_database_admin_password}"
+			backup_id = "${oci_database_backup.test_backup.id}"
+			backup_tde_password = "${var.db_system_db_home_database_backup_tde_password}"
 			db_name = "${var.db_system_db_home_database_db_name}"
 
 			#Optional
@@ -130,11 +141,13 @@ resource "oci_database_db_system" "test_db_system" {
 	backup_subnet_id = "${oci_database_backup_subnet.test_backup_subnet.id}"
 	cluster_name = "${var.db_system_cluster_name}"
 	data_storage_percentage = "${var.db_system_data_storage_percentage}"
+	data_storage_size_in_gb = "${var.db_system_data_storage_size_in_gb}"
 	disk_redundancy = "${var.db_system_disk_redundancy}"
 	display_name = "${var.db_system_display_name}"
 	domain = "${var.db_system_domain}"
 	license_model = "${var.db_system_license_model}"
 	node_count = "${var.db_system_node_count}"
+	source = "${var.db_system_source}"
 }
 ```
 
@@ -145,11 +158,12 @@ resource "oci_database_db_system" "test_db_system" {
 Gets a list of db_systems.
 
 ### List Operation
-Gets a list of the DB Systems in the specified compartment.
+Gets a list of the DB Systems in the specified compartment. You can specify a backupId to list only the DB Systems that support creating a database using this backup in this compartment.
     
 
 The following arguments are supported:
 
+* `backup_id` - (Optional) The OCID of the backup. Specify a backupId to list only the DB Systems that support creating a database using this backup in this compartment.
 * `compartment_id` - (Required) The compartment [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
 
 
@@ -163,5 +177,8 @@ The following attributes are exported:
 data "oci_database_db_systems" "test_db_systems" {
 	#Required
 	compartment_id = "${var.compartment_id}"
+
+	#Optional
+	backup_id = "${var.db_system_backup_id}"
 }
 ```

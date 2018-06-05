@@ -587,16 +587,14 @@ func mapToHealthCheckerDetails(raw map[string]interface{}) oci_load_balancer.Hea
 		}
 	}
 
-	if protocol, ok := raw["protocol"]; ok {
+	if protocol, ok := raw["protocol"]; ok && protocol != "" {
 		tmp := protocol.(string)
 		result.Protocol = &tmp
 	}
 
-	if responseBodyRegex, ok := raw["response_body_regex"]; ok {
+	if responseBodyRegex, ok := raw["response_body_regex"]; ok && responseBodyRegex != "" {
 		tmp := responseBodyRegex.(string)
-		if tmp != "" {
-			result.ResponseBodyRegex = &tmp
-		}
+		result.ResponseBodyRegex = &tmp
 	}
 
 	if retries, ok := raw["retries"]; ok {
@@ -616,11 +614,9 @@ func mapToHealthCheckerDetails(raw map[string]interface{}) oci_load_balancer.Hea
 		result.TimeoutInMillis = &tmp
 	}
 
-	if urlPath, ok := raw["url_path"]; ok {
+	if urlPath, ok := raw["url_path"]; ok && urlPath != "" {
 		tmp := urlPath.(string)
-		if tmp != "" {
-			result.UrlPath = &tmp
-		}
+		result.UrlPath = &tmp
 	}
 
 	return result
@@ -667,7 +663,7 @@ func HealthCheckerToMap(obj *oci_load_balancer.HealthChecker) map[string]interfa
 func mapToSSLConfigurationDetails(raw map[string]interface{}) oci_load_balancer.SslConfigurationDetails {
 	result := oci_load_balancer.SslConfigurationDetails{}
 
-	if certificateName, ok := raw["certificate_name"]; ok {
+	if certificateName, ok := raw["certificate_name"]; ok && certificateName != "" {
 		tmp := certificateName.(string)
 		result.CertificateName = &tmp
 	}
@@ -706,7 +702,7 @@ func SSLConfigurationToMap(obj *oci_load_balancer.SslConfiguration) map[string]i
 func mapToSessionPersistenceConfigurationDetails(raw map[string]interface{}) oci_load_balancer.SessionPersistenceConfigurationDetails {
 	result := oci_load_balancer.SessionPersistenceConfigurationDetails{}
 
-	if cookieName, ok := raw["cookie_name"]; ok {
+	if cookieName, ok := raw["cookie_name"]; ok && cookieName != "" {
 		tmp := cookieName.(string)
 		result.CookieName = &tmp
 	}

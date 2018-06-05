@@ -16,6 +16,10 @@ func DbSystemsDataSource() *schema.Resource {
 		Read: readDbSystems,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
+			"backup_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -59,6 +63,11 @@ func (s *DbSystemsDataSourceCrud) VoidState() {
 
 func (s *DbSystemsDataSourceCrud) Get() error {
 	request := oci_database.ListDbSystemsRequest{}
+
+	if backupId, ok := s.D.GetOkExists("backup_id"); ok {
+		tmp := backupId.(string)
+		request.BackupId = &tmp
+	}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)

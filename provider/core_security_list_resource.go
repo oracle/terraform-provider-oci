@@ -649,7 +649,7 @@ func (s *SecurityListResourceCrud) SetData() {
 func mapToEgressSecurityRule(raw map[string]interface{}) oci_core.EgressSecurityRule {
 	result := oci_core.EgressSecurityRule{}
 
-	if destination, ok := raw["destination"]; ok {
+	if destination, ok := raw["destination"]; ok && destination != "" {
 		tmp := destination.(string)
 		result.Destination = &tmp
 	}
@@ -661,7 +661,7 @@ func mapToEgressSecurityRule(raw map[string]interface{}) oci_core.EgressSecurity
 		}
 	}
 
-	if protocol, ok := raw["protocol"]; ok {
+	if protocol, ok := raw["protocol"]; ok && protocol != "" {
 		tmp := protocol.(string)
 		result.Protocol = &tmp
 	}
@@ -762,12 +762,12 @@ func mapToIngressSecurityRule(raw map[string]interface{}) oci_core.IngressSecuri
 		}
 	}
 
-	if protocol, ok := raw["protocol"]; ok {
+	if protocol, ok := raw["protocol"]; ok && protocol != "" {
 		tmp := protocol.(string)
 		result.Protocol = &tmp
 	}
 
-	if source, ok := raw["source"]; ok {
+	if source, ok := raw["source"]; ok && source != "" {
 		tmp := source.(string)
 		result.Source = &tmp
 	}

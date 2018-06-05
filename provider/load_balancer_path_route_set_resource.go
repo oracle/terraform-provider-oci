@@ -339,7 +339,7 @@ func (s *PathRouteSetResourceCrud) SetData() {
 func mapToPathMatchType(raw map[string]interface{}) oci_load_balancer.PathMatchType {
 	result := oci_load_balancer.PathMatchType{}
 
-	if matchType, ok := raw["match_type"]; ok {
+	if matchType, ok := raw["match_type"]; ok && matchType != "" {
 		tmp := oci_load_balancer.PathMatchTypeMatchTypeEnum(matchType.(string))
 		result.MatchType = tmp
 	}
@@ -358,12 +358,12 @@ func PathMatchTypeToMap(obj *oci_load_balancer.PathMatchType) map[string]interfa
 func mapToPathRoute(raw map[string]interface{}) oci_load_balancer.PathRoute {
 	result := oci_load_balancer.PathRoute{}
 
-	if backendSetName, ok := raw["backend_set_name"]; ok {
+	if backendSetName, ok := raw["backend_set_name"]; ok && backendSetName != "" {
 		tmp := backendSetName.(string)
 		result.BackendSetName = &tmp
 	}
 
-	if path, ok := raw["path"]; ok {
+	if path, ok := raw["path"]; ok && path != "" {
 		tmp := path.(string)
 		result.Path = &tmp
 	}
