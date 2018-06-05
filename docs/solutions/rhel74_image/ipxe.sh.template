@@ -14,18 +14,19 @@ COMPARTMENT=`curl -s http://169.254.169.254/opc/v1/instance/compartmentId`
 VNIC_ID=`curl -s http://169.254.169.254/opc/v1/vnics/0/vnicId`
 CIDR_BLOCK=`curl -s http://169.254.169.254/opc/v1/vnics/0/subnetCidrBlock`
 MY_OCID=`curl -s http://169.254.169.254/opc/v1/instance/id`
+OCI="oci --auth=instance_principal"
 
 ### DO NOT CHANGE THIS SHAPE!!! ###
 SHAPE="BM.Standard1.36"
 
 yum -y -q update
-yum -y -q install sharutils httpd rsync lzma gcc libffi-devel python-devel openssl-devel unzip gcc rsyslog jq python-firewall
+yum -y -q install httpd rsync lzma gcc libffi-devel python-devel openssl-devel unzip gcc rsyslog jq python-firewall
 easy_install pip
 pip install pip --upgrade
 pip install --user oci-cli
 
 export PATH=${PATH}:/root/.local/bin
-SUBNET_ID=`oci --auth=instance_principal network vnic get --vnic-id=${VNIC_ID} | jq '.data ["subnet-id"]' | sed 's/\"//g'`
+SUBNET_ID=`${OCI} network vnic get --vnic-id=${VNIC_ID} | jq '.data ["subnet-id"]' | sed 's/\"//g'`
 
 sed -i.bak 's/<\/zone>/  <service name=\"http\"\/>/' /etc/firewalld/zones/public.xml
 echo "</zone>" >> /etc/firewalld/zones/public.xml
@@ -77,7 +78,7 @@ cd /var/www/html/oci
 cloud
 firewallcfg
 
-sac_inst_ocid=`oci --auth=instance_principal compute instance launch \
+sac_inst_ocid=`${OCI} compute instance launch \
 --availability-domain=${AD} \
 --compartment-id=${COMPARTMENT} --image-id=${SAC_OCID} \
 --display-name="sacrifice" \
@@ -87,11 +88,11 @@ sac_inst_ocid=`oci --auth=instance_principal compute instance launch \
 --metadata='{"ssh_authorized_keys": "'"${SSH_PUBLIC_KEY}"'" }' | jq -r '.data["id"]'`
 sleep 120
 
-sac_vnic_attach=`oci --auth=instance_principal compute vnic-attachment list \
+sac_vnic_attach=`${OCI} compute vnic-attachment list \
 --instance-id=${sac_inst_ocid} \
 --compartment-id=${COMPARTMENT} | jq -r '.data[0]["vnic-id"]'`
 
-sac_ip=`oci --auth=instance_principal network vnic get --vnic-id=\${sac_vnic_attach} | jq -r '.data["private-ip"]'`
+sac_ip=`${OCI} network vnic get --vnic-id=\${sac_vnic_attach} | jq -r '.data["private-ip"]'`
 
 build_ping=1
 state=""
@@ -123,7 +124,7 @@ then
 	done
 	if [ "${state}" != "TERMINATED" ]
 	then
-		image_ocid=`oci --auth=instance_principal compute image create \
+		image_ocid=`${OCI} compute image create \
 		--compartment-id=${COMPARTMENT} \
 		--instance-id=${sac_inst_ocid} \
 		--display-name="RHEL_74" | jq -r '.data["id"]'`
@@ -134,10 +135,7 @@ then
 			sleep 120
 			image_status=`img_status ${image_ocid}`
 		done
-		oci --auth=instance_principal compute instance terminate --instance-id=${sac_inst_ocid} --force
+		${OCI} compute instance terminate --instance-id=${sac_inst_ocid} --force
 	fi
 fi
-oci --auth=instance_principal compute instance terminate --instance-id=${MY_OCID} --force
-
-
-
+${OCI} compute instance terminate --instance-id=${MY_OCID} --force

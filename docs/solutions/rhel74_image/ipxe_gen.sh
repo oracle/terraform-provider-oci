@@ -19,20 +19,27 @@ function build_ipxe {
 # name for each extraction of the encoded file.
 cat >> ./ipxe.sh <<-EOF
 function $1 {
-cat > ./temp.uue <<"EoF"
+cat > ./temp.b64 <<"EoF"
 EOF
 
 # Find the file to encode based on the parameters passed.  UUencode the file and redirect
 # the output to append to the ipxe.sh script.
 source_file=$2"/"$3
-uuencode ${source_file} $4 >> ./ipxe.sh
+OS=`uname`
+if [ ${OS} = "Darwin" ]
+then
+	base64 -b 64 ${source_file} >> ./ipxe.sh
+else
+	base64 -w 64 ${source_file} >> ./ipxe.sh
+fi
+
 
 # Build the bottom of the function which includes the method for decoding the encoded 
 # file out of the function when it is extracted.  Remove the temp.uue file after decoding.
-cat >> ./ipxe.sh <<-"EOF"
+cat >> ./ipxe.sh <<-EOF
 EoF
-uudecode ./temp.uue
-rm ./temp.uue
+base64 -d ./temp.b64 > ./${4}
+rm ./temp.b64
 }
 
 EOF
@@ -95,8 +102,8 @@ s|<ZEROS_OCID>|\"'"${ZEROS_OCID}"'\"|g' ./ipxe.sh
 
 # Change the permissions of the script (so it can execute). Remove any kruft.
 chmod 700 ./ipxe.sh
-rm -rf ./ipxe.sh.bak
-rm ./temp.uue
+rm ./ipxe.sh.bak
+rm ./temp.b64
 
 # Return back the location of the completed script to Terraform.
 jq -n --arg shell "./ipxe.sh" '{ "shell":$shell }'
