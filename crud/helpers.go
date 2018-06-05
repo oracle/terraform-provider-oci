@@ -303,7 +303,7 @@ func UpdateResource(d *schema.ResourceData, sync ResourceUpdater) (e error) {
 	d.Partial(false)
 
 	if stateful, ok := sync.(StatefullyUpdatedResource); ok {
-		e = waitForStateRefresh(stateful, d.Timeout(schema.TimeoutCreate), "update", stateful.UpdatedPending(), stateful.UpdatedTarget())
+		e = waitForStateRefresh(stateful, d.Timeout(schema.TimeoutUpdate), "update", stateful.UpdatedPending(), stateful.UpdatedTarget())
 	}
 
 	sync.SetData()

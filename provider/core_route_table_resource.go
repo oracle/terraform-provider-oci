@@ -335,12 +335,12 @@ func (s *RouteTableResourceCrud) SetData() {
 func mapToRouteRule(raw map[string]interface{}) oci_core.RouteRule {
 	result := oci_core.RouteRule{}
 
-	if cidrBlock, ok := raw["cidr_block"]; ok {
+	if cidrBlock, ok := raw["cidr_block"]; ok && cidrBlock != "" {
 		tmp := cidrBlock.(string)
 		result.CidrBlock = &tmp
 	}
 
-	if networkEntityId, ok := raw["network_entity_id"]; ok {
+	if networkEntityId, ok := raw["network_entity_id"]; ok && networkEntityId != "" {
 		tmp := networkEntityId.(string)
 		result.NetworkEntityId = &tmp
 	}

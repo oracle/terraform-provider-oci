@@ -5,12 +5,15 @@ resource "oci_database_db_system" "TFDBNode" {
   database_edition = "${var.DBEdition}"
   db_home {
     database {
-      "admin_password" = "${var.DBAdminPassword}"
-      "db_name" = "${var.DBName}"
-      "character_set" = "${var.CharacterSet}"
-      "ncharacter_set" = "${var.NCharacterSet}"
-      "db_workload" = "${var.DBWorkload}"
-      "pdb_name" = "${var.PDBName}"
+      admin_password = "${var.DBAdminPassword}"
+      db_name = "${var.DBName}"
+      character_set = "${var.CharacterSet}"
+      ncharacter_set = "${var.NCharacterSet}"
+      db_workload = "${var.DBWorkload}"
+      pdb_name = "${var.PDBName}"
+	  db_backup_config {
+		auto_backup_enabled = true	
+	  }
     }
     db_version = "${var.DBVersion}"
     display_name = "${var.DBDisplayName}"

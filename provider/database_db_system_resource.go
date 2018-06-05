@@ -15,6 +15,7 @@ import (
 
 	oci_database "github.com/oracle/oci-go-sdk/database"
 
+	"log"
 	"strings"
 )
 
@@ -31,6 +32,7 @@ func DbSystemResource() *schema.Resource {
 		},
 		Create: createDbSystem,
 		Read:   readDbSystem,
+		Update: updateDbSystem,
 		Delete: deleteDbSystem,
 		Schema: map[string]*schema.Schema{
 			// Required
@@ -47,7 +49,6 @@ func DbSystemResource() *schema.Resource {
 			"cpu_core_count": {
 				Type:     schema.TypeInt,
 				Required: true,
-				ForceNew: true, // todo: remove when update is supported
 			},
 			"database_edition": {
 				Type:     schema.TypeString,
@@ -75,6 +76,17 @@ func DbSystemResource() *schema.Resource {
 									"admin_password": {
 										Type:      schema.TypeString,
 										Required:  true,
+										ForceNew:  true,
+										Sensitive: true,
+									},
+									"backup_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										ForceNew: true,
+									},
+									"backup_tde_password": {
+										Type:      schema.TypeString,
+										Optional:  true,
 										ForceNew:  true,
 										Sensitive: true,
 									},
@@ -172,7 +184,6 @@ func DbSystemResource() *schema.Resource {
 			"ssh_public_keys": {
 				Type:     schema.TypeList,
 				Required: true,
-				ForceNew: true, // todo: remove when update is supported
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
@@ -202,6 +213,11 @@ func DbSystemResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"data_storage_size_in_gb": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
 			"disk_redundancy": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -210,7 +226,7 @@ func DbSystemResource() *schema.Resource {
 			},
 			"display_name": {
 				Type:     schema.TypeString,
-				Optional: true, // omitting property or setting empty results in a server generated name like "dbsystem20180214005205"
+				Optional: true,
 				Computed: true,
 				ForceNew: true,
 			},
@@ -220,7 +236,6 @@ func DbSystemResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
-			// @codegen "initial_data_storage_size_in_gb" not scoped for this effort
 			"license_model": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -236,16 +251,14 @@ func DbSystemResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"source": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 
 			// Computed
-
-			// @CODEGEN support legacy name
-			"data_storage_size_in_gb": {
-				Type:     schema.TypeInt,
-				Computed: true,
-				Optional: true,
-				ForceNew: true, // remove when update is supported
-			},
 			"id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -316,8 +329,13 @@ func readDbSystem(d *schema.ResourceData, m interface{}) error {
 	return crud.ReadResource(sync)
 }
 
-// @codegen: todo: integrate and test update functionality. The use cases for reconciling initial_data_storage_size_in_gb
-// and data_storage_size_in_gb between create and update operations need consideration and thorough testing
+func updateDbSystem(d *schema.ResourceData, m interface{}) error {
+	sync := &DbSystemResourceCrud{}
+	sync.D = d
+	sync.Client = m.(*OracleClients).databaseClient
+
+	return crud.UpdateResource(d, sync)
+}
 
 func deleteDbSystem(d *schema.ResourceData, m interface{}) error {
 	sync := &DbSystemResourceCrud{}
@@ -351,6 +369,18 @@ func (s *DbSystemResourceCrud) CreatedTarget() []string {
 	}
 }
 
+func (s *DbSystemResourceCrud) UpdatedPending() []string {
+	return []string{
+		string(oci_database.DbSystemLifecycleStateUpdating),
+	}
+}
+
+func (s *DbSystemResourceCrud) UpdatedTarget() []string {
+	return []string{
+		string(oci_database.DbSystemLifecycleStateAvailable),
+	}
+}
+
 func (s *DbSystemResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_database.DbSystemLifecycleStateTerminating),
@@ -365,108 +395,7 @@ func (s *DbSystemResourceCrud) DeletedTarget() []string {
 
 func (s *DbSystemResourceCrud) Create() error {
 	request := oci_database.LaunchDbSystemRequest{}
-
-	body := oci_database.LaunchDbSystemDetails{}
-
-	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
-		tmp := availabilityDomain.(string)
-		body.AvailabilityDomain = &tmp
-	}
-
-	if backupSubnetId, ok := s.D.GetOkExists("backup_subnet_id"); ok {
-		tmp := backupSubnetId.(string)
-		body.BackupSubnetId = &tmp
-	}
-
-	if clusterName, ok := s.D.GetOkExists("cluster_name"); ok {
-		tmp := clusterName.(string)
-		body.ClusterName = &tmp
-	}
-
-	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
-		tmp := compartmentId.(string)
-		body.CompartmentId = &tmp
-	}
-
-	if cpuCoreCount, ok := s.D.GetOkExists("cpu_core_count"); ok {
-		tmp := cpuCoreCount.(int)
-		body.CpuCoreCount = &tmp
-	}
-
-	if dataStoragePercentage, ok := s.D.GetOkExists("data_storage_percentage"); ok {
-		tmp := dataStoragePercentage.(int)
-		body.DataStoragePercentage = &tmp
-	}
-
-	if databaseEdition, ok := s.D.GetOkExists("database_edition"); ok {
-		body.DatabaseEdition = oci_database.LaunchDbSystemDetailsDatabaseEditionEnum(databaseEdition.(string))
-	}
-
-	if dbHome, ok := s.D.GetOkExists("db_home"); ok {
-		if tmpList := dbHome.([]interface{}); len(tmpList) > 0 {
-			tmp := mapToCreateDbHomeDetails(tmpList[0].(map[string]interface{}))
-			body.DbHome = &tmp
-		}
-	}
-
-	if diskRedundancy, ok := s.D.GetOkExists("disk_redundancy"); ok {
-		body.DiskRedundancy = oci_database.LaunchDbSystemDetailsDiskRedundancyEnum(diskRedundancy.(string))
-	}
-
-	if displayName, ok := s.D.GetOkExists("display_name"); ok {
-		tmp := displayName.(string)
-		if len(tmp) > 0 {
-			body.DisplayName = &tmp
-		}
-	}
-
-	if domain, ok := s.D.GetOkExists("domain"); ok {
-		tmp := domain.(string)
-		body.Domain = &tmp
-	}
-
-	if hostname, ok := s.D.GetOkExists("hostname"); ok {
-		tmp := hostname.(string)
-		body.Hostname = &tmp
-	}
-
-	if dataStorageSizeInGB, ok := s.D.GetOkExists("data_storage_size_in_gb"); ok {
-		tmp := dataStorageSizeInGB.(int)
-		body.InitialDataStorageSizeInGB = &tmp
-	}
-
-	if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
-		body.LicenseModel = oci_database.LaunchDbSystemDetailsLicenseModelEnum(licenseModel.(string))
-	}
-
-	if nodeCount, ok := s.D.GetOkExists("node_count"); ok {
-		tmp := nodeCount.(int)
-		body.NodeCount = &tmp
-	}
-
-	if shape, ok := s.D.GetOkExists("shape"); ok {
-		tmp := shape.(string)
-		body.Shape = &tmp
-	}
-
-	body.SshPublicKeys = []string{}
-	if sshPublicKeys, ok := s.D.GetOkExists("ssh_public_keys"); ok {
-		interfaces := sshPublicKeys.([]interface{})
-		tmp := make([]string, len(interfaces))
-		for i, toBeConverted := range interfaces {
-			if toBeConverted != nil {
-				tmp[i] = toBeConverted.(string)
-			}
-		}
-		body.SshPublicKeys = tmp
-	}
-
-	if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
-		tmp := subnetId.(string)
-		body.SubnetId = &tmp
-	}
-
-	request.LaunchDbSystemDetails = body
+	s.populateTopLevelPolymorphicLaunchDbSystemRequest(&request)
 
 	// Internal, not intended for public use.
 	// This flag allows faster testing but requires a whitelisted tenancy to use.
@@ -503,6 +432,43 @@ func (s *DbSystemResourceCrud) Get() error {
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.GetDbSystem(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response.DbSystem
+	return nil
+}
+
+func (s *DbSystemResourceCrud) Update() error {
+	request := oci_database.UpdateDbSystemRequest{}
+
+	if cpuCoreCount, ok := s.D.GetOkExists("cpu_core_count"); ok {
+		tmp := cpuCoreCount.(int)
+		request.CpuCoreCount = &tmp
+	}
+
+	if dataStorageSizeInGB, ok := s.D.GetOkExists("data_storage_size_in_gb"); ok {
+		tmp := dataStorageSizeInGB.(int)
+		request.DataStorageSizeInGBs = &tmp
+	}
+
+	tmp := s.D.Id()
+	request.DbSystemId = &tmp
+
+	request.SshPublicKeys = []string{}
+	if sshPublicKeys, ok := s.D.GetOkExists("ssh_public_keys"); ok {
+		interfaces := sshPublicKeys.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i, toBeConverted := range interfaces {
+			tmp[i] = toBeConverted.(string)
+		}
+		request.SshPublicKeys = tmp
+	}
+
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+
+	response, err := s.Client.UpdateDbSystem(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -629,16 +595,14 @@ func (s *DbSystemResourceCrud) SetData() {
 func mapToCreateDatabaseDetails(raw map[string]interface{}) oci_database.CreateDatabaseDetails {
 	result := oci_database.CreateDatabaseDetails{}
 
-	if adminPassword, ok := raw["admin_password"]; ok {
+	if adminPassword, ok := raw["admin_password"]; ok && adminPassword != "" {
 		tmp := adminPassword.(string)
 		result.AdminPassword = &tmp
 	}
 
-	if characterSet, ok := raw["character_set"]; ok {
+	if characterSet, ok := raw["character_set"]; ok && characterSet != "" {
 		tmp := characterSet.(string)
-		if len(tmp) > 0 {
-			result.CharacterSet = &tmp
-		}
+		result.CharacterSet = &tmp
 	}
 
 	if dbBackupConfig, ok := raw["db_backup_config"]; ok {
@@ -648,28 +612,95 @@ func mapToCreateDatabaseDetails(raw map[string]interface{}) oci_database.CreateD
 		}
 	}
 
-	if dbName, ok := raw["db_name"]; ok {
+	if dbName, ok := raw["db_name"]; ok && dbName != "" {
 		tmp := dbName.(string)
 		result.DbName = &tmp
 	}
 
-	if dbWorkload, ok := raw["db_workload"]; ok {
+	if dbWorkload, ok := raw["db_workload"]; ok && dbWorkload != "" {
 		tmp := oci_database.CreateDatabaseDetailsDbWorkloadEnum(dbWorkload.(string))
 		result.DbWorkload = tmp
 	}
 
-	if ncharacterSet, ok := raw["ncharacter_set"]; ok {
+	if ncharacterSet, ok := raw["ncharacter_set"]; ok && ncharacterSet != "" {
 		tmp := ncharacterSet.(string)
-		if len(tmp) > 0 {
-			result.NcharacterSet = &tmp
-		}
+		result.NcharacterSet = &tmp
 	}
 
-	if pdbName, ok := raw["pdb_name"]; ok {
+	if pdbName, ok := raw["pdb_name"]; ok && pdbName != "" {
 		tmp := pdbName.(string)
-		if len(tmp) > 0 {
-			result.PdbName = &tmp
-		}
+		result.PdbName = &tmp
+	}
+
+	return result
+}
+
+func CreateDatabaseDetailsToMap(obj *oci_database.CreateDatabaseDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.AdminPassword != nil {
+		result["admin_password"] = string(*obj.AdminPassword)
+	}
+
+	if obj.CharacterSet != nil {
+		result["character_set"] = string(*obj.CharacterSet)
+	}
+
+	if obj.DbBackupConfig != nil {
+		result["db_backup_config"] = []interface{}{DbBackupConfigToMap(obj.DbBackupConfig)}
+	}
+
+	if obj.DbName != nil {
+		result["db_name"] = string(*obj.DbName)
+	}
+
+	result["db_workload"] = string(obj.DbWorkload)
+
+	if obj.NcharacterSet != nil {
+		result["ncharacter_set"] = string(*obj.NcharacterSet)
+	}
+
+	if obj.PdbName != nil {
+		result["pdb_name"] = string(*obj.PdbName)
+	}
+
+	return result
+}
+
+func mapToCreateDatabaseFromBackupDetails(raw map[string]interface{}) oci_database.CreateDatabaseFromBackupDetails {
+	result := oci_database.CreateDatabaseFromBackupDetails{}
+
+	if adminPassword, ok := raw["admin_password"]; ok && adminPassword != "" {
+		tmp := adminPassword.(string)
+		result.AdminPassword = &tmp
+	}
+
+	if backupId, ok := raw["backup_id"]; ok && backupId != "" {
+		tmp := backupId.(string)
+		result.BackupId = &tmp
+	}
+
+	if backupTDEPassword, ok := raw["backup_tde_password"]; ok && backupTDEPassword != "" {
+		tmp := backupTDEPassword.(string)
+		result.BackupTDEPassword = &tmp
+	}
+
+	return result
+}
+
+func CreateDatabaseFromBackupDetailsToMap(obj *oci_database.CreateDatabaseFromBackupDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.AdminPassword != nil {
+		result["admin_password"] = string(*obj.AdminPassword)
+	}
+
+	if obj.BackupId != nil {
+		result["backup_id"] = string(*obj.BackupId)
+	}
+
+	if obj.BackupTDEPassword != nil {
+		result["backup_tde_password"] = string(*obj.BackupTDEPassword)
 	}
 
 	return result
@@ -685,17 +716,248 @@ func mapToCreateDbHomeDetails(raw map[string]interface{}) oci_database.CreateDbH
 		}
 	}
 
-	if dbVersion, ok := raw["db_version"]; ok {
+	if dbVersion, ok := raw["db_version"]; ok && dbVersion != "" {
 		tmp := dbVersion.(string)
 		result.DbVersion = &tmp
 	}
 
-	if displayName, ok := raw["display_name"]; ok {
+	if displayName, ok := raw["display_name"]; ok && displayName != "" {
 		tmp := displayName.(string)
-		if len(tmp) > 0 {
-			result.DisplayName = &tmp
-		}
+		result.DisplayName = &tmp
 	}
 
 	return result
+}
+
+func CreateDbHomeDetailsToMap(obj *oci_database.CreateDbHomeDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Database != nil {
+		result["database"] = []interface{}{CreateDatabaseDetailsToMap(obj.Database)}
+	}
+
+	if obj.DbVersion != nil {
+		result["db_version"] = string(*obj.DbVersion)
+	}
+
+	if obj.DisplayName != nil {
+		result["display_name"] = string(*obj.DisplayName)
+	}
+
+	return result
+}
+
+func mapToCreateDbHomeFromBackupDetails(raw map[string]interface{}) oci_database.CreateDbHomeFromBackupDetails {
+	result := oci_database.CreateDbHomeFromBackupDetails{}
+
+	if database, ok := raw["database"]; ok {
+		if tmpList := database.([]interface{}); len(tmpList) > 0 {
+			tmp := mapToCreateDatabaseFromBackupDetails(tmpList[0].(map[string]interface{}))
+			result.Database = &tmp
+		}
+	}
+
+	if displayName, ok := raw["display_name"]; ok && displayName != "" {
+		tmp := displayName.(string)
+		result.DisplayName = &tmp
+	}
+
+	return result
+}
+
+func CreateDbHomeFromBackupDetailsToMap(obj *oci_database.CreateDbHomeFromBackupDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Database != nil {
+		result["database"] = []interface{}{CreateDatabaseFromBackupDetailsToMap(obj.Database)}
+	}
+
+	if obj.DisplayName != nil {
+		result["display_name"] = string(*obj.DisplayName)
+	}
+
+	return result
+}
+
+func DbBackupConfigToMap(obj *oci_database.DbBackupConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.AutoBackupEnabled != nil {
+		result["auto_backup_enabled"] = bool(*obj.AutoBackupEnabled)
+	}
+
+	return result
+}
+
+func (s *DbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystemRequest(request *oci_database.LaunchDbSystemRequest) {
+	//discriminator
+	sourceRaw, ok := s.D.GetOkExists("source")
+	var source string
+	if ok {
+		source = sourceRaw.(string)
+	} else {
+		source = "NONE" // default value
+	}
+
+	switch source {
+	case "DB_BACKUP":
+		details := oci_database.LaunchDbSystemFromBackupDetails{}
+		if databaseEdition, ok := s.D.GetOkExists("database_edition"); ok {
+			details.DatabaseEdition = oci_database.LaunchDbSystemFromBackupDetailsDatabaseEditionEnum(databaseEdition.(string))
+		}
+		if dbHome, ok := s.D.GetOkExists("db_home"); ok {
+			if tmpList := dbHome.([]interface{}); len(tmpList) > 0 {
+				tmp := mapToCreateDbHomeFromBackupDetails(tmpList[0].(map[string]interface{}))
+				details.DbHome = &tmp
+			}
+		}
+		if diskRedundancy, ok := s.D.GetOkExists("disk_redundancy"); ok {
+			details.DiskRedundancy = oci_database.LaunchDbSystemFromBackupDetailsDiskRedundancyEnum(diskRedundancy.(string))
+		}
+		if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
+			details.LicenseModel = oci_database.LaunchDbSystemFromBackupDetailsLicenseModelEnum(licenseModel.(string))
+		}
+		if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
+			tmp := availabilityDomain.(string)
+			details.AvailabilityDomain = &tmp
+		}
+		if backupSubnetId, ok := s.D.GetOkExists("backup_subnet_id"); ok {
+			tmp := backupSubnetId.(string)
+			details.BackupSubnetId = &tmp
+		}
+		if clusterName, ok := s.D.GetOkExists("cluster_name"); ok {
+			tmp := clusterName.(string)
+			details.ClusterName = &tmp
+		}
+		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+			tmp := compartmentId.(string)
+			details.CompartmentId = &tmp
+		}
+		if cpuCoreCount, ok := s.D.GetOkExists("cpu_core_count"); ok {
+			tmp := cpuCoreCount.(int)
+			details.CpuCoreCount = &tmp
+		}
+		if dataStoragePercentage, ok := s.D.GetOkExists("data_storage_percentage"); ok {
+			tmp := dataStoragePercentage.(int)
+			details.DataStoragePercentage = &tmp
+		}
+		if dataStorageSizeInGB, ok := s.D.GetOkExists("data_storage_size_in_gb"); ok {
+			tmp := dataStorageSizeInGB.(int)
+			details.InitialDataStorageSizeInGB = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if domain, ok := s.D.GetOkExists("domain"); ok {
+			tmp := domain.(string)
+			details.Domain = &tmp
+		}
+		if hostname, ok := s.D.GetOkExists("hostname"); ok {
+			tmp := hostname.(string)
+			details.Hostname = &tmp
+		}
+		if nodeCount, ok := s.D.GetOkExists("node_count"); ok {
+			tmp := nodeCount.(int)
+			details.NodeCount = &tmp
+		}
+		if shape, ok := s.D.GetOkExists("shape"); ok {
+			tmp := shape.(string)
+			details.Shape = &tmp
+		}
+		if sshPublicKeys, ok := s.D.GetOkExists("ssh_public_keys"); ok {
+			interfaces := sshPublicKeys.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i, toBeConverted := range interfaces {
+				tmp[i] = toBeConverted.(string)
+			}
+			details.SshPublicKeys = tmp
+		}
+		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
+		}
+		request.LaunchDbSystemDetails = details
+
+	case "NONE":
+		details := oci_database.LaunchDbSystemDetails{}
+		if databaseEdition, ok := s.D.GetOkExists("database_edition"); ok {
+			details.DatabaseEdition = oci_database.LaunchDbSystemDetailsDatabaseEditionEnum(databaseEdition.(string))
+		}
+		if dbHome, ok := s.D.GetOkExists("db_home"); ok {
+			if tmpList := dbHome.([]interface{}); len(tmpList) > 0 {
+				tmp := mapToCreateDbHomeDetails(tmpList[0].(map[string]interface{}))
+				details.DbHome = &tmp
+			}
+		}
+		if diskRedundancy, ok := s.D.GetOkExists("disk_redundancy"); ok {
+			details.DiskRedundancy = oci_database.LaunchDbSystemDetailsDiskRedundancyEnum(diskRedundancy.(string))
+		}
+		if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
+			details.LicenseModel = oci_database.LaunchDbSystemDetailsLicenseModelEnum(licenseModel.(string))
+		}
+		if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
+			tmp := availabilityDomain.(string)
+			details.AvailabilityDomain = &tmp
+		}
+		if backupSubnetId, ok := s.D.GetOkExists("backup_subnet_id"); ok {
+			tmp := backupSubnetId.(string)
+			details.BackupSubnetId = &tmp
+		}
+		if clusterName, ok := s.D.GetOkExists("cluster_name"); ok {
+			tmp := clusterName.(string)
+			details.ClusterName = &tmp
+		}
+		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+			tmp := compartmentId.(string)
+			details.CompartmentId = &tmp
+		}
+		if cpuCoreCount, ok := s.D.GetOkExists("cpu_core_count"); ok {
+			tmp := cpuCoreCount.(int)
+			details.CpuCoreCount = &tmp
+		}
+		if dataStoragePercentage, ok := s.D.GetOkExists("data_storage_percentage"); ok {
+			tmp := dataStoragePercentage.(int)
+			details.DataStoragePercentage = &tmp
+		}
+		if dataStorageSizeInGB, ok := s.D.GetOkExists("data_storage_size_in_gb"); ok {
+			tmp := dataStorageSizeInGB.(int)
+			details.InitialDataStorageSizeInGB = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if domain, ok := s.D.GetOkExists("domain"); ok {
+			tmp := domain.(string)
+			details.Domain = &tmp
+		}
+		if hostname, ok := s.D.GetOkExists("hostname"); ok {
+			tmp := hostname.(string)
+			details.Hostname = &tmp
+		}
+		if nodeCount, ok := s.D.GetOkExists("node_count"); ok {
+			tmp := nodeCount.(int)
+			details.NodeCount = &tmp
+		}
+		if shape, ok := s.D.GetOkExists("shape"); ok {
+			tmp := shape.(string)
+			details.Shape = &tmp
+		}
+		if sshPublicKeys, ok := s.D.GetOkExists("ssh_public_keys"); ok {
+			interfaces := sshPublicKeys.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i, toBeConverted := range interfaces {
+				tmp[i] = toBeConverted.(string)
+			}
+			details.SshPublicKeys = tmp
+		}
+		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
+		}
+		request.LaunchDbSystemDetails = details
+	default:
+		log.Printf("[WARN] Unknown source '%v' was specified", source)
+	}
 }
