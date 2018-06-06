@@ -56,7 +56,7 @@ func (s *ResourceIdentityUserGroupMembershipTestSuite) TestAccResourceUserGroupM
 					user_id = "${oci_identity_user.t1.id}"
 					group_id = "${oci_identity_group.t.id}"
 				}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "compartment_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "user_id"),
@@ -78,7 +78,7 @@ func (s *ResourceIdentityUserGroupMembershipTestSuite) TestAccResourceUserGroupM
 					user_id = "${oci_identity_user.t2.id}"
 					group_id = "${oci_identity_group.t.id}"
 				}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "compartment_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "user_id"),

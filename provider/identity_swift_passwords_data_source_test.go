@@ -45,7 +45,7 @@ func (s *DatasourceIdentitySwiftPasswordsTestSuite) TestAccDatasourceIdentitySwi
 				data "oci_identity_swift_passwords" "p" {
 					user_id = "${oci_identity_user.t.id}"
 				}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "passwords.#"),
 				),
 			},
@@ -58,7 +58,7 @@ func (s *DatasourceIdentitySwiftPasswordsTestSuite) TestAccDatasourceIdentitySwi
 						values = ["${oci_identity_swift_password.t.description}"]
 					}
 				}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "passwords.#", "1"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "passwords.0.id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "passwords.0.user_id"),

@@ -42,7 +42,7 @@ resource "oci_core_route_table" "test_route_table" {
 	RouteTablePropertyVariables = `
 variable "route_table_display_name" { default = "MyRouteTable" }
 variable "route_table_route_rules_cidr_block" { default = "0.0.0.0/0" }
-variable "route_table_state" { default = "state" }
+variable "route_table_state" { default = "AVAILABLE" }
 
 `
 	RouteTableResourceDependencies = VcnPropertyVariables + VcnResourceConfig + `
@@ -58,10 +58,8 @@ func TestCoreRouteTableResource_basic(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 
-	compartmentId := getRequiredEnvSetting("compartment_id_for_create")
+	compartmentId := getRequiredEnvSetting("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
-	compartmentId2 := getRequiredEnvSetting("compartment_id_for_update")
-	compartmentIdVariableStr2 := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId2)
 
 	resourceName := "oci_core_route_table.test_route_table"
 	datasourceName := "data.oci_core_route_tables.test_route_tables"
@@ -121,7 +119,7 @@ func TestCoreRouteTableResource_basic(t *testing.T) {
 				Config: config + `
 variable "route_table_display_name" { default = "displayName2" }
 variable "route_table_route_rules_cidr_block" { default = "0.0.0.0/0" }
-variable "route_table_state" { default = "state" }
+variable "route_table_state" { default = "AVAILABLE" }
 
                 ` + compartmentIdVariableStr + RouteTableResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
@@ -143,38 +141,11 @@ variable "route_table_state" { default = "state" }
 					},
 				),
 			},
-			// verify updates to Force New parameters.
-			{
-				Config: config + `
-variable "route_table_display_name" { default = "displayName2" }
-variable "route_table_route_rules_cidr_block" { default = "10.0.0.0/8" }
-variable "route_table_state" { default = "AVAILABLE" }
-
-                ` + compartmentIdVariableStr2 + RouteTableResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId2),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "route_rules.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "route_rules.0.cidr_block", "10.0.0.0/8"),
-					resource.TestCheckResourceAttrSet(resourceName, "route_rules.0.network_entity_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId == resId2 {
-							return fmt.Errorf("Resource was expected to be recreated but it wasn't.")
-						}
-						return err
-					},
-				),
-			},
 			// verify datasource
 			{
 				Config: config + `
 variable "route_table_display_name" { default = "displayName2" }
-variable "route_table_route_rules_cidr_block" { default = "10.0.0.0/8" }
+variable "route_table_route_rules_cidr_block" { default = "0.0.0.0/0" }
 variable "route_table_state" { default = "AVAILABLE" }
 
 data "oci_core_route_tables" "test_route_tables" {
@@ -191,91 +162,22 @@ data "oci_core_route_tables" "test_route_tables" {
     	values = ["${oci_core_route_table.test_route_table.id}"]
     }
 }
-                ` + compartmentIdVariableStr2 + RouteTableResourceConfig,
-				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId2),
+                ` + compartmentIdVariableStr + RouteTableResourceConfig,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
 					resource.TestCheckResourceAttrSet(datasourceName, "vcn_id"),
 
 					resource.TestCheckResourceAttr(datasourceName, "route_tables.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "route_tables.0.compartment_id", compartmentId2),
+					resource.TestCheckResourceAttr(datasourceName, "route_tables.0.compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "route_tables.0.display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(datasourceName, "route_tables.0.id"),
 					resource.TestCheckResourceAttr(datasourceName, "route_tables.0.route_rules.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "route_tables.0.route_rules.0.cidr_block", "10.0.0.0/8"),
+					resource.TestCheckResourceAttr(datasourceName, "route_tables.0.route_rules.0.cidr_block", "0.0.0.0/0"),
 					resource.TestCheckResourceAttrSet(datasourceName, "route_tables.0.route_rules.0.network_entity_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "route_tables.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "route_tables.0.vcn_id"),
-				),
-			},
-		},
-	})
-}
-
-func TestCoreRouteTableResource_forcenew(t *testing.T) {
-	provider := testAccProvider
-	config := testProviderConfig()
-
-	compartmentId := getRequiredEnvSetting("compartment_id_for_create")
-	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
-	compartmentId2 := getRequiredEnvSetting("compartment_id_for_update")
-	compartmentIdVariableStr2 := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId2)
-
-	resourceName := "oci_core_route_table.test_route_table"
-
-	var resId, resId2 string
-
-	resource.Test(t, resource.TestCase{
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		Steps: []resource.TestStep{
-			// verify create with optionals
-			{
-				Config: config + RouteTablePropertyVariables + compartmentIdVariableStr + RouteTableResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "MyRouteTable"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "route_rules.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "route_rules.0.cidr_block", "0.0.0.0/0"),
-					resource.TestCheckResourceAttrSet(resourceName, "route_rules.0.network_entity_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
-			// force new tests, test that changing a parameter would result in creation of a new resource.
-
-			{
-				Config: config + `
-variable "route_table_display_name" { default = "MyRouteTable" }
-variable "route_table_route_rules_cidr_block" { default = "0.0.0.0/0" }
-variable "route_table_state" { default = "state" }
-				` + compartmentIdVariableStr2 + RouteTableResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId2),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "MyRouteTable"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "route_rules.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "route_rules.0.cidr_block", "0.0.0.0/0"),
-					resource.TestCheckResourceAttrSet(resourceName, "route_rules.0.network_entity_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId == resId2 {
-							return fmt.Errorf("Resource was expected to be recreated when updating parameter CompartmentId but the id did not change.")
-						}
-						resId = resId2
-						return err
-					},
 				),
 			},
 		},

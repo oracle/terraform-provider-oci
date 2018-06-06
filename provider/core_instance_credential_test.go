@@ -26,8 +26,8 @@ func TestCoreInstanceCredentialResource_basic(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 
-	compartmentId2 := getRequiredEnvSetting("compartment_id_for_update")
-	compartmentIdVariableStr2 := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId2)
+	compartmentId := getRequiredEnvSetting("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	datasourceName := "data.oci_core_instance_credentials.test_instance_credentials"
 
@@ -39,15 +39,15 @@ func TestCoreInstanceCredentialResource_basic(t *testing.T) {
 			// verify datasource
 			{
 				Config: config + `
-variable "instance_credential_instance_id" { default = "instanceId2" }
+variable "instance_credential_instance_id" { default = "instanceId" }
 
 data "oci_core_instance_credentials" "test_instance_credentials" {
 	#Required
 	instance_id = "${var.instance_credential_instance_id}"
 }
-                ` + compartmentIdVariableStr2 + InstanceCredentialResourceConfig,
-				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(datasourceName, "instance_id", "instanceId2"),
+                ` + compartmentIdVariableStr + InstanceCredentialResourceConfig,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(datasourceName, "instance_id", "instanceId"),
 
 					resource.TestCheckResourceAttrSet(datasourceName, "instance_credentials.#"),
 					resource.TestCheckResourceAttrSet(datasourceName, "instance_credentials.0.password"),

@@ -81,7 +81,7 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `swift_passwords` - The list of swift_passwords.
+* `passwords` - The list of passwords.
 
 ### Example Usage
 

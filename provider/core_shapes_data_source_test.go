@@ -45,7 +45,7 @@ func (s *DatasourceCoreShapeTestSuite) TestAccDatasourceCoreShape_basic() {
 				ImportState:       true,
 				ImportStateVerify: true,
 				Config:            s.Config,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(s.ResourceName, "shapes.#", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "shapes.0.name", "VM.Standard1.2"),

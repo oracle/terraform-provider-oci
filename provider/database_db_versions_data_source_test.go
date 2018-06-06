@@ -38,7 +38,7 @@ func (s *DatabaseDBVersionTestSuite) TestAccDatasourceDatabaseDBVersion_basic() 
 					data "oci_database_db_versions" "t" {
 						compartment_id = "${var.compartment_id}"
 					}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "db_versions.#"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "db_versions.0.supports_pdb"),
 					resource.TestMatchResourceAttr(s.ResourceName, "db_versions.0.version", regexp.MustCompile(`\d+\.\d+\.\d+\.\d+`)),
@@ -50,7 +50,7 @@ func (s *DatabaseDBVersionTestSuite) TestAccDatasourceDatabaseDBVersion_basic() 
 						compartment_id = "${var.compartment_id}"
 						db_system_shape = "BM.DenseIO1.36"
 					}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "db_versions.#"),
 					resource.TestCheckResourceAttr(s.ResourceName, "db_system_shape", "BM.DenseIO1.36"),
 				),
@@ -67,7 +67,7 @@ func (s *DatabaseDBVersionTestSuite) TestAccDatasourceDatabaseDBVersion_basic() 
 							regex = true
 						}
 					}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestMatchResourceAttr(s.ResourceName, "db_versions.#", regexp.MustCompile("[1-9][0-9]*")), // At least one version returned.
 					resource.TestMatchResourceAttr(s.ResourceName, "db_versions.0.version", regexp.MustCompile(`12\.\d+\.\d+\.\d+`)),
 				),
@@ -82,7 +82,7 @@ func (s *DatabaseDBVersionTestSuite) TestAccDatasourceDatabaseDBVersion_basic() 
 							values = ["non-existent-version"]
 						}
 					}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "db_versions.#", "0"),
 				),
 			},

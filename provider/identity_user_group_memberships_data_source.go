@@ -28,7 +28,6 @@ func UserGroupMembershipsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			// @CODEGEN 01/2018: user_group_memberships => memberships
 			"memberships": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -139,7 +138,6 @@ func (s *UserGroupMembershipsDataSourceCrud) SetData() {
 		resources = ApplyFilters(f.(*schema.Set), resources)
 	}
 
-	// @CODEGEN 01/2018: user_group_memberships => memberships
 	if err := s.D.Set("memberships", resources); err != nil {
 		panic(err)
 	}

@@ -102,7 +102,7 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_basi
 						}
 					}
 				}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					// DB System Resource tests
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),
@@ -222,7 +222,7 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_allB
 				data "oci_database_db_node" "t" {
 					db_node_id = "${data.oci_database_db_nodes.t.db_nodes.0.id}"
 				}`, nil),
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					// DB System Resource tests
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),
@@ -465,7 +465,7 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_allV
 				data "oci_database_db_node" "t" {
 					db_node_id = "${data.oci_database_db_nodes.t.db_nodes.0.id}"
 				}`, nil),
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					// DB System Resource tests
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),

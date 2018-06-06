@@ -46,10 +46,8 @@ func TestCoreIpSecConnectionResource_basic(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 
-	compartmentId := getRequiredEnvSetting("compartment_id_for_create")
+	compartmentId := getRequiredEnvSetting("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
-	compartmentId2 := getRequiredEnvSetting("compartment_id_for_update")
-	compartmentIdVariableStr2 := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId2)
 
 	resourceName := "oci_core_ip_sec_connection.test_ip_sec_connection"
 	datasourceName := "data.oci_core_ip_sec_connections.test_ip_sec_connections"
@@ -127,31 +125,6 @@ variable "ip_sec_connection_static_routes" { default = [] }
 					},
 				),
 			},
-			// verify updates to Force New parameters.
-			{
-				Config: config + `
-variable "ip_sec_connection_display_name" { default = "displayName2" }
-variable "ip_sec_connection_static_routes" { default = [] }
-
-                ` + compartmentIdVariableStr2 + IpSecConnectionResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId2),
-					resource.TestCheckResourceAttrSet(resourceName, "cpe_id"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttr(resourceName, "static_routes.#", "0"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId == resId2 {
-							return fmt.Errorf("Resource was expected to be recreated but it wasn't.")
-						}
-						return err
-					},
-				),
-			},
 			// verify datasource
 			{
 				Config: config + `
@@ -171,162 +144,20 @@ data "oci_core_ip_sec_connections" "test_ip_sec_connections" {
     	values = ["${oci_core_ip_sec_connection.test_ip_sec_connection.id}"]
     }
 }
-                ` + compartmentIdVariableStr2 + IpSecConnectionResourceConfig,
-				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId2),
+                ` + compartmentIdVariableStr + IpSecConnectionResourceConfig,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "cpe_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "drg_id"),
 
-					resource.TestCheckResourceAttr(datasourceName, "ip_sec_connections.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "ip_sec_connections.0.compartment_id", compartmentId2),
-					resource.TestCheckResourceAttrSet(datasourceName, "ip_sec_connections.0.cpe_id"),
-					resource.TestCheckResourceAttr(datasourceName, "ip_sec_connections.0.display_name", "displayName2"),
-					resource.TestCheckResourceAttrSet(datasourceName, "ip_sec_connections.0.drg_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "ip_sec_connections.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "ip_sec_connections.0.state"),
-					resource.TestCheckResourceAttr(datasourceName, "ip_sec_connections.0.static_routes.#", "0"),
-				),
-			},
-		},
-	})
-}
-
-func TestCoreIpSecConnectionResource_forcenew(t *testing.T) {
-	t.Skip("Skipping generated test for now as it has not been worked on.")
-	provider := testAccProvider
-	config := testProviderConfig()
-
-	compartmentId := getRequiredEnvSetting("compartment_id_for_create")
-	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
-	compartmentId2 := getRequiredEnvSetting("compartment_id_for_update")
-	compartmentIdVariableStr2 := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId2)
-
-	resourceName := "oci_core_ip_sec_connection.test_ip_sec_connection"
-
-	var resId, resId2 string
-
-	resource.Test(t, resource.TestCase{
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		Steps: []resource.TestStep{
-			// verify create with optionals
-			{
-				Config: config + IpSecConnectionPropertyVariables + compartmentIdVariableStr + IpSecConnectionResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "cpe_id"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "MyIPSecConnection"),
-					resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttr(resourceName, "static_routes.#", "0"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
-			// force new tests, test that changing a parameter would result in creation of a new resource.
-
-			{
-				Config: config + `
-variable "ip_sec_connection_display_name" { default = "MyIPSecConnection" }
-variable "ip_sec_connection_static_routes" { default = [] }
-				` + compartmentIdVariableStr2 + IpSecConnectionResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId2),
-					resource.TestCheckResourceAttrSet(resourceName, "cpe_id"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "MyIPSecConnection"),
-					resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttr(resourceName, "static_routes.#", "0"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId == resId2 {
-							return fmt.Errorf("Resource was expected to be recreated when updating parameter CompartmentId but the id did not change.")
-						}
-						resId = resId2
-						return err
-					},
-				),
-			},
-
-			{
-				Config: config + `
-variable "ip_sec_connection_display_name" { default = "MyIPSecConnection" }
-variable "ip_sec_connection_static_routes" { default = [] }
-				` + compartmentIdVariableStr2 + IpSecConnectionResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId2),
-					resource.TestCheckResourceAttrSet(resourceName, "cpe_id"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "MyIPSecConnection"),
-					resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttr(resourceName, "static_routes.#", "0"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId == resId2 {
-							return fmt.Errorf("Resource was expected to be recreated when updating parameter CpeId but the id did not change.")
-						}
-						resId = resId2
-						return err
-					},
-				),
-			},
-
-			{
-				Config: config + `
-variable "ip_sec_connection_display_name" { default = "MyIPSecConnection" }
-variable "ip_sec_connection_static_routes" { default = [] }
-				` + compartmentIdVariableStr2 + IpSecConnectionResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId2),
-					resource.TestCheckResourceAttrSet(resourceName, "cpe_id"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "MyIPSecConnection"),
-					resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttr(resourceName, "static_routes.#", "0"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId == resId2 {
-							return fmt.Errorf("Resource was expected to be recreated when updating parameter DrgId but the id did not change.")
-						}
-						resId = resId2
-						return err
-					},
-				),
-			},
-
-			{
-				Config: config + `
-variable "ip_sec_connection_display_name" { default = "MyIPSecConnection" }
-variable "ip_sec_connection_static_routes" { default = [] }
-				` + compartmentIdVariableStr2 + IpSecConnectionResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId2),
-					resource.TestCheckResourceAttrSet(resourceName, "cpe_id"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "MyIPSecConnection"),
-					resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttr(resourceName, "static_routes.#", "0"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId == resId2 {
-							return fmt.Errorf("Resource was expected to be recreated when updating parameter StaticRoutes but the id did not change.")
-						}
-						resId = resId2
-						return err
-					},
+					resource.TestCheckResourceAttr(datasourceName, "connections.#", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "connections.0.compartment_id", compartmentId),
+					resource.TestCheckResourceAttrSet(datasourceName, "connections.0.cpe_id"),
+					resource.TestCheckResourceAttr(datasourceName, "connections.0.display_name", "displayName2"),
+					resource.TestCheckResourceAttrSet(datasourceName, "connections.0.drg_id"),
+					resource.TestCheckResourceAttrSet(datasourceName, "connections.0.id"),
+					resource.TestCheckResourceAttrSet(datasourceName, "connections.0.state"),
+					resource.TestCheckResourceAttr(datasourceName, "connections.0.static_routes.#", "0"),
 				),
 			},
 		},

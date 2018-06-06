@@ -32,15 +32,11 @@ func TestFileStorageExportResource_basic(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 
-	compartmentId := getRequiredEnvSetting("compartment_id_for_create")
+	compartmentId := getRequiredEnvSetting("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
-	compartmentId2 := getRequiredEnvSetting("compartment_id_for_update")
-	compartmentIdVariableStr2 := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId2)
 
 	resourceName := "oci_file_storage_export.test_export"
 	datasourceName := "data.oci_file_storage_exports.test_exports"
-
-	var resId, resId2 string
 
 	resource.Test(t, resource.TestCase{
 		Providers: map[string]terraform.ResourceProvider{
@@ -56,43 +52,13 @@ func TestFileStorageExportResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "export_set_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "file_system_id"),
 					resource.TestCheckResourceAttr(resourceName, "path", "/files-5"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
 				),
 			},
 
-			// verify updates to Force New parameters.
-			{
-				Config: config + `
-variable "export_id" { default = "id2" }
-variable "export_path" { default = "/files-6" }
-variable "export_state" { default = "ACTIVE" }
-
-                ` + compartmentIdVariableStr2 + ExportResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttrSet(resourceName, "export_set_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "file_system_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "path", "/files-6"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId == resId2 {
-							return fmt.Errorf("Resource was expected to be recreated but it wasn't.")
-						}
-						return err
-					},
-				),
-			},
 			// verify datasource
 			{
 				Config: config + `
-variable "export_path" { default = "/files-6" }
+variable "export_path" { default = "/files-5" }
 variable "export_state" { default = "ACTIVE" }
 
 data "oci_file_storage_exports" "test_exports" {
@@ -108,14 +74,14 @@ data "oci_file_storage_exports" "test_exports" {
     	values = ["${oci_file_storage_export.test_export.id}"]
     }
 }
-                ` + compartmentIdVariableStr2 + ExportResourceConfig,
-				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId2),
+                ` + compartmentIdVariableStr + ExportResourceConfig,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "exports.#", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "exports.0.export_set_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "exports.0.file_system_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "exports.0.id"),
-					resource.TestCheckResourceAttr(datasourceName, "exports.0.path", "/files-6"),
+					resource.TestCheckResourceAttr(datasourceName, "exports.0.path", "/files-5"),
 					resource.TestCheckResourceAttr(datasourceName, "exports.0.state", "ACTIVE"),
 					resource.TestCheckResourceAttrSet(datasourceName, "exports.0.time_created"),
 				),

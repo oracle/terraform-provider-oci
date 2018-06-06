@@ -51,8 +51,9 @@ func TestCoreBootVolumeResource_basic(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 
-	compartmentId2 := getRequiredEnvSetting("compartment_id_for_update")
-	compartmentIdVariableStr2 := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId2)
+	compartmentId := getRequiredEnvSetting("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
 	datasourceName := "data.oci_core_boot_volumes.test_boot_volumes"
 
 	resource.Test(t, resource.TestCase{
@@ -69,9 +70,9 @@ func TestCoreBootVolumeResource_basic(t *testing.T) {
 						compartment_id = "${var.compartment_id}"
 
 					}
-                ` + compartmentIdVariableStr2,
-				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId2),
+                ` + compartmentIdVariableStr,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
 					resource.TestCheckResourceAttrSet(datasourceName, "boot_volumes.#"),
 					resource.TestCheckResourceAttrSet(datasourceName, "boot_volumes.0.availability_domain"),

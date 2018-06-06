@@ -29,10 +29,8 @@ func TestIdentityCustomerSecretKeyResource_basic(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 
-	compartmentId := getRequiredEnvSetting("compartment_id_for_create")
+	compartmentId := getRequiredEnvSetting("tenancy_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
-	compartmentId2 := getRequiredEnvSetting("compartment_id_for_update")
-	compartmentIdVariableStr2 := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId2)
 
 	resourceName := "oci_identity_customer_secret_key.test_customer_secret_key"
 	datasourceName := "data.oci_identity_customer_secret_keys.test_customer_secret_keys"
@@ -99,8 +97,8 @@ data "oci_identity_customer_secret_keys" "test_customer_secret_keys" {
     	values = ["${oci_identity_customer_secret_key.test_customer_secret_key.id}"]
     }
 }
-                ` + compartmentIdVariableStr2 + CustomerSecretKeyResourceConfig,
-				Check: resource.ComposeTestCheckFunc(
+                ` + compartmentIdVariableStr + CustomerSecretKeyResourceConfig,
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "user_id"),
 
 					resource.TestCheckResourceAttr(datasourceName, "customer_secret_keys.#", "1"),

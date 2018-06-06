@@ -52,7 +52,7 @@ func (s *ResourceCoreDrgAttachmentTestSuite) TestAccResourceCoreDrgAttachment_ba
 					drg_id = "${oci_core_drg.t.id}"
 					vcn_id = "${oci_core_virtual_network.t.id}"
 				}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "drg_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "vcn_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
@@ -74,7 +74,7 @@ func (s *ResourceCoreDrgAttachmentTestSuite) TestAccResourceCoreDrgAttachment_ba
 					vcn_id = "${oci_core_virtual_network.t.id}"
 					display_name = "-tf-drg-attachment"
 				}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-drg-attachment"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "drg_id"),

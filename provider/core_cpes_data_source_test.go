@@ -49,7 +49,7 @@ func (s *DatasourceCoreCpeTestSuite) TestAccDatasourceCoreCpe_basic() {
 						values = ["{{.token}}"]
 					}
 				}`, nil),
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "cpes.#", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "cpes.0.compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(s.ResourceName, "cpes.0.display_name", s.Token),

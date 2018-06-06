@@ -41,7 +41,7 @@ func (s *ResourceCoreDrgTestSuite) TestAccResourceCoreDrg_basic() {
 				resource "oci_core_drg" "t" {
 					compartment_id = "${var.compartment_id}"
 				}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet("oci_core_drg.t", "id"),
 					resource.TestCheckResourceAttrSet("oci_core_drg.t", "time_created"),
 					resource.TestCheckResourceAttrSet("oci_core_drg.t", "display_name"),
@@ -59,7 +59,7 @@ func (s *ResourceCoreDrgTestSuite) TestAccResourceCoreDrg_basic() {
 					compartment_id = "${var.compartment_id}"
 					display_name = "-tf-drg"
 				}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr("oci_core_drg.t", "display_name", "-tf-drg"),
 					resource.TestCheckResourceAttrSet("oci_core_drg.t", "time_created"),
 					resource.TestCheckResourceAttr("oci_core_drg.t", "state", string(core.DrgLifecycleStateAvailable)),

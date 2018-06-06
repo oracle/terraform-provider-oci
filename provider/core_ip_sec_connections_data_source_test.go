@@ -58,7 +58,7 @@ func (s *DatasourceCoreIPSecConnectionsTestSuite) TestAccDatasourceCoreIPConnect
 							values = ["${oci_core_ipsec.t.display_name}"]
 						}
 					}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "compartment_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "drg_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "cpe_id"),

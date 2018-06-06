@@ -89,10 +89,8 @@ func TestLoadBalancerBackendSetResource_basic(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 
-	compartmentId := getRequiredEnvSetting("compartment_id_for_create")
+	compartmentId := getRequiredEnvSetting("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
-	compartmentId2 := getRequiredEnvSetting("compartment_id_for_update")
-	compartmentIdVariableStr2 := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId2)
 
 	resourceName := "oci_load_balancer_backend_set.test_backend_set"
 	datasourceName := "data.oci_load_balancer_backend_sets.test_backend_sets"
@@ -208,72 +206,22 @@ variable "backend_set_ssl_configuration_verify_peer_certificate" { default = tru
 					},
 				),
 			},
-			// verify updates to Force New parameters.
-			{
-				Config: config + `
-variable "backend_set_health_checker_interval_ms" { default = "2000" }
-variable "backend_set_health_checker_port" { default = 11 }
-variable "backend_set_health_checker_protocol" { default = "TCP" }
-variable "backend_set_health_checker_response_body_regex" { default = "responseBodyRegex2" }
-variable "backend_set_health_checker_retries" { default = 11 }
-variable "backend_set_health_checker_return_code" { default = 11 }
-variable "backend_set_health_checker_timeout_in_millis" { default = 11 }
-variable "backend_set_health_checker_url_path" { default = "urlPath2" }
-variable "backend_set_name" { default = "backendSet2" }
-variable "backend_set_policy" { default = "policy2" }
-variable "backend_set_session_persistence_configuration_cookie_name" { default = "cookieName2" }
-variable "backend_set_session_persistence_configuration_disable_fallback" { default = true }
-variable "backend_set_ssl_configuration_certificate_name" { default = "certificateName2" }
-variable "backend_set_ssl_configuration_verify_depth" { default = 11 }
-variable "backend_set_ssl_configuration_verify_peer_certificate" { default = true }
-
-                ` + compartmentIdVariableStr2 + BackendSetResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "health_checker.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.interval_ms", "2000"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.port", "11"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.protocol", "TCP"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.response_body_regex", "responseBodyRegex2"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.retries", "11"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.return_code", "11"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.timeout_in_millis", "11"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.url_path", "urlPath2"),
-					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
-					resource.TestCheckResourceAttr(resourceName, "name", "backendSet2"),
-					resource.TestCheckResourceAttr(resourceName, "policy", "policy2"),
-					resource.TestCheckResourceAttr(resourceName, "session_persistence_configuration.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "session_persistence_configuration.0.cookie_name", "cookieName2"),
-					resource.TestCheckResourceAttr(resourceName, "session_persistence_configuration.0.disable_fallback", "true"),
-					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.certificate_name", "certificateName2"),
-					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_depth", "11"),
-					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_peer_certificate", "true"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId == resId2 {
-							return fmt.Errorf("Resource was expected to be recreated but it wasn't.")
-						}
-						return err
-					},
-				),
-			},
 			// verify datasource
 			{
 				Config: config + `
 variable "backend_set_health_checker_interval_ms" { default = "2000" }
 variable "backend_set_health_checker_port" { default = 11 }
-variable "backend_set_health_checker_protocol" { default = "TCP" }
+variable "backend_set_health_checker_protocol" { default = "HTTP" }
 variable "backend_set_health_checker_response_body_regex" { default = "responseBodyRegex2" }
 variable "backend_set_health_checker_retries" { default = 11 }
 variable "backend_set_health_checker_return_code" { default = 11 }
 variable "backend_set_health_checker_timeout_in_millis" { default = 11 }
 variable "backend_set_health_checker_url_path" { default = "urlPath2" }
-variable "backend_set_name" { default = "backendSet2" }
-variable "backend_set_policy" { default = "policy2" }
-variable "backend_set_session_persistence_configuration_cookie_name" { default = "cookieName2" }
+variable "backend_set_name" { default = "backendSet1" }
+variable "backend_set_policy" { default = "LEAST_CONNECTIONS" }
+variable "backend_set_session_persistence_configuration_cookie_name" { default = "example_cookie" }
 variable "backend_set_session_persistence_configuration_disable_fallback" { default = true }
-variable "backend_set_ssl_configuration_certificate_name" { default = "certificateName2" }
+variable "backend_set_ssl_configuration_certificate_name" { default = "example_certificate_bundle" }
 variable "backend_set_ssl_configuration_verify_depth" { default = 11 }
 variable "backend_set_ssl_configuration_verify_peer_certificate" { default = true }
 
@@ -286,152 +234,28 @@ data "oci_load_balancer_backend_sets" "test_backend_sets" {
     	values = ["${oci_load_balancer_backend_set.test_backend_set.id}"]
     }
 }
-                ` + compartmentIdVariableStr2 + BackendSetResourceConfig,
-				Check: resource.ComposeTestCheckFunc(
+                ` + compartmentIdVariableStr + BackendSetResourceConfig,
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttr(datasourceName, "backend_sets.0.health_checker.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "backend_sets.0.health_checker.0.interval_ms", "2000"),
 					resource.TestCheckResourceAttr(datasourceName, "backend_sets.0.health_checker.0.port", "11"),
-					resource.TestCheckResourceAttr(datasourceName, "backend_sets.0.health_checker.0.protocol", "TCP"),
+					resource.TestCheckResourceAttr(datasourceName, "backend_sets.0.health_checker.0.protocol", "HTTP"),
 					resource.TestCheckResourceAttr(datasourceName, "backend_sets.0.health_checker.0.response_body_regex", "responseBodyRegex2"),
 					resource.TestCheckResourceAttr(datasourceName, "backend_sets.0.health_checker.0.retries", "11"),
 					resource.TestCheckResourceAttr(datasourceName, "backend_sets.0.health_checker.0.return_code", "11"),
 					resource.TestCheckResourceAttr(datasourceName, "backend_sets.0.health_checker.0.timeout_in_millis", "11"),
 					resource.TestCheckResourceAttr(datasourceName, "backend_sets.0.health_checker.0.url_path", "urlPath2"),
 					resource.TestCheckResourceAttrSet(datasourceName, "backend_sets.0.load_balancer_id"),
-					resource.TestCheckResourceAttr(datasourceName, "backend_sets.0.name", "backendSet2"),
-					resource.TestCheckResourceAttr(datasourceName, "backend_sets.0.policy", "policy2"),
+					resource.TestCheckResourceAttr(datasourceName, "backend_sets.0.name", "backendSet1"),
+					resource.TestCheckResourceAttr(datasourceName, "backend_sets.0.policy", "LEAST_CONNECTIONS"),
 					resource.TestCheckResourceAttr(datasourceName, "backend_sets.0.session_persistence_configuration.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "backend_sets.0.session_persistence_configuration.0.cookie_name", "cookieName2"),
+					resource.TestCheckResourceAttr(datasourceName, "backend_sets.0.session_persistence_configuration.0.cookie_name", "example_cookie"),
 					resource.TestCheckResourceAttr(datasourceName, "backend_sets.0.session_persistence_configuration.0.disable_fallback", "true"),
 					resource.TestCheckResourceAttr(datasourceName, "backend_sets.0.ssl_configuration.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "backend_sets.0.ssl_configuration.0.certificate_name", "certificateName2"),
+					resource.TestCheckResourceAttr(datasourceName, "backend_sets.0.ssl_configuration.0.certificate_name", "example_certificate_bundle"),
 					resource.TestCheckResourceAttr(datasourceName, "backend_sets.0.ssl_configuration.0.verify_depth", "11"),
 					resource.TestCheckResourceAttr(datasourceName, "backend_sets.0.ssl_configuration.0.verify_peer_certificate", "true"),
-				),
-			},
-		},
-	})
-}
-
-func TestLoadBalancerBackendSetResource_forcenew(t *testing.T) {
-	t.Skip("Skipping generated test for now as it has not been worked on.")
-	provider := testAccProvider
-	config := testProviderConfig()
-
-	compartmentId := getRequiredEnvSetting("compartment_id_for_create")
-	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
-
-	resourceName := "oci_load_balancer_backend_set.test_backend_set"
-
-	var resId, resId2 string
-
-	resource.Test(t, resource.TestCase{
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		Steps: []resource.TestStep{
-			// verify create with optionals
-			{
-				Config: config + BackendSetPropertyVariables + compartmentIdVariableStr + BackendSetResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "backend.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "backend.0.backup", "false"),
-					resource.TestCheckResourceAttr(resourceName, "backend.0.drain", "false"),
-					resource.TestCheckResourceAttr(resourceName, "backend.0.ip_address", "10.0.0.3"),
-					resource.TestCheckResourceAttrSet(resourceName, "backend.0.name"),
-					resource.TestCheckResourceAttr(resourceName, "backend.0.offline", "false"),
-					resource.TestCheckResourceAttr(resourceName, "backend.0.port", "10"),
-					resource.TestCheckResourceAttr(resourceName, "backend.0.weight", "10"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.interval_ms", "1000"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.port", "10"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.protocol", "HTTP"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.response_body_regex", ".*"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.retries", "10"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.return_code", "200"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.timeout_in_millis", "10000"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.url_path", "/healthcheck"),
-					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
-					resource.TestCheckResourceAttr(resourceName, "name", "backendSet1"),
-					resource.TestCheckResourceAttr(resourceName, "policy", "LEAST_CONNECTIONS"),
-					resource.TestCheckResourceAttr(resourceName, "session_persistence_configuration.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "session_persistence_configuration.0.cookie_name", "example_cookie"),
-					resource.TestCheckResourceAttr(resourceName, "session_persistence_configuration.0.disable_fallback", "false"),
-					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.certificate_name", "example_certificate_bundle"),
-					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_depth", "3"),
-					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_peer_certificate", "false"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
-			// force new tests, test that changing a parameter would result in creation of a new resource.
-
-			{
-				Config: config + `
-variable "backend_set_backend_backup" { default = false }
-variable "backend_set_backend_drain" { default = false }
-variable "backend_set_backend_ip_address" { default = "10.0.0.3" }
-variable "backend_set_backend_offline" { default = false }
-variable "backend_set_backend_port" { default = 10 }
-variable "backend_set_backend_weight" { default = 10 }
-variable "backend_set_health_checker_interval_ms" { default = "1000" }
-variable "backend_set_health_checker_port" { default = 10 }
-variable "backend_set_health_checker_protocol" { default = "HTTP" }
-variable "backend_set_health_checker_response_body_regex" { default = ".*" }
-variable "backend_set_health_checker_retries" { default = 10 }
-variable "backend_set_health_checker_return_code" { default = 200 }
-variable "backend_set_health_checker_timeout_in_millis" { default = 10000 }
-variable "backend_set_health_checker_url_path" { default = "/healthcheck" }
-variable "backend_set_name" { default = "backendSet2" }
-variable "backend_set_policy" { default = "LEAST_CONNECTIONS" }
-variable "backend_set_session_persistence_configuration_cookie_name" { default = "example_cookie" }
-variable "backend_set_session_persistence_configuration_disable_fallback" { default = false }
-variable "backend_set_ssl_configuration_certificate_name" { default = "example_certificate_bundle" }
-variable "backend_set_ssl_configuration_verify_depth" { default = "3" }
-variable "backend_set_ssl_configuration_verify_peer_certificate" { default = false }
-				` + compartmentIdVariableStr + BackendSetResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "backend.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "backend.0.backup", "false"),
-					resource.TestCheckResourceAttr(resourceName, "backend.0.drain", "false"),
-					resource.TestCheckResourceAttr(resourceName, "backend.0.ip_address", "10.0.0.3"),
-					resource.TestCheckResourceAttrSet(resourceName, "backend.0.name"),
-					resource.TestCheckResourceAttr(resourceName, "backend.0.offline", "false"),
-					resource.TestCheckResourceAttr(resourceName, "backend.0.port", "10"),
-					resource.TestCheckResourceAttr(resourceName, "backend.0.weight", "10"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.interval_ms", "1000"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.port", "10"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.protocol", "HTTP"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.response_body_regex", ".*"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.retries", "10"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.return_code", "200"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.timeout_in_millis", "10000"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.url_path", "/healthcheck"),
-					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
-					resource.TestCheckResourceAttr(resourceName, "name", "backendSet2"),
-					resource.TestCheckResourceAttr(resourceName, "policy", "LEAST_CONNECTIONS"),
-					resource.TestCheckResourceAttr(resourceName, "session_persistence_configuration.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "session_persistence_configuration.0.cookie_name", "example_cookie"),
-					resource.TestCheckResourceAttr(resourceName, "session_persistence_configuration.0.disable_fallback", "false"),
-					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.certificate_name", "example_certificate_bundle"),
-					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_depth", "3"),
-					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_peer_certificate", "false"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId == resId2 {
-							return fmt.Errorf("Resource was expected to be recreated when updating parameter Name but the id did not change.")
-						}
-						resId = resId2
-						return err
-					},
 				),
 			},
 		},

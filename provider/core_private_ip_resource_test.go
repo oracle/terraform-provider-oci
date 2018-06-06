@@ -45,7 +45,7 @@ func (s *ResourcePrivateIPTestSuite) TestAccCoreResourcePrivateIP_basic() {
 					vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0], "vnic_id")}"
 					display_name = "-private-ip"
 				}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "vnic_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "ip_address"),
@@ -70,7 +70,7 @@ func (s *ResourcePrivateIPTestSuite) TestAccCoreResourcePrivateIP_basic() {
 					vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0], "vnic_id")}"
 					display_name = "-private-ip2"
 				}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-private-ip2"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "vnic_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "ip_address"),
@@ -91,7 +91,7 @@ func (s *ResourcePrivateIPTestSuite) TestAccCoreResourcePrivateIP_basic() {
 					display_name = "-private-ip2"
 					hostname_label = "ahostname"
 				}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-private-ip2"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "vnic_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "ip_address"),
@@ -112,7 +112,7 @@ func (s *ResourcePrivateIPTestSuite) TestAccCoreResourcePrivateIP_basic() {
 					hostname_label = "ahostname"
 					ip_address = "10.0.1.22"
 				}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-private-ip2"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "vnic_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "ip_address", "10.0.1.22"),

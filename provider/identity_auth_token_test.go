@@ -92,7 +92,7 @@ data "oci_identity_auth_tokens" "test_auth_tokens" {
     }
 }
                 ` + compartmentIdVariableStr + AuthTokenResourceConfig,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "user_id"),
 
 					resource.TestCheckResourceAttr(datasourceName, "tokens.#", "1"),

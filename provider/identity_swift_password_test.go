@@ -23,29 +23,6 @@ variable "swift_password_description" { default = "description" }
 
 `
 	SwiftPasswordResourceDependencies = UserPropertyVariables + UserResourceConfig
-
-	// Second User for Update tests
-	SwiftPasswordResourceConfig2 = SwiftPasswordResourceDependencies2 + `
-resource "oci_identity_swift_password" "test_swift_password" {
-	#Required
-	description = "${var.swift_password_description}"
-	user_id = "${oci_identity_user.test_user.id}"
-}
-`
-	SwiftPasswordUserResourceConfig2 = `
-resource "oci_identity_user" "test_user" {
-	#Required
-	description = "${var.user_description}"
-	name = "${var.user_name}"
-}
-`
-	SwiftPasswordUserPropertyVariables2 = `
-variable "user_description" { default = "Jane Doe" }
-variable "user_name" { default = "JaneDoe@example.com" }
-
-`
-
-	SwiftPasswordResourceDependencies2 = SwiftPasswordUserPropertyVariables2 + SwiftPasswordUserResourceConfig2
 )
 
 func TestIdentitySwiftPasswordResource_basic(t *testing.T) {
@@ -100,25 +77,6 @@ variable "swift_password_description" { default = "description2" }
 					},
 				),
 			},
-			// verify updates to Force New parameters.
-			{
-				Config: config + `
-variable "swift_password_description" { default = "description2" }
-
-                ` + compartmentIdVariableStr + SwiftPasswordResourceConfig2,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
-					resource.TestCheckResourceAttrSet(resourceName, "user_id"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId == resId2 {
-							return fmt.Errorf("Resource was expected to be recreated but it wasn't.")
-						}
-						return err
-					},
-				),
-			},
 			// verify datasource
 			{
 				Config: config + `
@@ -133,8 +91,8 @@ data "oci_identity_swift_passwords" "test_swift_passwords" {
     	values = ["${oci_identity_swift_password.test_swift_password.id}"]
     }
 }
-                ` + compartmentIdVariableStr + SwiftPasswordResourceConfig2,
-				Check: resource.ComposeTestCheckFunc(
+                ` + compartmentIdVariableStr + SwiftPasswordResourceConfig,
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "user_id"),
 
 					resource.TestCheckResourceAttr(datasourceName, "passwords.#", "1"),

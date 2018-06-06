@@ -65,7 +65,7 @@ func TestDnsZoneResource_basic(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 
-	compartmentId := getRequiredEnvSetting("compartment_id_for_create")
+	compartmentId := getRequiredEnvSetting("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_dns_zone.test_zone"
@@ -130,7 +130,7 @@ data "oci_dns_zones" "test_zones" {
   }
 }
                 ` + compartmentIdVariableStr + ZoneResourceConfig,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "zones.#", "1"),
 				),
@@ -142,7 +142,7 @@ data "oci_dns_zones" "test_zones" {
   name = "${data.oci_identity_tenancy.test_tenancy.name}.oci-test"
 }
                 ` + compartmentIdVariableStr + ZoneResourceConfig,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestMatchResourceAttr(datasourceName, "name", regexp.MustCompile("\\.oci-test")),
 					resource.TestCheckResourceAttr(datasourceName, "zones.#", "1"),
 				),
@@ -154,7 +154,7 @@ data "oci_dns_zones" "test_zones" {
   name_contains = "oci-test"
 }
                 ` + compartmentIdVariableStr + ZoneResourceConfig,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "name_contains", "oci-test"),
 					resource.TestCheckResourceAttrSet(datasourceName, "zones.#"),
 				),
@@ -166,7 +166,7 @@ data "oci_dns_zones" "test_zones" {
   state = "ACTIVE"
 }
                 ` + compartmentIdVariableStr + ZoneResourceConfig,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 					resource.TestCheckResourceAttrSet(datasourceName, "zones.#"),
 				),
@@ -178,7 +178,7 @@ data "oci_dns_zones" "test_zones" {
   zone_type = "PRIMARY"
 }
                 ` + compartmentIdVariableStr + ZoneResourceConfig,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "zone_type", "PRIMARY"),
 					resource.TestCheckResourceAttrSet(datasourceName, "zones.#"),
 				),
@@ -190,7 +190,7 @@ data "oci_dns_zones" "test_zones" {
   time_created_greater_than_or_equal_to = "2018-04-10T19:01:09.000-00:00"
 }
                 ` + compartmentIdVariableStr + ZoneResourceConfig,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "time_created_greater_than_or_equal_to", "2018-04-10T19:01:09.000-00:00"),
 					resource.TestCheckResourceAttrSet(datasourceName, "zones.#"),
@@ -203,7 +203,7 @@ data "oci_dns_zones" "test_zones" {
   time_created_less_than = "2022-04-10T19:01:09.000-00:00"
 }
                 ` + compartmentIdVariableStr + ZoneResourceConfig,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "time_created_less_than", "2022-04-10T19:01:09.000-00:00"),
 					resource.TestCheckResourceAttrSet(datasourceName, "zones.#"),

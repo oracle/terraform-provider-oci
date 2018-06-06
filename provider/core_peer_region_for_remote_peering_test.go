@@ -24,8 +24,8 @@ func TestCorePeerRegionForRemotePeeringResource_basic(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 
-	compartmentId2 := getRequiredEnvSetting("compartment_id_for_update")
-	compartmentIdVariableStr2 := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId2)
+	compartmentId := getRequiredEnvSetting("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	datasourceName := "data.oci_core_peer_region_for_remote_peerings.test_peer_region_for_remote_peerings"
 
@@ -40,8 +40,8 @@ func TestCorePeerRegionForRemotePeeringResource_basic(t *testing.T) {
 
 data "oci_core_peer_region_for_remote_peerings" "test_peer_region_for_remote_peerings" {
 }
-                ` + compartmentIdVariableStr2 + PeerRegionForRemotePeeringResourceConfig,
-				Check: resource.ComposeTestCheckFunc(
+                ` + compartmentIdVariableStr + PeerRegionForRemotePeeringResourceConfig,
+				Check: resource.ComposeAggregateTestCheckFunc(
 
 					resource.TestCheckResourceAttrSet(datasourceName, "peer_region_for_remote_peerings.#"),
 					resource.TestCheckResourceAttrSet(datasourceName, "peer_region_for_remote_peerings.0.name"),

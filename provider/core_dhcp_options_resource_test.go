@@ -113,7 +113,7 @@ func (s *ResourceCoreDHCPOptionsTestSuite) TestAccResourceCoreDHCPOptions_basic(
 				ImportState:       true,
 				ImportStateVerify: true,
 				Config:            s.Config + additionalDhcpOption4 + defaultDhcpOpts,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 
 					resource.TestCheckResourceAttr("oci_core_dhcp_options.opt1", "display_name", "display_name1"),
 					resource.TestCheckResourceAttr("oci_core_dhcp_options.opt1", "options.0.type", "DomainNameServer"),
@@ -196,7 +196,7 @@ func (s *ResourceCoreDHCPOptionsTestSuite) TestAccResourceCoreDHCPOptions_basic(
 			// Verify adding default DHCP options again
 			{
 				Config: s.Config + additionalDhcpOption4 + defaultDhcpOpts,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr("oci_core_default_dhcp_options.default", "options.0.type", "DomainNameServer"),
 					resource.TestCheckResourceAttr("oci_core_default_dhcp_options.default", "options.0.server_type", "CustomDnsServer"),
 					resource.TestCheckResourceAttr("oci_core_default_dhcp_options.default", "options.0.custom_dns_servers.0", "8.8.4.4"),
@@ -255,7 +255,7 @@ func (s *ResourceCoreDHCPOptionsTestSuite) TestAccResourceCoreDHCPOptions_basic(
 							search_domain_names = [ "test.com" ]
 						}
 					}` + defaultDhcpOpts,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, "oci_core_dhcp_options.opt4", "id")
 						if resOpt4Id == resId2 {

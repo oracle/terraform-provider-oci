@@ -39,7 +39,7 @@ func (s *DatasourceCoreVnicTestSuite) TestAccDatasourceCoreAttachVnic_basic() {
 				data "oci_core_vnic" "t" {
 					vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}"
 				}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "vnic_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "compartment_id"),

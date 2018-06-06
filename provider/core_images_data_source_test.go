@@ -57,7 +57,7 @@ func (s *DatasourceCoreImageTestSuite) TestAccImage_basic() {
 						regex = true
 					}
 				}`, s.OperatingSystem),
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "images.#", "1"),
 					TestCheckResourceAttributesEqual(s.ResourceName, "images.0.id", "data.oci_core_images.allOracleImages", "images.0.id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "images.0.create_image_allowed", "true"),
