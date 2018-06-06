@@ -60,7 +60,7 @@ func (s *ResourceIdentityUserTestSuite) TestAccResourceIdentityUser_basic() {
 							compartment_id = "${var.tenancy_ocid}"
 						}`,
 						map[string]string{"description": "automated test user"}),
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", getRequiredEnvSetting("tenancy_ocid")),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
 					resource.TestCheckResourceAttr(s.ResourceName, "name", token),
@@ -84,7 +84,7 @@ func (s *ResourceIdentityUserTestSuite) TestAccResourceIdentityUser_basic() {
 							description = "{{.description}}"
 						}`,
 						map[string]string{"description": "automated test user"}),
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", getRequiredEnvSetting("tenancy_ocid")),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
 					resource.TestCheckResourceAttr(s.ResourceName, "name", token),
@@ -105,7 +105,7 @@ func (s *ResourceIdentityUserTestSuite) TestAccResourceIdentityUser_basic() {
 						description = "{{.description}}"
 					}`,
 					map[string]string{"description": "automated test user (updated)"}),
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "description", "automated test user (updated)"),
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, "oci_identity_user.t", "id")
@@ -125,7 +125,7 @@ func (s *ResourceIdentityUserTestSuite) TestAccResourceIdentityUser_basic() {
 						description = "{{.description}}"
 					}`,
 					map[string]string{"new_name": token + "_new", "description": "automated test user (updated)"}),
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "description", "automated test user (updated)"),
 					resource.TestCheckResourceAttr(s.ResourceName, "name", token+"_new"),
 					func(s *terraform.State) (err error) {

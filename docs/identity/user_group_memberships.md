@@ -75,7 +75,7 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `user_group_memberships` - The list of user_group_memberships.
+* `memberships` - The list of memberships.
 
 ### Example Usage
 

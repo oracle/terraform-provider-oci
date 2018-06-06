@@ -27,7 +27,7 @@ func TestObjectStorageNamespaceResource_basic(t *testing.T) {
 data "oci_objectstorage_namespace" "test_namespace" {
 }
                 `,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 
 					resource.TestCheckResourceAttrSet(datasourceName, "namespace"),
 				),

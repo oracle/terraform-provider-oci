@@ -68,7 +68,7 @@ func TestDnsRecordsResource_basic(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 
-	compartmentId := getRequiredEnvSetting("compartment_id_for_create")
+	compartmentId := getRequiredEnvSetting("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_dns_record.test_record"
@@ -153,30 +153,7 @@ variable "record_items_ttl" { default = 1000 }
 					},
 				),
 			},
-			// verify updates to Force New parameters.
-			{
-				Config: config + RecordPropertyVariables + compartmentIdVariableStr + RecordResourceDependencies + `
-resource "oci_dns_record" "test_record" {
-	zone_name_or_id = "${oci_dns_zone.test_zone2.name}"
-	domain = "${data.oci_identity_tenancy.test_tenancy.name}2.oci-test"
-	rdata = "${var.record_items_rdata}"
-	rtype = "${var.record_items_rtype}"
-	ttl = "${var.record_items_ttl}"
-}
-`,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					TestCheckResourceAttributesEqual(resourceName, "zone_name_or_id", "oci_dns_zone.test_zone2", "name"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId == resId2 {
-							return fmt.Errorf("resource was not recreated after force new property change")
-						}
-						return err
-					},
-				),
-			},
-			// Verify datasource
+			// verify datasource
 			{
 				Config: config + RecordPropertyVariables + compartmentIdVariableStr + RecordResourceDependencies + `
 data "oci_dns_records" "test_records" {
@@ -215,7 +192,7 @@ func TestDnsRecordsResource_diffSuppression(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 
-	compartmentId := getRequiredEnvSetting("compartment_id_for_create")
+	compartmentId := getRequiredEnvSetting("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_dns_record.test_record"
@@ -301,7 +278,7 @@ func TestDnsRecordsResource_badUpdate(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 
-	compartmentId := getRequiredEnvSetting("compartment_id_for_create")
+	compartmentId := getRequiredEnvSetting("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_dns_record.test_record"

@@ -50,7 +50,7 @@ func (s *ResourceIdentitySwiftPasswordTestSuite) TestAccResourceIdentitySwiftPas
 					user_id = "${oci_identity_user.t.id}"
 					description = "tf test swift password"
 				}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "user_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "password"),
 					resource.TestCheckResourceAttr(s.ResourceName, "description", "tf test swift password"),
@@ -72,7 +72,7 @@ func (s *ResourceIdentitySwiftPasswordTestSuite) TestAccResourceIdentitySwiftPas
 					user_id = "${oci_identity_user.t.id}"
 					description = "tf test swift password (updated)"
 				}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "description", "tf test swift password (updated)"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "user_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "password"),
@@ -97,7 +97,7 @@ func (s *ResourceIdentitySwiftPasswordTestSuite) TestAccResourceIdentitySwiftPas
 					user_id = "${oci_identity_user.t2.id}"
 					description = "tf test swift password (user_id updated)"
 				}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "description", "tf test swift password (user_id updated)"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "user_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "password"),

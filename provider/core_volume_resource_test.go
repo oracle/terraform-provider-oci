@@ -55,7 +55,7 @@ func (s *ResourceCoreVolumeTestSuite) TestCreateResourceCoreVolume_basic() {
 					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
 					compartment_id = "${var.compartment_id}"
 				}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "display_name"),
 					resource.TestCheckResourceAttr(s.ResourceName, "size_in_mbs", "51200"),
@@ -80,7 +80,7 @@ func (s *ResourceCoreVolumeTestSuite) TestCreateResourceCoreVolume_basic() {
 					compartment_id = "${var.compartment_id}"
 					display_name = "-tf-volume"
 				}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-volume"),
 					resource.TestCheckResourceAttr(s.ResourceName, "source_details.#", "0"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),
@@ -138,7 +138,7 @@ func (s *ResourceCoreVolumeTestSuite) TestCreateResourceCoreVolume_basic() {
 						id = "${oci_core_volume.t.id}"
 					}
 				}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet("oci_core_volume.u", "availability_domain"),
 					resource.TestCheckResourceAttrSet("oci_core_volume.u", "id"),
 					resource.TestCheckResourceAttrSet("oci_core_volume.u", "source_details.0.id"),
@@ -193,7 +193,7 @@ func (s *ResourceCoreVolumeTestSuite) TestCreateResourceCoreVolume_destructive()
 					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
 					compartment_id = "${var.compartment_id}"
 				}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "display_name"),
@@ -214,7 +214,7 @@ func (s *ResourceCoreVolumeTestSuite) TestCreateResourceCoreVolume_destructive()
 					compartment_id = "${var.compartment_id}"
 					size_in_gbs = 1024
 				}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "size_in_gbs", "1024"),
 					resource.TestMatchResourceAttr(s.ResourceName, "display_name", regexp.MustCompile(`[^\-tf\-volume]`)),
 					func(s *terraform.State) (err error) {

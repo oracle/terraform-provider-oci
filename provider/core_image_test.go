@@ -44,7 +44,7 @@ variable "image_launch_mode" { default = "launchMode" }
 variable "image_operating_system" { default = "operatingSystem" }
 variable "image_operating_system_version" { default = "operatingSystemVersion" }
 variable "image_shape" { default = "shape" }
-variable "image_state" { default = "state" }
+variable "image_state" { default = "AVAILABLE" }
 
 `
 	ImageResourceDependencies = "" // Uncomment once defined: InstancePropertyVariables + InstanceResourceConfig
@@ -55,10 +55,8 @@ func TestCoreImageResource_basic(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 
-	compartmentId := getRequiredEnvSetting("compartment_id_for_create")
+	compartmentId := getRequiredEnvSetting("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
-	compartmentId2 := getRequiredEnvSetting("compartment_id_for_update")
-	compartmentIdVariableStr2 := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId2)
 
 	resourceName := "oci_core_image.test_image"
 	datasourceName := "data.oci_core_images.test_images"
@@ -125,7 +123,7 @@ variable "image_launch_mode" { default = "launchMode" }
 variable "image_operating_system" { default = "operatingSystem" }
 variable "image_operating_system_version" { default = "operatingSystemVersion" }
 variable "image_shape" { default = "shape" }
-variable "image_state" { default = "state" }
+variable "image_state" { default = "AVAILABLE" }
 
                 ` + compartmentIdVariableStr + ImageResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
@@ -152,53 +150,16 @@ variable "image_state" { default = "state" }
 					},
 				),
 			},
-			// verify updates to Force New parameters.
-			{
-				Config: config + `
-variable "image_display_name" { default = "displayName2" }
-variable "image_image_source_details_source_image_type" { default = "sourceImageType2" }
-variable "image_image_source_details_source_type" { default = "sourceType2" }
-variable "image_launch_mode" { default = "launchMode2" }
-variable "image_operating_system" { default = "operatingSystem2" }
-variable "image_operating_system_version" { default = "operatingSystemVersion2" }
-variable "image_shape" { default = "shape2" }
-variable "image_state" { default = "AVAILABLE" }
-
-                ` + compartmentIdVariableStr2 + ImageResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId2),
-					resource.TestCheckResourceAttrSet(resourceName, "create_image_allowed"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "image_source_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "image_source_details.0.source_image_type", "sourceImageType2"),
-					resource.TestCheckResourceAttr(resourceName, "image_source_details.0.source_type", "sourceType2"),
-					resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
-					resource.TestCheckResourceAttr(resourceName, "launch_mode", "launchMode2"),
-					resource.TestCheckResourceAttrSet(resourceName, "operating_system"),
-					resource.TestCheckResourceAttrSet(resourceName, "operating_system_version"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId == resId2 {
-							return fmt.Errorf("Resource was expected to be recreated but it wasn't.")
-						}
-						return err
-					},
-				),
-			},
 			// verify datasource
 			{
 				Config: config + `
 variable "image_display_name" { default = "displayName2" }
-variable "image_image_source_details_source_image_type" { default = "sourceImageType2" }
-variable "image_image_source_details_source_type" { default = "sourceType2" }
-variable "image_launch_mode" { default = "launchMode2" }
-variable "image_operating_system" { default = "operatingSystem2" }
-variable "image_operating_system_version" { default = "operatingSystemVersion2" }
-variable "image_shape" { default = "shape2" }
+variable "image_image_source_details_source_image_type" { default = "sourceImageType" }
+variable "image_image_source_details_source_type" { default = "objectStorageTuple" }
+variable "image_launch_mode" { default = "launchMode" }
+variable "image_operating_system" { default = "operatingSystem" }
+variable "image_operating_system_version" { default = "operatingSystemVersion" }
+variable "image_shape" { default = "shape" }
 variable "image_state" { default = "AVAILABLE" }
 
 data "oci_core_images" "test_images" {
@@ -217,260 +178,27 @@ data "oci_core_images" "test_images" {
     	values = ["${oci_core_image.test_image.id}"]
     }
 }
-                ` + compartmentIdVariableStr2 + ImageResourceConfig,
-				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId2),
+                ` + compartmentIdVariableStr + ImageResourceConfig,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(datasourceName, "instance_id"),
-					resource.TestCheckResourceAttr(datasourceName, "operating_system", "operatingSystem2"),
-					resource.TestCheckResourceAttr(datasourceName, "operating_system_version", "operatingSystemVersion2"),
-					resource.TestCheckResourceAttr(datasourceName, "shape", "shape2"),
+					resource.TestCheckResourceAttr(datasourceName, "operating_system", "operatingSystem"),
+					resource.TestCheckResourceAttr(datasourceName, "operating_system_version", "operatingSystemVersion"),
+					resource.TestCheckResourceAttr(datasourceName, "shape", "shape"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
 
 					resource.TestCheckResourceAttr(datasourceName, "images.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "images.0.compartment_id", compartmentId2),
+					resource.TestCheckResourceAttr(datasourceName, "images.0.compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "images.0.create_image_allowed"),
 					resource.TestCheckResourceAttr(datasourceName, "images.0.display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(datasourceName, "images.0.id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "images.0.instance_id"),
-					resource.TestCheckResourceAttr(datasourceName, "images.0.launch_mode", "launchMode2"),
+					resource.TestCheckResourceAttr(datasourceName, "images.0.launch_mode", "launchMode"),
 					resource.TestCheckResourceAttrSet(datasourceName, "images.0.operating_system"),
 					resource.TestCheckResourceAttrSet(datasourceName, "images.0.operating_system_version"),
 					resource.TestCheckResourceAttrSet(datasourceName, "images.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "images.0.time_created"),
-				),
-			},
-		},
-	})
-}
-
-func TestCoreImageResource_forcenew(t *testing.T) {
-	t.Skip("Skipping generated test for now as it has not been worked on.")
-	provider := testAccProvider
-	config := testProviderConfig()
-
-	compartmentId := getRequiredEnvSetting("compartment_id_for_create")
-	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
-	compartmentId2 := getRequiredEnvSetting("compartment_id_for_update")
-	compartmentIdVariableStr2 := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId2)
-
-	resourceName := "oci_core_image.test_image"
-
-	var resId, resId2 string
-
-	resource.Test(t, resource.TestCase{
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		Steps: []resource.TestStep{
-			// verify create with optionals
-			{
-				Config: config + ImagePropertyVariables + compartmentIdVariableStr + ImageResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "create_image_allowed"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "MyCustomImage"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "image_source_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "image_source_details.0.source_image_type", "sourceImageType"),
-					resource.TestCheckResourceAttr(resourceName, "image_source_details.0.source_type", "objectStorageTuple"),
-					resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
-					resource.TestCheckResourceAttr(resourceName, "launch_mode", "launchMode"),
-					resource.TestCheckResourceAttrSet(resourceName, "operating_system"),
-					resource.TestCheckResourceAttrSet(resourceName, "operating_system_version"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
-			// force new tests, test that changing a parameter would result in creation of a new resource.
-
-			{
-				Config: config + `
-variable "image_display_name" { default = "MyCustomImage" }
-variable "image_image_source_details_source_image_type" { default = "sourceImageType" }
-variable "image_image_source_details_source_type" { default = "objectStorageTuple" }
-variable "image_launch_mode" { default = "launchMode" }
-variable "image_operating_system" { default = "operatingSystem" }
-variable "image_operating_system_version" { default = "operatingSystemVersion" }
-variable "image_shape" { default = "shape" }
-variable "image_state" { default = "state" }
-				` + compartmentIdVariableStr2 + ImageResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId2),
-					resource.TestCheckResourceAttrSet(resourceName, "create_image_allowed"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "MyCustomImage"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "image_source_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "image_source_details.0.source_image_type", "sourceImageType"),
-					resource.TestCheckResourceAttr(resourceName, "image_source_details.0.source_type", "objectStorageTuple"),
-					resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
-					resource.TestCheckResourceAttr(resourceName, "launch_mode", "launchMode"),
-					resource.TestCheckResourceAttrSet(resourceName, "operating_system"),
-					resource.TestCheckResourceAttrSet(resourceName, "operating_system_version"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId == resId2 {
-							return fmt.Errorf("Resource was expected to be recreated when updating parameter CompartmentId but the id did not change.")
-						}
-						resId = resId2
-						return err
-					},
-				),
-			},
-
-			{
-				Config: config + `
-variable "image_display_name" { default = "MyCustomImage" }
-variable "image_image_source_details_source_image_type" { default = "sourceImageType2" }
-variable "image_image_source_details_source_type" { default = "objectStorageTuple" }
-variable "image_launch_mode" { default = "launchMode" }
-variable "image_operating_system" { default = "operatingSystem" }
-variable "image_operating_system_version" { default = "operatingSystemVersion" }
-variable "image_shape" { default = "shape" }
-variable "image_state" { default = "state" }
-				` + compartmentIdVariableStr2 + ImageResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId2),
-					resource.TestCheckResourceAttrSet(resourceName, "create_image_allowed"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "MyCustomImage"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "image_source_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "image_source_details.0.source_image_type", "sourceImageType2"),
-					resource.TestCheckResourceAttr(resourceName, "image_source_details.0.source_type", "objectStorageTuple"),
-					resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
-					resource.TestCheckResourceAttr(resourceName, "launch_mode", "launchMode"),
-					resource.TestCheckResourceAttrSet(resourceName, "operating_system"),
-					resource.TestCheckResourceAttrSet(resourceName, "operating_system_version"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId == resId2 {
-							return fmt.Errorf("Resource was expected to be recreated when updating parameter SourceImageType but the id did not change.")
-						}
-						resId = resId2
-						return err
-					},
-				),
-			},
-
-			{
-				Config: config + `
-variable "image_display_name" { default = "MyCustomImage" }
-variable "image_image_source_details_source_image_type" { default = "sourceImageType2" }
-variable "image_image_source_details_source_type" { default = "sourceType2" }
-variable "image_launch_mode" { default = "launchMode" }
-variable "image_operating_system" { default = "operatingSystem" }
-variable "image_operating_system_version" { default = "operatingSystemVersion" }
-variable "image_shape" { default = "shape" }
-variable "image_state" { default = "state" }
-				` + compartmentIdVariableStr2 + ImageResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId2),
-					resource.TestCheckResourceAttrSet(resourceName, "create_image_allowed"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "MyCustomImage"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "image_source_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "image_source_details.0.source_image_type", "sourceImageType2"),
-					resource.TestCheckResourceAttr(resourceName, "image_source_details.0.source_type", "sourceType2"),
-					resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
-					resource.TestCheckResourceAttr(resourceName, "launch_mode", "launchMode"),
-					resource.TestCheckResourceAttrSet(resourceName, "operating_system"),
-					resource.TestCheckResourceAttrSet(resourceName, "operating_system_version"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId == resId2 {
-							return fmt.Errorf("Resource was expected to be recreated when updating parameter SourceType but the id did not change.")
-						}
-						resId = resId2
-						return err
-					},
-				),
-			},
-
-			{
-				Config: config + `
-variable "image_display_name" { default = "MyCustomImage" }
-variable "image_image_source_details_source_image_type" { default = "sourceImageType" }
-variable "image_image_source_details_source_type" { default = "objectStorageTuple" }
-variable "image_launch_mode" { default = "launchMode" }
-variable "image_operating_system" { default = "operatingSystem" }
-variable "image_operating_system_version" { default = "operatingSystemVersion" }
-variable "image_shape" { default = "shape" }
-variable "image_state" { default = "state" }
-				` + compartmentIdVariableStr2 + ImageResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId2),
-					resource.TestCheckResourceAttrSet(resourceName, "create_image_allowed"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "MyCustomImage"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "image_source_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "image_source_details.0.source_image_type", "sourceImageType"),
-					resource.TestCheckResourceAttr(resourceName, "image_source_details.0.source_type", "objectStorageTuple"),
-					resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
-					resource.TestCheckResourceAttr(resourceName, "launch_mode", "launchMode"),
-					resource.TestCheckResourceAttrSet(resourceName, "operating_system"),
-					resource.TestCheckResourceAttrSet(resourceName, "operating_system_version"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId == resId2 {
-							return fmt.Errorf("Resource was expected to be recreated when updating parameter InstanceId but the id did not change.")
-						}
-						resId = resId2
-						return err
-					},
-				),
-			},
-
-			{
-				Config: config + `
-variable "image_display_name" { default = "MyCustomImage" }
-variable "image_image_source_details_source_image_type" { default = "sourceImageType" }
-variable "image_image_source_details_source_type" { default = "objectStorageTuple" }
-variable "image_launch_mode" { default = "launchMode2" }
-variable "image_operating_system" { default = "operatingSystem" }
-variable "image_operating_system_version" { default = "operatingSystemVersion" }
-variable "image_shape" { default = "shape" }
-variable "image_state" { default = "state" }
-				` + compartmentIdVariableStr2 + ImageResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId2),
-					resource.TestCheckResourceAttrSet(resourceName, "create_image_allowed"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "MyCustomImage"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "image_source_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "image_source_details.0.source_image_type", "sourceImageType"),
-					resource.TestCheckResourceAttr(resourceName, "image_source_details.0.source_type", "objectStorageTuple"),
-					resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
-					resource.TestCheckResourceAttr(resourceName, "launch_mode", "launchMode2"),
-					resource.TestCheckResourceAttrSet(resourceName, "operating_system"),
-					resource.TestCheckResourceAttrSet(resourceName, "operating_system_version"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId == resId2 {
-							return fmt.Errorf("Resource was expected to be recreated when updating parameter LaunchMode but the id did not change.")
-						}
-						resId = resId2
-						return err
-					},
 				),
 			},
 		},

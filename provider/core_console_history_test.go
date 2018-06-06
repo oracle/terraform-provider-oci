@@ -30,7 +30,7 @@ resource "oci_core_console_history" "test_console_history" {
 	ConsoleHistoryPropertyVariables = `
 variable "console_history_availability_domain" { default = "availabilityDomain" }
 variable "console_history_display_name" { default = "displayName" }
-variable "console_history_state" { default = "state" }
+variable "console_history_state" { default = "AVAILABLE" }
 
 `
 	ConsoleHistoryResourceDependencies = "" // Uncomment once defined: InstancePropertyVariables + InstanceResourceConfig
@@ -41,10 +41,8 @@ func TestCoreConsoleHistoryResource_basic(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 
-	compartmentId := getRequiredEnvSetting("compartment_id_for_create")
+	compartmentId := getRequiredEnvSetting("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
-	compartmentId2 := getRequiredEnvSetting("compartment_id_for_update")
-	compartmentIdVariableStr2 := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId2)
 
 	resourceName := "oci_core_console_history.test_console_history"
 	datasourceName := "data.oci_core_console_histories.test_console_histories"
@@ -99,7 +97,7 @@ func TestCoreConsoleHistoryResource_basic(t *testing.T) {
 				Config: config + `
 variable "console_history_availability_domain" { default = "availabilityDomain" }
 variable "console_history_display_name" { default = "displayName2" }
-variable "console_history_state" { default = "state" }
+variable "console_history_state" { default = "AVAILABLE" }
 
                 ` + compartmentIdVariableStr + ConsoleHistoryResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
@@ -120,36 +118,10 @@ variable "console_history_state" { default = "state" }
 					},
 				),
 			},
-			// verify updates to Force New parameters.
-			{
-				Config: config + `
-variable "console_history_availability_domain" { default = "availabilityDomain2" }
-variable "console_history_display_name" { default = "displayName2" }
-variable "console_history_state" { default = "AVAILABLE" }
-
-                ` + compartmentIdVariableStr2 + ConsoleHistoryResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
-					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId == resId2 {
-							return fmt.Errorf("Resource was expected to be recreated but it wasn't.")
-						}
-						return err
-					},
-				),
-			},
 			// verify datasource
 			{
 				Config: config + `
-variable "console_history_availability_domain" { default = "availabilityDomain2" }
+variable "console_history_availability_domain" { default = "availabilityDomain" }
 variable "console_history_display_name" { default = "displayName2" }
 variable "console_history_state" { default = "AVAILABLE" }
 
@@ -167,10 +139,10 @@ data "oci_core_console_histories" "test_console_histories" {
     	values = ["${oci_core_console_history.test_console_history.id}"]
     }
 }
-                ` + compartmentIdVariableStr2 + ConsoleHistoryResourceConfig,
-				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(datasourceName, "availability_domain", "availabilityDomain2"),
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId2),
+                ` + compartmentIdVariableStr + ConsoleHistoryResourceConfig,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(datasourceName, "availability_domain", "availabilityDomain"),
+					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "instance_id"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
 
@@ -182,72 +154,6 @@ data "oci_core_console_histories" "test_console_histories" {
 					resource.TestCheckResourceAttrSet(datasourceName, "console_histories.0.instance_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "console_histories.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "console_histories.0.time_created"),
-				),
-			},
-		},
-	})
-}
-
-func TestCoreConsoleHistoryResource_forcenew(t *testing.T) {
-	t.Skip("Skipping generated test for now as it has not been worked on.")
-	provider := testAccProvider
-	config := testProviderConfig()
-
-	compartmentId := getRequiredEnvSetting("compartment_id_for_create")
-	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
-
-	resourceName := "oci_core_console_history.test_console_history"
-
-	var resId, resId2 string
-
-	resource.Test(t, resource.TestCase{
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		Steps: []resource.TestStep{
-			// verify create with optionals
-			{
-				Config: config + ConsoleHistoryPropertyVariables + compartmentIdVariableStr + ConsoleHistoryResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
-					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
-			// force new tests, test that changing a parameter would result in creation of a new resource.
-
-			{
-				Config: config + `
-variable "console_history_availability_domain" { default = "availabilityDomain" }
-variable "console_history_display_name" { default = "displayName" }
-variable "console_history_state" { default = "state" }
-				` + compartmentIdVariableStr + ConsoleHistoryResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
-					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId == resId2 {
-							return fmt.Errorf("Resource was expected to be recreated when updating parameter InstanceId but the id did not change.")
-						}
-						resId = resId2
-						return err
-					},
 				),
 			},
 		},

@@ -66,7 +66,7 @@ func (s *ResourceCoreRouteTableTestSuite) TestAccResourceCoreRouteTable_basic() 
 					resource "oci_core_default_route_table" "default" {
 						manage_default_resource_id = "${oci_core_virtual_network.t.default_route_table_id}"
 					}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "display_name"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "vcn_id"),
@@ -90,7 +90,7 @@ func (s *ResourceCoreRouteTableTestSuite) TestAccResourceCoreRouteTable_basic() 
 							network_entity_id = "${oci_core_internet_gateway.internet-gateway1.id}"
 						}
 					}` + defaultRouteTable,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "display_name"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "vcn_id"),
@@ -135,7 +135,7 @@ func (s *ResourceCoreRouteTableTestSuite) TestAccResourceCoreRouteTable_basic() 
 							network_entity_id = "${oci_core_internet_gateway.internet-gateway1.id}"
 						}
 					}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-route-table"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "vcn_id"),
@@ -160,7 +160,7 @@ func (s *ResourceCoreRouteTableTestSuite) TestAccResourceCoreRouteTable_basic() 
 			// verify adding the default resource back to the config
 			{
 				Config: s.Config + defaultRouteTable,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.DefaultResourceName, "manage_default_resource_id"),
 					resource.TestCheckResourceAttrSet(s.DefaultResourceName, "display_name"),
 					resource.TestCheckResourceAttrSet(s.DefaultResourceName, "route_rules.0.network_entity_id"),

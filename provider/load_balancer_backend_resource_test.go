@@ -83,7 +83,7 @@ func (s *ResourceLoadBalancerBackendTestSuite) TestAccResourceLoadBalancerBacken
 					ip_address = "1.2.3.4"
 					port = 8080
 				}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "backendset_name", "-tf-backend-set"),
 					resource.TestCheckResourceAttr(s.ResourceName, "ip_address", "1.2.3.4"),
@@ -112,7 +112,7 @@ func (s *ResourceLoadBalancerBackendTestSuite) TestAccResourceLoadBalancerBacken
 					port = 8080
 					weight = 2
 				}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "backendset_name", "-tf-backend-set"),
 					resource.TestCheckResourceAttr(s.ResourceName, "ip_address", "1.2.3.4"),
@@ -144,7 +144,7 @@ func (s *ResourceLoadBalancerBackendTestSuite) TestAccResourceLoadBalancerBacken
 					offline = false
 					weight = 1
 				}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "backendset_name", "-tf-backend-set"),
 					resource.TestCheckResourceAttr(s.ResourceName, "ip_address", "1.2.3.4"),
@@ -174,7 +174,7 @@ func (s *ResourceLoadBalancerBackendTestSuite) TestAccResourceLoadBalancerBacken
 					offline = true
 					weight = 3
 				}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "port", "8080"),
 					resource.TestCheckResourceAttr(s.ResourceName, "backup", "true"),
 					resource.TestCheckResourceAttr(s.ResourceName, "drain", "false"),

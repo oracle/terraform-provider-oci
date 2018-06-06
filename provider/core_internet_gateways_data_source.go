@@ -42,7 +42,6 @@ func InternetGatewaysDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			// Retaining the legacy name (internet_gateways => gateways) to avoid a breaking change.
 			"gateways": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -164,7 +163,6 @@ func (s *InternetGatewaysDataSourceCrud) SetData() {
 		resources = ApplyFilters(f.(*schema.Set), resources)
 	}
 
-	// Retaining the legacy name (internet_gateways => gateways) to avoid a breaking change.
 	if err := s.D.Set("gateways", resources); err != nil {
 		panic(err)
 	}

@@ -96,7 +96,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 						create = "15m"
 					}
 				}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
@@ -223,7 +223,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 						keyB = "{\"keyB1\": \"valB1\", \"keyB2\": {\"keyB2\": \"valB2\"}}"
 					}
 				}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-instance"),
 					func(ts *terraform.State) (err error) {
 						newId, err := fromInstanceState(ts, s.ResourceName, "id")
@@ -265,7 +265,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 				data "oci_core_vnic" "t" {
 					vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}"
 				}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-instance"),
 					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.#", "1"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "create_vnic_details.0.display_name"),
@@ -353,7 +353,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 				data "oci_core_vnic" "t" {
 					vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}"
 				}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-instance"),
 					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.#", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.skip_source_dest_check", "true"),
@@ -404,7 +404,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 				data "oci_core_vnic" "t" {
 					vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}"
 				}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-instance"),
 					resource.TestCheckResourceAttr(s.ResourceName, "private_ip", "10.0.1.20"),
 					resource.TestCheckResourceAttr(vnicResourceName, "display_name", "-tf-vnic-2"),
@@ -459,7 +459,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_preserveBoot
 						create = "15m"
 					}
 				}`,
-			Check: resource.ComposeTestCheckFunc(
+			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 				resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),
 				resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
@@ -549,7 +549,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_preserveBoot
 						create = "15m"
 					}
 				}`,
-			Check: resource.ComposeTestCheckFunc(
+			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttr(s.ResourceName, "preserve_boot_volume", "true"),
 				resource.TestCheckResourceAttrSet(s.ResourceName, "boot_volume_id"),
 				// Verify that we didn't get a new Instance
@@ -606,7 +606,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_preserveBoot
 					volume_id = "{{.preservedBootVolumeId}}"
 				}
 				`,
-			Check: resource.ComposeTestCheckFunc(
+			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttr(s.ResourceName, "preserve_boot_volume", "false"),
 				TestCheckResourceAttributesEqual("oci_core_volume_attachment.volume_attach", "instance_id", s.ResourceName, "id"),
 				resource.TestCheckResourceAttr(s.ResourceName, "source_details.#", "1"),
@@ -656,7 +656,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_preserveBoot
 						create = "15m"
 					}
 				}`,
-			Check: resource.ComposeTestCheckFunc(
+			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttr(s.ResourceName, "preserve_boot_volume", "false"),
 				// Verify that we got a new Instance
 				func(ts *terraform.State) (err error) {

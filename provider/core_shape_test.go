@@ -26,8 +26,8 @@ func TestCoreShapeResource_basic(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 
-	compartmentId2 := getRequiredEnvSetting("compartment_id_for_update")
-	compartmentIdVariableStr2 := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId2)
+	compartmentId := getRequiredEnvSetting("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	datasourceName := "data.oci_core_shapes.test_shapes"
 
@@ -39,8 +39,8 @@ func TestCoreShapeResource_basic(t *testing.T) {
 			// verify datasource
 			{
 				Config: config + `
-variable "shape_availability_domain" { default = "availabilityDomain2" }
-variable "shape_image_id" { default = "imageId2" }
+variable "shape_availability_domain" { default = "availabilityDomain" }
+variable "shape_image_id" { default = "imageId" }
 
 data "oci_core_shapes" "test_shapes" {
 	#Required
@@ -50,11 +50,11 @@ data "oci_core_shapes" "test_shapes" {
 	#availability_domain = "${var.shape_availability_domain}"
 	#image_id = "${var.shape_image_id}"
 }
-                ` + compartmentIdVariableStr2 + ShapeResourceConfig,
-				Check: resource.ComposeTestCheckFunc(
-					//resource.TestCheckResourceAttr(datasourceName, "availability_domain", "availabilityDomain2"),
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId2),
-					//resource.TestCheckResourceAttr(datasourceName, "image_id", "imageId2"),
+                ` + compartmentIdVariableStr + ShapeResourceConfig,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					//resource.TestCheckResourceAttr(datasourceName, "availability_domain", "availabilityDomain"),
+					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+					//resource.TestCheckResourceAttr(datasourceName, "image_id", "imageId"),
 
 					resource.TestCheckResourceAttrSet(datasourceName, "shapes.#"),
 					resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.name"),

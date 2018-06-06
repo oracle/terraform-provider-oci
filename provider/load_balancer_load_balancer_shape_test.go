@@ -24,8 +24,8 @@ func TestLoadBalancerLoadBalancerShapeResource_basic(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 
-	compartmentId2 := getRequiredEnvSetting("compartment_id_for_update")
-	compartmentIdVariableStr2 := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId2)
+	compartmentId := getRequiredEnvSetting("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	datasourceName := "data.oci_load_balancer_shapes.test_load_balancer_shapes"
 
@@ -42,9 +42,9 @@ data "oci_load_balancer_shapes" "test_load_balancer_shapes" {
 	#Required
 	compartment_id = "${var.compartment_id}"
 }
-                ` + compartmentIdVariableStr2 + LoadBalancerShapeResourceConfig,
-				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId2),
+                ` + compartmentIdVariableStr + LoadBalancerShapeResourceConfig,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
 					resource.TestCheckResourceAttrSet(datasourceName, "shapes.#"),
 					resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.name"),

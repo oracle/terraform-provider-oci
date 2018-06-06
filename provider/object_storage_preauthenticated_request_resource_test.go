@@ -63,7 +63,7 @@ func (s *ResourceObjectstoragePARTestSuite) TestAccResourceObjectstoragePAR_basi
 					time_expires = "2019-11-10T23:00:00Z"
 					object = "-tf-object"
 				}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "name", "-tf-par"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "namespace"),
 					resource.TestCheckResourceAttr(s.ResourceName, "bucket", s.Token),
@@ -88,7 +88,7 @@ func (s *ResourceObjectstoragePARTestSuite) TestAccResourceObjectstoragePAR_basi
 					time_expires = "2019-11-10T23:00:00Z"
 					object = "-tf-object"
 				}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestMatchResourceAttr(s.ResourceName, "access_uri", regexp.MustCompile("/p/.*/n/.*/b/"+s.Token+"/o/")),
 				),
 			},

@@ -54,7 +54,7 @@ func (s *ResourceCoreIPSecTestSuite) TestAccResourceCoreIpsec_basic() {
 					drg_id = "${oci_core_drg.t.id}"
 					static_routes = ["10.0.0.0/16"]
 				}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "drg_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "cpe_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
@@ -78,7 +78,7 @@ func (s *ResourceCoreIPSecTestSuite) TestAccResourceCoreIpsec_basic() {
 					display_name = "-tf-ipsec"
 					static_routes = ["10.0.0.0/16"]
 				}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-ipsec"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "drg_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "cpe_id"),
@@ -115,7 +115,7 @@ func (s *ResourceCoreIPSecTestSuite) TestAccResourceCoreIpsec_basic() {
 						display_name = "-tf-ipsec"
 						static_routes = ["10.0.0.0/16"]
 					}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-ipsec"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "drg_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "cpe_id"),

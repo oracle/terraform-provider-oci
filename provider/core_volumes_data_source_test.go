@@ -58,7 +58,7 @@ func (s *DatasourceCoreVolumeTestSuite) TestAccDatasourceCoreVolume_basic() {
 					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
 					compartment_id = "${oci_core_volume.t.compartment_id}"
 				}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					TestCheckResourceAttributesEqual(s.ResourceName, "availability_domain", "data.oci_identity_availability_domains.ADs", "availability_domains.0.name"),
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", compartmentID),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "volumes.#"),
@@ -79,7 +79,7 @@ func (s *DatasourceCoreVolumeTestSuite) TestAccDatasourceCoreVolume_basic() {
 						regex = true
 					}
 				}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					TestCheckResourceAttributesEqual(s.ResourceName, "availability_domain", "data.oci_identity_availability_domains.ADs", "availability_domains.0.name"),
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", compartmentID),
 					resource.TestCheckResourceAttr(s.ResourceName, "volumes.#", "2"),
@@ -97,7 +97,7 @@ func (s *DatasourceCoreVolumeTestSuite) TestAccDatasourceCoreVolume_basic() {
 					state = "` + string(core.VolumeLifecycleStateAvailable) + `"
 					display_name = "${oci_core_volume.t.display_name}"
 				}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					TestCheckResourceAttributesEqual(s.ResourceName, "availability_domain", "data.oci_identity_availability_domains.ADs", "availability_domains.0.name"),
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", compartmentID),
 					resource.TestCheckResourceAttr(s.ResourceName, "volumes.#", "1"),
@@ -117,7 +117,7 @@ func (s *DatasourceCoreVolumeTestSuite) TestAccDatasourceCoreVolume_basic() {
 						values = ["${oci_core_volume.t.id}"]
 					}
 				}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					TestCheckResourceAttributesEqual(s.ResourceName, "availability_domain", "data.oci_identity_availability_domains.ADs", "availability_domains.0.name"),
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", compartmentID),
 					resource.TestCheckResourceAttr(s.ResourceName, "volumes.#", "1"),
@@ -143,7 +143,7 @@ func (s *DatasourceCoreVolumeTestSuite) TestAccDatasourceCoreVolume_basic() {
 						values = ["${oci_core_volume.u.id}"]
 					}
 				}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					TestCheckResourceAttributesEqual("data.oci_core_volumes.u", "availability_domain", "data.oci_identity_availability_domains.ADs", "availability_domains.0.name"),
 					resource.TestCheckResourceAttr("data.oci_core_volumes.u", "compartment_id", compartmentID),
 					resource.TestCheckResourceAttr("data.oci_core_volumes.u", "volumes.#", "1"),

@@ -79,7 +79,7 @@ func (s *DatasourceCoreInstanceCredentialTestSuite) TestAccDatasourceCoreInstanc
 				data "oci_core_instance_credentials" "s" {
 					instance_id = "${oci_core_instance.t.id}"
 				}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "instance_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "username"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "password"),

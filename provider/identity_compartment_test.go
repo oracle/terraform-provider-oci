@@ -31,7 +31,7 @@ func TestIdentityCompartmentResource_basic(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 
-	compartmentId := getRequiredEnvSetting("compartment_id_for_create")
+	compartmentId := getRequiredEnvSetting("tenancy_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_identity_compartment.test_compartment"
@@ -101,7 +101,7 @@ data "oci_identity_compartments" "test_compartments" {
     }
 }
                 ` + compartmentIdVariableStr + CompartmentResourceConfig,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
 					resource.TestCheckResourceAttr(datasourceName, "compartments.#", "1"),

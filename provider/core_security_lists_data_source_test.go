@@ -54,7 +54,7 @@ func (s *DatasourceCoreSecurityListTestSuite) TestAccDatasourceCoreSecurityLists
 						regex = true
 					}
 				}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "vcn_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "security_lists.#", "1"),
 					TestCheckResourceAttributesEqual(s.ResourceName, "security_lists.0.id", "oci_core_virtual_network.t", "default_security_list_id"),
@@ -79,7 +79,7 @@ func (s *DatasourceCoreSecurityListTestSuite) TestAccDatasourceCoreSecurityLists
 						regex = true
 					}
 				}`, string(core.SecurityListLifecycleStateTerminated), string(core.SecurityListLifecycleStateAvailable)),
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "security_lists.#", "2"),
 					resource.TestCheckResourceAttr(s.ResourceName, "security_lists.0.state", string(core.SecurityListLifecycleStateAvailable)),
 				),
@@ -98,7 +98,7 @@ func (s *DatasourceCoreSecurityListTestSuite) TestAccDatasourceCoreSecurityLists
 						regex = true
 					}
 				}`, string(core.SecurityListLifecycleStateTerminated)),
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "security_lists.#", "0"),
 				),
 			},
@@ -110,7 +110,7 @@ func (s *DatasourceCoreSecurityListTestSuite) TestAccDatasourceCoreSecurityLists
 					vcn_id = "${oci_core_virtual_network.t.id}"
 					display_name = "Default Security List for -tf-vcn"
 				}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "vcn_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "security_lists.#", "1"),
 					TestCheckResourceAttributesEqual(s.ResourceName, "security_lists.0.id", "oci_core_virtual_network.t", "default_security_list_id"),
@@ -126,7 +126,7 @@ func (s *DatasourceCoreSecurityListTestSuite) TestAccDatasourceCoreSecurityLists
 					vcn_id = "${oci_core_virtual_network.t.id}"
 					display_name = "-tf-security-list"
 				}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "vcn_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "security_lists.#", "1"),
 					TestCheckResourceAttributesEqual(s.ResourceName, "security_lists.0.id", "oci_core_security_list.t", "id"),
@@ -142,7 +142,7 @@ func (s *DatasourceCoreSecurityListTestSuite) TestAccDatasourceCoreSecurityLists
 					vcn_id = "${oci_core_virtual_network.t.id}"
 					state = "` + string(core.SecurityListLifecycleStateAvailable) + `"
 				}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "vcn_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "security_lists.#", "2"),
 				),

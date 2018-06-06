@@ -135,7 +135,7 @@ func TestAccResourceCoreSubnetCreate_basic(t *testing.T) {
 					prohibit_public_ip_on_vnic = "true"
 					dns_label = "MyTestLabel"
 				}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "prohibit_public_ip_on_vnic", "true"),
 					resource.TestCheckResourceAttr(resourceName, "dns_label", "mytestlabel"),
 					func(s *terraform.State) (err error) {

@@ -53,7 +53,7 @@ func (s *DatasourceCoreIPSecConnectionConfigTestSuite) TestAccDatasourceCoreIPSe
 				ImportState:       true,
 				ImportStateVerify: true,
 				Config:            s.Config,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "tunnels.0.ip_address"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "tunnels.0.shared_secret"),

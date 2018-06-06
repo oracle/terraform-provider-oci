@@ -59,7 +59,7 @@ func (s *DatasourceObjectstorageObjectHeadTestSuite) TestObjectstorageObjectHead
 					bucket = "${oci_objectstorage_bucket.t.name}"
 					object = "${oci_objectstorage_object.t.object}"
 				}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "namespace"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "bucket", s.Token),

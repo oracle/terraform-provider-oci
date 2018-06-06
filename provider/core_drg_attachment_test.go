@@ -40,10 +40,8 @@ func TestCoreDrgAttachmentResource_basic(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 
-	compartmentId := getRequiredEnvSetting("compartment_id_for_create")
+	compartmentId := getRequiredEnvSetting("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
-	compartmentId2 := getRequiredEnvSetting("compartment_id_for_update")
-	compartmentIdVariableStr2 := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId2)
 
 	resourceName := "oci_core_drg_attachment.test_drg_attachment"
 	datasourceName := "data.oci_core_drg_attachments.test_drg_attachments"
@@ -116,29 +114,6 @@ variable "drg_attachment_display_name" { default = "displayName2" }
 					},
 				),
 			},
-			// verify updates to Force New parameters.
-			{
-				Config: config + `
-variable "drg_attachment_display_name" { default = "displayName2" }
-
-                ` + compartmentIdVariableStr2 + DrgAttachmentResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId == resId2 {
-							return fmt.Errorf("Resource was expected to be recreated but it wasn't.")
-						}
-						return err
-					},
-				),
-			},
 			// verify datasource
 			{
 				Config: config + `
@@ -157,9 +132,9 @@ data "oci_core_drg_attachments" "test_drg_attachments" {
     	values = ["${oci_core_drg_attachment.test_drg_attachment.id}"]
     }
 }
-                ` + compartmentIdVariableStr2 + DrgAttachmentResourceConfig,
-				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId2),
+                ` + compartmentIdVariableStr + DrgAttachmentResourceConfig,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "drg_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "vcn_id"),
 

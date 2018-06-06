@@ -55,7 +55,7 @@ func (s *ResourceIdentityGroupTestSuite) TestAccResourceIdentityGroup_basic() {
 					description = "tf test group"
 					compartment_id = "${var.tenancy_ocid}"
 				}`, nil),
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName+"0", "compartment_id", getRequiredEnvSetting("tenancy_ocid")),
 					resource.TestCheckResourceAttr(s.ResourceName+"0", "name", token),
 					resource.TestCheckResourceAttr(s.ResourceName+"0", "description", "tf test group"),
@@ -73,7 +73,7 @@ func (s *ResourceIdentityGroupTestSuite) TestAccResourceIdentityGroup_basic() {
 					name = "{{.token}}"
 					description = "tf test group"
 				}`, nil),
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", getRequiredEnvSetting("tenancy_ocid")),
 					resource.TestCheckResourceAttr(s.ResourceName, "name", token),
 					resource.TestCheckResourceAttr(s.ResourceName, "description", "tf test group"),
@@ -93,7 +93,7 @@ func (s *ResourceIdentityGroupTestSuite) TestAccResourceIdentityGroup_basic() {
 					name = "{{.token}}"
 					description = "tf test group (updated)"
 				}`, nil),
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "description", "tf test group (updated)"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "name", token),

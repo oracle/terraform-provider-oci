@@ -48,7 +48,7 @@ func (s *ResourceCoreVolumeBackupTestSuite) TestAccResourceCoreVolumeBackup_basi
 					resource "oci_core_volume_backup" "t" {
 						volume_id = "${oci_core_volume.t.id}"
 					}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "display_name"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
@@ -74,7 +74,7 @@ func (s *ResourceCoreVolumeBackupTestSuite) TestAccResourceCoreVolumeBackup_basi
 						volume_id = "${oci_core_volume.t.id}"
 						display_name = "-tf-volume-backup"
 					}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-volume-backup"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "display_name"),
@@ -105,7 +105,7 @@ func (s *ResourceCoreVolumeBackupTestSuite) TestAccResourceCoreVolumeBackup_basi
 						display_name = "-tf-volume-backup"
 						type = "FULL"
 					}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-volume-backup"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "display_name"),
@@ -145,7 +145,7 @@ func (s *ResourceCoreVolumeBackupTestSuite) TestAccResourceCoreVolumeBackup_basi
 						size_in_gbs = 50
 						volume_backup_id = "${oci_core_volume_backup.t.id}"
 					}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "display_name"),
@@ -196,7 +196,7 @@ func (s *ResourceCoreVolumeBackupTestSuite) TestAccResourceCoreVolumeBackup_basi
 							id = "${oci_core_volume_backup.t.id}"
 						}
 					}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet("oci_core_volume.u", "source_details.0.id"),
 					resource.TestCheckResourceAttr("oci_core_volume.u", "display_name", "-tf-volume-clone"),
 					resource.TestCheckResourceAttr("oci_core_volume.u", "source_details.0.type", "volumeBackup"),

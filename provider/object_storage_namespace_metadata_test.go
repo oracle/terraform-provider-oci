@@ -14,7 +14,7 @@ func TestObjectStorageNamespaceMetadataResource_basic(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 
-	compartmentId2 := getRequiredEnvSetting("compartment_id_for_update")
+	compartmentId := getRequiredEnvSetting("compartment_ocid")
 
 	resourceName := "oci_objectstorage_namespace_metadata.test_namespace_metadata"
 	datasourceName := "data.oci_objectstorage_namespace_metadata.test_namespace_metadata"
@@ -57,12 +57,12 @@ data "oci_objectstorage_namespace" "t" {
 
 resource "oci_objectstorage_namespace_metadata" "test_namespace_metadata" {
 	namespace = "${data.oci_objectstorage_namespace.t.namespace}"
-  	default_s3compartment_id = "` + compartmentId2 + `"
-  	default_swift_compartment_id = "` + compartmentId2 + `"
+  	default_s3compartment_id = "` + compartmentId + `"
+  	default_swift_compartment_id = "` + compartmentId + `"
 }`,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "default_s3compartment_id", compartmentId2),
-					resource.TestCheckResourceAttr(resourceName, "default_swift_compartment_id", compartmentId2),
+					resource.TestCheckResourceAttr(resourceName, "default_s3compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "default_swift_compartment_id", compartmentId),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, resourceName, "id")
@@ -81,15 +81,15 @@ data "oci_objectstorage_namespace" "t" {
 
 resource "oci_objectstorage_namespace_metadata" "test_namespace_metadata" {
 	namespace = "${data.oci_objectstorage_namespace.t.namespace}"
-  	default_s3compartment_id = "` + compartmentId2 + `"
-  	default_swift_compartment_id = "` + compartmentId2 + `"
+  	default_s3compartment_id = "` + compartmentId + `"
+  	default_swift_compartment_id = "` + compartmentId + `"
 }
 
 data "oci_objectstorage_namespace_metadata" "test_namespace_metadata" {
 	namespace = "${data.oci_objectstorage_namespace.t.namespace}"
 }
                 `,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 
 					resource.TestCheckResourceAttrSet(datasourceName, "default_s3compartment_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "default_swift_compartment_id"),

@@ -23,8 +23,8 @@ func TestCoreBootVolumeAttachmentResource_basic(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 
-	compartmentId2 := getRequiredEnvSetting("compartment_id_for_update")
-	compartmentIdVariableStr2 := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId2)
+	compartmentId := getRequiredEnvSetting("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	datasourceName := "data.oci_core_boot_volume_attachments.test_boot_volume_attachments"
 
@@ -45,10 +45,10 @@ data "oci_core_boot_volume_attachments" "test_boot_volume_attachments" {
 	boot_volume_id = "${oci_core_instance.test_instance.boot_volume_id}"
 	instance_id = "${oci_core_instance.test_instance.id}"
 }
-                ` + compartmentIdVariableStr2 + BootVolumeAttachmentResourceConfig,
-				Check: resource.ComposeTestCheckFunc(
+                ` + compartmentIdVariableStr + BootVolumeAttachmentResourceConfig,
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "boot_volume_id"),
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId2),
+					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "instance_id"),
 
 					resource.TestCheckResourceAttr(datasourceName, "boot_volume_attachments.#", "1"),
@@ -70,9 +70,9 @@ data "oci_core_boot_volume_attachments" "test_boot_volume_attachments" {
 	availability_domain = "${oci_core_instance.test_instance.availability_domain}"
 	compartment_id = "${var.compartment_id}"
 }
-                ` + compartmentIdVariableStr2 + BootVolumeAttachmentResourceConfig,
-				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId2),
+                ` + compartmentIdVariableStr + BootVolumeAttachmentResourceConfig,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestMatchResourceAttr(datasourceName, "boot_volume_attachments.#", regexp.MustCompile("[1-9][0-9]*")),
 				),
 			},

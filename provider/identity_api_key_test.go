@@ -51,12 +51,9 @@ func TestIdentityApiKeyResource_basic(t *testing.T) {
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	apiKeyVarStr := fmt.Sprintf("variable \"api_key_value\" { \n\tdefault = <<EOF\n%sEOF\n}\n", apiKey)
-	apiKeyVarStr2 := fmt.Sprintf("variable \"api_key_value\" { \n\tdefault = <<EOF\n%sEOF\n}\n", apiKey2)
 
 	resourceName := "oci_identity_api_key.test_api_key"
 	datasourceName := "data.oci_identity_api_keys.test_api_keys"
-
-	var resId, resId2 string
 
 	resource.Test(t, resource.TestCase{
 		Providers: map[string]terraform.ResourceProvider{
@@ -71,33 +68,12 @@ func TestIdentityApiKeyResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "key_value", apiKey),
 					resource.TestCheckResourceAttrSet(resourceName, "user_id"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
 				),
 			},
 
-			// verify updates to Force New parameters.
-			{
-				Config: config + apiKeyVarStr2 + compartmentIdVariableStr + ApiKeyResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "key_value", apiKey2),
-					resource.TestCheckResourceAttrSet(resourceName, "user_id"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId == resId2 {
-							return fmt.Errorf("Resource was expected to be recreated but it wasn't.")
-						}
-						return err
-					},
-				),
-			},
 			// verify datasource
 			{
-				Config: config + apiKeyVarStr2 + `
+				Config: config + apiKeyVarStr + `
 
 data "oci_identity_api_keys" "test_api_keys" {
 	#Required
@@ -109,85 +85,11 @@ data "oci_identity_api_keys" "test_api_keys" {
     }
 }
                 ` + compartmentIdVariableStr + ApiKeyResourceConfig,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "user_id"),
 
 					resource.TestCheckResourceAttr(datasourceName, "api_keys.#", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "api_keys.0.user_id"),
-				),
-			},
-		},
-	})
-}
-
-func TestIdentityApiKeyResource_forcenew(t *testing.T) {
-	provider := testAccProvider
-	config := testProviderConfig()
-
-	compartmentId := getRequiredEnvSetting("tenancy_ocid")
-	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
-
-	apiKeyVarStr := fmt.Sprintf("variable \"api_key_value\" { \n\tdefault = <<EOF\n%sEOF\n}\n", apiKey)
-	apiKeyVarStr2 := fmt.Sprintf("variable \"api_key_value\" { \n\tdefault = <<EOF\n%sEOF\n}\n", apiKey2)
-
-	resourceName := "oci_identity_api_key.test_api_key"
-
-	var resId, resId2 string
-
-	resource.Test(t, resource.TestCase{
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		Steps: []resource.TestStep{
-			// verify create with optionals
-			{
-				Config: config + apiKeyVarStr + compartmentIdVariableStr + ApiKeyResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "key_value", apiKey),
-					resource.TestCheckResourceAttrSet(resourceName, "user_id"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
-			// force new tests, test that changing a parameter would result in creation of a new resource.
-
-			{
-				Config: config + apiKeyVarStr2 + compartmentIdVariableStr + ApiKeyResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "key_value", apiKey2),
-					resource.TestCheckResourceAttrSet(resourceName, "user_id"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId == resId2 {
-							return fmt.Errorf("Resource was expected to be recreated when updating parameter Key but the id did not change.")
-						}
-						resId = resId2
-						return err
-					},
-				),
-			},
-			// Force new tests, changing the user id should result in new Api Key resource
-			{
-				Config: config + `
-variable "user_description" { default = "John Smith" }
-variable "user_name" { default = "name2" }
-				` + apiKeyVarStr2 + compartmentIdVariableStr + ApiKeyResourceConfigOnly + UserResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "key_value", apiKey2),
-					resource.TestCheckResourceAttrSet(resourceName, "user_id"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId == resId2 {
-							return fmt.Errorf("Resource was expected to be recreated when updating parameter UserId but the id did not change.")
-						}
-						resId = resId2
-						return err
-					},
 				),
 			},
 		},

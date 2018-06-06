@@ -23,7 +23,7 @@ func TestIdentityRegionSubscriptionResource_basic(t *testing.T) {
 			// verify datasource
 			{
 				Config: config + `
-variable "region_subscription_region_key" { default = "regionKey2" }
+variable "region_subscription_region_key" { default = "regionKey" }
 
 data "oci_identity_region_subscriptions" "test_region_subscriptions" {
 	#Required
@@ -34,7 +34,7 @@ data "oci_identity_region_subscriptions" "test_region_subscriptions" {
 	}
 }
                 `,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "tenancy_id"),
 					resource.TestCheckResourceAttr(datasourceName, "region_subscriptions.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "region_subscriptions.0.is_home_region", "true"),

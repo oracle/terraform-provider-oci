@@ -46,7 +46,7 @@ func (s *ResourceObjectstorageBucketTestSuite) TestAccResourceObjectstorageBucke
 						"content-type" = "text/plain"
 					}
 				}`, nil),
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "namespace"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "name", token),
@@ -68,7 +68,7 @@ func (s *ResourceObjectstorageBucketTestSuite) TestAccResourceObjectstorageBucke
 						"content-type" = "text/plain"
 					}
 				}`, nil),
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "namespace"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "name", token+"-changed"),

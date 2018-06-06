@@ -70,7 +70,7 @@ func (s *ResourceObjectstorageObjectTestSuite) TestAccResourceObjectstorageObjec
 					bucket = "${oci_objectstorage_bucket.t.name}"
 					object = "-tf-object-required-only"
 				}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "namespace"),
 					resource.TestCheckResourceAttr(s.ResourceName, "bucket", s.Token),
 					resource.TestCheckResourceAttr(s.ResourceName, "object", "-tf-object-required-only"),
@@ -98,7 +98,7 @@ func (s *ResourceObjectstorageObjectTestSuite) TestAccResourceObjectstorageObjec
 						"my-key" = "aBc"
 					}
 				}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "namespace"),
 					resource.TestCheckResourceAttr(s.ResourceName, "bucket", s.Token),
 					resource.TestCheckResourceAttr(s.ResourceName, "object", "-tf-object"),
@@ -134,7 +134,7 @@ func (s *ResourceObjectstorageObjectTestSuite) TestAccResourceObjectstorageObjec
 						"my-key" = "ABC"
 					}
 				}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "content"),
 					resource.TestCheckResourceAttr(s.ResourceName, "content_type", "text/json"),
 					resource.TestCheckResourceAttr(s.ResourceName, "content_language", "*"),

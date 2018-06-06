@@ -50,7 +50,7 @@ func (s *DatasourceCoreRouteTableTestSuite) TestAccDatasourceRouteTable_basic() 
 						compartment_id = "${oci_core_route_table.t.compartment_id}"
 						vcn_id = "${oci_core_virtual_network.t.id}"
 					}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "vcn_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "route_tables.#", "2"),
 				),
@@ -63,7 +63,7 @@ func (s *DatasourceCoreRouteTableTestSuite) TestAccDatasourceRouteTable_basic() 
 						vcn_id = "${oci_core_virtual_network.t.id}"
 						display_name = "Default Route Table for -tf-vcn"
 					}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "vcn_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "route_tables.#", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "route_tables.0.display_name", "Default Route Table for -tf-vcn"),
@@ -82,7 +82,7 @@ func (s *DatasourceCoreRouteTableTestSuite) TestAccDatasourceRouteTable_basic() 
 						vcn_id = "${oci_core_virtual_network.t.id}"
 						display_name = "-tf-route-table"
 					}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "vcn_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "route_tables.#", "1"),
 					TestCheckResourceAttributesEqual(s.ResourceName, "route_tables.0.display_name", "oci_core_route_table.t", "display_name"),
@@ -101,7 +101,7 @@ func (s *DatasourceCoreRouteTableTestSuite) TestAccDatasourceRouteTable_basic() 
 						vcn_id = "${oci_core_virtual_network.t.id}"
 						state = "` + string(core.RouteTableLifecycleStateProvisioning) + `"
 					}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "vcn_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "route_tables.#", "0"),
 				),

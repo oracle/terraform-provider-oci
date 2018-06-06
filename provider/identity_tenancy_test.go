@@ -23,13 +23,13 @@ func TestIdentityTenancyResource_basic(t *testing.T) {
 			// verify datasource
 			{
 				Config: config + `
-variable "tenancy_tenancy_id" { default = "tenancyId2" }
+variable "tenancy_tenancy_id" { default = "tenancyId" }
 
 data "oci_identity_tenancy" "test_tenancy" {
 	tenancy_id = "${var.tenancy_ocid}"
 }
                 `,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "tenancy_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "description"),
 					resource.TestCheckResourceAttrSet(datasourceName, "home_region_key"),

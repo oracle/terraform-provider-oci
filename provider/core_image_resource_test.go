@@ -51,7 +51,7 @@ func (s *ResourceCoreImageTestSuite) TestAccResourceCoreImage_basic() {
 						}
 					}
 				`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "instance_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "base_image_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "display_name"),
@@ -84,7 +84,7 @@ func (s *ResourceCoreImageTestSuite) TestAccResourceCoreImage_basic() {
 						display_name = "-tf-image"
 					}
 				`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-image"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "instance_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "base_image_id"),
@@ -117,7 +117,7 @@ func (s *ResourceCoreImageTestSuite) TestAccResourceCoreImage_basic() {
 						}
 					}
 				`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "launch_mode", "EMULATED"),
 					resource.TestCheckResourceAttr(s.ResourceName, "launch_options.#", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "launch_options.0.boot_volume_type", "IDE"),
@@ -165,7 +165,7 @@ func (s *ResourceCoreImageTestSuite) TestAccResourceCoreImage_createFromExport_o
 						}
 					}
 				`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckNoResourceAttr(s.ResourceName, "instance_id"),
 					resource.TestCheckNoResourceAttr(s.ResourceName, "base_image_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "operating_system", "Custom"),
@@ -204,7 +204,7 @@ func (s *ResourceCoreImageTestSuite) TestAccResourceCoreImage_createFromExport_o
 						}
 					}
 				`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckNoResourceAttr(s.ResourceName, "instance_id"),
 					resource.TestCheckNoResourceAttr(s.ResourceName, "base_image_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "operating_system", "Custom"),

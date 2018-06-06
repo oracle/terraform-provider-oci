@@ -24,8 +24,8 @@ func TestLoadBalancerLoadBalancerProtocolResource_basic(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 
-	compartmentId2 := getRequiredEnvSetting("compartment_id_for_update")
-	compartmentIdVariableStr2 := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId2)
+	compartmentId := getRequiredEnvSetting("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	datasourceName := "data.oci_load_balancer_protocols.test_load_balancer_protocols"
 
@@ -42,9 +42,9 @@ data "oci_load_balancer_protocols" "test_load_balancer_protocols" {
 	#Required
 	compartment_id = "${var.compartment_id}"
 }
-                ` + compartmentIdVariableStr2 + LoadBalancerProtocolResourceConfig,
-				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId2),
+                ` + compartmentIdVariableStr + LoadBalancerProtocolResourceConfig,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
 					resource.TestCheckResourceAttrSet(datasourceName, "protocols.#"),
 					resource.TestCheckResourceAttrSet(datasourceName, "protocols.0.name"),

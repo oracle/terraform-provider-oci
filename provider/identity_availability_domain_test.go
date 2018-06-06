@@ -30,8 +30,8 @@ func TestIdentityAvailabilityDomainResource_basic(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 
-	compartmentId2 := getRequiredEnvSetting("compartment_id_for_update")
-	compartmentIdVariableStr2 := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId2)
+	compartmentId := getRequiredEnvSetting("tenancy_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	datasourceName := "data.oci_identity_availability_domains.test_availability_domains"
 
@@ -48,9 +48,9 @@ data "oci_identity_availability_domains" "test_availability_domains" {
 	#Required
 	compartment_id = "${var.compartment_id}"
 }
-                ` + compartmentIdVariableStr2 + AvailabilityDomainResourceConfig,
-				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId2),
+                ` + compartmentIdVariableStr + AvailabilityDomainResourceConfig,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
 					resource.TestCheckResourceAttrSet(datasourceName, "availability_domains.#"),
 					resource.TestCheckResourceAttrSet(datasourceName, "availability_domains.0.name"),

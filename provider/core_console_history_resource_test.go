@@ -47,7 +47,7 @@ func (s *ResourceCoreConsoleHistoryTestSuite) TestAccResourceCoreInstanceConsole
 				resource "oci_core_console_history" "t" {
 					instance_id = "${oci_core_instance.t.id}"
 				}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "instance_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "compartment_id"),

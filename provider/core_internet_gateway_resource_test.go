@@ -47,7 +47,7 @@ func (s *ResourceCoreInternetGatewayTestSuite) TestAccResourceCoreInternetGatewa
 					compartment_id = "${var.compartment_id}"
 					vcn_id = "${oci_core_virtual_network.t.id}"
 				}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "display_name"),
@@ -71,7 +71,7 @@ func (s *ResourceCoreInternetGatewayTestSuite) TestAccResourceCoreInternetGatewa
 						display_name = "-tf-internet-gateway"
 						enabled = false
 					}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-internet-gateway"),
 					resource.TestCheckResourceAttr(s.ResourceName, "enabled", "false"),
@@ -103,7 +103,7 @@ func (s *ResourceCoreInternetGatewayTestSuite) TestAccResourceCoreInternetGatewa
 						display_name = "-tf-internet-gateway"
 						enabled = false
 					}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-internet-gateway"),
 					resource.TestCheckResourceAttr(s.ResourceName, "enabled", "false"),

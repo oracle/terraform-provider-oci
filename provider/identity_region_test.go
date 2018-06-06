@@ -30,7 +30,7 @@ data "oci_identity_regions" "test_regions" {
 	}
 }
                 `,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "regions.#", "1"),
 				),
 			},

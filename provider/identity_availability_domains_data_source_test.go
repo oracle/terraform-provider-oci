@@ -37,7 +37,7 @@ func (s *DatasourceIdentityAvailabilityDomainsTestSuite) TestAccIdentityAvailabi
 				data "oci_identity_availability_domains" "t" {
 					compartment_id = "${var.tenancy_ocid}"
 				}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "availability_domains.#", "3"),
 					resource.TestMatchResourceAttr(s.ResourceName, "availability_domains.0.name", regexp.MustCompile(`\w*-AD-1`)),
 					resource.TestMatchResourceAttr(s.ResourceName, "availability_domains.1.name", regexp.MustCompile(`\w*-AD-2`)),
@@ -55,7 +55,7 @@ func (s *DatasourceIdentityAvailabilityDomainsTestSuite) TestAccIdentityAvailabi
 						regex = true
 					}
 				}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "availability_domains.#", "1"),
 					resource.TestMatchResourceAttr(s.ResourceName, "availability_domains.0.name", regexp.MustCompile(".*AD-2")),
 				),

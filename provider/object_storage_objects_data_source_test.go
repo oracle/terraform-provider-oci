@@ -70,7 +70,7 @@ func (s *DatasourceObjectstorageObjectTestSuite) TestAccDatasourceObjectstorageO
 					namespace = "${data.oci_objectstorage_namespace.t.namespace}"
 					bucket = "${oci_objectstorage_bucket.t.name}"
 				}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					TestCheckResourceAttributesEqual(s.ResourceName, "namespace", "data.oci_objectstorage_namespace.t", "namespace"),
 					resource.TestCheckResourceAttr(s.ResourceName, "bucket", s.Token),
 					resource.TestCheckResourceAttr(s.ResourceName, "objects.#", "2"),
@@ -87,7 +87,7 @@ func (s *DatasourceObjectstorageObjectTestSuite) TestAccDatasourceObjectstorageO
 						values = ["-tf-object"]
 					}
 				}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					TestCheckResourceAttributesEqual(s.ResourceName, "namespace", "data.oci_objectstorage_namespace.t", "namespace"),
 					resource.TestCheckResourceAttr(s.ResourceName, "bucket", s.Token),
 					resource.TestCheckResourceAttr(s.ResourceName, "objects.#", "1"),

@@ -24,8 +24,8 @@ func TestLoadBalancerLoadBalancerPolicyResource_basic(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 
-	compartmentId2 := getRequiredEnvSetting("compartment_id_for_update")
-	compartmentIdVariableStr2 := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId2)
+	compartmentId := getRequiredEnvSetting("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	datasourceName := "data.oci_load_balancer_policies.test_load_balancer_policies"
 
@@ -42,9 +42,9 @@ data "oci_load_balancer_policies" "test_load_balancer_policies" {
 	#Required
 	compartment_id = "${var.compartment_id}"
 }
-                ` + compartmentIdVariableStr2 + LoadBalancerPolicyResourceConfig,
-				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId2),
+                ` + compartmentIdVariableStr + LoadBalancerPolicyResourceConfig,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
 					resource.TestCheckResourceAttrSet(datasourceName, "policies.#"),
 					resource.TestCheckResourceAttrSet(datasourceName, "policies.0.name"),

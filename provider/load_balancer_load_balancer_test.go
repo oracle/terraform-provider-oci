@@ -33,37 +33,12 @@ resource "oci_load_balancer_load_balancer" "test_load_balancer" {
 	is_private = "${var.load_balancer_is_private}"
 }
 `
-
-	LoadBalancerOneSubnetResourceConfig = LoadBalancerResourceDependencies + `
-resource "oci_load_balancer_load_balancer" "test_load_balancer" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-	display_name = "${var.load_balancer_display_name}"
-	shape = "${var.load_balancer_shape}"
-	subnet_ids = ["${oci_core_subnet.lb_test_subnet_1.id}"]
-
-	#Optional
-	is_private = "${var.load_balancer_is_private}"
-}
-`
-	LoadBalancerOneSubnetUpdateResourceConfig = LoadBalancerResourceDependencies + `
-resource "oci_load_balancer_load_balancer" "test_load_balancer" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-	display_name = "${var.load_balancer_display_name}"
-	shape = "${var.load_balancer_shape}"
-	subnet_ids = ["${oci_core_subnet.lb_test_subnet_2.id}"]
-
-	#Optional
-	is_private = "${var.load_balancer_is_private}"
-}
-`
 	LoadBalancerPropertyVariables = `
 variable "load_balancer_detail" { default = "detail" }
 variable "load_balancer_display_name" { default = "example_load_balancer" }
 variable "load_balancer_is_private" { default = false }
 variable "load_balancer_shape" { default = "100Mbps" }
-variable "load_balancer_state" { default = "state" }
+variable "load_balancer_state" { default = "ACTIVE" }
 
 `
 
@@ -104,10 +79,8 @@ func TestLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 
-	compartmentId := getRequiredEnvSetting("compartment_id_for_create")
+	compartmentId := getRequiredEnvSetting("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
-	compartmentId2 := getRequiredEnvSetting("compartment_id_for_update")
-	compartmentIdVariableStr2 := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId2)
 
 	resourceName := "oci_load_balancer_load_balancer.test_load_balancer"
 	datasourceName := "data.oci_load_balancer_load_balancers.test_load_balancers"
@@ -168,7 +141,7 @@ variable "load_balancer_detail" { default = "detail" }
 variable "load_balancer_display_name" { default = "example_load_balancer" }
 variable "load_balancer_is_private" { default = false }
 variable "load_balancer_shape" { default = "100Mbps" }
-variable "load_balancer_state" { default = "state" }
+variable "load_balancer_state" { default = "ACTIVE" }
 
                 ` + compartmentIdVariableStr + LoadBalancerResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
@@ -190,42 +163,13 @@ variable "load_balancer_state" { default = "state" }
 					},
 				),
 			},
-			// verify updates to Force New parameters.
-			{
-				Config: config + `
-variable "load_balancer_detail" { default = "detail2" }
-variable "load_balancer_display_name" { default = "displayName2" }
-variable "load_balancer_is_private" { default = true }
-variable "load_balancer_shape" { default = "400Mbps" }
-variable "load_balancer_state" { default = "ACTIVE" }
-
-                ` + compartmentIdVariableStr2 + LoadBalancerOneSubnetResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId2),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "is_private", "true"),
-					resource.TestCheckResourceAttr(resourceName, "shape", "400Mbps"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId == resId2 {
-							return fmt.Errorf("Resource was expected to be recreated but it wasn't.")
-						}
-						return err
-					},
-				),
-			},
 			// verify datasource
 			{
 				Config: config + `
-variable "load_balancer_detail" { default = "detail2" }
-variable "load_balancer_display_name" { default = "displayName2" }
-variable "load_balancer_is_private" { default = true }
-variable "load_balancer_shape" { default = "400Mbps" }
+variable "load_balancer_detail" { default = "detail" }
+variable "load_balancer_display_name" { default = "example_load_balancer" }
+variable "load_balancer_is_private" { default = false }
+variable "load_balancer_shape" { default = "100Mbps" }
 variable "load_balancer_state" { default = "ACTIVE" }
 
 data "oci_load_balancer_load_balancers" "test_load_balancers" {
@@ -242,180 +186,22 @@ data "oci_load_balancer_load_balancers" "test_load_balancers" {
     	values = ["${oci_load_balancer_load_balancer.test_load_balancer.id}"]
     }
 }
-                ` + compartmentIdVariableStr2 + LoadBalancerOneSubnetResourceConfig,
-				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId2),
-					resource.TestCheckResourceAttr(datasourceName, "detail", "detail2"),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+                ` + compartmentIdVariableStr + LoadBalancerResourceConfig,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(datasourceName, "detail", "detail"),
+					resource.TestCheckResourceAttr(datasourceName, "display_name", "example_load_balancer"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
 					resource.TestCheckResourceAttr(datasourceName, "load_balancers.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.compartment_id", compartmentId2),
-					resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.display_name", "displayName2"),
+					resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.display_name", "example_load_balancer"),
 					resource.TestCheckResourceAttrSet(datasourceName, "load_balancers.0.id"),
-					resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.is_private", "true"),
-					resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.shape", "400Mbps"),
+					resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.is_private", "false"),
+					resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.shape", "100Mbps"),
 					resource.TestCheckResourceAttrSet(datasourceName, "load_balancers.0.state"),
-					resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.subnet_ids.#", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.subnet_ids.#", "2"),
 					resource.TestCheckResourceAttrSet(datasourceName, "load_balancers.0.time_created"),
-				),
-			},
-		},
-	})
-}
-
-func TestLoadBalancerLoadBalancerResource_forcenew(t *testing.T) {
-	provider := testAccProvider
-	config := testProviderConfig()
-
-	compartmentId := getRequiredEnvSetting("compartment_id_for_create")
-	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
-	compartmentId2 := getRequiredEnvSetting("compartment_id_for_update")
-	compartmentIdVariableStr2 := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId2)
-
-	resourceName := "oci_load_balancer_load_balancer.test_load_balancer"
-
-	var resId, resId2 string
-
-	resource.Test(t, resource.TestCase{
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		Steps: []resource.TestStep{
-			// verify create with optionals
-			{
-				Config: config + LoadBalancerPropertyVariables + compartmentIdVariableStr + LoadBalancerResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "example_load_balancer"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "is_private", "false"),
-					resource.TestCheckResourceAttr(resourceName, "shape", "100Mbps"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "2"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
-			// force new tests, test that changing a parameter would result in creation of a new resource.
-
-			{
-				Config: config + `
-variable "load_balancer_detail" { default = "detail" }
-variable "load_balancer_display_name" { default = "example_load_balancer" }
-variable "load_balancer_is_private" { default = false }
-variable "load_balancer_shape" { default = "100Mbps" }
-variable "load_balancer_state" { default = "state" }
-				` + compartmentIdVariableStr2 + LoadBalancerResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId2),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "example_load_balancer"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "is_private", "false"),
-					resource.TestCheckResourceAttr(resourceName, "shape", "100Mbps"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "2"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId == resId2 {
-							return fmt.Errorf("Resource was expected to be recreated when updating parameter CompartmentId but the id did not change.")
-						}
-						resId = resId2
-						return err
-					},
-				),
-			},
-
-			{
-				Config: config + `
-variable "load_balancer_detail" { default = "detail" }
-variable "load_balancer_display_name" { default = "example_load_balancer" }
-variable "load_balancer_is_private" { default = true }
-variable "load_balancer_shape" { default = "100Mbps" }
-variable "load_balancer_state" { default = "state" }
-				` + compartmentIdVariableStr2 + LoadBalancerOneSubnetResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId2),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "example_load_balancer"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "is_private", "true"),
-					resource.TestCheckResourceAttr(resourceName, "shape", "100Mbps"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId == resId2 {
-							return fmt.Errorf("Resource was expected to be recreated when updating parameter IsPrivate but the id did not change.")
-						}
-						resId = resId2
-						return err
-					},
-				),
-			},
-
-			{
-				Config: config + `
-variable "load_balancer_detail" { default = "detail" }
-variable "load_balancer_display_name" { default = "example_load_balancer" }
-variable "load_balancer_is_private" { default = true }
-variable "load_balancer_shape" { default = "400Mbps" }
-variable "load_balancer_state" { default = "state" }
-				` + compartmentIdVariableStr2 + LoadBalancerOneSubnetResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId2),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "example_load_balancer"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "is_private", "true"),
-					resource.TestCheckResourceAttr(resourceName, "shape", "400Mbps"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId == resId2 {
-							return fmt.Errorf("Resource was expected to be recreated when updating parameter Shape but the id did not change.")
-						}
-						resId = resId2
-						return err
-					},
-				),
-			},
-
-			{
-				Config: config + `
-variable "load_balancer_detail" { default = "detail" }
-variable "load_balancer_display_name" { default = "example_load_balancer" }
-variable "load_balancer_is_private" { default = true }
-variable "load_balancer_shape" { default = "400Mbps" }
-variable "load_balancer_state" { default = "state" }
-				` + compartmentIdVariableStr2 + LoadBalancerOneSubnetUpdateResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId2),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "example_load_balancer"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "is_private", "true"),
-					resource.TestCheckResourceAttr(resourceName, "shape", "400Mbps"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId == resId2 {
-							return fmt.Errorf("Resource was expected to be recreated when updating parameter SubnetIds but the id did not change.")
-						}
-						resId = resId2
-						return err
-					},
 				),
 			},
 		},

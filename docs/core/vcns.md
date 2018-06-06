@@ -106,7 +106,7 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `virtual_networks` - The list of vcns.
+* `virtual_networks` - The list of virtual_networks.
 
 ### Example Usage
 

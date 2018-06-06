@@ -32,8 +32,6 @@ func TestIdentityUiPasswordResource_basic(t *testing.T) {
 
 	resourceName := "oci_identity_ui_password.test_ui_password"
 
-	var resId string
-
 	resource.Test(t, resource.TestCase{
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
@@ -43,14 +41,9 @@ func TestIdentityUiPasswordResource_basic(t *testing.T) {
 			{
 				ImportState:       true,
 				ImportStateVerify: true,
-				Config:            config + compartmentIdVariableStr + UiPasswordPropertyVariables + UiPasswordResourceConfig,
+				Config:            config + UiPasswordPropertyVariables + compartmentIdVariableStr + UiPasswordResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "user_id"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
 				),
 			},
 		},
