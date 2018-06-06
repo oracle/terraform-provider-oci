@@ -54,7 +54,7 @@ Any change to a property that does not support update will force the destruction
 
 ### Example Usage
 
-```
+```hcl
 resource "oci_core_console_history" "test_console_history" {
 	#Required
 	instance_id = "${oci_core_instance.test_instance.id}"
@@ -85,7 +85,7 @@ The following attributes are exported:
 
 ### Example Usage
 
-```
+```hcl
 data "oci_core_console_history_data" "test_console_history_data" {
 	#Required
 	console_history_id = "${oci_core_console_history.test_console_history.id}"

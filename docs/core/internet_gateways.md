@@ -66,7 +66,7 @@ Any change to a property that does not support update will force the destruction
 
 ### Example Usage
 
-```
+```hcl
 resource "oci_core_internet_gateway" "test_internet_gateway" {
 	#Required
 	compartment_id = "${var.compartment_id}"
@@ -101,7 +101,7 @@ The following attributes are exported:
 
 ### Example Usage
 
-```
+```hcl
 data "oci_core_internet_gateways" "test_internet_gateways" {
 	#Required
 	compartment_id = "${var.compartment_id}"

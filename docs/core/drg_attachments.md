@@ -51,7 +51,7 @@ Any change to a property that does not support update will force the destruction
 
 ### Example Usage
 
-```
+```hcl
 resource "oci_core_drg_attachment" "test_drg_attachment" {
 	#Required
 	drg_id = "${oci_core_drg.test_drg.id}"
@@ -85,7 +85,7 @@ The following attributes are exported:
 
 ### Example Usage
 
-```
+```hcl
 data "oci_core_drg_attachments" "test_drg_attachments" {
 	#Required
 	compartment_id = "${var.compartment_id}"

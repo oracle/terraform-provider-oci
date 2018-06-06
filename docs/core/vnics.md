@@ -29,11 +29,12 @@ The following attributes are exported:
 * `skip_source_dest_check` - Whether the source/destination check is disabled on the VNIC. Defaults to `false`, which means the check is performed. For information about why you would skip the source/destination check, see [Using a Private IP as a Route Target](https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Tasks/managingroutetables.htm#privateip).  Example: `true` 
 * `state` - The current state of the VNIC.
 * `subnet_id` - The OCID of the subnet the VNIC is in.
-* `time_created` - The date and time the VNIC was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z`
+* `time_created` - The date and time the VNIC was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
+
 
 ### Example Usage
 
-```
+```hcl
 data "oci_core_vnic" "test_vnic" {
 	#Required
 	vnic_id = "${var.vnic_vnic_id}"

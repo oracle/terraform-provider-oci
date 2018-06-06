@@ -86,7 +86,7 @@ Any change to a property that does not support update will force the destruction
 
 ### Example Usage
 
-```
+```hcl
 resource "oci_core_subnet" "test_subnet" {
 	#Required
 	availability_domain = "${var.subnet_availability_domain}"
@@ -127,7 +127,7 @@ The following attributes are exported:
 
 ### Example Usage
 
-```
+```hcl
 data "oci_core_subnets" "test_subnets" {
 	#Required
 	compartment_id = "${var.compartment_id}"

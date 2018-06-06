@@ -52,7 +52,7 @@ Any change to a property that does not support update will force the destruction
 
 ### Example Usage
 
-```
+```hcl
 resource "oci_file_storage_export_set" "test_export_set" {
     #Required
     mount_target_id = "${oci_file_storage_mount_target.test_mount_target.id}"
@@ -88,7 +88,7 @@ The following attributes are exported:
 
 ### Example Usage
 
-```
+```hcl
 data "oci_file_storage_export_sets" "test_export_sets" {
 	#Required
 	availability_domain = "${var.export_set_availability_domain}"

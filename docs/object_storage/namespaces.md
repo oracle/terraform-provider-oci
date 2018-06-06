@@ -19,7 +19,7 @@ The following attributes are exported:
 
 ### Example Usage
 
-```
+```hcl
 data "oci_objectstorage_namespace" "test_namespace" {
 }
 ```

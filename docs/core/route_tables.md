@@ -67,7 +67,7 @@ Any change to a property that does not support update will force the destruction
 
 ### Example Usage
 
-```
+```hcl
 resource "oci_core_route_table" "test_route_table" {
 	#Required
 	compartment_id = "${var.compartment_id}"
@@ -108,7 +108,7 @@ The following attributes are exported:
 
 ### Example Usage
 
-```
+```hcl
 data "oci_core_route_tables" "test_route_tables" {
 	#Required
 	compartment_id = "${var.compartment_id}"

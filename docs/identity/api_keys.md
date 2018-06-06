@@ -51,7 +51,7 @@ Any change to a property that does not support update will force the destruction
 
 ### Example Usage
 
-```
+```hcl
 resource "oci_identity_api_key" "test_api_key" {
 	#Required
 	key_value = "${var.api_key_key}"
@@ -82,7 +82,7 @@ The following attributes are exported:
 
 ### Example Usage
 
-```
+```hcl
 data "oci_identity_api_keys" "test_api_keys" {
 	#Required
 	user_id = "${oci_identity_user.test_user.id}"

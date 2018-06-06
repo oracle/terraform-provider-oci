@@ -98,7 +98,7 @@ Any change to a property that does not support update will force the destruction
 
 #### VCN Local with Internet
 
-```
+```hcl
 resource "oci_core_dhcp_options" "test_dhcp_options" {
 	#Required
 	compartment_id = "${var.compartment_id}"
@@ -121,7 +121,7 @@ resource "oci_core_dhcp_options" "test_dhcp_options" {
 
 #### Custom DNS Server
 
-```
+```hcl
 resource "oci_core_dhcp_options" "test_dhcp_options" {
 	#Required
 	compartment_id = "${var.compartment_id}"
@@ -168,7 +168,7 @@ The following attributes are exported:
 
 ### Example Usage
 
-```
+```hcl
 data "oci_core_dhcp_options" "test_dhcp_options" {
 	#Required
 	compartment_id = "${var.compartment_id}"

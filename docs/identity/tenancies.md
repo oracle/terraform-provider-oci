@@ -22,7 +22,7 @@ The following attributes are exported:
 
 ### Example Usage
 
-```
+```hcl
 data "oci_identity_tenancies" "test_tenancies" {
 	#Required
 	tenancy_id = "${var.tenancy_tenancy_id}"

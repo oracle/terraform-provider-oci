@@ -18,7 +18,7 @@ The following attributes are exported:
 
 ### Example Usage
 
-```
+```hcl
 data "oci_identity_region_subscriptions" "test_region_subscriptions" {
 	#Required
 	tenancy_id = "${oci_identity_tenancy.test_tenancy.id}"

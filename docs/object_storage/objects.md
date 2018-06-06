@@ -62,7 +62,7 @@ Any change to a property that does not support update will force the destruction
 
 ### Example Usage
 
-```
+```hcl
 resource "oci_objectstorage_object" "test_object" {
 	#Required
 	bucket = "${var.object_bucket}"
@@ -111,7 +111,7 @@ The following attributes are exported:
 
 ### Example Usage
 
-```
+```hcl
 data "oci_objectstorage_objects" "test_objects" {
 	#Required
 	bucket = "${var.object_bucket}"
@@ -153,7 +153,7 @@ The following attributes are exported:
 
 ### Example Usage
 
-```
+```hcl
 data "oci_objectstorage_object_head" "test_object_head" {
 	#Required
 	bucket = "${var.object_bucket}"

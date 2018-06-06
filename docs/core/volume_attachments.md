@@ -50,7 +50,7 @@ Any change to a property that does not support update will force the destruction
 
 ### Example Usage
 
-```
+```hcl
 resource "oci_core_volume_attachment" "test_volume_attachment" {
 	#Required
 	instance_id = "${oci_core_instance.test_instance.id}"
@@ -90,7 +90,7 @@ The following attributes are exported:
 
 ### Example Usage
 
-```
+```hcl
 data "oci_core_volume_attachments" "test_volume_attachments" {
 	#Required
 	compartment_id = "${var.compartment_id}"

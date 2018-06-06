@@ -51,7 +51,7 @@ Any change to a property that does not support update will force the destruction
 
 ### Example Usage
 
-```
+```hcl
 resource "oci_core_vnic_attachment" "test_vnic_attachment" {
 	#Required
 	create_vnic_details {
@@ -98,7 +98,7 @@ The following attributes are exported:
 
 ### Example Usage
 
-```
+```hcl
 data "oci_core_vnic_attachments" "test_vnic_attachments" {
 	#Required
 	compartment_id = "${var.compartment_id}"

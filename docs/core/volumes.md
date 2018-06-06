@@ -66,7 +66,7 @@ Any change to a property that does not support update will force the destruction
 
 ### Example Usage
 
-```
+```hcl
 resource "oci_core_volume" "test_volume" {
 	#Required
 	availability_domain = "${var.volume_availability_domain}"
@@ -108,7 +108,7 @@ The following attributes are exported:
 
 ### Example Usage
 
-```
+```hcl
 data "oci_core_volumes" "test_volumes" {
 	#Required
 	compartment_id = "${var.compartment_id}"

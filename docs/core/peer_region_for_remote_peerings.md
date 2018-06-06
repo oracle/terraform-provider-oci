@@ -19,7 +19,7 @@ The following attributes are exported:
 
 ### Example Usage
 
-```
+```hcl
 data "oci_core_peer_region_for_remote_peerings" "test_peer_region_for_remote_peerings" {
 }
 ```

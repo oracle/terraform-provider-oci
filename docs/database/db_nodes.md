@@ -54,7 +54,7 @@ The following attributes are exported:
 
 ### Example Usage
 
-```
+```hcl
 data "oci_database_db_nodes" "test_db_nodes" {
 	#Required
 	compartment_id = "${var.compartment_id}"

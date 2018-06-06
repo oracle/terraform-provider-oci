@@ -38,7 +38,7 @@ Any change to a property that does not support update will force the destruction
 
 ### Example Usage
 
-```
+```hcl
 resource "oci_file_storage_export" "test_export" {
 	#Required
 	export_set_id = "${oci_file_storage_mount_target.test_mount_target.export_set_id}"
@@ -72,7 +72,7 @@ The following attributes are exported:
 
 ### Example Usage
 
-```
+```hcl
 data "oci_file_storage_exports" "test_exports" {
 	#Required
 	compartment_id = "${var.compartment_id}"

@@ -48,7 +48,7 @@ Any change to a property that does not support update will force the destruction
 
 ### Example Usage
 
-```
+```hcl
 resource "oci_core_remote_peering_connection" "test_remote_peering_connection" {
 	#Required
 	compartment_id = "${var.compartment_id}"
@@ -83,7 +83,7 @@ The following attributes are exported:
 
 ### Example Usage
 
-```
+```hcl
 data "oci_core_remote_peering_connections" "test_remote_peering_connections" {
 	#Required
 	compartment_id = "${var.compartment_id}"

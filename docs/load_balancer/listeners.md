@@ -64,7 +64,7 @@ Any change to a property that does not support update will force the destruction
 
 ### Example Usage
 
-```
+```hcl
 resource "oci_load_balancer_listener" "test_listener" {
 	#Required
 	default_backend_set_name = "${var.listener_default_backend_set_name}"

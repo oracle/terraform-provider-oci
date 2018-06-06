@@ -57,7 +57,7 @@ Any change to a property that does not support update will force the destruction
 
 ### Example Usage
 
-```
+```hcl
 resource "oci_core_private_ip" "test_private_ip" {
 	#Required
 	vnic_id = "${oci_core_vnic.test_vnic.id}"
@@ -103,21 +103,21 @@ The following attributes are exported:
 
 ### Example Usage
 
-```
+```hcl
 # Filter on Subnet OCID
 data "oci_core_private_ips" "test_private_ips_by_subnet" {
 	#Optional
 	subnet_id = "${var.private_ip_subnet_id}"
 }
 ```
-```
+```hcl
 # Filter on VNIC OCID
 data "oci_core_private_ips" "test_private_ips_by_vnic" {
 	#Optional
 	vnic_id = "${oci_core_vnic.test_vnic.id}"
 }
 ```
-```
+```hcl
 # Filter on private IP address and Subnet OCID
 data "oci_core_private_ips" "test_private_ips_by_ip_address" {
 	#Optional
