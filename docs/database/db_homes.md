@@ -28,7 +28,7 @@ The following attributes are exported:
 
 ### Example Usage
 
-```
+```hcl
 resource "oci_database_db_home" "test_db_home" {
 	#Required
 	db_system_id = "${oci_database_db_system.test_db_system.id}"
@@ -57,7 +57,7 @@ The following attributes are exported:
 
 ### Example Usage
 
-```
+```hcl
 data "oci_database_db_homes" "test_db_homes" {
 	#Required
 	compartment_id = "${var.compartment_id}"

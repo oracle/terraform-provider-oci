@@ -14,7 +14,7 @@ The following attributes are exported:
 
 ### Example Usage
 
-```
+```hcl
 data "oci_identity_regions" "test_regions" {
 }
 ```

@@ -49,7 +49,7 @@ Any change to a property that does not support update will force the destruction
 
 ### Example Usage
 
-```
+```hcl
 resource "oci_identity_auth_token" "test_auth_token" {
 	#Required
 	description = "${var.auth_token_description}"
@@ -78,7 +78,7 @@ The following attributes are exported:
 
 ### Example Usage
 
-```
+```hcl
 data "oci_identity_auth_tokens" "test_auth_tokens" {
 	#Required
 	user_id = "${oci_identity_user.test_user.id}"

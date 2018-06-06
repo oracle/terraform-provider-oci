@@ -39,7 +39,7 @@ Any change to a property that does not support update will force the destruction
 
 ### Example Usage
 
-```
+```hcl
 resource "oci_load_balancer_certificate" "test_certificate" {
 	#Required
 	certificate_name = "${var.certificate_certificate_name}"
@@ -72,7 +72,7 @@ The following attributes are exported:
 
 ### Example Usage
 
-```
+```hcl
 data "oci_load_balancer_certificates" "test_certificates" {
 	#Required
 	load_balancer_id = "${oci_load_balancer_load_balancer.test_load_balancer.id}"

@@ -47,7 +47,7 @@ Any change to a property that does not support update will force the destruction
 
 ### Example Usage
 
-```
+```hcl
 resource "oci_load_balancer_backend" "test_backend" {
 	#Required
 	backendset_name = "${var.backend_backendset_name}"
@@ -83,7 +83,7 @@ The following attributes are exported:
 
 ### Example Usage
 
-```
+```hcl
 data "oci_load_balancer_backends" "test_backends" {
 	#Required
 	backendset_name = "${var.backend_backendset_name}"

@@ -73,7 +73,7 @@ Any change to a property that does not support update will force the destruction
 
 ### Example Usage
 
-```
+```hcl
 resource "oci_identity_user" "test_user" {
 	#Required
 	compartment_id = "${var.tenancy_ocid}"
@@ -104,7 +104,7 @@ The following attributes are exported:
 
 ### Example Usage
 
-```
+```hcl
 data "oci_identity_users" "test_users" {
 	#Required
 	compartment_id = "${var.tenancy_ocid}"

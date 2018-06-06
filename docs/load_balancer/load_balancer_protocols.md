@@ -18,7 +18,7 @@ The following attributes are exported:
 
 ### Example Usage
 
-```
+```hcl
 data "oci_load_balancer_protocols" "test_load_balancer_protocols" {
 	#Required
 	compartment_id = "${var.compartment_id}"

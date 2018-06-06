@@ -54,7 +54,7 @@ Any change to a property that does not support update will force the destruction
 
 ### Example Usage
 
-```
+```hcl
 resource "oci_identity_swift_password" "test_swift_password" {
 	#Required
 	description = "${var.swift_password_description}"
@@ -85,7 +85,7 @@ The following attributes are exported:
 
 ### Example Usage
 
-```
+```hcl
 data "oci_identity_swift_passwords" "test_swift_passwords" {
 	#Required
 	user_id = "${oci_identity_user.test_user.id}"

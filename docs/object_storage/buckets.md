@@ -45,7 +45,7 @@ Any change to a property that does not support update will force the destruction
 
 ### Example Usage
 
-```
+```hcl
 resource "oci_objectstorage_bucket" "test_bucket" {
 	#Required
 	compartment_id = "${var.compartment_id}"
@@ -84,7 +84,7 @@ The following attributes are exported:
 
 ### Example Usage
 
-```
+```hcl
 data "oci_objectstorage_bucketsummaries" "test_buckets" {
 	#Required
 	compartment_id = "${var.compartment_id}"

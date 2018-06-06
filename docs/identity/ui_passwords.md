@@ -44,7 +44,7 @@ Any change to a property that does not support update will force the destruction
 
 ### Example Usage
 
-```
+```hcl
 resource "oci_identity_ui_password" "test_ui_password" {
 	#Required
 	user_id = "${oci_identity_user.test_user.id}"

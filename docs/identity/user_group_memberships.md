@@ -40,7 +40,7 @@ Any change to a property that does not support update will force the destruction
 
 ### Example Usage
 
-```
+```hcl
 resource "oci_identity_user_group_membership" "test_user_group_membership" {
 	#Required
 	group_id = "${oci_identity_group.test_group.id}"
@@ -78,7 +78,7 @@ The following attributes are exported:
 
 ### Example Usage
 
-```
+```hcl
 data "oci_identity_user_group_memberships" "test_user_group_memberships" {
 	#Required
 	compartment_id = "${var.compartment_id}"
