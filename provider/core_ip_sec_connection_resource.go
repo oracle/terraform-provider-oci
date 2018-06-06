@@ -9,6 +9,8 @@ import (
 
 	"github.com/oracle/terraform-provider-oci/crud"
 
+	"time"
+
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
@@ -17,11 +19,15 @@ func IpSecConnectionResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: crud.DefaultTimeout,
-		Create:   createIpSecConnection,
-		Read:     readIpSecConnection,
-		Update:   updateIpSecConnection,
-		Delete:   deleteIpSecConnection,
+		Timeouts: &schema.ResourceTimeout{
+			Create: schema.DefaultTimeout(10 * time.Minute),
+			Update: schema.DefaultTimeout(10 * time.Minute),
+			Delete: schema.DefaultTimeout(10 * time.Minute),
+		},
+		Create: createIpSecConnection,
+		Read:   readIpSecConnection,
+		Update: updateIpSecConnection,
+		Delete: deleteIpSecConnection,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
