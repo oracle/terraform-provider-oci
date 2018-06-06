@@ -38,17 +38,11 @@ data "oci_core_subnets" "subnet" {
 data "external" "ipxe_gen" {
 	program = [ "/bin/bash", "./ipxe_gen.sh"]
 	query = {
-		tenancy_ocid         = "${var.tenancy_ocid}"
-  		user_ocid            = "${var.user_ocid}"
- 		private_key_path     = "${var.private_key_path}"
-		private_key_password = "${var.private_key_password}"
-		fingerprint		 = "${var.fingerprint}"
-		region               = "${var.region}"
 		ssh_public_key		 = "${var.ssh_public_key}"
 		os_short_name		 = "rhel74"
 		rhel_user			 = "${var.rhel_account["user_name"]}"
 		rhel_pw			 = "${var.rhel_account["password"]}"
-		zeros_ocid		 = "${var.region_all_zeros_ocid[var.region]}"
+		zeros_ocid		 = "${var.region_all_zeros_ocid["all"]}"
 		iso_url			 = "${var.iso_url}"
 	}
 }

@@ -22,26 +22,27 @@ variable "ipxe_instance" {
 	default = {
 		name = "ipxe-rhel74"
 		hostname = "ipxe-rhel74"
-		os = "Oracle Linux"
-		os-version = "7.4"
 		shape = "VM.Standard1.1"
 	}
 }
 
+# NOTE: If a different all zeros is required for a specific region, specify it here, then change
+# the datasource.tf to match (specify var.region between the [] vs. "all")
 variable "region_all_zeros_ocid" {
 	type = "map"
 	default = {
-		us-phoenix-1 = "ocid1.image.oc1.phx.aaaaaaaay27pdopotkapf2ahjlsn2wxndui5hn5w37hd2wss4ses4ol5xs6a"
-		us-ashburn-1 = "ocid1.image.oc1.iad.aaaaaaaaqftkoa5web2r7w4ls3wekgqmqy5f7untloetfiozyqbv2ql6qidq"
-		eu-frankfurt-1 = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaah4rggbyglst25peqd7vnyjzl6n5lwogiyllb6jaircakom46nswq"
+		all = "ocid1.image.oc1..aaaaaaaadevqufnklkexuu6z62f7riocqigz6zng5mxhuhghy3e6zurwct2a"
 	}
 }
 
+# The images here represent the latest OL 7.x images - currently the latest 
+# OL 7.5.  As new major versions are released, these should be updated.
 variable "ipxe_image_ocid" {
 	type = "map"
 	default = {
-		us-phoenix-1 = "ocid1.image.oc1.phx.aaaaaaaaxklzl52nmabfp3466ilzfpo7lv737k44kih4jpo7nsmxjehwrdsq"
-		us-ashburn-1 = "ocid1.image.oc1.iad.aaaaaaaahglw45opiuf6zrbhyuywh7lv5nxsxqbm4yznjwkac6zkapg6zi4a"
-		eu-frankfurt-1 = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaagixzcssj76xeehppbnobvhais57zrvxe32bncaalty4wrhpossfa"
+		us-phoenix-1 = "ocid1.image.oc1.phx.aaaaaaaaozjbzisykoybkppaiwviyfzusjzokq7jzwxi7nvwdiopk7ligoia"
+		us-ashburn-1 = "ocid1.image.oc1.iad.aaaaaaaa6ybn2lkqp2ejhijhehf5i65spqh3igt53iyvncyjmo7uhm5235ca"
+		eu-frankfurt-1 = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaazregkysspxnktw35k4r5vzwurxk6myu44umqthjeakbkvxvxdlkq"
+		uk-london-1 = "ocid1.image.oc1.uk-london-1.aaaaaaaayodsld656eh5stds5mo4hrmwuhk2ugin4eyfpgoiiskqfxll6a4a"
 	}
 }

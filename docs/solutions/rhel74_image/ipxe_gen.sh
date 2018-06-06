@@ -19,20 +19,27 @@ function build_ipxe {
 # name for each extraction of the encoded file.
 cat >> ./ipxe.sh <<-EOF
 function $1 {
-cat > ./temp.uue <<"EoF"
+cat > ./temp.b64 <<"EoF"
 EOF
 
 # Find the file to encode based on the parameters passed.  UUencode the file and redirect
 # the output to append to the ipxe.sh script.
 source_file=$2"/"$3
-uuencode ${source_file} $4 >> ./ipxe.sh
+OS=`uname`
+if [ ${OS} = "Darwin" ]
+then
+	base64 -b 64 ${source_file} >> ./ipxe.sh
+else
+	base64 -w 64 ${source_file} >> ./ipxe.sh
+fi
+
 
 # Build the bottom of the function which includes the method for decoding the encoded 
 # file out of the function when it is extracted.  Remove the temp.uue file after decoding.
-cat >> ./ipxe.sh <<-"EOF"
+cat >> ./ipxe.sh <<-EOF
 EoF
-uudecode ./temp.uue
-rm ./temp.uue
+base64 -d ./temp.b64 > ./${4}
+rm ./temp.b64
 }
 
 EOF
@@ -51,12 +58,6 @@ IPXE_SOURCE_DIR="./sources"
 
 # Capture all the JSON info passed by the terraform into local variables
 SSH_PUBLIC_KEY=`echo ${INPUT_JSON} | jq -r '.ssh_public_key'`
-OCI_API_PRIVATE_KEY=`echo ${INPUT_JSON} | jq -r '.private_key_path'`
-OCI_API_FINGERPRINT=`echo ${INPUT_JSON} | jq -r '.fingerprint'`
-OCI_API_TENANCY=`echo ${INPUT_JSON} | jq -r '.tenancy_ocid'`
-OCI_API_USER=`echo ${INPUT_JSON} | jq -r '.user_ocid'`
-OCI_API_REGION=`echo ${INPUT_JSON} | jq -r '.region'`
-OCI_PRKEY_PW=`echo ${INPUT_JSON} | jq -r '.private_key_password'`
 OCI_OS_SHORT_NAME=`echo ${INPUT_JSON} | jq -r '.os_short_name'`
 RHEL_UNAME=`echo ${INPUT_JSON} | jq -r '.rhel_user'`
 RHEL_PW=`echo ${INPUT_JSON} | jq -r '.rhel_pw'`
@@ -68,25 +69,31 @@ ISO_URL=`echo ${INPUT_JSON} | jq -r '.iso_url'`
 # for each of the files needed during build - cloud.cfg, direct.xml (firewalld), 
 # ks.cfg (kickstart), and private key (OCI CLI)
 
-# Echo the first line to the new build.
-echo "#!/bin/bash" > ./ipxe.sh
+# Echo the first lines and static functions to the new build.
+cat > ./ipxe.sh <<-EOF
+#!/bin/bash
+
+function inst_status { 
+     oci --auth=instance_principal compute instance get \\
+     --instance-id=\$1 | jq -r '.data["lifecycle-state"]'
+}
+
+function img_status {
+     oci --auth=instance_principal compute image get \\
+     --image-id=\$1 | jq -r '.data["lifecycle-state"]'
+}
+EOF
 
 # Call the function build function for each file to be encoded.
 build_ipxe cloud ${IPXE_SOURCE_DIR} ${IPXE_CLOUDINIT} ${IPXE_CLOUDINIT}
 build_ipxe firewallcfg ${IPXE_SOURCE_DIR} ${IPXE_FWCFG} ${IPXE_FWCFG}
 build_ipxe ks ${IPXE_SOURCE_DIR} ${IPXE_KS} ${IPXE_KS}
-build_ipxe privkey `dirname ${OCI_API_PRIVATE_KEY}` `basename ${OCI_API_PRIVATE_KEY}` oci_api_key.pem
 
 # Add the template file to the shell script being built
 cat ${IPXE_BUILD_TEMPLATE} >> ./ipxe.sh
 
 # Replace all the tags in the shell script with actual values
 sed -i.bak 's|<PUBLIC_KEY>|\"'"${SSH_PUBLIC_KEY}"'\"|g
-s|<TENANCY>|\"'"${OCI_API_TENANCY}"'\"|g
-s|<USER>|\"'"${OCI_API_USER}"'\"|g
-s|<FINGERPRINT>|\"'"${OCI_API_FINGERPRINT}"'\"|g
-s|<REGION>|\"'"${OCI_API_REGION}"'\"|g
-s|<PASSPHRASE>|\"'"${OCI_PRKEY_PW}"'\"|g
 s|<OS_NAME>|'"${OCI_OS_SHORT_NAME}"'|g
 s|<RHEL_UNAME>|'"${RHEL_UNAME}"'|g
 s|<RHEL_PASS>|'"${RHEL_PW}"'|g 
@@ -95,8 +102,8 @@ s|<ZEROS_OCID>|\"'"${ZEROS_OCID}"'\"|g' ./ipxe.sh
 
 # Change the permissions of the script (so it can execute). Remove any kruft.
 chmod 700 ./ipxe.sh
-rm -rf ./ipxe.sh.bak
-rm ./temp.uue
+rm ./ipxe.sh.bak
+rm ./temp.b64
 
 # Return back the location of the completed script to Terraform.
 jq -n --arg shell "./ipxe.sh" '{ "shell":$shell }'
