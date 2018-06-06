@@ -59,7 +59,15 @@ endif
 test: ;$(cmd)
 
 test_print:
+	@echo "======== Test Suites ========"
 	@grep -ohi "Test.*$(test).*TestSuite" provider/*.go
+	@echo ""
+	@echo "======== Test Acc in Suites ========"
 	@grep -oh "TestAcc.*\*testing.T" provider/*.go | cut -d \( -f 1
+	@echo ""
+	@echo "======== Generated Resource Tests (New) ========"
+	@grep -oh "Test.*Resource.*\*testing.T" provider/*_test.go | grep -v TestSuite | cut -d \( -f 1
+	@echo ""
+	@echo "Use 'make test run=[regex_prefix]' to run tests with that prefix"
 
 .PHONY: build clean fmt release zip test test_print

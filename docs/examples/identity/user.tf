@@ -1,5 +1,5 @@
 /*
- * This example file shows how to create a user, add an api key, define swift keys and customer secret keys.
+ * This example file shows how to create a user, add an api key, define auth tokens and customer secret keys.
  */
 
 resource "oci_identity_user" "user1" {
@@ -50,16 +50,16 @@ output "user-api-key" {
   value = "${oci_identity_api_key.api-key1.key_value}"
 }
 
-
-resource "oci_identity_swift_password" "swift-password1" {
+# SwiftPassword has been deprecated. Use AuthToken instead.
+resource "oci_identity_auth_token" "auth-token1" {
+  #Required
   user_id = "${oci_identity_user.user1.id}"
-  description = "user swift password created by terraform"
+  description = "user auth token created by terraform"
 }
 
-output "swift-password" {
-  value = "${oci_identity_swift_password.swift-password1.password}"
+output "auth-token" {
+  value = "${oci_identity_auth_token.auth-token1.token}"
 }
-
 
 resource "oci_identity_customer_secret_key" "customer-secret-key1" {
   user_id = "${oci_identity_user.user1.id}"
