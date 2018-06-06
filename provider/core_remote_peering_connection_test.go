@@ -245,31 +245,6 @@ variable "remote_peering_connection_display_name" { default = "displayName" }
 					},
 				),
 			},
-
-			{
-				Config: config + `
-variable "remote_peering_connection_display_name" { default = "displayName" }
-				` + compartmentIdVariableStr2 + RemotePeeringConnectionResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId2),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "is_cross_tenancy_peering"),
-					resource.TestCheckResourceAttrSet(resourceName, "peering_status"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId == resId2 {
-							return fmt.Errorf("Resource was expected to be recreated when updating parameter DrgId but the id did not change.")
-						}
-						resId = resId2
-						return err
-					},
-				),
-			},
 		},
 	})
 }
