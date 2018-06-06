@@ -99,8 +99,8 @@ func (s *ResourceCoreIPSecTestSuite) TestAccResourceCoreIpsec_basic() {
 			{
 				Config: legacyTestProviderConfig() + `
 					resource "oci_core_drg" "u" {
-					compartment_id = "${var.compartment_id}"
-					display_name = "-tf-drg-ipsec-upd"
+						compartment_id = "${var.compartment_id}"
+						display_name = "-tf-drg-ipsec-upd"
 					}
 					resource "oci_core_cpe" "u" {
 						compartment_id = "${var.compartment_id}"
