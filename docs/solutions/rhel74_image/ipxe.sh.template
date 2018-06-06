@@ -1,11 +1,6 @@
 
 # DO NOT CHANGE - PRE-GENERATED VALUES #
 SSH_PUBLIC_KEY=<PUBLIC_KEY>
-TENANCY=<TENANCY>
-USER=<USER>
-FINGERPRINT=<FINGERPRINT>
-REGION=<REGION>
-PR_KEY_PW=<PASSPHRASE>
 OS="<OS_NAME>"
 RU="<RHEL_UNAME>"
 RP="<RHEL_PASS>"
@@ -19,12 +14,19 @@ COMPARTMENT=`curl -s http://169.254.169.254/opc/v1/instance/compartmentId`
 VNIC_ID=`curl -s http://169.254.169.254/opc/v1/vnics/0/vnicId`
 CIDR_BLOCK=`curl -s http://169.254.169.254/opc/v1/vnics/0/subnetCidrBlock`
 MY_OCID=`curl -s http://169.254.169.254/opc/v1/instance/id`
+OCI="oci --auth=instance_principal"
 
 ### DO NOT CHANGE THIS SHAPE!!! ###
 SHAPE="BM.Standard1.36"
 
 yum -y -q update
-yum -y -q install sharutils httpd rsync lzma gcc libffi-devel python-devel openssl-devel unzip gcc rsyslog jq python-firewall
+yum -y -q install httpd rsync lzma gcc libffi-devel python-devel openssl-devel unzip gcc rsyslog jq python-firewall
+easy_install pip
+pip install pip --upgrade
+pip install --user oci-cli
+
+export PATH=${PATH}:/root/.local/bin
+SUBNET_ID=`${OCI} network vnic get --vnic-id=${VNIC_ID} | jq '.data ["subnet-id"]' | sed 's/\"//g'`
 
 sed -i.bak 's/<\/zone>/  <service name=\"http\"\/>/' /etc/firewalld/zones/public.xml
 echo "</zone>" >> /etc/firewalld/zones/public.xml
@@ -37,47 +39,19 @@ systemctl start httpd
 mkdir -p /var/www/{isos,html}
 mkdir -p /var/www/html/{ipxe,oci,<OS_NAME>}
 mkdir /mnt/iso
-mkdir -p /home/opc/.oci
-
-chmod 755 /home/opc/.oci
 chmod 777 /var/www/isos
 
-easy_install pip
-pip install pip --upgrade
-pip install oci-cli
+cd /var/www/isos
+curl -s -o ${ISO_NAME} ${ISO_URL}
+mount -o ro ./${ISO_NAME} /mnt/iso
+cd /mnt/iso
+find . -print | cpio -pmvdu /var/www/html/${OS}
+cd ~
+umount /mnt/iso
 
 sed '/imtcp/s/#//g' -i.bak /etc/rsyslog.conf
 sed '/InputTCPServerRun/s/#//g' -i.bak /etc/rsyslog.conf
 systemctl restart rsyslog.service
-
-cd /home/opc/.oci
-if [ -z "${PR_KEY_PW}" ]
-then
-	cat > config <<-EOF
-[DEFAULT]
-user=${USER}
-fingerprint=${FINGERPRINT}
-key_file=/home/opc/.oci/oci_api_key.pem
-tenancy=${TENANCY}
-region=${REGION}
-EOF
-else
-	cat > config <<-EOF
-[DEFAULT]
-user=${USER}
-fingerprint=${FINGERPRINT}
-key_file=/home/opc/.oci/oci_api_key.pem
-tenancy=${TENANCY}
-region=${REGION}
-pass_phrase=${PR_KEY_PW}
-EOF
-fi
-
-chmod 600 ./config
-privkey
-
-chown -R opc:opc /home/opc/.oci
-chmod 700 /home/opc/.oci
 
 cd /var/www/html/ipxe
 ks
@@ -104,78 +78,64 @@ cd /var/www/html/oci
 cloud
 firewallcfg
 
-cat > /home/opc/sacrifice-launch.sh <<-EOF
-#!/bin/bash
-function inst_status { 
-	oci compute instance get --instance-id=\$1 | jq -r '.data["lifecycle-state"]'
-}
-function img_status {
-	oci compute image get --image-id=\$1 | jq -r '.data["lifecycle-state"]'
-}
-sac_inst_ocid=\`oci compute instance launch --availability-domain=${AD} \
+sac_inst_ocid=`${OCI} compute instance launch \
+--availability-domain=${AD} \
 --compartment-id=${COMPARTMENT} --image-id=${SAC_OCID} \
---display-name="sacrifice" --ipxe-script-file="/var/www/html/ipxe/ipxeboot" \
---shape=${SHAPE} --subnet-id=<SUBNET_OCID> \
---metadata='{"ssh_authorized_keys": "${SSH_PUBLIC_KEY}" }' | jq -r '.data["id"]'\`
+--display-name="sacrifice" \
+--ipxe-script-file="/var/www/html/ipxe/ipxeboot" \
+--shape=${SHAPE} \
+--subnet-id=${SUBNET_ID} \
+--metadata='{"ssh_authorized_keys": "'"${SSH_PUBLIC_KEY}"'" }' | jq -r '.data["id"]'`
 sleep 120
-sac_vnic_attach=\`oci compute vnic-attachment list --instance-id=\${sac_inst_ocid} \
---compartment-id=${COMPARTMENT} | jq -r '.data[0]["vnic-id"]'\`
-sac_ip=\`oci network vnic get --vnic-id=\${sac_vnic_attach} | jq -r '.data["private-ip"]'\`
+
+sac_vnic_attach=`${OCI} compute vnic-attachment list \
+--instance-id=${sac_inst_ocid} \
+--compartment-id=${COMPARTMENT} | jq -r '.data[0]["vnic-id"]'`
+
+sac_ip=`${OCI} network vnic get --vnic-id=\${sac_vnic_attach} | jq -r '.data["private-ip"]'`
+
 build_ping=1
 state=""
-while [ \${build_ping} == 1 ]
+while [ ${build_ping} == 1 ]
 do
 	sleep 120
-	ping -q -c 1 \${sac_ip}
-	build_ping=\$?
-	state=\`inst_status \${sac_inst_ocid}\`
-	if [ "\${state}" == "TERMINATED" ]
+	ping -q -c 1 ${sac_ip}
+	build_ping=$?
+	state=`inst_status ${sac_inst_ocid}`
+	if [ "${state}" == "TERMINATED" ]
 	then
 		break
 	fi
 done
 
-if [ "\${state}" != "TERMINATED" ]
+if [ "${state}" != "TERMINATED" ]
 then
 	ping_result=0
-	while [ \${ping_result} == 0 ]
+	while [ ${ping_result} == 0 ]
 	do
 		sleep 20
-		ping -q -c 1 \${sac_ip}
-		ping_result=\$?
-		state=\`inst_status \${sac_inst_ocid}\`
-		if [ "\${state}" == "TERMINATED" ]
+		ping -q -c 1 ${sac_ip}
+		ping_result=$?
+		state=`inst_status ${sac_inst_ocid}`
+		if [ "${state}" == "TERMINATED" ]
 		then
 			break
 		fi
 	done
-	if [ "\${state}" != "TERMINATED" ]
+	if [ "${state}" != "TERMINATED" ]
 	then
-		image_ocid=\`oci compute image create --compartment-id=${COMPARTMENT} \
-		--instance-id=\${sac_inst_ocid} --display-name="RHEL_74" | jq -r '.data["id"]'\`
-		image_status=\`img_status \${image_ocid}\`
-		while [ "\${image_status}" != "AVAILABLE" ]
+		image_ocid=`${OCI} compute image create \
+		--compartment-id=${COMPARTMENT} \
+		--instance-id=${sac_inst_ocid} \
+		--display-name="RHEL_74" | jq -r '.data["id"]'`
+
+		image_status=`img_status ${image_ocid}`
+		while [ "${image_status}" != "AVAILABLE" ]
 		do
 			sleep 120
-			image_status=\`img_status \${image_ocid}\`
+			image_status=`img_status ${image_ocid}`
 		done
-		oci compute instance terminate --instance-id=\${sac_inst_ocid} --force
+		${OCI} compute instance terminate --instance-id=${sac_inst_ocid} --force
 	fi
 fi
-oci compute instance terminate --instance-id=${MY_OCID} --force
-EOF
-
-SUBNET_ID=`sudo -u opc oci network vnic get --vnic-id=${VNIC_ID} | jq '.data ["subnet-id"]' | sed 's/\"//g'`
-sed -i.bak 's/<SUBNET_OCID>/'"${SUBNET_ID}"'/g' /home/opc/sacrifice-launch.sh
-chown opc:opc /home/opc/sacrifice*
-chmod 755 /home/opc/sacrifice*
-cd /var/www/isos
-curl -s -o ${ISO_NAME} ${ISO_URL}
-mount -o ro ./${ISO_NAME} /mnt/iso
-cd /mnt/iso
-find . -print | cpio -pmvdu /var/www/html/${OS}
-cd ~
-umount /mnt/iso
-sudo -u opc nohup /home/opc/sacrifice-launch.sh &
-
-
+${OCI} compute instance terminate --instance-id=${MY_OCID} --force
