@@ -5,11 +5,11 @@ This lists all of the available OCI resources and/or data sources.
 * **Core**
     * [Boot Volume Attachments](https://github.com/oracle/terraform-provider-oci/tree/master/docs/core/boot_volume_attachments.md)
     * [Boot Volumes](https://github.com/oracle/terraform-provider-oci/tree/master/docs/core/boot_volumes.md)
-    * [Console Histories](https://github.com/oracle/terraform-provider-oci/tree/master/docs/core/console_histories.md) 
+    * [Console Histories](https://github.com/oracle/terraform-provider-oci/tree/master/docs/core/console_histories.md)
     * [CPEs](https://github.com/oracle/terraform-provider-oci/tree/master/docs/core/cpes.md)  
     * [DHCP Options](https://github.com/oracle/terraform-provider-oci/tree/master/docs/core/dhcp_options.md)
     * [DRG Attachments](https://github.com/oracle/terraform-provider-oci/tree/master/docs/core/drg_attachments.md)
-    * [DRGs](https://github.com/oracle/terraform-provider-oci/tree/master/docs/core/drgs.md) 
+    * [DRGs](https://github.com/oracle/terraform-provider-oci/tree/master/docs/core/drgs.md)
     * [Images](https://github.com/oracle/terraform-provider-oci/tree/master/docs/core/images.md)
     * [Instance Credentials](https://github.com/oracle/terraform-provider-oci/tree/master/docs/core/instance_credentials.md)
     * [Instances](https://github.com/oracle/terraform-provider-oci/tree/master/docs/core/instances.md)
@@ -58,7 +58,8 @@ This lists all of the available OCI resources and/or data sources.
     * [Policies](https://github.com/oracle/terraform-provider-oci/tree/master/docs/identity/policies.md)
     * [Region Subscriptions](https://github.com/oracle/terraform-provider-oci/tree/master/docs/identity/region_subscriptions.md)
     * [Regions](https://github.com/oracle/terraform-provider-oci/tree/master/docs/identity/regions.md)
-    * [Swift Passwords](https://github.com/oracle/terraform-provider-oci/tree/master/docs/identity/swift_passwords.md)
+    * ~~[Swift Passwords](https://github.com/oracle/terraform-provider-oci/tree/master/docs/identity/swift_passwords.md)~~ [DEPRECATED]
+    * [Auth Tokens](https://github.com/oracle/terraform-provider-oci/tree/master/docs/identity/auth_tokens.md)
     * [Tenancies](https://github.com/oracle/terraform-provider-oci/tree/master/docs/identity/tenancies.md)
     * [UI Passwords](https://github.com/oracle/terraform-provider-oci/tree/master/docs/identity/ui_passwords.md)
     * [User Group Memberships](https://github.com/oracle/terraform-provider-oci/tree/master/docs/identity/user_group_memberships.md)
