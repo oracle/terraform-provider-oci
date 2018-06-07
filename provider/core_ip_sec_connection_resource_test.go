@@ -97,7 +97,7 @@ func (s *ResourceCoreIPSecTestSuite) TestAccResourceCoreIpsec_basic() {
 			},
 			// Verify Force New Update
 			{
-				Config: legacyTestProviderConfig() + `
+				Config: s.Config + `
 					resource "oci_core_drg" "u" {
 						compartment_id = "${var.compartment_id}"
 						display_name = "-tf-drg-ipsec-upd"
