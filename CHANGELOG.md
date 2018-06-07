@@ -3,6 +3,15 @@ All notable changes to this project are documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+## 2.1.11 - 2018-06-07
+
+### Added
+- Support importing images from object store or external sources.
+- Updated Terraform Provider to use LaunchDbSystemDetails to provision DbSystem resource.
+- Fix orphaned load balancer backend on port change [#519](https://github.com/oracle/terraform-provider-oci/issues/519).
+- Fix to example in Route Tables documentation file.
+- Added support for AuthToken Resource (replacement of deprecated SwiftPasswords) in Identity Service. More details can be found [here](https://github.com/oracle/terraform-provider-oci/tree/master/docs/identity/auth_tokens.md).
+
 ## 2.1.10 - 2018-05-24
 
 ### Added
