@@ -71,7 +71,7 @@ func TestIdentityCustomerSecretKeyResource_basic(t *testing.T) {
 				Config: config + `
 variable "customer_secret_key_display_name" { default = "displayName2" }
 
-                ` + compartmentIdVariableStr2 + CustomerSecretKeyResourceConfig,
+                ` + compartmentIdVariableStr + CustomerSecretKeyResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(resourceName, "user_id"),

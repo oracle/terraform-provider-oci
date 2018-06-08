@@ -64,6 +64,7 @@ You must also then filter the list in one of these ways:
 - Similarly, you can limit the results to just the memberships for a given group by specifying a `groupId`.
 - You can set both the `userId` and `groupId` to determine if the specified user is in the specified group.
 If the answer is no, the response is an empty list.
+- Although`userId` and `groupId` are not indvidually required, you must set one of them.
 
 The following arguments are supported:
 

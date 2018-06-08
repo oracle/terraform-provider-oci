@@ -6,9 +6,10 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform/helper/schema"
-	oci_identity "github.com/oracle/oci-go-sdk/identity"
 
 	"github.com/oracle/terraform-provider-oci/crud"
+
+	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
 func CustomerSecretKeyResource() *schema.Resource {
@@ -108,6 +109,34 @@ func (s *CustomerSecretKeyResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
+func (s *CustomerSecretKeyResourceCrud) State() oci_identity.CustomerSecretKeyLifecycleStateEnum {
+	return s.Res.LifecycleState
+}
+
+func (s *CustomerSecretKeyResourceCrud) CreatedPending() []string {
+	return []string{
+		string(oci_identity.CustomerSecretKeyLifecycleStateCreating),
+	}
+}
+
+func (s *CustomerSecretKeyResourceCrud) CreatedTarget() []string {
+	return []string{
+		string(oci_identity.CustomerSecretKeyLifecycleStateActive),
+	}
+}
+
+func (s *CustomerSecretKeyResourceCrud) DeletedPending() []string {
+	return []string{
+		string(oci_identity.CustomerSecretKeyLifecycleStateDeleting),
+	}
+}
+
+func (s *CustomerSecretKeyResourceCrud) DeletedTarget() []string {
+	return []string{
+		string(oci_identity.CustomerSecretKeyLifecycleStateDeleted),
+	}
+}
+
 func (s *CustomerSecretKeyResourceCrud) Create() error {
 	request := oci_identity.CreateCustomerSecretKeyRequest{}
 
@@ -200,7 +229,6 @@ func (s *CustomerSecretKeyResourceCrud) Delete() error {
 
 	_, err := s.Client.DeleteCustomerSecretKey(context.Background(), request)
 	return err
-
 }
 
 func (s *CustomerSecretKeyResourceCrud) SetData() {
@@ -216,7 +244,7 @@ func (s *CustomerSecretKeyResourceCrud) SetData() {
 		s.D.Set("inactive_state", *s.Res.InactiveStatus)
 	}
 
-	if s.Res.Key != nil {
+	if s.Res.Key != nil && *s.Res.Key != "" {
 		s.D.Set("key", *s.Res.Key)
 	}
 
