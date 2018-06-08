@@ -163,7 +163,5 @@ The following attributes are exported:
 data "oci_database_db_systems" "test_db_systems" {
 	#Required
 	compartment_id = "${var.compartment_id}"
-
-	#Optional
 }
 ```

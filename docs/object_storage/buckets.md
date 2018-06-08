@@ -89,7 +89,5 @@ data "oci_objectstorage_bucketsummaries" "test_buckets" {
 	#Required
 	compartment_id = "${var.compartment_id}"
 	namespace = "${var.bucket_namespace}"
-
-	#Optional
 }
 ```
