@@ -82,7 +82,5 @@ The following attributes are exported:
 data "oci_core_drgs" "test_drgs" {
 	#Required
 	compartment_id = "${var.compartment_id}"
-
-	#Optional
 }
 ```

@@ -175,8 +175,6 @@ data "oci_object_storage_buckets" "test_buckets" {
 	compartment_id = "${var.compartment_id}"
 	namespace = "${var.bucket_namespace}"
 
-	#Optional
-
     filter {
     	name = "id"
     	values = ["${oci_object_storage_bucket.test_bucket.id}"]

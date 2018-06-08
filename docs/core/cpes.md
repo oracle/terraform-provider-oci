@@ -88,7 +88,5 @@ The following attributes are exported:
 data "oci_core_cpes" "test_cpes" {
 	#Required
 	compartment_id = "${var.compartment_id}"
-
-	#Optional
 }
 ```

@@ -146,8 +146,6 @@ data "oci_core_cpes" "test_cpes" {
 	#Required
 	compartment_id = "${var.compartment_id}"
 
-	#Optional
-
     filter {
     	name = "id"
     	values = ["${oci_core_cpe.test_cpe.id}"]

@@ -62,7 +62,5 @@ data "oci_database_db_homes" "test_db_homes" {
 	#Required
 	compartment_id = "${var.compartment_id}"
 	db_system_id = "${oci_database_db_system.test_db_system.id}"
-
-	#Optional
 }
 ```

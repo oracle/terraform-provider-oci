@@ -139,8 +139,6 @@ data "oci_core_drgs" "test_drgs" {
 	#Required
 	compartment_id = "${var.compartment_id}"
 
-	#Optional
-
     filter {
     	name = "id"
     	values = ["${oci_core_drg.test_drg.id}"]
