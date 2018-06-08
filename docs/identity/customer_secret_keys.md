@@ -9,7 +9,6 @@ The following attributes are exported:
 * `display_name` - The displayName you assign to the secret key. Does not have to be unique, and it's changeable.
 * `id` - The OCID of the secret key.
 * `inactive_state` - The detailed status of INACTIVE lifecycleState.
-* `key` - The secret key.
 * `state` - The secret key's current state. After creating a secret key, make sure its `lifecycleState` changes from CREATING to ACTIVE before using it. 
 * `time_created` - Date and time the `CustomerSecretKey` object was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
 * `time_expires` - Date and time when this password will expire, in the format defined by RFC3339. Null if it never expires.  Example: `2016-08-25T21:10:29.600Z` 
@@ -38,17 +37,19 @@ The following arguments are supported:
 
 
 ### Update Operation
+Updates the specified secret key's description.
 
 
 The following arguments support updates:
-* `display_name` - The name you assign to the secret key during creation. Does not have to be unique, and it's changeable.
+* `display_name` - The name you assign to the secret key during creation. Does not have to be unique, and it's changeable. 
+
 
 ** IMPORTANT **
 Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values
 
 ### Example Usage
 
-```
+```hcl
 resource "oci_identity_customer_secret_key" "test_customer_secret_key" {
 	#Required
 	display_name = "${var.customer_secret_key_display_name}"
@@ -77,7 +78,7 @@ The following attributes are exported:
 
 ### Example Usage
 
-```
+```hcl
 data "oci_identity_customer_secret_keys" "test_customer_secret_keys" {
 	#Required
 	user_id = "${oci_identity_user.test_user.id}"

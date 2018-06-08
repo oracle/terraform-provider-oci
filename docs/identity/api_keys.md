@@ -17,7 +17,7 @@ The following attributes are exported:
 
 
 ### Create Operation
-Uploads an API signing key for the specified user.  
+Uploads an API signing key for the specified user.
 
 Every user has permission to use this operation to upload a key for *their own user ID*. An
 administrator in your organization does not need to write a policy to give users this ability.
@@ -28,7 +28,7 @@ key for any user, including themselves.
 have permission to do much else. If you try calling an operation unrelated to your own credential
 management (e.g., `ListUsers`, `LaunchInstance`) and receive an "unauthorized" error,
 check with an administrator to confirm which IAM Service group(s) you're in and what access
-you have. Also confirm you're working in the correct compartment. 
+you have. Also confirm you're working in the correct compartment.
 
 After you send your request, the new object's `lifecycleState` will temporarily be CREATING. Before using
 the object, first make sure its `lifecycleState` has changed to ACTIVE.
