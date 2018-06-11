@@ -274,7 +274,9 @@ func (s *BucketResourceCrud) SetData() {
 		s.D.Set("namespace", *s.Res.Namespace)
 	}
 
-	s.D.Set("time_created", s.Res.TimeCreated.String())
+	if s.Res.TimeCreated != nil {
+		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
 
 }
 
