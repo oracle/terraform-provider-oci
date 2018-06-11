@@ -118,7 +118,9 @@ func (s *SnapshotsDataSourceCrud) SetData() {
 
 		snapshot["state"] = r.LifecycleState
 
-		snapshot["time_created"] = r.TimeCreated.String()
+		if r.TimeCreated != nil {
+			snapshot["time_created"] = r.TimeCreated.String()
+		}
 
 		resources = append(resources, snapshot)
 	}
