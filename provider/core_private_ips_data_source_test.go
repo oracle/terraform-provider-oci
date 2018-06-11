@@ -3,6 +3,7 @@
 package provider
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
@@ -26,7 +27,7 @@ func (s *DatasourcePrivateIPTestSuite) SetupTest() {
 		availability_domain = "${data.oci_identity_availability_domains.t.availability_domains.0.name}"
 		instance_id = "${oci_core_instance.t.id}"
 	}
-	
+
 	resource "oci_core_private_ip" "t" {
 		vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0], "vnic_id")}"
 		ip_address = "10.0.1.23"
@@ -40,6 +41,35 @@ func (s *DatasourcePrivateIPTestSuite) SetupTest() {
 }
 
 func (s *DatasourcePrivateIPTestSuite) TestAccCorePrivateIPs_basic() {
+	// Define a function closure for verifying the hostname labels from a primary and a secondary private IP
+	// The datasource could retrieve them in any order.
+	checkPrivateIpHostnameLabels := func(state *terraform.State) error {
+		hostnameLabel1, err := fromInstanceState(state, s.ResourceName, "private_ips.0.hostname_label")
+		if err != nil {
+			return err
+		}
+
+		hostnameLabel2, err := fromInstanceState(state, s.ResourceName, "private_ips.1.hostname_label")
+		if err != nil {
+			return err
+		}
+
+		instanceHostnameLabel, err := fromInstanceState(state, "oci_core_instance.t", "create_vnic_details.0.hostname_label")
+		if err != nil {
+			return err
+		}
+
+		if hostnameLabel1 != "" && hostnameLabel2 != "" {
+			return fmt.Errorf("Expected one of the private IPs to have a hostname label of empty, but instead got: '%s' and '%s'", hostnameLabel1, hostnameLabel2)
+		}
+
+		if hostnameLabel1 != instanceHostnameLabel && hostnameLabel2 != instanceHostnameLabel {
+			return fmt.Errorf("Expected one of the private IPs to have a hostname_label of '%s', but instead got: '%s' and '%s'", instanceHostnameLabel, hostnameLabel1, hostnameLabel2)
+		}
+
+		return nil
+	}
+
 	resource.Test(s.T(), resource.TestCase{
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
@@ -91,7 +121,6 @@ func (s *DatasourcePrivateIPTestSuite) TestAccCorePrivateIPs_basic() {
 					resource.TestCheckResourceAttrSet(s.ResourceName, "private_ips.0.is_primary"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "private_ips.0.subnet_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "private_ips.0.time_created"),
-					TestCheckResourceAttributesEqual(s.ResourceName, "private_ips.0.hostname_label", "oci_core_instance.t", "create_vnic_details.0.hostname_label"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "private_ips.1.id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "private_ips.1.ip_address"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "private_ips.1.display_name"),
@@ -101,7 +130,7 @@ func (s *DatasourcePrivateIPTestSuite) TestAccCorePrivateIPs_basic() {
 					resource.TestCheckResourceAttrSet(s.ResourceName, "private_ips.1.is_primary"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "private_ips.1.subnet_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "private_ips.1.time_created"),
-					resource.TestCheckResourceAttr(s.ResourceName, "private_ips.1.hostname_label", ""),
+					checkPrivateIpHostnameLabels,
 				),
 			},
 			// list by subnet id
@@ -121,7 +150,6 @@ func (s *DatasourcePrivateIPTestSuite) TestAccCorePrivateIPs_basic() {
 					resource.TestCheckResourceAttrSet(s.ResourceName, "private_ips.0.is_primary"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "private_ips.0.subnet_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "private_ips.0.time_created"),
-					TestCheckResourceAttributesEqual(s.ResourceName, "private_ips.0.hostname_label", "oci_core_instance.t", "create_vnic_details.0.hostname_label"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "private_ips.1.id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "private_ips.1.ip_address"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "private_ips.1.display_name"),
@@ -131,7 +159,7 @@ func (s *DatasourcePrivateIPTestSuite) TestAccCorePrivateIPs_basic() {
 					resource.TestCheckResourceAttrSet(s.ResourceName, "private_ips.1.is_primary"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "private_ips.1.subnet_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "private_ips.1.time_created"),
-					resource.TestCheckResourceAttr(s.ResourceName, "private_ips.1.hostname_label", ""),
+					checkPrivateIpHostnameLabels,
 				),
 			},
 		},
