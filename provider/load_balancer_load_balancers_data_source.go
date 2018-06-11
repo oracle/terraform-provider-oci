@@ -146,7 +146,9 @@ func (s *LoadBalancersDataSourceCrud) SetData() {
 
 		loadBalancer["subnet_ids"] = r.SubnetIds
 
-		loadBalancer["time_created"] = r.TimeCreated.String()
+		if r.TimeCreated != nil {
+			loadBalancer["time_created"] = r.TimeCreated.String()
+		}
 
 		resources = append(resources, loadBalancer)
 	}
