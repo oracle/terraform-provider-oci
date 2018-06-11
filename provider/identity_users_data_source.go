@@ -109,7 +109,9 @@ func (s *UsersDataSourceCrud) SetData() {
 
 		user["state"] = r.LifecycleState
 
-		user["time_created"] = r.TimeCreated.String()
+		if r.TimeCreated != nil {
+			user["time_created"] = r.TimeCreated.String()
+		}
 
 		resources = append(resources, user)
 	}

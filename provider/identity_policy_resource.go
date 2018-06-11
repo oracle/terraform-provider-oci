@@ -329,7 +329,9 @@ func (s *PolicyResourceCrud) SetData() {
 
 	s.D.Set("statements", s.Res.Statements)
 
-	s.D.Set("time_created", s.Res.TimeCreated.String())
+	if s.Res.TimeCreated != nil {
+		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
 
 	if s.Res.VersionDate != nil {
 		s.D.Set("version_date", *s.Res.VersionDate)

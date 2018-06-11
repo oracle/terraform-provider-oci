@@ -102,7 +102,9 @@ func (s *SwiftPasswordsDataSourceCrud) SetData() {
 
 		swiftPassword["state"] = r.LifecycleState
 
-		swiftPassword["time_created"] = r.TimeCreated.String()
+		if r.TimeCreated != nil {
+			swiftPassword["time_created"] = r.TimeCreated.String()
+		}
 
 		resources = append(resources, swiftPassword)
 	}
