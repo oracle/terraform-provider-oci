@@ -142,7 +142,9 @@ func (s *ExportsDataSourceCrud) SetData() {
 
 		export["state"] = r.LifecycleState
 
-		export["time_created"] = r.TimeCreated.String()
+		if r.TimeCreated != nil {
+			export["time_created"] = r.TimeCreated.String()
+		}
 
 		resources = append(resources, export)
 	}
