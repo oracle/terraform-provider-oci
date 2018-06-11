@@ -124,7 +124,9 @@ func (s *UserGroupMembershipsDataSourceCrud) SetData() {
 
 		userGroupMembership["state"] = r.LifecycleState
 
-		userGroupMembership["time_created"] = r.TimeCreated.String()
+		if r.TimeCreated != nil {
+			userGroupMembership["time_created"] = r.TimeCreated.String()
+		}
 
 		if r.UserId != nil {
 			userGroupMembership["user_id"] = *r.UserId

@@ -113,7 +113,9 @@ func (s *DynamicGroupsDataSourceCrud) SetData() {
 
 		dynamicGroup["state"] = r.LifecycleState
 
-		dynamicGroup["time_created"] = r.TimeCreated.String()
+		if r.TimeCreated != nil {
+			dynamicGroup["time_created"] = r.TimeCreated.String()
+		}
 
 		resources = append(resources, dynamicGroup)
 	}

@@ -111,7 +111,9 @@ func (s *IdentityPoliciesDataSourceCrud) SetData() {
 
 		policy["statements"] = r.Statements
 
-		policy["time_created"] = r.TimeCreated.String()
+		if r.TimeCreated != nil {
+			policy["time_created"] = r.TimeCreated.String()
+		}
 
 		// TODO: see comment "pending spec/sdk versionDate solution" in identity_policy_resource.go
 		if r.VersionDate != nil {

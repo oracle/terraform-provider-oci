@@ -94,7 +94,9 @@ func (s *AuthTokensDataSourceCrud) SetData() {
 
 		authToken["state"] = r.LifecycleState
 
-		authToken["time_created"] = r.TimeCreated.String()
+		if r.TimeCreated != nil {
+			authToken["time_created"] = r.TimeCreated.String()
+		}
 
 		if r.TimeExpires != nil {
 			authToken["time_expires"] = r.TimeExpires.String()

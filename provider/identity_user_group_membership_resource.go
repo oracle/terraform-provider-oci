@@ -196,7 +196,9 @@ func (s *UserGroupMembershipResourceCrud) SetData() {
 
 	s.D.Set("state", s.Res.LifecycleState)
 
-	s.D.Set("time_created", s.Res.TimeCreated.String())
+	if s.Res.TimeCreated != nil {
+		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
 
 	if s.Res.UserId != nil {
 		s.D.Set("user_id", *s.Res.UserId)

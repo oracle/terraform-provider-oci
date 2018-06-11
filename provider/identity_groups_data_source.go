@@ -109,7 +109,9 @@ func (s *GroupsDataSourceCrud) SetData() {
 
 		group["state"] = r.LifecycleState
 
-		group["time_created"] = r.TimeCreated.String()
+		if r.TimeCreated != nil {
+			group["time_created"] = r.TimeCreated.String()
+		}
 
 		resources = append(resources, group)
 	}
