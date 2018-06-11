@@ -174,7 +174,9 @@ func (s *InstancesDataSourceCrud) SetData() {
 
 		instance["state"] = r.LifecycleState
 
-		instance["time_created"] = r.TimeCreated.String()
+		if r.TimeCreated != nil {
+			instance["time_created"] = r.TimeCreated.String()
+		}
 
 		resources = append(resources, instance)
 	}

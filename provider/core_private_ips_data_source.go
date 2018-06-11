@@ -139,7 +139,9 @@ func (s *PrivateIpsDataSourceCrud) SetData() {
 			privateIp["subnet_id"] = *r.SubnetId
 		}
 
-		privateIp["time_created"] = r.TimeCreated.String()
+		if r.TimeCreated != nil {
+			privateIp["time_created"] = r.TimeCreated.String()
+		}
 
 		if r.VnicId != nil {
 			privateIp["vnic_id"] = *r.VnicId

@@ -269,6 +269,8 @@ func (s *IpSecConnectionResourceCrud) SetData() {
 
 	s.D.Set("static_routes", s.Res.StaticRoutes)
 
-	s.D.Set("time_created", s.Res.TimeCreated.String())
+	if s.Res.TimeCreated != nil {
+		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
 
 }

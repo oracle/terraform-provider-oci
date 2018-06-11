@@ -154,7 +154,9 @@ func (s *RouteTablesDataSourceCrud) SetData() {
 
 		routeTable["state"] = r.LifecycleState
 
-		routeTable["time_created"] = r.TimeCreated.String()
+		if r.TimeCreated != nil {
+			routeTable["time_created"] = r.TimeCreated.String()
+		}
 
 		resources = append(resources, routeTable)
 	}

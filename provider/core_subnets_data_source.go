@@ -194,7 +194,9 @@ func (s *SubnetsDataSourceCrud) SetData() {
 			subnet["subnet_domain_name"] = *r.SubnetDomainName
 		}
 
-		subnet["time_created"] = r.TimeCreated.String()
+		if r.TimeCreated != nil {
+			subnet["time_created"] = r.TimeCreated.String()
+		}
 
 		if r.VirtualRouterIp != nil {
 			subnet["virtual_router_ip"] = *r.VirtualRouterIp

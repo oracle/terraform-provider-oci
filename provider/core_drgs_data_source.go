@@ -121,7 +121,9 @@ func (s *DrgsDataSourceCrud) SetData() {
 
 		drg["state"] = r.LifecycleState
 
-		drg["time_created"] = r.TimeCreated.String()
+		if r.TimeCreated != nil {
+			drg["time_created"] = r.TimeCreated.String()
+		}
 
 		resources = append(resources, drg)
 	}

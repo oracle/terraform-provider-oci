@@ -123,9 +123,13 @@ func (s *VolumeGroupBackupsDataSourceCrud) SetData() {
 
 		volumeGroupBackup["state"] = r.LifecycleState
 
-		volumeGroupBackup["time_created"] = r.TimeCreated.String()
+		if r.TimeCreated != nil {
+			volumeGroupBackup["time_created"] = r.TimeCreated.String()
+		}
 
-		volumeGroupBackup["time_request_received"] = r.TimeRequestReceived.String()
+		if r.TimeRequestReceived != nil {
+			volumeGroupBackup["time_request_received"] = r.TimeRequestReceived.String()
+		}
 
 		volumeGroupBackup["type"] = r.Type
 

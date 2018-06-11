@@ -153,7 +153,9 @@ func (s *InternetGatewaysDataSourceCrud) SetData() {
 
 		internetGateway["state"] = r.LifecycleState
 
-		internetGateway["time_created"] = r.TimeCreated.String()
+		if r.TimeCreated != nil {
+			internetGateway["time_created"] = r.TimeCreated.String()
+		}
 
 		resources = append(resources, internetGateway)
 	}

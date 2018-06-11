@@ -180,7 +180,9 @@ func (s *BootVolumesDataSourceCrud) SetData() {
 
 		bootVolume["state"] = r.LifecycleState
 
-		bootVolume["time_created"] = r.TimeCreated.String()
+		if r.TimeCreated != nil {
+			bootVolume["time_created"] = r.TimeCreated.String()
+		}
 
 		if r.VolumeGroupId != nil {
 			bootVolume["volume_group_id"] = *r.VolumeGroupId

@@ -133,7 +133,9 @@ func (s *PublicIpsDataSourceCrud) SetData() {
 
 		publicIp["state"] = r.LifecycleState
 
-		publicIp["time_created"] = r.TimeCreated.String()
+		if r.TimeCreated != nil {
+			publicIp["time_created"] = r.TimeCreated.String()
+		}
 
 		resources = append(resources, publicIp)
 	}

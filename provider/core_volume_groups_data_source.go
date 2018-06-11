@@ -137,7 +137,9 @@ func (s *VolumeGroupsDataSourceCrud) SetData() {
 
 		volumeGroup["state"] = r.LifecycleState
 
-		volumeGroup["time_created"] = r.TimeCreated.String()
+		if r.TimeCreated != nil {
+			volumeGroup["time_created"] = r.TimeCreated.String()
+		}
 
 		volumeGroup["volume_ids"] = r.VolumeIds
 

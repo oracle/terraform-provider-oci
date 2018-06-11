@@ -164,7 +164,9 @@ func (s *VnicAttachmentsDataSourceCrud) SetData() {
 			vnicAttachment["subnet_id"] = *r.SubnetId
 		}
 
-		vnicAttachment["time_created"] = r.TimeCreated.String()
+		if r.TimeCreated != nil {
+			vnicAttachment["time_created"] = r.TimeCreated.String()
+		}
 
 		if r.VlanTag != nil {
 			vnicAttachment["vlan_tag"] = *r.VlanTag

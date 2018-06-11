@@ -143,7 +143,9 @@ func (s *DrgAttachmentsDataSourceCrud) SetData() {
 
 		drgAttachment["state"] = r.LifecycleState
 
-		drgAttachment["time_created"] = r.TimeCreated.String()
+		if r.TimeCreated != nil {
+			drgAttachment["time_created"] = r.TimeCreated.String()
+		}
 
 		if r.VcnId != nil {
 			drgAttachment["vcn_id"] = *r.VcnId

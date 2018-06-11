@@ -179,7 +179,9 @@ func (s *VnicsDataSourceCrud) SetData() {
 		s.D.Set("subnet_id", *s.Res.SubnetId)
 	}
 
-	s.D.Set("time_created", s.Res.TimeCreated.String())
+	if s.Res.TimeCreated != nil {
+		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
 
 	return
 }
