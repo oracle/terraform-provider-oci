@@ -158,7 +158,9 @@ func (s *VcnsDataSourceCrud) SetData() {
 
 		vcn["state"] = r.LifecycleState
 
-		vcn["time_created"] = r.TimeCreated.String()
+		if r.TimeCreated != nil {
+			vcn["time_created"] = r.TimeCreated.String()
+		}
 
 		if r.VcnDomainName != nil {
 			vcn["vcn_domain_name"] = *r.VcnDomainName

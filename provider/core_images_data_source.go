@@ -194,7 +194,9 @@ func (s *ImagesDataSourceCrud) SetData() {
 
 		image["state"] = r.LifecycleState
 
-		image["time_created"] = r.TimeCreated.String()
+		if r.TimeCreated != nil {
+			image["time_created"] = r.TimeCreated.String()
+		}
 
 		resources = append(resources, image)
 	}

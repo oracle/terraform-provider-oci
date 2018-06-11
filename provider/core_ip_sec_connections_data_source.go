@@ -149,7 +149,9 @@ func (s *IpSecConnectionsDataSourceCrud) SetData() {
 
 		ipSecConnection["static_routes"] = r.StaticRoutes
 
-		ipSecConnection["time_created"] = r.TimeCreated.String()
+		if r.TimeCreated != nil {
+			ipSecConnection["time_created"] = r.TimeCreated.String()
+		}
 
 		resources = append(resources, ipSecConnection)
 	}

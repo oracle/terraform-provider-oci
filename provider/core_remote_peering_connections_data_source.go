@@ -132,7 +132,9 @@ func (s *RemotePeeringConnectionsDataSourceCrud) SetData() {
 
 		remotePeeringConnection["state"] = r.LifecycleState
 
-		remotePeeringConnection["time_created"] = r.TimeCreated.String()
+		if r.TimeCreated != nil {
+			remotePeeringConnection["time_created"] = r.TimeCreated.String()
+		}
 
 		resources = append(resources, remotePeeringConnection)
 	}

@@ -154,7 +154,9 @@ func (s *DhcpOptionsDataSourceCrud) SetData() {
 
 		dhcpOptions["state"] = r.LifecycleState
 
-		dhcpOptions["time_created"] = r.TimeCreated.String()
+		if r.TimeCreated != nil {
+			dhcpOptions["time_created"] = r.TimeCreated.String()
+		}
 
 		resources = append(resources, dhcpOptions)
 	}

@@ -356,7 +356,9 @@ func (s *VnicAttachmentResourceCrud) SetData() {
 		s.D.Set("subnet_id", *s.Res.SubnetId)
 	}
 
-	s.D.Set("time_created", s.Res.TimeCreated.String())
+	if s.Res.TimeCreated != nil {
+		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
 
 	if s.Res.VlanTag != nil {
 		s.D.Set("vlan_tag", *s.Res.VlanTag)

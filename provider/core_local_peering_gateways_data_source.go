@@ -125,7 +125,9 @@ func (s *LocalPeeringGatewaysDataSourceCrud) SetData() {
 
 		localPeeringGateway["state"] = r.LifecycleState
 
-		localPeeringGateway["time_created"] = r.TimeCreated.String()
+		if r.TimeCreated != nil {
+			localPeeringGateway["time_created"] = r.TimeCreated.String()
+		}
 
 		resources = append(resources, localPeeringGateway)
 	}

@@ -160,7 +160,9 @@ func (s *SecurityListsDataSourceCrud) SetData() {
 
 		securityList["state"] = r.LifecycleState
 
-		securityList["time_created"] = r.TimeCreated.String()
+		if r.TimeCreated != nil {
+			securityList["time_created"] = r.TimeCreated.String()
+		}
 
 		resources = append(resources, securityList)
 	}

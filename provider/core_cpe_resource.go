@@ -196,6 +196,8 @@ func (s *CpeResourceCrud) SetData() {
 		s.D.Set("ip_address", *s.Res.IpAddress)
 	}
 
-	s.D.Set("time_created", s.Res.TimeCreated.String())
+	if s.Res.TimeCreated != nil {
+		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
 
 }

@@ -270,7 +270,9 @@ func (s *VcnResourceCrud) SetData() {
 
 	s.D.Set("state", s.Res.LifecycleState)
 
-	s.D.Set("time_created", s.Res.TimeCreated.String())
+	if s.Res.TimeCreated != nil {
+		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
 
 	if s.Res.VcnDomainName != nil {
 		s.D.Set("vcn_domain_name", *s.Res.VcnDomainName)

@@ -275,9 +275,13 @@ func (s *VolumeBackupResourceCrud) SetData() {
 
 	s.D.Set("state", s.Res.LifecycleState)
 
-	s.D.Set("time_created", s.Res.TimeCreated.String())
+	if s.Res.TimeCreated != nil {
+		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
 
-	s.D.Set("time_request_received", s.Res.TimeRequestReceived.String())
+	if s.Res.TimeRequestReceived != nil {
+		s.D.Set("time_request_received", s.Res.TimeRequestReceived.String())
+	}
 
 	s.D.Set("type", s.Res.Type)
 

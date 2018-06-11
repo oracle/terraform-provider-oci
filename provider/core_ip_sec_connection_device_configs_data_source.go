@@ -117,7 +117,9 @@ func (s *IpSecConnectionDeviceConfigsDataSourceCrud) SetData() {
 		s.D.Set("id", *s.Res.Id)
 	}
 
-	s.D.Set("time_created", s.Res.TimeCreated.String())
+	if s.Res.TimeCreated != nil {
+		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
 
 	tunnels := []map[string]interface{}{}
 	for _, item := range s.Res.Tunnels {
@@ -146,7 +148,9 @@ func TunnelConfigToMap(obj oci_core.TunnelConfig) map[string]interface{} {
 		result["shared_secret"] = string(*obj.SharedSecret)
 	}
 
-	result["time_created"] = obj.TimeCreated.String()
+	if obj.TimeCreated != nil {
+		result["time_created"] = obj.TimeCreated.String()
+	}
 
 	return result
 }

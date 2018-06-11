@@ -161,9 +161,13 @@ func (s *VolumeBackupsDataSourceCrud) SetData() {
 
 		volumeBackup["state"] = r.LifecycleState
 
-		volumeBackup["time_created"] = r.TimeCreated.String()
+		if r.TimeCreated != nil {
+			volumeBackup["time_created"] = r.TimeCreated.String()
+		}
 
-		volumeBackup["time_request_received"] = r.TimeRequestReceived.String()
+		if r.TimeRequestReceived != nil {
+			volumeBackup["time_request_received"] = r.TimeRequestReceived.String()
+		}
 
 		volumeBackup["type"] = r.Type
 
