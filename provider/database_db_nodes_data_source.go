@@ -140,7 +140,9 @@ func (s *DbNodesDataSourceCrud) SetData() {
 
 		dbNode["state"] = r.LifecycleState
 
-		dbNode["time_created"] = r.TimeCreated.String()
+		if r.TimeCreated != nil {
+			dbNode["time_created"] = r.TimeCreated.String()
+		}
 
 		if r.VnicId != nil {
 			dbNode["vnic_id"] = *r.VnicId

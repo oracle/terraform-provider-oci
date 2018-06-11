@@ -156,7 +156,9 @@ func (s *DatabasesDataSourceCrud) SetData() {
 
 		database["state"] = r.LifecycleState
 
-		database["time_created"] = r.TimeCreated.String()
+		if r.TimeCreated != nil {
+			database["time_created"] = r.TimeCreated.String()
+		}
 
 		resources = append(resources, database)
 	}

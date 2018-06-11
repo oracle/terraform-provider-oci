@@ -195,7 +195,9 @@ func (s *DbSystemsDataSourceCrud) SetData() {
 			dbSystem["subnet_id"] = *r.SubnetId
 		}
 
-		dbSystem["time_created"] = r.TimeCreated.String()
+		if r.TimeCreated != nil {
+			dbSystem["time_created"] = r.TimeCreated.String()
+		}
 
 		if r.Version != nil {
 			dbSystem["version"] = *r.Version
