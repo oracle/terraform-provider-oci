@@ -241,10 +241,12 @@ func (s *PreauthenticatedRequestResourceCrud) SetData() {
 		s.D.Set("object", *s.Res.ObjectName)
 	}
 
-	s.D.Set("time_created", s.Res.TimeCreated.String())
+	if s.Res.TimeCreated != nil {
+		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
 
 	if s.Res.TimeExpires != nil {
-		s.D.Set("time_expires", s.Res.TimeExpires)
+		s.D.Set("time_expires", s.Res.TimeExpires.String())
 	}
 
 	if s.Res.AccessUri != nil {
