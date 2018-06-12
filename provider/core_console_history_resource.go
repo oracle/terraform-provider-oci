@@ -20,6 +20,7 @@ func ConsoleHistoryResource() *schema.Resource {
 		Timeouts: crud.DefaultTimeout,
 		Create:   createConsoleHistory,
 		Read:     readConsoleHistory,
+		Update:   updateConsoleHistory,
 		Delete:   deleteConsoleHistory,
 		Schema: map[string]*schema.Schema{
 			// Required
@@ -30,10 +31,23 @@ func ConsoleHistoryResource() *schema.Resource {
 			},
 
 			// Optional
+			"defined_tags": {
+				Type:             schema.TypeMap,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: definedTagsDiffSuppressFunction,
+				Elem:             schema.TypeString,
+			},
 			"display_name": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"freeform_tags": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
 			},
 
 			// Computed
@@ -77,6 +91,14 @@ func readConsoleHistory(d *schema.ResourceData, m interface{}) error {
 	return crud.ReadResource(sync)
 }
 
+func updateConsoleHistory(d *schema.ResourceData, m interface{}) error {
+	sync := &ConsoleHistoryResourceCrud{}
+	sync.D = d
+	sync.Client = m.(*OracleClients).computeClient
+
+	return crud.UpdateResource(d, sync)
+}
+
 func deleteConsoleHistory(d *schema.ResourceData, m interface{}) error {
 	sync := &ConsoleHistoryResourceCrud{}
 	sync.D = d
@@ -113,9 +135,21 @@ func (s *ConsoleHistoryResourceCrud) CreatedTarget() []string {
 func (s *ConsoleHistoryResourceCrud) Create() error {
 	request := oci_core.CaptureConsoleHistoryRequest{}
 
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+	}
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if instanceId, ok := s.D.GetOkExists("instance_id"); ok {
@@ -151,6 +185,40 @@ func (s *ConsoleHistoryResourceCrud) Get() error {
 	return nil
 }
 
+func (s *ConsoleHistoryResourceCrud) Update() error {
+	request := oci_core.UpdateConsoleHistoryRequest{}
+
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
+	if displayName, ok := s.D.GetOkExists("display_name"); ok {
+		tmp := displayName.(string)
+		request.DisplayName = &tmp
+	}
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	tmp := s.D.Id()
+	request.InstanceConsoleHistoryId = &tmp
+
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	response, err := s.Client.UpdateConsoleHistory(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response.ConsoleHistory
+	return nil
+}
+
 func (s *ConsoleHistoryResourceCrud) Delete() error {
 	// Do not delete console history.
 	return nil
@@ -165,9 +233,15 @@ func (s *ConsoleHistoryResourceCrud) SetData() {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	if s.Res.DefinedTags != nil {
+		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))
+	}
+
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
+
+	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.Id != nil {
 		s.D.Set("id", *s.Res.Id)

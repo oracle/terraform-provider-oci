@@ -24,16 +24,20 @@ resource "oci_core_console_history" "test_console_history" {
 	instance_id = "${oci_core_instance.test_instance.id}"
 
 	#Optional
+	defined_tags = "${var.console_history_defined_tags}"
 	display_name = "${var.console_history_display_name}"
+	freeform_tags = "${var.console_history_freeform_tags}"
 }
 `
 	ConsoleHistoryPropertyVariables = `
 variable "console_history_availability_domain" { default = "availabilityDomain" }
+variable "console_history_defined_tags" { default = {"example-tag-namespace.example-tag"= "value"} }
 variable "console_history_display_name" { default = "displayName" }
+variable "console_history_freeform_tags" { default = {"Department"= "Finance"} }
 variable "console_history_state" { default = "AVAILABLE" }
 
 `
-	ConsoleHistoryResourceDependencies = "" // Uncomment once defined: InstancePropertyVariables + InstanceResourceConfig
+	ConsoleHistoryResourceDependencies = DefinedTagsDependencies // Uncomment once defined: InstancePropertyVariables + InstanceResourceConfig
 )
 
 func TestCoreConsoleHistoryResource_basic(t *testing.T) {
@@ -79,7 +83,9 @@ func TestCoreConsoleHistoryResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
@@ -96,14 +102,18 @@ func TestCoreConsoleHistoryResource_basic(t *testing.T) {
 			{
 				Config: config + `
 variable "console_history_availability_domain" { default = "availabilityDomain" }
+variable "console_history_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
 variable "console_history_display_name" { default = "displayName2" }
+variable "console_history_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "console_history_state" { default = "AVAILABLE" }
 
                 ` + compartmentIdVariableStr + ConsoleHistoryResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
@@ -122,7 +132,9 @@ variable "console_history_state" { default = "AVAILABLE" }
 			{
 				Config: config + `
 variable "console_history_availability_domain" { default = "availabilityDomain" }
+variable "console_history_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
 variable "console_history_display_name" { default = "displayName2" }
+variable "console_history_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "console_history_state" { default = "AVAILABLE" }
 
 data "oci_core_console_histories" "test_console_histories" {
@@ -149,7 +161,9 @@ data "oci_core_console_histories" "test_console_histories" {
 					resource.TestCheckResourceAttr(datasourceName, "console_histories.#", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "console_histories.0.availability_domain"),
 					resource.TestCheckResourceAttrSet(datasourceName, "console_histories.0.compartment_id"),
+					resource.TestCheckResourceAttr(datasourceName, "console_histories.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "console_histories.0.display_name", "displayName2"),
+					resource.TestCheckResourceAttr(datasourceName, "console_histories.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "console_histories.0.id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "console_histories.0.instance_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "console_histories.0.state"),

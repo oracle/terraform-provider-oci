@@ -9,7 +9,9 @@ The following attributes are exported:
 * `base_image_id` - The OCID of the image originally used to launch the instance.
 * `compartment_id` - The OCID of the compartment containing the instance you want to use as the basis for the image. 
 * `create_image_allowed` - Whether instances launched with this image can be used to create new images. For example, you cannot create an image of an Oracle Database instance. Example: `true` 
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name for the image. It does not have to be unique, and it's changeable. Avoid entering confidential information. You cannot use an Oracle-provided image name as a custom image name.  Example: `My custom Oracle Linux image` 
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the image.
 * `launch_mode` - Specifies the configuration mode for launching virtual machine (VM) instances. The configuration modes are: 
     * `NATIVE` - VM instances launch with iSCSI boot and VFIO devices. The default value for Oracle-provided images. 
@@ -53,7 +55,9 @@ Avoid entering confidential information.
 The following arguments are supported:
 
 * `compartment_id` - (Required) The OCID of the compartment containing the instance you want to use as the basis for the image.
+* `defined_tags` - (Optional) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) A user-friendly name for the image. It does not have to be unique, and it's changeable. Avoid entering confidential information.  You cannot use an Oracle-provided image name as a custom image name.  Example: `My Oracle Linux image`
+* `freeform_tags` - (Optional) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `image_source_details` - (Optional) Details for creating an image through import
     * `source_type` - (Required) The source type for the image. Use objectStorageTuple when specifying the namespace, bucket name, and object name. Use objectStorageUri when specifying the Object Storage URL. Allowed values are: - `objectStorageTuple` - `objectStorageUri` 
     * `source_image_type` - (Optional) The format of the image to be imported. Exported Oracle images are QCOW2. Only monolithic images are supported. Allowed values are: - `QCOW2` - `VMDK`
@@ -72,7 +76,9 @@ The following arguments are supported:
 Updates the display name of the image. Avoid entering confidential information.
 
 The following arguments support updates:
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name for the image. It does not have to be unique, and it's changeable. Avoid entering confidential information.  You cannot use an Oracle-provided image name as a custom image name.  Example: `My Oracle Linux image` 
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 
 
 ** IMPORTANT **
@@ -89,7 +95,9 @@ resource "oci_core_image" "test_image" {
 
 	#Optional
 	display_name = "${var.image_display_name}"
+	defined_tags = '{"Operations.CostCenter"= "42"}'
 	launch_mode = "${var.image_launch_mode}"
+	freeform_tags = '{"Department"= "Finance"}'
 }
 ```
 

@@ -84,7 +84,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 					hostname_label = "hostname1"
 					image = "${var.InstanceImageOCID[var.region]}"
 					shape = "VM.Standard1.1"
-                   defined_tags = "${map(
+                    defined_tags = "${map(
 									"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value"
 									)}"
                     freeform_tags = { "Department" = "Accounting"}
@@ -125,8 +125,8 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 					resource.TestCheckResourceAttr(s.ResourceName, "extended_metadata.%", "2"),
 					resource.TestCheckResourceAttr(s.ResourceName, "extended_metadata.keyA", "valA"),
 					resource.TestCheckResourceAttr(s.ResourceName, "extended_metadata.keyB", "{\"keyB1\": \"valB1\", \"keyB2\": {\"keyB2\": \"valB2\"}}"),
-					resource.TestCheckResourceAttr(s.ResourceName, "defined_tags.#", "1"),
-					resource.TestCheckResourceAttr(s.ResourceName, "freeform_tags.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "region"),
 					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.#", "1"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "create_vnic_details.0.display_name"),

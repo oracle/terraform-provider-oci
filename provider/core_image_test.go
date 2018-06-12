@@ -24,7 +24,9 @@ resource "oci_core_image" "test_image" {
 	compartment_id = "${var.compartment_id}"
 
 	#Optional
+	defined_tags = "${var.image_defined_tags}"
 	display_name = "${var.image_display_name}"
+	freeform_tags = "${var.image_freeform_tags}"
 	image_source_details {
 		#Required
 		source_type = "${var.image_image_source_details_source_type}"
@@ -37,7 +39,9 @@ resource "oci_core_image" "test_image" {
 }
 `
 	ImagePropertyVariables = `
+variable "image_defined_tags" { default = {"example-tag-namespace.example-tag"= "value"} }
 variable "image_display_name" { default = "MyCustomImage" }
+variable "image_freeform_tags" { default = {"Department"= "Finance"} }
 variable "image_image_source_details_source_image_type" { default = "sourceImageType" }
 variable "image_image_source_details_source_type" { default = "objectStorageTuple" }
 variable "image_launch_mode" { default = "launchMode" }
@@ -47,7 +51,7 @@ variable "image_shape" { default = "shape" }
 variable "image_state" { default = "AVAILABLE" }
 
 `
-	ImageResourceDependencies = "" // Uncomment once defined: InstancePropertyVariables + InstanceResourceConfig
+	ImageResourceDependencies = DefinedTagsDependencies // Uncomment once defined: InstancePropertyVariables + InstanceResourceConfig
 )
 
 func TestCoreImageResource_basic(t *testing.T) {
@@ -94,7 +98,9 @@ func TestCoreImageResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "create_image_allowed"),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "MyCustomImage"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "image_source_details.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "image_source_details.0.source_image_type", "sourceImageType"),
@@ -116,7 +122,9 @@ func TestCoreImageResource_basic(t *testing.T) {
 			// verify updates to updatable parameters
 			{
 				Config: config + `
+variable "image_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
 variable "image_display_name" { default = "displayName2" }
+variable "image_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "image_image_source_details_source_image_type" { default = "sourceImageType" }
 variable "image_image_source_details_source_type" { default = "objectStorageTuple" }
 variable "image_launch_mode" { default = "launchMode" }
@@ -129,7 +137,9 @@ variable "image_state" { default = "AVAILABLE" }
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "create_image_allowed"),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "image_source_details.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "image_source_details.0.source_image_type", "sourceImageType"),
@@ -153,7 +163,9 @@ variable "image_state" { default = "AVAILABLE" }
 			// verify datasource
 			{
 				Config: config + `
+variable "image_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
 variable "image_display_name" { default = "displayName2" }
+variable "image_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "image_image_source_details_source_image_type" { default = "sourceImageType" }
 variable "image_image_source_details_source_type" { default = "objectStorageTuple" }
 variable "image_launch_mode" { default = "launchMode" }
@@ -191,7 +203,9 @@ data "oci_core_images" "test_images" {
 					resource.TestCheckResourceAttr(datasourceName, "images.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "images.0.compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "images.0.create_image_allowed"),
+					resource.TestCheckResourceAttr(datasourceName, "images.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "images.0.display_name", "displayName2"),
+					resource.TestCheckResourceAttr(datasourceName, "images.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "images.0.id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "images.0.instance_id"),
 					resource.TestCheckResourceAttr(datasourceName, "images.0.launch_mode", "launchMode"),
