@@ -30,3 +30,18 @@ resource "oci_database_db_system" "TFDBNode" {
   license_model = "${var.LicenseModel}"
   node_count = "${var.NodeCount}"
 }
+
+data "oci_database_db_homes" "t" {
+	compartment_id = "${var.compartment_id}"
+	db_system_id = "${oci_database_db_system.TFDBNode.id}"
+}
+
+data "oci_database_databases" "db" {
+	compartment_id = "${var.compartment_id}"
+	db_home_id = "${data.oci_database_db_homes.t.db_homes.0.db_home_id}"
+}
+
+data "oci_database_patches" "patches" {
+	#Required
+	db_home_id = "${data.oci_database_db_homes.t.db_homes.0.db_home_id}"
+}
