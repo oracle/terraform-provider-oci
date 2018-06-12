@@ -12,6 +12,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 - Fix to example in Route Tables documentation file.
 - Added support for AuthToken Resource (replacement of deprecated SwiftPasswords) in Identity Service.
 - Added support for Volume Group and Volume Group Backup.
+- HCL syntax highlighting in docs
+- Nil checks for time properties to avoid panic
 
 ## 2.1.10 - 2018-05-24
 
