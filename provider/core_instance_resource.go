@@ -126,6 +126,13 @@ func InstanceResource() *schema.Resource {
 					},
 				},
 			},
+			"defined_tags": {
+				Type:             schema.TypeMap,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: definedTagsDiffSuppressFunction,
+				Elem:             schema.TypeString,
+			},
 			"display_name": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -135,6 +142,12 @@ func InstanceResource() *schema.Resource {
 				Type:     schema.TypeMap,
 				Optional: true,
 				ForceNew: true,
+				Elem:     schema.TypeString,
+			},
+			"freeform_tags": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
 				Elem:     schema.TypeString,
 			},
 			"hostname_label": {
@@ -377,6 +390,14 @@ func (s *InstanceResourceCrud) Create() error {
 		}
 	}
 
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
@@ -385,6 +406,10 @@ func (s *InstanceResourceCrud) Create() error {
 	if rawExtendedMetadata, ok := s.D.GetOkExists("extended_metadata"); ok {
 		extendedMetadata := mapToExtendedMetadata(rawExtendedMetadata.(map[string]interface{}))
 		request.ExtendedMetadata = extendedMetadata
+	}
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if hostnameLabel, ok := s.D.GetOkExists("hostname_label"); ok {
@@ -404,8 +429,7 @@ func (s *InstanceResourceCrud) Create() error {
 	}
 
 	if metadata, ok := s.D.GetOkExists("metadata"); ok {
-		tmp := resourceInstanceMapToMetadata(metadata.(map[string]interface{}))
-		request.Metadata = tmp
+		request.Metadata = objectMapToStringMap(metadata.(map[string]interface{}))
 	}
 
 	if shape, ok := s.D.GetOkExists("shape"); ok {
@@ -456,9 +480,21 @@ func (s *InstanceResourceCrud) Get() error {
 func (s *InstanceResourceCrud) Update() error {
 	request := oci_core.UpdateInstanceRequest{}
 
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+	}
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()
@@ -530,6 +566,10 @@ func (s *InstanceResourceCrud) SetData() {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	if s.Res.DefinedTags != nil {
+		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))
+	}
+
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
@@ -541,6 +581,8 @@ func (s *InstanceResourceCrud) SetData() {
 	// // extended_metadata is an arbitrarily structured json object, `objectToMap` would not work
 	// 	s.D.Set("extended_metadata", []interface{}{objectToMap(s.Res.ExtendedMetadata)})
 	// }
+
+	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.Id != nil {
 		s.D.Set("id", *s.Res.Id)
@@ -789,14 +831,6 @@ func vnicDetailsToMap(obj *oci_core.Vnic, createVnicDetails map[string]interface
 		result["subnet_id"] = string(*obj.SubnetId)
 	}
 
-	return result
-}
-
-func resourceInstanceMapToMetadata(rm map[string]interface{}) map[string]string {
-	result := map[string]string{}
-	for k, v := range rm {
-		result[k] = v.(string)
-	}
 	return result
 }
 

@@ -51,6 +51,14 @@ func validateNotEmptyString() schema.SchemaValidateFunc {
 	}
 }
 
+func objectMapToStringMap(rm map[string]interface{}) map[string]string {
+	result := map[string]string{}
+	for k, v := range rm {
+		result[k] = v.(string)
+	}
+	return result
+}
+
 func LaunchOptionsToMap(obj *oci_core.LaunchOptions) map[string]interface{} {
 	result := map[string]interface{}{}
 

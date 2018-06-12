@@ -59,7 +59,7 @@ func (s *ResourceCoreInstanceTestSuite) SetupTest() {
 		eu-frankfurt-1 = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaa7d3fsb6272srnftyi4dphdgfjf6gurxqhmv6ileds7ba3m2gltxq"
 		uk-london-1 = "ocid1.image.oc1.uk-london-1.aaaaaaaaa6h6gj6v4n56mqrbgnosskq63blyv2752g36zerymy63cfkojiiq"
 	  }
-	}`
+	}` + DefinedTagsDependencies
 
 	s.ResourceName = "oci_core_instance.t"
 }
@@ -84,6 +84,10 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 					hostname_label = "hostname1"
 					image = "${var.InstanceImageOCID[var.region]}"
 					shape = "VM.Standard1.1"
+                   defined_tags = "${map(
+									"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value"
+									)}"
+                    freeform_tags = { "Department" = "Accounting"}
 					metadata {
 						ssh_authorized_keys = "${var.ssh_public_key}"
 						user_data = "SWYgeW91IGNhbiBzZWUgdGhpcywgdGhlbiBpdCB3b3JrZWQgbWF5YmUuCg=="
@@ -121,6 +125,8 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 					resource.TestCheckResourceAttr(s.ResourceName, "extended_metadata.%", "2"),
 					resource.TestCheckResourceAttr(s.ResourceName, "extended_metadata.keyA", "valA"),
 					resource.TestCheckResourceAttr(s.ResourceName, "extended_metadata.keyB", "{\"keyB1\": \"valB1\", \"keyB2\": {\"keyB2\": \"valB2\"}}"),
+					resource.TestCheckResourceAttr(s.ResourceName, "defined_tags.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "freeform_tags.#", "1"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "region"),
 					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.#", "1"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "create_vnic_details.0.display_name"),
@@ -141,6 +147,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 			},
 			// Switching to create_vnic_details for subnet_id and hostname_label should not lead to a change.
 			// Changing the letter case in the hostname_label of the instance should also not result in a change.
+			// Changing the defined and freeform tags should
 			{
 				ImportState:       true,
 				ImportStateVerify: true,
@@ -201,7 +208,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 				ExpectNonEmptyPlan: false,
 				PlanOnly:           true,
 			},
-			// verify update - adds display name
+			// verify update - adds display name, update tags
 			{
 				ImportState:       true,
 				ImportStateVerify: true,
@@ -214,6 +221,10 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 					image = "${var.InstanceImageOCID[var.region]}"
 					shape = "VM.Standard1.1"
 					display_name = "-tf-instance"
+					defined_tags = "${map(
+									"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value2"
+									)}"
+                    freeform_tags = { "CostCenter" = "42"}
 					metadata {
 						ssh_authorized_keys = "${var.ssh_public_key}"
 						user_data = "SWYgeW91IGNhbiBzZWUgdGhpcywgdGhlbiBpdCB3b3JrZWQgbWF5YmUuCg=="
