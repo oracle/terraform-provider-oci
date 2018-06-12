@@ -21,7 +21,7 @@ type ResourceCoreImageTestSuite struct {
 
 func (s *ResourceCoreImageTestSuite) SetupTest() {
 	s.Providers = testAccProviders
-	s.Config = legacyTestProviderConfig() + instanceConfig
+	s.Config = legacyTestProviderConfig() + instanceConfig + DefinedTagsDependencies
 	s.ResourceName = "oci_core_image.t"
 }
 
@@ -41,6 +41,10 @@ func (s *ResourceCoreImageTestSuite) TestAccResourceCoreImage_basic() {
 						timeouts {
 							create = "30m"
 						}
+						defined_tags = "${map(
+									"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value"
+									)}"
+                    	freeform_tags = { "Department" = "Accounting"}
 					}
 					data "oci_core_images" "t" {
 						compartment_id = "${var.tenancy_ocid}"
@@ -55,6 +59,10 @@ func (s *ResourceCoreImageTestSuite) TestAccResourceCoreImage_basic() {
 					resource.TestCheckResourceAttrSet(s.ResourceName, "instance_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "base_image_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "display_name"),
+					resource.TestCheckResourceAttr(s.ResourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "defined_tags.example-tag-namespace.example-tag", "value"),
+					resource.TestCheckResourceAttr(s.ResourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "freeform_tags.Department", "Accounting"),
 					resource.TestCheckResourceAttr(s.ResourceName, "create_image_allowed", "true"),
 					resource.TestCheckResourceAttr(s.ResourceName, "launch_mode", "NATIVE"),
 					resource.TestCheckResourceAttr(s.ResourceName, "launch_options.#", "1"),
@@ -82,10 +90,18 @@ func (s *ResourceCoreImageTestSuite) TestAccResourceCoreImage_basic() {
 						compartment_id = "${var.tenancy_ocid}"
 						instance_id = "${oci_core_instance.t.id}"
 						display_name = "-tf-image"
+						defined_tags = "${map(
+									"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue"
+									)}"
+                    	freeform_tags = { "Department" = "Finance"}
 					}
 				`,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-image"),
+					resource.TestCheckResourceAttr(s.ResourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "defined_tags.example-tag-namespace.example-tag", "updatedValue"),
+					resource.TestCheckResourceAttr(s.ResourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "freeform_tags.Department", "Finance"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "instance_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "base_image_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "create_image_allowed", "true"),

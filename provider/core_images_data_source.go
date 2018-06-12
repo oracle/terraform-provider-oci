@@ -166,9 +166,15 @@ func (s *ImagesDataSourceCrud) SetData() {
 			image["create_image_allowed"] = *r.CreateImageAllowed
 		}
 
+		if r.DefinedTags != nil {
+			image["defined_tags"] = definedTagsToMap(r.DefinedTags)
+		}
+
 		if r.DisplayName != nil {
 			image["display_name"] = *r.DisplayName
 		}
+
+		image["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {
 			image["id"] = *r.Id
