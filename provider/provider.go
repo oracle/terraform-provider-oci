@@ -187,6 +187,7 @@ func dataSourcesMap() map[string]*schema.Resource {
 		"oci_database_db_system_shapes":            DbSystemShapesDataSource(),
 		"oci_database_db_systems":                  DbSystemsDataSource(),
 		"oci_database_db_versions":                 DbVersionsDataSource(),
+		"oci_database_patches":                     PatchesDataSource(),
 		"oci_dns_records":                          RecordsDataSource(),
 		"oci_dns_zones":                            ZonesDataSource(),
 		"oci_file_storage_exports":                 ExportsDataSource(),
