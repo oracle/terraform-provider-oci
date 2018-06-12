@@ -85,7 +85,8 @@ func shouldRetry(response oci_common.OCIOperationResponse, disableNotFoundRetrie
 		if e != nil && strings.Contains(e.Error(), "InvalidatedRetryToken") {
 			return false
 		}
-		if service == identityService && e != nil && strings.Contains(e.Error(), "CompartmentAlreadyExists") {
+		if service == identityService && e != nil && (strings.Contains(e.Error(), "CompartmentAlreadyExists") || strings.Contains(e.Error(), "TagDefinitionAlreadyExists") || strings.Contains(e.Error(),
+			"TagNamespaceAlreadyExists")) {
 			return false
 		}
 		if e != nil && strings.Contains(e.Error(), "NotAuthorizedOrResourceAlreadyExists") && (service == identityService || service == objectstorageService) {

@@ -62,6 +62,8 @@ This lists all of the available OCI resources and/or data sources.
     * [Regions](https://github.com/oracle/terraform-provider-oci/tree/master/docs/identity/regions.md)
     * ~~[Swift Passwords](https://github.com/oracle/terraform-provider-oci/tree/master/docs/identity/swift_passwords.md)~~ [DEPRECATED]
     * [Auth Tokens](https://github.com/oracle/terraform-provider-oci/tree/master/docs/identity/auth_tokens.md)
+    * [Tag Namespaces](https://github.com/oracle/terraform-provider-oci/tree/master/docs/identity/tag_namespaces.md)
+    * [Tags](https://github.com/oracle/terraform-provider-oci/tree/master/docs/identity/tags.md)
     * [Tenancies](https://github.com/oracle/terraform-provider-oci/tree/master/docs/identity/tenancies.md)
     * [UI Passwords](https://github.com/oracle/terraform-provider-oci/tree/master/docs/identity/ui_passwords.md)
     * [User Group Memberships](https://github.com/oracle/terraform-provider-oci/tree/master/docs/identity/user_group_memberships.md)

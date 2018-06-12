@@ -130,6 +130,10 @@ func (s *InstancesDataSourceCrud) SetData() {
 			instance["availability_domain"] = *r.AvailabilityDomain
 		}
 
+		if r.DefinedTags != nil {
+			instance["defined_tags"] = definedTagsToMap(r.DefinedTags)
+		}
+
 		if r.DisplayName != nil {
 			instance["display_name"] = *r.DisplayName
 		}
@@ -137,6 +141,8 @@ func (s *InstancesDataSourceCrud) SetData() {
 		if r.ExtendedMetadata != nil {
 			instance["extended_metadata"] = convertNestedMapToFlatMap(r.ExtendedMetadata)
 		}
+
+		instance["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {
 			instance["id"] = *r.Id
