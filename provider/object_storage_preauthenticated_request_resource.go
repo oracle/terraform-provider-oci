@@ -246,7 +246,7 @@ func (s *PreauthenticatedRequestResourceCrud) SetData() {
 	}
 
 	if s.Res.TimeExpires != nil {
-		s.D.Set("time_expires", s.Res.TimeExpires.String())
+		s.D.Set("time_expires", s.Res.TimeExpires)
 	}
 
 	if s.Res.AccessUri != nil {
