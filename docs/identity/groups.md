@@ -7,7 +7,9 @@
 The following attributes are exported:
 
 * `compartment_id` - The OCID of the tenancy containing the group.
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `description` - The description you assign to the group. Does not have to be unique, and it's changeable.
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the group.
 * `inactive_state` - The detailed status of INACTIVE lifecycleState.
 * `name` - The name you assign to the group during creation. The name must be unique across all groups in the tenancy and cannot be changed. 
@@ -43,7 +45,9 @@ See [AddUserToGroup](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/identity
 The following arguments are supported:
 
 * `compartment_id` - (Required) The OCID of the tenancy containing the group.
+* `defined_tags` - (Optional) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `description` - (Required) The description you assign to the group during creation. Does not have to be unique, and it's changeable.
+* `freeform_tags` - (Optional) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `name` - (Required) The name you assign to the group during creation. The name must be unique across all groups in the tenancy and cannot be changed. 
 
 
@@ -51,7 +55,9 @@ The following arguments are supported:
 Updates the specified group.
 
 The following arguments support updates:
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `description` - The description you assign to the group during creation. Does not have to be unique, and it's changeable.
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 
 
 ** IMPORTANT **
@@ -65,6 +71,10 @@ resource "oci_identity_group" "test_group" {
 	compartment_id = "${var.compartment_id}"
 	description = "${var.group_description}"
 	name = "${var.group_name}"
+
+	#Optional
+	defined_tags = '{"Operations.CostCenter"= "42"}'
+	freeform_tags = '{"Department"= "Finance"}'
 }
 ```
 
