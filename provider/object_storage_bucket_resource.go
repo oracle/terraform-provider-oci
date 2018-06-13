@@ -47,6 +47,19 @@ func BucketResource() *schema.Resource {
 				// @CODEGEN 2/2018: To avoid breaking change, set a default enum value for this property.
 				Default: string(oci_object_storage.CreateBucketDetailsPublicAccessTypeNopublicaccess),
 			},
+			"defined_tags": {
+				Type:             schema.TypeMap,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: definedTagsDiffSuppressFunction,
+				Elem:             schema.TypeString,
+			},
+			"freeform_tags": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 			"metadata": {
 				Type:     schema.TypeMap,
 				Optional: true,
@@ -131,6 +144,18 @@ func (s *BucketResourceCrud) Create() error {
 		request.CompartmentId = &tmp
 	}
 
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
 	if metadata, ok := s.D.GetOkExists("metadata"); ok {
 		request.Metadata = resourceObjectStorageMapToMetadata(metadata.(map[string]interface{}))
 	}
@@ -190,6 +215,18 @@ func (s *BucketResourceCrud) Update() error {
 	if bucketName, ok := s.D.GetOkExists("name"); ok {
 		tmp := bucketName.(string)
 		request.BucketName = &tmp
+	}
+
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if metadata, ok := s.D.GetOkExists("metadata"); ok {
@@ -258,9 +295,15 @@ func (s *BucketResourceCrud) SetData() {
 		s.D.Set("created_by", *s.Res.CreatedBy)
 	}
 
+	if s.Res.DefinedTags != nil {
+		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))
+	}
+
 	if s.Res.Etag != nil {
 		s.D.Set("etag", *s.Res.Etag)
 	}
+
+	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.Metadata != nil {
 		s.D.Set("metadata", s.Res.Metadata)
