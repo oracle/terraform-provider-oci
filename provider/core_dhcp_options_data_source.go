@@ -138,9 +138,15 @@ func (s *DhcpOptionsDataSourceCrud) SetData() {
 			"vcn_id":         *r.VcnId,
 		}
 
+		if r.DefinedTags != nil {
+			dhcpOptions["defined_tags"] = definedTagsToMap(r.DefinedTags)
+		}
+
 		if r.DisplayName != nil {
 			dhcpOptions["display_name"] = *r.DisplayName
 		}
+
+		dhcpOptions["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {
 			dhcpOptions["id"] = *r.Id

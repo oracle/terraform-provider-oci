@@ -18,27 +18,43 @@ resource "oci_core_dhcp_options" "test_dhcp_options" {
 	options {
 		#Required
 		type = "${var.dhcp_options_options_type}"
+		server_type = "VcnLocalPlusInternet"
+	}
+	options {
+		type = "SearchDomain"
+		search_domain_names = [ "test.com" ]
 	}
 	vcn_id = "${oci_core_vcn.test_vcn.id}"
 }
 `
 
-	DhcpOptionsResourceConfig = DhcpOptionsResourceDependencies + `
+	DhcpOptionsResourceConfig = DhcpOptionsResourceDependencies + DhcpOptionsResourceConfigOnly
+
+	DhcpOptionsResourceConfigOnly = `
 resource "oci_core_dhcp_options" "test_dhcp_options" {
 	#Required
 	compartment_id = "${var.compartment_id}"
 	options {
 		#Required
 		type = "${var.dhcp_options_options_type}"
+		server_type = "VcnLocalPlusInternet"
+	}
+	options {
+		type = "SearchDomain"
+		search_domain_names = [ "test.com" ]
 	}
 	vcn_id = "${oci_core_vcn.test_vcn.id}"
 
 	#Optional
+	defined_tags = "${var.dhcp_options_defined_tags}"
 	display_name = "${var.dhcp_options_display_name}"
+	freeform_tags = "${var.dhcp_options_freeform_tags}"
 }
 `
 	DhcpOptionsPropertyVariables = `
+variable "dhcp_options_defined_tags" { default = {"example-tag-namespace.example-tag"= "value"} }
 variable "dhcp_options_display_name" { default = "MyDhcpOptions" }
+variable "dhcp_options_freeform_tags" { default = {"Department"= "Finance"} }
 variable "dhcp_options_options_type" { default = "DomainNameServer" }
 variable "dhcp_options_state" { default = "AVAILABLE" }
 
@@ -47,7 +63,6 @@ variable "dhcp_options_state" { default = "AVAILABLE" }
 )
 
 func TestCoreDhcpOptionsResource_basic(t *testing.T) {
-	t.Skip("Skipping generated test for now as it has not been worked on.")
 	provider := testAccProvider
 	config := testProviderConfig()
 
@@ -71,7 +86,7 @@ func TestCoreDhcpOptionsResource_basic(t *testing.T) {
 				Config:            config + DhcpOptionsPropertyVariables + compartmentIdVariableStr + DhcpOptionsRequiredOnlyResource,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "options.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "options.#", "2"),
 					resource.TestCheckResourceAttr(resourceName, "options.0.type", "DomainNameServer"),
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
@@ -91,9 +106,11 @@ func TestCoreDhcpOptionsResource_basic(t *testing.T) {
 				Config: config + DhcpOptionsPropertyVariables + compartmentIdVariableStr + DhcpOptionsResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "MyDhcpOptions"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "options.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "options.#", "2"),
 					resource.TestCheckResourceAttr(resourceName, "options.0.type", "DomainNameServer"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -109,16 +126,20 @@ func TestCoreDhcpOptionsResource_basic(t *testing.T) {
 			// verify updates to updatable parameters
 			{
 				Config: config + `
+variable "dhcp_options_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
 variable "dhcp_options_display_name" { default = "displayName2" }
+variable "dhcp_options_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "dhcp_options_options_type" { default = "DomainNameServer" }
 variable "dhcp_options_state" { default = "AVAILABLE" }
 
                 ` + compartmentIdVariableStr + DhcpOptionsResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "options.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "options.#", "2"),
 					resource.TestCheckResourceAttr(resourceName, "options.0.type", "DomainNameServer"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -136,7 +157,9 @@ variable "dhcp_options_state" { default = "AVAILABLE" }
 			// verify datasource
 			{
 				Config: config + `
+variable "dhcp_options_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
 variable "dhcp_options_display_name" { default = "displayName2" }
+variable "dhcp_options_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "dhcp_options_options_type" { default = "DomainNameServer" }
 variable "dhcp_options_state" { default = "AVAILABLE" }
 
@@ -161,15 +184,17 @@ data "oci_core_dhcp_options" "test_dhcp_options" {
 					resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
 					resource.TestCheckResourceAttrSet(datasourceName, "vcn_id"),
 
-					resource.TestCheckResourceAttr(datasourceName, "dhcp_options.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "dhcp_options.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "dhcp_options.0.display_name", "displayName2"),
-					resource.TestCheckResourceAttrSet(datasourceName, "dhcp_options.0.id"),
-					resource.TestCheckResourceAttr(datasourceName, "dhcp_options.0.options.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "dhcp_options.0.options.0.type", "DomainNameServer"),
-					resource.TestCheckResourceAttrSet(datasourceName, "dhcp_options.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "dhcp_options.0.time_created"),
-					resource.TestCheckResourceAttrSet(datasourceName, "dhcp_options.0.vcn_id"),
+					resource.TestCheckResourceAttr(datasourceName, "options.#", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "options.0.compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(datasourceName, "options.0.defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "options.0.display_name", "displayName2"),
+					resource.TestCheckResourceAttr(datasourceName, "options.0.freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(datasourceName, "options.0.id"),
+					resource.TestCheckResourceAttr(datasourceName, "options.0.options.#", "2"),
+					resource.TestCheckResourceAttr(datasourceName, "options.0.options.0.type", "DomainNameServer"),
+					resource.TestCheckResourceAttrSet(datasourceName, "options.0.state"),
+					resource.TestCheckResourceAttrSet(datasourceName, "options.0.time_created"),
+					resource.TestCheckResourceAttrSet(datasourceName, "options.0.vcn_id"),
 				),
 			},
 		},

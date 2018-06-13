@@ -26,18 +26,22 @@ resource "oci_core_vcn" "test_vcn" {
 	compartment_id = "${var.compartment_id}"
 
 	#Optional
+	defined_tags = "${var.vcn_defined_tags}"
 	display_name = "${var.vcn_display_name}"
 	dns_label = "${var.vcn_dns_label}"
+	freeform_tags = "${var.vcn_freeform_tags}"
 }
 `
 	VcnPropertyVariables = `
 variable "vcn_cidr_block" { default = "10.0.0.0/16" }
+variable "vcn_defined_tags" { default = {"example-tag-namespace.example-tag"= "value"} }
 variable "vcn_display_name" { default = "displayName" }
 variable "vcn_dns_label" { default = "dnslabel" }
+variable "vcn_freeform_tags" { default = {"Department"= "Finance"} }
 variable "vcn_state" { default = "AVAILABLE" }
 
 `
-	VcnResourceDependencies = ""
+	VcnResourceDependencies = DefinedTagsDependencies
 )
 
 func TestCoreVcnResource_basic(t *testing.T) {
@@ -83,8 +87,10 @@ func TestCoreVcnResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/16"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 					resource.TestCheckResourceAttr(resourceName, "dns_label", "dnslabel"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 
@@ -99,16 +105,20 @@ func TestCoreVcnResource_basic(t *testing.T) {
 			{
 				Config: config + `
 variable "vcn_cidr_block" { default = "10.0.0.0/16" }
+variable "vcn_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
 variable "vcn_display_name" { default = "displayName2" }
 variable "vcn_dns_label" { default = "dnslabel" }
+variable "vcn_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "vcn_state" { default = "AVAILABLE" }
 
                 ` + compartmentIdVariableStr + VcnResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/16"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(resourceName, "dns_label", "dnslabel"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 
@@ -125,8 +135,10 @@ variable "vcn_state" { default = "AVAILABLE" }
 			{
 				Config: config + `
 variable "vcn_cidr_block" { default = "10.0.0.0/16" }
+variable "vcn_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
 variable "vcn_display_name" { default = "displayName2" }
 variable "vcn_dns_label" { default = "dnslabel" }
+variable "vcn_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "vcn_state" { default = "AVAILABLE" }
 
 data "oci_core_vcns" "test_vcns" {
@@ -151,8 +163,10 @@ data "oci_core_vcns" "test_vcns" {
 					resource.TestCheckResourceAttr(datasourceName, "virtual_networks.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "virtual_networks.0.cidr_block", "10.0.0.0/16"),
 					resource.TestCheckResourceAttr(datasourceName, "virtual_networks.0.compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(datasourceName, "virtual_networks.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "virtual_networks.0.display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "virtual_networks.0.dns_label", "dnslabel"),
+					resource.TestCheckResourceAttr(datasourceName, "virtual_networks.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "virtual_networks.0.id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "virtual_networks.0.state"),
 				),
