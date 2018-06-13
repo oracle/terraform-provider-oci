@@ -14,18 +14,17 @@ const (
 	ExportResourceConfig = ExportResourceDependencies + `
 resource "oci_file_storage_export" "test_export" {
 	#Required
-	export_set_id = "${oci_file_storage_mount_target.test_mount_target.export_set_id}"
+	export_set_id = "${oci_file_storage_export_set.test_export_set.id}"
 	file_system_id = "${oci_file_storage_file_system.test_file_system.id}"
 	path = "${var.export_path}"
 }
 `
 	ExportPropertyVariables = `
-variable "export_id" { default = "id" }
 variable "export_path" { default = "/files-5" }
 variable "export_state" { default = "ACTIVE" }
 
 `
-	ExportResourceDependencies = FileSystemPropertyVariables + FileSystemResourceConfigOnly + MountTargetPropertyVariables + MountTargetResourceConfig
+	ExportResourceDependencies = FileSystemPropertyVariables + FileSystemResourceConfigOnly + ExportSetPropertyVariables + ExportSetResourceConfig
 )
 
 func TestFileStorageExportResource_basic(t *testing.T) {
@@ -62,11 +61,10 @@ variable "export_path" { default = "/files-5" }
 variable "export_state" { default = "ACTIVE" }
 
 data "oci_file_storage_exports" "test_exports" {
-	#Required
-	compartment_id = "${var.compartment_id}"
 
 	#Optional
-	export_set_id = "${oci_file_storage_mount_target.test_mount_target.export_set_id}"
+	compartment_id = "${var.compartment_id}"
+	export_set_id = "${oci_file_storage_export_set.test_export_set.id}"
 	file_system_id = "${oci_file_storage_file_system.test_file_system.id}"
 
     filter {

@@ -20,7 +20,7 @@ resource "null_resource" "mount_fss_on_instance" {
   provisioner "remote-exec" {
     connection {
       agent = false
-      timeout = "30m"
+      timeout = "15m"
       host = "${oci_core_instance.my_instance.public_ip}"
       user = "opc"
       private_key = "${file(var.ssh_private_key)}"

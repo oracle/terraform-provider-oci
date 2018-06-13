@@ -18,7 +18,7 @@ func ExportsDataSource() *schema.Resource {
 			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
-				Required: true,
+				Optional: true,
 			},
 			"export_set_id": {
 				Type:     schema.TypeString,
