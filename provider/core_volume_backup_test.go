@@ -24,21 +24,24 @@ resource "oci_core_volume_backup" "test_volume_backup" {
 	volume_id = "${oci_core_volume.test_volume.id}"
 
 	#Optional
+	defined_tags = "${var.volume_backup_defined_tags}"
 	display_name = "${var.volume_backup_display_name}"
+	freeform_tags = "${var.volume_backup_freeform_tags}"
 	type = "${var.volume_backup_type}"
 }
 `
 	VolumeBackupPropertyVariables = `
+variable "volume_backup_defined_tags" { default = {"example-tag-namespace.example-tag"= "value"} }
 variable "volume_backup_display_name" { default = "displayName" }
+variable "volume_backup_freeform_tags" { default = {"Department"= "Finance"} }
 variable "volume_backup_state" { default = "AVAILABLE" }
-variable "volume_backup_type" { default = "type" }
+variable "volume_backup_type" { default = "FULL" }
 
 `
-	VolumeBackupResourceDependencies = VolumePropertyVariables + VolumeResourceConfig
+	VolumeBackupResourceDependencies = DefinedTagsDependencies + VolumePropertyVariables + VolumeResourceConfig
 )
 
 func TestCoreVolumeBackupResource_basic(t *testing.T) {
-	t.Skip("Skipping generated test for now as it has not been worked on.")
 	provider := testAccProvider
 	config := testProviderConfig()
 
@@ -79,11 +82,13 @@ func TestCoreVolumeBackupResource_basic(t *testing.T) {
 				Config: config + VolumeBackupPropertyVariables + compartmentIdVariableStr + VolumeBackupResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttr(resourceName, "type", "type"),
+					resource.TestCheckResourceAttr(resourceName, "type", "FULL"),
 					resource.TestCheckResourceAttrSet(resourceName, "volume_id"),
 
 					func(s *terraform.State) (err error) {
@@ -96,18 +101,22 @@ func TestCoreVolumeBackupResource_basic(t *testing.T) {
 			// verify updates to updatable parameters
 			{
 				Config: config + `
+variable "volume_backup_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
 variable "volume_backup_display_name" { default = "displayName2" }
+variable "volume_backup_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "volume_backup_state" { default = "AVAILABLE" }
-variable "volume_backup_type" { default = "type" }
+variable "volume_backup_type" { default = "FULL" }
 
                 ` + compartmentIdVariableStr + VolumeBackupResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttr(resourceName, "type", "type"),
+					resource.TestCheckResourceAttr(resourceName, "type", "FULL"),
 					resource.TestCheckResourceAttrSet(resourceName, "volume_id"),
 
 					func(s *terraform.State) (err error) {
@@ -122,9 +131,11 @@ variable "volume_backup_type" { default = "type" }
 			// verify datasource
 			{
 				Config: config + `
+variable "volume_backup_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
 variable "volume_backup_display_name" { default = "displayName2" }
+variable "volume_backup_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "volume_backup_state" { default = "AVAILABLE" }
-variable "volume_backup_type" { default = "type" }
+variable "volume_backup_type" { default = "FULL" }
 
 data "oci_core_volume_backups" "test_volume_backups" {
 	#Required
@@ -149,11 +160,13 @@ data "oci_core_volume_backups" "test_volume_backups" {
 
 					resource.TestCheckResourceAttr(datasourceName, "volume_backups.#", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "volume_backups.0.compartment_id"),
+					resource.TestCheckResourceAttr(datasourceName, "volume_backups.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "volume_backups.0.display_name", "displayName2"),
+					resource.TestCheckResourceAttr(datasourceName, "volume_backups.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "volume_backups.0.id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "volume_backups.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "volume_backups.0.time_created"),
-					resource.TestCheckResourceAttr(datasourceName, "volume_backups.0.type", "type"),
+					resource.TestCheckResourceAttr(datasourceName, "volume_backups.0.type", "FULL"),
 					resource.TestCheckResourceAttrSet(datasourceName, "volume_backups.0.volume_id"),
 				),
 			},

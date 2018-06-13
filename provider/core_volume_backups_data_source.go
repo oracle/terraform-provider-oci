@@ -137,6 +137,10 @@ func (s *VolumeBackupsDataSourceCrud) SetData() {
 			"compartment_id": *r.CompartmentId,
 		}
 
+		if r.DefinedTags != nil {
+			volumeBackup["defined_tags"] = definedTagsToMap(r.DefinedTags)
+		}
+
 		if r.DisplayName != nil {
 			volumeBackup["display_name"] = *r.DisplayName
 		}
@@ -144,6 +148,8 @@ func (s *VolumeBackupsDataSourceCrud) SetData() {
 		if r.ExpirationTime != nil {
 			volumeBackup["expiration_time"] = r.ExpirationTime.String()
 		}
+
+		volumeBackup["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {
 			volumeBackup["id"] = *r.Id

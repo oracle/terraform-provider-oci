@@ -150,9 +150,15 @@ func (s *VolumesDataSourceCrud) SetData() {
 			volume["availability_domain"] = *r.AvailabilityDomain
 		}
 
+		if r.DefinedTags != nil {
+			volume["defined_tags"] = definedTagsToMap(r.DefinedTags)
+		}
+
 		if r.DisplayName != nil {
 			volume["display_name"] = *r.DisplayName
 		}
+
+		volume["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {
 			volume["id"] = *r.Id
