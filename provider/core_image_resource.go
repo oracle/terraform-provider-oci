@@ -392,9 +392,15 @@ func (s *ImageResourceCrud) SetData() {
 		s.D.Set("create_image_allowed", *s.Res.CreateImageAllowed)
 	}
 
+	if s.Res.DefinedTags != nil {
+		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))
+	}
+
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
+
+	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.Id != nil {
 		s.D.Set("id", *s.Res.Id)
