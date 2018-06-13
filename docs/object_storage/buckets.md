@@ -9,7 +9,9 @@ The following attributes are exported:
 * `access_type` - The type of public access available on this bucket. Allows authenticated caller to access the bucket or contents of this bucket. By default a bucket is set to NoPublicAccess. It is treated as NoPublicAccess when this value is not specified. When the type is NoPublicAccess the bucket does not allow any public access. When the type is ObjectRead the bucket allows public access to the GetObject, HeadObject, ListObjects. 
 * `compartment_id` - The compartment ID in which the bucket is authorized.
 * `created_by` - The OCID of the user who created the bucket.
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `etag` - The entity tag for the bucket.
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `metadata` - Arbitrary string keys and values for user-defined metadata.
 * `name` - The name of the bucket.
 * `namespace` - The namespace in which the bucket lives.
@@ -29,6 +31,8 @@ The following arguments are supported:
 
 * `access_type` - (Optional) The type of public access available on this bucket. Allows authenticated caller to access the bucket or contents of this bucket. By default a bucket is set to NoPublicAccess. It is treated as NoPublicAccess when this value is not specified. When the type is NoPublicAccess the bucket does not allow any public access. When the type is ObjectRead the bucket allows public access to the GetObject, HeadObject, ListObjects. 
 * `compartment_id` - (Required) The ID of the compartment in which to create the bucket.
+* `defined_tags` - (Optional) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
+* `freeform_tags` - (Optional) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `metadata` - (Optional) Arbitrary string, up to 4KB, of keys and values for user-defined metadata.
 * `name` - (Required) The name of the bucket. Valid characters are uppercase or lowercase letters, numbers, and dashes. Bucket names must be unique within the namespace. 
 * `namespace` - (Required) The top-level namespace used for the request.
@@ -38,6 +42,8 @@ The following arguments are supported:
 
 The following arguments support updates:
 * `access_type` - The type of public access available on this bucket. Allows authenticated caller to access the bucket or contents of this bucket. By default a bucket is set to NoPublicAccess. It is treated as NoPublicAccess when this value is not specified. When the type is NoPublicAccess the bucket does not allow any public access. When the type is ObjectRead the bucket allows public access to the GetObject, HeadObject, ListObjects. 
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `metadata` - Arbitrary string, up to 4KB, of keys and values for user-defined metadata.
 
 ** IMPORTANT **
@@ -54,6 +60,8 @@ resource "oci_objectstorage_bucket" "test_bucket" {
 
 	#Optional
 	access_type = "${var.bucket_access_type}"
+	defined_tags = '{"Operations.CostCenter"= "42"}'
+	freeform_tags = '{"Department"= "Finance"}'
 	metadata = "${var.bucket_metadata}"
 }
 ```

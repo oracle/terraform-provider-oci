@@ -124,9 +124,15 @@ func (s *BucketsDataSourceCrud) SetData() {
 			bucket["created_by"] = *r.CreatedBy
 		}
 
+		if r.DefinedTags != nil {
+			bucket["defined_tags"] = definedTagsToMap(r.DefinedTags)
+		}
+
 		if r.Etag != nil {
 			bucket["etag"] = *r.Etag
 		}
+
+		bucket["freeform_tags"] = r.FreeformTags
 
 		if r.Name != nil {
 			bucket["name"] = *r.Name

@@ -12,46 +12,51 @@ import (
 
 const (
 	BucketRequiredOnlyResource = BucketResourceDependencies + `
-resource "oci_object_storage_bucket" "test_bucket" {
+resource "oci_objectstorage_bucket" "test_bucket" {
 	#Required
 	compartment_id = "${var.compartment_id}"
 	name = "${var.bucket_name}"
-	namespace = "${var.bucket_namespace}"
+	namespace = "${data.oci_objectstorage_namespace.t.namespace}"
 }
 `
 
 	BucketResourceConfig = BucketResourceDependencies + `
-resource "oci_object_storage_bucket" "test_bucket" {
+resource "oci_objectstorage_bucket" "test_bucket" {
 	#Required
 	compartment_id = "${var.compartment_id}"
 	name = "${var.bucket_name}"
-	namespace = "${var.bucket_namespace}"
+	namespace = "${data.oci_objectstorage_namespace.t.namespace}"
 
 	#Optional
 	access_type = "${var.bucket_access_type}"
+	defined_tags = "${var.bucket_defined_tags}"
+	freeform_tags = "${var.bucket_freeform_tags}"
 	metadata = "${var.bucket_metadata}"
 }
 `
 	BucketPropertyVariables = `
-variable "bucket_access_type" { default = "accessType" }
-variable "bucket_metadata" { default = object{} }
+variable "bucket_access_type" { default = "NoPublicAccess" }
+variable "bucket_defined_tags" { default = {"example-tag-namespace.example-tag"= "value"} }
+variable "bucket_freeform_tags" { default = {"Department"= "Finance"} }
+variable "bucket_metadata" { default = {"content-type" = "text/plain"} }
 variable "bucket_name" { default = "my-test-1" }
-variable "bucket_namespace" { default = "example_namespace" }
 
 `
-	BucketResourceDependencies = ""
+	BucketResourceDependencies = DefinedTagsDependencies + `
+data "oci_objectstorage_namespace" "t" {
+}
+`
 )
 
 func TestObjectStorageBucketResource_basic(t *testing.T) {
-	t.Skip("Skipping generated test for now as it has not been worked on.")
 	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getRequiredEnvSetting("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	resourceName := "oci_object_storage_bucket.test_bucket"
-	datasourceName := "data.oci_object_storage_buckets.test_buckets"
+	resourceName := "oci_objectstorage_bucket.test_bucket"
+	datasourceName := "data.oci_objectstorage_bucket_summaries.test_buckets"
 
 	var resId, resId2 string
 
@@ -68,7 +73,7 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "name", "my-test-1"),
-					resource.TestCheckResourceAttr(resourceName, "namespace", "example_namespace"),
+					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
@@ -85,13 +90,14 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 			{
 				Config: config + BucketPropertyVariables + compartmentIdVariableStr + BucketResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "access_type", "accessType"),
+					resource.TestCheckResourceAttr(resourceName, "access_type", "NoPublicAccess"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "created_by"),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "etag"),
-					//resource.TestCheckResourceAttr(resourceName, "metadata", object{}),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "metadata.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "name", "my-test-1"),
-					resource.TestCheckResourceAttr(resourceName, "namespace", "example_namespace"),
 					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
@@ -105,27 +111,30 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 			// verify updates to updatable parameters
 			{
 				Config: config + `
-variable "bucket_access_type" { default = "accessType2" }
-variable "bucket_metadata" { default = object{} }
+variable "bucket_access_type" { default = "ObjectRead" }
+variable "bucket_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
+variable "bucket_freeform_tags" { default = {"Department"= "Accounting"} }
+variable "bucket_metadata" { default = {"content-type" = "text/xml"} }
 variable "bucket_name" { default = "name2" }
-variable "bucket_namespace" { default = "example_namespace" }
 
                 ` + compartmentIdVariableStr + BucketResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "access_type", "accessType2"),
+					resource.TestCheckResourceAttr(resourceName, "access_type", "ObjectRead"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "created_by"),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "etag"),
-					//resource.TestCheckResourceAttr(resourceName, "metadata", object{}),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "metadata.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "name", "name2"),
-					resource.TestCheckResourceAttr(resourceName, "namespace", "example_namespace"),
 					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+						// Reverse the check till we have absorbed the changes
+						if resId == resId2 {
+							return fmt.Errorf("Resource updated when it was supposed to be recreated.")
 						}
 						return err
 					},
@@ -134,34 +143,35 @@ variable "bucket_namespace" { default = "example_namespace" }
 			// verify datasource
 			{
 				Config: config + `
-variable "bucket_access_type" { default = "accessType2" }
-variable "bucket_metadata" { default = object{} }
+variable "bucket_access_type" { default = "ObjectRead" }
+variable "bucket_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
+variable "bucket_freeform_tags" { default = {"Department"= "Accounting"} }
+variable "bucket_metadata" { default = {"content-type" = "text/xml"} }
 variable "bucket_name" { default = "name2" }
-variable "bucket_namespace" { default = "example_namespace" }
 
-data "oci_object_storage_buckets" "test_buckets" {
+data "oci_objectstorage_bucket_summaries" "test_buckets" {
 	#Required
 	compartment_id = "${var.compartment_id}"
-	namespace = "${var.bucket_namespace}"
+	namespace = "${data.oci_objectstorage_namespace.t.namespace}"
 
     filter {
-    	name = "id"
-    	values = ["${oci_object_storage_bucket.test_bucket.id}"]
+    	name = "name"
+    	values = ["${oci_objectstorage_bucket.test_bucket.name}"]
     }
 }
                 ` + compartmentIdVariableStr + BucketResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "namespace", "example_namespace"),
+					resource.TestCheckResourceAttrSet(datasourceName, "namespace"),
 
 					resource.TestCheckResourceAttr(datasourceName, "bucket_summaries.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "bucket_summaries.0.access_type", "accessType2"),
 					resource.TestCheckResourceAttr(datasourceName, "bucket_summaries.0.compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "bucket_summaries.0.created_by"),
+					resource.TestCheckResourceAttr(datasourceName, "bucket_summaries.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "bucket_summaries.0.etag"),
-					resource.TestCheckResourceAttr(datasourceName, "bucket_summaries.0.metadata", "metadata2"),
+					resource.TestCheckResourceAttr(datasourceName, "bucket_summaries.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "bucket_summaries.0.name", "name2"),
-					resource.TestCheckResourceAttr(datasourceName, "bucket_summaries.0.namespace", "example_namespace"),
+					resource.TestCheckResourceAttrSet(datasourceName, "bucket_summaries.0.namespace"),
 					resource.TestCheckResourceAttrSet(datasourceName, "bucket_summaries.0.time_created"),
 				),
 			},
