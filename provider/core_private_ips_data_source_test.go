@@ -20,7 +20,7 @@ type DatasourcePrivateIPTestSuite struct {
 
 func (s *DatasourcePrivateIPTestSuite) SetupTest() {
 	s.Providers = testAccProviders
-	s.Config = legacyTestProviderConfig() + testADs() + testVCN1() + testSubnet1() + testImage1() + testInstance1() + `
+	s.Config = legacyTestProviderConfig() + testADs() + testVCN1() + testSubnet1() + testImage1() + testInstance1() + DefinedTagsDependencies + `
 	data "oci_core_vnic_attachments" "t" {
 		compartment_id = "${var.compartment_id}"
 		availability_domain = "${data.oci_identity_availability_domains.t.availability_domains.0.name}"
@@ -30,6 +30,10 @@ func (s *DatasourcePrivateIPTestSuite) SetupTest() {
 	resource "oci_core_private_ip" "t" {
 		vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0], "vnic_id")}"
 		ip_address = "10.0.1.23"
+		defined_tags = "${map(
+			"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value"
+			)}"
+		freeform_tags = { "Department" = "Finance"}
 	}`
 
 	s.ResourceName = "data.oci_core_private_ips.t"
@@ -64,6 +68,10 @@ func (s *DatasourcePrivateIPTestSuite) TestAccCorePrivateIPs_basic() {
 					resource.TestCheckResourceAttrSet(s.ResourceName, "private_ips.0.subnet_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "private_ips.0.time_created"),
 					resource.TestCheckResourceAttr(s.ResourceName, "private_ips.0.hostname_label", ""),
+					resource.TestCheckResourceAttr(s.ResourceName, "private_ips.0.defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "private_ips.0.defined_tags.example-tag-namespace.example-tag", "value"),
+					resource.TestCheckResourceAttr(s.ResourceName, "private_ips.0.freeform_tags.%", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "private_ips.0.freeform_tags.Department", "Finance"),
 				),
 			},
 			// list by vnic id

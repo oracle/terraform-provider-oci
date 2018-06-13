@@ -47,34 +47,6 @@ resource "oci_core_security_list" "test_security_list" {
 			code = "${var.security_list_egress_security_rules_icmp_options_code}"
 		}
 		stateless = "${var.security_list_egress_security_rules_stateless}"
-		tcp_options {
-
-			#Optional
-			destination_port_range {
-				#Required
-				max = "${var.security_list_egress_security_rules_tcp_options_destination_port_range_max}"
-				min = "${var.security_list_egress_security_rules_tcp_options_destination_port_range_min}"
-			}
-			source_port_range {
-				#Required
-				max = "${var.security_list_egress_security_rules_tcp_options_source_port_range_max}"
-				min = "${var.security_list_egress_security_rules_tcp_options_source_port_range_min}"
-			}
-		}
-		udp_options {
-
-			#Optional
-			destination_port_range {
-				#Required
-				max = "${var.security_list_egress_security_rules_udp_options_destination_port_range_max}"
-				min = "${var.security_list_egress_security_rules_udp_options_destination_port_range_min}"
-			}
-			source_port_range {
-				#Required
-				max = "${var.security_list_egress_security_rules_udp_options_source_port_range_max}"
-				min = "${var.security_list_egress_security_rules_udp_options_source_port_range_min}"
-			}
-		}
 	}
 	ingress_security_rules {
 		#Required
@@ -90,69 +62,29 @@ resource "oci_core_security_list" "test_security_list" {
 			code = "${var.security_list_ingress_security_rules_icmp_options_code}"
 		}
 		stateless = "${var.security_list_ingress_security_rules_stateless}"
-		tcp_options {
-
-			#Optional
-			destination_port_range {
-				#Required
-				max = "${var.security_list_ingress_security_rules_tcp_options_destination_port_range_max}"
-				min = "${var.security_list_ingress_security_rules_tcp_options_destination_port_range_min}"
-			}
-			source_port_range {
-				#Required
-				max = "${var.security_list_ingress_security_rules_tcp_options_source_port_range_max}"
-				min = "${var.security_list_ingress_security_rules_tcp_options_source_port_range_min}"
-			}
-		}
-		udp_options {
-
-			#Optional
-			destination_port_range {
-				#Required
-				max = "${var.security_list_ingress_security_rules_udp_options_destination_port_range_max}"
-				min = "${var.security_list_ingress_security_rules_udp_options_destination_port_range_min}"
-			}
-			source_port_range {
-				#Required
-				max = "${var.security_list_ingress_security_rules_udp_options_source_port_range_max}"
-				min = "${var.security_list_ingress_security_rules_udp_options_source_port_range_min}"
-			}
-		}
 	}
 	vcn_id = "${oci_core_vcn.test_vcn.id}"
 
 	#Optional
+	defined_tags = "${var.security_list_defined_tags}"
 	display_name = "${var.security_list_display_name}"
+	freeform_tags = "${var.security_list_freeform_tags}"
 }
 `
 	SecurityListPropertyVariables = `
+variable "security_list_defined_tags" { default = {"example-tag-namespace.example-tag"= "value"} }
 variable "security_list_display_name" { default = "MyPrivateSubnetSecurityList" }
 variable "security_list_egress_security_rules_destination" { default = "10.0.2.0/24" }
-variable "security_list_egress_security_rules_icmp_options_code" { default = 10 }
-variable "security_list_egress_security_rules_icmp_options_type" { default = 10 }
-variable "security_list_egress_security_rules_protocol" { default = "6" }
+variable "security_list_egress_security_rules_icmp_options_code" { default = 4 }
+variable "security_list_egress_security_rules_icmp_options_type" { default = 3 }
+variable "security_list_egress_security_rules_protocol" { default = "1" }
 variable "security_list_egress_security_rules_stateless" { default = false }
-variable "security_list_egress_security_rules_tcp_options_destination_port_range_max" { default = "1521" }
-variable "security_list_egress_security_rules_tcp_options_destination_port_range_min" { default = "1521" }
-variable "security_list_egress_security_rules_tcp_options_source_port_range_max" { default = "1521" }
-variable "security_list_egress_security_rules_tcp_options_source_port_range_min" { default = "1521" }
-variable "security_list_egress_security_rules_udp_options_destination_port_range_max" { default = "1521" }
-variable "security_list_egress_security_rules_udp_options_destination_port_range_min" { default = "1521" }
-variable "security_list_egress_security_rules_udp_options_source_port_range_max" { default = "1521" }
-variable "security_list_egress_security_rules_udp_options_source_port_range_min" { default = "1521" }
-variable "security_list_ingress_security_rules_icmp_options_code" { default = 10 }
-variable "security_list_ingress_security_rules_icmp_options_type" { default = 10 }
-variable "security_list_ingress_security_rules_protocol" { default = "6" }
+variable "security_list_freeform_tags" { default = {"Department"= "Finance"} }
+variable "security_list_ingress_security_rules_icmp_options_code" { default = 4 }
+variable "security_list_ingress_security_rules_icmp_options_type" { default = 3 }
+variable "security_list_ingress_security_rules_protocol" { default = "1" }
 variable "security_list_ingress_security_rules_source" { default = "10.0.1.0/24" }
 variable "security_list_ingress_security_rules_stateless" { default = false }
-variable "security_list_ingress_security_rules_tcp_options_destination_port_range_max" { default = "1521" }
-variable "security_list_ingress_security_rules_tcp_options_destination_port_range_min" { default = "1521" }
-variable "security_list_ingress_security_rules_tcp_options_source_port_range_max" { default = "1521" }
-variable "security_list_ingress_security_rules_tcp_options_source_port_range_min" { default = "1521" }
-variable "security_list_ingress_security_rules_udp_options_destination_port_range_max" { default = "1521" }
-variable "security_list_ingress_security_rules_udp_options_destination_port_range_min" { default = "1521" }
-variable "security_list_ingress_security_rules_udp_options_source_port_range_max" { default = "1521" }
-variable "security_list_ingress_security_rules_udp_options_source_port_range_min" { default = "1521" }
 variable "security_list_state" { default = "AVAILABLE" }
 
 `
@@ -160,7 +92,6 @@ variable "security_list_state" { default = "AVAILABLE" }
 )
 
 func TestCoreSecurityListResource_basic(t *testing.T) {
-	t.Skip("Skipping generated test for now as it has not been worked on.")
 	provider := testAccProvider
 	config := testProviderConfig()
 
@@ -186,9 +117,9 @@ func TestCoreSecurityListResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.destination", "10.0.2.0/24"),
-					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.protocol", "6"),
+					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.protocol", "1"),
 					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.protocol", "6"),
+					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.protocol", "1"),
 					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.source", "10.0.1.0/24"),
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
@@ -208,50 +139,24 @@ func TestCoreSecurityListResource_basic(t *testing.T) {
 				Config: config + SecurityListPropertyVariables + compartmentIdVariableStr + SecurityListResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "MyPrivateSubnetSecurityList"),
 					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.destination", "10.0.2.0/24"),
 					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.icmp_options.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.icmp_options.0.code", "10"),
-					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.icmp_options.0.type", "10"),
-					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.protocol", "6"),
+					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.icmp_options.0.code", "4"),
+					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.icmp_options.0.type", "3"),
+					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.protocol", "1"),
 					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.stateless", "false"),
-					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.tcp_options.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.tcp_options.0.destination_port_range.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.tcp_options.0.destination_port_range.0.max", "1521"),
-					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.tcp_options.0.destination_port_range.0.min", "1521"),
-					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.tcp_options.0.source_port_range.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.tcp_options.0.source_port_range.0.max", "1521"),
-					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.tcp_options.0.source_port_range.0.min", "1521"),
-					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.udp_options.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.udp_options.0.destination_port_range.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.udp_options.0.destination_port_range.0.max", "1521"),
-					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.udp_options.0.destination_port_range.0.min", "1521"),
-					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.udp_options.0.source_port_range.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.udp_options.0.source_port_range.0.max", "1521"),
-					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.udp_options.0.source_port_range.0.min", "1521"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.icmp_options.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.icmp_options.0.code", "10"),
-					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.icmp_options.0.type", "10"),
-					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.protocol", "6"),
+					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.icmp_options.0.code", "4"),
+					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.icmp_options.0.type", "3"),
+					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.protocol", "1"),
 					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.source", "10.0.1.0/24"),
 					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.stateless", "false"),
-					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.tcp_options.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.tcp_options.0.destination_port_range.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.tcp_options.0.destination_port_range.0.max", "1521"),
-					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.tcp_options.0.destination_port_range.0.min", "1521"),
-					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.tcp_options.0.source_port_range.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.tcp_options.0.source_port_range.0.max", "1521"),
-					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.tcp_options.0.source_port_range.0.min", "1521"),
-					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.udp_options.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.udp_options.0.destination_port_range.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.udp_options.0.destination_port_range.0.max", "1521"),
-					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.udp_options.0.destination_port_range.0.min", "1521"),
-					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.udp_options.0.source_port_range.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.udp_options.0.source_port_range.0.max", "1521"),
-					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.udp_options.0.source_port_range.0.min", "1521"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
@@ -266,82 +171,42 @@ func TestCoreSecurityListResource_basic(t *testing.T) {
 			// verify updates to updatable parameters
 			{
 				Config: config + `
+variable "security_list_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
 variable "security_list_display_name" { default = "displayName2" }
 variable "security_list_egress_security_rules_destination" { default = "10.0.2.0/24" }
-variable "security_list_egress_security_rules_icmp_options_code" { default = 11 }
-variable "security_list_egress_security_rules_icmp_options_type" { default = 10 }
-variable "security_list_egress_security_rules_protocol" { default = "6" }
+variable "security_list_egress_security_rules_icmp_options_code" { default = 0 }
+variable "security_list_egress_security_rules_icmp_options_type" { default = 3 }
+variable "security_list_egress_security_rules_protocol" { default = "1" }
 variable "security_list_egress_security_rules_stateless" { default = true }
-variable "security_list_egress_security_rules_tcp_options_destination_port_range_max" { default = "1521" }
-variable "security_list_egress_security_rules_tcp_options_destination_port_range_min" { default = "1521" }
-variable "security_list_egress_security_rules_tcp_options_source_port_range_max" { default = "1521" }
-variable "security_list_egress_security_rules_tcp_options_source_port_range_min" { default = "1521" }
-variable "security_list_egress_security_rules_udp_options_destination_port_range_max" { default = "1521" }
-variable "security_list_egress_security_rules_udp_options_destination_port_range_min" { default = "1521" }
-variable "security_list_egress_security_rules_udp_options_source_port_range_max" { default = "1521" }
-variable "security_list_egress_security_rules_udp_options_source_port_range_min" { default = "1521" }
-variable "security_list_ingress_security_rules_icmp_options_code" { default = 11 }
-variable "security_list_ingress_security_rules_icmp_options_type" { default = 10 }
-variable "security_list_ingress_security_rules_protocol" { default = "6" }
+variable "security_list_freeform_tags" { default = {"Department"= "Accounting"} }
+variable "security_list_ingress_security_rules_icmp_options_code" { default = 0 }
+variable "security_list_ingress_security_rules_icmp_options_type" { default = 3 }
+variable "security_list_ingress_security_rules_protocol" { default = "1" }
 variable "security_list_ingress_security_rules_source" { default = "10.0.1.0/24" }
 variable "security_list_ingress_security_rules_stateless" { default = true }
-variable "security_list_ingress_security_rules_tcp_options_destination_port_range_max" { default = "1521" }
-variable "security_list_ingress_security_rules_tcp_options_destination_port_range_min" { default = "1521" }
-variable "security_list_ingress_security_rules_tcp_options_source_port_range_max" { default = "1521" }
-variable "security_list_ingress_security_rules_tcp_options_source_port_range_min" { default = "1521" }
-variable "security_list_ingress_security_rules_udp_options_destination_port_range_max" { default = "1521" }
-variable "security_list_ingress_security_rules_udp_options_destination_port_range_min" { default = "1521" }
-variable "security_list_ingress_security_rules_udp_options_source_port_range_max" { default = "1521" }
-variable "security_list_ingress_security_rules_udp_options_source_port_range_min" { default = "1521" }
 variable "security_list_state" { default = "AVAILABLE" }
 
                 ` + compartmentIdVariableStr + SecurityListResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.destination", "10.0.2.0/24"),
 					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.icmp_options.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.icmp_options.0.code", "11"),
-					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.icmp_options.0.type", "10"),
-					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.protocol", "6"),
+					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.icmp_options.0.code", "0"),
+					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.icmp_options.0.type", "3"),
+					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.protocol", "1"),
 					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.stateless", "true"),
-					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.tcp_options.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.tcp_options.0.destination_port_range.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.tcp_options.0.destination_port_range.0.max", "1521"),
-					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.tcp_options.0.destination_port_range.0.min", "1521"),
-					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.tcp_options.0.source_port_range.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.tcp_options.0.source_port_range.0.max", "1521"),
-					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.tcp_options.0.source_port_range.0.min", "1521"),
-					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.udp_options.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.udp_options.0.destination_port_range.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.udp_options.0.destination_port_range.0.max", "1521"),
-					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.udp_options.0.destination_port_range.0.min", "1521"),
-					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.udp_options.0.source_port_range.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.udp_options.0.source_port_range.0.max", "1521"),
-					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.0.udp_options.0.source_port_range.0.min", "1521"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.icmp_options.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.icmp_options.0.code", "11"),
-					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.icmp_options.0.type", "10"),
-					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.protocol", "6"),
+					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.icmp_options.0.code", "0"),
+					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.icmp_options.0.type", "3"),
+					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.protocol", "1"),
 					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.source", "10.0.1.0/24"),
 					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.stateless", "true"),
-					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.tcp_options.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.tcp_options.0.destination_port_range.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.tcp_options.0.destination_port_range.0.max", "1521"),
-					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.tcp_options.0.destination_port_range.0.min", "1521"),
-					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.tcp_options.0.source_port_range.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.tcp_options.0.source_port_range.0.max", "1521"),
-					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.tcp_options.0.source_port_range.0.min", "1521"),
-					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.udp_options.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.udp_options.0.destination_port_range.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.udp_options.0.destination_port_range.0.max", "1521"),
-					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.udp_options.0.destination_port_range.0.min", "1521"),
-					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.udp_options.0.source_port_range.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.udp_options.0.source_port_range.0.max", "1521"),
-					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.0.udp_options.0.source_port_range.0.min", "1521"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
@@ -358,33 +223,19 @@ variable "security_list_state" { default = "AVAILABLE" }
 			// verify datasource
 			{
 				Config: config + `
+variable "security_list_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
 variable "security_list_display_name" { default = "displayName2" }
 variable "security_list_egress_security_rules_destination" { default = "10.0.2.0/24" }
-variable "security_list_egress_security_rules_icmp_options_code" { default = 11 }
-variable "security_list_egress_security_rules_icmp_options_type" { default = 10 }
-variable "security_list_egress_security_rules_protocol" { default = "6" }
+variable "security_list_egress_security_rules_icmp_options_code" { default = 0 }
+variable "security_list_egress_security_rules_icmp_options_type" { default = 3 }
+variable "security_list_egress_security_rules_protocol" { default = "1" }
 variable "security_list_egress_security_rules_stateless" { default = true }
-variable "security_list_egress_security_rules_tcp_options_destination_port_range_max" { default = "1521" }
-variable "security_list_egress_security_rules_tcp_options_destination_port_range_min" { default = "1521" }
-variable "security_list_egress_security_rules_tcp_options_source_port_range_max" { default = "1521" }
-variable "security_list_egress_security_rules_tcp_options_source_port_range_min" { default = "1521" }
-variable "security_list_egress_security_rules_udp_options_destination_port_range_max" { default = "1521" }
-variable "security_list_egress_security_rules_udp_options_destination_port_range_min" { default = "1521" }
-variable "security_list_egress_security_rules_udp_options_source_port_range_max" { default = "1521" }
-variable "security_list_egress_security_rules_udp_options_source_port_range_min" { default = "1521" }
-variable "security_list_ingress_security_rules_icmp_options_code" { default = 11 }
-variable "security_list_ingress_security_rules_icmp_options_type" { default = 10 }
-variable "security_list_ingress_security_rules_protocol" { default = "6" }
+variable "security_list_freeform_tags" { default = {"Department"= "Accounting"} }
+variable "security_list_ingress_security_rules_icmp_options_code" { default = 0 }
+variable "security_list_ingress_security_rules_icmp_options_type" { default = 3 }
+variable "security_list_ingress_security_rules_protocol" { default = "1" }
 variable "security_list_ingress_security_rules_source" { default = "10.0.1.0/24" }
 variable "security_list_ingress_security_rules_stateless" { default = true }
-variable "security_list_ingress_security_rules_tcp_options_destination_port_range_max" { default = "1521" }
-variable "security_list_ingress_security_rules_tcp_options_destination_port_range_min" { default = "1521" }
-variable "security_list_ingress_security_rules_tcp_options_source_port_range_max" { default = "1521" }
-variable "security_list_ingress_security_rules_tcp_options_source_port_range_min" { default = "1521" }
-variable "security_list_ingress_security_rules_udp_options_destination_port_range_max" { default = "1521" }
-variable "security_list_ingress_security_rules_udp_options_destination_port_range_min" { default = "1521" }
-variable "security_list_ingress_security_rules_udp_options_source_port_range_max" { default = "1521" }
-variable "security_list_ingress_security_rules_udp_options_source_port_range_min" { default = "1521" }
 variable "security_list_state" { default = "AVAILABLE" }
 
 data "oci_core_security_lists" "test_security_lists" {
@@ -410,50 +261,24 @@ data "oci_core_security_lists" "test_security_lists" {
 
 					resource.TestCheckResourceAttr(datasourceName, "security_lists.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.egress_security_rules.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.egress_security_rules.0.destination", "10.0.2.0/24"),
 					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.egress_security_rules.0.icmp_options.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.egress_security_rules.0.icmp_options.0.code", "11"),
-					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.egress_security_rules.0.icmp_options.0.type", "10"),
-					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.egress_security_rules.0.protocol", "6"),
+					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.egress_security_rules.0.icmp_options.0.code", "0"),
+					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.egress_security_rules.0.icmp_options.0.type", "3"),
+					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.egress_security_rules.0.protocol", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.egress_security_rules.0.stateless", "true"),
-					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.egress_security_rules.0.tcp_options.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.egress_security_rules.0.tcp_options.0.destination_port_range.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.egress_security_rules.0.tcp_options.0.destination_port_range.0.max", "1521"),
-					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.egress_security_rules.0.tcp_options.0.destination_port_range.0.min", "1521"),
-					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.egress_security_rules.0.tcp_options.0.source_port_range.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.egress_security_rules.0.tcp_options.0.source_port_range.0.max", "1521"),
-					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.egress_security_rules.0.tcp_options.0.source_port_range.0.min", "1521"),
-					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.egress_security_rules.0.udp_options.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.egress_security_rules.0.udp_options.0.destination_port_range.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.egress_security_rules.0.udp_options.0.destination_port_range.0.max", "1521"),
-					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.egress_security_rules.0.udp_options.0.destination_port_range.0.min", "1521"),
-					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.egress_security_rules.0.udp_options.0.source_port_range.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.egress_security_rules.0.udp_options.0.source_port_range.0.max", "1521"),
-					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.egress_security_rules.0.udp_options.0.source_port_range.0.min", "1521"),
+					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "security_lists.0.id"),
 					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.ingress_security_rules.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.ingress_security_rules.0.icmp_options.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.ingress_security_rules.0.icmp_options.0.code", "11"),
-					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.ingress_security_rules.0.icmp_options.0.type", "10"),
-					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.ingress_security_rules.0.protocol", "6"),
+					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.ingress_security_rules.0.icmp_options.0.code", "0"),
+					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.ingress_security_rules.0.icmp_options.0.type", "3"),
+					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.ingress_security_rules.0.protocol", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.ingress_security_rules.0.source", "10.0.1.0/24"),
 					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.ingress_security_rules.0.stateless", "true"),
-					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.ingress_security_rules.0.tcp_options.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.ingress_security_rules.0.tcp_options.0.destination_port_range.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.ingress_security_rules.0.tcp_options.0.destination_port_range.0.max", "1521"),
-					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.ingress_security_rules.0.tcp_options.0.destination_port_range.0.min", "1521"),
-					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.ingress_security_rules.0.tcp_options.0.source_port_range.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.ingress_security_rules.0.tcp_options.0.source_port_range.0.max", "1521"),
-					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.ingress_security_rules.0.tcp_options.0.source_port_range.0.min", "1521"),
-					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.ingress_security_rules.0.udp_options.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.ingress_security_rules.0.udp_options.0.destination_port_range.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.ingress_security_rules.0.udp_options.0.destination_port_range.0.max", "1521"),
-					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.ingress_security_rules.0.udp_options.0.destination_port_range.0.min", "1521"),
-					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.ingress_security_rules.0.udp_options.0.source_port_range.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.ingress_security_rules.0.udp_options.0.source_port_range.0.max", "1521"),
-					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.ingress_security_rules.0.udp_options.0.source_port_range.0.min", "1521"),
 					resource.TestCheckResourceAttrSet(datasourceName, "security_lists.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "security_lists.0.time_created"),
 					resource.TestCheckResourceAttrSet(datasourceName, "security_lists.0.vcn_id"),

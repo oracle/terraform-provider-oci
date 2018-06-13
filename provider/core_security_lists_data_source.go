@@ -138,6 +138,10 @@ func (s *SecurityListsDataSourceCrud) SetData() {
 			"vcn_id":         *r.VcnId,
 		}
 
+		if r.DefinedTags != nil {
+			securityList["defined_tags"] = definedTagsToMap(r.DefinedTags)
+		}
+
 		if r.DisplayName != nil {
 			securityList["display_name"] = *r.DisplayName
 		}
@@ -147,6 +151,8 @@ func (s *SecurityListsDataSourceCrud) SetData() {
 			egressSecurityRules = append(egressSecurityRules, EgressSecurityRuleToMap(item))
 		}
 		securityList["egress_security_rules"] = egressSecurityRules
+
+		securityList["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {
 			securityList["id"] = *r.Id

@@ -21,7 +21,7 @@ type ResourcePrivateIPTestSuite struct {
 
 func (s *ResourcePrivateIPTestSuite) SetupTest() {
 	s.Providers = testAccProviders
-	s.Config = legacyTestProviderConfig() + testADs() + testVCN1() + testSubnet1() + testImage1() + testInstance1() + `
+	s.Config = legacyTestProviderConfig() + testADs() + testVCN1() + testSubnet1() + testImage1() + testInstance1() + DefinedTagsDependencies + `
 	data "oci_core_vnic_attachments" "t" {
 		availability_domain = "${data.oci_identity_availability_domains.t.availability_domains.0.name}"
 		compartment_id = "${var.compartment_id}"
@@ -44,6 +44,10 @@ func (s *ResourcePrivateIPTestSuite) TestAccCoreResourcePrivateIP_basic() {
 				resource "oci_core_private_ip" "t" {
 					vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0], "vnic_id")}"
 					display_name = "-private-ip"
+					defined_tags = "${map(
+									"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value"
+									)}"
+                    freeform_tags = { "Department" = "Finance"}
 				}`,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
@@ -61,6 +65,10 @@ func (s *ResourcePrivateIPTestSuite) TestAccCoreResourcePrivateIP_basic() {
 						resId, err = fromInstanceState(s, "oci_core_private_ip.t", "id")
 						return
 					},
+					resource.TestCheckResourceAttr(s.ResourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "defined_tags.example-tag-namespace.example-tag", "value"),
+					resource.TestCheckResourceAttr(s.ResourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "freeform_tags.Department", "Finance"),
 				),
 			},
 			// test update
@@ -69,6 +77,10 @@ func (s *ResourcePrivateIPTestSuite) TestAccCoreResourcePrivateIP_basic() {
 				resource "oci_core_private_ip" "t" {
 					vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0], "vnic_id")}"
 					display_name = "-private-ip2"
+					defined_tags = "${map(
+									"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue"
+									)}"
+                    freeform_tags = { "Department" = "Accounting"}
 				}`,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-private-ip2"),
@@ -81,6 +93,10 @@ func (s *ResourcePrivateIPTestSuite) TestAccCoreResourcePrivateIP_basic() {
 					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
 					// hostname_label should not be set unless explicitly set
 					resource.TestCheckNoResourceAttr(s.ResourceName, "hostname_label"),
+					resource.TestCheckResourceAttr(s.ResourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "defined_tags.example-tag-namespace.example-tag", "updatedValue"),
+					resource.TestCheckResourceAttr(s.ResourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "freeform_tags.Department", "Accounting"),
 				),
 			},
 			// test add host name label
