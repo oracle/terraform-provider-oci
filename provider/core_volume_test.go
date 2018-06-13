@@ -26,7 +26,9 @@ resource "oci_core_volume" "test_volume" {
 	compartment_id = "${var.compartment_id}"
 
 	#Optional
+	defined_tags = "${var.volume_defined_tags}"
 	display_name = "${var.volume_display_name}"
+	freeform_tags = "${var.volume_freeform_tags}"
 	size_in_gbs = "${var.volume_size_in_gbs}"
 	source_details {
 		#Required
@@ -35,43 +37,17 @@ resource "oci_core_volume" "test_volume" {
 	}
 }
 `
-	VolumeResourceConfigFromVolBackup = VolumeResourceDependenciesFromVolBackup + `
-resource "oci_core_volume" "test_volume" {
-	#Required
-	availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-	compartment_id = "${var.compartment_id}"
-
-	#Optional
-	display_name = "${var.volume_display_name}"
-	size_in_gbs = "${var.volume_size_in_gbs}"
-	source_details {
-		#Required
-		type = "${var.volume_source_details_type}"
-		id = "${oci_core_volume_backup.source_volume_backup.id}"
-	}
-}
-`
-	VolumeNewADResourceConfig = VolumeResourceDependencies + `
-resource "oci_core_volume" "test_volume" {
-	#Required
-	availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.1.name}"
-	compartment_id = "${var.compartment_id}"
-
-	#Optional
-	display_name = "${var.volume_display_name}"
-	size_in_gbs = "${var.volume_size_in_gbs}"
-}
-`
-
 	VolumePropertyVariables = `
+variable "volume_defined_tags" { default = {"example-tag-namespace.example-tag"= "value"} }
 variable "volume_display_name" { default = "displayName" }
+variable "volume_freeform_tags" { default = {"Department"= "Finance"} }
 variable "volume_size_in_gbs" { default = 50 }
 variable "volume_source_details_type" { default = "volume" }
 variable "volume_state" { default = "AVAILABLE" }
 
 `
 	// Uncomment once defined: VolumeBackupPropertyVariables + VolumeBackupResourceConfig
-	VolumeResourceDependencies = `
+	VolumeResourceDependencies = DefinedTagsDependencies + `
 data "oci_identity_availability_domains" "ADs" {
 	compartment_id = "${var.compartment_id}"
 }
@@ -80,27 +56,6 @@ resource "oci_core_volume" "source_volume" {
 	#Required
 	availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
 	compartment_id = "${var.compartment_id}"
-}
-`
-	VolumeResourceDependenciesFromVolBackup = `
-data "oci_identity_availability_domains" "ADs" {
-	compartment_id = "${var.compartment_id}"
-}
-
-resource "oci_core_volume" "source_volume_for_volume_backup" {
-	#Required
-	availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-	compartment_id = "${var.compartment_id}"
-	#Optional
-	display_name = "source-volume-for-volume-backup"
-	size_in_gbs = "${var.volume_size_in_gbs}"
-}
-
-resource "oci_core_volume_backup" "source_volume_backup" {
-	#Required
-	volume_id = "${oci_core_volume.source_volume_for_volume_backup.id}"
-	#Optional
-	display_name = "source-volume-backup"
 }
 `
 )
@@ -148,7 +103,9 @@ func TestCoreVolumeResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "size_in_gbs", "50"),
 					resource.TestCheckResourceAttr(resourceName, "size_in_mbs", "51200"),
@@ -167,7 +124,9 @@ func TestCoreVolumeResource_basic(t *testing.T) {
 			// verify updates to updatable parameters
 			{
 				Config: config + `
+variable "volume_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
 variable "volume_display_name" { default = "displayName2" }
+variable "volume_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "volume_size_in_gbs" { default = 50 }
 variable "volume_source_details_type" { default = "volume" }
 variable "volume_state" { default = "AVAILABLE" }
@@ -176,7 +135,9 @@ variable "volume_state" { default = "AVAILABLE" }
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "size_in_gbs", "50"),
 					resource.TestCheckResourceAttr(resourceName, "size_in_mbs", "51200"),
@@ -197,7 +158,9 @@ variable "volume_state" { default = "AVAILABLE" }
 			// verify datasource
 			{
 				Config: config + `
+variable "volume_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
 variable "volume_display_name" { default = "displayName2" }
+variable "volume_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "volume_size_in_gbs" { default = 50 }
 variable "volume_source_details_type" { default = "volume" }
 variable "volume_state" { default = "AVAILABLE" }
@@ -207,7 +170,7 @@ data "oci_core_volumes" "test_volumes" {
 	compartment_id = "${var.compartment_id}"
 
 	#Optional
-	availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.1.name}"
+	availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
 	display_name = "${var.volume_display_name}"
 	state = "${var.volume_state}"
 
@@ -216,7 +179,7 @@ data "oci_core_volumes" "test_volumes" {
     	values = ["${oci_core_volume.test_volume.id}"]
     }
 }
-                ` + compartmentIdVariableStr + VolumeNewADResourceConfig,
+                ` + compartmentIdVariableStr + VolumeResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -226,7 +189,9 @@ data "oci_core_volumes" "test_volumes" {
 					resource.TestCheckResourceAttr(datasourceName, "volumes.#", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "volumes.0.availability_domain"),
 					resource.TestCheckResourceAttr(datasourceName, "volumes.0.compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(datasourceName, "volumes.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "volumes.0.display_name", "displayName2"),
+					resource.TestCheckResourceAttr(datasourceName, "volumes.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "volumes.0.id"),
 					resource.TestCheckResourceAttr(datasourceName, "volumes.0.size_in_gbs", "50"),
 					resource.TestCheckResourceAttr(datasourceName, "volumes.0.size_in_mbs", "51200"),
