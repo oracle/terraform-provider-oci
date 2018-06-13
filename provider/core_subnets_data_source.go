@@ -162,6 +162,10 @@ func (s *SubnetsDataSourceCrud) SetData() {
 			subnet["cidr_block"] = *r.CidrBlock
 		}
 
+		if r.DefinedTags != nil {
+			subnet["defined_tags"] = definedTagsToMap(r.DefinedTags)
+		}
+
 		if r.DhcpOptionsId != nil {
 			subnet["dhcp_options_id"] = *r.DhcpOptionsId
 		}
@@ -173,6 +177,8 @@ func (s *SubnetsDataSourceCrud) SetData() {
 		if r.DnsLabel != nil {
 			subnet["dns_label"] = *r.DnsLabel
 		}
+
+		subnet["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {
 			subnet["id"] = *r.Id

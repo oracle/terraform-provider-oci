@@ -115,9 +115,15 @@ func (s *PrivateIpsDataSourceCrud) SetData() {
 			privateIp["compartment_id"] = *r.CompartmentId
 		}
 
+		if r.DefinedTags != nil {
+			privateIp["defined_tags"] = definedTagsToMap(r.DefinedTags)
+		}
+
 		if r.DisplayName != nil {
 			privateIp["display_name"] = *r.DisplayName
 		}
+
+		privateIp["freeform_tags"] = r.FreeformTags
 
 		if r.HostnameLabel != nil {
 			privateIp["hostname_label"] = *r.HostnameLabel

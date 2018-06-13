@@ -48,6 +48,13 @@ func SubnetResource() *schema.Resource {
 			},
 
 			// Optional
+			"defined_tags": {
+				Type:             schema.TypeMap,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: definedTagsDiffSuppressFunction,
+				Elem:             schema.TypeString,
+			},
 			"dhcp_options_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -66,6 +73,12 @@ func SubnetResource() *schema.Resource {
 				ForceNew:         true,
 				DiffSuppressFunc: crud.EqualIgnoreCaseSuppressDiff,
 			},
+			"freeform_tags": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 			"prohibit_public_ip_on_vnic": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -80,10 +93,10 @@ func SubnetResource() *schema.Resource {
 			},
 			"security_list_ids": {
 				// @CODEGEN: The ordering of security_list_ids may change, but shouldn't result in a diff.
-				// Change it to a TypeSet instead of TypeList (as generated). It should also be required
-				// as in already released provider.
+				// Change it to a TypeSet instead of TypeList (as generated).
 				Type:     schema.TypeSet,
-				Required: true,
+				Optional: true,
+				Computed: true,
 				ForceNew: true,
 				MaxItems: 5,
 				MinItems: 0,
@@ -208,6 +221,14 @@ func (s *SubnetResourceCrud) Create() error {
 		request.CompartmentId = &tmp
 	}
 
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
 	if dhcpOptionsId, ok := s.D.GetOkExists("dhcp_options_id"); ok {
 		tmp := dhcpOptionsId.(string)
 		request.DhcpOptionsId = &tmp
@@ -221,6 +242,10 @@ func (s *SubnetResourceCrud) Create() error {
 	if dnsLabel, ok := s.D.GetOkExists("dns_label"); ok {
 		tmp := dnsLabel.(string)
 		request.DnsLabel = &tmp
+	}
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	// TODO: GetOk malfunction with this bool: 'ok' is always the value of the bool
@@ -284,9 +309,21 @@ func (s *SubnetResourceCrud) Get() error {
 func (s *SubnetResourceCrud) Update() error {
 	request := oci_core.UpdateSubnetRequest{}
 
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+	}
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()
@@ -328,6 +365,10 @@ func (s *SubnetResourceCrud) SetData() {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	if s.Res.DefinedTags != nil {
+		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))
+	}
+
 	if s.Res.DhcpOptionsId != nil {
 		s.D.Set("dhcp_options_id", *s.Res.DhcpOptionsId)
 	}
@@ -339,6 +380,8 @@ func (s *SubnetResourceCrud) SetData() {
 	if s.Res.DnsLabel != nil {
 		s.D.Set("dns_label", *s.Res.DnsLabel)
 	}
+
+	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.Id != nil {
 		s.D.Set("id", *s.Res.Id)
