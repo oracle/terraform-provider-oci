@@ -54,12 +54,13 @@ resource "oci_file_storage_export" "test_export" {
 Gets a list of exports.
 
 ### List Operation
-Lists the export resources in the specified compartment. You must
-also specify an export set, a file system, or both.
+Lists export resources by compartment, file system, or export
+set. You must specify an export set ID, a file system ID, and
+/ or a compartment ID.
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) The OCID of the compartment.
+* `compartment_id` - (Optional) The OCID of the compartment.
 * `export_set_id` - (Optional) The OCID of the export set.
 * `file_system_id` - (Optional) The OCID of the file system.
 * `id` - (Optional) Filter results by OCID. Must be an OCID of the correct type for the resouce type. 
@@ -74,11 +75,10 @@ The following attributes are exported:
 
 ```hcl
 data "oci_file_storage_exports" "test_exports" {
-	#Required
-	compartment_id = "${var.compartment_id}"
 
 	#Optional
-	export_set_id = "${oci_file_storage_mount_target.test_mount_target.export_set_id}"
+	compartment_id = "${var.compartment_id}"
+	export_set_id = "${oci_file_storage_export_set.test_export_set.id}"
 	file_system_id = "${oci_file_storage_file_system.test_file_system.id}"
 	id = "${var.export_id}"
 	state = "${var.export_state}"
