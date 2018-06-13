@@ -138,9 +138,15 @@ func (s *RouteTablesDataSourceCrud) SetData() {
 			"vcn_id":         *r.VcnId,
 		}
 
+		if r.DefinedTags != nil {
+			routeTable["defined_tags"] = definedTagsToMap(r.DefinedTags)
+		}
+
 		if r.DisplayName != nil {
 			routeTable["display_name"] = *r.DisplayName
 		}
+
+		routeTable["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {
 			routeTable["id"] = *r.Id

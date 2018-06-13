@@ -36,11 +36,15 @@ resource "oci_core_route_table" "test_route_table" {
 	vcn_id = "${oci_core_vcn.test_vcn.id}"
 
 	#Optional
+	defined_tags = "${var.route_table_defined_tags}"
 	display_name = "${var.route_table_display_name}"
+	freeform_tags = "${var.route_table_freeform_tags}"
 }
 `
 	RouteTablePropertyVariables = `
+variable "route_table_defined_tags" { default = {"example-tag-namespace.example-tag"= "value"} }
 variable "route_table_display_name" { default = "MyRouteTable" }
+variable "route_table_freeform_tags" { default = {"Department"= "Finance"} }
 variable "route_table_route_rules_cidr_block" { default = "0.0.0.0/0" }
 variable "route_table_state" { default = "AVAILABLE" }
 
@@ -99,7 +103,9 @@ func TestCoreRouteTableResource_basic(t *testing.T) {
 				Config: config + RouteTablePropertyVariables + compartmentIdVariableStr + RouteTableResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "MyRouteTable"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "route_rules.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "route_rules.0.cidr_block", "0.0.0.0/0"),
@@ -117,14 +123,18 @@ func TestCoreRouteTableResource_basic(t *testing.T) {
 			// verify updates to updatable parameters
 			{
 				Config: config + `
+variable "route_table_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
 variable "route_table_display_name" { default = "displayName2" }
+variable "route_table_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "route_table_route_rules_cidr_block" { default = "0.0.0.0/0" }
 variable "route_table_state" { default = "AVAILABLE" }
 
                 ` + compartmentIdVariableStr + RouteTableResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "route_rules.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "route_rules.0.cidr_block", "0.0.0.0/0"),
@@ -144,7 +154,9 @@ variable "route_table_state" { default = "AVAILABLE" }
 			// verify datasource
 			{
 				Config: config + `
+variable "route_table_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
 variable "route_table_display_name" { default = "displayName2" }
+variable "route_table_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "route_table_route_rules_cidr_block" { default = "0.0.0.0/0" }
 variable "route_table_state" { default = "AVAILABLE" }
 
@@ -171,7 +183,9 @@ data "oci_core_route_tables" "test_route_tables" {
 
 					resource.TestCheckResourceAttr(datasourceName, "route_tables.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "route_tables.0.compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(datasourceName, "route_tables.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "route_tables.0.display_name", "displayName2"),
+					resource.TestCheckResourceAttr(datasourceName, "route_tables.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "route_tables.0.id"),
 					resource.TestCheckResourceAttr(datasourceName, "route_tables.0.route_rules.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "route_tables.0.route_rules.0.cidr_block", "0.0.0.0/0"),

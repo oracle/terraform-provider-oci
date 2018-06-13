@@ -9,7 +9,9 @@ For more information on configuring a VCN's default route table, see [Managing D
 The following attributes are exported:
 
 * `compartment_id` - The OCID of the compartment containing the route table.
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The route table's Oracle ID (OCID).
 * `route_rules` - The collection of rules for routing destination IPs to network devices.
 	* `cidr_block` - A destination IP address range in CIDR notation. Matching packets will be routed to the indicated network entity (the target).  Example: `0.0.0.0/0` 
@@ -41,7 +43,9 @@ It does not have to be unique, and you can change it. Avoid entering confidentia
 The following arguments are supported:
 
 * `compartment_id` - (Required) The OCID of the compartment to contain the route table.
+* `defined_tags` - (Optional) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+* `freeform_tags` - (Optional) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `route_rules` - (Required) The collection of rules used for routing destination IPs to network devices.
 	* `cidr_block` - (Required) A destination IP address range in CIDR notation. Matching packets will be routed to the indicated network entity (the target).  Example: `0.0.0.0/0` 
 	* `network_entity_id` - (Required) The OCID for the route rule's target. For information about the type of targets you can specify, see [Route Tables](https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Tasks/managingroutetables.htm). 
@@ -56,7 +60,9 @@ Note that the `routeRules` object you provide replaces the entire existing set o
 
 
 The following arguments support updates:
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `route_rules` - The collection of rules used for routing destination IPs to network devices.
 	* `cidr_block` - A destination IP address range in CIDR notation. Matching packets will be routed to the indicated network entity (the target).  Example: `0.0.0.0/0` 
 	* `network_entity_id` - The OCID for the route rule's target. For information about the type of targets you can specify, see [Route Tables](https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Tasks/managingroutetables.htm). 
@@ -79,7 +85,9 @@ resource "oci_core_route_table" "test_route_table" {
 	vcn_id = "${oci_core_vcn.test_vcn.id}"
 
 	#Optional
+	defined_tags = '{"Operations.CostCenter"= "42"}'
 	display_name = "${var.route_table_display_name}"
+	freeform_tags = '{"Department"= "Finance"}'
 }
 ```
 

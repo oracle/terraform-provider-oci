@@ -9,7 +9,9 @@ For more information on configuring a VCN's default DHCP options, see [Managing 
 The following attributes are exported:
 
 * `compartment_id` - The OCID of the compartment containing the set of DHCP options.
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - Oracle ID (OCID) for the set of DHCP options.
 * `options` - The collection of individual DHCP options.
 	* `type` - The specific DHCP option. Either `DomainNameServer` (for [DhcpDnsOption](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/DhcpDnsOption/)) or `SearchDomain` (for [DhcpSearchDomainOption](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/DhcpSearchDomainOption/)).
@@ -49,7 +51,9 @@ It does not have to be unique, and you can change it. Avoid entering confidentia
 The following arguments are supported:
 
 * `compartment_id` - (Required) The OCID of the compartment to contain the set of DHCP options.
+* `defined_tags` - (Optional) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+* `freeform_tags` - (Optional) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `options` - (Required) A set of [DHCP Options](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/DhcpDnsOption/)
     * `type` - (Required) The specific DHCP option. Either `DomainNameServer` (for [DhcpDnsOption](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/DhcpDnsOption/)) or `SearchDomain` (for [DhcpSearchDomainOption](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/DhcpSearchDomainOption/)).
 	* `custom_dns_servers` -  (Optional) Used only when `type` is `DomainNameServer`. If you set `server_type` to `CustomDnsServer`, specify the IP address of at least one DNS server of your choice (three maximum).
@@ -75,7 +79,9 @@ Note that the `options` object you provide replaces the entire existing set of o
 
 
 The following arguments support updates:
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `options` - A set of [DHCP Options](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/DhcpDnsOption/)
     * `type` - The specific DHCP option. Either `DomainNameServer` (for [DhcpDnsOption](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/DhcpDnsOption/)) or `SearchDomain` (for [DhcpSearchDomainOption](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/DhcpSearchDomainOption/)).
 	* `custom_dns_servers` -  Used only when `type` is `DomainNameServer`. If you set `server_type` to `CustomDnsServer`, specify the IP address of at least one DNS server of your choice (three maximum).
@@ -139,7 +145,9 @@ resource "oci_core_dhcp_options" "test_dhcp_options" {
 	vcn_id = "${oci_core_vcn.test_vcn.id}"
 
 	#Optional
+	defined_tags = '{"Operations.CostCenter"= "42"}'
 	display_name = "${var.dhcp_options_display_name}"
+	freeform_tags = '{"Department"= "Finance"}'
 }
 ```
 

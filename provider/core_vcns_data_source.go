@@ -144,6 +144,10 @@ func (s *VcnsDataSourceCrud) SetData() {
 			vcn["default_security_list_id"] = *r.DefaultSecurityListId
 		}
 
+		if r.DefinedTags != nil {
+			vcn["defined_tags"] = definedTagsToMap(r.DefinedTags)
+		}
+
 		if r.DisplayName != nil {
 			vcn["display_name"] = *r.DisplayName
 		}
@@ -151,6 +155,8 @@ func (s *VcnsDataSourceCrud) SetData() {
 		if r.DnsLabel != nil {
 			vcn["dns_label"] = *r.DnsLabel
 		}
+
+		vcn["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {
 			vcn["id"] = *r.Id
