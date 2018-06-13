@@ -7,7 +7,9 @@
 The following attributes are exported:
 
 * `compartment_id` - The OCID of the tenancy containing the compartment.
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `description` - The description you assign to the compartment. Does not have to be unique, and it's changeable.
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the compartment.
 * `inactive_state` - The detailed status of INACTIVE lifecycleState.
 * `name` - The name you assign to the compartment during creation. The name must be unique across all compartments in the tenancy. Avoid entering confidential information. 
@@ -43,7 +45,9 @@ object, first make sure its `lifecycleState` has changed to ACTIVE.
 The following arguments are supported:
 
 * `compartment_id` - (Required) The OCID of the tenancy containing the compartment.
+* `defined_tags` - (Optional) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `description` - (Required) The description you assign to the compartment during creation. Does not have to be unique, and it's changeable. 
+* `freeform_tags` - (Optional) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `name` - (Required) The name you assign to the compartment during creation. The name must be unique across all compartments in the tenancy. Avoid entering confidential information. 
 
 
@@ -51,7 +55,9 @@ The following arguments are supported:
 Updates the specified compartment's description or name. You can't update the root compartment.
 
 The following arguments support updates:
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `description` - The description you assign to the compartment during creation. Does not have to be unique, and it's changeable. 
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `name` - The name you assign to the compartment during creation. The name must be unique across all compartments in the tenancy. Avoid entering confidential information. 
 
 
@@ -66,6 +72,10 @@ resource "oci_identity_compartment" "test_compartment" {
 	compartment_id = "${var.compartment_id}"
 	description = "${var.compartment_description}"
 	name = "${var.compartment_name}"
+
+	#Optional
+	defined_tags = '{"Operations.CostCenter"= "42"}'
+	freeform_tags = '{"Department"= "Finance"}'
 }
 ```
 

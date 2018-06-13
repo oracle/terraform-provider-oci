@@ -91,9 +91,15 @@ func (s *CompartmentsDataSourceCrud) SetData() {
 			"compartment_id": *r.CompartmentId,
 		}
 
+		if r.DefinedTags != nil {
+			compartment["defined_tags"] = definedTagsToMap(r.DefinedTags)
+		}
+
 		if r.Description != nil {
 			compartment["description"] = *r.Description
 		}
+
+		compartment["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {
 			compartment["id"] = *r.Id

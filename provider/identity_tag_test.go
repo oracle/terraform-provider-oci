@@ -43,9 +43,10 @@ variable "tag_name" { default = "CostCenter" }
 	TagResourceDependencies = DefinedTagsDependencies + TagNamespacePropertyVariables + TagNamespaceResourceConfig
 
 	DefinedTagsDependencies = `
+variable "tag_namespace_compartment" { default = "" }
 resource "oci_identity_tag_namespace" "tag-namespace1" {
   		#Required
-		compartment_id = "${var.compartment_id}"
+		compartment_id = "${var.tag_namespace_compartment != "" ? var.tag_namespace_compartment : var.compartment_id}"
   		description = "example tag namespace"
   		name = "example-tag-namespace"
 
@@ -69,8 +70,6 @@ func TestIdentityTagResource_basic(t *testing.T) {
 
 	compartmentId := getRequiredEnvSetting("compartment_id_for_create")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
-	compartmentId2 := getRequiredEnvSetting("compartment_id_for_update")
-	compartmentIdVariableStr2 := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId2)
 
 	resourceName := "oci_identity_tag.test_tag"
 	datasourceName := "data.oci_identity_tags.test_tags"
@@ -173,7 +172,7 @@ data "oci_identity_tags" "test_tags" {
     	values = ["${oci_identity_tag.test_tag.id}"]
     }
 }
-                ` + compartmentIdVariableStr2 + TagResourceConfig,
+                ` + compartmentIdVariableStr + TagResourceConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "tag_namespace_id"),
 

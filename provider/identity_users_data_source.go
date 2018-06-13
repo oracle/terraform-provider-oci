@@ -91,9 +91,15 @@ func (s *UsersDataSourceCrud) SetData() {
 			"compartment_id": *r.CompartmentId,
 		}
 
+		if r.DefinedTags != nil {
+			user["defined_tags"] = definedTagsToMap(r.DefinedTags)
+		}
+
 		if r.Description != nil {
 			user["description"] = *r.Description
 		}
+
+		user["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {
 			user["id"] = *r.Id

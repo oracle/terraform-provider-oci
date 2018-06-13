@@ -91,9 +91,15 @@ func (s *GroupsDataSourceCrud) SetData() {
 			"compartment_id": *r.CompartmentId,
 		}
 
+		if r.DefinedTags != nil {
+			group["defined_tags"] = definedTagsToMap(r.DefinedTags)
+		}
+
 		if r.Description != nil {
 			group["description"] = *r.Description
 		}
+
+		group["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {
 			group["id"] = *r.Id
