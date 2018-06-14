@@ -3,7 +3,7 @@ All notable changes to this project are documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
-## 2.1.11 - 2018-06-07
+## 2.1.12 - 2018-06-14
 
 ### Added
 - Support importing images from object store or external sources.
