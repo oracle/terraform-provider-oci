@@ -48,6 +48,7 @@ func RouteTableResource() *schema.Resource {
 						"cidr_block": {
 							Type:       schema.TypeString,
 							Optional:   true,
+							Computed:   true,
 							Deprecated: crud.FieldDeprecatedAndOverridenByAnother("image", "destination"),
 						},
 						"destination": {
