@@ -41,7 +41,29 @@ data "oci_database_databases" "db" {
 	db_home_id = "${data.oci_database_db_homes.t.db_homes.0.db_home_id}"
 }
 
+resource "oci_database_backup" "test_backup" {
+	#Required
+	database_id = "${data.oci_database_databases.db.databases.0.id}"
+	display_name = "FirstBackup"
+}
+
+data "oci_database_backups" "test_backups" {
+
+	#Optional
+	database_id = "${data.oci_database_databases.db.databases.0.id}"
+
+    filter {
+    	name = "id"
+    	values = ["${oci_database_backup.test_backup.id}"]
+    }
+}
+
 data "oci_database_patches" "patches" {
+	#Required
+	db_home_id = "${data.oci_database_db_homes.t.db_homes.0.db_home_id}"
+}
+
+data "oci_database_patches" "patches_history" {
 	#Required
 	db_home_id = "${data.oci_database_db_homes.t.db_homes.0.db_home_id}"
 }
