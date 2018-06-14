@@ -75,7 +75,7 @@ Any change to a property that does not support update will force the destruction
 
 ### Example Usage
 
-```
+```hcl
 resource "oci_core_vcn" "test_vcn" {
 	#Required
 	cidr_block = "${var.vcn_cidr_block}"
@@ -106,11 +106,11 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `virtual_networks` - The list of vcns.
+* `virtual_networks` - The list of virtual_networks.
 
 ### Example Usage
 
-```
+```hcl
 data "oci_core_vcns" "test_vcns" {
 	#Required
 	compartment_id = "${var.compartment_id}"

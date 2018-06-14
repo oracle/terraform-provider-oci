@@ -22,6 +22,7 @@ type LaunchOptions struct {
 	// * `IDE` - Emulated IDE disk.
 	// * `VFIO` - Direct attached Virtual Function storage.  This is the default option for Local data
 	// volumes on Oracle provided images.
+	// * `PARAVIRTUALIZED` - Paravirtualized disk.
 	BootVolumeType LaunchOptionsBootVolumeTypeEnum `mandatory:"true" json:"bootVolumeType"`
 
 	// Firmware used to boot VM.  Select the option that matches your operating system.
@@ -43,6 +44,7 @@ type LaunchOptions struct {
 	// * `IDE` - Emulated IDE disk.
 	// * `VFIO` - Direct attached Virtual Function storage.  This is the default option for Local data
 	// volumes on Oracle provided images.
+	// * `PARAVIRTUALIZED` - Paravirtualized disk.
 	RemoteDataVolumeType LaunchOptionsRemoteDataVolumeTypeEnum `mandatory:"true" json:"remoteDataVolumeType"`
 }
 
@@ -55,17 +57,19 @@ type LaunchOptionsBootVolumeTypeEnum string
 
 // Set of constants representing the allowable values for LaunchOptionsBootVolumeType
 const (
-	LaunchOptionsBootVolumeTypeIscsi LaunchOptionsBootVolumeTypeEnum = "ISCSI"
-	LaunchOptionsBootVolumeTypeScsi  LaunchOptionsBootVolumeTypeEnum = "SCSI"
-	LaunchOptionsBootVolumeTypeIde   LaunchOptionsBootVolumeTypeEnum = "IDE"
-	LaunchOptionsBootVolumeTypeVfio  LaunchOptionsBootVolumeTypeEnum = "VFIO"
+	LaunchOptionsBootVolumeTypeIscsi           LaunchOptionsBootVolumeTypeEnum = "ISCSI"
+	LaunchOptionsBootVolumeTypeScsi            LaunchOptionsBootVolumeTypeEnum = "SCSI"
+	LaunchOptionsBootVolumeTypeIde             LaunchOptionsBootVolumeTypeEnum = "IDE"
+	LaunchOptionsBootVolumeTypeVfio            LaunchOptionsBootVolumeTypeEnum = "VFIO"
+	LaunchOptionsBootVolumeTypeParavirtualized LaunchOptionsBootVolumeTypeEnum = "PARAVIRTUALIZED"
 )
 
 var mappingLaunchOptionsBootVolumeType = map[string]LaunchOptionsBootVolumeTypeEnum{
-	"ISCSI": LaunchOptionsBootVolumeTypeIscsi,
-	"SCSI":  LaunchOptionsBootVolumeTypeScsi,
-	"IDE":   LaunchOptionsBootVolumeTypeIde,
-	"VFIO":  LaunchOptionsBootVolumeTypeVfio,
+	"ISCSI":           LaunchOptionsBootVolumeTypeIscsi,
+	"SCSI":            LaunchOptionsBootVolumeTypeScsi,
+	"IDE":             LaunchOptionsBootVolumeTypeIde,
+	"VFIO":            LaunchOptionsBootVolumeTypeVfio,
+	"PARAVIRTUALIZED": LaunchOptionsBootVolumeTypeParavirtualized,
 }
 
 // GetLaunchOptionsBootVolumeTypeEnumValues Enumerates the set of values for LaunchOptionsBootVolumeType
@@ -128,17 +132,19 @@ type LaunchOptionsRemoteDataVolumeTypeEnum string
 
 // Set of constants representing the allowable values for LaunchOptionsRemoteDataVolumeType
 const (
-	LaunchOptionsRemoteDataVolumeTypeIscsi LaunchOptionsRemoteDataVolumeTypeEnum = "ISCSI"
-	LaunchOptionsRemoteDataVolumeTypeScsi  LaunchOptionsRemoteDataVolumeTypeEnum = "SCSI"
-	LaunchOptionsRemoteDataVolumeTypeIde   LaunchOptionsRemoteDataVolumeTypeEnum = "IDE"
-	LaunchOptionsRemoteDataVolumeTypeVfio  LaunchOptionsRemoteDataVolumeTypeEnum = "VFIO"
+	LaunchOptionsRemoteDataVolumeTypeIscsi           LaunchOptionsRemoteDataVolumeTypeEnum = "ISCSI"
+	LaunchOptionsRemoteDataVolumeTypeScsi            LaunchOptionsRemoteDataVolumeTypeEnum = "SCSI"
+	LaunchOptionsRemoteDataVolumeTypeIde             LaunchOptionsRemoteDataVolumeTypeEnum = "IDE"
+	LaunchOptionsRemoteDataVolumeTypeVfio            LaunchOptionsRemoteDataVolumeTypeEnum = "VFIO"
+	LaunchOptionsRemoteDataVolumeTypeParavirtualized LaunchOptionsRemoteDataVolumeTypeEnum = "PARAVIRTUALIZED"
 )
 
 var mappingLaunchOptionsRemoteDataVolumeType = map[string]LaunchOptionsRemoteDataVolumeTypeEnum{
-	"ISCSI": LaunchOptionsRemoteDataVolumeTypeIscsi,
-	"SCSI":  LaunchOptionsRemoteDataVolumeTypeScsi,
-	"IDE":   LaunchOptionsRemoteDataVolumeTypeIde,
-	"VFIO":  LaunchOptionsRemoteDataVolumeTypeVfio,
+	"ISCSI":           LaunchOptionsRemoteDataVolumeTypeIscsi,
+	"SCSI":            LaunchOptionsRemoteDataVolumeTypeScsi,
+	"IDE":             LaunchOptionsRemoteDataVolumeTypeIde,
+	"VFIO":            LaunchOptionsRemoteDataVolumeTypeVfio,
+	"PARAVIRTUALIZED": LaunchOptionsRemoteDataVolumeTypeParavirtualized,
 }
 
 // GetLaunchOptionsRemoteDataVolumeTypeEnumValues Enumerates the set of values for LaunchOptionsRemoteDataVolumeType

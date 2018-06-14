@@ -19,13 +19,11 @@ The following attributes are exported:
 
 ### Example Usage
 
-```
+```hcl
 data "oci_database_db_system_shapes" "test_db_system_shapes" {
 	#Required
 	availability_domain = "${var.db_system_shape_availability_domain}"
 	compartment_id = "${var.compartment_id}"
-
-	#Optional
 }
 ```
 ### DbSystemShape Reference

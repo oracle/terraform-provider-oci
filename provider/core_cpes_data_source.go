@@ -123,7 +123,9 @@ func (s *CpesDataSourceCrud) SetData() {
 			cpe["ip_address"] = *r.IpAddress
 		}
 
-		cpe["time_created"] = r.TimeCreated.String()
+		if r.TimeCreated != nil {
+			cpe["time_created"] = r.TimeCreated.String()
+		}
 
 		resources = append(resources, cpe)
 	}

@@ -43,7 +43,7 @@ Any change to a property that does not support update will force the destruction
 
 ### Example Usage
 
-```
+```hcl
 resource "oci_objectstorage_preauthrequest" "test_preauthenticated_request" {
 	#Required
 	access_type = "${var.preauthenticated_request_access_type}"

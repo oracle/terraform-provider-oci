@@ -16,7 +16,7 @@ const (
 	MountTargetRequiredOnlyResource = MountTargetResourceDependencies + `
 resource "oci_file_storage_mount_target" "test_mount_target" {
 	#Required
-	availability_domain = "${var.mount_target_availability_domain}"
+	availability_domain = "${oci_core_subnet.test_subnet.availability_domain}"
 	compartment_id = "${var.compartment_id}"
 	subnet_id = "${oci_core_subnet.test_subnet.id}"
 }
@@ -25,7 +25,7 @@ resource "oci_file_storage_mount_target" "test_mount_target" {
 	MountTargetResourceConfig = MountTargetResourceDependencies + `
 resource "oci_file_storage_mount_target" "test_mount_target" {
 	#Required
-	availability_domain = "${var.mount_target_availability_domain}"
+	availability_domain = "${oci_core_subnet.test_subnet.availability_domain}"
 	compartment_id = "${var.compartment_id}"
 	subnet_id = "${oci_core_subnet.test_subnet.id}"
 
@@ -36,7 +36,6 @@ resource "oci_file_storage_mount_target" "test_mount_target" {
 }
 `
 	MountTargetPropertyVariables = `
-variable "mount_target_availability_domain" { default = "kIdk:PHX-AD-1" }
 variable "mount_target_display_name" { default = "mount-target-5" }
 variable "mount_target_hostname_label" { default = "hostnameLabel" }
 variable "mount_target_ip_address" { default = "10.0.1.5" } # Subnet CIDR = 10.0.0.0/16. This IP needs to be in the allowable range.
@@ -49,10 +48,8 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 
-	compartmentId := getRequiredEnvSetting("compartment_id_for_create")
+	compartmentId := getRequiredEnvSetting("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
-	compartmentId2 := getRequiredEnvSetting("compartment_id_for_update")
-	compartmentIdVariableStr2 := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId2)
 
 	resourceName := "oci_file_storage_mount_target.test_mount_target"
 	datasourceName := "data.oci_file_storage_mount_targets.test_mount_targets"
@@ -70,7 +67,7 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 				ImportStateVerify: true,
 				Config:            config + MountTargetPropertyVariables + compartmentIdVariableStr + MountTargetRequiredOnlyResource,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "availability_domain", "kIdk:PHX-AD-1"),
+					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 
@@ -89,7 +86,7 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 			{
 				Config: config + MountTargetPropertyVariables + compartmentIdVariableStr + MountTargetResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "availability_domain", "kIdk:PHX-AD-1"),
+					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "mount-target-5"),
 					resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnameLabel"),
@@ -111,14 +108,13 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 			// verify updates to updatable parameters
 			{
 				Config: config + `
-variable "mount_target_availability_domain" { default = "kIdk:PHX-AD-1" }
 variable "mount_target_display_name" { default = "displayName2" } # changing this value to test updates
 variable "mount_target_hostname_label" { default = "hostnameLabel" }
 variable "mount_target_ip_address" { default = "10.0.1.5" } # Subnet CIDR = 10.0.0.0/16. This IP needs to be in the allowable range.
 
                 ` + compartmentIdVariableStr + MountTargetResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "availability_domain", "kIdk:PHX-AD-1"),
+					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnameLabel"),
@@ -139,48 +135,16 @@ variable "mount_target_ip_address" { default = "10.0.1.5" } # Subnet CIDR = 10.0
 					},
 				),
 			},
-			// verify updates to Force New parameters.
-			{
-				Config: config + `
-variable "mount_target_availability_domain" { default = "kIdk:PHX-AD-1" }  # Subnet setup available in this AD only. So not changing.
-variable "mount_target_display_name" { default = "displayName2" }
-variable "mount_target_hostname_label" { default = "hostnameLabel2" }
-variable "mount_target_ip_address" { default = "10.0.1.6" } # Subnet CIDR = 10.0.0.0/16. This IP needs to be in the allowable range.
-
-                ` + compartmentIdVariableStr2 + MountTargetResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "availability_domain", "kIdk:PHX-AD-1"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId2),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnameLabel2"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.1.6"),
-					resource.TestCheckResourceAttr(resourceName, "private_ip_ids.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "private_ip_ids.0"),
-					resource.TestCheckResourceAttr(resourceName, "state", string(oci_file_storage.MountTargetLifecycleStateActive)),
-					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId == resId2 {
-							return fmt.Errorf("Resource was expected to be recreated but it wasn't.")
-						}
-						return err
-					},
-				),
-			},
 			// verify datasource
 			{
 				Config: config + `
-variable "mount_target_availability_domain" { default = "kIdk:PHX-AD-1" }
 variable "mount_target_display_name" { default = "displayName2" }
-variable "mount_target_hostname_label" { default = "hostnameLabel2" }
+variable "mount_target_hostname_label" { default = "hostnameLabel" }
 variable "mount_target_ip_address" { default = "10.0.1.5" } # Subnet CIDR = 10.0.0.0/16. This IP needs to be in the allowable range.
 
 data "oci_file_storage_mount_targets" "test_mount_targets" {
 	#Required
-	availability_domain = "${var.mount_target_availability_domain}"
+	availability_domain = "${oci_file_storage_mount_target.test_mount_target.availability_domain}"
 	compartment_id = "${var.compartment_id}"
 
 	#Optional
@@ -193,13 +157,12 @@ data "oci_file_storage_mount_targets" "test_mount_targets" {
     	values = ["${oci_file_storage_mount_target.test_mount_target.id}"]
     }
 }
-                ` + compartmentIdVariableStr2 + MountTargetResourceConfig,
-				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(datasourceName, "availability_domain", "kIdk:PHX-AD-1"),
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId2),
+                ` + compartmentIdVariableStr + MountTargetResourceConfig,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
+					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "mount_targets.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "mount_targets.0.availability_domain", "kIdk:PHX-AD-1"),
-					resource.TestCheckResourceAttr(datasourceName, "mount_targets.0.compartment_id", compartmentId2),
+					resource.TestCheckResourceAttr(datasourceName, "mount_targets.0.compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "mount_targets.0.display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(datasourceName, "mount_targets.0.id"),
 					resource.TestCheckResourceAttr(datasourceName, "mount_targets.0.private_ip_ids.#", "1"),

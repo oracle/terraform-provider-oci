@@ -1084,22 +1084,23 @@ func createDBSystem(t *testing.T, dbSystemName string, databaseName string) *str
 	failIfError(t, clerr)
 	// create a new db system
 	request := database.LaunchDbSystemRequest{}
-	request.AvailabilityDomain = common.String(validAD())
-	request.CompartmentId = common.String(getCompartmentID())
-	request.CpuCoreCount = common.Int(2)
-	request.DatabaseEdition = "ENTERPRISE_EDITION"
-	request.DisplayName = common.String(dbSystemName)
-	request.Shape = common.String("BM.DenseIO1.36") // this shape will not get service limit error for now
+	details := database.LaunchDbSystemDetails{}
+	details.AvailabilityDomain = common.String(validAD())
+	details.CompartmentId = common.String(getCompartmentID())
+	details.CpuCoreCount = common.Int(2)
+	details.DatabaseEdition = "ENTERPRISE_EDITION"
+	details.DisplayName = common.String(dbSystemName)
+	details.Shape = common.String("BM.DenseIO1.36") // this shape will not get service limit error for now
 
 	buffer, err := readTestPubKey()
 	failIfError(t, err)
-	request.SshPublicKeys = []string{string(buffer)}
+	details.SshPublicKeys = []string{string(buffer)}
 
 	subnet := createOrGetSubnet(t)
-	request.SubnetId = subnet.Id
-	request.Hostname = common.String("test")
+	details.SubnetId = subnet.Id
+	details.Hostname = common.String("test")
 
-	request.DbHome = &database.CreateDbHomeDetails{
+	details.DbHome = &database.CreateDbHomeDetails{
 		DbVersion:   common.String("11.2.0.4"),
 		DisplayName: common.String(dbHomeDisplayName),
 		Database: &database.CreateDatabaseDetails{
@@ -1108,6 +1109,7 @@ func createDBSystem(t *testing.T, dbSystemName string, databaseName string) *str
 		},
 	}
 
+	request.LaunchDbSystemDetails = details
 	resp, err := c.LaunchDbSystem(context.Background(), request)
 	failIfError(t, err)
 

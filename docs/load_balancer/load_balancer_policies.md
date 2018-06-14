@@ -14,11 +14,11 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `policies` - The list of load_balancer_policies.
+* `policies` - The list of policies.
 
 ### Example Usage
 
-```
+```hcl
 data "oci_load_balancer_policies" "test_load_balancer_policies" {
 	#Required
 	compartment_id = "${var.compartment_id}"

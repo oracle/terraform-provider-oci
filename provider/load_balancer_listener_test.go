@@ -21,6 +21,7 @@ resource "oci_load_balancer_listener" "test_listener" {
 	protocol = "${var.listener_protocol}"
 }
 `
+
 	ListenerResourceConfig = ListenerResourceDependencies + `
 resource "oci_load_balancer_listener" "test_listener" {
 	#Required
@@ -171,10 +172,8 @@ func TestLoadBalancerListenerResource_basic(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 
-	compartmentId := getRequiredEnvSetting("compartment_id_for_create")
+	compartmentId := getRequiredEnvSetting("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
-	compartmentId2 := getRequiredEnvSetting("compartment_id_for_update")
-	compartmentIdVariableStr2 := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId2)
 
 	resourceName := "oci_load_balancer_listener.test_listener"
 
@@ -270,130 +269,6 @@ variable "listener_ssl_configuration_verify_peer_certificate" { default = true }
 						if resId != resId2 {
 							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 						}
-						return err
-					},
-				),
-			},
-			// verify updates to Force New parameters.
-			{
-				Config: config + `
-variable "listener_connection_configuration_idle_timeout_in_seconds" { default = 11 }
-variable "listener_default_backend_set_name" { default = "example_backend_set" }
-variable "listener_hostname_names" { default = [] }
-variable "listener_name" { default = "mylistener2" }
-variable "listener_port" { default = 11 }
-variable "listener_protocol" { default = "HTTP2" }
-variable "listener_ssl_configuration_certificate_name" { default = "example_certificate_bundle" }
-variable "listener_ssl_configuration_verify_depth" { default = 11 }
-variable "listener_ssl_configuration_verify_peer_certificate" { default = true }
-
-                ` + compartmentIdVariableStr2 + ListenerResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "connection_configuration.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "connection_configuration.0.idle_timeout_in_seconds", "11"),
-					resource.TestCheckResourceAttr(resourceName, "default_backend_set_name", "example_backend_set"),
-					resource.TestCheckResourceAttr(resourceName, "hostname_names.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "hostname_names.0", "example_hostname_001"),
-					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
-					resource.TestCheckResourceAttr(resourceName, "name", "mylistener2"),
-					resource.TestCheckResourceAttrSet(resourceName, "path_route_set_name"),
-					resource.TestCheckResourceAttr(resourceName, "port", "11"),
-					resource.TestCheckResourceAttr(resourceName, "protocol", "HTTP2"),
-					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.certificate_name", "example_certificate_bundle"),
-					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_depth", "11"),
-					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_peer_certificate", "true"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId == resId2 {
-							return fmt.Errorf("Resource was expected to be recreated but it wasn't.")
-						}
-						return err
-					},
-				),
-			},
-		},
-	})
-}
-
-func TestLoadBalancerListenerResource_forcenew(t *testing.T) {
-	provider := testAccProvider
-	config := testProviderConfig()
-
-	compartmentId := getRequiredEnvSetting("compartment_id_for_create")
-	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
-
-	resourceName := "oci_load_balancer_listener.test_listener"
-
-	var resId, resId2 string
-
-	resource.Test(t, resource.TestCase{
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		Steps: []resource.TestStep{
-			// verify create with optionals
-			{
-				Config: config + ListenerPropertyVariables + compartmentIdVariableStr + ListenerResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "connection_configuration.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "connection_configuration.0.idle_timeout_in_seconds", "10"),
-					resource.TestCheckResourceAttr(resourceName, "default_backend_set_name", "example_backend_set"),
-					resource.TestCheckResourceAttr(resourceName, "hostname_names.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "hostname_names.0", "example_hostname_001"),
-					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
-					resource.TestCheckResourceAttr(resourceName, "name", "mylistener"),
-					resource.TestCheckResourceAttrSet(resourceName, "path_route_set_name"),
-					resource.TestCheckResourceAttr(resourceName, "port", "10"),
-					resource.TestCheckResourceAttr(resourceName, "protocol", "HTTP"),
-					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.certificate_name", "example_certificate_bundle"),
-					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_depth", "10"),
-					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_peer_certificate", "false"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
-			// force new tests, test that changing a parameter would result in creation of a new resource.
-
-			{
-				Config: config + `
-variable "listener_connection_configuration_idle_timeout_in_seconds" { default = 10 }
-variable "listener_default_backend_set_name" { default = "example_backend_set" }
-variable "listener_hostname_names" { default = [] }
-variable "listener_name" { default = "mylistener2" }
-variable "listener_port" { default = 10 }
-variable "listener_protocol" { default = "HTTP" }
-variable "listener_ssl_configuration_certificate_name" { default = "example_certificate_bundle" }
-variable "listener_ssl_configuration_verify_depth" { default = 10 }
-variable "listener_ssl_configuration_verify_peer_certificate" { default = false }
-				` + compartmentIdVariableStr + ListenerResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "connection_configuration.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "connection_configuration.0.idle_timeout_in_seconds", "10"),
-					resource.TestCheckResourceAttr(resourceName, "default_backend_set_name", "example_backend_set"),
-					resource.TestCheckResourceAttr(resourceName, "hostname_names.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "hostname_names.0", "example_hostname_001"),
-					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
-					resource.TestCheckResourceAttr(resourceName, "name", "mylistener2"),
-					resource.TestCheckResourceAttrSet(resourceName, "path_route_set_name"),
-					resource.TestCheckResourceAttr(resourceName, "port", "10"),
-					resource.TestCheckResourceAttr(resourceName, "protocol", "HTTP"),
-					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.certificate_name", "example_certificate_bundle"),
-					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_depth", "10"),
-					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_peer_certificate", "false"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId == resId2 {
-							return fmt.Errorf("Resource was expected to be recreated when updating parameter Name but the id did not change.")
-						}
-						resId = resId2
 						return err
 					},
 				),

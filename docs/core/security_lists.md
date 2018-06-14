@@ -171,7 +171,7 @@ Any change to a property that does not support update will force the destruction
 
 ### Example Usage
 
-```
+```hcl
 resource "oci_core_security_list" "test_security_list" {
 	#Required
 	compartment_id = "${var.compartment_id}"
@@ -279,7 +279,7 @@ The following attributes are exported:
 
 ### Example Usage
 
-```
+```hcl
 data "oci_core_security_lists" "test_security_lists" {
 	#Required
 	compartment_id = "${var.compartment_id}"

@@ -50,7 +50,7 @@ func (s *ResourceCoreVnicAttachmentTestSuite) TestAccResourceCoreVnicAttachment_
 					data "oci_core_vnic" "v" {
 						vnic_id = "${oci_core_vnic_attachment.va.vnic_id}"
 					}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-va1"),
@@ -94,7 +94,7 @@ func (s *ResourceCoreVnicAttachmentTestSuite) TestAccResourceCoreVnicAttachment_
 					data "oci_core_vnic" "v" {
 						vnic_id = "${oci_core_vnic_attachment.va.vnic_id}"
 					}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-va1"),
@@ -143,7 +143,7 @@ func (s *ResourceCoreVnicAttachmentTestSuite) TestAccResourceCoreVnicAttachment_
 						  vnic_id = "${oci_core_vnic_attachment.va.vnic_id}"
 						}
 					`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(core.VnicAttachmentLifecycleStateAttached)),
 					resource.TestCheckResourceAttrSet(s.VnicResourceName, "id"),
 					resource.TestCheckResourceAttr(s.VnicResourceName, "private_ip_address", "10.0.1.20"),
@@ -183,7 +183,7 @@ func (s *ResourceCoreVnicAttachmentTestSuite) TestAccResourceCoreVnicAttachment_
 						  vnic_id = "${oci_core_vnic_attachment.va.vnic_id}"
 						}
 					`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(core.VnicAttachmentLifecycleStateAttached)),
 					resource.TestCheckResourceAttr(s.VnicResourceName, "private_ip_address", "10.0.1.20"),
 					resource.TestCheckResourceAttr(s.VnicResourceName, "skip_source_dest_check", "true"),

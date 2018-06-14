@@ -47,7 +47,7 @@ func (s *DatasourceIdentityUsersTestSuite) TestAccDatasourceIdentityUsers_basic(
 				data "oci_identity_users" "t" {
 					compartment_id = "${var.tenancy_ocid}"
 				}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "users.#"),
 				),
 			},
@@ -60,7 +60,7 @@ func (s *DatasourceIdentityUsersTestSuite) TestAccDatasourceIdentityUsers_basic(
 						values = ["{{.token}}"]
 					}
 				}`, nil),
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "users.#", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "users.0.name", s.Token),
 					resource.TestCheckResourceAttr(s.ResourceName, "users.0.description", "automated test user"),

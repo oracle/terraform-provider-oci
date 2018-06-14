@@ -79,7 +79,7 @@ func (s *ResourceLoadBalancerLBTestSuite) TestAccResourceLoadBalancerLB_basicPri
 					display_name = "-tf-lb"
 					is_private = true
 				}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-lb"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "shape"),
 					resource.TestCheckResourceAttr(s.ResourceName, "subnet_ids.#", "1"),
@@ -102,7 +102,7 @@ func (s *ResourceLoadBalancerLBTestSuite) TestAccResourceLoadBalancerLB_basicPri
 					subnet_ids     = ["${oci_core_subnet.t.id}"]
 					display_name   = "-tf-lb-updated"
 				}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-lb-updated"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "shape"),
 					resource.TestCheckResourceAttr(s.ResourceName, "subnet_ids.#", "1"),
@@ -129,7 +129,7 @@ func (s *ResourceLoadBalancerLBTestSuite) TestAccResourceLoadBalancerLB_basicPri
 					display_name   = "-tf-lb-updated"
 					is_private 	   = false
 				}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-lb-updated"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "shape"),
 					resource.TestCheckResourceAttr(s.ResourceName, "subnet_ids.#", "2"),
@@ -165,7 +165,7 @@ func (s *ResourceLoadBalancerLBTestSuite) TestAccResourceLoadBalancerLB_basicPub
 					subnet_ids = ["${oci_core_subnet.t.id}", "${oci_core_subnet.t2.id}"]
 					display_name = "-tf-lb"
 				}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-lb"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "shape"),

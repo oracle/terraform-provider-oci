@@ -31,10 +31,8 @@ func TestLoadBalancerHostnameResource_basic(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 
-	compartmentId := getRequiredEnvSetting("compartment_id_for_create")
+	compartmentId := getRequiredEnvSetting("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
-	compartmentId2 := getRequiredEnvSetting("compartment_id_for_update")
-	compartmentIdVariableStr2 := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId2)
 
 	resourceName := "oci_load_balancer_hostname.test_hostname"
 	datasourceName := "data.oci_load_balancer_hostnames.test_hostnames"
@@ -84,32 +82,11 @@ variable "hostname_name" { default = "example_hostname_001" }
 					},
 				),
 			},
-			// verify updates to Force New parameters.
-			{
-				Config: config + `
-variable "hostname_hostname" { default = "hostname2" }
-variable "hostname_name" { default = "name2" }
-
-                ` + compartmentIdVariableStr2 + HostnameResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "hostname", "hostname2"),
-					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
-					resource.TestCheckResourceAttr(resourceName, "name", "name2"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId == resId2 {
-							return fmt.Errorf("Resource was expected to be recreated but it wasn't.")
-						}
-						return err
-					},
-				),
-			},
 			// verify datasource
 			{
 				Config: config + `
 variable "hostname_hostname" { default = "hostname2" }
-variable "hostname_name" { default = "name2" }
+variable "hostname_name" { default = "example_hostname_001" }
 
 data "oci_load_balancer_hostnames" "test_hostnames" {
 	#Required
@@ -120,13 +97,13 @@ data "oci_load_balancer_hostnames" "test_hostnames" {
     	values = ["${oci_load_balancer_hostname.test_hostname.name}"]
     }
 }
-                ` + compartmentIdVariableStr2 + HostnameResourceConfig,
-				Check: resource.ComposeTestCheckFunc(
+                ` + compartmentIdVariableStr + HostnameResourceConfig,
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "load_balancer_id"),
 
 					resource.TestCheckResourceAttr(datasourceName, "hostnames.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "hostnames.0.hostname", "hostname2"),
-					resource.TestCheckResourceAttr(datasourceName, "hostnames.0.name", "name2"),
+					resource.TestCheckResourceAttr(datasourceName, "hostnames.0.name", "example_hostname_001"),
 				),
 			},
 		},

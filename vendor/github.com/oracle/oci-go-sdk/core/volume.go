@@ -64,6 +64,9 @@ type Volume struct {
 	// The volume source, either an existing volume in the same Availability Domain or a volume backup.
 	// If null, an empty volume is created.
 	SourceDetails VolumeSourceDetails `mandatory:"false" json:"sourceDetails"`
+
+	// The OCID of the source volume group.
+	VolumeGroupId *string `mandatory:"false" json:"volumeGroupId"`
 }
 
 func (m Volume) String() string {
@@ -78,6 +81,7 @@ func (m *Volume) UnmarshalJSON(data []byte) (e error) {
 		IsHydrated         *bool                             `json:"isHydrated"`
 		SizeInGBs          *int                              `json:"sizeInGBs"`
 		SourceDetails      volumesourcedetails               `json:"sourceDetails"`
+		VolumeGroupId      *string                           `json:"volumeGroupId"`
 		AvailabilityDomain *string                           `json:"availabilityDomain"`
 		CompartmentId      *string                           `json:"compartmentId"`
 		DisplayName        *string                           `json:"displayName"`
@@ -100,6 +104,7 @@ func (m *Volume) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	m.SourceDetails = nn.(VolumeSourceDetails)
+	m.VolumeGroupId = model.VolumeGroupId
 	m.AvailabilityDomain = model.AvailabilityDomain
 	m.CompartmentId = model.CompartmentId
 	m.DisplayName = model.DisplayName

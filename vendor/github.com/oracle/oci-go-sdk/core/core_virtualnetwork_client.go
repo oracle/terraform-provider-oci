@@ -3774,7 +3774,7 @@ func (client VirtualNetworkClient) listVirtualCircuits(ctx context.Context, requ
 	return response, err
 }
 
-// UpdateCpe Updates the specified CPE's display name.
+// UpdateCpe Updates the specified CPE's display name or tags.
 // Avoid entering confidential information.
 func (client VirtualNetworkClient) UpdateCpe(ctx context.Context, request UpdateCpeRequest) (response UpdateCpeResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3934,7 +3934,7 @@ func (client VirtualNetworkClient) updateDhcpOptions(ctx context.Context, reques
 	return response, err
 }
 
-// UpdateDrg Updates the specified DRG's display name. Avoid entering confidential information.
+// UpdateDrg Updates the specified DRG's display name or tags. Avoid entering confidential information.
 func (client VirtualNetworkClient) UpdateDrg(ctx context.Context, request UpdateDrgRequest) (response UpdateDrgResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4013,7 +4013,7 @@ func (client VirtualNetworkClient) updateDrgAttachment(ctx context.Context, requ
 	return response, err
 }
 
-// UpdateIPSecConnection Updates the display name for the specified IPSec connection.
+// UpdateIPSecConnection Updates the display name or tags for the specified IPSec connection.
 // Avoid entering confidential information.
 func (client VirtualNetworkClient) UpdateIPSecConnection(ctx context.Context, request UpdateIPSecConnectionRequest) (response UpdateIPSecConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4053,8 +4053,8 @@ func (client VirtualNetworkClient) updateIPSecConnection(ctx context.Context, re
 	return response, err
 }
 
-// UpdateInternetGateway Updates the specified Internet Gateway. You can disable/enable it, or change its display name.
-// Avoid entering confidential information.
+// UpdateInternetGateway Updates the specified Internet Gateway. You can disable/enable it, or change its display name
+// or tags. Avoid entering confidential information.
 // If the gateway is disabled, that means no traffic will flow to/from the internet even if there's
 // a route rule that enables that traffic.
 func (client VirtualNetworkClient) UpdateInternetGateway(ctx context.Context, request UpdateInternetGatewayRequest) (response UpdateInternetGatewayResponse, err error) {
@@ -4185,7 +4185,7 @@ func (client VirtualNetworkClient) updatePrivateIp(ctx context.Context, request 
 // * Move a reserved public IP to a different private IP.
 // * Unassign a reserved public IP from a private IP (which returns it to your pool
 // of reserved public IPs).
-// * Change the display name for a public IP.
+// * Change the display name or tags for a public IP.
 // Assigning, moving, and unassigning a reserved public IP are asynchronous
 // operations. Poll the public IP's `lifecycleState` to determine if the operation
 // succeeded.

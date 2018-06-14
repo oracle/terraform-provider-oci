@@ -97,7 +97,9 @@ func (s *ApiKeysDataSourceCrud) SetData() {
 
 		apiKey["state"] = r.LifecycleState
 
-		apiKey["time_created"] = r.TimeCreated.String()
+		if r.TimeCreated != nil {
+			apiKey["time_created"] = r.TimeCreated.String()
+		}
 
 		resources = append(resources, apiKey)
 	}

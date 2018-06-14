@@ -137,7 +137,9 @@ func (s *ExportSetsDataSourceCrud) SetData() {
 
 		exportSet["state"] = r.LifecycleState
 
-		exportSet["time_created"] = r.TimeCreated.String()
+		if r.TimeCreated != nil {
+			exportSet["time_created"] = r.TimeCreated.String()
+		}
 
 		if r.VcnId != nil {
 			exportSet["vcn_id"] = *r.VcnId

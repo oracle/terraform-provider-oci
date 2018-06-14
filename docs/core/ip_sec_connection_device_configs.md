@@ -25,7 +25,7 @@ The following attributes are exported:
 
 ### Example Usage
 
-```
+```hcl
 data "oci_core_ipsec_config" "test_ip_sec_connection_device_configs" {
 	#Required
 	ipsec_id = "${var.ip_sec_connection_device_config_ipsc_id}"

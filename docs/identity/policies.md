@@ -29,7 +29,7 @@ You must also specify a *description* for the policy (although it can be an empt
 have to be unique, and you can change it anytime with [UpdatePolicy](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/identity/20160918/Policy/UpdatePolicy).
 
 You must specify one or more policy statements in the statements array. For information about writing
-policies, see [How Policies Work](https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/policies.htm) and 
+policies, see [How Policies Work](https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/policies.htm) and
 [Common Policies](https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/commonpolicies.htm).
 
 After you send your request, the new object's `lifecycleState` will temporarily be CREATING. Before using the
@@ -43,7 +43,7 @@ The following arguments are supported:
 * `compartment_id` - (Required) The OCID of the compartment containing the policy (either the tenancy or another compartment).
 * `description` - (Required) The description you assign to the policy during creation. Does not have to be unique, and it's changeable. 
 * `name` - (Required) The name you assign to the policy during creation. The name must be unique across all policies in the tenancy and cannot be changed. 
-* `statements` - (Required) An array of policy statements written in the policy language. See [How Policies Work](https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/policies.htm) and  [Common Policies](https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/commonpolicies.htm). 
+* `statements` - (Required) An array of policy statements written in the policy language. See [How Policies Work](https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/policies.htm) and [Common Policies](https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/commonpolicies.htm). 
 * `version_date` - (Optional) The version of the policy. If null or set to an empty string, when a request comes in for authorization, the policy will be evaluated according to the current behavior of the services at that moment. If set to a particular date (YYYY-MM-DD), the policy will be evaluated according to the behavior of the services on that date. 
 
 
@@ -55,7 +55,7 @@ Policy changes take effect typically within 10 seconds.
 
 The following arguments support updates:
 * `description` - The description you assign to the policy during creation. Does not have to be unique, and it's changeable. 
-* `statements` - An array of policy statements written in the policy language. See [How Policies Work](https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/policies.htm) and  [Common Policies](https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/commonpolicies.htm). 
+* `statements` - An array of policy statements written in the policy language. See [How Policies Work](https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/policies.htm) and [Common Policies](https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/commonpolicies.htm). 
 * `version_date` - The version of the policy. If null or set to an empty string, when a request comes in for authorization, the policy will be evaluated according to the current behavior of the services at that moment. If set to a particular date (YYYY-MM-DD), the policy will be evaluated according to the behavior of the services on that date. 
 
 
@@ -64,7 +64,7 @@ Any change to a property that does not support update will force the destruction
 
 ### Example Usage
 
-```
+```hcl
 resource "oci_identity_policy" "test_policy" {
 	#Required
 	compartment_id = "${var.compartment_id}"
@@ -84,7 +84,7 @@ resource "oci_identity_policy" "test_policy" {
 Gets a list of policies.
 
 ### List Operation
-Lists the policies in the specified compartment (either the tenancy or another of your compartments). 
+Lists the policies in the specified compartment (either the tenancy or another of your compartments).
 See [Where to Get the Tenancy's OCID and User's OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/API/Concepts/apisigningkey.htm#five).
 
 To determine which policies apply to a particular group or compartment, you must view the individual
@@ -101,7 +101,7 @@ The following attributes are exported:
 
 ### Example Usage
 
-```
+```hcl
 data "oci_identity_policies" "test_policies" {
 	#Required
 	compartment_id = "${var.compartment_id}"

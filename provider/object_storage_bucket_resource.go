@@ -8,6 +8,7 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
+
 	"github.com/oracle/terraform-provider-oci/crud"
 )
 
@@ -273,7 +274,9 @@ func (s *BucketResourceCrud) SetData() {
 		s.D.Set("namespace", *s.Res.Namespace)
 	}
 
-	s.D.Set("time_created", s.Res.TimeCreated.String())
+	if s.Res.TimeCreated != nil {
+		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
 
 }
 

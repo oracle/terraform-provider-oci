@@ -11,6 +11,8 @@ import (
 	"strings"
 	"time"
 
+	"sync"
+
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_common "github.com/oracle/oci-go-sdk/common"
@@ -34,7 +36,8 @@ const (
 )
 
 type BaseCrud struct {
-	D *schema.ResourceData
+	D     *schema.ResourceData
+	Mutex *sync.Mutex
 }
 
 func (s *BaseCrud) VoidState() {
@@ -229,6 +232,13 @@ func CreateDBSystemResource(d *schema.ResourceData, sync ResourceCreator) (e err
 }
 
 func CreateResource(d *schema.ResourceData, sync ResourceCreator) (e error) {
+	if synchronizedResource, ok := sync.(SynchronizedResource); ok {
+		if mutex := synchronizedResource.GetMutex(); mutex != nil {
+			mutex.Lock()
+			defer mutex.Unlock()
+		}
+	}
+
 	if e = sync.Create(); e != nil {
 		return e
 	}
@@ -279,6 +289,13 @@ func ReadResource(sync ResourceReader) (e error) {
 }
 
 func UpdateResource(d *schema.ResourceData, sync ResourceUpdater) (e error) {
+	if synchronizedResource, ok := sync.(SynchronizedResource); ok {
+		if mutex := synchronizedResource.GetMutex(); mutex != nil {
+			mutex.Lock()
+			defer mutex.Unlock()
+		}
+	}
+
 	d.Partial(true)
 	if e = sync.Update(); e != nil {
 		return
@@ -299,6 +316,13 @@ func UpdateResource(d *schema.ResourceData, sync ResourceUpdater) (e error) {
 // () -> Pending -> Deleted.
 // Finally, sets the ResourceData state to empty.
 func DeleteResource(d *schema.ResourceData, sync ResourceDeleter) (e error) {
+	if synchronizedResource, ok := sync.(SynchronizedResource); ok {
+		if mutex := synchronizedResource.GetMutex(); mutex != nil {
+			mutex.Lock()
+			defer mutex.Unlock()
+		}
+	}
+
 	if e = sync.Delete(); e != nil {
 		handleMissingResourceError(sync, &e)
 		return
@@ -402,6 +426,16 @@ func StringsToSet(ss []string) *schema.Set {
 		st.Add(s)
 	}
 	return st
+}
+
+// SetToString encodes an *schema.Set into an []string honoring the structure for the schema
+func SetToStrings(volumeIdsSet *schema.Set) []string {
+	interfaces := volumeIdsSet.List()
+	tmp := make([]string, len(interfaces))
+	for i, toBeConverted := range interfaces {
+		tmp[i] = toBeConverted.(string)
+	}
+	return tmp
 }
 
 // NormalizeBoolString parses a string value into a bool value, and if successful, formats it back

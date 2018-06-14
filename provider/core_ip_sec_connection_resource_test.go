@@ -54,7 +54,7 @@ func (s *ResourceCoreIPSecTestSuite) TestAccResourceCoreIpsec_basic() {
 					drg_id = "${oci_core_drg.t.id}"
 					static_routes = ["10.0.0.0/16"]
 				}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "drg_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "cpe_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
@@ -78,7 +78,7 @@ func (s *ResourceCoreIPSecTestSuite) TestAccResourceCoreIpsec_basic() {
 					display_name = "-tf-ipsec"
 					static_routes = ["10.0.0.0/16"]
 				}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-ipsec"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "drg_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "cpe_id"),
@@ -97,10 +97,10 @@ func (s *ResourceCoreIPSecTestSuite) TestAccResourceCoreIpsec_basic() {
 			},
 			// Verify Force New Update
 			{
-				Config: legacyTestProviderConfig() + `
+				Config: s.Config + `
 					resource "oci_core_drg" "u" {
-					compartment_id = "${var.compartment_id}"
-					display_name = "-tf-drg-ipsec-upd"
+						compartment_id = "${var.compartment_id}"
+						display_name = "-tf-drg-ipsec-upd"
 					}
 					resource "oci_core_cpe" "u" {
 						compartment_id = "${var.compartment_id}"
@@ -115,7 +115,7 @@ func (s *ResourceCoreIPSecTestSuite) TestAccResourceCoreIpsec_basic() {
 						display_name = "-tf-ipsec"
 						static_routes = ["10.0.0.0/16"]
 					}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-ipsec"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "drg_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "cpe_id"),

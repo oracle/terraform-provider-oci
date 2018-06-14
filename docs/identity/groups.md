@@ -17,11 +17,11 @@ The following attributes are exported:
 
 
 ### Create Operation
-Creates a new group in your tenancy. 
+Creates a new group in your tenancy.
 
 You must specify your tenancy's OCID as the compartment ID in the request object (remember that the tenancy
-is simply the root compartment). Notice that IAM resources (users, groups, compartments, and some policies) 
-reside within the tenancy itself, unlike cloud resources such as compute instances, which typically 
+is simply the root compartment). Notice that IAM resources (users, groups, compartments, and some policies)
+reside within the tenancy itself, unlike cloud resources such as compute instances, which typically
 reside within compartments inside the tenancy. For information about OCIDs, see
 [Resource Identifiers](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
 
@@ -36,7 +36,7 @@ After you send your request, the new object's `lifecycleState` will temporarily 
 object, first make sure its `lifecycleState` has changed to ACTIVE.
 
 After creating the group, you need to put users in it and write policies for it.
-See [AddUserToGroup](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/identity/20160918/UserGroupMembership/AddUserToGroup) and 
+See [AddUserToGroup](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/identity/20160918/UserGroupMembership/AddUserToGroup) and
 [CreatePolicy](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/identity/20160918/Policy/CreatePolicy).
 
 
@@ -59,7 +59,7 @@ Any change to a property that does not support update will force the destruction
 
 ### Example Usage
 
-```
+```hcl
 resource "oci_identity_group" "test_group" {
 	#Required
 	compartment_id = "${var.compartment_id}"
@@ -90,7 +90,7 @@ The following attributes are exported:
 
 ### Example Usage
 
-```
+```hcl
 data "oci_identity_groups" "test_groups" {
 	#Required
 	compartment_id = "${var.compartment_id}"

@@ -68,7 +68,7 @@ Any change to a property that does not support update will force the destruction
 
 ### Example Usage
 
-```
+```hcl
 resource "oci_load_balancer_path_route_set" "test_path_route_set" {
 	#Required
 	load_balancer_id = "${oci_load_balancer_load_balancer.test_load_balancer.id}"
@@ -104,7 +104,7 @@ The following attributes are exported:
 
 ### Example Usage
 
-```
+```hcl
 data "oci_load_balancer_path_route_sets" "test_path_route_sets" {
 	#Required
 	load_balancer_id = "${oci_load_balancer_load_balancer.test_load_balancer.id}"

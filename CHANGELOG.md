@@ -3,6 +3,18 @@ All notable changes to this project are documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+## 2.1.12 - 2018-06-14
+
+### Added
+- Support importing images from object store or external sources.
+- Updated Terraform Provider to use LaunchDbSystemDetails to provision DbSystem resource.
+- Fix orphaned load balancer backend on port change [#519](https://github.com/oracle/terraform-provider-oci/issues/519).
+- Fix to example in Route Tables documentation file.
+- Added support for AuthToken Resource (replacement of deprecated SwiftPasswords) in Identity Service.
+- Added support for Volume Group and Volume Group Backup.
+- HCL syntax highlighting in docs
+- Nil checks for time properties to avoid panic
+
 ## 2.1.10 - 2018-05-24
 
 ### Added

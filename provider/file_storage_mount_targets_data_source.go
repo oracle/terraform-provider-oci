@@ -156,7 +156,9 @@ func (s *MountTargetsDataSourceCrud) SetData() {
 			mountTarget["subnet_id"] = *r.SubnetId
 		}
 
-		mountTarget["time_created"] = r.TimeCreated.String()
+		if r.TimeCreated != nil {
+			mountTarget["time_created"] = r.TimeCreated.String()
+		}
 
 		resources = append(resources, mountTarget)
 	}

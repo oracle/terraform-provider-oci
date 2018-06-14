@@ -69,7 +69,7 @@ Any change to a property that does not support update will force the destruction
 
 ### Example Usage
 
-```
+```hcl
 resource "oci_core_ipsec" "test_ip_sec_connection" {
 	#Required
 	compartment_id = "${var.compartment_id}"
@@ -105,7 +105,7 @@ The following attributes are exported:
 
 ### Example Usage
 
-```
+```hcl
 data "oci_core_ipsec_connections" "test_ip_sec_connections" {
 	#Required
 	compartment_id = "${var.compartment_id}"

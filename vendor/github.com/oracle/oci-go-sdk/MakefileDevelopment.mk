@@ -6,7 +6,7 @@ REMOVE_AFTER_GENERATE=audit/audit_waiters.go objectstorage/objectstorage_waiters
 #### Versions
 #### If you are doing a release, do not forget to increment this versions
 VER_MAJOR=1
-VER_MINOR=3
+VER_MINOR=6
 ###################
 
 ##### Integ test setup
@@ -42,7 +42,7 @@ $(TARGETS): %:integtest/%_client_integ_test.go
 
 generate:
 	@echo "Cleaning and generating sdk"
-	@(cd $(PROJECT_PATH) && make clean)
+	@(cd $(PROJECT_PATH) && make clean-generate)
 	PROJECT_NAME=$(PROJECT_NAME) mvn clean install
 	@(cd $(PROJECT_PATH) && rm -f $(REMOVE_AFTER_GENERATE))
 

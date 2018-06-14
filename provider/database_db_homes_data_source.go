@@ -140,7 +140,9 @@ func (s *DbHomesDataSourceCrud) SetData() {
 
 		dbHome["state"] = r.LifecycleState
 
-		dbHome["time_created"] = r.TimeCreated.String()
+		if r.TimeCreated != nil {
+			dbHome["time_created"] = r.TimeCreated.String()
+		}
 
 		resources = append(resources, dbHome)
 	}

@@ -40,7 +40,7 @@ Any change to a property that does not support update will force the destruction
 
 ### Example Usage
 
-```
+```hcl
 resource "oci_identity_user_group_membership" "test_user_group_membership" {
 	#Required
 	group_id = "${oci_identity_group.test_group.id}"
@@ -64,6 +64,7 @@ You must also then filter the list in one of these ways:
 - Similarly, you can limit the results to just the memberships for a given group by specifying a `groupId`.
 - You can set both the `userId` and `groupId` to determine if the specified user is in the specified group.
 If the answer is no, the response is an empty list.
+- Although`userId` and `groupId` are not indvidually required, you must set one of them.
 
 The following arguments are supported:
 
@@ -74,11 +75,11 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `user_group_memberships` - The list of user_group_memberships.
+* `memberships` - The list of memberships.
 
 ### Example Usage
 
-```
+```hcl
 data "oci_identity_user_group_memberships" "test_user_group_memberships" {
 	#Required
 	compartment_id = "${var.compartment_id}"

@@ -37,7 +37,7 @@ Any change to a property that does not support update will force the destruction
 
 ### Example Usage
 
-```
+```hcl
 resource "oci_load_balancer_hostname" "test_hostname" {
 	#Required
 	hostname = "${var.hostname_hostname}"
@@ -65,7 +65,7 @@ The following attributes are exported:
 
 ### Example Usage
 
-```
+```hcl
 data "oci_load_balancer_hostnames" "test_hostnames" {
 	#Required
 	load_balancer_id = "${oci_load_balancer_load_balancer.test_load_balancer.id}"

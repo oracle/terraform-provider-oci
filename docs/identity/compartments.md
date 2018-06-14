@@ -10,7 +10,7 @@ The following attributes are exported:
 * `description` - The description you assign to the compartment. Does not have to be unique, and it's changeable.
 * `id` - The OCID of the compartment.
 * `inactive_state` - The detailed status of INACTIVE lifecycleState.
-* `name` - The name you assign to the compartment during creation. The name must be unique across all  compartments in the tenancy. 
+* `name` - The name you assign to the compartment during creation. The name must be unique across all compartments in the tenancy. Avoid entering confidential information. 
 * `state` - The compartment's current state. After creating a compartment, make sure its `lifecycleState` changes from CREATING to ACTIVE before using it. 
 * `time_created` - Date and time the compartment was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
 
@@ -33,7 +33,7 @@ to the compartment. For more information about policies, see
 [How Policies Work](https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/policies.htm).
 
 You must also specify a *description* for the compartment (although it can be an empty string). It does
-not have to be unique, and you can change it anytime with 
+not have to be unique, and you can change it anytime with
 [UpdateCompartment](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/identity/20160918/Compartment/UpdateCompartment).
 
 After you send your request, the new object's `lifecycleState` will temporarily be CREATING. Before using the
@@ -44,7 +44,7 @@ The following arguments are supported:
 
 * `compartment_id` - (Required) The OCID of the tenancy containing the compartment.
 * `description` - (Required) The description you assign to the compartment during creation. Does not have to be unique, and it's changeable. 
-* `name` - (Required) The name you assign to the compartment during creation. The name must be unique across all compartments in the tenancy. 
+* `name` - (Required) The name you assign to the compartment during creation. The name must be unique across all compartments in the tenancy. Avoid entering confidential information. 
 
 
 ### Update Operation
@@ -52,7 +52,7 @@ Updates the specified compartment's description or name. You can't update the ro
 
 The following arguments support updates:
 * `description` - The description you assign to the compartment during creation. Does not have to be unique, and it's changeable. 
-* `name` - The name you assign to the compartment during creation. The name must be unique across all compartments in the tenancy. 
+* `name` - The name you assign to the compartment during creation. The name must be unique across all compartments in the tenancy. Avoid entering confidential information. 
 
 
 ** IMPORTANT **
@@ -60,7 +60,7 @@ Any change to a property that does not support update will force the destruction
 
 ### Example Usage
 
-```
+```hcl
 resource "oci_identity_compartment" "test_compartment" {
 	#Required
 	compartment_id = "${var.compartment_id}"
@@ -91,7 +91,7 @@ The following attributes are exported:
 
 ### Example Usage
 
-```
+```hcl
 data "oci_identity_compartments" "test_compartments" {
 	#Required
 	compartment_id = "${var.compartment_id}"

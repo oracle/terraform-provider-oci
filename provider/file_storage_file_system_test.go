@@ -14,37 +14,38 @@ const (
 	FileSystemRequiredOnlyResource = FileSystemResourceDependencies + `
 resource "oci_file_storage_file_system" "test_file_system" {
 	#Required
-	availability_domain = "${var.file_system_availability_domain}"
+	availability_domain = "${lookup(data.oci_identity_availability_domains.test_availability_domains.availability_domains[var.file_system_availability_domain],"name")}"
 	compartment_id = "${var.compartment_id}"
 }
 `
 
-	FileSystemResourceConfig = FileSystemResourceDependencies + `
+	FileSystemResourceConfigOnly = `
 resource "oci_file_storage_file_system" "test_file_system" {
 	#Required
-	availability_domain = "${var.file_system_availability_domain}"
+	availability_domain = "${lookup(data.oci_identity_availability_domains.test_availability_domains.availability_domains[var.file_system_availability_domain],"name")}"
 	compartment_id = "${var.compartment_id}"
 
 	#Optional
 	display_name = "${var.file_system_display_name}"
 }
 `
+
+	FileSystemResourceConfig = FileSystemResourceDependencies + FileSystemResourceConfigOnly
+
 	FileSystemPropertyVariables = `
-variable "file_system_availability_domain" { default = "kIdk:PHX-AD-1" }
+variable "file_system_availability_domain" { default = "0" }
 variable "file_system_display_name" { default = "media-files-1" }
 
 `
-	FileSystemResourceDependencies = ""
+	FileSystemResourceDependencies = AvailabilityDomainConfig
 )
 
 func TestFileStorageFileSystemResource_basic(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 
-	compartmentId := getRequiredEnvSetting("compartment_id_for_create")
+	compartmentId := getRequiredEnvSetting("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
-	compartmentId2 := getRequiredEnvSetting("compartment_id_for_update")
-	compartmentIdVariableStr2 := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId2)
 
 	resourceName := "oci_file_storage_file_system.test_file_system"
 	datasourceName := "data.oci_file_storage_file_systems.test_file_systems"
@@ -62,7 +63,7 @@ func TestFileStorageFileSystemResource_basic(t *testing.T) {
 				ImportStateVerify: true,
 				Config:            config + FileSystemPropertyVariables + compartmentIdVariableStr + FileSystemRequiredOnlyResource,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "availability_domain", "kIdk:PHX-AD-1"),
+					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 
 					func(s *terraform.State) (err error) {
@@ -80,7 +81,7 @@ func TestFileStorageFileSystemResource_basic(t *testing.T) {
 			{
 				Config: config + FileSystemPropertyVariables + compartmentIdVariableStr + FileSystemResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "availability_domain", "kIdk:PHX-AD-1"),
+					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "media-files-1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -98,12 +99,12 @@ func TestFileStorageFileSystemResource_basic(t *testing.T) {
 			// verify updates to updatable parameters
 			{
 				Config: config + `
-variable "file_system_availability_domain" { default = "kIdk:PHX-AD-1" }
+variable "file_system_availability_domain" { default = "0" }
 variable "file_system_display_name" { default = "displayName2" }
 
                 ` + compartmentIdVariableStr + FileSystemResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "availability_domain", "kIdk:PHX-AD-1"),
+					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -120,40 +121,15 @@ variable "file_system_display_name" { default = "displayName2" }
 					},
 				),
 			},
-			// verify updates to Force New parameters.
-			{
-				Config: config + `
-variable "file_system_availability_domain" { default = "kIdk:PHX-AD-2" }
-variable "file_system_display_name" { default = "displayName2" }
-
-                ` + compartmentIdVariableStr2 + FileSystemResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "availability_domain", "kIdk:PHX-AD-2"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId2),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "metered_bytes"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId == resId2 {
-							return fmt.Errorf("Resource was expected to be recreated but it wasn't.")
-						}
-						return err
-					},
-				),
-			},
 			// verify datasource
 			{
 				Config: config + `
-variable "file_system_availability_domain" { default = "kIdk:PHX-AD-2" }
+variable "file_system_availability_domain" { default = "0" }
 variable "file_system_display_name" { default = "displayName2" }
 
 data "oci_file_storage_file_systems" "test_file_systems" {
 	#Required
-	availability_domain = "${var.file_system_availability_domain}"
+	availability_domain = "${oci_file_storage_file_system.test_file_system.availability_domain}"
 	compartment_id = "${var.compartment_id}"
 
 	#Optional
@@ -166,17 +142,17 @@ data "oci_file_storage_file_systems" "test_file_systems" {
     	values = ["${oci_file_storage_file_system.test_file_system.id}"]
     }
 }
-                ` + compartmentIdVariableStr2 + FileSystemResourceConfig,
-				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(datasourceName, "availability_domain", "kIdk:PHX-AD-2"),
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId2),
+                ` + compartmentIdVariableStr + FileSystemResourceConfig,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
+					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(datasourceName, "id"),
 					TestCheckResourceAttributesEqual(datasourceName, "state", "oci_file_storage_file_system.test_file_system", "state"),
 
 					resource.TestCheckResourceAttr(datasourceName, "file_systems.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "file_systems.0.availability_domain", "kIdk:PHX-AD-2"),
-					resource.TestCheckResourceAttr(datasourceName, "file_systems.0.compartment_id", compartmentId2),
+					resource.TestCheckResourceAttrSet(datasourceName, "file_systems.0.availability_domain"),
+					resource.TestCheckResourceAttr(datasourceName, "file_systems.0.compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "file_systems.0.display_name", "displayName2"),
 					TestCheckResourceAttributesEqual(datasourceName, "file_systems.0.id", "oci_file_storage_file_system.test_file_system", "id"),
 					TestCheckResourceAttributesEqual(datasourceName, "file_systems.0.metered_bytes", "oci_file_storage_file_system.test_file_system", "metered_bytes"),

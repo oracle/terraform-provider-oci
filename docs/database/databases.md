@@ -34,7 +34,7 @@ The following attributes are exported:
 
 ### Example Usage
 
-```
+```hcl
 data "oci_database_database" "test_database" {
 	#Required
 	database_id = "${var.database_id}"
@@ -63,12 +63,10 @@ The following attributes are exported:
 
 ### Example Usage
 
-```
+```hcl
 data "oci_database_databases" "test_databases" {
 	#Required
 	compartment_id = "${var.compartment_id}"
 	db_home_id = "${var.database_db_home_id}"
-
-	#Optional
 }
 ```

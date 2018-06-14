@@ -56,7 +56,7 @@ func (s *ResourceIdentityPolicyTestSuite) TestAccResourceIdentityPolicy_basic() 
 					version_date = "2018-04-17"
 					statements = ["Allow group ${oci_identity_group.t.name} to read instances in compartment ${oci_identity_compartment.t.name}"]
 				}`, nil),
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "compartment_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
@@ -88,7 +88,7 @@ func (s *ResourceIdentityPolicyTestSuite) TestAccResourceIdentityPolicy_basic() 
 						"Allow group ${oci_identity_group.t.name} to read instances in compartment ${oci_identity_compartment.t.name}"
 					]
 				}`, nil),
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "name", "p2-"+s.Token),
 					resource.TestCheckResourceAttr(s.ResourceName, "description", "automated test policy (updated)"),
 					resource.TestCheckResourceAttr(s.ResourceName, "version_date", "2018-04-18"),
@@ -123,7 +123,7 @@ func (s *ResourceIdentityPolicyTestSuite) TestAccResourceIdentityPolicy_formatti
 					description = "automated test policy"
 					statements = ["Allow group ${oci_identity_group.t.name} to read instances in >> compartment ${oci_identity_compartment.t.name}"]
 				}`, nil),
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "statements.0", "Allow group "+s.Token+" to read instances in compartment -tf-compartment"),
 					func(s *terraform.State) (err error) {
 						if policyHash, err = fromInstanceState(s, "oci_identity_policy.p", "policyHash"); err == nil {
@@ -142,7 +142,7 @@ func (s *ResourceIdentityPolicyTestSuite) TestAccResourceIdentityPolicy_formatti
 					description = "automated test policy"
 					statements = ["Allow group ${oci_identity_group.t.name} to read instances in >> compartment ${oci_identity_compartment.t.name}"]
 				}`, nil),
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					func(s *terraform.State) (err error) {
 						resource.TestCheckResourceAttr("oci_identity_policy.p", "policyHash", policyHash)
 						resource.TestCheckResourceAttr("oci_identity_policy.p", "lastUpdateETag", lastUpdateETag)

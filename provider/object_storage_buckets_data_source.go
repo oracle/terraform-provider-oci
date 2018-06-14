@@ -136,7 +136,9 @@ func (s *BucketsDataSourceCrud) SetData() {
 			bucket["namespace"] = *r.Namespace
 		}
 
-		bucket["time_created"] = r.TimeCreated.String()
+		if r.TimeCreated != nil {
+			bucket["time_created"] = r.TimeCreated.String()
+		}
 
 		resources = append(resources, bucket)
 	}

@@ -67,14 +67,14 @@ Any change to a property that does not support update will force the destruction
 
 ### Example Usage
 
-```
+```hcl
 resource "oci_core_route_table" "test_route_table" {
 	#Required
 	compartment_id = "${var.compartment_id}"
 	route_rules {
 		#Required
 		cidr_block = "${var.route_table_route_rules_cidr_block}"
-		network_entity_id = "${oci_core_network_entity.test_network_entity.id}"
+		network_entity_id = "${oci_core_internet_gateway.test_internet_gateway.id}"
 	}
 	vcn_id = "${oci_core_vcn.test_vcn.id}"
 
@@ -108,7 +108,7 @@ The following attributes are exported:
 
 ### Example Usage
 
-```
+```hcl
 data "oci_core_route_tables" "test_route_tables" {
 	#Required
 	compartment_id = "${var.compartment_id}"

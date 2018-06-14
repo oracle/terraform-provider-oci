@@ -115,6 +115,10 @@ func VolumeResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"volume_group_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 		},
 	}
 }
@@ -327,7 +331,13 @@ func (s *VolumeResourceCrud) SetData() {
 
 	s.D.Set("state", s.Res.LifecycleState)
 
-	s.D.Set("time_created", s.Res.TimeCreated.String())
+	if s.Res.TimeCreated != nil {
+		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
+
+	if s.Res.VolumeGroupId != nil {
+		s.D.Set("volume_group_id", *s.Res.VolumeGroupId)
+	}
 
 }
 

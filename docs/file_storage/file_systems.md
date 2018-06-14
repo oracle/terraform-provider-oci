@@ -66,7 +66,7 @@ Any change to a property that does not support update will force the destruction
 
 ### Example Usage
 
-```
+```hcl
 resource "oci_file_storage_file_system" "test_file_system" {
 	#Required
 	availability_domain = "${var.file_system_availability_domain}"
@@ -101,7 +101,7 @@ The following attributes are exported:
 
 ### Example Usage
 
-```
+```hcl
 data "oci_file_storage_file_systems" "test_file_systems" {
 	#Required
 	availability_domain = "${var.file_system_availability_domain}"

@@ -12,6 +12,7 @@ The following arguments are supported:
 
 * `availability_domain` - (Required) The name of the Availability Domain.  Example: `Uocm:PHX-AD-1` 
 * `compartment_id` - (Required) The OCID of the compartment.
+* `volume_group_id` - (Optional) The OCID of the volume group.
 
 
 The following attributes are exported:
@@ -25,6 +26,9 @@ data "oci_core_boot_volumes" "test_boot_volumes" {
 	#Required
 	availability_domain = "${var.boot_volume_availability_domain}"
 	compartment_id = "${var.compartment_id}"
+
+	#Optional
+	volume_group_id = "${var.boot_volume_volume_group_id}"
 }
 ```
 ### BootVolume Reference
@@ -40,3 +44,4 @@ The following attributes are exported:
 * `size_in_mbs` - The size of the volume in MBs. The value must be a multiple of 1024. This field is deprecated. Please use sizeInGBs. 
 * `state` - The current state of a boot volume.
 * `time_created` - The date and time the boot volume was created. Format defined by RFC3339.
+* `volume_group_id` - The OCID of the source volume group.

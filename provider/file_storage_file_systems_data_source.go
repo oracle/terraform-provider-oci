@@ -141,7 +141,9 @@ func (s *FileSystemsDataSourceCrud) SetData() {
 
 		fileSystem["state"] = r.LifecycleState
 
-		fileSystem["time_created"] = r.TimeCreated.String()
+		if r.TimeCreated != nil {
+			fileSystem["time_created"] = r.TimeCreated.String()
+		}
 
 		resources = append(resources, fileSystem)
 	}

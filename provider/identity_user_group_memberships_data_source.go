@@ -28,7 +28,6 @@ func UserGroupMembershipsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			// @CODEGEN 01/2018: user_group_memberships => memberships
 			"memberships": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -124,7 +123,9 @@ func (s *UserGroupMembershipsDataSourceCrud) SetData() {
 
 		userGroupMembership["state"] = r.LifecycleState
 
-		userGroupMembership["time_created"] = r.TimeCreated.String()
+		if r.TimeCreated != nil {
+			userGroupMembership["time_created"] = r.TimeCreated.String()
+		}
 
 		if r.UserId != nil {
 			userGroupMembership["user_id"] = *r.UserId
@@ -137,7 +138,6 @@ func (s *UserGroupMembershipsDataSourceCrud) SetData() {
 		resources = ApplyFilters(f.(*schema.Set), resources)
 	}
 
-	// @CODEGEN 01/2018: user_group_memberships => memberships
 	if err := s.D.Set("memberships", resources); err != nil {
 		panic(err)
 	}

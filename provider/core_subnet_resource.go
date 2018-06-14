@@ -362,7 +362,9 @@ func (s *SubnetResourceCrud) SetData() {
 		s.D.Set("subnet_domain_name", *s.Res.SubnetDomainName)
 	}
 
-	s.D.Set("time_created", s.Res.TimeCreated.String())
+	if s.Res.TimeCreated != nil {
+		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
 
 	if s.Res.VcnId != nil {
 		s.D.Set("vcn_id", *s.Res.VcnId)

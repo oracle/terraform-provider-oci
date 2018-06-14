@@ -22,7 +22,7 @@ Use this operation after creating a new user, or if a user forgets their passwor
 password is returned to you in the response, and you must securely deliver it to the user. They'll
 be prompted to change this password the next time they sign in to the Console. If they don't change
 it within 7 days, the password will expire and you'll need to create a new one-time password for the
-user. 
+user.
 
 **Note:** The user's Console login is the unique name you specified when you created the user
 (see [CreateUser](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/identity/20160918/User/CreateUser)).
@@ -44,7 +44,7 @@ Any change to a property that does not support update will force the destruction
 
 ### Example Usage
 
-```
+```hcl
 resource "oci_identity_ui_password" "test_ui_password" {
 	#Required
 	user_id = "${oci_identity_user.test_user.id}"

@@ -48,7 +48,7 @@ func (s *DatasourceCoreDrgTestSuite) TestAccDatasourceCoreDrg_basic() {
 						values = ["${oci_core_drg.t.id}"]
 					}
 				}`, nil),
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "drgs.#", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "drgs.0.display_name", s.Token),
 					resource.TestCheckResourceAttr(s.ResourceName, "drgs.0.state", string(core.DrgLifecycleStateAvailable)),

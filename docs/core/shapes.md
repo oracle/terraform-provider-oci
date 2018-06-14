@@ -22,7 +22,7 @@ The following attributes are exported:
 
 ### Example Usage
 
-```
+```hcl
 data "oci_core_shapes" "test_shapes" {
 	#Required
 	compartment_id = "${var.compartment_id}"

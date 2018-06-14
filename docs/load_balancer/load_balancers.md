@@ -73,7 +73,7 @@ Any change to a property that does not support update will force the destruction
 
 ### Example Usage
 
-```
+```hcl
 resource "oci_load_balancer_load_balancer" "test_load_balancer" {
 	#Required
 	compartment_id = "${var.compartment_id}"
@@ -109,7 +109,7 @@ The following attributes are exported:
 
 ### Example Usage
 
-```
+```hcl
 data "oci_load_balancer_load_balancers" "test_load_balancers" {
 	#Required
 	compartment_id = "${var.compartment_id}"

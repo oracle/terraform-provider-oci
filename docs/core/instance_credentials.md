@@ -20,7 +20,7 @@ The following attributes are exported:
 
 ### Example Usage
 
-```
+```hcl
 data "oci_core_instance_credentials" "test_instance_credentials" {
 	#Required
 	instance_id = "${var.instance_credential_instance_id}"

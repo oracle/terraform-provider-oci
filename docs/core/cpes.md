@@ -53,7 +53,7 @@ Any change to a property that does not support update will force the destruction
 
 ### Example Usage
 
-```
+```hcl
 resource "oci_core_cpe" "test_cpe" {
 	#Required
 	compartment_id = "${var.compartment_id}"
@@ -84,11 +84,9 @@ The following attributes are exported:
 
 ### Example Usage
 
-```
+```hcl
 data "oci_core_cpes" "test_cpes" {
 	#Required
 	compartment_id = "${var.compartment_id}"
-
-	#Optional
 }
 ```

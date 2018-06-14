@@ -20,7 +20,6 @@ func SwiftPasswordsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			// @CODEGEN 01/2018: swift_passwords => passwords
 			"passwords": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -102,7 +101,9 @@ func (s *SwiftPasswordsDataSourceCrud) SetData() {
 
 		swiftPassword["state"] = r.LifecycleState
 
-		swiftPassword["time_created"] = r.TimeCreated.String()
+		if r.TimeCreated != nil {
+			swiftPassword["time_created"] = r.TimeCreated.String()
+		}
 
 		resources = append(resources, swiftPassword)
 	}
@@ -111,7 +112,6 @@ func (s *SwiftPasswordsDataSourceCrud) SetData() {
 		resources = ApplyFilters(f.(*schema.Set), resources)
 	}
 
-	// @CODEGEN 01/2018: swift_passwords => passwords
 	if err := s.D.Set("passwords", resources); err != nil {
 		panic(err)
 	}

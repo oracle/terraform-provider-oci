@@ -53,7 +53,7 @@ Any change to a property that does not support update will force the destruction
 
 ### Example Usage
 
-```
+```hcl
 resource "oci_core_volume_backup" "test_volume_backup" {
 	#Required
 	volume_id = "${oci_core_volume.test_volume.id}"
@@ -87,7 +87,7 @@ The following attributes are exported:
 
 ### Example Usage
 
-```
+```hcl
 data "oci_core_volume_backups" "test_volume_backups" {
 	#Required
 	compartment_id = "${var.compartment_id}"

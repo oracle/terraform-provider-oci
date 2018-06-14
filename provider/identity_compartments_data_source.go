@@ -109,7 +109,9 @@ func (s *CompartmentsDataSourceCrud) SetData() {
 
 		compartment["state"] = r.LifecycleState
 
-		compartment["time_created"] = r.TimeCreated.String()
+		if r.TimeCreated != nil {
+			compartment["time_created"] = r.TimeCreated.String()
+		}
 
 		resources = append(resources, compartment)
 	}

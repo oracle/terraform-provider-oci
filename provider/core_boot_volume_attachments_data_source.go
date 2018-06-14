@@ -181,7 +181,9 @@ func (s *BootVolumeAttachmentsDataSourceCrud) SetData() {
 
 		bootVolumeAttachment["state"] = r.LifecycleState
 
-		bootVolumeAttachment["time_created"] = r.TimeCreated.String()
+		if r.TimeCreated != nil {
+			bootVolumeAttachment["time_created"] = r.TimeCreated.String()
+		}
 
 		resources = append(resources, bootVolumeAttachment)
 	}

@@ -56,7 +56,7 @@ func (s *DatasourceCoreVirtualNetworkTestSuite) TestAccDatasourceCoreVirtualNetw
 							values = ["{{.token}}"]
 						}
 					}`, nil),
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "virtual_networks.#", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "virtual_networks.0.display_name", s.Token),
 					resource.TestCheckResourceAttr(s.ResourceName, "virtual_networks.0.cidr_block", "10.0.0.0/16"),
@@ -77,7 +77,7 @@ func (s *DatasourceCoreVirtualNetworkTestSuite) TestAccDatasourceCoreVirtualNetw
 						compartment_id = "${oci_core_virtual_network.u.compartment_id}"
 						display_name = "${oci_core_virtual_network.u.display_name}"
 					}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "virtual_networks.#", "1"),
 					TestCheckResourceAttributesEqual(s.ResourceName, "virtual_networks.0.id", "oci_core_virtual_network.u", "id"),
 				),
@@ -88,7 +88,7 @@ func (s *DatasourceCoreVirtualNetworkTestSuite) TestAccDatasourceCoreVirtualNetw
 						compartment_id = "${oci_core_virtual_network.t.compartment_id}"
 						display_name = "does-not-exit"
 					}`, nil),
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "virtual_networks.#", "0"),
 				),
 			},

@@ -127,7 +127,9 @@ func (s *IpSecConnectionDeviceStatusDataSourceCrud) SetData() {
 		s.D.Set("id", *s.Res.Id)
 	}
 
-	s.D.Set("time_created", s.Res.TimeCreated.String())
+	if s.Res.TimeCreated != nil {
+		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
 
 	tunnels := []map[string]interface{}{}
 	for _, item := range s.Res.Tunnels {
@@ -154,12 +156,16 @@ func TunnelStatusToMap(obj oci_core.TunnelStatus) map[string]interface{} {
 
 	result["state"] = string(obj.LifecycleState)
 
-	result["time_created"] = obj.TimeCreated.String()
+	if obj.TimeCreated != nil {
+		result["time_created"] = obj.TimeCreated.String()
+	}
 
-	// @Deprecated 01/2018: time_state_modifed => time_state_modified
-	result["time_state_modifed"] = obj.TimeStateModified.String()
+	if obj.TimeStateModified != nil {
+		// @Deprecated 01/2018: time_state_modifed => time_state_modified
+		result["time_state_modifed"] = obj.TimeStateModified.String()
 
-	result["time_state_modified"] = obj.TimeStateModified.String()
+		result["time_state_modified"] = obj.TimeStateModified.String()
+	}
 
 	return result
 }

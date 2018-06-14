@@ -249,7 +249,9 @@ func (s *PrivateIpResourceCrud) SetData() {
 		s.D.Set("subnet_id", *s.Res.SubnetId)
 	}
 
-	s.D.Set("time_created", s.Res.TimeCreated.String())
+	if s.Res.TimeCreated != nil {
+		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
 
 	if s.Res.VnicId != nil {
 		s.D.Set("vnic_id", *s.Res.VnicId)

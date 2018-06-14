@@ -42,6 +42,10 @@ func VolumesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"volume_group_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"volumes": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -99,6 +103,11 @@ func (s *VolumesDataSourceCrud) Get() error {
 
 	if state, ok := s.D.GetOkExists("state"); ok {
 		request.LifecycleState = oci_core.VolumeLifecycleStateEnum(state.(string))
+	}
+
+	if volumeGroupId, ok := s.D.GetOkExists("volume_group_id"); ok {
+		tmp := volumeGroupId.(string)
+		request.VolumeGroupId = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
@@ -165,7 +174,13 @@ func (s *VolumesDataSourceCrud) SetData() {
 
 		volume["state"] = r.LifecycleState
 
-		volume["time_created"] = r.TimeCreated.String()
+		if r.TimeCreated != nil {
+			volume["time_created"] = r.TimeCreated.String()
+		}
+
+		if r.VolumeGroupId != nil {
+			volume["volume_group_id"] = *r.VolumeGroupId
+		}
 
 		resources = append(resources, volume)
 	}

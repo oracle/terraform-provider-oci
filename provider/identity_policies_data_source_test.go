@@ -57,7 +57,7 @@ func (s *DatasourceIdentityPolicyTestSuite) TestAccDatasourceIdentityPolicies_ba
 				data "oci_identity_policies" "p" {
 					compartment_id = "${oci_identity_compartment.t.id}"
 				}`,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "policies.#"),
 				),
 			},
@@ -70,7 +70,7 @@ func (s *DatasourceIdentityPolicyTestSuite) TestAccDatasourceIdentityPolicies_ba
 						values = ["{{.token}}"]
 					}
 				}`, nil),
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "policies.#", "1"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "policies.0.id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "policies.0.name", s.Token),
@@ -92,7 +92,7 @@ func (s *DatasourceIdentityPolicyTestSuite) TestAccDatasourceIdentityPolicies_ba
 						values = ["Allow group {{.token}} to read instances in compartment ${oci_identity_compartment.t.name}"]
 					}
 				}`, nil),
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "policies.#", "1"),
 				),
 			},

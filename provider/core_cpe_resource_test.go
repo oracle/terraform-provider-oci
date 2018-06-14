@@ -40,7 +40,7 @@ func (s *ResourceCoreCpeTestSuite) TestAccResourceCoreCpe_basic() {
 				ImportState:       true,
 				ImportStateVerify: true,
 				Config:            s.Config,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-cpe"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),

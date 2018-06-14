@@ -42,7 +42,7 @@ func (s *DatasourceCoreVnicAttachmentTestSuite) TestAccDatasourceCoreVnicAttachm
 				ImportState:       true,
 				ImportStateVerify: true,
 				Config:            s.Config,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "vnic_attachments.#", "1"),
 				),
 			},

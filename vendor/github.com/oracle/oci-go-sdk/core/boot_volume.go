@@ -48,6 +48,9 @@ type BootVolume struct {
 
 	// The size of the boot volume in GBs.
 	SizeInGBs *int `mandatory:"false" json:"sizeInGBs"`
+
+	// The OCID of the source volume group.
+	VolumeGroupId *string `mandatory:"false" json:"volumeGroupId"`
 }
 
 func (m BootVolume) String() string {

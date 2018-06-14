@@ -36,7 +36,7 @@ Any change to a property that does not support update will force the destruction
 
 ### Example Usage
 
-```
+```hcl
 resource "oci_file_storage_snapshot" "test_snapshot" {
 	#Required
 	file_system_id = "${oci_file_storage_file_system.test_file_system.id}"
@@ -66,7 +66,7 @@ The following attributes are exported:
 
 ### Example Usage
 
-```
+```hcl
 data "oci_file_storage_snapshots" "test_snapshots" {
 	#Required
 	file_system_id = "${oci_file_storage_file_system.test_file_system.id}"
