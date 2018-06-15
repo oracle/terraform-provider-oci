@@ -57,6 +57,10 @@
     <email.artifact.version>1.0.0</email.artifact.version>
     <email.artifact.id>email-api-spec</email.artifact.id>
     <email.spec.name>email-api-spec.yaml</email.spec.name>
+
+    <containerengine.artifact.version>1.0.11</containerengine.artifact.version>
+    <containerengine.artifact.id>clusters-api-spec</containerengine.artifact.id>
+    <containerengine.spec.name>clusters-api-spec.yaml</containerengine.spec.name>
     <!-- remove when upgrading to pic-pom:0.4.4 -->
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
@@ -234,6 +238,24 @@
                 </artifactItem>
               </artifactItems>
             </configuration>
+          </execution>
+          <execution>
+              <id>unpack-containerengine</id>
+              <phase>initialize</phase>
+              <goals>
+                  <goal>unpack</goal>
+              </goals>
+              <configuration>
+                  <artifactItems>
+                      <artifactItem>
+                          <groupId>com.oracle.pic.clusters</groupId>
+                          <artifactId>${containerengine.artifact.id}</artifactId>
+                          <type>jar</type>
+                          <includes>**/*</includes>
+                          <outputDirectory>${spec.temp.dir}/containerengine</outputDirectory>
+                      </artifactItem>
+                  </artifactItems>
+              </configuration>
           </execution>
         </executions>
       </plugin>
@@ -515,6 +537,34 @@
               <groupFile>${enabled.groups.file}</groupFile>
             </configuration>
           </execution>
+
+          <!-- container engine-->
+          <execution>
+              <id>spec-conditionals-prefer-containerengine</id>
+              <phase>initialize</phase>
+              <goals>
+                  <goal>prefer</goal>
+              </goals>
+              <configuration>
+                  <inputFiles>
+                      <inputFile>${spec.temp.dir}/containerengine/source/${containerengine.spec.name}</inputFile>
+                      <inputFile>${spec.temp.dir}/containerengine/${containerengine.spec.name}</inputFile>
+                  </inputFiles>
+                  <outputFile>${preferred.temp.dir}/${containerengine.spec.name}</outputFile>
+              </configuration>
+          </execution>
+          <execution>
+              <id>spec-conditionals-preprocess-containerengine</id>
+              <phase>initialize</phase>
+              <goals>
+                  <goal>preprocess</goal>
+              </goals>
+              <configuration>
+                  <inputFile>${preferred.temp.dir}/${containerengine.spec.name}</inputFile>
+                  <outputFile>${preprocessed.temp.dir}/${containerengine.spec.name}</outputFile>
+                  <groupFile>${enabled.groups.file}</groupFile>
+              </configuration>
+          </execution>
         </executions>
       </plugin>
 
@@ -524,7 +574,7 @@
       <plugin>
         <groupId>com.oracle.bmc.sdk</groupId>
         <artifactId>bmc-sdk-swagger-maven-plugin</artifactId>
-        <version>1.27-SNAPSHOT</version>
+        <version>1.28-SNAPSHOT</version>
         <executions>
           <execution>
             <id>go-public-sdk-identity</id>
@@ -690,6 +740,25 @@
               </additionalProperties>
             </configuration>
           </execution>
+          <execution>
+              <id>go-public-sdk-containerengine</id>
+              <phase>compile</phase>
+              <goals>
+                  <goal>generate</goal>
+              </goals>
+              <configuration>
+                  <language>oracle-go-sdk</language>
+                  <specPath>${preprocessed.temp.dir}/${containerengine.spec.name}</specPath>
+                  <outputDir>${env.GOPATH}/src/${fullyQualifiedProjectName}</outputDir>
+                  <basePackage>containerengine</basePackage>
+                  <specGenerationType>${generationType}</specGenerationType>
+                  <additionalProperties>
+                      <specName>containerengine</specName>
+                      <fqProjectName>${fullyQualifiedProjectName}</fqProjectName>
+                      <serviceHostName>containerengine</serviceHostName>
+                  </additionalProperties>
+              </configuration>
+          </execution>
         </executions>
       </plugin>
       <plugin>
@@ -779,6 +848,12 @@
               </includes>
             </fileset>
             <fileset>
+              <directory>lib/oci/containerengine</directory>
+              <includes>
+                <include>**/*</include>
+              </includes>
+            </fileset>
+            <fileset>
               <directory>.yardoc</directory>
               <includes>
                 <include>**/*</include>
@@ -843,6 +918,11 @@
         <groupId>com.oracle.pic.email</groupId>
         <artifactId>${email.artifact.id}</artifactId>
         <version>${email.artifact.version}</version>
+      </dependency>
+       <dependency>
+          <groupId>com.oracle.pic.clusters</groupId>
+          <artifactId>${containerengine.artifact.id}</artifactId>
+          <version>${containerengine.artifact.version}</version>
       </dependency>
       <dependency>
         <groupId>com.oracle.pic.lb</groupId>

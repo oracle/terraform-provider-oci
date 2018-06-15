@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 
+## 1.7.0 - 2018-06-14
+### Added
+- Support for the Container Engine service. A sample showing how to use this service from the SDK is available [Github](https://github.com/oracle/oci-go-sdk/tree/master/example/example_containerengine_test.go)
+
+### Fixed
+- Empty string was send to backend service for optional enum if it's not set
+
 ## 1.6.0 - 2018-05-31
 ### Added
 - Support for the "soft shutdown" instance action in the Compute service
