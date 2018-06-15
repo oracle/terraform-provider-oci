@@ -10,6 +10,7 @@
 ^identity/
 ^loadbalancer/
 ^objectstorage/
+^containerengine/
 
 ^oci\.go$
 ^\.gitignore$
