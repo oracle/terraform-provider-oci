@@ -29,7 +29,7 @@ func TestIdentitySwiftPasswordResource_basic(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 
-	compartmentId := getRequiredEnvSetting("tenancy_ocid")
+	compartmentId := getRequiredEnvSetting("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_identity_swift_password.test_swift_password"

@@ -62,7 +62,7 @@ Any change to a property that does not support update will force the destruction
 ```hcl
 resource "oci_identity_dynamic_group" "test_dynamic_group" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = "${var.tenancy_ocid}"
 	description = "${var.dynamic_group_description}"
 	matching_rule = "${var.dynamic_group_matching_rule}"
 	name = "${var.dynamic_group_name}"
@@ -94,6 +94,6 @@ The following attributes are exported:
 ```hcl
 data "oci_identity_dynamic_groups" "test_dynamic_groups" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = "${var.tenancy_ocid}"
 }
 ```

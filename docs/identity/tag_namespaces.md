@@ -7,7 +7,9 @@
 The following attributes are exported:
 
 * `compartment_id` - The OCID of the compartment that contains the tag namespace.
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `description` - The description you assign to the tag namespace.
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the tag namespace.
 * `is_retired` - Whether the tag namespace is retired. For more information, see [Retiring Key Definitions and Namespace Definitions](https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/taggingoverview.htm#Retiring). 
 * `name` - The name of the tag namespace. It must be unique across all tag namespaces in the tenancy and cannot be changed. 
@@ -38,9 +40,11 @@ See [Retiring Key Definitions and Namespace Definitions](https://docs.us-phoenix
 The following arguments are supported:
 
 * `compartment_id` - (Required) The OCID of the tenancy containing the tag namespace.
+* `defined_tags` - (Optional) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `description` - (Required) The description you assign to the tag namespace during creation.
+* `freeform_tags` - (Optional) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `name` - (Required) The name you assign to the tag namespace during creation. It must be unique across all tag namespaces in the tenancy and cannot be changed.
-* `is_retired` - Whether the tag namespace is retired. For more information, see [Retiring Key Definitions and Namespace Definitions](https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/taggingoverview.htm#Retiring). 
+* `is_retired` - (Optional) Whether the tag namespace is retired. For more information, see [Retiring Key Definitions and Namespace Definitions](https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/taggingoverview.htm#Retiring). 
  
 
 
@@ -57,9 +61,10 @@ You can't add a namespace with the same name as a retired namespace in the same 
 
 
 The following arguments support updates:
-* `description` - The description you assign to the tag namespace.
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
+* `description` - The description you assign to the tag namespace during creation.
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `is_retired` - Whether the tag namespace is retired. For more information, see [Retiring Key Definitions and Namespace Definitions](https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/taggingoverview.htm#Retiring). 
-
 
 
 ** IMPORTANT **
@@ -73,8 +78,10 @@ resource "oci_identity_tag_namespace" "test_tag_namespace" {
 	compartment_id = "${var.compartment_id}"
 	description = "${var.tag_namespace_description}"
 	name = "${var.tag_namespace_name}"
-	
+
 	#Optional
+	defined_tags = '{"Operations.CostCenter"= "42"}'
+	freeform_tags = '{"Department"= "Finance"}'
 	is_retired = false
 }
 ```

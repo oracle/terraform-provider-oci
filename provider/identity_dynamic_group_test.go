@@ -16,7 +16,7 @@ const (
 	DynamicGroupResourceConfig = DynamicGroupResourceDependencies + `
 resource "oci_identity_dynamic_group" "test_dynamic_group" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = "${var.tenancy_ocid}"
 	description = "${var.dynamic_group_description}"
 	matching_rule = "${var.dynamic_group_matching_rule}"
 	name = "${var.dynamic_group_name}"
@@ -34,8 +34,9 @@ func TestIdentityDynamicGroupResource_basic(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 
-	compartmentId := getRequiredEnvSetting("tenancy_ocid")
+	compartmentId := getRequiredEnvSetting("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+	tenancyId := getRequiredEnvSetting("tenancy_ocid")
 
 	matchingRuleValueStr := fmt.Sprintf("instance.compartment_id='%s'", compartmentId)
 	matchingRuleVariableStr := fmt.Sprintf("variable \"dynamic_group_matching_rule\" {default = \"%s\" }\n", matchingRuleValueStr)
@@ -66,7 +67,7 @@ variable "dynamic_group_name" { default = "DevCompartmentDynamicGroup" }` + comp
 				ImportStateVerify: true,
 				Config:            config + DynamicGroupPropertyVariables + compartmentIdVariableStr + matchingRuleVariableStr + DynamicGroupResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "description", "Instance group for dev compartment"),
 					resource.TestCheckResourceAttr(resourceName, "matching_rule", matchingRuleValueStr),
 					resource.TestCheckResourceAttr(resourceName, "name", "DevCompartmentDynamicGroup"),
@@ -86,7 +87,7 @@ variable "dynamic_group_name" { default = "DevCompartmentDynamicGroup" }
 
                 ` + compartmentIdVariableStr + matchingRule2VariableStr + DynamicGroupResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "matching_rule", matchingRule2ValueStr),
@@ -111,7 +112,7 @@ variable "dynamic_group_name" { default = "DevCompartmentDynamicGroup" }
 
 data "oci_identity_dynamic_groups" "test_dynamic_groups" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = "${var.tenancy_ocid}"
 
     filter {
     	name = "id"
@@ -120,10 +121,10 @@ data "oci_identity_dynamic_groups" "test_dynamic_groups" {
 }
                 ` + compartmentIdVariableStr + matchingRule2VariableStr + DynamicGroupResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
 
 					resource.TestCheckResourceAttr(datasourceName, "dynamic_groups.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "dynamic_groups.0.compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(datasourceName, "dynamic_groups.0.compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(datasourceName, "dynamic_groups.0.description", "description2"),
 					resource.TestCheckResourceAttrSet(datasourceName, "dynamic_groups.0.id"),
 					resource.TestCheckResourceAttr(datasourceName, "dynamic_groups.0.matching_rule", matchingRule2ValueStr),

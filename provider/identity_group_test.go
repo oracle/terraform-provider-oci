@@ -6,17 +6,15 @@ import (
 	"fmt"
 	"testing"
 
-	"os"
-
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
 )
 
 const (
-	GroupRequiredOnlyResource = GroupResourceDependencies + `
+	GroupRequiredOnlyResource = GroupRequiredOnlyResourceDependencies + `
 resource "oci_identity_group" "test_group" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = "${var.tenancy_ocid}"
 	description = "${var.group_description}"
 	name = "${var.group_name}"
 }
@@ -25,7 +23,7 @@ resource "oci_identity_group" "test_group" {
 	GroupResourceConfig = GroupResourceDependencies + `
 resource "oci_identity_group" "test_group" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = "${var.tenancy_ocid}"
 	description = "${var.group_description}"
 	name = "${var.group_name}"
 
@@ -41,16 +39,17 @@ variable "group_freeform_tags" { default = {"Department"= "Finance"} }
 variable "group_name" { default = "NetworkAdmins" }
 
 `
-	GroupResourceDependencies = DefinedTagsDependencies
+	GroupRequiredOnlyResourceDependencies = ``
+	GroupResourceDependencies             = DefinedTagsDependencies
 )
 
 func TestIdentityGroupResource_basic(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 
-	os.Setenv("TF_VAR_tag_namespace_compartment", getRequiredEnvSetting("compartment_id_for_create"))
-	compartmentId := getRequiredEnvSetting("tenancy_ocid")
+	compartmentId := getRequiredEnvSetting("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+	tenancyId := getRequiredEnvSetting("tenancy_ocid")
 
 	resourceName := "oci_identity_group.test_group"
 	datasourceName := "data.oci_identity_groups.test_groups"
@@ -68,7 +67,7 @@ func TestIdentityGroupResource_basic(t *testing.T) {
 				ImportStateVerify: true,
 				Config:            config + GroupPropertyVariables + compartmentIdVariableStr + GroupRequiredOnlyResource,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "description", "Group for network administrators"),
 					resource.TestCheckResourceAttr(resourceName, "name", "NetworkAdmins"),
 
@@ -87,7 +86,7 @@ func TestIdentityGroupResource_basic(t *testing.T) {
 			{
 				Config: config + GroupPropertyVariables + compartmentIdVariableStr + GroupResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "Group for network administrators"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -113,7 +112,7 @@ variable "group_name" { default = "NetworkAdmins" }
 
                 ` + compartmentIdVariableStr + GroupResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -141,7 +140,7 @@ variable "group_name" { default = "NetworkAdmins" }
 
 data "oci_identity_groups" "test_groups" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = "${var.tenancy_ocid}"
 
     filter {
     	name = "id"
@@ -150,10 +149,10 @@ data "oci_identity_groups" "test_groups" {
 }
                 ` + compartmentIdVariableStr + GroupResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
 
 					resource.TestCheckResourceAttr(datasourceName, "groups.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "groups.0.compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(datasourceName, "groups.0.compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(datasourceName, "groups.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "groups.0.description", "description2"),
 					resource.TestCheckResourceAttr(datasourceName, "groups.0.freeform_tags.%", "1"),

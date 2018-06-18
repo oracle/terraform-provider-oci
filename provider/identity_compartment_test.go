@@ -6,8 +6,6 @@ import (
 	"fmt"
 	"testing"
 
-	"os"
-
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
 )
@@ -16,7 +14,7 @@ const (
 	CompartmentRequiredOnlyResource = CompartmentResourceDependencies + `
 resource "oci_identity_compartment" "test_compartment" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = "${var.tenancy_ocid}"
 	description = "${var.compartment_description}"
 	name = "${var.compartment_name}"
 }
@@ -25,7 +23,7 @@ resource "oci_identity_compartment" "test_compartment" {
 	CompartmentResourceConfig = CompartmentResourceDependencies + `
 resource "oci_identity_compartment" "test_compartment" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = "${var.tenancy_ocid}"
 	description = "${var.compartment_description}"
 	name = "${var.compartment_name}"
 
@@ -48,9 +46,9 @@ func TestIdentityCompartmentResource_basic(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 
-	os.Setenv("TF_VAR_tag_namespace_compartment", getRequiredEnvSetting("compartment_id_for_create"))
-	compartmentId := getRequiredEnvSetting("tenancy_ocid")
+	compartmentId := getRequiredEnvSetting("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+	tenancyId := getRequiredEnvSetting("tenancy_ocid")
 
 	resourceName := "oci_identity_compartment.test_compartment"
 	datasourceName := "data.oci_identity_compartments.test_compartments"
@@ -68,7 +66,7 @@ func TestIdentityCompartmentResource_basic(t *testing.T) {
 				ImportStateVerify: true,
 				Config:            config + CompartmentPropertyVariables + compartmentIdVariableStr + CompartmentRequiredOnlyResource,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "description", "For network components"),
 					resource.TestCheckResourceAttr(resourceName, "name", "Network"),
 
@@ -82,7 +80,7 @@ func TestIdentityCompartmentResource_basic(t *testing.T) {
 			{
 				Config: config + CompartmentPropertyVariables + compartmentIdVariableStr + CompartmentResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "For network components"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -109,7 +107,7 @@ variable "compartment_name" { default = "Network" }
 
                 ` + compartmentIdVariableStr + CompartmentResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -137,7 +135,7 @@ variable "compartment_name" { default = "Network" }
 
 data "oci_identity_compartments" "test_compartments" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = "${var.tenancy_ocid}"
 
     filter {
     	name = "id"
@@ -146,10 +144,10 @@ data "oci_identity_compartments" "test_compartments" {
 }
                 ` + compartmentIdVariableStr + CompartmentResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
 
 					resource.TestCheckResourceAttr(datasourceName, "compartments.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "compartments.0.compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(datasourceName, "compartments.0.compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(datasourceName, "compartments.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "compartments.0.description", "description2"),
 					resource.TestCheckResourceAttr(datasourceName, "compartments.0.freeform_tags.%", "1"),

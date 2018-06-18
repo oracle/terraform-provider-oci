@@ -45,6 +45,19 @@ func TagNamespaceResource() *schema.Resource {
 			},
 
 			// Optional
+			"defined_tags": {
+				Type:             schema.TypeMap,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: definedTagsDiffSuppressFunction,
+				Elem:             schema.TypeString,
+			},
+			"freeform_tags": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 			"is_retired": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -111,9 +124,21 @@ func (s *TagNamespaceResourceCrud) Create() error {
 		request.CompartmentId = &tmp
 	}
 
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
 	if description, ok := s.D.GetOkExists("description"); ok {
 		tmp := description.(string)
 		request.Description = &tmp
+	}
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if name, ok := s.D.GetOkExists("name"); ok {
@@ -149,29 +174,8 @@ func (s *TagNamespaceResourceCrud) Create() error {
 
 		for _, namespace := range dsCrud.Res.Items {
 			if strings.EqualFold(*namespace.Name, *request.Name) {
-				updateTagNamespaceRequest := oci_identity.UpdateTagNamespaceRequest{}
-
-				if description, ok := s.D.GetOkExists("description"); ok {
-					tmp := description.(string)
-					updateTagNamespaceRequest.Description = &tmp
-				}
-
-				if isRetired, ok := s.D.GetOkExists("is_retired"); ok {
-					tmp := isRetired.(bool)
-					updateTagNamespaceRequest.IsRetired = &tmp
-				}
-
-				updateTagNamespaceRequest.TagNamespaceId = namespace.Id
-
-				updateTagNamespaceRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
-
-				updateResponse, updateErr := s.Client.UpdateTagNamespace(contextToUse, updateTagNamespaceRequest)
-
-				if updateErr != nil {
-					return err
-				}
-
-				s.Res = &updateResponse.TagNamespace
+				s.D.SetId(*namespace.Id)
+				s.Update()
 				return nil
 			}
 		}
@@ -200,9 +204,21 @@ func (s *TagNamespaceResourceCrud) Get() error {
 func (s *TagNamespaceResourceCrud) Update() error {
 	request := oci_identity.UpdateTagNamespaceRequest{}
 
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
 	if description, ok := s.D.GetOkExists("description"); ok {
 		tmp := description.(string)
 		request.Description = &tmp
+	}
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if isRetired, ok := s.D.GetOkExists("is_retired"); ok {
@@ -229,9 +245,15 @@ func (s *TagNamespaceResourceCrud) SetData() {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	if s.Res.DefinedTags != nil {
+		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))
+	}
+
 	if s.Res.Description != nil {
 		s.D.Set("description", *s.Res.Description)
 	}
+
+	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.Id != nil {
 		s.D.Set("id", *s.Res.Id)
@@ -245,6 +267,8 @@ func (s *TagNamespaceResourceCrud) SetData() {
 		s.D.Set("name", *s.Res.Name)
 	}
 
-	s.D.Set("time_created", s.Res.TimeCreated.String())
+	if s.Res.TimeCreated != nil {
+		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
 
 }
