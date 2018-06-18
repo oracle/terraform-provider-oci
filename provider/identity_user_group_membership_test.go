@@ -21,15 +21,16 @@ resource "oci_identity_user_group_membership" "test_user_group_membership" {
 	UserGroupMembershipPropertyVariables = `
 
 `
-	UserGroupMembershipResourceDependencies = GroupPropertyVariables + GroupResourceConfig + UserPropertyVariables + UserResourceConfig
+	UserGroupMembershipResourceDependencies = GroupPropertyVariables + GroupRequiredOnlyResource + UserPropertyVariables + UserRequiredOnlyResource
 )
 
 func TestIdentityUserGroupMembershipResource_basic(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 
-	compartmentId := getRequiredEnvSetting("tenancy_ocid")
+	compartmentId := getRequiredEnvSetting("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+	tenancyId := getRequiredEnvSetting("tenancy_ocid")
 
 	resourceName := "oci_identity_user_group_membership.test_user_group_membership"
 	datasourceName := "data.oci_identity_user_group_memberships.test_user_group_memberships"
@@ -56,7 +57,7 @@ func TestIdentityUserGroupMembershipResource_basic(t *testing.T) {
 
 data "oci_identity_user_group_memberships" "test_user_group_memberships" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = "${var.tenancy_ocid}"
 
 	#Optional
 	group_id = "${oci_identity_group.test_group.id}"
@@ -69,7 +70,7 @@ data "oci_identity_user_group_memberships" "test_user_group_memberships" {
 }
                 ` + compartmentIdVariableStr + UserGroupMembershipResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttrSet(datasourceName, "group_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "user_id"),
 

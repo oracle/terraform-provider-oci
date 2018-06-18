@@ -91,9 +91,15 @@ func (s *IdentityPoliciesDataSourceCrud) SetData() {
 			"compartment_id": *r.CompartmentId,
 		}
 
+		if r.DefinedTags != nil {
+			policy["defined_tags"] = definedTagsToMap(r.DefinedTags)
+		}
+
 		if r.Description != nil {
 			policy["description"] = *r.Description
 		}
+
+		policy["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {
 			policy["id"] = *r.Id

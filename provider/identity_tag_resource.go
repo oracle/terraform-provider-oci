@@ -182,45 +182,8 @@ func (s *TagResourceCrud) Create() error {
 
 		for _, tag := range dsCrud.Res.Items {
 			if strings.EqualFold(*tag.Name, *request.Name) {
-				updateTagRequest := oci_identity.UpdateTagRequest{}
-
-				if description, ok := s.D.GetOkExists("description"); ok {
-					tmp := description.(string)
-					updateTagRequest.Description = &tmp
-				}
-
-				if isRetired, ok := s.D.GetOkExists("is_retired"); ok {
-					tmp := isRetired.(bool)
-					updateTagRequest.IsRetired = &tmp
-				}
-
-				if tagName, ok := s.D.GetOkExists("name"); ok {
-					tmp := tagName.(string)
-					updateTagRequest.TagName = &tmp
-				}
-
-				if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
-					convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
-					if err != nil {
-						return err
-					}
-					updateTagRequest.DefinedTags = convertedDefinedTags
-				}
-
-				if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-					updateTagRequest.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
-				}
-
-				updateTagRequest.TagNamespaceId = request.TagNamespaceId
-
-				updateTagRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
-
-				updateResponse, updateErr := s.Client.UpdateTag(contextToUse, updateTagRequest)
-				if updateErr != nil {
-					return err
-				}
-
-				s.Res = &updateResponse.Tag
+				s.D.SetId(*tag.Id)
+				s.Update()
 				return nil
 			}
 		}
@@ -335,6 +298,8 @@ func (s *TagResourceCrud) SetData() {
 		s.D.Set("tag_namespace_name", *s.Res.TagNamespaceName)
 	}
 
-	s.D.Set("time_created", s.Res.TimeCreated.String())
+	if s.Res.TimeCreated != nil {
+		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
 
 }

@@ -69,7 +69,7 @@ Any change to a property that does not support update will force the destruction
 ```hcl
 resource "oci_identity_compartment" "test_compartment" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = "${var.tenancy_ocid}"
 	description = "${var.compartment_description}"
 	name = "${var.compartment_name}"
 
@@ -104,6 +104,6 @@ The following attributes are exported:
 ```hcl
 data "oci_identity_compartments" "test_compartments" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = "${var.tenancy_ocid}"
 }
 ```

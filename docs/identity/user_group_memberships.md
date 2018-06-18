@@ -82,7 +82,7 @@ The following attributes are exported:
 ```hcl
 data "oci_identity_user_group_memberships" "test_user_group_memberships" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = "${var.tenancy_ocid}"
 
 	#Optional
 	group_id = "${oci_identity_group.test_group.id}"

@@ -40,13 +40,12 @@ variable "tag_freeform_tags" { default = {"Department"= "Finance"} }
 variable "tag_name" { default = "CostCenter" }
 
 `
-	TagResourceDependencies = DefinedTagsDependencies + TagNamespacePropertyVariables + TagNamespaceResourceConfig
+	TagResourceDependencies = TagNamespacePropertyVariables + TagNamespaceRequiredOnlyResource
 
 	DefinedTagsDependencies = `
-variable "tag_namespace_compartment" { default = "" }
 resource "oci_identity_tag_namespace" "tag-namespace1" {
   		#Required
-		compartment_id = "${var.tag_namespace_compartment != "" ? var.tag_namespace_compartment : var.compartment_id}"
+		compartment_id = "${var.compartment_id}"
   		description = "example tag namespace"
   		name = "example-tag-namespace"
 
@@ -68,7 +67,7 @@ func TestIdentityTagResource_basic(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 
-	compartmentId := getRequiredEnvSetting("compartment_id_for_create")
+	compartmentId := getRequiredEnvSetting("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_identity_tag.test_tag"
@@ -129,7 +128,7 @@ func TestIdentityTagResource_basic(t *testing.T) {
 				Config: config + `
 variable "tag_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
 variable "tag_description" { default = "description2" }
-variable "tag_freeform_tags" { default = {"Department"= "Finance"} }
+variable "tag_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "tag_name" { default = "CostCenter" }
 
                 ` + compartmentIdVariableStr + TagResourceConfig,
@@ -160,8 +159,8 @@ variable "tag_name" { default = "CostCenter" }
 				Config: config + `
 variable "tag_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
 variable "tag_description" { default = "description2" }
-variable "tag_freeform_tags" { default = {"Department"= "Finance"} }
-variable "tag_name" { default = "name2" }
+variable "tag_freeform_tags" { default = {"Department"= "Accounting"} }
+variable "tag_name" { default = "CostCenter" }
 
 data "oci_identity_tags" "test_tags" {
 	#Required
@@ -173,7 +172,7 @@ data "oci_identity_tags" "test_tags" {
     }
 }
                 ` + compartmentIdVariableStr + TagResourceConfig,
-				Check: resource.ComposeTestCheckFunc(
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "tag_namespace_id"),
 
 					resource.TestCheckResourceAttr(datasourceName, "tags.#", "1"),
@@ -183,7 +182,8 @@ data "oci_identity_tags" "test_tags" {
 					resource.TestCheckResourceAttr(datasourceName, "tags.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "tags.0.id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "tags.0.is_retired"),
-					resource.TestCheckResourceAttr(datasourceName, "tags.0.name", "name2"),
+					resource.TestCheckResourceAttr(datasourceName, "tags.0.name", "CostCenter"),
+					//resource.TestCheckResourceAttrSet(datasourceName, "tags.0.tag_namespace_name"),
 					resource.TestCheckResourceAttrSet(datasourceName, "tags.0.time_created"),
 				),
 			},

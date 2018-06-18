@@ -15,14 +15,26 @@ func TenancyDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readTenancies,
 		Schema: map[string]*schema.Schema{
+			"filter": dataSourceFiltersSchema(),
 			"tenancy_id": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
 			// Computed
+			"defined_tags": {
+				Type:             schema.TypeMap,
+				Computed:         true,
+				DiffSuppressFunc: definedTagsDiffSuppressFunction,
+				Elem:             schema.TypeString,
+			},
 			"description": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"freeform_tags": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
 			},
 			"home_region_key": {
 				Type:     schema.TypeString,
@@ -79,6 +91,8 @@ func (s *TenanciesDataSourceCrud) SetData() {
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
+
+	s.D.Set("defined_tags", s.Res.DefinedTags)
 
 	if s.Res.Description != nil {
 		s.D.Set("description", *s.Res.Description)

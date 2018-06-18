@@ -100,9 +100,15 @@ func (s *TagNamespacesDataSourceCrud) SetData() {
 			"compartment_id": *r.CompartmentId,
 		}
 
+		if r.DefinedTags != nil {
+			tagNamespace["defined_tags"] = definedTagsToMap(r.DefinedTags)
+		}
+
 		if r.Description != nil {
 			tagNamespace["description"] = *r.Description
 		}
+
+		tagNamespace["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {
 			tagNamespace["id"] = *r.Id

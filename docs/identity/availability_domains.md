@@ -24,7 +24,7 @@ The following attributes are exported:
 ```hcl
 data "oci_identity_availability_domains" "test_availability_domains" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = "${var.tenancy_ocid}"
 }
 ```
 ### AvailabilityDomain Reference

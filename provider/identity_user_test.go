@@ -6,17 +6,15 @@ import (
 	"fmt"
 	"testing"
 
-	"os"
-
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
 )
 
 const (
-	UserRequiredOnlyResource = UserResourceDependencies + `
+	UserRequiredOnlyResource = UserRequiredOnlyResourceDependencies + `
 resource "oci_identity_user" "test_user" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = "${var.tenancy_ocid}"
 	description = "${var.user_description}"
 	name = "${var.user_name}"
 }
@@ -25,7 +23,7 @@ resource "oci_identity_user" "test_user" {
 	UserResourceConfig = UserResourceDependencies + `
 resource "oci_identity_user" "test_user" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = "${var.tenancy_ocid}"
 	description = "${var.user_description}"
 	name = "${var.user_name}"
 
@@ -41,16 +39,17 @@ variable "user_freeform_tags" { default = {"Department"= "Finance"} }
 variable "user_name" { default = "JohnSmith@example.com" }
 
 `
-	UserResourceDependencies = DefinedTagsDependencies
+	UserRequiredOnlyResourceDependencies = ``
+	UserResourceDependencies             = DefinedTagsDependencies
 )
 
 func TestIdentityUserResource_basic(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 
-	os.Setenv("TF_VAR_tag_namespace_compartment", getRequiredEnvSetting("compartment_id_for_create"))
-	compartmentId := getRequiredEnvSetting("tenancy_ocid")
+	compartmentId := getRequiredEnvSetting("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+	tenancyId := getRequiredEnvSetting("tenancy_ocid")
 
 	resourceName := "oci_identity_user.test_user"
 	datasourceName := "data.oci_identity_users.test_users"
@@ -68,7 +67,7 @@ func TestIdentityUserResource_basic(t *testing.T) {
 				ImportStateVerify: true,
 				Config:            config + UserPropertyVariables + compartmentIdVariableStr + UserRequiredOnlyResource,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "description", "John Smith"),
 					resource.TestCheckResourceAttr(resourceName, "name", "JohnSmith@example.com"),
 
@@ -87,7 +86,7 @@ func TestIdentityUserResource_basic(t *testing.T) {
 			{
 				Config: config + UserPropertyVariables + compartmentIdVariableStr + UserResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "John Smith"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -113,7 +112,7 @@ variable "user_name" { default = "JohnSmith@example.com" }
 
                 ` + compartmentIdVariableStr + UserResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -141,7 +140,7 @@ variable "user_name" { default = "JohnSmith@example.com" }
 
 data "oci_identity_users" "test_users" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = "${var.tenancy_ocid}"
 
     filter {
     	name = "id"
@@ -150,10 +149,10 @@ data "oci_identity_users" "test_users" {
 }
                 ` + compartmentIdVariableStr + UserResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
 
 					resource.TestCheckResourceAttr(datasourceName, "users.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "users.0.compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(datasourceName, "users.0.compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(datasourceName, "users.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "users.0.description", "description2"),
 					resource.TestCheckResourceAttr(datasourceName, "users.0.freeform_tags.%", "1"),
