@@ -45,6 +45,8 @@ func (s *ResourceCoreVnicAttachmentTestSuite) TestAccResourceCoreVnicAttachment_
 						create_vnic_details {
 							subnet_id = "${oci_core_subnet.t.id}"
 							assign_public_ip = false
+							defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}"
+							freeform_tags = { "Department" = "Accounting" }
 						}
 					}
 					data "oci_core_vnic" "v" {
@@ -62,6 +64,11 @@ func (s *ResourceCoreVnicAttachmentTestSuite) TestAccResourceCoreVnicAttachment_
 					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "vlan_tag"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "vnic_id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.defined_tags.example-tag-namespace.example-tag", "value"),
+					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.freeform_tags.%", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.freeform_tags.Department", "Accounting"),
 					resource.TestCheckResourceAttrSet(s.VnicResourceName, "id"),
 					resource.TestCheckResourceAttrSet(s.VnicResourceName, "display_name"),
 					resource.TestCheckResourceAttrSet(s.VnicResourceName, "private_ip_address"),
@@ -89,6 +96,8 @@ func (s *ResourceCoreVnicAttachmentTestSuite) TestAccResourceCoreVnicAttachment_
 							assign_public_ip = false
 							hostname_label = "myvnichostname"
 							skip_source_dest_check = true
+							defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}"
+							freeform_tags = { "Department" = "Finance" }
 						}
 					}
 					data "oci_core_vnic" "v" {
@@ -107,6 +116,11 @@ func (s *ResourceCoreVnicAttachmentTestSuite) TestAccResourceCoreVnicAttachment_
 					resource.TestCheckResourceAttrSet(s.ResourceName, "vlan_tag"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "vnic_id"),
 					resource.TestCheckResourceAttrSet(s.VnicResourceName, "id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.defined_tags.example-tag-namespace.example-tag", "updatedValue"),
+					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.freeform_tags.%", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.freeform_tags.Department", "Finance"),
 					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.display_name", "-tf-vnic-2"),
 					resource.TestCheckResourceAttrSet(s.VnicResourceName, "private_ip_address"),
 					// @SDK 1/2018: Since we don't assign a public IP to this vnic, we will get a response from server

@@ -35,15 +35,26 @@ func VnicsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"id": {
-				Type:     schema.TypeString,
-				Computed: true,
+			"defined_tags": {
+				Type:             schema.TypeMap,
+				Computed:         true,
+				DiffSuppressFunc: definedTagsDiffSuppressFunction,
+				Elem:             schema.TypeString,
 			},
 			"display_name": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"freeform_tags": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 			"hostname_label": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -52,10 +63,6 @@ func VnicsDataSource() *schema.Resource {
 				Computed: true,
 			},
 			"mac_address": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -71,6 +78,10 @@ func VnicsDataSource() *schema.Resource {
 			},
 			"skip_source_dest_check": {
 				Type:     schema.TypeBool,
+				Computed: true,
+			},
+			"state": {
+				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"subnet_id": {
@@ -141,9 +152,15 @@ func (s *VnicsDataSourceCrud) SetData() {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	if s.Res.DefinedTags != nil {
+		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))
+	}
+
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
+
+	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.HostnameLabel != nil {
 		s.D.Set("hostname_label", *s.Res.HostnameLabel)
