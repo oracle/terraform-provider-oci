@@ -1,72 +1,57 @@
-resource "oci_database_db_system" "TFDBNode" {
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[0],"name")}"
-  compartment_id = "${var.compartment_ocid}"
-  cpu_core_count = "${var.CPUCoreCount}"
-  database_edition = "${var.DBEdition}"
-  db_home {
-    database {
-      admin_password = "${var.DBAdminPassword}"
-      db_name = "${var.DBName}"
-      character_set = "${var.CharacterSet}"
-      ncharacter_set = "${var.NCharacterSet}"
-      db_workload = "${var.DBWorkload}"
-      pdb_name = "${var.PDBName}"
-	  db_backup_config {
-		auto_backup_enabled = true	
-	  }
+resource "oci_database_db_system" "test_db_system" {
+    availability_domain = "${lookup(data.oci_identity_availability_domains.availability_domains.availability_domains[0],"name")}"
+    compartment_id = "${var.compartment_ocid}"
+    cpu_core_count = "${var.cpu_core_count}"
+    database_edition = "${var.db_edition}"
+    db_home {
+        database {
+            admin_password = "${var.db_admin_password}"
+            db_name = "${var.db_name}"
+            character_set = "${var.character_set}"
+            ncharacter_set = "${var.n_character_set}"
+            db_workload = "${var.db_workload}"
+            pdb_name = "${var.pdb_name}"
+            db_backup_config {
+                auto_backup_enabled = true    
+            }
+        }
+        db_version = "${var.db_version}"
+        display_name = "${var.db_home_display_name}"
     }
-    db_version = "${var.DBVersion}"
-    display_name = "${var.DBDisplayName}"
-  }
-  disk_redundancy = "${var.DBDiskRedundancy}"
-  shape = "${var.DBNodeShape}"
-  subnet_id = "${var.SubnetOCID}"
-  ssh_public_keys = ["${var.ssh_public_key}"]
-  display_name = "${var.DBNodeDisplayName}"
+    disk_redundancy = "${var.db_disk_redundancy}"
+    shape = "${var.db_system_shape}"
+    subnet_id = "${var.subnet_ocid}"
+    ssh_public_keys = ["${var.ssh_public_key}"]
+    display_name = "${var.db_system_display_name}"
 
-  # Set this to specify the domain name for this DB System unless the Oracle-provided Internet and
-  # VCN Resolver is enabled for the specified subnet above.
-  #domain = "${var.DBNodeDomainName}"
-  hostname = "${var.DBNodeHostName}"
-  data_storage_percentage = "40"
-  data_storage_size_in_gb = "${var.DataStorageSizeInGB}"
-  license_model = "${var.LicenseModel}"
-  node_count = "${var.NodeCount}"
-}
-
-data "oci_database_db_homes" "t" {
-	compartment_id = "${var.compartment_id}"
-	db_system_id = "${oci_database_db_system.TFDBNode.id}"
-}
-
-data "oci_database_databases" "db" {
-	compartment_id = "${var.compartment_id}"
-	db_home_id = "${data.oci_database_db_homes.t.db_homes.0.db_home_id}"
+    hostname = "${var.hostname}"
+    data_storage_percentage = "${var.data_storage_percentage}"
+    data_storage_size_in_gb = "${var.data_storage_size_in_gb}"
+    license_model = "${var.license_model}"
+    node_count = "${var.node_count}"
 }
 
 resource "oci_database_backup" "test_backup" {
-	#Required
-	database_id = "${data.oci_database_databases.db.databases.0.id}"
-	display_name = "FirstBackup"
+    depends_on = ["oci_database_db_system.test_db_system"]
+    database_id = "${data.oci_database_databases.databases.databases.0.id}"
+    display_name = "FirstBackup"
 }
 
-data "oci_database_backups" "test_backups" {
-
-	#Optional
-	database_id = "${data.oci_database_databases.db.databases.0.id}"
-
-    filter {
-    	name = "id"
-    	values = ["${oci_database_backup.test_backup.id}"]
+resource "oci_database_db_home" "second_db_home" {
+    database {
+        admin_password = "${var.db_admin_password}"
+        db_name = "${var.db_name}2"
+        character_set = "${var.character_set}"
+        ncharacter_set = "${var.n_character_set}"
+        db_workload = "${var.db_workload}"
+        pdb_name = "${var.pdb_name}2"
+        db_backup_config {
+        	auto_backup_enabled = true    
+        }
+        backup_id = "${oci_database_backup.test_backup.id}"
+        backup_tde_password = "${var.db_admin_password}"
     }
-}
-
-data "oci_database_db_home_patches" "db_home_patches" {
-	#Required
-	db_home_id = "${data.oci_database_db_homes.t.db_homes.0.db_home_id}"
-}
-
-data "oci_database_db_home_patches" "db_home_patches_history" {
-	#Required
-	db_home_id = "${data.oci_database_db_homes.t.db_homes.0.db_home_id}"
+    db_version = "${var.db_version}"
+    display_name = "${var.db_home_display_name}"
+    db_system_id = "${oci_database_db_system.test_db_system.id}"
 }

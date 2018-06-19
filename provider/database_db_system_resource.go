@@ -4,19 +4,14 @@ package provider
 
 import (
 	"context"
+	"log"
 
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/helper/validation"
 
 	"github.com/oracle/terraform-provider-oci/crud"
 
-	"net/http"
-	"strconv"
-
 	oci_database "github.com/oracle/oci-go-sdk/database"
-
-	"log"
-	"strings"
 )
 
 func DbSystemResource() *schema.Resource {
@@ -46,9 +41,11 @@ func DbSystemResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
+			// @CODEGEN cpu_core_count was made optional because the service ignores it when one provides a VM shape. This causes diffs after an apply
 			"cpu_core_count": {
 				Type:     schema.TypeInt,
-				Required: true,
+				Optional: true,
+				Computed: true,
 			},
 			"database_edition": {
 				Type:     schema.TypeString,
@@ -397,18 +394,7 @@ func (s *DbSystemResourceCrud) Create() error {
 	request := oci_database.LaunchDbSystemRequest{}
 	s.populateTopLevelPolymorphicLaunchDbSystemRequest(&request)
 
-	// Internal, not intended for public use.
-	// This flag allows faster testing but requires a whitelisted tenancy to use.
-	// To use set environment variable: simulate_db=true
-	simulateDb, _ := strconv.ParseBool(getEnvSetting("simulate_db", "false"))
-	if simulateDb {
-		s.Client.Interceptor = func(r *http.Request) error {
-			if r.Method == http.MethodPost && strings.Contains(r.URL.Path, "/dbSystems") {
-				r.Header.Set("opc-host-serial", "FAKEHOSTSERIAL")
-			}
-			return nil
-		}
-	}
+	handleDbSimulationFlag(s.Client)
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
 

@@ -1,5 +1,5 @@
-# Output the private IP of the instance
+# Output the public IP of the instance
 
-output "DBNodePublicIP" {
-value = ["${data.oci_core_vnic.DBNodeVnic.public_ip_address}"]
-}
+#output "db_node_public_ip" {
+#    value = ["${data.oci_core_vnic.db_node_vnic.public_ip_address}"]
+#}
