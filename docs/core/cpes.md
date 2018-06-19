@@ -7,7 +7,9 @@
 The following attributes are exported:
 
 * `compartment_id` - The OCID of the compartment containing the CPE.
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The CPE's Oracle ID (OCID).
 * `ip_address` - The public IP address of the on-premises router.
 * `time_created` - The date and time the CPE was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
@@ -35,17 +37,21 @@ be unique, and you can change it. Avoid entering confidential information.
 The following arguments are supported:
 
 * `compartment_id` - (Required) The OCID of the compartment to contain the CPE.
+* `defined_tags` - (Optional) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+* `freeform_tags` - (Optional) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `ip_address` - (Required) The public IP address of the on-premises router.  Example: `143.19.23.16` 
 
 
 ### Update Operation
-Updates the specified CPE's display name.
+Updates the specified CPE's display name or tags.
 Avoid entering confidential information.
 
 
 The following arguments support updates:
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 
 
 ** IMPORTANT **
@@ -60,7 +66,9 @@ resource "oci_core_cpe" "test_cpe" {
 	ip_address = "${var.cpe_ip_address}"
 
 	#Optional
+	defined_tags = '{"Operations.CostCenter"= "42"}'
 	display_name = "${var.cpe_display_name}"
+	freeform_tags = '{"Department"= "Finance"}'
 }
 ```
 

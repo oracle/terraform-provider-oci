@@ -101,9 +101,15 @@ func (s *LocalPeeringGatewaysDataSourceCrud) SetData() {
 			"vcn_id":         *r.VcnId,
 		}
 
+		if r.DefinedTags != nil {
+			localPeeringGateway["defined_tags"] = definedTagsToMap(r.DefinedTags)
+		}
+
 		if r.DisplayName != nil {
 			localPeeringGateway["display_name"] = *r.DisplayName
 		}
+
+		localPeeringGateway["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {
 			localPeeringGateway["id"] = *r.Id

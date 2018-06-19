@@ -27,11 +27,15 @@ resource "oci_core_local_peering_gateway" "test_local_peering_gateway" {
 	vcn_id = "${oci_core_vcn.test_vcn.id}"
 
 	#Optional
+	defined_tags = "${var.local_peering_gateway_defined_tags}"
 	display_name = "${var.local_peering_gateway_display_name}"
+	freeform_tags = "${var.local_peering_gateway_freeform_tags}"
 }
 `
 	LocalPeeringGatewayPropertyVariables = `
+variable "local_peering_gateway_defined_tags" { default = {"example-tag-namespace.example-tag"= "value"} }
 variable "local_peering_gateway_display_name" { default = "displayName" }
+variable "local_peering_gateway_freeform_tags" { default = {"Department"= "Finance"} }
 
 `
 	LocalPeeringGatewayResourceDependencies = VcnPropertyVariables + VcnResourceConfig
@@ -60,6 +64,8 @@ resource "oci_core_local_peering_gateway" "test_local_peering_gateway2" {
 
 	#Optional
 	display_name = "${var.local_peering_gateway_display_name2}"
+	defined_tags = "${var.local_peering_gateway_defined_tags}"
+	freeform_tags = "${var.local_peering_gateway_freeform_tags}"
 	peer_id = "${oci_core_local_peering_gateway.test_local_peering_gateway.id}"
 }
 `
@@ -107,7 +113,9 @@ func TestCoreLocalPeeringGatewayResource_basic(t *testing.T) {
 				Config: config + LocalPeeringGatewayPropertyVariables + compartmentIdVariableStr + LocalPeeringGatewayResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "is_cross_tenancy_peering"),
 					resource.TestCheckResourceAttrSet(resourceName, "peering_status"),
@@ -125,12 +133,16 @@ func TestCoreLocalPeeringGatewayResource_basic(t *testing.T) {
 			// verify updates to updatable parameters
 			{
 				Config: config + `
+variable "local_peering_gateway_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
 variable "local_peering_gateway_display_name" { default = "displayName2" }
+variable "local_peering_gateway_freeform_tags" { default = {"Department"= "Accounting"} }
 
                 ` + compartmentIdVariableStr + LocalPeeringGatewayResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "is_cross_tenancy_peering"),
 					resource.TestCheckResourceAttrSet(resourceName, "peering_status"),
@@ -150,7 +162,9 @@ variable "local_peering_gateway_display_name" { default = "displayName2" }
 			// verify datasource
 			{
 				Config: config + `
+variable "local_peering_gateway_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
 variable "local_peering_gateway_display_name" { default = "displayName2" }
+variable "local_peering_gateway_freeform_tags" { default = {"Department"= "Accounting"} }
 
 data "oci_core_local_peering_gateways" "test_local_peering_gateways" {
 	#Required
@@ -169,7 +183,9 @@ data "oci_core_local_peering_gateways" "test_local_peering_gateways" {
 
 					resource.TestCheckResourceAttr(datasourceName, "local_peering_gateways.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "local_peering_gateways.0.compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(datasourceName, "local_peering_gateways.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "local_peering_gateways.0.display_name", "displayName2"),
+					resource.TestCheckResourceAttr(datasourceName, "local_peering_gateways.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "local_peering_gateways.0.id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "local_peering_gateways.0.is_cross_tenancy_peering"),
 					resource.TestCheckResourceAttrSet(datasourceName, "local_peering_gateways.0.peering_status"),
@@ -181,7 +197,9 @@ data "oci_core_local_peering_gateways" "test_local_peering_gateways" {
 			// verify connect functionality
 			{
 				Config: config + `
+variable "local_peering_gateway_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
 variable "local_peering_gateway_display_name" { default = "displayName2" }
+variable "local_peering_gateway_freeform_tags" { default = {"Department"= "Accounting"} }
 
 			` + compartmentIdVariableStr + LocalPeeringGatewayResourceConfig + secondLocalPeeringGatewayWithPeerId,
 				Check: resource.ComposeAggregateTestCheckFunc(

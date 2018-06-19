@@ -7,7 +7,9 @@
 The following attributes are exported:
 
 * `compartment_id` - The OCID of the compartment containing the Local Peering Gateway (LPG).
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The LPG's Oracle ID (OCID).
 * `is_cross_tenancy_peering` - Whether the VCN at the other end of the peering is in a different tenancy.  Example: `false` 
 * `peer_advertised_cidr` - The range of IP addresses available on the VCN at the other end of the peering from this LPG. The value is `null` if the LPG is not peered. You can use this as the destination CIDR for a route rule to route a subnet's traffic to this LPG.  Example: `192.168.0.0/16` 
@@ -30,8 +32,10 @@ Creates a new local peering gateway (LPG) for the specified VCN.
 The following arguments are supported:
 
 * `compartment_id` - (Required) The OCID of the compartment containing the local peering gateway (LPG).
+* `defined_tags` - (Optional) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `peer_id` - (Optional) The OCID of the LPG you want to peer with. Specifying a peer_id connects this local peering gateway (LPG) to another one in the same region. This operation must be called by the VCN administrator who is designated as the *requestor* in the peering relationship. The *acceptor* must implement an Identity and Access Management (IAM) policy that gives the requestor permission to connect to LPGs in the acceptor's compartment. Without that permission, this operation will fail. For more information, see [VCN Peering](https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Tasks/VCNpeering.htm).
+* `freeform_tags` - (Optional) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `vcn_id` - (Required) The OCID of the VCN the LPG belongs to.
 
 
@@ -40,7 +44,9 @@ Updates the specified local peering gateway (LPG).
 
 
 The following arguments support updates:
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 
 
 ** IMPORTANT **
@@ -55,7 +61,9 @@ resource "oci_core_local_peering_gateway" "test_local_peering_gateway" {
 	vcn_id = "${oci_core_vcn.test_vcn.id}"
 
 	#Optional
+	defined_tags = '{"Operations.CostCenter"= "42"}'
 	display_name = "${var.local_peering_gateway_display_name}"
+	freeform_tags = '{"Department"= "Finance"}'
 	peer_id = "${oci_core_local_peering_gateway.test_local_peering_gateway2.id}"
 }
 ```

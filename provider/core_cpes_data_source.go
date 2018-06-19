@@ -111,9 +111,15 @@ func (s *CpesDataSourceCrud) SetData() {
 			"compartment_id": *r.CompartmentId,
 		}
 
+		if r.DefinedTags != nil {
+			cpe["defined_tags"] = definedTagsToMap(r.DefinedTags)
+		}
+
 		if r.DisplayName != nil {
 			cpe["display_name"] = *r.DisplayName
 		}
+
+		cpe["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {
 			cpe["id"] = *r.Id
