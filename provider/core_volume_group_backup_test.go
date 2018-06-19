@@ -25,12 +25,16 @@ resource "oci_core_volume_group_backup" "test_volume_group_backup" {
 
 	#Optional
 	compartment_id = "${var.compartment_id}"
+	defined_tags = "${var.volume_group_backup_defined_tags}"
 	display_name = "${var.volume_group_backup_display_name}"
+	freeform_tags = "${var.volume_group_backup_freeform_tags}"
 	type = "${var.volume_group_backup_type}"
 }
 `
 	VolumeGroupBackupPropertyVariables = `
+variable "volume_group_backup_defined_tags" { default = {"example-tag-namespace.example-tag"= "value"} }
 variable "volume_group_backup_display_name" { default = "displayName" }
+variable "volume_group_backup_freeform_tags" { default = {"Department"= "Finance"} }
 variable "volume_group_backup_type" { default = "INCREMENTAL" }
 
 `
@@ -78,7 +82,9 @@ func TestCoreVolumeGroupBackupResource_basic(t *testing.T) {
 				Config: config + VolumeGroupBackupPropertyVariables + compartmentIdVariableStr + VolumeGroupBackupResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -96,13 +102,17 @@ func TestCoreVolumeGroupBackupResource_basic(t *testing.T) {
 			// verify updates to updatable parameters
 			{
 				Config: config + `
+variable "volume_group_backup_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
 variable "volume_group_backup_display_name" { default = "displayName2" }
+variable "volume_group_backup_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "volume_group_backup_type" { default = "INCREMENTAL" }
 
                 ` + compartmentIdVariableStr + VolumeGroupBackupResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -122,7 +132,9 @@ variable "volume_group_backup_type" { default = "INCREMENTAL" }
 			// verify datasource
 			{
 				Config: config + `
+variable "volume_group_backup_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
 variable "volume_group_backup_display_name" { default = "displayName2" }
+variable "volume_group_backup_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "volume_group_backup_type" { default = "INCREMENTAL" }
 
 data "oci_core_volume_group_backups" "test_volume_group_backups" {
@@ -146,7 +158,9 @@ data "oci_core_volume_group_backups" "test_volume_group_backups" {
 
 					resource.TestCheckResourceAttr(datasourceName, "volume_group_backups.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "volume_group_backups.0.compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(datasourceName, "volume_group_backups.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "volume_group_backups.0.display_name", "displayName2"),
+					resource.TestCheckResourceAttr(datasourceName, "volume_group_backups.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "volume_group_backups.0.id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "volume_group_backups.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "volume_group_backups.0.time_created"),

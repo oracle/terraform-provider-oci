@@ -8,7 +8,9 @@ The following attributes are exported:
 
 * `availability_domain` - The Availability Domain of the volume group.
 * `compartment_id` - The OCID of the compartment that contains the volume group.
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name for the volume group. Does not have to be unique, and it's changeable.
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The Oracle Cloud ID (OCID) that uniquely identifies the volume group.
 * `size_in_mbs` - The aggregate size of the volume group in MBs.
 * `source_details` - The volume group source. The volume source is either another a list of volume ids in the same Availability Domain, another volume group or a volume group backup. 
@@ -34,7 +36,9 @@ The following arguments are supported:
 
 * `availability_domain` - (Required) The Availability Domain of the volume group.
 * `compartment_id` - (Required) The OCID of the compartment that contains the volume group.
+* `defined_tags` - (Optional) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) A user-friendly name for the volume group. Does not have to be unique, and it's changeable.
+* `freeform_tags` - (Optional) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `source_details` - (Required) Specifies the volume group source details for a new volume group. The volume source is either another a list of volume ids in the same Availability Domain, another volume group or a volume group backup. 
 	* `type` - (Required) The type of the volume group source. It should be set to either `volumeIds`, `volumeGroup`, or `volumeBackup`
 	* `volume_ids` (Optional) - OCIDs for the volumes in this volume group, if the type is `volumeIds`
@@ -49,7 +53,9 @@ Avoid entering confidential information.
 
 
 The following arguments support updates:
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name for the volume group. Does not have to be unique, and it's changeable.
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 
 
 ** IMPORTANT **
@@ -69,7 +75,9 @@ resource "oci_core_volume_group" "test_volume_group" {
 	}
 
 	#Optional
+	defined_tags = '{"Operations.CostCenter"= "42"}'
 	display_name = "${var.volume_group_display_name}"
+	freeform_tags = '{"Department"= "Finance"}'
 }
 ```
 
