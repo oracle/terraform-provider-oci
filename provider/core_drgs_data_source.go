@@ -111,9 +111,15 @@ func (s *DrgsDataSourceCrud) SetData() {
 			"compartment_id": *r.CompartmentId,
 		}
 
+		if r.DefinedTags != nil {
+			drg["defined_tags"] = definedTagsToMap(r.DefinedTags)
+		}
+
 		if r.DisplayName != nil {
 			drg["display_name"] = *r.DisplayName
 		}
+
+		drg["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {
 			drg["id"] = *r.Id

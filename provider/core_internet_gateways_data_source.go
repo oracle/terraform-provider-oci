@@ -138,6 +138,10 @@ func (s *InternetGatewaysDataSourceCrud) SetData() {
 			"vcn_id":         *r.VcnId,
 		}
 
+		if r.DefinedTags != nil {
+			internetGateway["defined_tags"] = definedTagsToMap(r.DefinedTags)
+		}
+
 		if r.DisplayName != nil {
 			internetGateway["display_name"] = *r.DisplayName
 		}
@@ -145,6 +149,8 @@ func (s *InternetGatewaysDataSourceCrud) SetData() {
 		if r.IsEnabled != nil {
 			internetGateway["enabled"] = *r.IsEnabled
 		}
+
+		internetGateway["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {
 			internetGateway["id"] = *r.Id

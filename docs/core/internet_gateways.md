@@ -7,8 +7,10 @@
 The following attributes are exported:
 
 * `compartment_id` - The OCID of the compartment containing the Internet Gateway.
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `enabled` - Whether the gateway is enabled. When the gateway is disabled, traffic is not routed to/from the Internet, regardless of route rules. Defaults to true. 
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The Internet Gateway's Oracle ID (OCID).
 * `state` - The Internet Gateway's current state.
 * `time_created` - The date and time the Internet Gateway was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
@@ -43,22 +45,26 @@ the gateway without changing the route rule.
 The following arguments are supported:
 
 * `compartment_id` - (Required) The OCID of the compartment to contain the Internet Gateway.
+* `defined_tags` - (Optional) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 * `enabled` - (Optional) Whether the gateway is enabled upon creation. If this argument is not specified, the gateway will be enabled by default.
+* `freeform_tags` - (Optional) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `vcn_id` - (Required) The OCID of the VCN the Internet Gateway is attached to.
 
 
 ### Update Operation
-Updates the specified Internet Gateway. You can disable/enable it, or change its display name.
-Avoid entering confidential information.
+Updates the specified Internet Gateway. You can disable/enable it, or change its display name
+or tags. Avoid entering confidential information.
 
 If the gateway is disabled, that means no traffic will flow to/from the internet even if there's
 a route rule that enables that traffic.
 
 
 The following arguments support updates:
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 * `enabled` - Whether the gateway is enabled upon creation.
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 
 
 ** IMPORTANT **
@@ -74,7 +80,9 @@ resource "oci_core_internet_gateway" "test_internet_gateway" {
 	vcn_id = "${oci_core_vcn.test_vcn.id}"
 
 	#Optional
+	defined_tags = '{"Operations.CostCenter"= "42"}'
 	display_name = "${var.internet_gateway_display_name}"
+	freeform_tags = '{"Department"= "Finance"}'
 }
 ```
 

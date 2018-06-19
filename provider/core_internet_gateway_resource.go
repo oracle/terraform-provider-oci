@@ -42,10 +42,23 @@ func InternetGatewayResource() *schema.Resource {
 			},
 
 			// Optional
+			"defined_tags": {
+				Type:             schema.TypeMap,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: definedTagsDiffSuppressFunction,
+				Elem:             schema.TypeString,
+			},
 			"display_name": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"freeform_tags": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
 			},
 
 			// Computed
@@ -147,6 +160,14 @@ func (s *InternetGatewayResourceCrud) Create() error {
 		request.CompartmentId = &tmp
 	}
 
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
@@ -156,6 +177,10 @@ func (s *InternetGatewayResourceCrud) Create() error {
 	// newer versions of terraform support GetOkExists which should resolve this problem
 	enabledTmp := s.D.Get("enabled").(bool)
 	request.IsEnabled = &enabledTmp
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
 
 	if vcnId, ok := s.D.GetOkExists("vcn_id"); ok {
 		tmp := vcnId.(string)
@@ -193,18 +218,30 @@ func (s *InternetGatewayResourceCrud) Get() error {
 func (s *InternetGatewayResourceCrud) Update() error {
 	request := oci_core.UpdateInternetGatewayRequest{}
 
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
 	}
 
-	tmp := s.D.Id()
-	request.IgId = &tmp
-
 	// TODO: GetOk malfunction with this bool: 'ok' is always the value of the bool
 	// newer versions of terraform support GetOkExists which should resolve this problem
 	enabledTmp := s.D.Get("enabled").(bool)
 	request.IsEnabled = &enabledTmp
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	tmp := s.D.Id()
+	request.IgId = &tmp
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
 
@@ -234,6 +271,10 @@ func (s *InternetGatewayResourceCrud) SetData() {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	if s.Res.DefinedTags != nil {
+		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))
+	}
+
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
@@ -241,6 +282,8 @@ func (s *InternetGatewayResourceCrud) SetData() {
 	if s.Res.IsEnabled != nil {
 		s.D.Set("enabled", *s.Res.IsEnabled)
 	}
+
+	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.Id != nil {
 		s.D.Set("id", *s.Res.Id)
