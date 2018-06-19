@@ -133,6 +133,10 @@ func (s *IpSecConnectionsDataSourceCrud) SetData() {
 			ipSecConnection["cpe_id"] = *r.CpeId
 		}
 
+		if r.DefinedTags != nil {
+			ipSecConnection["defined_tags"] = definedTagsToMap(r.DefinedTags)
+		}
+
 		if r.DisplayName != nil {
 			ipSecConnection["display_name"] = *r.DisplayName
 		}
@@ -140,6 +144,8 @@ func (s *IpSecConnectionsDataSourceCrud) SetData() {
 		if r.DrgId != nil {
 			ipSecConnection["drg_id"] = *r.DrgId
 		}
+
+		ipSecConnection["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {
 			ipSecConnection["id"] = *r.Id
