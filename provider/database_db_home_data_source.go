@@ -15,7 +15,7 @@ import (
 
 func DbHomeDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDbHome,
+		Read: readDbHomeDataSource,
 		Schema: map[string]*schema.Schema{
 			// Required
 			// Legacy property, just a vanity for what is regularly "id" everywhere else
@@ -63,7 +63,7 @@ func DbHomeDataSource() *schema.Resource {
 	}
 }
 
-func readDbHome(d *schema.ResourceData, m interface{}) error {
+func readDbHomeDataSource(d *schema.ResourceData, m interface{}) error {
 	sync := &DbHomeDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient

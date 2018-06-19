@@ -14,8 +14,8 @@ const (
 	DbHomePatchResourceConfig = DbHomePatchResourceDependencies
 
 	DbHomePatchResourceDependencies = SubnetRequiredOnlyResource + SubnetPropertyVariables + `
-resource "oci_database_db_system" "t" {
-	availability_domain = "${lookup(data.oci_identity_availability_domains.test_availability_domains.availability_domains[0],"name")}"
+resource "oci_database_db_system" "test_db_system" {
+	availability_domain = "${oci_core_subnet.test_subnet.availability_domain}"
 	compartment_id = "${var.compartment_id}"
 	subnet_id = "${oci_core_subnet.test_subnet.id}"
 	database_edition = "ENTERPRISE_EDITION"
@@ -31,6 +31,7 @@ resource "oci_database_db_system" "t" {
 	display_name = "tfDbSystemTest"
 	db_home {
 		db_version = "12.1.0.2"
+		display_name = "dbHome1"
 		database {
 			"admin_password" = "BEstrO0ng_#11"
 			"db_name" = "tfDbName"
@@ -40,7 +41,11 @@ resource "oci_database_db_system" "t" {
 
 data "oci_database_db_homes" "t" {
 	compartment_id = "${var.compartment_id}"
-	db_system_id = "${oci_database_db_system.t.id}"
+	db_system_id = "${oci_database_db_system.test_db_system.id}"
+	filter {
+		name = "display_name"
+		values = ["dbHome1"]
+	}
 }
 `
 )

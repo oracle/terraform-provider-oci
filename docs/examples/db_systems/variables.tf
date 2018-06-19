@@ -8,87 +8,86 @@ variable "compartment_ocid" {}
 variable "ssh_public_key" {}
 variable "ssh_private_key" {}
 
-variable "SubnetOCID" {}
+variable "subnet_ocid" {}
 
 # Choose an Availability Domain
-variable "AD" {
+variable "availability_domain_index" {
     default = "1"
 }
 
 # DBSystem specific 
-variable "DBNodeShape" {
-    default = "VM.Standard1.2"
+variable "db_system_shape" {
+    default = "BM.HighIO1.36"
 }
 
-variable "CPUCoreCount" {
+variable "cpu_core_count" {
     default = "2"
 }
 
-variable "DBEdition" {
+variable "db_edition" {
     default = "ENTERPRISE_EDITION"
 }
 
-variable "DBAdminPassword" {
+variable "db_admin_password" {
     default = "BEstrO0ng_#11"
 }
 
-variable "DBName" {
+variable "db_name" {
     default = "aTFdb"
 }
 
-variable "DBVersion" {
+variable "db_version" {
     default = "12.1.0.2"
 }
 
-variable "DBDisplayName" {
-    default = "MyTFDB"
+variable "db_home_display_name" {
+    default = "MyTFDBHome"
 }
 
-variable "DBDiskRedundancy" {
+variable "db_disk_redundancy" {
     default = "HIGH"
 }
 
-variable "DBNodeDisplayName" {
-    default = "MyTFDatabaseNode0"
+variable "db_system_display_name" {
+    default = "MyTFDBSystem"
 }
 
-variable "DBNodeHostName" {
-    default = "myOracleDB"
+variable "hostname" {
+    default = "myoracledb"
 }
 
-# Define existing bastion host
-variable "BastionHost" {
-    default = "129.146.26.52"
-}
-
-variable "HostUserName" {
+variable "host_user_name" {
     default = "opc"
 }
 
-variable "NCharacterSet" {
-	default = "AL16UTF16"
+variable "n_character_set" {
+    default = "AL16UTF16"
 }
 
-variable "CharacterSet" {
-	default = "AL32UTF8"
+variable "character_set" {
+    default = "AL32UTF8"
 }
 
-variable "DBWorkload" {
-	default = "OLTP"
+variable "db_workload" {
+    default = "OLTP"
 }
 
-variable "PDBName" {
-	default = "pdbName"
+variable "pdb_name" {
+    default = "pdbName"
 }
 
-variable "DataStorageSizeInGB" {
-	default = "256"
+variable "data_storage_size_in_gb" {
+    default = "256"
 }
 
-variable "LicenseModel" {
-	default = "LICENSE_INCLUDED"
+variable "license_model" {
+    default = "LICENSE_INCLUDED"
 }
 
-variable "NodeCount" {
-	default = "1"
+variable "node_count" {
+    default = "1"
+}
+
+variable "data_storage_percentage" {
+    default = "40"
 }
