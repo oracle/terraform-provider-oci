@@ -109,9 +109,15 @@ func (s *VolumeGroupBackupsDataSourceCrud) SetData() {
 			"compartment_id": *r.CompartmentId,
 		}
 
+		if r.DefinedTags != nil {
+			volumeGroupBackup["defined_tags"] = definedTagsToMap(r.DefinedTags)
+		}
+
 		if r.DisplayName != nil {
 			volumeGroupBackup["display_name"] = *r.DisplayName
 		}
+
+		volumeGroupBackup["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {
 			volumeGroupBackup["id"] = *r.Id

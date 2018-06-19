@@ -121,9 +121,15 @@ func (s *VolumeGroupsDataSourceCrud) SetData() {
 			volumeGroup["availability_domain"] = *r.AvailabilityDomain
 		}
 
+		if r.DefinedTags != nil {
+			volumeGroup["defined_tags"] = definedTagsToMap(r.DefinedTags)
+		}
+
 		if r.DisplayName != nil {
 			volumeGroup["display_name"] = *r.DisplayName
 		}
+
+		volumeGroup["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {
 			volumeGroup["id"] = *r.Id
