@@ -381,7 +381,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 					},
 				),
 			},
-			// verify force new by setting non-updateable VNIC details.
+			// verify force new by setting non-updateable VNIC details and also add tags to the VNIC details
 			{
 				ImportState:       true,
 				ImportStateVerify: true,
@@ -406,6 +406,11 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 						assign_public_ip = false
 						private_ip = "10.0.1.20"
 						skip_source_dest_check = true
+						//defined_tags = { "example-tag-namespace.example-tag" = "value" }
+						defined_tags = "${map(
+							"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value"
+							)}"
+                    	freeform_tags = { "Department" = "Accounting" }
 					}
 				}
 				data "oci_core_vnic_attachments" "t" {
@@ -418,6 +423,11 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-instance"),
 					resource.TestCheckResourceAttr(s.ResourceName, "private_ip", "10.0.1.20"),
+					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.defined_tags.example-tag-namespace.example-tag", "value"),
+					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.freeform_tags.%", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.freeform_tags.Department", "Accounting"),
 					resource.TestCheckResourceAttr(vnicResourceName, "display_name", "-tf-vnic-2"),
 					resource.TestCheckResourceAttr(vnicResourceName, "skip_source_dest_check", "true"),
 					resource.TestCheckNoResourceAttr(vnicResourceName, "public_ip_address"),
@@ -425,6 +435,60 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 						newId, err := fromInstanceState(ts, s.ResourceName, "id")
 						if newId == instanceId {
 							return fmt.Errorf("expected new instance ocid, got the same")
+						}
+						instanceId = newId
+						return err
+					},
+				),
+			},
+			// verify updating vnic tags result in an update only
+			{
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config: s.Config + `
+				resource "oci_core_instance" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${var.compartment_id}"
+					image = "${var.InstanceImageOCID[var.region]}"
+					shape = "VM.Standard1.1"
+					display_name = "-tf-instance"
+					metadata {
+						ssh_authorized_keys = "${var.ssh_public_key}"
+						user_data = "SWYgeW91IGNhbiBzZWUgdGhpcywgdGhlbiBpdCB3b3JrZWQgbWF5YmUuCg=="
+					}
+					extended_metadata {
+						keyA = "valA"
+						keyB = "{\"keyB1\": \"valB1\", \"keyB2\": {\"keyB2\": \"valB2\"}}"
+					}
+					create_vnic_details {
+						subnet_id = "${oci_core_subnet.t.id}"
+						display_name = "-tf-vnic-2"
+						assign_public_ip = false
+						private_ip = "10.0.1.20"
+						skip_source_dest_check = true
+						defined_tags = "${map(
+							"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue"
+							)}"
+                    	freeform_tags = { "Department" = "Finance" }
+					}
+				}
+				data "oci_core_vnic_attachments" "t" {
+					compartment_id = "${var.compartment_id}"
+					instance_id = "${oci_core_instance.t.id}"
+				}
+				data "oci_core_vnic" "t" {
+					vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}"
+				}`,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.defined_tags.example-tag-namespace.example-tag", "updatedValue"),
+					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.freeform_tags.%", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.freeform_tags.Department", "Finance"),
+					func(ts *terraform.State) (err error) {
+						newId, err := fromInstanceState(ts, s.ResourceName, "id")
+						if newId != instanceId {
+							return fmt.Errorf("Expected same instance ocid, got different.")
 						}
 						return err
 					},

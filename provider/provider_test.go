@@ -184,6 +184,8 @@ resource "oci_core_instance" "t" {
         subnet_id = "${oci_core_subnet.t.id}"
         hostname_label = "testinstance"
         display_name = "-tf-instance-vnic"
+		defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}"
+		freeform_tags = { "Department" = "Accounting" }
   	}
 	metadata {
 		ssh_authorized_keys = "${var.ssh_public_key}"
@@ -192,7 +194,7 @@ resource "oci_core_instance" "t" {
 		create = "15m"
 	}
 }
-`
+` + DefinedTagsDependencies
 
 func GetTestProvider() *OracleClients {
 	r := &schema.Resource{

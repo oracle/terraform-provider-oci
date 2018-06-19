@@ -31,7 +31,9 @@ resource "oci_core_vnic_attachment" "test_vnic_attachment" {
 
 		#Optional
 		assign_public_ip = "${var.vnic_attachment_create_vnic_details_assign_public_ip}"
+		defined_tags = "${var.vnic_attachment_create_vnic_details_defined_tags}"
 		display_name = "${var.vnic_attachment_create_vnic_details_display_name}"
+		freeform_tags = "${var.vnic_attachment_create_vnic_details_freeform_tags}"
 		hostname_label = "${var.vnic_attachment_create_vnic_details_hostname_label}"
 		private_ip = "${var.vnic_attachment_create_vnic_details_private_ip}"
 		skip_source_dest_check = "${var.vnic_attachment_create_vnic_details_skip_source_dest_check}"
@@ -46,7 +48,9 @@ resource "oci_core_vnic_attachment" "test_vnic_attachment" {
 	VnicAttachmentPropertyVariables = `
 variable "vnic_attachment_availability_domain" { default = "availabilityDomain" }
 variable "vnic_attachment_create_vnic_details_assign_public_ip" { default = false }
+variable "vnic_attachment_create_vnic_details_defined_tags" { default = "definedTags" }
 variable "vnic_attachment_create_vnic_details_display_name" { default = "displayName" }
+variable "vnic_attachment_create_vnic_details_freeform_tags" { default = "freeformTags" }
 variable "vnic_attachment_create_vnic_details_hostname_label" { default = "hostnameLabel" }
 variable "vnic_attachment_create_vnic_details_private_ip" { default = "privateIp" }
 variable "vnic_attachment_create_vnic_details_skip_source_dest_check" { default = false }
@@ -98,7 +102,9 @@ func TestCoreVnicAttachmentResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.assign_public_ip", "false"),
+					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.display_name", "displayName"),
+					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.hostname_label", "hostnameLabel"),
 					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.private_ip", "privateIp"),
 					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.skip_source_dest_check", "false"),
@@ -118,7 +124,9 @@ func TestCoreVnicAttachmentResource_basic(t *testing.T) {
 				Config: config + `
 variable "vnic_attachment_availability_domain" { default = "availabilityDomain" }
 variable "vnic_attachment_create_vnic_details_assign_public_ip" { default = false }
+variable "vnic_attachment_create_vnic_details_defined_tags" { default = "definedTags" }
 variable "vnic_attachment_create_vnic_details_display_name" { default = "displayName" }
+variable "vnic_attachment_create_vnic_details_freeform_tags" { default = "freeformTags" }
 variable "vnic_attachment_create_vnic_details_hostname_label" { default = "hostnameLabel" }
 variable "vnic_attachment_create_vnic_details_private_ip" { default = "privateIp" }
 variable "vnic_attachment_create_vnic_details_skip_source_dest_check" { default = false }

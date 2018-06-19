@@ -45,8 +45,19 @@ func definedTagsDiffSuppressFunction(key string, old string, new string, d *sche
 		return false
 	}
 
+	// Find the specific defined_tag key name (mainly if a resource supports tagging at multiple levels)
+	// For example: "create_vnic_details.0.defined_tags.mynamespace.mykey" => "create_vnic_details.0.defined_tags"
+	keyParts := strings.Split(key, ".")
+	definedTagKeyParts := []string{}
+	for _, keyPart := range keyParts {
+		definedTagKeyParts = append(definedTagKeyParts, keyPart)
+		if strings.EqualFold(keyPart, "defined_tags") {
+			break
+		}
+	}
+
 	//Old value comes from refreshed state, while new value comes from config
-	oldRaw, newRaw := d.GetChange("defined_tags")
+	oldRaw, newRaw := d.GetChange(strings.Join(definedTagKeyParts, "."))
 	if newRaw == nil || oldRaw == nil {
 		return false
 	}

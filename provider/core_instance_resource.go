@@ -96,11 +96,26 @@ func InstanceResource() *schema.Resource {
 								return b
 							},
 						},
+						"defined_tags": {
+							Type:             schema.TypeMap,
+							Optional:         true,
+							Computed:         true,
+							DiffSuppressFunc: definedTagsDiffSuppressFunction,
+							Elem:             schema.TypeString,
+							// @CODEGEN 6/2018: Remove ForceNew, this is updatable via vnic update
+						},
 						"display_name": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 							// @CODEGEN 1/2018: Remove ForceNew, this is updatable via vnic update
+						},
+						"freeform_tags": {
+							Type:     schema.TypeMap,
+							Optional: true,
+							Computed: true,
+							Elem:     schema.TypeString,
+							// @CODEGEN 6/2018: Remove ForceNew, this is updatable via vnic update
 						},
 						"hostname_label": {
 							Type:             schema.TypeString,
@@ -385,7 +400,10 @@ func (s *InstanceResourceCrud) Create() error {
 
 	if createVnicDetails, ok := s.D.GetOkExists("create_vnic_details"); ok {
 		if tmpList := createVnicDetails.([]interface{}); len(tmpList) > 0 {
-			tmp := mapToCreateVnicDetailsInstance(tmpList[0].(map[string]interface{}))
+			tmp, err := mapToCreateVnicDetailsInstance(tmpList[0].(map[string]interface{}))
+			if err != nil {
+				return err
+			}
 			request.CreateVnicDetails = &tmp
 		}
 	}
@@ -525,9 +543,14 @@ func (s *InstanceResourceCrud) Update() error {
 		return err
 	}
 
+	updateVnicDetails, err := mapToUpdateVnicDetailsInstance(rawVnic)
+	if err != nil {
+		return err
+	}
+
 	vnicOpts := oci_core.UpdateVnicRequest{
 		VnicId:            vnic.Id,
-		UpdateVnicDetails: mapToUpdateVnicDetailsInstance(rawVnic),
+		UpdateVnicDetails: updateVnicDetails,
 	}
 
 	_, err = s.VirtualNetworkClient.UpdateVnic(context.Background(), vnicOpts)
@@ -668,7 +691,7 @@ func (s *InstanceResourceCrud) SetData() {
 	}
 }
 
-func mapToCreateVnicDetailsInstance(raw map[string]interface{}) oci_core.CreateVnicDetails {
+func mapToCreateVnicDetailsInstance(raw map[string]interface{}) (oci_core.CreateVnicDetails, error) {
 	result := oci_core.CreateVnicDetails{}
 
 	if assignPublicIp, ok := raw["assign_public_ip"]; ok {
@@ -677,11 +700,24 @@ func mapToCreateVnicDetailsInstance(raw map[string]interface{}) oci_core.CreateV
 		result.AssignPublicIp = &boolVal
 	}
 
+	if definedTags, ok := raw["defined_tags"]; ok {
+		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return result, err
+		}
+
+		result.DefinedTags = convertedDefinedTags
+	}
+
 	if displayName, ok := raw["display_name"]; ok {
 		tmp := displayName.(string)
 		if tmp != "" {
 			result.DisplayName = &tmp
 		}
+	}
+
+	if freeformTags, ok := raw["freeform_tags"]; ok {
+		result.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if hostnameLabel, ok := raw["hostname_label"]; ok {
@@ -708,7 +744,7 @@ func mapToCreateVnicDetailsInstance(raw map[string]interface{}) oci_core.CreateV
 		result.SubnetId = &tmp
 	}
 
-	return result
+	return result, nil
 }
 
 func mapToInstanceSourceDetails(raw map[string]interface{}) oci_core.InstanceSourceDetails {
@@ -771,14 +807,26 @@ func InstanceSourceDetailsToMap(obj *oci_core.InstanceSourceDetails, bootVolume 
 	return result
 }
 
-func mapToUpdateVnicDetailsInstance(raw map[string]interface{}) oci_core.UpdateVnicDetails {
+func mapToUpdateVnicDetailsInstance(raw map[string]interface{}) (oci_core.UpdateVnicDetails, error) {
 	result := oci_core.UpdateVnicDetails{}
+
+	if definedTags, ok := raw["defined_tags"]; ok {
+		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return result, err
+		}
+		result.DefinedTags = convertedDefinedTags
+	}
 
 	if displayName, ok := raw["display_name"]; ok {
 		tmp := displayName.(string)
 		if tmp != "" {
 			result.DisplayName = &tmp
 		}
+	}
+
+	if freeformTags, ok := raw["freeform_tags"]; ok {
+		result.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if hostnameLabel, ok := raw["hostname_label"]; ok {
@@ -793,7 +841,7 @@ func mapToUpdateVnicDetailsInstance(raw map[string]interface{}) oci_core.UpdateV
 		result.SkipSourceDestCheck = &tmp
 	}
 
-	return result
+	return result, nil
 }
 
 func vnicDetailsToMap(obj *oci_core.Vnic, createVnicDetails map[string]interface{}) map[string]interface{} {
@@ -811,8 +859,16 @@ func vnicDetailsToMap(obj *oci_core.Vnic, createVnicDetails map[string]interface
 		result["assign_public_ip"] = "true"
 	}
 
+	if obj.DefinedTags != nil {
+		result["defined_tags"] = definedTagsToMap(obj.DefinedTags)
+	}
+
 	if obj.DisplayName != nil {
 		result["display_name"] = string(*obj.DisplayName)
+	}
+
+	if obj.FreeformTags != nil {
+		result["freeform_tags"] = obj.FreeformTags
 	}
 
 	if obj.HostnameLabel != nil {
