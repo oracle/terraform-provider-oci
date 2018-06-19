@@ -12,6 +12,8 @@ import (
 	"github.com/oracle/terraform-provider-oci/crud"
 
 	oci_database "github.com/oracle/oci-go-sdk/database"
+
+	"fmt"
 )
 
 func DbSystemResource() *schema.Resource {
@@ -55,7 +57,6 @@ func DbSystemResource() *schema.Resource {
 			"db_home": {
 				Type:     schema.TypeList,
 				Required: true,
-				ForceNew: true,
 				MaxItems: 1,
 				MinItems: 1,
 				Elem: &schema.Resource{
@@ -64,7 +65,6 @@ func DbSystemResource() *schema.Resource {
 						"database": {
 							Type:     schema.TypeList,
 							Required: true,
-							ForceNew: true,
 							MaxItems: 1,
 							MinItems: 1,
 							Elem: &schema.Resource{
@@ -105,7 +105,6 @@ func DbSystemResource() *schema.Resource {
 										Type:     schema.TypeList,
 										Optional: true,
 										Computed: true,
-										ForceNew: true,
 										MaxItems: 1,
 										MinItems: 1,
 										Elem: &schema.Resource{
@@ -117,7 +116,6 @@ func DbSystemResource() *schema.Resource {
 													Type:     schema.TypeBool,
 													Optional: true,
 													Computed: true,
-													ForceNew: true,
 												},
 
 												// Computed
@@ -146,6 +144,26 @@ func DbSystemResource() *schema.Resource {
 									},
 
 									// Computed
+									"db_unique_name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"lifecycle_details": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"state": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_created": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 								},
 							},
 						},
@@ -164,6 +182,22 @@ func DbSystemResource() *schema.Resource {
 						},
 
 						// Computed
+						"id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"last_patch_history_entry_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"state": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_created": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 					},
 				},
 			},
@@ -315,7 +349,20 @@ func createDbSystem(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient
 
-	return crud.CreateDBSystemResource(d, sync)
+	err := crud.CreateDBSystemResource(d, sync)
+	if err != nil {
+		return err
+	}
+
+	//Continue with the creation of subresources. The previous operation's result
+	//should been persisted by now
+	err = sync.createSubResources()
+	if err != nil {
+		return err
+	}
+	sync.SetData()
+
+	return nil
 }
 
 func readDbSystem(d *schema.ResourceData, m interface{}) error {
@@ -347,6 +394,8 @@ type DbSystemResourceCrud struct {
 	crud.BaseCrud
 	Client                 *oci_database.DatabaseClient
 	Res                    *oci_database.DbSystem
+	DbHome                 *oci_database.DbHome
+	Database               *oci_database.Database
 	DisableNotFoundRetries bool
 }
 
@@ -406,24 +455,95 @@ func (s *DbSystemResourceCrud) Create() error {
 	s.Client.Interceptor = nil
 
 	s.Res = &response.DbSystem
+
 	return nil
 }
 
 func (s *DbSystemResourceCrud) Get() error {
-	request := oci_database.GetDbSystemRequest{}
-
 	tmp := s.D.Id()
+
+	dbHomeID, _, _ := readDBHomeFromState(s.D)
+
+	dbID, _, _ := readDatabaseFromState(s.D)
+
+	request := oci_database.GetDbSystemRequest{}
 	request.DbSystemId = &tmp
-
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
-
 	response, err := s.Client.GetDbSystem(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	s.Res = &response.DbSystem
+
+	if dbHomeID != "" {
+		dbHomeGet := oci_database.GetDbHomeRequest{DbHomeId: &dbHomeID}
+		dbHomeGet.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+		dbHomeRes, err := s.Client.GetDbHome(context.Background(), dbHomeGet)
+		if err != nil {
+			err = fmt.Errorf("when reading db homes in db system, db home was not avaialable due to: %s", err.Error())
+			return err
+		}
+		s.DbHome = &dbHomeRes.DbHome
+	}
+
+	if dbID != "" {
+		dbGet := oci_database.GetDatabaseRequest{DatabaseId: &dbID}
+		dbGet.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+		dbRes, err := s.Client.GetDatabase(context.Background(), dbGet)
+		if err != nil {
+			err = fmt.Errorf("when reading databases in db system, database was not avaialable due to: %s", err.Error())
+			return err
+		}
+		s.Database = &dbRes.Database
+	}
+
 	return nil
+}
+
+func (s *DbSystemResourceCrud) updateDatabase() (database *oci_database.Database, err error) {
+	dbID, databaseState, err := readDatabaseFromState(s.D)
+	if err != nil {
+		return
+	}
+
+	var backupConfig oci_database.DbBackupConfig
+	if obj, ok := databaseState["db_backup_config"].([]interface{}); !ok {
+		err = fmt.Errorf("db backup config state is not available. Can not update database in db system id: %s", s.D.Id())
+		return
+	} else {
+		backupConfig = mapToDbBackupConfig(obj[0].(map[string]interface{}))
+	}
+
+	dbReq := oci_database.UpdateDatabaseRequest{}
+	dbReq.DatabaseId = &dbID
+	dbReq.UpdateDatabaseDetails.DbBackupConfig = &backupConfig
+	dbReq.RequestMetadata.RetryPolicy = getDatabaseUpdateRetryPolicy(s.DisableNotFoundRetries)
+
+	databaseUpdatesRes, err := s.Client.UpdateDatabase(context.Background(), dbReq)
+	if err != nil {
+		return
+	}
+
+	database = &databaseUpdatesRes.Database
+	return
+}
+
+func (s *DbSystemResourceCrud) createSubResources() error {
+	dbHomes, err := getDBHomesByDBSystem(s.Client, s.Res.Id, s.Res.CompartmentId, s.DisableNotFoundRetries)
+	if err != nil || len(dbHomes) != 1 {
+		if len(dbHomes) != 1 {
+			err = fmt.Errorf("no db homes found in db system: %s", *s.Res.Id)
+		}
+		return err
+	}
+
+	// On creation there is only one db home
+	s.DbHome = &dbHomes[0]
+
+	//Get all databases for db homes
+	s.Database, err = getDatabasesByDBHome(s.Client, s.DbHome.Id, s.Res.CompartmentId, s.DisableNotFoundRetries)
+	return err
 }
 
 func (s *DbSystemResourceCrud) Update() error {
@@ -452,6 +572,16 @@ func (s *DbSystemResourceCrud) Update() error {
 		request.SshPublicKeys = tmp
 	}
 
+	//Update database first. Skip db home
+	var err error
+	s.Database, err = s.updateDatabase()
+	if err != nil {
+		return err
+	}
+
+	//save intermediate state
+	s.SetData()
+
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.UpdateDbSystem(context.Background(), request)
@@ -476,6 +606,17 @@ func (s *DbSystemResourceCrud) Delete() error {
 }
 
 func (s *DbSystemResourceCrud) SetData() {
+
+	if s.DbHome != nil {
+		_, dbHome, _ := readDBHomeFromState(s.D)
+		_, database, _ := readDatabaseFromState(s.D)
+		s.D.Set("db_home", []map[string]interface{}{dbHomeToMap(s.DbHome, s.Database, dbHome, database)})
+	}
+
+	if s.Res == nil {
+		return
+	}
+
 	if s.Res.AvailabilityDomain != nil {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
 	}
@@ -505,9 +646,6 @@ func (s *DbSystemResourceCrud) SetData() {
 	}
 
 	s.D.Set("database_edition", s.Res.DatabaseEdition)
-
-	// todo: at this point the DBHome object should be pulled and refreshed on this resource
-	//s.D.Set("db_home", s.Res.DBHome)
 
 	s.D.Set("disk_redundancy", s.Res.DiskRedundancy)
 
@@ -578,6 +716,91 @@ func (s *DbSystemResourceCrud) SetData() {
 
 }
 
+func dbHomeToMap(obj *oci_database.DbHome, database *oci_database.Database, currentDBHome, currentDatabase map[string]interface{}) (res map[string]interface{}) {
+	res = currentDBHome
+
+	if obj.DbVersion != nil {
+		res["db_version"] = *obj.DbVersion
+	}
+
+	if obj.DisplayName != nil {
+		res["display_name"] = *obj.DisplayName
+	}
+
+	if obj.Id != nil {
+		res["id"] = *obj.Id
+	}
+
+	if obj.LastPatchHistoryEntryId != nil {
+		res["last_patch_history_entry_id"] = *obj.LastPatchHistoryEntryId
+	}
+
+	if string(obj.LifecycleState) != "" {
+		res["state"] = string(obj.LifecycleState)
+	}
+
+	if obj.TimeCreated != nil {
+		res["time_created"] = obj.TimeCreated.String()
+	}
+
+	if database != nil {
+		res["database"] = []map[string]interface{}{databaseToMap(database, currentDatabase)}
+	}
+	return
+}
+
+func databaseToMap(database *oci_database.Database, currentDatabase map[string]interface{}) map[string]interface{} {
+	result := currentDatabase
+
+	if database.Id != nil {
+		result["id"] = *database.Id
+	}
+
+	if database.LifecycleState != "" {
+		result["state"] = string(database.LifecycleState)
+	}
+
+	if database.LifecycleDetails != nil {
+		result["lifecycle_details"] = *database.LifecycleDetails
+	}
+
+	if database.CharacterSet != nil {
+		result["character_set"] = string(*database.CharacterSet)
+	}
+
+	if database.DbBackupConfig != nil {
+		objDbConfig := result["db_backup_config"].([]interface{})
+		result["db_backup_config"] = []interface{}{DbBackupConfigToMap(database.DbBackupConfig, objDbConfig[0].(map[string]interface{}))}
+	}
+
+	if database.DbName != nil {
+		result["db_name"] = *database.DbName
+	}
+
+	if database.DbUniqueName != nil {
+		result["db_unique_name"] = *database.DbName
+	}
+
+	if database.DbWorkload != nil {
+		result["db_workload"] = *database.DbWorkload
+	}
+
+	if database.NcharacterSet != nil {
+		result["ncharacter_set"] = *database.NcharacterSet
+	}
+
+	if database.PdbName != nil {
+		result["pdb_name"] = *database.PdbName
+	}
+
+	if database.TimeCreated != nil {
+		result["time_created"] = database.TimeCreated.String()
+	}
+
+	return result
+
+}
+
 func mapToCreateDatabaseDetails(raw map[string]interface{}) oci_database.CreateDatabaseDetails {
 	result := oci_database.CreateDatabaseDetails{}
 
@@ -621,38 +844,6 @@ func mapToCreateDatabaseDetails(raw map[string]interface{}) oci_database.CreateD
 	return result
 }
 
-func CreateDatabaseDetailsToMap(obj *oci_database.CreateDatabaseDetails) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.AdminPassword != nil {
-		result["admin_password"] = string(*obj.AdminPassword)
-	}
-
-	if obj.CharacterSet != nil {
-		result["character_set"] = string(*obj.CharacterSet)
-	}
-
-	if obj.DbBackupConfig != nil {
-		result["db_backup_config"] = []interface{}{DbBackupConfigToMap(obj.DbBackupConfig)}
-	}
-
-	if obj.DbName != nil {
-		result["db_name"] = string(*obj.DbName)
-	}
-
-	result["db_workload"] = string(obj.DbWorkload)
-
-	if obj.NcharacterSet != nil {
-		result["ncharacter_set"] = string(*obj.NcharacterSet)
-	}
-
-	if obj.PdbName != nil {
-		result["pdb_name"] = string(*obj.PdbName)
-	}
-
-	return result
-}
-
 func mapToCreateDatabaseFromBackupDetails(raw map[string]interface{}) oci_database.CreateDatabaseFromBackupDetails {
 	result := oci_database.CreateDatabaseFromBackupDetails{}
 
@@ -669,24 +860,6 @@ func mapToCreateDatabaseFromBackupDetails(raw map[string]interface{}) oci_databa
 	if backupTDEPassword, ok := raw["backup_tde_password"]; ok && backupTDEPassword != "" {
 		tmp := backupTDEPassword.(string)
 		result.BackupTDEPassword = &tmp
-	}
-
-	return result
-}
-
-func CreateDatabaseFromBackupDetailsToMap(obj *oci_database.CreateDatabaseFromBackupDetails) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.AdminPassword != nil {
-		result["admin_password"] = string(*obj.AdminPassword)
-	}
-
-	if obj.BackupId != nil {
-		result["backup_id"] = string(*obj.BackupId)
-	}
-
-	if obj.BackupTDEPassword != nil {
-		result["backup_tde_password"] = string(*obj.BackupTDEPassword)
 	}
 
 	return result
@@ -715,24 +888,6 @@ func mapToCreateDbHomeDetails(raw map[string]interface{}) oci_database.CreateDbH
 	return result
 }
 
-func CreateDbHomeDetailsToMap(obj *oci_database.CreateDbHomeDetails) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.Database != nil {
-		result["database"] = []interface{}{CreateDatabaseDetailsToMap(obj.Database)}
-	}
-
-	if obj.DbVersion != nil {
-		result["db_version"] = string(*obj.DbVersion)
-	}
-
-	if obj.DisplayName != nil {
-		result["display_name"] = string(*obj.DisplayName)
-	}
-
-	return result
-}
-
 func mapToCreateDbHomeFromBackupDetails(raw map[string]interface{}) oci_database.CreateDbHomeFromBackupDetails {
 	result := oci_database.CreateDbHomeFromBackupDetails{}
 
@@ -751,22 +906,8 @@ func mapToCreateDbHomeFromBackupDetails(raw map[string]interface{}) oci_database
 	return result
 }
 
-func CreateDbHomeFromBackupDetailsToMap(obj *oci_database.CreateDbHomeFromBackupDetails) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.Database != nil {
-		result["database"] = []interface{}{CreateDatabaseFromBackupDetailsToMap(obj.Database)}
-	}
-
-	if obj.DisplayName != nil {
-		result["display_name"] = string(*obj.DisplayName)
-	}
-
-	return result
-}
-
-func DbBackupConfigToMap(obj *oci_database.DbBackupConfig) map[string]interface{} {
-	result := map[string]interface{}{}
+func DbBackupConfigToMap(obj *oci_database.DbBackupConfig, currDbConfig map[string]interface{}) map[string]interface{} {
+	result := currDbConfig
 
 	if obj.AutoBackupEnabled != nil {
 		result["auto_backup_enabled"] = bool(*obj.AutoBackupEnabled)
