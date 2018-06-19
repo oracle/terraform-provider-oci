@@ -36,10 +36,23 @@ func PublicIpResource() *schema.Resource {
 			},
 
 			// Optional
+			"defined_tags": {
+				Type:             schema.TypeMap,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: definedTagsDiffSuppressFunction,
+				Elem:             schema.TypeString,
+			},
 			"display_name": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"freeform_tags": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
 			},
 			"private_ip_id": {
 				Type:     schema.TypeString,
@@ -171,9 +184,21 @@ func (s *PublicIpResourceCrud) Create() error {
 		request.CompartmentId = &tmp
 	}
 
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+	}
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if lifetime, ok := s.D.GetOkExists("lifetime"); ok {
@@ -216,12 +241,24 @@ func (s *PublicIpResourceCrud) Get() error {
 func (s *PublicIpResourceCrud) Update() error {
 	request := oci_core.UpdatePublicIpRequest{}
 
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
 	// Wrapping in "HasChange" conditionals because the service will treat the PUT as a PATCH.
 	if s.D.HasChange("display_name") {
 		if displayName, ok := s.D.GetOkExists("display_name"); ok {
 			tmp := displayName.(string)
 			request.DisplayName = &tmp
 		}
+	}
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if s.D.HasChange("private_ip_id") {
@@ -266,9 +303,15 @@ func (s *PublicIpResourceCrud) SetData() {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	if s.Res.DefinedTags != nil {
+		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))
+	}
+
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
+
+	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.Id != nil {
 		s.D.Set("id", *s.Res.Id)

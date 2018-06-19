@@ -113,9 +113,15 @@ func (s *PublicIpsDataSourceCrud) SetData() {
 			publicIp["availability_domain"] = *r.AvailabilityDomain
 		}
 
+		if r.DefinedTags != nil {
+			publicIp["defined_tags"] = definedTagsToMap(r.DefinedTags)
+		}
+
 		if r.DisplayName != nil {
 			publicIp["display_name"] = *r.DisplayName
 		}
+
+		publicIp["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {
 			publicIp["id"] = *r.Id
