@@ -8,7 +8,9 @@ The following attributes are exported:
 
 * `availability_domain` - The public IP's Availability Domain. This property is set only for ephemeral public IPs (that is, when the `scope` of the public IP is set to AVAILABILITY_DOMAIN). The value is the Availability Domain of the assigned private IP.  Example: `Uocm:PHX-AD-1` 
 * `compartment_id` - The OCID of the compartment containing the public IP. For an ephemeral public IP, this is the same compartment as the private IP's. For a reserved public IP that is currently assigned, this can be a different compartment than the assigned private IP's. 
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The public IP's Oracle ID (OCID).
 * `ip_address` - The public IP address of the `publicIp` object.  Example: `129.146.2.1` 
 * `lifetime` - Defines when the public IP is deleted and released back to Oracle's public IP pool.
@@ -50,7 +52,9 @@ succeeded.
 The following arguments are supported:
 
 * `compartment_id` - (Required) The OCID of the compartment to contain the public IP. For ephemeral public IPs, you must set this to the private IP's compartment OCID. 
+* `defined_tags` - (Optional) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
+* `freeform_tags` - (Optional) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `lifetime` - (Required) Defines when the public IP is deleted and released back to the Oracle Cloud Infrastructure public IP pool. For more information, see [Public IP Addresses](https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Tasks/managingpublicIPs.htm). 
 * `private_ip_id` - (Optional) The OCID of the private IP to assign the public IP to.  Required for an ephemeral public IP because it must always be assigned to a private IP (specifically a *primary* private IP).  Optional for a reserved public IP. If you don't provide it, the public IP is created but not assigned to a private IP. You can later assign the public IP with [UpdatePublicIp](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/PublicIp/UpdatePublicIp). 
 
@@ -62,7 +66,7 @@ Updates the specified public IP. You must specify the object's OCID. Use this op
 * Move a reserved public IP to a different private IP.
 * Unassign a reserved public IP from a private IP (which returns it to your pool
 of reserved public IPs).
-* Change the display name for a public IP (either ephemeral or reserved).
+* Change the display name or tags for a public IP.
 
 Assigning, moving, and unassigning a reserved public IP are asynchronous
 operations. Poll the public IP's `lifecycleState` to determine if the operation
@@ -98,7 +102,9 @@ returned. For information about the public IP limits, see
 
 
 The following arguments support updates:
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `private_ip_id` - The OCID of the private IP to assign the public IP to.  Required for an ephemeral public IP because it must always be assigned to a private IP (specifically a *primary* private IP).  Optional for a reserved public IP. If you don't provide it, the public IP is created but not assigned to a private IP. You can later assign the public IP with [UpdatePublicIp](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/PublicIp/UpdatePublicIp). 
 
 
@@ -114,7 +120,9 @@ resource "oci_core_public_ip" "test_public_ip" {
 	lifetime = "${var.public_ip_lifetime}"
 
 	#Optional
+	defined_tags = '{"Operations.CostCenter"= "42"}'
 	display_name = "${var.public_ip_display_name}"
+	freeform_tags = '{"Department"= "Finance"}'
 	private_ip_id = "${oci_core_private_ip.test_private_ip.id}"
 }
 ```
