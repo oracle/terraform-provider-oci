@@ -24,14 +24,18 @@ resource "oci_core_drg" "test_drg" {
 	compartment_id = "${var.compartment_id}"
 
 	#Optional
+	defined_tags = "${var.drg_defined_tags}"
 	display_name = "${var.drg_display_name}"
+	freeform_tags = "${var.drg_freeform_tags}"
 }
 `
 	DrgPropertyVariables = `
+variable "drg_defined_tags" { default = {"example-tag-namespace.example-tag"= "value"} }
 variable "drg_display_name" { default = "MyDrg" }
+variable "drg_freeform_tags" { default = {"Department"= "Finance"} }
 
 `
-	DrgResourceDependencies = ""
+	DrgResourceDependencies = DefinedTagsDependencies
 )
 
 func TestCoreDrgResource_basic(t *testing.T) {
@@ -75,7 +79,9 @@ func TestCoreDrgResource_basic(t *testing.T) {
 				Config: config + DrgPropertyVariables + compartmentIdVariableStr + DrgResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "MyDrg"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 
@@ -89,12 +95,16 @@ func TestCoreDrgResource_basic(t *testing.T) {
 			// verify updates to updatable parameters
 			{
 				Config: config + `
+variable "drg_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
 variable "drg_display_name" { default = "displayName2" }
+variable "drg_freeform_tags" { default = {"Department"= "Accounting"} }
 
                 ` + compartmentIdVariableStr + DrgResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 
@@ -110,7 +120,9 @@ variable "drg_display_name" { default = "displayName2" }
 			// verify datasource
 			{
 				Config: config + `
+variable "drg_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
 variable "drg_display_name" { default = "displayName2" }
+variable "drg_freeform_tags" { default = {"Department"= "Accounting"} }
 
 data "oci_core_drgs" "test_drgs" {
 	#Required
@@ -127,7 +139,9 @@ data "oci_core_drgs" "test_drgs" {
 
 					resource.TestCheckResourceAttr(datasourceName, "drgs.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "drgs.0.compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(datasourceName, "drgs.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "drgs.0.display_name", "displayName2"),
+					resource.TestCheckResourceAttr(datasourceName, "drgs.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "drgs.0.id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "drgs.0.state"),
 				),

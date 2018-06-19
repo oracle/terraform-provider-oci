@@ -28,12 +28,16 @@ resource "oci_core_internet_gateway" "test_internet_gateway" {
 	vcn_id = "${oci_core_vcn.test_vcn.id}"
 
 	#Optional
+	defined_tags = "${var.internet_gateway_defined_tags}"
 	display_name = "${var.internet_gateway_display_name}"
+	freeform_tags = "${var.internet_gateway_freeform_tags}"
 }
 `
 	InternetGatewayPropertyVariables = `
+variable "internet_gateway_defined_tags" { default = {"example-tag-namespace.example-tag"= "value"} }
 variable "internet_gateway_display_name" { default = "MyInternetGateway" }
 variable "internet_gateway_enabled" { default = false }
+variable "internet_gateway_freeform_tags" { default = {"Department"= "Finance"} }
 variable "internet_gateway_state" { default = "AVAILABLE" }
 
 `
@@ -83,8 +87,10 @@ func TestCoreInternetGatewayResource_basic(t *testing.T) {
 				Config: config + InternetGatewayPropertyVariables + compartmentIdVariableStr + InternetGatewayResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "MyInternetGateway"),
 					resource.TestCheckResourceAttr(resourceName, "enabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
@@ -99,15 +105,19 @@ func TestCoreInternetGatewayResource_basic(t *testing.T) {
 			// verify updates to updatable parameters
 			{
 				Config: config + `
+variable "internet_gateway_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
 variable "internet_gateway_display_name" { default = "displayName2" }
 variable "internet_gateway_enabled" { default = true }
+variable "internet_gateway_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "internet_gateway_state" { default = "AVAILABLE" }
 
                 ` + compartmentIdVariableStr + InternetGatewayResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(resourceName, "enabled", "true"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
@@ -124,8 +134,10 @@ variable "internet_gateway_state" { default = "AVAILABLE" }
 			// verify datasource
 			{
 				Config: config + `
+variable "internet_gateway_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
 variable "internet_gateway_display_name" { default = "displayName2" }
 variable "internet_gateway_enabled" { default = true }
+variable "internet_gateway_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "internet_gateway_state" { default = "AVAILABLE" }
 
 data "oci_core_internet_gateways" "test_internet_gateways" {
@@ -151,8 +163,10 @@ data "oci_core_internet_gateways" "test_internet_gateways" {
 
 					resource.TestCheckResourceAttr(datasourceName, "gateways.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "gateways.0.compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(datasourceName, "gateways.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "gateways.0.display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "gateways.0.enabled", "true"),
+					resource.TestCheckResourceAttr(datasourceName, "gateways.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "gateways.0.id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "gateways.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "gateways.0.vcn_id"),
