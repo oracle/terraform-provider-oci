@@ -105,7 +105,6 @@ func TestIdentityTagResource_basic(t *testing.T) {
 			{
 				Config: config + TagPropertyVariables + compartmentIdVariableStr + TagResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					//resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "This tag will show the cost center that will be used for billing of associated resources."),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -113,7 +112,6 @@ func TestIdentityTagResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "is_retired"),
 					resource.TestCheckResourceAttr(resourceName, "name", "CostCenter"),
 					resource.TestCheckResourceAttrSet(resourceName, "tag_namespace_id"),
-					//resource.TestCheckResourceAttrSet(resourceName, "tag_namespace_name"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 					func(s *terraform.State) (err error) {
@@ -133,8 +131,6 @@ variable "tag_name" { default = "CostCenter" }
 
                 ` + compartmentIdVariableStr + TagResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					//Service Bug: uncomment when fixed https://jira-sd.mc1.oracleiaas.com/browse/TG-107
-					//resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -142,7 +138,6 @@ variable "tag_name" { default = "CostCenter" }
 					resource.TestCheckResourceAttrSet(resourceName, "is_retired"),
 					resource.TestCheckResourceAttr(resourceName, "name", "CostCenter"),
 					resource.TestCheckResourceAttrSet(resourceName, "tag_namespace_id"),
-					//resource.TestCheckResourceAttrSet(resourceName, "tag_namespace_name"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 					func(s *terraform.State) (err error) {
@@ -176,14 +171,13 @@ data "oci_identity_tags" "test_tags" {
 					resource.TestCheckResourceAttrSet(datasourceName, "tag_namespace_id"),
 
 					resource.TestCheckResourceAttr(datasourceName, "tags.#", "1"),
-					//resource.TestCheckResourceAttrSet(datasourceName, "tags.0.compartment_id"),
 					resource.TestCheckResourceAttr(datasourceName, "tags.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "tags.0.description", "description2"),
 					resource.TestCheckResourceAttr(datasourceName, "tags.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "tags.0.id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "tags.0.is_retired"),
 					resource.TestCheckResourceAttr(datasourceName, "tags.0.name", "CostCenter"),
-					//resource.TestCheckResourceAttrSet(datasourceName, "tags.0.tag_namespace_name"),
+					resource.TestCheckResourceAttrSet(datasourceName, "tags.0.tag_namespace_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "tags.0.time_created"),
 				),
 			},

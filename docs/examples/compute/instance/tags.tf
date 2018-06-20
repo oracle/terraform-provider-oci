@@ -2,8 +2,7 @@ resource "oci_identity_tag_namespace" "tag-namespace1" {
   #Required
   compartment_id = "${var.compartment_ocid}"
   description = "tf example tag namespace"
-  #name = "tf-example-tag-namespace"
-  name = "test_namespace"
+  name = "tf-example-tag-namespace"
 }
 
 resource "oci_identity_tag" "tag1" {
