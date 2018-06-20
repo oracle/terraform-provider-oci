@@ -62,7 +62,10 @@ func (s *BucketsDataSourceCrud) VoidState() {
 }
 
 func (s *BucketsDataSourceCrud) Get() error {
-	request := oci_object_storage.ListBucketsRequest{}
+	request := oci_object_storage.ListBucketsRequest{
+		// @CODEGEN 6/2018: Need to specify all the fields we want from the BucketSummaries
+		Fields: oci_object_storage.GetListBucketsFieldsEnumValues(),
+	}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
