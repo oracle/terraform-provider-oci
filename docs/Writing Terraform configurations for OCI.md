@@ -81,3 +81,6 @@ The OCI API uses CamelCase in multiple places. Terraform doesn't support CamelCa
 
 ## Filtering
 Most OCI data sources support filtering - see [docs/Filters.md](https://github.com/oracle/terraform-provider-oci/blob/master/docs/Filters.md) for details.
+
+## Tagging
+See [docs/Tagging Resources.md](https://github.com/oracle/terraform-provider-oci/blob/master/docs/Tagging%20Resources.md) for how to manage tags and list of OCI resources that support tagging.
