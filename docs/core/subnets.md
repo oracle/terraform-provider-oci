@@ -102,11 +102,11 @@ resource "oci_core_subnet" "test_subnet" {
 	vcn_id = "${oci_core_vcn.test_vcn.id}"
 
 	#Optional
-	defined_tags = '{"Operations.CostCenter"= "42"}'
+	defined_tags = {"Operations.CostCenter"= "42"}
 	dhcp_options_id = "${oci_core_dhcp_options.test_dhcp_options.id}"
 	display_name = "${var.subnet_display_name}"
 	dns_label = "${var.subnet_dns_label}"
-	freeform_tags = '{"Department"= "Finance"}'
+	freeform_tags = {"Department"= "Finance"}
 	prohibit_public_ip_on_vnic = "${var.subnet_prohibit_public_ip_on_vnic}"
 	route_table_id = "${oci_core_route_table.test_route_table.id}"
 }

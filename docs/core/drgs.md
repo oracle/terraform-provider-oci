@@ -60,9 +60,9 @@ resource "oci_core_drg" "test_drg" {
 	compartment_id = "${var.compartment_id}"
 
 	#Optional
-	defined_tags = '{"Operations.CostCenter"= "42"}'
+	defined_tags = {"Operations.CostCenter"= "42"}
 	display_name = "${var.drg_display_name}"
-	freeform_tags = '{"Department"= "Finance"}'
+	freeform_tags = {"Department"= "Finance"}
 }
 ```
 

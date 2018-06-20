@@ -66,9 +66,9 @@ resource "oci_core_cpe" "test_cpe" {
 	ip_address = "${var.cpe_ip_address}"
 
 	#Optional
-	defined_tags = '{"Operations.CostCenter"= "42"}'
+	defined_tags = {"Operations.CostCenter"= "42"}
 	display_name = "${var.cpe_display_name}"
-	freeform_tags = '{"Department"= "Finance"}'
+	freeform_tags = {"Department"= "Finance"}
 }
 ```
 

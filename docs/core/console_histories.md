@@ -66,9 +66,9 @@ resource "oci_core_console_history" "test_console_history" {
 	instance_id = "${oci_core_instance.test_instance.id}"
 
 	#Optional
-	defined_tags = '{"Operations.CostCenter"= "42"}'
+	defined_tags = {"Operations.CostCenter"= "42"}
 	display_name = "${var.console_history_display_name}"
-	freeform_tags = '{"Department"= "Finance"}'
+	freeform_tags = {"Department"= "Finance"}
 }
 ```
 

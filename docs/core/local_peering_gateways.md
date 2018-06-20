@@ -61,9 +61,9 @@ resource "oci_core_local_peering_gateway" "test_local_peering_gateway" {
 	vcn_id = "${oci_core_vcn.test_vcn.id}"
 
 	#Optional
-	defined_tags = '{"Operations.CostCenter"= "42"}'
+	defined_tags = {"Operations.CostCenter"= "42"}
 	display_name = "${var.local_peering_gateway_display_name}"
-	freeform_tags = '{"Department"= "Finance"}'
+	freeform_tags = {"Department"= "Finance"}
 	peer_id = "${oci_core_local_peering_gateway.test_local_peering_gateway2.id}"
 }
 ```

@@ -65,9 +65,9 @@ resource "oci_core_volume_backup" "test_volume_backup" {
 	volume_id = "${oci_core_volume.test_volume.id}"
 
 	#Optional
-	defined_tags = '{"Operations.CostCenter"= "42"}'
+	defined_tags = {"Operations.CostCenter"= "42"}
 	display_name = "${var.volume_backup_display_name}"
-	freeform_tags = '{"Department"= "Finance"}'
+	freeform_tags = {"Department"= "Finance"}
 	type = "${var.volume_backup_type}"
 }
 ```

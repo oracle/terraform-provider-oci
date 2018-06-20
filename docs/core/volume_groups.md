@@ -75,9 +75,9 @@ resource "oci_core_volume_group" "test_volume_group" {
 	}
 
 	#Optional
-	defined_tags = '{"Operations.CostCenter"= "42"}'
+	defined_tags = {"Operations.CostCenter"= "42"}
 	display_name = "${var.volume_group_display_name}"
-	freeform_tags = '{"Department"= "Finance"}'
+	freeform_tags = {"Department"= "Finance"}
 }
 ```
 

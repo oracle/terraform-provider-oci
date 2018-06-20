@@ -79,9 +79,9 @@ resource "oci_core_volume" "test_volume" {
 	compartment_id = "${var.compartment_id}"
 
 	#Optional
-	defined_tags = '{"Operations.CostCenter"= "42"}'
+	defined_tags = {"Operations.CostCenter"= "42"}
 	display_name = "${var.volume_display_name}"
-	freeform_tags = '{"Department"= "Finance"}'
+	freeform_tags = {"Department"= "Finance"}
 	size_in_gbs = "${var.volume_size_in_gbs}"
 	size_in_mbs = "${var.volume_size_in_mbs}"
 	source_details {

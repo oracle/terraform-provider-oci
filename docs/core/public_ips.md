@@ -120,9 +120,9 @@ resource "oci_core_public_ip" "test_public_ip" {
 	lifetime = "${var.public_ip_lifetime}"
 
 	#Optional
-	defined_tags = '{"Operations.CostCenter"= "42"}'
+	defined_tags = {"Operations.CostCenter"= "42"}
 	display_name = "${var.public_ip_display_name}"
-	freeform_tags = '{"Department"= "Finance"}'
+	freeform_tags = {"Department"= "Finance"}
 	private_ip_id = "${oci_core_private_ip.test_private_ip.id}"
 }
 ```

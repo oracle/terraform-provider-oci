@@ -151,20 +151,20 @@ resource "oci_core_instance" "test_instance" {
 
 		#Optional
 		assign_public_ip = "${var.instance_create_vnic_details_assign_public_ip}"
-		defined_tags = '{"Operations.CostCenter"= "42"}'
+		defined_tags = {"Operations.CostCenter"= "42"}
 		display_name = "${var.instance_create_vnic_details_display_name}"
-		freeform_tags = '{"Department"= "Finance"}'
+		freeform_tags = {"Department"= "Finance"}
 		hostname_label = "${var.instance_create_vnic_details_hostname_label}"
 		private_ip = "${var.instance_create_vnic_details_private_ip}"
 		skip_source_dest_check = "${var.instance_create_vnic_details_skip_source_dest_check}"
 	}
-	defined_tags = '{"Operations.CostCenter"= "42"}'
+	defined_tags = {"Operations.CostCenter"= "42"}
 	display_name = "${var.instance_display_name}"
 	extended_metadata {
 		some_string = "stringA"
 		nested_object = "{\"some_string\": \"stringB\", \"object\": {\"some_string\": \"stringC\"}}"
 	}
-	freeform_tags = '{"Department"= "Finance"}'
+	freeform_tags = {"Department"= "Finance"}
 	hostname_label = "${var.instance_hostname_label}"
 	ipxe_script = "${var.instance_ipxe_script}"
 	metadata {

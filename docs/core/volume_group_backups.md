@@ -60,9 +60,9 @@ resource "oci_core_volume_group_backup" "test_volume_group_backup" {
 
 	#Optional
 	compartment_id = "${var.compartment_id}"
-	defined_tags = '{"Operations.CostCenter"= "42"}'
+	defined_tags = {"Operations.CostCenter"= "42"}
 	display_name = "${var.volume_group_backup_display_name}"
-	freeform_tags = '{"Department"= "Finance"}'
+	freeform_tags = {"Department"= "Finance"}
 	type = "${var.volume_group_backup_type}"
 }
 ```

@@ -87,8 +87,8 @@ resource "oci_identity_user" "test_user" {
 	name = "${var.user_name}"
 
 	#Optional
-	defined_tags = '{"Operations.CostCenter"= "42"}'
-	freeform_tags = '{"Department"= "Finance"}'
+	defined_tags = {"Operations.CostCenter"= "42"}
+	freeform_tags = {"Department"= "Finance"}
 }
 ```
 

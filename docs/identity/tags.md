@@ -66,8 +66,8 @@ resource "oci_identity_tag" "test_tag" {
 	tag_namespace_id = "${oci_identity_tag_namespace.test_tag_namespace.id}"
 
 	#Optional
-	defined_tags = '{"Operations.CostCenter"= "42"}'
-	freeform_tags = '{"Department"= "Finance"}'
+	defined_tags = {"Operations.CostCenter"= "42"}
+	freeform_tags = {"Department"= "Finance"}
 	is_retired = false
 }
 ```

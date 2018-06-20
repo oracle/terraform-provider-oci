@@ -95,9 +95,9 @@ resource "oci_core_image" "test_image" {
 
 	#Optional
 	display_name = "${var.image_display_name}"
-	defined_tags = '{"Operations.CostCenter"= "42"}'
+	defined_tags = {"Operations.CostCenter"= "42"}
 	launch_mode = "${var.image_launch_mode}"
-	freeform_tags = '{"Department"= "Finance"}'
+	freeform_tags = {"Department"= "Finance"}
 }
 ```
 
