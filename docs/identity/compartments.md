@@ -74,8 +74,8 @@ resource "oci_identity_compartment" "test_compartment" {
 	name = "${var.compartment_name}"
 
 	#Optional
-	defined_tags = '{"Operations.CostCenter"= "42"}'
-	freeform_tags = '{"Department"= "Finance"}'
+	defined_tags = {"Operations.CostCenter"= "42"}
+	freeform_tags = {"Department"= "Finance"}
 }
 ```
 

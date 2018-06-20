@@ -69,9 +69,9 @@ resource "oci_core_private_ip" "test_private_ip" {
 	vnic_id = "${oci_core_vnic.test_vnic.id}"
 
 	#Optional
-	defined_tags = '{"Operations.CostCenter"= "42"}'
+	defined_tags = {"Operations.CostCenter"= "42"}
 	display_name = "${var.private_ip_display_name}"
-	freeform_tags = '{"Department"= "Finance"}'
+	freeform_tags = {"Department"= "Finance"}
 	hostname_label = "${var.private_ip_hostname_label}"
 	ip_address = "${var.private_ip_ip_address}"
 }

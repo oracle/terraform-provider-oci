@@ -79,8 +79,8 @@ resource "oci_identity_policy" "test_policy" {
 	statements = "${var.policy_statements}"
 
 	#Optional
-	defined_tags = '{"Operations.CostCenter"= "42"}'
-	freeform_tags = '{"Department"= "Finance"}'
+	defined_tags = {"Operations.CostCenter"= "42"}
+	freeform_tags = {"Department"= "Finance"}
 	version_date = "${var.policy_version_date}"
 }
 ```

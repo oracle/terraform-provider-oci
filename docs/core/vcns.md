@@ -88,10 +88,10 @@ resource "oci_core_vcn" "test_vcn" {
 	compartment_id = "${var.compartment_id}"
 
 	#Optional
-	defined_tags = '{"Operations.CostCenter"= "42"}'
+	defined_tags = {"Operations.CostCenter"= "42"}
 	display_name = "${var.vcn_display_name}"
 	dns_label = "${var.vcn_dns_label}"
-	freeform_tags = '{"Department"= "Finance"}'
+	freeform_tags = {"Department"= "Finance"}
 }
 ```
 

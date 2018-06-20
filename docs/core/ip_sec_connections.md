@@ -84,9 +84,9 @@ resource "oci_core_ipsec" "test_ip_sec_connection" {
 	static_routes = "${var.ip_sec_connection_static_routes}"
 
 	#Optional
-	defined_tags = '{"Operations.CostCenter"= "42"}'
+	defined_tags = {"Operations.CostCenter"= "42"}
 	display_name = "${var.ip_sec_connection_display_name}"
-	freeform_tags = '{"Department"= "Finance"}'
+	freeform_tags = {"Department"= "Finance"}
 }
 ```
 

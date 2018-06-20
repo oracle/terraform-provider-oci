@@ -73,8 +73,8 @@ resource "oci_identity_group" "test_group" {
 	name = "${var.group_name}"
 
 	#Optional
-	defined_tags = '{"Operations.CostCenter"= "42"}'
-	freeform_tags = '{"Department"= "Finance"}'
+	defined_tags = {"Operations.CostCenter"= "42"}
+	freeform_tags = {"Department"= "Finance"}
 }
 ```
 
