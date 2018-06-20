@@ -65,15 +65,7 @@ func TagResource() *schema.Resource {
 			},
 
 			// Computed
-			"compartment_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"tag_namespace_name": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -264,10 +256,6 @@ func (s *TagResourceCrud) Update() error {
 }
 
 func (s *TagResourceCrud) SetData() {
-	if s.Res.CompartmentId != nil {
-		s.D.Set("compartment_id", *s.Res.CompartmentId)
-	}
-
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))
 	}
@@ -292,10 +280,6 @@ func (s *TagResourceCrud) SetData() {
 
 	if s.Res.TagNamespaceId != nil {
 		s.D.Set("tag_namespace_id", *s.Res.TagNamespaceId)
-	}
-
-	if s.Res.TagNamespaceName != nil {
-		s.D.Set("tag_namespace_name", *s.Res.TagNamespaceName)
 	}
 
 	if s.Res.TimeCreated != nil {

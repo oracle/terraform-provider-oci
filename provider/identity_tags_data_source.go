@@ -89,10 +89,6 @@ func (s *TagsDataSourceCrud) SetData() {
 	for _, r := range s.Res.Items {
 		tag := map[string]interface{}{}
 
-		if r.CompartmentId != nil {
-			tag["compartment_id"] = *r.CompartmentId
-		}
-
 		if r.DefinedTags != nil {
 			tag["defined_tags"] = definedTagsToMap(r.DefinedTags)
 		}
