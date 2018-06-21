@@ -1,9 +1,9 @@
 
-# oci_database_patch_history_entries
+# oci_database_db_home_patch_history_entries
 
-## PatchHistoryEntry DataSource
+## DbHomePatchHistoryEntry DataSource
 
-Gets a list of patch_history_entries.
+Gets a list of db_home_patch_history_entries.
 
 ### List Operation
 Gets history of the actions taken for patches for the specified database home.
@@ -20,12 +20,12 @@ The following attributes are exported:
 ### Example Usage
 
 ```hcl
-data "oci_database_patch_history_entries" "test_patch_history_entries" {
+data "oci_database_db_home_patch_history_entries" "test_db_home_patch_history_entries" {
 	#Required
-	db_home_id = "${var.patch_history_entry_db_home_id}"
+	db_home_id = "${var.db_home_id}"
 }
 ```
-### PatchHistoryEntry Reference
+### DbHomePatchHistoryEntry Reference
 
 The following attributes are exported:
 

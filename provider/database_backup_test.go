@@ -23,7 +23,7 @@ resource "oci_database_backup" "test_backup" {
 variable "backup_display_name" { default = "Monthly Backup" }
 
 `
-	BackupResourceDependencies = PatchResourceDependencies + `
+	BackupResourceDependencies = DbHomePatchResourceDependencies + `
 data "oci_database_databases" "db" {
        compartment_id = "${var.compartment_id}"
        db_home_id = "${data.oci_database_db_homes.t.db_homes.0.db_home_id}"

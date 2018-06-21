@@ -11,9 +11,9 @@ import (
 	"github.com/oracle/terraform-provider-oci/crud"
 )
 
-func PatchHistoryEntriesDataSource() *schema.Resource {
+func DbHomePatchHistoryEntriesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readPatchHistoryEntries,
+		Read: readDbHomePatchHistoryEntries,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"db_home_id": {
@@ -65,25 +65,25 @@ func PatchHistoryEntriesDataSource() *schema.Resource {
 	}
 }
 
-func readPatchHistoryEntries(d *schema.ResourceData, m interface{}) error {
-	sync := &PatchHistoryEntriesDataSourceCrud{}
+func readDbHomePatchHistoryEntries(d *schema.ResourceData, m interface{}) error {
+	sync := &DbHomePatchHistoryEntriesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient
 
 	return crud.ReadResource(sync)
 }
 
-type PatchHistoryEntriesDataSourceCrud struct {
+type DbHomePatchHistoryEntriesDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_database.DatabaseClient
 	Res    *oci_database.ListDbHomePatchHistoryEntriesResponse
 }
 
-func (s *PatchHistoryEntriesDataSourceCrud) VoidState() {
+func (s *DbHomePatchHistoryEntriesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *PatchHistoryEntriesDataSourceCrud) Get() error {
+func (s *DbHomePatchHistoryEntriesDataSourceCrud) Get() error {
 	request := oci_database.ListDbHomePatchHistoryEntriesRequest{}
 
 	if dbHomeId, ok := s.D.GetOkExists("db_home_id"); ok {
@@ -114,7 +114,7 @@ func (s *PatchHistoryEntriesDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *PatchHistoryEntriesDataSourceCrud) SetData() {
+func (s *DbHomePatchHistoryEntriesDataSourceCrud) SetData() {
 	if s.Res == nil {
 		return
 	}
@@ -123,33 +123,33 @@ func (s *PatchHistoryEntriesDataSourceCrud) SetData() {
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {
-		patchHistoryEntry := map[string]interface{}{}
+		dbHomePatchHistoryEntry := map[string]interface{}{}
 
-		patchHistoryEntry["action"] = r.Action
+		dbHomePatchHistoryEntry["action"] = r.Action
 
 		if r.Id != nil {
-			patchHistoryEntry["id"] = *r.Id
+			dbHomePatchHistoryEntry["id"] = *r.Id
 		}
 
 		if r.LifecycleDetails != nil {
-			patchHistoryEntry["lifecycle_details"] = *r.LifecycleDetails
+			dbHomePatchHistoryEntry["lifecycle_details"] = *r.LifecycleDetails
 		}
 
 		if r.PatchId != nil {
-			patchHistoryEntry["patch_id"] = *r.PatchId
+			dbHomePatchHistoryEntry["patch_id"] = *r.PatchId
 		}
 
-		patchHistoryEntry["state"] = r.LifecycleState
+		dbHomePatchHistoryEntry["state"] = r.LifecycleState
 
 		if r.TimeEnded != nil {
-			patchHistoryEntry["time_ended"] = r.TimeEnded.String()
+			dbHomePatchHistoryEntry["time_ended"] = r.TimeEnded.String()
 		}
 
 		if r.TimeStarted != nil {
-			patchHistoryEntry["time_started"] = r.TimeStarted.String()
+			dbHomePatchHistoryEntry["time_started"] = r.TimeStarted.String()
 		}
 
-		resources = append(resources, patchHistoryEntry)
+		resources = append(resources, dbHomePatchHistoryEntry)
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {

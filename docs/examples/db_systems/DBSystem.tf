@@ -61,12 +61,12 @@ data "oci_database_backups" "test_backups" {
     }
 }
 
-data "oci_database_patches" "patches" {
+data "oci_database_db_home_patches" "db_home_patches" {
 	#Required
 	db_home_id = "${data.oci_database_db_homes.t.db_homes.0.db_home_id}"
 }
 
-data "oci_database_patches" "patches_history" {
+data "oci_database_db_home_patches" "db_home_patches_history" {
 	#Required
 	db_home_id = "${data.oci_database_db_homes.t.db_homes.0.db_home_id}"
 }

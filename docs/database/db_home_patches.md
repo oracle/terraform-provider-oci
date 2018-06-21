@@ -1,9 +1,9 @@
 
-# oci_database_patches
+# oci_database_db_home_patches
 
-## Patch DataSource
+## DbHomePatch DataSource
 
-Gets a list of patches.
+Gets a list of db_home_patches.
 
 ### List Operation
 Lists patches applicable to the requested database home.
@@ -20,12 +20,12 @@ The following attributes are exported:
 ### Example Usage
 
 ```hcl
-data "oci_database_patches" "test_patches" {
+data "oci_database_db_home_patches" "test_db_home_patches" {
 	#Required
-	db_home_id = "${var.patch_db_home_id}"
+	db_home_id = "${var.db_home_id}"
 }
 ```
-### Patch Reference
+### DbHomePatch Reference
 
 The following attributes are exported:
 
