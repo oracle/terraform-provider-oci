@@ -15,6 +15,7 @@ The following attributes are exported:
 * `metadata` - Arbitrary string keys and values for user-defined metadata.
 * `name` - The name of the bucket.
 * `namespace` - The namespace in which the bucket lives.
+* `storage_tier` - The type of storage tier of this bucket. A bucket is set to 'Standard' tier by default, which means the bucket will be put in the standard storage tier. When 'Archive' tier type is set explicitly, the bucket is put in the archive storage tier. The 'storageTier' property is immutable after bucket is created. 
 * `time_created` - The date and time at which the bucket was created.
 
 
@@ -36,6 +37,7 @@ The following arguments are supported:
 * `metadata` - (Optional) Arbitrary string, up to 4KB, of keys and values for user-defined metadata.
 * `name` - (Required) The name of the bucket. Valid characters are uppercase or lowercase letters, numbers, and dashes. Bucket names must be unique within the namespace. 
 * `namespace` - (Required) The top-level namespace used for the request.
+* `storage_tier` - (Optional) The type of storage tier of this bucket. A bucket is set to 'Standard' tier by default, which means the bucket will be put in the standard storage tier. When 'Archive' tier type is set explicitly, the bucket is put in the Archive Storage tier. The 'storageTier' property is immutable after bucket is created. 
 
 
 ### Update Operation
@@ -63,6 +65,7 @@ resource "oci_objectstorage_bucket" "test_bucket" {
 	defined_tags = {"Operations.CostCenter"= "42"}
 	freeform_tags = {"Department"= "Finance"}
 	metadata = "${var.bucket_metadata}"
+	storage_tier = "${var.bucket_storage_tier}"
 }
 ```
 
@@ -82,7 +85,7 @@ talk to an administrator. If you're an administrator who needs to write policies
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) The ID of the compartment in which to create the bucket.
+* `compartment_id` - (Required) The ID of the compartment in which to list buckets.
 * `namespace` - (Required) The top-level namespace used for the request.
 
 
