@@ -38,7 +38,7 @@ variable "volume_backup_state" { default = "AVAILABLE" }
 variable "volume_backup_type" { default = "FULL" }
 
 `
-	VolumeBackupResourceDependencies = DefinedTagsDependencies + VolumePropertyVariables + VolumeResourceConfig
+	VolumeBackupResourceDependencies = VolumePropertyVariables + VolumeResourceConfig
 )
 
 func TestCoreVolumeBackupResource_basic(t *testing.T) {

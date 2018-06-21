@@ -11,7 +11,7 @@ import (
 )
 
 const (
-	DrgRequiredOnlyResource = DrgResourceDependencies + `
+	DrgRequiredOnlyResource = DrgRequiredOnlyResourceDependencies + `
 resource "oci_core_drg" "test_drg" {
 	#Required
 	compartment_id = "${var.compartment_id}"
@@ -35,7 +35,8 @@ variable "drg_display_name" { default = "MyDrg" }
 variable "drg_freeform_tags" { default = {"Department"= "Finance"} }
 
 `
-	DrgResourceDependencies = DefinedTagsDependencies
+	DrgRequiredOnlyResourceDependencies = ``
+	DrgResourceDependencies             = DefinedTagsDependencies
 )
 
 func TestCoreDrgResource_basic(t *testing.T) {

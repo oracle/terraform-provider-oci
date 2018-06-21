@@ -11,7 +11,7 @@ import (
 )
 
 const (
-	CpeRequiredOnlyResource = CpeResourceDependencies + `
+	CpeRequiredOnlyResource = CpeRequiredOnlyResourceDependencies + `
 resource "oci_core_cpe" "test_cpe" {
 	#Required
 	compartment_id = "${var.compartment_id}"
@@ -38,7 +38,8 @@ variable "cpe_freeform_tags" { default = {"Department"= "Finance"} }
 variable "cpe_ip_address" { default = "189.44.2.135" }
 
 `
-	CpeResourceDependencies = DefinedTagsDependencies
+	CpeRequiredOnlyResourceDependencies = ``
+	CpeResourceDependencies             = DefinedTagsDependencies
 )
 
 func TestCoreCpeResource_basic(t *testing.T) {
