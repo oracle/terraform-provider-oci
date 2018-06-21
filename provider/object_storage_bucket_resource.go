@@ -66,6 +66,12 @@ func BucketResource() *schema.Resource {
 				Optional: true,
 				Elem:     schema.TypeString,
 			},
+			"storage_tier": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 
 			// Computed
 			"created_by": {
@@ -169,6 +175,10 @@ func (s *BucketResourceCrud) Create() error {
 	if namespace, ok := s.D.GetOkExists("namespace"); ok {
 		tmp := namespace.(string)
 		request.NamespaceName = &tmp
+	}
+
+	if storageTier, ok := s.D.GetOkExists("storage_tier"); ok {
+		request.StorageTier = oci_object_storage.CreateBucketDetailsStorageTierEnum(storageTier.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
@@ -317,6 +327,8 @@ func (s *BucketResourceCrud) SetData() {
 	if s.Res.Namespace != nil {
 		s.D.Set("namespace", *s.Res.Namespace)
 	}
+
+	s.D.Set("storage_tier", s.Res.StorageTier)
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())

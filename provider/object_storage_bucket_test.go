@@ -32,6 +32,7 @@ resource "oci_objectstorage_bucket" "test_bucket" {
 	defined_tags = "${var.bucket_defined_tags}"
 	freeform_tags = "${var.bucket_freeform_tags}"
 	metadata = "${var.bucket_metadata}"
+	storage_tier = "${var.bucket_storage_tier}"
 }
 `
 	BucketPropertyVariables = `
@@ -40,6 +41,7 @@ variable "bucket_defined_tags" { default = {"example-tag-namespace.example-tag"=
 variable "bucket_freeform_tags" { default = {"Department"= "Finance"} }
 variable "bucket_metadata" { default = {"content-type" = "text/plain"} }
 variable "bucket_name" { default = "my-test-1" }
+variable "bucket_storage_tier" { default = "Standard" }
 
 `
 	BucketResourceDependencies = DefinedTagsDependencies + `
@@ -99,6 +101,7 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "metadata.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "name", "my-test-1"),
 					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
+					resource.TestCheckResourceAttr(resourceName, "storage_tier", "Standard"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 					func(s *terraform.State) (err error) {
@@ -116,6 +119,7 @@ variable "bucket_defined_tags" { default = {"example-tag-namespace.example-tag"=
 variable "bucket_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "bucket_metadata" { default = {"content-type" = "text/xml"} }
 variable "bucket_name" { default = "name2" }
+variable "bucket_storage_tier" { default = "Standard" }
 
                 ` + compartmentIdVariableStr + BucketResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
@@ -128,6 +132,7 @@ variable "bucket_name" { default = "name2" }
 					resource.TestCheckResourceAttr(resourceName, "metadata.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "name", "name2"),
 					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
+					resource.TestCheckResourceAttr(resourceName, "storage_tier", "Standard"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 					func(s *terraform.State) (err error) {
@@ -148,6 +153,7 @@ variable "bucket_defined_tags" { default = {"example-tag-namespace.example-tag"=
 variable "bucket_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "bucket_metadata" { default = {"content-type" = "text/xml"} }
 variable "bucket_name" { default = "name2" }
+variable "bucket_storage_tier" { default = "Standard" }
 
 data "oci_objectstorage_bucket_summaries" "test_buckets" {
 	#Required
