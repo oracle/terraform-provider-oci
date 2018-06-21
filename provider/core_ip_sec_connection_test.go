@@ -42,7 +42,7 @@ variable "ip_sec_connection_freeform_tags" { default = {"Department"= "Finance"}
 variable "ip_sec_connection_static_routes" { default = ["10.0.0.0/16"] }
 
 `
-	IpSecConnectionResourceDependencies = CpePropertyVariables + CpeResourceConfig + DrgPropertyVariables + DrgResourceConfig
+	IpSecConnectionResourceDependencies = DefinedTagsDependencies + CpePropertyVariables + CpeRequiredOnlyResource + DrgPropertyVariables + DrgRequiredOnlyResource
 )
 
 func TestCoreIpSecConnectionResource_basic(t *testing.T) {
