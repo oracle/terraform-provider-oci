@@ -129,7 +129,7 @@ resource "oci_core_public_ip" "test_public_ip" {
 
 # oci_core_public_ips
 
-## PublicIp DataSource
+## PublicIps DataSource
 
 Gets a list of public_ips.
 
@@ -167,5 +167,69 @@ data "oci_core_public_ips" "test_public_ips" {
 
 	#Optional
 	availability_domain = "${var.public_ip_availability_domain}"
+}
+```
+
+
+## PublicIp DataSource
+
+Get a single public_ip.
+
+### Get Operation
+Gets the specified public IP. You must specify the object's OCID.
+
+Alternatively, you can get the object by using [GetPublicIpByIpAddress](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/PublicIp/GetPublicIpByIpAddress) 
+with the public IP address (for example, 129.146.2.1).
+
+Or you can use GetPublicIpByPrivateIpId with the OCID of the private IP that the public IP is assigned to.
+
+Note: If you're fetching a reserved public IP that is in the process of being moved to a different private IP, the service returns the public IP object with lifecycleState = ASSIGNING and privateIpId = OCID of the target private IP.
+
+The following arguments are supported:
+
+_Only one of the following values will be used. If multiple arguments are passed, the first non-empty value will be used based on the order below._
+  
+* `id` - (Optional) The OCID of the public IP.
+* `private_ip_id` - (Optional) Gets the public IP assigned to the specified private IP. You must specify the OCID of the private IP. If no public IP is assigned, a 404 is returned.
+* `ip_address` - (Optional) Gets the public IP based on the public IP address (for example, 129.146.2.1).
+
+
+The following attributes are exported:
+
+* `availability_domain` - (Optional) The name of the Availability Domain.  Example: `Uocm:PHX-AD-1` 
+* `compartment_id` - The OCID of the compartment.
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
+* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}`
+* `id` - The OCID of the public IP.
+* `ip_address` - Gets the public IP based on the public IP address (for example, 129.146.2.1). 
+* `lifetime` - Defines when the public IP is deleted and released back to Oracle's public IP pool. 
+* `private_ip_id` - Gets the public IP assigned to the specified private IP. You must specify the OCID of the private IP. If no public IP is assigned, a 404 is returned.
+* `scope` - Whether the public IP is regional or specific to a particular Availability Domain. 
+* `state` - The public IP's current state. 
+* `time_created` - The date and time the public IP was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
+ 
+
+
+### Example Usage
+
+#### Get a public ip by public ip id
+```hcl
+data "oci_core_public_ip" "test_oci_core_public_ip_by_id" {
+    id = "${var.test_public_ip_id}"
+}
+```
+
+#### Get a public ip by private ip id
+```hcl
+data "oci_core_public_ip" "test_oci_core_public_ip_by_private_ip_id" {
+    private_ip_id = "${var.test_public_ip_private_ip_id}"
+}
+```
+
+#### Get a public ip by public ip address
+```hcl
+data "oci_core_public_ip" "test_oci_core_public_ip_by_ip" {
+    ip_address = "${var.test_public_ip_ip_address}"
 }
 ```
