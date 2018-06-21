@@ -162,6 +162,7 @@ func dataSourcesMap() map[string]*schema.Resource {
 		"oci_core_local_peering_gateways":            LocalPeeringGatewaysDataSource(),
 		"oci_core_peer_region_for_remote_peerings":   PeerRegionForRemotePeeringsDataSource(),
 		"oci_core_private_ips":                       PrivateIpsDataSource(),
+		"oci_core_public_ip":                         PublicIpDataSource(),
 		"oci_core_public_ips":                        PublicIpsDataSource(),
 		"oci_core_remote_peering_connections":        RemotePeeringConnectionsDataSource(),
 		"oci_core_route_tables":                      RouteTablesDataSource(),

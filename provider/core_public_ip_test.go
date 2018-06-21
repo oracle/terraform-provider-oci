@@ -125,13 +125,16 @@ variable "public_ip_scope" { default = "` + string(oci_core.PublicIpScopeRegion)
 
 func TestCorePublicIpResource_basic(t *testing.T) {
 	provider := testAccProvider
-	config := testProviderConfig()
+	config := testProviderConfig() + DefinedTagsDependencies
 
 	compartmentId := getRequiredEnvSetting("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_core_public_ip.test_public_ip"
 	datasourceName := "data.oci_core_public_ips.test_public_ips"
+	sDatasourceNameById := "data.oci_core_public_ip.test_oci_core_public_ip_by_id"
+	sDatasourceNameByIp := "data.oci_core_public_ip.test_oci_core_public_ip_by_ip"
+	sDatasourceNameByPrivateIpId := "data.oci_core_public_ip.test_oci_core_public_ip_by_private_ip_id"
 
 	var resId, resId2 string
 
@@ -144,7 +147,14 @@ func TestCorePublicIpResource_basic(t *testing.T) {
 			{
 				ImportState:       true,
 				ImportStateVerify: true,
-				Config:            config + PublicIpPropertyVariables + compartmentIdVariableStr + PublicIpRequiredOnlyResource,
+				Config: config + PublicIpPropertyVariables + compartmentIdVariableStr + PublicIpRequiredOnlyResource + `
+					data "oci_core_public_ip" "test_oci_core_public_ip_by_id" {
+						id = "${oci_core_public_ip.test_public_ip.id}"
+					}
+
+					data "oci_core_public_ip" "test_oci_core_public_ip_by_ip" {
+						ip_address = "${oci_core_public_ip.test_public_ip.ip_address}"
+					}`,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "display_name"),
@@ -159,6 +169,30 @@ func TestCorePublicIpResource_basic(t *testing.T) {
 						resId, err = fromInstanceState(s, resourceName, "id")
 						return err
 					},
+
+					// check oci_core_public_ip by id
+					resource.TestCheckResourceAttr(sDatasourceNameById, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(sDatasourceNameById, "lifetime", string(oci_core.PublicIpLifetimeReserved)),
+					resource.TestCheckResourceAttrSet(sDatasourceNameById, "id"),
+					resource.TestCheckResourceAttrSet(sDatasourceNameById, "ip_address"),
+					resource.TestCheckNoResourceAttr(sDatasourceNameById, "private_ip_id"),
+					resource.TestCheckResourceAttrSet(sDatasourceNameById, "display_name"),
+					resource.TestCheckNoResourceAttr(sDatasourceNameById, "availability_domain"),
+					resource.TestCheckResourceAttrSet(sDatasourceNameById, "time_created"),
+					resource.TestCheckResourceAttr(sDatasourceNameById, "scope", string(oci_core.PublicIpScopeRegion)),
+					resource.TestCheckResourceAttr(sDatasourceNameById, "state", string(oci_core.PublicIpLifecycleStateAvailable)),
+
+					// check oci_core_public_ip by public ip
+					resource.TestCheckResourceAttr(sDatasourceNameByIp, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(sDatasourceNameByIp, "lifetime", string(oci_core.PublicIpLifetimeReserved)),
+					resource.TestCheckResourceAttrSet(sDatasourceNameByIp, "id"),
+					resource.TestCheckResourceAttrSet(sDatasourceNameByIp, "ip_address"),
+					resource.TestCheckNoResourceAttr(sDatasourceNameByIp, "private_ip_id"),
+					resource.TestCheckResourceAttrSet(sDatasourceNameByIp, "display_name"),
+					resource.TestCheckNoResourceAttr(sDatasourceNameByIp, "availability_domain"),
+					resource.TestCheckResourceAttrSet(sDatasourceNameByIp, "time_created"),
+					resource.TestCheckResourceAttr(sDatasourceNameByIp, "scope", string(oci_core.PublicIpScopeRegion)),
+					resource.TestCheckResourceAttr(sDatasourceNameByIp, "state", string(oci_core.PublicIpLifecycleStateAvailable)),
 				),
 			},
 
@@ -197,7 +231,7 @@ func TestCorePublicIpResource_basic(t *testing.T) {
 
 						#Optional
 						display_name = "` + displayName2 + `"
-						defined_tags = "${var.public_ip_defined_tags}"
+						defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.public_ip_defined_tags_value}")}"
 						freeform_tags = "${var.public_ip_freeform_tags}"
 						private_ip_id = "${data.oci_core_private_ips.test_private_ips.` + privateIpId + `}"
 					}`,
@@ -226,7 +260,7 @@ func TestCorePublicIpResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + PublicIpResourceDependencies + `
 
-					variable "public_ip_defined_tags" { default = "updatedValue" }
+					variable "public_ip_defined_tags_value" { default = "updatedValue" }
 					variable "public_ip_display_name" { default = "-tf-public-ip-updated" }
 					variable "public_ip_freeform_tags" { default = {"Department"= "Accounting"} }
 					variable "public_ip_lifetime" { default = "RESERVED" }
@@ -239,7 +273,7 @@ func TestCorePublicIpResource_basic(t *testing.T) {
 
 						#Optional
 						display_name = "${var.public_ip_display_name}"
-						defined_tags = "${var.public_ip_defined_tags}"
+						defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.public_ip_defined_tags_value}")}"
 						freeform_tags = "${var.public_ip_freeform_tags}"
 						private_ip_id = "${data.oci_core_private_ips.test_private_ips.` + privateIpId2 + `}"
 					}`,
@@ -319,6 +353,10 @@ func TestCorePublicIpResource_basic(t *testing.T) {
 							values = ["${oci_core_public_ip.test_public_ip2.id}"]
 						}
 					}
+
+					data "oci_core_public_ip" "test_oci_core_public_ip_by_private_ip_id" {
+						private_ip_id = "${oci_core_public_ip.test_public_ip2.private_ip_id}"
+					}
 					` + compartmentIdVariableStr + PublicIpResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -328,6 +366,20 @@ func TestCorePublicIpResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "public_ips.0.display_name", "-tf-public-ip-updated"),
 					resource.TestCheckResourceAttr(datasourceName, "public_ips.0.lifetime", string(oci_core.PublicIpLifetimeReserved)),
 					resource.TestCheckResourceAttrSet(datasourceName, "public_ips.0.private_ip_id"),
+
+					// check oci_core_public_ip by private ip id
+					resource.TestCheckResourceAttr(sDatasourceNameByPrivateIpId, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(sDatasourceNameByPrivateIpId, "lifetime", string(oci_core.PublicIpLifetimeReserved)),
+					resource.TestCheckResourceAttrSet(sDatasourceNameByPrivateIpId, "id"),
+					resource.TestCheckResourceAttrSet(sDatasourceNameByPrivateIpId, "ip_address"),
+					resource.TestCheckResourceAttrSet(sDatasourceNameByPrivateIpId, "private_ip_id"),
+					resource.TestCheckResourceAttr(sDatasourceNameByPrivateIpId, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(sDatasourceNameByPrivateIpId, "display_name"),
+					resource.TestCheckResourceAttr(sDatasourceNameByPrivateIpId, "freeform_tags.%", "1"),
+					resource.TestCheckNoResourceAttr(sDatasourceNameByPrivateIpId, "availability_domain"),
+					resource.TestCheckResourceAttrSet(sDatasourceNameByPrivateIpId, "time_created"),
+					resource.TestCheckResourceAttr(sDatasourceNameByPrivateIpId, "scope", string(oci_core.PublicIpScopeRegion)),
+					resource.TestCheckResourceAttr(sDatasourceNameByPrivateIpId, "state", string(oci_core.PublicIpLifecycleStateAssigned)),
 				),
 			},
 			// Test client-side filtering.
