@@ -11,11 +11,11 @@ import (
 )
 
 const (
-	PatchResourceConfig = PatchResourceDependencies
+	DbHomePatchResourceConfig = DbHomePatchResourceDependencies
 
-	PatchResourceDependencies = SubnetRequiredOnlyResource + SubnetPropertyVariables + `
+	DbHomePatchResourceDependencies = SubnetRequiredOnlyResource + SubnetPropertyVariables + `
 resource "oci_database_db_system" "t" {
-	availability_domain = "${lookup(data.oci_identity_availability_domains.test_availability_domains.availability_domains[var.subnet_availability_domain],"name")}"
+	availability_domain = "${lookup(data.oci_identity_availability_domains.test_availability_domains.availability_domains[0],"name")}"
 	compartment_id = "${var.compartment_id}"
 	subnet_id = "${oci_core_subnet.test_subnet.id}"
 	database_edition = "ENTERPRISE_EDITION"
@@ -45,15 +45,14 @@ data "oci_database_db_homes" "t" {
 `
 )
 
-func TestDatabasePatchResource_basic(t *testing.T) {
+func TestDatabaseDbHomePatchResource_basic(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getRequiredEnvSetting("compartment_ocid")
-
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	datasourceName := "data.oci_database_patches.test_patches"
+	datasourceName := "data.oci_database_db_home_patches.test_db_home_patches"
 
 	resource.Test(t, resource.TestCase{
 		Providers: map[string]terraform.ResourceProvider{
@@ -64,11 +63,11 @@ func TestDatabasePatchResource_basic(t *testing.T) {
 			{
 				Config: config + `
 
-data "oci_database_patches" "test_patches" {
+data "oci_database_db_home_patches" "test_db_home_patches" {
 	#Required
 	db_home_id = "${data.oci_database_db_homes.t.db_homes.0.db_home_id}"
 }
-                ` + compartmentIdVariableStr + PatchResourceConfig,
+                ` + compartmentIdVariableStr + DbHomePatchResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "db_home_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "patches.#"),

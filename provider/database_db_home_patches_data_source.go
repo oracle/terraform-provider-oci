@@ -11,9 +11,9 @@ import (
 	"github.com/oracle/terraform-provider-oci/crud"
 )
 
-func PatchesDataSource() *schema.Resource {
+func DbHomePatchesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readPatches,
+		Read: readDbHomePatches,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"db_home_id": {
@@ -72,25 +72,25 @@ func PatchesDataSource() *schema.Resource {
 	}
 }
 
-func readPatches(d *schema.ResourceData, m interface{}) error {
-	sync := &PatchesDataSourceCrud{}
+func readDbHomePatches(d *schema.ResourceData, m interface{}) error {
+	sync := &DbHomePatchesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient
 
 	return crud.ReadResource(sync)
 }
 
-type PatchesDataSourceCrud struct {
+type DbHomePatchesDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_database.DatabaseClient
 	Res    *oci_database.ListDbHomePatchesResponse
 }
 
-func (s *PatchesDataSourceCrud) VoidState() {
+func (s *DbHomePatchesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *PatchesDataSourceCrud) Get() error {
+func (s *DbHomePatchesDataSourceCrud) Get() error {
 	request := oci_database.ListDbHomePatchesRequest{}
 
 	if dbHomeId, ok := s.D.GetOkExists("db_home_id"); ok {
@@ -121,7 +121,7 @@ func (s *PatchesDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *PatchesDataSourceCrud) SetData() {
+func (s *DbHomePatchesDataSourceCrud) SetData() {
 	if s.Res == nil {
 		return
 	}
@@ -130,35 +130,35 @@ func (s *PatchesDataSourceCrud) SetData() {
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {
-		patch := map[string]interface{}{}
+		dbHomePatch := map[string]interface{}{}
 
-		patch["available_actions"] = r.AvailableActions
+		dbHomePatch["available_actions"] = r.AvailableActions
 
 		if r.Description != nil {
-			patch["description"] = *r.Description
+			dbHomePatch["description"] = *r.Description
 		}
 
 		if r.Id != nil {
-			patch["id"] = *r.Id
+			dbHomePatch["id"] = *r.Id
 		}
 
-		patch["last_action"] = r.LastAction
+		dbHomePatch["last_action"] = r.LastAction
 
 		if r.LifecycleDetails != nil {
-			patch["lifecycle_details"] = *r.LifecycleDetails
+			dbHomePatch["lifecycle_details"] = *r.LifecycleDetails
 		}
 
-		patch["state"] = r.LifecycleState
+		dbHomePatch["state"] = r.LifecycleState
 
 		if r.TimeReleased != nil {
-			patch["time_released"] = r.TimeReleased.String()
+			dbHomePatch["time_released"] = r.TimeReleased.String()
 		}
 
 		if r.Version != nil {
-			patch["version"] = *r.Version
+			dbHomePatch["version"] = *r.Version
 		}
 
-		resources = append(resources, patch)
+		resources = append(resources, dbHomePatch)
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
