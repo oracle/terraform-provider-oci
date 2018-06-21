@@ -144,7 +144,7 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `backend_sets` - The list of backend_sets.
+* `backendsets` - The list of backendsets.
 
 ### Example Usage
 

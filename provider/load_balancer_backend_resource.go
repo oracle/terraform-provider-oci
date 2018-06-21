@@ -247,8 +247,8 @@ func (s *BackendResourceCrud) Get() error {
 	tmp := s.buildID()
 	request.BackendName = &tmp
 
-	if backendSetName, ok := s.D.GetOkExists("backendset_name"); ok {
-		tmp := backendSetName.(string)
+	if backendsetName, ok := s.D.GetOkExists("backendset_name"); ok {
+		tmp := backendsetName.(string)
 		request.BackendSetName = &tmp
 	}
 
@@ -341,8 +341,8 @@ func (s *BackendResourceCrud) Delete() error {
 		request.BackendName = &tmp
 	}
 
-	if backendSetName, ok := s.D.GetOkExists("backendset_name"); ok {
-		tmp := backendSetName.(string)
+	if backendsetName, ok := s.D.GetOkExists("backendset_name"); ok {
+		tmp := backendsetName.(string)
 		request.BackendSetName = &tmp
 	}
 
