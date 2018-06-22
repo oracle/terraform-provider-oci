@@ -11,7 +11,7 @@ import (
 )
 
 const (
-	VcnRequiredOnlyResource = VcnResourceDependencies + `
+	VcnRequiredOnlyResource = VcnRequiredOnlyResourceDependencies + `
 resource "oci_core_vcn" "test_vcn" {
 	#Required
 	cidr_block = "${var.vcn_cidr_block}"
@@ -41,7 +41,8 @@ variable "vcn_freeform_tags" { default = {"Department"= "Finance"} }
 variable "vcn_state" { default = "AVAILABLE" }
 
 `
-	VcnResourceDependencies = DefinedTagsDependencies
+	VcnRequiredOnlyResourceDependencies = ``
+	VcnResourceDependencies             = DefinedTagsDependencies
 )
 
 func TestCoreVcnResource_basic(t *testing.T) {

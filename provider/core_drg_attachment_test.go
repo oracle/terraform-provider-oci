@@ -33,7 +33,7 @@ resource "oci_core_drg_attachment" "test_drg_attachment" {
 variable "drg_attachment_display_name" { default = "displayName" }
 
 `
-	DrgAttachmentResourceDependencies = DrgPropertyVariables + DrgResourceConfig + VcnPropertyVariables + VcnResourceConfig
+	DrgAttachmentResourceDependencies = DefinedTagsDependencies + DrgPropertyVariables + DrgRequiredOnlyResource + VcnPropertyVariables + VcnRequiredOnlyResource
 )
 
 func TestCoreDrgAttachmentResource_basic(t *testing.T) {
