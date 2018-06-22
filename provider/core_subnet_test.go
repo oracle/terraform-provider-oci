@@ -11,7 +11,7 @@ import (
 )
 
 const (
-	SubnetRequiredOnlyResource = SubnetResourceDependencies + `
+	SubnetRequiredOnlyResource = SubnetRequiredOnlyResourceDependencies + `
 resource "oci_core_subnet" "test_subnet" {
 	#Required
 	availability_domain = "${lookup(data.oci_identity_availability_domains.test_availability_domains.availability_domains[0],"name")}"
@@ -51,7 +51,8 @@ variable "subnet_security_list_ids" { default = [] }
 variable "subnet_state" { default = "AVAILABLE" }
 
 `
-	SubnetResourceDependencies = AvailabilityDomainConfig + DhcpOptionsPropertyVariables + DhcpOptionsResourceConfigOnly + RouteTablePropertyVariables + RouteTableResourceConfig
+	SubnetRequiredOnlyResourceDependencies = AvailabilityDomainConfig + VcnPropertyVariables + VcnRequiredOnlyResource
+	SubnetResourceDependencies             = AvailabilityDomainConfig + DhcpOptionsPropertyVariables + DhcpOptionsResourceConfigOnly + RouteTablePropertyVariables + RouteTableResourceConfig
 )
 
 func TestCoreSubnetResource_basic(t *testing.T) {

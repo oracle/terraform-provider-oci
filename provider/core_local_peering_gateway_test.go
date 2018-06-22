@@ -197,7 +197,7 @@ data "oci_core_local_peering_gateways" "test_local_peering_gateways" {
 			// verify connect functionality
 			{
 				Config: config + `
-variable "local_peering_gateway_defined_tags" { default = "updatedValue" }
+variable "local_peering_gateway_defined_tags_value" { default = "updatedValue" }
 variable "local_peering_gateway_display_name" { default = "displayName2" }
 variable "local_peering_gateway_freeform_tags" { default = {"Department"= "Accounting"} }
 
