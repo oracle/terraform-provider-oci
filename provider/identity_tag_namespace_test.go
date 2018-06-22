@@ -28,12 +28,12 @@ resource "oci_identity_tag_namespace" "test_tag_namespace" {
 	name = "${var.tag_namespace_name}"
 
 	#Optional
-	defined_tags = "${var.tag_namespace_defined_tags}"
+	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.tag_namespace_defined_tags_value}")}"
 	freeform_tags = "${var.tag_namespace_freeform_tags}"
 }
 `
 	TagNamespacePropertyVariables = `
-variable "tag_namespace_defined_tags" { default = {"example-tag-namespace.example-tag"= "value"} }
+variable "tag_namespace_defined_tags_value" { default = "value" }
 variable "tag_namespace_description" { default = "This namespace contains tags that will be used in billing." }
 variable "tag_namespace_freeform_tags" { default = {"Department"= "Finance"} }
 variable "tag_namespace_include_subcompartments" { default = false }
@@ -104,7 +104,7 @@ func TestIdentityTagNamespaceResource_basic(t *testing.T) {
 			// verify updates to updatable parameters
 			{
 				Config: config + `
-variable "tag_namespace_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
+variable "tag_namespace_defined_tags_value" { default = "updatedValue" }
 variable "tag_namespace_description" { default = "description2" }
 variable "tag_namespace_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "tag_namespace_include_subcompartments" { default = false }
@@ -133,7 +133,7 @@ variable "tag_namespace_name" { default = "BillingTags" }
 			// verify datasource
 			{
 				Config: config + `
-variable "tag_namespace_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
+variable "tag_namespace_defined_tags_value" { default = "updatedValue" }
 variable "tag_namespace_description" { default = "description2" }
 variable "tag_namespace_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "tag_namespace_include_subcompartments" { default = false }

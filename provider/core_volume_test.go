@@ -26,7 +26,7 @@ resource "oci_core_volume" "test_volume" {
 	compartment_id = "${var.compartment_id}"
 
 	#Optional
-	defined_tags = "${var.volume_defined_tags}"
+	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.volume_defined_tags_value}")}"
 	display_name = "${var.volume_display_name}"
 	freeform_tags = "${var.volume_freeform_tags}"
 	size_in_gbs = "${var.volume_size_in_gbs}"
@@ -38,7 +38,7 @@ resource "oci_core_volume" "test_volume" {
 }
 `
 	VolumePropertyVariables = `
-variable "volume_defined_tags" { default = {"example-tag-namespace.example-tag"= "value"} }
+variable "volume_defined_tags_value" { default = "value" }
 variable "volume_display_name" { default = "displayName" }
 variable "volume_freeform_tags" { default = {"Department"= "Finance"} }
 variable "volume_size_in_gbs" { default = 50 }
@@ -124,7 +124,7 @@ func TestCoreVolumeResource_basic(t *testing.T) {
 			// verify updates to updatable parameters
 			{
 				Config: config + `
-variable "volume_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
+variable "volume_defined_tags_value" { default = "updatedValue" }
 variable "volume_display_name" { default = "displayName2" }
 variable "volume_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "volume_size_in_gbs" { default = 50 }
@@ -158,7 +158,7 @@ variable "volume_state" { default = "AVAILABLE" }
 			// verify datasource
 			{
 				Config: config + `
-variable "volume_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
+variable "volume_defined_tags_value" { default = "updatedValue" }
 variable "volume_display_name" { default = "displayName2" }
 variable "volume_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "volume_size_in_gbs" { default = 50 }

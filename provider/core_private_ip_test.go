@@ -24,7 +24,7 @@ resource "oci_core_private_ip" "test_private_ip" {
 	vnic_id = "${oci_core_vnic.test_vnic.id}"
 
 	#Optional
-	defined_tags = "${var.private_ip_defined_tags}"
+	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.private_ip_defined_tags_value}")}"
 	display_name = "${var.private_ip_display_name}"
 	freeform_tags = "${var.private_ip_freeform_tags}"
 	hostname_label = "${var.private_ip_hostname_label}"
@@ -32,7 +32,7 @@ resource "oci_core_private_ip" "test_private_ip" {
 }
 `
 	PrivateIpPropertyVariables = `
-variable "private_ip_defined_tags" { default = {"example-tag-namespace.example-tag"= "value"} }
+variable "private_ip_defined_tags_value" { default = "value" }
 variable "private_ip_display_name" { default = "displayName" }
 variable "private_ip_freeform_tags" { default = {"Department"= "Finance"} }
 variable "private_ip_hostname_label" { default = "hostnameLabel" }
@@ -101,7 +101,7 @@ func TestCorePrivateIpResource_basic(t *testing.T) {
 			// verify updates to updatable parameters
 			{
 				Config: config + `
-variable "private_ip_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
+variable "private_ip_defined_tags_value" { default = "updatedValue" }
 variable "private_ip_display_name" { default = "displayName2" }
 variable "private_ip_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "private_ip_hostname_label" { default = "hostnameLabel2" }
@@ -129,7 +129,7 @@ variable "private_ip_subnet_id" { default = "subnetId" }
 			// verify datasource
 			{
 				Config: config + `
-variable "private_ip_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
+variable "private_ip_defined_tags_value" { default = "updatedValue" }
 variable "private_ip_display_name" { default = "displayName2" }
 variable "private_ip_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "private_ip_hostname_label" { default = "hostnameLabel2" }

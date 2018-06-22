@@ -25,14 +25,14 @@ resource "oci_core_volume_group_backup" "test_volume_group_backup" {
 
 	#Optional
 	compartment_id = "${var.compartment_id}"
-	defined_tags = "${var.volume_group_backup_defined_tags}"
+	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.volume_group_backup_defined_tags_value}")}"
 	display_name = "${var.volume_group_backup_display_name}"
 	freeform_tags = "${var.volume_group_backup_freeform_tags}"
 	type = "${var.volume_group_backup_type}"
 }
 `
 	VolumeGroupBackupPropertyVariables = `
-variable "volume_group_backup_defined_tags" { default = {"example-tag-namespace.example-tag"= "value"} }
+variable "volume_group_backup_defined_tags_value" { default = "value" }
 variable "volume_group_backup_display_name" { default = "displayName" }
 variable "volume_group_backup_freeform_tags" { default = {"Department"= "Finance"} }
 variable "volume_group_backup_type" { default = "INCREMENTAL" }
@@ -102,7 +102,7 @@ func TestCoreVolumeGroupBackupResource_basic(t *testing.T) {
 			// verify updates to updatable parameters
 			{
 				Config: config + `
-variable "volume_group_backup_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
+variable "volume_group_backup_defined_tags_value" { default = "updatedValue" }
 variable "volume_group_backup_display_name" { default = "displayName2" }
 variable "volume_group_backup_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "volume_group_backup_type" { default = "INCREMENTAL" }
@@ -132,7 +132,7 @@ variable "volume_group_backup_type" { default = "INCREMENTAL" }
 			// verify datasource
 			{
 				Config: config + `
-variable "volume_group_backup_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
+variable "volume_group_backup_defined_tags_value" { default = "updatedValue" }
 variable "volume_group_backup_display_name" { default = "displayName2" }
 variable "volume_group_backup_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "volume_group_backup_type" { default = "INCREMENTAL" }

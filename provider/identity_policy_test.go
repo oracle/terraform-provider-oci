@@ -30,13 +30,13 @@ resource "oci_identity_policy" "test_policy" {
 	statements = ["Allow group ${oci_identity_group.t.name} to read instances in compartment ${oci_identity_compartment.t.name}"]
 
 	#Optional
-	defined_tags = "${var.policy_defined_tags}"
+	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.policy_defined_tags_value}")}"
 	freeform_tags = "${var.policy_freeform_tags}"
 	version_date = "${var.policy_version_date}"
 }
 `
 	PolicyPropertyVariables = `
-variable "policy_defined_tags" { default = {"example-tag-namespace.example-tag"= "value"} }
+variable "policy_defined_tags_value" { default = "value" }
 variable "policy_description" { default = "Policy for users who need to launch instances, attach volumes, manage images" }
 variable "policy_freeform_tags" { default = {"Department"= "Finance"} }
 variable "policy_name" { default = "LaunchInstances" }
@@ -128,7 +128,7 @@ func TestIdentityPolicyResource_basic(t *testing.T) {
 			// verify updates to updatable parameters
 			{
 				Config: config + `
-variable "policy_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
+variable "policy_defined_tags_value" { default = "updatedValue" }
 variable "policy_description" { default = "description2" }
 variable "policy_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "policy_name" { default = "LaunchInstances" }
@@ -159,7 +159,7 @@ variable "policy_version_date" { default = "" }
 			// verify datasource
 			{
 				Config: config + `
-variable "policy_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
+variable "policy_defined_tags_value" { default = "updatedValue" }
 variable "policy_description" { default = "description2" }
 variable "policy_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "policy_name" { default = "LaunchInstances" }

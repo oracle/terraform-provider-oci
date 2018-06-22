@@ -46,13 +46,13 @@ resource "oci_core_dhcp_options" "test_dhcp_options" {
 	vcn_id = "${oci_core_vcn.test_vcn.id}"
 
 	#Optional
-	defined_tags = "${var.dhcp_options_defined_tags}"
+	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.dhcp_options_defined_tags_value}")}"
 	display_name = "${var.dhcp_options_display_name}"
 	freeform_tags = "${var.dhcp_options_freeform_tags}"
 }
 `
 	DhcpOptionsPropertyVariables = `
-variable "dhcp_options_defined_tags" { default = {"example-tag-namespace.example-tag"= "value"} }
+variable "dhcp_options_defined_tags_value" { default = "value" }
 variable "dhcp_options_display_name" { default = "MyDhcpOptions" }
 variable "dhcp_options_freeform_tags" { default = {"Department"= "Finance"} }
 variable "dhcp_options_options_type" { default = "DomainNameServer" }
@@ -126,7 +126,7 @@ func TestCoreDhcpOptionsResource_basic(t *testing.T) {
 			// verify updates to updatable parameters
 			{
 				Config: config + `
-variable "dhcp_options_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
+variable "dhcp_options_defined_tags_value" { default = "updatedValue" }
 variable "dhcp_options_display_name" { default = "displayName2" }
 variable "dhcp_options_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "dhcp_options_options_type" { default = "DomainNameServer" }
@@ -157,7 +157,7 @@ variable "dhcp_options_state" { default = "AVAILABLE" }
 			// verify datasource
 			{
 				Config: config + `
-variable "dhcp_options_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
+variable "dhcp_options_defined_tags_value" { default = "updatedValue" }
 variable "dhcp_options_display_name" { default = "displayName2" }
 variable "dhcp_options_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "dhcp_options_options_type" { default = "DomainNameServer" }

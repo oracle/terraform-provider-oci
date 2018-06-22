@@ -406,7 +406,6 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 						assign_public_ip = false
 						private_ip = "10.0.1.20"
 						skip_source_dest_check = true
-						//defined_tags = { "example-tag-namespace.example-tag" = "value" }
 						defined_tags = "${map(
 							"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value"
 							)}"
@@ -425,9 +424,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 					resource.TestCheckResourceAttr(s.ResourceName, "private_ip", "10.0.1.20"),
 					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.#", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.defined_tags.example-tag-namespace.example-tag", "value"),
 					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.freeform_tags.Department", "Accounting"),
 					resource.TestCheckResourceAttr(vnicResourceName, "display_name", "-tf-vnic-2"),
 					resource.TestCheckResourceAttr(vnicResourceName, "skip_source_dest_check", "true"),
 					resource.TestCheckNoResourceAttr(vnicResourceName, "public_ip_address"),
@@ -482,9 +479,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.#", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.defined_tags.example-tag-namespace.example-tag", "updatedValue"),
 					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.freeform_tags.Department", "Finance"),
 					func(ts *terraform.State) (err error) {
 						newId, err := fromInstanceState(ts, s.ResourceName, "id")
 						if newId != instanceId {

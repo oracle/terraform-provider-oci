@@ -153,7 +153,9 @@ func (s *TagResourceCrud) Create() error {
 	if err == nil {
 		s.Res = &response.Tag
 		//is_retired field is currently not supported in create so update to make server state same as config
-		s.Update()
+		if updateError := s.Update(); updateError != nil {
+			return updateError
+		}
 		return nil
 	}
 
@@ -175,7 +177,9 @@ func (s *TagResourceCrud) Create() error {
 		for _, tag := range dsCrud.Res.Items {
 			if strings.EqualFold(*tag.Name, *request.Name) {
 				s.D.SetId(*tag.Id)
-				s.Update()
+				if updateError := s.Update(); updateError != nil {
+					return updateError
+				}
 				return nil
 			}
 		}

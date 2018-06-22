@@ -26,13 +26,13 @@ resource "oci_core_cpe" "test_cpe" {
 	ip_address = "${var.cpe_ip_address}"
 
 	#Optional
-	defined_tags = "${var.cpe_defined_tags}"
+	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.cpe_defined_tags_value}")}"
 	display_name = "${var.cpe_display_name}"
 	freeform_tags = "${var.cpe_freeform_tags}"
 }
 `
 	CpePropertyVariables = `
-variable "cpe_defined_tags" { default = {"example-tag-namespace.example-tag"= "value"} }
+variable "cpe_defined_tags_value" { default = "value" }
 variable "cpe_display_name" { default = "MyCpe" }
 variable "cpe_freeform_tags" { default = {"Department"= "Finance"} }
 variable "cpe_ip_address" { default = "189.44.2.135" }
@@ -100,7 +100,7 @@ func TestCoreCpeResource_basic(t *testing.T) {
 			// verify updates to updatable parameters
 			{
 				Config: config + `
-variable "cpe_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
+variable "cpe_defined_tags_value" { default = "updatedValue" }
 variable "cpe_display_name" { default = "displayName2" }
 variable "cpe_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "cpe_ip_address" { default = "189.44.2.135" }
@@ -126,7 +126,7 @@ variable "cpe_ip_address" { default = "189.44.2.135" }
 			// verify datasource
 			{
 				Config: config + `
-variable "cpe_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
+variable "cpe_defined_tags_value" { default = "updatedValue" }
 variable "cpe_display_name" { default = "displayName2" }
 variable "cpe_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "cpe_ip_address" { default = "189.44.2.135" }

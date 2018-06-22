@@ -28,12 +28,12 @@ resource "oci_identity_group" "test_group" {
 	name = "${var.group_name}"
 
 	#Optional
-	defined_tags = "${var.group_defined_tags}"
+	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.group_defined_tags_value}")}"
 	freeform_tags = "${var.group_freeform_tags}"
 }
 `
 	GroupPropertyVariables = `
-variable "group_defined_tags" { default = {"example-tag-namespace.example-tag"= "value"} }
+variable "group_defined_tags_value" { default = "value" }
 variable "group_description" { default = "Group for network administrators" }
 variable "group_freeform_tags" { default = {"Department"= "Finance"} }
 variable "group_name" { default = "NetworkAdmins" }
@@ -105,7 +105,7 @@ func TestIdentityGroupResource_basic(t *testing.T) {
 			// verify updates to updatable parameters
 			{
 				Config: config + `
-variable "group_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
+variable "group_defined_tags_value" { default = "updatedValue" }
 variable "group_description" { default = "description2" }
 variable "group_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "group_name" { default = "NetworkAdmins" }
@@ -133,7 +133,7 @@ variable "group_name" { default = "NetworkAdmins" }
 			// verify datasource
 			{
 				Config: config + `
-variable "group_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
+variable "group_defined_tags_value" { default = "updatedValue" }
 variable "group_description" { default = "description2" }
 variable "group_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "group_name" { default = "NetworkAdmins" }

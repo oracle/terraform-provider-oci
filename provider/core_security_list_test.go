@@ -66,13 +66,13 @@ resource "oci_core_security_list" "test_security_list" {
 	vcn_id = "${oci_core_vcn.test_vcn.id}"
 
 	#Optional
-	defined_tags = "${var.security_list_defined_tags}"
+	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.security_list_defined_tags_value}")}"
 	display_name = "${var.security_list_display_name}"
 	freeform_tags = "${var.security_list_freeform_tags}"
 }
 `
 	SecurityListPropertyVariables = `
-variable "security_list_defined_tags" { default = {"example-tag-namespace.example-tag"= "value"} }
+variable "security_list_defined_tags_value" { default = "value" }
 variable "security_list_display_name" { default = "MyPrivateSubnetSecurityList" }
 variable "security_list_egress_security_rules_destination" { default = "10.0.2.0/24" }
 variable "security_list_egress_security_rules_icmp_options_code" { default = 4 }
@@ -171,7 +171,7 @@ func TestCoreSecurityListResource_basic(t *testing.T) {
 			// verify updates to updatable parameters
 			{
 				Config: config + `
-variable "security_list_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
+variable "security_list_defined_tags_value" { default = "updatedValue" }
 variable "security_list_display_name" { default = "displayName2" }
 variable "security_list_egress_security_rules_destination" { default = "10.0.2.0/24" }
 variable "security_list_egress_security_rules_icmp_options_code" { default = 0 }
@@ -223,7 +223,7 @@ variable "security_list_state" { default = "AVAILABLE" }
 			// verify datasource
 			{
 				Config: config + `
-variable "security_list_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
+variable "security_list_defined_tags_value" { default = "updatedValue" }
 variable "security_list_display_name" { default = "displayName2" }
 variable "security_list_egress_security_rules_destination" { default = "10.0.2.0/24" }
 variable "security_list_egress_security_rules_icmp_options_code" { default = 0 }

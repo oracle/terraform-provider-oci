@@ -24,13 +24,13 @@ resource "oci_core_drg" "test_drg" {
 	compartment_id = "${var.compartment_id}"
 
 	#Optional
-	defined_tags = "${var.drg_defined_tags}"
+	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.drg_defined_tags_value}")}"
 	display_name = "${var.drg_display_name}"
 	freeform_tags = "${var.drg_freeform_tags}"
 }
 `
 	DrgPropertyVariables = `
-variable "drg_defined_tags" { default = {"example-tag-namespace.example-tag"= "value"} }
+variable "drg_defined_tags_value" { default = "value" }
 variable "drg_display_name" { default = "MyDrg" }
 variable "drg_freeform_tags" { default = {"Department"= "Finance"} }
 
@@ -96,7 +96,7 @@ func TestCoreDrgResource_basic(t *testing.T) {
 			// verify updates to updatable parameters
 			{
 				Config: config + `
-variable "drg_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
+variable "drg_defined_tags_value" { default = "updatedValue" }
 variable "drg_display_name" { default = "displayName2" }
 variable "drg_freeform_tags" { default = {"Department"= "Accounting"} }
 
@@ -121,7 +121,7 @@ variable "drg_freeform_tags" { default = {"Department"= "Accounting"} }
 			// verify datasource
 			{
 				Config: config + `
-variable "drg_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
+variable "drg_defined_tags_value" { default = "updatedValue" }
 variable "drg_display_name" { default = "displayName2" }
 variable "drg_freeform_tags" { default = {"Department"= "Accounting"} }
 

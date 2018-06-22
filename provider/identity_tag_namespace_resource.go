@@ -153,7 +153,9 @@ func (s *TagNamespaceResourceCrud) Create() error {
 	if err == nil {
 		s.Res = &response.TagNamespace
 		//is_retired field is currently not supported in create so update to make server state same as config
-		s.Update()
+		if updateError := s.Update(); updateError != nil {
+			return updateError
+		}
 		return nil
 	}
 	// Tag Namespaces can't be deleted, so there is a work around here to react to name collisions
@@ -175,7 +177,9 @@ func (s *TagNamespaceResourceCrud) Create() error {
 		for _, namespace := range dsCrud.Res.Items {
 			if strings.EqualFold(*namespace.Name, *request.Name) {
 				s.D.SetId(*namespace.Id)
-				s.Update()
+				if updateError := s.Update(); updateError != nil {
+					return updateError
+				}
 				return nil
 			}
 		}

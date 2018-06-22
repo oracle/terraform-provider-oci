@@ -61,9 +61,7 @@ func (s *ResourceCoreConsoleHistoryTestSuite) TestAccResourceCoreInstanceConsole
 					resource.TestCheckResourceAttrSet(s.ResourceName, "compartment_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "display_name"),
 					resource.TestCheckResourceAttr(s.ResourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(s.ResourceName, "defined_tags.example-tag-namespace.example-tag", "value"),
 					resource.TestCheckResourceAttr(s.ResourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(s.ResourceName, "freeform_tags.Department", "Accounting"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(core.ConsoleHistoryLifecycleStateSucceeded)),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
@@ -90,9 +88,7 @@ func (s *ResourceCoreConsoleHistoryTestSuite) TestAccResourceCoreInstanceConsole
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "display_name"),
 					resource.TestCheckResourceAttr(s.ResourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(s.ResourceName, "defined_tags.example-tag-namespace.example-tag", "updatedValue"),
 					resource.TestCheckResourceAttr(s.ResourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(s.ResourceName, "freeform_tags.Department", "Finance"),
 					func(ts *terraform.State) (err error) {
 						newId, err := fromInstanceState(ts, s.ResourceName, "id")
 						if newId != consoleHistoryId {

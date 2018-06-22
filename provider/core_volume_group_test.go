@@ -51,7 +51,7 @@ resource "oci_core_volume_group" "test_volume_group" {
 	compartment_id = "${var.compartment_id}"
 ` + VolumeGroupSourceDetailsConfig + `
 	#Optional
-	defined_tags = "${var.volume_group_defined_tags}"
+	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.volume_group_defined_tags_value}")}"
 	display_name = "${var.volume_group_display_name}"
 	freeform_tags = "${var.volume_group_freeform_tags}"
 }
@@ -77,7 +77,7 @@ resource "oci_core_volume_group" "test_volume_group" {
 }
 `
 	VolumeGroupPropertyVariables = `
-variable "volume_group_defined_tags" { default = {"example-tag-namespace.example-tag"= "value"} }
+variable "volume_group_defined_tags_value" { default = "value" }
 variable "volume_group_display_name" { default = "displayName" }
 variable "volume_group_freeform_tags" { default = {"Department"= "Finance"} }
 variable "volume_group_source_details_type" { default = "volumeIds" }
@@ -176,7 +176,7 @@ func TestCoreVolumeGroupResource_basic(t *testing.T) {
 			{
 				Config: config + `
 variable "volume_group_availability_domain" { default = "availabilityDomain" }
-variable "volume_group_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
+variable "volume_group_defined_tags_value" { default = "updatedValue" }
 variable "volume_group_display_name" { default = "displayName2" }
 variable "volume_group_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "volume_group_source_details_type" { default = "volumeIds" }
@@ -230,7 +230,7 @@ variable "volume_group_state" { default = "AVAILABLE" }
 			// verify datasource
 			{
 				Config: config + `
-variable "volume_group_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
+variable "volume_group_defined_tags_value" { default = "updatedValue" }
 variable "volume_group_display_name" { default = "displayName2" }
 variable "volume_group_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "volume_group_source_details_type" { default = "volumeIds" }

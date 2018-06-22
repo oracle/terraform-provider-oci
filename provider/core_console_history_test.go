@@ -24,14 +24,14 @@ resource "oci_core_console_history" "test_console_history" {
 	instance_id = "${oci_core_instance.test_instance.id}"
 
 	#Optional
-	defined_tags = "${var.console_history_defined_tags}"
+	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.console_history_defined_tags_value}")}"
 	display_name = "${var.console_history_display_name}"
 	freeform_tags = "${var.console_history_freeform_tags}"
 }
 `
 	ConsoleHistoryPropertyVariables = `
 variable "console_history_availability_domain" { default = "availabilityDomain" }
-variable "console_history_defined_tags" { default = {"example-tag-namespace.example-tag"= "value"} }
+variable "console_history_defined_tags_value" { default = "value" }
 variable "console_history_display_name" { default = "displayName" }
 variable "console_history_freeform_tags" { default = {"Department"= "Finance"} }
 variable "console_history_state" { default = "AVAILABLE" }
@@ -102,7 +102,7 @@ func TestCoreConsoleHistoryResource_basic(t *testing.T) {
 			{
 				Config: config + `
 variable "console_history_availability_domain" { default = "availabilityDomain" }
-variable "console_history_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
+variable "console_history_defined_tags_value" { default = "updatedValue" }
 variable "console_history_display_name" { default = "displayName2" }
 variable "console_history_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "console_history_state" { default = "AVAILABLE" }
@@ -132,7 +132,7 @@ variable "console_history_state" { default = "AVAILABLE" }
 			{
 				Config: config + `
 variable "console_history_availability_domain" { default = "availabilityDomain" }
-variable "console_history_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
+variable "console_history_defined_tags_value" { default = "updatedValue" }
 variable "console_history_display_name" { default = "displayName2" }
 variable "console_history_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "console_history_state" { default = "AVAILABLE" }

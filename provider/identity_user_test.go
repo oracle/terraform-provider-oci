@@ -28,12 +28,12 @@ resource "oci_identity_user" "test_user" {
 	name = "${var.user_name}"
 
 	#Optional
-	defined_tags = "${var.user_defined_tags}"
+	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.user_defined_tags_value}")}"
 	freeform_tags = "${var.user_freeform_tags}"
 }
 `
 	UserPropertyVariables = `
-variable "user_defined_tags" { default = {"example-tag-namespace.example-tag"= "value"} }
+variable "user_defined_tags_value" { default = "value" }
 variable "user_description" { default = "John Smith" }
 variable "user_freeform_tags" { default = {"Department"= "Finance"} }
 variable "user_name" { default = "JohnSmith@example.com" }
@@ -105,7 +105,7 @@ func TestIdentityUserResource_basic(t *testing.T) {
 			// verify updates to updatable parameters
 			{
 				Config: config + `
-variable "user_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
+variable "user_defined_tags_value" { default = "updatedValue" }
 variable "user_description" { default = "description2" }
 variable "user_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "user_name" { default = "JohnSmith@example.com" }
@@ -133,7 +133,7 @@ variable "user_name" { default = "JohnSmith@example.com" }
 			// verify datasource
 			{
 				Config: config + `
-variable "user_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
+variable "user_defined_tags_value" { default = "updatedValue" }
 variable "user_description" { default = "description2" }
 variable "user_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "user_name" { default = "JohnSmith@example.com" }

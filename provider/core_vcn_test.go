@@ -26,7 +26,7 @@ resource "oci_core_vcn" "test_vcn" {
 	compartment_id = "${var.compartment_id}"
 
 	#Optional
-	defined_tags = "${var.vcn_defined_tags}"
+	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.vcn_defined_tags_value}")}"
 	display_name = "${var.vcn_display_name}"
 	dns_label = "${var.vcn_dns_label}"
 	freeform_tags = "${var.vcn_freeform_tags}"
@@ -34,7 +34,7 @@ resource "oci_core_vcn" "test_vcn" {
 `
 	VcnPropertyVariables = `
 variable "vcn_cidr_block" { default = "10.0.0.0/16" }
-variable "vcn_defined_tags" { default = {"example-tag-namespace.example-tag"= "value"} }
+variable "vcn_defined_tags_value" { default = "value" }
 variable "vcn_display_name" { default = "displayName" }
 variable "vcn_dns_label" { default = "dnslabel" }
 variable "vcn_freeform_tags" { default = {"Department"= "Finance"} }
@@ -105,7 +105,7 @@ func TestCoreVcnResource_basic(t *testing.T) {
 			{
 				Config: config + `
 variable "vcn_cidr_block" { default = "10.0.0.0/16" }
-variable "vcn_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
+variable "vcn_defined_tags_value" { default = "updatedValue" }
 variable "vcn_display_name" { default = "displayName2" }
 variable "vcn_dns_label" { default = "dnslabel" }
 variable "vcn_freeform_tags" { default = {"Department"= "Accounting"} }
@@ -135,7 +135,7 @@ variable "vcn_state" { default = "AVAILABLE" }
 			{
 				Config: config + `
 variable "vcn_cidr_block" { default = "10.0.0.0/16" }
-variable "vcn_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
+variable "vcn_defined_tags_value" { default = "updatedValue" }
 variable "vcn_display_name" { default = "displayName2" }
 variable "vcn_dns_label" { default = "dnslabel" }
 variable "vcn_freeform_tags" { default = {"Department"= "Accounting"} }
