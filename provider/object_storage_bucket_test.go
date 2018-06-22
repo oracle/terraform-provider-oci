@@ -29,7 +29,7 @@ resource "oci_objectstorage_bucket" "test_bucket" {
 
 	#Optional
 	access_type = "${var.bucket_access_type}"
-	defined_tags = "${var.bucket_defined_tags}"
+	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.bucket_defined_tags_value}")}"
 	freeform_tags = "${var.bucket_freeform_tags}"
 	metadata = "${var.bucket_metadata}"
 	storage_tier = "${var.bucket_storage_tier}"
@@ -37,7 +37,7 @@ resource "oci_objectstorage_bucket" "test_bucket" {
 `
 	BucketPropertyVariables = `
 variable "bucket_access_type" { default = "NoPublicAccess" }
-variable "bucket_defined_tags" { default = {"example-tag-namespace.example-tag"= "value"} }
+variable "bucket_defined_tags_value" { default = "value" }
 variable "bucket_freeform_tags" { default = {"Department"= "Finance"} }
 variable "bucket_metadata" { default = {"content-type" = "text/plain"} }
 variable "bucket_name" { default = "my-test-1" }
@@ -115,7 +115,7 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 			{
 				Config: config + `
 variable "bucket_access_type" { default = "ObjectRead" }
-variable "bucket_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
+variable "bucket_defined_tags_value" { default = "updatedValue" }
 variable "bucket_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "bucket_metadata" { default = {"content-type" = "text/xml"} }
 variable "bucket_name" { default = "name2" }
@@ -149,7 +149,7 @@ variable "bucket_storage_tier" { default = "Standard" }
 			{
 				Config: config + `
 variable "bucket_access_type" { default = "ObjectRead" }
-variable "bucket_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
+variable "bucket_defined_tags_value" { default = "updatedValue" }
 variable "bucket_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "bucket_metadata" { default = {"content-type" = "text/xml"} }
 variable "bucket_name" { default = "name2" }

@@ -27,13 +27,13 @@ resource "oci_core_local_peering_gateway" "test_local_peering_gateway" {
 	vcn_id = "${oci_core_vcn.test_vcn.id}"
 
 	#Optional
-	defined_tags = "${var.local_peering_gateway_defined_tags}"
+	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.local_peering_gateway_defined_tags_value}")}"
 	display_name = "${var.local_peering_gateway_display_name}"
 	freeform_tags = "${var.local_peering_gateway_freeform_tags}"
 }
 `
 	LocalPeeringGatewayPropertyVariables = `
-variable "local_peering_gateway_defined_tags" { default = {"example-tag-namespace.example-tag"= "value"} }
+variable "local_peering_gateway_defined_tags_value" { default = "value" }
 variable "local_peering_gateway_display_name" { default = "displayName" }
 variable "local_peering_gateway_freeform_tags" { default = {"Department"= "Finance"} }
 
@@ -64,7 +64,7 @@ resource "oci_core_local_peering_gateway" "test_local_peering_gateway2" {
 
 	#Optional
 	display_name = "${var.local_peering_gateway_display_name2}"
-	defined_tags = "${var.local_peering_gateway_defined_tags}"
+	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.local_peering_gateway_defined_tags_value}")}"
 	freeform_tags = "${var.local_peering_gateway_freeform_tags}"
 	peer_id = "${oci_core_local_peering_gateway.test_local_peering_gateway.id}"
 }
@@ -133,7 +133,7 @@ func TestCoreLocalPeeringGatewayResource_basic(t *testing.T) {
 			// verify updates to updatable parameters
 			{
 				Config: config + `
-variable "local_peering_gateway_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
+variable "local_peering_gateway_defined_tags_value" { default = "updatedValue" }
 variable "local_peering_gateway_display_name" { default = "displayName2" }
 variable "local_peering_gateway_freeform_tags" { default = {"Department"= "Accounting"} }
 
@@ -162,7 +162,7 @@ variable "local_peering_gateway_freeform_tags" { default = {"Department"= "Accou
 			// verify datasource
 			{
 				Config: config + `
-variable "local_peering_gateway_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
+variable "local_peering_gateway_defined_tags_value" { default = "updatedValue" }
 variable "local_peering_gateway_display_name" { default = "displayName2" }
 variable "local_peering_gateway_freeform_tags" { default = {"Department"= "Accounting"} }
 
@@ -197,7 +197,7 @@ data "oci_core_local_peering_gateways" "test_local_peering_gateways" {
 			// verify connect functionality
 			{
 				Config: config + `
-variable "local_peering_gateway_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
+variable "local_peering_gateway_defined_tags" { default = "updatedValue" }
 variable "local_peering_gateway_display_name" { default = "displayName2" }
 variable "local_peering_gateway_freeform_tags" { default = {"Department"= "Accounting"} }
 

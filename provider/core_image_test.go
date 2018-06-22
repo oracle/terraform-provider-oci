@@ -24,7 +24,7 @@ resource "oci_core_image" "test_image" {
 	compartment_id = "${var.compartment_id}"
 
 	#Optional
-	defined_tags = "${var.image_defined_tags}"
+	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.image_defined_tags_value}")}"
 	display_name = "${var.image_display_name}"
 	freeform_tags = "${var.image_freeform_tags}"
 	image_source_details {
@@ -39,7 +39,7 @@ resource "oci_core_image" "test_image" {
 }
 `
 	ImagePropertyVariables = `
-variable "image_defined_tags" { default = {"example-tag-namespace.example-tag"= "value"} }
+variable "image_defined_tags_value" { default = "value" }
 variable "image_display_name" { default = "MyCustomImage" }
 variable "image_freeform_tags" { default = {"Department"= "Finance"} }
 variable "image_image_source_details_source_image_type" { default = "sourceImageType" }
@@ -122,7 +122,7 @@ func TestCoreImageResource_basic(t *testing.T) {
 			// verify updates to updatable parameters
 			{
 				Config: config + `
-variable "image_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
+variable "image_defined_tags_value" { default = "updatedValue" }
 variable "image_display_name" { default = "displayName2" }
 variable "image_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "image_image_source_details_source_image_type" { default = "sourceImageType" }
@@ -163,7 +163,7 @@ variable "image_state" { default = "AVAILABLE" }
 			// verify datasource
 			{
 				Config: config + `
-variable "image_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
+variable "image_defined_tags_value" { default = "updatedValue" }
 variable "image_display_name" { default = "displayName2" }
 variable "image_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "image_image_source_details_source_image_type" { default = "sourceImageType" }

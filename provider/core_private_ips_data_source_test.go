@@ -99,9 +99,7 @@ func (s *DatasourcePrivateIPTestSuite) TestAccCorePrivateIPs_basic() {
 					resource.TestCheckResourceAttrSet(s.ResourceName, "private_ips.0.time_created"),
 					resource.TestCheckResourceAttr(s.ResourceName, "private_ips.0.hostname_label", ""),
 					resource.TestCheckResourceAttr(s.ResourceName, "private_ips.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(s.ResourceName, "private_ips.0.defined_tags.example-tag-namespace.example-tag", "value"),
 					resource.TestCheckResourceAttr(s.ResourceName, "private_ips.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(s.ResourceName, "private_ips.0.freeform_tags.Department", "Finance"),
 				),
 			},
 			// list by vnic id

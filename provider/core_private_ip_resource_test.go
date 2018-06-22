@@ -66,9 +66,7 @@ func (s *ResourcePrivateIPTestSuite) TestAccCoreResourcePrivateIP_basic() {
 						return
 					},
 					resource.TestCheckResourceAttr(s.ResourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(s.ResourceName, "defined_tags.example-tag-namespace.example-tag", "value"),
 					resource.TestCheckResourceAttr(s.ResourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(s.ResourceName, "freeform_tags.Department", "Finance"),
 				),
 			},
 			// test update
@@ -94,9 +92,7 @@ func (s *ResourcePrivateIPTestSuite) TestAccCoreResourcePrivateIP_basic() {
 					// hostname_label should not be set unless explicitly set
 					resource.TestCheckNoResourceAttr(s.ResourceName, "hostname_label"),
 					resource.TestCheckResourceAttr(s.ResourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(s.ResourceName, "defined_tags.example-tag-namespace.example-tag", "updatedValue"),
 					resource.TestCheckResourceAttr(s.ResourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(s.ResourceName, "freeform_tags.Department", "Accounting"),
 				),
 			},
 			// test add host name label

@@ -28,13 +28,13 @@ resource "oci_core_internet_gateway" "test_internet_gateway" {
 	vcn_id = "${oci_core_vcn.test_vcn.id}"
 
 	#Optional
-	defined_tags = "${var.internet_gateway_defined_tags}"
+	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.internet_gateway_defined_tags_value}")}"
 	display_name = "${var.internet_gateway_display_name}"
 	freeform_tags = "${var.internet_gateway_freeform_tags}"
 }
 `
 	InternetGatewayPropertyVariables = `
-variable "internet_gateway_defined_tags" { default = {"example-tag-namespace.example-tag"= "value"} }
+variable "internet_gateway_defined_tags_value" { default = "value" }
 variable "internet_gateway_display_name" { default = "MyInternetGateway" }
 variable "internet_gateway_enabled" { default = false }
 variable "internet_gateway_freeform_tags" { default = {"Department"= "Finance"} }
@@ -105,7 +105,7 @@ func TestCoreInternetGatewayResource_basic(t *testing.T) {
 			// verify updates to updatable parameters
 			{
 				Config: config + `
-variable "internet_gateway_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
+variable "internet_gateway_defined_tags_value" { default = "updatedValue" }
 variable "internet_gateway_display_name" { default = "displayName2" }
 variable "internet_gateway_enabled" { default = true }
 variable "internet_gateway_freeform_tags" { default = {"Department"= "Accounting"} }
@@ -134,7 +134,7 @@ variable "internet_gateway_state" { default = "AVAILABLE" }
 			// verify datasource
 			{
 				Config: config + `
-variable "internet_gateway_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
+variable "internet_gateway_defined_tags_value" { default = "updatedValue" }
 variable "internet_gateway_display_name" { default = "displayName2" }
 variable "internet_gateway_enabled" { default = true }
 variable "internet_gateway_freeform_tags" { default = {"Department"= "Accounting"} }

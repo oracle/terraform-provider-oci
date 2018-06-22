@@ -30,7 +30,7 @@ resource "oci_core_subnet" "test_subnet" {
 	vcn_id = "${oci_core_vcn.test_vcn.id}"
 
 	#Optional
-	defined_tags = "${var.subnet_defined_tags}"
+	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.subnet_defined_tags_value}")}"
 	dhcp_options_id = "${oci_core_dhcp_options.test_dhcp_options.id}"
 	display_name = "${var.subnet_display_name}"
 	dns_label = "${var.subnet_dns_label}"
@@ -42,7 +42,7 @@ resource "oci_core_subnet" "test_subnet" {
 `
 	SubnetPropertyVariables = `
 variable "subnet_cidr_block" { default = "10.0.0.0/16" }
-variable "subnet_defined_tags" { default = {"example-tag-namespace.example-tag"= "value"} }
+variable "subnet_defined_tags_value" { default = "value" }
 variable "subnet_display_name" { default = "MySubnet" }
 variable "subnet_dns_label" { default = "dnslabel" }
 variable "subnet_freeform_tags" { default = {"Department"= "Finance"} }
@@ -127,7 +127,7 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 			{
 				Config: config + `
 variable "subnet_cidr_block" { default = "10.0.0.0/16" }
-variable "subnet_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
+variable "subnet_defined_tags_value" { default = "updatedValue" }
 variable "subnet_display_name" { default = "displayName2" }
 variable "subnet_dns_label" { default = "dnslabel" }
 variable "subnet_freeform_tags" { default = {"Department"= "Accounting"} }
@@ -167,7 +167,7 @@ variable "subnet_state" { default = "AVAILABLE" }
 			{
 				Config: config + `
 variable "subnet_cidr_block" { default = "10.0.0.0/16" }
-variable "subnet_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
+variable "subnet_defined_tags_value" { default = "updatedValue" }
 variable "subnet_display_name" { default = "displayName2" }
 variable "subnet_dns_label" { default = "dnslabel" }
 variable "subnet_freeform_tags" { default = {"Department"= "Accounting"} }

@@ -29,12 +29,12 @@ resource "oci_identity_tag" "test_tag" {
 	tag_namespace_id = "${oci_identity_tag_namespace.test_tag_namespace.id}"
 
 	#Optional
-	defined_tags = "${var.tag_defined_tags}"
+	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.tag_defined_tags_value}")}"
 	freeform_tags = "${var.tag_freeform_tags}"
 }
 `
 	TagPropertyVariables = `
-variable "tag_defined_tags" { default = {"example-tag-namespace.example-tag"= "value"} }
+variable "tag_defined_tags_value" { default = "value" }
 variable "tag_description" { default = "This tag will show the cost center that will be used for billing of associated resources." }
 variable "tag_freeform_tags" { default = {"Department"= "Finance"} }
 variable "tag_name" { default = "CostCenter" }
@@ -43,11 +43,12 @@ variable "tag_name" { default = "CostCenter" }
 	TagResourceDependencies = TagNamespacePropertyVariables + TagNamespaceRequiredOnlyResource
 
 	DefinedTagsDependencies = `
+variable defined_tag_namespace_name { default = "" }
 resource "oci_identity_tag_namespace" "tag-namespace1" {
   		#Required
-		compartment_id = "${var.compartment_id}"
+		compartment_id = "${var.tenancy_ocid}"
   		description = "example tag namespace"
-  		name = "example-tag-namespace"
+  		name = "${var.defined_tag_namespace_name != "" ? var.defined_tag_namespace_name : "example-tag-namespace-${var.region}"}"
 
 		is_retired = false
 }
@@ -124,7 +125,7 @@ func TestIdentityTagResource_basic(t *testing.T) {
 			// verify updates to updatable parameters
 			{
 				Config: config + `
-variable "tag_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
+variable "tag_defined_tags_value" { default = "updatedValue" }
 variable "tag_description" { default = "description2" }
 variable "tag_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "tag_name" { default = "CostCenter" }
@@ -152,7 +153,7 @@ variable "tag_name" { default = "CostCenter" }
 			// verify datasource
 			{
 				Config: config + `
-variable "tag_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
+variable "tag_defined_tags_value" { default = "updatedValue" }
 variable "tag_description" { default = "description2" }
 variable "tag_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "tag_name" { default = "CostCenter" }
@@ -177,7 +178,6 @@ data "oci_identity_tags" "test_tags" {
 					resource.TestCheckResourceAttrSet(datasourceName, "tags.0.id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "tags.0.is_retired"),
 					resource.TestCheckResourceAttr(datasourceName, "tags.0.name", "CostCenter"),
-					resource.TestCheckResourceAttrSet(datasourceName, "tags.0.tag_namespace_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "tags.0.time_created"),
 				),
 			},

@@ -31,7 +31,7 @@ resource "oci_core_vnic_attachment" "test_vnic_attachment" {
 
 		#Optional
 		assign_public_ip = "${var.vnic_attachment_create_vnic_details_assign_public_ip}"
-		defined_tags = "${var.vnic_attachment_create_vnic_details_defined_tags}"
+		defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.vnic_attachment_create_vnic_details_defined_tags_value}")}"
 		display_name = "${var.vnic_attachment_create_vnic_details_display_name}"
 		freeform_tags = "${var.vnic_attachment_create_vnic_details_freeform_tags}"
 		hostname_label = "${var.vnic_attachment_create_vnic_details_hostname_label}"
@@ -48,7 +48,7 @@ resource "oci_core_vnic_attachment" "test_vnic_attachment" {
 	VnicAttachmentPropertyVariables = `
 variable "vnic_attachment_availability_domain" { default = "availabilityDomain" }
 variable "vnic_attachment_create_vnic_details_assign_public_ip" { default = false }
-variable "vnic_attachment_create_vnic_details_defined_tags" { default = "definedTags" }
+variable "vnic_attachment_create_vnic_details_defined_tags_value" { default = "definedTags" }
 variable "vnic_attachment_create_vnic_details_display_name" { default = "displayName" }
 variable "vnic_attachment_create_vnic_details_freeform_tags" { default = "freeformTags" }
 variable "vnic_attachment_create_vnic_details_hostname_label" { default = "hostnameLabel" }
@@ -124,7 +124,7 @@ func TestCoreVnicAttachmentResource_basic(t *testing.T) {
 				Config: config + `
 variable "vnic_attachment_availability_domain" { default = "availabilityDomain" }
 variable "vnic_attachment_create_vnic_details_assign_public_ip" { default = false }
-variable "vnic_attachment_create_vnic_details_defined_tags" { default = "definedTags" }
+variable "vnic_attachment_create_vnic_details_defined_tags_value" { default = "definedTags" }
 variable "vnic_attachment_create_vnic_details_display_name" { default = "displayName" }
 variable "vnic_attachment_create_vnic_details_freeform_tags" { default = "freeformTags" }
 variable "vnic_attachment_create_vnic_details_hostname_label" { default = "hostnameLabel" }

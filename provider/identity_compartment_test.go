@@ -28,12 +28,12 @@ resource "oci_identity_compartment" "test_compartment" {
 	name = "${var.compartment_name}"
 
 	#Optional
-	defined_tags = "${var.compartment_defined_tags}"
+	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.compartment_defined_tags_value}")}"
 	freeform_tags = "${var.compartment_freeform_tags}"
 }
 `
 	CompartmentPropertyVariables = `
-variable "compartment_defined_tags" { default = {"example-tag-namespace.example-tag"= "value"} }
+variable "compartment_defined_tags_value" { default = "value" }
 variable "compartment_description" { default = "For network components" }
 variable "compartment_freeform_tags" { default = {"Department"= "Finance"} }
 variable "compartment_name" { default = "Network" }
@@ -100,7 +100,7 @@ func TestIdentityCompartmentResource_basic(t *testing.T) {
 			// TODO add name updatability when we compartment delete becomes available
 			{
 				Config: config + `
-variable "compartment_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
+variable "compartment_defined_tags_value" { default = "updatedValue" }
 variable "compartment_description" { default = "description2" }
 variable "compartment_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "compartment_name" { default = "Network" }
@@ -128,7 +128,7 @@ variable "compartment_name" { default = "Network" }
 			// verify datasource
 			{
 				Config: config + `
-variable "compartment_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
+variable "compartment_defined_tags_value" { default = "updatedValue" }
 variable "compartment_description" { default = "description2" }
 variable "compartment_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "compartment_name" { default = "Network" }

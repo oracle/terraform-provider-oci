@@ -32,7 +32,7 @@ resource "oci_core_public_ip" "test_public_ip" {
 	lifetime = "${var.public_ip_lifetime}"
 
 	#Optional
-	defined_tags = "${var.public_ip_defined_tags}"
+	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.public_ip_defined_tags_value}")}"
 	display_name = "${var.public_ip_display_name}"
 	freeform_tags = "${var.public_ip_freeform_tags}"
 	private_ip_id = "${data.oci_core_private_ips.test_private_ips.` + privateIpId + `}"
@@ -45,13 +45,13 @@ resource "oci_core_public_ip" "test_public_ip" {
 	lifetime = "${var.public_ip_lifetime}"
 
 	#Optional
-	defined_tags = "${var.public_ip_defined_tags}"
+	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.public_ip_defined_tags_value}")}"
 	display_name = "${var.public_ip_display_name}"
 	freeform_tags = "${var.public_ip_freeform_tags}"
 }
 `
 	PublicIpPropertyVariables = `
-variable "public_ip_defined_tags" { default = {"example-tag-namespace.example-tag"= "value"} }
+variable "public_ip_defined_tags_value" { default = "value" }
 variable "public_ip_display_name" { default = "-tf-public-ip" }
 variable "public_ip_freeform_tags" { default = {"Department"= "Finance"} }
 variable "public_ip_lifetime" { default = "RESERVED" }
@@ -226,7 +226,7 @@ func TestCorePublicIpResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + PublicIpResourceDependencies + `
 
-					variable "public_ip_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
+					variable "public_ip_defined_tags" { default = "updatedValue" }
 					variable "public_ip_display_name" { default = "-tf-public-ip-updated" }
 					variable "public_ip_freeform_tags" { default = {"Department"= "Accounting"} }
 					variable "public_ip_lifetime" { default = "RESERVED" }
@@ -291,7 +291,7 @@ func TestCorePublicIpResource_basic(t *testing.T) {
 			// verify datasource
 			{
 				Config: config + `
-					variable "public_ip_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
+					variable "public_ip_defined_tags_value" { default = "updatedValue" }
 					variable "public_ip_display_name" { default = "-tf-public-ip-updated" }
 					variable "public_ip_freeform_tags" { default = {"Department"= "Accounting"} }
 					variable "public_ip_lifetime" { default = "RESERVED" }
@@ -304,7 +304,7 @@ func TestCorePublicIpResource_basic(t *testing.T) {
 
 						#Optional
 						display_name = "` + displayName2 + `"
-						defined_tags = "${var.public_ip_defined_tags}"
+						defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.public_ip_defined_tags_value}")}"
 						freeform_tags = "${var.public_ip_freeform_tags}"
 						private_ip_id = "${data.oci_core_private_ips.test_private_ips.` + privateIpId2 + `}"
 					}
@@ -333,7 +333,7 @@ func TestCorePublicIpResource_basic(t *testing.T) {
 			// Test client-side filtering.
 			{
 				Config: config + `
-					variable "public_ip_defined_tags" { default = {"example-tag-namespace.example-tag"= "value"} }
+					variable "public_ip_defined_tags_value" { default = "value" }
 					variable "public_ip_display_name" { default = "-tf-public-ip" }
 					variable "public_ip_freeform_tags" { default = {"Department"= "Finance"} }
 					variable "public_ip_lifetime" { default = "` + string(oci_core.PublicIpLifetimeEphemeral) + `" }

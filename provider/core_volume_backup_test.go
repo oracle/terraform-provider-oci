@@ -24,14 +24,14 @@ resource "oci_core_volume_backup" "test_volume_backup" {
 	volume_id = "${oci_core_volume.test_volume.id}"
 
 	#Optional
-	defined_tags = "${var.volume_backup_defined_tags}"
+	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.volume_backup_defined_tags_value}")}"
 	display_name = "${var.volume_backup_display_name}"
 	freeform_tags = "${var.volume_backup_freeform_tags}"
 	type = "${var.volume_backup_type}"
 }
 `
 	VolumeBackupPropertyVariables = `
-variable "volume_backup_defined_tags" { default = {"example-tag-namespace.example-tag"= "value"} }
+variable "volume_backup_defined_tags_value" { default = "value" }
 variable "volume_backup_display_name" { default = "displayName" }
 variable "volume_backup_freeform_tags" { default = {"Department"= "Finance"} }
 variable "volume_backup_state" { default = "AVAILABLE" }
@@ -101,7 +101,7 @@ func TestCoreVolumeBackupResource_basic(t *testing.T) {
 			// verify updates to updatable parameters
 			{
 				Config: config + `
-variable "volume_backup_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
+variable "volume_backup_defined_tags_value" { default = "updatedValue" }
 variable "volume_backup_display_name" { default = "displayName2" }
 variable "volume_backup_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "volume_backup_state" { default = "AVAILABLE" }
@@ -131,7 +131,7 @@ variable "volume_backup_type" { default = "FULL" }
 			// verify datasource
 			{
 				Config: config + `
-variable "volume_backup_defined_tags" { default = {"example-tag-namespace.example-tag"= "updatedValue"} }
+variable "volume_backup_defined_tags_value" { default = "updatedValue" }
 variable "volume_backup_display_name" { default = "displayName2" }
 variable "volume_backup_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "volume_backup_state" { default = "AVAILABLE" }
