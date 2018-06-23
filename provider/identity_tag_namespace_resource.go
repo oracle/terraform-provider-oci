@@ -178,7 +178,10 @@ func (s *TagNamespaceResourceCrud) Create() error {
 			if strings.EqualFold(*namespace.Name, *request.Name) {
 				s.D.SetId(*namespace.Id)
 				if updateError := s.Update(); updateError != nil {
-					return updateError
+					if getError := s.Get(); getError != nil {
+						//Update to tags can only be done from home region, so do get in that case
+						return getError
+					}
 				}
 				return nil
 			}

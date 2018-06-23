@@ -178,7 +178,10 @@ func (s *TagResourceCrud) Create() error {
 			if strings.EqualFold(*tag.Name, *request.Name) {
 				s.D.SetId(*tag.Id)
 				if updateError := s.Update(); updateError != nil {
-					return updateError
+					//Update to tags can only be done from home region, so do get in that case
+					if getError := s.Get(); getError != nil {
+						return getError
+					}
 				}
 				return nil
 			}
