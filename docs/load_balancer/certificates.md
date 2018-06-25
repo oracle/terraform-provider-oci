@@ -18,6 +18,12 @@ The following attributes are exported:
 ### Create Operation
 Creates an asynchronous request to add an SSL certificate bundle.
 
+Set the terraform flag `lifecycle { create_before_destroy = true }` in your certificate to facilitate rotating certificates. 
+A certificate cannot be deleted if it is attached to another resource (a listener or a backend set for example).
+Because certificate_name in the listener is an updatable parameter, terraform will attempt to recreate the certificate first and then update the listener but the certificate cannot be deleted while it is attached to a listener so it will fail.
+Setting the flag makes it so that when a certificate is recreated, the new certificate will be created first before the old one gets deleted.
+Whenever you change any values on a certificate that causes it to be recreated the certificate_name MUST also change. Otherwise you will get an error saying that a certificate with that name already exists.
+
 The following arguments are supported:
 
 * `ca_certificate` - (Optional) The Certificate Authority certificate, or any interim certificate, that you received from your SSL certificate provider.  Example:      -----BEGIN CERTIFICATE-----     MIIEczCCA1ugAwIBAgIBADANBgkqhkiG9w0BAQQFAD..AkGA1UEBhMCR0Ix     EzARBgNVBAgTClNvbWUtU3RhdGUxFDASBgNVBAoTC0..0EgTHRkMTcwNQYD     VQQLEy5DbGFzcyAxIFB1YmxpYyBQcmltYXJ5IENlcn..XRpb24gQXV0aG9y     aXR5MRQwEgYDVQQDEwtCZXN0IENBIEx0ZDAeFw0wMD..TUwMTZaFw0wMTAy     ...     -----END CERTIFICATE----- 
@@ -50,6 +56,10 @@ resource "oci_load_balancer_certificate" "test_certificate" {
 	passphrase = "${var.certificate_passphrase}"
 	private_key = "${var.certificate_private_key}"
 	public_certificate = "${var.certificate_public_certificate}"
+
+	lifecycle {
+	    create_before_destroy = true
+	}
 }
 ```
 
