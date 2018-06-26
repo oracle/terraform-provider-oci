@@ -71,7 +71,7 @@ variable "db_home_source" { default = "DB_BACKUP" }
 variable "db_home_db_version" { default = "12.1.0.2" }
 
 `
-	DbHomeResourceDependencies = BackupResourceConfig + BackupPropertyVariables
+	DbHomeResourceDependencies = BackupResourceConfig + BackupPropertyVariables + DefinedTagsDependencies
 )
 
 func TestDatabaseDbHomeResource_basic(t *testing.T) {
