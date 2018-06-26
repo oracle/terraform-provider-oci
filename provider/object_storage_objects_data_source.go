@@ -20,7 +20,10 @@ func ObjectsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			// @CODEGEN 2/2018: 'delimiter' field omitted from existing provider
+			"delimiter": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"end": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -108,6 +111,11 @@ func (s *ObjectsDataSourceCrud) Get() error {
 		request.BucketName = &tmp
 	}
 
+	if delimiter, ok := s.D.GetOkExists("delimiter"); ok {
+		tmp := delimiter.(string)
+		request.Delimiter = &tmp
+	}
+
 	if end, ok := s.D.GetOkExists("end"); ok {
 		tmp := end.(string)
 		request.End = &tmp
@@ -169,7 +177,7 @@ func (s *ObjectsDataSourceCrud) SetData() {
 
 	objects := []map[string]interface{}{}
 	for _, item := range s.Res.Objects {
-		objects = append(objects, objectSummaryToMap(item))
+		objects = append(objects, ObjectSummaryToMap(item))
 	}
 
 	if f, fOk := s.D.GetOk("filter"); fOk {
@@ -178,9 +186,7 @@ func (s *ObjectsDataSourceCrud) SetData() {
 
 	s.D.Set("objects", objects)
 
-	// @CODEGEN 2/2018: We generate a 'prefixes' field as part of the ListObject response.
-	// Omit it from SetData, since it's only returned if we set a 'delimiter', but we don't
-	// support delimiters.
+	s.D.Set("prefixes", s.Res.Prefixes)
 
 	return
 }

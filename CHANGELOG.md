@@ -3,6 +3,19 @@ All notable changes to this project are documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+## 2.1.13 - 2018-06-28
+
+### Added
+- Support to specify the [storage tier](https://docs.cloud.oracle.com/iaas/Content/Object/Tasks/managingbuckets.htm) of object storage buckets
+- Support to change the `name` of object storage objects.
+- Support to specify `delimiter` when fetching objectstore objects
+
+### Changed
+- All attributes other than `name` of object storage objects are now marked `forceNew`. This is consistent with the behavior of the service as defined [here](https://docs.cloud.oracle.com/iaas/api/#/en/objectstorage/20160918/Object/PutObject)
+
+### Fixed
+- Multiple updates on metadata of object used to cause contents of the file to get overwritten by its md5 value.
+
 ## 2.1.12 - 2018-06-14
 
 ### Added
