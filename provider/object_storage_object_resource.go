@@ -18,7 +18,14 @@ import (
 	"log"
 	"strconv"
 
+	"strings"
+
 	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
+)
+
+const (
+	ObjIdDelim  = "/"
+	ObjIdPrefix = "tfobm-object-"
 )
 
 func ObjectResource() *schema.Resource {
@@ -54,7 +61,7 @@ func ObjectResource() *schema.Resource {
 			"object": {
 				Type:     schema.TypeString,
 				Required: true,
-				ForceNew: true,
+				// @CODEGEN 06/2018: object renames are now supported
 			},
 
 			// Optional
@@ -63,6 +70,7 @@ func ObjectResource() *schema.Resource {
 				// @CODEGEN 2/2018: content is optional and stored as checksum to avoid bloating the state file
 				// Generator was setting it as required.
 				Optional: true,
+				ForceNew: true,
 				StateFunc: func(body interface{}) string {
 					v := body.(string)
 					if v == "" {
@@ -75,10 +83,12 @@ func ObjectResource() *schema.Resource {
 			"content_encoding": {
 				Type:     schema.TypeString,
 				Optional: true,
+				ForceNew: true,
 			},
 			"content_language": {
 				Type:     schema.TypeString,
 				Optional: true,
+				ForceNew: true,
 			},
 			"content_length": {
 				Type: schema.TypeInt,
@@ -94,6 +104,7 @@ func ObjectResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+				ForceNew: true,
 			},
 			"metadata": {
 				// @CODEGEN 2/2018: This should be a map[string]string. Spec doesn't specify this correctly and
@@ -102,12 +113,10 @@ func ObjectResource() *schema.Resource {
 				Elem:         schema.TypeString,
 				Optional:     true,
 				ValidateFunc: validateLowerCaseKeysInMetadata,
+				ForceNew:     true,
 			},
 
-			// @CODEGEN 2/2018: Removed 'range' field from generated code, as it's not currently supported
-
 			// Computed
-
 		},
 	}
 }
@@ -164,8 +173,27 @@ type ObjectResourceCrud struct {
 
 // @CODEGEN 2/2018: The existing provider returns a custom Id in following format:
 // "tfobm-object-<namespace_name>/<bucket_name>/<object_name>"
+func getId(namespaceName string, bucketName string, objectName string) string {
+	return ObjIdPrefix + namespaceName + ObjIdDelim + bucketName + ObjIdDelim + objectName
+}
+
+func parseId(id string) (namespaceName string, bucketName string, objectName string) {
+	parts := strings.Split(strings.TrimPrefix(id, ObjIdPrefix), ObjIdDelim)
+	if len(parts) < 3 {
+		panic(fmt.Sprintf("Illegal id %s encountered", id))
+	}
+	namespaceName, bucketName, objectName = parts[0], parts[1], parts[2]
+
+	// Sometimes, the delimiter is used in the object name, and we should use all of the remaining parts, rather than
+	// first only
+	if len(parts) > 3 {
+		objectName = strings.Join(parts[2:], ObjIdDelim)
+	}
+	return
+}
+
 func (s *ObjectResourceCrud) ID() string {
-	return "tfobm-object-" + s.Res.NamespaceName + "/" + s.Res.BucketName + "/" + s.Res.ObjectName
+	return getId(s.Res.NamespaceName, s.Res.BucketName, s.Res.ObjectName)
 }
 
 func (s *ObjectResourceCrud) Create() error {
@@ -221,13 +249,15 @@ func (s *ObjectResourceCrud) Create() error {
 		request.ObjectName = &tmp
 	}
 
-	// @CODEGEN 2/2018: SDK doesn't have response and retry arguments for PutObject. Removed them for now.
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
 
 	_, err := s.Client.PutObject(context.Background(), request)
 	if err != nil {
 		return err
 	}
+
+	id := getId(*request.NamespaceName, *request.BucketName, *request.ObjectName)
+	s.D.SetId(id)
 
 	// @CODEGEN 2/2018: PutObject() call doesn't return an object. Instead, use existing
 	// Get() implementation to retrieve the state of the object.
@@ -237,20 +267,10 @@ func (s *ObjectResourceCrud) Create() error {
 func (s *ObjectResourceCrud) Get() error {
 	request := oci_object_storage.GetObjectRequest{}
 
-	if bucket, ok := s.D.GetOkExists("bucket"); ok {
-		tmp := bucket.(string)
-		request.BucketName = &tmp
-	}
-
-	if namespace, ok := s.D.GetOkExists("namespace"); ok {
-		tmp := namespace.(string)
-		request.NamespaceName = &tmp
-	}
-
-	if object, ok := s.D.GetOkExists("object"); ok {
-		tmp := object.(string)
-		request.ObjectName = &tmp
-	}
+	namespaceName, bucketName, objectName := parseId(s.D.Id())
+	request.NamespaceName = &namespaceName
+	request.BucketName = &bucketName
+	request.ObjectName = &objectName
 
 	if request.NamespaceName == nil || request.BucketName == nil || request.ObjectName == nil {
 		return fmt.Errorf("'namespace', 'bucket', or 'object' identifiers are missing")
@@ -258,7 +278,6 @@ func (s *ObjectResourceCrud) Get() error {
 
 	// TODO: May be better to use HeadObject() to retrieve status of the object. For large content, doesn't make sense
 	// to call Get() all the time
-	// @CODEGEN 2/2018: SDK is missing retry arguments for GetObject. Removed them for now.
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
 
 	response, err := s.Client.GetObject(context.Background(), request)
@@ -279,27 +298,39 @@ func (s *ObjectResourceCrud) Get() error {
 }
 
 func (s *ObjectResourceCrud) Update() error {
-	// @CODEGEN 2/2018: Update is not supported in the old provider
-	return s.Create()
+	id := s.D.Id()
+	namespaceName, bucketName, objectName := parseId(id)
+	// @CODEGEN 06/2018: Update is only supported for the change in name - all others are a forceNew
+	if !s.D.HasChange("object") {
+		return fmt.Errorf("unexpected change encountered")
+	}
+	request := oci_object_storage.RenameObjectRequest{}
+	request.NamespaceName = &namespaceName
+	request.BucketName = &bucketName
+	request.SourceName = &objectName
+	if object, ok := s.D.GetOkExists("object"); ok {
+		tmp := object.(string)
+		request.NewName = &tmp
+	}
+
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
+	_, err := s.Client.RenameObject(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	updatedId := getId(namespaceName, bucketName, *request.NewName)
+	s.D.SetId(updatedId)
+	return s.Get()
 }
 
 func (s *ObjectResourceCrud) Delete() error {
 	request := oci_object_storage.DeleteObjectRequest{}
 
-	if bucket, ok := s.D.GetOkExists("bucket"); ok {
-		tmp := bucket.(string)
-		request.BucketName = &tmp
-	}
-
-	if namespace, ok := s.D.GetOkExists("namespace"); ok {
-		tmp := namespace.(string)
-		request.NamespaceName = &tmp
-	}
-
-	if object, ok := s.D.GetOkExists("object"); ok {
-		tmp := object.(string)
-		request.ObjectName = &tmp
-	}
+	namespaceName, bucketName, objectName := parseId(s.D.Id())
+	request.NamespaceName = &namespaceName
+	request.BucketName = &bucketName
+	request.ObjectName = &objectName
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
 
@@ -352,7 +383,7 @@ func (s *ObjectResourceCrud) SetData() {
 
 // @CODEGEN 2/2018: Remove generated mapToObjectSummary as it's not being called
 
-func objectSummaryToMap(obj oci_object_storage.ObjectSummary) map[string]interface{} {
+func ObjectSummaryToMap(obj oci_object_storage.ObjectSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	if obj.Md5 != nil {
