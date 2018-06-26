@@ -110,6 +110,6 @@ data "oci_core_vnic_attachments" "test_vnic_attachments" {
 	#Optional
 	availability_domain = "${var.vnic_attachment_availability_domain}"
 	instance_id = "${oci_core_instance.test_instance.id}"
-	vnic_id = "${var.vnic_attachment_vnic_id}"
+	vnic_id = "${oci_core_vnic.test_vnic.id}"
 }
 ```

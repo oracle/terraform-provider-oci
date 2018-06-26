@@ -69,6 +69,7 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttrSet(resourceName, "export_set_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 
 					func(s *terraform.State) (err error) {
@@ -89,6 +90,7 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "mount-target-5"),
+					resource.TestCheckResourceAttrSet(resourceName, "export_set_id"),
 					resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnameLabel"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.1.5"),
@@ -117,6 +119,7 @@ variable "mount_target_ip_address" { default = "10.0.1.5" } # Subnet CIDR = 10.0
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+					resource.TestCheckResourceAttrSet(resourceName, "export_set_id"),
 					resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnameLabel"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.1.5"),
@@ -164,12 +167,12 @@ data "oci_file_storage_mount_targets" "test_mount_targets" {
 					resource.TestCheckResourceAttr(datasourceName, "mount_targets.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "mount_targets.0.compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "mount_targets.0.display_name", "displayName2"),
+					resource.TestCheckResourceAttrSet(datasourceName, "mount_targets.0.export_set_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "mount_targets.0.id"),
 					resource.TestCheckResourceAttr(datasourceName, "mount_targets.0.private_ip_ids.#", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "mount_targets.0.private_ip_ids.0"),
 					resource.TestCheckResourceAttr(datasourceName, "mount_targets.0.state", string(oci_file_storage.MountTargetLifecycleStateActive)),
 					resource.TestCheckResourceAttrSet(datasourceName, "mount_targets.0.subnet_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "mount_targets.0.export_set_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "mount_targets.0.time_created"),
 				),
 			},

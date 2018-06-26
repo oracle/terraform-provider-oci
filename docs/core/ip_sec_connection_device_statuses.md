@@ -23,11 +23,12 @@ The following attributes are exported:
 	* `time_created` - The date and time the IPSec connection was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z`
 	* `time_state_modified` - When the state of the tunnel last changed, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z`
 
+
 ### Example Usage
 
 ```hcl
 data "oci_core_ipsec_status" "test_ip_sec_connection_device_status" {
 	#Required
-	ipsec_id = "${var.ip_sec_connection_device_status_ipsc_id}"
+	ipsec_id = "${oci_core_ipsec.test_ipsec.id}"
 }
 ```

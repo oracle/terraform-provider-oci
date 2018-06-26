@@ -23,7 +23,6 @@ func TestIdentityTenancyResource_basic(t *testing.T) {
 			// verify datasource
 			{
 				Config: config + `
-variable "tenancy_tenancy_id" { default = "tenancyId" }
 
 data "oci_identity_tenancy" "test_tenancy" {
 	tenancy_id = "${var.tenancy_ocid}"

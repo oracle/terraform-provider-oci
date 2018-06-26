@@ -56,10 +56,9 @@ variable "vnic_attachment_create_vnic_details_private_ip" { default = "privateIp
 variable "vnic_attachment_create_vnic_details_skip_source_dest_check" { default = false }
 variable "vnic_attachment_display_name" { default = "displayName" }
 variable "vnic_attachment_nic_index" { default = 10 }
-variable "vnic_attachment_vnic_id" { default = "vnicId" }
 
 `
-	VnicAttachmentResourceDependencies = "" //InstancePropertyVariables + InstanceResourceConfig // TODO Replace these with actual definitions of test Instance properties and configs
+	VnicAttachmentResourceDependencies = VnicPropertyVariables + VnicResourceConfig
 )
 
 func TestCoreVnicAttachmentResource_basic(t *testing.T) {
@@ -87,6 +86,7 @@ func TestCoreVnicAttachmentResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "create_vnic_details.0.subnet_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "vnic_id"),
 				),
 			},
 
@@ -116,6 +116,7 @@ func TestCoreVnicAttachmentResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+					resource.TestCheckResourceAttrSet(resourceName, "vnic_id"),
 				),
 			},
 
@@ -132,7 +133,6 @@ variable "vnic_attachment_create_vnic_details_private_ip" { default = "privateIp
 variable "vnic_attachment_create_vnic_details_skip_source_dest_check" { default = false }
 variable "vnic_attachment_display_name" { default = "displayName" }
 variable "vnic_attachment_nic_index" { default = 10 }
-variable "vnic_attachment_vnic_id" { default = "vnicId" }
 
 data "oci_core_vnic_attachments" "test_vnic_attachments" {
 	#Required
@@ -141,7 +141,7 @@ data "oci_core_vnic_attachments" "test_vnic_attachments" {
 	#Optional
 	availability_domain = "${var.vnic_attachment_availability_domain}"
 	instance_id = "${oci_core_instance.test_instance.id}"
-	vnic_id = "${var.vnic_attachment_vnic_id}"
+	vnic_id = "${oci_core_vnic.test_vnic.id}"
 
     filter {
     	name = "id"
@@ -153,7 +153,7 @@ data "oci_core_vnic_attachments" "test_vnic_attachments" {
 					resource.TestCheckResourceAttr(datasourceName, "availability_domain", "availabilityDomain"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "instance_id"),
-					resource.TestCheckResourceAttr(datasourceName, "vnic_id", "vnicId"),
+					resource.TestCheckResourceAttrSet(datasourceName, "vnic_id"),
 
 					resource.TestCheckResourceAttr(datasourceName, "vnic_attachments.#", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "vnic_attachments.0.availability_domain"),
@@ -165,6 +165,7 @@ data "oci_core_vnic_attachments" "test_vnic_attachments" {
 					resource.TestCheckResourceAttrSet(datasourceName, "vnic_attachments.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "vnic_attachments.0.subnet_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "vnic_attachments.0.time_created"),
+					resource.TestCheckResourceAttrSet(datasourceName, "vnic_attachments.0.vnic_id"),
 				),
 			},
 		},

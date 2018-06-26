@@ -130,6 +130,6 @@ data "oci_core_private_ips" "test_private_ips_by_vnic" {
 data "oci_core_private_ips" "test_private_ips_by_ip_address" {
 	#Optional
 	ip_address = "${var.private_ip_ip_address}"
-	subnet_id = "${var.private_ip_subnet_id}"
+	subnet_id = "${oci_core_subnet.test_subnet.id}"
 }
 ```

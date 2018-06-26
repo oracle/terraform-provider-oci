@@ -179,6 +179,6 @@ data "oci_database_db_systems" "test_db_systems" {
 	compartment_id = "${var.compartment_id}"
 
 	#Optional
-	backup_id = "${var.db_system_backup_id}"
+	backup_id = "${oci_database_backup.test_backup.id}"
 }
 ```

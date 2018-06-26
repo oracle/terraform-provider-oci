@@ -16,7 +16,6 @@ resource "oci_core_vnic" "test_vnic" {
 }
 `
 	VnicPropertyVariables = `
-variable "vnic_vnic_id" { default = "vnicId" }
 
 `
 	VnicResourceDependencies = ""
@@ -46,6 +45,7 @@ func TestCoreVnicResource_basic(t *testing.T) {
 				ImportStateVerify: true,
 				Config:            config + VnicPropertyVariables + compartmentIdVariableStr + VnicResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(resourceName, "vnic_id"),
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
@@ -57,7 +57,6 @@ func TestCoreVnicResource_basic(t *testing.T) {
 			// verify updates to updatable parameters
 			{
 				Config: config + `
-variable "vnic_vnic_id" { default = "vnicId" }
 
                 ` + compartmentIdVariableStr + VnicResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
@@ -68,6 +67,7 @@ variable "vnic_vnic_id" { default = "vnicId" }
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+					resource.TestCheckResourceAttrSet(resourceName, "vnic_id"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, resourceName, "id")
@@ -81,11 +81,10 @@ variable "vnic_vnic_id" { default = "vnicId" }
 			// verify datasource
 			{
 				Config: config + `
-variable "vnic_vnic_id" { default = "vnicId" }
 
 data "oci_core_vnics" "test_vnics" {
 	#Required
-	vnic_id = "${var.vnic_vnic_id}"
+	vnic_id = "${oci_core_vnic.test_vnic.id}"
 
     filter {
     	name = "id"
@@ -94,7 +93,7 @@ data "oci_core_vnics" "test_vnics" {
 }
                 ` + compartmentIdVariableStr + VnicResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(datasourceName, "vnic_id", "vnicId"),
+					resource.TestCheckResourceAttrSet(datasourceName, "vnic_id"),
 
 					resource.TestCheckResourceAttr(datasourceName, "vnic.#", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "vnic.0.availability_domain"),
@@ -104,6 +103,7 @@ data "oci_core_vnics" "test_vnics" {
 					resource.TestCheckResourceAttrSet(datasourceName, "vnic.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "vnic.0.subnet_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "vnic.0.time_created"),
+					resource.TestCheckResourceAttrSet(datasourceName, "vnic.0.vnic_id"),
 				),
 			},
 		},

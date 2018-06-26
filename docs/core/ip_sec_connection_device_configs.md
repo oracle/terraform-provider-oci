@@ -2,7 +2,7 @@
 
 ## IpSecConnectionDeviceConfig DataSource
 
-Gets a single ip_sec_connection_device_config.
+Gets a single ip_sec_connection_device_config
 
 ### Get Operation
 Gets the configuration information for the specified IPSec connection. For each tunnel, the
@@ -23,11 +23,12 @@ The following attributes are exported:
 	* `shared_secret` - The shared secret of the IPSec tunnel.  Example: `vFG2IF6TWq4UToUiLSRDoJEUs6j1c.p8G.dVQxiMfMO0yXMLi.lZTbYIWhGu4V8o` 
 	* `time_created` - The date and time the IPSec connection was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z`
 
+
 ### Example Usage
 
 ```hcl
 data "oci_core_ipsec_config" "test_ip_sec_connection_device_configs" {
 	#Required
-	ipsec_id = "${var.ip_sec_connection_device_config_ipsc_id}"
+	ipsec_id = "${oci_core_ipsec.test_ipsec.id}"
 }
 ```

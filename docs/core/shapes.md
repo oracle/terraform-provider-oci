@@ -29,7 +29,7 @@ data "oci_core_shapes" "test_shapes" {
 
 	#Optional
 	availability_domain = "${var.shape_availability_domain}"
-	image_id = "${var.shape_image_id}"
+	image_id = "${oci_core_image.test_image.id}"
 }
 ```
 ### Shape Reference

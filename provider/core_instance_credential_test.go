@@ -15,7 +15,6 @@ const (
 
 `
 	InstanceCredentialPropertyVariables = `
-variable "instance_credential_instance_id" { default = "instanceId" }
 
 `
 	InstanceCredentialResourceDependencies = ""
@@ -39,17 +38,17 @@ func TestCoreInstanceCredentialResource_basic(t *testing.T) {
 			// verify datasource
 			{
 				Config: config + `
-variable "instance_credential_instance_id" { default = "instanceId" }
 
 data "oci_core_instance_credentials" "test_instance_credentials" {
 	#Required
-	instance_id = "${var.instance_credential_instance_id}"
+	instance_id = "${oci_core_instance.test_instance.id}"
 }
                 ` + compartmentIdVariableStr + InstanceCredentialResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(datasourceName, "instance_id", "instanceId"),
+					resource.TestCheckResourceAttrSet(datasourceName, "instance_id"),
 
 					resource.TestCheckResourceAttrSet(datasourceName, "instance_credentials.#"),
+					resource.TestCheckResourceAttrSet(datasourceName, "instance_credentials.0.instance_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "instance_credentials.0.password"),
 					resource.TestCheckResourceAttrSet(datasourceName, "instance_credentials.0.username"),
 				),

@@ -27,7 +27,7 @@ The following attributes are exported:
 ```hcl
 data "oci_identity_tenancies" "test_tenancies" {
 	#Required
-	tenancy_id = "${var.tenancy_tenancy_id}"
+	tenancy_id = "${var.tenancy_ocid}"
 }
 ```
 ### Tenancy Reference

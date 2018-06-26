@@ -1,16 +1,16 @@
 
-# oci_database_db_home_patches
+# oci_database_db_system_patches
 
-## DbHomePatch DataSource
+## DbSystemPatch DataSource
 
-Gets a list of db_home_patches.
+Gets a list of db_system_patches.
 
 ### List Operation
-Lists patches applicable to the requested database home.
+Lists the patches applicable to the requested DB System.
 
 The following arguments are supported:
 
-* `db_home_id` - (Required) The database home [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
+* `db_system_id` - (Required) The DB System [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
 
 
 The following attributes are exported:
@@ -20,12 +20,12 @@ The following attributes are exported:
 ### Example Usage
 
 ```hcl
-data "oci_database_db_home_patches" "test_db_home_patches" {
+data "oci_database_db_system_patches" "test_db_system_patches" {
 	#Required
-	db_home_id = "${oci_database_db_home.test_db_home.id}"
+	db_system_id = "${oci_database_db_system.test_db_system.id}"
 }
 ```
-### DbHomePatch Reference
+### DbSystemPatch Reference
 
 The following attributes are exported:
 
