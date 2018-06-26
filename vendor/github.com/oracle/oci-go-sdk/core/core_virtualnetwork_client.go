@@ -58,6 +58,53 @@ func (client *VirtualNetworkClient) ConfigurationProvider() *common.Configuratio
 	return client.config
 }
 
+// AttachServiceId Enables the specified service on the specified gateway. In other words, enables the service
+// gateway to send traffic to the specified service. You must also set up a route rule with the
+// service's `cidrBlock` as the rule's destination CIDR and the gateway as the rule's target.
+// See RouteTable.
+// **Note:** The `AttachServiceId` operation is an easy way to enable an individual service on
+// the service gateway. Compare it with
+// UpdateServiceGateway, which also
+// lets you enable an individual service. However, with `UpdateServiceGateway`, you must specify
+// the *entire* list of services you want enabled on the service gateway.
+func (client VirtualNetworkClient) AttachServiceId(ctx context.Context, request AttachServiceIdRequest) (response AttachServiceIdResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.attachServiceId, policy)
+	if err != nil {
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AttachServiceIdResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AttachServiceIdResponse")
+	}
+	return
+}
+
+// attachServiceId implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) attachServiceId(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/serviceGateways/{serviceGatewayId}/actions/attachService")
+	if err != nil {
+		return nil, err
+	}
+
+	var response AttachServiceIdResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // BulkAddVirtualCircuitPublicPrefixes Adds one or more customer public IP prefixes to the specified public virtual circuit.
 // Use this operation (and not UpdateVirtualCircuit)
 // to add prefixes to the virtual circuit. Oracle must verify the customer's ownership
@@ -572,7 +619,7 @@ func (client VirtualNetworkClient) createIPSecConnection(ctx context.Context, re
 }
 
 // CreateInternetGateway Creates a new Internet Gateway for the specified VCN. For more information, see
-// Connectivity to the Internet (https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Tasks/managingIGs.htm).
+// Access to the Internet (https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Tasks/managingIGs.htm).
 // For the purposes of access control, you must provide the OCID of the compartment where you want the Internet
 // Gateway to reside. Notice that the Internet Gateway doesn't have to be in the same compartment as the VCN or
 // other Networking Service components. If you're not sure which compartment to use, put the Internet
@@ -888,6 +935,51 @@ func (client VirtualNetworkClient) createSecurityList(ctx context.Context, reque
 	}
 
 	var response CreateSecurityListResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateServiceGateway Creates a new service gateway in the specified compartment.
+// For the purposes of access control, you must provide the OCID of the compartment where you want
+// the service gateway to reside. For more information about compartments and access control, see
+// Overview of the IAM Service (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/overview.htm).
+// For information about OCIDs, see Resource Identifiers (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
+// You may optionally specify a *display name* for the service gateway, otherwise a default is provided.
+// It does not have to be unique, and you can change it. Avoid entering confidential information.
+func (client VirtualNetworkClient) CreateServiceGateway(ctx context.Context, request CreateServiceGatewayRequest) (response CreateServiceGatewayResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.createServiceGateway, policy)
+	if err != nil {
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateServiceGatewayResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateServiceGatewayResponse")
+	}
+	return
+}
+
+// createServiceGateway implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) createServiceGateway(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/serviceGateways")
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateServiceGatewayResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -1674,6 +1766,46 @@ func (client VirtualNetworkClient) deleteSecurityList(ctx context.Context, reque
 	return response, err
 }
 
+// DeleteServiceGateway Deletes the specified service gateway. There must not be a route table that lists the service
+// gateway as a target.
+func (client VirtualNetworkClient) DeleteServiceGateway(ctx context.Context, request DeleteServiceGatewayRequest) (response DeleteServiceGatewayResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteServiceGateway, policy)
+	if err != nil {
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteServiceGatewayResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteServiceGatewayResponse")
+	}
+	return
+}
+
+// deleteServiceGateway implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) deleteServiceGateway(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/serviceGateways/{serviceGatewayId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteServiceGatewayResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteSubnet Deletes the specified subnet, but only if there are no instances in the subnet. This is an asynchronous
 // operation. The subnet's `lifecycleState` will change to TERMINATING temporarily. If there are any
 // instances in the subnet, the state will instead change back to AVAILABLE.
@@ -1786,6 +1918,56 @@ func (client VirtualNetworkClient) deleteVirtualCircuit(ctx context.Context, req
 	}
 
 	var response DeleteVirtualCircuitResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DetachServiceId Disables the specified service on the specified gateway. In other words, stops the service
+// gateway from sending traffic to the specified service. You do not need to remove any route
+// rules that specify this service's `cidrBlock` as the destination CIDR. However, consider
+// removing the rules if your intent is to permanently disable use of the service through this
+// service gateway.
+// **Note:** The `DetachServiceId` operation is an easy way to disable an individual service on
+// the service gateway. Compare it with
+// UpdateServiceGateway, which also
+// lets you disable an individual service. However, with `UpdateServiceGateway`, you must specify
+// the *entire* list of services you want enabled on the service gateway. `UpdateServiceGateway`
+// also lets you block all traffic through the service gateway without having to disable each of
+// the individual services.
+func (client VirtualNetworkClient) DetachServiceId(ctx context.Context, request DetachServiceIdRequest) (response DetachServiceIdResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.detachServiceId, policy)
+	if err != nil {
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DetachServiceIdResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DetachServiceIdResponse")
+	}
+	return
+}
+
+// detachServiceId implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) detachServiceId(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/serviceGateways/{serviceGatewayId}/actions/detachService")
+	if err != nil {
+		return nil, err
+	}
+
+	var response DetachServiceIdResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -2631,6 +2813,84 @@ func (client VirtualNetworkClient) getSecurityList(ctx context.Context, request 
 	}
 
 	var response GetSecurityListResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetService Gets the specified service's information.
+func (client VirtualNetworkClient) GetService(ctx context.Context, request GetServiceRequest) (response GetServiceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getService, policy)
+	if err != nil {
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetServiceResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetServiceResponse")
+	}
+	return
+}
+
+// getService implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) getService(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/services/{serviceId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetServiceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetServiceGateway Gets the specified service gateway's information.
+func (client VirtualNetworkClient) GetServiceGateway(ctx context.Context, request GetServiceGatewayRequest) (response GetServiceGatewayResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getServiceGateway, policy)
+	if err != nil {
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetServiceGatewayResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetServiceGatewayResponse")
+	}
+	return
+}
+
+// getServiceGateway implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) getServiceGateway(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/serviceGateways/{serviceGatewayId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetServiceGatewayResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -3578,6 +3838,85 @@ func (client VirtualNetworkClient) listSecurityLists(ctx context.Context, reques
 	return response, err
 }
 
+// ListServiceGateways Lists the service gateways in the specified compartment. You may optionally specify a VCN OCID
+// to filter the results by VCN.
+func (client VirtualNetworkClient) ListServiceGateways(ctx context.Context, request ListServiceGatewaysRequest) (response ListServiceGatewaysResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listServiceGateways, policy)
+	if err != nil {
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListServiceGatewaysResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListServiceGatewaysResponse")
+	}
+	return
+}
+
+// listServiceGateways implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) listServiceGateways(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/serviceGateways")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListServiceGatewaysResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListServices Lists the available services that you can access through a service gateway in this region.
+func (client VirtualNetworkClient) ListServices(ctx context.Context, request ListServicesRequest) (response ListServicesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listServices, policy)
+	if err != nil {
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListServicesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListServicesResponse")
+	}
+	return
+}
+
+// listServices implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) listServices(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/services")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListServicesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListSubnets Lists the subnets in the specified VCN and the specified compartment.
 func (client VirtualNetworkClient) ListSubnets(ctx context.Context, request ListSubnetsRequest) (response ListSubnetsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4360,6 +4699,46 @@ func (client VirtualNetworkClient) updateSecurityList(ctx context.Context, reque
 	}
 
 	var response UpdateSecurityListResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateServiceGateway Updates the specified service gateway. The information you provide overwrites the existing
+// attributes of the gateway.
+func (client VirtualNetworkClient) UpdateServiceGateway(ctx context.Context, request UpdateServiceGatewayRequest) (response UpdateServiceGatewayResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateServiceGateway, policy)
+	if err != nil {
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateServiceGatewayResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateServiceGatewayResponse")
+	}
+	return
+}
+
+// updateServiceGateway implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) updateServiceGateway(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/serviceGateways/{serviceGatewayId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateServiceGatewayResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)

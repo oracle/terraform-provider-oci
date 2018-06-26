@@ -13,7 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// VolumeGroupSourceFromVolumesDetails Specifies volumes in a volume group.
+// VolumeGroupSourceFromVolumesDetails Specifies the volumes in a volume group.
 type VolumeGroupSourceFromVolumesDetails struct {
 
 	// OCIDs for the volumes in this volume group.

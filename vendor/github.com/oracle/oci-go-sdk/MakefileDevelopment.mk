@@ -6,7 +6,7 @@ REMOVE_AFTER_GENERATE=audit/audit_waiters.go objectstorage/objectstorage_waiters
 #### Versions
 #### If you are doing a release, do not forget to increment this versions
 VER_MAJOR=1
-VER_MINOR=7
+VER_MINOR=8
 ###################
 
 ##### Integ test setup

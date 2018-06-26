@@ -19,3 +19,7 @@ sdk_team_hide_Shape_availabilityDomain
 udx-190
 # Compute "Soft Shutdown" instance power action
 udx-1071
+# Boot Volume Backup & Clone
+udx-775
+# Service Gateway Launch
+udx-677

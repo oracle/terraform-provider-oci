@@ -12,8 +12,8 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// VolumeGroupBackup A point-in-time copy of a volume group that can then be used to create a new block volume group
-// or recover a block volume group.
+// VolumeGroupBackup A point-in-time copy of a volume group that can then be used to create a new volume group
+// or restore a volume group. For more information, see Volume Groups (https://docs.us-phoenix-1.oraclecloud.com/Content/Block/Concepts/volumegroups.htm).
 // To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized,
 // talk to an administrator. If you're an administrator who needs to write policies to give users access, see
 // Getting Started with Policies (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/policygetstarted.htm).
@@ -22,10 +22,10 @@ type VolumeGroupBackup struct {
 	// The OCID of the compartment that contains the volume group backup.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// A user-friendly name for the volume group backup. Does not have to be unique and it's changeable.
+	// A user-friendly name for the volume group backup. Does not have to be unique and it's changeable. Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID of the volume group backup (unique).
+	// The OCID of the volume group backup.
 	Id *string `mandatory:"true" json:"id"`
 
 	// The current state of a volume group backup.
@@ -38,7 +38,7 @@ type VolumeGroupBackup struct {
 	// The type of backup.
 	Type VolumeGroupBackupTypeEnum `mandatory:"true" json:"type"`
 
-	// OCIDs for the backups in this volume group backup.
+	// OCIDs for the volume backups in this volume group backup.
 	VolumeBackupIds []string `mandatory:"true" json:"volumeBackupIds"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
@@ -55,13 +55,21 @@ type VolumeGroupBackup struct {
 	// The aggregate size of the volume group backup, in MBs.
 	SizeInMBs *int `mandatory:"false" json:"sizeInMBs"`
 
+	// The aggregate size of the volume group backup, in GBs.
+	SizeInGBs *int `mandatory:"false" json:"sizeInGBs"`
+
 	// The date and time the request to create the volume group backup was received. Format defined by RFC3339.
 	TimeRequestReceived *common.SDKTime `mandatory:"false" json:"timeRequestReceived"`
 
 	// The aggregate size used by the volume group backup, in MBs.
 	// It is typically smaller than sizeInMBs, depending on the space
-	// consumed on the volume group and whether the backup is full or incremental.
+	// consumed on the volume group and whether the volume backup is full or incremental.
 	UniqueSizeInMbs *int `mandatory:"false" json:"uniqueSizeInMbs"`
+
+	// The aggregate size used by the volume group backup, in GBs.
+	// It is typically smaller than sizeInGBs, depending on the space
+	// consumed on the volume group and whether the volume backup is full or incremental.
+	UniqueSizeInGbs *int `mandatory:"false" json:"uniqueSizeInGbs"`
 
 	// The OCID of the source volume group.
 	VolumeGroupId *string `mandatory:"false" json:"volumeGroupId"`

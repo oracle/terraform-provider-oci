@@ -12,15 +12,15 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// UpdateBootVolumeDetails The representation of UpdateBootVolumeDetails
-type UpdateBootVolumeDetails struct {
+// UpdateBootVolumeBackupDetails The representation of UpdateBootVolumeBackupDetails
+type UpdateBootVolumeBackupDetails struct {
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// For more information, see Resource Tags (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// A user-friendly name. Does not have to be unique, and it's changeable.
+	// A friendly user-specified name for the boot volume backup.
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
@@ -31,6 +31,6 @@ type UpdateBootVolumeDetails struct {
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 }
 
-func (m UpdateBootVolumeDetails) String() string {
+func (m UpdateBootVolumeBackupDetails) String() string {
 	return common.PointerString(m)
 }

@@ -974,13 +974,12 @@ func (client ComputeClient) getWindowsInstanceInitialCredentials(ctx context.Con
 	return response, err
 }
 
-// InstanceAction Performs one of the power actions (start, stop, softreset, softstop, or reset)
-// on the specified instance.
-// **start** - power on
-// **stop** - power off
-// **softreset** - ACPI shutdown and power on
-// **softstop** - signal the instance operating system to shutdown gracefully
-// **reset** - power off and power on
+// InstanceAction Performs one of the following power actions on the specified instance:
+// - **START** - Powers on the instance.
+// - **STOP** - Powers off the instance.
+// - **SOFTRESET** - Gracefully reboots instance by sending a shutdown command to the operating system and then powers the instance back on.
+// - **SOFTSTOP** - Gracefully shuts down instance by sending a shutdown command to the operating system.
+// - **RESET** - Powers off the instance and then powers it back on.
 // For more information see Stopping and Starting an Instance (https://docs.us-phoenix-1.oraclecloud.com/Content/Compute/Tasks/restartinginstance.htm).
 func (client ComputeClient) InstanceAction(ctx context.Context, request InstanceActionRequest) (response InstanceActionResponse, err error) {
 	var ociResponse common.OCIResponse
