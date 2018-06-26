@@ -12,8 +12,17 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// UpdateBootVolumeDetails The representation of UpdateBootVolumeDetails
-type UpdateBootVolumeDetails struct {
+// CreateServiceGatewayDetails The representation of CreateServiceGatewayDetails
+type CreateServiceGatewayDetails struct {
+
+	// The OCID  (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm)  of the compartment to contain the Service Gateway.
+	CompartmentId *string `mandatory:"true" json:"compartmentId"`
+
+	// List of the Service OCIDs. These are the Services which will be enabled on the Service Gateway. This list can be empty.
+	Services []ServiceIdRequestDetails `mandatory:"true" json:"services"`
+
+	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the VCN.
+	VcnId *string `mandatory:"true" json:"vcnId"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// For more information, see Resource Tags (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).
@@ -31,6 +40,6 @@ type UpdateBootVolumeDetails struct {
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 }
 
-func (m UpdateBootVolumeDetails) String() string {
+func (m CreateServiceGatewayDetails) String() string {
 	return common.PointerString(m)
 }

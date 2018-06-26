@@ -13,19 +13,19 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// VolumeGroup Specifies a volume group. A volume group is a collection of block volumes.
+// VolumeGroup Specifies a volume group which is a collection of volumes. For more information, see Volume Groups (https://docs.us-phoenix-1.oraclecloud.com/Content/Block/Concepts/volumegroups.htm).
 type VolumeGroup struct {
 
-	// The Availability Domain of the volume group.
+	// The availability domain of the volume group.
 	AvailabilityDomain *string `mandatory:"true" json:"availabilityDomain"`
 
 	// The OCID of the compartment that contains the volume group.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// A user-friendly name for the volume group. Does not have to be unique, and it's changeable.
+	// A user-friendly name for the volume group. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The Oracle Cloud ID (OCID) that uniquely identifies the volume group.
+	// The OCID for the volume group.
 	Id *string `mandatory:"true" json:"id"`
 
 	// The aggregate size of the volume group in MBs.
@@ -51,8 +51,11 @@ type VolumeGroup struct {
 	// The current state of a volume group.
 	LifecycleState VolumeGroupLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
-	// The volume group source. The volume source is either another a list of
-	// volume ids in the same Availability Domain, another volume group or a volume group backup.
+	// The aggregate size of the volume group in GBs.
+	SizeInGBs *int `mandatory:"false" json:"sizeInGBs"`
+
+	// The volume group source. The source is either another a list of
+	// volume IDs in the same availability domain, another volume group, or a volume group backup.
 	SourceDetails VolumeGroupSourceDetails `mandatory:"false" json:"sourceDetails"`
 }
 
@@ -66,6 +69,7 @@ func (m *VolumeGroup) UnmarshalJSON(data []byte) (e error) {
 		DefinedTags        map[string]map[string]interface{} `json:"definedTags"`
 		FreeformTags       map[string]string                 `json:"freeformTags"`
 		LifecycleState     VolumeGroupLifecycleStateEnum     `json:"lifecycleState"`
+		SizeInGBs          *int                              `json:"sizeInGBs"`
 		SourceDetails      volumegroupsourcedetails          `json:"sourceDetails"`
 		AvailabilityDomain *string                           `json:"availabilityDomain"`
 		CompartmentId      *string                           `json:"compartmentId"`
@@ -83,6 +87,7 @@ func (m *VolumeGroup) UnmarshalJSON(data []byte) (e error) {
 	m.DefinedTags = model.DefinedTags
 	m.FreeformTags = model.FreeformTags
 	m.LifecycleState = model.LifecycleState
+	m.SizeInGBs = model.SizeInGBs
 	nn, e := model.SourceDetails.UnmarshalPolymorphicJSON(model.SourceDetails.JsonData)
 	if e != nil {
 		return

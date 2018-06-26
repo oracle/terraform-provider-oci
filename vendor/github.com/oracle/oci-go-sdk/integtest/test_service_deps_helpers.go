@@ -206,20 +206,15 @@ func listSubnets(t *testing.T) []core.Subnet {
 	return r.Items
 }
 
-// list the available images in the test compartment
-func listImages(t *testing.T) []core.Image {
-	return listImagesByDisplayName(t, nil)
-}
-
-func listImagesByDisplayName(t *testing.T, displayName *string) []core.Image {
+func listOracleImages(t *testing.T) []core.Image {
 	c, clerr := core.NewComputeClientWithConfigurationProvider(configurationProvider())
 	failIfError(t, clerr)
 	request := core.ListImagesRequest{
-		CompartmentId: common.String(getCompartmentID()),
-	}
-
-	if displayName != nil {
-		request.DisplayName = displayName
+		CompartmentId:   common.String(getCompartmentID()),
+		OperatingSystem: common.String("Oracle Linux"),
+		SortBy:          core.ListImagesSortByTimecreated,
+		SortOrder:       core.ListImagesSortOrderDesc,
+		Shape:           common.String("VM.Standard1.1"),
 	}
 
 	r, err := c.ListImages(context.Background(), request)
@@ -275,7 +270,7 @@ func listShapesForImage(t *testing.T, imageID *string) []core.Shape {
 	failIfError(t, clerr)
 
 	if imageID == nil {
-		images := listImages(t)
+		images := listOracleImages(t)
 
 		assert.NotEmpty(t, images)
 		assert.NotEqual(t, len(images), 0)

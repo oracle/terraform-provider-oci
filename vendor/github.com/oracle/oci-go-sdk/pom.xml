@@ -22,7 +22,7 @@
     <preferred.temp.dir>${project.build.directory}/preferred</preferred.temp.dir>
     <preprocessed.temp.dir>${project.build.directory}/preprocessed</preprocessed.temp.dir>
 
-    <core.artifact.version>0.2.64</core.artifact.version>
+    <core.artifact.version>0.2.180</core.artifact.version>
     <core.artifact.id>coreservices-api-spec</core.artifact.id>
     <core.spec.name>coreservices-api-spec-20160918.cond.yaml</core.spec.name>
 
@@ -574,7 +574,7 @@
       <plugin>
         <groupId>com.oracle.bmc.sdk</groupId>
         <artifactId>bmc-sdk-swagger-maven-plugin</artifactId>
-        <version>1.28-SNAPSHOT</version>
+        <version>1.29-SNAPSHOT</version>
         <executions>
           <execution>
             <id>go-public-sdk-identity</id>
@@ -592,6 +592,7 @@
                 <specName>identity</specName>
                 <fqProjectName>${fullyQualifiedProjectName}</fqProjectName>
               </additionalProperties>
+              <featureIdConfigFile>${project.basedir}/featureId.yaml</featureIdConfigFile>
             </configuration>
           </execution>
           <execution>
@@ -611,6 +612,7 @@
                 <fqProjectName>${fullyQualifiedProjectName}</fqProjectName>
                 <serviceHostName>iaas</serviceHostName>
               </additionalProperties>
+              <featureIdConfigFile>${project.basedir}/featureId.yaml</featureIdConfigFile>
             </configuration>
           </execution>
           <execution>
@@ -630,6 +632,7 @@
                 <fqProjectName>${fullyQualifiedProjectName}</fqProjectName>
                 <serviceHostName>iaas</serviceHostName>
               </additionalProperties>
+              <featureIdConfigFile>${project.basedir}/featureId.yaml</featureIdConfigFile>
             </configuration>
           </execution>
           <execution>
@@ -648,6 +651,7 @@
                 <specName>objectstorage</specName>
                 <fqProjectName>${fullyQualifiedProjectName}</fqProjectName>
               </additionalProperties>
+              <featureIdConfigFile>${project.basedir}/featureId.yaml</featureIdConfigFile>
             </configuration>
           </execution>
           <execution>
@@ -666,6 +670,7 @@
                 <specName>database</specName>
                 <fqProjectName>${fullyQualifiedProjectName}</fqProjectName>
               </additionalProperties>
+              <featureIdConfigFile>${project.basedir}/featureId.yaml</featureIdConfigFile>
             </configuration>
           </execution>
           <execution>
@@ -684,6 +689,7 @@
                 <specName>audit</specName>
                 <fqProjectName>${fullyQualifiedProjectName}</fqProjectName>
               </additionalProperties>
+              <featureIdConfigFile>${project.basedir}/featureId.yaml</featureIdConfigFile>
             </configuration>
           </execution>
           <execution>
@@ -702,6 +708,7 @@
                 <specName>filestorage</specName>
                 <fqProjectName>${fullyQualifiedProjectName}</fqProjectName>
               </additionalProperties>
+              <featureIdConfigFile>${project.basedir}/featureId.yaml</featureIdConfigFile>
             </configuration>
           </execution>
           <execution>
@@ -720,6 +727,7 @@
                 <specName>dns</specName>
                 <fqProjectName>${fullyQualifiedProjectName}</fqProjectName>
               </additionalProperties>
+              <featureIdConfigFile>${project.basedir}/featureId.yaml</featureIdConfigFile>
             </configuration>
           </execution>
            <execution>
@@ -738,6 +746,7 @@
                 <specName>email</specName>
                 <fqProjectName>${fullyQualifiedProjectName}</fqProjectName>
               </additionalProperties>
+              <featureIdConfigFile>${project.basedir}/featureId.yaml</featureIdConfigFile>
             </configuration>
           </execution>
           <execution>
@@ -757,6 +766,7 @@
                       <fqProjectName>${fullyQualifiedProjectName}</fqProjectName>
                       <serviceHostName>containerengine</serviceHostName>
                   </additionalProperties>
+                  <featureIdConfigFile>${project.basedir}/featureId.yaml</featureIdConfigFile>
               </configuration>
           </execution>
         </executions>

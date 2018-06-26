@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 
+## 1.8.0 - 2018-06-28
+### Added
+- Support for service gateway management in the Networking service
+- Support for backup and clone of boot volumes in the Block Storage service
+
 ## 1.7.0 - 2018-06-14
 ### Added
 - Support for the Container Engine service. A sample showing how to use this service from the SDK is available [Github](https://github.com/oracle/oci-go-sdk/tree/master/example/example_containerengine_test.go)
