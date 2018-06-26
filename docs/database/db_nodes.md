@@ -58,6 +58,6 @@ The following attributes are exported:
 data "oci_database_db_nodes" "test_db_nodes" {
 	#Required
 	compartment_id = "${var.compartment_id}"
-	db_system_id = "${var.db_node_db_system_id}"
+	db_system_id = "${oci_database_db_system.test_db_system.id}"
 }
 ```

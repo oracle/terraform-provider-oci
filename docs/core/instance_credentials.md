@@ -23,6 +23,6 @@ The following attributes are exported:
 ```hcl
 data "oci_core_instance_credentials" "test_instance_credentials" {
 	#Required
-	instance_id = "${var.instance_credential_instance_id}"
+	instance_id = "${oci_core_instance.test_instance.id}"
 }
 ```

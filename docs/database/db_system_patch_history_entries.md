@@ -1,16 +1,16 @@
 
-# oci_database_db_home_patch_history_entries
+# oci_database_db_system_patch_history_entries
 
-## DbHomePatchHistoryEntry DataSource
+## DbSystemPatchHistoryEntry DataSource
 
-Gets a list of db_home_patch_history_entries.
+Gets a list of db_system_patch_history_entries.
 
 ### List Operation
-Gets history of the actions taken for patches for the specified database home.
+Gets the history of the patch actions performed on the specified DB System.
 
 The following arguments are supported:
 
-* `db_home_id` - (Required) The database home [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
+* `db_system_id` - (Required) The DB System [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
 
 
 The following attributes are exported:
@@ -20,12 +20,12 @@ The following attributes are exported:
 ### Example Usage
 
 ```hcl
-data "oci_database_db_home_patch_history_entries" "test_db_home_patch_history_entries" {
+data "oci_database_db_system_patch_history_entries" "test_db_system_patch_history_entries" {
 	#Required
-	db_home_id = "${oci_database_db_home.test_db_home.id}"
+	db_system_id = "${oci_database_db_system.test_db_system.id}"
 }
 ```
-### DbHomePatchHistoryEntry Reference
+### DbSystemPatchHistoryEntry Reference
 
 The following attributes are exported:
 

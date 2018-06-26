@@ -28,7 +28,7 @@ data "oci_core_boot_volumes" "test_boot_volumes" {
 	compartment_id = "${var.compartment_id}"
 
 	#Optional
-	volume_group_id = "${var.boot_volume_volume_group_id}"
+	volume_group_id = "${oci_core_volume_group.test_volume_group.id}"
 }
 ```
 ### BootVolume Reference

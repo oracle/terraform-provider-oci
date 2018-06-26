@@ -123,7 +123,7 @@ data "oci_file_storage_mount_targets" "test_mount_targets" {
 
 	#Optional
 	display_name = "${var.mount_target_display_name}"
-	export_set_id = "${var.mount_target_export_set_id}"
+	export_set_id = "${oci_file_storage_export_set.test_export_set.id}"
 	id = "${var.mount_target_id}"
 	state = "${var.mount_target_state}"
 }

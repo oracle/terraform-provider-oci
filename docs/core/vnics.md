@@ -39,6 +39,6 @@ The following attributes are exported:
 ```hcl
 data "oci_core_vnic" "test_vnic" {
 	#Required
-	vnic_id = "${var.vnic_vnic_id}"
+	vnic_id = "${oci_core_vnic.test_vnic.id}"
 }
 ```

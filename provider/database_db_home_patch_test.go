@@ -23,7 +23,7 @@ resource "oci_database_db_system" "test_db_system" {
 	shape = "BM.DenseIO1.36"
 	cpu_core_count = "2"
 	ssh_public_keys = ["ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"]
-	domain = "${var.subnet_dns_label}.${oci_core_vcn.test_vcn.dns_label}.oraclevcn.com"
+	domain = "${var.subnet_dns_label}.oraclevcn.com"
 	hostname = "myOracleDB"
 	data_storage_size_in_gb = "256"
 	license_model = "LICENSE_INCLUDED"

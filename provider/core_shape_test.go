@@ -16,7 +16,6 @@ const (
 `
 	ShapePropertyVariables = `
 variable "shape_availability_domain" { default = "availabilityDomain" }
-variable "shape_image_id" { default = "imageId" }
 
 `
 	ShapeResourceDependencies = ""
@@ -40,7 +39,6 @@ func TestCoreShapeResource_basic(t *testing.T) {
 			{
 				Config: config + `
 variable "shape_availability_domain" { default = "availabilityDomain" }
-variable "shape_image_id" { default = "imageId" }
 
 data "oci_core_shapes" "test_shapes" {
 	#Required
@@ -54,7 +52,7 @@ data "oci_core_shapes" "test_shapes" {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					//resource.TestCheckResourceAttr(datasourceName, "availability_domain", "availabilityDomain"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					//resource.TestCheckResourceAttr(datasourceName, "image_id", "imageId"),
+					//resource.TestCheckResourceAttrSet(datasourceName, "image_id"),
 
 					resource.TestCheckResourceAttrSet(datasourceName, "shapes.#"),
 					resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.name"),

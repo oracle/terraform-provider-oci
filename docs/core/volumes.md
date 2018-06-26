@@ -125,6 +125,6 @@ data "oci_core_volumes" "test_volumes" {
 	availability_domain = "${var.volume_availability_domain}"
 	display_name = "${var.volume_display_name}"
 	state = "${var.volume_state}"
-	volume_group_id = "${var.volume_volume_group_id}"
+	volume_group_id = "${oci_core_volume_group.test_volume_group.id}"
 }
 ```

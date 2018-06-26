@@ -37,10 +37,9 @@ variable "private_ip_display_name" { default = "displayName" }
 variable "private_ip_freeform_tags" { default = {"Department"= "Finance"} }
 variable "private_ip_hostname_label" { default = "hostnameLabel" }
 variable "private_ip_ip_address" { default = "ipAddress" }
-variable "private_ip_subnet_id" { default = "subnetId" }
 
 `
-	PrivateIpResourceDependencies = DefinedTagsDependencies + VnicPropertyVariables + VnicResourceConfig
+	PrivateIpResourceDependencies = DefinedTagsDependencies + SubnetPropertyVariables + SubnetResourceConfig + VnicPropertyVariables + VnicResourceConfig
 )
 
 func TestCorePrivateIpResource_basic(t *testing.T) {
@@ -67,6 +66,7 @@ func TestCorePrivateIpResource_basic(t *testing.T) {
 				ImportStateVerify: true,
 				Config:            config + PrivateIpPropertyVariables + compartmentIdVariableStr + PrivateIpRequiredOnlyResource,
 				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "vnic_id"),
 
 					func(s *terraform.State) (err error) {
@@ -89,6 +89,7 @@ func TestCorePrivateIpResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnameLabel"),
 					resource.TestCheckResourceAttr(resourceName, "ip_address", "ipAddress"),
+					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "vnic_id"),
 
 					func(s *terraform.State) (err error) {
@@ -106,7 +107,6 @@ variable "private_ip_display_name" { default = "displayName2" }
 variable "private_ip_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "private_ip_hostname_label" { default = "hostnameLabel2" }
 variable "private_ip_ip_address" { default = "ipAddress" }
-variable "private_ip_subnet_id" { default = "subnetId" }
 
                 ` + compartmentIdVariableStr + PrivateIpResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
@@ -115,6 +115,7 @@ variable "private_ip_subnet_id" { default = "subnetId" }
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnameLabel2"),
 					resource.TestCheckResourceAttr(resourceName, "ip_address", "ipAddress"),
+					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "vnic_id"),
 
 					func(s *terraform.State) (err error) {
@@ -134,13 +135,12 @@ variable "private_ip_display_name" { default = "displayName2" }
 variable "private_ip_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "private_ip_hostname_label" { default = "hostnameLabel2" }
 variable "private_ip_ip_address" { default = "ipAddress" }
-variable "private_ip_subnet_id" { default = "subnetId" }
 
 data "oci_core_private_ips" "test_private_ips" {
 
 	#Optional
 	ip_address = "${var.private_ip_ip_address}"
-	subnet_id = "${var.private_ip_subnet_id}"
+	subnet_id = "${oci_core_subnet.test_subnet.id}"
 	vnic_id = "${oci_core_vnic.test_vnic.id}"
 
     filter {
@@ -151,7 +151,7 @@ data "oci_core_private_ips" "test_private_ips" {
                 ` + compartmentIdVariableStr + PrivateIpResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "ip_address", "ipAddress"),
-					resource.TestCheckResourceAttr(datasourceName, "subnet_id", "subnetId"),
+					resource.TestCheckResourceAttrSet(datasourceName, "subnet_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "vnic_id"),
 
 					resource.TestCheckResourceAttr(datasourceName, "private_ips.#", "1"),
@@ -160,6 +160,7 @@ data "oci_core_private_ips" "test_private_ips" {
 					resource.TestCheckResourceAttr(datasourceName, "private_ips.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "private_ips.0.hostname_label", "hostnameLabel2"),
 					resource.TestCheckResourceAttr(datasourceName, "private_ips.0.ip_address", "ipAddress"),
+					resource.TestCheckResourceAttrSet(datasourceName, "private_ips.0.subnet_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "private_ips.0.vnic_id"),
 				),
 			},

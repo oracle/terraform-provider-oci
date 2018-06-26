@@ -67,6 +67,6 @@ The following attributes are exported:
 data "oci_database_databases" "test_databases" {
 	#Required
 	compartment_id = "${var.compartment_id}"
-	db_home_id = "${var.database_db_home_id}"
+	db_home_id = "${oci_database_db_home.test_db_home.id}"
 }
 ```
