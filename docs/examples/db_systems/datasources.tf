@@ -63,6 +63,17 @@ data "oci_database_db_systems" "db_systems" {
 	backup_id = "${oci_database_backup.test_backup.id}"
 }
 
-output "backup dbs" {
-	value = ["${data.oci_database_db_systems.db_systems.db_systems}"]
+
+data "oci_database_db_versions" "test_db_versions_by_db_system_id" {
+	compartment_id = "${var.compartment_ocid}"
+	db_system_id = "${oci_database_db_system.test_db_system.id}"
+}
+
+data "oci_database_db_system_shapes" "test_db_system_shapes" {
+	availability_domain = "${lookup(data.oci_identity_availability_domains.availability_domains.availability_domains[0],"name")}"
+	compartment_id = "${var.compartment_ocid}"
+    filter {
+        name = "shape"
+        values = ["${var.db_system_shape}"]
+    }
 }
