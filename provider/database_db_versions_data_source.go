@@ -20,6 +20,10 @@ func DbVersionsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"db_system_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"db_system_shape": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -85,6 +89,11 @@ func (s *DbVersionsDataSourceCrud) Get() error {
 		request.CompartmentId = &tmp
 	}
 
+	if dbSystemId, ok := s.D.GetOkExists("db_system_id"); ok {
+		tmp := dbSystemId.(string)
+		request.DbSystemId = &tmp
+	}
+
 	if dbSystemShape, ok := s.D.GetOkExists("db_system_shape"); ok {
 		tmp := dbSystemShape.(string)
 		request.DbSystemShape = &tmp
@@ -119,6 +128,7 @@ func (s *DbVersionsDataSourceCrud) Get() error {
 		s.Res.Items = append(s.Res.Items, listResponse.Items...)
 		request.Page = listResponse.OpcNextPage
 	}
+
 	return nil
 }
 
