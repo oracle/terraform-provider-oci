@@ -166,7 +166,7 @@ func (s *InternetGatewaysDataSourceCrud) SetData() {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources)
+		resources = ApplyFilters(f.(*schema.Set), resources, InternetGatewaysDataSource().Schema["gateways"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("gateways", resources); err != nil {

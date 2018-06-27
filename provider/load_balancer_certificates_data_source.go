@@ -93,7 +93,7 @@ func (s *CertificatesDataSourceCrud) SetData() {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources)
+		resources = ApplyFilters(f.(*schema.Set), resources, CertificatesDataSource().Schema["certificates"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("certificates", resources); err != nil {

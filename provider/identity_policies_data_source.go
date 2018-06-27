@@ -130,7 +130,7 @@ func (s *IdentityPoliciesDataSourceCrud) SetData() {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources)
+		resources = ApplyFilters(f.(*schema.Set), resources, IdentityPoliciesDataSource().Schema["policies"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("policies", resources); err != nil {

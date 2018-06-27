@@ -109,7 +109,7 @@ func (s *SwiftPasswordsDataSourceCrud) SetData() {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources)
+		resources = ApplyFilters(f.(*schema.Set), resources, SwiftPasswordsDataSource().Schema["passwords"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("passwords", resources); err != nil {

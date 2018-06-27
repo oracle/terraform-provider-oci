@@ -162,7 +162,7 @@ func (s *DbHomePatchesDataSourceCrud) SetData() {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources)
+		resources = ApplyFilters(f.(*schema.Set), resources, DbHomePatchesDataSource().Schema["patches"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("patches", resources); err != nil {

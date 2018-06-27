@@ -123,7 +123,7 @@ func (s *IpSecConnectionDeviceConfigDataSourceCrud) SetData() {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		tunnels = ApplyFilters(f.(*schema.Set), tunnels)
+		tunnels = ApplyFilters(f.(*schema.Set), tunnels, IpSecConnectionDeviceConfigDataSource().Schema["tunnels"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("tunnels", tunnels); err != nil {

@@ -224,7 +224,7 @@ func (s *DbSystemsDataSourceCrud) SetData() {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources)
+		resources = ApplyFilters(f.(*schema.Set), resources, DbSystemsDataSource().Schema["db_systems"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("db_systems", resources); err != nil {

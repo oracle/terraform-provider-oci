@@ -139,7 +139,7 @@ func (s *LocalPeeringGatewaysDataSourceCrud) SetData() {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources)
+		resources = ApplyFilters(f.(*schema.Set), resources, LocalPeeringGatewaysDataSource().Schema["local_peering_gateways"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("local_peering_gateways", resources); err != nil {

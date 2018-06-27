@@ -155,7 +155,7 @@ func (s *DrgAttachmentsDataSourceCrud) SetData() {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources)
+		resources = ApplyFilters(f.(*schema.Set), resources, DrgAttachmentsDataSource().Schema["drg_attachments"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("drg_attachments", resources); err != nil {

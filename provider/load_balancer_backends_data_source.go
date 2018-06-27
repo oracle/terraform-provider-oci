@@ -118,7 +118,7 @@ func (s *BackendsDataSourceCrud) SetData() {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources)
+		resources = ApplyFilters(f.(*schema.Set), resources, BackendsDataSource().Schema["backends"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("backends", resources); err != nil {

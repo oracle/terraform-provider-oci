@@ -123,7 +123,7 @@ func (s *UsersDataSourceCrud) SetData() {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources)
+		resources = ApplyFilters(f.(*schema.Set), resources, UsersDataSource().Schema["users"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("users", resources); err != nil {

@@ -204,7 +204,7 @@ func (s *ZonesDataSourceCrud) SetData() {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources)
+		resources = ApplyFilters(f.(*schema.Set), resources, ZonesDataSource().Schema["zones"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("zones", resources); err != nil {

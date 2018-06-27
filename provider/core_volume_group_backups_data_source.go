@@ -153,7 +153,7 @@ func (s *VolumeGroupBackupsDataSourceCrud) SetData() {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources)
+		resources = ApplyFilters(f.(*schema.Set), resources, VolumeGroupBackupsDataSource().Schema["volume_group_backups"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("volume_group_backups", resources); err != nil {

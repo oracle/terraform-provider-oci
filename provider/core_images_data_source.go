@@ -208,7 +208,7 @@ func (s *ImagesDataSourceCrud) SetData() {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources)
+		resources = ApplyFilters(f.(*schema.Set), resources, ImagesDataSource().Schema["images"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("images", resources); err != nil {

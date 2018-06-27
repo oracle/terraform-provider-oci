@@ -168,7 +168,7 @@ func (s *RouteTablesDataSourceCrud) SetData() {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources)
+		resources = ApplyFilters(f.(*schema.Set), resources, RouteTablesDataSource().Schema["route_tables"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("route_tables", resources); err != nil {

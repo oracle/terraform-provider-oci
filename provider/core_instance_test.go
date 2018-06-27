@@ -63,12 +63,12 @@ resource "oci_core_instance" "test_instance" {
 	extended_metadata = "${var.instance_extended_metadata}"
 	freeform_tags = "${var.instance_freeform_tags}"
 	hostname_label = "${var.instance_hostname_label}"
-	image = "${var.instance_image}"
 	ipxe_script = "${var.instance_ipxe_script}"
 	metadata = "${var.instance_metadata}"
 	source_details {
 		#Required
-		source_type = "${var.instance_source_details_source_type}"
+		source_type = "image"
+        source_id = "${var.InstanceImageOCID[var.region]}"
 	}
 	subnet_id = "${oci_core_subnet.test_subnet.id}"
 }

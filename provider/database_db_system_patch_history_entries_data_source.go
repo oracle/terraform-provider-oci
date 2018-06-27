@@ -153,7 +153,7 @@ func (s *DbSystemPatchHistoryEntriesDataSourceCrud) SetData() {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources)
+		resources = ApplyFilters(f.(*schema.Set), resources, DbSystemPatchHistoryEntriesDataSource().Schema["patch_history_entries"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("patch_history_entries", resources); err != nil {

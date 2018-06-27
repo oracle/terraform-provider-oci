@@ -149,7 +149,7 @@ func (s *ExportSetsDataSourceCrud) SetData() {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources)
+		resources = ApplyFilters(f.(*schema.Set), resources, ExportSetsDataSource().Schema["export_sets"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("export_sets", resources); err != nil {

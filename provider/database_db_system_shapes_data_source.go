@@ -186,7 +186,7 @@ func (s *DbSystemShapesDataSourceCrud) SetData() {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources)
+		resources = ApplyFilters(f.(*schema.Set), resources, DbSystemShapesDataSource().Schema["db_system_shapes"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("db_system_shapes", resources); err != nil {

@@ -137,7 +137,7 @@ func (s *CpesDataSourceCrud) SetData() {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources)
+		resources = ApplyFilters(f.(*schema.Set), resources, CpesDataSource().Schema["cpes"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("cpes", resources); err != nil {

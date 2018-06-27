@@ -189,7 +189,7 @@ func (s *RecordsDataSourceCrud) SetData() {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources)
+		resources = ApplyFilters(f.(*schema.Set), resources, RecordsDataSource().Schema["records"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("records", resources); err != nil {

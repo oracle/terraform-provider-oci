@@ -103,7 +103,7 @@ func (s *AvailabilityDomainsDataSourceCrud) SetData() {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources)
+		resources = ApplyFilters(f.(*schema.Set), resources, AvailabilityDomainsDataSource().Schema["availability_domains"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("availability_domains", resources); err != nil {

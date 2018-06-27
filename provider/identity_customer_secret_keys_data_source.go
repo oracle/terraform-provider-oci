@@ -105,7 +105,7 @@ func (s *CustomerSecretKeysDataSourceCrud) SetData() {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources)
+		resources = ApplyFilters(f.(*schema.Set), resources, CustomerSecretKeysDataSource().Schema["customer_secret_keys"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("customer_secret_keys", resources); err != nil {

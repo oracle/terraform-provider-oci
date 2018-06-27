@@ -153,7 +153,7 @@ func (s *BucketsDataSourceCrud) SetData() {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources)
+		resources = ApplyFilters(f.(*schema.Set), resources, BucketsDataSource().Schema["bucket_summaries"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("bucket_summaries", resources); err != nil {
