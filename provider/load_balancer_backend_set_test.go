@@ -81,7 +81,7 @@ variable "backend_set_ssl_configuration_verify_depth" { default = "3" }
 variable "backend_set_ssl_configuration_verify_peer_certificate" { default = false }
 
 `
-	BackendSetResourceDependencies = LoadBalancerPropertyVariables + LoadBalancerResourceConfig
+	BackendSetResourceDependencies = LoadBalancerPropertyVariables + LoadBalancerRequiredOnlyResource
 )
 
 func TestLoadBalancerBackendSetResource_basic(t *testing.T) {
