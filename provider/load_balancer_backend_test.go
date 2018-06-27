@@ -14,7 +14,7 @@ const (
 	BackendRequiredOnlyResource = BackendResourceDependencies + `
 resource "oci_load_balancer_backend" "test_backend" {
 	#Required
-	backendset_name = "${var.backend_backendset_name}"
+	backendset_name = "${oci_load_balancer_backend_set.test_backend_set.name}"
 	ip_address = "${var.backend_ip_address}"
 	load_balancer_id = "${oci_load_balancer_load_balancer.test_load_balancer.id}"
 	port = "${var.backend_port}"
@@ -24,7 +24,7 @@ resource "oci_load_balancer_backend" "test_backend" {
 	BackendResourceConfig = BackendResourceDependencies + `
 resource "oci_load_balancer_backend" "test_backend" {
 	#Required
-	backendset_name = "${var.backend_backendset_name}"
+	backendset_name = "${oci_load_balancer_backend_set.test_backend_set.name}"
 	ip_address = "${var.backend_ip_address}"
 	load_balancer_id = "${oci_load_balancer_load_balancer.test_load_balancer.id}"
 	port = "${var.backend_port}"
@@ -46,7 +46,7 @@ variable "backend_port" { default = 10 }
 variable "backend_weight" { default = 10 }
 
 `
-	BackendResourceDependencies = LoadBalancerPropertyVariables + LoadBalancerResourceConfig
+	BackendResourceDependencies = BackendSetRequiredOnlyResource + BackendSetPropertyVariables
 )
 
 func TestLoadBalancerBackendResource_basic(t *testing.T) {
