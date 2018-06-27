@@ -48,7 +48,7 @@ resource "oci_identity_tag_namespace" "tag-namespace1" {
   		#Required
 		compartment_id = "${var.tenancy_ocid}"
   		description = "example tag namespace"
-  		name = "${var.defined_tag_namespace_name != "" ? var.defined_tag_namespace_name : "example-tag-namespace-${var.region}"}"
+  		name = "${var.defined_tag_namespace_name != "" ? var.defined_tag_namespace_name : "example-tag-namespace-all"}"
 
 		is_retired = false
 }
