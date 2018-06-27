@@ -129,7 +129,6 @@ resource "oci_database_db_system" "test_db_system" {
 	#Required
 	availability_domain = "${var.db_system_availability_domain}"
 	compartment_id = "${var.compartment_id}"
-	cpu_core_count = "${var.db_system_cpu_core_count}"
 	database_edition = "${var.db_system_database_edition}"
 	db_home {
 		#Required
@@ -164,6 +163,7 @@ resource "oci_database_db_system" "test_db_system" {
 	#Optional
 	backup_subnet_id = "${oci_database_backup_subnet.test_backup_subnet.id}"
 	cluster_name = "${var.db_system_cluster_name}"
+	cpu_core_count = "${var.db_system_cpu_core_count}"
 	data_storage_percentage = "${var.db_system_data_storage_percentage}"
 	data_storage_size_in_gb = "${var.db_system_data_storage_size_in_gb}"
 	disk_redundancy = "${var.db_system_disk_redundancy}"
