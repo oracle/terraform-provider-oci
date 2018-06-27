@@ -57,6 +57,9 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 	compartmentId := getRequiredEnvSetting("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
+	compartmentId2 := getRequiredEnvSetting("compartment_id_for_update")
+	compartmentId2VariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId2)
+
 	resourceName := "oci_objectstorage_bucket.test_bucket"
 	datasourceName := "data.oci_objectstorage_bucket_summaries.test_buckets"
 
@@ -111,6 +114,31 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 				),
 			},
 
+			// verify updates to compartment
+			{
+				Config: config + BucketPropertyVariables + compartmentId2VariableStr + BucketResourceConfig,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "access_type", "NoPublicAccess"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId2),
+					resource.TestCheckResourceAttrSet(resourceName, "created_by"),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "etag"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "metadata.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "name", "my-test-1"),
+					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
+					resource.TestCheckResourceAttr(resourceName, "storage_tier", "Standard"),
+					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = fromInstanceState(s, resourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+						}
+						return err
+					},
+				),
+			},
 			// verify updates to updatable parameters
 			{
 				Config: config + `
@@ -119,7 +147,7 @@ variable "bucket_defined_tags_value" { default = "updatedValue" }
 variable "bucket_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "bucket_metadata" { default = {"content-type" = "text/xml"} }
 variable "bucket_name" { default = "name2" }
-variable "bucket_storage_tier" { default = "Standard" }
+variable "bucket_storage_tier" { default = "Archive" }
 
                 ` + compartmentIdVariableStr + BucketResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
@@ -132,12 +160,12 @@ variable "bucket_storage_tier" { default = "Standard" }
 					resource.TestCheckResourceAttr(resourceName, "metadata.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "name", "name2"),
 					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
-					resource.TestCheckResourceAttr(resourceName, "storage_tier", "Standard"),
+					resource.TestCheckResourceAttr(resourceName, "storage_tier", "Archive"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, resourceName, "id")
-						// Reverse the check till we have absorbed the changes
+						// The id changes when the name changes
 						if resId == resId2 {
 							return fmt.Errorf("Resource updated when it was supposed to be recreated.")
 						}
