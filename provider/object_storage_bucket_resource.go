@@ -28,7 +28,6 @@ func BucketResource() *schema.Resource {
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
-				ForceNew: true,
 			},
 			"name": {
 				Type:     schema.TypeString,
@@ -130,7 +129,6 @@ type BucketResourceCrud struct {
 	DisableNotFoundRetries bool
 }
 
-// @CODEGEN 2/2018: Remove ID() function from here. This resource doesn't have an ID property.
 func (s *BucketResourceCrud) ID() string {
 	if s.Res.Namespace == nil || s.Res.Name == nil {
 		log.Printf("Could not get ID for bucket. The bucket namespace and/or name is nil")
@@ -195,8 +193,8 @@ func (s *BucketResourceCrud) Create() error {
 func (s *BucketResourceCrud) Get() error {
 	request := oci_object_storage.GetBucketRequest{}
 
-	if bucketName, ok := s.D.GetOkExists("name"); ok {
-		tmp := bucketName.(string)
+	if name, ok := s.D.GetOkExists("name"); ok {
+		tmp := name.(string)
 		request.BucketName = &tmp
 	}
 
@@ -223,9 +221,14 @@ func (s *BucketResourceCrud) Update() error {
 		request.PublicAccessType = oci_object_storage.UpdateBucketDetailsPublicAccessTypeEnum(accessType.(string))
 	}
 
-	if bucketName, ok := s.D.GetOkExists("name"); ok {
-		tmp := bucketName.(string)
+	if bucket, ok := s.D.GetOkExists("name"); ok {
+		tmp := bucket.(string)
 		request.BucketName = &tmp
+	}
+
+	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+		tmp := compartmentId.(string)
+		request.CompartmentId = &tmp
 	}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -279,8 +282,8 @@ func (s *BucketResourceCrud) Update() error {
 func (s *BucketResourceCrud) Delete() error {
 	request := oci_object_storage.DeleteBucketRequest{}
 
-	if bucketName, ok := s.D.GetOkExists("name"); ok {
-		tmp := bucketName.(string)
+	if name, ok := s.D.GetOkExists("name"); ok {
+		tmp := name.(string)
 		request.BucketName = &tmp
 	}
 
@@ -335,7 +338,3 @@ func (s *BucketResourceCrud) SetData() {
 	}
 
 }
-
-// @CODEGEN 2/2018: mapToObject functions are generated here because generator doesn't handle map types from the spec.
-// Metadata field actually needs to be converted to a map[string]string type.
-// Remove the mapToObject functions from here and use the converter from helpers_objectstorage.go

@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Changed
 - Default timeout changed from 5 minutes to 15 minutes to accommodate more resources that don't time out quicker.
+- Ability to update compartment of a bucket
 
 ## 2.1.13 - 2018-07-02
 
