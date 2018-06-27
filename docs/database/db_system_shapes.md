@@ -30,6 +30,10 @@ data "oci_database_db_system_shapes" "test_db_system_shapes" {
 
 The following attributes are exported:
 
-* `available_core_count` - The maximum number of CPU cores that can be enabled on the DB System.
+* `available_core_count` - The maximum number of CPU cores that can be enabled on the DB System for this shape.
+* `core_count_increment` - The discrete number by which the CPU core count for this shape can be increased or decreased.
+* `maximum_node_count` - The maximum number of database nodes available for this shape.
+* `minimum_core_count` - The minimum number of CPU cores that can be enabled on the DB System for this shape.
+* `minimum_node_count` - The minimum number of database nodes available for this shape.
 * `name` - The name of the shape used for the DB System.
 * `shape` - Deprecated. Use `name` instead of `shape`.

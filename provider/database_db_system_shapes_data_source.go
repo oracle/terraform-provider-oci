@@ -48,6 +48,22 @@ func DbSystemShapesDataSource() *schema.Resource {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
+						"core_count_increment": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"maximum_node_count": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"minimum_core_count": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"minimum_node_count": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
 						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -123,6 +139,7 @@ func (s *DbSystemShapesDataSourceCrud) Get() error {
 		s.Res.Items = append(s.Res.Items, listResponse.Items...)
 		request.Page = listResponse.OpcNextPage
 	}
+
 	return nil
 }
 
@@ -139,6 +156,22 @@ func (s *DbSystemShapesDataSourceCrud) SetData() {
 
 		if r.AvailableCoreCount != nil {
 			dbSystemShape["available_core_count"] = *r.AvailableCoreCount
+		}
+
+		if r.CoreCountIncrement != nil {
+			dbSystemShape["core_count_increment"] = *r.CoreCountIncrement
+		}
+
+		if r.MaximumNodeCount != nil {
+			dbSystemShape["maximum_node_count"] = *r.MaximumNodeCount
+		}
+
+		if r.MinimumCoreCount != nil {
+			dbSystemShape["minimum_core_count"] = *r.MinimumCoreCount
+		}
+
+		if r.MinimumNodeCount != nil {
+			dbSystemShape["minimum_node_count"] = *r.MinimumNodeCount
 		}
 
 		if r.Name != nil {
