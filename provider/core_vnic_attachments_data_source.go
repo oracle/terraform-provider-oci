@@ -180,7 +180,7 @@ func (s *VnicAttachmentsDataSourceCrud) SetData() {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources)
+		resources = ApplyFilters(f.(*schema.Set), resources, VnicAttachmentsDataSource().Schema["vnic_attachments"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("vnic_attachments", resources); err != nil {

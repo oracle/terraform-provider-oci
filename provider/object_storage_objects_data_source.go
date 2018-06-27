@@ -181,7 +181,7 @@ func (s *ObjectsDataSourceCrud) SetData() {
 	}
 
 	if f, fOk := s.D.GetOk("filter"); fOk {
-		objects = ApplyFilters(f.(*schema.Set), objects)
+		objects = ApplyFilters(f.(*schema.Set), objects, ObjectsDataSource().Schema["objects"].Elem.(*schema.Resource).Schema)
 	}
 
 	s.D.Set("objects", objects)

@@ -140,7 +140,7 @@ func (s *RemotePeeringConnectionsDataSourceCrud) SetData() {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources)
+		resources = ApplyFilters(f.(*schema.Set), resources, RemotePeeringConnectionsDataSource().Schema["remote_peering_connections"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("remote_peering_connections", resources); err != nil {

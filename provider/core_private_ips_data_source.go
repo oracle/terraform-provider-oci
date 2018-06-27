@@ -157,7 +157,7 @@ func (s *PrivateIpsDataSourceCrud) SetData() {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources)
+		resources = ApplyFilters(f.(*schema.Set), resources, PrivateIpsDataSource().Schema["private_ips"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("private_ips", resources); err != nil {

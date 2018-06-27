@@ -132,7 +132,7 @@ func (s *InstanceConsoleConnectionsDataSourceCrud) SetData() {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources)
+		resources = ApplyFilters(f.(*schema.Set), resources, InstanceConsoleConnectionsDataSource().Schema["instance_console_connections"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("instance_console_connections", resources); err != nil {

@@ -121,7 +121,7 @@ func (s *DynamicGroupsDataSourceCrud) SetData() {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources)
+		resources = ApplyFilters(f.(*schema.Set), resources, DynamicGroupsDataSource().Schema["dynamic_groups"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("dynamic_groups", resources); err != nil {

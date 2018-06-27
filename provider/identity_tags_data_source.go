@@ -119,7 +119,7 @@ func (s *TagsDataSourceCrud) SetData() {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources)
+		resources = ApplyFilters(f.(*schema.Set), resources, TagsDataSource().Schema["tags"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("tags", resources); err != nil {

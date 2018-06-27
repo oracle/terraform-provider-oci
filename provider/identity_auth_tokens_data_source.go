@@ -110,7 +110,7 @@ func (s *AuthTokensDataSourceCrud) SetData() {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources)
+		resources = ApplyFilters(f.(*schema.Set), resources, AuthTokensDataSource().Schema["auth_tokens"].Elem.(*schema.Resource).Schema)
 	}
 
 	// @CODEGEN 06/2018: auth_tokens => tokens

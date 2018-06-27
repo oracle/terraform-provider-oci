@@ -123,7 +123,7 @@ func (s *CompartmentsDataSourceCrud) SetData() {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources)
+		resources = ApplyFilters(f.(*schema.Set), resources, CompartmentsDataSource().Schema["compartments"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("compartments", resources); err != nil {

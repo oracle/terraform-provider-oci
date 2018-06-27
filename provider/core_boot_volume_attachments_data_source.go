@@ -189,7 +189,7 @@ func (s *BootVolumeAttachmentsDataSourceCrud) SetData() {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources)
+		resources = ApplyFilters(f.(*schema.Set), resources, BootVolumeAttachmentsDataSource().Schema["boot_volume_attachments"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("boot_volume_attachments", resources); err != nil {

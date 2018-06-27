@@ -125,7 +125,7 @@ func (s *RegionSubscriptionsDataSourceCrud) SetData() {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources)
+		resources = ApplyFilters(f.(*schema.Set), resources, RegionSubscriptionsDataSource().Schema["region_subscriptions"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("region_subscriptions", resources); err != nil {

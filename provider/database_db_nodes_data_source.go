@@ -152,7 +152,7 @@ func (s *DbNodesDataSourceCrud) SetData() {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources)
+		resources = ApplyFilters(f.(*schema.Set), resources, DbNodesDataSource().Schema["db_nodes"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("db_nodes", resources); err != nil {

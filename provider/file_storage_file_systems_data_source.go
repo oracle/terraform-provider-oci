@@ -149,7 +149,7 @@ func (s *FileSystemsDataSourceCrud) SetData() {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources)
+		resources = ApplyFilters(f.(*schema.Set), resources, FileSystemsDataSource().Schema["file_systems"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("file_systems", resources); err != nil {

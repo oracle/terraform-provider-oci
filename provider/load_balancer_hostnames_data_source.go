@@ -89,7 +89,7 @@ func (s *HostnamesDataSourceCrud) SetData() {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources)
+		resources = ApplyFilters(f.(*schema.Set), resources, HostnamesDataSource().Schema["hostnames"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("hostnames", resources); err != nil {

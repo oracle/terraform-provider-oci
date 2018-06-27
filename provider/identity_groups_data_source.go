@@ -123,7 +123,7 @@ func (s *GroupsDataSourceCrud) SetData() {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources)
+		resources = ApplyFilters(f.(*schema.Set), resources, GroupsDataSource().Schema["groups"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("groups", resources); err != nil {

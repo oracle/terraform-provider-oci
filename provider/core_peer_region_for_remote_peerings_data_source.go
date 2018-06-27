@@ -88,7 +88,7 @@ func (s *PeerRegionForRemotePeeringsDataSourceCrud) SetData() {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources)
+		resources = ApplyFilters(f.(*schema.Set), resources, PeerRegionForRemotePeeringsDataSource().Schema["peer_region_for_remote_peerings"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("peer_region_for_remote_peerings", resources); err != nil {

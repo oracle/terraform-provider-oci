@@ -152,7 +152,7 @@ func (s *VolumeBackupPoliciesDataSourceCrud) SetData() {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources)
+		resources = ApplyFilters(f.(*schema.Set), resources, VolumeBackupPoliciesDataSource().Schema["volume_backup_policies"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("volume_backup_policies", resources); err != nil {

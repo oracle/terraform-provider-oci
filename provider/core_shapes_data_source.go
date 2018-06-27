@@ -146,7 +146,7 @@ func (s *InstanceShapesDataSourceCrud) SetData() {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources)
+		resources = ApplyFilters(f.(*schema.Set), resources, InstanceShapesDataSource().Schema["shapes"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("shapes", resources); err != nil {

@@ -97,7 +97,7 @@ func (s *LoadBalancerPoliciesDataSourceCrud) SetData() {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources)
+		resources = ApplyFilters(f.(*schema.Set), resources, LoadBalancerPoliciesDataSource().Schema["policies"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("policies", resources); err != nil {

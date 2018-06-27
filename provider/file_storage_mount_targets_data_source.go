@@ -164,7 +164,7 @@ func (s *MountTargetsDataSourceCrud) SetData() {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources)
+		resources = ApplyFilters(f.(*schema.Set), resources, MountTargetsDataSource().Schema["mount_targets"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("mount_targets", resources); err != nil {
