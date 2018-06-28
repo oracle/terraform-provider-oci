@@ -14,26 +14,6 @@ The following attributes are exported:
 * `data_storage_percentage` - The percentage assigned to DATA storage (user data and database files). The remaining percentage is assigned to RECO storage (database redo logs, archive logs, and recovery manager backups). Accepted values are 40 and 80. 
 * `data_storage_size_in_gb` - Data storage size, in GBs, that is currently available to the DB system. This is applicable only for VM-based DBs. 
 * `database_edition` - The Oracle Database Edition that applies to all the databases on the DB System. 
-* `db_home`
-    * `database`
-        * `character_set` - The character set for the database.
-        * `db_backup_config` - 
-            * `auto_backup_enabled` - If set to true, configures automatic backups. If you previously used RMAN or dbcli to configure backups and then you switch to using the Console or the API for backups, a new backup configuration is created and associated with your database. This means that you can no longer rely on your previously configured unmanaged backups to work.
-        * `db_name` - The database name.
-        * `db_unique_name` - A system-generated name for the database to ensure uniqueness within an Oracle Data Guard group (a primary database and its standby databases). The unique name cannot be changed. 
-        * `db_workload` - Database workload type.
-        * `id` - The OCID of the database.
-        * `lifecycle_details` - Additional information about the current lifecycleState.
-        * `ncharacter_set` - The national character set for the database.
-        * `pdb_name` - Pluggable database name. It must begin with an alphabetic character and can contain a maximum of eight alphanumeric characters. Special characters are not permitted. Pluggable database should not be same as database name.
-        * `state` - The current state of the database.
-        * `time_created` - The date and time the database was created.
-    * `db_version` - The Oracle database version.
-    * `display_name` - The user-provided name for the database home. It does not need to be unique.
-    * `id` - The OCID of the database home.
-    * `last_patch_history_entry_id` - The OCID of the last patch history. This is updated as soon as a patch operation is started.
-    * `state` - The current state of the database home.
-    * `time_created` - The date and time the database home was created.
 * `disk_redundancy` - The type of redundancy configured for the DB System. Normal is 2-way redundancy. High is 3-way redundancy. 
 * `display_name` - The user-friendly name for the DB System. It does not have to be unique.
 * `domain` - The domain name for the DB System.
@@ -112,10 +92,6 @@ Updates the properties of a DB System, such as the CPU core count.
 The following arguments support updates:
 * `cpu_core_count` - The number of CPU cores to enable. The valid values depend on the specified shape:  - BM.DenseIO1.36 and BM.HighIO1.36 - Specify a multiple of 2, from 2 to 36. - BM.RACLocalStorage1.72 - Specify a multiple of 4, from 4 to 72. - Exadata.Quarter1.84 - Specify a multiple of 2, from 22 to 84. - Exadata.Half1.168 - Specify a multiple of 4, from 44 to 168. - Exadata.Full1.336 - Specify a multiple of 8, from 88 to 336.  For VM DB systems, the core count is inferred from the specific VM shape chosen, so this parameter is not used. 
 * `data_storage_size_in_gb` - Size, in GBs, of the initial data volume that will be created and attached to VM-shape based DB system. This storage can later be scaled up if needed. Note that the total storage size attached will be more than what is requested, to account for REDO/RECO space and software volume. 
-* `db_home` 
-	* `database`
-		* `db_backup_config`
-			* `auto_backup_enabled` - If set to true, configures automatic backups. If you previously used RMAN or dbcli to configure backups and then you switch to using the Console or the API for backups, a new backup configuration is created and associated with your database. This means that you can no longer rely on your previously configured unmanaged backups to work.
 * `ssh_public_keys` - The public key portion of the key pair to use for SSH access to the DB System. Multiple public keys can be provided. The length of the combined keys cannot exceed 10,000 characters.
 
 
@@ -193,36 +169,7 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `db_systems` - The list of db_systems
-    * `availability_domain` - The name of the Availability Domain that the DB System is located in.
-    * `backup_subnet_id` - The OCID of the backup network subnet the DB System is associated with. Applicable only to Exadata.  **Subnet Restriction:** See above subnetId's 'Subnet Restriction'. to malfunction. 
-    * `cluster_name` - Cluster name for Exadata and 2-node RAC DB Systems. The cluster name must begin with an an alphabetic character, and may contain hyphens (-). Underscores (_) are not permitted. The cluster name can be no longer than 11 characters and is not case sensitive. 
-    * `compartment_id` - The OCID of the compartment.
-    * `cpu_core_count` - The number of CPU cores enabled on the DB System.
-    * `data_storage_percentage` - The percentage assigned to DATA storage (user data and database files). The remaining percentage is assigned to RECO storage (database redo logs, archive logs, and recovery manager backups). Accepted values are 40 and 80. 
-    * `data_storage_size_in_gb` - Data storage size, in GBs, that is currently available to the DB system. This is applicable only for VM-based DBs. 
-    * `database_edition` - The Oracle Database Edition that applies to all the databases on the DB System. 
-    * `disk_redundancy` - The type of redundancy configured for the DB System. Normal is 2-way redundancy. High is 3-way redundancy. 
-    * `display_name` - The user-friendly name for the DB System. It does not have to be unique.
-    * `domain` - The domain name for the DB System.
-    * `hostname` - The host name for the DB Node.
-    * `id` - The OCID of the DB System.
-    * `last_patch_history_entry_id` - The OCID of the last patch history. This is updated as soon as a patch operation is started.
-    * `license_model` - The Oracle license model that applies to all the databases on the DB System. The default is LICENSE_INCLUDED. 
-    * `lifecycle_details` - Additional information about the current lifecycleState.
-    * `listener_port` - The port number configured for the listener on the DB System.
-    * `node_count` - Number of nodes in this DB system. For RAC DBs, this will be greater than 1. 
-    * `reco_storage_size_in_gb` - RECO/REDO storage size, in GBs, that is currently allocated to the DB system. This is applicable only for VM-based DBs. 
-    * `scan_dns_record_id` - The OCID of the DNS record for the SCAN IP addresses that are associated with the DB System. 
-    * `scan_ip_ids` - The OCID of the Single Client Access Name (SCAN) IP addresses associated with the DB System. SCAN IP addresses are typically used for load balancing and are not assigned to any interface. Clusterware directs the requests to the appropriate nodes in the cluster.  - For a single-node DB System, this list is empty. 
-    * `shape` - The shape of the DB System. The shape determines resources to allocate to the DB system - CPU cores and memory for VM shapes; CPU cores, memory and storage for non-VM (or bare metal) shapes.
-    * `ssh_public_keys` - The public key portion of one or more key pairs used for SSH access to the DB System.
-    * `state` - The current state of the DB System.
-    * `subnet_id` - The OCID of the subnet the DB System is associated with.  **Subnet Restrictions:** - For single node and 2-node (RAC) DB Systems, do not use a subnet that overlaps with 192.168.16.16/28 - For Exadata and VM-based RAC DB Systems, do not use a subnet that overlaps with 192.168.128.0/20  These subnets are used by the Oracle Clusterware private interconnect on the database instance. Specifying an overlapping subnet will cause the private interconnect to malfunction. This restriction applies to both the client subnet and backup subnet. 
-    * `time_created` - The date and time the DB System was created.
-    * `version` - The version of the DB System.
-    * `vip_ids` - The OCID of the virtual IP (VIP) addresses associated with the DB System. The Cluster Ready Services (CRS) creates and maintains one VIP address for each node in the DB System to enable failover. If one node fails, the VIP is reassigned to another active node in the cluster.  - For a single-node DB System, this list is empty. 
-
+* `db_systems` - The list of db_systems.
 
 ### Example Usage
 
