@@ -4,7 +4,7 @@ package provider
 
 import (
 	"context"
-	"log"
+	"fmt"
 
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/helper/validation"
@@ -215,6 +215,13 @@ func DbSystemResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"defined_tags": {
+				Type:             schema.TypeMap,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: definedTagsDiffSuppressFunction,
+				Elem:             schema.TypeString,
+			},
 			"disk_redundancy": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -232,6 +239,12 @@ func DbSystemResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				ForceNew: true,
+			},
+			"freeform_tags": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
 			},
 			"license_model": {
 				Type:     schema.TypeString,
@@ -392,7 +405,10 @@ func (s *DbSystemResourceCrud) DeletedTarget() []string {
 
 func (s *DbSystemResourceCrud) Create() error {
 	request := oci_database.LaunchDbSystemRequest{}
-	s.populateTopLevelPolymorphicLaunchDbSystemRequest(&request)
+	err := s.populateTopLevelPolymorphicLaunchDbSystemRequest(&request)
+	if err != nil {
+		return err
+	}
 
 	handleDbSimulationFlag(s.Client)
 
@@ -433,14 +449,26 @@ func (s *DbSystemResourceCrud) Update() error {
 		tmp := cpuCoreCount.(int)
 		request.CpuCoreCount = &tmp
 	}
-
-	if dataStorageSizeInGB, ok := s.D.GetOkExists("data_storage_size_in_gb"); ok {
-		tmp := dataStorageSizeInGB.(int)
-		request.DataStorageSizeInGBs = &tmp
+	if s.D.HasChange("data_storage_size_in_gb") {
+		if dataStorageSizeInGB, ok := s.D.GetOkExists("data_storage_size_in_gb"); ok {
+			tmp := dataStorageSizeInGB.(int)
+			request.DataStorageSizeInGBs = &tmp
+		}
 	}
-
 	tmp := s.D.Id()
 	request.DbSystemId = &tmp
+
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
 
 	request.SshPublicKeys = []string{}
 	if sshPublicKeys, ok := s.D.GetOkExists("ssh_public_keys"); ok {
@@ -509,6 +537,10 @@ func (s *DbSystemResourceCrud) SetData() {
 	// todo: at this point the DBHome object should be pulled and refreshed on this resource
 	//s.D.Set("db_home", s.Res.DBHome)
 
+	if s.Res.DefinedTags != nil {
+		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))
+	}
+
 	s.D.Set("disk_redundancy", s.Res.DiskRedundancy)
 
 	if s.Res.DisplayName != nil {
@@ -518,6 +550,8 @@ func (s *DbSystemResourceCrud) SetData() {
 	if s.Res.Domain != nil {
 		s.D.Set("domain", *s.Res.Domain)
 	}
+
+	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	// @codegen: Do not set hostname. Refreshing hostname causes undesirable diffs because the service may add a suffix
 	// as in the case of Exadatas. Possible implication when importing the resource.
@@ -775,7 +809,7 @@ func DbBackupConfigToMap(obj *oci_database.DbBackupConfig) map[string]interface{
 	return result
 }
 
-func (s *DbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystemRequest(request *oci_database.LaunchDbSystemRequest) {
+func (s *DbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystemRequest(request *oci_database.LaunchDbSystemRequest) error {
 	//discriminator
 	sourceRaw, ok := s.D.GetOkExists("source")
 	var source string
@@ -831,6 +865,13 @@ func (s *DbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystemRequest(
 			tmp := dataStorageSizeInGB.(int)
 			details.InitialDataStorageSizeInGB = &tmp
 		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
 		if displayName, ok := s.D.GetOkExists("display_name"); ok {
 			tmp := displayName.(string)
 			details.DisplayName = &tmp
@@ -838,6 +879,9 @@ func (s *DbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystemRequest(
 		if domain, ok := s.D.GetOkExists("domain"); ok {
 			tmp := domain.(string)
 			details.Domain = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		if hostname, ok := s.D.GetOkExists("hostname"); ok {
 			tmp := hostname.(string)
@@ -910,6 +954,13 @@ func (s *DbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystemRequest(
 			tmp := dataStorageSizeInGB.(int)
 			details.InitialDataStorageSizeInGB = &tmp
 		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
 		if displayName, ok := s.D.GetOkExists("display_name"); ok {
 			tmp := displayName.(string)
 			details.DisplayName = &tmp
@@ -917,6 +968,9 @@ func (s *DbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystemRequest(
 		if domain, ok := s.D.GetOkExists("domain"); ok {
 			tmp := domain.(string)
 			details.Domain = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		if hostname, ok := s.D.GetOkExists("hostname"); ok {
 			tmp := hostname.(string)
@@ -944,6 +998,7 @@ func (s *DbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystemRequest(
 		}
 		request.LaunchDbSystemDetails = details
 	default:
-		log.Printf("[WARN] Unknown source '%v' was specified", source)
+		return fmt.Errorf("Unknown source '%v' was specified", source)
 	}
+	return nil
 }
