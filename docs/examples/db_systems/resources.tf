@@ -37,20 +37,3 @@ resource "oci_database_backup" "test_backup" {
     display_name = "FirstBackup"
 }
 
-resource "oci_database_db_home" "second_db_home" {
-    database {
-        admin_password = "${var.db_admin_password}"
-        db_name = "${var.db_name}2"
-        character_set = "${var.character_set}"
-        ncharacter_set = "${var.n_character_set}"
-        db_workload = "${var.db_workload}"
-        db_backup_config {
-        	auto_backup_enabled = true    
-        }
-        backup_id = "${oci_database_backup.test_backup.id}"
-        backup_tde_password = "${var.db_admin_password}"
-    }
-    db_version = "${lookup(data.oci_database_db_versions.test_db_versions_by_db_system_id.db_versions[0], "version")}"
-    display_name = "${var.db_home_display_name}"
-    db_system_id = "${oci_database_db_system.test_db_system.id}"
-}
