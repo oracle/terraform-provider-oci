@@ -11,13 +11,10 @@ import (
 	"github.com/oracle/terraform-provider-oci/crud"
 )
 
-func NamespacesDataSource() *schema.Resource {
+func NamespaceDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readNamespaces,
+		Read: readSingularNamespace,
 		Schema: map[string]*schema.Schema{
-			// @CODEGEN: Removed the filter field. Generator recognizes this as a multiple datasource, but it's
-			// actually a singular datasource and should never require a client-side filter.
-
 			// Computed
 			// @CODEGEN 2/2018: No computed values are generated because the generator doesn't know what to do with
 			// responses that aren't reference types.
@@ -30,25 +27,25 @@ func NamespacesDataSource() *schema.Resource {
 	}
 }
 
-func readNamespaces(d *schema.ResourceData, m interface{}) error {
-	sync := &NamespacesDataSourceCrud{}
+func readSingularNamespace(d *schema.ResourceData, m interface{}) error {
+	sync := &NamespaceDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).objectStorageClient
 
 	return crud.ReadResource(sync)
 }
 
-type NamespacesDataSourceCrud struct {
+type NamespaceDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_object_storage.ObjectStorageClient
 	Res    *oci_object_storage.GetNamespaceResponse
 }
 
-func (s *NamespacesDataSourceCrud) VoidState() {
+func (s *NamespaceDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *NamespacesDataSourceCrud) Get() error {
+func (s *NamespaceDataSourceCrud) Get() error {
 	request := oci_object_storage.GetNamespaceRequest{}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "object_storage")
@@ -62,7 +59,7 @@ func (s *NamespacesDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *NamespacesDataSourceCrud) SetData() {
+func (s *NamespaceDataSourceCrud) SetData() {
 	if s.Res == nil {
 		return
 	}

@@ -1,19 +1,8 @@
 # oci_core_vnic
 
-## Vnic DataSource
+## Vnic Singular DataSource
 
-Gets a single VNIC
-
-### Get Operation
-Gets the information for the specified virtual network interface card (VNIC).
-You can get the VNIC OCID from the
-[ListVnicAttachments](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/VnicAttachment/ListVnicAttachments)
-operation.
-
-The following arguments are supported:
-
-* `vnic_id` - (Required) The OCID of the VNIC.
-
+### Vnic Reference
 
 The following attributes are exported:
 
@@ -32,6 +21,19 @@ The following attributes are exported:
 * `state` - The current state of the VNIC.
 * `subnet_id` - The OCID of the subnet the VNIC is in.
 * `time_created` - The date and time the VNIC was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
+
+
+
+### Get Operation
+Gets the information for the specified virtual network interface card (VNIC).
+You can get the VNIC OCID from the
+[ListVnicAttachments](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/VnicAttachment/ListVnicAttachments)
+operation.
+
+
+The following arguments are supported:
+
+* `vnic_id` - (Required) The OCID of the VNIC.
 
 
 ### Example Usage

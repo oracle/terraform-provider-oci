@@ -28,14 +28,14 @@ func TestCoreInstanceCredentialResource_basic(t *testing.T) {
 	compartmentId := getRequiredEnvSetting("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	datasourceName := "data.oci_core_instance_credentials.test_instance_credentials"
+	singularDatasourceName := "data.oci_core_instance_credentials.test_instance_credentials"
 
 	resource.Test(t, resource.TestCase{
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},
 		Steps: []resource.TestStep{
-			// verify datasource
+			// verify singular datasource
 			{
 				Config: config + `
 
@@ -45,12 +45,10 @@ data "oci_core_instance_credentials" "test_instance_credentials" {
 }
                 ` + compartmentIdVariableStr + InstanceCredentialResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttrSet(datasourceName, "instance_id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_id"),
 
-					resource.TestCheckResourceAttrSet(datasourceName, "instance_credentials.#"),
-					resource.TestCheckResourceAttrSet(datasourceName, "instance_credentials.0.instance_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "instance_credentials.0.password"),
-					resource.TestCheckResourceAttrSet(datasourceName, "instance_credentials.0.username"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "password"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "username"),
 				),
 			},
 		},

@@ -13,9 +13,8 @@ import (
 
 func TenancyDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readTenancies,
+		Read: readSingularTenancy,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
 			"tenancy_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -48,25 +47,25 @@ func TenancyDataSource() *schema.Resource {
 	}
 }
 
-func readTenancies(d *schema.ResourceData, m interface{}) error {
-	sync := &TenanciesDataSourceCrud{}
+func readSingularTenancy(d *schema.ResourceData, m interface{}) error {
+	sync := &TenancyDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
 	return crud.ReadResource(sync)
 }
 
-type TenanciesDataSourceCrud struct {
+type TenancyDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_identity.IdentityClient
 	Res    *oci_identity.GetTenancyResponse
 }
 
-func (s *TenanciesDataSourceCrud) VoidState() {
+func (s *TenancyDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *TenanciesDataSourceCrud) Get() error {
+func (s *TenancyDataSourceCrud) Get() error {
 	request := oci_identity.GetTenancyRequest{}
 
 	if tenancyId, ok := s.D.GetOkExists("tenancy_id"); ok {
@@ -85,14 +84,16 @@ func (s *TenanciesDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *TenanciesDataSourceCrud) SetData() {
+func (s *TenancyDataSourceCrud) SetData() {
 	if s.Res == nil {
 		return
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
 
-	s.D.Set("defined_tags", s.Res.DefinedTags)
+	if s.Res.DefinedTags != nil {
+		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))
+	}
 
 	if s.Res.Description != nil {
 		s.D.Set("description", *s.Res.Description)

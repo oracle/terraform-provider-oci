@@ -30,7 +30,8 @@ func TestCoreVnicResource_basic(t *testing.T) {
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_core_vnic.test_vnic"
-	datasourceName := "data.oci_core_vnics.test_vnics"
+
+	singularDatasourceName := "data.oci_core_vnic.test_vnic"
 
 	var resId, resId2 string
 
@@ -78,32 +79,25 @@ func TestCoreVnicResource_basic(t *testing.T) {
 					},
 				),
 			},
-			// verify datasource
+			// verify singular datasource
 			{
 				Config: config + `
 
-data "oci_core_vnics" "test_vnics" {
+data "oci_core_vnic" "test_vnic" {
 	#Required
 	vnic_id = "${oci_core_vnic.test_vnic.id}"
-
-    filter {
-    	name = "id"
-    	values = ["${oci_core_vnic.test_vnic.id}"]
-    }
 }
                 ` + compartmentIdVariableStr + VnicResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttrSet(datasourceName, "vnic_id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "vnic_id"),
 
-					resource.TestCheckResourceAttr(datasourceName, "vnic.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "vnic.0.availability_domain"),
-					resource.TestCheckResourceAttrSet(datasourceName, "vnic.0.compartment_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "vnic.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "vnic.0.private_ip_address"),
-					resource.TestCheckResourceAttrSet(datasourceName, "vnic.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "vnic.0.subnet_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "vnic.0.time_created"),
-					resource.TestCheckResourceAttrSet(datasourceName, "vnic.0.vnic_id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_domain"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "private_ip_address"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "subnet_id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				),
 			},
 		},

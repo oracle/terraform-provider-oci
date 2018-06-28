@@ -11,20 +11,16 @@ import (
 	"github.com/oracle/terraform-provider-oci/crud"
 )
 
-func IpSecConnectionDeviceStatusDataSource() *schema.Resource {
+func IpSecConnectionDeviceConfigDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readIpSecConnectionDeviceStatus,
+		Read: readSingularIpSecConnectionDeviceConfig,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"ipsec_id": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			// @CODEGEN 01/2018: Code gen incorrectly assumes that all datasources support List operations and
-			// will encapsulate the following fields in its own schema under a TypeList property.
-			//
-			// In the case of this data source, only Get operation is supported, so we only have one result and promote
-			// all the properties to the top-level. This also avoids a breaking change.
+			// Computed
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -46,21 +42,11 @@ func IpSecConnectionDeviceStatusDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"state": {
+						"shared_secret": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 						"time_created": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						// @Deprecated 01/2018: time_state_modifed => time_state_modified
-						"time_state_modifed": {
-							Deprecated: crud.FieldDeprecatedForAnother("time_state_modifed", "time_state_modified"),
-							Type:       schema.TypeString,
-							Computed:   true,
-						},
-						"time_state_modified": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -71,35 +57,35 @@ func IpSecConnectionDeviceStatusDataSource() *schema.Resource {
 	}
 }
 
-func readIpSecConnectionDeviceStatus(d *schema.ResourceData, m interface{}) error {
-	sync := &IpSecConnectionDeviceStatusDataSourceCrud{}
+func readSingularIpSecConnectionDeviceConfig(d *schema.ResourceData, m interface{}) error {
+	sync := &IpSecConnectionDeviceConfigDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return crud.ReadResource(sync)
 }
 
-type IpSecConnectionDeviceStatusDataSourceCrud struct {
+type IpSecConnectionDeviceConfigDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.VirtualNetworkClient
-	Res    *oci_core.GetIPSecConnectionDeviceStatusResponse
+	Res    *oci_core.GetIPSecConnectionDeviceConfigResponse
 }
 
-func (s *IpSecConnectionDeviceStatusDataSourceCrud) VoidState() {
+func (s *IpSecConnectionDeviceConfigDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *IpSecConnectionDeviceStatusDataSourceCrud) Get() error {
-	request := oci_core.GetIPSecConnectionDeviceStatusRequest{}
+func (s *IpSecConnectionDeviceConfigDataSourceCrud) Get() error {
+	request := oci_core.GetIPSecConnectionDeviceConfigRequest{}
 
-	if ipscId, ok := s.D.GetOkExists("ipsec_id"); ok {
-		tmp := ipscId.(string)
+	if ipsecId, ok := s.D.GetOkExists("ipsec_id"); ok {
+		tmp := ipsecId.(string)
 		request.IpscId = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
 
-	response, err := s.Client.GetIPSecConnectionDeviceStatus(context.Background(), request)
+	response, err := s.Client.GetIPSecConnectionDeviceConfig(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -108,7 +94,7 @@ func (s *IpSecConnectionDeviceStatusDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *IpSecConnectionDeviceStatusDataSourceCrud) SetData() {
+func (s *IpSecConnectionDeviceConfigDataSourceCrud) SetData() {
 	if s.Res == nil {
 		return
 	}
@@ -133,7 +119,7 @@ func (s *IpSecConnectionDeviceStatusDataSourceCrud) SetData() {
 
 	tunnels := []map[string]interface{}{}
 	for _, item := range s.Res.Tunnels {
-		tunnels = append(tunnels, TunnelStatusToMap(item))
+		tunnels = append(tunnels, TunnelConfigToMap(item))
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
@@ -147,24 +133,19 @@ func (s *IpSecConnectionDeviceStatusDataSourceCrud) SetData() {
 	return
 }
 
-func TunnelStatusToMap(obj oci_core.TunnelStatus) map[string]interface{} {
+func TunnelConfigToMap(obj oci_core.TunnelConfig) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	if obj.IpAddress != nil {
 		result["ip_address"] = string(*obj.IpAddress)
 	}
 
-	result["state"] = string(obj.LifecycleState)
+	if obj.SharedSecret != nil {
+		result["shared_secret"] = string(*obj.SharedSecret)
+	}
 
 	if obj.TimeCreated != nil {
 		result["time_created"] = obj.TimeCreated.String()
-	}
-
-	if obj.TimeStateModified != nil {
-		// @Deprecated 01/2018: time_state_modifed => time_state_modified
-		result["time_state_modifed"] = obj.TimeStateModified.String()
-
-		result["time_state_modified"] = obj.TimeStateModified.String()
 	}
 
 	return result
