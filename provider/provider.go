@@ -26,6 +26,7 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 	oci_database "github.com/oracle/oci-go-sdk/database"
 	oci_dns "github.com/oracle/oci-go-sdk/dns"
+	oci_email "github.com/oracle/oci-go-sdk/email"
 	oci_file_storage "github.com/oracle/oci-go-sdk/filestorage"
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
@@ -200,6 +201,10 @@ func dataSourcesMap() map[string]*schema.Resource {
 		"oci_database_db_home_patch_history_entries":   DbHomePatchHistoryEntriesDataSource(),
 		"oci_dns_records":                              RecordsDataSource(),
 		"oci_dns_zones":                                ZonesDataSource(),
+		"oci_email_senders":                            SendersDataSource(),
+		"oci_email_sender":                             SenderDataSource(),
+		"oci_email_suppressions":                       SuppressionsDataSource(),
+		"oci_email_suppression":                        SuppressionDataSource(),
 		"oci_file_storage_exports":                     ExportsDataSource(),
 		"oci_file_storage_export_sets":                 ExportSetsDataSource(),
 		"oci_file_storage_file_systems":                FileSystemsDataSource(),
@@ -216,6 +221,7 @@ func dataSourcesMap() map[string]*schema.Resource {
 		"oci_identity_idp_group_mappings":              IdpGroupMappingsDataSource(),
 		"oci_identity_policies":                        IdentityPoliciesDataSource(),
 		"oci_identity_regions":                         RegionsDataSource(),
+		"oci_identity_smtp_credentials":                SmtpCredentialsDataSource(),
 		"oci_identity_swift_passwords":                 SwiftPasswordsDataSource(),
 		"oci_identity_tag_namespaces":                  TagNamespacesDataSource(),
 		"oci_identity_tags":                            TagsDataSource(),
@@ -282,6 +288,8 @@ func resourcesMap() map[string]*schema.Resource {
 		"oci_database_backup":                  BackupResource(),
 		"oci_dns_record":                       RecordResource(),
 		"oci_dns_zone":                         ZoneResource(),
+		"oci_email_sender":                     SenderResource(),
+		"oci_email_suppression":                SuppressionResource(),
 		"oci_file_storage_export":              ExportResource(),
 		"oci_file_storage_export_set":          ExportSetResource(),
 		"oci_file_storage_file_system":         FileSystemResource(),
@@ -296,6 +304,7 @@ func resourcesMap() map[string]*schema.Resource {
 		"oci_identity_identity_provider":       IdentityProviderResource(),
 		"oci_identity_idp_group_mapping":       IdpGroupMappingResource(),
 		"oci_identity_policy":                  PolicyResource(),
+		"oci_identity_smtp_credential":         SmtpCredentialResource(),
 		"oci_identity_swift_password":          SwiftPasswordResource(),
 		"oci_identity_tag_namespace":           TagNamespaceResource(),
 		"oci_identity_tag":                     TagResource(),
@@ -439,6 +448,11 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 		return
 	}
 
+	emailClient, err := oci_email.NewEmailClientWithConfigurationProvider(officialSdkConfigProvider)
+	if err != nil {
+		return
+	}
+
 	fileStorageClient, err := oci_file_storage.NewFileStorageClientWithConfigurationProvider(officialSdkConfigProvider)
 	if err != nil {
 		return
@@ -542,12 +556,17 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 	if err != nil {
 		return
 	}
+	err = configureClient(&emailClient.BaseClient)
+	if err != nil {
+		return
+	}
 
 	clients.auditClient = &auditClient
 	clients.blockstorageClient = &blockstorageClient
 	clients.computeClient = &computeClient
 	clients.databaseClient = &databaseClient
 	clients.dnsClient = &dnsClient
+	clients.emailClient = &emailClient
 	clients.fileStorageClient = &fileStorageClient
 	clients.identityClient = &identityClient
 	clients.loadBalancerClient = &loadBalancerClient
@@ -568,6 +587,7 @@ type OracleClients struct {
 	objectStorageClient  *oci_object_storage.ObjectStorageClient
 	loadBalancerClient   *oci_load_balancer.LoadBalancerClient
 	fileStorageClient    *oci_file_storage.FileStorageClient
+	emailClient          *oci_email.EmailClient
 }
 
 type ResourceDataConfigProvider struct {

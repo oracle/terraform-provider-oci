@@ -67,12 +67,28 @@ resource "oci_identity_customer_secret_key" "customer-secret-key1" {
 }
 
 data "oci_identity_customer_secret_keys" "customer-secret-keys1" {
-  user_id = "${oci_identity_user.user1.id}"
+  user_id = "${oci_identity_customer_secret_key.customer-secret-key1.user_id}"
 }
 
 output "customer-secret-key" {
   value = [
     "${oci_identity_customer_secret_key.customer-secret-key1.key}",
     "${data.oci_identity_customer_secret_keys.customer-secret-keys1.customer_secret_keys}"
+  ]
+}
+
+resource "oci_identity_smtp_credential" "smtp-credential-1" {
+  description = "tf-example-smtp-credential"
+  user_id = "${oci_identity_user.user1.id}"
+}
+
+data "oci_identity_smtp_credentials" "smtp-credentials-1" {
+  user_id = "${oci_identity_smtp_credential.smtp-credential-1.user_id}"
+}
+
+output "smtp-credential" {
+  value = [
+    "${oci_identity_smtp_credential.smtp-credential-1.password}",
+    "${data.oci_identity_smtp_credentials.smtp-credentials-1.smtp_credentials}",
   ]
 }
