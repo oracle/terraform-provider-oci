@@ -46,9 +46,9 @@ The example on this folder creates VCNs, Subnets and File Systems in 2 different
 
 * Execute [`terraform apply`](https://www.terraform.io/docs/commands/apply.html) to apply the changes.
 
-* Terraform should create all objects and will finish up the execution only after cloud-init completes the process of setting up the cron-job. This may take awhile because rsync and nfs-utils are installed during the bootstrap process. 
+* Terraform should create all objects and will finish up the execution only after cloud-init completes the process of setting up the cron-job. This may take awhile because rsync and nfs-utils are installed during the bootstrap process. All the mount points are also mounted at this time. By default, the source File System will be mounted at `/mnt/src_fs_demo` folder and destination folder mounted at `/mnt/dst_fs_demo`.
 
-* After creating all the required resources for running this sample (VCNs, subnets, security lists, route tables, etc), at least one instance will be created. At the end of the execution, both public and private IP address of each instance will be displayed in the console so that you should be able to ssh to the instance to modify the file system. By default, the source File System will be mounted to the `/mnt/src_fs_demo` folder. Destination folder is `/mnt/dst_fs_demo`.
+* After creating all the required resources for running this sample (VCNs, subnets, security lists, route tables, etc), at least one instance will be created. At the end of the execution, both public and private IP address of each instance will be displayed in the console so that you should be able to ssh to the instance to modify the file system. 
 
 * You can write some files in the source file system for testing the data replication
     * Run `sudo touch  file{001..100}.txt`
@@ -69,7 +69,7 @@ Is used to export the environmental variables used in the configuration. These a
 Before you plan, apply, or destroy the configuration source the file -  
 `$ . env-vars`
 
-### `provider.tf`
+#### `provider.tf`
 Defines the provider configuration
 
 #### `variables.tf`
@@ -81,17 +81,17 @@ Defines the network resources - VCN, subnets and other related resources in Ashb
 #### `network_phx.tf`
 Defines the network resources - VCN, subnets and other related resources in Phoenix region
 
-### `fss.tf`
+#### `fss.tf`
 Defines the File Storage Service configuration
 
-### `locals.tf`
+#### `locals.tf`
 Defines the [local values](https://www.terraform.io/docs/configuration/locals.html) to use within a module
 
-### `data_source_iad.tf`
+#### `data_source_iad.tf`
 Defines the Data Source information related to Ashburn region
 
-### `data_source_phx.tf`
+#### `data_source_phx.tf`
 Defines the Data Source information related to Phoenix region
 
-### `output.tf`
+#### `output.tf`
 Shows the IP addresses of each FSS mount target
