@@ -3,7 +3,10 @@ All notable changes to this project are documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
-## 2.1.14 - 2018-07-xx
+## 2.1.14 - 2018-07-12
+
+### Added
+- Ability to create and manage email approved senders, suppressions, and smtp credentials
 
 ### Changed
 - Default timeout changed from 5 minutes to 15 minutes to accommodate more resources that don't time out quicker.

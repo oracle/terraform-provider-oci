@@ -49,6 +49,9 @@ This lists all of the available OCI resources and/or data sources.
 * **DNS**
     * [Records](https://github.com/oracle/terraform-provider-oci/tree/master/docs/dns/records.md)
     * [Zones](https://github.com/oracle/terraform-provider-oci/tree/master/docs/dns/zones.md)
+* **Email**
+    * [Senders](https://github.com/oracle/terraform-provider-oci/tree/master/docs/email/senders.md)
+    * [Suppressions](https://github.com/oracle/terraform-provider-oci/tree/master/docs/email/suppressions.md)
 * **File Storage**
     * [Exports](https://github.com/oracle/terraform-provider-oci/blob/master/docs/file_storage/exports.md)
     * [Export Sets](https://github.com/oracle/terraform-provider-oci/blob/master/docs/file_storage/export_sets.md)
@@ -69,6 +72,7 @@ This lists all of the available OCI resources and/or data sources.
     * [Region Subscriptions](https://github.com/oracle/terraform-provider-oci/tree/master/docs/identity/region_subscriptions.md)
     * [Regions](https://github.com/oracle/terraform-provider-oci/tree/master/docs/identity/regions.md)
     * ~~[Swift Passwords](https://github.com/oracle/terraform-provider-oci/tree/master/docs/identity/swift_passwords.md)~~ [DEPRECATED]
+    * [Smtp Credentials](https://github.com/oracle/terraform-provider-oci/tree/master/docs/identity/smtp_credentials.md)
     * [Tag Namespaces](https://github.com/oracle/terraform-provider-oci/tree/master/docs/identity/tag_namespaces.md)
     * [Tags](https://github.com/oracle/terraform-provider-oci/tree/master/docs/identity/tags.md)
     * [Tenancies](https://github.com/oracle/terraform-provider-oci/tree/master/docs/identity/tenancies.md)
