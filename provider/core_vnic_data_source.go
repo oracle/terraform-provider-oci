@@ -11,22 +11,15 @@ import (
 	"github.com/oracle/terraform-provider-oci/crud"
 )
 
-func VnicsDataSource() *schema.Resource {
+func VnicDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readVnics,
+		Read: readSingularVnic,
 		Schema: map[string]*schema.Schema{
-			//@CODEGEN 1/2018: Generated code would have added a filter here. We remove it since this is a singular
-			// data source.
 			"vnic_id": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			// @CODEGEN 01/2018: Code gen incorrectly assumes that all datasources support List operations and
-			// will encapsulate the following fields in its own schema under a TypeList property.
-			//
-			// In the case of this data source, only Get operation is supported, so we only have one result and promote
-			// all the properties to the top-level. This also avoids a breaking change. The SetData function also
-			// differs from generated code in this respect.
+			// Computed
 			"availability_domain": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -66,12 +59,10 @@ func VnicsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			// @CODEGEN 1/2018: private_ip => private_ip_address
 			"private_ip_address": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			// @CODEGEN 1/2018: public_ip => public_ip_address
 			"public_ip_address": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -96,25 +87,25 @@ func VnicsDataSource() *schema.Resource {
 	}
 }
 
-func readVnics(d *schema.ResourceData, m interface{}) error {
-	sync := &VnicsDataSourceCrud{}
+func readSingularVnic(d *schema.ResourceData, m interface{}) error {
+	sync := &VnicDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return crud.ReadResource(sync)
 }
 
-type VnicsDataSourceCrud struct {
+type VnicDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.VirtualNetworkClient
 	Res    *oci_core.GetVnicResponse
 }
 
-func (s *VnicsDataSourceCrud) VoidState() {
+func (s *VnicDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *VnicsDataSourceCrud) Get() error {
+func (s *VnicDataSourceCrud) Get() error {
 	request := oci_core.GetVnicRequest{}
 
 	if vnicId, ok := s.D.GetOkExists("vnic_id"); ok {
@@ -133,7 +124,7 @@ func (s *VnicsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *VnicsDataSourceCrud) SetData() {
+func (s *VnicDataSourceCrud) SetData() {
 	if s.Res == nil {
 		return
 	}

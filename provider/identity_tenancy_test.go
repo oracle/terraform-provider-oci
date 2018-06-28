@@ -13,26 +13,27 @@ func TestIdentityTenancyResource_basic(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 
-	datasourceName := "data.oci_identity_tenancy.test_tenancy"
+	singularDatasourceName := "data.oci_identity_tenancy.test_tenancy"
 
 	resource.Test(t, resource.TestCase{
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},
 		Steps: []resource.TestStep{
-			// verify datasource
+			// verify singular datasource
 			{
 				Config: config + `
 
 data "oci_identity_tenancy" "test_tenancy" {
+	#Required
 	tenancy_id = "${var.tenancy_ocid}"
 }
                 `,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttrSet(datasourceName, "tenancy_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "description"),
-					resource.TestCheckResourceAttrSet(datasourceName, "home_region_key"),
-					resource.TestCheckResourceAttrSet(datasourceName, "name"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "tenancy_id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "description"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "home_region_key"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "name"),
 				),
 			},
 		},

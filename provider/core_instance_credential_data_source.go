@@ -11,20 +11,20 @@ import (
 	"github.com/oracle/terraform-provider-oci/crud"
 )
 
-func InstanceCredentialsDataSource() *schema.Resource {
+func InstanceCredentialDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readInstanceCredentials,
+		Read: readSingularInstanceCredential,
 		Schema: map[string]*schema.Schema{
-			// InstanceCredentials is a single-value data source.
 			"instance_id": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"username": {
+			// Computed
+			"password": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"password": {
+			"username": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -32,21 +32,25 @@ func InstanceCredentialsDataSource() *schema.Resource {
 	}
 }
 
-func readInstanceCredentials(d *schema.ResourceData, m interface{}) error {
-	sync := &InstanceCredentialsDataSourceCrud{}
+func readSingularInstanceCredential(d *schema.ResourceData, m interface{}) error {
+	sync := &InstanceCredentialDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient
 
 	return crud.ReadResource(sync)
 }
 
-type InstanceCredentialsDataSourceCrud struct {
-	crud.BaseCrud
+type InstanceCredentialDataSourceCrud struct {
+	D      *schema.ResourceData
 	Client *oci_core.ComputeClient
 	Res    *oci_core.GetWindowsInstanceInitialCredentialsResponse
 }
 
-func (s *InstanceCredentialsDataSourceCrud) Get() error {
+func (s *InstanceCredentialDataSourceCrud) VoidState() {
+	s.D.SetId("")
+}
+
+func (s *InstanceCredentialDataSourceCrud) Get() error {
 	request := oci_core.GetWindowsInstanceInitialCredentialsRequest{}
 
 	if instanceId, ok := s.D.GetOkExists("instance_id"); ok {
@@ -65,7 +69,7 @@ func (s *InstanceCredentialsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *InstanceCredentialsDataSourceCrud) SetData() {
+func (s *InstanceCredentialDataSourceCrud) SetData() {
 	if s.Res == nil {
 		return
 	}
