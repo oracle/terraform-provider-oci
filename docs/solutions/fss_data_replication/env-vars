@@ -1,0 +1,24 @@
+### Tenancy OCID
+export TF_VAR_tenancy_ocid="ocid1.tenancy.oc1..aaaaaaaafruudnficveu7..."
+
+### Compartment OCID
+export TF_VAR_compartment_id="ocid1.compartment.oc1..aaaaaaaap4d7..."
+
+### User OCID
+export TF_VAR_user_ocid="ocid1.user.oc1..aaaaaaaaye7iyeamivew..."
+
+### User RSA public key fingerprint
+export TF_VAR_fingerprint="a9:8f:b3:a8:5e:2b:76:47:..."
+
+### User RSA private key file path
+export TF_VAR_private_key_path="/data/private-key"
+
+### SSH Public/Private keys used on the instance
+### For more information, see https://docs.us-phoenix-1.oraclecloud.com/Content/Compute/Tasks/managingkeypairs.htm
+export TF_VAR_ssh_public_key_path="/data/id_rsa.pub"
+export TF_VAR_ssh_private_key_path="/data/id_rsa"
+
+### Region to operate
+### For more information, see https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/regions.htm
+export TF_VAR_region_iad="us-ashburn-1"
+export TF_VAR_region_phx="us-phoenix-1"
