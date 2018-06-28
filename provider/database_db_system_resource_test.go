@@ -3,6 +3,7 @@
 package provider
 
 import (
+	"fmt"
 	"testing"
 
 	"regexp"
@@ -271,19 +272,19 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_allB
 					resource.TestCheckResourceAttrSet("data.oci_database_db_systems.t", "db_systems.0.hostname"), // see comment in SetData fn as to why this is removed
 					resource.TestCheckResourceAttr("data.oci_database_db_systems.t", "db_systems.0.license_model", "LICENSE_INCLUDED"),
 
-					/* The following fields are null when retrieved via data source. Some were never populated, some nulls might be BM vs VM behavior.
-					   maybe LIST summary vs GET behavior
-						"backupSubnetId":null,
-						"clusterName":null,
-						"dataStorageSizeInGBs":null,
-						"lastPatchHistoryEntryId":null,
-						"lifecycleDetails":null,
-						"nodeCount":null,
-						"recoStorageSizeInGB":null,
-						"scanDnsRecordId":null,
-						"scanIpIds":null,
-						"vipIds":null
-					*/
+					// The following fields are null when retrieved via data source. Some were never populated, some nulls might be BM vs VM behavior.
+					//   maybe LIST summary vs GET behavior
+					//	"backupSubnetId":null,
+					//	"clusterName":null,
+					//	"dataStorageSizeInGBs":null,
+					//	"lastPatchHistoryEntryId":null,
+					//	"lifecycleDetails":null,
+					//	"nodeCount":null,
+					//	"recoStorageSizeInGB":null,
+					//	"scanDnsRecordId":null,
+					//	"scanIpIds":null,
+					//	"vipIds":null
+
 					resource.TestCheckResourceAttrSet("data.oci_database_db_systems.t", "db_systems.0.data_storage_size_in_gb"),
 					resource.TestCheckResourceAttrSet("data.oci_database_db_systems.t", "db_systems.0.node_count"),
 					resource.TestCheckResourceAttr("data.oci_database_db_systems.t", "db_systems.0.state", string(database.DbSystemLifecycleStateAvailable)),
@@ -385,6 +386,7 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_allV
 		s.T().Skip("Skipping VM test due to tenancy limits.")
 	}
 
+	var resId, resId2 string
 	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
@@ -423,6 +425,8 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_allV
 							}
 						}
 					}
+					defined_tags = "${map("example-tag-namespace-all.example-tag", "originalValue")}"
+					freeform_tags = {"Department"= "Finance"}
 				}
 				data "oci_database_db_systems" "t" {
 					compartment_id = "${var.compartment_id}"
@@ -496,6 +500,8 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_allV
 					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.database.0.pdb_name", "pdbName"),
 					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.database.0.db_backup_config.0.auto_backup_enabled", "true"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(database.DbSystemLifecycleStateAvailable)),
+					resource.TestCheckResourceAttr(s.ResourceName, "defined_tags.example-tag-namespace-all.example-tag", "originalValue"),
+					resource.TestCheckResourceAttr(s.ResourceName, "freeform_tags.Department", "Finance"),
 
 					// Data Source tests
 					// DBSystems Data Source
@@ -520,6 +526,8 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_allV
 					resource.TestCheckResourceAttr("data.oci_database_db_systems.t", "db_systems.0.node_count", "1"),
 					resource.TestCheckResourceAttr("data.oci_database_db_systems.t", "db_systems.0.reco_storage_size_in_gb", "256"),
 					resource.TestCheckResourceAttr("data.oci_database_db_systems.t", "db_systems.0.listener_port", "1521"),
+					resource.TestCheckResourceAttr("data.oci_database_db_systems.t", "db_systems.0.defined_tags.example-tag-namespace-all.example-tag", "originalValue"),
+					resource.TestCheckResourceAttr("data.oci_database_db_systems.t", "db_systems.0.freeform_tags.Department", "Finance"),
 
 					/* The following fields are null when retrieved via data source. Some were never populated, some nulls might be BM vs VM behavior.
 					   maybe LIST summary vs GET behavior
@@ -620,6 +628,133 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_allV
 					//resource.TestCheckResourceAttrSet("data.oci_database_db_node.t", "vnic_id"), // believe this is null when using FAKEHOSTSERIAL header
 					//resource.TestCheckResourceAttrSet("data.oci_database_db_node.t", "backup_vnic_id"),
 					resource.TestCheckResourceAttr("data.oci_database_db_node.t", "software_storage_size_in_gb", "200"),
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, "oci_database_db_system.t", "id")
+						return err
+					},
+				),
+			},
+			// verify update
+			{
+				ImportState:       true,
+				ImportStateVerify: true,
+				Config: s.Config + s.TokenFn(`
+				resource "oci_database_db_system" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${var.compartment_id}"
+					subnet_id = "${oci_core_subnet.t.id}"
+					//backup_subnet_id = "${oci_core_subnet.t2.id}" // this requires a specific shape
+					database_edition = "ENTERPRISE_EDITION"
+					disk_redundancy = "NORMAL"
+					cpu_core_count = "1"
+					shape = "VM.Standard1.1"
+					ssh_public_keys = ["ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"]
+					display_name = "{{.token}}"
+					domain = "${oci_core_subnet.t.dns_label}.${oci_core_virtual_network.t.dns_label}.oraclevcn.com"
+					hostname = "myOracleDB" // this will be lowercased server side
+					data_storage_size_in_gb = "512"
+					license_model = "LICENSE_INCLUDED"
+					node_count = "1"
+					db_home {
+						db_version = "12.1.0.2"
+						display_name = "-tf-db-home"
+						database {
+							"admin_password" = "BEstrO0ng_#11"
+							"db_name" = "aTFdb"
+							character_set = "AL32UTF8"
+							ncharacter_set = "AL16UTF16"
+							db_workload = "OLTP"
+							pdb_name = "pdbName"
+							db_backup_config {
+								auto_backup_enabled = true
+							}
+						}
+					}
+					defined_tags = "${map("example-tag-namespace-all.example-tag", "updateValue")}"
+					freeform_tags = {"Department"= "Admin"}
+				}
+				data "oci_database_db_systems" "t" {
+					compartment_id = "${var.compartment_id}"
+					filter {
+						name   = "id"
+						values = ["${oci_database_db_system.t.id}"]
+					}
+				}
+				data "oci_database_db_homes" "t" {
+					compartment_id = "${var.compartment_id}"
+					db_system_id = "${oci_database_db_system.t.id}"
+					filter {
+						name   = "db_system_id"
+						values = ["${oci_database_db_system.t.id}"]
+					}
+				}
+				data "oci_database_db_home" "t" {
+					db_home_id = "${data.oci_database_db_homes.t.db_homes.0.db_home_id}"
+				}
+				data "oci_database_databases" "t" {
+					compartment_id = "${var.compartment_id}"
+					db_home_id = "${data.oci_database_db_homes.t.db_homes.0.id}"
+					filter {
+						name   = "db_name"
+						values = ["${oci_database_db_system.t.db_home.0.database.0.db_name}"]
+					}
+				}
+				data "oci_database_database" "t" {
+					  database_id = "${data.oci_database_databases.t.databases.0.id}"
+				}
+				data "oci_database_db_nodes" "t" {
+					compartment_id = "${var.compartment_id}"
+					db_system_id = "${oci_database_db_system.t.id}"
+					filter {
+						name   = "db_system_id"
+						values = ["${oci_database_db_system.t.id}"]
+					}
+				}
+				data "oci_database_db_node" "t" {
+					db_node_id = "${data.oci_database_db_nodes.t.db_nodes.0.id}"
+				}`, nil),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					// DB System Resource tests
+					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "compartment_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "subnet_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
+					resource.TestCheckResourceAttr(s.ResourceName, "database_edition", "ENTERPRISE_EDITION"),
+					resource.TestCheckResourceAttr(s.ResourceName, "disk_redundancy", "NORMAL"),
+					resource.TestCheckResourceAttr(s.ResourceName, "shape", "VM.Standard1.1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "cpu_core_count", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "ssh_public_keys.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "ssh_public_keys.0", "ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"),
+					resource.TestCheckResourceAttr(s.ResourceName, "display_name", s.Token),
+					resource.TestCheckResourceAttr(s.ResourceName, "domain", "tfsubnet.tfvcn.oraclevcn.com"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "hostname"), // see comment in SetData fn as to why this is removed
+					resource.TestCheckResourceAttr(s.ResourceName, "license_model", "LICENSE_INCLUDED"),
+					resource.TestCheckResourceAttr(s.ResourceName, "data_storage_size_in_gb", "512"),
+					resource.TestCheckResourceAttr(s.ResourceName, "data_storage_percentage", "80"),
+					resource.TestCheckResourceAttr(s.ResourceName, "node_count", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "reco_storage_size_in_gb", "256"),
+					resource.TestCheckResourceAttr(s.ResourceName, "listener_port", "1521"),
+					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.db_version", "12.1.0.2"),
+					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.display_name", "-tf-db-home"),
+					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.database.0.admin_password", "BEstrO0ng_#11"),
+					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.database.0.db_name", "aTFdb"),
+					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.database.0.character_set", "AL32UTF8"),
+					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.database.0.ncharacter_set", "AL16UTF16"),
+					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.database.0.db_workload", "OLTP"),
+					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.database.0.pdb_name", "pdbName"),
+					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.database.0.db_backup_config.0.auto_backup_enabled", "true"),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", string(database.DbSystemLifecycleStateAvailable)),
+					resource.TestCheckResourceAttr(s.ResourceName, "defined_tags.example-tag-namespace-all.example-tag", "updateValue"),
+					resource.TestCheckResourceAttr(s.ResourceName, "freeform_tags.Department", "Admin"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = fromInstanceState(s, "oci_database_db_system.t", "id")
+						if resId != resId2 {
+							return fmt.Errorf("expected same ocids, got different")
+						}
+						return err
+					},
 				),
 			},
 		},

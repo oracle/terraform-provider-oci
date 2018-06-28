@@ -14,9 +14,11 @@ The following attributes are exported:
 * `data_storage_percentage` - The percentage assigned to DATA storage (user data and database files). The remaining percentage is assigned to RECO storage (database redo logs, archive logs, and recovery manager backups). Accepted values are 40 and 80. 
 * `data_storage_size_in_gb` - Data storage size, in GBs, that is currently available to the DB system. This is applicable only for VM-based DBs. 
 * `database_edition` - The Oracle Database Edition that applies to all the databases on the DB System. 
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `disk_redundancy` - The type of redundancy configured for the DB System. Normal is 2-way redundancy. High is 3-way redundancy. 
 * `display_name` - The user-friendly name for the DB System. It does not have to be unique.
 * `domain` - The domain name for the DB System.
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `hostname` - The host name for the DB Node.
 * `id` - The OCID of the DB System.
 * `last_patch_history_entry_id` - The OCID of the last patch history. This is updated as soon as a patch operation is started.
@@ -74,9 +76,11 @@ The following arguments are supported:
 		* `pdb_name` - (Optional) Pluggable database name. It must begin with an alphabetic character and can contain a maximum of eight alphanumeric characters. Special characters are not permitted. Pluggable database should not be same as database name.
 	* `db_version` - (Required) A valid Oracle database version. To get a list of supported versions, use the [ListDbVersions](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/database/20160918/DbVersion/ListDbVersions) operation.
 	* `display_name` - (Optional) The user-provided name of the database home.
+* `defined_tags` - (Optional) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `disk_redundancy` - (Optional) The type of redundancy configured for the DB System. Normal is 2-way redundancy, recommended for test and development systems. High is 3-way redundancy, recommended for production systems. 
 * `display_name` - (Optional) The user-friendly name for the DB System. It does not have to be unique.
 * `domain` - (Optional) A domain name used for the DB System. If the Oracle-provided Internet and VCN Resolver is enabled for the specified subnet, the domain name for the subnet is used (don't provide one). Otherwise, provide a valid DNS domain name. Hyphens (-) are not permitted. 
+* `freeform_tags` - (Optional) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `hostname` - (Required) The host name for the DB System. The host name must begin with an alphabetic character and can contain a maximum of 30 alphanumeric characters, including hyphens (-).  The maximum length of the combined hostname and domain is 63 characters.  **Note:** The hostname must be unique within the subnet. If it is not unique, the DB System will fail to provision. 
 * `license_model` - (Optional) The Oracle license model that applies to all the databases on the DB System. The default is LICENSE_INCLUDED. 
 * `node_count` - (Optional) Number of nodes to launch for a VM-shape based RAC DB system. 
@@ -92,6 +96,8 @@ Updates the properties of a DB System, such as the CPU core count.
 The following arguments support updates:
 * `cpu_core_count` - The number of CPU cores to enable. The valid values depend on the specified shape:  - BM.DenseIO1.36 and BM.HighIO1.36 - Specify a multiple of 2, from 2 to 36. - BM.RACLocalStorage1.72 - Specify a multiple of 4, from 4 to 72. - Exadata.Quarter1.84 - Specify a multiple of 2, from 22 to 84. - Exadata.Half1.168 - Specify a multiple of 4, from 44 to 168. - Exadata.Full1.336 - Specify a multiple of 8, from 88 to 336.  For VM DB systems, the core count is inferred from the specific VM shape chosen, so this parameter is not used. 
 * `data_storage_size_in_gb` - Size, in GBs, of the initial data volume that will be created and attached to VM-shape based DB system. This storage can later be scaled up if needed. Note that the total storage size attached will be more than what is requested, to account for REDO/RECO space and software volume. 
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `ssh_public_keys` - The public key portion of the key pair to use for SSH access to the DB System. Multiple public keys can be provided. The length of the combined keys cannot exceed 10,000 characters.
 
 
@@ -142,9 +148,11 @@ resource "oci_database_db_system" "test_db_system" {
 	cpu_core_count = "${var.db_system_cpu_core_count}"
 	data_storage_percentage = "${var.db_system_data_storage_percentage}"
 	data_storage_size_in_gb = "${var.db_system_data_storage_size_in_gb}"
+	defined_tags = {"Operations.CostCenter"= "42"}
 	disk_redundancy = "${var.db_system_disk_redundancy}"
 	display_name = "${var.db_system_display_name}"
 	domain = "${var.db_system_domain}"
+	freeform_tags = {"Department"= "Finance"}
 	license_model = "${var.db_system_license_model}"
 	node_count = "${var.db_system_node_count}"
 	source = "${var.db_system_source}"

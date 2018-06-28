@@ -146,6 +146,10 @@ func (s *DbSystemsDataSourceCrud) SetData() {
 
 		dbSystem["database_edition"] = r.DatabaseEdition
 
+		if r.DefinedTags != nil {
+			dbSystem["defined_tags"] = definedTagsToMap(r.DefinedTags)
+		}
+
 		dbSystem["disk_redundancy"] = r.DiskRedundancy
 
 		if r.DisplayName != nil {
@@ -155,6 +159,8 @@ func (s *DbSystemsDataSourceCrud) SetData() {
 		if r.Domain != nil {
 			dbSystem["domain"] = *r.Domain
 		}
+
+		dbSystem["freeform_tags"] = r.FreeformTags
 
 		if r.Hostname != nil {
 			dbSystem["hostname"] = *r.Hostname

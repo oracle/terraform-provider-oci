@@ -29,6 +29,9 @@ resource "oci_database_db_system" "test_db_system" {
     data_storage_size_in_gb = "${var.data_storage_size_in_gb}"
     license_model = "${var.license_model}"
     node_count = "${lookup(data.oci_database_db_system_shapes.test_db_system_shapes.db_system_shapes[0], "minimum_node_count")}"
+
+    defined_tags = "${map("example-tag-namespace-all.example-tag", "originalValue")}"
+    freeform_tags = {"Department"= "Finance"}
 }
 
 resource "oci_database_backup" "test_backup" {

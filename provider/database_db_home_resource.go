@@ -4,7 +4,7 @@ package provider
 
 import (
 	"context"
-	"log"
+	"fmt"
 
 	"github.com/hashicorp/terraform/helper/schema"
 
@@ -246,7 +246,10 @@ func (s *DbHomeResourceCrud) UpdatedTarget() []string {
 
 func (s *DbHomeResourceCrud) Create() error {
 	request := oci_database.CreateDbHomeRequest{}
-	s.populateTopLevelPolymorphicCreateDbHomeRequest(&request)
+	err := s.populateTopLevelPolymorphicCreateDbHomeRequest(&request)
+	if err != nil {
+		return err
+	}
 
 	handleDbSimulationFlag(s.Client)
 
@@ -328,7 +331,7 @@ func (s *DbHomeResourceCrud) SetData() {
 
 }
 
-func (s *DbHomeResourceCrud) populateTopLevelPolymorphicCreateDbHomeRequest(request *oci_database.CreateDbHomeRequest) {
+func (s *DbHomeResourceCrud) populateTopLevelPolymorphicCreateDbHomeRequest(request *oci_database.CreateDbHomeRequest) error {
 	//discriminator
 	sourceRaw, ok := s.D.GetOkExists("source")
 	var source string
@@ -379,6 +382,7 @@ func (s *DbHomeResourceCrud) populateTopLevelPolymorphicCreateDbHomeRequest(requ
 		}
 		request.CreateDbHomeWithDbSystemIdBase = details
 	default:
-		log.Printf("[WARN] Unknown source '%v' was specified", source)
+		return fmt.Errorf("Unknown source '%v' was specified", source)
 	}
+	return nil
 }
