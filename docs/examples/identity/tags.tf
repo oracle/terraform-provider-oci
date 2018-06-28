@@ -5,7 +5,7 @@ resource "oci_identity_tag_namespace" "tag-namespace1" {
   description = "tf example tag namespace"
   name = "tf-example-tag-namespace"
 
-  is_retired = true
+  is_retired = false
 }
 
 resource "oci_identity_tag" "tag1" {
