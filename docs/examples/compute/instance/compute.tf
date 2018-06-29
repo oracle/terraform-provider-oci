@@ -35,7 +35,7 @@ resource "oci_core_instance" "TFInstance" {
 
   defined_tags = "${
     map(
-      "${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag2.name}", "awesome-app-server",
+      "${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag2.name}", "awesome-app-server"
     )
   }"
 
