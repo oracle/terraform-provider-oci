@@ -83,6 +83,8 @@ resource "oci_core_instance" t {
     * [Volumes](https://github.com/oracle/terraform-provider-oci/tree/master/docs/core/volumes.md)
     * [VolumeGroups](https://github.com/oracle/terraform-provider-oci/tree/master/docs/core/volume_groups.md)
     * [VolumeGroupBackups](https://github.com/oracle/terraform-provider-oci/tree/master/docs/core/volume_group_backups.md)
+* **Database**
+    * [DBSystems](https://github.com/oracle/terraform-provider-oci/tree/master/docs/database/db_systems.md)
 * **Identity**
     * [Compartments](https://github.com/oracle/terraform-provider-oci/tree/master/docs/identity/compartments.md)
     * [Groups](https://github.com/oracle/terraform-provider-oci/tree/master/docs/identity/groups.md)
