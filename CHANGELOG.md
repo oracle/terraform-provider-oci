@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 - Support to specify the [storage tier](https://docs.cloud.oracle.com/iaas/Content/Object/Tasks/managingbuckets.htm) of object storage buckets
 - Support to change the `name` of object storage objects.
 - Support to specify `delimiter` when fetching objectstore objects
+- Support health status datasources for load balancer, backends, and backend sets
 
 ### Changed
 - All attributes other than `name` of object storage objects are now marked `forceNew`. This is consistent with the behavior of the service as defined [here](https://docs.cloud.oracle.com/iaas/api/#/en/objectstorage/20160918/Object/PutObject)
