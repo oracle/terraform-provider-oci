@@ -3,19 +3,32 @@ All notable changes to this project are documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
-## 2.1.13 - 2018-06-28
+## 2.1.13 - 2018-07-02
 
 ### Added
-- Support to specify the [storage tier](https://docs.cloud.oracle.com/iaas/Content/Object/Tasks/managingbuckets.htm) of object storage buckets
-- Support to change the `name` of object storage objects.
-- Support to specify `delimiter` when fetching objectstore objects
+- Add defined and freeform tags to applicable resources, see [Tagging Resources](https://github.com/oracle/terraform-provider-oci/blob/master/docs/Tagging%20Resources.md)
+- Manage defined tags
+- Filter by tags in data sources
 - Support health status datasources for load balancer, backends, and backend sets
+- Object Storage Buckets supports [storage tier](https://docs.cloud.oracle.com/iaas/Content/Object/Tasks/managingbuckets.htm) settings.
+- Object Storage Objects can be renamed.
+- Object Storage Objects data source supports specifying a `delimiter`.
+- DBsystems supports update. This allows scaling up the cpu_core_count in and the data_storage_size_in_gb.
+- Create backups from a database.
+- Support creating a DBSystem from a Database backup.
+- Support db_system_id for db_versions data source.
+- The db_system_shapes data source results now include information about max/min node count, and min core count supported by the relevant shape.
+- Assign backup policies to volumes.
+- Support additional ways of finding a Public IP via custom Public IP data source.
+- Ability to create and manage console connections.
 
 ### Changed
-- All attributes other than `name` of object storage objects are now marked `forceNew`. This is consistent with the behavior of the service as defined [here](https://docs.cloud.oracle.com/iaas/api/#/en/objectstorage/20160918/Object/PutObject)
+- Object Storage Object's attributes other than `name` are now marked `forceNew`. This is consistent with the behavior of the service as defined [here](https://docs.cloud.oracle.com/iaas/api/#/en/objectstorage/20160918/Object/PutObject).
 
 ### Fixed
-- Multiple updates on metadata of object used to cause contents of the file to get overwritten by its md5 value.
+- Multiple updates on Object Storage Object's metadata used to cause contents of the file to get overwritten by its md5 value.
+- DBSystems cpu_core_count was made optional as the service ignores it when you provide a VM shape. [#517](https://github.com/oracle/terraform-provider-oci/issues/517), [#539](https://github.com/oracle/terraform-provider-oci/issues/539).
+
 
 ## 2.1.12 - 2018-06-14
 
