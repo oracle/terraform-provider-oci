@@ -12,6 +12,7 @@ This lists all of the available OCI resources and/or data sources.
     * [DRGs](https://github.com/oracle/terraform-provider-oci/tree/master/docs/core/drgs.md)
     * [Images](https://github.com/oracle/terraform-provider-oci/tree/master/docs/core/images.md)
     * [Instance Credentials](https://github.com/oracle/terraform-provider-oci/tree/master/docs/core/instance_credentials.md)
+    * [Instance Console Connections](https://github.com/oracle/terraform-provider-oci/tree/master/docs/core/instance_console_connections.md)
     * [Instances](https://github.com/oracle/terraform-provider-oci/tree/master/docs/core/instances.md)
     * [Internet Gateways](https://github.com/oracle/terraform-provider-oci/tree/master/docs/core/internet_gateways.md)
     * [IPSec Connection Device Configs](https://github.com/oracle/terraform-provider-oci/tree/master/docs/core/ip_sec_connection_device_configs.md)

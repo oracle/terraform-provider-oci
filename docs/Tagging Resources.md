@@ -68,6 +68,7 @@ resource "oci_core_instance" t {
     * [DHCP Options](https://github.com/oracle/terraform-provider-oci/tree/master/docs/core/dhcp_options.md)
     * [DRGs](https://github.com/oracle/terraform-provider-oci/tree/master/docs/core/drgs.md)
     * [Images](https://github.com/oracle/terraform-provider-oci/tree/master/docs/core/images.md)
+    * [Instance Console Connections](https://github.com/oracle/terraform-provider-oci/tree/master/docs/core/instance_console_connections.md)
     * [Instances](https://github.com/oracle/terraform-provider-oci/tree/master/docs/core/instances.md)
     * [Internet Gateways](https://github.com/oracle/terraform-provider-oci/tree/master/docs/core/internet_gateways.md)
     * [IPSec Connections](https://github.com/oracle/terraform-provider-oci/tree/master/docs/core/ip_sec_connections.md)
