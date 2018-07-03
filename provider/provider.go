@@ -355,9 +355,9 @@ func ProviderConfig(d *schema.ResourceData) (clients interface{}, err error) {
 	httpClient := &http.Client{
 		Timeout: defaultRequestTimeout,
 		Transport: &http.Transport{
-			Dial: (&net.Dialer{
+			DialContext: (&net.Dialer{
 				Timeout: defaultConnectionTimeout,
-			}).Dial,
+			}).DialContext,
 			TLSHandshakeTimeout: defaultTLSHandshakeTimeout,
 			TLSClientConfig:     &tls.Config{MinVersion: tls.VersionTLS12},
 			Proxy:               http.ProxyFromEnvironment,
