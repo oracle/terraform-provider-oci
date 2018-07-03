@@ -65,9 +65,10 @@ yum install postgresql-server python-pip python-paramiko.noarch -y
 echo "Configuring Postgres Database..."
 bash /home/opc/install-postgresql.sh >> /var/log/postgresql_cdh_setup.log
 echo "Installing CM API via PIP plus dependencies..."
+pip install --upgrade pip
 pip install pyopenssl ndg-httpsclient pyasn1
 yum install libffi-devel -y
-pip install cm_api
+pip install "cm_api<20"
 echo "Starting SCM Server..."
 service cloudera-scm-server start 
 ## Scrape hosts file to gather all IPs - this allows for dynamic number of hosts in cluster
