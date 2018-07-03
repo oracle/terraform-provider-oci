@@ -20,6 +20,7 @@ import (
 	"github.com/hashicorp/terraform/helper/validation"
 	"github.com/hashicorp/terraform/terraform"
 
+	oci_audit "github.com/oracle/oci-go-sdk/audit"
 	oci_common "github.com/oracle/oci-go-sdk/common"
 	oci_common_auth "github.com/oracle/oci-go-sdk/common/auth"
 	oci_core "github.com/oracle/oci-go-sdk/core"
@@ -145,6 +146,7 @@ func schemaMap() map[string]*schema.Schema {
 
 func dataSourcesMap() map[string]*schema.Resource {
 	return map[string]*schema.Resource{
+		"oci_audit_configuration":                      ConfigurationDataSource(),
 		"oci_core_boot_volume_attachments":             BootVolumeAttachmentsDataSource(),
 		"oci_core_boot_volumes":                        BootVolumesDataSource(),
 		"oci_core_console_history_data":                ConsoleHistoryContentDataSource(),
@@ -245,6 +247,7 @@ func dataSourcesMap() map[string]*schema.Resource {
 
 func resourcesMap() map[string]*schema.Resource {
 	return map[string]*schema.Resource{
+		"oci_audit_configuration":                  ConfigurationResource(),
 		"oci_core_console_history":                 ConsoleHistoryResource(),
 		"oci_core_cpe":                             CpeResource(),
 		"oci_core_default_dhcp_options":            DefaultDhcpOptionsResource(),
@@ -411,6 +414,11 @@ func ProviderConfig(d *schema.ResourceData) (clients interface{}, err error) {
 
 func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_common.ConfigurationProvider, httpClient *http.Client, userAgent string) (err error) {
 	// Official Go SDK clients:
+	auditClient, err := oci_audit.NewAuditClientWithConfigurationProvider(officialSdkConfigProvider)
+	if err != nil {
+		return
+	}
+
 	blockstorageClient, err := oci_core.NewBlockstorageClientWithConfigurationProvider(officialSdkConfigProvider)
 	if err != nil {
 		return
@@ -498,6 +506,10 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 		return nil
 	}
 
+	err = configureClient(&auditClient.BaseClient)
+	if err != nil {
+		return
+	}
 	err = configureClient(&blockstorageClient.BaseClient)
 	if err != nil {
 		return
@@ -531,6 +543,7 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 		return
 	}
 
+	clients.auditClient = &auditClient
 	clients.blockstorageClient = &blockstorageClient
 	clients.computeClient = &computeClient
 	clients.databaseClient = &databaseClient
@@ -545,6 +558,7 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 }
 
 type OracleClients struct {
+	auditClient          *oci_audit.AuditClient
 	blockstorageClient   *oci_core.BlockstorageClient
 	computeClient        *oci_core.ComputeClient
 	databaseClient       *oci_database.DatabaseClient
