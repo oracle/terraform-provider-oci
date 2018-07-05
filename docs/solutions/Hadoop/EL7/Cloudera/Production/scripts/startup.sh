@@ -23,7 +23,7 @@ elif [ $wprocs = "72" ]; then
 elif [ $wprocs = "48" ]; then 
 	VMSIZE="VM.Standard2.24"
 elif [ $wprocs = "32" ]; then 
-	if [ $memtotal = "109" ]; then 
+	if [ $memtotal = "110" ]; then 
 		VMSIZE="VM.Standard1.16"
 	elif [ $memtotal = "240" ]; then 
 		VMSIZE="VM.Standard2.16"
@@ -37,7 +37,8 @@ elif [ $wprocs = "16" ]; then
 fi
 
 if [ -z $VMSIZE ]; then
-	echo -e "VMSIZE NULL - EXITING"
+	echo -e "VMSIZE NULL - EXITING - Check CPU and Memory values in /tmp and retry"
+	exit
 fi
 
 ##
