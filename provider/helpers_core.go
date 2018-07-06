@@ -72,3 +72,22 @@ func LaunchOptionsToMap(obj *oci_core.LaunchOptions) map[string]interface{} {
 
 	return result
 }
+
+func validateBoolInSlice(valid []bool) schema.SchemaValidateFunc {
+	return func(i interface{}, k string) (s []string, es []error) {
+		v, ok := i.(bool)
+		if !ok {
+			es = append(es, fmt.Errorf("expected type of %s to be bool", k))
+			return
+		}
+
+		for _, str := range valid {
+			if v == str {
+				return
+			}
+		}
+
+		es = append(es, fmt.Errorf("expected %s to be one of %v, got %t", k, valid, v))
+		return
+	}
+}
