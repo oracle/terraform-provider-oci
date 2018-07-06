@@ -272,6 +272,10 @@ func (s *ListenerResourceCrud) Create() error {
 		return err
 	}
 	s.WorkRequest = &workRequestResponse.WorkRequest
+	err = crud.LoadBalancerWaitForWorkRequest(s.Client, s.D, s.WorkRequest, getRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
+	if err != nil {
+		return err
+	}
 	return nil
 }
 
@@ -420,6 +424,10 @@ func (s *ListenerResourceCrud) Delete() error {
 		return err
 	}
 	s.WorkRequest = &workRequestResponse.WorkRequest
+	err = crud.LoadBalancerWaitForWorkRequest(s.Client, s.D, s.WorkRequest, getRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
+	if err != nil {
+		return err
+	}
 	return nil
 }
 

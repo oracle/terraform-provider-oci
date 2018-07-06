@@ -212,6 +212,10 @@ func (s *LoadBalancerResourceCrud) Create() error {
 	}
 	s.WorkRequest = &workRequestResponse.WorkRequest
 	s.D.Set("state", s.WorkRequest.LifecycleState)
+	err = crud.LoadBalancerWaitForWorkRequest(s.Client, s.D, s.WorkRequest, getRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
+	if err != nil {
+		return err
+	}
 	return nil
 }
 
@@ -301,6 +305,10 @@ func (s *LoadBalancerResourceCrud) Delete() error {
 		return err
 	}
 	s.WorkRequest = &workRequestResponse.WorkRequest
+	err = crud.LoadBalancerWaitForWorkRequest(s.Client, s.D, s.WorkRequest, getRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
+	if err != nil {
+		return err
+	}
 	return nil
 }
 
