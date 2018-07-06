@@ -11,8 +11,8 @@ The following attributes are exported:
 
 
 ### Get Operation
-Gets the name of the namespace for the user making the request. An account name must be unique, must start with a
-letter, and can have up to 15 lowercase letters and numbers. You cannot use spaces or special characters.
+Namespaces are unique. Namespaces are either the tenancy name or a random string automatically generated during
+account creation. You cannot edit a namespace.
 
 
 The following arguments are supported:
