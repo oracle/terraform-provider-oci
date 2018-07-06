@@ -4,8 +4,6 @@ package provider
 
 import (
 	"context"
-	"fmt"
-	"time"
 
 	"github.com/hashicorp/terraform/helper/schema"
 
@@ -123,36 +121,8 @@ func (s *ConfigurationResourceCrud) Update() error {
 
 	// Requests to update the retention policy may succeed instantly but may not see the actual update take effect
 	// until minutes later. Add polling here to return only when the change has taken effect.
-	backoffTime := time.Second
-	startTime := time.Now()
-	endTime := startTime.Add(s.D.Timeout(schema.TimeoutUpdate))
-	lastAttempt := false
-	for {
-		if err := s.Get(); err != nil {
-			return err
-		}
-
-		if *s.Res.RetentionPeriodDays == *request.RetentionPeriodDays {
-			break
-		}
-
-		if lastAttempt {
-			return fmt.Errorf("Timed out waiting for configuration to be updated.")
-		}
-
-		backoffTime = backoffTime * 2
-
-		// If next attempt occurs after timeout, then retry earlier
-		nextAttemptTime := time.Now().Add(backoffTime)
-		if nextAttemptTime.After(endTime) {
-			backoffTime = endTime.Sub(time.Now())
-			lastAttempt = true
-		}
-
-		time.Sleep(backoffTime)
-	}
-
-	return nil
+	retentionPolicyFunc := func() bool { return *s.Res.RetentionPeriodDays == *request.RetentionPeriodDays }
+	return crud.WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *ConfigurationResourceCrud) SetData() {

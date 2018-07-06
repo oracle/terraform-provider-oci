@@ -449,3 +449,39 @@ func NormalizeBoolString(v string) (string, error) {
 	}
 	return strconv.FormatBool(boolVal), nil
 }
+
+// WaitForResourceCondition polls on a resource, waiting for it to reach a specified condition. This is done with exponential
+// backoff. The terminating condition is specified as a boolean function; and this will return a timeout error if the
+// specified condition isn't reached within the specified timeout period.
+func WaitForResourceCondition(s ResourceFetcher, resourceChangedFunc func() bool, timeout time.Duration) error {
+	backoffTime := time.Second
+	startTime := time.Now()
+	endTime := startTime.Add(timeout)
+	lastAttempt := false
+	for {
+		if err := s.Get(); err != nil {
+			return err
+		}
+
+		if resourceChangedFunc() {
+			break
+		}
+
+		if lastAttempt || time.Now().After(endTime) {
+			return fmt.Errorf("Timed out waiting for configuration to reach specified condition.")
+		}
+
+		backoffTime = backoffTime * 2
+
+		// If next attempt occurs after timeout, then retry earlier
+		nextAttemptTime := time.Now().Add(backoffTime)
+		if nextAttemptTime.After(endTime) {
+			backoffTime = endTime.Sub(time.Now())
+			lastAttempt = true
+		}
+
+		time.Sleep(backoffTime)
+	}
+
+	return nil
+}

@@ -41,10 +41,16 @@ zip:
 	tar -czvf solaris_amd64.tar.gz solaris_amd64
 
 ### `make test run=TestResourceCore debug=1`
-basecmd := TF_ORACLE_ENV=test go test ./provider -v -timeout 120m
+basecmd := TF_ORACLE_ENV=test go test
 
 ### Run all tests by default. Omit acceptance tests if unit tests are specified (e.g. `make test mode=unit`)
-cmd := TF_ACC=1 $(basecmd)
+cmd := TF_ACC=1 $(basecmd) ./provider -v -timeout 120m
+
+### This allows specifying custom test directories. By default, the provider directory is used.
+ifdef dir
+	cmd := $(basecmd) $(dir) -v -timeout 120m
+endif
+
 ifdef mode
   ifeq ($(mode),unit)
     cmd := $(basecmd)
