@@ -14,15 +14,15 @@ The following attributes are exported:
 Create the configuration
 
 The following arguments are supported:
-* `compartment_id` - ID of the root compartment (tenancy)
-* `retention_period_days` - The retention period days
+* `compartment_id` - (Required) ID of the root compartment (tenancy)
+* `retention_period_days` - (Optional) The retention period days
 
 
 ### Update Operation
 Update the configuration
 
 The following arguments support updates:
-* `retention_period_days` - The retention period days
+* `retention_period_days` - (Optional) The retention period days
 
 
 ** IMPORTANT **

@@ -2,6 +2,8 @@
 
 This lists all of the available OCI resources and/or data sources.
 
+* **Audit**
+    * [Configurations](https://github.com/oracle/terraform-provider-oci/tree/master/docs/audit/configurations.md)
 * **Core**
     * [Boot Volume Attachments](https://github.com/oracle/terraform-provider-oci/tree/master/docs/core/boot_volume_attachments.md)
     * [Boot Volumes](https://github.com/oracle/terraform-provider-oci/tree/master/docs/core/boot_volumes.md)
