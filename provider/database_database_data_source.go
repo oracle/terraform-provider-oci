@@ -34,6 +34,12 @@ func DatabaseDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"defined_tags": {
+				Type:             schema.TypeMap,
+				Computed:         true,
+				DiffSuppressFunc: definedTagsDiffSuppressFunction,
+				Elem:             schema.TypeString,
+			},
 			"db_backup_config": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -68,6 +74,11 @@ func DatabaseDataSource() *schema.Resource {
 			"db_workload": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"freeform_tags": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
 			},
 			"id": {
 				Type:     schema.TypeString,
@@ -158,6 +169,12 @@ func (s *DatabaseDataSourceCrud) SetData() {
 	if s.Res.DbWorkload != nil {
 		s.D.Set("db_workload", *s.Res.DbWorkload)
 	}
+
+	if s.Res.DefinedTags != nil {
+		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))
+	}
+
+	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.Id != nil {
 		s.D.Set("id", *s.Res.Id)

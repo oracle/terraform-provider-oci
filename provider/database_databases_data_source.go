@@ -138,6 +138,12 @@ func (s *DatabasesDataSourceCrud) SetData() {
 			database["db_workload"] = *r.DbWorkload
 		}
 
+		if r.DefinedTags != nil {
+			database["defined_tags"] = definedTagsToMap(r.DefinedTags)
+		}
+
+		database["freeform_tags"] = r.FreeformTags
+
 		if r.Id != nil {
 			database["id"] = *r.Id
 		}
