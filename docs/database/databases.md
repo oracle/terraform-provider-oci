@@ -25,6 +25,8 @@ The following attributes are exported:
 * `db_name` - The database name.
 * `db_unique_name` - A system-generated name for the database to ensure uniqueness within an Oracle Data Guard group (a primary database and its standby databases). The unique name cannot be changed. 
 * `db_workload` - Database workload type.
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the database.
 * `lifecycle_details` - Additional information about the current lifecycleState.
 * `ncharacter_set` - The national character set for the database.
@@ -40,7 +42,6 @@ data "oci_database_database" "test_database" {
 	database_id = "${var.database_id}"
 }
 ```
-
 
 # oci_database_databases
 
