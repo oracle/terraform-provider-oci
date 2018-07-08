@@ -3,6 +3,11 @@ All notable changes to this project are documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+## 2.1.14 - 2018-07-xx
+
+### Changed
+- Default timeout changed from 5 minutes to 15 minutes
+
 ## 2.1.13 - 2018-07-02
 
 ### Added
