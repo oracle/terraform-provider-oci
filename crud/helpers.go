@@ -20,14 +20,14 @@ import (
 )
 
 var (
-	FiveMinutes time.Duration = 5 * time.Minute
-	TwoHours    time.Duration = 120 * time.Minute
-	ZeroTime    time.Duration = 0
+	FifteenMinutes               = 15 * time.Minute
+	TwoHours                     = 120 * time.Minute
+	ZeroTime       time.Duration = 0
 
 	DefaultTimeout = &schema.ResourceTimeout{
-		Create: &FiveMinutes,
-		Update: &FiveMinutes,
-		Delete: &FiveMinutes,
+		Create: &FifteenMinutes,
+		Update: &FifteenMinutes,
+		Delete: &FifteenMinutes,
 	}
 )
 
