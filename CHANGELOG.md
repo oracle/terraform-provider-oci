@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ## 2.1.14 - 2018-07-xx
 
 ### Changed
-- Default timeout changed from 5 minutes to 15 minutes
+- Default timeout changed from 5 minutes to 15 minutes to accommodate more resources that don't time out quicker.
 
 ## 2.1.13 - 2018-07-02
 
