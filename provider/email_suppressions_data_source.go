@@ -9,8 +9,9 @@ import (
 	oci_common "github.com/oracle/oci-go-sdk/common"
 	oci_email "github.com/oracle/oci-go-sdk/email"
 
-	"github.com/oracle/terraform-provider-oci/crud"
 	"time"
+
+	"github.com/oracle/terraform-provider-oci/crud"
 )
 
 func SuppressionsDataSource() *schema.Resource {

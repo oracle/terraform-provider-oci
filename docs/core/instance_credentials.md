@@ -12,8 +12,8 @@ The following attributes are exported:
 
 
 ### Get Operation
-Gets the generated credentials for the instance. Only works for Windows instances. The returned credentials
-are only valid for the initial login.
+Gets the generated credentials for the instance. Only works for instances that require password to log in (E.g. Windows).
+For certain OS'es, users will be forced to change the initial credentials.
 
 
 The following arguments are supported:
