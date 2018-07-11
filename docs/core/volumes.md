@@ -26,7 +26,7 @@ The following attributes are exported:
 
 ### Create Operation
 Creates a new volume in the specified compartment. Volumes can be created in sizes ranging from
-50 GB (51200 MB) to 16 TB (16777216 MB), in 1 GB (1024 MB) increments. By default, volumes are 1 TB (1048576 MB).
+50 GB (51200 MB) to 32 TB (33554432 MB), in 1 GB (1024 MB) increments. By default, volumes are 1 TB (1048576 MB).
 For general information about block volumes, see
 [Overview of Block Volume Service](https://docs.us-phoenix-1.oraclecloud.com/Content/Block/Concepts/overview.htm).
 
