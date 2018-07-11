@@ -20,7 +20,6 @@ func AuthTokensDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			// @CODEGEN 06/2018: auth_tokens => tokens
 			"tokens": {
 				Type:     schema.TypeList,
 				Computed: true,

@@ -74,7 +74,7 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `auth_tokens` - The list of auth_tokens.
+* `tokens` - The list of tokens.
 
 ### Example Usage
 
