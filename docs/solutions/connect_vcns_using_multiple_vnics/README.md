@@ -14,7 +14,7 @@ The public instance is configured as a Bridge instance (by enabling and configur
 
 The first VCN's private subnet's route table is configured to use the Bridge instance's private IP address as default route target. See [Using a Private IP as a Route Target](https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Tasks/managingroutetables.htm#privateip) for more details on this feature.
 
-A secondary VNIC is created and attached to the Bridge instance. See [Configuring and using Secondary VNIC](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingVNICs.htm) for more details on this feature. This VNIC is attached to the public subnet of the second VCN. Now the Brdige instance has 1 default VNIC attached to the first VCN and the secondary VNIC attached to the second VCN.
+A secondary VNIC is created and attached to the Bridge instance. See [Configuring and using Secondary VNIC](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingVNICs.htm) for more details on this feature. This secondary VNIC is attached to the public subnet of the second VCN. Now the Brdige instance has 2 VNICs, 1 is a default VNIC attached to the first VCN and other is the secondary VNIC attached to the second VCN.
 
 The second VCN's private subnet's route table is configured to use the Bridge instance's secondary VNIC's private IP address as default route target. 
 
