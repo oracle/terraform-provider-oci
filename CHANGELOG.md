@@ -7,10 +7,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Added
 - Ability to create and manage email approved senders, suppressions, and smtp credentials
-
+- Adding Service Gateway resource and data source, update Route Table and Security List
+- Add Audit service configuration resource
+- Support Identity Federation
+ 
 ### Changed
-- Default timeout changed from 5 minutes to 15 minutes to accommodate more resources that don't time out quicker.
-- Ability to update compartment of a bucket
+- Default timeout changed from 5 minutes to 15 minutes to accommodate more resources that don't time out quicker
+- Ability to update compartment of an Object Storage Bucket
+- Updating Database data source to support tags
+ 
+### Fixed
+- Fixing delete behavior on Load Balancer resources for failed work requests
+
 
 ## 2.1.13 - 2018-07-02
 
