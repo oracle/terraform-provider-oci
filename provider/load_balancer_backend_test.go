@@ -37,7 +37,7 @@ resource "oci_load_balancer_backend" "test_backend" {
 }
 `
 	BackendPropertyVariables = `
-variable "backend_backendset_name" { default = "backendsetName" }
+variable "backend_backendset_name" { default = "backendSet1" }
 variable "backend_backup" { default = false }
 variable "backend_drain" { default = false }
 variable "backend_ip_address" { default = "10.0.0.3" }
@@ -50,7 +50,6 @@ variable "backend_weight" { default = 10 }
 )
 
 func TestLoadBalancerBackendResource_basic(t *testing.T) {
-	t.Skip("Skipping generated test for now as it has not been worked on.")
 	provider := testAccProvider
 	config := testProviderConfig()
 
@@ -73,7 +72,7 @@ func TestLoadBalancerBackendResource_basic(t *testing.T) {
 				ImportStateVerify: true,
 				Config:            config + BackendPropertyVariables + compartmentIdVariableStr + BackendRequiredOnlyResource,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "backendset_name", "backendsetName"),
+					resource.TestCheckResourceAttr(resourceName, "backendset_name", "backendSet1"),
 					resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.3"),
 					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttr(resourceName, "port", "10"),
@@ -93,7 +92,7 @@ func TestLoadBalancerBackendResource_basic(t *testing.T) {
 			{
 				Config: config + BackendPropertyVariables + compartmentIdVariableStr + BackendResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "backendset_name", "backendsetName"),
+					resource.TestCheckResourceAttr(resourceName, "backendset_name", "backendSet1"),
 					resource.TestCheckResourceAttr(resourceName, "backup", "false"),
 					resource.TestCheckResourceAttr(resourceName, "drain", "false"),
 					resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.3"),
@@ -113,7 +112,7 @@ func TestLoadBalancerBackendResource_basic(t *testing.T) {
 			// verify updates to updatable parameters
 			{
 				Config: config + `
-variable "backend_backendset_name" { default = "backendsetName" }
+variable "backend_backendset_name" { default = "backendSet1" }
 variable "backend_backup" { default = false }
 variable "backend_drain" { default = false }
 variable "backend_ip_address" { default = "10.0.0.3" }
@@ -123,7 +122,7 @@ variable "backend_weight" { default = 10 }
 
                 ` + compartmentIdVariableStr + BackendResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "backendset_name", "backendsetName"),
+					resource.TestCheckResourceAttr(resourceName, "backendset_name", "backendSet1"),
 					resource.TestCheckResourceAttr(resourceName, "backup", "false"),
 					resource.TestCheckResourceAttr(resourceName, "drain", "false"),
 					resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.3"),
@@ -145,7 +144,7 @@ variable "backend_weight" { default = 10 }
 			// verify datasource
 			{
 				Config: config + `
-variable "backend_backendset_name" { default = "backendsetName" }
+variable "backend_backendset_name" { default = "backendSet1" }
 variable "backend_backup" { default = false }
 variable "backend_drain" { default = false }
 variable "backend_ip_address" { default = "10.0.0.3" }
@@ -157,22 +156,16 @@ data "oci_load_balancer_backends" "test_backends" {
 	#Required
 	backendset_name = "${var.backend_backendset_name}"
 	load_balancer_id = "${oci_load_balancer_load_balancer.test_load_balancer.id}"
-
-    filter {
-    	name = "id"
-    	values = ["${oci_load_balancer_backend.test_backend.id}"]
-    }
 }
                 ` + compartmentIdVariableStr + BackendResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(datasourceName, "backendset_name", "backendsetName"),
+					resource.TestCheckResourceAttr(datasourceName, "backendset_name", "backendSet1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "load_balancer_id"),
 
 					resource.TestCheckResourceAttr(datasourceName, "backends.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "backends.0.backup", "false"),
 					resource.TestCheckResourceAttr(datasourceName, "backends.0.drain", "false"),
 					resource.TestCheckResourceAttr(datasourceName, "backends.0.ip_address", "10.0.0.3"),
-					resource.TestCheckResourceAttrSet(datasourceName, "backends.0.load_balancer_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "backends.0.name"),
 					resource.TestCheckResourceAttr(datasourceName, "backends.0.offline", "false"),
 					resource.TestCheckResourceAttr(datasourceName, "backends.0.port", "10"),
