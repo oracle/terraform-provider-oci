@@ -33,17 +33,16 @@ resource "oci_core_volume_attachment" "test_volume_attachment" {
 }
 `
 	VolumeAttachmentPropertyVariables = `
-variable "volume_attachment_attachment_type" { default = "attachmentType" }
+variable "volume_attachment_attachment_type" { default = "iscsi" }
 variable "volume_attachment_availability_domain" { default = "availabilityDomain" }
 variable "volume_attachment_display_name" { default = "displayName" }
 variable "volume_attachment_is_read_only" { default = false }
 
 `
-	VolumeAttachmentResourceDependencies = "" // Uncomment once defined: InstancePropertyVariables + InstanceResourceConfig + VolumePropertyVariables + VolumeResourceConfig
+	VolumeAttachmentResourceDependencies = InstancePropertyVariables + InstanceResourceAsDependencyConfig + VolumePropertyVariables + VolumeResourceConfig
 )
 
 func TestCoreVolumeAttachmentResource_basic(t *testing.T) {
-	t.Skip("Skipping generated test for now as it has not been worked on.")
 	provider := testAccProvider
 	config := testProviderConfig()
 
@@ -64,7 +63,7 @@ func TestCoreVolumeAttachmentResource_basic(t *testing.T) {
 				ImportStateVerify: true,
 				Config:            config + VolumeAttachmentPropertyVariables + compartmentIdVariableStr + VolumeAttachmentRequiredOnlyResource,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "attachment_type", "attachmentType"),
+					resource.TestCheckResourceAttr(resourceName, "attachment_type", "iscsi"),
 					resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "volume_id"),
 				),
@@ -78,7 +77,7 @@ func TestCoreVolumeAttachmentResource_basic(t *testing.T) {
 			{
 				Config: config + VolumeAttachmentPropertyVariables + compartmentIdVariableStr + VolumeAttachmentResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "attachment_type", "attachmentType"),
+					resource.TestCheckResourceAttr(resourceName, "attachment_type", "iscsi"),
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -94,7 +93,7 @@ func TestCoreVolumeAttachmentResource_basic(t *testing.T) {
 			// verify datasource
 			{
 				Config: config + `
-variable "volume_attachment_attachment_type" { default = "attachmentType" }
+variable "volume_attachment_attachment_type" { default = "iscsi" }
 variable "volume_attachment_availability_domain" { default = "availabilityDomain" }
 variable "volume_attachment_display_name" { default = "displayName" }
 variable "volume_attachment_is_read_only" { default = false }
@@ -104,7 +103,7 @@ data "oci_core_volume_attachments" "test_volume_attachments" {
 	compartment_id = "${var.compartment_id}"
 
 	#Optional
-	availability_domain = "${var.volume_attachment_availability_domain}"
+	availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
 	instance_id = "${oci_core_instance.test_instance.id}"
 	volume_id = "${oci_core_volume.test_volume.id}"
 
@@ -115,13 +114,13 @@ data "oci_core_volume_attachments" "test_volume_attachments" {
 }
                 ` + compartmentIdVariableStr + VolumeAttachmentResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(datasourceName, "availability_domain", "availabilityDomain"),
+					resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "instance_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "volume_id"),
 
 					resource.TestCheckResourceAttr(datasourceName, "volume_attachments.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "volume_attachments.0.attachment_type", "attachmentType"),
+					resource.TestCheckResourceAttr(datasourceName, "volume_attachments.0.attachment_type", "iscsi"),
 					resource.TestCheckResourceAttrSet(datasourceName, "volume_attachments.0.availability_domain"),
 					resource.TestCheckResourceAttrSet(datasourceName, "volume_attachments.0.compartment_id"),
 					resource.TestCheckResourceAttr(datasourceName, "volume_attachments.0.display_name", "displayName"),
