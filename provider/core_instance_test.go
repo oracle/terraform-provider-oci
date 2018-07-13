@@ -193,7 +193,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + InstanceCommonVariables+ `
+				Config: config + InstanceCommonVariables + `
 variable "instance_availability_domain" { default = "availabilityDomain" }
 variable "instance_create_vnic_details_assign_public_ip" { default = false }
 variable "instance_create_vnic_details_defined_tags_value" { default = "definedTags" }
