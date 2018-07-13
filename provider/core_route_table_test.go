@@ -55,7 +55,6 @@ resource "oci_core_route_table" "test_route_table" {
 	freeform_tags = "${var.route_table_freeform_tags}"
 }
 `
-
 	RouteTableResourceConfigWithServiceCidr = RouteTableResourceDependencies + `
 resource "oci_core_route_table" "test_route_table" {
 	#Required
@@ -67,6 +66,49 @@ resource "oci_core_route_table" "test_route_table" {
 		#Optional
 		destination = "${lookup(data.oci_core_services.test_services.services[0], "cidr_block")}"
 		destination_type = "${var.route_table_route_rules_destination_type}"
+	}
+	route_rules {
+		#Required
+		destination = "${var.route_table_route_rules_destination}"
+		network_entity_id = "${oci_core_drg.test_drg.id}"
+	}
+	vcn_id = "${oci_core_vcn.test_vcn.id}"
+
+	#Optional
+	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.route_table_defined_tags_value}")}"
+	display_name = "${var.route_table_display_name}"
+	freeform_tags = "${var.route_table_freeform_tags}"
+}
+
+resource "oci_core_service_gateway" "test_service_gateway" {
+    #Required
+    compartment_id = "${var.compartment_id}"
+    services {
+        service_id = "${lookup(data.oci_core_services.test_services.services[0], "id")}"
+    }
+    vcn_id = "${oci_core_vcn.test_vcn.id}"
+}
+
+data "oci_core_services" "test_services" {
+}
+`
+	RouteTableResourceConfigWithServiceCidrAddingCidrBlock = RouteTableResourceDependencies + `
+resource "oci_core_route_table" "test_route_table" {
+	#Required
+	compartment_id = "${var.compartment_id}"
+	route_rules {
+		#Required
+		network_entity_id = "${oci_core_service_gateway.test_service_gateway.id}"
+
+		#Optional
+		cidr_block = "${lookup(data.oci_core_services.test_services.services[0], "cidr_block")}"
+		destination = "${lookup(data.oci_core_services.test_services.services[0], "cidr_block")}"
+		destination_type = "${var.route_table_route_rules_destination_type}"
+	}
+	route_rules {
+		#Required
+		destination = "${var.route_table_route_rules_destination}"
+		network_entity_id = "${oci_core_drg.test_drg.id}"
 	}
 	vcn_id = "${oci_core_vcn.test_vcn.id}"
 
@@ -240,8 +282,53 @@ variable "route_table_state" { default = "AVAILABLE" }
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "route_rules.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "route_rules.#", "2"),
 					CheckResourceSetContainsElementWithProperties(resourceName, "route_rules", map[string]string{"destination_type": "SERVICE_CIDR_BLOCK"}, []string{"network_entity_id", "destination"}),
+					CheckResourceSetContainsElementWithProperties(resourceName, "route_rules", map[string]string{"destination_type": "CIDR_BLOCK", "destination": "0.0.0.0/0"}, []string{"network_entity_id"}),
+					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
+				),
+			},
+			// verify update after having a destination_type rule
+			{
+				Config: config + `
+variable "route_table_defined_tags_value" { default = "value" }
+variable "route_table_display_name" { default = "MyRouteTable" }
+variable "route_table_freeform_tags" { default = {"Department"= "Finance"} }
+variable "route_table_route_rules_cidr_block" { default = "10.0.0.0/8" }
+variable "route_table_route_rules_destination" { default = "0.0.0.0/1" }
+variable "route_table_route_rules_destination_type" { default = "SERVICE_CIDR_BLOCK" }
+variable "route_table_state" { default = "AVAILABLE" }
+
+                ` + compartmentIdVariableStr + RouteTableResourceConfigWithServiceCidr,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "route_rules.#", "2"),
+					CheckResourceSetContainsElementWithProperties(resourceName, "route_rules", map[string]string{"destination_type": "SERVICE_CIDR_BLOCK"}, []string{"network_entity_id", "destination"}),
+					CheckResourceSetContainsElementWithProperties(resourceName, "route_rules", map[string]string{"destination_type": "CIDR_BLOCK", "destination": "0.0.0.0/1"}, []string{"network_entity_id"}),
+					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
+				),
+			},
+			// verify adding cidr_block to a rule that has destination already
+			{
+				Config: config + `
+variable "route_table_defined_tags_value" { default = "value" }
+variable "route_table_display_name" { default = "MyRouteTable" }
+variable "route_table_freeform_tags" { default = {"Department"= "Finance"} }
+variable "route_table_route_rules_cidr_block" { default = "10.0.0.0/8" }
+variable "route_table_route_rules_destination" { default = "0.0.0.0/1" }
+variable "route_table_route_rules_destination_type" { default = "SERVICE_CIDR_BLOCK" }
+variable "route_table_state" { default = "AVAILABLE" }
+
+                ` + compartmentIdVariableStr + RouteTableResourceConfigWithServiceCidrAddingCidrBlock,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "route_rules.#", "2"),
+					CheckResourceSetContainsElementWithProperties(resourceName, "route_rules", map[string]string{"destination_type": "SERVICE_CIDR_BLOCK"}, []string{"network_entity_id", "destination"}),
+					CheckResourceSetContainsElementWithProperties(resourceName, "route_rules", map[string]string{"destination_type": "CIDR_BLOCK", "destination": "0.0.0.0/1"}, []string{"network_entity_id"}),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 				),
