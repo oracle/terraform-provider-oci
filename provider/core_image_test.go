@@ -15,6 +15,7 @@ const (
 resource "oci_core_image" "test_image" {
 	#Required
 	compartment_id = "${var.compartment_id}"
+	instance_id = "${oci_core_instance.test_instance.id}"
 }
 `
 
@@ -34,7 +35,6 @@ resource "oci_core_image" "test_image" {
 		#Optional
 		source_image_type = "${var.image_image_source_details_source_image_type}"
 	}
-	instance_id = "${oci_core_instance.test_instance.id}"
 	launch_mode = "${var.image_launch_mode}"
 }
 `
@@ -42,20 +42,18 @@ resource "oci_core_image" "test_image" {
 variable "image_defined_tags_value" { default = "value" }
 variable "image_display_name" { default = "MyCustomImage" }
 variable "image_freeform_tags" { default = {"Department"= "Finance"} }
-variable "image_image_source_details_source_image_type" { default = "sourceImageType" }
+variable "image_image_source_details_source_image_type" { default = "QCOW2" }
 variable "image_image_source_details_source_type" { default = "objectStorageTuple" }
-variable "image_launch_mode" { default = "launchMode" }
+variable "image_launch_mode" { default = "NATIVE" }
 variable "image_operating_system" { default = "operatingSystem" }
 variable "image_operating_system_version" { default = "operatingSystemVersion" }
-variable "image_shape" { default = "shape" }
 variable "image_state" { default = "AVAILABLE" }
 
 `
-	ImageResourceDependencies = DefinedTagsDependencies // Uncomment once defined: InstancePropertyVariables + InstanceResourceConfig
+	ImageResourceDependencies = DefinedTagsDependencies + InstancePropertyVariables + InstanceResourceAsDependencyConfig
 )
 
 func TestCoreImageResource_basic(t *testing.T) {
-	t.Skip("Skipping generated test for now as it has not been worked on.")
 	provider := testAccProvider
 	config := testProviderConfig()
 
@@ -103,10 +101,10 @@ func TestCoreImageResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "image_source_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "image_source_details.0.source_image_type", "sourceImageType"),
+					resource.TestCheckResourceAttr(resourceName, "image_source_details.0.source_image_type", "QCOW2"),
 					resource.TestCheckResourceAttr(resourceName, "image_source_details.0.source_type", "objectStorageTuple"),
 					resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
-					resource.TestCheckResourceAttr(resourceName, "launch_mode", "launchMode"),
+					resource.TestCheckResourceAttr(resourceName, "launch_mode", "NATIVE"),
 					resource.TestCheckResourceAttrSet(resourceName, "operating_system"),
 					resource.TestCheckResourceAttrSet(resourceName, "operating_system_version"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
@@ -125,12 +123,11 @@ func TestCoreImageResource_basic(t *testing.T) {
 variable "image_defined_tags_value" { default = "updatedValue" }
 variable "image_display_name" { default = "displayName2" }
 variable "image_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "image_image_source_details_source_image_type" { default = "sourceImageType" }
+variable "image_image_source_details_source_image_type" { default = "QCOW2" }
 variable "image_image_source_details_source_type" { default = "objectStorageTuple" }
-variable "image_launch_mode" { default = "launchMode" }
+variable "image_launch_mode" { default = "NATIVE" }
 variable "image_operating_system" { default = "operatingSystem" }
 variable "image_operating_system_version" { default = "operatingSystemVersion" }
-variable "image_shape" { default = "shape" }
 variable "image_state" { default = "AVAILABLE" }
 
                 ` + compartmentIdVariableStr + ImageResourceConfig,
@@ -142,10 +139,10 @@ variable "image_state" { default = "AVAILABLE" }
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "image_source_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "image_source_details.0.source_image_type", "sourceImageType"),
+					resource.TestCheckResourceAttr(resourceName, "image_source_details.0.source_image_type", "QCOW2"),
 					resource.TestCheckResourceAttr(resourceName, "image_source_details.0.source_type", "objectStorageTuple"),
 					resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
-					resource.TestCheckResourceAttr(resourceName, "launch_mode", "launchMode"),
+					resource.TestCheckResourceAttr(resourceName, "launch_mode", "NATIVE"),
 					resource.TestCheckResourceAttrSet(resourceName, "operating_system"),
 					resource.TestCheckResourceAttrSet(resourceName, "operating_system_version"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
@@ -166,12 +163,11 @@ variable "image_state" { default = "AVAILABLE" }
 variable "image_defined_tags_value" { default = "updatedValue" }
 variable "image_display_name" { default = "displayName2" }
 variable "image_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "image_image_source_details_source_image_type" { default = "sourceImageType" }
+variable "image_image_source_details_source_image_type" { default = "QCOW2" }
 variable "image_image_source_details_source_type" { default = "objectStorageTuple" }
-variable "image_launch_mode" { default = "launchMode" }
+variable "image_launch_mode" { default = "NATIVE" }
 variable "image_operating_system" { default = "operatingSystem" }
 variable "image_operating_system_version" { default = "operatingSystemVersion" }
-variable "image_shape" { default = "shape" }
 variable "image_state" { default = "AVAILABLE" }
 
 data "oci_core_images" "test_images" {
@@ -182,7 +178,6 @@ data "oci_core_images" "test_images" {
 	display_name = "${var.image_display_name}"
 	operating_system = "${var.image_operating_system}"
 	operating_system_version = "${var.image_operating_system_version}"
-	shape = "${var.image_shape}"
 	state = "${var.image_state}"
 
     filter {
@@ -208,7 +203,7 @@ data "oci_core_images" "test_images" {
 					resource.TestCheckResourceAttr(datasourceName, "images.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "images.0.id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "images.0.instance_id"),
-					resource.TestCheckResourceAttr(datasourceName, "images.0.launch_mode", "launchMode"),
+					resource.TestCheckResourceAttr(datasourceName, "images.0.launch_mode", "NATIVE"),
 					resource.TestCheckResourceAttrSet(datasourceName, "images.0.operating_system"),
 					resource.TestCheckResourceAttrSet(datasourceName, "images.0.operating_system_version"),
 					resource.TestCheckResourceAttrSet(datasourceName, "images.0.state"),
