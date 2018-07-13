@@ -3,22 +3,27 @@ All notable changes to this project are documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
-## 2.1.14 - 2018-07-12
+## 2.1.15 - 2018-07-13
+
+### Fixed
+- Fix for route_rules update in oci_core_route_table after having a service gateway rule as part of the rules
+
+## 2.1.14 - 2018-07-13
 
 ### Added
-- Ability to create and manage email approved senders, suppressions, and smtp credentials
+- Ability to create and manage email approved senders, suppressions, and SMTP credentials
 - Adding Service Gateway resource and data source, update Route Table and Security List
 - Add Audit service configuration resource
 - Support Identity Federation
  
 ### Changed
-- Default timeout changed from 5 minutes to 15 minutes to accommodate more resources that don't time out quicker
+- Users may notice larger diffs for Security List's `ingress_security_rules`, `egress_security_rules` and Route Table's `route_rules`. The internal representation has been changed from Lists to Sets, which results in unexpected but innocuous Terraform behavior. See this issue for discussion: https://github.com/hashicorp/terraform/issues/15180
+- Default timeout changed from 5 minutes to 15 minutes to accommodate some resources that may take longer to succeed
 - Ability to update compartment of an Object Storage Bucket
-- Updating Database data source to support tags
+- Updated Database data source to support tags
  
 ### Fixed
-- Fixing delete behavior on Load Balancer resources for failed work requests
-
+- Delete behavior fixed on Load Balancer resources for failed work requests
 
 ## 2.1.13 - 2018-07-02
 
