@@ -143,7 +143,8 @@ resource "oci_core_instance" "t" {
 }
 `
 
-var instanceDnsConfig = `
+const (
+instanceDnsConfig = `
 data "oci_identity_availability_domains" "ADs" {
   compartment_id = "${var.compartment_id}"
 }
@@ -182,7 +183,7 @@ resource "oci_core_instance" "t" {
 	compartment_id = "${var.compartment_id}"
 	display_name = "-tf-instance"
 	image = "${var.InstanceImageOCID[var.region]}"
-	shape = "VM.Standard1.1"
+	shape = "VM.Standard1.2"
 	create_vnic_details {
         subnet_id = "${oci_core_subnet.t.id}"
         hostname_label = "testinstance"
@@ -197,7 +198,7 @@ resource "oci_core_instance" "t" {
 		create = "15m"
 	}
 }
-` + DefinedTagsDependencies
+` + DefinedTagsDependencies)
 
 func GetTestProvider() *OracleClients {
 	r := &schema.Resource{

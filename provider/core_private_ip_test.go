@@ -14,14 +14,14 @@ const (
 	PrivateIpRequiredOnlyResource = PrivateIpResourceDependencies + `
 resource "oci_core_private_ip" "test_private_ip" {
 	#Required
-	vnic_id = "${oci_core_vnic.test_vnic.id}"
+	vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0], "vnic_id")}"
 }
 `
 
 	PrivateIpResourceConfig = PrivateIpResourceDependencies + `
 resource "oci_core_private_ip" "test_private_ip" {
 	#Required
-	vnic_id = "${oci_core_vnic.test_vnic.id}"
+	vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0], "vnic_id")}"
 
 	#Optional
 	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.private_ip_defined_tags_value}")}"
@@ -35,15 +35,21 @@ resource "oci_core_private_ip" "test_private_ip" {
 variable "private_ip_defined_tags_value" { default = "value" }
 variable "private_ip_display_name" { default = "displayName" }
 variable "private_ip_freeform_tags" { default = {"Department"= "Finance"} }
-variable "private_ip_hostname_label" { default = "hostnameLabel" }
-variable "private_ip_ip_address" { default = "ipAddress" }
+variable "private_ip_hostname_label" { default = "privateiptestinstance" }
+variable "private_ip_ip_address" { default = "10.0.1.5" }
 
 `
-	PrivateIpResourceDependencies = DefinedTagsDependencies + SubnetPropertyVariables + SubnetResourceConfig + VnicPropertyVariables + VnicResourceConfig
+	PrivateIpResourceDependencies = instanceDnsConfig + `
+	data "oci_core_vnic_attachments" "t" {
+		availability_domain = "${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}"
+		compartment_id = "${var.compartment_id}"
+		instance_id = "${oci_core_instance.t.id}"
+	}
+
+` + AvailabilityDomainConfig
 )
 
 func TestCorePrivateIpResource_basic(t *testing.T) {
-	t.Skip("Skipping generated test for now as it has not been worked on.")
 	provider := testAccProvider
 	config := testProviderConfig()
 
@@ -87,8 +93,8 @@ func TestCorePrivateIpResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnameLabel"),
-					resource.TestCheckResourceAttr(resourceName, "ip_address", "ipAddress"),
+					resource.TestCheckResourceAttr(resourceName, "hostname_label", "privateiptestinstance"),
+					resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.1.5"),
 					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "vnic_id"),
 
@@ -105,16 +111,16 @@ func TestCorePrivateIpResource_basic(t *testing.T) {
 variable "private_ip_defined_tags_value" { default = "updatedValue" }
 variable "private_ip_display_name" { default = "displayName2" }
 variable "private_ip_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "private_ip_hostname_label" { default = "hostnameLabel2" }
-variable "private_ip_ip_address" { default = "ipAddress" }
+variable "private_ip_hostname_label" { default = "privateiptestinstance2" }
+variable "private_ip_ip_address" { default = "10.0.1.5" }
 
                 ` + compartmentIdVariableStr + PrivateIpResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnameLabel2"),
-					resource.TestCheckResourceAttr(resourceName, "ip_address", "ipAddress"),
+					resource.TestCheckResourceAttr(resourceName, "hostname_label", "privateiptestinstance2"),
+					resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.1.5"),
 					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "vnic_id"),
 
@@ -133,15 +139,13 @@ variable "private_ip_ip_address" { default = "ipAddress" }
 variable "private_ip_defined_tags_value" { default = "updatedValue" }
 variable "private_ip_display_name" { default = "displayName2" }
 variable "private_ip_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "private_ip_hostname_label" { default = "hostnameLabel2" }
-variable "private_ip_ip_address" { default = "ipAddress" }
+variable "private_ip_hostname_label" { default = "privateiptestinstance2" }
+variable "private_ip_ip_address" { default = "10.0.1.5" }
 
 data "oci_core_private_ips" "test_private_ips" {
 
 	#Optional
-	ip_address = "${var.private_ip_ip_address}"
-	subnet_id = "${oci_core_subnet.test_subnet.id}"
-	vnic_id = "${oci_core_vnic.test_vnic.id}"
+	vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0], "vnic_id")}"
 
     filter {
     	name = "id"
@@ -150,16 +154,14 @@ data "oci_core_private_ips" "test_private_ips" {
 }
                 ` + compartmentIdVariableStr + PrivateIpResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(datasourceName, "ip_address", "ipAddress"),
-					resource.TestCheckResourceAttrSet(datasourceName, "subnet_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "vnic_id"),
 
 					resource.TestCheckResourceAttr(datasourceName, "private_ips.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "private_ips.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "private_ips.0.display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "private_ips.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "private_ips.0.hostname_label", "hostnameLabel2"),
-					resource.TestCheckResourceAttr(datasourceName, "private_ips.0.ip_address", "ipAddress"),
+					resource.TestCheckResourceAttr(datasourceName, "private_ips.0.hostname_label", "privateiptestinstance2"),
+					resource.TestCheckResourceAttr(datasourceName, "private_ips.0.ip_address", "10.0.1.5"),
 					resource.TestCheckResourceAttrSet(datasourceName, "private_ips.0.subnet_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "private_ips.0.vnic_id"),
 				),
