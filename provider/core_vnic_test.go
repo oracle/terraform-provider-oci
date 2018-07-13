@@ -12,8 +12,7 @@ import (
 
 const (
 	VnicResourceConfig = VnicResourceDependencies + `
-resource "oci_core_vnic" "test_vnic" {
-}
+
 `
 	VnicPropertyVariables = `
 
@@ -22,80 +21,48 @@ resource "oci_core_vnic" "test_vnic" {
 )
 
 func TestCoreVnicResource_basic(t *testing.T) {
-	t.Skip("Skipping generated test for now as it has not been worked on.")
 	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getRequiredEnvSetting("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	resourceName := "oci_core_vnic.test_vnic"
-
 	singularDatasourceName := "data.oci_core_vnic.test_vnic"
-
-	var resId, resId2 string
 
 	resource.Test(t, resource.TestCase{
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},
 		Steps: []resource.TestStep{
-			// verify create
-			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config:            config + VnicPropertyVariables + compartmentIdVariableStr + VnicResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttrSet(resourceName, "vnic_id"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
-
-			// verify updates to updatable parameters
-			{
-				Config: config + `
-
-                ` + compartmentIdVariableStr + VnicResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
-					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "private_ip_address"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(resourceName, "vnic_id"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
 			// verify singular datasource
 			{
-				Config: config + `
+				Config: config + instanceDnsConfig + `
 
+data "oci_core_vnic_attachments" "t" {
+	compartment_id = "${var.compartment_id}"
+	instance_id = "${oci_core_instance.t.id}"
+}
 data "oci_core_vnic" "test_vnic" {
 	#Required
-	vnic_id = "${oci_core_vnic.test_vnic.id}"
+	vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}"
 }
                 ` + compartmentIdVariableStr + VnicResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "vnic_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_domain"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "-tf-instance-vnic"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "hostname_label", "testinstance"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "is_primary", "true"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "mac_address"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "private_ip_address"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "public_ip_address"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "skip_source_dest_check", "false"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "state", "AVAILABLE"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "subnet_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				),
