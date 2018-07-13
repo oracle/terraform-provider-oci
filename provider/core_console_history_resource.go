@@ -132,6 +132,14 @@ func (s *ConsoleHistoryResourceCrud) CreatedTarget() []string {
 	}
 }
 
+func (s *ConsoleHistoryResourceCrud) DeletedPending() []string {
+	return []string{}
+}
+
+func (s *ConsoleHistoryResourceCrud) DeletedTarget() []string {
+	return []string{}
+}
+
 func (s *ConsoleHistoryResourceCrud) Create() error {
 	request := oci_core.CaptureConsoleHistoryRequest{}
 
@@ -220,8 +228,15 @@ func (s *ConsoleHistoryResourceCrud) Update() error {
 }
 
 func (s *ConsoleHistoryResourceCrud) Delete() error {
-	// Do not delete console history.
-	return nil
+	request := oci_core.DeleteConsoleHistoryRequest{}
+
+	tmp := s.D.Id()
+	request.InstanceConsoleHistoryId = &tmp
+
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	_, err := s.Client.DeleteConsoleHistory(context.Background(), request)
+	return err
 }
 
 func (s *ConsoleHistoryResourceCrud) SetData() {

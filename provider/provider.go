@@ -159,6 +159,7 @@ func dataSourcesMap() map[string]*schema.Resource {
 		"oci_containerengine_work_request_log_entries": WorkRequestLogEntriesDataSource(),
 		"oci_core_boot_volume_attachments":             BootVolumeAttachmentsDataSource(),
 		"oci_core_boot_volumes":                        BootVolumesDataSource(),
+		"oci_core_console_histories":                   ConsoleHistoriesDataSource(),
 		"oci_core_console_history_data":                ConsoleHistoryContentDataSource(),
 		"oci_core_cpes":                                CpesDataSource(),
 		"oci_core_dhcp_options":                        DhcpOptionsDataSource(),

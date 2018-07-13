@@ -34,14 +34,13 @@ variable "console_history_availability_domain" { default = "availabilityDomain" 
 variable "console_history_defined_tags_value" { default = "value" }
 variable "console_history_display_name" { default = "displayName" }
 variable "console_history_freeform_tags" { default = {"Department"= "Finance"} }
-variable "console_history_state" { default = "AVAILABLE" }
+variable "console_history_state" { default = "SUCCEEDED" }
 
 `
-	ConsoleHistoryResourceDependencies = DefinedTagsDependencies // Uncomment once defined: InstancePropertyVariables + InstanceResourceConfig
+	ConsoleHistoryResourceDependencies = InstancePropertyVariables + InstanceResourceConfig
 )
 
 func TestCoreConsoleHistoryResource_basic(t *testing.T) {
-	t.Skip("Skipping generated test for now as it has not been worked on.")
 	provider := testAccProvider
 	config := testProviderConfig()
 
@@ -105,7 +104,7 @@ variable "console_history_availability_domain" { default = "availabilityDomain" 
 variable "console_history_defined_tags_value" { default = "updatedValue" }
 variable "console_history_display_name" { default = "displayName2" }
 variable "console_history_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "console_history_state" { default = "AVAILABLE" }
+variable "console_history_state" { default = "SUCCEEDED" }
 
                 ` + compartmentIdVariableStr + ConsoleHistoryResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
@@ -135,14 +134,14 @@ variable "console_history_availability_domain" { default = "availabilityDomain" 
 variable "console_history_defined_tags_value" { default = "updatedValue" }
 variable "console_history_display_name" { default = "displayName2" }
 variable "console_history_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "console_history_state" { default = "AVAILABLE" }
+variable "console_history_state" { default = "SUCCEEDED" }
 
 data "oci_core_console_histories" "test_console_histories" {
 	#Required
 	compartment_id = "${var.compartment_id}"
 
 	#Optional
-	availability_domain = "${var.console_history_availability_domain}"
+	availability_domain = "${oci_core_instance.test_instance.availability_domain}"
 	instance_id = "${oci_core_instance.test_instance.id}"
 	state = "${var.console_history_state}"
 
@@ -153,10 +152,10 @@ data "oci_core_console_histories" "test_console_histories" {
 }
                 ` + compartmentIdVariableStr + ConsoleHistoryResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(datasourceName, "availability_domain", "availabilityDomain"),
+					resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "instance_id"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
+					resource.TestCheckResourceAttr(datasourceName, "state", "SUCCEEDED"),
 
 					resource.TestCheckResourceAttr(datasourceName, "console_histories.#", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "console_histories.0.availability_domain"),
