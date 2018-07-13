@@ -96,15 +96,23 @@ func (s *ResourceCoreRouteTableTestSuite) TestAccResourceCoreRouteTable_basic() 
 					resource.TestCheckResourceAttrSet(s.ResourceName, "vcn_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(core.RouteTableLifecycleStateAvailable)),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "route_rules.0.network_entity_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "route_rules.#", "1"),
-					resource.TestCheckResourceAttr(s.ResourceName, "route_rules.0.cidr_block", "0.0.0.0/0"),
+					CheckResourceSetContainsElementWithProperties(s.ResourceName, "route_rules", map[string]string{
+						"cidr_block": "0.0.0.0/0",
+					},
+						[]string{
+							"network_entity_id",
+						}),
 					resource.TestCheckResourceAttrSet(s.DefaultResourceName, "manage_default_resource_id"),
 					resource.TestCheckResourceAttr(s.DefaultResourceName, "state", string(core.RouteTableLifecycleStateAvailable)),
 					resource.TestCheckResourceAttrSet(s.DefaultResourceName, "display_name"),
-					resource.TestCheckResourceAttrSet(s.DefaultResourceName, "route_rules.0.network_entity_id"),
 					resource.TestCheckResourceAttr(s.DefaultResourceName, "route_rules.#", "1"),
-					resource.TestCheckResourceAttr(s.DefaultResourceName, "route_rules.0.cidr_block", "0.0.0.0/0"),
+					CheckResourceSetContainsElementWithProperties(s.DefaultResourceName, "route_rules", map[string]string{
+						"cidr_block": "0.0.0.0/0",
+					},
+						[]string{
+							"network_entity_id",
+						}),
 				),
 			},
 			// verify update
@@ -141,14 +149,34 @@ func (s *ResourceCoreRouteTableTestSuite) TestAccResourceCoreRouteTable_basic() 
 					resource.TestCheckResourceAttrSet(s.ResourceName, "vcn_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "route_rules.#", "2"),
-					resource.TestCheckResourceAttr(s.ResourceName, "route_rules.0.cidr_block", "0.0.0.0/0"),
-					resource.TestCheckResourceAttr(s.ResourceName, "route_rules.1.cidr_block", "10.0.0.0/8"),
+					CheckResourceSetContainsElementWithProperties(s.ResourceName, "route_rules", map[string]string{
+						"cidr_block": "0.0.0.0/0",
+					},
+						[]string{
+							"network_entity_id",
+						}),
+					CheckResourceSetContainsElementWithProperties(s.ResourceName, "route_rules", map[string]string{
+						"cidr_block": "10.0.0.0/8",
+					},
+						[]string{
+							"network_entity_id",
+						}),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(core.RouteTableLifecycleStateAvailable)),
 					resource.TestCheckResourceAttrSet(s.DefaultResourceName, "manage_default_resource_id"),
 					resource.TestCheckResourceAttr(s.DefaultResourceName, "display_name", "default-tf-route-table"),
 					resource.TestCheckResourceAttr(s.DefaultResourceName, "route_rules.#", "2"),
-					resource.TestCheckResourceAttr(s.DefaultResourceName, "route_rules.0.cidr_block", "0.0.0.0/0"),
-					resource.TestCheckResourceAttr(s.DefaultResourceName, "route_rules.1.cidr_block", "10.0.0.0/8"),
+					CheckResourceSetContainsElementWithProperties(s.DefaultResourceName, "route_rules", map[string]string{
+						"cidr_block": "0.0.0.0/0",
+					},
+						[]string{
+							"network_entity_id",
+						}),
+					CheckResourceSetContainsElementWithProperties(s.DefaultResourceName, "route_rules", map[string]string{
+						"cidr_block": "10.0.0.0/8",
+					},
+						[]string{
+							"network_entity_id",
+						}),
 					resource.TestCheckResourceAttr(s.DefaultResourceName, "state", string(core.RouteTableLifecycleStateAvailable)),
 				),
 			},
@@ -163,9 +191,13 @@ func (s *ResourceCoreRouteTableTestSuite) TestAccResourceCoreRouteTable_basic() 
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.DefaultResourceName, "manage_default_resource_id"),
 					resource.TestCheckResourceAttrSet(s.DefaultResourceName, "display_name"),
-					resource.TestCheckResourceAttrSet(s.DefaultResourceName, "route_rules.0.network_entity_id"),
 					resource.TestCheckResourceAttr(s.DefaultResourceName, "route_rules.#", "1"),
-					resource.TestCheckResourceAttr(s.DefaultResourceName, "route_rules.0.cidr_block", "0.0.0.0/0"),
+					CheckResourceSetContainsElementWithProperties(s.DefaultResourceName, "route_rules", map[string]string{
+						"cidr_block": "0.0.0.0/0",
+					},
+						[]string{
+							"network_entity_id",
+						}),
 					resource.TestCheckResourceAttr(s.DefaultResourceName, "state", string(core.RouteTableLifecycleStateAvailable)),
 				),
 			},
