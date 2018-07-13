@@ -21,7 +21,6 @@ const (
 )
 
 func TestCoreInstanceCredentialResource_basic(t *testing.T) {
-	t.Skip("Skipping generated test for now as it has not been worked on.")
 	provider := testAccProvider
 	config := testProviderConfig()
 
@@ -37,11 +36,11 @@ func TestCoreInstanceCredentialResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify singular datasource
 			{
-				Config: config + `
+				Config: config + windowsInstanceDnsConfig + `
 
 data "oci_core_instance_credentials" "test_instance_credentials" {
 	#Required
-	instance_id = "${oci_core_instance.test_instance.id}"
+	instance_id = "${oci_core_instance.t.id}"
 }
                 ` + compartmentIdVariableStr + InstanceCredentialResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
