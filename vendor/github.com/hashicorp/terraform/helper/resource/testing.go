@@ -252,16 +252,23 @@ func Test(t TestT, c TestCase) {
 		var err error
 		log.Printf("[WARN] Test: Executing step %d", i)
 
-		// Determine the test mode to execute
-		if step.Config != "" {
-			state, err = testStepConfig(opts, state, step)
-		} else if step.ImportState {
-			state, err = testStepImportState(opts, state, step)
-		} else {
+		// *** OCI Custom Change ***
+		// The following change is provided by the latest version of Terraform to fix import testing.
+		// This change should automatically be included once this dependency is updated.
+		if step.Config == "" && !step.ImportState {
 			err = fmt.Errorf(
 				"unknown test mode for step. Please see TestStep docs\n\n%#v",
 				step)
+		} else {
+			if step.ImportState {
+				// Can optionally set step.Config in addition to
+				// step.ImportState, to provide config for the import.
+				state, err = testStepImportState(opts, state, step)
+			} else {
+				state, err = testStepConfig(opts, state, step)
+			}
 		}
+		// *** End OCI Custom Change ***
 
 		// If there was an error, exit
 		if err != nil {
