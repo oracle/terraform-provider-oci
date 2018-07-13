@@ -357,6 +357,12 @@ func (s *RouteTableResourceCrud) mapToRouteRule(hashcode int) oci_core.RouteRule
 	// @CODEGEN We need this change because the service will return both cidr_block and destination.
 	// Without this change on update operations terraform will send both paremeters since they are both in the statefile.
 	// The service will complain if both parameters are not the same on the update operation so we need to make sure only the relevant one in sent to the service.
+	destinationType, destinationTypePresent := s.D.GetOkExists(fmt.Sprintf("route_rules.%d.destination_type", hashcode))
+	if destinationTypePresent {
+		tmp := oci_core.RouteRuleDestinationTypeEnum(destinationType.(string))
+		result.DestinationType = tmp
+	}
+
 	cidrBlockChanged := false
 	cidrBlock, cidrBlockPresent := s.D.GetOkExists(fmt.Sprintf("route_rules.%d.cidr_block", hashcode))
 	if cidrBlockPresent && s.D.HasChange(fmt.Sprintf("route_rules.%d.cidr_block", hashcode)) {
@@ -371,18 +377,14 @@ func (s *RouteTableResourceCrud) mapToRouteRule(hashcode int) oci_core.RouteRule
 		destinationChanged = true
 	}
 
-	if !destinationChanged && !cidrBlockChanged {
+	if destinationType == string(oci_core.RouteRuleDestinationTypeServiceCidrBlock) || (!destinationChanged && !cidrBlockChanged) {
 		tmp := destination.(string)
 		result.Destination = &tmp
 	}
-	if !destinationChanged && cidrBlockPresent {
+
+	if !destinationChanged && cidrBlockPresent && cidrBlock != "" && destinationType != string(oci_core.RouteRuleDestinationTypeServiceCidrBlock) {
 		tmp := cidrBlock.(string)
 		result.CidrBlock = &tmp
-	}
-
-	if destinationType, ok := s.D.GetOkExists(fmt.Sprintf("route_rules.%d.destination_type", hashcode)); ok {
-		tmp := oci_core.RouteRuleDestinationTypeEnum(destinationType.(string))
-		result.DestinationType = tmp
 	}
 
 	if networkEntityId, ok := s.D.GetOkExists(fmt.Sprintf("route_rules.%d.network_entity_id", hashcode)); ok {
