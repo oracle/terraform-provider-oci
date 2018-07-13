@@ -144,7 +144,7 @@ resource "oci_core_instance" "t" {
 `
 
 const (
-instanceDnsConfig = `
+	instanceDnsConfig = `
 data "oci_identity_availability_domains" "ADs" {
   compartment_id = "${var.compartment_id}"
 }
@@ -198,7 +198,8 @@ resource "oci_core_instance" "t" {
 		create = "15m"
 	}
 }
-` + DefinedTagsDependencies)
+` + DefinedTagsDependencies
+)
 
 func GetTestProvider() *OracleClients {
 	r := &schema.Resource{
