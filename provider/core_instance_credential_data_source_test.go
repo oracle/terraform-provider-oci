@@ -18,9 +18,8 @@ type DatasourceCoreInstanceCredentialTestSuite struct {
 	ResourceName string
 }
 
-func (s *DatasourceCoreInstanceCredentialTestSuite) SetupTest() {
-	s.Providers = testAccProviders
-	s.Config = legacyTestProviderConfig() + `
+const (
+	windowsInstanceDnsConfig = `
 	data "oci_identity_availability_domains" "ADs" {
 		compartment_id = "${var.compartment_id}"
 	}
@@ -65,6 +64,11 @@ func (s *DatasourceCoreInstanceCredentialTestSuite) SetupTest() {
 			create = "15m"
 		}
 	}`
+)
+
+func (s *DatasourceCoreInstanceCredentialTestSuite) SetupTest() {
+	s.Providers = testAccProviders
+	s.Config = legacyTestProviderConfig() + windowsInstanceDnsConfig
 	s.ResourceName = "data.oci_core_instance_credentials.s"
 }
 
