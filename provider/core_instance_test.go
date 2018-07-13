@@ -17,6 +17,8 @@ resource "oci_core_instance" "test_instance" {
 	availability_domain = "${oci_core_subnet.test_subnet.availability_domain}"
 	compartment_id = "${var.compartment_id}"
 	shape = "${var.instance_shape}"
+	subnet_id = "${oci_core_subnet.test_subnet.id}"
+	image = "${var.InstanceImageOCID[var.region]}"
 }
 `
 	InstanceResourceAsDependencyConfig = InstanceResourceDependenciesRequiredOnly + `
@@ -66,12 +68,12 @@ resource "oci_core_instance" "test_instance" {
 	source_details {
 		#Required
 		source_type = "image"
-        source_id = "${var.InstanceImageOCID[var.region]}"
+		source_id = "${var.InstanceImageOCID[var.region]}"
 	}
 	subnet_id = "${oci_core_subnet.test_subnet.id}"
 }
 `
-	InstancePropertyVariables = `
+	InstanceCommonVariables = `
 variable "InstanceImageOCID" {
 	  type = "map"
 	  default = {
@@ -84,12 +86,13 @@ variable "InstanceImageOCID" {
 	  }
 }
 
+`
+	InstancePropertyVariables = InstanceCommonVariables + `
 variable "instance_availability_domain" { default = "availabilityDomain" }
 variable "instance_create_vnic_details_assign_public_ip" { default = false }
 variable "instance_create_vnic_details_defined_tags_value" { default = "definedTags" }
 variable "instance_create_vnic_details_display_name" { default = "displayName" }
 variable "instance_create_vnic_details_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "instance_create_vnic_details_hostname_label" { default = "hostnameLabel" }
 variable "instance_create_vnic_details_private_ip" { default = "10.0.0.5" }
 variable "instance_create_vnic_details_skip_source_dest_check" { default = false }
 variable "instance_defined_tags_value" { default = "value" }
@@ -104,8 +107,8 @@ variable "instance_image" { default = "image" }
 variable "instance_ipxe_script" { default = "ipxeScript" }
 variable "instance_metadata" { default = { userdata = "abcd" } }
 variable "instance_shape" { default = "VM.Standard1.8" }
-variable "instance_source_details_source_type" { default = "sourceType" }
-variable "instance_state" { default = "AVAILABLE" }
+variable "instance_source_details_source_type" { default = "image" }
+variable "instance_state" { default = "RUNNING" }
 
 `
 	InstanceResourceDependenciesRequiredOnly = SubnetPropertyVariables + SubnetRequiredOnlyResource
@@ -113,7 +116,6 @@ variable "instance_state" { default = "AVAILABLE" }
 )
 
 func TestCoreInstanceResource_basic(t *testing.T) {
-	t.Skip("Skipping generated test for now as it has not been worked on.")
 	provider := testAccProvider
 	config := testProviderConfig()
 
@@ -136,7 +138,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 				ImportStateVerify: true,
 				Config:            config + InstancePropertyVariables + compartmentIdVariableStr + InstanceRequiredOnlyResource,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "availability_domain", "availabilityDomain"),
+					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard1.8"),
 					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
@@ -156,30 +158,28 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 			{
 				Config: config + InstancePropertyVariables + compartmentIdVariableStr + InstanceResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "availability_domain", "availabilityDomain"),
+					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.assign_public_ip", "false"),
 					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.display_name", "displayName"),
 					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.hostname_label", "hostnameLabel"),
 					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.private_ip", "10.0.0.5"),
 					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.skip_source_dest_check", "false"),
 					resource.TestCheckResourceAttrSet(resourceName, "create_vnic_details.0.subnet_id"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "extended_metadata.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "extended_metadata.%", "2"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnameLabel"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "image", "image"),
+					resource.TestCheckResourceAttrSet(resourceName, "image"),
 					resource.TestCheckResourceAttr(resourceName, "ipxe_script", "ipxeScript"),
 					resource.TestCheckResourceAttr(resourceName, "metadata.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "region"),
 					resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard1.8"),
 					resource.TestCheckResourceAttr(resourceName, "source_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "source_details.0.source_type", "sourceType"),
+					resource.TestCheckResourceAttr(resourceName, "source_details.0.source_type", "image"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -193,13 +193,12 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + `
+				Config: config + InstanceCommonVariables+ `
 variable "instance_availability_domain" { default = "availabilityDomain" }
 variable "instance_create_vnic_details_assign_public_ip" { default = false }
 variable "instance_create_vnic_details_defined_tags_value" { default = "definedTags" }
 variable "instance_create_vnic_details_display_name" { default = "displayName" }
 variable "instance_create_vnic_details_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "instance_create_vnic_details_hostname_label" { default = "hostnameLabel" }
 variable "instance_create_vnic_details_private_ip" { default = "10.0.0.5" }
 variable "instance_create_vnic_details_skip_source_dest_check" { default = false }
 variable "instance_defined_tags_value" { default = "updatedValue" }
@@ -214,35 +213,33 @@ variable "instance_image" { default = "image" }
 variable "instance_ipxe_script" { default = "ipxeScript" }
 variable "instance_metadata" { default = { userdata = "abcd" } }
 variable "instance_shape" { default = "VM.Standard1.8" }
-variable "instance_source_details_source_type" { default = "sourceType" }
-variable "instance_state" { default = "AVAILABLE" }
+variable "instance_source_details_source_type" { default = "image" }
+variable "instance_state" { default = "RUNNING" }
 
                 ` + compartmentIdVariableStr + InstanceResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "availability_domain", "availabilityDomain"),
+					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.assign_public_ip", "false"),
 					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.display_name", "displayName"),
 					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.hostname_label", "hostnameLabel"),
 					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.private_ip", "10.0.0.5"),
 					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.skip_source_dest_check", "false"),
 					resource.TestCheckResourceAttrSet(resourceName, "create_vnic_details.0.subnet_id"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "extended_metadata.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "extended_metadata.%", "2"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnameLabel"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "image", "image"),
+					resource.TestCheckResourceAttrSet(resourceName, "image"),
 					resource.TestCheckResourceAttr(resourceName, "ipxe_script", "ipxeScript"),
 					resource.TestCheckResourceAttr(resourceName, "metadata.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "region"),
 					resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard1.8"),
 					resource.TestCheckResourceAttr(resourceName, "source_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "source_details.0.source_type", "sourceType"),
+					resource.TestCheckResourceAttr(resourceName, "source_details.0.source_type", "image"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -258,13 +255,12 @@ variable "instance_state" { default = "AVAILABLE" }
 			},
 			// verify datasource
 			{
-				Config: config + `
+				Config: config + InstanceCommonVariables + `
 variable "instance_availability_domain" { default = "availabilityDomain" }
 variable "instance_create_vnic_details_assign_public_ip" { default = false }
 variable "instance_create_vnic_details_defined_tags_value" { default = "definedTags" }
 variable "instance_create_vnic_details_display_name" { default = "displayName" }
 variable "instance_create_vnic_details_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "instance_create_vnic_details_hostname_label" { default = "hostnameLabel" }
 variable "instance_create_vnic_details_private_ip" { default = "10.0.0.5" }
 variable "instance_create_vnic_details_skip_source_dest_check" { default = false }
 variable "instance_defined_tags_value" { default = "updatedValue" }
@@ -279,15 +275,15 @@ variable "instance_image" { default = "image" }
 variable "instance_ipxe_script" { default = "ipxeScript" }
 variable "instance_metadata" { default = { userdata = "abcd" } }
 variable "instance_shape" { default = "VM.Standard1.8" }
-variable "instance_source_details_source_type" { default = "sourceType" }
-variable "instance_state" { default = "AVAILABLE" }
+variable "instance_source_details_source_type" { default = "image" }
+variable "instance_state" { default = "RUNNING" }
 
 data "oci_core_instances" "test_instances" {
 	#Required
 	compartment_id = "${var.compartment_id}"
 
 	#Optional
-	availability_domain = "${var.instance_availability_domain}"
+	availability_domain = "${oci_core_instance.test_instance.availability_domain}"
 	display_name = "${var.instance_display_name}"
 	state = "${var.instance_state}"
 
@@ -298,29 +294,27 @@ data "oci_core_instances" "test_instances" {
 }
                 ` + compartmentIdVariableStr + InstanceResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(datasourceName, "availability_domain", "availabilityDomain"),
+					resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
-					resource.TestCheckResourceAttrSet(datasourceName, "subnet_id"),
+					resource.TestCheckResourceAttr(datasourceName, "state", "RUNNING"),
 
 					resource.TestCheckResourceAttr(datasourceName, "instances.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "instances.0.availability_domain", "availabilityDomain"),
+					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.availability_domain"),
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "instances.0.extended_metadata.%", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.extended_metadata.%", "2"),
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.id"),
-					resource.TestCheckResourceAttr(datasourceName, "instances.0.image", "image"),
+					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.image"),
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.ipxe_script", "ipxeScript"),
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.metadata.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.region"),
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.shape", "VM.Standard1.8"),
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.source_details.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "instances.0.source_details.0.source_type", "sourceType"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.source_details.0.source_type", "image"),
 					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.subnet_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.time_created"),
 				),
 			},
