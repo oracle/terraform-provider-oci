@@ -976,10 +976,10 @@ func UdpOptionsToMap(obj *oci_core.UdpOptions) map[string]interface{} {
 func egressRuleHashCodeForSets(v interface{}) int {
 	var buf bytes.Buffer
 	m := v.(map[string]interface{})
-	buf.WriteString(fmt.Sprintf("%v-", m["protocol"].(string)))
-	buf.WriteString(fmt.Sprintf("%v-", m["destination"].(string)))
+	buf.WriteString(fmt.Sprintf("%v-", m["protocol"]))
+	buf.WriteString(fmt.Sprintf("%v-", m["destination"]))
 	if destinationType, destinationTypePresent := m["destination_type"]; destinationTypePresent && destinationType != "" {
-		buf.WriteString(fmt.Sprintf("%v-", destinationType.(string)))
+		buf.WriteString(fmt.Sprintf("%v-", destinationType))
 	} else {
 		buf.WriteString(fmt.Sprintf("%v-", oci_core.EgressSecurityRuleDestinationTypeCidrBlock))
 	}
@@ -996,7 +996,7 @@ func egressRuleHashCodeForSets(v interface{}) int {
 		}
 	}
 	if stateless, statelessPresent := m["stateless"]; statelessPresent && stateless != "" {
-		buf.WriteString(fmt.Sprintf("%v-", stateless.(bool)))
+		buf.WriteString(fmt.Sprintf("%v-", stateless))
 	} else {
 		buf.WriteString(fmt.Sprintf("%v-", "false"))
 	}
@@ -1004,21 +1004,21 @@ func egressRuleHashCodeForSets(v interface{}) int {
 		if tmpList := tcpOptions.([]interface{}); len(tmpList) > 0 {
 			buf.WriteString("tcp_options-")
 			tcpOptionsRaw := tmpList[0].(map[string]interface{})
-			if tcpOptionsRaw["max"].(int) != 0 {
-				buf.WriteString(fmt.Sprintf("%v-", tcpOptionsRaw["max"].(int)))
+			if max, ok := tcpOptionsRaw["max"]; ok {
+				buf.WriteString(fmt.Sprintf("%v-", max))
 			}
-			if tcpOptionsRaw["min"].(int) != 0 {
-				buf.WriteString(fmt.Sprintf("%v-", tcpOptionsRaw["min"].(int)))
+			if min, ok := tcpOptionsRaw["min"]; ok {
+				buf.WriteString(fmt.Sprintf("%v-", min))
 			}
 
 			if sourcePortRange, ok := tcpOptionsRaw["source_port_range"]; ok {
 				if tmpList := sourcePortRange.([]interface{}); len(tmpList) > 0 {
 					sourcePortRangeRaw := tmpList[0].(map[string]interface{})
-					if sourcePortRangeRaw["max"].(int) != 0 {
-						buf.WriteString(fmt.Sprintf("%v-", sourcePortRangeRaw["max"].(int)))
+					if max, ok := sourcePortRangeRaw["max"]; ok {
+						buf.WriteString(fmt.Sprintf("%v-", max))
 					}
-					if sourcePortRangeRaw["min"].(int) != 0 {
-						buf.WriteString(fmt.Sprintf("%v-", sourcePortRangeRaw["min"].(int)))
+					if min, ok := sourcePortRangeRaw["min"]; ok {
+						buf.WriteString(fmt.Sprintf("%v-", min))
 					}
 				}
 			}
@@ -1028,21 +1028,21 @@ func egressRuleHashCodeForSets(v interface{}) int {
 		if tmpList := udpOptions.([]interface{}); len(tmpList) > 0 {
 			buf.WriteString("udp_options-")
 			udpOptionsRaw := tmpList[0].(map[string]interface{})
-			if udpOptionsRaw["max"].(int) != 0 {
-				buf.WriteString(fmt.Sprintf("%v-", udpOptionsRaw["max"].(int)))
+			if max, ok := udpOptionsRaw["max"]; ok && max != 0 {
+				buf.WriteString(fmt.Sprintf("%v-", max))
 			}
-			if udpOptionsRaw["min"].(int) != 0 {
-				buf.WriteString(fmt.Sprintf("%v-", udpOptionsRaw["min"].(int)))
+			if min, ok := udpOptionsRaw["min"]; ok && min != 0 {
+				buf.WriteString(fmt.Sprintf("%v-", min))
 			}
 
 			if sourcePortRange, ok := udpOptionsRaw["source_port_range"]; ok {
 				if tmpList := sourcePortRange.([]interface{}); len(tmpList) > 0 {
 					sourcePortRangeRaw := tmpList[0].(map[string]interface{})
-					if sourcePortRangeRaw["max"].(int) != 0 {
-						buf.WriteString(fmt.Sprintf("%v-", sourcePortRangeRaw["max"].(int)))
+					if max, ok := sourcePortRangeRaw["max"]; ok {
+						buf.WriteString(fmt.Sprintf("%v-", max))
 					}
-					if sourcePortRangeRaw["min"].(int) != 0 {
-						buf.WriteString(fmt.Sprintf("%v-", sourcePortRangeRaw["min"].(int)))
+					if min, ok := sourcePortRangeRaw["min"]; ok {
+						buf.WriteString(fmt.Sprintf("%v-", min))
 					}
 				}
 			}
@@ -1066,15 +1066,15 @@ func ingressRuleHashCodeForSets(v interface{}) int {
 			}
 		}
 	}
-	buf.WriteString(fmt.Sprintf("%v-", m["protocol"].(string)))
-	buf.WriteString(fmt.Sprintf("%v-", m["source"].(string)))
+	buf.WriteString(fmt.Sprintf("%v-", m["protocol"]))
+	buf.WriteString(fmt.Sprintf("%v-", m["source"]))
 	if sourceType, sourceTypePresent := m["source_type"]; sourceTypePresent && sourceType != "" {
-		buf.WriteString(fmt.Sprintf("%v-", sourceType.(string)))
+		buf.WriteString(fmt.Sprintf("%v-", sourceType))
 	} else {
 		buf.WriteString(fmt.Sprintf("%v-", oci_core.IngressSecurityRuleSourceTypeCidrBlock))
 	}
 	if stateless, statelessPresent := m["stateless"]; statelessPresent && stateless != "" {
-		buf.WriteString(fmt.Sprintf("%v-", stateless.(bool)))
+		buf.WriteString(fmt.Sprintf("%v-", stateless))
 	} else {
 		buf.WriteString(fmt.Sprintf("%v-", "false"))
 	}
@@ -1082,21 +1082,21 @@ func ingressRuleHashCodeForSets(v interface{}) int {
 		if tmpList := tcpOptions.([]interface{}); len(tmpList) > 0 {
 			buf.WriteString("tcp_options-")
 			tcpOptionsRaw := tmpList[0].(map[string]interface{})
-			if tcpOptionsRaw["max"].(int) != 0 {
-				buf.WriteString(fmt.Sprintf("%v-", tcpOptionsRaw["max"].(int)))
+			if max, ok := tcpOptionsRaw["max"]; ok {
+				buf.WriteString(fmt.Sprintf("%v-", max))
 			}
-			if tcpOptionsRaw["min"].(int) != 0 {
-				buf.WriteString(fmt.Sprintf("%v-", tcpOptionsRaw["min"].(int)))
+			if min, ok := tcpOptionsRaw["min"]; ok {
+				buf.WriteString(fmt.Sprintf("%v-", min))
 			}
 
 			if sourcePortRange, ok := tcpOptionsRaw["source_port_range"]; ok {
 				if tmpList := sourcePortRange.([]interface{}); len(tmpList) > 0 {
 					sourcePortRangeRaw := tmpList[0].(map[string]interface{})
-					if sourcePortRangeRaw["max"].(int) != 0 {
-						buf.WriteString(fmt.Sprintf("%v-", sourcePortRangeRaw["max"].(int)))
+					if max, ok := sourcePortRangeRaw["max"]; ok {
+						buf.WriteString(fmt.Sprintf("%v-", max))
 					}
-					if sourcePortRangeRaw["min"].(int) != 0 {
-						buf.WriteString(fmt.Sprintf("%v-", sourcePortRangeRaw["min"].(int)))
+					if min, ok := sourcePortRangeRaw["min"]; ok {
+						buf.WriteString(fmt.Sprintf("%v-", min))
 					}
 				}
 			}
@@ -1106,21 +1106,21 @@ func ingressRuleHashCodeForSets(v interface{}) int {
 		if tmpList := udpOptions.([]interface{}); len(tmpList) > 0 {
 			buf.WriteString("udp_options-")
 			udpOptionsRaw := tmpList[0].(map[string]interface{})
-			if udpOptionsRaw["max"].(int) != 0 {
-				buf.WriteString(fmt.Sprintf("%v-", udpOptionsRaw["max"].(int)))
+			if max, ok := udpOptionsRaw["max"]; ok {
+				buf.WriteString(fmt.Sprintf("%v-", max))
 			}
-			if udpOptionsRaw["min"].(int) != 0 {
-				buf.WriteString(fmt.Sprintf("%v-", udpOptionsRaw["min"].(int)))
+			if min, ok := udpOptionsRaw["min"]; ok {
+				buf.WriteString(fmt.Sprintf("%v-", min))
 			}
 
 			if sourcePortRange, ok := udpOptionsRaw["source_port_range"]; ok {
 				if tmpList := sourcePortRange.([]interface{}); len(tmpList) > 0 {
 					sourcePortRangeRaw := tmpList[0].(map[string]interface{})
-					if sourcePortRangeRaw["max"].(int) != 0 {
-						buf.WriteString(fmt.Sprintf("%v-", sourcePortRangeRaw["max"].(int)))
+					if max, ok := sourcePortRangeRaw["max"]; ok {
+						buf.WriteString(fmt.Sprintf("%v-", max))
 					}
-					if sourcePortRangeRaw["min"].(int) != 0 {
-						buf.WriteString(fmt.Sprintf("%v-", sourcePortRangeRaw["min"].(int)))
+					if min, ok := sourcePortRangeRaw["min"]; ok {
+						buf.WriteString(fmt.Sprintf("%v-", min))
 					}
 				}
 			}

@@ -59,7 +59,10 @@ func (s *DatasourceCoreSecurityListTestSuite) TestAccDatasourceCoreSecurityLists
 					resource.TestCheckResourceAttr(s.ResourceName, "security_lists.#", "1"),
 					TestCheckResourceAttributesEqual(s.ResourceName, "security_lists.0.id", "oci_core_virtual_network.t", "default_security_list_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "security_lists.0.display_name", "Default Security List for -tf-vcn"),
-					resource.TestCheckResourceAttr(s.ResourceName, "security_lists.0.ingress_security_rules.0.tcp_options.0.max", "22"),
+					CheckResourceSetContainsElementWithProperties(s.ResourceName, "security_lists.0.ingress_security_rules", map[string]string{
+						"tcp_options.0.max": "22",
+					},
+						nil),
 					resource.TestCheckResourceAttr(s.ResourceName, "security_lists.0.state", string(core.SecurityListLifecycleStateAvailable)),
 					TestCheckResourceAttributesEqual(s.ResourceName, "security_lists.0.vcn_id", "oci_core_virtual_network.t", "id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "security_lists.0.time_created"),
