@@ -54,7 +54,6 @@ resource "oci_core_instance" "test_instance" {
 		defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.instance_create_vnic_details_defined_tags_value}")}"
 		display_name = "${var.instance_create_vnic_details_display_name}"
 		freeform_tags = "${var.instance_create_vnic_details_freeform_tags}"
-		hostname_label = "${var.instance_create_vnic_details_hostname_label}"
 		private_ip = "${var.instance_create_vnic_details_private_ip}"
 		skip_source_dest_check = "${var.instance_create_vnic_details_skip_source_dest_check}"
 	}
@@ -62,7 +61,6 @@ resource "oci_core_instance" "test_instance" {
 	display_name = "${var.instance_display_name}"
 	extended_metadata = "${var.instance_extended_metadata}"
 	freeform_tags = "${var.instance_freeform_tags}"
-	hostname_label = "${var.instance_hostname_label}"
 	ipxe_script = "${var.instance_ipxe_script}"
 	metadata = "${var.instance_metadata}"
 	source_details {
@@ -90,18 +88,21 @@ variable "instance_availability_domain" { default = "availabilityDomain" }
 variable "instance_create_vnic_details_assign_public_ip" { default = false }
 variable "instance_create_vnic_details_defined_tags_value" { default = "definedTags" }
 variable "instance_create_vnic_details_display_name" { default = "displayName" }
-variable "instance_create_vnic_details_freeform_tags" { default = "freeformTags" }
+variable "instance_create_vnic_details_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "instance_create_vnic_details_hostname_label" { default = "hostnameLabel" }
-variable "instance_create_vnic_details_private_ip" { default = "privateIp" }
+variable "instance_create_vnic_details_private_ip" { default = "10.0.0.5" }
 variable "instance_create_vnic_details_skip_source_dest_check" { default = false }
 variable "instance_defined_tags_value" { default = "value" }
 variable "instance_display_name" { default = "displayName" }
-variable "instance_extended_metadata" { default = "extendedMetadata" }
+variable "instance_extended_metadata" { default = {
+		some_string = "stringA"
+		nested_object = "{\"some_string\": \"stringB\", \"object\": {\"some_string\": \"stringC\"}}"
+	} }
 variable "instance_freeform_tags" { default = {"Department"= "Finance"} }
 variable "instance_hostname_label" { default = "hostnameLabel" }
 variable "instance_image" { default = "image" }
 variable "instance_ipxe_script" { default = "ipxeScript" }
-variable "instance_metadata" { default = "metadata" }
+variable "instance_metadata" { default = { userdata = "abcd" } }
 variable "instance_shape" { default = "VM.Standard1.8" }
 variable "instance_source_details_source_type" { default = "sourceType" }
 variable "instance_state" { default = "AVAILABLE" }
@@ -163,7 +164,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.display_name", "displayName"),
 					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.hostname_label", "hostnameLabel"),
-					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.private_ip", "privateIp"),
+					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.private_ip", "10.0.0.5"),
 					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.skip_source_dest_check", "false"),
 					resource.TestCheckResourceAttrSet(resourceName, "create_vnic_details.0.subnet_id"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -197,18 +198,21 @@ variable "instance_availability_domain" { default = "availabilityDomain" }
 variable "instance_create_vnic_details_assign_public_ip" { default = false }
 variable "instance_create_vnic_details_defined_tags_value" { default = "definedTags" }
 variable "instance_create_vnic_details_display_name" { default = "displayName" }
-variable "instance_create_vnic_details_freeform_tags" { default = "freeformTags" }
+variable "instance_create_vnic_details_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "instance_create_vnic_details_hostname_label" { default = "hostnameLabel" }
-variable "instance_create_vnic_details_private_ip" { default = "privateIp" }
+variable "instance_create_vnic_details_private_ip" { default = "10.0.0.5" }
 variable "instance_create_vnic_details_skip_source_dest_check" { default = false }
 variable "instance_defined_tags_value" { default = "updatedValue" }
 variable "instance_display_name" { default = "displayName2" }
-variable "instance_extended_metadata" { default = "extendedMetadata" }
+variable "instance_extended_metadata" { default = {
+		some_string = "stringA"
+		nested_object = "{\"some_string\": \"stringB\", \"object\": {\"some_string\": \"stringC\"}}"
+	} }
 variable "instance_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "instance_hostname_label" { default = "hostnameLabel" }
 variable "instance_image" { default = "image" }
 variable "instance_ipxe_script" { default = "ipxeScript" }
-variable "instance_metadata" { default = "metadata" }
+variable "instance_metadata" { default = { userdata = "abcd" } }
 variable "instance_shape" { default = "VM.Standard1.8" }
 variable "instance_source_details_source_type" { default = "sourceType" }
 variable "instance_state" { default = "AVAILABLE" }
@@ -223,7 +227,7 @@ variable "instance_state" { default = "AVAILABLE" }
 					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.display_name", "displayName"),
 					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.hostname_label", "hostnameLabel"),
-					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.private_ip", "privateIp"),
+					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.private_ip", "10.0.0.5"),
 					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.skip_source_dest_check", "false"),
 					resource.TestCheckResourceAttrSet(resourceName, "create_vnic_details.0.subnet_id"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -259,18 +263,21 @@ variable "instance_availability_domain" { default = "availabilityDomain" }
 variable "instance_create_vnic_details_assign_public_ip" { default = false }
 variable "instance_create_vnic_details_defined_tags_value" { default = "definedTags" }
 variable "instance_create_vnic_details_display_name" { default = "displayName" }
-variable "instance_create_vnic_details_freeform_tags" { default = "freeformTags" }
+variable "instance_create_vnic_details_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "instance_create_vnic_details_hostname_label" { default = "hostnameLabel" }
-variable "instance_create_vnic_details_private_ip" { default = "privateIp" }
+variable "instance_create_vnic_details_private_ip" { default = "10.0.0.5" }
 variable "instance_create_vnic_details_skip_source_dest_check" { default = false }
 variable "instance_defined_tags_value" { default = "updatedValue" }
 variable "instance_display_name" { default = "displayName2" }
-variable "instance_extended_metadata" { default = "extendedMetadata" }
+variable "instance_extended_metadata" { default = {
+		some_string = "stringA"
+		nested_object = "{\"some_string\": \"stringB\", \"object\": {\"some_string\": \"stringC\"}}"
+	} }
 variable "instance_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "instance_hostname_label" { default = "hostnameLabel" }
 variable "instance_image" { default = "image" }
 variable "instance_ipxe_script" { default = "ipxeScript" }
-variable "instance_metadata" { default = "metadata" }
+variable "instance_metadata" { default = { userdata = "abcd" } }
 variable "instance_shape" { default = "VM.Standard1.8" }
 variable "instance_source_details_source_type" { default = "sourceType" }
 variable "instance_state" { default = "AVAILABLE" }

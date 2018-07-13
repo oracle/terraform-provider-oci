@@ -70,9 +70,9 @@ resource "oci_core_console_history" "test_console_history" {
 	display_name = "${var.console_history_display_name}"
 	freeform_tags = {"Department"= "Finance"}
 }
-```
 
-# oci_core_console_histories
+```
+# oci_core_console_history_data
 
 ## ConsoleHistoryData DataSource
 
@@ -101,5 +101,40 @@ data "oci_core_console_history_data" "test_console_history_data" {
 	#Optional
 	length = 10240
 	offset = 0
+}
+```
+
+# oci_core_console_histories
+
+## ConsoleHistory DataSource
+
+Gets a list of console_histories.
+
+### List Operation
+Lists the console history metadata for the specified compartment or instance.
+
+The following arguments are supported:
+
+* `availability_domain` - (Optional) The name of the Availability Domain.  Example: `Uocm:PHX-AD-1` 
+* `compartment_id` - (Required) The OCID of the compartment.
+* `instance_id` - (Optional) The OCID of the instance.
+* `state` - (Optional) A filter to only return resources that match the given lifecycle state.  The state value is case-insensitive. 
+
+
+The following attributes are exported:
+
+* `console_histories` - The list of console_histories.
+
+### Example Usage
+
+```hcl
+data "oci_core_console_histories" "test_console_histories" {
+	#Required
+	compartment_id = "${var.compartment_id}"
+
+	#Optional
+	availability_domain = "${var.console_history_availability_domain}"
+	instance_id = "${oci_core_instance.test_instance.id}"
+	state = "${var.console_history_state}"
 }
 ```
