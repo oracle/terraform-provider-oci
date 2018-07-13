@@ -485,3 +485,14 @@ func WaitForResourceCondition(s ResourceFetcher, resourceChangedFunc func() bool
 
 	return nil
 }
+
+func GetDataSourceItemSchema(resourceSchema *schema.Resource) *schema.Resource {
+	if _, idExists := resourceSchema.Schema["id"]; !idExists {
+		resourceSchema.Schema["id"] = &schema.Schema{
+			Type:     schema.TypeString,
+			Computed: true,
+		}
+	}
+
+	return resourceSchema
+}
