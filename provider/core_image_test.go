@@ -16,10 +16,15 @@ resource "oci_core_image" "test_image" {
 	#Required
 	compartment_id = "${var.compartment_id}"
 	instance_id = "${oci_core_instance.test_instance.id}"
+	timeouts {
+		create = "30m"
+	}
 }
 `
 
 	ImageResourceConfig = ImageResourceDependencies + `
+data "oci_objectstorage_namespace" "t" {
+}
 resource "oci_core_image" "test_image" {
 	#Required
 	compartment_id = "${var.compartment_id}"
@@ -34,8 +39,14 @@ resource "oci_core_image" "test_image" {
 
 		#Optional
 		source_image_type = "${var.image_image_source_details_source_image_type}"
+		namespace_name = "${data.oci_objectstorage_namespace.t.namespace}"
+		bucket_name = "test-artifacts"
+		object_name = "test-image-export"
 	}
 	launch_mode = "${var.image_launch_mode}"
+	timeouts {
+		create = "30m"
+	}
 }
 `
 	ImagePropertyVariables = `
@@ -103,7 +114,6 @@ func TestCoreImageResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "image_source_details.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "image_source_details.0.source_image_type", "QCOW2"),
 					resource.TestCheckResourceAttr(resourceName, "image_source_details.0.source_type", "objectStorageTuple"),
-					resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
 					resource.TestCheckResourceAttr(resourceName, "launch_mode", "NATIVE"),
 					resource.TestCheckResourceAttrSet(resourceName, "operating_system"),
 					resource.TestCheckResourceAttrSet(resourceName, "operating_system_version"),
@@ -130,7 +140,7 @@ variable "image_operating_system" { default = "operatingSystem" }
 variable "image_operating_system_version" { default = "operatingSystemVersion" }
 variable "image_state" { default = "AVAILABLE" }
 
-                ` + compartmentIdVariableStr + ImageResourceConfig,
+               ` + compartmentIdVariableStr + ImageResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "create_image_allowed"),
@@ -141,7 +151,6 @@ variable "image_state" { default = "AVAILABLE" }
 					resource.TestCheckResourceAttr(resourceName, "image_source_details.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "image_source_details.0.source_image_type", "QCOW2"),
 					resource.TestCheckResourceAttr(resourceName, "image_source_details.0.source_type", "objectStorageTuple"),
-					resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
 					resource.TestCheckResourceAttr(resourceName, "launch_mode", "NATIVE"),
 					resource.TestCheckResourceAttrSet(resourceName, "operating_system"),
 					resource.TestCheckResourceAttrSet(resourceName, "operating_system_version"),
@@ -176,8 +185,6 @@ data "oci_core_images" "test_images" {
 
 	#Optional
 	display_name = "${var.image_display_name}"
-	operating_system = "${var.image_operating_system}"
-	operating_system_version = "${var.image_operating_system_version}"
 	state = "${var.image_state}"
 
     filter {
@@ -189,10 +196,6 @@ data "oci_core_images" "test_images" {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttrSet(datasourceName, "instance_id"),
-					resource.TestCheckResourceAttr(datasourceName, "operating_system", "operatingSystem"),
-					resource.TestCheckResourceAttr(datasourceName, "operating_system_version", "operatingSystemVersion"),
-					resource.TestCheckResourceAttr(datasourceName, "shape", "shape"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
 
 					resource.TestCheckResourceAttr(datasourceName, "images.#", "1"),
@@ -202,7 +205,6 @@ data "oci_core_images" "test_images" {
 					resource.TestCheckResourceAttr(datasourceName, "images.0.display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "images.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "images.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "images.0.instance_id"),
 					resource.TestCheckResourceAttr(datasourceName, "images.0.launch_mode", "NATIVE"),
 					resource.TestCheckResourceAttrSet(datasourceName, "images.0.operating_system"),
 					resource.TestCheckResourceAttrSet(datasourceName, "images.0.operating_system_version"),
