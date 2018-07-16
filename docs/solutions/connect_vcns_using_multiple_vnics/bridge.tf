@@ -74,14 +74,14 @@ data "oci_identity_availability_domains" "ADs" {
 resource "oci_core_virtual_network" "CoreVCN" {
     cidr_block = "${var.vcn_cidr}"
     compartment_id = "${var.compartment_ocid}"
-    display_name = "mgmt-vcn"
+    display_name = "VCN-1"
 }
 
 # Second VCN
 resource "oci_core_virtual_network" "CoreVCN2" {
     cidr_block = "${var.vcn_cidr2}"
     compartment_id = "${var.compartment_ocid}"
-    display_name = "mgmt-vcn2"
+    display_name = "VCN-2"
 }
 
 # First VCN configuration
