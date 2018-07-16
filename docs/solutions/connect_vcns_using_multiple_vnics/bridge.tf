@@ -327,7 +327,7 @@ resource "oci_core_instance" "PrivateInstance" {
     }
 }
 
-# Second instance private instance details
+# Second VCN private instance details
 resource "oci_core_security_list" "PrivateSecurityList2" {
     compartment_id = "${var.compartment_ocid}"
     display_name = "PrivateSecurityList2"

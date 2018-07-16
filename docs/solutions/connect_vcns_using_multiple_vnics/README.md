@@ -18,7 +18,7 @@ A secondary VNIC is created and attached to the Bridge instance. See [Configurin
 
 The second VCN's private subnet's route table is configured to use the Bridge instance's secondary VNIC's private IP address as default route target. 
 
-![Architecture diagram](images/connect_vcns_using_vnics.png)
+![Architecture diagram](images/connect_vcns_using_multiple_vnics.png)
 
 ### Using this example
 * Update env-vars with the required information. Most examples use the same set of environment variables so you only need to do this once.
