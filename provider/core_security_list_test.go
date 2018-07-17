@@ -348,13 +348,13 @@ func TestCoreSecurityListResource_basic(t *testing.T) {
 						"destination": "10.0.2.0/24",
 						"protocol":    "1",
 					},
-						nil),
+						[]string{}),
 					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.#", "1"),
 					CheckResourceSetContainsElementWithProperties(resourceName, "ingress_security_rules", map[string]string{
 						"protocol": "1",
 						"source":   "10.0.1.0/24",
 					},
-						nil),
+						[]string{}),
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
 					func(s *terraform.State) (err error) {
@@ -385,7 +385,7 @@ func TestCoreSecurityListResource_basic(t *testing.T) {
 						"protocol":            "1",
 						"stateless":           "false",
 					},
-						nil),
+						[]string{}),
 					CheckResourceSetContainsElementWithProperties(resourceName, "egress_security_rules", map[string]string{
 						"destination":                           "10.0.2.0/24",
 						"destination_type":                      "CIDR_BLOCK",
@@ -398,7 +398,7 @@ func TestCoreSecurityListResource_basic(t *testing.T) {
 						"tcp_options.0.source_port_range.0.max": "1521",
 						"tcp_options.0.source_port_range.0.min": "1521",
 					},
-						nil),
+						[]string{}),
 					CheckResourceSetContainsElementWithProperties(resourceName, "egress_security_rules", map[string]string{
 						"destination":                           "10.0.2.0/24",
 						"destination_type":                      "CIDR_BLOCK",
@@ -411,7 +411,7 @@ func TestCoreSecurityListResource_basic(t *testing.T) {
 						"udp_options.0.source_port_range.0.max": "1521",
 						"udp_options.0.source_port_range.0.min": "1521",
 					},
-						nil),
+						[]string{}),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.#", "3"),
@@ -424,7 +424,7 @@ func TestCoreSecurityListResource_basic(t *testing.T) {
 						"source_type":         "CIDR_BLOCK",
 						"stateless":           "false",
 					},
-						nil),
+						[]string{}),
 					CheckResourceSetContainsElementWithProperties(resourceName, "ingress_security_rules", map[string]string{
 						"protocol":                              "6",
 						"source":                                "10.0.1.0/24",
@@ -437,7 +437,7 @@ func TestCoreSecurityListResource_basic(t *testing.T) {
 						"tcp_options.0.source_port_range.0.max": "1521",
 						"tcp_options.0.source_port_range.0.min": "1521",
 					},
-						nil),
+						[]string{}),
 					CheckResourceSetContainsElementWithProperties(resourceName, "ingress_security_rules", map[string]string{
 						"protocol":                              "17",
 						"source":                                "10.0.1.0/24",
@@ -450,7 +450,7 @@ func TestCoreSecurityListResource_basic(t *testing.T) {
 						"udp_options.0.source_port_range.0.max": "1521",
 						"udp_options.0.source_port_range.0.min": "1521",
 					},
-						nil),
+						[]string{}),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),

@@ -40,7 +40,7 @@ func SecurityListResource() *schema.Resource {
 				// Keep it optional to continue to allow empty security rules and avoid a breaking change.
 				// Also remove the max item limit, to avoid a potential breaking change.
 				Optional: true,
-				Set:      egressRuleHashCodeForSets,
+				Set:      egressSecurityRulesHashCodeForSets,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -206,7 +206,7 @@ func SecurityListResource() *schema.Resource {
 			"ingress_security_rules": {
 				Type:     schema.TypeSet,
 				Optional: true,
-				Set:      ingressRuleHashCodeForSets,
+				Set:      ingressSecurityRulesHashCodeForSets,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -514,7 +514,7 @@ func (s *SecurityListResourceCrud) Create() error {
 
 	request.IngressSecurityRules = []oci_core.IngressSecurityRule{}
 	if ingressSecurityRules, ok := s.D.GetOkExists("ingress_security_rules"); ok {
-		set := ingressSecurityRules.(*schema.Set) //([]interface{})
+		set := ingressSecurityRules.(*schema.Set)
 		interfaces := set.List()
 		tmp := make([]oci_core.IngressSecurityRule, len(interfaces))
 		for i, toBeConverted := range interfaces {
@@ -641,7 +641,7 @@ func (s *SecurityListResourceCrud) SetData() {
 	for _, item := range s.Res.EgressSecurityRules {
 		egressSecurityRules = append(egressSecurityRules, EgressSecurityRuleToMap(item))
 	}
-	s.D.Set("egress_security_rules", schema.NewSet(egressRuleHashCodeForSets, egressSecurityRules))
+	s.D.Set("egress_security_rules", schema.NewSet(egressSecurityRulesHashCodeForSets, egressSecurityRules))
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
@@ -653,7 +653,7 @@ func (s *SecurityListResourceCrud) SetData() {
 	for _, item := range s.Res.IngressSecurityRules {
 		ingressSecurityRules = append(ingressSecurityRules, IngressSecurityRuleToMap(item))
 	}
-	s.D.Set("ingress_security_rules", schema.NewSet(ingressRuleHashCodeForSets, ingressSecurityRules))
+	s.D.Set("ingress_security_rules", schema.NewSet(ingressSecurityRulesHashCodeForSets, ingressSecurityRules))
 
 	s.D.Set("state", s.Res.LifecycleState)
 
@@ -675,7 +675,7 @@ func mapToEgressSecurityRule(raw map[string]interface{}) oci_core.EgressSecurity
 		result.Destination = &tmp
 	}
 
-	if destinationType, ok := raw["destination_type"]; ok {
+	if destinationType, ok := raw["destination_type"]; ok && destinationType != "" {
 		tmp := oci_core.EgressSecurityRuleDestinationTypeEnum(destinationType.(string))
 		result.DestinationType = tmp
 	}
@@ -800,7 +800,7 @@ func mapToIngressSecurityRule(raw map[string]interface{}) oci_core.IngressSecuri
 		result.Source = &tmp
 	}
 
-	if sourceType, ok := raw["source_type"]; ok {
+	if sourceType, ok := raw["source_type"]; ok && sourceType != "" {
 		tmp := oci_core.IngressSecurityRuleSourceTypeEnum(sourceType.(string))
 		result.SourceType = tmp
 	}
@@ -973,12 +973,13 @@ func UdpOptionsToMap(obj *oci_core.UdpOptions) map[string]interface{} {
 	return result
 }
 
-func egressRuleHashCodeForSets(v interface{}) int {
+func egressSecurityRulesHashCodeForSets(v interface{}) int {
 	var buf bytes.Buffer
 	m := v.(map[string]interface{})
-	buf.WriteString(fmt.Sprintf("%v-", m["protocol"]))
-	buf.WriteString(fmt.Sprintf("%v-", m["destination"]))
-	if destinationType, destinationTypePresent := m["destination_type"]; destinationTypePresent && destinationType != "" {
+	if destination, ok := m["destination"]; ok && destination != "" {
+		buf.WriteString(fmt.Sprintf("%v-", destination))
+	}
+	if destinationType, ok := m["destination_type"]; ok && destinationType != "" {
 		buf.WriteString(fmt.Sprintf("%v-", destinationType))
 	} else {
 		buf.WriteString(fmt.Sprintf("%v-", oci_core.EgressSecurityRuleDestinationTypeCidrBlock))
@@ -987,15 +988,18 @@ func egressRuleHashCodeForSets(v interface{}) int {
 		if tmpList := icmpOptions.([]interface{}); len(tmpList) > 0 {
 			buf.WriteString("icmp_options-")
 			icmpOptionsRaw := tmpList[0].(map[string]interface{})
-			if code, ok := icmpOptionsRaw["code"]; ok && code != "" {
-				buf.WriteString(fmt.Sprintf("%v-", icmpOptionsRaw["code"]))
+			if code, ok := icmpOptionsRaw["code"]; ok {
+				buf.WriteString(fmt.Sprintf("%v-", code))
 			}
-			if type_, ok := icmpOptionsRaw["type"]; ok && type_ != "" {
-				buf.WriteString(fmt.Sprintf("%v-", icmpOptionsRaw["type"]))
+			if type_, ok := icmpOptionsRaw["type"]; ok {
+				buf.WriteString(fmt.Sprintf("%v-", type_))
 			}
 		}
 	}
-	if stateless, statelessPresent := m["stateless"]; statelessPresent && stateless != "" {
+	if protocol, ok := m["protocol"]; ok && protocol != "" {
+		buf.WriteString(fmt.Sprintf("%v-", protocol))
+	}
+	if stateless, ok := m["stateless"]; ok {
 		buf.WriteString(fmt.Sprintf("%v-", stateless))
 	} else {
 		buf.WriteString(fmt.Sprintf("%v-", "false"))
@@ -1013,6 +1017,7 @@ func egressRuleHashCodeForSets(v interface{}) int {
 
 			if sourcePortRange, ok := tcpOptionsRaw["source_port_range"]; ok {
 				if tmpList := sourcePortRange.([]interface{}); len(tmpList) > 0 {
+					buf.WriteString("source_port_range-")
 					sourcePortRangeRaw := tmpList[0].(map[string]interface{})
 					if max, ok := sourcePortRangeRaw["max"]; ok {
 						buf.WriteString(fmt.Sprintf("%v-", max))
@@ -1037,6 +1042,7 @@ func egressRuleHashCodeForSets(v interface{}) int {
 
 			if sourcePortRange, ok := udpOptionsRaw["source_port_range"]; ok {
 				if tmpList := sourcePortRange.([]interface{}); len(tmpList) > 0 {
+					buf.WriteString("source_port_range-")
 					sourcePortRangeRaw := tmpList[0].(map[string]interface{})
 					if max, ok := sourcePortRangeRaw["max"]; ok {
 						buf.WriteString(fmt.Sprintf("%v-", max))
@@ -1051,29 +1057,33 @@ func egressRuleHashCodeForSets(v interface{}) int {
 	return hashcode.String(buf.String())
 }
 
-func ingressRuleHashCodeForSets(v interface{}) int {
+func ingressSecurityRulesHashCodeForSets(v interface{}) int {
 	var buf bytes.Buffer
 	m := v.(map[string]interface{})
 	if icmpOptions, ok := m["icmp_options"]; ok {
 		if tmpList := icmpOptions.([]interface{}); len(tmpList) > 0 {
 			buf.WriteString("icmp_options-")
 			icmpOptionsRaw := tmpList[0].(map[string]interface{})
-			if code, ok := icmpOptionsRaw["code"]; ok && code != "" {
-				buf.WriteString(fmt.Sprintf("%v-", icmpOptionsRaw["code"]))
+			if code, ok := icmpOptionsRaw["code"]; ok {
+				buf.WriteString(fmt.Sprintf("%v-", code))
 			}
-			if type_, ok := icmpOptionsRaw["type"]; ok && type_ != "" {
-				buf.WriteString(fmt.Sprintf("%v-", icmpOptionsRaw["type"]))
+			if type_, ok := icmpOptionsRaw["type"]; ok {
+				buf.WriteString(fmt.Sprintf("%v-", type_))
 			}
 		}
 	}
-	buf.WriteString(fmt.Sprintf("%v-", m["protocol"]))
-	buf.WriteString(fmt.Sprintf("%v-", m["source"]))
-	if sourceType, sourceTypePresent := m["source_type"]; sourceTypePresent && sourceType != "" {
+	if protocol, ok := m["protocol"]; ok && protocol != "" {
+		buf.WriteString(fmt.Sprintf("%v-", protocol))
+	}
+	if source, ok := m["source"]; ok && source != "" {
+		buf.WriteString(fmt.Sprintf("%v-", source))
+	}
+	if sourceType, ok := m["source_type"]; ok && sourceType != "" {
 		buf.WriteString(fmt.Sprintf("%v-", sourceType))
 	} else {
 		buf.WriteString(fmt.Sprintf("%v-", oci_core.IngressSecurityRuleSourceTypeCidrBlock))
 	}
-	if stateless, statelessPresent := m["stateless"]; statelessPresent && stateless != "" {
+	if stateless, ok := m["stateless"]; ok {
 		buf.WriteString(fmt.Sprintf("%v-", stateless))
 	} else {
 		buf.WriteString(fmt.Sprintf("%v-", "false"))
@@ -1088,9 +1098,9 @@ func ingressRuleHashCodeForSets(v interface{}) int {
 			if min, ok := tcpOptionsRaw["min"]; ok {
 				buf.WriteString(fmt.Sprintf("%v-", min))
 			}
-
 			if sourcePortRange, ok := tcpOptionsRaw["source_port_range"]; ok {
 				if tmpList := sourcePortRange.([]interface{}); len(tmpList) > 0 {
+					buf.WriteString("source_port_range-")
 					sourcePortRangeRaw := tmpList[0].(map[string]interface{})
 					if max, ok := sourcePortRangeRaw["max"]; ok {
 						buf.WriteString(fmt.Sprintf("%v-", max))
@@ -1115,6 +1125,7 @@ func ingressRuleHashCodeForSets(v interface{}) int {
 
 			if sourcePortRange, ok := udpOptionsRaw["source_port_range"]; ok {
 				if tmpList := sourcePortRange.([]interface{}); len(tmpList) > 0 {
+					buf.WriteString("source_port_range-")
 					sourcePortRangeRaw := tmpList[0].(map[string]interface{})
 					if max, ok := sourcePortRangeRaw["max"]; ok {
 						buf.WriteString(fmt.Sprintf("%v-", max))

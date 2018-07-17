@@ -4,8 +4,6 @@ package provider
 
 import (
 	"context"
-	"fmt"
-	"log"
 
 	"github.com/hashicorp/terraform/helper/schema"
 
@@ -92,15 +90,13 @@ func SubnetResource() *schema.Resource {
 				ForceNew: true,
 			},
 			"security_list_ids": {
-				// @CODEGEN: The ordering of security_list_ids may change, but shouldn't result in a diff.
-				// Change it to a TypeSet instead of TypeList (as generated).
 				Type:     schema.TypeSet,
 				Optional: true,
 				Computed: true,
 				ForceNew: true,
 				MaxItems: 5,
 				MinItems: 0,
-				Set:      schema.HashString,
+				Set:      literalTypeHashCodeForSets,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
@@ -248,10 +244,10 @@ func (s *SubnetResourceCrud) Create() error {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	// TODO: GetOk malfunction with this bool: 'ok' is always the value of the bool
-	// newer versions of terraform support GetOkExists which should resolve this problem
-	prohibitPublicIpOnVnic := s.D.Get("prohibit_public_ip_on_vnic").(bool)
-	request.ProhibitPublicIpOnVnic = &prohibitPublicIpOnVnic
+	if prohibitPublicIpOnVnic, ok := s.D.GetOkExists("prohibit_public_ip_on_vnic"); ok {
+		tmp := prohibitPublicIpOnVnic.(bool)
+		request.ProhibitPublicIpOnVnic = &tmp
+	}
 
 	if routeTableId, ok := s.D.GetOkExists("route_table_id"); ok {
 		tmp := routeTableId.(string)
@@ -260,12 +256,8 @@ func (s *SubnetResourceCrud) Create() error {
 
 	request.SecurityListIds = []string{}
 	if securityListIds, ok := s.D.GetOkExists("security_list_ids"); ok {
-		secListIdSet, assertOk := securityListIds.(*schema.Set)
-		if !assertOk {
-			return fmt.Errorf("Could not assert security_list_ids as type schema.Set")
-		}
-
-		interfaces := secListIdSet.List()
+		set := securityListIds.(*schema.Set)
+		interfaces := set.List()
 		tmp := make([]string, len(interfaces))
 		for i, toBeConverted := range interfaces {
 			tmp[i] = toBeConverted.(string)
@@ -395,9 +387,11 @@ func (s *SubnetResourceCrud) SetData() {
 		s.D.Set("route_table_id", *s.Res.RouteTableId)
 	}
 
-	if err := s.D.Set("security_list_ids", crud.StringsToSet(s.Res.SecurityListIds)); err != nil {
-		log.Printf("Unable to set security_list_ids. Error: %q", err)
+	securityListIds := []interface{}{}
+	for _, item := range s.Res.SecurityListIds {
+		securityListIds = append(securityListIds, item)
 	}
+	s.D.Set("security_list_ids", schema.NewSet(literalTypeHashCodeForSets, securityListIds))
 
 	s.D.Set("state", s.Res.LifecycleState)
 
