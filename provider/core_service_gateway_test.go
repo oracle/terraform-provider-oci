@@ -76,7 +76,10 @@ func TestCoreServiceGatewayResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "services.#", "1"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "services", nil, []string{"service_id"}),
+					CheckResourceSetContainsElementWithProperties(resourceName, "services", map[string]string{},
+						[]string{
+							"service_id",
+						}),
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
 					func(s *terraform.State) (err error) {
@@ -101,7 +104,11 @@ func TestCoreServiceGatewayResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "services.#", "1"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "services", nil, []string{"service_id", "service_name"}),
+					CheckResourceSetContainsElementWithProperties(resourceName, "services", map[string]string{},
+						[]string{
+							"service_id",
+							"service_name",
+						}),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
@@ -129,7 +136,11 @@ variable "service_gateway_state" { default = "AVAILABLE" }
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "services.#", "1"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "services", nil, []string{"service_id", "service_name"}),
+					CheckResourceSetContainsElementWithProperties(resourceName, "services", map[string]string{},
+						[]string{
+							"service_id",
+							"service_name",
+						}),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
@@ -177,7 +188,11 @@ data "oci_core_service_gateways" "test_service_gateways" {
 					resource.TestCheckResourceAttr(datasourceName, "service_gateways.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "service_gateways.0.id"),
 					resource.TestCheckResourceAttr(datasourceName, "service_gateways.0.services.#", "1"),
-					CheckResourceSetContainsElementWithProperties(datasourceName, "service_gateways.0.services", nil, []string{"service_id", "service_name"}),
+					CheckResourceSetContainsElementWithProperties(datasourceName, "service_gateways.0.services", map[string]string{},
+						[]string{
+							"service_id",
+							"service_name",
+						}),
 					resource.TestCheckResourceAttrSet(datasourceName, "service_gateways.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "service_gateways.0.vcn_id"),
 				),

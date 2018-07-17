@@ -200,7 +200,12 @@ func TestCoreRouteTableResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "route_rules.#", "1"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "route_rules", map[string]string{"cidr_block": "0.0.0.0/0"}, []string{"network_entity_id"}),
+					CheckResourceSetContainsElementWithProperties(resourceName, "route_rules", map[string]string{
+						"cidr_block": "0.0.0.0/0",
+					},
+						[]string{
+							"network_entity_id",
+						}),
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
 					func(s *terraform.State) (err error) {
@@ -348,7 +353,14 @@ variable "route_table_state" { default = "AVAILABLE" }
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "route_rules.#", "1"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "route_rules", map[string]string{"cidr_block": "0.0.0.0/0", "destination_type": "CIDR_BLOCK"}, []string{"network_entity_id"}),
+					CheckResourceSetContainsElementWithProperties(resourceName, "route_rules", map[string]string{
+						"cidr_block":       "0.0.0.0/0",
+						"destination":      "0.0.0.0/0",
+						"destination_type": "CIDR_BLOCK",
+					},
+						[]string{
+							"network_entity_id",
+						}),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
@@ -365,6 +377,7 @@ variable "route_table_state" { default = "AVAILABLE" }
 variable "route_table_defined_tags_value" { default = "updatedValue" }
 variable "route_table_display_name" { default = "displayName2" }
 variable "route_table_freeform_tags" { default = {"Department"= "Accounting"} }
+variable "route_table_route_rules_cidr_block" { default = "10.0.0.0/8" }
 variable "route_table_route_rules_destination" { default = "10.0.0.0/8" }
 variable "route_table_route_rules_destination_type" { default = "CIDR_BLOCK" }
 variable "route_table_state" { default = "AVAILABLE" }
@@ -377,7 +390,14 @@ variable "route_table_state" { default = "AVAILABLE" }
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "route_rules.#", "1"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "route_rules", map[string]string{"cidr_block": "10.0.0.0/8", "destination_type": "CIDR_BLOCK"}, []string{"network_entity_id"}),
+					CheckResourceSetContainsElementWithProperties(resourceName, "route_rules", map[string]string{
+						"cidr_block":       "10.0.0.0/8",
+						"destination":      "10.0.0.0/8",
+						"destination_type": "CIDR_BLOCK",
+					},
+						[]string{
+							"network_entity_id",
+						}),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
@@ -427,6 +447,7 @@ variable "route_table_state" { default = "AVAILABLE" }
 variable "route_table_defined_tags_value" { default = "updatedValue" }
 variable "route_table_display_name" { default = "displayName2" }
 variable "route_table_freeform_tags" { default = {"Department"= "Accounting"} }
+variable "route_table_route_rules_cidr_block" { default = "10.0.0.0/8" }
 variable "route_table_route_rules_destination" { default = "10.0.0.0/8" }
 variable "route_table_route_rules_destination_type" { default = "CIDR_BLOCK" }
 variable "route_table_state" { default = "AVAILABLE" }
@@ -459,7 +480,14 @@ data "oci_core_route_tables" "test_route_tables" {
 					resource.TestCheckResourceAttr(datasourceName, "route_tables.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "route_tables.0.id"),
 					resource.TestCheckResourceAttr(datasourceName, "route_tables.0.route_rules.#", "1"),
-					CheckResourceSetContainsElementWithProperties(datasourceName, "route_tables.0.route_rules", map[string]string{"cidr_block": "10.0.0.0/8", "destination_type": "CIDR_BLOCK"}, []string{"network_entity_id"}),
+					CheckResourceSetContainsElementWithProperties(datasourceName, "route_tables.0.route_rules", map[string]string{
+						"cidr_block":       "10.0.0.0/8",
+						"destination":      "10.0.0.0/8",
+						"destination_type": "CIDR_BLOCK",
+					},
+						[]string{
+							"network_entity_id",
+						}),
 					resource.TestCheckResourceAttrSet(datasourceName, "route_tables.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "route_tables.0.vcn_id"),
 				),

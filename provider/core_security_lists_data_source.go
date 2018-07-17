@@ -150,7 +150,7 @@ func (s *SecurityListsDataSourceCrud) SetData() {
 		for _, item := range r.EgressSecurityRules {
 			egressSecurityRules = append(egressSecurityRules, EgressSecurityRuleToMap(item))
 		}
-		securityList["egress_security_rules"] = schema.NewSet(egressRuleHashCodeForSets, egressSecurityRules)
+		securityList["egress_security_rules"] = schema.NewSet(egressSecurityRulesHashCodeForSets, egressSecurityRules)
 
 		securityList["freeform_tags"] = r.FreeformTags
 
@@ -162,7 +162,7 @@ func (s *SecurityListsDataSourceCrud) SetData() {
 		for _, item := range r.IngressSecurityRules {
 			ingressSecurityRules = append(ingressSecurityRules, IngressSecurityRuleToMap(item))
 		}
-		securityList["ingress_security_rules"] = schema.NewSet(ingressRuleHashCodeForSets, ingressSecurityRules)
+		securityList["ingress_security_rules"] = schema.NewSet(ingressSecurityRulesHashCodeForSets, ingressSecurityRules)
 
 		securityList["state"] = r.LifecycleState
 

@@ -369,8 +369,8 @@ func ServiceIdResponseDetailsToMap(obj oci_core.ServiceIdResponseDetails) map[st
 func servicesHashCodeForSets(v interface{}) int {
 	var buf bytes.Buffer
 	m := v.(map[string]interface{})
-	if serviceId, serviceIdPresent := m["service_id"]; serviceIdPresent && serviceId != "" {
-		buf.WriteString(fmt.Sprintf("%s-", serviceId.(string)))
+	if serviceId, ok := m["service_id"]; ok && serviceId != "" {
+		buf.WriteString(fmt.Sprintf("%v-", serviceId))
 	}
 	return hashcode.String(buf.String())
 }
