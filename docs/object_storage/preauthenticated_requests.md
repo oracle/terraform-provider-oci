@@ -57,3 +57,59 @@ resource "oci_objectstorage_preauthrequest" "test_preauthenticated_request" {
 }
 ```
 
+
+## PreauthenticatedRequest Singular DataSource
+
+
+### Get Operation
+Gets the pre-authenticated request for the bucket.
+
+The following arguments are supported:
+
+* `bucket` - (Required) The name of the bucket. Avoid entering confidential information. Example: `my-new-bucket1` 
+* `namespace` - (Required) The top-level namespace used for the request.
+* `par_id` - (Required) The unique identifier for the pre-authenticated request. This can be used to manage operations against the pre-authenticated request, such as GET or DELETE. 
+
+
+### Example Usage
+
+```hcl
+data "oci_objectstorage_preauthrequest" "test_preauthenticated_request" {
+	#Required
+	bucket = "${var.preauthenticated_request_bucket}"
+	namespace = "${var.preauthenticated_request_namespace}"
+	par_id = "${var.preauthenticated_request_par_id}"
+}
+```
+# oci_object_storage_preauthenticated_requests
+
+## PreauthenticatedRequest DataSource
+
+Gets a list of preauthenticated_requests.
+
+### List Operation
+Lists pre-authenticated requests for the bucket.
+
+The following arguments are supported:
+
+* `bucket` - (Required) The name of the bucket. Avoid entering confidential information. Example: `my-new-bucket1` 
+* `namespace` - (Required) The top-level namespace used for the request.
+* `object_name_prefix` - (Optional) User-specified object name prefixes can be used to query and return a list of pre-authenticated requests.
+
+
+The following attributes are exported:
+
+* `preauthenticated_requests` - The list of preauthenticated_requests.
+
+### Example Usage
+
+```hcl
+data "oci_objectstorage_preauthrequests" "test_preauthenticated_requests" {
+	#Required
+	bucket = "${var.preauthenticated_request_bucket}"
+	namespace = "${var.preauthenticated_request_namespace}"
+
+	#Optional
+	object_name_prefix = "${var.preauthenticated_request_object_name_prefix}"
+}
+```
