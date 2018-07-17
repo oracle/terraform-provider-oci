@@ -14,31 +14,31 @@ wprocs=`cat /tmp/wprocs`
 memtotal=`cat /tmp/memtotal`
 if [ $wprocs = "104" ]; then
 	VMSIZE="BM.DenseIO2.52"
-elif [ $wprocs = "72" ]; then 
-	if [ $memtotal = "251" ]; then 
-		VMSIZE="BM.Standard1.36"
-	elif [ $memtotal = "503" ]; then 
-		VMSIZE="BM.DenseIO1.36"
-	fi
-elif [ $wprocs = "48" ]; then 
-	VMSIZE="VM.Standard2.24"
-elif [ $wprocs = "32" ]; then 
-	if [ $memtotal = "110" ]; then 
-		VMSIZE="VM.Standard1.16"
-	elif [ $memtotal = "240" ]; then 
-		VMSIZE="VM.Standard2.16"
-	fi
-elif [ $wprocs = "16" ]; then 
-	if [ $memtotal = "54" ]; then 
-		VMSIZE="VM.Standard1.8"
-	elif [ $memtotal = "117" ]; then 
-		VMSIZE="VM.Standard2.8"
-	fi
+elif [ $wprocs = "72" ]; then
+        if [ $memtotal -lt "260" ]; then
+                VMSIZE="BM.Standard1.36"
+        else
+                VMSIZE="BM.DenseIO1.36"
+        fi
+elif [ $wprocs = "48" ]; then
+        VMSIZE="VM.Standard2.24"
+elif [ $wprocs = "32" ]; then
+        if [ $memtotal -lt "115" ]; then
+                VMSIZE="VM.Standard1.16"
+        else
+                VMSIZE="VM.Standard2.16"
+        fi
+elif [ $wprocs = "16" ]; then
+        if [ $memtotal -lt "60" ]; then
+                VMSIZE="VM.Standard1.8"
+        else
+                VMSIZE="VM.Standard2.8"
+        fi
 fi
 
 if [ -z $VMSIZE ]; then
-	echo -e "VMSIZE NULL - EXITING - Check memory and cpu values in /tmp and retry"
-	exit
+        echo -e "VMSIZE NULL - EXITING - check memory and cpu values in /tmp and retry"
+        exit
 fi
 
 ##
