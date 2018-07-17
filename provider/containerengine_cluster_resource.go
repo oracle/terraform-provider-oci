@@ -350,7 +350,8 @@ func containerEngineWaitForWorkRequest(wId *string, entityType string, action oc
 	}
 
 	//Otherwise the operation ended unsucessfully
-	return nil, fmt.Errorf("work request did not succeed, workId: %s, entity: %s, action: %s", *wId, entityType, action)
+	errorMessage, _ := getErrorFromWorkRequest(wId, response.CompartmentId, client, disableFoundRetries)
+	return nil, fmt.Errorf("work request did not succeed, workId: %s, entity: %s, action: %s. Message: %s", *wId, entityType, action, errorMessage)
 }
 
 func (s *ClusterResourceCrud) Create() error {
@@ -691,4 +692,25 @@ func KubernetesNetworkConfigToMap(obj *oci_containerengine.KubernetesNetworkConf
 	}
 
 	return result
+}
+
+// getErrorFromWorkRequest retuns a concatened string of all errors for a given work request, if there is a reading the error it returns an empty string an error
+func getErrorFromWorkRequest(workRequestId *string, compartmentId *string, client *oci_containerengine.ContainerEngineClient, disableFoundAutoRetries bool) (string, error) {
+	req := oci_containerengine.ListWorkRequestErrorsRequest{}
+	req.WorkRequestId = workRequestId
+	req.CompartmentId = compartmentId
+	req.RequestMetadata.RetryPolicy = getRetryPolicy(disableFoundAutoRetries, "containerengine")
+	res, err := client.ListWorkRequestErrors(context.Background(), req)
+
+	if err != nil {
+		return "", err
+	}
+
+	allErrs := make([]string, 0)
+	for _, errs := range res.Items {
+		allErrs = append(allErrs, *errs.Message)
+	}
+
+	errorMessage := strings.Join(allErrs, "\n")
+	return errorMessage, nil
 }
