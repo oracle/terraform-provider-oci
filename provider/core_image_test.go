@@ -65,6 +65,7 @@ variable "image_state" { default = "AVAILABLE" }
 )
 
 func TestCoreImageResource_basic(t *testing.T) {
+	t.Skip("Long running test")
 	provider := testAccProvider
 	config := testProviderConfig()
 
