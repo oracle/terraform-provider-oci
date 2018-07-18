@@ -5,6 +5,7 @@ cli is the library that powers the CLI for
 [Packer](https://github.com/mitchellh/packer),
 [Serf](https://github.com/hashicorp/serf),
 [Consul](https://github.com/hashicorp/consul),
+[Vault](https://github.com/hashicorp/vault),
 [Terraform](https://github.com/hashicorp/terraform), and
 [Nomad](https://github.com/hashicorp/nomad).
 
@@ -16,6 +17,9 @@ cli is the library that powers the CLI for
 
 * Optional support for default subcommands so `cli` does something
   other than error.
+
+* Support for shell autocompletion of subcommands, flags, and arguments
+  with callbacks in Go. You don't need to write any shell code.
 
 * Automatic help generation for listing subcommands
 

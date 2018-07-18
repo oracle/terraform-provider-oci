@@ -90,6 +90,8 @@ func (i *Interpolater) Values(
 			err = i.valueSimpleVar(scope, n, v, result)
 		case *config.TerraformVariable:
 			err = i.valueTerraformVar(scope, n, v, result)
+		case *config.LocalVariable:
+			err = i.valueLocalVar(scope, n, v, result)
 		case *config.UserVariable:
 			err = i.valueUserVar(scope, n, v, result)
 		default:
@@ -140,7 +142,6 @@ func (i *Interpolater) valueModuleVar(
 	n string,
 	v *config.ModuleVariable,
 	result map[string]ast.Variable) error {
-
 	// Build the path to the child module we want
 	path := make([]string, len(scope.Path), len(scope.Path)+1)
 	copy(path, scope.Path)
@@ -317,9 +318,12 @@ func (i *Interpolater) valueTerraformVar(
 	n string,
 	v *config.TerraformVariable,
 	result map[string]ast.Variable) error {
-	if v.Field != "env" {
+	// "env" is supported for backward compatibility, but it's deprecated and
+	// so we won't advertise it as being allowed in the error message. It will
+	// be removed in a future version of Terraform.
+	if v.Field != "workspace" && v.Field != "env" {
 		return fmt.Errorf(
-			"%s: only supported key for 'terraform.X' interpolations is 'env'", n)
+			"%s: only supported key for 'terraform.X' interpolations is 'workspace'", n)
 	}
 
 	if i.Meta == nil {
@@ -328,6 +332,59 @@ func (i *Interpolater) valueTerraformVar(
 	}
 
 	result[n] = ast.Variable{Type: ast.TypeString, Value: i.Meta.Env}
+	return nil
+}
+
+func (i *Interpolater) valueLocalVar(
+	scope *InterpolationScope,
+	n string,
+	v *config.LocalVariable,
+	result map[string]ast.Variable,
+) error {
+	i.StateLock.RLock()
+	defer i.StateLock.RUnlock()
+
+	modTree := i.Module
+	if len(scope.Path) > 1 {
+		modTree = i.Module.Child(scope.Path[1:])
+	}
+
+	// Get the resource from the configuration so we can verify
+	// that the resource is in the configuration and so we can access
+	// the configuration if we need to.
+	var cl *config.Local
+	for _, l := range modTree.Config().Locals {
+		if l.Name == v.Name {
+			cl = l
+			break
+		}
+	}
+
+	if cl == nil {
+		return fmt.Errorf("%s: no local value of this name has been declared", n)
+	}
+
+	// Get the relevant module
+	module := i.State.ModuleByPath(scope.Path)
+	if module == nil {
+		result[n] = unknownVariable()
+		return nil
+	}
+
+	rawV, exists := module.Locals[v.Name]
+	if !exists {
+		result[n] = unknownVariable()
+		return nil
+	}
+
+	varV, err := hil.InterfaceToVariable(rawV)
+	if err != nil {
+		// Should never happen, since interpolation should always produce
+		// something we can feed back in to interpolation.
+		return fmt.Errorf("%s: %s", n, err)
+	}
+
+	result[n] = varV
 	return nil
 }
 
@@ -458,6 +515,16 @@ func (i *Interpolater) computeResourceVariable(
 
 	if attr, ok := r.Primary.Attributes[v.Field]; ok {
 		v, err := hil.InterfaceToVariable(attr)
+		return &v, err
+	}
+
+	// special case for the "id" field which is usually also an attribute
+	if v.Field == "id" && r.Primary.ID != "" {
+		// This is usually pulled from the attributes, but is sometimes missing
+		// during destroy. We can return the ID field in this case.
+		// FIXME: there should only be one ID to rule them all.
+		log.Printf("[WARN] resource %s missing 'id' attribute", v.ResourceId())
+		v, err := hil.InterfaceToVariable(r.Primary.ID)
 		return &v, err
 	}
 
@@ -594,12 +661,13 @@ func (i *Interpolater) computeResourceMultiVariable(
 		}
 
 		if singleAttr, ok := r.Primary.Attributes[v.Field]; ok {
-			if singleAttr == config.UnknownVariableValue {
-				return &unknownVariable, nil
-			}
-
 			values = append(values, singleAttr)
 			continue
+		}
+
+		if v.Field == "id" && r.Primary.ID != "" {
+			log.Printf("[WARN] resource %s missing 'id' attribute", v.ResourceId())
+			values = append(values, r.Primary.ID)
 		}
 
 		// computed list or map attribute
@@ -611,10 +679,6 @@ func (i *Interpolater) computeResourceMultiVariable(
 		multiAttr, err := i.interpolateComplexTypeAttribute(v.Field, r.Primary.Attributes)
 		if err != nil {
 			return nil, err
-		}
-
-		if multiAttr == unknownVariable {
-			return &unknownVariable, nil
 		}
 
 		values = append(values, multiAttr)
@@ -650,7 +714,6 @@ func (i *Interpolater) computeResourceMultiVariable(
 func (i *Interpolater) interpolateComplexTypeAttribute(
 	resourceID string,
 	attributes map[string]string) (ast.Variable, error) {
-
 	// We can now distinguish between lists and maps in state by the count field:
 	//    - lists (and by extension, sets) use the traditional .# notation
 	//    - maps use the newer .% notation
@@ -726,7 +789,8 @@ func (i *Interpolater) resourceCountMax(
 	// If we're NOT applying, then we assume we can read the count
 	// from the state. Plan and so on may not have any state yet so
 	// we do a full interpolation.
-	if i.Operation != walkApply {
+	// Don't forget walkDestroy, which is a special case of walkApply
+	if !(i.Operation == walkApply || i.Operation == walkDestroy) {
 		if cr == nil {
 			return 0, nil
 		}
@@ -739,12 +803,31 @@ func (i *Interpolater) resourceCountMax(
 		return count, nil
 	}
 
+	// If we have no module state in the apply walk, that suggests we've hit
+	// a rather awkward edge-case: the resource this variable refers to
+	// has count = 0 and is the only resource processed so far on this walk,
+	// and so we've ended up not creating any resource states yet. We don't
+	// create a module state until the first resource is written into it,
+	// so the module state doesn't exist when we get here.
+	//
+	// In this case we act as we would if we had been passed a module
+	// with an empty resource state map.
+	if ms == nil {
+		return 0, nil
+	}
+
 	// We need to determine the list of resource keys to get values from.
 	// This needs to be sorted so the order is deterministic. We used to
 	// use "cr.Count()" but that doesn't work if the count is interpolated
 	// and we can't guarantee that so we instead depend on the state.
 	max := -1
-	for k, _ := range ms.Resources {
+	for k, s := range ms.Resources {
+		// This resource may have been just removed, in which case the Primary
+		// may be nil, or just empty.
+		if s == nil || s.Primary == nil || len(s.Primary.Attributes) == 0 {
+			continue
+		}
+
 		// Get the index number for this resource
 		index := ""
 		if k == id {
