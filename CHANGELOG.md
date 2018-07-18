@@ -6,9 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ## 2.1.15 - 2018-07-13
 
 ### Fixed
-- Fix for route_rules update in oci_core_route_table after having a service gateway rule as part of the rules
+- Fix bug introduced in v2.1.14 (#558), failure updating a Route Table's Route Rules when they contain a rule that includes a Service Gateway ID
 
 ## 2.1.14 - 2018-07-13
+
+###Notes
+_This build contains a known issue where updates to a Route Table's Route Rules (when they contain a rule that includes a Service Gateway ID) fail with a 400 service error code (#558). The issue is fixed in v2.1.15._
 
 ### Added
 - Ability to create and manage email approved senders, suppressions, and SMTP credentials
