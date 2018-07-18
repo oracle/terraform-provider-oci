@@ -51,7 +51,7 @@ func TestContainerengineWorkRequestLogEntryResource_basic(t *testing.T) {
 data "oci_containerengine_work_request_log_entries" "test_work_request_log_entries" {
 	#Required
 	compartment_id = "${var.compartment_id}"
-	work_request_id = "${data.oci_containerengine_work_requests.test_work_requests.work_requests.*.id[0]}"
+	work_request_id = "${lookup(data.oci_containerengine_work_requests.test_work_requests.work_requests[0], "id")}"
 }
                 ` + compartmentIdVariableStr + WorkRequestLogEntryResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
