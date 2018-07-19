@@ -3,6 +3,12 @@ All notable changes to this project are documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+## 2.1.16 - 2018-07-19
+
+### Added
+- Support for [Container Engine for Kubernetes](https://docs.cloud.oracle.com/iaas/Content/ContEng/Concepts/contengoverview.htm), adding resources for clusters, node pools, and data source for [kubeconfig](https://docs.cloud.oracle.com/iaas/Content/ContEng/Tasks/contengdownloadkubeconfigfile.htm)
+- Support for [FastConnect](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/fastconnect.htm), cross-connect group and virtual circuits resources and data sources
+
 ## 2.1.15 - 2018-07-13
 
 ### Fixed
