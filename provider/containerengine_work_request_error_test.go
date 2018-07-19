@@ -18,7 +18,7 @@ data "oci_containerengine_work_requests" "test_work_requests" {
 
 	#Optional
 	cluster_id = "${oci_containerengine_cluster.test_cluster.id}"
-	resource_id = "${oci_containerengine_resource.test_cluster.id}"
+	resource_id = "${oci_containerengine_cluster.test_cluster.id}"
 	resource_type = "${var.work_request_resource_type}"
 	status = "${var.work_request_status}"
 }
