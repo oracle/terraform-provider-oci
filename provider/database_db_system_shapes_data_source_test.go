@@ -33,8 +33,6 @@ func (s *DatabaseDBSystemShapeTestSuite) TestAccDatasourceDatabaseDBSystemShape_
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + `
 					data "oci_database_db_system_shapes" "t" {
 						availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"

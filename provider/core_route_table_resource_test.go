@@ -55,8 +55,6 @@ func (s *ResourceCoreRouteTableTestSuite) TestAccResourceCoreRouteTable_basic() 
 		Steps: []resource.TestStep{
 			// verify create without rules
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + `
 					resource "oci_core_route_table" "t" {
 						compartment_id = "${var.compartment_id}"

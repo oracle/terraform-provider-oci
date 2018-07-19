@@ -108,8 +108,6 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) TestResourceCoreVolumeAttachment
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + `
 				resource "oci_core_volume_attachment" "t" {
 					attachment_type = "iSCSI"	# case-insensitive

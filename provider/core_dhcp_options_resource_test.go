@@ -110,9 +110,7 @@ func (s *ResourceCoreDHCPOptionsTestSuite) TestAccResourceCoreDHCPOptions_basic(
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config:            s.Config + additionalDhcpOption4 + defaultDhcpOpts,
+				Config: s.Config + additionalDhcpOption4 + defaultDhcpOpts,
 				Check: resource.ComposeAggregateTestCheckFunc(
 
 					resource.TestCheckResourceAttr("oci_core_dhcp_options.opt1", "display_name", "display_name1"),

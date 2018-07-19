@@ -83,8 +83,6 @@ func (s *DatasourceCoreInstanceTestSuite) TestAccDatasourceCoreInstance_basic() 
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + s.TokenFn(`
 				data "oci_core_instances" "t" {
 					compartment_id = "${var.compartment_id}"

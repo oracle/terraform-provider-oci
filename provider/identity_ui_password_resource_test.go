@@ -37,8 +37,6 @@ func (s *ResourceIdentityUIPasswordTestSuite) TestAccIdentityUIPassword_basic() 
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + `
 				resource "oci_identity_ui_password" "t" {
 					user_id = "${oci_identity_user.t.id}"

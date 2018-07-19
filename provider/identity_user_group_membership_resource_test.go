@@ -49,8 +49,6 @@ func (s *ResourceIdentityUserGroupMembershipTestSuite) TestAccResourceUserGroupM
 		Steps: []resource.TestStep{
 			// Verify create
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + `
 				resource "oci_identity_user_group_membership" "t" {
 					user_id = "${oci_identity_user.t1.id}"
@@ -71,8 +69,6 @@ func (s *ResourceIdentityUserGroupMembershipTestSuite) TestAccResourceUserGroupM
 				),
 			},
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + `
 				resource "oci_identity_user_group_membership" "t" {
 					user_id = "${oci_identity_user.t2.id}"

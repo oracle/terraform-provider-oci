@@ -46,9 +46,7 @@ func (s *DatasourceObjectstorageBucketSummaryTestSuite) TestAccDatasourceObjects
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config:            s.Config,
+				Config: s.Config,
 			},
 			// Client-side filtering.
 			{

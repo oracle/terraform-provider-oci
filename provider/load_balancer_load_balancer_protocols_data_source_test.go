@@ -22,9 +22,7 @@ func TestAccDatasourceLoadBalancerProtocols_basic(t *testing.T) {
 		Providers:                 providers,
 		Steps: []resource.TestStep{
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config:            config,
+				Config: config,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "protocols.#"),
 					resource.TestCheckResourceAttrSet(resourceName, "protocols.0.name"),

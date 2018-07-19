@@ -44,8 +44,6 @@ func (s *ResourceCoreDrgAttachmentTestSuite) TestAccResourceCoreDrgAttachment_ba
 		Steps: []resource.TestStep{
 			// verify a drg attachment can be created
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + `
 				resource "oci_core_drg_attachment" "t" {
 					compartment_id = "${var.compartment_id}"

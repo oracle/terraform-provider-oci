@@ -43,8 +43,6 @@ func (s *ResourceIdentitySwiftPasswordTestSuite) TestAccResourceIdentitySwiftPas
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + `
 				resource "oci_identity_swift_password" "t" {
 					user_id = "${oci_identity_user.t.id}"
@@ -65,8 +63,6 @@ func (s *ResourceIdentitySwiftPasswordTestSuite) TestAccResourceIdentitySwiftPas
 			},
 			// verify update
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + `
 				resource "oci_identity_swift_password" "t" {
 					user_id = "${oci_identity_user.t.id}"
@@ -90,8 +86,6 @@ func (s *ResourceIdentitySwiftPasswordTestSuite) TestAccResourceIdentitySwiftPas
 			},
 			// Verify updating user_id causes ForceNew
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + `
 				resource "oci_identity_swift_password" "t" {
 					user_id = "${oci_identity_user.t2.id}"

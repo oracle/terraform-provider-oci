@@ -46,8 +46,6 @@ func (s *DatasourceCoreVirtualNetworkTestSuite) TestAccDatasourceCoreVirtualNetw
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + s.TokenFn(`
 					data "oci_core_virtual_networks" "t" {
 						compartment_id = "${oci_core_virtual_network.t.compartment_id}"

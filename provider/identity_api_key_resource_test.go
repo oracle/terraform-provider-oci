@@ -72,8 +72,6 @@ EOF
 		Steps: []resource.TestStep{
 			// Verify construct resource
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: tokenFn(s.Config+`
 				resource "oci_identity_api_key" "t" {
 				  user_id = "{{.user_id}}"

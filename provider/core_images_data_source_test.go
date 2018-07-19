@@ -37,8 +37,6 @@ func (s *DatasourceCoreImageTestSuite) TestAccImage_basic() {
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + fmt.Sprintf(`
 				data "oci_core_images" "allOracleImages" {
 					compartment_id = "${var.tenancy_ocid}"

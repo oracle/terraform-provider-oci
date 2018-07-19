@@ -36,8 +36,6 @@ func (s *ResourceIdentityGroupTestSuite) TestAccResourceIdentityGroup_basic() {
 		Steps: []resource.TestStep{
 			// verify create w/ compartment
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + tokenFn(`
 				resource "oci_identity_group" "t0" {
 					name = "{{.token}}"
@@ -47,8 +45,6 @@ func (s *ResourceIdentityGroupTestSuite) TestAccResourceIdentityGroup_basic() {
 				ExpectError: regexp.MustCompile("Tenant id is not equal to compartment id"),
 			},
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + tokenFn(`
 				resource "oci_identity_group" "t0" {
 					name = "{{.token}}"
@@ -66,8 +62,6 @@ func (s *ResourceIdentityGroupTestSuite) TestAccResourceIdentityGroup_basic() {
 			},
 			// verify create w/o compartment, verify that it defaults to tenancy
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + tokenFn(`
 				resource "oci_identity_group" "t" {
 					name = "{{.token}}"

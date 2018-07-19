@@ -43,8 +43,6 @@ func (s *ResourceCoreConsoleHistoryTestSuite) TestAccResourceCoreInstanceConsole
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + `
 				resource "oci_core_console_history" "t" {
 					instance_id = "${oci_core_instance.t.id}"
@@ -72,8 +70,6 @@ func (s *ResourceCoreConsoleHistoryTestSuite) TestAccResourceCoreInstanceConsole
 				),
 			},
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + `
 				resource "oci_core_console_history" "t" {
 					instance_id = "${oci_core_instance.t.id}"

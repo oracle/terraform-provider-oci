@@ -33,8 +33,6 @@ func (s *ResourceCoreVirtualNetworkTestSuite) TestAccResourceCoreVirtualNetwork_
 		Steps: []resource.TestStep{
 			// test create
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + `
 					resource "oci_core_virtual_network" "t" {
 						cidr_block = "10.0.0.0/16"

@@ -61,9 +61,7 @@ func TestAccDatasourceLoadBalancerCertificates_basic(t *testing.T) {
 		Providers:                 providers,
 		Steps: []resource.TestStep{
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config:            config,
+				Config: config,
 			},
 			{
 				Config: config,

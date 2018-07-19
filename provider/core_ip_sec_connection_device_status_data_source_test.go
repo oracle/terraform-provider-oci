@@ -47,8 +47,6 @@ func (s *DatasourceCoreIPSecStatusTestSuite) TestAccDatasourceCoreIPSecStatus_ba
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + `
 				data "oci_core_ipsec_status" "s" {
 					ipsec_id = "${oci_core_ipsec.t.id}"

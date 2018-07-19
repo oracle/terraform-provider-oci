@@ -42,8 +42,6 @@ func (s *DatasourceCoreSecurityListTestSuite) TestAccDatasourceCoreSecurityLists
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + `
 				data "oci_core_security_lists" "t" {
 					compartment_id = "${var.compartment_id}"
@@ -70,8 +68,6 @@ func (s *DatasourceCoreSecurityListTestSuite) TestAccDatasourceCoreSecurityLists
 			},
 			// Test that enum fields such as 'state' can be filtered with multiple values
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + fmt.Sprintf(`
 				data "oci_core_security_lists" "t" {
 					compartment_id = "${var.compartment_id}"
@@ -89,8 +85,6 @@ func (s *DatasourceCoreSecurityListTestSuite) TestAccDatasourceCoreSecurityLists
 			},
 			// Test that items can be filtered out
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + fmt.Sprintf(`
 				data "oci_core_security_lists" "t" {
 					compartment_id = "${var.compartment_id}"

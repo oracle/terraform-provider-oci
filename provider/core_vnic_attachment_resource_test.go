@@ -36,8 +36,6 @@ func (s *ResourceCoreVnicAttachmentTestSuite) TestAccResourceCoreVnicAttachment_
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + `
 					resource "oci_core_vnic_attachment" "va" {
 						instance_id = "${oci_core_instance.t.id}"
@@ -174,8 +172,6 @@ func (s *ResourceCoreVnicAttachmentTestSuite) TestAccResourceCoreVnicAttachment_
 			{
 				// Switching skip_source_dest_check and assign_public_ip from true to "true" will destroy and recreate, but should result in a
 				// VNIC with the same value.
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + `
 						resource "oci_core_vnic_attachment" "va" {
 							instance_id = "${oci_core_instance.t.id}"

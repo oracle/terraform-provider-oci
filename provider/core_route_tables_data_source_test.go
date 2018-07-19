@@ -43,8 +43,6 @@ func (s *DatasourceCoreRouteTableTestSuite) TestAccDatasourceRouteTable_basic() 
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + `
 					data "oci_core_route_tables" "t" {
 						compartment_id = "${oci_core_route_table.t.compartment_id}"

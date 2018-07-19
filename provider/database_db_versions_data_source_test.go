@@ -32,8 +32,6 @@ func (s *DatabaseDBVersionTestSuite) TestAccDatasourceDatabaseDBVersion_basic() 
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + `
 					data "oci_database_db_versions" "t" {
 						compartment_id = "${var.compartment_id}"

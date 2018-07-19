@@ -69,8 +69,6 @@ func (s *ResourceLoadBalancerLBTestSuite) TestAccResourceLoadBalancerLB_basicPri
 		Steps: []resource.TestStep{
 			// test create
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + `
 				resource "oci_load_balancer" "t" {
 					shape = "${data.oci_load_balancer_shapes.t.shapes.0.name}"
@@ -156,8 +154,6 @@ func (s *ResourceLoadBalancerLBTestSuite) TestAccResourceLoadBalancerLB_basicPub
 		Steps: []resource.TestStep{
 			// test create
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + `
 				resource "oci_load_balancer" "t" {
 					shape = "${data.oci_load_balancer_shapes.t.shapes.0.name}"
