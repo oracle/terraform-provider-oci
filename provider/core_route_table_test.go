@@ -3,11 +3,13 @@
 package provider
 
 import (
+	"context"
 	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
+	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
 const (
@@ -191,12 +193,11 @@ func TestCoreRouteTableResource_basic(t *testing.T) {
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},
+		CheckDestroy: testAccCheckCoreRouteTableDestroy,
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config:            config + RouteTablePropertyVariables + compartmentIdVariableStr + RouteTableRequiredOnlyResource,
+				Config: config + RouteTablePropertyVariables + compartmentIdVariableStr + RouteTableRequiredOnlyResource,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "route_rules.#", "1"),
@@ -492,6 +493,42 @@ data "oci_core_route_tables" "test_route_tables" {
 					resource.TestCheckResourceAttrSet(datasourceName, "route_tables.0.vcn_id"),
 				),
 			},
+			// verify resource import
+			{
+				Config:            config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				ResourceName:      resourceName,
+			},
 		},
 	})
+}
+
+func testAccCheckCoreRouteTableDestroy(s *terraform.State) error {
+	noResourceFound := true
+	client := testAccProvider.Meta().(*OracleClients).virtualNetworkClient
+	for _, rs := range s.RootModule().Resources {
+		if rs.Type == "oci_core_route_table" {
+			noResourceFound = false
+			request := oci_core.GetRouteTableRequest{}
+
+			tmp := rs.Primary.ID
+			request.RtId = &tmp
+
+			response, error := client.GetRouteTable(context.Background(), request)
+
+			if error == nil {
+				return fmt.Errorf("resource still exists")
+			}
+			//Verify that exception is for 'not found'.
+			if response.RawResponse.StatusCode != 404 {
+				return error
+			}
+		}
+	}
+	if noResourceFound {
+		return fmt.Errorf("at least one resource was expected from the state file, but could not be found")
+	}
+
+	return nil
 }

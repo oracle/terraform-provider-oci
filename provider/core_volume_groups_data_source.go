@@ -35,7 +35,7 @@ func VolumeGroupsDataSource() *schema.Resource {
 			"volume_groups": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     VolumeGroupResource(),
+				Elem:     crud.GetDataSourceItemSchema(VolumeGroupResource()),
 			},
 		},
 	}

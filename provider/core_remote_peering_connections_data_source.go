@@ -27,7 +27,7 @@ func RemotePeeringConnectionsDataSource() *schema.Resource {
 			"remote_peering_connections": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     RemotePeeringConnectionResource(),
+				Elem:     crud.GetDataSourceItemSchema(RemotePeeringConnectionResource()),
 			},
 		},
 	}

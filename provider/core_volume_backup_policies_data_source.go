@@ -30,10 +30,6 @@ func VolumeBackupPoliciesDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"id": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
 						"schedules": {
 							Type:     schema.TypeList,
 							Computed: true,

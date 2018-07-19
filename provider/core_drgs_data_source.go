@@ -33,7 +33,7 @@ func DrgsDataSource() *schema.Resource {
 			"drgs": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     DrgResource(),
+				Elem:     crud.GetDataSourceItemSchema(DrgResource()),
 			},
 		},
 	}

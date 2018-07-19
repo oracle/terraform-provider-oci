@@ -3,11 +3,13 @@
 package provider
 
 import (
+	"context"
 	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
+	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
 const (
@@ -53,12 +55,11 @@ func TestCoreInstanceConsoleConnectionResource_basic(t *testing.T) {
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},
+		CheckDestroy: testAccCheckCoreInstanceConsoleConnectionDestroy,
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config:            config + InstanceConsoleConnectionPropertyVariables + compartmentIdVariableStr + InstanceConsoleConnectionRequiredOnlyResource,
+				Config: config + InstanceConsoleConnectionPropertyVariables + compartmentIdVariableStr + InstanceConsoleConnectionRequiredOnlyResource,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
 					resource.TestCheckResourceAttr(resourceName, "public_key", "ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"),
@@ -110,6 +111,42 @@ data "oci_core_instance_console_connections" "test_instance_console_connections"
 					resource.TestCheckResourceAttrSet(datasourceName, "instance_console_connections.0.instance_id"),
 				),
 			},
+			// verify resource import
+			{
+				Config:            config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				ResourceName:      resourceName,
+			},
 		},
 	})
+}
+
+func testAccCheckCoreInstanceConsoleConnectionDestroy(s *terraform.State) error {
+	noResourceFound := true
+	client := testAccProvider.Meta().(*OracleClients).computeClient
+	for _, rs := range s.RootModule().Resources {
+		if rs.Type == "oci_core_instance_console_connection" {
+			noResourceFound = false
+			request := oci_core.GetInstanceConsoleConnectionRequest{}
+
+			tmp := rs.Primary.ID
+			request.InstanceConsoleConnectionId = &tmp
+
+			response, error := client.GetInstanceConsoleConnection(context.Background(), request)
+
+			if error == nil {
+				return fmt.Errorf("resource still exists")
+			}
+			//Verify that exception is for 'not found'.
+			if response.RawResponse.StatusCode != 404 {
+				return error
+			}
+		}
+	}
+	if noResourceFound {
+		return fmt.Errorf("at least one resource was expected from the state file, but could not be found")
+	}
+
+	return nil
 }

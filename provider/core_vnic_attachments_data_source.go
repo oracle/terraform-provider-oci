@@ -45,7 +45,7 @@ func VnicAttachmentsDataSource() *schema.Resource {
 			"vnic_attachments": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     VnicAttachmentResource(),
+				Elem:     crud.GetDataSourceItemSchema(VnicAttachmentResource()),
 			},
 		},
 	}

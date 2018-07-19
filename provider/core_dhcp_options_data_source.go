@@ -45,7 +45,7 @@ func DhcpOptionsDataSource() *schema.Resource {
 			"options": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     DhcpOptionsResource(),
+				Elem:     crud.GetDataSourceItemSchema(DhcpOptionsResource()),
 			},
 		},
 	}

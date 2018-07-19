@@ -63,10 +63,6 @@ func RemotePeeringConnectionResource() *schema.Resource {
 			},
 
 			// Computed
-			"id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"is_cross_tenancy_peering": {
 				Type:     schema.TypeBool,
 				Computed: true,
@@ -315,10 +311,6 @@ func (s *RemotePeeringConnectionResourceCrud) SetData() {
 
 	if s.Res.DrgId != nil {
 		s.D.Set("drg_id", *s.Res.DrgId)
-	}
-
-	if s.Res.Id != nil {
-		s.D.Set("id", *s.Res.Id)
 	}
 
 	if s.Res.IsCrossTenancyPeering != nil {

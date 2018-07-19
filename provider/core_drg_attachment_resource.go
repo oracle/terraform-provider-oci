@@ -51,10 +51,6 @@ func DrgAttachmentResource() *schema.Resource {
 				Optional:   true,
 				Deprecated: "No longer required. The DRG attachment is automatically placed into the same compartment as the VCN.",
 			},
-			"id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -226,10 +222,6 @@ func (s *DrgAttachmentResourceCrud) SetData() {
 
 	if s.Res.DrgId != nil {
 		s.D.Set("drg_id", *s.Res.DrgId)
-	}
-
-	if s.Res.Id != nil {
-		s.D.Set("id", *s.Res.Id)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)

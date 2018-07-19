@@ -3,11 +3,13 @@
 package provider
 
 import (
+	"context"
 	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
+	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
 const (
@@ -116,12 +118,11 @@ func TestCoreVolumeGroupResource_basic(t *testing.T) {
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},
+		CheckDestroy: testAccCheckCoreVolumeGroupDestroy,
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config:            config + VolumeGroupPropertyVariables + compartmentIdVariableStr + VolumeGroupRequiredOnlyResource,
+				Config: config + VolumeGroupPropertyVariables + compartmentIdVariableStr + VolumeGroupRequiredOnlyResource,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -271,6 +272,42 @@ data "oci_core_volume_groups" "test_volume_groups" {
 					resource.TestCheckResourceAttr(resourceName, "volume_ids.#", "2"),
 				),
 			},
+			// verify resource import
+			{
+				Config:            config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				ResourceName:      resourceName,
+			},
 		},
 	})
+}
+
+func testAccCheckCoreVolumeGroupDestroy(s *terraform.State) error {
+	noResourceFound := true
+	client := testAccProvider.Meta().(*OracleClients).blockstorageClient
+	for _, rs := range s.RootModule().Resources {
+		if rs.Type == "oci_core_volume_group" {
+			noResourceFound = false
+			request := oci_core.GetVolumeGroupRequest{}
+
+			tmp := rs.Primary.ID
+			request.VolumeGroupId = &tmp
+
+			response, error := client.GetVolumeGroup(context.Background(), request)
+
+			if error == nil {
+				return fmt.Errorf("resource still exists")
+			}
+			//Verify that exception is for 'not found'.
+			if response.RawResponse.StatusCode != 404 {
+				return error
+			}
+		}
+	}
+	if noResourceFound {
+		return fmt.Errorf("at least one resource was expected from the state file, but could not be found")
+	}
+
+	return nil
 }

@@ -33,7 +33,7 @@ func CpesDataSource() *schema.Resource {
 			"cpes": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     CpeResource(),
+				Elem:     crud.GetDataSourceItemSchema(CpeResource()),
 			},
 		},
 	}

@@ -49,7 +49,7 @@ func VolumesDataSource() *schema.Resource {
 			"volumes": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     VolumeResource(),
+				Elem:     crud.GetDataSourceItemSchema(VolumeResource()),
 			},
 		},
 	}

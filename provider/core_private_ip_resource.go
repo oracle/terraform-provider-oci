@@ -70,10 +70,6 @@ func PrivateIpResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"is_primary": {
 				Type:     schema.TypeBool,
 				Computed: true,
@@ -274,10 +270,6 @@ func (s *PrivateIpResourceCrud) SetData() {
 
 	if s.Res.HostnameLabel != nil {
 		s.D.Set("hostname_label", *s.Res.HostnameLabel)
-	}
-
-	if s.Res.Id != nil {
-		s.D.Set("id", *s.Res.Id)
 	}
 
 	if s.Res.IpAddress != nil {

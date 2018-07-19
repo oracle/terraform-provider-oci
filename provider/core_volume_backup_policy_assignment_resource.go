@@ -37,10 +37,6 @@ func VolumeBackupPolicyAssignmentResource() *schema.Resource {
 			// Optional
 
 			// Computed
-			"id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"time_created": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -141,10 +137,6 @@ func (s *VolumeBackupPolicyAssignmentResourceCrud) Delete() error {
 func (s *VolumeBackupPolicyAssignmentResourceCrud) SetData() {
 	if s.Res.AssetId != nil {
 		s.D.Set("asset_id", *s.Res.AssetId)
-	}
-
-	if s.Res.Id != nil {
-		s.D.Set("id", *s.Res.Id)
 	}
 
 	if s.Res.PolicyId != nil {

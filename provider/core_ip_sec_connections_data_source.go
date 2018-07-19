@@ -41,7 +41,7 @@ func IpSecConnectionsDataSource() *schema.Resource {
 			"connections": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     IpSecConnectionResource(),
+				Elem:     crud.GetDataSourceItemSchema(IpSecConnectionResource()),
 			},
 		},
 	}

@@ -27,7 +27,7 @@ func InstanceConsoleConnectionsDataSource() *schema.Resource {
 			"instance_console_connections": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     InstanceConsoleConnectionResource(),
+				Elem:     crud.GetDataSourceItemSchema(InstanceConsoleConnectionResource()),
 			},
 		},
 	}

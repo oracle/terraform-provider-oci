@@ -45,7 +45,7 @@ func RouteTablesDataSource() *schema.Resource {
 			"route_tables": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     RouteTableResource(),
+				Elem:     crud.GetDataSourceItemSchema(RouteTableResource()),
 			},
 		},
 	}

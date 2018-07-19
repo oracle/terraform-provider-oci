@@ -64,10 +64,6 @@ func InstanceConsoleConnectionResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -223,10 +219,6 @@ func (s *InstanceConsoleConnectionResourceCrud) SetData() {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
-
-	if s.Res.Id != nil {
-		s.D.Set("id", *s.Res.Id)
-	}
 
 	if s.Res.InstanceId != nil {
 		s.D.Set("instance_id", *s.Res.InstanceId)
