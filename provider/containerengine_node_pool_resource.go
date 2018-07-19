@@ -14,7 +14,7 @@ import (
 	oci_containerengine "github.com/oracle/oci-go-sdk/containerengine"
 )
 
-var nodePoolOperationMaxTime = 5 * time.Minute
+var nodePoolOperationMaxTime = 20 * time.Minute
 
 func NodePoolResource() *schema.Resource {
 	return &schema.Resource{
@@ -304,6 +304,24 @@ func (s *NodePoolResourceCrud) Create() error {
 		oci_containerengine.WorkRequestResourceActionTypeCreated, nodePoolOperationMaxTime, s.DisableNotFoundRetries,
 		s.Client)
 	if err != nil {
+		if nodePoolID != nil {
+			//Try to clean up
+			delReq := oci_containerengine.DeleteNodePoolRequest{}
+			delReq.NodePoolId = nodePoolID
+			delReq.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "containerengine")
+
+			//Issues delete delRequest
+			delRes, delErr := s.Client.DeleteNodePool(context.Background(), delReq)
+			if delErr != nil {
+				return err
+			}
+			delWorkRequest := delRes.OpcWorkRequestId
+
+			//Wait until delRequest finishes
+			_, _ = containerEngineWaitForWorkRequest(delWorkRequest, "nodepool",
+				oci_containerengine.WorkRequestResourceActionTypeDeleted,
+				nodePoolOperationMaxTime, s.DisableNotFoundRetries, s.Client)
+		}
 		return err
 	}
 

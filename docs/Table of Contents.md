@@ -49,6 +49,9 @@ This lists all of the available OCI resources and/or data sources.
     * [Volume Group Backups](https://github.com/oracle/terraform-provider-oci/tree/master/docs/core/volume_group_backups.md)
     * [Volume Groups](https://github.com/oracle/terraform-provider-oci/tree/master/docs/core/volume_groups.md)
     * [Volumes](https://github.com/oracle/terraform-provider-oci/tree/master/docs/core/volumes.md)
+* **Container Engine**
+    * [Clusters](https://github.com/oracle/terraform-provider-oci/tree/master/docs/containerengine/clusters.md)
+    * [Node Pools](https://github.com/oracle/terraform-provider-oci/tree/master/docs/containerengine/node_pools.md)
 * **Database**
     * [Databases](https://github.com/oracle/terraform-provider-oci/tree/master/docs/database/databases.md)
     * [DB Homes](https://github.com/oracle/terraform-provider-oci/tree/master/docs/database/db_homes.md)
