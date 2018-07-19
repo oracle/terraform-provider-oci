@@ -233,9 +233,7 @@ func (s *ResourceCoreSecurityListTestSuite) TestAccResourceCoreSecurityList_basi
 		Steps: []resource.TestStep{
 			// verify create with all options
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config:            s.Config + dataSource + fullConfig,
+				Config: s.Config + dataSource + fullConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(append(s.BuildTestsForFullConfig(s.ResourceName, ""),
 					s.BuildTestsForFullConfig(s.DataSourceName, "security_lists.0.")...)...),
 			},
@@ -247,8 +245,6 @@ func (s *ResourceCoreSecurityListTestSuite) TestAccResourceCoreSecurityList_basi
 			},
 			// Update to a single rule
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + `
 					resource "oci_core_security_list" "t" {
 						compartment_id = "${var.compartment_id}"
@@ -276,8 +272,6 @@ func (s *ResourceCoreSecurityListTestSuite) TestAccResourceCoreSecurityList_basi
 			},
 			// Update to zero rules
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + `
 					resource "oci_core_security_list" "t" {
 						compartment_id = "${var.compartment_id}"
@@ -292,8 +286,6 @@ func (s *ResourceCoreSecurityListTestSuite) TestAccResourceCoreSecurityList_basi
 			},
 			// Update to add ICMP options
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + `
 					resource "oci_core_security_list" "t" {
 						compartment_id = "${var.compartment_id}"
@@ -336,8 +328,6 @@ func (s *ResourceCoreSecurityListTestSuite) TestAccResourceCoreSecurityList_basi
 			},
 			// Update to ICMP options that don't contain an optional 'code'
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + `
 					resource "oci_core_security_list" "t" {
 						compartment_id = "${var.compartment_id}"
@@ -379,8 +369,6 @@ func (s *ResourceCoreSecurityListTestSuite) TestAccResourceCoreSecurityList_basi
 			// Update to rules that use only source and only destination port ranges
 			// Also tests removal of icmp_options
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + `
 					resource "oci_core_security_list" "t" {
 						compartment_id = "${var.compartment_id}"
@@ -440,8 +428,6 @@ func (s *ResourceCoreSecurityListTestSuite) TestAccResourceCoreSecurityList_basi
 			},
 			// Remove source_port_range from tcp_options and add it to udp_options
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + `
 					resource "oci_core_security_list" "t" {
 						compartment_id = "${var.compartment_id}"
@@ -509,8 +495,6 @@ func (s *ResourceCoreSecurityListTestSuite) TestAccResourceCoreSecurityList_empt
 		Steps: []resource.TestStep{
 			{
 				// Create a security list with no rules (which is different from the earlier test of updating to no rules)
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + `
 					resource "oci_core_security_list" "t" {
 						compartment_id = "${var.compartment_id}"
@@ -532,17 +516,13 @@ func (s *ResourceCoreSecurityListTestSuite) TestAccResourceCoreSecurityList_empt
 			},
 			// update with all options
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config:            s.Config + dataSource + fullConfig,
-				Check:             resource.ComposeAggregateTestCheckFunc(s.BuildTestsForFullConfig(s.ResourceName, "")...),
+				Config: s.Config + dataSource + fullConfig,
+				Check:  resource.ComposeAggregateTestCheckFunc(s.BuildTestsForFullConfig(s.ResourceName, "")...),
 			},
 			// Apply the same config and check the data source, since the data source will not have updated on the previous apply.
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config:            s.Config + dataSource + fullConfig,
-				Check:             resource.ComposeAggregateTestCheckFunc(s.BuildTestsForFullConfig(s.DataSourceName, "security_lists.0.")...),
+				Config: s.Config + dataSource + fullConfig,
+				Check:  resource.ComposeAggregateTestCheckFunc(s.BuildTestsForFullConfig(s.DataSourceName, "security_lists.0.")...),
 			},
 		},
 	})
@@ -586,9 +566,7 @@ func (s *ResourceCoreSecurityListTestSuite) TestAccResourceCoreSecurityList_defa
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config:            s.Config + defaultSecurityList,
+				Config: s.Config + defaultSecurityList,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.DefaultResourceName, "display_name", "default-tf-security_list"),
 					resource.TestCheckResourceAttr(s.DefaultResourceName, "egress_security_rules.#", "1"),
@@ -613,8 +591,6 @@ func (s *ResourceCoreSecurityListTestSuite) TestAccResourceCoreSecurityList_defa
 			},
 			// Update
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + `
 					resource "oci_core_default_security_list" "default" {
 						manage_default_resource_id = "${oci_core_virtual_network.t.default_security_list_id}"

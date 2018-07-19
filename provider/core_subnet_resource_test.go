@@ -70,8 +70,6 @@ func TestAccResourceCoreSubnetCreate_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: config + `
 				resource "oci_core_subnet" "s" {` + commonSubnetParams + extraSecurityListIds + `}`,
 				Check: resource.ComposeAggregateTestCheckFunc(

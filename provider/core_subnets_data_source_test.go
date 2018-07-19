@@ -55,8 +55,6 @@ func (s *DatasourceCoreSubnetTestSuite) TestAccDatasourceCoreSubnet_basic() {
 		Steps: []resource.TestStep{
 			// check properties on the subnet created in AD2
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + `
 				data "oci_core_subnets" "s" {
 					compartment_id = "${var.compartment_id}"

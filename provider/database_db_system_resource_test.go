@@ -78,8 +78,6 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_basi
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + `
 				resource "oci_database_db_system" "t" {
 					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
@@ -148,8 +146,6 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_allB
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + s.TokenFn(`
 				resource "oci_database_db_system" "t" {
 					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
@@ -392,8 +388,6 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_allV
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + s.TokenFn(`
 				resource "oci_database_db_system" "t" {
 					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
@@ -636,8 +630,6 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_allV
 			},
 			// verify update
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + s.TokenFn(`
 				resource "oci_database_db_system" "t" {
 					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"

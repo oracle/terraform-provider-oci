@@ -47,9 +47,7 @@ func (s *DatasourceIdentityUserGroupMembershipsTestSuite) TestAccIdentityUserGro
 		Steps: []resource.TestStep{
 			// verify import state
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config:            s.Config,
+				Config: s.Config,
 			},
 			//verify membership by specifying both user and group id
 			{

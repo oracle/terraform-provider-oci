@@ -51,8 +51,6 @@ func (s *DatasourceCoreVolumeTestSuite) TestAccDatasourceCoreVolume_basic() {
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + `
 				data "oci_core_volumes" "t" {
 					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
@@ -106,8 +104,6 @@ func (s *DatasourceCoreVolumeTestSuite) TestAccDatasourceCoreVolume_basic() {
 			},
 			// Client-side filtering tests.
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + `
 				data "oci_core_volumes" "t" {
 					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"

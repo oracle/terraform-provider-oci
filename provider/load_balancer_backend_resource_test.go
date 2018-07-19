@@ -74,8 +74,6 @@ func (s *ResourceLoadBalancerBackendTestSuite) TestAccResourceLoadBalancerBacken
 		Steps: []resource.TestStep{
 			// test create minimal
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + `
 				resource "oci_load_balancer_backend" "t" {
 					load_balancer_id = "${oci_load_balancer.t.id}"
@@ -102,8 +100,6 @@ func (s *ResourceLoadBalancerBackendTestSuite) TestAccResourceLoadBalancerBacken
 			},
 			// test partial update: "weight" only, omitted bool properties should be not be named and null in the update request
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + `
 				resource "oci_load_balancer_backend" "t" {
 					load_balancer_id = "${oci_load_balancer.t.id}"
@@ -131,8 +127,6 @@ func (s *ResourceLoadBalancerBackendTestSuite) TestAccResourceLoadBalancerBacken
 			},
 			// test partial update - previously omitted bools explicitly set to a mix of true and false
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + `
 				resource "oci_load_balancer_backend" "t" {
 					load_balancer_id = "${oci_load_balancer.t.id}"

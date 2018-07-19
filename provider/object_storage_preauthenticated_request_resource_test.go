@@ -52,8 +52,6 @@ func (s *ResourceObjectstoragePARTestSuite) TestAccResourceObjectstoragePAR_basi
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + `
 				resource "oci_objectstorage_preauthrequest" "t" {
 					namespace = "${data.oci_objectstorage_namespace.t.namespace}"

@@ -82,8 +82,6 @@ func (s *ResourceLoadBalancerListenerTestSuite) TestAccResourceLoadBalancerListe
 		Steps: []resource.TestStep{
 			// test create
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + `
 				resource "oci_load_balancer_listener" "t" {
 					load_balancer_id  = "${oci_load_balancer.t.id}"

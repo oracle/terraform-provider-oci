@@ -51,8 +51,6 @@ func (s *DatasourceObjectstorageObjectHeadTestSuite) TestObjectstorageObjectHead
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + `
 				data "oci_objectstorage_object_head" "t" {
 					namespace = "${data.oci_objectstorage_namespace.t.namespace}"

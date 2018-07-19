@@ -40,8 +40,6 @@ func (s *ResourceCoreInternetGatewayTestSuite) TestAccResourceCoreInternetGatewa
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config +
 					`resource "oci_core_internet_gateway" "t" {
 					compartment_id = "${var.compartment_id}"
@@ -62,8 +60,6 @@ func (s *ResourceCoreInternetGatewayTestSuite) TestAccResourceCoreInternetGatewa
 			},
 			// verify update
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + `
 					resource "oci_core_internet_gateway" "t" {
 						compartment_id = "${var.compartment_id}"
@@ -89,8 +85,6 @@ func (s *ResourceCoreInternetGatewayTestSuite) TestAccResourceCoreInternetGatewa
 			},
 			// verify destructive update
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: legacyTestProviderConfig() + `
 					resource "oci_core_virtual_network" "t2" {
 						compartment_id = "${var.compartment_id}"

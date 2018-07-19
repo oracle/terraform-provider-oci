@@ -42,8 +42,6 @@ func (s *DatasourceCoreVolumeBackupTestSuite) TestAccDatasourceCoreVolumeBackup_
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + `
 				data "oci_core_volume_backups" "t" {
 					compartment_id = "${var.compartment_id}"

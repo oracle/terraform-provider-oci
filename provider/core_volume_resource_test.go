@@ -48,8 +48,6 @@ func (s *ResourceCoreVolumeTestSuite) TestCreateResourceCoreVolume_basic() {
 			},
 			// create volume, use default size
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + `
 				resource "oci_core_volume" "t" {
 					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
@@ -186,8 +184,6 @@ func (s *ResourceCoreVolumeTestSuite) TestCreateResourceCoreVolume_destructive()
 		Steps: []resource.TestStep{
 			// create volume, use default size
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + `
 				resource "oci_core_volume" "t" {
 					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"

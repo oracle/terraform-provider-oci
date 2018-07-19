@@ -26,9 +26,7 @@ func TestAccDatasourceLoadBalancerShapes_basic(t *testing.T) {
 		Providers:                 providers,
 		Steps: []resource.TestStep{
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config:            config,
+				Config: config,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "shapes.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "shapes.0.name", "100Mbps"),

@@ -29,8 +29,6 @@ func (s *DatasourceCoreVnicTestSuite) TestAccDatasourceCoreAttachVnic_basic() {
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + `
 				data "oci_core_vnic_attachments" "t" {
 					compartment_id = "${var.compartment_id}"

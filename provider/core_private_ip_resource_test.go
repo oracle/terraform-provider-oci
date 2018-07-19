@@ -38,8 +38,6 @@ func (s *ResourcePrivateIPTestSuite) TestAccCoreResourcePrivateIP_basic() {
 		Steps: []resource.TestStep{
 			// test create
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + `
 				resource "oci_core_private_ip" "t" {
 					vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0], "vnic_id")}"

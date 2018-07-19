@@ -39,9 +39,7 @@ func (s *CoreConsoleHistoryDataDatasourceTestSuite) TestAccDatasourceCoreConsole
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config:            s.Config,
+				Config: s.Config,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "console_history_id"),

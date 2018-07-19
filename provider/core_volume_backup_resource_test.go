@@ -42,8 +42,6 @@ func (s *ResourceCoreVolumeBackupTestSuite) TestAccResourceCoreVolumeBackup_basi
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + `
 					resource "oci_core_volume_backup" "t" {
 						volume_id = "${oci_core_volume.t.id}"

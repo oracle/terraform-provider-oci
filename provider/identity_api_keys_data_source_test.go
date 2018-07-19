@@ -50,9 +50,7 @@ func (s *DatasourceIdentityAPIKeysTestSuite) TestAccDatasourceIdentityAPIKeys_ba
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config:            s.Config,
+				Config: s.Config,
 			},
 			{
 				Config: s.Config + `

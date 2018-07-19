@@ -74,8 +74,6 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + `
 				resource "oci_core_instance" "t" {
 					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
@@ -149,8 +147,6 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 			// Changing the letter case in the hostname_label of the instance should also not result in a change.
 			// Changing the defined and freeform tags should
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + `
 				resource "oci_core_instance" "t" {
 					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
@@ -180,8 +176,6 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 			// Switching to source_details for the same image ID should not lead to a change.
 			// Also, check that source_type is case insensitive.
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + `
 				resource "oci_core_instance" "t" {
 					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
@@ -210,8 +204,6 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 			},
 			// verify update - adds display name, update tags
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + `
 				resource "oci_core_instance" "t" {
 					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
@@ -247,8 +239,6 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 			},
 			// Adding create_vnic_details with the same subnet_id and an updatable fields should cause an update only.
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + `
 				resource "oci_core_instance" "t" {
 					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
@@ -296,8 +286,6 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 			},
 			// Adding create_vnic_details flags with default values should not lead to a change.
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + `
 				resource "oci_core_instance" "t" {
 					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
@@ -332,8 +320,6 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 			},
 			// Update create_vnic_details
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + `
 				resource "oci_core_instance" "t" {
 					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
@@ -383,8 +369,6 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 			},
 			// verify force new by setting non-updateable VNIC details and also add tags to the VNIC details
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + `
 				resource "oci_core_instance" "t" {
 					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
@@ -440,8 +424,6 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 			},
 			// verify updating vnic tags result in an update only
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + `
 				resource "oci_core_instance" "t" {
 					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
@@ -508,8 +490,6 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_preserveBoot
 	testSteps := []resource.TestStep{
 		// verify create of an instance with source_details and that we can get a boot volume id
 		{
-			ImportState:       true,
-			ImportStateVerify: true,
 			Config: s.Config + `
 				resource "oci_core_instance" "t" {
 					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
@@ -574,8 +554,6 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_preserveBoot
 		},
 		// Switching from source_details back to image ID should not lead to a change.
 		{
-			ImportState:       true,
-			ImportStateVerify: true,
 			Config: s.Config + `
 				resource "oci_core_instance" "t" {
 					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
@@ -597,8 +575,6 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_preserveBoot
 		},
 		// verify the preserve_boot_volume setting can be applied and doesn't cause a ForceNew instance
 		{
-			ImportState:       true,
-			ImportStateVerify: true,
 			Config: s.Config + `
 				resource "oci_core_instance" "t" {
 					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"

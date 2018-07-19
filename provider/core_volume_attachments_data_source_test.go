@@ -48,8 +48,6 @@ func (s *DatasourceCoreVolumeAttachmentTestSuite) TestAccDatasourceCoreVolumeAtt
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + `
 				data "oci_core_volume_attachments" "t" {
 					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"

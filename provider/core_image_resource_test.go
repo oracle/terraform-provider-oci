@@ -32,8 +32,6 @@ func (s *ResourceCoreImageTestSuite) TestAccResourceCoreImage_basic() {
 		Steps: []resource.TestStep{
 			// create image
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + `
 					resource "oci_core_image" "t" {
 						compartment_id = "${var.tenancy_ocid}"
@@ -116,8 +114,6 @@ func (s *ResourceCoreImageTestSuite) TestAccResourceCoreImage_basic() {
 			},
 			// ForceNew image by changing the launch mode to EMULATED
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + `
 					resource "oci_core_image" "t" {
 						compartment_id = "${var.tenancy_ocid}"
@@ -162,8 +158,6 @@ func (s *ResourceCoreImageTestSuite) TestAccResourceCoreImage_createFromExport_o
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: legacyTestProviderConfig() + `
 					resource "oci_core_image" "t" {
 						compartment_id = "${var.tenancy_ocid}"
@@ -198,8 +192,6 @@ func (s *ResourceCoreImageTestSuite) TestAccResourceCoreImage_createFromExport_o
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: legacyTestProviderConfig() + `
 					data "oci_objectstorage_namespace" "t" {
 					}

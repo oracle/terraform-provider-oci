@@ -46,8 +46,6 @@ func (s *ResourceIdentityPolicyTestSuite) TestAccResourceIdentityPolicy_basic() 
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + s.TokenFn(`
 				resource "oci_identity_policy" "p" {
 					compartment_id = "${oci_identity_compartment.t.id}"
@@ -114,8 +112,6 @@ func (s *ResourceIdentityPolicyTestSuite) TestAccResourceIdentityPolicy_formatti
 		Steps: []resource.TestStep{
 			// create policy with bad formatting
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + s.TokenFn(`
 				resource "oci_identity_policy" "p" {
 					compartment_id = "${oci_identity_compartment.t.id}"

@@ -37,8 +37,6 @@ func (s *ResourceIdentityUserTestSuite) TestAccResourceIdentityUser_basic() {
 		Steps: []resource.TestStep{
 			// verify create w/ compartment
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config +
 					tokenFn(
 						`resource "oci_identity_user" "t" {
@@ -50,8 +48,6 @@ func (s *ResourceIdentityUserTestSuite) TestAccResourceIdentityUser_basic() {
 				ExpectError: regexp.MustCompile("Tenant id is not equal to compartment id"),
 			},
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config +
 					tokenFn(
 						`resource "oci_identity_user" "t" {
@@ -75,8 +71,6 @@ func (s *ResourceIdentityUserTestSuite) TestAccResourceIdentityUser_basic() {
 			},
 			// verify create w/o compartment, check that it defaults to tenancy
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config +
 					tokenFn(
 						`resource "oci_identity_user" "t" {

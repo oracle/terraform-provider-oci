@@ -41,8 +41,6 @@ func (s *DatasourceCoreInternetGatewayTestSuite) TestAccDatasourceCoreInternetGa
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: s.Config + `
 				data "oci_core_internet_gateways" "s" {
 					compartment_id = "${var.compartment_id}"
