@@ -9,6 +9,7 @@ import (
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
+	"github.com/oracle/oci-go-sdk/common"
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
@@ -192,14 +193,14 @@ func testAccCheckCoreConsoleHistoryDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.InstanceConsoleHistoryId = &tmp
 
-			response, error := client.GetConsoleHistory(context.Background(), request)
+			_, err := client.GetConsoleHistory(context.Background(), request)
 
-			if error == nil {
+			if err == nil {
 				return fmt.Errorf("resource still exists")
 			}
-			//Verify that exception is for 'not found'.
-			if response.RawResponse.StatusCode != 404 {
-				return error
+			//Verify that exception is for '404 not found'.
+			if failure, isServiceError := common.IsServiceError(err); !isServiceError || failure.GetHTTPStatusCode() != 404 {
+				return err
 			}
 		}
 	}
