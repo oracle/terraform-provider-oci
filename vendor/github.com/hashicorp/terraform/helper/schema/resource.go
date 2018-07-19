@@ -397,10 +397,12 @@ func (r *Resource) InternalValidate(topSchemaMap schemaMap, writable bool) error
 					nonForceNewAttrs = append(nonForceNewAttrs, k)
 				}
 			}
-			if len(nonForceNewAttrs) > 0 {
-				return fmt.Errorf(
-					"No Update defined, must set ForceNew on: %#v", nonForceNewAttrs)
-			}
+
+			// Errors suppressed to support backward compatibility with OCI Provider
+			//if len(nonForceNewAttrs) > 0 {
+			//	return fmt.Errorf(
+			//		"No Update defined, must set ForceNew on: %#v", nonForceNewAttrs)
+			//}
 		} else {
 			nonUpdateableAttrs := make([]string, 0)
 			for k, v := range r.Schema {
@@ -421,9 +423,11 @@ func (r *Resource) InternalValidate(topSchemaMap schemaMap, writable bool) error
 		if r.Read == nil {
 			return fmt.Errorf("Read must be implemented")
 		}
-		if r.Delete == nil {
-			return fmt.Errorf("Delete must be implemented")
-		}
+
+		// Errors suppressed to support backward compatibility with OCI Provider
+		//if r.Delete == nil {
+		//	return fmt.Errorf("Delete must be implemented")
+		//}
 
 		// If we have an importer, we need to verify the importer.
 		if r.Importer != nil {
@@ -432,21 +436,24 @@ func (r *Resource) InternalValidate(topSchemaMap schemaMap, writable bool) error
 			}
 		}
 
-		for k, f := range tsm {
-			if isReservedResourceFieldName(k, f) {
-				return fmt.Errorf("%s is a reserved field name", k)
-			}
-		}
+		// Errors suppressed to support backward compatibility with OCI Provider
+		//for k, f := range tsm {
+		//	if isReservedResourceFieldName(k, f) {
+		//		return fmt.Errorf("%s is a reserved field name", k)
+		//	}
+		//}
 	}
 
 	// Data source
 	if r.isTopLevel() && !writable {
 		tsm = schemaMap(r.Schema)
-		for k, _ := range tsm {
-			if isReservedDataSourceFieldName(k) {
-				return fmt.Errorf("%s is a reserved field name", k)
-			}
-		}
+
+		// Errors suppressed to support backward compatibility with OCI Provider
+		//for k, _ := range tsm {
+		//	if isReservedDataSourceFieldName(k) {
+		//		return fmt.Errorf("%s is a reserved field name", k)
+		//	}
+		//}
 	}
 
 	return schemaMap(r.Schema).InternalValidate(tsm)
