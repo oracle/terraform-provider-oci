@@ -31,7 +31,7 @@ func PrivateIpsDataSource() *schema.Resource {
 			"private_ips": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     PrivateIpResource(),
+				Elem:     crud.GetDataSourceItemSchema(PrivateIpResource()),
 			},
 		},
 	}

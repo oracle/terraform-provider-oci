@@ -35,7 +35,7 @@ func CrossConnectsDataSource() *schema.Resource {
 			"cross_connects": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     CrossConnectResource(),
+				Elem:     crud.GetDataSourceItemSchema(CrossConnectResource()),
 			},
 		},
 	}

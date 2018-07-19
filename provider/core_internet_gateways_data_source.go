@@ -45,7 +45,7 @@ func InternetGatewaysDataSource() *schema.Resource {
 			"gateways": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     InternetGatewayResource(),
+				Elem:     crud.GetDataSourceItemSchema(InternetGatewayResource()),
 			},
 		},
 	}

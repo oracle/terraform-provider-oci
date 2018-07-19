@@ -23,7 +23,7 @@ func VolumeBackupPolicyAssignmentsDataSource() *schema.Resource {
 			"volume_backup_policy_assignments": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     VolumeBackupPolicyAssignmentResource(),
+				Elem:     crud.GetDataSourceItemSchema(VolumeBackupPolicyAssignmentResource()),
 			},
 		},
 	}

@@ -3,11 +3,13 @@
 package provider
 
 import (
+	"context"
 	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
+	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
 const (
@@ -61,12 +63,11 @@ func TestCoreVcnResource_basic(t *testing.T) {
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},
+		CheckDestroy: testAccCheckCoreVcnDestroy,
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config:            config + VcnPropertyVariables + compartmentIdVariableStr + VcnRequiredOnlyResource,
+				Config: config + VcnPropertyVariables + compartmentIdVariableStr + VcnRequiredOnlyResource,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/16"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -172,6 +173,42 @@ data "oci_core_vcns" "test_vcns" {
 					resource.TestCheckResourceAttrSet(datasourceName, "virtual_networks.0.state"),
 				),
 			},
+			// verify resource import
+			{
+				Config:            config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				ResourceName:      resourceName,
+			},
 		},
 	})
+}
+
+func testAccCheckCoreVcnDestroy(s *terraform.State) error {
+	noResourceFound := true
+	client := testAccProvider.Meta().(*OracleClients).virtualNetworkClient
+	for _, rs := range s.RootModule().Resources {
+		if rs.Type == "oci_core_vcn" {
+			noResourceFound = false
+			request := oci_core.GetVcnRequest{}
+
+			tmp := rs.Primary.ID
+			request.VcnId = &tmp
+
+			response, error := client.GetVcn(context.Background(), request)
+
+			if error == nil {
+				return fmt.Errorf("resource still exists")
+			}
+			//Verify that exception is for 'not found'.
+			if response.RawResponse.StatusCode != 404 {
+				return error
+			}
+		}
+	}
+	if noResourceFound {
+		return fmt.Errorf("at least one resource was expected from the state file, but could not be found")
+	}
+
+	return nil
 }

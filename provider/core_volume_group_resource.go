@@ -110,10 +110,6 @@ func VolumeGroupResource() *schema.Resource {
 			},
 
 			// Computed
-			"id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"size_in_mbs": {
 				Type:     schema.TypeInt,
 				Computed: true,
@@ -342,10 +338,6 @@ func (s *VolumeGroupResourceCrud) SetData() {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
-
-	if s.Res.Id != nil {
-		s.D.Set("id", *s.Res.Id)
-	}
 
 	if s.Res.SizeInMBs != nil {
 		s.D.Set("size_in_mbs", *s.Res.SizeInMBs)

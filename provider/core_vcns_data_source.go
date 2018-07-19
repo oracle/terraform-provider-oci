@@ -41,7 +41,7 @@ func VcnsDataSource() *schema.Resource {
 			"virtual_networks": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     VcnResource(),
+				Elem:     crud.GetDataSourceItemSchema(VcnResource()),
 			},
 		},
 	}

@@ -137,10 +137,6 @@ func ImageResource() *schema.Resource {
 				Type:     schema.TypeBool,
 				Computed: true,
 			},
-			"id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"launch_options": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -401,10 +397,6 @@ func (s *ImageResourceCrud) SetData() {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
-
-	if s.Res.Id != nil {
-		s.D.Set("id", *s.Res.Id)
-	}
 
 	s.D.Set("launch_mode", s.Res.LaunchMode)
 

@@ -41,7 +41,7 @@ func DrgAttachmentsDataSource() *schema.Resource {
 			"drg_attachments": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     DrgAttachmentResource(),
+				Elem:     crud.GetDataSourceItemSchema(DrgAttachmentResource()),
 			},
 		},
 	}

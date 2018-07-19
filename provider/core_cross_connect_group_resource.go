@@ -38,10 +38,6 @@ func CrossConnectGroupResource() *schema.Resource {
 			},
 
 			// Computed
-			"id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -218,10 +214,6 @@ func (s *CrossConnectGroupResourceCrud) SetData() {
 
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
-	}
-
-	if s.Res.Id != nil {
-		s.D.Set("id", *s.Res.Id)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)

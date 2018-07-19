@@ -112,10 +112,6 @@ func VolumeResource() *schema.Resource {
 			},
 
 			// Computed
-			"id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"is_hydrated": {
 				Type:     schema.TypeBool,
 				Computed: true,
@@ -353,10 +349,6 @@ func (s *VolumeResourceCrud) SetData() {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
-
-	if s.Res.Id != nil {
-		s.D.Set("id", *s.Res.Id)
-	}
 
 	if s.Res.IsHydrated != nil {
 		s.D.Set("is_hydrated", *s.Res.IsHydrated)

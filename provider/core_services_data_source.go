@@ -34,10 +34,6 @@ func ServicesDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"id": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
 						"name": {
 							Type:     schema.TypeString,
 							Computed: true,

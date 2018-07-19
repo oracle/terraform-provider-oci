@@ -45,7 +45,7 @@ func VolumeBackupsDataSource() *schema.Resource {
 			"volume_backups": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     VolumeBackupResource(),
+				Elem:     crud.GetDataSourceItemSchema(VolumeBackupResource()),
 			},
 		},
 	}

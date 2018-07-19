@@ -56,10 +56,6 @@ func CpeResource() *schema.Resource {
 			},
 
 			// Computed
-			"id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"time_created": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -230,10 +226,6 @@ func (s *CpeResourceCrud) SetData() {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
-
-	if s.Res.Id != nil {
-		s.D.Set("id", *s.Res.Id)
-	}
 
 	if s.Res.IpAddress != nil {
 		s.D.Set("ip_address", *s.Res.IpAddress)

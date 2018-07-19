@@ -72,10 +72,6 @@ func CrossConnectResource() *schema.Resource {
 			},
 
 			// Computed
-			"id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"port_name": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -313,10 +309,6 @@ func (s *CrossConnectResourceCrud) SetData() {
 
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
-	}
-
-	if s.Res.Id != nil {
-		s.D.Set("id", *s.Res.Id)
 	}
 
 	if s.Res.LocationName != nil {

@@ -110,10 +110,6 @@ func DhcpOptionsResource() *schema.Resource {
 			},
 
 			// Computed
-			"id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -340,10 +336,6 @@ func (s *DhcpOptionsResourceCrud) SetData() {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
-
-	if s.Res.Id != nil {
-		s.D.Set("id", *s.Res.Id)
-	}
 
 	options := []interface{}{}
 	for _, item := range s.Res.Options {

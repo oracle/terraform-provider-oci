@@ -53,7 +53,7 @@ func ImagesDataSource() *schema.Resource {
 			"images": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     ImageResource(),
+				Elem:     crud.GetDataSourceItemSchema(ImageResource()),
 			},
 		},
 	}

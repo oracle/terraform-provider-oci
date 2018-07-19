@@ -7,11 +7,11 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/hashicorp/terraform/helper/hashcode"
 	"github.com/hashicorp/terraform/helper/schema"
 
 	"github.com/oracle/terraform-provider-oci/crud"
 
-	"github.com/hashicorp/terraform/helper/hashcode"
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
@@ -97,10 +97,6 @@ func RouteTableResource() *schema.Resource {
 			},
 
 			// Computed
-			"id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -327,10 +323,6 @@ func (s *RouteTableResourceCrud) SetData() {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
-
-	if s.Res.Id != nil {
-		s.D.Set("id", *s.Res.Id)
-	}
 
 	routeRules := []interface{}{}
 	for _, item := range s.Res.RouteRules {

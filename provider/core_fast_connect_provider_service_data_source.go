@@ -101,14 +101,10 @@ func (s *FastConnectProviderServiceDataSourceCrud) SetData() {
 		return
 	}
 
-	s.D.SetId(crud.GenerateDataSourceID())
+	s.D.SetId(*s.Res.Id)
 
 	if s.Res.Description != nil {
 		s.D.Set("description", *s.Res.Description)
-	}
-
-	if s.Res.Id != nil {
-		s.D.Set("id", *s.Res.Id)
 	}
 
 	s.D.Set("private_peering_bgp_management", s.Res.PrivatePeeringBgpManagement)

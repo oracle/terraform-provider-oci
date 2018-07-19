@@ -35,7 +35,7 @@ func ConsoleHistoriesDataSource() *schema.Resource {
 			"console_histories": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     ConsoleHistoryResource(),
+				Elem:     crud.GetDataSourceItemSchema(ConsoleHistoryResource()),
 			},
 		},
 	}

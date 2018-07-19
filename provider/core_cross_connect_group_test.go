@@ -3,12 +3,14 @@
 package provider
 
 import (
+	"context"
 	"fmt"
 	"strings"
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
+	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
 const (
@@ -58,12 +60,11 @@ func TestCoreCrossConnectGroupResource_basic(t *testing.T) {
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},
+		CheckDestroy: testAccCheckCoreCrossConnectGroupDestroy,
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config:            config + CrossConnectGroupPropertyVariables + compartmentIdVariableStr + CrossConnectGroupRequiredOnlyResource,
+				Config: config + CrossConnectGroupPropertyVariables + compartmentIdVariableStr + CrossConnectGroupRequiredOnlyResource,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 
@@ -163,6 +164,42 @@ data "oci_core_cross_connect_group" "test_cross_connect_group" {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				),
 			},
+			// verify resource import
+			{
+				Config:            config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				ResourceName:      resourceName,
+			},
 		},
 	})
+}
+
+func testAccCheckCoreCrossConnectGroupDestroy(s *terraform.State) error {
+	noResourceFound := true
+	client := testAccProvider.Meta().(*OracleClients).virtualNetworkClient
+	for _, rs := range s.RootModule().Resources {
+		if rs.Type == "oci_core_cross_connect_group" {
+			noResourceFound = false
+			request := oci_core.GetCrossConnectGroupRequest{}
+
+			tmp := rs.Primary.ID
+			request.CrossConnectGroupId = &tmp
+
+			response, error := client.GetCrossConnectGroup(context.Background(), request)
+
+			if error == nil {
+				return fmt.Errorf("resource still exists")
+			}
+			//Verify that exception is for 'not found'.
+			if response.RawResponse.StatusCode != 404 {
+				return error
+			}
+		}
+	}
+	if noResourceFound {
+		return fmt.Errorf("at least one resource was expected from the state file, but could not be found")
+	}
+
+	return nil
 }

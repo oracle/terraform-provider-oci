@@ -65,10 +65,6 @@ func VolumeBackupResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"size_in_gbs": {
 				Type:     schema.TypeInt,
 				Computed: true,
@@ -301,10 +297,6 @@ func (s *VolumeBackupResourceCrud) SetData() {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
-
-	if s.Res.Id != nil {
-		s.D.Set("id", *s.Res.Id)
-	}
 
 	if s.Res.SizeInGBs != nil {
 		s.D.Set("size_in_gbs", *s.Res.SizeInGBs)

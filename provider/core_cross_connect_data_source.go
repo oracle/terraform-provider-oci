@@ -102,7 +102,7 @@ func (s *CrossConnectDataSourceCrud) SetData() {
 		return
 	}
 
-	s.D.SetId(crud.GenerateDataSourceID())
+	s.D.SetId(*s.Res.Id)
 
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
@@ -114,10 +114,6 @@ func (s *CrossConnectDataSourceCrud) SetData() {
 
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
-	}
-
-	if s.Res.Id != nil {
-		s.D.Set("id", *s.Res.Id)
 	}
 
 	if s.Res.LocationName != nil {
