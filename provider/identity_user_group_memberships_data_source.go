@@ -31,7 +31,7 @@ func UserGroupMembershipsDataSource() *schema.Resource {
 			"memberships": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     UserGroupMembershipResource(),
+				Elem:     crud.GetDataSourceItemSchema(UserGroupMembershipResource()),
 			},
 		},
 	}

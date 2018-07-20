@@ -3,11 +3,14 @@
 package provider
 
 import (
+	"context"
 	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
+	"github.com/oracle/oci-go-sdk/common"
+	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
 const (
@@ -60,12 +63,11 @@ func TestIdentityUserResource_basic(t *testing.T) {
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},
+		CheckDestroy: testAccCheckIdentityUserDestroy,
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config:            config + UserPropertyVariables + compartmentIdVariableStr + UserRequiredOnlyResource,
+				Config: config + UserPropertyVariables + compartmentIdVariableStr + UserRequiredOnlyResource,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "description", "John Smith"),
@@ -162,6 +164,42 @@ data "oci_identity_users" "test_users" {
 					resource.TestCheckResourceAttrSet(datasourceName, "users.0.time_created"),
 				),
 			},
+			// verify resource import
+			{
+				Config:            config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				ResourceName:      resourceName,
+			},
 		},
 	})
+}
+
+func testAccCheckIdentityUserDestroy(s *terraform.State) error {
+	noResourceFound := true
+	client := testAccProvider.Meta().(*OracleClients).identityClient
+	for _, rs := range s.RootModule().Resources {
+		if rs.Type == "oci_identity_user" {
+			noResourceFound = false
+			request := oci_identity.GetUserRequest{}
+
+			tmp := rs.Primary.ID
+			request.UserId = &tmp
+
+			_, err := client.GetUser(context.Background(), request)
+
+			if err == nil {
+				return fmt.Errorf("resource still exists")
+			}
+			//Verify that exception is for '404 not found'.
+			if failure, isServiceError := common.IsServiceError(err); !isServiceError || failure.GetHTTPStatusCode() != 404 {
+				return err
+			}
+		}
+	}
+	if noResourceFound {
+		return fmt.Errorf("at least one resource was expected from the state file, but could not be found")
+	}
+
+	return nil
 }

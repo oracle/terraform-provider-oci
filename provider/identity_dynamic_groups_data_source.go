@@ -23,7 +23,7 @@ func DynamicGroupsDataSource() *schema.Resource {
 			"dynamic_groups": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     DynamicGroupResource(),
+				Elem:     crud.GetDataSourceItemSchema(DynamicGroupResource()),
 			},
 		},
 	}

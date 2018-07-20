@@ -39,9 +39,7 @@ func TestIdentityUiPasswordResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config:            config + UiPasswordPropertyVariables + compartmentIdVariableStr + UiPasswordResourceConfig,
+				Config: config + UiPasswordPropertyVariables + compartmentIdVariableStr + UiPasswordResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "user_id"),
 				),

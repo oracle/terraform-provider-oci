@@ -23,7 +23,7 @@ func ApiKeysDataSource() *schema.Resource {
 			"api_keys": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     ApiKeyResource(),
+				Elem:     crud.GetDataSourceItemSchema(ApiKeyResource()),
 			},
 		},
 	}

@@ -23,7 +23,7 @@ func UsersDataSource() *schema.Resource {
 			"users": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     UserResource(),
+				Elem:     crud.GetDataSourceItemSchema(UserResource()),
 			},
 		},
 	}

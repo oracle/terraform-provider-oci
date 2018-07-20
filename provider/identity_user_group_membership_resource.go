@@ -44,10 +44,6 @@ func UserGroupMembershipResource() *schema.Resource {
 				Computed: true,
 				Optional: true, // this property is ignored, keep it optional for legacy configurations
 			},
-			"id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"inactive_state": {
 				Type:     schema.TypeInt,
 				Computed: true,
@@ -184,10 +180,6 @@ func (s *UserGroupMembershipResourceCrud) SetData() {
 
 	if s.Res.GroupId != nil {
 		s.D.Set("group_id", *s.Res.GroupId)
-	}
-
-	if s.Res.Id != nil {
-		s.D.Set("id", *s.Res.Id)
 	}
 
 	if s.Res.InactiveStatus != nil {

@@ -14,9 +14,6 @@ import (
 
 func AuthTokenResource() *schema.Resource {
 	return &schema.Resource{
-		Importer: &schema.ResourceImporter{
-			State: schema.ImportStatePassthrough,
-		},
 		Timeouts: crud.DefaultTimeout,
 		Create:   createAuthToken,
 		Read:     readAuthToken,
@@ -37,10 +34,6 @@ func AuthTokenResource() *schema.Resource {
 			// Optional
 
 			// Computed
-			"id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"inactive_state": {
 				Type:     schema.TypeInt,
 				Computed: true,
@@ -234,10 +227,6 @@ func (s *AuthTokenResourceCrud) Delete() error {
 func (s *AuthTokenResourceCrud) SetData() {
 	if s.Res.Description != nil {
 		s.D.Set("description", *s.Res.Description)
-	}
-
-	if s.Res.Id != nil {
-		s.D.Set("id", *s.Res.Id)
 	}
 
 	if s.Res.InactiveStatus != nil {

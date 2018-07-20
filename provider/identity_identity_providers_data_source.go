@@ -27,7 +27,7 @@ func IdentityProvidersDataSource() *schema.Resource {
 			"identity_providers": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     IdentityProviderResource(),
+				Elem:     crud.GetDataSourceItemSchema(IdentityProviderResource()),
 			},
 		},
 	}

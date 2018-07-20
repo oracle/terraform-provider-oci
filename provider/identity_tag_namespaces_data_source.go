@@ -27,7 +27,7 @@ func TagNamespacesDataSource() *schema.Resource {
 			"tag_namespaces": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     TagNamespaceResource(),
+				Elem:     crud.GetDataSourceItemSchema(TagNamespaceResource()),
 			},
 		},
 	}

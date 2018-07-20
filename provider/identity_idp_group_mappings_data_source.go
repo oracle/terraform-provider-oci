@@ -23,7 +23,7 @@ func IdpGroupMappingsDataSource() *schema.Resource {
 			"idp_group_mappings": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     IdpGroupMappingResource(),
+				Elem:     crud.GetDataSourceItemSchema(IdpGroupMappingResource()),
 			},
 		},
 	}

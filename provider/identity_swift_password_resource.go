@@ -14,9 +14,6 @@ import (
 
 func SwiftPasswordResource() *schema.Resource {
 	return &schema.Resource{
-		Importer: &schema.ResourceImporter{
-			State: schema.ImportStatePassthrough,
-		},
 		Timeouts: crud.DefaultTimeout,
 		Create:   createSwiftPassword,
 		Read:     readSwiftPassword,
@@ -38,10 +35,6 @@ func SwiftPasswordResource() *schema.Resource {
 
 			// Computed
 			"expires_on": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -238,10 +231,6 @@ func (s *SwiftPasswordResourceCrud) SetData() {
 
 	if s.Res.ExpiresOn != nil {
 		s.D.Set("expires_on", *s.Res.ExpiresOn)
-	}
-
-	if s.Res.Id != nil {
-		s.D.Set("id", *s.Res.Id)
 	}
 
 	if s.Res.InactiveStatus != nil {

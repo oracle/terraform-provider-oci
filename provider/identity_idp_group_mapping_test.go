@@ -3,11 +3,14 @@
 package provider
 
 import (
+	"context"
 	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
+	"github.com/oracle/oci-go-sdk/common"
+	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
 const (
@@ -47,12 +50,11 @@ func TestIdentityIdpGroupMappingResource_basic(t *testing.T) {
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},
+		CheckDestroy: testAccCheckIdentityIdpGroupMappingDestroy,
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config:            config + IdpGroupMappingPropertyVariables + compartmentIdVariableStr + IdpGroupMappingResourceConfig,
+				Config: config + IdpGroupMappingPropertyVariables + compartmentIdVariableStr + IdpGroupMappingResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "group_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "identity_provider_id"),
@@ -120,4 +122,37 @@ data "oci_identity_idp_group_mappings" "test_idp_group_mappings" {
 			},
 		},
 	})
+}
+
+func testAccCheckIdentityIdpGroupMappingDestroy(s *terraform.State) error {
+	noResourceFound := true
+	client := testAccProvider.Meta().(*OracleClients).identityClient
+	for _, rs := range s.RootModule().Resources {
+		if rs.Type == "oci_identity_idp_group_mapping" {
+			noResourceFound = false
+			request := oci_identity.GetIdpGroupMappingRequest{}
+
+			if value, ok := rs.Primary.Attributes["identity_provider_id"]; ok {
+				request.IdentityProviderId = &value
+			}
+
+			tmp := rs.Primary.ID
+			request.MappingId = &tmp
+
+			_, err := client.GetIdpGroupMapping(context.Background(), request)
+
+			if err == nil {
+				return fmt.Errorf("resource still exists")
+			}
+			//Verify that exception is for '404 not found'.
+			if failure, isServiceError := common.IsServiceError(err); !isServiceError || failure.GetHTTPStatusCode() != 404 {
+				return err
+			}
+		}
+	}
+	if noResourceFound {
+		return fmt.Errorf("at least one resource was expected from the state file, but could not be found")
+	}
+
+	return nil
 }

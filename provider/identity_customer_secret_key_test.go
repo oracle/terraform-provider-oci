@@ -3,11 +3,14 @@
 package provider
 
 import (
+	"context"
 	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
+	"github.com/oracle/oci-go-sdk/common"
+	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
 const (
@@ -41,12 +44,11 @@ func TestIdentityCustomerSecretKeyResource_basic(t *testing.T) {
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},
+		CheckDestroy: testAccCheckIdentityCustomerSecretKeyDestroy,
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config:            config + CustomerSecretKeyPropertyVariables + compartmentIdVariableStr + CustomerSecretKeyResourceConfig,
+				Config: config + CustomerSecretKeyPropertyVariables + compartmentIdVariableStr + CustomerSecretKeyResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 					resource.TestCheckResourceAttrSet(resourceName, "user_id"),
@@ -108,4 +110,41 @@ data "oci_identity_customer_secret_keys" "test_customer_secret_keys" {
 			},
 		},
 	})
+}
+
+func testAccCheckIdentityCustomerSecretKeyDestroy(s *terraform.State) error {
+	noResourceFound := true
+	client := testAccProvider.Meta().(*OracleClients).identityClient
+	for _, rs := range s.RootModule().Resources {
+		if rs.Type == "oci_identity_customer_secret_key" {
+			noResourceFound = false
+			request := oci_identity.ListCustomerSecretKeysRequest{}
+
+			if value, ok := rs.Primary.Attributes["user_id"]; ok {
+				request.UserId = &value
+			}
+
+			response, err := client.ListCustomerSecretKeys(context.Background(), request)
+
+			if err == nil {
+				id := rs.Primary.Attributes["id"]
+				for _, item := range response.Items {
+					if *item.Id == id {
+						return fmt.Errorf("item still exists")
+					}
+				}
+				// no error and item not found, item is deleted
+				return nil
+			}
+			//Verify that exception is for '404 not found'.
+			if failure, isServiceError := common.IsServiceError(err); !isServiceError || failure.GetHTTPStatusCode() != 404 {
+				return err
+			}
+		}
+	}
+	if noResourceFound {
+		return fmt.Errorf("at least one resource was expected from the state file, but could not be found")
+	}
+
+	return nil
 }

@@ -23,7 +23,7 @@ func TagsDataSource() *schema.Resource {
 			"tags": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     TagResource(),
+				Elem:     crud.GetDataSourceItemSchema(TagResource()),
 			},
 		},
 	}

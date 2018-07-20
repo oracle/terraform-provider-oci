@@ -65,10 +65,6 @@ func TagNamespaceResource() *schema.Resource {
 			},
 
 			// Computed
-			"id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"time_created": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -262,10 +258,6 @@ func (s *TagNamespaceResourceCrud) SetData() {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
-
-	if s.Res.Id != nil {
-		s.D.Set("id", *s.Res.Id)
-	}
 
 	if s.Res.IsRetired != nil {
 		s.D.Set("is_retired", *s.Res.IsRetired)

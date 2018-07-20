@@ -23,7 +23,7 @@ func CustomerSecretKeysDataSource() *schema.Resource {
 			"customer_secret_keys": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     CustomerSecretKeyResource(),
+				Elem:     crud.GetDataSourceItemSchema(CustomerSecretKeyResource()),
 			},
 		},
 	}
