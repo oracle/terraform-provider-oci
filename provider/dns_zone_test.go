@@ -80,9 +80,7 @@ func TestDnsZoneResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// test PRIMARY zone creation
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config:            config + ZonePropertyVariables + compartmentIdVariableStr + ZoneRequiredOnlyResource,
+				Config: config + ZonePropertyVariables + compartmentIdVariableStr + ZoneRequiredOnlyResource,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestMatchResourceAttr(resourceName, "name", regexp.MustCompile("\\.oci-test")),

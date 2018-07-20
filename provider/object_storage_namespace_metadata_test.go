@@ -28,8 +28,6 @@ func TestObjectStorageNamespaceMetadataResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: config + `
 data "oci_objectstorage_namespace" "t" {
 }
