@@ -39,7 +39,7 @@ func ExportSetsDataSource() *schema.Resource {
 			"export_sets": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     ExportSetResource(),
+				Elem:     crud.GetDataSourceItemSchema(ExportSetResource()),
 			},
 		},
 	}

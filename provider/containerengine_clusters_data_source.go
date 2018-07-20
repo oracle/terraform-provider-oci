@@ -34,7 +34,7 @@ func ClustersDataSource() *schema.Resource {
 			"clusters": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     ClusterResource(),
+				Elem:     crud.GetDataSourceItemSchema(ClusterResource()),
 			},
 		},
 	}

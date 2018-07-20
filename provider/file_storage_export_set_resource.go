@@ -57,10 +57,6 @@ func ExportSetResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -210,10 +206,6 @@ func (s *ExportSetResourceCrud) SetData() {
 
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
-	}
-
-	if s.Res.Id != nil {
-		s.D.Set("id", *s.Res.Id)
 	}
 
 	if s.Res.MaxFsStatBytes != nil {

@@ -102,10 +102,6 @@ func NodePoolResource() *schema.Resource {
 			},
 
 			// Computed
-			"id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"node_image_id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -452,10 +448,6 @@ func (s *NodePoolResourceCrud) SetData() {
 
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
-	}
-
-	if s.Res.Id != nil {
-		s.D.Set("id", *s.Res.Id)
 	}
 
 	initialNodeLabels := []interface{}{}

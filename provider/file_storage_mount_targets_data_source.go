@@ -43,7 +43,7 @@ func MountTargetsDataSource() *schema.Resource {
 			"mount_targets": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     MountTargetResource(),
+				Elem:     crud.GetDataSourceItemSchema(MountTargetResource()),
 			},
 		},
 	}

@@ -43,10 +43,6 @@ func FileSystemResource() *schema.Resource {
 			},
 
 			// Computed
-			"id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"metered_bytes": {
 				Type:     schema.TypeInt,
 				Computed: true,
@@ -222,10 +218,6 @@ func (s *FileSystemResourceCrud) SetData() {
 
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
-	}
-
-	if s.Res.Id != nil {
-		s.D.Set("id", *s.Res.Id)
 	}
 
 	if s.Res.MeteredBytes != nil {

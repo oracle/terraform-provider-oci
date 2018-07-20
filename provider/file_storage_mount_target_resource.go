@@ -64,10 +64,6 @@ func MountTargetResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"lifecycle_details": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -271,10 +267,6 @@ func (s *MountTargetResourceCrud) SetData() {
 
 	if s.Res.ExportSetId != nil {
 		s.D.Set("export_set_id", *s.Res.ExportSetId)
-	}
-
-	if s.Res.Id != nil {
-		s.D.Set("id", *s.Res.Id)
 	}
 
 	if s.Res.LifecycleDetails != nil {

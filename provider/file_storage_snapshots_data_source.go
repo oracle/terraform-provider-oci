@@ -31,7 +31,7 @@ func SnapshotsDataSource() *schema.Resource {
 			"snapshots": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     SnapshotResource(),
+				Elem:     crud.GetDataSourceItemSchema(SnapshotResource()),
 			},
 		},
 	}

@@ -42,10 +42,6 @@ func ExportResource() *schema.Resource {
 			// Optional
 
 			// Computed
-			"id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -183,10 +179,6 @@ func (s *ExportResourceCrud) SetData() {
 
 	if s.Res.FileSystemId != nil {
 		s.D.Set("file_system_id", *s.Res.FileSystemId)
-	}
-
-	if s.Res.Id != nil {
-		s.D.Set("id", *s.Res.Id)
 	}
 
 	if s.Res.Path != nil {

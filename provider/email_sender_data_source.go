@@ -86,14 +86,10 @@ func (s *SenderDataSourceCrud) SetData() {
 		return
 	}
 
-	s.D.SetId(crud.GenerateDataSourceID())
+	s.D.SetId(*s.Res.Id)
 
 	if s.Res.EmailAddress != nil {
 		s.D.Set("email_address", *s.Res.EmailAddress)
-	}
-
-	if s.Res.Id != nil {
-		s.D.Set("id", *s.Res.Id)
 	}
 
 	if s.Res.IsSpf != nil {
