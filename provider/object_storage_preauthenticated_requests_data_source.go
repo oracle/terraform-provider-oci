@@ -31,7 +31,7 @@ func PreauthenticatedRequestsDataSource() *schema.Resource {
 			"preauthenticated_requests": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     PreauthenticatedRequestResource(),
+				Elem:     crud.GetDataSourceItemSchema(PreauthenticatedRequestResource()),
 			},
 		},
 	}

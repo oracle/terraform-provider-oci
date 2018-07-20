@@ -108,13 +108,9 @@ func (s *PreauthenticatedRequestDataSourceCrud) SetData() {
 		return
 	}
 
-	s.D.SetId(crud.GenerateDataSourceID())
+	s.D.SetId(*s.Res.Id)
 
 	s.D.Set("access_type", s.Res.AccessType)
-
-	if s.Res.Id != nil {
-		s.D.Set("id", *s.Res.Id)
-	}
 
 	if s.Res.Name != nil {
 		s.D.Set("name", *s.Res.Name)

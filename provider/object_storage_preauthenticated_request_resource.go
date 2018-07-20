@@ -17,9 +17,6 @@ import (
 
 func PreauthenticatedRequestResource() *schema.Resource {
 	return &schema.Resource{
-		Importer: &schema.ResourceImporter{
-			State: schema.ImportStatePassthrough,
-		},
 		Timeouts: crud.DefaultTimeout,
 		Create:   createPreauthenticatedRequest,
 		Read:     readPreauthenticatedRequest,
@@ -67,10 +64,6 @@ func PreauthenticatedRequestResource() *schema.Resource {
 			},
 
 			// Computed
-			"id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"time_created": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -228,10 +221,6 @@ func (s *PreauthenticatedRequestResourceCrud) Delete() error {
 
 func (s *PreauthenticatedRequestResourceCrud) SetData() {
 	s.D.Set("access_type", s.Res.AccessType)
-
-	if s.Res.Id != nil {
-		s.D.Set("id", *s.Res.Id)
-	}
 
 	if s.Res.Name != nil {
 		s.D.Set("name", *s.Res.Name)

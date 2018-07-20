@@ -3,15 +3,17 @@
 package provider
 
 import (
-	"fmt"
-	"testing"
-
+	"context"
 	"crypto/md5"
 	"encoding/hex"
+	"fmt"
 	"regexp"
+	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
+	"github.com/oracle/oci-go-sdk/common"
+	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
 )
 
 const (
@@ -71,12 +73,11 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},
+		CheckDestroy: testAccCheckObjectStorageObjectDestroy,
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config:            config + ObjectPropertyVariables + compartmentIdVariableStr + ObjectRequiredOnlyResource,
+				Config: config + ObjectPropertyVariables + compartmentIdVariableStr + ObjectRequiredOnlyResource,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "bucket", "my-test-1"),
 					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
@@ -268,6 +269,51 @@ data "oci_objectstorage_objects" "test_objects" {
 					resource.TestCheckResourceAttr(datasourceName, "prefix", "my-test"),
 				),
 			},
+			// verify resource import
+			{
+				Config:            config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				ResourceName:      resourceName,
+			},
 		},
 	})
+}
+
+func testAccCheckObjectStorageObjectDestroy(s *terraform.State) error {
+	noResourceFound := true
+	client := testAccProvider.Meta().(*OracleClients).objectStorageClient
+	for _, rs := range s.RootModule().Resources {
+		if rs.Type == "oci_objectstorage_object" {
+			noResourceFound = false
+			request := oci_object_storage.GetObjectRequest{}
+
+			if value, ok := rs.Primary.Attributes["bucket"]; ok {
+				request.BucketName = &value
+			}
+
+			if value, ok := rs.Primary.Attributes["namespace"]; ok {
+				request.NamespaceName = &value
+			}
+
+			if value, ok := rs.Primary.Attributes["object"]; ok {
+				request.ObjectName = &value
+			}
+
+			_, err := client.GetObject(context.Background(), request)
+
+			if err == nil {
+				return fmt.Errorf("resource still exists")
+			}
+			//Verify that exception is for '404 not found'.
+			if failure, isServiceError := common.IsServiceError(err); !isServiceError || failure.GetHTTPStatusCode() != 404 {
+				return err
+			}
+		}
+	}
+	if noResourceFound {
+		return fmt.Errorf("at least one resource was expected from the state file, but could not be found")
+	}
+
+	return nil
 }
