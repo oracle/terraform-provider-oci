@@ -36,7 +36,7 @@ func LoadBalancersDataSource() *schema.Resource {
 			"load_balancers": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     LoadBalancerResource(),
+				Elem:     crud.GetDataSourceItemSchema(LoadBalancerResource()),
 			},
 		},
 	}

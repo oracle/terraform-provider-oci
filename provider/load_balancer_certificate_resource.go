@@ -16,9 +16,10 @@ import (
 
 func CertificateResource() *schema.Resource {
 	return &schema.Resource{
-		Create: createCertificate,
-		Read:   readCertificate,
-		Delete: deleteCertificate,
+		Timeouts: crud.DefaultTimeout,
+		Create:   createCertificate,
+		Read:     readCertificate,
+		Delete:   deleteCertificate,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"certificate_name": {
@@ -219,9 +220,11 @@ func (s *CertificateResourceCrud) Get() error {
 	if err != nil {
 		return err
 	}
-	for _, cert := range response.Items {
-		if *cert.CertificateName == s.D.Get("certificate_name").(string) {
-			s.Res = &cert
+
+	certificateName := s.D.Get("certificate_name").(string)
+	for _, item := range response.Items {
+		if *item.CertificateName == certificateName {
+			s.Res = &item
 			return nil
 		}
 	}

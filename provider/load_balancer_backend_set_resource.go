@@ -15,10 +15,11 @@ import (
 
 func BackendSetResource() *schema.Resource {
 	return &schema.Resource{
-		Create: createBackendSet,
-		Read:   readBackendSet,
-		Update: updateBackendSet,
-		Delete: deleteBackendSet,
+		Timeouts: crud.DefaultTimeout,
+		Create:   createBackendSet,
+		Read:     readBackendSet,
+		Update:   updateBackendSet,
+		Delete:   deleteBackendSet,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"health_checker": {

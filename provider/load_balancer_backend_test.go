@@ -3,11 +3,14 @@
 package provider
 
 import (
+	"context"
 	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
+	"github.com/oracle/oci-go-sdk/common"
+	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
 )
 
 const (
@@ -65,12 +68,11 @@ func TestLoadBalancerBackendResource_basic(t *testing.T) {
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},
+		CheckDestroy: testAccCheckLoadBalancerBackendDestroy,
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config:            config + BackendPropertyVariables + compartmentIdVariableStr + BackendRequiredOnlyResource,
+				Config: config + BackendPropertyVariables + compartmentIdVariableStr + BackendRequiredOnlyResource,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "backendset_name", "backendSet1"),
 					resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.3"),
@@ -174,4 +176,42 @@ data "oci_load_balancer_backends" "test_backends" {
 			},
 		},
 	})
+}
+
+func testAccCheckLoadBalancerBackendDestroy(s *terraform.State) error {
+	noResourceFound := true
+	client := testAccProvider.Meta().(*OracleClients).loadBalancerClient
+	for _, rs := range s.RootModule().Resources {
+		if rs.Type == "oci_load_balancer_backend" {
+			noResourceFound = false
+			request := oci_load_balancer.GetBackendRequest{}
+
+			if value, ok := rs.Primary.Attributes["name"]; ok {
+				request.BackendName = &value
+			}
+
+			if value, ok := rs.Primary.Attributes["backendset_name"]; ok {
+				request.BackendSetName = &value
+			}
+
+			if value, ok := rs.Primary.Attributes["load_balancer_id"]; ok {
+				request.LoadBalancerId = &value
+			}
+
+			_, err := client.GetBackend(context.Background(), request)
+
+			if err == nil {
+				return fmt.Errorf("resource still exists")
+			}
+			//Verify that exception is for '404 not found'.
+			if failure, isServiceError := common.IsServiceError(err); !isServiceError || failure.GetHTTPStatusCode() != 404 {
+				return err
+			}
+		}
+	}
+	if noResourceFound {
+		return fmt.Errorf("at least one resource was expected from the state file, but could not be found")
+	}
+
+	return nil
 }

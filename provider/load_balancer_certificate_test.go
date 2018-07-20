@@ -3,11 +3,14 @@
 package provider
 
 import (
+	"context"
 	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
+	"github.com/oracle/oci-go-sdk/common"
+	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
 )
 
 const (
@@ -57,12 +60,11 @@ func TestLoadBalancerCertificateResource_basic(t *testing.T) {
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},
+		CheckDestroy: testAccCheckLoadBalancerCertificateDestroy,
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config:            config + CertificatePropertyVariables + compartmentIdVariableStr + CertificateRequiredOnlyResource,
+				Config: config + CertificatePropertyVariables + compartmentIdVariableStr + CertificateRequiredOnlyResource,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "certificate_name", "example_certificate_bundle"),
 					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
@@ -117,4 +119,41 @@ data "oci_load_balancer_certificates" "test_certificates" {
 			},
 		},
 	})
+}
+
+func testAccCheckLoadBalancerCertificateDestroy(s *terraform.State) error {
+	noResourceFound := true
+	client := testAccProvider.Meta().(*OracleClients).loadBalancerClient
+	for _, rs := range s.RootModule().Resources {
+		if rs.Type == "oci_load_balancer_certificate" {
+			noResourceFound = false
+			request := oci_load_balancer.ListCertificatesRequest{}
+
+			if value, ok := rs.Primary.Attributes["load_balancer_id"]; ok {
+				request.LoadBalancerId = &value
+			}
+
+			response, err := client.ListCertificates(context.Background(), request)
+
+			if err == nil {
+				certificateName := rs.Primary.Attributes["certificate_name"]
+				for _, item := range response.Items {
+					if *item.CertificateName == certificateName {
+						return fmt.Errorf("item still exists")
+					}
+				}
+				// no error and item not found, item is deleted
+				return nil
+			}
+			//Verify that exception is for '404 not found'.
+			if failure, isServiceError := common.IsServiceError(err); !isServiceError || failure.GetHTTPStatusCode() != 404 {
+				return err
+			}
+		}
+	}
+	if noResourceFound {
+		return fmt.Errorf("at least one resource was expected from the state file, but could not be found")
+	}
+
+	return nil
 }

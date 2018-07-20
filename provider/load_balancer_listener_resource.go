@@ -16,10 +16,11 @@ import (
 
 func ListenerResource() *schema.Resource {
 	return &schema.Resource{
-		Create: createListener,
-		Read:   readListener,
-		Update: updateListener,
-		Delete: deleteListener,
+		Timeouts: crud.DefaultTimeout,
+		Create:   createListener,
+		Read:     readListener,
+		Update:   updateListener,
+		Delete:   deleteListener,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"default_backend_set_name": {
