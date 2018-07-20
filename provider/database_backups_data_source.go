@@ -27,7 +27,7 @@ func BackupsDataSource() *schema.Resource {
 			"backups": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     BackupResource(),
+				Elem:     crud.GetDataSourceItemSchema(BackupResource()),
 			},
 		},
 	}

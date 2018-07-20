@@ -53,10 +53,6 @@ func BackupResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"lifecycle_details": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -218,10 +214,6 @@ func (s *BackupResourceCrud) SetData() {
 
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
-	}
-
-	if s.Res.Id != nil {
-		s.D.Set("id", *s.Res.Id)
 	}
 
 	if s.Res.LifecycleDetails != nil {

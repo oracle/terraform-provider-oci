@@ -24,20 +24,10 @@ func DbHomesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"limit": {
-				Type:       schema.TypeInt,
-				Optional:   true,
-				Deprecated: crud.FieldDeprecated("limit"),
-			},
-			"page": {
-				Type:       schema.TypeString,
-				Optional:   true,
-				Deprecated: crud.FieldDeprecated("page"),
-			},
 			"db_homes": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     DbHomeDataSource(),
+				Elem:     crud.GetDataSourceItemSchema(DbHomeResource()),
 			},
 		},
 	}

@@ -3,11 +3,14 @@
 package provider
 
 import (
+	"context"
 	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
+	"github.com/oracle/oci-go-sdk/common"
+	oci_database "github.com/oracle/oci-go-sdk/database"
 )
 
 const (
@@ -83,17 +86,17 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 
 	resourceName := "oci_database_db_home.test_db_home"
 	datasourceName := "data.oci_database_db_homes.test_db_homes"
+	singularDatasourceName := "data.oci_database_db_home.test_db_home"
 
 	resource.Test(t, resource.TestCase{
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},
+		CheckDestroy: testAccCheckDatabaseDbHomeDestroy,
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config:            config + DbHomePropertyVariables + compartmentIdVariableStr + DbHomeRequiredOnlyResource,
+				Config: config + DbHomePropertyVariables + compartmentIdVariableStr + DbHomeRequiredOnlyResource,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "database.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "database.0.admin_password", "BEstrO0ng_#11"),
@@ -175,6 +178,76 @@ data "oci_database_db_homes" "test_db_homes" {
 					resource.TestCheckResourceAttrSet(datasourceName, "db_homes.0.state"),
 				),
 			},
+			// verify singular datasource
+			{
+				Config: config + `
+variable "db_home_database_admin_password" { default = "BEstrO0ng_#11" }
+variable "db_home_database_backup_tde_password" { default = "BEstrO0ng_#11" }
+variable "db_home_database_character_set" { default = "AL32UTF8" }
+variable "db_home_database_db_backup_config_auto_backup_enabled" { default = false }
+variable "db_home_database_db_name" { default = "myTestDb" }
+variable "db_home_database_db_workload" { default = "dbWorkload" }
+variable "db_home_database_defined_tags_value" { default = "definedTags" }
+variable "db_home_database_freeform_tags" { default = "freeformTags" }
+variable "db_home_database_ncharacter_set" { default = "AL16UTF16" }
+variable "db_home_database_pdb_name" { default = "pdbName" }
+variable "db_home_display_name" { default = "createdDbHome" }
+variable "db_home_source" { default = "DB_BACKUP" }
+variable "db_home_db_version" { default = "12.1.0.2" }
+
+data "oci_database_db_home" "test_db_home" {
+	#Required
+	db_home_id = "${oci_database_db_home.test_db_home.id}"
+}
+                ` + compartmentIdVariableStr + DbHomeResourceConfig,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "db_home_id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "db_system_id"),
+
+					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(singularDatasourceName, "db_version", "12.1.0.2"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "createdDbHome"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				),
+			},
+			// verify resource import
+			{
+				Config:            config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				ResourceName:      resourceName,
+			},
 		},
 	})
+}
+
+func testAccCheckDatabaseDbHomeDestroy(s *terraform.State) error {
+	noResourceFound := true
+	client := testAccProvider.Meta().(*OracleClients).databaseClient
+	for _, rs := range s.RootModule().Resources {
+		if rs.Type == "oci_database_db_home" {
+			noResourceFound = false
+			request := oci_database.GetDbHomeRequest{}
+
+			tmp := rs.Primary.ID
+			request.DbHomeId = &tmp
+
+			_, err := client.GetDbHome(context.Background(), request)
+
+			if err == nil {
+				return fmt.Errorf("resource still exists")
+			}
+			//Verify that exception is for '404 not found'.
+			if failure, isServiceError := common.IsServiceError(err); !isServiceError || failure.GetHTTPStatusCode() != 404 {
+				return err
+			}
+		}
+	}
+	if noResourceFound {
+		return fmt.Errorf("at least one resource was expected from the state file, but could not be found")
+	}
+
+	return nil
 }

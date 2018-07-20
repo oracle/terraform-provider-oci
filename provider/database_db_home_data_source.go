@@ -4,29 +4,28 @@ package provider
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_database "github.com/oracle/oci-go-sdk/database"
-
-	"fmt"
 
 	"github.com/oracle/terraform-provider-oci/crud"
 )
 
 func DbHomeDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDbHomeDataSource,
+		Read: readSingularDbHome,
 		Schema: map[string]*schema.Schema{
-			// Required
-			// Legacy property, just a vanity for what is regularly "id" everywhere else
-			// todo: reconcile this one off--preferably deprecate db_home_id in favor of "id" during the great deprecation
 			"db_home_id": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-
 			// Computed
 			"compartment_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"db_system_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -34,11 +33,14 @@ func DbHomeDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"display_name": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			// todo: codegen omits this property
 			"last_patch_history_entry_id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -51,19 +53,11 @@ func DbHomeDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"db_system_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"display_name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 		},
 	}
 }
 
-func readDbHomeDataSource(d *schema.ResourceData, m interface{}) error {
+func readSingularDbHome(d *schema.ResourceData, m interface{}) error {
 	sync := &DbHomeDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient
@@ -72,20 +66,25 @@ func readDbHomeDataSource(d *schema.ResourceData, m interface{}) error {
 }
 
 type DbHomeDataSourceCrud struct {
-	crud.BaseCrud
+	D      *schema.ResourceData
 	Client *oci_database.DatabaseClient
-	Res    *oci_database.DbHome
+	Res    *oci_database.GetDbHomeResponse
+}
+
+func (s *DbHomeDataSourceCrud) VoidState() {
+	s.D.SetId("")
 }
 
 func (s *DbHomeDataSourceCrud) Get() error {
 	request := oci_database.GetDbHomeRequest{}
 
-	// todo: when deprecating "db_home_id" this should be wired to "id"/s.D.Id()
-	tmp := s.D.Get("db_home_id").(string)
-	request.DbHomeId = &tmp
+	if dbHomeId, ok := s.D.GetOkExists("db_home_id"); ok {
+		tmp := dbHomeId.(string)
+		if len(tmp) == 0 {
+			return fmt.Errorf("db_home_id must contain a valid ocid")
+		}
 
-	if len(tmp) == 0 {
-		return fmt.Errorf("db_home_id must contain a valid ocid")
+		request.DbHomeId = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
@@ -95,11 +94,15 @@ func (s *DbHomeDataSourceCrud) Get() error {
 		return err
 	}
 
-	s.Res = &response.DbHome
+	s.Res = &response
 	return nil
 }
 
 func (s *DbHomeDataSourceCrud) SetData() {
+	if s.Res == nil {
+		return
+	}
+
 	s.D.SetId(*s.Res.Id)
 
 	if s.Res.CompartmentId != nil {
@@ -118,16 +121,15 @@ func (s *DbHomeDataSourceCrud) SetData() {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
 
-	if s.Res.Id != nil {
-		s.D.Set("id", *s.Res.Id)
-	}
-
 	if s.Res.LastPatchHistoryEntryId != nil {
 		s.D.Set("last_patch_history_entry_id", *s.Res.LastPatchHistoryEntryId)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
 
-	s.D.Set("time_created", s.Res.TimeCreated.String())
+	if s.Res.TimeCreated != nil {
+		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
 
+	return
 }
