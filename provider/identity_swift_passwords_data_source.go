@@ -23,7 +23,7 @@ func SwiftPasswordsDataSource() *schema.Resource {
 			"passwords": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     SwiftPasswordResource(),
+				Elem:     crud.GetDataSourceItemSchema(SwiftPasswordResource()),
 			},
 		},
 	}

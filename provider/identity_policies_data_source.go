@@ -23,7 +23,7 @@ func IdentityPoliciesDataSource() *schema.Resource {
 			"policies": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     PolicyResource(),
+				Elem:     crud.GetDataSourceItemSchema(PolicyResource()),
 			},
 		},
 	}

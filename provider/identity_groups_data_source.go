@@ -23,7 +23,7 @@ func GroupsDataSource() *schema.Resource {
 			"groups": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GroupResource(),
+				Elem:     crud.GetDataSourceItemSchema(GroupResource()),
 			},
 		},
 	}

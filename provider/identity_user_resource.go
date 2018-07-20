@@ -60,10 +60,6 @@ func UserResource() *schema.Resource {
 			},
 
 			// Computed
-			"id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"inactive_state": {
 				Type:     schema.TypeInt,
 				Computed: true,
@@ -282,10 +278,6 @@ func (s *UserResourceCrud) SetData() {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
-
-	if s.Res.Id != nil {
-		s.D.Set("id", *s.Res.Id)
-	}
 
 	if s.Res.InactiveStatus != nil {
 		s.D.Set("inactive_state", *s.Res.InactiveStatus)

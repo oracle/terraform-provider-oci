@@ -62,9 +62,7 @@ func TestIdentityCompartmentResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config:            config + CompartmentPropertyVariables + compartmentIdVariableStr + CompartmentRequiredOnlyResource,
+				Config: config + CompartmentPropertyVariables + compartmentIdVariableStr + CompartmentRequiredOnlyResource,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "description", "For network components"),
@@ -156,6 +154,13 @@ data "oci_identity_compartments" "test_compartments" {
 					resource.TestCheckResourceAttrSet(datasourceName, "compartments.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "compartments.0.time_created"),
 				),
+			},
+			// verify resource import
+			{
+				Config:            config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				ResourceName:      resourceName,
 			},
 		},
 	})

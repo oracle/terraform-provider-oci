@@ -23,7 +23,7 @@ func SmtpCredentialsDataSource() *schema.Resource {
 			"smtp_credentials": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     SmtpCredentialResource(),
+				Elem:     crud.GetDataSourceItemSchema(SmtpCredentialResource()),
 			},
 		},
 	}

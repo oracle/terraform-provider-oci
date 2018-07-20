@@ -83,9 +83,7 @@ func TestIdentityTagResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config:            config + TagPropertyVariables + compartmentIdVariableStr + TagRequiredOnlyResource,
+				Config: config + TagPropertyVariables + compartmentIdVariableStr + TagRequiredOnlyResource,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "description", "This tag will show the cost center that will be used for billing of associated resources."),
 					resource.TestCheckResourceAttr(resourceName, "name", "CostCenter"),

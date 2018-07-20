@@ -16,9 +16,6 @@ import (
 
 func ApiKeyResource() *schema.Resource {
 	return &schema.Resource{
-		Importer: &schema.ResourceImporter{
-			State: schema.ImportStatePassthrough,
-		},
 		Timeouts: crud.DefaultTimeout,
 		Create:   createApiKey,
 		Read:     readApiKey,
@@ -46,10 +43,6 @@ func ApiKeyResource() *schema.Resource {
 
 			// Computed
 			"fingerprint": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -205,10 +198,6 @@ func (s *ApiKeyResourceCrud) Delete() error {
 func (s *ApiKeyResourceCrud) SetData() {
 	if s.Res.Fingerprint != nil {
 		s.D.Set("fingerprint", *s.Res.Fingerprint)
-	}
-
-	if s.Res.KeyId != nil {
-		s.D.Set("id", *s.Res.KeyId)
 	}
 
 	if s.Res.InactiveStatus != nil {

@@ -41,9 +41,7 @@ func TestAuditConfigurationResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config:            config + ConfigurationPropertyVariables + ConfigurationResourceConfig,
+				Config: config + ConfigurationPropertyVariables + ConfigurationResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "retention_period_days", "100"),
 					func(s *terraform.State) (err error) {

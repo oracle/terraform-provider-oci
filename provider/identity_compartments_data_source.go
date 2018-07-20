@@ -23,7 +23,7 @@ func CompartmentsDataSource() *schema.Resource {
 			"compartments": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     CompartmentResource(),
+				Elem:     crud.GetDataSourceItemSchema(CompartmentResource()),
 			},
 		},
 	}

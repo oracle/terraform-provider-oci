@@ -23,7 +23,7 @@ func AuthTokensDataSource() *schema.Resource {
 			"tokens": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     AuthTokenResource(),
+				Elem:     crud.GetDataSourceItemSchema(AuthTokenResource()),
 			},
 		},
 	}

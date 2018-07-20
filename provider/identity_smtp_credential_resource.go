@@ -14,9 +14,6 @@ import (
 
 func SmtpCredentialResource() *schema.Resource {
 	return &schema.Resource{
-		Importer: &schema.ResourceImporter{
-			State: schema.ImportStatePassthrough,
-		},
 		Timeouts: crud.DefaultTimeout,
 		Create:   createSmtpCredential,
 		Read:     readSmtpCredential,
@@ -37,10 +34,6 @@ func SmtpCredentialResource() *schema.Resource {
 			// Optional
 
 			// Computed
-			"id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"inactive_state": {
 				Type:     schema.TypeInt,
 				Computed: true,
@@ -249,10 +242,6 @@ func (s *SmtpCredentialResourceCrud) Delete() error {
 func (s *SmtpCredentialResourceCrud) SetData() {
 	if s.Res.Description != nil {
 		s.D.Set("description", *s.Res.Description)
-	}
-
-	if s.Res.Id != nil {
-		s.D.Set("id", *s.Res.Id)
 	}
 
 	if s.Res.InactiveStatus != nil {

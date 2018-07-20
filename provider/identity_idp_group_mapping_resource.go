@@ -14,9 +14,6 @@ import (
 
 func IdpGroupMappingResource() *schema.Resource {
 	return &schema.Resource{
-		Importer: &schema.ResourceImporter{
-			State: schema.ImportStatePassthrough,
-		},
 		Timeouts: crud.DefaultTimeout,
 		Create:   createIdpGroupMapping,
 		Read:     readIdpGroupMapping,
@@ -42,10 +39,6 @@ func IdpGroupMappingResource() *schema.Resource {
 
 			// Computed
 			"compartment_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -240,10 +233,6 @@ func (s *IdpGroupMappingResourceCrud) SetData() {
 
 	if s.Res.GroupId != nil {
 		s.D.Set("group_id", *s.Res.GroupId)
-	}
-
-	if s.Res.Id != nil {
-		s.D.Set("id", *s.Res.Id)
 	}
 
 	if s.Res.IdpId != nil {

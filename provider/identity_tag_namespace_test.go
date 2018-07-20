@@ -62,9 +62,7 @@ func TestIdentityTagNamespaceResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config:            config + TagNamespacePropertyVariables + compartmentIdVariableStr + TagNamespaceRequiredOnlyResource,
+				Config: config + TagNamespacePropertyVariables + compartmentIdVariableStr + TagNamespaceRequiredOnlyResource,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "description", "This namespace contains tags that will be used in billing."),
@@ -166,6 +164,13 @@ data "oci_identity_tag_namespaces" "test_tag_namespaces" {
 					resource.TestCheckResourceAttr(datasourceName, "tag_namespaces.0.name", "BillingTags"),
 					resource.TestCheckResourceAttrSet(datasourceName, "tag_namespaces.0.time_created"),
 				),
+			},
+			// verify resource import
+			{
+				Config:            config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				ResourceName:      resourceName,
 			},
 		},
 	})
