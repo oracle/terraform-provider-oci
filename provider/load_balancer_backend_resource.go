@@ -17,10 +17,11 @@ import (
 
 func BackendResource() *schema.Resource {
 	return &schema.Resource{
-		Create: createBackend,
-		Read:   readBackend,
-		Update: updateBackend,
-		Delete: deleteBackend,
+		Timeouts: crud.DefaultTimeout,
+		Create:   createBackend,
+		Read:     readBackend,
+		Update:   updateBackend,
+		Delete:   deleteBackend,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"backendset_name": {

@@ -325,12 +325,6 @@ func (s *LoadBalancerResourceCrud) SetData() {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
 
-	/*
-		if s.Res.Id != nil {
-			s.D.Set("id", *s.Res.Id)
-		}
-	*/
-
 	ipAddresses := []string{}
 	for _, ad := range s.Res.IpAddresses {
 		if ad.IpAddress != nil {

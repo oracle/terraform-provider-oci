@@ -15,9 +15,6 @@ import (
 
 func HostnameResource() *schema.Resource {
 	return &schema.Resource{
-		Importer: &schema.ResourceImporter{
-			State: schema.ImportStatePassthrough,
-		},
 		Timeouts: crud.DefaultTimeout,
 		Create:   createHostname,
 		Read:     readHostname,

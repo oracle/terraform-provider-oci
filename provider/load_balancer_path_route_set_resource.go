@@ -15,9 +15,6 @@ import (
 
 func PathRouteSetResource() *schema.Resource {
 	return &schema.Resource{
-		Importer: &schema.ResourceImporter{
-			State: schema.ImportStatePassthrough,
-		},
 		Timeouts: crud.DefaultTimeout,
 		Create:   createPathRouteSet,
 		Read:     readPathRouteSet,
