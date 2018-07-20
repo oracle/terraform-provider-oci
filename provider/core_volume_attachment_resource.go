@@ -81,10 +81,6 @@ func VolumeAttachmentResource() *schema.Resource {
 				// to avoid a breaking change. The value will be ignored if defined in the config.
 				Optional: true,
 			},
-			"id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -238,10 +234,6 @@ func (s *VolumeAttachmentResourceCrud) SetData() {
 
 	if displayName := volumeAttachment.GetDisplayName(); displayName != nil {
 		s.D.Set("display_name", *displayName)
-	}
-
-	if id := volumeAttachment.GetId(); id != nil {
-		s.D.Set("id", *id)
 	}
 
 	if instanceId := volumeAttachment.GetInstanceId(); instanceId != nil {

@@ -129,10 +129,6 @@ func (s *VnicDataSourceCrud) SetData() {
 		return
 	}
 
-	// @CODEGEN 1/2018: In most generated data sources, the ID is set to the current time stamp.
-	// In the case of this datasource, the existing provider sets it to the resource ID.
-	// This happens because it only supports a Get operation that returns 1 item.
-	// Let's keep this as is to avoid potential breaking changes.
 	s.D.SetId(*s.Res.Id)
 
 	if s.Res.AvailabilityDomain != nil {
@@ -155,10 +151,6 @@ func (s *VnicDataSourceCrud) SetData() {
 
 	if s.Res.HostnameLabel != nil {
 		s.D.Set("hostname_label", *s.Res.HostnameLabel)
-	}
-
-	if s.Res.Id != nil {
-		s.D.Set("id", *s.Res.Id)
 	}
 
 	if s.Res.IsPrimary != nil {

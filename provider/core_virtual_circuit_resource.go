@@ -139,10 +139,6 @@ func VirtualCircuitResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"oracle_bgp_asn": {
 				Type:     schema.TypeInt,
 				Computed: true,
@@ -444,10 +440,6 @@ func (s *VirtualCircuitResourceCrud) SetData() {
 
 	if s.Res.GatewayId != nil {
 		s.D.Set("gateway_id", *s.Res.GatewayId)
-	}
-
-	if s.Res.Id != nil {
-		s.D.Set("id", *s.Res.Id)
 	}
 
 	if s.Res.OracleBgpAsn != nil {

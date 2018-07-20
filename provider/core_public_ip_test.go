@@ -3,11 +3,13 @@
 package provider
 
 import (
+	"context"
 	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
+	"github.com/oracle/oci-go-sdk/common"
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
@@ -142,11 +144,10 @@ func TestCorePublicIpResource_basic(t *testing.T) {
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},
+		CheckDestroy: testAccCheckCorePublicIpDestroy,
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
 				Config: config + PublicIpPropertyVariables + compartmentIdVariableStr + PublicIpRequiredOnlyResource + `
 					data "oci_core_public_ip" "test_oci_core_public_ip_by_id" {
 						id = "${oci_core_public_ip.test_public_ip.id}"
@@ -410,6 +411,42 @@ func TestCorePublicIpResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "public_ips.#", "0"),
 				),
 			},
+			// verify resource import
+			{
+				Config:            config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				ResourceName:      resourceName,
+			},
 		},
 	})
+}
+
+func testAccCheckCorePublicIpDestroy(s *terraform.State) error {
+	noResourceFound := true
+	client := testAccProvider.Meta().(*OracleClients).virtualNetworkClient
+	for _, rs := range s.RootModule().Resources {
+		if rs.Type == "oci_core_public_ip" {
+			noResourceFound = false
+			request := oci_core.GetPublicIpRequest{}
+
+			tmp := rs.Primary.ID
+			request.PublicIpId = &tmp
+
+			_, err := client.GetPublicIp(context.Background(), request)
+
+			if err == nil {
+				return fmt.Errorf("resource still exists")
+			}
+			//Verify that exception is for '404 not found'.
+			if failure, isServiceError := common.IsServiceError(err); !isServiceError || failure.GetHTTPStatusCode() != 404 {
+				return err
+			}
+		}
+	}
+	if noResourceFound {
+		return fmt.Errorf("at least one resource was expected from the state file, but could not be found")
+	}
+
+	return nil
 }

@@ -109,18 +109,10 @@ func (s *IpSecConnectionDeviceStatusDataSourceCrud) SetData() {
 		return
 	}
 
-	// @CODEGEN 1/2018: In most generated data sources, the ID is set to the current time stamp.
-	// In the case of this datasource, the existing provider sets it to the resource ID.
-	// This happens because it only supports a Get operation that returns 1 item.
-	// Let's keep this as is to avoid potential breaking changes.
 	s.D.SetId(*s.Res.Id)
 
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
-	}
-
-	if s.Res.Id != nil {
-		s.D.Set("id", *s.Res.Id)
 	}
 
 	if s.Res.TimeCreated != nil {

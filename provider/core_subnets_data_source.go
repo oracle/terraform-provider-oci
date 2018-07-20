@@ -24,7 +24,7 @@ func SubnetDataSource() *schema.Resource {
 		},
 	}
 
-	return result
+	return crud.GetDataSourceItemSchema(result)
 }
 
 func SubnetsDataSource() *schema.Resource {

@@ -31,7 +31,7 @@ func ServiceGatewaysDataSource() *schema.Resource {
 			"service_gateways": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     ServiceGatewayResource(),
+				Elem:     crud.GetDataSourceItemSchema(ServiceGatewayResource()),
 			},
 		},
 	}

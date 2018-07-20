@@ -31,7 +31,7 @@ func VirtualCircuitsDataSource() *schema.Resource {
 			"virtual_circuits": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     VirtualCircuitResource(),
+				Elem:     crud.GetDataSourceItemSchema(VirtualCircuitResource()),
 			},
 		},
 	}

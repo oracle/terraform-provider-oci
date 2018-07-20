@@ -3,6 +3,7 @@
 package provider
 
 import (
+	"context"
 	"fmt"
 	"testing"
 
@@ -10,6 +11,8 @@ import (
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
+	"github.com/oracle/oci-go-sdk/common"
+	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
 const (
@@ -167,12 +170,11 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},
+		CheckDestroy: testAccCheckCoreVirtualCircuitDestroy,
 		Steps: []resource.TestStep{
 			// verify create - PUBLIC Virtual Circuit
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config:            config + VirtualCircuitPropertyVariables + VirtualCircuitPublicPropertyVariables + compartmentIdVariableStr + VirtualCircuitPublicRequiredOnlyResource,
+				Config: config + VirtualCircuitPropertyVariables + VirtualCircuitPublicPropertyVariables + compartmentIdVariableStr + VirtualCircuitPublicRequiredOnlyResource,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.#", "1"),
@@ -420,6 +422,42 @@ data "oci_core_virtual_circuit" "test_virtual_circuit" {
 					resource.TestCheckResourceAttr(singularDatasourceName, "type", "PRIVATE"),
 				),
 			},
+			// verify resource import
+			{
+				Config:            config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				ResourceName:      resourceName,
+			},
 		},
 	})
+}
+
+func testAccCheckCoreVirtualCircuitDestroy(s *terraform.State) error {
+	noResourceFound := true
+	client := testAccProvider.Meta().(*OracleClients).virtualNetworkClient
+	for _, rs := range s.RootModule().Resources {
+		if rs.Type == "oci_core_virtual_circuit" {
+			noResourceFound = false
+			request := oci_core.GetVirtualCircuitRequest{}
+
+			tmp := rs.Primary.ID
+			request.VirtualCircuitId = &tmp
+
+			_, err := client.GetVirtualCircuit(context.Background(), request)
+
+			if err == nil {
+				return fmt.Errorf("resource still exists")
+			}
+			//Verify that exception is for '404 not found'.
+			if failure, isServiceError := common.IsServiceError(err); !isServiceError || failure.GetHTTPStatusCode() != 404 {
+				return err
+			}
+		}
+	}
+	if noResourceFound {
+		return fmt.Errorf("at least one resource was expected from the state file, but could not be found")
+	}
+
+	return nil
 }

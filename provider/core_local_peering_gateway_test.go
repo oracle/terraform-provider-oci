@@ -3,11 +3,13 @@
 package provider
 
 import (
+	"context"
 	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
+	"github.com/oracle/oci-go-sdk/common"
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
@@ -87,12 +89,11 @@ func TestCoreLocalPeeringGatewayResource_basic(t *testing.T) {
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},
+		CheckDestroy: testAccCheckCoreLocalPeeringGatewayDestroy,
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config:            config + LocalPeeringGatewayPropertyVariables + compartmentIdVariableStr + LocalPeeringGatewayRequiredOnlyResource,
+				Config: config + LocalPeeringGatewayPropertyVariables + compartmentIdVariableStr + LocalPeeringGatewayRequiredOnlyResource,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
@@ -194,6 +195,13 @@ data "oci_core_local_peering_gateways" "test_local_peering_gateways" {
 					resource.TestCheckResourceAttrSet(datasourceName, "local_peering_gateways.0.vcn_id"),
 				),
 			},
+			// verify resource import
+			{
+				Config:            config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				ResourceName:      resourceName,
+			},
 			// verify connect functionality
 			{
 				Config: config + `
@@ -224,4 +232,33 @@ variable "local_peering_gateway_freeform_tags" { default = {"Department"= "Accou
 			},
 		},
 	})
+}
+
+func testAccCheckCoreLocalPeeringGatewayDestroy(s *terraform.State) error {
+	noResourceFound := true
+	client := testAccProvider.Meta().(*OracleClients).virtualNetworkClient
+	for _, rs := range s.RootModule().Resources {
+		if rs.Type == "oci_core_local_peering_gateway" {
+			noResourceFound = false
+			request := oci_core.GetLocalPeeringGatewayRequest{}
+
+			tmp := rs.Primary.ID
+			request.LocalPeeringGatewayId = &tmp
+
+			_, err := client.GetLocalPeeringGateway(context.Background(), request)
+
+			if err == nil {
+				return fmt.Errorf("resource still exists")
+			}
+			//Verify that exception is for '404 not found'.
+			if failure, isServiceError := common.IsServiceError(err); !isServiceError || failure.GetHTTPStatusCode() != 404 {
+				return err
+			}
+		}
+	}
+	if noResourceFound {
+		return fmt.Errorf("at least one resource was expected from the state file, but could not be found")
+	}
+
+	return nil
 }

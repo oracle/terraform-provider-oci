@@ -190,7 +190,6 @@ func (s *VirtualCircuitDataSourceCrud) SetData() {
 		return
 	}
 
-	// @CODEGEN 07/2018: Use the resource id instead of generated id when available
 	s.D.SetId(*s.Res.Id)
 
 	if s.Res.BandwidthShapeName != nil {

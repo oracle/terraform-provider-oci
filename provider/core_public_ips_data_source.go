@@ -31,7 +31,7 @@ func PublicIpsDataSource() *schema.Resource {
 			"public_ips": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     PublicIpResource(),
+				Elem:     crud.GetDataSourceItemSchema(PublicIpResource()),
 			},
 		},
 	}

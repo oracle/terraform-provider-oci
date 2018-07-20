@@ -46,7 +46,7 @@ func InstancesDataSource() *schema.Resource {
 			"instances": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     InstanceResource(),
+				Elem:     crud.GetDataSourceItemSchema(InstanceResource()),
 			},
 		},
 	}
