@@ -166,10 +166,6 @@ func ClusterResource() *schema.Resource {
 					},
 				},
 			},
-			"id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"lifecycle_details": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -521,10 +517,6 @@ func (s *ClusterResourceCrud) SetData() {
 
 	if s.Res.Endpoints != nil {
 		s.D.Set("endpoints", []interface{}{ClusterEndpointsToMap(s.Res.Endpoints)})
-	}
-
-	if s.Res.Id != nil {
-		s.D.Set("id", *s.Res.Id)
 	}
 
 	if s.Res.KubernetesVersion != nil {

@@ -37,10 +37,6 @@ func SenderResource() *schema.Resource {
 			// Optional
 
 			// Computed
-			"id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"is_spf": {
 				Type:     schema.TypeBool,
 				Computed: true,
@@ -173,10 +169,6 @@ func (s *SenderResourceCrud) Delete() error {
 func (s *SenderResourceCrud) SetData() {
 	if s.Res.EmailAddress != nil {
 		s.D.Set("email_address", *s.Res.EmailAddress)
-	}
-
-	if s.Res.Id != nil {
-		s.D.Set("id", *s.Res.Id)
 	}
 
 	if s.Res.IsSpf != nil {

@@ -3,11 +3,14 @@
 package provider
 
 import (
+	"context"
 	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
+	"github.com/oracle/oci-go-sdk/common"
+	oci_file_storage "github.com/oracle/oci-go-sdk/filestorage"
 )
 
 const (
@@ -41,12 +44,11 @@ func TestFileStorageExportResource_basic(t *testing.T) {
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},
+		CheckDestroy: testAccCheckFileStorageExportDestroy,
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config:            config + ExportPropertyVariables + compartmentIdVariableStr + ExportResourceConfig,
+				Config: config + ExportPropertyVariables + compartmentIdVariableStr + ExportResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "export_set_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "file_system_id"),
@@ -84,6 +86,42 @@ data "oci_file_storage_exports" "test_exports" {
 					resource.TestCheckResourceAttrSet(datasourceName, "exports.0.time_created"),
 				),
 			},
+			// verify resource import
+			{
+				Config:            config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				ResourceName:      resourceName,
+			},
 		},
 	})
+}
+
+func testAccCheckFileStorageExportDestroy(s *terraform.State) error {
+	noResourceFound := true
+	client := testAccProvider.Meta().(*OracleClients).fileStorageClient
+	for _, rs := range s.RootModule().Resources {
+		if rs.Type == "oci_file_storage_export" {
+			noResourceFound = false
+			request := oci_file_storage.GetExportRequest{}
+
+			tmp := rs.Primary.ID
+			request.ExportId = &tmp
+
+			_, err := client.GetExport(context.Background(), request)
+
+			if err == nil {
+				return fmt.Errorf("resource still exists")
+			}
+			//Verify that exception is for '404 not found'.
+			if failure, isServiceError := common.IsServiceError(err); !isServiceError || failure.GetHTTPStatusCode() != 404 {
+				return err
+			}
+		}
+	}
+	if noResourceFound {
+		return fmt.Errorf("at least one resource was expected from the state file, but could not be found")
+	}
+
+	return nil
 }

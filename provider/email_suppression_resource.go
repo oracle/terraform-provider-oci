@@ -38,10 +38,6 @@ func SuppressionResource() *schema.Resource {
 			// Optional
 
 			// Computed
-			"id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"reason": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -146,10 +142,6 @@ func (s *SuppressionResourceCrud) Delete() error {
 func (s *SuppressionResourceCrud) SetData() {
 	if s.Res.EmailAddress != nil {
 		s.D.Set("email_address", *s.Res.EmailAddress)
-	}
-
-	if s.Res.Id != nil {
-		s.D.Set("id", *s.Res.Id)
 	}
 
 	s.D.Set("reason", s.Res.Reason)

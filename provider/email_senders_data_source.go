@@ -31,7 +31,7 @@ func SendersDataSource() *schema.Resource {
 			"senders": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     SenderResource(),
+				Elem:     crud.GetDataSourceItemSchema(SenderResource()),
 			},
 		},
 	}

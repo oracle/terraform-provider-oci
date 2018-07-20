@@ -3,11 +3,14 @@
 package provider
 
 import (
+	"context"
 	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
+	"github.com/oracle/oci-go-sdk/common"
+	oci_file_storage "github.com/oracle/oci-go-sdk/filestorage"
 )
 
 const (
@@ -56,12 +59,11 @@ func TestFileStorageFileSystemResource_basic(t *testing.T) {
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},
+		CheckDestroy: testAccCheckFileStorageFileSystemDestroy,
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config:            config + FileSystemPropertyVariables + compartmentIdVariableStr + FileSystemRequiredOnlyResource,
+				Config: config + FileSystemPropertyVariables + compartmentIdVariableStr + FileSystemRequiredOnlyResource,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -160,6 +162,42 @@ data "oci_file_storage_file_systems" "test_file_systems" {
 					TestCheckResourceAttributesEqual(datasourceName, "file_systems.0.time_created", "oci_file_storage_file_system.test_file_system", "time_created"),
 				),
 			},
+			// verify resource import
+			{
+				Config:            config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				ResourceName:      resourceName,
+			},
 		},
 	})
+}
+
+func testAccCheckFileStorageFileSystemDestroy(s *terraform.State) error {
+	noResourceFound := true
+	client := testAccProvider.Meta().(*OracleClients).fileStorageClient
+	for _, rs := range s.RootModule().Resources {
+		if rs.Type == "oci_file_storage_file_system" {
+			noResourceFound = false
+			request := oci_file_storage.GetFileSystemRequest{}
+
+			tmp := rs.Primary.ID
+			request.FileSystemId = &tmp
+
+			_, err := client.GetFileSystem(context.Background(), request)
+
+			if err == nil {
+				return fmt.Errorf("resource still exists")
+			}
+			//Verify that exception is for '404 not found'.
+			if failure, isServiceError := common.IsServiceError(err); !isServiceError || failure.GetHTTPStatusCode() != 404 {
+				return err
+			}
+		}
+	}
+	if noResourceFound {
+		return fmt.Errorf("at least one resource was expected from the state file, but could not be found")
+	}
+
+	return nil
 }

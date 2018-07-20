@@ -57,9 +57,7 @@ func TestFileStorageExportSetResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create - note that we don't really create an export set, see provider for details.
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config:            config + ExportSetPropertyVariables + compartmentIdVariableStr + ExportSetRequiredOnlyResource,
+				Config: config + ExportSetPropertyVariables + compartmentIdVariableStr + ExportSetRequiredOnlyResource,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -134,6 +132,13 @@ data "oci_file_storage_export_sets" "test_export_sets" {
 					resource.TestCheckResourceAttrSet(datasourceName, "export_sets.0.time_created"),
 					// resource.TestCheckResourceAttrSet(datasourceName, "export_sets.0.vcn_id"),
 				),
+			},
+			// verify resource import
+			{
+				Config:            config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				ResourceName:      resourceName,
 			},
 		},
 	})

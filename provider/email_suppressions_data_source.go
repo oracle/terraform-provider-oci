@@ -38,7 +38,7 @@ func SuppressionsDataSource() *schema.Resource {
 			"suppressions": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     SuppressionResource(),
+				Elem:     crud.GetDataSourceItemSchema(SuppressionResource()),
 			},
 		},
 	}

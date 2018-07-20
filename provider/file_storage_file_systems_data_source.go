@@ -39,7 +39,7 @@ func FileSystemsDataSource() *schema.Resource {
 			"file_systems": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     FileSystemResource(),
+				Elem:     crud.GetDataSourceItemSchema(FileSystemResource()),
 			},
 		},
 	}
