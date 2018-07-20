@@ -37,7 +37,7 @@ func DatabasesDataSource() *schema.Resource {
 			"databases": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     DatabaseDataSource(),
+				Elem:     crud.GetDataSourceItemSchema(DatabaseDataSource()),
 			},
 		},
 	}
@@ -123,7 +123,7 @@ func (s *DatabasesDataSourceCrud) SetData() {
 		}
 
 		if r.DbBackupConfig != nil {
-			database["db_backup_config"] = []interface{}{dbBackupConfigToMap(r.DbBackupConfig)}
+			database["db_backup_config"] = []interface{}{DbBackupConfigToMap(r.DbBackupConfig)}
 		}
 
 		if r.DbName != nil {

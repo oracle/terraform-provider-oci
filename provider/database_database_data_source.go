@@ -13,18 +13,12 @@ import (
 
 func DatabaseDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDatabase,
+		Read: readSingularDatabase,
 		Schema: map[string]*schema.Schema{
-			// @codegen: support legacy property
 			"database_id": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-
-			// Required
-
-			// Optional
-
 			// Computed
 			"character_set": {
 				Type:     schema.TypeString,
@@ -33,12 +27,6 @@ func DatabaseDataSource() *schema.Resource {
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Computed: true,
-			},
-			"defined_tags": {
-				Type:             schema.TypeMap,
-				Computed:         true,
-				DiffSuppressFunc: definedTagsDiffSuppressFunction,
-				Elem:             schema.TypeString,
 			},
 			"db_backup_config": {
 				Type:     schema.TypeList,
@@ -75,6 +63,12 @@ func DatabaseDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"defined_tags": {
+				Type:             schema.TypeMap,
+				Computed:         true,
+				DiffSuppressFunc: definedTagsDiffSuppressFunction,
+				Elem:             schema.TypeString,
+			},
 			"freeform_tags": {
 				Type:     schema.TypeMap,
 				Computed: true,
@@ -108,7 +102,7 @@ func DatabaseDataSource() *schema.Resource {
 	}
 }
 
-func readDatabase(d *schema.ResourceData, m interface{}) error {
+func readSingularDatabase(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient
@@ -117,16 +111,22 @@ func readDatabase(d *schema.ResourceData, m interface{}) error {
 }
 
 type DatabaseDataSourceCrud struct {
-	crud.BaseCrud
+	D      *schema.ResourceData
 	Client *oci_database.DatabaseClient
-	Res    *oci_database.Database
+	Res    *oci_database.GetDatabaseResponse
 }
 
-func (s *DatabaseDataSourceCrud) Get() (e error) {
+func (s *DatabaseDataSourceCrud) VoidState() {
+	s.D.SetId("")
+}
+
+func (s *DatabaseDataSourceCrud) Get() error {
 	request := oci_database.GetDatabaseRequest{}
 
-	tmp := s.D.Get("database_id").(string)
-	request.DatabaseId = &tmp
+	if databaseId, ok := s.D.GetOkExists("database_id"); ok {
+		tmp := databaseId.(string)
+		request.DatabaseId = &tmp
+	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
 
@@ -135,11 +135,15 @@ func (s *DatabaseDataSourceCrud) Get() (e error) {
 		return err
 	}
 
-	s.Res = &response.Database
+	s.Res = &response
 	return nil
 }
 
 func (s *DatabaseDataSourceCrud) SetData() {
+	if s.Res == nil {
+		return
+	}
+
 	s.D.SetId(*s.Res.Id)
 
 	if s.Res.CharacterSet != nil {
@@ -151,7 +155,7 @@ func (s *DatabaseDataSourceCrud) SetData() {
 	}
 
 	if s.Res.DbBackupConfig != nil {
-		s.D.Set("db_backup_config", []interface{}{dbBackupConfigToMap(s.Res.DbBackupConfig)})
+		s.D.Set("db_backup_config", []interface{}{DbBackupConfigToMap(s.Res.DbBackupConfig)})
 	}
 
 	if s.Res.DbHomeId != nil {
@@ -176,10 +180,6 @@ func (s *DatabaseDataSourceCrud) SetData() {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
-	if s.Res.Id != nil {
-		s.D.Set("id", *s.Res.Id)
-	}
-
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
@@ -194,17 +194,9 @@ func (s *DatabaseDataSourceCrud) SetData() {
 
 	s.D.Set("state", s.Res.LifecycleState)
 
-	s.D.Set("time_created", s.Res.TimeCreated.String())
-}
-
-func dbBackupConfigToMap(obj *oci_database.DbBackupConfig) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.AutoBackupEnabled != nil {
-		result["auto_backup_enabled"] = bool(*obj.AutoBackupEnabled)
+	if s.Res.TimeCreated != nil {
+		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
-
-	return result
 }
 
 func mapToDbBackupConfig(raw map[string]interface{}) oci_database.DbBackupConfig {

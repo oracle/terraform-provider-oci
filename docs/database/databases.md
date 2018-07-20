@@ -43,6 +43,26 @@ data "oci_database_database" "test_database" {
 }
 ```
 
+
+## Database Singular DataSource
+
+
+### Get Operation
+Gets information about a specific database.
+
+The following arguments are supported:
+
+* `database_id` - (Required) The database [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
+
+
+### Example Usage
+
+```hcl
+data "oci_database_database" "test_database" {
+	#Required
+	database_id = "${var.database_database_id}"
+}
+```
 # oci_database_databases
 
 ## Database DataSource

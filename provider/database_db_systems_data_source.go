@@ -37,7 +37,7 @@ func DbSystemsDataSource() *schema.Resource {
 			"db_systems": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     DbSystemResource(),
+				Elem:     crud.GetDataSourceItemSchema(DbSystemResource()),
 			},
 		},
 	}

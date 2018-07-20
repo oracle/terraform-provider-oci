@@ -154,10 +154,6 @@ func DbHomeResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"last_patch_history_entry_id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -313,10 +309,6 @@ func (s *DbHomeResourceCrud) SetData() {
 
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
-	}
-
-	if s.Res.Id != nil {
-		s.D.Set("id", *s.Res.Id)
 	}
 
 	if s.Res.LastPatchHistoryEntryId != nil {

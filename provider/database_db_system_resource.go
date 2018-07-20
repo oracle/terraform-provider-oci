@@ -269,10 +269,6 @@ func DbSystemResource() *schema.Resource {
 			},
 
 			// Computed
-			"id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"last_patch_history_entry_id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -555,10 +551,6 @@ func (s *DbSystemResourceCrud) SetData() {
 
 	// @codegen: Do not set hostname. Refreshing hostname causes undesirable diffs because the service may add a suffix
 	// as in the case of Exadatas. Possible implication when importing the resource.
-
-	if s.Res.Id != nil {
-		s.D.Set("id", *s.Res.Id)
-	}
 
 	if s.Res.LastPatchHistoryEntryId != nil {
 		s.D.Set("last_patch_history_entry_id", *s.Res.LastPatchHistoryEntryId)
