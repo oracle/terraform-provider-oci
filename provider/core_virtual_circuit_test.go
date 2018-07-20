@@ -197,9 +197,7 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 			},
 			// verify create - PRIVATE Virtual Circuit with Provider
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config:            config + VirtualCircuitPropertyVariables + VirtualCircuitPrivatePropertyVariables + compartmentIdVariableStr + VirtualCircuitProviderResourceConfig,
+				Config: config + VirtualCircuitPropertyVariables + VirtualCircuitPrivatePropertyVariables + compartmentIdVariableStr + VirtualCircuitProviderResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.#", "1"),
@@ -224,9 +222,7 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 
 			// verify create - PRIVATE Virtual Circuit
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config:            config + VirtualCircuitPropertyVariables + VirtualCircuitPrivatePropertyVariables + compartmentIdVariableStr + VirtualCircuitRequiredOnlyResource,
+				Config: config + VirtualCircuitPropertyVariables + VirtualCircuitPrivatePropertyVariables + compartmentIdVariableStr + VirtualCircuitRequiredOnlyResource,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.#", "1"),

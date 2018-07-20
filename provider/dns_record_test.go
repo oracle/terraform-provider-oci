@@ -83,9 +83,7 @@ func TestDnsRecordsResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config:            config + RecordPropertyVariables + compartmentIdVariableStr + RecordRequiredOnlyResource,
+				Config: config + RecordPropertyVariables + compartmentIdVariableStr + RecordRequiredOnlyResource,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "zone_name_or_id"),
 
