@@ -190,7 +190,7 @@ func testAccCheckCoreIpSecConnectionDestroy(s *terraform.State) error {
 	noResourceFound := true
 	client := testAccProvider.Meta().(*OracleClients).virtualNetworkClient
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type == "oci_core_ip_sec_connection" {
+		if rs.Type == "oci_core_ipsec" {
 			noResourceFound = false
 			request := oci_core.GetIPSecConnectionRequest{}
 

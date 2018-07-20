@@ -68,10 +68,6 @@ func LocalPeeringGatewayResource() *schema.Resource {
 			},
 
 			// Computed
-			"id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"is_cross_tenancy_peering": {
 				Type:     schema.TypeBool,
 				Computed: true,
@@ -341,10 +337,6 @@ func (s *LocalPeeringGatewayResourceCrud) SetData() {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
-
-	if s.Res.Id != nil {
-		s.D.Set("id", *s.Res.Id)
-	}
 
 	if s.Res.IsCrossTenancyPeering != nil {
 		s.D.Set("is_cross_tenancy_peering", *s.Res.IsCrossTenancyPeering)

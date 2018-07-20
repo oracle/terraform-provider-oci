@@ -46,7 +46,7 @@ func VolumeAttachmentsDataSource() *schema.Resource {
 			"volume_attachments": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     VolumeAttachmentResource(),
+				Elem:     crud.GetDataSourceItemSchema(VolumeAttachmentResource()),
 			},
 		},
 	}

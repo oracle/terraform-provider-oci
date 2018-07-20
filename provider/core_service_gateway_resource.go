@@ -85,10 +85,6 @@ func ServiceGatewayResource() *schema.Resource {
 				Type:     schema.TypeBool,
 				Computed: true,
 			},
-			"id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -318,10 +314,6 @@ func (s *ServiceGatewayResourceCrud) SetData() {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
-
-	if s.Res.Id != nil {
-		s.D.Set("id", *s.Res.Id)
-	}
 
 	services := []interface{}{}
 	for _, item := range s.Res.Services {

@@ -45,7 +45,7 @@ func SecurityListsDataSource() *schema.Resource {
 			"security_lists": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     SecurityListResource(),
+				Elem:     crud.GetDataSourceItemSchema(SecurityListResource()),
 			},
 		},
 	}

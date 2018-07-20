@@ -242,10 +242,6 @@ func InstanceResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"launch_mode": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -606,10 +602,6 @@ func (s *InstanceResourceCrud) SetData() {
 	// }
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
-
-	if s.Res.Id != nil {
-		s.D.Set("id", *s.Res.Id)
-	}
 
 	if s.Res.ImageId != nil {
 		// @CODEGEN 1/2018: support legacy name "image"

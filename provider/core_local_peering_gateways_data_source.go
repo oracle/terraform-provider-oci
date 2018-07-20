@@ -27,7 +27,7 @@ func LocalPeeringGatewaysDataSource() *schema.Resource {
 			"local_peering_gateways": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     LocalPeeringGatewayResource(),
+				Elem:     crud.GetDataSourceItemSchema(LocalPeeringGatewayResource()),
 			},
 		},
 	}
