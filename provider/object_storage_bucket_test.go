@@ -3,11 +3,14 @@
 package provider
 
 import (
+	"context"
 	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
+	"github.com/oracle/oci-go-sdk/common"
+	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
 )
 
 const (
@@ -69,12 +72,11 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},
+		CheckDestroy: testAccCheckObjectStorageBucketDestroy,
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				ImportState:       true,
-				ImportStateVerify: true,
-				Config:            config + BucketPropertyVariables + compartmentIdVariableStr + BucketRequiredOnlyResource,
+				Config: config + BucketPropertyVariables + compartmentIdVariableStr + BucketRequiredOnlyResource,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "name", "my-test-1"),
@@ -211,4 +213,38 @@ data "oci_objectstorage_bucket_summaries" "test_buckets" {
 			},
 		},
 	})
+}
+
+func testAccCheckObjectStorageBucketDestroy(s *terraform.State) error {
+	noResourceFound := true
+	client := testAccProvider.Meta().(*OracleClients).objectStorageClient
+	for _, rs := range s.RootModule().Resources {
+		if rs.Type == "oci_objectstorage_bucket" {
+			noResourceFound = false
+			request := oci_object_storage.GetBucketRequest{}
+
+			if value, ok := rs.Primary.Attributes["name"]; ok {
+				request.BucketName = &value
+			}
+
+			if value, ok := rs.Primary.Attributes["namespace"]; ok {
+				request.NamespaceName = &value
+			}
+
+			_, err := client.GetBucket(context.Background(), request)
+
+			if err == nil {
+				return fmt.Errorf("resource still exists")
+			}
+			//Verify that exception is for '404 not found'.
+			if failure, isServiceError := common.IsServiceError(err); !isServiceError || failure.GetHTTPStatusCode() != 404 {
+				return err
+			}
+		}
+	}
+	if noResourceFound {
+		return fmt.Errorf("at least one resource was expected from the state file, but could not be found")
+	}
+
+	return nil
 }
