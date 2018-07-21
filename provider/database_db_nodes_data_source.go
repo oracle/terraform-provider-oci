@@ -37,7 +37,7 @@ func DbNodesDataSource() *schema.Resource {
 			"db_nodes": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     DbNodeDataSource(),
+				Elem:     crud.GetDataSourceItemSchema(DbNodeDataSource()),
 			},
 		},
 	}

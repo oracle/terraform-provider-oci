@@ -1,15 +1,6 @@
 # oci_database_db_node
 
-## DbNode DataSource
-
-Get a single db_node.
-
-### Get Operation
-Gets information about the specified database node.
-
-The following arguments are supported:
-
-* `db_node_id` - (Required) The database node [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
+## DbNode Singular DataSource
 
 ### DbNode Reference
 
@@ -24,18 +15,27 @@ The following attributes are exported:
 * `time_created` - The date and time that the DB Node was created.
 * `vnic_id` - The OCID of the VNIC.
 
+
+
+### Get Operation
+Gets information about the specified database node.
+
+The following arguments are supported:
+
+* `db_node_id` - (Required) The database node [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
+
+
 ### Example Usage
 
-```
+```hcl
 data "oci_database_db_node" "test_db_node" {
 	#Required
-	db_node_id = "${var.db_node_id}"
+	db_node_id = "${var.db_node_db_node_id}"
 }
 ```
-
 # oci_database_db_nodes
 
-## DbNodes DataSource
+## DbNode DataSource
 
 Gets a list of db_nodes.
 
