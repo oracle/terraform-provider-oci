@@ -501,7 +501,6 @@ func Test(t TestT, c TestCase) {
 				i, step.ExpectError))
 			break
 		}
-		// *** End OCI Custom Change ***
 
 		// If there was an error, exit
 		if err != nil {
