@@ -98,10 +98,6 @@ func ZoneResource() *schema.Resource {
 			},
 
 			// Computed
-			"id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"self": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -287,10 +283,6 @@ func (s *ZoneResourceCrud) SetData() {
 	}
 
 	// todo: zone entities have a "nameservers" list which is missing from the spec and should be added here when sdk is regenerated
-
-	if s.Res.Id != nil {
-		s.D.Set("id", *s.Res.Id)
-	}
 
 	if s.Res.Self != nil {
 		s.D.Set("self", *s.Res.Self)

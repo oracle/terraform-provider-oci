@@ -64,7 +64,7 @@ func ZonesDataSource() *schema.Resource {
 			"zones": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     ZoneResource(),
+				Elem:     crud.GetDataSourceItemSchema(ZoneResource()),
 			},
 		},
 	}

@@ -25,9 +25,6 @@ import (
 
 func RecordResource() *schema.Resource {
 	return &schema.Resource{
-		Importer: &schema.ResourceImporter{
-			State: schema.ImportStatePassthrough,
-		},
 		Timeouts: crud.DefaultTimeout,
 		Create:   createRecord,
 		Read:     readRecord,

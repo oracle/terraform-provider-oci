@@ -3,12 +3,15 @@
 package provider
 
 import (
+	"context"
 	"fmt"
 	"regexp"
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
+	"github.com/oracle/oci-go-sdk/common"
+	oci_dns "github.com/oracle/oci-go-sdk/dns"
 )
 
 const (
@@ -77,6 +80,7 @@ func TestDnsZoneResource_basic(t *testing.T) {
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},
+		CheckDestroy: testAccCheckDnsZoneDestroy,
 		Steps: []resource.TestStep{
 			// test PRIMARY zone creation
 			{
@@ -211,6 +215,48 @@ data "oci_dns_zones" "test_zones" {
 					resource.TestCheckResourceAttrSet(datasourceName, "zones.#"),
 				),
 			},
+			// verify resource import
+			{
+				Config:            config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				ResourceName:      resourceName,
+			},
 		},
 	})
+}
+
+func testAccCheckDnsZoneDestroy(s *terraform.State) error {
+	noResourceFound := true
+	client := testAccProvider.Meta().(*OracleClients).dnsClient
+	for _, rs := range s.RootModule().Resources {
+		if rs.Type == "oci_dns_zone" {
+			noResourceFound = false
+			request := oci_dns.GetZoneRequest{}
+
+			tmp := rs.Primary.ID
+			request.ZoneNameOrId = &tmp
+
+			if value, ok := rs.Primary.Attributes["compartment_id"]; ok {
+				request.CompartmentId = &value
+			}
+
+			_, err := client.GetZone(context.Background(), request)
+
+			if err == nil {
+				return fmt.Errorf("resource still exists")
+			}
+			//Verify that exception is for 400.
+			// Normally expect 404, but DNS service returns a "InvalidParameter. Bad Request - Invalid domain name. http status code: 400"
+			// after destruction
+			if failure, isServiceError := common.IsServiceError(err); !isServiceError || failure.GetHTTPStatusCode() != 400 {
+				return err
+			}
+		}
+	}
+	if noResourceFound {
+		return fmt.Errorf("at least one resource was expected from the state file, but could not be found")
+	}
+
+	return nil
 }

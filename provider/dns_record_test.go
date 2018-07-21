@@ -3,13 +3,17 @@
 package provider
 
 import (
+	"context"
 	"fmt"
 	"testing"
 
 	"regexp"
 
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
+	"github.com/oracle/oci-go-sdk/common"
+	oci_dns "github.com/oracle/oci-go-sdk/dns"
 )
 
 const (
@@ -72,7 +76,6 @@ func TestDnsRecordsResource_basic(t *testing.T) {
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_dns_record.test_record"
-	datasourceName := "data.oci_dns_records.test_records"
 
 	var resId, resId2 string
 
@@ -80,6 +83,7 @@ func TestDnsRecordsResource_basic(t *testing.T) {
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},
+		CheckDestroy: testAccCheckDnsRecordDestroy,
 		Steps: []resource.TestStep{
 			// verify create
 			{
@@ -151,6 +155,24 @@ variable "record_items_ttl" { default = 1000 }
 					},
 				),
 			},
+		},
+	})
+}
+
+func TestDnsRecordsResource_datasources(t *testing.T) {
+	provider := testAccProvider
+	config := testProviderConfig()
+
+	compartmentId := getRequiredEnvSetting("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	datasourceName := "data.oci_dns_records.test_records"
+
+	resource.Test(t, resource.TestCase{
+		Providers: map[string]terraform.ResourceProvider{
+			"oci": provider,
+		},
+		Steps: []resource.TestStep{
 			// verify datasource
 			{
 				Config: config + RecordPropertyVariables + compartmentIdVariableStr + RecordResourceDependencies + `
@@ -317,4 +339,51 @@ resource "oci_dns_record" "test_record" {
 			},
 		},
 	})
+}
+
+func testAccCheckDnsRecordDestroy(s *terraform.State) error {
+	noResourceFound := true
+	client := testAccProvider.Meta().(*OracleClients).dnsClient
+	for _, rs := range s.RootModule().Resources {
+		if rs.Type == "oci_dns_record" {
+			noResourceFound = false
+			request := oci_dns.GetZoneRecordsRequest{}
+
+			if value, ok := rs.Primary.Attributes["zone_name_or_id"]; ok {
+				request.ZoneNameOrId = &value
+			}
+
+			if value, ok := rs.Primary.Attributes["compartment_id"]; ok {
+				request.CompartmentId = &value
+			}
+
+			response, err := client.GetZoneRecords(context.Background(), request)
+			if err == nil {
+				// Convert the InstanceState attributes to a ResourceData expected by the lookup function
+				attributes := convertToObjectMap(rs.Primary.Attributes)
+				resourceData := schema.TestResourceDataRaw(&testing.T{}, RecordResource().Schema, attributes)
+				_, err = findItem(&response.RecordCollection, resourceData)
+				if err == nil {
+					return fmt.Errorf("resource still exists")
+				}
+
+				// no error and item not found, item is deleted
+				return nil
+			}
+
+			// TODO: If we get here, then technically this isn't verifying that the record resource was destroyed.
+			// But it is verifying that at least the zone was destroyed (which guarantees that the records were destroyed)
+			// This is a test gap because of Terraform test framework destroying all resources.
+			// Ideally, the test framework should do a targeted destroy of the record prior to calling CheckDestroy.
+			//Verify that exception is for '404 not found'.
+			if failure, isServiceError := common.IsServiceError(err); !isServiceError || failure.GetHTTPStatusCode() != 404 {
+				return err
+			}
+		}
+	}
+	if noResourceFound {
+		return fmt.Errorf("at least one resource was expected from the state file, but could not be found")
+	}
+
+	return nil
 }
