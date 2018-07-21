@@ -47,10 +47,6 @@ func VnicDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"is_primary": {
 				Type:     schema.TypeBool,
 				Computed: true,

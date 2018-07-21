@@ -86,10 +86,6 @@ func VirtualCircuitDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"oracle_bgp_asn": {
 				Type:     schema.TypeInt,
 				Computed: true,

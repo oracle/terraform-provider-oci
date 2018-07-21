@@ -24,10 +24,6 @@ func FastConnectProviderServiceDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"private_peering_bgp_management": {
 				Type:     schema.TypeString,
 				Computed: true,

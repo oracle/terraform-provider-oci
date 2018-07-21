@@ -25,10 +25,6 @@ func IpSecConnectionDeviceStatusDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"time_created": {
 				Type:     schema.TypeString,
 				Computed: true,

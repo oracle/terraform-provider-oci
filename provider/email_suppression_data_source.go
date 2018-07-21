@@ -24,10 +24,6 @@ func SuppressionDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"reason": {
 				Type:     schema.TypeString,
 				Computed: true,
