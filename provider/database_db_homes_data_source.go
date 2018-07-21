@@ -27,7 +27,7 @@ func DbHomesDataSource() *schema.Resource {
 			"db_homes": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     crud.GetDataSourceItemSchema(DbHomeResource()),
+				Elem:     crud.GetDataSourceItemSchema(DbHomeDataSource()),
 			},
 		},
 	}
