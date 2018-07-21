@@ -13,11 +13,16 @@ import (
 
 func DbNodeDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDbNode,
+		Read: readSingularDbNode,
 		Schema: map[string]*schema.Schema{
 			"db_node_id": {
 				Type:     schema.TypeString,
 				Required: true,
+			},
+			// Computed
+			"backup_vnic_id": {
+				Type:     schema.TypeString,
+				Computed: true,
 			},
 			"db_system_id": {
 				Type:     schema.TypeString,
@@ -27,8 +32,8 @@ func DbNodeDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"id": {
-				Type:     schema.TypeString,
+			"software_storage_size_in_gb": {
+				Type:     schema.TypeInt,
 				Computed: true,
 			},
 			"state": {
@@ -43,20 +48,11 @@ func DbNodeDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"backup_vnic_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			// todo: // @codegen omits this
-			"software_storage_size_in_gb": {
-				Type:     schema.TypeInt,
-				Computed: true,
-			},
 		},
 	}
 }
 
-func readDbNode(d *schema.ResourceData, m interface{}) error {
+func readSingularDbNode(d *schema.ResourceData, m interface{}) error {
 	sync := &DbNodeDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient
@@ -65,17 +61,22 @@ func readDbNode(d *schema.ResourceData, m interface{}) error {
 }
 
 type DbNodeDataSourceCrud struct {
-	crud.BaseCrud
+	D      *schema.ResourceData
 	Client *oci_database.DatabaseClient
-	Res    *oci_database.DbNode
+	Res    *oci_database.GetDbNodeResponse
+}
+
+func (s *DbNodeDataSourceCrud) VoidState() {
+	s.D.SetId("")
 }
 
 func (s *DbNodeDataSourceCrud) Get() error {
 	request := oci_database.GetDbNodeRequest{}
 
-	dbNodeId := s.D.Get("db_node_id")
-	tmp := dbNodeId.(string)
-	request.DbNodeId = &tmp
+	if dbNodeId, ok := s.D.GetOkExists("db_node_id"); ok {
+		tmp := dbNodeId.(string)
+		request.DbNodeId = &tmp
+	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
 
@@ -84,11 +85,15 @@ func (s *DbNodeDataSourceCrud) Get() error {
 		return err
 	}
 
-	s.Res = &response.DbNode
+	s.Res = &response
 	return nil
 }
 
 func (s *DbNodeDataSourceCrud) SetData() {
+	if s.Res == nil {
+		return
+	}
+
 	s.D.SetId(*s.Res.Id)
 
 	if s.Res.BackupVnicId != nil {
@@ -103,21 +108,19 @@ func (s *DbNodeDataSourceCrud) SetData() {
 		s.D.Set("hostname", *s.Res.Hostname)
 	}
 
-	if s.Res.Id != nil {
-		s.D.Set("id", *s.Res.Id)
-	}
-
-	// todo: @codegen includes this but misses schema entry
 	if s.Res.SoftwareStorageSizeInGB != nil {
 		s.D.Set("software_storage_size_in_gb", *s.Res.SoftwareStorageSizeInGB)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
 
-	s.D.Set("time_created", s.Res.TimeCreated.String())
+	if s.Res.TimeCreated != nil {
+		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
 
 	if s.Res.VnicId != nil {
 		s.D.Set("vnic_id", *s.Res.VnicId)
 	}
 
+	return
 }
