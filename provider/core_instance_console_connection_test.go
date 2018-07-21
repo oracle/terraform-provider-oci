@@ -117,7 +117,10 @@ data "oci_core_instance_console_connections" "test_instance_console_connections"
 				Config:            config,
 				ImportState:       true,
 				ImportStateVerify: true,
-				ResourceName:      resourceName,
+				ImportStateVerifyIgnore: []string{
+					"public_key",
+				},
+				ResourceName: resourceName,
 			},
 		},
 	})

@@ -120,7 +120,10 @@ data "oci_email_suppression" "test_suppression" {
 				Config:            config,
 				ImportState:       true,
 				ImportStateVerify: true,
-				ResourceName:      resourceName,
+				ImportStateVerifyIgnore: []string{
+					"compartment_id",
+				},
+				ResourceName: resourceName,
 			},
 		},
 	})

@@ -226,7 +226,11 @@ data "oci_core_cross_connect" "test_cross_connect" {
 				Config:            config,
 				ImportState:       true,
 				ImportStateVerify: true,
-				ResourceName:      resourceName,
+				ImportStateVerifyIgnore: []string{
+					"far_cross_connect_or_cross_connect_group_id",
+					"near_cross_connect_or_cross_connect_group_id",
+				},
+				ResourceName: resourceName,
 			},
 		},
 	})

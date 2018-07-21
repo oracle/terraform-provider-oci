@@ -181,7 +181,11 @@ data "oci_file_storage_mount_targets" "test_mount_targets" {
 				Config:            config,
 				ImportState:       true,
 				ImportStateVerify: true,
-				ResourceName:      resourceName,
+				ImportStateVerifyIgnore: []string{
+					"hostname_label",
+					"ip_address",
+				},
+				ResourceName: resourceName,
 			},
 		},
 	})

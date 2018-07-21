@@ -217,7 +217,11 @@ data "oci_database_db_home" "test_db_home" {
 				Config:            config,
 				ImportState:       true,
 				ImportStateVerify: true,
-				ResourceName:      resourceName,
+				ImportStateVerifyIgnore: []string{
+					"database",
+					"source",
+				},
+				ResourceName: resourceName,
 			},
 		},
 	})

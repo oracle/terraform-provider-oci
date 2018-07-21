@@ -325,7 +325,15 @@ data "oci_core_instances" "test_instances" {
 				Config:            config,
 				ImportState:       true,
 				ImportStateVerify: true,
-				ResourceName:      resourceName,
+				ImportStateVerifyIgnore: []string{
+					"create_vnic_details",
+					// TODO: extended_metadata intentionally not set in resource Gets, even though supported
+					// by GetInstance calls. Remove this when the issue is resolved.
+					"extended_metadata",
+					"hostname_label",
+					"subnet_id",
+				},
+				ResourceName: resourceName,
 			},
 		},
 	})

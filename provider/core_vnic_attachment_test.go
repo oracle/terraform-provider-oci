@@ -170,7 +170,10 @@ data "oci_core_vnic_attachments" "test_vnic_attachments" {
 				Config:            config,
 				ImportState:       true,
 				ImportStateVerify: true,
-				ResourceName:      resourceName,
+				ImportStateVerifyIgnore: []string{
+					"create_vnic_details",
+				},
+				ResourceName: resourceName,
 			},
 		},
 	})

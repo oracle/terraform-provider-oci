@@ -198,7 +198,15 @@ data "oci_identity_policies" "test_policies" {
 				Config:            config,
 				ImportState:       true,
 				ImportStateVerify: true,
-				ResourceName:      resourceName,
+				ImportStateVerifyIgnore: []string{
+					// TODO: ETag, lastUpdateETag, and policyHash are non-API fields that
+					// get computed during resource Update but omitted from Get calls.
+					// Consider setting these as part of SetData.
+					"ETag",
+					"lastUpdateETag",
+					"policyHash",
+				},
+				ResourceName: resourceName,
 			},
 		},
 	})
