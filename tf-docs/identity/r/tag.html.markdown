@@ -35,6 +35,7 @@ resource "oci_identity_tag" "test_tag" {
 	#Optional
 	defined_tags = {"Operations.CostCenter"= "42"}
 	freeform_tags = {"Department"= "Finance"}
+    is_retired = false
 }
 ```
 
@@ -46,6 +47,7 @@ The following arguments are supported:
 * `description` - (Required) (Updatable) The description you assign to the tag during creation.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `name` - (Required) The name you assign to the tag during creation. The name must be unique within the tag namespace and cannot be changed. 
+* `is_retired` - (Optional) (Updatable) Indicates whether the tag is retired. See [Retiring Key Definitions and Namespace Definitions](https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/taggingoverview.htm#Retiring). 
 
 
 ## Attributes Reference
