@@ -169,7 +169,7 @@ func (s *SwiftPasswordResourceCrud) Get() error {
 		return err
 	}
 
-	id := s.D.Get("id").(string)
+	id := s.D.Id()
 	for _, item := range response.Items {
 		if *item.Id == id {
 			s.Res = &item
