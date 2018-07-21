@@ -138,7 +138,10 @@ data "oci_file_storage_export_sets" "test_export_sets" {
 				Config:            config,
 				ImportState:       true,
 				ImportStateVerify: true,
-				ResourceName:      resourceName,
+				ImportStateVerifyIgnore: []string{
+					"mount_target_id",
+				},
+				ResourceName: resourceName,
 			},
 		},
 	})

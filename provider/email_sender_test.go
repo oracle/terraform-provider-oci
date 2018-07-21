@@ -110,7 +110,10 @@ data "oci_email_sender" "test_sender" {
 				Config:            config,
 				ImportState:       true,
 				ImportStateVerify: true,
-				ResourceName:      resourceName,
+				ImportStateVerifyIgnore: []string{
+					"compartment_id",
+				},
+				ResourceName: resourceName,
 			},
 		},
 	})

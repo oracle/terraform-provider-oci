@@ -220,7 +220,11 @@ data "oci_core_images" "test_images" {
 				Config:            config,
 				ImportState:       true,
 				ImportStateVerify: true,
-				ResourceName:      resourceName,
+				ImportStateVerifyIgnore: []string{
+					"image_source_details",
+					"instance_id",
+				},
+				ResourceName: resourceName,
 			},
 		},
 	})

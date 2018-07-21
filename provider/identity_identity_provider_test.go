@@ -226,7 +226,11 @@ data "oci_identity_identity_providers" "test_identity_providers" {
 				Config:            config,
 				ImportState:       true,
 				ImportStateVerify: true,
-				ResourceName:      resourceName,
+				ImportStateVerifyIgnore: []string{
+					"metadata",
+					"metadata_url",
+				},
+				ResourceName: resourceName,
 			},
 		},
 	})

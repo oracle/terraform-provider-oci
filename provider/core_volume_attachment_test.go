@@ -139,7 +139,10 @@ data "oci_core_volume_attachments" "test_volume_attachments" {
 				Config:            config,
 				ImportState:       true,
 				ImportStateVerify: true,
-				ResourceName:      resourceName,
+				ImportStateVerifyIgnore: []string{
+					"use_chap",
+				},
+				ResourceName: resourceName,
 			},
 		},
 	})

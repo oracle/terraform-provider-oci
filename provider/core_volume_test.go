@@ -206,7 +206,10 @@ data "oci_core_volumes" "test_volumes" {
 				Config:            config,
 				ImportState:       true,
 				ImportStateVerify: true,
-				ResourceName:      resourceName,
+				ImportStateVerifyIgnore: []string{
+					"volume_backup_id",
+				},
+				ResourceName: resourceName,
 			},
 		},
 	})
