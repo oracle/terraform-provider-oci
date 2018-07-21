@@ -74,10 +74,6 @@ func DatabaseDataSource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
-			"id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"lifecycle_details": {
 				Type:     schema.TypeString,
 				Computed: true,
