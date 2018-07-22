@@ -53,7 +53,7 @@ func TestIdentityApiKeyResource_basic(t *testing.T) {
 	compartmentId := getRequiredEnvSetting("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	apiKeyVarStr := fmt.Sprintf("variable \"api_key_value\" { \n\tdefault = <<EOF\n%sEOF\n}\n", apiKey)
+	apiKeyVarStr := fmt.Sprintf("variable \"api_key_value\" { \n\tdefault = <<EOF\n%s\nEOF\n}\n", apiKey)
 
 	resourceName := "oci_identity_api_key.test_api_key"
 	datasourceName := "data.oci_identity_api_keys.test_api_keys"
