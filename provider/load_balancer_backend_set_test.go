@@ -276,7 +276,7 @@ func testAccCheckLoadBalancerBackendSetDestroy(s *terraform.State) error {
 			noResourceFound = false
 			request := oci_load_balancer.GetBackendSetRequest{}
 
-			if value, ok := rs.Primary.Attributes["backend"]; ok {
+			if value, ok := rs.Primary.Attributes["name"]; ok {
 				request.BackendSetName = &value
 			}
 
