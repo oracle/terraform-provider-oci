@@ -229,11 +229,20 @@ func testAccCheckLoadBalancerLoadBalancerDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.LoadBalancerId = &tmp
 
-			_, err := client.GetLoadBalancer(context.Background(), request)
+			response, err := client.GetLoadBalancer(context.Background(), request)
 
 			if err == nil {
-				return fmt.Errorf("resource still exists")
+				deletedLifecycleStates := map[string]bool{
+					string(oci_load_balancer.LoadBalancerLifecycleStateDeleted): true,
+				}
+				if _, ok := deletedLifecycleStates[string(response.LifecycleState)]; !ok {
+					//resource lifecycle state is not in expected deleted lifecycle states.
+					return fmt.Errorf("resource lifecycle state: %s is not in expected deleted lifecycle states", response.LifecycleState)
+				}
+				//resource lifecycle state is in expected deleted lifecycle states. continue with next one.
+				continue
 			}
+
 			//Verify that exception is for '404 not found'.
 			if failure, isServiceError := common.IsServiceError(err); !isServiceError || failure.GetHTTPStatusCode() != 404 {
 				return err
