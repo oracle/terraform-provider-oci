@@ -177,7 +177,7 @@ func testAccCheckObjectStoragePreauthenticatedRequestDestroy(s *terraform.State)
 	noResourceFound := true
 	client := testAccProvider.Meta().(*OracleClients).objectStorageClient
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type == "oci_objectstorage_preauthenticated_request" {
+		if rs.Type == "oci_objectstorage_preauthrequest" {
 			noResourceFound = false
 			request := oci_object_storage.GetPreauthenticatedRequestRequest{}
 
