@@ -725,15 +725,16 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_preserveBoot
 				},
 			),
 		},
-		// ForceNew an instance and attach to the old boot volume, which should have been deleted because we didn't set
-		// the preserve flag in the previous step. This should result in an error from service.
+		// ForceNew an instance by changing hostname_label and try reattach to the old boot volume,
+		// We didn't set preserve flag in the previous step, so the boot volume should be deleted and
+		// this should result in an error from service.
 		{
 			Config: s.Config + `
 				resource "oci_core_instance" "t" {
 					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
 					compartment_id = "${var.compartment_id}"
 					subnet_id = "${oci_core_subnet.t.id}"
-					hostname_label = "hostname2"
+					hostname_label = "hostname1"
 					source_details {
 						source_type = "bootVolume"
 						source_id = "{{.preservedBootVolumeId}}"
