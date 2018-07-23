@@ -124,20 +124,6 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 					},
 				),
 			},
-
-			// verify validations on metadata key
-			{
-				Config: config + `
-variable "object_content_encoding" { default = "identity" }
-variable "object_content_language" { default = "en-CA" }
-variable "object_content_type" { default = "text/xml" }
-variable "object_content" { default = "<a1>content</a1>" }
-variable "object_metadata" { default = {"CONTENT-TYPE" = "text/xml"} }
-variable "object_object" { default = "my-test-object-1" }
-
-                ` + compartmentIdVariableStr + ObjectResourceConfig,
-				ExpectError: regexp.MustCompile("All 'metadata' keys must be lowercase"),
-			},
 			// verify updates to updatable parameters
 			{
 				Config: config + `
@@ -276,6 +262,36 @@ data "oci_objectstorage_objects" "test_objects" {
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{},
 				ResourceName:            resourceName,
+			},
+		},
+	})
+}
+
+func TestObjectStorageObjectResource_metadata(t *testing.T) {
+	provider := testAccProvider
+	config := testProviderConfig()
+
+	compartmentId := getRequiredEnvSetting("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resource.Test(t, resource.TestCase{
+		Providers: map[string]terraform.ResourceProvider{
+			"oci": provider,
+		},
+		CheckDestroy: testAccCheckObjectStorageObjectDestroy,
+		Steps: []resource.TestStep{
+			// verify validations on metadata key
+			{
+				Config: config + `
+variable "object_content_encoding" { default = "identity" }
+variable "object_content_language" { default = "en-CA" }
+variable "object_content_type" { default = "text/xml" }
+variable "object_content" { default = "<a1>content</a1>" }
+variable "object_metadata" { default = {"CONTENT-TYPE" = "text/xml"} }
+variable "object_object" { default = "my-test-object-1" }
+
+                ` + compartmentIdVariableStr + ObjectResourceConfig,
+				ExpectError: regexp.MustCompile("All 'metadata' keys must be lowercase"),
 			},
 		},
 	})
