@@ -127,9 +127,10 @@ func testAccCheckIdentitySwiftPasswordDestroy(s *terraform.State) error {
 						return fmt.Errorf("item still exists")
 					}
 				}
-				// no error and item not found, item is deleted
-				return nil
+				// no error and item not found, that means item is deleted. continue checking next one
+				continue
 			}
+
 			//Verify that exception is for '404 not found'.
 			if failure, isServiceError := common.IsServiceError(err); !isServiceError || failure.GetHTTPStatusCode() != 404 {
 				return err

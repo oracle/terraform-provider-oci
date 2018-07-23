@@ -159,11 +159,20 @@ func testAccCheckCoreVolumeAttachmentDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.VolumeAttachmentId = &tmp
 
-			_, err := client.GetVolumeAttachment(context.Background(), request)
+			response, err := client.GetVolumeAttachment(context.Background(), request)
 
 			if err == nil {
-				return fmt.Errorf("resource still exists")
+				deletedLifecycleStates := map[string]bool{
+					string(oci_core.VolumeAttachmentLifecycleStateDetached): true,
+				}
+				if _, ok := deletedLifecycleStates[string(response.GetLifecycleState())]; !ok {
+					//resource lifecycle state is not in expected deleted lifecycle states.
+					return fmt.Errorf("resource lifecycle state: %s is not in expected deleted lifecycle states", response.GetLifecycleState())
+				}
+				//resource lifecycle state is in expected deleted lifecycle states. continue with next one.
+				continue
 			}
+
 			//Verify that exception is for '404 not found'.
 			if failure, isServiceError := common.IsServiceError(err); !isServiceError || failure.GetHTTPStatusCode() != 404 {
 				return err

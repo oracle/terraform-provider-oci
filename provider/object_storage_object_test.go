@@ -330,6 +330,7 @@ func testAccCheckObjectStorageObjectDestroy(s *terraform.State) error {
 			if err == nil {
 				return fmt.Errorf("resource still exists")
 			}
+
 			//Verify that exception is for '404 not found'.
 			if failure, isServiceError := common.IsServiceError(err); !isServiceError || failure.GetHTTPStatusCode() != 404 {
 				return err
