@@ -152,7 +152,7 @@ func (s *VirtualCircuitsDataSourceCrud) SetData() {
 		for _, item := range r.PublicPrefixes {
 			publicPrefixes = append(publicPrefixes, CreateVirtualCircuitPublicPrefixDetailsToMap(item))
 		}
-		virtualCircuit["public_prefixes"] = publicPrefixes
+		virtualCircuit["public_prefixes"] = schema.NewSet(publicPrefixHashCodeForSets, publicPrefixes)
 
 		if r.ReferenceComment != nil {
 			virtualCircuit["reference_comment"] = *r.ReferenceComment

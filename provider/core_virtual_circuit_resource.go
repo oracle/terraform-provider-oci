@@ -9,6 +9,12 @@ import (
 
 	"github.com/oracle/terraform-provider-oci/crud"
 
+	"strings"
+
+	"bytes"
+	"fmt"
+
+	"github.com/hashicorp/terraform/helper/hashcode"
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
@@ -102,12 +108,11 @@ func VirtualCircuitResource() *schema.Resource {
 				ForceNew: true,
 			},
 			"public_prefixes": {
-				Type:     schema.TypeList,
+				Type:     schema.TypeSet,
 				Optional: true,
-				// @CODEGEN 07/2018: The service does not return publicPrefixes as part of GET or LIST operation on this resource
-				// To get or update the publicPrefixes, once has to use the VirtualCircuitPublicPrefix APIs: https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/VirtualCircuitPublicPrefix/
-				//Computed: true,
+				Computed: true,
 				ForceNew: true,
+				Set:      publicPrefixHashCodeForSets,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -293,7 +298,8 @@ func (s *VirtualCircuitResourceCrud) Create() error {
 	}
 
 	if publicPrefixes, ok := s.D.GetOkExists("public_prefixes"); ok {
-		interfaces := publicPrefixes.([]interface{})
+		set := publicPrefixes.(*schema.Set)
+		interfaces := set.List()
 		tmp := make([]oci_core.CreateVirtualCircuitPublicPrefixDetails, len(interfaces))
 		for i, toBeConverted := range interfaces {
 			tmp[i] = mapToCreateVirtualCircuitPublicPrefixDetails(toBeConverted.(map[string]interface{}))
@@ -340,6 +346,24 @@ func (s *VirtualCircuitResourceCrud) Get() error {
 	}
 
 	s.Res = &response.VirtualCircuit
+
+	// VirtualCircuitPublicPrefixes are returned from another API, make a List call on them if the VirtualCircuit is of type 'PUBLIC'
+	if type_, ok := s.D.GetOkExists("type"); ok && strings.EqualFold(type_.(string), string(oci_core.VirtualCircuitTypePublic)) && s.Res.PublicPrefixes == nil {
+		request2 := oci_core.ListVirtualCircuitPublicPrefixesRequest{}
+		request2.VirtualCircuitId = request.VirtualCircuitId
+
+		response2, err2 := s.Client.ListVirtualCircuitPublicPrefixes(context.Background(), request2)
+
+		publicPrefixes := []string{}
+		for _, item := range response2.Items {
+			publicPrefixes = append(publicPrefixes, *item.CidrBlock)
+		}
+
+		s.Res.PublicPrefixes = publicPrefixes
+		if err2 != nil {
+			return err2
+		}
+	}
 	return nil
 }
 
@@ -396,6 +420,7 @@ func (s *VirtualCircuitResourceCrud) Update() error {
 	}
 
 	s.Res = &response.VirtualCircuit
+
 	return nil
 }
 
@@ -457,7 +482,7 @@ func (s *VirtualCircuitResourceCrud) SetData() {
 		for _, item := range s.Res.PublicPrefixes {
 			publicPrefixes = append(publicPrefixes, CreateVirtualCircuitPublicPrefixDetailsToMap(item))
 		}
-		s.D.Set("public_prefixes", publicPrefixes)
+		s.D.Set("public_prefixes", schema.NewSet(publicPrefixHashCodeForSets, publicPrefixes))
 	}
 
 	if s.Res.ReferenceComment != nil {
@@ -557,4 +582,15 @@ func CrossConnectMappingToMap(obj oci_core.CrossConnectMapping) map[string]inter
 	}
 
 	return result
+}
+
+func publicPrefixHashCodeForSets(v interface{}) int {
+	var buf bytes.Buffer
+	m := v.(map[string]interface{})
+
+	cidrBlock, cidrBlockPresent := m["cidr_block"]
+	if cidrBlockPresent && cidrBlock != "" {
+		buf.WriteString(fmt.Sprintf("%s-", cidrBlock.(string)))
+	}
+	return hashcode.String(buf.String())
 }
