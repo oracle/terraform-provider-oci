@@ -17,7 +17,7 @@ This is the primary script for installing Cloudera Manager.
 This installs PostGres on the Utility node for use with Cloudera Manager Metadata.
 
 ## node_prep.sh
-Top level node bootstrapping script, this is called on each node in paralell and executes the following scripts
+Top level node bootstrapping script, this is called on each node in parallel and executes the following scripts
 
 ### iscsi.sh
 Detection and setup for Block Storage via iscsi.
