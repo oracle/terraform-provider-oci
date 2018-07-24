@@ -9,7 +9,7 @@ resource "oci_core_instance" "Sandbox" {
 
   source_details {
     source_type = "image"
-    source_id = "${var.image_ocid}"
+    source_id = "${var.InstanceImageOCID[var.region]}"
     boot_volume_size_in_gbs = "${var.boot_volume_size}"
   }
 

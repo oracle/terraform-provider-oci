@@ -1,21 +1,32 @@
 # Output the private and public IPs of the instance
 
-output "WorkerShape" { 
-  value = ["${var.WorkerInstanceShape}"]
+output "INFO - Data Node Shape" { 
+  value = "${var.WorkerInstanceShape}\n"
 }
 
-output "BastionPublicIP" {
-  value = ["${data.oci_core_vnic.bastion_vnic.public_ip_address}"]
+output "1 - Bastion SSH Login" { 
+  value = <<END
+
+	ssh -i ~/.ssh/id_rsa opc@${data.oci_core_vnic.bastion_vnic.public_ip_address}
+
+END
 }
 
-output "MasterNode1PublicIP" {
-  value = ["${data.oci_core_vnic.utility_node_vnic.public_ip_address}"]
+output "2 - Bastion Commands after SSH login to watch installation process" {
+  value = <<END
+
+	sudo su -
+	screen -r
+
+END
 }
 
-output "Cloudera Manager Login" {
-  value = ["http://${data.oci_core_vnic.utility_node_vnic.public_ip_address}:7180/cmf/"]
+output "3 - Cloudera Manager Login Available after ~15m" {
+value = <<END
+
+	http://${data.oci_core_vnic.utility_node_vnic.public_ip_address}:7180/cmf/
+
+END
 }
 
-output "Bastion SSH" { 
-  value = ["ssh -i ~/.ssh/id_rsa opc@${data.oci_core_vnic.bastion_vnic.public_ip_address}"]
-}
+

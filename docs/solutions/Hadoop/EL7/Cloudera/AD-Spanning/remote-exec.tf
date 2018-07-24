@@ -12,7 +12,7 @@ resource "null_resource" "cdh-setup" {
     }
     }
     provisioner "file" {
-      source = "../scripts/bastion.sh"
+      source = "scripts/bastion.sh"
       destination = "/home/opc/bastion.sh"
       connection {
         agent = false
@@ -111,7 +111,7 @@ resource "null_resource" "cdh-setup" {
     }
     }
     provisioner "file" {
-      source = "scripts/startup.sh"
+      source = "../scripts/startup.sh"
       destination = "/home/opc/startup.sh"
       connection {
         agent = false
@@ -122,8 +122,8 @@ resource "null_resource" "cdh-setup" {
     }
     }
     provisioner "file" {
-      source = "firewall.list"
-      destination = "/home/opc/firewall.list"
+      source = "/home/opc/.ssh/oci_api_key.pem"
+      destination = "/home/opc/.ssh/oci_api_key.pem"
       connection {
         agent = false
         timeout = "10m"

@@ -17,5 +17,3 @@ export TF_VAR_ssh_private_key=$(cat /home/opc/.ssh/id_rsa)
 ## AD
 export TF_VAR_AD="2"
 
-## OS Image OCID
-export TF_VAR_image_ocid="ocid1.image.oc1.phx.aaaaaaaazs4djfpanpbh7zwqjqe4enku3juqo6dntkj66u2vjx4p2k2oj5cq"

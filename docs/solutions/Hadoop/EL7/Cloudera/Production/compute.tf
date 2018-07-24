@@ -9,13 +9,13 @@ resource "oci_core_instance" "UtilityNode" {
 
   source_details {
     source_type = "image"
-    source_id = "${var.image_ocid}"
+    source_id = "${var.InstanceImageOCID[var.region]}"
     boot_volume_size_in_gbs = "${var.boot_volume_size}"
   }
 
   metadata {
     ssh_authorized_keys = "${var.ssh_public_key}"
-    user_data = "${base64encode(file("scripts/boot.sh"))}"
+    user_data = "${base64encode(file("../scripts/boot.sh"))}"
   }
 
   timeouts {
@@ -34,13 +34,13 @@ resource "oci_core_instance" "MasterNode" {
 
   source_details {
     source_type = "image"
-    source_id = "${var.image_ocid}"
+    source_id = "${var.InstanceImageOCID[var.region]}"
     boot_volume_size_in_gbs = "${var.boot_volume_size}"
   }
 
   metadata {
     ssh_authorized_keys = "${var.ssh_public_key}"
-    user_data = "${base64encode(file("scripts/boot.sh"))}"
+    user_data = "${base64encode(file("../scripts/boot.sh"))}"
   }
 
   timeouts {
@@ -59,13 +59,13 @@ resource "oci_core_instance" "Bastion" {
 
   source_details {
     source_type = "image"
-    source_id = "${var.image_ocid}"
+    source_id = "${var.InstanceImageOCID[var.region]}"
     boot_volume_size_in_gbs = "${var.boot_volume_size}"
   }
 
   metadata {
     ssh_authorized_keys = "${var.ssh_public_key}"
-    user_data = "${base64encode(file("scripts/boot.sh"))}"
+    user_data = "${base64encode(file("../scripts/boot.sh"))}"
   }
 
   timeouts {
@@ -84,13 +84,13 @@ resource "oci_core_instance" "WorkerNode" {
 
   source_details {
     source_type = "image"
-    source_id = "${var.image_ocid}"
+    source_id = "${var.InstanceImageOCID[var.region]}"
     boot_volume_size_in_gbs = "${var.boot_volume_size}"
   }
 
   metadata {
     ssh_authorized_keys = "${var.ssh_public_key}"
-    user_data = "${base64encode(file("scripts/boot.sh"))}"
+    user_data = "${base64encode(file("../scripts/boot.sh"))}"
   }
 
   timeouts {

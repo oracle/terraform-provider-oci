@@ -42,3 +42,17 @@ OCI also supports N-Node EDH implementations for customers whose needs may excee
 | Suggested Worker Instance | Suggested Bastion Instance | Suggested Utility & Master Instance |
 | :---------------------: |  :---------------------: |  :---------------------: |
 | BM.DenseIO2.52 | VM.Standard2.4 | VM.Standard2.16 |  
+
+## Scripts
+
+This is a top level directory hosting shared scripts used by AD-Spanning, Development, N-Node, and Production templates.   As such it should be placed in the same directory heirarchy found here, otherwise Terraform remote-execution references will fail to find the files for deployment.
+
+# How to use these templates
+In addition to an active tenancy on OCI, you will need a functional installation of Terraform, and an API key for a privileged user in the tenancy.  See these documentation links for more information:
+
+[Getting Started with Terraform on OCI](https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/terraformgetstarted.htm)
+
+[How to Generate an API Signing Key](https://docs.cloud.oracle.com/iaas/Content/API/Concepts/apisigningkey.htm#How)
+
+Once the pre-requisites are in place, you will need to copy the templates from this repository to where you have Terraform installed.  Refer to the README.md for each template for additional deployment instructions.
+

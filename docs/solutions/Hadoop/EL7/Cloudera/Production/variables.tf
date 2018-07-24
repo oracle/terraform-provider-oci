@@ -14,7 +14,18 @@ variable "ssh_private_key" {}
 
 variable "AD" { default = "2" }
 
-variable "image_ocid" { }
+variable "InstanceImageOCID" {
+    type = "map"
+    default = {
+        // See https://docs.us-phoenix-1.oraclecloud.com/images/
+        // Oracle-provided image "CentOS-7.5-2018.06.22-0"
+	eu-frankfurt-1 = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaasdvfvvgzjhqpuwmjbypgovachdgwvcvus5n4p64fajmbassg2pqa"
+	us-ashburn-1 = "ocid1.image.oc1.iad.aaaaaaaa5o7kjzy7gqtmu5pxuhnh6yoi3kmzazlk65trhpjx5xg3hfbuqvgq"
+	uk-london-1 = "ocid1.image.oc1.uk-london-1.aaaaaaaaa74er3gyrjg3fiesftpc42viplbhp7gdafqzv33kyyx3jrazruta"
+	us-phoenix-1 = "ocid1.image.oc1.phx.aaaaaaaapnnv2phiyw7apcgtg6kmn572b2mux56ll6j6mck5xti3aw4bnwrq"
+    }
+}
+
 variable "nodecount" { default = "5" }
 
 variable "MasterNodeCount" { default = "2" }

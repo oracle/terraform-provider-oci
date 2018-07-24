@@ -26,23 +26,24 @@ variable "InstanceImageOCID" {
     }
 }
 
-variable "nodecount" { default = "3" }
-
-variable "MasterNodeCount" { default = "0" }
+variable "nodecount" { default = "5" }
+variable "UtilityNodeCount" { default = "1" }
+variable "MasterNodeCount" { default = "2" }
+variable "BastionNodeCount" { default = "1" }
+variable "boot_volume_size" { default = "256" }
 
 variable "blocksize_in_gbs" { default = "1024" }
 
-variable "boot_volume_size" { default = "256" }
-
 variable "BastionInstanceShape" {
-  default = "VM.Standard1.8"
+  default = "VM.Standard2.8"
 }
 
 variable "MasterInstanceShape" {
-  default = "VM.Standard1.8"
+  default = "VM.Standard2.8"
 }
 
 variable "WorkerInstanceShape" {
-  default = "BM.Standard1.36"
+  default = "BM.DenseIO2.52"
 }
+
 
