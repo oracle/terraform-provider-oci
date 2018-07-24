@@ -7,9 +7,6 @@ This is the first script invoked by Terraform in remote-execution. It simply exe
 ## bastion.sh
 This is the primary script which drives discovery and deployment tasks. It is invoked by start.sh and runs on the Bastion host.
 
-## bastion_boot.sh
-This script is invoked by cloudinit on the Bastion host.  It contains addit
-
 ## boot.sh
 This script is invoked by cloudinit on each instance creation via Terraform.  It contains steps which perform inital bootstrapping of the instance prior to provisioning.
 
