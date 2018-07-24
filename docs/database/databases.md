@@ -1,17 +1,6 @@
 # oci_database_database
 
-## Database Data Source
-
-An Oracle database on a DB System. For more information, see [Managing Oracle Databases](https://docs.us-phoenix-1.oraclecloud.com/Content/Database/Concepts/overview.htm).
-
-### Get Operation
-
-Gets information about a specific database.
-
-
-The following arguments are supported:
-
-* `database_id` - (Required) The database [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
+## Database Singular DataSource
 
 ### Database Reference
 
@@ -34,17 +23,6 @@ The following attributes are exported:
 * `state` - The current state of the database.
 * `time_created` - The date and time the database was created.
 
-### Example Usage
-
-```hcl
-data "oci_database_database" "test_database" {
-	#Required
-	database_id = "${var.database_id}"
-}
-```
-
-
-## Database Singular DataSource
 
 
 ### Get Operation
