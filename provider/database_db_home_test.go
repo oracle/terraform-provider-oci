@@ -188,7 +188,7 @@ variable "db_home_database_db_backup_config_auto_backup_enabled" { default = fal
 variable "db_home_database_db_name" { default = "myTestDb" }
 variable "db_home_database_db_workload" { default = "dbWorkload" }
 variable "db_home_database_defined_tags_value" { default = "definedTags" }
-variable "db_home_database_freeform_tags" { default = "freeformTags" }
+variable "db_home_database_freeform_tags" { default = {"Department"= "Finance"} }
 variable "db_home_database_ncharacter_set" { default = "AL16UTF16" }
 variable "db_home_database_pdb_name" { default = "pdbName" }
 variable "db_home_display_name" { default = "createdDbHome" }
