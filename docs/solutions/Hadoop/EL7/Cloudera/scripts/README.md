@@ -32,4 +32,4 @@ This script is used for OS performance tuning.
 This script drives the Cloudera EDH install after Cloudera Manager has been installed.  It invokes the following script, and should be customized prior to deployment with User details section and password for Cloudera Manager.
 
 ### cmx.py
-This Python script drives all cluster deployment automation via the Cloudear Manager Python API.
+This Python script drives all cluster deployment automation via the Cloudera Manager Python API.
