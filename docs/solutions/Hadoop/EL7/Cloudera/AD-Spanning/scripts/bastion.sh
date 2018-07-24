@@ -225,5 +225,3 @@ ssh -o BatchMode=yes -o StrictHostKeyChecking=no -i /home/opc/.ssh/id_rsa opc@${
 echo -e "--------------------------------------------------------------------"
 echo -e "---------------------CLUSTER SETUP COMPLETE-------------------------"
 echo -e "--------------------------------------------------------------------"
-#echo -e "Provisioning HDFS OCI Object Connector."
-#./HDFS-connector.sh
