@@ -8,6 +8,8 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/core"
 
+	"strings"
+
 	"github.com/oracle/terraform-provider-oci/crud"
 )
 
@@ -99,7 +101,7 @@ func VirtualCircuitDataSource() *schema.Resource {
 				Computed: true,
 			},
 			"public_prefixes": {
-				Type:     schema.TypeList,
+				Type:     schema.TypeSet,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
@@ -178,6 +180,24 @@ func (s *VirtualCircuitDataSourceCrud) Get() error {
 	}
 
 	s.Res = &response
+
+	// VirtualCircuitPublicPrefixes are returned from another API, make a List call on them if the VirtualCircuit is of type 'PUBLIC'
+	if strings.EqualFold(string(response.Type), string(oci_core.VirtualCircuitTypePublic)) && s.Res.PublicPrefixes == nil {
+		request2 := oci_core.ListVirtualCircuitPublicPrefixesRequest{}
+		request2.VirtualCircuitId = request.VirtualCircuitId
+
+		response2, err2 := s.Client.ListVirtualCircuitPublicPrefixes(context.Background(), request2)
+
+		publicPrefixes := []string{}
+		for _, item := range response2.Items {
+			publicPrefixes = append(publicPrefixes, *item.CidrBlock)
+		}
+
+		s.Res.PublicPrefixes = publicPrefixes
+		if err2 != nil {
+			return err2
+		}
+	}
 	return nil
 }
 
@@ -232,7 +252,7 @@ func (s *VirtualCircuitDataSourceCrud) SetData() {
 	for _, item := range s.Res.PublicPrefixes {
 		publicPrefixes = append(publicPrefixes, CreateVirtualCircuitPublicPrefixDetailsToMap(item))
 	}
-	s.D.Set("public_prefixes", publicPrefixes)
+	s.D.Set("public_prefixes", schema.NewSet(publicPrefixHashCodeForSets, publicPrefixes))
 
 	if s.Res.ReferenceComment != nil {
 		s.D.Set("reference_comment", *s.Res.ReferenceComment)

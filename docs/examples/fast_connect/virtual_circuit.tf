@@ -22,7 +22,6 @@ resource "oci_core_virtual_circuit" "test_virtual_circuit_private" {
 	#provider_service_id = "${oci_core_provider_service.test_provider_service.id}"
 	region = "${var.virtual_circuit_region}"
 }
-
 resource "oci_core_virtual_circuit" "test_virtual_circuit_public" {
 	#Required
 	compartment_id = "${var.compartment_id}"
@@ -37,10 +36,15 @@ resource "oci_core_virtual_circuit" "test_virtual_circuit_public" {
 	customer_bgp_asn = "${var.virtual_circuit_customer_bgp_asn}"
 	display_name = "${var.virtual_circuit_display_name}"
 	#provider_service_id = "${oci_core_provider_service.test_provider_service.id}"
-	public_prefixes {
+	public_prefixes = [
 		#Required
-		cidr_block = "${var.virtual_circuit_public_prefixes_cidr_block}"
-	}
+		{
+			cidr_block = "${var.virtual_circuit_public_prefixes_cidr_block}"
+		},
+		{
+			cidr_block = "${var.virtual_circuit_public_prefixes_cidr_block2}"
+		},
+	]
 	region = "${var.virtual_circuit_region}"
 }
 
@@ -101,5 +105,6 @@ output "virtual_circuit" {
 		id = "${data.oci_core_virtual_circuit.test_virtual_circuit.id}",
 		state = "${data.oci_core_virtual_circuit.test_virtual_circuit.state}",
 		type = "${data.oci_core_virtual_circuit.test_virtual_circuit.type}",
+		public_prefixes = "${data.oci_core_virtual_circuit.test_virtual_circuit.public_prefixes}",
 	}
 }
