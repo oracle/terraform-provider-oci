@@ -7,6 +7,7 @@ Creates and manages an OCI SwiftPassword
 ---
 
 # oci_identity_swift_password
+**Deprecated. Use AuthToken instead.**
 The `oci_identity_swift_password` resource creates and manages an OCI SwiftPassword
 
 **Deprecated. Use [CreateAuthToken](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/identity/20160918/AuthToken/CreateAuthToken) instead.**
