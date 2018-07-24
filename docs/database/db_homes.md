@@ -1,5 +1,7 @@
 # oci_database_db_home
 
+## DbHome Singular DataSource
+
 ### DbHome Reference
 
 The following attributes are exported:
@@ -13,31 +15,6 @@ The following attributes are exported:
 * `state` - The current state of the database home.
 * `time_created` - The date and time the database home was created.
 
-## DbHome Data Source
-
-The database home.
-
-### Get Operation
-
-Gets information about the specified database home.
-
-
-The following arguments are supported:
-
-* `db_home_id` - (Required) The database home [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
-
-
-### Example Usage
-
-```hcl
-data "oci_database_db_home" "test_db_home" {
-	#Required
-	db_system_id = "${oci_database_db_system.test_db_system.id}"
-}
-```
-
-
-## DbHome Singular DataSource
 
 
 ### Get Operation
@@ -53,7 +30,7 @@ The following arguments are supported:
 ```hcl
 data "oci_database_db_home" "test_db_home" {
 	#Required
-	db_home_id = "${var.db_home_db_home_id}"
+	db_home_id = "${oci_database_db_system.test_db_system.id}"
 }
 ```
 # oci_database_db_homes
