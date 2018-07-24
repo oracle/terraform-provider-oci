@@ -420,11 +420,14 @@ data "oci_core_virtual_circuit" "test_virtual_circuit" {
 			},
 			// verify resource import
 			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
+				Config:            config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				ImportStateVerifyIgnore: []string{
+					"public_prefixes",
+					"virtual_circuit_id",
+				},
+				ResourceName: resourceName,
 			},
 		},
 	})

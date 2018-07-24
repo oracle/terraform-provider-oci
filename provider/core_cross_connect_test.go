@@ -227,6 +227,8 @@ data "oci_core_cross_connect" "test_cross_connect" {
 				ImportState:       true,
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{
+					"cross_connect_id",
+					"is_active",
 					"far_cross_connect_or_cross_connect_group_id",
 					"near_cross_connect_or_cross_connect_group_id",
 				},
