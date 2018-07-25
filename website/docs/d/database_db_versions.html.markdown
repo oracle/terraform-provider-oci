@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_database_db_versions
-The DbVersions data source allows access to the list of OCI db_versions
+The `oci_database_db_versions` data source allows access to the list of OCI db_versions
 
 Gets a list of supported Oracle database versions.
 

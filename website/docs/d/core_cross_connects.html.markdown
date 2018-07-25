@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_core_cross_connects
-The CrossConnects data source allows access to the list of OCI cross_connects
+The `oci_core_cross_connects` data source allows access to the list of OCI cross_connects
 
 Lists the cross-connects in the specified compartment. You can filter the list
 by specifying the OCID of a cross-connect group.

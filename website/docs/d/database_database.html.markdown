@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_database_database
-The Database data source provides details about a specific Database
+The `oci_database_database` data source provides details about a specific Database
 
 Gets information about a specific database.
 

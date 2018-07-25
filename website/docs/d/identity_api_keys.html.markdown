@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_identity_api_keys
-The ApiKeys data source allows access to the list of OCI api_keys
+The `oci_identity_api_keys` data source allows access to the list of OCI api_keys
 
 Lists the API signing keys for the specified user. A user can have a maximum of three keys.
 

@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_identity_compartments
-The Compartments data source allows access to the list of OCI compartments
+The `oci_identity_compartments` data source allows access to the list of OCI compartments
 
 Lists the compartments in your tenancy. You must specify your tenancy's OCID as the value
 for the compartment ID (remember that the tenancy is simply the root compartment).

@@ -8,8 +8,7 @@ description: |-
 
 # Data Source: oci_core_vcns
 `oci_core_virtual_networks` is the old name for `oci_core_vcns`. Both names are supported but `oci_core_vcns` is used in the docs
-
-The Vcns data source allows access to the list of OCI vcns
+The `oci_core_vcns` data source allows access to the list of OCI vcns
 
 Lists the Virtual Cloud Networks (VCNs) in the specified compartment.
 

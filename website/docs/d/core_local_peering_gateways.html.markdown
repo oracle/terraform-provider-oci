@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_core_local_peering_gateways
-The LocalPeeringGateways data source allows access to the list of OCI local_peering_gateways
+The `oci_core_local_peering_gateways` data source allows access to the list of OCI local_peering_gateways
 
 Lists the local peering gateways (LPGs) for the specified VCN and compartment
 (the LPG's compartment).

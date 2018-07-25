@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_load_balancer_backends
-The Backends data source allows access to the list of OCI backends
+The `oci_load_balancer_backends` data source allows access to the list of OCI backends
 
 Lists the backend servers for a given load balancer and backend set.
 

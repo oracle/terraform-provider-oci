@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_identity_customer_secret_keys
-The CustomerSecretKeys data source allows access to the list of OCI customer_secret_keys
+The `oci_identity_customer_secret_keys` data source allows access to the list of OCI customer_secret_keys
 
 Lists the secret keys for the specified user. The returned object contains the secret key's OCID, but not
 the secret key itself. The actual secret key is returned only upon creation.

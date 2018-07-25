@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_core_shapes
-The Shapes data source allows access to the list of OCI shapes
+The `oci_core_shapes` data source allows access to the list of OCI shapes
 
 Lists the shapes that can be used to launch an instance within the specified compartment. You can
 filter the list by compatibility with a specific image.

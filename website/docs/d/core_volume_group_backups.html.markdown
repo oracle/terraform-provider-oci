@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_core_volume_group_backups
-The VolumeGroupBackups data source allows access to the list of OCI volume_group_backups
+The `oci_core_volume_group_backups` data source allows access to the list of OCI volume_group_backups
 
 Lists the backups for volume groups in the specified compartment. You can filter the results by volume group.
 

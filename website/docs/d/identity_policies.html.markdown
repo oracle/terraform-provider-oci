@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_identity_policies
-The Policies data source allows access to the list of OCI policies
+The `oci_identity_policies` data source allows access to the list of OCI policies
 
 Lists the policies in the specified compartment (either the tenancy or another of your compartments).
 See [Where to Get the Tenancy's OCID and User's OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/API/Concepts/apisigningkey.htm#five).

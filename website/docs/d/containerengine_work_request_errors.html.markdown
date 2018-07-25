@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_containerengine_work_request_errors
-The WorkRequestErrors data source allows access to the list of OCI work_request_errors
+The `oci_containerengine_work_request_errors` data source allows access to the list of OCI work_request_errors
 
 Get the errors of a work request.
 

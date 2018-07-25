@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_database_backups
-The Backups data source allows access to the list of OCI backups
+The `oci_database_backups` data source allows access to the list of OCI backups
 
 Gets a list of backups based on the databaseId or compartmentId specified. Either one of the query parameters must be provided.
 

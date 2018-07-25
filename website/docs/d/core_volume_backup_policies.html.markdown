@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_core_volume_backup_policies
-The VolumeBackupPolicies data source allows access to the list of OCI volume_backup_policies
+The `oci_core_volume_backup_policies` data source allows access to the list of OCI volume_backup_policies
 
 Lists all volume backup policies available to the caller.
 

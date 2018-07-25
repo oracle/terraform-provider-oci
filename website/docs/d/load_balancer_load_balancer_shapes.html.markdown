@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_load_balancer_shapes
-The LoadBalancerShapes data source allows access to the list of OCI load_balancer_shapes
+The `oci_load_balancer_shapes` data source allows access to the list of OCI load_balancer_shapes
 
 Lists the valid load balancer shapes.
 

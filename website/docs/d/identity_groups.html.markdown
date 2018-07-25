@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_identity_groups
-The Groups data source allows access to the list of OCI groups
+The `oci_identity_groups` data source allows access to the list of OCI groups
 
 Lists the groups in your tenancy. You must specify your tenancy's OCID as the value for
 the compartment ID (remember that the tenancy is simply the root compartment).

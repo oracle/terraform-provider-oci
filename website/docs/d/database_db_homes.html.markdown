@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_database_db_homes
-The DbHomes data source allows access to the list of OCI db_homes
+The `oci_database_db_homes` data source allows access to the list of OCI db_homes
 
 Gets a list of database homes in the specified DB System and compartment. A database home is a directory where Oracle database software is installed.
 

@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_file_storage_snapshots
-The Snapshots data source allows access to the list of OCI snapshots
+The `oci_file_storage_snapshots` data source allows access to the list of OCI snapshots
 
 Lists snapshots of the specified file system.
 

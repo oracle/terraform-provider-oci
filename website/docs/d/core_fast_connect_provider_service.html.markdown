@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_core_fast_connect_provider_service
-The FastConnectProviderService data source provides details about a specific FastConnectProviderService
+The `oci_core_fast_connect_provider_service` data source provides details about a specific FastConnectProviderService
 
 Gets the specified provider service.
 For more information, see [FastConnect Overview](https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Concepts/fastconnect.htm).

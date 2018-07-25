@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_core_cross_connect_status
-The CrossConnectStatus data source provides details about a specific CrossConnectStatus
+The `oci_core_cross_connect_status` data source provides details about a specific CrossConnectStatus
 
 Gets the status of the specified cross-connect.
 

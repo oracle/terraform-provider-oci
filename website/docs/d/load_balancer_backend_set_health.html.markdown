@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_load_balancer_backend_set_health
-The BackendSetHealth data source provides details about a specific BackendSetHealth
+The `oci_load_balancer_backend_set_health` data source provides details about a specific BackendSetHealth
 
 Gets the health status for the specified backend set.
 

@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_core_route_tables
-The RouteTables data source allows access to the list of OCI route_tables
+The `oci_core_route_tables` data source allows access to the list of OCI route_tables
 
 Lists the route tables in the specified VCN and specified compartment. The response
 includes the default route table that automatically comes with each VCN, plus any route tables

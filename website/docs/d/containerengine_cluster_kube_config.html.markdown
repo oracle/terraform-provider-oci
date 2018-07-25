@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_containerengine_cluster_kube_config
-The ClusterKubeConfig data source provides details about a specific ClusterKubeConfig
+The `oci_containerengine_cluster_kube_config` data source provides details about a specific ClusterKubeConfig
 
 
 

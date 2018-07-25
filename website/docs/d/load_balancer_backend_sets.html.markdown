@@ -8,7 +8,7 @@ description: |-
 
 # Data Source: oci_load_balancer_backend_sets
 `oci_load_balancer_backendsets` is the old name for `oci_load_balancer_backend_sets`. Both names are supported but `oci_load_balancer_backend_sets` is used in the docs.
-The BackendSets data source allows access to the list of OCI backend_sets
+The `oci_load_balancer_backend_sets` data source allows access to the list of OCI backend_sets
 
 Lists all backend sets associated with a given load balancer.
 

@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_database_db_home_patch_history_entries
-The DbHomePatchHistoryEntries data source allows access to the list of OCI db_home_patch_history_entries
+The `oci_database_db_home_patch_history_entries` data source allows access to the list of OCI db_home_patch_history_entries
 
 Gets history of the actions taken for patches for the specified database home.
 

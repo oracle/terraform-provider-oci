@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_core_instance_credentials
-The InstanceCredentials data source provides details about a specific InstanceCredentials
+The `oci_core_instance_credentials` data source provides details about a specific InstanceCredentials
 
 Gets the generated credentials for the instance. Only works for instances that require password to log in (E.g. Windows).
 For certain OS'es, users will be forced to change the initial credentials.

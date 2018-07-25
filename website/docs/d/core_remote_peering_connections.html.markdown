@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_core_remote_peering_connections
-The RemotePeeringConnections data source allows access to the list of OCI remote_peering_connections
+The `oci_core_remote_peering_connections` data source allows access to the list of OCI remote_peering_connections
 
 Lists the remote peering connections (RPCs) for the specified DRG and compartment
 (the RPC's compartment).

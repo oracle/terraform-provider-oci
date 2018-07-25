@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_identity_tenancy
-The Tenancy data source provides details about a specific Tenancy
+The `oci_identity_tenancy` data source provides details about a specific Tenancy
 
 Get the specified tenancy's information.
 

@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_core_ipsec_connections
-The IpSecConnections data source allows access to the list of OCI ip_sec_connections
+The `oci_core_ipsec_connections` data source allows access to the list of OCI ip_sec_connections
 
 Lists the IPSec connections for the specified compartment. You can filter the
 results by DRG or CPE.

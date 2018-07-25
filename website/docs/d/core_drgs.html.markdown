@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_core_drgs
-The Drgs data source allows access to the list of OCI drgs
+The `oci_core_drgs` data source allows access to the list of OCI drgs
 
 Lists the DRGs in the specified compartment.
 

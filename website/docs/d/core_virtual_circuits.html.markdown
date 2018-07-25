@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_core_virtual_circuits
-The VirtualCircuits data source allows access to the list of OCI virtual_circuits
+The `oci_core_virtual_circuits` data source allows access to the list of OCI virtual_circuits
 
 Lists the virtual circuits in the specified compartment.
 

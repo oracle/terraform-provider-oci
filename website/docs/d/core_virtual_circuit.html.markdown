@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_core_virtual_circuit
-The VirtualCircuit data source provides details about a specific VirtualCircuit
+The `oci_core_virtual_circuit` data source provides details about a specific VirtualCircuit
 
 Gets the specified virtual circuit's information.
 

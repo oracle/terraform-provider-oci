@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_core_private_ips
-The PrivateIps data source allows access to the list of OCI private_ips
+The `oci_core_private_ips` data source allows access to the list of OCI private_ips
 
 Lists the [PrivateIp](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/PrivateIp/) objects based
 on one of these filters:

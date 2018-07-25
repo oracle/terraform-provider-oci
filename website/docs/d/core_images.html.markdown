@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_core_images
-The Images data source allows access to the list of OCI images
+The `oci_core_images` data source allows access to the list of OCI images
 
 Lists the available images in the specified compartment.
 If you specify a value for the `sortBy` parameter, Oracle-provided images appear first in the list, followed by custom images.

@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_core_virtual_circuit_public_prefixes
-The VirtualCircuitPublicPrefixes data source allows access to the list of OCI virtual_circuit_public_prefixes
+The `oci_core_virtual_circuit_public_prefixes` data source allows access to the list of OCI virtual_circuit_public_prefixes
 
 Lists the public IP prefixes and their details for the specified
 public virtual circuit.

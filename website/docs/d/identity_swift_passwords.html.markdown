@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_identity_swift_passwords
-The SwiftPasswords data source allows access to the list of OCI swift_passwords
+The `oci_identity_swift_passwords` data source allows access to the list of OCI swift_passwords
 
 **Deprecated. Use [ListAuthTokens](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/identity/20160918/AuthToken/ListAuthTokens) instead.**
 

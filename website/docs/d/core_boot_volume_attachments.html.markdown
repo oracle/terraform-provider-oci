@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_core_boot_volume_attachments
-The BootVolumeAttachments data source allows access to the list of OCI boot_volume_attachments
+The `oci_core_boot_volume_attachments` data source allows access to the list of OCI boot_volume_attachments
 
 Lists the boot volume attachments in the specified compartment. You can filter the
 list by specifying an instance OCID, boot volume OCID, or both.

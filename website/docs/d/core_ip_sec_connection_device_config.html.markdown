@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_core_ipsec_config
-The IpSecConnectionDeviceConfig data source provides details about a specific IpSecConnectionDeviceConfig
+The `oci_core_ipsec_config` data source provides details about a specific IpSecConnectionDeviceConfig
 
 Gets the configuration information for the specified IPSec connection. For each tunnel, the
 response includes the IP address of Oracle's VPN headend and the shared secret.

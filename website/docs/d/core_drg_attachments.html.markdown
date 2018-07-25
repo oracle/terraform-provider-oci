@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_core_drg_attachments
-The DrgAttachments data source allows access to the list of OCI drg_attachments
+The `oci_core_drg_attachments` data source allows access to the list of OCI drg_attachments
 
 Lists the `DrgAttachment` objects for the specified compartment. You can filter the
 results by VCN or DRG.

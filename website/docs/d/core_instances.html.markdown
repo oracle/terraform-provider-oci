@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_core_instances
-The Instances data source allows access to the list of OCI instances
+The `oci_core_instances` data source allows access to the list of OCI instances
 
 Lists the instances in the specified compartment and the specified Availability Domain.
 You can filter the results by specifying an instance name (the list will include all the identically-named

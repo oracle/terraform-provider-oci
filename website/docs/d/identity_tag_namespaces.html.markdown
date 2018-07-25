@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_identity_tag_namespaces
-The TagNamespaces data source allows access to the list of OCI tag_namespaces
+The `oci_identity_tag_namespaces` data source allows access to the list of OCI tag_namespaces
 
 Lists the tag namespaces in the specified compartment.
 

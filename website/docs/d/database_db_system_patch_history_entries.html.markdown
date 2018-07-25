@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_database_db_system_patch_history_entries
-The DbSystemPatchHistoryEntries data source allows access to the list of OCI db_system_patch_history_entries
+The `oci_database_db_system_patch_history_entries` data source allows access to the list of OCI db_system_patch_history_entries
 
 Gets the history of the patch actions performed on the specified DB System.
 

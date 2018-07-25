@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_identity_identity_providers
-The IdentityProviders data source allows access to the list of OCI identity_providers
+The `oci_identity_identity_providers` data source allows access to the list of OCI identity_providers
 
 Lists all the identity providers in your tenancy. You must specify the identity provider type (e.g., `SAML2` for
 identity providers using the SAML2.0 protocol). You must specify your tenancy's OCID as the value for the

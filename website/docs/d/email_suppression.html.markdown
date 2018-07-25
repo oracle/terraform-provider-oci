@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_email_suppression
-The Suppression data source provides details about a specific Suppression
+The `oci_email_suppression` data source provides details about a specific Suppression
 
 Gets the details of a suppressed recipient email address for a given
 `suppressionId`. Each suppression is given a unique OCID.

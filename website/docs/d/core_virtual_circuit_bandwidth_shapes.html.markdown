@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_core_virtual_circuit_bandwidth_shapes
-The VirtualCircuitBandwidthShapes data source allows access to the list of OCI virtual_circuit_bandwidth_shapes
+The `oci_core_virtual_circuit_bandwidth_shapes` data source allows access to the list of OCI virtual_circuit_bandwidth_shapes
 
 Gets the list of available virtual circuit bandwidth levels for a provider.
 You need this information so you can specify your desired bandwidth level (shape) when you create a virtual circuit.

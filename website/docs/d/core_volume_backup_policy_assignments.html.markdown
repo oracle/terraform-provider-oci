@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_core_volume_backup_policy_assignments
-The VolumeBackupPolicyAssignments data source allows access to the list of OCI volume_backup_policy_assignments
+The `oci_core_volume_backup_policy_assignments` data source allows access to the list of OCI volume_backup_policy_assignments
 
 Gets the volume backup policy assignment for the specified asset. Note that the
 assetId query parameter is required, and that the returned list will contain at most

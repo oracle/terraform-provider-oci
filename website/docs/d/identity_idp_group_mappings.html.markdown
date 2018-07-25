@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_identity_idp_group_mappings
-The IdpGroupMappings data source allows access to the list of OCI idp_group_mappings
+The `oci_identity_idp_group_mappings` data source allows access to the list of OCI idp_group_mappings
 
 Lists the group mappings for the specified identity provider.
 

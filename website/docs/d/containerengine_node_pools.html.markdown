@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_containerengine_node_pools
-The NodePools data source allows access to the list of OCI node_pools
+The `oci_containerengine_node_pools` data source allows access to the list of OCI node_pools
 
 List all the node pools in a compartment, and optionally filter by cluster.
 

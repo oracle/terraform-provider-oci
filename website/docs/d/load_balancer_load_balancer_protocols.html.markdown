@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_load_balancer_protocols
-The LoadBalancerProtocols data source allows access to the list of OCI load_balancer_protocols
+The `oci_load_balancer_protocols` data source allows access to the list of OCI load_balancer_protocols
 
 Lists all supported traffic protocols.
 

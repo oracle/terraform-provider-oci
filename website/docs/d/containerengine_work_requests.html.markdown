@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_containerengine_work_requests
-The WorkRequests data source allows access to the list of OCI work_requests
+The `oci_containerengine_work_requests` data source allows access to the list of OCI work_requests
 
 List all work requests in a compartment.
 

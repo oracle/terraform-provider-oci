@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_database_db_home
-The DbHome data source provides details about a specific DbHome
+The `oci_database_db_home` data source provides details about a specific DbHome
 
 Gets information about the specified database home.
 

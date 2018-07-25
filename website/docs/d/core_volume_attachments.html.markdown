@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_core_volume_attachments
-The VolumeAttachments data source allows access to the list of OCI volume_attachments
+The `oci_core_volume_attachments` data source allows access to the list of OCI volume_attachments
 
 Lists the volume attachments in the specified compartment. You can filter the
 list by specifying an instance OCID, volume OCID, or both.

@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_identity_tags
-The Tags data source allows access to the list of OCI tags
+The `oci_identity_tags` data source allows access to the list of OCI tags
 
 Lists the tag definitions in the specified tag namespace.
 

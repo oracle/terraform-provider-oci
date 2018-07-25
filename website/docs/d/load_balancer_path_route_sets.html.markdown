@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_load_balancer_path_route_sets
-The PathRouteSets data source allows access to the list of OCI path_route_sets
+The `oci_load_balancer_path_route_sets` data source allows access to the list of OCI path_route_sets
 
 Lists all path route sets associated with the specified load balancer.
 

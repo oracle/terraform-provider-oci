@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_core_cross_connect_port_speed_shapes
-The CrossConnectPortSpeedShapes data source allows access to the list of OCI cross_connect_port_speed_shapes
+The `oci_core_cross_connect_port_speed_shapes` data source allows access to the list of OCI cross_connect_port_speed_shapes
 
 Lists the available port speeds for cross-connects. You need this information
 so you can specify your desired port speed (that is, shape) when you create a
