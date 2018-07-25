@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_email_senders
-The Senders data source allows access to the list of OCI senders
+The `oci_email_senders` data source allows access to the list of OCI senders
 
 Gets a collection of approved sender email addresses and sender IDs.
 

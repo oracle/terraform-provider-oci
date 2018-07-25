@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_core_public_ips
-The PublicIps data source allows access to the list of OCI public_ips
+The `oci_core_public_ips` data source allows access to the list of OCI public_ips
 
 Lists either the ephemeral or reserved [PublicIp](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/PublicIp/) objects
 in the specified compartment.

@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_core_cpes
-The Cpes data source allows access to the list of OCI cpes
+The `oci_core_cpes` data source allows access to the list of OCI cpes
 
 Lists the Customer-Premises Equipment objects (CPEs) in the specified compartment.
 

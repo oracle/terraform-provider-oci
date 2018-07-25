@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_identity_user_group_memberships
-The UserGroupMemberships data source allows access to the list of OCI user_group_memberships
+The `oci_identity_user_group_memberships` data source allows access to the list of OCI user_group_memberships
 
 Lists the `UserGroupMembership` objects in your tenancy. You must specify your tenancy's OCID
 as the value for the compartment ID

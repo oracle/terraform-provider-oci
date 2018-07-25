@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_objectstorage_preauthenticated_requests"
+page_title: "OCI: oci_objectstorage_preauthrequests"
 sidebar_current: "docs-oci-datasource-object_storage-preauthenticated_requests"
 description: |-
   Provides a list of PreauthenticatedRequests
 ---
 
-# Data Source: oci_objectstorage_preauthenticated_requests
-The PreauthenticatedRequests data source allows access to the list of OCI preauthenticated_requests
+# Data Source: oci_objectstorage_preauthrequests
+The `oci_objectstorage_preauthrequests` data source allows access to the list of OCI preauthenticated_requests
 
 Lists pre-authenticated requests for the bucket.
 
@@ -15,7 +15,7 @@ Lists pre-authenticated requests for the bucket.
 ## Example Usage
 
 ```hcl
-data "oci_objectstorage_preauthenticated_requests" "test_preauthenticated_requests" {
+data "oci_objectstorage_preauthrequests" "test_preauthenticated_requests" {
 	#Required
 	bucket = "${var.preauthenticated_request_bucket}"
 	namespace = "${var.preauthenticated_request_namespace}"

@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_database_db_system_shapes
-The DbSystemShapes data source allows access to the list of OCI db_system_shapes
+The `oci_database_db_system_shapes` data source allows access to the list of OCI db_system_shapes
 
 Gets a list of the shapes that can be used to launch a new DB System. The shape determines resources to allocate to the DB system - CPU cores and memory for VM shapes; CPU cores, memory and storage for non-VM (or bare metal) shapes.
 

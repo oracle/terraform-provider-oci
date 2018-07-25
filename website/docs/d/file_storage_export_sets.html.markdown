@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_file_storage_export_sets
-The ExportSets data source allows access to the list of OCI export_sets
+The `oci_file_storage_export_sets` data source allows access to the list of OCI export_sets
 
 Lists the export set resources in the specified compartment.
 

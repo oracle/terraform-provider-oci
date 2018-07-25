@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_file_storage_file_systems
-The FileSystems data source allows access to the list of OCI file_systems
+The `oci_file_storage_file_systems` data source allows access to the list of OCI file_systems
 
 Lists the file system resources in the specified compartment.
 

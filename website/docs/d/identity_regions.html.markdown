@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_identity_regions
-The Regions data source allows access to the list of OCI regions
+The `oci_identity_regions` data source allows access to the list of OCI regions
 
 Lists all the regions offered by Oracle Cloud Infrastructure.
 

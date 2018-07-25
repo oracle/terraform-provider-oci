@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_core_vnic
-The Vnic data source provides details about a specific Vnic
+The `oci_core_vnic` data source provides details about a specific Vnic
 
 Gets the information for the specified virtual network interface card (VNIC).
 You can get the VNIC OCID from the

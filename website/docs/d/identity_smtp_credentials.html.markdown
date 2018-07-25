@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_identity_smtp_credentials
-The SmtpCredentials data source allows access to the list of OCI smtp_credentials
+The `oci_identity_smtp_credentials` data source allows access to the list of OCI smtp_credentials
 
 Lists the SMTP credentials for the specified user. The returned object contains the credential's OCID, 
 the SMTP user name but not the SMTP password. The SMTP password is returned only upon creation.

@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_core_fast_connect_provider_services
-The FastConnectProviderServices data source allows access to the list of OCI fast_connect_provider_services
+The `oci_core_fast_connect_provider_services` data source allows access to the list of OCI fast_connect_provider_services
 
 Lists the service offerings from supported providers. You need this
 information so you can specify your desired provider and service

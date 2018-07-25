@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_core_subnets
-The Subnets data source allows access to the list of OCI subnets
+The `oci_core_subnets` data source allows access to the list of OCI subnets
 
 Lists the subnets in the specified VCN and the specified compartment.
 

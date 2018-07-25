@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_core_security_lists
-The SecurityLists data source allows access to the list of OCI security_lists
+The `oci_core_security_lists` data source allows access to the list of OCI security_lists
 
 Lists the security lists in the specified VCN and compartment.
 

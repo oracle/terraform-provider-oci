@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_core_console_histories
-The ConsoleHistories data source allows access to the list of OCI console_histories
+The `oci_core_console_histories` data source allows access to the list of OCI console_histories
 
 Lists the console history metadata for the specified compartment or instance.
 

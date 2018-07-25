@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_email_sender
-The Sender data source provides details about a specific Sender
+The `oci_email_sender` data source provides details about a specific Sender
 
 Gets an approved sender for a given `senderId`.
 

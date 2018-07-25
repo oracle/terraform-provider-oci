@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_load_balancer_certificates
-The Certificates data source allows access to the list of OCI certificates
+The `oci_load_balancer_certificates` data source allows access to the list of OCI certificates
 
 Lists all SSL certificates bundles associated with a given load balancer.
 

@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_database_db_node
-The DbNode data source provides details about a specific DbNode
+The `oci_database_db_node` data source provides details about a specific DbNode
 
 Gets information about the specified database node.
 

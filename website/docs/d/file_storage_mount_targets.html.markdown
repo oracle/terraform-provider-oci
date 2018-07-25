@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_file_storage_mount_targets
-The MountTargets data source allows access to the list of OCI mount_targets
+The `oci_file_storage_mount_targets` data source allows access to the list of OCI mount_targets
 
 Lists the mount target resources in the specified compartment.
 

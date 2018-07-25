@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_core_volume_groups
-The VolumeGroups data source allows access to the list of OCI volume_groups
+The `oci_core_volume_groups` data source allows access to the list of OCI volume_groups
 
 Lists the volume groups in the specified compartment and Availability Domain.
 

@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_load_balancer_health
-The LoadBalancerHealth data source provides details about a specific LoadBalancerHealth
+The `oci_load_balancer_health` data source provides details about a specific LoadBalancerHealth
 
 Gets the health status for the specified load balancer.
 

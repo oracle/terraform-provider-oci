@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_object_storage_buckets"
+page_title: "OCI: oci_objectstorage_bucketsummaries"
 sidebar_current: "docs-oci-datasource-object_storage-buckets"
 description: |-
   Provides a list of Buckets
 ---
 
 # Data Source: oci_objectstorage_bucketsummaries
-The BucketSummaries data source allows access to the list of OCI buckets
+The `oci_objectstorage_bucketsummaries` data source allows access to the list of OCI buckets
 
 Gets a list of all `BucketSummary`s in a compartment. A `BucketSummary` contains only summary fields for the bucket
 and does not contain fields like the user-defined metadata.

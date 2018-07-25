@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_containerengine_work_request_log_entries
-The WorkRequestLogEntries data source allows access to the list of OCI work_request_log_entries
+The `oci_containerengine_work_request_log_entries` data source allows access to the list of OCI work_request_log_entries
 
 Get the logs of a work request.
 

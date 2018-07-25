@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_load_balancer_policies
-The LoadBalancerPolicies data source allows access to the list of OCI load_balancer_policies
+The `oci_load_balancer_policies` data source allows access to the list of OCI load_balancer_policies
 
 Lists the available load balancer policies.
 

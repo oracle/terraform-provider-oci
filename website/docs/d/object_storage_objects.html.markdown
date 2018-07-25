@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_object_storage_objects
-The Objects data source allows access to the list of OCI objects
+The `oci_object_storage_objects` data source allows access to the list of OCI objects
 
 Lists the objects in a bucket.
 

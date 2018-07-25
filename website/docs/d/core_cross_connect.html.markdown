@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_core_cross_connect
-The CrossConnect data source provides details about a specific CrossConnect
+The `oci_core_cross_connect` data source provides details about a specific CrossConnect
 
 Gets the specified cross-connect's information.
 

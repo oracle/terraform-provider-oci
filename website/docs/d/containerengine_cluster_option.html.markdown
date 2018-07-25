@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_containerengine_cluster_option
-The ClusterOption data source provides details about a specific ClusterOption
+The `oci_containerengine_cluster_option` data source provides details about a specific ClusterOption
 
 Get options available for clusters.
 

@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_core_volumes
-The Volumes data source allows access to the list of OCI volumes
+The `oci_core_volumes` data source allows access to the list of OCI volumes
 
 Lists the volumes in the specified compartment and Availability Domain.
 

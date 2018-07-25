@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_database_db_system_patches
-The DbSystemPatches data source allows access to the list of OCI db_system_patches
+The `oci_database_db_system_patches` data source allows access to the list of OCI db_system_patches
 
 Lists the patches applicable to the requested DB System.
 

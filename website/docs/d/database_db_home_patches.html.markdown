@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_database_db_home_patches
-The DbHomePatches data source allows access to the list of OCI db_home_patches
+The `oci_database_db_home_patches` data source allows access to the list of OCI db_home_patches
 
 Lists patches applicable to the requested database home.
 

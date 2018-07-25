@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_objectstorage_preauthrequest
-The PreauthenticatedRequest data source provides details about a specific PreauthenticatedRequest
+The `oci_objectstorage_preauthrequest` data source provides details about a specific PreauthenticatedRequest
 
 Gets the pre-authenticated request for the bucket.
 

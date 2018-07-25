@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_core_cross_connect_locations
-The CrossConnectLocations data source allows access to the list of OCI cross_connect_locations
+The `oci_core_cross_connect_locations` data source allows access to the list of OCI cross_connect_locations
 
 Lists the available FastConnect locations for cross-connect installation. You need
 this information so you can specify your desired location when you create a cross-connect.

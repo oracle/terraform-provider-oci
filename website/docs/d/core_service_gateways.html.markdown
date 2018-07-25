@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_core_service_gateways
-The ServiceGateways data source allows access to the list of OCI service_gateways
+The `oci_core_service_gateways` data source allows access to the list of OCI service_gateways
 
 Lists the service gateways in the specified compartment. You may optionally specify a VCN OCID
 to filter the results by VCN.

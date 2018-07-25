@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_objectstorage_namespace
-The Namespace data source provides details about a specific Namespace
+The `oci_objectstorage_namespace` data source provides details about a specific Namespace
 
 Namespaces are unique. Namespaces are either the tenancy name or a random string automatically generated during
 account creation. You cannot edit a namespace.

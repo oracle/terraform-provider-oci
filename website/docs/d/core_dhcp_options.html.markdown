@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_core_dhcp_options
-The DhcpOptions data source allows access to the list of OCI dhcp_options
+The `oci_core_dhcp_options` data source allows access to the list of OCI dhcp_options
 
 Lists the sets of DHCP options in the specified VCN and specified compartment.
 The response includes the default set of options that automatically comes with each VCN,

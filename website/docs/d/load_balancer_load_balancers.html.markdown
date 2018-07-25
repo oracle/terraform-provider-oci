@@ -8,7 +8,7 @@ description: |-
 
 # Data Source: oci_load_balancer_load_balancers
 `oci_load_balancers` is the old name for `oci_load_balancer_load_balancers`. Both names are supported but `oci_load_balancer_load_balancers` is used in the docs.
-The LoadBalancers data source allows access to the list of OCI load_balancers
+The `oci_load_balancer_load_balancers` data source allows access to the list of OCI load_balancers
 
 Lists all load balancers in the specified compartment.
 

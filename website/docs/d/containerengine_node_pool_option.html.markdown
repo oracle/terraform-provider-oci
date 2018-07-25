@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_containerengine_node_pool_option
-The NodePoolOption data source provides details about a specific NodePoolOption
+The `oci_containerengine_node_pool_option` data source provides details about a specific NodePoolOption
 
 Get options available for node pools.
 

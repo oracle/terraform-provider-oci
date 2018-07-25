@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_database_db_systems
-The DbSystems data source allows access to the list of OCI db_systems
+The `oci_database_db_systems` data source allows access to the list of OCI db_systems
 
 Gets a list of the DB Systems in the specified compartment. You can specify a backupId to list only the DB Systems that support creating a database using this backup in this compartment.
     

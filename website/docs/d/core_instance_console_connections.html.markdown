@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_core_instance_console_connections
-The InstanceConsoleConnections data source allows access to the list of OCI instance_console_connections
+The `oci_core_instance_console_connections` data source allows access to the list of OCI instance_console_connections
 
 Lists the console connections for the specified compartment or instance.
 

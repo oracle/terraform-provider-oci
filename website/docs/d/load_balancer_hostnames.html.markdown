@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_load_balancer_hostnames
-The Hostnames data source allows access to the list of OCI hostnames
+The `oci_load_balancer_hostnames` data source allows access to the list of OCI hostnames
 
 Lists all hostname resources associated with the specified load balancer.
 

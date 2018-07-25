@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_core_ipsec_status
-The IpSecConnectionDeviceStatus data source provides details about a specific IpSecConnectionDeviceStatus
+The `oci_core_ipsec_status` data source provides details about a specific IpSecConnectionDeviceStatus
 
 Gets the status of the specified IPSec connection (whether it's up or down).
 

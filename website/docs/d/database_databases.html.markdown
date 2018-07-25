@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_database_databases
-The Databases data source allows access to the list of OCI databases
+The `oci_database_databases` data source allows access to the list of OCI databases
 
 Gets a list of the databases in the specified database home.
 

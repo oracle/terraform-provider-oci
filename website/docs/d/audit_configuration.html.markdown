@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_audit_configuration
-The Configuration data source provides details about a specific Configuration
+The `oci_audit_configuration` data source provides details about a specific Configuration
 
 Get the configuration
 

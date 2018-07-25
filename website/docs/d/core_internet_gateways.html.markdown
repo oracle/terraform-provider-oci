@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_core_internet_gateways
-The InternetGateways data source allows access to the list of OCI internet_gateways
+The `oci_core_internet_gateways` data source allows access to the list of OCI internet_gateways
 
 Lists the Internet Gateways in the specified VCN and the specified compartment.
 

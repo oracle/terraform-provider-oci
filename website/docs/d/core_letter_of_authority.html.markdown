@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_core_letter_of_authority
-The LetterOfAuthority data source provides details about a specific LetterOfAuthority
+The `oci_core_letter_of_authority` data source provides details about a specific LetterOfAuthority
 
 Gets the Letter of Authority for the specified cross-connect.
 

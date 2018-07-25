@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_email_suppressions
-The Suppressions data source allows access to the list of OCI suppressions
+The `oci_email_suppressions` data source allows access to the list of OCI suppressions
 
 Gets a list of suppressed recipient email addresses for a user. The
 `compartmentId` for suppressions must be a tenancy OCID. The returned list

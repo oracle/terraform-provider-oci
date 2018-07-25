@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_identity_availability_domains
-The AvailabilityDomains data source allows access to the list of OCI availability_domains
+The `oci_identity_availability_domains` data source allows access to the list of OCI availability_domains
 
 Lists the Availability Domains in your tenancy. Specify the OCID of either the tenancy or another
 of your compartments as the value for the compartment ID (remember that the tenancy is simply the root compartment).

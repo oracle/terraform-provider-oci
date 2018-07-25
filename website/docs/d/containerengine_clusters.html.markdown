@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_containerengine_clusters
-The Clusters data source allows access to the list of OCI clusters
+The `oci_containerengine_clusters` data source allows access to the list of OCI clusters
 
 List all the cluster objects in a compartment.
 

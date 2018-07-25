@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_database_db_nodes
-The DbNodes data source allows access to the list of OCI db_nodes
+The `oci_database_db_nodes` data source allows access to the list of OCI db_nodes
 
 Gets a list of database nodes in the specified DB System and compartment. A database node is a server running database software.
 

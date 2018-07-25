@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_load_balancer_backend_health
-The BackendHealth data source provides details about a specific BackendHealth
+The `oci_load_balancer_backend_health` data source provides details about a specific BackendHealth
 
 Gets the current health status of the specified backend server.
 

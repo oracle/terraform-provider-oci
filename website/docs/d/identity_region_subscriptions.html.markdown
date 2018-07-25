@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_identity_region_subscriptions
-The RegionSubscriptions data source allows access to the list of OCI region_subscriptions
+The `oci_identity_region_subscriptions` data source allows access to the list of OCI region_subscriptions
 
 Lists the region subscriptions for the specified tenancy.
 

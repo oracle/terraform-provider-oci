@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_core_services
-The Services data source allows access to the list of OCI services
+The `oci_core_services` data source allows access to the list of OCI services
 
 Lists the available services that you can access through a service gateway in this region.
 

@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_core_vnic_attachments
-The VnicAttachments data source allows access to the list of OCI vnic_attachments
+The `oci_core_vnic_attachments` data source allows access to the list of OCI vnic_attachments
 
 Lists the VNIC attachments in the specified compartment. A VNIC attachment
 resides in the same compartment as the attached instance. The list can be

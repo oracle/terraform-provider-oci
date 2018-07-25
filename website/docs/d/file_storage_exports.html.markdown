@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_file_storage_exports
-The Exports data source allows access to the list of OCI exports
+The `oci_file_storage_exports` data source allows access to the list of OCI exports
 
 Lists export resources by compartment, file system, or export
 set. You must specify an export set ID, a file system ID, and

@@ -7,7 +7,7 @@ description: |-
 ---
 
 # Data Source: oci_core_boot_volumes
-The BootVolumes data source allows access to the list of OCI boot_volumes
+The `oci_core_boot_volumes` data source allows access to the list of OCI boot_volumes
 
 Lists the boot volumes in the specified compartment and Availability Domain.
 
