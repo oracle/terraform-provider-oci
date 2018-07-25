@@ -140,9 +140,9 @@ func (s *SubnetsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *SubnetsDataSourceCrud) SetData() {
+func (s *SubnetsDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -220,8 +220,8 @@ func (s *SubnetsDataSourceCrud) SetData() {
 	}
 
 	if err := s.D.Set("subnets", resources); err != nil {
-		panic(err)
+		return err
 	}
 
-	return
+	return nil
 }

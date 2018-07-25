@@ -268,7 +268,7 @@ func (s *VcnResourceCrud) Delete() error {
 	return err
 }
 
-func (s *VcnResourceCrud) SetData() {
+func (s *VcnResourceCrud) SetData() error {
 	if s.Res.CidrBlock != nil {
 		s.D.Set("cidr_block", *s.Res.CidrBlock)
 	}
@@ -313,4 +313,5 @@ func (s *VcnResourceCrud) SetData() {
 		s.D.Set("vcn_domain_name", *s.Res.VcnDomainName)
 	}
 
+	return nil
 }

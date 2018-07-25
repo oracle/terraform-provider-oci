@@ -252,7 +252,7 @@ func (s *MountTargetResourceCrud) Delete() error {
 	return err
 }
 
-func (s *MountTargetResourceCrud) SetData() {
+func (s *MountTargetResourceCrud) SetData() error {
 	if s.Res.AvailabilityDomain != nil {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
 	}
@@ -285,4 +285,5 @@ func (s *MountTargetResourceCrud) SetData() {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
 
+	return nil
 }

@@ -96,9 +96,9 @@ func (s *PrivateIpsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *PrivateIpsDataSourceCrud) SetData() {
+func (s *PrivateIpsDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -161,8 +161,8 @@ func (s *PrivateIpsDataSourceCrud) SetData() {
 	}
 
 	if err := s.D.Set("private_ips", resources); err != nil {
-		panic(err)
+		return err
 	}
 
-	return
+	return nil
 }

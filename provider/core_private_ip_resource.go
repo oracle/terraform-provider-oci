@@ -249,7 +249,7 @@ func (s *PrivateIpResourceCrud) Delete() error {
 	return err
 }
 
-func (s *PrivateIpResourceCrud) SetData() {
+func (s *PrivateIpResourceCrud) SetData() error {
 	if s.Res.AvailabilityDomain != nil {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
 	}
@@ -292,4 +292,5 @@ func (s *PrivateIpResourceCrud) SetData() {
 		s.D.Set("vnic_id", *s.Res.VnicId)
 	}
 
+	return nil
 }

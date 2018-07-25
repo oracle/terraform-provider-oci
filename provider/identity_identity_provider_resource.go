@@ -232,7 +232,7 @@ func (s *IdentityProviderResourceCrud) Delete() error {
 	return err
 }
 
-func (s *IdentityProviderResourceCrud) SetData() {
+func (s *IdentityProviderResourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -265,6 +265,7 @@ func (s *IdentityProviderResourceCrud) SetData() {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
 
+	return nil
 }
 
 func (s *IdentityProviderResourceCrud) populateTopLevelPolymorphicCreateIdentityProviderRequest(request *oci_identity.CreateIdentityProviderRequest) error {

@@ -66,9 +66,9 @@ func (s *PathRouteSetsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *PathRouteSetsDataSourceCrud) SetData() {
+func (s *PathRouteSetsDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -95,8 +95,8 @@ func (s *PathRouteSetsDataSourceCrud) SetData() {
 	}
 
 	if err := s.D.Set("path_route_sets", resources); err != nil {
-		panic(err)
+		return err
 	}
 
-	return
+	return nil
 }

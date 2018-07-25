@@ -96,9 +96,9 @@ func (s *RegionSubscriptionsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *RegionSubscriptionsDataSourceCrud) SetData() {
+func (s *RegionSubscriptionsDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -129,8 +129,8 @@ func (s *RegionSubscriptionsDataSourceCrud) SetData() {
 	}
 
 	if err := s.D.Set("region_subscriptions", resources); err != nil {
-		panic(err)
+		return err
 	}
 
-	return
+	return nil
 }

@@ -78,9 +78,9 @@ func (s *LoadBalancerPoliciesDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *LoadBalancerPoliciesDataSourceCrud) SetData() {
+func (s *LoadBalancerPoliciesDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -101,8 +101,8 @@ func (s *LoadBalancerPoliciesDataSourceCrud) SetData() {
 	}
 
 	if err := s.D.Set("policies", resources); err != nil {
-		panic(err)
+		return err
 	}
 
-	return
+	return nil
 }

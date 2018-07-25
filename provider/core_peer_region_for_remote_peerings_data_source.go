@@ -69,9 +69,9 @@ func (s *PeerRegionForRemotePeeringsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *PeerRegionForRemotePeeringsDataSourceCrud) SetData() {
+func (s *PeerRegionForRemotePeeringsDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -92,8 +92,8 @@ func (s *PeerRegionForRemotePeeringsDataSourceCrud) SetData() {
 	}
 
 	if err := s.D.Set("peer_region_for_remote_peerings", resources); err != nil {
-		panic(err)
+		return err
 	}
 
-	return
+	return nil
 }

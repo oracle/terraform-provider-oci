@@ -90,9 +90,9 @@ func (s *VirtualCircuitPublicPrefixesDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *VirtualCircuitPublicPrefixesDataSourceCrud) SetData() {
+func (s *VirtualCircuitPublicPrefixesDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -115,8 +115,8 @@ func (s *VirtualCircuitPublicPrefixesDataSourceCrud) SetData() {
 	}
 
 	if err := s.D.Set("virtual_circuit_public_prefixes", resources); err != nil {
-		panic(err)
+		return err
 	}
 
-	return
+	return nil
 }

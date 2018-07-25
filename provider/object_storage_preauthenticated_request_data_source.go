@@ -99,9 +99,9 @@ func (s *PreauthenticatedRequestDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *PreauthenticatedRequestDataSourceCrud) SetData() {
+func (s *PreauthenticatedRequestDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(*s.Res.Id)
@@ -124,5 +124,5 @@ func (s *PreauthenticatedRequestDataSourceCrud) SetData() {
 		s.D.Set("time_expires", s.Res.TimeExpires.String())
 	}
 
-	return
+	return nil
 }

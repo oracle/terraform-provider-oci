@@ -113,9 +113,9 @@ func (s *FileSystemsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *FileSystemsDataSourceCrud) SetData() {
+func (s *FileSystemsDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -153,8 +153,8 @@ func (s *FileSystemsDataSourceCrud) SetData() {
 	}
 
 	if err := s.D.Set("file_systems", resources); err != nil {
-		panic(err)
+		return err
 	}
 
-	return
+	return nil
 }

@@ -78,9 +78,9 @@ func (s *LoadBalancerProtocolsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *LoadBalancerProtocolsDataSourceCrud) SetData() {
+func (s *LoadBalancerProtocolsDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -101,8 +101,8 @@ func (s *LoadBalancerProtocolsDataSourceCrud) SetData() {
 	}
 
 	if err := s.D.Set("protocols", resources); err != nil {
-		panic(err)
+		return err
 	}
 
-	return
+	return nil
 }

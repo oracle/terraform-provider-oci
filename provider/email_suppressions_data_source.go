@@ -114,9 +114,9 @@ func (s *SuppressionsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *SuppressionsDataSourceCrud) SetData() {
+func (s *SuppressionsDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -147,8 +147,8 @@ func (s *SuppressionsDataSourceCrud) SetData() {
 	}
 
 	if err := s.D.Set("suppressions", resources); err != nil {
-		panic(err)
+		return err
 	}
 
-	return
+	return nil
 }

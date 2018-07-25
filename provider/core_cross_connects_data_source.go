@@ -104,9 +104,9 @@ func (s *CrossConnectsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *CrossConnectsDataSourceCrud) SetData() {
+func (s *CrossConnectsDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -155,8 +155,8 @@ func (s *CrossConnectsDataSourceCrud) SetData() {
 	}
 
 	if err := s.D.Set("cross_connects", resources); err != nil {
-		panic(err)
+		return err
 	}
 
-	return
+	return nil
 }

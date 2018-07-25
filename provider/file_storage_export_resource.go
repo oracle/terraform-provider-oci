@@ -172,7 +172,7 @@ func (s *ExportResourceCrud) Delete() error {
 	return err
 }
 
-func (s *ExportResourceCrud) SetData() {
+func (s *ExportResourceCrud) SetData() error {
 	if s.Res.ExportSetId != nil {
 		s.D.Set("export_set_id", *s.Res.ExportSetId)
 	}
@@ -191,4 +191,5 @@ func (s *ExportResourceCrud) SetData() {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
 
+	return nil
 }

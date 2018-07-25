@@ -211,7 +211,7 @@ func (s *DrgAttachmentResourceCrud) Delete() error {
 	return err
 }
 
-func (s *DrgAttachmentResourceCrud) SetData() {
+func (s *DrgAttachmentResourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -234,4 +234,5 @@ func (s *DrgAttachmentResourceCrud) SetData() {
 		s.D.Set("vcn_id", *s.Res.VcnId)
 	}
 
+	return nil
 }

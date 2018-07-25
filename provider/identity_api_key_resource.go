@@ -195,7 +195,7 @@ func (s *ApiKeyResourceCrud) Delete() error {
 	return err
 }
 
-func (s *ApiKeyResourceCrud) SetData() {
+func (s *ApiKeyResourceCrud) SetData() error {
 	if s.Res.Fingerprint != nil {
 		s.D.Set("fingerprint", *s.Res.Fingerprint)
 	}
@@ -218,4 +218,5 @@ func (s *ApiKeyResourceCrud) SetData() {
 		s.D.Set("user_id", *s.Res.UserId)
 	}
 
+	return nil
 }

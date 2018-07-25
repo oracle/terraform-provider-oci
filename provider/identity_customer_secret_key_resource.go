@@ -224,7 +224,7 @@ func (s *CustomerSecretKeyResourceCrud) Delete() error {
 	return err
 }
 
-func (s *CustomerSecretKeyResourceCrud) SetData() {
+func (s *CustomerSecretKeyResourceCrud) SetData() error {
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
@@ -251,6 +251,7 @@ func (s *CustomerSecretKeyResourceCrud) SetData() {
 		s.D.Set("user_id", *s.Res.UserId)
 	}
 
+	return nil
 }
 
 func fromCustomerSecretKeySummary(summary oci_identity.CustomerSecretKeySummary) *oci_identity.CustomerSecretKey {

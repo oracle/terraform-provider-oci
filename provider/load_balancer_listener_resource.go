@@ -432,9 +432,9 @@ func (s *ListenerResourceCrud) Delete() error {
 	return nil
 }
 
-func (s *ListenerResourceCrud) SetData() {
+func (s *ListenerResourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	if s.Res.ConnectionConfiguration != nil {
@@ -465,6 +465,8 @@ func (s *ListenerResourceCrud) SetData() {
 	} else {
 		s.D.Set("ssl_configuration", []interface{}{})
 	}
+
+	return nil
 }
 
 func mapToConnectionConfiguration(raw map[string]interface{}) oci_load_balancer.ConnectionConfiguration {

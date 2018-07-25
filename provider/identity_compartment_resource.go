@@ -280,7 +280,7 @@ func (s *CompartmentResourceCrud) Delete() error {
 	return nil
 }
 
-func (s *CompartmentResourceCrud) SetData() {
+func (s *CompartmentResourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -309,4 +309,5 @@ func (s *CompartmentResourceCrud) SetData() {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
 
+	return nil
 }

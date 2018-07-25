@@ -66,9 +66,9 @@ func (s *ApiKeysDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *ApiKeysDataSourceCrud) SetData() {
+func (s *ApiKeysDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -109,8 +109,8 @@ func (s *ApiKeysDataSourceCrud) SetData() {
 	}
 
 	if err := s.D.Set("api_keys", resources); err != nil {
-		panic(err)
+		return err
 	}
 
-	return
+	return nil
 }

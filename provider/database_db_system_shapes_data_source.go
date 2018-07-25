@@ -143,9 +143,9 @@ func (s *DbSystemShapesDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *DbSystemShapesDataSourceCrud) SetData() {
+func (s *DbSystemShapesDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -190,8 +190,8 @@ func (s *DbSystemShapesDataSourceCrud) SetData() {
 	}
 
 	if err := s.D.Set("db_system_shapes", resources); err != nil {
-		panic(err)
+		return err
 	}
 
-	return
+	return nil
 }

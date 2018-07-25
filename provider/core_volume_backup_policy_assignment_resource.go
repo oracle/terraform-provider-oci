@@ -134,7 +134,7 @@ func (s *VolumeBackupPolicyAssignmentResourceCrud) Delete() error {
 	return err
 }
 
-func (s *VolumeBackupPolicyAssignmentResourceCrud) SetData() {
+func (s *VolumeBackupPolicyAssignmentResourceCrud) SetData() error {
 	if s.Res.AssetId != nil {
 		s.D.Set("asset_id", *s.Res.AssetId)
 	}
@@ -147,4 +147,5 @@ func (s *VolumeBackupPolicyAssignmentResourceCrud) SetData() {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
 
+	return nil
 }

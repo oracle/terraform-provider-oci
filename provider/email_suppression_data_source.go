@@ -73,9 +73,9 @@ func (s *SuppressionDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *SuppressionDataSourceCrud) SetData() {
+func (s *SuppressionDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(*s.Res.Id)
@@ -90,5 +90,5 @@ func (s *SuppressionDataSourceCrud) SetData() {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
 
-	return
+	return nil
 }

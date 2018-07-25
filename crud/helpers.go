@@ -74,7 +74,7 @@ func (s *BaseCrud) setState(sync StatefulResource) error {
 		}
 	}
 
-	panic("Could not set resource state, sync did not have a valid .Res.State, .Resource.State, or .WorkRequest.State")
+	return fmt.Errorf("Could not set resource state, sync did not have a valid .Res.State, .Resource.State, or .WorkRequest.State")
 }
 
 // Default implementation pulls state off of the schema
@@ -168,8 +168,7 @@ func LoadBalancerResourceGet(client *oci_load_balancer.LoadBalancerClient, d *sc
 	return id, false, nil
 }
 
-func LoadBalancerWaitForWorkRequest(client *oci_load_balancer.LoadBalancerClient, d *schema.ResourceData, wr *oci_load_balancer.WorkRequest, retryPolicy *oci_common.RetryPolicy) error {
-	var e error
+func LoadBalancerWaitForWorkRequest(client *oci_load_balancer.LoadBalancerClient, d *schema.ResourceData, wr *oci_load_balancer.WorkRequest, retryPolicy *oci_common.RetryPolicy) (e error) {
 	stateConf := &resource.StateChangeConf{
 		Pending: []string{
 			string(oci_load_balancer.WorkRequestLifecycleStateInProgress),
@@ -222,13 +221,15 @@ func CreateDBSystemResource(d *schema.ResourceData, sync ResourceCreator) (e err
 	}
 
 	d.SetId(sync.ID())
-	sync.SetData()
+	if e = sync.SetData(); e != nil {
+		return e
+	}
 
 	if ew, waitOK := sync.(ExtraWaitPostCreateDelete); waitOK {
 		time.Sleep(ew.ExtraWaitPostCreateDelete())
 	}
 
-	return
+	return nil
 }
 
 func CreateResource(d *schema.ResourceData, sync ResourceCreator) (e error) {
@@ -252,40 +253,44 @@ func CreateResource(d *schema.ResourceData, sync ResourceCreator) (e error) {
 			// Remove resource from state if asynchronous work request has failed so that it is recreated on next apply
 			// TODO: automatic retry on WorkRequestFailed
 			sync.VoidState()
-			return
+			return nil
 		}
 	}
 
 	d.SetId(sync.ID())
-	sync.SetData()
+	if e = sync.SetData(); e != nil {
+		return e
+	}
 
 	if ew, waitOK := sync.(ExtraWaitPostCreateDelete); waitOK {
 		time.Sleep(ew.ExtraWaitPostCreateDelete())
 	}
 
-	return
+	return nil
 }
 
 func ReadResource(sync ResourceReader) (e error) {
 	if e = sync.Get(); e != nil {
 		log.Printf("ERROR IN GET: %v\n", e.Error())
 		handleMissingResourceError(sync, &e)
-		return
+		return e
 	}
 
-	sync.SetData()
+	if e = sync.SetData(); e != nil {
+		return e
+	}
 
 	// Remove resource from state if it has been terminated so that it is recreated on next apply
 	if dr, ok := sync.(StatefullyDeletedResource); ok {
 		for _, target := range dr.DeletedTarget() {
 			if dr.State() == target && dr.State() != string(oci_load_balancer.WorkRequestLifecycleStateSucceeded) {
 				dr.VoidState()
-				return
+				return nil
 			}
 		}
 	}
 
-	return
+	return nil
 }
 
 func UpdateResource(d *schema.ResourceData, sync ResourceUpdater) (e error) {
@@ -298,7 +303,7 @@ func UpdateResource(d *schema.ResourceData, sync ResourceUpdater) (e error) {
 
 	d.Partial(true)
 	if e = sync.Update(); e != nil {
-		return
+		return e
 	}
 	d.Partial(false)
 
@@ -306,9 +311,11 @@ func UpdateResource(d *schema.ResourceData, sync ResourceUpdater) (e error) {
 		e = waitForStateRefresh(stateful, d.Timeout(schema.TimeoutUpdate), "update", stateful.UpdatedPending(), stateful.UpdatedTarget())
 	}
 
-	sync.SetData()
+	if e = sync.SetData(); e != nil {
+		return e
+	}
 
-	return
+	return nil
 }
 
 // DeleteResource requests a Delete(). If the resource deletes
@@ -325,7 +332,7 @@ func DeleteResource(d *schema.ResourceData, sync ResourceDeleter) (e error) {
 
 	if e = sync.Delete(); e != nil {
 		handleMissingResourceError(sync, &e)
-		return
+		return e
 	}
 
 	//d.SetId(sync.ID())
@@ -341,9 +348,10 @@ func DeleteResource(d *schema.ResourceData, sync ResourceDeleter) (e error) {
 		sync.VoidState()
 	} else {
 		handleMissingResourceError(sync, &e)
+		return e
 	}
 
-	return
+	return nil
 }
 
 func stateRefreshFunc(sync StatefulResource) resource.StateRefreshFunc {
@@ -375,13 +383,13 @@ func waitForStateRefresh(sync StatefulResource, timeout time.Duration, operation
 
 	if _, e = stateConf.WaitForState(); e != nil {
 		handleMissingResourceError(sync, &e)
-		return
+		return e
 	}
 	if sync.State() == FAILED {
 		return fmt.Errorf("Resource %s failed, state FAILED", operationName)
 	}
 
-	return
+	return nil
 }
 
 func FilterMissingResourceError(sync ResourceVoider, err *error) {

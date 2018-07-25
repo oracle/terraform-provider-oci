@@ -95,9 +95,9 @@ func (s *ServiceGatewaysDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *ServiceGatewaysDataSourceCrud) SetData() {
+func (s *ServiceGatewaysDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -150,8 +150,8 @@ func (s *ServiceGatewaysDataSourceCrud) SetData() {
 	}
 
 	if err := s.D.Set("service_gateways", resources); err != nil {
-		panic(err)
+		return err
 	}
 
-	return
+	return nil
 }

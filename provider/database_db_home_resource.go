@@ -294,7 +294,7 @@ func (s *DbHomeResourceCrud) Delete() error {
 	return err
 }
 
-func (s *DbHomeResourceCrud) SetData() {
+func (s *DbHomeResourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -321,6 +321,7 @@ func (s *DbHomeResourceCrud) SetData() {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
 
+	return nil
 }
 
 func (s *DbHomeResourceCrud) populateTopLevelPolymorphicCreateDbHomeRequest(request *oci_database.CreateDbHomeRequest) error {

@@ -99,9 +99,9 @@ func (s *BackendSetHealthDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *BackendSetHealthDataSourceCrud) SetData() {
+func (s *BackendSetHealthDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -118,5 +118,5 @@ func (s *BackendSetHealthDataSourceCrud) SetData() {
 
 	s.D.Set("warning_state_backend_names", s.Res.WarningStateBackendNames)
 
-	return
+	return nil
 }

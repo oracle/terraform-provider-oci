@@ -121,9 +121,9 @@ func (s *DbSystemPatchesDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *DbSystemPatchesDataSourceCrud) SetData() {
+func (s *DbSystemPatchesDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -166,8 +166,8 @@ func (s *DbSystemPatchesDataSourceCrud) SetData() {
 	}
 
 	if err := s.D.Set("patches", resources); err != nil {
-		panic(err)
+		return err
 	}
 
-	return
+	return nil
 }

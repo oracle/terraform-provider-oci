@@ -95,9 +95,9 @@ func (s *SendersDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *SendersDataSourceCrud) SetData() {
+func (s *SendersDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -128,8 +128,8 @@ func (s *SendersDataSourceCrud) SetData() {
 	}
 
 	if err := s.D.Set("senders", resources); err != nil {
-		panic(err)
+		return err
 	}
 
-	return
+	return nil
 }

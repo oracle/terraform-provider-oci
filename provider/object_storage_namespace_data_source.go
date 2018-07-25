@@ -59,9 +59,9 @@ func (s *NamespaceDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *NamespaceDataSourceCrud) SetData() {
+func (s *NamespaceDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -70,5 +70,5 @@ func (s *NamespaceDataSourceCrud) SetData() {
 		s.D.Set("namespace", *s.Res.Value)
 	}
 
-	return
+	return nil
 }

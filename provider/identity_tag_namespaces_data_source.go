@@ -87,9 +87,9 @@ func (s *TagNamespacesDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *TagNamespacesDataSourceCrud) SetData() {
+func (s *TagNamespacesDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -134,8 +134,8 @@ func (s *TagNamespacesDataSourceCrud) SetData() {
 	}
 
 	if err := s.D.Set("tag_namespaces", resources); err != nil {
-		panic(err)
+		return err
 	}
 
-	return
+	return nil
 }

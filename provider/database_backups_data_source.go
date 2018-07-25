@@ -87,9 +87,9 @@ func (s *BackupsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *BackupsDataSourceCrud) SetData() {
+func (s *BackupsDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -150,8 +150,8 @@ func (s *BackupsDataSourceCrud) SetData() {
 	}
 
 	if err := s.D.Set("backups", resources); err != nil {
-		panic(err)
+		return err
 	}
 
-	return
+	return nil
 }

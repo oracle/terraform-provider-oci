@@ -296,7 +296,7 @@ func (s *ServiceGatewayResourceCrud) Delete() error {
 	return err
 }
 
-func (s *ServiceGatewayResourceCrud) SetData() {
+func (s *ServiceGatewayResourceCrud) SetData() error {
 	if s.Res.BlockTraffic != nil {
 		s.D.Set("block_traffic", *s.Res.BlockTraffic)
 	}
@@ -331,6 +331,7 @@ func (s *ServiceGatewayResourceCrud) SetData() {
 		s.D.Set("vcn_id", *s.Res.VcnId)
 	}
 
+	return nil
 }
 
 func mapToServiceIdRequestDetails(raw map[string]interface{}) oci_core.ServiceIdRequestDetails {

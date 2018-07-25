@@ -92,9 +92,9 @@ func (s *ObjectHeadDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *ObjectHeadDataSourceCrud) SetData() {
+func (s *ObjectHeadDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -113,5 +113,5 @@ func (s *ObjectHeadDataSourceCrud) SetData() {
 		s.D.Set("content-type", *s.Res.ContentType)
 	}
 
-	return
+	return nil
 }

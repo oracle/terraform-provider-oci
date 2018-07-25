@@ -115,9 +115,9 @@ func (s *VcnsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *VcnsDataSourceCrud) SetData() {
+func (s *VcnsDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -180,8 +180,8 @@ func (s *VcnsDataSourceCrud) SetData() {
 	}
 
 	if err := s.D.Set("virtual_networks", resources); err != nil {
-		panic(err)
+		return err
 	}
 
-	return
+	return nil
 }

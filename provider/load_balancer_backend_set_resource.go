@@ -509,9 +509,9 @@ func (s *BackendSetResourceCrud) Delete() error {
 	return nil
 }
 
-func (s *BackendSetResourceCrud) SetData() {
+func (s *BackendSetResourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 	backend := []interface{}{}
 	for _, item := range s.Res.Backends {
@@ -545,6 +545,7 @@ func (s *BackendSetResourceCrud) SetData() {
 		s.D.Set("ssl_configuration", []interface{}{})
 	}
 
+	return nil
 }
 
 func BackendToMap(obj oci_load_balancer.Backend) map[string]interface{} {

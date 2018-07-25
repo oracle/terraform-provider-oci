@@ -98,9 +98,9 @@ func (s *DrgsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *DrgsDataSourceCrud) SetData() {
+func (s *DrgsDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -139,8 +139,8 @@ func (s *DrgsDataSourceCrud) SetData() {
 	}
 
 	if err := s.D.Set("drgs", resources); err != nil {
-		panic(err)
+		return err
 	}
 
-	return
+	return nil
 }

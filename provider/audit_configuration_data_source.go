@@ -65,9 +65,9 @@ func (s *ConfigurationDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *ConfigurationDataSourceCrud) SetData() {
+func (s *ConfigurationDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -76,5 +76,5 @@ func (s *ConfigurationDataSourceCrud) SetData() {
 		s.D.Set("retention_period_days", *s.Res.RetentionPeriodDays)
 	}
 
-	return
+	return nil
 }

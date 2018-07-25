@@ -96,9 +96,9 @@ func (s *VolumeGroupBackupsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *VolumeGroupBackupsDataSourceCrud) SetData() {
+func (s *VolumeGroupBackupsDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -157,8 +157,8 @@ func (s *VolumeGroupBackupsDataSourceCrud) SetData() {
 	}
 
 	if err := s.D.Set("volume_group_backups", resources); err != nil {
-		panic(err)
+		return err
 	}
 
-	return
+	return nil
 }

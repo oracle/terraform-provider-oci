@@ -95,9 +95,9 @@ func (s *SnapshotsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *SnapshotsDataSourceCrud) SetData() {
+func (s *SnapshotsDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -130,8 +130,8 @@ func (s *SnapshotsDataSourceCrud) SetData() {
 	}
 
 	if err := s.D.Set("snapshots", resources); err != nil {
-		panic(err)
+		return err
 	}
 
-	return
+	return nil
 }

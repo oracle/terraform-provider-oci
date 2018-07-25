@@ -162,7 +162,7 @@ func (s *SnapshotResourceCrud) Delete() error {
 	return err
 }
 
-func (s *SnapshotResourceCrud) SetData() {
+func (s *SnapshotResourceCrud) SetData() error {
 	if s.Res.FileSystemId != nil {
 		s.D.Set("file_system_id", *s.Res.FileSystemId)
 	}
@@ -177,4 +177,5 @@ func (s *SnapshotResourceCrud) SetData() {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
 
+	return nil
 }

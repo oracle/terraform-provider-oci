@@ -224,7 +224,7 @@ func (s *SwiftPasswordResourceCrud) Delete() error {
 	return err
 }
 
-func (s *SwiftPasswordResourceCrud) SetData() {
+func (s *SwiftPasswordResourceCrud) SetData() error {
 	if s.Res.Description != nil {
 		s.D.Set("description", *s.Res.Description)
 	}
@@ -251,4 +251,5 @@ func (s *SwiftPasswordResourceCrud) SetData() {
 		s.D.Set("user_id", *s.Res.UserId)
 	}
 
+	return nil
 }

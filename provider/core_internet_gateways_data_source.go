@@ -124,9 +124,9 @@ func (s *InternetGatewaysDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *InternetGatewaysDataSourceCrud) SetData() {
+func (s *InternetGatewaysDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -170,8 +170,8 @@ func (s *InternetGatewaysDataSourceCrud) SetData() {
 	}
 
 	if err := s.D.Set("gateways", resources); err != nil {
-		panic(err)
+		return err
 	}
 
-	return
+	return nil
 }

@@ -98,9 +98,9 @@ func (s *CpesDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *CpesDataSourceCrud) SetData() {
+func (s *CpesDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -141,8 +141,8 @@ func (s *CpesDataSourceCrud) SetData() {
 	}
 
 	if err := s.D.Set("cpes", resources); err != nil {
-		panic(err)
+		return err
 	}
 
-	return
+	return nil
 }

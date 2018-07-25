@@ -92,9 +92,9 @@ func (s *FastConnectProviderServiceDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *FastConnectProviderServiceDataSourceCrud) SetData() {
+func (s *FastConnectProviderServiceDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(*s.Res.Id)
@@ -119,5 +119,5 @@ func (s *FastConnectProviderServiceDataSourceCrud) SetData() {
 
 	s.D.Set("type", s.Res.Type)
 
-	return
+	return nil
 }

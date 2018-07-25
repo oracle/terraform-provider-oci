@@ -99,9 +99,9 @@ func (s *ConsoleHistoryContentDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *ConsoleHistoryContentDataSourceCrud) SetData() {
+func (s *ConsoleHistoryContentDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -110,5 +110,5 @@ func (s *ConsoleHistoryContentDataSourceCrud) SetData() {
 		s.D.Set("data", *s.Res.Value)
 	}
 
-	return
+	return nil
 }

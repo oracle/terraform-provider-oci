@@ -75,9 +75,9 @@ func (s *BackendsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *BackendsDataSourceCrud) SetData() {
+func (s *BackendsDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -122,8 +122,8 @@ func (s *BackendsDataSourceCrud) SetData() {
 	}
 
 	if err := s.D.Set("backends", resources); err != nil {
-		panic(err)
+		return err
 	}
 
-	return
+	return nil
 }

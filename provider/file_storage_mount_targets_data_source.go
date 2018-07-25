@@ -122,9 +122,9 @@ func (s *MountTargetsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *MountTargetsDataSourceCrud) SetData() {
+func (s *MountTargetsDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -168,8 +168,8 @@ func (s *MountTargetsDataSourceCrud) SetData() {
 	}
 
 	if err := s.D.Set("mount_targets", resources); err != nil {
-		panic(err)
+		return err
 	}
 
-	return
+	return nil
 }

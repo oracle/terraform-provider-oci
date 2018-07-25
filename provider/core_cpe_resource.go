@@ -212,7 +212,7 @@ func (s *CpeResourceCrud) Delete() error {
 	return err
 }
 
-func (s *CpeResourceCrud) SetData() {
+func (s *CpeResourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -235,4 +235,5 @@ func (s *CpeResourceCrud) SetData() {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
 
+	return nil
 }

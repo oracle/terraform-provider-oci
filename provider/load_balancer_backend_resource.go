@@ -377,9 +377,9 @@ func (s *BackendResourceCrud) Delete() error {
 	return nil
 }
 
-func (s *BackendResourceCrud) SetData() {
+func (s *BackendResourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 	if s.Res.Backup != nil {
 		s.D.Set("backup", *s.Res.Backup)
@@ -409,4 +409,5 @@ func (s *BackendResourceCrud) SetData() {
 		s.D.Set("weight", *s.Res.Weight)
 	}
 
+	return nil
 }

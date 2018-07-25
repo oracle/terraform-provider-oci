@@ -78,9 +78,9 @@ func (s *TagsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *TagsDataSourceCrud) SetData() {
+func (s *TagsDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -123,8 +123,8 @@ func (s *TagsDataSourceCrud) SetData() {
 	}
 
 	if err := s.D.Set("tags", resources); err != nil {
-		panic(err)
+		return err
 	}
 
-	return
+	return nil
 }

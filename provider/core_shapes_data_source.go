@@ -127,9 +127,9 @@ func (s *InstanceShapesDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *InstanceShapesDataSourceCrud) SetData() {
+func (s *InstanceShapesDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -150,8 +150,8 @@ func (s *InstanceShapesDataSourceCrud) SetData() {
 	}
 
 	if err := s.D.Set("shapes", resources); err != nil {
-		panic(err)
+		return err
 	}
 
-	return
+	return nil
 }

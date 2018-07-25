@@ -104,9 +104,9 @@ func (s *VolumeGroupsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *VolumeGroupsDataSourceCrud) SetData() {
+func (s *VolumeGroupsDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -157,8 +157,8 @@ func (s *VolumeGroupsDataSourceCrud) SetData() {
 	}
 
 	if err := s.D.Set("volume_groups", resources); err != nil {
-		panic(err)
+		return err
 	}
 
-	return
+	return nil
 }

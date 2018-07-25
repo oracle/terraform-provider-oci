@@ -119,9 +119,9 @@ func (s *VolumeBackupPoliciesDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *VolumeBackupPoliciesDataSourceCrud) SetData() {
+func (s *VolumeBackupPoliciesDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -156,10 +156,10 @@ func (s *VolumeBackupPoliciesDataSourceCrud) SetData() {
 	}
 
 	if err := s.D.Set("volume_backup_policies", resources); err != nil {
-		panic(err)
+		return err
 	}
 
-	return
+	return nil
 }
 
 func VolumeBackupScheduleToMap(obj oci_core.VolumeBackupSchedule) map[string]interface{} {

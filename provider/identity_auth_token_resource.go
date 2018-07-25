@@ -224,7 +224,7 @@ func (s *AuthTokenResourceCrud) Delete() error {
 	return err
 }
 
-func (s *AuthTokenResourceCrud) SetData() {
+func (s *AuthTokenResourceCrud) SetData() error {
 	if s.Res.Description != nil {
 		s.D.Set("description", *s.Res.Description)
 	}
@@ -251,4 +251,5 @@ func (s *AuthTokenResourceCrud) SetData() {
 		s.D.Set("user_id", *s.Res.UserId)
 	}
 
+	return nil
 }

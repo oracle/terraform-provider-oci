@@ -340,7 +340,7 @@ func (s *SubnetResourceCrud) Delete() error {
 	return err
 }
 
-func (s *SubnetResourceCrud) SetData() {
+func (s *SubnetResourceCrud) SetData() error {
 	if s.Res.AvailabilityDomain != nil {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
 	}
@@ -407,4 +407,5 @@ func (s *SubnetResourceCrud) SetData() {
 		s.D.Set("virtual_router_mac", *s.Res.VirtualRouterMac)
 	}
 
+	return nil
 }

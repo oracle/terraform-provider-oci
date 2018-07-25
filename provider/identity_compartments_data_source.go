@@ -78,9 +78,9 @@ func (s *CompartmentsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *CompartmentsDataSourceCrud) SetData() {
+func (s *CompartmentsDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -127,8 +127,8 @@ func (s *CompartmentsDataSourceCrud) SetData() {
 	}
 
 	if err := s.D.Set("compartments", resources); err != nil {
-		panic(err)
+		return err
 	}
 
-	return
+	return nil
 }

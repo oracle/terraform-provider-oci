@@ -124,9 +124,9 @@ func (s *DhcpOptionsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *DhcpOptionsDataSourceCrud) SetData() {
+func (s *DhcpOptionsDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -172,8 +172,8 @@ func (s *DhcpOptionsDataSourceCrud) SetData() {
 	}
 
 	if err := s.D.Set("options", resources); err != nil {
-		panic(err)
+		return err
 	}
 
-	return
+	return nil
 }

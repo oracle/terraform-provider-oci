@@ -343,7 +343,7 @@ func (s *VnicAttachmentResourceCrud) Delete() error {
 	return err
 }
 
-func (s *VnicAttachmentResourceCrud) SetData() {
+func (s *VnicAttachmentResourceCrud) SetData() error {
 	if s.Res.AvailabilityDomain != nil {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
 	}
@@ -391,7 +391,7 @@ func (s *VnicAttachmentResourceCrud) SetData() {
 	if err != nil {
 		// VNIC might not be found when attaching or detaching.
 		log.Printf("[DEBUG] VNIC not found during VNIC Attachment refresh. (VNIC ID: %q, Error: %q)", *request.VnicId, err)
-		return
+		return nil
 	}
 
 	var createVnicDetails map[string]interface{}
@@ -404,6 +404,8 @@ func (s *VnicAttachmentResourceCrud) SetData() {
 	if err := s.D.Set("create_vnic_details", []interface{}{VnicDetailsToMap(&response.Vnic, createVnicDetails)}); err != nil {
 		log.Printf("Unable to refresh create_vnic_details. Error: %q", err)
 	}
+
+	return nil
 }
 
 func mapToCreateVnicDetails(raw map[string]interface{}) (oci_core.CreateVnicDetails, error) {

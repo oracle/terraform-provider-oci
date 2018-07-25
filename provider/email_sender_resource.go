@@ -166,7 +166,7 @@ func (s *SenderResourceCrud) Delete() error {
 	return err
 }
 
-func (s *SenderResourceCrud) SetData() {
+func (s *SenderResourceCrud) SetData() error {
 	if s.Res.EmailAddress != nil {
 		s.D.Set("email_address", *s.Res.EmailAddress)
 	}
@@ -181,4 +181,5 @@ func (s *SenderResourceCrud) SetData() {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
 
+	return nil
 }

@@ -121,9 +121,9 @@ func (s *FastConnectProviderServicesDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *FastConnectProviderServicesDataSourceCrud) SetData() {
+func (s *FastConnectProviderServicesDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -164,8 +164,8 @@ func (s *FastConnectProviderServicesDataSourceCrud) SetData() {
 	}
 
 	if err := s.D.Set("fast_connect_provider_services", resources); err != nil {
-		panic(err)
+		return err
 	}
 
-	return
+	return nil
 }

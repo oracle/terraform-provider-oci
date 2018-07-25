@@ -66,9 +66,9 @@ func (s *CertificatesDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *CertificatesDataSourceCrud) SetData() {
+func (s *CertificatesDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -97,8 +97,8 @@ func (s *CertificatesDataSourceCrud) SetData() {
 	}
 
 	if err := s.D.Set("certificates", resources); err != nil {
-		panic(err)
+		return err
 	}
 
-	return
+	return nil
 }

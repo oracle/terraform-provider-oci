@@ -82,9 +82,9 @@ func (s *AvailabilityDomainsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *AvailabilityDomainsDataSourceCrud) SetData() {
+func (s *AvailabilityDomainsDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -107,8 +107,8 @@ func (s *AvailabilityDomainsDataSourceCrud) SetData() {
 	}
 
 	if err := s.D.Set("availability_domains", resources); err != nil {
-		panic(err)
+		return err
 	}
 
-	return
+	return nil
 }

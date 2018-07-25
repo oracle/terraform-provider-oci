@@ -66,9 +66,9 @@ func (s *HostnamesDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *HostnamesDataSourceCrud) SetData() {
+func (s *HostnamesDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -93,8 +93,8 @@ func (s *HostnamesDataSourceCrud) SetData() {
 	}
 
 	if err := s.D.Set("hostnames", resources); err != nil {
-		panic(err)
+		return err
 	}
 
-	return
+	return nil
 }

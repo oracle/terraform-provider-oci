@@ -82,9 +82,9 @@ func (s *NodePoolOptionDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *NodePoolOptionDataSourceCrud) SetData() {
+func (s *NodePoolOptionDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -95,5 +95,5 @@ func (s *NodePoolOptionDataSourceCrud) SetData() {
 
 	s.D.Set("shapes", s.Res.Shapes)
 
-	return
+	return nil
 }

@@ -291,7 +291,7 @@ func (s *RecordResourceCrud) Delete() error {
 	return err
 }
 
-func (s *RecordResourceCrud) SetData() {
+func (s *RecordResourceCrud) SetData() error {
 	s.D.SetId(*s.Res.RecordHash)
 
 	if s.Res.Domain != nil {
@@ -321,6 +321,8 @@ func (s *RecordResourceCrud) SetData() {
 	if s.Res.Ttl != nil {
 		s.D.Set("ttl", *s.Res.Ttl)
 	}
+
+	return nil
 }
 
 func findItem(rc *oci_dns.RecordCollection, r *schema.ResourceData) (*oci_dns.Record, error) {

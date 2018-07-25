@@ -97,9 +97,9 @@ func (s *DbHomesDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *DbHomesDataSourceCrud) SetData() {
+func (s *DbHomesDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -142,8 +142,8 @@ func (s *DbHomesDataSourceCrud) SetData() {
 	}
 
 	if err := s.D.Set("db_homes", resources); err != nil {
-		panic(err)
+		return err
 	}
 
-	return
+	return nil
 }

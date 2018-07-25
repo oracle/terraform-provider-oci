@@ -125,9 +125,10 @@ func (s *ConfigurationResourceCrud) Update() error {
 	return crud.WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *ConfigurationResourceCrud) SetData() {
+func (s *ConfigurationResourceCrud) SetData() error {
 	if s.Res.RetentionPeriodDays != nil {
 		s.D.Set("retention_period_days", *s.Res.RetentionPeriodDays)
 	}
 
+	return nil
 }

@@ -84,9 +84,9 @@ func (s *TenancyDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *TenancyDataSourceCrud) SetData() {
+func (s *TenancyDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(*s.Res.Id)
@@ -113,5 +113,5 @@ func (s *TenancyDataSourceCrud) SetData() {
 		s.D.Set("name", *s.Res.Name)
 	}
 
-	return
+	return nil
 }

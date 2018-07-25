@@ -272,7 +272,7 @@ func (s *VolumeGroupBackupResourceCrud) Delete() error {
 	return err
 }
 
-func (s *VolumeGroupBackupResourceCrud) SetData() {
+func (s *VolumeGroupBackupResourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -313,4 +313,5 @@ func (s *VolumeGroupBackupResourceCrud) SetData() {
 		s.D.Set("volume_group_id", *s.Res.VolumeGroupId)
 	}
 
+	return nil
 }

@@ -94,9 +94,9 @@ func (s *VirtualCircuitBandwidthShapesDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *VirtualCircuitBandwidthShapesDataSourceCrud) SetData() {
+func (s *VirtualCircuitBandwidthShapesDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -121,8 +121,8 @@ func (s *VirtualCircuitBandwidthShapesDataSourceCrud) SetData() {
 	}
 
 	if err := s.D.Set("virtual_circuit_bandwidth_shapes", resources); err != nil {
-		panic(err)
+		return err
 	}
 
-	return
+	return nil
 }
