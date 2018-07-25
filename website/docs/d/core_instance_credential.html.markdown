@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_core_instance_credential"
-sidebar_current: "docs-oci-datasource-core-instance_credential"
+page_title: "OCI: oci_core_instance_credentials"
+sidebar_current: "docs-oci-datasource-core-instance_credentials"
 description: |-
-Provides details about a specific InstanceCredential
+Provides details about a specific InstanceCredentials
 ---
 
 # Data Source: oci_core_instance_credentials
-The InstanceCredential data source provides details about a specific InstanceCredential
+The InstanceCredentials data source provides details about a specific InstanceCredentials
 
 Gets the generated credentials for the instance. Only works for instances that require password to log in (E.g. Windows).
 For certain OS'es, users will be forced to change the initial credentials.
