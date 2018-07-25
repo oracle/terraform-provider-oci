@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_core_instance_credentials"
 sidebar_current: "docs-oci-datasource-core-instance_credentials"
 description: |-
-Provides details about a specific InstanceCredentials
+  Provides details about a specific InstanceCredential
 ---
 
 # Data Source: oci_core_instance_credentials

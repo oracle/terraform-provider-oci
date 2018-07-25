@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_file_storage_exports"
 sidebar_current: "docs-oci-datasource-file_storage-exports"
 description: |-
-Provides a list of Exports
+  Provides a list of Exports
 ---
+
 # Data Source: oci_file_storage_exports
 The Exports data source allows access to the list of OCI exports
 

@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_file_storage_snapshots"
 sidebar_current: "docs-oci-datasource-file_storage-snapshots"
 description: |-
-Provides a list of Snapshots
+  Provides a list of Snapshots
 ---
+
 # Data Source: oci_file_storage_snapshots
 The Snapshots data source allows access to the list of OCI snapshots
 

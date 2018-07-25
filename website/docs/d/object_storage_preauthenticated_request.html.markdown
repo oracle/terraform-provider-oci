@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_objectstorage_preauthrequest"
 sidebar_current: "docs-oci-datasource-object_storage-preauthenticated_request"
 description: |-
-Provides details about a specific PreauthenticatedRequest
+  Provides details about a specific PreauthenticatedRequest
 ---
 
 # Data Source: oci_objectstorage_preauthrequest

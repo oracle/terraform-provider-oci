@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_core_volume_group"
 sidebar_current: "docs-oci-resource-core-volume_group"
 description: |-
-Creates and manages an OCI VolumeGroup
+  Creates and manages an OCI VolumeGroup
 ---
 
 # oci_core_volume_group

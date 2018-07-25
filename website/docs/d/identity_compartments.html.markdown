@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_identity_compartments"
 sidebar_current: "docs-oci-datasource-identity-compartments"
 description: |-
-Provides a list of Compartments
+  Provides a list of Compartments
 ---
+
 # Data Source: oci_identity_compartments
 The Compartments data source allows access to the list of OCI compartments
 

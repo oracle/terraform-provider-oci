@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_identity_tag_namespaces"
 sidebar_current: "docs-oci-datasource-identity-tag_namespaces"
 description: |-
-Provides a list of TagNamespaces
+  Provides a list of TagNamespaces
 ---
+
 # Data Source: oci_identity_tag_namespaces
 The TagNamespaces data source allows access to the list of OCI tag_namespaces
 

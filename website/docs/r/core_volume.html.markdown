@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_core_volume"
 sidebar_current: "docs-oci-resource-core-volume"
 description: |-
-Creates and manages an OCI Volume
+  Creates and manages an OCI Volume
 ---
 
 # oci_core_volume

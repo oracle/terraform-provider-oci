@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_core_vnic"
 sidebar_current: "docs-oci-datasource-core-vnic"
 description: |-
-Provides details about a specific Vnic
+  Provides details about a specific Vnic
 ---
 
 # Data Source: oci_core_vnic

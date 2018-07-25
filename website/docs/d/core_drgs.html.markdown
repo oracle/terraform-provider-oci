@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_core_drgs"
 sidebar_current: "docs-oci-datasource-core-drgs"
 description: |-
-Provides a list of Drgs
+  Provides a list of Drgs
 ---
+
 # Data Source: oci_core_drgs
 The Drgs data source allows access to the list of OCI drgs
 

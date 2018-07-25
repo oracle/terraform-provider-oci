@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_objectstorage_bucket"
 sidebar_current: "docs-oci-resource-object_storage-bucket"
 description: |-
-Creates and manages an OCI Bucket
+  Creates and manages an OCI Bucket
 ---
 
 # oci_objectstorage_bucket

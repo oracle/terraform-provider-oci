@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_database_database"
 sidebar_current: "docs-oci-datasource-database-database"
 description: |-
-Provides details about a specific Database
+  Provides details about a specific Database
 ---
 
 # Data Source: oci_database_database

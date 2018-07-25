@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_identity_api_key"
 sidebar_current: "docs-oci-resource-identity-api_key"
 description: |-
-Creates and manages an OCI ApiKey
+  Creates and manages an OCI ApiKey
 ---
 
 # oci_identity_api_key

@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_email_suppressions"
 sidebar_current: "docs-oci-datasource-email-suppressions"
 description: |-
-Provides a list of Suppressions
+  Provides a list of Suppressions
 ---
+
 # Data Source: oci_email_suppressions
 The Suppressions data source allows access to the list of OCI suppressions
 

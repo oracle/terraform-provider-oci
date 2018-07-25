@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_core_vcns"
 sidebar_current: "docs-oci-datasource-core-vcns"
 description: |-
-Provides a list of Vcns
+  Provides a list of Vcns
 ---
+
 # Data Source: oci_core_vcns
 `oci_core_virtual_networks` is the old name for `oci_core_vcns`. Both names are supported but `oci_core_vcns` is used in the docs
 

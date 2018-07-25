@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_core_cross_connect_status"
 sidebar_current: "docs-oci-datasource-core-cross_connect_status"
 description: |-
-Provides details about a specific CrossConnectStatus
+  Provides details about a specific CrossConnectStatus
 ---
 
 # Data Source: oci_core_cross_connect_status

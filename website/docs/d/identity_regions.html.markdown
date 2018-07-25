@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_identity_regions"
 sidebar_current: "docs-oci-datasource-identity-regions"
 description: |-
-Provides a list of Regions
+  Provides a list of Regions
 ---
+
 # Data Source: oci_identity_regions
 The Regions data source allows access to the list of OCI regions
 

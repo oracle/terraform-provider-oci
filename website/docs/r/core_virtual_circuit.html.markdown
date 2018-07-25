@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_core_virtual_circuit"
 sidebar_current: "docs-oci-resource-core-virtual_circuit"
 description: |-
-Creates and manages an OCI VirtualCircuit
+  Creates and manages an OCI VirtualCircuit
 ---
 
 # oci_core_virtual_circuit

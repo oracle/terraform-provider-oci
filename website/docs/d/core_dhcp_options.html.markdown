@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_core_dhcp_options"
 sidebar_current: "docs-oci-datasource-core-dhcp_options"
 description: |-
-Provides a list of DhcpOptions
+  Provides a list of DhcpOptions
 ---
+
 # Data Source: oci_core_dhcp_options
 The DhcpOptions data source allows access to the list of OCI dhcp_options
 

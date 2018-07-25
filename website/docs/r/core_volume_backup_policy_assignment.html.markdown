@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_core_volume_backup_policy_assignment"
 sidebar_current: "docs-oci-resource-core-volume_backup_policy_assignment"
 description: |-
-Creates and manages an OCI VolumeBackupPolicyAssignment
+  Creates and manages an OCI VolumeBackupPolicyAssignment
 ---
 
 # oci_core_volume_backup_policy_assignment

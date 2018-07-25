@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_identity_identity_providers"
 sidebar_current: "docs-oci-datasource-identity-identity_providers"
 description: |-
-Provides a list of IdentityProviders
+  Provides a list of IdentityProviders
 ---
+
 # Data Source: oci_identity_identity_providers
 The IdentityProviders data source allows access to the list of OCI identity_providers
 

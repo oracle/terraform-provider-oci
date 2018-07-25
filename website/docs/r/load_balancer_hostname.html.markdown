@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_load_balancer_hostname"
 sidebar_current: "docs-oci-resource-load_balancer-hostname"
 description: |-
-Creates and manages an OCI Hostname
+  Creates and manages an OCI Hostname
 ---
 
 # oci_load_balancer_hostname

@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_file_storage_snapshot"
 sidebar_current: "docs-oci-resource-file_storage-snapshot"
 description: |-
-Creates and manages an OCI Snapshot
+  Creates and manages an OCI Snapshot
 ---
 
 # oci_file_storage_snapshot

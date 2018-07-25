@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_containerengine_work_request_log_entries"
 sidebar_current: "docs-oci-datasource-containerengine-work_request_log_entries"
 description: |-
-Provides a list of WorkRequestLogEntries
+  Provides a list of WorkRequestLogEntries
 ---
+
 # Data Source: oci_containerengine_work_request_log_entries
 The WorkRequestLogEntries data source allows access to the list of OCI work_request_log_entries
 

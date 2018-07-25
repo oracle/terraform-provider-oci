@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_core_ipsec_connections"
 sidebar_current: "docs-oci-datasource-core-ipsec_connections"
 description: |-
-Provides a list of IpSecConnections
+  Provides a list of IpSecConnections
 ---
+
 # Data Source: oci_core_ipsec_connections
 The IpSecConnections data source allows access to the list of OCI ip_sec_connections
 

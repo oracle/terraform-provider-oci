@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_load_balancer_shapes"
 sidebar_current: "docs-oci-datasource-load_balancer-shapes"
 description: |-
-Provides a list of LoadBalancerShapes
+  Provides a list of LoadBalancerShapes
 ---
+
 # Data Source: oci_load_balancer_shapes
 The LoadBalancerShapes data source allows access to the list of OCI load_balancer_shapes
 

@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_email_suppression"
 sidebar_current: "docs-oci-datasource-email-suppression"
 description: |-
-Provides details about a specific Suppression
+  Provides details about a specific Suppression
 ---
 
 # Data Source: oci_email_suppression

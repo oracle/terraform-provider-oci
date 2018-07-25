@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_core_volumes"
 sidebar_current: "docs-oci-datasource-core-volumes"
 description: |-
-Provides a list of Volumes
+  Provides a list of Volumes
 ---
+
 # Data Source: oci_core_volumes
 The Volumes data source allows access to the list of OCI volumes
 

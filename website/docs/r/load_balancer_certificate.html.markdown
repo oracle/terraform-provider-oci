@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_load_balancer_certificate"
 sidebar_current: "docs-oci-resource-load_balancer-certificate"
 description: |-
-Creates and manages an OCI Certificate
+  Creates and manages an OCI Certificate
 ---
 
 # oci_load_balancer_certificate

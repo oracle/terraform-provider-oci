@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_identity_users"
 sidebar_current: "docs-oci-datasource-identity-users"
 description: |-
-Provides a list of Users
+  Provides a list of Users
 ---
+
 # Data Source: oci_identity_users
 The Users data source allows access to the list of OCI users
 

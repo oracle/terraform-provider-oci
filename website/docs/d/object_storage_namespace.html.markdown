@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_objectstorage_namespace"
 sidebar_current: "docs-oci-datasource-object_storage-namespace"
 description: |-
-Provides details about a specific Namespace
+  Provides details about a specific Namespace
 ---
 
 # Data Source: oci_objectstorage_namespace

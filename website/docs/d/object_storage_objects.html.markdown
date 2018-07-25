@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_object_storage_objects"
 sidebar_current: "docs-oci-datasource-object_storage-objects"
 description: |-
-Provides a list of Objects
+  Provides a list of Objects
 ---
+
 # Data Source: oci_object_storage_objects
 The Objects data source allows access to the list of OCI objects
 

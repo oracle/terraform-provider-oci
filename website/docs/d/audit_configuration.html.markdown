@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_audit_configuration"
 sidebar_current: "docs-oci-datasource-audit-configuration"
 description: |-
-Provides details about a specific Configuration
+  Provides details about a specific Configuration
 ---
 
 # Data Source: oci_audit_configuration

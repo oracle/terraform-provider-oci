@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_identity_user"
 sidebar_current: "docs-oci-resource-identity-user"
 description: |-
-Creates and manages an OCI User
+  Creates and manages an OCI User
 ---
 
 # oci_identity_user

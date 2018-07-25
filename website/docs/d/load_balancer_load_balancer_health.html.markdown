@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_load_balancer_health"
 sidebar_current: "docs-oci-datasource-load_balancer-health"
 description: |-
-Provides details about a specific LoadBalancerHealth
+  Provides details about a specific LoadBalancerHealth
 ---
 
 # Data Source: oci_load_balancer_health

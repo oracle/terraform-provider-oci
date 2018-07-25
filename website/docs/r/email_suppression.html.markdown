@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_email_suppression"
 sidebar_current: "docs-oci-resource-email-suppression"
 description: |-
-Creates and manages an OCI Suppression
+  Creates and manages an OCI Suppression
 ---
 
 # oci_email_suppression

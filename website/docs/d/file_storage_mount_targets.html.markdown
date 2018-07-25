@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_file_storage_mount_targets"
 sidebar_current: "docs-oci-datasource-file_storage-mount_targets"
 description: |-
-Provides a list of MountTargets
+  Provides a list of MountTargets
 ---
+
 # Data Source: oci_file_storage_mount_targets
 The MountTargets data source allows access to the list of OCI mount_targets
 

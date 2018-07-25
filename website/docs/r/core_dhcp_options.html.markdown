@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_core_dhcp_options"
 sidebar_current: "docs-oci-resource-core-dhcp_options"
 description: |-
-Creates and manages an OCI DhcpOptions
+  Creates and manages an OCI DhcpOptions
 ---
 
 # oci_core_dhcp_options

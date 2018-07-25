@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_database_db_system_patch_history_entries"
 sidebar_current: "docs-oci-datasource-database-db_system_patch_history_entries"
 description: |-
-Provides a list of DbSystemPatchHistoryEntries
+  Provides a list of DbSystemPatchHistoryEntries
 ---
+
 # Data Source: oci_database_db_system_patch_history_entries
 The DbSystemPatchHistoryEntries data source allows access to the list of OCI db_system_patch_history_entries
 

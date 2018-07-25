@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_database_db_home"
 sidebar_current: "docs-oci-datasource-database-db_home"
 description: |-
-Provides details about a specific DbHome
+  Provides details about a specific DbHome
 ---
 
 # Data Source: oci_database_db_home

@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_core_instances"
 sidebar_current: "docs-oci-datasource-core-instances"
 description: |-
-Provides a list of Instances
+  Provides a list of Instances
 ---
+
 # Data Source: oci_core_instances
 The Instances data source allows access to the list of OCI instances
 

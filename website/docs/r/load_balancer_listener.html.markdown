@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_load_balancer_listener"
 sidebar_current: "docs-oci-resource-load_balancer-listener"
 description: |-
-Creates and manages an OCI Listener
+  Creates and manages an OCI Listener
 ---
 
 # oci_load_balancer_listener

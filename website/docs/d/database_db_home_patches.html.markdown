@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_database_db_home_patches"
 sidebar_current: "docs-oci-datasource-database-db_home_patches"
 description: |-
-Provides a list of DbHomePatches
+  Provides a list of DbHomePatches
 ---
+
 # Data Source: oci_database_db_home_patches
 The DbHomePatches data source allows access to the list of OCI db_home_patches
 

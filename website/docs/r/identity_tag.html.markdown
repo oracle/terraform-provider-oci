@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_identity_tag"
 sidebar_current: "docs-oci-resource-identity-tag"
 description: |-
-Creates and manages an OCI Tag
+  Creates and manages an OCI Tag
 ---
 
 # oci_identity_tag

@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_identity_user_group_memberships"
 sidebar_current: "docs-oci-datasource-identity-user_group_memberships"
 description: |-
-Provides a list of UserGroupMemberships
+  Provides a list of UserGroupMemberships
 ---
+
 # Data Source: oci_identity_user_group_memberships
 The UserGroupMemberships data source allows access to the list of OCI user_group_memberships
 

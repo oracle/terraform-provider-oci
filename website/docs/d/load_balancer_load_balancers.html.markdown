@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_load_balancer_load_balancers"
 sidebar_current: "docs-oci-datasource-load_balancer-load_balancers"
 description: |-
-Provides a list of LoadBalancers
+  Provides a list of LoadBalancers
 ---
+
 # Data Source: oci_load_balancer_load_balancers
 `oci_load_balancers` is the old name for `oci_load_balancer_load_balancers`. Both names are supported but `oci_load_balancer_load_balancers` is used in the docs.
 The LoadBalancers data source allows access to the list of OCI load_balancers

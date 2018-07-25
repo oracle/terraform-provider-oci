@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_core_remote_peering_connections"
 sidebar_current: "docs-oci-datasource-core-remote_peering_connections"
 description: |-
-Provides a list of RemotePeeringConnections
+  Provides a list of RemotePeeringConnections
 ---
+
 # Data Source: oci_core_remote_peering_connections
 The RemotePeeringConnections data source allows access to the list of OCI remote_peering_connections
 

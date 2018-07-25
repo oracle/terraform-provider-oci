@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_identity_auth_token"
 sidebar_current: "docs-oci-resource-identity-auth_token"
 description: |-
-Creates and manages an OCI AuthToken
+  Creates and manages an OCI AuthToken
 ---
 
 # oci_identity_auth_token

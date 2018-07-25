@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_core_vnic_attachments"
 sidebar_current: "docs-oci-datasource-core-vnic_attachments"
 description: |-
-Provides a list of VnicAttachments
+  Provides a list of VnicAttachments
 ---
+
 # Data Source: oci_core_vnic_attachments
 The VnicAttachments data source allows access to the list of OCI vnic_attachments
 

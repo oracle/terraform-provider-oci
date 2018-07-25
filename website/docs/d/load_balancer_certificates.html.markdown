@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_load_balancer_certificates"
 sidebar_current: "docs-oci-datasource-load_balancer-certificates"
 description: |-
-Provides a list of Certificates
+  Provides a list of Certificates
 ---
+
 # Data Source: oci_load_balancer_certificates
 The Certificates data source allows access to the list of OCI certificates
 

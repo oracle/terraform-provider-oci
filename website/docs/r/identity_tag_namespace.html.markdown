@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_identity_tag_namespace"
 sidebar_current: "docs-oci-resource-identity-tag_namespace"
 description: |-
-Creates and manages an OCI TagNamespace
+  Creates and manages an OCI TagNamespace
 ---
 
 # oci_identity_tag_namespace

@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_file_storage_mount_target"
 sidebar_current: "docs-oci-resource-file_storage-mount_target"
 description: |-
-Creates and manages an OCI MountTarget
+  Creates and manages an OCI MountTarget
 ---
 
 # oci_file_storage_mount_target

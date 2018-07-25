@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_containerengine_work_request_errors"
 sidebar_current: "docs-oci-datasource-containerengine-work_request_errors"
 description: |-
-Provides a list of WorkRequestErrors
+  Provides a list of WorkRequestErrors
 ---
+
 # Data Source: oci_containerengine_work_request_errors
 The WorkRequestErrors data source allows access to the list of OCI work_request_errors
 

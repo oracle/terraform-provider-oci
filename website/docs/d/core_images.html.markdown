@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_core_images"
 sidebar_current: "docs-oci-datasource-core-images"
 description: |-
-Provides a list of Images
+  Provides a list of Images
 ---
+
 # Data Source: oci_core_images
 The Images data source allows access to the list of OCI images
 

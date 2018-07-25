@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_core_peer_region_for_remote_peerings"
 sidebar_current: "docs-oci-datasource-core-peer_region_for_remote_peerings"
 description: |-
-Provides a list of PeerRegionForRemotePeerings
+  Provides a list of PeerRegionForRemotePeerings
 ---
+
 # Data Source: oci_core_peer_region_for_remote_peerings
 The PeerRegionForRemotePeerings data source allows access to the list of OCI peer_region_for_remote_peerings
 

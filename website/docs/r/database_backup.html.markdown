@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_database_backup"
 sidebar_current: "docs-oci-resource-database-backup"
 description: |-
-Creates and manages an OCI Backup
+  Creates and manages an OCI Backup
 ---
 
 # oci_database_backup

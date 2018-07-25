@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_core_vnic_attachment"
 sidebar_current: "docs-oci-resource-core-vnic_attachment"
 description: |-
-Creates and manages an OCI VnicAttachment
+  Creates and manages an OCI VnicAttachment
 ---
 
 # oci_core_vnic_attachment

@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_objectstorage_preauthenticated_requests"
 sidebar_current: "docs-oci-datasource-object_storage-preauthenticated_requests"
 description: |-
-Provides a list of PreauthenticatedRequests
+  Provides a list of PreauthenticatedRequests
 ---
+
 # Data Source: oci_objectstorage_preauthenticated_requests
 The PreauthenticatedRequests data source allows access to the list of OCI preauthenticated_requests
 

@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_core_public_ips"
 sidebar_current: "docs-oci-datasource-core-public_ips"
 description: |-
-Provides a list of PublicIps
+  Provides a list of PublicIps
 ---
+
 # Data Source: oci_core_public_ips
 The PublicIps data source allows access to the list of OCI public_ips
 

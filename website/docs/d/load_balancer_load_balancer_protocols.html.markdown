@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_load_balancer_protocols"
 sidebar_current: "docs-oci-datasource-load_balancer-protocols"
 description: |-
-Provides a list of LoadBalancerProtocols
+  Provides a list of LoadBalancerProtocols
 ---
+
 # Data Source: oci_load_balancer_protocols
 The LoadBalancerProtocols data source allows access to the list of OCI load_balancer_protocols
 

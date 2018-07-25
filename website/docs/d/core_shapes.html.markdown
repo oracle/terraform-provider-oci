@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_core_shapes"
 sidebar_current: "docs-oci-datasource-core-shapes"
 description: |-
-Provides a list of Shapes
+  Provides a list of Shapes
 ---
+
 # Data Source: oci_core_shapes
 The Shapes data source allows access to the list of OCI shapes
 

@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_core_instance_console_connection"
 sidebar_current: "docs-oci-resource-core-instance_console_connection"
 description: |-
-Creates and manages an OCI InstanceConsoleConnection
+  Creates and manages an OCI InstanceConsoleConnection
 ---
 
 # oci_core_instance_console_connection

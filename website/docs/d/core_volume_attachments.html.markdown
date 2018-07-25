@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_core_volume_attachments"
 sidebar_current: "docs-oci-datasource-core-volume_attachments"
 description: |-
-Provides a list of VolumeAttachments
+  Provides a list of VolumeAttachments
 ---
+
 # Data Source: oci_core_volume_attachments
 The VolumeAttachments data source allows access to the list of OCI volume_attachments
 

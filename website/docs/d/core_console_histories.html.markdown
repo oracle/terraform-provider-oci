@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_core_console_histories"
 sidebar_current: "docs-oci-datasource-core-console_histories"
 description: |-
-Provides a list of ConsoleHistories
+  Provides a list of ConsoleHistories
 ---
+
 # Data Source: oci_core_console_histories
 The ConsoleHistories data source allows access to the list of OCI console_histories
 

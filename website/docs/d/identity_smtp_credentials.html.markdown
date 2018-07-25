@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_identity_smtp_credentials"
 sidebar_current: "docs-oci-datasource-identity-smtp_credentials"
 description: |-
-Provides a list of SmtpCredentials
+  Provides a list of SmtpCredentials
 ---
+
 # Data Source: oci_identity_smtp_credentials
 The SmtpCredentials data source allows access to the list of OCI smtp_credentials
 

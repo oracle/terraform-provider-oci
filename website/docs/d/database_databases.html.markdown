@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_database_databases"
 sidebar_current: "docs-oci-datasource-database-databases"
 description: |-
-Provides a list of Databases
+  Provides a list of Databases
 ---
+
 # Data Source: oci_database_databases
 The Databases data source allows access to the list of OCI databases
 

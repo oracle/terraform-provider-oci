@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_identity_policies"
 sidebar_current: "docs-oci-datasource-identity-policies"
 description: |-
-Provides a list of Policies
+  Provides a list of Policies
 ---
+
 # Data Source: oci_identity_policies
 The Policies data source allows access to the list of OCI policies
 

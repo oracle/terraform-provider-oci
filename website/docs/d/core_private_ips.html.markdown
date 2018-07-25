@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_core_private_ips"
 sidebar_current: "docs-oci-datasource-core-private_ips"
 description: |-
-Provides a list of PrivateIps
+  Provides a list of PrivateIps
 ---
+
 # Data Source: oci_core_private_ips
 The PrivateIps data source allows access to the list of OCI private_ips
 

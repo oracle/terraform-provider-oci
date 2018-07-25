@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_identity_idp_group_mapping"
 sidebar_current: "docs-oci-resource-identity-idp_group_mapping"
 description: |-
-Creates and manages an OCI IdpGroupMapping
+  Creates and manages an OCI IdpGroupMapping
 ---
 
 # oci_identity_idp_group_mapping

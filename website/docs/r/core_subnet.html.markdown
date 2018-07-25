@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_core_subnet"
 sidebar_current: "docs-oci-resource-core-subnet"
 description: |-
-Creates and manages an OCI Subnet
+  Creates and manages an OCI Subnet
 ---
 
 # oci_core_subnet

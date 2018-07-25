@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_core_image"
 sidebar_current: "docs-oci-resource-core-image"
 description: |-
-Creates and manages an OCI Image
+  Creates and manages an OCI Image
 ---
 
 # oci_core_image

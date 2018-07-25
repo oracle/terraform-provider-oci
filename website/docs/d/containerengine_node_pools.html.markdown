@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_containerengine_node_pools"
 sidebar_current: "docs-oci-datasource-containerengine-node_pools"
 description: |-
-Provides a list of NodePools
+  Provides a list of NodePools
 ---
+
 # Data Source: oci_containerengine_node_pools
 The NodePools data source allows access to the list of OCI node_pools
 

@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_database_db_versions"
 sidebar_current: "docs-oci-datasource-database-db_versions"
 description: |-
-Provides a list of DbVersions
+  Provides a list of DbVersions
 ---
+
 # Data Source: oci_database_db_versions
 The DbVersions data source allows access to the list of OCI db_versions
 

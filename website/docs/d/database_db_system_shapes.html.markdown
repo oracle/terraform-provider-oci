@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_database_db_system_shapes"
 sidebar_current: "docs-oci-datasource-database-db_system_shapes"
 description: |-
-Provides a list of DbSystemShapes
+  Provides a list of DbSystemShapes
 ---
+
 # Data Source: oci_database_db_system_shapes
 The DbSystemShapes data source allows access to the list of OCI db_system_shapes
 

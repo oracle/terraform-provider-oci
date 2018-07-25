@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_core_route_table"
 sidebar_current: "docs-oci-resource-core-route_table"
 description: |-
-Creates and manages an OCI RouteTable
+  Creates and manages an OCI RouteTable
 ---
 
 # oci_core_route_table

@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_core_volume_backup_policy_assignments"
 sidebar_current: "docs-oci-datasource-core-volume_backup_policy_assignments"
 description: |-
-Provides a list of VolumeBackupPolicyAssignments
+  Provides a list of VolumeBackupPolicyAssignments
 ---
+
 # Data Source: oci_core_volume_backup_policy_assignments
 The VolumeBackupPolicyAssignments data source allows access to the list of OCI volume_backup_policy_assignments
 

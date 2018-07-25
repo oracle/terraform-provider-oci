@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_core_cross_connect"
 sidebar_current: "docs-oci-datasource-core-cross_connect"
 description: |-
-Provides details about a specific CrossConnect
+  Provides details about a specific CrossConnect
 ---
 
 # Data Source: oci_core_cross_connect

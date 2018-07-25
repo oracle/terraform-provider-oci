@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_core_local_peering_gateway"
 sidebar_current: "docs-oci-resource-core-local_peering_gateway"
 description: |-
-Creates and manages an OCI LocalPeeringGateway
+  Creates and manages an OCI LocalPeeringGateway
 ---
 
 # oci_core_local_peering_gateway

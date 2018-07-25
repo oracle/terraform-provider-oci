@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_email_sender"
 sidebar_current: "docs-oci-datasource-email-sender"
 description: |-
-Provides details about a specific Sender
+  Provides details about a specific Sender
 ---
 
 # Data Source: oci_email_sender

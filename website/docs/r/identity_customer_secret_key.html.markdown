@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_identity_customer_secret_key"
 sidebar_current: "docs-oci-resource-identity-customer_secret_key"
 description: |-
-Creates and manages an OCI CustomerSecretKey
+  Creates and manages an OCI CustomerSecretKey
 ---
 
 # oci_identity_customer_secret_key

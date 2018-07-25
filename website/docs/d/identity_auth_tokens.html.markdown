@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_identity_auth_tokens"
 sidebar_current: "docs-oci-datasource-identity-auth_tokens"
 description: |-
-Provides a list of AuthTokens
+  Provides a list of AuthTokens
 ---
+
 # Data Source: oci_identity_auth_tokens
 The AuthTokens data source allows access to the list of OCI auth_tokens
 

@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_core_drg_attachment"
 sidebar_current: "docs-oci-resource-core-drg_attachment"
 description: |-
-Creates and manages an OCI DrgAttachment
+  Creates and manages an OCI DrgAttachment
 ---
 
 # oci_core_drg_attachment

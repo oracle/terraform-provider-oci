@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_core_public_ip"
 sidebar_current: "docs-oci-resource-core-public_ip"
 description: |-
-Creates and manages an OCI PublicIp
+  Creates and manages an OCI PublicIp
 ---
 
 # oci_core_public_ip
