@@ -90,5 +90,5 @@ The following attributes are exported:
 IpSecConnections can be imported using the `id`, e.g.
 
 ```
-$ terraform import oci_core_ip_sec_connection.test_ip_sec_connection "id"
+$ terraform import oci_core_ipsec.test_ip_sec_connection "id"
 ```
