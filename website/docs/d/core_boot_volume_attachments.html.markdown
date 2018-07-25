@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_core_boot_volume_attachments"
 sidebar_current: "docs-oci-datasource-core-boot_volume_attachments"
 description: |-
-Provides a list of BootVolumeAttachments
+  Provides a list of BootVolumeAttachments
 ---
+
 # Data Source: oci_core_boot_volume_attachments
 The BootVolumeAttachments data source allows access to the list of OCI boot_volume_attachments
 

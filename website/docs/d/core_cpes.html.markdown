@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_core_cpes"
 sidebar_current: "docs-oci-datasource-core-cpes"
 description: |-
-Provides a list of Cpes
+  Provides a list of Cpes
 ---
+
 # Data Source: oci_core_cpes
 The Cpes data source allows access to the list of OCI cpes
 

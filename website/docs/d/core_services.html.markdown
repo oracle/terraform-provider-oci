@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_core_services"
 sidebar_current: "docs-oci-datasource-core-services"
 description: |-
-Provides a list of Services
+  Provides a list of Services
 ---
+
 # Data Source: oci_core_services
 The Services data source allows access to the list of OCI services
 

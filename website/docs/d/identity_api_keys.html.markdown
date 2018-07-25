@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_identity_api_keys"
 sidebar_current: "docs-oci-datasource-identity-api_keys"
 description: |-
-Provides a list of ApiKeys
+  Provides a list of ApiKeys
 ---
+
 # Data Source: oci_identity_api_keys
 The ApiKeys data source allows access to the list of OCI api_keys
 

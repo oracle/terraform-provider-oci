@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_identity_tenancy"
 sidebar_current: "docs-oci-datasource-identity-tenancy"
 description: |-
-Provides details about a specific Tenancy
+  Provides details about a specific Tenancy
 ---
 
 # Data Source: oci_identity_tenancy

@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_core_virtual_circuit_public_prefixes"
 sidebar_current: "docs-oci-datasource-core-virtual_circuit_public_prefixes"
 description: |-
-Provides a list of VirtualCircuitPublicPrefixes
+  Provides a list of VirtualCircuitPublicPrefixes
 ---
+
 # Data Source: oci_core_virtual_circuit_public_prefixes
 The VirtualCircuitPublicPrefixes data source allows access to the list of OCI virtual_circuit_public_prefixes
 

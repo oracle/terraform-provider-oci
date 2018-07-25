@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_core_cross_connect_groups"
 sidebar_current: "docs-oci-datasource-core-cross_connect_groups"
 description: |-
-Provides a list of CrossConnectGroups
+  Provides a list of CrossConnectGroups
 ---
+
 # Data Source: oci_core_cross_connect_groups
 The CrossConnectGroups data source allows access to the list of OCI cross_connect_groups
 

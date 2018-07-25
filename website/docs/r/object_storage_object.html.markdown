@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_objectstorage_object"
 sidebar_current: "docs-oci-resource-object_storage-object"
 description: |-
-Creates and manages an OCI Object
+  Creates and manages an OCI Object
 ---
 
 # oci_objectstorage_object

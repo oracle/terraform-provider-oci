@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_core_service_gateways"
 sidebar_current: "docs-oci-datasource-core-service_gateways"
 description: |-
-Provides a list of ServiceGateways
+  Provides a list of ServiceGateways
 ---
+
 # Data Source: oci_core_service_gateways
 The ServiceGateways data source allows access to the list of OCI service_gateways
 

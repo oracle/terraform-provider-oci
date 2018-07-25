@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_email_sender"
 sidebar_current: "docs-oci-resource-email-sender"
 description: |-
-Creates and manages an OCI Sender
+  Creates and manages an OCI Sender
 ---
 
 # oci_email_sender

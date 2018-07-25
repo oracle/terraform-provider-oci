@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_core_private_ip"
 sidebar_current: "docs-oci-resource-core-private_ip"
 description: |-
-Creates and manages an OCI PrivateIp
+  Creates and manages an OCI PrivateIp
 ---
 
 # oci_core_private_ip

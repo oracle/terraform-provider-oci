@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_core_instance"
 sidebar_current: "docs-oci-resource-core-instance"
 description: |-
-Creates and manages an OCI Instance
+  Creates and manages an OCI Instance
 ---
 
 # oci_core_instance

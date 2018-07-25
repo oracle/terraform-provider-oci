@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_database_db_system"
 sidebar_current: "docs-oci-resource-database-db_system"
 description: |-
-Creates and manages an OCI DbSystem
+  Creates and manages an OCI DbSystem
 ---
 
 # oci_database_db_system

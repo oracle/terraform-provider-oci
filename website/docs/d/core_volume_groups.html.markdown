@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_core_volume_groups"
 sidebar_current: "docs-oci-datasource-core-volume_groups"
 description: |-
-Provides a list of VolumeGroups
+  Provides a list of VolumeGroups
 ---
+
 # Data Source: oci_core_volume_groups
 The VolumeGroups data source allows access to the list of OCI volume_groups
 

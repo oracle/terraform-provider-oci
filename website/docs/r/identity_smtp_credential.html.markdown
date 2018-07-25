@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_identity_smtp_credential"
 sidebar_current: "docs-oci-resource-identity-smtp_credential"
 description: |-
-Creates and manages an OCI SmtpCredential
+  Creates and manages an OCI SmtpCredential
 ---
 
 # oci_identity_smtp_credential

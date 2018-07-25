@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_objectstorage_preauthrequest"
 sidebar_current: "docs-oci-resource-object_storage-preauthenticated_request"
 description: |-
-Creates and manages an OCI PreauthenticatedRequest
+  Creates and manages an OCI PreauthenticatedRequest
 ---
 
 # oci_objectstorage_preauthrequest

@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_identity_ui_password"
 sidebar_current: "docs-oci-resource-identity-ui_password"
 description: |-
-Creates and manages an OCI UiPassword
+  Creates and manages an OCI UiPassword
 ---
 
 # oci_identity_ui_password

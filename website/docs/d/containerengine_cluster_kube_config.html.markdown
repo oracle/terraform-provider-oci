@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_containerengine_cluster_kube_config"
 sidebar_current: "docs-oci-datasource-containerengine-cluster_kube_config"
 description: |-
-Provides details about a specific ClusterKubeConfig
+  Provides details about a specific ClusterKubeConfig
 ---
 
 # Data Source: oci_containerengine_cluster_kube_config

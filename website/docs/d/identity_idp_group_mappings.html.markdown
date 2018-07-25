@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_identity_idp_group_mappings"
 sidebar_current: "docs-oci-datasource-identity-idp_group_mappings"
 description: |-
-Provides a list of IdpGroupMappings
+  Provides a list of IdpGroupMappings
 ---
+
 # Data Source: oci_identity_idp_group_mappings
 The IdpGroupMappings data source allows access to the list of OCI idp_group_mappings
 

@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_core_cross_connect_port_speed_shapes"
 sidebar_current: "docs-oci-datasource-core-cross_connect_port_speed_shapes"
 description: |-
-Provides a list of CrossConnectPortSpeedShapes
+  Provides a list of CrossConnectPortSpeedShapes
 ---
+
 # Data Source: oci_core_cross_connect_port_speed_shapes
 The CrossConnectPortSpeedShapes data source allows access to the list of OCI cross_connect_port_speed_shapes
 

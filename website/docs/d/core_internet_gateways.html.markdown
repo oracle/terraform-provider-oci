@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_core_internet_gateways"
 sidebar_current: "docs-oci-datasource-core-internet_gateways"
 description: |-
-Provides a list of InternetGateways
+  Provides a list of InternetGateways
 ---
+
 # Data Source: oci_core_internet_gateways
 The InternetGateways data source allows access to the list of OCI internet_gateways
 

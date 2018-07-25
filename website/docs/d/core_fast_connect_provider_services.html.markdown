@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_core_fast_connect_provider_services"
 sidebar_current: "docs-oci-datasource-core-fast_connect_provider_services"
 description: |-
-Provides a list of FastConnectProviderServices
+  Provides a list of FastConnectProviderServices
 ---
+
 # Data Source: oci_core_fast_connect_provider_services
 The FastConnectProviderServices data source allows access to the list of OCI fast_connect_provider_services
 

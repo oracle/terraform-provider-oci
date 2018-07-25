@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_identity_groups"
 sidebar_current: "docs-oci-datasource-identity-groups"
 description: |-
-Provides a list of Groups
+  Provides a list of Groups
 ---
+
 # Data Source: oci_identity_groups
 The Groups data source allows access to the list of OCI groups
 

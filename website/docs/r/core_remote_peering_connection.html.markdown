@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_core_remote_peering_connection"
 sidebar_current: "docs-oci-resource-core-remote_peering_connection"
 description: |-
-Creates and manages an OCI RemotePeeringConnection
+  Creates and manages an OCI RemotePeeringConnection
 ---
 
 # oci_core_remote_peering_connection

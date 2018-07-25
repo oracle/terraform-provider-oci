@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_identity_tags"
 sidebar_current: "docs-oci-datasource-identity-tags"
 description: |-
-Provides a list of Tags
+  Provides a list of Tags
 ---
+
 # Data Source: oci_identity_tags
 The Tags data source allows access to the list of OCI tags
 

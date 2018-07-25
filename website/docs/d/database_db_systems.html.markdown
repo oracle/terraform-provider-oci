@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_database_db_systems"
 sidebar_current: "docs-oci-datasource-database-db_systems"
 description: |-
-Provides a list of DbSystems
+  Provides a list of DbSystems
 ---
+
 # Data Source: oci_database_db_systems
 The DbSystems data source allows access to the list of OCI db_systems
 

@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_identity_swift_password"
 sidebar_current: "docs-oci-resource-identity-swift_password"
 description: |-
-Creates and manages an OCI SwiftPassword
+  Creates and manages an OCI SwiftPassword
 ---
 
 # oci_identity_swift_password

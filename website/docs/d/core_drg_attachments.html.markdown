@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_core_drg_attachments"
 sidebar_current: "docs-oci-datasource-core-drg_attachments"
 description: |-
-Provides a list of DrgAttachments
+  Provides a list of DrgAttachments
 ---
+
 # Data Source: oci_core_drg_attachments
 The DrgAttachments data source allows access to the list of OCI drg_attachments
 

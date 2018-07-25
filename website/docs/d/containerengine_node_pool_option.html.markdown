@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_containerengine_node_pool_option"
 sidebar_current: "docs-oci-datasource-containerengine-node_pool_option"
 description: |-
-Provides details about a specific NodePoolOption
+  Provides details about a specific NodePoolOption
 ---
 
 # Data Source: oci_containerengine_node_pool_option

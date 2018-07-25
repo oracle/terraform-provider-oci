@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_core_volume_attachment"
 sidebar_current: "docs-oci-resource-core-volume_attachment"
 description: |-
-Creates and manages an OCI VolumeAttachment
+  Creates and manages an OCI VolumeAttachment
 ---
 
 # oci_core_volume_attachment

@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_identity_group"
 sidebar_current: "docs-oci-resource-identity-group"
 description: |-
-Creates and manages an OCI Group
+  Creates and manages an OCI Group
 ---
 
 # oci_identity_group

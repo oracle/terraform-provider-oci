@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_core_security_list"
 sidebar_current: "docs-oci-resource-core-security_list"
 description: |-
-Creates and manages an OCI SecurityList
+  Creates and manages an OCI SecurityList
 ---
 
 # oci_core_security_list

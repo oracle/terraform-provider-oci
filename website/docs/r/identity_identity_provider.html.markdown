@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_identity_identity_provider"
 sidebar_current: "docs-oci-resource-identity-identity_provider"
 description: |-
-Creates and manages an OCI IdentityProvider
+  Creates and manages an OCI IdentityProvider
 ---
 
 # oci_identity_identity_provider

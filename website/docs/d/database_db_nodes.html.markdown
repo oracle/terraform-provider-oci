@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_database_db_nodes"
 sidebar_current: "docs-oci-datasource-database-db_nodes"
 description: |-
-Provides a list of DbNodes
+  Provides a list of DbNodes
 ---
+
 # Data Source: oci_database_db_nodes
 The DbNodes data source allows access to the list of OCI db_nodes
 

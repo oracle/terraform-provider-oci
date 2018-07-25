@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_core_cross_connect_group"
 sidebar_current: "docs-oci-resource-core-cross_connect_group"
 description: |-
-Creates and manages an OCI CrossConnectGroup
+  Creates and manages an OCI CrossConnectGroup
 ---
 
 # oci_core_cross_connect_group

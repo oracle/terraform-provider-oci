@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_core_local_peering_gateways"
 sidebar_current: "docs-oci-datasource-core-local_peering_gateways"
 description: |-
-Provides a list of LocalPeeringGateways
+  Provides a list of LocalPeeringGateways
 ---
+
 # Data Source: oci_core_local_peering_gateways
 The LocalPeeringGateways data source allows access to the list of OCI local_peering_gateways
 

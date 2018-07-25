@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_core_ipsec_config"
 sidebar_current: "docs-oci-datasource-core-ipsec_config"
 description: |-
-Provides details about a specific IpSecConnectionDeviceConfig
+  Provides details about a specific IpSecConnectionDeviceConfig
 ---
 
 # Data Source: oci_core_ipsec_config

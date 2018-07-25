@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_database_db_homes"
 sidebar_current: "docs-oci-datasource-database-db_homes"
 description: |-
-Provides a list of DbHomes
+  Provides a list of DbHomes
 ---
+
 # Data Source: oci_database_db_homes
 The DbHomes data source allows access to the list of OCI db_homes
 

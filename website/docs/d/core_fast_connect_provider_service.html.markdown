@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_core_fast_connect_provider_service"
 sidebar_current: "docs-oci-datasource-core-fast_connect_provider_service"
 description: |-
-Provides details about a specific FastConnectProviderService
+  Provides details about a specific FastConnectProviderService
 ---
 
 # Data Source: oci_core_fast_connect_provider_service

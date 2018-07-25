@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_core_boot_volumes"
 sidebar_current: "docs-oci-datasource-core-boot_volumes"
 description: |-
-Provides a list of BootVolumes
+  Provides a list of BootVolumes
 ---
+
 # Data Source: oci_core_boot_volumes
 The BootVolumes data source allows access to the list of OCI boot_volumes
 

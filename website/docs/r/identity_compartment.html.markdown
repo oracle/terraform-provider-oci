@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_identity_compartment"
 sidebar_current: "docs-oci-resource-identity-compartment"
 description: |-
-Creates and manages an OCI Compartment
+  Creates and manages an OCI Compartment
 ---
 
 # oci_identity_compartment

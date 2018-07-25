@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_load_balancer_backend_set"
 sidebar_current: "docs-oci-resource-load_balancer-backend_set"
 description: |-
-Creates and manages an OCI BackendSet
+  Creates and manages an OCI BackendSet
 ---
 
 # oci_load_balancer_backend_set

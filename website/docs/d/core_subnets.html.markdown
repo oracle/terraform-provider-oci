@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_core_subnets"
 sidebar_current: "docs-oci-datasource-core-subnets"
 description: |-
-Provides a list of Subnets
+  Provides a list of Subnets
 ---
+
 # Data Source: oci_core_subnets
 The Subnets data source allows access to the list of OCI subnets
 

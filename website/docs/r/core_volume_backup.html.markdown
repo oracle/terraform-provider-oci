@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_core_volume_backup"
 sidebar_current: "docs-oci-resource-core-volume_backup"
 description: |-
-Creates and manages an OCI VolumeBackup
+  Creates and manages an OCI VolumeBackup
 ---
 
 # oci_core_volume_backup

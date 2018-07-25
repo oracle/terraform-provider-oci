@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_core_ipsec"
 sidebar_current: "docs-oci-resource-core-ipsec"
 description: |-
-Creates and manages an OCI IpSecConnection
+  Creates and manages an OCI IpSecConnection
 ---
 
 # oci_core_ipsec

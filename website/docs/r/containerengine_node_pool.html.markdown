@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_containerengine_node_pool"
 sidebar_current: "docs-oci-resource-containerengine-node_pool"
 description: |-
-Creates and manages an OCI NodePool
+  Creates and manages an OCI NodePool
 ---
 
 # oci_containerengine_node_pool

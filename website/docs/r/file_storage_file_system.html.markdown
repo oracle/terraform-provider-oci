@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_file_storage_file_system"
 sidebar_current: "docs-oci-resource-file_storage-file_system"
 description: |-
-Creates and manages an OCI FileSystem
+  Creates and manages an OCI FileSystem
 ---
 
 # oci_file_storage_file_system

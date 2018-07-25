@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_database_db_node"
 sidebar_current: "docs-oci-datasource-database-db_node"
 description: |-
-Provides details about a specific DbNode
+  Provides details about a specific DbNode
 ---
 
 # Data Source: oci_database_db_node

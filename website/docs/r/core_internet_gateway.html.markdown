@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_core_internet_gateway"
 sidebar_current: "docs-oci-resource-core-internet_gateway"
 description: |-
-Creates and manages an OCI InternetGateway
+  Creates and manages an OCI InternetGateway
 ---
 
 # oci_core_internet_gateway

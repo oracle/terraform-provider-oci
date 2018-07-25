@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_file_storage_export_set"
 sidebar_current: "docs-oci-resource-file_storage-export_set"
 description: |-
-Creates and manages an OCI ExportSet
+  Creates and manages an OCI ExportSet
 ---
 
 # oci_file_storage_export_set

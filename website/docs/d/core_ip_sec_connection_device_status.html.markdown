@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_core_ipsec_status"
 sidebar_current: "docs-oci-datasource-core-ipsec_status"
 description: |-
-Provides details about a specific IpSecConnectionDeviceStatus
+  Provides details about a specific IpSecConnectionDeviceStatus
 ---
 
 # Data Source: oci_core_ipsec_status

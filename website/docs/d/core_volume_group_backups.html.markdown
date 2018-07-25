@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_core_volume_group_backups"
 sidebar_current: "docs-oci-datasource-core-volume_group_backups"
 description: |-
-Provides a list of VolumeGroupBackups
+  Provides a list of VolumeGroupBackups
 ---
+
 # Data Source: oci_core_volume_group_backups
 The VolumeGroupBackups data source allows access to the list of OCI volume_group_backups
 

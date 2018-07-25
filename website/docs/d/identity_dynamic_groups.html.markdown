@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_identity_dynamic_groups"
 sidebar_current: "docs-oci-datasource-identity-dynamic_groups"
 description: |-
-Provides a list of DynamicGroups
+  Provides a list of DynamicGroups
 ---
+
 # Data Source: oci_identity_dynamic_groups
 The DynamicGroups data source allows access to the list of OCI dynamic_groups
 

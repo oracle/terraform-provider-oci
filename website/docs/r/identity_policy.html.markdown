@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_identity_policy"
 sidebar_current: "docs-oci-resource-identity-policy"
 description: |-
-Creates and manages an OCI Policy
+  Creates and manages an OCI Policy
 ---
 
 # oci_identity_policy

@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_core_drg"
 sidebar_current: "docs-oci-resource-core-drg"
 description: |-
-Creates and manages an OCI Drg
+  Creates and manages an OCI Drg
 ---
 
 # oci_core_drg

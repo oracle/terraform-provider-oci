@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_identity_region_subscriptions"
 sidebar_current: "docs-oci-datasource-identity-region_subscriptions"
 description: |-
-Provides a list of RegionSubscriptions
+  Provides a list of RegionSubscriptions
 ---
+
 # Data Source: oci_identity_region_subscriptions
 The RegionSubscriptions data source allows access to the list of OCI region_subscriptions
 

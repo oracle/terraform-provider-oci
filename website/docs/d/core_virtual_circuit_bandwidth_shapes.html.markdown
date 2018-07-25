@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_core_virtual_circuit_bandwidth_shapes"
 sidebar_current: "docs-oci-datasource-core-virtual_circuit_bandwidth_shapes"
 description: |-
-Provides a list of VirtualCircuitBandwidthShapes
+  Provides a list of VirtualCircuitBandwidthShapes
 ---
+
 # Data Source: oci_core_virtual_circuit_bandwidth_shapes
 The VirtualCircuitBandwidthShapes data source allows access to the list of OCI virtual_circuit_bandwidth_shapes
 

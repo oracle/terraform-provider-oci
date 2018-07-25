@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_identity_availability_domains"
 sidebar_current: "docs-oci-datasource-identity-availability_domains"
 description: |-
-Provides a list of AvailabilityDomains
+  Provides a list of AvailabilityDomains
 ---
+
 # Data Source: oci_identity_availability_domains
 The AvailabilityDomains data source allows access to the list of OCI availability_domains
 

@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_load_balancer_policies"
 sidebar_current: "docs-oci-datasource-load_balancer-policies"
 description: |-
-Provides a list of LoadBalancerPolicies
+  Provides a list of LoadBalancerPolicies
 ---
+
 # Data Source: oci_load_balancer_policies
 The LoadBalancerPolicies data source allows access to the list of OCI load_balancer_policies
 

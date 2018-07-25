@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_core_console_history"
 sidebar_current: "docs-oci-resource-core-console_history"
 description: |-
-Creates and manages an OCI ConsoleHistory
+  Creates and manages an OCI ConsoleHistory
 ---
 
 # oci_core_console_history

@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_containerengine_cluster"
 sidebar_current: "docs-oci-resource-containerengine-cluster"
 description: |-
-Creates and manages an OCI Cluster
+  Creates and manages an OCI Cluster
 ---
 
 # oci_containerengine_cluster

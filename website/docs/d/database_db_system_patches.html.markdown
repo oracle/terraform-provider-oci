@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_database_db_system_patches"
 sidebar_current: "docs-oci-datasource-database-db_system_patches"
 description: |-
-Provides a list of DbSystemPatches
+  Provides a list of DbSystemPatches
 ---
+
 # Data Source: oci_database_db_system_patches
 The DbSystemPatches data source allows access to the list of OCI db_system_patches
 

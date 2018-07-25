@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_identity_user_group_membership"
 sidebar_current: "docs-oci-resource-identity-user_group_membership"
 description: |-
-Creates and manages an OCI UserGroupMembership
+  Creates and manages an OCI UserGroupMembership
 ---
 
 # oci_identity_user_group_membership

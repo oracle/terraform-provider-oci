@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_email_senders"
 sidebar_current: "docs-oci-datasource-email-senders"
 description: |-
-Provides a list of Senders
+  Provides a list of Senders
 ---
+
 # Data Source: oci_email_senders
 The Senders data source allows access to the list of OCI senders
 

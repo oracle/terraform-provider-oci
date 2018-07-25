@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_identity_dynamic_group"
 sidebar_current: "docs-oci-resource-identity-dynamic_group"
 description: |-
-Creates and manages an OCI DynamicGroup
+  Creates and manages an OCI DynamicGroup
 ---
 
 # oci_identity_dynamic_group

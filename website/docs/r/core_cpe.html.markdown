@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_core_cpe"
 sidebar_current: "docs-oci-resource-core-cpe"
 description: |-
-Creates and manages an OCI Cpe
+  Creates and manages an OCI Cpe
 ---
 
 # oci_core_cpe

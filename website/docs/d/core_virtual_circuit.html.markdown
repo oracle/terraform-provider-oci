@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_core_virtual_circuit"
 sidebar_current: "docs-oci-datasource-core-virtual_circuit"
 description: |-
-Provides details about a specific VirtualCircuit
+  Provides details about a specific VirtualCircuit
 ---
 
 # Data Source: oci_core_virtual_circuit

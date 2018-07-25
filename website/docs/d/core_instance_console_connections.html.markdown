@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_core_instance_console_connections"
 sidebar_current: "docs-oci-datasource-core-instance_console_connections"
 description: |-
-Provides a list of InstanceConsoleConnections
+  Provides a list of InstanceConsoleConnections
 ---
+
 # Data Source: oci_core_instance_console_connections
 The InstanceConsoleConnections data source allows access to the list of OCI instance_console_connections
 

@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_containerengine_cluster_option"
 sidebar_current: "docs-oci-datasource-containerengine-cluster_option"
 description: |-
-Provides details about a specific ClusterOption
+  Provides details about a specific ClusterOption
 ---
 
 # Data Source: oci_containerengine_cluster_option

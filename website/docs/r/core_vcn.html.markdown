@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_core_vcn"
 sidebar_current: "docs-oci-resource-core-vcn"
 description: |-
-Creates and manages an OCI Vcn
+  Creates and manages an OCI Vcn
 ---
 
 # oci_core_vcn

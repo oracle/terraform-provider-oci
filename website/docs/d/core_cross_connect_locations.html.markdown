@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_core_cross_connect_locations"
 sidebar_current: "docs-oci-datasource-core-cross_connect_locations"
 description: |-
-Provides a list of CrossConnectLocations
+  Provides a list of CrossConnectLocations
 ---
+
 # Data Source: oci_core_cross_connect_locations
 The CrossConnectLocations data source allows access to the list of OCI cross_connect_locations
 

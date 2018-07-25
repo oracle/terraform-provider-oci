@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_file_storage_file_systems"
 sidebar_current: "docs-oci-datasource-file_storage-file_systems"
 description: |-
-Provides a list of FileSystems
+  Provides a list of FileSystems
 ---
+
 # Data Source: oci_file_storage_file_systems
 The FileSystems data source allows access to the list of OCI file_systems
 

@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_audit_configuration"
 sidebar_current: "docs-oci-resource-audit-configuration"
 description: |-
-Creates and manages an OCI Configuration
+  Creates and manages an OCI Configuration
 ---
 
 # oci_audit_configuration

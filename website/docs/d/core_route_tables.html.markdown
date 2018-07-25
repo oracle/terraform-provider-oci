@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_core_route_tables"
 sidebar_current: "docs-oci-datasource-core-route_tables"
 description: |-
-Provides a list of RouteTables
+  Provides a list of RouteTables
 ---
+
 # Data Source: oci_core_route_tables
 The RouteTables data source allows access to the list of OCI route_tables
 

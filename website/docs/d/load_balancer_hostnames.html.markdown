@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_load_balancer_hostnames"
 sidebar_current: "docs-oci-datasource-load_balancer-hostnames"
 description: |-
-Provides a list of Hostnames
+  Provides a list of Hostnames
 ---
+
 # Data Source: oci_load_balancer_hostnames
 The Hostnames data source allows access to the list of OCI hostnames
 

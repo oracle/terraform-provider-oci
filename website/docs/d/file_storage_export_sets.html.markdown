@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_file_storage_export_sets"
 sidebar_current: "docs-oci-datasource-file_storage-export_sets"
 description: |-
-Provides a list of ExportSets
+  Provides a list of ExportSets
 ---
+
 # Data Source: oci_file_storage_export_sets
 The ExportSets data source allows access to the list of OCI export_sets
 

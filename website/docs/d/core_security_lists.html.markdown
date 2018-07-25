@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_core_security_lists"
 sidebar_current: "docs-oci-datasource-core-security_lists"
 description: |-
-Provides a list of SecurityLists
+  Provides a list of SecurityLists
 ---
+
 # Data Source: oci_core_security_lists
 The SecurityLists data source allows access to the list of OCI security_lists
 

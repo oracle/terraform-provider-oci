@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_identity_swift_passwords"
 sidebar_current: "docs-oci-datasource-identity-swift_passwords"
 description: |-
-Provides a list of SwiftPasswords
+  Provides a list of SwiftPasswords
 ---
+
 # Data Source: oci_identity_swift_passwords
 The SwiftPasswords data source allows access to the list of OCI swift_passwords
 

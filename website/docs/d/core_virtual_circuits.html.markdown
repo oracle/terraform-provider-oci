@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_core_virtual_circuits"
 sidebar_current: "docs-oci-datasource-core-virtual_circuits"
 description: |-
-Provides a list of VirtualCircuits
+  Provides a list of VirtualCircuits
 ---
+
 # Data Source: oci_core_virtual_circuits
 The VirtualCircuits data source allows access to the list of OCI virtual_circuits
 

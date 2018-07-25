@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_identity_customer_secret_keys"
 sidebar_current: "docs-oci-datasource-identity-customer_secret_keys"
 description: |-
-Provides a list of CustomerSecretKeys
+  Provides a list of CustomerSecretKeys
 ---
+
 # Data Source: oci_identity_customer_secret_keys
 The CustomerSecretKeys data source allows access to the list of OCI customer_secret_keys
 

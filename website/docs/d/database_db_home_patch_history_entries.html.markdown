@@ -3,8 +3,9 @@ layout: "oci"
 page_title: "OCI: oci_database_db_home_patch_history_entries"
 sidebar_current: "docs-oci-datasource-database-db_home_patch_history_entries"
 description: |-
-Provides a list of DbHomePatchHistoryEntries
+  Provides a list of DbHomePatchHistoryEntries
 ---
+
 # Data Source: oci_database_db_home_patch_history_entries
 The DbHomePatchHistoryEntries data source allows access to the list of OCI db_home_patch_history_entries
 
