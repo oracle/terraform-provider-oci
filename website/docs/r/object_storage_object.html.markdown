@@ -69,5 +69,5 @@ Note: Metadata keys are case-insensitive and all returned keys will be lower cas
 Objects can be imported using the `id`, e.g.
 
 ```
-$ terraform import oci_object_storage_object.test_object "id"
+$ terraform import oci_objectstorage_object.test_object "id"
 ```
