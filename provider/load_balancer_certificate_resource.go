@@ -269,6 +269,8 @@ func (s *CertificateResourceCrud) Delete() error {
 	return nil
 }
 
-func (s *CertificateResourceCrud) SetData() {
+func (s *CertificateResourceCrud) SetData() error {
 	// Noop for this resource
+
+	return nil
 }

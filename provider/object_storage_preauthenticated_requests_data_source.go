@@ -96,9 +96,9 @@ func (s *PreauthenticatedRequestsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *PreauthenticatedRequestsDataSourceCrud) SetData() {
+func (s *PreauthenticatedRequestsDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -137,8 +137,8 @@ func (s *PreauthenticatedRequestsDataSourceCrud) SetData() {
 	}
 
 	if err := s.D.Set("preauthenticated_requests", resources); err != nil {
-		panic(err)
+		return err
 	}
 
-	return
+	return nil
 }

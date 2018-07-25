@@ -73,9 +73,9 @@ func (s *RegionsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *RegionsDataSourceCrud) SetData() {
+func (s *RegionsDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -100,8 +100,8 @@ func (s *RegionsDataSourceCrud) SetData() {
 	}
 
 	if err := s.D.Set("regions", resources); err != nil {
-		panic(err)
+		return err
 	}
 
-	return
+	return nil
 }

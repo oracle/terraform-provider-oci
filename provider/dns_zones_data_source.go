@@ -163,9 +163,9 @@ func (s *ZonesDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *ZonesDataSourceCrud) SetData() {
+func (s *ZonesDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -208,8 +208,8 @@ func (s *ZonesDataSourceCrud) SetData() {
 	}
 
 	if err := s.D.Set("zones", resources); err != nil {
-		panic(err)
+		return err
 	}
 
-	return
+	return nil
 }

@@ -66,9 +66,9 @@ func (s *AuthTokensDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *AuthTokensDataSourceCrud) SetData() {
+func (s *AuthTokensDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -114,8 +114,8 @@ func (s *AuthTokensDataSourceCrud) SetData() {
 
 	// @CODEGEN 06/2018: auth_tokens => tokens
 	if err := s.D.Set("tokens", resources); err != nil {
-		panic(err)
+		return err
 	}
 
-	return
+	return nil
 }

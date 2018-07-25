@@ -142,9 +142,9 @@ func (s *ImagesDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *ImagesDataSourceCrud) SetData() {
+func (s *ImagesDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -212,8 +212,8 @@ func (s *ImagesDataSourceCrud) SetData() {
 	}
 
 	if err := s.D.Set("images", resources); err != nil {
-		panic(err)
+		return err
 	}
 
-	return
+	return nil
 }

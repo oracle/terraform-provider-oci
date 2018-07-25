@@ -309,7 +309,7 @@ func (s *RouteTableResourceCrud) Delete() error {
 	return err
 }
 
-func (s *RouteTableResourceCrud) SetData() {
+func (s *RouteTableResourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -340,6 +340,7 @@ func (s *RouteTableResourceCrud) SetData() {
 		s.D.Set("vcn_id", *s.Res.VcnId)
 	}
 
+	return nil
 }
 
 func (s *RouteTableResourceCrud) mapToRouteRule(hashcode int) oci_core.RouteRule {

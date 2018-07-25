@@ -164,9 +164,9 @@ func (s *PublicIpDataSourceCrud) getByPublicIp(ipAddress string) error {
 	return nil
 }
 
-func (s *PublicIpDataSourceCrud) SetData() {
+func (s *PublicIpDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(*s.Res.Id)
@@ -207,5 +207,5 @@ func (s *PublicIpDataSourceCrud) SetData() {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
 
-	return
+	return nil
 }

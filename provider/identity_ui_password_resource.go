@@ -122,7 +122,7 @@ func (s *UiPasswordResourceCrud) Create() error {
 	return nil
 }
 
-func (s *UiPasswordResourceCrud) SetData() {
+func (s *UiPasswordResourceCrud) SetData() error {
 	if s.Res.InactiveStatus != nil {
 		s.D.Set("inactive_status", *s.Res.InactiveStatus)
 	}
@@ -141,4 +141,5 @@ func (s *UiPasswordResourceCrud) SetData() {
 		s.D.Set("user_id", *s.Res.UserId)
 	}
 
+	return nil
 }

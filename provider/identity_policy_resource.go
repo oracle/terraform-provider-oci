@@ -337,7 +337,7 @@ func (s *PolicyResourceCrud) Delete() error {
 	return err
 }
 
-func (s *PolicyResourceCrud) SetData() {
+func (s *PolicyResourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -372,6 +372,7 @@ func (s *PolicyResourceCrud) SetData() {
 		s.D.Set("version_date", *s.Res.VersionDate)
 	}
 
+	return nil
 }
 
 func ignorePolicyFormatDiff(k string, old string, new string, d *schema.ResourceData) bool {

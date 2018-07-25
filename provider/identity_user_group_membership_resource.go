@@ -173,7 +173,7 @@ func (s *UserGroupMembershipResourceCrud) Delete() error {
 	return err
 }
 
-func (s *UserGroupMembershipResourceCrud) SetData() {
+func (s *UserGroupMembershipResourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -196,4 +196,5 @@ func (s *UserGroupMembershipResourceCrud) SetData() {
 		s.D.Set("user_id", *s.Res.UserId)
 	}
 
+	return nil
 }

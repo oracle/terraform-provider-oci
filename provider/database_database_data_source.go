@@ -135,9 +135,9 @@ func (s *DatabaseDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *DatabaseDataSourceCrud) SetData() {
+func (s *DatabaseDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(*s.Res.Id)
@@ -193,6 +193,8 @@ func (s *DatabaseDataSourceCrud) SetData() {
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
+
+	return nil
 }
 
 func mapToDbBackupConfig(raw map[string]interface{}) oci_database.DbBackupConfig {

@@ -177,10 +177,10 @@ func getId(namespaceName string, bucketName string, objectName string) string {
 	return ObjIdPrefix + namespaceName + ObjIdDelim + bucketName + ObjIdDelim + objectName
 }
 
-func parseId(id string) (namespaceName string, bucketName string, objectName string) {
+func parseId(id string) (namespaceName string, bucketName string, objectName string, err error) {
 	parts := strings.Split(strings.TrimPrefix(id, ObjIdPrefix), ObjIdDelim)
 	if len(parts) < 3 {
-		panic(fmt.Sprintf("Illegal id %s encountered", id))
+		err = fmt.Errorf("Illegal id %s encountered", id)
 	}
 	namespaceName, bucketName, objectName = parts[0], parts[1], parts[2]
 
@@ -267,7 +267,11 @@ func (s *ObjectResourceCrud) Create() error {
 func (s *ObjectResourceCrud) Get() error {
 	request := oci_object_storage.GetObjectRequest{}
 
-	namespaceName, bucketName, objectName := parseId(s.D.Id())
+	namespaceName, bucketName, objectName, err := parseId(s.D.Id())
+	if err != nil {
+		return err
+	}
+
 	request.NamespaceName = &namespaceName
 	request.BucketName = &bucketName
 	request.ObjectName = &objectName
@@ -299,7 +303,11 @@ func (s *ObjectResourceCrud) Get() error {
 
 func (s *ObjectResourceCrud) Update() error {
 	id := s.D.Id()
-	namespaceName, bucketName, objectName := parseId(id)
+	namespaceName, bucketName, objectName, err := parseId(id)
+	if err != nil {
+		return err
+	}
+
 	// @CODEGEN 06/2018: Update is only supported for the change in name - all others are a forceNew
 	if !s.D.HasChange("object") {
 		return fmt.Errorf("unexpected change encountered")
@@ -314,7 +322,7 @@ func (s *ObjectResourceCrud) Update() error {
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
-	_, err := s.Client.RenameObject(context.Background(), request)
+	_, err = s.Client.RenameObject(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -327,18 +335,22 @@ func (s *ObjectResourceCrud) Update() error {
 func (s *ObjectResourceCrud) Delete() error {
 	request := oci_object_storage.DeleteObjectRequest{}
 
-	namespaceName, bucketName, objectName := parseId(s.D.Id())
+	namespaceName, bucketName, objectName, err := parseId(s.D.Id())
+	if err != nil {
+		return err
+	}
+
 	request.NamespaceName = &namespaceName
 	request.BucketName = &bucketName
 	request.ObjectName = &objectName
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
 
-	_, err := s.Client.DeleteObject(context.Background(), request)
+	_, err = s.Client.DeleteObject(context.Background(), request)
 	return err
 }
 
-func (s *ObjectResourceCrud) SetData() {
+func (s *ObjectResourceCrud) SetData() error {
 	s.D.Set("namespace", s.Res.NamespaceName)
 	s.D.Set("bucket", s.Res.BucketName)
 	s.D.Set("object", s.Res.ObjectName)
@@ -347,7 +359,7 @@ func (s *ObjectResourceCrud) SetData() {
 	contentArray, err := ioutil.ReadAll(contentReader)
 	if err != nil {
 		log.Printf("Unable to read 'content' from response. Error: %q", err)
-		return
+		return err
 	}
 	s.D.Set("content", contentArray)
 
@@ -376,9 +388,10 @@ func (s *ObjectResourceCrud) SetData() {
 		// converted to lower case
 		if err := s.D.Set("metadata", s.Res.OpcMeta); err != nil {
 			log.Printf("Unable to set 'metadata'. Error: %q", err)
-			return
 		}
 	}
+
+	return nil
 }
 
 // @CODEGEN 2/2018: Remove generated mapToObjectSummary as it's not being called

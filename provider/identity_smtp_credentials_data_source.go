@@ -66,9 +66,9 @@ func (s *SmtpCredentialsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *SmtpCredentialsDataSourceCrud) SetData() {
+func (s *SmtpCredentialsDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -113,8 +113,8 @@ func (s *SmtpCredentialsDataSourceCrud) SetData() {
 	}
 
 	if err := s.D.Set("smtp_credentials", resources); err != nil {
-		panic(err)
+		return err
 	}
 
-	return
+	return nil
 }

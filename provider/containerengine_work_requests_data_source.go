@@ -186,9 +186,9 @@ func (s *WorkRequestsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *WorkRequestsDataSourceCrud) SetData() {
+func (s *WorkRequestsDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -233,10 +233,10 @@ func (s *WorkRequestsDataSourceCrud) SetData() {
 	}
 
 	if err := s.D.Set("work_requests", resources); err != nil {
-		panic(err)
+		return err
 	}
 
-	return
+	return nil
 }
 
 func WorkRequestResourceToMap(obj oci_containerengine.WorkRequestResource) map[string]interface{} {

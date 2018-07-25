@@ -277,7 +277,7 @@ func (s *IpSecConnectionResourceCrud) Delete() error {
 	return err
 }
 
-func (s *IpSecConnectionResourceCrud) SetData() {
+func (s *IpSecConnectionResourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -308,4 +308,5 @@ func (s *IpSecConnectionResourceCrud) SetData() {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
 
+	return nil
 }

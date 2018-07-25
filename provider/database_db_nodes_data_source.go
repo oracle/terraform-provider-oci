@@ -107,9 +107,9 @@ func (s *DbNodesDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *DbNodesDataSourceCrud) SetData() {
+func (s *DbNodesDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -156,8 +156,8 @@ func (s *DbNodesDataSourceCrud) SetData() {
 	}
 
 	if err := s.D.Set("db_nodes", resources); err != nil {
-		panic(err)
+		return err
 	}
 
-	return
+	return nil
 }

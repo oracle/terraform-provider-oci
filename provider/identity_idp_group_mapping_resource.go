@@ -226,7 +226,7 @@ func (s *IdpGroupMappingResourceCrud) Delete() error {
 	return err
 }
 
-func (s *IdpGroupMappingResourceCrud) SetData() {
+func (s *IdpGroupMappingResourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -253,4 +253,5 @@ func (s *IdpGroupMappingResourceCrud) SetData() {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
 
+	return nil
 }

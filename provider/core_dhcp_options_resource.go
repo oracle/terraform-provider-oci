@@ -322,7 +322,7 @@ func (s *DhcpOptionsResourceCrud) Delete() error {
 	return err
 }
 
-func (s *DhcpOptionsResourceCrud) SetData() {
+func (s *DhcpOptionsResourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -353,6 +353,7 @@ func (s *DhcpOptionsResourceCrud) SetData() {
 		s.D.Set("vcn_id", *s.Res.VcnId)
 	}
 
+	return nil
 }
 
 func mapToDhcpOption(raw map[string]interface{}) (oci_core.DhcpOption, error) {

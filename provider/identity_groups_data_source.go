@@ -78,9 +78,9 @@ func (s *GroupsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *GroupsDataSourceCrud) SetData() {
+func (s *GroupsDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -127,8 +127,8 @@ func (s *GroupsDataSourceCrud) SetData() {
 	}
 
 	if err := s.D.Set("groups", resources); err != nil {
-		panic(err)
+		return err
 	}
 
-	return
+	return nil
 }

@@ -221,7 +221,7 @@ func (s *VolumeAttachmentResourceCrud) Delete() error {
 	return err
 }
 
-func (s *VolumeAttachmentResourceCrud) SetData() {
+func (s *VolumeAttachmentResourceCrud) SetData() error {
 	volumeAttachment := *s.Res
 
 	if availabilityDomain := volumeAttachment.GetAvailabilityDomain(); availabilityDomain != nil {
@@ -283,6 +283,8 @@ func (s *VolumeAttachmentResourceCrud) SetData() {
 	default:
 		log.Printf("[WARN] Received volume attachment of unknown type")
 	}
+
+	return nil
 }
 
 func mapToAttachVolumeDetails(d *schema.ResourceData) oci_core.AttachVolumeDetails {

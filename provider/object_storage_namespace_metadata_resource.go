@@ -120,7 +120,7 @@ func (s *NamespaceMetadataResourceCrud) Update() error {
 	return nil
 }
 
-func (s *NamespaceMetadataResourceCrud) SetData() {
+func (s *NamespaceMetadataResourceCrud) SetData() error {
 	if s.Res.DefaultS3CompartmentId != nil {
 		s.D.Set("default_s3compartment_id", *s.Res.DefaultS3CompartmentId)
 	}
@@ -132,4 +132,6 @@ func (s *NamespaceMetadataResourceCrud) SetData() {
 	if s.Res.Namespace != nil {
 		s.D.Set("namespace", *s.Res.Namespace)
 	}
+
+	return nil
 }

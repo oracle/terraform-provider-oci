@@ -312,10 +312,10 @@ func (s *LoadBalancerResourceCrud) Delete() error {
 	return nil
 }
 
-func (s *LoadBalancerResourceCrud) SetData() {
+func (s *LoadBalancerResourceCrud) SetData() error {
 	// The first time this is called, we haven't actually fetched the resource yet, we just got a work request
 	if s.Res == nil || s.Res.Id == nil {
-		return
+		return nil
 	}
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
@@ -349,4 +349,5 @@ func (s *LoadBalancerResourceCrud) SetData() {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
 
+	return nil
 }

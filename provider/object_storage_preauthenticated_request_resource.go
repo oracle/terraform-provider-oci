@@ -219,7 +219,7 @@ func (s *PreauthenticatedRequestResourceCrud) Delete() error {
 	return err
 }
 
-func (s *PreauthenticatedRequestResourceCrud) SetData() {
+func (s *PreauthenticatedRequestResourceCrud) SetData() error {
 	s.D.Set("access_type", s.Res.AccessType)
 
 	if s.Res.Name != nil {
@@ -241,4 +241,6 @@ func (s *PreauthenticatedRequestResourceCrud) SetData() {
 	if s.Res.AccessUri != nil {
 		s.D.Set("access_uri", *s.Res.AccessUri)
 	}
+
+	return nil
 }

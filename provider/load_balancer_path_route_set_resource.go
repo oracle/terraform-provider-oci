@@ -325,9 +325,9 @@ func (s *PathRouteSetResourceCrud) Delete() error {
 	return nil
 }
 
-func (s *PathRouteSetResourceCrud) SetData() {
+func (s *PathRouteSetResourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 	if s.Res.Name != nil {
 		s.D.Set("name", *s.Res.Name)
@@ -339,6 +339,7 @@ func (s *PathRouteSetResourceCrud) SetData() {
 	}
 	s.D.Set("path_routes", pathRoutes)
 
+	return nil
 }
 
 func mapToPathMatchType(raw map[string]interface{}) oci_load_balancer.PathMatchType {

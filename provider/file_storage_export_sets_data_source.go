@@ -113,9 +113,9 @@ func (s *ExportSetsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *ExportSetsDataSourceCrud) SetData() {
+func (s *ExportSetsDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -153,8 +153,8 @@ func (s *ExportSetsDataSourceCrud) SetData() {
 	}
 
 	if err := s.D.Set("export_sets", resources); err != nil {
-		panic(err)
+		return err
 	}
 
-	return
+	return nil
 }

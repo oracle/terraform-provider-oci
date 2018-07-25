@@ -96,9 +96,9 @@ func (s *NodePoolsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *NodePoolsDataSourceCrud) SetData() {
+func (s *NodePoolsDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -161,8 +161,8 @@ func (s *NodePoolsDataSourceCrud) SetData() {
 	}
 
 	if err := s.D.Set("node_pools", resources); err != nil {
-		panic(err)
+		return err
 	}
 
-	return
+	return nil
 }

@@ -29,7 +29,7 @@ type ResourceDataWriter interface {
 	ResourceVoider
 	// SetData populates ResourceData state from current
 	// BareMetal resource
-	SetData()
+	SetData() error
 }
 
 // CRUD standard interfaces

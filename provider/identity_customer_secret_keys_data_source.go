@@ -66,9 +66,9 @@ func (s *CustomerSecretKeysDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *CustomerSecretKeysDataSourceCrud) SetData() {
+func (s *CustomerSecretKeysDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -109,8 +109,8 @@ func (s *CustomerSecretKeysDataSourceCrud) SetData() {
 	}
 
 	if err := s.D.Set("customer_secret_keys", resources); err != nil {
-		panic(err)
+		return err
 	}
 
-	return
+	return nil
 }

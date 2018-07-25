@@ -77,9 +77,9 @@ func (s *CrossConnectGroupDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *CrossConnectGroupDataSourceCrud) SetData() {
+func (s *CrossConnectGroupDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(*s.Res.Id)
@@ -98,5 +98,5 @@ func (s *CrossConnectGroupDataSourceCrud) SetData() {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
 
-	return
+	return nil
 }

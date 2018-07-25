@@ -69,9 +69,9 @@ func (s *InstanceCredentialDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *InstanceCredentialDataSourceCrud) SetData() {
+func (s *InstanceCredentialDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -84,5 +84,5 @@ func (s *InstanceCredentialDataSourceCrud) SetData() {
 		s.D.Set("username", *s.Res.Username)
 	}
 
-	return
+	return nil
 }

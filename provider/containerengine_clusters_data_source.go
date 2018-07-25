@@ -102,9 +102,9 @@ func (s *ClustersDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *ClustersDataSourceCrud) SetData() {
+func (s *ClustersDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -159,8 +159,8 @@ func (s *ClustersDataSourceCrud) SetData() {
 	}
 
 	if err := s.D.Set("clusters", resources); err != nil {
-		panic(err)
+		return err
 	}
 
-	return
+	return nil
 }

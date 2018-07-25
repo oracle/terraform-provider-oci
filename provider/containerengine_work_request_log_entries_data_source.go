@@ -91,9 +91,9 @@ func (s *WorkRequestLogEntriesDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *WorkRequestLogEntriesDataSourceCrud) SetData() {
+func (s *WorkRequestLogEntriesDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -118,8 +118,8 @@ func (s *WorkRequestLogEntriesDataSourceCrud) SetData() {
 	}
 
 	if err := s.D.Set("work_request_log_entries", resources); err != nil {
-		panic(err)
+		return err
 	}
 
-	return
+	return nil
 }

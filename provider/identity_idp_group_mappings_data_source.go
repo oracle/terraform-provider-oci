@@ -78,9 +78,9 @@ func (s *IdpGroupMappingsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *IdpGroupMappingsDataSourceCrud) SetData() {
+func (s *IdpGroupMappingsDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -125,8 +125,8 @@ func (s *IdpGroupMappingsDataSourceCrud) SetData() {
 	}
 
 	if err := s.D.Set("idp_group_mappings", resources); err != nil {
-		panic(err)
+		return err
 	}
 
-	return
+	return nil
 }

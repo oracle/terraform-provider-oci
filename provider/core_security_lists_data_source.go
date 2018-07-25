@@ -124,9 +124,9 @@ func (s *SecurityListsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *SecurityListsDataSourceCrud) SetData() {
+func (s *SecurityListsDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -178,8 +178,8 @@ func (s *SecurityListsDataSourceCrud) SetData() {
 	}
 
 	if err := s.D.Set("security_lists", resources); err != nil {
-		panic(err)
+		return err
 	}
 
-	return
+	return nil
 }

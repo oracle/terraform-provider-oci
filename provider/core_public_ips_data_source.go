@@ -95,9 +95,9 @@ func (s *PublicIpsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *PublicIpsDataSourceCrud) SetData() {
+func (s *PublicIpsDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -151,8 +151,8 @@ func (s *PublicIpsDataSourceCrud) SetData() {
 	}
 
 	if err := s.D.Set("public_ips", resources); err != nil {
-		panic(err)
+		return err
 	}
 
-	return
+	return nil
 }

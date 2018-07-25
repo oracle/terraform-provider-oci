@@ -93,9 +93,9 @@ func (s *ServicesDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *ServicesDataSourceCrud) SetData() {
+func (s *ServicesDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -128,8 +128,8 @@ func (s *ServicesDataSourceCrud) SetData() {
 	}
 
 	if err := s.D.Set("services", resources); err != nil {
-		panic(err)
+		return err
 	}
 
-	return
+	return nil
 }

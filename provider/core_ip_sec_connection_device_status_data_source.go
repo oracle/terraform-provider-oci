@@ -100,9 +100,9 @@ func (s *IpSecConnectionDeviceStatusDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *IpSecConnectionDeviceStatusDataSourceCrud) SetData() {
+func (s *IpSecConnectionDeviceStatusDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(*s.Res.Id)
@@ -125,10 +125,10 @@ func (s *IpSecConnectionDeviceStatusDataSourceCrud) SetData() {
 	}
 
 	if err := s.D.Set("tunnels", tunnels); err != nil {
-		panic(err)
+		return err
 	}
 
-	return
+	return nil
 }
 
 func TunnelStatusToMap(obj oci_core.TunnelStatus) map[string]interface{} {

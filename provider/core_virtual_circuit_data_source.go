@@ -181,9 +181,9 @@ func (s *VirtualCircuitDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *VirtualCircuitDataSourceCrud) SetData() {
+func (s *VirtualCircuitDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(*s.Res.Id)
@@ -252,5 +252,5 @@ func (s *VirtualCircuitDataSourceCrud) SetData() {
 
 	s.D.Set("type", s.Res.Type)
 
-	return
+	return nil
 }

@@ -435,7 +435,7 @@ func (s *VirtualCircuitResourceCrud) Delete() error {
 	return err
 }
 
-func (s *VirtualCircuitResourceCrud) SetData() {
+func (s *VirtualCircuitResourceCrud) SetData() error {
 	if s.Res.BandwidthShapeName != nil {
 		s.D.Set("bandwidth_shape_name", *s.Res.BandwidthShapeName)
 	}
@@ -502,6 +502,7 @@ func (s *VirtualCircuitResourceCrud) SetData() {
 
 	s.D.Set("type", s.Res.Type)
 
+	return nil
 }
 
 func mapToCreateVirtualCircuitPublicPrefixDetails(raw map[string]interface{}) oci_core.CreateVirtualCircuitPublicPrefixDetails {

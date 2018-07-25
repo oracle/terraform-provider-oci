@@ -114,9 +114,9 @@ func (s *DbHomePatchHistoryEntriesDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *DbHomePatchHistoryEntriesDataSourceCrud) SetData() {
+func (s *DbHomePatchHistoryEntriesDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -157,8 +157,8 @@ func (s *DbHomePatchHistoryEntriesDataSourceCrud) SetData() {
 	}
 
 	if err := s.D.Set("patch_history_entries", resources); err != nil {
-		panic(err)
+		return err
 	}
 
-	return
+	return nil
 }

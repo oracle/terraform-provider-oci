@@ -295,7 +295,7 @@ func (s *BucketResourceCrud) Delete() error {
 	return err
 }
 
-func (s *BucketResourceCrud) SetData() {
+func (s *BucketResourceCrud) SetData() error {
 	s.D.Set("access_type", s.Res.PublicAccessType)
 
 	if s.Res.CompartmentId != nil {
@@ -334,4 +334,5 @@ func (s *BucketResourceCrud) SetData() {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
 
+	return nil
 }

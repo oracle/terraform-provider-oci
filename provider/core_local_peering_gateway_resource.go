@@ -323,7 +323,7 @@ func (s *LocalPeeringGatewayResourceCrud) Delete() error {
 	return err
 }
 
-func (s *LocalPeeringGatewayResourceCrud) SetData() {
+func (s *LocalPeeringGatewayResourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -362,6 +362,7 @@ func (s *LocalPeeringGatewayResourceCrud) SetData() {
 		s.D.Set("vcn_id", *s.Res.VcnId)
 	}
 
+	return nil
 }
 
 func waitForLPGPeeringStatusShouldRetry(timeout time.Duration) func(response common.OCIOperationResponse) bool {

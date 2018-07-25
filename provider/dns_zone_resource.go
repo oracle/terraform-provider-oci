@@ -271,7 +271,7 @@ func (s *ZoneResourceCrud) Delete() error {
 	return err
 }
 
-func (s *ZoneResourceCrud) SetData() {
+func (s *ZoneResourceCrud) SetData() error {
 	s.D.SetId(*s.Res.Id)
 
 	if s.Res.CompartmentId != nil {
@@ -307,6 +307,8 @@ func (s *ZoneResourceCrud) SetData() {
 	s.D.Set("state", s.Res.LifecycleState)
 
 	s.D.Set("time_created", s.Res.TimeCreated.String())
+
+	return nil
 }
 
 func mapToTSIG(raw map[string]interface{}) oci_dns.Tsig {

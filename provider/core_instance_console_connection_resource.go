@@ -201,7 +201,7 @@ func (s *InstanceConsoleConnectionResourceCrud) Delete() error {
 	return err
 }
 
-func (s *InstanceConsoleConnectionResourceCrud) SetData() {
+func (s *InstanceConsoleConnectionResourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -230,4 +230,5 @@ func (s *InstanceConsoleConnectionResourceCrud) SetData() {
 		s.D.Set("vnc_connection_string", *s.Res.VncConnectionString)
 	}
 
+	return nil
 }

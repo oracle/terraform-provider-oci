@@ -262,7 +262,7 @@ func (s *InternetGatewayResourceCrud) Delete() error {
 	return err
 }
 
-func (s *InternetGatewayResourceCrud) SetData() {
+func (s *InternetGatewayResourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -291,4 +291,5 @@ func (s *InternetGatewayResourceCrud) SetData() {
 		s.D.Set("vcn_id", *s.Res.VcnId)
 	}
 
+	return nil
 }

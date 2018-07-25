@@ -86,9 +86,9 @@ func (s *LetterOfAuthorityDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *LetterOfAuthorityDataSourceCrud) SetData() {
+func (s *LetterOfAuthorityDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -115,5 +115,5 @@ func (s *LetterOfAuthorityDataSourceCrud) SetData() {
 		s.D.Set("time_issued", s.Res.TimeIssued.String())
 	}
 
-	return
+	return nil
 }

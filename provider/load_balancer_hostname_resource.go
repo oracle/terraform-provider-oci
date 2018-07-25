@@ -279,9 +279,9 @@ func (s *HostnameResourceCrud) Delete() error {
 	return nil
 }
 
-func (s *HostnameResourceCrud) SetData() {
+func (s *HostnameResourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 	if s.Res.Hostname != nil {
 		s.D.Set("hostname", *s.Res.Hostname)
@@ -291,4 +291,5 @@ func (s *HostnameResourceCrud) SetData() {
 		s.D.Set("name", *s.Res.Name)
 	}
 
+	return nil
 }

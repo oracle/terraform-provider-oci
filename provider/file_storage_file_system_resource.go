@@ -207,7 +207,7 @@ func (s *FileSystemResourceCrud) Delete() error {
 	return err
 }
 
-func (s *FileSystemResourceCrud) SetData() {
+func (s *FileSystemResourceCrud) SetData() error {
 	if s.Res.AvailabilityDomain != nil {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
 	}
@@ -230,4 +230,5 @@ func (s *FileSystemResourceCrud) SetData() {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
 
+	return nil
 }

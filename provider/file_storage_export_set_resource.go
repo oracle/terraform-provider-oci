@@ -195,7 +195,7 @@ func (s *ExportSetResourceCrud) Delete() error {
 	return nil
 }
 
-func (s *ExportSetResourceCrud) SetData() {
+func (s *ExportSetResourceCrud) SetData() error {
 	if s.Res.AvailabilityDomain != nil {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
 	}
@@ -225,4 +225,6 @@ func (s *ExportSetResourceCrud) SetData() {
 	if s.Res.VcnId != nil {
 		s.D.Set("vcn_id", *s.Res.VcnId)
 	}
+
+	return nil
 }

@@ -112,9 +112,9 @@ func (s *BackendHealthDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *BackendHealthDataSourceCrud) SetData() {
+func (s *BackendHealthDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -127,7 +127,7 @@ func (s *BackendHealthDataSourceCrud) SetData() {
 
 	s.D.Set("status", s.Res.Status)
 
-	return
+	return nil
 }
 
 func HealthCheckResultToMap(obj oci_load_balancer.HealthCheckResult) map[string]interface{} {

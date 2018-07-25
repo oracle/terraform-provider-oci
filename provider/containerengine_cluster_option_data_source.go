@@ -68,14 +68,14 @@ func (s *ClusterOptionDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *ClusterOptionDataSourceCrud) SetData() {
+func (s *ClusterOptionDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
 
 	s.D.Set("kubernetes_versions", s.Res.KubernetesVersions)
 
-	return
+	return nil
 }

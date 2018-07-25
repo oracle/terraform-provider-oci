@@ -125,9 +125,9 @@ func (s *VnicAttachmentsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *VnicAttachmentsDataSourceCrud) SetData() {
+func (s *VnicAttachmentsDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -184,8 +184,8 @@ func (s *VnicAttachmentsDataSourceCrud) SetData() {
 	}
 
 	if err := s.D.Set("vnic_attachments", resources); err != nil {
-		panic(err)
+		return err
 	}
 
-	return
+	return nil
 }

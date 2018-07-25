@@ -441,7 +441,7 @@ func (s *NodePoolResourceCrud) Delete() error {
 
 }
 
-func (s *NodePoolResourceCrud) SetData() {
+func (s *NodePoolResourceCrud) SetData() error {
 	if s.Res.ClusterId != nil {
 		s.D.Set("cluster_id", *s.Res.ClusterId)
 	}
@@ -492,6 +492,7 @@ func (s *NodePoolResourceCrud) SetData() {
 
 	s.D.Set("subnet_ids", s.Res.SubnetIds)
 
+	return nil
 }
 
 func ErrorToMap(obj *oci_containerengine.NodeError) map[string]interface{} {

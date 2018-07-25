@@ -89,9 +89,9 @@ func (s *DbNodeDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *DbNodeDataSourceCrud) SetData() {
+func (s *DbNodeDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(*s.Res.Id)
@@ -122,5 +122,5 @@ func (s *DbNodeDataSourceCrud) SetData() {
 		s.D.Set("vnic_id", *s.Res.VnicId)
 	}
 
-	return
+	return nil
 }

@@ -139,7 +139,7 @@ func (s *SuppressionResourceCrud) Delete() error {
 	return err
 }
 
-func (s *SuppressionResourceCrud) SetData() {
+func (s *SuppressionResourceCrud) SetData() error {
 	if s.Res.EmailAddress != nil {
 		s.D.Set("email_address", *s.Res.EmailAddress)
 	}
@@ -150,4 +150,5 @@ func (s *SuppressionResourceCrud) SetData() {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
 
+	return nil
 }

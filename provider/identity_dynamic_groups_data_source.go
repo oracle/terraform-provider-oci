@@ -78,9 +78,9 @@ func (s *DynamicGroupsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *DynamicGroupsDataSourceCrud) SetData() {
+func (s *DynamicGroupsDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -125,8 +125,8 @@ func (s *DynamicGroupsDataSourceCrud) SetData() {
 	}
 
 	if err := s.D.Set("dynamic_groups", resources); err != nil {
-		panic(err)
+		return err
 	}
 
-	return
+	return nil
 }

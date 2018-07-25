@@ -508,7 +508,7 @@ func (s *ClusterResourceCrud) Delete() error {
 	return err
 }
 
-func (s *ClusterResourceCrud) SetData() {
+func (s *ClusterResourceCrud) SetData() error {
 	s.D.Set("available_kubernetes_upgrades", s.Res.AvailableKubernetesUpgrades)
 
 	if s.Res.CompartmentId != nil {
@@ -547,6 +547,7 @@ func (s *ClusterResourceCrud) SetData() {
 		s.D.Set("vcn_id", *s.Res.VcnId)
 	}
 
+	return nil
 }
 
 func mapToAddOnOptions(raw map[string]interface{}) oci_containerengine.AddOnOptions {

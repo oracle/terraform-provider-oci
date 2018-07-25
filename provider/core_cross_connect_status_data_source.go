@@ -74,9 +74,9 @@ func (s *CrossConnectStatusDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *CrossConnectStatusDataSourceCrud) SetData() {
+func (s *CrossConnectStatusDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -89,5 +89,5 @@ func (s *CrossConnectStatusDataSourceCrud) SetData() {
 
 	s.D.Set("light_level_indicator", s.Res.LightLevelIndicator)
 
-	return
+	return nil
 }

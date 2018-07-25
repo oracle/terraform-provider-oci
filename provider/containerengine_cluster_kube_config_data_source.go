@@ -94,14 +94,14 @@ func (s *ClusterKubeConfigDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *ClusterKubeConfigDataSourceCrud) SetData() {
+func (s *ClusterKubeConfigDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
 
 	s.D.Set("content", string(*s.Res))
 
-	return
+	return nil
 }

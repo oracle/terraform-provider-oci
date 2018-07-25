@@ -618,7 +618,7 @@ func (s *SecurityListResourceCrud) Delete() error {
 	return err
 }
 
-func (s *SecurityListResourceCrud) SetData() {
+func (s *SecurityListResourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -655,6 +655,7 @@ func (s *SecurityListResourceCrud) SetData() {
 		s.D.Set("vcn_id", *s.Res.VcnId)
 	}
 
+	return nil
 }
 
 func mapToEgressSecurityRule(raw map[string]interface{}) oci_core.EgressSecurityRule {

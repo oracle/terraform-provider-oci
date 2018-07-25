@@ -95,9 +95,9 @@ func (s *CrossConnectGroupsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *CrossConnectGroupsDataSourceCrud) SetData() {
+func (s *CrossConnectGroupsDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -130,8 +130,8 @@ func (s *CrossConnectGroupsDataSourceCrud) SetData() {
 	}
 
 	if err := s.D.Set("cross_connect_groups", resources); err != nil {
-		panic(err)
+		return err
 	}
 
-	return
+	return nil
 }

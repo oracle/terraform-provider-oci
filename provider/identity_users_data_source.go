@@ -78,9 +78,9 @@ func (s *UsersDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *UsersDataSourceCrud) SetData() {
+func (s *UsersDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -127,8 +127,8 @@ func (s *UsersDataSourceCrud) SetData() {
 	}
 
 	if err := s.D.Set("users", resources); err != nil {
-		panic(err)
+		return err
 	}
 
-	return
+	return nil
 }

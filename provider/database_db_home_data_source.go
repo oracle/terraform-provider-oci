@@ -94,9 +94,9 @@ func (s *DbHomeDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *DbHomeDataSourceCrud) SetData() {
+func (s *DbHomeDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(*s.Res.Id)
@@ -127,5 +127,5 @@ func (s *DbHomeDataSourceCrud) SetData() {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
 
-	return
+	return nil
 }

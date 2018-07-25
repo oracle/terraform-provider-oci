@@ -256,7 +256,7 @@ func (s *TagResourceCrud) Update() error {
 	return nil
 }
 
-func (s *TagResourceCrud) SetData() {
+func (s *TagResourceCrud) SetData() error {
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))
 	}
@@ -283,4 +283,5 @@ func (s *TagResourceCrud) SetData() {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
 
+	return nil
 }

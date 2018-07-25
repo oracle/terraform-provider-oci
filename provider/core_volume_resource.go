@@ -331,7 +331,7 @@ func (s *VolumeResourceCrud) Delete() error {
 	return err
 }
 
-func (s *VolumeResourceCrud) SetData() {
+func (s *VolumeResourceCrud) SetData() error {
 	if s.Res.AvailabilityDomain != nil {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
 	}
@@ -374,6 +374,7 @@ func (s *VolumeResourceCrud) SetData() {
 		s.D.Set("volume_group_id", *s.Res.VolumeGroupId)
 	}
 
+	return nil
 }
 
 func mapToVolumeSourceDetails(rawList []interface{}) oci_core.VolumeSourceDetails {

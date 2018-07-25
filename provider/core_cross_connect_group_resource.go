@@ -207,7 +207,7 @@ func (s *CrossConnectGroupResourceCrud) Delete() error {
 	return err
 }
 
-func (s *CrossConnectGroupResourceCrud) SetData() {
+func (s *CrossConnectGroupResourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -222,4 +222,5 @@ func (s *CrossConnectGroupResourceCrud) SetData() {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
 
+	return nil
 }

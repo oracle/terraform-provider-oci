@@ -375,7 +375,7 @@ func (s *ImageResourceCrud) Delete() error {
 	return err
 }
 
-func (s *ImageResourceCrud) SetData() {
+func (s *ImageResourceCrud) SetData() error {
 	if s.Res.BaseImageId != nil {
 		s.D.Set("base_image_id", *s.Res.BaseImageId)
 	}
@@ -422,6 +422,7 @@ func (s *ImageResourceCrud) SetData() {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
 
+	return nil
 }
 
 func mapToImageSourceDetails(raw map[string]interface{}) oci_core.ImageSourceDetails {

@@ -265,7 +265,7 @@ func (s *GroupResourceCrud) Delete() error {
 	return err
 }
 
-func (s *GroupResourceCrud) SetData() {
+func (s *GroupResourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -294,6 +294,7 @@ func (s *GroupResourceCrud) SetData() {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
 
+	return nil
 }
 
 func (s *GroupResourceCrud) ExtraWaitPostCreateDelete() time.Duration {

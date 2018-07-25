@@ -116,9 +116,9 @@ func (s *IpSecConnectionsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *IpSecConnectionsDataSourceCrud) SetData() {
+func (s *IpSecConnectionsDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -167,8 +167,8 @@ func (s *IpSecConnectionsDataSourceCrud) SetData() {
 	}
 
 	if err := s.D.Set("connections", resources); err != nil {
-		panic(err)
+		return err
 	}
 
-	return
+	return nil
 }

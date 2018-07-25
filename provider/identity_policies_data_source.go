@@ -78,9 +78,9 @@ func (s *IdentityPoliciesDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *IdentityPoliciesDataSourceCrud) SetData() {
+func (s *IdentityPoliciesDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -134,8 +134,8 @@ func (s *IdentityPoliciesDataSourceCrud) SetData() {
 	}
 
 	if err := s.D.Set("policies", resources); err != nil {
-		panic(err)
+		return err
 	}
 
-	return
+	return nil
 }

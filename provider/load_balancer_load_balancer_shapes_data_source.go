@@ -78,9 +78,9 @@ func (s *LoadBalancerShapesDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *LoadBalancerShapesDataSourceCrud) SetData() {
+func (s *LoadBalancerShapesDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -101,8 +101,8 @@ func (s *LoadBalancerShapesDataSourceCrud) SetData() {
 	}
 
 	if err := s.D.Set("shapes", resources); err != nil {
-		panic(err)
+		return err
 	}
 
-	return
+	return nil
 }

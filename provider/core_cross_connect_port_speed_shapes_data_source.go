@@ -94,9 +94,9 @@ func (s *CrossConnectPortSpeedShapesDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *CrossConnectPortSpeedShapesDataSourceCrud) SetData() {
+func (s *CrossConnectPortSpeedShapesDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -121,8 +121,8 @@ func (s *CrossConnectPortSpeedShapesDataSourceCrud) SetData() {
 	}
 
 	if err := s.D.Set("cross_connect_port_speed_shapes", resources); err != nil {
-		panic(err)
+		return err
 	}
 
-	return
+	return nil
 }

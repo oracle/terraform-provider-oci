@@ -165,9 +165,9 @@ func (s *ObjectsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *ObjectsDataSourceCrud) SetData() {
+func (s *ObjectsDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -188,5 +188,5 @@ func (s *ObjectsDataSourceCrud) SetData() {
 
 	s.D.Set("prefixes", s.Res.Prefixes)
 
-	return
+	return nil
 }

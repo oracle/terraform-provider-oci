@@ -239,7 +239,7 @@ func (s *SmtpCredentialResourceCrud) Delete() error {
 	return err
 }
 
-func (s *SmtpCredentialResourceCrud) SetData() {
+func (s *SmtpCredentialResourceCrud) SetData() error {
 	if s.Res.Description != nil {
 		s.D.Set("description", *s.Res.Description)
 	}
@@ -270,4 +270,5 @@ func (s *SmtpCredentialResourceCrud) SetData() {
 		s.D.Set("password", *s.Res.Password)
 	}
 
+	return nil
 }

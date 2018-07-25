@@ -116,9 +116,9 @@ func (s *DrgAttachmentsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *DrgAttachmentsDataSourceCrud) SetData() {
+func (s *DrgAttachmentsDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -159,8 +159,8 @@ func (s *DrgAttachmentsDataSourceCrud) SetData() {
 	}
 
 	if err := s.D.Set("drg_attachments", resources); err != nil {
-		panic(err)
+		return err
 	}
 
-	return
+	return nil
 }

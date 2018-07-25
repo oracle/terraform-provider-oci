@@ -96,9 +96,9 @@ func (s *UserGroupMembershipsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *UserGroupMembershipsDataSourceCrud) SetData() {
+func (s *UserGroupMembershipsDataSourceCrud) SetData() error {
 	if s.Res == nil {
-		return
+		return nil
 	}
 
 	s.D.SetId(crud.GenerateDataSourceID())
@@ -139,8 +139,8 @@ func (s *UserGroupMembershipsDataSourceCrud) SetData() {
 	}
 
 	if err := s.D.Set("memberships", resources); err != nil {
-		panic(err)
+		return err
 	}
 
-	return
+	return nil
 }
