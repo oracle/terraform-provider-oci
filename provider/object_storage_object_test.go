@@ -275,6 +275,9 @@ data "oci_objectstorage_objects" "test_objects" {
 	})
 }
 
+// This test is separated from the above test due to weird behavior from Terraform test framework.
+// An test step that results in an error will result in the state being voided. Isolate such test steps to
+// avoid interfering with regular tests that Create/Update resources.
 func TestObjectStorageObjectResource_metadata(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()

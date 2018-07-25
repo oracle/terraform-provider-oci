@@ -159,6 +159,10 @@ variable "record_items_ttl" { default = 1000 }
 	})
 }
 
+// The datasource tests are kept separate from the previous test steps.
+// This was because the datasource steps do not create a record resource (and won't need one because, because a zone has default records).
+// If this was kept in the previous test case, the CheckDestroy step would run after the datasource steps ran and would fail
+// because it wouldn't have a record resource to delete and to verify destruction for.
 func TestDnsRecordsResource_datasources(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
