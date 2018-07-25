@@ -58,7 +58,7 @@ The following attributes are exported:
 * `time_created` - The date and time the volume backup was created. This is the time the actual point-in-time image of the volume data was taken. Format defined by RFC3339. 
 * `time_request_received` - The date and time the request to create the volume backup was received. Format defined by RFC3339. 
 * `type` - The type of a volume backup. Supported values are 'FULL' or 'INCREMENTAL'.
-* `unique_size_in_gbs` - The size used by the backup, in GBs. It is typically smaller than sizeInGBs, depending on the space consumed on the volume and whether the backup is full or incremental. 
-* `unique_size_in_mbs` - The size used by the backup, in MBs. It is typically smaller than sizeInMBs, depending on the space consumed on the volume and whether the backup is full or incremental. This field is deprecated. Please use uniqueSizeInGBs. 
+* `unique_size_in_gbs` - The size used by the backup, in GBs. It is typically smaller than `size_in_gbs`, depending on the space consumed on the volume and whether the backup is full or incremental. 
+* `unique_size_in_mbs` - The size used by the backup, in MBs. It is typically smaller than `size_in_mbs`, depending on the space consumed on the volume and whether the backup is full or incremental. This field is deprecated. Please use `unique_size_in_gbs`. 
 * `volume_id` - The OCID of the volume.
 
