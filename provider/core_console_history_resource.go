@@ -192,6 +192,9 @@ func (s *ConsoleHistoryResourceCrud) Get() error {
 func (s *ConsoleHistoryResourceCrud) Update() error {
 	request := oci_core.UpdateConsoleHistoryRequest{}
 
+	tmp := s.D.Id()
+	request.InstanceConsoleHistoryId = &tmp
+
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
@@ -208,9 +211,6 @@ func (s *ConsoleHistoryResourceCrud) Update() error {
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
-
-	tmp := s.D.Id()
-	request.InstanceConsoleHistoryId = &tmp
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
 
