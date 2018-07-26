@@ -14,11 +14,8 @@ import (
 
 func PublicIpDataSource() *schema.Resource {
 	return &schema.Resource{
-		Importer: &schema.ResourceImporter{
-			State: schema.ImportStatePassthrough,
-		},
 		Timeouts: crud.DefaultTimeout,
-		Read:     readPublicIpDataSource,
+		Read:     readSingularPublicIp,
 		Schema: map[string]*schema.Schema{
 			"id": {
 				Type:     schema.TypeString,
@@ -38,6 +35,7 @@ func PublicIpDataSource() *schema.Resource {
 				Computed: true,
 			},
 
+			// Computed
 			"availability_domain": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -47,9 +45,10 @@ func PublicIpDataSource() *schema.Resource {
 				Computed: true,
 			},
 			"defined_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
+				Type:             schema.TypeMap,
+				Computed:         true,
+				DiffSuppressFunc: definedTagsDiffSuppressFunction,
+				Elem:             schema.TypeString,
 			},
 			"display_name": {
 				Type:     schema.TypeString,
@@ -80,7 +79,7 @@ func PublicIpDataSource() *schema.Resource {
 	}
 }
 
-func readPublicIpDataSource(d *schema.ResourceData, m interface{}) error {
+func readSingularPublicIp(d *schema.ResourceData, m interface{}) error {
 	sync := &PublicIpDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
@@ -89,13 +88,13 @@ func readPublicIpDataSource(d *schema.ResourceData, m interface{}) error {
 }
 
 type PublicIpDataSourceCrud struct {
-	crud.BaseCrud
+	D      *schema.ResourceData
 	Client *oci_core.VirtualNetworkClient
 	Res    *oci_core.PublicIp
 }
 
-func (s *PublicIpDataSourceCrud) ID() string {
-	return *s.Res.Id
+func (s *PublicIpDataSourceCrud) VoidState() {
+	s.D.SetId("")
 }
 
 func (s *PublicIpDataSourceCrud) Get() error {
@@ -170,7 +169,7 @@ func (s *PublicIpDataSourceCrud) SetData() {
 		return
 	}
 
-	s.D.SetId(crud.GenerateDataSourceID())
+	s.D.SetId(*s.Res.Id)
 
 	if s.Res.AvailabilityDomain != nil {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
@@ -190,10 +189,6 @@ func (s *PublicIpDataSourceCrud) SetData() {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
-	if s.Res.Id != nil {
-		s.D.Set("id", *s.Res.Id)
-	}
-
 	if s.Res.IpAddress != nil {
 		s.D.Set("ip_address", *s.Res.IpAddress)
 	}
@@ -212,4 +207,5 @@ func (s *PublicIpDataSourceCrud) SetData() {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
 
+	return
 }
