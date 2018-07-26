@@ -25,7 +25,7 @@ The following arguments are supported:
 ### Example Usage
 
 ```hcl
-data "oci_core_console_history_content" "test_console_history_content" {
+data "oci_core_console_history_data" "test_console_history_content" {
 	#Required
 	console_history_id = "${oci_core_console_history.test_console_history.id}"
 
