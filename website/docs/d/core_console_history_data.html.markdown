@@ -3,13 +3,14 @@ layout: "oci"
 page_title: "OCI: oci_core_console_history_data"
 sidebar_current: "docs-oci-datasource-core-console_history_data"
 description: |-
-Provides details about a specific ConsoleHistory
+  Provides details about a specific ConsoleHistory
 ---
 
 # Data Source: oci_core_console_history_data
-The ConsoleHistory data source provides details about a specific ConsoleHistory
+The `oci_core_console_history_data` data source provides details about a specific ConsoleHistory
 
-Gets the history data for a specific console.
+Gets the actual console history data (not the metadata).
+
 
 ## Example Usage
 
@@ -38,4 +39,3 @@ The following arguments are supported:
 The following attributes are exported:
 
 * `data` - The console history data.
-
