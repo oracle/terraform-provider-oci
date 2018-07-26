@@ -1,7 +1,7 @@
 ---
 layout: "oci"
 page_title: "OCI: oci_core_console_history_data"
-sidebar_current: "docs-oci-datasource-core-console_history_data"
+sidebar_current: "docs-oci-datasource-core-console_history_content"
 description: |-
   Provides details about a specific ConsoleHistory
 ---
@@ -10,6 +10,8 @@ description: |-
 The `oci_core_console_history_data` data source provides details about a specific ConsoleHistory
 
 Gets the actual console history data (not the metadata).
+See [CaptureConsoleHistory](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/ConsoleHistory/CaptureConsoleHistory)
+for details about using the console history operations.
 
 
 ## Example Usage

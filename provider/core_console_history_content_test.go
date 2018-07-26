@@ -15,8 +15,8 @@ const (
 
 `
 	ConsoleHistoryContentPropertyVariables = `
-variable "console_history_content_length" { default = 10 }
-variable "console_history_content_offset" { default = 10 }
+variable "console_history_content_length" { default = 10240 }
+variable "console_history_content_offset" { default = 0 }
 
 `
 	ConsoleHistoryContentResourceDependencies = ConsoleHistoryPropertyVariables + ConsoleHistoryResourceConfig
