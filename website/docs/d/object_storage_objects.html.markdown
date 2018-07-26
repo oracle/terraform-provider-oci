@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_object_storage_objects"
+page_title: "OCI: oci_objectstorage_objects"
 sidebar_current: "docs-oci-datasource-object_storage-objects"
 description: |-
   Provides a list of Objects
 ---
 
-# Data Source: oci_object_storage_objects
-The `oci_object_storage_objects` data source allows access to the list of OCI objects
+# Data Source: oci_objectstorage_objects
+The `oci_objectstorage_objects` data source allows access to the list of OCI objects
 
 Lists the objects in a bucket.
 
@@ -19,7 +19,7 @@ talk to an administrator. If you're an administrator who needs to write policies
 ## Example Usage
 
 ```hcl
-data "oci_object_storage_objects" "test_objects" {
+data "oci_objectstorage_objects" "test_objects" {
 	#Required
 	bucket = "${var.object_bucket}"
 	namespace = "${var.object_namespace}"
