@@ -25,7 +25,7 @@ table in the same compartment as the VCN. For more information about compartment
 You may optionally specify a *display name* for the route table, otherwise a default is provided.
 It does not have to be unique, and you can change it. Avoid entering confidential information.
 
-For more information on configuring a VCN's default route table, see [Managing Default VCN Resources](https://github.com/oracle/terraform-provider-oci/blob/master/docs/Managing%20Default%20Resources.md)
+For more information on configuring a VCN's default route table, see [Managing Default VCN Resources](/docs/providers/oci/guides/managing_default_resources.html)
 
 ## Example Usage
 
