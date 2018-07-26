@@ -72,37 +72,6 @@ resource "oci_core_console_history" "test_console_history" {
 }
 
 ```
-# oci_core_console_history_data
-
-## ConsoleHistoryData DataSource
-
-Gets the history data for a specific console.
-
-### Get Operation
-Gets the actual console history data (not the metadata).
-
-The following arguments are supported:
-
-* `console_history_id` - (Required) The OCID of the console history.
-* `length` - (Optional) Length of the snapshot data to retrieve. Cannot be less than 10240.
-* `offset` - (Optional) Offset of the snapshot data to retrieve.
-
-The following attributes are exported:
-
-* `data` - The console history data.
-
-### Example Usage
-
-```hcl
-data "oci_core_console_history_data" "test_console_history_data" {
-	#Required
-	console_history_id = "${oci_core_console_history.test_console_history.id}"
-
-	#Optional
-	length = 10240
-	offset = 0
-}
-```
 
 # oci_core_console_histories
 

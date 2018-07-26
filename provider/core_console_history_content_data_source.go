@@ -14,16 +14,11 @@ import (
 
 func ConsoleHistoryContentDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readConsoleHistoryContent,
+		Read: readSingularConsoleHistoryContent,
 		Schema: map[string]*schema.Schema{
-			// ConsoleHistoryContent is a single-value data source.
 			"console_history_id": {
 				Type:     schema.TypeString,
 				Required: true,
-			},
-			"data": {
-				Type:     schema.TypeString,
-				Computed: true,
 			},
 			"length": {
 				Type:     schema.TypeInt,
@@ -48,11 +43,16 @@ func ConsoleHistoryContentDataSource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Optional: true,
 			},
+			// Computed
+			"data": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 		},
 	}
 }
 
-func readConsoleHistoryContent(d *schema.ResourceData, m interface{}) error {
+func readSingularConsoleHistoryContent(d *schema.ResourceData, m interface{}) error {
 	sync := &ConsoleHistoryContentDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient
@@ -61,9 +61,13 @@ func readConsoleHistoryContent(d *schema.ResourceData, m interface{}) error {
 }
 
 type ConsoleHistoryContentDataSourceCrud struct {
-	crud.BaseCrud
+	D      *schema.ResourceData
 	Client *oci_core.ComputeClient
 	Res    *oci_core.GetConsoleHistoryContentResponse
+}
+
+func (s *ConsoleHistoryContentDataSourceCrud) VoidState() {
+	s.D.SetId("")
 }
 
 func (s *ConsoleHistoryContentDataSourceCrud) Get() error {
@@ -106,4 +110,5 @@ func (s *ConsoleHistoryContentDataSourceCrud) SetData() {
 		s.D.Set("data", *s.Res.Value)
 	}
 
+	return
 }
