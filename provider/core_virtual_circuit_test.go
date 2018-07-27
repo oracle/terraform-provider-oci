@@ -182,7 +182,7 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.0.vlan", "200"),
 					resource.TestCheckResourceAttr(resourceName, "customer_bgp_asn", "10"),
 					resource.TestCheckResourceAttr(resourceName, "public_prefixes.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "public_prefixes.0.cidr_block", "0.0.0.0/5"),
+					resource.TestCheckResourceAttr(resourceName, "public_prefixes.2237289396.cidr_block", "0.0.0.0/5"),
 					resource.TestCheckResourceAttr(resourceName, "type", "PUBLIC"),
 
 					func(s *terraform.State) (err error) {
@@ -328,7 +328,7 @@ variable "virtual_circuit_customer_bgp_asn" { default = 11 }
 variable "virtual_circuit_display_name" { default = "displayName2" }
 variable "virtual_circuit_public_prefixes_cidr_block" { default = "0.0.0.0/5" }
 variable "virtual_circuit_region" { default = "r1" }
-variable "virtual_circuit_state" { default = "AVAILABLE" }
+variable "virtual_circuit_state" { default = "PROVISIONED" }
 variable "virtual_circuit_type" { default = "PRIVATE" }
 
 data "oci_core_virtual_circuits" "test_virtual_circuits" {
@@ -337,7 +337,7 @@ data "oci_core_virtual_circuits" "test_virtual_circuits" {
 
 	#Optional
 	display_name = "${var.virtual_circuit_display_name}"
-	#state = "${var.virtual_circuit_state}"
+	state = "${var.virtual_circuit_state}"
 
 	filter {
 		name = "id"
@@ -350,7 +350,6 @@ data "oci_core_virtual_circuits" "test_virtual_circuits" {
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					//resource.TestCheckResourceAttrSet(datasourceName, "gateway_id"),
 					//resource.TestCheckResourceAttrSet(datasourceName, "provider_service_id"),
-					//resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
 
 					resource.TestCheckResourceAttr(datasourceName, "virtual_circuits.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "virtual_circuits.0.bandwidth_shape_name", "20 Gbps"),
@@ -367,6 +366,7 @@ data "oci_core_virtual_circuits" "test_virtual_circuits" {
 					//resource.TestCheckResourceAttrSet(datasourceName, "virtual_circuits.0.provider_service_id"),
 					//resource.TestCheckResourceAttr(datasourceName, "virtual_circuits.0.public_prefixes.#", "1"),
 					//resource.TestCheckResourceAttr(datasourceName, "virtual_circuits.0.region", "r1"),
+					resource.TestCheckResourceAttr(datasourceName, "virtual_circuits.0.state", "PROVISIONED"),
 					resource.TestCheckResourceAttr(datasourceName, "virtual_circuits.0.type", "PRIVATE"),
 				),
 			},
@@ -425,6 +425,7 @@ data "oci_core_virtual_circuit" "test_virtual_circuit" {
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{
 					"public_prefixes",
+					"region",
 					"virtual_circuit_id",
 				},
 				ResourceName: resourceName,

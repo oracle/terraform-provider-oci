@@ -11,7 +11,7 @@ variable "virtual_circuit_display_name" { default = "displayName" }
 variable "virtual_circuit_public_prefixes_cidr_block" { default = "0.0.0.0/5" }
 variable "virtual_circuit_public_prefixes_cidr_block2" { default = "206.209.218.0/24" }
 variable "virtual_circuit_region" { default = "r1" }
-variable "virtual_circuit_state" { default = "AVAILABLE" }
+variable "virtual_circuit_state" { default = "PROVISIONED" }
 
 variable "virtual_circuit_cross_connect_mappings_vlan_public" { default = 300 }
 
