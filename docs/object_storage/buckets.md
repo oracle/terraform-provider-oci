@@ -68,7 +68,7 @@ resource "oci_objectstorage_bucket" "test_bucket" {
 }
 ```
 
-# oci_objectstorage_bucketsummaries
+# oci_objectstorage_bucket_summaries
 
 ## BucketSummaries DataSource
 
@@ -95,7 +95,7 @@ The following attributes are exported:
 ### Example Usage
 
 ```hcl
-data "oci_objectstorage_bucketsummaries" "test_buckets" {
+data "oci_objectstorage_bucket_summaries" "test_buckets" {
 	#Required
 	compartment_id = "${var.compartment_id}"
 	namespace = "${var.bucket_namespace}"
