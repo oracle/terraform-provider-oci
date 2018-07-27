@@ -78,7 +78,7 @@ resource "oci_load_balancer_listener" "test_listener" {
 		#Required
 		idle_timeout_in_seconds = "${var.listener_connection_configuration_idle_timeout_in_seconds}"
 	}
-	hostname_names = hostname_names = ["${oci_load_balancer_hostname.test_hostname.name}"]
+	hostname_names = ["${oci_load_balancer_hostname.test_hostname.name}"]
 	path_route_set_name = "${var.listener_path_route_set_name}"
 	ssl_configuration {
 		#Required
