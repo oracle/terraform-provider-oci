@@ -89,7 +89,7 @@ data "oci_core_virtual_circuits" "test_virtual_circuits" {
 
 	#Optional
 	display_name = "${var.virtual_circuit_display_name}"
-	#state = "${var.virtual_circuit_state}"
+	state = "${var.virtual_circuit_state}"
 }
 
 output "virtual_circuits" {
@@ -105,6 +105,5 @@ output "virtual_circuit" {
 		id = "${data.oci_core_virtual_circuit.test_virtual_circuit.id}",
 		state = "${data.oci_core_virtual_circuit.test_virtual_circuit.state}",
 		type = "${data.oci_core_virtual_circuit.test_virtual_circuit.type}",
-		public_prefixes = "${data.oci_core_virtual_circuit.test_virtual_circuit.public_prefixes}",
 	}
 }
