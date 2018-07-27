@@ -178,7 +178,6 @@ func (s *VirtualCircuitDataSourceCrud) Get() error {
 	}
 
 	s.Res = &response
-
 	return nil
 }
 
