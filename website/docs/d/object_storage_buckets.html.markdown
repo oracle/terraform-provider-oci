@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_objectstorage_bucketsummaries"
+page_title: "OCI: oci_objectstorage_bucket_summaries"
 sidebar_current: "docs-oci-datasource-object_storage-buckets"
 description: |-
   Provides a list of Buckets
 ---
 
-# Data Source: oci_objectstorage_bucketsummaries
-The `oci_objectstorage_bucketsummaries` data source allows access to the list of OCI buckets
+# Data Source: oci_objectstorage_bucket_summaries
+The `oci_objectstorage_bucket_summaries` data source allows access to the list of OCI buckets
 
 Gets a list of all `BucketSummary`s in a compartment. A `BucketSummary` contains only summary fields for the bucket
 and does not contain fields like the user-defined metadata.
@@ -20,7 +20,7 @@ talk to an administrator. If you're an administrator who needs to write policies
 ## Example Usage
 
 ```hcl
-data "oci_objectstorage_bucketsummaries" "test_buckets" {
+data "oci_objectstorage_bucket_summaries" "test_buckets" {
 	#Required
 	compartment_id = "${var.compartment_id}"
 	namespace = "${var.bucket_namespace}"
