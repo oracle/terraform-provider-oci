@@ -3,18 +3,17 @@
 package provider
 
 import (
+	"bytes"
 	"context"
+	"fmt"
 
+	"github.com/hashicorp/terraform/helper/hashcode"
 	"github.com/hashicorp/terraform/helper/schema"
 
 	"github.com/oracle/terraform-provider-oci/crud"
 
 	"strings"
 
-	"bytes"
-	"fmt"
-
-	"github.com/hashicorp/terraform/helper/hashcode"
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
@@ -112,7 +111,7 @@ func VirtualCircuitResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				ForceNew: true,
-				Set:      publicPrefixHashCodeForSets,
+				Set:      publicPrefixesHashCodeForSets,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -482,7 +481,7 @@ func (s *VirtualCircuitResourceCrud) SetData() {
 		for _, item := range s.Res.PublicPrefixes {
 			publicPrefixes = append(publicPrefixes, CreateVirtualCircuitPublicPrefixDetailsToMap(item))
 		}
-		s.D.Set("public_prefixes", schema.NewSet(publicPrefixHashCodeForSets, publicPrefixes))
+		s.D.Set("public_prefixes", schema.NewSet(publicPrefixesHashCodeForSets, publicPrefixes))
 	}
 
 	if s.Res.ReferenceComment != nil {
@@ -584,13 +583,11 @@ func CrossConnectMappingToMap(obj oci_core.CrossConnectMapping) map[string]inter
 	return result
 }
 
-func publicPrefixHashCodeForSets(v interface{}) int {
+func publicPrefixesHashCodeForSets(v interface{}) int {
 	var buf bytes.Buffer
 	m := v.(map[string]interface{})
-
-	cidrBlock, cidrBlockPresent := m["cidr_block"]
-	if cidrBlockPresent && cidrBlock != "" {
-		buf.WriteString(fmt.Sprintf("%s-", cidrBlock.(string)))
+	if cidrBlock, ok := m["cidr_block"]; ok && cidrBlock != "" {
+		buf.WriteString(fmt.Sprintf("%v-", cidrBlock))
 	}
 	return hashcode.String(buf.String())
 }
