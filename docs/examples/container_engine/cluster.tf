@@ -22,6 +22,24 @@ resource "oci_core_virtual_network" "test_vcn" {
   compartment_id = "${var.compartment_ocid}"
   display_name = "tfVcnForClusters"
 }
+
+resource "oci_core_internet_gateway" "test_ig" {
+  compartment_id = "${var.compartment_ocid}"
+  display_name   = "tfClusterInternetGateway"
+  vcn_id         = "${oci_core_virtual_network.test_vcn.id}"
+}
+
+resource "oci_core_route_table" "test_route_table" {
+  compartment_id = "${var.compartment_ocid}"
+  vcn_id         = "${oci_core_virtual_network.test_vcn.id}"
+  display_name   = "tfClustersRouteTable"
+
+  route_rules {
+    cidr_block        = "0.0.0.0/0"
+    network_entity_id = "${oci_core_internet_gateway.test_ig.id}"
+  }
+}
+
 resource "oci_core_subnet" "clusterSubnet_1" {
   #Required
   availability_domain = "${lookup(data.oci_identity_availability_domains.test_availability_domains.availability_domains[0],"name")}"
@@ -30,6 +48,7 @@ resource "oci_core_subnet" "clusterSubnet_1" {
   vcn_id = "${oci_core_virtual_network.test_vcn.id}"
   security_list_ids = ["${oci_core_virtual_network.test_vcn.default_security_list_id}"] # Provider code tries to maintain compatibility with old versions.
   display_name = "tfSubNet1ForClusters"
+  route_table_id = "${oci_core_route_table.test_route_table.id}"
 }
 resource "oci_core_subnet" "clusterSubnet_2" {
   #Required
@@ -39,16 +58,19 @@ resource "oci_core_subnet" "clusterSubnet_2" {
   vcn_id = "${oci_core_virtual_network.test_vcn.id}"
   display_name = "tfSubNet1ForClusters"
   security_list_ids = ["${oci_core_virtual_network.test_vcn.default_security_list_id}"] # Provider code tries to maintain compatibility with old versions.
+  route_table_id = "${oci_core_route_table.test_route_table.id}"
 }
 resource "oci_core_subnet" "nodePool_Subnet_1" {
-	#Required
-	availability_domain = "${lookup(data.oci_identity_availability_domains.test_availability_domains.availability_domains[0],"name")}"
-	cidr_block = "10.0.22.0/24"
-	compartment_id = "${var.compartment_ocid}"
+  #Required
+  availability_domain = "${lookup(data.oci_identity_availability_domains.test_availability_domains.availability_domains[0],"name")}"
+  cidr_block = "10.0.22.0/24"
+  compartment_id = "${var.compartment_ocid}"
   vcn_id = "${oci_core_virtual_network.test_vcn.id}"
   security_list_ids = ["${oci_core_virtual_network.test_vcn.default_security_list_id}"] # Provider code tries to maintain compatibility with old versions.
-	display_name = "tfSubNet1ForNodePool"
+  display_name = "tfSubNet1ForNodePool"
+  route_table_id = "${oci_core_route_table.test_route_table.id}"
 }
+
 
 resource "oci_containerengine_cluster" "test_cluster" {
   #Required
