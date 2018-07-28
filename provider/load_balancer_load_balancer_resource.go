@@ -56,10 +56,6 @@ func LoadBalancerResource() *schema.Resource {
 			},
 
 			// Computed
-			"id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"ip_addresses": {
 				Type:     schema.TypeList,
 				Computed: true,
