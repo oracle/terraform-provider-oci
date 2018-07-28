@@ -50,7 +50,7 @@ const (
 type oboTokenProviderFromEnv struct{}
 
 func (p oboTokenProviderFromEnv) OboToken() (string, error) {
-	return getEnvSetting("obo_token", ""), nil
+	return getEnvSettingWithBlankDefault("obo_token"), nil
 }
 
 func init() {
@@ -362,7 +362,11 @@ func resourcesMap() map[string]*schema.Resource {
 	}
 }
 
-func getEnvSetting(s string, dv string) string {
+func getEnvSettingWithBlankDefault(s string) string {
+	return getEnvSettingWithDefault(s, "")
+}
+
+func getEnvSettingWithDefault(s string, dv string) string {
 	v := os.Getenv("TF_VAR_" + s)
 	if v != "" {
 		return v
@@ -378,8 +382,9 @@ func getEnvSetting(s string, dv string) string {
 	return dv
 }
 
+// Deprecated: There should be only no need to panic individually
 func getRequiredEnvSetting(s string) string {
-	v := getEnvSetting(s, "")
+	v := getEnvSettingWithBlankDefault(s)
 	if v == "" {
 		panic(fmt.Sprintf("Required env setting %s is missing", s))
 	}
@@ -518,7 +523,7 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 		return
 	}
 
-	useOboToken, err := strconv.ParseBool(getEnvSetting("use_obo_token", "false"))
+	useOboToken, err := strconv.ParseBool(getEnvSettingWithDefault("use_obo_token", "false"))
 	if err != nil {
 		return
 	}
@@ -713,7 +718,7 @@ func (p ResourceDataConfigProvider) PrivateRSAKey() (key *rsa.PrivateKey, err er
 }
 
 func readCertPem() (file []byte, err error) {
-	r1CertLoc := getEnvSetting(r1CertLocationEnv, "")
+	r1CertLoc := getEnvSettingWithBlankDefault(r1CertLocationEnv)
 	if r1CertLoc == "" {
 		err = fmt.Errorf("the R1 Certificate Location must be specified in the environment variable %s", r1CertLocationEnv)
 		return

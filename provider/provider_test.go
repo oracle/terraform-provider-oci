@@ -41,11 +41,11 @@ func testProviderConfig() string {
 	}
 
 	variable "tenancy_ocid" {
-		default = "` + getRequiredEnvSetting("tenancy_ocid") + `"
+		default = "` + getEnvSettingWithBlankDefault("tenancy_ocid") + `"
 	}
 
 	variable "namespace" {
-		default = "` + getEnvSetting("namespace", "mustwin") + `"
+		default = "` + getEnvSettingWithDefault("namespace", "mustwin") + `"
 	}
 
 	variable "ssh_public_key" {
@@ -53,15 +53,29 @@ func testProviderConfig() string {
 	}
 
 	variable "region" {
-		default = "` + getRequiredEnvSetting("region") + `"
+		default = "` + getEnvSettingWithBlankDefault("region") + `"
 	}
 
 	`
 }
 
+func testAccPreCheck(t *testing.T) {
+	envVars := []string{"tenancy_ocid", "user_ocid", "compartment_ocid", "fingerprint", "private_key_path"}
+	for _, envVar := range envVars {
+		assertEnvAvailable(envVar, t)
+	}
+
+}
+
+func assertEnvAvailable(envVar string, t *testing.T) {
+	if v := getEnvSettingWithDefault(envVar, ""); v == "" {
+		t.Fatal(envVar + " must be set for acceptance tests")
+	}
+}
+
 func getCompartmentIDForLegacyTests() string {
 	var compartmentId string
-	if compartmentId = getEnvSetting("compartment_ocid", "compartment_ocid"); compartmentId == "compartment_ocid" {
+	if compartmentId = getEnvSettingWithDefault("compartment_ocid", "compartment_ocid"); compartmentId == "compartment_ocid" {
 		compartmentId = getRequiredEnvSetting("compartment_id_for_create")
 	}
 	return compartmentId
@@ -206,16 +220,16 @@ func GetTestProvider() *OracleClients {
 		Schema: schemaMap(),
 	}
 	d := r.Data(nil)
-	d.SetId(getRequiredEnvSetting("tenancy_ocid"))
+	d.SetId(getEnvSettingWithBlankDefault("tenancy_ocid"))
 
-	d.Set("auth", getEnvSetting("auth", authAPIKeySetting))
-	d.Set("tenancy_ocid", getRequiredEnvSetting("tenancy_ocid"))
-	d.Set("user_ocid", getRequiredEnvSetting("user_ocid"))
-	d.Set("fingerprint", getRequiredEnvSetting("fingerprint"))
-	d.Set("private_key_path", getRequiredEnvSetting("private_key_path"))
-	d.Set("private_key_password", getEnvSetting("private_key_password", ""))
-	d.Set("private_key", getEnvSetting("private_key", ""))
-	d.Set("region", getEnvSetting("region", "us-phoenix-1"))
+	d.Set("auth", getEnvSettingWithDefault("auth", authAPIKeySetting))
+	d.Set("tenancy_ocid", getEnvSettingWithBlankDefault("tenancy_ocid"))
+	d.Set("user_ocid", getEnvSettingWithBlankDefault("user_ocid"))
+	d.Set("fingerprint", getEnvSettingWithBlankDefault("fingerprint"))
+	d.Set("private_key_path", getEnvSettingWithBlankDefault("private_key_path"))
+	d.Set("private_key_password", getEnvSettingWithBlankDefault("private_key_password"))
+	d.Set("private_key", getEnvSettingWithBlankDefault("private_key"))
+	d.Set("region", getEnvSettingWithDefault("region", "us-phoenix-1"))
 
 	client, err := ProviderConfig(d)
 	if err != nil {

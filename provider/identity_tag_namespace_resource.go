@@ -157,7 +157,7 @@ func (s *TagNamespaceResourceCrud) Create() error {
 	// by basically importing that pre-existing namespace into this plan if tags_import_if_exists
 	// flag is set to 'true'. This is ONLY for TESTING and should not be used elsewhere.
 	// Use 'terraform import' for existing namespaces
-	importIfExists, _ := strconv.ParseBool(getEnvSetting("tags_import_if_exists", "false"))
+	importIfExists, _ := strconv.ParseBool(getEnvSettingWithDefault("tags_import_if_exists", "false"))
 	if importIfExists && strings.Contains(err.Error(), "TagNamespaceAlreadyExists") {
 		// List all namespaces using the datasource to find that namespace with the matching name.
 		s.D.Set("compartment_id", request.CompartmentId)

@@ -155,7 +155,7 @@ func (s *TagResourceCrud) Create() error {
 	// basically importing that pre-existing namespace into this plan if tags_import_if_exists
 	// flag is set to 'true'. This is ONLY for TESTING and should not be used elsewhere.
 	// Use 'terraform import' for existing tag definitions
-	importIfExists, _ := strconv.ParseBool(getEnvSetting("tags_import_if_exists", "false"))
+	importIfExists, _ := strconv.ParseBool(getEnvSettingWithDefault("tags_import_if_exists", "false"))
 	if importIfExists && strings.Contains(err.Error(), "TagDefinitionAlreadyExists") {
 		// List all tag definitions using the datasource to find that tag definition which matches
 		s.D.Set("tag_namespace_id", request.TagNamespaceId)
