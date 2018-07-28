@@ -69,7 +69,7 @@ func (s *ResourceDatabaseDBSystemTestSuite) SetupTest() {
 // to assert expected default values are set
 func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_basic() {
 	// This test is a subset of TestAccResourceDatabaseDBSystem_allXX. It tests omitting optional params.
-	if strings.Contains(getEnvSetting("suppressed_tests", ""), "DBSystem_basic") {
+	if strings.Contains(getEnvSettingWithBlankDefault("suppressed_tests"), "DBSystem_basic") {
 		s.T().Skip("Skipping subset dbsystem test.")
 	}
 
@@ -137,7 +137,7 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_basi
 
 // TestAccResourceDatabaseDBSystem_allBM tests DBsystems using Bare Metal instances.
 func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_allBM() {
-	if strings.Contains(getEnvSetting("suppressed_tests", ""), "DBSystem_allBM") {
+	if strings.Contains(getEnvSettingWithBlankDefault("suppressed_tests"), "DBSystem_allBM") {
 		s.T().Skip("Skipping BM test due to tenancy limits.")
 	}
 
@@ -378,7 +378,7 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_allB
 
 // TestAccResourceDatabaseDBSystem_allBM tests DBsystems using Virtual Machines.
 func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_allVM() {
-	if strings.Contains(getEnvSetting("suppressed_tests", ""), "DBSystem_allVM") {
+	if strings.Contains(getEnvSettingWithBlankDefault("suppressed_tests"), "DBSystem_allVM") {
 		s.T().Skip("Skipping VM test due to tenancy limits.")
 	}
 

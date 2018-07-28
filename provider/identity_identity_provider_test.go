@@ -64,7 +64,7 @@ variable "identity_provider_protocol" { default = "SAML2" }
 )
 
 func TestIdentityIdentityProviderResource_basic(t *testing.T) {
-	metadataFile := getEnvSetting("identity_provider_metadata_file", "")
+	metadataFile := getEnvSettingWithBlankDefault("identity_provider_metadata_file")
 	if metadataFile == "" {
 		t.Skip("Skipping generated test for now as it has a dependency on federation metadata file")
 	}

@@ -30,7 +30,7 @@ variable "idp_group_mapping_idp_group_name" { default = "idpGroupName" }
 )
 
 func TestIdentityIdpGroupMappingResource_basic(t *testing.T) {
-	metadataFile := getEnvSetting("identity_provider_metadata_file", "")
+	metadataFile := getEnvSettingWithBlankDefault("identity_provider_metadata_file")
 	if metadataFile == "" {
 		t.Skip("Skipping generated test for now as it has a dependency on federation metadata file")
 	}

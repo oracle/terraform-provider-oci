@@ -24,6 +24,7 @@ type ResourceIdentityGroupTestSuite struct {
 
 func (s *ResourceIdentityGroupTestSuite) SetupTest() {
 	s.Providers = testAccProviders
+	testAccPreCheck(s.T())
 	s.Config = legacyTestProviderConfig()
 	s.ResourceName = "oci_identity_group.t"
 }
@@ -52,7 +53,7 @@ func (s *ResourceIdentityGroupTestSuite) TestAccResourceIdentityGroup_basic() {
 					compartment_id = "${var.tenancy_ocid}"
 				}`, nil),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName+"0", "compartment_id", getRequiredEnvSetting("tenancy_ocid")),
+					resource.TestCheckResourceAttr(s.ResourceName+"0", "compartment_id", getEnvSettingWithBlankDefault("tenancy_ocid")),
 					resource.TestCheckResourceAttr(s.ResourceName+"0", "name", token),
 					resource.TestCheckResourceAttr(s.ResourceName+"0", "description", "tf test group"),
 					resource.TestCheckResourceAttr(s.ResourceName+"0", "state", string(identity.GroupLifecycleStateActive)),
@@ -68,7 +69,7 @@ func (s *ResourceIdentityGroupTestSuite) TestAccResourceIdentityGroup_basic() {
 					description = "tf test group"
 				}`, nil),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", getRequiredEnvSetting("tenancy_ocid")),
+					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", getEnvSettingWithBlankDefault("tenancy_ocid")),
 					resource.TestCheckResourceAttr(s.ResourceName, "name", token),
 					resource.TestCheckResourceAttr(s.ResourceName, "description", "tf test group"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(identity.GroupLifecycleStateActive)),
