@@ -9,7 +9,7 @@ variable "node_pool_initial_node_labels_value" { default = "value" }
 variable "node_pool_kubernetes_version" { default = "v1.8.11" }
 variable "node_pool_name" { default = "tfPool" }
 variable "node_pool_node_image_name" { default = "Oracle-Linux-7.4" }
-variable "node_pool_node_shape" { default = "VM.Standard1.8" }
+variable "node_pool_node_shape" { default = "VM.Standard1.1" }
 variable "node_pool_quantity_per_subnet" { default = 2 }
 variable "node_pool_ssh_public_key" { default = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample" }
 
@@ -50,9 +50,10 @@ resource "oci_core_subnet" "clusterSubnet_1" {
   display_name = "tfSubNet1ForClusters"
   route_table_id = "${oci_core_route_table.test_route_table.id}"
 }
+
 resource "oci_core_subnet" "clusterSubnet_2" {
   #Required
-  availability_domain = "${lookup(data.oci_identity_availability_domains.test_availability_domains.availability_domains[0],"name")}"
+  availability_domain = "${lookup(data.oci_identity_availability_domains.test_availability_domains.availability_domains[1],"name")}"
   cidr_block = "10.0.21.0/24"
   compartment_id = "${var.compartment_ocid}"
   vcn_id = "${oci_core_virtual_network.test_vcn.id}"
@@ -60,6 +61,7 @@ resource "oci_core_subnet" "clusterSubnet_2" {
   security_list_ids = ["${oci_core_virtual_network.test_vcn.default_security_list_id}"] # Provider code tries to maintain compatibility with old versions.
   route_table_id = "${oci_core_route_table.test_route_table.id}"
 }
+
 resource "oci_core_subnet" "nodePool_Subnet_1" {
   #Required
   availability_domain = "${lookup(data.oci_identity_availability_domains.test_availability_domains.availability_domains[0],"name")}"
@@ -71,6 +73,16 @@ resource "oci_core_subnet" "nodePool_Subnet_1" {
   route_table_id = "${oci_core_route_table.test_route_table.id}"
 }
 
+resource "oci_core_subnet" "nodePool_Subnet_2" {
+  #Required
+  availability_domain = "${lookup(data.oci_identity_availability_domains.test_availability_domains.availability_domains[1],"name")}"
+  cidr_block = "10.0.23.0/24"
+  compartment_id = "${var.compartment_ocid}"
+  vcn_id = "${oci_core_virtual_network.test_vcn.id}"
+  security_list_ids = ["${oci_core_virtual_network.test_vcn.default_security_list_id}"] # Provider code tries to maintain compatibility with old versions.
+  display_name = "tfSubNet2ForNodePool"
+  route_table_id = "${oci_core_route_table.test_route_table.id}"
+}
 
 resource "oci_containerengine_cluster" "test_cluster" {
   #Required
@@ -105,7 +117,7 @@ resource "oci_containerengine_node_pool" "test_node_pool" {
 	name = "${var.node_pool_name}"
 	node_image_name = "${var.node_pool_node_image_name}"
 	node_shape = "${var.node_pool_node_shape}"
-	subnet_ids = ["${oci_core_subnet.nodePool_Subnet_1.id}"] 
+	subnet_ids = ["${oci_core_subnet.nodePool_Subnet_1.id}", "${oci_core_subnet.nodePool_Subnet_2.id}"]
 
 	#Optional
 	initial_node_labels {
@@ -118,6 +130,21 @@ resource "oci_containerengine_node_pool" "test_node_pool" {
 	ssh_public_key = "${var.node_pool_ssh_public_key}"
 }
 
-output "cluster_id" {
-  value = "${oci_containerengine_cluster.test_cluster.id}"
+output "cluster" {
+  value = {
+    id = "${oci_containerengine_cluster.test_cluster.id}"
+    kubernetes_version = "${oci_containerengine_cluster.test_cluster.kubernetes_version}"
+    name = "${oci_containerengine_cluster.test_cluster.name}"
+
+  }
 }
+
+output "node_pool" {
+  value = {
+    id = "${oci_containerengine_node_pool.test_node_pool.id}"
+    kubernetes_version = "${oci_containerengine_node_pool.test_node_pool.kubernetes_version}"
+    name = "${oci_containerengine_node_pool.test_node_pool.name}"
+    subnet_ids = "${oci_containerengine_node_pool.test_node_pool.subnet_ids}"
+  }
+}
+

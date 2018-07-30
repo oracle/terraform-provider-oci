@@ -57,8 +57,9 @@ func NodePoolResource() *schema.Resource {
 				ForceNew: true,
 			},
 			"subnet_ids": {
-				Type:     schema.TypeList,
+				Type:     schema.TypeSet,
 				Required: true,
+				Set:      literalTypeHashCodeForSets,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
@@ -277,7 +278,8 @@ func (s *NodePoolResourceCrud) Create() error {
 
 	request.SubnetIds = []string{}
 	if subnetIds, ok := s.D.GetOkExists("subnet_ids"); ok {
-		interfaces := subnetIds.([]interface{})
+		set := subnetIds.(*schema.Set)
+		interfaces := set.List()
 		tmp := make([]string, len(interfaces))
 		for i, toBeConverted := range interfaces {
 			tmp[i] = toBeConverted.(string)
@@ -383,7 +385,8 @@ func (s *NodePoolResourceCrud) Update() error {
 
 	request.SubnetIds = []string{}
 	if subnetIds, ok := s.D.GetOkExists("subnet_ids"); ok {
-		interfaces := subnetIds.([]interface{})
+		set := subnetIds.(*schema.Set)
+		interfaces := set.List()
 		tmp := make([]string, len(interfaces))
 		for i, toBeConverted := range interfaces {
 			tmp[i] = toBeConverted.(string)
@@ -490,7 +493,11 @@ func (s *NodePoolResourceCrud) SetData() error {
 		s.D.Set("ssh_public_key", *s.Res.SshPublicKey)
 	}
 
-	s.D.Set("subnet_ids", s.Res.SubnetIds)
+	subnetIds := []interface{}{}
+	for _, item := range s.Res.SubnetIds {
+		subnetIds = append(subnetIds, item)
+	}
+	s.D.Set("subnet_ids", schema.NewSet(literalTypeHashCodeForSets, subnetIds))
 
 	return nil
 }

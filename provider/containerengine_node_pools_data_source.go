@@ -31,7 +31,7 @@ func NodePoolsDataSource() *schema.Resource {
 			"node_pools": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     crud.GetDataSourceItemSchema(NodePoolResource()),
+				Elem:     crud.GetDataSourceItemSchema(NodePoolDataSource()),
 			},
 		},
 	}

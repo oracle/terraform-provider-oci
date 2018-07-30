@@ -151,6 +151,7 @@ func dataSourcesMap() map[string]*schema.Resource {
 		"oci_audit_configuration":                      ConfigurationDataSource(),
 		"oci_containerengine_clusters":                 ClustersDataSource(),
 		"oci_containerengine_cluster_option":           ClusterOptionDataSource(),
+		"oci_containerengine_node_pool":                NodePoolDataSource(),
 		"oci_containerengine_node_pools":               NodePoolsDataSource(),
 		"oci_containerengine_node_pool_option":         NodePoolOptionDataSource(),
 		"oci_containerengine_cluster_kube_config":      ClusterKubeConfigDataSource(),
