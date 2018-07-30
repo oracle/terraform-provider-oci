@@ -86,26 +86,26 @@ func schemaMap() map[string]*schema.Schema {
 			Type:         schema.TypeString,
 			Optional:     true,
 			Description:  descriptions["auth"],
-			DefaultFunc:  schema.EnvDefaultFunc("OCI_AUTH", authAPIKeySetting),
+			DefaultFunc:  schema.MultiEnvDefaultFunc([]string{"TF_VAR_auth", "OCI_AUTH"}, authAPIKeySetting),
 			ValidateFunc: validation.StringInSlice([]string{authAPIKeySetting, authInstancePrincipalSetting}, true),
 		},
 		"tenancy_ocid": {
 			Type:        schema.TypeString,
 			Optional:    true,
 			Description: descriptions["tenancy_ocid"],
-			DefaultFunc: schema.EnvDefaultFunc("OCI_TENANCY_OCID", nil),
+			DefaultFunc: schema.MultiEnvDefaultFunc([]string{"TF_VAR_tenancy_ocid", "OCI_TENANCY_OCID"}, nil),
 		},
 		"user_ocid": {
 			Type:        schema.TypeString,
 			Optional:    true,
 			Description: descriptions["user_ocid"],
-			DefaultFunc: schema.EnvDefaultFunc("OCI_USER_OCID", nil),
+			DefaultFunc: schema.MultiEnvDefaultFunc([]string{"TF_VAR_user_ocid", "OCI_USER_OCID"}, nil),
 		},
 		"fingerprint": {
 			Type:        schema.TypeString,
 			Optional:    true,
 			Description: descriptions["fingerprint"],
-			DefaultFunc: schema.EnvDefaultFunc("OCI_FINGERPRINT", nil),
+			DefaultFunc: schema.MultiEnvDefaultFunc([]string{"TF_VAR_fingerprint", "OCI_FINGERPRINT"}, nil),
 		},
 		// Mostly used for testing. Don't put keys in your .tf files
 		"private_key": {
@@ -114,13 +114,13 @@ func schemaMap() map[string]*schema.Schema {
 			Default:     "",
 			Sensitive:   true,
 			Description: descriptions["private_key"],
-			DefaultFunc: schema.EnvDefaultFunc("OCI_PRIVATE_KEY", nil),
+			DefaultFunc: schema.MultiEnvDefaultFunc([]string{"TF_VAR_private_key", "OCI_PRIVATE_KEY"}, nil),
 		},
 		"private_key_path": {
 			Type:        schema.TypeString,
 			Optional:    true,
 			Description: descriptions["private_key_path"],
-			DefaultFunc: schema.EnvDefaultFunc("OCI_PRIVATE_KEY_PATH", nil),
+			DefaultFunc: schema.MultiEnvDefaultFunc([]string{"TF_VAR_private_key_path", "OCI_PRIVATE_KEY_PATH"}, nil),
 		},
 		"private_key_password": {
 			Type:        schema.TypeString,
@@ -128,20 +128,20 @@ func schemaMap() map[string]*schema.Schema {
 			Sensitive:   true,
 			Default:     "",
 			Description: descriptions["private_key_password"],
-			DefaultFunc: schema.EnvDefaultFunc("OCI_PRIVATE_KEY_PASSWORD", nil),
+			DefaultFunc: schema.MultiEnvDefaultFunc([]string{"TF_VAR_private_key_password", "OCI_PRIVATE_KEY_PASSWORD"}, nil),
 		},
 		"region": {
 			Type:        schema.TypeString,
 			Required:    true,
 			Description: descriptions["region"],
-			DefaultFunc: schema.EnvDefaultFunc("OCI_REGION", nil),
+			DefaultFunc: schema.MultiEnvDefaultFunc([]string{"TF_VAR_region", "OCI_REGION"}, nil),
 		},
 		"disable_auto_retries": {
 			Type:        schema.TypeBool,
 			Optional:    true,
 			Default:     false,
 			Description: descriptions["disable_auto_retries"],
-			DefaultFunc: schema.EnvDefaultFunc("OCI_DISABLE_AUTO_RETRIES", nil),
+			DefaultFunc: schema.MultiEnvDefaultFunc([]string{"TF_VAR_disable_auto_retries", "OCI_DISABLE_AUTO_RETRIES"}, nil),
 		},
 	}
 }
