@@ -1,0 +1,24 @@
+#cloud-config
+write_files:
+ - path:     C:/init.ps1
+   content:  |
+     echo "add your custom commands and scripts here"
+
+# Depending on the image that is being used runcmd plugin may not be supported, you may use ps1_sysnative config instead
+# Windows-Server-2012-R2-Standard-Edition-VM-2018.07.19-0 - cloudbaseinit.plugins.common.userdataplugins.cloudconfig [-] Plugin 'runcmd' is currently not supported
+runcmd:
+ - echo "Hello from Terraform"
+ - powershell.exe "C:/init.ps1"
+
+# Depending on the image that is being used script plugin may not be supported, you may use ps1_sysnative config instead
+# Windows-Server-2012-R2-Standard-Edition-VM-2018.07.19-0 - cloudbaseinit.plugins.common.userdataplugins.cloudconfig [-] Plugin 'script' is currently not supported
+script:      |
+  <powershell>
+  winrm set winrm/config/client/auth '@{Basic="true"}'
+  winrm set winrm/config/service/auth '@{Basic="true"}'
+  winrm set winrm/config/service '@{AllowUnencrypted="true"}'
+  winrm set winrm/config/winrs '@{MaxMemoryPerShellMB="300"}'
+  winrm set winrm/config '@{MaxTimeoutms="1800000"}'
+  $file = Join-Path -Path $env:SystemRoot -ChildPath (Get-Date).ToString("MM-dd-yy-hh-mm")
+  New-Item $file -ItemType file -Value "Hello from Terraform"
+  </powershell>
