@@ -18,6 +18,8 @@ import (
 
 var testAccProvider *schema.Provider
 var testAccProviders map[string]terraform.ResourceProvider
+var requiredEnvVars = []string{"tenancy_ocid", "user_ocid", "compartment_ocid", "fingerprint", "private_key_path",
+	"compartment_id_for_create", "compartment_id_for_update", "tags_import_if_exists"}
 
 func init() {
 	testAccProvider = Provider(func(d *schema.ResourceData) (interface{}, error) {
@@ -60,16 +62,15 @@ func testProviderConfig() string {
 }
 
 func testAccPreCheck(t *testing.T) {
-	envVars := []string{"tenancy_ocid", "user_ocid", "compartment_ocid", "fingerprint", "private_key_path"}
-	for _, envVar := range envVars {
+	for _, envVar := range requiredEnvVars {
 		assertEnvAvailable(envVar, t)
 	}
 
 }
 
 func assertEnvAvailable(envVar string, t *testing.T) {
-	if v := getEnvSettingWithDefault(envVar, ""); v == "" {
-		t.Fatal(envVar + " must be set for acceptance tests")
+	if v := getEnvSettingWithBlankDefault(envVar); v == "" {
+		t.Fatal("TF_VAR_" + envVar + " must be set for acceptance tests")
 	}
 }
 
