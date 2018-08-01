@@ -23,6 +23,7 @@ type DatasourceCoreVirtualNetworkTestSuite struct {
 func (s *DatasourceCoreVirtualNetworkTestSuite) SetupTest() {
 	s.Token, s.TokenFn = tokenize()
 	s.Providers = testAccProviders
+	testAccPreCheck(s.T())
 	s.Config = legacyTestProviderConfig() + s.TokenFn(`
 	resource "oci_core_virtual_network" "t" {
 		compartment_id = "${var.compartment_id}"

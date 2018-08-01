@@ -21,6 +21,7 @@ type ResourcePrivateIPTestSuite struct {
 
 func (s *ResourcePrivateIPTestSuite) SetupTest() {
 	s.Providers = testAccProviders
+	testAccPreCheck(s.T())
 	s.Config = legacyTestProviderConfig() + testADs() + testVCN1() + testSubnet1() + testImage1() + testInstance1() + DefinedTagsDependencies + `
 	data "oci_core_vnic_attachments" "t" {
 		availability_domain = "${data.oci_identity_availability_domains.t.availability_domains.0.name}"

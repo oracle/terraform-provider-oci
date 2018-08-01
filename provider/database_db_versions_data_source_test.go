@@ -22,6 +22,7 @@ type DatabaseDBVersionTestSuite struct {
 
 func (s *DatabaseDBVersionTestSuite) SetupTest() {
 	s.Providers = testAccProviders
+	testAccPreCheck(s.T())
 	s.Config = legacyTestProviderConfig()
 	s.ResourceName = "data.oci_database_db_versions.t"
 }

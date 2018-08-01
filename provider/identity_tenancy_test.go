@@ -16,6 +16,7 @@ func TestIdentityTenancyResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_identity_tenancy.test_tenancy"
 
 	resource.Test(t, resource.TestCase{
+		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},

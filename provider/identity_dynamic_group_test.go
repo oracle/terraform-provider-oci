@@ -37,9 +37,9 @@ func TestIdentityDynamicGroupResource_basic(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 
-	compartmentId := getRequiredEnvSetting("compartment_ocid")
+	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
-	tenancyId := getRequiredEnvSetting("tenancy_ocid")
+	tenancyId := getEnvSettingWithBlankDefault("tenancy_ocid")
 
 	matchingRuleValueStr := fmt.Sprintf("instance.compartment_id='%s'", compartmentId)
 	matchingRuleVariableStr := fmt.Sprintf("variable \"dynamic_group_matching_rule\" {default = \"%s\" }\n", matchingRuleValueStr)
@@ -52,6 +52,7 @@ func TestIdentityDynamicGroupResource_basic(t *testing.T) {
 	var resId, resId2 string
 
 	resource.Test(t, resource.TestCase{
+		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},

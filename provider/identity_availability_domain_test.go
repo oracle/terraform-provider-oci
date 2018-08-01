@@ -30,13 +30,14 @@ func TestIdentityAvailabilityDomainResource_basic(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 
-	compartmentId := getRequiredEnvSetting("compartment_ocid")
+	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
-	tenancyId := getRequiredEnvSetting("tenancy_ocid")
+	tenancyId := getEnvSettingWithBlankDefault("tenancy_ocid")
 
 	datasourceName := "data.oci_identity_availability_domains.test_availability_domains"
 
 	resource.Test(t, resource.TestCase{
+		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},

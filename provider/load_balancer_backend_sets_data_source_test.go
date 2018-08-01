@@ -79,6 +79,7 @@ func TestAccDatasourceLoadBalancerBackendsets_basic(t *testing.T) {
 	resourceName := "data.oci_load_balancer_backendsets.t"
 
 	resource.Test(t, resource.TestCase{
+		PreCheck:                  func() { testAccPreCheck(t) },
 		PreventPostDestroyRefresh: true,
 		Providers:                 providers,
 		Steps: []resource.TestStep{

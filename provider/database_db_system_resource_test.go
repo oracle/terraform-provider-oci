@@ -28,6 +28,7 @@ type ResourceDatabaseDBSystemTestSuite struct {
 func (s *ResourceDatabaseDBSystemTestSuite) SetupTest() {
 	s.Token, s.TokenFn = tokenize()
 	s.Providers = testAccProviders
+	testAccPreCheck(s.T())
 	s.Config = legacyTestProviderConfig() + `
 	data "oci_identity_availability_domains" "ADs" {
 		compartment_id = "${var.compartment_id}"

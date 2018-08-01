@@ -22,6 +22,7 @@ func TestObjectStorageNamespaceMetadataResource_basic(t *testing.T) {
 	var resId, resId2 string
 
 	resource.Test(t, resource.TestCase{
+		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},

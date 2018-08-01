@@ -23,6 +23,7 @@ type DatasourceObjectstorageObjectHeadTestSuite struct {
 func (s *DatasourceObjectstorageObjectHeadTestSuite) SetupTest() {
 	s.Token, s.TokenFn = tokenize()
 	s.Providers = testAccProviders
+	testAccPreCheck(s.T())
 	s.Config = legacyTestProviderConfig() + s.TokenFn(`
 	data "oci_objectstorage_namespace" "t" {
 	}

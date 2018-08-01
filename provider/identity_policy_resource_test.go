@@ -26,6 +26,7 @@ type ResourceIdentityPolicyTestSuite struct {
 func (s *ResourceIdentityPolicyTestSuite) SetupTest() {
 	s.Token, s.TokenFn = tokenize()
 	s.Providers = testAccProviders
+	testAccPreCheck(s.T())
 	s.Config = legacyTestProviderConfig() + s.TokenFn(`
 	resource "oci_identity_compartment" "t" {
 		name = "-tf-compartment"

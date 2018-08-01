@@ -50,7 +50,7 @@ func TestIdentityApiKeyResource_basic(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 
-	compartmentId := getRequiredEnvSetting("compartment_ocid")
+	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	apiKeyVarStr := fmt.Sprintf("variable \"api_key_value\" { \n\tdefault = <<EOF\n%s\nEOF\n}\n", apiKey)
@@ -59,6 +59,7 @@ func TestIdentityApiKeyResource_basic(t *testing.T) {
 	datasourceName := "data.oci_identity_api_keys.test_api_keys"
 
 	resource.Test(t, resource.TestCase{
+		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},

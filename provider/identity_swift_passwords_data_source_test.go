@@ -22,6 +22,7 @@ func (s *DatasourceIdentitySwiftPasswordsTestSuite) SetupTest() {
 	_, tokenFn := tokenize()
 
 	s.Providers = testAccProviders
+	testAccPreCheck(s.T())
 	s.Config = legacyTestProviderConfig() + tokenFn(`
 	resource "oci_identity_user" "t" {
 		name = "{{.token}}"
