@@ -33,12 +33,16 @@ resource "oci_load_balancer_load_balancer" "test_load_balancer" {
 	subnet_ids = ["${oci_core_subnet.lb_test_subnet_1.id}", "${oci_core_subnet.lb_test_subnet_2.id}"]
 
 	#Optional
+	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.load_balancer_defined_tags_value}")}"
+	freeform_tags = "${var.load_balancer_freeform_tags}"
 	is_private = "${var.load_balancer_is_private}"
 }
 `
 	LoadBalancerPropertyVariables = `
+variable "load_balancer_defined_tags_value" { default = "value" }
 variable "load_balancer_detail" { default = "detail" }
 variable "load_balancer_display_name" { default = "example_load_balancer" }
+variable "load_balancer_freeform_tags" { default = {"Department"= "Finance"} }
 variable "load_balancer_is_private" { default = false }
 variable "load_balancer_shape" { default = "100Mbps" }
 variable "load_balancer_state" { default = "ACTIVE" }
@@ -122,7 +126,9 @@ func TestLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 				Config: config + LoadBalancerPropertyVariables + compartmentIdVariableStr + LoadBalancerResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "example_load_balancer"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "is_private", "false"),
 					resource.TestCheckResourceAttr(resourceName, "shape", "100Mbps"),
@@ -140,8 +146,10 @@ func TestLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 			// verify updates to updatable parameters
 			{
 				Config: config + `
+variable "load_balancer_defined_tags_value" { default = "updatedValue" }
 variable "load_balancer_detail" { default = "detail" }
-variable "load_balancer_display_name" { default = "example_load_balancer" }
+variable "load_balancer_display_name" { default = "displayName2" }
+variable "load_balancer_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "load_balancer_is_private" { default = false }
 variable "load_balancer_shape" { default = "100Mbps" }
 variable "load_balancer_state" { default = "ACTIVE" }
@@ -149,7 +157,9 @@ variable "load_balancer_state" { default = "ACTIVE" }
                 ` + compartmentIdVariableStr + LoadBalancerResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "example_load_balancer"),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "is_private", "false"),
 					resource.TestCheckResourceAttr(resourceName, "shape", "100Mbps"),
@@ -169,8 +179,10 @@ variable "load_balancer_state" { default = "ACTIVE" }
 			// verify datasource
 			{
 				Config: config + `
+variable "load_balancer_defined_tags_value" { default = "updatedValue" }
 variable "load_balancer_detail" { default = "detail" }
-variable "load_balancer_display_name" { default = "example_load_balancer" }
+variable "load_balancer_display_name" { default = "displayName2" }
+variable "load_balancer_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "load_balancer_is_private" { default = false }
 variable "load_balancer_shape" { default = "100Mbps" }
 variable "load_balancer_state" { default = "ACTIVE" }
@@ -193,12 +205,14 @@ data "oci_load_balancer_load_balancers" "test_load_balancers" {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "detail", "detail"),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "example_load_balancer"),
+					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
 					resource.TestCheckResourceAttr(datasourceName, "load_balancers.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.display_name", "example_load_balancer"),
+					resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.display_name", "displayName2"),
+					resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "load_balancers.0.id"),
 					resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.is_private", "false"),
 					resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.shape", "100Mbps"),

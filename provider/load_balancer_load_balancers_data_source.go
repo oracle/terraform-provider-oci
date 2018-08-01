@@ -116,9 +116,15 @@ func (s *LoadBalancersDataSourceCrud) SetData() error {
 			"compartment_id": *r.CompartmentId,
 		}
 
+		if r.DefinedTags != nil {
+			loadBalancer["defined_tags"] = definedTagsToMap(r.DefinedTags)
+		}
+
 		if r.DisplayName != nil {
 			loadBalancer["display_name"] = *r.DisplayName
 		}
+
+		loadBalancer["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {
 			loadBalancer["id"] = *r.Id
