@@ -22,6 +22,7 @@ type DatasourceIdentityAvailabilityDomainsTestSuite struct {
 
 func (s *DatasourceIdentityAvailabilityDomainsTestSuite) SetupTest() {
 	s.Providers = testAccProviders
+	testAccPreCheck(s.T())
 	s.Config = testProviderConfig()
 	s.ResourceName = "data.oci_identity_availability_domains.t"
 }

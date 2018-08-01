@@ -25,6 +25,7 @@ type ResourceObjectstoragePARTestSuite struct {
 func (s *ResourceObjectstoragePARTestSuite) SetupTest() {
 	s.Token, s.TokenFn = tokenize()
 	s.Providers = testAccProviders
+	testAccPreCheck(s.T())
 	s.Config = legacyTestProviderConfig() + s.TokenFn(`
 	data "oci_objectstorage_namespace" "t" {
 	}

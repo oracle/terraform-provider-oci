@@ -20,6 +20,7 @@ type DatasourceCoreShapeTestSuite struct {
 
 func (s *DatasourceCoreShapeTestSuite) SetupTest() {
 	s.Providers = testAccProviders
+	testAccPreCheck(s.T())
 	s.Config = legacyTestProviderConfig() + `
 	data "oci_identity_availability_domains" "t" {
 		compartment_id = "${var.compartment_id}"

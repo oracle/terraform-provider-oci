@@ -72,7 +72,7 @@ func TestCoreImageResource_basic(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 
-	compartmentId := getRequiredEnvSetting("compartment_ocid")
+	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_core_image.test_image"
@@ -81,6 +81,7 @@ func TestCoreImageResource_basic(t *testing.T) {
 	var resId, resId2 string
 
 	resource.Test(t, resource.TestCase{
+		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},

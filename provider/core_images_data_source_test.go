@@ -26,6 +26,7 @@ type DatasourceCoreImageTestSuite struct {
 
 func (s *DatasourceCoreImageTestSuite) SetupTest() {
 	s.Providers = testAccProviders
+	testAccPreCheck(s.T())
 	s.Config = testProviderConfig()
 	s.ResourceName = "data.oci_core_images.t"
 	s.OperatingSystem = "Oracle Linux"

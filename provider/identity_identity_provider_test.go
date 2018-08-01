@@ -72,9 +72,9 @@ func TestIdentityIdentityProviderResource_basic(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 
-	compartmentId := getRequiredEnvSetting("tenancy_ocid")
+	compartmentId := getEnvSettingWithBlankDefault("tenancy_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
-	tenancyId := getRequiredEnvSetting("tenancy_ocid")
+	tenancyId := getEnvSettingWithBlankDefault("tenancy_ocid")
 
 	resourceName := "oci_identity_identity_provider.test_identity_provider"
 	datasourceName := "data.oci_identity_identity_providers.test_identity_providers"
@@ -89,6 +89,7 @@ func TestIdentityIdentityProviderResource_basic(t *testing.T) {
 	metadata := string(metadataContents)
 
 	resource.Test(t, resource.TestCase{
+		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},
@@ -179,7 +180,6 @@ variable "identity_provider_protocol" { default = "SAML2" }
 					},
 				),
 			},
-
 			// verify datasource
 			{
 				Config: config + `

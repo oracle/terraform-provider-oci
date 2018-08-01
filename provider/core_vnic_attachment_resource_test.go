@@ -23,6 +23,7 @@ type ResourceCoreVnicAttachmentTestSuite struct {
 
 func (s *ResourceCoreVnicAttachmentTestSuite) SetupTest() {
 	s.Providers = testAccProviders
+	testAccPreCheck(s.T())
 	s.Config = legacyTestProviderConfig() + instanceDnsConfig
 	s.ResourceName = "oci_core_vnic_attachment.va"
 	s.VnicResourceName = "data.oci_core_vnic.v"

@@ -77,6 +77,7 @@ func TestDnsZoneResource_basic(t *testing.T) {
 	var resId string
 
 	resource.Test(t, resource.TestCase{
+		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},

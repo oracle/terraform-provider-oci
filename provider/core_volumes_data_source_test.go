@@ -21,6 +21,7 @@ type DatasourceCoreVolumeTestSuite struct {
 
 func (s *DatasourceCoreVolumeTestSuite) SetupTest() {
 	s.Providers = testAccProviders
+	testAccPreCheck(s.T())
 	s.Config = legacyTestProviderConfig() + `
 	data "oci_identity_availability_domains" "ADs" {
 		compartment_id = "${var.compartment_id}"

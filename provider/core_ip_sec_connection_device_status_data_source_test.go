@@ -21,6 +21,7 @@ type DatasourceCoreIPSecStatusTestSuite struct {
 
 func (s *DatasourceCoreIPSecStatusTestSuite) SetupTest() {
 	s.Providers = testAccProviders
+	testAccPreCheck(s.T())
 	s.Config = legacyTestProviderConfig() + `
 	resource "oci_core_drg" "t" {
 		compartment_id = "${var.compartment_id}"

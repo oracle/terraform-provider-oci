@@ -24,6 +24,7 @@ type ResourceIdentityUserTestSuite struct {
 
 func (s *ResourceIdentityUserTestSuite) SetupTest() {
 	s.Providers = testAccProviders
+	testAccPreCheck(s.T())
 	s.Config = legacyTestProviderConfig()
 
 	s.ResourceName = "oci_identity_user.t"

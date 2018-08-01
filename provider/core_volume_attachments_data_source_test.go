@@ -26,6 +26,7 @@ type DatasourceCoreVolumeAttachmentTestSuite struct {
 
 func (s *DatasourceCoreVolumeAttachmentTestSuite) SetupTest() {
 	s.Providers = testAccProviders
+	testAccPreCheck(s.T())
 	s.Config = legacyTestProviderConfig() + instanceConfig + `
 	resource "oci_core_volume" "t" {
 		availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"

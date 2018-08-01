@@ -21,6 +21,7 @@ type ResourceCoreImageTestSuite struct {
 
 func (s *ResourceCoreImageTestSuite) SetupTest() {
 	s.Providers = testAccProviders
+	testAccPreCheck(s.T())
 	s.Config = legacyTestProviderConfig() + instanceConfig + DefinedTagsDependencies
 	s.ResourceName = "oci_core_image.t"
 }

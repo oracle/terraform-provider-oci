@@ -21,6 +21,7 @@ type DatasourceCoreDHCPOptionsTestSuite struct {
 
 func (s *DatasourceCoreDHCPOptionsTestSuite) SetupTest() {
 	s.Providers = testAccProviders
+	testAccPreCheck(s.T())
 	s.Config = legacyTestProviderConfig() + `
 	resource "oci_core_virtual_network" "t" {
 		cidr_block = "10.0.0.0/16"

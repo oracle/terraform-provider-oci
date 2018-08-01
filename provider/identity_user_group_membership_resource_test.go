@@ -22,6 +22,7 @@ type ResourceIdentityUserGroupMembershipTestSuite struct {
 func (s *ResourceIdentityUserGroupMembershipTestSuite) SetupTest() {
 	token, tokenFn := tokenize()
 	s.Providers = testAccProviders
+	testAccPreCheck(s.T())
 	s.Config = legacyTestProviderConfig() + tokenFn(`
 	resource "oci_identity_user" "t1" {
 		name = "{{.token}}"

@@ -55,7 +55,7 @@ func TestObjectStoragePreauthenticatedRequestResource_basic(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 
-	compartmentId := getRequiredEnvSetting("compartment_ocid")
+	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_objectstorage_preauthrequest.test_preauthenticated_request"
@@ -63,6 +63,7 @@ func TestObjectStoragePreauthenticatedRequestResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_objectstorage_preauthrequest.test_preauthenticated_request"
 
 	resource.Test(t, resource.TestCase{
+		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},

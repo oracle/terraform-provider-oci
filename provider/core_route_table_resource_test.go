@@ -32,6 +32,7 @@ resource "oci_core_default_route_table" "default" {
 
 func (s *ResourceCoreRouteTableTestSuite) SetupTest() {
 	s.Providers = testAccProviders
+	testAccPreCheck(s.T())
 	s.Config = legacyTestProviderConfig() + `
 		resource "oci_core_virtual_network" "t" {
 			compartment_id = "${var.compartment_id}"

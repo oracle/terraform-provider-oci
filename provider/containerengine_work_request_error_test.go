@@ -33,12 +33,13 @@ func TestContainerengineWorkRequestErrorResource_basic(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 
-	compartmentId := getRequiredEnvSetting("compartment_ocid")
+	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	datasourceName := "data.oci_containerengine_work_request_errors.test_work_request_errors"
 
 	resource.Test(t, resource.TestCase{
+		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},

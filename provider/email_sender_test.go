@@ -33,7 +33,7 @@ func TestEmailSenderResource_basic(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 
-	compartmentId := getRequiredEnvSetting("compartment_ocid")
+	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_email_sender.test_sender"
@@ -41,6 +41,7 @@ func TestEmailSenderResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_email_sender.test_sender"
 
 	resource.Test(t, resource.TestCase{
+		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},

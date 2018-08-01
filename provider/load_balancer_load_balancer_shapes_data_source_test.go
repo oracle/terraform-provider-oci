@@ -22,6 +22,7 @@ func TestAccDatasourceLoadBalancerShapes_basic(t *testing.T) {
 	resourceName := "data.oci_load_balancer_shapes.t"
 
 	resource.Test(t, resource.TestCase{
+		PreCheck:                  func() { testAccPreCheck(t) },
 		PreventPostDestroyRefresh: true,
 		Providers:                 providers,
 		Steps: []resource.TestStep{

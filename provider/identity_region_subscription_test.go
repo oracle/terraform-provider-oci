@@ -16,6 +16,7 @@ func TestIdentityRegionSubscriptionResource_basic(t *testing.T) {
 	datasourceName := "data.oci_identity_region_subscriptions.test_region_subscriptions"
 
 	resource.Test(t, resource.TestCase{
+		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},

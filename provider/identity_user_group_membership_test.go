@@ -31,14 +31,15 @@ func TestIdentityUserGroupMembershipResource_basic(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 
-	compartmentId := getRequiredEnvSetting("compartment_ocid")
+	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
-	tenancyId := getRequiredEnvSetting("tenancy_ocid")
+	tenancyId := getEnvSettingWithBlankDefault("tenancy_ocid")
 
 	resourceName := "oci_identity_user_group_membership.test_user_group_membership"
 	datasourceName := "data.oci_identity_user_group_memberships.test_user_group_memberships"
 
 	resource.Test(t, resource.TestCase{
+		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},
