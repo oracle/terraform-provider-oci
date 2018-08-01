@@ -10,8 +10,6 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/helper/validation"
 
-	"github.com/oracle/terraform-provider-oci/crud"
-
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
@@ -26,9 +24,9 @@ func ImageResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			Create: &crud.TwoHours,
-			Update: &crud.TwoHours,
-			Delete: &crud.TwoHours,
+			Create: &TwoHours,
+			Update: &TwoHours,
+			Delete: &TwoHours,
 		},
 		Create: createImage,
 		Read:   readImage,
@@ -74,7 +72,7 @@ func ImageResource() *schema.Resource {
 							Type:             schema.TypeString,
 							Required:         true,
 							ForceNew:         true,
-							DiffSuppressFunc: crud.EqualIgnoreCaseSuppressDiff,
+							DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
 							ValidateFunc: validation.StringInSlice([]string{
 								ImageSourceViaObjectStorageUriDiscriminator,
 								ImageSourceViaObjectStorageTupleDiscriminator,
@@ -197,7 +195,7 @@ func createImage(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient
 
-	return crud.CreateResource(d, sync)
+	return CreateResource(d, sync)
 }
 
 func readImage(d *schema.ResourceData, m interface{}) error {
@@ -205,7 +203,7 @@ func readImage(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 func updateImage(d *schema.ResourceData, m interface{}) error {
@@ -213,7 +211,7 @@ func updateImage(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient
 
-	return crud.UpdateResource(d, sync)
+	return UpdateResource(d, sync)
 }
 
 func deleteImage(d *schema.ResourceData, m interface{}) error {
@@ -222,11 +220,11 @@ func deleteImage(d *schema.ResourceData, m interface{}) error {
 	sync.Client = m.(*OracleClients).computeClient
 	sync.DisableNotFoundRetries = true
 
-	return crud.DeleteResource(d, sync)
+	return DeleteResource(d, sync)
 }
 
 type ImageResourceCrud struct {
-	crud.BaseCrud
+	BaseCrud
 	Client                 *oci_core.ComputeClient
 	Res                    *oci_core.Image
 	DisableNotFoundRetries bool

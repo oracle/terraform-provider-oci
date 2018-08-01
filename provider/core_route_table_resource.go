@@ -10,8 +10,6 @@ import (
 	"github.com/hashicorp/terraform/helper/hashcode"
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/oracle/terraform-provider-oci/crud"
-
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
@@ -20,7 +18,7 @@ func RouteTableResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: crud.DefaultTimeout,
+		Timeouts: DefaultTimeout,
 		Create:   createRouteTable,
 		Read:     readRouteTable,
 		Update:   updateRouteTable,
@@ -53,7 +51,7 @@ func RouteTableResource() *schema.Resource {
 							Type:       schema.TypeString,
 							Optional:   true,
 							Computed:   true,
-							Deprecated: crud.FieldDeprecatedForAnother("cidr_block", "destination"),
+							Deprecated: FieldDeprecatedForAnother("cidr_block", "destination"),
 						},
 						"destination": {
 							Type:     schema.TypeString,
@@ -108,7 +106,7 @@ func RouteTableResource() *schema.Resource {
 			// @Deprecated: time_modified (removed)
 			"time_modified": {
 				Type:       schema.TypeString,
-				Deprecated: crud.FieldDeprecated("time_modified"),
+				Deprecated: FieldDeprecated("time_modified"),
 				Computed:   true,
 			},
 		},
@@ -120,7 +118,7 @@ func createRouteTable(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
-	return crud.CreateResource(d, sync)
+	return CreateResource(d, sync)
 }
 
 func readRouteTable(d *schema.ResourceData, m interface{}) error {
@@ -128,7 +126,7 @@ func readRouteTable(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 func updateRouteTable(d *schema.ResourceData, m interface{}) error {
@@ -136,7 +134,7 @@ func updateRouteTable(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
-	return crud.UpdateResource(d, sync)
+	return UpdateResource(d, sync)
 }
 
 func deleteRouteTable(d *schema.ResourceData, m interface{}) error {
@@ -145,11 +143,11 @@ func deleteRouteTable(d *schema.ResourceData, m interface{}) error {
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 	sync.DisableNotFoundRetries = true
 
-	return crud.DeleteResource(d, sync)
+	return DeleteResource(d, sync)
 }
 
 type RouteTableResourceCrud struct {
-	crud.BaseCrud
+	BaseCrud
 	Client                 *oci_core.VirtualNetworkClient
 	Res                    *oci_core.RouteTable
 	DisableNotFoundRetries bool

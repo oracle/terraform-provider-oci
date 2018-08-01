@@ -9,8 +9,6 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/helper/validation"
 
-	"github.com/oracle/terraform-provider-oci/crud"
-
 	oci_database "github.com/oracle/oci-go-sdk/database"
 )
 
@@ -20,10 +18,10 @@ func DbSystemResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			// crud.ZeroTime is a marker so a user supplied default is not overwritten. See crud.CreateDBSystemResource
-			Create: &crud.ZeroTime,
-			Delete: &crud.TwoHours,
-			Update: &crud.TwoHours,
+			// ZeroTime is a marker so a user supplied default is not overwritten. See CreateDBSystemResource
+			Create: &ZeroTime,
+			Delete: &TwoHours,
+			Update: &TwoHours,
 		},
 		Create: createDbSystem,
 		Read:   readDbSystem,
@@ -171,7 +169,7 @@ func DbSystemResource() *schema.Resource {
 				Type:             schema.TypeString,
 				Required:         true,
 				ForceNew:         true,
-				DiffSuppressFunc: crud.EqualIgnoreCaseSuppressDiff,
+				DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
 			},
 			"shape": {
 				Type:     schema.TypeString,
@@ -324,7 +322,7 @@ func createDbSystem(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient
 
-	return crud.CreateDBSystemResource(d, sync)
+	return CreateDBSystemResource(d, sync)
 }
 
 func readDbSystem(d *schema.ResourceData, m interface{}) error {
@@ -332,7 +330,7 @@ func readDbSystem(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 func updateDbSystem(d *schema.ResourceData, m interface{}) error {
@@ -340,7 +338,7 @@ func updateDbSystem(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient
 
-	return crud.UpdateResource(d, sync)
+	return UpdateResource(d, sync)
 }
 
 func deleteDbSystem(d *schema.ResourceData, m interface{}) error {
@@ -349,11 +347,11 @@ func deleteDbSystem(d *schema.ResourceData, m interface{}) error {
 	sync.Client = m.(*OracleClients).databaseClient
 	sync.DisableNotFoundRetries = true
 
-	return crud.DeleteResource(d, sync)
+	return DeleteResource(d, sync)
 }
 
 type DbSystemResourceCrud struct {
-	crud.BaseCrud
+	BaseCrud
 	Client                 *oci_database.DatabaseClient
 	Res                    *oci_database.DbSystem
 	DisableNotFoundRetries bool

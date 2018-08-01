@@ -8,8 +8,6 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
 
-	"github.com/oracle/terraform-provider-oci/crud"
-
 	"log"
 )
 
@@ -50,7 +48,7 @@ func readObjectHead(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).objectStorageClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 type ObjectHeadDataSourceCrud struct {
@@ -97,7 +95,7 @@ func (s *ObjectHeadDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(crud.GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceID())
 
 	if s.Res.OpcMeta != nil {
 		if err := s.D.Set("metadata", s.Res.OpcMeta); err != nil {

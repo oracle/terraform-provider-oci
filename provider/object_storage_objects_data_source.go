@@ -7,8 +7,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
-
-	"github.com/oracle/terraform-provider-oci/crud"
 )
 
 func ObjectsDataSource() *schema.Resource {
@@ -32,7 +30,7 @@ func ObjectsDataSource() *schema.Resource {
 			"limit": {
 				Type:       schema.TypeInt,
 				Optional:   true,
-				Deprecated: crud.FieldDeprecated("limit"),
+				Deprecated: FieldDeprecated("limit"),
 			},
 			"namespace": {
 				Type:     schema.TypeString,
@@ -85,7 +83,7 @@ func readObjects(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).objectStorageClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 type ObjectsDataSourceCrud struct {
@@ -170,7 +168,7 @@ func (s *ObjectsDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(crud.GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceID())
 
 	// @CODGEN 2/2018: We generate a call to set 'next_start_with' field. It's not
 	// necessary to store it, as it's a pagination token that's handled in the Get() call.

@@ -7,8 +7,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/core"
-
-	"github.com/oracle/terraform-provider-oci/crud"
 )
 
 func LetterOfAuthorityDataSource() *schema.Resource {
@@ -54,7 +52,7 @@ func readSingularLetterOfAuthority(d *schema.ResourceData, m interface{}) error 
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 type LetterOfAuthorityDataSourceCrud struct {
@@ -91,7 +89,7 @@ func (s *LetterOfAuthorityDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(crud.GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceID())
 
 	if s.Res.AuthorizedEntityName != nil {
 		s.D.Set("authorized_entity_name", *s.Res.AuthorizedEntityName)

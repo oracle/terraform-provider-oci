@@ -8,14 +8,12 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/oracle/terraform-provider-oci/crud"
-
 	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
 )
 
 func BucketResource() *schema.Resource {
 	return &schema.Resource{
-		Timeouts: crud.DefaultTimeout,
+		Timeouts: DefaultTimeout,
 		Create:   createBucket,
 		Read:     readBucket,
 		Update:   updateBucket,
@@ -91,7 +89,7 @@ func createBucket(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).objectStorageClient
 
-	return crud.CreateResource(d, sync)
+	return CreateResource(d, sync)
 }
 
 func readBucket(d *schema.ResourceData, m interface{}) error {
@@ -99,7 +97,7 @@ func readBucket(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).objectStorageClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 func updateBucket(d *schema.ResourceData, m interface{}) error {
@@ -107,7 +105,7 @@ func updateBucket(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).objectStorageClient
 
-	return crud.UpdateResource(d, sync)
+	return UpdateResource(d, sync)
 }
 
 func deleteBucket(d *schema.ResourceData, m interface{}) error {
@@ -116,11 +114,11 @@ func deleteBucket(d *schema.ResourceData, m interface{}) error {
 	sync.Client = m.(*OracleClients).objectStorageClient
 	sync.DisableNotFoundRetries = true
 
-	return crud.DeleteResource(d, sync)
+	return DeleteResource(d, sync)
 }
 
 type BucketResourceCrud struct {
-	crud.BaseCrud
+	BaseCrud
 	Client                 *oci_object_storage.ObjectStorageClient
 	Res                    *oci_object_storage.Bucket
 	DisableNotFoundRetries bool

@@ -7,8 +7,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/oracle/terraform-provider-oci/crud"
-
 	"time"
 
 	oci_core "github.com/oracle/oci-go-sdk/core"
@@ -95,7 +93,7 @@ func createIpSecConnection(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
-	return crud.CreateResource(d, sync)
+	return CreateResource(d, sync)
 }
 
 func readIpSecConnection(d *schema.ResourceData, m interface{}) error {
@@ -103,7 +101,7 @@ func readIpSecConnection(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 func updateIpSecConnection(d *schema.ResourceData, m interface{}) error {
@@ -111,7 +109,7 @@ func updateIpSecConnection(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
-	return crud.UpdateResource(d, sync)
+	return UpdateResource(d, sync)
 }
 
 func deleteIpSecConnection(d *schema.ResourceData, m interface{}) error {
@@ -120,11 +118,11 @@ func deleteIpSecConnection(d *schema.ResourceData, m interface{}) error {
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 	sync.DisableNotFoundRetries = true
 
-	return crud.DeleteResource(d, sync)
+	return DeleteResource(d, sync)
 }
 
 type IpSecConnectionResourceCrud struct {
-	crud.BaseCrud
+	BaseCrud
 	Client                 *oci_core.VirtualNetworkClient
 	Res                    *oci_core.IpSecConnection
 	DisableNotFoundRetries bool

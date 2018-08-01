@@ -7,8 +7,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_email "github.com/oracle/oci-go-sdk/email"
-
-	"github.com/oracle/terraform-provider-oci/crud"
 )
 
 func SuppressionResource() *schema.Resource {
@@ -16,7 +14,7 @@ func SuppressionResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: crud.DefaultTimeout,
+		Timeouts: DefaultTimeout,
 		Create:   createSuppression,
 		Read:     readSuppression,
 		Delete:   deleteSuppression,
@@ -32,7 +30,7 @@ func SuppressionResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 				// email address is converted to lower case by the service
-				DiffSuppressFunc: crud.EqualIgnoreCaseSuppressDiff,
+				DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
 			},
 
 			// Optional
@@ -55,7 +53,7 @@ func createSuppression(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).emailClient
 
-	return crud.CreateResource(d, sync)
+	return CreateResource(d, sync)
 }
 
 func readSuppression(d *schema.ResourceData, m interface{}) error {
@@ -63,7 +61,7 @@ func readSuppression(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).emailClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 func deleteSuppression(d *schema.ResourceData, m interface{}) error {
@@ -72,11 +70,11 @@ func deleteSuppression(d *schema.ResourceData, m interface{}) error {
 	sync.Client = m.(*OracleClients).emailClient
 	sync.DisableNotFoundRetries = true
 
-	return crud.DeleteResource(d, sync)
+	return DeleteResource(d, sync)
 }
 
 type SuppressionResourceCrud struct {
-	crud.BaseCrud
+	BaseCrud
 	Client                 *oci_email.EmailClient
 	Res                    *oci_email.Suppression
 	DisableNotFoundRetries bool

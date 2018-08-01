@@ -7,14 +7,12 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/oracle/terraform-provider-oci/crud"
-
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
 func CustomerSecretKeyResource() *schema.Resource {
 	return &schema.Resource{
-		Timeouts: crud.DefaultTimeout,
+		Timeouts: DefaultTimeout,
 		Create:   createCustomerSecretKey,
 		Read:     readCustomerSecretKey,
 		Update:   updateCustomerSecretKey,
@@ -63,7 +61,7 @@ func createCustomerSecretKey(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
-	return crud.CreateResource(d, sync)
+	return CreateResource(d, sync)
 }
 
 func readCustomerSecretKey(d *schema.ResourceData, m interface{}) error {
@@ -71,7 +69,7 @@ func readCustomerSecretKey(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 func updateCustomerSecretKey(d *schema.ResourceData, m interface{}) error {
@@ -79,7 +77,7 @@ func updateCustomerSecretKey(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
-	return crud.UpdateResource(d, sync)
+	return UpdateResource(d, sync)
 }
 
 func deleteCustomerSecretKey(d *schema.ResourceData, m interface{}) error {
@@ -88,11 +86,11 @@ func deleteCustomerSecretKey(d *schema.ResourceData, m interface{}) error {
 	sync.Client = m.(*OracleClients).identityClient
 	sync.DisableNotFoundRetries = true
 
-	return crud.DeleteResource(d, sync)
+	return DeleteResource(d, sync)
 }
 
 type CustomerSecretKeyResourceCrud struct {
-	crud.BaseCrud
+	BaseCrud
 	Client                 *oci_identity.IdentityClient
 	Res                    *oci_identity.CustomerSecretKey
 	DisableNotFoundRetries bool

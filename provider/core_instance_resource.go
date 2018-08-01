@@ -14,8 +14,6 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/helper/validation"
 	oci_core "github.com/oracle/oci-go-sdk/core"
-
-	"github.com/oracle/terraform-provider-oci/crud"
 )
 
 const (
@@ -29,9 +27,9 @@ func InstanceResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			Create: &crud.TwoHours,
-			Update: &crud.TwoHours,
-			Delete: &crud.TwoHours,
+			Create: &TwoHours,
+			Update: &TwoHours,
+			Delete: &TwoHours,
 		},
 		Create: createInstance,
 		Read:   readInstance,
@@ -92,7 +90,7 @@ func InstanceResource() *schema.Resource {
 							},
 							StateFunc: func(v interface{}) string {
 								// ValidateFunc runs before StateFunc. Must be valid by now.
-								b, _ := crud.NormalizeBoolString(v.(string))
+								b, _ := NormalizeBoolString(v.(string))
 								return b
 							},
 						},
@@ -121,7 +119,7 @@ func InstanceResource() *schema.Resource {
 							Type:             schema.TypeString,
 							Optional:         true,
 							Computed:         true,
-							DiffSuppressFunc: crud.EqualIgnoreCaseSuppressDiff,
+							DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
 							// @CODEGEN 1/2018: Remove ForceNew, this is updatable via vnic update
 						},
 						"private_ip": {
@@ -170,14 +168,14 @@ func InstanceResource() *schema.Resource {
 				Optional:         true,
 				Computed:         true,
 				ForceNew:         true,
-				DiffSuppressFunc: crud.EqualIgnoreCaseSuppressDiff,
+				DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
 			},
 			"image": {
 				Type:       schema.TypeString,
 				Optional:   true,
 				Computed:   true,
 				ForceNew:   true,
-				Deprecated: crud.FieldDeprecatedAndOverridenByAnother("image", "source_details"),
+				Deprecated: FieldDeprecatedAndOverridenByAnother("image", "source_details"),
 			},
 			"ipxe_script": {
 				Type:     schema.TypeString,
@@ -214,7 +212,7 @@ func InstanceResource() *schema.Resource {
 							Type:             schema.TypeString,
 							Required:         true,
 							ForceNew:         true,
-							DiffSuppressFunc: crud.EqualIgnoreCaseSuppressDiff,
+							DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
 							ValidateFunc:     validation.StringInSlice([]string{InstanceSourceImageDiscriminator, InstanceSourceBootVolumeDiscriminator}, true),
 						},
 
@@ -309,7 +307,7 @@ func createInstance(d *schema.ResourceData, m interface{}) error {
 	sync.VirtualNetworkClient = m.(*OracleClients).virtualNetworkClient
 	sync.BlockStorageClient = m.(*OracleClients).blockstorageClient
 
-	return crud.CreateResource(d, sync)
+	return CreateResource(d, sync)
 }
 
 func readInstance(d *schema.ResourceData, m interface{}) error {
@@ -319,7 +317,7 @@ func readInstance(d *schema.ResourceData, m interface{}) error {
 	sync.VirtualNetworkClient = m.(*OracleClients).virtualNetworkClient
 	sync.BlockStorageClient = m.(*OracleClients).blockstorageClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 func updateInstance(d *schema.ResourceData, m interface{}) error {
@@ -329,7 +327,7 @@ func updateInstance(d *schema.ResourceData, m interface{}) error {
 	sync.VirtualNetworkClient = m.(*OracleClients).virtualNetworkClient
 	sync.BlockStorageClient = m.(*OracleClients).blockstorageClient
 
-	return crud.UpdateResource(d, sync)
+	return UpdateResource(d, sync)
 }
 
 func deleteInstance(d *schema.ResourceData, m interface{}) error {
@@ -340,11 +338,11 @@ func deleteInstance(d *schema.ResourceData, m interface{}) error {
 	sync.BlockStorageClient = m.(*OracleClients).blockstorageClient
 	sync.DisableNotFoundRetries = true
 
-	return crud.DeleteResource(d, sync)
+	return DeleteResource(d, sync)
 }
 
 type InstanceResourceCrud struct {
-	crud.BaseCrud
+	BaseCrud
 	Client                 *oci_core.ComputeClient
 	VirtualNetworkClient   *oci_core.VirtualNetworkClient
 	BlockStorageClient     *oci_core.BlockstorageClient
@@ -839,7 +837,7 @@ func vnicDetailsToMap(obj *oci_core.Vnic, createVnicDetails map[string]interface
 	// subsequent force-new creations). So persist the user-defined value in the config & update it
 	// when the user changes that value.
 	if createVnicDetails != nil {
-		assignPublicIP, _ := crud.NormalizeBoolString(createVnicDetails["assign_public_ip"].(string)) // Must be valid.
+		assignPublicIP, _ := NormalizeBoolString(createVnicDetails["assign_public_ip"].(string)) // Must be valid.
 		result["assign_public_ip"] = assignPublicIP
 	} else {
 		// Set to "true" in case "create_vnic_details" is ommited altogether & the default value for

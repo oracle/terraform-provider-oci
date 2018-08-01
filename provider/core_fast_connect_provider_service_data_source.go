@@ -7,8 +7,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/core"
-
-	"github.com/oracle/terraform-provider-oci/crud"
 )
 
 func FastConnectProviderServiceDataSource() *schema.Resource {
@@ -60,7 +58,7 @@ func readSingularFastConnectProviderService(d *schema.ResourceData, m interface{
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 type FastConnectProviderServiceDataSourceCrud struct {

@@ -7,8 +7,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/oracle/terraform-provider-oci/crud"
-
 	oci_file_storage "github.com/oracle/oci-go-sdk/filestorage"
 )
 
@@ -17,7 +15,7 @@ func ExportResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: crud.DefaultTimeout,
+		Timeouts: DefaultTimeout,
 		Create:   createExport,
 		Read:     readExport,
 		Delete:   deleteExport,
@@ -59,7 +57,7 @@ func createExport(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).fileStorageClient
 
-	return crud.CreateResource(d, sync)
+	return CreateResource(d, sync)
 }
 
 func readExport(d *schema.ResourceData, m interface{}) error {
@@ -67,7 +65,7 @@ func readExport(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).fileStorageClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 func deleteExport(d *schema.ResourceData, m interface{}) error {
@@ -76,11 +74,11 @@ func deleteExport(d *schema.ResourceData, m interface{}) error {
 	sync.Client = m.(*OracleClients).fileStorageClient
 	sync.DisableNotFoundRetries = true
 
-	return crud.DeleteResource(d, sync)
+	return DeleteResource(d, sync)
 }
 
 type ExportResourceCrud struct {
-	crud.BaseCrud
+	BaseCrud
 	Client                 *oci_file_storage.FileStorageClient
 	Res                    *oci_file_storage.Export
 	DisableNotFoundRetries bool

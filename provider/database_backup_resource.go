@@ -7,8 +7,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/oracle/terraform-provider-oci/crud"
-
 	oci_database "github.com/oracle/oci-go-sdk/database"
 )
 
@@ -17,7 +15,7 @@ func BackupResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: crud.DefaultTimeout,
+		Timeouts: DefaultTimeout,
 		Create:   createBackup,
 		Read:     readBackup,
 		Delete:   deleteBackup,
@@ -82,7 +80,7 @@ func createBackup(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient
 
-	return crud.CreateResource(d, sync)
+	return CreateResource(d, sync)
 }
 
 func readBackup(d *schema.ResourceData, m interface{}) error {
@@ -90,7 +88,7 @@ func readBackup(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 func deleteBackup(d *schema.ResourceData, m interface{}) error {
@@ -99,11 +97,11 @@ func deleteBackup(d *schema.ResourceData, m interface{}) error {
 	sync.Client = m.(*OracleClients).databaseClient
 	sync.DisableNotFoundRetries = true
 
-	return crud.DeleteResource(d, sync)
+	return DeleteResource(d, sync)
 }
 
 type BackupResourceCrud struct {
-	crud.BaseCrud
+	BaseCrud
 	Client                 *oci_database.DatabaseClient
 	Res                    *oci_database.Backup
 	DisableNotFoundRetries bool

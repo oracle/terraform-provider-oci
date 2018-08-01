@@ -7,8 +7,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
-
-	"github.com/oracle/terraform-provider-oci/crud"
 )
 
 func SwiftPasswordsDataSource() *schema.Resource {
@@ -23,7 +21,7 @@ func SwiftPasswordsDataSource() *schema.Resource {
 			"passwords": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     crud.GetDataSourceItemSchema(SwiftPasswordResource()),
+				Elem:     GetDataSourceItemSchema(SwiftPasswordResource()),
 			},
 		},
 	}
@@ -34,7 +32,7 @@ func readSwiftPasswords(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 type SwiftPasswordsDataSourceCrud struct {
@@ -71,7 +69,7 @@ func (s *SwiftPasswordsDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(crud.GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceID())
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {

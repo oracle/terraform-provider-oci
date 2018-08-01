@@ -7,8 +7,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/core"
-
-	"github.com/oracle/terraform-provider-oci/crud"
 )
 
 func CrossConnectGroupDataSource() *schema.Resource {
@@ -45,7 +43,7 @@ func readSingularCrossConnectGroup(d *schema.ResourceData, m interface{}) error 
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 type CrossConnectGroupDataSourceCrud struct {

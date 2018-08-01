@@ -7,13 +7,11 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
-
-	"github.com/oracle/terraform-provider-oci/crud"
 )
 
 func NamespaceMetadataResource() *schema.Resource {
 	return &schema.Resource{
-		Timeouts: crud.DefaultTimeout,
+		Timeouts: DefaultTimeout,
 		Create:   readNamespaceMetadata,
 		Read:     readNamespaceMetadata,
 		Update:   updateNamespaceMetadata,
@@ -45,7 +43,7 @@ func readNamespaceMetadata(d *schema.ResourceData, m interface{}) error {
 	sync := &NamespaceMetadataResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).objectStorageClient
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 func updateNamespaceMetadata(d *schema.ResourceData, m interface{}) error {
@@ -53,7 +51,7 @@ func updateNamespaceMetadata(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).objectStorageClient
 
-	return crud.UpdateResource(d, sync)
+	return UpdateResource(d, sync)
 }
 
 func deleteNamespaceMetadata(d *schema.ResourceData, m interface{}) error {
@@ -61,7 +59,7 @@ func deleteNamespaceMetadata(d *schema.ResourceData, m interface{}) error {
 }
 
 type NamespaceMetadataResourceCrud struct {
-	crud.BaseCrud
+	BaseCrud
 	Client                 *oci_object_storage.ObjectStorageClient
 	Res                    *oci_object_storage.NamespaceMetadata
 	DisableNotFoundRetries bool

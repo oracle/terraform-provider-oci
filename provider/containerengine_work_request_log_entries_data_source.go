@@ -7,8 +7,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_containerengine "github.com/oracle/oci-go-sdk/containerengine"
-
-	"github.com/oracle/terraform-provider-oci/crud"
 )
 
 func WorkRequestLogEntriesDataSource() *schema.Resource {
@@ -54,7 +52,7 @@ func readWorkRequestLogEntries(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).containerEngineClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 type WorkRequestLogEntriesDataSourceCrud struct {
@@ -96,7 +94,7 @@ func (s *WorkRequestLogEntriesDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(crud.GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceID())
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {

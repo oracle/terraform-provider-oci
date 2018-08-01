@@ -7,8 +7,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/oracle/terraform-provider-oci/crud"
-
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
@@ -17,7 +15,7 @@ func UserGroupMembershipResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: crud.DefaultTimeout,
+		Timeouts: DefaultTimeout,
 		Create:   createUserGroupMembership,
 		Read:     readUserGroupMembership,
 		Delete:   deleteUserGroupMembership,
@@ -65,7 +63,7 @@ func createUserGroupMembership(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
-	return crud.CreateResource(d, sync)
+	return CreateResource(d, sync)
 }
 
 func readUserGroupMembership(d *schema.ResourceData, m interface{}) error {
@@ -73,7 +71,7 @@ func readUserGroupMembership(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 func deleteUserGroupMembership(d *schema.ResourceData, m interface{}) error {
@@ -82,11 +80,11 @@ func deleteUserGroupMembership(d *schema.ResourceData, m interface{}) error {
 	sync.Client = m.(*OracleClients).identityClient
 	sync.DisableNotFoundRetries = true
 
-	return crud.DeleteResource(d, sync)
+	return DeleteResource(d, sync)
 }
 
 type UserGroupMembershipResourceCrud struct {
-	crud.BaseCrud
+	BaseCrud
 	Client                 *oci_identity.IdentityClient
 	Res                    *oci_identity.UserGroupMembership
 	DisableNotFoundRetries bool

@@ -9,8 +9,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/oracle/terraform-provider-oci/crud"
-
 	"time"
 
 	"github.com/oracle/oci-go-sdk/common"
@@ -22,7 +20,7 @@ func LocalPeeringGatewayResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: crud.DefaultTimeout,
+		Timeouts: DefaultTimeout,
 		Create:   createLocalPeeringGateway,
 		Read:     readLocalPeeringGateway,
 		Update:   updateLocalPeeringGateway,
@@ -101,7 +99,7 @@ func createLocalPeeringGateway(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
-	err := crud.CreateResource(d, sync)
+	err := CreateResource(d, sync)
 	if err != nil {
 		return err
 	}
@@ -114,7 +112,7 @@ func readLocalPeeringGateway(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 func updateLocalPeeringGateway(d *schema.ResourceData, m interface{}) error {
@@ -122,7 +120,7 @@ func updateLocalPeeringGateway(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
-	return crud.UpdateResource(d, sync)
+	return UpdateResource(d, sync)
 }
 
 func deleteLocalPeeringGateway(d *schema.ResourceData, m interface{}) error {
@@ -131,11 +129,11 @@ func deleteLocalPeeringGateway(d *schema.ResourceData, m interface{}) error {
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 	sync.DisableNotFoundRetries = true
 
-	return crud.DeleteResource(d, sync)
+	return DeleteResource(d, sync)
 }
 
 type LocalPeeringGatewayResourceCrud struct {
-	crud.BaseCrud
+	BaseCrud
 	Client                 *oci_core.VirtualNetworkClient
 	Res                    *oci_core.LocalPeeringGateway
 	DisableNotFoundRetries bool

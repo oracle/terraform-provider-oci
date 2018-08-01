@@ -10,8 +10,6 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_common "github.com/oracle/oci-go-sdk/common"
 	oci_dns "github.com/oracle/oci-go-sdk/dns"
-
-	"github.com/oracle/terraform-provider-oci/crud"
 )
 
 func ZonesDataSource() *schema.Resource {
@@ -64,7 +62,7 @@ func ZonesDataSource() *schema.Resource {
 			"zones": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     crud.GetDataSourceItemSchema(ZoneResource()),
+				Elem:     GetDataSourceItemSchema(ZoneResource()),
 			},
 		},
 	}
@@ -75,7 +73,7 @@ func readZones(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).dnsClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 type ZonesDataSourceCrud struct {
@@ -168,7 +166,7 @@ func (s *ZonesDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(crud.GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceID())
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {

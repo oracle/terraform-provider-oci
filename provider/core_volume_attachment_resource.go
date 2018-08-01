@@ -10,8 +10,6 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/helper/validation"
 
-	"github.com/oracle/terraform-provider-oci/crud"
-
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
@@ -25,7 +23,7 @@ func VolumeAttachmentResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: crud.DefaultTimeout,
+		Timeouts: DefaultTimeout,
 		Create:   createVolumeAttachment,
 		Read:     readVolumeAttachment,
 		Delete:   deleteVolumeAttachment,
@@ -35,7 +33,7 @@ func VolumeAttachmentResource() *schema.Resource {
 				Type:             schema.TypeString,
 				Required:         true,
 				ForceNew:         true,
-				DiffSuppressFunc: crud.EqualIgnoreCaseSuppressDiff,
+				DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
 				ValidateFunc:     validation.StringInSlice([]string{IScsiVolumeAttachmentDiscriminator, ParavirtualizedVolumeAttachmentDiscriminator}, true),
 			},
 			"instance_id": {
@@ -120,7 +118,7 @@ func createVolumeAttachment(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient
 
-	return crud.CreateResource(d, sync)
+	return CreateResource(d, sync)
 }
 
 func readVolumeAttachment(d *schema.ResourceData, m interface{}) error {
@@ -128,7 +126,7 @@ func readVolumeAttachment(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 func deleteVolumeAttachment(d *schema.ResourceData, m interface{}) error {
@@ -137,11 +135,11 @@ func deleteVolumeAttachment(d *schema.ResourceData, m interface{}) error {
 	sync.Client = m.(*OracleClients).computeClient
 	sync.DisableNotFoundRetries = true
 
-	return crud.DeleteResource(d, sync)
+	return DeleteResource(d, sync)
 }
 
 type VolumeAttachmentResourceCrud struct {
-	crud.BaseCrud
+	BaseCrud
 	Client                 *oci_core.ComputeClient
 	Res                    *oci_core.VolumeAttachment
 	DisableNotFoundRetries bool

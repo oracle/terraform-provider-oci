@@ -9,8 +9,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/oracle/terraform-provider-oci/crud"
-
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
@@ -19,7 +17,7 @@ func CompartmentResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: crud.DefaultTimeout,
+		Timeouts: DefaultTimeout,
 		Create:   createCompartment,
 		Read:     readCompartment,
 		Update:   updateCompartment,
@@ -75,7 +73,7 @@ func CompartmentResource() *schema.Resource {
 			// @Deprecated 01/2018: time_modified (removed)
 			"time_modified": {
 				Type:       schema.TypeString,
-				Deprecated: crud.FieldDeprecated("time_modified"),
+				Deprecated: FieldDeprecated("time_modified"),
 				Computed:   true,
 			},
 		},
@@ -87,7 +85,7 @@ func createCompartment(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
-	return crud.CreateResource(d, sync)
+	return CreateResource(d, sync)
 }
 
 func readCompartment(d *schema.ResourceData, m interface{}) error {
@@ -95,7 +93,7 @@ func readCompartment(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 func updateCompartment(d *schema.ResourceData, m interface{}) error {
@@ -103,7 +101,7 @@ func updateCompartment(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
-	return crud.UpdateResource(d, sync)
+	return UpdateResource(d, sync)
 }
 
 func deleteCompartment(d *schema.ResourceData, m interface{}) error {
@@ -111,7 +109,7 @@ func deleteCompartment(d *schema.ResourceData, m interface{}) error {
 }
 
 type CompartmentResourceCrud struct {
-	crud.BaseCrud
+	BaseCrud
 	Client                 *oci_identity.IdentityClient
 	Res                    *oci_identity.Compartment
 	DisableNotFoundRetries bool

@@ -7,8 +7,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_containerengine "github.com/oracle/oci-go-sdk/containerengine"
-
-	"github.com/oracle/terraform-provider-oci/crud"
 )
 
 func ClusterOptionDataSource() *schema.Resource {
@@ -36,7 +34,7 @@ func readSingularClusterOption(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).containerEngineClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 type ClusterOptionDataSourceCrud struct {
@@ -73,7 +71,7 @@ func (s *ClusterOptionDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(crud.GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceID())
 
 	s.D.Set("kubernetes_versions", s.Res.KubernetesVersions)
 

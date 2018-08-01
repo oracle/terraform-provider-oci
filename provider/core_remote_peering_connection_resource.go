@@ -9,8 +9,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/oracle/terraform-provider-oci/crud"
-
 	"time"
 
 	oci_common "github.com/oracle/oci-go-sdk/common"
@@ -22,7 +20,7 @@ func RemotePeeringConnectionResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: crud.DefaultTimeout,
+		Timeouts: DefaultTimeout,
 		Create:   createRemotePeeringConnection,
 		Read:     readRemotePeeringConnection,
 		Update:   updateRemotePeeringConnection,
@@ -92,7 +90,7 @@ func createRemotePeeringConnection(d *schema.ResourceData, m interface{}) error 
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
-	err := crud.CreateResource(d, sync)
+	err := CreateResource(d, sync)
 	if err != nil {
 		return err
 	}
@@ -106,7 +104,7 @@ func readRemotePeeringConnection(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 func updateRemotePeeringConnection(d *schema.ResourceData, m interface{}) error {
@@ -114,7 +112,7 @@ func updateRemotePeeringConnection(d *schema.ResourceData, m interface{}) error 
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
-	return crud.UpdateResource(d, sync)
+	return UpdateResource(d, sync)
 }
 
 func deleteRemotePeeringConnection(d *schema.ResourceData, m interface{}) error {
@@ -123,11 +121,11 @@ func deleteRemotePeeringConnection(d *schema.ResourceData, m interface{}) error 
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 	sync.DisableNotFoundRetries = true
 
-	return crud.DeleteResource(d, sync)
+	return DeleteResource(d, sync)
 }
 
 type RemotePeeringConnectionResourceCrud struct {
-	crud.BaseCrud
+	BaseCrud
 	Client                 *oci_core.VirtualNetworkClient
 	Res                    *oci_core.RemotePeeringConnection
 	DisableNotFoundRetries bool

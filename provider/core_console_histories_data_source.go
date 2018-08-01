@@ -7,8 +7,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/core"
-
-	"github.com/oracle/terraform-provider-oci/crud"
 )
 
 func ConsoleHistoriesDataSource() *schema.Resource {
@@ -35,7 +33,7 @@ func ConsoleHistoriesDataSource() *schema.Resource {
 			"console_histories": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     crud.GetDataSourceItemSchema(ConsoleHistoryResource()),
+				Elem:     GetDataSourceItemSchema(ConsoleHistoryResource()),
 			},
 		},
 	}
@@ -46,7 +44,7 @@ func readConsoleHistories(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 type ConsoleHistoriesDataSourceCrud struct {
@@ -109,7 +107,7 @@ func (s *ConsoleHistoriesDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(crud.GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceID())
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {

@@ -8,8 +8,6 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
-
-	"github.com/oracle/terraform-provider-oci/crud"
 )
 
 func LoadBalancersDataSource() *schema.Resource {
@@ -36,7 +34,7 @@ func LoadBalancersDataSource() *schema.Resource {
 			"load_balancers": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     crud.GetDataSourceItemSchema(LoadBalancerResource()),
+				Elem:     GetDataSourceItemSchema(LoadBalancerResource()),
 			},
 		},
 	}
@@ -47,7 +45,7 @@ func readLoadBalancers(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).loadBalancerClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 type LoadBalancersDataSourceCrud struct {
@@ -110,7 +108,7 @@ func (s *LoadBalancersDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(crud.GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceID())
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {

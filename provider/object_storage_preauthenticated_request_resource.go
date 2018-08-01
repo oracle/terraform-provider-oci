@@ -11,13 +11,11 @@ import (
 	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
 
 	"time"
-
-	"github.com/oracle/terraform-provider-oci/crud"
 )
 
 func PreauthenticatedRequestResource() *schema.Resource {
 	return &schema.Resource{
-		Timeouts: crud.DefaultTimeout,
+		Timeouts: DefaultTimeout,
 		Create:   createPreauthenticatedRequest,
 		Read:     readPreauthenticatedRequest,
 		Delete:   deletePreauthenticatedRequest,
@@ -81,7 +79,7 @@ func createPreauthenticatedRequest(d *schema.ResourceData, m interface{}) error 
 	sync.D = d
 	sync.Client = m.(*OracleClients).objectStorageClient
 
-	return crud.CreateResource(d, sync)
+	return CreateResource(d, sync)
 }
 
 func readPreauthenticatedRequest(d *schema.ResourceData, m interface{}) error {
@@ -89,7 +87,7 @@ func readPreauthenticatedRequest(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).objectStorageClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 func deletePreauthenticatedRequest(d *schema.ResourceData, m interface{}) error {
@@ -98,11 +96,11 @@ func deletePreauthenticatedRequest(d *schema.ResourceData, m interface{}) error 
 	sync.Client = m.(*OracleClients).objectStorageClient
 	sync.DisableNotFoundRetries = true
 
-	return crud.DeleteResource(d, sync)
+	return DeleteResource(d, sync)
 }
 
 type PreauthenticatedRequestResourceCrud struct {
-	crud.BaseCrud
+	BaseCrud
 	Client                 *oci_object_storage.ObjectStorageClient
 	Res                    *oci_object_storage.PreauthenticatedRequest
 	DisableNotFoundRetries bool

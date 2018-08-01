@@ -7,8 +7,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/core"
-
-	"github.com/oracle/terraform-provider-oci/crud"
 )
 
 func PublicIpsDataSource() *schema.Resource {
@@ -31,7 +29,7 @@ func PublicIpsDataSource() *schema.Resource {
 			"public_ips": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     crud.GetDataSourceItemSchema(PublicIpResource()),
+				Elem:     GetDataSourceItemSchema(PublicIpResource()),
 			},
 		},
 	}
@@ -42,7 +40,7 @@ func readPublicIps(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 type PublicIpsDataSourceCrud struct {
@@ -100,7 +98,7 @@ func (s *PublicIpsDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(crud.GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceID())
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {

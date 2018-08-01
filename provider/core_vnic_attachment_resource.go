@@ -10,8 +10,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/oracle/terraform-provider-oci/crud"
-
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
@@ -20,7 +18,7 @@ func VnicAttachmentResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: crud.DefaultTimeout,
+		Timeouts: DefaultTimeout,
 		Create:   createVnicAttachment,
 		Read:     readVnicAttachment,
 		Update:   updateVnicAttachment,
@@ -62,7 +60,7 @@ func VnicAttachmentResource() *schema.Resource {
 							},
 							StateFunc: func(v interface{}) string {
 								// ValidateFunc runs before StateFunc. Must be valid by now.
-								b, _ := crud.NormalizeBoolString(v.(string))
+								b, _ := NormalizeBoolString(v.(string))
 								return b
 							},
 						},
@@ -170,7 +168,7 @@ func createVnicAttachment(d *schema.ResourceData, m interface{}) error {
 	sync.Client = m.(*OracleClients).computeClient
 	sync.VirtualNetworkClient = m.(*OracleClients).virtualNetworkClient
 
-	return crud.CreateResource(d, sync)
+	return CreateResource(d, sync)
 }
 
 func readVnicAttachment(d *schema.ResourceData, m interface{}) error {
@@ -179,7 +177,7 @@ func readVnicAttachment(d *schema.ResourceData, m interface{}) error {
 	sync.Client = m.(*OracleClients).computeClient
 	sync.VirtualNetworkClient = m.(*OracleClients).virtualNetworkClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 func updateVnicAttachment(d *schema.ResourceData, m interface{}) error {
@@ -188,7 +186,7 @@ func updateVnicAttachment(d *schema.ResourceData, m interface{}) error {
 	sync.Client = m.(*OracleClients).computeClient
 	sync.VirtualNetworkClient = m.(*OracleClients).virtualNetworkClient
 
-	return crud.UpdateResource(d, sync)
+	return UpdateResource(d, sync)
 }
 
 func deleteVnicAttachment(d *schema.ResourceData, m interface{}) error {
@@ -198,11 +196,11 @@ func deleteVnicAttachment(d *schema.ResourceData, m interface{}) error {
 	sync.VirtualNetworkClient = m.(*OracleClients).virtualNetworkClient
 	sync.DisableNotFoundRetries = true
 
-	return crud.DeleteResource(d, sync)
+	return DeleteResource(d, sync)
 }
 
 type VnicAttachmentResourceCrud struct {
-	crud.BaseCrud
+	BaseCrud
 	Client                 *oci_core.ComputeClient
 	VirtualNetworkClient   *oci_core.VirtualNetworkClient
 	Res                    *oci_core.VnicAttachment
@@ -501,7 +499,7 @@ func VnicDetailsToMap(obj *oci_core.Vnic, createVnicDetails map[string]interface
 	// subsequent force-new creations). So persist the user-defined value in the config & update it
 	// when the user changes that value.
 	if createVnicDetails != nil {
-		assignPublicIP, _ := crud.NormalizeBoolString(createVnicDetails["assign_public_ip"].(string)) // Must be valid.
+		assignPublicIP, _ := NormalizeBoolString(createVnicDetails["assign_public_ip"].(string)) // Must be valid.
 		result["assign_public_ip"] = assignPublicIP
 	}
 

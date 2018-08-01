@@ -7,8 +7,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/oracle/terraform-provider-oci/crud"
-
 	"fmt"
 
 	oci_core "github.com/oracle/oci-go-sdk/core"
@@ -32,7 +30,7 @@ func createDefaultDhcpOptions(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
-	return crud.CreateResource(d, sync)
+	return CreateResource(d, sync)
 }
 
 func deleteDefaultDhcpOptions(d *schema.ResourceData, m interface{}) error {
@@ -41,7 +39,7 @@ func deleteDefaultDhcpOptions(d *schema.ResourceData, m interface{}) error {
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 	sync.DisableNotFoundRetries = true
 
-	return crud.DeleteResource(d, sync)
+	return DeleteResource(d, sync)
 }
 
 func (s *DefaultDhcpOptionsResourceCrud) Create() error {

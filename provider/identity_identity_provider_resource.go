@@ -8,8 +8,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/oracle/terraform-provider-oci/crud"
-
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
@@ -18,7 +16,7 @@ func IdentityProviderResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: crud.DefaultTimeout,
+		Timeouts: DefaultTimeout,
 		Create:   createIdentityProvider,
 		Read:     readIdentityProvider,
 		Update:   updateIdentityProvider,
@@ -94,7 +92,7 @@ func createIdentityProvider(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
-	return crud.CreateResource(d, sync)
+	return CreateResource(d, sync)
 }
 
 func readIdentityProvider(d *schema.ResourceData, m interface{}) error {
@@ -102,7 +100,7 @@ func readIdentityProvider(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 func updateIdentityProvider(d *schema.ResourceData, m interface{}) error {
@@ -110,7 +108,7 @@ func updateIdentityProvider(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
-	return crud.UpdateResource(d, sync)
+	return UpdateResource(d, sync)
 }
 
 func deleteIdentityProvider(d *schema.ResourceData, m interface{}) error {
@@ -119,12 +117,12 @@ func deleteIdentityProvider(d *schema.ResourceData, m interface{}) error {
 	sync.Client = m.(*OracleClients).identityClient
 	sync.DisableNotFoundRetries = true
 
-	return crud.DeleteResource(d, sync)
+	return DeleteResource(d, sync)
 }
 
 // 07-05-2018: Identity Providers support only SAML2 as the protocol
 type IdentityProviderResourceCrud struct {
-	crud.BaseCrud
+	BaseCrud
 	Client                 *oci_identity.IdentityClient
 	Res                    *oci_identity.Saml2IdentityProvider
 	DisableNotFoundRetries bool

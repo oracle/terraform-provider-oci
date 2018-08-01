@@ -12,8 +12,6 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/core"
 	"github.com/stretchr/testify/suite"
-
-	"github.com/oracle/terraform-provider-oci/crud"
 )
 
 type ResourceCoreInstanceTestSuite struct {
@@ -761,7 +759,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_preserveBoot
 }
 
 func TestIsStatefulResource(t *testing.T) {
-	var _ crud.StatefulResource = (*InstanceResourceCrud)(nil)
+	var _ StatefulResource = (*InstanceResourceCrud)(nil)
 }
 
 func TestResourceCoreInstanceTestSuite(t *testing.T) {

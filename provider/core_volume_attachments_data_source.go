@@ -8,8 +8,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/core"
-
-	"github.com/oracle/terraform-provider-oci/crud"
 )
 
 func VolumeAttachmentsDataSource() *schema.Resource {
@@ -32,12 +30,12 @@ func VolumeAttachmentsDataSource() *schema.Resource {
 			"limit": {
 				Type:       schema.TypeInt,
 				Optional:   true,
-				Deprecated: crud.FieldDeprecated("limit"),
+				Deprecated: FieldDeprecated("limit"),
 			},
 			"page": {
 				Type:       schema.TypeString,
 				Optional:   true,
-				Deprecated: crud.FieldDeprecated("page"),
+				Deprecated: FieldDeprecated("page"),
 			},
 			"volume_id": {
 				Type:     schema.TypeString,
@@ -46,7 +44,7 @@ func VolumeAttachmentsDataSource() *schema.Resource {
 			"volume_attachments": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     crud.GetDataSourceItemSchema(VolumeAttachmentResource()),
+				Elem:     GetDataSourceItemSchema(VolumeAttachmentResource()),
 			},
 		},
 	}
@@ -57,7 +55,7 @@ func readVolumeAttachments(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 type VolumeAttachmentsDataSourceCrud struct {
@@ -131,7 +129,7 @@ func (s *VolumeAttachmentsDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(crud.GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceID())
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {

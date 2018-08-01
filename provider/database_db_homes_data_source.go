@@ -7,8 +7,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_database "github.com/oracle/oci-go-sdk/database"
-
-	"github.com/oracle/terraform-provider-oci/crud"
 )
 
 func DbHomesDataSource() *schema.Resource {
@@ -27,7 +25,7 @@ func DbHomesDataSource() *schema.Resource {
 			"db_homes": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     crud.GetDataSourceItemSchema(DbHomeDataSource()),
+				Elem:     GetDataSourceItemSchema(DbHomeDataSource()),
 			},
 		},
 	}
@@ -38,7 +36,7 @@ func readDbHomes(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 type DbHomesDataSourceCrud struct {
@@ -102,7 +100,7 @@ func (s *DbHomesDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(crud.GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceID())
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {

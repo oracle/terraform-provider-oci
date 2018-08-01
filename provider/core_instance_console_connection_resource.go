@@ -7,8 +7,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/oracle/terraform-provider-oci/crud"
-
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
@@ -17,7 +15,7 @@ func InstanceConsoleConnectionResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: crud.DefaultTimeout,
+		Timeouts: DefaultTimeout,
 		Create:   createInstanceConsoleConnection,
 		Read:     readInstanceConsoleConnection,
 		Delete:   deleteInstanceConsoleConnection,
@@ -81,7 +79,7 @@ func createInstanceConsoleConnection(d *schema.ResourceData, m interface{}) erro
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient
 
-	return crud.CreateResource(d, sync)
+	return CreateResource(d, sync)
 }
 
 func readInstanceConsoleConnection(d *schema.ResourceData, m interface{}) error {
@@ -89,7 +87,7 @@ func readInstanceConsoleConnection(d *schema.ResourceData, m interface{}) error 
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 func deleteInstanceConsoleConnection(d *schema.ResourceData, m interface{}) error {
@@ -98,11 +96,11 @@ func deleteInstanceConsoleConnection(d *schema.ResourceData, m interface{}) erro
 	sync.Client = m.(*OracleClients).computeClient
 	sync.DisableNotFoundRetries = true
 
-	return crud.DeleteResource(d, sync)
+	return DeleteResource(d, sync)
 }
 
 type InstanceConsoleConnectionResourceCrud struct {
-	crud.BaseCrud
+	BaseCrud
 	Client                 *oci_core.ComputeClient
 	Res                    *oci_core.InstanceConsoleConnection
 	DisableNotFoundRetries bool

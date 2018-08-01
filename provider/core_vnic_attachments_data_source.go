@@ -7,8 +7,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/core"
-
-	"github.com/oracle/terraform-provider-oci/crud"
 )
 
 func VnicAttachmentsDataSource() *schema.Resource {
@@ -31,12 +29,12 @@ func VnicAttachmentsDataSource() *schema.Resource {
 			"limit": {
 				Type:       schema.TypeInt,
 				Optional:   true,
-				Deprecated: crud.FieldDeprecated("limit"),
+				Deprecated: FieldDeprecated("limit"),
 			},
 			"page": {
 				Type:       schema.TypeString,
 				Optional:   true,
-				Deprecated: crud.FieldDeprecated("page"),
+				Deprecated: FieldDeprecated("page"),
 			},
 			"vnic_id": {
 				Type:     schema.TypeString,
@@ -45,7 +43,7 @@ func VnicAttachmentsDataSource() *schema.Resource {
 			"vnic_attachments": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     crud.GetDataSourceItemSchema(VnicAttachmentResource()),
+				Elem:     GetDataSourceItemSchema(VnicAttachmentResource()),
 			},
 		},
 	}
@@ -56,7 +54,7 @@ func readVnicAttachments(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 type VnicAttachmentsDataSourceCrud struct {
@@ -130,7 +128,7 @@ func (s *VnicAttachmentsDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(crud.GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceID())
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {

@@ -7,8 +7,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/oracle/terraform-provider-oci/crud"
-
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
@@ -17,7 +15,7 @@ func UiPasswordResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: crud.DefaultTimeout,
+		Timeouts: DefaultTimeout,
 		Create:   createUiPassword,
 		Read:     readUiPassword,
 		Delete:   deleteUiPassword,
@@ -57,7 +55,7 @@ func createUiPassword(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
-	return crud.CreateResource(d, sync)
+	return CreateResource(d, sync)
 }
 
 func readUiPassword(d *schema.ResourceData, m interface{}) error {
@@ -69,7 +67,7 @@ func deleteUiPassword(d *schema.ResourceData, m interface{}) error {
 }
 
 type UiPasswordResourceCrud struct {
-	crud.BaseCrud
+	BaseCrud
 	Client                 *oci_identity.IdentityClient
 	Res                    *oci_identity.UiPassword
 	DisableNotFoundRetries bool

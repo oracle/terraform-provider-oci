@@ -7,8 +7,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/core"
-
-	"github.com/oracle/terraform-provider-oci/crud"
 )
 
 func InstanceCredentialDataSource() *schema.Resource {
@@ -37,7 +35,7 @@ func readSingularInstanceCredential(d *schema.ResourceData, m interface{}) error
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 type InstanceCredentialDataSourceCrud struct {
@@ -74,7 +72,7 @@ func (s *InstanceCredentialDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(crud.GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceID())
 
 	if s.Res.Password != nil {
 		s.D.Set("password", *s.Res.Password)

@@ -9,8 +9,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/oracle/terraform-provider-oci/crud"
-
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
@@ -24,7 +22,7 @@ func VolumeResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: crud.DefaultTimeout,
+		Timeouts: DefaultTimeout,
 		Create:   createVolume,
 		Read:     readVolume,
 		Update:   updateVolume,
@@ -73,7 +71,7 @@ func VolumeResource() *schema.Resource {
 				Optional:   true,
 				ForceNew:   true,
 				Computed:   true,
-				Deprecated: crud.FieldDeprecatedForAnother("size_in_mbs", "size_in_gbs"),
+				Deprecated: FieldDeprecatedForAnother("size_in_mbs", "size_in_gbs"),
 			},
 			"source_details": {
 				Type:     schema.TypeList,
@@ -95,7 +93,7 @@ func VolumeResource() *schema.Resource {
 							Type:             schema.TypeString,
 							Required:         true,
 							ForceNew:         true,
-							DiffSuppressFunc: crud.EqualIgnoreCaseSuppressDiff,
+							DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
 						},
 
 						// Optional
@@ -137,7 +135,7 @@ func createVolume(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).blockstorageClient
 
-	return crud.CreateResource(d, sync)
+	return CreateResource(d, sync)
 }
 
 func readVolume(d *schema.ResourceData, m interface{}) error {
@@ -145,7 +143,7 @@ func readVolume(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).blockstorageClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 func updateVolume(d *schema.ResourceData, m interface{}) error {
@@ -153,7 +151,7 @@ func updateVolume(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).blockstorageClient
 
-	return crud.UpdateResource(d, sync)
+	return UpdateResource(d, sync)
 }
 
 func deleteVolume(d *schema.ResourceData, m interface{}) error {
@@ -162,11 +160,11 @@ func deleteVolume(d *schema.ResourceData, m interface{}) error {
 	sync.Client = m.(*OracleClients).blockstorageClient
 	sync.DisableNotFoundRetries = true
 
-	return crud.DeleteResource(d, sync)
+	return DeleteResource(d, sync)
 }
 
 type VolumeResourceCrud struct {
-	crud.BaseCrud
+	BaseCrud
 	Client                 *oci_core.BlockstorageClient
 	Res                    *oci_core.Volume
 	DisableNotFoundRetries bool

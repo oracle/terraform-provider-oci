@@ -7,8 +7,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/core"
-
-	"github.com/oracle/terraform-provider-oci/crud"
 )
 
 func PeerRegionForRemotePeeringsDataSource() *schema.Resource {
@@ -42,7 +40,7 @@ func readPeerRegionForRemotePeerings(d *schema.ResourceData, m interface{}) erro
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 type PeerRegionForRemotePeeringsDataSourceCrud struct {
@@ -74,7 +72,7 @@ func (s *PeerRegionForRemotePeeringsDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(crud.GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceID())
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {

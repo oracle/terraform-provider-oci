@@ -9,8 +9,6 @@ import (
 	oci_containerengine "github.com/oracle/oci-go-sdk/containerengine"
 
 	"io/ioutil"
-
-	"github.com/oracle/terraform-provider-oci/crud"
 )
 
 func ClusterKubeConfigDataSource() *schema.Resource {
@@ -44,7 +42,7 @@ func readSingularClusterKubeConfig(d *schema.ResourceData, m interface{}) error 
 	sync.D = d
 	sync.Client = m.(*OracleClients).containerEngineClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 type ClusterKubeConfigDataSourceCrud struct {
@@ -99,7 +97,7 @@ func (s *ClusterKubeConfigDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(crud.GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceID())
 
 	s.D.Set("content", string(*s.Res))
 

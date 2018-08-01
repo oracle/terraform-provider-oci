@@ -7,8 +7,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/core"
-
-	"github.com/oracle/terraform-provider-oci/crud"
 )
 
 func IpSecConnectionDeviceConfigDataSource() *schema.Resource {
@@ -58,7 +56,7 @@ func readSingularIpSecConnectionDeviceConfig(d *schema.ResourceData, m interface
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 type IpSecConnectionDeviceConfigDataSourceCrud struct {

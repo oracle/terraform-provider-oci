@@ -8,8 +8,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/oracle/terraform-provider-oci/crud"
-
 	oci_database "github.com/oracle/oci-go-sdk/database"
 )
 
@@ -18,7 +16,7 @@ func DbHomeResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: crud.DefaultTimeout,
+		Timeouts: DefaultTimeout,
 		Create:   createDbHome,
 		Read:     readDbHome,
 		Delete:   deleteDbHome,
@@ -175,7 +173,7 @@ func createDbHome(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient
 
-	return crud.CreateResource(d, sync)
+	return CreateResource(d, sync)
 }
 
 func readDbHome(d *schema.ResourceData, m interface{}) error {
@@ -183,7 +181,7 @@ func readDbHome(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 func deleteDbHome(d *schema.ResourceData, m interface{}) error {
@@ -192,11 +190,11 @@ func deleteDbHome(d *schema.ResourceData, m interface{}) error {
 	sync.Client = m.(*OracleClients).databaseClient
 	sync.DisableNotFoundRetries = true
 
-	return crud.DeleteResource(d, sync)
+	return DeleteResource(d, sync)
 }
 
 type DbHomeResourceCrud struct {
-	crud.BaseCrud
+	BaseCrud
 	Client                 *oci_database.DatabaseClient
 	Res                    *oci_database.DbHome
 	DisableNotFoundRetries bool

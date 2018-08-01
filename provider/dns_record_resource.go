@@ -14,8 +14,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/oracle/terraform-provider-oci/crud"
-
 	"fmt"
 	"net"
 	"regexp"
@@ -25,7 +23,7 @@ import (
 
 func RecordResource() *schema.Resource {
 	return &schema.Resource{
-		Timeouts: crud.DefaultTimeout,
+		Timeouts: DefaultTimeout,
 		Create:   createRecord,
 		Read:     readRecord,
 		Update:   updateRecord,
@@ -88,7 +86,7 @@ func createRecord(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).dnsClient
 
-	return crud.CreateResource(d, sync)
+	return CreateResource(d, sync)
 }
 
 func readRecord(d *schema.ResourceData, m interface{}) error {
@@ -96,7 +94,7 @@ func readRecord(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).dnsClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 func updateRecord(d *schema.ResourceData, m interface{}) error {
@@ -104,7 +102,7 @@ func updateRecord(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).dnsClient
 
-	return crud.UpdateResource(d, sync)
+	return UpdateResource(d, sync)
 }
 
 func deleteRecord(d *schema.ResourceData, m interface{}) error {
@@ -113,11 +111,11 @@ func deleteRecord(d *schema.ResourceData, m interface{}) error {
 	sync.Client = m.(*OracleClients).dnsClient
 	sync.DisableNotFoundRetries = true
 
-	return crud.DeleteResource(d, sync)
+	return DeleteResource(d, sync)
 }
 
 type RecordResourceCrud struct {
-	crud.BaseCrud
+	BaseCrud
 	Client                 *oci_dns.DnsClient
 	Res                    *oci_dns.Record
 	DisableNotFoundRetries bool
