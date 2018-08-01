@@ -7,8 +7,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/oracle/terraform-provider-oci/crud"
-
 	"strings"
 
 	"fmt"
@@ -27,7 +25,7 @@ func VolumeGroupResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: crud.DefaultTimeout,
+		Timeouts: DefaultTimeout,
 		Create:   createVolumeGroup,
 		Read:     readVolumeGroup,
 		Update:   updateVolumeGroup,
@@ -58,7 +56,7 @@ func VolumeGroupResource() *schema.Resource {
 							Type:             schema.TypeString,
 							Required:         true,
 							ForceNew:         true,
-							DiffSuppressFunc: crud.EqualIgnoreCaseSuppressDiff,
+							DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
 						},
 
 						// Optional
@@ -138,7 +136,7 @@ func createVolumeGroup(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).blockstorageClient
 
-	return crud.CreateResource(d, sync)
+	return CreateResource(d, sync)
 }
 
 func readVolumeGroup(d *schema.ResourceData, m interface{}) error {
@@ -146,7 +144,7 @@ func readVolumeGroup(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).blockstorageClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 func updateVolumeGroup(d *schema.ResourceData, m interface{}) error {
@@ -154,7 +152,7 @@ func updateVolumeGroup(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).blockstorageClient
 
-	return crud.UpdateResource(d, sync)
+	return UpdateResource(d, sync)
 }
 
 func deleteVolumeGroup(d *schema.ResourceData, m interface{}) error {
@@ -163,11 +161,11 @@ func deleteVolumeGroup(d *schema.ResourceData, m interface{}) error {
 	sync.Client = m.(*OracleClients).blockstorageClient
 	sync.DisableNotFoundRetries = true
 
-	return crud.DeleteResource(d, sync)
+	return DeleteResource(d, sync)
 }
 
 type VolumeGroupResourceCrud struct {
-	crud.BaseCrud
+	BaseCrud
 	Client                 *oci_core.BlockstorageClient
 	Res                    *oci_core.VolumeGroup
 	DisableNotFoundRetries bool
@@ -374,7 +372,7 @@ func mapToVolumeGroupSourceDetails(rawList []interface{}) oci_core.VolumeGroupSo
 				return fmt.Errorf("could not assert volume_ids as type schema.Set")
 			}
 			item = oci_core.VolumeGroupSourceFromVolumesDetails{
-				VolumeIds: crud.SetToStrings(volumeIdsSet),
+				VolumeIds: SetToStrings(volumeIdsSet),
 			}
 		case strings.ToLower(VolumeGroupSourceDetailsVolumeGroupBackupDiscriminator):
 			volumeGroupBackupId := rawItem["volume_group_backup_id"].(string)
@@ -399,7 +397,7 @@ func VolumeGroupSourceDetailsToMap(obj oci_core.VolumeGroupSourceDetails) []inte
 	if details, ok := obj.(oci_core.VolumeGroupSourceFromVolumesDetails); ok {
 		item = map[string]interface{}{
 			"type":       VolumeGroupSourceDetailsVolumesDiscriminator,
-			"volume_ids": crud.StringsToSet(details.VolumeIds),
+			"volume_ids": StringsToSet(details.VolumeIds),
 		}
 	} else if details, ok := obj.(oci_core.VolumeGroupSourceFromVolumeGroupBackupDetails); ok {
 		item = map[string]interface{}{

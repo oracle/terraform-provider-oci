@@ -7,8 +7,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/core"
-
-	"github.com/oracle/terraform-provider-oci/crud"
 )
 
 func CrossConnectStatusDataSource() *schema.Resource {
@@ -42,7 +40,7 @@ func readSingularCrossConnectStatus(d *schema.ResourceData, m interface{}) error
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 type CrossConnectStatusDataSourceCrud struct {
@@ -79,7 +77,7 @@ func (s *CrossConnectStatusDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(crud.GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceID())
 
 	s.D.Set("interface_state", s.Res.InterfaceState)
 

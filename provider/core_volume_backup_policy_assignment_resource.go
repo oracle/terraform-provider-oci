@@ -7,8 +7,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/oracle/terraform-provider-oci/crud"
-
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
@@ -17,7 +15,7 @@ func VolumeBackupPolicyAssignmentResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: crud.DefaultTimeout,
+		Timeouts: DefaultTimeout,
 		Create:   createVolumeBackupPolicyAssignment,
 		Read:     readVolumeBackupPolicyAssignment,
 		Delete:   deleteVolumeBackupPolicyAssignment,
@@ -50,7 +48,7 @@ func createVolumeBackupPolicyAssignment(d *schema.ResourceData, m interface{}) e
 	sync.D = d
 	sync.Client = m.(*OracleClients).blockstorageClient
 
-	return crud.CreateResource(d, sync)
+	return CreateResource(d, sync)
 }
 
 func readVolumeBackupPolicyAssignment(d *schema.ResourceData, m interface{}) error {
@@ -58,7 +56,7 @@ func readVolumeBackupPolicyAssignment(d *schema.ResourceData, m interface{}) err
 	sync.D = d
 	sync.Client = m.(*OracleClients).blockstorageClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 func deleteVolumeBackupPolicyAssignment(d *schema.ResourceData, m interface{}) error {
@@ -67,11 +65,11 @@ func deleteVolumeBackupPolicyAssignment(d *schema.ResourceData, m interface{}) e
 	sync.Client = m.(*OracleClients).blockstorageClient
 	sync.DisableNotFoundRetries = true
 
-	return crud.DeleteResource(d, sync)
+	return DeleteResource(d, sync)
 }
 
 type VolumeBackupPolicyAssignmentResourceCrud struct {
-	crud.BaseCrud
+	BaseCrud
 	Client                 *oci_core.BlockstorageClient
 	Res                    *oci_core.VolumeBackupPolicyAssignment
 	DisableNotFoundRetries bool

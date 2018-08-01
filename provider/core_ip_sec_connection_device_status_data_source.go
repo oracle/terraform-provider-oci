@@ -7,8 +7,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/core"
-
-	"github.com/oracle/terraform-provider-oci/crud"
 )
 
 func IpSecConnectionDeviceStatusDataSource() *schema.Resource {
@@ -48,7 +46,7 @@ func IpSecConnectionDeviceStatusDataSource() *schema.Resource {
 						},
 						// @Deprecated 01/2018: time_state_modifed => time_state_modified
 						"time_state_modifed": {
-							Deprecated: crud.FieldDeprecatedForAnother("time_state_modifed", "time_state_modified"),
+							Deprecated: FieldDeprecatedForAnother("time_state_modifed", "time_state_modified"),
 							Type:       schema.TypeString,
 							Computed:   true,
 						},
@@ -68,7 +66,7 @@ func readSingularIpSecConnectionDeviceStatus(d *schema.ResourceData, m interface
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 type IpSecConnectionDeviceStatusDataSourceCrud struct {

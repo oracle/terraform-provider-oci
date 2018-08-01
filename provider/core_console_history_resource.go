@@ -7,8 +7,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/oracle/terraform-provider-oci/crud"
-
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
@@ -17,7 +15,7 @@ func ConsoleHistoryResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: crud.DefaultTimeout,
+		Timeouts: DefaultTimeout,
 		Create:   createConsoleHistory,
 		Read:     readConsoleHistory,
 		Update:   updateConsoleHistory,
@@ -76,7 +74,7 @@ func createConsoleHistory(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient
 
-	return crud.CreateResource(d, sync)
+	return CreateResource(d, sync)
 }
 
 func readConsoleHistory(d *schema.ResourceData, m interface{}) error {
@@ -84,7 +82,7 @@ func readConsoleHistory(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 func updateConsoleHistory(d *schema.ResourceData, m interface{}) error {
@@ -92,7 +90,7 @@ func updateConsoleHistory(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient
 
-	return crud.UpdateResource(d, sync)
+	return UpdateResource(d, sync)
 }
 
 func deleteConsoleHistory(d *schema.ResourceData, m interface{}) error {
@@ -101,11 +99,11 @@ func deleteConsoleHistory(d *schema.ResourceData, m interface{}) error {
 	sync.Client = m.(*OracleClients).computeClient
 	sync.DisableNotFoundRetries = true
 
-	return crud.DeleteResource(d, sync)
+	return DeleteResource(d, sync)
 }
 
 type ConsoleHistoryResourceCrud struct {
-	crud.BaseCrud
+	BaseCrud
 	Client                 *oci_core.ComputeClient
 	Res                    *oci_core.ConsoleHistory
 	DisableNotFoundRetries bool

@@ -7,8 +7,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/core"
-
-	"github.com/oracle/terraform-provider-oci/crud"
 )
 
 func LocalPeeringGatewaysDataSource() *schema.Resource {
@@ -27,7 +25,7 @@ func LocalPeeringGatewaysDataSource() *schema.Resource {
 			"local_peering_gateways": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     crud.GetDataSourceItemSchema(LocalPeeringGatewayResource()),
+				Elem:     GetDataSourceItemSchema(LocalPeeringGatewayResource()),
 			},
 		},
 	}
@@ -38,7 +36,7 @@ func readLocalPeeringGateways(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 type LocalPeeringGatewaysDataSourceCrud struct {
@@ -92,7 +90,7 @@ func (s *LocalPeeringGatewaysDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(crud.GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceID())
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {

@@ -1,6 +1,6 @@
 // Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
 
-package crud
+package provider
 
 import (
 	"context"
@@ -63,11 +63,11 @@ func (s *BaseCrud) setState(sync StatefulResource) error {
 
 				if stateValue := resourceValue.FieldByName("LifecycleState"); stateValue.IsValid() {
 					currentState := stateValue.String()
-					log.Printf("[DEBUG] crud.BaseCrud.setState: state: %#v", currentState)
+					log.Printf("[DEBUG] BaseCrud.setState: state: %#v", currentState)
 					return s.D.Set("state", currentState)
 				} else if stateValue := resourceValue.FieldByName("State"); stateValue.IsValid() {
 					currentState := stateValue.String()
-					log.Printf("[DEBUG] crud.BaseCrud.setState: state: %#v", currentState)
+					log.Printf("[DEBUG] BaseCrud.setState: state: %#v", currentState)
 					return s.D.Set("state", currentState)
 				}
 			}

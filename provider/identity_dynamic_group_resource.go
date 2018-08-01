@@ -7,8 +7,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/oracle/terraform-provider-oci/crud"
-
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
@@ -17,7 +15,7 @@ func DynamicGroupResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: crud.DefaultTimeout,
+		Timeouts: DefaultTimeout,
 		Create:   createDynamicGroup,
 		Read:     readDynamicGroup,
 		Update:   updateDynamicGroup,
@@ -67,7 +65,7 @@ func createDynamicGroup(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
-	return crud.CreateResource(d, sync)
+	return CreateResource(d, sync)
 }
 
 func readDynamicGroup(d *schema.ResourceData, m interface{}) error {
@@ -75,7 +73,7 @@ func readDynamicGroup(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 func updateDynamicGroup(d *schema.ResourceData, m interface{}) error {
@@ -83,7 +81,7 @@ func updateDynamicGroup(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
-	return crud.UpdateResource(d, sync)
+	return UpdateResource(d, sync)
 }
 
 func deleteDynamicGroup(d *schema.ResourceData, m interface{}) error {
@@ -92,11 +90,11 @@ func deleteDynamicGroup(d *schema.ResourceData, m interface{}) error {
 	sync.Client = m.(*OracleClients).identityClient
 	sync.DisableNotFoundRetries = true
 
-	return crud.DeleteResource(d, sync)
+	return DeleteResource(d, sync)
 }
 
 type DynamicGroupResourceCrud struct {
-	crud.BaseCrud
+	BaseCrud
 	Client                 *oci_identity.IdentityClient
 	Res                    *oci_identity.DynamicGroup
 	DisableNotFoundRetries bool

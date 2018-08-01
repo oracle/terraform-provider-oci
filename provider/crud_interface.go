@@ -1,6 +1,6 @@
 // Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
 
-package crud
+package provider
 
 import (
 	"sync"
@@ -11,7 +11,7 @@ import (
 
 // Gets the current BareMetal Resource
 type ResourceFetcher interface {
-	// Get should update the s.Resource, and is used by crud.ReadResource() to populate s.D
+	// Get should update the s.Resource, and is used by ReadResource() to populate s.D
 	// Get() may expect s.D.Id() to be set, but not s.Resource, or anything else in s.D
 	Get() error
 }

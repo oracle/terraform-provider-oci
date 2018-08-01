@@ -7,8 +7,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
-
-	"github.com/oracle/terraform-provider-oci/crud"
 )
 
 func PathRouteSetsDataSource() *schema.Resource {
@@ -34,7 +32,7 @@ func readPathRouteSets(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).loadBalancerClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 type PathRouteSetsDataSourceCrud struct {
@@ -71,7 +69,7 @@ func (s *PathRouteSetsDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(crud.GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceID())
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {

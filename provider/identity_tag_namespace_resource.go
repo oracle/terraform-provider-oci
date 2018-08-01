@@ -7,8 +7,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/oracle/terraform-provider-oci/crud"
-
 	"strings"
 
 	"strconv"
@@ -21,7 +19,7 @@ func TagNamespaceResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: crud.DefaultTimeout,
+		Timeouts: DefaultTimeout,
 		Create:   createTagNamespace,
 		Read:     readTagNamespace,
 		Update:   updateTagNamespace,
@@ -41,7 +39,7 @@ func TagNamespaceResource() *schema.Resource {
 				Type:             schema.TypeString,
 				Required:         true,
 				ForceNew:         true,
-				DiffSuppressFunc: crud.EqualIgnoreCaseSuppressDiff,
+				DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
 			},
 
 			// Optional
@@ -78,7 +76,7 @@ func createTagNamespace(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
-	return crud.CreateResource(d, sync)
+	return CreateResource(d, sync)
 }
 
 func readTagNamespace(d *schema.ResourceData, m interface{}) error {
@@ -86,7 +84,7 @@ func readTagNamespace(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 func updateTagNamespace(d *schema.ResourceData, m interface{}) error {
@@ -94,7 +92,7 @@ func updateTagNamespace(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
-	return crud.UpdateResource(d, sync)
+	return UpdateResource(d, sync)
 }
 
 func deleteTagNamespace(d *schema.ResourceData, m interface{}) error {
@@ -102,7 +100,7 @@ func deleteTagNamespace(d *schema.ResourceData, m interface{}) error {
 }
 
 type TagNamespaceResourceCrud struct {
-	crud.BaseCrud
+	BaseCrud
 	Client                 *oci_identity.IdentityClient
 	Res                    *oci_identity.TagNamespace
 	DisableNotFoundRetries bool

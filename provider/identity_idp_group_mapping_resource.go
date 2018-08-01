@@ -7,14 +7,12 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/oracle/terraform-provider-oci/crud"
-
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
 func IdpGroupMappingResource() *schema.Resource {
 	return &schema.Resource{
-		Timeouts: crud.DefaultTimeout,
+		Timeouts: DefaultTimeout,
 		Create:   createIdpGroupMapping,
 		Read:     readIdpGroupMapping,
 		Update:   updateIdpGroupMapping,
@@ -63,7 +61,7 @@ func createIdpGroupMapping(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
-	return crud.CreateResource(d, sync)
+	return CreateResource(d, sync)
 }
 
 func readIdpGroupMapping(d *schema.ResourceData, m interface{}) error {
@@ -71,7 +69,7 @@ func readIdpGroupMapping(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 func updateIdpGroupMapping(d *schema.ResourceData, m interface{}) error {
@@ -79,7 +77,7 @@ func updateIdpGroupMapping(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
-	return crud.UpdateResource(d, sync)
+	return UpdateResource(d, sync)
 }
 
 func deleteIdpGroupMapping(d *schema.ResourceData, m interface{}) error {
@@ -88,11 +86,11 @@ func deleteIdpGroupMapping(d *schema.ResourceData, m interface{}) error {
 	sync.Client = m.(*OracleClients).identityClient
 	sync.DisableNotFoundRetries = true
 
-	return crud.DeleteResource(d, sync)
+	return DeleteResource(d, sync)
 }
 
 type IdpGroupMappingResourceCrud struct {
-	crud.BaseCrud
+	BaseCrud
 	Client                 *oci_identity.IdentityClient
 	Res                    *oci_identity.IdpGroupMapping
 	DisableNotFoundRetries bool

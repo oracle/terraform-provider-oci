@@ -7,8 +7,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/core"
-
-	"github.com/oracle/terraform-provider-oci/crud"
 )
 
 func ImagesDataSource() *schema.Resource {
@@ -27,7 +25,7 @@ func ImagesDataSource() *schema.Resource {
 			"limit": {
 				Type:       schema.TypeInt,
 				Optional:   true,
-				Deprecated: crud.FieldDeprecated("limit"),
+				Deprecated: FieldDeprecated("limit"),
 			},
 			"operating_system": {
 				Type:     schema.TypeString,
@@ -40,7 +38,7 @@ func ImagesDataSource() *schema.Resource {
 			"page": {
 				Type:       schema.TypeString,
 				Optional:   true,
-				Deprecated: crud.FieldDeprecated("page"),
+				Deprecated: FieldDeprecated("page"),
 			},
 			"shape": {
 				Type:     schema.TypeString,
@@ -53,7 +51,7 @@ func ImagesDataSource() *schema.Resource {
 			"images": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     crud.GetDataSourceItemSchema(ImageResource()),
+				Elem:     GetDataSourceItemSchema(ImageResource()),
 			},
 		},
 	}
@@ -64,7 +62,7 @@ func readImages(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 type ImagesDataSourceCrud struct {
@@ -147,7 +145,7 @@ func (s *ImagesDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(crud.GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceID())
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {

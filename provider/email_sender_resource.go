@@ -7,8 +7,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/oracle/terraform-provider-oci/crud"
-
 	oci_email "github.com/oracle/oci-go-sdk/email"
 )
 
@@ -17,7 +15,7 @@ func SenderResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: crud.DefaultTimeout,
+		Timeouts: DefaultTimeout,
 		Create:   createSender,
 		Read:     readSender,
 		Delete:   deleteSender,
@@ -58,7 +56,7 @@ func createSender(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).emailClient
 
-	return crud.CreateResource(d, sync)
+	return CreateResource(d, sync)
 }
 
 func readSender(d *schema.ResourceData, m interface{}) error {
@@ -66,7 +64,7 @@ func readSender(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).emailClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 func deleteSender(d *schema.ResourceData, m interface{}) error {
@@ -75,11 +73,11 @@ func deleteSender(d *schema.ResourceData, m interface{}) error {
 	sync.Client = m.(*OracleClients).emailClient
 	sync.DisableNotFoundRetries = true
 
-	return crud.DeleteResource(d, sync)
+	return DeleteResource(d, sync)
 }
 
 type SenderResourceCrud struct {
-	crud.BaseCrud
+	BaseCrud
 	Client                 *oci_email.EmailClient
 	Res                    *oci_email.Sender
 	DisableNotFoundRetries bool

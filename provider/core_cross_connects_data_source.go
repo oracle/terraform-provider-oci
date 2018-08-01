@@ -7,8 +7,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/core"
-
-	"github.com/oracle/terraform-provider-oci/crud"
 )
 
 func CrossConnectsDataSource() *schema.Resource {
@@ -35,7 +33,7 @@ func CrossConnectsDataSource() *schema.Resource {
 			"cross_connects": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     crud.GetDataSourceItemSchema(CrossConnectResource()),
+				Elem:     GetDataSourceItemSchema(CrossConnectResource()),
 			},
 		},
 	}
@@ -46,7 +44,7 @@ func readCrossConnects(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 type CrossConnectsDataSourceCrud struct {
@@ -109,7 +107,7 @@ func (s *CrossConnectsDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(crud.GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceID())
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {

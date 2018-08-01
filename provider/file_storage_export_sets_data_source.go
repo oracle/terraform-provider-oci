@@ -7,8 +7,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_file_storage "github.com/oracle/oci-go-sdk/filestorage"
-
-	"github.com/oracle/terraform-provider-oci/crud"
 )
 
 func ExportSetsDataSource() *schema.Resource {
@@ -39,7 +37,7 @@ func ExportSetsDataSource() *schema.Resource {
 			"export_sets": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     crud.GetDataSourceItemSchema(ExportSetResource()),
+				Elem:     GetDataSourceItemSchema(ExportSetResource()),
 			},
 		},
 	}
@@ -50,7 +48,7 @@ func readExportSets(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).fileStorageClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 type ExportSetsDataSourceCrud struct {
@@ -118,7 +116,7 @@ func (s *ExportSetsDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(crud.GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceID())
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {

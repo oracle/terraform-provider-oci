@@ -7,8 +7,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/core"
-
-	"github.com/oracle/terraform-provider-oci/crud"
 )
 
 func VolumeGroupBackupsDataSource() *schema.Resource {
@@ -31,7 +29,7 @@ func VolumeGroupBackupsDataSource() *schema.Resource {
 			"volume_group_backups": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     crud.GetDataSourceItemSchema(VolumeGroupBackupResource()),
+				Elem:     GetDataSourceItemSchema(VolumeGroupBackupResource()),
 			},
 		},
 	}
@@ -42,7 +40,7 @@ func readVolumeGroupBackups(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).blockstorageClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 type VolumeGroupBackupsDataSourceCrud struct {
@@ -101,7 +99,7 @@ func (s *VolumeGroupBackupsDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(crud.GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceID())
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {

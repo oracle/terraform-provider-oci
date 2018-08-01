@@ -7,8 +7,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/core"
-
-	"github.com/oracle/terraform-provider-oci/crud"
 )
 
 func PrivateIpsDataSource() *schema.Resource {
@@ -31,7 +29,7 @@ func PrivateIpsDataSource() *schema.Resource {
 			"private_ips": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     crud.GetDataSourceItemSchema(PrivateIpResource()),
+				Elem:     GetDataSourceItemSchema(PrivateIpResource()),
 			},
 		},
 	}
@@ -42,7 +40,7 @@ func readPrivateIps(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 type PrivateIpsDataSourceCrud struct {
@@ -101,7 +99,7 @@ func (s *PrivateIpsDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(crud.GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceID())
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {

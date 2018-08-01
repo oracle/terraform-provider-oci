@@ -7,8 +7,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/oracle/terraform-provider-oci/crud"
-
 	"time"
 
 	oci_containerengine "github.com/oracle/oci-go-sdk/containerengine"
@@ -21,7 +19,7 @@ func NodePoolResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: crud.DefaultTimeout,
+		Timeouts: DefaultTimeout,
 		Create:   createNodePool,
 		Read:     readNodePool,
 		Update:   updateNodePool,
@@ -184,7 +182,7 @@ func createNodePool(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).containerEngineClient
 
-	return crud.CreateResource(d, sync)
+	return CreateResource(d, sync)
 }
 
 func readNodePool(d *schema.ResourceData, m interface{}) error {
@@ -192,7 +190,7 @@ func readNodePool(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).containerEngineClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 func updateNodePool(d *schema.ResourceData, m interface{}) error {
@@ -200,7 +198,7 @@ func updateNodePool(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).containerEngineClient
 
-	return crud.UpdateResource(d, sync)
+	return UpdateResource(d, sync)
 }
 
 func deleteNodePool(d *schema.ResourceData, m interface{}) error {
@@ -209,11 +207,11 @@ func deleteNodePool(d *schema.ResourceData, m interface{}) error {
 	sync.Client = m.(*OracleClients).containerEngineClient
 	sync.DisableNotFoundRetries = true
 
-	return crud.DeleteResource(d, sync)
+	return DeleteResource(d, sync)
 }
 
 type NodePoolResourceCrud struct {
-	crud.BaseCrud
+	BaseCrud
 	Client                 *oci_containerengine.ContainerEngineClient
 	Res                    *oci_containerengine.NodePool
 	DisableNotFoundRetries bool

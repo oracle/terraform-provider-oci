@@ -8,8 +8,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/oracle/terraform-provider-oci/crud"
-
 	oci_file_storage "github.com/oracle/oci-go-sdk/filestorage"
 )
 
@@ -18,7 +16,7 @@ func ExportSetResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: crud.DefaultTimeout,
+		Timeouts: DefaultTimeout,
 		Create:   createExportSet,
 		Read:     readExportSet,
 		Update:   updateExportSet,
@@ -78,7 +76,7 @@ func createExportSet(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).fileStorageClient
 
-	return crud.CreateResource(d, sync)
+	return CreateResource(d, sync)
 }
 
 func readExportSet(d *schema.ResourceData, m interface{}) error {
@@ -86,7 +84,7 @@ func readExportSet(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).fileStorageClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 func updateExportSet(d *schema.ResourceData, m interface{}) error {
@@ -94,7 +92,7 @@ func updateExportSet(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).fileStorageClient
 
-	return crud.UpdateResource(d, sync)
+	return UpdateResource(d, sync)
 }
 
 func deleteExportSet(d *schema.ResourceData, m interface{}) error {
@@ -103,7 +101,7 @@ func deleteExportSet(d *schema.ResourceData, m interface{}) error {
 }
 
 type ExportSetResourceCrud struct {
-	crud.BaseCrud
+	BaseCrud
 	Client                 *oci_file_storage.FileStorageClient
 	Res                    *oci_file_storage.ExportSet
 	DisableNotFoundRetries bool

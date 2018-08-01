@@ -9,8 +9,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/oracle/terraform-provider-oci/crud"
-
 	"github.com/hashicorp/terraform/helper/validation"
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
@@ -25,7 +23,7 @@ func DhcpOptionsResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: crud.DefaultTimeout,
+		Timeouts: DefaultTimeout,
 		Create:   createDhcpOptions,
 		Read:     readDhcpOptions,
 		Update:   updateDhcpOptions,
@@ -47,7 +45,7 @@ func DhcpOptionsResource() *schema.Resource {
 						"type": {
 							Type:             schema.TypeString,
 							Required:         true,
-							DiffSuppressFunc: crud.EqualIgnoreCaseSuppressDiff,
+							DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
 							ValidateFunc: validation.StringInSlice([]string{
 								DhcpOptionTypeDomainNameServer,
 								DhcpOptionTypeSearchDomain,
@@ -127,7 +125,7 @@ func createDhcpOptions(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
-	return crud.CreateResource(d, sync)
+	return CreateResource(d, sync)
 }
 
 func readDhcpOptions(d *schema.ResourceData, m interface{}) error {
@@ -135,7 +133,7 @@ func readDhcpOptions(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 func updateDhcpOptions(d *schema.ResourceData, m interface{}) error {
@@ -143,7 +141,7 @@ func updateDhcpOptions(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
-	return crud.UpdateResource(d, sync)
+	return UpdateResource(d, sync)
 }
 
 func deleteDhcpOptions(d *schema.ResourceData, m interface{}) error {
@@ -152,11 +150,11 @@ func deleteDhcpOptions(d *schema.ResourceData, m interface{}) error {
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 	sync.DisableNotFoundRetries = true
 
-	return crud.DeleteResource(d, sync)
+	return DeleteResource(d, sync)
 }
 
 type DhcpOptionsResourceCrud struct {
-	crud.BaseCrud
+	BaseCrud
 	Client                 *oci_core.VirtualNetworkClient
 	Res                    *oci_core.DhcpOptions
 	DisableNotFoundRetries bool

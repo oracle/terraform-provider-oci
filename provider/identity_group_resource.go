@@ -9,8 +9,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/oracle/terraform-provider-oci/crud"
-
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
@@ -19,7 +17,7 @@ func GroupResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: crud.DefaultTimeout,
+		Timeouts: DefaultTimeout,
 		Create:   createGroup,
 		Read:     readGroup,
 		Update:   updateGroup,
@@ -76,7 +74,7 @@ func GroupResource() *schema.Resource {
 			// @Deprecated 01/2018: time_modified (removed)
 			"time_modified": {
 				Type:       schema.TypeString,
-				Deprecated: crud.FieldDeprecated("time_modified"),
+				Deprecated: FieldDeprecated("time_modified"),
 				Computed:   true,
 			},
 		},
@@ -88,7 +86,7 @@ func createGroup(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
-	return crud.CreateResource(d, sync)
+	return CreateResource(d, sync)
 }
 
 func readGroup(d *schema.ResourceData, m interface{}) error {
@@ -96,7 +94,7 @@ func readGroup(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 func updateGroup(d *schema.ResourceData, m interface{}) error {
@@ -104,7 +102,7 @@ func updateGroup(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
-	return crud.UpdateResource(d, sync)
+	return UpdateResource(d, sync)
 }
 
 func deleteGroup(d *schema.ResourceData, m interface{}) error {
@@ -113,11 +111,11 @@ func deleteGroup(d *schema.ResourceData, m interface{}) error {
 	sync.Client = m.(*OracleClients).identityClient
 	sync.DisableNotFoundRetries = true
 
-	return crud.DeleteResource(d, sync)
+	return DeleteResource(d, sync)
 }
 
 type GroupResourceCrud struct {
-	crud.BaseCrud
+	BaseCrud
 	Client                 *oci_identity.IdentityClient
 	Res                    *oci_identity.Group
 	DisableNotFoundRetries bool

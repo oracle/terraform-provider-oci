@@ -7,8 +7,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
-
-	"github.com/oracle/terraform-provider-oci/crud"
 )
 
 func IdentityProvidersDataSource() *schema.Resource {
@@ -27,7 +25,7 @@ func IdentityProvidersDataSource() *schema.Resource {
 			"identity_providers": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     crud.GetDataSourceItemSchema(IdentityProviderResource()),
+				Elem:     GetDataSourceItemSchema(IdentityProviderResource()),
 			},
 		},
 	}
@@ -38,7 +36,7 @@ func readIdentityProviders(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 type IdentityProvidersDataSourceCrud struct {
@@ -91,7 +89,7 @@ func (s *IdentityProvidersDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(crud.GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceID())
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {

@@ -8,8 +8,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/oracle/terraform-provider-oci/crud"
-
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
@@ -18,7 +16,7 @@ func CrossConnectResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: crud.DefaultTimeout,
+		Timeouts: DefaultTimeout,
 		Create:   createCrossConnect,
 		Read:     readCrossConnect,
 		Update:   updateCrossConnect,
@@ -93,7 +91,7 @@ func createCrossConnect(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
-	err := crud.CreateResource(d, sync)
+	err := CreateResource(d, sync)
 	if err != nil {
 		return err
 	}
@@ -101,7 +99,7 @@ func createCrossConnect(d *schema.ResourceData, m interface{}) error {
 	// Issue an Update if 'is_active' is set to true
 	if _, ok := sync.D.GetOkExists("is_active"); ok {
 		log.Printf("[DEBUG] CrossConnect resource is set to be active, calling 'Update' for the resource")
-		return crud.UpdateResource(d, sync)
+		return UpdateResource(d, sync)
 	}
 
 	return nil
@@ -112,7 +110,7 @@ func readCrossConnect(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 func updateCrossConnect(d *schema.ResourceData, m interface{}) error {
@@ -120,7 +118,7 @@ func updateCrossConnect(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
-	return crud.UpdateResource(d, sync)
+	return UpdateResource(d, sync)
 }
 
 func deleteCrossConnect(d *schema.ResourceData, m interface{}) error {
@@ -129,11 +127,11 @@ func deleteCrossConnect(d *schema.ResourceData, m interface{}) error {
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 	sync.DisableNotFoundRetries = true
 
-	return crud.DeleteResource(d, sync)
+	return DeleteResource(d, sync)
 }
 
 type CrossConnectResourceCrud struct {
-	crud.BaseCrud
+	BaseCrud
 	Client                 *oci_core.VirtualNetworkClient
 	Res                    *oci_core.CrossConnect
 	DisableNotFoundRetries bool

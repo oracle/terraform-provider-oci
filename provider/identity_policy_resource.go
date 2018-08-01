@@ -10,8 +10,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
-
-	"github.com/oracle/terraform-provider-oci/crud"
 )
 
 func PolicyResource() *schema.Resource {
@@ -19,7 +17,7 @@ func PolicyResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: crud.DefaultTimeout,
+		Timeouts: DefaultTimeout,
 		Create:   createPolicy,
 		Read:     readPolicy,
 		Update:   updatePolicy,
@@ -99,7 +97,7 @@ func PolicyResource() *schema.Resource {
 			// @Deprecated: time_modified (removed)
 			"time_modified": {
 				Type:       schema.TypeString,
-				Deprecated: crud.FieldDeprecated("time_modified"),
+				Deprecated: FieldDeprecated("time_modified"),
 				Computed:   true,
 			},
 		},
@@ -111,7 +109,7 @@ func createPolicy(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
-	return crud.CreateResource(d, sync)
+	return CreateResource(d, sync)
 }
 
 func readPolicy(d *schema.ResourceData, m interface{}) error {
@@ -119,7 +117,7 @@ func readPolicy(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 func updatePolicy(d *schema.ResourceData, m interface{}) error {
@@ -127,7 +125,7 @@ func updatePolicy(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
-	return crud.UpdateResource(d, sync)
+	return UpdateResource(d, sync)
 }
 
 func deletePolicy(d *schema.ResourceData, m interface{}) error {
@@ -136,11 +134,11 @@ func deletePolicy(d *schema.ResourceData, m interface{}) error {
 	sync.Client = m.(*OracleClients).identityClient
 	sync.DisableNotFoundRetries = true
 
-	return crud.DeleteResource(d, sync)
+	return DeleteResource(d, sync)
 }
 
 type PolicyResourceCrud struct {
-	crud.BaseCrud
+	BaseCrud
 	Client                 *oci_identity.IdentityClient
 	Res                    *oci_identity.Policy
 	DisableNotFoundRetries bool

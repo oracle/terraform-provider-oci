@@ -7,8 +7,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/oracle/terraform-provider-oci/crud"
-
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
@@ -17,7 +15,7 @@ func DrgResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: crud.DefaultTimeout,
+		Timeouts: DefaultTimeout,
 		Create:   createDrg,
 		Read:     readDrg,
 		Update:   updateDrg,
@@ -68,7 +66,7 @@ func createDrg(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
-	return crud.CreateResource(d, sync)
+	return CreateResource(d, sync)
 }
 
 func readDrg(d *schema.ResourceData, m interface{}) error {
@@ -76,7 +74,7 @@ func readDrg(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 func updateDrg(d *schema.ResourceData, m interface{}) error {
@@ -84,7 +82,7 @@ func updateDrg(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
-	return crud.UpdateResource(d, sync)
+	return UpdateResource(d, sync)
 }
 
 func deleteDrg(d *schema.ResourceData, m interface{}) error {
@@ -93,11 +91,11 @@ func deleteDrg(d *schema.ResourceData, m interface{}) error {
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 	sync.DisableNotFoundRetries = true
 
-	return crud.DeleteResource(d, sync)
+	return DeleteResource(d, sync)
 }
 
 type DrgResourceCrud struct {
-	crud.BaseCrud
+	BaseCrud
 	Client                 *oci_core.VirtualNetworkClient
 	Res                    *oci_core.Drg
 	DisableNotFoundRetries bool

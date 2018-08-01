@@ -7,8 +7,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_containerengine "github.com/oracle/oci-go-sdk/containerengine"
-
-	"github.com/oracle/terraform-provider-oci/crud"
 )
 
 func NodePoolDataSource() *schema.Resource {
@@ -163,7 +161,7 @@ func readSingularNodePool(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).containerEngineClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 type NodePoolDataSourceCrud struct {

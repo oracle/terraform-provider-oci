@@ -7,14 +7,12 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/oracle/terraform-provider-oci/crud"
-
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
 func SmtpCredentialResource() *schema.Resource {
 	return &schema.Resource{
-		Timeouts: crud.DefaultTimeout,
+		Timeouts: DefaultTimeout,
 		Create:   createSmtpCredential,
 		Read:     readSmtpCredential,
 		Update:   updateSmtpCredential,
@@ -67,7 +65,7 @@ func createSmtpCredential(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
-	return crud.CreateResource(d, sync)
+	return CreateResource(d, sync)
 }
 
 func readSmtpCredential(d *schema.ResourceData, m interface{}) error {
@@ -75,7 +73,7 @@ func readSmtpCredential(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 func updateSmtpCredential(d *schema.ResourceData, m interface{}) error {
@@ -83,7 +81,7 @@ func updateSmtpCredential(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
-	return crud.UpdateResource(d, sync)
+	return UpdateResource(d, sync)
 }
 
 func deleteSmtpCredential(d *schema.ResourceData, m interface{}) error {
@@ -92,11 +90,11 @@ func deleteSmtpCredential(d *schema.ResourceData, m interface{}) error {
 	sync.Client = m.(*OracleClients).identityClient
 	sync.DisableNotFoundRetries = true
 
-	return crud.DeleteResource(d, sync)
+	return DeleteResource(d, sync)
 }
 
 type SmtpCredentialResourceCrud struct {
-	crud.BaseCrud
+	BaseCrud
 	Client                 *oci_identity.IdentityClient
 	Res                    *oci_identity.SmtpCredential
 	DisableNotFoundRetries bool

@@ -7,8 +7,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_containerengine "github.com/oracle/oci-go-sdk/containerengine"
-
-	"github.com/oracle/terraform-provider-oci/crud"
 )
 
 func NodePoolsDataSource() *schema.Resource {
@@ -31,7 +29,7 @@ func NodePoolsDataSource() *schema.Resource {
 			"node_pools": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     crud.GetDataSourceItemSchema(NodePoolDataSource()),
+				Elem:     GetDataSourceItemSchema(NodePoolDataSource()),
 			},
 		},
 	}
@@ -42,7 +40,7 @@ func readNodePools(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).containerEngineClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 type NodePoolsDataSourceCrud struct {
@@ -101,7 +99,7 @@ func (s *NodePoolsDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(crud.GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceID())
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {

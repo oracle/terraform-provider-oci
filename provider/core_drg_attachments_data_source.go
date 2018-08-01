@@ -7,8 +7,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/core"
-
-	"github.com/oracle/terraform-provider-oci/crud"
 )
 
 func DrgAttachmentsDataSource() *schema.Resource {
@@ -27,12 +25,12 @@ func DrgAttachmentsDataSource() *schema.Resource {
 			"limit": {
 				Type:       schema.TypeInt,
 				Optional:   true,
-				Deprecated: crud.FieldDeprecated("limit"),
+				Deprecated: FieldDeprecated("limit"),
 			},
 			"page": {
 				Type:       schema.TypeString,
 				Optional:   true,
-				Deprecated: crud.FieldDeprecated("page"),
+				Deprecated: FieldDeprecated("page"),
 			},
 			"vcn_id": {
 				Type:     schema.TypeString,
@@ -41,7 +39,7 @@ func DrgAttachmentsDataSource() *schema.Resource {
 			"drg_attachments": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     crud.GetDataSourceItemSchema(DrgAttachmentResource()),
+				Elem:     GetDataSourceItemSchema(DrgAttachmentResource()),
 			},
 		},
 	}
@@ -52,7 +50,7 @@ func readDrgAttachments(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 type DrgAttachmentsDataSourceCrud struct {
@@ -121,7 +119,7 @@ func (s *DrgAttachmentsDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(crud.GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceID())
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {

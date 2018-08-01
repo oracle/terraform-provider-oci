@@ -7,14 +7,12 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/oracle/terraform-provider-oci/crud"
-
 	oci_audit "github.com/oracle/oci-go-sdk/audit"
 )
 
 func ConfigurationResource() *schema.Resource {
 	return &schema.Resource{
-		Timeouts: crud.DefaultTimeout,
+		Timeouts: DefaultTimeout,
 		Create:   createConfiguration,
 		Read:     readConfiguration,
 		Update:   updateConfiguration,
@@ -41,7 +39,7 @@ func createConfiguration(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).auditClient
 
-	return crud.CreateResource(d, sync)
+	return CreateResource(d, sync)
 }
 
 func readConfiguration(d *schema.ResourceData, m interface{}) error {
@@ -49,7 +47,7 @@ func readConfiguration(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).auditClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 func updateConfiguration(d *schema.ResourceData, m interface{}) error {
@@ -57,7 +55,7 @@ func updateConfiguration(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).auditClient
 
-	return crud.UpdateResource(d, sync)
+	return UpdateResource(d, sync)
 }
 
 func deleteConfiguration(d *schema.ResourceData, m interface{}) error {
@@ -65,7 +63,7 @@ func deleteConfiguration(d *schema.ResourceData, m interface{}) error {
 }
 
 type ConfigurationResourceCrud struct {
-	crud.BaseCrud
+	BaseCrud
 	Client                 *oci_audit.AuditClient
 	Res                    *oci_audit.Configuration
 	DisableNotFoundRetries bool
@@ -122,7 +120,7 @@ func (s *ConfigurationResourceCrud) Update() error {
 	// Requests to update the retention policy may succeed instantly but may not see the actual update take effect
 	// until minutes later. Add polling here to return only when the change has taken effect.
 	retentionPolicyFunc := func() bool { return *s.Res.RetentionPeriodDays == *request.RetentionPeriodDays }
-	return crud.WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
+	return WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *ConfigurationResourceCrud) SetData() error {

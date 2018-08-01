@@ -7,14 +7,12 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/oracle/terraform-provider-oci/crud"
-
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
 func AuthTokenResource() *schema.Resource {
 	return &schema.Resource{
-		Timeouts: crud.DefaultTimeout,
+		Timeouts: DefaultTimeout,
 		Create:   createAuthToken,
 		Read:     readAuthToken,
 		Update:   updateAuthToken,
@@ -63,7 +61,7 @@ func createAuthToken(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
-	return crud.CreateResource(d, sync)
+	return CreateResource(d, sync)
 }
 
 func readAuthToken(d *schema.ResourceData, m interface{}) error {
@@ -71,7 +69,7 @@ func readAuthToken(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 func updateAuthToken(d *schema.ResourceData, m interface{}) error {
@@ -79,7 +77,7 @@ func updateAuthToken(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
-	return crud.UpdateResource(d, sync)
+	return UpdateResource(d, sync)
 }
 
 func deleteAuthToken(d *schema.ResourceData, m interface{}) error {
@@ -88,11 +86,11 @@ func deleteAuthToken(d *schema.ResourceData, m interface{}) error {
 	sync.Client = m.(*OracleClients).identityClient
 	sync.DisableNotFoundRetries = true
 
-	return crud.DeleteResource(d, sync)
+	return DeleteResource(d, sync)
 }
 
 type AuthTokenResourceCrud struct {
-	crud.BaseCrud
+	BaseCrud
 	Client                 *oci_identity.IdentityClient
 	Res                    *oci_identity.AuthToken
 	DisableNotFoundRetries bool

@@ -7,8 +7,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/core"
-
-	"github.com/oracle/terraform-provider-oci/crud"
 )
 
 // @CODEGEN: Override the resource schema's 'security_list_ids' to make it TypeList instead of TypeSet.
@@ -24,7 +22,7 @@ func SubnetDataSource() *schema.Resource {
 		},
 	}
 
-	return crud.GetDataSourceItemSchema(result)
+	return GetDataSourceItemSchema(result)
 }
 
 func SubnetsDataSource() *schema.Resource {
@@ -43,12 +41,12 @@ func SubnetsDataSource() *schema.Resource {
 			"limit": {
 				Type:       schema.TypeInt,
 				Optional:   true,
-				Deprecated: crud.FieldDeprecated("limit"),
+				Deprecated: FieldDeprecated("limit"),
 			},
 			"page": {
 				Type:       schema.TypeString,
 				Optional:   true,
-				Deprecated: crud.FieldDeprecated("page"),
+				Deprecated: FieldDeprecated("page"),
 			},
 			"state": {
 				Type:     schema.TypeString,
@@ -72,7 +70,7 @@ func readSubnets(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 type SubnetsDataSourceCrud struct {
@@ -145,7 +143,7 @@ func (s *SubnetsDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(crud.GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceID())
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {

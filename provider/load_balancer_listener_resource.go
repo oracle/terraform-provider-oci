@@ -9,14 +9,12 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/oracle/terraform-provider-oci/crud"
-
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
 )
 
 func ListenerResource() *schema.Resource {
 	return &schema.Resource{
-		Timeouts: crud.DefaultTimeout,
+		Timeouts: DefaultTimeout,
 		Create:   createListener,
 		Read:     readListener,
 		Update:   updateListener,
@@ -126,14 +124,14 @@ func createListener(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).loadBalancerClient
 
-	return crud.CreateResource(d, sync)
+	return CreateResource(d, sync)
 }
 
 func readListener(d *schema.ResourceData, m interface{}) error {
 	sync := &ListenerResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).loadBalancerClient
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 func updateListener(d *schema.ResourceData, m interface{}) error {
@@ -141,7 +139,7 @@ func updateListener(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).loadBalancerClient
 
-	return crud.UpdateResource(d, sync)
+	return UpdateResource(d, sync)
 }
 
 func deleteListener(d *schema.ResourceData, m interface{}) error {
@@ -150,11 +148,11 @@ func deleteListener(d *schema.ResourceData, m interface{}) error {
 	sync.Client = m.(*OracleClients).loadBalancerClient
 	sync.DisableNotFoundRetries = true
 
-	return crud.DeleteResource(d, sync)
+	return DeleteResource(d, sync)
 }
 
 type ListenerResourceCrud struct {
-	crud.BaseCrud
+	BaseCrud
 	Client                 *oci_load_balancer.LoadBalancerClient
 	Res                    *oci_load_balancer.Listener
 	DisableNotFoundRetries bool
@@ -162,7 +160,7 @@ type ListenerResourceCrud struct {
 }
 
 func (s *ListenerResourceCrud) ID() string {
-	id, workSuccess := crud.LoadBalancerResourceID(s.Res, s.WorkRequest)
+	id, workSuccess := LoadBalancerResourceID(s.Res, s.WorkRequest)
 	if id != nil {
 		return *id
 	}
@@ -273,7 +271,7 @@ func (s *ListenerResourceCrud) Create() error {
 		return err
 	}
 	s.WorkRequest = &workRequestResponse.WorkRequest
-	err = crud.LoadBalancerWaitForWorkRequest(s.Client, s.D, s.WorkRequest, getRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
+	err = LoadBalancerWaitForWorkRequest(s.Client, s.D, s.WorkRequest, getRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
 	if err != nil {
 		return err
 	}
@@ -282,7 +280,7 @@ func (s *ListenerResourceCrud) Create() error {
 
 func (s *ListenerResourceCrud) Get() (e error) {
 	// key: {workRequestID} || {loadBalancerID,name}
-	_, stillWorking, err := crud.LoadBalancerResourceGet(s.Client, s.D, s.WorkRequest, getRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
+	_, stillWorking, err := LoadBalancerResourceGet(s.Client, s.D, s.WorkRequest, getRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
 	if err != nil {
 		return err
 	}
@@ -389,7 +387,7 @@ func (s *ListenerResourceCrud) Update() error {
 		return err
 	}
 	s.WorkRequest = &workRequestResponse.WorkRequest
-	err = crud.LoadBalancerWaitForWorkRequest(s.Client, s.D, s.WorkRequest, getRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
+	err = LoadBalancerWaitForWorkRequest(s.Client, s.D, s.WorkRequest, getRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
 	if err != nil {
 		return err
 	}
@@ -425,7 +423,7 @@ func (s *ListenerResourceCrud) Delete() error {
 		return err
 	}
 	s.WorkRequest = &workRequestResponse.WorkRequest
-	err = crud.LoadBalancerWaitForWorkRequest(s.Client, s.D, s.WorkRequest, getRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
+	err = LoadBalancerWaitForWorkRequest(s.Client, s.D, s.WorkRequest, getRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
 	if err != nil {
 		return err
 	}

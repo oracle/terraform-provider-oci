@@ -10,8 +10,6 @@ import (
 	"github.com/hashicorp/terraform/helper/hashcode"
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/oracle/terraform-provider-oci/crud"
-
 	"strings"
 
 	oci_core "github.com/oracle/oci-go-sdk/core"
@@ -22,7 +20,7 @@ func VirtualCircuitResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: crud.DefaultTimeout,
+		Timeouts: DefaultTimeout,
 		Create:   createVirtualCircuit,
 		Read:     readVirtualCircuit,
 		Update:   updateVirtualCircuit,
@@ -176,7 +174,7 @@ func createVirtualCircuit(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
-	return crud.CreateResource(d, sync)
+	return CreateResource(d, sync)
 }
 
 func readVirtualCircuit(d *schema.ResourceData, m interface{}) error {
@@ -184,7 +182,7 @@ func readVirtualCircuit(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 func updateVirtualCircuit(d *schema.ResourceData, m interface{}) error {
@@ -192,7 +190,7 @@ func updateVirtualCircuit(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
-	return crud.UpdateResource(d, sync)
+	return UpdateResource(d, sync)
 }
 
 func deleteVirtualCircuit(d *schema.ResourceData, m interface{}) error {
@@ -201,11 +199,11 @@ func deleteVirtualCircuit(d *schema.ResourceData, m interface{}) error {
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 	sync.DisableNotFoundRetries = true
 
-	return crud.DeleteResource(d, sync)
+	return DeleteResource(d, sync)
 }
 
 type VirtualCircuitResourceCrud struct {
-	crud.BaseCrud
+	BaseCrud
 	Client                 *oci_core.VirtualNetworkClient
 	Res                    *oci_core.VirtualCircuit
 	DisableNotFoundRetries bool

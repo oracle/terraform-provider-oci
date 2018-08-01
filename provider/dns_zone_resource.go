@@ -9,8 +9,6 @@ import (
 	oci_dns "github.com/oracle/oci-go-sdk/dns"
 
 	"github.com/hashicorp/terraform/helper/validation"
-
-	"github.com/oracle/terraform-provider-oci/crud"
 )
 
 func ZoneResource() *schema.Resource {
@@ -18,7 +16,7 @@ func ZoneResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: crud.DefaultTimeout,
+		Timeouts: DefaultTimeout,
 		Create:   createZone,
 		Read:     readZone,
 		Update:   updateZone,
@@ -127,7 +125,7 @@ func createZone(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).dnsClient
 
-	return crud.CreateResource(d, sync)
+	return CreateResource(d, sync)
 }
 
 func readZone(d *schema.ResourceData, m interface{}) error {
@@ -135,7 +133,7 @@ func readZone(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).dnsClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 func updateZone(d *schema.ResourceData, m interface{}) error {
@@ -143,7 +141,7 @@ func updateZone(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).dnsClient
 
-	return crud.UpdateResource(d, sync)
+	return UpdateResource(d, sync)
 }
 
 func deleteZone(d *schema.ResourceData, m interface{}) error {
@@ -152,11 +150,11 @@ func deleteZone(d *schema.ResourceData, m interface{}) error {
 	sync.Client = m.(*OracleClients).dnsClient
 	sync.DisableNotFoundRetries = true
 
-	return crud.DeleteResource(d, sync)
+	return DeleteResource(d, sync)
 }
 
 type ZoneResourceCrud struct {
-	crud.BaseCrud
+	BaseCrud
 	Client                 *oci_dns.DnsClient
 	Res                    *oci_dns.Zone
 	DisableNotFoundRetries bool

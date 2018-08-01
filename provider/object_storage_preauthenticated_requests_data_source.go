@@ -7,8 +7,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
-
-	"github.com/oracle/terraform-provider-oci/crud"
 )
 
 func PreauthenticatedRequestsDataSource() *schema.Resource {
@@ -31,7 +29,7 @@ func PreauthenticatedRequestsDataSource() *schema.Resource {
 			"preauthenticated_requests": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     crud.GetDataSourceItemSchema(PreauthenticatedRequestResource()),
+				Elem:     GetDataSourceItemSchema(PreauthenticatedRequestResource()),
 			},
 		},
 	}
@@ -42,7 +40,7 @@ func readPreauthenticatedRequests(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).objectStorageClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 type PreauthenticatedRequestsDataSourceCrud struct {
@@ -101,7 +99,7 @@ func (s *PreauthenticatedRequestsDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(crud.GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceID())
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {

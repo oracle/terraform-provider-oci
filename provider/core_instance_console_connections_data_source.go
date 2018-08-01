@@ -7,8 +7,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/core"
-
-	"github.com/oracle/terraform-provider-oci/crud"
 )
 
 func InstanceConsoleConnectionsDataSource() *schema.Resource {
@@ -27,7 +25,7 @@ func InstanceConsoleConnectionsDataSource() *schema.Resource {
 			"instance_console_connections": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     crud.GetDataSourceItemSchema(InstanceConsoleConnectionResource()),
+				Elem:     GetDataSourceItemSchema(InstanceConsoleConnectionResource()),
 			},
 		},
 	}
@@ -38,7 +36,7 @@ func readInstanceConsoleConnections(d *schema.ResourceData, m interface{}) error
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 type InstanceConsoleConnectionsDataSourceCrud struct {
@@ -92,7 +90,7 @@ func (s *InstanceConsoleConnectionsDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(crud.GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceID())
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {

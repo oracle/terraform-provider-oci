@@ -7,8 +7,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/oracle/terraform-provider-oci/crud"
-
 	"fmt"
 	"strings"
 
@@ -27,7 +25,7 @@ func ClusterResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: crud.DefaultTimeout,
+		Timeouts: DefaultTimeout,
 		Create:   createCluster,
 		Read:     readCluster,
 		Update:   updateCluster,
@@ -234,7 +232,7 @@ func createCluster(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).containerEngineClient
 
-	return crud.CreateResource(d, sync)
+	return CreateResource(d, sync)
 }
 
 func readCluster(d *schema.ResourceData, m interface{}) error {
@@ -242,7 +240,7 @@ func readCluster(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).containerEngineClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 func updateCluster(d *schema.ResourceData, m interface{}) error {
@@ -250,7 +248,7 @@ func updateCluster(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).containerEngineClient
 
-	return crud.UpdateResource(d, sync)
+	return UpdateResource(d, sync)
 }
 
 func deleteCluster(d *schema.ResourceData, m interface{}) error {
@@ -259,11 +257,11 @@ func deleteCluster(d *schema.ResourceData, m interface{}) error {
 	sync.Client = m.(*OracleClients).containerEngineClient
 	sync.DisableNotFoundRetries = true
 
-	return crud.DeleteResource(d, sync)
+	return DeleteResource(d, sync)
 }
 
 type ClusterResourceCrud struct {
-	crud.BaseCrud
+	BaseCrud
 	Client                 *oci_containerengine.ContainerEngineClient
 	Res                    *oci_containerengine.Cluster
 	DisableNotFoundRetries bool

@@ -7,8 +7,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_email "github.com/oracle/oci-go-sdk/email"
-
-	"github.com/oracle/terraform-provider-oci/crud"
 )
 
 func SendersDataSource() *schema.Resource {
@@ -31,7 +29,7 @@ func SendersDataSource() *schema.Resource {
 			"senders": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     crud.GetDataSourceItemSchema(SenderResource()),
+				Elem:     GetDataSourceItemSchema(SenderResource()),
 			},
 		},
 	}
@@ -42,7 +40,7 @@ func readSenders(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).emailClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 type SendersDataSourceCrud struct {
@@ -100,7 +98,7 @@ func (s *SendersDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(crud.GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceID())
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {

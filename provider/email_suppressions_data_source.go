@@ -10,8 +10,6 @@ import (
 	oci_email "github.com/oracle/oci-go-sdk/email"
 
 	"time"
-
-	"github.com/oracle/terraform-provider-oci/crud"
 )
 
 func SuppressionsDataSource() *schema.Resource {
@@ -38,7 +36,7 @@ func SuppressionsDataSource() *schema.Resource {
 			"suppressions": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     crud.GetDataSourceItemSchema(SuppressionResource()),
+				Elem:     GetDataSourceItemSchema(SuppressionResource()),
 			},
 		},
 	}
@@ -49,7 +47,7 @@ func readSuppressions(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).emailClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 type SuppressionsDataSourceCrud struct {
@@ -119,7 +117,7 @@ func (s *SuppressionsDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(crud.GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceID())
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {

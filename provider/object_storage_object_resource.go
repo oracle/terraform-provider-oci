@@ -7,8 +7,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/oracle/terraform-provider-oci/crud"
-
 	"crypto/md5"
 	"encoding/hex"
 
@@ -33,7 +31,7 @@ func ObjectResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: crud.DefaultTimeout,
+		Timeouts: DefaultTimeout,
 		Create:   createObject,
 		Read:     readObject,
 		Update:   updateObject,
@@ -126,7 +124,7 @@ func createObject(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).objectStorageClient
 
-	return crud.CreateResource(d, sync)
+	return CreateResource(d, sync)
 }
 
 func readObject(d *schema.ResourceData, m interface{}) error {
@@ -134,7 +132,7 @@ func readObject(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).objectStorageClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 func updateObject(d *schema.ResourceData, m interface{}) error {
@@ -142,7 +140,7 @@ func updateObject(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).objectStorageClient
 
-	return crud.UpdateResource(d, sync)
+	return UpdateResource(d, sync)
 }
 
 func deleteObject(d *schema.ResourceData, m interface{}) error {
@@ -151,7 +149,7 @@ func deleteObject(d *schema.ResourceData, m interface{}) error {
 	sync.Client = m.(*OracleClients).objectStorageClient
 	sync.DisableNotFoundRetries = true
 
-	return crud.DeleteResource(d, sync)
+	return DeleteResource(d, sync)
 }
 
 // @CODEGEN 2/2018: The existing provider stores a GetObject response along with the
@@ -165,7 +163,7 @@ type ObjectStorageObject struct {
 }
 
 type ObjectResourceCrud struct {
-	crud.BaseCrud
+	BaseCrud
 	Client                 *oci_object_storage.ObjectStorageClient
 	Res                    *ObjectStorageObject
 	DisableNotFoundRetries bool

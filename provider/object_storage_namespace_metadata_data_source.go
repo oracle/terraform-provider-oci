@@ -7,8 +7,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
-
-	"github.com/oracle/terraform-provider-oci/crud"
 )
 
 func NamespaceMetadataDataSource() *schema.Resource {
@@ -39,7 +37,7 @@ func readNamespaceMetadata2(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).objectStorageClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 type NamespaceMetadataDataSourceCrud struct {
@@ -74,7 +72,7 @@ func (s *NamespaceMetadataDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(crud.GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceID())
 
 	if s.Res.DefaultS3CompartmentId != nil {
 		s.D.Set("default_s3compartment_id", *s.Res.DefaultS3CompartmentId)

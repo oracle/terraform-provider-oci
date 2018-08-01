@@ -7,8 +7,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
-
-	"github.com/oracle/terraform-provider-oci/crud"
 )
 
 func IdpGroupMappingsDataSource() *schema.Resource {
@@ -23,7 +21,7 @@ func IdpGroupMappingsDataSource() *schema.Resource {
 			"idp_group_mappings": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     crud.GetDataSourceItemSchema(IdpGroupMappingResource()),
+				Elem:     GetDataSourceItemSchema(IdpGroupMappingResource()),
 			},
 		},
 	}
@@ -34,7 +32,7 @@ func readIdpGroupMappings(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 type IdpGroupMappingsDataSourceCrud struct {
@@ -83,7 +81,7 @@ func (s *IdpGroupMappingsDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(crud.GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceID())
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {

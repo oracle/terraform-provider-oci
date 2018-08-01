@@ -7,8 +7,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
-
-	"github.com/oracle/terraform-provider-oci/crud"
 )
 
 func PreauthenticatedRequestDataSource() *schema.Resource {
@@ -57,7 +55,7 @@ func readSingularPreauthenticatedRequest(d *schema.ResourceData, m interface{}) 
 	sync.D = d
 	sync.Client = m.(*OracleClients).objectStorageClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 type PreauthenticatedRequestDataSourceCrud struct {

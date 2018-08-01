@@ -7,8 +7,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_audit "github.com/oracle/oci-go-sdk/audit"
-
-	"github.com/oracle/terraform-provider-oci/crud"
 )
 
 func ConfigurationDataSource() *schema.Resource {
@@ -33,7 +31,7 @@ func readSingularConfiguration(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).auditClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 type ConfigurationDataSourceCrud struct {
@@ -70,7 +68,7 @@ func (s *ConfigurationDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(crud.GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceID())
 
 	if s.Res.RetentionPeriodDays != nil {
 		s.D.Set("retention_period_days", *s.Res.RetentionPeriodDays)

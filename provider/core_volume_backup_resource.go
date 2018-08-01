@@ -7,8 +7,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/oracle/terraform-provider-oci/crud"
-
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
@@ -17,7 +15,7 @@ func VolumeBackupResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: crud.DefaultTimeout,
+		Timeouts: DefaultTimeout,
 		Create:   createVolumeBackup,
 		Read:     readVolumeBackup,
 		Update:   updateVolumeBackup,
@@ -73,7 +71,7 @@ func VolumeBackupResource() *schema.Resource {
 			"size_in_mbs": {
 				Type:       schema.TypeInt,
 				Computed:   true,
-				Deprecated: crud.FieldDeprecatedForAnother("size_in_mbs", "size_in_gbs"),
+				Deprecated: FieldDeprecatedForAnother("size_in_mbs", "size_in_gbs"),
 			},
 			"source_type": {
 				Type:     schema.TypeString,
@@ -99,7 +97,7 @@ func VolumeBackupResource() *schema.Resource {
 			"unique_size_in_mbs": {
 				Type:       schema.TypeInt,
 				Computed:   true,
-				Deprecated: crud.FieldDeprecatedForAnother("unique_size_in_mbs", "unique_size_in_gbs"),
+				Deprecated: FieldDeprecatedForAnother("unique_size_in_mbs", "unique_size_in_gbs"),
 			},
 		},
 	}
@@ -110,7 +108,7 @@ func createVolumeBackup(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).blockstorageClient
 
-	return crud.CreateResource(d, sync)
+	return CreateResource(d, sync)
 }
 
 func readVolumeBackup(d *schema.ResourceData, m interface{}) error {
@@ -118,7 +116,7 @@ func readVolumeBackup(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).blockstorageClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 func updateVolumeBackup(d *schema.ResourceData, m interface{}) error {
@@ -126,7 +124,7 @@ func updateVolumeBackup(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).blockstorageClient
 
-	return crud.UpdateResource(d, sync)
+	return UpdateResource(d, sync)
 }
 
 func deleteVolumeBackup(d *schema.ResourceData, m interface{}) error {
@@ -135,11 +133,11 @@ func deleteVolumeBackup(d *schema.ResourceData, m interface{}) error {
 	sync.Client = m.(*OracleClients).blockstorageClient
 	sync.DisableNotFoundRetries = true
 
-	return crud.DeleteResource(d, sync)
+	return DeleteResource(d, sync)
 }
 
 type VolumeBackupResourceCrud struct {
-	crud.BaseCrud
+	BaseCrud
 	Client                 *oci_core.BlockstorageClient
 	Res                    *oci_core.VolumeBackup
 	DisableNotFoundRetries bool

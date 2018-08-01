@@ -8,8 +8,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_database "github.com/oracle/oci-go-sdk/database"
-
-	"github.com/oracle/terraform-provider-oci/crud"
 )
 
 func DbHomeDataSource() *schema.Resource {
@@ -58,7 +56,7 @@ func readSingularDbHome(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 type DbHomeDataSourceCrud struct {

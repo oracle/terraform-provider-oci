@@ -7,8 +7,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_email "github.com/oracle/oci-go-sdk/email"
-
-	"github.com/oracle/terraform-provider-oci/crud"
 )
 
 func SenderDataSource() *schema.Resource {
@@ -45,7 +43,7 @@ func readSingularSender(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).emailClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 type SenderDataSourceCrud struct {

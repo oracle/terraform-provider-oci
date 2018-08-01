@@ -7,8 +7,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/oracle/terraform-provider-oci/crud"
-
 	oci_file_storage "github.com/oracle/oci-go-sdk/filestorage"
 )
 
@@ -17,7 +15,7 @@ func MountTargetResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: crud.DefaultTimeout,
+		Timeouts: DefaultTimeout,
 		Create:   createMountTarget,
 		Read:     readMountTarget,
 		Update:   updateMountTarget,
@@ -92,7 +90,7 @@ func createMountTarget(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).fileStorageClient
 
-	return crud.CreateResource(d, sync)
+	return CreateResource(d, sync)
 }
 
 func readMountTarget(d *schema.ResourceData, m interface{}) error {
@@ -100,7 +98,7 @@ func readMountTarget(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).fileStorageClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 func updateMountTarget(d *schema.ResourceData, m interface{}) error {
@@ -108,7 +106,7 @@ func updateMountTarget(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).fileStorageClient
 
-	return crud.UpdateResource(d, sync)
+	return UpdateResource(d, sync)
 }
 
 func deleteMountTarget(d *schema.ResourceData, m interface{}) error {
@@ -117,11 +115,11 @@ func deleteMountTarget(d *schema.ResourceData, m interface{}) error {
 	sync.Client = m.(*OracleClients).fileStorageClient
 	sync.DisableNotFoundRetries = true
 
-	return crud.DeleteResource(d, sync)
+	return DeleteResource(d, sync)
 }
 
 type MountTargetResourceCrud struct {
-	crud.BaseCrud
+	BaseCrud
 	Client                 *oci_file_storage.FileStorageClient
 	Res                    *oci_file_storage.MountTarget
 	DisableNotFoundRetries bool

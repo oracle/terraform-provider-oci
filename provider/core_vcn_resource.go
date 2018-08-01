@@ -7,8 +7,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/oracle/terraform-provider-oci/crud"
-
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
@@ -17,7 +15,7 @@ func VcnResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: crud.DefaultTimeout,
+		Timeouts: DefaultTimeout,
 		Create:   createVcn,
 		Read:     readVcn,
 		Update:   updateVcn,
@@ -53,7 +51,7 @@ func VcnResource() *schema.Resource {
 				Optional:         true,
 				Computed:         true,
 				ForceNew:         true,
-				DiffSuppressFunc: crud.EqualIgnoreCaseSuppressDiff,
+				DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
 			},
 			"freeform_tags": {
 				Type:     schema.TypeMap,
@@ -96,7 +94,7 @@ func createVcn(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
-	return crud.CreateResource(d, sync)
+	return CreateResource(d, sync)
 }
 
 func readVcn(d *schema.ResourceData, m interface{}) error {
@@ -104,7 +102,7 @@ func readVcn(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 func updateVcn(d *schema.ResourceData, m interface{}) error {
@@ -112,7 +110,7 @@ func updateVcn(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
-	return crud.UpdateResource(d, sync)
+	return UpdateResource(d, sync)
 }
 
 func deleteVcn(d *schema.ResourceData, m interface{}) error {
@@ -121,11 +119,11 @@ func deleteVcn(d *schema.ResourceData, m interface{}) error {
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 	sync.DisableNotFoundRetries = true
 
-	return crud.DeleteResource(d, sync)
+	return DeleteResource(d, sync)
 }
 
 type VcnResourceCrud struct {
-	crud.BaseCrud
+	BaseCrud
 	Client                 *oci_core.VirtualNetworkClient
 	Res                    *oci_core.Vcn
 	DisableNotFoundRetries bool

@@ -7,8 +7,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_database "github.com/oracle/oci-go-sdk/database"
-
-	"github.com/oracle/terraform-provider-oci/crud"
 )
 
 func DbSystemPatchHistoryEntriesDataSource() *schema.Resource {
@@ -70,7 +68,7 @@ func readDbSystemPatchHistoryEntries(d *schema.ResourceData, m interface{}) erro
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 type DbSystemPatchHistoryEntriesDataSourceCrud struct {
@@ -119,7 +117,7 @@ func (s *DbSystemPatchHistoryEntriesDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(crud.GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceID())
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {

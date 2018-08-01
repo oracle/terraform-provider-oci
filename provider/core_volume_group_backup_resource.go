@@ -7,8 +7,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/oracle/terraform-provider-oci/crud"
-
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
@@ -17,7 +15,7 @@ func VolumeGroupBackupResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: crud.DefaultTimeout,
+		Timeouts: DefaultTimeout,
 		Create:   createVolumeGroupBackup,
 		Read:     readVolumeGroupBackup,
 		Update:   updateVolumeGroupBackup,
@@ -99,7 +97,7 @@ func createVolumeGroupBackup(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).blockstorageClient
 
-	return crud.CreateResource(d, sync)
+	return CreateResource(d, sync)
 }
 
 func readVolumeGroupBackup(d *schema.ResourceData, m interface{}) error {
@@ -107,7 +105,7 @@ func readVolumeGroupBackup(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).blockstorageClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 func updateVolumeGroupBackup(d *schema.ResourceData, m interface{}) error {
@@ -115,7 +113,7 @@ func updateVolumeGroupBackup(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).blockstorageClient
 
-	return crud.UpdateResource(d, sync)
+	return UpdateResource(d, sync)
 }
 
 func deleteVolumeGroupBackup(d *schema.ResourceData, m interface{}) error {
@@ -124,11 +122,11 @@ func deleteVolumeGroupBackup(d *schema.ResourceData, m interface{}) error {
 	sync.Client = m.(*OracleClients).blockstorageClient
 	sync.DisableNotFoundRetries = true
 
-	return crud.DeleteResource(d, sync)
+	return DeleteResource(d, sync)
 }
 
 type VolumeGroupBackupResourceCrud struct {
-	crud.BaseCrud
+	BaseCrud
 	Client                 *oci_core.BlockstorageClient
 	Res                    *oci_core.VolumeGroupBackup
 	DisableNotFoundRetries bool

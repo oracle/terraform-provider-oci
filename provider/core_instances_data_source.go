@@ -8,8 +8,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/core"
-
-	"github.com/oracle/terraform-provider-oci/crud"
 )
 
 func InstancesDataSource() *schema.Resource {
@@ -32,12 +30,12 @@ func InstancesDataSource() *schema.Resource {
 			"limit": {
 				Type:       schema.TypeInt,
 				Optional:   true,
-				Deprecated: crud.FieldDeprecated("limit"),
+				Deprecated: FieldDeprecated("limit"),
 			},
 			"page": {
 				Type:       schema.TypeString,
 				Optional:   true,
-				Deprecated: crud.FieldDeprecated("page"),
+				Deprecated: FieldDeprecated("page"),
 			},
 			"state": {
 				Type:     schema.TypeString,
@@ -46,7 +44,7 @@ func InstancesDataSource() *schema.Resource {
 			"instances": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     crud.GetDataSourceItemSchema(InstanceResource()),
+				Elem:     GetDataSourceItemSchema(InstanceResource()),
 			},
 		},
 	}
@@ -57,11 +55,11 @@ func readInstances(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient
 
-	return crud.ReadResource(sync)
+	return ReadResource(sync)
 }
 
 type InstancesDataSourceCrud struct {
-	crud.BaseCrud
+	BaseCrud
 	Client *oci_core.ComputeClient
 	Res    *oci_core.ListInstancesResponse
 }
@@ -118,7 +116,7 @@ func (s *InstancesDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(crud.GenerateDataSourceID())
+	s.D.SetId(GenerateDataSourceID())
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {
