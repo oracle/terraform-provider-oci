@@ -152,6 +152,7 @@ func (s *TagResourceCrud) Create() error {
 	response, err := s.Client.CreateTag(contextToUse, request)
 	if err == nil {
 		s.Res = &response.Tag
+		s.D.SetId(*s.Res.Id)
 		//is_retired field is currently not supported in create so update to make server state same as config
 		if updateError := s.Update(); updateError != nil {
 			return updateError
