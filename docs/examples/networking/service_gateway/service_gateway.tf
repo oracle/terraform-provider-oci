@@ -41,8 +41,7 @@ resource "oci_core_vcn" "test_vcn" {
 data "oci_core_services" "test_services" {
 	filter {
 		name = "name"
-		#values = ["Test-Casper-Service", ".*ObjectStorage"]
-		values = [".*ObjectStorage"]
+		values = [".*Object.*Storage"]
 		regex = true
 	}
 }
@@ -53,9 +52,6 @@ resource "oci_core_service_gateway" "test_service_gateway" {
 	services {
 		service_id = "${lookup(data.oci_core_services.test_services.services[0], "id")}"
 	}
-	/*services {
-		service_id = "${lookup(data.oci_core_services.test_services.services[1], "id")}"
-	}*/
 	vcn_id = "${oci_core_vcn.test_vcn.id}"
 
 	#Optional
@@ -80,11 +76,6 @@ resource "oci_core_route_table" "test_route_table" {
 	destination_type = "SERVICE_CIDR_BLOCK"
     network_entity_id = "${oci_core_service_gateway.test_service_gateway.id}"
   }
-  /*route_rules {
-    destination = "${lookup(data.oci_core_services.test_services.services[1], "cidr_block")}"
-	destination_type = "SERVICE_CIDR_BLOCK"
-    network_entity_id = "${oci_core_service_gateway.test_service_gateway.id}"
-  }*/
 }
 
 resource "oci_core_security_list" "test_security_list" {
