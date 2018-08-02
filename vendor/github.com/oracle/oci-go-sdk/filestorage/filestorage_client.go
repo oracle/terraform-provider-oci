@@ -68,6 +68,9 @@ func (client FileStorageClient) CreateExport(ctx context.Context, request Create
 	}
 	ociResponse, err = common.Retry(ctx, request, client.createExport, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = CreateExportResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(CreateExportResponse); ok {
@@ -128,6 +131,9 @@ func (client FileStorageClient) CreateFileSystem(ctx context.Context, request Cr
 	}
 	ociResponse, err = common.Retry(ctx, request, client.createFileSystem, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = CreateFileSystemResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(CreateFileSystemResponse); ok {
@@ -194,6 +200,9 @@ func (client FileStorageClient) CreateMountTarget(ctx context.Context, request C
 	}
 	ociResponse, err = common.Retry(ctx, request, client.createMountTarget, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = CreateMountTargetResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(CreateMountTargetResponse); ok {
@@ -234,6 +243,9 @@ func (client FileStorageClient) CreateSnapshot(ctx context.Context, request Crea
 	}
 	ociResponse, err = common.Retry(ctx, request, client.createSnapshot, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = CreateSnapshotResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(CreateSnapshotResponse); ok {
@@ -273,6 +285,9 @@ func (client FileStorageClient) DeleteExport(ctx context.Context, request Delete
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteExport, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = DeleteExportResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(DeleteExportResponse); ok {
@@ -314,6 +329,9 @@ func (client FileStorageClient) DeleteFileSystem(ctx context.Context, request De
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteFileSystem, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = DeleteFileSystemResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(DeleteFileSystemResponse); ok {
@@ -354,6 +372,9 @@ func (client FileStorageClient) DeleteMountTarget(ctx context.Context, request D
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteMountTarget, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = DeleteMountTargetResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(DeleteMountTargetResponse); ok {
@@ -393,6 +414,9 @@ func (client FileStorageClient) DeleteSnapshot(ctx context.Context, request Dele
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteSnapshot, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = DeleteSnapshotResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(DeleteSnapshotResponse); ok {
@@ -432,6 +456,9 @@ func (client FileStorageClient) GetExport(ctx context.Context, request GetExport
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getExport, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = GetExportResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(GetExportResponse); ok {
@@ -471,6 +498,9 @@ func (client FileStorageClient) GetExportSet(ctx context.Context, request GetExp
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getExportSet, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = GetExportSetResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(GetExportSetResponse); ok {
@@ -510,6 +540,9 @@ func (client FileStorageClient) GetFileSystem(ctx context.Context, request GetFi
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getFileSystem, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = GetFileSystemResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(GetFileSystemResponse); ok {
@@ -549,6 +582,9 @@ func (client FileStorageClient) GetMountTarget(ctx context.Context, request GetM
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getMountTarget, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = GetMountTargetResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(GetMountTargetResponse); ok {
@@ -588,6 +624,9 @@ func (client FileStorageClient) GetSnapshot(ctx context.Context, request GetSnap
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getSnapshot, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = GetSnapshotResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(GetSnapshotResponse); ok {
@@ -627,6 +666,9 @@ func (client FileStorageClient) ListExportSets(ctx context.Context, request List
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listExportSets, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = ListExportSetsResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(ListExportSetsResponse); ok {
@@ -668,6 +710,9 @@ func (client FileStorageClient) ListExports(ctx context.Context, request ListExp
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listExports, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = ListExportsResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(ListExportsResponse); ok {
@@ -707,6 +752,9 @@ func (client FileStorageClient) ListFileSystems(ctx context.Context, request Lis
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listFileSystems, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = ListFileSystemsResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(ListFileSystemsResponse); ok {
@@ -746,6 +794,9 @@ func (client FileStorageClient) ListMountTargets(ctx context.Context, request Li
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listMountTargets, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = ListMountTargetsResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(ListMountTargetsResponse); ok {
@@ -785,6 +836,9 @@ func (client FileStorageClient) ListSnapshots(ctx context.Context, request ListS
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listSnapshots, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = ListSnapshotsResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(ListSnapshotsResponse); ok {
@@ -815,6 +869,48 @@ func (client FileStorageClient) listSnapshots(ctx context.Context, request commo
 	return response, err
 }
 
+// UpdateExport Updates the specified export's information.
+func (client FileStorageClient) UpdateExport(ctx context.Context, request UpdateExportRequest) (response UpdateExportResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateExport, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = UpdateExportResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateExportResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateExportResponse")
+	}
+	return
+}
+
+// updateExport implements the OCIOperation interface (enables retrying operations)
+func (client FileStorageClient) updateExport(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/exports/{exportId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateExportResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UpdateExportSet Updates the specified export set's information.
 func (client FileStorageClient) UpdateExportSet(ctx context.Context, request UpdateExportSetRequest) (response UpdateExportSetResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -824,6 +920,9 @@ func (client FileStorageClient) UpdateExportSet(ctx context.Context, request Upd
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateExportSet, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = UpdateExportSetResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(UpdateExportSetResponse); ok {
@@ -864,6 +963,9 @@ func (client FileStorageClient) UpdateFileSystem(ctx context.Context, request Up
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateFileSystem, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = UpdateFileSystemResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(UpdateFileSystemResponse); ok {
@@ -903,6 +1005,9 @@ func (client FileStorageClient) UpdateMountTarget(ctx context.Context, request U
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateMountTarget, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = UpdateMountTargetResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(UpdateMountTargetResponse); ok {

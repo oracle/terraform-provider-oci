@@ -20,7 +20,7 @@ type ListProtocolsRequest struct {
 
 	// The maximum number of items to return in a paginated "List" call.
 	// Example: `500`
-	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
+	Limit *int64 `mandatory:"false" contributesTo:"query" name:"limit"`
 
 	// The value of the `opc-next-page` response header from the previous "List" call.
 	// Example: `3`

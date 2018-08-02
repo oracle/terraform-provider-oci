@@ -21,6 +21,10 @@ type AuditEvent struct {
 	// The OCID of the compartment.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
+	// The name of the compartment. This value is the friendly name associated with compartmentId.
+	// This value can change, but the service logs the value that appeared at the time of the audit event.
+	CompartmentName *string `mandatory:"false" json:"compartmentName"`
+
 	// The GUID of the event.
 	EventId *string `mandatory:"false" json:"eventId"`
 
@@ -75,6 +79,9 @@ type AuditEvent struct {
 
 	// Metadata of interest from the response payload. For example, the OCID of a resource.
 	ResponsePayload map[string]interface{} `mandatory:"false" json:"responsePayload"`
+
+	// The name of the user or service. This value is the friendly name associated with principalId.
+	UserName *string `mandatory:"false" json:"userName"`
 }
 
 func (m AuditEvent) String() string {

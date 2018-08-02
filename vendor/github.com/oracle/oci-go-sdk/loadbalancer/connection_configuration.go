@@ -20,7 +20,7 @@ type ConnectionConfiguration struct {
 	// receive operation does not reset the timer for send operations.
 	// For more information, see Connection Configuration (https://docs.us-phoenix-1.oraclecloud.com/Content/Balance/Reference/connectionreuse.htm#ConnectionConfiguration).
 	// Example: `1200`
-	IdleTimeout *int `mandatory:"true" json:"idleTimeout"`
+	IdleTimeout *int64 `mandatory:"true" json:"idleTimeout"`
 }
 
 func (m ConnectionConfiguration) String() string {

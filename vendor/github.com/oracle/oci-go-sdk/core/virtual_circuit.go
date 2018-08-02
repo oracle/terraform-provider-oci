@@ -30,7 +30,10 @@ import (
 // Getting Started with Policies (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/policygetstarted.htm).
 type VirtualCircuit struct {
 
-	// The provisioned data rate of the connection.
+	// The provisioned data rate of the connection.  To get a list of the
+	// available bandwidth levels (that is, shapes), see
+	// ListFastConnectProviderVirtualCircuitBandwidthShapes.
+	// Example: `10 Gbps`
 	BandwidthShapeName *string `mandatory:"false" json:"bandwidthShapeName"`
 
 	// BGP management option.

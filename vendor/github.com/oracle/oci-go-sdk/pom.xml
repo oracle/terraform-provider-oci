@@ -22,45 +22,49 @@
     <preferred.temp.dir>${project.build.directory}/preferred</preferred.temp.dir>
     <preprocessed.temp.dir>${project.build.directory}/preprocessed</preprocessed.temp.dir>
 
-    <core.artifact.version>0.2.180</core.artifact.version>
-    <core.artifact.id>coreservices-api-spec</core.artifact.id>
-    <core.spec.name>coreservices-api-spec-20160918.cond.yaml</core.spec.name>
+    <coreservices-api-spec.artifact.version>0.2.202</coreservices-api-spec.artifact.version>
+    <coreservices-api-spec.artifact.id>coreservices-api-spec</coreservices-api-spec.artifact.id>
+    <coreservices-api-spec.spec.name>coreservices-api-spec-20160918.cond.yaml</coreservices-api-spec.spec.name>
 
-    <identity.artifact.version>0.2.101</identity.artifact.version>
-    <identity.artifact.id>identity-control-plane-api-spec</identity.artifact.id>
-    <identity.spec.name>identity-control-plane-api-spec-20160918.yaml</identity.spec.name>
+    <identity-control-plane-api-spec.artifact.version>0.2.101</identity-control-plane-api-spec.artifact.version>
+    <identity-control-plane-api-spec.artifact.id>identity-control-plane-api-spec</identity-control-plane-api-spec.artifact.id>
+    <identity-control-plane-api-spec.spec.name>identity-control-plane-api-spec-20160918.yaml</identity-control-plane-api-spec.spec.name>
 
-    <lb.artifact.version>1.0.16</lb.artifact.version>
-    <lb.artifact.id>oralb-api-spec</lb.artifact.id>
-    <lb.spec.name>spec-20170115.yaml</lb.spec.name>
+    <oralb-api-spec.artifact.version>1.0.17</oralb-api-spec.artifact.version>
+    <oralb-api-spec.artifact.id>oralb-api-spec</oralb-api-spec.artifact.id>
+    <oralb-api-spec.spec.name>spec-20170115.yaml</oralb-api-spec.spec.name>
 
-    <objectstorage.artifact.version>1.1.16</objectstorage.artifact.version>
-    <objectstorage.artifact.id>casper-api-spec</objectstorage.artifact.id>
-    <objectstorage.spec.name>casper-api.yaml</objectstorage.spec.name>
+    <casper-api-spec.artifact.version>1.1.16</casper-api-spec.artifact.version>
+    <casper-api-spec.artifact.id>casper-api-spec</casper-api-spec.artifact.id>
+    <casper-api-spec.spec.name>casper-api.yaml</casper-api-spec.spec.name>
 
-    <database.artifact.version>0.0.139</database.artifact.version>
-    <database.artifact.id>dbaas-api-spec</database.artifact.id>
-    <database.spec.name>dbaas-api-spec-20160918.yaml</database.spec.name>
+    <dbaas-api-spec.artifact.version>0.0.139</dbaas-api-spec.artifact.version>
+    <dbaas-api-spec.artifact.id>dbaas-api-spec</dbaas-api-spec.artifact.id>
+    <dbaas-api-spec.spec.name>dbaas-api-spec-20160918.yaml</dbaas-api-spec.spec.name>
 
-    <audit.artifact.version>0.1.8</audit.artifact.version>
-    <audit.artifact.id>hemlock-spec</audit.artifact.id>
-    <audit.spec.name>hemlock-api-20160918.yaml</audit.spec.name>
+    <hemlock-spec.artifact.version>0.1.9</hemlock-spec.artifact.version>
+    <hemlock-spec.artifact.id>hemlock-spec</hemlock-spec.artifact.id>
+    <hemlock-spec.spec.name>hemlock-api-20160918.yaml</hemlock-spec.spec.name>
 
-    <filestorage.artifact.version>0.0.11</filestorage.artifact.version>
-    <filestorage.artifact.id>fss-api-spec</filestorage.artifact.id>
-    <filestorage.spec.name>fss-api-spec-20171215.yaml</filestorage.spec.name>
+    <fss-api-spec.artifact.version>0.0.13</fss-api-spec.artifact.version>
+    <fss-api-spec.artifact.id>fss-api-spec</fss-api-spec.artifact.id>
+    <fss-api-spec.spec.name>fss-api-spec-20171215.yaml</fss-api-spec.spec.name>
 
-    <dns.artifact.version>1.0.0-15</dns.artifact.version>
-    <dns.artifact.id>public-dns-api-spec</dns.artifact.id>
-    <dns.spec.name>public-dns-api-spec.yaml</dns.spec.name>
+    <public-dns-api-spec.artifact.version>1.0.0-15</public-dns-api-spec.artifact.version>
+    <public-dns-api-spec.artifact.id>public-dns-api-spec</public-dns-api-spec.artifact.id>
+    <public-dns-api-spec.spec.name>public-dns-api-spec.yaml</public-dns-api-spec.spec.name>
 
-    <email.artifact.version>1.0.0</email.artifact.version>
-    <email.artifact.id>email-api-spec</email.artifact.id>
-    <email.spec.name>email-api-spec.yaml</email.spec.name>
+    <email-api-spec.artifact.version>1.0.0</email-api-spec.artifact.version>
+    <email-api-spec.artifact.id>email-api-spec</email-api-spec.artifact.id>
+    <email-api-spec.spec.name>email-api-spec.yaml</email-api-spec.spec.name>
 
-    <containerengine.artifact.version>1.0.11</containerengine.artifact.version>
-    <containerengine.artifact.id>clusters-api-spec</containerengine.artifact.id>
-    <containerengine.spec.name>clusters-api-spec.yaml</containerengine.spec.name>
+    <clusters-api-spec.artifact.version>1.0.11</clusters-api-spec.artifact.version>
+    <clusters-api-spec.artifact.id>clusters-api-spec</clusters-api-spec.artifact.id>
+    <clusters-api-spec.spec.name>clusters-api-spec.yaml</clusters-api-spec.spec.name>
+
+    <resource-query-service-spec.artifact.version>0.0.8</resource-query-service-spec.artifact.version>
+    <resource-query-service-spec.artifact.id>resource-query-service-spec</resource-query-service-spec.artifact.id>
+    <resource-query-service-spec.spec.name>rqs.yaml</resource-query-service-spec.spec.name>
     <!-- remove when upgrading to pic-pom:0.4.4 -->
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
@@ -87,7 +91,7 @@
               <artifactItems>
                 <artifactItem>
                   <groupId>com.oracle.pic.commons</groupId>
-                  <artifactId>${core.artifact.id}</artifactId>
+                  <artifactId>${coreservices-api-spec.artifact.id}</artifactId>
                   <type>jar</type>
                   <includes>**/*</includes>
                   <outputDirectory>${spec.temp.dir}/core</outputDirectory>
@@ -105,7 +109,7 @@
               <artifactItems>
                 <artifactItem>
                   <groupId>com.oracle.pic.identity</groupId>
-                  <artifactId>${identity.artifact.id}</artifactId>
+                  <artifactId>${identity-control-plane-api-spec.artifact.id}</artifactId>
                   <type>jar</type>
                   <includes>**/*</includes>
                   <outputDirectory>${spec.temp.dir}/identity</outputDirectory>
@@ -123,7 +127,7 @@
               <artifactItems>
                 <artifactItem>
                   <groupId>com.oracle.pic.lb</groupId>
-                  <artifactId>${lb.artifact.id}</artifactId>
+                  <artifactId>${oralb-api-spec.artifact.id}</artifactId>
                   <type>jar</type>
                   <includes>**/*</includes>
                   <outputDirectory>${spec.temp.dir}/lb</outputDirectory>
@@ -141,7 +145,7 @@
               <artifactItems>
                 <artifactItem>
                   <groupId>com.oracle.pic.casper</groupId>
-                  <artifactId>${objectstorage.artifact.id}</artifactId>
+                  <artifactId>${casper-api-spec.artifact.id}</artifactId>
                   <type>jar</type>
                   <includes>**/*</includes>
                   <outputDirectory>${spec.temp.dir}/objectstorage</outputDirectory>
@@ -159,7 +163,7 @@
               <artifactItems>
                 <artifactItem>
                   <groupId>com.oracle.pic.dbaas</groupId>
-                  <artifactId>${database.artifact.id}</artifactId>
+                  <artifactId>${dbaas-api-spec.artifact.id}</artifactId>
                   <type>jar</type>
                   <includes>**/*</includes>
                   <outputDirectory>${spec.temp.dir}/database</outputDirectory>
@@ -177,7 +181,7 @@
               <artifactItems>
                 <artifactItem>
                   <groupId>com.oracle.pic.sherlock</groupId>
-                  <artifactId>${audit.artifact.id}</artifactId>
+                  <artifactId>${hemlock-spec.artifact.id}</artifactId>
                   <type>jar</type>
                   <includes>**/*</includes>
                   <outputDirectory>${spec.temp.dir}/audit</outputDirectory>
@@ -195,7 +199,7 @@
               <artifactItems>
                 <artifactItem>
                   <groupId>com.oracle.pic.ffsw</groupId>
-                  <artifactId>${filestorage.artifact.id}</artifactId>
+                  <artifactId>${fss-api-spec.artifact.id}</artifactId>
                   <type>jar</type>
                   <includes>**/*</includes>
                   <outputDirectory>${spec.temp.dir}/filestorage</outputDirectory>
@@ -213,7 +217,7 @@
               <artifactItems>
                 <artifactItem>
                   <groupId>com.oracle.pic.dns.pub</groupId>
-                  <artifactId>${dns.artifact.id}</artifactId>
+                  <artifactId>${public-dns-api-spec.artifact.id}</artifactId>
                   <type>jar</type>
                   <includes>**/*</includes>
                   <outputDirectory>${spec.temp.dir}/dns</outputDirectory>
@@ -231,7 +235,7 @@
               <artifactItems>
                 <artifactItem>
                   <groupId>com.oracle.pic.email</groupId>
-                  <artifactId>${email.artifact.id}</artifactId>
+                  <artifactId>${email-api-spec.artifact.id}</artifactId>
                   <type>jar</type>
                   <includes>**/*</includes>
                   <outputDirectory>${spec.temp.dir}/email</outputDirectory>
@@ -249,10 +253,28 @@
                   <artifactItems>
                       <artifactItem>
                           <groupId>com.oracle.pic.clusters</groupId>
-                          <artifactId>${containerengine.artifact.id}</artifactId>
+                          <artifactId>${clusters-api-spec.artifact.id}</artifactId>
                           <type>jar</type>
                           <includes>**/*</includes>
                           <outputDirectory>${spec.temp.dir}/containerengine</outputDirectory>
+                      </artifactItem>
+                  </artifactItems>
+              </configuration>
+          </execution>
+          <execution>
+              <id>unpack-resourcesearch</id>
+              <phase>initialize</phase>
+              <goals>
+                  <goal>unpack</goal>
+              </goals>
+              <configuration>
+                  <artifactItems>
+                      <artifactItem>
+                          <groupId>com.oracle.pic.query</groupId>
+                          <artifactId>${resource-query-service-spec.artifact.id}</artifactId>
+                          <type>jar</type>
+                          <includes>**/*</includes>
+                          <outputDirectory>${spec.temp.dir}/resourcesearch</outputDirectory>
                       </artifactItem>
                   </artifactItems>
               </configuration>
@@ -278,11 +300,11 @@
             <configuration>
               <inputFiles>
                 <!-- New layout: source/<spec.proto.yaml> -->
-                <inputFile>${spec.temp.dir}/core/source/${core.spec.name}</inputFile>
+                <inputFile>${spec.temp.dir}/core/source/${coreservices-api-spec.spec.name}</inputFile>
                 <!-- Old layout: 20160918/<spec.proto.yaml> -->
-                <inputFile>${spec.temp.dir}/core/20160918/${core.spec.name}</inputFile>
+                <inputFile>${spec.temp.dir}/core/20160918/${coreservices-api-spec.spec.name}</inputFile>
               </inputFiles>
-              <outputFile>${preferred.temp.dir}/${core.spec.name}</outputFile>
+              <outputFile>${preferred.temp.dir}/${coreservices-api-spec.spec.name}</outputFile>
             </configuration>
           </execution>
           <execution>
@@ -292,8 +314,8 @@
               <goal>preprocess</goal>
             </goals>
             <configuration>
-              <inputFile>${preferred.temp.dir}/${core.spec.name}</inputFile>
-              <outputFile>${preprocessed.temp.dir}/${core.spec.name}</outputFile>
+              <inputFile>${preferred.temp.dir}/${coreservices-api-spec.spec.name}</inputFile>
+              <outputFile>${preprocessed.temp.dir}/${coreservices-api-spec.spec.name}</outputFile>
               <groupFile>${enabled.groups.file}</groupFile>
             </configuration>
           </execution>
@@ -308,11 +330,11 @@
             <configuration>
               <inputFiles>
                 <!-- New layout: source/<spec.proto.yaml> -->
-                <inputFile>${spec.temp.dir}/identity/source/${identity.spec.name}</inputFile>
+                <inputFile>${spec.temp.dir}/identity/source/${identity-control-plane-api-spec.spec.name}</inputFile>
                 <!-- Old layout: ./<spec.proto.yaml> -->
-                <inputFile>${spec.temp.dir}/identity/${identity.spec.name}</inputFile>
+                <inputFile>${spec.temp.dir}/identity/${identity-control-plane-api-spec.spec.name}</inputFile>
               </inputFiles>
-              <outputFile>${preferred.temp.dir}/${identity.spec.name}</outputFile>
+              <outputFile>${preferred.temp.dir}/${identity-control-plane-api-spec.spec.name}</outputFile>
             </configuration>
           </execution>
           <execution>
@@ -322,8 +344,8 @@
               <goal>preprocess</goal>
             </goals>
             <configuration>
-              <inputFile>${preferred.temp.dir}/${identity.spec.name}</inputFile>
-              <outputFile>${preprocessed.temp.dir}/${identity.spec.name}</outputFile>
+              <inputFile>${preferred.temp.dir}/${identity-control-plane-api-spec.spec.name}</inputFile>
+              <outputFile>${preprocessed.temp.dir}/${identity-control-plane-api-spec.spec.name}</outputFile>
               <groupFile>${enabled.groups.file}</groupFile>
             </configuration>
           </execution>
@@ -338,11 +360,11 @@
             <configuration>
               <inputFiles>
                 <!-- New layout: source/<spec.proto.yaml> -->
-                <inputFile>${spec.temp.dir}/objectstorage/source/${objectstorage.spec.name}</inputFile>
+                <inputFile>${spec.temp.dir}/objectstorage/source/${casper-api-spec.spec.name}</inputFile>
                 <!-- Old layout: ./<spec.proto.yaml> -->
-                <inputFile>${spec.temp.dir}/objectstorage/${objectstorage.spec.name}</inputFile>
+                <inputFile>${spec.temp.dir}/objectstorage/${casper-api-spec.spec.name}</inputFile>
               </inputFiles>
-              <outputFile>${preferred.temp.dir}/${objectstorage.spec.name}</outputFile>
+              <outputFile>${preferred.temp.dir}/${casper-api-spec.spec.name}</outputFile>
             </configuration>
           </execution>
           <execution>
@@ -352,8 +374,8 @@
               <goal>preprocess</goal>
             </goals>
             <configuration>
-              <inputFile>${preferred.temp.dir}/${objectstorage.spec.name}</inputFile>
-              <outputFile>${preprocessed.temp.dir}/${objectstorage.spec.name}</outputFile>
+              <inputFile>${preferred.temp.dir}/${casper-api-spec.spec.name}</inputFile>
+              <outputFile>${preprocessed.temp.dir}/${casper-api-spec.spec.name}</outputFile>
               <groupFile>${enabled.groups.file}</groupFile>
             </configuration>
           </execution>
@@ -368,11 +390,11 @@
             <configuration>
               <inputFiles>
                 <!-- New layout: source/<spec.proto.yaml> -->
-                <inputFile>${spec.temp.dir}/lb/source/${lb.spec.name}</inputFile>
+                <inputFile>${spec.temp.dir}/lb/source/${oralb-api-spec.spec.name}</inputFile>
                 <!-- Old layout: ./<spec.proto.yaml> -->
-                <inputFile>${spec.temp.dir}/lb/${lb.spec.name}</inputFile>
+                <inputFile>${spec.temp.dir}/lb/${oralb-api-spec.spec.name}</inputFile>
               </inputFiles>
-              <outputFile>${preferred.temp.dir}/${lb.spec.name}</outputFile>
+              <outputFile>${preferred.temp.dir}/${oralb-api-spec.spec.name}</outputFile>
             </configuration>
           </execution>
           <execution>
@@ -382,8 +404,8 @@
               <goal>preprocess</goal>
             </goals>
             <configuration>
-              <inputFile>${preferred.temp.dir}/${lb.spec.name}</inputFile>
-              <outputFile>${preprocessed.temp.dir}/${lb.spec.name}</outputFile>
+              <inputFile>${preferred.temp.dir}/${oralb-api-spec.spec.name}</inputFile>
+              <outputFile>${preprocessed.temp.dir}/${oralb-api-spec.spec.name}</outputFile>
               <groupFile>${enabled.groups.file}</groupFile>
             </configuration>
           </execution>
@@ -398,11 +420,11 @@
             <configuration>
               <inputFiles>
                 <!-- New layout: source/<spec.proto.yaml> -->
-                <inputFile>${spec.temp.dir}/database/source/${database.spec.name}</inputFile>
+                <inputFile>${spec.temp.dir}/database/source/${dbaas-api-spec.spec.name}</inputFile>
                 <!-- Old layout: ./<spec.proto.yaml> -->
-                <inputFile>${spec.temp.dir}/database/${database.spec.name}</inputFile>
+                <inputFile>${spec.temp.dir}/database/${dbaas-api-spec.spec.name}</inputFile>
               </inputFiles>
-              <outputFile>${preferred.temp.dir}/${database.spec.name}</outputFile>
+              <outputFile>${preferred.temp.dir}/${dbaas-api-spec.spec.name}</outputFile>
             </configuration>
           </execution>
           <execution>
@@ -412,8 +434,8 @@
               <goal>preprocess</goal>
             </goals>
             <configuration>
-              <inputFile>${preferred.temp.dir}/${database.spec.name}</inputFile>
-              <outputFile>${preprocessed.temp.dir}/${database.spec.name}</outputFile>
+              <inputFile>${preferred.temp.dir}/${dbaas-api-spec.spec.name}</inputFile>
+              <outputFile>${preprocessed.temp.dir}/${dbaas-api-spec.spec.name}</outputFile>
               <groupFile>${enabled.groups.file}</groupFile>
             </configuration>
           </execution>
@@ -428,11 +450,11 @@
             <configuration>
               <inputFiles>
                 <!-- New layout: source/<spec.proto.yaml> -->
-                <inputFile>${spec.temp.dir}/audit/source/${audit.spec.name}</inputFile>
+                <inputFile>${spec.temp.dir}/audit/source/${hemlock-spec.spec.name}</inputFile>
                 <!-- Old layout: ./<spec.proto.yaml> -->
-                <inputFile>${spec.temp.dir}/audit/${audit.spec.name}</inputFile>
+                <inputFile>${spec.temp.dir}/audit/${hemlock-spec.spec.name}</inputFile>
               </inputFiles>
-              <outputFile>${preferred.temp.dir}/${audit.spec.name}</outputFile>
+              <outputFile>${preferred.temp.dir}/${hemlock-spec.spec.name}</outputFile>
             </configuration>
           </execution>
           <execution>
@@ -442,8 +464,8 @@
               <goal>preprocess</goal>
             </goals>
             <configuration>
-              <inputFile>${preferred.temp.dir}/${audit.spec.name}</inputFile>
-              <outputFile>${preprocessed.temp.dir}/${audit.spec.name}</outputFile>
+              <inputFile>${preferred.temp.dir}/${hemlock-spec.spec.name}</inputFile>
+              <outputFile>${preprocessed.temp.dir}/${hemlock-spec.spec.name}</outputFile>
               <groupFile>${enabled.groups.file}</groupFile>
             </configuration>
           </execution>
@@ -458,11 +480,11 @@
             <configuration>
               <inputFiles>
                 <!-- New layout: source/<spec.proto.yaml> -->
-                <inputFile>${spec.temp.dir}/filestorage/source/${filestorage.spec.name}</inputFile>
+                <inputFile>${spec.temp.dir}/filestorage/source/${fss-api-spec.spec.name}</inputFile>
                 <!-- Old layout: ./<spec.proto.yaml> -->
-                <inputFile>${spec.temp.dir}/filestorage/${filestorage.spec.name}</inputFile>
+                <inputFile>${spec.temp.dir}/filestorage/${fss-api-spec.spec.name}</inputFile>
               </inputFiles>
-              <outputFile>${preferred.temp.dir}/${filestorage.spec.name}</outputFile>
+              <outputFile>${preferred.temp.dir}/${fss-api-spec.spec.name}</outputFile>
             </configuration>
           </execution>
           <execution>
@@ -472,8 +494,8 @@
               <goal>preprocess</goal>
             </goals>
             <configuration>
-              <inputFile>${preferred.temp.dir}/${filestorage.spec.name}</inputFile>
-              <outputFile>${preprocessed.temp.dir}/${filestorage.spec.name}</outputFile>
+              <inputFile>${preferred.temp.dir}/${fss-api-spec.spec.name}</inputFile>
+              <outputFile>${preprocessed.temp.dir}/${fss-api-spec.spec.name}</outputFile>
               <groupFile>${enabled.groups.file}</groupFile>
             </configuration>
           </execution>
@@ -488,11 +510,11 @@
             <configuration>
               <inputFiles>
                 <!-- New layout: source/<spec.proto.yaml> -->
-                <inputFile>${spec.temp.dir}/dns/source/${dns.spec.name}</inputFile>
+                <inputFile>${spec.temp.dir}/dns/source/${public-dns-api-spec.spec.name}</inputFile>
                 <!-- Old layout: ./<spec.proto.yaml> -->
-                <inputFile>${spec.temp.dir}/dns/${dns.spec.name}</inputFile>
+                <inputFile>${spec.temp.dir}/dns/${public-dns-api-spec.spec.name}</inputFile>
               </inputFiles>
-              <outputFile>${preferred.temp.dir}/${dns.spec.name}</outputFile>
+              <outputFile>${preferred.temp.dir}/${public-dns-api-spec.spec.name}</outputFile>
             </configuration>
           </execution>
           <execution>
@@ -502,8 +524,8 @@
               <goal>preprocess</goal>
             </goals>
             <configuration>
-              <inputFile>${preferred.temp.dir}/${dns.spec.name}</inputFile>
-              <outputFile>${preprocessed.temp.dir}/${dns.spec.name}</outputFile>
+              <inputFile>${preferred.temp.dir}/${public-dns-api-spec.spec.name}</inputFile>
+              <outputFile>${preprocessed.temp.dir}/${public-dns-api-spec.spec.name}</outputFile>
               <groupFile>${enabled.groups.file}</groupFile>
             </configuration>
           </execution>
@@ -518,11 +540,11 @@
             <configuration>
               <inputFiles>
                 <!-- New layout: source/<spec.proto.yaml> -->
-                <inputFile>${spec.temp.dir}/email/source/${email.spec.name}</inputFile>
+                <inputFile>${spec.temp.dir}/email/source/${email-api-spec.spec.name}</inputFile>
                 <!-- Old layout: ./<spec.proto.yaml> -->
-                <inputFile>${spec.temp.dir}/email/${email.spec.name}</inputFile>
+                <inputFile>${spec.temp.dir}/email/${email-api-spec.spec.name}</inputFile>
               </inputFiles>
-              <outputFile>${preferred.temp.dir}/${email.spec.name}</outputFile>
+              <outputFile>${preferred.temp.dir}/${email-api-spec.spec.name}</outputFile>
             </configuration>
           </execution>
           <execution>
@@ -532,8 +554,8 @@
               <goal>preprocess</goal>
             </goals>
             <configuration>
-              <inputFile>${preferred.temp.dir}/${email.spec.name}</inputFile>
-              <outputFile>${preprocessed.temp.dir}/${email.spec.name}</outputFile>
+              <inputFile>${preferred.temp.dir}/${email-api-spec.spec.name}</inputFile>
+              <outputFile>${preprocessed.temp.dir}/${email-api-spec.spec.name}</outputFile>
               <groupFile>${enabled.groups.file}</groupFile>
             </configuration>
           </execution>
@@ -547,10 +569,10 @@
               </goals>
               <configuration>
                   <inputFiles>
-                      <inputFile>${spec.temp.dir}/containerengine/source/${containerengine.spec.name}</inputFile>
-                      <inputFile>${spec.temp.dir}/containerengine/${containerengine.spec.name}</inputFile>
+                      <inputFile>${spec.temp.dir}/containerengine/source/${clusters-api-spec.spec.name}</inputFile>
+                      <inputFile>${spec.temp.dir}/containerengine/${clusters-api-spec.spec.name}</inputFile>
                   </inputFiles>
-                  <outputFile>${preferred.temp.dir}/${containerengine.spec.name}</outputFile>
+                  <outputFile>${preferred.temp.dir}/${clusters-api-spec.spec.name}</outputFile>
               </configuration>
           </execution>
           <execution>
@@ -560,8 +582,36 @@
                   <goal>preprocess</goal>
               </goals>
               <configuration>
-                  <inputFile>${preferred.temp.dir}/${containerengine.spec.name}</inputFile>
-                  <outputFile>${preprocessed.temp.dir}/${containerengine.spec.name}</outputFile>
+                  <inputFile>${preferred.temp.dir}/${clusters-api-spec.spec.name}</inputFile>
+                  <outputFile>${preprocessed.temp.dir}/${clusters-api-spec.spec.name}</outputFile>
+                  <groupFile>${enabled.groups.file}</groupFile>
+              </configuration>
+          </execution>
+
+          <!--RQS-->
+          <execution>
+              <id>spec-conditionals-prefer-resourcesearch</id>
+              <phase>initialize</phase>
+              <goals>
+                  <goal>prefer</goal>
+              </goals>
+              <configuration>
+                  <inputFiles>
+                      <inputFile>${spec.temp.dir}/resourcesearch/source/${resource-query-service-spec.spec.name}</inputFile>
+                      <inputFile>${spec.temp.dir}/resourcesearch/${resource-query-service-spec.spec.name}</inputFile>
+                  </inputFiles>
+                  <outputFile>${preferred.temp.dir}/${resource-query-service-spec.spec.name}</outputFile>
+              </configuration>
+          </execution>
+          <execution>
+              <id>spec-conditionals-preprocess-resourcesearch</id>
+              <phase>initialize</phase>
+              <goals>
+                  <goal>preprocess</goal>
+              </goals>
+              <configuration>
+                  <inputFile>${preferred.temp.dir}/${resource-query-service-spec.spec.name}</inputFile>
+                  <outputFile>${preprocessed.temp.dir}/${resource-query-service-spec.spec.name}</outputFile>
                   <groupFile>${enabled.groups.file}</groupFile>
               </configuration>
           </execution>
@@ -574,7 +624,7 @@
       <plugin>
         <groupId>com.oracle.bmc.sdk</groupId>
         <artifactId>bmc-sdk-swagger-maven-plugin</artifactId>
-        <version>1.29-SNAPSHOT</version>
+        <version>1.30-SNAPSHOT</version>
         <executions>
           <execution>
             <id>go-public-sdk-identity</id>
@@ -584,7 +634,7 @@
             </goals>
             <configuration>
               <language>oracle-go-sdk</language>
-              <specPath>${preprocessed.temp.dir}/${identity.spec.name}</specPath>
+              <specPath>${preprocessed.temp.dir}/${identity-control-plane-api-spec.spec.name}</specPath>
               <outputDir>${env.GOPATH}/src/${fullyQualifiedProjectName}</outputDir>
 	      <specGenerationType>${generationType}</specGenerationType>
               <basePackage>identity</basePackage>
@@ -603,7 +653,7 @@
             </goals>
             <configuration>
               <language>oracle-go-sdk</language>
-              <specPath>${preprocessed.temp.dir}/${core.spec.name}</specPath>
+              <specPath>${preprocessed.temp.dir}/${coreservices-api-spec.spec.name}</specPath>
               <outputDir>${env.GOPATH}/src/${fullyQualifiedProjectName}</outputDir>
 	      <specGenerationType>${generationType}</specGenerationType>
               <basePackage>core</basePackage>
@@ -623,7 +673,7 @@
             </goals>
             <configuration>
               <language>oracle-go-sdk</language>
-              <specPath>${preprocessed.temp.dir}/${lb.spec.name}</specPath>
+              <specPath>${preprocessed.temp.dir}/${oralb-api-spec.spec.name}</specPath>
               <outputDir>${env.GOPATH}/src/${fullyQualifiedProjectName}</outputDir>
 	      <specGenerationType>${generationType}</specGenerationType>
               <basePackage>loadbalancer</basePackage>
@@ -643,7 +693,7 @@
             </goals>
             <configuration>
               <language>oracle-go-sdk</language>
-              <specPath>${preprocessed.temp.dir}/${objectstorage.spec.name}</specPath>
+              <specPath>${preprocessed.temp.dir}/${casper-api-spec.spec.name}</specPath>
               <outputDir>${env.GOPATH}/src/${fullyQualifiedProjectName}</outputDir>
 	      <specGenerationType>${generationType}</specGenerationType>
               <basePackage>objectstorage</basePackage>
@@ -662,7 +712,7 @@
             </goals>
             <configuration>
               <language>oracle-go-sdk</language>
-              <specPath>${preprocessed.temp.dir}/${database.spec.name}</specPath>
+              <specPath>${preprocessed.temp.dir}/${dbaas-api-spec.spec.name}</specPath>
               <outputDir>${env.GOPATH}/src/${fullyQualifiedProjectName}</outputDir>
 	      <specGenerationType>${generationType}</specGenerationType>
               <basePackage>database</basePackage>
@@ -681,7 +731,7 @@
             </goals>
             <configuration>
               <language>oracle-go-sdk</language>
-              <specPath>${preprocessed.temp.dir}/${audit.spec.name}</specPath>
+              <specPath>${preprocessed.temp.dir}/${hemlock-spec.spec.name}</specPath>
               <outputDir>${env.GOPATH}/src/${fullyQualifiedProjectName}</outputDir>
 	      <specGenerationType>${generationType}</specGenerationType>
               <basePackage>audit</basePackage>
@@ -700,7 +750,7 @@
             </goals>
             <configuration>
               <language>oracle-go-sdk</language>
-              <specPath>${preprocessed.temp.dir}/${filestorage.spec.name}</specPath>
+              <specPath>${preprocessed.temp.dir}/${fss-api-spec.spec.name}</specPath>
               <outputDir>${env.GOPATH}/src/${fullyQualifiedProjectName}</outputDir>
               <specGenerationType>${generationType}</specGenerationType>
               <basePackage>filestorage</basePackage>
@@ -719,7 +769,7 @@
             </goals>
             <configuration>
               <language>oracle-go-sdk</language>
-              <specPath>${preprocessed.temp.dir}/${dns.spec.name}</specPath>
+              <specPath>${preprocessed.temp.dir}/${public-dns-api-spec.spec.name}</specPath>
               <outputDir>${env.GOPATH}/src/${fullyQualifiedProjectName}</outputDir>
               <specGenerationType>${generationType}</specGenerationType>
               <basePackage>dns</basePackage>
@@ -738,7 +788,7 @@
             </goals>
             <configuration>
               <language>oracle-go-sdk</language>
-              <specPath>${preprocessed.temp.dir}/${email.spec.name}</specPath>
+              <specPath>${preprocessed.temp.dir}/${email-api-spec.spec.name}</specPath>
               <outputDir>${env.GOPATH}/src/${fullyQualifiedProjectName}</outputDir>
               <specGenerationType>${generationType}</specGenerationType>
               <basePackage>email</basePackage>
@@ -757,7 +807,7 @@
               </goals>
               <configuration>
                   <language>oracle-go-sdk</language>
-                  <specPath>${preprocessed.temp.dir}/${containerengine.spec.name}</specPath>
+                  <specPath>${preprocessed.temp.dir}/${clusters-api-spec.spec.name}</specPath>
                   <outputDir>${env.GOPATH}/src/${fullyQualifiedProjectName}</outputDir>
                   <basePackage>containerengine</basePackage>
                   <specGenerationType>${generationType}</specGenerationType>
@@ -767,6 +817,25 @@
                       <serviceHostName>containerengine</serviceHostName>
                   </additionalProperties>
                   <featureIdConfigFile>${project.basedir}/featureId.yaml</featureIdConfigFile>
+              </configuration>
+          </execution>
+          <execution>
+              <id>go-public-sdk-resourcesearch</id>
+              <phase>compile</phase>
+              <goals>
+                  <goal>generate</goal>
+              </goals>
+              <configuration>
+                  <language>oracle-go-sdk</language>
+                  <specPath>${preprocessed.temp.dir}/${resource-query-service-spec.spec.name}</specPath>
+                  <outputDir>${env.GOPATH}/src/${fullyQualifiedProjectName}</outputDir>
+                  <specGenerationType>${generationType}</specGenerationType>
+                  <basePackage>resourcesearch</basePackage>
+                  <additionalProperties>
+                      <specName>resourcesearch</specName>
+                      <fqProjectName>${fullyQualifiedProjectName}</fqProjectName>
+                      <serviceHostName>query</serviceHostName>
+                  </additionalProperties>
               </configuration>
           </execution>
         </executions>
@@ -864,6 +933,15 @@
               </includes>
             </fileset>
             <fileset>
+                <directory>lib/oci/resourcesearch</directory>
+                <excludes>
+                    <exclude>util.rb</exclude>
+                </excludes>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+            </fileset>
+            <fileset>
               <directory>.yardoc</directory>
               <includes>
                 <include>**/*</include>
@@ -891,53 +969,58 @@
 	<dependencies>
       <dependency>
         <groupId>com.oracle.pic.commons</groupId>
-        <artifactId>${core.artifact.id}</artifactId>
-        <version>${core.artifact.version}</version>
+        <artifactId>${coreservices-api-spec.artifact.id}</artifactId>
+        <version>${coreservices-api-spec.artifact.version}</version>
       </dependency>
       <dependency>
         <groupId>com.oracle.pic.identity</groupId>
-        <artifactId>${identity.artifact.id}</artifactId>
-        <version>${identity.artifact.version}</version>
+        <artifactId>${identity-control-plane-api-spec.artifact.id}</artifactId>
+        <version>${identity-control-plane-api-spec.artifact.version}</version>
       </dependency>
       <dependency>
         <groupId>com.oracle.pic.casper</groupId>
-        <artifactId>${objectstorage.artifact.id}</artifactId>
-        <version>${objectstorage.artifact.version}</version>
+        <artifactId>${casper-api-spec.artifact.id}</artifactId>
+        <version>${casper-api-spec.artifact.version}</version>
       </dependency>
       <dependency>
         <groupId>com.oracle.pic.dbaas</groupId>
-        <artifactId>${database.artifact.id}</artifactId>
-        <version>${database.artifact.version}</version>
+        <artifactId>${dbaas-api-spec.artifact.id}</artifactId>
+        <version>${dbaas-api-spec.artifact.version}</version>
       </dependency>
       <dependency>
         <groupId>com.oracle.pic.sherlock</groupId>
-        <artifactId>${audit.artifact.id}</artifactId>
-        <version>${audit.artifact.version}</version>
+        <artifactId>${hemlock-spec.artifact.id}</artifactId>
+        <version>${hemlock-spec.artifact.version}</version>
       </dependency>
       <dependency>
         <groupId>com.oracle.pic.ffsw</groupId>
-        <artifactId>${filestorage.artifact.id}</artifactId>
-        <version>${filestorage.artifact.version}</version>
+        <artifactId>${fss-api-spec.artifact.id}</artifactId>
+        <version>${fss-api-spec.artifact.version}</version>
       </dependency>
       <dependency>
         <groupId>com.oracle.pic.dns.pub</groupId>
-        <artifactId>${dns.artifact.id}</artifactId>
-        <version>${dns.artifact.version}</version>
+        <artifactId>${public-dns-api-spec.artifact.id}</artifactId>
+        <version>${public-dns-api-spec.artifact.version}</version>
       </dependency>
       <dependency>
         <groupId>com.oracle.pic.email</groupId>
-        <artifactId>${email.artifact.id}</artifactId>
-        <version>${email.artifact.version}</version>
+        <artifactId>${email-api-spec.artifact.id}</artifactId>
+        <version>${email-api-spec.artifact.version}</version>
       </dependency>
        <dependency>
           <groupId>com.oracle.pic.clusters</groupId>
-          <artifactId>${containerengine.artifact.id}</artifactId>
-          <version>${containerengine.artifact.version}</version>
+          <artifactId>${clusters-api-spec.artifact.id}</artifactId>
+          <version>${clusters-api-spec.artifact.version}</version>
       </dependency>
       <dependency>
         <groupId>com.oracle.pic.lb</groupId>
-        <artifactId>${lb.artifact.id}</artifactId>
-        <version>${lb.artifact.version}</version>
+        <artifactId>${oralb-api-spec.artifact.id}</artifactId>
+        <version>${oralb-api-spec.artifact.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>com.oracle.pic.query</groupId>
+          <artifactId>${resource-query-service-spec.artifact.id}</artifactId>
+          <version>${resource-query-service-spec.artifact.version}</version>
       </dependency>
       <dependency>
         <groupId>com.fasterxml.jackson.core</groupId>

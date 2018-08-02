@@ -44,7 +44,7 @@ type Zone struct {
 	Version *string `mandatory:"false" json:"version"`
 
 	// The current serial of the zone. As seen in the zone's SOA record.
-	Serial *int `mandatory:"false" json:"serial"`
+	Serial *int64 `mandatory:"false" json:"serial"`
 
 	// The current state of the zone resource.
 	LifecycleState ZoneLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`

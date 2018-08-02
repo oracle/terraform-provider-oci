@@ -67,6 +67,9 @@ func (client EmailClient) CreateSender(ctx context.Context, request CreateSender
 	}
 	ociResponse, err = common.Retry(ctx, request, client.createSender, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = CreateSenderResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(CreateSenderResponse); ok {
@@ -106,6 +109,9 @@ func (client EmailClient) CreateSuppression(ctx context.Context, request CreateS
 	}
 	ociResponse, err = common.Retry(ctx, request, client.createSuppression, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = CreateSuppressionResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(CreateSuppressionResponse); ok {
@@ -146,6 +152,9 @@ func (client EmailClient) DeleteSender(ctx context.Context, request DeleteSender
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteSender, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = DeleteSenderResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(DeleteSenderResponse); ok {
@@ -186,6 +195,9 @@ func (client EmailClient) DeleteSuppression(ctx context.Context, request DeleteS
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteSuppression, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = DeleteSuppressionResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(DeleteSuppressionResponse); ok {
@@ -225,6 +237,9 @@ func (client EmailClient) GetSender(ctx context.Context, request GetSenderReques
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getSender, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = GetSenderResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(GetSenderResponse); ok {
@@ -265,6 +280,9 @@ func (client EmailClient) GetSuppression(ctx context.Context, request GetSuppres
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getSuppression, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = GetSuppressionResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(GetSuppressionResponse); ok {
@@ -304,6 +322,9 @@ func (client EmailClient) ListSenders(ctx context.Context, request ListSendersRe
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listSenders, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = ListSendersResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(ListSendersResponse); ok {
@@ -345,6 +366,9 @@ func (client EmailClient) ListSuppressions(ctx context.Context, request ListSupp
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listSuppressions, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = ListSuppressionsResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(ListSuppressionsResponse); ok {

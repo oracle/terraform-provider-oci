@@ -67,6 +67,9 @@ func (client DatabaseClient) CreateBackup(ctx context.Context, request CreateBac
 	}
 	ociResponse, err = common.Retry(ctx, request, client.createBackup, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = CreateBackupResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(CreateBackupResponse); ok {
@@ -112,6 +115,9 @@ func (client DatabaseClient) CreateDataGuardAssociation(ctx context.Context, req
 	}
 	ociResponse, err = common.Retry(ctx, request, client.createDataGuardAssociation, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = CreateDataGuardAssociationResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(CreateDataGuardAssociationResponse); ok {
@@ -151,6 +157,9 @@ func (client DatabaseClient) CreateDbHome(ctx context.Context, request CreateDbH
 	}
 	ociResponse, err = common.Retry(ctx, request, client.createDbHome, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = CreateDbHomeResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(CreateDbHomeResponse); ok {
@@ -199,6 +208,9 @@ func (client DatabaseClient) DbNodeAction(ctx context.Context, request DbNodeAct
 	}
 	ociResponse, err = common.Retry(ctx, request, client.dbNodeAction, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = DbNodeActionResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(DbNodeActionResponse); ok {
@@ -238,6 +250,9 @@ func (client DatabaseClient) DeleteBackup(ctx context.Context, request DeleteBac
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteBackup, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = DeleteBackupResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(DeleteBackupResponse); ok {
@@ -277,6 +292,9 @@ func (client DatabaseClient) DeleteDbHome(ctx context.Context, request DeleteDbH
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteDbHome, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = DeleteDbHomeResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(DeleteDbHomeResponse); ok {
@@ -319,6 +337,9 @@ func (client DatabaseClient) FailoverDataGuardAssociation(ctx context.Context, r
 	}
 	ociResponse, err = common.Retry(ctx, request, client.failoverDataGuardAssociation, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = FailoverDataGuardAssociationResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(FailoverDataGuardAssociationResponse); ok {
@@ -358,6 +379,9 @@ func (client DatabaseClient) GetBackup(ctx context.Context, request GetBackupReq
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getBackup, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = GetBackupResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(GetBackupResponse); ok {
@@ -397,6 +421,9 @@ func (client DatabaseClient) GetDataGuardAssociation(ctx context.Context, reques
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getDataGuardAssociation, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = GetDataGuardAssociationResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(GetDataGuardAssociationResponse); ok {
@@ -436,6 +463,9 @@ func (client DatabaseClient) GetDatabase(ctx context.Context, request GetDatabas
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getDatabase, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = GetDatabaseResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(GetDatabaseResponse); ok {
@@ -475,6 +505,9 @@ func (client DatabaseClient) GetDbHome(ctx context.Context, request GetDbHomeReq
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getDbHome, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = GetDbHomeResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(GetDbHomeResponse); ok {
@@ -514,6 +547,9 @@ func (client DatabaseClient) GetDbHomePatch(ctx context.Context, request GetDbHo
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getDbHomePatch, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = GetDbHomePatchResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(GetDbHomePatchResponse); ok {
@@ -553,6 +589,9 @@ func (client DatabaseClient) GetDbHomePatchHistoryEntry(ctx context.Context, req
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getDbHomePatchHistoryEntry, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = GetDbHomePatchHistoryEntryResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(GetDbHomePatchHistoryEntryResponse); ok {
@@ -592,6 +631,9 @@ func (client DatabaseClient) GetDbNode(ctx context.Context, request GetDbNodeReq
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getDbNode, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = GetDbNodeResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(GetDbNodeResponse); ok {
@@ -631,6 +673,9 @@ func (client DatabaseClient) GetDbSystem(ctx context.Context, request GetDbSyste
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getDbSystem, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = GetDbSystemResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(GetDbSystemResponse); ok {
@@ -670,6 +715,9 @@ func (client DatabaseClient) GetDbSystemPatch(ctx context.Context, request GetDb
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getDbSystemPatch, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = GetDbSystemPatchResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(GetDbSystemPatchResponse); ok {
@@ -709,6 +757,9 @@ func (client DatabaseClient) GetDbSystemPatchHistoryEntry(ctx context.Context, r
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getDbSystemPatchHistoryEntry, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = GetDbSystemPatchHistoryEntryResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(GetDbSystemPatchHistoryEntryResponse); ok {
@@ -755,6 +806,9 @@ func (client DatabaseClient) LaunchDbSystem(ctx context.Context, request LaunchD
 	}
 	ociResponse, err = common.Retry(ctx, request, client.launchDbSystem, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = LaunchDbSystemResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(LaunchDbSystemResponse); ok {
@@ -794,6 +848,9 @@ func (client DatabaseClient) ListBackups(ctx context.Context, request ListBackup
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listBackups, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = ListBackupsResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(ListBackupsResponse); ok {
@@ -833,6 +890,9 @@ func (client DatabaseClient) ListDataGuardAssociations(ctx context.Context, requ
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listDataGuardAssociations, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = ListDataGuardAssociationsResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(ListDataGuardAssociationsResponse); ok {
@@ -872,6 +932,9 @@ func (client DatabaseClient) ListDatabases(ctx context.Context, request ListData
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listDatabases, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = ListDatabasesResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(ListDatabasesResponse); ok {
@@ -911,6 +974,9 @@ func (client DatabaseClient) ListDbHomePatchHistoryEntries(ctx context.Context, 
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listDbHomePatchHistoryEntries, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = ListDbHomePatchHistoryEntriesResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(ListDbHomePatchHistoryEntriesResponse); ok {
@@ -950,6 +1016,9 @@ func (client DatabaseClient) ListDbHomePatches(ctx context.Context, request List
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listDbHomePatches, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = ListDbHomePatchesResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(ListDbHomePatchesResponse); ok {
@@ -989,6 +1058,9 @@ func (client DatabaseClient) ListDbHomes(ctx context.Context, request ListDbHome
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listDbHomes, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = ListDbHomesResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(ListDbHomesResponse); ok {
@@ -1028,6 +1100,9 @@ func (client DatabaseClient) ListDbNodes(ctx context.Context, request ListDbNode
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listDbNodes, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = ListDbNodesResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(ListDbNodesResponse); ok {
@@ -1067,6 +1142,9 @@ func (client DatabaseClient) ListDbSystemPatchHistoryEntries(ctx context.Context
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listDbSystemPatchHistoryEntries, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = ListDbSystemPatchHistoryEntriesResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(ListDbSystemPatchHistoryEntriesResponse); ok {
@@ -1106,6 +1184,9 @@ func (client DatabaseClient) ListDbSystemPatches(ctx context.Context, request Li
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listDbSystemPatches, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = ListDbSystemPatchesResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(ListDbSystemPatchesResponse); ok {
@@ -1145,6 +1226,9 @@ func (client DatabaseClient) ListDbSystemShapes(ctx context.Context, request Lis
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listDbSystemShapes, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = ListDbSystemShapesResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(ListDbSystemShapesResponse); ok {
@@ -1185,6 +1269,9 @@ func (client DatabaseClient) ListDbSystems(ctx context.Context, request ListDbSy
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listDbSystems, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = ListDbSystemsResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(ListDbSystemsResponse); ok {
@@ -1224,6 +1311,9 @@ func (client DatabaseClient) ListDbVersions(ctx context.Context, request ListDbV
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listDbVersions, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = ListDbVersionsResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(ListDbVersionsResponse); ok {
@@ -1263,6 +1353,9 @@ func (client DatabaseClient) ReinstateDataGuardAssociation(ctx context.Context, 
 	}
 	ociResponse, err = common.Retry(ctx, request, client.reinstateDataGuardAssociation, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = ReinstateDataGuardAssociationResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(ReinstateDataGuardAssociationResponse); ok {
@@ -1302,6 +1395,9 @@ func (client DatabaseClient) RestoreDatabase(ctx context.Context, request Restor
 	}
 	ociResponse, err = common.Retry(ctx, request, client.restoreDatabase, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = RestoreDatabaseResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(RestoreDatabaseResponse); ok {
@@ -1343,6 +1439,9 @@ func (client DatabaseClient) SwitchoverDataGuardAssociation(ctx context.Context,
 	}
 	ociResponse, err = common.Retry(ctx, request, client.switchoverDataGuardAssociation, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = SwitchoverDataGuardAssociationResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(SwitchoverDataGuardAssociationResponse); ok {
@@ -1382,6 +1481,9 @@ func (client DatabaseClient) TerminateDbSystem(ctx context.Context, request Term
 	}
 	ociResponse, err = common.Retry(ctx, request, client.terminateDbSystem, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = TerminateDbSystemResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(TerminateDbSystemResponse); ok {
@@ -1421,6 +1523,9 @@ func (client DatabaseClient) UpdateDatabase(ctx context.Context, request UpdateD
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateDatabase, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = UpdateDatabaseResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(UpdateDatabaseResponse); ok {
@@ -1460,6 +1565,9 @@ func (client DatabaseClient) UpdateDbHome(ctx context.Context, request UpdateDbH
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateDbHome, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = UpdateDbHomeResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(UpdateDbHomeResponse); ok {
@@ -1499,6 +1607,9 @@ func (client DatabaseClient) UpdateDbSystem(ctx context.Context, request UpdateD
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateDbSystem, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = UpdateDbSystemResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(UpdateDbSystemResponse); ok {

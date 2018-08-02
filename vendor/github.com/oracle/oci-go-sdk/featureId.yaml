@@ -26,28 +26,28 @@ whitelisted:
   - udx-645
   # Support public IP operations
   # As of 1/17 this is still preview only but needs to be whitelisted to go into preview SDK / CLI
-  # As of 6 Feb 2018 this if now public: https://jira.aka.lgl.grungy.us/browse/DEX-2467
+  # As of 6 Feb 2018 this if now public: https://jira.oci.oraclecorp.com/browse/DEX-2467
   - udx-136
-  # Make https://jira.aka.lgl.grungy.us/browse/DEX-2437 work
+  # Make https://jira.oci.oraclecorp.com/browse/DEX-2437 work
   - udx-637
   - udx-123
   - udx-643
   - udx-729
-  # LBaaS path route sets: https://jira.aka.lgl.grungy.us/browse/DEX-2467
+  # LBaaS path route sets: https://jira.oci.oraclecorp.com/browse/DEX-2467
   - udx-491
-  # DBaaS backup ID in ListDbSystems: https://jira.aka.lgl.grungy.us/browse/DEX-2467
+  # DBaaS backup ID in ListDbSystems: https://jira.oci.oraclecorp.com/browse/DEX-2467
   - udx-667
-  # Block storage changes: https://jira.aka.lgl.grungy.us/browse/DEX-2467 (doesn't look like these have feature IDs in the spec, but here for reference)
+  # Block storage changes: https://jira.oci.oraclecorp.com/browse/DEX-2467 (doesn't look like these have feature IDs in the spec, but here for reference)
   - udx-157
   - udx-475
   - udx-498
-  # https://jira.aka.lgl.grungy.us/browse/DEX-2678
+  # https://jira.oci.oraclecorp.com/browse/DEX-2678
   - udx-766
-  # VCN cross-region peering (https://jira.aka.lgl.grungy.us/browse/DEX-2711)
+  # VCN cross-region peering (https://jira.oci.oraclecorp.com/browse/DEX-2711)
   - udx-176
-  # DBaaS list db system shape extended data (https://jira.aka.lgl.grungy.us/browse/DEX-2711)
+  # DBaaS list db system shape extended data (https://jira.oci.oraclecorp.com/browse/DEX-2711)
   - udx-787
-  # Loadbalancer vHost support multiple serverNames (https://jira.aka.lgl.grungy.us/browse/UDX-784)
+  # Loadbalancer vHost support multiple serverNames (https://jira.oci.oraclecorp.com/browse/UDX-784)
   - udx-784
   # VNC Tagging: VCN Public IP
   - udx-919

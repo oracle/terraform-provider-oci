@@ -25,6 +25,26 @@ type CreateExportDetails struct {
 	// Avoid entering confidential information.
 	// Example: `/mediafiles`
 	Path *string `mandatory:"true" json:"path"`
+
+	// Export options for the new export. If left unspecified,
+	// defaults to:
+	//        [
+	//          {
+	//             "source" : "0.0.0.0/0",
+	//             "requirePrivilegedSourcePort" : false,
+	//             "access" : "READ_WRITE",
+	//             "identitySquash" : "NONE"
+	//           }
+	//        ]
+	//   **Note:** Mount targets do not have Internet-routable IP
+	//   addresses.  Therefore they will not be reachable from the
+	//   Internet, even if an associated `ClientOptions` item has
+	//   a source of `0.0.0.0/0`.
+	//   **If set to the empty array then the export will not be
+	//   visible to any clients.**
+	//   The export's `exportOptions` can be changed after creation
+	//   using the `UpdateExport` operation.
+	ExportOptions []ClientOptions `mandatory:"false" json:"exportOptions"`
 }
 
 func (m CreateExportDetails) String() string {

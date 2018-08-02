@@ -19,7 +19,7 @@ type FileSystemSummary struct {
 	// any snapshots. This number reflects the metered size of the file
 	// system and is updated asynchronously with respect to
 	// updates to the file system.
-	MeteredBytes *int `mandatory:"true" json:"meteredBytes"`
+	MeteredBytes *int64 `mandatory:"true" json:"meteredBytes"`
 
 	// The OCID of the compartment that contains the file system.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
