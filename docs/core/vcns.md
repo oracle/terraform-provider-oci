@@ -3,6 +3,9 @@
 
 ## Vcn Resource
 
+The VCN automatically comes with a default route table, default security list, and default set of DHCP options.
+For managing these resources, see [Managing Default VCN Resources](https://github.com/oracle/terraform-provider-oci/blob/master/docs/Managing%20Default%20Resources.md)
+
 ### Vcn Reference
 
 The following attributes are exported:
