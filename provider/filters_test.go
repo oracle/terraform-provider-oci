@@ -664,7 +664,7 @@ func TestGetValue_MultiLevelMap(t *testing.T) {
 	multiLevelGet, multiLevelGetOk := getValueFromPath(item, []string{"level1", "level2", "level3"})
 
 	if !singleLevelGetOk || !multiLevelGetOk {
-		t.Errorf("Expected OK result for topLevel %b multi level %b", singleLevelGetOk, multiLevelGetOk)
+		t.Errorf("Expected OK result for topLevel %v multi level %v", singleLevelGetOk, multiLevelGetOk)
 	}
 
 	if multiLevelGet != "value" {
