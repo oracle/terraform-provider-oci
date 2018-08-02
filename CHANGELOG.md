@@ -3,6 +3,11 @@ All notable changes to this project are documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+## 2.1.17 - 2018-08-02
+
+### Fixed
+- Fix bug that was causing creation of tags and tagging namespaces to fail (#562)
+
 ## 2.1.16 - 2018-07-19
 
 ### Added
