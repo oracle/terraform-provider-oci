@@ -4,6 +4,7 @@ package provider
 
 import (
 	"context"
+	"strconv"
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
@@ -86,7 +87,7 @@ func (s *SmtpCredentialsDataSourceCrud) SetData() error {
 		}
 
 		if r.InactiveStatus != nil {
-			smtpCredential["inactive_state"] = *r.InactiveStatus
+			smtpCredential["inactive_state"] = strconv.FormatInt(*r.InactiveStatus, 10)
 		}
 
 		smtpCredential["state"] = r.LifecycleState

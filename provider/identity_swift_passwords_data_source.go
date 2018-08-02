@@ -4,6 +4,7 @@ package provider
 
 import (
 	"context"
+	"strconv"
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
@@ -90,7 +91,7 @@ func (s *SwiftPasswordsDataSourceCrud) SetData() error {
 		}
 
 		if r.InactiveStatus != nil {
-			swiftPassword["inactive_state"] = *r.InactiveStatus
+			swiftPassword["inactive_state"] = strconv.FormatInt(*r.InactiveStatus, 10)
 		}
 
 		if r.Password != nil {

@@ -4,6 +4,7 @@ package provider
 
 import (
 	"context"
+	"strconv"
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/core"
@@ -122,7 +123,7 @@ func (s *VolumeGroupBackupsDataSourceCrud) SetData() error {
 		}
 
 		if r.SizeInMBs != nil {
-			volumeGroupBackup["size_in_mbs"] = *r.SizeInMBs
+			volumeGroupBackup["size_in_mbs"] = strconv.FormatInt(*r.SizeInMBs, 10)
 		}
 
 		volumeGroupBackup["state"] = r.LifecycleState
@@ -138,7 +139,7 @@ func (s *VolumeGroupBackupsDataSourceCrud) SetData() error {
 		volumeGroupBackup["type"] = r.Type
 
 		if r.UniqueSizeInMbs != nil {
-			volumeGroupBackup["unique_size_in_mbs"] = *r.UniqueSizeInMbs
+			volumeGroupBackup["unique_size_in_mbs"] = strconv.FormatInt(*r.UniqueSizeInMbs, 10)
 		}
 
 		volumeGroupBackup["volume_backup_ids"] = r.VolumeBackupIds

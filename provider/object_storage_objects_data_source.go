@@ -59,6 +59,9 @@ func ObjectsDataSource() *schema.Resource {
 						},
 						// @CODEGEN 2/2018: The spec says 'size' is an int64 but it's being treated as a
 						// string in existing provider. Make it string to avoid breaking change.
+						// @CODEGEN 8/2018: The codegen now honors int64, but till HCL2 is released, we will continue to
+						// treat it as a string to accommodate larger values. HCL2TODO: This can be plainly changed to
+						// the new type when HCL2 is released
 						"size": {
 							Type:     schema.TypeString,
 							Computed: true,

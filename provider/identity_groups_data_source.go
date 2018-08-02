@@ -4,6 +4,7 @@ package provider
 
 import (
 	"context"
+	"strconv"
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
@@ -104,7 +105,7 @@ func (s *GroupsDataSourceCrud) SetData() error {
 		}
 
 		if r.InactiveStatus != nil {
-			group["inactive_state"] = *r.InactiveStatus
+			group["inactive_state"] = strconv.FormatInt(*r.InactiveStatus, 10)
 		}
 
 		if r.Name != nil {

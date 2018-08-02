@@ -5,6 +5,7 @@ package provider
 import (
 	"context"
 	"log"
+	"strconv"
 	"strings"
 
 	"github.com/hashicorp/terraform/helper/schema"
@@ -175,7 +176,7 @@ func ImageResource() *schema.Resource {
 				Computed: true,
 			},
 			"size_in_mbs": {
-				Type:     schema.TypeInt,
+				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"state": {
@@ -411,7 +412,7 @@ func (s *ImageResourceCrud) SetData() error {
 	}
 
 	if s.Res.SizeInMBs != nil {
-		s.D.Set("size_in_mbs", *s.Res.SizeInMBs)
+		s.D.Set("size_in_mbs", strconv.FormatInt(*s.Res.SizeInMBs, 10))
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)

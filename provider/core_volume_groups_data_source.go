@@ -4,6 +4,7 @@ package provider
 
 import (
 	"context"
+	"strconv"
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/core"
@@ -134,7 +135,7 @@ func (s *VolumeGroupsDataSourceCrud) SetData() error {
 		}
 
 		if r.SizeInMBs != nil {
-			volumeGroup["size_in_mbs"] = *r.SizeInMBs
+			volumeGroup["size_in_mbs"] = strconv.FormatInt(*r.SizeInMBs, 10)
 		}
 
 		volumeGroup["source_details"] = VolumeGroupSourceDetailsToMap(r.SourceDetails)

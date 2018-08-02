@@ -4,6 +4,7 @@ package provider
 
 import (
 	"context"
+	"strconv"
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/core"
@@ -57,11 +58,11 @@ func BootVolumesDataSource() *schema.Resource {
 							Computed: true,
 						},
 						"size_in_gbs": {
-							Type:     schema.TypeInt,
+							Type:     schema.TypeString,
 							Computed: true,
 						},
 						"size_in_mbs": {
-							Type:     schema.TypeInt,
+							Type:     schema.TypeString,
 							Computed: true,
 						},
 						"state": {
@@ -169,11 +170,11 @@ func (s *BootVolumesDataSourceCrud) SetData() error {
 		}
 
 		if r.SizeInGBs != nil {
-			bootVolume["size_in_gbs"] = *r.SizeInGBs
+			bootVolume["size_in_gbs"] = strconv.FormatInt(*r.SizeInGBs, 10)
 		}
 
 		if r.SizeInMBs != nil {
-			bootVolume["size_in_mbs"] = *r.SizeInMBs
+			bootVolume["size_in_mbs"] = strconv.FormatInt(*r.SizeInMBs, 10)
 		}
 
 		bootVolume["state"] = r.LifecycleState

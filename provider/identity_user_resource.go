@@ -8,6 +8,7 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 
+	"strconv"
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
@@ -59,7 +60,7 @@ func UserResource() *schema.Resource {
 
 			// Computed
 			"inactive_state": {
-				Type:     schema.TypeInt,
+				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"state": {
@@ -278,7 +279,7 @@ func (s *UserResourceCrud) SetData() error {
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.InactiveStatus != nil {
-		s.D.Set("inactive_state", *s.Res.InactiveStatus)
+		s.D.Set("inactive_state", strconv.FormatInt(*s.Res.InactiveStatus, 10))
 	}
 
 	if s.Res.Name != nil {

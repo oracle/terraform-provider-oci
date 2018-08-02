@@ -4,6 +4,7 @@ package provider
 
 import (
 	"context"
+	"strconv"
 
 	"github.com/hashicorp/terraform/helper/schema"
 
@@ -64,12 +65,12 @@ func VolumeBackupResource() *schema.Resource {
 				Computed: true,
 			},
 			"size_in_gbs": {
-				Type:     schema.TypeInt,
+				Type:     schema.TypeString,
 				Computed: true,
 			},
 			// @Deprecated 2017: size_in_mbs => size_in_gbs
 			"size_in_mbs": {
-				Type:       schema.TypeInt,
+				Type:       schema.TypeString,
 				Computed:   true,
 				Deprecated: FieldDeprecatedForAnother("size_in_mbs", "size_in_gbs"),
 			},
@@ -90,12 +91,12 @@ func VolumeBackupResource() *schema.Resource {
 				Computed: true,
 			},
 			"unique_size_in_gbs": {
-				Type:     schema.TypeInt,
+				Type:     schema.TypeString,
 				Computed: true,
 			},
 			// @Deprecated 2017: unique_size_in_mbs => unique_size_in_gbs
 			"unique_size_in_mbs": {
-				Type:       schema.TypeInt,
+				Type:       schema.TypeString,
 				Computed:   true,
 				Deprecated: FieldDeprecatedForAnother("unique_size_in_mbs", "unique_size_in_gbs"),
 			},
@@ -297,11 +298,11 @@ func (s *VolumeBackupResourceCrud) SetData() error {
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.SizeInGBs != nil {
-		s.D.Set("size_in_gbs", *s.Res.SizeInGBs)
+		s.D.Set("size_in_gbs", strconv.FormatInt(*s.Res.SizeInGBs, 10))
 	}
 
 	if s.Res.SizeInMBs != nil {
-		s.D.Set("size_in_mbs", *s.Res.SizeInMBs)
+		s.D.Set("size_in_mbs", strconv.FormatInt(*s.Res.SizeInMBs, 10))
 	}
 
 	s.D.Set("source_type", s.Res.SourceType)
@@ -319,11 +320,11 @@ func (s *VolumeBackupResourceCrud) SetData() error {
 	s.D.Set("type", s.Res.Type)
 
 	if s.Res.UniqueSizeInGBs != nil {
-		s.D.Set("unique_size_in_gbs", *s.Res.UniqueSizeInGBs)
+		s.D.Set("unique_size_in_gbs", strconv.FormatInt(*s.Res.UniqueSizeInGBs, 10))
 	}
 
 	if s.Res.UniqueSizeInMbs != nil {
-		s.D.Set("unique_size_in_mbs", *s.Res.UniqueSizeInMbs)
+		s.D.Set("unique_size_in_mbs", strconv.FormatInt(*s.Res.UniqueSizeInMbs, 10))
 	}
 
 	if s.Res.VolumeId != nil {

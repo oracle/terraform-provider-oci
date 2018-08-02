@@ -4,6 +4,7 @@ package provider
 
 import (
 	"context"
+	"strconv"
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
@@ -104,7 +105,7 @@ func (s *CompartmentsDataSourceCrud) SetData() error {
 		}
 
 		if r.InactiveStatus != nil {
-			compartment["inactive_state"] = *r.InactiveStatus
+			compartment["inactive_state"] = strconv.FormatInt(*r.InactiveStatus, 10)
 		}
 
 		if r.Name != nil {

@@ -5,6 +5,7 @@ package provider
 import (
 	"context"
 	"fmt"
+	"strconv"
 	"strings"
 
 	"github.com/hashicorp/terraform/helper/schema"
@@ -60,14 +61,14 @@ func VolumeResource() *schema.Resource {
 				Elem:     schema.TypeString,
 			},
 			"size_in_gbs": {
-				Type:     schema.TypeInt,
+				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 				ForceNew: true,
 			},
 			// @Deprecated 2017: size_in_mbs => size_in_gbs
 			"size_in_mbs": {
-				Type:       schema.TypeInt,
+				Type:       schema.TypeString,
 				Optional:   true,
 				ForceNew:   true,
 				Computed:   true,
@@ -230,13 +231,21 @@ func (s *VolumeResourceCrud) Create() error {
 	}
 
 	if sizeInGBs, ok := s.D.GetOkExists("size_in_gbs"); ok {
-		tmp := sizeInGBs.(int)
-		request.SizeInGBs = &tmp
+		tmp := sizeInGBs.(string)
+		tmp_i, err := strconv.ParseInt(tmp, 10, 64)
+		if err != nil {
+			return fmt.Errorf("unable to convert sizeInGBs string: %s to an int64", tmp)
+		}
+		request.SizeInGBs = &tmp_i
 	}
 
 	if sizeInMBs, ok := s.D.GetOkExists("size_in_mbs"); ok {
-		tmp := sizeInMBs.(int)
-		request.SizeInMBs = &tmp
+		tmp := sizeInMBs.(string)
+		tmp_i, err := strconv.ParseInt(tmp, 10, 64)
+		if err != nil {
+			return fmt.Errorf("unable to convert sizeInMBs string: %s to an int64", tmp)
+		}
+		request.SizeInMBs = &tmp_i
 	}
 
 	// @Deprecated 2017: size_in_mbs => size_in_gbs
@@ -353,11 +362,11 @@ func (s *VolumeResourceCrud) SetData() error {
 	}
 
 	if s.Res.SizeInGBs != nil {
-		s.D.Set("size_in_gbs", *s.Res.SizeInGBs)
+		s.D.Set("size_in_gbs", strconv.FormatInt(*s.Res.SizeInGBs, 10))
 	}
 
 	if s.Res.SizeInMBs != nil {
-		s.D.Set("size_in_mbs", *s.Res.SizeInMBs)
+		s.D.Set("size_in_mbs", strconv.FormatInt(*s.Res.SizeInMBs, 10))
 	}
 
 	s.D.Set("source_details", VolumeSourceDetailsToMap(s.Res.SourceDetails))

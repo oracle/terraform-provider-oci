@@ -4,6 +4,7 @@ package provider
 
 import (
 	"context"
+	"strconv"
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
@@ -113,7 +114,7 @@ func (s *IdentityProvidersDataSourceCrud) SetData() error {
 		}
 
 		if r.GetInactiveStatus() != nil {
-			identityProvider["inactive_state"] = *r.GetInactiveStatus()
+			identityProvider["inactive_state"] = strconv.FormatInt(*r.GetInactiveStatus(), 10)
 		}
 
 		if r.GetName() != nil {
