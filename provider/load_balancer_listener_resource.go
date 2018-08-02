@@ -5,6 +5,7 @@ package provider
 import (
 	"context"
 	"fmt"
+	"strconv"
 	"strings"
 
 	"github.com/hashicorp/terraform/helper/schema"
@@ -55,7 +56,7 @@ func ListenerResource() *schema.Resource {
 					Schema: map[string]*schema.Schema{
 						// Required
 						"idle_timeout_in_seconds": {
-							Type:     schema.TypeInt,
+							Type:     schema.TypeString,
 							Required: true,
 						},
 
@@ -203,7 +204,10 @@ func (s *ListenerResourceCrud) Create() error {
 
 	if connectionConfiguration, ok := s.D.GetOkExists("connection_configuration"); ok {
 		if tmpList := connectionConfiguration.([]interface{}); len(tmpList) > 0 {
-			tmp := mapToConnectionConfiguration(tmpList[0].(map[string]interface{}))
+			tmp, err := mapToConnectionConfiguration(tmpList[0].(map[string]interface{}))
+			if err != nil {
+				return err
+			}
 			request.ConnectionConfiguration = &tmp
 		}
 	}
@@ -320,7 +324,10 @@ func (s *ListenerResourceCrud) Update() error {
 
 	if connectionConfiguration, ok := s.D.GetOkExists("connection_configuration"); ok {
 		if tmpList := connectionConfiguration.([]interface{}); len(tmpList) > 0 {
-			tmp := mapToConnectionConfiguration(tmpList[0].(map[string]interface{}))
+			tmp, err := mapToConnectionConfiguration(tmpList[0].(map[string]interface{}))
+			if err != nil {
+				return err
+			}
 			request.ConnectionConfiguration = &tmp
 		}
 	}
@@ -467,22 +474,27 @@ func (s *ListenerResourceCrud) SetData() error {
 	return nil
 }
 
-func mapToConnectionConfiguration(raw map[string]interface{}) oci_load_balancer.ConnectionConfiguration {
-	result := oci_load_balancer.ConnectionConfiguration{}
+func mapToConnectionConfiguration(raw map[string]interface{}) (result oci_load_balancer.ConnectionConfiguration, err error) {
+	result = oci_load_balancer.ConnectionConfiguration{}
 
 	if idleTimeoutInSeconds, ok := raw["idle_timeout_in_seconds"]; ok {
-		tmp := idleTimeoutInSeconds.(int)
-		result.IdleTimeout = &tmp
+		tmp := idleTimeoutInSeconds.(string)
+		tmp_i, err := strconv.ParseInt(tmp, 10, 64)
+		if err != nil {
+			err = fmt.Errorf("unable to convert idleTimeoutInSeconds string: %s to an int64", tmp)
+			return result, err
+		}
+		result.IdleTimeout = &tmp_i
 	}
 
-	return result
+	return
 }
 
 func ConnectionConfigurationToMap(obj *oci_load_balancer.ConnectionConfiguration) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	if obj.IdleTimeout != nil {
-		result["idle_timeout_in_seconds"] = int(*obj.IdleTimeout)
+		result["idle_timeout_in_seconds"] = strconv.FormatInt(*obj.IdleTimeout, 10)
 	}
 
 	return result

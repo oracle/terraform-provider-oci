@@ -4,6 +4,7 @@ package provider
 
 import (
 	"context"
+	"strconv"
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_file_storage "github.com/oracle/oci-go-sdk/filestorage"
@@ -134,7 +135,7 @@ func (s *FileSystemsDataSourceCrud) SetData() error {
 		}
 
 		if r.MeteredBytes != nil {
-			fileSystem["metered_bytes"] = *r.MeteredBytes
+			fileSystem["metered_bytes"] = strconv.FormatInt(*r.MeteredBytes, 10)
 		}
 
 		fileSystem["state"] = r.LifecycleState

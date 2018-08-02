@@ -5,6 +5,7 @@ package provider
 import (
 	"context"
 	"fmt"
+	"strconv"
 
 	"github.com/hashicorp/terraform/helper/schema"
 
@@ -36,12 +37,12 @@ func ExportSetResource() *schema.Resource {
 				Computed: true,
 			},
 			"max_fs_stat_bytes": {
-				Type:     schema.TypeInt,
+				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
 			"max_fs_stat_files": {
-				Type:     schema.TypeInt,
+				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
@@ -168,13 +169,21 @@ func (s *ExportSetResourceCrud) Update() error {
 	request.ExportSetId = &tmp
 
 	if maxFsStatBytes, ok := s.D.GetOkExists("max_fs_stat_bytes"); ok {
-		tmp := maxFsStatBytes.(int)
-		request.MaxFsStatBytes = &tmp
+		tmp := maxFsStatBytes.(string)
+		tmp_i, err := strconv.ParseInt(tmp, 10, 64)
+		if err != nil {
+			return fmt.Errorf("unable to convert maxFsStatBytes string: %s to an int64", tmp)
+		}
+		request.MaxFsStatBytes = &tmp_i
 	}
 
 	if maxFsStatFiles, ok := s.D.GetOkExists("max_fs_stat_files"); ok {
-		tmp := maxFsStatFiles.(int)
-		request.MaxFsStatFiles = &tmp
+		tmp := maxFsStatFiles.(string)
+		tmp_i, err := strconv.ParseInt(tmp, 10, 64)
+		if err != nil {
+			return fmt.Errorf("unable to convert maxFsStatFiles string: %s to an int64", tmp)
+		}
+		request.MaxFsStatFiles = &tmp_i
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "file_storage")
@@ -207,11 +216,11 @@ func (s *ExportSetResourceCrud) SetData() error {
 	}
 
 	if s.Res.MaxFsStatBytes != nil {
-		s.D.Set("max_fs_stat_bytes", *s.Res.MaxFsStatBytes)
+		s.D.Set("max_fs_stat_bytes", strconv.FormatInt(*s.Res.MaxFsStatBytes, 10))
 	}
 
 	if s.Res.MaxFsStatFiles != nil {
-		s.D.Set("max_fs_stat_files", *s.Res.MaxFsStatFiles)
+		s.D.Set("max_fs_stat_files", strconv.FormatInt(*s.Res.MaxFsStatFiles, 10))
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)

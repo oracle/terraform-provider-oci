@@ -4,6 +4,7 @@ package provider
 
 import (
 	"context"
+	"strconv"
 
 	"github.com/hashicorp/terraform/helper/schema"
 
@@ -45,7 +46,7 @@ func DynamicGroupResource() *schema.Resource {
 
 			// Computed
 			"inactive_state": {
-				Type:     schema.TypeInt,
+				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"state": {
@@ -228,7 +229,7 @@ func (s *DynamicGroupResourceCrud) SetData() error {
 	}
 
 	if s.Res.InactiveStatus != nil {
-		s.D.Set("inactive_state", *s.Res.InactiveStatus)
+		s.D.Set("inactive_state", strconv.FormatInt(*s.Res.InactiveStatus, 10))
 	}
 
 	if s.Res.MatchingRule != nil {

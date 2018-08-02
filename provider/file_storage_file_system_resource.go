@@ -4,6 +4,7 @@ package provider
 
 import (
 	"context"
+	"strconv"
 
 	"github.com/hashicorp/terraform/helper/schema"
 
@@ -42,7 +43,7 @@ func FileSystemResource() *schema.Resource {
 
 			// Computed
 			"metered_bytes": {
-				Type:     schema.TypeInt,
+				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"state": {
@@ -219,7 +220,7 @@ func (s *FileSystemResourceCrud) SetData() error {
 	}
 
 	if s.Res.MeteredBytes != nil {
-		s.D.Set("metered_bytes", *s.Res.MeteredBytes)
+		s.D.Set("metered_bytes", strconv.FormatInt(*s.Res.MeteredBytes, 10))
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)

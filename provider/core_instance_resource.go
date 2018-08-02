@@ -747,7 +747,7 @@ func mapToInstanceSourceDetails(raw map[string]interface{}) oci_core.InstanceSou
 		result.ImageId = &sourceId
 
 		if bootVolumeSizeInGBs, ok := raw["boot_volume_size_in_gbs"]; ok {
-			tmp := bootVolumeSizeInGBs.(int)
+			tmp := bootVolumeSizeInGBs.(int64)
 			if tmp != 0 {
 				result.BootVolumeSizeInGBs = &tmp
 			}

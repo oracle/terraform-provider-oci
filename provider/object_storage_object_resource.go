@@ -4,6 +4,7 @@ package provider
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/hashicorp/terraform/helper/schema"
 
@@ -11,12 +12,11 @@ import (
 	"encoding/hex"
 
 	"bytes"
-	"fmt"
 	"io/ioutil"
 	"log"
-	"strconv"
-
 	"strings"
+
+	"strconv"
 
 	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
 )
@@ -89,7 +89,7 @@ func ObjectResource() *schema.Resource {
 				ForceNew: true,
 			},
 			"content_length": {
-				Type: schema.TypeInt,
+				Type: schema.TypeString,
 				// @CODEGEN 2/2018: this was generated as Required, we will compute the length from the 'content'
 				Computed: true,
 			},
@@ -224,11 +224,11 @@ func (s *ObjectResourceCrud) Create() error {
 	if content, ok := s.D.GetOkExists("content"); ok {
 		// @CODEGEN 2/2018: The generator doesn't yet handle strings that should be converted to byte arrays.
 		tmp := []byte(content.(string))
-		tmpLength := len(tmp)
+		tmpLength := int64(len(tmp))
 		request.ContentLength = &tmpLength
 		request.PutObjectBody = ioutil.NopCloser(bytes.NewBuffer(tmp))
 	} else {
-		tmp := 0
+		tmp := int64(0)
 		request.ContentLength = &tmp
 		request.PutObjectBody = ioutil.NopCloser(bytes.NewBuffer([]byte{}))
 	}
@@ -370,7 +370,7 @@ func (s *ObjectResourceCrud) SetData() error {
 	}
 
 	if s.Res.ContentLength != nil {
-		s.D.Set("content_length", *s.Res.ContentLength)
+		s.D.Set("content_length", strconv.FormatInt(*s.Res.ContentLength, 10))
 	}
 
 	if s.Res.ContentMd5 != nil {
@@ -406,7 +406,7 @@ func ObjectSummaryToMap(obj oci_object_storage.ObjectSummary) map[string]interfa
 	}
 
 	if obj.Size != nil {
-		result["size"] = strconv.FormatInt(int64(*obj.Size), 10)
+		result["size"] = strconv.FormatInt(*obj.Size, 10)
 	}
 
 	if obj.TimeCreated != nil {

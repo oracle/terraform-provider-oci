@@ -4,6 +4,7 @@ package provider
 
 import (
 	"context"
+	"strconv"
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
@@ -98,7 +99,7 @@ func (s *DynamicGroupsDataSourceCrud) SetData() error {
 		}
 
 		if r.InactiveStatus != nil {
-			dynamicGroup["inactive_state"] = *r.InactiveStatus
+			dynamicGroup["inactive_state"] = strconv.FormatInt(*r.InactiveStatus, 10)
 		}
 
 		if r.MatchingRule != nil {

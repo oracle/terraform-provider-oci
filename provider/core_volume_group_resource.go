@@ -4,6 +4,7 @@ package provider
 
 import (
 	"context"
+	"strconv"
 
 	"github.com/hashicorp/terraform/helper/schema"
 
@@ -109,7 +110,7 @@ func VolumeGroupResource() *schema.Resource {
 
 			// Computed
 			"size_in_mbs": {
-				Type:     schema.TypeInt,
+				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"state": {
@@ -338,7 +339,7 @@ func (s *VolumeGroupResourceCrud) SetData() error {
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.SizeInMBs != nil {
-		s.D.Set("size_in_mbs", *s.Res.SizeInMBs)
+		s.D.Set("size_in_mbs", strconv.FormatInt(*s.Res.SizeInMBs, 10))
 	}
 
 	s.D.Set("source_details", VolumeGroupSourceDetailsToMap(s.Res.SourceDetails))

@@ -4,6 +4,7 @@ package provider
 
 import (
 	"context"
+	"strconv"
 
 	"github.com/hashicorp/terraform/helper/schema"
 
@@ -37,7 +38,7 @@ func SwiftPasswordResource() *schema.Resource {
 				Computed: true,
 			},
 			"inactive_state": {
-				Type:     schema.TypeInt,
+				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"password": {
@@ -232,7 +233,7 @@ func (s *SwiftPasswordResourceCrud) SetData() error {
 	}
 
 	if s.Res.InactiveStatus != nil {
-		s.D.Set("inactive_state", *s.Res.InactiveStatus)
+		s.D.Set("inactive_state", strconv.FormatInt(*s.Res.InactiveStatus, 10))
 	}
 
 	if s.Res.Password != nil {

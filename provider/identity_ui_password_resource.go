@@ -4,6 +4,7 @@ package provider
 
 import (
 	"context"
+	"strconv"
 
 	"github.com/hashicorp/terraform/helper/schema"
 
@@ -31,7 +32,7 @@ func UiPasswordResource() *schema.Resource {
 
 			// Computed
 			"inactive_status": {
-				Type:     schema.TypeInt,
+				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"password": {
@@ -122,7 +123,7 @@ func (s *UiPasswordResourceCrud) Create() error {
 
 func (s *UiPasswordResourceCrud) SetData() error {
 	if s.Res.InactiveStatus != nil {
-		s.D.Set("inactive_status", *s.Res.InactiveStatus)
+		s.D.Set("inactive_status", strconv.FormatInt(*s.Res.InactiveStatus, 10))
 	}
 
 	if s.Res.Password != nil {

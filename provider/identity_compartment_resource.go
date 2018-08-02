@@ -5,6 +5,7 @@ package provider
 import (
 	"context"
 	"fmt"
+	"strconv"
 	"strings"
 
 	"github.com/hashicorp/terraform/helper/schema"
@@ -59,7 +60,7 @@ func CompartmentResource() *schema.Resource {
 
 			// Computed
 			"inactive_state": {
-				Type:     schema.TypeInt,
+				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"state": {
@@ -294,7 +295,7 @@ func (s *CompartmentResourceCrud) SetData() error {
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.InactiveStatus != nil {
-		s.D.Set("inactive_state", *s.Res.InactiveStatus)
+		s.D.Set("inactive_state", strconv.FormatInt(*s.Res.InactiveStatus, 10))
 	}
 
 	if s.Res.Name != nil {
