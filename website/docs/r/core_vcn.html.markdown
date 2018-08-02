@@ -11,6 +11,9 @@ description: |-
 
 The `oci_core_vcn` resource creates and manages an OCI Vcn
 
+The VCN automatically comes with a default route table, default security list, and default set of DHCP options.
+For managing these resources, see [Managing Default VCN Resources](/docs/providers/oci/guides/managing_default_resources.html)
+
 Creates a new Virtual Cloud Network (VCN). For more information, see
 [VCNs and Subnets](https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Tasks/managingVCNs.htm).
 
