@@ -35,7 +35,32 @@ import (
 // or two periods in sequence (..). All path elements must be 255 bytes or less.
 // No two non-'DELETED' export resources in the same export set can
 // reference the same file system.
+// Use `exportOptions` to control access to an export. For more information, see
+// Export Options (https://docs.us-phoenix-1.oraclecloud.com/Content/File/Tasks/exportoptions.htm).
 type Export struct {
+
+	// Policies that apply to NFS requests made through this
+	// export. `exportOptions` contains a sequential list of
+	// `ClientOptions`. Each `ClientOptions` item defines the
+	// export options that are applied to a specified
+	// set of clients.
+	// For each NFS request, the first `ClientOptions` option
+	// in the list whose `source` attribute matches the source
+	// IP address of the request is applied.
+	// If a client source IP address does not match the `source`
+	// property of any `ClientOptions` in the list, then the
+	// export will be invisible to that client. This export will
+	// not be returned by `MOUNTPROC_EXPORT` calls made by the client
+	// and any attempt to mount or access the file system through
+	// this export will result in an error.
+	// **Exports without defined `ClientOptions` are invisible to all clients.**
+	// If one export is invisible to a particular client, associated file
+	// systems may still be accessible through other exports on the same
+	// or different mount targets.
+	// To completely deny client access to a file system, be sure that the client
+	// source IP address is not included in any export for any mount target
+	// associated with the file system.
+	ExportOptions []ClientOptions `mandatory:"true" json:"exportOptions"`
 
 	// The OCID of this export's export set.
 	ExportSetId *string `mandatory:"true" json:"exportSetId"`

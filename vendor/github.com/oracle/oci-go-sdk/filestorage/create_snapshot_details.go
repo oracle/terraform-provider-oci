@@ -15,7 +15,7 @@ import (
 // CreateSnapshotDetails The representation of CreateSnapshotDetails
 type CreateSnapshotDetails struct {
 
-	// The OCID of this export's file system.
+	// The OCID of the file system to take a snapshot of.
 	FileSystemId *string `mandatory:"true" json:"fileSystemId"`
 
 	// Name of the snapshot. This value is immutable. It must also be unique with respect

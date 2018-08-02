@@ -4,6 +4,103 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 
+## 2.1.0 - 2018-07-26
+### Added
+- Support for the OCI Search service
+- Support for specifying a backup policy when creating a boot volume in the Block Storage service
+
+### Fixed
+- OCI error is missing opc-request-id value [Github Issue 120](https://github.com/oracle/oci-go-sdk/issues/120)
+- Include raw http response when service error occurred
+
+## 2.0.0 - 2018-07-12
+### Added
+- Support for tagging Load Balancers in the Load Balancing service
+- Support for export options in the File Storage service
+- Support for retrieving compartment name and user name as part of events in the Audit service
+
+### Fixed
+- CreateKubeconfig function should not close http reponse body [Github Issue 116](https://github.com/oracle/oci-go-sdk/issues/116)
+
+### Breaking changes
+- Datatype changed from *int to *int64 for several request/response structs. Here is sample code that shows how to update your code to incorporate this change. 
+
+    - Before
+
+    ```golang
+    // Update the impacted properties from common.Int to common.Int64.
+    // Here is the updates for CreateBootVolumeDetails
+    details := core.CreateBootVolumeDetails{
+        SizeInGBs: common.Int(10),
+    }
+    ```
+
+    - After
+
+    ```golang
+    details := core.CreateBootVolumeDetails{
+        SizeInGBs: common.Int64(10),
+    }
+    ```
+
+- Impacted packages and structs
+    - core
+        - BootVolume.(SizeInGBs, SizeInMBs)
+        - BootVolumeBackup.(SizeInGBs, UniqueSizeInGBs)
+        - CreateBootVolumeDetails.SizeInGBs
+        - CreateVolumeDetails.(SizeInGBs, SizeInMBs)
+        - Image.SizeInMBs
+        - InstanceSourceViaImageDetails.BootVolumeSizeInGBs
+        - Volume.(SizeInGBs, SizeInMBs)
+        - VolumeBackup.(SizeInGBs, SizeInMBs, UniqueSizeInGBs, UniqueSizeInMbs)
+        - VolumeGroup.(SizeInMBs, SizeInGBs)
+        - VolumeGroupBackup.(SizeInMBs, SizeInGBs, UniqueSizeInMbs, UniqueSizeInGbs)
+    - dns
+        - GetDomainRecordsRequest.Limit
+        - GetRRSetRequest.Limit
+        - GetZoneRecordsRequest.Limit
+        - ListZonesRequest.Limit
+        - Zone.Serial
+        - ZoneSummary.Serial
+    - filestorage
+        - ExportSet.(MaxFsStatBytes, MaxFsStatFiles)
+        - FileSystem.MeteredBytes
+        - FileSystemSummary.MeteredBytes
+        - UpdateExportSetDetails.(MaxFsStatBytes, MaxFsStatFiles)
+    - identity
+        - ApiKey.InactiveStatus
+        - AuthToken.InactiveStatus
+        - Compartment.InactiveStatus
+        - CustomerSecretKey.InactiveStatus
+        - CustomerSecretKeySummary.InactiveStatus
+        - DynamicGroup.InactiveStatus
+        - Group.InactiveStatus
+        - IdentityProvider.InactiveStatus
+        - IdpGroupMapping.InactiveStatus
+        - Policy.InactiveStatus
+        - Saml2IdentityProvider.InactiveStatus
+        - SmtpCredential.InactiveStatus
+        - SmtpCredentialSummary.InactiveStatus
+        - SwiftPassword.InactiveStatus
+        - UiPassword.InactiveStatus
+        - User.InactiveStatus
+        - UserGroupMembership.InactiveStatus
+    - loadbalancer
+        - ConnectionConfiguration.IdleTimeout
+        - ListLoadBalancerHealthsRequest.Limit
+        - ListLoadBalancersRequest.Limit
+        - ListPoliciesRequest 
+        - ListProtocolsRequest.Limit
+        - ListShapesRequest.Limit
+        - ListWorkRequestsRequest.Limit
+    - objectstorage
+        - GetObjectResponse.ContentLength
+        - HeadObjectResponse.ContentLength
+        - MultipartUploadPartSummary.Size
+        - ObjectSummary.Size
+        - PutObjectRequest.ContentLength
+        - UploadPartRequest.ContentLength
+
 ## 1.8.0 - 2018-06-28
 ### Added
 - Support for service gateway management in the Networking service

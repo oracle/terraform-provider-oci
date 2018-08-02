@@ -19,7 +19,7 @@ type FastConnectProviderService struct {
 	// The OCID of the service offered by the provider.
 	Id *string `mandatory:"true" json:"id"`
 
-	// Private peering BGP management.
+	// Who is responsible for managing the private peering BGP information.
 	PrivatePeeringBgpManagement FastConnectProviderServicePrivatePeeringBgpManagementEnum `mandatory:"true" json:"privatePeeringBgpManagement"`
 
 	// The name of the provider.
@@ -28,7 +28,7 @@ type FastConnectProviderService struct {
 	// The name of the service offered by the provider.
 	ProviderServiceName *string `mandatory:"true" json:"providerServiceName"`
 
-	// Public peering BGP management.
+	// Who is responsible for managing the public peering BGP information.
 	PublicPeeringBgpManagement FastConnectProviderServicePublicPeeringBgpManagementEnum `mandatory:"true" json:"publicPeeringBgpManagement"`
 
 	// Provider service type.

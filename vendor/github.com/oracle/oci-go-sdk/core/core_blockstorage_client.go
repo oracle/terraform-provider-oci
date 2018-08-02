@@ -70,6 +70,9 @@ func (client BlockstorageClient) CreateBootVolume(ctx context.Context, request C
 	}
 	ociResponse, err = common.Retry(ctx, request, client.createBootVolume, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = CreateBootVolumeResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(CreateBootVolumeResponse); ok {
@@ -113,6 +116,9 @@ func (client BlockstorageClient) CreateBootVolumeBackup(ctx context.Context, req
 	}
 	ociResponse, err = common.Retry(ctx, request, client.createBootVolumeBackup, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = CreateBootVolumeBackupResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(CreateBootVolumeBackupResponse); ok {
@@ -163,6 +169,9 @@ func (client BlockstorageClient) CreateVolume(ctx context.Context, request Creat
 	}
 	ociResponse, err = common.Retry(ctx, request, client.createVolume, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = CreateVolumeResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(CreateVolumeResponse); ok {
@@ -206,6 +215,9 @@ func (client BlockstorageClient) CreateVolumeBackup(ctx context.Context, request
 	}
 	ociResponse, err = common.Retry(ctx, request, client.createVolumeBackup, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = CreateVolumeBackupResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(CreateVolumeBackupResponse); ok {
@@ -247,6 +259,9 @@ func (client BlockstorageClient) CreateVolumeBackupPolicyAssignment(ctx context.
 	}
 	ociResponse, err = common.Retry(ctx, request, client.createVolumeBackupPolicyAssignment, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = CreateVolumeBackupPolicyAssignmentResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(CreateVolumeBackupPolicyAssignmentResponse); ok {
@@ -291,6 +306,9 @@ func (client BlockstorageClient) CreateVolumeGroup(ctx context.Context, request 
 	}
 	ociResponse, err = common.Retry(ctx, request, client.createVolumeGroup, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = CreateVolumeGroupResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(CreateVolumeGroupResponse); ok {
@@ -331,6 +349,9 @@ func (client BlockstorageClient) CreateVolumeGroupBackup(ctx context.Context, re
 	}
 	ociResponse, err = common.Retry(ctx, request, client.createVolumeGroupBackup, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = CreateVolumeGroupBackupResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(CreateVolumeGroupBackupResponse); ok {
@@ -373,6 +394,9 @@ func (client BlockstorageClient) DeleteBootVolume(ctx context.Context, request D
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteBootVolume, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = DeleteBootVolumeResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(DeleteBootVolumeResponse); ok {
@@ -412,6 +436,9 @@ func (client BlockstorageClient) DeleteBootVolumeBackup(ctx context.Context, req
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteBootVolumeBackup, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = DeleteBootVolumeBackupResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(DeleteBootVolumeBackupResponse); ok {
@@ -454,6 +481,9 @@ func (client BlockstorageClient) DeleteVolume(ctx context.Context, request Delet
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteVolume, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = DeleteVolumeResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(DeleteVolumeResponse); ok {
@@ -493,6 +523,9 @@ func (client BlockstorageClient) DeleteVolumeBackup(ctx context.Context, request
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteVolumeBackup, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = DeleteVolumeBackupResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(DeleteVolumeBackupResponse); ok {
@@ -532,6 +565,9 @@ func (client BlockstorageClient) DeleteVolumeBackupPolicyAssignment(ctx context.
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteVolumeBackupPolicyAssignment, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = DeleteVolumeBackupPolicyAssignmentResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(DeleteVolumeBackupPolicyAssignmentResponse); ok {
@@ -572,6 +608,9 @@ func (client BlockstorageClient) DeleteVolumeGroup(ctx context.Context, request 
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteVolumeGroup, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = DeleteVolumeGroupResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(DeleteVolumeGroupResponse); ok {
@@ -611,6 +650,9 @@ func (client BlockstorageClient) DeleteVolumeGroupBackup(ctx context.Context, re
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteVolumeGroupBackup, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = DeleteVolumeGroupBackupResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(DeleteVolumeGroupBackupResponse); ok {
@@ -650,6 +692,9 @@ func (client BlockstorageClient) GetBootVolume(ctx context.Context, request GetB
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getBootVolume, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = GetBootVolumeResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(GetBootVolumeResponse); ok {
@@ -689,6 +734,9 @@ func (client BlockstorageClient) GetBootVolumeBackup(ctx context.Context, reques
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getBootVolumeBackup, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = GetBootVolumeBackupResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(GetBootVolumeBackupResponse); ok {
@@ -728,6 +776,9 @@ func (client BlockstorageClient) GetVolume(ctx context.Context, request GetVolum
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getVolume, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = GetVolumeResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(GetVolumeResponse); ok {
@@ -767,6 +818,9 @@ func (client BlockstorageClient) GetVolumeBackup(ctx context.Context, request Ge
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getVolumeBackup, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = GetVolumeBackupResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(GetVolumeBackupResponse); ok {
@@ -806,6 +860,9 @@ func (client BlockstorageClient) GetVolumeBackupPolicy(ctx context.Context, requ
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getVolumeBackupPolicy, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = GetVolumeBackupPolicyResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(GetVolumeBackupPolicyResponse); ok {
@@ -847,6 +904,9 @@ func (client BlockstorageClient) GetVolumeBackupPolicyAssetAssignment(ctx contex
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getVolumeBackupPolicyAssetAssignment, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = GetVolumeBackupPolicyAssetAssignmentResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(GetVolumeBackupPolicyAssetAssignmentResponse); ok {
@@ -886,6 +946,9 @@ func (client BlockstorageClient) GetVolumeBackupPolicyAssignment(ctx context.Con
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getVolumeBackupPolicyAssignment, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = GetVolumeBackupPolicyAssignmentResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(GetVolumeBackupPolicyAssignmentResponse); ok {
@@ -925,6 +988,9 @@ func (client BlockstorageClient) GetVolumeGroup(ctx context.Context, request Get
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getVolumeGroup, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = GetVolumeGroupResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(GetVolumeGroupResponse); ok {
@@ -964,6 +1030,9 @@ func (client BlockstorageClient) GetVolumeGroupBackup(ctx context.Context, reque
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getVolumeGroupBackup, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = GetVolumeGroupBackupResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(GetVolumeGroupBackupResponse); ok {
@@ -1003,6 +1072,9 @@ func (client BlockstorageClient) ListBootVolumeBackups(ctx context.Context, requ
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listBootVolumeBackups, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = ListBootVolumeBackupsResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(ListBootVolumeBackupsResponse); ok {
@@ -1042,6 +1114,9 @@ func (client BlockstorageClient) ListBootVolumes(ctx context.Context, request Li
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listBootVolumes, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = ListBootVolumesResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(ListBootVolumesResponse); ok {
@@ -1081,6 +1156,9 @@ func (client BlockstorageClient) ListVolumeBackupPolicies(ctx context.Context, r
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listVolumeBackupPolicies, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = ListVolumeBackupPoliciesResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(ListVolumeBackupPoliciesResponse); ok {
@@ -1120,6 +1198,9 @@ func (client BlockstorageClient) ListVolumeBackups(ctx context.Context, request 
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listVolumeBackups, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = ListVolumeBackupsResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(ListVolumeBackupsResponse); ok {
@@ -1160,6 +1241,9 @@ func (client BlockstorageClient) ListVolumeGroupBackups(ctx context.Context, req
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listVolumeGroupBackups, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = ListVolumeGroupBackupsResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(ListVolumeGroupBackupsResponse); ok {
@@ -1200,6 +1284,9 @@ func (client BlockstorageClient) ListVolumeGroups(ctx context.Context, request L
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listVolumeGroups, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = ListVolumeGroupsResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(ListVolumeGroupsResponse); ok {
@@ -1239,6 +1326,9 @@ func (client BlockstorageClient) ListVolumes(ctx context.Context, request ListVo
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listVolumes, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = ListVolumesResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(ListVolumesResponse); ok {
@@ -1278,6 +1368,9 @@ func (client BlockstorageClient) UpdateBootVolume(ctx context.Context, request U
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateBootVolume, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = UpdateBootVolumeResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(UpdateBootVolumeResponse); ok {
@@ -1318,6 +1411,9 @@ func (client BlockstorageClient) UpdateBootVolumeBackup(ctx context.Context, req
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateBootVolumeBackup, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = UpdateBootVolumeBackupResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(UpdateBootVolumeBackupResponse); ok {
@@ -1358,6 +1454,9 @@ func (client BlockstorageClient) UpdateVolume(ctx context.Context, request Updat
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateVolume, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = UpdateVolumeResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(UpdateVolumeResponse); ok {
@@ -1398,6 +1497,9 @@ func (client BlockstorageClient) UpdateVolumeBackup(ctx context.Context, request
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateVolumeBackup, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = UpdateVolumeBackupResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(UpdateVolumeBackupResponse); ok {
@@ -1441,6 +1543,9 @@ func (client BlockstorageClient) UpdateVolumeGroup(ctx context.Context, request 
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateVolumeGroup, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = UpdateVolumeGroupResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(UpdateVolumeGroupResponse); ok {
@@ -1480,6 +1585,9 @@ func (client BlockstorageClient) UpdateVolumeGroupBackup(ctx context.Context, re
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateVolumeGroupBackup, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = UpdateVolumeGroupBackupResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(UpdateVolumeGroupBackupResponse); ok {

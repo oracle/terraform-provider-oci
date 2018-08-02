@@ -67,6 +67,9 @@ func (client AuditClient) GetConfiguration(ctx context.Context, request GetConfi
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getConfiguration, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = GetConfigurationResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(GetConfigurationResponse); ok {
@@ -106,6 +109,9 @@ func (client AuditClient) ListEvents(ctx context.Context, request ListEventsRequ
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listEvents, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = ListEventsResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(ListEventsResponse); ok {
@@ -145,6 +151,9 @@ func (client AuditClient) UpdateConfiguration(ctx context.Context, request Updat
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateConfiguration, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = UpdateConfigurationResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(UpdateConfigurationResponse); ok {

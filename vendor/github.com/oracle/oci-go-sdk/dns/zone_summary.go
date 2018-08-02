@@ -41,7 +41,7 @@ type ZoneSummary struct {
 	Version *string `mandatory:"false" json:"version"`
 
 	// The current serial of the zone. As seen in the zone's SOA record.
-	Serial *int `mandatory:"false" json:"serial"`
+	Serial *int64 `mandatory:"false" json:"serial"`
 }
 
 func (m ZoneSummary) String() string {

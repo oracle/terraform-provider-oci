@@ -15,8 +15,13 @@ import (
 // EgressSecurityRule A rule for allowing outbound IP packets.
 type EgressSecurityRule struct {
 
-	// The destination service cidrBlock or destination IP address range in CIDR notation for the egress rule.
-	// This is the range of IP addresses that a packet originating from the instance can go to.
+	// Conceptually, this is the range of IP addresses that a packet originating from the instance
+	// can go to.
+	// Allowed values:
+	//   * IP address range in CIDR notation. For example: `192.168.1.0/24`
+	//   * The `cidrBlock` value for a Service, if you're
+	//     setting up a security list rule for traffic destined for a particular service through
+	//     a service gateway. For example: `oci-phx-objectstorage`
 	Destination *string `mandatory:"true" json:"destination"`
 
 	// The transport protocol. Specify either `all` or an IPv4 protocol number as
@@ -25,9 +30,12 @@ type EgressSecurityRule struct {
 	// Options are supported only for ICMP ("1"), TCP ("6"), and UDP ("17").
 	Protocol *string `mandatory:"true" json:"protocol"`
 
-	// Type of destination for EgressSecurityRule. SERVICE_CIDR_BLOCK should be used if destination is a service
-	// cidrBlock. CIDR_BLOCK should be used if destination is IP address range in CIDR notation.
-	// It defaults to CIDR_BLOCK, if not specified.
+	// Type of destination for the rule. The default is `CIDR_BLOCK`.
+	// Allowed values:
+	//   * `CIDR_BLOCK`: If the rule's `destination` is an IP address range in CIDR notation.
+	//   * `SERVICE_CIDR_BLOCK`: If the rule's `destination` is the `cidrBlock` value for a
+	//     Service (the rule is for traffic destined for a
+	//     particular service through a service gateway).
 	DestinationType EgressSecurityRuleDestinationTypeEnum `mandatory:"false" json:"destinationType,omitempty"`
 
 	// Optional and valid only for ICMP. Use to specify a particular ICMP type and code

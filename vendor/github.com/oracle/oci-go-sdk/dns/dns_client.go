@@ -69,6 +69,9 @@ func (client DnsClient) CreateZone(ctx context.Context, request CreateZoneReques
 	}
 	ociResponse, err = common.Retry(ctx, request, client.createZone, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = CreateZoneResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(CreateZoneResponse); ok {
@@ -108,6 +111,9 @@ func (client DnsClient) DeleteDomainRecords(ctx context.Context, request DeleteD
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteDomainRecords, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = DeleteDomainRecordsResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(DeleteDomainRecordsResponse); ok {
@@ -147,6 +153,9 @@ func (client DnsClient) DeleteRRSet(ctx context.Context, request DeleteRRSetRequ
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteRRSet, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = DeleteRRSetResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(DeleteRRSetResponse); ok {
@@ -187,6 +196,9 @@ func (client DnsClient) DeleteZone(ctx context.Context, request DeleteZoneReques
 	}
 	ociResponse, err = common.Retry(ctx, request, client.deleteZone, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = DeleteZoneResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(DeleteZoneResponse); ok {
@@ -228,6 +240,9 @@ func (client DnsClient) GetDomainRecords(ctx context.Context, request GetDomainR
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getDomainRecords, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = GetDomainRecordsResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(GetDomainRecordsResponse); ok {
@@ -268,6 +283,9 @@ func (client DnsClient) GetRRSet(ctx context.Context, request GetRRSetRequest) (
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getRRSet, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = GetRRSetResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(GetRRSetResponse); ok {
@@ -308,6 +326,9 @@ func (client DnsClient) GetZone(ctx context.Context, request GetZoneRequest) (re
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getZone, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = GetZoneResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(GetZoneResponse); ok {
@@ -349,6 +370,9 @@ func (client DnsClient) GetZoneRecords(ctx context.Context, request GetZoneRecor
 	}
 	ociResponse, err = common.Retry(ctx, request, client.getZoneRecords, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = GetZoneRecordsResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(GetZoneRecordsResponse); ok {
@@ -389,6 +413,9 @@ func (client DnsClient) ListZones(ctx context.Context, request ListZonesRequest)
 	}
 	ociResponse, err = common.Retry(ctx, request, client.listZones, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = ListZonesResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(ListZonesResponse); ok {
@@ -428,6 +455,9 @@ func (client DnsClient) PatchDomainRecords(ctx context.Context, request PatchDom
 	}
 	ociResponse, err = common.Retry(ctx, request, client.patchDomainRecords, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = PatchDomainRecordsResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(PatchDomainRecordsResponse); ok {
@@ -467,6 +497,9 @@ func (client DnsClient) PatchRRSet(ctx context.Context, request PatchRRSetReques
 	}
 	ociResponse, err = common.Retry(ctx, request, client.patchRRSet, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = PatchRRSetResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(PatchRRSetResponse); ok {
@@ -509,6 +542,9 @@ func (client DnsClient) PatchZoneRecords(ctx context.Context, request PatchZoneR
 	}
 	ociResponse, err = common.Retry(ctx, request, client.patchZoneRecords, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = PatchZoneRecordsResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(PatchZoneRecordsResponse); ok {
@@ -553,6 +589,9 @@ func (client DnsClient) UpdateDomainRecords(ctx context.Context, request UpdateD
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateDomainRecords, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = UpdateDomainRecordsResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(UpdateDomainRecordsResponse); ok {
@@ -592,6 +631,9 @@ func (client DnsClient) UpdateRRSet(ctx context.Context, request UpdateRRSetRequ
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateRRSet, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = UpdateRRSetResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(UpdateRRSetResponse); ok {
@@ -633,6 +675,9 @@ func (client DnsClient) UpdateZone(ctx context.Context, request UpdateZoneReques
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateZone, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = UpdateZoneResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(UpdateZoneResponse); ok {
@@ -676,6 +721,9 @@ func (client DnsClient) UpdateZoneRecords(ctx context.Context, request UpdateZon
 	}
 	ociResponse, err = common.Retry(ctx, request, client.updateZoneRecords, policy)
 	if err != nil {
+		if ociResponse != nil {
+			response = UpdateZoneRecordsResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
 		return
 	}
 	if convertedResponse, ok := ociResponse.(UpdateZoneRecordsResponse); ok {
