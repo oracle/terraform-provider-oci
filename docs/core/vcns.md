@@ -51,7 +51,9 @@ Interent and VCN Resolver option for DNS in the VCN. For more information, see
 
 The VCN automatically comes with a default route table, default security list, and default set of DHCP options.
 The OCID for each is returned in the response. You can't delete these default objects, but you can change their
-contents (that is, change the route rules, security list rules, and so on).
+contents (that is, change the route rules, security list rules, and so on). These resources can be managed using
+the special "default" variants of the route table, security list, and DHCP options resources, see
+[managing default resources](../Managing%20Default%20Resources.md) for more information.
 
 The VCN and subnets you create are not accessible until you attach an Internet Gateway or set up an IPSec VPN
 or FastConnect. For more information, see
