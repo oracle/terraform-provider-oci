@@ -109,6 +109,101 @@ func (s *ResourceCoreDHCPOptionsTestSuite) TestAccResourceCoreDHCPOptions_basic(
 	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
+			// Test invalid options type
+			{
+				Config: legacyTestProviderConfig() + defaultDhcpOpts + `
+					resource "oci_core_virtual_network" "t" {
+						cidr_block = "10.0.0.0/16"
+						compartment_id = "${var.compartment_id}"
+						display_name = "network_name"
+					}
+
+					resource "oci_core_dhcp_options" "opt6" {
+						compartment_id = "${var.compartment_id}"
+						vcn_id = "${oci_core_virtual_network.t.id}"
+						display_name = "display_name6"
+						options {
+							type = "DomainNameServer_ShouldNotWork"
+							server_type = "CustomDnsServer"
+							custom_dns_servers = [ "8.8.4.4", "8.8.8.8" ]
+						}
+					}`,
+				ExpectError: regexp.MustCompile("expected options.0.type to be one of"),
+			},
+			// Test invalid options server_type
+			{
+				Config: legacyTestProviderConfig() + defaultDhcpOpts + `
+					resource "oci_core_virtual_network" "t" {
+						cidr_block = "10.0.0.0/16"
+						compartment_id = "${var.compartment_id}"
+						display_name = "network_name"
+					}
+
+					resource "oci_core_dhcp_options" "opt6" {
+						compartment_id = "${var.compartment_id}"
+						vcn_id = "${oci_core_virtual_network.t.id}"
+						display_name = "display_name6"
+						options {
+							type = "DomainNameServer"
+							server_type = "CustomDnsServer_ShouldNotWork"
+							custom_dns_servers = [ "8.8.4.4", "8.8.8.8" ]
+						}
+					}`,
+				ExpectError: regexp.MustCompile("expected options.0.server_type to be one of"),
+			},
+			// Verify result of strange polymorphic options
+			{
+				Config: s.Config,
+				Check:  nil,
+			},
+			{
+				Config: legacyTestProviderConfig() + defaultDhcpOpts + `
+					resource "oci_core_virtual_network" "t" {
+						cidr_block = "10.0.0.0/16"
+						compartment_id = "${var.compartment_id}"
+						display_name = "network_name"
+					}
+
+					resource "oci_core_dhcp_options" "opt5" {
+						compartment_id = "${var.compartment_id}"
+						vcn_id = "${oci_core_virtual_network.t.id}"
+						display_name = "display_name5"
+						options {
+							type = "DomainNameServer"
+						}
+						options {
+							type = "SearchDomain"
+						}
+					}`,
+				ExpectError: regexp.MustCompile("InvalidParameter.*JSON input"),
+			},
+			{
+				Config: legacyTestProviderConfig() + defaultDhcpOpts + `
+					resource "oci_core_virtual_network" "t" {
+						cidr_block = "10.0.0.0/16"
+						compartment_id = "${var.compartment_id}"
+						display_name = "network_name"
+					}
+
+					resource "oci_core_dhcp_options" "opt6" {
+						compartment_id = "${var.compartment_id}"
+						vcn_id = "${oci_core_virtual_network.t.id}"
+						display_name = "display_name6"
+						options {
+							type = "DomainNameServer"
+							server_type = "CustomDnsServer"
+							custom_dns_servers = [ "8.8.4.4", "8.8.8.8" ]
+							search_domain_names = [ "test.com" ]
+						}
+						options {
+							type = "SearchDomain"
+							server_type = "CustomDnsServer"
+							custom_dns_servers = [ "8.8.4.4", "8.8.8.8" ]
+							search_domain_names = [ "test.com" ]
+						}
+					}`,
+				ExpectError: regexp.MustCompile("should not be specified for type"),
+			},
 			{
 				Config: s.Config + additionalDhcpOption4 + defaultDhcpOpts,
 				Check: resource.ComposeAggregateTestCheckFunc(
@@ -262,101 +357,6 @@ func (s *ResourceCoreDHCPOptionsTestSuite) TestAccResourceCoreDHCPOptions_basic(
 						return err
 					},
 				),
-			},
-			// Test invalid options type
-			{
-				Config: legacyTestProviderConfig() + defaultDhcpOpts + `
-					resource "oci_core_virtual_network" "t" {
-						cidr_block = "10.0.0.0/16"
-						compartment_id = "${var.compartment_id}"
-						display_name = "network_name"
-					}
-
-					resource "oci_core_dhcp_options" "opt6" {
-						compartment_id = "${var.compartment_id}"
-						vcn_id = "${oci_core_virtual_network.t.id}"
-						display_name = "display_name6"
-						options {
-							type = "DomainNameServer_ShouldNotWork"
-							server_type = "CustomDnsServer"
-							custom_dns_servers = [ "8.8.4.4", "8.8.8.8" ]
-						}
-					}`,
-				ExpectError: regexp.MustCompile("expected options.0.type to be one of"),
-			},
-			// Test invalid options server_type
-			{
-				Config: legacyTestProviderConfig() + defaultDhcpOpts + `
-					resource "oci_core_virtual_network" "t" {
-						cidr_block = "10.0.0.0/16"
-						compartment_id = "${var.compartment_id}"
-						display_name = "network_name"
-					}
-
-					resource "oci_core_dhcp_options" "opt6" {
-						compartment_id = "${var.compartment_id}"
-						vcn_id = "${oci_core_virtual_network.t.id}"
-						display_name = "display_name6"
-						options {
-							type = "DomainNameServer"
-							server_type = "CustomDnsServer_ShouldNotWork"
-							custom_dns_servers = [ "8.8.4.4", "8.8.8.8" ]
-						}
-					}`,
-				ExpectError: regexp.MustCompile("expected options.0.server_type to be one of"),
-			},
-			// Verify result of strange polymorphic options
-			{
-				Config: s.Config,
-				Check:  nil,
-			},
-			{
-				Config: legacyTestProviderConfig() + defaultDhcpOpts + `
-					resource "oci_core_virtual_network" "t" {
-						cidr_block = "10.0.0.0/16"
-						compartment_id = "${var.compartment_id}"
-						display_name = "network_name"
-					}
-
-					resource "oci_core_dhcp_options" "opt5" {
-						compartment_id = "${var.compartment_id}"
-						vcn_id = "${oci_core_virtual_network.t.id}"
-						display_name = "display_name5"
-						options {
-							type = "DomainNameServer"
-						}
-						options {
-							type = "SearchDomain"
-						}
-					}`,
-				ExpectError: regexp.MustCompile("InvalidParameter.*JSON input"),
-			},
-			{
-				Config: legacyTestProviderConfig() + defaultDhcpOpts + `
-					resource "oci_core_virtual_network" "t" {
-						cidr_block = "10.0.0.0/16"
-						compartment_id = "${var.compartment_id}"
-						display_name = "network_name"
-					}
-
-					resource "oci_core_dhcp_options" "opt6" {
-						compartment_id = "${var.compartment_id}"
-						vcn_id = "${oci_core_virtual_network.t.id}"
-						display_name = "display_name6"
-						options {
-							type = "DomainNameServer"
-							server_type = "CustomDnsServer"
-							custom_dns_servers = [ "8.8.4.4", "8.8.8.8" ]
-							search_domain_names = [ "test.com" ]
-						}
-						options {
-							type = "SearchDomain"
-							server_type = "CustomDnsServer"
-							custom_dns_servers = [ "8.8.4.4", "8.8.8.8" ]
-							search_domain_names = [ "test.com" ]
-						}
-					}`,
-				ExpectError: regexp.MustCompile("should not be specified for type"),
 			},
 		},
 	})
