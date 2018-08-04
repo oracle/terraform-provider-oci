@@ -37,14 +37,16 @@ func ExportSetResource() *schema.Resource {
 				Computed: true,
 			},
 			"max_fs_stat_bytes": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
+				Type:         schema.TypeString,
+				Optional:     true,
+				Computed:     true,
+				ValidateFunc: validateInt64TypeString,
 			},
 			"max_fs_stat_files": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
+				Type:         schema.TypeString,
+				Optional:     true,
+				Computed:     true,
+				ValidateFunc: validateInt64TypeString,
 			},
 
 			// Computed

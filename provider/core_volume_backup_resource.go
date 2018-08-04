@@ -65,14 +65,16 @@ func VolumeBackupResource() *schema.Resource {
 				Computed: true,
 			},
 			"size_in_gbs": {
-				Type:     schema.TypeString,
-				Computed: true,
+				Type:         schema.TypeString,
+				Computed:     true,
+				ValidateFunc: validateInt64TypeString,
 			},
 			// @Deprecated 2017: size_in_mbs => size_in_gbs
 			"size_in_mbs": {
-				Type:       schema.TypeString,
-				Computed:   true,
-				Deprecated: FieldDeprecatedForAnother("size_in_mbs", "size_in_gbs"),
+				Type:         schema.TypeString,
+				Computed:     true,
+				ValidateFunc: validateInt64TypeString,
+				Deprecated:   FieldDeprecatedForAnother("size_in_mbs", "size_in_gbs"),
 			},
 			"source_type": {
 				Type:     schema.TypeString,
@@ -91,14 +93,16 @@ func VolumeBackupResource() *schema.Resource {
 				Computed: true,
 			},
 			"unique_size_in_gbs": {
-				Type:     schema.TypeString,
-				Computed: true,
+				Type:         schema.TypeString,
+				Computed:     true,
+				ValidateFunc: validateInt64TypeString,
 			},
 			// @Deprecated 2017: unique_size_in_mbs => unique_size_in_gbs
 			"unique_size_in_mbs": {
-				Type:       schema.TypeString,
-				Computed:   true,
-				Deprecated: FieldDeprecatedForAnother("unique_size_in_mbs", "unique_size_in_gbs"),
+				Type:         schema.TypeString,
+				Computed:     true,
+				ValidateFunc: validateInt64TypeString,
+				Deprecated:   FieldDeprecatedForAnother("unique_size_in_mbs", "unique_size_in_gbs"),
 			},
 		},
 	}

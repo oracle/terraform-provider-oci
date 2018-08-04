@@ -56,8 +56,9 @@ func ListenerResource() *schema.Resource {
 					Schema: map[string]*schema.Schema{
 						// Required
 						"idle_timeout_in_seconds": {
-							Type:     schema.TypeString,
-							Required: true,
+							Type:         schema.TypeString,
+							Required:     true,
+							ValidateFunc: validateInt64TypeString,
 						},
 
 						// Optional
