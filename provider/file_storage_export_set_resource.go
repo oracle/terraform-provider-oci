@@ -172,20 +172,20 @@ func (s *ExportSetResourceCrud) Update() error {
 
 	if maxFsStatBytes, ok := s.D.GetOkExists("max_fs_stat_bytes"); ok {
 		tmp := maxFsStatBytes.(string)
-		tmp_i, err := strconv.ParseInt(tmp, 10, 64)
+		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
 		if err != nil {
 			return fmt.Errorf("unable to convert maxFsStatBytes string: %s to an int64", tmp)
 		}
-		request.MaxFsStatBytes = &tmp_i
+		request.MaxFsStatBytes = &tmpInt64
 	}
 
 	if maxFsStatFiles, ok := s.D.GetOkExists("max_fs_stat_files"); ok {
 		tmp := maxFsStatFiles.(string)
-		tmp_i, err := strconv.ParseInt(tmp, 10, 64)
+		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
 		if err != nil {
 			return fmt.Errorf("unable to convert maxFsStatFiles string: %s to an int64", tmp)
 		}
-		request.MaxFsStatFiles = &tmp_i
+		request.MaxFsStatFiles = &tmpInt64
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "file_storage")
