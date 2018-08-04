@@ -234,20 +234,20 @@ func (s *VolumeResourceCrud) Create() error {
 
 	if sizeInGBs, ok := s.D.GetOkExists("size_in_gbs"); ok {
 		tmp := sizeInGBs.(string)
-		tmp_i, err := strconv.ParseInt(tmp, 10, 64)
+		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
 		if err != nil {
 			return fmt.Errorf("unable to convert sizeInGBs string: %s to an int64", tmp)
 		}
-		request.SizeInGBs = &tmp_i
+		request.SizeInGBs = &tmpInt64
 	}
 
 	if sizeInMBs, ok := s.D.GetOkExists("size_in_mbs"); ok {
 		tmp := sizeInMBs.(string)
-		tmp_i, err := strconv.ParseInt(tmp, 10, 64)
+		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
 		if err != nil {
 			return fmt.Errorf("unable to convert sizeInMBs string: %s to an int64", tmp)
 		}
-		request.SizeInMBs = &tmp_i
+		request.SizeInMBs = &tmpInt64
 	}
 
 	// @Deprecated 2017: size_in_mbs => size_in_gbs
