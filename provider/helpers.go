@@ -4,6 +4,8 @@ package provider
 import (
 	"fmt"
 
+	"strconv"
+
 	"github.com/hashicorp/terraform/helper/hashcode"
 	"github.com/hashicorp/terraform/helper/schema"
 )
@@ -51,4 +53,14 @@ func objectMapToStringMap(rm map[string]interface{}) map[string]string {
 		result[k] = v.(string)
 	}
 	return result
+}
+
+func validateInt64TypeString(v interface{}, k string) (ws []string, errors []error) {
+	value := v.(string)
+
+	_, err := strconv.ParseInt(value, 10, 64)
+	if err != nil {
+		errors = append(errors, fmt.Errorf("%q (%q) must be a 64-bit integer", k, v))
+	}
+	return
 }
