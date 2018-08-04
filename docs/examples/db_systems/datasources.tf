@@ -6,18 +6,18 @@ data "oci_identity_availability_domains" "availability_domains" {
 # Get DB node list
 data "oci_database_db_nodes" "db_nodes" {
     compartment_id = "${var.compartment_ocid}"
-    db_system_id = "${oci_database_db_system.test_db_system.id}"
+    db_system_id = "${element(oci_database_db_system.TFDBNode.*.id, count.index)}"
 }
 
 # Get DB node details
 data "oci_database_db_node" "db_node_details" {
-    db_node_id = "${lookup(data.oci_database_db_nodes.db_nodes.db_nodes[0], "id")}"
+    db_node_id = "${lookup(data.oci_database_db_nodes.DBNodeList.db_nodes[count.index], "id")}"
 }
 
 # Gets the OCID of the first (default) vNIC
-#data "oci_core_vnic" "db_node_vnic" {
-#    vnic_id = "${data.oci_database_db_node.db_node_details.vnic_id}"
-#}
+data "oci_core_vnic" "db_node_vnic" {
+    vnic_id = "${element(data.oci_database_db_node.DBNodeDetails.*.vnic_id, count.index)}"
+}
 
 data "oci_database_db_homes" "db_homes" {
     compartment_id = "${var.compartment_ocid}"
