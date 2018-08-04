@@ -32,8 +32,9 @@ func UiPasswordResource() *schema.Resource {
 
 			// Computed
 			"inactive_status": {
-				Type:     schema.TypeString,
-				Computed: true,
+				Type:         schema.TypeString,
+				Computed:     true,
+				ValidateFunc: validateInt64TypeString,
 			},
 			"password": {
 				Type:     schema.TypeString,

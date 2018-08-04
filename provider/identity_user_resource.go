@@ -60,8 +60,9 @@ func UserResource() *schema.Resource {
 
 			// Computed
 			"inactive_state": {
-				Type:     schema.TypeString,
-				Computed: true,
+				Type:         schema.TypeString,
+				Computed:     true,
+				ValidateFunc: validateInt64TypeString,
 			},
 			"state": {
 				Type:     schema.TypeString,

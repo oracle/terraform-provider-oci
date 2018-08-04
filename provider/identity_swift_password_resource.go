@@ -38,8 +38,9 @@ func SwiftPasswordResource() *schema.Resource {
 				Computed: true,
 			},
 			"inactive_state": {
-				Type:     schema.TypeString,
-				Computed: true,
+				Type:         schema.TypeString,
+				Computed:     true,
+				ValidateFunc: validateInt64TypeString,
 			},
 			"password": {
 				Type:     schema.TypeString,

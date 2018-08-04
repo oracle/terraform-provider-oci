@@ -63,8 +63,9 @@ func VolumeGroupBackupResource() *schema.Resource {
 
 			// Computed
 			"size_in_mbs": {
-				Type:     schema.TypeString,
-				Computed: true,
+				Type:         schema.TypeString,
+				Computed:     true,
+				ValidateFunc: validateInt64TypeString,
 			},
 			"state": {
 				Type:     schema.TypeString,
@@ -79,8 +80,9 @@ func VolumeGroupBackupResource() *schema.Resource {
 				Computed: true,
 			},
 			"unique_size_in_mbs": {
-				Type:     schema.TypeString,
-				Computed: true,
+				Type:         schema.TypeString,
+				Computed:     true,
+				ValidateFunc: validateInt64TypeString,
 			},
 			"volume_backup_ids": {
 				Type:     schema.TypeList,
