@@ -176,7 +176,7 @@ func (s *ExportSetResourceCrud) Update() error {
 		tmp := maxFsStatBytes.(string)
 		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
 		if err != nil {
-			return fmt.Errorf("unable to convert maxFsStatBytes string: %s to an int64", tmp)
+			return fmt.Errorf("unable to convert maxFsStatBytes string: %s to an int64 and encountered error: %v", tmp, err)
 		}
 		request.MaxFsStatBytes = &tmpInt64
 	}
@@ -185,7 +185,7 @@ func (s *ExportSetResourceCrud) Update() error {
 		tmp := maxFsStatFiles.(string)
 		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
 		if err != nil {
-			return fmt.Errorf("unable to convert maxFsStatFiles string: %s to an int64", tmp)
+			return fmt.Errorf("unable to convert maxFsStatFiles string: %s to an int64 and encountered error: %v", tmp, err)
 		}
 		request.MaxFsStatFiles = &tmpInt64
 	}

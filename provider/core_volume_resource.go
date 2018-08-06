@@ -238,7 +238,7 @@ func (s *VolumeResourceCrud) Create() error {
 		tmp := sizeInGBs.(string)
 		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
 		if err != nil {
-			return fmt.Errorf("unable to convert sizeInGBs string: %s to an int64", tmp)
+			return fmt.Errorf("unable to convert sizeInGBs string: %s to an int64 and encountered error: %v", tmp, err)
 		}
 		request.SizeInGBs = &tmpInt64
 	}
@@ -247,7 +247,7 @@ func (s *VolumeResourceCrud) Create() error {
 		tmp := sizeInMBs.(string)
 		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
 		if err != nil {
-			return fmt.Errorf("unable to convert sizeInMBs string: %s to an int64", tmp)
+			return fmt.Errorf("unable to convert sizeInMBs string: %s to an int64 and encountered error: %v", tmp, err)
 		}
 		request.SizeInMBs = &tmpInt64
 	}
