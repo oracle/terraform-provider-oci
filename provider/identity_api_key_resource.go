@@ -46,9 +46,8 @@ func ApiKeyResource() *schema.Resource {
 				Computed: true,
 			},
 			"inactive_status": {
-				Type:         schema.TypeString,
-				Computed:     true,
-				ValidateFunc: validateInt64TypeString,
+				Type:     schema.TypeString,
+				Computed: true,
 			},
 			"state": {
 				Type:     schema.TypeString,

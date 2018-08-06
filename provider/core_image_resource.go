@@ -176,9 +176,8 @@ func ImageResource() *schema.Resource {
 				Computed: true,
 			},
 			"size_in_mbs": {
-				Type:         schema.TypeString,
-				Computed:     true,
-				ValidateFunc: validateInt64TypeString,
+				Type:     schema.TypeString,
+				Computed: true,
 			},
 			"state": {
 				Type:     schema.TypeString,
