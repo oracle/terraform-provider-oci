@@ -483,7 +483,7 @@ func mapToConnectionConfiguration(raw map[string]interface{}) (result oci_load_b
 		tmp := idleTimeoutInSeconds.(string)
 		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
 		if err != nil {
-			err = fmt.Errorf("unable to convert idleTimeoutInSeconds string: %s to an int64", tmp)
+			err = fmt.Errorf("unable to convert idleTimeoutInSeconds string: %s to an int64 and encountered error: %v", tmp, err)
 			return result, err
 		}
 		result.IdleTimeout = &tmpInt64
