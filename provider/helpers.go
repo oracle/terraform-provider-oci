@@ -64,3 +64,10 @@ func validateInt64TypeString(v interface{}, k string) (ws []string, errors []err
 	}
 	return
 }
+
+func int64StringDiffSuppressFunction(key string, old string, new string, d *schema.ResourceData) bool {
+	//  We can ignore the error since the validate func takes care of this before it reaches here
+	oldIntVal, _ := strconv.ParseInt(old, 10, 64)
+	newIntVal, _ := strconv.ParseInt(new, 10, 64)
+	return oldIntVal == newIntVal
+}
