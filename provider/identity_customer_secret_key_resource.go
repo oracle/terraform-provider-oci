@@ -34,9 +34,8 @@ func CustomerSecretKeyResource() *schema.Resource {
 
 			// Computed
 			"inactive_state": {
-				Type:         schema.TypeString,
-				Computed:     true,
-				ValidateFunc: validateInt64TypeString,
+				Type:     schema.TypeString,
+				Computed: true,
 			},
 			"key": {
 				Type:     schema.TypeString,

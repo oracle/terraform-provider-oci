@@ -42,9 +42,8 @@ func IdpGroupMappingResource() *schema.Resource {
 				Computed: true,
 			},
 			"inactive_state": {
-				Type:         schema.TypeString,
-				Computed:     true,
-				ValidateFunc: validateInt64TypeString,
+				Type:     schema.TypeString,
+				Computed: true,
 			},
 			"state": {
 				Type:     schema.TypeString,
