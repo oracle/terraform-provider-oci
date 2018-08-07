@@ -149,6 +149,7 @@ func schemaMap() map[string]*schema.Schema {
 func dataSourcesMap() map[string]*schema.Resource {
 	return map[string]*schema.Resource{
 		"oci_audit_configuration":                      ConfigurationDataSource(),
+		"oci_audit_events":                             AuditEventsDataSource(),
 		"oci_containerengine_clusters":                 ClustersDataSource(),
 		"oci_containerengine_cluster_option":           ClusterOptionDataSource(),
 		"oci_containerengine_node_pool":                NodePoolDataSource(),
