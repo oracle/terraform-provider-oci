@@ -747,7 +747,10 @@ func mapToInstanceSourceDetails(raw map[string]interface{}) oci_core.InstanceSou
 		result.ImageId = &sourceId
 
 		if bootVolumeSizeInGBs, ok := raw["boot_volume_size_in_gbs"]; ok {
-			tmp := bootVolumeSizeInGBs.(int64)
+			// HCL2TODO:
+			// Keep the polymorphic input as int and convert to int64 here. Once HCL2 is released, make it int64 in the
+			// schema and conversion will become simpler here.
+			tmp := int64(bootVolumeSizeInGBs.(int))
 			if tmp != 0 {
 				result.BootVolumeSizeInGBs = &tmp
 			}
