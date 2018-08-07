@@ -62,6 +62,10 @@ func VolumeGroupBackupResource() *schema.Resource {
 			},
 
 			// Computed
+			"size_in_gbs": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"size_in_mbs": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -75,6 +79,10 @@ func VolumeGroupBackupResource() *schema.Resource {
 				Computed: true,
 			},
 			"time_request_received": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"unique_size_in_gbs": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -286,6 +294,10 @@ func (s *VolumeGroupBackupResourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.SizeInGBs != nil {
+		s.D.Set("size_in_gbs", strconv.FormatInt(*s.Res.SizeInGBs, 10))
+	}
+
 	if s.Res.SizeInMBs != nil {
 		s.D.Set("size_in_mbs", strconv.FormatInt(*s.Res.SizeInMBs, 10))
 	}
@@ -301,6 +313,10 @@ func (s *VolumeGroupBackupResourceCrud) SetData() error {
 	}
 
 	s.D.Set("type", s.Res.Type)
+
+	if s.Res.UniqueSizeInGbs != nil {
+		s.D.Set("unique_size_in_gbs", strconv.FormatInt(*s.Res.UniqueSizeInGbs, 10))
+	}
 
 	if s.Res.UniqueSizeInMbs != nil {
 		s.D.Set("unique_size_in_mbs", strconv.FormatInt(*s.Res.UniqueSizeInMbs, 10))

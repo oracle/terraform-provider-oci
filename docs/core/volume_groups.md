@@ -6,14 +6,15 @@
 
 The following attributes are exported:
 
-* `availability_domain` - The Availability Domain of the volume group.
+* `availability_domain` - The availability domain of the volume group.
 * `compartment_id` - The OCID of the compartment that contains the volume group.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
-* `display_name` - A user-friendly name for the volume group. Does not have to be unique, and it's changeable.
+* `display_name` - A user-friendly name for the volume group. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
-* `id` - The Oracle Cloud ID (OCID) that uniquely identifies the volume group.
+* `id` - The OCID for the volume group.
+* `size_in_gbs` - The aggregate size of the volume group in GBs.
 * `size_in_mbs` - The aggregate size of the volume group in MBs.
-* `source_details` - The volume group source. The volume source is either another a list of volume ids in the same Availability Domain, another volume group or a volume group backup. 
+* `source_details` - The volume group source. The source is either another a list of volume IDs in the same availability domain, another volume group, or a volume group backup. 
 	* `type` - The type of the volume group source. It should be set to either `volumeIds`, `volumeGroup`, or `volumeBackup`
 	* `volume_ids` - OCIDs for the volumes in this volume group, if the type is `volumeIds`
 	* `volume_group_id` - The OCID of the volume group to clone from, if the type is `volumeGroup`
@@ -25,11 +26,13 @@ The following attributes are exported:
 
 
 ### Create Operation
-Creates a new volume group in the specified compartment. A volume group can have at most 20 block volumes.
+Creates a new volume group in the specified compartment.
 A volume group is a collection of volumes and may be created from a list of volumes, cloning an existing
-volume group or by restoring a volume group backup.
+volume group, or by restoring a volume group backup. A volume group can contain up to 64 volumes.
 You may optionally specify a *display name* for the volume group, which is simply a friendly name or
 description. It does not have to be unique, and you can change it. Avoid entering confidential information.
+
+For more information, see [Volume Groups](https://docs.us-phoenix-1.oraclecloud.com/Content/Block/Concepts/volumegroups.htm).
 
 
 The following arguments are supported:
@@ -47,9 +50,12 @@ The following arguments are supported:
 
 
 ### Update Operation
-Updates the set of volumes in a volume group along with (optionally) it's display name. This call can be used
-to add or remove volumes in a volume group. The entire list of volume ids must be specified.
+Updates the set of volumes in a volume group along with the display name. Use this operation
+to add or remove volumes in a volume group. Specify the full list of volume IDs to include in the
+volume group. If the volume ID is not specified in the call, it will be removed from the volume group.
 Avoid entering confidential information.
+
+For more information, see [Volume Groups](https://docs.us-phoenix-1.oraclecloud.com/Content/Block/Concepts/volumegroups.htm).
 
 
 The following arguments support updates:
@@ -88,7 +94,8 @@ resource "oci_core_volume_group" "test_volume_group" {
 Gets a list of volume_groups.
 
 ### List Operation
-Lists the volume groups in the specified compartment and Availability Domain.
+Lists the volume groups in the specified compartment and availability domain.
+For more information, see [Volume Groups](https://docs.us-phoenix-1.oraclecloud.com/Content/Block/Concepts/volumegroups.htm).
 
 The following arguments are supported:
 
