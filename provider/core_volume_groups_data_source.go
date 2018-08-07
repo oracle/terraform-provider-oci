@@ -134,6 +134,10 @@ func (s *VolumeGroupsDataSourceCrud) SetData() error {
 			volumeGroup["id"] = *r.Id
 		}
 
+		if r.SizeInGBs != nil {
+			volumeGroup["size_in_gbs"] = strconv.FormatInt(*r.SizeInGBs, 10)
+		}
+
 		if r.SizeInMBs != nil {
 			volumeGroup["size_in_mbs"] = strconv.FormatInt(*r.SizeInMBs, 10)
 		}

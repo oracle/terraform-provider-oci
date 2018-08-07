@@ -122,6 +122,10 @@ func (s *VolumeGroupBackupsDataSourceCrud) SetData() error {
 			volumeGroupBackup["id"] = *r.Id
 		}
 
+		if r.SizeInGBs != nil {
+			volumeGroupBackup["size_in_gbs"] = strconv.FormatInt(*r.SizeInGBs, 10)
+		}
+
 		if r.SizeInMBs != nil {
 			volumeGroupBackup["size_in_mbs"] = strconv.FormatInt(*r.SizeInMBs, 10)
 		}
@@ -137,6 +141,10 @@ func (s *VolumeGroupBackupsDataSourceCrud) SetData() error {
 		}
 
 		volumeGroupBackup["type"] = r.Type
+
+		if r.UniqueSizeInGbs != nil {
+			volumeGroupBackup["unique_size_in_gbs"] = strconv.FormatInt(*r.UniqueSizeInGbs, 10)
+		}
 
 		if r.UniqueSizeInMbs != nil {
 			volumeGroupBackup["unique_size_in_mbs"] = strconv.FormatInt(*r.UniqueSizeInMbs, 10)

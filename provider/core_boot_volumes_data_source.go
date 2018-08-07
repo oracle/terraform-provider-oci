@@ -45,9 +45,20 @@ func BootVolumesDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"defined_tags": {
+							Type:             schema.TypeMap,
+							Computed:         true,
+							DiffSuppressFunc: definedTagsDiffSuppressFunction,
+							Elem:             schema.TypeString,
+						},
 						"display_name": {
 							Type:     schema.TypeString,
 							Computed: true,
+						},
+						"freeform_tags": {
+							Type:     schema.TypeMap,
+							Computed: true,
+							Elem:     schema.TypeString,
 						},
 						"id": {
 							Type:     schema.TypeString,
@@ -157,9 +168,15 @@ func (s *BootVolumesDataSourceCrud) SetData() error {
 			"compartment_id":      *r.CompartmentId,
 		}
 
+		if r.DefinedTags != nil {
+			bootVolume["defined_tags"] = definedTagsToMap(r.DefinedTags)
+		}
+
 		if r.DisplayName != nil {
 			bootVolume["display_name"] = *r.DisplayName
 		}
+
+		bootVolume["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {
 			bootVolume["id"] = *r.Id
