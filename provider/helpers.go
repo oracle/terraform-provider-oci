@@ -6,6 +6,8 @@ import (
 
 	"strconv"
 
+	"encoding/json"
+
 	"github.com/hashicorp/terraform/helper/hashcode"
 	"github.com/hashicorp/terraform/helper/schema"
 )
@@ -70,4 +72,17 @@ func int64StringDiffSuppressFunction(key string, old string, new string, d *sche
 	oldIntVal, _ := strconv.ParseInt(old, 10, 64)
 	newIntVal, _ := strconv.ParseInt(new, 10, 64)
 	return oldIntVal == newIntVal
+}
+
+func convertMapOfStringSlicesToMapOfStrings(rm map[string][]string) (map[string]string, error) {
+	result := map[string]string{}
+	for k, v := range rm {
+		val, err := json.Marshal(v)
+		if err == nil {
+			result[k] = string(val)
+		} else {
+			return nil, err
+		}
+	}
+	return result, nil
 }

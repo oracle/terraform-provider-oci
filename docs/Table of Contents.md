@@ -3,6 +3,7 @@
 This lists all of the available OCI resources and/or data sources.
 
 * **Audit**
+    * [Audit Events](audit/audit_events.md)
     * [Configurations](audit/configurations.md)
 * **Core**
     * [Boot Volume Attachments](core/boot_volume_attachments.md)
