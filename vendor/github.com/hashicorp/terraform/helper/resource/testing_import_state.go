@@ -90,8 +90,11 @@ func testStepImportState(
 		for _, r := range new {
 			// Find the existing resource
 			var oldR *terraform.ResourceState
-			for _, r2 := range old {
-				if r2.Primary != nil && r2.Primary.ID == r.Primary.ID && r2.Type == r.Type {
+			// NOTE: OCI specific change
+			// We add the "name" check here to ensure that only resource states are used for comparison.
+			// Any state that starts with "data." is considered a datasource and not useful for import comparison
+			for name, r2 := range old {
+				if r2.Primary != nil && r2.Primary.ID == r.Primary.ID && r2.Type == r.Type && !strings.HasPrefix(name,"data.") {
 					oldR = r2
 					break
 				}
