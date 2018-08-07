@@ -9,6 +9,7 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 
 	"strconv"
+
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
