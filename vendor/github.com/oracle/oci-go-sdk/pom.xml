@@ -624,7 +624,7 @@
       <plugin>
         <groupId>com.oracle.bmc.sdk</groupId>
         <artifactId>bmc-sdk-swagger-maven-plugin</artifactId>
-        <version>1.30-SNAPSHOT</version>
+        <version>1.36-SNAPSHOT</version>
         <executions>
           <execution>
             <id>go-public-sdk-identity</id>
