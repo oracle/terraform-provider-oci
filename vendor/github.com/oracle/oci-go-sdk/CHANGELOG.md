@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 
+## 2.2.0 - 2018-07-26
+### Added
+- Support for fault domains in the Compute service
+- A sample showing how to use Search service from the SDK is available on [Github](https://github.com/oracle/oci-go-sdk/tree/master/example/example_resourcesearch_test.go)
+
 ## 2.1.0 - 2018-07-26
 ### Added
 - Support for the OCI Search service
