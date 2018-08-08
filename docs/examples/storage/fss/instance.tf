@@ -1,5 +1,5 @@
 resource "oci_core_instance" "my_instance" {
-  availability_domain = "${var.availability_domain}"
+  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.AD - 1],"name")}"
   compartment_id = "${var.compartment_ocid}"
   display_name = "my instance with FSS access"
   hostname_label = "myinstance"
@@ -7,7 +7,7 @@ resource "oci_core_instance" "my_instance" {
   shape = "${var.instance_shape}"
   subnet_id = "${oci_core_subnet.my_subnet.id}"
   metadata {
-    ssh_authorized_keys = "${file(var.ssh_public_key)}"
+    ssh_authorized_keys = "${var.ssh_public_key}"
   }
   timeouts {
     create = "60m"
@@ -23,7 +23,7 @@ resource "null_resource" "mount_fss_on_instance" {
       timeout = "15m"
       host = "${oci_core_instance.my_instance.public_ip}"
       user = "opc"
-      private_key = "${file(var.ssh_private_key)}"
+      private_key = "${var.ssh_private_key}"
     }
     inline = [
       "sudo yum -y install nfs-utils > nfs-utils-install.log",
