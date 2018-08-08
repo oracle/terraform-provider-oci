@@ -9,6 +9,7 @@ import urllib2
 from optparse import OptionParser
 import hashlib
 import os
+import os.path
 import sys
 import random
 import paramiko
@@ -192,11 +193,21 @@ def host_rack():
         # host = api.create_host(h.hostId, h.hostname,
         # socket.gethostbyname(h.hostname),
         # "/default_rack")
-        h.set_rack_id("/default_rack")
+        if "private1" in h.hostname:
+		h.set_rack_id("/rack1")
+		print "Adding '%s' to /rack1" % (h.hostname)
+	elif "private2" in h.hostname:
+		h.set_rack_id("/rack2")
+		print "Adding '%s' to /rack2" % (h.hostname)
+	elif "private3" in h.hostname:
+		h.set_rack_id("/rack3")
+		print "Adding '%s' to /rack3" % (h.hostname)
+	else:
+		h.set_rack_id("/default")
+		print "Adding '%s' to /default" % (h.hostname)
         hosts.append(h)
 
-    cluster.add_hosts(hosts)
-
+    hosts.append(hosts)
 
 def deploy_parcel(parcel_product, parcel_version):
     """
@@ -338,9 +349,18 @@ def setup_hdfs(HA):
         dfs_name_dir_list = default_name_dir_list
         dfs_snn_dir_list = default_snn_dir_list
         dfs_data_dir_list = default_data_dir_list
-
-        for x in range(int(diskcount)):
-          dfs_data_dir_list+=",/data%d/dfs/dn" % (x)
+	
+	data_tiering_file = os.path.isfile("/home/opc/hdfs_data_tiering.txt")
+	if data_tiering_file is True:
+		with open("/home/opc/hdfs_data_tiering.txt") as d:
+			dfs_data_dir_list = d.readline().strip()
+	else:
+		## Normal dfs.data.dir setup
+        	for x in range(int(diskcount)):
+			if x is 0:
+				dfs_data_dir_list+="/data%d/dfs/dn" % (x)
+			else:
+				dfs_data_dir_list+=",/data%d/dfs/dn" % (x)
 
         dfs_name_dir_list+=",/data/dfs/nn"
         dfs_snn_dir_list+=",/data/dfs/snn"
@@ -1949,6 +1969,9 @@ def main():
     init_cluster()
     log("add_hosts_to_cluster")
     add_hosts_to_cluster()
+    ## Un-comment the following two entries to enable rack topology for AD spanning.
+    #log("host_rack")
+    #host_rack()
     # Deploy CDH Parcel
     log("deploy_parcel")
     deploy_parcel(parcel_product=cmx.parcel[0]['product'],
