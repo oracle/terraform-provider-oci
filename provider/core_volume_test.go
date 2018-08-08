@@ -11,6 +11,7 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_core "github.com/oracle/oci-go-sdk/core"
+	"regexp"
 )
 
 const (
@@ -157,6 +158,48 @@ variable "volume_state" { default = "AVAILABLE" }
 						return err
 					},
 				),
+			},
+			// ensure that changing datatype of size_in_gbs is a no-op
+			{
+				Config: config + `
+variable "volume_defined_tags_value" { default = "updatedValue" }
+variable "volume_display_name" { default = "displayName2" }
+variable "volume_freeform_tags" { default = {"Department"= "Accounting"} }
+variable "volume_size_in_gbs" { default = "50" }
+variable "volume_source_details_type" { default = "volume" }
+variable "volume_state" { default = "AVAILABLE" }
+
+                ` + compartmentIdVariableStr + VolumeResourceConfig,
+				PlanOnly:           true,
+				ExpectNonEmptyPlan: false,
+			},
+			// ensure that adding leading zeroes to size_in_gbs is a no-op
+			{
+				Config: config + `
+variable "volume_defined_tags_value" { default = "updatedValue" }
+variable "volume_display_name" { default = "displayName2" }
+variable "volume_freeform_tags" { default = {"Department"= "Accounting"} }
+variable "volume_size_in_gbs" { default = "0050" }
+variable "volume_source_details_type" { default = "volume" }
+variable "volume_state" { default = "AVAILABLE" }
+
+                ` + compartmentIdVariableStr + VolumeResourceConfig,
+				PlanOnly:           true,
+				ExpectNonEmptyPlan: false,
+			},
+			// ensure that giving non-numeric characters in size_in_gbs will yield an error
+			{
+				Config: config + `
+variable "volume_defined_tags_value" { default = "updatedValue" }
+variable "volume_display_name" { default = "displayName2" }
+variable "volume_freeform_tags" { default = {"Department"= "Accounting"} }
+variable "volume_size_in_gbs" { default = "abc" }
+variable "volume_source_details_type" { default = "volume" }
+variable "volume_state" { default = "AVAILABLE" }
+
+                ` + compartmentIdVariableStr + VolumeResourceConfig,
+				PlanOnly:    true,
+				ExpectError: regexp.MustCompile("must be a 64-bit integer"),
 			},
 			// verify datasource
 			{
