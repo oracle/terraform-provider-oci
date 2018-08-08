@@ -21,7 +21,7 @@ can access the snapshot at `.snapshot/<name>`.
 
 The following arguments are supported:
 
-* `file_system_id` - (Required) The OCID of this export's file system.
+* `file_system_id` - (Required) The OCID of the file system to take a snapshot of.
 * `name` - (Required) Name of the snapshot. This value is immutable. It must also be unique with respect to all other non-DELETED snapshots on the associated file system.  Avoid entering confidential information.  Example: `Sunday` 
 
 

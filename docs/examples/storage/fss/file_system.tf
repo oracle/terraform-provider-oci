@@ -1,6 +1,6 @@
 resource "oci_file_storage_file_system" "my_fs_1" {
   #Required
-  availability_domain = "${var.availability_domain}"
+  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.AD - 1],"name")}"
   compartment_id = "${var.compartment_ocid}"
 
   #Optional
@@ -9,7 +9,7 @@ resource "oci_file_storage_file_system" "my_fs_1" {
 
 resource "oci_file_storage_file_system" "my_fs_2" {
   #Required
-  availability_domain = "${var.availability_domain}"
+  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.AD - 1],"name")}"
   compartment_id = "${var.compartment_ocid}"
 
   #Optional

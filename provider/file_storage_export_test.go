@@ -14,7 +14,7 @@ import (
 )
 
 const (
-	ExportResourceConfig = ExportResourceDependencies + `
+	ExportRequiredOnlyResource = ExportResourceDependencies + `
 resource "oci_file_storage_export" "test_export" {
 	#Required
 	export_set_id = "${oci_file_storage_export_set.test_export_set.id}"
@@ -22,7 +22,36 @@ resource "oci_file_storage_export" "test_export" {
 	path = "${var.export_path}"
 }
 `
+
+	ExportResourceConfig = ExportResourceDependencies + `
+resource "oci_file_storage_export" "test_export" {
+	#Required
+	export_set_id = "${oci_file_storage_export_set.test_export_set.id}"
+	file_system_id = "${oci_file_storage_file_system.test_file_system.id}"
+	path = "${var.export_path}"
+
+	#Optional
+	export_options {
+		#Required
+		source = "${var.export_export_options_source}"
+
+		#Optional
+		access = "${var.export_export_options_access}"
+		anonymous_gid = "${var.export_export_options_anonymous_gid}"
+		anonymous_uid = "${var.export_export_options_anonymous_uid}"
+		identity_squash = "${var.export_export_options_identity_squash}"
+		require_privileged_source_port = "${var.export_export_options_require_privileged_source_port}"
+	}
+}
+`
 	ExportPropertyVariables = `
+variable "export_export_options_access" { default = "READ_WRITE" }
+variable "export_export_options_anonymous_gid" { default = 10 }
+variable "export_export_options_anonymous_uid" { default = 10 }
+variable "export_export_options_identity_squash" { default = "NONE" }
+variable "export_export_options_require_privileged_source_port" { default = false }
+variable "export_export_options_source" { default = "0.0.0.0/0" }
+variable "export_id" { default = "id" }
 variable "export_path" { default = "/files-5" }
 variable "export_state" { default = "ACTIVE" }
 
@@ -40,6 +69,8 @@ func TestFileStorageExportResource_basic(t *testing.T) {
 	resourceName := "oci_file_storage_export.test_export"
 	datasourceName := "data.oci_file_storage_exports.test_exports"
 
+	var resId, resId2 string
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{
@@ -49,17 +80,96 @@ func TestFileStorageExportResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + ExportPropertyVariables + compartmentIdVariableStr + ExportResourceConfig,
+				Config: config + ExportPropertyVariables + compartmentIdVariableStr + ExportRequiredOnlyResource,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "export_set_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "file_system_id"),
 					resource.TestCheckResourceAttr(resourceName, "path", "/files-5"),
+
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, resourceName, "id")
+						return err
+					},
 				),
 			},
 
+			// delete before next create
+			{
+				Config: config + compartmentIdVariableStr + ExportResourceDependencies,
+			},
+			// verify create with optionals
+			{
+				Config: config + ExportPropertyVariables + compartmentIdVariableStr + ExportResourceConfig,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "export_options.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "export_options.0.access", "READ_WRITE"),
+					resource.TestCheckResourceAttr(resourceName, "export_options.0.anonymous_gid", "10"),
+					resource.TestCheckResourceAttr(resourceName, "export_options.0.anonymous_uid", "10"),
+					resource.TestCheckResourceAttr(resourceName, "export_options.0.identity_squash", "NONE"),
+					resource.TestCheckResourceAttr(resourceName, "export_options.0.require_privileged_source_port", "false"),
+					resource.TestCheckResourceAttr(resourceName, "export_options.0.source", "0.0.0.0/0"),
+					resource.TestCheckResourceAttrSet(resourceName, "export_set_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "file_system_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "path", "/files-5"),
+					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, resourceName, "id")
+						return err
+					},
+				),
+			},
+
+			// verify updates to updatable parameters
+			{
+				Config: config + `
+variable "export_export_options_access" { default = "READ_ONLY" }
+variable "export_export_options_anonymous_gid" { default = 11 }
+variable "export_export_options_anonymous_uid" { default = 11 }
+variable "export_export_options_identity_squash" { default = "ALL" }
+variable "export_export_options_require_privileged_source_port" { default = true }
+variable "export_export_options_source" { default = "0.0.0.0/0" }
+variable "export_id" { default = "id" }
+variable "export_path" { default = "/files-5" }
+variable "export_state" { default = "ACTIVE" }
+
+                ` + compartmentIdVariableStr + ExportResourceConfig,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "export_options.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "export_options.0.access", "READ_ONLY"),
+					resource.TestCheckResourceAttr(resourceName, "export_options.0.anonymous_gid", "11"),
+					resource.TestCheckResourceAttr(resourceName, "export_options.0.anonymous_uid", "11"),
+					resource.TestCheckResourceAttr(resourceName, "export_options.0.identity_squash", "ALL"),
+					resource.TestCheckResourceAttr(resourceName, "export_options.0.require_privileged_source_port", "true"),
+					resource.TestCheckResourceAttr(resourceName, "export_options.0.source", "0.0.0.0/0"),
+					resource.TestCheckResourceAttrSet(resourceName, "export_set_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "file_system_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "path", "/files-5"),
+					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = fromInstanceState(s, resourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+						}
+						return err
+					},
+				),
+			},
 			// verify datasource
 			{
 				Config: config + `
+variable "export_export_options_access" { default = "READ_ONLY" }
+variable "export_export_options_anonymous_gid" { default = 11 }
+variable "export_export_options_anonymous_uid" { default = 11 }
+variable "export_export_options_identity_squash" { default = "ALL" }
+variable "export_export_options_require_privileged_source_port" { default = true }
+variable "export_export_options_source" { default = "0.0.0.0/0" }
+variable "export_id" { default = "id" }
 variable "export_path" { default = "/files-5" }
 variable "export_state" { default = "ACTIVE" }
 
@@ -78,6 +188,7 @@ data "oci_file_storage_exports" "test_exports" {
                 ` + compartmentIdVariableStr + ExportResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+
 					resource.TestCheckResourceAttr(datasourceName, "exports.#", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "exports.0.export_set_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "exports.0.file_system_id"),

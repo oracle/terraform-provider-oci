@@ -20,10 +20,10 @@ Mount targets have one or more private IP addresses that you can
 provide as the host portion of remote target parameters in
 client mount commands. These private IP addresses are listed
 in the privateIpIds property of the mount target and are highly available. Mount
-targets also consume additional IP addresses in their subnet. 
+targets also consume additional IP addresses in their subnet.
 Do not use /30 or smaller subnets for mount target creation because they
-do not have sufficient available IP addresses. 
-Allow at least three IP addresses for each mount target. 
+do not have sufficient available IP addresses.
+Allow at least three IP addresses for each mount target.
 
 For information about access control and compartments, see
 [Overview of the IAM
