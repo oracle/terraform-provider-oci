@@ -4,7 +4,6 @@ package provider
 
 import (
 	"fmt"
-	"strings"
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
@@ -23,11 +22,6 @@ variable "virtual_circuit_public_prefix_verification_state" { default = "COMPLET
 )
 
 func TestCoreVirtualCircuitPublicPrefixResource_basic(t *testing.T) {
-	region := getRequiredEnvSetting("region")
-	if !strings.EqualFold("r1", region) {
-		t.Skip("FastConnect tests are not yet supported in production regions")
-	}
-
 	provider := testAccProvider
 	config := testProviderConfig()
 
@@ -52,12 +46,12 @@ data "oci_core_virtual_circuit_public_prefixes" "test_virtual_circuit_public_pre
 	virtual_circuit_id = "${oci_core_virtual_circuit.test_virtual_circuit.id}"
 
 	#Optional
-	verification_state = "${var.virtual_circuit_public_prefix_verification_state}"
-	verification_state = "${var.virtual_circuit_public_prefix_verification_state}"
+	#The verification_state can be 'COMPLETED' or 'IN_PROGRESS'
+	#verification_state = "${var.virtual_circuit_public_prefix_verification_state}"
 }
                 ` + compartmentIdVariableStr + VirtualCircuitPublicPrefixResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(datasourceName, "verification_state", "COMPLETED"),
+					//resource.TestCheckResourceAttr(datasourceName, "verification_state", "COMPLETED"),
 					//resource.TestCheckResourceAttrSet(datasourceName, "virtual_circuit_id"),
 
 					resource.TestCheckResourceAttrSet(datasourceName, "virtual_circuit_public_prefixes.#"),

@@ -149,9 +149,9 @@ variable "virtual_circuit_type" { default = "PUBLIC" }
 )
 
 func TestCoreVirtualCircuitResource_basic(t *testing.T) {
-	region := getRequiredEnvSetting("region")
+	region := getEnvSettingWithBlankDefault("region")
 	if !strings.EqualFold("r1", region) {
-		t.Skip("FastConnect tests are not yet supported in production regions")
+		t.Skip("Virtual Circuit tests are not yet enabled in production regions")
 	}
 
 	provider := testAccProvider

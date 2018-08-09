@@ -6,8 +6,6 @@ import (
 	"fmt"
 	"testing"
 
-	"strings"
-
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
 )
@@ -23,11 +21,6 @@ const (
 )
 
 func TestCoreCrossConnectStatusResource_basic(t *testing.T) {
-	region := getRequiredEnvSetting("region")
-	if !strings.EqualFold("r1", region) {
-		t.Skip("FastConnect tests are not yet supported in production regions")
-	}
-
 	provider := testAccProvider
 	config := testProviderConfig()
 
