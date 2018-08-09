@@ -3,6 +3,21 @@ All notable changes to this project are documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+## 2.2.0 - 2018-08-09
+
+### Fixed
+- Fix to security lists to avoid diffs after an apply in certain cases (#565)
+
+### Added
+- Support Audit Events Data Source
+- Support for export options in the File Storage service for improved access controls
+- Support for tagging on Load Balancer Resource. See [Tagging Resources](https://github.com/oracle/terraform-provider-oci/blob/master/docs/Tagging%20Resources.md)
+- Support for large integers (int64) on `oci_core_volume.size_in_gbs`, `load_balancer_listener.idle_timeout_in_seconds`, `oci_file_storage_export_set.max_fs_stat_bytes`, and `oci_file_storage_export_set.max_fs_stat_files` inputs
+- Include additional exported attributes related to computed sizes in [VolumeGroup](https://github.com/oracle/terraform-provider-oci/blob/master/docs/core/volume_groups.md) and [VolumeGroupBackup](https://github.com/oracle/terraform-provider-oci/blob/master/docs/core/volume_group_backups.md)
+
+### Notes
+- This release updates the OCI Provider code dependencies to Terraform v0.11.7, the result is that users with Terraform binary versions earlier than v0.10.1 will need to update--we recommend using the latest 0.11.x binary
+
 ## 2.1.17 - 2018-08-02
 
 ### Fixed
