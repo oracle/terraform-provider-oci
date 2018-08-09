@@ -241,11 +241,12 @@ func TestLoadBalancerListenerResource_basic(t *testing.T) {
 			// verify updates to updatable parameters
 			{
 				Config: config + `
-variable "listener_connection_configuration_idle_timeout_in_seconds" { default = 10 }
+variable "listener_connection_configuration_idle_timeout_in_seconds" { default = 11 }
 variable "listener_default_backend_set_name" { default = "example_backend_set" }
 variable "listener_hostname_names" { default = [] }
 variable "listener_name" { default = "mylistener" }
-variable "listener_port" { default = 10 }
+variable "listener_path_route_set_name" { default = "example_path_route_set" }
+variable "listener_port" { default = 11 }
 variable "listener_protocol" { default = "HTTP" }
 variable "listener_ssl_configuration_certificate_name" { default = "example_certificate_bundle" }
 variable "listener_ssl_configuration_verify_depth" { default = 11 }
@@ -254,14 +255,14 @@ variable "listener_ssl_configuration_verify_peer_certificate" { default = true }
                 ` + compartmentIdVariableStr + ListenerResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "connection_configuration.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "connection_configuration.0.idle_timeout_in_seconds", "10"),
+					resource.TestCheckResourceAttr(resourceName, "connection_configuration.0.idle_timeout_in_seconds", "11"),
 					resource.TestCheckResourceAttr(resourceName, "default_backend_set_name", "example_backend_set"),
 					resource.TestCheckResourceAttr(resourceName, "hostname_names.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "hostname_names.0", "example_hostname_001"),
 					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttr(resourceName, "name", "mylistener"),
-					resource.TestCheckResourceAttrSet(resourceName, "path_route_set_name"),
-					resource.TestCheckResourceAttr(resourceName, "port", "10"),
+					resource.TestCheckResourceAttr(resourceName, "path_route_set_name", "example_path_route_set"),
+					resource.TestCheckResourceAttr(resourceName, "port", "11"),
 					resource.TestCheckResourceAttr(resourceName, "protocol", "HTTP"),
 					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.certificate_name", "example_certificate_bundle"),

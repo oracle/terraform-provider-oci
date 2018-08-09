@@ -116,24 +116,24 @@ func TestLoadBalancerBackendResource_basic(t *testing.T) {
 			{
 				Config: config + `
 variable "backend_backendset_name" { default = "backendSet1" }
-variable "backend_backup" { default = false }
-variable "backend_drain" { default = false }
+variable "backend_backup" { default = true }
+variable "backend_drain" { default = true }
 variable "backend_ip_address" { default = "10.0.0.3" }
-variable "backend_offline" { default = false }
+variable "backend_offline" { default = true }
 variable "backend_port" { default = 10 }
-variable "backend_weight" { default = 10 }
+variable "backend_weight" { default = 11 }
 
                 ` + compartmentIdVariableStr + BackendResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "backendset_name", "backendSet1"),
-					resource.TestCheckResourceAttr(resourceName, "backup", "false"),
-					resource.TestCheckResourceAttr(resourceName, "drain", "false"),
+					resource.TestCheckResourceAttr(resourceName, "backup", "true"),
+					resource.TestCheckResourceAttr(resourceName, "drain", "true"),
 					resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.3"),
 					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "name"),
-					resource.TestCheckResourceAttr(resourceName, "offline", "false"),
+					resource.TestCheckResourceAttr(resourceName, "offline", "true"),
 					resource.TestCheckResourceAttr(resourceName, "port", "10"),
-					resource.TestCheckResourceAttr(resourceName, "weight", "10"),
+					resource.TestCheckResourceAttr(resourceName, "weight", "11"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, resourceName, "id")
@@ -148,12 +148,12 @@ variable "backend_weight" { default = 10 }
 			{
 				Config: config + `
 variable "backend_backendset_name" { default = "backendSet1" }
-variable "backend_backup" { default = false }
-variable "backend_drain" { default = false }
+variable "backend_backup" { default = true }
+variable "backend_drain" { default = true }
 variable "backend_ip_address" { default = "10.0.0.3" }
-variable "backend_offline" { default = false }
+variable "backend_offline" { default = true }
 variable "backend_port" { default = 10 }
-variable "backend_weight" { default = 10 }
+variable "backend_weight" { default = 11 }
 
 data "oci_load_balancer_backends" "test_backends" {
 	#Required
@@ -166,13 +166,13 @@ data "oci_load_balancer_backends" "test_backends" {
 					resource.TestCheckResourceAttrSet(datasourceName, "load_balancer_id"),
 
 					resource.TestCheckResourceAttr(datasourceName, "backends.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "backends.0.backup", "false"),
-					resource.TestCheckResourceAttr(datasourceName, "backends.0.drain", "false"),
+					resource.TestCheckResourceAttr(datasourceName, "backends.0.backup", "true"),
+					resource.TestCheckResourceAttr(datasourceName, "backends.0.drain", "true"),
 					resource.TestCheckResourceAttr(datasourceName, "backends.0.ip_address", "10.0.0.3"),
 					resource.TestCheckResourceAttrSet(datasourceName, "backends.0.name"),
-					resource.TestCheckResourceAttr(datasourceName, "backends.0.offline", "false"),
+					resource.TestCheckResourceAttr(datasourceName, "backends.0.offline", "true"),
 					resource.TestCheckResourceAttr(datasourceName, "backends.0.port", "10"),
-					resource.TestCheckResourceAttr(datasourceName, "backends.0.weight", "10"),
+					resource.TestCheckResourceAttr(datasourceName, "backends.0.weight", "11"),
 				),
 			},
 		},
