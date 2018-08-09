@@ -142,7 +142,13 @@ func (s *VolumeGroupsDataSourceCrud) SetData() error {
 			volumeGroup["size_in_mbs"] = strconv.FormatInt(*r.SizeInMBs, 10)
 		}
 
-		volumeGroup["source_details"] = VolumeGroupSourceDetailsToMap(r.SourceDetails)
+		if r.SourceDetails != nil {
+			sourceDetailsArray := []interface{}{}
+			if sourceDetailsMap := VolumeGroupSourceDetailsToMap(&r.SourceDetails); sourceDetailsMap != nil {
+				sourceDetailsArray = append(sourceDetailsArray, sourceDetailsMap)
+			}
+			volumeGroup["source_details"] = sourceDetailsArray
+		}
 
 		volumeGroup["state"] = r.LifecycleState
 

@@ -4,6 +4,7 @@ package provider
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"strings"
 
@@ -29,12 +30,15 @@ func VolumeAttachmentResource() *schema.Resource {
 		Delete:   deleteVolumeAttachment,
 		Schema: map[string]*schema.Schema{
 			// Required
-			"attachment_type": { // => "type" (polymorphic discriminator)
+			"attachment_type": {
 				Type:             schema.TypeString,
 				Required:         true,
 				ForceNew:         true,
 				DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
-				ValidateFunc:     validation.StringInSlice([]string{IScsiVolumeAttachmentDiscriminator, ParavirtualizedVolumeAttachmentDiscriminator}, true),
+				ValidateFunc: validation.StringInSlice([]string{
+					"iscsi",
+					"paravirtualized",
+				}, true),
 			},
 			"instance_id": {
 				Type:     schema.TypeString,
@@ -176,8 +180,10 @@ func (s *VolumeAttachmentResourceCrud) DeletedTarget() []string {
 
 func (s *VolumeAttachmentResourceCrud) Create() error {
 	request := oci_core.AttachVolumeRequest{}
-
-	request.AttachVolumeDetails = mapToAttachVolumeDetails(s.D)
+	err := s.populateTopLevelPolymorphicAttachVolumeRequest(&request)
+	if err != nil {
+		return err
+	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
 
@@ -285,66 +291,60 @@ func (s *VolumeAttachmentResourceCrud) SetData() error {
 	return nil
 }
 
-func mapToAttachVolumeDetails(d *schema.ResourceData) oci_core.AttachVolumeDetails {
-	attachmentType := d.Get("attachment_type").(string)
-
-	switch strings.ToLower(attachmentType) {
-	case strings.ToLower(IScsiVolumeAttachmentDiscriminator):
-		result := oci_core.AttachIScsiVolumeDetails{}
-
-		if displayName, ok := d.GetOkExists("display_name"); ok {
-			tmp := displayName.(string)
-			result.DisplayName = &tmp
-		}
-
-		if instanceId, ok := d.GetOkExists("instance_id"); ok {
-			tmp := instanceId.(string)
-			result.InstanceId = &tmp
-		}
-
-		if isReadOnly, ok := d.GetOkExists("is_read_only"); ok {
-			tmp := isReadOnly.(bool)
-			result.IsReadOnly = &tmp
-		}
-
-		if useChap, ok := d.GetOkExists("use_chap"); ok {
-			tmp := useChap.(bool)
-			result.UseChap = &tmp
-		}
-
-		if volumeId, ok := d.GetOkExists("volume_id"); ok {
-			tmp := volumeId.(string)
-			result.VolumeId = &tmp
-		}
-
-		return result
-	case strings.ToLower(ParavirtualizedVolumeAttachmentDiscriminator):
-		result := oci_core.AttachParavirtualizedVolumeDetails{}
-
-		if displayName, ok := d.GetOkExists("display_name"); ok {
-			tmp := displayName.(string)
-			result.DisplayName = &tmp
-		}
-
-		if instanceId, ok := d.GetOkExists("instance_id"); ok {
-			tmp := instanceId.(string)
-			result.InstanceId = &tmp
-		}
-
-		if isReadOnly, ok := d.GetOkExists("is_read_only"); ok {
-			tmp := isReadOnly.(bool)
-			result.IsReadOnly = &tmp
-		}
-
-		if volumeId, ok := d.GetOkExists("volume_id"); ok {
-			tmp := volumeId.(string)
-			result.VolumeId = &tmp
-		}
-
-		return result
-	default:
-		log.Printf("[WARN] Unknown attachment_type '%v' was specified", attachmentType)
+func (s *VolumeAttachmentResourceCrud) populateTopLevelPolymorphicAttachVolumeRequest(request *oci_core.AttachVolumeRequest) error {
+	//discriminator
+	attachmentTypeRaw, ok := s.D.GetOkExists("attachment_type")
+	var attachmentType string
+	if ok {
+		attachmentType = attachmentTypeRaw.(string)
+	} else {
+		attachmentType = "" // default value
 	}
-
+	switch strings.ToLower(attachmentType) {
+	case strings.ToLower("iscsi"):
+		details := oci_core.AttachIScsiVolumeDetails{}
+		if useChap, ok := s.D.GetOkExists("use_chap"); ok {
+			tmp := useChap.(bool)
+			details.UseChap = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if instanceId, ok := s.D.GetOkExists("instance_id"); ok {
+			tmp := instanceId.(string)
+			details.InstanceId = &tmp
+		}
+		if isReadOnly, ok := s.D.GetOkExists("is_read_only"); ok {
+			tmp := isReadOnly.(bool)
+			details.IsReadOnly = &tmp
+		}
+		if volumeId, ok := s.D.GetOkExists("volume_id"); ok {
+			tmp := volumeId.(string)
+			details.VolumeId = &tmp
+		}
+		request.AttachVolumeDetails = details
+	case strings.ToLower("paravirtualized"):
+		details := oci_core.AttachParavirtualizedVolumeDetails{}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if instanceId, ok := s.D.GetOkExists("instance_id"); ok {
+			tmp := instanceId.(string)
+			details.InstanceId = &tmp
+		}
+		if isReadOnly, ok := s.D.GetOkExists("is_read_only"); ok {
+			tmp := isReadOnly.(bool)
+			details.IsReadOnly = &tmp
+		}
+		if volumeId, ok := s.D.GetOkExists("volume_id"); ok {
+			tmp := volumeId.(string)
+			details.VolumeId = &tmp
+		}
+		request.AttachVolumeDetails = details
+	default:
+		return fmt.Errorf("Unknown attachment_type '%v' was specified", attachmentType)
+	}
 	return nil
 }

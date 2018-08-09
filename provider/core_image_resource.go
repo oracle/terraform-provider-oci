@@ -14,11 +14,6 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-const (
-	ImageSourceViaObjectStorageUriDiscriminator   = "objectStorageUri"
-	ImageSourceViaObjectStorageTupleDiscriminator = "objectStorageTuple"
-)
-
 func ImageResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
@@ -75,26 +70,12 @@ func ImageResource() *schema.Resource {
 							ForceNew:         true,
 							DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
 							ValidateFunc: validation.StringInSlice([]string{
-								ImageSourceViaObjectStorageUriDiscriminator,
-								ImageSourceViaObjectStorageTupleDiscriminator,
+								"objectStorageTuple",
+								"objectStorageUri",
 							}, true),
 						},
 
 						// Optional
-						"source_image_type": {
-							Type:     schema.TypeString,
-							Optional: true,
-							ForceNew: true,
-						},
-
-						// ImageSourceViaObjectStorageUriDetails
-						"source_uri": {
-							Type:     schema.TypeString,
-							Optional: true,
-							ForceNew: true,
-						},
-
-						// ImageSourceViaObjectStorageTupleDetails
 						"bucket_name": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -106,6 +87,16 @@ func ImageResource() *schema.Resource {
 							ForceNew: true,
 						},
 						"object_name": {
+							Type:     schema.TypeString,
+							Optional: true,
+							ForceNew: true,
+						},
+						"source_image_type": {
+							Type:     schema.TypeString,
+							Optional: true,
+							ForceNew: true,
+						},
+						"source_uri": {
 							Type:     schema.TypeString,
 							Optional: true,
 							ForceNew: true,
@@ -287,7 +278,8 @@ func (s *ImageResourceCrud) Create() error {
 
 	if imageSourceDetails, ok := s.D.GetOkExists("image_source_details"); ok {
 		if tmpList := imageSourceDetails.([]interface{}); len(tmpList) > 0 {
-			request.ImageSourceDetails = mapToImageSourceDetails(tmpList[0].(map[string]interface{}))
+			tmp := mapToImageSourceDetails(tmpList[0].(map[string]interface{}))
+			request.ImageSourceDetails = tmp
 		}
 	}
 
@@ -425,58 +417,61 @@ func (s *ImageResourceCrud) SetData() error {
 }
 
 func mapToImageSourceDetails(raw map[string]interface{}) oci_core.ImageSourceDetails {
-	sourceType := raw["source_type"].(string)
-
+	var baseObject oci_core.ImageSourceDetails
+	//discriminator
+	sourceTypeRaw, ok := raw["source_type"]
+	var sourceType string
+	if ok {
+		sourceType = sourceTypeRaw.(string)
+	} else {
+		sourceType = "" // default value
+	}
 	switch strings.ToLower(sourceType) {
-	case strings.ToLower(ImageSourceViaObjectStorageUriDiscriminator):
-		result := oci_core.ImageSourceViaObjectStorageUriDetails{}
-		if sourceImageType, ok := raw["source_image_type"]; ok {
-			tmp := sourceImageType.(string)
-			if tmp != "" {
-				result.SourceImageType = oci_core.ImageSourceDetailsSourceImageTypeEnum(tmp)
-			}
-		}
-		if sourceUri, ok := raw["source_uri"]; ok {
-			tmp := sourceUri.(string)
-			if tmp != "" {
-				result.SourceUri = &tmp
-			}
-		}
-		return result
-	case strings.ToLower(ImageSourceViaObjectStorageTupleDiscriminator):
-		result := oci_core.ImageSourceViaObjectStorageTupleDetails{}
-
-		if sourceImageType, ok := raw["source_image_type"]; ok {
-			tmp := sourceImageType.(string)
-			if tmp != "" {
-				result.SourceImageType = oci_core.ImageSourceDetailsSourceImageTypeEnum(tmp)
-			}
-		}
-
+	case strings.ToLower("objectStorageTuple"):
+		details := oci_core.ImageSourceViaObjectStorageTupleDetails{}
 		if bucketName, ok := raw["bucket_name"]; ok {
 			tmp := bucketName.(string)
 			if tmp != "" {
-				result.BucketName = &tmp
+				details.BucketName = &tmp
 			}
 		}
-
 		if namespaceName, ok := raw["namespace_name"]; ok {
 			tmp := namespaceName.(string)
 			if tmp != "" {
-				result.NamespaceName = &tmp
+				details.NamespaceName = &tmp
 			}
 		}
 
 		if objectName, ok := raw["object_name"]; ok {
 			tmp := objectName.(string)
 			if tmp != "" {
-				result.ObjectName = &tmp
+				details.ObjectName = &tmp
 			}
 		}
-		return result
+		if sourceImageType, ok := raw["source_image_type"]; ok {
+			tmp := sourceImageType.(string)
+			if tmp != "" {
+				details.SourceImageType = oci_core.ImageSourceDetailsSourceImageTypeEnum(tmp)
+			}
+		}
+		baseObject = details
+	case strings.ToLower("objectStorageUri"):
+		details := oci_core.ImageSourceViaObjectStorageUriDetails{}
+		if sourceUri, ok := raw["source_uri"]; ok {
+			tmp := sourceUri.(string)
+			if tmp != "" {
+				details.SourceUri = &tmp
+			}
+		}
+		if sourceImageType, ok := raw["source_image_type"]; ok {
+			tmp := sourceImageType.(string)
+			if tmp != "" {
+				details.SourceImageType = oci_core.ImageSourceDetailsSourceImageTypeEnum(tmp)
+			}
+		}
+		baseObject = details
 	default:
 		log.Printf("[WARN] Unknown source_type '%v' was specified", sourceType)
 	}
-
-	return nil
+	return baseObject
 }

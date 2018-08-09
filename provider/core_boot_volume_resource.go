@@ -10,9 +10,10 @@ import (
 
 	"strings"
 
+	"log"
+
 	"github.com/hashicorp/terraform/helper/validation"
 	oci_core "github.com/oracle/oci-go-sdk/core"
-	"log"
 )
 
 func BootVolumeResource() *schema.Resource {
@@ -44,7 +45,6 @@ func BootVolumeResource() *schema.Resource {
 				MaxItems: 1,
 				MinItems: 1,
 				Elem: &schema.Resource{
-					// Polymorphic type with 2 subtypes. Both subtypes have the exact schema (required type & required id).
 					Schema: map[string]*schema.Schema{
 						// Required
 						"id": {
@@ -58,8 +58,8 @@ func BootVolumeResource() *schema.Resource {
 							ForceNew:         true,
 							DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
 							ValidateFunc: validation.StringInSlice([]string{
-								"bootVolumeBackup",
 								"bootVolume",
+								"bootVolumeBackup",
 							}, true),
 						},
 
@@ -351,7 +351,7 @@ func (s *BootVolumeResourceCrud) SetData() error {
 	}
 
 	if s.Res.SourceDetails != nil {
-		var sourceDetailsArray []interface{}
+		sourceDetailsArray := []interface{}{}
 		if sourceDetailsMap := BootVolumeSourceDetailsToMap(&s.Res.SourceDetails); sourceDetailsMap != nil {
 			sourceDetailsArray = append(sourceDetailsArray, sourceDetailsMap)
 		}
@@ -372,6 +372,7 @@ func (s *BootVolumeResourceCrud) SetData() error {
 }
 
 func mapToBootVolumeSourceDetails(raw map[string]interface{}) oci_core.BootVolumeSourceDetails {
+	var baseObject oci_core.BootVolumeSourceDetails
 	//discriminator
 	typeRaw, ok := raw["type"]
 	var type_ string
@@ -380,18 +381,16 @@ func mapToBootVolumeSourceDetails(raw map[string]interface{}) oci_core.BootVolum
 	} else {
 		type_ = "" // default value
 	}
-
-	var baseObject oci_core.BootVolumeSourceDetails
 	switch strings.ToLower(type_) {
-	case strings.ToLower("bootVolumeBackup"):
-		details := oci_core.BootVolumeSourceFromBootVolumeBackupDetails{}
+	case strings.ToLower("bootVolume"):
+		details := oci_core.BootVolumeSourceFromBootVolumeDetails{}
 		if id, ok := raw["id"]; ok {
 			tmp := id.(string)
 			details.Id = &tmp
 		}
 		baseObject = details
-	case strings.ToLower("bootVolume"):
-		details := oci_core.BootVolumeSourceFromBootVolumeDetails{}
+	case strings.ToLower("bootVolumeBackup"):
+		details := oci_core.BootVolumeSourceFromBootVolumeBackupDetails{}
 		if id, ok := raw["id"]; ok {
 			tmp := id.(string)
 			details.Id = &tmp
@@ -406,14 +405,14 @@ func mapToBootVolumeSourceDetails(raw map[string]interface{}) oci_core.BootVolum
 func BootVolumeSourceDetailsToMap(obj *oci_core.BootVolumeSourceDetails) map[string]interface{} {
 	result := map[string]interface{}{}
 	switch v := (*obj).(type) {
-	case oci_core.BootVolumeSourceFromBootVolumeBackupDetails:
-		result["type"] = "bootVolumeBackup"
+	case oci_core.BootVolumeSourceFromBootVolumeDetails:
+		result["type"] = "bootVolume"
 
 		if v.Id != nil {
 			result["id"] = string(*v.Id)
 		}
-	case oci_core.BootVolumeSourceFromBootVolumeDetails:
-		result["type"] = "bootVolume"
+	case oci_core.BootVolumeSourceFromBootVolumeBackupDetails:
+		result["type"] = "bootVolumeBackup"
 
 		if v.Id != nil {
 			result["id"] = string(*v.Id)

@@ -80,8 +80,8 @@ resource "oci_core_instance" "test_instance" {
 	}
 	source_details {
 		#Required
-		source_type = "image"
 		source_id = "${oci_core_image.test_image.id}"
+		source_type = "image"
 
 		#Optional
 		boot_volume_size_in_gbs = "60"
@@ -116,7 +116,7 @@ The following arguments are supported:
 * `preserve_boot_volume` - (Optional) (Updatable) Specifies whether to delete or preserve the boot volume when terminating an instance. The default value is false. Note: This value only applies to destroy operations initiated by Terraform. When updating this value, please run `terraform apply` so that it takes effect before running `terraform destroy` 
 * `shape` - (Required) The shape of an instance. The shape determines the number of CPUs, amount of memory, and other resources allocated to the instance.  You can enumerate all available shapes by calling [ListShapes](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/Shape/ListShapes). 
 * `source_details` - (Optional) Details for creating an instance. Use this parameter to specify whether a boot volume or an image should be used to launch a new instance. 
-	* `boot_volume_size_in_gbs` - (Optional) The size of the boot volume in GBs. Minimum value is 50 GB and maximum value is 16384 GB (16TB). This should only be specified when `source_type` is `image`.
+	* `boot_volume_size_in_gbs` - (Applicable when source_type=image) The size of the boot volume in GBs. Minimum value is 50 GB and maximum value is 16384 GB (16TB).
 	* `source_id` - (Required) The OCID of an image or a boot volume to use, depending on the value of `source_type`. 
 	* `source_type` - (Required) The source type for the instance. Use `image` when specifying the image OCID. Use `bootVolume` when specifying the boot volume OCID. 
 * `subnet_id` - (Optional) Deprecated. Instead use `subnetId` in [CreateVnicDetails](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/CreateVnicDetails/). At least one of them is required; if you provide both, the values must match. 
@@ -168,9 +168,9 @@ The following attributes are exported:
 * `region` - The region that contains the Availability Domain the instance is running in.  Example: `phx` 
 * `shape` - The shape of the instance. The shape determines the number of CPUs and the amount of memory allocated to the instance. You can enumerate all available shapes by calling [ListShapes](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/Shape/ListShapes). 
 * `source_details` - Details for creating an instance
-	* `source_type` - The source type for the instance. Use `image` when specifying the image OCID. Use `bootVolume` when specifying the boot volume OCID. 
 	* `boot_volume_size_in_gbs` - The size of the boot volume in GBs. Minimum value is 50 GB and maximum value is 16384 GB (16TB). This should only be specified when `source_type` is `image`.
 	* `source_id` - The OCID of an image or a boot volume to use, depending on the value of `source_type`. 
+	* `source_type` - The source type for the instance. Use `image` when specifying the image OCID. Use `bootVolume` when specifying the boot volume OCID. 
 * `state` - The current state of the instance.
 * `time_created` - The date and time the instance was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
 

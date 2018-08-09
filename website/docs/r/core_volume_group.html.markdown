@@ -49,9 +49,9 @@ The following arguments are supported:
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `source_details` - (Required) Specifies the volume group source details for a new volume group. The volume source is either another a list of volume ids in the same Availability Domain, another volume group or a volume group backup. 
 	* `type` - (Required) The type of the volume group source. It should be set to either `volumeIds`, `volumeGroup`, or `volumeBackup`
-	* `volume_ids` (Optional) - OCIDs for the volumes in this volume group, if the type is `volumeIds`
-	* `volume_group_id` (Optional) - The OCID of the volume group to clone from, if the type is `volumeGroup`
-	* `volume_group_backup_id` (Optional) - The OCID of the volume group backup to restore from, if the type is `volumeGroupBackup` 
+	* `volume_group_backup_id` - (Required when type=volumeGroupBackupId) The OCID of the volume group backup to restore from.
+	* `volume_group_id` - (Required when type=volumeGroupId) The OCID of the volume group to clone from.
+	* `volume_ids` - (Required when type=volumeIds) OCIDs for the volumes in this volume group.
 
 
 ** IMPORTANT **
@@ -71,9 +71,9 @@ The following attributes are exported:
 * `size_in_mbs` - The aggregate size of the volume group in MBs.
 * `source_details` - The volume group source. The source is either another a list of volume IDs in the same availability domain, another volume group, or a volume group backup. 
 	* `type` - The type of the volume group source. It should be set to either `volumeIds`, `volumeGroup`, or `volumeBackup`
-	* `volume_ids` - OCIDs for the volumes in this volume group, if the type is `volumeIds`
-	* `volume_group_id` - The OCID of the volume group to clone from, if the type is `volumeGroup`
-	* `volume_group_backup_id` - The OCID of the volume group backup to restore from, if the type is `volumeGroupBackup` 
+	* `volume_group_backup_id` - The OCID of the volume group backup to restore from.
+	* `volume_group_id` - The OCID of the volume group to clone from.
+	* `volume_ids` - OCIDs for the volumes in this volume group.
 * `state` - The current state of a volume group.
 * `time_created` - The date and time the volume group was created. Format defined by RFC3339.
 * `volume_ids` - OCIDs for the volumes in this volume group.

@@ -5,17 +5,14 @@ package provider
 import (
 	"context"
 	"fmt"
+	"log"
 	"strconv"
 	"strings"
 
 	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform/helper/validation"
 
 	oci_core "github.com/oracle/oci-go-sdk/core"
-)
-
-const (
-	VolumeSourceDetailsVolumeBackupDiscriminator = "volumeBackup"
-	VolumeSourceDetailsVolumeDiscriminator       = "volume"
 )
 
 func VolumeResource() *schema.Resource {
@@ -86,7 +83,6 @@ func VolumeResource() *schema.Resource {
 				MaxItems: 1,
 				MinItems: 1,
 				Elem: &schema.Resource{
-					// Polymorphic type with 2 subtypes. Both subtypes have the exact schema (required type & required id).
 					Schema: map[string]*schema.Schema{
 						// Required
 						"id": {
@@ -99,6 +95,10 @@ func VolumeResource() *schema.Resource {
 							Required:         true,
 							ForceNew:         true,
 							DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
+							ValidateFunc: validation.StringInSlice([]string{
+								"volume",
+								"volumeBackup",
+							}, true),
 						},
 
 						// Optional
@@ -259,8 +259,10 @@ func (s *VolumeResourceCrud) Create() error {
 	}
 
 	if sourceDetails, ok := s.D.GetOkExists("source_details"); ok {
-		tmp := mapToVolumeSourceDetails(sourceDetails.([]interface{}))
-		request.SourceDetails = &tmp
+		if tmpList := sourceDetails.([]interface{}); len(tmpList) > 0 {
+			tmp := mapToVolumeSourceDetails(tmpList[0].(map[string]interface{}))
+			request.SourceDetails = tmp
+		}
 	}
 
 	if volumeBackupId, ok := s.D.GetOkExists("volume_backup_id"); ok {
@@ -373,7 +375,13 @@ func (s *VolumeResourceCrud) SetData() error {
 		s.D.Set("size_in_mbs", strconv.FormatInt(*s.Res.SizeInMBs, 10))
 	}
 
-	s.D.Set("source_details", VolumeSourceDetailsToMap(s.Res.SourceDetails))
+	if s.Res.SourceDetails != nil {
+		sourceDetailsArray := []interface{}{}
+		if sourceDetailsMap := VolumeSourceDetailsToMap(&s.Res.SourceDetails); sourceDetailsMap != nil {
+			sourceDetailsArray = append(sourceDetailsArray, sourceDetailsMap)
+		}
+		s.D.Set("source_details", sourceDetailsArray)
+	}
 
 	s.D.Set("state", s.Res.LifecycleState)
 
@@ -388,53 +396,56 @@ func (s *VolumeResourceCrud) SetData() error {
 	return nil
 }
 
-func mapToVolumeSourceDetails(rawList []interface{}) oci_core.VolumeSourceDetails {
-	var item oci_core.VolumeSourceDetails
-
-	if len(rawList) > 0 {
-		rawItem := rawList[0].(map[string]interface{})
-
-		var sourceType string
-		if _type, ok := rawItem["type"]; ok {
-			sourceType = strings.ToLower(_type.(string))
-		}
-
-		id := rawItem["id"].(string)
-
-		switch sourceType {
-		case strings.ToLower(VolumeSourceDetailsVolumeDiscriminator):
-			item = oci_core.VolumeSourceFromVolumeDetails{
-				Id: &id,
-			}
-		case strings.ToLower(VolumeSourceDetailsVolumeBackupDiscriminator):
-			item = oci_core.VolumeSourceFromVolumeBackupDetails{
-				Id: &id,
-			}
-		}
+func mapToVolumeSourceDetails(raw map[string]interface{}) oci_core.VolumeSourceDetails {
+	var baseObject oci_core.VolumeSourceDetails
+	//discriminator
+	typeRaw, ok := raw["type"]
+	var type_ string
+	if ok {
+		type_ = typeRaw.(string)
+	} else {
+		type_ = "" // default value
 	}
-
-	return item
+	switch strings.ToLower(type_) {
+	case strings.ToLower("volume"):
+		details := oci_core.VolumeSourceFromVolumeDetails{}
+		if id, ok := raw["id"]; ok {
+			tmp := id.(string)
+			details.Id = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("volumeBackup"):
+		details := oci_core.VolumeSourceFromVolumeBackupDetails{}
+		if id, ok := raw["id"]; ok {
+			tmp := id.(string)
+			details.Id = &tmp
+		}
+		baseObject = details
+	default:
+		log.Printf("[WARN] Unknown type '%v' was specified", type_)
+	}
+	return baseObject
 }
 
-func VolumeSourceDetailsToMap(obj oci_core.VolumeSourceDetails) []interface{} {
-	sourceDetails := []interface{}{}
-	var item map[string]interface{}
+func VolumeSourceDetailsToMap(obj *oci_core.VolumeSourceDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_core.VolumeSourceFromVolumeDetails:
+		result["type"] = "volume"
 
-	if details, ok := obj.(oci_core.VolumeSourceFromVolumeDetails); ok {
-		item = map[string]interface{}{
-			"type": VolumeSourceDetailsVolumeDiscriminator,
-			"id":   *details.Id,
+		if v.Id != nil {
+			result["id"] = string(*v.Id)
 		}
-	} else if details, ok := obj.(oci_core.VolumeSourceFromVolumeBackupDetails); ok {
-		item = map[string]interface{}{
-			"type": VolumeSourceDetailsVolumeBackupDiscriminator,
-			"id":   *details.Id,
+	case oci_core.VolumeSourceFromVolumeBackupDetails:
+		result["type"] = "volumeBackup"
+
+		if v.Id != nil {
+			result["id"] = string(*v.Id)
 		}
+	default:
+		log.Printf("[WARN] Received 'type' of unknown type %v", *obj)
+		return nil
 	}
 
-	if item != nil {
-		sourceDetails = append(sourceDetails, item)
-	}
-
-	return sourceDetails
+	return result
 }

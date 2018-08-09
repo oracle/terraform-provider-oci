@@ -16,11 +16,6 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-const (
-	InstanceSourceBootVolumeDiscriminator = "bootVolume"
-	InstanceSourceImageDiscriminator      = "image"
-)
-
 func InstanceResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
@@ -199,7 +194,7 @@ func InstanceResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 				MaxItems: 1,
-				MinItems: 1,
+				MinItems: 0,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -213,16 +208,23 @@ func InstanceResource() *schema.Resource {
 							Required:         true,
 							ForceNew:         true,
 							DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
-							ValidateFunc:     validation.StringInSlice([]string{InstanceSourceImageDiscriminator, InstanceSourceBootVolumeDiscriminator}, true),
+							ValidateFunc: validation.StringInSlice([]string{
+								"bootVolume",
+								"image",
+							}, true),
 						},
 
 						// Optional
 						"boot_volume_size_in_gbs": {
-							Type:     schema.TypeInt,
-							Optional: true,
-							Computed: true,
-							ForceNew: true,
+							Type:             schema.TypeString,
+							Optional:         true,
+							Computed:         true,
+							ForceNew:         true,
+							ValidateFunc:     validateInt64TypeString,
+							DiffSuppressFunc: int64StringDiffSuppressFunction,
 						},
+
+						// Computed
 					},
 				},
 			},
@@ -429,9 +431,8 @@ func (s *InstanceResourceCrud) Create() error {
 		request.HostnameLabel = &tmp
 	}
 
-	// @CODEGEN 1/2018: support legacy name "image"
-	if imageId, ok := s.D.GetOkExists("image"); ok {
-		tmp := imageId.(string)
+	if image, ok := s.D.GetOkExists("image"); ok {
+		tmp := image.(string)
 		request.ImageId = &tmp
 	}
 
@@ -643,7 +644,19 @@ func (s *InstanceResourceCrud) SetData() error {
 				sourceDetailsFromConfig = tmpList[0].(map[string]interface{})
 			}
 		}
-		s.D.Set("source_details", []interface{}{InstanceSourceDetailsToMap(&s.Res.SourceDetails, bootVolume, sourceDetailsFromConfig)})
+		sourceDetailsArray := []interface{}{}
+		if sourceDetailsMap := InstanceSourceDetailsToMap(&s.Res.SourceDetails, bootVolume, sourceDetailsFromConfig); sourceDetailsMap != nil {
+			sourceDetailsArray = append(sourceDetailsArray, sourceDetailsMap)
+		}
+		err := s.D.Set("source_details", sourceDetailsArray)
+		if err != nil {
+			return err
+		}
+	} else {
+		err := s.D.Set("source_details", []interface{}{})
+		if err != nil {
+			return err
+		}
 	}
 
 	if bootVolume != nil && bootVolume.Id != nil {
@@ -733,69 +746,6 @@ func mapToCreateVnicDetailsInstance(raw map[string]interface{}) (oci_core.Create
 	return result, nil
 }
 
-func mapToInstanceSourceDetails(raw map[string]interface{}) oci_core.InstanceSourceDetails {
-	sourceType := raw["source_type"].(string)
-	sourceId := raw["source_id"].(string)
-
-	switch strings.ToLower(sourceType) {
-	case strings.ToLower(InstanceSourceBootVolumeDiscriminator):
-		result := oci_core.InstanceSourceViaBootVolumeDetails{}
-		result.BootVolumeId = &sourceId
-		return result
-	case strings.ToLower(InstanceSourceImageDiscriminator):
-		result := oci_core.InstanceSourceViaImageDetails{}
-		result.ImageId = &sourceId
-
-		if bootVolumeSizeInGBs, ok := raw["boot_volume_size_in_gbs"]; ok {
-			// HCL2TODO:
-			// Keep the polymorphic input as int and convert to int64 here. Once HCL2 is released, make it int64 in the
-			// schema and conversion will become simpler here.
-			tmp := int64(bootVolumeSizeInGBs.(int))
-			if tmp != 0 {
-				result.BootVolumeSizeInGBs = &tmp
-			}
-		}
-
-		return result
-	default:
-		log.Printf("[WARN] Unknown source_type '%v' was specified", sourceType)
-	}
-
-	return nil
-}
-
-func InstanceSourceDetailsToMap(obj *oci_core.InstanceSourceDetails, bootVolume *oci_core.BootVolume, sourceDetailsFromConfig map[string]interface{}) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	switch v := (*obj).(type) {
-	case oci_core.InstanceSourceViaBootVolumeDetails:
-		result["source_type"] = InstanceSourceBootVolumeDiscriminator
-		if v.BootVolumeId != nil {
-			result["source_id"] = *v.BootVolumeId
-		}
-	case oci_core.InstanceSourceViaImageDetails:
-		result["source_type"] = InstanceSourceImageDiscriminator
-		if v.ImageId != nil {
-			result["source_id"] = *v.ImageId
-		}
-
-		if v.BootVolumeSizeInGBs != nil {
-			result["boot_volume_size_in_gbs"] = *v.BootVolumeSizeInGBs
-		} else if bootVolume != nil && bootVolume.SizeInGBs != nil {
-			// The service could omit the boot volume size in the InstanceSourceViaImageDetails, so use the boot volume
-			// SizeInGBs property if that's the case.
-			result["boot_volume_size_in_gbs"] = *bootVolume.SizeInGBs
-		} else if sourceDetailsFromConfig != nil {
-			// Last resort. If we can't query the boot volume size from service, use the config value.
-			result["boot_volume_size_in_gbs"] = sourceDetailsFromConfig["boot_volume_size_in_gbs"]
-		}
-	default:
-		log.Printf("[WARN] Received 'source_details' of unknown type")
-	}
-
-	return result
-}
-
 func mapToUpdateVnicDetailsInstance(raw map[string]interface{}) (oci_core.UpdateVnicDetails, error) {
 	result := oci_core.UpdateVnicDetails{}
 
@@ -874,6 +824,78 @@ func vnicDetailsToMap(obj *oci_core.Vnic, createVnicDetails map[string]interface
 
 	if obj.SubnetId != nil {
 		result["subnet_id"] = string(*obj.SubnetId)
+	}
+
+	return result
+}
+
+func mapToInstanceSourceDetails(raw map[string]interface{}) oci_core.InstanceSourceDetails {
+	var baseObject oci_core.InstanceSourceDetails
+	//discriminator
+	sourceTypeRaw, ok := raw["source_type"]
+	var sourceType string
+	if ok {
+		sourceType = sourceTypeRaw.(string)
+	} else {
+		sourceType = "" // default value
+	}
+	switch strings.ToLower(sourceType) {
+	case strings.ToLower("bootVolume"):
+		details := oci_core.InstanceSourceViaBootVolumeDetails{}
+		if sourceId, ok := raw["source_id"]; ok {
+			tmp := sourceId.(string)
+			details.BootVolumeId = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("image"):
+		details := oci_core.InstanceSourceViaImageDetails{}
+		if bootVolumeSizeInGBs, ok := raw["boot_volume_size_in_gbs"]; ok && bootVolumeSizeInGBs != "" {
+			tmp := bootVolumeSizeInGBs.(string)
+			tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+			if err == nil {
+				details.BootVolumeSizeInGBs = &tmpInt64
+			}
+		}
+		if sourceId, ok := raw["source_id"]; ok {
+			tmp := sourceId.(string)
+			details.ImageId = &tmp
+		}
+		baseObject = details
+	default:
+		log.Printf("[WARN] Unknown source_type '%v' was specified", sourceType)
+	}
+	return baseObject
+}
+
+func InstanceSourceDetailsToMap(obj *oci_core.InstanceSourceDetails, bootVolume *oci_core.BootVolume, sourceDetailsFromConfig map[string]interface{}) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_core.InstanceSourceViaBootVolumeDetails:
+		result["source_type"] = "bootVolume"
+
+		if v.BootVolumeId != nil {
+			result["source_id"] = string(*v.BootVolumeId)
+		}
+	case oci_core.InstanceSourceViaImageDetails:
+		result["source_type"] = "image"
+
+		if v.BootVolumeSizeInGBs != nil {
+			result["boot_volume_size_in_gbs"] = strconv.FormatInt(*v.BootVolumeSizeInGBs, 10)
+		} else if bootVolume != nil && bootVolume.SizeInGBs != nil {
+			// The service could omit the boot volume size in the InstanceSourceViaImageDetails, so use the boot volume
+			// SizeInGBs property if that's the case.
+			result["boot_volume_size_in_gbs"] = strconv.FormatInt(*bootVolume.SizeInGBs, 10)
+		} else if sourceDetailsFromConfig != nil {
+			// Last resort. If we can't query the boot volume size from service, use the config value.
+			result["boot_volume_size_in_gbs"] = sourceDetailsFromConfig["boot_volume_size_in_gbs"]
+		}
+
+		if v.ImageId != nil {
+			result["source_id"] = string(*v.ImageId)
+		}
+	default:
+		log.Printf("[WARN] Received 'source_type' of unknown type %v", *obj)
+		return nil
 	}
 
 	return result
