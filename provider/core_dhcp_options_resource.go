@@ -4,18 +4,13 @@ package provider
 
 import (
 	"context"
-	"fmt"
+	"log"
 	"strings"
 
 	"github.com/hashicorp/terraform/helper/schema"
 
 	"github.com/hashicorp/terraform/helper/validation"
 	oci_core "github.com/oracle/oci-go-sdk/core"
-)
-
-const (
-	DhcpOptionTypeDomainNameServer = "DomainNameServer"
-	DhcpOptionTypeSearchDomain     = "SearchDomain"
 )
 
 func DhcpOptionsResource() *schema.Resource {
@@ -39,7 +34,6 @@ func DhcpOptionsResource() *schema.Resource {
 				Type:     schema.TypeList,
 				Required: true,
 				Elem: &schema.Resource{
-					// Polymorphic type.
 					Schema: map[string]*schema.Schema{
 						// Required
 						"type": {
@@ -47,13 +41,20 @@ func DhcpOptionsResource() *schema.Resource {
 							Required:         true,
 							DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
 							ValidateFunc: validation.StringInSlice([]string{
-								DhcpOptionTypeDomainNameServer,
-								DhcpOptionTypeSearchDomain,
+								"DomainNameServer",
+								"SearchDomain",
 							}, true),
 						},
 
 						// Optional
 						"custom_dns_servers": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+						"search_domain_names": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Schema{
@@ -68,13 +69,6 @@ func DhcpOptionsResource() *schema.Resource {
 								string(oci_core.DhcpDnsOptionServerTypeVcnlocal),
 								string(oci_core.DhcpDnsOptionServerTypeVcnlocalplusinternet),
 							}, false),
-						},
-						"search_domain_names": {
-							Type:     schema.TypeList,
-							Optional: true,
-							Elem: &schema.Schema{
-								Type: schema.TypeString,
-							},
 						},
 
 						// Computed
@@ -218,11 +212,7 @@ func (s *DhcpOptionsResourceCrud) Create() error {
 		interfaces := options.([]interface{})
 		tmp := make([]oci_core.DhcpOption, len(interfaces))
 		for i, toBeConverted := range interfaces {
-			var conversionError error
-			tmp[i], conversionError = mapToDhcpOption(toBeConverted.(map[string]interface{}))
-			if conversionError != nil {
-				return conversionError
-			}
+			tmp[i] = mapToDhcpOption(toBeConverted.(map[string]interface{}))
 		}
 		request.Options = tmp
 	}
@@ -288,11 +278,7 @@ func (s *DhcpOptionsResourceCrud) Update() error {
 		interfaces := options.([]interface{})
 		tmp := make([]oci_core.DhcpOption, len(interfaces))
 		for i, toBeConverted := range interfaces {
-			var conversionError error
-			tmp[i], conversionError = mapToDhcpOption(toBeConverted.(map[string]interface{}))
-			if conversionError != nil {
-				return conversionError
-			}
+			tmp[i] = mapToDhcpOption(toBeConverted.(map[string]interface{}))
 		}
 		request.Options = tmp
 	}
@@ -354,67 +340,65 @@ func (s *DhcpOptionsResourceCrud) SetData() error {
 	return nil
 }
 
-func mapToDhcpOption(raw map[string]interface{}) (oci_core.DhcpOption, error) {
-	dhcpOptionType := ""
-	if type_, ok := raw["type"]; ok {
-		dhcpOptionType = strings.ToLower(type_.(string))
-	}
-
-	searchDomainNames := []string{}
-	for _, toBeConverted := range raw["search_domain_names"].([]interface{}) {
-		searchDomainNames = append(searchDomainNames, toBeConverted.(string))
-	}
-
-	customDnsServers := []string{}
-	for _, toBeConverted := range raw["custom_dns_servers"].([]interface{}) {
-		customDnsServers = append(customDnsServers, toBeConverted.(string))
-	}
-
-	serverType := oci_core.DhcpDnsOptionServerTypeEnum(raw["server_type"].(string))
-
-	// TODO: Ideally, the following validations for invalid fields based on polymorphic type should be done through a ValidateFunc
-	// for the 'options' field. Terraform doesn't currently support ValidateFunc for TypeList fields, so do it here instead.
-	// Move this to the schema once it's supported.
-	var result oci_core.DhcpOption
-	if dhcpOptionType == strings.ToLower(DhcpOptionTypeDomainNameServer) {
-		if len(searchDomainNames) > 0 {
-			return nil, fmt.Errorf("'search_domain_names' should not be specified for type %s", DhcpOptionTypeDomainNameServer)
-		}
-
-		result = oci_core.DhcpDnsOption{
-			CustomDnsServers: customDnsServers,
-			ServerType:       serverType,
-		}
-	} else if dhcpOptionType == strings.ToLower(DhcpOptionTypeSearchDomain) {
-		if len(customDnsServers) > 0 {
-			return nil, fmt.Errorf("'custom_dns_servers' should not be specified for type %s", DhcpOptionTypeSearchDomain)
-		}
-
-		if len(serverType) > 0 {
-			return nil, fmt.Errorf("'server_type' should not be specified for type %s", DhcpOptionTypeSearchDomain)
-		}
-
-		result = oci_core.DhcpSearchDomainOption{
-			SearchDomainNames: searchDomainNames,
-		}
+func mapToDhcpOption(raw map[string]interface{}) oci_core.DhcpOption {
+	var baseObject oci_core.DhcpOption
+	//discriminator
+	typeRaw, ok := raw["type"]
+	var type_ string
+	if ok {
+		type_ = typeRaw.(string)
 	} else {
-		return nil, fmt.Errorf("Unknown Dhcp option type: %s", dhcpOptionType)
+		type_ = "" // default value
 	}
-
-	return result, nil
+	switch strings.ToLower(type_) {
+	case strings.ToLower("DomainNameServer"):
+		details := oci_core.DhcpDnsOption{}
+		details.CustomDnsServers = []string{}
+		if customDnsServers, ok := raw["custom_dns_servers"]; ok {
+			interfaces := customDnsServers.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i, toBeConverted := range interfaces {
+				tmp[i] = toBeConverted.(string)
+			}
+			details.CustomDnsServers = tmp
+		}
+		if serverType, ok := raw["server_type"]; ok {
+			details.ServerType = oci_core.DhcpDnsOptionServerTypeEnum(serverType.(string))
+		}
+		baseObject = details
+	case strings.ToLower("SearchDomain"):
+		details := oci_core.DhcpSearchDomainOption{}
+		details.SearchDomainNames = []string{}
+		if searchDomainNames, ok := raw["search_domain_names"]; ok {
+			interfaces := searchDomainNames.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i, toBeConverted := range interfaces {
+				tmp[i] = toBeConverted.(string)
+			}
+			details.SearchDomainNames = tmp
+		}
+		baseObject = details
+	default:
+		log.Printf("[WARN] Unknown type '%v' was specified", type_)
+	}
+	return baseObject
 }
 
 func DhcpOptionToMap(obj oci_core.DhcpOption) map[string]interface{} {
 	result := map[string]interface{}{}
+	switch v := (obj).(type) {
+	case oci_core.DhcpDnsOption:
+		result["type"] = "DomainNameServer"
 
-	if dhcpDnsOption, ok := obj.(oci_core.DhcpDnsOption); ok {
-		result["type"] = DhcpOptionTypeDomainNameServer
-		result["custom_dns_servers"] = dhcpDnsOption.CustomDnsServers
-		result["server_type"] = string(dhcpDnsOption.ServerType)
-	} else if dhcpSearchDomainOption, ok := obj.(oci_core.DhcpSearchDomainOption); ok {
-		result["type"] = DhcpOptionTypeSearchDomain
-		result["search_domain_names"] = dhcpSearchDomainOption.SearchDomainNames
-	} else {
+		result["custom_dns_servers"] = v.CustomDnsServers
+
+		result["server_type"] = string(v.ServerType)
+	case oci_core.DhcpSearchDomainOption:
+		result["type"] = "SearchDomain"
+
+		result["search_domain_names"] = v.SearchDomainNames
+	default:
+		log.Printf("[WARN] Received 'type' of unknown type %v", obj)
 		return nil
 	}
 

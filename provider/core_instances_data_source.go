@@ -64,6 +64,10 @@ type InstancesDataSourceCrud struct {
 	Res    *oci_core.ListInstancesResponse
 }
 
+func (s *InstancesDataSourceCrud) VoidState() {
+	s.D.SetId("")
+}
+
 func (s *InstancesDataSourceCrud) Get() error {
 	request := oci_core.ListInstancesRequest{}
 
@@ -81,8 +85,6 @@ func (s *InstancesDataSourceCrud) Get() error {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
 	}
-
-	// @CODEGEN 1/2018: page & limit were never actually wired to requests
 
 	if state, ok := s.D.GetOkExists("state"); ok {
 		request.LifecycleState = oci_core.InstanceLifecycleStateEnum(state.(string))
@@ -173,7 +175,11 @@ func (s *InstancesDataSourceCrud) SetData() error {
 		}
 
 		if r.SourceDetails != nil {
-			instance["source_details"] = []interface{}{InstanceSourceDetailsToMap(&r.SourceDetails, nil, nil)}
+			sourceDetailsArray := []interface{}{}
+			if sourceDetailsMap := InstanceSourceDetailsToMap(&r.SourceDetails, nil, nil); sourceDetailsMap != nil {
+				sourceDetailsArray = append(sourceDetailsArray, sourceDetailsMap)
+			}
+			instance["source_details"] = sourceDetailsArray
 		}
 
 		instance["state"] = r.LifecycleState

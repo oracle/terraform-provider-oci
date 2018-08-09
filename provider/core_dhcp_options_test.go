@@ -20,12 +20,12 @@ resource "oci_core_dhcp_options" "test_dhcp_options" {
 	compartment_id = "${var.compartment_id}"
 	options {
 		#Required
-		type = "${var.dhcp_options_options_type}"
 		server_type = "VcnLocalPlusInternet"
+		type = "${var.dhcp_options_options_type}"
 	}
 	options {
-		type = "SearchDomain"
 		search_domain_names = [ "test.com" ]
+		type = "SearchDomain"
 	}
 	vcn_id = "${oci_core_vcn.test_vcn.id}"
 }
@@ -39,12 +39,12 @@ resource "oci_core_dhcp_options" "test_dhcp_options" {
 	compartment_id = "${var.compartment_id}"
 	options {
 		#Required
-		type = "${var.dhcp_options_options_type}"
 		server_type = "VcnLocalPlusInternet"
+		type = "${var.dhcp_options_options_type}"
 	}
 	options {
-		type = "SearchDomain"
 		search_domain_names = [ "test.com" ]
+		type = "SearchDomain"
 	}
 	vcn_id = "${oci_core_vcn.test_vcn.id}"
 

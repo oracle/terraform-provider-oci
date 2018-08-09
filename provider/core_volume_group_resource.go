@@ -4,21 +4,15 @@ package provider
 
 import (
 	"context"
+	"log"
 	"strconv"
 
 	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform/helper/validation"
 
 	"strings"
 
-	"fmt"
-
 	oci_core "github.com/oracle/oci-go-sdk/core"
-)
-
-const (
-	VolumeGroupSourceDetailsVolumeGroupBackupDiscriminator = "volumeGroupBackup"
-	VolumeGroupSourceDetailsVolumesDiscriminator           = "volumeIds"
-	VolumeGroupSourceDetailsVolumeGroupDiscriminator       = "volumeGroup"
 )
 
 func VolumeGroupResource() *schema.Resource {
@@ -50,7 +44,6 @@ func VolumeGroupResource() *schema.Resource {
 				MaxItems: 1,
 				MinItems: 1,
 				Elem: &schema.Resource{
-					// Polymorphic type with 3 subtypes. Individual types have different fields
 					Schema: map[string]*schema.Schema{
 						// Required
 						"type": {
@@ -58,15 +51,20 @@ func VolumeGroupResource() *schema.Resource {
 							Required:         true,
 							ForceNew:         true,
 							DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
+							ValidateFunc: validation.StringInSlice([]string{
+								"volumeGroupBackupId",
+								"volumeGroupId",
+								"volumeIds",
+							}, true),
 						},
 
 						// Optional
-						"volume_group_id": {
+						"volume_group_backup_id": {
 							Type:     schema.TypeString,
 							Optional: true,
 							ForceNew: true,
 						},
-						"volume_group_backup_id": {
+						"volume_group_id": {
 							Type:     schema.TypeString,
 							Optional: true,
 							ForceNew: true,
@@ -77,7 +75,7 @@ func VolumeGroupResource() *schema.Resource {
 							ForceNew: true,
 							MaxItems: 64,
 							MinItems: 0,
-							Set:      schema.HashString,
+							Set:      literalTypeHashCodeForSets,
 							Elem: &schema.Schema{
 								Type: schema.TypeString,
 							},
@@ -235,8 +233,10 @@ func (s *VolumeGroupResourceCrud) Create() error {
 	}
 
 	if sourceDetails, ok := s.D.GetOkExists("source_details"); ok {
-		tmp := mapToVolumeGroupSourceDetails(sourceDetails.([]interface{}))
-		request.SourceDetails = &tmp
+		if tmpList := sourceDetails.([]interface{}); len(tmpList) > 0 {
+			tmp := mapToVolumeGroupSourceDetails(tmpList[0].(map[string]interface{}))
+			request.SourceDetails = tmp
+		}
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
@@ -350,7 +350,13 @@ func (s *VolumeGroupResourceCrud) SetData() error {
 		s.D.Set("size_in_mbs", strconv.FormatInt(*s.Res.SizeInMBs, 10))
 	}
 
-	s.D.Set("source_details", VolumeGroupSourceDetailsToMap(s.Res.SourceDetails))
+	if s.Res.SourceDetails != nil {
+		sourceDetailsArray := []interface{}{}
+		if sourceDetailsMap := VolumeGroupSourceDetailsToMap(&s.Res.SourceDetails); sourceDetailsMap != nil {
+			sourceDetailsArray = append(sourceDetailsArray, sourceDetailsMap)
+		}
+		s.D.Set("source_details", sourceDetailsArray)
+	}
 
 	s.D.Set("state", s.Res.LifecycleState)
 
@@ -363,66 +369,77 @@ func (s *VolumeGroupResourceCrud) SetData() error {
 	return nil
 }
 
-func mapToVolumeGroupSourceDetails(rawList []interface{}) oci_core.VolumeGroupSourceDetails {
-	var item oci_core.VolumeGroupSourceDetails
-
-	if len(rawList) > 0 {
-		rawItem := rawList[0].(map[string]interface{})
-
-		var sourceType string
-		if rawType, ok := rawItem["type"]; ok {
-			sourceType = strings.ToLower(rawType.(string))
-		}
-
-		switch sourceType {
-		case strings.ToLower(VolumeGroupSourceDetailsVolumesDiscriminator):
-			volumeIdsSet, assertOk := rawItem["volume_ids"].(*schema.Set)
-			if !assertOk {
-				return fmt.Errorf("could not assert volume_ids as type schema.Set")
-			}
-			item = oci_core.VolumeGroupSourceFromVolumesDetails{
-				VolumeIds: SetToStrings(volumeIdsSet),
-			}
-		case strings.ToLower(VolumeGroupSourceDetailsVolumeGroupBackupDiscriminator):
-			volumeGroupBackupId := rawItem["volume_group_backup_id"].(string)
-			item = oci_core.VolumeGroupSourceFromVolumeGroupBackupDetails{
-				VolumeGroupBackupId: &volumeGroupBackupId,
-			}
-		case strings.ToLower(VolumeGroupSourceDetailsVolumeGroupDiscriminator):
-			volumeGroupId := rawItem["volume_group_id"].(string)
-			item = oci_core.VolumeGroupSourceFromVolumeGroupDetails{
-				VolumeGroupId: &volumeGroupId,
-			}
-		}
+func mapToVolumeGroupSourceDetails(raw map[string]interface{}) oci_core.VolumeGroupSourceDetails {
+	var baseObject oci_core.VolumeGroupSourceDetails
+	//discriminator
+	typeRaw, ok := raw["type"]
+	var type_ string
+	if ok {
+		type_ = typeRaw.(string)
+	} else {
+		type_ = "" // default value
 	}
-
-	return item
+	switch strings.ToLower(type_) {
+	case strings.ToLower("volumeGroupBackupId"):
+		details := oci_core.VolumeGroupSourceFromVolumeGroupBackupDetails{}
+		if volumeGroupBackupId, ok := raw["volume_group_backup_id"]; ok {
+			tmp := volumeGroupBackupId.(string)
+			details.VolumeGroupBackupId = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("volumeGroupId"):
+		details := oci_core.VolumeGroupSourceFromVolumeGroupDetails{}
+		if volumeGroupId, ok := raw["volume_group_id"]; ok {
+			tmp := volumeGroupId.(string)
+			details.VolumeGroupId = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("volumeIds"):
+		details := oci_core.VolumeGroupSourceFromVolumesDetails{}
+		details.VolumeIds = []string{}
+		if volumeIds, ok := raw["volume_ids"]; ok {
+			set := volumeIds.(*schema.Set)
+			interfaces := set.List()
+			tmp := make([]string, len(interfaces))
+			for i, toBeConverted := range interfaces {
+				tmp[i] = toBeConverted.(string)
+			}
+			details.VolumeIds = tmp
+		}
+		baseObject = details
+	default:
+		log.Printf("[WARN] Unknown type '%v' was specified", type_)
+	}
+	return baseObject
 }
 
-func VolumeGroupSourceDetailsToMap(obj oci_core.VolumeGroupSourceDetails) []interface{} {
-	var sourceDetails []interface{}
-	var item map[string]interface{}
+func VolumeGroupSourceDetailsToMap(obj *oci_core.VolumeGroupSourceDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_core.VolumeGroupSourceFromVolumeGroupBackupDetails:
+		result["type"] = "volumeGroupBackupId"
 
-	if details, ok := obj.(oci_core.VolumeGroupSourceFromVolumesDetails); ok {
-		item = map[string]interface{}{
-			"type":       VolumeGroupSourceDetailsVolumesDiscriminator,
-			"volume_ids": StringsToSet(details.VolumeIds),
+		if v.VolumeGroupBackupId != nil {
+			result["volume_group_backup_id"] = string(*v.VolumeGroupBackupId)
 		}
-	} else if details, ok := obj.(oci_core.VolumeGroupSourceFromVolumeGroupBackupDetails); ok {
-		item = map[string]interface{}{
-			"type": VolumeGroupSourceDetailsVolumeGroupBackupDiscriminator,
-			"volume_group_backup_id": *details.VolumeGroupBackupId,
+	case oci_core.VolumeGroupSourceFromVolumeGroupDetails:
+		result["type"] = "volumeGroupId"
+
+		if v.VolumeGroupId != nil {
+			result["volume_group_id"] = string(*v.VolumeGroupId)
 		}
-	} else if details, ok := obj.(oci_core.VolumeGroupSourceFromVolumeGroupDetails); ok {
-		item = map[string]interface{}{
-			"type":            VolumeGroupSourceDetailsVolumeGroupDiscriminator,
-			"volume_group_id": *details.VolumeGroupId,
+	case oci_core.VolumeGroupSourceFromVolumesDetails:
+		result["type"] = "volumeIds"
+
+		volumeIdsInterfaceList := []interface{}{}
+		for _, item := range v.VolumeIds {
+			volumeIdsInterfaceList = append(volumeIdsInterfaceList, item)
 		}
+		result["volume_ids"] = schema.NewSet(literalTypeHashCodeForSets, volumeIdsInterfaceList)
+	default:
+		log.Printf("[WARN] Received 'type' of unknown type %v", *obj)
+		return nil
 	}
 
-	if item != nil {
-		sourceDetails = append(sourceDetails, item)
-	}
-
-	return sourceDetails
+	return result
 }

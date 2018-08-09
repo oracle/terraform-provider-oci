@@ -140,7 +140,7 @@ func (s *BootVolumesDataSourceCrud) SetData() error {
 		}
 
 		if r.SourceDetails != nil {
-			var sourceDetailsArray []interface{}
+			sourceDetailsArray := []interface{}{}
 			if sourceDetailsMap := BootVolumeSourceDetailsToMap(&r.SourceDetails); sourceDetailsMap != nil {
 				sourceDetailsArray = append(sourceDetailsArray, sourceDetailsMap)
 			}

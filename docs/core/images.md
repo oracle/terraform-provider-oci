@@ -61,12 +61,12 @@ The following arguments are supported:
 * `display_name` - (Optional) A user-friendly name for the image. It does not have to be unique, and it's changeable. Avoid entering confidential information.  You cannot use an Oracle-provided image name as a custom image name.  Example: `My Oracle Linux image` 
 * `freeform_tags` - (Optional) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `image_source_details` - (Optional) Details for creating an image through import
+	* `bucket_name` - (Required when source_type=objectStorageTuple) The Object Storage bucket for the image.
+	* `namespace_name` - (Required when source_type=objectStorageTuple) The Object Storage namespace for the image.
+	* `object_name` - (Required when source_type=objectStorageTuple) The Object Storage name for the image.
     * `source_image_type` - (Optional) The format of the image to be imported. Exported Oracle images are QCOW2. Only monolithic images are supported. Allowed values are: - `QCOW2` - `VMDK`
-    * `source_type` - (Required) The source type for the image. Use objectStorageTuple when specifying the namespace, bucket name, and object name. Use `objectStorageUri` when specifying the Object Storage URL. Allowed values are: - `objectStorageTuple` - `objectStorageUri` 
-    * `source_uri` - (Required for objectStorageUri source_type) The Object Storage URL for the image.
-    * `bucket_name` - (Required for objectStorageTuple source_type) The Object Storage bucket for the image.
-    * `namespace_name` - (Required for objectStorageTuple source_type) The Object Storage namespace for the image.
-    * `object_name` - (Required for objectStorageTuple source_type) The Object Storage name for the image.
+	* `source_type` - (Required) The source type for the image. Use `objectStorageTuple` when specifying the namespace, bucket name, and object name. Use `objectStorageUri` when specifying the Object Storage URL. 
+	* `source_uri` - (Required when source_type=objectStorageUri) The Object Storage URL for the image.
 * `instance_id` - (Optional -- required when not specifying `image_source_details`) The OCID of the instance you want to use as the basis for the image.
 * `launch_mode` - (Optional) Specifies the configuration mode for launching virtual machine (VM) instances. The configuration modes are: 
     * `NATIVE` - VM instances launch with iSCSI boot and VFIO devices. The default value for Oracle-provided images. 

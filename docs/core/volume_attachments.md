@@ -35,7 +35,7 @@ The following arguments are supported:
 * `display_name` - (Optional) A user-friendly name. Does not have to be unique, and it cannot be changed. Avoid entering confidential information. 
 * `instance_id` - (Required) The OCID of the instance.
 * `is_read_only` - (Optional) Whether the attachment was created in read-only mode.
-* `use_chap` - (Optional) Whether to use CHAP authentication for the volume attachment. This only applies if the attachment type is "iscsi".
+* `use_chap` - (Applicable when attachment_type=iscsi) Whether to use CHAP authentication for the volume attachment. Defaults to false.
 * `volume_id` - (Required) The OCID of the volume.
 
 
@@ -53,13 +53,14 @@ Any change to a property that does not support update will force the destruction
 ```hcl
 resource "oci_core_volume_attachment" "test_volume_attachment" {
 	#Required
+	attachment_type = "${var.volume_attachment_attachment_type}"
 	instance_id = "${oci_core_instance.test_instance.id}"
-	attachment_type = "iscsi"
 	volume_id = "${oci_core_volume.test_volume.id}"
 
 	#Optional
 	display_name = "${var.volume_attachment_display_name}"
 	is_read_only = "${var.volume_attachment_is_read_only}"
+	use_chap = "${var.volume_attachment_use_chap}"
 }
 ```
 

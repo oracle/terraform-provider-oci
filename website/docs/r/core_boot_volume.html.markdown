@@ -24,8 +24,8 @@ resource "oci_core_boot_volume" "test_boot_volume" {
 	compartment_id = "${var.compartment_id}"
 	source_details {
 		#Required
-		type = "${var.boot_volume_source_details_type}"
 		id = "${var.boot_volume_source_details_id}"
+		type = "${var.boot_volume_source_details_type}"
 	}
 
 	#Optional
@@ -47,8 +47,8 @@ The following arguments are supported:
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `source_details` - (Required) Specifies the boot volume source details for a new boot volume. The volume source is either another boot volume in the same Availability Domain or a boot volume backup. This is a mandatory field for a boot volume. 
-	* `type` - (Required) The type of the boot volume source. Supported values are `bootVolumeBackup` and `bootVolume`
 	* `id` - (Required) The OCID of the boot volume backup or the boot volume
+	* `type` - (Required) The type of the boot volume source. Supported values are `bootVolumeBackup` and `bootVolume`
 
 
 ** IMPORTANT **
@@ -69,8 +69,8 @@ The following attributes are exported:
 * `size_in_gbs` - The size of the boot volume in GBs.
 * `size_in_mbs` - The size of the volume in MBs. The value must be a multiple of 1024. This field is deprecated. Please use `size_in_gbs`. 
 * `source_details` - The boot volume source, either an existing boot volume in the same Availability Domain or a boot volume backup. If null, this means that the boot volume was created from an image. 
-	* `type` - The type of the boot volume source. Supported values are `bootVolumeBackup` and `bootVolume`
 	* `id` - The OCID of the boot volume backup or the boot volume
+	* `type` - The type of the boot volume source. Supported values are `bootVolumeBackup` and `bootVolume`
 * `state` - The current state of a boot volume.
 * `time_created` - The date and time the boot volume was created. Format defined by RFC3339.
 * `volume_group_id` - The OCID of the source volume group.

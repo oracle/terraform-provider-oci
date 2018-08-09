@@ -5,6 +5,7 @@ package provider
 import (
 	"context"
 	"fmt"
+	"strings"
 
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/helper/validation"
@@ -74,24 +75,21 @@ func DbSystemResource() *schema.Resource {
 										ForceNew:  true,
 										Sensitive: true,
 									},
+
+									// Optional
 									"backup_id": {
 										Type:     schema.TypeString,
 										Optional: true,
+										Computed: true,
 										ForceNew: true,
 									},
 									"backup_tde_password": {
 										Type:      schema.TypeString,
 										Optional:  true,
+										Computed:  true,
 										ForceNew:  true,
 										Sensitive: true,
 									},
-									"db_name": {
-										Type:     schema.TypeString,
-										Required: true,
-										ForceNew: true,
-									},
-
-									// Optional
 									// server side defaults to AL32UTF8, but returns as "" when not supplied
 									"character_set": {
 										Type:     schema.TypeString,
@@ -122,6 +120,12 @@ func DbSystemResource() *schema.Resource {
 											},
 										},
 									},
+									"db_name": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
 									// this supports OLTP or DSS, returns "" if not supplied
 									"db_workload": {
 										Type:     schema.TypeString,
@@ -147,13 +151,14 @@ func DbSystemResource() *schema.Resource {
 								},
 							},
 						},
-						"db_version": {
-							Type:     schema.TypeString,
-							Required: true,
-							ForceNew: true,
-						},
 
 						// Optional
+						"db_version": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
 						"display_name": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -260,10 +265,15 @@ func DbSystemResource() *schema.Resource {
 				ForceNew: true,
 			},
 			"source": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-				ForceNew: true,
+				Type:             schema.TypeString,
+				Optional:         true,
+				Computed:         true,
+				ForceNew:         true,
+				DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
+				ValidateFunc: validation.StringInSlice([]string{
+					"DB_BACKUP",
+					"NONE",
+				}, true),
 			},
 
 			// Computed
@@ -809,9 +819,8 @@ func (s *DbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystemRequest(
 	} else {
 		source = "NONE" // default value
 	}
-
-	switch source {
-	case "DB_BACKUP":
+	switch strings.ToLower(source) {
+	case strings.ToLower("DB_BACKUP"):
 		details := oci_database.LaunchDbSystemFromBackupDetails{}
 		if databaseEdition, ok := s.D.GetOkExists("database_edition"); ok {
 			details.DatabaseEdition = oci_database.LaunchDbSystemFromBackupDetailsDatabaseEditionEnum(databaseEdition.(string))
@@ -899,8 +908,7 @@ func (s *DbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystemRequest(
 			details.SubnetId = &tmp
 		}
 		request.LaunchDbSystemDetails = details
-
-	case "NONE":
+	case strings.ToLower("NONE"):
 		details := oci_database.LaunchDbSystemDetails{}
 		if databaseEdition, ok := s.D.GetOkExists("database_edition"); ok {
 			details.DatabaseEdition = oci_database.LaunchDbSystemDetailsDatabaseEditionEnum(databaseEdition.(string))

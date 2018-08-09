@@ -6,8 +6,10 @@ import (
 	"context"
 	"fmt"
 	"strconv"
+	"strings"
 
 	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform/helper/validation"
 
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
@@ -52,8 +54,12 @@ func IdentityProviderResource() *schema.Resource {
 				ForceNew: true,
 			},
 			"protocol": {
-				Type:     schema.TypeString,
-				Required: true,
+				Type:             schema.TypeString,
+				Required:         true,
+				DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
+				ValidateFunc: validation.StringInSlice([]string{
+					"SAML2",
+				}, true),
 			},
 
 			// Optional
@@ -276,9 +282,8 @@ func (s *IdentityProviderResourceCrud) populateTopLevelPolymorphicCreateIdentity
 	} else {
 		protocol = "" // default value
 	}
-
-	switch protocol {
-	case "SAML2":
+	switch strings.ToLower(protocol) {
+	case strings.ToLower("SAML2"):
 		details := oci_identity.CreateSaml2IdentityProviderDetails{}
 		if metadata, ok := s.D.GetOkExists("metadata"); ok {
 			tmp := metadata.(string)
@@ -329,9 +334,8 @@ func (s *IdentityProviderResourceCrud) populateTopLevelPolymorphicUpdateIdentity
 	} else {
 		protocol = "" // default value
 	}
-
-	switch protocol {
-	case "SAML2":
+	switch strings.ToLower(protocol) {
+	case strings.ToLower("SAML2"):
 		details := oci_identity.UpdateSaml2IdentityProviderDetails{}
 		if metadata, ok := s.D.GetOkExists("metadata"); ok {
 			tmp := metadata.(string)
@@ -355,10 +359,8 @@ func (s *IdentityProviderResourceCrud) populateTopLevelPolymorphicUpdateIdentity
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 			details.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
-
 		tmp := s.D.Id()
 		request.IdentityProviderId = &tmp
-
 		request.UpdateIdentityProviderDetails = details
 	default:
 		return fmt.Errorf("Unknown protocol '%v' was specified", protocol)

@@ -57,9 +57,9 @@ The following attributes are exported:
 * `size_in_mbs` - The aggregate size of the volume group in MBs.
 * `source_details` - The volume group source. The source is either another a list of volume IDs in the same availability domain, another volume group, or a volume group backup. 
 	* `type` - The type of the volume group source. It should be set to either `volumeIds`, `volumeGroup`, or `volumeBackup`
-	* `volume_ids` - OCIDs for the volumes in this volume group, if the type is `volumeIds`
-	* `volume_group_id` - The OCID of the volume group to clone from, if the type is `volumeGroup`
 	* `volume_group_backup_id` - The OCID of the volume group backup to restore from, if the type is `volumeGroupBackup` 
+	* `volume_group_id` - The OCID of the volume group to clone from, if the type is `volumeGroup`
+	* `volume_ids` - OCIDs for the volumes in this volume group, if the type is `volumeIds`
 * `state` - The current state of a volume group.
 * `time_created` - The date and time the volume group was created. Format defined by RFC3339.
 * `volume_ids` - OCIDs for the volumes in this volume group.

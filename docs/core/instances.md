@@ -26,6 +26,7 @@ The following attributes are exported:
 	    * `SCSI` - Emulated SCSI disk. 
 	    * `IDE` - Emulated IDE disk. 
 	    * `VFIO` - Direct attached Virtual Function storage.  This is the default option for Local data volumes on Oracle provided images. 
+		* `PARAVIRTUALIZED` - Paravirtualized disk. 
 	* `firmware` - Firmware used to boot VM.  Select the option that matches your operating system. 
 	    * `BIOS` - Boot VM using BIOS style firmware.  This is compatible with both 32 bit and 64 bit operating systems that boot using MBR style bootloaders. 
 	    * `UEFI_64` - Boot VM using UEFI style firmware compatible with 64 bit operating systems.  This is the default for Oracle provided images. 
@@ -37,6 +38,7 @@ The following attributes are exported:
 	    * `SCSI` - Emulated SCSI disk. 
 	    * `IDE` - Emulated IDE disk. 
 	    * `VFIO` - Direct attached Virtual Function storage.  This is the default option for Local data volumes on Oracle provided images. 
+		* `PARAVIRTUALIZED` - Paravirtualized disk. 
 * `metadata` - Custom metadata that you provide.
 * `preserve_boot_volume` - Specifies whether to delete or preserve the boot volume when terminating an instance. The default value is false. Note: This value only applies to destroy operations initiated by Terraform.
 * `private_ip` - The private IP address of instance VNIC. To set the private IP address, use the `private_ip` argument in create_vnic_details.
@@ -110,7 +112,7 @@ The following arguments are supported:
 * `preserve_boot_volume` - (Optional) Specifies whether to delete or preserve the boot volume when terminating an instance. The default value is false. Note: This value only applies to destroy operations initiated by Terraform. 
 * `shape` - (Required) The shape of an instance. The shape determines the number of CPUs, amount of memory, and other resources allocated to the instance.  You can enumerate all available shapes by calling [ListShapes](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/Shape/ListShapes). 
 * `source_details` - (Optional) Details for creating an instance. Use this parameter to specify whether a boot volume or an image should be used to launch a new instance. 
-    * `boot_volume_size_in_gbs` - (Optional) The size of the boot volume in GBs. Minimum value is 50 GB and maximum value is 16384 GB (16TB). This should only be specified when `source_type` is `image`.
+	* `boot_volume_size_in_gbs` - (Applicable when source_type=image) The size of the boot volume in GBs. Minimum value is 50 GB and maximum value is 16384 GB (16TB).
     * `source_id` - (Required) The OCID of an image or a boot volume to use, depending on the value of `source_type`. 
 	* `source_type` - (Required) The source type for the instance. Use `image` when specifying the image OCID. Use `bootVolume` when specifying the boot volume OCID. 
 * `subnet_id` - (Optional) Deprecated. Instead use `subnetId` in [CreateVnicDetails](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/CreateVnicDetails/). At least one of them is required; if you provide both, the values must match. 
@@ -173,8 +175,8 @@ resource "oci_core_instance" "test_instance" {
 	}
 	source_details {
 	    #Required
-	    source_type = "image"
 	    source_id = "${oci_core_image.test_image.id}"
+	    source_type = "image"
 
 	    #Optional
 	    boot_volume_size_in_gbs = "60"

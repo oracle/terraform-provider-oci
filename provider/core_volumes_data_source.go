@@ -175,7 +175,13 @@ func (s *VolumesDataSourceCrud) SetData() error {
 			volume["size_in_mbs"] = strconv.FormatInt(*r.SizeInMBs, 10)
 		}
 
-		volume["source_details"] = VolumeSourceDetailsToMap(r.SourceDetails)
+		if r.SourceDetails != nil {
+			sourceDetailsArray := []interface{}{}
+			if sourceDetailsMap := VolumeSourceDetailsToMap(&r.SourceDetails); sourceDetailsMap != nil {
+				sourceDetailsArray = append(sourceDetailsArray, sourceDetailsMap)
+			}
+			volume["source_details"] = sourceDetailsArray
+		}
 
 		volume["state"] = r.LifecycleState
 

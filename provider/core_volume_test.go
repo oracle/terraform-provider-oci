@@ -37,8 +37,8 @@ resource "oci_core_volume" "test_volume" {
 	size_in_gbs = "${var.volume_size_in_gbs}"
 	source_details {
 		#Required
-		type = "${var.volume_source_details_type}"
 		id = "${oci_core_volume.source_volume.id}"
+		type = "${var.volume_source_details_type}"
 	}
 }
 `
