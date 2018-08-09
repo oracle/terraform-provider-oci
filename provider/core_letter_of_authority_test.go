@@ -6,8 +6,6 @@ import (
 	"fmt"
 	"testing"
 
-	"strings"
-
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
 )
@@ -23,11 +21,6 @@ const (
 )
 
 func TestCoreLetterOfAuthorityResource_basic(t *testing.T) {
-	region := getRequiredEnvSetting("region")
-	if !strings.EqualFold("r1", region) {
-		t.Skip("FastConnect tests are not yet supported in production regions")
-	}
-
 	provider := testAccProvider
 	config := testProviderConfig()
 
@@ -54,7 +47,7 @@ data "oci_core_letter_of_authority" "test_letter_of_authority" {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "cross_connect_id"),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "authorized_entity_name", "internalsdk"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "authorized_entity_name"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "circuit_type", "Single_mode_LC"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "facility_location"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "port_name"),

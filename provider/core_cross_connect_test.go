@@ -7,8 +7,6 @@ import (
 	"fmt"
 	"testing"
 
-	"strings"
-
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
@@ -42,7 +40,7 @@ resource "oci_core_cross_connect" "test_cross_connect" {
 `
 	CrossConnectPropertyVariables = `
 variable "cross_connect_display_name" { default = "displayName" }
-variable "cross_connect_location_name" { default = "SEA-R1-FAKE-LOCATION" }
+variable "cross_connect_location_name" { default = "Fake Location, Phoenix, AZ" }
 variable "cross_connect_port_speed_shape_name" { default = "10 Gbps" }
 variable "cross_connect_state" { default = "AVAILABLE" }
 variable "cross_connect_is_active" { default = true }
@@ -53,11 +51,6 @@ variable "cross_connect_is_active" { default = true }
 )
 
 func TestCoreCrossConnectResource_basic(t *testing.T) {
-	region := getRequiredEnvSetting("region")
-	if strings.ToLower(region) != "r1" {
-		t.Skip("FastConnect tests are not yet supported in production regions")
-	}
-
 	provider := testAccProvider
 	config := testProviderConfig()
 
@@ -84,7 +77,7 @@ func TestCoreCrossConnectResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					//resource.TestCheckResourceAttrSet(resourceName, "cross_connect_group_id"),
 					//resource.TestCheckResourceAttrSet(resourceName, "far_cross_connect_or_cross_connect_group_id"),
-					resource.TestCheckResourceAttr(resourceName, "location_name", "SEA-R1-FAKE-LOCATION"),
+					resource.TestCheckResourceAttr(resourceName, "location_name", "Fake Location, Phoenix, AZ"),
 					//resource.TestCheckResourceAttrSet(resourceName, "near_cross_connect_or_cross_connect_group_id"),
 					resource.TestCheckResourceAttr(resourceName, "port_speed_shape_name", "10 Gbps"),
 					resource.TestCheckResourceAttr(resourceName, "state", "PENDING_CUSTOMER"),
@@ -108,7 +101,7 @@ func TestCoreCrossConnectResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "cross_connect_group_id"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 					//resource.TestCheckResourceAttrSet(resourceName, "far_cross_connect_or_cross_connect_group_id"),
-					resource.TestCheckResourceAttr(resourceName, "location_name", "SEA-R1-FAKE-LOCATION"),
+					resource.TestCheckResourceAttr(resourceName, "location_name", "Fake Location, Phoenix, AZ"),
 					//resource.TestCheckResourceAttrSet(resourceName, "near_cross_connect_or_cross_connect_group_id"),
 					resource.TestCheckResourceAttr(resourceName, "port_speed_shape_name", "10 Gbps"),
 					resource.TestCheckResourceAttr(resourceName, "state", "PROVISIONED"),
@@ -124,7 +117,7 @@ func TestCoreCrossConnectResource_basic(t *testing.T) {
 			{
 				Config: config + `
 variable "cross_connect_display_name" { default = "displayName2" }
-variable "cross_connect_location_name" { default = "SEA-R1-FAKE-LOCATION" }
+variable "cross_connect_location_name" { default = "Fake Location, Phoenix, AZ" }
 variable "cross_connect_port_speed_shape_name" { default = "10 Gbps" }
 variable "cross_connect_state" { default = "AVAILABLE" }
 variable "cross_connect_is_active" { default = true }
@@ -135,7 +128,7 @@ variable "cross_connect_is_active" { default = true }
 					resource.TestCheckResourceAttrSet(resourceName, "cross_connect_group_id"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					//resource.TestCheckResourceAttrSet(resourceName, "far_cross_connect_or_cross_connect_group_id"),
-					resource.TestCheckResourceAttr(resourceName, "location_name", "SEA-R1-FAKE-LOCATION"),
+					resource.TestCheckResourceAttr(resourceName, "location_name", "Fake Location, Phoenix, AZ"),
 					//resource.TestCheckResourceAttrSet(resourceName, "near_cross_connect_or_cross_connect_group_id"),
 					resource.TestCheckResourceAttr(resourceName, "port_speed_shape_name", "10 Gbps"),
 					resource.TestCheckResourceAttr(resourceName, "state", "PROVISIONED"),
@@ -153,7 +146,7 @@ variable "cross_connect_is_active" { default = true }
 			{
 				Config: config + `
 variable "cross_connect_display_name" { default = "displayName2" }
-variable "cross_connect_location_name" { default = "SEA-R1-FAKE-LOCATION" }
+variable "cross_connect_location_name" { default = "Fake Location, Phoenix, AZ" }
 variable "cross_connect_port_speed_shape_name" { default = "10 Gbps" }
 variable "cross_connect_state" { default = "AVAILABLE" }
 variable "cross_connect_is_active" { default = true }
@@ -186,7 +179,7 @@ data "oci_core_cross_connects" "test_cross_connects" {
 					resource.TestCheckResourceAttrSet(datasourceName, "cross_connects.0.cross_connect_group_id"),
 					resource.TestCheckResourceAttr(datasourceName, "cross_connects.0.display_name", "displayName2"),
 					//resource.TestCheckResourceAttrSet(datasourceName, "cross_connects.0.far_cross_connect_or_cross_connect_group_id"),
-					resource.TestCheckResourceAttr(datasourceName, "cross_connects.0.location_name", "SEA-R1-FAKE-LOCATION"),
+					resource.TestCheckResourceAttr(datasourceName, "cross_connects.0.location_name", "Fake Location, Phoenix, AZ"),
 					//resource.TestCheckResourceAttrSet(datasourceName, "cross_connects.0.near_cross_connect_or_cross_connect_group_id"),
 					resource.TestCheckResourceAttr(datasourceName, "cross_connects.0.port_speed_shape_name", "10 Gbps"),
 					resource.TestCheckResourceAttr(datasourceName, "cross_connects.0.state", "PROVISIONED"),
@@ -196,7 +189,7 @@ data "oci_core_cross_connects" "test_cross_connects" {
 			{
 				Config: config + `
 variable "cross_connect_display_name" { default = "displayName2" }
-variable "cross_connect_location_name" { default = "SEA-R1-FAKE-LOCATION" }
+variable "cross_connect_location_name" { default = "Fake Location, Phoenix, AZ" }
 variable "cross_connect_port_speed_shape_name" { default = "10 Gbps" }
 variable "cross_connect_state" { default = "AVAILABLE" }
 variable "cross_connect_is_active" { default = true }
@@ -215,7 +208,7 @@ data "oci_core_cross_connect" "test_cross_connect" {
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "location_name", "SEA-R1-FAKE-LOCATION"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "location_name", "Fake Location, Phoenix, AZ"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "port_name"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "port_speed_shape_name", "10 Gbps"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "state", "PROVISIONED"),

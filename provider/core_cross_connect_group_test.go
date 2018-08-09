@@ -5,7 +5,6 @@ package provider
 import (
 	"context"
 	"fmt"
-	"strings"
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
@@ -40,11 +39,6 @@ variable "cross_connect_group_state" { default = "AVAILABLE" }
 )
 
 func TestCoreCrossConnectGroupResource_basic(t *testing.T) {
-	region := getRequiredEnvSetting("region")
-	if !strings.EqualFold("r1", region) {
-		t.Skip("FastConnect tests are not yet supported in production regions")
-	}
-
 	provider := testAccProvider
 	config := testProviderConfig()
 
