@@ -910,6 +910,12 @@
 			"revisionTime": "2018-07-18T06:34:19Z"
 		},
 		{
+			"checksumSHA1": "+1Q0yX5irPpjmlGbgnEdozRQQCM=",
+			"path": "golang.org/x/sys/unix",
+			"revision": "904bdc257025c7b3f43c19360ad3ab85783fad78",
+			"revisionTime": "2018-08-08T08:17:46Z"
+		},
+		{
 			"checksumSHA1": "CbpjEkkOeh0fdM/V8xKDdI0AA88=",
 			"path": "golang.org/x/text/secure/bidirule",
 			"revision": "0605a8320aceb4207a5fb3521281e17ec2075476",
