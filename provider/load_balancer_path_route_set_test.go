@@ -81,7 +81,8 @@ func TestLoadBalancerPathRouteSetResource_basic(t *testing.T) {
 			{
 				Config: config + `
 variable "path_route_set_name" { default = "example_path_route_set" }
-variable "path_route_set_path_routes_path" { default = "/example/video/123" }
+variable "path_route_set_path_routes_backend_set_name" { default = "backendSet1" }
+variable "path_route_set_path_routes_path" { default = "path2" }
 variable "path_route_set_path_routes_path_match_type_match_type" { default = "EXACT_MATCH" }
 
                 ` + compartmentIdVariableStr + PathRouteSetResourceConfig,
@@ -89,8 +90,8 @@ variable "path_route_set_path_routes_path_match_type_match_type" { default = "EX
 					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttr(resourceName, "name", "example_path_route_set"),
 					resource.TestCheckResourceAttr(resourceName, "path_routes.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "path_routes.0.backend_set_name"),
-					resource.TestCheckResourceAttr(resourceName, "path_routes.0.path", "/example/video/123"),
+					resource.TestCheckResourceAttr(resourceName, "path_routes.0.backend_set_name", "backendSet1"),
+					resource.TestCheckResourceAttr(resourceName, "path_routes.0.path", "path2"),
 					resource.TestCheckResourceAttr(resourceName, "path_routes.0.path_match_type.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "path_routes.0.path_match_type.0.match_type", "EXACT_MATCH"),
 
@@ -107,7 +108,8 @@ variable "path_route_set_path_routes_path_match_type_match_type" { default = "EX
 			{
 				Config: config + `
 variable "path_route_set_name" { default = "example_path_route_set" }
-variable "path_route_set_path_routes_path" { default = "/example/video/123" }
+variable "path_route_set_path_routes_backend_set_name" { default = "backendSet1" }
+variable "path_route_set_path_routes_path" { default = "path2" }
 variable "path_route_set_path_routes_path_match_type_match_type" { default = "EXACT_MATCH" }
 
 data "oci_load_balancer_path_route_sets" "test_path_route_sets" {
@@ -126,8 +128,8 @@ data "oci_load_balancer_path_route_sets" "test_path_route_sets" {
 					resource.TestCheckResourceAttr(datasourceName, "path_route_sets.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "path_route_sets.0.name", "example_path_route_set"),
 					resource.TestCheckResourceAttr(datasourceName, "path_route_sets.0.path_routes.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "path_route_sets.0.path_routes.0.backend_set_name"),
-					resource.TestCheckResourceAttr(datasourceName, "path_route_sets.0.path_routes.0.path", "/example/video/123"),
+					resource.TestCheckResourceAttr(datasourceName, "path_route_sets.0.path_routes.0.backend_set_name", "backendSet1"),
+					resource.TestCheckResourceAttr(datasourceName, "path_route_sets.0.path_routes.0.path", "path2"),
 					resource.TestCheckResourceAttr(datasourceName, "path_route_sets.0.path_routes.0.path_match_type.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "path_route_sets.0.path_routes.0.path_match_type.0.match_type", "EXACT_MATCH"),
 				),
