@@ -94,5 +94,7 @@ resource "oci_core_instance" t {
     * [Tags](https://github.com/oracle/terraform-provider-oci/tree/master/docs/identity/tags.md)
     * [Tenancies](https://github.com/oracle/terraform-provider-oci/tree/master/docs/identity/tenancies.md)
     * [Users](https://github.com/oracle/terraform-provider-oci/tree/master/docs/identity/users.md)
+* **Load Balancer**
+    * [Load Balancers](https://github.com/oracle/terraform-provider-oci/tree/master/docs/load_balancer/load_balancers.md)
 * **Object Storage**
     * [Buckets](https://github.com/oracle/terraform-provider-oci/tree/master/docs/object_storage/buckets.md)
