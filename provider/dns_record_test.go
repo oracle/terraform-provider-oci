@@ -21,7 +21,7 @@ const (
 resource "oci_dns_record" "test_record" {
 	#Required
 	zone_name_or_id = "${oci_dns_zone.test_zone.name}"
-	domain = "${data.oci_identity_tenancy.test_tenancy.name}.${var.record_items_domain}"
+	domain = "${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.${var.record_items_domain}"
 	rdata = "${var.record_items_rdata}"
 	rtype = "${var.record_items_rtype}"
 	ttl = "${var.record_items_ttl}"
@@ -36,14 +36,14 @@ resource "oci_dns_record" "test_record" {
 	#Optional
 	compartment_id = "${var.compartment_id}"
 
-	domain = "${data.oci_identity_tenancy.test_tenancy.name}.${var.record_items_domain}"
+	domain = "${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.${var.record_items_domain}"
 	rdata = "${var.record_items_rdata}"
 	rtype = "${var.record_items_rtype}"
 	ttl = "${var.record_items_ttl}"
 }
 `
 	RecordPropertyVariables = `
-variable "record_items_domain" { default = "oci-test" }
+variable "record_items_domain" { default = "oci-record-test" }
 variable "record_items_rdata" { default = "192.168.0.1" }
 variable "record_items_rtype" { default = "A" }
 variable "record_items_ttl" { default = 3600 }
@@ -56,27 +56,21 @@ data "oci_identity_tenancy" "test_tenancy" {
 resource "oci_dns_zone" "test_zone" {
 	#Required
 	compartment_id = "${var.compartment_id}"
-	name = "${data.oci_identity_tenancy.test_tenancy.name}.oci-test"
+	name = "${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.oci-record-test"
 	zone_type = "PRIMARY"
 }
-
-resource "oci_dns_zone" "test_zone2" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-	name = "${data.oci_identity_tenancy.test_tenancy.name}2.oci-test"
-	zone_type = "PRIMARY"
-}`
+`
 )
 
 func TestDnsRecordsResource_basic(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 
-	compartmentId := getRequiredEnvSetting("compartment_ocid")
+	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
-
 	resourceName := "oci_dns_record.test_record"
 
+	_, tokenFn := tokenize()
 	var resId, resId2 string
 
 	resource.Test(t, resource.TestCase{
@@ -88,7 +82,7 @@ func TestDnsRecordsResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + RecordPropertyVariables + compartmentIdVariableStr + RecordRequiredOnlyResource,
+				Config: tokenFn(config+RecordPropertyVariables+compartmentIdVariableStr+RecordRequiredOnlyResource, nil),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "zone_name_or_id"),
 
@@ -101,14 +95,14 @@ func TestDnsRecordsResource_basic(t *testing.T) {
 
 			// delete before next create
 			{
-				Config: config + compartmentIdVariableStr + RecordResourceDependencies,
+				Config: tokenFn(config+compartmentIdVariableStr+RecordResourceDependencies, nil),
 			},
 			// verify create with optionals
 			{
-				Config: config + RecordPropertyVariables + compartmentIdVariableStr + RecordResourceConfig,
+				Config: tokenFn(config+RecordPropertyVariables+compartmentIdVariableStr+RecordResourceConfig, nil),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestMatchResourceAttr(resourceName, "domain", regexp.MustCompile("\\.oci-test")),
+					resource.TestMatchResourceAttr(resourceName, "domain", regexp.MustCompile("\\.oci-record-test")),
 					resource.TestCheckResourceAttr(resourceName, "is_protected", "false"),
 					resource.TestCheckResourceAttr(resourceName, "rdata", "192.168.0.1"),
 					resource.TestCheckResourceAttrSet(resourceName, "record_hash"),
@@ -130,15 +124,15 @@ func TestDnsRecordsResource_basic(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + `
-variable "record_items_domain" { default = "oci-test" }
+				Config: tokenFn(config+`
+variable "record_items_domain" { default = "oci-record-test" }
 variable "record_items_rdata" { default = "77.77.77.77" }
 variable "record_items_rtype" { default = "A" }
 variable "record_items_ttl" { default = 1000 }
-                ` + compartmentIdVariableStr + RecordResourceConfig,
+                `+compartmentIdVariableStr+RecordResourceConfig, nil),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestMatchResourceAttr(resourceName, "domain", regexp.MustCompile("\\.oci-test")),
+					resource.TestMatchResourceAttr(resourceName, "domain", regexp.MustCompile("\\.oci-record-test")),
 					resource.TestCheckResourceAttr(resourceName, "is_protected", "false"),
 					resource.TestCheckResourceAttr(resourceName, "rdata", "77.77.77.77"),
 					resource.TestCheckResourceAttrSet(resourceName, "record_hash"),
@@ -168,9 +162,10 @@ func TestDnsRecordsResource_datasources(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 
-	compartmentId := getRequiredEnvSetting("compartment_ocid")
+	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
+	_, tokenFn := tokenize()
 	datasourceName := "data.oci_dns_records.test_records"
 
 	resource.Test(t, resource.TestCase{
@@ -180,7 +175,7 @@ func TestDnsRecordsResource_datasources(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify datasource
 			{
-				Config: config + RecordPropertyVariables + compartmentIdVariableStr + RecordResourceDependencies + `
+				Config: tokenFn(config+RecordPropertyVariables+compartmentIdVariableStr+RecordResourceDependencies+`
 data "oci_dns_records" "test_records" {
   zone_name_or_id = "${oci_dns_zone.test_zone.name}"
 
@@ -189,14 +184,14 @@ data "oci_dns_records" "test_records" {
   rtype = "NS"
   sort_by = "ttl"
   sort_order = "DESC"
-}`,
+}`, nil),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "records.0.rtype", "NS"),
 					resource.TestCheckResourceAttr(datasourceName, "records.0.ttl", "86400"),
 				),
 			},
 			{
-				Config: config + RecordPropertyVariables + compartmentIdVariableStr + RecordResourceDependencies + `
+				Config: tokenFn(config+RecordPropertyVariables+compartmentIdVariableStr+RecordResourceDependencies+`
 data "oci_dns_records" "test_records" {
   zone_name_or_id = "${oci_dns_zone.test_zone.name}"
   domain = "${oci_dns_zone.test_zone.name}"
@@ -204,7 +199,7 @@ data "oci_dns_records" "test_records" {
 	  name = "rtype"
 	  values = ["SOA"]
 	}
-}`,
+}`, nil),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "records.#", "1"),
 				),
@@ -217,9 +212,10 @@ func TestDnsRecordsResource_diffSuppression(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 
-	compartmentId := getRequiredEnvSetting("compartment_ocid")
+	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
+	_, tokenFn := tokenize()
 	resourceName := "oci_dns_record.test_record"
 
 	resource.Test(t, resource.TestCase{
@@ -229,70 +225,70 @@ func TestDnsRecordsResource_diffSuppression(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify AAAA ipv6 shortening does not cause diffs
 			{
-				Config: config + RecordPropertyVariables + compartmentIdVariableStr + RecordResourceDependencies + `
+				Config: tokenFn(config+RecordPropertyVariables+compartmentIdVariableStr+RecordResourceDependencies+`
 resource "oci_dns_record" "test_record" {
-	zone_name_or_id = "${data.oci_identity_tenancy.test_tenancy.name}.oci-test"
-	domain = "${data.oci_identity_tenancy.test_tenancy.name}.oci-test"
+	zone_name_or_id = "${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.oci-record-test"
+	domain = "${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.oci-record-test"
 	rtype = "AAAA"
 	rdata = "2001:0db8:85a3:0000:0000:8a2e:0370:7334"
 	ttl = "3600"
-}`,
+}`, nil),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "rtype", "AAAA"),
 					resource.TestCheckResourceAttr(resourceName, "rdata", "2001:db8:85a3::8a2e:370:7334"),
 				),
 			},
 			{
-				Config: config + RecordPropertyVariables + compartmentIdVariableStr + RecordResourceDependencies + `
+				Config: tokenFn(config+RecordPropertyVariables+compartmentIdVariableStr+RecordResourceDependencies+`
 resource "oci_dns_record" "test_record" {
-	zone_name_or_id = "${data.oci_identity_tenancy.test_tenancy.name}.oci-test"
-	domain = "${data.oci_identity_tenancy.test_tenancy.name}.oci-test"
+	zone_name_or_id = "${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.oci-record-test"
+	domain = "${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.oci-record-test"
 	rtype = "AAAA"
 	rdata = "0000:0000:0000:0000:0000:8a2e:0370:0001"
 	ttl = "3600"
-}`,
+}`, nil),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "rdata", "::8a2e:370:1"),
 				),
 			},
 			{
-				Config: config + RecordPropertyVariables + compartmentIdVariableStr + RecordResourceDependencies + `
+				Config: tokenFn(config+RecordPropertyVariables+compartmentIdVariableStr+RecordResourceDependencies+`
 resource "oci_dns_record" "test_record" {
-	zone_name_or_id = "${data.oci_identity_tenancy.test_tenancy.name}.oci-test"
-	domain = "${data.oci_identity_tenancy.test_tenancy.name}.oci-test"
+	zone_name_or_id = "${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.oci-record-test"
+	domain = "${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.oci-record-test"
 	rtype = "AAAA"
 	rdata = "8a2e:0000:0000:0000:0000:0370:0000:0000"
 	ttl = "3600"
-}`,
+}`, nil),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "rdata", "8a2e::370:0:0"),
 				),
 			},
 			{
-				Config: config + RecordPropertyVariables + compartmentIdVariableStr + RecordResourceDependencies + `
+				Config: tokenFn(config+RecordPropertyVariables+compartmentIdVariableStr+RecordResourceDependencies+`
 resource "oci_dns_record" "test_record" {
-	zone_name_or_id = "${data.oci_identity_tenancy.test_tenancy.name}.oci-test"
-	domain = "${data.oci_identity_tenancy.test_tenancy.name}.oci-test"
+	zone_name_or_id = "${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.oci-record-test"
+	domain = "${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.oci-record-test"
 	rtype = "TXT"
 	rdata = "arbitrary text"
 	ttl = "3600"
-}`,
+}`, nil),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "rdata", "\"arbitrary\" \"text\""),
 				),
 			},
 			// this tests represents several record types where the service appends a `.` to the rdata
 			{
-				Config: config + RecordPropertyVariables + compartmentIdVariableStr + RecordResourceDependencies + `
+				Config: tokenFn(config+RecordPropertyVariables+compartmentIdVariableStr+RecordResourceDependencies+`
 resource "oci_dns_record" "test_record" {
-	zone_name_or_id = "${data.oci_identity_tenancy.test_tenancy.name}.oci-test"
-	domain = "${data.oci_identity_tenancy.test_tenancy.name}.oci-test"
+	zone_name_or_id = "${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.oci-record-test"
+	domain = "${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.oci-record-test"
 	rtype = "ALIAS"
-	rdata = "other.tf-provider.oci-test"
+	rdata = "other.tf-provider.oci-record-test"
 	ttl = "3600"
-}`,
+}`, nil),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "rdata", "other.tf-provider.oci-test."),
+					resource.TestCheckResourceAttr(resourceName, "rdata", "other.tf-provider.oci-record-test."),
 				),
 			},
 		},
@@ -303,9 +299,10 @@ func TestDnsRecordsResource_badUpdate(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 
-	compartmentId := getRequiredEnvSetting("compartment_ocid")
+	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
+	_, tokenFn := tokenize()
 	resourceName := "oci_dns_record.test_record"
 
 	resource.Test(t, resource.TestCase{
@@ -314,27 +311,27 @@ func TestDnsRecordsResource_badUpdate(t *testing.T) {
 		},
 		Steps: []resource.TestStep{
 			{
-				Config: config + RecordPropertyVariables + compartmentIdVariableStr + RecordResourceDependencies + `
+				Config: tokenFn(config+RecordPropertyVariables+compartmentIdVariableStr+RecordResourceDependencies+`
 resource "oci_dns_record" "test_record" {
-	zone_name_or_id = "${data.oci_identity_tenancy.test_tenancy.name}.oci-test"
-	domain = "${data.oci_identity_tenancy.test_tenancy.name}.oci-test"
+	zone_name_or_id = "${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.oci-record-test"
+	domain = "${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.oci-record-test"
 	rtype = "A"
 	rdata = "192.168.0.1"
 	ttl = "3600"
-}`,
+}`, nil),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "rdata", "192.168.0.1"),
 				),
 			},
 			{
-				Config: config + RecordPropertyVariables + compartmentIdVariableStr + RecordResourceDependencies + `
+				Config: tokenFn(config+RecordPropertyVariables+compartmentIdVariableStr+RecordResourceDependencies+`
 resource "oci_dns_record" "test_record" {
-	zone_name_or_id = "${data.oci_identity_tenancy.test_tenancy.name}.oci-test"
-	domain = "${data.oci_identity_tenancy.test_tenancy.name}.oci-test"
+	zone_name_or_id = "${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.oci-record-test"
+	domain = "${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.oci-record-test"
 	rtype = "A"
 	rdata = "192.168.0.1"
 	ttl = "-1"
-}`,
+}`, nil),
 				Check: resource.ComposeAggregateTestCheckFunc(
 				//resource.TestCheckResourceAttr(resourceName, "rdata", "192.168.0.1"),
 				// todo: this test was attempting to verify the resource is not changed if the update operation fails
