@@ -13,12 +13,13 @@ The following attributes are exported:
 		* `algorithm` - TSIG Algorithms are encoded as domain names, but most consist of only one non-empty label, which is not required to be explicitly absolute. For a full list of TSIG algorithms, see [Secret Key Transaction Authentication for DNS (TSIG) Algorithm Names](http://www.iana.org/assignments/tsig-algorithm-names/tsig-algorithm-names.xhtml#tsig-algorithm-names-1) 
 		* `name` - A domain name identifying the key for a given pair of hosts.
 		* `secret` - A base64 string encoding the binary shared secret.
+* `id` - The OCID of the zone.
 * `name` - The name of the zone.
 * `self` - The canonical absolute URL of the resource.
-* `serial` - The current serial of the zone. As seen in the zone's SOA record.
-* `state` - The Zone's current state.
-* `time_created` - The date and time the Zone was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z`
-* `version` - Version is the never-repeating, totally-orderable, version of the zone, from which the serial field of the zone's SOA record is derived.
+* `serial` - The current serial of the zone. As seen in the zone's SOA record. 
+* `state` - The current state of the zone resource.
+* `time_created` - The date and time the image was created in "YYYY-MM-ddThh:mmZ" format with a Z offset, as defined by RFC 3339.  **Example:** `2016-07-22T17:23:59:60Z` 
+* `version` - Version is the never-repeating, totally-orderable, version of the zone, from which the serial field of the zone's SOA record is derived. 
 * `zone_type` - The type of the zone. Must be either `PRIMARY` or `SECONDARY`. 
 
 
@@ -29,7 +30,7 @@ Creates a new zone in the specified compartment.
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) The OCID of the compartment containing the zone.
+* `compartment_id` - (Required) The OCID of the compartment the resource belongs to.
 * `external_masters` - (Optional) External master servers for the zone.
 	* `address` - (Required) The server's IP address (IPv4 or IPv6).
 	* `port` - (Optional) The server's port.
@@ -48,20 +49,22 @@ server information. For more information about secondary zone, see
 
 
 The following arguments support updates:
+* `compartment_id` - The OCID of the compartment the resource belongs to.
 * `external_masters` - External master servers for the zone.
-    * `address` - The server's IP address (IPv4 or IPv6).
+	* `address` - The server's IP address (IPv4 or IPv6).
 	* `port` - The server's port.
 	* `tsig` - 
-		* `algorithm` - (Required) TSIG Algorithms are encoded as domain names, but most consist of only one non-empty label, which is not required to be explicitly absolute. For a full list of TSIG algorithms, see [Secret Key Transaction Authentication for DNS (TSIG) Algorithm Names](http://www.iana.org/assignments/tsig-algorithm-names/tsig-algorithm-names.xhtml#tsig-algorithm-names-1) 
-		* `name` - (Required) A domain name identifying the key for a given pair of hosts.
-		* `secret` - (Required) A base64 string encoding the binary shared secret.
+		* `algorithm` - TSIG Algorithms are encoded as domain names, but most consist of only one non-empty label, which is not required to be explicitly absolute. For a full list of TSIG algorithms, see [Secret Key Transaction Authentication for DNS (TSIG) Algorithm Names](http://www.iana.org/assignments/tsig-algorithm-names/tsig-algorithm-names.xhtml#tsig-algorithm-names-1) 
+		* `name` - A domain name identifying the key for a given pair of hosts.
+		* `secret` - A base64 string encoding the binary shared secret.
+
 
 ** IMPORTANT **
 Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values
 
 ### Example Usage
 
-```
+```hcl
 resource "oci_dns_zone" "test_zone" {
 	#Required
 	compartment_id = "${var.compartment_id}"
@@ -89,9 +92,9 @@ resource "oci_dns_zone" "test_zone" {
 
 ## Zones DataSource
 
-Gets a list of zones
+Gets a list of zones.
 
-### Get Operation
+### List Operation
 Gets a list of all zones in the specified compartment. The collection
 can be filtered by name, time created, and zone type.
 
@@ -110,11 +113,11 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `zones` - A list of DNS zones.
+* `zones` - The list of zones.
 
 ### Example Usage
 
-```
+```hcl
 data "oci_dns_zones" "test_zones" {
 	#Required
 	compartment_id = "${var.compartment_id}"
