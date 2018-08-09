@@ -29,22 +29,6 @@ resource "oci_core_security_list" "MgmtSecurityList2" {
     }]
 
     ingress_security_rules = [{
-        tcp_options {
-            "max" = 80
-            "min" = 80
-        }
-        protocol = "6"
-        source = "0.0.0.0/0"
-    },
-    {
-        tcp_options {
-            "max" = 443
-            "min" = 443
-        }
-        protocol = "6"
-        source = "0.0.0.0/0"
-    },
-        {
         protocol = "all"
         source = "${var.vcn_cidr2}"
     },

@@ -8,6 +8,7 @@ export TF_VAR_private_key_path=""
 export TF_VAR_region=""
 
 ### AD
+# Possible values are 1, 2, 3
 export TF_VAR_AD=""
 
 ### Compartment
