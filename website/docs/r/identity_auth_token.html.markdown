@@ -36,6 +36,7 @@ resource "oci_identity_auth_token" "test_auth_token" {
 The following arguments are supported:
 
 * `description` - (Required) (Updatable) The description you assign to the auth token during creation. Does not have to be unique, and it's changeable. 
+* `user_id` - (Required) The OCID of the user.
 
 
 ** IMPORTANT **

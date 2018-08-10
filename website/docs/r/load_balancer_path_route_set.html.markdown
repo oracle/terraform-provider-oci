@@ -36,6 +36,7 @@ resource "oci_load_balancer_path_route_set" "test_path_route_set" {
 
 The following arguments are supported:
 
+* `load_balancer_id` - (Required) The [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the load balancer to add the path route set to.
 * `name` - (Required) The name for this set of path route rules. It must be unique and it cannot be changed. Avoid entering confidential information.  Example: `example_path_route_set` 
 * `path_routes` - (Required) (Updatable) The set of path route rules.
 	* `backend_set_name` - (Required) (Updatable) The name of the target backend set for requests where the incoming URI matches the specified path.  Example: `example_backend_set` 

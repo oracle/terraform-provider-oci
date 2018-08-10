@@ -29,6 +29,7 @@ resource "oci_identity_idp_group_mapping" "test_idp_group_mapping" {
 The following arguments are supported:
 
 * `group_id` - (Required) (Updatable) The OCID of the IAM Service [group](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/identity/20160918/Group/) you want to map to the IdP group. 
+* `identity_provider_id` - (Required) The OCID of the identity provider.
 * `idp_group_name` - (Required) (Updatable) The name of the IdP group you want to map.
 
 
