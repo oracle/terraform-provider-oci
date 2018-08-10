@@ -99,10 +99,10 @@ resource "null_resource" "omc_instance_install" {
     when = "destroy"
     inline = [
       "/opt/omc/omc-agent/agent_inst/bin/omcli delete_entity agent /opt/omc/omc-agent/omc_entity_update.json",
-      "cmd_uninstall=`/opt/omc/omc-agent/agent_inst/bin/omcli status agent|grep \"Binaries\"|awk -F':' '{print $2}'`\"/sysman/install/AgentInstall.sh -deinstall\"",
-      "echo $cmd_uninstall",
-      "`$cmd_unistall`",
-      "cat /tmp/AgentDeinstall*.log",
+      "BASE=$(/opt/omc/omc-agent/agent_inst/bin/omcli status agent|grep \"Binaries\"|awk -F':' '{print $2}')",
+      "cmd_uninstall=($${BASE}/sysman/install/AgentInstall.sh -deinstall)",
+      "echo $${cmd_uninstall[@]}",
+      "eval $${cmd_uninstall[@]}",
     ]
     connection {
       host        = "${oci_core_instance.omc_managed_instance.public_ip}"
