@@ -502,5 +502,31 @@ func GetDataSourceItemSchema(resourceSchema *schema.Resource) *schema.Resource {
 		}
 	}
 
+	// Ensure Create/Read are not set for nested sub-resource schemas. Otherwise, terraform will validate them
+	// as though they were resources.
+	resourceSchema.Create = nil
+	resourceSchema.Read = nil
+
+	return convertResourceFieldsToDatasourceFields(resourceSchema)
+}
+
+// This is mainly used to ensure that fields of a datasource item are compliant with Terraform schema validation
+// All datasource return items should have computed-only fields; and not require Diff, Validation, or Default settings.
+func convertResourceFieldsToDatasourceFields(resourceSchema *schema.Resource) *schema.Resource {
+	for _, fieldSchema := range resourceSchema.Schema {
+		fieldSchema.Computed = true
+		fieldSchema.Required = false
+		fieldSchema.Optional = false
+		fieldSchema.DiffSuppressFunc = nil
+		fieldSchema.ValidateFunc = nil
+		fieldSchema.Default = nil
+
+		if fieldSchema.Elem != nil {
+			if resource, ok := fieldSchema.Elem.(*schema.Resource); ok {
+				fieldSchema.Elem = convertResourceFieldsToDatasourceFields(resource)
+			}
+		}
+	}
+
 	return resourceSchema
 }

@@ -717,13 +717,11 @@ func (m schemaMap) InternalValidate(topSchemaMap schemaMap) error {
 				return fmt.Errorf("%s: ValidateFunc is for validating user input, "+
 					"there's nothing to validate on computed-only field", k)
 			}
-
-			// Errors suppressed to support backward compatibility with OCI Provider
-			//if v.DiffSuppressFunc != nil {
-			//	return fmt.Errorf("%s: DiffSuppressFunc is for suppressing differences"+
-			//		" between config and state representation. "+
-			//		"There is no config for computed-only field, nothing to compare.", k)
-			//}
+			if v.DiffSuppressFunc != nil {
+				return fmt.Errorf("%s: DiffSuppressFunc is for suppressing differences"+
+					" between config and state representation. "+
+					"There is no config for computed-only field, nothing to compare.", k)
+			}
 		}
 
 		if v.ValidateFunc != nil {
@@ -733,12 +731,11 @@ func (m schemaMap) InternalValidate(topSchemaMap schemaMap) error {
 			}
 		}
 
-		// Errors suppressed to support backward compatibility with OCI Provider
-		//if v.Deprecated == "" && v.Removed == "" {
-		//	if !isValidFieldName(k) {
-		//		return fmt.Errorf("%s: Field name may only contain lowercase alphanumeric characters & underscores.", k)
-		//	}
-		//}
+		if v.Deprecated == "" && v.Removed == "" {
+			if !isValidFieldName(k) {
+				return fmt.Errorf("%s: Field name may only contain lowercase alphanumeric characters & underscores.", k)
+			}
+		}
 	}
 
 	return nil

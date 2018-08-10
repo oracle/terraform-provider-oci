@@ -62,10 +62,9 @@ func DatabaseDataSource() *schema.Resource {
 				Computed: true,
 			},
 			"defined_tags": {
-				Type:             schema.TypeMap,
-				Computed:         true,
-				DiffSuppressFunc: definedTagsDiffSuppressFunction,
-				Elem:             schema.TypeString,
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
 			},
 			"freeform_tags": {
 				Type:     schema.TypeMap,

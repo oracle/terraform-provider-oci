@@ -19,10 +19,9 @@ func TenancyDataSource() *schema.Resource {
 			},
 			// Computed
 			"defined_tags": {
-				Type:             schema.TypeMap,
-				Computed:         true,
-				DiffSuppressFunc: definedTagsDiffSuppressFunction,
-				Elem:             schema.TypeString,
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
 			},
 			"description": {
 				Type:     schema.TypeString,
