@@ -27,10 +27,9 @@ func VnicDataSource() *schema.Resource {
 				Computed: true,
 			},
 			"defined_tags": {
-				Type:             schema.TypeMap,
-				Computed:         true,
-				DiffSuppressFunc: definedTagsDiffSuppressFunction,
-				Elem:             schema.TypeString,
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
 			},
 			"display_name": {
 				Type:     schema.TypeString,
