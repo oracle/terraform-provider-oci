@@ -8,14 +8,14 @@ description: |-
 
 # Oracle Cloud Infrastructure Provider
 
-The Oracle Cloud Infrastructure provider is used to interact with the many resources supported by the [Oracle Cloud Infrastructure](https://cloud.oracle.com/cloud-infrastructure).
+The Oracle Cloud Infrastructure provider is used to interact with the many resources supported by the [Oracle Cloud Infrastructure](https://cloud.oracle.com/cloud-infrastructure). The provider needs to be configured with credentials for the Oracle Cloud Infrastructure account.  
 
 Use the navigation to the left to read about the available resources.
 
 ## Example Usage
 
 ```hcl
-# Configure the Oracle Cloud Infrastructure provider
+# Configure the Oracle Cloud Infrastructure provider with an API Key
 provider "oci" {
   tenancy_ocid = "${var.tenancy_ocid}"
   user_ocid = "${var.user_ocid}"
@@ -23,71 +23,89 @@ provider "oci" {
   private_key_path = "${var.private_key_path}"
   region = "${var.region}"
 }
+
+# Get a list of Availability Domains
+data "oci_identity_availability_domains" "ads" {
+  compartment_id = "${var.tenancy_ocid}"
+}
+
+# Output the result
+output "show-ads" {
+  value = "${data.oci_identity_availability_domains.ads.availability_domains}"
+}
+
 ```
 
-## Argument Reference
+## Authentication
 
-The following arguments are supported:
+The OCI provider supports API Key based authentication and Instance Principal based authentication.
 
-* `tenancy_ocid` - Every Oracle Cloud Infrastructure resource has an Oracle-assigned unique ID called an Oracle Cloud Identifier (OCID). You need your tenancy's OCID to use the API. You'll also need it when contacting support.
+### API Key based authentication  
+Calls to OCI using API Key authentication requires that you provide the following credentials:
 
-* `user_ocid` - A user's unique ID see [Managing Users](https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingusers.htm)
+- `tenancy_ocid` - The global identifier for your account, always shown on the bottom of the web console. 
+- `user_ocid` - The identifier of the user account you will be using for Terraform. For information on setting the 
+correct policies for your user see [Managing Users](https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingusers.htm).
+- `private_key_path` - The path to the private key stored on your computer. The public key portion must be added to the 
+user account above in the _API Keys_ section of the web console. For details on how to create and configure keys see 
+[Required Keys and OCIDs](https://docs.us-phoenix-1.oraclecloud.com/Content/API/Concepts/apisigningkey.htm).
+- `fingerprint` - The fingerprint of the public key added in the above user's _API Keys_ section of the web console.
+- `region` - The region to target with this provider configuration.
 
-* `fingerprint` - You specify the key's fingerprint to indicate which key you're using to sign the request.
+#### Environment variables
+It is common to export the above values as environment variables, or source them in different bash profiles when executing 
+Terraform commands. Below are OS specific examples for configuring these environment values.
 
-* `private_key_path` - The path to the private key file
+If you primarily work in a single compartment, consider exporting the compartment OCID as well. The tenancy OCID is also 
+the OCID of the root compartment, and can be used where any compartment id is required.
 
-* `region` - A region is composed of several availability domains. Oracle Cloud Infrastructure resources are either region-specific, such as a virtual cloud network, or availability domain-specific, such as a compute instance.
+##### \*nix
+If your Terraform configurations are limited to a single compartment or user, then using this `bash_profile` option be 
+sufficient. For more complex environments you may want to maintain multiple sets of environment variables. 
+See the [compute single instance example](https://github.com/oracle/terraform-provider-oci/tree/master/docs/examples/compute/instance) for more info.
 
-## Export credentials
-Required Keys and OCIDs - https://docs.us-phoenix-1.oraclecloud.com/Content/API/Concepts/apisigningkey.htm
-
-If you primarily work in a single compartment consider exporting that compartment's OCID as well. Remember that the tenancy OCID is also the OCID of the root compartment.
-
-### \*nix
-If your TF configurations are limited to a single compartment/user then 
-using this `bash_profile` option will work well. For more complex 
-environments you may want to maintain multiple sets of environment 
-variables. 
-
-In your `~/.bash_profile` set these variables
+In your `~/.bash_profile` set these variables:
 ```
-export TF_VAR_tenancy_ocid=
-export TF_VAR_user_ocid=
-export TF_VAR_compartment_ocid=<The tenancy OCID can be used as the compartment OCID of your root compartment>
-export TF_VAR_fingerprint=
-export TF_VAR_private_key_path=<fully qualified path>
-```
+export TF_VAR_tenancy_ocid=<value>
+export TF_VAR_compartment_ocid=<value>
+export TF_VAR_user_ocid=<value>
+export TF_VAR_fingerprint=<value>
+export TF_VAR_private_key_path=<value>
+``` 
 
-Once you've set these values open a new terminal or source your profile changes
+Once you've set these values open a new terminal or source your profile changes:
 ```
 $ source ~/.bash_profile
 ```
 
-### Windows
+##### Windows
+
+Configuring for Windows usage is largely the same, with one notable exception: you can use PuttyGen to create the public 
+and private key as shown above, however, you will need to convert them from PPK format to PEM format.
+
 ```
 setx TF_VAR_tenancy_ocid <value>
-setx TF_VAR_user_ocid <value>
 setx TF_VAR_compartment_ocid <value>
+setx TF_VAR_user_ocid <value>
 setx TF_VAR_fingerprint <value>
 setx TF_VAR_private_key_path <value>
 ```
 The variables won't be set for the current session, exit the terminal and reopen.
 
-## Enabling Instance Principal Authorization
-To enable instance principal authorization, you can set 'auth' attribute to "InstancePrincipal"
-in the provider definition as follows ('tenancy_ocid', 'user_ocid', 'fingerprint'
-and 'private_key_path' are not necessary):
-```
-variable "region" {}
 
+### Instance Principal Authentication
+Instance Principal authentication allows you to run Terraform from an OCI Instance within your Tenancy. To enable Instance 
+Principal authentication, set the `auth` attribute to "InstancePrincipal" in the provider definition as below:
+```
+# Configure the Oracle Cloud Infrastructure provider to use Instance Principal based authentication
 provider "oci" {
   auth = "InstancePrincipal"
   region = "${var.region}"
 }
 ```
 
-## Testing
+_Note: this configuration will only work when run from an OCI instance. For more information on using Instance 
+Principals, see [this document](https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/callingservicesfrominstances.htm)._
 
-Credentials must be provided via the environment variables as shown above in order to run
-acceptance tests.
+## Testing
+Credentials must be provided via the environment variables as shown above in order to run acceptance tests.

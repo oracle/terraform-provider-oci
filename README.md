@@ -49,7 +49,8 @@ https://www.terraform.io/intro/getting-started/install.html
 #### Get the Oracle Cloud Infrastructure Terraform provider
 https://github.com/oracle/terraform-provider-oci/releases
 
-Unpack the provider.
+For MacOS download the correct `darwin_*.tar.gz` build for your processor architecture. For Windows this will be a 
+zip `windows_*.zip`. For other supported linux version find the corresponding file.
 
 ##### On Mac or other Linux flavors
 Copy the provider to the following location:
@@ -66,26 +67,27 @@ Note: `%APPDATA%` is a system path specific to your Windows version.
 
 
 ### Setup credentials for using OCI
-Every call to OCI infrastructure requires a minimum of four credentials. 
-These are `tenancy_ocid`, `user_ocid`, `fingerprint` and `private_key_path`. It is common to export these values as 
-environment variables, or source them in different bash profiles when executing Terraform commands. See the next 
-section for OS specific instructions on configuring these environment values.
+Calls to OCI using API key authentication requires that you provide credentials. The following list shows required credentials, as well as common configuration values:  
 
-Here is breakdown of required as well as commonly set configuration values:  
 - `tenancy_ocid` - The global identifier for your account, always shown on the bottom of the web console. 
-- `user_ocid` - The identifier of the user account you will be using Terraform with.
+- `user_ocid` - The identifier of the user account you will be using for Terraform. For information on setting the 
+correct policies for your user see [Managing Users](https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingusers.htm).
 - `private_key_path` - The path to the private key stored on your computer. The public key portion must be added to the 
-user account above in the _API Keys_ section of the web console. 
-- `fingerprint` - The fingerprint of the public key added in the above user's _API Keys_ section of the web console. 
+user account above in the _API Keys_ section of the web console. For details on how to create and configure keys see 
+[Required Keys and OCIDs](https://docs.us-phoenix-1.oraclecloud.com/Content/API/Concepts/apisigningkey.htm).
+- `fingerprint` - The fingerprint of the public key added in the above user's _API Keys_ section of the web console.
+- `region` - The region to target with this provider configuration.
 
-For details on how to create and configure keys see [Required Keys and OCIDs](https://docs.us-phoenix-1.oraclecloud.com/Content/API/Concepts/apisigningkey.htm).
+#### Environment variables
+It is common to export the above values as environment variables, or source them in different bash profiles when executing 
+Terraform commands. Below are OS specific examples for configuring these environment values.
 
-If you primarily work in a single compartment consider defining a `compartment_ocid` as well. The tenancy OCID is also 
-the OCID of the root compartment, so that can be used where resources expect a `compartment_id` or `compartment_ocid`.
+If you primarily work in a single compartment, consider exporting the compartment OCID as well. Remember that the 
+tenancy OCID is also the OCID of the root compartment, and can be used where any compartment id is required.
 
-#### \*nix
-If your Terraform configurations are limited to a single compartment or user then using this `bash_profile` option 
-will work well. For more complex environments you may want to maintain multiple sets of environment variables. 
+##### \*nix
+If your Terraform configurations are limited to a single compartment or user, then using this `bash_profile` option 
+be sufficient. For more complex environments, you may want to maintain multiple sets of environment variables. 
 See the [compute single instance example](https://github.com/oracle/terraform-provider-oci/tree/master/docs/examples/compute/instance) for more info.
 
 In your `~/.bash_profile` set these variables
@@ -95,14 +97,18 @@ export TF_VAR_compartment_ocid=<value>
 export TF_VAR_user_ocid=<value>
 export TF_VAR_fingerprint=<value>
 export TF_VAR_private_key_path=<value>
-```
+``` 
 
-Once you've set these values open a new terminal or source your profile changes
+Once you've set these values, open a new terminal or source your profile changes:
 ```
 $ source ~/.bash_profile
 ```
 
-#### Windows
+##### Windows
+
+Configuring for Windows usage is largely the same, with one notable exception: you can use PuttyGen to create the public 
+and private key as shown above, however, you will need to convert them from PPK format to PEM format.
+
 ```
 setx TF_VAR_tenancy_ocid <value>
 setx TF_VAR_compartment_ocid <value>
@@ -134,7 +140,7 @@ $ terraform destroy
 
 ## Getting help
 If you are having trouble getting the OCI Provider working, check the 
-[troubleshooting doc](https://github.com/oracle/terraform-provider-oci/tree/master/docs/Troubleshooting.md)
+[troubleshooting doc](https://github.com/oracle/terraform-provider-oci/tree/master/docs/Troubleshooting.md).
 
 To see known issues or report unexpected behavior go to the 
 [Github issues](https://github.com/oracle/terraform-provider-oci/issues) page.
