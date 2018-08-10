@@ -1,10 +1,10 @@
 module "oci_resources" {
-  source = "../modules/datasources"
+  source       = "../modules/datasources"
   tenancy_ocid = "${var.tenancy_ocid}"
 }
 
 data "template_file" "omc_cloudinit_script" {
-  template =  "${file("${path.module}/userdata/omc-init.tpl")}"
+  template = "${file("${path.module}/userdata/omc-init.tpl")}"
   vars {
     ssh_public_key = "${file(var.ssh_public_key)}"
   }
@@ -12,111 +12,105 @@ data "template_file" "omc_cloudinit_script" {
 
 resource "oci_core_instance" "omc_managed_instance" {
   availability_domain = "${lookup(module.oci_resources.ads[var.ad - 1],"name")}"
-  compartment_id = "${lookup(module.oci_resources.compartments, var.compartment_name)}"
-  display_name = "${var.server_display_name}"
-  image = "${var.InstanceImageOCID[var.region]}"
-  shape = "${var.shape_name}"
-  subnet_id = "${var.subnet_id}"
+  compartment_id      = "${lookup(module.oci_resources.compartments, var.compartment_name)}"
+  display_name        = "${var.server_display_name}"
+  image               = "${var.InstanceImageOCID[var.region]}"
+  shape               = "${var.shape_name}"
+  subnet_id           = "${var.subnet_id}"
+
   metadata {
     ssh_authorized_keys = "${file(var.ssh_public_key)}"
-    user_data = "${base64encode(data.template_file.omc_cloudinit_script.rendered)}"
+    user_data           = "${base64encode(data.template_file.omc_cloudinit_script.rendered)}"
   }
 
   #Wait for cloud-init to complete before continuing
   provisioner "remote-exec" {
     inline = [
-      "while [ ! -f /tmp/signal ]; do sleep 2; done",
+      "while [ ! -f /tmp/signal ]; do sleep 5; done; echo 'cloud-init completed.' ",
     ]
-    connection {
-      host = "${self.public_ip}"
-      type = "ssh"
-      user = "opc"
-      private_key = "${file(var.ssh_private_key)}"
-    }
-  }
 
-  # Copies the agentInstall.zip file to the /u01/omc directory
-  provisioner "file" {
-    source = "${var.omc_agent_path}"
-    destination = "/omc/install/agentInstall.zip"
     connection {
-      host = "${self.public_ip}"
-      type = "ssh"
-      user = "oracle"
-      private_key = "${file(var.ssh_private_key)}"
-    }
-  }
-
-  provisioner "remote-exec" {
-    inline = [
-      "unzip /omc/install/agentInstall.zip -d /omc/install",
-      "chmod +x /omc/install/AgentInstall.sh",
-      "/omc/install/AgentInstall.sh AGENT_TYPE=cloud_agent STAGE_LOCATION=/omc/stage -download_only AGENT_REGISTRATION_KEY=${var.omc_reg_key}"
-    ]
-    connection {
-      host = "${self.public_ip}"
-      type = "ssh"
-      user = "oracle"
+      host        = "${self.public_ip}"
+      type        = "ssh"
+      user        = "opc"
+      timeout     = "10m"
       private_key = "${file(var.ssh_private_key)}"
     }
   }
 }
 
 
-data "template_file" "omc_install_script" {
-  template =  "${file("${path.module}/omc_config/install_omc.tpl")}"
-  vars {
-    registration_key = "${var.omc_reg_key}"
-  }
-}
-
-resource "null_resource" "omc_instance_configure"{
-
+resource "null_resource" "omc_instance_install" {
   provisioner "file" {
-    content = "${file("${path.module}/omc_config/omc_entity.json")}"
-    destination = "/omc/stage/omc_entity.json"
-    connection {
-      host = "${oci_core_instance.omc_managed_instance.public_ip}"
-      type = "ssh"
-      user = "oracle"
-      private_key = "${file(var.ssh_private_key)}"
-    }
-  }
+    source      = "${path.module}/omc_config/setup.sh"
+    destination = "/opt/omc/installer/setup.sh"
 
-  provisioner "file" {
-    content = "${data.template_file.omc_install_script.rendered}"
-    destination = "/omc/stage/omc_agent_install.sh"
     connection {
-      host = "${oci_core_instance.omc_managed_instance.public_ip}"
-      type = "ssh"
-      user = "oracle"
+      host        = "${oci_core_instance.omc_managed_instance.public_ip}"
+      type        = "ssh"
+      user        = "oracle"
       private_key = "${file(var.ssh_private_key)}"
     }
   }
 
   provisioner "remote-exec" {
     inline = [
-      "chmod +x /omc/stage/omc_agent_install.sh",
-      "/omc/stage/omc_agent_install.sh"
+      "export TENANT_NAME=${var.omc_tennant_name}",
+      "export OMC_URL=${var.omc_url}",
+      "export AGENT_REPO_URL=${var.omc_agent_repo_url}",
+      "export REGISTRATION_KEY=${var.omc_registration_key}",
+      "chmod +x /opt/omc/installer/setup.sh",
+      "/opt/omc/installer/setup.sh",
+      "/opt/omc/omc-agent/agent_inst/bin/omcli status agent",
     ]
     connection {
-      host = "${oci_core_instance.omc_managed_instance.public_ip}"
-      type = "ssh"
-      user = "oracle"
+      host        = "${oci_core_instance.omc_managed_instance.public_ip}"
+      type        = "ssh"
+      user        = "oracle"
+      private_key = "${file(var.ssh_private_key)}"
+    }
+  }
+
+  provisioner "file" {
+    source     = "${path.module}/omc_config/omc_entity.json"
+    destination = "/opt/omc/omc-agent/omc_entity.json"
+    connection {
+      host        = "${oci_core_instance.omc_managed_instance.public_ip}"
+      type        = "ssh"
+      user        = "oracle"
       private_key = "${file(var.ssh_private_key)}"
     }
   }
 
   provisioner "remote-exec" {
+    inline = [
+      "cat /opt/omc/omc-agent/omc_entity.json | jq '.entities[0].name=\"'$(hostname -f)'\"' | cat > /opt/omc/omc-agent/omc_entity_update.json",
+      "/opt/omc/omc-agent/agent_inst/bin/omcli update_entity agent /opt/omc/omc-agent/omc_entity_update.json",
+    ]
+    connection {
+      host        = "${oci_core_instance.omc_managed_instance.public_ip}"
+      type        = "ssh"
+      user        = "oracle"
+      private_key = "${file(var.ssh_private_key)}"
+    }
+  }
+
+   provisioner "remote-exec" {
     when = "destroy"
     inline = [
-      "/omc/app/cloud_agent/agent_inst/bin/omcli delete_entity agent /omc/stage/omc_entity_update.json"
+      "/opt/omc/omc-agent/agent_inst/bin/omcli delete_entity agent /opt/omc/omc-agent/omc_entity_update.json",
+      "cmd_uninstall=`/opt/omc/omc-agent/agent_inst/bin/omcli status agent|grep \"Binaries\"|awk -F':' '{print $2}'`\"/sysman/install/AgentInstall.sh -deinstall\"",
+      "echo $cmd_uninstall",
+      "`$cmd_unistall`",
+      "cat /tmp/AgentDeinstall*.log",
     ]
     connection {
-      host = "${oci_core_instance.omc_managed_instance.public_ip}"
-      type = "ssh"
-      user = "oracle"
+      host        = "${oci_core_instance.omc_managed_instance.public_ip}"
+      type        = "ssh"
+      user        = "oracle"
       private_key = "${file(var.ssh_private_key)}"
     }
   }
 }
+
+

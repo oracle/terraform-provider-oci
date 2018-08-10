@@ -18,7 +18,7 @@ users:
     ssh-authorized-keys:
         - ${ssh_public_key}
 
-package_upgrade: true
+package_upgrade: false
 
 packages:
  - gcc
@@ -44,12 +44,9 @@ runcmd:
   - [ sh, -xc, "echo umask 022 >> ~oracle/.bash_profile" ]
   - [ sh, -xc, "echo oracle soft nofile 65536 >> /etc/security/limits.conf" ]
   - [ sh, -xc, "echo oracle hard nofile 65536 >> /etc/security/limits.conf" ]
-  - [ sh, -xc, "mkdir -p /omc"]
-  - [ sh, -xc, "mkdir -p /omc/install"]
-  - [ sh, -xc, "mkdir -p /omc/stage"]
-  - [ sh, -xc, "mkdir -p /omc/app"]
-  - [ sh, -xc, "mkdir -p /omc/apm"]
-  - [ sh, -xc, "chown -R oracle:oinstall /omc"]
+  - [ sh, -xc, "mkdir -p /opt/omc"]
+  - [ sh, -xc, "mkdir -p /opt/omc/installer"]
+  - [ sh, -xc, "chown -R oracle:oinstall /opt/omc"]
   - [ sh, -xc, "rngd -r /dev/urandom -o /dev/random"]
   - [ sh, -xc, "touch /tmp/signal"]
 

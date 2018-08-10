@@ -1,5 +1,6 @@
 #OCI Provider Configuration
 variable "tenancy_ocid" {}
+
 variable "user_ocid" {}
 variable "fingerprint" {}
 variable "private_key_path" {}
@@ -28,11 +29,13 @@ variable "shape_name" {
 
 variable "InstanceImageOCID" {
   type = "map"
+
   default = {
     // Oracle-provided image "Oracle-Linux-7.4-2017.12.18-0"
     // See https://docs.us-phoenix-1.oraclecloud.com/Content/Resources/Assets/OracleProvidedImageOCIDs.pdf
-    us-phoenix-1 = "ocid1.image.oc1.phx.aaaaaaaasc56hnpnx7swoyd2fw5gyvbn3kcdmqc2guiiuvnztl2erth62xnq"
-    us-ashburn-1 = "ocid1.image.oc1.iad.aaaaaaaaxrqeombwty6jyqgk3fraczdd63bv66xgfsqka4ktr7c57awr3p5a"
+    us-phoenix-1 = "ocid1.image.oc1.phx.aaaaaaaagtiusgjvzurghktkgphjuuky2q6qjwvsstzbhyn4czroszbjimvq"
+
+    us-ashburn-1   = "ocid1.image.oc1.iad.aaaaaaaaxrqeombwty6jyqgk3fraczdd63bv66xgfsqka4ktr7c57awr3p5a"
     eu-frankfurt-1 = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaayxmzu6n5hsntq4wlffpb4h6qh6z3uskpbm5v3v4egqlqvwicfbyq"
   }
 }
@@ -45,18 +48,23 @@ variable "server_display_name" {
   description = "Display name for your server instance"
 }
 
-variable "hostname" {
-  description = "DNS hostname for your server instance"
-}
-
 variable "subnet_id" {
   description = "OCID for the subnet in which the OMC managed server instance will run"
 }
 
 #Oracle Management Cloud Specific Variables
-variable "omc_reg_key" {
+variable "omc_registration_key" {
   description = "OMC Agent registration key"
 }
-variable "omc_agent_path" {
-  description = "Path to your downloaded Oracle Management Cloud AgentInstall.zip"
+
+variable "omc_tennant_name" {
+  description = "OMC Tennant ID"
+}
+
+variable "omc_url" {
+  description = "OMC Cloud instance"
+}
+
+variable "omc_agent_repo_url" {
+  description = "OMC Agent source"
 }
