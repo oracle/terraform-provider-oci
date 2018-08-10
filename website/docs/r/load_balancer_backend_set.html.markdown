@@ -66,6 +66,7 @@ The following arguments are supported:
 	* `return_code` - (Optional) (Updatable) The status code a healthy backend server should return.  Example: `200` 
 	* `timeout_in_millis` - (Optional) (Updatable) The maximum time, in milliseconds, to wait for a reply to a health check. A health check is successful only if a reply returns within this timeout period.  Example: `3000` 
 	* `url_path` - (Required) (Updatable) The path against which to run the health check.  Example: `/healthcheck` 
+* `load_balancer_id` - (Required) The [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the load balancer on which to add a backend set.
 * `name` - (Required) A friendly name for the backend set. It must be unique and it cannot be changed.  Valid backend set names include only alphanumeric characters, dashes, and underscores. Backend set names cannot contain spaces. Avoid entering confidential information.  Example: `example_backend_set` 
 * `policy` - (Required) (Updatable) The load balancer policy for the backend set. To get a list of available policies, use the [ListPolicies](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/loadbalancer/20170115/LoadBalancerPolicy/ListPolicies) operation.  Example: `LEAST_CONNECTIONS` 
 * `session_persistence_configuration` - (Optional) (Updatable) 

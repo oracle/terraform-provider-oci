@@ -37,6 +37,7 @@ resource "oci_identity_customer_secret_key" "test_customer_secret_key" {
 The following arguments are supported:
 
 * `display_name` - (Required) (Updatable) The name you assign to the secret key during creation. Does not have to be unique, and it's changeable. 
+* `user_id` - (Required) The OCID of the user.
 
 
 ** IMPORTANT **

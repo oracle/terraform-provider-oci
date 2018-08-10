@@ -33,7 +33,9 @@ resource "oci_objectstorage_preauthrequest" "test_preauthenticated_request" {
 The following arguments are supported:
 
 * `access_type` - (Required) The operation that can be performed on this resource.
+* `bucket` - (Required) The name of the bucket. Avoid entering confidential information. Example: `my-new-bucket1` 
 * `name` - (Required) A user-specified name for the pre-authenticated request. Helpful for management purposes.
+* `namespace` - (Required) The top-level namespace used for the request.
 * `object` - (Optional) The name of object that is being granted access to by the pre-authenticated request. This can be null and if it is, the pre-authenticated request grants access to the entire bucket.
 * `time_expires` - (Required) The expiration date for the pre-authenticated request as per [RFC 3339](https://tools.ietf.org/rfc/rfc3339). After this date the pre-authenticated request will no longer be valid. 
 

@@ -35,6 +35,7 @@ resource "oci_identity_ui_password" "test_ui_password" {
 
 The following arguments are supported:
 
+* `user_id` - (Required) The OCID of the user.
 
 
 ** IMPORTANT **

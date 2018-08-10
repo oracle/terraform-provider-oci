@@ -41,6 +41,7 @@ resource "oci_identity_api_key" "test_api_key" {
 The following arguments are supported:
 
 * `key_value` - (Required) The public key.  Must be an RSA key in PEM format.
+* `user_id` - (Required) The OCID of the user.
 
 
 ** IMPORTANT **

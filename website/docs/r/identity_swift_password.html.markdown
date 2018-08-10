@@ -39,6 +39,7 @@ resource "oci_identity_swift_password" "test_swift_password" {
 The following arguments are supported:
 
 * `description` - (Required) (Updatable) The description you assign to the Swift password during creation. Does not have to be unique, and it's changeable. 
+* `user_id` - (Required) The OCID of the user.
 
 
 ** IMPORTANT **
