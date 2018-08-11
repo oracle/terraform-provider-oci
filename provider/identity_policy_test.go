@@ -200,9 +200,10 @@ data "oci_identity_policies" "test_policies" {
 				ImportState:       true,
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{
-					// TODO: ETag, lastUpdateETag, and policyHash are non-API fields that
-					// get computed during resource Update but omitted from Get calls.
-					// Consider setting these as part of SetData.
+					// ETag, lastUpdateETag, and policyHash are non-API fields that
+					// get computed during resource Create/Update but omitted from Get calls.
+					// These are internally used for diff suppression and not needed for imports.
+					// Omit them in the import verification.
 					"ETag",
 					"lastUpdateETag",
 					"policyHash",

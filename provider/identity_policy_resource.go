@@ -86,14 +86,23 @@ func PolicyResource() *schema.Resource {
 			"ETag": {
 				Type:     schema.TypeString,
 				Computed: true,
+				// This field is not a compliant Terraform field name because it has uppercase letters. Mark it as deprecated in case
+				// someone references this. This should not be referenced because it is only used for internal diff suppression.
+				Deprecated: FieldDeprecatedAndAvoidReferences("ETag"),
 			},
 			"policyHash": {
 				Type:     schema.TypeString,
 				Computed: true,
+				// This field is not a compliant Terraform field name because it has uppercase letters. Mark it as deprecated in case
+				// someone references this. This should not be referenced because it is only used for internal diff suppression.
+				Deprecated: FieldDeprecatedAndAvoidReferences("policyHash"),
 			},
 			"lastUpdateETag": {
 				Type:     schema.TypeString,
 				Computed: true,
+				// This field is not a compliant Terraform field name because it has uppercase letters. Mark it as deprecated in case
+				// someone references this. This should not be referenced because it is only used for internal diff suppression.
+				Deprecated: FieldDeprecatedAndAvoidReferences("lastUpdateETag"),
 			},
 			// @Deprecated: time_modified (removed)
 			"time_modified": {
@@ -142,6 +151,8 @@ type PolicyResourceCrud struct {
 	BaseCrud
 	Client                 *oci_identity.IdentityClient
 	Res                    *oci_identity.Policy
+	ETag                   *string
+	LastUpdateETag         *string
 	DisableNotFoundRetries bool
 }
 
