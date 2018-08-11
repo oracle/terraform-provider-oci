@@ -24,9 +24,6 @@ information about policies, see [How Policies Work](https://docs.us-phoenix-1.or
 You must also specify a *description* for the group (although it can be an empty string). It does not
 have to be unique, and you can change it anytime with [UpdateGroup](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/identity/20160918/Group/UpdateGroup).
 
-After you send your request, the new object's `lifecycleState` will temporarily be CREATING. Before using the
-object, first make sure its `lifecycleState` has changed to ACTIVE.
-
 After creating the group, you need to put users in it and write policies for it.
 See [AddUserToGroup](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/identity/20160918/UserGroupMembership/AddUserToGroup) and
 [CreatePolicy](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/identity/20160918/Policy/CreatePolicy).
@@ -72,7 +69,7 @@ The following attributes are exported:
 * `id` - The OCID of the group.
 * `inactive_state` - The detailed status of INACTIVE lifecycleState.
 * `name` - The name you assign to the group during creation. The name must be unique across all groups in the tenancy and cannot be changed. 
-* `state` - The group's current state. After creating a group, make sure its `lifecycleState` changes from CREATING to ACTIVE before using it. 
+* `state` - The group's current state. 
 * `time_created` - Date and time the group was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
 
 ## Import

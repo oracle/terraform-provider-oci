@@ -9,7 +9,7 @@ The following attributes are exported:
 * `display_name` - The displayName you assign to the secret key. Does not have to be unique, and it's changeable.
 * `id` - The OCID of the secret key.
 * `inactive_state` - The detailed status of INACTIVE lifecycleState.
-* `state` - The secret key's current state. After creating a secret key, make sure its `lifecycleState` changes from CREATING to ACTIVE before using it. 
+* `state` - The secret key's current state. 
 * `time_created` - Date and time the `CustomerSecretKey` object was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
 * `time_expires` - Date and time when this password will expire, in the format defined by RFC3339. Null if it never expires.  Example: `2016-08-25T21:10:29.600Z` 
 * `user_id` - The OCID of the user the password belongs to.

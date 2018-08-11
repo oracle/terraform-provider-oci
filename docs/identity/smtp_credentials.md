@@ -9,7 +9,7 @@ The following attributes are exported:
 * `description` - The description you assign to the SMTP credential. Does not have to be unique, and it's changeable.
 * `id` - The OCID of the SMTP credential.
 * `inactive_state` - The detailed status of INACTIVE lifecycleState.
-* `state` - The credential's current state. After creating a SMTP credential, make sure its `lifecycleState` changes from CREATING to ACTIVE before using it. 
+* `state` - The credential's current state. 
 * `time_created` - Date and time the `SmtpCredential` object was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
 * `time_expires` - Date and time when this credential will expire, in the format defined by RFC3339. Null if it never expires.  Example: `2016-08-25T21:10:29.600Z` 
 * `user_id` - The OCID of the user the SMTP credential belongs to.

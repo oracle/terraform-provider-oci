@@ -32,9 +32,6 @@ in the response. You can also retrieve a resource's OCID by using a List API ope
 or by viewing the resource in the Console. Fore more information, see
 [Resource Identifiers](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
 
-After you send your request, the new object's state will temporarily be PROVISIONING. Before using the
-object, first make sure its state has changed to RUNNING.
-
 When you create a load balancer, the system assigns an IP address.
 To get the IP address, use the [GetLoadBalancer](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/loadbalancer/20170115/LoadBalancer/GetLoadBalancer) operation.
 

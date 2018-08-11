@@ -31,9 +31,6 @@ It does not have to be unique, and you can change it anytime with
 [UpdateUser](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/identity/20160918/User/UpdateUser). You can use the field to provide the user's
 full name, a description, a nickname, or other information to generally identify the user.
 
-After you send your request, the new object's `lifecycleState` will temporarily be CREATING. Before
-using the object, first make sure its `lifecycleState` has changed to ACTIVE.
-
 A new user has no permissions until you place the user in one or more groups (see
 [AddUserToGroup](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/identity/20160918/UserGroupMembership/AddUserToGroup)). If the user needs to
 access the Console, you need to provide the user a password (see
@@ -86,7 +83,7 @@ The following attributes are exported:
 * `id` - The OCID of the user.
 * `inactive_state` - Returned only if the user's `lifecycleState` is INACTIVE. A 16-bit value showing the reason why the user is inactive:  - bit 0: SUSPENDED (reserved for future use) - bit 1: DISABLED (reserved for future use) - bit 2: BLOCKED (the user has exceeded the maximum number of failed login attempts for the Console) 
 * `name` - The name you assign to the user during creation. This is the user's login for the Console. The name must be unique across all users in the tenancy and cannot be changed. 
-* `state` - The user's current state. After creating a user, make sure its `lifecycleState` changes from CREATING to ACTIVE before using it. 
+* `state` - The user's current state. 
 * `time_created` - Date and time the user was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
 
 ## Import
