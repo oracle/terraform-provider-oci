@@ -10,6 +10,8 @@ import (
 
 	"fmt"
 
+	"regexp"
+
 	"github.com/oracle/oci-go-sdk/identity"
 	"github.com/stretchr/testify/suite"
 )
@@ -121,7 +123,9 @@ func (s *ResourceIdentityPolicyTestSuite) TestAccResourceIdentityPolicy_formatti
 					statements = ["Allow group ${oci_identity_group.t.name} to read instances in >> compartment ${oci_identity_compartment.t.name}"]
 				}`, nil),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(s.ResourceName, "statements.0", "Allow group "+s.Token+" to read instances in compartment -tf-compartment"),
+					// policy statements may or may not have invalid characters stripped (">>" above), accommodate this uncertainty as specifically as possible
+					resource.TestMatchResourceAttr(s.ResourceName, "statements.0",
+						regexp.MustCompile(`Allow group `+s.Token+` to read instances in (>> )?compartment.+`)),
 					func(s *terraform.State) (err error) {
 						if policyHash, err = fromInstanceState(s, "oci_identity_policy.p", "policyHash"); err == nil {
 							lastUpdateETag, err = fromInstanceState(s, "oci_identity_policy.p", "lastUpdateETag")
