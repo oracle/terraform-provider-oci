@@ -64,6 +64,11 @@ The following arguments support updates:
 * `statements` - An array of policy statements written in the policy language. See [How Policies Work](https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/policies.htm) and [Common Policies](https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/commonpolicies.htm). 
 * `version_date` - The version of the policy. If null or set to an empty string, when a request comes in for authorization, the policy will be evaluated according to the current behavior of the services at that moment. If set to a particular date (YYYY-MM-DD), the policy will be evaluated according to the behavior of the services on that date. 
 
+A note on Policy `statements`: these strings are processed on the server and may or may not return in the original user 
+supplied form--whitespace or invalid characters may be altered. The OCI provider has logic to check for ETag changes to 
+correctly determine if a change is required, and suppress diffs if not. Because the ETag applies to the entire resource, 
+a change to something like the Policy `description` may make it appear as though other statements require an update or 
+were previously not set correctly, but this is not case.
 
 ** IMPORTANT **
 Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values
