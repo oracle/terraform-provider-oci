@@ -3,6 +3,12 @@ All notable changes to this project are documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+## 2.2.1 - 2018-08-16
+
+### Added
+- Support boot volume backup and clones
+- Support scheduled backup policy on boot volume creation
+
 ## 2.2.0 - 2018-08-09
 
 ### Fixed

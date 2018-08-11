@@ -160,7 +160,10 @@ func dataSourcesMap() map[string]*schema.Resource {
 		"oci_containerengine_work_request_errors":      WorkRequestErrorsDataSource(),
 		"oci_containerengine_work_request_log_entries": WorkRequestLogEntriesDataSource(),
 		"oci_core_boot_volume_attachments":             BootVolumeAttachmentsDataSource(),
+		"oci_core_boot_volume":                         BootVolumeDataSource(),
 		"oci_core_boot_volumes":                        BootVolumesDataSource(),
+		"oci_core_boot_volume_backup":                  BootVolumeBackupDataSource(),
+		"oci_core_boot_volume_backups":                 BootVolumeBackupsDataSource(),
 		"oci_core_console_histories":                   ConsoleHistoriesDataSource(),
 		"oci_core_console_history_data":                ConsoleHistoryContentDataSource(),
 		"oci_core_cpes":                                CpesDataSource(),
@@ -283,6 +286,8 @@ func dataSourcesMap() map[string]*schema.Resource {
 
 func resourcesMap() map[string]*schema.Resource {
 	return map[string]*schema.Resource{
+		"oci_core_boot_volume":                     BootVolumeResource(),
+		"oci_core_boot_volume_backup":              BootVolumeBackupResource(),
 		"oci_audit_configuration":                  ConfigurationResource(),
 		"oci_containerengine_cluster":              ClusterResource(),
 		"oci_containerengine_node_pool":            NodePoolResource(),

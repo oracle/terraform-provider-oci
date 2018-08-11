@@ -1,27 +1,22 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_core_boot_volumes"
-sidebar_current: "docs-oci-datasource-core-boot_volumes"
+page_title: "OCI: oci_core_boot_volume"
+sidebar_current: "docs-oci-datasource-core-boot_volume"
 description: |-
-  Provides a list of BootVolumes
+  Provides details about a specific BootVolume
 ---
 
-# Data Source: oci_core_boot_volumes
-The `oci_core_boot_volumes` data source allows access to the list of OCI boot_volumes
+# Data Source: oci_core_boot_volume
+The `oci_core_boot_volume` data source provides details about a specific BootVolume
 
-Lists the boot volumes in the specified compartment and Availability Domain.
-
+Gets information for the specified boot volume.
 
 ## Example Usage
 
 ```hcl
-data "oci_core_boot_volumes" "test_boot_volumes" {
+data "oci_core_boot_volume" "test_boot_volume" {
 	#Required
-	availability_domain = "${var.boot_volume_availability_domain}"
-	compartment_id = "${var.compartment_id}"
-
-	#Optional
-	volume_group_id = "${oci_core_volume_group.test_volume_group.id}"
+	boot_volume_id = "${var.boot_volume_boot_volume_id}"
 }
 ```
 
@@ -29,18 +24,10 @@ data "oci_core_boot_volumes" "test_boot_volumes" {
 
 The following arguments are supported:
 
-* `availability_domain` - (Required) The name of the Availability Domain.  Example: `Uocm:PHX-AD-1` 
-* `compartment_id` - (Required) The OCID of the compartment.
-* `volume_group_id` - (Optional) The OCID of the volume group.
+* `boot_volume_id` - (Required) The OCID of the boot volume.
 
 
 ## Attributes Reference
-
-The following attributes are exported:
-
-* `boot_volumes` - The list of boot_volumes.
-
-### BootVolume Reference
 
 The following attributes are exported:
 
