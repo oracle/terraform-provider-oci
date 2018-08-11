@@ -623,10 +623,6 @@
 			"revisionTime": "2017-11-07T05:05:31Z"
 		},
 		{
-			"path": "github.com/mattn/go-shellwords",
-			"revision": ""
-		},
-		{
 			"checksumSHA1": "FpWlypAjr+w5Q6uQybVbNfwmlp8=",
 			"path": "github.com/mitchellh/cli",
 			"revision": "c48282d14eba4b0817ddef3f832ff8d13851aefd",
