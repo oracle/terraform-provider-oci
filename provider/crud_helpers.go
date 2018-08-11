@@ -404,6 +404,10 @@ func EqualIgnoreCaseSuppressDiff(key string, old string, new string, d *schema.R
 	return strings.EqualFold(old, new)
 }
 
+func FieldDeprecatedAndAvoidReferences(deprecatedFieldName string) string {
+	return fmt.Sprintf("The '%s' field has been deprecated and may be removed in a future version. Do not use this field.", deprecatedFieldName)
+}
+
 func FieldDeprecated(deprecatedFieldName string) string {
 	return fmt.Sprintf("The '%s' field has been deprecated. It is no longer supported.", deprecatedFieldName)
 }

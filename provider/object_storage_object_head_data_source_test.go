@@ -41,7 +41,7 @@ func (s *DatasourceObjectstorageObjectHeadTestSuite) SetupTest() {
 		object = "-tf-object"
 		content = "test content"
 		metadata = {
-			"content-type" = "text/plain"
+			"content_type" = "text/plain"
 		}
 	}`, nil)
 	s.ResourceName = "data.oci_objectstorage_object_head.t"
@@ -66,7 +66,9 @@ func (s *DatasourceObjectstorageObjectHeadTestSuite) TestObjectstorageObjectHead
 					resource.TestCheckResourceAttr(s.ResourceName, "metadata.%", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "metadata.content-type", "text/plain"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "content-type"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "content_type"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "content-length"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "content_length"),
 				),
 			},
 		},

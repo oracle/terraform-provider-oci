@@ -30,8 +30,20 @@ func ObjectHeadDataSource() *schema.Resource {
 			"content-length": {
 				Type:     schema.TypeInt,
 				Computed: true,
+				// This field is not a compliant Terraform field name because it has a hyphen
+				Deprecated: FieldDeprecatedForAnother("content-length", "content_length"),
+			},
+			"content_length": {
+				Type:     schema.TypeInt,
+				Computed: true,
 			},
 			"content-type": {
+				Type:     schema.TypeString,
+				Computed: true,
+				// This field is not a compliant Terraform field name because it has a hyphen
+				Deprecated: FieldDeprecatedForAnother("content-type", "content_type"),
+			},
+			"content_type": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -105,10 +117,12 @@ func (s *ObjectHeadDataSourceCrud) SetData() error {
 
 	if s.Res.ContentLength != nil {
 		s.D.Set("content-length", *s.Res.ContentLength)
+		s.D.Set("content_length", *s.Res.ContentLength)
 	}
 
 	if s.Res.ContentType != nil {
 		s.D.Set("content-type", *s.Res.ContentType)
+		s.D.Set("content_type", *s.Res.ContentType)
 	}
 
 	return nil
