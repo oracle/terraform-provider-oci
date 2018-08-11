@@ -22,10 +22,6 @@ management (e.g., `ListUsers`, `LaunchInstance`) and receive an "unauthorized" e
 check with an administrator to confirm which IAM Service group(s) you're in and what access
 you have. Also confirm you're working in the correct compartment.
 
-After you send your request, the new object's `lifecycleState` will temporarily be CREATING. Before using
-the object, first make sure its `lifecycleState` has changed to ACTIVE.
-
-
 ## Example Usage
 
 ```hcl
@@ -55,6 +51,6 @@ The following attributes are exported:
 * `id` - An Oracle-assigned identifier for the key, in this format: TENANCY_OCID/USER_OCID/KEY_FINGERPRINT. 
 * `inactive_status` - The detailed status of INACTIVE lifecycleState.
 * `key_value` - The key's value.
-* `state` - The API key's current state. After creating an `ApiKey` object, make sure its `lifecycleState` changes from CREATING to ACTIVE before using it. 
+* `state` - The API key's current state. 
 * `time_created` - Date and time the `ApiKey` object was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
 * `user_id` - The OCID of the user the key belongs to.
