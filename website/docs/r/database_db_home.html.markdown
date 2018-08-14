@@ -3,7 +3,7 @@ layout: "oci"
 page_title: "OCI: oci_database_db_home"
 sidebar_current: "docs-oci-resource-database-db_home"
 description: |-
-Creates and manages an OCI DbHome
+  Creates and manages an OCI DbHome
 ---
 
 # oci_database_db_home

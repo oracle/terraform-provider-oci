@@ -7,7 +7,7 @@ description: |-
 ---
 ## Managing Default Virtual Cloud Network Resources
 
-When you create an [oci_core_vcn](../r/core_vcn.html.markdown)
+When you create an [oci_core_vcn](../r/core_vcn.html)
 resource, it will also create the following associated resources by default.
 
 - [oci_core_security_list](../r/core_security_list.html)
