@@ -397,7 +397,8 @@ func (s *InstanceResourceCrud) Create() error {
 
 	if createVnicDetails, ok := s.D.GetOkExists("create_vnic_details"); ok {
 		if tmpList := createVnicDetails.([]interface{}); len(tmpList) > 0 {
-			tmp, err := mapToCreateVnicDetailsInstance(tmpList[0].(map[string]interface{}))
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "create_vnic_details", 0)
+			tmp, err := s.mapToCreateVnicDetailsInstance(fieldKeyFormat)
 			if err != nil {
 				return err
 			}
@@ -453,8 +454,12 @@ func (s *InstanceResourceCrud) Create() error {
 
 	if sourceDetails, ok := s.D.GetOkExists("source_details"); ok {
 		if tmpList := sourceDetails.([]interface{}); len(tmpList) > 0 {
-			tmp := mapToInstanceSourceDetails(tmpList[0].(map[string]interface{}))
-			request.SourceDetails = tmp
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "source_details", 0)
+			tmp, err := s.mapToInstanceSourceDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.SourceDetails = &tmp
 		}
 	}
 
@@ -525,13 +530,11 @@ func (s *InstanceResourceCrud) Update() error {
 
 	// Check for changes in the create_vnic_details sub resource and separately update the vnic
 
-	rawVnics, ok := s.D.GetOkExists("create_vnic_details")
+	_, ok := s.D.GetOkExists("create_vnic_details")
 	if !s.D.HasChange("create_vnic_details") || !ok {
 		log.Printf("[DEBUG] No changes to primary VNIC. Instance ID: %q", s.Res.Id)
 		return nil
 	}
-
-	rawVnic := rawVnics.([]interface{})[0].(map[string]interface{})
 
 	vnic, err := s.getPrimaryVnic()
 	if err != nil {
@@ -539,7 +542,8 @@ func (s *InstanceResourceCrud) Update() error {
 		return err
 	}
 
-	updateVnicDetails, err := mapToUpdateVnicDetailsInstance(rawVnic)
+	fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "create_vnic_details", 0)
+	updateVnicDetails, err := s.mapToUpdateVnicDetailsInstance(fieldKeyFormat)
 	if err != nil {
 		return err
 	}
@@ -697,49 +701,51 @@ func (s *InstanceResourceCrud) SetData() error {
 	return nil
 }
 
-func mapToCreateVnicDetailsInstance(raw map[string]interface{}) (oci_core.CreateVnicDetails, error) {
+func (s *InstanceResourceCrud) mapToCreateVnicDetailsInstance(fieldKeyFormat string) (oci_core.CreateVnicDetails, error) {
 	result := oci_core.CreateVnicDetails{}
 
-	if assignPublicIp, ok := raw["assign_public_ip"]; ok {
+	if assignPublicIp, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "assign_public_ip")); ok {
 		tmp := assignPublicIp.(string)
-		boolVal, _ := strconv.ParseBool(tmp) // Must be valid.
+		boolVal, err := strconv.ParseBool(tmp)
+		if err != nil {
+			return result, err
+		}
 		result.AssignPublicIp = &boolVal
 	}
 
-	if definedTags, ok := raw["defined_tags"]; ok {
+	if definedTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "defined_tags")); ok {
 		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
 			return result, err
 		}
-
 		result.DefinedTags = convertedDefinedTags
 	}
 
-	if displayName, ok := raw["display_name"]; ok && displayName != "" {
+	if displayName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "display_name")); ok {
 		tmp := displayName.(string)
 		result.DisplayName = &tmp
 	}
 
-	if freeformTags, ok := raw["freeform_tags"]; ok {
+	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
 		result.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	if hostnameLabel, ok := raw["hostname_label"]; ok && hostnameLabel != "" {
+	if hostnameLabel, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "hostname_label")); ok {
 		tmp := hostnameLabel.(string)
 		result.HostnameLabel = &tmp
 	}
 
-	if privateIp, ok := raw["private_ip"]; ok && privateIp != "" {
+	if privateIp, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "private_ip")); ok {
 		tmp := privateIp.(string)
 		result.PrivateIp = &tmp
 	}
 
-	if skipSourceDestCheck, ok := raw["skip_source_dest_check"]; ok {
+	if skipSourceDestCheck, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "skip_source_dest_check")); ok {
 		tmp := skipSourceDestCheck.(bool)
 		result.SkipSourceDestCheck = &tmp
 	}
 
-	if subnetId, ok := raw["subnet_id"]; ok && subnetId != "" {
+	if subnetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "subnet_id")); ok {
 		tmp := subnetId.(string)
 		result.SubnetId = &tmp
 	}
@@ -747,10 +753,10 @@ func mapToCreateVnicDetailsInstance(raw map[string]interface{}) (oci_core.Create
 	return result, nil
 }
 
-func mapToUpdateVnicDetailsInstance(raw map[string]interface{}) (oci_core.UpdateVnicDetails, error) {
+func (s *InstanceResourceCrud) mapToUpdateVnicDetailsInstance(fieldKeyFormat string) (oci_core.UpdateVnicDetails, error) {
 	result := oci_core.UpdateVnicDetails{}
 
-	if definedTags, ok := raw["defined_tags"]; ok {
+	if definedTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "defined_tags")); ok {
 		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
 			return result, err
@@ -758,25 +764,21 @@ func mapToUpdateVnicDetailsInstance(raw map[string]interface{}) (oci_core.Update
 		result.DefinedTags = convertedDefinedTags
 	}
 
-	if displayName, ok := raw["display_name"]; ok {
+	if displayName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "display_name")); ok {
 		tmp := displayName.(string)
-		if tmp != "" {
-			result.DisplayName = &tmp
-		}
+		result.DisplayName = &tmp
 	}
 
-	if freeformTags, ok := raw["freeform_tags"]; ok {
+	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
 		result.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	if hostnameLabel, ok := raw["hostname_label"]; ok {
+	if hostnameLabel, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "hostname_label")); ok {
 		tmp := hostnameLabel.(string)
-		if tmp != "" {
-			result.HostnameLabel = &tmp
-		}
+		result.HostnameLabel = &tmp
 	}
 
-	if skipSourceDestCheck, ok := raw["skip_source_dest_check"]; ok {
+	if skipSourceDestCheck, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "skip_source_dest_check")); ok {
 		tmp := skipSourceDestCheck.(bool)
 		result.SkipSourceDestCheck = &tmp
 	}
@@ -830,10 +832,10 @@ func vnicDetailsToMap(obj *oci_core.Vnic, createVnicDetails map[string]interface
 	return result
 }
 
-func mapToInstanceSourceDetails(raw map[string]interface{}) oci_core.InstanceSourceDetails {
+func (s *InstanceResourceCrud) mapToInstanceSourceDetails(fieldKeyFormat string) (oci_core.InstanceSourceDetails, error) {
 	var baseObject oci_core.InstanceSourceDetails
 	//discriminator
-	sourceTypeRaw, ok := raw["source_type"]
+	sourceTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_type"))
 	var sourceType string
 	if ok {
 		sourceType = sourceTypeRaw.(string)
@@ -843,29 +845,30 @@ func mapToInstanceSourceDetails(raw map[string]interface{}) oci_core.InstanceSou
 	switch strings.ToLower(sourceType) {
 	case strings.ToLower("bootVolume"):
 		details := oci_core.InstanceSourceViaBootVolumeDetails{}
-		if sourceId, ok := raw["source_id"]; ok {
+		if sourceId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_id")); ok {
 			tmp := sourceId.(string)
 			details.BootVolumeId = &tmp
 		}
 		baseObject = details
 	case strings.ToLower("image"):
 		details := oci_core.InstanceSourceViaImageDetails{}
-		if bootVolumeSizeInGBs, ok := raw["boot_volume_size_in_gbs"]; ok && bootVolumeSizeInGBs != "" {
+		if bootVolumeSizeInGBs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "boot_volume_size_in_gbs")); ok {
 			tmp := bootVolumeSizeInGBs.(string)
 			tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
-			if err == nil {
-				details.BootVolumeSizeInGBs = &tmpInt64
+			if err != nil {
+				return nil, fmt.Errorf("unable to convert bootVolumeSizeInGBs string: %s to an int64 and encountered error: %v", tmp, err)
 			}
+			details.BootVolumeSizeInGBs = &tmpInt64
 		}
-		if sourceId, ok := raw["source_id"]; ok {
+		if sourceId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_id")); ok {
 			tmp := sourceId.(string)
 			details.ImageId = &tmp
 		}
 		baseObject = details
 	default:
-		log.Printf("[WARN] Unknown source_type '%v' was specified", sourceType)
+		return nil, fmt.Errorf("unknown source_type '%v' was specified", sourceType)
 	}
-	return baseObject
+	return baseObject, nil
 }
 
 func InstanceSourceDetailsToMap(obj *oci_core.InstanceSourceDetails, bootVolume *oci_core.BootVolume, sourceDetailsFromConfig map[string]interface{}) map[string]interface{} {

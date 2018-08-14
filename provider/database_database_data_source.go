@@ -193,14 +193,3 @@ func (s *DatabaseDataSourceCrud) SetData() error {
 
 	return nil
 }
-
-func mapToDbBackupConfig(raw map[string]interface{}) oci_database.DbBackupConfig {
-	result := oci_database.DbBackupConfig{}
-
-	if autoBackupEnabled, ok := raw["auto_backup_enabled"]; ok {
-		tmp := autoBackupEnabled.(bool)
-		result.AutoBackupEnabled = &tmp
-	}
-
-	return result
-}

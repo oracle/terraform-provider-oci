@@ -4,6 +4,7 @@ package provider
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"strconv"
 	"strings"
@@ -233,8 +234,12 @@ func (s *VolumeGroupResourceCrud) Create() error {
 
 	if sourceDetails, ok := s.D.GetOkExists("source_details"); ok {
 		if tmpList := sourceDetails.([]interface{}); len(tmpList) > 0 {
-			tmp := mapToVolumeGroupSourceDetails(tmpList[0].(map[string]interface{}))
-			request.SourceDetails = tmp
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "source_details", 0)
+			tmp, err := s.mapToVolumeGroupSourceDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.SourceDetails = &tmp
 		}
 	}
 
@@ -293,8 +298,8 @@ func (s *VolumeGroupResourceCrud) Update() error {
 	if volumeIds, ok := s.D.GetOkExists("volume_ids"); ok {
 		interfaces := volumeIds.([]interface{})
 		tmp := make([]string, len(interfaces))
-		for i, toBeConverted := range interfaces {
-			tmp[i] = toBeConverted.(string)
+		for i := range interfaces {
+			tmp[i] = interfaces[i].(string)
 		}
 		request.VolumeIds = tmp
 	}
@@ -368,10 +373,10 @@ func (s *VolumeGroupResourceCrud) SetData() error {
 	return nil
 }
 
-func mapToVolumeGroupSourceDetails(raw map[string]interface{}) oci_core.VolumeGroupSourceDetails {
+func (s *VolumeGroupResourceCrud) mapToVolumeGroupSourceDetails(fieldKeyFormat string) (oci_core.VolumeGroupSourceDetails, error) {
 	var baseObject oci_core.VolumeGroupSourceDetails
 	//discriminator
-	typeRaw, ok := raw["type"]
+	typeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type"))
 	var type_ string
 	if ok {
 		type_ = typeRaw.(string)
@@ -381,14 +386,14 @@ func mapToVolumeGroupSourceDetails(raw map[string]interface{}) oci_core.VolumeGr
 	switch strings.ToLower(type_) {
 	case strings.ToLower("volumeGroupBackupId"):
 		details := oci_core.VolumeGroupSourceFromVolumeGroupBackupDetails{}
-		if volumeGroupBackupId, ok := raw["volume_group_backup_id"]; ok {
+		if volumeGroupBackupId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "volume_group_backup_id")); ok {
 			tmp := volumeGroupBackupId.(string)
 			details.VolumeGroupBackupId = &tmp
 		}
 		baseObject = details
 	case strings.ToLower("volumeGroupId"):
 		details := oci_core.VolumeGroupSourceFromVolumeGroupDetails{}
-		if volumeGroupId, ok := raw["volume_group_id"]; ok {
+		if volumeGroupId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "volume_group_id")); ok {
 			tmp := volumeGroupId.(string)
 			details.VolumeGroupId = &tmp
 		}
@@ -396,20 +401,20 @@ func mapToVolumeGroupSourceDetails(raw map[string]interface{}) oci_core.VolumeGr
 	case strings.ToLower("volumeIds"):
 		details := oci_core.VolumeGroupSourceFromVolumesDetails{}
 		details.VolumeIds = []string{}
-		if volumeIds, ok := raw["volume_ids"]; ok {
+		if volumeIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "volume_ids")); ok {
 			set := volumeIds.(*schema.Set)
 			interfaces := set.List()
 			tmp := make([]string, len(interfaces))
-			for i, toBeConverted := range interfaces {
-				tmp[i] = toBeConverted.(string)
+			for i := range interfaces {
+				tmp[i] = interfaces[i].(string)
 			}
 			details.VolumeIds = tmp
 		}
 		baseObject = details
 	default:
-		log.Printf("[WARN] Unknown type '%v' was specified", type_)
+		return nil, fmt.Errorf("unknown type '%v' was specified", type_)
 	}
-	return baseObject
+	return baseObject, nil
 }
 
 func VolumeGroupSourceDetailsToMap(obj *oci_core.VolumeGroupSourceDetails) map[string]interface{} {

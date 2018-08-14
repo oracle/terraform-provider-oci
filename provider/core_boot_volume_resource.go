@@ -4,6 +4,7 @@ package provider
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"strconv"
 	"strings"
@@ -234,7 +235,11 @@ func (s *BootVolumeResourceCrud) Create() error {
 
 	if sourceDetails, ok := s.D.GetOkExists("source_details"); ok {
 		if tmpList := sourceDetails.([]interface{}); len(tmpList) > 0 {
-			tmp := mapToBootVolumeSourceDetails(tmpList[0].(map[string]interface{}))
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "source_details", 0)
+			tmp, err := s.mapToBootVolumeSourceDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
 			request.SourceDetails = tmp
 		}
 	}
@@ -369,10 +374,10 @@ func (s *BootVolumeResourceCrud) SetData() error {
 	return nil
 }
 
-func mapToBootVolumeSourceDetails(raw map[string]interface{}) oci_core.BootVolumeSourceDetails {
+func (s *BootVolumeResourceCrud) mapToBootVolumeSourceDetails(fieldKeyFormat string) (oci_core.BootVolumeSourceDetails, error) {
 	var baseObject oci_core.BootVolumeSourceDetails
 	//discriminator
-	typeRaw, ok := raw["type"]
+	typeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type"))
 	var type_ string
 	if ok {
 		type_ = typeRaw.(string)
@@ -382,22 +387,22 @@ func mapToBootVolumeSourceDetails(raw map[string]interface{}) oci_core.BootVolum
 	switch strings.ToLower(type_) {
 	case strings.ToLower("bootVolume"):
 		details := oci_core.BootVolumeSourceFromBootVolumeDetails{}
-		if id, ok := raw["id"]; ok {
+		if id, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "id")); ok {
 			tmp := id.(string)
 			details.Id = &tmp
 		}
 		baseObject = details
 	case strings.ToLower("bootVolumeBackup"):
 		details := oci_core.BootVolumeSourceFromBootVolumeBackupDetails{}
-		if id, ok := raw["id"]; ok {
+		if id, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "id")); ok {
 			tmp := id.(string)
 			details.Id = &tmp
 		}
 		baseObject = details
 	default:
-		log.Printf("[WARN] Unknown type '%v' was specified", type_)
+		return nil, fmt.Errorf("unknown type '%v' was specified", type_)
 	}
-	return baseObject
+	return baseObject, nil
 }
 
 func BootVolumeSourceDetailsToMap(obj *oci_core.BootVolumeSourceDetails) map[string]interface{} {

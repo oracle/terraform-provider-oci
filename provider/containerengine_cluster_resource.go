@@ -4,10 +4,10 @@ package provider
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"fmt"
 	"strings"
 
 	"time"
@@ -371,7 +371,11 @@ func (s *ClusterResourceCrud) Create() error {
 
 	if options, ok := s.D.GetOkExists("options"); ok {
 		if tmpList := options.([]interface{}); len(tmpList) > 0 {
-			tmp := mapToClusterCreateOptions(tmpList[0].(map[string]interface{}))
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "options", 0)
+			tmp, err := s.mapToClusterCreateOptions(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
 			request.Options = &tmp
 		}
 	}
@@ -548,20 +552,20 @@ func (s *ClusterResourceCrud) SetData() error {
 	return nil
 }
 
-func mapToAddOnOptions(raw map[string]interface{}) oci_containerengine.AddOnOptions {
+func (s *ClusterResourceCrud) mapToAddOnOptions(fieldKeyFormat string) (oci_containerengine.AddOnOptions, error) {
 	result := oci_containerengine.AddOnOptions{}
 
-	if isKubernetesDashboardEnabled, ok := raw["is_kubernetes_dashboard_enabled"]; ok {
+	if isKubernetesDashboardEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_kubernetes_dashboard_enabled")); ok {
 		tmp := isKubernetesDashboardEnabled.(bool)
 		result.IsKubernetesDashboardEnabled = &tmp
 	}
 
-	if isTillerEnabled, ok := raw["is_tiller_enabled"]; ok {
+	if isTillerEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_tiller_enabled")); ok {
 		tmp := isTillerEnabled.(bool)
 		result.IsTillerEnabled = &tmp
 	}
 
-	return result
+	return result, nil
 }
 
 func AddOnOptionsToMap(obj *oci_containerengine.AddOnOptions) map[string]interface{} {
@@ -578,34 +582,41 @@ func AddOnOptionsToMap(obj *oci_containerengine.AddOnOptions) map[string]interfa
 	return result
 }
 
-func mapToClusterCreateOptions(raw map[string]interface{}) oci_containerengine.ClusterCreateOptions {
+func (s *ClusterResourceCrud) mapToClusterCreateOptions(fieldKeyFormat string) (oci_containerengine.ClusterCreateOptions, error) {
 	result := oci_containerengine.ClusterCreateOptions{}
 
-	if addOns, ok := raw["add_ons"]; ok {
+	if addOns, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "add_ons")); ok {
 		if tmpList := addOns.([]interface{}); len(tmpList) > 0 {
-			tmp := mapToAddOnOptions(tmpList[0].(map[string]interface{}))
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "add_ons"), 0)
+			tmp, err := s.mapToAddOnOptions(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
 			result.AddOns = &tmp
 		}
 	}
 
-	if kubernetesNetworkConfig, ok := raw["kubernetes_network_config"]; ok {
+	if kubernetesNetworkConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "kubernetes_network_config")); ok {
 		if tmpList := kubernetesNetworkConfig.([]interface{}); len(tmpList) > 0 {
-			tmp := mapToKubernetesNetworkConfig(tmpList[0].(map[string]interface{}))
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "kubernetes_network_config"), 0)
+			tmp, err := s.mapToKubernetesNetworkConfig(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
 			result.KubernetesNetworkConfig = &tmp
 		}
 	}
 
-	result.ServiceLbSubnetIds = []string{}
-	if serviceLbSubnetIds, ok := raw["service_lb_subnet_ids"]; ok && serviceLbSubnetIds != "" {
+	if serviceLbSubnetIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "service_lb_subnet_ids")); ok {
 		interfaces := serviceLbSubnetIds.([]interface{})
 		tmp := make([]string, len(interfaces))
-		for i, toBeConverted := range interfaces {
-			tmp[i] = toBeConverted.(string)
+		for i := range interfaces {
+			tmp[i] = interfaces[i].(string)
 		}
 		result.ServiceLbSubnetIds = tmp
 	}
 
-	return result
+	return result, nil
 }
 
 func ClusterCreateOptionsToMap(obj *oci_containerengine.ClusterCreateOptions) map[string]interface{} {
@@ -676,20 +687,20 @@ func ClusterMetadataToMap(obj *oci_containerengine.ClusterMetadata) map[string]i
 	return result
 }
 
-func mapToKubernetesNetworkConfig(raw map[string]interface{}) oci_containerengine.KubernetesNetworkConfig {
+func (s *ClusterResourceCrud) mapToKubernetesNetworkConfig(fieldKeyFormat string) (oci_containerengine.KubernetesNetworkConfig, error) {
 	result := oci_containerengine.KubernetesNetworkConfig{}
 
-	if podsCidr, ok := raw["pods_cidr"]; ok && podsCidr != "" {
+	if podsCidr, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "pods_cidr")); ok {
 		tmp := podsCidr.(string)
 		result.PodsCidr = &tmp
 	}
 
-	if servicesCidr, ok := raw["services_cidr"]; ok && servicesCidr != "" {
+	if servicesCidr, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "services_cidr")); ok {
 		tmp := servicesCidr.(string)
 		result.ServicesCidr = &tmp
 	}
 
-	return result
+	return result, nil
 }
 
 func KubernetesNetworkConfigToMap(obj *oci_containerengine.KubernetesNetworkConfig) map[string]interface{} {

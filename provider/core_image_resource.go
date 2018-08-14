@@ -4,7 +4,7 @@ package provider
 
 import (
 	"context"
-	"log"
+	"fmt"
 	"strconv"
 	"strings"
 
@@ -278,7 +278,11 @@ func (s *ImageResourceCrud) Create() error {
 
 	if imageSourceDetails, ok := s.D.GetOkExists("image_source_details"); ok {
 		if tmpList := imageSourceDetails.([]interface{}); len(tmpList) > 0 {
-			tmp := mapToImageSourceDetails(tmpList[0].(map[string]interface{}))
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "image_source_details", 0)
+			tmp, err := s.mapToImageSourceDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
 			request.ImageSourceDetails = tmp
 		}
 	}
@@ -416,10 +420,10 @@ func (s *ImageResourceCrud) SetData() error {
 	return nil
 }
 
-func mapToImageSourceDetails(raw map[string]interface{}) oci_core.ImageSourceDetails {
+func (s *ImageResourceCrud) mapToImageSourceDetails(fieldKeyFormat string) (oci_core.ImageSourceDetails, error) {
 	var baseObject oci_core.ImageSourceDetails
 	//discriminator
-	sourceTypeRaw, ok := raw["source_type"]
+	sourceTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_type"))
 	var sourceType string
 	if ok {
 		sourceType = sourceTypeRaw.(string)
@@ -429,49 +433,34 @@ func mapToImageSourceDetails(raw map[string]interface{}) oci_core.ImageSourceDet
 	switch strings.ToLower(sourceType) {
 	case strings.ToLower("objectStorageTuple"):
 		details := oci_core.ImageSourceViaObjectStorageTupleDetails{}
-		if bucketName, ok := raw["bucket_name"]; ok {
+		if bucketName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "bucket_name")); ok {
 			tmp := bucketName.(string)
-			if tmp != "" {
-				details.BucketName = &tmp
-			}
+			details.BucketName = &tmp
 		}
-		if namespaceName, ok := raw["namespace_name"]; ok {
+		if namespaceName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "namespace_name")); ok {
 			tmp := namespaceName.(string)
-			if tmp != "" {
-				details.NamespaceName = &tmp
-			}
+			details.NamespaceName = &tmp
 		}
-
-		if objectName, ok := raw["object_name"]; ok {
+		if objectName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "object_name")); ok {
 			tmp := objectName.(string)
-			if tmp != "" {
-				details.ObjectName = &tmp
-			}
+			details.ObjectName = &tmp
 		}
-		if sourceImageType, ok := raw["source_image_type"]; ok {
-			tmp := sourceImageType.(string)
-			if tmp != "" {
-				details.SourceImageType = oci_core.ImageSourceDetailsSourceImageTypeEnum(tmp)
-			}
+		if sourceImageType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_image_type")); ok {
+			details.SourceImageType = oci_core.ImageSourceDetailsSourceImageTypeEnum(sourceImageType.(string))
 		}
 		baseObject = details
 	case strings.ToLower("objectStorageUri"):
 		details := oci_core.ImageSourceViaObjectStorageUriDetails{}
-		if sourceUri, ok := raw["source_uri"]; ok {
+		if sourceUri, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_uri")); ok {
 			tmp := sourceUri.(string)
-			if tmp != "" {
-				details.SourceUri = &tmp
-			}
+			details.SourceUri = &tmp
 		}
-		if sourceImageType, ok := raw["source_image_type"]; ok {
-			tmp := sourceImageType.(string)
-			if tmp != "" {
-				details.SourceImageType = oci_core.ImageSourceDetailsSourceImageTypeEnum(tmp)
-			}
+		if sourceImageType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_image_type")); ok {
+			details.SourceImageType = oci_core.ImageSourceDetailsSourceImageTypeEnum(sourceImageType.(string))
 		}
 		baseObject = details
 	default:
-		log.Printf("[WARN] Unknown source_type '%v' was specified", sourceType)
+		return nil, fmt.Errorf("unknown source_type '%v' was specified", sourceType)
 	}
-	return baseObject
+	return baseObject, nil
 }

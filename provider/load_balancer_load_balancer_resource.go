@@ -208,8 +208,8 @@ func (s *LoadBalancerResourceCrud) Create() error {
 	if subnetIds, ok := s.D.GetOkExists("subnet_ids"); ok {
 		interfaces := subnetIds.([]interface{})
 		tmp := make([]string, len(interfaces))
-		for i, toBeConverted := range interfaces {
-			tmp[i] = toBeConverted.(string)
+		for i := range interfaces {
+			tmp[i] = interfaces[i].(string)
 		}
 		request.SubnetIds = tmp
 	}

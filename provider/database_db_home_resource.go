@@ -337,7 +337,11 @@ func (s *DbHomeResourceCrud) populateTopLevelPolymorphicCreateDbHomeRequest(requ
 		details := oci_database.CreateDbHomeWithDbSystemIdFromBackupDetails{}
 		if database, ok := s.D.GetOkExists("database"); ok {
 			if tmpList := database.([]interface{}); len(tmpList) > 0 {
-				tmp := mapToCreateDatabaseFromBackupDetails(tmpList[0].(map[string]interface{}))
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "database", 0)
+				tmp, err := s.mapToCreateDatabaseFromBackupDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
 				details.Database = &tmp
 			}
 		}
@@ -355,7 +359,11 @@ func (s *DbHomeResourceCrud) populateTopLevelPolymorphicCreateDbHomeRequest(requ
 		details := oci_database.CreateDbHomeWithDbSystemIdDetails{}
 		if database, ok := s.D.GetOkExists("database"); ok {
 			if tmpList := database.([]interface{}); len(tmpList) > 0 {
-				tmp := mapToCreateDatabaseDetails(tmpList[0].(map[string]interface{}))
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "database", 0)
+				tmp, err := s.mapToCreateDatabaseDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
 				details.Database = &tmp
 			}
 		}
@@ -373,7 +381,86 @@ func (s *DbHomeResourceCrud) populateTopLevelPolymorphicCreateDbHomeRequest(requ
 		}
 		request.CreateDbHomeWithDbSystemIdBase = details
 	default:
-		return fmt.Errorf("Unknown source '%v' was specified", source)
+		return fmt.Errorf("unknown source '%v' was specified", source)
 	}
 	return nil
+}
+
+func (s *DbHomeResourceCrud) mapToCreateDatabaseFromBackupDetails(fieldKeyFormat string) (oci_database.CreateDatabaseFromBackupDetails, error) {
+	result := oci_database.CreateDatabaseFromBackupDetails{}
+
+	if adminPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "admin_password")); ok {
+		tmp := adminPassword.(string)
+		result.AdminPassword = &tmp
+	}
+
+	if backupId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "backup_id")); ok {
+		tmp := backupId.(string)
+		result.BackupId = &tmp
+	}
+
+	if backupTDEPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "backup_tde_password")); ok {
+		tmp := backupTDEPassword.(string)
+		result.BackupTDEPassword = &tmp
+	}
+
+	return result, nil
+}
+
+func (s *DbHomeResourceCrud) mapToCreateDatabaseDetails(fieldKeyFormat string) (oci_database.CreateDatabaseDetails, error) {
+	result := oci_database.CreateDatabaseDetails{}
+
+	if adminPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "admin_password")); ok {
+		tmp := adminPassword.(string)
+		result.AdminPassword = &tmp
+	}
+
+	if characterSet, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "character_set")); ok {
+		tmp := characterSet.(string)
+		result.CharacterSet = &tmp
+	}
+
+	if dbBackupConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "db_backup_config")); ok {
+		if tmpList := dbBackupConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "db_backup_config"), 0)
+			tmp, err := s.mapToDbBackupConfig(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			result.DbBackupConfig = &tmp
+		}
+	}
+
+	if dbName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "db_name")); ok {
+		tmp := dbName.(string)
+		result.DbName = &tmp
+	}
+
+	if dbWorkload, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "db_workload")); ok {
+		tmp := oci_database.CreateDatabaseDetailsDbWorkloadEnum(dbWorkload.(string))
+		result.DbWorkload = tmp
+	}
+
+	if ncharacterSet, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ncharacter_set")); ok {
+		tmp := ncharacterSet.(string)
+		result.NcharacterSet = &tmp
+	}
+
+	if pdbName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "pdb_name")); ok {
+		tmp := pdbName.(string)
+		result.PdbName = &tmp
+	}
+
+	return result, nil
+}
+
+func (s *DbHomeResourceCrud) mapToDbBackupConfig(fieldKeyFormat string) (oci_database.DbBackupConfig, error) {
+	result := oci_database.DbBackupConfig{}
+
+	if autoBackupEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "auto_backup_enabled")); ok {
+		tmp := autoBackupEnabled.(bool)
+		result.AutoBackupEnabled = &tmp
+	}
+
+	return result, nil
 }

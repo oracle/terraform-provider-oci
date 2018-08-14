@@ -260,7 +260,11 @@ func (s *VolumeResourceCrud) Create() error {
 
 	if sourceDetails, ok := s.D.GetOkExists("source_details"); ok {
 		if tmpList := sourceDetails.([]interface{}); len(tmpList) > 0 {
-			tmp := mapToVolumeSourceDetails(tmpList[0].(map[string]interface{}))
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "source_details", 0)
+			tmp, err := s.mapToVolumeSourceDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
 			request.SourceDetails = tmp
 		}
 	}
@@ -396,10 +400,10 @@ func (s *VolumeResourceCrud) SetData() error {
 	return nil
 }
 
-func mapToVolumeSourceDetails(raw map[string]interface{}) oci_core.VolumeSourceDetails {
+func (s *VolumeResourceCrud) mapToVolumeSourceDetails(fieldKeyFormat string) (oci_core.VolumeSourceDetails, error) {
 	var baseObject oci_core.VolumeSourceDetails
 	//discriminator
-	typeRaw, ok := raw["type"]
+	typeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type"))
 	var type_ string
 	if ok {
 		type_ = typeRaw.(string)
@@ -409,22 +413,22 @@ func mapToVolumeSourceDetails(raw map[string]interface{}) oci_core.VolumeSourceD
 	switch strings.ToLower(type_) {
 	case strings.ToLower("volume"):
 		details := oci_core.VolumeSourceFromVolumeDetails{}
-		if id, ok := raw["id"]; ok {
+		if id, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "id")); ok {
 			tmp := id.(string)
 			details.Id = &tmp
 		}
 		baseObject = details
 	case strings.ToLower("volumeBackup"):
 		details := oci_core.VolumeSourceFromVolumeBackupDetails{}
-		if id, ok := raw["id"]; ok {
+		if id, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "id")); ok {
 			tmp := id.(string)
 			details.Id = &tmp
 		}
 		baseObject = details
 	default:
-		log.Printf("[WARN] Unknown type '%v' was specified", type_)
+		return nil, fmt.Errorf("unknown type '%v' was specified", type_)
 	}
-	return baseObject
+	return baseObject, nil
 }
 
 func VolumeSourceDetailsToMap(obj *oci_core.VolumeSourceDetails) map[string]interface{} {

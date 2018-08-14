@@ -478,8 +478,8 @@ func (s *DbSystemResourceCrud) Update() error {
 	if sshPublicKeys, ok := s.D.GetOkExists("ssh_public_keys"); ok {
 		interfaces := sshPublicKeys.([]interface{})
 		tmp := make([]string, len(interfaces))
-		for i, toBeConverted := range interfaces {
-			tmp[i] = toBeConverted.(string)
+		for i := range interfaces {
+			tmp[i] = interfaces[i].(string)
 		}
 		request.SshPublicKeys = tmp
 	}
@@ -613,47 +613,51 @@ func (s *DbSystemResourceCrud) SetData() error {
 	return nil
 }
 
-func mapToCreateDatabaseDetails(raw map[string]interface{}) oci_database.CreateDatabaseDetails {
+func (s *DbSystemResourceCrud) mapToCreateDatabaseDetails(fieldKeyFormat string) (oci_database.CreateDatabaseDetails, error) {
 	result := oci_database.CreateDatabaseDetails{}
 
-	if adminPassword, ok := raw["admin_password"]; ok && adminPassword != "" {
+	if adminPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "admin_password")); ok {
 		tmp := adminPassword.(string)
 		result.AdminPassword = &tmp
 	}
 
-	if characterSet, ok := raw["character_set"]; ok && characterSet != "" {
+	if characterSet, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "character_set")); ok {
 		tmp := characterSet.(string)
 		result.CharacterSet = &tmp
 	}
 
-	if dbBackupConfig, ok := raw["db_backup_config"]; ok {
+	if dbBackupConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "db_backup_config")); ok {
 		if tmpList := dbBackupConfig.([]interface{}); len(tmpList) > 0 {
-			tmp := mapToDbBackupConfig(tmpList[0].(map[string]interface{}))
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "db_backup_config"), 0)
+			tmp, err := s.mapToDbBackupConfig(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
 			result.DbBackupConfig = &tmp
 		}
 	}
 
-	if dbName, ok := raw["db_name"]; ok && dbName != "" {
+	if dbName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "db_name")); ok {
 		tmp := dbName.(string)
 		result.DbName = &tmp
 	}
 
-	if dbWorkload, ok := raw["db_workload"]; ok && dbWorkload != "" {
+	if dbWorkload, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "db_workload")); ok {
 		tmp := oci_database.CreateDatabaseDetailsDbWorkloadEnum(dbWorkload.(string))
 		result.DbWorkload = tmp
 	}
 
-	if ncharacterSet, ok := raw["ncharacter_set"]; ok && ncharacterSet != "" {
+	if ncharacterSet, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ncharacter_set")); ok {
 		tmp := ncharacterSet.(string)
 		result.NcharacterSet = &tmp
 	}
 
-	if pdbName, ok := raw["pdb_name"]; ok && pdbName != "" {
+	if pdbName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "pdb_name")); ok {
 		tmp := pdbName.(string)
 		result.PdbName = &tmp
 	}
 
-	return result
+	return result, nil
 }
 
 func CreateDatabaseDetailsToMap(obj *oci_database.CreateDatabaseDetails) map[string]interface{} {
@@ -688,25 +692,25 @@ func CreateDatabaseDetailsToMap(obj *oci_database.CreateDatabaseDetails) map[str
 	return result
 }
 
-func mapToCreateDatabaseFromBackupDetails(raw map[string]interface{}) oci_database.CreateDatabaseFromBackupDetails {
+func (s *DbSystemResourceCrud) mapToCreateDatabaseFromBackupDetails(fieldKeyFormat string) (oci_database.CreateDatabaseFromBackupDetails, error) {
 	result := oci_database.CreateDatabaseFromBackupDetails{}
 
-	if adminPassword, ok := raw["admin_password"]; ok && adminPassword != "" {
+	if adminPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "admin_password")); ok {
 		tmp := adminPassword.(string)
 		result.AdminPassword = &tmp
 	}
 
-	if backupId, ok := raw["backup_id"]; ok && backupId != "" {
+	if backupId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "backup_id")); ok {
 		tmp := backupId.(string)
 		result.BackupId = &tmp
 	}
 
-	if backupTDEPassword, ok := raw["backup_tde_password"]; ok && backupTDEPassword != "" {
+	if backupTDEPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "backup_tde_password")); ok {
 		tmp := backupTDEPassword.(string)
 		result.BackupTDEPassword = &tmp
 	}
 
-	return result
+	return result, nil
 }
 
 func CreateDatabaseFromBackupDetailsToMap(obj *oci_database.CreateDatabaseFromBackupDetails) map[string]interface{} {
@@ -727,27 +731,31 @@ func CreateDatabaseFromBackupDetailsToMap(obj *oci_database.CreateDatabaseFromBa
 	return result
 }
 
-func mapToCreateDbHomeDetails(raw map[string]interface{}) oci_database.CreateDbHomeDetails {
+func (s *DbSystemResourceCrud) mapToCreateDbHomeDetails(fieldKeyFormat string) (oci_database.CreateDbHomeDetails, error) {
 	result := oci_database.CreateDbHomeDetails{}
 
-	if database, ok := raw["database"]; ok {
+	if database, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "database")); ok {
 		if tmpList := database.([]interface{}); len(tmpList) > 0 {
-			tmp := mapToCreateDatabaseDetails(tmpList[0].(map[string]interface{}))
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "database"), 0)
+			tmp, err := s.mapToCreateDatabaseDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
 			result.Database = &tmp
 		}
 	}
 
-	if dbVersion, ok := raw["db_version"]; ok && dbVersion != "" {
+	if dbVersion, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "db_version")); ok {
 		tmp := dbVersion.(string)
 		result.DbVersion = &tmp
 	}
 
-	if displayName, ok := raw["display_name"]; ok && displayName != "" {
+	if displayName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "display_name")); ok {
 		tmp := displayName.(string)
 		result.DisplayName = &tmp
 	}
 
-	return result
+	return result, nil
 }
 
 func CreateDbHomeDetailsToMap(obj *oci_database.CreateDbHomeDetails) map[string]interface{} {
@@ -768,22 +776,26 @@ func CreateDbHomeDetailsToMap(obj *oci_database.CreateDbHomeDetails) map[string]
 	return result
 }
 
-func mapToCreateDbHomeFromBackupDetails(raw map[string]interface{}) oci_database.CreateDbHomeFromBackupDetails {
+func (s *DbSystemResourceCrud) mapToCreateDbHomeFromBackupDetails(fieldKeyFormat string) (oci_database.CreateDbHomeFromBackupDetails, error) {
 	result := oci_database.CreateDbHomeFromBackupDetails{}
 
-	if database, ok := raw["database"]; ok {
+	if database, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "database")); ok {
 		if tmpList := database.([]interface{}); len(tmpList) > 0 {
-			tmp := mapToCreateDatabaseFromBackupDetails(tmpList[0].(map[string]interface{}))
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "database"), 0)
+			tmp, err := s.mapToCreateDatabaseFromBackupDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
 			result.Database = &tmp
 		}
 	}
 
-	if displayName, ok := raw["display_name"]; ok && displayName != "" {
+	if displayName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "display_name")); ok {
 		tmp := displayName.(string)
 		result.DisplayName = &tmp
 	}
 
-	return result
+	return result, nil
 }
 
 func CreateDbHomeFromBackupDetailsToMap(obj *oci_database.CreateDbHomeFromBackupDetails) map[string]interface{} {
@@ -798,6 +810,17 @@ func CreateDbHomeFromBackupDetailsToMap(obj *oci_database.CreateDbHomeFromBackup
 	}
 
 	return result
+}
+
+func (s *DbSystemResourceCrud) mapToDbBackupConfig(fieldKeyFormat string) (oci_database.DbBackupConfig, error) {
+	result := oci_database.DbBackupConfig{}
+
+	if autoBackupEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "auto_backup_enabled")); ok {
+		tmp := autoBackupEnabled.(bool)
+		result.AutoBackupEnabled = &tmp
+	}
+
+	return result, nil
 }
 
 func DbBackupConfigToMap(obj *oci_database.DbBackupConfig) map[string]interface{} {
@@ -827,7 +850,11 @@ func (s *DbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystemRequest(
 		}
 		if dbHome, ok := s.D.GetOkExists("db_home"); ok {
 			if tmpList := dbHome.([]interface{}); len(tmpList) > 0 {
-				tmp := mapToCreateDbHomeFromBackupDetails(tmpList[0].(map[string]interface{}))
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "db_home", 0)
+				tmp, err := s.mapToCreateDbHomeFromBackupDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
 				details.DbHome = &tmp
 			}
 		}
@@ -898,8 +925,8 @@ func (s *DbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystemRequest(
 		if sshPublicKeys, ok := s.D.GetOkExists("ssh_public_keys"); ok {
 			interfaces := sshPublicKeys.([]interface{})
 			tmp := make([]string, len(interfaces))
-			for i, toBeConverted := range interfaces {
-				tmp[i] = toBeConverted.(string)
+			for i := range interfaces {
+				tmp[i] = interfaces[i].(string)
 			}
 			details.SshPublicKeys = tmp
 		}
@@ -915,7 +942,11 @@ func (s *DbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystemRequest(
 		}
 		if dbHome, ok := s.D.GetOkExists("db_home"); ok {
 			if tmpList := dbHome.([]interface{}); len(tmpList) > 0 {
-				tmp := mapToCreateDbHomeDetails(tmpList[0].(map[string]interface{}))
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "db_home", 0)
+				tmp, err := s.mapToCreateDbHomeDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
 				details.DbHome = &tmp
 			}
 		}
@@ -986,8 +1017,8 @@ func (s *DbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystemRequest(
 		if sshPublicKeys, ok := s.D.GetOkExists("ssh_public_keys"); ok {
 			interfaces := sshPublicKeys.([]interface{})
 			tmp := make([]string, len(interfaces))
-			for i, toBeConverted := range interfaces {
-				tmp[i] = toBeConverted.(string)
+			for i := range interfaces {
+				tmp[i] = interfaces[i].(string)
 			}
 			details.SshPublicKeys = tmp
 		}
@@ -997,7 +1028,7 @@ func (s *DbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystemRequest(
 		}
 		request.LaunchDbSystemDetails = details
 	default:
-		return fmt.Errorf("Unknown source '%v' was specified", source)
+		return fmt.Errorf("unknown source '%v' was specified", source)
 	}
 	return nil
 }

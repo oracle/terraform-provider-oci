@@ -193,8 +193,14 @@ func (s *ServiceGatewayResourceCrud) Create() error {
 		set := services.(*schema.Set)
 		interfaces := set.List()
 		tmp := make([]oci_core.ServiceIdRequestDetails, len(interfaces))
-		for i, toBeConverted := range interfaces {
-			tmp[i] = mapToServiceIdRequestDetails(toBeConverted.(map[string]interface{}))
+		for i := range interfaces {
+			stateDataIndex := servicesHashCodeForSets(interfaces[i])
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "services", stateDataIndex)
+			converted, err := s.mapToServiceIdRequestDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
 		}
 		request.Services = tmp
 	}
@@ -265,8 +271,14 @@ func (s *ServiceGatewayResourceCrud) Update() error {
 		set := services.(*schema.Set)
 		interfaces := set.List()
 		tmp := make([]oci_core.ServiceIdRequestDetails, len(interfaces))
-		for i, toBeConverted := range interfaces {
-			tmp[i] = mapToServiceIdRequestDetails(toBeConverted.(map[string]interface{}))
+		for i := range interfaces {
+			stateDataIndex := servicesHashCodeForSets(interfaces[i])
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "services", stateDataIndex)
+			converted, err := s.mapToServiceIdRequestDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
 		}
 		request.Services = tmp
 	}
@@ -332,15 +344,15 @@ func (s *ServiceGatewayResourceCrud) SetData() error {
 	return nil
 }
 
-func mapToServiceIdRequestDetails(raw map[string]interface{}) oci_core.ServiceIdRequestDetails {
+func (s *ServiceGatewayResourceCrud) mapToServiceIdRequestDetails(fieldKeyFormat string) (oci_core.ServiceIdRequestDetails, error) {
 	result := oci_core.ServiceIdRequestDetails{}
 
-	if serviceId, ok := raw["service_id"]; ok && serviceId != "" {
+	if serviceId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "service_id")); ok {
 		tmp := serviceId.(string)
 		result.ServiceId = &tmp
 	}
 
-	return result
+	return result, nil
 }
 
 func ServiceIdResponseDetailsToMap(obj oci_core.ServiceIdResponseDetails) map[string]interface{} {

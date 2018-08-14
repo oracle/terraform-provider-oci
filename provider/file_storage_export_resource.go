@@ -178,8 +178,9 @@ func (s *ExportResourceCrud) Create() error {
 		interfaces := exportOptions.([]interface{})
 		tmp := make([]oci_file_storage.ClientOptions, len(interfaces))
 		for i := range interfaces {
-			fieldKeyPrefix := fmt.Sprintf("export_options.%d", i)
-			converted, err := mapToClientOptions(fieldKeyPrefix+".%s", s.D)
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "export_options", stateDataIndex)
+			converted, err := s.mapToClientOptions(fieldKeyFormat)
 			if err != nil {
 				return err
 			}
@@ -242,8 +243,9 @@ func (s *ExportResourceCrud) Update() error {
 		interfaces := exportOptions.([]interface{})
 		tmp := make([]oci_file_storage.ClientOptions, len(interfaces))
 		for i := range interfaces {
-			fieldKeyPrefix := fmt.Sprintf("export_options.%d", i)
-			converted, err := mapToClientOptions(fieldKeyPrefix+".%s", s.D)
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "export_options", stateDataIndex)
+			converted, err := s.mapToClientOptions(fieldKeyFormat)
 			if err != nil {
 				return err
 			}
@@ -303,15 +305,15 @@ func (s *ExportResourceCrud) SetData() error {
 	return nil
 }
 
-func mapToClientOptions(fieldKeyFormat string, d *schema.ResourceData) (oci_file_storage.ClientOptions, error) {
+func (s *ExportResourceCrud) mapToClientOptions(fieldKeyFormat string) (oci_file_storage.ClientOptions, error) {
 	result := oci_file_storage.ClientOptions{}
 
-	if access, ok := d.GetOkExists(fmt.Sprintf(fieldKeyFormat, "access")); ok {
+	if access, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "access")); ok {
 		tmp := oci_file_storage.ClientOptionsAccessEnum(access.(string))
 		result.Access = tmp
 	}
 
-	if anonymousGid, ok := d.GetOkExists(fmt.Sprintf(fieldKeyFormat, "anonymous_gid")); ok {
+	if anonymousGid, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "anonymous_gid")); ok {
 		tmp := anonymousGid.(string)
 		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
 		if err != nil {
@@ -320,7 +322,7 @@ func mapToClientOptions(fieldKeyFormat string, d *schema.ResourceData) (oci_file
 		result.AnonymousGid = &tmpInt64
 	}
 
-	if anonymousUid, ok := d.GetOkExists(fmt.Sprintf(fieldKeyFormat, "anonymous_uid")); ok {
+	if anonymousUid, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "anonymous_uid")); ok {
 		tmp := anonymousUid.(string)
 		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
 		if err != nil {
@@ -329,17 +331,17 @@ func mapToClientOptions(fieldKeyFormat string, d *schema.ResourceData) (oci_file
 		result.AnonymousUid = &tmpInt64
 	}
 
-	if identitySquash, ok := d.GetOkExists(fmt.Sprintf(fieldKeyFormat, "identity_squash")); ok {
+	if identitySquash, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "identity_squash")); ok {
 		tmp := oci_file_storage.ClientOptionsIdentitySquashEnum(identitySquash.(string))
 		result.IdentitySquash = tmp
 	}
 
-	if requirePrivilegedSourcePort, ok := d.GetOkExists(fmt.Sprintf(fieldKeyFormat, "require_privileged_source_port")); ok {
+	if requirePrivilegedSourcePort, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "require_privileged_source_port")); ok {
 		tmp := requirePrivilegedSourcePort.(bool)
 		result.RequirePrivilegedSourcePort = &tmp
 	}
 
-	if source, ok := d.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source")); ok {
+	if source, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source")); ok {
 		tmp := source.(string)
 		result.Source = &tmp
 	}

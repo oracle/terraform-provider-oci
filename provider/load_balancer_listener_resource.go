@@ -206,7 +206,8 @@ func (s *ListenerResourceCrud) Create() error {
 
 	if connectionConfiguration, ok := s.D.GetOkExists("connection_configuration"); ok {
 		if tmpList := connectionConfiguration.([]interface{}); len(tmpList) > 0 {
-			tmp, err := mapToConnectionConfiguration(tmpList[0].(map[string]interface{}))
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "connection_configuration", 0)
+			tmp, err := s.mapToConnectionConfiguration(fieldKeyFormat)
 			if err != nil {
 				return err
 			}
@@ -223,8 +224,8 @@ func (s *ListenerResourceCrud) Create() error {
 	if hostnameNames, ok := s.D.GetOkExists("hostname_names"); ok {
 		interfaces := hostnameNames.([]interface{})
 		tmp := make([]string, len(interfaces))
-		for i, toBeConverted := range interfaces {
-			tmp[i] = toBeConverted.(string)
+		for i := range interfaces {
+			tmp[i] = interfaces[i].(string)
 		}
 		request.HostnameNames = tmp
 	}
@@ -256,7 +257,11 @@ func (s *ListenerResourceCrud) Create() error {
 
 	if sslConfiguration, ok := s.D.GetOkExists("ssl_configuration"); ok {
 		if tmpList := sslConfiguration.([]interface{}); len(tmpList) > 0 {
-			tmp := mapToSSLConfigurationDetails(tmpList[0].(map[string]interface{}))
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "ssl_configuration", 0)
+			tmp, err := s.mapToSSLConfigurationDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
 			request.SslConfiguration = &tmp
 		}
 	}
@@ -326,7 +331,8 @@ func (s *ListenerResourceCrud) Update() error {
 
 	if connectionConfiguration, ok := s.D.GetOkExists("connection_configuration"); ok {
 		if tmpList := connectionConfiguration.([]interface{}); len(tmpList) > 0 {
-			tmp, err := mapToConnectionConfiguration(tmpList[0].(map[string]interface{}))
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "connection_configuration", 0)
+			tmp, err := s.mapToConnectionConfiguration(fieldKeyFormat)
 			if err != nil {
 				return err
 			}
@@ -343,8 +349,8 @@ func (s *ListenerResourceCrud) Update() error {
 	if hostnameNames, ok := s.D.GetOkExists("hostname_names"); ok {
 		interfaces := hostnameNames.([]interface{})
 		tmp := make([]string, len(interfaces))
-		for i, toBeConverted := range interfaces {
-			tmp[i] = toBeConverted.(string)
+		for i := range interfaces {
+			tmp[i] = interfaces[i].(string)
 		}
 		request.HostnameNames = tmp
 	}
@@ -375,7 +381,11 @@ func (s *ListenerResourceCrud) Update() error {
 
 	if sslConfiguration, ok := s.D.GetOkExists("ssl_configuration"); ok {
 		if tmpList := sslConfiguration.([]interface{}); len(tmpList) > 0 {
-			tmp := mapToSSLConfigurationDetails(tmpList[0].(map[string]interface{}))
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "ssl_configuration", 0)
+			tmp, err := s.mapToSSLConfigurationDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
 			request.SslConfiguration = &tmp
 		}
 	}
@@ -476,20 +486,19 @@ func (s *ListenerResourceCrud) SetData() error {
 	return nil
 }
 
-func mapToConnectionConfiguration(raw map[string]interface{}) (result oci_load_balancer.ConnectionConfiguration, err error) {
-	result = oci_load_balancer.ConnectionConfiguration{}
+func (s *ListenerResourceCrud) mapToConnectionConfiguration(fieldKeyFormat string) (oci_load_balancer.ConnectionConfiguration, error) {
+	result := oci_load_balancer.ConnectionConfiguration{}
 
-	if idleTimeoutInSeconds, ok := raw["idle_timeout_in_seconds"]; ok {
+	if idleTimeoutInSeconds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "idle_timeout_in_seconds")); ok {
 		tmp := idleTimeoutInSeconds.(string)
 		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
 		if err != nil {
-			err = fmt.Errorf("unable to convert idleTimeoutInSeconds string: %s to an int64 and encountered error: %v", tmp, err)
-			return result, err
+			return result, fmt.Errorf("unable to convert idleTimeoutInSeconds string: %s to an int64 and encountered error: %v", tmp, err)
 		}
 		result.IdleTimeout = &tmpInt64
 	}
 
-	return
+	return result, nil
 }
 
 func ConnectionConfigurationToMap(obj *oci_load_balancer.ConnectionConfiguration) map[string]interface{} {
@@ -500,4 +509,25 @@ func ConnectionConfigurationToMap(obj *oci_load_balancer.ConnectionConfiguration
 	}
 
 	return result
+}
+
+func (s *ListenerResourceCrud) mapToSSLConfigurationDetails(fieldKeyFormat string) (oci_load_balancer.SslConfigurationDetails, error) {
+	result := oci_load_balancer.SslConfigurationDetails{}
+
+	if certificateName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "certificate_name")); ok {
+		tmp := certificateName.(string)
+		result.CertificateName = &tmp
+	}
+
+	if verifyDepth, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "verify_depth")); ok {
+		tmp := verifyDepth.(int)
+		result.VerifyDepth = &tmp
+	}
+
+	if verifyPeerCertificate, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "verify_peer_certificate")); ok {
+		tmp := verifyPeerCertificate.(bool)
+		result.VerifyPeerCertificate = &tmp
+	}
+
+	return result, nil
 }
