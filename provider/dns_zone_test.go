@@ -19,7 +19,7 @@ const (
 resource "oci_dns_zone" "test_zone" {
 	#Required
 	compartment_id = "${var.compartment_id}"
-	name = "${data.oci_identity_tenancy.test_tenancy.name}.${var.zone_name}"
+	name = "${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.oci-zone-test"
 	zone_type = "${var.zone_zone_type}"
 }
 `
@@ -28,7 +28,7 @@ resource "oci_dns_zone" "test_zone" {
 resource "oci_dns_zone" "test_zone" {
 	#Required
 	compartment_id = "${var.compartment_id}"
-	name = "${data.oci_identity_tenancy.test_tenancy.name}.${var.zone_name}"
+	name = "${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.oci-zone-test"
 	zone_type = "SECONDARY"
 
 	#Optional
@@ -53,7 +53,7 @@ variable "zone_external_masters_port" { default = 53 }  // (the only allowed val
 variable "zone_external_masters_tsig_algorithm" { default = "hmac-sha1" }
 variable "zone_external_masters_tsig_name" { default = "name" }
 variable "zone_external_masters_tsig_secret" { default = "c2VjcmV0" }
-variable "zone_name" { default = "oci-test" }
+variable "zone_name" { default = "oci-zone-test" }
 variable "zone_zone_type" { default = "PRIMARY" }
 
 `
@@ -68,12 +68,13 @@ func TestDnsZoneResource_basic(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 
-	compartmentId := getRequiredEnvSetting("compartment_ocid")
+	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_dns_zone.test_zone"
 	datasourceName := "data.oci_dns_zones.test_zones"
 
+	_, tokenFn := tokenize()
 	var resId string
 
 	resource.Test(t, resource.TestCase{
@@ -85,10 +86,10 @@ func TestDnsZoneResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// test PRIMARY zone creation
 			{
-				Config: config + ZonePropertyVariables + compartmentIdVariableStr + ZoneRequiredOnlyResource,
+				Config: tokenFn(config+ZonePropertyVariables+compartmentIdVariableStr+ZoneRequiredOnlyResource, nil),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestMatchResourceAttr(resourceName, "name", regexp.MustCompile("\\.oci-test")),
+					resource.TestMatchResourceAttr(resourceName, "name", regexp.MustCompile("\\.oci-zone-test")),
 					resource.TestCheckResourceAttr(resourceName, "zone_type", "PRIMARY"),
 
 					func(s *terraform.State) (err error) {
@@ -102,7 +103,7 @@ func TestDnsZoneResource_basic(t *testing.T) {
 			// This will put the zone in a bad state and cause any records in this zone to fail during PATCH.
 			/*
 				{
-					Config: config + ZonePropertyVariables + compartmentIdVariableStr + ZoneResourceConfig,
+					Config: tokenFn(config + ZonePropertyVariables + compartmentIdVariableStr + ZoneResourceConfig, nil),
 					Check: resource.ComposeAggregateTestCheckFunc(
 						resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 						resource.TestCheckResourceAttr(resourceName, "external_masters.#", "1"),
@@ -112,7 +113,7 @@ func TestDnsZoneResource_basic(t *testing.T) {
 						resource.TestCheckResourceAttr(resourceName, "external_masters.0.tsig.0.algorithm", "hmac-sha1"),
 						resource.TestCheckResourceAttr(resourceName, "external_masters.0.tsig.0.name", "name"),
 						resource.TestCheckResourceAttr(resourceName, "external_masters.0.tsig.0.secret", "c2VjcmV0"),
-						resource.TestMatchResourceAttr(resourceName, "name", regexp.MustCompile("\\.oci-test")),
+						resource.TestMatchResourceAttr(resourceName, "name", regexp.MustCompile("\\.oci-zone-test")),
 						resource.TestCheckResourceAttr(resourceName, "zone_type", "SECONDARY"),
 
 						func(s *terraform.State) (err error) {
@@ -128,7 +129,7 @@ func TestDnsZoneResource_basic(t *testing.T) {
 			*/
 			// verify datasource
 			{
-				Config: config + ZonePropertyVariables + `
+				Config: tokenFn(config+ZonePropertyVariables+`
 data "oci_dns_zones" "test_zones" {
   compartment_id = "${var.compartment_id}"
   filter {
@@ -136,67 +137,67 @@ data "oci_dns_zones" "test_zones" {
     values = ["${oci_dns_zone.test_zone.id}"]
   }
 }
-                ` + compartmentIdVariableStr + ZoneRequiredOnlyResource,
+                `+compartmentIdVariableStr+ZoneRequiredOnlyResource, nil),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "zones.#", "1"),
 				),
 			},
 			{
-				Config: config + ZonePropertyVariables + `
+				Config: tokenFn(config+ZonePropertyVariables+`
 data "oci_dns_zones" "test_zones" {
   compartment_id = "${var.compartment_id}"
-  name = "${data.oci_identity_tenancy.test_tenancy.name}.oci-test"
+  name = "${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.oci-zone-test"
 }
-                ` + compartmentIdVariableStr + ZoneRequiredOnlyResource,
+                `+compartmentIdVariableStr+ZoneRequiredOnlyResource, nil),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestMatchResourceAttr(datasourceName, "name", regexp.MustCompile("\\.oci-test")),
+					resource.TestMatchResourceAttr(datasourceName, "name", regexp.MustCompile("\\.oci-zone-test")),
 					resource.TestCheckResourceAttr(datasourceName, "zones.#", "1"),
 				),
 			},
 			{
-				Config: config + ZonePropertyVariables + `
+				Config: tokenFn(config+ZonePropertyVariables+`
 data "oci_dns_zones" "test_zones" {
   compartment_id = "${var.compartment_id}"
-  name_contains = "oci-test"
+  name_contains = "oci-zone-test"
 }
-                ` + compartmentIdVariableStr + ZoneRequiredOnlyResource,
+                `+compartmentIdVariableStr+ZoneRequiredOnlyResource, nil),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(datasourceName, "name_contains", "oci-test"),
+					resource.TestCheckResourceAttr(datasourceName, "name_contains", "oci-zone-test"),
 					resource.TestCheckResourceAttrSet(datasourceName, "zones.#"),
 				),
 			},
 			{
-				Config: config + ZonePropertyVariables + `
+				Config: tokenFn(config+ZonePropertyVariables+`
 data "oci_dns_zones" "test_zones" {
   compartment_id = "${var.compartment_id}"
   state = "ACTIVE"
 }
-                ` + compartmentIdVariableStr + ZoneRequiredOnlyResource,
+                `+compartmentIdVariableStr+ZoneRequiredOnlyResource, nil),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 					resource.TestCheckResourceAttrSet(datasourceName, "zones.#"),
 				),
 			},
 			{
-				Config: config + ZonePropertyVariables + `
+				Config: tokenFn(config+ZonePropertyVariables+`
 data "oci_dns_zones" "test_zones" {
   compartment_id = "${var.compartment_id}"
   zone_type = "PRIMARY"
 }
-                ` + compartmentIdVariableStr + ZoneRequiredOnlyResource,
+                `+compartmentIdVariableStr+ZoneRequiredOnlyResource, nil),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "zone_type", "PRIMARY"),
 					resource.TestCheckResourceAttrSet(datasourceName, "zones.#"),
 				),
 			},
 			{
-				Config: config + ZonePropertyVariables + `
+				Config: tokenFn(config+ZonePropertyVariables+`
 data "oci_dns_zones" "test_zones" {
   compartment_id = "${var.compartment_id}"
   time_created_greater_than_or_equal_to = "2018-04-10T19:01:09.000-00:00"
 }
-                ` + compartmentIdVariableStr + ZoneRequiredOnlyResource,
+                `+compartmentIdVariableStr+ZoneRequiredOnlyResource, nil),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "time_created_greater_than_or_equal_to", "2018-04-10T19:01:09.000-00:00"),
@@ -204,12 +205,12 @@ data "oci_dns_zones" "test_zones" {
 				),
 			},
 			{
-				Config: config + ZonePropertyVariables + `
+				Config: tokenFn(config+ZonePropertyVariables+`
 data "oci_dns_zones" "test_zones" {
   compartment_id = "${var.compartment_id}"
   time_created_less_than = "2022-04-10T19:01:09.000-00:00"
 }
-                ` + compartmentIdVariableStr + ZoneRequiredOnlyResource,
+                `+compartmentIdVariableStr+ZoneRequiredOnlyResource, nil),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "time_created_less_than", "2022-04-10T19:01:09.000-00:00"),
@@ -218,7 +219,7 @@ data "oci_dns_zones" "test_zones" {
 			},
 			// verify resource import
 			{
-				Config:            config,
+				Config:            tokenFn(config, nil),
 				ImportState:       true,
 				ImportStateVerify: true,
 				ResourceName:      resourceName,
