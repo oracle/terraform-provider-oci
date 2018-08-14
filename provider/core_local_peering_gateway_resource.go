@@ -212,7 +212,10 @@ func (s *LocalPeeringGatewayResourceCrud) ConnectLocalPeeringGateway() error {
 			s.D.Set("peer_id", "")
 			return fmt.Errorf("unexpected Peering Status `%s` after trying to connect to the peer Local Peering Gateway", string(response.LocalPeeringGateway.PeeringStatus))
 		}
-		s.SetData()
+
+		if err := s.SetData(); err != nil {
+			return err
+		}
 	}
 	return nil
 }
