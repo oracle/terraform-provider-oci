@@ -5,6 +5,7 @@ package provider
 import (
 	"bytes"
 	"fmt"
+	"log"
 	"text/template"
 	"time"
 
@@ -18,7 +19,9 @@ var tmpl template.Template = *template.New("tmpl")
 func apply(template string, values map[string]string) string {
 	b := new(bytes.Buffer)
 	t, _ := tmpl.Parse(template)
-	t.Execute(b, values)
+	if err := t.Execute(b, values); err != nil {
+		log.Printf("[WARN] Unable to apply values to template: '%s'", err)
+	}
 	return b.String()
 }
 

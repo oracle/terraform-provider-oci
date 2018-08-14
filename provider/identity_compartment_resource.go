@@ -209,8 +209,7 @@ func (s *CompartmentResourceCrud) Create() error {
 				s.Res = &compartment
 				//Update with correct description
 				s.D.SetId(s.ID())
-				s.Update()
-				return nil
+				return s.Update()
 			}
 		}
 	}

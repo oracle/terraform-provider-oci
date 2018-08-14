@@ -213,7 +213,10 @@ func (s *RemotePeeringConnectionResourceCrud) ConnectRemotePeeringConnection() e
 		s.D.Set("peer_id", "")
 		return fmt.Errorf("unexpected Peering Status `%s` after trying to connect to the peer Remote Peering Connection (RPC). Make sure the peering_status of the peer RPC is not REVOKED", string(response.RemotePeeringConnection.PeeringStatus))
 	}
-	s.SetData()
+
+	if err := s.SetData(); err != nil {
+		return err
+	}
 
 	return nil
 }
