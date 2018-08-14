@@ -268,8 +268,14 @@ func (s *VirtualCircuitResourceCrud) Create() error {
 	if crossConnectMappings, ok := s.D.GetOkExists("cross_connect_mappings"); ok {
 		interfaces := crossConnectMappings.([]interface{})
 		tmp := make([]oci_core.CrossConnectMapping, len(interfaces))
-		for i, toBeConverted := range interfaces {
-			tmp[i] = mapToCrossConnectMapping(toBeConverted.(map[string]interface{}))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "cross_connect_mappings", stateDataIndex)
+			converted, err := s.mapToCrossConnectMapping(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
 		}
 		request.CrossConnectMappings = tmp
 	}
@@ -298,8 +304,14 @@ func (s *VirtualCircuitResourceCrud) Create() error {
 		set := publicPrefixes.(*schema.Set)
 		interfaces := set.List()
 		tmp := make([]oci_core.CreateVirtualCircuitPublicPrefixDetails, len(interfaces))
-		for i, toBeConverted := range interfaces {
-			tmp[i] = mapToCreateVirtualCircuitPublicPrefixDetails(toBeConverted.(map[string]interface{}))
+		for i := range interfaces {
+			stateDataIndex := publicPrefixesHashCodeForSets(interfaces[i])
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "public_prefixes", stateDataIndex)
+			converted, err := s.mapToCreateVirtualCircuitPublicPrefixDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
 		}
 		request.PublicPrefixes = tmp
 	}
@@ -376,8 +388,14 @@ func (s *VirtualCircuitResourceCrud) Update() error {
 	if crossConnectMappings, ok := s.D.GetOkExists("cross_connect_mappings"); ok {
 		interfaces := crossConnectMappings.([]interface{})
 		tmp := make([]oci_core.CrossConnectMapping, len(interfaces))
-		for i, toBeConverted := range interfaces {
-			tmp[i] = mapToCrossConnectMapping(toBeConverted.(map[string]interface{}))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "cross_connect_mappings", stateDataIndex)
+			converted, err := s.mapToCrossConnectMapping(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
 		}
 		request.CrossConnectMappings = tmp
 	}
@@ -503,15 +521,15 @@ func (s *VirtualCircuitResourceCrud) SetData() error {
 	return nil
 }
 
-func mapToCreateVirtualCircuitPublicPrefixDetails(raw map[string]interface{}) oci_core.CreateVirtualCircuitPublicPrefixDetails {
+func (s *VirtualCircuitResourceCrud) mapToCreateVirtualCircuitPublicPrefixDetails(fieldKeyFormat string) (oci_core.CreateVirtualCircuitPublicPrefixDetails, error) {
 	result := oci_core.CreateVirtualCircuitPublicPrefixDetails{}
 
-	if cidrBlock, ok := raw["cidr_block"]; ok && cidrBlock != "" {
+	if cidrBlock, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "cidr_block")); ok {
 		tmp := cidrBlock.(string)
 		result.CidrBlock = &tmp
 	}
 
-	return result
+	return result, nil
 }
 
 func CreateVirtualCircuitPublicPrefixDetailsToMap(obj string) map[string]interface{} {
@@ -522,30 +540,30 @@ func CreateVirtualCircuitPublicPrefixDetailsToMap(obj string) map[string]interfa
 	return result
 }
 
-func mapToCrossConnectMapping(raw map[string]interface{}) oci_core.CrossConnectMapping {
+func (s *VirtualCircuitResourceCrud) mapToCrossConnectMapping(fieldKeyFormat string) (oci_core.CrossConnectMapping, error) {
 	result := oci_core.CrossConnectMapping{}
 
-	if bgpMd5AuthKey, ok := raw["bgp_md5auth_key"]; ok && bgpMd5AuthKey != "" {
+	if bgpMd5AuthKey, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "bgp_md5auth_key")); ok {
 		tmp := bgpMd5AuthKey.(string)
 		result.BgpMd5AuthKey = &tmp
 	}
 
-	if crossConnectOrCrossConnectGroupId, ok := raw["cross_connect_or_cross_connect_group_id"]; ok && crossConnectOrCrossConnectGroupId != "" {
+	if crossConnectOrCrossConnectGroupId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "cross_connect_or_cross_connect_group_id")); ok {
 		tmp := crossConnectOrCrossConnectGroupId.(string)
 		result.CrossConnectOrCrossConnectGroupId = &tmp
 	}
 
-	if customerBgpPeeringIp, ok := raw["customer_bgp_peering_ip"]; ok && customerBgpPeeringIp != "" {
+	if customerBgpPeeringIp, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "customer_bgp_peering_ip")); ok {
 		tmp := customerBgpPeeringIp.(string)
 		result.CustomerBgpPeeringIp = &tmp
 	}
 
-	if oracleBgpPeeringIp, ok := raw["oracle_bgp_peering_ip"]; ok && oracleBgpPeeringIp != "" {
+	if oracleBgpPeeringIp, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "oracle_bgp_peering_ip")); ok {
 		tmp := oracleBgpPeeringIp.(string)
 		result.OracleBgpPeeringIp = &tmp
 	}
 
-	if vlan, ok := raw["vlan"]; ok {
+	if vlan, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vlan")); ok {
 		tmp := vlan.(int)
 		//Vlan value must be greater than or equal to 100. It cannot be specified for certain circuit types.
 		if tmp >= 100 {
@@ -553,7 +571,7 @@ func mapToCrossConnectMapping(raw map[string]interface{}) oci_core.CrossConnectM
 		}
 	}
 
-	return result
+	return result, nil
 }
 
 func CrossConnectMappingToMap(obj oci_core.CrossConnectMapping) map[string]interface{} {

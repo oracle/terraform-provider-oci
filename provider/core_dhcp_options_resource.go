@@ -8,6 +8,7 @@ import (
 	"strings"
 
 	"github.com/hashicorp/terraform/helper/schema"
+
 	"github.com/hashicorp/terraform/helper/validation"
 
 	"fmt"
@@ -213,8 +214,10 @@ func (s *DhcpOptionsResourceCrud) Create() error {
 	if options, ok := s.D.GetOkExists("options"); ok {
 		interfaces := options.([]interface{})
 		tmp := make([]oci_core.DhcpOption, len(interfaces))
-		for i, toBeConverted := range interfaces {
-			converted, err := mapToDhcpOption(toBeConverted.(map[string]interface{}))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "options", stateDataIndex)
+			converted, err := s.mapToDhcpOption(fieldKeyFormat)
 			if err != nil {
 				return err
 			}
@@ -283,8 +286,10 @@ func (s *DhcpOptionsResourceCrud) Update() error {
 	if options, ok := s.D.GetOkExists("options"); ok {
 		interfaces := options.([]interface{})
 		tmp := make([]oci_core.DhcpOption, len(interfaces))
-		for i, toBeConverted := range interfaces {
-			converted, err := mapToDhcpOption(toBeConverted.(map[string]interface{}))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "options", stateDataIndex)
+			converted, err := s.mapToDhcpOption(fieldKeyFormat)
 			if err != nil {
 				return err
 			}
@@ -350,10 +355,10 @@ func (s *DhcpOptionsResourceCrud) SetData() error {
 	return nil
 }
 
-func mapToDhcpOption(raw map[string]interface{}) (oci_core.DhcpOption, error) {
+func (s *DhcpOptionsResourceCrud) mapToDhcpOption(fieldKeyFormat string) (oci_core.DhcpOption, error) {
 	var baseObject oci_core.DhcpOption
 	//discriminator
-	typeRaw, ok := raw["type"]
+	typeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type"))
 	var type_ string
 	if ok {
 		type_ = typeRaw.(string)
@@ -362,47 +367,47 @@ func mapToDhcpOption(raw map[string]interface{}) (oci_core.DhcpOption, error) {
 	}
 	switch strings.ToLower(type_) {
 	case strings.ToLower("DomainNameServer"):
-		if searchDomainNames, ok := raw["search_domain_names"]; ok && len(searchDomainNames.([]interface{})) > 0 {
+		if searchDomainNames, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "search_domain_names")); ok && len(searchDomainNames.([]interface{})) > 0 {
 			return nil, fmt.Errorf("'search_domain_names' should not be specified for type DomainNameServer")
 		}
 		details := oci_core.DhcpDnsOption{}
 		details.CustomDnsServers = []string{}
-		if customDnsServers, ok := raw["custom_dns_servers"]; ok {
+		if customDnsServers, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "custom_dns_servers")); ok {
 			interfaces := customDnsServers.([]interface{})
 			tmp := make([]string, len(interfaces))
-			for i, toBeConverted := range interfaces {
-				tmp[i] = toBeConverted.(string)
+			for i := range interfaces {
+				tmp[i] = interfaces[i].(string)
 			}
 			details.CustomDnsServers = tmp
 		}
-		if serverType, ok := raw["server_type"]; ok {
+		if serverType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "server_type")); ok {
 			details.ServerType = oci_core.DhcpDnsOptionServerTypeEnum(serverType.(string))
 		}
 		baseObject = details
 	case strings.ToLower("SearchDomain"):
-		if customDnsServers, ok := raw["custom_dns_servers"]; ok && len(customDnsServers.([]interface{})) > 0 {
+		if customDnsServers, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "custom_dns_servers")); ok && len(customDnsServers.([]interface{})) > 0 {
 			return nil, fmt.Errorf("'custom_dns_servers' should not be specified for type SearchDomain")
 		}
 
-		if serverType, ok := raw["server_type"]; ok && len(serverType.(string)) > 0 {
+		if serverType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "server_type")); ok && len(serverType.(string)) > 0 {
 			return nil, fmt.Errorf("'server_type' should not be specified for type SearchDomain")
 		}
 
 		details := oci_core.DhcpSearchDomainOption{}
 		details.SearchDomainNames = []string{}
-		if searchDomainNames, ok := raw["search_domain_names"]; ok {
+		if searchDomainNames, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "search_domain_names")); ok {
 			interfaces := searchDomainNames.([]interface{})
 			tmp := make([]string, len(interfaces))
-			for i, toBeConverted := range interfaces {
-				tmp[i] = toBeConverted.(string)
+			for i := range interfaces {
+				tmp[i] = interfaces[i].(string)
 			}
 			details.SearchDomainNames = tmp
 		}
 		baseObject = details
 	default:
-		log.Printf("[WARN] Unknown type '%v' was specified", type_)
-		return baseObject, fmt.Errorf("unknown type '%v' was specified", type_)
+		return nil, fmt.Errorf("unknown type '%v' was specified", type_)
 	}
+
 	return baseObject, nil
 }
 

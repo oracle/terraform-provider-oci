@@ -195,8 +195,8 @@ func (s *IpSecConnectionResourceCrud) Create() error {
 	if staticRoutes, ok := s.D.GetOkExists("static_routes"); ok {
 		interfaces := staticRoutes.([]interface{})
 		tmp := make([]string, len(interfaces))
-		for i, toBeConverted := range interfaces {
-			tmp[i] = toBeConverted.(string)
+		for i := range interfaces {
+			tmp[i] = interfaces[i].(string)
 		}
 		request.StaticRoutes = tmp
 	}

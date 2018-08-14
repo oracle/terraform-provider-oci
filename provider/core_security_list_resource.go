@@ -494,8 +494,14 @@ func (s *SecurityListResourceCrud) Create() error {
 		set := egressSecurityRules.(*schema.Set)
 		interfaces := set.List()
 		tmp := make([]oci_core.EgressSecurityRule, len(interfaces))
-		for i, toBeConverted := range interfaces {
-			tmp[i] = mapToEgressSecurityRule(toBeConverted.(map[string]interface{}))
+		for i := range interfaces {
+			stateDataIndex := egressSecurityRulesHashCodeForSets(interfaces[i])
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "egress_security_rules", stateDataIndex)
+			converted, err := s.mapToEgressSecurityRule(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
 		}
 		request.EgressSecurityRules = tmp
 	}
@@ -509,8 +515,14 @@ func (s *SecurityListResourceCrud) Create() error {
 		set := ingressSecurityRules.(*schema.Set)
 		interfaces := set.List()
 		tmp := make([]oci_core.IngressSecurityRule, len(interfaces))
-		for i, toBeConverted := range interfaces {
-			tmp[i] = mapToIngressSecurityRule(toBeConverted.(map[string]interface{}))
+		for i := range interfaces {
+			stateDataIndex := ingressSecurityRulesHashCodeForSets(interfaces[i])
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "ingress_security_rules", stateDataIndex)
+			converted, err := s.mapToIngressSecurityRule(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
 		}
 		request.IngressSecurityRules = tmp
 	}
@@ -569,8 +581,14 @@ func (s *SecurityListResourceCrud) Update() error {
 		set := egressSecurityRules.(*schema.Set)
 		interfaces := set.List()
 		tmp := make([]oci_core.EgressSecurityRule, len(interfaces))
-		for i, toBeConverted := range interfaces {
-			tmp[i] = mapToEgressSecurityRule(toBeConverted.(map[string]interface{}))
+		for i := range interfaces {
+			stateDataIndex := egressSecurityRulesHashCodeForSets(interfaces[i])
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "egress_security_rules", stateDataIndex)
+			converted, err := s.mapToEgressSecurityRule(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
 		}
 		request.EgressSecurityRules = tmp
 	}
@@ -584,8 +602,14 @@ func (s *SecurityListResourceCrud) Update() error {
 		set := ingressSecurityRules.(*schema.Set)
 		interfaces := set.List()
 		tmp := make([]oci_core.IngressSecurityRule, len(interfaces))
-		for i, toBeConverted := range interfaces {
-			tmp[i] = mapToIngressSecurityRule(toBeConverted.(map[string]interface{}))
+		for i := range interfaces {
+			stateDataIndex := ingressSecurityRulesHashCodeForSets(interfaces[i])
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "ingress_security_rules", stateDataIndex)
+			converted, err := s.mapToIngressSecurityRule(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
 		}
 		request.IngressSecurityRules = tmp
 	}
@@ -656,51 +680,63 @@ func (s *SecurityListResourceCrud) SetData() error {
 	return nil
 }
 
-func mapToEgressSecurityRule(raw map[string]interface{}) oci_core.EgressSecurityRule {
+func (s *SecurityListResourceCrud) mapToEgressSecurityRule(fieldKeyFormat string) (oci_core.EgressSecurityRule, error) {
 	result := oci_core.EgressSecurityRule{}
 
-	if destination, ok := raw["destination"]; ok && destination != "" {
+	if destination, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination")); ok && destination != "" {
 		tmp := destination.(string)
 		result.Destination = &tmp
 	}
 
-	if destinationType, ok := raw["destination_type"]; ok && destinationType != "" {
+	if destinationType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_type")); ok && destinationType != "" {
 		tmp := oci_core.EgressSecurityRuleDestinationTypeEnum(destinationType.(string))
 		result.DestinationType = tmp
 	}
 
-	if icmpOptions, ok := raw["icmp_options"]; ok {
+	if icmpOptions, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "icmp_options")); ok {
 		if tmpList := icmpOptions.([]interface{}); len(tmpList) > 0 {
-			tmp := mapToIcmpOptions(tmpList[0].(map[string]interface{}))
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "icmp_options"), 0)
+			tmp, err := s.mapToIcmpOptions(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
 			result.IcmpOptions = &tmp
 		}
 	}
 
-	if protocol, ok := raw["protocol"]; ok && protocol != "" {
+	if protocol, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "protocol")); ok && protocol != "" {
 		tmp := protocol.(string)
 		result.Protocol = &tmp
 	}
 
-	if stateless, ok := raw["stateless"]; ok {
+	if stateless, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "stateless")); ok {
 		tmp := stateless.(bool)
 		result.IsStateless = &tmp
 	}
 
-	if tcpOptions, ok := raw["tcp_options"]; ok {
+	if tcpOptions, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "tcp_options")); ok {
 		if tmpList := tcpOptions.([]interface{}); len(tmpList) > 0 {
-			tmp := mapToTcpOptions(tmpList[0].(map[string]interface{}))
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "tcp_options"), 0)
+			tmp, err := s.mapToTcpOptions(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
 			result.TcpOptions = &tmp
 		}
 	}
 
-	if udpOptions, ok := raw["udp_options"]; ok {
+	if udpOptions, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "udp_options")); ok {
 		if tmpList := udpOptions.([]interface{}); len(tmpList) > 0 {
-			tmp := mapToUdpOptions(tmpList[0].(map[string]interface{}))
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "udp_options"), 0)
+			tmp, err := s.mapToUdpOptions(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
 			result.UdpOptions = &tmp
 		}
 	}
 
-	return result
+	return result, nil
 }
 
 func EgressSecurityRuleToMap(obj oci_core.EgressSecurityRule) map[string]interface{} {
@@ -735,22 +771,22 @@ func EgressSecurityRuleToMap(obj oci_core.EgressSecurityRule) map[string]interfa
 	return result
 }
 
-func mapToIcmpOptions(raw map[string]interface{}) oci_core.IcmpOptions {
+func (s *SecurityListResourceCrud) mapToIcmpOptions(fieldKeyFormat string) (oci_core.IcmpOptions, error) {
 	result := oci_core.IcmpOptions{}
 
-	if code, ok := raw["code"]; ok {
+	if code, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "code")); ok {
 		tmp := code.(int)
 		if tmp != -1 {
 			result.Code = &tmp
 		}
 	}
 
-	if type_, ok := raw["type"]; ok {
+	if type_, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type")); ok {
 		tmp := type_.(int)
 		result.Type = &tmp
 	}
 
-	return result
+	return result, nil
 }
 
 func IcmpOptionsToMap(obj *oci_core.IcmpOptions) map[string]interface{} {
@@ -769,51 +805,63 @@ func IcmpOptionsToMap(obj *oci_core.IcmpOptions) map[string]interface{} {
 	return result
 }
 
-func mapToIngressSecurityRule(raw map[string]interface{}) oci_core.IngressSecurityRule {
+func (s *SecurityListResourceCrud) mapToIngressSecurityRule(fieldKeyFormat string) (oci_core.IngressSecurityRule, error) {
 	result := oci_core.IngressSecurityRule{}
 
-	if icmpOptions, ok := raw["icmp_options"]; ok {
+	if icmpOptions, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "icmp_options")); ok {
 		if tmpList := icmpOptions.([]interface{}); len(tmpList) > 0 {
-			tmp := mapToIcmpOptions(tmpList[0].(map[string]interface{}))
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "icmp_options"), 0)
+			tmp, err := s.mapToIcmpOptions(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
 			result.IcmpOptions = &tmp
 		}
 	}
 
-	if protocol, ok := raw["protocol"]; ok && protocol != "" {
+	if protocol, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "protocol")); ok {
 		tmp := protocol.(string)
 		result.Protocol = &tmp
 	}
 
-	if source, ok := raw["source"]; ok && source != "" {
+	if source, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source")); ok {
 		tmp := source.(string)
 		result.Source = &tmp
 	}
 
-	if sourceType, ok := raw["source_type"]; ok && sourceType != "" {
+	if sourceType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_type")); ok {
 		tmp := oci_core.IngressSecurityRuleSourceTypeEnum(sourceType.(string))
 		result.SourceType = tmp
 	}
 
-	if stateless, ok := raw["stateless"]; ok {
+	if stateless, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "stateless")); ok {
 		tmp := stateless.(bool)
 		result.IsStateless = &tmp
 	}
 
-	if tcpOptions, ok := raw["tcp_options"]; ok {
+	if tcpOptions, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "tcp_options")); ok {
 		if tmpList := tcpOptions.([]interface{}); len(tmpList) > 0 {
-			tmp := mapToTcpOptions(tmpList[0].(map[string]interface{}))
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "tcp_options"), 0)
+			tmp, err := s.mapToTcpOptions(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
 			result.TcpOptions = &tmp
 		}
 	}
 
-	if udpOptions, ok := raw["udp_options"]; ok {
+	if udpOptions, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "udp_options")); ok {
 		if tmpList := udpOptions.([]interface{}); len(tmpList) > 0 {
-			tmp := mapToUdpOptions(tmpList[0].(map[string]interface{}))
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "udp_options"), 0)
+			tmp, err := s.mapToUdpOptions(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
 			result.UdpOptions = &tmp
 		}
 	}
 
-	return result
+	return result, nil
 }
 
 func IngressSecurityRuleToMap(obj oci_core.IngressSecurityRule) map[string]interface{} {
@@ -848,20 +896,20 @@ func IngressSecurityRuleToMap(obj oci_core.IngressSecurityRule) map[string]inter
 	return result
 }
 
-func mapToPortRange(raw map[string]interface{}) oci_core.PortRange {
+func (s *SecurityListResourceCrud) mapToPortRange(fieldKeyFormat string) (oci_core.PortRange, error) {
 	result := oci_core.PortRange{}
 
-	if max, ok := raw["max"]; ok {
+	if max, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "max")); ok {
 		tmp := max.(int)
 		result.Max = &tmp
 	}
 
-	if min, ok := raw["min"]; ok {
+	if min, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "min")); ok {
 		tmp := min.(int)
 		result.Min = &tmp
 	}
 
-	return result
+	return result, nil
 }
 
 func PortRangeToMap(obj *oci_core.PortRange) map[string]interface{} {
@@ -878,26 +926,28 @@ func PortRangeToMap(obj *oci_core.PortRange) map[string]interface{} {
 	return result
 }
 
-func mapToTcpOptions(raw map[string]interface{}) oci_core.TcpOptions {
+func (s *SecurityListResourceCrud) mapToTcpOptions(fieldKeyFormat string) (oci_core.TcpOptions, error) {
 	result := oci_core.TcpOptions{}
 
-	// Max and Min default to 0, and that is not a valid port number, so we can assume that if
-	// the value is 0 then the user has not set the port number.
-	// Also, note that if either max or min is set, then the service will return an error if both are not
-	// set. However, we want to create the PortRange if either is set and let the service return the error.
-	if raw["max"].(int) != 0 || raw["min"].(int) != 0 {
-		tmp := mapToPortRange(raw)
+	max, maxExists := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "max"))
+	min, minExists := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "min"))
+	if (maxExists && max.(int) != 0) || (minExists && min.(int) != 0) {
+		tmp, _ := s.mapToPortRange(fieldKeyFormat)
 		result.DestinationPortRange = &tmp
 	}
 
-	if sourcePortRange, ok := raw["source_port_range"]; ok {
+	if sourcePortRange, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_port_range")); ok {
 		if tmpList := sourcePortRange.([]interface{}); len(tmpList) > 0 {
-			tmp := mapToPortRange(tmpList[0].(map[string]interface{}))
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "source_port_range"), 0)
+			tmp, err := s.mapToPortRange(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
 			result.SourcePortRange = &tmp
 		}
 	}
 
-	return result
+	return result, nil
 }
 
 func TcpOptionsToMap(obj *oci_core.TcpOptions) map[string]interface{} {
@@ -920,26 +970,28 @@ func TcpOptionsToMap(obj *oci_core.TcpOptions) map[string]interface{} {
 	return result
 }
 
-func mapToUdpOptions(raw map[string]interface{}) oci_core.UdpOptions {
+func (s *SecurityListResourceCrud) mapToUdpOptions(fieldKeyFormat string) (oci_core.UdpOptions, error) {
 	result := oci_core.UdpOptions{}
 
-	// Max and Min default to 0, and that is not a valid port number, so we can assume that if
-	// the value is 0 then the user has not set the port number.
-	// Also, note that if either max or min is set, then the service will return an error if both are not
-	// set. However, we want to create the PortRange if either is set and let the service return the error.
-	if raw["max"].(int) != 0 || raw["min"].(int) != 0 {
-		tmp := mapToPortRange(raw)
+	max, maxExists := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "max"))
+	min, minExists := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "min"))
+	if (maxExists && max.(int) != 0) || (minExists && min.(int) != 0) {
+		tmp, _ := s.mapToPortRange(fieldKeyFormat)
 		result.DestinationPortRange = &tmp
 	}
 
-	if sourcePortRange, ok := raw["source_port_range"]; ok {
+	if sourcePortRange, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_port_range")); ok {
 		if tmpList := sourcePortRange.([]interface{}); len(tmpList) > 0 {
-			tmp := mapToPortRange(tmpList[0].(map[string]interface{}))
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "source_port_range"), 0)
+			tmp, err := s.mapToPortRange(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
 			result.SourcePortRange = &tmp
 		}
 	}
 
-	return result
+	return result, nil
 }
 
 func UdpOptionsToMap(obj *oci_core.UdpOptions) map[string]interface{} {

@@ -218,8 +218,8 @@ func (s *PolicyResourceCrud) Create() error {
 	if statements, ok := s.D.GetOkExists("statements"); ok {
 		interfaces := statements.([]interface{})
 		tmp := make([]string, len(interfaces))
-		for i, toBeConverted := range interfaces {
-			tmp[i] = toBeConverted.(string)
+		for i := range interfaces {
+			tmp[i] = interfaces[i].(string)
 		}
 		request.Statements = tmp
 	}
@@ -305,8 +305,8 @@ func (s *PolicyResourceCrud) Update() error {
 	if statements, ok := s.D.GetOkExists("statements"); ok {
 		interfaces := statements.([]interface{})
 		tmp := make([]string, len(interfaces))
-		for i, toBeConverted := range interfaces {
-			tmp[i] = toBeConverted.(string)
+		for i := range interfaces {
+			tmp[i] = interfaces[i].(string)
 		}
 		request.Statements = tmp
 	}

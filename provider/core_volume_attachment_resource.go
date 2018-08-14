@@ -344,7 +344,7 @@ func (s *VolumeAttachmentResourceCrud) populateTopLevelPolymorphicAttachVolumeRe
 		}
 		request.AttachVolumeDetails = details
 	default:
-		return fmt.Errorf("Unknown attachment_type '%v' was specified", attachmentType)
+		return fmt.Errorf("unknown attachment_type '%v' was specified", attachmentType)
 	}
 	return nil
 }

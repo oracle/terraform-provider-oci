@@ -4,6 +4,7 @@ package provider
 
 import (
 	"context"
+	"fmt"
 	"strings"
 
 	"github.com/hashicorp/terraform/helper/schema"
@@ -180,8 +181,14 @@ func (s *PathRouteSetResourceCrud) Create() error {
 	if pathRoutes, ok := s.D.GetOkExists("path_routes"); ok {
 		interfaces := pathRoutes.([]interface{})
 		tmp := make([]oci_load_balancer.PathRoute, len(interfaces))
-		for i, toBeConverted := range interfaces {
-			tmp[i] = mapToPathRoute(toBeConverted.(map[string]interface{}))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "path_routes", stateDataIndex)
+			converted, err := s.mapToPathRoute(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
 		}
 		request.PathRoutes = tmp
 	}
@@ -257,8 +264,14 @@ func (s *PathRouteSetResourceCrud) Update() error {
 	if pathRoutes, ok := s.D.GetOkExists("path_routes"); ok {
 		interfaces := pathRoutes.([]interface{})
 		tmp := make([]oci_load_balancer.PathRoute, len(interfaces))
-		for i, toBeConverted := range interfaces {
-			tmp[i] = mapToPathRoute(toBeConverted.(map[string]interface{}))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "path_routes", stateDataIndex)
+			converted, err := s.mapToPathRoute(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
 		}
 		request.PathRoutes = tmp
 	}
@@ -340,15 +353,15 @@ func (s *PathRouteSetResourceCrud) SetData() error {
 	return nil
 }
 
-func mapToPathMatchType(raw map[string]interface{}) oci_load_balancer.PathMatchType {
+func (s *PathRouteSetResourceCrud) mapToPathMatchType(fieldKeyFormat string) (oci_load_balancer.PathMatchType, error) {
 	result := oci_load_balancer.PathMatchType{}
 
-	if matchType, ok := raw["match_type"]; ok && matchType != "" {
+	if matchType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "match_type")); ok {
 		tmp := oci_load_balancer.PathMatchTypeMatchTypeEnum(matchType.(string))
 		result.MatchType = tmp
 	}
 
-	return result
+	return result, nil
 }
 
 func PathMatchTypeToMap(obj *oci_load_balancer.PathMatchType) map[string]interface{} {
@@ -359,27 +372,31 @@ func PathMatchTypeToMap(obj *oci_load_balancer.PathMatchType) map[string]interfa
 	return result
 }
 
-func mapToPathRoute(raw map[string]interface{}) oci_load_balancer.PathRoute {
+func (s *PathRouteSetResourceCrud) mapToPathRoute(fieldKeyFormat string) (oci_load_balancer.PathRoute, error) {
 	result := oci_load_balancer.PathRoute{}
 
-	if backendSetName, ok := raw["backend_set_name"]; ok && backendSetName != "" {
+	if backendSetName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "backend_set_name")); ok {
 		tmp := backendSetName.(string)
 		result.BackendSetName = &tmp
 	}
 
-	if path, ok := raw["path"]; ok && path != "" {
+	if path, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "path")); ok {
 		tmp := path.(string)
 		result.Path = &tmp
 	}
 
-	if pathMatchType, ok := raw["path_match_type"]; ok {
+	if pathMatchType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "path_match_type")); ok {
 		if tmpList := pathMatchType.([]interface{}); len(tmpList) > 0 {
-			tmp := mapToPathMatchType(tmpList[0].(map[string]interface{}))
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "path_match_type"), 0)
+			tmp, err := s.mapToPathMatchType(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
 			result.PathMatchType = &tmp
 		}
 	}
 
-	return result
+	return result, nil
 }
 
 func PathRouteToMap(obj oci_load_balancer.PathRoute) map[string]interface{} {

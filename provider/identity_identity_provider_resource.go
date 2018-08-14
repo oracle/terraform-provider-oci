@@ -320,7 +320,7 @@ func (s *IdentityProviderResourceCrud) populateTopLevelPolymorphicCreateIdentity
 		}
 		request.CreateIdentityProviderDetails = details
 	default:
-		return fmt.Errorf("Unknown protocol '%v' was specified", protocol)
+		return fmt.Errorf("unknown protocol '%v' was specified", protocol)
 	}
 	return nil
 }
@@ -363,7 +363,7 @@ func (s *IdentityProviderResourceCrud) populateTopLevelPolymorphicUpdateIdentity
 		request.IdentityProviderId = &tmp
 		request.UpdateIdentityProviderDetails = details
 	default:
-		return fmt.Errorf("Unknown protocol '%v' was specified", protocol)
+		return fmt.Errorf("unknown protocol '%v' was specified", protocol)
 	}
 	return nil
 }

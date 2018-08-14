@@ -253,8 +253,8 @@ func (s *SubnetResourceCrud) Create() error {
 		set := securityListIds.(*schema.Set)
 		interfaces := set.List()
 		tmp := make([]string, len(interfaces))
-		for i, toBeConverted := range interfaces {
-			tmp[i] = toBeConverted.(string)
+		for i := range interfaces {
+			tmp[i] = interfaces[i].(string)
 		}
 		request.SecurityListIds = tmp
 	}

@@ -4,6 +4,7 @@ package provider
 
 import (
 	"context"
+	"fmt"
 	"sync"
 
 	"github.com/hashicorp/terraform/helper/schema"
@@ -296,8 +297,14 @@ func (s *BackendSetResourceCrud) Create() error {
 	if backend, ok := s.D.GetOkExists("backend"); ok {
 		interfaces := backend.([]interface{})
 		tmp := make([]oci_load_balancer.BackendDetails, len(interfaces))
-		for i, toBeConverted := range interfaces {
-			tmp[i] = mapToBackendDetails(toBeConverted.(map[string]interface{}))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "backend", stateDataIndex)
+			converted, err := s.mapToBackendDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
 		}
 		request.Backends = tmp
 	}
@@ -305,7 +312,11 @@ func (s *BackendSetResourceCrud) Create() error {
 
 	if healthChecker, ok := s.D.GetOkExists("health_checker"); ok {
 		if tmpList := healthChecker.([]interface{}); len(tmpList) > 0 {
-			tmp := mapToHealthCheckerDetails(tmpList[0].(map[string]interface{}))
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "health_checker", 0)
+			tmp, err := s.mapToHealthCheckerDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
 			request.HealthChecker = &tmp
 		}
 	}
@@ -327,14 +338,22 @@ func (s *BackendSetResourceCrud) Create() error {
 
 	if sessionPersistenceConfiguration, ok := s.D.GetOkExists("session_persistence_configuration"); ok {
 		if tmpList := sessionPersistenceConfiguration.([]interface{}); len(tmpList) > 0 {
-			tmp := mapToSessionPersistenceConfigurationDetails(tmpList[0].(map[string]interface{}))
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "session_persistence_configuration", 0)
+			tmp, err := s.mapToSessionPersistenceConfigurationDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
 			request.SessionPersistenceConfiguration = &tmp
 		}
 	}
 
 	if sslConfiguration, ok := s.D.GetOkExists("ssl_configuration"); ok {
 		if tmpList := sslConfiguration.([]interface{}); len(tmpList) > 0 {
-			tmp := mapToSSLConfigurationDetails(tmpList[0].(map[string]interface{}))
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "ssl_configuration", 0)
+			tmp, err := s.mapToSSLConfigurationDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
 			request.SslConfiguration = &tmp
 		}
 	}
@@ -401,8 +420,14 @@ func (s *BackendSetResourceCrud) Update() error {
 	if backend, ok := s.D.GetOkExists("backend"); ok {
 		interfaces := backend.([]interface{})
 		tmp := make([]oci_load_balancer.BackendDetails, len(interfaces))
-		for i, toBeConverted := range interfaces {
-			tmp[i] = mapToBackendDetails(toBeConverted.(map[string]interface{}))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "backend", stateDataIndex)
+			converted, err := s.mapToBackendDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
 		}
 		request.Backends = tmp
 	}
@@ -421,7 +446,11 @@ func (s *BackendSetResourceCrud) Update() error {
 
 	if healthChecker, ok := s.D.GetOkExists("health_checker"); ok {
 		if tmpList := healthChecker.([]interface{}); len(tmpList) > 0 {
-			tmp := mapToHealthCheckerDetails(tmpList[0].(map[string]interface{}))
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "health_checker", 0)
+			tmp, err := s.mapToHealthCheckerDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
 			request.HealthChecker = &tmp
 		}
 	}
@@ -438,14 +467,22 @@ func (s *BackendSetResourceCrud) Update() error {
 
 	if sessionPersistenceConfiguration, ok := s.D.GetOkExists("session_persistence_configuration"); ok {
 		if tmpList := sessionPersistenceConfiguration.([]interface{}); len(tmpList) > 0 {
-			tmp := mapToSessionPersistenceConfigurationDetails(tmpList[0].(map[string]interface{}))
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "session_persistence_configuration", 0)
+			tmp, err := s.mapToSessionPersistenceConfigurationDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
 			request.SessionPersistenceConfiguration = &tmp
 		}
 	}
 
 	if sslConfiguration, ok := s.D.GetOkExists("ssl_configuration"); ok {
 		if tmpList := sslConfiguration.([]interface{}); len(tmpList) > 0 {
-			tmp := mapToSSLConfigurationDetails(tmpList[0].(map[string]interface{}))
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "ssl_configuration", 0)
+			tmp, err := s.mapToSSLConfigurationDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
 			request.SslConfiguration = &tmp
 		}
 	}
@@ -580,54 +617,50 @@ func BackendToMap(obj oci_load_balancer.Backend) map[string]interface{} {
 	return result
 }
 
-func mapToHealthCheckerDetails(raw map[string]interface{}) oci_load_balancer.HealthCheckerDetails {
+func (s *BackendSetResourceCrud) mapToHealthCheckerDetails(fieldKeyFormat string) (oci_load_balancer.HealthCheckerDetails, error) {
 	result := oci_load_balancer.HealthCheckerDetails{}
 
-	if intervalMs, ok := raw["interval_ms"]; ok {
+	if intervalMs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "interval_ms")); ok {
 		tmp := intervalMs.(int)
 		result.IntervalInMillis = &tmp
 	}
 
-	if port, ok := raw["port"]; ok {
+	if port, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "port")); ok {
 		tmp := port.(int)
-		if tmp != 0 {
-			result.Port = &tmp
-		}
+		result.Port = &tmp
 	}
 
-	if protocol, ok := raw["protocol"]; ok && protocol != "" {
+	if protocol, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "protocol")); ok {
 		tmp := protocol.(string)
 		result.Protocol = &tmp
 	}
 
-	if responseBodyRegex, ok := raw["response_body_regex"]; ok && responseBodyRegex != "" {
+	if responseBodyRegex, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "response_body_regex")); ok {
 		tmp := responseBodyRegex.(string)
 		result.ResponseBodyRegex = &tmp
 	}
 
-	if retries, ok := raw["retries"]; ok {
+	if retries, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "retries")); ok {
 		tmp := retries.(int)
 		result.Retries = &tmp
 	}
 
-	if returnCode, ok := raw["return_code"]; ok {
+	if returnCode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "return_code")); ok {
 		tmp := returnCode.(int)
-		if tmp != 0 {
-			result.ReturnCode = &tmp
-		}
+		result.ReturnCode = &tmp
 	}
 
-	if timeoutInMillis, ok := raw["timeout_in_millis"]; ok {
+	if timeoutInMillis, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "timeout_in_millis")); ok {
 		tmp := timeoutInMillis.(int)
 		result.TimeoutInMillis = &tmp
 	}
 
-	if urlPath, ok := raw["url_path"]; ok && urlPath != "" {
+	if urlPath, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "url_path")); ok {
 		tmp := urlPath.(string)
 		result.UrlPath = &tmp
 	}
 
-	return result
+	return result, nil
 }
 
 func HealthCheckerToMap(obj *oci_load_balancer.HealthChecker) map[string]interface{} {
@@ -668,25 +701,25 @@ func HealthCheckerToMap(obj *oci_load_balancer.HealthChecker) map[string]interfa
 	return result
 }
 
-func mapToSSLConfigurationDetails(raw map[string]interface{}) oci_load_balancer.SslConfigurationDetails {
+func (s *BackendSetResourceCrud) mapToSSLConfigurationDetails(fieldKeyFormat string) (oci_load_balancer.SslConfigurationDetails, error) {
 	result := oci_load_balancer.SslConfigurationDetails{}
 
-	if certificateName, ok := raw["certificate_name"]; ok && certificateName != "" {
+	if certificateName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "certificate_name")); ok {
 		tmp := certificateName.(string)
 		result.CertificateName = &tmp
 	}
 
-	if verifyDepth, ok := raw["verify_depth"]; ok {
+	if verifyDepth, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "verify_depth")); ok {
 		tmp := verifyDepth.(int)
 		result.VerifyDepth = &tmp
 	}
 
-	if verifyPeerCertificate, ok := raw["verify_peer_certificate"]; ok {
+	if verifyPeerCertificate, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "verify_peer_certificate")); ok {
 		tmp := verifyPeerCertificate.(bool)
 		result.VerifyPeerCertificate = &tmp
 	}
 
-	return result
+	return result, nil
 }
 
 func SSLConfigurationToMap(obj *oci_load_balancer.SslConfiguration) map[string]interface{} {
@@ -707,20 +740,20 @@ func SSLConfigurationToMap(obj *oci_load_balancer.SslConfiguration) map[string]i
 	return result
 }
 
-func mapToSessionPersistenceConfigurationDetails(raw map[string]interface{}) oci_load_balancer.SessionPersistenceConfigurationDetails {
+func (s *BackendSetResourceCrud) mapToSessionPersistenceConfigurationDetails(fieldKeyFormat string) (oci_load_balancer.SessionPersistenceConfigurationDetails, error) {
 	result := oci_load_balancer.SessionPersistenceConfigurationDetails{}
 
-	if cookieName, ok := raw["cookie_name"]; ok && cookieName != "" {
+	if cookieName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "cookie_name")); ok {
 		tmp := cookieName.(string)
 		result.CookieName = &tmp
 	}
 
-	if disableFallback, ok := raw["disable_fallback"]; ok {
+	if disableFallback, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "disable_fallback")); ok {
 		tmp := disableFallback.(bool)
 		result.DisableFallback = &tmp
 	}
 
-	return result
+	return result, nil
 }
 
 func SessionPersistenceConfigurationDetailsToMap(obj *oci_load_balancer.SessionPersistenceConfigurationDetails) map[string]interface{} {

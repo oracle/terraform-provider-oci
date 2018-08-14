@@ -240,7 +240,8 @@ func (s *VnicAttachmentResourceCrud) Create() error {
 
 	if createVnicDetails, ok := s.D.GetOkExists("create_vnic_details"); ok {
 		if tmpList := createVnicDetails.([]interface{}); len(tmpList) > 0 {
-			tmp, err := mapToCreateVnicDetails(tmpList[0].(map[string]interface{}))
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "create_vnic_details", 0)
+			tmp, err := s.mapToCreateVnicDetails(fieldKeyFormat)
 			if err != nil {
 				return err
 			}
@@ -297,11 +298,11 @@ func (s *VnicAttachmentResourceCrud) Update() error {
 
 	if createVnicDetails, ok := s.D.GetOkExists("create_vnic_details"); ok {
 		if tmpList := createVnicDetails.([]interface{}); len(tmpList) > 0 {
-			tmp, err := mapToUpdateVnicDetails(tmpList[0].(map[string]interface{}))
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "create_vnic_details", 0)
+			tmp, err := s.mapToUpdateVnicDetails(fieldKeyFormat)
 			if err != nil {
 				return err
 			}
-
 			request.UpdateVnicDetails = tmp
 		}
 	}
@@ -406,16 +407,19 @@ func (s *VnicAttachmentResourceCrud) SetData() error {
 	return nil
 }
 
-func mapToCreateVnicDetails(raw map[string]interface{}) (oci_core.CreateVnicDetails, error) {
+func (s *VnicAttachmentResourceCrud) mapToCreateVnicDetails(fieldKeyFormat string) (oci_core.CreateVnicDetails, error) {
 	result := oci_core.CreateVnicDetails{}
 
-	if assignPublicIp, ok := raw["assign_public_ip"]; ok {
+	if assignPublicIp, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "assign_public_ip")); ok {
 		tmp := assignPublicIp.(string)
-		boolVal, _ := strconv.ParseBool(tmp) // Must be valid.
+		boolVal, err := strconv.ParseBool(tmp)
+		if err != nil {
+			return result, err
+		}
 		result.AssignPublicIp = &boolVal
 	}
 
-	if definedTags, ok := raw["defined_tags"]; ok {
+	if definedTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "defined_tags")); ok {
 		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
 			return result, err
@@ -423,31 +427,31 @@ func mapToCreateVnicDetails(raw map[string]interface{}) (oci_core.CreateVnicDeta
 		result.DefinedTags = convertedDefinedTags
 	}
 
-	if displayName, ok := raw["display_name"]; ok && displayName != "" {
+	if displayName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "display_name")); ok {
 		tmp := displayName.(string)
 		result.DisplayName = &tmp
 	}
 
-	if freeformTags, ok := raw["freeform_tags"]; ok {
+	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
 		result.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	if hostnameLabel, ok := raw["hostname_label"]; ok && hostnameLabel != "" {
+	if hostnameLabel, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "hostname_label")); ok {
 		tmp := hostnameLabel.(string)
 		result.HostnameLabel = &tmp
 	}
 
-	if privateIp, ok := raw["private_ip"]; ok && privateIp != "" {
+	if privateIp, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "private_ip")); ok {
 		tmp := privateIp.(string)
 		result.PrivateIp = &tmp
 	}
 
-	if skipSourceDestCheck, ok := raw["skip_source_dest_check"]; ok {
+	if skipSourceDestCheck, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "skip_source_dest_check")); ok {
 		tmp := skipSourceDestCheck.(bool)
 		result.SkipSourceDestCheck = &tmp
 	}
 
-	if subnetId, ok := raw["subnet_id"]; ok && subnetId != "" {
+	if subnetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "subnet_id")); ok {
 		tmp := subnetId.(string)
 		result.SubnetId = &tmp
 	}
@@ -455,10 +459,10 @@ func mapToCreateVnicDetails(raw map[string]interface{}) (oci_core.CreateVnicDeta
 	return result, nil
 }
 
-func mapToUpdateVnicDetails(raw map[string]interface{}) (oci_core.UpdateVnicDetails, error) {
+func (s *VnicAttachmentResourceCrud) mapToUpdateVnicDetails(fieldKeyFormat string) (oci_core.UpdateVnicDetails, error) {
 	result := oci_core.UpdateVnicDetails{}
 
-	if definedTags, ok := raw["defined_tags"]; ok {
+	if definedTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "defined_tags")); ok {
 		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
 			return result, err
@@ -466,25 +470,21 @@ func mapToUpdateVnicDetails(raw map[string]interface{}) (oci_core.UpdateVnicDeta
 		result.DefinedTags = convertedDefinedTags
 	}
 
-	if displayName, ok := raw["display_name"]; ok {
+	if displayName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "display_name")); ok {
 		tmp := displayName.(string)
-		if tmp != "" {
-			result.DisplayName = &tmp
-		}
+		result.DisplayName = &tmp
 	}
 
-	if freeformTags, ok := raw["freeform_tags"]; ok {
+	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
 		result.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	if hostnameLabel, ok := raw["hostname_label"]; ok {
+	if hostnameLabel, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "hostname_label")); ok {
 		tmp := hostnameLabel.(string)
-		if tmp != "" {
-			result.HostnameLabel = &tmp
-		}
+		result.HostnameLabel = &tmp
 	}
 
-	if skipSourceDestCheck, ok := raw["skip_source_dest_check"]; ok {
+	if skipSourceDestCheck, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "skip_source_dest_check")); ok {
 		tmp := skipSourceDestCheck.(bool)
 		result.SkipSourceDestCheck = &tmp
 	}

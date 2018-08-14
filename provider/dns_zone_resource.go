@@ -4,6 +4,7 @@ package provider
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_dns "github.com/oracle/oci-go-sdk/dns"
@@ -176,8 +177,14 @@ func (s *ZoneResourceCrud) Create() error {
 	if externalMasters, ok := s.D.GetOkExists("external_masters"); ok {
 		interfaces := externalMasters.([]interface{})
 		tmp := make([]oci_dns.ExternalMaster, len(interfaces))
-		for i, toBeConverted := range interfaces {
-			tmp[i] = mapToExternalMaster(toBeConverted.(map[string]interface{}))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "external_masters", stateDataIndex)
+			converted, err := s.mapToExternalMaster(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
 		}
 		request.ExternalMasters = tmp
 	}
@@ -237,8 +244,14 @@ func (s *ZoneResourceCrud) Update() error {
 	if externalMasters, ok := s.D.GetOkExists("external_masters"); ok {
 		interfaces := externalMasters.([]interface{})
 		tmp := make([]oci_dns.ExternalMaster, len(interfaces))
-		for i, toBeConverted := range interfaces {
-			tmp[i] = mapToExternalMaster(toBeConverted.(map[string]interface{}))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "external_masters", stateDataIndex)
+			converted, err := s.mapToExternalMaster(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
 		}
 		request.ExternalMasters = tmp
 	}
@@ -309,68 +322,31 @@ func (s *ZoneResourceCrud) SetData() error {
 	return nil
 }
 
-func mapToTSIG(raw map[string]interface{}) oci_dns.Tsig {
-	result := oci_dns.Tsig{}
-
-	if algorithm, ok := raw["algorithm"]; ok {
-		tmp := algorithm.(string)
-		result.Algorithm = &tmp
-	}
-
-	if name, ok := raw["name"]; ok {
-		tmp := name.(string)
-		result.Name = &tmp
-	}
-
-	if secret, ok := raw["secret"]; ok {
-		tmp := secret.(string)
-		result.Secret = &tmp
-	}
-
-	return result
-}
-
-func TSIGToMap(obj *oci_dns.Tsig) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.Algorithm != nil {
-		result["algorithm"] = string(*obj.Algorithm)
-	}
-
-	if obj.Name != nil {
-		result["name"] = string(*obj.Name)
-	}
-
-	if obj.Secret != nil {
-		result["secret"] = string(*obj.Secret)
-	}
-
-	return result
-}
-
-func mapToExternalMaster(raw map[string]interface{}) oci_dns.ExternalMaster {
+func (s *ZoneResourceCrud) mapToExternalMaster(fieldKeyFormat string) (oci_dns.ExternalMaster, error) {
 	result := oci_dns.ExternalMaster{}
 
-	if address, ok := raw["address"]; ok {
+	if address, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "address")); ok {
 		tmp := address.(string)
 		result.Address = &tmp
 	}
 
-	if port, ok := raw["port"]; ok {
+	if port, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "port")); ok {
 		tmp := port.(int)
-		if tmp != 0 {
-			result.Port = &tmp
-		}
+		result.Port = &tmp
 	}
 
-	if tsig, ok := raw["tsig"]; ok {
+	if tsig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "tsig")); ok {
 		if tmpList := tsig.([]interface{}); len(tmpList) > 0 {
-			tmp := mapToTSIG(tmpList[0].(map[string]interface{}))
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "tsig"), 0)
+			tmp, err := s.mapToTSIG(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
 			result.Tsig = &tmp
 		}
 	}
 
-	return result
+	return result, nil
 }
 
 func ExternalMasterToMap(obj oci_dns.ExternalMaster) map[string]interface{} {
@@ -386,6 +362,45 @@ func ExternalMasterToMap(obj oci_dns.ExternalMaster) map[string]interface{} {
 
 	if obj.Tsig != nil {
 		result["tsig"] = []interface{}{TSIGToMap(obj.Tsig)}
+	}
+
+	return result
+}
+
+func (s *ZoneResourceCrud) mapToTSIG(fieldKeyFormat string) (oci_dns.Tsig, error) {
+	result := oci_dns.Tsig{}
+
+	if algorithm, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "algorithm")); ok {
+		tmp := algorithm.(string)
+		result.Algorithm = &tmp
+	}
+
+	if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
+		tmp := name.(string)
+		result.Name = &tmp
+	}
+
+	if secret, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "secret")); ok {
+		tmp := secret.(string)
+		result.Secret = &tmp
+	}
+
+	return result, nil
+}
+
+func TSIGToMap(obj *oci_dns.Tsig) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Algorithm != nil {
+		result["algorithm"] = string(*obj.Algorithm)
+	}
+
+	if obj.Name != nil {
+		result["name"] = string(*obj.Name)
+	}
+
+	if obj.Secret != nil {
+		result["secret"] = string(*obj.Secret)
 	}
 
 	return result

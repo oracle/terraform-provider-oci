@@ -4,6 +4,7 @@ package provider
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/hashicorp/terraform/helper/schema"
 
@@ -238,8 +239,14 @@ func (s *NodePoolResourceCrud) Create() error {
 	if initialNodeLabels, ok := s.D.GetOkExists("initial_node_labels"); ok {
 		interfaces := initialNodeLabels.([]interface{})
 		tmp := make([]oci_containerengine.KeyValue, len(interfaces))
-		for i, toBeConverted := range interfaces {
-			tmp[i] = mapToKeyValue(toBeConverted.(map[string]interface{}))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "initial_node_labels", stateDataIndex)
+			converted, err := s.mapToKeyValue(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
 		}
 		request.InitialNodeLabels = tmp
 	}
@@ -279,8 +286,8 @@ func (s *NodePoolResourceCrud) Create() error {
 		set := subnetIds.(*schema.Set)
 		interfaces := set.List()
 		tmp := make([]string, len(interfaces))
-		for i, toBeConverted := range interfaces {
-			tmp[i] = toBeConverted.(string)
+		for i := range interfaces {
+			tmp[i] = interfaces[i].(string)
 		}
 		request.SubnetIds = tmp
 	}
@@ -357,8 +364,14 @@ func (s *NodePoolResourceCrud) Update() error {
 	if initialNodeLabels, ok := s.D.GetOkExists("initial_node_labels"); ok {
 		interfaces := initialNodeLabels.([]interface{})
 		tmp := make([]oci_containerengine.KeyValue, len(interfaces))
-		for i, toBeConverted := range interfaces {
-			tmp[i] = mapToKeyValue(toBeConverted.(map[string]interface{}))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "initial_node_labels", stateDataIndex)
+			converted, err := s.mapToKeyValue(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
 		}
 		request.InitialNodeLabels = tmp
 	}
@@ -386,8 +399,8 @@ func (s *NodePoolResourceCrud) Update() error {
 		set := subnetIds.(*schema.Set)
 		interfaces := set.List()
 		tmp := make([]string, len(interfaces))
-		for i, toBeConverted := range interfaces {
-			tmp[i] = toBeConverted.(string)
+		for i := range interfaces {
+			tmp[i] = interfaces[i].(string)
 		}
 		request.SubnetIds = tmp
 	}
@@ -514,20 +527,20 @@ func ErrorToMap(obj *oci_containerengine.NodeError) map[string]interface{} {
 	return result
 }
 
-func mapToKeyValue(raw map[string]interface{}) oci_containerengine.KeyValue {
+func (s *NodePoolResourceCrud) mapToKeyValue(fieldKeyFormat string) (oci_containerengine.KeyValue, error) {
 	result := oci_containerengine.KeyValue{}
 
-	if key, ok := raw["key"]; ok && key != "" {
+	if key, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "key")); ok {
 		tmp := key.(string)
 		result.Key = &tmp
 	}
 
-	if value, ok := raw["value"]; ok && value != "" {
+	if value, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "value")); ok {
 		tmp := value.(string)
 		result.Value = &tmp
 	}
 
-	return result
+	return result, nil
 }
 
 func KeyValueToMap(obj oci_containerengine.KeyValue) map[string]interface{} {
