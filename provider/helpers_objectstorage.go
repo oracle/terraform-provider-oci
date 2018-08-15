@@ -117,18 +117,24 @@ func validateSourceValue(i interface{}, k string) (s []string, es []error) {
 	return
 }
 
+// Borrowed from https://mijailovic.net/2017/05/09/error-handling-patterns-in-go/
+func safeClose(c io.Closer, err *error) {
+	if cerr := c.Close(); cerr != nil && *err == nil {
+		*err = cerr
+	}
+}
+
 func singlePartUpload(multipartUploadData MultipartUploadData) (string, error) {
 
 	sourcePath := *multipartUploadData.SourcePath
 	sourceInfo := *multipartUploadData.SourceInfo
 
 	sourceFile, err := os.Open(sourcePath)
-
 	if err != nil {
 		return "", err
 	}
 
-	defer sourceFile.Close()
+	defer safeClose(sourceFile, &err)
 
 	tmpSize := sourceInfo.Size()
 
@@ -187,7 +193,7 @@ func multiPartUploadImpl(multipartUploadData MultipartUploadData) (string, error
 	if err != nil {
 		return "", fmt.Errorf("error opening source file for upload %q: %s", source, err)
 	}
-	defer file.Close()
+	defer safeClose(file, &err)
 
 	sourceBlocks, err := objectMultiPartSplit(file)
 	if err != nil {
@@ -230,10 +236,10 @@ func multiPartUploadImpl(multipartUploadData MultipartUploadData) (string, error
 	commitMultipartUploadPartDetails := make([]oci_object_storage.CommitMultipartUploadPartDetails, len(sourceBlocks))
 
 	osResponseIndex := 0
-	var error error
+	var uploadPartRespErr error
 	for osUploadPartResponse := range osUploadPartResponses {
 		if osUploadPartResponse.error != nil {
-			error = osUploadPartResponse.error
+			uploadPartRespErr = osUploadPartResponse.error
 			break
 		}
 
@@ -244,7 +250,7 @@ func multiPartUploadImpl(multipartUploadData MultipartUploadData) (string, error
 		osResponseIndex++
 	}
 
-	if error != nil {
+	if uploadPartRespErr != nil {
 		// just aborting the multi upload for now; but the service itself will handle the same request again
 		abortMultipartUploadRequest := oci_object_storage.AbortMultipartUploadRequest{
 			NamespaceName:      multipartUploadResponse.Namespace,
@@ -261,7 +267,7 @@ func multiPartUploadImpl(multipartUploadData MultipartUploadData) (string, error
 			log.Println("[WARN] Aborting the multi part upload failed")
 		}
 
-		return "", fmt.Errorf("failed to upload object parts of %q to the Oracle cloud: %s", source, error)
+		return "", fmt.Errorf("failed to upload object parts of %q to the Oracle cloud: %s", source, uploadPartRespErr)
 	}
 
 	commitMultipartUploadRequest := oci_object_storage.CommitMultipartUploadRequest{

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 TARGET_HOOK="$(git rev-parse --show-toplevel)/.git/hooks/pre-push"
 
