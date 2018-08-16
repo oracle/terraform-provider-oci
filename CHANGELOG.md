@@ -3,6 +3,11 @@ All notable changes to this project are documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+## 2.2.1 - 2018-08-23
+
+### Added
+- Support for efficient large file upload using the `source` path to the file
+
 ## 2.2.1 - 2018-08-16
 
 ### Added

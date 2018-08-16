@@ -17,6 +17,7 @@ The following attributes are exported:
 Note: Metadata keys are case-insensitive and all returned keys will be lower case.
 * `namespace` - The top-level namespace used for the request.
 * `object` - The name of the object. Avoid entering confidential information. Example: `test/object1.log` 
+* `source` - An absolute path to a file on the local system to upload to the object store.
 
 
 
@@ -27,7 +28,7 @@ Creates a new object or overwrites an existing one.
 The following arguments are supported:
 
 * `bucket` - (Required) The name of the bucket. Avoid entering confidential information. Example: `my-new-bucket1` 
-* `content` - (Optional) The object to upload to the object store.
+* `content` - (Optional) The object to upload to the object store.  Cannot be defined if `source` is defined.
 * `content_encoding` - (Optional) The content encoding of the object.
 * `content_language` - (Optional) The content language of the object.
 * `content_type` - (Optional) The content type of the object.  Defaults to 'application/octet-stream' if not overridden during the PutObject call.
@@ -35,6 +36,7 @@ The following arguments are supported:
 Note: All specified keys must be in lower case.
 * `namespace` - (Required) The top-level namespace used for the request.
 * `object` - (Required) The name of the object. Avoid entering confidential information. Example: `test/object1.log` 
+* `source` - (Optional) An absolute path to a file on the local system. Cannot be defined if `content` is defined.
 
 
 ### Update Operation

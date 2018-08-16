@@ -38,11 +38,12 @@ The following arguments are supported:
 * `content_encoding` - (Optional) The content encoding of the object.
 * `content_language` - (Optional) The content language of the object.
 * `content_type` - (Optional) The content type of the object.  Defaults to 'application/octet-stream' if not overridden during the PutObject call.
-* `content` - (Required) The object to upload to the object store.
+* `content` - (Required) The object to upload to the object store. Cannot be defined if `source` is defined.
 * `metadata` - (Optional) Optional user-defined metadata key and value.
 Note: All specified keys must be in lower case.
 * `namespace` - (Required) The top-level namespace used for the request.
 * `object` - (Required) The name of the object. Avoid entering confidential information. Example: `test/object1.log` 
+* `source` - (Optional) An absolute path to a file on the local system. Cannot be defined if `content` is defined.
 
 
 ** IMPORTANT **
@@ -63,6 +64,7 @@ The following attributes are exported:
 Note: Metadata keys are case-insensitive and all returned keys will be lower case.
 * `namespace` - The top-level namespace used for the request.
 * `object` - The name of the object. Avoid entering confidential information. Example: `test/object1.log` 
+* `source` - An absolute path to a file on the local system to upload to the object store.
 
 ## Import
 
