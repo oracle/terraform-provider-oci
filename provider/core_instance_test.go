@@ -65,6 +65,7 @@ resource "oci_core_instance" "test_instance" {
 	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.instance_defined_tags_value}")}"
 	display_name = "${var.instance_display_name}"
 	extended_metadata = "${var.instance_extended_metadata}"
+	fault_domain = "${var.instance_fault_domain}"
 	freeform_tags = "${var.instance_freeform_tags}"
 	ipxe_script = "${var.instance_ipxe_script}"
 	metadata = "${var.instance_metadata}"
@@ -104,6 +105,7 @@ variable "instance_extended_metadata" { default = {
 		some_string = "stringA"
 		nested_object = "{\"some_string\": \"stringB\", \"object\": {\"some_string\": \"stringC\"}}"
 	} }
+variable "instance_fault_domain" { default = "FAULT-DOMAIN-2" }
 variable "instance_freeform_tags" { default = {"Department"= "Finance"} }
 variable "instance_hostname_label" { default = "hostnameLabel" }
 variable "instance_image" { default = "image" }
@@ -174,6 +176,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 					resource.TestCheckResourceAttr(resourceName, "extended_metadata.%", "2"),
+					resource.TestCheckResourceAttr(resourceName, "fault_domain", "FAULT-DOMAIN-2"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "image"),
@@ -210,6 +213,7 @@ variable "instance_extended_metadata" { default = {
 		some_string = "stringA"
 		nested_object = "{\"some_string\": \"stringB\", \"object\": {\"some_string\": \"stringC\"}}"
 	} }
+variable "instance_fault_domain" { default = "FAULT-DOMAIN-2" }
 variable "instance_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "instance_hostname_label" { default = "hostnameLabel" }
 variable "instance_image" { default = "image" }
@@ -234,6 +238,7 @@ variable "instance_state" { default = "RUNNING" }
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(resourceName, "extended_metadata.%", "2"),
+					resource.TestCheckResourceAttr(resourceName, "fault_domain", "FAULT-DOMAIN-2"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "image"),
@@ -272,6 +277,7 @@ variable "instance_extended_metadata" { default = {
 		some_string = "stringA"
 		nested_object = "{\"some_string\": \"stringB\", \"object\": {\"some_string\": \"stringC\"}}"
 	} }
+variable "instance_fault_domain" { default = "FAULT-DOMAIN-2" }
 variable "instance_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "instance_hostname_label" { default = "hostnameLabel" }
 variable "instance_image" { default = "image" }
@@ -308,6 +314,7 @@ data "oci_core_instances" "test_instances" {
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.extended_metadata.%", "2"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.fault_domain", "FAULT-DOMAIN-2"),
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.image"),

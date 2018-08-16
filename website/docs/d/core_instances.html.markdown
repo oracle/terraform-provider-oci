@@ -57,7 +57,8 @@ The following attributes are exported:
 
 	They are distinguished from 'metadata' fields in that these can be nested JSON objects (whereas 'metadata' fields are string/string maps only).
 
-	If you don't need nested metadata values, it is strongly advised to avoid using this object and use the Metadata object instead. 
+	If you don't need nested metadata values, it is strongly advised to avoid using this object and use the Metadata object instead.  
+* `fault_domain` - The name of the fault domain the instance is running in.  A fault domain is a grouping of hardware and infrastructure within an availability domain. Each availability domain contains three fault domains. Fault domains let you distribute your  instances so that they are not on the same physical hardware within a single availability domain. A hardware failure or Compute hardware maintenance that affects one fault domain does not affect  instances in other fault domains.  If you do not specify the fault domain, the system selects one for you. To change the fault domain for an instance, terminate it and launch a new instance in the preferred fault domain.  Example: `FAULT-DOMAIN-1` 
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the instance.
 * `image` - Deprecated. Use `sourceDetails` instead. 

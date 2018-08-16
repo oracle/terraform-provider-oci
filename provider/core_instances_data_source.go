@@ -142,6 +142,10 @@ func (s *InstancesDataSourceCrud) SetData() error {
 			instance["extended_metadata"] = convertNestedMapToFlatMap(r.ExtendedMetadata)
 		}
 
+		if r.FaultDomain != nil {
+			instance["fault_domain"] = *r.FaultDomain
+		}
+
 		instance["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {
