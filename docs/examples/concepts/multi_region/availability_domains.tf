@@ -7,23 +7,22 @@ data "oci_identity_availability_domains" "ad-phx" {
   compartment_id = "${var.tenancy_ocid}"
 
   filter {
-    name = "name"
+    name   = "name"
     values = ["\\w*-AD-1"]
-    regex = true
+    regex  = true
   }
 }
 
 data "oci_identity_availability_domains" "ad-iad" {
-  provider = "oci.iad"
+  provider       = "oci.iad"
   compartment_id = "${var.tenancy_ocid}"
 
   filter {
-    name = "name"
+    name   = "name"
     values = ["\\w*-AD-1"]
-    regex = true
+    regex  = true
   }
 }
-
 
 output "ad-phx" {
   value = "${data.oci_identity_availability_domains.ad-phx.availability_domains}"

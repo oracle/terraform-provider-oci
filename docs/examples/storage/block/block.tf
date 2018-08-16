@@ -4,17 +4,18 @@
  * See docs/examples/compute/instance/ for a real world scenario
  */
 variable "tenancy_ocid" {}
+
 variable "user_ocid" {}
 variable "fingerprint" {}
 variable "private_key_path" {}
 variable "region" {}
 
 provider "oci" {
-  tenancy_ocid = "${var.tenancy_ocid}"
-  user_ocid = "${var.user_ocid}"
-  fingerprint = "${var.fingerprint}"
+  tenancy_ocid     = "${var.tenancy_ocid}"
+  user_ocid        = "${var.user_ocid}"
+  fingerprint      = "${var.fingerprint}"
   private_key_path = "${var.private_key_path}"
-  region = "${var.region}"
+  region           = "${var.region}"
 }
 
 variable "DBSize" {
@@ -27,16 +28,16 @@ data "oci_identity_availability_domains" "ADs" {
 
 resource "oci_core_volume" "t" {
   availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-  compartment_id = "${var.tenancy_ocid}"
-  display_name = "-tf-volume"
-  size_in_gbs = "${var.DBSize}"
+  compartment_id      = "${var.tenancy_ocid}"
+  display_name        = "-tf-volume"
+  size_in_gbs         = "${var.DBSize}"
 }
 
 data "oci_core_volumes" "test_volumes" {
   compartment_id = "${var.tenancy_ocid}"
 
   filter {
-    name = "id"
+    name   = "id"
     values = ["${oci_core_volume.t.id}"]
   }
 }
@@ -53,20 +54,22 @@ output "volumes" {
 
 // Create additional volumes to have multiple volumes in the volume group
 resource "oci_core_volume" "test_volume" {
-  count = 2
+  count               = 2
   availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-  compartment_id = "${var.tenancy_ocid}"
-  display_name = "${format("-tf-volume-%d", count.index + 1)}"
-  size_in_gbs = "${var.DBSize}"
+  compartment_id      = "${var.tenancy_ocid}"
+  display_name        = "${format("-tf-volume-%d", count.index + 1)}"
+  size_in_gbs         = "${var.DBSize}"
 }
 
 resource "oci_core_volume_group" "test_volume_group_from_vol_ids" {
   #Required
   availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-  compartment_id = "${var.tenancy_ocid}"
+  compartment_id      = "${var.tenancy_ocid}"
+
   source_details {
     #Required
     type = "volumeIds"
+
     // Mix of named volume and splatted multiple volumes
     volume_ids = ["${oci_core_volume.t.id}", "${oci_core_volume.test_volume.*.id}"]
   }
@@ -80,7 +83,7 @@ data "oci_core_volume_groups" "test_volume_groups_from_vol_ids" {
   compartment_id = "${var.tenancy_ocid}"
 
   filter {
-    name = "id"
+    name   = "id"
     values = ["${oci_core_volume_group.test_volume_group_from_vol_ids.id}"]
   }
 }
@@ -98,10 +101,12 @@ output "volumeGroupVolumeIdsSourcedFromVolIds" {
 resource "oci_core_volume_group" "test_volume_group_from_vol_group" {
   #Required
   availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-  compartment_id = "${var.tenancy_ocid}"
+  compartment_id      = "${var.tenancy_ocid}"
+
   source_details {
     #Required
     type = "volumeGroup"
+
     # Use the volume group created in Example 1
     volume_group_id = "${oci_core_volume_group.test_volume_group_from_vol_ids.id}"
   }
@@ -115,7 +120,7 @@ data "oci_core_volume_groups" "test_volume_groups_from_vol_group" {
   compartment_id = "${var.tenancy_ocid}"
 
   filter {
-    name = "id"
+    name   = "id"
     values = ["${oci_core_volume_group.test_volume_group_from_vol_group.id}"]
   }
 }
@@ -133,10 +138,11 @@ output "volumeGroupVolumeIdsSourcedFromVolGroup" {
 resource "oci_core_volume_group" "test_volume_group_from_vol_group_backup" {
   #Required
   availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-  compartment_id = "${var.tenancy_ocid}"
+  compartment_id      = "${var.tenancy_ocid}"
+
   source_details {
     #Required
-    type = "volumeGroupBackup"
+    type                   = "volumeGroupBackup"
     volume_group_backup_id = "${oci_core_volume_group_backup.test_volume_group_backup.id}"
   }
 
@@ -149,7 +155,7 @@ data "oci_core_volume_groups" "test_volume_groups_from_vol_group_backup" {
   compartment_id = "${var.tenancy_ocid}"
 
   filter {
-    name = "id"
+    name   = "id"
     values = ["${oci_core_volume_group.test_volume_group_from_vol_group_backup.id}"]
   }
 }
@@ -162,7 +168,6 @@ output "volumeGroupVolumeIdsSourcedFromVolGroupBackup" {
   value = "${oci_core_volume_group.test_volume_group_from_vol_group_backup.volume_ids}"
 }
 
-
 /*
  * Examples for volume group backup
  */
@@ -172,7 +177,7 @@ resource "oci_core_volume_group_backup" "test_volume_group_backup" {
 
   #Optional
   display_name = "tf-volume-group-backup"
-  type = "INCREMENTAL"
+  type         = "INCREMENTAL"
 }
 
 data "oci_core_volume_group_backups" "test_volume_group_backups" {
@@ -180,7 +185,7 @@ data "oci_core_volume_group_backups" "test_volume_group_backups" {
   compartment_id = "${var.tenancy_ocid}"
 
   filter {
-    name = "id"
+    name   = "id"
     values = ["${oci_core_volume_group_backup.test_volume_group_backup.id}"]
   }
 }

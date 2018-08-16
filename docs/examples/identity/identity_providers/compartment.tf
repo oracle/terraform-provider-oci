@@ -7,7 +7,7 @@
  */
 
 resource "oci_identity_compartment" "compartment1" {
-  name = "tf-example-compartment"
+  name        = "tf-example-compartment"
   description = "compartment created by terraform"
 }
 
@@ -15,7 +15,7 @@ data "oci_identity_compartments" "compartments1" {
   compartment_id = "${oci_identity_compartment.compartment1.compartment_id}"
 
   filter {
-    name = "name"
+    name   = "name"
     values = ["tf-example-compartment"]
   }
 }

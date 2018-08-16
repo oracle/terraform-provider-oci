@@ -1,21 +1,20 @@
-
 resource "oci_core_instance" "TFInstance" {
-  count = "${var.NumInstances}"
+  count               = "${var.NumInstances}"
   availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.AD - 1],"name")}"
-  compartment_id = "${var.compartment_ocid}"
-  display_name = "TFInstance${count.index}"
-  shape = "${var.InstanceShape}"
+  compartment_id      = "${var.compartment_ocid}"
+  display_name        = "TFInstance${count.index}"
+  shape               = "${var.InstanceShape}"
 
   create_vnic_details {
-    subnet_id = "${oci_core_subnet.ExampleSubnet.id}"
-    display_name = "primaryvnic"
+    subnet_id        = "${oci_core_subnet.ExampleSubnet.id}"
+    display_name     = "primaryvnic"
     assign_public_ip = true
-    hostname_label = "tfexampleinstance${count.index}"
-  },
+    hostname_label   = "tfexampleinstance${count.index}"
+  }
 
   source_details {
     source_type = "image"
-    source_id = "${var.InstanceImageOCID[var.region]}"
+    source_id   = "${var.InstanceImageOCID[var.region]}"
 
     # Apply this to set the size of the boot volume that's created for this instance.
     # Otherwise, the default boot volume size of the image is used.
@@ -30,17 +29,14 @@ resource "oci_core_instance" "TFInstance" {
 
   metadata {
     ssh_authorized_keys = "${var.ssh_public_key}"
-    user_data = "${base64encode(file(var.BootStrapFile))}"
+    user_data           = "${base64encode(file(var.BootStrapFile))}"
   }
-
   defined_tags = "${
     map(
       "${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag2.name}", "awesome-app-server"
     )
   }"
-
   freeform_tags = "${map("freeformkey${count.index}", "freeformvalue${count.index}")}"
-
   timeouts {
     create = "60m"
   }

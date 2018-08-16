@@ -1,19 +1,19 @@
 resource "oci_core_instance" "TFInstance" {
   availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.AD - 1],"name")}"
-  compartment_id = "${var.compartment_ocid}"
-  display_name = "TFInstance"
-  shape = "${var.InstanceShape}"
+  compartment_id      = "${var.compartment_ocid}"
+  display_name        = "TFInstance"
+  shape               = "${var.InstanceShape}"
 
   create_vnic_details {
-    subnet_id = "${oci_core_subnet.ExampleSubnet.id}"
-    display_name = "primaryvnic"
+    subnet_id        = "${oci_core_subnet.ExampleSubnet.id}"
+    display_name     = "primaryvnic"
     assign_public_ip = true
-    hostname_label = "tfexampleinstance"
+    hostname_label   = "tfexampleinstance"
   }
 
   source_details {
     source_type = "image"
-    source_id = "${lookup(data.oci_core_images.TFSupportedShapeImages.images[0], "id")}"
+    source_id   = "${lookup(data.oci_core_images.TFSupportedShapeImages.images[0], "id")}"
   }
 
   metadata {
@@ -27,7 +27,7 @@ resource "oci_core_instance" "TFInstance" {
 
 resource "oci_core_image" "TFCustomImage" {
   compartment_id = "${var.tenancy_ocid}"
-  instance_id = "${oci_core_instance.TFInstance.id}"
+  instance_id    = "${oci_core_instance.TFInstance.id}"
 
   launch_mode = "NATIVE"
 

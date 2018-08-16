@@ -12,82 +12,82 @@ variable "subnet_ocid" {}
 
 # Choose an Availability Domain
 variable "availability_domain_index" {
-    default = "1"
+  default = "1"
 }
 
 # DBSystem specific 
 variable "db_system_shape" {
-    default = "BM.HighIO1.36"
+  default = "BM.HighIO1.36"
 }
 
 variable "cpu_core_count" {
-    default = "2"
+  default = "2"
 }
 
 variable "db_edition" {
-    default = "ENTERPRISE_EDITION"
+  default = "ENTERPRISE_EDITION"
 }
 
 variable "db_admin_password" {
-    default = "BEstrO0ng_#11"
+  default = "BEstrO0ng_#11"
 }
 
 variable "db_name" {
-    default = "aTFdb"
+  default = "aTFdb"
 }
 
 variable "db_version" {
-    default = "12.1.0.2"
+  default = "12.1.0.2"
 }
 
 variable "db_home_display_name" {
-    default = "MyTFDBHome"
+  default = "MyTFDBHome"
 }
 
 variable "db_disk_redundancy" {
-    default = "HIGH"
+  default = "HIGH"
 }
 
 variable "db_system_display_name" {
-    default = "MyTFDBSystem"
+  default = "MyTFDBSystem"
 }
 
 variable "hostname" {
-    default = "myoracledb"
+  default = "myoracledb"
 }
 
 variable "host_user_name" {
-    default = "opc"
+  default = "opc"
 }
 
 variable "n_character_set" {
-    default = "AL16UTF16"
+  default = "AL16UTF16"
 }
 
 variable "character_set" {
-    default = "AL32UTF8"
+  default = "AL32UTF8"
 }
 
 variable "db_workload" {
-    default = "OLTP"
+  default = "OLTP"
 }
 
 variable "pdb_name" {
-    default = "pdbName"
+  default = "pdbName"
 }
 
 variable "data_storage_size_in_gb" {
-    default = "256"
+  default = "256"
 }
 
 variable "license_model" {
-    default = "LICENSE_INCLUDED"
+  default = "LICENSE_INCLUDED"
 }
 
 variable "node_count" {
-    default = "1"
+  default = "1"
 }
 
 variable "data_storage_percentage" {
-    default = "40"
+  default = "40"
 }
