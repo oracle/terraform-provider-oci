@@ -19,6 +19,7 @@ import (
 	"strconv"
 
 	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
+	"os"
 )
 
 const (
@@ -77,6 +78,7 @@ func ObjectResource() *schema.Resource {
 					h := md5.Sum([]byte(v))
 					return hex.EncodeToString(h[:])
 				},
+				ConflictsWith: []string{"source"},
 			},
 			"content_encoding": {
 				Type:     schema.TypeString,
@@ -113,6 +115,14 @@ func ObjectResource() *schema.Resource {
 				ValidateFunc: validateLowerCaseKeysInMetadata,
 				ForceNew:     true,
 			},
+			"source": {
+				Type:          schema.TypeString,
+				Optional:      true,
+				ForceNew:      true,
+				ConflictsWith: []string{"content"},
+				StateFunc:     setSourceState,
+				ValidateFunc:  validateSourceValue,
+			},
 
 			// Computed
 		},
@@ -125,6 +135,80 @@ func createObject(d *schema.ResourceData, m interface{}) error {
 	sync.Client = m.(*OracleClients).objectStorageClient
 
 	return CreateResource(d, sync)
+}
+
+func setSourceState(source interface{}) string {
+	sourcePath := source.(string)
+	sourceInfo, err := os.Stat(sourcePath)
+
+	if err != nil {
+		return sourcePath
+	}
+
+	return sourcePath + " " + sourceInfo.ModTime().String()
+}
+
+func (s *ObjectResourceCrud) createMultiPartObject() error {
+	multipartUploadData := MultipartUploadData{}
+
+	source, ok := s.D.GetOkExists("source")
+	if !ok {
+		return fmt.Errorf("the source is not specified to create multipart upload")
+	}
+	tmpSource := source.(string)
+	sourceInfo, err := os.Stat(tmpSource)
+	if err != nil {
+		return fmt.Errorf("the specified source is not available: %q", err)
+	}
+
+	multipartUploadData.SourcePath = &tmpSource
+	multipartUploadData.SourceInfo = &sourceInfo
+
+	if contentEncoding, ok := s.D.GetOkExists("content_encoding"); ok {
+		tmp := contentEncoding.(string)
+		multipartUploadData.ContentEncoding = &tmp
+	}
+
+	if contentLanguage, ok := s.D.GetOkExists("content_language"); ok {
+		tmp := contentLanguage.(string)
+		multipartUploadData.ContentLanguage = &tmp
+	}
+
+	if contentType, ok := s.D.GetOkExists("content_type"); ok {
+		tmp := contentType.(string)
+		multipartUploadData.ContentType = &tmp
+	}
+
+	if bucket, ok := s.D.GetOkExists("bucket"); ok {
+		tmp := bucket.(string)
+		multipartUploadData.BucketName = &tmp
+	}
+
+	if metadata, ok := s.D.GetOkExists("metadata"); ok {
+		multipartUploadData.Metadata = metadata.(map[string]interface{})
+	}
+
+	if namespace, ok := s.D.GetOkExists("namespace"); ok {
+		tmp := namespace.(string)
+		multipartUploadData.NamespaceName = &tmp
+	}
+
+	if object, ok := s.D.GetOkExists("object"); ok {
+		tmp := object.(string)
+		multipartUploadData.ObjectName = &tmp
+	}
+
+	multipartUploadData.ObjectStorageClient = s.Client
+
+	multipartUploadData.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
+	id, multipartInitErr := MultiPartUpload(multipartUploadData)
+	if multipartInitErr != nil {
+		return multipartInitErr
+	}
+
+	s.D.SetId(id)
+
+	return s.Get()
 }
 
 func readObject(d *schema.ResourceData, m interface{}) error {
@@ -152,14 +236,13 @@ func deleteObject(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-// @CODEGEN 2/2018: The existing provider stores a GetObject response along with the
-// namespace, bucket, and object name. There's no struct to represent this in SDK, so
-// we define our own.
+// There's no struct to represent this in SDK, so we define our own.
 type ObjectStorageObject struct {
-	NamespaceName string
-	BucketName    string
-	ObjectName    string
-	oci_object_storage.GetObjectResponse
+	namespaceName      string
+	bucketName         string
+	objectName         string
+	headObjectResponse oci_object_storage.HeadObjectResponse
+	objectResponse     oci_object_storage.GetObjectResponse
 }
 
 type ObjectResourceCrud struct {
@@ -191,10 +274,18 @@ func parseId(id string) (namespaceName string, bucketName string, objectName str
 }
 
 func (s *ObjectResourceCrud) ID() string {
-	return getId(s.Res.NamespaceName, s.Res.BucketName, s.Res.ObjectName)
+	return getId(s.Res.namespaceName, s.Res.bucketName, s.Res.objectName)
 }
 
 func (s *ObjectResourceCrud) Create() error {
+	if s.isMultiPartCreate() {
+		return s.createMultiPartObject()
+	}
+
+	return s.createContentObject()
+}
+
+func (s *ObjectResourceCrud) createContentObject() error {
 	request := oci_object_storage.PutObjectRequest{}
 
 	if contentEncoding, ok := s.D.GetOkExists("content_encoding"); ok {
@@ -262,7 +353,58 @@ func (s *ObjectResourceCrud) Create() error {
 	return s.Get()
 }
 
+func (s *ObjectResourceCrud) getObjectHead() error {
+	headObjectRequest := &oci_object_storage.HeadObjectRequest{}
+
+	namespaceName, bucketName, objectName, err := parseId(s.D.Id())
+	if err != nil {
+		return err
+	}
+
+	headObjectRequest.NamespaceName = &namespaceName
+	headObjectRequest.BucketName = &bucketName
+	headObjectRequest.ObjectName = &objectName
+
+	if headObjectRequest.NamespaceName == nil || headObjectRequest.BucketName == nil || headObjectRequest.ObjectName == nil {
+		return fmt.Errorf("'namespace', 'bucket', or 'object' identifiers are missing")
+	}
+
+	headObjectRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
+
+	headObjectResponse, err := s.Client.HeadObject(context.Background(), *headObjectRequest)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &ObjectStorageObject{
+		namespaceName:      *headObjectRequest.NamespaceName,
+		bucketName:         *headObjectRequest.BucketName,
+		objectName:         *headObjectRequest.ObjectName,
+		headObjectResponse: headObjectResponse,
+	}
+
+	return nil
+}
+
+func (s *ObjectResourceCrud) shouldUseObjectHeadForGet() bool {
+	content, _ := s.D.GetOkExists("content")
+	return content == ""
+}
+
+func (s *ObjectResourceCrud) isMultiPartCreate() bool {
+	source, _ := s.D.GetOkExists("source")
+	return source != ""
+}
+
 func (s *ObjectResourceCrud) Get() error {
+	if s.shouldUseObjectHeadForGet() {
+		return s.getObjectHead()
+	}
+
+	return s.getObject()
+}
+
+func (s *ObjectResourceCrud) getObject() error {
 	request := oci_object_storage.GetObjectRequest{}
 
 	namespaceName, bucketName, objectName, err := parseId(s.D.Id())
@@ -290,10 +432,10 @@ func (s *ObjectResourceCrud) Get() error {
 	// @CODEGEN 2/2018: We must store the response along with the identifiers that aren't
 	// returned in the GetResponse.
 	s.Res = &ObjectStorageObject{
-		GetObjectResponse: response,
-		NamespaceName:     *request.NamespaceName,
-		BucketName:        *request.BucketName,
-		ObjectName:        *request.ObjectName,
+		objectResponse: response,
+		namespaceName:  *request.NamespaceName,
+		bucketName:     *request.BucketName,
+		objectName:     *request.ObjectName,
 	}
 
 	return nil
@@ -349,11 +491,59 @@ func (s *ObjectResourceCrud) Delete() error {
 }
 
 func (s *ObjectResourceCrud) SetData() error {
-	s.D.Set("namespace", s.Res.NamespaceName)
-	s.D.Set("bucket", s.Res.BucketName)
-	s.D.Set("object", s.Res.ObjectName)
+	if s.shouldUseObjectHeadForGet() {
+		return s.setDataObjectHead()
+	}
 
-	contentReader := s.Res.Content
+	return s.setDataObject()
+}
+
+func (s *ObjectResourceCrud) setDataObjectHead() error {
+	s.D.Set("namespace", s.Res.namespaceName)
+	s.D.Set("bucket", s.Res.bucketName)
+	s.D.Set("object", s.Res.objectName)
+
+	response := s.Res.headObjectResponse
+
+	if response.ContentEncoding != nil {
+		s.D.Set("content_encoding", *response.ContentEncoding)
+	}
+
+	if response.ContentLanguage != nil {
+		s.D.Set("content_language", *response.ContentLanguage)
+	}
+
+	if response.ContentLength != nil {
+		s.D.Set("content_length", strconv.FormatInt(*response.ContentLength, 10))
+	}
+
+	if response.OpcMultipartMd5 != nil {
+		s.D.Set("content_md5", *response.OpcMultipartMd5)
+	}
+
+	if response.ContentMd5 != nil {
+		s.D.Set("content_md5", *response.ContentMd5)
+	}
+
+	if response.ContentType != nil {
+		s.D.Set("content_type", *response.ContentType)
+	}
+
+	if response.OpcMeta != nil {
+		if err := s.D.Set("metadata", response.OpcMeta); err != nil {
+			log.Printf("Unable to set 'metadata'. Error: %q", err)
+		}
+	}
+
+	return nil
+}
+
+func (s *ObjectResourceCrud) setDataObject() error {
+	s.D.Set("namespace", s.Res.namespaceName)
+	s.D.Set("bucket", s.Res.bucketName)
+	s.D.Set("object", s.Res.objectName)
+
+	contentReader := s.Res.objectResponse.Content
 	contentArray, err := ioutil.ReadAll(contentReader)
 	if err != nil {
 		log.Printf("Unable to read 'content' from response. Error: %q", err)
@@ -361,30 +551,30 @@ func (s *ObjectResourceCrud) SetData() error {
 	}
 	s.D.Set("content", contentArray)
 
-	if s.Res.ContentEncoding != nil {
-		s.D.Set("content_encoding", *s.Res.ContentEncoding)
+	if s.Res.objectResponse.ContentEncoding != nil {
+		s.D.Set("content_encoding", *s.Res.objectResponse.ContentEncoding)
 	}
 
-	if s.Res.ContentLanguage != nil {
-		s.D.Set("content_language", *s.Res.ContentLanguage)
+	if s.Res.objectResponse.ContentLanguage != nil {
+		s.D.Set("content_language", *s.Res.objectResponse.ContentLanguage)
 	}
 
-	if s.Res.ContentLength != nil {
-		s.D.Set("content_length", strconv.FormatInt(*s.Res.ContentLength, 10))
+	if s.Res.objectResponse.ContentLength != nil {
+		s.D.Set("content_length", strconv.FormatInt(*s.Res.objectResponse.ContentLength, 10))
 	}
 
-	if s.Res.ContentMd5 != nil {
-		s.D.Set("content_md5", *s.Res.ContentMd5)
+	if s.Res.objectResponse.ContentMd5 != nil {
+		s.D.Set("content_md5", *s.Res.objectResponse.ContentMd5)
 	}
 
-	if s.Res.ContentType != nil {
-		s.D.Set("content_type", *s.Res.ContentType)
+	if s.Res.objectResponse.ContentType != nil {
+		s.D.Set("content_type", *s.Res.objectResponse.ContentType)
 	}
 
-	if s.Res.OpcMeta != nil {
+	if s.Res.objectResponse.OpcMeta != nil {
 		// Note: regardless of what we sent to the SDK, the keys we get back from OpcMeta will always be
 		// converted to lower case
-		if err := s.D.Set("metadata", s.Res.OpcMeta); err != nil {
+		if err := s.D.Set("metadata", s.Res.objectResponse.OpcMeta); err != nil {
 			log.Printf("Unable to set 'metadata'. Error: %q", err)
 		}
 	}

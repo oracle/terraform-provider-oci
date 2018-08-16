@@ -13,10 +13,25 @@ resource "oci_objectstorage_object" "object1" {
   content          = "${file("index.html")}"
 }
 
+resource "oci_objectstorage_object" "source-object" {
+  namespace        = "${data.oci_objectstorage_namespace.ns.namespace}"
+  bucket           = "${oci_objectstorage_bucket.bucket1.name}"
+  object           = "same_index.html"
+  content_language = "en-US"
+  content_type     = "text/html"
+  source           = "index.html"
+}
+
 data "oci_objectstorage_object_head" "object-head1" {
   namespace = "${data.oci_objectstorage_namespace.ns.namespace}"
   bucket    = "${oci_objectstorage_bucket.bucket1.name}"
   object    = "${oci_objectstorage_object.object1.object}"
+}
+
+data "oci_objectstorage_object_head" "source-object-head" {
+  namespace = "${data.oci_objectstorage_namespace.ns.namespace}"
+  bucket    = "${oci_objectstorage_bucket.bucket1.name}"
+  object    = "${oci_objectstorage_object.source-object.object}"
 }
 
 data "oci_objectstorage_objects" "objects1" {
@@ -30,6 +45,15 @@ output object-head-data {
   object = ${data.oci_objectstorage_object_head.object-head1.object}
   content-length = ${data.oci_objectstorage_object_head.object-head1.content-length}
   content-type = ${data.oci_objectstorage_object_head.object-head1.content-type}
+EOF
+}
+
+output object-source-head-data {
+  value = <<EOF
+
+  object = ${data.oci_objectstorage_object_head.source-object-head.object}
+  content-length = ${data.oci_objectstorage_object_head.source-object-head.content-length}
+  content-type = ${data.oci_objectstorage_object_head.source-object-head.content-type}
 EOF
 }
 
