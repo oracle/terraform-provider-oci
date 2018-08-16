@@ -7,7 +7,7 @@ data "oci_identity_availability_domains" "ADs" {
 data "oci_file_storage_file_systems" "file_systems" {
   #Required
   availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.AD - 1],"name")}"
-  compartment_id = "${var.compartment_ocid}"
+  compartment_id      = "${var.compartment_ocid}"
 
   #Optional fields. Used by the service to filter the results when returning data to the client.
   #display_name = "my_fs_1"
@@ -19,7 +19,7 @@ data "oci_file_storage_file_systems" "file_systems" {
 data "oci_file_storage_mount_targets" "mount_targets" {
   #Required
   availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.AD - 1],"name")}"
-  compartment_id = "${var.compartment_ocid}"
+  compartment_id      = "${var.compartment_ocid}"
 
   #Optional fields. Used by the service to filter the results when returning data to the client.
   #display_name = "${var.mount_target_display_name}"
@@ -54,7 +54,7 @@ data "oci_file_storage_snapshots" "snapshots" {
 data "oci_file_storage_export_sets" "export_sets" {
   #Required
   availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.AD - 1],"name")}"
-  compartment_id = "${var.compartment_ocid}"
+  compartment_id      = "${var.compartment_ocid}"
 
   #Optional fields. Used by the service to filter the results when returning data to the client.
   #display_name = "${var.export_set_display_name}"
@@ -66,7 +66,7 @@ data "oci_core_private_ips" ip_mount_target1 {
   subnet_id = "${oci_file_storage_mount_target.my_mount_target_1.subnet_id}"
 
   filter {
-    name = "id"
+    name   = "id"
     values = ["${oci_file_storage_mount_target.my_mount_target_1.private_ip_ids.0}"]
   }
 }

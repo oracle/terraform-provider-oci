@@ -9,18 +9,17 @@ variable "ssh_public_key" {}
 
 # Choose an Availability Domain
 variable "AD" {
-    default = "1"
+  default = "1"
 }
 
 variable "InstanceShape" {
-    default = "VM.Standard1.1"
+  default = "VM.Standard1.1"
 }
 
 variable "ImageOS" {
-    default = "Oracle Linux"
+  default = "Oracle Linux"
 }
 
 variable "ImageOSVersion" {
-    default = "7.4"
+  default = "7.4"
 }
-

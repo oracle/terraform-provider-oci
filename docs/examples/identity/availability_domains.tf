@@ -3,14 +3,13 @@
  * to isolate specific ADs.
  */
 
-
 data "oci_identity_availability_domains" "ads" {
   compartment_id = "${var.tenancy_ocid}"
 
   filter {
-    name = "name"
+    name   = "name"
     values = ["\\w*-AD-1"]
-    regex = true
+    regex  = true
   }
 }
 

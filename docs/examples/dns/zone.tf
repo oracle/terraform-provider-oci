@@ -4,22 +4,22 @@
 
 resource "oci_dns_zone" "zone1" {
   compartment_id = "${var.compartment_id}"
-  name = "tf-example-primary.oci-dns"
-  zone_type = "PRIMARY"
+  name           = "tf-example-primary.oci-dns"
+  zone_type      = "PRIMARY"
 }
 
 resource "oci_dns_zone" "zone2" {
   compartment_id = "${var.compartment_id}"
-  name = "tf-example-secondary.oci-dns"
-  zone_type = "SECONDARY"
+  name           = "tf-example-secondary.oci-dns"
+  zone_type      = "SECONDARY"
 
   external_masters {
     address = "77.64.12.1"
 
     tsig {
       algorithm = "hmac-sha1"
-      name = "key-name"
-      secret = "c2VjcmV0"
+      name      = "key-name"
+      secret    = "c2VjcmV0"
     }
   }
 
@@ -28,19 +28,19 @@ resource "oci_dns_zone" "zone2" {
 
     tsig {
       algorithm = "hmac-sha1"
-      name = "key-name"
-      secret = "c2VjcmV0"
+      name      = "key-name"
+      secret    = "c2VjcmV0"
     }
   }
 }
 
 data "oci_dns_zones" "zs" {
   compartment_id = "${var.compartment_id}"
-  name_contains = "example"
-  state = "ACTIVE"
-  zone_type = "PRIMARY"
-  sort_by = "name" # name|zoneType|timeCreated
-  sort_order = "DESC" # ASC|DESC
+  name_contains  = "example"
+  state          = "ACTIVE"
+  zone_type      = "PRIMARY"
+  sort_by        = "name"                  # name|zoneType|timeCreated
+  sort_order     = "DESC"                  # ASC|DESC
 }
 
 output "zones" {

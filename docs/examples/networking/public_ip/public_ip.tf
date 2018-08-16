@@ -31,9 +31,10 @@ variable "InstanceImageOCID" {
     // See https://docs.us-phoenix-1.oraclecloud.com/images/
     // Oracle-provided image "Oracle-Linux-7.4-2018.02.21-1"
     us-phoenix-1 = "ocid1.image.oc1.phx.aaaaaaaaupbfz5f5hdvejulmalhyb6goieolullgkpumorbvxlwkaowglslq"
-    us-ashburn-1 = "ocid1.image.oc1.iad.aaaaaaaajlw3xfie2t5t52uegyhiq2npx7bqyu4uvi2zyu3w3mqayc2bxmaa"
+
+    us-ashburn-1   = "ocid1.image.oc1.iad.aaaaaaaajlw3xfie2t5t52uegyhiq2npx7bqyu4uvi2zyu3w3mqayc2bxmaa"
     eu-frankfurt-1 = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaa7d3fsb6272srnftyi4dphdgfjf6gurxqhmv6ileds7ba3m2gltxq"
-    uk-london-1 = "ocid1.image.oc1.uk-london-1.aaaaaaaaa6h6gj6v4n56mqrbgnosskq63blyv2752g36zerymy63cfkojiiq"
+    uk-london-1    = "ocid1.image.oc1.uk-london-1.aaaaaaaaa6h6gj6v4n56mqrbgnosskq63blyv2752g36zerymy63cfkojiiq"
   }
 }
 
@@ -151,9 +152,9 @@ data "oci_core_public_ips" "AvailabilityDomainPublicIPsList" {
   compartment_id      = "${var.compartment_ocid}"
   scope               = "AVAILABILITY_DOMAIN"
   availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.AD - 1],"name")}"
-  
+
   filter {
-    name = "id"
+    name   = "id"
     values = ["${oci_core_public_ip.EphemeralPublicIPAssigned.id}"]
   }
 }
@@ -163,7 +164,7 @@ data "oci_core_public_ips" "RegionPublicIPsList" {
   scope          = "REGION"
 
   filter {
-    name = "id"
+    name   = "id"
     values = ["${oci_core_public_ip.ReservedPublicIPAssigned.id}", "${oci_core_public_ip.ReservedPublicIPUnassigned.id}"]
   }
 }
@@ -171,6 +172,6 @@ data "oci_core_public_ips" "RegionPublicIPsList" {
 output "PublicIPs" {
   value = [
     "${data.oci_core_public_ips.AvailabilityDomainPublicIPsList.public_ips}",
-    "${data.oci_core_public_ips.RegionPublicIPsList.public_ips}"
+    "${data.oci_core_public_ips.RegionPublicIPsList.public_ips}",
   ]
 }

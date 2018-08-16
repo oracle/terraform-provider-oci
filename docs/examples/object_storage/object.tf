@@ -5,23 +5,23 @@
  */
 
 resource "oci_objectstorage_object" "object1" {
-  namespace = "${data.oci_objectstorage_namespace.ns.namespace}"
-  bucket = "${oci_objectstorage_bucket.bucket1.name}"
-  object = "index.html"
+  namespace        = "${data.oci_objectstorage_namespace.ns.namespace}"
+  bucket           = "${oci_objectstorage_bucket.bucket1.name}"
+  object           = "index.html"
   content_language = "en-US"
-  content_type = "text/html"
-  content = "${file("index.html")}"
+  content_type     = "text/html"
+  content          = "${file("index.html")}"
 }
 
 data "oci_objectstorage_object_head" "object-head1" {
   namespace = "${data.oci_objectstorage_namespace.ns.namespace}"
-  bucket = "${oci_objectstorage_bucket.bucket1.name}"
-  object = "${oci_objectstorage_object.object1.object}"
+  bucket    = "${oci_objectstorage_bucket.bucket1.name}"
+  object    = "${oci_objectstorage_object.object1.object}"
 }
 
 data "oci_objectstorage_objects" "objects1" {
   namespace = "${data.oci_objectstorage_namespace.ns.namespace}"
-  bucket = "${oci_objectstorage_bucket.bucket1.name}"
+  bucket    = "${oci_objectstorage_bucket.bucket1.name}"
 }
 
 output object-head-data {

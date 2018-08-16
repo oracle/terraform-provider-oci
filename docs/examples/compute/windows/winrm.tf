@@ -1,8 +1,8 @@
 # Use the setup.ps1 as a template and pass the block volume ipv4 and iqn for ISCSI
 data "template_file" "setup_ps1" {
   vars {
-    volume_ipv4  = "${oci_core_volume_attachment.TFVolumeAttachment.ipv4}"
-    volume_iqn   = "${oci_core_volume_attachment.TFVolumeAttachment.iqn}"
+    volume_ipv4 = "${oci_core_volume_attachment.TFVolumeAttachment.ipv4}"
+    volume_iqn  = "${oci_core_volume_attachment.TFVolumeAttachment.iqn}"
   }
 
   template = "${file("${var.userdata}/${var.setup_ps1}")}"
@@ -91,7 +91,7 @@ resource "null_resource" "remote-exec-windows" {
       password = "${random_string.instance_password.result}"
       port     = "${var.IsWinRMConfiguredForSSL == "true" ? 5986 : 5985}"
       https    = "${var.IsWinRMConfiguredForSSL}"
-      insecure = "true" #self-signed certificate
+      insecure = "true"                                                               #self-signed certificate
     }
 
     content     = "${data.template_file.setup_ps1.rendered}"
@@ -108,7 +108,7 @@ resource "null_resource" "remote-exec-windows" {
       password = "${random_string.instance_password.result}"
       port     = "${var.IsWinRMConfiguredForSSL == "true" ? 5986 : 5985}"
       https    = "${var.IsWinRMConfiguredForSSL}"
-      insecure = "true" #self-signed certificate
+      insecure = "true"                                                               #self-signed certificate
     }
 
     inline = [
