@@ -247,6 +247,7 @@ func dataSourcesMap() map[string]*schema.Resource {
 		"oci_identity_compartments":                    CompartmentsDataSource(),
 		"oci_identity_customer_secret_keys":            CustomerSecretKeysDataSource(),
 		"oci_identity_dynamic_groups":                  DynamicGroupsDataSource(),
+		"oci_identity_fault_domains":                   FaultDomainsDataSource(),
 		"oci_identity_groups":                          GroupsDataSource(),
 		"oci_identity_identity_providers":              IdentityProvidersDataSource(),
 		"oci_identity_idp_group_mappings":              IdpGroupMappingsDataSource(),

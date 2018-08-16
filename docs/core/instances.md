@@ -11,11 +11,20 @@ The following attributes are exported:
 * `compartment_id` - The OCID of the compartment that contains the instance.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My bare metal instance` 
-* `extended_metadata` - Additional metadata key/value pairs that you provide.  They serve a similar purpose and functionality from fields in the 'metadata' object.
+* `extended_metadata` - Additional metadata key/value pairs that you provide. They serve the same purpose and functionality as fields in the 'metadata' object.
 
 	They are distinguished from 'metadata' fields in that these can be nested JSON objects (whereas 'metadata' fields are string/string maps only).
+    
+    If you don't need nested metadata values, it is strongly advised to avoid using this object and use the Metadata object instead.
+    
+    Input in terraform is the same as metadata but allows nested metadata if you pass a valid JSON string as a value. See the example below. 
+* `fault_domain` - The name of the fault domain the instance is running in.
 
-	If you don't need nested metadata values, it is strongly advised to avoid using this object and use the Metadata object instead. 
+	A fault domain is a grouping of hardware and infrastructure within an availability domain. Each availability domain contains three fault domains. Fault domains let you distribute your  instances so that they are not on the same physical hardware within a single availability domain. A hardware failure or Compute hardware maintenance that affects one fault domain does not affect  instances in other fault domains.
+
+	If you do not specify the fault domain, the system selects one for you. To change the fault domain for an instance, terminate it and launch a new instance in the preferred fault domain.
+
+	Example: `FAULT-DOMAIN-1` 
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the instance.
 * `image` - Deprecated. Use `sourceDetails` instead. 
@@ -134,6 +143,7 @@ The following arguments are supported:
 	If you don't need nested metadata values, it is strongly advised to avoid using this object and use the Metadata object instead. 
 
 	Input in terraform is the same as metadata but allows nested metadata if you pass a valid JSON string as a value. See the example below.
+* `fault_domain` - (Optional) A fault domain is a grouping of hardware and infrastructure within an availability domain. Each availability domain contains three fault domains. Fault domains let you distribute your  instances so that they are not on the same physical hardware within a single availability domain. A hardware failure or Compute hardware maintenance that affects one fault domain does not affect  instances in other fault domains.  If you do not specify the fault domain, the system selects one for you. To change the fault domain for an instance, terminate it and launch a new instance in the preferred fault domain.  To get a list of fault domains, use the [ListFaultDomains](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/faultDomains/ListFaultDomains) operation in the Identity and Access Management Service API.  Example: `FAULT-DOMAIN-1`
 * `freeform_tags` - (Optional) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `hostname_label` - (Optional) Deprecated. Instead use `hostnameLabel` in [CreateVnicDetails](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/CreateVnicDetails/). If you provide both, the values must match. 
 * `image` - (Optional) Deprecated. Use `sourceDetails` with [InstanceSourceViaImageDetails](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/latest/requests/InstanceSourceViaImageDetails) source type instead. If you specify values for both, the values must match. 
@@ -220,6 +230,7 @@ resource "oci_core_instance" "test_instance" {
 		some_string = "stringA"
 		nested_object = "{\"some_string\": \"stringB\", \"object\": {\"some_string\": \"stringC\"}}"
 	}
+	fault_domain = "${var.instance_fault_domain}"
 	freeform_tags = {"Department"= "Finance"}
 	hostname_label = "${var.instance_hostname_label}"
 	ipxe_script = "${var.instance_ipxe_script}"

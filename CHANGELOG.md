@@ -3,6 +3,12 @@ All notable changes to this project are documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+## 2.2.2 (Unreleased)
+
+### Added
+- Support listing Fault Domains in an AD and specifying them when launching an Instance
+
+
 ## 2.2.1 - 2018-08-23
 
 ### Added

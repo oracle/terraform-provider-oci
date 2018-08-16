@@ -79,6 +79,7 @@ This lists all of the available OCI resources and/or data sources.
     * [Compartments](identity/compartments.md)
     * [Customer Secret Keys](identity/customer_secret_keys.md)
     * [Dynamic Groups](identity/dynamic_groups.md)
+    * [Fault Domains](identity/fault_domains.md)
     * [Groups](identity/groups.md)
     * [Identity Providers](identity/identity_providers.md)
     * [IdpGroupMappings](identity/idp_group_mappings.md)

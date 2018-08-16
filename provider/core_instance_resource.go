@@ -153,6 +153,12 @@ func InstanceResource() *schema.Resource {
 				ForceNew: true,
 				Elem:     schema.TypeString,
 			},
+			"fault_domain": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"freeform_tags": {
 				Type:     schema.TypeMap,
 				Optional: true,
@@ -427,6 +433,11 @@ func (s *InstanceResourceCrud) Create() error {
 		request.ExtendedMetadata = extendedMetadata
 	}
 
+	if faultDomain, ok := s.D.GetOkExists("fault_domain"); ok {
+		tmp := faultDomain.(string)
+		request.FaultDomain = &tmp
+	}
+
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
@@ -607,6 +618,10 @@ func (s *InstanceResourceCrud) SetData() error {
 	// // extended_metadata is an arbitrarily structured json object, `objectToMap` would not work
 	// 	s.D.Set("extended_metadata", []interface{}{objectToMap(s.Res.ExtendedMetadata)})
 	// }
+
+	if s.Res.FaultDomain != nil {
+		s.D.Set("fault_domain", *s.Res.FaultDomain)
+	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
