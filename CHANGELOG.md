@@ -5,6 +5,7 @@
 - Support for specifying a backup policy at the time of creating a Boot Volume
 - Support for offline resizing of Boot Volume
 - Support for tagging of Boot Volume
+- Support for NAT Gateways
 
 ### Fixed
 - Fix logic for importing of volumes with backup policies. GH-590
