@@ -117,7 +117,7 @@ Download the [virtual cloud network example](https://github.com/oracle/terraform
 
 ```
 # Change to the directory of an example like: 
-$ cd doc/examples/networking/vcn
+$ cd docs/examples/networking/vcn
 
 # Initialize the plugin for this template directory
 $ terraform init
