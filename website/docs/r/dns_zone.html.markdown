@@ -74,7 +74,9 @@ The following attributes are exported:
 * `self` - The canonical absolute URL of the resource.
 * `serial` - The current serial of the zone. As seen in the zone's SOA record. 
 * `state` - The current state of the zone resource.
-* `time_created` - The date and time the image was created in "YYYY-MM-ddThh:mmZ" format with a Z offset, as defined by RFC 3339.  **Example:** `2016-07-22T17:23:59:60Z` 
+* `time_created` - The date and time the image was created in "YYYY-MM-ddThh:mmZ" format with a Z offset, as defined by RFC 3339.
+
+	**Example:** `2016-07-22T17:23:59:60Z` 
 * `version` - Version is the never-repeating, totally-orderable, version of the zone, from which the serial field of the zone's SOA record is derived. 
 * `zone_type` - The type of the zone. Must be either `PRIMARY` or `SECONDARY`. 
 
