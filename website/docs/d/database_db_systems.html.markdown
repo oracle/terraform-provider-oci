@@ -44,7 +44,9 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `availability_domain` - The name of the Availability Domain that the DB System is located in.
-* `backup_subnet_id` - The OCID of the backup network subnet the DB System is associated with. Applicable only to Exadata.  **Subnet Restriction:** See above subnetId's 'Subnet Restriction'. to malfunction. 
+* `backup_subnet_id` - The OCID of the backup network subnet the DB System is associated with. Applicable only to Exadata.
+
+	**Subnet Restriction:** See above subnetId's 'Subnet Restriction'. to malfunction. 
 * `cluster_name` - Cluster name for Exadata and 2-node RAC DB Systems. The cluster name must begin with an an alphabetic character, and may contain hyphens (-). Underscores (_) are not permitted. The cluster name can be no longer than 11 characters and is not case sensitive. 
 * `compartment_id` - The OCID of the compartment.
 * `cpu_core_count` - The number of CPU cores enabled on the DB System.
@@ -65,12 +67,22 @@ The following attributes are exported:
 * `node_count` - Number of nodes in this DB system. For RAC DBs, this will be greater than 1. 
 * `reco_storage_size_in_gb` - RECO/REDO storage size, in GBs, that is currently allocated to the DB system. This is applicable only for VM-based DBs. 
 * `scan_dns_record_id` - The OCID of the DNS record for the SCAN IP addresses that are associated with the DB System. 
-* `scan_ip_ids` - The OCID of the Single Client Access Name (SCAN) IP addresses associated with the DB System. SCAN IP addresses are typically used for load balancing and are not assigned to any interface. Clusterware directs the requests to the appropriate nodes in the cluster.  - For a single-node DB System, this list is empty. 
+* `scan_ip_ids` - The OCID of the Single Client Access Name (SCAN) IP addresses associated with the DB System. SCAN IP addresses are typically used for load balancing and are not assigned to any interface. Clusterware directs the requests to the appropriate nodes in the cluster.
+
+	* For a single-node DB System, this list is empty. 
 * `shape` - The shape of the DB System. The shape determines resources to allocate to the DB system - CPU cores and memory for VM shapes; CPU cores, memory and storage for non-VM (or bare metal) shapes.
 * `ssh_public_keys` - The public key portion of one or more key pairs used for SSH access to the DB System.
 * `state` - The current state of the DB System.
-* `subnet_id` - The OCID of the subnet the DB System is associated with.  **Subnet Restrictions:** - For single node and 2-node (RAC) DB Systems, do not use a subnet that overlaps with 192.168.16.16/28 - For Exadata and VM-based RAC DB Systems, do not use a subnet that overlaps with 192.168.128.0/20  These subnets are used by the Oracle Clusterware private interconnect on the database instance. Specifying an overlapping subnet will cause the private interconnect to malfunction. This restriction applies to both the client subnet and backup subnet. 
+* `subnet_id` - The OCID of the subnet the DB System is associated with.
+
+	**Subnet Restrictions:**
+	* For single node and 2-node (RAC) DB Systems, do not use a subnet that overlaps with 192.168.16.16/28
+	* For Exadata and VM-based RAC DB Systems, do not use a subnet that overlaps with 192.168.128.0/20
+
+	These subnets are used by the Oracle Clusterware private interconnect on the database instance. Specifying an overlapping subnet will cause the private interconnect to malfunction. This restriction applies to both the client subnet and backup subnet. 
 * `time_created` - The date and time the DB System was created.
 * `version` - The version of the DB System.
-* `vip_ids` - The OCID of the virtual IP (VIP) addresses associated with the DB System. The Cluster Ready Services (CRS) creates and maintains one VIP address for each node in the DB System to enable failover. If one node fails, the VIP is reassigned to another active node in the cluster.  - For a single-node DB System, this list is empty. 
+* `vip_ids` - The OCID of the virtual IP (VIP) addresses associated with the DB System. The Cluster Ready Services (CRS) creates and maintains one VIP address for each node in the DB System to enable failover. If one node fails, the VIP is reassigned to another active node in the cluster.
+
+	* For a single-node DB System, this list is empty. 
 

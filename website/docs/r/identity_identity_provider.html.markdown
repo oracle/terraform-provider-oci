@@ -73,7 +73,11 @@ The following attributes are exported:
 * `id` - The OCID of the `IdentityProvider`.
 * `inactive_state` - The detailed status of INACTIVE lifecycleState.
 * `name` - The name you assign to the `IdentityProvider` during creation. The name must be unique across all `IdentityProvider` objects in the tenancy and cannot be changed. This is the name federated users see when choosing which identity provider to use when signing in to the Oracle Cloud Infrastructure Console. 
-* `product_type` - The identity provider service or product. Supported identity providers are Oracle Identity Cloud Service (IDCS) and Microsoft Active Directory Federation Services (ADFS).  Allowed values are: - `ADFS` - `IDCS`  Example: `IDCS` 
+* `product_type` - The identity provider service or product. Supported identity providers are Oracle Identity Cloud Service (IDCS) and Microsoft Active Directory Federation Services (ADFS).
+
+	Allowed values are:
+	* `ADFS`
+	* `IDCS`  Example: `IDCS` 
 * `protocol` - The protocol used for federation. Allowed value: `SAML2`.  Example: `SAML2` 
 * `state` - The current state. 
 * `time_created` - Date and time the `IdentityProvider` was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 

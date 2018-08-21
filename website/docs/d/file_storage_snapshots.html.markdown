@@ -46,7 +46,9 @@ The following attributes are exported:
 
 * `file_system_id` - The OCID of the file system from which the snapshot was created. 
 * `id` - The OCID of the snapshot.
-* `name` - Name of the snapshot. This value is immutable.  Avoid entering confidential information.  Example: `Sunday` 
+* `name` - Name of the snapshot. This value is immutable.
+
+	Avoid entering confidential information.  Example: `Sunday` 
 * `state` - The current state of the snapshot.
 * `time_created` - The date and time the snapshot was created, expressed in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) timestamp format.  Example: `2016-08-25T21:10:29.600Z` 
 
