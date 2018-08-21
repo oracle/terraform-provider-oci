@@ -6,11 +6,10 @@ import (
 	"context"
 	"log"
 	"strconv"
+	"strings"
 
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/helper/validation"
-
-	"strings"
 
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )

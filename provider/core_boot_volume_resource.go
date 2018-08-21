@@ -4,15 +4,13 @@ package provider
 
 import (
 	"context"
+	"log"
 	"strconv"
-
-	"github.com/hashicorp/terraform/helper/schema"
-
 	"strings"
 
-	"log"
-
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/helper/validation"
+
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
