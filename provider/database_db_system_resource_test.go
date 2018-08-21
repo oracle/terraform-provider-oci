@@ -415,6 +415,8 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_allV
 							ncharacter_set = "AL16UTF16"
 							db_workload = "OLTP"
 							pdb_name = "pdbName"
+							defined_tags = "${map("example-tag-namespace-all.example-tag", "originalValueDB")}"
+							freeform_tags = {"Department"= "FinanceDB"}
 							db_backup_config {
 								auto_backup_enabled = true
 							}
@@ -494,6 +496,8 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_allV
 					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.database.0.db_workload", "OLTP"),
 					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.database.0.pdb_name", "pdbName"),
 					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.database.0.db_backup_config.0.auto_backup_enabled", "true"),
+					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.database.0.defined_tags.example-tag-namespace-all.example-tag", "originalValueDB"),
+					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.database.0.freeform_tags.Department", "FinanceDB"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(database.DbSystemLifecycleStateAvailable)),
 					resource.TestCheckResourceAttr(s.ResourceName, "defined_tags.example-tag-namespace-all.example-tag", "originalValue"),
 					resource.TestCheckResourceAttr(s.ResourceName, "freeform_tags.Department", "Finance"),
@@ -658,6 +662,8 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_allV
 							ncharacter_set = "AL16UTF16"
 							db_workload = "OLTP"
 							pdb_name = "pdbName"
+							defined_tags = "${map("example-tag-namespace-all.example-tag", "updateValueDB")}"
+							freeform_tags = {"Department"= "AdminDB"}
 							db_backup_config {
 								auto_backup_enabled = true
 							}
@@ -737,6 +743,8 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_allV
 					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.database.0.db_workload", "OLTP"),
 					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.database.0.pdb_name", "pdbName"),
 					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.database.0.db_backup_config.0.auto_backup_enabled", "true"),
+					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.database.0.defined_tags.example-tag-namespace-all.example-tag", "updateValueDB"),
+					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.database.0.freeform_tags.Department", "AdminDB"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(database.DbSystemLifecycleStateAvailable)),
 					resource.TestCheckResourceAttr(s.ResourceName, "defined_tags.example-tag-namespace-all.example-tag", "updateValue"),
 					resource.TestCheckResourceAttr(s.ResourceName, "freeform_tags.Department", "Admin"),
