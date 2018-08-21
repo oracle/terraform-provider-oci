@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Added
 - Support for efficient large file upload using the `source` path to the file
+- Support for tagging on Database Resource. See [Tagging Resources](https://github.com/oracle/terraform-provider-oci/blob/master/docs/Tagging%20Resources.md)
 
 ## 2.2.1 - 2018-08-16
 

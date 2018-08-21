@@ -133,6 +133,19 @@ func DbSystemResource() *schema.Resource {
 										Computed: true,
 										ForceNew: true,
 									},
+									"defined_tags": {
+										Type:             schema.TypeMap,
+										Optional:         true,
+										Computed:         true,
+										DiffSuppressFunc: definedTagsDiffSuppressFunction,
+										Elem:             schema.TypeString,
+									},
+									"freeform_tags": {
+										Type:     schema.TypeMap,
+										Optional: true,
+										Computed: true,
+										Elem:     schema.TypeString,
+									},
 									// serverside defaults to AL16UTF16, but returns as "" if not supplied
 									"ncharacter_set": {
 										Type:     schema.TypeString,
@@ -653,6 +666,17 @@ func mapToCreateDatabaseDetails(raw map[string]interface{}) oci_database.CreateD
 		result.PdbName = &tmp
 	}
 
+	if definedTags, ok := raw["defined_tags"]; ok && definedTags != "" {
+		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			result.DefinedTags = convertedDefinedTags
+		}
+	}
+
+	if freeformTags, ok := raw["freeform_tags"]; ok && freeformTags != "" {
+		result.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
 	return result
 }
 
@@ -683,6 +707,14 @@ func CreateDatabaseDetailsToMap(obj *oci_database.CreateDatabaseDetails) map[str
 
 	if obj.PdbName != nil {
 		result["pdb_name"] = string(*obj.PdbName)
+	}
+
+	if obj.DefinedTags != nil {
+		result["defined_tags"] = obj.DefinedTags
+	}
+
+	if obj.FreeformTags != nil {
+		result["freeform_tags"] = obj.FreeformTags
 	}
 
 	return result
