@@ -531,3 +531,5 @@ func (s *ListenerResourceCrud) mapToSSLConfigurationDetails(fieldKeyFormat strin
 
 	return result, nil
 }
+
+// @CODEGEN 08/2018 - Method SSLConfigurationDetailsToMap is available in load_balancer_backend_set_resource.go

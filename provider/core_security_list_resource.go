@@ -698,7 +698,7 @@ func (s *SecurityListResourceCrud) mapToEgressSecurityRule(fieldKeyFormat string
 			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "icmp_options"), 0)
 			tmp, err := s.mapToIcmpOptions(fieldKeyFormatNextLevel)
 			if err != nil {
-				return result, err
+				return result, fmt.Errorf("unable to convert icmp_options, encountered error: %v", err)
 			}
 			result.IcmpOptions = &tmp
 		}
@@ -719,7 +719,7 @@ func (s *SecurityListResourceCrud) mapToEgressSecurityRule(fieldKeyFormat string
 			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "tcp_options"), 0)
 			tmp, err := s.mapToTcpOptions(fieldKeyFormatNextLevel)
 			if err != nil {
-				return result, err
+				return result, fmt.Errorf("unable to convert tcp_options, encountered error: %v", err)
 			}
 			result.TcpOptions = &tmp
 		}
@@ -730,7 +730,7 @@ func (s *SecurityListResourceCrud) mapToEgressSecurityRule(fieldKeyFormat string
 			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "udp_options"), 0)
 			tmp, err := s.mapToUdpOptions(fieldKeyFormatNextLevel)
 			if err != nil {
-				return result, err
+				return result, fmt.Errorf("unable to convert udp_options, encountered error: %v", err)
 			}
 			result.UdpOptions = &tmp
 		}
@@ -813,7 +813,7 @@ func (s *SecurityListResourceCrud) mapToIngressSecurityRule(fieldKeyFormat strin
 			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "icmp_options"), 0)
 			tmp, err := s.mapToIcmpOptions(fieldKeyFormatNextLevel)
 			if err != nil {
-				return result, err
+				return result, fmt.Errorf("unable to convert icmp_options, encountered error: %v", err)
 			}
 			result.IcmpOptions = &tmp
 		}
@@ -844,7 +844,7 @@ func (s *SecurityListResourceCrud) mapToIngressSecurityRule(fieldKeyFormat strin
 			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "tcp_options"), 0)
 			tmp, err := s.mapToTcpOptions(fieldKeyFormatNextLevel)
 			if err != nil {
-				return result, err
+				return result, fmt.Errorf("unable to convert tcp_options, encountered error: %v", err)
 			}
 			result.TcpOptions = &tmp
 		}
@@ -855,7 +855,7 @@ func (s *SecurityListResourceCrud) mapToIngressSecurityRule(fieldKeyFormat strin
 			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "udp_options"), 0)
 			tmp, err := s.mapToUdpOptions(fieldKeyFormatNextLevel)
 			if err != nil {
-				return result, err
+				return result, fmt.Errorf("unable to convert udp_options, encountered error: %v", err)
 			}
 			result.UdpOptions = &tmp
 		}
@@ -932,7 +932,10 @@ func (s *SecurityListResourceCrud) mapToTcpOptions(fieldKeyFormat string) (oci_c
 	max, maxExists := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "max"))
 	min, minExists := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "min"))
 	if (maxExists && max.(int) != 0) || (minExists && min.(int) != 0) {
-		tmp, _ := s.mapToPortRange(fieldKeyFormat)
+		tmp, err := s.mapToPortRange(fieldKeyFormat)
+		if err != nil {
+			return result, fmt.Errorf("unable to convert destination_port_range, encountered error: %v", err)
+		}
 		result.DestinationPortRange = &tmp
 	}
 
@@ -941,7 +944,7 @@ func (s *SecurityListResourceCrud) mapToTcpOptions(fieldKeyFormat string) (oci_c
 			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "source_port_range"), 0)
 			tmp, err := s.mapToPortRange(fieldKeyFormatNextLevel)
 			if err != nil {
-				return result, err
+				return result, fmt.Errorf("unable to convert source_port_range, encountered error: %v", err)
 			}
 			result.SourcePortRange = &tmp
 		}
@@ -976,7 +979,10 @@ func (s *SecurityListResourceCrud) mapToUdpOptions(fieldKeyFormat string) (oci_c
 	max, maxExists := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "max"))
 	min, minExists := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "min"))
 	if (maxExists && max.(int) != 0) || (minExists && min.(int) != 0) {
-		tmp, _ := s.mapToPortRange(fieldKeyFormat)
+		tmp, err := s.mapToPortRange(fieldKeyFormat)
+		if err != nil {
+			return result, fmt.Errorf("unable to convert destination_port_range, encountered error: %v", err)
+		}
 		result.DestinationPortRange = &tmp
 	}
 
@@ -985,7 +991,7 @@ func (s *SecurityListResourceCrud) mapToUdpOptions(fieldKeyFormat string) (oci_c
 			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "source_port_range"), 0)
 			tmp, err := s.mapToPortRange(fieldKeyFormatNextLevel)
 			if err != nil {
-				return result, err
+				return result, fmt.Errorf("unable to convert source_port_range, encountered error: %v", err)
 			}
 			result.SourcePortRange = &tmp
 		}

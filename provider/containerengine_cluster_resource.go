@@ -594,7 +594,7 @@ func (s *ClusterResourceCrud) mapToClusterCreateOptions(fieldKeyFormat string) (
 			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "add_ons"), 0)
 			tmp, err := s.mapToAddOnOptions(fieldKeyFormatNextLevel)
 			if err != nil {
-				return result, err
+				return result, fmt.Errorf("unable to convert add_ons, encountered error: %v", err)
 			}
 			result.AddOns = &tmp
 		}
@@ -605,7 +605,7 @@ func (s *ClusterResourceCrud) mapToClusterCreateOptions(fieldKeyFormat string) (
 			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "kubernetes_network_config"), 0)
 			tmp, err := s.mapToKubernetesNetworkConfig(fieldKeyFormatNextLevel)
 			if err != nil {
-				return result, err
+				return result, fmt.Errorf("unable to convert kubernetes_network_config, encountered error: %v", err)
 			}
 			result.KubernetesNetworkConfig = &tmp
 		}

@@ -195,3 +195,5 @@ func (s *DatabaseDataSourceCrud) SetData() error {
 
 	return nil
 }
+
+// @CODEGEN 08/2018: Method DbBackupConfigToMap is available in database_db_system_resource.go

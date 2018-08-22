@@ -390,7 +390,7 @@ func (s *PathRouteSetResourceCrud) mapToPathRoute(fieldKeyFormat string) (oci_lo
 			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "path_match_type"), 0)
 			tmp, err := s.mapToPathMatchType(fieldKeyFormatNextLevel)
 			if err != nil {
-				return result, err
+				return result, fmt.Errorf("unable to convert path_match_type, encountered error: %v", err)
 			}
 			result.PathMatchType = &tmp
 		}

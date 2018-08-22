@@ -420,7 +420,10 @@ func (s *InstanceResourceCrud) Create() error {
 	}
 
 	if rawExtendedMetadata, ok := s.D.GetOkExists("extended_metadata"); ok {
-		extendedMetadata := mapToExtendedMetadata(rawExtendedMetadata.(map[string]interface{}))
+		extendedMetadata, err := mapToExtendedMetadata(rawExtendedMetadata.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
 		request.ExtendedMetadata = extendedMetadata
 	}
 
@@ -690,7 +693,7 @@ func (s *InstanceResourceCrud) SetData() error {
 				}
 			}
 
-			err := s.D.Set("create_vnic_details", []interface{}{vnicDetailsToMap(vnic, createVnicDetails)})
+			err := s.D.Set("create_vnic_details", []interface{}{CreateVnicDetailsToMap(vnic, createVnicDetails)})
 			if err != nil {
 				log.Printf("[WARN] create_vnic_details could not be set: %q", err)
 			}
@@ -713,11 +716,11 @@ func (s *InstanceResourceCrud) mapToCreateVnicDetailsInstance(fieldKeyFormat str
 	}
 
 	if definedTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "defined_tags")); ok {
-		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
+		tmp, err := mapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
-			return result, err
+			return result, fmt.Errorf("unable to convert defined_tags, encountered error: %v", err)
 		}
-		result.DefinedTags = convertedDefinedTags
+		result.DefinedTags = tmp
 	}
 
 	if displayName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "display_name")); ok {
@@ -752,6 +755,50 @@ func (s *InstanceResourceCrud) mapToCreateVnicDetailsInstance(fieldKeyFormat str
 	return result, nil
 }
 
+func CreateVnicDetailsToMap(obj *oci_core.Vnic, createVnicDetails map[string]interface{}) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	// "assign_public_ip" isn't part of the VNIC's state & is only useful at creation time (and
+	// subsequent force-new creations). So persist the user-defined value in the config & update it
+	// when the user changes that value.
+	if createVnicDetails != nil {
+		assignPublicIP, _ := NormalizeBoolString(createVnicDetails["assign_public_ip"].(string)) // Must be valid.
+		result["assign_public_ip"] = assignPublicIP
+	} else {
+		// Set to "true" in case "create_vnic_details" is ommited altogether & the default value for
+		// "assign_public_ip" doesn't kick in.
+		result["assign_public_ip"] = "true"
+	}
+
+	if obj.DefinedTags != nil {
+		result["defined_tags"] = definedTagsToMap(obj.DefinedTags)
+	}
+
+	if obj.DisplayName != nil {
+		result["display_name"] = string(*obj.DisplayName)
+	}
+
+	result["freeform_tags"] = obj.FreeformTags
+
+	if obj.HostnameLabel != nil {
+		result["hostname_label"] = string(*obj.HostnameLabel)
+	}
+
+	if obj.PrivateIp != nil {
+		result["private_ip"] = string(*obj.PrivateIp)
+	}
+
+	if obj.SkipSourceDestCheck != nil {
+		result["skip_source_dest_check"] = bool(*obj.SkipSourceDestCheck)
+	}
+
+	if obj.SubnetId != nil {
+		result["subnet_id"] = string(*obj.SubnetId)
+	}
+
+	return result
+}
+
 func (s *InstanceResourceCrud) mapToUpdateVnicDetailsInstance(fieldKeyFormat string) (oci_core.UpdateVnicDetails, error) {
 	result := oci_core.UpdateVnicDetails{}
 
@@ -783,52 +830,6 @@ func (s *InstanceResourceCrud) mapToUpdateVnicDetailsInstance(fieldKeyFormat str
 	}
 
 	return result, nil
-}
-
-func vnicDetailsToMap(obj *oci_core.Vnic, createVnicDetails map[string]interface{}) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	// "assign_public_ip" isn't part of the VNIC's state & is only useful at creation time (and
-	// subsequent force-new creations). So persist the user-defined value in the config & update it
-	// when the user changes that value.
-	if createVnicDetails != nil {
-		assignPublicIP, _ := NormalizeBoolString(createVnicDetails["assign_public_ip"].(string)) // Must be valid.
-		result["assign_public_ip"] = assignPublicIP
-	} else {
-		// Set to "true" in case "create_vnic_details" is ommited altogether & the default value for
-		// "assign_public_ip" doesn't kick in.
-		result["assign_public_ip"] = "true"
-	}
-
-	if obj.DefinedTags != nil {
-		result["defined_tags"] = definedTagsToMap(obj.DefinedTags)
-	}
-
-	if obj.DisplayName != nil {
-		result["display_name"] = string(*obj.DisplayName)
-	}
-
-	if obj.FreeformTags != nil {
-		result["freeform_tags"] = obj.FreeformTags
-	}
-
-	if obj.HostnameLabel != nil {
-		result["hostname_label"] = string(*obj.HostnameLabel)
-	}
-
-	if obj.PrivateIp != nil {
-		result["private_ip"] = string(*obj.PrivateIp)
-	}
-
-	if obj.SkipSourceDestCheck != nil {
-		result["skip_source_dest_check"] = bool(*obj.SkipSourceDestCheck)
-	}
-
-	if obj.SubnetId != nil {
-		result["subnet_id"] = string(*obj.SubnetId)
-	}
-
-	return result
 }
 
 func (s *InstanceResourceCrud) mapToInstanceSourceDetails(fieldKeyFormat string) (oci_core.InstanceSourceDetails, error) {
@@ -904,7 +905,7 @@ func InstanceSourceDetailsToMap(obj *oci_core.InstanceSourceDetails, bootVolume 
 	return result
 }
 
-func mapToExtendedMetadata(rm map[string]interface{}) map[string]interface{} {
+func mapToExtendedMetadata(rm map[string]interface{}) (map[string]interface{}, error) {
 	result := make(map[string]interface{})
 	for k, v := range rm {
 		val := make(map[string]interface{})
@@ -915,7 +916,7 @@ func mapToExtendedMetadata(rm map[string]interface{}) map[string]interface{} {
 			result[k] = v.(string)
 		}
 	}
-	return result
+	return result, nil
 }
 
 func (s *InstanceResourceCrud) getPrimaryVnic() (*oci_core.Vnic, error) {
