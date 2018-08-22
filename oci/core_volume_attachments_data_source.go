@@ -133,7 +133,106 @@ func (s *VolumeAttachmentsDataSourceCrud) SetData() error {
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {
-		resources = append(resources, volumeAttachmentToMap(r))
+		result := map[string]interface{}{}
+		switch v := (r).(type) {
+		case oci_core.IScsiVolumeAttachment:
+			result["attachment_type"] = "iscsi"
+
+			if v.ChapSecret != nil {
+				result["chap_secret"] = string(*v.ChapSecret)
+			}
+
+			if v.ChapUsername != nil {
+				result["chap_username"] = string(*v.ChapUsername)
+			}
+
+			if v.Ipv4 != nil {
+				result["ipv4"] = string(*v.Ipv4)
+			}
+
+			if v.Iqn != nil {
+				result["iqn"] = string(*v.Iqn)
+			}
+
+			if v.Port != nil {
+				result["port"] = int(*v.Port)
+			}
+
+			if v.AvailabilityDomain != nil {
+				result["availability_domain"] = string(*v.AvailabilityDomain)
+			}
+
+			if v.CompartmentId != nil {
+				result["compartment_id"] = string(*v.CompartmentId)
+			}
+
+			if v.DisplayName != nil {
+				result["display_name"] = string(*v.DisplayName)
+			}
+
+			if v.Id != nil {
+				result["id"] = string(*v.Id)
+			}
+
+			if v.InstanceId != nil {
+				result["instance_id"] = string(*v.InstanceId)
+			}
+
+			if v.IsReadOnly != nil {
+				result["is_read_only"] = bool(*v.IsReadOnly)
+			}
+
+			result["state"] = string(v.LifecycleState)
+
+			if v.TimeCreated != nil {
+				result["time_created"] = v.TimeCreated.String()
+			}
+
+			if v.VolumeId != nil {
+				result["volume_id"] = string(*v.VolumeId)
+			}
+		case oci_core.ParavirtualizedVolumeAttachment:
+			result["attachment_type"] = "paravirtualized"
+
+			if v.AvailabilityDomain != nil {
+				result["availability_domain"] = string(*v.AvailabilityDomain)
+			}
+
+			if v.CompartmentId != nil {
+				result["compartment_id"] = string(*v.CompartmentId)
+			}
+
+			if v.DisplayName != nil {
+				result["display_name"] = string(*v.DisplayName)
+			}
+
+			if v.Id != nil {
+				result["id"] = string(*v.Id)
+			}
+
+			if v.InstanceId != nil {
+				result["instance_id"] = string(*v.InstanceId)
+			}
+
+			if v.IsReadOnly != nil {
+				result["is_read_only"] = bool(*v.IsReadOnly)
+			}
+
+			result["state"] = string(v.LifecycleState)
+
+			if v.TimeCreated != nil {
+				result["time_created"] = v.TimeCreated.String()
+			}
+
+			if v.VolumeId != nil {
+				result["volume_id"] = string(*v.VolumeId)
+			}
+		default:
+			log.Printf("[WARN] Received 'attachment_type' of unknown type %v", r)
+			return nil
+		}
+
+		resources = append(resources, result)
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
@@ -145,73 +244,4 @@ func (s *VolumeAttachmentsDataSourceCrud) SetData() error {
 	}
 
 	return nil
-}
-
-func volumeAttachmentToMap(r oci_core.VolumeAttachment) map[string]interface{} {
-	volumeAttachment := map[string]interface{}{
-		"compartment_id": *r.GetCompartmentId(),
-	}
-
-	if availabilityDomain := r.GetAvailabilityDomain(); availabilityDomain != nil {
-		volumeAttachment["availability_domain"] = *availabilityDomain
-	}
-
-	if displayName := r.GetDisplayName(); displayName != nil {
-		volumeAttachment["display_name"] = *displayName
-	}
-
-	if id := r.GetId(); id != nil {
-		volumeAttachment["id"] = *id
-	}
-
-	if instanceId := r.GetInstanceId(); instanceId != nil {
-		volumeAttachment["instance_id"] = *instanceId
-	}
-
-	if isReadOnly := r.GetIsReadOnly(); isReadOnly != nil {
-		volumeAttachment["is_read_only"] = *isReadOnly
-	}
-
-	volumeAttachment["state"] = string(r.GetLifecycleState())
-
-	if timeCreated := r.GetTimeCreated(); timeCreated != nil {
-		volumeAttachment["time_created"] = timeCreated.String()
-	}
-
-	if volumeId := r.GetVolumeId(); volumeId != nil {
-		volumeAttachment["volume_id"] = *volumeId
-	}
-
-	switch typedValue := r.(type) {
-	case oci_core.IScsiVolumeAttachment:
-		volumeAttachment["attachment_type"] = IScsiVolumeAttachmentDiscriminator
-
-		// IScsiVolumeAttachment-specific fields:
-		if typedValue.ChapSecret != nil {
-			volumeAttachment["chap_secret"] = *typedValue.ChapSecret
-		}
-
-		if typedValue.ChapUsername != nil {
-			volumeAttachment["chap_username"] = *typedValue.ChapUsername
-		}
-
-		if typedValue.Ipv4 != nil {
-			volumeAttachment["ipv4"] = *typedValue.Ipv4
-		}
-
-		if typedValue.Iqn != nil {
-			volumeAttachment["iqn"] = *typedValue.Iqn
-		}
-
-		if typedValue.Port != nil {
-			volumeAttachment["port"] = *typedValue.Port
-		}
-	case oci_core.ParavirtualizedVolumeAttachment:
-		volumeAttachment["attachment_type"] = ParavirtualizedVolumeAttachmentDiscriminator
-	default:
-		volumeAttachment["attachment_type"] = "Unknown"
-		log.Printf("[WARNING] Retrieved a volume attachment of unknown type.")
-	}
-
-	return volumeAttachment
 }
