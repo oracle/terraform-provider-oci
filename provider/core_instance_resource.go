@@ -620,6 +620,8 @@ func (s *InstanceResourceCrud) SetData() error {
 
 	if s.Res.LaunchOptions != nil {
 		s.D.Set("launch_options", []interface{}{LaunchOptionsToMap(s.Res.LaunchOptions)})
+	} else {
+		s.D.Set("launch_options", nil)
 	}
 
 	if s.Res.Metadata != nil {
@@ -658,10 +660,7 @@ func (s *InstanceResourceCrud) SetData() error {
 			return err
 		}
 	} else {
-		err := s.D.Set("source_details", []interface{}{})
-		if err != nil {
-			return err
-		}
+		s.D.Set("source_details", nil)
 	}
 
 	if bootVolume != nil && bootVolume.Id != nil {

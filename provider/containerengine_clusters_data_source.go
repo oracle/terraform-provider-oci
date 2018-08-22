@@ -117,6 +117,8 @@ func (s *ClustersDataSourceCrud) SetData() error {
 
 		if r.Endpoints != nil {
 			cluster["endpoints"] = []interface{}{ClusterEndpointsToMap(r.Endpoints)}
+		} else {
+			cluster["endpoints"] = nil
 		}
 
 		if r.Id != nil {
@@ -133,6 +135,8 @@ func (s *ClustersDataSourceCrud) SetData() error {
 
 		if r.Metadata != nil {
 			cluster["metadata"] = []interface{}{ClusterMetadataToMap(r.Metadata)}
+		} else {
+			cluster["metadata"] = nil
 		}
 
 		if r.Name != nil {
@@ -141,6 +145,8 @@ func (s *ClustersDataSourceCrud) SetData() error {
 
 		if r.Options != nil {
 			cluster["options"] = []interface{}{ClusterCreateOptionsToMap(r.Options)}
+		} else {
+			cluster["options"] = nil
 		}
 
 		cluster["state"] = r.LifecycleState

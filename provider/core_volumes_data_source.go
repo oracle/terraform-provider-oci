@@ -181,6 +181,8 @@ func (s *VolumesDataSourceCrud) SetData() error {
 				sourceDetailsArray = append(sourceDetailsArray, sourceDetailsMap)
 			}
 			volume["source_details"] = sourceDetailsArray
+		} else {
+			volume["source_details"] = nil
 		}
 
 		volume["state"] = r.LifecycleState

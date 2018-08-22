@@ -385,6 +385,8 @@ func (s *VolumeResourceCrud) SetData() error {
 			sourceDetailsArray = append(sourceDetailsArray, sourceDetailsMap)
 		}
 		s.D.Set("source_details", sourceDetailsArray)
+	} else {
+		s.D.Set("source_details", nil)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)

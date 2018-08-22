@@ -148,6 +148,8 @@ func (s *VolumeGroupsDataSourceCrud) SetData() error {
 				sourceDetailsArray = append(sourceDetailsArray, sourceDetailsMap)
 			}
 			volumeGroup["source_details"] = sourceDetailsArray
+		} else {
+			volumeGroup["source_details"] = nil
 		}
 
 		volumeGroup["state"] = r.LifecycleState

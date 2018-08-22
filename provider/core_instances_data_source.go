@@ -160,6 +160,8 @@ func (s *InstancesDataSourceCrud) SetData() error {
 
 		if r.LaunchOptions != nil {
 			instance["launch_options"] = []interface{}{LaunchOptionsToMap(r.LaunchOptions)}
+		} else {
+			instance["launch_options"] = nil
 		}
 
 		if r.Metadata != nil {
@@ -180,6 +182,8 @@ func (s *InstancesDataSourceCrud) SetData() error {
 				sourceDetailsArray = append(sourceDetailsArray, sourceDetailsMap)
 			}
 			instance["source_details"] = sourceDetailsArray
+		} else {
+			instance["source_details"] = nil
 		}
 
 		instance["state"] = r.LifecycleState

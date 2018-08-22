@@ -83,6 +83,8 @@ func (s *BackendSetsDataSourceCrud) SetData() error {
 
 		if r.HealthChecker != nil {
 			backendSet["health_checker"] = []interface{}{HealthCheckerToMap(r.HealthChecker)}
+		} else {
+			backendSet["health_checker"] = nil
 		}
 
 		if r.Name != nil {
@@ -96,13 +98,13 @@ func (s *BackendSetsDataSourceCrud) SetData() error {
 		if r.SessionPersistenceConfiguration != nil {
 			backendSet["session_persistence_configuration"] = []interface{}{SessionPersistenceConfigurationDetailsToMap(r.SessionPersistenceConfiguration)}
 		} else {
-			backendSet["session_persistence_configuration"] = []interface{}{}
+			backendSet["session_persistence_configuration"] = nil
 		}
 
 		if r.SslConfiguration != nil {
 			backendSet["ssl_configuration"] = []interface{}{SSLConfigurationToMap(r.SslConfiguration)}
 		} else {
-			backendSet["session_persistence_configuration"] = []interface{}{}
+			backendSet["ssl_configuration"] = nil
 		}
 
 		resources = append(resources, backendSet)

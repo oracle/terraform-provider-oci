@@ -122,6 +122,8 @@ func (s *DatabasesDataSourceCrud) SetData() error {
 
 		if r.DbBackupConfig != nil {
 			database["db_backup_config"] = []interface{}{DbBackupConfigToMap(r.DbBackupConfig)}
+		} else {
+			database["db_backup_config"] = nil
 		}
 
 		if r.DbName != nil {

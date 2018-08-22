@@ -557,7 +557,7 @@ func (s *BackendSetResourceCrud) SetData() error {
 	if s.Res.HealthChecker != nil {
 		s.D.Set("health_checker", []interface{}{HealthCheckerToMap(s.Res.HealthChecker)})
 	} else {
-		s.D.Set("health_checker", []interface{}{})
+		s.D.Set("health_checker", nil)
 	}
 
 	if s.Res.Name != nil {
@@ -571,13 +571,13 @@ func (s *BackendSetResourceCrud) SetData() error {
 	if s.Res.SessionPersistenceConfiguration != nil {
 		s.D.Set("session_persistence_configuration", []interface{}{SessionPersistenceConfigurationDetailsToMap(s.Res.SessionPersistenceConfiguration)})
 	} else {
-		s.D.Set("session_persistence_configuration", []interface{}{})
+		s.D.Set("session_persistence_configuration", nil)
 	}
 
 	if s.Res.SslConfiguration != nil {
 		s.D.Set("ssl_configuration", []interface{}{SSLConfigurationToMap(s.Res.SslConfiguration)})
 	} else {
-		s.D.Set("ssl_configuration", []interface{}{})
+		s.D.Set("ssl_configuration", nil)
 	}
 
 	return nil
