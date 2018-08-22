@@ -340,7 +340,7 @@ func (s *ZoneResourceCrud) mapToExternalMaster(fieldKeyFormat string) (oci_dns.E
 			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "tsig"), 0)
 			tmp, err := s.mapToTSIG(fieldKeyFormatNextLevel)
 			if err != nil {
-				return result, err
+				return result, fmt.Errorf("unable to convert tsig, encountered error: %v", err)
 			}
 			result.Tsig = &tmp
 		}

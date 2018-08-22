@@ -127,3 +127,5 @@ func (s *DbHomeDataSourceCrud) SetData() error {
 
 	return nil
 }
+
+// @CODEGEN 08/2018: Methods CreateDatabaseDetailsToMap, CreateDatabaseFromBackupDetailsToMap and DbBackupConfigToMap are available in database_db_system_resource.go

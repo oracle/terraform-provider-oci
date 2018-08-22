@@ -420,11 +420,11 @@ func (s *VnicAttachmentResourceCrud) mapToCreateVnicDetails(fieldKeyFormat strin
 	}
 
 	if definedTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "defined_tags")); ok {
-		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
+		tmp, err := mapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
-			return result, err
+			return result, fmt.Errorf("unable to convert defined_tags, encountered error: %v", err)
 		}
-		result.DefinedTags = convertedDefinedTags
+		result.DefinedTags = tmp
 	}
 
 	if displayName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "display_name")); ok {
@@ -463,11 +463,11 @@ func (s *VnicAttachmentResourceCrud) mapToUpdateVnicDetails(fieldKeyFormat strin
 	result := oci_core.UpdateVnicDetails{}
 
 	if definedTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "defined_tags")); ok {
-		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
+		tmp, err := mapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
-			return result, err
+			return result, fmt.Errorf("unable to convert defined_tags, encountered error: %v", err)
 		}
-		result.DefinedTags = convertedDefinedTags
+		result.DefinedTags = tmp
 	}
 
 	if displayName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "display_name")); ok {
@@ -511,9 +511,7 @@ func VnicDetailsToMap(obj *oci_core.Vnic, createVnicDetails map[string]interface
 		result["display_name"] = string(*obj.DisplayName)
 	}
 
-	if obj.FreeformTags != nil {
-		result["freeform_tags"] = obj.FreeformTags
-	}
+	result["freeform_tags"] = obj.FreeformTags
 
 	if obj.HostnameLabel != nil {
 		result["hostname_label"] = string(*obj.HostnameLabel)

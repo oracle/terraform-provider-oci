@@ -631,7 +631,7 @@ func (s *DbSystemResourceCrud) mapToCreateDatabaseDetails(fieldKeyFormat string)
 			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "db_backup_config"), 0)
 			tmp, err := s.mapToDbBackupConfig(fieldKeyFormatNextLevel)
 			if err != nil {
-				return result, err
+				return result, fmt.Errorf("unable to convert db_backup_config, encountered error: %v", err)
 			}
 			result.DbBackupConfig = &tmp
 		}
@@ -739,7 +739,7 @@ func (s *DbSystemResourceCrud) mapToCreateDbHomeDetails(fieldKeyFormat string) (
 			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "database"), 0)
 			tmp, err := s.mapToCreateDatabaseDetails(fieldKeyFormatNextLevel)
 			if err != nil {
-				return result, err
+				return result, fmt.Errorf("unable to convert database, encountered error: %v", err)
 			}
 			result.Database = &tmp
 		}
@@ -784,7 +784,7 @@ func (s *DbSystemResourceCrud) mapToCreateDbHomeFromBackupDetails(fieldKeyFormat
 			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "database"), 0)
 			tmp, err := s.mapToCreateDatabaseFromBackupDetails(fieldKeyFormatNextLevel)
 			if err != nil {
-				return result, err
+				return result, fmt.Errorf("unable to convert database, encountered error: %v", err)
 			}
 			result.Database = &tmp
 		}
@@ -832,6 +832,8 @@ func DbBackupConfigToMap(obj *oci_database.DbBackupConfig) map[string]interface{
 
 	return result
 }
+
+// @CODEGEN 08/2018: mapToPatchDetails and PatchDetailsToMap are not yet supported
 
 func (s *DbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystemRequest(request *oci_database.LaunchDbSystemRequest) error {
 	//discriminator
