@@ -183,6 +183,8 @@ func (s *ImagesDataSourceCrud) SetData() error {
 
 		if r.LaunchOptions != nil {
 			image["launch_options"] = []interface{}{LaunchOptionsToMap(r.LaunchOptions)}
+		} else {
+			image["launch_options"] = nil
 		}
 
 		if r.OperatingSystem != nil {

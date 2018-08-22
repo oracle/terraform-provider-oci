@@ -149,6 +149,8 @@ func (s *DatabaseDataSourceCrud) SetData() error {
 
 	if s.Res.DbBackupConfig != nil {
 		s.D.Set("db_backup_config", []interface{}{DbBackupConfigToMap(s.Res.DbBackupConfig)})
+	} else {
+		s.D.Set("db_backup_config", nil)
 	}
 
 	if s.Res.DbHomeId != nil {

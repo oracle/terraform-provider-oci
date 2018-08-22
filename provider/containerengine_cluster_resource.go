@@ -519,6 +519,8 @@ func (s *ClusterResourceCrud) SetData() error {
 
 	if s.Res.Endpoints != nil {
 		s.D.Set("endpoints", []interface{}{ClusterEndpointsToMap(s.Res.Endpoints)})
+	} else {
+		s.D.Set("endpoints", nil)
 	}
 
 	if s.Res.KubernetesVersion != nil {
@@ -532,7 +534,7 @@ func (s *ClusterResourceCrud) SetData() error {
 	if s.Res.Metadata != nil {
 		s.D.Set("metadata", []interface{}{ClusterMetadataToMap(s.Res.Metadata)})
 	} else {
-		s.D.Set("metadata", []interface{}{})
+		s.D.Set("metadata", nil)
 	}
 
 	if s.Res.Name != nil {
@@ -541,6 +543,8 @@ func (s *ClusterResourceCrud) SetData() error {
 
 	if s.Res.Options != nil {
 		s.D.Set("options", []interface{}{ClusterCreateOptionsToMap(s.Res.Options)})
+	} else {
+		s.D.Set("options", nil)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)

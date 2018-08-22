@@ -397,6 +397,8 @@ func (s *ImageResourceCrud) SetData() error {
 
 	if s.Res.LaunchOptions != nil {
 		s.D.Set("launch_options", []interface{}{LaunchOptionsToMap(s.Res.LaunchOptions)})
+	} else {
+		s.D.Set("launch_options", nil)
 	}
 
 	if s.Res.OperatingSystem != nil {
