@@ -49,6 +49,7 @@ The following attributes are exported:
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the `IdentityProvider`.
 * `inactive_state` - The detailed status of INACTIVE lifecycleState.
+* `metadata_url` - The URL for retrieving the identity provider's metadata, which contains information required for federating. 
 * `name` - The name you assign to the `IdentityProvider` during creation. The name must be unique across all `IdentityProvider` objects in the tenancy and cannot be changed. This is the name federated users see when choosing which identity provider to use when signing in to the Oracle Cloud Infrastructure Console. 
 * `product_type` - The identity provider service or product. Supported identity providers are Oracle Identity Cloud Service (IDCS) and Microsoft Active Directory Federation Services (ADFS).
 
@@ -58,6 +59,8 @@ The following attributes are exported:
 
 	Example: `IDCS` 
 * `protocol` - The protocol used for federation. Allowed value: `SAML2`.  Example: `SAML2` 
+* `redirect_url` - The URL to redirect federated users to for authentication with the identity provider. 
+* `signing_certificate` - The identity provider's signing certificate used by the IAM Service to validate the SAML2 token. 
 * `state` - The current state.
 * `time_created` - Date and time the `IdentityProvider` was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
 
