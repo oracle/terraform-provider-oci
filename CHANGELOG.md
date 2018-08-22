@@ -6,8 +6,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ## 2.2.1 - 2018-08-23
 
 ### Added
-- Support for efficient large file upload using the `source` path to the file
-- Support boot volume backup
+- Support for Boot Volume Backups. See [Boot Volume Backup Resources](https://github.com/oracle/terraform-provider-oci/blob/master/docs/core/boot_volume_backups.md) and [Backing Up a Boot Volume](https://docs.cloud.oracle.com/iaas/Content/Block/Tasks/backingupabootvolume.htm)
+- Support for efficient large file uploads in Object Storage using multi-part API by providing `source` path. See [Object Resources](https://github.com/oracle/terraform-provider-oci/blob/master/docs/object_storage/objects.md) and [Using Multipart Uploads](https://docs.cloud.oracle.com/iaas/Content/Object/Tasks/usingmultipartuploads.htm)
 
 ## 2.2.0 - 2018-08-09
 
