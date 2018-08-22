@@ -80,7 +80,6 @@ func TestIdentityIdentityProviderResource_basic(t *testing.T) {
 	datasourceName := "data.oci_identity_identity_providers.test_identity_providers"
 
 	var resId, resId2 string
-	//var resId string
 
 	metadataContents, err := ioutil.ReadFile(metadataFile)
 	if err != nil {
@@ -133,6 +132,7 @@ func TestIdentityIdentityProviderResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "name", "test-idp-saml2-adfs"),
 					resource.TestCheckResourceAttr(resourceName, "product_type", "ADFS"),
 					resource.TestCheckResourceAttr(resourceName, "protocol", "SAML2"),
+					resource.TestCheckResourceAttrSet(resourceName, "redirect_url"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
@@ -168,6 +168,7 @@ variable "identity_provider_protocol" { default = "SAML2" }
 					resource.TestCheckResourceAttr(resourceName, "name", "test-idp-saml2-adfs"),
 					resource.TestCheckResourceAttr(resourceName, "product_type", "ADFS"),
 					resource.TestCheckResourceAttr(resourceName, "protocol", "SAML2"),
+					resource.TestCheckResourceAttrSet(resourceName, "redirect_url"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
@@ -217,6 +218,7 @@ data "oci_identity_identity_providers" "test_identity_providers" {
 					resource.TestCheckResourceAttr(datasourceName, "identity_providers.0.name", "test-idp-saml2-adfs"),
 					resource.TestCheckResourceAttr(datasourceName, "identity_providers.0.product_type", "ADFS"),
 					resource.TestCheckResourceAttr(datasourceName, "identity_providers.0.protocol", "SAML2"),
+					resource.TestCheckResourceAttrSet(datasourceName, "identity_providers.0.redirect_url"),
 					resource.TestCheckResourceAttrSet(datasourceName, "identity_providers.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "identity_providers.0.time_created"),
 				),
