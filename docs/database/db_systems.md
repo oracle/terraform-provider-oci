@@ -72,8 +72,6 @@ The following arguments are supported:
 			* `auto_backup_enabled` - (Applicable when source=NONE) If set to true, configures automatic backups. If you previously used RMAN or dbcli to configure backups and then you switch to using the Console or the API for backups, a new backup configuration is created and associated with your database. This means that you can no longer rely on your previously configured unmanaged backups to work.
 		* `db_name` - (Required when source=NONE) The database name. It must begin with an alphabetic character and can contain a maximum of eight alphanumeric characters. Special characters are not permitted.
 		* `db_workload` - (Applicable when source=NONE) Database workload type.
-		* `defined_tags` - (Applicable when source=NONE) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
-		* `freeform_tags` - (Applicable when source=NONE) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 		* `ncharacter_set` - (Applicable when source=NONE) National character set for the database.  The default is AL16UTF16. Allowed values are: AL16UTF16 or UTF8. 
 		* `pdb_name` - (Applicable when source=NONE) Pluggable database name. It must begin with an alphabetic character and can contain a maximum of eight alphanumeric characters. Special characters are not permitted. Pluggable database should not be same as database name.
 	* `db_version` - (Required when source=NONE) A valid Oracle database version. To get a list of supported versions, use the [ListDbVersions](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/database/20160918/DbVersion/ListDbVersions) operation.
@@ -131,8 +129,6 @@ resource "oci_database_db_system" "test_db_system" {
 			}
 			db_name = "${var.db_system_db_home_database_db_name}"
 			db_workload = "${var.db_system_db_home_database_db_workload}"
-			defined_tags = {"Operations.CostCenter"= "42"}
-			freeform_tags = {"Department"= "Finance"}
 			ncharacter_set = "${var.db_system_db_home_database_ncharacter_set}"
 			pdb_name = "${var.db_system_db_home_database_pdb_name}"
 		}

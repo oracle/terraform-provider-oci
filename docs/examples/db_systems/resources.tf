@@ -12,10 +12,6 @@ resource "oci_database_db_system" "test_db_system" {
       ncharacter_set = "${var.n_character_set}"
       db_workload    = "${var.db_workload}"
       pdb_name       = "${var.pdb_name}"
-      defined_tags   = "${map("example-tag-namespace-all.example-tag", "originalValue")}"
-      freeform_tags  = {
-        "Department" = "Finance"
-      }
 
       db_backup_config {
         auto_backup_enabled = true
