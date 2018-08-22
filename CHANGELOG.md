@@ -7,13 +7,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Added
 - Support for efficient large file upload using the `source` path to the file
-- Support for tagging on Database Resource. See [Tagging Resources](https://github.com/oracle/terraform-provider-oci/blob/master/docs/Tagging%20Resources.md)
-
-## 2.2.1 - 2018-08-16
-
-### Added
-- Support boot volume backup and clones
-- Support scheduled backup policy on boot volume creation
+- Support boot volume backup
 
 ## 2.2.0 - 2018-08-09
 
@@ -56,13 +50,13 @@ _This build contains a known issue where updates to a Route Table's Route Rules 
 - Adding Service Gateway resource and data source, update Route Table and Security List
 - Add Audit service configuration resource
 - Support Identity Federation
- 
+
 ### Changed
 - Users may notice larger diffs for Security List's `ingress_security_rules`, `egress_security_rules` and Route Table's `route_rules`. The internal representation has been changed from Lists to Sets, which results in unexpected but innocuous Terraform behavior. See this issue for discussion: https://github.com/hashicorp/terraform/issues/15180
 - Default timeout changed from 5 minutes to 15 minutes to accommodate some resources that may take longer to succeed
 - Ability to update compartment of an Object Storage Bucket
 - Updated Database data source to support tags
- 
+
 ### Fixed
 - Delete behavior fixed on Load Balancer resources for failed work requests
 
@@ -134,7 +128,7 @@ _This build contains a known issue where updates to a Route Table's Route Rules 
 ## 2.1.7 - 2018-05-03
 
 ### Added
-- Added support for virtual host names for Load balancer listeners. See [listeners](https://github.com/oracle/terraform-provider-oci/blob/master/docs/load_balancer/listeners.md), [hostnames](https://github.com/oracle/terraform-provider-oci/blob/master/docs/load_balancer/hostnames.md) for more details. 
+- Added support for virtual host names for Load balancer listeners. See [listeners](https://github.com/oracle/terraform-provider-oci/blob/master/docs/load_balancer/listeners.md), [hostnames](https://github.com/oracle/terraform-provider-oci/blob/master/docs/load_balancer/hostnames.md) for more details.
 
 ## 2.1.6 - 2018-04-26
 
@@ -153,10 +147,10 @@ _This build contains a known issue where updates to a Route Table's Route Rules 
      - Volume backups can specify whether a full or incremental backup type should be created
  - Filters support all Terraform primitives (string, bool, int, float)
  - Imports for Load Balancer resource are now enabled
- 
+
 ### Fixed
 - Fixed policy version_date bug (#508)
-     
+
 ## 2.1.5 - 2018-04-12
 
 ### Added
@@ -167,7 +161,7 @@ _This build contains a known issue where updates to a Route Table's Route Rules 
 - Added support for Local VCN Peering. More details can be found [here](https://github.com/oracle/terraform-provider-oci/blob/master/docs/core/local_peering_gateways.md).
 - DNS service integration: adds Zone and Record resources, datasources, documentation and basic examples. More details can be found [here](https://github.com/oracle/terraform-provider-oci/tree/master/docs/dns).
 
-### Deprecated 
+### Deprecated
 - Instances: The “image” attribute is now deprecated. Please use the “source_details” with “source_type” set to “image” instead.
 
 ## 2.1.4 - 2018-04-09
@@ -223,7 +217,7 @@ More details for the changes introduced in 2.1.0 can be found [here](https://git
 
 ### Notes
 - With this release we started using the new official [OCI Go SDK](https://github.com/oracle/oci-go-sdk). Widespread changes to the source code were needed to make this happen.
-- Removing optional parameters from a created resource will not result in a difference and the value for that field will remain as it was. If you want to reset the field to the default value returned by the service for that field you will have to taint the resource to destroy it and recreate it. 
+- Removing optional parameters from a created resource will not result in a difference and the value for that field will remain as it was. If you want to reset the field to the default value returned by the service for that field you will have to taint the resource to destroy it and recreate it.
 - If upgrading the OCI provider from v1.x.x, see [this wiki](https://github.com/oracle/terraform-provider-oci/wiki/Oracle-Terraform-Provider-Name-Change) for migration steps.
 - See docs for this version [here](https://github.com/oracle/terraform-provider-oci/tree/v2.1.0).
 
