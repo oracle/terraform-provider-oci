@@ -437,11 +437,11 @@ func VolumeGroupSourceDetailsToMap(obj *oci_core.VolumeGroupSourceDetails) map[s
 	case oci_core.VolumeGroupSourceFromVolumesDetails:
 		result["type"] = "volumeIds"
 
-		volumeIdsInterfaceList := []interface{}{}
+		volumeIds := []interface{}{}
 		for _, item := range v.VolumeIds {
-			volumeIdsInterfaceList = append(volumeIdsInterfaceList, item)
+			volumeIds = append(volumeIds, item)
 		}
-		result["volume_ids"] = schema.NewSet(literalTypeHashCodeForSets, volumeIdsInterfaceList)
+		result["volume_ids"] = schema.NewSet(literalTypeHashCodeForSets, volumeIds)
 	default:
 		log.Printf("[WARN] Received 'type' of unknown type %v", *obj)
 		return nil

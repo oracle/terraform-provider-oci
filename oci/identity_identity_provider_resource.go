@@ -5,6 +5,7 @@ package provider
 import (
 	"context"
 	"fmt"
+	"log"
 	"strconv"
 	"strings"
 
@@ -82,6 +83,14 @@ func IdentityProviderResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"redirect_url": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"signing_certificate": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -127,16 +136,16 @@ func deleteIdentityProvider(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-// 07-05-2018: Identity Providers support only SAML2 as the protocol
 type IdentityProviderResourceCrud struct {
 	BaseCrud
 	Client                 *oci_identity.IdentityClient
-	Res                    *oci_identity.Saml2IdentityProvider
+	Res                    *oci_identity.IdentityProvider
 	DisableNotFoundRetries bool
 }
 
 func (s *IdentityProviderResourceCrud) ID() string {
-	return *s.Res.Id
+	identityProvider := *s.Res
+	return *identityProvider.GetId()
 }
 
 func (s *IdentityProviderResourceCrud) CreatedPending() []string {
@@ -177,10 +186,7 @@ func (s *IdentityProviderResourceCrud) Create() error {
 		return err
 	}
 
-	if provider, ok := response.IdentityProvider.(oci_identity.Saml2IdentityProvider); ok {
-		s.Res = &provider
-	}
-
+	s.Res = &response.IdentityProvider
 	return nil
 }
 
@@ -197,10 +203,7 @@ func (s *IdentityProviderResourceCrud) Get() error {
 		return err
 	}
 
-	if provider, ok := response.IdentityProvider.(oci_identity.Saml2IdentityProvider); ok {
-		s.Res = &provider
-	}
-
+	s.Res = &response.IdentityProvider
 	return nil
 }
 
@@ -218,10 +221,7 @@ func (s *IdentityProviderResourceCrud) Update() error {
 		return err
 	}
 
-	if provider, ok := response.IdentityProvider.(oci_identity.Saml2IdentityProvider); ok {
-		s.Res = &provider
-	}
-
+	s.Res = &response.IdentityProvider
 	return nil
 }
 
@@ -238,38 +238,59 @@ func (s *IdentityProviderResourceCrud) Delete() error {
 }
 
 func (s *IdentityProviderResourceCrud) SetData() error {
-	if s.Res.CompartmentId != nil {
-		s.D.Set("compartment_id", *s.Res.CompartmentId)
+	switch v := (*s.Res).(type) {
+	case oci_identity.Saml2IdentityProvider:
+		s.D.Set("protocol", "SAML2")
+
+		if v.MetadataUrl != nil {
+			s.D.Set("metadata_url", *v.MetadataUrl)
+		}
+
+		if v.RedirectUrl != nil {
+			s.D.Set("redirect_url", *v.RedirectUrl)
+		}
+
+		if v.SigningCertificate != nil {
+			s.D.Set("signing_certificate", *v.SigningCertificate)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", definedTagsToMap(v.DefinedTags))
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.Id != nil {
+			s.D.Set("id", *v.Id)
+		}
+
+		if v.InactiveStatus != nil {
+			s.D.Set("inactive_state", strconv.FormatInt(*v.InactiveStatus, 10))
+		}
+
+		if v.Name != nil {
+			s.D.Set("name", *v.Name)
+		}
+
+		s.D.Set("product_type", v.ProductType)
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+	default:
+		log.Printf("[WARN] Received 'protocol' of unknown type %v", *s.Res)
+		return nil
 	}
-
-	if s.Res.DefinedTags != nil {
-		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))
-	}
-
-	if s.Res.Description != nil {
-		s.D.Set("description", *s.Res.Description)
-	}
-
-	s.D.Set("freeform_tags", s.Res.FreeformTags)
-
-	if s.Res.InactiveStatus != nil {
-		s.D.Set("inactive_state", strconv.FormatInt(*s.Res.InactiveStatus, 10))
-	}
-
-	if s.Res.Name != nil {
-		s.D.Set("name", *s.Res.Name)
-	}
-
-	s.D.Set("product_type", s.Res.ProductType)
-
-	s.D.Set("protocol", string(oci_identity.ListIdentityProvidersProtocolSaml2))
-
-	s.D.Set("state", s.Res.LifecycleState)
-
-	if s.Res.TimeCreated != nil {
-		s.D.Set("time_created", s.Res.TimeCreated.String())
-	}
-
 	return nil
 }
 

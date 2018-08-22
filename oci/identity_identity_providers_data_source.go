@@ -4,6 +4,7 @@ package provider
 
 import (
 	"context"
+	"log"
 	"strconv"
 
 	"github.com/hashicorp/terraform/helper/schema"
@@ -94,44 +95,62 @@ func (s *IdentityProvidersDataSourceCrud) SetData() error {
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {
-		identityProvider := map[string]interface{}{
-			"compartment_id": *r.GetCompartmentId(),
-			"protocol":       string(oci_identity.ListIdentityProvidersProtocolSaml2),
+		result := map[string]interface{}{}
+		switch v := (r).(type) {
+		case oci_identity.Saml2IdentityProvider:
+			result["protocol"] = "SAML2"
+
+			if v.MetadataUrl != nil {
+				result["metadata_url"] = string(*v.MetadataUrl)
+			}
+
+			if v.RedirectUrl != nil {
+				result["redirect_url"] = string(*v.RedirectUrl)
+			}
+
+			if v.SigningCertificate != nil {
+				result["signing_certificate"] = string(*v.SigningCertificate)
+			}
+
+			if v.CompartmentId != nil {
+				result["compartment_id"] = string(*v.CompartmentId)
+			}
+
+			if v.DefinedTags != nil {
+				result["defined_tags"] = definedTagsToMap(v.DefinedTags)
+			}
+
+			if v.Description != nil {
+				result["description"] = string(*v.Description)
+			}
+
+			result["freeform_tags"] = v.FreeformTags
+
+			if v.Id != nil {
+				result["id"] = string(*v.Id)
+			}
+
+			if v.InactiveStatus != nil {
+				result["inactive_state"] = strconv.FormatInt(*v.InactiveStatus, 10)
+			}
+
+			if v.Name != nil {
+				result["name"] = string(*v.Name)
+			}
+
+			result["product_type"] = string(*v.ProductType)
+
+			result["state"] = string(v.LifecycleState)
+
+			if v.TimeCreated != nil {
+				result["time_created"] = v.TimeCreated.String()
+			}
+		default:
+			log.Printf("[WARN] Received 'protocol' of unknown type %v", r)
+			return nil
 		}
 
-		if r.GetDefinedTags() != nil {
-			identityProvider["defined_tags"] = definedTagsToMap(r.GetDefinedTags())
-		}
-
-		if r.GetDescription() != nil {
-			identityProvider["description"] = *r.GetDescription()
-		}
-
-		identityProvider["freeform_tags"] = r.GetFreeformTags()
-
-		if r.GetId() != nil {
-			identityProvider["id"] = *r.GetId()
-		}
-
-		if r.GetInactiveStatus() != nil {
-			identityProvider["inactive_state"] = strconv.FormatInt(*r.GetInactiveStatus(), 10)
-		}
-
-		if r.GetName() != nil {
-			identityProvider["name"] = *r.GetName()
-		}
-
-		if r.GetProductType() != nil {
-			identityProvider["product_type"] = *r.GetProductType()
-		}
-
-		identityProvider["state"] = r.GetLifecycleState()
-
-		if r.GetTimeCreated() != nil {
-			identityProvider["time_created"] = r.GetTimeCreated().String()
-		}
-
-		resources = append(resources, identityProvider)
+		resources = append(resources, result)
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {

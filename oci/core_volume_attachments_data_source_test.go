@@ -4,7 +4,6 @@ package provider
 
 import (
 	"testing"
-	"time"
 
 	common "github.com/oracle/oci-go-sdk/common"
 
@@ -144,37 +143,6 @@ func checkExpectedValue(mapped map[string]interface{}, key string, expected stri
 	if value := mapped[key].(string); value != expected {
 		t.Errorf("Expected attachment to have type %s, but got %s", expected, value)
 	}
-}
-
-// This unit tests that any datasource result that implements the SDK's VolumeAttachment interface can
-// be converted to a map to be stored in Terraform.
-func TestUnitVolumeAttachmentToMap_unknownType(t *testing.T) {
-	customAttachment := customVolumeAttachment{
-		ad:            "ad1",
-		compartmentId: "compartment",
-		id:            "myId",
-		instanceId:    "myInstanceId",
-		isReadOnly:    false,
-		volumeId:      "myVolumeId",
-		displayName:   "myDisplayName",
-		timeCreated:   common.SDKTime{Time: time.Now()},
-		state:         oci_core.VolumeAttachmentLifecycleStateDetached,
-	}
-
-	result := volumeAttachmentToMap(customAttachment)
-
-	// Check that type is set to Unknown for unsupported VolumeAttachment types
-	checkExpectedValue(result, "attachment_type", "Unknown", t)
-
-	// Check that all VolumeAttachment base class attributes are set
-	checkExpectedValue(result, "availability_domain", customAttachment.ad, t)
-	checkExpectedValue(result, "compartment_id", customAttachment.compartmentId, t)
-	checkExpectedValue(result, "id", customAttachment.id, t)
-	checkExpectedValue(result, "instance_id", customAttachment.instanceId, t)
-	checkExpectedValue(result, "volume_id", customAttachment.volumeId, t)
-	checkExpectedValue(result, "display_name", customAttachment.displayName, t)
-	checkExpectedValue(result, "time_created", customAttachment.timeCreated.String(), t)
-	checkExpectedValue(result, "state", string(customAttachment.state), t)
 }
 
 func TestDatasourceCoreVolumeAttachmentTestSuite(t *testing.T) {
