@@ -17,14 +17,14 @@ const (
 	BootVolumeBackupRequiredOnlyResource = BootVolumeBackupResourceDependencies + `
 resource "oci_core_boot_volume_backup" "test_boot_volume_backup" {
 	#Required
-	boot_volume_id = "${oci_core_boot_volume.test_boot_volume.id}"
+	boot_volume_id = "${oci_core_instance.test_instance.boot_volume_id}"
 }
 `
 
 	BootVolumeBackupResourceConfig = BootVolumeBackupResourceDependencies + `
 resource "oci_core_boot_volume_backup" "test_boot_volume_backup" {
 	#Required
-	boot_volume_id = "${oci_core_boot_volume.test_boot_volume.id}"
+	boot_volume_id = "${oci_core_instance.test_instance.boot_volume_id}"
 
 	#Optional
 	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.boot_volume_backup_defined_tags_value}")}"
@@ -41,7 +41,7 @@ variable "boot_volume_backup_state" { default = "AVAILABLE" }
 variable "boot_volume_backup_type" { default = "INCREMENTAL" }
 
 `
-	BootVolumeBackupResourceDependencies = BootVolumePropertyVariables + BootVolumeResourceConfig
+	BootVolumeBackupResourceDependencies = DefinedTagsDependencies + InstancePropertyVariables + InstanceResourceAsDependencyConfig
 )
 
 func TestCoreBootVolumeBackupResource_basic(t *testing.T) {
@@ -146,7 +146,7 @@ data "oci_core_boot_volume_backups" "test_boot_volume_backups" {
 	compartment_id = "${var.compartment_id}"
 
 	#Optional
-	boot_volume_id = "${oci_core_boot_volume.test_boot_volume.id}"
+	boot_volume_id = "${oci_core_instance.test_instance.boot_volume_id}"
 	display_name = "${var.boot_volume_backup_display_name}"
 	//state = "${var.boot_volume_backup_state}"
 
