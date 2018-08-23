@@ -12,9 +12,10 @@ import (
 	"os"
 	"sync"
 
+	"strings"
+
 	"github.com/oracle/oci-go-sdk/common"
 	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
-	"strings"
 )
 
 const defaultFilePartSize int64 = 128 * 1024 * 1024 // 128MB

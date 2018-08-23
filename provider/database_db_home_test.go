@@ -78,6 +78,7 @@ variable "db_home_db_version" { default = "12.1.0.2" }
 )
 
 func TestDatabaseDbHomeResource_basic(t *testing.T) {
+	t.Skip("Skipping this test for now as dbhome is not supported as a resource for now.")
 	provider := testAccProvider
 	config := testProviderConfig()
 
