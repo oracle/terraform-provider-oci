@@ -324,6 +324,7 @@ func resourcesMap() map[string]*schema.Resource {
 		"oci_core_volume_attachment":               VolumeAttachmentResource(),
 		"oci_core_volume_backup":                   VolumeBackupResource(),
 		"oci_core_volume_backup_policy_assignment": VolumeBackupPolicyAssignmentResource(),
+		//Do remember to enable database_db_home_test if you are enabling DB Home resource
 		//"oci_database_db_home":                     DbHomeResource(),
 		"oci_database_db_system":               DbSystemResource(),
 		"oci_database_backup":                  BackupResource(),

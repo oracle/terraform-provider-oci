@@ -41,7 +41,7 @@ func (s *DatasourceObjectstorageObjectHeadTestSuite) SetupTest() {
 		object = "-tf-object"
 		content = "test content"
 		metadata = {
-			"content_type" = "text/plain"
+			"content-type" = "text/plain"
 		}
 	}`, nil)
 	s.ResourceName = "data.oci_objectstorage_object_head.t"

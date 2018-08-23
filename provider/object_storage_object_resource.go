@@ -18,8 +18,9 @@ import (
 
 	"strconv"
 
-	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
 	"os"
+
+	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
 )
 
 const (
