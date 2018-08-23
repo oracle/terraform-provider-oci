@@ -4,6 +4,10 @@ export TF_VAR_user_ocid=""
 export TF_VAR_fingerprint=""
 export TF_VAR_private_key_path=""
 
+### Instance credentials
+export TF_VAR_ssh_public_key=$(cat .../id_rsa.pub)
+export TF_VAR_ssh_private_key=$(cat .../id_rsa)
+
 ### Region
 export TF_VAR_region=""
 
@@ -14,21 +18,21 @@ export TF_VAR_AD=""
 ### Compartment
 export TF_VAR_compartment_ocid=""
 
+######
+# Optional Variables
+######
+
 ### VCN-1 configuration
-export TF_VAR_vcn_cidr=""
-export TF_VAR_mgmt_subnet_cidr=""
-export TF_VAR_private_subnet_cidr=""
+#export TF_VAR_vcn_cidr=""
+#export TF_VAR_mgmt_subnet_cidr=""
+#export TF_VAR_private_subnet_cidr=""
 
 ### VCN-2 configuration
-export TF_VAR_vcn_cidr2=""
-export TF_VAR_mgmt_subnet_cidr2=""
-export TF_VAR_private_subnet_cidr2=""
+#export TF_VAR_vcn_cidr2=""
+#export TF_VAR_mgmt_subnet_cidr2=""
+#export TF_VAR_private_subnet_cidr2=""
 
 ### Instance configuration
-export TF_VAR_InstanceShape=""
-export TF_VAR_InstanceOS=""
-export TF_VAR_InstanceOSVersion=""
-
-### Instance credentials
-export TF_VAR_ssh_public_key=$(cat .../id_rsa.pub)
-export TF_VAR_ssh_private_key=$(cat .../id_rsa)
+#export TF_VAR_InstanceShape=""
+#export TF_VAR_InstanceOS=""
+#export TF_VAR_InstanceOSVersion=""

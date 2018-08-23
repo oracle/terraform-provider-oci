@@ -30,10 +30,10 @@ Once the environment is built, both the private instances in the different VCNs 
 
 ### How to validate this example
 Steps to validate this example will also be listed in the output when the terraform is deployed. 
-1. Enable ssh forwarding from your machine by performing ""ssh-add ~/.ssh/id_rsa"
-2. Login to Bridge instance using "ssh -A <Bridge-Instance-Public-IP>"
-3. After that, login to privateInstance-1 using "ssh <PrivateInstance-1-IP>"
-4. Ping the other PrivateInstance-2 "ping <PrivateInstance-2-IP>
+1. Enable ssh forwarding from your machine by performing "ssh-add ~/.ssh/id_rsa"
+2. Login to Bridge instance using "ssh -A Bridge-Instance-Public-IP-Address"
+3. After that, login to privateInstance-1 using "ssh PrivateInstance-1-IP-Address"
+4. Ping the other PrivateInstance-2 "ping PrivateInstance-2-IP-Address"
 5. Vice versa should work fine as well.
 
 ### Files in the configuration
