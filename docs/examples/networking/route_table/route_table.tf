@@ -32,7 +32,8 @@ resource "oci_core_route_table" "ExampleRouteTable" {
   display_name   = "TFExampleRouteTable"
 
   route_rules {
-    cidr_block        = "0.0.0.0/0"
+    destination       = "0.0.0.0/0"
+    destination_type  = "CIDR_BLOCK"
     network_entity_id = "${oci_core_internet_gateway.ExampleIG.id}"
   }
 }

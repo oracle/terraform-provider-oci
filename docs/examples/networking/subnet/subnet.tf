@@ -13,6 +13,10 @@ provider "oci" {
   region           = "${var.region}"
 }
 
+variable "availability_domain" {
+  default = 3
+}
+
 resource "oci_core_virtual_network" "ExampleVCN" {
   cidr_block     = "10.1.0.0/16"
   compartment_id = "${var.compartment_ocid}"
@@ -27,7 +31,7 @@ Because you can specify multiple security lists/subnet the security_list_ids val
 Generally you wouldn't specify a subnet without first specifying a VCN. Once the VCN has been created you would get the vcn_id, route_table_id, and security_list_id(s) from that resource and use Terraform attributes below to populate those values.
  See https://www.terraform.io/docs/configuration/interpolation.html*/
 resource "oci_core_subnet" "ExampleSubnet" {
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[0],"name")}"
+  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain - 1],"name")}"
   cidr_block          = "10.1.1.0/24"
   display_name        = "TFExampleSubnet"
   dns_label           = "tfexamplesubnet"

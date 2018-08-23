@@ -3,6 +3,7 @@ variable "user_ocid" {}
 variable "fingerprint" {}
 variable "private_key_path" {}
 variable "region" {}
+variable "compartment_ocid" {}
 
 provider "oci" {
   tenancy_ocid     = "${var.tenancy_ocid}"
@@ -16,13 +17,17 @@ variable "DBSize" {
   default = "50" // size in GBs, min: 50, max 16384
 }
 
+variable "availability_domain" {
+  default = 3
+}
+
 data "oci_identity_availability_domains" "ADs" {
   compartment_id = "${var.tenancy_ocid}"
 }
 
 resource "oci_core_volume" "t" {
-  availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-  compartment_id      = "${var.tenancy_ocid}"
+  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain - 1],"name")}"
+  compartment_id      = "${var.compartment_ocid}"
   display_name        = "-tf-volume"
   size_in_gbs         = "${var.DBSize}"
 }

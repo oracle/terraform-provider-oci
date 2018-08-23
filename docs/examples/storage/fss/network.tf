@@ -18,13 +18,14 @@ resource "oci_core_route_table" "my_route_table" {
   display_name   = "my route table"
 
   route_rules {
-    cidr_block        = "0.0.0.0/0"
+    destination       = "0.0.0.0/0"
+    destination_type  = "CIDR_BLOCK"
     network_entity_id = "${oci_core_internet_gateway.my_internet_gateway.id}"
   }
 }
 
 resource "oci_core_subnet" "my_subnet" {
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.AD - 1],"name")}"
+  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain - 1],"name")}"
   cidr_block          = "${var.my_subnet_cidr}"
   display_name        = "mysubnet"
   dns_label           = "mysubnet"

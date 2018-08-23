@@ -6,14 +6,13 @@ variable "region" {}
 
 variable "compartment_ocid" {}
 variable "ssh_public_key" {}
-variable "ssh_private_key" {}
 
 # Choose an Availability Domain
-variable "AD" {
-  default = "1"
+variable "availability_domain" {
+  default = "3"
 }
 
-variable "InstanceImageOCID" {
+variable "instance_image_ocid" {
   type = "map"
 
   default = {
@@ -27,8 +26,8 @@ variable "InstanceImageOCID" {
   }
 }
 
-variable "InstanceShape" {
-  default = "VM.Standard1.2"
+variable "instance_shape" {
+  default = "VM.Standard1.1"
 }
 
 provider "oci" {
@@ -52,7 +51,7 @@ resource "oci_core_virtual_network" "ExampleVCN" {
 }
 
 resource "oci_core_subnet" "ExampleSubnet" {
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.AD - 1],"name")}"
+  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain - 1],"name")}"
   cidr_block          = "10.1.20.0/24"
   display_name        = "TFExampleSubnet"
   dns_label           = "tfexamplesubnet"
@@ -73,7 +72,8 @@ resource "oci_core_default_route_table" "ExampleRT" {
   manage_default_resource_id = "${oci_core_virtual_network.ExampleVCN.default_route_table_id}"
 
   route_rules {
-    cidr_block        = "0.0.0.0/0"
+    destination       = "0.0.0.0/0"
+    destination_type  = "CIDR_BLOCK"
     network_entity_id = "${oci_core_internet_gateway.ExampleIG.id}"
   }
 }
@@ -81,7 +81,7 @@ resource "oci_core_default_route_table" "ExampleRT" {
 # Gets a list of vNIC attachments on the instance
 data "oci_core_vnic_attachments" "InstanceVnics" {
   compartment_id      = "${var.compartment_ocid}"
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.AD - 1],"name")}"
+  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain - 1],"name")}"
   instance_id         = "${oci_core_instance.TFInstance.id}"
 }
 
@@ -91,10 +91,10 @@ data "oci_core_vnic" "InstanceVnic" {
 }
 
 resource "oci_core_instance" "TFInstance" {
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.AD - 1],"name")}"
+  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain - 1],"name")}"
   compartment_id      = "${var.compartment_ocid}"
   display_name        = "TFInstance"
-  shape               = "${var.InstanceShape}"
+  shape               = "${var.instance_shape}"
 
   create_vnic_details {
     subnet_id        = "${oci_core_subnet.ExampleSubnet.id}"
@@ -105,7 +105,7 @@ resource "oci_core_instance" "TFInstance" {
 
   source_details {
     source_type = "image"
-    source_id   = "${var.InstanceImageOCID[var.region]}"
+    source_id   = "${var.instance_image_ocid[var.region]}"
   }
 
   metadata {

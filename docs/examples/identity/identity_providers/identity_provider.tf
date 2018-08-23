@@ -9,7 +9,6 @@ resource "oci_identity_identity_provider" "test_identity_provider" {
   protocol       = "${var.identity_provider_protocol}"
 
   #Optional
-  #defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.identity_provider_defined_tags_value}")}"
   freeform_tags = "${var.identity_provider_freeform_tags}"
 }
 

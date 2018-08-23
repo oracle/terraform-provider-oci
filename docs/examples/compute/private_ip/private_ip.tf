@@ -9,11 +9,15 @@ variable "ssh_public_key" {}
 variable "ssh_private_key" {}
 
 # Choose an Availability Domain
-variable "AD" {
-  default = "1"
+variable "availability_domain" {
+  default = "3"
 }
 
-variable "InstanceImageOCID" {
+variable "instance_shape" {
+  default = "VM.Standard1.1"
+}
+
+variable "instance_image_ocid" {
   type = "map"
 
   default = {
@@ -49,7 +53,7 @@ resource "oci_core_virtual_network" "ExampleVCN" {
 }
 
 resource "oci_core_subnet" "ExampleSubnet" {
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.AD - 1],"name")}"
+  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain - 1],"name")}"
   cidr_block          = "10.1.20.0/24"
   display_name        = "TFExampleSubnet"
   dns_label           = "tfexamplesubnet"
@@ -62,22 +66,26 @@ resource "oci_core_subnet" "ExampleSubnet" {
 
 # Create Instance
 resource "oci_core_instance" "TFInstance1" {
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.AD - 1],"name")}"
+  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain - 1],"name")}"
   compartment_id      = "${var.compartment_ocid}"
   display_name        = "TFInstance"
   hostname_label      = "instance"
-  image               = "${var.InstanceImageOCID[var.region]}"
-  shape               = "VM.Standard1.2"
+  shape               = "${var.instance_shape}"
 
   create_vnic_details {
     subnet_id = "${oci_core_subnet.ExampleSubnet.id}"
+  }
+
+  source_details {
+    source_type = "image"
+    source_id   = "${var.instance_image_ocid[var.region]}"
   }
 }
 
 # Gets a list of VNIC attachments on the instance
 data "oci_core_vnic_attachments" "InstanceVnics" {
   compartment_id      = "${var.compartment_ocid}"
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.AD - 1],"name")}"
+  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain - 1],"name")}"
   instance_id         = "${oci_core_instance.TFInstance1.id}"
 }
 

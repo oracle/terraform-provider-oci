@@ -17,7 +17,6 @@ const examplesTestStateFile = "test_examples.tfstate"
 const defaultTerraformBinary = "terraform"
 const vcnExamplePath = "../docs/examples/networking/vcn"
 const localBinPath = "/usr/local/bin"
-const tfPluginDir = "~/.terraform.d/plugins"
 
 var examplesTestAllowedEnvironmentVariables = []string{
 	"HOME",
@@ -29,9 +28,28 @@ var examplesTestAllowedEnvironmentVariables = []string{
 	"TF_VAR_private_key_password",
 	"TF_VAR_region",
 	"TF_VAR_compartment_ocid",
-	"TF_VAR_AD",
+	"TF_VAR_compartment_id",
+	"TF_VAR_compartment_ocid_acceptor",
+	"TF_VAR_compartment_ocid_requestor",
+	"TF_VAR_availability_domain",
 	"TF_VAR_ssh_public_key",
 	"TF_VAR_ssh_private_key",
+	"TF_VAR_compartment_name_acceptor",
+	"TF_VAR_compartment_name_requestor",
+	"TF_VAR_compartment_ocid_acceptor",
+	"TF_VAR_compartment_ocid_requestor",
+	"TF_VAR_fingerprint_acceptor",
+	"TF_VAR_fingerprint_requestor",
+	"TF_VAR_identity_provider_metadata_file",
+	"TF_VAR_private_key_path_acceptor",
+	"TF_VAR_private_key_path_requestor",
+	"TF_VAR_ssh_public_key",
+	"TF_VAR_ssh_private_key",
+	"TF_VAR_user_acceptor",
+	"TF_VAR_user_requestor",
+	"TF_VAR_tags_import_if_exists",
+	"TF_VAR_defined_tag_namespace_name",
+	"TF_VAR_simulate_db",
 }
 
 func TestExamplesPlan(t *testing.T) {
@@ -92,9 +110,10 @@ func GetConfigPaths(t *testing.T, rootPath string) (pathList []string, err error
 		if !fileInfo.IsDir() && strings.HasSuffix(path, ".tf") {
 			dir := filepath.Dir(path)
 
-			// TODO: Skip the db_systems example for now, until this is updated to use the
-			// new set of environment variables.
-			if !strings.HasSuffix(dir, "/db_systems") {
+			// TODO: need improvement in our test environment
+			// Skip some terraform example tests for now, since currently they do not fit
+			// well in our testing environment
+			if !shouldSkip(dir) {
 				dirSet[dir] = struct{}{}
 			}
 		}
@@ -109,6 +128,18 @@ func GetConfigPaths(t *testing.T, rootPath string) (pathList []string, err error
 	}
 
 	return pathList, err
+}
+
+func shouldSkip(dir string) bool {
+	blackList := []string{"/db_systems", "/adw_backup", "/atp_backup", "/block"}
+	var flag bool
+	for _, blackDir := range blackList {
+		flag = flag || strings.HasSuffix(dir, blackDir)
+		if flag {
+			return flag
+		}
+	}
+	return flag
 }
 
 func RunConfigOnAllTerraformVersions(t *testing.T, path string, planOnly bool) bool {
@@ -154,7 +185,7 @@ func RunConfig(t *testing.T, path string, planOnly bool, terraformBinary string)
 		terraformCommand = defaultTerraformBinary
 	}
 
-	if !RunCommand(t, path, fmt.Sprintf("%s init -plugin-dir %s", terraformCommand, tfPluginDir)) {
+	if !RunCommand(t, path, fmt.Sprintf("%s init", terraformCommand)) {
 		return false
 	}
 

@@ -16,8 +16,8 @@ variable "api_public_key" {
 }
 
 # Choose an Availability Domain
-variable "AD" {
-  default = "1"
+variable "availability_domain" {
+  default = "3"
 }
 
 variable "my_vcn-cidr" {
@@ -27,11 +27,6 @@ variable "my_vcn-cidr" {
 variable "my_subnet_cidr" {
   default = "10.0.1.0/24"
 }
-
-variable "availability_domain" {
-  default = "kIdk:PHX-AD-1"
-}
-
 variable "file_system_1_display_name" {
   default = "my_fs_1"
 }
@@ -95,7 +90,7 @@ variable "instance_image_ocid" {
 }
 
 variable "instance_shape" {
-  default = "VM.Standard1.2"
+  default = "VM.Standard1.1"
 }
 
 locals {

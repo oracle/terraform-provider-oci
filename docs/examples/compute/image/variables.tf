@@ -8,11 +8,11 @@ variable "compartment_ocid" {}
 variable "ssh_public_key" {}
 
 # Choose an Availability Domain
-variable "AD" {
-  default = "1"
+variable "availability_domain" {
+  default = "3"
 }
 
-variable "InstanceShape" {
+variable "instance_shape" {
   default = "VM.Standard1.1"
 }
 

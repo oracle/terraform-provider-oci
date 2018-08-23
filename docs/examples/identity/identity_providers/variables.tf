@@ -7,8 +7,10 @@ variable "identity_provider_description" {
 }
 
 variable "identity_provider_freeform_tags" {
+  type = "map"
+
   default = {
-    "Department" = "Finance"
+    Department = "Finance"
   }
 }
 

@@ -31,7 +31,8 @@ resource "oci_core_default_route_table" "tf-default-route-table" {
   display_name               = "tf-default-route-table"
 
   route_rules {
-    cidr_block        = "0.0.0.0/0"
+    destination        = "0.0.0.0/0"
+    destination_type  = "CIDR_BLOCK"
     network_entity_id = "${oci_core_internet_gateway.tf-ig1.id}"
   }
 }
@@ -42,7 +43,8 @@ resource "oci_core_route_table" "tf-route-table1" {
   display_name   = "tf-route-table1"
 
   route_rules {
-    cidr_block        = "0.0.0.0/0"
+    destination        = "0.0.0.0/0"
+    destination_type  = "CIDR_BLOCK"
     network_entity_id = "${oci_core_internet_gateway.tf-ig1.id}"
   }
 }

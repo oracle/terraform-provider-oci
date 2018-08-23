@@ -1,11 +1,11 @@
 resource "oci_core_drg" "drg_private" {
   #Required
-  compartment_id = "${var.compartment_id}"
+  compartment_id = "${var.compartment_ocid}"
 }
 
 resource "oci_core_virtual_circuit" "virtual_circuit_private" {
   #Required
-  compartment_id = "${var.compartment_id}"
+  compartment_id = "${var.compartment_ocid}"
   type           = "${var.virtual_circuit_type_private}"
 
   #Required for PRIVATE VirtualCircuit
@@ -28,7 +28,7 @@ resource "oci_core_virtual_circuit" "virtual_circuit_private" {
 
 resource "oci_core_virtual_circuit" "virtual_circuit_public" {
   #Required
-  compartment_id = "${var.compartment_id}"
+  compartment_id = "${var.compartment_ocid}"
   type           = "${var.virtual_circuit_type_public}"
 
   #Required for PUBLIC Virtual Circuit
@@ -58,7 +58,7 @@ resource "oci_core_virtual_circuit" "virtual_circuit_public" {
 
 resource "oci_core_drg" "drg_provider_layer2" {
   #Required
-  compartment_id = "${var.compartment_id}"
+  compartment_id = "${var.compartment_ocid}"
 }
 
 resource "oci_core_virtual_circuit" "virtual_circuit_provider_private_layer2" {
@@ -66,7 +66,7 @@ resource "oci_core_virtual_circuit" "virtual_circuit_provider_private_layer2" {
   count = "${length(data.oci_core_fast_connect_provider_services.fast_connect_provider_services_private_layer2.fast_connect_provider_services) > 0 ? 1 : 0 }"
 
   #Required
-  compartment_id = "${var.compartment_id}"
+  compartment_id = "${var.compartment_ocid}"
   type           = "${var.virtual_circuit_type_private}"
 
   #Required for PRIVATE VirtualCircuit with Provider
@@ -89,7 +89,7 @@ resource "oci_core_virtual_circuit" "virtual_circuit_provider_public_layer3" {
   count = "${length(data.oci_core_fast_connect_provider_services.fast_connect_provider_services_public_layer3.fast_connect_provider_services) > 0 ? 1 : 0 }"
 
   #Required
-  compartment_id = "${var.compartment_id}"
+  compartment_id = "${var.compartment_ocid}"
   type           = "${var.virtual_circuit_type_public}"
 
   #Required for PRIVATE VirtualCircuit with Provider
@@ -101,7 +101,7 @@ resource "oci_core_virtual_circuit" "virtual_circuit_provider_public_layer3" {
 
 data "oci_core_virtual_circuits" "virtual_circuits" {
   #Required
-  compartment_id = "${var.compartment_id}"
+  compartment_id = "${var.compartment_ocid}"
 
   #Optional
   display_name = "${var.virtual_circuit_display_name}"

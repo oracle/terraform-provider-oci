@@ -9,15 +9,15 @@ variable "ssh_public_key" {}
 variable "ssh_private_key" {}
 
 # Choose an Availability Domain
-variable "AD" {
-  default = "1"
+variable "availability_domain" {
+  default = "3"
 }
 
-variable "InstanceShape" {
-  default = "VM.Standard1.4"
+variable "instance_shape" {
+  default = "VM.Standard1.1"
 }
 
-variable "InstanceImageOCID" {
+variable "instance_image_ocid" {
   type = "map"
 
   default = {
@@ -32,11 +32,11 @@ variable "InstanceImageOCID" {
 }
 
 variable "2TB" {
-  default = "2097152"
+  default = "2048"
 }
 
 variable "256GB" {
-  default = "262144"
+  default = "256"
 }
 
 variable "BootStrapFile" {

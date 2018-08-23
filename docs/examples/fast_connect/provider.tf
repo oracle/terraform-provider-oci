@@ -3,7 +3,7 @@ variable "user_ocid" {}
 variable "fingerprint" {}
 variable "private_key_path" {}
 variable "region" {}
-variable "compartment_id" {}
+variable "compartment_ocid" {}
 
 provider "oci" {
   tenancy_ocid     = "${var.tenancy_ocid}"
