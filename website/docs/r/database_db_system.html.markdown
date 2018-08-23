@@ -89,7 +89,6 @@ The following arguments are supported:
 * `cluster_name` - (Optional) Cluster name for Exadata and 2-node RAC DB Systems. The cluster name must begin with an an alphabetic character, and may contain hyphens (-). Underscores (_) are not permitted. The cluster name can be no longer than 11 characters and is not case sensitive. 
 * `compartment_id` - (Required) The Oracle Cloud ID (OCID) of the compartment the DB System  belongs in.
 * `cpu_core_count` - (Optional) (Updatable) The number of CPU cores to enable. The valid values depend on the specified shape:
-
 	* BM.DenseIO1.36 and BM.HighIO1.36 - Specify a multiple of 2, from 2 to 36.
 	* BM.RACLocalStorage1.72 - Specify a multiple of 4, from 4 to 72.
 	* Exadata.Quarter1.84 - Specify a multiple of 2, from 22 to 84.
@@ -129,7 +128,7 @@ The following arguments are supported:
 * `license_model` - (Optional) The Oracle license model that applies to all the databases on the DB System. The default is LICENSE_INCLUDED. 
 * `node_count` - (Optional) Number of nodes to launch for a VM-shape based RAC DB system. 
 * `shape` - (Required) The shape of the DB System. The shape determines resources allocated to the DB System - CPU cores and memory for VM shapes; CPU cores, memory and storage for non-VM (or bare metal) shapes. To get a list of shapes, use the [ListDbSystemShapes](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/database/20160918/DbSystemShapeSummary/ListDbSystemShapes) operation.
-* `source` - (Optional) Source of database:   NONE for creating a new database   DB_BACKUP for creating a new database by restoring a backup 
+* `source` - (Optional) Source of database: NONE for creating a new database DB_BACKUP for creating a new database by restoring a backup 
 * `ssh_public_keys` - (Required) (Updatable) The public key portion of the key pair to use for SSH access to the DB System. Multiple public keys can be provided. The length of the combined keys cannot exceed 10,000 characters.
 * `subnet_id` - (Required) The OCID of the subnet the DB System is associated with.
 
@@ -172,7 +171,6 @@ The following attributes are exported:
 * `reco_storage_size_in_gb` - RECO/REDO storage size, in GBs, that is currently allocated to the DB system. This is applicable only for VM-based DBs. 
 * `scan_dns_record_id` - The OCID of the DNS record for the SCAN IP addresses that are associated with the DB System. 
 * `scan_ip_ids` - The OCID of the Single Client Access Name (SCAN) IP addresses associated with the DB System. SCAN IP addresses are typically used for load balancing and are not assigned to any interface. Clusterware directs the requests to the appropriate nodes in the cluster.
-
 	* For a single-node DB System, this list is empty. 
 * `shape` - The shape of the DB System. The shape determines resources to allocate to the DB system - CPU cores and memory for VM shapes; CPU cores, memory and storage for non-VM (or bare metal) shapes.
 * `ssh_public_keys` - The public key portion of one or more key pairs used for SSH access to the DB System.
@@ -187,7 +185,6 @@ The following attributes are exported:
 * `time_created` - The date and time the DB System was created.
 * `version` - The version of the DB System.
 * `vip_ids` - The OCID of the virtual IP (VIP) addresses associated with the DB System. The Cluster Ready Services (CRS) creates and maintains one VIP address for each node in the DB System to enable failover. If one node fails, the VIP is reassigned to another active node in the cluster.
-
 	* For a single-node DB System, this list is empty. 
 
 ## Import

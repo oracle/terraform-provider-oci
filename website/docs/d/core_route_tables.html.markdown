@@ -57,7 +57,7 @@ The following attributes are exported:
 	* `cidr_block` - Deprecated, Destination and DestinationType should be used instead; request including both fields will be rejected. A destination IP address range in CIDR notation. Matching packets will be routed to the indicated network entity (the target).  Example: `0.0.0.0/0` 
 	* `destination` - The destination service cidrBlock or destination IP address range in CIDR notation. Matching packets will be routed to the indicated network entity (the target).
 
-		Examples: `10.12.0.0/16`           `oci-phx-objectstorage` 
+		Examples: `10.12.0.0/16` `oci-phx-objectstorage` 
 	* `destination_type` - Type of destination for the route rule. SERVICE_CIDR_BLOCK should be used if destination is a service cidrBlock. CIDR_BLOCK should be used if destination is IP address range in CIDR notation. It must be provided along with `destination`. 
 	* `network_entity_id` - The OCID for the route rule's target. For information about the type of targets you can specify, see [Route Tables](https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Tasks/managingroutetables.htm). 
 * `state` - The route table's current state.

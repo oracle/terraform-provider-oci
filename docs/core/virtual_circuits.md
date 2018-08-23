@@ -15,10 +15,14 @@ The following attributes are exported:
 	* `cross_connect_or_cross_connect_group_id` - The OCID of the cross-connect or cross-connect group for this mapping. Specified by the owner of the cross-connect or cross-connect group (the customer if the customer is colocated with Oracle, or the provider if the customer is connecting via provider). 
 	* `customer_bgp_peering_ip` - The BGP IP address for the router on the other end of the BGP session from Oracle. Specified by the owner of that router. If the session goes from Oracle to a customer, this is the BGP IP address of the customer's edge router. If the session goes from Oracle to a provider, this is the BGP IP address of the provider's edge router. Must use a /30 or /31 subnet mask.
 
-		There's one exception: for a public virtual circuit, Oracle specifies the BGP IP addresses.  Example: `10.0.0.18/31` 
+		There's one exception: for a public virtual circuit, Oracle specifies the BGP IP addresses.
+
+		Example: `10.0.0.18/31` 
 	* `oracle_bgp_peering_ip` - The IP address for Oracle's end of the BGP session. Must use a /30 or /31 subnet mask. If the session goes from Oracle to a customer's edge router, the customer specifies this information. If the session goes from Oracle to a provider's edge router, the provider specifies this.
 
-		There's one exception: for a public virtual circuit, Oracle specifies the BGP IP addresses.  Example: `10.0.0.19/31` 
+		There's one exception: for a public virtual circuit, Oracle specifies the BGP IP addresses.
+
+		Example: `10.0.0.19/31` 
 	* `vlan` - The number of the specific VLAN (on the cross-connect or cross-connect group) that is assigned to this virtual circuit. Specified by the owner of the cross-connect or cross-connect group (the customer if the customer is colocated with Oracle, or the provider if the customer is connecting via provider).  Example: `200` 
 * `customer_bgp_asn` - The BGP ASN of the network at the other end of the BGP session from Oracle. If the session is between the customer's edge router and Oracle, the value is the customer's ASN. If the BGP session is between the provider's edge router and Oracle, the value is the provider's ASN. 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
@@ -70,10 +74,14 @@ The following arguments are supported:
 	* `cross_connect_or_cross_connect_group_id` - (Optional) The OCID of the cross-connect or cross-connect group for this mapping. Specified by the owner of the cross-connect or cross-connect group (the customer if the customer is colocated with Oracle, or the provider if the customer is connecting via provider). 
 	* `customer_bgp_peering_ip` - (Optional) The BGP IP address for the router on the other end of the BGP session from Oracle. Specified by the owner of that router. If the session goes from Oracle to a customer, this is the BGP IP address of the customer's edge router. If the session goes from Oracle to a provider, this is the BGP IP address of the provider's edge router. Must use a /30 or /31 subnet mask.
 
-		There's one exception: for a public virtual circuit, Oracle specifies the BGP IP addresses.  Example: `10.0.0.18/31` 
+		There's one exception: for a public virtual circuit, Oracle specifies the BGP IP addresses.
+
+		Example: `10.0.0.18/31` 
 	* `oracle_bgp_peering_ip` - (Optional) The IP address for Oracle's end of the BGP session. Must use a /30 or /31 subnet mask. If the session goes from Oracle to a customer's edge router, the customer specifies this information. If the session goes from Oracle to a provider's edge router, the provider specifies this.
 
-		There's one exception: for a public virtual circuit, Oracle specifies the BGP IP addresses.  Example: `10.0.0.19/31` 
+		There's one exception: for a public virtual circuit, Oracle specifies the BGP IP addresses.
+
+		Example: `10.0.0.19/31` 
 	* `vlan` - (Optional) The number of the specific VLAN (on the cross-connect or cross-connect group) that is assigned to this virtual circuit. Specified by the owner of the cross-connect or cross-connect group (the customer if the customer is colocated with Oracle, or the provider if the customer is connecting via provider).  Example: `200` 
 * `customer_bgp_asn` - (Optional) Your BGP ASN (either public or private). Provide this value only if there's a BGP session that goes from your edge router to Oracle. Otherwise, leave this empty or null. 
 * `display_name` - (Optional) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
@@ -119,10 +127,14 @@ The following arguments support updates:
 	* `cross_connect_or_cross_connect_group_id` - The OCID of the cross-connect or cross-connect group for this mapping. Specified by the owner of the cross-connect or cross-connect group (the customer if the customer is colocated with Oracle, or the provider if the customer is connecting via provider). 
 	* `customer_bgp_peering_ip` - The BGP IP address for the router on the other end of the BGP session from Oracle. Specified by the owner of that router. If the session goes from Oracle to a customer, this is the BGP IP address of the customer's edge router. If the session goes from Oracle to a provider, this is the BGP IP address of the provider's edge router. Must use a /30 or /31 subnet mask.
 
-		There's one exception: for a public virtual circuit, Oracle specifies the BGP IP addresses.  Example: `10.0.0.18/31` 
+		There's one exception: for a public virtual circuit, Oracle specifies the BGP IP addresses.
+
+		Example: `10.0.0.18/31` 
 	* `oracle_bgp_peering_ip` - The IP address for Oracle's end of the BGP session. Must use a /30 or /31 subnet mask. If the session goes from Oracle to a customer's edge router, the customer specifies this information. If the session goes from Oracle to a provider's edge router, the provider specifies this.
 
-		There's one exception: for a public virtual circuit, Oracle specifies the BGP IP addresses.  Example: `10.0.0.19/31` 
+		There's one exception: for a public virtual circuit, Oracle specifies the BGP IP addresses.
+
+		Example: `10.0.0.19/31` 
 	* `vlan` - The number of the specific VLAN (on the cross-connect or cross-connect group) that is assigned to this virtual circuit. Specified by the owner of the cross-connect or cross-connect group (the customer if the customer is colocated with Oracle, or the provider if the customer is connecting via provider).  Example: `200` 
 * `customer_bgp_asn` - Your BGP ASN (either public or private). Provide this value only if there's a BGP session that goes from your edge router to Oracle. Otherwise, leave this empty or null. 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 

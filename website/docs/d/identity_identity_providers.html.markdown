@@ -54,7 +54,9 @@ The following attributes are exported:
 
 	Allowed values are:
 	* `ADFS`
-	* `IDCS`  Example: `IDCS` 
+	* `IDCS`
+
+	Example: `IDCS` 
 * `protocol` - The protocol used for federation. Allowed value: `SAML2`.  Example: `SAML2` 
 * `state` - The current state. After creating an `IdentityProvider`, make sure its `lifecycleState` changes from CREATING to ACTIVE before using it. 
 * `time_created` - Date and time the `IdentityProvider` was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 

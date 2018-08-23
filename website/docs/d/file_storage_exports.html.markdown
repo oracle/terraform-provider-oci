@@ -71,7 +71,9 @@ The following attributes are exported:
 * `id` - The OCID of this export.
 * `path` - Path used to access the associated file system.
 
-	Avoid entering confidential information.  Example: `/accounting` 
+	Avoid entering confidential information.
+
+	Example: `/accounting` 
 * `state` - The current state of this export.
 * `time_created` - The date and time the export was created, expressed in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) timestamp format.  Example: `2016-08-25T21:10:29.600Z` 
 

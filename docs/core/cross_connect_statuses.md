@@ -10,15 +10,10 @@ The following attributes are exported:
 * `interface_state` - Whether Oracle's side of the interface is up or down.
 * `light_level_ind_bm` - The light level of the cross-connect (in dBm).  Example: `14.0` 
 * `light_level_indicator` - Status indicator corresponding to the light level.
-
 	* **NO_LIGHT:** No measurable light
-
 	* **LOW_WARN:** There's measurable light but it's too low
-
 	* **HIGH_WARN:** Light level is too high
-
 	* **BAD:** There's measurable light but the signal-to-noise ratio is bad
-
 	* **GOOD:** Good light level 
 
 

@@ -43,7 +43,7 @@ The following attributes are exported:
 	* `protocol` - The transport protocol. Specify either `all` or an IPv4 protocol number as defined in [Protocol Numbers](http://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml). Options are supported only for ICMP ("1"), TCP ("6"), and UDP ("17"). 
 	* `source` - The source service cidrBlock or source IP address range in CIDR notation for the ingress rule. This is the range of IP addresses that a packet coming into the instance can come from.
 
-		Examples: `10.12.0.0/16`           `oci-phx-objectstorage` 
+		Examples: `10.12.0.0/16` `oci-phx-objectstorage` 
 	* `source_type` - Type of source for IngressSecurityRule. SERVICE_CIDR_BLOCK should be used if source is a service cidrBlock. CIDR_BLOCK should be used if source is IP address range in CIDR notation. It defaults to CIDR_BLOCK, if not specified. 
 	* `stateless` - A stateless rule allows traffic in one direction. Remember to add a corresponding stateless rule in the other direction if you need to support bidirectional traffic. For example, if ingress traffic allows TCP destination port 80, there should be an egress rule to allow TCP source port 80. Defaults to false, which means the rule is stateful and a corresponding rule is not necessary for bidirectional traffic. 
 	* `tcp_options` - Optional and valid only for TCP. Use to specify particular destination ports for TCP rules. If you specify TCP as the protocol but omit this object, then all destination ports are allowed. 
@@ -118,7 +118,7 @@ The following arguments are supported:
 	* `protocol` - (Required) The transport protocol. Specify either `all` or an IPv4 protocol number as defined in [Protocol Numbers](http://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml). Options are supported only for ICMP ("1"), TCP ("6"), and UDP ("17"). 
 	* `source` - (Required) The source service cidrBlock or source IP address range in CIDR notation for the ingress rule. This is the range of IP addresses that a packet coming into the instance can come from.
 
-		Examples: `10.12.0.0/16`           `oci-phx-objectstorage` 
+		Examples: `10.12.0.0/16` `oci-phx-objectstorage` 
 	* `source_type` - (Optional) Type of source for IngressSecurityRule. SERVICE_CIDR_BLOCK should be used if source is a service cidrBlock. CIDR_BLOCK should be used if source is IP address range in CIDR notation. It defaults to CIDR_BLOCK, if not specified. 
 	* `stateless` - (Optional) A stateless rule allows traffic in one direction. Remember to add a corresponding stateless rule in the other direction if you need to support bidirectional traffic. For example, if ingress traffic allows TCP destination port 80, there should be an egress rule to allow TCP source port 80. Defaults to false, which means the rule is stateful and a corresponding rule is not necessary for bidirectional traffic. 
 	* `tcp_options` - (Optional) Optional and valid only for TCP. Use to specify particular destination ports for TCP rules. If you specify TCP as the protocol but omit this object, then all destination ports are allowed. 
@@ -179,7 +179,7 @@ The following arguments support updates:
 	* `protocol` - The transport protocol. Specify either `all` or an IPv4 protocol number as defined in [Protocol Numbers](http://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml). Options are supported only for ICMP ("1"), TCP ("6"), and UDP ("17"). 
 	* `source` - The source service cidrBlock or source IP address range in CIDR notation for the ingress rule. This is the range of IP addresses that a packet coming into the instance can come from.
 
-		Examples: `10.12.0.0/16`           `oci-phx-objectstorage` 
+		Examples: `10.12.0.0/16` `oci-phx-objectstorage` 
 	* `source_type` - Type of source for IngressSecurityRule. SERVICE_CIDR_BLOCK should be used if source is a service cidrBlock. CIDR_BLOCK should be used if source is IP address range in CIDR notation. It defaults to CIDR_BLOCK, if not specified. 
 	* `stateless` - A stateless rule allows traffic in one direction. Remember to add a corresponding stateless rule in the other direction if you need to support bidirectional traffic. For example, if ingress traffic allows TCP destination port 80, there should be an egress rule to allow TCP source port 80. Defaults to false, which means the rule is stateful and a corresponding rule is not necessary for bidirectional traffic. 
 	* `tcp_options` - Optional and valid only for TCP. Use to specify particular destination ports for TCP rules. If you specify TCP as the protocol but omit this object, then all destination ports are allowed. 
