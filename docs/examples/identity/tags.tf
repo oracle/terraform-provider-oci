@@ -1,8 +1,8 @@
 resource "oci_identity_tag_namespace" "tag-namespace1" {
   #Required
   compartment_id = "${var.compartment_ocid}"
-  description    = "tf example tag namespace"
-  name           = "tf-example-tag-namespace"
+  description    = "Just a test"
+  name           = "exampletagns"
 
   is_retired = false
 }

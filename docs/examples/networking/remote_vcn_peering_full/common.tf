@@ -1,10 +1,10 @@
 variable "ssh_public_key" {}
 
-variable "InstanceShape" {
-  default = "VM.Standard1.2"
+variable "instance_shape" {
+  default = "VM.Standard1.1"
 }
 
-variable "InstanceImageOCID" {
+variable "instance_image_ocid" {
   type = "map"
 
   default = {
@@ -24,6 +24,10 @@ variable "tcp_protocol" {
 
 variable "ssh_port" {
   default = "22"
+}
+
+variable "availability_domain" {
+  default = 3
 }
 
 data "oci_identity_availability_domains" "ADs" {

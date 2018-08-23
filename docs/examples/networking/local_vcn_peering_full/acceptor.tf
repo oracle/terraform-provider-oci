@@ -50,12 +50,14 @@ resource "oci_core_route_table" "acceptor_route_table" {
   display_name   = "acceptorRouteTable"
 
   route_rules {
-    cidr_block        = "${var.requestor_cidr}"
+    destination       = "${var.requestor_cidr}"
+    destination_type  = "CIDR_BLOCK"
     network_entity_id = "${oci_core_local_peering_gateway.acceptor.id}"
   }
 
   route_rules {
-    cidr_block        = "0.0.0.0/0"
+    destination       = "0.0.0.0/0"
+    destination_type  = "CIDR_BLOCK"
     network_entity_id = "${oci_core_internet_gateway.acceptorIG.id}"
   }
 }
@@ -91,7 +93,7 @@ resource "oci_core_security_list" "acceptor_security_list" {
 resource "oci_core_subnet" "acceptor_subnet" {
   depends_on          = ["oci_identity_policy.acceptor_policy", "oci_identity_user_group_membership.acceptor_user_group_membership"]
   provider            = "oci.acceptor"
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[0],"name")}"
+  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain - 1],"name")}"
   cidr_block          = "${cidrsubnet("${var.acceptor_cidr}", 4, 0)}"
   display_name        = "AcceptorSubnet"
   dns_label           = "acceptorsubnet"
@@ -105,17 +107,21 @@ resource "oci_core_subnet" "acceptor_subnet" {
 resource "oci_core_instance" "acceptor_instance" {
   depends_on          = ["oci_identity_policy.acceptor_policy", "oci_identity_user_group_membership.acceptor_user_group_membership"]
   provider            = "oci.acceptor"
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[0],"name")}"
+  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain - 1],"name")}"
   compartment_id      = "${var.compartment_ocid_acceptor}"
   display_name        = "acceptorInstance"
-  image               = "${var.InstanceImageOCID[var.region]}"
-  shape               = "${var.InstanceShape}"
+  shape               = "${var.instance_shape}"
 
   create_vnic_details {
     subnet_id        = "${oci_core_subnet.acceptor_subnet.id}"
     display_name     = "primaryvnic"
     assign_public_ip = true
     hostname_label   = "acceptorinstance"
+  }
+
+  source_details {
+    source_type = "image"
+    source_id   = "${var.instance_image_ocid[var.region]}"
   }
 
   metadata {

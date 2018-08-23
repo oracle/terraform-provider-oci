@@ -2,26 +2,25 @@ variable "tenancy_ocid" {}
 variable "user_ocid" {}
 variable "fingerprint" {}
 variable "private_key_path" {}
-variable "private_key_password" {}
 variable "compartment_ocid" {}
 variable "region" {}
 variable "ssh_public_key" {}
 variable "ssh_private_key" {}
 
 # Choose an Availability Domain
-variable "AD1" {
-  default = "1"
-}
-
-variable "AD2" {
+variable "availability_domain_1" {
   default = "2"
 }
 
-variable "InstanceShape" {
+variable "availability_domain_2" {
+  default = "3"
+}
+
+variable "instance_shape" {
   default = "VM.Standard1.1"
 }
 
-variable "InstanceImageOCID" {
+variable "instance_image_ocid" {
   type = "map"
 
   default = {
@@ -64,12 +63,11 @@ variable "onprem_dns_server2" {
 }
 
 provider "oci" {
-  tenancy_ocid         = "${var.tenancy_ocid}"
-  user_ocid            = "${var.user_ocid}"
-  fingerprint          = "${var.fingerprint}"
-  private_key_path     = "${var.private_key_path}"
-  private_key_password = "${var.private_key_password}"
-  region               = "${var.region}"
+  tenancy_ocid     = "${var.tenancy_ocid}"
+  user_ocid        = "${var.user_ocid}"
+  fingerprint      = "${var.fingerprint}"
+  private_key_path = "${var.private_key_path}"
+  region           = "${var.region}"
 }
 
 data "oci_identity_availability_domains" "ADs" {
@@ -95,7 +93,8 @@ resource "oci_core_route_table" "MgmtRouteTable" {
   display_name   = "MgmtRouteTable"
 
   route_rules {
-    cidr_block        = "0.0.0.0/0"
+    destination       = "0.0.0.0/0"
+    destination_type  = "CIDR_BLOCK"
     network_entity_id = "${oci_core_internet_gateway.MgmtIG.id}"
   }
 }
@@ -183,7 +182,7 @@ resource "oci_core_dhcp_options" "MgmtDhcpOptions" {
 }
 
 resource "oci_core_subnet" "MgmtSubnet" {
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.AD1 - 1],"name")}"
+  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain_1 - 1],"name")}"
   cidr_block          = "${var.mgmt_subnet_cidr1}"
   display_name        = "MgmtSubnet"
   dns_label           = "mgmtsubnet"
@@ -195,7 +194,7 @@ resource "oci_core_subnet" "MgmtSubnet" {
 }
 
 resource "oci_core_subnet" "MgmtSubnet2" {
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.AD2 - 1],"name")}"
+  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain_2 - 1],"name")}"
   cidr_block          = "${var.mgmt_subnet_cidr2}"
   display_name        = "MgmtSubnet2"
   dns_label           = "mgmtsubnet2"
@@ -207,11 +206,10 @@ resource "oci_core_subnet" "MgmtSubnet2" {
 }
 
 resource "oci_core_instance" "DnsVM" {
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.AD1 - 1],"name")}"
+  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain_1 - 1],"name")}"
   compartment_id      = "${var.compartment_ocid}"
   display_name        = "DnsVM"
-  image               = "${var.InstanceImageOCID[var.region]}"
-  shape               = "${var.InstanceShape}"
+  shape               = "${var.instance_shape}"
 
   create_vnic_details {
     subnet_id = "${oci_core_subnet.MgmtSubnet.id}"
@@ -221,17 +219,21 @@ resource "oci_core_instance" "DnsVM" {
     ssh_authorized_keys = "${var.ssh_public_key}"
   }
 
+  source_details {
+    source_type = "image"
+    source_id   = "${var.instance_image_ocid[var.region]}"
+  }
+
   timeouts {
     create = "10m"
   }
 }
 
 resource "oci_core_instance" "DnsVM2" {
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.AD2 - 1],"name")}"
+  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain_2 - 1],"name")}"
   compartment_id      = "${var.compartment_ocid}"
   display_name        = "DnsVM2"
-  image               = "${var.InstanceImageOCID[var.region]}"
-  shape               = "${var.InstanceShape}"
+  shape               = "${var.instance_shape}"
 
   create_vnic_details {
     subnet_id = "${oci_core_subnet.MgmtSubnet2.id}"
@@ -239,6 +241,11 @@ resource "oci_core_instance" "DnsVM2" {
 
   metadata {
     ssh_authorized_keys = "${var.ssh_public_key}"
+  }
+
+  source_details {
+    source_type = "image"
+    source_id   = "${var.instance_image_ocid[var.region]}"
   }
 
   timeouts {
@@ -249,13 +256,13 @@ resource "oci_core_instance" "DnsVM2" {
 # Gets a list of VNIC attachments on the DNS instance
 data "oci_core_vnic_attachments" "DnsVMVnics" {
   compartment_id      = "${var.compartment_ocid}"
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.AD1 - 1],"name")}"
+  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain_1 - 1],"name")}"
   instance_id         = "${oci_core_instance.DnsVM.id}"
 }
 
 data "oci_core_vnic_attachments" "DnsVMVnics2" {
   compartment_id      = "${var.compartment_ocid}"
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.AD2 - 1],"name")}"
+  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain_2 - 1],"name")}"
   instance_id         = "${oci_core_instance.DnsVM2.id}"
 }
 

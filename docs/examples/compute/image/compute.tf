@@ -1,8 +1,8 @@
 resource "oci_core_instance" "TFInstance" {
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.AD - 1],"name")}"
+  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain - 1],"name")}"
   compartment_id      = "${var.compartment_ocid}"
   display_name        = "TFInstance"
-  shape               = "${var.InstanceShape}"
+  shape               = "${var.instance_shape}"
 
   create_vnic_details {
     subnet_id        = "${oci_core_subnet.ExampleSubnet.id}"

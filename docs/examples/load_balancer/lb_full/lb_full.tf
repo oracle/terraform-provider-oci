@@ -14,7 +14,7 @@ variable "private_key_path" {}
 variable "compartment_ocid" {}
 variable "region" {}
 
-variable "InstanceImageOCID" {
+variable "instance_image_ocid" {
   type = "map"
 
   default = {
@@ -26,6 +26,14 @@ variable "InstanceImageOCID" {
     eu-frankfurt-1 = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaa7d3fsb6272srnftyi4dphdgfjf6gurxqhmv6ileds7ba3m2gltxq"
     uk-london-1    = "ocid1.image.oc1.uk-london-1.aaaaaaaaa6h6gj6v4n56mqrbgnosskq63blyv2752g36zerymy63cfkojiiq"
   }
+}
+
+variable "instance_shape" {
+  default = "VM.Standard1.1"
+}
+
+variable "availability_domain" {
+  default = 3
 }
 
 provider "oci" {
@@ -50,7 +58,7 @@ resource "oci_core_virtual_network" "vcn1" {
 }
 
 resource "oci_core_subnet" "subnet1" {
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[0],"name")}"
+  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain -2],"name")}"
   cidr_block          = "10.1.20.0/24"
   display_name        = "subnet1"
   dns_label           = "subnet1"
@@ -66,7 +74,7 @@ resource "oci_core_subnet" "subnet1" {
 }
 
 resource "oci_core_subnet" "subnet2" {
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[1],"name")}"
+  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain -1],"name")}"
   cidr_block          = "10.1.21.0/24"
   display_name        = "subnet2"
   dns_label           = "subnet2"
@@ -93,7 +101,8 @@ resource "oci_core_route_table" "routetable1" {
   display_name   = "routetable1"
 
   route_rules {
-    cidr_block        = "0.0.0.0/0"
+    destination       = "0.0.0.0/0"
+    destination_type  = "CIDR_BLOCK"
     network_entity_id = "${oci_core_internet_gateway.internetgateway1.id}"
   }
 }
@@ -133,30 +142,38 @@ resource "oci_core_security_list" "securitylist1" {
 /* Instances */
 
 resource "oci_core_instance" "instance1" {
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[0],"name")}"
+  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain -2],"name")}"
   compartment_id      = "${var.compartment_ocid}"
   display_name        = "be-instance1"
-  image               = "${var.InstanceImageOCID[var.region]}"
-  shape               = "VM.Standard1.2"
+  shape               = "${var.instance_shape}"
   subnet_id           = "${oci_core_subnet.subnet1.id}"
   hostname_label      = "be-instance1"
 
   metadata {
     user_data = "${base64encode(var.user-data)}"
   }
+
+  source_details {
+    source_type = "image"
+    source_id   = "${var.instance_image_ocid[var.region]}"
+  }
 }
 
 resource "oci_core_instance" "instance2" {
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[1],"name")}"
+  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain -1],"name")}"
   compartment_id      = "${var.compartment_ocid}"
   display_name        = "be-instance2"
-  image               = "${var.InstanceImageOCID[var.region]}"
-  shape               = "VM.Standard1.2"
+  shape               = "${var.instance_shape}"
   subnet_id           = "${oci_core_subnet.subnet2.id}"
   hostname_label      = "be-instance2"
 
   metadata {
     user_data = "${base64encode(var.user-data)}"
+  }
+
+  source_details {
+    source_type = "image"
+    source_id   = "${var.instance_image_ocid[var.region]}"
   }
 }
 

@@ -41,7 +41,7 @@ data "template_cloudinit_config" "cloudinit_config" {
 # Compute
 ###########
 resource "oci_core_instance" "TFInstance" {
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.AD - 1],"name")}"
+  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain - 1],"name")}"
   compartment_id      = "${var.compartment_ocid}"
   display_name        = "${var.instance_name}"
   shape               = "${var.instance_shape}"
@@ -56,7 +56,7 @@ resource "oci_core_instance" "TFInstance" {
 
   source_details {
     boot_volume_size_in_gbs = "${var.size_in_gbs}"
-    source_id               = "${var.image_id[var.region]}"
+    source_id               = "${var.instance_image_ocid[var.region]}"
     source_type             = "image"
   }
 }
@@ -66,7 +66,7 @@ data "oci_core_instance_credentials" "InstanceCredentials" {
 }
 
 resource "oci_core_volume" "TFVolume" {
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.AD - 1],"name")}"
+  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain - 1],"name")}"
   compartment_id      = "${var.compartment_ocid}"
   display_name        = "tfvolume"
   size_in_gbs         = "${var.size_in_gbs}"

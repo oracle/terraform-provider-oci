@@ -11,11 +11,11 @@ variable "SecondaryVnicCount" {
 }
 
 # Choose an Availability Domain
-variable "AD" {
-  default = "1"
+variable "availability_domain" {
+  default = "3"
 }
 
-variable "InstanceShape" {
+variable "instance_shape" {
   default = "VM.Standard1.1"
 }
 
@@ -53,7 +53,7 @@ resource "oci_core_virtual_network" "ExampleVCN" {
 }
 
 resource "oci_core_subnet" "ExampleSubnet" {
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.AD - 1],"name")}"
+  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain - 1],"name")}"
   cidr_block          = "10.0.1.0/24"
   display_name        = "TFExampleSubnet"
   compartment_id      = "${var.compartment_ocid}"
@@ -65,12 +65,16 @@ resource "oci_core_subnet" "ExampleSubnet" {
 }
 
 resource "oci_core_instance" "ExampleInstance" {
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.AD - 1],"name")}"
+  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain - 1],"name")}"
   compartment_id      = "${var.compartment_ocid}"
   display_name        = "TFExampleInstance"
-  image               = "${var.instance_image_ocid[var.region]}"
-  shape               = "${var.InstanceShape}"
+  shape               = "${var.instance_shape}"
   subnet_id           = "${oci_core_subnet.ExampleSubnet.id}"
+
+  source_details {
+    source_type = "image"
+    source_id   = "${var.instance_image_ocid[var.region]}"
+  }
 
   create_vnic_details {
     subnet_id      = "${oci_core_subnet.ExampleSubnet.id}"

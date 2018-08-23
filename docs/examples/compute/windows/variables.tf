@@ -38,7 +38,7 @@ variable "instance_user" {
   default = "opc"
 }
 
-variable "AD" {
+variable "availability_domain" {
   default = "2"
 }
 
@@ -46,7 +46,7 @@ variable "instance_shape" {
   default = "VM.Standard1.1"
 }
 
-variable image_id {
+variable instance_image_ocid {
   type = "map"
 
   default = {

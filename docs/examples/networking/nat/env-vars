@@ -19,7 +19,7 @@ export TF_VAR_mgmt_subnet_cidr=""
 export TF_VAR_private_subnet_cidr=""
 
 ### Instance configuration
-export TF_VAR_InstanceShape=""
+export TF_VAR_instance_shape=""
 export TF_VAR_InstanceOS=""
 export TF_VAR_InstanceOSVersion=""
 

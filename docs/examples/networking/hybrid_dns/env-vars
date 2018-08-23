@@ -19,8 +19,8 @@ export TF_VAR_mgmt_subnet_cidr=""
 export TF_VAR_private_subnet_cidr=""
 
 ### Instance configuration
-export TF_VAR_InstanceShape=""
-export TF_VAR_InstanceImageOCID=""
+export TF_VAR_instance_shape=""
+export TF_VAR_instance_image_ocid=""
 
 ### Instance credentials
 export TF_VAR_ssh_public_key=$(cat .../id_rsa.pub)

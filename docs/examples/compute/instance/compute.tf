@@ -1,9 +1,9 @@
 resource "oci_core_instance" "TFInstance" {
   count               = "${var.NumInstances}"
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.AD - 1],"name")}"
+  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain - 1],"name")}"
   compartment_id      = "${var.compartment_ocid}"
   display_name        = "TFInstance${count.index}"
-  shape               = "${var.InstanceShape}"
+  shape               = "${var.instance_shape}"
 
   create_vnic_details {
     subnet_id        = "${oci_core_subnet.ExampleSubnet.id}"
@@ -14,7 +14,7 @@ resource "oci_core_instance" "TFInstance" {
 
   source_details {
     source_type = "image"
-    source_id   = "${var.InstanceImageOCID[var.region]}"
+    source_id   = "${var.instance_image_ocid[var.region]}"
 
     # Apply this to set the size of the boot volume that's created for this instance.
     # Otherwise, the default boot volume size of the image is used.

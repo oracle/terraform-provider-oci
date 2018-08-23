@@ -15,7 +15,7 @@ variable "virtual_circuit_type_public" {
 }
 
 variable "virtual_circuit_bandwidth_shape_name" {
-  default = "10 Gbps"
+  default = "1 Gbps"
 }
 
 variable "virtual_circuit_cross_connect_mappings_customer_bgp_peering_ip" {

@@ -6,7 +6,7 @@ resource "random_string" "autonomous_database_admin_password" {
 resource "oci_database_autonomous_database" "autonomous_database" {
   #Required
   admin_password           = "${random_string.autonomous_database_admin_password.result}"
-  compartment_id           = "${var.compartment_id}"
+  compartment_id           = "${var.compartment_ocid}"
   cpu_core_count           = "${var.autonomous_database_cpu_core_count}"
   data_storage_size_in_tbs = "${var.autonomous_database_data_storage_size_in_tbs}"
   db_name                  = "${var.autonomous_database_db_name}"
@@ -19,7 +19,7 @@ resource "oci_database_autonomous_database" "autonomous_database" {
 
 data "oci_database_autonomous_databases" "autonomous_databases" {
   #Required
-  compartment_id = "${var.compartment_id}"
+  compartment_id = "${var.compartment_ocid}"
 
   #Optional
   display_name = "${var.autonomous_database_display_name}"

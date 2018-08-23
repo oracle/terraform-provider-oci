@@ -6,7 +6,7 @@ data "oci_identity_availability_domains" "ADs" {
 # Gets the list of file systems in the compartment
 data "oci_file_storage_file_systems" "file_systems" {
   #Required
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.AD - 1],"name")}"
+  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain - 1],"name")}"
   compartment_id      = "${var.compartment_ocid}"
 
   #Optional fields. Used by the service to filter the results when returning data to the client.
@@ -18,7 +18,7 @@ data "oci_file_storage_file_systems" "file_systems" {
 # Gets the list of mount targets in the compartment
 data "oci_file_storage_mount_targets" "mount_targets" {
   #Required
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.AD - 1],"name")}"
+  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain - 1],"name")}"
   compartment_id      = "${var.compartment_ocid}"
 
   #Optional fields. Used by the service to filter the results when returning data to the client.
@@ -53,7 +53,7 @@ data "oci_file_storage_snapshots" "snapshots" {
 # Gets a list of export sets in a compartment and availability domain
 data "oci_file_storage_export_sets" "export_sets" {
   #Required
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.AD - 1],"name")}"
+  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain - 1],"name")}"
   compartment_id      = "${var.compartment_ocid}"
 
   #Optional fields. Used by the service to filter the results when returning data to the client.

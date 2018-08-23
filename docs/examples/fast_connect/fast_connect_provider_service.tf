@@ -1,6 +1,6 @@
 data "oci_core_fast_connect_provider_services" "fast_connect_provider_services" {
   #Required
-  compartment_id = "${var.compartment_id}"
+  compartment_id = "${var.compartment_ocid}"
 }
 
 output "fast_connect_provider_services" {
@@ -9,7 +9,7 @@ output "fast_connect_provider_services" {
 
 data "oci_core_fast_connect_provider_services" "fast_connect_provider_services_private_layer2" {
   #Required
-  compartment_id = "${var.compartment_id}"
+  compartment_id = "${var.compartment_ocid}"
 
   filter {
     name   = "type"
@@ -38,7 +38,7 @@ output "fast_connect_provider_services_layer2" {
 
 data "oci_core_fast_connect_provider_services" "fast_connect_provider_services_public_layer3" {
   #Required
-  compartment_id = "${var.compartment_id}"
+  compartment_id = "${var.compartment_ocid}"
 
   filter {
     name   = "supported_virtual_circuit_types"

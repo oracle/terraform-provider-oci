@@ -8,7 +8,7 @@ variable "cross_connect_group_state" {
 
 resource "oci_core_cross_connect_group" "cross_connect_group" {
   #Required
-  compartment_id = "${var.compartment_id}"
+  compartment_id = "${var.compartment_ocid}"
 
   #Optional
   display_name = "${var.cross_connect_group_display_name}"
@@ -16,7 +16,7 @@ resource "oci_core_cross_connect_group" "cross_connect_group" {
 
 data "oci_core_cross_connect_groups" "cross_connect_groups" {
   #Required
-  compartment_id = "${var.compartment_id}"
+  compartment_id = "${var.compartment_ocid}"
 
   #Optional
   display_name = "${var.cross_connect_group_display_name}"

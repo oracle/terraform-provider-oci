@@ -1,6 +1,6 @@
 resource "oci_core_cross_connect" "cross_connect" {
   #Required
-  compartment_id        = "${var.compartment_id}"
+  compartment_id        = "${var.compartment_ocid}"
   location_name         = "${data.oci_core_cross_connect_locations.cross_connect_locations.cross_connect_locations.0.name}"
   port_speed_shape_name = "${data.oci_core_cross_connect_port_speed_shapes.cross_connect_port_speed_shapes.cross_connect_port_speed_shapes.0.name}"
 
@@ -18,7 +18,7 @@ resource "oci_core_cross_connect" "cross_connect" {
 
 data "oci_core_cross_connects" "cross_connects" {
   #Required
-  compartment_id = "${var.compartment_id}"
+  compartment_id = "${var.compartment_ocid}"
 
   #Optional
   cross_connect_group_id = "${oci_core_cross_connect_group.cross_connect_group.id}"

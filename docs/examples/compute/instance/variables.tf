@@ -25,15 +25,15 @@ variable "NumParavirtualizedVolumesPerInstance" {
 }
 
 # Choose an Availability Domain
-variable "AD" {
-  default = "1"
+variable "availability_domain" {
+  default = "3"
 }
 
-variable "InstanceShape" {
-  default = "VM.Standard1.2"
+variable "instance_shape" {
+  default = "VM.Standard1.1"
 }
 
-variable "InstanceImageOCID" {
+variable "instance_image_ocid" {
   type = "map"
 
   default = {
@@ -53,4 +53,12 @@ variable "DBSize" {
 
 variable "BootStrapFile" {
   default = "./userdata/bootstrap"
+}
+
+variable "tag_namespace_description" {
+  default = "Just a test"
+}
+
+variable "tag_namespace_name" {
+  default = "exampletagns"
 }

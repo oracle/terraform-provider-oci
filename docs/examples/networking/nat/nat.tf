@@ -7,15 +7,15 @@ variable "region" {}
 variable "ssh_public_key" {}
 
 # Choose an Availability Domain
-variable "AD" {
-  default = "1"
+variable "availability_domain" {
+  default = "3"
 }
 
-variable "InstanceShape" {
-  default = "VM.Standard1.2"
+variable "instance_shape" {
+  default = "VM.Standard1.1"
 }
 
-variable "InstanceImageOCID" {
+variable "instance_image_ocid" {
   type = "map"
 
   default = {
@@ -71,7 +71,8 @@ resource "oci_core_route_table" "MgmtRouteTable" {
   display_name   = "MgmtRouteTable"
 
   route_rules {
-    cidr_block        = "0.0.0.0/0"
+    destination       = "0.0.0.0/0"
+    destination_type  = "CIDR_BLOCK"
     network_entity_id = "${oci_core_internet_gateway.MgmtIG.id}"
   }
 }
@@ -130,7 +131,7 @@ resource "oci_core_security_list" "MgmtSecurityList" {
 }
 
 resource "oci_core_subnet" "MgmtSubnet" {
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.AD - 1],"name")}"
+  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain - 1],"name")}"
   cidr_block          = "${var.mgmt_subnet_cidr}"
   display_name        = "MgmtSubnet"
   compartment_id      = "${var.compartment_ocid}"
@@ -141,11 +142,10 @@ resource "oci_core_subnet" "MgmtSubnet" {
 }
 
 resource "oci_core_instance" "NatInstance" {
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.AD - 1],"name")}"
+  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain - 1],"name")}"
   compartment_id      = "${var.compartment_ocid}"
   display_name        = "NatInstance"
-  image               = "${var.InstanceImageOCID[var.region]}"
-  shape               = "${var.InstanceShape}"
+  shape               = "${var.instance_shape}"
 
   create_vnic_details {
     subnet_id              = "${oci_core_subnet.MgmtSubnet.id}"
@@ -157,6 +157,11 @@ resource "oci_core_instance" "NatInstance" {
     user_data           = "${base64encode(file("user_data.tpl"))}"
   }
 
+  source_details {
+    source_type = "image"
+    source_id   = "${var.instance_image_ocid[var.region]}"
+  }
+
   timeouts {
     create = "10m"
   }
@@ -165,7 +170,7 @@ resource "oci_core_instance" "NatInstance" {
 # Gets a list of VNIC attachments on the instance
 data "oci_core_vnic_attachments" "NatInstanceVnics" {
   compartment_id      = "${var.compartment_ocid}"
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.AD - 1],"name")}"
+  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain - 1],"name")}"
   instance_id         = "${oci_core_instance.NatInstance.id}"
 }
 
@@ -203,13 +208,14 @@ resource "oci_core_route_table" "PrivateRouteTable" {
   display_name   = "PrivateRouteTable"
 
   route_rules {
-    cidr_block        = "0.0.0.0/0"
+    destination       = "0.0.0.0/0"
+    destination_type  = "CIDR_BLOCK"
     network_entity_id = "${oci_core_private_ip.NatInstancePrivateIP.id}"
   }
 }
 
 resource "oci_core_subnet" "PrivateSubnet" {
-  availability_domain        = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.AD - 1],"name")}"
+  availability_domain        = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain - 1],"name")}"
   cidr_block                 = "${var.private_subnet_cidr}"
   display_name               = "PrivateSubnet"
   compartment_id             = "${var.compartment_ocid}"
@@ -221,11 +227,10 @@ resource "oci_core_subnet" "PrivateSubnet" {
 }
 
 resource "oci_core_instance" "PrivateInstance" {
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.AD - 1],"name")}"
+  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain - 1],"name")}"
   compartment_id      = "${var.compartment_ocid}"
   display_name        = "PrivateInstance"
-  image               = "${var.InstanceImageOCID[var.region]}"
-  shape               = "${var.InstanceShape}"
+  shape               = "${var.instance_shape}"
 
   create_vnic_details {
     subnet_id        = "${oci_core_subnet.PrivateSubnet.id}"
@@ -234,6 +239,11 @@ resource "oci_core_instance" "PrivateInstance" {
 
   metadata {
     ssh_authorized_keys = "${var.ssh_public_key}"
+  }
+
+  source_details {
+    source_type = "image"
+    source_id   = "${var.instance_image_ocid[var.region]}"
   }
 
   timeouts {

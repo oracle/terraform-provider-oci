@@ -11,7 +11,7 @@ resource "oci_database_autonomous_database_backup" "autonomous_database_backup" 
 
 data "oci_database_autonomous_database_backups" "test_autonomous_database_backups" {
   #Optional
-  compartment_id = "${var.compartment_id}"
+  compartment_id = "${var.compartment_ocid}"
   display_name   = "${var.autonomous_database_backup_display_name}"
 }
 
