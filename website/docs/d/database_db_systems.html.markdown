@@ -68,7 +68,6 @@ The following attributes are exported:
 * `reco_storage_size_in_gb` - RECO/REDO storage size, in GBs, that is currently allocated to the DB system. This is applicable only for VM-based DBs. 
 * `scan_dns_record_id` - The OCID of the DNS record for the SCAN IP addresses that are associated with the DB System. 
 * `scan_ip_ids` - The OCID of the Single Client Access Name (SCAN) IP addresses associated with the DB System. SCAN IP addresses are typically used for load balancing and are not assigned to any interface. Clusterware directs the requests to the appropriate nodes in the cluster.
-
 	* For a single-node DB System, this list is empty. 
 * `shape` - The shape of the DB System. The shape determines resources to allocate to the DB system - CPU cores and memory for VM shapes; CPU cores, memory and storage for non-VM (or bare metal) shapes.
 * `ssh_public_keys` - The public key portion of one or more key pairs used for SSH access to the DB System.
@@ -83,6 +82,5 @@ The following attributes are exported:
 * `time_created` - The date and time the DB System was created.
 * `version` - The version of the DB System.
 * `vip_ids` - The OCID of the virtual IP (VIP) addresses associated with the DB System. The Cluster Ready Services (CRS) creates and maintains one VIP address for each node in the DB System to enable failover. If one node fails, the VIP is reassigned to another active node in the cluster.
-
 	* For a single-node DB System, this list is empty. 
 

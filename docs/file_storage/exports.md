@@ -28,7 +28,9 @@ The following attributes are exported:
 * `id` - The OCID of this export.
 * `path` - Path used to access the associated file system.
 
-	Avoid entering confidential information.  Example: `/accounting` 
+	Avoid entering confidential information.
+
+	Example: `/accounting` 
 * `state` - The current state of this export.
 * `time_created` - The date and time the export was created, expressed in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) timestamp format.  Example: `2016-08-25T21:10:29.600Z` 
 
@@ -43,13 +45,13 @@ The following arguments are supported:
 
 * `export_options` - (Optional) Export options for the new export. If left unspecified, defaults to:
 
-	[          {             "source" : "0.0.0.0/0",             "requirePrivilegedSourcePort" : false,             "access" : "READ_WRITE",             "identitySquash" : "NONE"           }        ]
+	[ { "source" : "0.0.0.0/0", "requirePrivilegedSourcePort" : false, "access" : "READ_WRITE", "identitySquash" : "NONE" } ]
 
-	**Note:** Mount targets do not have Internet-routable IP   addresses.  Therefore they will not be reachable from the   Internet, even if an associated `ClientOptions` item has   a source of `0.0.0.0/0`.
+	**Note:** Mount targets do not have Internet-routable IP addresses.  Therefore they will not be reachable from the Internet, even if an associated `ClientOptions` item has a source of `0.0.0.0/0`.
 
-	**If set to the empty array then the export will not be   visible to any clients.**
+	**If set to the empty array then the export will not be visible to any clients.**
 
-	The export's `exportOptions` can be changed after creation   using the `UpdateExport` operation. 
+	The export's `exportOptions` can be changed after creation using the `UpdateExport` operation. 
 	* `access` - (Optional) Type of access to grant clients using the file system through this export. If unspecified defaults to `READ_ONLY`. 
 	* `anonymous_gid` - (Optional) GID value to remap to when squashing a client GID (see identitySquash for more details.) If unspecified defaults to `65534`. 
 	* `anonymous_uid` - (Optional) UID value to remap to when squashing a client UID (see identitySquash for more details.) If unspecified, defaults to `65534`. 
@@ -62,7 +64,9 @@ The following arguments are supported:
 * `file_system_id` - (Required) The OCID of this export's file system.
 * `path` - (Required) Path used to access the associated file system.
 
-	Avoid entering confidential information.  Example: `/mediafiles` 
+	Avoid entering confidential information.
+
+	Example: `/mediafiles` 
 
 
 ### Update Operation
@@ -71,13 +75,13 @@ Updates the specified export's information.
 The following arguments support updates:
 * `export_options` - Export options for the new export. If left unspecified, defaults to:
 
-	[          {             "source" : "0.0.0.0/0",             "requirePrivilegedSourcePort" : false,             "access" : "READ_WRITE",             "identitySquash" : "NONE"           }        ]
+	[ { "source" : "0.0.0.0/0", "requirePrivilegedSourcePort" : false, "access" : "READ_WRITE", "identitySquash" : "NONE" } ]
 
-	**Note:** Mount targets do not have Internet-routable IP   addresses.  Therefore they will not be reachable from the   Internet, even if an associated `ClientOptions` item has   a source of `0.0.0.0/0`.
+	**Note:** Mount targets do not have Internet-routable IP addresses.  Therefore they will not be reachable from the Internet, even if an associated `ClientOptions` item has a source of `0.0.0.0/0`.
 
-	**If set to the empty array then the export will not be   visible to any clients.**
+	**If set to the empty array then the export will not be visible to any clients.**
 
-	The export's `exportOptions` can be changed after creation   using the `UpdateExport` operation. 
+	The export's `exportOptions` can be changed after creation using the `UpdateExport` operation. 
 	* `access` - Type of access to grant clients using the file system through this export. If unspecified defaults to `READ_ONLY`. 
 	* `anonymous_gid` - GID value to remap to when squashing a client GID (see identitySquash for more details.) If unspecified defaults to `65534`. 
 	* `anonymous_uid` - UID value to remap to when squashing a client UID (see identitySquash for more details.) If unspecified, defaults to `65534`. 

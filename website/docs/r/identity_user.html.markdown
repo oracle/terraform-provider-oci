@@ -82,7 +82,6 @@ The following attributes are exported:
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the user.
 * `inactive_state` - Returned only if the user's `lifecycleState` is INACTIVE. A 16-bit value showing the reason why the user is inactive:
-
 	* bit 0: SUSPENDED (reserved for future use)
 	* bit 1: DISABLED (reserved for future use)
 	* bit 2: BLOCKED (the user has exceeded the maximum number of failed login attempts for the Console) 

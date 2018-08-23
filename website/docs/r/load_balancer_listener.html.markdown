@@ -47,7 +47,9 @@ The following arguments are supported:
 * `connection_configuration` - (Optional) (Updatable) 
 	* `idle_timeout_in_seconds` - (Required) (Updatable) The maximum idle time, in seconds, allowed between two successive receive or two successive send operations between the client and backend servers. A send operation does not reset the timer for receive operations. A receive operation does not reset the timer for send operations.
 
-		For more information, see [Connection Configuration](https://docs.us-phoenix-1.oraclecloud.com/Content/Balance/Reference/connectionreuse.htm#ConnectionConfiguration).  Example: `1200` 
+		For more information, see [Connection Configuration](https://docs.us-phoenix-1.oraclecloud.com/Content/Balance/Reference/connectionreuse.htm#ConnectionConfiguration).
+
+		Example: `1200` 
 * `default_backend_set_name` - (Required) (Updatable) The name of the associated backend set.  Example: `example_backend_set` 
 * `hostname_names` - (Optional) (Updatable) An array of hostname resource names.
 * `load_balancer_id` - (Required) The [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the load balancer on which to add a listener.

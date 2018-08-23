@@ -62,7 +62,9 @@ The following arguments are supported:
 * `defined_tags` - (Optional) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) A user-friendly name for the image. It does not have to be unique, and it's changeable. Avoid entering confidential information.
 
-	You cannot use an Oracle-provided image name as a custom image name.  Example: `My Oracle Linux image` 
+	You cannot use an Oracle-provided image name as a custom image name.
+
+	Example: `My Oracle Linux image` 
 * `freeform_tags` - (Optional) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `image_source_details` - (Optional) Details for creating an image through import
 	* `bucket_name` - (Required when source_type=objectStorageTuple) The Object Storage bucket for the image.
@@ -87,7 +89,9 @@ The following arguments support updates:
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name for the image. It does not have to be unique, and it's changeable. Avoid entering confidential information.
 
-	You cannot use an Oracle-provided image name as a custom image name.  Example: `My Oracle Linux image` 
+	You cannot use an Oracle-provided image name as a custom image name.
+
+	Example: `My Oracle Linux image` 
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 
 

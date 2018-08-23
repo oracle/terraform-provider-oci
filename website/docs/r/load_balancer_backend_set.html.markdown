@@ -69,7 +69,9 @@ The following arguments are supported:
 * `load_balancer_id` - (Required) The [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the load balancer on which to add a backend set.
 * `name` - (Required) A friendly name for the backend set. It must be unique and it cannot be changed.
 
-	Valid backend set names include only alphanumeric characters, dashes, and underscores. Backend set names cannot contain spaces. Avoid entering confidential information.  Example: `example_backend_set` 
+	Valid backend set names include only alphanumeric characters, dashes, and underscores. Backend set names cannot contain spaces. Avoid entering confidential information.
+
+	Example: `example_backend_set` 
 * `policy` - (Required) (Updatable) The load balancer policy for the backend set. To get a list of available policies, use the [ListPolicies](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/loadbalancer/20170115/LoadBalancerPolicy/ListPolicies) operation.  Example: `LEAST_CONNECTIONS` 
 * `session_persistence_configuration` - (Optional) (Updatable) 
 	* `cookie_name` - (Required) (Updatable) The name of the cookie used to detect a session initiated by the backend server. Use '*' to specify that any cookie set by the backend causes the session to persist.  Example: `example_cookie` 
@@ -106,7 +108,9 @@ The following attributes are exported:
 	* `url_path` - The path against which to run the health check.  Example: `/healthcheck` 
 * `name` - A friendly name for the backend set. It must be unique and it cannot be changed.
 
-	Valid backend set names include only alphanumeric characters, dashes, and underscores. Backend set names cannot contain spaces. Avoid entering confidential information.  Example: `example_backend_set` 
+	Valid backend set names include only alphanumeric characters, dashes, and underscores. Backend set names cannot contain spaces. Avoid entering confidential information.
+
+	Example: `example_backend_set` 
 * `policy` - The load balancer policy for the backend set. To get a list of available policies, use the [ListPolicies](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/loadbalancer/20170115/LoadBalancerPolicy/ListPolicies) operation.  Example: `LEAST_CONNECTIONS` 
 * `session_persistence_configuration` - 
 	* `cookie_name` - The name of the cookie used to detect a session initiated by the backend server. Use '*' to specify that any cookie set by the backend causes the session to persist.  Example: `example_cookie` 
