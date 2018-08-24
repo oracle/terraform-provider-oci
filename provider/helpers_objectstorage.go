@@ -353,7 +353,9 @@ func uploadPartsWorker(ctx objectStorageMultiPartUploadContext) {
 		block := make([]byte, sourceBlock.section.Size())
 		_, err := sourceBlock.section.Read(block)
 		if err != nil && err != io.EOF {
-			log.Println("[ERROR] failed to read source file section %s: %s", sourceBlock.blockNumber, err)
+			if sourceBlock.blockNumber != nil {
+				log.Printf("[ERROR] failed to read source file section %v: %s\n", *sourceBlock.blockNumber, err)
+			}
 
 			osUploadPartResponse := &objectStorageUploadPartResponse{
 				error: err,
