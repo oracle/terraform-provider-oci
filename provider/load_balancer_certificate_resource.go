@@ -41,9 +41,9 @@ func CertificateResource() *schema.Resource {
 			"passphrase": {
 				Type:      schema.TypeString,
 				Optional:  true,
+				Default:   "",
 				ForceNew:  true,
 				Sensitive: true,
-				Default:   "",
 			},
 			"private_key": {
 				Type:      schema.TypeString,

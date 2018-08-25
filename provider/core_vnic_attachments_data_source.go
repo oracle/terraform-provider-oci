@@ -26,6 +26,15 @@ func VnicAttachmentsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"vnic_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"vnic_attachments": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem:     GetDataSourceItemSchema(VnicAttachmentResource()),
+			},
 			"limit": {
 				Type:       schema.TypeInt,
 				Optional:   true,
@@ -35,15 +44,6 @@ func VnicAttachmentsDataSource() *schema.Resource {
 				Type:       schema.TypeString,
 				Optional:   true,
 				Deprecated: FieldDeprecated("page"),
-			},
-			"vnic_id": {
-				Type:     schema.TypeString,
-				Optional: true,
-			},
-			"vnic_attachments": {
-				Type:     schema.TypeList,
-				Computed: true,
-				Elem:     GetDataSourceItemSchema(VnicAttachmentResource()),
 			},
 		},
 	}
@@ -85,6 +85,11 @@ func (s *VnicAttachmentsDataSourceCrud) Get() error {
 		request.InstanceId = &tmp
 	}
 
+	if vnicId, ok := s.D.GetOkExists("vnic_id"); ok {
+		tmp := vnicId.(string)
+		request.VnicId = &tmp
+	}
+
 	if limit, ok := s.D.GetOkExists("limit"); ok {
 		tmp := limit.(int)
 		request.Limit = &tmp
@@ -93,11 +98,6 @@ func (s *VnicAttachmentsDataSourceCrud) Get() error {
 	if page, ok := s.D.GetOkExists("page"); ok {
 		tmp := page.(string)
 		request.Page = &tmp
-	}
-
-	if vnicId, ok := s.D.GetOkExists("vnic_id"); ok {
-		tmp := vnicId.(string)
-		request.VnicId = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")

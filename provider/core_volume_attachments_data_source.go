@@ -27,6 +27,15 @@ func VolumeAttachmentsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"volume_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"volume_attachments": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem:     GetDataSourceItemSchema(VolumeAttachmentResource()),
+			},
 			"limit": {
 				Type:       schema.TypeInt,
 				Optional:   true,
@@ -36,15 +45,6 @@ func VolumeAttachmentsDataSource() *schema.Resource {
 				Type:       schema.TypeString,
 				Optional:   true,
 				Deprecated: FieldDeprecated("page"),
-			},
-			"volume_id": {
-				Type:     schema.TypeString,
-				Optional: true,
-			},
-			"volume_attachments": {
-				Type:     schema.TypeList,
-				Computed: true,
-				Elem:     GetDataSourceItemSchema(VolumeAttachmentResource()),
 			},
 		},
 	}
@@ -86,6 +86,11 @@ func (s *VolumeAttachmentsDataSourceCrud) Get() error {
 		request.InstanceId = &tmp
 	}
 
+	if volumeId, ok := s.D.GetOkExists("volume_id"); ok {
+		tmp := volumeId.(string)
+		request.VolumeId = &tmp
+	}
+
 	if limit, ok := s.D.GetOkExists("limit"); ok {
 		tmp := limit.(int)
 		request.Limit = &tmp
@@ -94,11 +99,6 @@ func (s *VolumeAttachmentsDataSourceCrud) Get() error {
 	if page, ok := s.D.GetOkExists("page"); ok {
 		tmp := page.(string)
 		request.Page = &tmp
-	}
-
-	if volumeId, ok := s.D.GetOkExists("volume_id"); ok {
-		tmp := volumeId.(string)
-		request.VolumeId = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")

@@ -12,7 +12,7 @@ The following attributes are exported:
 * `inactive_state` - The detailed status of INACTIVE lifecycleState.
 * `matching_rule` - A rule string that defines which instance certificates will be matched. For syntax, see [Managing Dynamic Groups](https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Tasks/managingdynamicgroups.htm). 
 * `name` - The name you assign to the group during creation. The name must be unique across all groups in the tenancy and cannot be changed. 
-* `state` - The group's current state. 
+* `state` - The group's current state.
 * `time_created` - Date and time the group was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
 
 

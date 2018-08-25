@@ -18,24 +18,24 @@ func BucketsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"limit": {
-				Type:       schema.TypeInt,
-				Optional:   true,
-				Deprecated: FieldDeprecated("limit"),
-			},
 			"namespace": {
 				Type:     schema.TypeString,
 				Required: true,
-			},
-			"page": {
-				Type:       schema.TypeString,
-				Optional:   true,
-				Deprecated: FieldDeprecated("page"),
 			},
 			"bucket_summaries": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem:     BucketResource(),
+			},
+			"limit": {
+				Type:       schema.TypeInt,
+				Optional:   true,
+				Deprecated: FieldDeprecated("limit"),
+			},
+			"page": {
+				Type:       schema.TypeString,
+				Optional:   true,
+				Deprecated: FieldDeprecated("page"),
 			},
 		},
 	}
@@ -70,14 +70,14 @@ func (s *BucketsDataSourceCrud) Get() error {
 		request.CompartmentId = &tmp
 	}
 
-	if limit, ok := s.D.GetOkExists("limit"); ok {
-		tmp := limit.(int)
-		request.Limit = &tmp
-	}
-
 	if namespace, ok := s.D.GetOkExists("namespace"); ok {
 		tmp := namespace.(string)
 		request.NamespaceName = &tmp
+	}
+
+	if limit, ok := s.D.GetOkExists("limit"); ok {
+		tmp := limit.(int)
+		request.Limit = &tmp
 	}
 
 	if page, ok := s.D.GetOkExists("page"); ok {

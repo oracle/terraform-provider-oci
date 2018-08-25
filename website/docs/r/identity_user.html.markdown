@@ -86,7 +86,7 @@ The following attributes are exported:
 	* bit 1: DISABLED (reserved for future use)
 	* bit 2: BLOCKED (the user has exceeded the maximum number of failed login attempts for the Console) 
 * `name` - The name you assign to the user during creation. This is the user's login for the Console. The name must be unique across all users in the tenancy and cannot be changed. 
-* `state` - The user's current state. 
+* `state` - The user's current state.
 * `time_created` - Date and time the user was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
 
 ## Import

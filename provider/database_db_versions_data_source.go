@@ -26,16 +26,6 @@ func DbVersionsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"limit": {
-				Type:       schema.TypeInt,
-				Optional:   true,
-				Deprecated: FieldDeprecated("limit"),
-			},
-			"page": {
-				Type:       schema.TypeString,
-				Optional:   true,
-				Deprecated: FieldDeprecated("page"),
-			},
 			"db_versions": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -56,6 +46,16 @@ func DbVersionsDataSource() *schema.Resource {
 						},
 					},
 				},
+			},
+			"limit": {
+				Type:       schema.TypeInt,
+				Optional:   true,
+				Deprecated: FieldDeprecated("limit"),
+			},
+			"page": {
+				Type:       schema.TypeString,
+				Optional:   true,
+				Deprecated: FieldDeprecated("page"),
 			},
 		},
 	}

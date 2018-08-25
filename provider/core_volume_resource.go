@@ -65,7 +65,6 @@ func VolumeResource() *schema.Resource {
 				ValidateFunc:     validateInt64TypeString,
 				DiffSuppressFunc: int64StringDiffSuppressFunction,
 			},
-			// @Deprecated 2017: size_in_mbs => size_in_gbs
 			"size_in_mbs": {
 				Type:             schema.TypeString,
 				Optional:         true,
@@ -252,7 +251,6 @@ func (s *VolumeResourceCrud) Create() error {
 		request.SizeInMBs = &tmpInt64
 	}
 
-	// @Deprecated 2017: size_in_mbs => size_in_gbs
 	if request.SizeInMBs != nil && request.SizeInGBs != nil &&
 		*request.SizeInMBs > 0 && *request.SizeInGBs > 0 {
 		return fmt.Errorf("both size in Megabytes and Gigabytes cannot be set. Specify one or the other, or leave both undefined to use the default size")

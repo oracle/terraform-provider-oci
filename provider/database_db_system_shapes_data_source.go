@@ -22,16 +22,6 @@ func DbSystemShapesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"limit": {
-				Type:       schema.TypeInt,
-				Optional:   true,
-				Deprecated: FieldDeprecated("limit"),
-			},
-			"page": {
-				Type:       schema.TypeString,
-				Optional:   true,
-				Deprecated: FieldDeprecated("page"),
-			},
 			"db_system_shapes": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -72,6 +62,16 @@ func DbSystemShapesDataSource() *schema.Resource {
 						},
 					},
 				},
+			},
+			"limit": {
+				Type:       schema.TypeInt,
+				Optional:   true,
+				Deprecated: FieldDeprecated("limit"),
+			},
+			"page": {
+				Type:       schema.TypeString,
+				Optional:   true,
+				Deprecated: FieldDeprecated("page"),
 			},
 		},
 	}

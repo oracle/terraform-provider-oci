@@ -113,8 +113,8 @@ func ObjectResource() *schema.Resource {
 				Type:         schema.TypeMap,
 				Elem:         schema.TypeString,
 				Optional:     true,
-				ValidateFunc: validateLowerCaseKeysInMetadata,
 				ForceNew:     true,
+				ValidateFunc: validateLowerCaseKeysInMetadata,
 			},
 			"source": {
 				Type:          schema.TypeString,

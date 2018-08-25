@@ -74,11 +74,7 @@ func SecurityListResource() *schema.Resource {
 									"code": {
 										Type:     schema.TypeInt,
 										Optional: true,
-										// @CODEGEN 2/2018: This is a workaround for Terraform setting this to 0 if not specified.
-										// Since 0 is a valid 'code', we will define our own value (-1) to represent it
-										// as being unset. This should ensure that not setting it here will also not set it
-										// in the SDK request.
-										Default: -1,
+										Default:  -1,
 									},
 
 									// Computed
@@ -235,11 +231,11 @@ func SecurityListResource() *schema.Resource {
 									"code": {
 										Type:     schema.TypeInt,
 										Optional: true,
+										Default:  -1,
 										// @CODEGEN 2/2018: This is a workaround for Terraform setting this to 0 if not specified.
 										// Since 0 is a valid 'code', we will define our own value (-1) to represent it
 										// as being unset. This should ensure that not setting it here will also not set it
 										// in the SDK request.
-										Default: -1,
 									},
 
 									// Computed

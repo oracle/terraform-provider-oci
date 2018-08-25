@@ -8,7 +8,7 @@ The following attributes are exported:
 
 * `inactive_status` - The detailed status of INACTIVE lifecycleState.
 * `password` - The user's password for the Console.
-* `state` - The password's current state. 
+* `state` - The password's current state.
 * `time_created` - Date and time the password was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
 * `user_id` - The OCID of the user.
 

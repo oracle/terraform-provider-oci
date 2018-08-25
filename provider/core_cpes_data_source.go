@@ -18,6 +18,11 @@ func CpesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"cpes": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem:     GetDataSourceItemSchema(CpeResource()),
+			},
 			"limit": {
 				Type:       schema.TypeInt,
 				Optional:   true,
@@ -27,11 +32,6 @@ func CpesDataSource() *schema.Resource {
 				Type:       schema.TypeString,
 				Optional:   true,
 				Deprecated: FieldDeprecated("page"),
-			},
-			"cpes": {
-				Type:     schema.TypeList,
-				Computed: true,
-				Elem:     GetDataSourceItemSchema(CpeResource()),
 			},
 		},
 	}

@@ -18,6 +18,11 @@ func DrgsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"drgs": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem:     GetDataSourceItemSchema(DrgResource()),
+			},
 			"limit": {
 				Type:       schema.TypeInt,
 				Optional:   true,
@@ -27,11 +32,6 @@ func DrgsDataSource() *schema.Resource {
 				Type:       schema.TypeString,
 				Optional:   true,
 				Deprecated: FieldDeprecated("page"),
-			},
-			"drgs": {
-				Type:     schema.TypeList,
-				Computed: true,
-				Elem:     GetDataSourceItemSchema(DrgResource()),
 			},
 		},
 	}
