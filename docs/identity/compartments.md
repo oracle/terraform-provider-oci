@@ -13,7 +13,7 @@ The following attributes are exported:
 * `id` - The OCID of the compartment.
 * `inactive_state` - The detailed status of INACTIVE lifecycleState.
 * `name` - The name you assign to the compartment during creation. The name must be unique across all compartments in the tenancy. Avoid entering confidential information. 
-* `state` - The compartment's current state. 
+* `state` - The compartment's current state.
 * `time_created` - Date and time the compartment was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
 
 

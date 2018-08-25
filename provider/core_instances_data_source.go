@@ -27,6 +27,15 @@ func InstancesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"state": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"instances": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem:     GetDataSourceItemSchema(InstanceResource()),
+			},
 			"limit": {
 				Type:       schema.TypeInt,
 				Optional:   true,
@@ -36,15 +45,6 @@ func InstancesDataSource() *schema.Resource {
 				Type:       schema.TypeString,
 				Optional:   true,
 				Deprecated: FieldDeprecated("page"),
-			},
-			"state": {
-				Type:     schema.TypeString,
-				Optional: true,
-			},
-			"instances": {
-				Type:     schema.TypeList,
-				Computed: true,
-				Elem:     GetDataSourceItemSchema(InstanceResource()),
 			},
 		},
 	}

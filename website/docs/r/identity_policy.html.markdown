@@ -69,7 +69,7 @@ The following attributes are exported:
 * `id` - The OCID of the policy.
 * `inactive_state` - The detailed status of INACTIVE lifecycleState.
 * `name` - The name you assign to the policy during creation. The name must be unique across all policies in the tenancy and cannot be changed. 
-* `state` - The policy's current state. 
+* `state` - The policy's current state.
 * `statements` - An array of one or more policy statements written in the policy language.
 * `time_created` - Date and time the policy was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
 * `version_date` - The version of the policy. If null or set to an empty string, when a request comes in for authorization, the policy will be evaluated according to the current behavior of the services at that moment. If set to a particular date (YYYY-MM-DD), the policy will be evaluated according to the behavior of the services on that date. 

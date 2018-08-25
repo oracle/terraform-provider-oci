@@ -45,7 +45,7 @@ The following attributes are exported:
 * `id` - An Oracle-assigned identifier for the key, in this format: TENANCY_OCID/USER_OCID/KEY_FINGERPRINT. 
 * `inactive_status` - The detailed status of INACTIVE lifecycleState.
 * `key_value` - The key's value.
-* `state` - The API key's current state. After creating an `ApiKey` object, make sure its `lifecycleState` changes from CREATING to ACTIVE before using it. 
+* `state` - The API key's current state.
 * `time_created` - Date and time the `ApiKey` object was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
 * `user_id` - The OCID of the user the key belongs to.
 

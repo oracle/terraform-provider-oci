@@ -22,6 +22,15 @@ func DrgAttachmentsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"vcn_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"drg_attachments": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem:     GetDataSourceItemSchema(DrgAttachmentResource()),
+			},
 			"limit": {
 				Type:       schema.TypeInt,
 				Optional:   true,
@@ -31,15 +40,6 @@ func DrgAttachmentsDataSource() *schema.Resource {
 				Type:       schema.TypeString,
 				Optional:   true,
 				Deprecated: FieldDeprecated("page"),
-			},
-			"vcn_id": {
-				Type:     schema.TypeString,
-				Optional: true,
-			},
-			"drg_attachments": {
-				Type:     schema.TypeList,
-				Computed: true,
-				Elem:     GetDataSourceItemSchema(DrgAttachmentResource()),
 			},
 		},
 	}
@@ -76,6 +76,11 @@ func (s *DrgAttachmentsDataSourceCrud) Get() error {
 		request.DrgId = &tmp
 	}
 
+	if vcnId, ok := s.D.GetOkExists("vcn_id"); ok {
+		tmp := vcnId.(string)
+		request.VcnId = &tmp
+	}
+
 	if limit, ok := s.D.GetOkExists("limit"); ok {
 		tmp := limit.(int)
 		request.Limit = &tmp
@@ -84,11 +89,6 @@ func (s *DrgAttachmentsDataSourceCrud) Get() error {
 	if page, ok := s.D.GetOkExists("page"); ok {
 		tmp := page.(string)
 		request.Page = &tmp
-	}
-
-	if vcnId, ok := s.D.GetOkExists("vcn_id"); ok {
-		tmp := vcnId.(string)
-		request.VcnId = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")

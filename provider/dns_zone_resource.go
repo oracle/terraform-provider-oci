@@ -7,9 +7,9 @@ import (
 	"fmt"
 
 	"github.com/hashicorp/terraform/helper/schema"
-	oci_dns "github.com/oracle/oci-go-sdk/dns"
-
 	"github.com/hashicorp/terraform/helper/validation"
+
+	oci_dns "github.com/oracle/oci-go-sdk/dns"
 )
 
 func ZoneResource() *schema.Resource {

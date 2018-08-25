@@ -22,16 +22,6 @@ func DhcpOptionsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"limit": {
-				Type:       schema.TypeInt,
-				Optional:   true,
-				Deprecated: FieldDeprecated("limit"),
-			},
-			"page": {
-				Type:       schema.TypeString,
-				Optional:   true,
-				Deprecated: FieldDeprecated("page"),
-			},
 			"state": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -44,6 +34,16 @@ func DhcpOptionsDataSource() *schema.Resource {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem:     GetDataSourceItemSchema(DhcpOptionsResource()),
+			},
+			"limit": {
+				Type:       schema.TypeInt,
+				Optional:   true,
+				Deprecated: FieldDeprecated("limit"),
+			},
+			"page": {
+				Type:       schema.TypeString,
+				Optional:   true,
+				Deprecated: FieldDeprecated("page"),
 			},
 		},
 	}
@@ -80,6 +80,15 @@ func (s *DhcpOptionsDataSourceCrud) Get() error {
 		request.DisplayName = &tmp
 	}
 
+	if state, ok := s.D.GetOkExists("state"); ok {
+		request.LifecycleState = oci_core.DhcpOptionsLifecycleStateEnum(state.(string))
+	}
+
+	if vcnId, ok := s.D.GetOkExists("vcn_id"); ok {
+		tmp := vcnId.(string)
+		request.VcnId = &tmp
+	}
+
 	if limit, ok := s.D.GetOkExists("limit"); ok {
 		tmp := limit.(int)
 		request.Limit = &tmp
@@ -88,15 +97,6 @@ func (s *DhcpOptionsDataSourceCrud) Get() error {
 	if page, ok := s.D.GetOkExists("page"); ok {
 		tmp := page.(string)
 		request.Page = &tmp
-	}
-
-	if state, ok := s.D.GetOkExists("state"); ok {
-		request.LifecycleState = oci_core.DhcpOptionsLifecycleStateEnum(state.(string))
-	}
-
-	if vcnId, ok := s.D.GetOkExists("vcn_id"); ok {
-		tmp := vcnId.(string)
-		request.VcnId = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")

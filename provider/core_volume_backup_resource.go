@@ -68,7 +68,6 @@ func VolumeBackupResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			// @Deprecated 2017: size_in_mbs => size_in_gbs
 			"size_in_mbs": {
 				Type:       schema.TypeString,
 				Computed:   true,
@@ -94,7 +93,6 @@ func VolumeBackupResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			// @Deprecated 2017: unique_size_in_mbs => unique_size_in_gbs
 			"unique_size_in_mbs": {
 				Type:       schema.TypeString,
 				Computed:   true,

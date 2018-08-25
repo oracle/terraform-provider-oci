@@ -27,16 +27,6 @@ func VolumesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"limit": {
-				Type:       schema.TypeInt,
-				Optional:   true,
-				Deprecated: FieldDeprecated("limit"),
-			},
-			"page": {
-				Type:       schema.TypeString,
-				Optional:   true,
-				Deprecated: FieldDeprecated("page"),
-			},
 			"state": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -49,6 +39,16 @@ func VolumesDataSource() *schema.Resource {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem:     GetDataSourceItemSchema(VolumeResource()),
+			},
+			"limit": {
+				Type:       schema.TypeInt,
+				Optional:   true,
+				Deprecated: FieldDeprecated("limit"),
+			},
+			"page": {
+				Type:       schema.TypeString,
+				Optional:   true,
+				Deprecated: FieldDeprecated("page"),
 			},
 		},
 	}
@@ -90,6 +90,15 @@ func (s *VolumesDataSourceCrud) Get() error {
 		request.DisplayName = &tmp
 	}
 
+	if state, ok := s.D.GetOkExists("state"); ok {
+		request.LifecycleState = oci_core.VolumeLifecycleStateEnum(state.(string))
+	}
+
+	if volumeGroupId, ok := s.D.GetOkExists("volume_group_id"); ok {
+		tmp := volumeGroupId.(string)
+		request.VolumeGroupId = &tmp
+	}
+
 	if limit, ok := s.D.GetOkExists("limit"); ok {
 		tmp := limit.(int)
 		request.Limit = &tmp
@@ -98,15 +107,6 @@ func (s *VolumesDataSourceCrud) Get() error {
 	if page, ok := s.D.GetOkExists("page"); ok {
 		tmp := page.(string)
 		request.Page = &tmp
-	}
-
-	if state, ok := s.D.GetOkExists("state"); ok {
-		request.LifecycleState = oci_core.VolumeLifecycleStateEnum(state.(string))
-	}
-
-	if volumeGroupId, ok := s.D.GetOkExists("volume_group_id"); ok {
-		tmp := volumeGroupId.(string)
-		request.VolumeGroupId = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")

@@ -99,10 +99,10 @@ func VnicAttachmentResource() *schema.Resource {
 						},
 						"skip_source_dest_check": {
 							Type:     schema.TypeBool,
+							Default:  false,
 							Optional: true,
 							// @CODEGEN 1/2018: Remove Computed and ForceNew for this attribute, it can be updated
 							// and it should be false by default to avoid a breaking change.
-							Default: false,
 						},
 
 						// Computed

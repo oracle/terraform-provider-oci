@@ -41,7 +41,7 @@ The following attributes are exported:
 * `group_id` - The OCID of the group.
 * `id` - The OCID of the membership.
 * `inactive_state` - The detailed status of INACTIVE lifecycleState.
-* `state` - The membership's current state. 
+* `state` - The membership's current state.
 * `time_created` - Date and time the membership was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
 * `user_id` - The OCID of the user.
 

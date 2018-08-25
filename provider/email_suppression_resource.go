@@ -26,10 +26,9 @@ func SuppressionResource() *schema.Resource {
 				ForceNew: true,
 			},
 			"email_address": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
-				// email address is converted to lower case by the service
+				Type:             schema.TypeString,
+				Required:         true,
+				ForceNew:         true,
 				DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
 			},
 

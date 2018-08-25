@@ -39,8 +39,7 @@ func BucketResource() *schema.Resource {
 			"access_type": {
 				Type:     schema.TypeString,
 				Optional: true,
-				// @CODEGEN 2/2018: To avoid breaking change, set a default enum value for this property.
-				Default: string(oci_object_storage.CreateBucketDetailsPublicAccessTypeNopublicaccess),
+				Default:  string(oci_object_storage.CreateBucketDetailsPublicAccessTypeNopublicaccess),
 			},
 			"defined_tags": {
 				Type:             schema.TypeMap,

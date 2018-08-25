@@ -12,7 +12,7 @@ The following attributes are exported:
 * `id` - The OCID of the Swift password.
 * `inactive_state` - The detailed status of INACTIVE lifecycleState.
 * `password` - The Swift password. The value is available only in the response for `CreateSwiftPassword`, and not for `ListSwiftPasswords` or `UpdateSwiftPassword`. 
-* `state` - The password's current state. 
+* `state` - The password's current state.
 * `time_created` - Date and time the `SwiftPassword` object was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
 * `user_id` - The OCID of the user the password belongs to.
 

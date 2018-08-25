@@ -22,6 +22,15 @@ func VcnsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"state": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"virtual_networks": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem:     GetDataSourceItemSchema(VcnResource()),
+			},
 			"limit": {
 				Type:       schema.TypeInt,
 				Optional:   true,
@@ -31,15 +40,6 @@ func VcnsDataSource() *schema.Resource {
 				Type:       schema.TypeString,
 				Optional:   true,
 				Deprecated: FieldDeprecated("page"),
-			},
-			"state": {
-				Type:     schema.TypeString,
-				Optional: true,
-			},
-			"virtual_networks": {
-				Type:     schema.TypeList,
-				Computed: true,
-				Elem:     GetDataSourceItemSchema(VcnResource()),
 			},
 		},
 	}
@@ -76,6 +76,10 @@ func (s *VcnsDataSourceCrud) Get() error {
 		request.DisplayName = &tmp
 	}
 
+	if state, ok := s.D.GetOkExists("state"); ok {
+		request.LifecycleState = oci_core.VcnLifecycleStateEnum(state.(string))
+	}
+
 	if limit, ok := s.D.GetOkExists("limit"); ok {
 		tmp := limit.(int)
 		request.Limit = &tmp
@@ -84,10 +88,6 @@ func (s *VcnsDataSourceCrud) Get() error {
 	if page, ok := s.D.GetOkExists("page"); ok {
 		tmp := page.(string)
 		request.Page = &tmp
-	}
-
-	if state, ok := s.D.GetOkExists("state"); ok {
-		request.LifecycleState = oci_core.VcnLifecycleStateEnum(state.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")

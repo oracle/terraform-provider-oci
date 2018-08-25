@@ -10,7 +10,7 @@ The following attributes are exported:
 * `id` - An Oracle-assigned identifier for the key, in this format: TENANCY_OCID/USER_OCID/KEY_FINGERPRINT. 
 * `inactive_status` - The detailed status of INACTIVE lifecycleState.
 * `key_value` - The key's value.
-* `state` - The API key's current state. 
+* `state` - The API key's current state.
 * `time_created` - Date and time the `ApiKey` object was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
 * `user_id` - The OCID of the user the key belongs to.
 
@@ -51,7 +51,7 @@ Any change to a property that does not support update will force the destruction
 ```hcl
 resource "oci_identity_api_key" "test_api_key" {
 	#Required
-	key_value = "${var.api_key_key}"
+	key_value = "${var.api_key_key_value}"
 	user_id = "${oci_identity_user.test_user.id}"
 }
 ```

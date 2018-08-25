@@ -21,11 +21,6 @@ func ApiKeyResource() *schema.Resource {
 		Delete:   deleteApiKey,
 		Schema: map[string]*schema.Schema{
 			// Required
-			"user_id": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
-			},
 			"key_value": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -36,6 +31,11 @@ func ApiKeyResource() *schema.Resource {
 					strippedNew := r.ReplaceAllString(new, "")
 					return (strippedOld == strippedNew)
 				},
+			},
+			"user_id": {
+				Type:     schema.TypeString,
+				Required: true,
+				ForceNew: true,
 			},
 
 			// Optional
@@ -128,8 +128,8 @@ func (s *ApiKeyResourceCrud) DeletedTarget() []string {
 func (s *ApiKeyResourceCrud) Create() error {
 	request := oci_identity.UploadApiKeyRequest{}
 
-	if key, ok := s.D.GetOkExists("key_value"); ok {
-		tmp := key.(string)
+	if keyValue, ok := s.D.GetOkExists("key_value"); ok {
+		tmp := keyValue.(string)
 		request.Key = &tmp
 	}
 

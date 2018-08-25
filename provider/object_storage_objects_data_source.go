@@ -26,12 +26,6 @@ func ObjectsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			// @CODEGEN 2/2018: 'fields' field omitted from existing provider.
-			"limit": {
-				Type:       schema.TypeInt,
-				Optional:   true,
-				Deprecated: FieldDeprecated("limit"),
-			},
 			"namespace": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -76,6 +70,11 @@ func ObjectsDataSource() *schema.Resource {
 						},
 					},
 				},
+			},
+			"limit": {
+				Type:       schema.TypeInt,
+				Optional:   true,
+				Deprecated: FieldDeprecated("limit"),
 			},
 		},
 	}

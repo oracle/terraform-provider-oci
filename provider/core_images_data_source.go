@@ -23,11 +23,6 @@ func ImagesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"limit": {
-				Type:       schema.TypeInt,
-				Optional:   true,
-				Deprecated: FieldDeprecated("limit"),
-			},
 			"operating_system": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -35,11 +30,6 @@ func ImagesDataSource() *schema.Resource {
 			"operating_system_version": {
 				Type:     schema.TypeString,
 				Optional: true,
-			},
-			"page": {
-				Type:       schema.TypeString,
-				Optional:   true,
-				Deprecated: FieldDeprecated("page"),
 			},
 			"shape": {
 				Type:     schema.TypeString,
@@ -53,6 +43,16 @@ func ImagesDataSource() *schema.Resource {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem:     GetDataSourceItemSchema(ImageResource()),
+			},
+			"limit": {
+				Type:       schema.TypeInt,
+				Optional:   true,
+				Deprecated: FieldDeprecated("limit"),
+			},
+			"page": {
+				Type:       schema.TypeString,
+				Optional:   true,
+				Deprecated: FieldDeprecated("page"),
 			},
 		},
 	}
@@ -89,11 +89,6 @@ func (s *ImagesDataSourceCrud) Get() error {
 		request.DisplayName = &tmp
 	}
 
-	if limit, ok := s.D.GetOkExists("limit"); ok {
-		tmp := limit.(int)
-		request.Limit = &tmp
-	}
-
 	if operatingSystem, ok := s.D.GetOkExists("operating_system"); ok {
 		tmp := operatingSystem.(string)
 		request.OperatingSystem = &tmp
@@ -104,11 +99,6 @@ func (s *ImagesDataSourceCrud) Get() error {
 		request.OperatingSystemVersion = &tmp
 	}
 
-	if page, ok := s.D.GetOkExists("page"); ok {
-		tmp := page.(string)
-		request.Page = &tmp
-	}
-
 	if shape, ok := s.D.GetOkExists("shape"); ok {
 		tmp := shape.(string)
 		request.Shape = &tmp
@@ -116,6 +106,16 @@ func (s *ImagesDataSourceCrud) Get() error {
 
 	if state, ok := s.D.GetOkExists("state"); ok {
 		request.LifecycleState = oci_core.ImageLifecycleStateEnum(state.(string))
+	}
+
+	if limit, ok := s.D.GetOkExists("limit"); ok {
+		tmp := limit.(int)
+		request.Limit = &tmp
+	}
+
+	if page, ok := s.D.GetOkExists("page"); ok {
+		tmp := page.(string)
+		request.Page = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
