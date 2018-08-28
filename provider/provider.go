@@ -588,6 +588,10 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 	if err != nil {
 		return
 	}
+	err = configureClient(&dnsClient.BaseClient)
+	if err != nil {
+		return
+	}
 	err = configureClient(&fileStorageClient.BaseClient)
 	if err != nil {
 		return
