@@ -44,6 +44,7 @@ description. It does not have to be unique, and you can change it. Avoid enterin
 The following arguments are supported:
 
 * `availability_domain` - (Required) The Availability Domain of the volume.  Example: `Uocm:PHX-AD-1` 
+* `backup_policy_id` - (Optional) If provided, specifies the ID of the volume backup policy to assign to the newly created volume. If omitted, no policy will be assigned. 
 * `compartment_id` - (Required) The OCID of the compartment that contains the volume.
 * `defined_tags` - (Optional) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
@@ -79,6 +80,7 @@ resource "oci_core_volume" "test_volume" {
 	compartment_id = "${var.compartment_id}"
 
 	#Optional
+	backup_policy_id = "${oci_core_backup_policy.test_backup_policy.id}"
 	defined_tags = {"Operations.CostCenter"= "42"}
 	display_name = "${var.volume_display_name}"
 	freeform_tags = {"Department"= "Finance"}

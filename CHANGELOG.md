@@ -3,6 +3,11 @@ All notable changes to this project are documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+## 2.2.3 - (Unreleased)
+
+### Added
+- Support specifying a backup policy at the time of creating a Volume
+
 ## 2.2.2 - 2018-08-30
 
 ### Added
