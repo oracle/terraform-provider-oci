@@ -24,7 +24,7 @@ The following attributes are exported:
 * `hostname` - The host name for the DB Node.
 * `id` - The OCID of the DB System.
 * `last_patch_history_entry_id` - The OCID of the last patch history. This is updated as soon as a patch operation is started.
-* `license_model` - The Oracle license model that applies to all the databases on the DB System. The default is LICENSE_INCLUDED. 
+* `license_model` - The Oracle license model that applies to all the databases on the DB System. The default is LICENSE_INCLUDED. Allowed values are: LICENSE_INCLUDED, BRING_YOUR_OWN_LICENSE.
 * `lifecycle_details` - Additional information about the current lifecycleState.
 * `listener_port` - The port number configured for the listener on the DB System.
 * `node_count` - Number of nodes in this DB system. For RAC DBs, this will be greater than 1. 
@@ -107,7 +107,7 @@ The following arguments are supported:
 	The maximum length of the combined hostname and domain is 63 characters.
 
 	**Note:** The hostname must be unique within the subnet. If it is not unique, the DB System will fail to provision. 
-* `license_model` - (Optional) The Oracle license model that applies to all the databases on the DB System. The default is LICENSE_INCLUDED. 
+* `license_model` - (Optional) The Oracle license model that applies to all the databases on the DB System. The default is LICENSE_INCLUDED. Allowed values are: LICENSE_INCLUDED, BRING_YOUR_OWN_LICENSE.
 * `node_count` - (Optional) Number of nodes to launch for a VM-shape based RAC DB system. 
 * `shape` - (Required) The shape of the DB System. The shape determines resources allocated to the DB System - CPU cores and memory for VM shapes; CPU cores, memory and storage for non-VM (or bare metal) shapes. To get a list of shapes, use the [ListDbSystemShapes](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/database/20160918/DbSystemShapeSummary/ListDbSystemShapes) operation.
 * `source` - (Optional) Source of database: NONE for creating a new database DB_BACKUP for creating a new database by restoring a backup 
