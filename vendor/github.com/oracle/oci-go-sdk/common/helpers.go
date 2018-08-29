@@ -9,6 +9,7 @@ import (
 	"encoding/pem"
 	"fmt"
 	"reflect"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -81,13 +82,31 @@ func PointerString(datastruct interface{}) (representation string) {
 	return
 }
 
-// SDKTime a time struct, which renders to/from json using RFC339
+// SDKTime a struct that parses/renders to/from json using RFC339 date-time information
 type SDKTime struct {
 	time.Time
 }
 
+// SDKDate a struct that parses/renders to/from json using only date information
+type SDKDate struct {
+	//Date date information
+	Date time.Time
+}
+
 func sdkTimeFromTime(t time.Time) SDKTime {
 	return SDKTime{t}
+}
+
+func sdkDateFromTime(t time.Time) SDKDate {
+	return SDKDate{Date: t}
+}
+
+func formatTime(t SDKTime) string {
+	return t.Format(sdkTimeFormat)
+}
+
+func formatDate(t SDKDate) string {
+	return t.Date.Format(sdkDateFormat)
 }
 
 func now() *SDKTime {
@@ -98,13 +117,13 @@ func now() *SDKTime {
 var timeType = reflect.TypeOf(SDKTime{})
 var timeTypePtr = reflect.TypeOf(&SDKTime{})
 
+var sdkDateType = reflect.TypeOf(SDKDate{})
+var sdkDateTypePtr = reflect.TypeOf(&SDKDate{})
+
+//Formats for sdk supported time representations
 const sdkTimeFormat = time.RFC3339
-
 const rfc1123OptionalLeadingDigitsInDay = "Mon, _2 Jan 2006 15:04:05 MST"
-
-func formatTime(t SDKTime) string {
-	return t.Format(sdkTimeFormat)
-}
+const sdkDateFormat = "2006-01-02"
 
 func tryParsingTimeWithValidFormatsForHeaders(data []byte, headerName string) (t time.Time, err error) {
 	header := strings.ToLower(headerName)
@@ -146,6 +165,26 @@ func (t *SDKTime) UnmarshalJSON(data []byte) (e error) {
 func (t *SDKTime) MarshalJSON() (buff []byte, e error) {
 	s := t.Format(sdkTimeFormat)
 	buff = []byte(`"` + s + `"`)
+	return
+}
+
+// UnmarshalJSON unmarshals from json
+func (t *SDKDate) UnmarshalJSON(data []byte) (e error) {
+	if string(data) == `"null"` {
+		t.Date = time.Time{}
+		return
+	}
+
+	t.Date, e = tryParsing(data,
+		strconv.Quote(sdkDateFormat),
+	)
+	return
+}
+
+// MarshalJSON marshals to JSON
+func (t *SDKDate) MarshalJSON() (buff []byte, e error) {
+	s := t.Date.Format(sdkDateFormat)
+	buff = []byte(strconv.Quote(s))
 	return
 }
 

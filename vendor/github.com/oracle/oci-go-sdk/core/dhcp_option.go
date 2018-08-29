@@ -44,6 +44,11 @@ func (m *dhcpoption) UnmarshalJSON(data []byte) error {
 
 // UnmarshalPolymorphicJSON unmarshals polymorphic json
 func (m *dhcpoption) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
+
+	if data == nil || string(data) == "null" {
+		return nil, nil
+	}
+
 	var err error
 	switch m.Type {
 	case "DomainNameServer":
@@ -55,7 +60,7 @@ func (m *dhcpoption) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) 
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		return m, nil
+		return *m, nil
 	}
 }
 

@@ -60,6 +60,11 @@ func (m *attachvolumedetails) UnmarshalJSON(data []byte) error {
 
 // UnmarshalPolymorphicJSON unmarshals polymorphic json
 func (m *attachvolumedetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
+
+	if data == nil || string(data) == "null" {
+		return nil, nil
+	}
+
 	var err error
 	switch m.Type {
 	case "iscsi":
@@ -71,7 +76,7 @@ func (m *attachvolumedetails) UnmarshalPolymorphicJSON(data []byte) (interface{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		return m, nil
+		return *m, nil
 	}
 }
 

@@ -100,7 +100,7 @@ type LaunchDbSystemDetails struct {
 	// High is 3-way redundancy, recommended for production systems.
 	DiskRedundancy LaunchDbSystemDetailsDiskRedundancyEnum `mandatory:"false" json:"diskRedundancy,omitempty"`
 
-	// The Oracle license model that applies to all the databases on the DB System. The default is LICENSE_INCLUDED.
+	// The Oracle license model that applies to all the databases on the DB System. The default is BRING_YOUR_OWN_LICENSE.
 	LicenseModel LaunchDbSystemDetailsLicenseModelEnum `mandatory:"false" json:"licenseModel,omitempty"`
 }
 

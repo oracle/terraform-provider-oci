@@ -301,7 +301,7 @@ func (client BaseClient) Call(ctx context.Context, request *http.Request) (respo
 			Logln("not dumping body too big")
 			dumpBody = false
 		}
-		if dump, e := httputil.DumpRequest(request, dumpBody); e == nil {
+		if dump, e := httputil.DumpRequestOut(request, dumpBody); e == nil {
 			Logf("Dump Request %v", string(dump))
 		} else {
 			Debugln(e)

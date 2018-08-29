@@ -100,7 +100,7 @@ type DbSystemSummary struct {
 	// The OCID of the last patch history. This is updated as soon as a patch operation is started.
 	LastPatchHistoryEntryId *string `mandatory:"false" json:"lastPatchHistoryEntryId"`
 
-	// The Oracle license model that applies to all the databases on the DB System. The default is LICENSE_INCLUDED.
+	// The Oracle license model that applies to all the databases on the DB System. The default is BRING_YOUR_OWN_LICENSE.
 	LicenseModel DbSystemSummaryLicenseModelEnum `mandatory:"false" json:"licenseModel,omitempty"`
 
 	// Additional information about the current lifecycleState.

@@ -50,6 +50,11 @@ func (m *createdbhomewithdbsystemidbase) UnmarshalJSON(data []byte) error {
 
 // UnmarshalPolymorphicJSON unmarshals polymorphic json
 func (m *createdbhomewithdbsystemidbase) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
+
+	if data == nil || string(data) == "null" {
+		return nil, nil
+	}
+
 	var err error
 	switch m.Source {
 	case "DB_BACKUP":
@@ -61,7 +66,7 @@ func (m *createdbhomewithdbsystemidbase) UnmarshalPolymorphicJSON(data []byte) (
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		return m, nil
+		return *m, nil
 	}
 }
 

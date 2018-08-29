@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 
+## 2.3.0 - 2018-08-23
+### Added
+- Support for fault domain in the Identity Service
+- Support for Autonomous Data Warehouse and Autonomous Transaction Processing in the Database service
+- Support for resizing an offline volume in the Block Storage service
+- Nil interface when polymorphic json response object is null
+
 ## 2.2.0 - 2018-07-26
 ### Added
 - Support for fault domains in the Compute service

@@ -42,6 +42,11 @@ func toStringValue(v reflect.Value, field reflect.StructField) (string, error) {
 		return formatTime(t), nil
 	}
 
+	if v.Type() == sdkDateType {
+		t := v.Interface().(SDKDate)
+		return formatDate(t), nil
+	}
+
 	switch v.Kind() {
 	case reflect.Bool:
 		return strconv.FormatBool(v.Bool()), nil
@@ -165,7 +170,8 @@ func omitNilFieldsInJSON(data interface{}, value reflect.Value) (interface{}, er
 				continue
 			}
 
-			if currentFieldValue.Type() == timeType || currentFieldValue.Type() == timeTypePtr {
+			if currentFieldValue.Type() == timeType || currentFieldValue.Type() == timeTypePtr ||
+				currentField.Type == sdkDateType || currentField.Type == sdkDateTypePtr {
 				continue
 			}
 			// does it need to be adjusted?
@@ -642,6 +648,16 @@ func analyzeValue(stringValue string, kind reflect.Kind, field reflect.StructFie
 		sdkTime := sdkTimeFromTime(t)
 		val = reflect.ValueOf(sdkTime)
 		valPointer = reflect.ValueOf(&sdkTime)
+		return
+	case sdkDateType.Kind():
+		var t time.Time
+		t, err = tryParsingTimeWithValidFormatsForHeaders([]byte(stringValue), field.Name)
+		if err != nil {
+			return
+		}
+		sdkDate := sdkDateFromTime(t)
+		val = reflect.ValueOf(sdkDate)
+		valPointer = reflect.ValueOf(&sdkDate)
 		return
 	case reflect.Bool:
 		var bVal bool

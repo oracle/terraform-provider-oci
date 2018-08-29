@@ -16,7 +16,7 @@ import (
 type CreateVirtualCircuitPublicPrefixDetails struct {
 
 	// An individual public IP prefix (CIDR) to add to the public virtual circuit.
-	// Must be /24 or less specific.
+	// Must be /31 or less specific.
 	CidrBlock *string `mandatory:"true" json:"cidrBlock"`
 }
 
