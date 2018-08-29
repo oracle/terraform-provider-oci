@@ -61,7 +61,7 @@ The following attributes are exported:
 * `hostname` - The host name for the DB Node.
 * `id` - The OCID of the DB System.
 * `last_patch_history_entry_id` - The OCID of the last patch history. This is updated as soon as a patch operation is started.
-* `license_model` - The Oracle license model that applies to all the databases on the DB System. The default is LICENSE_INCLUDED. 
+* `license_model` - The Oracle license model that applies to all the databases on the DB System. The default is LICENSE_INCLUDED. Allowed values are: LICENSE_INCLUDED, BRING_YOUR_OWN_LICENSE.
 * `lifecycle_details` - Additional information about the current lifecycleState.
 * `listener_port` - The port number configured for the listener on the DB System.
 * `node_count` - Number of nodes in this DB system. For RAC DBs, this will be greater than 1. 
