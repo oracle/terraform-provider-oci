@@ -46,6 +46,11 @@ func (m *exportimagedetails) UnmarshalJSON(data []byte) error {
 
 // UnmarshalPolymorphicJSON unmarshals polymorphic json
 func (m *exportimagedetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
+
+	if data == nil || string(data) == "null" {
+		return nil, nil
+	}
+
 	var err error
 	switch m.DestinationType {
 	case "objectStorageUri":
@@ -57,7 +62,7 @@ func (m *exportimagedetails) UnmarshalPolymorphicJSON(data []byte) (interface{},
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		return m, nil
+		return *m, nil
 	}
 }
 

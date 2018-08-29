@@ -103,7 +103,11 @@ func (m *Volume) UnmarshalJSON(data []byte) (e error) {
 	if e != nil {
 		return
 	}
-	m.SourceDetails = nn.(VolumeSourceDetails)
+	if nn != nil {
+		m.SourceDetails = nn.(VolumeSourceDetails)
+	} else {
+		m.SourceDetails = nil
+	}
 	m.VolumeGroupId = model.VolumeGroupId
 	m.AvailabilityDomain = model.AvailabilityDomain
 	m.CompartmentId = model.CompartmentId

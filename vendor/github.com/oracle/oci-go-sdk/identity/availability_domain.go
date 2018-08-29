@@ -20,6 +20,9 @@ type AvailabilityDomain struct {
 	// The name of the Availability Domain.
 	Name *string `mandatory:"false" json:"name"`
 
+	// The OCID of the Availability Domain.
+	Id *string `mandatory:"false" json:"id"`
+
 	// The OCID of the tenancy.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 }

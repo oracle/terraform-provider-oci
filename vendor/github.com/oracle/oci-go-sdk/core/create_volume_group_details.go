@@ -69,6 +69,10 @@ func (m *CreateVolumeGroupDetails) UnmarshalJSON(data []byte) (e error) {
 	if e != nil {
 		return
 	}
-	m.SourceDetails = nn.(VolumeGroupSourceDetails)
+	if nn != nil {
+		m.SourceDetails = nn.(VolumeGroupSourceDetails)
+	} else {
+		m.SourceDetails = nil
+	}
 	return
 }

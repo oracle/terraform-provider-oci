@@ -158,7 +158,11 @@ func (m *Instance) UnmarshalJSON(data []byte) (e error) {
 	if e != nil {
 		return
 	}
-	m.SourceDetails = nn.(InstanceSourceDetails)
+	if nn != nil {
+		m.SourceDetails = nn.(InstanceSourceDetails)
+	} else {
+		m.SourceDetails = nil
+	}
 	m.AvailabilityDomain = model.AvailabilityDomain
 	m.CompartmentId = model.CompartmentId
 	m.Id = model.Id

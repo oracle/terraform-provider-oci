@@ -29,6 +29,9 @@ type UpdateVolumeDetails struct {
 	// Resource Tags (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// The size to resize the volume to in GBs. Has to be larger than the current size.
+	SizeInGBs *int64 `mandatory:"false" json:"sizeInGBs"`
 }
 
 func (m UpdateVolumeDetails) String() string {

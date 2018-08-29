@@ -76,7 +76,11 @@ func (m *CreateImageDetails) UnmarshalJSON(data []byte) (e error) {
 	if e != nil {
 		return
 	}
-	m.ImageSourceDetails = nn.(ImageSourceDetails)
+	if nn != nil {
+		m.ImageSourceDetails = nn.(ImageSourceDetails)
+	} else {
+		m.ImageSourceDetails = nil
+	}
 	m.InstanceId = model.InstanceId
 	m.LaunchMode = model.LaunchMode
 	m.CompartmentId = model.CompartmentId

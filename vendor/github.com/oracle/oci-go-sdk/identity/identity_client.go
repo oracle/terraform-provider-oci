@@ -1906,9 +1906,11 @@ func (client IdentityClient) listAuthTokens(ctx context.Context, request common.
 	return response, err
 }
 
-// ListAvailabilityDomains Lists the Availability Domains in your tenancy. Specify the OCID of either the tenancy or another
+// ListAvailabilityDomains Lists the availability domains in your tenancy. Specify the OCID of either the tenancy or another
 // of your compartments as the value for the compartment ID (remember that the tenancy is simply the root compartment).
 // See Where to Get the Tenancy's OCID and User's OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/API/Concepts/apisigningkey.htm#five).
+// Note that the order of the results returned can change if availability domains are added or removed; therefore, do not
+// create a dependency on the list order.
 func (client IdentityClient) ListAvailabilityDomains(ctx context.Context, request ListAvailabilityDomainsRequest) (response ListAvailabilityDomainsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2069,6 +2071,50 @@ func (client IdentityClient) listDynamicGroups(ctx context.Context, request comm
 	}
 
 	var response ListDynamicGroupsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListFaultDomains Lists the Fault Domains in your tenancy. Specify the OCID of either the tenancy or another
+// of your compartments as the value for the compartment ID (remember that the tenancy is simply the root compartment).
+// See Where to Get the Tenancy's OCID and User's OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/API/Concepts/apisigningkey.htm#five).
+func (client IdentityClient) ListFaultDomains(ctx context.Context, request ListFaultDomainsRequest) (response ListFaultDomainsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listFaultDomains, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = ListFaultDomainsResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListFaultDomainsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListFaultDomainsResponse")
+	}
+	return
+}
+
+// listFaultDomains implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) listFaultDomains(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/faultDomains/")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListFaultDomainsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)

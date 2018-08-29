@@ -58,6 +58,174 @@ func (client *DatabaseClient) ConfigurationProvider() *common.ConfigurationProvi
 	return client.config
 }
 
+// CreateAutonomousDataWarehouse Creates a new Autonomous Data Warehouse.
+func (client DatabaseClient) CreateAutonomousDataWarehouse(ctx context.Context, request CreateAutonomousDataWarehouseRequest) (response CreateAutonomousDataWarehouseResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.createAutonomousDataWarehouse, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = CreateAutonomousDataWarehouseResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateAutonomousDataWarehouseResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateAutonomousDataWarehouseResponse")
+	}
+	return
+}
+
+// createAutonomousDataWarehouse implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) createAutonomousDataWarehouse(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousDataWarehouses")
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateAutonomousDataWarehouseResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateAutonomousDataWarehouseBackup Creates a new Autonomous Data Warehouse backup for the specified database based on the provided request parameters.
+func (client DatabaseClient) CreateAutonomousDataWarehouseBackup(ctx context.Context, request CreateAutonomousDataWarehouseBackupRequest) (response CreateAutonomousDataWarehouseBackupResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.createAutonomousDataWarehouseBackup, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = CreateAutonomousDataWarehouseBackupResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateAutonomousDataWarehouseBackupResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateAutonomousDataWarehouseBackupResponse")
+	}
+	return
+}
+
+// createAutonomousDataWarehouseBackup implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) createAutonomousDataWarehouseBackup(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousDataWarehouseBackups")
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateAutonomousDataWarehouseBackupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateAutonomousDatabase Creates a new Autonomous Database.
+func (client DatabaseClient) CreateAutonomousDatabase(ctx context.Context, request CreateAutonomousDatabaseRequest) (response CreateAutonomousDatabaseResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.createAutonomousDatabase, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = CreateAutonomousDatabaseResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateAutonomousDatabaseResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateAutonomousDatabaseResponse")
+	}
+	return
+}
+
+// createAutonomousDatabase implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) createAutonomousDatabase(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousDatabases")
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateAutonomousDatabaseResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateAutonomousDatabaseBackup Creates a new Autonomous Database backup for the specified database based on the provided request parameters.
+func (client DatabaseClient) CreateAutonomousDatabaseBackup(ctx context.Context, request CreateAutonomousDatabaseBackupRequest) (response CreateAutonomousDatabaseBackupResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.createAutonomousDatabaseBackup, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = CreateAutonomousDatabaseBackupResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateAutonomousDatabaseBackupResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateAutonomousDatabaseBackupResponse")
+	}
+	return
+}
+
+// createAutonomousDatabaseBackup implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) createAutonomousDatabaseBackup(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousDatabaseBackups")
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateAutonomousDatabaseBackupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateBackup Creates a new backup in the specified database based on the request parameters you provide. If you previously used RMAN or dbcli to configure backups and then you switch to using the Console or the API for backups, a new backup configuration is created and associated with your database. This means that you can no longer rely on your previously configured unmanaged backups to work.
 func (client DatabaseClient) CreateBackup(ctx context.Context, request CreateBackupRequest) (response CreateBackupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -241,6 +409,90 @@ func (client DatabaseClient) dbNodeAction(ctx context.Context, request common.OC
 	return response, err
 }
 
+// DeleteAutonomousDataWarehouse Deletes the specified Autonomous Data Warehouse.
+func (client DatabaseClient) DeleteAutonomousDataWarehouse(ctx context.Context, request DeleteAutonomousDataWarehouseRequest) (response DeleteAutonomousDataWarehouseResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteAutonomousDataWarehouse, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = DeleteAutonomousDataWarehouseResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteAutonomousDataWarehouseResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteAutonomousDataWarehouseResponse")
+	}
+	return
+}
+
+// deleteAutonomousDataWarehouse implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) deleteAutonomousDataWarehouse(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/autonomousDataWarehouses/{autonomousDataWarehouseId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteAutonomousDataWarehouseResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteAutonomousDatabase Deletes the specified Autonomous Database.
+func (client DatabaseClient) DeleteAutonomousDatabase(ctx context.Context, request DeleteAutonomousDatabaseRequest) (response DeleteAutonomousDatabaseResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteAutonomousDatabase, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = DeleteAutonomousDatabaseResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteAutonomousDatabaseResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteAutonomousDatabaseResponse")
+	}
+	return
+}
+
+// deleteAutonomousDatabase implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) deleteAutonomousDatabase(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/autonomousDatabases/{autonomousDatabaseId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteAutonomousDatabaseResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteBackup Deletes a full backup. You cannot delete automatic backups using this API.
 func (client DatabaseClient) DeleteBackup(ctx context.Context, request DeleteBackupRequest) (response DeleteBackupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -358,6 +610,174 @@ func (client DatabaseClient) failoverDataGuardAssociation(ctx context.Context, r
 	}
 
 	var response FailoverDataGuardAssociationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetAutonomousDataWarehouse Gets the details of the specified Autonomous Data Warehouse.
+func (client DatabaseClient) GetAutonomousDataWarehouse(ctx context.Context, request GetAutonomousDataWarehouseRequest) (response GetAutonomousDataWarehouseResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getAutonomousDataWarehouse, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = GetAutonomousDataWarehouseResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetAutonomousDataWarehouseResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetAutonomousDataWarehouseResponse")
+	}
+	return
+}
+
+// getAutonomousDataWarehouse implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) getAutonomousDataWarehouse(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousDataWarehouses/{autonomousDataWarehouseId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetAutonomousDataWarehouseResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetAutonomousDataWarehouseBackup Gets information about the specified Autonomous Data Warehouse backup.
+func (client DatabaseClient) GetAutonomousDataWarehouseBackup(ctx context.Context, request GetAutonomousDataWarehouseBackupRequest) (response GetAutonomousDataWarehouseBackupResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getAutonomousDataWarehouseBackup, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = GetAutonomousDataWarehouseBackupResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetAutonomousDataWarehouseBackupResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetAutonomousDataWarehouseBackupResponse")
+	}
+	return
+}
+
+// getAutonomousDataWarehouseBackup implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) getAutonomousDataWarehouseBackup(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousDataWarehouseBackups/{autonomousDataWarehouseBackupId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetAutonomousDataWarehouseBackupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetAutonomousDatabase Gets the details of the specified Autonomous Database.
+func (client DatabaseClient) GetAutonomousDatabase(ctx context.Context, request GetAutonomousDatabaseRequest) (response GetAutonomousDatabaseResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getAutonomousDatabase, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = GetAutonomousDatabaseResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetAutonomousDatabaseResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetAutonomousDatabaseResponse")
+	}
+	return
+}
+
+// getAutonomousDatabase implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) getAutonomousDatabase(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousDatabases/{autonomousDatabaseId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetAutonomousDatabaseResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetAutonomousDatabaseBackup Gets information about the specified Autonomous Database backup.
+func (client DatabaseClient) GetAutonomousDatabaseBackup(ctx context.Context, request GetAutonomousDatabaseBackupRequest) (response GetAutonomousDatabaseBackupResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getAutonomousDatabaseBackup, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = GetAutonomousDatabaseBackupResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetAutonomousDatabaseBackupResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetAutonomousDatabaseBackupResponse")
+	}
+	return
+}
+
+// getAutonomousDatabaseBackup implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) getAutonomousDatabaseBackup(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousDatabaseBackups/{autonomousDatabaseBackupId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetAutonomousDatabaseBackupResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -827,6 +1247,174 @@ func (client DatabaseClient) launchDbSystem(ctx context.Context, request common.
 	}
 
 	var response LaunchDbSystemResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListAutonomousDataWarehouseBackups Gets a list of Autonomous Data Warehouse backups based on either the `autonomousDataWarehouseId` or `compartmentId` specified as a query parameter.
+func (client DatabaseClient) ListAutonomousDataWarehouseBackups(ctx context.Context, request ListAutonomousDataWarehouseBackupsRequest) (response ListAutonomousDataWarehouseBackupsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listAutonomousDataWarehouseBackups, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = ListAutonomousDataWarehouseBackupsResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListAutonomousDataWarehouseBackupsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListAutonomousDataWarehouseBackupsResponse")
+	}
+	return
+}
+
+// listAutonomousDataWarehouseBackups implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) listAutonomousDataWarehouseBackups(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousDataWarehouseBackups")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListAutonomousDataWarehouseBackupsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListAutonomousDataWarehouses Gets a list of Autonomous Data Warehouses.
+func (client DatabaseClient) ListAutonomousDataWarehouses(ctx context.Context, request ListAutonomousDataWarehousesRequest) (response ListAutonomousDataWarehousesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listAutonomousDataWarehouses, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = ListAutonomousDataWarehousesResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListAutonomousDataWarehousesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListAutonomousDataWarehousesResponse")
+	}
+	return
+}
+
+// listAutonomousDataWarehouses implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) listAutonomousDataWarehouses(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousDataWarehouses")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListAutonomousDataWarehousesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListAutonomousDatabaseBackups Gets a list of Autonomous Database backups based on either the `autonomousDatabaseId` or `compartmentId` specified as a query parameter.
+func (client DatabaseClient) ListAutonomousDatabaseBackups(ctx context.Context, request ListAutonomousDatabaseBackupsRequest) (response ListAutonomousDatabaseBackupsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listAutonomousDatabaseBackups, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = ListAutonomousDatabaseBackupsResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListAutonomousDatabaseBackupsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListAutonomousDatabaseBackupsResponse")
+	}
+	return
+}
+
+// listAutonomousDatabaseBackups implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) listAutonomousDatabaseBackups(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousDatabaseBackups")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListAutonomousDatabaseBackupsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListAutonomousDatabases Gets a list of Autonomous Databases.
+func (client DatabaseClient) ListAutonomousDatabases(ctx context.Context, request ListAutonomousDatabasesRequest) (response ListAutonomousDatabasesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listAutonomousDatabases, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = ListAutonomousDatabasesResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListAutonomousDatabasesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListAutonomousDatabasesResponse")
+	}
+	return
+}
+
+// listAutonomousDatabases implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) listAutonomousDatabases(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousDatabases")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListAutonomousDatabasesResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -1386,6 +1974,90 @@ func (client DatabaseClient) reinstateDataGuardAssociation(ctx context.Context, 
 	return response, err
 }
 
+// RestoreAutonomousDataWarehouse Restores an Autonomous Data Warehouse based on the provided request parameters.
+func (client DatabaseClient) RestoreAutonomousDataWarehouse(ctx context.Context, request RestoreAutonomousDataWarehouseRequest) (response RestoreAutonomousDataWarehouseResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.restoreAutonomousDataWarehouse, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = RestoreAutonomousDataWarehouseResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RestoreAutonomousDataWarehouseResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RestoreAutonomousDataWarehouseResponse")
+	}
+	return
+}
+
+// restoreAutonomousDataWarehouse implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) restoreAutonomousDataWarehouse(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousDataWarehouses/{autonomousDataWarehouseId}/actions/restore")
+	if err != nil {
+		return nil, err
+	}
+
+	var response RestoreAutonomousDataWarehouseResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RestoreAutonomousDatabase Restores an Autonomous Database based on the provided request parameters.
+func (client DatabaseClient) RestoreAutonomousDatabase(ctx context.Context, request RestoreAutonomousDatabaseRequest) (response RestoreAutonomousDatabaseResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.restoreAutonomousDatabase, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = RestoreAutonomousDatabaseResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RestoreAutonomousDatabaseResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RestoreAutonomousDatabaseResponse")
+	}
+	return
+}
+
+// restoreAutonomousDatabase implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) restoreAutonomousDatabase(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousDatabases/{autonomousDatabaseId}/actions/restore")
+	if err != nil {
+		return nil, err
+	}
+
+	var response RestoreAutonomousDatabaseResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // RestoreDatabase Restore a Database based on the request parameters you provide.
 func (client DatabaseClient) RestoreDatabase(ctx context.Context, request RestoreDatabaseRequest) (response RestoreDatabaseResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1416,6 +2088,174 @@ func (client DatabaseClient) restoreDatabase(ctx context.Context, request common
 	}
 
 	var response RestoreDatabaseResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// StartAutonomousDataWarehouse Starts the specified autonomous Data Warehouse.
+func (client DatabaseClient) StartAutonomousDataWarehouse(ctx context.Context, request StartAutonomousDataWarehouseRequest) (response StartAutonomousDataWarehouseResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.startAutonomousDataWarehouse, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = StartAutonomousDataWarehouseResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(StartAutonomousDataWarehouseResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into StartAutonomousDataWarehouseResponse")
+	}
+	return
+}
+
+// startAutonomousDataWarehouse implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) startAutonomousDataWarehouse(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousDataWarehouses/{autonomousDataWarehouseId}/actions/start")
+	if err != nil {
+		return nil, err
+	}
+
+	var response StartAutonomousDataWarehouseResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// StartAutonomousDatabase Starts the specified Autonomous Database.
+func (client DatabaseClient) StartAutonomousDatabase(ctx context.Context, request StartAutonomousDatabaseRequest) (response StartAutonomousDatabaseResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.startAutonomousDatabase, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = StartAutonomousDatabaseResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(StartAutonomousDatabaseResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into StartAutonomousDatabaseResponse")
+	}
+	return
+}
+
+// startAutonomousDatabase implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) startAutonomousDatabase(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousDatabases/{autonomousDatabaseId}/actions/start")
+	if err != nil {
+		return nil, err
+	}
+
+	var response StartAutonomousDatabaseResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// StopAutonomousDataWarehouse Stops the specified Autonomous Data Warehouse.
+func (client DatabaseClient) StopAutonomousDataWarehouse(ctx context.Context, request StopAutonomousDataWarehouseRequest) (response StopAutonomousDataWarehouseResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.stopAutonomousDataWarehouse, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = StopAutonomousDataWarehouseResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(StopAutonomousDataWarehouseResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into StopAutonomousDataWarehouseResponse")
+	}
+	return
+}
+
+// stopAutonomousDataWarehouse implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) stopAutonomousDataWarehouse(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousDataWarehouses/{autonomousDataWarehouseId}/actions/stop")
+	if err != nil {
+		return nil, err
+	}
+
+	var response StopAutonomousDataWarehouseResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// StopAutonomousDatabase Stops the specified Autonomous Database.
+func (client DatabaseClient) StopAutonomousDatabase(ctx context.Context, request StopAutonomousDatabaseRequest) (response StopAutonomousDatabaseResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.stopAutonomousDatabase, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = StopAutonomousDatabaseResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(StopAutonomousDatabaseResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into StopAutonomousDatabaseResponse")
+	}
+	return
+}
+
+// stopAutonomousDatabase implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) stopAutonomousDatabase(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousDatabases/{autonomousDatabaseId}/actions/stop")
+	if err != nil {
+		return nil, err
+	}
+
+	var response StopAutonomousDatabaseResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -1502,6 +2342,90 @@ func (client DatabaseClient) terminateDbSystem(ctx context.Context, request comm
 	}
 
 	var response TerminateDbSystemResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateAutonomousDataWarehouse Updates the specified Autonomous Data Warehouse with a new CPU core count and size.
+func (client DatabaseClient) UpdateAutonomousDataWarehouse(ctx context.Context, request UpdateAutonomousDataWarehouseRequest) (response UpdateAutonomousDataWarehouseResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateAutonomousDataWarehouse, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = UpdateAutonomousDataWarehouseResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateAutonomousDataWarehouseResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateAutonomousDataWarehouseResponse")
+	}
+	return
+}
+
+// updateAutonomousDataWarehouse implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) updateAutonomousDataWarehouse(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/autonomousDataWarehouses/{autonomousDataWarehouseId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateAutonomousDataWarehouseResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateAutonomousDatabase Updates the specified Autonomous Database with a new CPU core count and size.
+func (client DatabaseClient) UpdateAutonomousDatabase(ctx context.Context, request UpdateAutonomousDatabaseRequest) (response UpdateAutonomousDatabaseResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateAutonomousDatabase, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = UpdateAutonomousDatabaseResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateAutonomousDatabaseResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateAutonomousDatabaseResponse")
+	}
+	return
+}
+
+// updateAutonomousDatabase implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) updateAutonomousDatabase(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/autonomousDatabases/{autonomousDatabaseId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateAutonomousDatabaseResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)

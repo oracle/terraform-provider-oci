@@ -40,11 +40,6 @@ type Vnic struct {
 	// The current state of the VNIC.
 	LifecycleState VnicLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// The private IP address of the primary `privateIp` object on the VNIC.
-	// The address is within the CIDR of the VNIC's subnet.
-	// Example: `10.0.3.3`
-	PrivateIp *string `mandatory:"true" json:"privateIp"`
-
 	// The OCID of the subnet the VNIC is in.
 	SubnetId *string `mandatory:"true" json:"subnetId"`
 
@@ -85,6 +80,11 @@ type Vnic struct {
 	// The MAC address of the VNIC.
 	// Example: `00:00:17:B6:4D:DD`
 	MacAddress *string `mandatory:"false" json:"macAddress"`
+
+	// The private IP address of the primary `privateIp` object on the VNIC.
+	// The address is within the CIDR of the VNIC's subnet.
+	// Example: `10.0.3.3`
+	PrivateIp *string `mandatory:"false" json:"privateIp"`
 
 	// The public IP address of the VNIC, if one is assigned.
 	PublicIp *string `mandatory:"false" json:"publicIp"`
