@@ -45,7 +45,7 @@ The following arguments are supported:
 
 * `export_options` - (Optional) Export options for the new export. If left unspecified, defaults to:
 
-	[ { "source" : "0.0.0.0/0", "requirePrivilegedSourcePort" : false, "access" : "READ_WRITE", "identitySquash" : "NONE" } ]
+	[]
 
 	**Note:** Mount targets do not have Internet-routable IP addresses.  Therefore they will not be reachable from the Internet, even if an associated `ClientOptions` item has a source of `0.0.0.0/0`.
 
@@ -73,9 +73,7 @@ The following arguments are supported:
 Updates the specified export's information.
 
 The following arguments support updates:
-* `export_options` - Export options for the new export. If left unspecified, defaults to:
-
-	[ { "source" : "0.0.0.0/0", "requirePrivilegedSourcePort" : false, "access" : "READ_WRITE", "identitySquash" : "NONE" } ]
+* `export_options` - Export options for the new export.
 
 	**Note:** Mount targets do not have Internet-routable IP addresses.  Therefore they will not be reachable from the Internet, even if an associated `ClientOptions` item has a source of `0.0.0.0/0`.
 
