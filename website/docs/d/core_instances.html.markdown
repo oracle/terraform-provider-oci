@@ -96,8 +96,6 @@ The following attributes are exported:
 		* `PARAVIRTUALIZED` - Paravirtualized disk. 
 * `metadata` - Custom metadata that you provide.
 * `preserve_boot_volume` - Specifies whether to delete or preserve the boot volume when terminating an instance. The default value is false. Note: This value only applies to destroy operations initiated by Terraform.
-* `private_ip` - The private IP address of instance VNIC. To set the private IP address, use the `private_ip` argument in create_vnic_details.
-* `public_ip` - The public IP address of instance VNIC (if enabled).
 * `region` - The region that contains the Availability Domain the instance is running in.  Example: `phx`
 * `shape` - The shape of the instance. The shape determines the number of CPUs and the amount of memory allocated to the instance. You can enumerate all available shapes by calling [ListShapes](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/Shape/ListShapes). 
 * `source_details` - Details for creating an instance
