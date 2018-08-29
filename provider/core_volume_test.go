@@ -31,6 +31,7 @@ resource "oci_core_volume" "test_volume" {
 	compartment_id = "${var.compartment_id}"
 
 	#Optional
+	backup_policy_id = "${data.oci_core_volume_backup_policies.test_volume_backup_policies.volume_backup_policies.0.id}"
 	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.volume_defined_tags_value}")}"
 	display_name = "${var.volume_display_name}"
 	freeform_tags = "${var.volume_freeform_tags}"
@@ -51,7 +52,6 @@ variable "volume_source_details_type" { default = "volume" }
 variable "volume_state" { default = "AVAILABLE" }
 
 `
-	// Uncomment once defined: VolumeBackupPropertyVariables + VolumeBackupResourceConfig
 	VolumeResourceDependencies = DefinedTagsDependencies + `
 data "oci_identity_availability_domains" "ADs" {
 	compartment_id = "${var.compartment_id}"
@@ -62,6 +62,14 @@ resource "oci_core_volume" "source_volume" {
 	availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
 	compartment_id = "${var.compartment_id}"
 }
+
+data "oci_core_volume_backup_policies" "test_volume_backup_policies" {
+	filter {
+		name = "display_name"
+		values = [ "silver" ]
+	}
+}
+
 `
 )
 
@@ -89,7 +97,10 @@ func TestCoreVolumeResource_basic(t *testing.T) {
 				Config: config + VolumePropertyVariables + compartmentIdVariableStr + VolumeRequiredOnlyResource,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+					resource.TestCheckNoResourceAttr(resourceName, "backup_policy_id"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckNoResourceAttr(resourceName, "volume_backup_id"),
+					resource.TestCheckNoResourceAttr(resourceName, "volume_group_id"),
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
@@ -107,6 +118,7 @@ func TestCoreVolumeResource_basic(t *testing.T) {
 				Config: config + VolumePropertyVariables + compartmentIdVariableStr + VolumeResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+					resource.TestCheckResourceAttrSet(resourceName, "backup_policy_id"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -118,6 +130,8 @@ func TestCoreVolumeResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "source_details.0.type", "volume"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+					resource.TestCheckNoResourceAttr(resourceName, "volume_backup_id"),
+					resource.TestCheckNoResourceAttr(resourceName, "volume_group_id"),
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
@@ -139,6 +153,7 @@ variable "volume_state" { default = "AVAILABLE" }
                 ` + compartmentIdVariableStr + VolumeResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+					resource.TestCheckResourceAttrSet(resourceName, "backup_policy_id"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -150,6 +165,8 @@ variable "volume_state" { default = "AVAILABLE" }
 					resource.TestCheckResourceAttr(resourceName, "source_details.0.type", "volume"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+					resource.TestCheckNoResourceAttr(resourceName, "volume_backup_id"),
+					resource.TestCheckNoResourceAttr(resourceName, "volume_group_id"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, resourceName, "id")
@@ -229,9 +246,12 @@ data "oci_core_volumes" "test_volumes" {
                 ` + compartmentIdVariableStr + VolumeResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
+					resource.TestCheckNoResourceAttr(datasourceName, "backup_policy_id"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(datasourceName, "state"),
+					resource.TestCheckNoResourceAttr(datasourceName, "volume_backup_id"),
+					resource.TestCheckNoResourceAttr(datasourceName, "volume_group_id"),
 
 					resource.TestCheckResourceAttr(datasourceName, "volumes.#", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "volumes.0.availability_domain"),
@@ -252,6 +272,7 @@ data "oci_core_volumes" "test_volumes" {
 				ImportState:       true,
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{
+					"backup_policy_id",
 					"volume_backup_id",
 				},
 				ResourceName: resourceName,
