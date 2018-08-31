@@ -10,18 +10,18 @@ import (
 	oci_database "github.com/oracle/oci-go-sdk/database"
 )
 
-func AutonomousDataWarehouseBackupResource() *schema.Resource {
+func AutonomousDatabaseBackupResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createAutonomousDataWarehouseBackup,
-		Read:     readAutonomousDataWarehouseBackup,
-		Delete:   deleteAutonomousDataWarehouseBackup,
+		Create:   createAutonomousDatabaseBackup,
+		Read:     readAutonomousDatabaseBackup,
+		Delete:   deleteAutonomousDatabaseBackup,
 		Schema: map[string]*schema.Schema{
 			// Required
-			"autonomous_data_warehouse_id": {
+			"autonomous_database_id": {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
@@ -67,67 +67,67 @@ func AutonomousDataWarehouseBackupResource() *schema.Resource {
 	}
 }
 
-func createAutonomousDataWarehouseBackup(d *schema.ResourceData, m interface{}) error {
-	sync := &AutonomousDataWarehouseBackupResourceCrud{}
+func createAutonomousDatabaseBackup(d *schema.ResourceData, m interface{}) error {
+	sync := &AutonomousDatabaseBackupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient
 
 	return CreateResource(d, sync)
 }
 
-func readAutonomousDataWarehouseBackup(d *schema.ResourceData, m interface{}) error {
-	sync := &AutonomousDataWarehouseBackupResourceCrud{}
+func readAutonomousDatabaseBackup(d *schema.ResourceData, m interface{}) error {
+	sync := &AutonomousDatabaseBackupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient
 
 	return ReadResource(sync)
 }
 
-func deleteAutonomousDataWarehouseBackup(d *schema.ResourceData, m interface{}) error {
+func deleteAutonomousDatabaseBackup(d *schema.ResourceData, m interface{}) error {
 	return nil
 }
 
-type AutonomousDataWarehouseBackupResourceCrud struct {
+type AutonomousDatabaseBackupResourceCrud struct {
 	BaseCrud
 	Client                 *oci_database.DatabaseClient
-	Res                    *oci_database.AutonomousDataWarehouseBackup
+	Res                    *oci_database.AutonomousDatabaseBackup
 	DisableNotFoundRetries bool
 }
 
-func (s *AutonomousDataWarehouseBackupResourceCrud) ID() string {
+func (s *AutonomousDatabaseBackupResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *AutonomousDataWarehouseBackupResourceCrud) CreatedPending() []string {
+func (s *AutonomousDatabaseBackupResourceCrud) CreatedPending() []string {
 	return []string{
-		string(oci_database.AutonomousDataWarehouseBackupLifecycleStateCreating),
+		string(oci_database.AutonomousDatabaseBackupLifecycleStateCreating),
 	}
 }
 
-func (s *AutonomousDataWarehouseBackupResourceCrud) CreatedTarget() []string {
+func (s *AutonomousDatabaseBackupResourceCrud) CreatedTarget() []string {
 	return []string{
-		string(oci_database.AutonomousDataWarehouseBackupLifecycleStateActive),
+		string(oci_database.AutonomousDatabaseBackupLifecycleStateActive),
 	}
 }
 
-func (s *AutonomousDataWarehouseBackupResourceCrud) DeletedPending() []string {
+func (s *AutonomousDatabaseBackupResourceCrud) DeletedPending() []string {
 	return []string{
-		string(oci_database.AutonomousDataWarehouseBackupLifecycleStateDeleting),
+		string(oci_database.AutonomousDatabaseBackupLifecycleStateDeleting),
 	}
 }
 
-func (s *AutonomousDataWarehouseBackupResourceCrud) DeletedTarget() []string {
+func (s *AutonomousDatabaseBackupResourceCrud) DeletedTarget() []string {
 	return []string{
-		string(oci_database.AutonomousDataWarehouseBackupLifecycleStateDeleted),
+		string(oci_database.AutonomousDatabaseBackupLifecycleStateDeleted),
 	}
 }
 
-func (s *AutonomousDataWarehouseBackupResourceCrud) Create() error {
-	request := oci_database.CreateAutonomousDataWarehouseBackupRequest{}
+func (s *AutonomousDatabaseBackupResourceCrud) Create() error {
+	request := oci_database.CreateAutonomousDatabaseBackupRequest{}
 
-	if autonomousDataWarehouseId, ok := s.D.GetOkExists("autonomous_data_warehouse_id"); ok {
-		tmp := autonomousDataWarehouseId.(string)
-		request.AutonomousDataWarehouseId = &tmp
+	if autonomousDatabaseId, ok := s.D.GetOkExists("autonomous_database_id"); ok {
+		tmp := autonomousDatabaseId.(string)
+		request.AutonomousDatabaseId = &tmp
 	}
 
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
@@ -137,35 +137,35 @@ func (s *AutonomousDataWarehouseBackupResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.CreateAutonomousDataWarehouseBackup(context.Background(), request)
+	response, err := s.Client.CreateAutonomousDatabaseBackup(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
-	s.Res = &response.AutonomousDataWarehouseBackup
+	s.Res = &response.AutonomousDatabaseBackup
 	return nil
 }
 
-func (s *AutonomousDataWarehouseBackupResourceCrud) Get() error {
-	request := oci_database.GetAutonomousDataWarehouseBackupRequest{}
+func (s *AutonomousDatabaseBackupResourceCrud) Get() error {
+	request := oci_database.GetAutonomousDatabaseBackupRequest{}
 
 	tmp := s.D.Id()
-	request.AutonomousDataWarehouseBackupId = &tmp
+	request.AutonomousDatabaseBackupId = &tmp
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.GetAutonomousDataWarehouseBackup(context.Background(), request)
+	response, err := s.Client.GetAutonomousDatabaseBackup(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
-	s.Res = &response.AutonomousDataWarehouseBackup
+	s.Res = &response.AutonomousDatabaseBackup
 	return nil
 }
 
-func (s *AutonomousDataWarehouseBackupResourceCrud) SetData() error {
-	if s.Res.AutonomousDataWarehouseId != nil {
-		s.D.Set("autonomous_data_warehouse_id", *s.Res.AutonomousDataWarehouseId)
+func (s *AutonomousDatabaseBackupResourceCrud) SetData() error {
+	if s.Res.AutonomousDatabaseId != nil {
+		s.D.Set("autonomous_database_id", *s.Res.AutonomousDatabaseId)
 	}
 
 	if s.Res.CompartmentId != nil {

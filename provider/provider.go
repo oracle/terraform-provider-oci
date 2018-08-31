@@ -220,6 +220,10 @@ func dataSourcesMap() map[string]*schema.Resource {
 		"oci_database_autonomous_data_warehouses":        AutonomousDataWarehousesDataSource(),
 		"oci_database_autonomous_data_warehouse_backup":  AutonomousDataWarehouseBackupDataSource(),
 		"oci_database_autonomous_data_warehouse_backups": AutonomousDataWarehouseBackupsDataSource(),
+		"oci_database_autonomous_database":               AutonomousDatabaseDataSource(),
+		"oci_database_autonomous_databases":              AutonomousDatabasesDataSource(),
+		"oci_database_autonomous_database_backup":        AutonomousDatabaseBackupDataSource(),
+		"oci_database_autonomous_database_backups":       AutonomousDatabaseBackupsDataSource(),
 		"oci_database_backups":                           BackupsDataSource(),
 		"oci_database_database":                          DatabaseDataSource(),
 		"oci_database_databases":                         DatabasesDataSource(),
@@ -331,6 +335,8 @@ func resourcesMap() map[string]*schema.Resource {
 		"oci_core_volume_backup_policy_assignment":      VolumeBackupPolicyAssignmentResource(),
 		"oci_database_autonomous_data_warehouse":        AutonomousDataWarehouseResource(),
 		"oci_database_autonomous_data_warehouse_backup": AutonomousDataWarehouseBackupResource(),
+		"oci_database_autonomous_database":              AutonomousDatabaseResource(),
+		"oci_database_autonomous_database_backup":       AutonomousDatabaseBackupResource(),
 		//Do remember to enable database_db_home_test if you are enabling DB Home resource
 		//"oci_database_db_home":                     DbHomeResource(),
 		"oci_database_db_system":               DbSystemResource(),
@@ -579,6 +585,19 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 		return nil
 	}
 
+	configureDatabaseClient := func(client *oci_database.DatabaseClient) error {
+		simulateDb, _ := strconv.ParseBool(getEnvSettingWithDefault("simulate_db", "false"))
+		if simulateDb {
+			client.Interceptor = func(r *http.Request) error {
+				if r.Method == http.MethodPost && (strings.Contains(r.URL.Path, "/dbSystems") || strings.Contains(r.URL.Path, "/autonomousData")) {
+					r.Header.Set("opc-host-serial", "FAKEHOSTSERIAL")
+				}
+				return nil
+			}
+		}
+		return nil
+	}
+
 	err = configureClient(&auditClient.BaseClient)
 	if err != nil {
 		return
@@ -592,6 +611,10 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 		return
 	}
 	err = configureClient(&databaseClient.BaseClient)
+	if err != nil {
+		return
+	}
+	err = configureDatabaseClient(&databaseClient)
 	if err != nil {
 		return
 	}

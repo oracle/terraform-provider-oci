@@ -245,8 +245,6 @@ func (s *DbHomeResourceCrud) Create() error {
 		return err
 	}
 
-	handleDbSimulationFlag(s.Client)
-
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.CreateDbHome(context.Background(), request)
