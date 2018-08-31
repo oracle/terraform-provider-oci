@@ -47,7 +47,7 @@ resource "oci_core_volume" "test_volume" {
 variable "volume_defined_tags_value" { default = "value" }
 variable "volume_display_name" { default = "displayName" }
 variable "volume_freeform_tags" { default = {"Department"= "Finance"} }
-variable "volume_size_in_gbs" { default = 50 }
+variable "volume_size_in_gbs" { default = 51 }
 variable "volume_source_details_type" { default = "volume" }
 variable "volume_state" { default = "AVAILABLE" }
 
@@ -58,9 +58,9 @@ data "oci_identity_availability_domains" "ADs" {
 }
 
 resource "oci_core_volume" "source_volume" {
-	#Required
 	availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
 	compartment_id = "${var.compartment_id}"
+	size_in_gbs = "50"
 }
 
 data "oci_core_volume_backup_policies" "test_volume_backup_policies" {
@@ -102,6 +102,9 @@ func TestCoreVolumeResource_basic(t *testing.T) {
 					resource.TestCheckNoResourceAttr(resourceName, "volume_backup_id"),
 					resource.TestCheckNoResourceAttr(resourceName, "volume_group_id"),
 
+					// Check on default values used
+					resource.TestCheckResourceAttr(resourceName, "size_in_mbs", "51200"),
+					resource.TestCheckResourceAttr(resourceName, "size_in_gbs", "50"),
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
 						return err
@@ -124,8 +127,8 @@ func TestCoreVolumeResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "size_in_gbs", "50"),
-					resource.TestCheckResourceAttr(resourceName, "size_in_mbs", "51200"),
+					resource.TestCheckResourceAttr(resourceName, "size_in_gbs", "51"),
+					resource.TestCheckResourceAttr(resourceName, "size_in_mbs", "52224"),
 					resource.TestCheckResourceAttr(resourceName, "source_details.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "source_details.0.type", "volume"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
@@ -146,7 +149,7 @@ func TestCoreVolumeResource_basic(t *testing.T) {
 variable "volume_defined_tags_value" { default = "updatedValue" }
 variable "volume_display_name" { default = "displayName2" }
 variable "volume_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "volume_size_in_gbs" { default = 50 }
+variable "volume_size_in_gbs" { default = 51 }
 variable "volume_source_details_type" { default = "volume" }
 variable "volume_state" { default = "AVAILABLE" }
 
@@ -159,8 +162,8 @@ variable "volume_state" { default = "AVAILABLE" }
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "size_in_gbs", "50"),
-					resource.TestCheckResourceAttr(resourceName, "size_in_mbs", "51200"),
+					resource.TestCheckResourceAttr(resourceName, "size_in_gbs", "51"),
+					resource.TestCheckResourceAttr(resourceName, "size_in_mbs", "52224"),
 					resource.TestCheckResourceAttr(resourceName, "source_details.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "source_details.0.type", "volume"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
@@ -177,55 +180,13 @@ variable "volume_state" { default = "AVAILABLE" }
 					},
 				),
 			},
-			// ensure that changing datatype of size_in_gbs is a no-op
-			{
-				Config: config + `
-variable "volume_defined_tags_value" { default = "updatedValue" }
-variable "volume_display_name" { default = "displayName2" }
-variable "volume_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "volume_size_in_gbs" { default = "50" }
-variable "volume_source_details_type" { default = "volume" }
-variable "volume_state" { default = "AVAILABLE" }
-
-                ` + compartmentIdVariableStr + VolumeResourceConfig,
-				PlanOnly:           true,
-				ExpectNonEmptyPlan: false,
-			},
-			// ensure that adding leading zeroes to size_in_gbs is a no-op
-			{
-				Config: config + `
-variable "volume_defined_tags_value" { default = "updatedValue" }
-variable "volume_display_name" { default = "displayName2" }
-variable "volume_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "volume_size_in_gbs" { default = "0050" }
-variable "volume_source_details_type" { default = "volume" }
-variable "volume_state" { default = "AVAILABLE" }
-
-                ` + compartmentIdVariableStr + VolumeResourceConfig,
-				PlanOnly:           true,
-				ExpectNonEmptyPlan: false,
-			},
-			// ensure that giving non-numeric characters in size_in_gbs will yield an error
-			{
-				Config: config + `
-variable "volume_defined_tags_value" { default = "updatedValue" }
-variable "volume_display_name" { default = "displayName2" }
-variable "volume_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "volume_size_in_gbs" { default = "abc" }
-variable "volume_source_details_type" { default = "volume" }
-variable "volume_state" { default = "AVAILABLE" }
-
-                ` + compartmentIdVariableStr + VolumeResourceConfig,
-				PlanOnly:    true,
-				ExpectError: regexp.MustCompile("must be a 64-bit integer"),
-			},
 			// verify datasource
 			{
 				Config: config + `
 variable "volume_defined_tags_value" { default = "updatedValue" }
 variable "volume_display_name" { default = "displayName2" }
 variable "volume_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "volume_size_in_gbs" { default = 50 }
+variable "volume_size_in_gbs" { default = 51 }
 variable "volume_source_details_type" { default = "volume" }
 variable "volume_state" { default = "AVAILABLE" }
 
@@ -260,8 +221,8 @@ data "oci_core_volumes" "test_volumes" {
 					resource.TestCheckResourceAttr(datasourceName, "volumes.0.display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "volumes.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "volumes.0.id"),
-					resource.TestCheckResourceAttr(datasourceName, "volumes.0.size_in_gbs", "50"),
-					resource.TestCheckResourceAttr(datasourceName, "volumes.0.size_in_mbs", "51200"),
+					resource.TestCheckResourceAttr(datasourceName, "volumes.0.size_in_gbs", "51"),
+					resource.TestCheckResourceAttr(datasourceName, "volumes.0.size_in_mbs", "52224"),
 					resource.TestCheckResourceAttrSet(datasourceName, "volumes.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "volumes.0.time_created"),
 				),
@@ -276,6 +237,254 @@ data "oci_core_volumes" "test_volumes" {
 					"volume_backup_id",
 				},
 				ResourceName: resourceName,
+			},
+		},
+	})
+}
+
+// This test is separated from the basic test due to weird behavior from Terraform test framework.
+// An test step that results in an error will result in the state being voided. Isolate such test steps to
+// avoid interfering with regular tests that Create/Update resources.
+func TestCoreVolumeResource_expectError(t *testing.T) {
+	provider := testAccProvider
+	config := testProviderConfig()
+
+	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_core_volume.test_volume"
+
+	var resId string
+
+	resource.Test(t, resource.TestCase{
+		PreCheck: func() { testAccPreCheck(t) },
+		Providers: map[string]terraform.ResourceProvider{
+			"oci": provider,
+		},
+		CheckDestroy: testAccCheckCoreVolumeDestroy,
+		Steps: []resource.TestStep{
+			// verify baseline create
+			{
+				Config: config + `
+variable "volume_defined_tags_value" { default = "updatedValue" }
+variable "volume_display_name" { default = "displayName2" }
+variable "volume_freeform_tags" { default = {"Department"= "Accounting"} }
+variable "volume_size_in_gbs" { default = 51 }
+variable "volume_source_details_type" { default = "volume" }
+variable "volume_state" { default = "AVAILABLE" }
+
+                ` + compartmentIdVariableStr + VolumeResourceConfig,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, resourceName, "id")
+						return err
+					},
+				),
+			},
+			// ensure that giving non-numeric characters in size_in_gbs will yield an error
+			{
+				Config: config + `
+variable "volume_defined_tags_value" { default = "updatedValue" }
+variable "volume_display_name" { default = "displayName2" }
+variable "volume_freeform_tags" { default = {"Department"= "Accounting"} }
+variable "volume_size_in_gbs" { default = "abc" }
+variable "volume_source_details_type" { default = "volume" }
+variable "volume_state" { default = "AVAILABLE" }
+
+                ` + compartmentIdVariableStr + VolumeResourceConfig,
+				PlanOnly:    true,
+				ExpectError: regexp.MustCompile("must be a 64-bit integer"),
+			},
+			// specify size in MBs and GBs, expect error
+			{
+				Config: config + `
+resource "oci_core_volume" "test_volume" {
+	#Required
+	availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+	compartment_id = "${var.compartment_id}"
+
+	#Optional
+	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.volume_defined_tags_value}")}"
+	display_name = "${var.volume_display_name}"
+	freeform_tags = "${var.volume_freeform_tags}"
+	size_in_gbs = "${var.volume_size_in_gbs}"
+	size_in_mbs = "${var.volume_size_in_mbs}"
+	source_details {
+		#Required
+		id = "${oci_core_volume.source_volume.id}"
+		type = "${var.volume_source_details_type}"
+	}
+}
+variable "volume_defined_tags_value" { default = "updatedValue" }
+variable "volume_display_name" { default = "displayName2" }
+variable "volume_freeform_tags" { default = {"Department"= "Accounting"} }
+variable "volume_size_in_gbs" { default = "51" }
+variable "volume_size_in_mbs" { default = "52224" }
+variable "volume_source_details_type" { default = "volume" }
+variable "volume_state" { default = "AVAILABLE" }
+				` + compartmentIdVariableStr + VolumeResourceDependencies,
+				ExpectError: regexp.MustCompile("Megabytes and Gigabytes"),
+			},
+		},
+	})
+}
+
+// This test is separated from the basic test due to weird behavior from Terraform test framework.
+// An test step that results in an error will result in the state being voided. Isolate such test steps to
+// avoid interfering with regular tests that Create/Update resources.
+func TestCoreVolumeResource_validations(t *testing.T) {
+	provider := testAccProvider
+	config := testProviderConfig()
+
+	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_core_volume.test_volume"
+
+	var resId string
+
+	resource.Test(t, resource.TestCase{
+		PreCheck: func() { testAccPreCheck(t) },
+		Providers: map[string]terraform.ResourceProvider{
+			"oci": provider,
+		},
+		CheckDestroy: testAccCheckCoreVolumeDestroy,
+		Steps: []resource.TestStep{
+			// verify baseline create
+			{
+				Config: config + `
+variable "volume_defined_tags_value" { default = "updatedValue" }
+variable "volume_display_name" { default = "displayName2" }
+variable "volume_freeform_tags" { default = {"Department"= "Accounting"} }
+variable "volume_size_in_gbs" { default = 51 }
+variable "volume_source_details_type" { default = "volume" }
+variable "volume_state" { default = "AVAILABLE" }
+
+                ` + compartmentIdVariableStr + VolumeResourceConfig,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, resourceName, "id")
+						return err
+					},
+				),
+			},
+			// ensure that changing datatype of size_in_gbs is a no-op
+			{
+				Config: config + `
+variable "volume_defined_tags_value" { default = "updatedValue" }
+variable "volume_display_name" { default = "displayName2" }
+variable "volume_freeform_tags" { default = {"Department"= "Accounting"} }
+variable "volume_size_in_gbs" { default = "51" }
+variable "volume_source_details_type" { default = "volume" }
+variable "volume_state" { default = "AVAILABLE" }
+
+                ` + compartmentIdVariableStr + VolumeResourceConfig,
+				PlanOnly:           true,
+				ExpectNonEmptyPlan: false,
+			},
+			// ensure that adding leading zeroes to size_in_gbs is a no-op
+			{
+				Config: config + `
+variable "volume_defined_tags_value" { default = "updatedValue" }
+variable "volume_display_name" { default = "displayName2" }
+variable "volume_freeform_tags" { default = {"Department"= "Accounting"} }
+variable "volume_size_in_gbs" { default = "0051" }
+variable "volume_source_details_type" { default = "volume" }
+variable "volume_state" { default = "AVAILABLE" }
+
+                ` + compartmentIdVariableStr + VolumeResourceConfig,
+				PlanOnly:           true,
+				ExpectNonEmptyPlan: false,
+			},
+			// explicit volume size in MBs, noop
+			{
+				Config: config + `
+resource "oci_core_volume" "test_volume" {
+	#Required
+	availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+	compartment_id = "${var.compartment_id}"
+
+	#Optional
+	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.volume_defined_tags_value}")}"
+	display_name = "${var.volume_display_name}"
+	freeform_tags = "${var.volume_freeform_tags}"
+	size_in_mbs = "${var.volume_size_in_mbs}"
+	source_details {
+		#Required
+		id = "${oci_core_volume.source_volume.id}"
+		type = "${var.volume_source_details_type}"
+	}
+}
+variable "volume_defined_tags_value" { default = "updatedValue" }
+variable "volume_display_name" { default = "displayName2" }
+variable "volume_freeform_tags" { default = {"Department"= "Accounting"} }
+variable "volume_size_in_mbs" { default = "52224" }
+variable "volume_source_details_type" { default = "volume" }
+variable "volume_state" { default = "AVAILABLE" }
+				` + compartmentIdVariableStr + VolumeResourceDependencies,
+				ExpectNonEmptyPlan: false,
+			},
+			// migrate size_in_mbs to size_in_gbs
+			{
+				Config: config + `
+resource "oci_core_volume" "test_volume" {
+	#Required
+	availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+	compartment_id = "${var.compartment_id}"
+
+	#Optional
+	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.volume_defined_tags_value}")}"
+	display_name = "${var.volume_display_name}"
+	freeform_tags = "${var.volume_freeform_tags}"
+	size_in_gbs = "${var.volume_size_in_gbs}"
+	source_details {
+		#Required
+		id = "${oci_core_volume.source_volume.id}"
+		type = "${var.volume_source_details_type}"
+	}
+}
+variable "volume_defined_tags_value" { default = "updatedValue" }
+variable "volume_display_name" { default = "displayName2" }
+variable "volume_freeform_tags" { default = {"Department"= "Accounting"} }
+variable "volume_size_in_gbs" { default = "51" }
+variable "volume_source_details_type" { default = "volume" }
+variable "volume_state" { default = "AVAILABLE" }
+				` + compartmentIdVariableStr + VolumeResourceDependencies,
+				ExpectNonEmptyPlan: false,
+			},
+			// ensure that changing the case for source_details.?.type (polymorphic discriminator) is a no-op.
+			{
+				Config: config + `
+resource "oci_core_volume" "test_volume" {
+	#Required
+	availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+	compartment_id = "${var.compartment_id}"
+
+	#Optional
+	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.volume_defined_tags_value}")}"
+	display_name = "${var.volume_display_name}"
+	freeform_tags = "${var.volume_freeform_tags}"
+	size_in_gbs = "${var.volume_size_in_gbs}"
+	source_details {
+		#Required
+		id = "${oci_core_volume.source_volume.id}"
+		type = "${var.volume_source_details_type}"
+	}
+}
+variable "volume_defined_tags_value" { default = "updatedValue" }
+variable "volume_display_name" { default = "displayName2" }
+variable "volume_freeform_tags" { default = {"Department"= "Accounting"} }
+variable "volume_size_in_gbs" { default = "51" }
+variable "volume_source_details_type" { default = "VoLume" } # case-insensitive
+variable "volume_state" { default = "AVAILABLE" }
+				` + compartmentIdVariableStr + VolumeResourceDependencies,
+				ExpectNonEmptyPlan: false,
 			},
 		},
 	})
