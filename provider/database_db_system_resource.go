@@ -414,8 +414,6 @@ func (s *DbSystemResourceCrud) Create() error {
 		return err
 	}
 
-	handleDbSimulationFlag(s.Client)
-
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.LaunchDbSystem(context.Background(), request)

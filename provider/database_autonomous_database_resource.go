@@ -10,16 +10,16 @@ import (
 	oci_database "github.com/oracle/oci-go-sdk/database"
 )
 
-func AutonomousDataWarehouseResource() *schema.Resource {
+func AutonomousDatabaseResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createAutonomousDataWarehouse,
-		Read:     readAutonomousDataWarehouse,
-		Update:   updateAutonomousDataWarehouse,
-		Delete:   deleteAutonomousDataWarehouse,
+		Create:   createAutonomousDatabase,
+		Read:     readAutonomousDatabase,
+		Update:   updateAutonomousDatabase,
+		Delete:   deleteAutonomousDatabase,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"admin_password": {
@@ -120,32 +120,32 @@ func AutonomousDataWarehouseResource() *schema.Resource {
 	}
 }
 
-func createAutonomousDataWarehouse(d *schema.ResourceData, m interface{}) error {
-	sync := &AutonomousDataWarehouseResourceCrud{}
+func createAutonomousDatabase(d *schema.ResourceData, m interface{}) error {
+	sync := &AutonomousDatabaseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient
 
 	return CreateResource(d, sync)
 }
 
-func readAutonomousDataWarehouse(d *schema.ResourceData, m interface{}) error {
-	sync := &AutonomousDataWarehouseResourceCrud{}
+func readAutonomousDatabase(d *schema.ResourceData, m interface{}) error {
+	sync := &AutonomousDatabaseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient
 
 	return ReadResource(sync)
 }
 
-func updateAutonomousDataWarehouse(d *schema.ResourceData, m interface{}) error {
-	sync := &AutonomousDataWarehouseResourceCrud{}
+func updateAutonomousDatabase(d *schema.ResourceData, m interface{}) error {
+	sync := &AutonomousDatabaseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient
 
 	return UpdateResource(d, sync)
 }
 
-func deleteAutonomousDataWarehouse(d *schema.ResourceData, m interface{}) error {
-	sync := &AutonomousDataWarehouseResourceCrud{}
+func deleteAutonomousDatabase(d *schema.ResourceData, m interface{}) error {
+	sync := &AutonomousDatabaseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient
 	sync.DisableNotFoundRetries = true
@@ -153,57 +153,57 @@ func deleteAutonomousDataWarehouse(d *schema.ResourceData, m interface{}) error 
 	return DeleteResource(d, sync)
 }
 
-type AutonomousDataWarehouseResourceCrud struct {
+type AutonomousDatabaseResourceCrud struct {
 	BaseCrud
 	Client                 *oci_database.DatabaseClient
-	Res                    *oci_database.AutonomousDataWarehouse
+	Res                    *oci_database.AutonomousDatabase
 	DisableNotFoundRetries bool
 }
 
-func (s *AutonomousDataWarehouseResourceCrud) ID() string {
+func (s *AutonomousDatabaseResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *AutonomousDataWarehouseResourceCrud) CreatedPending() []string {
+func (s *AutonomousDatabaseResourceCrud) CreatedPending() []string {
 	return []string{
-		string(oci_database.AutonomousDataWarehouseLifecycleStateProvisioning),
-		string(oci_database.AutonomousDataWarehouseLifecycleStateStarting),
+		string(oci_database.AutonomousDatabaseLifecycleStateProvisioning),
+		string(oci_database.AutonomousDatabaseLifecycleStateStarting),
 	}
 }
 
-func (s *AutonomousDataWarehouseResourceCrud) CreatedTarget() []string {
+func (s *AutonomousDatabaseResourceCrud) CreatedTarget() []string {
 	return []string{
-		string(oci_database.AutonomousDataWarehouseLifecycleStateAvailable),
+		string(oci_database.AutonomousDatabaseLifecycleStateAvailable),
 	}
 }
 
-func (s *AutonomousDataWarehouseResourceCrud) DeletedPending() []string {
+func (s *AutonomousDatabaseResourceCrud) DeletedPending() []string {
 	return []string{
-		string(oci_database.AutonomousDataWarehouseLifecycleStateTerminating),
+		string(oci_database.AutonomousDatabaseLifecycleStateTerminating),
 	}
 }
 
-func (s *AutonomousDataWarehouseResourceCrud) DeletedTarget() []string {
+func (s *AutonomousDatabaseResourceCrud) DeletedTarget() []string {
 	return []string{
-		string(oci_database.AutonomousDataWarehouseLifecycleStateTerminated),
+		string(oci_database.AutonomousDatabaseLifecycleStateTerminated),
 	}
 }
 
-func (s *AutonomousDataWarehouseResourceCrud) UpdatedPending() []string {
+func (s *AutonomousDatabaseResourceCrud) UpdatedPending() []string {
 	return []string{
-		string(oci_database.AutonomousDataWarehouseLifecycleStateProvisioning),
-		string(oci_database.AutonomousDataWarehouseLifecycleStateScaleInProgress),
+		string(oci_database.AutonomousDatabaseLifecycleStateProvisioning),
+		string(oci_database.AutonomousDatabaseLifecycleStateScaleInProgress),
 	}
 }
 
-func (s *AutonomousDataWarehouseResourceCrud) UpdatedTarget() []string {
+func (s *AutonomousDatabaseResourceCrud) UpdatedTarget() []string {
 	return []string{
-		string(oci_database.AutonomousDataWarehouseLifecycleStateAvailable),
+		string(oci_database.AutonomousDatabaseLifecycleStateAvailable),
 	}
 }
 
-func (s *AutonomousDataWarehouseResourceCrud) Create() error {
-	request := oci_database.CreateAutonomousDataWarehouseRequest{}
+func (s *AutonomousDatabaseResourceCrud) Create() error {
+	request := oci_database.CreateAutonomousDatabaseRequest{}
 
 	if adminPassword, ok := s.D.GetOkExists("admin_password"); ok {
 		tmp := adminPassword.(string)
@@ -248,52 +248,55 @@ func (s *AutonomousDataWarehouseResourceCrud) Create() error {
 	}
 
 	if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
-		request.LicenseModel = oci_database.CreateAutonomousDataWarehouseDetailsLicenseModelEnum(licenseModel.(string))
+		request.LicenseModel = oci_database.CreateAutonomousDatabaseDetailsLicenseModelEnum(licenseModel.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.CreateAutonomousDataWarehouse(context.Background(), request)
+	response, err := s.Client.CreateAutonomousDatabase(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
-	s.Res = &response.AutonomousDataWarehouse
+	s.Res = &response.AutonomousDatabase
 	return nil
 }
 
-func (s *AutonomousDataWarehouseResourceCrud) Get() error {
-	request := oci_database.GetAutonomousDataWarehouseRequest{}
+func (s *AutonomousDatabaseResourceCrud) Get() error {
+	request := oci_database.GetAutonomousDatabaseRequest{}
 
 	tmp := s.D.Id()
-	request.AutonomousDataWarehouseId = &tmp
+	request.AutonomousDatabaseId = &tmp
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.GetAutonomousDataWarehouse(context.Background(), request)
+	response, err := s.Client.GetAutonomousDatabase(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
-	s.Res = &response.AutonomousDataWarehouse
+	s.Res = &response.AutonomousDatabase
 	return nil
 }
 
-func (s *AutonomousDataWarehouseResourceCrud) Update() error {
-	request := oci_database.UpdateAutonomousDataWarehouseRequest{}
-	// @CODEGEN 09/2018: Cannot update the password and scale the ATP/ADW in same request, only include changed properties in request
-	if adminPassword, ok := s.D.GetOkExists("admin_password"); s.D.HasChange("admin_password") && ok {
+func (s *AutonomousDatabaseResourceCrud) Update() error {
+	request := oci_database.UpdateAutonomousDatabaseRequest{}
+
+	// @CODEGEN 09/2018: Cannot update the password and scale the Autonomous Transaction Processing in same request, only include changed properties in request
+	if adminPassword, ok := s.D.GetOkExists("admin_password"); ok && s.D.HasChange("admin_password") {
 		tmp := adminPassword.(string)
 		request.AdminPassword = &tmp
 	}
 
 	tmp := s.D.Id()
-	request.AutonomousDataWarehouseId = &tmp
-	if cpuCoreCount, ok := s.D.GetOkExists("cpu_core_count"); s.D.HasChange("cpu_core_count") && ok {
+	request.AutonomousDatabaseId = &tmp
+
+	if cpuCoreCount, ok := s.D.GetOkExists("cpu_core_count"); ok && s.D.HasChange("cpu_core_count") {
 		tmp := cpuCoreCount.(int)
 		request.CpuCoreCount = &tmp
 	}
-	if dataStorageSizeInTBs, ok := s.D.GetOkExists("data_storage_size_in_tbs"); s.D.HasChange("data_storage_size_in_tbs") && ok {
+
+	if dataStorageSizeInTBs, ok := s.D.GetOkExists("data_storage_size_in_tbs"); ok && s.D.HasChange("data_storage_size_in_tbs") {
 		tmp := dataStorageSizeInTBs.(int)
 		request.DataStorageSizeInTBs = &tmp
 	}
@@ -317,34 +320,34 @@ func (s *AutonomousDataWarehouseResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.UpdateAutonomousDataWarehouse(context.Background(), request)
+	response, err := s.Client.UpdateAutonomousDatabase(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
-	s.Res = &response.AutonomousDataWarehouse
+	s.Res = &response.AutonomousDatabase
 	return nil
 }
 
-func (s *AutonomousDataWarehouseResourceCrud) Delete() error {
-	request := oci_database.DeleteAutonomousDataWarehouseRequest{}
+func (s *AutonomousDatabaseResourceCrud) Delete() error {
+	request := oci_database.DeleteAutonomousDatabaseRequest{}
 
 	tmp := s.D.Id()
-	request.AutonomousDataWarehouseId = &tmp
+	request.AutonomousDatabaseId = &tmp
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	_, err := s.Client.DeleteAutonomousDataWarehouse(context.Background(), request)
+	_, err := s.Client.DeleteAutonomousDatabase(context.Background(), request)
 	return err
 }
 
-func (s *AutonomousDataWarehouseResourceCrud) SetData() error {
+func (s *AutonomousDatabaseResourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
 	if s.Res.ConnectionStrings != nil {
-		s.D.Set("connection_strings", []interface{}{AutonomousDataWarehouseConnectionStringsToMap(s.Res.ConnectionStrings)})
+		s.D.Set("connection_strings", []interface{}{AutonomousDatabaseConnectionStringsToMap(s.Res.ConnectionStrings)})
 	} else {
 		s.D.Set("connection_strings", nil)
 	}
@@ -390,7 +393,7 @@ func (s *AutonomousDataWarehouseResourceCrud) SetData() error {
 	return nil
 }
 
-func AutonomousDataWarehouseConnectionStringsToMap(obj *oci_database.AutonomousDataWarehouseConnectionStrings) map[string]interface{} {
+func AutonomousDatabaseConnectionStringsToMap(obj *oci_database.AutonomousDatabaseConnectionStrings) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	if obj.High != nil {
