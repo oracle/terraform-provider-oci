@@ -4,6 +4,7 @@ package provider
 
 import (
 	"fmt"
+	"io/ioutil"
 	"log"
 	"os"
 	"os/exec"
@@ -13,8 +14,13 @@ import (
 )
 
 const examplesTestStateFile = "test_examples.tfstate"
+const defaultTerraformBinary = "terraform"
+const vcnExamplePath = "../docs/examples/networking/vcn"
+const localBinPath = "/usr/local/bin"
+const tfPluginDir = "~/.terraform.d/plugins"
 
 var examplesTestAllowedEnvironmentVariables = []string{
+	"HOME",
 	"PATH",
 	"TF_VAR_user_ocid",
 	"TF_VAR_tenancy_ocid",
@@ -36,6 +42,12 @@ func TestExamplesApply(t *testing.T) {
 	RunExamples(t, false)
 }
 
+func TestTerraformVersions(t *testing.T) {
+	if RunConfigOnAllTerraformVersions(t, vcnExamplePath, false) {
+		log.Printf("Successfully ran all Terraform version tests")
+	}
+}
+
 func RunExamples(t *testing.T, planOnly bool) {
 	rootPath := "../docs/examples"
 	log.Printf("Testing examples under %v", rootPath)
@@ -47,10 +59,28 @@ func RunExamples(t *testing.T, planOnly bool) {
 	}
 
 	for _, dir := range pathList {
-		if RunConfig(t, dir, planOnly) {
+		if RunConfig(t, dir, planOnly, defaultTerraformBinary) {
 			log.Printf("Success")
 		}
 	}
+}
+
+func GetTerraformBinaries(binPath string) ([]string, error) {
+	results := []string{}
+
+	entries, err := ioutil.ReadDir(binPath)
+	if err != nil {
+		return results, err
+	}
+
+	for _, entry := range entries {
+		// Include any binaries that start with "terraform" prefix
+		if name := entry.Name(); !entry.IsDir() && strings.HasPrefix(name, defaultTerraformBinary) {
+			results = append(results, name)
+		}
+	}
+
+	return results, nil
 }
 
 func GetConfigPaths(t *testing.T, rootPath string) (pathList []string, err error) {
@@ -81,7 +111,37 @@ func GetConfigPaths(t *testing.T, rootPath string) (pathList []string, err error
 	return pathList, err
 }
 
-func RunConfig(t *testing.T, path string, planOnly bool) bool {
+func RunConfigOnAllTerraformVersions(t *testing.T, path string, planOnly bool) bool {
+	terraformBinaries, err := GetTerraformBinaries(localBinPath)
+	if err != nil {
+		t.Errorf("Error retrieving terraform binaries: %v", err)
+		return false
+	}
+
+	if len(terraformBinaries) == 0 {
+		t.Errorf("Did not find any terraform binaries")
+		return false
+	}
+
+	result := true
+	for _, tfBin := range terraformBinaries {
+		log.Printf("=== Terraform Version ('%s'), Config Path ('%s') ===\n", tfBin, path)
+		if !runCommandWithOutputOptions(t, path, fmt.Sprintf("%s version", tfBin), true) {
+			log.Printf("Unable to run version command. Skipping test for %s.\n", tfBin)
+			result = false
+			continue
+		}
+
+		if !RunConfig(t, path, planOnly, tfBin) {
+			log.Printf("Failed to run test on version '%s'\n", tfBin)
+			result = false
+		}
+	}
+
+	return result
+}
+
+func RunConfig(t *testing.T, path string, planOnly bool, terraformBinary string) bool {
 	// Fail if a state file already exists, since that indicates that a previous run did not
 	// properly clean up.
 	if _, err := os.Stat(filepath.Join(path, examplesTestStateFile)); err == nil {
@@ -89,17 +149,22 @@ func RunConfig(t *testing.T, path string, planOnly bool) bool {
 		return false
 	}
 
-	if !RunCommand(t, path, "terraform init") {
+	terraformCommand := terraformBinary
+	if terraformCommand == "" {
+		terraformCommand = defaultTerraformBinary
+	}
+
+	if !RunCommand(t, path, fmt.Sprintf("%s init -plugin-dir %s", terraformCommand, tfPluginDir)) {
 		return false
 	}
 
 	if planOnly {
-		return RunCommand(t, path, fmt.Sprintf("terraform plan -state=%v", examplesTestStateFile))
+		return RunCommand(t, path, fmt.Sprintf("%s plan -state=%v", terraformCommand, examplesTestStateFile))
 	} else {
-		result := RunCommand(t, path, fmt.Sprintf("terraform apply -auto-approve -state=%v", examplesTestStateFile))
+		result := RunCommand(t, path, fmt.Sprintf("%s apply -auto-approve -state=%v", terraformCommand, examplesTestStateFile))
 
 		// Regardless of the result, attempt to destroy.
-		if RunCommand(t, path, fmt.Sprintf("terraform destroy -force -state=%v", examplesTestStateFile)) {
+		if RunCommand(t, path, fmt.Sprintf("%s destroy -force -state=%v", terraformCommand, examplesTestStateFile)) {
 			// Only remove the state file if destroy was successful. Otherwise, leave it in place so that further
 			// cleanup can be done manually.
 			result = RunCommand(t, path, fmt.Sprintf("rm %v*", examplesTestStateFile)) && result
@@ -112,6 +177,10 @@ func RunConfig(t *testing.T, path string, planOnly bool) bool {
 }
 
 func RunCommand(t *testing.T, path, command string) bool {
+	return runCommandWithOutputOptions(t, path, command, false)
+}
+
+func runCommandWithOutputOptions(t *testing.T, path, command string, displayOutputOnSuccess bool) bool {
 	log.Printf("Running command '%v' at %v", command, path)
 
 	env := make([]string, len(examplesTestAllowedEnvironmentVariables))
@@ -128,6 +197,10 @@ func RunCommand(t *testing.T, path, command string) bool {
 		log.Printf("Error: Command Failed. Output: %s", output)
 		t.Errorf("Error running command %v at %v: %v", command, path, err)
 		return false
+	}
+
+	if displayOutputOnSuccess {
+		log.Printf("Output: %s", output)
 	}
 
 	return true
