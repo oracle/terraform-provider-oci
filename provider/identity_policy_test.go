@@ -52,11 +52,6 @@ resource "oci_identity_compartment" "t" {
 	description = "For network components"
 }
 
-resource "oci_identity_compartment" "t2" {
-	name = "terraformGenTestsUpdate"
-	description = "to be used by Terraform generated tests for Update tests"
-}
-
 resource "oci_identity_group" "t" {
 	#Required
 	compartment_id = "${var.tenancy_ocid}"
