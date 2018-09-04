@@ -18,8 +18,9 @@ import (
 
 var testAccProvider *schema.Provider
 var testAccProviders map[string]terraform.ResourceProvider
-var requiredEnvVars = []string{"tenancy_ocid", "user_ocid", "compartment_ocid", "fingerprint", "private_key_path",
-	"compartment_id_for_create", "compartment_id_for_update", "tags_import_if_exists"}
+var requiredTestEnvVars = []string{"compartment_ocid", "compartment_id_for_create", "compartment_id_for_update", "tags_import_if_exists"}
+var requiredKeyAuthEnvVars = []string{"tenancy_ocid", "user_ocid", "fingerprint", "private_key_path"}
+var requiredOboTokenAuthEnvVars = []string{"tenancy_ocid", "obo_token"}
 
 func init() {
 	testAccProvider = Provider(func(d *schema.ResourceData) (interface{}, error) {
@@ -33,21 +34,12 @@ func init() {
 
 func testProviderConfig() string {
 	return `
+	# Need to have this block even though it's empty; for import testing
 	provider "oci" {
-		tenancy_ocid = "ocid.tenancy.aaaa"
-		user_ocid = "ocid.user.bbbbb"
-		fingerprint = "xxxxxxxxxx"
-		private_key_path = "/home/foo/private_key.pem"
-		private_key_password = "password"
-		region = "us-phoenix-1"
 	}
 
 	variable "tenancy_ocid" {
 		default = "` + getEnvSettingWithBlankDefault("tenancy_ocid") + `"
-	}
-
-	variable "namespace" {
-		default = "` + getEnvSettingWithDefault("namespace", "mustwin") + `"
 	}
 
 	variable "ssh_public_key" {
@@ -62,7 +54,15 @@ func testProviderConfig() string {
 }
 
 func testAccPreCheck(t *testing.T) {
-	for _, envVar := range requiredEnvVars {
+	envVarChecklist := []string{}
+	copy(envVarChecklist, requiredTestEnvVars)
+	if getEnvSettingWithDefault("use_obo_token", "false") != "false" {
+		envVarChecklist = append(envVarChecklist, requiredOboTokenAuthEnvVars...)
+	} else {
+		envVarChecklist = append(envVarChecklist, requiredKeyAuthEnvVars...)
+	}
+
+	for _, envVar := range envVarChecklist {
 		assertEnvAvailable(envVar, t)
 	}
 
@@ -222,15 +222,19 @@ func GetTestProvider() *OracleClients {
 	}
 	d := r.Data(nil)
 	d.SetId(getEnvSettingWithBlankDefault("tenancy_ocid"))
-
-	d.Set("auth", getEnvSettingWithDefault("auth", authAPIKeySetting))
 	d.Set("tenancy_ocid", getEnvSettingWithBlankDefault("tenancy_ocid"))
-	d.Set("user_ocid", getEnvSettingWithBlankDefault("user_ocid"))
-	d.Set("fingerprint", getEnvSettingWithBlankDefault("fingerprint"))
-	d.Set("private_key_path", getEnvSettingWithBlankDefault("private_key_path"))
-	d.Set("private_key_password", getEnvSettingWithBlankDefault("private_key_password"))
-	d.Set("private_key", getEnvSettingWithBlankDefault("private_key"))
 	d.Set("region", getEnvSettingWithDefault("region", "us-phoenix-1"))
+
+	if getEnvSettingWithDefault("use_obo_token", "false") == "false" {
+		d.Set("auth", getEnvSettingWithDefault("auth", authAPIKeySetting))
+		d.Set("user_ocid", getEnvSettingWithBlankDefault("user_ocid"))
+		d.Set("fingerprint", getEnvSettingWithBlankDefault("fingerprint"))
+		d.Set("private_key_path", getEnvSettingWithBlankDefault("private_key_path"))
+		d.Set("private_key_password", getEnvSettingWithBlankDefault("private_key_password"))
+		d.Set("private_key", getEnvSettingWithBlankDefault("private_key"))
+	} else {
+		d.Set("auth", getEnvSettingWithDefault("auth", authInstancePrincipalSetting))
+	}
 
 	client, err := ProviderConfig(d)
 	if err != nil {
