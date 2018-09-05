@@ -1,3 +1,11 @@
+variable "cross_connect_display_name" {
+  default = "displayName"
+}
+
+variable "cross_connect_state" {
+  default = "AVAILABLE"
+}
+
 variable "virtual_circuit_type_private" {
   default = "PRIVATE"
 }
@@ -8,10 +16,6 @@ variable "virtual_circuit_type_public" {
 
 variable "virtual_circuit_bandwidth_shape_name" {
   default = "10 Gbps"
-}
-
-variable "virtual_circuit_cross_connect_mappings_bgp_md5auth_key" {
-  default = "bgpMd5AuthKey"
 }
 
 variable "virtual_circuit_cross_connect_mappings_customer_bgp_peering_ip" {
