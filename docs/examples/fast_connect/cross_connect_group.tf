@@ -6,7 +6,7 @@ variable "cross_connect_group_state" {
   default = "AVAILABLE"
 }
 
-resource "oci_core_cross_connect_group" "test_cross_connect_group" {
+resource "oci_core_cross_connect_group" "cross_connect_group" {
   #Required
   compartment_id = "${var.compartment_id}"
 
@@ -14,7 +14,7 @@ resource "oci_core_cross_connect_group" "test_cross_connect_group" {
   display_name = "${var.cross_connect_group_display_name}"
 }
 
-data "oci_core_cross_connect_groups" "test_cross_connect_groups" {
+data "oci_core_cross_connect_groups" "cross_connect_groups" {
   #Required
   compartment_id = "${var.compartment_id}"
 
@@ -25,5 +25,5 @@ data "oci_core_cross_connect_groups" "test_cross_connect_groups" {
 }
 
 output "cross_connect_groups" {
-  value = "${data.oci_core_cross_connect_groups.test_cross_connect_groups.cross_connect_groups}"
+  value = "${data.oci_core_cross_connect_groups.cross_connect_groups.cross_connect_groups}"
 }

@@ -1,13 +1,13 @@
-data "oci_core_fast_connect_provider_services" "test_fast_connect_provider_services" {
+data "oci_core_fast_connect_provider_services" "fast_connect_provider_services" {
   #Required
   compartment_id = "${var.compartment_id}"
 }
 
 output "fast_connect_provider_services" {
-  value = "${data.oci_core_fast_connect_provider_services.test_fast_connect_provider_services.fast_connect_provider_services}"
+  value = "${data.oci_core_fast_connect_provider_services.fast_connect_provider_services.fast_connect_provider_services}"
 }
 
-data "oci_core_fast_connect_provider_services" "test_fast_connect_provider_services_private_layer2" {
+data "oci_core_fast_connect_provider_services" "fast_connect_provider_services_private_layer2" {
   #Required
   compartment_id = "${var.compartment_id}"
 
@@ -33,12 +33,17 @@ data "oci_core_fast_connect_provider_services" "test_fast_connect_provider_servi
 }
 
 output "fast_connect_provider_services_layer2" {
-  value = "${data.oci_core_fast_connect_provider_services.test_fast_connect_provider_services_private_layer2.fast_connect_provider_services}"
+  value = "${data.oci_core_fast_connect_provider_services.fast_connect_provider_services_private_layer2.fast_connect_provider_services}"
 }
 
-data "oci_core_fast_connect_provider_services" "test_fast_connect_provider_services_layer3" {
+data "oci_core_fast_connect_provider_services" "fast_connect_provider_services_public_layer3" {
   #Required
   compartment_id = "${var.compartment_id}"
+
+  filter {
+    name   = "supported_virtual_circuit_types"
+    values = ["${var.virtual_circuit_type_public}"]
+  }
 
   filter {
     name   = "type"
@@ -57,5 +62,5 @@ data "oci_core_fast_connect_provider_services" "test_fast_connect_provider_servi
 }
 
 output "fast_connect_provider_services_public_layer3" {
-  value = "${data.oci_core_fast_connect_provider_services.test_fast_connect_provider_services_layer3.fast_connect_provider_services}"
+  value = "${data.oci_core_fast_connect_provider_services.fast_connect_provider_services_public_layer3.fast_connect_provider_services}"
 }
