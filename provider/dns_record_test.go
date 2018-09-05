@@ -364,6 +364,20 @@ func testAccCheckDnsRecordDestroy(s *terraform.State) error {
 				// Convert the InstanceState attributes to a ResourceData expected by the lookup function
 				attributes := convertToObjectMap(rs.Primary.Attributes)
 				resourceData := schema.TestResourceDataRaw(&testing.T{}, RecordResource().Schema, attributes)
+
+				//page through records
+				recordCollection := response.RecordCollection
+				request.Page = response.OpcNextPage
+
+				for request.Page != nil {
+					listResponse, err := client.GetZoneRecords(context.Background(), request)
+					if err != nil {
+						return err
+					}
+
+					recordCollection.Items = append(recordCollection.Items, listResponse.Items...)
+					request.Page = listResponse.OpcNextPage
+				}
 				_, err = findItem(&response.RecordCollection, resourceData)
 				if err == nil {
 					return fmt.Errorf("resource still exists")
