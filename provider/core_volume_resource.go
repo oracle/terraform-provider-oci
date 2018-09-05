@@ -67,7 +67,6 @@ func VolumeResource() *schema.Resource {
 				Type:             schema.TypeString,
 				Optional:         true,
 				Computed:         true,
-				ForceNew:         true,
 				ValidateFunc:     validateInt64TypeString,
 				DiffSuppressFunc: int64StringDiffSuppressFunction,
 			},
@@ -209,6 +208,18 @@ func (s *VolumeResourceCrud) DeletedTarget() []string {
 	}
 }
 
+func (s *VolumeResourceCrud) UpdatedPending() []string {
+	return []string{
+		string(oci_core.VolumeLifecycleStateProvisioning),
+	}
+}
+
+func (s *VolumeResourceCrud) UpdatedTarget() []string {
+	return []string{
+		string(oci_core.VolumeLifecycleStateAvailable),
+	}
+}
+
 func (s *VolumeResourceCrud) Create() error {
 	request := oci_core.CreateVolumeRequest{}
 
@@ -329,6 +340,15 @@ func (s *VolumeResourceCrud) Update() error {
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if sizeInGBs, ok := s.D.GetOkExists("size_in_gbs"); ok {
+		tmp := sizeInGBs.(string)
+		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+		if err != nil {
+			return fmt.Errorf("unable to convert sizeInGBs string: %s to an int64 and encountered error: %v", tmp, err)
+		}
+		request.SizeInGBs = &tmpInt64
 	}
 
 	tmp := s.D.Id()
