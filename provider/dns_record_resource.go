@@ -170,6 +170,11 @@ func (s *RecordResourceCrud) Create() error {
 	item, err := findItem(&response.RecordCollection, s.D)
 
 	if err != nil {
+		//PatchZoneRecords only returns 50 records we need to do a Get with pagination to make sure we can't find the item
+		err = s.Get()
+		if err == nil {
+			return nil
+		}
 		// Maybe there wasn't a match. That might happen if the service has transformed the rData in a way we don't support yet.
 		// Failing here would not write the record to the state file, but it would still exist server side. A better option
 		// is to write a partial statefile entry by transposing details from the RecordOperation into a new Record. This will
@@ -198,19 +203,24 @@ func (s *RecordResourceCrud) Get() error {
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "dns")
-	response, err := s.Client.GetZoneRecords(context.Background(), request)
-	if err != nil {
-		return err
+
+	var err error
+	for true {
+		response, err := s.Client.GetZoneRecords(context.Background(), request)
+		if err != nil {
+			return err
+		}
+		item, err := findItem(&response.RecordCollection, s.D)
+		if err == nil {
+			s.Res = item
+			return nil
+		}
+		if response.OpcNextPage == nil {
+			return err
+		}
+		request.Page = response.OpcNextPage
 	}
-
-	item, err := findItem(&response.RecordCollection, s.D)
-
-	if err != nil {
-		return err
-	}
-
-	s.Res = item
-	return nil
+	return err
 }
 
 func (s *RecordResourceCrud) Update() error {
@@ -254,10 +264,14 @@ func (s *RecordResourceCrud) Update() error {
 	if err != nil {
 		return err
 	}
-
 	item, err := findItem(&response.RecordCollection, s.D)
 
 	if err != nil {
+		//PatchZoneRecords only returns 50 records we need to do a Get with pagination to make sure we can't find the item
+		err = s.Get()
+		if err == nil {
+			return nil
+		}
 		return err
 	}
 
