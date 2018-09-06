@@ -5,7 +5,20 @@ export TF_VAR_user_ocid="<user OCID>"
 export TF_VAR_fingerprint="<PEM key fingerprint>"
 export TF_VAR_private_key_path="<path to the private key that matches the fingerprint above>"
 
+### Instance details
+export TF_VAR_region="<Region. eg: us-phoenix-1>"
+export TF_VAR_ad="<availability domain eg: 1>"
+export TF_VAR_compartment_name="<Compartnment Name>"
+export TF_VAR_server_display_name="Display name"
+export TF_VAR_shape_name="Instance shape. valid values are those on the web UI drop down. eg: VM.Standard1.4"
+export TF_VAR_subnet_id="<OCID of the subnet to which this instance's vnic is attached to>"
+
 ### Public/private keys used on the instance
 export TF_VAR_ssh_public_key=$(cat <path to public key>)
 export TF_VAR_ssh_private_key=$(cat <path to private key>)
 
+### OMC Service details
+export TF_VAR_omc_tennant_name="<OMC tenant name>"
+export TF_VAR_omc_registration_key="<OMC registration key for app>"
+export TF_VAR_omc_agent_repo_url="https://storage.us2.oraclecloud.com/v1/Storage-a511425/omcprodglobal/cloudagent/linux.x64/latest/cloudagent_linux.x64.zip"
+export TF_VAR_omc_url="<OMC URL eg: https://omcdemo-omcinternal.itom.management.us2.oraclecloud.com/ >"
