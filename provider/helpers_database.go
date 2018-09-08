@@ -15,7 +15,7 @@ func handleDbSimulationFlag(client *database.DatabaseClient) {
 	simulateDb, _ := strconv.ParseBool(getEnvSettingWithDefault("simulate_db", "false"))
 	if simulateDb {
 		client.Interceptor = func(r *http.Request) error {
-			if r.Method == http.MethodPost && strings.Contains(r.URL.Path, "/dbSystems") {
+			if r.Method == http.MethodPost && (strings.Contains(r.URL.Path, "/dbSystems") || strings.Contains(r.URL.Path, "/autonomousData")) {
 				r.Header.Set("opc-host-serial", "FAKEHOSTSERIAL")
 			}
 			return nil
