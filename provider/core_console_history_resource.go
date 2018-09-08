@@ -126,14 +126,6 @@ func (s *ConsoleHistoryResourceCrud) CreatedTarget() []string {
 	}
 }
 
-func (s *ConsoleHistoryResourceCrud) DeletedPending() []string {
-	return []string{}
-}
-
-func (s *ConsoleHistoryResourceCrud) DeletedTarget() []string {
-	return []string{}
-}
-
 func (s *ConsoleHistoryResourceCrud) Create() error {
 	request := oci_core.CaptureConsoleHistoryRequest{}
 

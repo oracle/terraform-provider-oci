@@ -227,6 +227,18 @@ func (s *VirtualCircuitResourceCrud) CreatedTarget() []string {
 	}
 }
 
+func (s *VirtualCircuitResourceCrud) DeletedPending() []string {
+	return []string{
+		string(oci_core.VirtualCircuitLifecycleStateTerminating),
+	}
+}
+
+func (s *VirtualCircuitResourceCrud) DeletedTarget() []string {
+	return []string{
+		string(oci_core.VirtualCircuitLifecycleStateTerminated),
+	}
+}
+
 func (s *VirtualCircuitResourceCrud) UpdatedPending() []string {
 	return []string{
 		string(oci_core.VirtualCircuitLifecycleStateProvisioning),
@@ -237,18 +249,6 @@ func (s *VirtualCircuitResourceCrud) UpdatedTarget() []string {
 	return []string{
 		string(oci_core.VirtualCircuitLifecycleStatePendingProvider),
 		string(oci_core.VirtualCircuitLifecycleStateProvisioned),
-	}
-}
-
-func (s *VirtualCircuitResourceCrud) DeletedPending() []string {
-	return []string{
-		string(oci_core.VirtualCircuitLifecycleStateTerminating),
-	}
-}
-
-func (s *VirtualCircuitResourceCrud) DeletedTarget() []string {
-	return []string{
-		string(oci_core.VirtualCircuitLifecycleStateTerminated),
 	}
 }
 
