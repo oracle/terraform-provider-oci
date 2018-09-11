@@ -80,3 +80,11 @@ The following attributes are exported:
 			*  **SUFFIX_MATCH** - Looks for a `path` string that matches the ending portion of the incoming URI path.
 
 			For a full description of how the system handles `matchType` in a path route set containing multiple rules, see [Managing Request Routing](https://docs.us-phoenix-1.oraclecloud.com/Content/Balance/Tasks/managingrequest.htm). 
+
+## Import
+
+PathRouteSets can be imported using the `id`, e.g.
+
+```
+$ terraform import oci_load_balancer_path_route_set.test_path_route_set "loadBalancers/{loadBalancerId}/pathRouteSets/{pathRouteSetName}" 
+```

@@ -58,3 +58,11 @@ The following attributes are exported:
 * `offline` - Whether the load balancer should treat this server as offline. Offline servers receive no incoming traffic.  Example: `false` 
 * `port` - The communication port for the backend server.  Example: `8080` 
 * `weight` - The load balancing policy weight assigned to the server. Backend servers with a higher weight receive a larger proportion of incoming traffic. For example, a server weighted '3' receives 3 times the number of new connections as a server weighted '1'. For more information on load balancing policies, see [How Load Balancing Policies Work](https://docs.us-phoenix-1.oraclecloud.com/Content/Balance/Reference/lbpolicies.htm).  Example: `3` 
+
+## Import
+
+Backends can be imported using the `id`, e.g.
+
+```
+$ terraform import oci_load_balancer_backend.test_backend "loadBalancers/{loadBalancerId}/backendSets/{backendSetName}/backends/{backendName}" 
+```

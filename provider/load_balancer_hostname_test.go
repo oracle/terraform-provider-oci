@@ -109,6 +109,17 @@ data "oci_load_balancer_hostnames" "test_hostnames" {
 					resource.TestCheckResourceAttr(datasourceName, "hostnames.0.name", "example_hostname_001"),
 				),
 			},
+			// verify resource import
+			{
+				Config:            config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				ImportStateVerifyIgnore: []string{
+					"load_balancer_id",
+					"state",
+				},
+				ResourceName: resourceName,
+			},
 		},
 	})
 }

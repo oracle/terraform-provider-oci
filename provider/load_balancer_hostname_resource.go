@@ -4,6 +4,9 @@ package provider
 
 import (
 	"context"
+	"fmt"
+	"net/url"
+	"regexp"
 	"strings"
 
 	"github.com/hashicorp/terraform/helper/schema"
@@ -13,6 +16,9 @@ import (
 
 func HostnameResource() *schema.Resource {
 	return &schema.Resource{
+		Importer: &schema.ResourceImporter{
+			State: schema.ImportStatePassthrough,
+		},
 		Timeouts: DefaultTimeout,
 		Create:   createHostname,
 		Read:     readHostname,
@@ -89,12 +95,12 @@ type HostnameResourceCrud struct {
 }
 
 func (s *HostnameResourceCrud) ID() string {
-	id, workSuccess := LoadBalancerResourceID(s.Res, s.WorkRequest)
-	if id != nil {
-		return *id
-	}
-	if workSuccess {
-		return s.D.Get("name").(string)
+	if s.WorkRequest != nil {
+		if s.WorkRequest.LifecycleState == oci_load_balancer.WorkRequestLifecycleStateSucceeded {
+			return getHostnameCompositeId(s.D.Get("load_balancer_id").(string), s.D.Get("name").(string))
+		} else {
+			return *s.WorkRequest.Id
+		}
 	}
 	return ""
 }
@@ -186,6 +192,16 @@ func (s *HostnameResourceCrud) Get() error {
 	if name, ok := s.D.GetOkExists("name"); ok {
 		tmp := name.(string)
 		request.Name = &tmp
+	}
+
+	if !strings.HasPrefix(s.D.Id(), "ocid1.loadbalancerworkrequest.") {
+		loadBalancerId, name, err := parseHostnameCompositeId(s.D.Id())
+		if err == nil {
+			request.LoadBalancerId = &loadBalancerId
+			request.Name = &name
+		} else {
+			return err
+		}
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
@@ -281,6 +297,15 @@ func (s *HostnameResourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
+
+	loadBalancerId, name, err := parseHostnameCompositeId(s.D.Id())
+	if err == nil {
+		s.D.Set("load_balancer_id", &loadBalancerId)
+		s.D.Set("name", &name)
+	} else {
+		return err
+	}
+
 	if s.Res.Hostname != nil {
 		s.D.Set("hostname", *s.Res.Hostname)
 	}
@@ -290,4 +315,24 @@ func (s *HostnameResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func getHostnameCompositeId(loadBalancerId string, name string) string {
+	loadBalancerId = url.PathEscape(loadBalancerId)
+	name = url.PathEscape(name)
+	compositeId := "loadBalancers/" + loadBalancerId + "/hostnames/" + name
+	return compositeId
+}
+
+func parseHostnameCompositeId(compositeId string) (loadBalancerId string, name string, err error) {
+	parts := strings.Split(compositeId, "/")
+	match, _ := regexp.MatchString("loadBalancers/.*/hostnames/.*", compositeId)
+	if !match || len(parts) != 4 {
+		err = fmt.Errorf("illegal compositeId %s encountered", compositeId)
+		return
+	}
+	loadBalancerId, _ = url.PathUnescape(parts[1])
+	name, _ = url.PathUnescape(parts[3])
+
+	return
 }

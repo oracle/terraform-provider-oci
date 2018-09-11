@@ -167,6 +167,32 @@ func (s *ResourceLoadBalancerListenerTestSuite) TestAccResourceLoadBalancerListe
 					},
 				),
 			},
+			// verify resource import
+			{
+				Config: s.Config + `
+				resource "oci_load_balancer_listener" "t" {
+					load_balancer_id  = "${oci_load_balancer.t.id}"
+					name = "-tf-listener-updated"
+					default_backend_set_name = "${oci_load_balancer_backendset.t.name}"
+					port = 80
+					protocol = "HTTP"
+	
+					ssl_configuration {
+						certificate_name = "${oci_load_balancer_certificate.t.certificate_name}"
+						verify_depth = 6
+						verify_peer_certificate = false
+					}
+				}`,
+				ImportState:       true,
+				ImportStateVerify: true,
+				ImportStateVerifyIgnore: []string{
+					"load_balancer_id",
+					"passphrase",
+					"private_key",
+					"state",
+				},
+				ResourceName: "oci_load_balancer_listener.t",
+			},
 		},
 	})
 }

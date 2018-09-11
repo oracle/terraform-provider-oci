@@ -134,6 +134,17 @@ data "oci_load_balancer_path_route_sets" "test_path_route_sets" {
 					resource.TestCheckResourceAttr(datasourceName, "path_route_sets.0.path_routes.0.path_match_type.0.match_type", "EXACT_MATCH"),
 				),
 			},
+			// verify resource import
+			{
+				Config:            config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				ImportStateVerifyIgnore: []string{
+					"load_balancer_id",
+					"state",
+				},
+				ResourceName: resourceName,
+			},
 		},
 	})
 }

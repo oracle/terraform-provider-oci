@@ -5,6 +5,8 @@ package provider
 import (
 	"context"
 	"fmt"
+	"net/url"
+	"regexp"
 	"strconv"
 	"strings"
 
@@ -15,6 +17,9 @@ import (
 
 func ListenerResource() *schema.Resource {
 	return &schema.Resource{
+		Importer: &schema.ResourceImporter{
+			State: schema.ImportStatePassthrough,
+		},
 		Timeouts: DefaultTimeout,
 		Create:   createListener,
 		Read:     readListener,
@@ -163,12 +168,12 @@ type ListenerResourceCrud struct {
 }
 
 func (s *ListenerResourceCrud) ID() string {
-	id, workSuccess := LoadBalancerResourceID(s.Res, s.WorkRequest)
-	if id != nil {
-		return *id
-	}
-	if workSuccess {
-		return s.D.Get("name").(string)
+	if s.WorkRequest != nil {
+		if s.WorkRequest.LifecycleState == oci_load_balancer.WorkRequestLifecycleStateSucceeded {
+			return getListenerCompositeId(s.D.Get("name").(string), s.D.Get("load_balancer_id").(string))
+		} else {
+			return *s.WorkRequest.Id
+		}
 	}
 	return ""
 }
@@ -297,6 +302,16 @@ func (s *ListenerResourceCrud) Get() (e error) {
 	}
 	if stillWorking {
 		return nil
+	}
+
+	if !strings.HasPrefix(s.D.Id(), "ocid1.loadbalancerworkrequest.") {
+		listenerName, loadBalancerId, err := parseListenerCompositeId(s.D.Id())
+		if err == nil {
+			s.D.Set("name", &listenerName)
+			s.D.Set("load_balancer_id", &loadBalancerId)
+		} else {
+			return err
+		}
 	}
 
 	res, e := s.GetListener(s.D.Get("load_balancer_id").(string), s.D.Get("name").(string))
@@ -453,6 +468,13 @@ func (s *ListenerResourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
+	listenerName, loadBalancerId, err := parseListenerCompositeId(s.D.Id())
+	if err == nil {
+		s.D.Set("name", &listenerName)
+		s.D.Set("load_balancer_id", &loadBalancerId)
+	} else {
+		return err
+	}
 
 	if s.Res.ConnectionConfiguration != nil {
 		s.D.Set("connection_configuration", []interface{}{ConnectionConfigurationToMap(s.Res.ConnectionConfiguration)})
@@ -484,6 +506,25 @@ func (s *ListenerResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+func getListenerCompositeId(listenerName string, loadBalancerId string) string {
+	listenerName = url.PathEscape(listenerName)
+	loadBalancerId = url.PathEscape(loadBalancerId)
+	compositeId := "loadBalancers/" + loadBalancerId + "/listeners/" + listenerName
+	return compositeId
+}
+
+func parseListenerCompositeId(compositeId string) (listenerName string, loadBalancerId string, err error) {
+	parts := strings.Split(compositeId, "/")
+	match, _ := regexp.MatchString("loadBalancers/.*/listeners/.*", compositeId)
+	if !match || len(parts) != 4 {
+		err = fmt.Errorf("illegal compositeId %s encountered", compositeId)
+		return
+	}
+	loadBalancerId, _ = url.PathUnescape(parts[1])
+	listenerName, _ = url.PathUnescape(parts[3])
+
+	return
 }
 
 func (s *ListenerResourceCrud) mapToConnectionConfiguration(fieldKeyFormat string) (oci_load_balancer.ConnectionConfiguration, error) {

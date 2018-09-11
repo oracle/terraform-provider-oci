@@ -42,3 +42,11 @@ The following attributes are exported:
 
 * `hostname` - A virtual hostname. For more information about virtual hostname string construction, see [Managing Request Routing](https://docs.us-phoenix-1.oraclecloud.com/Content/Balance/Tasks/managingrequest.htm#routing).  Example: `app.example.com` 
 * `name` - A friendly name for the hostname resource. It must be unique and it cannot be changed. Avoid entering confidential information.  Example: `example_hostname_001` 
+
+## Import
+
+Hostnames can be imported using the `id`, e.g.
+
+```
+$ terraform import oci_load_balancer_hostname.test_hostname "loadBalancers/{loadBalancerId}/hostnames/{name}" 
+```
