@@ -175,6 +175,18 @@ data "oci_load_balancer_backends" "test_backends" {
 					resource.TestCheckResourceAttr(datasourceName, "backends.0.weight", "11"),
 				),
 			},
+			// verify resource import
+			{
+				Config:            config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				ImportStateVerifyIgnore: []string{
+					"backendset_name",
+					"load_balancer_id",
+					"state",
+				},
+				ResourceName: resourceName,
+			},
 		},
 	})
 }

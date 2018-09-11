@@ -5,6 +5,8 @@ package provider
 import (
 	"context"
 	"fmt"
+	"net/url"
+	"regexp"
 	"strings"
 
 	"github.com/hashicorp/terraform/helper/schema"
@@ -14,6 +16,9 @@ import (
 
 func PathRouteSetResource() *schema.Resource {
 	return &schema.Resource{
+		Importer: &schema.ResourceImporter{
+			State: schema.ImportStatePassthrough,
+		},
 		Timeouts: DefaultTimeout,
 		Create:   createPathRouteSet,
 		Read:     readPathRouteSet,
@@ -126,12 +131,12 @@ type PathRouteSetResourceCrud struct {
 }
 
 func (s *PathRouteSetResourceCrud) ID() string {
-	id, workSuccess := LoadBalancerResourceID(s.Res, s.WorkRequest)
-	if id != nil {
-		return *id
-	}
-	if workSuccess {
-		return s.D.Get("name").(string)
+	if s.WorkRequest != nil {
+		if s.WorkRequest.LifecycleState == oci_load_balancer.WorkRequestLifecycleStateSucceeded {
+			return getPathRouteSetCompositeId(s.D.Get("load_balancer_id").(string), s.D.Get("name").(string))
+		} else {
+			return *s.WorkRequest.Id
+		}
 	}
 	return ""
 }
@@ -234,6 +239,16 @@ func (s *PathRouteSetResourceCrud) Get() error {
 	if pathRouteSetName, ok := s.D.GetOkExists("name"); ok {
 		tmp := pathRouteSetName.(string)
 		request.PathRouteSetName = &tmp
+	}
+
+	if !strings.HasPrefix(s.D.Id(), "ocid1.loadbalancerworkrequest.") {
+		loadBalancerId, pathRouteSetName, err := parsePathRouteSetCompositeId(s.D.Id())
+		if err == nil {
+			request.LoadBalancerId = &loadBalancerId
+			request.PathRouteSetName = &pathRouteSetName
+		} else {
+			return err
+		}
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
@@ -340,6 +355,15 @@ func (s *PathRouteSetResourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
+
+	loadBalancerId, pathRouteSetName, err := parsePathRouteSetCompositeId(s.D.Id())
+	if err == nil {
+		s.D.Set("load_balancer_id", &loadBalancerId)
+		s.D.Set("name", &pathRouteSetName)
+	} else {
+		return err
+	}
+
 	if s.Res.Name != nil {
 		s.D.Set("name", *s.Res.Name)
 	}
@@ -351,6 +375,26 @@ func (s *PathRouteSetResourceCrud) SetData() error {
 	s.D.Set("path_routes", pathRoutes)
 
 	return nil
+}
+
+func getPathRouteSetCompositeId(loadBalancerId string, pathRouteSetName string) string {
+	loadBalancerId = url.PathEscape(loadBalancerId)
+	pathRouteSetName = url.PathEscape(pathRouteSetName)
+	compositeId := "loadBalancers/" + loadBalancerId + "/pathRouteSets/" + pathRouteSetName
+	return compositeId
+}
+
+func parsePathRouteSetCompositeId(compositeId string) (loadBalancerId string, pathRouteSetName string, err error) {
+	parts := strings.Split(compositeId, "/")
+	match, _ := regexp.MatchString("loadBalancers/.*/pathRouteSets/.*", compositeId)
+	if !match || len(parts) != 4 {
+		err = fmt.Errorf("illegal compositeId %s encountered", compositeId)
+		return
+	}
+	loadBalancerId, _ = url.PathUnescape(parts[1])
+	pathRouteSetName, _ = url.PathUnescape(parts[3])
+
+	return
 }
 
 func (s *PathRouteSetResourceCrud) mapToPathMatchType(fieldKeyFormat string) (oci_load_balancer.PathMatchType, error) {

@@ -83,3 +83,11 @@ The following attributes are exported:
 	* `certificate_name` - A friendly name for the certificate bundle. It must be unique and it cannot be changed. Valid certificate bundle names include only alphanumeric characters, dashes, and underscores. Certificate bundle names cannot contain spaces. Avoid entering confidential information.  Example: `example_certificate_bundle` 
 	* `verify_depth` - The maximum depth for peer certificate chain verification.  Example: `3` 
 	* `verify_peer_certificate` - Whether the load balancer listener should verify peer certificates.  Example: `true` 
+
+## Import
+
+Listeners can be imported using the `id`, e.g.
+
+```
+$ terraform import oci_load_balancer_listener.test_listener "loadBalancers/{loadBalancerId}/listeners/{listenerName}" 
+```
