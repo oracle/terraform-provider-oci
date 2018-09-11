@@ -54,6 +54,10 @@ This lists all of the available OCI resources and/or data sources.
     * [Clusters](containerengine/clusters.md)
     * [Node Pools](containerengine/node_pools.md)
 * **Database**
+    * [Autonomous Databases](database/autonomous_databases.md)
+    * [Autonomous Database Backups](database/autonomous_database_backups.md)
+    * [Autonomous Data Warehouses](database/autonomous_data_warehouses.md)
+    * [Autonomous Data Warehouse Backups](database/autonomous_data_warehouse_backups.md)
     * [Databases](database/databases.md)
     * [DB Homes](database/db_homes.md)
     * [DB Nodes](database/db_nodes.md)

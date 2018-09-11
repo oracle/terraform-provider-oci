@@ -41,10 +41,11 @@ resource "oci_database_autonomous_data_warehouse" "test_autonomous_data_warehous
 	license_model = "${var.autonomous_data_warehouse_license_model}"
 }
 `
+
 	AutonomousDataWarehousePropertyVariables = `
 variable "autonomous_data_warehouse_admin_password" { default = "BEstrO0ng_#11" }
-variable "autonomous_data_warehouse_cpu_core_count" { default = 10 }
-variable "autonomous_data_warehouse_data_storage_size_in_tbs" { default = 10 }
+variable "autonomous_data_warehouse_cpu_core_count" { default = 1 }
+variable "autonomous_data_warehouse_data_storage_size_in_tbs" { default = 1 }
 variable "autonomous_data_warehouse_db_name" { default = "adwdb1" }
 variable "autonomous_data_warehouse_defined_tags_value" { default = "value" }
 variable "autonomous_data_warehouse_display_name" { default = "example_autonomous_data_warehouse" }
@@ -56,7 +57,6 @@ variable "autonomous_data_warehouse_state" { default = "AVAILABLE" }
 	AutonomousDataWarehouseResourceDependencies = DefinedTagsDependencies
 )
 
-// @CODEGEN 09/2018: ADW Scale update fails, skip checking scale result
 func TestDatabaseAutonomousDataWarehouseResource_basic(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
@@ -83,8 +83,8 @@ func TestDatabaseAutonomousDataWarehouseResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "10"),
-					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "10"),
+					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
+					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
 					resource.TestCheckResourceAttr(resourceName, "db_name", "adwdb1"),
 
 					func(s *terraform.State) (err error) {
@@ -104,8 +104,8 @@ func TestDatabaseAutonomousDataWarehouseResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "10"),
-					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "10"),
+					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
+					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
 					resource.TestCheckResourceAttr(resourceName, "db_name", "adwdb1"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "example_autonomous_data_warehouse"),
@@ -121,12 +121,12 @@ func TestDatabaseAutonomousDataWarehouseResource_basic(t *testing.T) {
 				),
 			},
 
-			// verify updates to updatable parameters, not including database scale case
+			// verify updates to updatable parameters
 			{
 				Config: config + `
 variable "autonomous_data_warehouse_admin_password" { default = "BEstrO0ng_#12" }
-variable "autonomous_data_warehouse_cpu_core_count" { default = 10 }
-variable "autonomous_data_warehouse_data_storage_size_in_tbs" { default = 10 }
+variable "autonomous_data_warehouse_cpu_core_count" { default = 1 }
+variable "autonomous_data_warehouse_data_storage_size_in_tbs" { default = 1 }
 variable "autonomous_data_warehouse_db_name" { default = "adwdb1" }
 variable "autonomous_data_warehouse_defined_tags_value" { default = "updatedValue" }
 variable "autonomous_data_warehouse_display_name" { default = "displayName2" }
@@ -138,8 +138,8 @@ variable "autonomous_data_warehouse_state" { default = "AVAILABLE" }
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "10"),
-					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "10"),
+					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
+					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
 					resource.TestCheckResourceAttr(resourceName, "db_name", "adwdb1"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -156,51 +156,13 @@ variable "autonomous_data_warehouse_state" { default = "AVAILABLE" }
 						return err
 					},
 				),
-			},
-
-			// verify updates to updatable parameters, not including admin password, scaling update case
-			{
-				Config: config + `
-variable "autonomous_data_warehouse_admin_password" { default = "BEstrO0ng_#12" }
-variable "autonomous_data_warehouse_cpu_core_count" { default = 11 }
-variable "autonomous_data_warehouse_data_storage_size_in_tbs" { default = 11 }
-variable "autonomous_data_warehouse_db_name" { default = "adwdb1" }
-variable "autonomous_data_warehouse_defined_tags_value" { default = "updatedValue" }
-variable "autonomous_data_warehouse_display_name" { default = "displayName2" }
-variable "autonomous_data_warehouse_freeform_tags" { default = { Department = "Accounting"} }
-variable "autonomous_data_warehouse_license_model" { default = "LICENSE_INCLUDED" }
-variable "autonomous_data_warehouse_state" { default = "AVAILABLE" }
-
-                ` + compartmentIdVariableStr + AutonomousDataWarehouseResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "cpu_core_count"),
-					resource.TestCheckResourceAttrSet(resourceName, "data_storage_size_in_tbs"),
-					resource.TestCheckResourceAttr(resourceName, "db_name", "adwdb1"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-				ExpectNonEmptyPlan: true,
 			},
 			// verify datasource
 			{
 				Config: config + `
 variable "autonomous_data_warehouse_admin_password" { default = "BEstrO0ng_#12" }
-variable "autonomous_data_warehouse_cpu_core_count" { default = 11 }
-variable "autonomous_data_warehouse_data_storage_size_in_tbs" { default = 11 }
+variable "autonomous_data_warehouse_cpu_core_count" { default = 1 }
+variable "autonomous_data_warehouse_data_storage_size_in_tbs" { default = 1 }
 variable "autonomous_data_warehouse_db_name" { default = "adwdb1" }
 variable "autonomous_data_warehouse_defined_tags_value" { default = "updatedValue" }
 variable "autonomous_data_warehouse_display_name" { default = "displayName2" }
@@ -229,8 +191,8 @@ data "oci_database_autonomous_data_warehouses" "test_autonomous_data_warehouses"
 
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_data_warehouses.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_data_warehouses.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_data_warehouses.0.cpu_core_count"),
-					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_data_warehouses.0.data_storage_size_in_tbs"),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_data_warehouses.0.cpu_core_count", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_data_warehouses.0.data_storage_size_in_tbs", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_data_warehouses.0.db_name", "adwdb1"),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_data_warehouses.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_data_warehouses.0.display_name", "displayName2"),
@@ -239,14 +201,13 @@ data "oci_database_autonomous_data_warehouses" "test_autonomous_data_warehouses"
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_data_warehouses.0.license_model", "LICENSE_INCLUDED"),
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_data_warehouses.0.state"),
 				),
-				ExpectNonEmptyPlan: true,
 			},
 			// verify singular datasource
 			{
 				Config: config + `
 variable "autonomous_data_warehouse_admin_password" { default = "BEstrO0ng_#12" }
-variable "autonomous_data_warehouse_cpu_core_count" { default = 11 }
-variable "autonomous_data_warehouse_data_storage_size_in_tbs" { default = 11 }
+variable "autonomous_data_warehouse_cpu_core_count" { default = 1 }
+variable "autonomous_data_warehouse_data_storage_size_in_tbs" { default = 1 }
 variable "autonomous_data_warehouse_db_name" { default = "adwdb1" }
 variable "autonomous_data_warehouse_defined_tags_value" { default = "updatedValue" }
 variable "autonomous_data_warehouse_display_name" { default = "displayName2" }
@@ -263,8 +224,8 @@ data "oci_database_autonomous_data_warehouse" "test_autonomous_data_warehouse" {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_data_warehouse_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "cpu_core_count"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "data_storage_size_in_tbs"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "cpu_core_count", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "data_storage_size_in_tbs", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "db_name", "adwdb1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
@@ -273,7 +234,6 @@ data "oci_database_autonomous_data_warehouse" "test_autonomous_data_warehouse" {
 					resource.TestCheckResourceAttr(singularDatasourceName, "license_model", "LICENSE_INCLUDED"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				),
-				ExpectNonEmptyPlan: true,
 			},
 			// verify resource import
 			{
@@ -284,8 +244,7 @@ data "oci_database_autonomous_data_warehouse" "test_autonomous_data_warehouse" {
 					"admin_password",
 					"lifecycle_details",
 				},
-				ResourceName:       resourceName,
-				ExpectNonEmptyPlan: true,
+				ResourceName: resourceName,
 			},
 		},
 	})

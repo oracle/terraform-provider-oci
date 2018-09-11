@@ -3,15 +3,21 @@ All notable changes to this project are documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
-## 2.2.3
+## 2.2.4 - 2018-09-11
 
 ### Added
-- Support specifying a backup policy at the time of creating a Volume
+- Support for Autonomous Data Warehouse and manual backups
+- Support for Autonomous Transaction Processing (a.k.a Autonomous Database) and manual backups
+
+## 2.2.3 - 2018-09-06
+
+### Added
+- Support for specifying a backup policy at the time of creating a Volume
 
 ## 2.2.2 - 2018-08-30
 
 ### Added
-- Support listing Fault Domains in an AD and specifying them when launching an Instance
+- Support for listing Fault Domains in an AD and specifying them when launching an Instance
 
 
 ## 2.2.1 - 2018-08-23
