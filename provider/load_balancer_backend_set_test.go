@@ -265,6 +265,17 @@ data "oci_load_balancer_backend_sets" "test_backend_sets" {
 					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.ssl_configuration.0.verify_peer_certificate", "false"),
 				),
 			},
+			// verify resource import
+			{
+				Config:            config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				ImportStateVerifyIgnore: []string{
+					"load_balancer_id",
+					"state",
+				},
+				ResourceName: resourceName,
+			},
 		},
 	})
 }

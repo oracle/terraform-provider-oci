@@ -5,6 +5,9 @@ package provider
 import (
 	"context"
 	"fmt"
+	"net/url"
+	"regexp"
+	"strings"
 	"sync"
 
 	"github.com/hashicorp/terraform/helper/schema"
@@ -14,6 +17,9 @@ import (
 
 func BackendSetResource() *schema.Resource {
 	return &schema.Resource{
+		Importer: &schema.ResourceImporter{
+			State: schema.ImportStatePassthrough,
+		},
 		Timeouts: DefaultTimeout,
 		Create:   createBackendSet,
 		Read:     readBackendSet,
@@ -251,12 +257,12 @@ func (s *BackendSetResourceCrud) GetMutex() *sync.Mutex {
 }
 
 func (s *BackendSetResourceCrud) ID() string {
-	id, workSuccess := LoadBalancerResourceID(s.Res, s.WorkRequest)
-	if id != nil {
-		return *id
-	}
-	if workSuccess {
-		return s.D.Get("name").(string)
+	if s.WorkRequest != nil {
+		if s.WorkRequest.LifecycleState == oci_load_balancer.WorkRequestLifecycleStateSucceeded {
+			return getBackendSetCompositeId(s.D.Get("name").(string), s.D.Get("load_balancer_id").(string))
+		} else {
+			return *s.WorkRequest.Id
+		}
 	}
 	return ""
 }
@@ -399,6 +405,16 @@ func (s *BackendSetResourceCrud) Get() error {
 	if loadBalancerId, ok := s.D.GetOkExists("load_balancer_id"); ok {
 		tmp := loadBalancerId.(string)
 		request.LoadBalancerId = &tmp
+	}
+
+	if !strings.HasPrefix(s.D.Id(), "ocid1.loadbalancerworkrequest.") {
+		backendSetName, loadBalancerId, err := parseBackendSetCompositeId(s.D.Id())
+		if err == nil {
+			request.BackendSetName = &backendSetName
+			request.LoadBalancerId = &loadBalancerId
+		} else {
+			return err
+		}
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
@@ -548,6 +564,15 @@ func (s *BackendSetResourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
+
+	backendSetName, loadBalancerId, err := parseBackendSetCompositeId(s.D.Id())
+	if err == nil {
+		s.D.Set("name", &backendSetName)
+		s.D.Set("load_balancer_id", &loadBalancerId)
+	} else {
+		return err
+	}
+
 	backend := []interface{}{}
 	for _, item := range s.Res.Backends {
 		backend = append(backend, BackendToMap(item))
@@ -581,6 +606,26 @@ func (s *BackendSetResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func getBackendSetCompositeId(backendSetName string, loadBalancerId string) string {
+	backendSetName = url.PathEscape(backendSetName)
+	loadBalancerId = url.PathEscape(loadBalancerId)
+	compositeId := "loadBalancers/" + loadBalancerId + "/backendSets/" + backendSetName
+	return compositeId
+}
+
+func parseBackendSetCompositeId(compositeId string) (backendSetName string, loadBalancerId string, err error) {
+	parts := strings.Split(compositeId, "/")
+	match, _ := regexp.MatchString("loadBalancers/.*/backendSets/.*", compositeId)
+	if !match || len(parts) != 4 {
+		err = fmt.Errorf("illegal compositeId %s encountered", compositeId)
+		return
+	}
+	loadBalancerId, _ = url.PathUnescape(parts[1])
+	backendSetName, _ = url.PathUnescape(parts[3])
+
+	return
 }
 
 func BackendToMap(obj oci_load_balancer.Backend) map[string]interface{} {

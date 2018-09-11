@@ -4,6 +4,9 @@ package provider
 
 import (
 	"context"
+	"fmt"
+	"net/url"
+	"regexp"
 	"strconv"
 	"strings"
 	"sync"
@@ -15,6 +18,9 @@ import (
 
 func BackendResource() *schema.Resource {
 	return &schema.Resource{
+		Importer: &schema.ResourceImporter{
+			State: schema.ImportStatePassthrough,
+		},
 		Timeouts: DefaultTimeout,
 		Create:   createBackend,
 		Read:     readBackend,
@@ -132,13 +138,13 @@ func (s *BackendResourceCrud) buildID() string {
 }
 
 func (s *BackendResourceCrud) ID() string {
-	id, workSuccess := LoadBalancerResourceID(s.Res, s.WorkRequest)
-	if id != nil {
-		return *id
-	}
-	if workSuccess {
-		// Always inferred this way
-		return s.buildID()
+	if s.WorkRequest != nil {
+		if s.WorkRequest.LifecycleState == oci_load_balancer.WorkRequestLifecycleStateSucceeded {
+			//API expects backendName to be in ip_address:port format
+			return getBackendCompositeId(s.buildID(), s.D.Get("backendset_name").(string), s.D.Get("load_balancer_id").(string))
+		} else {
+			return *s.WorkRequest.Id
+		}
 	}
 	return ""
 }
@@ -260,6 +266,17 @@ func (s *BackendResourceCrud) Get() error {
 		request.LoadBalancerId = &tmp
 	}
 
+	if !strings.HasPrefix(s.D.Id(), "ocid1.loadbalancerworkrequest.") {
+		backendName, backendSetName, loadBalancerId, err := parseBackendCompositeId(s.D.Id())
+		if err == nil {
+			request.BackendName = &backendName
+			request.BackendSetName = &backendSetName
+			request.LoadBalancerId = &loadBalancerId
+		} else {
+			return err
+		}
+	}
+
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
 
 	response, err := s.Client.GetBackend(context.Background(), request)
@@ -379,6 +396,16 @@ func (s *BackendResourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
+
+	backendName, backendSetName, loadBalancerId, err := parseBackendCompositeId(s.D.Id())
+	if err == nil {
+		s.D.Set("name", &backendName)
+		s.D.Set("backendset_name", &backendSetName)
+		s.D.Set("load_balancer_id", &loadBalancerId)
+	} else {
+		return err
+	}
+
 	if s.Res.Backup != nil {
 		s.D.Set("backup", *s.Res.Backup)
 	}
@@ -408,4 +435,26 @@ func (s *BackendResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func getBackendCompositeId(backendName string, backendSetName string, loadBalancerId string) string {
+	backendName = url.PathEscape(backendName)
+	backendSetName = url.PathEscape(backendSetName)
+	loadBalancerId = url.PathEscape(loadBalancerId)
+	compositeId := "loadBalancers/" + loadBalancerId + "/backendSets/" + backendSetName + "/backends/" + backendName
+	return compositeId
+}
+
+func parseBackendCompositeId(compositeId string) (backendName string, backendSetName string, loadBalancerId string, err error) {
+	parts := strings.Split(compositeId, "/")
+	match, _ := regexp.MatchString("loadBalancers/.*/backendSets/.*/backends/.*", compositeId)
+	if !match || len(parts) != 6 {
+		err = fmt.Errorf("illegal compositeId %s encountered", compositeId)
+		return
+	}
+	loadBalancerId, _ = url.PathUnescape(parts[1])
+	backendSetName, _ = url.PathUnescape(parts[3])
+	backendName, _ = url.PathUnescape(parts[5])
+
+	return
 }
