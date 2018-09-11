@@ -1,4 +1,0 @@
-#!/bin/bash
-# Just an example of userdata
-yum update -y
-yum install -y mongodb
