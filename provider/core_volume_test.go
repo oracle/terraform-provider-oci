@@ -149,7 +149,7 @@ func TestCoreVolumeResource_basic(t *testing.T) {
 variable "volume_defined_tags_value" { default = "updatedValue" }
 variable "volume_display_name" { default = "displayName2" }
 variable "volume_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "volume_size_in_gbs" { default = 52 }
+variable "volume_size_in_gbs" { default = 51 }
 variable "volume_source_details_type" { default = "volume" }
 variable "volume_state" { default = "AVAILABLE" }
 
@@ -162,8 +162,8 @@ variable "volume_state" { default = "AVAILABLE" }
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "size_in_gbs", "52"),
-					resource.TestCheckResourceAttr(resourceName, "size_in_mbs", "53248"),
+					resource.TestCheckResourceAttr(resourceName, "size_in_gbs", "51"),
+					resource.TestCheckResourceAttr(resourceName, "size_in_mbs", "52224"),
 					resource.TestCheckResourceAttr(resourceName, "source_details.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "source_details.0.type", "volume"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
@@ -186,7 +186,7 @@ variable "volume_state" { default = "AVAILABLE" }
 variable "volume_defined_tags_value" { default = "updatedValue" }
 variable "volume_display_name" { default = "displayName2" }
 variable "volume_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "volume_size_in_gbs" { default = 52 }
+variable "volume_size_in_gbs" { default = 51 }
 variable "volume_source_details_type" { default = "volume" }
 variable "volume_state" { default = "AVAILABLE" }
 
@@ -221,8 +221,8 @@ data "oci_core_volumes" "test_volumes" {
 					resource.TestCheckResourceAttr(datasourceName, "volumes.0.display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "volumes.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "volumes.0.id"),
-					resource.TestCheckResourceAttr(datasourceName, "volumes.0.size_in_gbs", "52"),
-					resource.TestCheckResourceAttr(datasourceName, "volumes.0.size_in_mbs", "53248"),
+					resource.TestCheckResourceAttr(datasourceName, "volumes.0.size_in_gbs", "51"),
+					resource.TestCheckResourceAttr(datasourceName, "volumes.0.size_in_mbs", "52224"),
 					resource.TestCheckResourceAttrSet(datasourceName, "volumes.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "volumes.0.time_created"),
 				),
