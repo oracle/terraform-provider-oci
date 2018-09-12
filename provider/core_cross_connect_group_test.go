@@ -160,6 +160,14 @@ data "oci_core_cross_connect_group" "test_cross_connect_group" {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				),
 			},
+			// remove singular datasource from previous step so that it doesn't conflict with import tests
+			{
+				Config: config + `
+variable "cross_connect_group_display_name" { default = "displayName2" }
+variable "cross_connect_group_state" { default = "AVAILABLE" }
+
+                ` + compartmentIdVariableStr + CrossConnectGroupResourceConfig,
+			},
 			// verify resource import
 			{
 				Config:                  config,

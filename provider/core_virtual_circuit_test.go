@@ -402,6 +402,23 @@ data "oci_core_virtual_circuit" "test_virtual_circuit" {
 					resource.TestCheckResourceAttr(singularDatasourceName, "type", "PRIVATE"),
 				),
 			},
+			// remove singular datasource from previous step so that it doesn't conflict with import tests
+			{
+				Config: config + `
+variable "virtual_circuit_bandwidth_shape_name" { default = "20 Gbps" }
+variable "virtual_circuit_cross_connect_mappings_bgp_md5auth_key" { default = "bgpMd5AuthKey2" }
+variable "virtual_circuit_cross_connect_mappings_customer_bgp_peering_ip" { default = "10.0.0.20/31" }
+variable "virtual_circuit_cross_connect_mappings_oracle_bgp_peering_ip" { default = "10.0.0.21/31" }
+variable "virtual_circuit_cross_connect_mappings_vlan" { default = 300 }
+variable "virtual_circuit_customer_bgp_asn" { default = 11 }
+variable "virtual_circuit_display_name" { default = "displayName2" }
+variable "virtual_circuit_public_prefixes_cidr_block" { default = "0.0.0.0/5" }
+variable "virtual_circuit_region" { default = "r1" }
+variable "virtual_circuit_state" { default = "AVAILABLE" }
+variable "virtual_circuit_type" { default = "PRIVATE" }
+
+                ` + compartmentIdVariableStr + VirtualCircuitResourceConfig,
+			},
 			// verify resource import
 			{
 				Config:            config,

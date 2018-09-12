@@ -208,6 +208,17 @@ data "oci_core_boot_volume_backup" "test_boot_volume_backup" {
 					resource.TestCheckResourceAttr(singularDatasourceName, "unique_size_in_gbs", "1"),
 				),
 			},
+			// remove singular datasource from previous step so that it doesn't conflict with import tests
+			{
+				Config: config + `
+variable "boot_volume_backup_defined_tags_value" { default = "updatedValue" }
+variable "boot_volume_backup_display_name" { default = "displayName2" }
+variable "boot_volume_backup_freeform_tags" { default = {"Department"= "Accounting"} }
+variable "boot_volume_backup_state" { default = "AVAILABLE" }
+variable "boot_volume_backup_type" { default = "INCREMENTAL" }
+
+                ` + compartmentIdVariableStr + BootVolumeBackupResourceConfig,
+			},
 			// verify resource import
 			{
 				Config:                  config,

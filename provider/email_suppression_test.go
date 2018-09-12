@@ -116,6 +116,15 @@ data "oci_email_suppression" "test_suppression" {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				),
 			},
+			// remove singular datasource from previous step so that it doesn't conflict with import tests
+			{
+				Config: config + `
+variable "suppression_email_address" { default = "JohnSmith@example.com" }
+variable "suppression_time_created_greater_than_or_equal_to" { default = "2018-01-01T00:00:00.000Z" }
+variable "suppression_time_created_less_than" { default = "2038-01-01T00:00:00.000Z" }
+
+                ` + compartmentIdVariableStr + SuppressionResourceConfig,
+			},
 			// verify resource import
 			{
 				Config:            config,

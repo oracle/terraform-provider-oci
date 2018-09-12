@@ -109,6 +109,14 @@ data "oci_database_autonomous_database_backup" "test_autonomous_database_backup"
 					resource.TestCheckResourceAttr(singularDatasourceName, "type", "FULL"),
 				),
 			},
+			// remove singular datasource from previous step so that it doesn't conflict with import tests
+			{
+				Config: config + `
+variable "autonomous_database_backup_display_name" { default = "Monthly Backup" }
+variable "autonomous_database_backup_state" { default = "AVAILABLE" }
+
+                ` + compartmentIdVariableStr + AutonomousDatabaseBackupResourceConfig,
+			},
 			// verify resource import
 			{
 				Config:                  config,

@@ -215,6 +215,16 @@ data "oci_core_cross_connect" "test_cross_connect" {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				),
 			},
+			// remove singular datasource from previous step so that it doesn't conflict with import tests
+			{
+				Config: config + `
+variable "cross_connect_display_name" { default = "displayName2" }
+variable "cross_connect_location_name" { default = "Fake Location, Phoenix, AZ" }
+variable "cross_connect_port_speed_shape_name" { default = "10 Gbps" }
+variable "cross_connect_state" { default = "AVAILABLE" }
+
+                ` + compartmentIdVariableStr + CrossConnectResourceConfig,
+			},
 			// verify resource import
 			{
 				Config:            config,

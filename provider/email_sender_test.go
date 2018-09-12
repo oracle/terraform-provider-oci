@@ -106,6 +106,14 @@ data "oci_email_sender" "test_sender" {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				),
 			},
+			// remove singular datasource from previous step so that it doesn't conflict with import tests
+			{
+				Config: config + `
+variable "sender_email_address" { default = "JohnSmith@example.com" }
+variable "sender_state" { default = "ACTIVE" }
+
+                ` + compartmentIdVariableStr + SenderResourceConfig,
+			},
 			// verify resource import
 			{
 				Config:            config,
