@@ -110,6 +110,14 @@ data "oci_database_autonomous_data_warehouse_backup" "test_autonomous_data_wareh
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "type"),
 				),
 			},
+			// remove singular datasource from previous step so that it doesn't conflict with import tests
+			{
+				Config: config + `
+variable "autonomous_data_warehouse_backup_display_name" { default = "Monthly Backup" }
+variable "autonomous_data_warehouse_backup_state" { default = "AVAILABLE" }
+
+                ` + compartmentIdVariableStr + AutonomousDataWarehouseBackupResourceConfig,
+			},
 			// verify resource import
 			{
 				Config:                  config,

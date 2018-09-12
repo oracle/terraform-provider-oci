@@ -236,6 +236,21 @@ data "oci_database_autonomous_database" "test_autonomous_database" {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				),
 			},
+			// remove singular datasource from previous step so that it doesn't conflict with import tests
+			{
+				Config: config + `
+variable "autonomous_database_admin_password" { default = "BEstrO0ng_#12" }
+variable "autonomous_database_cpu_core_count" { default = 1 }
+variable "autonomous_database_data_storage_size_in_tbs" { default = 1 }
+variable "autonomous_database_db_name" { default = "adatabasedb1" }
+variable "autonomous_database_defined_tags_value" { default = "updatedValue" }
+variable "autonomous_database_display_name" { default = "displayName2" }
+variable "autonomous_database_freeform_tags" { default = {"Department"= "Accounting"} }
+variable "autonomous_database_license_model" { default = "LICENSE_INCLUDED" }
+variable "autonomous_database_state" { default = "AVAILABLE" }
+
+                ` + compartmentIdVariableStr + AutonomousDatabaseResourceConfig,
+			},
 			// verify resource import
 			{
 				Config:            config,

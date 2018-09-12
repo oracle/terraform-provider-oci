@@ -235,6 +235,21 @@ data "oci_database_autonomous_data_warehouse" "test_autonomous_data_warehouse" {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				),
 			},
+			// remove singular datasource from previous step so that it doesn't conflict with import tests
+			{
+				Config: config + `
+variable "autonomous_data_warehouse_admin_password" { default = "BEstrO0ng_#12" }
+variable "autonomous_data_warehouse_cpu_core_count" { default = 1 }
+variable "autonomous_data_warehouse_data_storage_size_in_tbs" { default = 1 }
+variable "autonomous_data_warehouse_db_name" { default = "adwdb1" }
+variable "autonomous_data_warehouse_defined_tags_value" { default = "updatedValue" }
+variable "autonomous_data_warehouse_display_name" { default = "displayName2" }
+variable "autonomous_data_warehouse_freeform_tags" { default = {"Department"= "Accounting"} }
+variable "autonomous_data_warehouse_license_model" { default = "LICENSE_INCLUDED" }
+variable "autonomous_data_warehouse_state" { default = "AVAILABLE" }
+
+                ` + compartmentIdVariableStr + AutonomousDataWarehouseResourceConfig,
+			},
 			// verify resource import
 			{
 				Config:            config,
