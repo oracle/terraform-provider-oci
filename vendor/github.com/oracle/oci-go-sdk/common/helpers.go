@@ -149,6 +149,21 @@ func tryParsing(data []byte, layouts ...string) (tm time.Time, err error) {
 	return
 }
 
+// String returns string representation of SDKDate
+func (t *SDKDate) String() string {
+	return t.Date.Format(sdkDateFormat)
+}
+
+// NewSDKDateFromString parses the dateString into SDKDate
+func NewSDKDateFromString(dateString string) (*SDKDate, error) {
+	parsedTime, err := time.Parse(sdkDateFormat, dateString)
+	if err != nil {
+		return nil, err
+	}
+
+	return &SDKDate{Date: parsedTime}, nil
+}
+
 // UnmarshalJSON unmarshals from json
 func (t *SDKTime) UnmarshalJSON(data []byte) (e error) {
 	s := string(data)
@@ -221,4 +236,10 @@ func generateRandUUID() (string, error) {
 	uuid := fmt.Sprintf("%x%x%x%x%x", b[0:4], b[4:6], b[6:8], b[8:10], b[10:])
 
 	return uuid, nil
+}
+
+func makeACopy(original []string) []string {
+	tmp := make([]string, len(original))
+	copy(tmp, original)
+	return tmp
 }

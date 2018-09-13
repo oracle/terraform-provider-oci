@@ -14,13 +14,13 @@ import (
 
 // PatchDetails The details about what actions to perform and using what patch to the specified target.
 // This is part of an update request that is applied to a version field on the target such
-// as DB System, database home, etc.
+// as DB system, database home, etc.
 type PatchDetails struct {
 
 	// The action to perform on the patch.
 	Action PatchDetailsActionEnum `mandatory:"false" json:"action,omitempty"`
 
-	// The OCID of the patch.
+	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the patch.
 	PatchId *string `mandatory:"false" json:"patchId"`
 }
 

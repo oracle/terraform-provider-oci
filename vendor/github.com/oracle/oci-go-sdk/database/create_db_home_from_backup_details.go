@@ -12,7 +12,8 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// CreateDbHomeFromBackupDetails The representation of CreateDbHomeFromBackupDetails
+// CreateDbHomeFromBackupDetails Details for creating a database home if you are creating a database by restoring from a database backup.
+// **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type CreateDbHomeFromBackupDetails struct {
 	Database *CreateDatabaseFromBackupDetails `mandatory:"true" json:"database"`
 

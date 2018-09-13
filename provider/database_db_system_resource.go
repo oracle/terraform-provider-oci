@@ -421,8 +421,6 @@ func (s *DbSystemResourceCrud) Create() error {
 		return err
 	}
 
-	s.Client.Interceptor = nil
-
 	s.Res = &response.DbSystem
 	return nil
 }

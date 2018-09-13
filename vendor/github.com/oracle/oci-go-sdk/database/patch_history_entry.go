@@ -15,13 +15,13 @@ import (
 // PatchHistoryEntry The record of a patch action on a specified target.
 type PatchHistoryEntry struct {
 
-	// The OCID of the patch history entry.
+	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the patch history entry.
 	Id *string `mandatory:"true" json:"id"`
 
 	// The current state of the action.
 	LifecycleState PatchHistoryEntryLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// The OCID of the patch.
+	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the patch.
 	PatchId *string `mandatory:"true" json:"patchId"`
 
 	// The date and time when the patch action started.

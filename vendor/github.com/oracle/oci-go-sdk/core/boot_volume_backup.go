@@ -19,6 +19,8 @@ import (
 // If you're not authorized, talk to an administrator. If you're an administrator
 // who needs to write policies to give users access, see Getting Started with
 // Policies (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/policygetstarted.htm).
+// **Warning:** Oracle recommends that you avoid using any confidential information when you
+// supply string values using the API.
 type BootVolumeBackup struct {
 
 	// The OCID of the compartment that contains the boot volume backup.

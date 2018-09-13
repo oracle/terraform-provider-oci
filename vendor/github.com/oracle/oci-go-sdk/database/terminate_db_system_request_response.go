@@ -11,7 +11,7 @@ import (
 // TerminateDbSystemRequest wrapper for the TerminateDbSystem operation
 type TerminateDbSystemRequest struct {
 
-	// The DB System OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
+	// The DB system OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
 	DbSystemId *string `mandatory:"true" contributesTo:"path" name:"dbSystemId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

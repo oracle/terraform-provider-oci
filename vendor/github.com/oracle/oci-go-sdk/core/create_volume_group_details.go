@@ -16,14 +16,14 @@ import (
 // CreateVolumeGroupDetails The representation of CreateVolumeGroupDetails
 type CreateVolumeGroupDetails struct {
 
-	// The Availability Domain of the volume group.
+	// The availability domain of the volume group.
 	AvailabilityDomain *string `mandatory:"true" json:"availabilityDomain"`
 
 	// The OCID of the compartment that contains the volume group.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// Specifies the volume group source details for a new volume group. The volume source is either another a list of
-	// volume ids in the same Availability Domain, another volume group or a volume group backup.
+	// volume ids in the same availability domain, another volume group or a volume group backup.
 	SourceDetails VolumeGroupSourceDetails `mandatory:"true" json:"sourceDetails"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.

@@ -13,18 +13,19 @@ import (
 )
 
 // CreateAutonomousDatabaseDetails Details to create an Oracle Autonomous Database.
+// **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type CreateAutonomousDatabaseDetails struct {
 
 	// A strong password for Admin. The password must be between 12 and 60 characters long, and must contain at least 1 uppercase, 1 lowercase and 2 numeric characters. It cannot contain the double quote symbol ("). It must be different than the last 4 passwords.
 	AdminPassword *string `mandatory:"true" json:"adminPassword"`
 
-	// The Oracle Cloud ID (OCID) of the compartment of the DB system.
+	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the compartment of the autonomous database.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The number of CPU Cores to be made available to the database.
 	CpuCoreCount *int `mandatory:"true" json:"cpuCoreCount"`
 
-	// Size, in terabytes, of the data volume that will be created and attached to the database. This storage can later be scaled up if needed.
+	// The size, in terabytes, of the data volume that will be created and attached to the database. This storage can later be scaled up if needed.
 	DataStorageSizeInTBs *int `mandatory:"true" json:"dataStorageSizeInTBs"`
 
 	// The database name. The name must begin with an alphabetic character and can contain a maximum of 14 alphanumeric characters. Special characters are not permitted. The database name must be unique in the tenancy.

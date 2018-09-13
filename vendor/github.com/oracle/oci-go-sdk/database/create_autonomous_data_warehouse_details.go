@@ -13,12 +13,13 @@ import (
 )
 
 // CreateAutonomousDataWarehouseDetails Details to create an Oracle Autonomous Data Warehouse.
+// **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type CreateAutonomousDataWarehouseDetails struct {
 
 	// A strong password for Admin. The password must be between 12 and 60 characters long, and must contain at least 1 uppercase, 1 lowercase and 2 numeric characters. It cannot contain the double quote symbol ("). It must be different than the last 4 passwords.
 	AdminPassword *string `mandatory:"true" json:"adminPassword"`
 
-	// The Oracle Cloud ID (OCID) of the compartment of the DB system.
+	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the compartment of the Autonomous Data Warehouse.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The number of CPU Cores to be made available to the database.

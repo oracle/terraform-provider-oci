@@ -14,7 +14,7 @@ type AttachServiceIdRequest struct {
 	// The service gateway's OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
 	ServiceGatewayId *string `mandatory:"true" contributesTo:"path" name:"serviceGatewayId"`
 
-	// ServiceId of Service to be attached to a Service Gateway.
+	// ServiceId of Service to be attached to a service gateway.
 	AttachServiceDetails ServiceIdRequestDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

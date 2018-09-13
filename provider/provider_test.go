@@ -337,7 +337,8 @@ func providerConfigTest(t *testing.T, disableRetries bool, skipRequiredField boo
 		assert.NotNil(t, c)
 		assert.NotNil(t, c.HTTPClient)
 		assert.Exactly(t, c.UserAgent, userAgent)
-		assert.NotNil(t, c.Obo)
+		assert.NotNil(t, c.Interceptor)
+		assert.NotNil(t, c.Signer)
 	}
 
 	assert.Exactly(t, disableAutoRetries, disableRetries)

@@ -1088,14 +1088,14 @@ func (client ComputeClient) instanceAction(ctx context.Context, request common.O
 	return response, err
 }
 
-// LaunchInstance Creates a new instance in the specified compartment and the specified Availability Domain.
+// LaunchInstance Creates a new instance in the specified compartment and the specified availability domain.
 // For general information about instances, see
 // Overview of the Compute Service (https://docs.us-phoenix-1.oraclecloud.com/Content/Compute/Concepts/computeoverview.htm).
 // For information about access control and compartments, see
 // Overview of the IAM Service (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/overview.htm).
-// For information about Availability Domains, see
+// For information about availability domains, see
 // Regions and Availability Domains (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/regions.htm).
-// To get a list of Availability Domains, use the `ListAvailabilityDomains` operation
+// To get a list of availability domains, use the `ListAvailabilityDomains` operation
 // in the Identity and Access Management Service API.
 // All Oracle Cloud Infrastructure resources, including instances, get an Oracle-assigned,
 // unique ID called an Oracle Cloud Identifier (OCID).
@@ -1329,7 +1329,7 @@ func (client ComputeClient) listInstanceConsoleConnections(ctx context.Context, 
 	return response, err
 }
 
-// ListInstances Lists the instances in the specified compartment and the specified Availability Domain.
+// ListInstances Lists the instances in the specified compartment and the specified availability domain.
 // You can filter the results by specifying an instance name (the list will include all the identically-named
 // instances in the compartment).
 func (client ComputeClient) ListInstances(ctx context.Context, request ListInstancesRequest) (response ListInstancesResponse, err error) {
@@ -1418,7 +1418,7 @@ func (client ComputeClient) listShapes(ctx context.Context, request common.OCIRe
 
 // ListVnicAttachments Lists the VNIC attachments in the specified compartment. A VNIC attachment
 // resides in the same compartment as the attached instance. The list can be
-// filtered by instance, VNIC, or Availability Domain.
+// filtered by instance, VNIC, or availability domain.
 func (client ComputeClient) ListVnicAttachments(ctx context.Context, request ListVnicAttachmentsRequest) (response ListVnicAttachmentsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1652,7 +1652,10 @@ func (client ComputeClient) updateImage(ctx context.Context, request common.OCIR
 	return response, err
 }
 
-// UpdateInstance Updates the display name of the specified instance. Avoid entering confidential information.
+// UpdateInstance Updates certain fields on the specified instance. Fields that are not provided in the
+// request will not be updated. Avoid entering confidential information.
+// Changes to metadata fields will be reflected in the instance metadata service (this may take
+// up to a minute).
 // The OCID of the instance remains the same.
 func (client ComputeClient) UpdateInstance(ctx context.Context, request UpdateInstanceRequest) (response UpdateInstanceResponse, err error) {
 	var ociResponse common.OCIResponse

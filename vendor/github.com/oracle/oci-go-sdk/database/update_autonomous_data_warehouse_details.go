@@ -13,15 +13,16 @@ import (
 )
 
 // UpdateAutonomousDataWarehouseDetails Details to update an Oracle Autonomous Data Warehouse.
+// **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type UpdateAutonomousDataWarehouseDetails struct {
 
 	// A strong password for Admin. The password must be between 12 and 60 characters long, and must contain at least 1 uppercase, 1 lowercase and 2 numeric characters. It cannot contain the double quote symbol ("). It must be different than the last 4 passwords.
 	AdminPassword *string `mandatory:"false" json:"adminPassword"`
 
-	// The number of CPU Cores to be made available to the database.
+	// The number of CPU cores to be made available to the database.
 	CpuCoreCount *int `mandatory:"false" json:"cpuCoreCount"`
 
-	// Size, in TBs, of the data volume that will be attached to the database.
+	// Size, in terabytes, of the data volume that will be attached to the database.
 	DataStorageSizeInTBs *int `mandatory:"false" json:"dataStorageSizeInTBs"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.

@@ -12,7 +12,7 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// Drg A Dynamic Routing Gateway (DRG), which is a virtual router that provides a path for private
+// Drg A dynamic routing gateway (DRG), which is a virtual router that provides a path for private
 // network traffic between your VCN and your existing network. You use it with other Networking
 // Service components to create an IPSec VPN or a connection that uses
 // Oracle Cloud Infrastructure FastConnect. For more information, see
@@ -20,6 +20,8 @@ import (
 // To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized,
 // talk to an administrator. If you're an administrator who needs to write policies to give users access, see
 // Getting Started with Policies (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/policygetstarted.htm).
+// **Warning:** Oracle recommends that you avoid using any confidential information when you
+// supply string values using the API.
 type Drg struct {
 
 	// The OCID of the compartment containing the DRG.

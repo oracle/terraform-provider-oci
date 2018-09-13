@@ -13,6 +13,7 @@ import (
 )
 
 // CreateAutonomousDatabaseBackupDetails Details to create an Oracle Autonomous Database backup.
+// **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type CreateAutonomousDatabaseBackupDetails struct {
 
 	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the Autonomous Database backup.

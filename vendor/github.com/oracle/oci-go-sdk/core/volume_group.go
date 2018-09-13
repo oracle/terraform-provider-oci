@@ -13,7 +13,10 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// VolumeGroup Specifies a volume group which is a collection of volumes. For more information, see Volume Groups (https://docs.us-phoenix-1.oraclecloud.com/Content/Block/Concepts/volumegroups.htm).
+// VolumeGroup Specifies a volume group which is a collection of
+// volumes. For more information, see Volume Groups (https://docs.us-phoenix-1.oraclecloud.com/Content/Block/Concepts/volumegroups.htm).
+// **Warning:** Oracle recommends that you avoid using any confidential information when you
+// supply string values using the API.
 type VolumeGroup struct {
 
 	// The availability domain of the volume group.
