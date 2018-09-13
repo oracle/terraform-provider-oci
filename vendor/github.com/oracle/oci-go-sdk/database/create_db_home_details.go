@@ -12,11 +12,12 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// CreateDbHomeDetails The representation of CreateDbHomeDetails
+// CreateDbHomeDetails Details for creating a database home.
+// **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type CreateDbHomeDetails struct {
 	Database *CreateDatabaseDetails `mandatory:"true" json:"database"`
 
-	// A valid Oracle database version. To get a list of supported versions, use the ListDbVersions operation.
+	// A valid Oracle Database version. To get a list of supported versions, use the ListDbVersions operation.
 	DbVersion *string `mandatory:"true" json:"dbVersion"`
 
 	// The user-provided name of the database home.

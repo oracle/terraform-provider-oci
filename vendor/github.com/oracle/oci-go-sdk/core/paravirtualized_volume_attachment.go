@@ -16,7 +16,7 @@ import (
 // ParavirtualizedVolumeAttachment A paravirtualized volume attachment.
 type ParavirtualizedVolumeAttachment struct {
 
-	// The Availability Domain of an instance.
+	// The availability domain of an instance.
 	// Example: `Uocm:PHX-AD-1`
 	AvailabilityDomain *string `mandatory:"true" json:"availabilityDomain"`
 

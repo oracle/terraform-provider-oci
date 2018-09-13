@@ -40,12 +40,28 @@ var disableAutoRetries bool
 const (
 	authAPIKeySetting            = "ApiKey"
 	authInstancePrincipalSetting = "InstancePrincipal"
+	requestHeaderOpcOboToken     = "opc-obo-token"
+	requestHeaderOpcHostSerial   = "opc-host-serial"
 	defaultRequestTimeout        = 0
 	defaultConnectionTimeout     = 10 * time.Second
 	defaultTLSHandshakeTimeout   = 5 * time.Second
 	userAgentFormatter           = "Oracle-GoSDK/%s (go/%s; %s/%s; terraform/%s) Oracle-TerraformProvider/%s"
 	r1CertLocationEnv            = "R1_CERT_LOCATION"
 )
+
+// OboTokenProvider interface that wraps information about auth tokens so the sdk client can make calls
+// on behalf of a different authorized user
+type OboTokenProvider interface {
+	OboToken() (string, error)
+}
+
+//EmptyOboTokenProvider always provides an empty obo token
+type emptyOboTokenProvider struct{}
+
+//OboToken provides the obo token
+func (provider emptyOboTokenProvider) OboToken() (string, error) {
+	return "", nil
+}
 
 type oboTokenProviderFromEnv struct{}
 
@@ -548,17 +564,34 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 		return
 	}
 
-	var oboTokenProvider oci_common.OboTokenProvider
+	simulateDb, _ := strconv.ParseBool(getEnvSettingWithDefault("simulate_db", "false"))
+
+	requestSigner := oci_common.DefaultRequestSigner(officialSdkConfigProvider)
+	var oboTokenProvider OboTokenProvider
+	oboTokenProvider = emptyOboTokenProvider{}
 	if useOboToken {
+		// Add Obo token to the default list and update the signer
+		httpHeadersToSign := append(oci_common.DefaultGenericHeaders(), requestHeaderOpcOboToken)
+		requestSigner = oci_common.RequestSigner(officialSdkConfigProvider, httpHeadersToSign, oci_common.DefaultBodyHeaders())
 		oboTokenProvider = oboTokenProviderFromEnv{}
-	} else {
-		oboTokenProvider = oci_common.NewEmptyOboTokenProvider()
 	}
 
 	configureClient := func(client *oci_common.BaseClient) error {
 		client.HTTPClient = httpClient
 		client.UserAgent = userAgent
-		client.Obo = oboTokenProvider
+		client.Signer = requestSigner
+		client.Interceptor = func(r *http.Request) error {
+			if oboToken, err := oboTokenProvider.OboToken(); err == nil && oboToken != "" {
+				r.Header.Set(requestHeaderOpcOboToken, oboToken)
+			}
+
+			if simulateDb {
+				if r.Method == http.MethodPost && (strings.Contains(r.URL.Path, "/dbSystems") || strings.Contains(r.URL.Path, "/autonomousData")) {
+					r.Header.Set(requestHeaderOpcHostSerial, "FAKEHOSTSERIAL")
+				}
+			}
+			return nil
+		}
 
 		// R1 Support
 		if region, err := officialSdkConfigProvider.Region(); err == nil && strings.ToLower(region) == "r1" {
@@ -585,19 +618,6 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 		return nil
 	}
 
-	configureDatabaseClient := func(client *oci_database.DatabaseClient) error {
-		simulateDb, _ := strconv.ParseBool(getEnvSettingWithDefault("simulate_db", "false"))
-		if simulateDb {
-			client.Interceptor = func(r *http.Request) error {
-				if r.Method == http.MethodPost && (strings.Contains(r.URL.Path, "/dbSystems") || strings.Contains(r.URL.Path, "/autonomousData")) {
-					r.Header.Set("opc-host-serial", "FAKEHOSTSERIAL")
-				}
-				return nil
-			}
-		}
-		return nil
-	}
-
 	err = configureClient(&auditClient.BaseClient)
 	if err != nil {
 		return
@@ -611,10 +631,6 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 		return
 	}
 	err = configureClient(&databaseClient.BaseClient)
-	if err != nil {
-		return
-	}
-	err = configureDatabaseClient(&databaseClient)
 	if err != nil {
 		return
 	}

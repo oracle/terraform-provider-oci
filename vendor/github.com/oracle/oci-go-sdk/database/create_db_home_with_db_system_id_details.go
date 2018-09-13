@@ -16,12 +16,12 @@ import (
 // CreateDbHomeWithDbSystemIdDetails The representation of CreateDbHomeWithDbSystemIdDetails
 type CreateDbHomeWithDbSystemIdDetails struct {
 
-	// The OCID of the DB System.
+	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the DB system.
 	DbSystemId *string `mandatory:"true" json:"dbSystemId"`
 
 	Database *CreateDatabaseDetails `mandatory:"true" json:"database"`
 
-	// A valid Oracle database version. To get a list of supported versions, use the ListDbVersions operation.
+	// A valid Oracle Database version. To get a list of supported versions, use the ListDbVersions operation.
 	DbVersion *string `mandatory:"true" json:"dbVersion"`
 
 	// The user-provided name of the database home.

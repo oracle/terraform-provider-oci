@@ -153,11 +153,11 @@ func (client BlockstorageClient) createBootVolumeBackup(ctx context.Context, req
 // 50 GB (51200 MB) to 32 TB (33554432 MB), in 1 GB (1024 MB) increments. By default, volumes are 1 TB (1048576 MB).
 // For general information about block volumes, see
 // Overview of Block Volume Service (https://docs.us-phoenix-1.oraclecloud.com/Content/Block/Concepts/overview.htm).
-// A volume and instance can be in separate compartments but must be in the same Availability Domain.
+// A volume and instance can be in separate compartments but must be in the same availability domain.
 // For information about access control and compartments, see
 // Overview of the IAM Service (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/overview.htm). For information about
-// Availability Domains, see Regions and Availability Domains (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/regions.htm).
-// To get a list of Availability Domains, use the `ListAvailabilityDomains` operation
+// availability domains, see Regions and Availability Domains (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/regions.htm).
+// To get a list of availability domains, use the `ListAvailabilityDomains` operation
 // in the Identity and Access Management Service API.
 // You may optionally specify a *display name* for the volume, which is simply a friendly name or
 // description. It does not have to be unique, and you can change it. Avoid entering confidential information.
@@ -1105,7 +1105,7 @@ func (client BlockstorageClient) listBootVolumeBackups(ctx context.Context, requ
 	return response, err
 }
 
-// ListBootVolumes Lists the boot volumes in the specified compartment and Availability Domain.
+// ListBootVolumes Lists the boot volumes in the specified compartment and availability domain.
 func (client BlockstorageClient) ListBootVolumes(ctx context.Context, request ListBootVolumesRequest) (response ListBootVolumesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1317,7 +1317,7 @@ func (client BlockstorageClient) listVolumeGroups(ctx context.Context, request c
 	return response, err
 }
 
-// ListVolumes Lists the volumes in the specified compartment and Availability Domain.
+// ListVolumes Lists the volumes in the specified compartment and availability domain.
 func (client BlockstorageClient) ListVolumes(ctx context.Context, request ListVolumesRequest) (response ListVolumesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

@@ -11,7 +11,7 @@ import (
 // DeleteInternetGatewayRequest wrapper for the DeleteInternetGateway operation
 type DeleteInternetGatewayRequest struct {
 
-	// The OCID of the Internet Gateway.
+	// The OCID of the internet gateway.
 	IgId *string `mandatory:"true" contributesTo:"path" name:"igId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

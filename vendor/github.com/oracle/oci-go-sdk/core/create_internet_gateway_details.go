@@ -15,13 +15,13 @@ import (
 // CreateInternetGatewayDetails The representation of CreateInternetGatewayDetails
 type CreateInternetGatewayDetails struct {
 
-	// The OCID of the compartment to contain the Internet Gateway.
+	// The OCID of the compartment to contain the internet gateway.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// Whether the gateway is enabled upon creation.
 	IsEnabled *bool `mandatory:"true" json:"isEnabled"`
 
-	// The OCID of the VCN the Internet Gateway is attached to.
+	// The OCID of the VCN the internet gateway is attached to.
 	VcnId *string `mandatory:"true" json:"vcnId"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.

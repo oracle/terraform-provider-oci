@@ -15,10 +15,10 @@ import (
 // CreateServiceGatewayDetails The representation of CreateServiceGatewayDetails
 type CreateServiceGatewayDetails struct {
 
-	// The OCID  (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm)  of the compartment to contain the Service Gateway.
+	// The OCID  (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm)  of the compartment to contain the service gateway.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// List of the Service OCIDs. These are the Services which will be enabled on the Service Gateway. This list can be empty.
+	// List of the service OCIDs. These are the services that will be enabled on the service gateway. This list can be empty.
 	Services []ServiceIdRequestDetails `mandatory:"true" json:"services"`
 
 	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the VCN.

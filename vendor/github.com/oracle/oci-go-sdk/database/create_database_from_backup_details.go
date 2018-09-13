@@ -18,7 +18,7 @@ type CreateDatabaseFromBackupDetails struct {
 	// A strong password for SYS, SYSTEM, PDB Admin and TDE Wallet. The password must be at least nine characters and contain at least two uppercase, two lowercase, two numbers, and two special characters. The special characters must be _, \#, or -.
 	AdminPassword *string `mandatory:"true" json:"adminPassword"`
 
-	// The backup OCID.
+	// The backup OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
 	BackupId *string `mandatory:"true" json:"backupId"`
 
 	// The password to open the TDE wallet.

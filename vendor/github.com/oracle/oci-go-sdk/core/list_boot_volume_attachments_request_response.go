@@ -11,7 +11,7 @@ import (
 // ListBootVolumeAttachmentsRequest wrapper for the ListBootVolumeAttachments operation
 type ListBootVolumeAttachmentsRequest struct {
 
-	// The name of the Availability Domain.
+	// The name of the availability domain.
 	// Example: `Uocm:PHX-AD-1`
 	AvailabilityDomain *string `mandatory:"true" contributesTo:"query" name:"availabilityDomain"`
 

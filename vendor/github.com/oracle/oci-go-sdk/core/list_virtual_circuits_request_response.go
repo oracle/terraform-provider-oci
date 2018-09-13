@@ -28,9 +28,9 @@ type ListVirtualCircuitsRequest struct {
 	// TIMECREATED is descending. Default order for DISPLAYNAME is ascending. The DISPLAYNAME
 	// sort order is case sensitive.
 	// **Note:** In general, some "List" operations (for example, `ListInstances`) let you
-	// optionally filter by Availability Domain if the scope of the resource type is within a
-	// single Availability Domain. If you call one of these "List" operations without specifying
-	// an Availability Domain, the resources are grouped by Availability Domain, then sorted.
+	// optionally filter by availability domain if the scope of the resource type is within a
+	// single availability domain. If you call one of these "List" operations without specifying
+	// an availability domain, the resources are grouped by availability domain, then sorted.
 	SortBy ListVirtualCircuitsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// The sort order to use, either ascending (`ASC`) or descending (`DESC`). The DISPLAYNAME sort order
