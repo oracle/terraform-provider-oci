@@ -7,8 +7,6 @@ import (
 	"fmt"
 	"testing"
 
-	"strings"
-
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
@@ -130,7 +128,7 @@ variable "virtual_circuit_cross_connect_mappings_vlan" { default = 200 }
 variable "virtual_circuit_customer_bgp_asn" { default = 10 }
 variable "virtual_circuit_display_name" { default = "displayName" }
 variable "virtual_circuit_public_prefixes_cidr_block" { default = "0.0.0.0/5" }
-variable "virtual_circuit_region" { default = "r1" }
+variable "virtual_circuit_region" { default = "us-phoenix-1" }
 variable "virtual_circuit_state" { default = "AVAILABLE" }
 `
 
@@ -149,11 +147,6 @@ variable "virtual_circuit_type" { default = "PUBLIC" }
 )
 
 func TestCoreVirtualCircuitResource_basic(t *testing.T) {
-	region := getEnvSettingWithBlankDefault("region")
-	if !strings.EqualFold("r1", region) {
-		t.Skip("Virtual Circuit tests are not yet enabled in production regions")
-	}
-
 	provider := testAccProvider
 	config := testProviderConfig()
 
@@ -263,7 +256,7 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "customer_bgp_asn", "10"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 					resource.TestCheckResourceAttrSet(resourceName, "gateway_id"),
-					resource.TestCheckResourceAttr(resourceName, "region", "r1"),
+					resource.TestCheckResourceAttr(resourceName, "region", "us-phoenix-1"),
 					resource.TestCheckResourceAttr(resourceName, "type", "PRIVATE"),
 
 					func(s *terraform.State) (err error) {
@@ -284,7 +277,7 @@ variable "virtual_circuit_cross_connect_mappings_vlan" { default = 300 }
 variable "virtual_circuit_customer_bgp_asn" { default = 11 }
 variable "virtual_circuit_display_name" { default = "displayName2" }
 variable "virtual_circuit_public_prefixes_cidr_block" { default = "0.0.0.0/5" }
-variable "virtual_circuit_region" { default = "r1" }
+variable "virtual_circuit_region" { default = "us-phoenix-1" }
 variable "virtual_circuit_state" { default = "AVAILABLE" }
 variable "virtual_circuit_type" { default = "PRIVATE" }
 
@@ -300,7 +293,7 @@ variable "virtual_circuit_type" { default = "PRIVATE" }
 					resource.TestCheckResourceAttr(resourceName, "customer_bgp_asn", "11"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(resourceName, "gateway_id"),
-					resource.TestCheckResourceAttr(resourceName, "region", "r1"),
+					resource.TestCheckResourceAttr(resourceName, "region", "us-phoenix-1"),
 					resource.TestCheckResourceAttr(resourceName, "type", "PRIVATE"),
 
 					func(s *terraform.State) (err error) {
@@ -323,7 +316,7 @@ variable "virtual_circuit_cross_connect_mappings_vlan" { default = 300 }
 variable "virtual_circuit_customer_bgp_asn" { default = 11 }
 variable "virtual_circuit_display_name" { default = "displayName2" }
 variable "virtual_circuit_public_prefixes_cidr_block" { default = "0.0.0.0/5" }
-variable "virtual_circuit_region" { default = "r1" }
+variable "virtual_circuit_region" { default = "us-phoenix-1" }
 variable "virtual_circuit_state" { default = "PROVISIONED" }
 variable "virtual_circuit_type" { default = "PRIVATE" }
 
@@ -371,7 +364,7 @@ variable "virtual_circuit_cross_connect_mappings_vlan" { default = 300 }
 variable "virtual_circuit_customer_bgp_asn" { default = 11 }
 variable "virtual_circuit_display_name" { default = "displayName2" }
 variable "virtual_circuit_public_prefixes_cidr_block" { default = "0.0.0.0/5" }
-variable "virtual_circuit_region" { default = "r1" }
+variable "virtual_circuit_region" { default = "us-phoenix-1" }
 variable "virtual_circuit_state" { default = "AVAILABLE" }
 variable "virtual_circuit_type" { default = "PRIVATE" }
 
@@ -413,7 +406,7 @@ variable "virtual_circuit_cross_connect_mappings_vlan" { default = 300 }
 variable "virtual_circuit_customer_bgp_asn" { default = 11 }
 variable "virtual_circuit_display_name" { default = "displayName2" }
 variable "virtual_circuit_public_prefixes_cidr_block" { default = "0.0.0.0/5" }
-variable "virtual_circuit_region" { default = "r1" }
+variable "virtual_circuit_region" { default = "us-phoenix-1" }
 variable "virtual_circuit_state" { default = "AVAILABLE" }
 variable "virtual_circuit_type" { default = "PRIVATE" }
 
@@ -421,7 +414,20 @@ variable "virtual_circuit_type" { default = "PRIVATE" }
 			},
 			// verify resource import
 			{
-				Config:            config,
+				Config: config + `
+variable "virtual_circuit_bandwidth_shape_name" { default = "20 Gbps" }
+variable "virtual_circuit_cross_connect_mappings_bgp_md5auth_key" { default = "bgpMd5AuthKey2" }
+variable "virtual_circuit_cross_connect_mappings_customer_bgp_peering_ip" { default = "10.0.0.20/31" }
+variable "virtual_circuit_cross_connect_mappings_oracle_bgp_peering_ip" { default = "10.0.0.21/31" }
+variable "virtual_circuit_cross_connect_mappings_vlan" { default = 300 }
+variable "virtual_circuit_customer_bgp_asn" { default = 11 }
+variable "virtual_circuit_display_name" { default = "displayName2" }
+variable "virtual_circuit_public_prefixes_cidr_block" { default = "0.0.0.0/5" }
+variable "virtual_circuit_region" { default = "us-phoenix-1" }
+variable "virtual_circuit_state" { default = "AVAILABLE" }
+variable "virtual_circuit_type" { default = "PRIVATE" }
+
+                ` + compartmentIdVariableStr + VirtualCircuitResourceConfig,
 				ImportState:       true,
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{
