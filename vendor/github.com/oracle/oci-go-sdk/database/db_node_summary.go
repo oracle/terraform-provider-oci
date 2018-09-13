@@ -12,32 +12,33 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// DbNodeSummary A server where Oracle database software is running.
+// DbNodeSummary A server where Oracle Database software is running.
 // To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized, talk to an administrator. If you're an administrator who needs to write policies to give users access, see Getting Started with Policies (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/policygetstarted.htm).
+// **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type DbNodeSummary struct {
 
-	// The OCID of the DB System.
+	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the DB system.
 	DbSystemId *string `mandatory:"true" json:"dbSystemId"`
 
-	// The OCID of the DB Node.
+	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the database node.
 	Id *string `mandatory:"true" json:"id"`
 
 	// The current state of the database node.
 	LifecycleState DbNodeSummaryLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// The date and time that the DB Node was created.
+	// The date and time that the database node was created.
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// The OCID of the VNIC.
+	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the VNIC.
 	VnicId *string `mandatory:"true" json:"vnicId"`
 
-	// The OCID of the backup VNIC.
+	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the backup VNIC.
 	BackupVnicId *string `mandatory:"false" json:"backupVnicId"`
 
-	// The host name for the DB Node.
+	// The host name for the database node.
 	Hostname *string `mandatory:"false" json:"hostname"`
 
-	// Storage size, in GBs, of the software volume that is allocated to the DB system. This is applicable only for VM-based DBs.
+	// The size (in GB) of the block storage volume allocation for the DB system. This attribute applies only for virtual machine DB systems.
 	SoftwareStorageSizeInGB *int `mandatory:"false" json:"softwareStorageSizeInGB"`
 }
 

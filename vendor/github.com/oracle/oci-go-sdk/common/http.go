@@ -433,7 +433,7 @@ func addToHeader(request *http.Request, value reflect.Value, field reflect.Struc
 		return
 	}
 
-	request.Header.Set(headerName, headerValue)
+	request.Header.Add(headerName, headerValue)
 	return
 }
 

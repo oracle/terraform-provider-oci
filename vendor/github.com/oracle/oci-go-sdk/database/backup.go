@@ -12,29 +12,30 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// Backup A database backup
+// Backup A database backup.
 // To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized, talk to an administrator. If you're an administrator who needs to write policies to give users access, see Getting Started with Policies (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/policygetstarted.htm).
+// **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type Backup struct {
 
-	// The name of the Availability Domain that the backup is located in.
+	// The name of the availability domain where the database backup is stored.
 	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
 
-	// The OCID of the compartment.
+	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
-	// The Oracle Database Edition of the DbSystem on which the backup was taken.
+	// The Oracle Database edition of the DB system from which the database backup was taken.
 	DatabaseEdition *string `mandatory:"false" json:"databaseEdition"`
 
-	// The OCID of the database.
+	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the database.
 	DatabaseId *string `mandatory:"false" json:"databaseId"`
 
-	// Size of the database in mega-bytes at the time the backup was taken.
+	// Size of the database in megabytes (MB) at the time the backup was taken.
 	DbDataSizeInMBs *int `mandatory:"false" json:"dbDataSizeInMBs"`
 
-	// The user-friendly name for the backup. It does not have to be unique.
+	// The user-friendly name for the backup. The name does not have to be unique.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// The OCID of the backup.
+	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the backup.
 	Id *string `mandatory:"false" json:"id"`
 
 	// Additional information about the current lifecycleState.
@@ -46,7 +47,7 @@ type Backup struct {
 	// The date and time the backup was completed.
 	TimeEnded *common.SDKTime `mandatory:"false" json:"timeEnded"`
 
-	// The date and time the backup starts.
+	// The date and time the backup started.
 	TimeStarted *common.SDKTime `mandatory:"false" json:"timeStarted"`
 
 	// The type of backup.

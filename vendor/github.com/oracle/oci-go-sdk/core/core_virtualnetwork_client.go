@@ -270,7 +270,7 @@ func (client VirtualNetworkClient) connectRemotePeeringConnections(ctx context.C
 	return response, err
 }
 
-// CreateCpe Creates a new virtual Customer-Premises Equipment (CPE) object in the specified compartment. For
+// CreateCpe Creates a new virtual customer-premises equipment (CPE) object in the specified compartment. For
 // more information, see IPSec VPNs (https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Tasks/managingIPsec.htm).
 // For the purposes of access control, you must provide the OCID of the compartment where you want
 // the CPE to reside. Notice that the CPE doesn't have to be in the same compartment as the IPSec
@@ -485,7 +485,7 @@ func (client VirtualNetworkClient) createDhcpOptions(ctx context.Context, reques
 	return response, err
 }
 
-// CreateDrg Creates a new Dynamic Routing Gateway (DRG) in the specified compartment. For more information,
+// CreateDrg Creates a new dynamic routing gateway (DRG) in the specified compartment. For more information,
 // see Dynamic Routing Gateways (DRGs) (https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Tasks/managingDRGs.htm).
 // For the purposes of access control, you must provide the OCID of the compartment where you want
 // the DRG to reside. Notice that the DRG doesn't have to be in the same compartment as the VCN,
@@ -648,20 +648,20 @@ func (client VirtualNetworkClient) createIPSecConnection(ctx context.Context, re
 	return response, err
 }
 
-// CreateInternetGateway Creates a new Internet Gateway for the specified VCN. For more information, see
+// CreateInternetGateway Creates a new internet gateway for the specified VCN. For more information, see
 // Access to the Internet (https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Tasks/managingIGs.htm).
 // For the purposes of access control, you must provide the OCID of the compartment where you want the Internet
-// Gateway to reside. Notice that the Internet Gateway doesn't have to be in the same compartment as the VCN or
+// Gateway to reside. Notice that the internet gateway doesn't have to be in the same compartment as the VCN or
 // other Networking Service components. If you're not sure which compartment to use, put the Internet
 // Gateway in the same compartment with the VCN. For more information about compartments and access control, see
 // Overview of the IAM Service (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/overview.htm). For information about OCIDs, see
 // Resource Identifiers (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
-// You may optionally specify a *display name* for the Internet Gateway, otherwise a default is provided. It
+// You may optionally specify a *display name* for the internet gateway, otherwise a default is provided. It
 // does not have to be unique, and you can change it. Avoid entering confidential information.
-// For traffic to flow between a subnet and an Internet Gateway, you must create a route rule accordingly in
-// the subnet's route table (for example, 0.0.0.0/0 > Internet Gateway). See
+// For traffic to flow between a subnet and an internet gateway, you must create a route rule accordingly in
+// the subnet's route table (for example, 0.0.0.0/0 > internet gateway). See
 // UpdateRouteTable.
-// You must specify whether the Internet Gateway is enabled when you create it. If it's disabled, that means no
+// You must specify whether the internet gateway is enabled when you create it. If it's disabled, that means no
 // traffic will flow to/from the internet even if there's a route rule that enables that traffic. You can later
 // use UpdateInternetGateway to easily disable/enable
 // the gateway without changing the route rule.
@@ -797,7 +797,7 @@ func (client VirtualNetworkClient) createPrivateIp(ctx context.Context, request 
 // Public IP Addresses (https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Tasks/managingpublicIPs.htm).
 // * **For an ephemeral public IP:** You must also specify a `privateIpId` with the OCID of
 // the primary private IP you want to assign the public IP to. The public IP is created in
-// the same Availability Domain as the private IP. An ephemeral public IP must always be
+// the same availability domain as the private IP. An ephemeral public IP must always be
 // assigned to a private IP, and only to the *primary* private IP on a VNIC, not a secondary
 // private IP.
 // * **For a reserved public IP:** You may also optionally assign the public IP to a private
@@ -1112,7 +1112,7 @@ func (client VirtualNetworkClient) createSubnet(ctx context.Context, request com
 	return response, err
 }
 
-// CreateVcn Creates a new Virtual Cloud Network (VCN). For more information, see
+// CreateVcn Creates a new virtual cloud network (VCN). For more information, see
 // VCNs and Subnets (https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Tasks/managingVCNs.htm).
 // For the VCN you must specify a single, contiguous IPv4 CIDR block. Oracle recommends using one of the
 // private IP address ranges specified in RFC 1918 (https://tools.ietf.org/html/rfc1918) (10.0.0.0/8,
@@ -1132,7 +1132,7 @@ func (client VirtualNetworkClient) createSubnet(ctx context.Context, request com
 // The VCN automatically comes with a default route table, default security list, and default set of DHCP options.
 // The OCID for each is returned in the response. You can't delete these default objects, but you can change their
 // contents (that is, change the route rules, security list rules, and so on).
-// The VCN and subnets you create are not accessible until you attach an Internet Gateway or set up an IPSec VPN
+// The VCN and subnets you create are not accessible until you attach an internet gateway or set up an IPSec VPN
 // or FastConnect. For more information, see
 // Overview of the Networking Service (https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Concepts/overview.htm).
 func (client VirtualNetworkClient) CreateVcn(ctx context.Context, request CreateVcnRequest) (response CreateVcnResponse, err error) {
@@ -1548,7 +1548,7 @@ func (client VirtualNetworkClient) deleteIPSecConnection(ctx context.Context, re
 	return response, err
 }
 
-// DeleteInternetGateway Deletes the specified Internet Gateway. The Internet Gateway does not have to be disabled, but
+// DeleteInternetGateway Deletes the specified internet gateway. The internet gateway does not have to be disabled, but
 // there must not be a route table that lists it as a target.
 // This is an asynchronous operation. The gateway's `lifecycleState` will change to TERMINATING temporarily
 // until the gateway is completely removed.
@@ -2608,7 +2608,7 @@ func (client VirtualNetworkClient) getIPSecConnectionDeviceStatus(ctx context.Co
 	return response, err
 }
 
-// GetInternetGateway Gets the specified Internet Gateway's information.
+// GetInternetGateway Gets the specified internet gateway's information.
 func (client VirtualNetworkClient) GetInternetGateway(ctx context.Context, request GetInternetGatewayRequest) (response GetInternetGatewayResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3306,7 +3306,7 @@ func (client VirtualNetworkClient) listAllowedPeerRegionsForRemotePeering(ctx co
 	return response, err
 }
 
-// ListCpes Lists the Customer-Premises Equipment objects (CPEs) in the specified compartment.
+// ListCpes Lists the customer-premises equipment objects (CPEs) in the specified compartment.
 func (client VirtualNetworkClient) ListCpes(ctx context.Context, request ListCpesRequest) (response ListCpesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3782,7 +3782,7 @@ func (client VirtualNetworkClient) listIPSecConnections(ctx context.Context, req
 	return response, err
 }
 
-// ListInternetGateways Lists the Internet Gateways in the specified VCN and the specified compartment.
+// ListInternetGateways Lists the internet gateways in the specified VCN and the specified compartment.
 func (client VirtualNetworkClient) ListInternetGateways(ctx context.Context, request ListInternetGatewaysRequest) (response ListInternetGatewaysResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3924,8 +3924,8 @@ func (client VirtualNetworkClient) listPrivateIps(ctx context.Context, request c
 // To list your reserved public IPs, set `scope` = `REGION`, and leave the
 // `availabilityDomain` parameter empty.
 // To list your ephemeral public IPs, set `scope` = `AVAILABILITY_DOMAIN`, and set the
-// `availabilityDomain` parameter to the desired Availability Domain. An ephemeral public IP
-// is always in the same Availability Domain and compartment as the private IP it's assigned to.
+// `availabilityDomain` parameter to the desired availability domain. An ephemeral public IP
+// is always in the same availability domain and compartment as the private IP it's assigned to.
 func (client VirtualNetworkClient) ListPublicIps(ctx context.Context, request ListPublicIpsRequest) (response ListPublicIpsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4223,7 +4223,7 @@ func (client VirtualNetworkClient) listSubnets(ctx context.Context, request comm
 	return response, err
 }
 
-// ListVcns Lists the Virtual Cloud Networks (VCNs) in the specified compartment.
+// ListVcns Lists the virtual cloud networks (VCNs) in the specified compartment.
 func (client VirtualNetworkClient) ListVcns(ctx context.Context, request ListVcnsRequest) (response ListVcnsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4692,7 +4692,7 @@ func (client VirtualNetworkClient) updateIPSecConnection(ctx context.Context, re
 	return response, err
 }
 
-// UpdateInternetGateway Updates the specified Internet Gateway. You can disable/enable it, or change its display name
+// UpdateInternetGateway Updates the specified internet gateway. You can disable/enable it, or change its display name
 // or tags. Avoid entering confidential information.
 // If the gateway is disabled, that means no traffic will flow to/from the internet even if there's
 // a route rule that enables that traffic.

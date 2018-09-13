@@ -11,7 +11,7 @@ import (
 // GetBackupRequest wrapper for the GetBackup operation
 type GetBackupRequest struct {
 
-	// The backup OCID.
+	// The backup OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
 	BackupId *string `mandatory:"true" contributesTo:"path" name:"backupId"`
 
 	// Unique Oracle-assigned identifier for the request.

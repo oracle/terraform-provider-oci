@@ -12,11 +12,12 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// DatabaseSummary An Oracle database on a DB System. For more information, see Managing Oracle Databases (https://docs.us-phoenix-1.oraclecloud.com/Content/Database/Concepts/overview.htm).
+// DatabaseSummary An Oracle database on a bare metal or virtual machine DB system. For more information, see Bare Metal and Virtual Machine DB Systems (https://docs.us-phoenix-1.oraclecloud.com/Content/Database/Concepts/overview.htm).
 // To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized, talk to an administrator. If you're an administrator who needs to write policies to give users access, see Getting Started with Policies (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/policygetstarted.htm).
+// **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type DatabaseSummary struct {
 
-	// The OCID of the compartment.
+	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The database name.
@@ -25,7 +26,7 @@ type DatabaseSummary struct {
 	// A system-generated name for the database to ensure uniqueness within an Oracle Data Guard group (a primary database and its standby databases). The unique name cannot be changed.
 	DbUniqueName *string `mandatory:"true" json:"dbUniqueName"`
 
-	// The OCID of the database.
+	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the database.
 	Id *string `mandatory:"true" json:"id"`
 
 	// The current state of the database.
@@ -36,10 +37,10 @@ type DatabaseSummary struct {
 
 	DbBackupConfig *DbBackupConfig `mandatory:"false" json:"dbBackupConfig"`
 
-	// The OCID of the database home.
+	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the database home.
 	DbHomeId *string `mandatory:"false" json:"dbHomeId"`
 
-	// Database workload type.
+	// The database workload type.
 	DbWorkload *string `mandatory:"false" json:"dbWorkload"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
@@ -58,7 +59,7 @@ type DatabaseSummary struct {
 	// The national character set for the database.
 	NcharacterSet *string `mandatory:"false" json:"ncharacterSet"`
 
-	// Pluggable database name. It must begin with an alphabetic character and can contain a maximum of eight alphanumeric characters. Special characters are not permitted. Pluggable database should not be same as database name.
+	// The name of the pluggable database. The name must begin with an alphabetic character and can contain a maximum of eight alphanumeric characters. Special characters are not permitted. Pluggable database should not be same as database name.
 	PdbName *string `mandatory:"false" json:"pdbName"`
 
 	// The date and time the database was created.

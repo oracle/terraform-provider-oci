@@ -15,9 +15,11 @@ import (
 // ConsoleHistory An instance's serial console data. It includes configuration messages that occur when the
 // instance boots, such as kernel and BIOS messages, and is useful for checking the status of
 // the instance or diagnosing problems. The console data is minimally formatted ASCII text.
+// **Warning:** Oracle recommends that you avoid using any confidential information when you
+// supply string values using the API.
 type ConsoleHistory struct {
 
-	// The Availability Domain of an instance.
+	// The availability domain of an instance.
 	// Example: `Uocm:PHX-AD-1`
 	AvailabilityDomain *string `mandatory:"true" json:"availabilityDomain"`
 

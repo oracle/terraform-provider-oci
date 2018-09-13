@@ -13,9 +13,10 @@ import (
 )
 
 // AutonomousDataWarehouseSummary An Oracle Autonomous Data Warehouse.
+// **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type AutonomousDataWarehouseSummary struct {
 
-	// The OCID of the compartment.
+	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The number of CPU cores to be made available to the database.

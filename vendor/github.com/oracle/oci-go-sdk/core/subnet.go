@@ -12,7 +12,7 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// Subnet A logical subdivision of a VCN. Each subnet exists in a single Availability Domain and
+// Subnet A logical subdivision of a VCN. Each subnet exists in a single availability domain and
 // consists of a contiguous range of IP addresses that do not overlap with
 // other subnets in the VCN. Example: 172.16.1.0/24. For more information, see
 // Overview of the Networking Service (https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Concepts/overview.htm) and
@@ -20,9 +20,11 @@ import (
 // To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized,
 // talk to an administrator. If you're an administrator who needs to write policies to give users access, see
 // Getting Started with Policies (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/policygetstarted.htm).
+// **Warning:** Oracle recommends that you avoid using any confidential information when you
+// supply string values using the API.
 type Subnet struct {
 
-	// The subnet's Availability Domain.
+	// The subnet's availability domain.
 	// Example: `Uocm:PHX-AD-1`
 	AvailabilityDomain *string `mandatory:"true" json:"availabilityDomain"`
 

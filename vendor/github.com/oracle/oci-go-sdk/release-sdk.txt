@@ -27,3 +27,6 @@ udx-677
 udx-1192
 # Compute: Adding Fault Domain
 udx-588
+1240
+udx-834
+udx-1331

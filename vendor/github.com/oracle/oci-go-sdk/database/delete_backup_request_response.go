@@ -11,7 +11,7 @@ import (
 // DeleteBackupRequest wrapper for the DeleteBackup operation
 type DeleteBackupRequest struct {
 
-	// The backup OCID.
+	// The backup OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
 	BackupId *string `mandatory:"true" contributesTo:"path" name:"backupId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

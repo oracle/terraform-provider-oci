@@ -14,6 +14,8 @@ import (
 
 // DrgAttachment A link between a DRG and VCN. For more information, see
 // Overview of the Networking Service (https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Concepts/overview.htm).
+// **Warning:** Oracle recommends that you avoid using any confidential information when you
+// supply string values using the API.
 type DrgAttachment struct {
 
 	// The OCID of the compartment containing the DRG attachment.

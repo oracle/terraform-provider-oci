@@ -12,7 +12,11 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// VolumeBackupPolicy A policy for automatically creating volume backups according to a recurring schedule. Has a set of one or more schedules that control when and how backups are created.
+// VolumeBackupPolicy A policy for automatically creating volume backups according to a
+// recurring schedule. Has a set of one or more schedules that control when and
+// how backups are created.
+// **Warning:** Oracle recommends that you avoid using any confidential information when you
+// supply string values using the API.
 type VolumeBackupPolicy struct {
 
 	// A user-friendly name for the volume backup policy. Does not have to be unique and it's changeable.

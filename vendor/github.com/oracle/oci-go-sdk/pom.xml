@@ -1,88 +1,111 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
-  <modelVersion>4.0.0</modelVersion>
-
   <parent>
     <groupId>com.oracle.pic.commons</groupId>
     <artifactId>pic-pom</artifactId>
     <version>0.4.3</version>
   </parent>
-
+  <modelVersion>4.0.0</modelVersion>
   <groupId>com.oci.sdk</groupId>
   <artifactId>go-sdk</artifactId>
   <version>0.0.1</version>
-
   <name>Public Go SDK</name>
-
   <properties>
-    <generationType>PUBLIC</generationType>
+    <spec-temp-dir>${project.build.directory}/swagger</spec-temp-dir>
+    <preferred-temp-dir>${project.build.directory}/preferred</preferred-temp-dir>
+    <preprocessed-temp-dir>${project.build.directory}/preprocessed</preprocessed-temp-dir>
+    <enabled-groups-file>${project.basedir}/release-sdk.txt</enabled-groups-file>
+    <enabled-groups-dir>${project.basedir}/codegenConfig/enabledGroups</enabled-groups-dir>
+    <feature-id-file>${project.basedir}/featureId.yaml</feature-id-file>
+    <feature-id-dir>${project.basedir}/codegenConfig/featureIds</feature-id-dir>
     <fullyQualifiedProjectName>${env.PROJECT_NAME}</fullyQualifiedProjectName>
-    <spec.temp.dir>${project.build.directory}</spec.temp.dir>
-    <preferred.temp.dir>${project.build.directory}/preferred</preferred.temp.dir>
-    <preprocessed.temp.dir>${project.build.directory}/preprocessed</preprocessed.temp.dir>
-
-    <coreservices-api-spec.artifact.version>0.2.202</coreservices-api-spec.artifact.version>
-    <coreservices-api-spec.artifact.id>coreservices-api-spec</coreservices-api-spec.artifact.id>
-    <coreservices-api-spec.spec.name>coreservices-api-spec-20160918.cond.yaml</coreservices-api-spec.spec.name>
-
-    <identity-control-plane-api-spec.artifact.version>0.2.101</identity-control-plane-api-spec.artifact.version>
-    <identity-control-plane-api-spec.artifact.id>identity-control-plane-api-spec</identity-control-plane-api-spec.artifact.id>
-    <identity-control-plane-api-spec.spec.name>identity-control-plane-api-spec-20160918.yaml</identity-control-plane-api-spec.spec.name>
-
-    <oralb-api-spec.artifact.version>1.0.17</oralb-api-spec.artifact.version>
-    <oralb-api-spec.artifact.id>oralb-api-spec</oralb-api-spec.artifact.id>
-    <oralb-api-spec.spec.name>spec-20170115.yaml</oralb-api-spec.spec.name>
-
-    <casper-api-spec.artifact.version>1.1.16</casper-api-spec.artifact.version>
-    <casper-api-spec.artifact.id>casper-api-spec</casper-api-spec.artifact.id>
-    <casper-api-spec.spec.name>casper-api.yaml</casper-api-spec.spec.name>
-
-    <dbaas-api-spec.artifact.version>0.0.139</dbaas-api-spec.artifact.version>
-    <dbaas-api-spec.artifact.id>dbaas-api-spec</dbaas-api-spec.artifact.id>
-    <dbaas-api-spec.spec.name>dbaas-api-spec-20160918.yaml</dbaas-api-spec.spec.name>
-
-    <hemlock-spec.artifact.version>0.1.9</hemlock-spec.artifact.version>
-    <hemlock-spec.artifact.id>hemlock-spec</hemlock-spec.artifact.id>
-    <hemlock-spec.spec.name>hemlock-api-20160918.yaml</hemlock-spec.spec.name>
-
-    <fss-api-spec.artifact.version>0.0.13</fss-api-spec.artifact.version>
-    <fss-api-spec.artifact.id>fss-api-spec</fss-api-spec.artifact.id>
-    <fss-api-spec.spec.name>fss-api-spec-20171215.yaml</fss-api-spec.spec.name>
-
-    <public-dns-api-spec.artifact.version>1.0.0-15</public-dns-api-spec.artifact.version>
-    <public-dns-api-spec.artifact.id>public-dns-api-spec</public-dns-api-spec.artifact.id>
-    <public-dns-api-spec.spec.name>public-dns-api-spec.yaml</public-dns-api-spec.spec.name>
-
-    <email-api-spec.artifact.version>1.0.0</email-api-spec.artifact.version>
-    <email-api-spec.artifact.id>email-api-spec</email-api-spec.artifact.id>
-    <email-api-spec.spec.name>email-api-spec.yaml</email-api-spec.spec.name>
-
-    <clusters-api-spec.artifact.version>1.0.11</clusters-api-spec.artifact.version>
-    <clusters-api-spec.artifact.id>clusters-api-spec</clusters-api-spec.artifact.id>
-    <clusters-api-spec.spec.name>clusters-api-spec.yaml</clusters-api-spec.spec.name>
-
-    <resource-query-service-spec.artifact.version>0.0.8</resource-query-service-spec.artifact.version>
-    <resource-query-service-spec.artifact.id>resource-query-service-spec</resource-query-service-spec.artifact.id>
-    <resource-query-service-spec.spec.name>rqs.yaml</resource-query-service-spec.spec.name>
-    <!-- remove when upgrading to pic-pom:0.4.4 -->
-    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-
-    <enabled.groups.file>${project.basedir}/release-sdk.txt</enabled.groups.file>
+    <generationType>PUBLIC</generationType>
+    <inceptionYear>2017</inceptionYear>
+    <coreservices-api-spec-spec-file>source/coreservices-api-spec-20160918.cond.yaml</coreservices-api-spec-spec-file>
+    <identity-control-plane-api-spec-spec-file>identity-control-plane-api-spec-20160918.yaml</identity-control-plane-api-spec-spec-file>
+    <casper-api-spec-spec-file>casper-api.yaml</casper-api-spec-spec-file>
+    <oralb-api-spec-spec-file>spec-20170115.yaml</oralb-api-spec-spec-file>
+    <dbaas-api-spec-spec-file>dbaas-api-spec-20160918.yaml</dbaas-api-spec-spec-file>
+    <fss-api-spec-spec-file>fss-api-spec-20171215.yaml</fss-api-spec-spec-file>
+    <hemlock-spec-spec-file>hemlock-api-20160918.yaml</hemlock-spec-spec-file>
+    <email-api-spec-spec-file>email-api-spec.yaml</email-api-spec-spec-file>
+    <public-dns-api-spec-spec-file>public-dns-api-spec.yaml</public-dns-api-spec-spec-file>
+    <resource-query-service-spec-spec-file>rqs.yaml</resource-query-service-spec-spec-file>
+    <clusters-api-spec-spec-file>clusters-api-spec.yaml</clusters-api-spec-spec-file>
   </properties>
-
+  <dependencies>
+    <dependency>
+      <groupId>com.oracle.pic.commons</groupId>
+      <artifactId>coreservices-api-spec</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.oracle.pic.identity</groupId>
+      <artifactId>identity-control-plane-api-spec</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.oracle.pic.casper</groupId>
+      <artifactId>casper-api-spec</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.oracle.pic.lb</groupId>
+      <artifactId>oralb-api-spec</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.oracle.pic.dbaas</groupId>
+      <artifactId>dbaas-api-spec</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.oracle.pic.ffsw</groupId>
+      <artifactId>fss-api-spec</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.oracle.pic.sherlock</groupId>
+      <artifactId>hemlock-spec</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.oracle.pic.email</groupId>
+      <artifactId>email-api-spec</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.oracle.pic.dns.pub</groupId>
+      <artifactId>public-dns-api-spec</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.oracle.pic.query</groupId>
+      <artifactId>resource-query-service-spec</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.oracle.pic.clusters</groupId>
+      <artifactId>clusters-api-spec</artifactId>
+    </dependency>
+  </dependencies>
   <build>
     <plugins>
-      <!--
-           Unpack all the spec artifacts into ${spec.temp.dir}/<service>
-      -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>3.0.0</version>
+        <executions>
+          <execution>
+            <id>timestamp-property</id>
+            <goals>
+              <goal>timestamp-property</goal>
+            </goals>
+            <phase>validate</phase>
+            <configuration>
+              <name>current.year</name>
+              <pattern>yyyy</pattern>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
         <version>2.10</version>
         <executions>
           <execution>
-            <id>unpack-coreservices</id>
+            <id>unpack-coreservices-api-spec</id>
             <phase>initialize</phase>
             <goals>
               <goal>unpack</goal>
@@ -91,16 +114,16 @@
               <artifactItems>
                 <artifactItem>
                   <groupId>com.oracle.pic.commons</groupId>
-                  <artifactId>${coreservices-api-spec.artifact.id}</artifactId>
+                  <artifactId>coreservices-api-spec</artifactId>
                   <type>jar</type>
                   <includes>**/*</includes>
-                  <outputDirectory>${spec.temp.dir}/core</outputDirectory>
+                  <outputDirectory>${spec-temp-dir}/coreservices-api-spec</outputDirectory>
                 </artifactItem>
               </artifactItems>
             </configuration>
           </execution>
           <execution>
-            <id>unpack-identity</id>
+            <id>unpack-identity-control-plane-api-spec</id>
             <phase>initialize</phase>
             <goals>
               <goal>unpack</goal>
@@ -109,34 +132,16 @@
               <artifactItems>
                 <artifactItem>
                   <groupId>com.oracle.pic.identity</groupId>
-                  <artifactId>${identity-control-plane-api-spec.artifact.id}</artifactId>
+                  <artifactId>identity-control-plane-api-spec</artifactId>
                   <type>jar</type>
                   <includes>**/*</includes>
-                  <outputDirectory>${spec.temp.dir}/identity</outputDirectory>
+                  <outputDirectory>${spec-temp-dir}/identity-control-plane-api-spec</outputDirectory>
                 </artifactItem>
               </artifactItems>
             </configuration>
           </execution>
           <execution>
-            <id>unpack-oralb</id>
-            <phase>initialize</phase>
-            <goals>
-              <goal>unpack</goal>
-            </goals>
-            <configuration>
-              <artifactItems>
-                <artifactItem>
-                  <groupId>com.oracle.pic.lb</groupId>
-                  <artifactId>${oralb-api-spec.artifact.id}</artifactId>
-                  <type>jar</type>
-                  <includes>**/*</includes>
-                  <outputDirectory>${spec.temp.dir}/lb</outputDirectory>
-                </artifactItem>
-              </artifactItems>
-            </configuration>
-          </execution>
-          <execution>
-            <id>unpack-objectstorage</id>
+            <id>unpack-casper-api-spec</id>
             <phase>initialize</phase>
             <goals>
               <goal>unpack</goal>
@@ -145,16 +150,34 @@
               <artifactItems>
                 <artifactItem>
                   <groupId>com.oracle.pic.casper</groupId>
-                  <artifactId>${casper-api-spec.artifact.id}</artifactId>
+                  <artifactId>casper-api-spec</artifactId>
                   <type>jar</type>
                   <includes>**/*</includes>
-                  <outputDirectory>${spec.temp.dir}/objectstorage</outputDirectory>
+                  <outputDirectory>${spec-temp-dir}/casper-api-spec</outputDirectory>
                 </artifactItem>
               </artifactItems>
             </configuration>
           </execution>
           <execution>
-            <id>unpack-database</id>
+            <id>unpack-oralb-api-spec</id>
+            <phase>initialize</phase>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>com.oracle.pic.lb</groupId>
+                  <artifactId>oralb-api-spec</artifactId>
+                  <type>jar</type>
+                  <includes>**/*</includes>
+                  <outputDirectory>${spec-temp-dir}/oralb-api-spec</outputDirectory>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+          </execution>
+          <execution>
+            <id>unpack-dbaas-api-spec</id>
             <phase>initialize</phase>
             <goals>
               <goal>unpack</goal>
@@ -163,34 +186,16 @@
               <artifactItems>
                 <artifactItem>
                   <groupId>com.oracle.pic.dbaas</groupId>
-                  <artifactId>${dbaas-api-spec.artifact.id}</artifactId>
+                  <artifactId>dbaas-api-spec</artifactId>
                   <type>jar</type>
                   <includes>**/*</includes>
-                  <outputDirectory>${spec.temp.dir}/database</outputDirectory>
+                  <outputDirectory>${spec-temp-dir}/dbaas-api-spec</outputDirectory>
                 </artifactItem>
               </artifactItems>
             </configuration>
           </execution>
           <execution>
-            <id>unpack-audit</id>
-            <phase>initialize</phase>
-            <goals>
-              <goal>unpack</goal>
-            </goals>
-            <configuration>
-              <artifactItems>
-                <artifactItem>
-                  <groupId>com.oracle.pic.sherlock</groupId>
-                  <artifactId>${hemlock-spec.artifact.id}</artifactId>
-                  <type>jar</type>
-                  <includes>**/*</includes>
-                  <outputDirectory>${spec.temp.dir}/audit</outputDirectory>
-                </artifactItem>
-              </artifactItems>
-            </configuration>
-          </execution>
-          <execution>
-            <id>unpack-filestorage</id>
+            <id>unpack-fss-api-spec</id>
             <phase>initialize</phase>
             <goals>
               <goal>unpack</goal>
@@ -199,16 +204,16 @@
               <artifactItems>
                 <artifactItem>
                   <groupId>com.oracle.pic.ffsw</groupId>
-                  <artifactId>${fss-api-spec.artifact.id}</artifactId>
+                  <artifactId>fss-api-spec</artifactId>
                   <type>jar</type>
                   <includes>**/*</includes>
-                  <outputDirectory>${spec.temp.dir}/filestorage</outputDirectory>
+                  <outputDirectory>${spec-temp-dir}/fss-api-spec</outputDirectory>
                 </artifactItem>
               </artifactItems>
             </configuration>
           </execution>
           <execution>
-            <id>unpack-dns</id>
+            <id>unpack-hemlock-spec</id>
             <phase>initialize</phase>
             <goals>
               <goal>unpack</goal>
@@ -216,17 +221,17 @@
             <configuration>
               <artifactItems>
                 <artifactItem>
-                  <groupId>com.oracle.pic.dns.pub</groupId>
-                  <artifactId>${public-dns-api-spec.artifact.id}</artifactId>
+                  <groupId>com.oracle.pic.sherlock</groupId>
+                  <artifactId>hemlock-spec</artifactId>
                   <type>jar</type>
                   <includes>**/*</includes>
-                  <outputDirectory>${spec.temp.dir}/dns</outputDirectory>
+                  <outputDirectory>${spec-temp-dir}/hemlock-spec</outputDirectory>
                 </artifactItem>
               </artifactItems>
             </configuration>
           </execution>
           <execution>
-            <id>unpack-email</id>
+            <id>unpack-email-api-spec</id>
             <phase>initialize</phase>
             <goals>
               <goal>unpack</goal>
@@ -235,608 +240,618 @@
               <artifactItems>
                 <artifactItem>
                   <groupId>com.oracle.pic.email</groupId>
-                  <artifactId>${email-api-spec.artifact.id}</artifactId>
+                  <artifactId>email-api-spec</artifactId>
                   <type>jar</type>
                   <includes>**/*</includes>
-                  <outputDirectory>${spec.temp.dir}/email</outputDirectory>
+                  <outputDirectory>${spec-temp-dir}/email-api-spec</outputDirectory>
                 </artifactItem>
               </artifactItems>
             </configuration>
           </execution>
           <execution>
-              <id>unpack-containerengine</id>
-              <phase>initialize</phase>
-              <goals>
-                  <goal>unpack</goal>
-              </goals>
-              <configuration>
-                  <artifactItems>
-                      <artifactItem>
-                          <groupId>com.oracle.pic.clusters</groupId>
-                          <artifactId>${clusters-api-spec.artifact.id}</artifactId>
-                          <type>jar</type>
-                          <includes>**/*</includes>
-                          <outputDirectory>${spec.temp.dir}/containerengine</outputDirectory>
-                      </artifactItem>
-                  </artifactItems>
-              </configuration>
+            <id>unpack-public-dns-api-spec</id>
+            <phase>initialize</phase>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>com.oracle.pic.dns.pub</groupId>
+                  <artifactId>public-dns-api-spec</artifactId>
+                  <type>jar</type>
+                  <includes>**/*</includes>
+                  <outputDirectory>${spec-temp-dir}/public-dns-api-spec</outputDirectory>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
           </execution>
           <execution>
-              <id>unpack-resourcesearch</id>
-              <phase>initialize</phase>
-              <goals>
-                  <goal>unpack</goal>
-              </goals>
-              <configuration>
-                  <artifactItems>
-                      <artifactItem>
-                          <groupId>com.oracle.pic.query</groupId>
-                          <artifactId>${resource-query-service-spec.artifact.id}</artifactId>
-                          <type>jar</type>
-                          <includes>**/*</includes>
-                          <outputDirectory>${spec.temp.dir}/resourcesearch</outputDirectory>
-                      </artifactItem>
-                  </artifactItems>
-              </configuration>
+            <id>unpack-resource-query-service-spec</id>
+            <phase>initialize</phase>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>com.oracle.pic.query</groupId>
+                  <artifactId>resource-query-service-spec</artifactId>
+                  <type>jar</type>
+                  <includes>**/*</includes>
+                  <outputDirectory>${spec-temp-dir}/resource-query-service-spec</outputDirectory>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+          </execution>
+          <execution>
+            <id>unpack-clusters-api-spec</id>
+            <phase>initialize</phase>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>com.oracle.pic.clusters</groupId>
+                  <artifactId>clusters-api-spec</artifactId>
+                  <type>jar</type>
+                  <includes>**/*</includes>
+                  <outputDirectory>${spec-temp-dir}/clusters-api-spec</outputDirectory>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
           </execution>
         </executions>
       </plugin>
-
-      <!--
-           Preprocess all the specs in ${spec.temp.dir}/<service> and write to ${preprocessed.temp.dir}
-      -->
       <plugin>
         <groupId>com.oracle.oci.sdk.utilities</groupId>
         <artifactId>spec-conditionals-preprocessor-plugin</artifactId>
-        <version>1.0.1-SNAPSHOT</version>
+        <version>1.0.6-SNAPSHOT</version>
         <executions>
-          <!-- Core -->
           <execution>
-            <id>spec-conditionals-prefer-core</id>
+            <id>spec-conditionals-prefer-coreservices-api-spec</id>
             <phase>initialize</phase>
             <goals>
               <goal>prefer</goal>
             </goals>
             <configuration>
               <inputFiles>
-                <!-- New layout: source/<spec.proto.yaml> -->
-                <inputFile>${spec.temp.dir}/core/source/${coreservices-api-spec.spec.name}</inputFile>
-                <!-- Old layout: 20160918/<spec.proto.yaml> -->
-                <inputFile>${spec.temp.dir}/core/20160918/${coreservices-api-spec.spec.name}</inputFile>
+                <inputFile>${spec-temp-dir}/coreservices-api-spec/source/${coreservices-api-spec-spec-file}</inputFile>
+                <inputFile>${spec-temp-dir}/coreservices-api-spec/${coreservices-api-spec-spec-file}</inputFile>
               </inputFiles>
-              <outputFile>${preferred.temp.dir}/${coreservices-api-spec.spec.name}</outputFile>
+              <outputFile>${preferred-temp-dir}/coreservices-api-spec/${coreservices-api-spec-spec-file}</outputFile>
             </configuration>
           </execution>
           <execution>
-            <id>spec-conditionals-preprocess-core-base</id>
+            <id>spec-conditionals-preprocess-coreservices-api-spec</id>
             <phase>initialize</phase>
             <goals>
               <goal>preprocess</goal>
             </goals>
             <configuration>
-              <inputFile>${preferred.temp.dir}/${coreservices-api-spec.spec.name}</inputFile>
-              <outputFile>${preprocessed.temp.dir}/${coreservices-api-spec.spec.name}</outputFile>
-              <groupFile>${enabled.groups.file}</groupFile>
+              <inputFile>${preferred-temp-dir}/coreservices-api-spec/${coreservices-api-spec-spec-file}</inputFile>
+              <outputFile>${preprocessed-temp-dir}/coreservices-api-spec/${coreservices-api-spec-spec-file}</outputFile>
+              <groupFile>${enabled-groups-file}</groupFile>
+              <groupFileCollectionDir>${enabled-groups-dir}</groupFileCollectionDir>
             </configuration>
           </execution>
-
-          <!-- Identity -->
           <execution>
-            <id>spec-conditionals-prefer-identity</id>
+            <id>spec-conditionals-prefer-identity-control-plane-api-spec</id>
             <phase>initialize</phase>
             <goals>
               <goal>prefer</goal>
             </goals>
             <configuration>
               <inputFiles>
-                <!-- New layout: source/<spec.proto.yaml> -->
-                <inputFile>${spec.temp.dir}/identity/source/${identity-control-plane-api-spec.spec.name}</inputFile>
-                <!-- Old layout: ./<spec.proto.yaml> -->
-                <inputFile>${spec.temp.dir}/identity/${identity-control-plane-api-spec.spec.name}</inputFile>
+                <inputFile>${spec-temp-dir}/identity-control-plane-api-spec/source/${identity-control-plane-api-spec-spec-file}</inputFile>
+                <inputFile>${spec-temp-dir}/identity-control-plane-api-spec/${identity-control-plane-api-spec-spec-file}</inputFile>
               </inputFiles>
-              <outputFile>${preferred.temp.dir}/${identity-control-plane-api-spec.spec.name}</outputFile>
+              <outputFile>${preferred-temp-dir}/identity-control-plane-api-spec/${identity-control-plane-api-spec-spec-file}</outputFile>
             </configuration>
           </execution>
           <execution>
-            <id>spec-conditionals-preprocess-identity</id>
+            <id>spec-conditionals-preprocess-identity-control-plane-api-spec</id>
             <phase>initialize</phase>
             <goals>
               <goal>preprocess</goal>
             </goals>
             <configuration>
-              <inputFile>${preferred.temp.dir}/${identity-control-plane-api-spec.spec.name}</inputFile>
-              <outputFile>${preprocessed.temp.dir}/${identity-control-plane-api-spec.spec.name}</outputFile>
-              <groupFile>${enabled.groups.file}</groupFile>
+              <inputFile>${preferred-temp-dir}/identity-control-plane-api-spec/${identity-control-plane-api-spec-spec-file}</inputFile>
+              <outputFile>${preprocessed-temp-dir}/identity-control-plane-api-spec/${identity-control-plane-api-spec-spec-file}</outputFile>
+              <groupFile>${enabled-groups-file}</groupFile>
+              <groupFileCollectionDir>${enabled-groups-dir}</groupFileCollectionDir>
             </configuration>
           </execution>
-
-          <!-- Casper -->
           <execution>
-            <id>spec-conditionals-prefer-objectstorage</id>
+            <id>spec-conditionals-prefer-casper-api-spec</id>
             <phase>initialize</phase>
             <goals>
               <goal>prefer</goal>
             </goals>
             <configuration>
               <inputFiles>
-                <!-- New layout: source/<spec.proto.yaml> -->
-                <inputFile>${spec.temp.dir}/objectstorage/source/${casper-api-spec.spec.name}</inputFile>
-                <!-- Old layout: ./<spec.proto.yaml> -->
-                <inputFile>${spec.temp.dir}/objectstorage/${casper-api-spec.spec.name}</inputFile>
+                <inputFile>${spec-temp-dir}/casper-api-spec/source/${casper-api-spec-spec-file}</inputFile>
+                <inputFile>${spec-temp-dir}/casper-api-spec/${casper-api-spec-spec-file}</inputFile>
               </inputFiles>
-              <outputFile>${preferred.temp.dir}/${casper-api-spec.spec.name}</outputFile>
+              <outputFile>${preferred-temp-dir}/casper-api-spec/${casper-api-spec-spec-file}</outputFile>
             </configuration>
           </execution>
           <execution>
-            <id>spec-conditionals-preprocess-objectstorage</id>
+            <id>spec-conditionals-preprocess-casper-api-spec</id>
             <phase>initialize</phase>
             <goals>
               <goal>preprocess</goal>
             </goals>
             <configuration>
-              <inputFile>${preferred.temp.dir}/${casper-api-spec.spec.name}</inputFile>
-              <outputFile>${preprocessed.temp.dir}/${casper-api-spec.spec.name}</outputFile>
-              <groupFile>${enabled.groups.file}</groupFile>
+              <inputFile>${preferred-temp-dir}/casper-api-spec/${casper-api-spec-spec-file}</inputFile>
+              <outputFile>${preprocessed-temp-dir}/casper-api-spec/${casper-api-spec-spec-file}</outputFile>
+              <groupFile>${enabled-groups-file}</groupFile>
+              <groupFileCollectionDir>${enabled-groups-dir}</groupFileCollectionDir>
             </configuration>
           </execution>
-
-          <!-- OraLB -->
           <execution>
-            <id>spec-conditionals-prefer-lb</id>
+            <id>spec-conditionals-prefer-oralb-api-spec</id>
             <phase>initialize</phase>
             <goals>
               <goal>prefer</goal>
             </goals>
             <configuration>
               <inputFiles>
-                <!-- New layout: source/<spec.proto.yaml> -->
-                <inputFile>${spec.temp.dir}/lb/source/${oralb-api-spec.spec.name}</inputFile>
-                <!-- Old layout: ./<spec.proto.yaml> -->
-                <inputFile>${spec.temp.dir}/lb/${oralb-api-spec.spec.name}</inputFile>
+                <inputFile>${spec-temp-dir}/oralb-api-spec/source/${oralb-api-spec-spec-file}</inputFile>
+                <inputFile>${spec-temp-dir}/oralb-api-spec/${oralb-api-spec-spec-file}</inputFile>
               </inputFiles>
-              <outputFile>${preferred.temp.dir}/${oralb-api-spec.spec.name}</outputFile>
+              <outputFile>${preferred-temp-dir}/oralb-api-spec/${oralb-api-spec-spec-file}</outputFile>
             </configuration>
           </execution>
           <execution>
-            <id>spec-conditionals-preprocess-lb</id>
+            <id>spec-conditionals-preprocess-oralb-api-spec</id>
             <phase>initialize</phase>
             <goals>
               <goal>preprocess</goal>
             </goals>
             <configuration>
-              <inputFile>${preferred.temp.dir}/${oralb-api-spec.spec.name}</inputFile>
-              <outputFile>${preprocessed.temp.dir}/${oralb-api-spec.spec.name}</outputFile>
-              <groupFile>${enabled.groups.file}</groupFile>
+              <inputFile>${preferred-temp-dir}/oralb-api-spec/${oralb-api-spec-spec-file}</inputFile>
+              <outputFile>${preprocessed-temp-dir}/oralb-api-spec/${oralb-api-spec-spec-file}</outputFile>
+              <groupFile>${enabled-groups-file}</groupFile>
+              <groupFileCollectionDir>${enabled-groups-dir}</groupFileCollectionDir>
             </configuration>
           </execution>
-
-          <!-- DBaaS -->
           <execution>
-            <id>spec-conditionals-prefer-database</id>
+            <id>spec-conditionals-prefer-dbaas-api-spec</id>
             <phase>initialize</phase>
             <goals>
               <goal>prefer</goal>
             </goals>
             <configuration>
               <inputFiles>
-                <!-- New layout: source/<spec.proto.yaml> -->
-                <inputFile>${spec.temp.dir}/database/source/${dbaas-api-spec.spec.name}</inputFile>
-                <!-- Old layout: ./<spec.proto.yaml> -->
-                <inputFile>${spec.temp.dir}/database/${dbaas-api-spec.spec.name}</inputFile>
+                <inputFile>${spec-temp-dir}/dbaas-api-spec/source/${dbaas-api-spec-spec-file}</inputFile>
+                <inputFile>${spec-temp-dir}/dbaas-api-spec/${dbaas-api-spec-spec-file}</inputFile>
               </inputFiles>
-              <outputFile>${preferred.temp.dir}/${dbaas-api-spec.spec.name}</outputFile>
+              <outputFile>${preferred-temp-dir}/dbaas-api-spec/${dbaas-api-spec-spec-file}</outputFile>
             </configuration>
           </execution>
           <execution>
-            <id>spec-conditionals-preprocess-database</id>
+            <id>spec-conditionals-preprocess-dbaas-api-spec</id>
             <phase>initialize</phase>
             <goals>
               <goal>preprocess</goal>
             </goals>
             <configuration>
-              <inputFile>${preferred.temp.dir}/${dbaas-api-spec.spec.name}</inputFile>
-              <outputFile>${preprocessed.temp.dir}/${dbaas-api-spec.spec.name}</outputFile>
-              <groupFile>${enabled.groups.file}</groupFile>
+              <inputFile>${preferred-temp-dir}/dbaas-api-spec/${dbaas-api-spec-spec-file}</inputFile>
+              <outputFile>${preprocessed-temp-dir}/dbaas-api-spec/${dbaas-api-spec-spec-file}</outputFile>
+              <groupFile>${enabled-groups-file}</groupFile>
+              <groupFileCollectionDir>${enabled-groups-dir}</groupFileCollectionDir>
             </configuration>
           </execution>
-
-          <!-- Audit -->
           <execution>
-            <id>spec-conditionals-prefer-audit</id>
+            <id>spec-conditionals-prefer-fss-api-spec</id>
             <phase>initialize</phase>
             <goals>
               <goal>prefer</goal>
             </goals>
             <configuration>
               <inputFiles>
-                <!-- New layout: source/<spec.proto.yaml> -->
-                <inputFile>${spec.temp.dir}/audit/source/${hemlock-spec.spec.name}</inputFile>
-                <!-- Old layout: ./<spec.proto.yaml> -->
-                <inputFile>${spec.temp.dir}/audit/${hemlock-spec.spec.name}</inputFile>
+                <inputFile>${spec-temp-dir}/fss-api-spec/source/${fss-api-spec-spec-file}</inputFile>
+                <inputFile>${spec-temp-dir}/fss-api-spec/${fss-api-spec-spec-file}</inputFile>
               </inputFiles>
-              <outputFile>${preferred.temp.dir}/${hemlock-spec.spec.name}</outputFile>
+              <outputFile>${preferred-temp-dir}/fss-api-spec/${fss-api-spec-spec-file}</outputFile>
             </configuration>
           </execution>
           <execution>
-            <id>spec-conditionals-preprocess-audit</id>
+            <id>spec-conditionals-preprocess-fss-api-spec</id>
             <phase>initialize</phase>
             <goals>
               <goal>preprocess</goal>
             </goals>
             <configuration>
-              <inputFile>${preferred.temp.dir}/${hemlock-spec.spec.name}</inputFile>
-              <outputFile>${preprocessed.temp.dir}/${hemlock-spec.spec.name}</outputFile>
-              <groupFile>${enabled.groups.file}</groupFile>
+              <inputFile>${preferred-temp-dir}/fss-api-spec/${fss-api-spec-spec-file}</inputFile>
+              <outputFile>${preprocessed-temp-dir}/fss-api-spec/${fss-api-spec-spec-file}</outputFile>
+              <groupFile>${enabled-groups-file}</groupFile>
+              <groupFileCollectionDir>${enabled-groups-dir}</groupFileCollectionDir>
             </configuration>
           </execution>
-
-          <!-- FileStorage -->
           <execution>
-            <id>spec-conditionals-prefer-filestorage</id>
+            <id>spec-conditionals-prefer-hemlock-spec</id>
             <phase>initialize</phase>
             <goals>
               <goal>prefer</goal>
             </goals>
             <configuration>
               <inputFiles>
-                <!-- New layout: source/<spec.proto.yaml> -->
-                <inputFile>${spec.temp.dir}/filestorage/source/${fss-api-spec.spec.name}</inputFile>
-                <!-- Old layout: ./<spec.proto.yaml> -->
-                <inputFile>${spec.temp.dir}/filestorage/${fss-api-spec.spec.name}</inputFile>
+                <inputFile>${spec-temp-dir}/hemlock-spec/source/${hemlock-spec-spec-file}</inputFile>
+                <inputFile>${spec-temp-dir}/hemlock-spec/${hemlock-spec-spec-file}</inputFile>
               </inputFiles>
-              <outputFile>${preferred.temp.dir}/${fss-api-spec.spec.name}</outputFile>
+              <outputFile>${preferred-temp-dir}/hemlock-spec/${hemlock-spec-spec-file}</outputFile>
             </configuration>
           </execution>
           <execution>
-            <id>spec-conditionals-preprocess-filestorage</id>
+            <id>spec-conditionals-preprocess-hemlock-spec</id>
             <phase>initialize</phase>
             <goals>
               <goal>preprocess</goal>
             </goals>
             <configuration>
-              <inputFile>${preferred.temp.dir}/${fss-api-spec.spec.name}</inputFile>
-              <outputFile>${preprocessed.temp.dir}/${fss-api-spec.spec.name}</outputFile>
-              <groupFile>${enabled.groups.file}</groupFile>
+              <inputFile>${preferred-temp-dir}/hemlock-spec/${hemlock-spec-spec-file}</inputFile>
+              <outputFile>${preprocessed-temp-dir}/hemlock-spec/${hemlock-spec-spec-file}</outputFile>
+              <groupFile>${enabled-groups-file}</groupFile>
+              <groupFileCollectionDir>${enabled-groups-dir}</groupFileCollectionDir>
             </configuration>
           </execution>
-
-           <!-- DNS -->
           <execution>
-            <id>spec-conditionals-prefer-dns</id>
+            <id>spec-conditionals-prefer-email-api-spec</id>
             <phase>initialize</phase>
             <goals>
               <goal>prefer</goal>
             </goals>
             <configuration>
               <inputFiles>
-                <!-- New layout: source/<spec.proto.yaml> -->
-                <inputFile>${spec.temp.dir}/dns/source/${public-dns-api-spec.spec.name}</inputFile>
-                <!-- Old layout: ./<spec.proto.yaml> -->
-                <inputFile>${spec.temp.dir}/dns/${public-dns-api-spec.spec.name}</inputFile>
+                <inputFile>${spec-temp-dir}/email-api-spec/source/${email-api-spec-spec-file}</inputFile>
+                <inputFile>${spec-temp-dir}/email-api-spec/${email-api-spec-spec-file}</inputFile>
               </inputFiles>
-              <outputFile>${preferred.temp.dir}/${public-dns-api-spec.spec.name}</outputFile>
+              <outputFile>${preferred-temp-dir}/email-api-spec/${email-api-spec-spec-file}</outputFile>
             </configuration>
           </execution>
           <execution>
-            <id>spec-conditionals-preprocess-dns</id>
+            <id>spec-conditionals-preprocess-email-api-spec</id>
             <phase>initialize</phase>
             <goals>
               <goal>preprocess</goal>
             </goals>
             <configuration>
-              <inputFile>${preferred.temp.dir}/${public-dns-api-spec.spec.name}</inputFile>
-              <outputFile>${preprocessed.temp.dir}/${public-dns-api-spec.spec.name}</outputFile>
-              <groupFile>${enabled.groups.file}</groupFile>
+              <inputFile>${preferred-temp-dir}/email-api-spec/${email-api-spec-spec-file}</inputFile>
+              <outputFile>${preprocessed-temp-dir}/email-api-spec/${email-api-spec-spec-file}</outputFile>
+              <groupFile>${enabled-groups-file}</groupFile>
+              <groupFileCollectionDir>${enabled-groups-dir}</groupFileCollectionDir>
             </configuration>
           </execution>
-
-           <!-- email -->
           <execution>
-            <id>spec-conditionals-prefer-email</id>
+            <id>spec-conditionals-prefer-public-dns-api-spec</id>
             <phase>initialize</phase>
             <goals>
               <goal>prefer</goal>
             </goals>
             <configuration>
               <inputFiles>
-                <!-- New layout: source/<spec.proto.yaml> -->
-                <inputFile>${spec.temp.dir}/email/source/${email-api-spec.spec.name}</inputFile>
-                <!-- Old layout: ./<spec.proto.yaml> -->
-                <inputFile>${spec.temp.dir}/email/${email-api-spec.spec.name}</inputFile>
+                <inputFile>${spec-temp-dir}/public-dns-api-spec/source/${public-dns-api-spec-spec-file}</inputFile>
+                <inputFile>${spec-temp-dir}/public-dns-api-spec/${public-dns-api-spec-spec-file}</inputFile>
               </inputFiles>
-              <outputFile>${preferred.temp.dir}/${email-api-spec.spec.name}</outputFile>
+              <outputFile>${preferred-temp-dir}/public-dns-api-spec/${public-dns-api-spec-spec-file}</outputFile>
             </configuration>
           </execution>
           <execution>
-            <id>spec-conditionals-preprocess-email</id>
+            <id>spec-conditionals-preprocess-public-dns-api-spec</id>
             <phase>initialize</phase>
             <goals>
               <goal>preprocess</goal>
             </goals>
             <configuration>
-              <inputFile>${preferred.temp.dir}/${email-api-spec.spec.name}</inputFile>
-              <outputFile>${preprocessed.temp.dir}/${email-api-spec.spec.name}</outputFile>
-              <groupFile>${enabled.groups.file}</groupFile>
+              <inputFile>${preferred-temp-dir}/public-dns-api-spec/${public-dns-api-spec-spec-file}</inputFile>
+              <outputFile>${preprocessed-temp-dir}/public-dns-api-spec/${public-dns-api-spec-spec-file}</outputFile>
+              <groupFile>${enabled-groups-file}</groupFile>
+              <groupFileCollectionDir>${enabled-groups-dir}</groupFileCollectionDir>
             </configuration>
           </execution>
-
-          <!-- container engine-->
           <execution>
-              <id>spec-conditionals-prefer-containerengine</id>
-              <phase>initialize</phase>
-              <goals>
-                  <goal>prefer</goal>
-              </goals>
-              <configuration>
-                  <inputFiles>
-                      <inputFile>${spec.temp.dir}/containerengine/source/${clusters-api-spec.spec.name}</inputFile>
-                      <inputFile>${spec.temp.dir}/containerengine/${clusters-api-spec.spec.name}</inputFile>
-                  </inputFiles>
-                  <outputFile>${preferred.temp.dir}/${clusters-api-spec.spec.name}</outputFile>
-              </configuration>
+            <id>spec-conditionals-prefer-resource-query-service-spec</id>
+            <phase>initialize</phase>
+            <goals>
+              <goal>prefer</goal>
+            </goals>
+            <configuration>
+              <inputFiles>
+                <inputFile>${spec-temp-dir}/resource-query-service-spec/source/${resource-query-service-spec-spec-file}</inputFile>
+                <inputFile>${spec-temp-dir}/resource-query-service-spec/${resource-query-service-spec-spec-file}</inputFile>
+              </inputFiles>
+              <outputFile>${preferred-temp-dir}/resource-query-service-spec/${resource-query-service-spec-spec-file}</outputFile>
+            </configuration>
           </execution>
           <execution>
-              <id>spec-conditionals-preprocess-containerengine</id>
-              <phase>initialize</phase>
-              <goals>
-                  <goal>preprocess</goal>
-              </goals>
-              <configuration>
-                  <inputFile>${preferred.temp.dir}/${clusters-api-spec.spec.name}</inputFile>
-                  <outputFile>${preprocessed.temp.dir}/${clusters-api-spec.spec.name}</outputFile>
-                  <groupFile>${enabled.groups.file}</groupFile>
-              </configuration>
-          </execution>
-
-          <!--RQS-->
-          <execution>
-              <id>spec-conditionals-prefer-resourcesearch</id>
-              <phase>initialize</phase>
-              <goals>
-                  <goal>prefer</goal>
-              </goals>
-              <configuration>
-                  <inputFiles>
-                      <inputFile>${spec.temp.dir}/resourcesearch/source/${resource-query-service-spec.spec.name}</inputFile>
-                      <inputFile>${spec.temp.dir}/resourcesearch/${resource-query-service-spec.spec.name}</inputFile>
-                  </inputFiles>
-                  <outputFile>${preferred.temp.dir}/${resource-query-service-spec.spec.name}</outputFile>
-              </configuration>
+            <id>spec-conditionals-preprocess-resource-query-service-spec</id>
+            <phase>initialize</phase>
+            <goals>
+              <goal>preprocess</goal>
+            </goals>
+            <configuration>
+              <inputFile>${preferred-temp-dir}/resource-query-service-spec/${resource-query-service-spec-spec-file}</inputFile>
+              <outputFile>${preprocessed-temp-dir}/resource-query-service-spec/${resource-query-service-spec-spec-file}</outputFile>
+              <groupFile>${enabled-groups-file}</groupFile>
+              <groupFileCollectionDir>${enabled-groups-dir}</groupFileCollectionDir>
+            </configuration>
           </execution>
           <execution>
-              <id>spec-conditionals-preprocess-resourcesearch</id>
-              <phase>initialize</phase>
-              <goals>
-                  <goal>preprocess</goal>
-              </goals>
-              <configuration>
-                  <inputFile>${preferred.temp.dir}/${resource-query-service-spec.spec.name}</inputFile>
-                  <outputFile>${preprocessed.temp.dir}/${resource-query-service-spec.spec.name}</outputFile>
-                  <groupFile>${enabled.groups.file}</groupFile>
-              </configuration>
+            <id>spec-conditionals-prefer-clusters-api-spec</id>
+            <phase>initialize</phase>
+            <goals>
+              <goal>prefer</goal>
+            </goals>
+            <configuration>
+              <inputFiles>
+                <inputFile>${spec-temp-dir}/clusters-api-spec/source/${clusters-api-spec-spec-file}</inputFile>
+                <inputFile>${spec-temp-dir}/clusters-api-spec/${clusters-api-spec-spec-file}</inputFile>
+              </inputFiles>
+              <outputFile>${preferred-temp-dir}/clusters-api-spec/${clusters-api-spec-spec-file}</outputFile>
+            </configuration>
+          </execution>
+          <execution>
+            <id>spec-conditionals-preprocess-clusters-api-spec</id>
+            <phase>initialize</phase>
+            <goals>
+              <goal>preprocess</goal>
+            </goals>
+            <configuration>
+              <inputFile>${preferred-temp-dir}/clusters-api-spec/${clusters-api-spec-spec-file}</inputFile>
+              <outputFile>${preprocessed-temp-dir}/clusters-api-spec/${clusters-api-spec-spec-file}</outputFile>
+              <groupFile>${enabled-groups-file}</groupFile>
+              <groupFileCollectionDir>${enabled-groups-dir}</groupFileCollectionDir>
+            </configuration>
           </execution>
         </executions>
       </plugin>
-
-      <!--
-           Generate the SDK from the preprocessed specs in ${preprocessed.temp.dir}
-      -->
       <plugin>
         <groupId>com.oracle.bmc.sdk</groupId>
         <artifactId>bmc-sdk-swagger-maven-plugin</artifactId>
-        <version>1.36-SNAPSHOT</version>
+        <version>1.39-SNAPSHOT</version>
+        <configuration>
+          <isTestGenerationEnabled>false</isTestGenerationEnabled>
+        </configuration>
         <executions>
           <execution>
-            <id>go-public-sdk-identity</id>
+            <id>go-public-sdk-identity-control-plane-api-spec</id>
             <phase>compile</phase>
             <goals>
               <goal>generate</goal>
             </goals>
             <configuration>
               <language>oracle-go-sdk</language>
-              <specPath>${preprocessed.temp.dir}/${identity-control-plane-api-spec.spec.name}</specPath>
+              <specPath>${preprocessed-temp-dir}/identity-control-plane-api-spec/${identity-control-plane-api-spec-spec-file}</specPath>
               <outputDir>${env.GOPATH}/src/${fullyQualifiedProjectName}</outputDir>
-	      <specGenerationType>${generationType}</specGenerationType>
+              <specGenerationType>${generationType}</specGenerationType>
               <basePackage>identity</basePackage>
               <additionalProperties>
                 <specName>identity</specName>
                 <fqProjectName>${fullyQualifiedProjectName}</fqProjectName>
+                <serviceHostName>identity</serviceHostName>
               </additionalProperties>
               <featureIdConfigFile>${project.basedir}/featureId.yaml</featureIdConfigFile>
+              <featureIdConfigDir>${project.basedir}/codegenConfig/featureIds</featureIdConfigDir>
             </configuration>
           </execution>
           <execution>
-            <id>go-public-sdk-coreservices</id>
+            <id>go-public-sdk-coreservices-api-spec</id>
             <phase>compile</phase>
             <goals>
               <goal>generate</goal>
             </goals>
             <configuration>
               <language>oracle-go-sdk</language>
-              <specPath>${preprocessed.temp.dir}/${coreservices-api-spec.spec.name}</specPath>
+              <specPath>${preprocessed-temp-dir}/coreservices-api-spec/${coreservices-api-spec-spec-file}</specPath>
               <outputDir>${env.GOPATH}/src/${fullyQualifiedProjectName}</outputDir>
-	      <specGenerationType>${generationType}</specGenerationType>
               <basePackage>core</basePackage>
+              <specGenerationType>${generationType}</specGenerationType>
               <additionalProperties>
                 <specName>core</specName>
                 <fqProjectName>${fullyQualifiedProjectName}</fqProjectName>
                 <serviceHostName>iaas</serviceHostName>
               </additionalProperties>
-              <featureIdConfigFile>${project.basedir}/featureId.yaml</featureIdConfigFile>
+              <featureIdConfigFile>${feature-id-file}</featureIdConfigFile>
+              <featureIdConfigDir>${feature-id-dir}</featureIdConfigDir>
+              <isTestGenerationEnabled>true</isTestGenerationEnabled>
             </configuration>
           </execution>
           <execution>
-            <id>go-public-sdk-oralb</id>
+            <id>go-public-sdk-casper-api-spec</id>
             <phase>compile</phase>
             <goals>
               <goal>generate</goal>
             </goals>
             <configuration>
               <language>oracle-go-sdk</language>
-              <specPath>${preprocessed.temp.dir}/${oralb-api-spec.spec.name}</specPath>
+              <specPath>${preprocessed-temp-dir}/casper-api-spec/${casper-api-spec-spec-file}</specPath>
               <outputDir>${env.GOPATH}/src/${fullyQualifiedProjectName}</outputDir>
-	      <specGenerationType>${generationType}</specGenerationType>
+              <basePackage>objectstorage</basePackage>
+              <specGenerationType>${generationType}</specGenerationType>
+              <additionalProperties>
+                <specName>objectstorage</specName>
+                <fqProjectName>${fullyQualifiedProjectName}</fqProjectName>
+                <serviceHostName>objectstorage</serviceHostName>
+              </additionalProperties>
+              <featureIdConfigFile>${feature-id-file}</featureIdConfigFile>
+              <featureIdConfigDir>${feature-id-dir}</featureIdConfigDir>
+            </configuration>
+          </execution>
+          <execution>
+            <id>go-public-sdk-oralb-api-spec</id>
+            <phase>compile</phase>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+            <configuration>
+              <language>oracle-go-sdk</language>
+              <specPath>${preprocessed-temp-dir}/oralb-api-spec/${oralb-api-spec-spec-file}</specPath>
+              <outputDir>${env.GOPATH}/src/${fullyQualifiedProjectName}</outputDir>
               <basePackage>loadbalancer</basePackage>
+              <specGenerationType>${generationType}</specGenerationType>
               <additionalProperties>
                 <specName>loadbalancer</specName>
                 <fqProjectName>${fullyQualifiedProjectName}</fqProjectName>
                 <serviceHostName>iaas</serviceHostName>
               </additionalProperties>
-              <featureIdConfigFile>${project.basedir}/featureId.yaml</featureIdConfigFile>
+              <featureIdConfigFile>${feature-id-file}</featureIdConfigFile>
+              <featureIdConfigDir>${feature-id-dir}</featureIdConfigDir>
+              <isTestGenerationEnabled>true</isTestGenerationEnabled>
             </configuration>
           </execution>
           <execution>
-            <id>go-public-sdk-objectstorage</id>
+            <id>go-public-sdk-dbaas-api-spec</id>
             <phase>compile</phase>
             <goals>
               <goal>generate</goal>
             </goals>
             <configuration>
               <language>oracle-go-sdk</language>
-              <specPath>${preprocessed.temp.dir}/${casper-api-spec.spec.name}</specPath>
+              <specPath>${preprocessed-temp-dir}/dbaas-api-spec/${dbaas-api-spec-spec-file}</specPath>
               <outputDir>${env.GOPATH}/src/${fullyQualifiedProjectName}</outputDir>
-	      <specGenerationType>${generationType}</specGenerationType>
-              <basePackage>objectstorage</basePackage>
-              <additionalProperties>
-                <specName>objectstorage</specName>
-                <fqProjectName>${fullyQualifiedProjectName}</fqProjectName>
-              </additionalProperties>
-              <featureIdConfigFile>${project.basedir}/featureId.yaml</featureIdConfigFile>
-            </configuration>
-          </execution>
-          <execution>
-            <id>go-public-sdk-database</id>
-            <phase>compile</phase>
-            <goals>
-              <goal>generate</goal>
-            </goals>
-            <configuration>
-              <language>oracle-go-sdk</language>
-              <specPath>${preprocessed.temp.dir}/${dbaas-api-spec.spec.name}</specPath>
-              <outputDir>${env.GOPATH}/src/${fullyQualifiedProjectName}</outputDir>
-	      <specGenerationType>${generationType}</specGenerationType>
               <basePackage>database</basePackage>
+              <specGenerationType>${generationType}</specGenerationType>
               <additionalProperties>
                 <specName>database</specName>
                 <fqProjectName>${fullyQualifiedProjectName}</fqProjectName>
+                <serviceHostName>database</serviceHostName>
               </additionalProperties>
-              <featureIdConfigFile>${project.basedir}/featureId.yaml</featureIdConfigFile>
+              <featureIdConfigFile>${feature-id-file}</featureIdConfigFile>
+              <featureIdConfigDir>${feature-id-dir}</featureIdConfigDir>
             </configuration>
           </execution>
           <execution>
-            <id>go-public-sdk-audit</id>
+            <id>go-public-sdk-fss-api-spec</id>
             <phase>compile</phase>
             <goals>
               <goal>generate</goal>
             </goals>
             <configuration>
               <language>oracle-go-sdk</language>
-              <specPath>${preprocessed.temp.dir}/${hemlock-spec.spec.name}</specPath>
+              <specPath>${preprocessed-temp-dir}/fss-api-spec/${fss-api-spec-spec-file}</specPath>
               <outputDir>${env.GOPATH}/src/${fullyQualifiedProjectName}</outputDir>
-	      <specGenerationType>${generationType}</specGenerationType>
-              <basePackage>audit</basePackage>
-              <additionalProperties>
-                <specName>audit</specName>
-                <fqProjectName>${fullyQualifiedProjectName}</fqProjectName>
-              </additionalProperties>
-              <featureIdConfigFile>${project.basedir}/featureId.yaml</featureIdConfigFile>
-            </configuration>
-          </execution>
-          <execution>
-            <id>go-public-sdk-filestorage</id>
-            <phase>compile</phase>
-            <goals>
-              <goal>generate</goal>
-            </goals>
-            <configuration>
-              <language>oracle-go-sdk</language>
-              <specPath>${preprocessed.temp.dir}/${fss-api-spec.spec.name}</specPath>
-              <outputDir>${env.GOPATH}/src/${fullyQualifiedProjectName}</outputDir>
-              <specGenerationType>${generationType}</specGenerationType>
               <basePackage>filestorage</basePackage>
+              <specGenerationType>${generationType}</specGenerationType>
               <additionalProperties>
                 <specName>filestorage</specName>
                 <fqProjectName>${fullyQualifiedProjectName}</fqProjectName>
+                <serviceHostName>filestorage</serviceHostName>
               </additionalProperties>
-              <featureIdConfigFile>${project.basedir}/featureId.yaml</featureIdConfigFile>
+              <featureIdConfigFile>${feature-id-file}</featureIdConfigFile>
+              <featureIdConfigDir>${feature-id-dir}</featureIdConfigDir>
+              <isTestGenerationEnabled>true</isTestGenerationEnabled>
             </configuration>
           </execution>
           <execution>
-            <id>go-public-sdk-dns.pub</id>
+            <id>go-public-sdk-hemlock-spec</id>
             <phase>compile</phase>
             <goals>
               <goal>generate</goal>
             </goals>
             <configuration>
               <language>oracle-go-sdk</language>
-              <specPath>${preprocessed.temp.dir}/${public-dns-api-spec.spec.name}</specPath>
+              <specPath>${preprocessed-temp-dir}/hemlock-spec/${hemlock-spec-spec-file}</specPath>
               <outputDir>${env.GOPATH}/src/${fullyQualifiedProjectName}</outputDir>
+              <basePackage>audit</basePackage>
               <specGenerationType>${generationType}</specGenerationType>
-              <basePackage>dns</basePackage>
               <additionalProperties>
-                <specName>dns</specName>
+                <specName>audit</specName>
                 <fqProjectName>${fullyQualifiedProjectName}</fqProjectName>
+                <serviceHostName>audit</serviceHostName>
               </additionalProperties>
-              <featureIdConfigFile>${project.basedir}/featureId.yaml</featureIdConfigFile>
+              <featureIdConfigFile>${feature-id-file}</featureIdConfigFile>
+              <featureIdConfigDir>${feature-id-dir}</featureIdConfigDir>
             </configuration>
           </execution>
-           <execution>
-            <id>go-public-sdk-email</id>
+          <execution>
+            <id>go-public-sdk-email-api-spec</id>
             <phase>compile</phase>
             <goals>
               <goal>generate</goal>
             </goals>
             <configuration>
               <language>oracle-go-sdk</language>
-              <specPath>${preprocessed.temp.dir}/${email-api-spec.spec.name}</specPath>
+              <specPath>${preprocessed-temp-dir}/email-api-spec/${email-api-spec-spec-file}</specPath>
               <outputDir>${env.GOPATH}/src/${fullyQualifiedProjectName}</outputDir>
-              <specGenerationType>${generationType}</specGenerationType>
               <basePackage>email</basePackage>
+              <specGenerationType>${generationType}</specGenerationType>
               <additionalProperties>
                 <specName>email</specName>
                 <fqProjectName>${fullyQualifiedProjectName}</fqProjectName>
+                <serviceHostName>email</serviceHostName>
               </additionalProperties>
-              <featureIdConfigFile>${project.basedir}/featureId.yaml</featureIdConfigFile>
+              <featureIdConfigFile>${feature-id-file}</featureIdConfigFile>
+              <featureIdConfigDir>${feature-id-dir}</featureIdConfigDir>
+              <isTestGenerationEnabled>true</isTestGenerationEnabled>
             </configuration>
           </execution>
           <execution>
-              <id>go-public-sdk-containerengine</id>
-              <phase>compile</phase>
-              <goals>
-                  <goal>generate</goal>
-              </goals>
-              <configuration>
-                  <language>oracle-go-sdk</language>
-                  <specPath>${preprocessed.temp.dir}/${clusters-api-spec.spec.name}</specPath>
-                  <outputDir>${env.GOPATH}/src/${fullyQualifiedProjectName}</outputDir>
-                  <basePackage>containerengine</basePackage>
-                  <specGenerationType>${generationType}</specGenerationType>
-                  <additionalProperties>
-                      <specName>containerengine</specName>
-                      <fqProjectName>${fullyQualifiedProjectName}</fqProjectName>
-                      <serviceHostName>containerengine</serviceHostName>
-                  </additionalProperties>
-                  <featureIdConfigFile>${project.basedir}/featureId.yaml</featureIdConfigFile>
-              </configuration>
+            <id>go-public-sdk-public-dns-api-spec</id>
+            <phase>compile</phase>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+            <configuration>
+              <language>oracle-go-sdk</language>
+              <specPath>${preprocessed-temp-dir}/public-dns-api-spec/${public-dns-api-spec-spec-file}</specPath>
+              <outputDir>${env.GOPATH}/src/${fullyQualifiedProjectName}</outputDir>
+              <basePackage>dns</basePackage>
+              <specGenerationType>${generationType}</specGenerationType>
+              <additionalProperties>
+                <specName>dns</specName>
+                <fqProjectName>${fullyQualifiedProjectName}</fqProjectName>
+                <serviceHostName>dns</serviceHostName>
+              </additionalProperties>
+              <featureIdConfigFile>${feature-id-file}</featureIdConfigFile>
+              <featureIdConfigDir>${feature-id-dir}</featureIdConfigDir>
+            </configuration>
           </execution>
           <execution>
-              <id>go-public-sdk-resourcesearch</id>
-              <phase>compile</phase>
-              <goals>
-                  <goal>generate</goal>
-              </goals>
-              <configuration>
-                  <language>oracle-go-sdk</language>
-                  <specPath>${preprocessed.temp.dir}/${resource-query-service-spec.spec.name}</specPath>
-                  <outputDir>${env.GOPATH}/src/${fullyQualifiedProjectName}</outputDir>
-                  <specGenerationType>${generationType}</specGenerationType>
-                  <basePackage>resourcesearch</basePackage>
-                  <additionalProperties>
-                      <specName>resourcesearch</specName>
-                      <fqProjectName>${fullyQualifiedProjectName}</fqProjectName>
-                      <serviceHostName>query</serviceHostName>
-                  </additionalProperties>
-              </configuration>
+            <id>go-public-sdk-resource-query-service-spec</id>
+            <phase>compile</phase>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+            <configuration>
+              <language>oracle-go-sdk</language>
+              <specPath>${preprocessed-temp-dir}/resource-query-service-spec/${resource-query-service-spec-spec-file}</specPath>
+              <outputDir>${env.GOPATH}/src/${fullyQualifiedProjectName}</outputDir>
+              <basePackage>resourcesearch</basePackage>
+              <specGenerationType>${generationType}</specGenerationType>
+              <additionalProperties>
+                <specName>resourcesearch</specName>
+                <fqProjectName>${fullyQualifiedProjectName}</fqProjectName>
+                <serviceHostName>query</serviceHostName>
+              </additionalProperties>
+              <featureIdConfigFile>${feature-id-file}</featureIdConfigFile>
+              <featureIdConfigDir>${feature-id-dir}</featureIdConfigDir>
+              <isTestGenerationEnabled>true</isTestGenerationEnabled>
+            </configuration>
+          </execution>
+          <execution>
+            <id>go-public-sdk-clusters-api-spec</id>
+            <phase>compile</phase>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+            <configuration>
+              <language>oracle-go-sdk</language>
+              <specPath>${preprocessed-temp-dir}/clusters-api-spec/${clusters-api-spec-spec-file}</specPath>
+              <outputDir>${env.GOPATH}/src/${fullyQualifiedProjectName}</outputDir>
+              <basePackage>OCI</basePackage>
+              <specGenerationType>${generationType}</specGenerationType>
+              <additionalProperties>
+                <specName>containerengine</specName>
+                <fqProjectName>${fullyQualifiedProjectName}</fqProjectName>
+                <serviceHostName>containerengine</serviceHostName>
+              </additionalProperties>
+              <featureIdConfigFile>${feature-id-file}</featureIdConfigFile>
+              <featureIdConfigDir>${feature-id-dir}</featureIdConfigDir>
+              <isTestGenerationEnabled>true</isTestGenerationEnabled>
+            </configuration>
           </execution>
         </executions>
       </plugin>
@@ -845,102 +860,6 @@
         <version>3.0.0</version>
         <configuration>
           <filesets>
-            <fileset>
-              <directory>lib/oci/core</directory>
-              <includes>
-                <include>**/*</include>
-              </includes>
-              <excludes>
-                <exclude>util.rb</exclude>
-              </excludes>
-            </fileset>
-            <fileset>
-              <directory>lib/oci/identity</directory>
-              <includes>
-                <include>**/*</include>
-              </includes>
-              <excludes>
-                <exclude>util.rb</exclude>
-              </excludes>
-            </fileset>
-            <fileset>
-              <directory>lib/oci/load_balancer</directory>
-              <excludes>
-                <exclude>util.rb</exclude>
-              </excludes>
-              <includes>
-                <include>**/*</include>
-              </includes>
-            </fileset>
-            <fileset>
-              <directory>lib/oci/database</directory>
-              <excludes>
-                <exclude>util.rb</exclude>
-              </excludes>
-              <includes>
-                <include>**/*</include>
-              </includes>
-            </fileset>
-            <fileset>
-              <directory>lib/oci/object_storage</directory>
-              <excludes>
-                <exclude>util.rb</exclude>
-              </excludes>
-              <includes>
-                <include>**/*</include>
-              </includes>
-            </fileset>
-            <fileset>
-              <directory>lib/oci/audit</directory>
-              <excludes>
-                <exclude>util.rb</exclude>
-              </excludes>
-              <includes>
-                <include>**/*</include>
-              </includes>
-            </fileset>
-            <fileset>
-              <directory>lib/oci/file_storage</directory>
-              <excludes>
-                <exclude>util.rb</exclude>
-              </excludes>
-              <includes>
-                <include>**/*</include>
-              </includes>
-            </fileset>
-            <fileset>
-              <directory>lib/oci/dns</directory>
-              <excludes>
-                <exclude>util.rb</exclude>
-              </excludes>
-              <includes>
-                <include>**/*</include>
-              </includes>
-            </fileset>
-            <fileset>
-              <directory>lib/oci/email</directory>
-              <excludes>
-                <exclude>util.rb</exclude>
-              </excludes>
-              <includes>
-                <include>**/*</include>
-              </includes>
-            </fileset>
-            <fileset>
-              <directory>lib/oci/containerengine</directory>
-              <includes>
-                <include>**/*</include>
-              </includes>
-            </fileset>
-            <fileset>
-                <directory>lib/oci/resourcesearch</directory>
-                <excludes>
-                    <exclude>util.rb</exclude>
-                </excludes>
-                <includes>
-                    <include>**/*</include>
-                </includes>
-            </fileset>
             <fileset>
               <directory>.yardoc</directory>
               <includes>
@@ -959,208 +878,140 @@
                 <include>**/*</include>
               </includes>
             </fileset>
+            <fileset>
+              <directory>lib/oci/core</directory>
+              <includes>
+                <include>**/*</include>
+              </includes>
+            </fileset>
+            <fileset>
+              <directory>lib/oci/identity</directory>
+              <includes>
+                <include>**/*</include>
+              </includes>
+            </fileset>
+            <fileset>
+              <directory>lib/oci/loadbalancer</directory>
+              <includes>
+                <include>**/*</include>
+              </includes>
+            </fileset>
+            <fileset>
+              <directory>lib/oci/database</directory>
+              <includes>
+                <include>**/*</include>
+              </includes>
+            </fileset>
+            <fileset>
+              <directory>lib/oci/objectstorage</directory>
+              <excludes>
+                <exclude>util.rb</exclude>
+                <exclude>transfer</exclude>
+                <exclude>transfer/*</exclude>
+                <exclude>transfer/multipart/*</exclude>
+                <exclude>transfer/multipart/internal/*</exclude>
+              </excludes>
+              <includes>
+                <include>**/*</include>
+              </includes>
+            </fileset>
+            <fileset>
+              <directory>lib/oci/audit</directory>
+              <includes>
+                <include>**/*</include>
+              </includes>
+            </fileset>
+            <fileset>
+              <directory>lib/oci/dns</directory>
+              <includes>
+                <include>**/*</include>
+              </includes>
+            </fileset>
+            <fileset>
+              <directory>lib/oci/filestorage</directory>
+              <includes>
+                <include>**/*</include>
+              </includes>
+            </fileset>
+            <fileset>
+              <directory>lib/oci/email</directory>
+              <includes>
+                <include>**/*</include>
+              </includes>
+            </fileset>
+            <fileset>
+              <directory>lib/oci/resourcesearch</directory>
+              <includes>
+                <include>**/*</include>
+              </includes>
+            </fileset>
+            <fileset>
+              <directory>lib/oci/containerengine</directory>
+              <includes>
+                <include>**/*</include>
+              </includes>
+            </fileset>
           </filesets>
         </configuration>
       </plugin>
     </plugins>
   </build>
-
   <dependencyManagement>
-	<dependencies>
+    <dependencies>
       <dependency>
-        <groupId>com.oracle.pic.commons</groupId>
-        <artifactId>${coreservices-api-spec.artifact.id}</artifactId>
-        <version>${coreservices-api-spec.artifact.version}</version>
+          <groupId>com.oracle.pic.commons</groupId>
+          <artifactId>coreservices-api-spec</artifactId>
+          <version>0.2.269</version>
       </dependency>
       <dependency>
-        <groupId>com.oracle.pic.identity</groupId>
-        <artifactId>${identity-control-plane-api-spec.artifact.id}</artifactId>
-        <version>${identity-control-plane-api-spec.artifact.version}</version>
+          <groupId>com.oracle.pic.identity</groupId>
+          <artifactId>identity-control-plane-api-spec</artifactId>
+          <version>0.2.103</version>
       </dependency>
       <dependency>
-        <groupId>com.oracle.pic.casper</groupId>
-        <artifactId>${casper-api-spec.artifact.id}</artifactId>
-        <version>${casper-api-spec.artifact.version}</version>
+          <groupId>com.oracle.pic.casper</groupId>
+          <artifactId>casper-api-spec</artifactId>
+          <version>1.1.16</version>
       </dependency>
       <dependency>
-        <groupId>com.oracle.pic.dbaas</groupId>
-        <artifactId>${dbaas-api-spec.artifact.id}</artifactId>
-        <version>${dbaas-api-spec.artifact.version}</version>
+          <groupId>com.oracle.pic.dbaas</groupId>
+          <artifactId>dbaas-api-spec</artifactId>
+          <version>0.0.151</version>
       </dependency>
       <dependency>
-        <groupId>com.oracle.pic.sherlock</groupId>
-        <artifactId>${hemlock-spec.artifact.id}</artifactId>
-        <version>${hemlock-spec.artifact.version}</version>
+          <groupId>com.oracle.pic.sherlock</groupId>
+          <artifactId>hemlock-spec</artifactId>
+          <version>0.1.9</version>
       </dependency>
       <dependency>
-        <groupId>com.oracle.pic.ffsw</groupId>
-        <artifactId>${fss-api-spec.artifact.id}</artifactId>
-        <version>${fss-api-spec.artifact.version}</version>
+          <groupId>com.oracle.pic.ffsw</groupId>
+          <artifactId>fss-api-spec</artifactId>
+          <version>0.0.13</version>
       </dependency>
       <dependency>
-        <groupId>com.oracle.pic.dns.pub</groupId>
-        <artifactId>${public-dns-api-spec.artifact.id}</artifactId>
-        <version>${public-dns-api-spec.artifact.version}</version>
+          <groupId>com.oracle.pic.dns.pub</groupId>
+          <artifactId>public-dns-api-spec</artifactId>
+          <version>1.0.0-15</version>
       </dependency>
       <dependency>
-        <groupId>com.oracle.pic.email</groupId>
-        <artifactId>${email-api-spec.artifact.id}</artifactId>
-        <version>${email-api-spec.artifact.version}</version>
+          <groupId>com.oracle.pic.email</groupId>
+          <artifactId>email-api-spec</artifactId>
+          <version>1.0.0</version>
       </dependency>
-       <dependency>
+      <dependency>
           <groupId>com.oracle.pic.clusters</groupId>
-          <artifactId>${clusters-api-spec.artifact.id}</artifactId>
-          <version>${clusters-api-spec.artifact.version}</version>
+          <artifactId>clusters-api-spec</artifactId>
+          <version>1.0.11</version>
       </dependency>
       <dependency>
-        <groupId>com.oracle.pic.lb</groupId>
-        <artifactId>${oralb-api-spec.artifact.id}</artifactId>
-        <version>${oralb-api-spec.artifact.version}</version>
+          <groupId>com.oracle.pic.lb</groupId>
+          <artifactId>oralb-api-spec</artifactId>
+          <version>1.0.17</version>
       </dependency>
       <dependency>
           <groupId>com.oracle.pic.query</groupId>
-          <artifactId>${resource-query-service-spec.artifact.id}</artifactId>
-          <version>${resource-query-service-spec.artifact.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.fasterxml.jackson.core</groupId>
-        <artifactId>jackson-annotations</artifactId>
-        <version>2.5.4</version>
-      </dependency>
-      <dependency>
-        <groupId>com.fasterxml.jackson.core</groupId>
-        <artifactId>jackson-core</artifactId>
-        <version>2.5.4</version>
-      </dependency>
-      <dependency>
-        <groupId>com.fasterxml.jackson.core</groupId>
-        <artifactId>jackson-databind</artifactId>
-        <version>2.5.4</version>
-      </dependency>
-      <dependency>
-        <groupId>com.google.collections</groupId>
-        <artifactId>google-collections</artifactId>
-        <version>1.0</version>
-      </dependency>
-      <dependency>
-        <groupId>com.google.guava</groupId>
-        <artifactId>guava</artifactId>
-        <version>18.0</version>
-      </dependency>
-      <dependency>
-        <groupId>commons-codec</groupId>
-        <artifactId>commons-codec</artifactId>
-        <version>1.9</version>
-      </dependency>
-      <dependency>
-        <groupId>commons-io</groupId>
-        <artifactId>commons-io</artifactId>
-        <version>2.3</version>
-      </dependency>
-      <dependency>
-        <groupId>io.swagger</groupId>
-        <artifactId>swagger-codegen</artifactId>
-        <version>2.1.2</version>
-      </dependency>
-      <dependency>
-        <groupId>io.swagger</groupId>
-        <artifactId>swagger-models</artifactId>
-        <version>1.5.0</version>
-      </dependency>
-      <dependency>
-        <groupId>io.swagger</groupId>
-        <artifactId>swagger-parser</artifactId>
-        <version>1.0.8</version>
-      </dependency>
-      <dependency>
-        <groupId>joda-time</groupId>
-        <artifactId>joda-time</artifactId>
-        <version>2.8.2</version>
-      </dependency>
-      <dependency>
-        <groupId>junit</groupId>
-        <artifactId>junit</artifactId>
-        <version>4.12</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.commons</groupId>
-        <artifactId>commons-lang3</artifactId>
-        <version>3.2.1</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.maven</groupId>
-        <artifactId>maven-artifact</artifactId>
-        <version>2.0.7</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.maven</groupId>
-        <artifactId>maven-artifact-manager</artifactId>
-        <version>2.0.7</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.maven</groupId>
-        <artifactId>maven-core</artifactId>
-        <version>3.3.3</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.maven</groupId>
-        <artifactId>maven-model</artifactId>
-        <version>3.3.3</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.maven</groupId>
-        <artifactId>maven-plugin-api</artifactId>
-        <version>3.3.3</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.maven</groupId>
-        <artifactId>maven-project</artifactId>
-        <version>2.0.11</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.maven</groupId>
-        <artifactId>maven-repository-metadata</artifactId>
-        <version>3.3.3</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.maven</groupId>
-        <artifactId>maven-settings</artifactId>
-        <version>3.3.3</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.maven.plugin-tools</groupId>
-        <artifactId>maven-plugin-annotations</artifactId>
-        <version>3.3</version>
-      </dependency>
-      <dependency>
-        <groupId>org.codehaus.plexus</groupId>
-        <artifactId>plexus-classworlds</artifactId>
-        <version>2.5.2</version>
-      </dependency>
-      <dependency>
-        <groupId>org.codehaus.plexus</groupId>
-        <artifactId>plexus-container-default</artifactId>
-        <version>1.6</version>
-      </dependency>
-      <dependency>
-        <groupId>org.codehaus.plexus</groupId>
-        <artifactId>plexus-interpolation</artifactId>
-        <version>1.22</version>
-      </dependency>
-      <dependency>
-        <groupId>org.codehaus.plexus</groupId>
-        <artifactId>plexus-utils</artifactId>
-        <version>3.0.20</version>
-      </dependency>
-      <dependency>
-        <groupId>org.projectlombok</groupId>
-        <artifactId>lombok</artifactId>
-        <version>1.16.6</version>
-      </dependency>
-      <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-api</artifactId>
-        <version>1.7.12</version>
+          <artifactId>resource-query-service-spec</artifactId>
+          <version>0.0.8</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

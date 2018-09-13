@@ -11,7 +11,7 @@ import (
 // CreateInternetGatewayRequest wrapper for the CreateInternetGateway operation
 type CreateInternetGatewayRequest struct {
 
-	// Details for creating a new Internet Gateway.
+	// Details for creating a new internet gateway.
 	CreateInternetGatewayDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or
