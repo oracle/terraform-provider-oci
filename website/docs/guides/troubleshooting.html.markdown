@@ -1,3 +1,10 @@
+---
+layout: "oci"
+page_title: "Provider: Oracle Cloud Infrastructure"
+sidebar_current: "docs-oci-guide-troubleshooting"
+description: |-
+  The Oracle Cloud Infrastructure provider. Troubleshooting
+---
 ### Not Authenticated Error when configuring Terraform
 
 _If the Terraform CLI gives an error message like:_
