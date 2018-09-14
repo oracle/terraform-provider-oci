@@ -1,9 +1,10 @@
-    #     ___  ____     _    ____ _     _____
-    #    / _ \|  _ \   / \  / ___| |   | ____|
-    #   | | | | |_) | / _ \| |   | |   |  _|
-    #   | |_| |  _ < / ___ | |___| |___| |___
-    #    \___/|_| \_/_/   \_\____|_____|_____|
-***
+---
+layout: "oci"
+page_title: "Provider: Oracle Cloud Infrastructure"
+sidebar_current: "docs-oci-guide-faq"
+description: |-
+  The Oracle Cloud Infrastructure provider. FAQ
+---
 # FAQ for the Oracle Cloud Infrastructure Terraform provider
 
 #### Q: What is Oracle Cloud Infrastructure?
@@ -30,7 +31,7 @@ The change you made outside of Terraform will be overwritten the next time you a
 
 #### Q: How do I get help?
 You can file an issue against the project  
-https://github.com/oracle/terraform-provider-oci/issues
+https://github.com/terraform-providers/terraform-provider-oci/issues
 
 or meet us in the OCI forums
 https://community.oracle.com/community/oracle-cloud/cloud-infrastructure/
