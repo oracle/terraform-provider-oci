@@ -6,8 +6,7 @@ import (
 	"log"
 )
 
-// Version injected during GNUmakefile "release" build step, do not commit change
-const Version = "0.0.0"
+const Version = "3.0.0"
 
 func PrintVersion() {
 	log.Printf("[INFO] terraform-provider-oci %s\n", Version)
