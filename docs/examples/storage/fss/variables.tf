@@ -76,6 +76,14 @@ variable "max_files" {
   default = 223442
 }
 
+variable "export_read_write_access_source" {
+  default = "10.0.0.0/8"
+}
+
+variable "export_read_only_access_source" {
+  default = "0.0.0.0/0"
+}
+
 variable "instance_image_ocid" {
   type = "map"
 

@@ -6,15 +6,15 @@ resource "oci_file_storage_export" "my_export_fs1_mt1" {
 
   export_options = [
     {
-      source                         = "10.0.0.0/8"
-      access                         = "READ_ONLY"
-      identity_squash                = "ALL"
+      source                         = "${var.export_read_write_access_source}"
+      access                         = "READ_WRITE"
+      identity_squash                = "NONE"
       require_privileged_source_port = true
     },
     {
-      source                         = "127.0.0.1"
-      access                         = "READ_WRITE"
-      identity_squash                = "NONE"
+      source                         = "${var.export_read_only_access_source}"
+      access                         = "READ_ONLY"
+      identity_squash                = "ALL"
       require_privileged_source_port = true
     },
   ]
