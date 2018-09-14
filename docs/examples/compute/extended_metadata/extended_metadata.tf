@@ -73,7 +73,7 @@ resource "oci_core_default_route_table" "ExampleRT" {
   manage_default_resource_id = "${oci_core_virtual_network.ExampleVCN.default_route_table_id}"
 
   route_rules {
-    destination        = "0.0.0.0/0"
+    destination       = "0.0.0.0/0"
     destination_type  = "CIDR_BLOCK"
     network_entity_id = "${oci_core_internet_gateway.ExampleIG.id}"
   }
@@ -103,6 +103,7 @@ resource "oci_core_instance" "TFInstance1" {
     source_type = "image"
     source_id   = "${var.instance_image_ocid[var.region]}"
   }
+
   extended_metadata {
     ssh_authorized_keys = "${var.ssh_public_key}"
     some_string         = "stringA"

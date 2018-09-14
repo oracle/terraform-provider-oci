@@ -36,10 +36,8 @@ resource "oci_core_subnet" "ExampleSubnet" {
   display_name        = "TFExampleSubnet"
   dns_label           = "tfexamplesubnet"
   compartment_id      = "${var.compartment_ocid}"
-  vcn_id              = "${oci_core_virtual_network.ExampleVCN.id}}"
-  security_list_ids   = ["${oci_core_virtual_network.ExampleVCN.default_security_list_id}"]
-  compartment_id      = "${var.compartment_ocid}"
   vcn_id              = "${oci_core_virtual_network.ExampleVCN.id}"
+  security_list_ids   = ["${oci_core_virtual_network.ExampleVCN.default_security_list_id}"]
   route_table_id      = "${oci_core_virtual_network.ExampleVCN.default_route_table_id}"
   dhcp_options_id     = "${oci_core_virtual_network.ExampleVCN.default_dhcp_options_id}"
 }
