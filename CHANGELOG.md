@@ -3,10 +3,13 @@ All notable changes to this project are documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
-## 2.2.5 (unreleased)
+## 3.0.0 (Unreleased)
 
 ### Fixed
 - Fixed bug with DNS Records when the user specified more than 50 records in a terraform config. Issue [#581](https://github.com/oracle/terraform-provider-oci/issues/581)
+
+### Notes
+- This is the first provider version that can be automatically downloaded and installed with the `terraform init` command.
 
 ## 2.2.4 - 2018-09-11
 
