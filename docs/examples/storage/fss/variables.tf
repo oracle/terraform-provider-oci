@@ -27,6 +27,7 @@ variable "my_vcn-cidr" {
 variable "my_subnet_cidr" {
   default = "10.0.1.0/24"
 }
+
 variable "file_system_1_display_name" {
   default = "my_fs_1"
 }
