@@ -16,9 +16,6 @@ build: fmtcheck
 	go install
 
 test: fmtcheck
-	go test -i $(TEST) || exit 1
-	echo $(TEST) | \
-		xargs -t -n4 go test $(TESTARGS) -timeout=120s -parallel=4
 
 testacc: fmtcheck
 	TF_ACC=1 $(prefix) go test $(TEST) -v $(TESTARGS) $(run_regex) -timeout $(timeout)
