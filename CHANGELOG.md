@@ -1,22 +1,9 @@
 ## 3.0.1 (Unreleased)
 
 ### Added
-- Support for importing following load balancer resources:
-   * Backend
-   * BackendSet
-   * Hostname
-   * Listeners
-   * PathRouteSets
+- Support for importing load balancer related resources such as backend, backend set, hostname, listeners, and path route sets
 
 ## 3.0.0 (September 17, 2018)
-
-### Added
-- Support for importing following load balancer resources:
-   * Backend
-   * BackendSet
-   * Hostname
-   * Listeners
-   * PathRouteSets
 
 ### Fixed
 - Fixed bug with DNS Records when the user specified more than 50 records in a terraform config. Issue [#581](https://github.com/oracle/terraform-provider-oci/issues/581)
