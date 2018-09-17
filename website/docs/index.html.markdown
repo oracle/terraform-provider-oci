@@ -96,6 +96,7 @@ The variables won't be set for the current session, exit the terminal and reopen
 ### Instance Principal Authentication
 Instance Principal authentication allows you to run Terraform from an OCI Instance within your Tenancy. To enable Instance 
 Principal authentication, set the `auth` attribute to "InstancePrincipal" in the provider definition as below:
+
 ```
 # Configure the Oracle Cloud Infrastructure provider to use Instance Principal based authentication
 provider "oci" {
