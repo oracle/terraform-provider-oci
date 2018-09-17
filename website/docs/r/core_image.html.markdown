@@ -23,7 +23,7 @@ use [ImageSourceViaObjectStorageTupleDetails](https://docs.us-phoenix-1.oraclecl
 
 When importing an image based on the Object Storage URL, use
 [ImageSourceViaObjectStorageUriDetails](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/latest/requests/ImageSourceViaObjectStorageUriDetails).
-See [Object Storage URLs](/Content/Compute/Tasks/imageimportexport.htm#URLs) and [pre-authenticated requests](https://docs.us-phoenix-1.oraclecloud.com/Content/Object/Tasks/managingaccess.htm#pre-auth)
+See [Object Storage URLs](https://docs.us-phoenix-1.oraclecloud.com/Content/Compute/Tasks/imageimportexport.htm#URLs) and [pre-authenticated requests](https://docs.us-phoenix-1.oraclecloud.com/Content/Object/Tasks/managingaccess.htm#pre-auth)
 for constructing URLs for image import/export.
 
 For more information about importing exported images, see
