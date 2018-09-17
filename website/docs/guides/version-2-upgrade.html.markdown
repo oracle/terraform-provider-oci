@@ -34,6 +34,7 @@ Provider "oci" {
 	  private_key_path = "${var.private_key_path}"
 }
 ```
+
 The provider binary filename also changes, from "terraform-provider-baremetal" to "terraform-provider-oci".
 
 ## Installing the Updated Provider
@@ -44,18 +45,23 @@ Copy the unpacked provider into the following directory:
 
 Your ~/.terraformrc file specifies the path to the baremetal provider (only required for v.9.x).
 For example:
+
 ```
 providers {
   baremetal = "~/.terraform.d/plugins/terraform-provider-baremetal"
 }
 ```
+
 Change the path in your /.terraformrc file to:
+
 ```
 providers {
   oci = "~/.terraform.d/plugins/terraform-provider-oci_v2.0.0"
 }
 ```
+
 Alternatively you can reference both providers at the same time:
+
 ```
 providers {
   baremetal = "~/.terraform.d/plugins/terraform-provider-baremetal"
@@ -70,17 +76,21 @@ Copy the unpacked provider into the following directory:
 `%APPDATA%/terraform.d/plugins/`
 
 Your %APPDATA%/terraform.rc file specifies the path to the baremetal provider (only required for v.9.x). For example:
+
 ```
 providers {
   baremetal = "%appdata%/terraform.d/plugins/terraform-provider-baremetal"
 }
 ```
+
 Change the path in your /.terraformrc file to:
+
 ```
 providers {
   oci = "%appdata%/terraform.d/plugins/terraform-provider-oci"
 }
 ```
+
 ## Resource and Datasource Names
 Resource and datasource names that use a "baremetal" prefix will now use "oci".
 For example, resource "baremetal_core_instance" changes to resource "oci_core_instance".
@@ -103,6 +113,7 @@ Once the changes have been made, run terraform plan and verify that there will b
 
 In addition to the name change, the region parameter in the provider is a required parameter. In previous releases, the region defaulted to "us-phoenix-1" if no region was specified.
 This region parameter is used to determine service endpoints.
+
 ```
 provider “oci" {
 	  region = "us-ashburn-1"
