@@ -33,7 +33,7 @@ echo "go version $(go version | awk '{print $3}')"
 check_make_target 2 'vet'
 check_make_target 3 'errcheck'
 #check_make_target 4 'vendor-status'
-check_make_target 5 'test-compile' 'TEST=./provider'
+check_make_target 5 'test-compile' 'TEST=./oci'
 check_make_target 6 'website-test'
 
 echo "checking: make build ..."
