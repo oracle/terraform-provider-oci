@@ -31,12 +31,12 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `compartment_id` - The OCID of the compartment.
-* `db_system_id` - The OCID of the DB System.
-* `db_version` - The Oracle database version.
-* `display_name` - The user-provided name for the database home. It does not need to be unique.
-* `id` - The OCID of the database home.
-* `last_patch_history_entry_id` - The OCID of the last patch history. This is updated as soon as a patch operation is started.
+* `compartment_id` - The [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the compartment.
+* `db_system_id` - The [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the DB system.
+* `db_version` - The Oracle Database version.
+* `display_name` - The user-provided name for the database home. The name does not need to be unique.
+* `id` - The [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the database home.
+* `last_patch_history_entry_id` - The [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the last patch history. This value is updated as soon as a patch operation is started.
 * `state` - The current state of the database home.
 * `time_created` - The date and time the database home was created.
 

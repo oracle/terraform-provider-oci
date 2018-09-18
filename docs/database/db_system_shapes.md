@@ -6,7 +6,7 @@
 Gets a list of db_system_shapes.
 
 ### List Operation
-Gets a list of the shapes that can be used to launch a new DB System. The shape determines resources to allocate to the DB system - CPU cores and memory for VM shapes; CPU cores, memory and storage for non-VM (or bare metal) shapes.
+Gets a list of the shapes that can be used to launch a new DB system. The shape determines resources to allocate to the DB system - CPU cores and memory for VM shapes; CPU cores, memory and storage for non-VM (or bare metal) shapes.
 The following arguments are supported:
 
 * `availability_domain` - (Required) The name of the Availability Domain.
@@ -30,10 +30,10 @@ data "oci_database_db_system_shapes" "test_db_system_shapes" {
 
 The following attributes are exported:
 
-* `available_core_count` - The maximum number of CPU cores that can be enabled on the DB System for this shape.
+* `available_core_count` - The maximum number of CPU cores that can be enabled on the DB system for this shape.
 * `core_count_increment` - The discrete number by which the CPU core count for this shape can be increased or decreased.
 * `maximum_node_count` - The maximum number of database nodes available for this shape.
-* `minimum_core_count` - The minimum number of CPU cores that can be enabled on the DB System for this shape.
+* `minimum_core_count` - The minimum number of CPU cores that can be enabled on the DB system for this shape.
 * `minimum_node_count` - The minimum number of database nodes available for this shape.
-* `name` - The name of the shape used for the DB System.
+* `name` - The name of the shape used for the DB system.
 * `shape` - Deprecated. Use `name` instead of `shape`.
