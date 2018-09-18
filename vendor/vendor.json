@@ -677,7 +677,7 @@
 			"revisionTime": "2018-03-08T00:51:04Z"
 		},
 		{
-			"checksumSHA1": "L4FYEn66IJ5i1DCGlFCL4pik1Pc=",
+			"checksumSHA1": "KbKSYJlZdETsdxmLImoSo3BMs9w=",
 			"path": "github.com/oracle/oci-go-sdk",
 			"revision": "532dd0bce9d0e749b22653954a10ce9641aacb8d",
 			"revisionTime": "2018-09-14T21:53:34Z",
@@ -1110,5 +1110,5 @@
 			"revisionTime": "2018-07-18T21:09:07Z"
 		}
 	],
-	"rootPath": "github.com/oracle/terraform-provider-oci"
+	"rootPath": "github.com/terraform-providers/terraform-provider-oci"
 }
