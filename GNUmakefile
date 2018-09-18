@@ -1,8 +1,6 @@
 TEST?=./...
 GOFMT_FILES?=$$(find . -name '*.go' |grep -v vendor)
 PKG_NAME=oci
-# Collapse with PKG_NAME once we've moved to the hashicorp repo
-TEST_PKG_NAME=provider
 WEBSITE_REPO=github.com/hashicorp/terraform-website
 
 prefix := $(if $(debug),TF_LOG=DEBUG DEBUG=true OCI_GO_SDK_DEBUG=1, )
@@ -45,7 +43,7 @@ vendor-status:
 test-compile:
 	@if [ "$(TEST)" = "./..." ]; then \
 		echo "ERROR: Set TEST to a specific package. For example,"; \
-		echo "  make test-compile TEST=./$(TEST_PKG_NAME)"; \
+		echo "  make test-compile TEST=./$(PKG_NAME)"; \
 		exit 1; \
 	fi
 	go test -c $(TEST) $(TESTARGS)
@@ -73,7 +71,7 @@ get: ;go get -u github.com/kardianos/govendor; go get golang.org/x/tools/cmd/goi
 ### `make update-version version=2.0.1`
 update-version:
 ifdef version
-	sed -i -e 's/Version = ".*"/Version = "$(version)"/g' provider/version.go && rm -f provider/version.go-e
+	sed -i -e 's/Version = ".*"/Version = "$(version)"/g' oci/version.go && rm -f oci/version.go-e
 else
 	@echo Err! `make update-version` requires a version argument
 endif
@@ -81,7 +79,7 @@ endif
 ### `make release version=2.0.1`
 release: clean get
 ifdef version
-	sed -i -e 's/Version = ".*"/Version = "$(version)"/g' provider/version.go && rm -f provider/version.go-e
+	sed -i -e 's/Version = ".*"/Version = "$(version)"/g' oci/version.go && rm -f oci/version.go-e
 	gox -output ./bin/{{.OS}}_{{.Arch}}/terraform-provider-oci_v$(version)
 	gox -output ./bin/solaris_amd64/terraform-provider-oci_v$(version) -osarch="solaris/amd64"
 else
