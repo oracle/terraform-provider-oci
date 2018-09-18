@@ -596,7 +596,11 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 		// R1 Support
 		if region, err := officialSdkConfigProvider.Region(); err == nil && strings.ToLower(region) == "r1" {
 			service := strings.Split(client.Host, ".")[0]
-			client.Host = fmt.Sprintf("%s.r1.oracleiaas.com", service)
+			domainName := getEnvSettingWithBlankDefault("oracle_r1_domain_name")
+			if domainName == "" {
+				return fmt.Errorf("oracle_r1_domain_name is required env setting for r1 region")
+			}
+			client.Host = fmt.Sprintf("%s.%s.%s", service, strings.ToLower(region), domainName)
 
 			pool := x509.NewCertPool()
 			//readCertPem reads the pem files to a []byte
