@@ -9,7 +9,7 @@ description: |-
 # Data Source: oci_database_db_system_patch_history_entries
 The `oci_database_db_system_patch_history_entries` data source allows access to the list of OCI db_system_patch_history_entries
 
-Gets the history of the patch actions performed on the specified DB System.
+Gets the history of the patch actions performed on the specified DB system.
 
 
 ## Example Usage
@@ -25,7 +25,7 @@ data "oci_database_db_system_patch_history_entries" "test_db_system_patch_histor
 
 The following arguments are supported:
 
-* `db_system_id` - (Required) The DB System [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
+* `db_system_id` - (Required) The DB system [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
 
 
 ## Attributes Reference
@@ -39,9 +39,9 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `action` - The action being performed or was completed.
-* `id` - The OCID of the patch history entry.
+* `id` - The [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the patch history entry.
 * `lifecycle_details` - A descriptive text associated with the lifecycleState. Typically contains additional displayable text. 
-* `patch_id` - The OCID of the patch.
+* `patch_id` - The [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the patch.
 * `state` - The current state of the action.
 * `time_ended` - The date and time when the patch action completed.
 * `time_started` - The date and time when the patch action started.

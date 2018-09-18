@@ -40,7 +40,7 @@ The following attributes are exported:
 
 * `available_actions` - Actions that can possibly be performed using this patch.
 * `description` - The text describing this patch package.
-* `id` - The OCID of the patch.
+* `id` - The [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the patch.
 * `last_action` - Action that is currently being performed or was completed last.
 * `lifecycle_details` - A descriptive text associated with the lifecycleState. Typically can contain additional displayable text. 
 * `state` - The current state of the patch as a result of lastAction.
