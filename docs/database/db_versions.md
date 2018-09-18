@@ -10,7 +10,7 @@ Gets a list of supported Oracle database versions.
 The following arguments are supported:
 
 * `compartment_id` - (Required) The compartment [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
-* `db_system_id` - (Optional) The DB system OCID. If provided, filters the results to the set of database versions which are supported for the DB system.
+* `db_system_id` - (Optional) The DB system [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm). If provided, filters the results to the set of database versions which are supported for the DB system.
 * `db_system_shape` - (Optional) If provided, filters the results to the set of database versions which are supported for the given shape.
 
 
@@ -34,5 +34,5 @@ data "oci_database_db_versions" "test_db_versions" {
 
 The following attributes are exported:
 
-* `supports_pdb` - True if this version of the Oracle database software supports pluggable dbs.
-* `version` - A valid Oracle database version.
+* `supports_pdb` - True if this version of the Oracle Database software supports pluggable databases.
+* `version` - A valid Oracle Database version.
