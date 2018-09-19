@@ -9,7 +9,7 @@ description: |-
 # Data Source: oci_core_instances
 The `oci_core_instances` data source allows access to the list of OCI instances
 
-Lists the instances in the specified compartment and the specified Availability Domain.
+Lists the instances in the specified compartment and the specified availability domain.
 You can filter the results by specifying an instance name (the list will include all the identically-named
 instances in the compartment).
 
@@ -32,7 +32,7 @@ data "oci_core_instances" "test_instances" {
 
 The following arguments are supported:
 
-* `availability_domain` - (Optional) The name of the Availability Domain.  Example: `Uocm:PHX-AD-1` 
+* `availability_domain` - (Optional) The name of the availability domain.  Example: `Uocm:PHX-AD-1` 
 * `compartment_id` - (Required) The OCID of the compartment.
 * `display_name` - (Optional) A filter to return only resources that match the given display name exactly. 
 * `state` - (Optional) A filter to only return resources that match the given lifecycle state.  The state value is case-insensitive. 
@@ -48,17 +48,23 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `availability_domain` - The Availability Domain the instance is running in.  Example: `Uocm:PHX-AD-1` 
+* `availability_domain` - The availability domain the instance is running in.  Example: `Uocm:PHX-AD-1`
 * `boot_volume_id` - The OCID of the attached boot volume. If the `source_type` is `bootVolume`, this will be the same OCID as the `source_id`.
 * `compartment_id` - The OCID of the compartment that contains the instance.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My bare metal instance` 
-* `extended_metadata` - Additional metadata key/value pairs that you provide.  They serve a similar purpose and functionality from fields in the 'metadata' object.
+* `extended_metadata` - Additional metadata key/value pairs that you provide. They serve the same purpose and functionality as fields in the 'metadata' object.
 
 	They are distinguished from 'metadata' fields in that these can be nested JSON objects (whereas 'metadata' fields are string/string maps only).
+	
+    If you don't need nested metadata values, it is strongly advised to avoid using this object and use the Metadata object instead. 
+* `fault_domain` - The name of the fault domain the instance is running in.
 
-	If you don't need nested metadata values, it is strongly advised to avoid using this object and use the Metadata object instead.  
-* `fault_domain` - The name of the fault domain the instance is running in.  A fault domain is a grouping of hardware and infrastructure within an availability domain. Each availability domain contains three fault domains. Fault domains let you distribute your  instances so that they are not on the same physical hardware within a single availability domain. A hardware failure or Compute hardware maintenance that affects one fault domain does not affect  instances in other fault domains.  If you do not specify the fault domain, the system selects one for you. To change the fault domain for an instance, terminate it and launch a new instance in the preferred fault domain.  Example: `FAULT-DOMAIN-1` 
+    A fault domain is a grouping of hardware and infrastructure within an availability domain. Each availability domain contains three fault domains. Fault domains let you distribute your instances so that they are not on the same physical hardware within a single availability domain. A hardware failure or Compute hardware maintenance that affects one fault domain does not affect instances in other fault domains.
+
+	If you do not specify the fault domain, the system selects one for you. To change the fault domain for an instance, terminate it and launch a new instance in the preferred fault domain.
+
+	Example: `FAULT-DOMAIN-1`
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the instance.
 * `image` - Deprecated. Use `sourceDetails` instead. 
@@ -96,7 +102,8 @@ The following attributes are exported:
 		* `PARAVIRTUALIZED` - Paravirtualized disk. 
 * `metadata` - Custom metadata that you provide.
 * `preserve_boot_volume` - Specifies whether to delete or preserve the boot volume when terminating an instance. The default value is false. Note: This value only applies to destroy operations initiated by Terraform.
-* `region` - The region that contains the Availability Domain the instance is running in.  Example: `phx`
+* `region` - The region that contains the availability domain the instance is running in.  Example: `phx`
+
 * `shape` - The shape of the instance. The shape determines the number of CPUs and the amount of memory allocated to the instance. You can enumerate all available shapes by calling [ListShapes](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/Shape/ListShapes). 
 * `source_details` - Details for creating an instance
 	* `boot_volume_size_in_gbs` - The size of the boot volume in GBs. Minimum value is 50 GB and maximum value is 16384 GB (16TB). This should only be specified when `source_type` is `image`.
