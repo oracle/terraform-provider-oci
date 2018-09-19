@@ -5,6 +5,7 @@ package provider
 import (
 	"context"
 	"fmt"
+	"regexp"
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
@@ -79,15 +80,15 @@ resource "oci_core_instance" "test_instance" {
 `
 	InstanceCommonVariables = `
 variable "InstanceImageOCID" {
-	  type = "map"
-	  default = {
+	type = "map"
+	default = {
 		// See https://docs.us-phoenix-1.oraclecloud.com/images/
 		// Oracle-provided image "Oracle-Linux-7.4-2018.02.21-1"
 		us-phoenix-1 = "ocid1.image.oc1.phx.aaaaaaaaupbfz5f5hdvejulmalhyb6goieolullgkpumorbvxlwkaowglslq"
 		us-ashburn-1 = "ocid1.image.oc1.iad.aaaaaaaajlw3xfie2t5t52uegyhiq2npx7bqyu4uvi2zyu3w3mqayc2bxmaa"
 		eu-frankfurt-1 = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaa7d3fsb6272srnftyi4dphdgfjf6gurxqhmv6ileds7ba3m2gltxq"
 		uk-london-1 = "ocid1.image.oc1.uk-london-1.aaaaaaaaa6h6gj6v4n56mqrbgnosskq63blyv2752g36zerymy63cfkojiiq"
-	  }
+	}
 }
 
 `
@@ -110,7 +111,7 @@ variable "instance_freeform_tags" { default = {"Department"= "Finance"} }
 variable "instance_hostname_label" { default = "hostnameLabel" }
 variable "instance_image" { default = "image" }
 variable "instance_ipxe_script" { default = "ipxeScript" }
-variable "instance_metadata" { default = { userdata = "abcd" } }
+variable "instance_metadata" { default = { user_data = "abcd" } }
 variable "instance_shape" { default = "VM.Standard1.8" }
 variable "instance_source_details_source_type" { default = "image" }
 variable "instance_state" { default = "RUNNING" }
@@ -210,15 +211,19 @@ variable "instance_create_vnic_details_skip_source_dest_check" { default = false
 variable "instance_defined_tags_value" { default = "updatedValue" }
 variable "instance_display_name" { default = "displayName2" }
 variable "instance_extended_metadata" { default = {
-		some_string = "stringA"
-		nested_object = "{\"some_string\": \"stringB\", \"object\": {\"some_string\": \"stringC\"}}"
-	} }
+	some_string = "stringA"
+	nested_object = "{\"some_string\": \"stringB\", \"object\": {\"some_string\": \"stringC\"}}"
+	other_string = "stringD"
+} }
 variable "instance_fault_domain" { default = "FAULT-DOMAIN-2" }
 variable "instance_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "instance_hostname_label" { default = "hostnameLabel" }
 variable "instance_image" { default = "image" }
 variable "instance_ipxe_script" { default = "ipxeScript" }
-variable "instance_metadata" { default = { userdata = "abcd" } }
+variable "instance_metadata" { default = { 
+	user_data = "abcd"
+	volatile_data = "stringE"
+} }
 variable "instance_shape" { default = "VM.Standard1.8" }
 variable "instance_source_details_source_type" { default = "image" }
 variable "instance_state" { default = "RUNNING" }
@@ -237,13 +242,13 @@ variable "instance_state" { default = "RUNNING" }
 					resource.TestCheckResourceAttrSet(resourceName, "create_vnic_details.0.subnet_id"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "extended_metadata.%", "2"),
+					resource.TestCheckResourceAttr(resourceName, "extended_metadata.%", "3"),
 					resource.TestCheckResourceAttr(resourceName, "fault_domain", "FAULT-DOMAIN-2"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "image"),
 					resource.TestCheckResourceAttr(resourceName, "ipxe_script", "ipxeScript"),
-					resource.TestCheckResourceAttr(resourceName, "metadata.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "metadata.%", "2"),
 					resource.TestCheckResourceAttrSet(resourceName, "region"),
 					resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard1.8"),
 					resource.TestCheckResourceAttr(resourceName, "source_details.#", "1"),
@@ -261,6 +266,39 @@ variable "instance_state" { default = "RUNNING" }
 					},
 				),
 			},
+			// verify updates to non-updatable user_data parameters
+			{
+				Config: config + InstanceCommonVariables + `
+variable "instance_availability_domain" { default = "availabilityDomain" }
+variable "instance_create_vnic_details_assign_public_ip" { default = false }
+variable "instance_create_vnic_details_defined_tags_value" { default = "definedTags" }
+variable "instance_create_vnic_details_display_name" { default = "displayName" }
+variable "instance_create_vnic_details_freeform_tags" { default = {"Department"= "Accounting"} }
+variable "instance_create_vnic_details_private_ip" { default = "10.0.0.5" }
+variable "instance_create_vnic_details_skip_source_dest_check" { default = false }
+variable "instance_defined_tags_value" { default = "updatedValue" }
+variable "instance_display_name" { default = "displayName2" }
+variable "instance_extended_metadata" { default = {
+	some_string = "stringA"
+	nested_object = "{\"some_string\": \"stringB\", \"object\": {\"some_string\": \"stringC\"}}"
+	other_string = "stringD"
+} }
+variable "instance_fault_domain" { default = "FAULT-DOMAIN-2" }
+variable "instance_freeform_tags" { default = {"Department"= "Accounting"} }
+variable "instance_hostname_label" { default = "hostnameLabel" }
+variable "instance_image" { default = "image" }
+variable "instance_ipxe_script" { default = "ipxeScript" }
+variable "instance_metadata" { default = { 
+	user_data = "dcba"
+	volatile_data = "stringE"
+} }
+variable "instance_shape" { default = "VM.Standard1.8" }
+variable "instance_source_details_source_type" { default = "image" }
+variable "instance_state" { default = "RUNNING" }
+
+                ` + compartmentIdVariableStr + InstanceResourceConfig,
+				ExpectError: regexp.MustCompile("The 'user_data' metadata field cannot be updated and must be provided with the already existing value."),
+			},
 			// verify datasource
 			{
 				Config: config + InstanceCommonVariables + `
@@ -274,15 +312,19 @@ variable "instance_create_vnic_details_skip_source_dest_check" { default = false
 variable "instance_defined_tags_value" { default = "updatedValue" }
 variable "instance_display_name" { default = "displayName2" }
 variable "instance_extended_metadata" { default = {
-		some_string = "stringA"
-		nested_object = "{\"some_string\": \"stringB\", \"object\": {\"some_string\": \"stringC\"}}"
-	} }
+	some_string = "stringA"
+	nested_object = "{\"some_string\": \"stringB\", \"object\": {\"some_string\": \"stringC\"}}"
+	other_string = "stringD"
+} }
 variable "instance_fault_domain" { default = "FAULT-DOMAIN-2" }
 variable "instance_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "instance_hostname_label" { default = "hostnameLabel" }
 variable "instance_image" { default = "image" }
 variable "instance_ipxe_script" { default = "ipxeScript" }
-variable "instance_metadata" { default = { userdata = "abcd" } }
+variable "instance_metadata" { default = { 
+	user_data = "abcd"
+	volatile_data = "stringE"
+} }
 variable "instance_shape" { default = "VM.Standard1.8" }
 variable "instance_source_details_source_type" { default = "image" }
 variable "instance_state" { default = "RUNNING" }
@@ -313,13 +355,13 @@ data "oci_core_instances" "test_instances" {
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "instances.0.extended_metadata.%", "2"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.extended_metadata.%", "3"),
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.fault_domain", "FAULT-DOMAIN-2"),
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.image"),
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.ipxe_script", "ipxeScript"),
-					resource.TestCheckResourceAttr(datasourceName, "instances.0.metadata.%", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.metadata.%", "2"),
 					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.region"),
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.shape", "VM.Standard1.8"),
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.source_details.#", "1"),

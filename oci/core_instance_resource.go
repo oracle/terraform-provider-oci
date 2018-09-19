@@ -150,7 +150,6 @@ func InstanceResource() *schema.Resource {
 			"extended_metadata": {
 				Type:     schema.TypeMap,
 				Optional: true,
-				ForceNew: true,
 				Elem:     schema.TypeString,
 			},
 			"fault_domain": {
@@ -188,7 +187,6 @@ func InstanceResource() *schema.Resource {
 			"metadata": {
 				Type:     schema.TypeMap,
 				Optional: true,
-				ForceNew: true,
 				Elem:     schema.TypeString,
 			},
 			"preserve_boot_volume": {
@@ -526,12 +524,24 @@ func (s *InstanceResourceCrud) Update() error {
 		request.DisplayName = &tmp
 	}
 
+	if rawExtendedMetadata, ok := s.D.GetOkExists("extended_metadata"); ok {
+		extendedMetadata, err := mapToExtendedMetadata(rawExtendedMetadata.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.ExtendedMetadata = extendedMetadata
+	}
+
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()
 	request.InstanceId = &tmp
+
+	if metadata, ok := s.D.GetOkExists("metadata"); ok {
+		request.Metadata = objectMapToStringMap(metadata.(map[string]interface{}))
+	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
 
