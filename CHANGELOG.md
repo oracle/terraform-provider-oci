@@ -2,6 +2,7 @@
 
 ### Added
 - Support for importing load balancer related resources such as backend, backend set, hostname, listeners, and path route sets
+- Support for updating an instance's metadata and extended metadata
 
 ## 3.0.0 (September 17, 2018)
 
