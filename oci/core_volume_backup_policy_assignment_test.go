@@ -15,13 +15,6 @@ import (
 
 const (
 	VolumeBackupPolicyAssignmentResourceConfig = VolumeBackupPolicyAssignmentResourceDependencies + `
-data "oci_core_volume_backup_policies" "test_volume_backup_policies" {
-	filter {
-        name = "display_name"
-        values = [ "silver" ]
-    }
-}
-
 resource "oci_core_volume_backup_policy_assignment" "test_volume_backup_policy_assignment" {
 	asset_id = "${oci_core_volume.test_volume.id}"
 	policy_id = "${data.oci_core_volume_backup_policies.test_volume_backup_policies.volume_backup_policies.0.id}"
