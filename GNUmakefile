@@ -13,6 +13,7 @@ default: build
 build: fmtcheck
 	go install
 
+### TODO: Fix this so that only unit tests are running
 test: fmtcheck
 
 testacc: fmtcheck
