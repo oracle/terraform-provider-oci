@@ -9,7 +9,7 @@ description: |-
 # Data Source: oci_core_volumes
 The `oci_core_volumes` data source allows access to the list of OCI volumes
 
-Lists the volumes in the specified compartment and Availability Domain.
+Lists the volumes in the specified compartment and availability domain.
 
 
 ## Example Usage
@@ -31,7 +31,7 @@ data "oci_core_volumes" "test_volumes" {
 
 The following arguments are supported:
 
-* `availability_domain` - (Optional) The name of the Availability Domain.  Example: `Uocm:PHX-AD-1` 
+* `availability_domain` - (Optional) The name of the availability domain.  Example: `Uocm:PHX-AD-1` 
 * `compartment_id` - (Required) The OCID of the compartment.
 * `display_name` - (Optional) A filter to return only resources that match the given display name exactly. 
 * `state` - (Optional) A filter to only return resources that match the given lifecycle state.  The state value is case-insensitive. 
@@ -48,7 +48,7 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `availability_domain` - The Availability Domain of the volume.  Example: `Uocm:PHX-AD-1` 
+* `availability_domain` - The availability domain of the volume.  Example: `Uocm:PHX-AD-1` 
 * `compartment_id` - The OCID of the compartment that contains the volume.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
@@ -57,7 +57,7 @@ The following attributes are exported:
 * `is_hydrated` - Specifies whether the cloned volume's data has finished copying from the source volume or backup.
 * `size_in_gbs` - The size of the volume in GBs.
 * `size_in_mbs` - The size of the volume in MBs. This field is deprecated. Use `size_in_gbs` instead.
-* `source_details` - The volume source, either an existing volume in the same Availability Domain or a volume backup. If null, an empty volume is created. 
+* `source_details` - The volume source, either an existing volume in the same availability domain or a volume backup. If null, an empty volume is created. 
 	* `id` - The OCID of the volume or volume backup.
 	* `type` - The type of volume source. It should be set to either `volumeBackup` or `volume`.
 * `state` - The current state of a volume.
