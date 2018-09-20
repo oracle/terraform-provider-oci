@@ -19,7 +19,7 @@ import (
 var testAccProvider *schema.Provider
 var testAccProviders map[string]terraform.ResourceProvider
 var requiredTestEnvVars = []string{"compartment_ocid", "compartment_id_for_create", "compartment_id_for_update", "tags_import_if_exists"}
-var requiredKeyAuthEnvVars = []string{"tenancy_ocid", "user_ocid", "fingerprint", "private_key_path"}
+var requiredKeyAuthEnvVars = []string{"tenancy_ocid", "user_ocid", "fingerprint", "private_key"}
 var requiredOboTokenAuthEnvVars = []string{"tenancy_ocid", "obo_token"}
 
 func init() {
