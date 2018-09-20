@@ -284,7 +284,7 @@ func (s *ResourceLoadBalancerBackendSetTestSuite) TestAccResourceLoadBalancerBac
 				// Create a new backend
 				resource "oci_load_balancer_backend" "t" {
 					load_balancer_id = "${oci_load_balancer.t.id}"
-					backendset_name = "${oci_load_balancer_backendset.t.id}"
+					backendset_name = "${oci_load_balancer_backendset.t.name}"
 					ip_address = "1.2.3.4"
 					port = 8080
 				}
@@ -355,7 +355,7 @@ func (s *ResourceLoadBalancerBackendSetTestSuite) TestAccResourceLoadBalancerBac
 
 				resource "oci_load_balancer_backend" "t" {
 					load_balancer_id = "${oci_load_balancer.t.id}"
-					backendset_name = "${oci_load_balancer_backendset.t.id}"
+					backendset_name = "${oci_load_balancer_backendset.t.name}"
 					ip_address = "1.2.3.4"
 					port = 80
 				}
