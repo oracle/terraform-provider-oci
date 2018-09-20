@@ -1,4 +1,4 @@
-## 3.1.0 (Unreleased)
+## 3.1.0 (September 20, 2018)
 
 ### Added
 - Support for importing load balancer related resources such as backend, backend set, hostname, listeners, and path route sets
