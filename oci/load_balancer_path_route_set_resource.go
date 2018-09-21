@@ -5,6 +5,7 @@ package provider
 import (
 	"context"
 	"fmt"
+	"log"
 	"net/url"
 	"regexp"
 	"strings"
@@ -247,7 +248,7 @@ func (s *PathRouteSetResourceCrud) Get() error {
 			request.LoadBalancerId = &loadBalancerId
 			request.PathRouteSetName = &pathRouteSetName
 		} else {
-			return err
+			log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
 		}
 	}
 
@@ -361,7 +362,7 @@ func (s *PathRouteSetResourceCrud) SetData() error {
 		s.D.Set("load_balancer_id", &loadBalancerId)
 		s.D.Set("name", &pathRouteSetName)
 	} else {
-		return err
+		log.Printf("[WARN] SetData() unable to parse current ID: %s", s.D.Id())
 	}
 
 	if s.Res.Name != nil {
