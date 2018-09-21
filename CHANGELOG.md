@@ -1,4 +1,8 @@
 ## 3.1.1 (Unreleased)
+
+### Fixed
+- Fixed bug with load balancer compositeId. Issue [#612](https://github.com/oracle/terraform-provider-oci/issues/612)
+
 ## 3.1.0 (September 20, 2018)
 
 ### Added

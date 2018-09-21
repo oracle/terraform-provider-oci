@@ -5,6 +5,7 @@ package provider
 import (
 	"context"
 	"fmt"
+	"log"
 	"net/url"
 	"regexp"
 	"strconv"
@@ -273,7 +274,7 @@ func (s *BackendResourceCrud) Get() error {
 			request.BackendSetName = &backendSetName
 			request.LoadBalancerId = &loadBalancerId
 		} else {
-			return err
+			log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
 		}
 	}
 
@@ -403,7 +404,7 @@ func (s *BackendResourceCrud) SetData() error {
 		s.D.Set("backendset_name", &backendSetName)
 		s.D.Set("load_balancer_id", &loadBalancerId)
 	} else {
-		return err
+		log.Printf("[WARN] SetData() unable to parse current ID: %s", s.D.Id())
 	}
 
 	if s.Res.Backup != nil {
