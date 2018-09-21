@@ -5,6 +5,7 @@ package provider
 import (
 	"context"
 	"fmt"
+	"log"
 	"net/url"
 	"regexp"
 	"strconv"
@@ -310,7 +311,7 @@ func (s *ListenerResourceCrud) Get() (e error) {
 			s.D.Set("name", &listenerName)
 			s.D.Set("load_balancer_id", &loadBalancerId)
 		} else {
-			return err
+			log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
 		}
 	}
 
@@ -473,7 +474,7 @@ func (s *ListenerResourceCrud) SetData() error {
 		s.D.Set("name", &listenerName)
 		s.D.Set("load_balancer_id", &loadBalancerId)
 	} else {
-		return err
+		log.Printf("[WARN] SetData() unable to parse current ID: %s", s.D.Id())
 	}
 
 	if s.Res.ConnectionConfiguration != nil {
