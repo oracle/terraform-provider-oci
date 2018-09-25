@@ -1,7 +1,7 @@
 ## NOTICE
-**The terraform provider has been renamed, see [this wiki](https://github.com/oracle/terraform-provider-oci/wiki/Oracle-Terraform-Provider-Name-Change) for information on migration steps.**
+**The terraform provider has been renamed, see [this wiki](https://github.com/terraform-providers/terraform-provider-oci/wiki/Oracle-Terraform-Provider-Name-Change) for information on migration steps.**
 
-*Legacy provider documentation (for v1.0.18 and earlier) can be found [here](https://github.com/oracle/terraform-provider-oci/tree/v1.0.18/docs)* 
+*Legacy provider documentation (for v1.0.18 and earlier) can be found [here](https://github.com/terraform-providers/terraform-provider-oci/tree/v1.0.18/docs)* 
  
 
     #     ___  ____     _    ____ _     _____
@@ -25,7 +25,7 @@ The provider is compatible with Terraform v0.10.x.
 The Terraform provider provides coverage for the entire OCI API, with some minor exceptions.
 
 ## Getting started
-Be sure to read the FAQ and Writing Terraform configurations for OCI in [/docs](https://github.com/oracle/terraform-provider-oci/tree/master/docs).
+Be sure to read the FAQ and Writing Terraform configurations for OCI in [/docs](https://github.com/terraform-providers/terraform-provider-oci/tree/master/docs).
 
 ## Installation
 **NOTE** Terraform v0.10.x introduces a change to plugin management where 
@@ -45,7 +45,7 @@ https://www.terraform.io/downloads.html
 https://www.terraform.io/intro/getting-started/install.html
 
 #### Get the Oracle Cloud Infrastructure Terraform provider
-https://github.com/oracle/terraform-provider-oci/releases
+https://github.com/terraform-providers/terraform-provider-oci/releases
 
 Unpack the provider. Terraform v0.10.x introduces a change to plugin 
 management where v0.9.x configuration no longer applies. To be compatible 
@@ -88,7 +88,7 @@ If your TF configurations are limited to a single compartment/user then
 using this `bash_profile` option will work well. For more complex 
 environments you may want to maintain multiple sets of environment 
 variables. 
-See the [compute single instance example](https://github.com/oracle/terraform-provider-oci/tree/master/docs/examples/compute/instance) for more info.
+See the [compute single instance example](https://github.com/terraform-providers/terraform-provider-oci/tree/master/docs/examples/compute/instance) for more info.
 
 In your ~/.bash_profile set these variables
 ```
@@ -115,7 +115,7 @@ setx TF_VAR_private_key_path <value>
 The variables won't be set for the current session, exit the terminal and reopen.
 
 ## Deploy an example configuration
-Download the [virtual cloud network example](https://github.com/oracle/terraform-provider-oci/tree/master/docs/examples/networking/vcn).
+Download the [virtual cloud network example](https://github.com/terraform-providers/terraform-provider-oci/tree/master/docs/examples/networking/vcn).
 
 You should always plan, then apply a configuration -
 ```
@@ -135,16 +135,16 @@ $ terraform destroy
 ```
 
 ## OCI resource and datasource details
-https://github.com/oracle/terraform-provider-oci/tree/master/docs
+https://github.com/terraform-providers/terraform-provider-oci/tree/master/docs
 
 ## Getting help
 You can file an issue against the project
-https://github.com/oracle/terraform-provider-oci/issues
+https://github.com/terraform-providers/terraform-provider-oci/issues
 
 or meet us in the OCI forums
 https://community.oracle.com/community/cloud_computing/bare-metal
 
 ## Known issues
 
-[Github issues](https://github.com/oracle/terraform-provider-oci/issues)
+[Github issues](https://github.com/terraform-providers/terraform-provider-oci/issues)
 

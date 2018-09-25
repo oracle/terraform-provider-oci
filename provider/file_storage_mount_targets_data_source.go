@@ -8,7 +8,7 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_file_storage "github.com/oracle/oci-go-sdk/filestorage"
 
-	"github.com/oracle/terraform-provider-oci/crud"
+	"github.com/terraform-providers/terraform-provider-oci/crud"
 )
 
 func MountTargetsDataSource() *schema.Resource {

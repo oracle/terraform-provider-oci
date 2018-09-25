@@ -8,7 +8,7 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/core"
 
-	"github.com/oracle/terraform-provider-oci/crud"
+	"github.com/terraform-providers/terraform-provider-oci/crud"
 )
 
 // @CODEGEN: Override the resource schema's 'security_list_ids' to make it TypeList instead of TypeSet.

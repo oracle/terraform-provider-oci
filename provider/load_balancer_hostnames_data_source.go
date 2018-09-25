@@ -8,7 +8,7 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
 
-	"github.com/oracle/terraform-provider-oci/crud"
+	"github.com/terraform-providers/terraform-provider-oci/crud"
 )
 
 func HostnamesDataSource() *schema.Resource {

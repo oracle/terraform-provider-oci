@@ -9,7 +9,7 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/oracle/terraform-provider-oci/crud"
+	"github.com/terraform-providers/terraform-provider-oci/crud"
 
 	"time"
 

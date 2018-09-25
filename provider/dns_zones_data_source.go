@@ -11,7 +11,7 @@ import (
 	oci_common "github.com/oracle/oci-go-sdk/common"
 	oci_dns "github.com/oracle/oci-go-sdk/dns"
 
-	"github.com/oracle/terraform-provider-oci/crud"
+	"github.com/terraform-providers/terraform-provider-oci/crud"
 )
 
 func ZonesDataSource() *schema.Resource {

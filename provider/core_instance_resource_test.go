@@ -13,7 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/core"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/oracle/terraform-provider-oci/crud"
+	"github.com/terraform-providers/terraform-provider-oci/crud"
 )
 
 type ResourceCoreInstanceTestSuite struct {

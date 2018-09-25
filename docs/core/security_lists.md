@@ -3,7 +3,7 @@
 ## SecurityList Resource
 
 For more information on configuring a VCN's default security list, 
-see [Managing Default VCN Resources](https://github.com/oracle/terraform-provider-oci/blob/master/docs/Managing%20Default%20Resources.md)
+see [Managing Default VCN Resources](https://github.com/terraform-providers/terraform-provider-oci/blob/master/docs/Managing%20Default%20Resources.md)
 
 ### SecurityList Reference
 

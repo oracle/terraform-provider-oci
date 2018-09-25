@@ -44,8 +44,8 @@ provider "oci" {
 ```
 
 Use the 'region' attribute in your provider definition to specify which region 
-your resources will be created in. See the [ad_multi_region](https://github.com/oracle/terraform-provider-oci/tree/master/docs/examples/iam/ad_multi_region/ad_multi_region.tf)
-or [vcn_multi_region](https://github.com/oracle/terraform-provider-oci/tree/master/docs/examples/networking/vcn_multi_region)
+your resources will be created in. See the [ad_multi_region](https://github.com/terraform-providers/terraform-provider-oci/tree/master/docs/examples/iam/ad_multi_region/ad_multi_region.tf)
+or [vcn_multi_region](https://github.com/terraform-providers/terraform-provider-oci/tree/master/docs/examples/networking/vcn_multi_region)
 examples for details on how to target multiple regions from one plan.
 
 ### Enabling Instance Principal Authorization
@@ -65,7 +65,7 @@ See [Calling Services from an instance](https://docs.us-phoenix-1.oraclecloud.co
 for setting up and using instances as principals.
 
 ## OCI resource and data source details
-A list of all supported OCI resources and data sources can be found in the [Table of Contents](https://github.com/oracle/terraform-provider-oci/blob/master/docs/Table%20of%20Contents.md).
+A list of all supported OCI resources and data sources can be found in the [Table of Contents](https://github.com/terraform-providers/terraform-provider-oci/blob/master/docs/Table%20of%20Contents.md).
 
 ## CamelCase
 The OCI API uses CamelCase in multiple places. Terraform doesn't support CamelCase in configuration files so we've replaced it with underscores. For example -
@@ -80,4 +80,4 @@ The OCI API uses CamelCase in multiple places. Terraform doesn't support CamelCa
 	vcnId						 vcn_id
 
 ## Filtering
-Most OCI data sources support filtering - see [docs/Filters.md](https://github.com/oracle/terraform-provider-oci/blob/master/docs/Filters.md) for details.
+Most OCI data sources support filtering - see [docs/Filters.md](https://github.com/terraform-providers/terraform-provider-oci/blob/master/docs/Filters.md) for details.

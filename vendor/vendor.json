@@ -4221,5 +4221,5 @@
 			"revisionTime": "2017-04-24T05:23:36Z"
 		}
 	],
-	"rootPath": "github.com/oracle/terraform-provider-oci"
+	"rootPath": "github.com/terraform-providers/terraform-provider-oci"
 }

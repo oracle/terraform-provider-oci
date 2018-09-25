@@ -9,7 +9,7 @@ buildall: build
 	go test ./provider -run FAKE_BUILD_TEST
 
 clean: ;@rm -rf terraform-provider-oci  rm -rf bin/*  rm bin
-fmt: ;goimports -w -local github.com/oracle/terraform-provider-oci $(GOFMT_FILES)
+fmt: ;goimports -w -local github.com/terraform-providers/terraform-provider-oci $(GOFMT_FILES)
 
 ### `make release version=2.0.1`
 release: clean

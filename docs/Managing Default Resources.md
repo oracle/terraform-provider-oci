@@ -1,11 +1,11 @@
 ## Managing Default Virtual Cloud Network Resources
 
-When you create an [oci_core_vcn](https://github.com/oracle/terraform-provider-oci/blob/master/docs/core/vcns.md)
+When you create an [oci_core_vcn](https://github.com/terraform-providers/terraform-provider-oci/blob/master/docs/core/vcns.md)
 resource, it will also create the following associated resources by default.
 
-- [oci_core_security_list](https://github.com/oracle/terraform-provider-oci/blob/master/docs/core/security_lists.md)
-- [oci_core_dhcp_options](https://github.com/oracle/terraform-provider-oci/blob/master/docs/core/dhcp_options.md)
-- [oci_core_route_table](https://github.com/oracle/terraform-provider-oci/blob/master/docs/core/route_tables.md)
+- [oci_core_security_list](https://github.com/terraform-providers/terraform-provider-oci/blob/master/docs/core/security_lists.md)
+- [oci_core_dhcp_options](https://github.com/terraform-providers/terraform-provider-oci/blob/master/docs/core/dhcp_options.md)
+- [oci_core_route_table](https://github.com/terraform-providers/terraform-provider-oci/blob/master/docs/core/route_tables.md)
 
 These default resources will be implicitly created even if they are not specified in the Terraform configuration.
 Their OCIDs are returned by the following attributes under the `oci_core_vcn` resource:
@@ -56,7 +56,7 @@ resource "oci_core_default_dhcp_options" "default-dhcp-options" {
 }
 ```
 
-For more detailed examples, refer to [docs/examples/networking/vcn_default](https://github.com/oracle/terraform-provider-oci/tree/master/docs/examples/networking/vcn_default/vcn.tf)
+For more detailed examples, refer to [docs/examples/networking/vcn_default](https://github.com/terraform-providers/terraform-provider-oci/tree/master/docs/examples/networking/vcn_default/vcn.tf)
 
 ### Limitations
 

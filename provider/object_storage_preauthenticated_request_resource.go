@@ -12,7 +12,7 @@ import (
 
 	"time"
 
-	"github.com/oracle/terraform-provider-oci/crud"
+	"github.com/terraform-providers/terraform-provider-oci/crud"
 )
 
 func PreauthenticatedRequestResource() *schema.Resource {

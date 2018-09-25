@@ -2,7 +2,7 @@
 
 ## RouteTable Resource
 
-For more information on configuring a VCN's default route table, see [Managing Default VCN Resources](https://github.com/oracle/terraform-provider-oci/blob/master/docs/Managing%20Default%20Resources.md)
+For more information on configuring a VCN's default route table, see [Managing Default VCN Resources](https://github.com/terraform-providers/terraform-provider-oci/blob/master/docs/Managing%20Default%20Resources.md)
 
 ### RouteTable Reference
 

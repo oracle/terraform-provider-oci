@@ -30,7 +30,7 @@ The change you made outside of Terraform will be overwritten the next time you a
 
 #### Q: How do I get help?
 You can file an issue against the project  
-https://github.com/oracle/terraform-provider-oci/issues
+https://github.com/terraform-providers/terraform-provider-oci/issues
 
 or meet us in the OCI forums
 https://community.oracle.com/community/oracle-cloud/cloud-infrastructure/
