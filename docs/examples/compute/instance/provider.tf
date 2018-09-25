@@ -4,5 +4,4 @@ provider "oci" {
   fingerprint          = "${var.fingerprint}"
   private_key_path     = "${var.private_key_path}"
   region               = "${var.region}"
-  disable_auto_retries = "true"
 }
