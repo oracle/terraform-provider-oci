@@ -71,8 +71,8 @@ func (s *ClustersDataSourceCrud) Get() error {
 
 	if states, ok := s.D.GetOkExists("state"); ok {
 		var enumStates []oci_containerengine.ListClustersLifecycleStateEnum
-		for _, r := range states.([]string) {
-			enumStates = append(enumStates, oci_containerengine.ListClustersLifecycleStateEnum(r))
+		for _, r := range states.([]interface{}) {
+			enumStates = append(enumStates, oci_containerengine.ListClustersLifecycleStateEnum(r.(string)))
 		}
 		request.LifecycleState = enumStates
 	}
