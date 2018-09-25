@@ -29,7 +29,7 @@ data "oci_core_instances" "r1" {
   ...
   filter {
     name = "source_details.source_type"
-    value = ["image"]
+    values = ["image"]
   }
 }
 
@@ -37,7 +37,7 @@ data "oci_core_instances" "r2" {
   ...
   filter {
     name = "defined_tags.Operations.CostCenter"
-    value = ["42"]
+    values = ["42"]
   }
 }
 
