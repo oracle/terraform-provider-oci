@@ -193,7 +193,7 @@ variable "cluster_options_add_ons_is_tiller_enabled" { default = true }
 variable "cluster_options_kubernetes_network_config_pods_cidr" { default = "10.1.0.0/16" }
 variable "cluster_options_kubernetes_network_config_services_cidr" { default = "10.2.0.0/16" }
 variable "cluster_options_service_lb_subnet_ids" { default = [] }
-variable "cluster_state" { default = [] }
+variable "cluster_state" { default = ["CREATING", "ACTIVE", FAILED", "DELETING", "DELETED", "UPDATING"] }
 
 data "oci_containerengine_clusters" "test_clusters" {
 	#Required
@@ -201,6 +201,7 @@ data "oci_containerengine_clusters" "test_clusters" {
 
 	#Optional
 	name = "${var.cluster_name}"
+	state = "${var.cluster_state}"
 
     filter {
     	name = "id"
@@ -224,6 +225,7 @@ data "oci_containerengine_clusters" "test_clusters" {
 					resource.TestCheckResourceAttr(datasourceName, "clusters.0.options.0.kubernetes_network_config.0.pods_cidr", "10.1.0.0/16"),
 					resource.TestCheckResourceAttr(datasourceName, "clusters.0.options.0.kubernetes_network_config.0.services_cidr", "10.2.0.0/16"),
 					resource.TestCheckResourceAttr(datasourceName, "clusters.0.options.0.service_lb_subnet_ids.#", "2"),
+					resource.TestCheckResourceAttrSet(datasourceName, "clusters.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "clusters.0.vcn_id"),
 				),
 			},
