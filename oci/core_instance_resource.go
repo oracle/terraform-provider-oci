@@ -790,9 +790,8 @@ func CreateVnicDetailsToMap(obj *oci_core.Vnic, createVnicDetails map[string]int
 		assignPublicIP, _ := NormalizeBoolString(createVnicDetails["assign_public_ip"].(string)) // Must be valid.
 		result["assign_public_ip"] = assignPublicIP
 	} else {
-		// Set to "true" in case "create_vnic_details" is ommited altogether & the default value for
-		// "assign_public_ip" doesn't kick in.
-		result["assign_public_ip"] = "true"
+		// We may be importing this value; so let's set it to whether the public IP is set.
+		result["assign_public_ip"] = strconv.FormatBool(obj.PublicIp != nil && *obj.PublicIp != "")
 	}
 
 	if obj.DefinedTags != nil {
