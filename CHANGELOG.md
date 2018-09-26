@@ -1,7 +1,8 @@
 ## 3.1.2 (Unreleased)
 
 ### Fixed
-- Fixed bug with specifying lifecycle state in container enginge cluster datasource. Issue [#600](https://github.com/terraform-providers/terraform-provider-oci/issues/600)
+- Specifying lifecycle state in container engine cluster datasource. Issue [#600](https://github.com/terraform-providers/terraform-provider-oci/issues/600)
+- Importing the assign_public_ip attribute for instances. Issue [#593](https://github.com/terraform-providers/terraform-provider-oci/issues/593)
 
 ## 3.1.1 (September 21, 2018)
 
