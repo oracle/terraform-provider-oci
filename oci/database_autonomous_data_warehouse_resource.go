@@ -180,6 +180,7 @@ func (s *AutonomousDataWarehouseResourceCrud) CreatedTarget() []string {
 func (s *AutonomousDataWarehouseResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_database.AutonomousDataWarehouseLifecycleStateTerminating),
+		string(oci_database.AutonomousDataWarehouseLifecycleStateUnavailable),
 	}
 }
 
@@ -192,6 +193,7 @@ func (s *AutonomousDataWarehouseResourceCrud) DeletedTarget() []string {
 func (s *AutonomousDataWarehouseResourceCrud) UpdatedPending() []string {
 	return []string{
 		string(oci_database.AutonomousDataWarehouseLifecycleStateProvisioning),
+		string(oci_database.AutonomousDataWarehouseLifecycleStateUnavailable),
 		string(oci_database.AutonomousDataWarehouseLifecycleStateScaleInProgress),
 	}
 }
