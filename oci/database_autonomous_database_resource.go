@@ -180,6 +180,7 @@ func (s *AutonomousDatabaseResourceCrud) CreatedTarget() []string {
 func (s *AutonomousDatabaseResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_database.AutonomousDatabaseLifecycleStateTerminating),
+		string(oci_database.AutonomousDatabaseLifecycleStateUnavailable),
 	}
 }
 
@@ -192,6 +193,7 @@ func (s *AutonomousDatabaseResourceCrud) DeletedTarget() []string {
 func (s *AutonomousDatabaseResourceCrud) UpdatedPending() []string {
 	return []string{
 		string(oci_database.AutonomousDatabaseLifecycleStateProvisioning),
+		string(oci_database.AutonomousDatabaseLifecycleStateUnavailable),
 		string(oci_database.AutonomousDatabaseLifecycleStateScaleInProgress),
 	}
 }
