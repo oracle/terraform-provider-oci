@@ -4,9 +4,9 @@
 - Support updating size of offline volumes
 
 ### Fixed
-- Specifying lifecycle state in container engine cluster datasource. Issue [#600](https://github.com/terraform-providers/terraform-provider-oci/issues/600)
-- Importing the assign_public_ip attribute for instances. Issue [#593](https://github.com/terraform-providers/terraform-provider-oci/issues/593)
-- Destroying of ADW and ATP resources in cases when the database lifecycle state becomes `Unavailable`
+- Specifying lifecycle state in container engine cluster datasource properly filters. Issue [#600](https://github.com/terraform-providers/terraform-provider-oci/issues/600)
+- Importing the assign_public_ip attribute for instances has the correct default. Issue [#593](https://github.com/terraform-providers/terraform-provider-oci/issues/593)
+- ADW and ATP resources destruction still succeeds if the database lifecycle state becomes `Unavailable`
 
 ## 3.1.1 (September 21, 2018)
 
