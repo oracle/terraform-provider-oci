@@ -28,6 +28,12 @@ resource "oci_core_route_table" "test_route_table" {
 resource "oci_core_route_table" "test_route_table" {
 	#Required
 	compartment_id = "${var.compartment_id}"
+    route_rules {
+		#Required
+		destination = "${lookup(data.oci_core_services.test_services.services[0], "cidr_block")}"
+		destination_type = "SERVICE_CIDR_BLOCK"
+		network_entity_id = "${oci_core_service_gateway.test_service_gateway.id}"
+	}
 	route_rules {
 		#Required
 		cidr_block = "${var.route_table_route_rules_cidr_block}"
@@ -39,6 +45,33 @@ resource "oci_core_route_table" "test_route_table" {
 	display_name = "${var.route_table_display_name}"
 }
 `
+	RouteTableResourceConfigWithAdditionalRule = RouteTableResourceDependencies + `
+resource "oci_core_route_table" "test_route_table" {
+	#Required
+	compartment_id = "${var.compartment_id}"
+	route_rules {
+		#Required
+		cidr_block = "10.0.0.0/8"
+		network_entity_id = "${oci_core_internet_gateway.test_network_entity.id}"
+	}
+    route_rules {
+		#Required
+		destination = "${lookup(data.oci_core_services.test_services.services[0], "cidr_block")}"
+		destination_type = "SERVICE_CIDR_BLOCK"
+		network_entity_id = "${oci_core_service_gateway.test_service_gateway.id}"
+	}
+	route_rules {
+		#Required
+		cidr_block = "${var.route_table_route_rules_cidr_block}"
+		network_entity_id = "${oci_core_internet_gateway.test_network_entity.id}"
+	}
+	vcn_id = "${oci_core_vcn.test_vcn.id}"
+
+	#Optional
+	display_name = "${var.route_table_display_name}"
+}
+`
+
 	RouteTablePropertyVariables = `
 variable "route_table_display_name" { default = "MyRouteTable" }
 variable "route_table_route_rules_cidr_block" { default = "0.0.0.0/0" }
@@ -50,6 +83,25 @@ variable "route_table_state" { default = "state" }
 		compartment_id = "${var.compartment_id}"
 		vcn_id = "${oci_core_vcn.test_vcn.id}"
 		display_name = "-tf-internet-gateway"
+	}
+
+	resource "oci_core_service_gateway" "test_service_gateway" {
+	  #Required
+	  compartment_id = "${var.compartment_id}"
+	
+	  services {
+		service_id = "${lookup(data.oci_core_services.test_services.services[0], "id")}"
+	  }
+	
+	  vcn_id = "${oci_core_vcn.test_vcn.id}"
+	}
+	
+	data "oci_core_services" "test_services" {
+	  filter {
+		name   = "name"
+		values = [".*Object.*Storage"]
+		regex  = true
+	  }
 	}
 	`
 )
@@ -103,9 +155,11 @@ func TestCoreRouteTableResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "MyRouteTable"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "route_rules.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "route_rules.0.cidr_block", "0.0.0.0/0"),
+					resource.TestCheckResourceAttr(resourceName, "route_rules.#", "2"),
+					resource.TestCheckResourceAttr(resourceName, "route_rules.0.destination_type", "SERVICE_CIDR_BLOCK"),
 					resource.TestCheckResourceAttrSet(resourceName, "route_rules.0.network_entity_id"),
+					resource.TestCheckResourceAttr(resourceName, "route_rules.1.cidr_block", "0.0.0.0/0"),
+					resource.TestCheckResourceAttrSet(resourceName, "route_rules.1.network_entity_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
@@ -123,7 +177,7 @@ variable "route_table_display_name" { default = "displayName2" }
 variable "route_table_route_rules_cidr_block" { default = "0.0.0.0/0" }
 variable "route_table_state" { default = "state" }
 
-                ` + compartmentIdVariableStr + RouteTableResourceConfig,
+                ` + compartmentIdVariableStr + RouteTableResourceConfigWithAdditionalRule,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
