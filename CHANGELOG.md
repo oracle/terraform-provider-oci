@@ -1,4 +1,7 @@
-## 3.1.2 (Unreleased)
+## 3.2.0 (Unreleased)
+
+### Added
+- Support updating size of offline volumes
 
 ### Fixed
 - Specifying lifecycle state in container engine cluster datasource. Issue [#600](https://github.com/terraform-providers/terraform-provider-oci/issues/600)
