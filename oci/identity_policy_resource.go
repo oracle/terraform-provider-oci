@@ -376,7 +376,7 @@ func (s *PolicyResourceCrud) SetData() error {
 	}
 
 	if s.Res.VersionDate != nil {
-		s.D.Set("version_date", *s.Res.VersionDate)
+		s.D.Set("version_date", s.Res.VersionDate.String())
 	}
 
 	return nil
