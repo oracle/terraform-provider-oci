@@ -1,4 +1,11 @@
-## 3.3.1 (Unreleased)
+## 3.4.0 (Unreleased)
+
+### Added
+- Support for clone and resize of Boot Volume
+- Support for specifying a backup policy at the time of creating a Boot Volume
+- Support for offline resizing of Boot Volume
+- Support for tagging of Boot Volume
+
 ## 3.3.0 (October 04, 2018)
 
 ### Added

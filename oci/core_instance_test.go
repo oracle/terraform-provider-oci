@@ -112,7 +112,7 @@ variable "instance_hostname_label" { default = "hostnameLabel" }
 variable "instance_image" { default = "image" }
 variable "instance_ipxe_script" { default = "ipxeScript" }
 variable "instance_metadata" { default = { user_data = "abcd" } }
-variable "instance_shape" { default = "VM.Standard1.8" }
+variable "instance_shape" { default = "VM.Standard2.1" }
 variable "instance_source_details_source_type" { default = "image" }
 variable "instance_state" { default = "RUNNING" }
 
