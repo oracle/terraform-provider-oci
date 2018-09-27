@@ -16,7 +16,7 @@ Gets information for the specified boot volume.
 ```hcl
 data "oci_core_boot_volume" "test_boot_volume" {
 	#Required
-	boot_volume_id = "${var.boot_volume_boot_volume_id}"
+	boot_volume_id = "${oci_core_boot_volume.test_boot_volume.id}"
 }
 ```
 
@@ -31,7 +31,7 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `availability_domain` - The Availability Domain of the boot volume.  Example: `Uocm:PHX-AD-1` 
+* `availability_domain` - The availability domain of the boot volume.  Example: `Uocm:PHX-AD-1` 
 * `compartment_id` - The OCID of the compartment that contains the boot volume.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
@@ -41,9 +41,9 @@ The following attributes are exported:
 * `is_hydrated` - Specifies whether the boot volume's data has finished copying from the source boot volume or boot volume backup.
 * `size_in_gbs` - The size of the boot volume in GBs.
 * `size_in_mbs` - The size of the volume in MBs. The value must be a multiple of 1024. This field is deprecated. Please use `size_in_gbs`. 
-* `source_details` - The boot volume source, either an existing boot volume in the same Availability Domain or a boot volume backup. If null, this means that the boot volume was created from an image. 
-	* `id` - The OCID of the boot volume backup or the boot volume
-	* `type` - The type of the boot volume source. Supported values are `bootVolumeBackup` and `bootVolume`
+* `source_details` - The boot volume source, either an existing boot volume in the same availability domain or a boot volume backup. If null, this means that the boot volume was created from an image. 
+	* `id` - The OCID of the boot volume or boot volume backup.
+	* `type` - The type of boot volume source. It should be set to either `bootVolumeBackup` or `bootVolume`.
 * `state` - The current state of a boot volume.
 * `time_created` - The date and time the boot volume was created. Format defined by RFC3339.
 * `volume_group_id` - The OCID of the source volume group.

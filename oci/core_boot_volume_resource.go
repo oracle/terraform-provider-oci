@@ -17,9 +17,6 @@ import (
 
 func BootVolumeResource() *schema.Resource {
 	return &schema.Resource{
-		Importer: &schema.ResourceImporter{
-			State: schema.ImportStatePassthrough,
-		},
 		Timeouts: DefaultTimeout,
 		Create:   createBootVolume,
 		Read:     readBootVolume,
@@ -94,6 +91,13 @@ func BootVolumeResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"size_in_gbs": {
+				Type:             schema.TypeString,
+				Optional:         true,
+				Computed:         true,
+				ValidateFunc:     validateInt64TypeString,
+				DiffSuppressFunc: int64StringDiffSuppressFunction,
+			},
 
 			// Computed
 			"image_id": {
@@ -102,11 +106,6 @@ func BootVolumeResource() *schema.Resource {
 			},
 			"is_hydrated": {
 				Type:     schema.TypeBool,
-				Computed: true,
-			},
-			// Add it till it is resolved that passing this as input will not cause an error
-			"size_in_gbs": {
-				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"size_in_mbs": {
@@ -198,6 +197,18 @@ func (s *BootVolumeResourceCrud) DeletedTarget() []string {
 	}
 }
 
+func (s *BootVolumeResourceCrud) UpdatedPending() []string {
+	return []string{
+		string(oci_core.BootVolumeLifecycleStateProvisioning),
+	}
+}
+
+func (s *BootVolumeResourceCrud) UpdatedTarget() []string {
+	return []string{
+		string(oci_core.BootVolumeLifecycleStateAvailable),
+	}
+}
+
 func (s *BootVolumeResourceCrud) Create() error {
 	request := oci_core.CreateBootVolumeRequest{}
 
@@ -231,6 +242,15 @@ func (s *BootVolumeResourceCrud) Create() error {
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if sizeInGBs, ok := s.D.GetOkExists("size_in_gbs"); ok {
+		tmp := sizeInGBs.(string)
+		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+		if err != nil {
+			return fmt.Errorf("unable to convert sizeInGBs string: %s to an int64 and encountered error: %v", tmp, err)
+		}
+		request.SizeInGBs = &tmpInt64
 	}
 
 	if sourceDetails, ok := s.D.GetOkExists("source_details"); ok {
@@ -293,6 +313,15 @@ func (s *BootVolumeResourceCrud) Update() error {
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if sizeInGBs, ok := s.D.GetOkExists("size_in_gbs"); ok {
+		tmp := sizeInGBs.(string)
+		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+		if err != nil {
+			return fmt.Errorf("unable to convert sizeInGBs string: %s to an int64 and encountered error: %v", tmp, err)
+		}
+		request.SizeInGBs = &tmpInt64
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")

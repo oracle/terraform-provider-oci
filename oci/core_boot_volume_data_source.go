@@ -7,6 +7,7 @@ import (
 	"strconv"
 
 	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform/helper/validation"
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
@@ -69,9 +70,14 @@ func BootVolumeDataSource() *schema.Resource {
 							ForceNew: true,
 						},
 						"type": {
-							Type:     schema.TypeString,
-							Required: true,
-							ForceNew: true,
+							Type:             schema.TypeString,
+							Required:         true,
+							ForceNew:         true,
+							DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
+							ValidateFunc: validation.StringInSlice([]string{
+								"bootVolume",
+								"bootVolumeBackup",
+							}, true),
 						},
 
 						// Optional
@@ -175,11 +181,13 @@ func (s *BootVolumeDataSourceCrud) SetData() error {
 	}
 
 	if s.Res.SourceDetails != nil {
-		var sourceDetailsArray []interface{}
+		sourceDetailsArray := []interface{}{}
 		if sourceDetailsMap := BootVolumeSourceDetailsToMap(&s.Res.SourceDetails); sourceDetailsMap != nil {
 			sourceDetailsArray = append(sourceDetailsArray, sourceDetailsMap)
 		}
 		s.D.Set("source_details", sourceDetailsArray)
+	} else {
+		s.D.Set("source_details", nil)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
