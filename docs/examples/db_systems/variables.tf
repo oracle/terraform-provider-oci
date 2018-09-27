@@ -8,16 +8,15 @@ variable "compartment_ocid" {}
 variable "ssh_public_key" {}
 variable "ssh_private_key" {}
 
-variable "subnet_ocid" {}
 
 # Choose an Availability Domain
-variable "availability_domain_index" {
-  default = "1"
+variable "availability_domain" {
+  default = "2"
 }
 
 # DBSystem specific 
 variable "db_system_shape" {
-  default = "BM.HighIO1.36"
+  default = "VM.Standard1.1"
 }
 
 variable "cpu_core_count" {
@@ -29,7 +28,7 @@ variable "db_edition" {
 }
 
 variable "db_admin_password" {
-  default = "BEstrO0ng_#11"
+  default = "BEstrO0ng_#12"
 }
 
 variable "db_name" {
