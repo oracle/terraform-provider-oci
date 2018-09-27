@@ -122,7 +122,7 @@ func (s *IdentityPoliciesDataSourceCrud) SetData() error {
 
 		// TODO: see comment "pending spec/sdk versionDate solution" in identity_policy_resource.go
 		if r.VersionDate != nil {
-			policy["version_date"] = *r.VersionDate
+			policy["version_date"] = r.VersionDate.String()
 		}
 
 		resources = append(resources, policy)
