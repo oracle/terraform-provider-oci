@@ -1,4 +1,5 @@
-## 3.2.0 (Unreleased)
+## 3.2.1 (Unreleased)
+## 3.2.0 (September 28, 2018)
 
 ### Added
 - Support updating size of offline volumes
