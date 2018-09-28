@@ -13,34 +13,29 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-const (
-	ConsoleHistoryRequiredOnlyResource = ConsoleHistoryResourceDependencies + `
-resource "oci_core_console_history" "test_console_history" {
-	#Required
-	instance_id = "${oci_core_instance.test_instance.id}"
-}
-`
+var (
+	ConsoleHistoryRequiredOnlyResource = ConsoleHistoryResourceDependencies +
+		generateResourceFromRepresentationMap("oci_core_console_history", "test_console_history", Required, Create, consoleHistoryRepresentation)
 
-	ConsoleHistoryResourceConfig = ConsoleHistoryResourceDependencies + `
-resource "oci_core_console_history" "test_console_history" {
-	#Required
-	instance_id = "${oci_core_instance.test_instance.id}"
+	consoleHistoryDataSourceRepresentation = map[string]interface{}{
+		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
+		"availability_domain": Representation{repType: Optional, create: `${oci_core_instance.test_instance.availability_domain}`},
+		"instance_id":         Representation{repType: Optional, create: `${oci_core_instance.test_instance.id}`},
+		"state":               Representation{repType: Optional, create: `SUCCEEDED`},
+		"filter":              RepresentationGroup{Required, consoleHistoryDataSourceFilterRepresentation}}
+	consoleHistoryDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   Representation{repType: Required, create: `id`},
+		"values": Representation{repType: Required, create: []string{`${oci_core_console_history.test_console_history.id}`}},
+	}
 
-	#Optional
-	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.console_history_defined_tags_value}")}"
-	display_name = "${var.console_history_display_name}"
-	freeform_tags = "${var.console_history_freeform_tags}"
-}
-`
-	ConsoleHistoryPropertyVariables = `
-variable "console_history_availability_domain" { default = "availabilityDomain" }
-variable "console_history_defined_tags_value" { default = "value" }
-variable "console_history_display_name" { default = "displayName" }
-variable "console_history_freeform_tags" { default = {"Department"= "Finance"} }
-variable "console_history_state" { default = "SUCCEEDED" }
+	consoleHistoryRepresentation = map[string]interface{}{
+		"instance_id":   Representation{repType: Required, create: `${oci_core_instance.test_instance.id}`},
+		"defined_tags":  Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":  Representation{repType: Optional, create: `displayName`, update: `displayName2`},
+		"freeform_tags": Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+	}
 
-`
-	ConsoleHistoryResourceDependencies = InstancePropertyVariables + InstanceResourceConfig
+	ConsoleHistoryResourceDependencies = InstanceRequiredOnlyResource
 )
 
 func TestCoreConsoleHistoryResource_basic(t *testing.T) {
@@ -64,7 +59,8 @@ func TestCoreConsoleHistoryResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + ConsoleHistoryPropertyVariables + compartmentIdVariableStr + ConsoleHistoryRequiredOnlyResource,
+				Config: config + compartmentIdVariableStr + ConsoleHistoryResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_console_history", "test_console_history", Required, Create, consoleHistoryRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
 
@@ -81,7 +77,8 @@ func TestCoreConsoleHistoryResource_basic(t *testing.T) {
 			},
 			// verify create with optionals
 			{
-				Config: config + ConsoleHistoryPropertyVariables + compartmentIdVariableStr + ConsoleHistoryResourceConfig,
+				Config: config + compartmentIdVariableStr + ConsoleHistoryResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_console_history", "test_console_history", Optional, Create, consoleHistoryRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
@@ -102,14 +99,8 @@ func TestCoreConsoleHistoryResource_basic(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + `
-variable "console_history_availability_domain" { default = "availabilityDomain" }
-variable "console_history_defined_tags_value" { default = "updatedValue" }
-variable "console_history_display_name" { default = "displayName2" }
-variable "console_history_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "console_history_state" { default = "SUCCEEDED" }
-
-                ` + compartmentIdVariableStr + ConsoleHistoryResourceConfig,
+				Config: config + compartmentIdVariableStr + ConsoleHistoryResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_console_history", "test_console_history", Optional, Update, consoleHistoryRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
@@ -132,28 +123,10 @@ variable "console_history_state" { default = "SUCCEEDED" }
 			},
 			// verify datasource
 			{
-				Config: config + `
-variable "console_history_availability_domain" { default = "availabilityDomain" }
-variable "console_history_defined_tags_value" { default = "updatedValue" }
-variable "console_history_display_name" { default = "displayName2" }
-variable "console_history_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "console_history_state" { default = "SUCCEEDED" }
-
-data "oci_core_console_histories" "test_console_histories" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-
-	#Optional
-	availability_domain = "${oci_core_instance.test_instance.availability_domain}"
-	instance_id = "${oci_core_instance.test_instance.id}"
-	state = "${var.console_history_state}"
-
-    filter {
-    	name = "id"
-    	values = ["${oci_core_console_history.test_console_history.id}"]
-    }
-}
-                ` + compartmentIdVariableStr + ConsoleHistoryResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_core_console_histories", "test_console_histories", Optional, Update, consoleHistoryDataSourceRepresentation) +
+					compartmentIdVariableStr + ConsoleHistoryResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_console_history", "test_console_history", Optional, Update, consoleHistoryRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),

@@ -13,20 +13,23 @@ import (
 	oci_file_storage "github.com/oracle/oci-go-sdk/filestorage"
 )
 
-const (
-	SnapshotResourceConfig = SnapshotResourceDependencies + `
-resource "oci_file_storage_snapshot" "test_snapshot" {
-	#Required
-	file_system_id = "${oci_file_storage_file_system.test_file_system.id}"
-	name = "${var.snapshot_name}"
-}
-`
-	SnapshotPropertyVariables = `
-variable "snapshot_name" { default = "snapshot-1" }
-variable "snapshot_state" { default = "ACTIVE" }
+var (
+	snapshotDataSourceRepresentation = map[string]interface{}{
+		"file_system_id": Representation{repType: Required, create: `${oci_file_storage_file_system.test_file_system.id}`},
+		"id":             Representation{repType: Optional, create: `${oci_file_storage_snapshot.test_snapshot.id}`},
+		"state":          Representation{repType: Optional, create: `ACTIVE`},
+		"filter":         RepresentationGroup{Required, snapshotDataSourceFilterRepresentation}}
+	snapshotDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   Representation{repType: Required, create: `id`},
+		"values": Representation{repType: Required, create: []string{`${oci_file_storage_snapshot.test_snapshot.id}`}},
+	}
 
-`
-	SnapshotResourceDependencies = FileSystemPropertyVariables + FileSystemResourceConfig
+	snapshotRepresentation = map[string]interface{}{
+		"file_system_id": Representation{repType: Required, create: `${oci_file_storage_file_system.test_file_system.id}`},
+		"name":           Representation{repType: Required, create: `snapshot-1`},
+	}
+
+	SnapshotResourceDependencies = AvailabilityDomainConfig + FileSystemRequiredOnlyResource
 )
 
 func TestFileStorageSnapshotResource_basic(t *testing.T) {
@@ -48,7 +51,8 @@ func TestFileStorageSnapshotResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + SnapshotPropertyVariables + compartmentIdVariableStr + SnapshotResourceConfig,
+				Config: config + compartmentIdVariableStr + SnapshotResourceDependencies +
+					generateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", Required, Create, snapshotRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "file_system_id"),
 					resource.TestCheckResourceAttr(resourceName, "name", "snapshot-1"),
@@ -57,24 +61,10 @@ func TestFileStorageSnapshotResource_basic(t *testing.T) {
 
 			// verify datasource
 			{
-				Config: config + `
-variable "snapshot_name" { default = "snapshot-1" }
-variable "snapshot_state" { default = "ACTIVE" }
-
-data "oci_file_storage_snapshots" "test_snapshots" {
-	#Required
-	file_system_id = "${oci_file_storage_file_system.test_file_system.id}"
-
-	#Optional
-	id = "${oci_file_storage_snapshot.test_snapshot.id}"
-	state = "${var.snapshot_state}"
-
-    filter {
-    	name = "id"
-    	values = ["${oci_file_storage_snapshot.test_snapshot.id}"]
-    }
-}
-                ` + compartmentIdVariableStr + SnapshotResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_file_storage_snapshots", "test_snapshots", Optional, Update, snapshotDataSourceRepresentation) +
+					compartmentIdVariableStr + SnapshotResourceDependencies +
+					generateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", Optional, Update, snapshotRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "file_system_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "id"),

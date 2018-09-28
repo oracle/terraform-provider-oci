@@ -13,18 +13,23 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
-const (
-	UserGroupMembershipResourceConfig = UserGroupMembershipResourceDependencies + `
-resource "oci_identity_user_group_membership" "test_user_group_membership" {
-	#Required
-	group_id = "${oci_identity_group.test_group.id}"
-	user_id = "${oci_identity_user.test_user.id}"
-}
-`
-	UserGroupMembershipPropertyVariables = `
+var (
+	userGroupMembershipDataSourceRepresentation = map[string]interface{}{
+		"compartment_id": Representation{repType: Required, create: `${var.tenancy_ocid}`},
+		"group_id":       Representation{repType: Optional, create: `${oci_identity_group.test_group.id}`},
+		"user_id":        Representation{repType: Optional, create: `${oci_identity_user.test_user.id}`},
+		"filter":         RepresentationGroup{Required, userGroupMembershipDataSourceFilterRepresentation}}
+	userGroupMembershipDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   Representation{repType: Required, create: `id`},
+		"values": Representation{repType: Required, create: []string{`${oci_identity_user_group_membership.test_user_group_membership.id}`}},
+	}
 
-`
-	UserGroupMembershipResourceDependencies = GroupPropertyVariables + GroupRequiredOnlyResource + UserPropertyVariables + UserRequiredOnlyResource
+	userGroupMembershipRepresentation = map[string]interface{}{
+		"group_id": Representation{repType: Required, create: `${oci_identity_group.test_group.id}`},
+		"user_id":  Representation{repType: Required, create: `${oci_identity_user.test_user.id}`},
+	}
+
+	UserGroupMembershipResourceDependencies = GroupResourceConfig + UserRequiredOnlyResource
 )
 
 func TestIdentityUserGroupMembershipResource_basic(t *testing.T) {
@@ -47,7 +52,8 @@ func TestIdentityUserGroupMembershipResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + UserGroupMembershipPropertyVariables + compartmentIdVariableStr + UserGroupMembershipResourceConfig,
+				Config: config + compartmentIdVariableStr + UserGroupMembershipResourceDependencies +
+					generateResourceFromRepresentationMap("oci_identity_user_group_membership", "test_user_group_membership", Required, Create, userGroupMembershipRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "group_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "user_id"),
@@ -56,22 +62,10 @@ func TestIdentityUserGroupMembershipResource_basic(t *testing.T) {
 
 			// verify datasource
 			{
-				Config: config + `
-
-data "oci_identity_user_group_memberships" "test_user_group_memberships" {
-	#Required
-	compartment_id = "${var.tenancy_ocid}"
-
-	#Optional
-	group_id = "${oci_identity_group.test_group.id}"
-	user_id = "${oci_identity_user.test_user.id}"
-
-    filter {
-    	name = "id"
-    	values = ["${oci_identity_user_group_membership.test_user_group_membership.id}"]
-    }
-}
-                ` + compartmentIdVariableStr + UserGroupMembershipResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_identity_user_group_memberships", "test_user_group_memberships", Optional, Update, userGroupMembershipDataSourceRepresentation) +
+					compartmentIdVariableStr + UserGroupMembershipResourceDependencies +
+					generateResourceFromRepresentationMap("oci_identity_user_group_membership", "test_user_group_membership", Optional, Update, userGroupMembershipRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttrSet(datasourceName, "group_id"),

@@ -10,8 +10,12 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 )
 
-const (
-	DbHomePatchHistoryEntryResourceConfig = DbHomePatchResourceDependencies
+var (
+	dbHomePatchHistoryEntryDataSourceRepresentation = map[string]interface{}{
+		"db_home_id": Representation{repType: Required, create: `${data.oci_database_db_homes.t.db_homes.0.db_home_id}`},
+	}
+
+	DbHomePatchHistoryEntryResourceConfig = DbSystemResourceConfig
 )
 
 func TestDatabaseDbHomePatchHistoryEntryResource_basic(t *testing.T) {
@@ -31,12 +35,9 @@ func TestDatabaseDbHomePatchHistoryEntryResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify datasource
 			{
-				Config: config + `
-data "oci_database_db_home_patch_history_entries" "test_db_home_patch_history_entries" {
-	#Required
-	db_home_id = "${data.oci_database_db_homes.t.db_homes.0.db_home_id}"
-}
-                ` + compartmentIdVariableStr + DbHomePatchHistoryEntryResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_database_db_home_patch_history_entries", "test_db_home_patch_history_entries", Required, Create, dbHomePatchHistoryEntryDataSourceRepresentation) +
+					compartmentIdVariableStr + DbHomePatchHistoryEntryResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "db_home_id"),
 					resource.TestCheckResourceAttr(datasourceName, "patch_history_entries.#", "0"),

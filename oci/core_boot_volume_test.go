@@ -6,7 +6,6 @@ import (
 	"context"
 	"fmt"
 	"testing"
-
 	"time"
 
 	"github.com/hashicorp/terraform/helper/resource"
@@ -16,50 +15,9 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-const (
+var (
 	BootVolumeWaitConditionDuration = time.Duration(20 * time.Minute)
-	BootVolumeRequiredOnlyResource  = BootVolumeResourceDependencies + `
-resource "oci_core_boot_volume" "test_boot_volume" {
-	#Required
-	availability_domain = "${oci_core_instance.test_instance.availability_domain}"
-	compartment_id = "${var.compartment_id}"
-	source_details {
-		#Required
-		id = "${oci_core_instance.test_instance.boot_volume_id}"
-		type = "${var.boot_volume_source_details_type}"
-	}
-}
-`
 
-	BootVolumeResourceConfig = BootVolumeResourceDependencies + `
-resource "oci_core_boot_volume" "test_boot_volume" {
-	#Required
-	availability_domain = "${oci_core_instance.test_instance.availability_domain}"
-	compartment_id = "${var.compartment_id}"
-	source_details {
-		#Required
-		id = "${oci_core_instance.test_instance.boot_volume_id}"
-		type = "${var.boot_volume_source_details_type}"
-	}
-
-	#Optional
-	backup_policy_id = "${data.oci_core_volume_backup_policies.test_boot_volume_backup_policies.volume_backup_policies.0.id}"
-	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.boot_volume_defined_tags_value}")}"
-	display_name = "${var.boot_volume_display_name}"
-	freeform_tags = "${var.boot_volume_freeform_tags}"
-	size_in_gbs = "${var.boot_volume_size_in_gbs}"
-}
-`
-	BootVolumePropertyVariables = `
-variable "boot_volume_availability_domain" { default = "availabilityDomain" }
-variable "boot_volume_defined_tags_value" { default = "value" }
-variable "boot_volume_display_name" { default = "displayName" }
-variable "boot_volume_freeform_tags" { default = {"Department"= "Finance"} }
-variable "boot_volume_size_in_gbs" { default = 50 }
-variable "boot_volume_source_details_id" { default = "id" }
-variable "boot_volume_source_details_type" { default = "bootVolume" }
-
-`
 	BootVolumeResourceDependencies = DefinedTagsDependencies + InstancePropertyVariables + InstanceResourceAsDependencyConfig + `
 data "oci_core_volume_backup_policies" "test_boot_volume_backup_policies" {
 	filter {
@@ -68,6 +26,42 @@ data "oci_core_volume_backup_policies" "test_boot_volume_backup_policies" {
 	}
 }
 `
+	BootVolumeRequiredOnlyResource = BootVolumeResourceDependencies +
+		generateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", Required, Create, bootVolumeRepresentation)
+
+	BootVolumeResourceConfig = BootVolumeResourceDependencies +
+		generateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", Required, Create, bootVolumeRepresentation)
+
+	bootVolumeSingularDataSourceRepresentation = map[string]interface{}{
+		"boot_volume_id": Representation{repType: Required, create: `{}`},
+	}
+
+	bootVolumeDataSourceRepresentation = map[string]interface{}{
+		"availability_domain": Representation{repType: Required, create: `${lookup(data.oci_identity_availability_domains.test_availability_domains.availability_domains[0],"name")}`},
+		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
+		"volume_group_id":     Representation{repType: Optional, create: `${oci_core_volume_group.test_volume_group.id}`},
+		"filter":              RepresentationGroup{Required, bootVolumeDataSourceFilterRepresentation}}
+	bootVolumeDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   Representation{repType: Required, create: `id`},
+		"values": Representation{repType: Required, create: []string{`${oci_core_boot_volume.test_boot_volume.id}`}},
+	}
+
+	bootVolumeRepresentation = map[string]interface{}{
+		"availability_domain": Representation{repType: Required, create: `availabilityDomain`},
+		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
+		"source_details":      RepresentationGroup{Required, bootVolumeSourceDetailsRepresentation},
+		"backup_policy_id":    Representation{repType: Optional, create: `${data.oci_core_volume_backup_policies.test_boot_volume_backup_policies.volume_backup_policies.0.id}`},
+		"defined_tags":        Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":        Representation{repType: Optional, create: `displayName`, update: `displayName2`},
+		"freeform_tags":       Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"size_in_gbs":         Representation{repType: Optional, create: `50`},
+	}
+	bootVolumeSourceDetailsRepresentation = map[string]interface{}{
+		"id":   Representation{repType: Required, create: `${oci_core_instance.test_instance.boot_volume_id}`},
+		"type": Representation{repType: Required, create: `bootVolume`},
+	}
+
+	BootVolumeResourceDependencies = BackupPolicyResourceConfig + DefinedTagsDependencies + VolumeGroupResourceConfig
 )
 
 func TestCoreBootVolumeResource_basic(t *testing.T) {
@@ -142,18 +136,8 @@ func TestCoreBootVolumeResource_basic(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				PreConfig: waitTillCondition(testAccProvider, &resId, bootVolumeWaitCondition, BootVolumeWaitConditionDuration,
-					bootVolumeResponseFetchOperation, "core", false),
-				Config: config + `
-variable "boot_volume_availability_domain" { default = "availabilityDomain" }
-variable "boot_volume_defined_tags_value" { default = "updatedValue" }
-variable "boot_volume_display_name" { default = "displayName2" }
-variable "boot_volume_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "boot_volume_size_in_gbs" { default = 51 }
-variable "boot_volume_source_details_id" { default = "id" }
-variable "boot_volume_source_details_type" { default = "bootVolume" }
-
-                ` + compartmentIdVariableStr + BootVolumeResourceConfig,
+				Config: config + compartmentIdVariableStr + BootVolumeResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", Optional, Update, bootVolumeRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttrSet(resourceName, "backup_policy_id"),
@@ -184,26 +168,9 @@ variable "boot_volume_source_details_type" { default = "bootVolume" }
 			{
 				PreConfig: waitTillCondition(testAccProvider, &resId, bootVolumeWaitCondition, BootVolumeWaitConditionDuration,
 					bootVolumeResponseFetchOperation, "core", false),
-				Config: config + `
-variable "boot_volume_availability_domain" { default = "availabilityDomain" }
-variable "boot_volume_defined_tags_value" { default = "updatedValue" }
-variable "boot_volume_display_name" { default = "displayName2" }
-variable "boot_volume_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "boot_volume_size_in_gbs" { default = 51 }
-variable "boot_volume_source_details_id" { default = "id" }
-variable "boot_volume_source_details_type" { default = "bootVolume" }
-
-data "oci_core_boot_volumes" "test_boot_volumes" {
-	#Required
-	availability_domain = "${oci_core_instance.test_instance.availability_domain}"
-	compartment_id = "${var.compartment_id}"
-
-    filter {
-    	name = "id"
-    	values = ["${oci_core_boot_volume.test_boot_volume.id}"]
-    }
-}
-                ` + compartmentIdVariableStr + BootVolumeResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_core_boot_volumes", "test_boot_volumes", Required, Create, bootVolumeDataSourceRepresentation) +
+					compartmentIdVariableStr + BootVolumeResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
 					resource.TestCheckNoResourceAttr(datasourceName, "backup_policy_id"),
@@ -228,20 +195,9 @@ data "oci_core_boot_volumes" "test_boot_volumes" {
 			},
 			// verify singular datasource
 			{
-				Config: config + `
-variable "boot_volume_availability_domain" { default = "availabilityDomain" }
-variable "boot_volume_defined_tags_value" { default = "updatedValue" }
-variable "boot_volume_display_name" { default = "displayName2" }
-variable "boot_volume_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "boot_volume_size_in_gbs" { default = 51 }
-variable "boot_volume_source_details_id" { default = "id" }
-variable "boot_volume_source_details_type" { default = "bootVolume" }
-
-data "oci_core_boot_volume" "test_boot_volume" {
-	#Required
-	boot_volume_id = "${oci_core_boot_volume.test_boot_volume.id}"
-}
-                ` + compartmentIdVariableStr + BootVolumeResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", Required, Create, bootVolumeSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + BootVolumeResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckNoResourceAttr(singularDatasourceName, "backup_policy_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "boot_volume_id"),
@@ -266,23 +222,17 @@ data "oci_core_boot_volume" "test_boot_volume" {
 			},
 			// remove singular datasource from previous step so that it doesn't conflict with import tests
 			{
-				Config: config + `
-variable "boot_volume_availability_domain" { default = "availabilityDomain" }
-variable "boot_volume_defined_tags_value" { default = "updatedValue" }
-variable "boot_volume_display_name" { default = "displayName2" }
-variable "boot_volume_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "boot_volume_size_in_gbs" { default = 51 }
-variable "boot_volume_source_details_id" { default = "id" }
-variable "boot_volume_source_details_type" { default = "bootVolume" }
-
-                ` + compartmentIdVariableStr + BootVolumeResourceConfig,
+				Config: config + compartmentIdVariableStr + BootVolumeResourceConfig,
 			},
 			// verify resource import
 			{
 				Config:            config,
 				ImportState:       true,
 				ImportStateVerify: true,
-				ResourceName:      resourceName,
+				ImportStateVerifyIgnore: []string{
+					"backup_policy_id",
+				},
+				ResourceName: resourceName,
 			},
 		},
 	})

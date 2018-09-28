@@ -13,39 +13,31 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-const (
-	IpSecConnectionRequiredOnlyResource = IpSecConnectionResourceDependencies + `
-resource "oci_core_ipsec" "test_ip_sec_connection" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-	cpe_id = "${oci_core_cpe.test_cpe.id}"
-	drg_id = "${oci_core_drg.test_drg.id}"
-	static_routes = "${var.ip_sec_connection_static_routes}"
-}
-`
+var (
+	IpSecConnectionRequiredOnlyResource = IpSecConnectionResourceDependencies +
+		generateResourceFromRepresentationMap("oci_core_ipsec", "test_ip_sec_connection", Required, Create, ipSecConnectionRepresentation)
 
-	IpSecConnectionResourceConfig = IpSecConnectionResourceDependencies + `
-resource "oci_core_ipsec" "test_ip_sec_connection" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-	cpe_id = "${oci_core_cpe.test_cpe.id}"
-	drg_id = "${oci_core_drg.test_drg.id}"
-	static_routes = "${var.ip_sec_connection_static_routes}"
+	ipSecConnectionDataSourceRepresentation = map[string]interface{}{
+		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"cpe_id":         Representation{repType: Optional, create: `${oci_core_cpe.test_cpe.id}`},
+		"drg_id":         Representation{repType: Optional, create: `${oci_core_drg.test_drg.id}`},
+		"filter":         RepresentationGroup{Required, ipSecConnectionDataSourceFilterRepresentation}}
+	ipSecConnectionDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   Representation{repType: Required, create: `id`},
+		"values": Representation{repType: Required, create: []string{`${oci_core_ipsec.test_ip_sec_connection.id}`}},
+	}
 
-	#Optional
-	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.ip_sec_connection_defined_tags_value}")}"
-	display_name = "${var.ip_sec_connection_display_name}"
-	freeform_tags = "${var.ip_sec_connection_freeform_tags}"
-}
-`
-	IpSecConnectionPropertyVariables = `
-variable "ip_sec_connection_defined_tags_value" { default = "value" }
-variable "ip_sec_connection_display_name" { default = "MyIPSecConnection" }
-variable "ip_sec_connection_freeform_tags" { default = {"Department"= "Finance"} }
-variable "ip_sec_connection_static_routes" { default = ["10.0.0.0/16"] }
+	ipSecConnectionRepresentation = map[string]interface{}{
+		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"cpe_id":         Representation{repType: Required, create: `${oci_core_cpe.test_cpe.id}`},
+		"drg_id":         Representation{repType: Required, create: `${oci_core_drg.test_drg.id}`},
+		"static_routes":  Representation{repType: Required, create: []string{"10.0.0.0/16"}},
+		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":   Representation{repType: Optional, create: `MyIPSecConnection`, update: `displayName2`},
+		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+	}
 
-`
-	IpSecConnectionResourceDependencies = DefinedTagsDependencies + CpePropertyVariables + CpeRequiredOnlyResource + DrgPropertyVariables + DrgRequiredOnlyResource
+	IpSecConnectionResourceDependencies = CpeRequiredOnlyResource + DrgRequiredOnlyResource
 )
 
 func TestCoreIpSecConnectionResource_basic(t *testing.T) {
@@ -69,7 +61,8 @@ func TestCoreIpSecConnectionResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + IpSecConnectionPropertyVariables + compartmentIdVariableStr + IpSecConnectionRequiredOnlyResource,
+				Config: config + compartmentIdVariableStr + IpSecConnectionResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_ipsec", "test_ip_sec_connection", Required, Create, ipSecConnectionRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "cpe_id"),
@@ -89,7 +82,8 @@ func TestCoreIpSecConnectionResource_basic(t *testing.T) {
 			},
 			// verify create with optionals
 			{
-				Config: config + IpSecConnectionPropertyVariables + compartmentIdVariableStr + IpSecConnectionResourceConfig,
+				Config: config + compartmentIdVariableStr + IpSecConnectionResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_ipsec", "test_ip_sec_connection", Optional, Create, ipSecConnectionRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "cpe_id"),
@@ -110,13 +104,8 @@ func TestCoreIpSecConnectionResource_basic(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + `
-variable "ip_sec_connection_defined_tags_value" { default = "updatedValue" }
-variable "ip_sec_connection_display_name" { default = "displayName2" }
-variable "ip_sec_connection_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "ip_sec_connection_static_routes" { default = ["10.0.0.0/16"] }
-
-                ` + compartmentIdVariableStr + IpSecConnectionResourceConfig,
+				Config: config + compartmentIdVariableStr + IpSecConnectionResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_ipsec", "test_ip_sec_connection", Optional, Update, ipSecConnectionRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "cpe_id"),
@@ -139,26 +128,10 @@ variable "ip_sec_connection_static_routes" { default = ["10.0.0.0/16"] }
 			},
 			// verify datasource
 			{
-				Config: config + `
-variable "ip_sec_connection_defined_tags_value" { default = "updatedValue" }
-variable "ip_sec_connection_display_name" { default = "displayName2" }
-variable "ip_sec_connection_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "ip_sec_connection_static_routes" { default = ["10.0.0.0/32"] }
-
-data "oci_core_ipsec_connections" "test_ip_sec_connections" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-
-	#Optional
-	cpe_id = "${oci_core_cpe.test_cpe.id}"
-	drg_id = "${oci_core_drg.test_drg.id}"
-
-    filter {
-    	name = "id"
-    	values = ["${oci_core_ipsec.test_ip_sec_connection.id}"]
-    }
-}
-                ` + compartmentIdVariableStr + IpSecConnectionResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_core_ipsec_connections", "test_ip_sec_connections", Optional, Update, ipSecConnectionDataSourceRepresentation) +
+					compartmentIdVariableStr + IpSecConnectionResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_ipsec", "test_ip_sec_connection", Optional, Update, ipSecConnectionRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "cpe_id"),

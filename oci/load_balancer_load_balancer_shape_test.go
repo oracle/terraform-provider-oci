@@ -10,14 +10,12 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 )
 
-const (
-	LoadBalancerShapeResourceConfig = LoadBalancerShapeResourceDependencies + `
+var (
+	loadBalancerShapeDataSourceRepresentation = map[string]interface{}{
+		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+	}
 
-`
-	LoadBalancerShapePropertyVariables = `
-
-`
-	LoadBalancerShapeResourceDependencies = ""
+	LoadBalancerShapeResourceConfig = ""
 )
 
 func TestLoadBalancerLoadBalancerShapeResource_basic(t *testing.T) {
@@ -37,13 +35,9 @@ func TestLoadBalancerLoadBalancerShapeResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify datasource
 			{
-				Config: config + `
-
-data "oci_load_balancer_shapes" "test_load_balancer_shapes" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-}
-                ` + compartmentIdVariableStr + LoadBalancerShapeResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_load_balancer_shapes", "test_load_balancer_shapes", Required, Create, loadBalancerShapeDataSourceRepresentation) +
+					compartmentIdVariableStr + LoadBalancerShapeResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 

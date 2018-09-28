@@ -13,43 +13,27 @@ import (
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
 )
 
-const (
-	BackendRequiredOnlyResource = BackendResourceDependencies + `
-resource "oci_load_balancer_backend" "test_backend" {
-	#Required
-	backendset_name = "${oci_load_balancer_backend_set.test_backend_set.name}"
-	ip_address = "${var.backend_ip_address}"
-	load_balancer_id = "${oci_load_balancer_load_balancer.test_load_balancer.id}"
-	port = "${var.backend_port}"
-}
-`
+var (
+	BackendRequiredOnlyResource = BackendResourceDependencies +
+		generateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", Required, Create, backendRepresentation)
 
-	BackendResourceConfig = BackendResourceDependencies + `
-resource "oci_load_balancer_backend" "test_backend" {
-	#Required
-	backendset_name = "${oci_load_balancer_backend_set.test_backend_set.name}"
-	ip_address = "${var.backend_ip_address}"
-	load_balancer_id = "${oci_load_balancer_load_balancer.test_load_balancer.id}"
-	port = "${var.backend_port}"
+	backendDataSourceRepresentation = map[string]interface{}{
+		"backendset_name":  Representation{repType: Required, create: `backendSet1`},
+		"load_balancer_id": Representation{repType: Required, create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
+	}
 
-	#Optional
-	backup = "${var.backend_backup}"
-	drain = "${var.backend_drain}"
-	offline = "${var.backend_offline}"
-	weight = "${var.backend_weight}"
-}
-`
-	BackendPropertyVariables = `
-variable "backend_backendset_name" { default = "backendSet1" }
-variable "backend_backup" { default = false }
-variable "backend_drain" { default = false }
-variable "backend_ip_address" { default = "10.0.0.3" }
-variable "backend_offline" { default = false }
-variable "backend_port" { default = 10 }
-variable "backend_weight" { default = 10 }
+	backendRepresentation = map[string]interface{}{
+		"backendset_name":  Representation{repType: Required, create: `${oci_load_balancer_backend_set.test_backend_set.name}`},
+		"ip_address":       Representation{repType: Required, create: `10.0.0.3`},
+		"load_balancer_id": Representation{repType: Required, create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
+		"port":             Representation{repType: Required, create: `10`},
+		"backup":           Representation{repType: Optional, create: `false`, update: `true`},
+		"drain":            Representation{repType: Optional, create: `false`, update: `true`},
+		"offline":          Representation{repType: Optional, create: `false`, update: `true`},
+		"weight":           Representation{repType: Optional, create: `10`, update: `11`},
+	}
 
-`
-	BackendResourceDependencies = BackendSetRequiredOnlyResource + BackendSetPropertyVariables
+	BackendResourceDependencies = BackendSetRequiredOnlyResource
 )
 
 func TestLoadBalancerBackendResource_basic(t *testing.T) {
@@ -73,7 +57,8 @@ func TestLoadBalancerBackendResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + BackendPropertyVariables + compartmentIdVariableStr + BackendRequiredOnlyResource,
+				Config: config + compartmentIdVariableStr + BackendResourceDependencies +
+					generateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", Required, Create, backendRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "backendset_name", "backendSet1"),
 					resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.3"),
@@ -93,7 +78,8 @@ func TestLoadBalancerBackendResource_basic(t *testing.T) {
 			},
 			// verify create with optionals
 			{
-				Config: config + BackendPropertyVariables + compartmentIdVariableStr + BackendResourceConfig,
+				Config: config + compartmentIdVariableStr + BackendResourceDependencies +
+					generateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", Optional, Create, backendRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "backendset_name", "backendSet1"),
 					resource.TestCheckResourceAttr(resourceName, "backup", "false"),
@@ -114,16 +100,8 @@ func TestLoadBalancerBackendResource_basic(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + `
-variable "backend_backendset_name" { default = "backendSet1" }
-variable "backend_backup" { default = true }
-variable "backend_drain" { default = true }
-variable "backend_ip_address" { default = "10.0.0.3" }
-variable "backend_offline" { default = true }
-variable "backend_port" { default = 10 }
-variable "backend_weight" { default = 11 }
-
-                ` + compartmentIdVariableStr + BackendResourceConfig,
+				Config: config + compartmentIdVariableStr + BackendResourceDependencies +
+					generateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", Optional, Update, backendRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "backendset_name", "backendSet1"),
 					resource.TestCheckResourceAttr(resourceName, "backup", "true"),
@@ -146,21 +124,10 @@ variable "backend_weight" { default = 11 }
 			},
 			// verify datasource
 			{
-				Config: config + `
-variable "backend_backendset_name" { default = "backendSet1" }
-variable "backend_backup" { default = true }
-variable "backend_drain" { default = true }
-variable "backend_ip_address" { default = "10.0.0.3" }
-variable "backend_offline" { default = true }
-variable "backend_port" { default = 10 }
-variable "backend_weight" { default = 11 }
-
-data "oci_load_balancer_backends" "test_backends" {
-	#Required
-	backendset_name = "${var.backend_backendset_name}"
-	load_balancer_id = "${oci_load_balancer_load_balancer.test_load_balancer.id}"
-}
-                ` + compartmentIdVariableStr + BackendResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_load_balancer_backends", "test_backends", Optional, Update, backendDataSourceRepresentation) +
+					compartmentIdVariableStr + BackendResourceDependencies +
+					generateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", Optional, Update, backendRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "backendset_name", "backendSet1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "load_balancer_id"),

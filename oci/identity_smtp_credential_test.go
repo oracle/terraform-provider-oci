@@ -13,19 +13,21 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
-const (
-	SmtpCredentialResourceConfig = SmtpCredentialResourceDependencies + `
-resource "oci_identity_smtp_credential" "test_smtp_credential" {
-	#Required
-	description = "${var.smtp_credential_description}"
-	user_id = "${oci_identity_user.test_user.id}"
-}
-`
-	SmtpCredentialPropertyVariables = `
-variable "smtp_credential_description" { default = "description" }
+var (
+	smtpCredentialDataSourceRepresentation = map[string]interface{}{
+		"user_id": Representation{repType: Required, create: `${oci_identity_user.test_user.id}`},
+		"filter":  RepresentationGroup{Required, smtpCredentialDataSourceFilterRepresentation}}
+	smtpCredentialDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   Representation{repType: Required, create: `id`},
+		"values": Representation{repType: Required, create: []string{`${oci_identity_smtp_credential.test_smtp_credential.id}`}},
+	}
 
-`
-	SmtpCredentialResourceDependencies = UserPropertyVariables + UserResourceConfig
+	smtpCredentialRepresentation = map[string]interface{}{
+		"description": Representation{repType: Required, create: `description`, update: `description2`},
+		"user_id":     Representation{repType: Required, create: `${oci_identity_user.test_user.id}`},
+	}
+
+	SmtpCredentialResourceDependencies = UserRequiredOnlyResource
 )
 
 func TestIdentitySmtpCredentialResource_basic(t *testing.T) {
@@ -49,7 +51,8 @@ func TestIdentitySmtpCredentialResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + SmtpCredentialPropertyVariables + compartmentIdVariableStr + SmtpCredentialResourceConfig,
+				Config: config + compartmentIdVariableStr + SmtpCredentialResourceDependencies +
+					generateResourceFromRepresentationMap("oci_identity_smtp_credential", "test_smtp_credential", Required, Create, smtpCredentialRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "description", "description"),
 					resource.TestCheckResourceAttrSet(resourceName, "user_id"),
@@ -67,10 +70,8 @@ func TestIdentitySmtpCredentialResource_basic(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + `
-variable "smtp_credential_description" { default = "description2" }
-
-                ` + compartmentIdVariableStr + SmtpCredentialResourceConfig,
+				Config: config + compartmentIdVariableStr + SmtpCredentialResourceDependencies +
+					generateResourceFromRepresentationMap("oci_identity_smtp_credential", "test_smtp_credential", Optional, Update, smtpCredentialRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 					resource.TestCheckResourceAttrSet(resourceName, "user_id"),
@@ -86,19 +87,10 @@ variable "smtp_credential_description" { default = "description2" }
 			},
 			// verify datasource
 			{
-				Config: config + `
-variable "smtp_credential_description" { default = "description2" }
-
-data "oci_identity_smtp_credentials" "test_smtp_credentials" {
-	#Required
-	user_id = "${oci_identity_user.test_user.id}"
-
-    filter {
-    	name = "id"
-    	values = ["${oci_identity_smtp_credential.test_smtp_credential.id}"]
-    }
-}
-                ` + compartmentIdVariableStr + SmtpCredentialResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_identity_smtp_credentials", "test_smtp_credentials", Optional, Update, smtpCredentialDataSourceRepresentation) +
+					compartmentIdVariableStr + SmtpCredentialResourceDependencies +
+					generateResourceFromRepresentationMap("oci_identity_smtp_credential", "test_smtp_credential", Optional, Update, smtpCredentialRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "user_id"),
 

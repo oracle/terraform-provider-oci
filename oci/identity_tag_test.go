@@ -11,37 +11,6 @@ import (
 )
 
 const (
-	TagRequiredOnlyResource = TagResourceDependencies + `
-resource "oci_identity_tag" "test_tag" {
-	#Required
-	description = "${var.tag_description}"
-	name = "${var.tag_name}"
-	tag_namespace_id = "${oci_identity_tag_namespace.test_tag_namespace.id}"
-}
-`
-
-	TagResourceConfig = TagResourceDependencies + `
-resource "oci_identity_tag" "test_tag" {
-    depends_on = ["oci_identity_tag_namespace.tag-namespace1", "oci_identity_tag.tag1"]
-	#Required
-	description = "${var.tag_description}"
-	name = "${var.tag_name}"
-	tag_namespace_id = "${oci_identity_tag_namespace.test_tag_namespace.id}"
-
-	#Optional
-	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.tag_defined_tags_value}")}"
-	freeform_tags = "${var.tag_freeform_tags}"
-}
-`
-	TagPropertyVariables = `
-variable "tag_defined_tags_value" { default = "value" }
-variable "tag_description" { default = "This tag will show the cost center that will be used for billing of associated resources." }
-variable "tag_freeform_tags" { default = {"Department"= "Finance"} }
-variable "tag_name" { default = "CostCenter" }
-
-`
-	TagResourceDependencies = TagNamespacePropertyVariables + TagNamespaceRequiredOnlyResource
-
 	DefinedTagsDependencies = `
 variable defined_tag_namespace_name { default = "" }
 resource "oci_identity_tag_namespace" "tag-namespace1" {
@@ -64,6 +33,29 @@ resource "oci_identity_tag" "tag1" {
 `
 )
 
+var (
+	TagRequiredOnlyResource = TagResourceDependencies +
+		generateResourceFromRepresentationMap("oci_identity_tag", "test_tag", Required, Create, tagRepresentation)
+
+	tagDataSourceRepresentation = map[string]interface{}{
+		"tag_namespace_id": Representation{repType: Required, create: `${oci_identity_tag_namespace.test_tag_namespace.id}`},
+		"filter":           RepresentationGroup{Required, tagDataSourceFilterRepresentation}}
+	tagDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   Representation{repType: Required, create: `id`},
+		"values": Representation{repType: Required, create: []string{`${oci_identity_tag.test_tag.id}`}},
+	}
+
+	tagRepresentation = map[string]interface{}{
+		"description":      Representation{repType: Required, create: `This tag will show the cost center that will be used for billing of associated resources.`, update: `description2`},
+		"name":             Representation{repType: Required, create: `CostCenter`},
+		"tag_namespace_id": Representation{repType: Required, create: `${oci_identity_tag_namespace.test_tag_namespace.id}`},
+		"defined_tags":     Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":    Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+	}
+
+	TagResourceDependencies = TagNamespaceRequiredOnlyResource
+)
+
 func TestIdentityTagResource_basic(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
@@ -84,7 +76,8 @@ func TestIdentityTagResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + TagPropertyVariables + compartmentIdVariableStr + TagRequiredOnlyResource,
+				Config: config + compartmentIdVariableStr + TagResourceDependencies +
+					generateResourceFromRepresentationMap("oci_identity_tag", "test_tag", Required, Create, tagRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "description", "This tag will show the cost center that will be used for billing of associated resources."),
 					resource.TestCheckResourceAttr(resourceName, "name", "CostCenter"),
@@ -103,7 +96,8 @@ func TestIdentityTagResource_basic(t *testing.T) {
 			},
 			// verify create with optionals
 			{
-				Config: config + TagPropertyVariables + compartmentIdVariableStr + TagResourceConfig,
+				Config: config + compartmentIdVariableStr + TagResourceDependencies +
+					generateResourceFromRepresentationMap("oci_identity_tag", "test_tag", Optional, Create, tagRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "This tag will show the cost center that will be used for billing of associated resources."),
@@ -123,13 +117,8 @@ func TestIdentityTagResource_basic(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + `
-variable "tag_defined_tags_value" { default = "updatedValue" }
-variable "tag_description" { default = "description2" }
-variable "tag_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "tag_name" { default = "CostCenter" }
-
-                ` + compartmentIdVariableStr + TagResourceConfig,
+				Config: config + compartmentIdVariableStr + TagResourceDependencies +
+					generateResourceFromRepresentationMap("oci_identity_tag", "test_tag", Optional, Update, tagRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -151,22 +140,10 @@ variable "tag_name" { default = "CostCenter" }
 			},
 			// verify datasource
 			{
-				Config: config + `
-variable "tag_defined_tags_value" { default = "updatedValue" }
-variable "tag_description" { default = "description2" }
-variable "tag_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "tag_name" { default = "CostCenter" }
-
-data "oci_identity_tags" "test_tags" {
-	#Required
-	tag_namespace_id = "${oci_identity_tag_namespace.test_tag_namespace.id}"
-
-    filter {
-    	name = "id"
-    	values = ["${oci_identity_tag.test_tag.id}"]
-    }
-}
-                ` + compartmentIdVariableStr + TagResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_identity_tags", "test_tags", Optional, Update, tagDataSourceRepresentation) +
+					compartmentIdVariableStr + TagResourceDependencies +
+					generateResourceFromRepresentationMap("oci_identity_tag", "test_tag", Optional, Update, tagRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "tag_namespace_id"),
 

@@ -20,41 +20,33 @@ import (
 	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
 )
 
-const (
-	ObjectRequiredOnlyResource = ObjectResourceDependencies + `
-resource "oci_objectstorage_object" "test_object" {
-	#Required
-	bucket = "${oci_objectstorage_bucket.test_bucket.name}"
-	namespace = "${oci_objectstorage_bucket.test_bucket.namespace}"
-	object = "${var.object_object}"
-}
-`
+var (
+	ObjectRequiredOnlyResource = ObjectResourceDependencies +
+		generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Required, Create, objectRepresentation)
 
-	ObjectResourceConfig = ObjectResourceDependencies + `
-resource "oci_objectstorage_object" "test_object" {
-	#Required
-	bucket = "${oci_objectstorage_bucket.test_bucket.name}"
-	namespace = "${oci_objectstorage_bucket.test_bucket.namespace}"
-	object = "${var.object_object}"
+	objectDataSourceRepresentation = map[string]interface{}{
+		"bucket":    Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.name}`},
+		"namespace": Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.namespace}`},
+		"delimiter": Representation{repType: Optional, create: `delimiter`, update: `/`},
+		"prefix":    Representation{repType: Optional, create: `prefix`, update: `my-test`},
+		"filter":    RepresentationGroup{Required, objectDataSourceFilterRepresentation}}
+	objectDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   Representation{repType: Required, create: `name`},
+		"values": Representation{repType: Required, create: []string{`${oci_objectstorage_object.test_object.object}`}},
+	}
 
-	#Optional
-	content = "${var.object_content}"
-	content_encoding = "${var.object_content_encoding}"
-	content_language = "${var.object_content_language}"
-	content_type = "${var.object_content_type}"
-	metadata = "${var.object_metadata}"
-}
-`
-	ObjectPropertyVariables = `
-variable "object_content_encoding" { default = "identity" }
-variable "object_content_language" { default = "en-US" }
-variable "object_content_type" { default = "text/plain" }
-variable "object_content" { default = "content" }
-variable "object_metadata" { default = {"content-type" = "text/plain"} }
-variable "object_object" { default = "my-test-object-1" }
+	objectRepresentation = map[string]interface{}{
+		"bucket":           Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.name}`},
+		"content":          Representation{repType: Optional, create: `content`, update: `<a1>content</a1>`},
+		"namespace":        Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.namespace}`},
+		"object":           Representation{repType: Required, create: `my-test-object-1`, update: `my-test-object-2`},
+		"content_encoding": Representation{repType: Optional, create: `identity`},
+		"content_language": Representation{repType: Optional, create: `en-US`, update: `en-CA`},
+		"content_type":     Representation{repType: Optional, create: `text/plain`, update: `text/xml`},
+		"metadata":         Representation{repType: Optional, create: map[string]string{"content-type": "text/plain"}, update: map[string]string{"content-type": "text/xml"}},
+	}
 
-`
-	ObjectResourceDependencies = BucketRequiredOnlyResource + BucketPropertyVariables
+	ObjectResourceDependencies = BucketRequiredOnlyResource
 )
 
 func TestObjectStorageObjectResource_basic(t *testing.T) {
@@ -82,7 +74,8 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + ObjectPropertyVariables + compartmentIdVariableStr + ObjectRequiredOnlyResource,
+				Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
+					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Required, Create, objectRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "bucket", "my-test-1"),
 					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
@@ -108,7 +101,8 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 			},
 			// verify create with optionals
 			{
-				Config: config + ObjectPropertyVariables + compartmentIdVariableStr + ObjectResourceConfig,
+				Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
+					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Create, objectRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "content_encoding", "identity"),
 					resource.TestCheckResourceAttr(resourceName, "content_language", "en-US"),
@@ -131,15 +125,8 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 			},
 			// verify updates to updatable parameters
 			{
-				Config: config + `
-variable "object_content_encoding" { default = "identity" }
-variable "object_content_language" { default = "en-CA" }
-variable "object_content_type" { default = "text/xml" }
-variable "object_content" { default = "<a1>content</a1>" }
-variable "object_metadata" { default = {"content-type" = "text/xml"} }
-variable "object_object" { default = "my-test-object-2" }
-
-                ` + compartmentIdVariableStr + ObjectResourceConfig,
+				Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
+					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Update, objectRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "content_encoding", "identity"),
 					resource.TestCheckResourceAttr(resourceName, "content_language", "en-CA"),
@@ -166,15 +153,9 @@ variable "object_object" { default = "my-test-object-2" }
 			},
 			// verify updates to name alone
 			{
-				Config: config + `
-variable "object_content_encoding" { default = "identity" }
-variable "object_content_language" { default = "en-CA" }
-variable "object_content_type" { default = "text/xml" }
-variable "object_content" { default = "<a1>content</a1>" }
-variable "object_metadata" { default = {"content-type" = "text/xml"} }
-variable "object_object" { default = "my-test-object-3" }
-
-                ` + compartmentIdVariableStr + ObjectResourceConfig,
+				Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
+					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Update,
+						getUpdatedRepresentationCopy("object", Representation{repType: Required, create: `my-test-object-1`, update: `my-test-object-3`}, objectRepresentation)),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "content_encoding", "identity"),
 					resource.TestCheckResourceAttr(resourceName, "content_language", "en-CA"),
@@ -201,25 +182,10 @@ variable "object_object" { default = "my-test-object-3" }
 			},
 			// verify datasource
 			{
-				Config: config + `
-variable "object_content_encoding" { default = "identity" }
-variable "object_content_language" { default = "en-CA" }
-variable "object_content_type" { default = "text/xml" }
-variable "object_content" { default = "<a1>content</a1>" }
-variable "object_metadata" { default = {"content-type" = "text/xml"} }
-variable "object_object" { default = "my-test-object-1" }
-
-data "oci_objectstorage_objects" "test_objects" {
-	#Required
-	bucket = "${oci_objectstorage_bucket.test_bucket.name}"
-	namespace = "${oci_objectstorage_bucket.test_bucket.namespace}"
-
-    filter {
-    	name = "name"
-    	values = ["${oci_objectstorage_object.test_object.object}"]
-    }
-}
-                ` + compartmentIdVariableStr + ObjectResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_objectstorage_objects", "test_objects", Required, Update, objectDataSourceRepresentation) +
+					compartmentIdVariableStr + ObjectResourceDependencies +
+					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Update, objectRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "bucket", "my-test-1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "namespace"),
@@ -229,28 +195,10 @@ data "oci_objectstorage_objects" "test_objects" {
 			},
 			// verify datasource for delimiter and prefix
 			{
-				Config: config + `
-variable "object_content_encoding" { default = "identity" }
-variable "object_content_language" { default = "en-CA" }
-variable "object_content_type" { default = "text/xml" }
-variable "object_content" { default = "<a1>content</a1>" }
-variable "object_metadata" { default = {"content-type" = "text/xml"} }
-variable "object_object" { default = "my-test/object-1" }
-
-data "oci_objectstorage_objects" "test_objects" {
-	#Required
-	bucket = "${oci_objectstorage_bucket.test_bucket.name}"
-	namespace = "${oci_objectstorage_bucket.test_bucket.namespace}"
-
-	#Optional
-	delimiter = "/"
-	prefix = "my-test"
-    filter {
-    	name = "name"
-    	values = ["${oci_objectstorage_object.test_object.object}"]
-    }
-}
-                ` + compartmentIdVariableStr + ObjectResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_objectstorage_objects", "test_objects", Optional, Update, objectDataSourceRepresentation) +
+					compartmentIdVariableStr + ObjectResourceDependencies +
+					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Update, objectRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "bucket", "my-test-1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "namespace"),
@@ -298,15 +246,9 @@ func TestObjectStorageObjectResource_metadata(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify validations on metadata key
 			{
-				Config: config + `
-variable "object_content_encoding" { default = "identity" }
-variable "object_content_language" { default = "en-CA" }
-variable "object_content_type" { default = "text/xml" }
-variable "object_content" { default = "<a1>content</a1>" }
-variable "object_metadata" { default = {"CONTENT-TYPE" = "text/xml"} }
-variable "object_object" { default = "my-test-object-1" }
-
-                ` + compartmentIdVariableStr + ObjectResourceConfig,
+				Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
+					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Update,
+						getUpdatedRepresentationCopy("metadata", Representation{repType: Optional, create: map[string]string{"content-type": "text/plain"}, update: map[string]string{"CONTENT-TYPE": "text/xml"}}, objectRepresentation)),
 				ExpectError: regexp.MustCompile("All 'metadata' keys must be lowercase"),
 			},
 		},
@@ -364,23 +306,20 @@ func testAccCheckObjectStorageObjectDestroy(s *terraform.State) error {
 	return nil
 }
 
+var (
+	objectSourceRepresentation = map[string]interface{}{
+		"bucket":           Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.name}`},
+		"namespace":        Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.namespace}`},
+		"object":           Representation{repType: Required, create: `my-test-object-1`, update: `my-test-object-3`},
+		"source":           Representation{repType: Optional, create: pathToMultiPartFile},
+		"content_encoding": Representation{repType: Optional, create: `identity`},
+		"content_language": Representation{repType: Optional, create: `en-US`, update: `en-CA`},
+		"content_type":     Representation{repType: Optional, create: `text/plain`, update: `text/xml`},
+		"metadata":         Representation{repType: Optional, create: map[string]string{"content-type": "text/plain"}, update: map[string]string{"content-type": "text/xml"}},
+	}
+)
+
 const (
-	ObjectResourceConfigWithSource = ObjectResourceDependencies + `
-resource "oci_objectstorage_object" "test_object" {
-	#Required
-	bucket = "${oci_objectstorage_bucket.test_bucket.name}"
-	namespace = "${oci_objectstorage_bucket.test_bucket.namespace}"
-	object = "${var.object_object}"
-
-	#Optional
-    source = "${var.object_source}"
-	content_encoding = "${var.object_content_encoding}"
-	content_language = "${var.object_content_language}"
-	content_type = "${var.object_content_type}"
-	metadata = "${var.object_metadata}"
-}
-`
-
 	//the object size is less than default part value, single part upload
 	singlePartFilePrefix = "small-"
 	singlePartFileSize   = 42e6
@@ -445,8 +384,8 @@ func TestObjectStorageObjectResource_multipartUpload(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + ObjectPropertyVariables +
-					compartmentIdVariableStr + ObjectRequiredOnlyResource,
+				Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
+					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Required, Create, objectRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "bucket", "my-test-1"),
 					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
@@ -471,7 +410,9 @@ func TestObjectStorageObjectResource_multipartUpload(t *testing.T) {
 			},
 			// verify create singlepart with optionals
 			{
-				Config: config + ObjectPropertyVariables + singlePartFileVariable + compartmentIdVariableStr + ObjectResourceConfigWithSource,
+				Config: config + singlePartFileVariable + compartmentIdVariableStr + ObjectResourceDependencies +
+					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Create,
+						getUpdatedRepresentationCopy("source", Representation{repType: Optional, create: pathToSinglePartFile}, objectSourceRepresentation)),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "content_encoding", "identity"),
 					resource.TestCheckResourceAttr(resourceName, "content_language", "en-US"),
@@ -498,7 +439,8 @@ func TestObjectStorageObjectResource_multipartUpload(t *testing.T) {
 			},
 			// verify create with optionals
 			{
-				Config: config + ObjectPropertyVariables + multiPartFileVariable + compartmentIdVariableStr + ObjectResourceConfigWithSource,
+				Config: config + multiPartFileVariable + compartmentIdVariableStr + ObjectResourceDependencies +
+					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Create, objectSourceRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "content_encoding", "identity"),
 					resource.TestCheckResourceAttr(resourceName, "content_language", "en-US"),
@@ -520,14 +462,8 @@ func TestObjectStorageObjectResource_multipartUpload(t *testing.T) {
 			},
 			// verify updates to name alone
 			{
-				Config: config + `
-variable "object_content_encoding" { default = "identity" }
-variable "object_content_language" { default = "en-CA" }
-variable "object_content_type" { default = "text/xml" }
-variable "object_metadata" { default = {"content-type" = "text/xml"} }
-variable "object_object" { default = "my-test-object-3" }
-
-                ` + multiPartFileVariable + compartmentIdVariableStr + ObjectResourceConfigWithSource,
+				Config: config + compartmentIdVariableStr + multiPartFileVariable + ObjectResourceDependencies +
+					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Update, objectSourceRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "content_encoding", "identity"),
 					resource.TestCheckResourceAttr(resourceName, "content_language", "en-CA"),
@@ -553,24 +489,10 @@ variable "object_object" { default = "my-test-object-3" }
 			},
 			// verify datasource
 			{
-				Config: config + `
-variable "object_content_encoding" { default = "identity" }
-variable "object_content_language" { default = "en-CA" }
-variable "object_content_type" { default = "text/xml" }
-variable "object_metadata" { default = {"content-type" = "text/xml"} }
-variable "object_object" { default = "my-test-object-1" }
-
-data "oci_objectstorage_objects" "test_objects" {
-	#Required
-	bucket = "${oci_objectstorage_bucket.test_bucket.name}"
-	namespace = "${oci_objectstorage_bucket.test_bucket.namespace}"
-
-    filter {
-    	name = "name"
-    	values = ["${oci_objectstorage_object.test_object.object}"]
-    }
-}
-                ` + multiPartFileVariable + compartmentIdVariableStr + ObjectResourceConfigWithSource,
+				Config: config + multiPartFileVariable +
+					generateDataSourceFromRepresentationMap("oci_objectstorage_objects", "test_objects", Required, Update, objectDataSourceRepresentation) +
+					compartmentIdVariableStr + ObjectResourceDependencies +
+					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Update, objectSourceRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "bucket", "my-test-1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "namespace"),
@@ -580,27 +502,10 @@ data "oci_objectstorage_objects" "test_objects" {
 			},
 			// verify datasource for delimiter and prefix
 			{
-				Config: config + `
-variable "object_content_encoding" { default = "identity" }
-variable "object_content_language" { default = "en-CA" }
-variable "object_content_type" { default = "text/xml" }
-variable "object_metadata" { default = {"content-type" = "text/xml"} }
-variable "object_object" { default = "my-test/object-1" }
-
-data "oci_objectstorage_objects" "test_objects" {
-	#Required
-	bucket = "${oci_objectstorage_bucket.test_bucket.name}"
-	namespace = "${oci_objectstorage_bucket.test_bucket.namespace}"
-
-	#Optional
-	delimiter = "/"
-	prefix = "my-test"
-    filter {
-    	name = "name"
-    	values = ["${oci_objectstorage_object.test_object.object}"]
-    }
-}
-                ` + multiPartFileVariable + compartmentIdVariableStr + ObjectResourceConfigWithSource,
+				Config: config + multiPartFileVariable +
+					generateDataSourceFromRepresentationMap("oci_objectstorage_objects", "test_objects", Optional, Update, objectDataSourceRepresentation) +
+					compartmentIdVariableStr + ObjectResourceDependencies +
+					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Update, objectSourceRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "bucket", "my-test-1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "namespace"),

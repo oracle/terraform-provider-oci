@@ -10,14 +10,12 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 )
 
-const (
-	IpSecConnectionDeviceConfigResourceConfig = IpSecConnectionDeviceConfigResourceDependencies + `
+var (
+	ipSecConnectionDeviceConfigSingularDataSourceRepresentation = map[string]interface{}{
+		"ipsec_id": Representation{repType: Required, create: `${oci_core_ipsec.test_ip_sec_connection.id}`},
+	}
 
-`
-	IpSecConnectionDeviceConfigPropertyVariables = `
-
-`
-	IpSecConnectionDeviceConfigResourceDependencies = IpSecConnectionPropertyVariables + IpSecConnectionRequiredOnlyResource
+	IpSecConnectionDeviceConfigResourceConfig = IpSecConnectionRequiredOnlyResource
 )
 
 func TestCoreIpSecConnectionDeviceConfigResource_basic(t *testing.T) {
@@ -37,13 +35,9 @@ func TestCoreIpSecConnectionDeviceConfigResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify singular datasource
 			{
-				Config: config + `
-
-data "oci_core_ipsec_config" "test_ip_sec_connection_device_config" {
-	#Required
-	ipsec_id = "${oci_core_ipsec.test_ip_sec_connection.id}"
-}
-                ` + compartmentIdVariableStr + IpSecConnectionDeviceConfigResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_core_ipsec_config", "test_ip_sec_connection_device_config", Required, Create, ipSecConnectionDeviceConfigSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + IpSecConnectionDeviceConfigResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "ipsec_id"),
 

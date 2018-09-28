@@ -10,16 +10,14 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 )
 
-const (
-	BackendSetHealthResourceConfig = BackendSetHealthResourceDependencies + `
+var (
+	backendSetHealthSingularDataSourceRepresentation = map[string]interface{}{
+		"backend_set_name": Representation{repType: Required, create: `${oci_load_balancer_backend_set.test_backend_set.name}`},
+		"load_balancer_id": Representation{repType: Required, create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
+		"depends_on":       Representation{repType: Required, create: []string{`oci_load_balancer_backend.test_backend`}},
+	}
 
-`
-	BackendSetHealthPropertyVariables = `
-variable "backend_set_health_backend_set_name" { default = "backendSetName" }
-variable "backend_set_health_load_balancer_id" { default = "loadBalancerId" }
-
-`
-	BackendSetHealthResourceDependencies = BackendRequiredOnlyResource + BackendPropertyVariables
+	BackendSetHealthResourceConfig = BackendRequiredOnlyResource
 )
 
 func TestLoadBalancerBackendSetHealthResource_basic(t *testing.T) {
@@ -39,18 +37,9 @@ func TestLoadBalancerBackendSetHealthResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify singular datasource
 			{
-				Config: config + `
-variable "backend_set_health_backend_set_name" { default = "backendSetName" }
-variable "backend_set_health_load_balancer_id" { default = "loadBalancerId" }
-
-data "oci_load_balancer_backend_set_health" "test_backend_set_health" {
-	depends_on = ["oci_load_balancer_backend.test_backend"]
-
-	#Required
-	backend_set_name = "${oci_load_balancer_backend_set.test_backend_set.name}"
-	load_balancer_id = "${oci_load_balancer_load_balancer.test_load_balancer.id}"
-}
-                ` + compartmentIdVariableStr + BackendSetHealthResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_load_balancer_backend_set_health", "test_backend_set_health", Required, Create, backendSetHealthSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + BackendSetHealthResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(singularDatasourceName, "backend_set_name", "backendSet1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "load_balancer_id"),

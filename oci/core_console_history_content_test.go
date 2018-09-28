@@ -10,16 +10,14 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 )
 
-const (
-	ConsoleHistoryContentResourceConfig = ConsoleHistoryContentResourceDependencies + `
+var (
+	consoleHistoryContentSingularDataSourceRepresentation = map[string]interface{}{
+		"console_history_id": Representation{repType: Required, create: `${oci_core_console_history.test_console_history.id}`},
+		"length":             Representation{repType: Optional, create: `10240`},
+		"offset":             Representation{repType: Optional, create: `0`},
+	}
 
-`
-	ConsoleHistoryContentPropertyVariables = `
-variable "console_history_content_length" { default = 10240 }
-variable "console_history_content_offset" { default = 0 }
-
-`
-	ConsoleHistoryContentResourceDependencies = ConsoleHistoryPropertyVariables + ConsoleHistoryResourceConfig
+	ConsoleHistoryContentResourceConfig = ConsoleHistoryRequiredOnlyResource
 )
 
 func TestCoreConsoleHistoryContentResource_basic(t *testing.T) {
@@ -39,19 +37,9 @@ func TestCoreConsoleHistoryContentResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify singular datasource
 			{
-				Config: config + `
-variable "console_history_content_length" { default = 10240 }
-variable "console_history_content_offset" { default = 0 }
-
-data "oci_core_console_history_data" "test_console_history_content" {
-	#Required
-	console_history_id = "${oci_core_console_history.test_console_history.id}"
-
-	#Optional
-	length = "${var.console_history_content_length}"
-	offset = "${var.console_history_content_offset}"
-}
-                ` + compartmentIdVariableStr + ConsoleHistoryContentResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_core_console_history_data", "test_console_history_content", Optional, Create, consoleHistoryContentSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + ConsoleHistoryContentResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "console_history_id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "length", "10240"),

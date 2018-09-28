@@ -10,32 +10,30 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 )
 
-const (
-	ExportSetRequiredOnlyResource = ExportSetResourceDependencies + `
-resource "oci_file_storage_export_set" "test_export_set" {
-	#Required
-	mount_target_id = "${oci_file_storage_mount_target.test_mount_target.id}"
-}
-`
+var (
+	ExportSetRequiredOnlyResource = ExportSetResourceDependencies +
+		generateResourceFromRepresentationMap("oci_file_storage_export_set", "test_export_set", Required, Create, exportSetRepresentation)
 
-	ExportSetResourceConfig = ExportSetResourceDependencies + `
-resource "oci_file_storage_export_set" "test_export_set" {
-	#Required
-	mount_target_id = "${oci_file_storage_mount_target.test_mount_target.id}"
+	exportSetDataSourceRepresentation = map[string]interface{}{
+		"availability_domain": Representation{repType: Required, create: `${lookup(data.oci_identity_availability_domains.test_availability_domains.availability_domains[0],"name")}`},
+		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
+		"display_name":        Representation{repType: Optional, create: `displayName`, update: `displayName2`},
+		"id":                  Representation{repType: Optional, create: `${oci_file_storage_mount_target.test_mount_target.export_set_id}`},
+		"state":               Representation{repType: Optional, create: `ACTIVE`},
+		"filter":              RepresentationGroup{Required, exportSetDataSourceFilterRepresentation}}
+	exportSetDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   Representation{repType: Required, create: `id`},
+		"values": Representation{repType: Required, create: []string{`${oci_file_storage_export_set.test_export_set.id}`}},
+	}
 
-	# Optional
-	display_name = "${var.export_set_display_name}"
-	max_fs_stat_bytes = "${var.max_bytes}"
-	max_fs_stat_files = "${var.max_files}"
-}
-`
-	ExportSetPropertyVariables = `
-variable "export_set_display_name" { default = "export set display name" }
-variable "max_bytes" { default = 23843202333 }
-variable "max_files" { default = 223442 }
-variable "export_set_state" { default = "ACTIVE" }
-`
-	ExportSetResourceDependencies = MountTargetPropertyVariables + MountTargetResourceConfig
+	exportSetRepresentation = map[string]interface{}{
+		"mount_target_id":   Representation{repType: Required, create: `${oci_file_storage_mount_target.test_mount_target.id}`},
+		"display_name":      Representation{repType: Optional, create: `export set display name`},
+		"max_fs_stat_bytes": Representation{repType: Optional, create: `23843202333`},
+		"max_fs_stat_files": Representation{repType: Optional, create: `223442`},
+	}
+
+	ExportSetResourceDependencies = MountTargetRequiredOnlyResource
 )
 
 func TestFileStorageExportSetResource_basic(t *testing.T) {
@@ -56,9 +54,10 @@ func TestFileStorageExportSetResource_basic(t *testing.T) {
 			"oci": provider,
 		},
 		Steps: []resource.TestStep{
-			// verify create - note that we don't really create an export set, see provider for details.
+			// verify create
 			{
-				Config: config + ExportSetPropertyVariables + compartmentIdVariableStr + ExportSetRequiredOnlyResource,
+				Config: config + compartmentIdVariableStr + ExportSetResourceDependencies +
+					generateResourceFromRepresentationMap("oci_file_storage_export_set", "test_export_set", Required, Create, exportSetRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -75,9 +74,11 @@ func TestFileStorageExportSetResource_basic(t *testing.T) {
 					},
 				),
 			},
-			// This step serves the purpose of both "create with optionals" and "update non-forcenew fields". See provider for details.
+
+			// verify updates to updatable parameters
 			{
-				Config: config + ExportSetPropertyVariables + compartmentIdVariableStr + ExportSetResourceConfig,
+				Config: config + compartmentIdVariableStr + ExportSetResourceDependencies +
+					generateResourceFromRepresentationMap("oci_file_storage_export_set", "test_export_set", Optional, Update, exportSetRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -99,28 +100,10 @@ func TestFileStorageExportSetResource_basic(t *testing.T) {
 			},
 			// verify datasource
 			{
-				Config: config + `
-variable "export_set_display_name" { default = "export set display name" }
-variable "max_bytes" { default = 23843202333 }
-variable "max_files" { default = 223442 }
-variable "export_set_state" { default = "ACTIVE" }
-
-data "oci_file_storage_export_sets" "test_export_sets" {
-	#Required
-	availability_domain = "${oci_file_storage_mount_target.test_mount_target.availability_domain}"
-	compartment_id = "${var.compartment_id}"
-
-	#Optional
-	display_name = "${var.export_set_display_name}"
-	id = "${oci_file_storage_mount_target.test_mount_target.export_set_id}"
-	state = "${var.export_set_state}"
-
-    filter {
-    	name = "id"
-    	values = ["${oci_file_storage_mount_target.test_mount_target.export_set_id}"]
-    }
-}
-                ` + compartmentIdVariableStr + ExportSetResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_file_storage_export_sets", "test_export_sets", Optional, Update, exportSetDataSourceRepresentation) +
+					compartmentIdVariableStr + ExportSetResourceDependencies +
+					generateResourceFromRepresentationMap("oci_file_storage_export_set", "test_export_set", Optional, Update, exportSetRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),

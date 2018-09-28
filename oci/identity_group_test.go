@@ -13,37 +13,28 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
-const (
-	GroupRequiredOnlyResource = GroupRequiredOnlyResourceDependencies + `
-resource "oci_identity_group" "test_group" {
-	#Required
-	compartment_id = "${var.tenancy_ocid}"
-	description = "${var.group_description}"
-	name = "${var.group_name}"
-}
-`
+var (
+	GroupRequiredOnlyResource = GroupResourceDependencies +
+		generateResourceFromRepresentationMap("oci_identity_group", "test_group", Required, Create, groupRepresentation)
 
-	GroupResourceConfig = GroupResourceDependencies + `
-resource "oci_identity_group" "test_group" {
-	#Required
-	compartment_id = "${var.tenancy_ocid}"
-	description = "${var.group_description}"
-	name = "${var.group_name}"
+	groupDataSourceRepresentation = map[string]interface{}{
+		"compartment_id": Representation{repType: Required, create: `${var.tenancy_ocid}`},
+		"filter":         RepresentationGroup{Required, groupDataSourceFilterRepresentation}}
+	groupDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   Representation{repType: Required, create: `id`},
+		"values": Representation{repType: Required, create: []string{`${oci_identity_group.test_group.id}`}},
+	}
 
-	#Optional
-	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.group_defined_tags_value}")}"
-	freeform_tags = "${var.group_freeform_tags}"
-}
-`
-	GroupPropertyVariables = `
-variable "group_defined_tags_value" { default = "value" }
-variable "group_description" { default = "Group for network administrators" }
-variable "group_freeform_tags" { default = {"Department"= "Finance"} }
-variable "group_name" { default = "NetworkAdmins" }
+	groupRepresentation = map[string]interface{}{
+		"compartment_id": Representation{repType: Required, create: `${var.tenancy_ocid}`},
+		"description":    Representation{repType: Required, create: `Group for network administrators`, update: `description2`},
+		"name":           Representation{repType: Required, create: `NetworkAdmins`},
+		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+	}
 
-`
-	GroupRequiredOnlyResourceDependencies = ``
-	GroupResourceDependencies             = DefinedTagsDependencies
+	GroupResourceDependencies = DefinedTagsDependencies
+	GroupResourceConfig       = generateResourceFromRepresentationMap("oci_identity_group", "test_group", Required, Create, groupRepresentation)
 )
 
 func TestIdentityGroupResource_basic(t *testing.T) {
@@ -68,7 +59,8 @@ func TestIdentityGroupResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + GroupPropertyVariables + compartmentIdVariableStr + GroupRequiredOnlyResource,
+				Config: config + compartmentIdVariableStr + GroupResourceDependencies +
+					generateResourceFromRepresentationMap("oci_identity_group", "test_group", Required, Create, groupRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "description", "Group for network administrators"),
@@ -87,7 +79,8 @@ func TestIdentityGroupResource_basic(t *testing.T) {
 			},
 			// verify create with optionals
 			{
-				Config: config + GroupPropertyVariables + compartmentIdVariableStr + GroupResourceConfig,
+				Config: config + compartmentIdVariableStr + GroupResourceDependencies +
+					generateResourceFromRepresentationMap("oci_identity_group", "test_group", Optional, Create, groupRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -107,13 +100,8 @@ func TestIdentityGroupResource_basic(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + `
-variable "group_defined_tags_value" { default = "updatedValue" }
-variable "group_description" { default = "description2" }
-variable "group_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "group_name" { default = "NetworkAdmins" }
-
-                ` + compartmentIdVariableStr + GroupResourceConfig,
+				Config: config + compartmentIdVariableStr + GroupResourceDependencies +
+					generateResourceFromRepresentationMap("oci_identity_group", "test_group", Optional, Update, groupRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -135,22 +123,10 @@ variable "group_name" { default = "NetworkAdmins" }
 			},
 			// verify datasource
 			{
-				Config: config + `
-variable "group_defined_tags_value" { default = "updatedValue" }
-variable "group_description" { default = "description2" }
-variable "group_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "group_name" { default = "NetworkAdmins" }
-
-data "oci_identity_groups" "test_groups" {
-	#Required
-	compartment_id = "${var.tenancy_ocid}"
-
-    filter {
-    	name = "id"
-    	values = ["${oci_identity_group.test_group.id}"]
-    }
-}
-                ` + compartmentIdVariableStr + GroupResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_identity_groups", "test_groups", Optional, Update, groupDataSourceRepresentation) +
+					compartmentIdVariableStr + GroupResourceDependencies +
+					generateResourceFromRepresentationMap("oci_identity_group", "test_group", Optional, Update, groupRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
 

@@ -10,14 +10,12 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 )
 
-const (
-	LoadBalancerPolicyResourceConfig = LoadBalancerPolicyResourceDependencies + `
+var (
+	loadBalancerPolicyDataSourceRepresentation = map[string]interface{}{
+		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+	}
 
-`
-	LoadBalancerPolicyPropertyVariables = `
-
-`
-	LoadBalancerPolicyResourceDependencies = ""
+	LoadBalancerPolicyResourceConfig = ""
 )
 
 func TestLoadBalancerLoadBalancerPolicyResource_basic(t *testing.T) {
@@ -37,13 +35,9 @@ func TestLoadBalancerLoadBalancerPolicyResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify datasource
 			{
-				Config: config + `
-
-data "oci_load_balancer_policies" "test_load_balancer_policies" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-}
-                ` + compartmentIdVariableStr + LoadBalancerPolicyResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_load_balancer_policies", "test_load_balancer_policies", Required, Create, loadBalancerPolicyDataSourceRepresentation) +
+					compartmentIdVariableStr + LoadBalancerPolicyResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 

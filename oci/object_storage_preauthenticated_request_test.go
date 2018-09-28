@@ -13,42 +13,39 @@ import (
 	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
 )
 
-const (
-	PreauthenticatedRequestRequiredOnlyResource = PreauthenticatedRequestResourceDependencies + `
-resource "oci_objectstorage_preauthrequest" "test_preauthenticated_request" {
-	#Required
-	access_type = "AnyObjectWrite"
-	bucket = "${var.preauthenticated_request_bucket}"
-	name = "${var.preauthenticated_request_name}"
-	namespace = "${oci_objectstorage_bucket.test_bucket.namespace}"
-	time_expires = "${var.preauthenticated_request_time_expires}"
-}
-`
+var (
+	PreauthenticatedRequestRequiredOnlyResource = PreauthenticatedRequestResourceDependencies +
+		generateResourceFromRepresentationMap("oci_objectstorage_preauthrequest", "test_preauthenticated_request", Required, Create, preauthenticatedRequestRepresentation)
 
-	PreauthenticatedRequestResourceConfig = PreauthenticatedRequestResourceDependencies + `
-resource "oci_objectstorage_preauthrequest" "test_preauthenticated_request" {
-	#Required
-	access_type = "${var.preauthenticated_request_access_type}"
-	bucket = "${var.preauthenticated_request_bucket}"
-	name = "${var.preauthenticated_request_name}"
-	namespace = "${oci_objectstorage_bucket.test_bucket.namespace}"
-	time_expires = "${var.preauthenticated_request_time_expires}"
+	PreauthenticatedRequestResourceConfig = PreauthenticatedRequestResourceDependencies +
+		generateResourceFromRepresentationMap("oci_objectstorage_preauthrequest", "test_preauthenticated_request", Required, Create, preauthenticatedRequestRepresentation)
 
-	#Optional
-	object = "${var.preauthenticated_request_object}"
-}
-`
-	PreauthenticatedRequestPropertyVariables = `
-variable "preauthenticated_request_access_type" { default = "ObjectRead" }
-variable "preauthenticated_request_bucket" { default = "my-test-1" }
-variable "preauthenticated_request_name" { default = "-tf-par" }
-variable "preauthenticated_request_namespace" { default = "namespace" }
-variable "preauthenticated_request_object" { default = "my-test-object-1" }
-variable "preauthenticated_request_object_name_prefix" { default = "my-test-object" }
-variable "preauthenticated_request_time_expires" { default = "2020-01-01T00:00:00Z" }
+	preauthenticatedRequestSingularDataSourceRepresentation = map[string]interface{}{
+		"bucket":    Representation{repType: Required, create: `my-test-1`},
+		"namespace": Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.namespace}`},
+		"par_id":    Representation{repType: Required, create: `${oci_objectstorage_preauthrequest.test_preauthenticated_request.id}`},
+	}
 
-`
-	PreauthenticatedRequestResourceDependencies = ObjectRequiredOnlyResource + ObjectPropertyVariables
+	preauthenticatedRequestDataSourceRepresentation = map[string]interface{}{
+		"bucket":             Representation{repType: Required, create: `my-test-1`},
+		"namespace":          Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.namespace}`},
+		"object_name_prefix": Representation{repType: Optional, create: `my-test-object`},
+		"filter":             RepresentationGroup{Required, preauthenticatedRequestDataSourceFilterRepresentation}}
+	preauthenticatedRequestDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   Representation{repType: Required, create: `id`},
+		"values": Representation{repType: Required, create: []string{`${oci_objectstorage_preauthrequest.test_preauthenticated_request.id}`}},
+	}
+
+	preauthenticatedRequestRepresentation = map[string]interface{}{
+		"access_type":  Representation{repType: Required, create: `AnyObjectWrite`, update: `ObjectRead`},
+		"bucket":       Representation{repType: Required, create: `my-test-1`},
+		"name":         Representation{repType: Required, create: `-tf-par`},
+		"namespace":    Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.namespace}`},
+		"time_expires": Representation{repType: Required, create: `2020-01-01T00:00:00Z`},
+		"object":       Representation{repType: Optional, create: `my-test-object-1`},
+	}
+
+	PreauthenticatedRequestResourceDependencies = ObjectRequiredOnlyResource
 )
 
 func TestObjectStoragePreauthenticatedRequestResource_basic(t *testing.T) {
@@ -71,7 +68,8 @@ func TestObjectStoragePreauthenticatedRequestResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + PreauthenticatedRequestPropertyVariables + compartmentIdVariableStr + PreauthenticatedRequestRequiredOnlyResource,
+				Config: config + compartmentIdVariableStr + PreauthenticatedRequestResourceDependencies +
+					generateResourceFromRepresentationMap("oci_objectstorage_preauthrequest", "test_preauthenticated_request", Required, Create, preauthenticatedRequestRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "access_type", "AnyObjectWrite"),
 					resource.TestCheckResourceAttr(resourceName, "bucket", "my-test-1"),
@@ -87,7 +85,8 @@ func TestObjectStoragePreauthenticatedRequestResource_basic(t *testing.T) {
 			},
 			// verify create with optionals
 			{
-				Config: config + PreauthenticatedRequestPropertyVariables + compartmentIdVariableStr + PreauthenticatedRequestResourceConfig,
+				Config: config + compartmentIdVariableStr + PreauthenticatedRequestResourceDependencies +
+					generateResourceFromRepresentationMap("oci_objectstorage_preauthrequest", "test_preauthenticated_request", Optional, Update, preauthenticatedRequestRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "access_type", "ObjectRead"),
 					resource.TestCheckResourceAttr(resourceName, "bucket", "my-test-1"),
@@ -102,29 +101,10 @@ func TestObjectStoragePreauthenticatedRequestResource_basic(t *testing.T) {
 
 			// verify datasource
 			{
-				Config: config + `
-variable "preauthenticated_request_access_type" { default = "ObjectRead" }
-variable "preauthenticated_request_bucket" { default = "my-test-1" }
-variable "preauthenticated_request_name" { default = "-tf-par" }
-variable "preauthenticated_request_namespace" { default = "namespace" }
-variable "preauthenticated_request_object" { default = "my-test-object-1" }
-variable "preauthenticated_request_object_name_prefix" { default = "my-test-object" }
-variable "preauthenticated_request_time_expires" { default = "2020-01-01T00:00:00Z" }
-
-data "oci_objectstorage_preauthrequests" "test_preauthenticated_requests" {
-	#Required
-	bucket = "${var.preauthenticated_request_bucket}"
-	namespace = "${oci_objectstorage_bucket.test_bucket.namespace}"
-
-	#Optional
-	object_name_prefix = "${var.preauthenticated_request_object_name_prefix}"
-
-    filter {
-    	name = "id"
-    	values = ["${oci_objectstorage_preauthrequest.test_preauthenticated_request.id}"]
-    }
-}
-                ` + compartmentIdVariableStr + PreauthenticatedRequestResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_objectstorage_preauthrequests", "test_preauthenticated_requests", Optional, Update, preauthenticatedRequestDataSourceRepresentation) +
+					compartmentIdVariableStr + PreauthenticatedRequestResourceDependencies +
+					generateResourceFromRepresentationMap("oci_objectstorage_preauthrequest", "test_preauthenticated_request", Optional, Update, preauthenticatedRequestRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "bucket", "my-test-1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "namespace"),
@@ -141,22 +121,11 @@ data "oci_objectstorage_preauthrequests" "test_preauthenticated_requests" {
 			},
 			// verify singular datasource
 			{
-				Config: config + `
-variable "preauthenticated_request_access_type" { default = "ObjectRead" }
-variable "preauthenticated_request_bucket" { default = "my-test-1" }
-variable "preauthenticated_request_name" { default = "-tf-par" }
-variable "preauthenticated_request_namespace" { default = "namespace" }
-variable "preauthenticated_request_object" { default = "my-test-object-1" }
-variable "preauthenticated_request_object_name_prefix" { default = "my-test-object" }
-variable "preauthenticated_request_time_expires" { default = "2020-01-01T00:00:00Z" }
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_objectstorage_preauthrequest", "test_preauthenticated_request", Required, Create, preauthenticatedRequestSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + PreauthenticatedRequestResourceDependencies +
+					generateResourceFromRepresentationMap("oci_objectstorage_preauthrequest", "test_preauthenticated_request", Optional, Update, preauthenticatedRequestRepresentation),
 
-data "oci_objectstorage_preauthrequest" "test_preauthenticated_request" {
-	#Required
-	bucket = "${var.preauthenticated_request_bucket}"
-	namespace = "${oci_objectstorage_bucket.test_bucket.namespace}"
-	par_id = "${oci_objectstorage_preauthrequest.test_preauthenticated_request.id}"
-}
-                ` + compartmentIdVariableStr + PreauthenticatedRequestResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(singularDatasourceName, "bucket", "my-test-1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "namespace"),

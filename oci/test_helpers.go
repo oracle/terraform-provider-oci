@@ -6,6 +6,8 @@ import (
 	"bytes"
 	"fmt"
 	"log"
+	"sort"
+	"strings"
 	"os"
 	"text/template"
 	"time"
@@ -135,6 +137,158 @@ func conditionShouldRetry(timeout time.Duration, condition WaitConditionFunc, se
 
 		return condition(response)
 	}
+}
+
+type RepresentationType int
+
+const (
+	Required RepresentationType = iota + 1
+	Optional
+)
+
+type RepresentationMode int
+
+const (
+	Create RepresentationMode = iota
+	Update
+)
+
+type Representation struct {
+	repType RepresentationType
+	create  interface{}
+	update  interface{}
+}
+
+type RepresentationGroup struct {
+	repType RepresentationType
+	group   map[string]interface{}
+}
+
+func cloneRepresentation(representations map[string]interface{}) map[string]interface{} {
+	copyMap := map[string]interface{}{}
+
+	for key, value := range representations {
+		representation, ok := value.(Representation)
+		if ok {
+			copyMap[key] = Representation{representation.repType, representation.create, representation.update}
+		}
+		representationGroup, ok := value.(RepresentationGroup)
+		if ok {
+			copyMap[key] = RepresentationGroup{representationGroup.repType, cloneRepresentation(representationGroup.group)}
+		}
+	}
+
+	return copyMap
+}
+
+func representationCopyWithNewProperties(representations map[string]interface{}, newProperties map[string]interface{}) map[string]interface{} {
+	representationsCopy := cloneRepresentation(representations)
+	for propName, value := range newProperties {
+		representationsCopy[propName] = value
+	}
+	return representationsCopy
+}
+
+func getUpdatedRepresentationCopy(propertyNameStr string, newValue interface{}, representations map[string]interface{}) map[string]interface{} {
+	propertyNames := strings.Split(propertyNameStr, ".")
+	return updateNestedRepresentation(0, propertyNames, newValue, cloneRepresentation(representations))
+}
+
+func updateNestedRepresentation(currIndex int, propertyNames []string, newValue interface{}, representations map[string]interface{}) map[string]interface{} {
+	//recursively search the property to update
+	for prop := range representations {
+		if prop == propertyNames[currIndex] {
+			representationGroup, ok := representations[prop].(RepresentationGroup)
+			if ok && currIndex+1 < len(propertyNames) {
+				updateNestedRepresentation(currIndex+1, propertyNames, newValue, representationGroup.group)
+			} else {
+				representations[prop] = newValue
+			}
+			return representations
+		}
+	}
+
+	return nil
+}
+
+func generateDataSourceFromRepresentationMap(resourceType string, resourceName string, representationType RepresentationType, representationMode RepresentationMode, representations map[string]interface{}) string {
+	var buffer bytes.Buffer
+	buffer.WriteString(fmt.Sprintf(`data "%s" "%s" %s`, resourceType, resourceName, generateResourceFromMap(representationType, representationMode, representations)))
+	return buffer.String()
+}
+
+func generateResourceFromRepresentationMap(resourceType string, resourceName string, representationType RepresentationType, representationMode RepresentationMode, representations map[string]interface{}) string {
+	var buffer bytes.Buffer
+	buffer.WriteString(fmt.Sprintf(`resource "%s" "%s" %s`, resourceType, resourceName, generateResourceFromMap(representationType, representationMode, representations)))
+	return buffer.String()
+}
+
+func generateResourceFromMap(representationType RepresentationType, representationMode RepresentationMode, representations map[string]interface{}) string {
+	var buffer bytes.Buffer
+	var lineSeparator = "\n"
+	buffer.WriteString("{" + lineSeparator)
+
+	sortedRepresentations := make([]string, 0, len(representations))
+	for key := range representations {
+		sortedRepresentations = append(sortedRepresentations, key)
+	}
+	sort.Strings(sortedRepresentations)
+
+	for _, prop := range sortedRepresentations {
+		representation, ok := representations[prop].(Representation)
+		if ok && representation.repType <= representationType {
+
+			representationValue := representation.create
+			if representationMode == Update && representation.update != nil {
+				representationValue = representation.update
+			}
+
+			repStrValue, strRep := representationValue.(string)
+			if strRep {
+				buffer.WriteString(fmt.Sprintf(`%s = "%s"%s`, prop, repStrValue, lineSeparator))
+			}
+
+			repArrayStrValue, arrayRep := representationValue.([]string)
+			if arrayRep {
+				var repArrayStrEscValue []string
+				for _, arrayValue := range repArrayStrValue {
+					repArrayStrEscValue = append(repArrayStrEscValue, fmt.Sprintf(`"%s"`, arrayValue))
+				}
+				buffer.WriteString(fmt.Sprintf(`%s = [%s]%s`, prop, strings.Join(repArrayStrEscValue, ", "), lineSeparator))
+			}
+
+			repMapStrValue, mapRep := representationValue.(map[string]string)
+			if mapRep {
+				sortedKeys := make([]string, 0, len(repMapStrValue))
+				for key := range repMapStrValue {
+					sortedKeys = append(sortedKeys, key)
+				}
+				sort.Strings(sortedKeys)
+
+				var repMapStrEscValue []string
+				for _, key := range sortedKeys {
+					repMapStrEscValue = append(repMapStrEscValue, fmt.Sprintf(`"%s" = "%s"`, key, repMapStrValue[key]))
+				}
+				buffer.WriteString(fmt.Sprintf("%s = {\n%s\n}%s", prop, strings.Join(repMapStrEscValue, lineSeparator), lineSeparator))
+
+			}
+
+		}
+		representationGroup, ok := representations[prop].(RepresentationGroup)
+		if ok && representationGroup.repType <= representationType {
+			buffer.WriteString(fmt.Sprintf("%s %s", prop, generateResourceFromMap(representationType, representationMode, representationGroup.group)))
+		}
+		representationGroupArray, ok := representations[prop].([]RepresentationGroup)
+		if ok {
+			for _, representationGroupInArray := range representationGroupArray {
+				if representationGroupInArray.repType <= representationType {
+					buffer.WriteString(fmt.Sprintf("%s %s", prop, generateResourceFromMap(representationType, representationMode, representationGroupInArray.group)))
+				}
+			}
+		}
+	}
+	buffer.WriteString(fmt.Sprintf("}%s", lineSeparator))
+	return buffer.String()
 }
 
 // GenerateTestResourceName generates a name for the resource based on the prefix and current time stamp.

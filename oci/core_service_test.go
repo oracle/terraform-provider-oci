@@ -10,14 +10,10 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 )
 
-const (
-	ServiceResourceConfig = ServiceResourceDependencies + `
+var (
+	serviceDataSourceRepresentation = map[string]interface{}{}
 
-`
-	ServicePropertyVariables = `
-
-`
-	ServiceResourceDependencies = ""
+	ServiceResourceConfig = ""
 )
 
 func TestCoreServiceResource_basic(t *testing.T) {
@@ -37,11 +33,9 @@ func TestCoreServiceResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify datasource
 			{
-				Config: config + `
-
-data "oci_core_services" "test_services" {
-}
-                ` + compartmentIdVariableStr + ServiceResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_core_services", "test_services", Required, Create, serviceDataSourceRepresentation) +
+					compartmentIdVariableStr + ServiceResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 
 					resource.TestCheckResourceAttrSet(datasourceName, "services.#"),

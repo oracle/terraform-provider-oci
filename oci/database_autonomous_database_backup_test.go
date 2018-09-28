@@ -10,20 +10,30 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 )
 
-const (
-	AutonomousDatabaseBackupResourceConfig = AutonomousDatabaseBackupResourceDependencies + `
-resource "oci_database_autonomous_database_backup" "test_autonomous_database_backup" {
-	#Required
-	autonomous_database_id = "${oci_database_autonomous_database.test_autonomous_database.id}"
-	display_name = "${var.autonomous_database_backup_display_name}"
-}
-`
-	AutonomousDatabaseBackupPropertyVariables = `
-variable "autonomous_database_backup_display_name" { default = "Monthly Backup" }
-variable "autonomous_database_backup_state" { default = "ACTIVE" }
+var (
+	AutonomousDatabaseBackupResourceConfig = AutonomousDatabaseBackupResourceDependencies +
+		generateResourceFromRepresentationMap("oci_database_autonomous_database_backup", "test_autonomous_database_backup", Required, Create, autonomousDatabaseBackupRepresentation)
 
-`
-	AutonomousDatabaseBackupResourceDependencies = AutonomousDatabasePropertyVariables + AutonomousDatabaseResourceConfig
+	autonomousDatabaseBackupSingularDataSourceRepresentation = map[string]interface{}{
+		"autonomous_database_backup_id": Representation{repType: Required, create: `${oci_database_autonomous_database_backup.test_autonomous_database_backup.id}`},
+	}
+
+	autonomousDatabaseBackupDataSourceRepresentation = map[string]interface{}{
+		"autonomous_database_id": Representation{repType: Optional, create: `${oci_database_autonomous_database.test_autonomous_database.id}`},
+		"display_name":           Representation{repType: Optional, create: `Monthly Backup`},
+		"state":                  Representation{repType: Optional, create: `ACTIVE`},
+		"filter":                 RepresentationGroup{Required, autonomousDatabaseBackupDataSourceFilterRepresentation}}
+	autonomousDatabaseBackupDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   Representation{repType: Required, create: `id`},
+		"values": Representation{repType: Required, create: []string{`${oci_database_autonomous_database_backup.test_autonomous_database_backup.id}`}},
+	}
+
+	autonomousDatabaseBackupRepresentation = map[string]interface{}{
+		"autonomous_database_id": Representation{repType: Required, create: `${oci_database_autonomous_database.test_autonomous_database.id}`},
+		"display_name":           Representation{repType: Required, create: `Monthly Backup`},
+	}
+
+	AutonomousDatabaseBackupResourceDependencies = AutonomousDatabaseResourceConfig
 )
 
 func TestDatabaseAutonomousDatabaseBackupResource_basic(t *testing.T) {
@@ -48,7 +58,8 @@ func TestDatabaseAutonomousDatabaseBackupResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + AutonomousDatabaseBackupPropertyVariables + compartmentIdVariableStr + AutonomousDatabaseBackupResourceConfig,
+				Config: config + compartmentIdVariableStr + AutonomousDatabaseBackupResourceDependencies +
+					generateResourceFromRepresentationMap("oci_database_autonomous_database_backup", "test_autonomous_database_backup", Required, Create, autonomousDatabaseBackupRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "autonomous_database_id"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "Monthly Backup"),
@@ -57,23 +68,10 @@ func TestDatabaseAutonomousDatabaseBackupResource_basic(t *testing.T) {
 
 			// verify datasource
 			{
-				Config: config + `
-variable "autonomous_database_backup_display_name" { default = "Monthly Backup" }
-variable "autonomous_database_backup_state" { default = "ACTIVE" }
-
-data "oci_database_autonomous_database_backups" "test_autonomous_database_backups" {
-
-	#Optional
-	autonomous_database_id = "${oci_database_autonomous_database.test_autonomous_database.id}"
-	display_name = "${var.autonomous_database_backup_display_name}"
-	state = "${var.autonomous_database_backup_state}"
-
-    filter {
-    	name = "id"
-    	values = ["${oci_database_autonomous_database_backup.test_autonomous_database_backup.id}"]
-    }
-}
-                ` + compartmentIdVariableStr + AutonomousDatabaseBackupResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_database_autonomous_database_backups", "test_autonomous_database_backups", Optional, Update, autonomousDatabaseBackupDataSourceRepresentation) +
+					compartmentIdVariableStr + AutonomousDatabaseBackupResourceDependencies +
+					generateResourceFromRepresentationMap("oci_database_autonomous_database_backup", "test_autonomous_database_backup", Optional, Update, autonomousDatabaseBackupRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_database_id"),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "Monthly Backup"),
@@ -90,14 +88,9 @@ data "oci_database_autonomous_database_backups" "test_autonomous_database_backup
 			},
 			// verify singular datasource
 			{
-				Config: config + `
-variable "autonomous_database_backup_display_name" { default = "Monthly Backup" }
-
-data "oci_database_autonomous_database_backup" "test_autonomous_database_backup" {
-	#Required
-	autonomous_database_backup_id = "${oci_database_autonomous_database_backup.test_autonomous_database_backup.id}"
-}
-                ` + compartmentIdVariableStr + AutonomousDatabaseBackupResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_database_autonomous_database_backup", "test_autonomous_database_backup", Required, Create, autonomousDatabaseBackupSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + AutonomousDatabaseBackupResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_database_backup_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_database_id"),
@@ -114,11 +107,7 @@ data "oci_database_autonomous_database_backup" "test_autonomous_database_backup"
 			},
 			// remove singular datasource from previous step so that it doesn't conflict with import tests
 			{
-				Config: config + `
-variable "autonomous_database_backup_display_name" { default = "Monthly Backup" }
-variable "autonomous_database_backup_state" { default = "AVAILABLE" }
-
-                ` + compartmentIdVariableStr + AutonomousDatabaseBackupResourceConfig,
+				Config: config + compartmentIdVariableStr + AutonomousDatabaseBackupResourceConfig,
 			},
 			// verify resource import
 			{

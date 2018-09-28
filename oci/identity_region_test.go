@@ -3,15 +3,31 @@
 package provider
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
 )
 
+var (
+	regionDataSourceRepresentation = map[string]interface{}{
+		"filter": RepresentationGroup{Required, regionDataSourceFilterRepresentation}}
+
+	regionDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   Representation{repType: Required, create: `name`},
+		"values": Representation{repType: Required, create: []string{`${var.region}`}},
+	}
+
+	RegionResourceConfig = ""
+)
+
 func TestIdentityRegionResource_basic(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
+
+	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	datasourceName := "data.oci_identity_regions.test_regions"
 
@@ -23,16 +39,12 @@ func TestIdentityRegionResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify datasource
 			{
-				Config: config + `
-data "oci_identity_regions" "test_regions" {
-	filter {
-		name = "name"
-		values = ["${var.region}"]
-	}
-}
-                `,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_identity_regions", "test_regions", Required, Create, regionDataSourceRepresentation) +
+					compartmentIdVariableStr + RegionResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(datasourceName, "regions.#", "1"),
+
+					resource.TestCheckResourceAttrSet(datasourceName, "regions.#"),
 				),
 			},
 		},

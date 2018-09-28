@@ -13,33 +13,25 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-const (
-	DrgRequiredOnlyResource = DrgRequiredOnlyResourceDependencies + `
-resource "oci_core_drg" "test_drg" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-}
-`
+var (
+	DrgRequiredOnlyResource = generateResourceFromRepresentationMap("oci_core_drg", "test_drg", Required, Create, drgRepresentation)
 
-	DrgResourceConfig = DrgResourceDependencies + `
-resource "oci_core_drg" "test_drg" {
-	#Required
-	compartment_id = "${var.compartment_id}"
+	drgDataSourceRepresentation = map[string]interface{}{
+		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"filter":         RepresentationGroup{Required, drgDataSourceFilterRepresentation}}
+	drgDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   Representation{repType: Required, create: `id`},
+		"values": Representation{repType: Required, create: []string{`${oci_core_drg.test_drg.id}`}},
+	}
 
-	#Optional
-	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.drg_defined_tags_value}")}"
-	display_name = "${var.drg_display_name}"
-	freeform_tags = "${var.drg_freeform_tags}"
-}
-`
-	DrgPropertyVariables = `
-variable "drg_defined_tags_value" { default = "value" }
-variable "drg_display_name" { default = "MyDrg" }
-variable "drg_freeform_tags" { default = {"Department"= "Finance"} }
+	drgRepresentation = map[string]interface{}{
+		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":   Representation{repType: Optional, create: `MyDrg`, update: `displayName2`},
+		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+	}
 
-`
-	DrgRequiredOnlyResourceDependencies = ``
-	DrgResourceDependencies             = DefinedTagsDependencies
+	DrgResourceDependencies = DefinedTagsDependencies
 )
 
 func TestCoreDrgResource_basic(t *testing.T) {
@@ -63,7 +55,8 @@ func TestCoreDrgResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + DrgPropertyVariables + compartmentIdVariableStr + DrgRequiredOnlyResource,
+				Config: config + compartmentIdVariableStr + DrgResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_drg", "test_drg", Required, Create, drgRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 
@@ -80,7 +73,8 @@ func TestCoreDrgResource_basic(t *testing.T) {
 			},
 			// verify create with optionals
 			{
-				Config: config + DrgPropertyVariables + compartmentIdVariableStr + DrgResourceConfig,
+				Config: config + compartmentIdVariableStr + DrgResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_drg", "test_drg", Optional, Create, drgRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -98,12 +92,8 @@ func TestCoreDrgResource_basic(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + `
-variable "drg_defined_tags_value" { default = "updatedValue" }
-variable "drg_display_name" { default = "displayName2" }
-variable "drg_freeform_tags" { default = {"Department"= "Accounting"} }
-
-                ` + compartmentIdVariableStr + DrgResourceConfig,
+				Config: config + compartmentIdVariableStr + DrgResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_drg", "test_drg", Optional, Update, drgRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -123,21 +113,10 @@ variable "drg_freeform_tags" { default = {"Department"= "Accounting"} }
 			},
 			// verify datasource
 			{
-				Config: config + `
-variable "drg_defined_tags_value" { default = "updatedValue" }
-variable "drg_display_name" { default = "displayName2" }
-variable "drg_freeform_tags" { default = {"Department"= "Accounting"} }
-
-data "oci_core_drgs" "test_drgs" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-
-    filter {
-    	name = "id"
-    	values = ["${oci_core_drg.test_drg.id}"]
-    }
-}
-                ` + compartmentIdVariableStr + DrgResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_core_drgs", "test_drgs", Optional, Update, drgDataSourceRepresentation) +
+					compartmentIdVariableStr + DrgResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_drg", "test_drg", Optional, Update, drgRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 

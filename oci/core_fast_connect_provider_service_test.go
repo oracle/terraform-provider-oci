@@ -10,14 +10,16 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 )
 
-const (
-	FastConnectProviderServiceResourceConfig = FastConnectProviderServiceResourceDependencies + `
+var (
+	fastConnectProviderServiceSingularDataSourceRepresentation = map[string]interface{}{
+		"provider_service_id": Representation{repType: Required, create: `${data.oci_core_fast_connect_provider_services.test_fast_connect_provider_services.fast_connect_provider_services.0.id}`},
+	}
 
-`
-	FastConnectProviderServicePropertyVariables = `
+	fastConnectProviderServiceDataSourceRepresentation = map[string]interface{}{
+		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+	}
 
-`
-	FastConnectProviderServiceResourceDependencies = ""
+	FastConnectProviderServiceResourceConfig = ""
 )
 
 func TestCoreFastConnectProviderServiceResource_basic(t *testing.T) {
@@ -38,13 +40,9 @@ func TestCoreFastConnectProviderServiceResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify datasource
 			{
-				Config: config + `
-
-data "oci_core_fast_connect_provider_services" "test_fast_connect_provider_services" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-}
-                ` + compartmentIdVariableStr + FastConnectProviderServiceResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_core_fast_connect_provider_services", "test_fast_connect_provider_services", Required, Create, fastConnectProviderServiceDataSourceRepresentation) +
+					compartmentIdVariableStr + FastConnectProviderServiceResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
@@ -59,17 +57,10 @@ data "oci_core_fast_connect_provider_services" "test_fast_connect_provider_servi
 			},
 			// verify singular datasource
 			{
-				Config: config + `
-data "oci_core_fast_connect_provider_services" "test_fast_connect_provider_services" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-}
-
-data "oci_core_fast_connect_provider_service" "test_fast_connect_provider_service" {
-	#Required
-	provider_service_id = "${data.oci_core_fast_connect_provider_services.test_fast_connect_provider_services.fast_connect_provider_services.0.id}"
-}
-                ` + compartmentIdVariableStr + FastConnectProviderServiceResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_core_fast_connect_provider_services", "test_fast_connect_provider_services", Required, Create, fastConnectProviderServiceDataSourceRepresentation) +
+					generateDataSourceFromRepresentationMap("oci_core_fast_connect_provider_service", "test_fast_connect_provider_service", Required, Create, fastConnectProviderServiceSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + FastConnectProviderServiceResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "provider_service_id"),
 

@@ -10,15 +10,13 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 )
 
-const (
-	VirtualCircuitPublicPrefixResourceConfig = VirtualCircuitPublicPrefixResourceDependencies + `
+var (
+	virtualCircuitPublicPrefixDataSourceRepresentation = map[string]interface{}{
+		"virtual_circuit_id": Representation{repType: Required, create: `${oci_core_virtual_circuit.test_virtual_circuit.id}`},
+		"verification_state": Representation{repType: Optional, create: `COMPLETED`},
+	}
 
-`
-	VirtualCircuitPublicPrefixPropertyVariables = `
-variable "virtual_circuit_public_prefix_verification_state" { default = "COMPLETED" }
-
-`
-	VirtualCircuitPublicPrefixResourceDependencies = VirtualCircuitPropertyVariables + VirtualCircuitPublicPropertyVariables + VirtualCircuitPublicRequiredOnlyResource
+	VirtualCircuitPublicPrefixResourceConfig = VirtualCircuitPublicPropertyVariables + VirtualCircuitPublicRequiredOnlyResource
 )
 
 func TestCoreVirtualCircuitPublicPrefixResource_basic(t *testing.T) {
@@ -38,18 +36,9 @@ func TestCoreVirtualCircuitPublicPrefixResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify datasource
 			{
-				Config: config + `
-variable "virtual_circuit_public_prefix_verification_state" { default = "COMPLETED" }
-
-data "oci_core_virtual_circuit_public_prefixes" "test_virtual_circuit_public_prefixes" {
-	#Required
-	virtual_circuit_id = "${oci_core_virtual_circuit.test_virtual_circuit.id}"
-
-	#Optional
-	#The verification_state can be 'COMPLETED' or 'IN_PROGRESS'
-	#verification_state = "${var.virtual_circuit_public_prefix_verification_state}"
-}
-                ` + compartmentIdVariableStr + VirtualCircuitPublicPrefixResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_core_virtual_circuit_public_prefixes", "test_virtual_circuit_public_prefixes", Required, Create, virtualCircuitPublicPrefixDataSourceRepresentation) +
+					compartmentIdVariableStr + VirtualCircuitPublicPrefixResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					//resource.TestCheckResourceAttr(datasourceName, "verification_state", "COMPLETED"),
 					//resource.TestCheckResourceAttrSet(datasourceName, "virtual_circuit_id"),

@@ -9,11 +9,15 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 )
 
+var (
+	namespaceSingularDataSourceRepresentation = map[string]interface{}{}
+
+	NamespaceResourceConfig = ""
+)
+
 func TestObjectStorageNamespaceResource_basic(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
-
-	singularDatasourceName := "data.oci_objectstorage_namespace.test_namespace"
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
@@ -23,15 +27,10 @@ func TestObjectStorageNamespaceResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify singular datasource
 			{
-				Config: config + `
-
-data "oci_objectstorage_namespace" "test_namespace" {
-}
-                `,
-				Check: resource.ComposeAggregateTestCheckFunc(
-
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "namespace"),
-				),
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", Required, Create, namespaceSingularDataSourceRepresentation) +
+					NamespaceResourceConfig,
+				Check: resource.ComposeAggregateTestCheckFunc(),
 			},
 		},
 	})

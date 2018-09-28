@@ -10,23 +10,14 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 )
 
-const (
-	WorkRequestErrorResourceConfig = WorkRequestErrorResourceDependencies + `
-data "oci_containerengine_work_requests" "test_work_requests" {
-	#Required
-	compartment_id = "${var.compartment_id}"
+var (
+	workRequestErrorDataSourceRepresentation = map[string]interface{}{
+		"compartment_id":  Representation{repType: Required, create: `${var.compartment_id}`},
+		"work_request_id": Representation{repType: Required, create: `${lookup(data.oci_containerengine_work_requests.test_work_requests.work_requests[0], "id")}`},
+	}
 
-	#Optional
-	cluster_id = "${oci_containerengine_cluster.test_cluster.id}"
-	resource_id = "${oci_containerengine_cluster.test_cluster.id}"
-	resource_type = "${var.work_request_resource_type}"
-	status = "${var.work_request_status}"
-}
-`
-	WorkRequestErrorPropertyVariables = `
-
-`
-	WorkRequestErrorResourceDependencies = WorkRequestPropertyVariables + WorkRequestResourceConfig
+	WorkRequestErrorResourceConfig = WorkRequestResourceConfig +
+		generateDataSourceFromRepresentationMap("oci_containerengine_work_requests", "test_work_requests", Optional, Create, workRequestDataSourceRepresentation)
 )
 
 func TestContainerengineWorkRequestErrorResource_basic(t *testing.T) {
@@ -46,14 +37,9 @@ func TestContainerengineWorkRequestErrorResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify datasource
 			{
-				Config: config + `
-
-data "oci_containerengine_work_request_errors" "test_work_request_errors" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-	work_request_id = "${lookup(data.oci_containerengine_work_requests.test_work_requests.work_requests[0], "id")}"
-}
-                ` + compartmentIdVariableStr + WorkRequestErrorResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_containerengine_work_request_errors", "test_work_request_errors", Required, Create, workRequestErrorDataSourceRepresentation) +
+					compartmentIdVariableStr + WorkRequestErrorResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "work_request_id"),

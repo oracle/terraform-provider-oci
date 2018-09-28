@@ -10,15 +10,13 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 )
 
-const (
-	LoadBalancerHealthResourceConfig = LoadBalancerHealthResourceDependencies + `
+var (
+	loadBalancerHealthSingularDataSourceRepresentation = map[string]interface{}{
+		"load_balancer_id": Representation{repType: Required, create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
+		"depends_on":       Representation{repType: Required, create: []string{`oci_load_balancer_backend.test_backend`}},
+	}
 
-`
-	LoadBalancerHealthPropertyVariables = `
-variable "load_balancer_health_load_balancer_id" { default = "loadBalancerId" }
-
-`
-	LoadBalancerHealthResourceDependencies = BackendRequiredOnlyResource + BackendPropertyVariables
+	LoadBalancerHealthResourceConfig = BackendRequiredOnlyResource
 )
 
 func TestLoadBalancerLoadBalancerHealthResource_basic(t *testing.T) {
@@ -38,16 +36,9 @@ func TestLoadBalancerLoadBalancerHealthResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify singular datasource
 			{
-				Config: config + `
-variable "load_balancer_health_load_balancer_id" { default = "loadBalancerId" }
-
-data "oci_load_balancer_health" "test_load_balancer_health" {
-	depends_on = ["oci_load_balancer_backend.test_backend"]
-
-	#Required
-	load_balancer_id = "${oci_load_balancer_load_balancer.test_load_balancer.id}"
-}
-                ` + compartmentIdVariableStr + LoadBalancerHealthResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_load_balancer_health", "test_load_balancer_health", Required, Create, loadBalancerHealthSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + LoadBalancerHealthResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "load_balancer_id"),
 
