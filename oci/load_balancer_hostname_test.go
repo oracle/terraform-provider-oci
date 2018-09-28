@@ -13,21 +13,22 @@ import (
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
 )
 
-const (
-	HostnameResourceConfig = HostnameResourceDependencies + `
-resource "oci_load_balancer_hostname" "test_hostname" {
-	#Required
-	hostname = "${var.hostname_hostname}"
-	load_balancer_id = "${oci_load_balancer_load_balancer.test_load_balancer.id}"
-	name = "${var.hostname_name}"
-}
-`
-	HostnamePropertyVariables = `
-variable "hostname_hostname" { default = "app.example.com" }
-variable "hostname_name" { default = "example_hostname_001" }
+var (
+	hostnameDataSourceRepresentation = map[string]interface{}{
+		"load_balancer_id": Representation{repType: Required, create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
+		"filter":           RepresentationGroup{Required, hostnameDataSourceFilterRepresentation}}
+	hostnameDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   Representation{repType: Required, create: `name`},
+		"values": Representation{repType: Required, create: []string{`${oci_load_balancer_hostname.test_hostname.name}`}},
+	}
 
-`
-	HostnameResourceDependencies = LoadBalancerPropertyVariables + LoadBalancerResourceConfig
+	hostnameRepresentation = map[string]interface{}{
+		"hostname":         Representation{repType: Required, create: `app.example.com`, update: `hostname2`},
+		"load_balancer_id": Representation{repType: Required, create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
+		"name":             Representation{repType: Required, create: `example_hostname_001`},
+	}
+
+	HostnameResourceDependencies = LoadBalancerResourceConfig
 )
 
 func TestLoadBalancerHostnameResource_basic(t *testing.T) {
@@ -51,7 +52,8 @@ func TestLoadBalancerHostnameResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + HostnamePropertyVariables + compartmentIdVariableStr + HostnameResourceConfig,
+				Config: config + compartmentIdVariableStr + HostnameResourceDependencies +
+					generateResourceFromRepresentationMap("oci_load_balancer_hostname", "test_hostname", Required, Create, hostnameRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "hostname", "app.example.com"),
 					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
@@ -66,11 +68,8 @@ func TestLoadBalancerHostnameResource_basic(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + `
-variable "hostname_hostname" { default = "hostname2" }
-variable "hostname_name" { default = "example_hostname_001" }
-
-                ` + compartmentIdVariableStr + HostnameResourceConfig,
+				Config: config + compartmentIdVariableStr + HostnameResourceDependencies +
+					generateResourceFromRepresentationMap("oci_load_balancer_hostname", "test_hostname", Optional, Update, hostnameRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "hostname", "hostname2"),
 					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
@@ -87,20 +86,10 @@ variable "hostname_name" { default = "example_hostname_001" }
 			},
 			// verify datasource
 			{
-				Config: config + `
-variable "hostname_hostname" { default = "hostname2" }
-variable "hostname_name" { default = "example_hostname_001" }
-
-data "oci_load_balancer_hostnames" "test_hostnames" {
-	#Required
-	load_balancer_id = "${oci_load_balancer_load_balancer.test_load_balancer.id}"
-
-    filter {
-    	name = "name"
-    	values = ["${oci_load_balancer_hostname.test_hostname.name}"]
-    }
-}
-                ` + compartmentIdVariableStr + HostnameResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_load_balancer_hostnames", "test_hostnames", Optional, Update, hostnameDataSourceRepresentation) +
+					compartmentIdVariableStr + HostnameResourceDependencies +
+					generateResourceFromRepresentationMap("oci_load_balancer_hostname", "test_hostname", Optional, Update, hostnameRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "load_balancer_id"),
 

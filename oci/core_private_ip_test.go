@@ -13,35 +13,27 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-const (
-	PrivateIpRequiredOnlyResource = PrivateIpResourceDependencies + `
-resource "oci_core_private_ip" "test_private_ip" {
-	#Required
-	vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0], "vnic_id")}"
-}
-`
+var (
+	PrivateIpRequiredOnlyResource = PrivateIpResourceDependencies +
+		generateResourceFromRepresentationMap("oci_core_private_ip", "test_private_ip", Required, Create, privateIpRepresentation)
 
-	PrivateIpResourceConfig = PrivateIpResourceDependencies + `
-resource "oci_core_private_ip" "test_private_ip" {
-	#Required
-	vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0], "vnic_id")}"
+	privateIpDataSourceRepresentation = map[string]interface{}{
+		"vnic_id": Representation{repType: Optional, create: `${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0], "vnic_id")}`},
+		"filter":  RepresentationGroup{Required, privateIpDataSourceFilterRepresentation}}
+	privateIpDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   Representation{repType: Required, create: `id`},
+		"values": Representation{repType: Required, create: []string{`${oci_core_private_ip.test_private_ip.id}`}},
+	}
 
-	#Optional
-	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.private_ip_defined_tags_value}")}"
-	display_name = "${var.private_ip_display_name}"
-	freeform_tags = "${var.private_ip_freeform_tags}"
-	hostname_label = "${var.private_ip_hostname_label}"
-	ip_address = "${var.private_ip_ip_address}"
-}
-`
-	PrivateIpPropertyVariables = `
-variable "private_ip_defined_tags_value" { default = "value" }
-variable "private_ip_display_name" { default = "displayName" }
-variable "private_ip_freeform_tags" { default = {"Department"= "Finance"} }
-variable "private_ip_hostname_label" { default = "privateiptestinstance" }
-variable "private_ip_ip_address" { default = "10.0.1.5" }
+	privateIpRepresentation = map[string]interface{}{
+		"vnic_id":        Representation{repType: Required, create: `${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0], "vnic_id")}`},
+		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
+		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"hostname_label": Representation{repType: Optional, create: `privateiptestinstance`, update: `privateiptestinstance2`},
+		"ip_address":     Representation{repType: Optional, create: `10.0.1.5`},
+	}
 
-`
 	PrivateIpResourceDependencies = instanceDnsConfig + `
 	data "oci_core_vnic_attachments" "t" {
 		availability_domain = "${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}"
@@ -73,7 +65,8 @@ func TestCorePrivateIpResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + PrivateIpPropertyVariables + compartmentIdVariableStr + PrivateIpRequiredOnlyResource,
+				Config: config + compartmentIdVariableStr + PrivateIpResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_private_ip", "test_private_ip", Required, Create, privateIpRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "vnic_id"),
@@ -91,7 +84,8 @@ func TestCorePrivateIpResource_basic(t *testing.T) {
 			},
 			// verify create with optionals
 			{
-				Config: config + PrivateIpPropertyVariables + compartmentIdVariableStr + PrivateIpResourceConfig,
+				Config: config + compartmentIdVariableStr + PrivateIpResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_private_ip", "test_private_ip", Optional, Create, privateIpRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -110,14 +104,8 @@ func TestCorePrivateIpResource_basic(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + `
-variable "private_ip_defined_tags_value" { default = "updatedValue" }
-variable "private_ip_display_name" { default = "displayName2" }
-variable "private_ip_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "private_ip_hostname_label" { default = "privateiptestinstance2" }
-variable "private_ip_ip_address" { default = "10.0.1.5" }
-
-                ` + compartmentIdVariableStr + PrivateIpResourceConfig,
+				Config: config + compartmentIdVariableStr + PrivateIpResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_private_ip", "test_private_ip", Optional, Update, privateIpRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -138,24 +126,10 @@ variable "private_ip_ip_address" { default = "10.0.1.5" }
 			},
 			// verify datasource
 			{
-				Config: config + `
-variable "private_ip_defined_tags_value" { default = "updatedValue" }
-variable "private_ip_display_name" { default = "displayName2" }
-variable "private_ip_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "private_ip_hostname_label" { default = "privateiptestinstance2" }
-variable "private_ip_ip_address" { default = "10.0.1.5" }
-
-data "oci_core_private_ips" "test_private_ips" {
-
-	#Optional
-	vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0], "vnic_id")}"
-
-    filter {
-    	name = "id"
-    	values = ["${oci_core_private_ip.test_private_ip.id}"]
-    }
-}
-                ` + compartmentIdVariableStr + PrivateIpResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_core_private_ips", "test_private_ips", Optional, Update, privateIpDataSourceRepresentation) +
+					compartmentIdVariableStr + PrivateIpResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_private_ip", "test_private_ip", Optional, Update, privateIpRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "vnic_id"),
 

@@ -13,7 +13,7 @@ import (
 	oci_database "github.com/oracle/oci-go-sdk/database"
 )
 
-const (
+var (
 	DbHomeRequiredOnlyResource = DbHomeResourceDependencies + `
 resource "oci_database_db_home" "test_db_home" {
 	#Required
@@ -75,7 +75,8 @@ variable "db_home_state" { default = "AVAILABLE" }
 variable "db_home_db_version" { default = "12.1.0.2" }
 
 `
-	DbHomeResourceDependencies = BackupResourceConfig + BackupPropertyVariables + DefinedTagsDependencies
+	DbHomeResourceDependencies = DefinedTagsDependencies +
+		generateResourceFromRepresentationMap("oci_database_backup", "test_backup", Required, Create, backupRepresentation)
 )
 
 func TestDatabaseDbHomeResource_basic(t *testing.T) {

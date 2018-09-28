@@ -10,14 +10,12 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 )
 
-const (
-	VnicResourceConfig = VnicResourceDependencies + `
+var (
+	vnicSingularDataSourceRepresentation = map[string]interface{}{
+		"vnic_id": Representation{repType: Required, create: `${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}`},
+	}
 
-`
-	VnicPropertyVariables = `
-
-`
-	VnicResourceDependencies = ""
+	VnicResourceConfig = ``
 )
 
 func TestCoreVnicResource_basic(t *testing.T) {
@@ -42,12 +40,9 @@ func TestCoreVnicResource_basic(t *testing.T) {
 data "oci_core_vnic_attachments" "t" {
 	compartment_id = "${var.compartment_id}"
 	instance_id = "${oci_core_instance.t.id}"
-}
-data "oci_core_vnic" "test_vnic" {
-	#Required
-	vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}"
-}
-                ` + compartmentIdVariableStr + VnicResourceConfig,
+}` +
+					generateDataSourceFromRepresentationMap("oci_core_vnic", "test_vnic", Required, Create, vnicSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + VnicResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "vnic_id"),
 

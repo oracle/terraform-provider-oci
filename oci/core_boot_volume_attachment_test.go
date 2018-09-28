@@ -11,12 +11,15 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 )
 
-const (
-	BootVolumeAttachmentResourceConfig = BootVolumeAttachmentResourceDependencies + `
+var (
+	bootVolumeAttachmentDataSourceRepresentation = map[string]interface{}{
+		"availability_domain": Representation{repType: Required, create: `${oci_core_instance.test_instance.availability_domain}`, update: `${oci_core_instance.test_instance.availability_domain}`},
+		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
+		"boot_volume_id":      Representation{repType: Optional, create: `${oci_core_instance.test_instance.boot_volume_id}`},
+		"instance_id":         Representation{repType: Optional, create: `${oci_core_instance.test_instance.id}`},
+	}
 
-`
-
-	BootVolumeAttachmentResourceDependencies = BootVolumeResourceDependencies
+	BootVolumeAttachmentResourceConfig = BootVolumeResourceConfig
 )
 
 func TestCoreBootVolumeAttachmentResource_basic(t *testing.T) {
@@ -36,17 +39,9 @@ func TestCoreBootVolumeAttachmentResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify datasource can retrieve a specific attachment using server-side filtering
 			{
-				Config: config + `
-data "oci_core_boot_volume_attachments" "test_boot_volume_attachments" {
-	#Required
-	availability_domain = "${oci_core_instance.test_instance.availability_domain}"
-	compartment_id = "${var.compartment_id}"
-
-	#Optional
-	boot_volume_id = "${oci_core_instance.test_instance.boot_volume_id}"
-	instance_id = "${oci_core_instance.test_instance.id}"
-}
-                ` + compartmentIdVariableStr + BootVolumeAttachmentResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_core_boot_volume_attachments", "test_boot_volume_attachments", Optional, Create, bootVolumeAttachmentDataSourceRepresentation) +
+					compartmentIdVariableStr + BootVolumeAttachmentResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "boot_volume_id"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -65,13 +60,9 @@ data "oci_core_boot_volume_attachments" "test_boot_volume_attachments" {
 			},
 			// verify datasource can retrieve all boot volume attachments in a compartment by specifying no filtering options
 			{
-				Config: config + `
-data "oci_core_boot_volume_attachments" "test_boot_volume_attachments" {
-	#Required
-	availability_domain = "${oci_core_instance.test_instance.availability_domain}"
-	compartment_id = "${var.compartment_id}"
-}
-                ` + compartmentIdVariableStr + BootVolumeAttachmentResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_core_boot_volume_attachments", "test_boot_volume_attachments", Required, Update, bootVolumeAttachmentDataSourceRepresentation) +
+					compartmentIdVariableStr + BootVolumeAttachmentResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestMatchResourceAttr(datasourceName, "boot_volume_attachments.#", regexp.MustCompile("[1-9][0-9]*")),

@@ -10,7 +10,7 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 )
 
-const (
+var (
 	CoreInstanceResourceConfig = InstanceResourceDependencies + `
 resource "oci_core_instance" "test_instance" {
 	#Required

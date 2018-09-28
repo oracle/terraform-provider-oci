@@ -13,36 +13,27 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-const (
-	CpeRequiredOnlyResource = CpeRequiredOnlyResourceDependencies + `
-resource "oci_core_cpe" "test_cpe" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-	ip_address = "${var.cpe_ip_address}"
-}
-`
+var (
+	CpeRequiredOnlyResource = CpeResourceDependencies +
+		generateResourceFromRepresentationMap("oci_core_cpe", "test_cpe", Required, Create, cpeRepresentation)
 
-	CpeResourceConfig = CpeResourceDependencies + `
-resource "oci_core_cpe" "test_cpe" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-	ip_address = "${var.cpe_ip_address}"
+	cpeDataSourceRepresentation = map[string]interface{}{
+		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"filter":         RepresentationGroup{Required, cpeDataSourceFilterRepresentation}}
+	cpeDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   Representation{repType: Required, create: `id`},
+		"values": Representation{repType: Required, create: []string{`${oci_core_cpe.test_cpe.id}`}},
+	}
 
-	#Optional
-	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.cpe_defined_tags_value}")}"
-	display_name = "${var.cpe_display_name}"
-	freeform_tags = "${var.cpe_freeform_tags}"
-}
-`
-	CpePropertyVariables = `
-variable "cpe_defined_tags_value" { default = "value" }
-variable "cpe_display_name" { default = "MyCpe" }
-variable "cpe_freeform_tags" { default = {"Department"= "Finance"} }
-variable "cpe_ip_address" { default = "189.44.2.135" }
+	cpeRepresentation = map[string]interface{}{
+		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"ip_address":     Representation{repType: Required, create: `189.44.2.135`},
+		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":   Representation{repType: Optional, create: `MyCpe`, update: `displayName2`},
+		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+	}
 
-`
-	CpeRequiredOnlyResourceDependencies = ``
-	CpeResourceDependencies             = DefinedTagsDependencies
+	CpeResourceDependencies = DefinedTagsDependencies
 )
 
 func TestCoreCpeResource_basic(t *testing.T) {
@@ -66,7 +57,8 @@ func TestCoreCpeResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + CpePropertyVariables + compartmentIdVariableStr + CpeRequiredOnlyResource,
+				Config: config + compartmentIdVariableStr + CpeResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_cpe", "test_cpe", Required, Create, cpeRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "ip_address", "189.44.2.135"),
@@ -84,7 +76,8 @@ func TestCoreCpeResource_basic(t *testing.T) {
 			},
 			// verify create with optionals
 			{
-				Config: config + CpePropertyVariables + compartmentIdVariableStr + CpeResourceConfig,
+				Config: config + compartmentIdVariableStr + CpeResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_cpe", "test_cpe", Optional, Create, cpeRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -102,13 +95,8 @@ func TestCoreCpeResource_basic(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + `
-variable "cpe_defined_tags_value" { default = "updatedValue" }
-variable "cpe_display_name" { default = "displayName2" }
-variable "cpe_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "cpe_ip_address" { default = "189.44.2.135" }
-
-                ` + compartmentIdVariableStr + CpeResourceConfig,
+				Config: config + compartmentIdVariableStr + CpeResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_cpe", "test_cpe", Optional, Update, cpeRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -128,22 +116,10 @@ variable "cpe_ip_address" { default = "189.44.2.135" }
 			},
 			// verify datasource
 			{
-				Config: config + `
-variable "cpe_defined_tags_value" { default = "updatedValue" }
-variable "cpe_display_name" { default = "displayName2" }
-variable "cpe_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "cpe_ip_address" { default = "189.44.2.135" }
-
-data "oci_core_cpes" "test_cpes" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-
-    filter {
-    	name = "id"
-    	values = ["${oci_core_cpe.test_cpe.id}"]
-    }
-}
-                ` + compartmentIdVariableStr + CpeResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_core_cpes", "test_cpes", Optional, Update, cpeDataSourceRepresentation) +
+					compartmentIdVariableStr + CpeResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_cpe", "test_cpe", Optional, Update, cpeRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 

@@ -13,56 +13,39 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-const (
-	DhcpOptionsRequiredOnlyResource = DhcpOptionsResourceDependencies + `
-resource "oci_core_dhcp_options" "test_dhcp_options" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-	options {
-		#Required
-		server_type = "VcnLocalPlusInternet"
-		type = "${var.dhcp_options_options_type}"
-	}
-	options {
-		search_domain_names = [ "test.com" ]
-		type = "SearchDomain"
-	}
-	vcn_id = "${oci_core_vcn.test_vcn.id}"
-}
-`
+var (
+	DhcpOptionsRequiredOnlyResource = generateResourceFromRepresentationMap("oci_core_dhcp_options", "test_dhcp_options", Required, Create, dhcpOptionsRepresentation)
 
-	DhcpOptionsResourceConfig = DhcpOptionsResourceDependencies + DhcpOptionsResourceConfigOnly
-
-	DhcpOptionsResourceConfigOnly = `
-resource "oci_core_dhcp_options" "test_dhcp_options" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-	options {
-		#Required
-		server_type = "VcnLocalPlusInternet"
-		type = "${var.dhcp_options_options_type}"
+	dhcpOptionsDataSourceRepresentation = map[string]interface{}{
+		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"vcn_id":         Representation{repType: Required, create: `${oci_core_vcn.test_vcn.id}`},
+		"display_name":   Representation{repType: Optional, create: `MyDhcpOptions`, update: `displayName2`},
+		"state":          Representation{repType: Optional, create: `AVAILABLE`},
+		"filter":         RepresentationGroup{Required, dhcpOptionsDataSourceFilterRepresentation}}
+	dhcpOptionsDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   Representation{repType: Required, create: `id`},
+		"values": Representation{repType: Required, create: []string{`${oci_core_dhcp_options.test_dhcp_options.id}`}},
 	}
-	options {
-		search_domain_names = [ "test.com" ]
-		type = "SearchDomain"
+
+	dhcpOptionsRepresentation = map[string]interface{}{
+		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"options":        []RepresentationGroup{{Required, optionsRepresentation1}, {Required, optionsRepresentation2}},
+		"vcn_id":         Representation{repType: Required, create: `${oci_core_vcn.test_vcn.id}`},
+		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":   Representation{repType: Optional, create: `MyDhcpOptions`, update: `displayName2`},
+		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
 	}
-	vcn_id = "${oci_core_vcn.test_vcn.id}"
+	optionsRepresentation1 = map[string]interface{}{
+		"type":        Representation{repType: Required, create: `DomainNameServer`},
+		"server_type": Representation{repType: Required, create: `VcnLocalPlusInternet`},
+	}
 
-	#Optional
-	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.dhcp_options_defined_tags_value}")}"
-	display_name = "${var.dhcp_options_display_name}"
-	freeform_tags = "${var.dhcp_options_freeform_tags}"
-}
-`
-	DhcpOptionsPropertyVariables = `
-variable "dhcp_options_defined_tags_value" { default = "value" }
-variable "dhcp_options_display_name" { default = "MyDhcpOptions" }
-variable "dhcp_options_freeform_tags" { default = {"Department"= "Finance"} }
-variable "dhcp_options_options_type" { default = "DomainNameServer" }
-variable "dhcp_options_state" { default = "AVAILABLE" }
+	optionsRepresentation2 = map[string]interface{}{
+		"type":                Representation{repType: Required, create: `SearchDomain`},
+		"search_domain_names": Representation{repType: Required, create: []string{"test.com"}},
+	}
 
-`
-	DhcpOptionsResourceDependencies = VcnPropertyVariables + VcnResourceConfig
+	DhcpOptionsResourceDependencies = VcnRequiredOnlyResource + VcnResourceDependencies
 )
 
 func TestCoreDhcpOptionsResource_basic(t *testing.T) {
@@ -86,7 +69,8 @@ func TestCoreDhcpOptionsResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + DhcpOptionsPropertyVariables + compartmentIdVariableStr + DhcpOptionsRequiredOnlyResource,
+				Config: config + compartmentIdVariableStr + DhcpOptionsResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_dhcp_options", "test_dhcp_options", Required, Create, dhcpOptionsRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "options.#", "2"),
@@ -106,7 +90,8 @@ func TestCoreDhcpOptionsResource_basic(t *testing.T) {
 			},
 			// verify create with optionals
 			{
-				Config: config + DhcpOptionsPropertyVariables + compartmentIdVariableStr + DhcpOptionsResourceConfig,
+				Config: config + compartmentIdVariableStr + DhcpOptionsResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_dhcp_options", "test_dhcp_options", Optional, Create, dhcpOptionsRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -128,14 +113,8 @@ func TestCoreDhcpOptionsResource_basic(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + `
-variable "dhcp_options_defined_tags_value" { default = "updatedValue" }
-variable "dhcp_options_display_name" { default = "displayName2" }
-variable "dhcp_options_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "dhcp_options_options_type" { default = "DomainNameServer" }
-variable "dhcp_options_state" { default = "AVAILABLE" }
-
-                ` + compartmentIdVariableStr + DhcpOptionsResourceConfig,
+				Config: config + compartmentIdVariableStr + DhcpOptionsResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_dhcp_options", "test_dhcp_options", Optional, Update, dhcpOptionsRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -159,28 +138,10 @@ variable "dhcp_options_state" { default = "AVAILABLE" }
 			},
 			// verify datasource
 			{
-				Config: config + `
-variable "dhcp_options_defined_tags_value" { default = "updatedValue" }
-variable "dhcp_options_display_name" { default = "displayName2" }
-variable "dhcp_options_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "dhcp_options_options_type" { default = "DomainNameServer" }
-variable "dhcp_options_state" { default = "AVAILABLE" }
-
-data "oci_core_dhcp_options" "test_dhcp_options" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-	vcn_id = "${oci_core_vcn.test_vcn.id}"
-
-	#Optional
-	display_name = "${var.dhcp_options_display_name}"
-	state = "${var.dhcp_options_state}"
-
-    filter {
-    	name = "id"
-    	values = ["${oci_core_dhcp_options.test_dhcp_options.id}"]
-    }
-}
-                ` + compartmentIdVariableStr + DhcpOptionsResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_core_dhcp_options", "test_dhcp_options", Optional, Update, dhcpOptionsDataSourceRepresentation) +
+					compartmentIdVariableStr + DhcpOptionsResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_dhcp_options", "test_dhcp_options", Optional, Update, dhcpOptionsRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),

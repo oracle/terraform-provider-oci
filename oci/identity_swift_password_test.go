@@ -13,19 +13,21 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
-const (
-	SwiftPasswordResourceConfig = SwiftPasswordResourceDependencies + `
-resource "oci_identity_swift_password" "test_swift_password" {
-	#Required
-	description = "${var.swift_password_description}"
-	user_id = "${oci_identity_user.test_user.id}"
-}
-`
-	SwiftPasswordPropertyVariables = `
-variable "swift_password_description" { default = "description" }
+var (
+	swiftPasswordDataSourceRepresentation = map[string]interface{}{
+		"user_id": Representation{repType: Required, create: `${oci_identity_user.test_user.id}`},
+		"filter":  RepresentationGroup{Required, swiftPasswordDataSourceFilterRepresentation}}
+	swiftPasswordDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   Representation{repType: Required, create: `id`},
+		"values": Representation{repType: Required, create: []string{`${oci_identity_swift_password.test_swift_password.id}`}},
+	}
 
-`
-	SwiftPasswordResourceDependencies = UserPropertyVariables + UserResourceConfig
+	swiftPasswordRepresentation = map[string]interface{}{
+		"description": Representation{repType: Required, create: `description`, update: `description2`},
+		"user_id":     Representation{repType: Required, create: `${oci_identity_user.test_user.id}`},
+	}
+
+	SwiftPasswordResourceDependencies = UserRequiredOnlyResource
 )
 
 func TestIdentitySwiftPasswordResource_basic(t *testing.T) {
@@ -49,7 +51,8 @@ func TestIdentitySwiftPasswordResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + SwiftPasswordPropertyVariables + compartmentIdVariableStr + SwiftPasswordResourceConfig,
+				Config: config + compartmentIdVariableStr + SwiftPasswordResourceDependencies +
+					generateResourceFromRepresentationMap("oci_identity_swift_password", "test_swift_password", Required, Create, swiftPasswordRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "description", "description"),
 					resource.TestCheckResourceAttrSet(resourceName, "user_id"),
@@ -63,10 +66,8 @@ func TestIdentitySwiftPasswordResource_basic(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + `
-variable "swift_password_description" { default = "description2" }
-
-                ` + compartmentIdVariableStr + SwiftPasswordResourceConfig,
+				Config: config + compartmentIdVariableStr + SwiftPasswordResourceDependencies +
+					generateResourceFromRepresentationMap("oci_identity_swift_password", "test_swift_password", Optional, Update, swiftPasswordRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 					resource.TestCheckResourceAttrSet(resourceName, "user_id"),
@@ -82,19 +83,10 @@ variable "swift_password_description" { default = "description2" }
 			},
 			// verify datasource
 			{
-				Config: config + `
-variable "swift_password_description" { default = "description2" }
-
-data "oci_identity_swift_passwords" "test_swift_passwords" {
-	#Required
-	user_id = "${oci_identity_user.test_user.id}"
-
-    filter {
-    	name = "id"
-    	values = ["${oci_identity_swift_password.test_swift_password.id}"]
-    }
-}
-                ` + compartmentIdVariableStr + SwiftPasswordResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_identity_swift_passwords", "test_swift_passwords", Optional, Update, swiftPasswordDataSourceRepresentation) +
+					compartmentIdVariableStr + SwiftPasswordResourceDependencies +
+					generateResourceFromRepresentationMap("oci_identity_swift_password", "test_swift_password", Optional, Update, swiftPasswordRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "user_id"),
 

@@ -9,6 +9,18 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 )
 
+var (
+	regionSubscriptionDataSourceRepresentation = map[string]interface{}{
+		"tenancy_id": Representation{repType: Required, create: `${var.tenancy_ocid}`},
+		"filter":     RepresentationGroup{Required, regionSubscriptionDataSourceFilterRepresentation},
+	}
+
+	regionSubscriptionDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   Representation{repType: Required, create: `is_home_region`},
+		"values": Representation{repType: Required, create: []string{`true`}},
+	}
+)
+
 func TestIdentityRegionSubscriptionResource_basic(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
@@ -23,18 +35,8 @@ func TestIdentityRegionSubscriptionResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify datasource
 			{
-				Config: config + `
-variable "region_subscription_region_key" { default = "regionKey" }
-
-data "oci_identity_region_subscriptions" "test_region_subscriptions" {
-	#Required
-	tenancy_id = "${var.tenancy_ocid}"
-	filter {
-		name = "is_home_region"
-		values = [true]
-	}
-}
-                `,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_identity_region_subscriptions", "test_region_subscriptions", Required, Create, regionSubscriptionDataSourceRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "tenancy_id"),
 					resource.TestCheckResourceAttr(datasourceName, "region_subscriptions.#", "1"),

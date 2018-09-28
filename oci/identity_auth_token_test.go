@@ -13,19 +13,21 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
-const (
-	AuthTokenResourceConfig = AuthTokenResourceDependencies + `
-resource "oci_identity_auth_token" "test_auth_token" {
-	#Required
-	description = "${var.auth_token_description}"
-	user_id = "${oci_identity_user.test_user.id}"
-}
-`
-	AuthTokenPropertyVariables = `
-variable "auth_token_description" { default = "description" }
+var (
+	authTokenDataSourceRepresentation = map[string]interface{}{
+		"user_id": Representation{repType: Required, create: `${oci_identity_user.test_user.id}`},
+		"filter":  RepresentationGroup{Required, authTokenDataSourceFilterRepresentation}}
+	authTokenDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   Representation{repType: Required, create: `id`},
+		"values": Representation{repType: Required, create: []string{`${oci_identity_auth_token.test_auth_token.id}`}},
+	}
 
-`
-	AuthTokenResourceDependencies = UserPropertyVariables + UserResourceConfig
+	authTokenRepresentation = map[string]interface{}{
+		"description": Representation{repType: Required, create: `description`, update: `description2`},
+		"user_id":     Representation{repType: Required, create: `${oci_identity_user.test_user.id}`},
+	}
+
+	AuthTokenResourceDependencies = UserRequiredOnlyResource
 )
 
 func TestIdentityAuthTokenResource_basic(t *testing.T) {
@@ -49,7 +51,8 @@ func TestIdentityAuthTokenResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + AuthTokenPropertyVariables + compartmentIdVariableStr + AuthTokenResourceConfig,
+				Config: config + compartmentIdVariableStr + AuthTokenResourceDependencies +
+					generateResourceFromRepresentationMap("oci_identity_auth_token", "test_auth_token", Required, Create, authTokenRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "description", "description"),
 					resource.TestCheckResourceAttrSet(resourceName, "user_id"),
@@ -63,10 +66,8 @@ func TestIdentityAuthTokenResource_basic(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + `
-variable "auth_token_description" { default = "description2" }
-
-                ` + compartmentIdVariableStr + AuthTokenResourceConfig,
+				Config: config + compartmentIdVariableStr + AuthTokenResourceDependencies +
+					generateResourceFromRepresentationMap("oci_identity_auth_token", "test_auth_token", Optional, Update, authTokenRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 					resource.TestCheckResourceAttrSet(resourceName, "user_id"),
@@ -82,19 +83,10 @@ variable "auth_token_description" { default = "description2" }
 			},
 			// verify datasource
 			{
-				Config: config + `
-variable "auth_token_description" { default = "description2" }
-
-data "oci_identity_auth_tokens" "test_auth_tokens" {
-	#Required
-	user_id = "${oci_identity_user.test_user.id}"
-
-    filter {
-    	name = "id"
-    	values = ["${oci_identity_auth_token.test_auth_token.id}"]
-    }
-}
-                ` + compartmentIdVariableStr + AuthTokenResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_identity_auth_tokens", "test_auth_tokens", Optional, Update, authTokenDataSourceRepresentation) +
+					compartmentIdVariableStr + AuthTokenResourceDependencies +
+					generateResourceFromRepresentationMap("oci_identity_auth_token", "test_auth_token", Optional, Update, authTokenRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "user_id"),
 

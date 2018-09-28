@@ -13,28 +13,31 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-const (
-	CrossConnectGroupRequiredOnlyResource = CrossConnectGroupResourceDependencies + `
-resource "oci_core_cross_connect_group" "test_cross_connect_group" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-}
-`
+var (
+	CrossConnectGroupRequiredOnlyResource = CrossConnectGroupResourceDependencies +
+		generateResourceFromRepresentationMap("oci_core_cross_connect_group", "test_cross_connect_group", Required, Create, crossConnectGroupRepresentation)
 
-	CrossConnectGroupResourceConfig = CrossConnectGroupResourceDependencies + `
-resource "oci_core_cross_connect_group" "test_cross_connect_group" {
-	#Required
-	compartment_id = "${var.compartment_id}"
+	CrossConnectGroupResourceConfig = CrossConnectGroupResourceDependencies +
+		generateResourceFromRepresentationMap("oci_core_cross_connect_group", "test_cross_connect_group", Required, Create, crossConnectGroupRepresentation)
 
-	#Optional
-	display_name = "${var.cross_connect_group_display_name}"
-}
-`
-	CrossConnectGroupPropertyVariables = `
-variable "cross_connect_group_display_name" { default = "displayName" }
-variable "cross_connect_group_state" { default = "AVAILABLE" }
+	crossConnectGroupSingularDataSourceRepresentation = map[string]interface{}{
+		"cross_connect_group_id": Representation{repType: Required, create: `${oci_core_cross_connect_group.test_cross_connect_group.id}`},
+	}
 
-`
+	crossConnectGroupDataSourceRepresentation = map[string]interface{}{
+		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
+		"filter":         RepresentationGroup{Required, crossConnectGroupDataSourceFilterRepresentation}}
+	crossConnectGroupDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   Representation{repType: Required, create: `id`},
+		"values": Representation{repType: Required, create: []string{`${oci_core_cross_connect_group.test_cross_connect_group.id}`}},
+	}
+
+	crossConnectGroupRepresentation = map[string]interface{}{
+		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
+	}
+
 	CrossConnectGroupResourceDependencies = ""
 )
 
@@ -60,7 +63,8 @@ func TestCoreCrossConnectGroupResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + CrossConnectGroupPropertyVariables + compartmentIdVariableStr + CrossConnectGroupRequiredOnlyResource,
+				Config: config + compartmentIdVariableStr + CrossConnectGroupResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_cross_connect_group", "test_cross_connect_group", Required, Create, crossConnectGroupRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 
@@ -77,7 +81,8 @@ func TestCoreCrossConnectGroupResource_basic(t *testing.T) {
 			},
 			// verify create with optionals
 			{
-				Config: config + CrossConnectGroupPropertyVariables + compartmentIdVariableStr + CrossConnectGroupResourceConfig,
+				Config: config + compartmentIdVariableStr + CrossConnectGroupResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_cross_connect_group", "test_cross_connect_group", Optional, Create, crossConnectGroupRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -91,11 +96,8 @@ func TestCoreCrossConnectGroupResource_basic(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + `
-variable "cross_connect_group_display_name" { default = "displayName2" }
-variable "cross_connect_group_state" { default = "AVAILABLE" }
-
-                ` + compartmentIdVariableStr + CrossConnectGroupResourceConfig,
+				Config: config + compartmentIdVariableStr + CrossConnectGroupResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_cross_connect_group", "test_cross_connect_group", Optional, Update, crossConnectGroupRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -111,24 +113,10 @@ variable "cross_connect_group_state" { default = "AVAILABLE" }
 			},
 			// verify datasource
 			{
-				Config: config + `
-variable "cross_connect_group_display_name" { default = "displayName2" }
-variable "cross_connect_group_state" { default = "AVAILABLE" }
-
-data "oci_core_cross_connect_groups" "test_cross_connect_groups" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-
-	#Optional
-	display_name = "${var.cross_connect_group_display_name}"
-	#state = "${var.cross_connect_group_state}"
-
-    filter {
-    	name = "id"
-    	values = ["${oci_core_cross_connect_group.test_cross_connect_group.id}"]
-    }
-}
-                ` + compartmentIdVariableStr + CrossConnectGroupResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_core_cross_connect_groups", "test_cross_connect_groups", Optional, Update, crossConnectGroupDataSourceRepresentation) +
+					compartmentIdVariableStr + CrossConnectGroupResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_cross_connect_group", "test_cross_connect_group", Optional, Update, crossConnectGroupRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -141,15 +129,9 @@ data "oci_core_cross_connect_groups" "test_cross_connect_groups" {
 			},
 			// verify singular datasource
 			{
-				Config: config + `
-variable "cross_connect_group_display_name" { default = "displayName2" }
-variable "cross_connect_group_state" { default = "AVAILABLE" }
-
-data "oci_core_cross_connect_group" "test_cross_connect_group" {
-	#Required
-	cross_connect_group_id = "${oci_core_cross_connect_group.test_cross_connect_group.id}"
-}
-                ` + compartmentIdVariableStr + CrossConnectGroupResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_core_cross_connect_group", "test_cross_connect_group", Required, Create, crossConnectGroupSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + CrossConnectGroupResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "cross_connect_group_id"),
 
@@ -162,11 +144,7 @@ data "oci_core_cross_connect_group" "test_cross_connect_group" {
 			},
 			// remove singular datasource from previous step so that it doesn't conflict with import tests
 			{
-				Config: config + `
-variable "cross_connect_group_display_name" { default = "displayName2" }
-variable "cross_connect_group_state" { default = "AVAILABLE" }
-
-                ` + compartmentIdVariableStr + CrossConnectGroupResourceConfig,
+				Config: config + compartmentIdVariableStr + CrossConnectGroupResourceConfig,
 			},
 			// verify resource import
 			{

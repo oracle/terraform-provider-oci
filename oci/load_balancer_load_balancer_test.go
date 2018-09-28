@@ -13,41 +13,33 @@ import (
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
 )
 
-const (
-	LoadBalancerRequiredOnlyResource = LoadBalancerResourceDependencies + `
-resource "oci_load_balancer_load_balancer" "test_load_balancer" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-	display_name = "${var.load_balancer_display_name}"
-	shape = "${var.load_balancer_shape}"
-	subnet_ids = ["${oci_core_subnet.lb_test_subnet_1.id}", "${oci_core_subnet.lb_test_subnet_2.id}"]
-}
-`
+var (
+	LoadBalancerRequiredOnlyResource = LoadBalancerResourceDependencies +
+		generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Required, Create, loadBalancerRepresentation)
 
-	LoadBalancerResourceConfig = LoadBalancerResourceDependencies + `
-resource "oci_load_balancer_load_balancer" "test_load_balancer" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-	display_name = "${var.load_balancer_display_name}"
-	shape = "${var.load_balancer_shape}"
-	subnet_ids = ["${oci_core_subnet.lb_test_subnet_1.id}", "${oci_core_subnet.lb_test_subnet_2.id}"]
+	loadBalancerDataSourceRepresentation = map[string]interface{}{
+		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"detail":         Representation{repType: Optional, create: `detail`},
+		"display_name":   Representation{repType: Optional, create: `example_load_balancer`, update: `displayName2`},
+		"state":          Representation{repType: Optional, create: `ACTIVE`},
+		"filter":         RepresentationGroup{Required, loadBalancerDataSourceFilterRepresentation}}
+	loadBalancerDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   Representation{repType: Required, create: `id`},
+		"values": Representation{repType: Required, create: []string{`${oci_load_balancer_load_balancer.test_load_balancer.id}`}},
+	}
 
-	#Optional
-	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.load_balancer_defined_tags_value}")}"
-	freeform_tags = "${var.load_balancer_freeform_tags}"
-	is_private = "${var.load_balancer_is_private}"
-}
-`
-	LoadBalancerPropertyVariables = `
-variable "load_balancer_defined_tags_value" { default = "value" }
-variable "load_balancer_detail" { default = "detail" }
-variable "load_balancer_display_name" { default = "example_load_balancer" }
-variable "load_balancer_freeform_tags" { default = {"Department"= "Finance"} }
-variable "load_balancer_is_private" { default = false }
-variable "load_balancer_shape" { default = "100Mbps" }
-variable "load_balancer_state" { default = "ACTIVE" }
+	LoadBalancerResourceConfig = LoadBalancerResourceDependencies +
+		generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Optional, Create, loadBalancerRepresentation)
 
-`
+	loadBalancerRepresentation = map[string]interface{}{
+		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"display_name":   Representation{repType: Required, create: `example_load_balancer`, update: `displayName2`},
+		"shape":          Representation{repType: Required, create: `100Mbps`},
+		"subnet_ids":     Representation{repType: Required, create: []string{"${oci_core_subnet.lb_test_subnet_1.id}", "${oci_core_subnet.lb_test_subnet_2.id}"}},
+		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"is_private":     Representation{repType: Optional, create: `false`},
+	}
 
 	LoadBalancerSubnetDependencies = `
 	data "oci_load_balancer_shapes" "t" {
@@ -79,7 +71,7 @@ variable "load_balancer_state" { default = "ACTIVE" }
 	}
 `
 
-	LoadBalancerResourceDependencies = VcnPropertyVariables + VcnResourceConfig + LoadBalancerSubnetDependencies
+	LoadBalancerResourceDependencies = VcnRequiredOnlyResource + VcnResourceDependencies + LoadBalancerSubnetDependencies
 )
 
 func TestLoadBalancerLoadBalancerResource_basic(t *testing.T) {
@@ -103,7 +95,8 @@ func TestLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + LoadBalancerPropertyVariables + compartmentIdVariableStr + LoadBalancerRequiredOnlyResource,
+				Config: config + compartmentIdVariableStr + LoadBalancerResourceDependencies +
+					generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Required, Create, loadBalancerRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "example_load_balancer"),
@@ -123,7 +116,8 @@ func TestLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 			},
 			// verify create with optionals
 			{
-				Config: config + LoadBalancerPropertyVariables + compartmentIdVariableStr + LoadBalancerResourceConfig,
+				Config: config + compartmentIdVariableStr + LoadBalancerResourceDependencies +
+					generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Optional, Create, loadBalancerRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -145,16 +139,8 @@ func TestLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + `
-variable "load_balancer_defined_tags_value" { default = "updatedValue" }
-variable "load_balancer_detail" { default = "detail" }
-variable "load_balancer_display_name" { default = "displayName2" }
-variable "load_balancer_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "load_balancer_is_private" { default = false }
-variable "load_balancer_shape" { default = "100Mbps" }
-variable "load_balancer_state" { default = "ACTIVE" }
-
-                ` + compartmentIdVariableStr + LoadBalancerResourceConfig,
+				Config: config + compartmentIdVariableStr + LoadBalancerResourceDependencies +
+					generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Optional, Update, loadBalancerRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -178,30 +164,10 @@ variable "load_balancer_state" { default = "ACTIVE" }
 			},
 			// verify datasource
 			{
-				Config: config + `
-variable "load_balancer_defined_tags_value" { default = "updatedValue" }
-variable "load_balancer_detail" { default = "detail" }
-variable "load_balancer_display_name" { default = "displayName2" }
-variable "load_balancer_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "load_balancer_is_private" { default = false }
-variable "load_balancer_shape" { default = "100Mbps" }
-variable "load_balancer_state" { default = "ACTIVE" }
-
-data "oci_load_balancer_load_balancers" "test_load_balancers" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-
-	#Optional
-	detail = "${var.load_balancer_detail}"
-	display_name = "${var.load_balancer_display_name}"
-	state = "${var.load_balancer_state}"
-
-    filter {
-    	name = "id"
-    	values = ["${oci_load_balancer_load_balancer.test_load_balancer.id}"]
-    }
-}
-                ` + compartmentIdVariableStr + LoadBalancerResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_load_balancer_load_balancers", "test_load_balancers", Optional, Update, loadBalancerDataSourceRepresentation) +
+					compartmentIdVariableStr + LoadBalancerResourceDependencies +
+					generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Optional, Update, loadBalancerRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "detail", "detail"),

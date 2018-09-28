@@ -13,35 +13,30 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-const (
-	VolumeBackupRequiredOnlyResource = VolumeBackupResourceDependencies + `
-resource "oci_core_volume_backup" "test_volume_backup" {
-	#Required
-	volume_id = "${oci_core_volume.test_volume.id}"
-}
-`
+var (
+	VolumeBackupRequiredOnlyResource = VolumeBackupResourceDependencies +
+		generateResourceFromRepresentationMap("oci_core_volume_backup", "test_volume_backup", Required, Create, volumeBackupRepresentation)
 
-	VolumeBackupResourceConfig = VolumeBackupResourceDependencies + `
-resource "oci_core_volume_backup" "test_volume_backup" {
-	#Required
-	volume_id = "${oci_core_volume.test_volume.id}"
+	volumeBackupDataSourceRepresentation = map[string]interface{}{
+		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
+		"state":          Representation{repType: Optional, create: `AVAILABLE`},
+		"volume_id":      Representation{repType: Optional, create: `${oci_core_volume.test_volume.id}`},
+		"filter":         RepresentationGroup{Required, volumeBackupDataSourceFilterRepresentation}}
+	volumeBackupDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   Representation{repType: Required, create: `id`},
+		"values": Representation{repType: Required, create: []string{`${oci_core_volume_backup.test_volume_backup.id}`}},
+	}
 
-	#Optional
-	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.volume_backup_defined_tags_value}")}"
-	display_name = "${var.volume_backup_display_name}"
-	freeform_tags = "${var.volume_backup_freeform_tags}"
-	type = "${var.volume_backup_type}"
-}
-`
-	VolumeBackupPropertyVariables = `
-variable "volume_backup_defined_tags_value" { default = "value" }
-variable "volume_backup_display_name" { default = "displayName" }
-variable "volume_backup_freeform_tags" { default = {"Department"= "Finance"} }
-variable "volume_backup_state" { default = "AVAILABLE" }
-variable "volume_backup_type" { default = "FULL" }
+	volumeBackupRepresentation = map[string]interface{}{
+		"volume_id":     Representation{repType: Required, create: `${oci_core_volume.test_volume.id}`},
+		"defined_tags":  Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":  Representation{repType: Optional, create: `displayName`, update: `displayName2`},
+		"freeform_tags": Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"type":          Representation{repType: Optional, create: `FULL`},
+	}
 
-`
-	VolumeBackupResourceDependencies = VolumePropertyVariables + VolumeResourceConfig
+	VolumeBackupResourceDependencies = VolumeResourceConfig
 )
 
 func TestCoreVolumeBackupResource_basic(t *testing.T) {
@@ -65,7 +60,8 @@ func TestCoreVolumeBackupResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + VolumeBackupPropertyVariables + compartmentIdVariableStr + VolumeBackupRequiredOnlyResource,
+				Config: config + compartmentIdVariableStr + VolumeBackupResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_volume_backup", "test_volume_backup", Required, Create, volumeBackupRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "volume_id"),
 
@@ -82,7 +78,8 @@ func TestCoreVolumeBackupResource_basic(t *testing.T) {
 			},
 			// verify create with optionals
 			{
-				Config: config + VolumeBackupPropertyVariables + compartmentIdVariableStr + VolumeBackupResourceConfig,
+				Config: config + compartmentIdVariableStr + VolumeBackupResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_volume_backup", "test_volume_backup", Optional, Create, volumeBackupRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -103,14 +100,8 @@ func TestCoreVolumeBackupResource_basic(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + `
-variable "volume_backup_defined_tags_value" { default = "updatedValue" }
-variable "volume_backup_display_name" { default = "displayName2" }
-variable "volume_backup_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "volume_backup_state" { default = "AVAILABLE" }
-variable "volume_backup_type" { default = "FULL" }
-
-                ` + compartmentIdVariableStr + VolumeBackupResourceConfig,
+				Config: config + compartmentIdVariableStr + VolumeBackupResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_volume_backup", "test_volume_backup", Optional, Update, volumeBackupRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -133,28 +124,10 @@ variable "volume_backup_type" { default = "FULL" }
 			},
 			// verify datasource
 			{
-				Config: config + `
-variable "volume_backup_defined_tags_value" { default = "updatedValue" }
-variable "volume_backup_display_name" { default = "displayName2" }
-variable "volume_backup_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "volume_backup_state" { default = "AVAILABLE" }
-variable "volume_backup_type" { default = "FULL" }
-
-data "oci_core_volume_backups" "test_volume_backups" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-
-	#Optional
-	display_name = "${var.volume_backup_display_name}"
-	state = "${var.volume_backup_state}"
-	volume_id = "${oci_core_volume.test_volume.id}"
-
-    filter {
-    	name = "id"
-    	values = ["${oci_core_volume_backup.test_volume_backup.id}"]
-    }
-}
-                ` + compartmentIdVariableStr + VolumeBackupResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_core_volume_backups", "test_volume_backups", Optional, Update, volumeBackupDataSourceRepresentation) +
+					compartmentIdVariableStr + VolumeBackupResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_volume_backup", "test_volume_backup", Optional, Update, volumeBackupRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),

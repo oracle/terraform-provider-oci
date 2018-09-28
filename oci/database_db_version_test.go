@@ -10,15 +10,18 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 )
 
-const (
-	DbVersionResourceConfig = DbVersionResourceDependencies + `
+var (
+	dbVersionDataSourceRepresentationRequiredOnly = map[string]interface{}{
+		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+	}
+	dbVersionDataSourceRepresentationWithDbSystemIdOptional = representationCopyWithNewProperties(dbVersionDataSourceRepresentationRequiredOnly, map[string]interface{}{
+		"db_system_id": Representation{repType: Optional, create: `${oci_database_db_system.test_db_system.id}`},
+	})
+	dbVersionDataSourceRepresentationWithDbSystemShapeOptional = representationCopyWithNewProperties(dbVersionDataSourceRepresentationRequiredOnly, map[string]interface{}{
+		"db_system_shape": Representation{repType: Optional, create: `BM.DenseIO1.36`},
+	})
 
-`
-	DbVersionPropertyVariables = `
-variable "db_version_db_system_shape" { default = "BM.DenseIO1.36" }
-
-`
-	DbVersionResourceDependencies = DbHomePatchResourceDependencies
+	DbVersionResourceConfig = DbSystemResourceConfig
 )
 
 func TestDatabaseDbVersionResource_basic(t *testing.T) {
@@ -38,30 +41,11 @@ func TestDatabaseDbVersionResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify datasource
 			{
-				Config: config + `
-variable "db_version_db_system_shape" { default = "BM.DenseIO1.36" }
-
-data "oci_database_db_versions" "test_db_versions" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-}
-
-data "oci_database_db_versions" "test_db_versions_by_db_system_id" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-
-	#Optional
-	db_system_id = "${oci_database_db_system.test_db_system.id}"
-}
-
-data "oci_database_db_versions" "test_db_versions_by_db_system_shape" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-
-	#Optional
-	db_system_shape = "${var.db_version_db_system_shape}"
-}
-                ` + compartmentIdVariableStr + DbVersionResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_database_db_versions", "test_db_versions", Required, Create, dbVersionDataSourceRepresentationRequiredOnly) +
+					generateDataSourceFromRepresentationMap("oci_database_db_versions", "test_db_versions_by_db_system_id", Optional, Create, dbVersionDataSourceRepresentationWithDbSystemIdOptional) +
+					generateDataSourceFromRepresentationMap("oci_database_db_versions", "test_db_versions_by_db_system_shape", Optional, Create, dbVersionDataSourceRepresentationWithDbSystemShapeOptional) +
+					compartmentIdVariableStr + DbVersionResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "db_versions.#"),

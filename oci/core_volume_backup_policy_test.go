@@ -10,14 +10,16 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 )
 
-const (
-	VolumeBackupPolicyResourceConfig = VolumeBackupPolicyResourceDependencies + `
+var (
+	volumeBackupPolicyDataSourceRepresentation = map[string]interface{}{
+		"filter": RepresentationGroup{Required, volumeBackupPolicyDataSourceFilterRepresentation},
+	}
+	volumeBackupPolicyDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   Representation{repType: Required, create: `display_name`},
+		"values": Representation{repType: Required, create: []string{`silver`}},
+	}
 
-`
-	VolumeBackupPolicyPropertyVariables = `
-
-`
-	VolumeBackupPolicyResourceDependencies = ""
+	VolumeBackupPolicyResourceConfig = ""
 )
 
 func TestCoreVolumeBackupPolicyResource_basic(t *testing.T) {
@@ -37,15 +39,9 @@ func TestCoreVolumeBackupPolicyResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify datasource
 			{
-				Config: config + `
-
-data "oci_core_volume_backup_policies" "test_volume_backup_policies" {
-    filter {
-      name = "display_name"
-      values = [ "silver" ]
-    }
-}
-                ` + compartmentIdVariableStr + VolumeBackupPolicyResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_core_volume_backup_policies", "test_volume_backup_policies", Required, Create, volumeBackupPolicyDataSourceRepresentation) +
+					compartmentIdVariableStr + VolumeBackupPolicyResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 
 					resource.TestCheckResourceAttr(datasourceName, "volume_backup_policies.#", "1"),

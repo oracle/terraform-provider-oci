@@ -13,39 +13,28 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
-const (
-	PolicyRequiredOnlyResource = PolicyResourceDependencies + `
-resource "oci_identity_policy" "test_policy" {
-	#Required
-	compartment_id = "${var.tenancy_ocid}"
-	description = "${var.policy_description}"
-	name = "${var.policy_name}"
-	statements = ["Allow group ${oci_identity_group.t.name} to read instances in compartment ${oci_identity_compartment.t.name}"]
-}
-`
+var (
+	PolicyRequiredOnlyResource = PolicyResourceDependencies +
+		generateResourceFromRepresentationMap("oci_identity_policy", "test_policy", Required, Create, policyRepresentation)
 
-	PolicyResourceConfig = PolicyResourceDependencies + `
-resource "oci_identity_policy" "test_policy" {
-	#Required
-	compartment_id = "${var.tenancy_ocid}"
-	description = "${var.policy_description}"
-	name = "${var.policy_name}"
-	statements = ["Allow group ${oci_identity_group.t.name} to read instances in compartment ${oci_identity_compartment.t.name}"]
+	policyDataSourceRepresentation = map[string]interface{}{
+		"compartment_id": Representation{repType: Required, create: `${var.tenancy_ocid}`},
+		"filter":         RepresentationGroup{Required, policyDataSourceFilterRepresentation}}
+	policyDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   Representation{repType: Required, create: `id`},
+		"values": Representation{repType: Required, create: []string{`${oci_identity_policy.test_policy.id}`}},
+	}
 
-	#Optional
-	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.policy_defined_tags_value}")}"
-	freeform_tags = "${var.policy_freeform_tags}"
-	version_date = "${var.policy_version_date}"
-}
-`
-	PolicyPropertyVariables = `
-variable "policy_defined_tags_value" { default = "value" }
-variable "policy_description" { default = "Policy for users who need to launch instances, attach volumes, manage images" }
-variable "policy_freeform_tags" { default = {"Department"= "Finance"} }
-variable "policy_name" { default = "LaunchInstances" }
-variable "policy_version_date" { default = "" }
+	policyRepresentation = map[string]interface{}{
+		"compartment_id": Representation{repType: Required, create: `${var.tenancy_ocid}`},
+		"description":    Representation{repType: Required, create: `Policy for users who need to launch instances, attach volumes, manage images`, update: `description2`},
+		"name":           Representation{repType: Required, create: `LaunchInstances`},
+		"statements":     Representation{repType: Required, create: []string{`Allow group ${oci_identity_group.t.name} to read instances in compartment ${oci_identity_compartment.t.name}`}},
+		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"version_date":   Representation{repType: Optional, create: ``, update: `2018-01-01`},
+	}
 
-`
 	PolicyResourceDependencies = DefinedTagsDependencies + `
 resource "oci_identity_compartment" "t" {
 	name = "Network"
@@ -83,7 +72,8 @@ func TestIdentityPolicyResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + PolicyPropertyVariables + compartmentIdVariableStr + PolicyRequiredOnlyResource,
+				Config: config + compartmentIdVariableStr + PolicyResourceDependencies +
+					generateResourceFromRepresentationMap("oci_identity_policy", "test_policy", Required, Create, policyRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "description", "Policy for users who need to launch instances, attach volumes, manage images"),
@@ -103,7 +93,8 @@ func TestIdentityPolicyResource_basic(t *testing.T) {
 			},
 			// verify create with optionals
 			{
-				Config: config + PolicyPropertyVariables + compartmentIdVariableStr + PolicyResourceConfig,
+				Config: config + compartmentIdVariableStr + PolicyResourceDependencies +
+					generateResourceFromRepresentationMap("oci_identity_policy", "test_policy", Optional, Create, policyRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -125,14 +116,8 @@ func TestIdentityPolicyResource_basic(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + `
-variable "policy_defined_tags_value" { default = "updatedValue" }
-variable "policy_description" { default = "description2" }
-variable "policy_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "policy_name" { default = "LaunchInstances" }
-variable "policy_version_date" { default = "2018-01-01" }
-
-                ` + compartmentIdVariableStr + PolicyResourceConfig,
+				Config: config + compartmentIdVariableStr + PolicyResourceDependencies +
+					generateResourceFromRepresentationMap("oci_identity_policy", "test_policy", Optional, Update, policyRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -156,23 +141,10 @@ variable "policy_version_date" { default = "2018-01-01" }
 			},
 			// verify datasource
 			{
-				Config: config + `
-variable "policy_defined_tags_value" { default = "updatedValue" }
-variable "policy_description" { default = "description2" }
-variable "policy_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "policy_name" { default = "LaunchInstances" }
-variable "policy_version_date" { default = "2018-01-01" }
-
-data "oci_identity_policies" "test_policies" {
-	#Required
-	compartment_id = "${var.tenancy_ocid}"
-
-    filter {
-    	name = "id"
-    	values = ["${oci_identity_policy.test_policy.id}"]
-    }
-}
-                ` + compartmentIdVariableStr + PolicyResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_identity_policies", "test_policies", Optional, Update, policyDataSourceRepresentation) +
+					compartmentIdVariableStr + PolicyResourceDependencies +
+					generateResourceFromRepresentationMap("oci_identity_policy", "test_policy", Optional, Update, policyRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
 

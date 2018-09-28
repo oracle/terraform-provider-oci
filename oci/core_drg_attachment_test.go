@@ -13,30 +13,27 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-const (
-	DrgAttachmentRequiredOnlyResource = DrgAttachmentResourceDependencies + `
-resource "oci_core_drg_attachment" "test_drg_attachment" {
-	#Required
-	drg_id = "${oci_core_drg.test_drg.id}"
-	vcn_id = "${oci_core_vcn.test_vcn.id}"
-}
-`
+var (
+	DrgAttachmentRequiredOnlyResource = DrgAttachmentResourceDependencies +
+		generateResourceFromRepresentationMap("oci_core_drg_attachment", "test_drg_attachment", Required, Create, drgAttachmentRepresentation)
 
-	DrgAttachmentResourceConfig = DrgAttachmentResourceDependencies + `
-resource "oci_core_drg_attachment" "test_drg_attachment" {
-	#Required
-	drg_id = "${oci_core_drg.test_drg.id}"
-	vcn_id = "${oci_core_vcn.test_vcn.id}"
+	drgAttachmentDataSourceRepresentation = map[string]interface{}{
+		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"drg_id":         Representation{repType: Optional, create: `${oci_core_drg.test_drg.id}`},
+		"vcn_id":         Representation{repType: Optional, create: `${oci_core_vcn.test_vcn.id}`},
+		"filter":         RepresentationGroup{Required, drgAttachmentDataSourceFilterRepresentation}}
+	drgAttachmentDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   Representation{repType: Required, create: `id`},
+		"values": Representation{repType: Required, create: []string{`${oci_core_drg_attachment.test_drg_attachment.id}`}},
+	}
 
-	#Optional
-	display_name = "${var.drg_attachment_display_name}"
-}
-`
-	DrgAttachmentPropertyVariables = `
-variable "drg_attachment_display_name" { default = "displayName" }
+	drgAttachmentRepresentation = map[string]interface{}{
+		"drg_id":       Representation{repType: Required, create: `${oci_core_drg.test_drg.id}`},
+		"vcn_id":       Representation{repType: Required, create: `${oci_core_vcn.test_vcn.id}`},
+		"display_name": Representation{repType: Optional, create: `displayName`, update: `displayName2`},
+	}
 
-`
-	DrgAttachmentResourceDependencies = DefinedTagsDependencies + DrgPropertyVariables + DrgRequiredOnlyResource + VcnPropertyVariables + VcnRequiredOnlyResource
+	DrgAttachmentResourceDependencies = DrgRequiredOnlyResource + VcnRequiredOnlyResource + VcnResourceDependencies
 )
 
 func TestCoreDrgAttachmentResource_basic(t *testing.T) {
@@ -60,7 +57,8 @@ func TestCoreDrgAttachmentResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + DrgAttachmentPropertyVariables + compartmentIdVariableStr + DrgAttachmentRequiredOnlyResource,
+				Config: config + compartmentIdVariableStr + DrgAttachmentResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_drg_attachment", "test_drg_attachment", Required, Create, drgAttachmentRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
@@ -78,7 +76,8 @@ func TestCoreDrgAttachmentResource_basic(t *testing.T) {
 			},
 			// verify create with optionals
 			{
-				Config: config + DrgAttachmentPropertyVariables + compartmentIdVariableStr + DrgAttachmentResourceConfig,
+				Config: config + compartmentIdVariableStr + DrgAttachmentResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_drg_attachment", "test_drg_attachment", Optional, Create, drgAttachmentRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -96,10 +95,8 @@ func TestCoreDrgAttachmentResource_basic(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + `
-variable "drg_attachment_display_name" { default = "displayName2" }
-
-                ` + compartmentIdVariableStr + DrgAttachmentResourceConfig,
+				Config: config + compartmentIdVariableStr + DrgAttachmentResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_drg_attachment", "test_drg_attachment", Optional, Update, drgAttachmentRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -119,23 +116,10 @@ variable "drg_attachment_display_name" { default = "displayName2" }
 			},
 			// verify datasource
 			{
-				Config: config + `
-variable "drg_attachment_display_name" { default = "displayName2" }
-
-data "oci_core_drg_attachments" "test_drg_attachments" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-
-	#Optional
-	drg_id = "${oci_core_drg.test_drg.id}"
-	vcn_id = "${oci_core_vcn.test_vcn.id}"
-
-    filter {
-    	name = "id"
-    	values = ["${oci_core_drg_attachment.test_drg_attachment.id}"]
-    }
-}
-                ` + compartmentIdVariableStr + DrgAttachmentResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_core_drg_attachments", "test_drg_attachments", Optional, Update, drgAttachmentDataSourceRepresentation) +
+					compartmentIdVariableStr + DrgAttachmentResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_drg_attachment", "test_drg_attachment", Optional, Update, drgAttachmentRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "drg_id"),

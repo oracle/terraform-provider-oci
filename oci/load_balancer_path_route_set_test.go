@@ -13,30 +13,30 @@ import (
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
 )
 
-const (
-	PathRouteSetResourceConfig = PathRouteSetResourceDependencies + `
-resource "oci_load_balancer_path_route_set" "test_path_route_set" {
-	#Required
-	load_balancer_id = "${oci_load_balancer_load_balancer.test_load_balancer.id}"
-	name = "${var.path_route_set_name}"
-	path_routes {
-		#Required
-		backend_set_name = "${oci_load_balancer_backend_set.test_backend_set.name}"
-		path = "${var.path_route_set_path_routes_path}"
-		path_match_type {
-			#Required
-			match_type = "${var.path_route_set_path_routes_path_match_type_match_type}"
-		}
+var (
+	pathRouteSetDataSourceRepresentation = map[string]interface{}{
+		"load_balancer_id": Representation{repType: Required, create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
+		"filter":           RepresentationGroup{Required, pathRouteSetDataSourceFilterRepresentation}}
+	pathRouteSetDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   Representation{repType: Required, create: `name`},
+		"values": Representation{repType: Required, create: []string{`${oci_load_balancer_path_route_set.test_path_route_set.name}`}},
 	}
-}
-`
-	PathRouteSetPropertyVariables = `
-variable "path_route_set_name" { default = "example_path_route_set" }
-variable "path_route_set_path_routes_path" { default = "/example/video/123" }
-variable "path_route_set_path_routes_path_match_type_match_type" { default = "EXACT_MATCH" }
 
-`
-	PathRouteSetResourceDependencies = BackendSetRequiredOnlyResource + BackendSetPropertyVariables
+	pathRouteSetRepresentation = map[string]interface{}{
+		"load_balancer_id": Representation{repType: Required, create: "${oci_load_balancer_load_balancer.test_load_balancer.id}"},
+		"name":             Representation{repType: Required, create: `example_path_route_set`},
+		"path_routes":      RepresentationGroup{Required, pathRouteSetPathRoutesRepresentation},
+	}
+	pathRouteSetPathRoutesRepresentation = map[string]interface{}{
+		"backend_set_name": Representation{repType: Required, create: `${oci_load_balancer_backend_set.test_backend_set.name}`},
+		"path":             Representation{repType: Required, create: `/example/video/123`, update: `path2`},
+		"path_match_type":  RepresentationGroup{Required, pathRouteSetPathRoutesPathMatchTypeRepresentation},
+	}
+	pathRouteSetPathRoutesPathMatchTypeRepresentation = map[string]interface{}{
+		"match_type": Representation{repType: Required, create: `EXACT_MATCH`},
+	}
+
+	PathRouteSetResourceDependencies = BackendSetRequiredOnlyResource
 )
 
 func TestLoadBalancerPathRouteSetResource_basic(t *testing.T) {
@@ -60,7 +60,8 @@ func TestLoadBalancerPathRouteSetResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + PathRouteSetPropertyVariables + compartmentIdVariableStr + PathRouteSetResourceConfig,
+				Config: config + compartmentIdVariableStr + PathRouteSetResourceDependencies +
+					generateResourceFromRepresentationMap("oci_load_balancer_path_route_set", "test_path_route_set", Required, Create, pathRouteSetRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttr(resourceName, "name", "example_path_route_set"),
@@ -79,13 +80,8 @@ func TestLoadBalancerPathRouteSetResource_basic(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + `
-variable "path_route_set_name" { default = "example_path_route_set" }
-variable "path_route_set_path_routes_backend_set_name" { default = "backendSet1" }
-variable "path_route_set_path_routes_path" { default = "path2" }
-variable "path_route_set_path_routes_path_match_type_match_type" { default = "EXACT_MATCH" }
-
-                ` + compartmentIdVariableStr + PathRouteSetResourceConfig,
+				Config: config + compartmentIdVariableStr + PathRouteSetResourceDependencies +
+					generateResourceFromRepresentationMap("oci_load_balancer_path_route_set", "test_path_route_set", Optional, Update, pathRouteSetRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttr(resourceName, "name", "example_path_route_set"),
@@ -106,22 +102,10 @@ variable "path_route_set_path_routes_path_match_type_match_type" { default = "EX
 			},
 			// verify datasource
 			{
-				Config: config + `
-variable "path_route_set_name" { default = "example_path_route_set" }
-variable "path_route_set_path_routes_backend_set_name" { default = "backendSet1" }
-variable "path_route_set_path_routes_path" { default = "path2" }
-variable "path_route_set_path_routes_path_match_type_match_type" { default = "EXACT_MATCH" }
-
-data "oci_load_balancer_path_route_sets" "test_path_route_sets" {
-	#Required
-	load_balancer_id = "${oci_load_balancer_load_balancer.test_load_balancer.id}"
-
-    filter {
-    	name = "name"
-    	values = ["${oci_load_balancer_path_route_set.test_path_route_set.name}"]
-    }
-}
-                ` + compartmentIdVariableStr + PathRouteSetResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_load_balancer_path_route_sets", "test_path_route_sets", Optional, Update, pathRouteSetDataSourceRepresentation) +
+					compartmentIdVariableStr + PathRouteSetResourceDependencies +
+					generateResourceFromRepresentationMap("oci_load_balancer_path_route_set", "test_path_route_set", Optional, Update, pathRouteSetRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "load_balancer_id"),
 

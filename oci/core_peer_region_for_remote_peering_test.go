@@ -10,14 +10,10 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 )
 
-const (
-	PeerRegionForRemotePeeringResourceConfig = PeerRegionForRemotePeeringResourceDependencies + `
+var (
+	peerRegionForRemotePeeringDataSourceRepresentation = map[string]interface{}{}
 
-`
-	PeerRegionForRemotePeeringPropertyVariables = `
-
-`
-	PeerRegionForRemotePeeringResourceDependencies = ""
+	PeerRegionForRemotePeeringResourceConfig = ""
 )
 
 func TestCorePeerRegionForRemotePeeringResource_basic(t *testing.T) {
@@ -37,11 +33,9 @@ func TestCorePeerRegionForRemotePeeringResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify datasource
 			{
-				Config: config + `
-
-data "oci_core_peer_region_for_remote_peerings" "test_peer_region_for_remote_peerings" {
-}
-                ` + compartmentIdVariableStr + PeerRegionForRemotePeeringResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_core_peer_region_for_remote_peerings", "test_peer_region_for_remote_peerings", Required, Create, peerRegionForRemotePeeringDataSourceRepresentation) +
+					compartmentIdVariableStr + PeerRegionForRemotePeeringResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 
 					resource.TestCheckResourceAttrSet(datasourceName, "peer_region_for_remote_peerings.#"),

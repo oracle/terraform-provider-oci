@@ -13,33 +13,27 @@ import (
 	oci_file_storage "github.com/oracle/oci-go-sdk/filestorage"
 )
 
-const (
-	FileSystemRequiredOnlyResource = FileSystemResourceDependencies + `
-resource "oci_file_storage_file_system" "test_file_system" {
-	#Required
-	availability_domain = "${lookup(data.oci_identity_availability_domains.test_availability_domains.availability_domains[var.file_system_availability_domain],"name")}"
-	compartment_id = "${var.compartment_id}"
-}
-`
+var (
+	FileSystemRequiredOnlyResource = generateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system", Required, Create, fileSystemRepresentation)
 
-	FileSystemResourceConfigOnly = `
-resource "oci_file_storage_file_system" "test_file_system" {
-	#Required
-	availability_domain = "${lookup(data.oci_identity_availability_domains.test_availability_domains.availability_domains[var.file_system_availability_domain],"name")}"
-	compartment_id = "${var.compartment_id}"
+	fileSystemDataSourceRepresentation = map[string]interface{}{
+		"availability_domain": Representation{repType: Required, create: `${lookup(data.oci_identity_availability_domains.test_availability_domains.availability_domains[0],"name")}`},
+		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
+		"display_name":        Representation{repType: Optional, create: `media-files-1`, update: `displayName2`},
+		"id":                  Representation{repType: Optional, create: `${oci_file_storage_file_system.test_file_system.id}`},
+		"state":               Representation{repType: Optional, create: `ACTIVE`},
+		"filter":              RepresentationGroup{Required, fileSystemDataSourceFilterRepresentation}}
+	fileSystemDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   Representation{repType: Required, create: `id`},
+		"values": Representation{repType: Required, create: []string{`${oci_file_storage_file_system.test_file_system.id}`}},
+	}
 
-	#Optional
-	display_name = "${var.file_system_display_name}"
-}
-`
+	fileSystemRepresentation = map[string]interface{}{
+		"availability_domain": Representation{repType: Required, create: `${lookup(data.oci_identity_availability_domains.test_availability_domains.availability_domains[0],"name")}`},
+		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
+		"display_name":        Representation{repType: Optional, create: `media-files-1`, update: `displayName2`},
+	}
 
-	FileSystemResourceConfig = FileSystemResourceDependencies + FileSystemResourceConfigOnly
-
-	FileSystemPropertyVariables = `
-variable "file_system_availability_domain" { default = "0" }
-variable "file_system_display_name" { default = "media-files-1" }
-
-`
 	FileSystemResourceDependencies = AvailabilityDomainConfig
 )
 
@@ -64,7 +58,8 @@ func TestFileStorageFileSystemResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + FileSystemPropertyVariables + compartmentIdVariableStr + FileSystemRequiredOnlyResource,
+				Config: config + compartmentIdVariableStr + FileSystemResourceDependencies +
+					generateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system", Required, Create, fileSystemRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -82,7 +77,8 @@ func TestFileStorageFileSystemResource_basic(t *testing.T) {
 			},
 			// verify create with optionals
 			{
-				Config: config + FileSystemPropertyVariables + compartmentIdVariableStr + FileSystemResourceConfig,
+				Config: config + compartmentIdVariableStr + FileSystemResourceDependencies +
+					generateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system", Optional, Create, fileSystemRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -101,11 +97,8 @@ func TestFileStorageFileSystemResource_basic(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + `
-variable "file_system_availability_domain" { default = "0" }
-variable "file_system_display_name" { default = "displayName2" }
-
-                ` + compartmentIdVariableStr + FileSystemResourceConfig,
+				Config: config + compartmentIdVariableStr + FileSystemResourceDependencies +
+					generateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system", Optional, Update, fileSystemRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -126,26 +119,10 @@ variable "file_system_display_name" { default = "displayName2" }
 			},
 			// verify datasource
 			{
-				Config: config + `
-variable "file_system_availability_domain" { default = "0" }
-variable "file_system_display_name" { default = "displayName2" }
-
-data "oci_file_storage_file_systems" "test_file_systems" {
-	#Required
-	availability_domain = "${oci_file_storage_file_system.test_file_system.availability_domain}"
-	compartment_id = "${var.compartment_id}"
-
-	#Optional
-	display_name = "${var.file_system_display_name}"
-	id = "${oci_file_storage_file_system.test_file_system.id}"
-	state = "${oci_file_storage_file_system.test_file_system.state}"
-
-    filter {
-    	name = "id"
-    	values = ["${oci_file_storage_file_system.test_file_system.id}"]
-    }
-}
-                ` + compartmentIdVariableStr + FileSystemResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_file_storage_file_systems", "test_file_systems", Optional, Update, fileSystemDataSourceRepresentation) +
+					compartmentIdVariableStr + FileSystemResourceDependencies +
+					generateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system", Optional, Update, fileSystemRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),

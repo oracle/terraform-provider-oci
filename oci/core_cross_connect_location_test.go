@@ -10,14 +10,12 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 )
 
-const (
-	CrossConnectLocationResourceConfig = CrossConnectLocationResourceDependencies + `
+var (
+	crossConnectLocationDataSourceRepresentation = map[string]interface{}{
+		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+	}
 
-`
-	CrossConnectLocationPropertyVariables = `
-
-`
-	CrossConnectLocationResourceDependencies = ""
+	CrossConnectLocationResourceConfig = ""
 )
 
 func TestCoreCrossConnectLocationResource_basic(t *testing.T) {
@@ -37,13 +35,9 @@ func TestCoreCrossConnectLocationResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify datasource
 			{
-				Config: config + `
-
-data "oci_core_cross_connect_locations" "test_cross_connect_locations" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-}
-                ` + compartmentIdVariableStr + CrossConnectLocationResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_core_cross_connect_locations", "test_cross_connect_locations", Required, Create, crossConnectLocationDataSourceRepresentation) +
+					compartmentIdVariableStr + CrossConnectLocationResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 

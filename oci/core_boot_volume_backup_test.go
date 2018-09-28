@@ -13,35 +13,37 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-const (
-	BootVolumeBackupRequiredOnlyResource = BootVolumeBackupResourceDependencies + `
-resource "oci_core_boot_volume_backup" "test_boot_volume_backup" {
-	#Required
-	boot_volume_id = "${oci_core_instance.test_instance.boot_volume_id}"
-}
-`
+var (
+	BootVolumeBackupRequiredOnlyResource = BootVolumeBackupResourceDependencies +
+		generateResourceFromRepresentationMap("oci_core_boot_volume_backup", "test_boot_volume_backup", Required, Create, bootVolumeBackupRepresentation)
 
-	BootVolumeBackupResourceConfig = BootVolumeBackupResourceDependencies + `
-resource "oci_core_boot_volume_backup" "test_boot_volume_backup" {
-	#Required
-	boot_volume_id = "${oci_core_instance.test_instance.boot_volume_id}"
+	BootVolumeBackupResourceConfig = BootVolumeBackupResourceDependencies +
+		generateResourceFromRepresentationMap("oci_core_boot_volume_backup", "test_boot_volume_backup", Required, Create, bootVolumeBackupRepresentation)
 
-	#Optional
-	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.boot_volume_backup_defined_tags_value}")}"
-	display_name = "${var.boot_volume_backup_display_name}"
-	freeform_tags = "${var.boot_volume_backup_freeform_tags}"
-	type = "${var.boot_volume_backup_type}"
-}
-`
-	BootVolumeBackupPropertyVariables = `
-variable "boot_volume_backup_defined_tags_value" { default = "value" }
-variable "boot_volume_backup_display_name" { default = "displayName" }
-variable "boot_volume_backup_freeform_tags" { default = {"Department"= "Finance"} }
-variable "boot_volume_backup_state" { default = "AVAILABLE" }
-variable "boot_volume_backup_type" { default = "INCREMENTAL" }
+	bootVolumeBackupSingularDataSourceRepresentation = map[string]interface{}{
+		"boot_volume_backup_id": Representation{repType: Required, create: `${oci_core_boot_volume_backup.test_boot_volume_backup.id}`},
+	}
 
-`
-	BootVolumeBackupResourceDependencies = DefinedTagsDependencies + InstancePropertyVariables + InstanceResourceAsDependencyConfig
+	bootVolumeBackupDataSourceRepresentation = map[string]interface{}{
+		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"boot_volume_id": Representation{repType: Optional, create: `${oci_core_instance.test_instance.boot_volume_id}`},
+		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
+		"state":          Representation{repType: Optional, create: `AVAILABLE`},
+		"filter":         RepresentationGroup{Required, bootVolumeBackupDataSourceFilterRepresentation}}
+	bootVolumeBackupDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   Representation{repType: Required, create: `id`},
+		"values": Representation{repType: Required, create: []string{`${oci_core_boot_volume_backup.test_boot_volume_backup.id}`}},
+	}
+
+	bootVolumeBackupRepresentation = map[string]interface{}{
+		"boot_volume_id": Representation{repType: Required, create: `${oci_core_instance.test_instance.boot_volume_id}`},
+		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
+		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"type":           Representation{repType: Optional, create: `INCREMENTAL`},
+	}
+
+	BootVolumeBackupResourceDependencies = InstanceRequiredOnlyResource
 )
 
 func TestCoreBootVolumeBackupResource_basic(t *testing.T) {
@@ -66,7 +68,8 @@ func TestCoreBootVolumeBackupResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + BootVolumeBackupPropertyVariables + compartmentIdVariableStr + BootVolumeBackupRequiredOnlyResource,
+				Config: config + compartmentIdVariableStr + BootVolumeBackupResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_boot_volume_backup", "test_boot_volume_backup", Required, Create, bootVolumeBackupRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "boot_volume_id"),
 
@@ -83,7 +86,8 @@ func TestCoreBootVolumeBackupResource_basic(t *testing.T) {
 			},
 			// verify create with optionals
 			{
-				Config: config + BootVolumeBackupPropertyVariables + compartmentIdVariableStr + BootVolumeBackupResourceConfig,
+				Config: config + compartmentIdVariableStr + BootVolumeBackupResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_boot_volume_backup", "test_boot_volume_backup", Optional, Create, bootVolumeBackupRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "boot_volume_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
@@ -104,14 +108,8 @@ func TestCoreBootVolumeBackupResource_basic(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + `
-variable "boot_volume_backup_defined_tags_value" { default = "updatedValue" }
-variable "boot_volume_backup_display_name" { default = "displayName2" }
-variable "boot_volume_backup_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "boot_volume_backup_state" { default = "AVAILABLE" }
-variable "boot_volume_backup_type" { default = "INCREMENTAL" }
-
-                ` + compartmentIdVariableStr + BootVolumeBackupResourceConfig,
+				Config: config + compartmentIdVariableStr + BootVolumeBackupResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_boot_volume_backup", "test_boot_volume_backup", Optional, Update, bootVolumeBackupRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "boot_volume_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
@@ -134,28 +132,10 @@ variable "boot_volume_backup_type" { default = "INCREMENTAL" }
 			},
 			// verify datasource
 			{
-				Config: config + `
-variable "boot_volume_backup_defined_tags_value" { default = "updatedValue" }
-variable "boot_volume_backup_display_name" { default = "displayName2" }
-variable "boot_volume_backup_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "boot_volume_backup_state" { default = "AVAILABLE" }
-variable "boot_volume_backup_type" { default = "INCREMENTAL" }
-
-data "oci_core_boot_volume_backups" "test_boot_volume_backups" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-
-	#Optional
-	boot_volume_id = "${oci_core_instance.test_instance.boot_volume_id}"
-	display_name = "${var.boot_volume_backup_display_name}"
-	state = "${var.boot_volume_backup_state}"
-
-    filter {
-    	name = "id"
-    	values = ["${oci_core_boot_volume_backup.test_boot_volume_backup.id}"]
-    }
-}
-                ` + compartmentIdVariableStr + BootVolumeBackupResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_core_boot_volume_backups", "test_boot_volume_backups", Optional, Update, bootVolumeBackupDataSourceRepresentation) +
+					compartmentIdVariableStr + BootVolumeBackupResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_boot_volume_backup", "test_boot_volume_backup", Optional, Update, bootVolumeBackupRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "boot_volume_id"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -176,18 +156,9 @@ data "oci_core_boot_volume_backups" "test_boot_volume_backups" {
 			},
 			// verify singular datasource
 			{
-				Config: config + `
-variable "boot_volume_backup_defined_tags_value" { default = "updatedValue" }
-variable "boot_volume_backup_display_name" { default = "displayName2" }
-variable "boot_volume_backup_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "boot_volume_backup_state" { default = "AVAILABLE" }
-variable "boot_volume_backup_type" { default = "INCREMENTAL" }
-
-data "oci_core_boot_volume_backup" "test_boot_volume_backup" {
-	#Required
-	boot_volume_backup_id = "${oci_core_boot_volume_backup.test_boot_volume_backup.id}"
-}
-                ` + compartmentIdVariableStr + BootVolumeBackupResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_core_boot_volume_backup", "test_boot_volume_backup", Required, Create, bootVolumeBackupSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + BootVolumeBackupResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "boot_volume_backup_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "boot_volume_id"),
@@ -210,14 +181,7 @@ data "oci_core_boot_volume_backup" "test_boot_volume_backup" {
 			},
 			// remove singular datasource from previous step so that it doesn't conflict with import tests
 			{
-				Config: config + `
-variable "boot_volume_backup_defined_tags_value" { default = "updatedValue" }
-variable "boot_volume_backup_display_name" { default = "displayName2" }
-variable "boot_volume_backup_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "boot_volume_backup_state" { default = "AVAILABLE" }
-variable "boot_volume_backup_type" { default = "INCREMENTAL" }
-
-                ` + compartmentIdVariableStr + BootVolumeBackupResourceConfig,
+				Config: config + compartmentIdVariableStr + BootVolumeBackupResourceConfig,
 			},
 			// verify resource import
 			{

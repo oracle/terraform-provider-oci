@@ -10,11 +10,15 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 )
 
-const (
-	AuditEventResourceConfig = AuditEventResourceDependencies + `
+var (
+	auditEventDataSourceRepresentation = map[string]interface{}{
+		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"end_time":       Representation{repType: Required, create: `${timestamp()}`},
+		"start_time":     Representation{repType: Required, create: `${timeadd(timestamp(), "-1m")}`},
+		"limit":          Representation{repType: Required, create: `1`},
+	}
 
-`
-	AuditEventResourceDependencies = ""
+	AuditEventResourceConfig = ""
 )
 
 func TestAuditEventResource_basic(t *testing.T) {
@@ -34,15 +38,9 @@ func TestAuditEventResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify datasource
 			{
-				Config: config + `
-data "oci_audit_events" "test_audit_events" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-	end_time = "${timestamp()}"
-	start_time = "${timeadd(timestamp(), "-1m")}"
-	limit = "1"
-}
-                ` + compartmentIdVariableStr + AuditEventResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_audit_events", "test_audit_events", Required, Create, auditEventDataSourceRepresentation) +
+					compartmentIdVariableStr + AuditEventResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "end_time"),

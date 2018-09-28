@@ -13,20 +13,21 @@ import (
 	oci_database "github.com/oracle/oci-go-sdk/database"
 )
 
-const (
-	BackupResourceConfig = BackupResourceDependencies + `
+var (
+	backupDataSourceRepresentation = map[string]interface{}{
+		"database_id": Representation{repType: Optional, create: `${data.oci_database_databases.db.databases.0.id}`},
+		"filter":      RepresentationGroup{Required, backupDataSourceFilterRepresentation}}
+	backupDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   Representation{repType: Required, create: `id`},
+		"values": Representation{repType: Required, create: []string{`${oci_database_backup.test_backup.id}`}},
+	}
 
-resource "oci_database_backup" "test_backup" {
-	#Required
-	database_id = "${data.oci_database_databases.db.databases.0.id}"
-	display_name = "${var.backup_display_name}"
-}
-`
-	BackupPropertyVariables = `
-variable "backup_display_name" { default = "Monthly Backup" }
+	backupRepresentation = map[string]interface{}{
+		"database_id":  Representation{repType: Required, create: `${data.oci_database_databases.db.databases.0.id}`},
+		"display_name": Representation{repType: Required, create: `Monthly Backup`},
+	}
 
-`
-	BackupResourceDependencies = DbHomePatchResourceDependencies + `
+	BackupResourceDependencies = DbSystemResourceConfig + `
 data "oci_database_databases" "db" {
        compartment_id = "${var.compartment_id}"
        db_home_id = "${data.oci_database_db_homes.t.db_homes.0.db_home_id}"
@@ -52,7 +53,8 @@ func TestDatabaseBackupResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + BackupPropertyVariables + compartmentIdVariableStr + BackupResourceConfig,
+				Config: config + compartmentIdVariableStr + BackupResourceDependencies +
+					generateResourceFromRepresentationMap("oci_database_backup", "test_backup", Required, Create, backupRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "database_id"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "Monthly Backup"),
@@ -61,22 +63,13 @@ func TestDatabaseBackupResource_basic(t *testing.T) {
 
 			// verify datasource
 			{
-				Config: config + `
-variable "backup_display_name" { default = "Monthly Backup" }
-
-data "oci_database_backups" "test_backups" {
-
-	#Optional
-	database_id = "${data.oci_database_databases.db.databases.0.id}"
-
-    filter {
-    	name = "id"
-    	values = ["${oci_database_backup.test_backup.id}"]
-    }
-}
-                ` + compartmentIdVariableStr + BackupResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_database_backups", "test_backups", Optional, Update, backupDataSourceRepresentation) +
+					compartmentIdVariableStr + BackupResourceDependencies +
+					generateResourceFromRepresentationMap("oci_database_backup", "test_backup", Optional, Update, backupRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "database_id"),
+
 					resource.TestCheckResourceAttr(datasourceName, "backups.#", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "backups.0.database_id"),
 					resource.TestCheckResourceAttr(datasourceName, "backups.0.display_name", "Monthly Backup"),

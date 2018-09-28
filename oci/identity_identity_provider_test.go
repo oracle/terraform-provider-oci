@@ -17,50 +17,38 @@ import (
 )
 
 const (
-	IdentityProviderRequiredOnlyResource = IdentityProviderResourceDependenciesRequiredOnly + `
-resource "oci_identity_identity_provider" "test_identity_provider" {
-	#Required
-	compartment_id = "${var.tenancy_ocid}"
-	description = "${var.identity_provider_description}"
-	metadata = "${var.identity_provider_metadata != "" ? var.identity_provider_metadata : "${file("${var.identity_provider_metadata_file}")}"}"
-	metadata_url = "${var.identity_provider_metadata_url}"
-	name = "${var.identity_provider_name}"
-	product_type = "${var.identity_provider_product_type}"
-	protocol = "${var.identity_provider_protocol}"
-}
-`
-
-	IdentityProviderResourceConfig = IdentityProviderResourceDependencies + `
-resource "oci_identity_identity_provider" "test_identity_provider" {
-	#Required
-	compartment_id = "${var.tenancy_ocid}"
-	description = "${var.identity_provider_description}"
-	metadata = "${var.identity_provider_metadata != "" ? var.identity_provider_metadata : "${file("${var.identity_provider_metadata_file}")}"}"
-	metadata_url = "${var.identity_provider_metadata_url}"
-	name = "${var.identity_provider_name}"
-	product_type = "${var.identity_provider_product_type}"
-	protocol = "${var.identity_provider_protocol}"
-
-	#Optional
-	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.identity_provider_defined_tags_value}")}"
-	freeform_tags = "${var.identity_provider_freeform_tags}"
-}
-`
 	IdentityProviderPropertyVariables = `
-variable "identity_provider_defined_tags_value" { default = "value" }
-variable "identity_provider_description" { default = "description" }
-variable "identity_provider_freeform_tags" { default = {"Department"= "Finance"} }
 variable "identity_provider_metadata" { default = "" }
 variable "identity_provider_metadata_file" { default = "sampleFederationMetadata.xml" }
-variable "identity_provider_metadata_url" { default = "metadataUrl" }
-variable "identity_provider_name" { default = "test-idp-saml2-adfs" }
-variable "identity_provider_product_type" { default = "ADFS" }
-variable "identity_provider_protocol" { default = "SAML2" }
+`
+)
 
-`
-	IdentityProviderResourceDependenciesRequiredOnly = `
-`
-	IdentityProviderResourceDependencies = DefinedTagsDependencies
+var (
+	IdentityProviderRequiredOnlyResource = IdentityProviderResourceDependencies +
+		generateResourceFromRepresentationMap("oci_identity_identity_provider", "test_identity_provider", Required, Create, identityProviderRepresentation)
+
+	identityProviderDataSourceRepresentation = map[string]interface{}{
+		"compartment_id": Representation{repType: Required, create: `${var.tenancy_ocid}`},
+		"protocol":       Representation{repType: Required, create: `SAML2`},
+		"filter":         RepresentationGroup{Required, identityProviderDataSourceFilterRepresentation}}
+	identityProviderDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   Representation{repType: Required, create: `id`},
+		"values": Representation{repType: Required, create: []string{`${oci_identity_identity_provider.test_identity_provider.id}`}},
+	}
+
+	identityProviderRepresentation = map[string]interface{}{
+		"compartment_id": Representation{repType: Required, create: `${var.tenancy_ocid}`},
+		"description":    Representation{repType: Required, create: `description`, update: `description2`},
+		"metadata":       Representation{repType: Required, create: `${file("${var.identity_provider_metadata_file}")}`, update: `${file("${var.identity_provider_metadata_file}")}`},
+		"metadata_url":   Representation{repType: Required, create: `metadataUrl`, update: `metadataUrl2`},
+		"name":           Representation{repType: Required, create: `test-idp-saml2-adfs`},
+		"product_type":   Representation{repType: Required, create: `ADFS`},
+		"protocol":       Representation{repType: Required, create: `SAML2`},
+		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+	}
+
+	IdentityProviderResourceDependencies = DefinedTagsDependencies + IdentityProviderPropertyVariables
 )
 
 func TestIdentityIdentityProviderResource_basic(t *testing.T) {
@@ -72,7 +60,7 @@ func TestIdentityIdentityProviderResource_basic(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("tenancy_ocid")
+	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 	tenancyId := getEnvSettingWithBlankDefault("tenancy_ocid")
 
@@ -96,7 +84,8 @@ func TestIdentityIdentityProviderResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + IdentityProviderPropertyVariables + compartmentIdVariableStr + IdentityProviderRequiredOnlyResource,
+				Config: config + compartmentIdVariableStr + IdentityProviderResourceDependencies +
+					generateResourceFromRepresentationMap("oci_identity_identity_provider", "test_identity_provider", Required, Create, identityProviderRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -120,7 +109,8 @@ func TestIdentityIdentityProviderResource_basic(t *testing.T) {
 
 			// verify create with optionals
 			{
-				Config: config + IdentityProviderPropertyVariables + compartmentIdVariableStr + IdentityProviderResourceConfig,
+				Config: config + compartmentIdVariableStr + IdentityProviderResourceDependencies +
+					generateResourceFromRepresentationMap("oci_identity_identity_provider", "test_identity_provider", Optional, Create, identityProviderRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -145,18 +135,8 @@ func TestIdentityIdentityProviderResource_basic(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + `
-variable "identity_provider_defined_tags_value" { default = "updatedValue" }
-variable "identity_provider_description" { default = "description2" }
-variable "identity_provider_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "identity_provider_metadata" { default = "" }
-variable "identity_provider_metadata_file" { default = "sampleFederationMetadata.xml" }
-variable "identity_provider_metadata_url" { default = "metadataUrl2" }
-variable "identity_provider_name" { default = "test-idp-saml2-adfs" }
-variable "identity_provider_product_type" { default = "ADFS" }
-variable "identity_provider_protocol" { default = "SAML2" }
-
-                ` + compartmentIdVariableStr + IdentityProviderResourceConfig,
+				Config: config + compartmentIdVariableStr + IdentityProviderResourceDependencies +
+					generateResourceFromRepresentationMap("oci_identity_identity_provider", "test_identity_provider", Optional, Update, identityProviderRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -183,28 +163,10 @@ variable "identity_provider_protocol" { default = "SAML2" }
 			},
 			// verify datasource
 			{
-				Config: config + `
-variable "identity_provider_defined_tags_value" { default = "updatedValue" }
-variable "identity_provider_description" { default = "description2" }
-variable "identity_provider_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "identity_provider_metadata" { default = "" }
-variable "identity_provider_metadata_file" { default = "sampleFederationMetadata.xml" }
-variable "identity_provider_metadata_url" { default = "metadataUrl2" }
-variable "identity_provider_name" { default = "test-idp-saml2-adfs" }
-variable "identity_provider_product_type" { default = "ADFS" }
-variable "identity_provider_protocol" { default = "SAML2" }
-
-data "oci_identity_identity_providers" "test_identity_providers" {
-	#Required
-	compartment_id = "${var.tenancy_ocid}"
-	protocol = "${var.identity_provider_protocol}"
-
-    filter {
-    	name = "id"
-    	values = ["${oci_identity_identity_provider.test_identity_provider.id}"]
-    }
-}
-                ` + compartmentIdVariableStr + IdentityProviderResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_identity_identity_providers", "test_identity_providers", Optional, Update, identityProviderDataSourceRepresentation) +
+					compartmentIdVariableStr + IdentityProviderResourceDependencies +
+					generateResourceFromRepresentationMap("oci_identity_identity_provider", "test_identity_provider", Optional, Update, identityProviderRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(datasourceName, "protocol", "SAML2"),

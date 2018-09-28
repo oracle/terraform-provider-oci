@@ -13,42 +13,33 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-const (
-	ServiceGatewayRequiredOnlyResource = ServiceGatewayResourceDependencies + `
-resource "oci_core_service_gateway" "test_service_gateway" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-	services {
-		#Required
-		service_id = "${lookup(data.oci_core_services.test_services.services[0], "id")}"
+var (
+	ServiceGatewayRequiredOnlyResource = ServiceGatewayResourceDependencies +
+		generateResourceFromRepresentationMap("oci_core_service_gateway", "test_service_gateway", Required, Create, serviceGatewayRepresentation)
+
+	serviceGatewayDataSourceRepresentation = map[string]interface{}{
+		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"state":          Representation{repType: Optional, create: `AVAILABLE`},
+		"vcn_id":         Representation{repType: Optional, create: `${oci_core_vcn.test_vcn.id}`},
+		"filter":         RepresentationGroup{Required, serviceGatewayDataSourceFilterRepresentation}}
+	serviceGatewayDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   Representation{repType: Required, create: `id`},
+		"values": Representation{repType: Required, create: []string{`${oci_core_service_gateway.test_service_gateway.id}`}},
 	}
-	vcn_id = "${oci_core_vcn.test_vcn.id}"
-}
-`
 
-	ServiceGatewayResourceConfig = ServiceGatewayResourceDependencies + `
-resource "oci_core_service_gateway" "test_service_gateway" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-	services {
-		service_id = "${lookup(data.oci_core_services.test_services.services[0], "id")}"
+	serviceGatewayRepresentation = map[string]interface{}{
+		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"services":       RepresentationGroup{Required, serviceGatewayServicesRepresentation},
+		"vcn_id":         Representation{repType: Required, create: `${oci_core_vcn.test_vcn.id}`},
+		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
+		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
 	}
-	vcn_id = "${oci_core_vcn.test_vcn.id}"
+	serviceGatewayServicesRepresentation = map[string]interface{}{
+		"service_id": Representation{repType: Required, create: `${lookup(data.oci_core_services.test_services.services[0], "id")}`},
+	}
 
-	#Optional
-	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.service_gateway_defined_tags_value}")}"
-	display_name = "${var.service_gateway_display_name}"
-	freeform_tags = "${var.service_gateway_freeform_tags}"
-}
-`
-	ServiceGatewayPropertyVariables = `
-variable "service_gateway_defined_tags_value" { default = "value" }
-variable "service_gateway_display_name" { default = "displayName" }
-variable "service_gateway_freeform_tags" { default = {"bar-key"= "value"} }
-variable "service_gateway_state" { default = "AVAILABLE" }
-
-`
-	ServiceGatewayResourceDependencies = VcnPropertyVariables + VcnResourceConfig + `
+	ServiceGatewayResourceDependencies = VcnRequiredOnlyResource + VcnResourceDependencies + `
 data "oci_core_services" "test_services" {
 }
 `
@@ -75,7 +66,8 @@ func TestCoreServiceGatewayResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + ServiceGatewayPropertyVariables + compartmentIdVariableStr + ServiceGatewayRequiredOnlyResource,
+				Config: config + compartmentIdVariableStr + ServiceGatewayResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_service_gateway", "test_service_gateway", Required, Create, serviceGatewayRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "services.#", "1"),
@@ -98,7 +90,8 @@ func TestCoreServiceGatewayResource_basic(t *testing.T) {
 			},
 			// verify create with optionals
 			{
-				Config: config + ServiceGatewayPropertyVariables + compartmentIdVariableStr + ServiceGatewayResourceConfig,
+				Config: config + compartmentIdVariableStr + ServiceGatewayResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_service_gateway", "test_service_gateway", Optional, Create, serviceGatewayRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "block_traffic"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -124,13 +117,8 @@ func TestCoreServiceGatewayResource_basic(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + `
-variable "service_gateway_defined_tags_value" { default = "updatedValue" }
-variable "service_gateway_display_name" { default = "displayName2" }
-variable "service_gateway_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "service_gateway_state" { default = "AVAILABLE" }
-
-                ` + compartmentIdVariableStr + ServiceGatewayResourceConfig,
+				Config: config + compartmentIdVariableStr + ServiceGatewayResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_service_gateway", "test_service_gateway", Optional, Update, serviceGatewayRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "block_traffic"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -158,26 +146,10 @@ variable "service_gateway_state" { default = "AVAILABLE" }
 			},
 			// verify datasource
 			{
-				Config: config + `
-variable "service_gateway_defined_tags_value" { default = "updatedValue" }
-variable "service_gateway_display_name" { default = "displayName2" }
-variable "service_gateway_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "service_gateway_state" { default = "AVAILABLE" }
-
-data "oci_core_service_gateways" "test_service_gateways" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-
-	#Optional
-	state = "${var.service_gateway_state}"
-	vcn_id = "${oci_core_vcn.test_vcn.id}"
-
-    filter {
-    	name = "id"
-    	values = ["${oci_core_service_gateway.test_service_gateway.id}"]
-    }
-}
-                ` + compartmentIdVariableStr + ServiceGatewayResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_core_service_gateways", "test_service_gateways", Optional, Update, serviceGatewayDataSourceRepresentation) +
+					compartmentIdVariableStr + ServiceGatewayResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_service_gateway", "test_service_gateway", Optional, Update, serviceGatewayRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),

@@ -13,30 +13,26 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-const (
-	RemotePeeringConnectionRequiredOnlyResource = RemotePeeringConnectionResourceDependencies + `
-resource "oci_core_remote_peering_connection" "test_remote_peering_connection" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-	drg_id = "${oci_core_drg.test_drg.id}"
-}
-`
+var (
+	RemotePeeringConnectionRequiredOnlyResource = RemotePeeringConnectionResourceDependencies +
+		generateResourceFromRepresentationMap("oci_core_remote_peering_connection", "test_remote_peering_connection", Required, Create, remotePeeringConnectionRepresentation)
 
-	RemotePeeringConnectionResourceConfig = RemotePeeringConnectionResourceDependencies + `
-resource "oci_core_remote_peering_connection" "test_remote_peering_connection" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-	drg_id = "${oci_core_drg.test_drg.id}"
+	remotePeeringConnectionDataSourceRepresentation = map[string]interface{}{
+		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"drg_id":         Representation{repType: Optional, create: `${oci_core_drg.test_drg.id}`},
+		"filter":         RepresentationGroup{Required, remotePeeringConnectionDataSourceFilterRepresentation}}
+	remotePeeringConnectionDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   Representation{repType: Required, create: `id`},
+		"values": Representation{repType: Required, create: []string{`${oci_core_remote_peering_connection.test_remote_peering_connection.id}`}},
+	}
 
-	#Optional
-	display_name = "${var.remote_peering_connection_display_name}"
-}
-`
-	RemotePeeringConnectionPropertyVariables = `
-variable "remote_peering_connection_display_name" { default = "displayName" }
+	remotePeeringConnectionRepresentation = map[string]interface{}{
+		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"drg_id":         Representation{repType: Required, create: `${oci_core_drg.test_drg.id}`},
+		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
+	}
 
-`
-	RemotePeeringConnectionResourceDependencies = DrgPropertyVariables + DrgResourceConfig
+	RemotePeeringConnectionResourceDependencies = DrgRequiredOnlyResource
 )
 
 func TestCoreRemotePeeringConnectionResource_basic(t *testing.T) {
@@ -60,7 +56,8 @@ func TestCoreRemotePeeringConnectionResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + RemotePeeringConnectionPropertyVariables + compartmentIdVariableStr + RemotePeeringConnectionRequiredOnlyResource,
+				Config: config + compartmentIdVariableStr + RemotePeeringConnectionResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_remote_peering_connection", "test_remote_peering_connection", Required, Create, remotePeeringConnectionRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
@@ -78,7 +75,8 @@ func TestCoreRemotePeeringConnectionResource_basic(t *testing.T) {
 			},
 			// verify create with optionals
 			{
-				Config: config + RemotePeeringConnectionPropertyVariables + compartmentIdVariableStr + RemotePeeringConnectionResourceConfig,
+				Config: config + compartmentIdVariableStr + RemotePeeringConnectionResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_remote_peering_connection", "test_remote_peering_connection", Optional, Create, remotePeeringConnectionRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -98,10 +96,8 @@ func TestCoreRemotePeeringConnectionResource_basic(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + `
-variable "remote_peering_connection_display_name" { default = "displayName2" }
-
-                ` + compartmentIdVariableStr + RemotePeeringConnectionResourceConfig,
+				Config: config + compartmentIdVariableStr + RemotePeeringConnectionResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_remote_peering_connection", "test_remote_peering_connection", Optional, Update, remotePeeringConnectionRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -123,22 +119,10 @@ variable "remote_peering_connection_display_name" { default = "displayName2" }
 			},
 			// verify datasource
 			{
-				Config: config + `
-variable "remote_peering_connection_display_name" { default = "displayName2" }
-
-data "oci_core_remote_peering_connections" "test_remote_peering_connections" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-
-	#Optional
-	drg_id = "${oci_core_drg.test_drg.id}"
-
-    filter {
-    	name = "id"
-    	values = ["${oci_core_remote_peering_connection.test_remote_peering_connection.id}"]
-    }
-}
-                ` + compartmentIdVariableStr + RemotePeeringConnectionResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_core_remote_peering_connections", "test_remote_peering_connections", Optional, Update, remotePeeringConnectionDataSourceRepresentation) +
+					compartmentIdVariableStr + RemotePeeringConnectionResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_remote_peering_connection", "test_remote_peering_connection", Optional, Update, remotePeeringConnectionRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "drg_id"),

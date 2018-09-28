@@ -13,72 +13,49 @@ import (
 	oci_containerengine "github.com/oracle/oci-go-sdk/containerengine"
 )
 
-const (
-	NodePoolRequiredOnlyResource = NodePoolResourceDependencies + `
-resource "oci_containerengine_node_pool" "test_node_pool" {
-	#Required
-	cluster_id = "${oci_containerengine_cluster.test_cluster.id}"
-	compartment_id = "${var.compartment_id}"
-	kubernetes_version = "${var.node_pool_kubernetes_version}"
-	name = "${var.node_pool_name}"
-	node_image_name = "${var.node_pool_node_image_name}"
-	node_shape = "${var.node_pool_node_shape}"
-	subnet_ids = ["${oci_core_subnet.nodePool_Subnet_1.id}"] 
-}
-`
+var (
+	NodePoolRequiredOnlyResource = NodePoolResourceDependencies +
+		generateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", Required, Create, nodePoolRepresentation)
 
-	NodePoolResourceConfig = NodePoolResourceDependencies + `
-resource "oci_containerengine_node_pool" "test_node_pool" {
-	#Required
-	cluster_id = "${oci_containerengine_cluster.test_cluster.id}"
-	compartment_id = "${var.compartment_id}"
-	kubernetes_version = "${var.node_pool_kubernetes_version}"
-	name = "${var.node_pool_name}"
-	node_image_name = "${var.node_pool_node_image_name}"
-	node_shape = "${var.node_pool_node_shape}"
-	subnet_ids = ["${oci_core_subnet.nodePool_Subnet_1.id}"] 
+	NodePoolResourceConfig = NodePoolResourceDependencies +
+		generateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", Optional, Update, nodePoolRepresentation)
 
-	#Optional
-	initial_node_labels {
-
-		#Optional
-		key = "${var.node_pool_initial_node_labels_key}"
-		value = "${var.node_pool_initial_node_labels_value}"
+	nodePoolSingularDataSourceRepresentation = map[string]interface{}{
+		"node_pool_id": Representation{repType: Required, create: `${oci_containerengine_node_pool.test_node_pool.id}`},
 	}
-	quantity_per_subnet = "${var.node_pool_quantity_per_subnet}"
-	ssh_public_key = "${var.node_pool_ssh_public_key}"
-}
-`
-	NodePoolPropertyVariables = `
-variable "node_pool_initial_node_labels_key" { default = "key" }
-variable "node_pool_initial_node_labels_value" { default = "value" }
-variable "node_pool_kubernetes_version" { default = "v1.10.3" }
-variable "node_pool_name" { default = "name" }
-variable "node_pool_node_image_name" { default = "Oracle-Linux-7.4" }
-variable "node_pool_node_shape" { default = "VM.Standard1.1" }
-variable "node_pool_quantity_per_subnet" { default = 2 }
-variable "node_pool_ssh_public_key" { default = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample" }
 
-`
-	NodePoolResourceDependencies = ClusterPropertyVariables + ClusterResourceConfig + `
-resource "oci_core_subnet" "nodePool_Subnet_1" {
-	#Required
-	availability_domain = "${lookup(data.oci_identity_availability_domains.test_availability_domains.availability_domains[0],"name")}"
-	cidr_block = "10.0.22.0/24"
-	compartment_id = "${var.compartment_id}"
-	vcn_id = "${oci_core_vcn.test_vcn.id}"
-    security_list_ids = ["${oci_core_vcn.test_vcn.default_security_list_id}"] # Provider code tries to maintain compatibility with old versions.
-	display_name = "tfSubNet1ForNodePool"
-}
-resource "oci_core_subnet" "nodePool_Subnet_2" {
-	#Required
-	availability_domain = "${lookup(data.oci_identity_availability_domains.test_availability_domains.availability_domains[0],"name")}"
-	cidr_block = "10.0.23.0/24"
-	compartment_id = "${var.compartment_id}"
-	vcn_id = "${oci_core_vcn.test_vcn.id}"
-    security_list_ids = ["${oci_core_vcn.test_vcn.default_security_list_id}"] # Provider code tries to maintain compatibility with old versions.
-	display_name = "tfSubNet2ForNodePool"
-}`
+	nodePoolDataSourceRepresentation = map[string]interface{}{
+		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"cluster_id":     Representation{repType: Optional, create: `${oci_containerengine_cluster.test_cluster.id}`},
+		"name":           Representation{repType: Optional, create: `name`, update: `name2`},
+		"filter":         RepresentationGroup{Required, nodePoolDataSourceFilterRepresentation}}
+	nodePoolDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   Representation{repType: Required, create: `id`},
+		"values": Representation{repType: Required, create: []string{`${oci_containerengine_node_pool.test_node_pool.id}`}},
+	}
+
+	nodePoolRepresentation = map[string]interface{}{
+		"cluster_id":          Representation{repType: Required, create: `${oci_containerengine_cluster.test_cluster.id}`},
+		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
+		"kubernetes_version":  Representation{repType: Required, create: `v1.10.3`},
+		"name":                Representation{repType: Required, create: `name`, update: `name2`},
+		"node_image_name":     Representation{repType: Required, create: `Oracle-Linux-7.4`},
+		"node_shape":          Representation{repType: Required, create: `VM.Standard1.1`},
+		"subnet_ids":          Representation{repType: Required, create: []string{"${oci_core_subnet.nodePool_Subnet_1.id}"}},
+		"initial_node_labels": RepresentationGroup{Optional, nodePoolInitialNodeLabelsRepresentation},
+		"quantity_per_subnet": Representation{repType: Optional, create: `1`, update: `2`},
+		"ssh_public_key":      Representation{repType: Optional, create: `ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample`},
+	}
+	nodePoolInitialNodeLabelsRepresentation = map[string]interface{}{
+		"key":   Representation{repType: Optional, create: `key`, update: `key2`},
+		"value": Representation{repType: Optional, create: `value`, update: `value2`},
+	}
+
+	NodePoolResourceDependencies = ClusterRequiredOnlyResource +
+		generateResourceFromRepresentationMap("oci_core_subnet", "nodePool_Subnet_1", Required, Create,
+			getUpdatedRepresentationCopy("cidr_block", Representation{repType: Required, create: `10.0.22.0/24`}, subnetRepresentation)) +
+		generateResourceFromRepresentationMap("oci_core_subnet", "nodePool_Subnet_2", Required, Create,
+			getUpdatedRepresentationCopy("cidr_block", Representation{repType: Required, create: `10.0.23.0/24`}, subnetRepresentation))
 )
 
 func TestContainerengineNodePoolResource_basic(t *testing.T) {
@@ -103,7 +80,8 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + NodePoolPropertyVariables + compartmentIdVariableStr + NodePoolRequiredOnlyResource,
+				Config: config + compartmentIdVariableStr + NodePoolResourceDependencies +
+					generateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", Required, Create, nodePoolRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "cluster_id"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -126,7 +104,8 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 			},
 			// verify create with optionals
 			{
-				Config: config + NodePoolPropertyVariables + compartmentIdVariableStr + NodePoolResourceConfig,
+				Config: config + compartmentIdVariableStr + NodePoolResourceDependencies +
+					generateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", Optional, Create, nodePoolRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "cluster_id"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -137,7 +116,7 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "name", "name"),
 					resource.TestCheckResourceAttr(resourceName, "node_image_name", "Oracle-Linux-7.4"),
 					resource.TestCheckResourceAttr(resourceName, "node_shape", "VM.Standard1.1"),
-					resource.TestCheckResourceAttr(resourceName, "quantity_per_subnet", "2"),
+					resource.TestCheckResourceAttr(resourceName, "quantity_per_subnet", "1"),
 					resource.TestCheckResourceAttr(resourceName, "ssh_public_key", "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample"),
 					resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "1"),
 
@@ -150,18 +129,8 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + `
-variable "node_pool_initial_node_labels_key" { default = "key2" }
-variable "node_pool_initial_node_labels_value" { default = "value2" }
-variable "node_pool_kubernetes_version" { default = "v1.10.3" }
-variable "node_pool_name" { default = "name2" }
-variable "node_pool_node_image_name" { default = "Oracle-Linux-7.4" }
-variable "node_pool_node_shape" { default = "VM.Standard1.1" }
-variable "node_pool_quantity_per_subnet" { default = "2" }
-variable "node_pool_ssh_public_key" { default = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample" }
-variable "node_pool_subnet_ids" { default = [] }
-
-                ` + compartmentIdVariableStr + NodePoolResourceConfig,
+				Config: config + compartmentIdVariableStr + NodePoolResourceDependencies +
+					generateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", Optional, Update, nodePoolRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "cluster_id"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -187,31 +156,10 @@ variable "node_pool_subnet_ids" { default = [] }
 			},
 			// verify datasource
 			{
-				Config: config + `
-variable "node_pool_initial_node_labels_key" { default = "key2" }
-variable "node_pool_initial_node_labels_value" { default = "value2" }
-variable "node_pool_kubernetes_version" { default = "v1.10.3" }
-variable "node_pool_name" { default = "name2" }
-variable "node_pool_node_image_name" { default = "Oracle-Linux-7.4" }
-variable "node_pool_node_shape" { default = "VM.Standard1.1" }
-variable "node_pool_quantity_per_subnet" { default = "2" }
-variable "node_pool_ssh_public_key" { default = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample" }
-variable "node_pool_subnet_ids" { default = [] }
-
-data "oci_containerengine_node_pools" "test_node_pools" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-
-	#Optional
-	cluster_id = "${oci_containerengine_cluster.test_cluster.id}"
-	name = "${var.node_pool_name}"
-
-    filter {
-    	name = "id"
-    	values = ["${oci_containerengine_node_pool.test_node_pool.id}"]
-    }
-}
-                ` + compartmentIdVariableStr + NodePoolResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_containerengine_node_pools", "test_node_pools", Optional, Update, nodePoolDataSourceRepresentation) +
+					compartmentIdVariableStr + NodePoolResourceDependencies +
+					generateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", Optional, Update, nodePoolRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "cluster_id"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -234,22 +182,9 @@ data "oci_containerengine_node_pools" "test_node_pools" {
 			},
 			// verify singular datasource
 			{
-				Config: config + `
-variable "node_pool_initial_node_labels_key" { default = "key2" }
-variable "node_pool_initial_node_labels_value" { default = "value2" }
-variable "node_pool_kubernetes_version" { default = "v1.10.3" }
-variable "node_pool_name" { default = "name2" }
-variable "node_pool_node_image_name" { default = "Oracle-Linux-7.4" }
-variable "node_pool_node_shape" { default = "VM.Standard1.1" }
-variable "node_pool_quantity_per_subnet" { default = "2" }
-variable "node_pool_ssh_public_key" { default = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample" }
-variable "node_pool_subnet_ids" { default = [] }
-
-data "oci_containerengine_node_pool" "test_node_pool" {
-	#Required
-	node_pool_id = "${oci_containerengine_node_pool.test_node_pool.id}"
-}
-                ` + compartmentIdVariableStr + NodePoolResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", Required, Create, nodePoolSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + NodePoolResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "cluster_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "node_pool_id"),
@@ -270,18 +205,7 @@ data "oci_containerengine_node_pool" "test_node_pool" {
 			},
 			// remove singular datasource from previous step so that it doesn't conflict with import tests
 			{
-				Config: config + `
-variable "node_pool_initial_node_labels_key" { default = "key2" }
-variable "node_pool_initial_node_labels_value" { default = "value2" }
-variable "node_pool_kubernetes_version" { default = "v1.10.3" }
-variable "node_pool_name" { default = "name2" }
-variable "node_pool_node_image_name" { default = "Oracle-Linux-7.4" }
-variable "node_pool_node_shape" { default = "VM.Standard1.1" }
-variable "node_pool_quantity_per_subnet" { default = "2" }
-variable "node_pool_ssh_public_key" { default = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample" }
-variable "node_pool_subnet_ids" { default = [] }
-
-                ` + compartmentIdVariableStr + NodePoolResourceConfig,
+				Config: config + compartmentIdVariableStr + NodePoolResourceConfig,
 			},
 			// verify resource import
 			{

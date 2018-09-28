@@ -13,55 +13,38 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-const (
-	VnicAttachmentRequiredOnlyResource = VnicAttachmentResourceDependencies + `
-resource "oci_core_vnic_attachment" "test_vnic_attachment" {
-	#Required
-	create_vnic_details {
-		#Required
-		subnet_id = "${oci_core_subnet.t.id}"
+var (
+	VnicAttachmentRequiredOnlyResource = VnicAttachmentResourceDependencies +
+		generateResourceFromRepresentationMap("oci_core_vnic_attachment", "test_vnic_attachment", Required, Create, vnicAttachmentRepresentation)
+
+	vnicAttachmentDataSourceRepresentation = map[string]interface{}{
+		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
+		"availability_domain": Representation{repType: Optional, create: `${lookup(data.oci_identity_availability_domains.test_availability_domains.availability_domains[0],"name")}`},
+		"instance_id":         Representation{repType: Optional, create: `${oci_core_instance.test_instance.id}`},
+		"filter":              RepresentationGroup{Required, vnicAttachmentDataSourceFilterRepresentation}}
+	vnicAttachmentDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   Representation{repType: Required, create: `id`},
+		"values": Representation{repType: Required, create: []string{`${oci_core_vnic_attachment.test_vnic_attachment.id}`}},
 	}
-	instance_id = "${oci_core_instance.t.id}"
-}
-`
 
-	VnicAttachmentResourceConfig = VnicAttachmentResourceDependencies + `
-resource "oci_core_vnic_attachment" "test_vnic_attachment" {
-	#Required
-	create_vnic_details {
-		#Required
-		subnet_id = "${oci_core_subnet.t.id}"
-
-		#Optional
-		assign_public_ip = "${var.vnic_attachment_create_vnic_details_assign_public_ip}"
-		defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.vnic_attachment_create_vnic_details_defined_tags_value}")}"
-		display_name = "${var.vnic_attachment_create_vnic_details_display_name}"
-		freeform_tags = "${var.vnic_attachment_create_vnic_details_freeform_tags}"
-		hostname_label = "${var.vnic_attachment_create_vnic_details_hostname_label}"
-		private_ip = "${var.vnic_attachment_create_vnic_details_private_ip}"
-		skip_source_dest_check = "${var.vnic_attachment_create_vnic_details_skip_source_dest_check}"
+	vnicAttachmentRepresentation = map[string]interface{}{
+		"create_vnic_details": RepresentationGroup{Required, vnicAttachmentCreateVnicDetailsRepresentation},
+		"instance_id":         Representation{repType: Required, create: `${oci_core_instance.test_instance.id}`},
+		"display_name":        Representation{repType: Optional, create: `displayName`},
+		"nic_index":           Representation{repType: Optional, create: `0`},
 	}
-	instance_id = "${oci_core_instance.t.id}"
+	vnicAttachmentCreateVnicDetailsRepresentation = map[string]interface{}{
+		"subnet_id":              Representation{repType: Required, create: `${oci_core_subnet.test_subnet.id}`},
+		"assign_public_ip":       Representation{repType: Optional, create: `false`},
+		"defined_tags":           Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":           Representation{repType: Optional, create: `displayName`},
+		"freeform_tags":          Representation{repType: Optional, create: map[string]string{"Department": "Accounting"}, update: map[string]string{"freeformTags2": "freeformTags2"}},
+		"hostname_label":         Representation{repType: Optional, create: `attachvnictestinstance`},
+		"private_ip":             Representation{repType: Optional, create: `10.0.1.5`},
+		"skip_source_dest_check": Representation{repType: Optional, create: `false`},
+	}
 
-	#Optional
-	display_name = "${var.vnic_attachment_display_name}"
-	nic_index = "${var.vnic_attachment_nic_index}"
-}
-`
-	VnicAttachmentPropertyVariables = `
-variable "vnic_attachment_availability_domain" { default = "availabilityDomain" }
-variable "vnic_attachment_create_vnic_details_assign_public_ip" { default = false }
-variable "vnic_attachment_create_vnic_details_defined_tags_value" { default = "definedTags" }
-variable "vnic_attachment_create_vnic_details_display_name" { default = "displayName" }
-variable "vnic_attachment_create_vnic_details_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "vnic_attachment_create_vnic_details_hostname_label" { default = "attachvnictestinstance" }
-variable "vnic_attachment_create_vnic_details_private_ip" { default = "10.0.1.5" }
-variable "vnic_attachment_create_vnic_details_skip_source_dest_check" { default = false }
-variable "vnic_attachment_display_name" { default = "displayName" }
-variable "vnic_attachment_nic_index" { default = "0" }
-
-`
-	VnicAttachmentResourceDependencies = instanceDnsConfig + VnicPropertyVariables + VnicResourceConfig
+	VnicAttachmentResourceDependencies = InstanceRequiredOnlyResource + VnicResourceConfig
 )
 
 func TestCoreVnicAttachmentResource_basic(t *testing.T) {
@@ -83,7 +66,8 @@ func TestCoreVnicAttachmentResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + VnicAttachmentPropertyVariables + compartmentIdVariableStr + VnicAttachmentRequiredOnlyResource,
+				Config: config + compartmentIdVariableStr + VnicAttachmentResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_vnic_attachment", "test_vnic_attachment", Required, Create, vnicAttachmentRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "create_vnic_details.0.subnet_id"),
@@ -98,7 +82,8 @@ func TestCoreVnicAttachmentResource_basic(t *testing.T) {
 			},
 			// verify create with optionals
 			{
-				Config: config + VnicAttachmentPropertyVariables + compartmentIdVariableStr + VnicAttachmentResourceConfig,
+				Config: config + compartmentIdVariableStr + VnicAttachmentResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_vnic_attachment", "test_vnic_attachment", Optional, Create, vnicAttachmentRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
@@ -124,31 +109,10 @@ func TestCoreVnicAttachmentResource_basic(t *testing.T) {
 
 			// verify datasource
 			{
-				Config: config + `
-variable "vnic_attachment_availability_domain" { default = "availabilityDomain" }
-variable "vnic_attachment_create_vnic_details_assign_public_ip" { default = false }
-variable "vnic_attachment_create_vnic_details_defined_tags_value" { default = "definedTags" }
-variable "vnic_attachment_create_vnic_details_display_name" { default = "displayName" }
-variable "vnic_attachment_create_vnic_details_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "vnic_attachment_create_vnic_details_hostname_label" { default = "attachvnictestinstance" }
-variable "vnic_attachment_create_vnic_details_private_ip" { default = "10.0.1.5" }
-variable "vnic_attachment_create_vnic_details_skip_source_dest_check" { default = false }
-variable "vnic_attachment_display_name" { default = "displayName" }
-variable "vnic_attachment_nic_index" { default = "0" }
-
-data "oci_core_vnic_attachments" "test_vnic_attachments" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-
-	#Optional
-	instance_id = "${oci_core_instance.t.id}"
-
-    filter {
-    	name = "id"
-    	values = ["${oci_core_vnic_attachment.test_vnic_attachment.id}"]
-    }
-}
-                ` + compartmentIdVariableStr + VnicAttachmentResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_core_vnic_attachments", "test_vnic_attachments", Optional, Update, vnicAttachmentDataSourceRepresentation) +
+					compartmentIdVariableStr + VnicAttachmentResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_vnic_attachment", "test_vnic_attachment", Optional, Update, vnicAttachmentRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "instance_id"),

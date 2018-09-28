@@ -13,17 +13,21 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-const (
-	VolumeBackupPolicyAssignmentResourceConfig = VolumeBackupPolicyAssignmentResourceDependencies + `
-resource "oci_core_volume_backup_policy_assignment" "test_volume_backup_policy_assignment" {
-	asset_id = "${oci_core_volume.test_volume.id}"
-	policy_id = "${data.oci_core_volume_backup_policies.test_volume_backup_policies.volume_backup_policies.0.id}"
-}
-`
-	VolumeBackupPolicyAssignmentPropertyVariables = `
+var (
+	volumeBackupPolicyAssignmentDataSourceRepresentation = map[string]interface{}{
+		"asset_id": Representation{repType: Required, create: `${oci_core_volume.test_volume.id}`},
+		"filter":   RepresentationGroup{Required, volumeBackupPolicyAssignmentDataSourceFilterRepresentation}}
+	volumeBackupPolicyAssignmentDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   Representation{repType: Required, create: `id`},
+		"values": Representation{repType: Required, create: []string{`${oci_core_volume_backup_policy_assignment.test_volume_backup_policy_assignment.id}`}},
+	}
 
-`
-	VolumeBackupPolicyAssignmentResourceDependencies = VolumePropertyVariables + VolumeResourceConfig
+	volumeBackupPolicyAssignmentRepresentation = map[string]interface{}{
+		"asset_id":  Representation{repType: Required, create: `${oci_core_volume.test_volume.id}`},
+		"policy_id": Representation{repType: Required, create: `${data.oci_core_volume_backup_policies.test_volume_backup_policies.volume_backup_policies.0.id}`},
+	}
+
+	VolumeBackupPolicyAssignmentResourceDependencies = VolumeResourceConfig
 )
 
 func TestCoreVolumeBackupPolicyAssignmentResource_basic(t *testing.T) {
@@ -45,7 +49,8 @@ func TestCoreVolumeBackupPolicyAssignmentResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + VolumeBackupPolicyAssignmentPropertyVariables + compartmentIdVariableStr + VolumeBackupPolicyAssignmentResourceConfig,
+				Config: config + compartmentIdVariableStr + VolumeBackupPolicyAssignmentResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_volume_backup_policy_assignment", "test_volume_backup_policy_assignment", Required, Create, volumeBackupPolicyAssignmentRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "asset_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "policy_id"),
@@ -54,18 +59,10 @@ func TestCoreVolumeBackupPolicyAssignmentResource_basic(t *testing.T) {
 
 			// verify datasource
 			{
-				Config: config + `
-
-data "oci_core_volume_backup_policy_assignments" "test_volume_backup_policy_assignments" {
-	#Required
-	asset_id = "${oci_core_volume.test_volume.id}"
-
-    filter {
-        name = "id"
-        values = ["${oci_core_volume_backup_policy_assignment.test_volume_backup_policy_assignment.id}"]
-    }
-}
-                ` + compartmentIdVariableStr + VolumeBackupPolicyAssignmentResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_core_volume_backup_policy_assignments", "test_volume_backup_policy_assignments", Optional, Update, volumeBackupPolicyAssignmentDataSourceRepresentation) +
+					compartmentIdVariableStr + VolumeBackupPolicyAssignmentResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_volume_backup_policy_assignment", "test_volume_backup_policy_assignment", Optional, Update, volumeBackupPolicyAssignmentRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "asset_id"),
 

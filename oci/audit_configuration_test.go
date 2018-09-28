@@ -10,17 +10,19 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 )
 
-const (
-	ConfigurationResourceConfig = ConfigurationResourceDependencies + `
-resource "oci_audit_configuration" "test_configuration" {
-	compartment_id = "${var.tenancy_ocid}"
-	retention_period_days = "${var.configuration_retention_period_days_value}"
-}
-`
-	ConfigurationPropertyVariables = `
-variable "configuration_retention_period_days_value" { default = "100" }
+var (
+	ConfigurationResourceConfig = ConfigurationResourceDependencies +
+		generateResourceFromRepresentationMap("oci_audit_configuration", "test_configuration", Required, Create, configurationRepresentation)
 
-`
+	configurationSingularDataSourceRepresentation = map[string]interface{}{
+		"compartment_id": Representation{repType: Required, create: `${var.tenancy_ocid}`},
+	}
+
+	configurationRepresentation = map[string]interface{}{
+		"compartment_id":        Representation{repType: Required, create: `${var.tenancy_ocid}`},
+		"retention_period_days": Representation{repType: Required, create: `100`, update: `91`},
+	}
+
 	ConfigurationResourceDependencies = ""
 )
 
@@ -42,7 +44,8 @@ func TestAuditConfigurationResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + ConfigurationPropertyVariables + ConfigurationResourceConfig,
+				Config: config + ConfigurationResourceDependencies +
+					generateResourceFromRepresentationMap("oci_audit_configuration", "test_configuration", Required, Create, configurationRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "retention_period_days", "100"),
 					func(s *terraform.State) (err error) {
@@ -54,10 +57,8 @@ func TestAuditConfigurationResource_basic(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + `
-variable "configuration_retention_period_days_value" { default = "91" }
-
-                ` + ConfigurationResourceConfig,
+				Config: config + ConfigurationResourceDependencies +
+					generateResourceFromRepresentationMap("oci_audit_configuration", "test_configuration", Optional, Update, configurationRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "retention_period_days", "91"),
 					func(s *terraform.State) (err error) {
@@ -71,14 +72,9 @@ variable "configuration_retention_period_days_value" { default = "91" }
 			},
 			// verify singular datasource
 			{
-				Config: config + `
-variable "configuration_retention_period_days_value" { default = "91" }
-
-data "oci_audit_configuration" "test_configuration" {
-	#Required
-	compartment_id = "${var.tenancy_ocid}"
-}
-                ` + ConfigurationResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_audit_configuration", "test_configuration", Required, Create, configurationSingularDataSourceRepresentation) +
+					ConfigurationResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
 
