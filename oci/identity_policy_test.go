@@ -130,7 +130,7 @@ variable "policy_defined_tags_value" { default = "updatedValue" }
 variable "policy_description" { default = "description2" }
 variable "policy_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "policy_name" { default = "LaunchInstances" }
-variable "policy_version_date" { default = "" }
+variable "policy_version_date" { default = "2018-01-01" }
 
                 ` + compartmentIdVariableStr + PolicyResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
@@ -143,7 +143,7 @@ variable "policy_version_date" { default = "" }
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttr(resourceName, "statements.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckNoResourceAttr(resourceName, "version_date"),
+					resource.TestCheckResourceAttr(resourceName, "version_date", "2018-01-01"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, resourceName, "id")
@@ -161,7 +161,7 @@ variable "policy_defined_tags_value" { default = "updatedValue" }
 variable "policy_description" { default = "description2" }
 variable "policy_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "policy_name" { default = "LaunchInstances" }
-variable "policy_version_date" { default = "" }
+variable "policy_version_date" { default = "2018-01-01" }
 
 data "oci_identity_policies" "test_policies" {
 	#Required
@@ -186,7 +186,7 @@ data "oci_identity_policies" "test_policies" {
 					resource.TestCheckResourceAttrSet(datasourceName, "policies.0.state"),
 					resource.TestCheckResourceAttr(datasourceName, "policies.0.statements.#", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "policies.0.time_created"),
-					resource.TestCheckNoResourceAttr(resourceName, "policies.0.version_date"),
+					resource.TestCheckResourceAttr(datasourceName, "policies.0.version_date", "2018-01-01"),
 				),
 			},
 			// verify resource import
