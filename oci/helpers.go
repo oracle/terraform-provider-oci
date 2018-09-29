@@ -68,9 +68,16 @@ func validateInt64TypeString(v interface{}, k string) (ws []string, errors []err
 }
 
 func int64StringDiffSuppressFunction(key string, old string, new string, d *schema.ResourceData) bool {
-	//  We can ignore the error since the validate func takes care of this before it reaches here
-	oldIntVal, _ := strconv.ParseInt(old, 10, 64)
-	newIntVal, _ := strconv.ParseInt(new, 10, 64)
+	// We may get interpolation syntax in this function call as well; so be sure to check for errors.
+	oldIntVal, err := strconv.ParseInt(old, 10, 64)
+	if err != nil {
+		return false
+	}
+
+	newIntVal, err := strconv.ParseInt(new, 10, 64)
+	if err != nil {
+		return false
+	}
 	return oldIntVal == newIntVal
 }
 
