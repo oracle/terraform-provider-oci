@@ -35,6 +35,7 @@ type LaunchOptions struct {
 	// Emulation type for NIC.
 	// * `E1000` - Emulated Gigabit ethernet controller.  Compatible with Linux e1000 network driver.
 	// * `VFIO` - Direct attached Virtual Function network controller.  Default for Oracle provided images.
+	// * `PARAVIRTUALIZED` - VM instances launch with paravirtualized devices using virtio drivers.
 	NetworkType LaunchOptionsNetworkTypeEnum `mandatory:"true" json:"networkType"`
 
 	// Emulation type for volume.
@@ -109,13 +110,15 @@ type LaunchOptionsNetworkTypeEnum string
 
 // Set of constants representing the allowable values for LaunchOptionsNetworkType
 const (
-	LaunchOptionsNetworkTypeE1000 LaunchOptionsNetworkTypeEnum = "E1000"
-	LaunchOptionsNetworkTypeVfio  LaunchOptionsNetworkTypeEnum = "VFIO"
+	LaunchOptionsNetworkTypeE1000           LaunchOptionsNetworkTypeEnum = "E1000"
+	LaunchOptionsNetworkTypeVfio            LaunchOptionsNetworkTypeEnum = "VFIO"
+	LaunchOptionsNetworkTypeParavirtualized LaunchOptionsNetworkTypeEnum = "PARAVIRTUALIZED"
 )
 
 var mappingLaunchOptionsNetworkType = map[string]LaunchOptionsNetworkTypeEnum{
-	"E1000": LaunchOptionsNetworkTypeE1000,
-	"VFIO":  LaunchOptionsNetworkTypeVfio,
+	"E1000":           LaunchOptionsNetworkTypeE1000,
+	"VFIO":            LaunchOptionsNetworkTypeVfio,
+	"PARAVIRTUALIZED": LaunchOptionsNetworkTypeParavirtualized,
 }
 
 // GetLaunchOptionsNetworkTypeEnumValues Enumerates the set of values for LaunchOptionsNetworkType
