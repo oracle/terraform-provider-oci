@@ -69,10 +69,11 @@ type ListMultipartUploadPartsResponse struct {
 	// request, provide this request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
-	// For pagination of a list of `MultipartUploadPartSummary`s. If this header appears in the response,
-	// then this is a partial list of object parts. Include this value as the `page` parameter in a subsequent
-	// GET request to get the next batch of object parts. For information about pagination, see
-	// List Pagination (https://docs.us-phoenix-1.oraclecloud.com/Content/API/Concepts/usingapi.htm).
+	// Paginating a list of items.
+	// In the GET request, set the limit to the number of object parts that you want returned in the response. If
+	// the opc-next-page header appears in the response, then this is a partial list and there are additional object
+	// parts to get. Include the header's value as the `page` parameter in the subsequent GET request to get the next
+	// batch of object parts. Repeat this process to retrieve the entire list of object parts.
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 }
 

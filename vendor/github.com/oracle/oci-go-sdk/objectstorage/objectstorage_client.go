@@ -141,7 +141,8 @@ func (client ObjectStorageClient) commitMultipartUpload(ctx context.Context, req
 	return response, err
 }
 
-// CreateBucket Creates a bucket in the given namespace with a bucket name and optional user-defined metadata.
+// CreateBucket Creates a bucket in the given namespace with a bucket name and optional user-defined metadata. Avoid entering confidential
+// information in bucket names.
 func (client ObjectStorageClient) CreateBucket(ctx context.Context, request CreateBucketRequest) (response CreateBucketResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -907,7 +908,7 @@ func (client ObjectStorageClient) listPreauthenticatedRequests(ctx context.Conte
 	return response, err
 }
 
-// PutObject Creates a new object or overwrites an existing one.
+// PutObject Creates a new object or overwrites an existing one. See Special Instructions for Object Storage PUT (https://docs.us-phoenix-1.oraclecloud.com/Content/API/Concepts/signingrequests.htm#ObjectStoragePut) for request signature requirements.
 func (client ObjectStorageClient) PutObject(ctx context.Context, request PutObjectRequest) (response PutObjectResponse, err error) {
 	client.Signer = common.RequestSignerExcludeBody(*client.config)
 	var ociResponse common.OCIResponse
@@ -1122,7 +1123,7 @@ func (client ObjectStorageClient) updateNamespaceMetadata(ctx context.Context, r
 	return response, err
 }
 
-// UploadPart Uploads a single part of a multipart upload.
+// UploadPart Uploads a single part of a multipart upload. See Special Instructions for Object Storage PUT (https://docs.us-phoenix-1.oraclecloud.com/Content/API/Concepts/signingrequests.htm#ObjectStoragePut) for request signature requirements.
 func (client ObjectStorageClient) UploadPart(ctx context.Context, request UploadPartRequest) (response UploadPartResponse, err error) {
 	client.Signer = common.RequestSignerExcludeBody(*client.config)
 	var ociResponse common.OCIResponse

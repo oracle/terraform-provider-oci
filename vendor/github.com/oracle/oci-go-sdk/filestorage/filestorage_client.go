@@ -66,6 +66,11 @@ func (client FileStorageClient) CreateExport(ctx context.Context, request Create
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
 	ociResponse, err = common.Retry(ctx, request, client.createExport, policy)
 	if err != nil {
 		if ociResponse != nil {
@@ -129,6 +134,11 @@ func (client FileStorageClient) CreateFileSystem(ctx context.Context, request Cr
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
 	ociResponse, err = common.Retry(ctx, request, client.createFileSystem, policy)
 	if err != nil {
 		if ociResponse != nil {
@@ -198,6 +208,11 @@ func (client FileStorageClient) CreateMountTarget(ctx context.Context, request C
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
 	ociResponse, err = common.Retry(ctx, request, client.createMountTarget, policy)
 	if err != nil {
 		if ociResponse != nil {
@@ -241,6 +256,11 @@ func (client FileStorageClient) CreateSnapshot(ctx context.Context, request Crea
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
 	ociResponse, err = common.Retry(ctx, request, client.createSnapshot, policy)
 	if err != nil {
 		if ociResponse != nil {
