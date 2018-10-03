@@ -97,7 +97,7 @@ The following arguments are supported:
 ```hcl
 data "oci_core_cross_connect" "test_cross_connect" {
 	#Required
-	cross_connect_id = "${var.cross_connect_cross_connect_id}"
+	cross_connect_id = "${oci_core_cross_connect.test_cross_connect.id}"
 }
 ```
 # oci_core_cross_connects

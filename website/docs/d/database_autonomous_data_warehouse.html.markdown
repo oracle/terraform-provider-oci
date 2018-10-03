@@ -17,7 +17,7 @@ Gets the details of the specified Autonomous Data Warehouse.
 ```hcl
 data "oci_database_autonomous_data_warehouse" "test_autonomous_data_warehouse" {
 	#Required
-	autonomous_data_warehouse_id = "${var.autonomous_data_warehouse_autonomous_data_warehouse_id}"
+	autonomous_data_warehouse_id = "${oci_database_autonomous_data_warehouse.test_autonomous_data_warehouse.id}"
 }
 ```
 

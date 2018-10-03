@@ -96,7 +96,7 @@ The following arguments are supported:
 ```hcl
 data "oci_database_autonomous_database" "test_autonomous_database" {
 	#Required
-	autonomous_database_id = "${var.autonomous_database_autonomous_database_id}"
+	autonomous_database_id = "${oci_database_autonomous_database.test_autonomous_database.id}"
 }
 ```
 # oci_database_autonomous_databases

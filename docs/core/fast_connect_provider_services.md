@@ -32,7 +32,7 @@ The following arguments are supported:
 ```hcl
 data "oci_core_fast_connect_provider_service" "test_fast_connect_provider_service" {
 	#Required
-	provider_service_id = "${var.fast_connect_provider_service_provider_service_id}"
+	provider_service_id = "${oci_core_fast_connect_provider_service.test_provider_service.id}"
 }
 ```
 # oci_core_fast_connect_provider_services

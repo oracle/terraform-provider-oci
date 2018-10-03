@@ -38,7 +38,7 @@ The following arguments are supported:
 ```hcl
 data "oci_database_database" "test_database" {
 	#Required
-	database_id = "${var.database_database_id}"
+	database_id = "${oci_database_database.test_database.id}"
 }
 ```
 # oci_database_databases

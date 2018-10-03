@@ -59,7 +59,7 @@ The following arguments are supported:
 ```hcl
 data "oci_email_sender" "test_sender" {
 	#Required
-	sender_id = "${var.sender_sender_id}"
+	sender_id = "${oci_email_sender.test_sender.id}"
 }
 ```
 # oci_email_senders
