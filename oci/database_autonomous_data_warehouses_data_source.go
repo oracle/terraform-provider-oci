@@ -124,6 +124,10 @@ func (s *AutonomousDataWarehousesDataSourceCrud) SetData() error {
 			autonomousDataWarehouse["db_name"] = *r.DbName
 		}
 
+		if r.DbVersion != nil {
+			autonomousDataWarehouse["db_version"] = *r.DbVersion
+		}
+
 		if r.DefinedTags != nil {
 			autonomousDataWarehouse["defined_tags"] = definedTagsToMap(r.DefinedTags)
 		}
