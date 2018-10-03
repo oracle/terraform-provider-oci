@@ -32,3 +32,7 @@ output "autonomous_database_admin_password" {
 output "autonomous_databases" {
   value = "${data.oci_database_autonomous_databases.autonomous_databases.autonomous_databases}"
 }
+
+output "parallel_connection_string" {
+  value = ["${lookup(oci_database_autonomous_database.autonomous_database.connection_strings.0.all_connection_strings, "PARALLEL", "Unavailable")}"]
+}

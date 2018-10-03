@@ -30,7 +30,7 @@ data "oci_database_autonomous_data_warehouse_backups" "test_autonomous_data_ware
 The following arguments are supported:
 
 * `autonomous_data_warehouse_id` - (Optional) The database [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
-* `compartment_id` - (Optional) The compartment OCID.
+* `compartment_id` - (Optional) The compartment [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
 * `display_name` - (Optional) A filter to return only resources that match the entire display name given. The match is not case sensitive.
 * `state` - (Optional) A filter to return only resources that match the given lifecycle state exactly.
 
@@ -46,7 +46,7 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `autonomous_data_warehouse_id` - The [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the Autonomous Data Warehouse.
-* `compartment_id` - The OCID of the compartment.
+* `compartment_id` - The [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the compartment.
 * `display_name` - The user-friendly name for the backup. The name does not have to be unique.
 * `id` - The [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the Autonomous Data Warehouse backup.
 * `is_automatic` - Indicates whether the backup is user-initiated or automatic.

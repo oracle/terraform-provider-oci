@@ -37,6 +37,9 @@ func TestDatabaseAutonomousDataWarehouseBackupResource_basic(t *testing.T) {
 	datasourceName := "data.oci_database_autonomous_data_warehouse_backups.test_autonomous_data_warehouse_backups"
 	singularDatasourceName := "data.oci_database_autonomous_data_warehouse_backup.test_autonomous_data_warehouse_backup"
 
+	testResourceName := GenerateTestResourceName("adwdb1", 14)
+	setEnvSetting("TF_VAR_autonomous_data_warehouse_db_name", testResourceName)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{
