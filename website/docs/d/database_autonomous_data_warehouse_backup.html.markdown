@@ -16,7 +16,7 @@ Gets information about the specified Autonomous Data Warehouse backup.
 ```hcl
 data "oci_database_autonomous_data_warehouse_backup" "test_autonomous_data_warehouse_backup" {
 	#Required
-	autonomous_data_warehouse_backup_id = "${var.autonomous_data_warehouse_backup_autonomous_data_warehouse_backup_id}"
+	autonomous_data_warehouse_backup_id = "${oci_database_autonomous_data_warehouse_backup.test_autonomous_data_warehouse_backup.id}"
 }
 ```
 

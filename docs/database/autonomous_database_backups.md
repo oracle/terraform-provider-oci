@@ -65,7 +65,7 @@ The following arguments are supported:
 ```hcl
 data "oci_database_autonomous_database_backup" "test_autonomous_database_backup" {
 	#Required
-	autonomous_database_backup_id = "${var.autonomous_database_backup_autonomous_database_backup_id}"
+	autonomous_database_backup_id = "${oci_database_autonomous_database_backup.test_autonomous_database_backup.id}"
 }
 ```
 # oci_database_autonomous_database_backups

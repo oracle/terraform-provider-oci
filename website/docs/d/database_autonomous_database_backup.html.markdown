@@ -16,7 +16,7 @@ Gets information about the specified Autonomous Database backup.
 ```hcl
 data "oci_database_autonomous_database_backup" "test_autonomous_database_backup" {
 	#Required
-	autonomous_database_backup_id = "${var.autonomous_database_backup_autonomous_database_backup_id}"
+	autonomous_database_backup_id = "${oci_database_autonomous_database_backup.test_autonomous_database_backup.id}"
 }
 ```
 

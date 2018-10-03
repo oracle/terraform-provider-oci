@@ -18,7 +18,7 @@ Gets the details of a suppressed recipient email address for a given
 ```hcl
 data "oci_email_suppression" "test_suppression" {
 	#Required
-	suppression_id = "${var.suppression_suppression_id}"
+	suppression_id = "${oci_email_suppression.test_suppression.id}"
 }
 ```
 

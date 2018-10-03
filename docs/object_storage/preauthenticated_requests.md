@@ -78,7 +78,7 @@ data "oci_objectstorage_preauthrequest" "test_preauthenticated_request" {
 	#Required
 	bucket = "${var.preauthenticated_request_bucket}"
 	namespace = "${var.preauthenticated_request_namespace}"
-	par_id = "${var.preauthenticated_request_par_id}"
+	par_id = "${oci_objectstorage_preauthrequest.test_par.id}"
 }
 ```
 # oci_object_storage_preauthenticated_requests

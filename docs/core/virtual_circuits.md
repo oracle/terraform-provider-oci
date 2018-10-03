@@ -192,7 +192,7 @@ The following arguments are supported:
 ```hcl
 data "oci_core_virtual_circuit" "test_virtual_circuit" {
 	#Required
-	virtual_circuit_id = "${var.virtual_circuit_virtual_circuit_id}"
+	virtual_circuit_id = "${oci_core_virtual_circuit.test_virtual_circuit.id}"
 }
 ```
 # oci_core_virtual_circuits

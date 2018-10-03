@@ -30,7 +30,7 @@ The following arguments are supported:
 ```hcl
 data "oci_database_db_node" "test_db_node" {
 	#Required
-	db_node_id = "${var.db_node_db_node_id}"
+	db_node_id = "${oci_database_db_node.test_db_node.id}"
 }
 ```
 # oci_database_db_nodes
