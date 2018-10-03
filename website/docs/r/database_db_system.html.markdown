@@ -18,7 +18,7 @@ see [Default Options for the Initial Database](https://docs.us-phoenix-1.oraclec
 
 The DB System will include a command line interface (CLI) that you can use to create additional databases and
 manage existing databases. For more information, see the
-[Oracle Database CLI Reference](https://docs.us-phoenix-1.oraclecloud.com/Content/Database/References/odacli.htm#Oracle_Database_CLI_Reference).
+[Oracle Database CLI Reference](https://docs.cloud.oracle.com/iaas/Content/Database/References/dbacli.htm).
 
 
 ## Example Usage
