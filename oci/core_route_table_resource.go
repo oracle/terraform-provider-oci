@@ -31,13 +31,12 @@ func RouteTableResource() *schema.Resource {
 				ForceNew: true,
 			},
 			"route_rules": {
-				Type: schema.TypeSet,
+				Type: schema.TypeList,
 				// Code-gen and specs say this should be required and has a max item limit
 				// Keep it optional to continue to allow empty route_rules and avoid a breaking change.
 				// Also remove the max item limit, to avoid a potential breaking change.
 				Optional: true,
 				MinItems: 0,
-				Set:      routeRulesHashCodeForSets,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -207,21 +206,27 @@ func (s *RouteTableResourceCrud) Create() error {
 	}
 
 	request.RouteRules = []oci_core.RouteRule{}
-	if routeRules, ok := s.D.GetOkExists("route_rules"); ok {
-		set := routeRules.(*schema.Set)
-		interfaces := set.List()
-		tmp := make([]oci_core.RouteRule, len(interfaces))
-		for i := range interfaces {
-			stateDataIndex := routeRulesHashCodeForSets(interfaces[i])
-			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "route_rules", stateDataIndex)
-			converted, err := s.mapToRouteRule(fieldKeyFormat)
-			if err != nil {
-				return err
-			}
-			tmp[i] = converted
-		}
-		request.RouteRules = tmp
+	if _, ok := s.D.GetOk("route_rules"); ok {
+		request.RouteRules = expandRouteRules(s.D)
 	}
+
+	/*
+		request.RouteRules = []oci_core.RouteRule{}
+		if routeRules, ok := s.D.GetOkExists("route_rules"); ok {
+			set := routeRules.(*schema.Set)
+			interfaces := set.List()
+			tmp := make([]oci_core.RouteRule, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := routeRulesHashCodeForSets(interfaces[i])
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "route_rules", stateDataIndex)
+				converted, err := s.mapToRouteRule(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				tmp[i] = converted
+			}
+			request.RouteRules = tmp
+		}*/
 
 	if vcnId, ok := s.D.GetOkExists("vcn_id"); ok {
 		tmp := vcnId.(string)
@@ -276,22 +281,26 @@ func (s *RouteTableResourceCrud) Update() error {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	request.RouteRules = []oci_core.RouteRule{}
-	if routeRules, ok := s.D.GetOkExists("route_rules"); ok {
-		set := routeRules.(*schema.Set)
-		interfaces := set.List()
-		tmp := make([]oci_core.RouteRule, len(interfaces))
-		for i := range interfaces {
-			stateDataIndex := routeRulesHashCodeForSets(interfaces[i])
-			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "route_rules", stateDataIndex)
-			converted, err := s.mapToRouteRule(fieldKeyFormat)
-			if err != nil {
-				return err
-			}
-			tmp[i] = converted
-		}
-		request.RouteRules = tmp
+	if _, ok := s.D.GetOk("route_rules"); ok {
+		request.RouteRules = expandRouteRules(s.D)
 	}
+	/*
+		request.RouteRules = []oci_core.RouteRule{}
+		if routeRules, ok := s.D.GetOkExists("route_rules"); ok {
+			set := routeRules.(*schema.Set)
+			interfaces := set.List()
+			tmp := make([]oci_core.RouteRule, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := routeRulesHashCodeForSets(interfaces[i])
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "route_rules", stateDataIndex)
+				converted, err := s.mapToRouteRule(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				tmp[i] = converted
+			}
+			request.RouteRules = tmp
+		}*/
 
 	tmp := s.D.Id()
 	request.RtId = &tmp
@@ -334,11 +343,15 @@ func (s *RouteTableResourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
-	routeRules := []interface{}{}
-	for _, item := range s.Res.RouteRules {
-		routeRules = append(routeRules, RouteRuleToMap(item))
+	/*
+		routeRules := []interface{}{}
+		for _, item := range s.Res.RouteRules {
+			routeRules = append(routeRules, RouteRuleToMap(item))
+		}*/
+
+	if err := s.D.Set("route_rules", flattenRouteRules(s.Res.RouteRules)); err != nil {
+		return fmt.Errorf("error setting `route_rules`: %+v", err)
 	}
-	s.D.Set("route_rules", schema.NewSet(routeRulesHashCodeForSets, routeRules))
 
 	s.D.Set("state", s.Res.LifecycleState)
 
@@ -447,4 +460,54 @@ func routeRulesHashCodeForSets(v interface{}) int {
 		buf.WriteString(fmt.Sprintf("%v-", networkEntityId))
 	}
 	return hashcode.String(buf.String())
+}
+
+func expandRouteRules(d *schema.ResourceData) []oci_core.RouteRule {
+
+	configRules := d.Get("route_rules").([]interface{})
+
+	routeRules := make([]oci_core.RouteRule, 0)
+	for _, v := range configRules {
+		attrs := v.(map[string]interface{})
+
+		networkEntityID := attrs["network_entity_id"].(string)
+		routeRule := oci_core.RouteRule{
+			NetworkEntityId: &networkEntityID,
+		}
+
+		if v, ok := attrs["cidr_block"].(string); ok && v != "" {
+			routeRule.CidrBlock = &v
+		}
+
+		if v, ok := attrs["destination"].(string); ok && v != "" {
+			routeRule.Destination = &v
+		}
+
+		if v := attrs["destination_type"]; v != nil {
+			routeRule.DestinationType = oci_core.RouteRuleDestinationTypeEnum(v.(string))
+		}
+
+		routeRules = append(routeRules, routeRule)
+	}
+	return routeRules
+}
+
+func flattenRouteRules(input []oci_core.RouteRule) []interface{} {
+	result := make([]interface{}, 0)
+	if input == nil {
+		return result
+	}
+
+	for _, rule := range input {
+		output := make(map[string]interface{}, 0)
+
+		output["network_entity_id"] = string(*rule.NetworkEntityId)
+		output["cidr_block"] = string(*rule.CidrBlock)
+		output["destination"] = string(*rule.Destination)
+		output["destination_type"] = string(rule.DestinationType)
+
+		result = append(result, output)
+	}
+
+	return result
 }

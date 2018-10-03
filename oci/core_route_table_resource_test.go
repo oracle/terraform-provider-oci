@@ -39,7 +39,6 @@ func (s *ResourceCoreRouteTableTestSuite) SetupTest() {
 			cidr_block = "10.0.0.0/16"
 			display_name = "-tf-vcn"
 		}
-
 		resource "oci_core_internet_gateway" "internet-gateway1" {
 			compartment_id = "${var.compartment_id}"
 			vcn_id = "${oci_core_virtual_network.t.id}"
@@ -65,7 +64,7 @@ func (s *ResourceCoreRouteTableTestSuite) TestAccResourceCoreRouteTable_basic() 
 					resource "oci_core_default_route_table" "default" {
 						manage_default_resource_id = "${oci_core_virtual_network.t.default_route_table_id}"
 					}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "display_name"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "vcn_id"),
@@ -78,104 +77,78 @@ func (s *ResourceCoreRouteTableTestSuite) TestAccResourceCoreRouteTable_basic() 
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(core.RouteTableLifecycleStateAvailable)),
 				),
 			},
+
 			// verify add rule
 			{
 				Config: s.Config + `
-					resource "oci_core_route_table" "t" {
-						compartment_id = "${var.compartment_id}"
-						vcn_id = "${oci_core_virtual_network.t.id}"
-						route_rules {
-							cidr_block = "0.0.0.0/0"
-							network_entity_id = "${oci_core_internet_gateway.internet-gateway1.id}"
-						}
-					}` + defaultRouteTable,
-				Check: resource.ComposeAggregateTestCheckFunc(
+						resource "oci_core_route_table" "t" {
+							compartment_id = "${var.compartment_id}"
+							vcn_id = "${oci_core_virtual_network.t.id}"
+							route_rules {
+								cidr_block = "0.0.0.0/0"
+								destination = "0.0.0.0/0"
+								network_entity_id = "${oci_core_internet_gateway.internet-gateway1.id}"
+							}
+						}` + defaultRouteTable,
+				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "display_name"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "vcn_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(core.RouteTableLifecycleStateAvailable)),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "route_rules.0.network_entity_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "route_rules.#", "1"),
-					CheckResourceSetContainsElementWithProperties(s.ResourceName, "route_rules", map[string]string{
-						"cidr_block": "0.0.0.0/0",
-					},
-						[]string{
-							"network_entity_id",
-						}),
+					resource.TestCheckResourceAttr(s.ResourceName, "route_rules.0.cidr_block", "0.0.0.0/0"),
 					resource.TestCheckResourceAttrSet(s.DefaultResourceName, "manage_default_resource_id"),
 					resource.TestCheckResourceAttr(s.DefaultResourceName, "state", string(core.RouteTableLifecycleStateAvailable)),
 					resource.TestCheckResourceAttrSet(s.DefaultResourceName, "display_name"),
+					resource.TestCheckResourceAttrSet(s.DefaultResourceName, "route_rules.0.network_entity_id"),
 					resource.TestCheckResourceAttr(s.DefaultResourceName, "route_rules.#", "1"),
-					CheckResourceSetContainsElementWithProperties(s.DefaultResourceName, "route_rules", map[string]string{
-						"cidr_block": "0.0.0.0/0",
-					},
-						[]string{
-							"network_entity_id",
-						}),
+					resource.TestCheckResourceAttr(s.DefaultResourceName, "route_rules.0.cidr_block", "0.0.0.0/0"),
 				),
 			},
 			// verify update
 			{
 				Config: s.Config + `
-					resource "oci_core_route_table" "t" {
-						compartment_id = "${var.compartment_id}"
-						vcn_id = "${oci_core_virtual_network.t.id}"
-						display_name = "-tf-route-table"
-						route_rules {
-							cidr_block = "0.0.0.0/0"
-							network_entity_id = "${oci_core_internet_gateway.internet-gateway1.id}"
+						resource "oci_core_route_table" "t" {
+							compartment_id = "${var.compartment_id}"
+							vcn_id = "${oci_core_virtual_network.t.id}"
+							display_name = "-tf-route-table"
+							route_rules {
+								cidr_block = "0.0.0.0/0"
+								network_entity_id = "${oci_core_internet_gateway.internet-gateway1.id}"
+							}
+							route_rules {
+								cidr_block = "10.0.0.0/8"
+								network_entity_id = "${oci_core_internet_gateway.internet-gateway1.id}"
+							}
 						}
-						route_rules {
-							cidr_block = "10.0.0.0/8"
-							network_entity_id = "${oci_core_internet_gateway.internet-gateway1.id}"
-						}
-					}
-					resource "oci_core_default_route_table" "default" {
-						manage_default_resource_id = "${oci_core_virtual_network.t.default_route_table_id}"
-						display_name = "default-tf-route-table"
-						route_rules {
-							cidr_block = "0.0.0.0/0"
-							network_entity_id = "${oci_core_internet_gateway.internet-gateway1.id}"
-						}
-						route_rules {
-							cidr_block = "10.0.0.0/8"
-							network_entity_id = "${oci_core_internet_gateway.internet-gateway1.id}"
-						}
-					}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+						resource "oci_core_default_route_table" "default" {
+							manage_default_resource_id = "${oci_core_virtual_network.t.default_route_table_id}"
+							display_name = "default-tf-route-table"
+							route_rules {
+								cidr_block = "0.0.0.0/0"
+								network_entity_id = "${oci_core_internet_gateway.internet-gateway1.id}"
+							}
+							route_rules {
+								cidr_block = "10.0.0.0/8"
+								network_entity_id = "${oci_core_internet_gateway.internet-gateway1.id}"
+							}
+						}`,
+				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-route-table"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "vcn_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "route_rules.#", "2"),
-					CheckResourceSetContainsElementWithProperties(s.ResourceName, "route_rules", map[string]string{
-						"cidr_block": "0.0.0.0/0",
-					},
-						[]string{
-							"network_entity_id",
-						}),
-					CheckResourceSetContainsElementWithProperties(s.ResourceName, "route_rules", map[string]string{
-						"cidr_block": "10.0.0.0/8",
-					},
-						[]string{
-							"network_entity_id",
-						}),
+					resource.TestCheckResourceAttr(s.ResourceName, "route_rules.0.cidr_block", "0.0.0.0/0"),
+					resource.TestCheckResourceAttr(s.ResourceName, "route_rules.1.cidr_block", "10.0.0.0/8"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(core.RouteTableLifecycleStateAvailable)),
 					resource.TestCheckResourceAttrSet(s.DefaultResourceName, "manage_default_resource_id"),
 					resource.TestCheckResourceAttr(s.DefaultResourceName, "display_name", "default-tf-route-table"),
 					resource.TestCheckResourceAttr(s.DefaultResourceName, "route_rules.#", "2"),
-					CheckResourceSetContainsElementWithProperties(s.DefaultResourceName, "route_rules", map[string]string{
-						"cidr_block": "0.0.0.0/0",
-					},
-						[]string{
-							"network_entity_id",
-						}),
-					CheckResourceSetContainsElementWithProperties(s.DefaultResourceName, "route_rules", map[string]string{
-						"cidr_block": "10.0.0.0/8",
-					},
-						[]string{
-							"network_entity_id",
-						}),
+					resource.TestCheckResourceAttr(s.DefaultResourceName, "route_rules.0.cidr_block", "0.0.0.0/0"),
+					resource.TestCheckResourceAttr(s.DefaultResourceName, "route_rules.1.cidr_block", "10.0.0.0/8"),
 					resource.TestCheckResourceAttr(s.DefaultResourceName, "state", string(core.RouteTableLifecycleStateAvailable)),
 				),
 			},
@@ -187,16 +160,12 @@ func (s *ResourceCoreRouteTableTestSuite) TestAccResourceCoreRouteTable_basic() 
 			// verify adding the default resource back to the config
 			{
 				Config: s.Config + defaultRouteTable,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.DefaultResourceName, "manage_default_resource_id"),
 					resource.TestCheckResourceAttrSet(s.DefaultResourceName, "display_name"),
+					resource.TestCheckResourceAttrSet(s.DefaultResourceName, "route_rules.0.network_entity_id"),
 					resource.TestCheckResourceAttr(s.DefaultResourceName, "route_rules.#", "1"),
-					CheckResourceSetContainsElementWithProperties(s.DefaultResourceName, "route_rules", map[string]string{
-						"cidr_block": "0.0.0.0/0",
-					},
-						[]string{
-							"network_entity_id",
-						}),
+					resource.TestCheckResourceAttr(s.DefaultResourceName, "route_rules.0.cidr_block", "0.0.0.0/0"),
 					resource.TestCheckResourceAttr(s.DefaultResourceName, "state", string(core.RouteTableLifecycleStateAvailable)),
 				),
 			},
